@@ -1,253 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579AA238C0A;
-	Wed, 21 May 2025 09:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C7F23C8A2
+	for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 09:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747818143; cv=none; b=VdPDJmMma2hKMJfAzpXjpNq+oZamsgZM5ATNreCnfuPdri3K1Z0xoaWH8dEE8jqaDjzQngJNObj8MEssndGRFoiJh8P/44fa2SBYPqb11/FgIHa4yUEKcWy9i2gmYcB9zab4J9LbppJ9N/utmVhpVXgycwFQb3xbuKO7J+F2EQY=
+	t=1747819146; cv=none; b=cuuo0sm3pR6F7s0eBEwT1lhSJw9Lr0BvrjfIgtCHtW023GRYShcshHS9/E/dtxPgrqg9NYOiHaRhtDJrgUJwh1mhiUKxN4TIuL59v2NzKN1rqDqmoQyHg18aaQrZitmNLpPr2/wI66UM/EDu+tJLv5iONw2CYODnogG7Z1i3R5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747818143; c=relaxed/simple;
-	bh=xdsIM/oX21o5e6WrNYvFNDZLSWw4Vwh1GOQuXz3gT5s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=McKiW2bihsMFB04T7qtFX15mEKnKHwpze0qtwBykh8GZLJ08URNmHvf1ZU2Q1eY+pw+gflOPdB/3jmBv99BUoRrYDSqBPnaR9GfUZEJJfLmHXFbfaQXcD2kPzP5u4jxjgWdSXdyC/DDvbIJ1hHKbyrxNMTDXvnrl01CiDfObC+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TPDlodbS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747819146; c=relaxed/simple;
+	bh=TGJZe2hADz53s7Skz8ypv8Bu8bz+ehqEub2mIKZwff4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IlLjXvv/gv/u9WBwob/X4LcUXe9muwsLzlPHfVg3Ni1HQwXf1P3fILQA0L7FGFLZFmJYfOjGkxaUgnkzHABY25RmD4aTaTEFxs3YDag5M0OnAA04p8g3zc9JdxZ1pzh7ADtpQGdegJSAQWWZeOWd6PDqYlTtZ/irNBSkjc2z6RU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3zEhHnMq; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TPDlodbS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B744BC4CEED;
-	Wed, 21 May 2025 09:02:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747818142;
-	bh=xdsIM/oX21o5e6WrNYvFNDZLSWw4Vwh1GOQuXz3gT5s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TPDlodbSxJmIaLx4y6M0Tdi4qR/UUjtsliRkx19kqOyVyhiMwt1Ilj0uwbXWz4Mg0
-	 45+J5tyr6V761xJJxJFjuxahYZmqKwvkzOXw95M0tsrpxVvou3ytrf1WOLQ7ysy3T3
-	 gl6XYuGSrcqZzLPkuBe4qkkKc9cRu61NG8B9UnQ/i12x0k5rCP+sFs3yhbjqXH/IkQ
-	 NSAZD4SjADX9nIJtfbS/yIWmqHBCxyDtgQ0cBaC97GA93ZyLe8X42H3rJu2xOEhAaM
-	 eU1bgzYREmZiAPh6orGGvci3wmK5jfUsHnGdWZU6jrNEkMoDSb83rMQooQVRmKTOko
-	 UTRrJ1Zr3lBDQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uHfLA-00000006L9e-3dnY;
-	Wed, 21 May 2025 11:02:20 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Akira Yokosawa" <akiyks@gmail.com>,
-	"Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
-	"Masahiro Yamada" <mchehab+huawei@kernel.org>,
-	"Nathan Chancellor" <mchehab+huawei@kernel.org>,
-	"Nicolas Schier" <nicolas.schier@linux.dev>,
-	"Randy Dunlap" <rdunlap@infradead.org>,
-	"Stephen Rothwell" <sfr@canb.auug.org.au>,
-	Kees Cook <mchehab+huawei@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/3] docs: kerneldoc.py: simplify exception handling logic
-Date: Wed, 21 May 2025 11:02:14 +0200
-Message-ID: <a2cc32d5d519ed343158a915c39e8dc536a8ddb7.1747817887.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1747817887.git.mchehab+huawei@kernel.org>
-References: <cover.1747817887.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3zEhHnMq"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-600210e4219so10193962a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 02:19:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747819142; x=1748423942; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TGJZe2hADz53s7Skz8ypv8Bu8bz+ehqEub2mIKZwff4=;
+        b=3zEhHnMqrj9iq852phk/0npUnMMjkr/UwFIKdix7mjUf8RVIQrwO4eqZXdS6hxw7Dz
+         k4FNybin1mBso4nRyR65C8SeC3Biz6qiJSW0clx13Ab2Uh3X3Kk+54fBaMTJ4MpzuNij
+         tuvv37NN6FqXQtGp0E5vUMy1+Dz/vqKLLSLS38lO38rpLBswi5rVW3yLwREtRsEjSLtw
+         NVR4+Xv03SAg8D60oIDt8yQAVrVm1irbj1GrTAxW5fCh8kzCZcecqJM7xF0j2FWbdLur
+         zHxj/HhRXxTvXgEoXYwJnwsfAneOuuggLbCgkSQJ6uiW7StgMJ8Eb8Z5CVdG56aSsjZn
+         cAaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747819142; x=1748423942;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TGJZe2hADz53s7Skz8ypv8Bu8bz+ehqEub2mIKZwff4=;
+        b=O8f9+eTAAZmksJayMR6ohrQw5iNdo/Y7GCDs7aV6hYVE6rTgnVmwqWgz6VNIjAwxN4
+         XRSRFEbYx4PY8lEFfE3DH9bEaG7DjGstyYVKsEdTMpGdIU9hr7dkngr2q8+upzGe9AZj
+         ju+D09R6BdC/hVepSPBKfg7D+LjMsV2atCKV3FkbSxNiyioMK1H/ooznIlX20iKCjv64
+         cVPgnnxMKklkCTJgzXCCjbZfqSZTXQpN4O9coOAGciRqLccl+v2kU97zbLdrD4gnKc2y
+         KraN6u1UVcgj1RNoRi3t0O1k0X4wMOcdmUPm04gc0C6/EXQ0YPmQriqI26MXHffFaUzd
+         CbYA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZ9qNCRCHpA+7k7Xif7bMaMsWz5JyHOHBNS98RhOTZyFPwlAhk2XrJBwpCyJSFARcHhN7MVDOWgSA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/9yhK3qH6YomxS7xMe1JWgMiIxkVY2vXrZfz4PcUqJiV0ANP6
+	CJ83SrJ8a9CsFY+yJ67ihrH8svvpvkwmBTna2AsnVmvfhN3m1s8/Ecg3TRmVaS2Yw10JuaZ7Dr6
+	QZblUg9jWysz+82GM67zsVxwyKkjlX6XDmyaqAHE0
+X-Gm-Gg: ASbGnctqAXVt92tLISWDB6McZAlRI08BudO9anleFbKU0WwwNPnaWo+LsJpHySRgDL1
+	GywNXvSul3NIeAWKBFyU7U3SPyiUDEgGbFJzR5jPb8tRRwyHf0Txt8LkU521E3Ab8Tk3nba7ynZ
+	8k/0ZmTb+CMug2XVrMqtv5Ri+bpH/L2Tb5CQ32ZfmWXTrBJSyWW6N35FzRk1+DwoijrmLvI1+o7
+	a0VC7L/mG5D
+X-Google-Smtp-Source: AGHT+IGmzCCy6OjzmNxLo5QdkmHLYIuxkB7QJ1oH0jls8zqR52SthXRQfAiW+6WIKuVMB893qU0KG07gLhApmR1xq9c=
+X-Received: by 2002:a17:907:8dc3:b0:acb:37ae:619c with SMTP id
+ a640c23a62f3a-ad52f8ac2ccmr1674496266b.15.1747819142210; Wed, 21 May 2025
+ 02:19:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <cover.1747349530.git.babu.moger@amd.com> <CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com>
+ <4dbcea13-382e-4af2-960d-0e66652cc2f5@amd.com> <8dd6e3a0-b2e1-48a7-8fa4-62e78b1407ae@intel.com>
+ <6c77b065-a54e-4b9c-a4cf-8b81676f2ab2@amd.com> <f4178258-f7ad-4db2-9284-3f28e8ee8d00@intel.com>
+ <92bcab75-72c6-46d4-97a2-119e7124c90c@amd.com> <11465976-f030-4c1b-88c6-3eebf0c8f13b@intel.com>
+In-Reply-To: <11465976-f030-4c1b-88c6-3eebf0c8f13b@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Wed, 21 May 2025 11:18:51 +0200
+X-Gm-Features: AX0GCFttPDhQ0or8oVTQeTMZRPPCUAhMm7SYvYK6LJpIiQPETDwHbV25FkcQJQ8
+Message-ID: <CALPaoCjTwySGX9i7uAtCWLKQpmELKP55xDLJhHmUve8ptsfFTw@mail.gmail.com>
+Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Moger, Babu" <bmoger@amd.com>, babu.moger@amd.com, corbet@lwn.net, tony.luck@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, james.morse@arm.com, dave.martin@arm.com, 
+	fenghuay@nvidia.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, 
+	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org, 
+	ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com, 
+	jpoimboe@kernel.org, alexandre.chartre@oracle.com, 
+	pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com, 
+	perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com, 
+	xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com, 
+	ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com, 
+	andrew.cooper3@citrix.com, mario.limonciello@amd.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, eranian@google.com, Xiaojian.Du@amd.com, 
+	gautham.shenoy@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Get rid of logger.verbose() which is causing the logger to not
-work.
+Hi Babu/Reinette,
 
-Also, instead of having try/except everywhere, place them on a
-common place.
+On Wed, May 21, 2025 at 1:44=E2=80=AFAM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi Babu,
+>
+> On 5/20/25 4:25 PM, Moger, Babu wrote:
+> > Hi Reinette,
+> >
+> > On 5/20/2025 1:23 PM, Reinette Chatre wrote:
+> >> Hi Babu,
+> >>
+> >> On 5/20/25 10:51 AM, Moger, Babu wrote:
+> >>> Hi Reinette,
+> >>>
+> >>> On 5/20/25 11:06, Reinette Chatre wrote:
+> >>>> Hi Babu,
+> >>>>
+> >>>> On 5/20/25 8:28 AM, Moger, Babu wrote:
+> >>>>> On 5/19/25 10:59, Peter Newman wrote:
+> >>>>>> On Fri, May 16, 2025 at 12:52=E2=80=AFAM Babu Moger <babu.moger@am=
+d.com> wrote:
+> >>>>
+> >>>> ...
+> >>>>
+> >>>>>>> /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs: Reports the number of =
+monitoring
+> >>>>>>> counters available for assignment.
+> >>>>>>
+> >>>>>> Earlier I discussed with Reinette[1] what num_mbm_cntrs should
+> >>>>>> represent in a "soft-ABMC" implementation where assignment is
+> >>>>>> implemented by assigning an RMID, which would result in all events
+> >>>>>> being assigned at once.
+> >>>>>>
+> >>>>>> My main concern is how many "counters" you can assign by assigning
+> >>>>>> RMIDs. I recall Reinette proposed reporting the number of groups w=
+hich
+> >>>>>> can be assigned separately from counters which can be assigned.
+> >>>>>
+> >>>>> More context may be needed here. Currently, num_mbm_cntrs indicates=
+ the
+> >>>>> number of counters available per domain, which is 32.
+> >>>>>
+> >>>>> At the moment, we can assign 2 counters to each group, meaning each=
+ RMID
+> >>>>> can be associated with 2 hardware counters. In theory, it's possibl=
+e to
+> >>>>> assign all 32 hardware counters to a group=E2=80=94allowing one RMI=
+D to be linked
+> >>>>> with up to 32 counters. However, we currently lack the interface to
+> >>>>> support that level of assignment.
+> >>>>>
+> >>>>> For now, the plan is to support basic assignment and expand functio=
+nality
+> >>>>> later once we have the necessary data structure and requirements.
+> >>>>
+> >>>> Looks like some requirements did not make it into this implementatio=
+n.
+> >>>> Do you recall the discussion that resulted in you writing [2]? Looks=
+ like
+> >>>> there is a question to Peter in there on how to determine how many "=
+counters"
+> >>>> are available in soft-ABMC. I interpreted [3] at that time to mean t=
+hat this
+> >>>> information would be available in a future AMD publication.
+> >>>
+> >>> We already have a method to determine the number of counters in soft-=
+ABMC
+> >>> mode, which Peter has addressed [4].
+> >>>
+> >>> [4]
+> >>> https://lore.kernel.org/lkml/20250203132642.2746754-1-peternewman@goo=
+gle.com/
+> >>>
+> >>> This appears to be more of a workaround, and I doubt it will be inclu=
+ded
+> >>> in any official AMD documentation. Additionally, the long-term direct=
+ion
+> >>> is moving towards ABMC.
+> >>>
+> >>> I don=E2=80=99t believe this workaround needs to be part of the curre=
+nt series. It
+> >>> can be added later when soft-ABMC is implemented.
+> >>
+> >> Agreed. What about the plans described in [2]? (Thanks to Peter for
+> >> catching this!).
+> >>
+> >> It is important to keep track of requirements while working on a featu=
+re to
+> >> ensure that the implementation supports the planned use cases. Re-read=
+ing that
+> >> thread it is not clear to me how soft-ABMC's per-group assignment woul=
+d look.
+> >> Could you please share how you see it progress from this implementatio=
+n?
+> >> This includes the single event vs. multiple event assignment. I would =
+like to
+> >> highlight that this is not a request for this to be supported in this =
+implementation
+> >> but there needs to be a plan for how this can be supported on top of i=
+nterfaces
+> >> established by this work.
+> >>
+> >
+> > Here=E2=80=99s my current understanding of soft-ABMC. Peter may have a =
+more in-depth perspective on this.
+> >
+> > Soft-ABMC:
+> > a. num_mbm_cntrs: This is a software-defined limit based on the number =
+of active RMIDs that can be supported. The value can be obtained using the =
+code referenced in [4].
 
-While here, get rid of some bogus logs.
+I would call it a hardware-defined limit that can be probed by software.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Acked-by: Akira Yokosawa <akiyks@gmail.com>
----
- Documentation/sphinx/kerneldoc.py | 108 +++++++++++++-----------------
- 1 file changed, 45 insertions(+), 63 deletions(-)
+The main question is whether this file returns the exact number of
+RMIDs hardware can track or double that number (mbm_total_bytes +
+mbm_local_bytes) so that the value is always measured in events.
 
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index b713a2c4a615..b818d4c77924 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -40,6 +40,7 @@ from docutils.parsers.rst import directives, Directive
- import sphinx
- from sphinx.util.docutils import switch_source_input
- from sphinx.util import logging
-+from pprint import pformat
- 
- srctree = os.path.abspath(os.environ["srctree"])
- sys.path.insert(0, os.path.join(srctree, "scripts/lib/kdoc"))
-@@ -49,7 +50,7 @@ from kdoc_output import RestFormat
- 
- __version__  = '1.0'
- kfiles = None
--logger = logging.getLogger('kerneldoc')
-+logger = logging.getLogger(__name__)
- 
- def cmd_str(cmd):
-     """
-@@ -190,46 +191,31 @@ class KernelDocDirective(Directive):
- 
-         return cmd
- 
--    def run_cmd(self):
-+    def run_cmd(self, cmd):
-         """
-         Execute an external kernel-doc command.
-         """
- 
-         env = self.state.document.settings.env
--        cmd = self.handle_args()
--
--        if self.verbose >= 1:
--            print(cmd_str(cmd))
--
-         node = nodes.section()
- 
--        try:
--            logger.verbose("calling kernel-doc '%s'" % (" ".join(cmd)))
-+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-+        out, err = p.communicate()
- 
--            p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
--            out, err = p.communicate()
-+        out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
- 
--            out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
-+        if p.returncode != 0:
-+            sys.stderr.write(err)
- 
--            if p.returncode != 0:
--                sys.stderr.write(err)
--
--                logger.warning("kernel-doc '%s' failed with return code %d"
--                                    % (" ".join(cmd), p.returncode))
--                return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
--            elif env.config.kerneldoc_verbosity > 0:
--                sys.stderr.write(err)
--
--        except Exception as e:  # pylint: disable=W0703
--            logger.warning("kernel-doc '%s' processing failed with: %s" %
--                                (" ".join(cmd), str(e)))
-+            logger.warning("kernel-doc '%s' failed with return code %d"
-+                                % (" ".join(cmd), p.returncode))
-             return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
-+        elif env.config.kerneldoc_verbosity > 0:
-+            sys.stderr.write(err)
- 
-         filenames = self.parse_args["file_list"]
-         for filename in filenames:
--            ret = self.parse_msg(filename, node, out, cmd)
--            if ret:
--                return ret
-+            self.parse_msg(filename, node, out, cmd)
- 
-         return node.children
- 
-@@ -240,40 +226,31 @@ class KernelDocDirective(Directive):
- 
-         env = self.state.document.settings.env
- 
--        try:
--            lines = statemachine.string2lines(out, self.tab_width,
--                                              convert_whitespace=True)
--            result = ViewList()
-+        lines = statemachine.string2lines(out, self.tab_width,
-+                                            convert_whitespace=True)
-+        result = ViewList()
- 
--            lineoffset = 0;
--            line_regex = re.compile(r"^\.\. LINENO ([0-9]+)$")
--            for line in lines:
--                match = line_regex.search(line)
--                if match:
--                    # sphinx counts lines from 0
--                    lineoffset = int(match.group(1)) - 1
--                    # we must eat our comments since the upset the markup
--                else:
--                    doc = str(env.srcdir) + "/" + env.docname + ":" + str(self.lineno)
--                    result.append(line, doc + ": " + filename, lineoffset)
--                    lineoffset += 1
-+        lineoffset = 0;
-+        line_regex = re.compile(r"^\.\. LINENO ([0-9]+)$")
-+        for line in lines:
-+            match = line_regex.search(line)
-+            if match:
-+                # sphinx counts lines from 0
-+                lineoffset = int(match.group(1)) - 1
-+                # we must eat our comments since the upset the markup
-+            else:
-+                doc = str(env.srcdir) + "/" + env.docname + ":" + str(self.lineno)
-+                result.append(line, doc + ": " + filename, lineoffset)
-+                lineoffset += 1
- 
--            self.do_parse(result, node)
-+        self.do_parse(result, node)
- 
--        except Exception as e:  # pylint: disable=W0703
--            logger.warning("kernel-doc '%s' processing failed with: %s" %
--                                (cmd_str(cmd), str(e)))
--            return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
--
--        return None
--
--    def run_kdoc(self, kfiles):
-+    def run_kdoc(self, cmd, kfiles):
-         """
-         Execute kernel-doc classes directly instead of running as a separate
-         command.
-         """
- 
--        cmd = self.handle_args()
-         env = self.state.document.settings.env
- 
-         node = nodes.section()
-@@ -282,22 +259,27 @@ class KernelDocDirective(Directive):
-         filenames = self.parse_args["file_list"]
- 
-         for filename, out in kfiles.msg(**self.msg_args, filenames=filenames):
--            if self.verbose >= 1:
--                print(cmd_str(cmd))
--
--            ret = self.parse_msg(filename, node, out, cmd)
--            if ret:
--                return ret
-+            self.parse_msg(filename, node, out, cmd)
- 
-         return node.children
- 
-     def run(self):
-         global kfiles
- 
--        if kfiles:
--            return self.run_kdoc(kfiles)
--        else:
--            return self.run_cmd()
-+        cmd = self.handle_args()
-+        if self.verbose >= 1:
-+            logger.info(cmd_str(cmd))
-+
-+        try:
-+            if kfiles:
-+                return self.run_kdoc(cmd, kfiles)
-+            else:
-+                return self.run_cmd(cmd)
-+
-+        except Exception as e:  # pylint: disable=W0703
-+            logger.warning("kernel-doc '%s' processing failed with: %s" %
-+                           (cmd_str(cmd), pformat(e)))
-+            return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
- 
-     def do_parse(self, result, node):
-         with switch_source_input(self.state, result):
--- 
-2.49.0
+There's also the mongroup-RMID overcommit use case I described
+above[1]. On Intel we can safely assume that there are counters to
+back all RMIDs, so num_mbm_cntrs would be calculated directly from
+num_rmids.
 
+I realized this use case is more difficult to implement on MPAM,
+because a PARTID is effectively a CLOSID+RMID, so deferring assigning
+a unique PARTID to a group also results in it being in a different
+allocation group. It will work if the unmonitored groups could find a
+way to share PARTIDs, but this has consequences on allocation - but
+hopefully no worse than sharing CLOSIDs on x86.
+
+There's a lot of interest in monitoring ID overcommit in Google, so I
+think it's worth it for me to investigate the additional structural
+changes needed in resctrl (i.e., breaking the FS-level association
+between mongroups and HW monitoring IDs). Such a framework could be a
+better fit for soft-ABMC. For example, if overcommit is allowed, we
+would just report the number of simultaneous RMIDs we were able to
+probe as num_rmids. I would want the same shared assignment scheduler
+to be able to work with RMIDs and counters, though.
+
+Thanks,
+-Peter
+
+[1] https://lore.kernel.org/lkml/CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_t=
+y4tojtrkw@mail.gmail.com/
