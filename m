@@ -1,120 +1,118 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jpms-ob02.noc.sony.co.jp (jpms-ob02.noc.sony.co.jp [211.125.140.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A1F22B8C3;
-	Wed, 21 May 2025 07:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB4E235BF4;
+	Wed, 21 May 2025 08:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747811123; cv=none; b=u8LgGSZtsBW+YLR3v0EAo+QN5H89eSYorj1Ztj+X5uOezyn7tE//Ix1MHrVarJxKpdwhEznNMBbD1C5U9TXjQI8laMUojPv0NRdWvUPZgsm88bLgRZ10fr00GCSlsYUNaYYlMDz/SzVK2fPYT4Sft4Bz1/Vp7pvi8sCpgObaO48=
+	t=1747814410; cv=none; b=cQrAEVH8TOgzV+OE+d2DGNQCDWe9lrXPMoAvfj5y95zDFYFey7WBx+RaKRAtGma7SIQrhMkA/kcj1fIGnVS38S9NcYUk6rR6WiffT60EGirxinsObcLlaXKEAyCzVUfnZn8ebPj7TWtc9tFR9olj2GikBGpmy695qTubdhkRS0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747811123; c=relaxed/simple;
-	bh=CRWJpCEQTlPV9zuvKipkjRcKPNnuB3s5a8Y/uhRQISg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NN/d1Dmsb+zIY70QWdPh5MN0pkcVZd+26clCN/VfM+eM0YnuuVaXEoSAa33XCdC6wtj8REuo0+dPVtcFwJLzolaiQq4vZtMwOkd7hWS0FrjF2Z5E4ZjtJXEPfB2I6omUkDQZixOhgkkdE4ZMgNf36gBxMMRVpGY3gvm1rXhdE+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GrIUPiya; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747814410; c=relaxed/simple;
+	bh=O18BluLzd0V6rN+4d/OuPHmQZQMOEKQe/u9KiGlBwCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AIqgDVZ8hyrGdahrj4PNBz+LEUVqxAZHtHjtLdD8lmLiFAiCBJ59osza80BfaCgQGCSNjmJp24BAG+Iqu6edmV5pHzoRpSTKe8Tlik2FJHco8xeSrAAZj+jsLJkrvXVsYMC3v530OcK/1XUcZ5GTxX2QKyPblzIAz/Sykh6YKW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=BVjkU+Om; arc=none smtp.client-ip=211.125.140.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GrIUPiya"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43ede096d73so46911685e9.2;
-        Wed, 21 May 2025 00:05:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="BVjkU+Om"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747811120; x=1748415920; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cVBMFYR66wWyXi/ZLPMoKBQITzYK4w2QbdTYAurV8Y8=;
-        b=GrIUPiya8k7FN9ik+h3vp3mcIiJUZs+Xcf+q9Ph2FCA4dzLwevLAaCGLswhATZ1G5v
-         dHhKLiIQd4e8RsQsLR37ivrK5lCP3s5MSIZ2141aELlgbbhVPXBQBkw3wWNuo0Yt99El
-         3KLOtTqMCaX8d4Nt1tmfRgFYN/JPGIVINby7+1eFRTU7EWUTd2+7EZEsptZkbKmMMJ0+
-         6mnEiSgKpHkaUhJGaiC2msFXOUVK7vOq9CCJgIQzlMq+QMi5gKFohaIkfSI+mNxar6X1
-         bqHwD0tddOcvmpLfLWq2x16XbD0DBTS+mQrarbZLBGTBbaS7Fh3x0Qxf0FehIVSWUg3Z
-         E0Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747811120; x=1748415920;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cVBMFYR66wWyXi/ZLPMoKBQITzYK4w2QbdTYAurV8Y8=;
-        b=GA4ZR5v9+IM7SsGHwjDh6Ov1gQ/HGCo9VOXjpvOiffuFcIC5NfTa7RcByeu4gjLSIz
-         J9wEg9JJlVxSuhsyUPTKFE6cyGS2aduMypldrfrgGskfvF2aEHLyBvidq4JGEYxzWXCJ
-         j4EhYShyD5hs5gLMfOabWoGVCL45Ym4c1FDa0B/DArz5bQpOXhRVHknH7dMaFntwhycq
-         R0Or0UXv1KCfqMDkJAfz4rkFJIx41hLBnOFHPEQWA9mhoxHLY9eLXWlLryVBex5CD31E
-         2KlFbsbG0qUXVbc+4OB8/MtzkiuBn8wcQLa15mUBTfRGys9Wqw3WIEBVX6i5KHN2G9QW
-         ad6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUARHDsqypX7wtVV3ezxlfOkkx1IDUXVz5rBqyS9PJuz5C0QgL5i0RTH1bCBFUImwHilrJx/EkdeZw=@vger.kernel.org, AJvYcCUD5rGDwSe2w5+zhC3UyfH09zhREjjKM/3vRdIzv0YMyLH1ckqtKUqWFcnJZfml5xbPpcjSskcw@vger.kernel.org, AJvYcCUTr4j+BO33yW9DWEpM2VCm/MmbGVKtKCiO06L+Sfg2M9Djx0KqiRxxiqHBsrmk2SMQlhZbkYgfmW7cNA==@vger.kernel.org, AJvYcCVOsn++c/eTSx5QnZEgAEr0/PohnBkvNFTQzME43FTe+EQjllQfKp14/cqJcfTPCoMbL10JnvBo7IY9DG00/rDO@vger.kernel.org, AJvYcCX1Fieiac28MVoB2K0GIvnH+F8Z682FLOi4Ns+M/1woYQY1iXMWgA6CX7zTgHyaRLQa2dFeONU0AwR+eBFn@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyQzJ5d1qJpn8Qt+7tmO/6hp0aezjjPpHzqqjyeu6/VC8ZQiPR
-	lw9Qjr0MV7pH+Ww3HIOxcofdNozeNvvK5VoxjSgIv1ePJ4IunWbpK4dr
-X-Gm-Gg: ASbGnct4Ti7oj2RCkaeO3Jy17GNRdX0AOUkqesUjEpf1RoRiJgepr+qN79K4aS1VEA+
-	6cCqMB+hIM/3ro7xg/wlMkZ1PNi5qzkZZlFRSeDxMiDKc9gsunrIEwmviDTBJwMxyBV5g8C7vqH
-	7w6f5+SrVxOgioiisZxNZgdR6dUglw/3Mxo39m9N7HKQhhriyxLnwKmGnK7g8vZp4yAJgNC0N8r
-	wrEvYyTd5t4SJQ+BKssRKgY6XNp5JlP2mDql3TBJlYld3GBu5NA9JNeujnAmot6chB4/innHTc+
-	8f1dvp4BBxFarJHlCho1vK0RucNmIHM8LukJNWT65kYKzjbtUQlBJyYBv8j1tjlHtXRYgpbD
-X-Google-Smtp-Source: AGHT+IH76b0+NNb6/NkbSwWOkVm7cWNBavLWnfUchKABErnQARC8/2YWL6aXIXncA8+i1sj6S+5VGw==
-X-Received: by 2002:a05:6000:3105:b0:3a3:64d3:4047 with SMTP id ffacd0b85a97d-3a364d3405emr13275697f8f.37.1747811119524;
-        Wed, 21 May 2025 00:05:19 -0700 (PDT)
-Received: from [172.27.21.230] ([193.47.165.251])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca889a7sm18892685f8f.72.2025.05.21.00.05.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 May 2025 00:05:19 -0700 (PDT)
-Message-ID: <80b40828-8fa3-4313-8c98-823ac7c055c1@gmail.com>
-Date: Wed, 21 May 2025 10:05:13 +0300
+  d=sony.com; s=s1jp; t=1747814407; x=1779350407;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=SRSeRZLTM88Xmp2dMNkQnEEMrTwWD8k4Sd+UM3+C5T0=;
+  b=BVjkU+OmQDYbgjKbm0KtZV8q14tEUZa/tcvDSQ9+94qn99Q0UY5AWoKy
+   jz4Lbb1an94t7v0ZtAfi9HwY0hyEh2L7SBW2oOMHnvClTjCFbA12jp/5T
+   dO5WiYtVaT21V80mGo3mN/bBfqUMEfi7qeeRF1oL9ArJR8EZpkpu1mn1G
+   HAXLOpllGwvcwTXQNnqflQQGmppX8LGj2+9kTu9N0rK1toCHeajZJCpFf
+   UwbXlDC++rNcZljGlvGGaYKs3zBLEsK3eldKAGdTCEVnrK4+rmwO5Hlec
+   IRC78VDRDDB3AWzcAezAGkZv0yud4ZaRjcEpm/9TCDBK/7KX2qfL5eXo9
+   g==;
+Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
+  by jpms-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:49:56 +0900
+X-IronPort-AV: E=Sophos;i="6.15,303,1739804400"; 
+   d="scan'208";a="532312397"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:49:56 +0900
+Date: Wed, 21 May 2025 16:49:43 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Shinya Takumi <shinya.takumi@sony.com>,
+	shashank.mahadasyam@sony.com
+Subject: Re: [PATCH v2 3/3] cgroup, docs: cpu controller interaction with
+ various scheduling policies
+Message-ID: <aC2Fl4DVRbn6bS8H@JPC00244420>
+References: <20250520-rt-and-cpu-controller-doc-v2-0-70a2b6a1b703@sony.com>
+ <20250520-rt-and-cpu-controller-doc-v2-3-70a2b6a1b703@sony.com>
+ <aCzjJp1ovS6kCqHj@slm.duckdns.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next V10 2/6] selftest: netdevsim: Add devlink rate
- tc-bw test
-To: Jakub Kicinski <kuba@kernel.org>, Carolina Jubran <cjubran@nvidia.com>
-Cc: Tariq Toukan <tariqt@nvidia.com>, "David S. Miller"
- <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>,
- Eric Dumazet <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Jiri Pirko <jiri@nvidia.com>, Gal Pressman <gal@nvidia.com>,
- Leon Romanovsky <leonro@nvidia.com>, Donald Hunter
- <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
- Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>, Shuah Khan <shuah@kernel.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Moshe Shemesh <moshe@nvidia.com>,
- Mark Bloch <mbloch@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>
-References: <1747766287-950144-1-git-send-email-tariqt@nvidia.com>
- <1747766287-950144-3-git-send-email-tariqt@nvidia.com>
- <20250520155957.04b27217@kernel.org>
-Content-Language: en-US
-From: Tariq Toukan <ttoukan.linux@gmail.com>
-In-Reply-To: <20250520155957.04b27217@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aCzjJp1ovS6kCqHj@slm.duckdns.org>
 
+Hi Tejun,
 
-
-On 21/05/2025 1:59, Jakub Kicinski wrote:
-> On Tue, 20 May 2025 21:38:03 +0300 Tariq Toukan wrote:
->> Test verifies that netdevsim correctly implements devlink ops callbacks
->> that set tc-bw on leaf or node rate object.
+On Tue, May 20, 2025 at 10:16:38AM -1000, Tejun Heo wrote:
+> Hello,
 > 
-> Please add a test that can actually validate a NIC HW.
-> The test probably needs to be in Python to use a remote endpoint,
-> and should live under tools/testing/../drivers/net/hw
+> On Tue, May 20, 2025 at 11:07:47PM +0900, Shashank Balaji via B4 Relay wrote:
+> ...
+> > +The interaction of a process with the cpu controller depends on its scheduling
+> > +policy. We have the following scheduling policies: ``SCHED_IDLE``, ``SCHED_BATCH``,
+> > +``SCHED_OTHER``, ``SCHED_EXT`` (if ``CONFIG_SCHED_CLASS_EXT`` is enabled), ``SCHED_FIFO``,
+> > +``SCHED_RR``, and ``SCHED_DEADLINE``. ``SCHED_{IDLE,BATCH,OTHER,EXT}`` can be scheduled
+> > +either by the fair-class scheduler or by a BPF scheduler::
+> > +
+> > +    CONFIG_SCHED_CLASS_EXT
+> > +    ├─ Disabled
+> > +    |   └─ SCHED_{IDLE,BATCH,OTHER} -> fair-class scheduler
+> > +    └─ Enabled
+> > +        ├─ BPF scheduler disabled
+> > +        |   └─ SCHED_{IDLE,BATCH,OTHER,EXT} -> fair-class scheduler
+> > +        ├─ BPF scheduler without SCX_OPS_SWITCH_PARTIAL enabled
+> > +        |   └─ SCHED_{IDLE,BATCH,OTHER,EXT} -> BPF scheduler
+> > +        └─ BPF scheduler with SCX_OPS_SWITCH_PARTIAL enabled
+> > +            ├─ SCHED_{IDLE,BATCH,OTHER} -> fair-class scheduler
+> > +            └─ SCHED_EXT -> BPF scheduler
+> > +
+> > +For more details on ``SCHED_EXT``, check out :ref:`Documentation/scheduler/sched-ext.rst. <sched-ext>`
+> > +From the point of view of the cpu controller, processes can be categorized as
+> > +follows:
+> > +
+> > +* Processes under the fair-class scheduler
+> > +* Processes under a BPF scheduler with the ``cgroup_set_weight`` callback
+> > +* Everything else: ``SCHED_{FIFO,RR,DEADLINE}`` and processes under a BPF scheduler
+> > +  without the ``cgroup_set_weight`` callback
+> > +
+> > +Note that the ``cgroup_*`` family of callbacks require ``CONFIG_EXT_GROUP_SCHED``
+> > +to be enabled. For each of the following interface files, the above categories
+> > +will be referred to. All time durations are in microseconds.
 > 
-> We had a long conversation about what we expect from the API
-> vs how your HW works. One of the test cases should confirm
-> the expected behavior, IOW fail on mlx5. Which is fine,
-> unlikely that any NIC will have 100% compliance. But at
-> least we will be documenting the expectations.
-> 
+> Can we document the above in sched_ext documentation and point to it from
+> here? Documenting sched_ext details here seems a bit out of place and prone
+> to becoming stale over time.
 
-No problem with that, we'll add.
+Got it. Apart from that, is the content alright? 
 
-We could've saved this extra cycle if my questions [1] exactly about 
-this topic weren't ignored.
-Area is vague and not well defined. We can continue with the iterative 
-guess and fix cycles, or alternatively get it clearly and formally defined.
+> Can you please separate out indentation changes to a separate patch? These
+> usually make reviewing tricky.
 
-[1] 
-https://lore.kernel.org/all/98386cab-11c0-4f74-9925-8230af2e65c8@gmail.com/
+Got it.
 
+Thank you
+
+Regards,
+Shashank
+
+PS: Apologies for any malformed emails. I finally managed to switch from Outlook
+to mutt.
