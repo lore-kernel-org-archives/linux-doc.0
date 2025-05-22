@@ -1,49 +1,34 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2343F28315F
-	for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 08:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from mail.nightmared.fr (mail.nightmared.fr [51.158.148.24])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C907B27C869;
+	Thu, 22 May 2025 08:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.158.148.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747904080; cv=none; b=Eh0VzotvK2nB3qCmQXU+pPGrAoO31i1Yg24/duQJfz8H/8gxfgPUL2c+7RV7+NYrTuflAONsve0E2mr1vLoUo5P2cInpsEGsdKYO8CXctB+gADXN9ZXd2J1EB74VyMjtrI2bdjVjOWVTXtLUlt1+XvOLFn29LnQ47Ue8D8dgnQk=
+	t=1747904245; cv=none; b=caYe0Ue5mYyD5MBKeS1kZXftKOs71m8skGELY9ruYW0viHKIsdly1GU4NBs1ChQ2ndOFotrmYutnDw1OcnHkSV5jFqvBmhNAMDFiZAuVeOWVCpOHldyYCYw+NKpPnsmtnNc4JoWuHLDEvFl5t6/6hTsoBS5PfDBGkOxVy4O5jmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747904080; c=relaxed/simple;
-	bh=XGY7bRpKuqSKCjQY2t97jZQAr3DDbprX8SpMJ4ZUYv8=;
+	s=arc-20240116; t=1747904245; c=relaxed/simple;
+	bh=brniH7v+gBzA6HHT54dvM9BL5QJ1ugLgjVvnfc0BXPQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hwuR89Kj5u8+IHgy8SOhu3IDtnpKEGW6YhdDAA3iB4buB0+1l0uwhou6qK7PaJRE5pQpVVqF/Eh5Ju0r+XKyCJQdRVEULw8bLGBxNVF2mC42/fRYxwj7lBn7MTIVBD3d2umZE7xTgyzA6iYJTdgnwN79rDvB5I3eAxAVl6dJulo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ApARiJGd; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=Iixq+QkybybgNODZumgalsVobi28t/lVObVwYqsWuH3l5/s5o4oMB9HJ3Xls/RcXwu474kqgG8kiG/0ZxRBWUg8Birx0mpEFVt3ECO3pT7MSJoT6fpUUIeVRkvEHZ4oejD7mQfQldtqKlD9Cs3IZK/SgxChShzxW8r1+VJRuQao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nightmared.fr; spf=pass smtp.mailfrom=nightmared.fr; dkim=pass (2048-bit key) header.d=nightmared.fr header.i=@nightmared.fr header.b=VSitrMbB; arc=none smtp.client-ip=51.158.148.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nightmared.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nightmared.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ApARiJGd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747904078;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HYjqurzjOiMJwJxxjOh2KGddt6/eXpa9P707bAF4j6s=;
-	b=ApARiJGduSMir0gjpJBnJ2m1ltWX7PyR/NWfDfjBkEsk1YaivGxwmLutqY5t+Xa6k3uUZe
-	+jsdc6uJ5tAB43N/5dSovP2ovnvqdYNkPquayhyvxdt7uwq03mlVgkEbC6fcaqokUQd1zr
-	JcZJySmuvB3GnHFHrctweITcd37YqDA=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-466-zL1AcpgsMvm9ZO0IKBnGNw-1; Thu,
- 22 May 2025 04:54:34 -0400
-X-MC-Unique: zL1AcpgsMvm9ZO0IKBnGNw-1
-X-Mimecast-MFC-AGG-ID: zL1AcpgsMvm9ZO0IKBnGNw_1747904072
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D3A2E1956086;
-	Thu, 22 May 2025 08:54:31 +0000 (UTC)
-Received: from [10.44.33.212] (unknown [10.44.33.212])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0CFBB180035C;
-	Thu, 22 May 2025 08:54:25 +0000 (UTC)
-Message-ID: <7421647b-ae85-4f34-843c-02f1fb21d7f3@redhat.com>
-Date: Thu, 22 May 2025 10:54:23 +0200
+	dkim=pass (2048-bit key) header.d=nightmared.fr header.i=@nightmared.fr header.b="VSitrMbB"
+Received: from [10.5.1.10] (atoulon-651-1-170-218.w83-113.abo.wanadoo.fr [83.113.65.218])
+	by mail.nightmared.fr (Postfix) with ESMTPSA id DF5AA1085270;
+	Thu, 22 May 2025 08:57:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nightmared.fr;
+	s=docker; t=1747904239;
+	bh=brniH7v+gBzA6HHT54dvM9BL5QJ1ugLgjVvnfc0BXPQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=VSitrMbBYMgwuDW6QfnwldB4YRoStylRSII/Rc2hgKXik82GAvZacpAIa1kS6OW6x
+	 rxWmaxeHNb4C9q39Ac0gthXq4N/9X2U/ACTMAvoxg12QnXxqjcO5crTwCEPn0GeMSj
+	 p/7qT3Iq7wjQEBupg5TQZL7bfgL3KZIhqJUnn1Jq+o0rG9upkyJMKuESoRlHyRoFLr
+	 ATK8mR4WF35F2Z1Fd6E9UQyv/qjp1F1MoXgVKwrn642akmfZ9nyjQqo6RYlNrJpfsH
+	 AGB3RTi7ps/6ce4OPcluwlAMfYb5RzWGcUt3xJ4AI2eYofWQnXDM1zSSXNAnqczLkw
+	 50YwmzPD8yi4A==
+Message-ID: <784fa662-9104-4d8a-9b68-7edc90a8affe@nightmared.fr>
+Date: Thu, 22 May 2025 10:57:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,171 +36,122 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 8/8] mfd: zl3073x: Register DPLL sub-device
- during init
-To: Lee Jones <lee@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, netdev@vger.kernel.org,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Prathosh Satish <Prathosh.Satish@microchip.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250507124358.48776-1-ivecera@redhat.com>
- <20250507124358.48776-9-ivecera@redhat.com>
- <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
- <2e3eb9e3-151d-42ef-9043-998e762d3ba6@redhat.com>
- <aBt1N6TcSckYj23A@smile.fi.intel.com> <20250507152609.GK3865826@google.com>
- <b095ffb9-c274-4520-a45e-96861268500b@redhat.com>
- <20250513094126.GF2936510@google.com>
- <6f693bb5-da3c-4363-895f-58a267e52a18@redhat.com>
- <20250522073902.GC8794@google.com>
+Subject: Re: [RFC PATCH 1/9] LSM: Introduce a new hook:
+ security_kernel_module_load
+To: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250521140121.591482-1-git@nightmared.fr>
+ <20250521140121.591482-2-git@nightmared.fr>
+ <20250521220349.GA22189@mail.hallyn.com>
 Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20250522073902.GC8794@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+From: Simon Thoby <git@nightmared.fr>
+In-Reply-To: <20250521220349.GA22189@mail.hallyn.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
-On 22. 05. 25 9:39 dop., Lee Jones wrote:
-> On Tue, 13 May 2025, Ivan Vecera wrote:
+On 5/22/25 00:03, Serge E. Hallyn wrote:
+> On Wed, May 21, 2025 at 04:01:05PM +0200, Simon THOBY wrote:
+>> Introduce a new hook to allow LSMs to decide whether to block the load
+>> of a kernel module.
+>>
+>> Two hooks already exist:
+>> - kernel_module_request is called when the kernel itself (not userspace)
+>>  request the load of a module, e.g. because a device was detected.
+>>  - security_kernel_load_data(LOADING_MODULE) is called when userspace calls
+>>  init_module/finit_module, but lack information about the module because
+>>  its  headers have not been loaded into kernel space, let alone parsed.
+>>  This may not be sufficient for some LSMs.
+>>
+>> This new hook is similar to security_kernel_load_data(LOADING_MODULE),
+>> but called after the module signature and header are verified, and only
+>> takes the module name for now.
+>>
+>> Signed-off-by: Simon THOBY <git@nightmared.fr>
+>> ---
+>>  include/linux/lsm_hook_defs.h |  1 +
+>>  include/linux/module.h        |  1 +
+>>  include/linux/security.h      |  6 ++++++
+>>  kernel/module/main.c          |  4 ++++
+>>  security/security.c           | 14 ++++++++++++++
+>>  5 files changed, 26 insertions(+)
+>>
+>> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+>> index bf3bbac4e02a..51c5212d8bb6 100644
+>> --- a/include/linux/lsm_hook_defs.h
+>> +++ b/include/linux/lsm_hook_defs.h
+>> @@ -223,6 +223,7 @@ LSM_HOOK(void, LSM_RET_VOID, cred_getlsmprop, const struct cred *c,
+>>  LSM_HOOK(int, 0, kernel_act_as, struct cred *new, u32 secid)
+>>  LSM_HOOK(int, 0, kernel_create_files_as, struct cred *new, struct inode *inode)
+>>  LSM_HOOK(int, 0, kernel_module_request, char *kmod_name)
+>> +LSM_HOOK(int, 0, kernel_module_load, const char *kmod_name)
+>>  LSM_HOOK(int, 0, kernel_load_data, enum kernel_load_data_id id, bool contents)
+>>  LSM_HOOK(int, 0, kernel_post_load_data, char *buf, loff_t size,
+>>  	 enum kernel_load_data_id id, char *description)
+>> diff --git a/include/linux/module.h b/include/linux/module.h
+>> index 8050f77c3b64..b6b8d6f7f599 100644
+>> --- a/include/linux/module.h
+>> +++ b/include/linux/module.h
+>> @@ -39,6 +39,7 @@ struct modversion_info {
+>>  	char name[MODULE_NAME_LEN];
+>>  };
+>>  
+>> +struct load_info;
+>>  struct module;
+>>  struct exception_table_entry;
+>>  
+>> diff --git a/include/linux/security.h b/include/linux/security.h
+>> index cc9b54d95d22..e175b2cc8caf 100644
+>> --- a/include/linux/security.h
+>> +++ b/include/linux/security.h
+>> @@ -498,6 +498,7 @@ void security_cred_getlsmprop(const struct cred *c, struct lsm_prop *prop);
+>>  int security_kernel_act_as(struct cred *new, u32 secid);
+>>  int security_kernel_create_files_as(struct cred *new, struct inode *inode);
+>>  int security_kernel_module_request(char *kmod_name);
+>> +int security_kernel_module_load(const char *kmod_name);
+>>  int security_kernel_load_data(enum kernel_load_data_id id, bool contents);
+>>  int security_kernel_post_load_data(char *buf, loff_t size,
+>>  				   enum kernel_load_data_id id,
+>> @@ -1255,6 +1256,11 @@ static inline int security_kernel_module_request(char *kmod_name)
+>>  	return 0;
+>>  }
+>>  
+>> +static inline int security_kernel_module_load(const char *kmod_name)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>>  static inline int security_kernel_load_data(enum kernel_load_data_id id, bool contents)
+>>  {
+>>  	return 0;
+>> diff --git a/kernel/module/main.c b/kernel/module/main.c
+>> index a2859dc3eea6..12a1a5f4d823 100644
+>> --- a/kernel/module/main.c
+>> +++ b/kernel/module/main.c
+>> @@ -3228,6 +3228,10 @@ static int early_mod_check(struct load_info *info, int flags)
+>>  		return -EPERM;
+>>  	}
+>>  
+>> +	err = security_kernel_module_load(info->name);
 > 
->> On 13. 05. 25 11:41 dop., Lee Jones wrote:
->>> On Mon, 12 May 2025, Ivan Vecera wrote:
->>>
->>>> On 07. 05. 25 5:26 odp., Lee Jones wrote:
->>>>> On Wed, 07 May 2025, Andy Shevchenko wrote:
->>>>>
->>>>>> On Wed, May 07, 2025 at 03:56:37PM +0200, Ivan Vecera wrote:
->>>>>>> On 07. 05. 25 3:41 odp., Andy Shevchenko wrote:
->>>>>>>> On Wed, May 7, 2025 at 3:45 PM Ivan Vecera <ivecera@redhat.com> wrote:
->>>>>>
->>>>>> ...
->>>>>>
->>>>>>>>> +static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
->>>>>>>>> +       { .channel = 0, },
->>>>>>>>> +       { .channel = 1, },
->>>>>>>>> +       { .channel = 2, },
->>>>>>>>> +       { .channel = 3, },
->>>>>>>>> +       { .channel = 4, },
->>>>>>>>> +};
->>>>>>>>
->>>>>>>>> +static const struct mfd_cell zl3073x_devs[] = {
->>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 0),
->>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 1),
->>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 2),
->>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 3),
->>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 4),
->>>>>>>>> +};
->>>>>>>>
->>>>>>>>> +#define ZL3073X_MAX_CHANNELS   5
->>>>>>>>
->>>>>>>> Btw, wouldn't be better to keep the above lists synchronised like
->>>>>>>>
->>>>>>>> 1. Make ZL3073X_CELL() to use indexed variant
->>>>>>>>
->>>>>>>> [idx] = ...
->>>>>>>>
->>>>>>>> 2. Define the channel numbers
->>>>>>>>
->>>>>>>> and use them in both data structures.
->>>>>>>>
->>>>>>>> ...
->>>>>>>
->>>>>>> WDYM?
->>>>>>>
->>>>>>>> OTOH, I'm not sure why we even need this. If this is going to be
->>>>>>>> sequential, can't we make a core to decide which cell will be given
->>>>>>>> which id?
->>>>>>>
->>>>>>> Just a note that after introduction of PHC sub-driver the array will look
->>>>>>> like:
->>>>>>> static const struct mfd_cell zl3073x_devs[] = {
->>>>>>>           ZL3073X_CELL("zl3073x-dpll", 0),  // DPLL sub-dev for chan 0
->>>>>>>           ZL3073X_CELL("zl3073x-phc", 0),   // PHC sub-dev for chan 0
->>>>>>>           ZL3073X_CELL("zl3073x-dpll", 1),  // ...
->>>>>>>           ZL3073X_CELL("zl3073x-phc", 1),
->>>>>>>           ZL3073X_CELL("zl3073x-dpll", 2),
->>>>>>>           ZL3073X_CELL("zl3073x-phc", 2),
->>>>>>>           ZL3073X_CELL("zl3073x-dpll", 3),
->>>>>>>           ZL3073X_CELL("zl3073x-phc", 3),
->>>>>>>           ZL3073X_CELL("zl3073x-dpll", 4),
->>>>>>>           ZL3073X_CELL("zl3073x-phc", 4),   // PHC sub-dev for chan 4
->>>>>>> };
->>>>>>
->>>>>> Ah, this is very important piece. Then I mean only this kind of change
->>>>>>
->>>>>> enum {
->>>>>> 	// this or whatever meaningful names
->>>>>> 	..._CH_0	0
->>>>>> 	..._CH_1	1
->>>>>> 	...
->>>>>> };
->>>>>>
->>>>>> static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
->>>>>>           { .channel = ..._CH_0, },
->>>>>>           ...
->>>>>> };
->>>>>>
->>>>>> static const struct mfd_cell zl3073x_devs[] = {
->>>>>>           ZL3073X_CELL("zl3073x-dpll", ..._CH_0),
->>>>>>           ZL3073X_CELL("zl3073x-phc", ..._CH_0),
->>>>>>           ...
->>>>>> };
->>>>>
->>>>> This is getting hectic.  All for a sequential enumeration.  Seeing as
->>>>> there are no other differentiations, why not use IDA in the child
->>>>> instead?
->>>>
->>>> For that, there have to be two IDAs, one for DPLLs and one for PHCs...
->>>
->>> Sorry, can you explain a bit more.  Why is this a problem?
->>>
->>> The IDA API is very simple.
->>>
->>> Much better than building your own bespoke MACROs.
->>
->> I will try to explain this in more detail... This MFD driver handles
->> chip family ZL3073x where the x == number of DPLL channels and can
->> be from <1, 5>.
->>
->> The driver creates 'x' DPLL sub-devices during probe and has to pass
->> channel number that should this sub-device use. Here can be used IDA
->> in DPLL sub-driver:
->> e.g. ida_alloc_max(zldev->channels, zldev->max_channels, GFP_KERNEL);
->>
->> This way the DPLL sub-device get its own unique channel ID to use.
->>
->> The situation is getting more complicated with PHC sub-devices because
->> the chip can provide UP TO 'x' PHC sub-devices depending on HW
->> configuration. To handle this the MFD driver has to check this HW config
->> for particular channel if it is capable to provide PHC functionality.
->>
->> E.g. ZL30735 chip has 5 channels, in this case the MFD driver should
->> create 5 DPLL sub-devices. And then lets say channel 0, 2 and 4 are
->> PHC capable. Then the MFD driver should create 3 PHC sub-devices and
->> pass 0, 2 resp. 4 for them.
+> Would it be more useful to pass in the whole info struct?
 > 
-> Where is the code that determines which channels are PHC capable?
 
-It is not included in this series and will be added once the PTP driver
-will be added. But the code looks like:
+I thought about that, but was afraid the LSM hook is still called very early in
+the boot process. I though the 'struct load_info' was only partially populated,
+but upon further checking, you're right, and most fields of the structure were
+already setup by the time the hook is called:
+- len, hdr in the copy_module_from_user function
+- sig_ok in module_sig_check
+- sechdrs, secstrings, index, strtab and name in elf_validity_cache_copy
 
-for (i = 0; i < ZL3073X_MAX_CHANNELS; i++) {
-	if (channel_is_in_nco_mode(..., i)) {
-		struct mfd_cell phc_dev = ZL3073X_CELL("zl3073x-phc", i);
-		rc = devm_mfd_add_devices(zldev->dev,
-					  PLATFORM_DEVID_AUTO, &phc_dev,
-					  1, NULL, 0, NULL);
-		...
-	}
-}
+So I could definitely pass in the info struct instead.
 
-Thanks,
-Ivan
+On that note, I wonder if I should move 'struct load_info' out of kernel/module/internal.h,
+because I'm fairly certain we don't want to have linux/security.h depending on an internal
+header file from the module subsystem.
+
+<snip>
 
