@@ -1,78 +1,98 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D2F28DB74;
-	Thu, 22 May 2025 16:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AE9686358;
+	Thu, 22 May 2025 16:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747929781; cv=none; b=bAiheDsKn2fo81PO0hxy3Sr9eTI55n0weyp/eoe43+NAj1qEROwpqTTaYWoHjcK0+D+bdl7iyUPtJ4dP6W+TGrQLaly6bRtiCsN8zh0nmWaDxdAktCSOsFInArLeWENhbwnHPd6XP2qUhhKcTW25Ka6gfmPECrQ/hVCfbhNjI0E=
+	t=1747930514; cv=none; b=leUn1qh8Cf+jOwwayjRAgkcG+xQGSyVBg7w41tkTOvHoE3ucCDAJYPkspPVgnKs933/xMykYXkGz6HltlXSFDlMMWig8EV8SPvMfce4EVx8ZQXTV7inT+GcBCHlPPYFAcF2OGJsTPBeX/PTKPOT7Muug3ztsUoy2DkeHJqgpAyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747929781; c=relaxed/simple;
-	bh=D6ravmCBSVatM9FHIJ31YvtkmOKYHcAxJeudYDVHco0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ruav0ADPSUP9yvgC+5pWkYvfgF3T2/W+WdQsKf/KHDUprwrqe/0dAvkA/sDIgDaCy3uoIPR280t/TGxuVBa5eKzEpIreFKV+1DmCf1x5XCNRbtLVLQfDAH8N0t6k042rsakDSMZY0yE9IXQtqyFOij6VP/3oov/MOvm4EUXXZ7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Xa8FIgBb; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Xa8FIgBb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=F1dsqNtUuf3M8zsJPk5NeexiAp4QTOkB320yTzwQKvE=; b=Xa8FIgBbD9AdgAGgb4A3Lh5FOo
-	iTWFgJa73bwF7+u4DtMq8KNBzMOOXxXecUU6RmfVxKjqxaov+u2pNaqITKhYoOuPOwbG6FvQscNUx
-	mNzi3zEs2nG0pE+iU9GfhLgYpY3p3Sz723VAUdhEeqlnX5f6U3K0zxLInQR9Mdtt+ML+xDk1f3yN1
-	pAZJn/6tbA3invnvxWWeBKTDJEPiQIAMmFGRzsx2jStPCP2D4uzvSG7cFKBQRffnCvFDV+s9X+ycZ
-	JPPxbONXG0fR31rAGYqZIaCB4GprbYFq9OWKodFYIdm3xk8wyvvyt15GuBv+MF3ecLTk3kCRl++yU
-	DEd7neXA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uI8Nd-000000013Ap-06Vh;
-	Thu, 22 May 2025 16:02:49 +0000
-Message-ID: <0a9c4d5a-a84c-420c-a781-84b18e90d34a@infradead.org>
-Date: Thu, 22 May 2025 09:02:44 -0700
+	s=arc-20240116; t=1747930514; c=relaxed/simple;
+	bh=B86oQzXDGwPGfXAvGevtUP+BpvzTXxAlz1S8MFh34Us=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b4O0+sVXLayAAnXQym913ogFHPeUuwnSuJdivn0OqCrtoTLKcifHawioCzcs/8bmF/y68kprIuyZ2k1r8fcNxLnKIwq+Whi9kaDU5W/gU9yB6Ge2ZxNz1zpmGUt3f6+A8AXDLWVkIv6Wyo/Gktr6j6nnWzKrQQ4hFvagN9sdQwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 312CA1A2D;
+	Thu, 22 May 2025 09:14:56 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.52])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9E8D3F5A1;
+	Thu, 22 May 2025 09:15:07 -0700 (PDT)
+Date: Thu, 22 May 2025 17:15:02 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Leo Yan <leo.yan@arm.com>, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v22 2/5] arm64: el2_setup.h: Make __init_el2_fgt labels
+ consistent, again
+Message-ID: <aC9NhvYzajduVm7y@e133380.arm.com>
+References: <20250520-arm-brbe-v19-v22-0-c1ddde38e7f8@kernel.org>
+ <20250520-arm-brbe-v19-v22-2-c1ddde38e7f8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Doc: networking: Fix various typos in rds.rst
-To: Alok Tiwari <alok.a.tiwari@oracle.com>, allison.henderson@oracle.com,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
- linux-rdma@vger.kernel.org, rds-devel@oss.oracle.com,
- linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, darren.kenny@oracle.com
-References: <20250522074413.3634446-1-alok.a.tiwari@oracle.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250522074413.3634446-1-alok.a.tiwari@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520-arm-brbe-v19-v22-2-c1ddde38e7f8@kernel.org>
 
-
-
-On 5/22/25 12:43 AM, Alok Tiwari wrote:
-> Corrected "sages" to "messages" in the bitmap allocation description.
-> Fixed "competed" to "completed" in the recv path datagram handling section.
-> Corrected "privatee" to "private" in the multipath RDS section.
-> Fixed "mutlipath" to "multipath" in the transport capabilities description.
+On Tue, May 20, 2025 at 05:27:37PM -0500, Rob Herring (Arm) wrote:
+> From: Anshuman Khandual <anshuman.khandual@arm.com>
 > 
-> These changes improve documentation clarity and maintain consistency.
+> Commit 5b39db6037e7 ("arm64: el2_setup.h: Rename some labels to be more
+> diff-friendly") reworked the labels in __init_el2_fgt to say what's
+> skipped rather than what the target location is. The exception was
+> "set_fgt_" which is where registers are written. In reviewing the BRBE
+> additions, Will suggested "set_debug_fgt_" where HDFGxTR_EL2 are
+> written. Doing that would partially revert commit 5b39db6037e7 undoing
+> the goal of minimizing additions here, but it would follow the
+> convention for labels where registers are written.
 > 
-> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
+> So let's do both. Branches that skip something go to a "skip" label and
+> places that set registers have a "set" label. This results in some
+> double labels, but it makes things entirely consistent.
+> 
+> While we're here, the SME skip label was incorrectly named, so fix it.
+> 
+> Reported-by: Will Deacon <will@kernel.org>
+> Cc: Dave Martin <Dave.Martin@arm.com>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
->  Documentation/networking/rds.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> This one can be applied even if the rest of the series is not.
 > 
+> v22:
+>  - New patch
+> ---
+>  arch/arm64/include/asm/el2_setup.h | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+> index ebceaae3c749..30f57b0334a3 100644
+> --- a/arch/arm64/include/asm/el2_setup.h
+> +++ b/arch/arm64/include/asm/el2_setup.h
+> @@ -204,19 +204,21 @@
+>  	orr	x0, x0, #(1 << 62)
+>  
+>  .Lskip_spe_fgt_\@:
+> +
+> +.Lset_debug_fgt_\@:
 
--- 
-~Randy
+Dangling label?  There doesn't seem to be any branch to it in this
+series, unless I've missed something.
+
+[...]
+
+Cheers
+---Dave
