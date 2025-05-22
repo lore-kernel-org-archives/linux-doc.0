@@ -1,114 +1,148 @@
-Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970C91B0434;
-	Thu, 22 May 2025 08:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D164C262FEA
+	for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 08:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747901753; cv=none; b=kbXFqLkKDH6B6enAtrHn8VocKW+CcAFwxMU5ilQ8PxKJU9/VvVy9zvhROXfRplM9UBLp0q1+YAOKd1KObbuz0vZq/rcyVqv8nUrWy3ZgoVgW8ROxwPzKtu+3iK/LIu5wG92PKg07GM/KdUmSbjA+fCZ5JRnmPvUkttzDPuKKG5o=
+	t=1747902020; cv=none; b=TdNPwb4Q6vRYIavAC0a+GGeBWbpDIkshVHiHVyr55uRcpL68IdwJDZIKihh+5trrBbKglr0f/0BXfonk0NH/KHaG2iuRoe3+mqMGHTr1Z7CiDHNsUnp5VX0zU5lxsuQgxJXrKiIL8IivCgdEhOz6rSn1LpRvsyBCgVGcRZnpfb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747901753; c=relaxed/simple;
-	bh=7E4VpZaYTeyHmonM9ukVDRJ98qeI0xAsr6LbdRcYv4k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QK+CowQqpO3mNf10QHDC/P9wYfTwyPg5VjcVesZr/x1bOT0HkedsdueEl7SkAnaS6M84mR5IO7cN9A0aiAvYhM947bb7zZ11IugFs1fqwrJq5kBTfbdzO2oD+NeEK6fJdyY0VFxgePnJWw4nuypX+93ZB0IX7OoS/Q3noWYcNME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=WMbg7s3o; arc=none smtp.client-ip=211.125.140.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	s=arc-20240116; t=1747902020; c=relaxed/simple;
+	bh=H5WO4l0lMwPhufkFAFJJF+7x6CoP4lT7Mp9z3TVrCvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MrRQY0jfT3CDZ1auP79b17+h2tDGKM+7ukecDIZYZXV3x3oSP9RGdqjZJZu73T5A+X4H2TROWN1k6F0igi6W/cqPWqCxNQa5yL9xkYHdceQHftZaK5eiFXaO3PVtzhPqXzQPRUSXkMRTQjvJZRsSCBC8Szuxf62ye8B2gBdHxjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=Ozt5v6zl; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="WMbg7s3o"
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="Ozt5v6zl"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2327aa24b25so32743535ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 01:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1747901748; x=1779437748;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:to:cc;
-  bh=1WWTa3On4JPd2OiE7+97JDn9jIPF7/XgeqzVzCmonJQ=;
-  b=WMbg7s3oqbnhLci0corqti8vq/nksYm8JuLweDpUQps/0XTYLVTV2Sp6
-   ppiu8xgXAMEaTopXykMGdLsKEwnFMG+KnA6q37tal5XiJlaRi4Kq3X/4g
-   ipWyyCpajpr4Q/gP131EKIDeQuliDhu81uEYoz5tUd/6tpdiPnkPjRdPw
-   qnoR2D3dddV24f3Kieh9KsKgoXQ2tkcTsyEcE4MwvVyME6FRRfM5l7hQT
-   wIvrJwTaxa4Vg2NsDdFzB4Ii3fAxVZCUszSuwewDdZyoT5VIxmNwwqxd+
-   QdP3juAunrhgsxwekS82IVLFL09cAcBtcT1QQWL3i1ns/0caD+AokidKg
-   Q==;
-Received: from unknown (HELO jpmta-ob1.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::6])
-  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 17:05:37 +0900
-X-IronPort-AV: E=Sophos;i="6.15,305,1739804400"; 
-   d="scan'208";a="562594206"
-Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
-  by jpmta-ob1.noc.sony.co.jp with ESMTP; 22 May 2025 17:05:37 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-Date: Thu, 22 May 2025 17:05:33 +0900
-Subject: [PATCH] cpufreq, docs: (userspace governor) add that actual freq
- is >= scaling_setspeed
+        d=sifive.com; s=google; t=1747902018; x=1748506818; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RcuFGqMF/ZgB6n2L9RXkll3Uqc1w8n3CtfrWdVWfP90=;
+        b=Ozt5v6zlO/Sv87cmdyRoZXc2xsMAAXaw3oQcM3xMR31eisU4VCrEXCgLngL5qUCi4A
+         4tzwrFrIIZMrUNt54iwAWtL52et+16H1mYeRnijwTzIRv1W9LMdOYEqbGzd7rfyiwqkA
+         LJCz7zNPWWKBV67Mi0scgx4joex3sfeFYAfuSEmx8Gp3a2sxB41ako3RNyvdgjLbYJNf
+         i7VyM6LgOTKhabSPnXDOJIVw7zGyxOBF5WIpeiEBzRfOZOPuwUa7supdF7KdlqKh5FUB
+         /AsS31PWJQ5Wr5nlWg2o07cOS0xxKkHRZ7US3UTEqBf93D1XutWupNPBIoQluDqkw8HA
+         OfuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747902018; x=1748506818;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RcuFGqMF/ZgB6n2L9RXkll3Uqc1w8n3CtfrWdVWfP90=;
+        b=j2C8gpdI4Q2ZPKGCTa2OwqEzOk+Qp3+9RffZ2rtw3pMxHnDaFmOBD2ct8W6fnzSEnj
+         MBgNheBa7KP/95Xbw+OeKMR4dug2VNDOGfJCsMom6L4JJKNs+PEjcG6C0APKxxM73RuG
+         Em5tMZEPbVUrpZkeQROaDAG/NFyPJM55dPYDxhjTe5zn6GLq+pLhcwhP8L+VdC/u9IMf
+         UeQtiV5/lAk2jqggHmZF1gkkJRW1qmsC1yPfxerXQjMfIsVtJMrioDNLylo0/p8g7Epy
+         7yZAK5ShINZs8u4ZlWV4tYCtELsDiyvtPm6E3wlHSbqRAuuYhwrxrMIoqnooEbHa6qqQ
+         jftA==
+X-Forwarded-Encrypted: i=1; AJvYcCVUKu85VrgL6WYTYPY4AEUH/wk0a7wZwuczXk/weZlgwR0rqaxDRyakZ3cdKUPrvBfMK58nX8lhev4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLNNBKBZOdys/L/m8wwsXNdt65M8JHqEqxMv/dyQRWgwqEEsDn
+	Nh5Xvr6p1fQr4NiGWojisOQDdU8whRGlBZ32CAyGzA8EzMHw7S11XWsIQB9mc1TuoXc=
+X-Gm-Gg: ASbGncuxm6pFNimThHNBAJahyoqo6zF3pfCBikxW/juj01KTfy9nn5VE3uI0H67Yxuq
+	tXVndsst0VBCYBbghoYuP+JN8s9FQPBw2cvtrgwoyoKP1AV71JAWB8MsPCNKLFynpowyIBsTqk0
+	x7P2d0h/gxLA+5FhLoI2U6wz8G6MFHLVvWF0o+I7xgJJs1fkITh8Vs9hlc+b80/uvmzovBL4+zy
+	LEQA8vuVGuT3PNI0YmoW/GNiHkyEzaQi4vXUqrMR5Ndh1PsqFkIZQj1YWg5yW49eeujEf1kTPBQ
+	TBly7vyrDulBGJtyTslFRug71PtDc6DzBx6mVWpqger417ikfyHb+sGWrX3S
+X-Google-Smtp-Source: AGHT+IGWUWoZ8nlB1v4QhGuyYjXUJIGpjeTdY9aoCLZrIG7jsg9/EnwS5AkAfpjE8UnXzW0/hfZx3Q==
+X-Received: by 2002:a17:903:19c4:b0:220:e655:d77 with SMTP id d9443c01a7336-231d452d0e3mr353009895ad.36.1747902018137;
+        Thu, 22 May 2025 01:20:18 -0700 (PDT)
+Received: from cyan-mbp ([136.226.240.168])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4adca4asm104828005ad.78.2025.05.22.01.20.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 01:20:17 -0700 (PDT)
+Date: Thu, 22 May 2025 16:20:13 +0800
+From: Cyan Yang <cyan.yang@sifive.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, alex@ghiti.fr, samuel.holland@sifive.com,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/12] riscv: Add SiFive xsfvqmaccdod and xsfvqmaccqoq
+ vendor extensions
+Message-ID: <aC7ePdD0bNhi48kz@cyan-mbp>
+References: <20250516030310.16950-1-cyan.yang@sifive.com>
+ <20250516030310.16950-3-cyan.yang@sifive.com>
+ <CAMuHMdVoUx99rK3bZZnpTh699fQouVfmTfzvuM_UfGS=PAvW2Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com>
-X-B4-Tracking: v=1; b=H4sIAMzaLmgC/x3MPQqAMAxA4atIZgO1UhGvIg79iTVLKymKIL27x
- fEN33uhkDAVWLoXhG4unFOLoe/AHzZFQg6tQSttlNEarwbKaT1hzDdJyoIhe5yncVbBWTcGAw2
- fQjs//3jdav0AAr4h5GgAAAA=
-X-Change-ID: 20250522-userspace-governor-doc-86380dbab3d5
-To: "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Shinya Takumi <shinya.takumi@sony.com>, 
- Shashank Balaji <shashank.mahadasyam@sony.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2204;
- i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
- bh=7E4VpZaYTeyHmonM9ukVDRJ98qeI0xAsr6LbdRcYv4k=;
- b=owGbwMvMwCV2mPH4Ij++H1mMp9WSGDL0bl04EOm1ZPGGI+3Bvpe9CqsZZu/7bhklo2jw99ok/
- +9Zde8udpSyMIhxMciKKbK8k1l34aCVZdPX4wzfYOawMoEMYeDiFICJnL7K8FcyrilrX8Yi6+PN
- C96vUusUZsk1PKoRd3oSi0zKX7b4XCdGhoP51zUc+JU6A0OfS3MzFfS5f7dw7d7ybs1/JubDL76
- u4AYA
-X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
- fpr=EE1CAED0C13A3982F5C700F6C301C7A24E0EF86A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVoUx99rK3bZZnpTh699fQouVfmTfzvuM_UfGS=PAvW2Q@mail.gmail.com>
 
-The userspace governor does not have the CPUFREQ_GOV_STRICT_TARGET flag, which
-means the requested frequency may not strictly be followed. This is true in the
-case of the intel_pstate driver with HWP enabled. When programming the
-HWP_REQUEST MSR, the min_perf is set to `scaling_setspeed`, and the max_perf
-is set to the policy's max. So, the hardware is free to increase the frequency
-beyond the requested frequency.
+On Tue, May 20, 2025 at 11:26:39AM +0200, Geert Uytterhoeven wrote:
+> Hi Cyan,
+> 
+> On Fri, 16 May 2025 at 05:07, Cyan Yang <cyan.yang@sifive.com> wrote:
+> > Add SiFive vendor extension support to the kernel with the target of
+> > "xsfvqmaccdod" and "xsfvqmaccqoq".
+> >
+> > Signed-off-by: Cyan Yang <cyan.yang@sifive.com>
+> 
+> Thanks for your patch, which is now commit 2d147d77ae6e96c1 ("riscv:
+> Add SiFive xsfvqmaccdod and xsfvqmaccqoq vendor extensions")
+> in riscv/for-next.
+> 
+> > --- a/arch/riscv/Kconfig.vendor
+> > +++ b/arch/riscv/Kconfig.vendor
+> > @@ -16,6 +16,19 @@ config RISCV_ISA_VENDOR_EXT_ANDES
+> >           If you don't know what to do here, say Y.
+> >  endmenu
+> >
+> > +menu "SiFive"
+> > +config RISCV_ISA_VENDOR_EXT_SIFIVE
+> > +       bool "SiFive vendor extension support"
+> > +       select RISCV_ISA_VENDOR_EXT
+> > +       default y
+> 
+> I guess this has no dependency on ARCH_SIFIVE and does not default
+> to ARCH_SIFIVE because this extension can be present on non-Sifive
+> SoCs, too?
+> 
+> Probably I should have asked this when the other RISCV_ISA_VENDOR_EXT_*
+> were introduced, but at least for ANDES I already know the answer.
+> 
 
-This behaviour can be slightly surprising, given the current wording "allows
-userspace to set the CPU frequency". Hence, document this.
+Yes, you are right.
 
-Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
----
- Documentation/admin-guide/pm/cpufreq.rst | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ARCH_SIFIVE enables support for SiFive SoC platform.
 
-diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
-index 3950583f2b1549b27f568632547e22e9ef8bc167..066fe74f856699c8dd6aaf5e135162ce70686333 100644
---- a/Documentation/admin-guide/pm/cpufreq.rst
-+++ b/Documentation/admin-guide/pm/cpufreq.rst
-@@ -397,8 +397,15 @@ policy limits change after that.
- -------------
- 
- This governor does not do anything by itself.  Instead, it allows user space
--to set the CPU frequency for the policy it is attached to by writing to the
--``scaling_setspeed`` attribute of that policy.
-+to set a target CPU frequency for the policy it is attached to by writing to the
-+``scaling_setspeed`` attribute of that policy. The actual frequency will be
-+greater than or equal to ``scaling_setspeed``, depending on the cpufreq driver.
-+For example, if hardware-managed P-states are enabled, then the ``intel_pstate``
-+driver will set the minimum frequency to the value of ``scaling_setspeed`` and
-+the maximum frequency to the value of ``scaling_max_freq``.  The hardware is
-+free to select any frequency between those two values. If this behavior is not
-+desired, then ``scaling_max_freq`` should be set to the same value as
-+``scaling_setspeed``.
- 
- ``schedutil``
- -------------
+RISCV_ISA_VENDOR_EXT_SIFIVE enables support for SiFive vendor
+extensions, which are not limited to the SiFive SoC platform.
 
----
-base-commit: d608703fcdd9e9538f6c7a0fcf98bf79b1375b60
-change-id: 20250522-userspace-governor-doc-86380dbab3d5
+> > +       help
+> > +         Say N here if you want to disable all SiFive vendor extension
+> > +         support. This will cause any SiFive vendor extensions that are
+> > +         requested by hardware probing to be ignored.
+> > +
+> > +         If you don't know what to do here, say Y.
+> > +endmenu
+> > +
+> >  menu "T-Head"
+> >  config RISCV_ISA_VENDOR_EXT_THEAD
+> >         bool "T-Head vendor extension support"
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-Best regards,
--- 
-Shashank Balaji <shashank.mahadasyam@sony.com>
+Regards,
+Cyan
 
