@@ -1,159 +1,101 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A2C2620DE;
-	Thu, 22 May 2025 09:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC63419ABDE;
+	Thu, 22 May 2025 09:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747906781; cv=none; b=lrS/UlKBiab27xqD7QxHGLyCHUVgjUd1bsc8T/86zFHkbgu+4D63Y96IUvn37Qa6G9Ev44iykQ3sbr5sLOag8gI5cD9Db2JCsIVz95gBzaXi7VL9NrjnmCFxdPSF2y3f6qwZqfiqgCX0gZ8XQLn8HTEnKvig1NBg3ABX/afSATo=
+	t=1747907201; cv=none; b=d4B+3nk8zF6FvMTRCrV2BZceF3MzTpE+/0JrkGrlpNmo9mveq/xGdbQeSYMl/3PkVDSeA43FDKd+d8K5+85lTOjWKPxzlpAHNIEOX5JOlyrMhs3Ir9Z7GE5E7wjmUG44jwZlD9XymA3VVqKH4meHd12dmjHS/Y80QsDrNLaQs3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747906781; c=relaxed/simple;
-	bh=puZ1Oa9pAogZNg5hFYutdx+3Wzy6JNYFbojwWGjESfU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MPIQS/KA1ExVkmS462DAi2pFJXre1/+r+HrCh8maERnVNeUJuhhRV6mqPLpF1lGVcU9PYPiyMITLG/gMmBeMYHLrLL6UuYZ8YkcfzmVegLga5EySWOSuD7U7JIKH3CEHx09h7SV9L+lQPwTBDocBgFYpdxd6+4vhD+Yzo5BVd/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=L7W9B8BC; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1747907201; c=relaxed/simple;
+	bh=iwyvSkrXpxctGEfHrPn28Dg2OnHVDNuVDHmlyvO+q2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pSPr+7HYknrw9nvLEFteFGihARMBKwHlw2Veu39hMpBU55LJqgroIe6b8HoaYj2qX2iL4SuysPSc8A/pm8dh/FwRqaRiLsweHEygIJ7uModrGJjN91o1iXO5Dsxr1oKb9xNJ7LEEiVoFK9sU9irSlrIuXOA1DAr23e4qINsN1xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=PMVqI1Db; arc=none smtp.client-ip=211.125.140.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="L7W9B8BC"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1747906770; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=eq52ZTiE586FJQkx6x0iygDvQMrob1T/ZEeu27iZI3Q=;
-	b=L7W9B8BCPhL4jE+X4qIz+T6SHhOwzKq5rSxsuiWJ9zGrMKH6K++LbZietS6pdp3p18tPVQ7Dk1Xk3QeNTdXuuOOmjCRJuoqn38Yzy/DxffWanAhoNnulE6/vm0ZpNpnZqSuMRVD7RU5S1o+EAIJ1ulUANbdSYMXhEqep0hb6m/0=
-Received: from 30.74.113.135(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WbVRfy2_1747906766 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 22 May 2025 17:39:27 +0800
-Message-ID: <1f00fdc3-a3a3-464b-8565-4c1b23d34f8d@linux.alibaba.com>
-Date: Thu, 22 May 2025 17:39:26 +0800
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="PMVqI1Db"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1747907199; x=1779443199;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DfbWw3E35fX776QXKTvnDVg3ShsCLZlrkgbY+W4KvCw=;
+  b=PMVqI1DbBkLUBvjtTPl61A8kZuZeQ/K4I8Uueg6nX8GObS8VP3KmeG3T
+   rHFgFF7MjcldQUVwun/Y0P0BBG5ZRRgtFZbrwge4Tmxqjk1wpLxety2FE
+   VXvdlbnvDKjnbA09vkMKkYg3UnVfwdJ7m4ZkpEEY+w43syQHUCCcdypn2
+   GRhz8mmj6ByBmC21gsrojbawNR1EeyZ5ulN5JGKB2qnskg5EwOSjyXE4B
+   Wz8vVif3ZelawwHSZS9ETVpdhb3c5kTFYAznZxmNjmKRaVEExPsIDg6gy
+   luHh1/u8RYKhh2ur6wzLD8ptZcLlVn3OdZnrfMV9cP2EWnxG9r++WhE1w
+   g==;
+Received: from unknown (HELO jpmta-ob1.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::6])
+  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 18:46:37 +0900
+X-IronPort-AV: E=Sophos;i="6.15,305,1739804400"; 
+   d="scan'208";a="562636728"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob1.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 18:46:37 +0900
+Date: Thu, 22 May 2025 18:46:33 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Russell Haley <yumpusamongus@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Shinya Takumi <shinya.takumi@sony.com>
+Subject: Re: [PATCH] cpufreq, docs: (userspace governor) add that actual freq
+ is >= scaling_setspeed
+Message-ID: <aC7yeQvKVQ1No9EW@JPC00244420>
+References: <20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com>
+ <15871c67-0d18-430f-935e-261b2cda855b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/12] khugepaged: introduce khugepaged_scan_bitmap for
- mTHP support
-To: Nico Pache <npache@redhat.com>, David Rientjes <rientjes@google.com>,
- zokeefe@google.com
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, hannes@cmpxchg.org, mhocko@suse.com,
- rdunlap@infradead.org
-References: <20250515032226.128900-1-npache@redhat.com>
- <20250515032226.128900-7-npache@redhat.com>
- <9c54397f-3cbf-4fa2-bf69-ba89613d355f@linux.alibaba.com>
- <CAA1CXcC9MB2Nw4MmGajESfH8DhAsh4QvTj4ABG3+Rg2iPi087w@mail.gmail.com>
- <ed1d1281-ece3-4d2c-8e58-aaeb436d3927@linux.alibaba.com>
- <CAA1CXcAWcahkxzsvK_bcWei6or_gKBjt+97dqhuSem8N7cBAQw@mail.gmail.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <CAA1CXcAWcahkxzsvK_bcWei6or_gKBjt+97dqhuSem8N7cBAQw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <15871c67-0d18-430f-935e-261b2cda855b@gmail.com>
 
+Hi Russell,
 
+On Thu, May 22, 2025 at 03:50:55AM -0500, Russell Haley wrote:
+> If the user asks for the frequency to be set from userspace, the
+> frequency had damn well better be set from userspace.
 
-On 2025/5/21 18:23, Nico Pache wrote:
-> On Tue, May 20, 2025 at 4:09 AM Baolin Wang
-> <baolin.wang@linux.alibaba.com> wrote:
->>
->> Sorry for late reply.
->>
->> On 2025/5/17 14:47, Nico Pache wrote:
->>> On Thu, May 15, 2025 at 9:20 PM Baolin Wang
->>> <baolin.wang@linux.alibaba.com> wrote:
->>>>
->>>>
->>>>
->>>> On 2025/5/15 11:22, Nico Pache wrote:
->>>>> khugepaged scans anons PMD ranges for potential collapse to a hugepage.
->>>>> To add mTHP support we use this scan to instead record chunks of utilized
->>>>> sections of the PMD.
->>>>>
->>>>> khugepaged_scan_bitmap uses a stack struct to recursively scan a bitmap
->>>>> that represents chunks of utilized regions. We can then determine what
->>>>> mTHP size fits best and in the following patch, we set this bitmap while
->>>>> scanning the anon PMD. A minimum collapse order of 2 is used as this is
->>>>> the lowest order supported by anon memory.
->>>>>
->>>>> max_ptes_none is used as a scale to determine how "full" an order must
->>>>> be before being considered for collapse.
->>>>>
->>>>> When attempting to collapse an order that has its order set to "always"
->>>>> lets always collapse to that order in a greedy manner without
->>>>> considering the number of bits set.
->>>>>
->>>>> Signed-off-by: Nico Pache <npache@redhat.com>
->>>>
->>>> Sigh. You still haven't addressed or explained the issues I previously
->>>> raised [1], so I don't know how to review this patch again...
->>> Can you still reproduce this issue?
->>
->> Yes, I can still reproduce this issue with today's (5/20) mm-new branch.
->>
->> I've disabled PMD-sized THP in my system:
->> [root]# cat /sys/kernel/mm/transparent_hugepage/enabled
->> always madvise [never]
->> [root]# cat /sys/kernel/mm/transparent_hugepage/hugepages-2048kB/enabled
->> always inherit madvise [never]
->>
->> And I tried calling madvise() with MADV_COLLAPSE for anonymous memory,
->> and I can still see it collapsing to a PMD-sized THP.
-> Hi Baolin ! Thank you for your reply and willingness to test again :)
-> 
-> I didn't realize we were talking about madvise collapse-- this makes
-> sense now. I also figured out why I could "reproduce" it before. My
-> script was always enabling the THP settings in two places, and I only
-> commented out one to test this. But this time I was doing more manual
-> testing.
-> 
-> The original design of madvise_collapse ignores the sysfs and
-> collapses even if you have an order disabled. I believe this behavior
-> is wrong, but by design. I spent some time playing around with madvise
-> collapses with and w/o my changes. This is not a new thing, I
-> reproduced the issue in 6.11 (Fedora 41), and I think its been
-> possible since the inception of madvise collapse 3 years ago. I
-> noticed a similar behavior on one of my RFC since it was "breaking"
-> selftests, and the fix was to reincorporate this broken sysfs
-> behavior.
+First of all, I agree with you. In fact, before sending this patch, I
+was considering adding CPUFREQ_GOV_STRICT_TARGET to the userspace
+governor. intel_pstate should handle the rest of it.
 
-OK. Thanks for the explanation.
+> In my opinion, the documentation is correct, and it is the
+> implementation in intel_pstate that is wrong. If the user wanted two
+> separate knobs that control the minimum and maximum frequencies, they
+> could leave intel_pstate in "active" mode and change scaling_min_freq
+> and scaling_max_freq.
 
-> 7d8faaf15545 ("mm/madvise: introduce MADV_COLLAPSE sync hugepage collapse")
-> "This call is independent of the system-wide THP sysfs settings, but
-> will fail for memory marked VM_NOHUGEPAGE."
-> 
-> The second condition holds true (and fails for VM_NOHUGEPAGE), but I
-> dont know if we actually want madvise_collapse to be independent of
-> the system-wide.
+If intel_pstate is left in "active" mode, then userspace can't use any
+of the other governors. Moreover, intel_pstate's min and max frequencies
+apply to all the cpus. Whereas, the userspace governor can be set on a
+per-cpu basis.
 
-This design principle surprised me a bit, and I failed to find the 
-reason in the commit log. I agree that "never should mean never," and we 
-should respect the THP/mTHP sysfs setting. Additionally, for the 
-'shmem_enabled' sysfs interface controlled for shmem/tmpfs, THP collapse 
-can still be prohibited through the 'deny' configuration. The rules here 
-are somewhat confusing.
+Let's say this is "fixed" by adding CPUFREQ_GOV_STRICT_TARGET flag to
+the userspace governor. Then userspace has no way to get back the
+current behavior where the hardware automagically increases frequency
+beyond the target frequency. At least not without a new interface.
 
-> So I'll ask the authors
-> +David Rientjes +zokeefe@google.com
-> Was this brought up as a concern when this feature was first
-> introduced, was there any pushback, what was the outcome of the
-> discussion if so?
-> I can easily fix this and it would further simplify the code (by
-> removing the is_khugepaged and friends). As David H. has brought up in
-> other discussions around similar topics, never should mean never, is
-> this the only exception we should allow?
+With the current behaviour, userspace can have it both ways:
+    - actual frequency = target frequency
+    - actual frequency >= target frequency
 
-I don't think we need this exception, unless there is some solid reason.
+And the occasional higher frequency shouldn't hurt performance, right?
+But if they still want exact equality, with the current interface, they
+can do that too.
+
+This consideration is what led me to document the "actual freq >= target
+freq" rather than patch it so that "actual freq = target freq".
+
+Thanks
+
+Regards,
+Shashank
+"
