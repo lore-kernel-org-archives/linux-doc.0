@@ -1,148 +1,135 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D164C262FEA
-	for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 08:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7145211F
+	for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 08:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747902020; cv=none; b=TdNPwb4Q6vRYIavAC0a+GGeBWbpDIkshVHiHVyr55uRcpL68IdwJDZIKihh+5trrBbKglr0f/0BXfonk0NH/KHaG2iuRoe3+mqMGHTr1Z7CiDHNsUnp5VX0zU5lxsuQgxJXrKiIL8IivCgdEhOz6rSn1LpRvsyBCgVGcRZnpfb8=
+	t=1747902390; cv=none; b=WUUAi+npL5PRF4zln4vQ9KWXI7vRJc5zGcSWsOL4hyQQjByqr1z/uHOTRpgKkCNSgZxiII7rRhA0yPO66m3ZclOhhF/6BPO0/EyG1PpCbZahyCrOjsJwjza5TsUH9FPrIhGkeUffgj2usN7WL/MX4TUoErnYYWo10m9UmAfjaR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747902020; c=relaxed/simple;
-	bh=H5WO4l0lMwPhufkFAFJJF+7x6CoP4lT7Mp9z3TVrCvk=;
+	s=arc-20240116; t=1747902390; c=relaxed/simple;
+	bh=n+5XOZJO39DicMLZfH4LEibGAtaPq4lPmMHF/KL0+f4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MrRQY0jfT3CDZ1auP79b17+h2tDGKM+7ukecDIZYZXV3x3oSP9RGdqjZJZu73T5A+X4H2TROWN1k6F0igi6W/cqPWqCxNQa5yL9xkYHdceQHftZaK5eiFXaO3PVtzhPqXzQPRUSXkMRTQjvJZRsSCBC8Szuxf62ye8B2gBdHxjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=Ozt5v6zl; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="Ozt5v6zl"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2327aa24b25so32743535ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 01:20:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1747902018; x=1748506818; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RcuFGqMF/ZgB6n2L9RXkll3Uqc1w8n3CtfrWdVWfP90=;
-        b=Ozt5v6zlO/Sv87cmdyRoZXc2xsMAAXaw3oQcM3xMR31eisU4VCrEXCgLngL5qUCi4A
-         4tzwrFrIIZMrUNt54iwAWtL52et+16H1mYeRnijwTzIRv1W9LMdOYEqbGzd7rfyiwqkA
-         LJCz7zNPWWKBV67Mi0scgx4joex3sfeFYAfuSEmx8Gp3a2sxB41ako3RNyvdgjLbYJNf
-         i7VyM6LgOTKhabSPnXDOJIVw7zGyxOBF5WIpeiEBzRfOZOPuwUa7supdF7KdlqKh5FUB
-         /AsS31PWJQ5Wr5nlWg2o07cOS0xxKkHRZ7US3UTEqBf93D1XutWupNPBIoQluDqkw8HA
-         OfuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747902018; x=1748506818;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RcuFGqMF/ZgB6n2L9RXkll3Uqc1w8n3CtfrWdVWfP90=;
-        b=j2C8gpdI4Q2ZPKGCTa2OwqEzOk+Qp3+9RffZ2rtw3pMxHnDaFmOBD2ct8W6fnzSEnj
-         MBgNheBa7KP/95Xbw+OeKMR4dug2VNDOGfJCsMom6L4JJKNs+PEjcG6C0APKxxM73RuG
-         Em5tMZEPbVUrpZkeQROaDAG/NFyPJM55dPYDxhjTe5zn6GLq+pLhcwhP8L+VdC/u9IMf
-         UeQtiV5/lAk2jqggHmZF1gkkJRW1qmsC1yPfxerXQjMfIsVtJMrioDNLylo0/p8g7Epy
-         7yZAK5ShINZs8u4ZlWV4tYCtELsDiyvtPm6E3wlHSbqRAuuYhwrxrMIoqnooEbHa6qqQ
-         jftA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUKu85VrgL6WYTYPY4AEUH/wk0a7wZwuczXk/weZlgwR0rqaxDRyakZ3cdKUPrvBfMK58nX8lhev4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLNNBKBZOdys/L/m8wwsXNdt65M8JHqEqxMv/dyQRWgwqEEsDn
-	Nh5Xvr6p1fQr4NiGWojisOQDdU8whRGlBZ32CAyGzA8EzMHw7S11XWsIQB9mc1TuoXc=
-X-Gm-Gg: ASbGncuxm6pFNimThHNBAJahyoqo6zF3pfCBikxW/juj01KTfy9nn5VE3uI0H67Yxuq
-	tXVndsst0VBCYBbghoYuP+JN8s9FQPBw2cvtrgwoyoKP1AV71JAWB8MsPCNKLFynpowyIBsTqk0
-	x7P2d0h/gxLA+5FhLoI2U6wz8G6MFHLVvWF0o+I7xgJJs1fkITh8Vs9hlc+b80/uvmzovBL4+zy
-	LEQA8vuVGuT3PNI0YmoW/GNiHkyEzaQi4vXUqrMR5Ndh1PsqFkIZQj1YWg5yW49eeujEf1kTPBQ
-	TBly7vyrDulBGJtyTslFRug71PtDc6DzBx6mVWpqger417ikfyHb+sGWrX3S
-X-Google-Smtp-Source: AGHT+IGWUWoZ8nlB1v4QhGuyYjXUJIGpjeTdY9aoCLZrIG7jsg9/EnwS5AkAfpjE8UnXzW0/hfZx3Q==
-X-Received: by 2002:a17:903:19c4:b0:220:e655:d77 with SMTP id d9443c01a7336-231d452d0e3mr353009895ad.36.1747902018137;
-        Thu, 22 May 2025 01:20:18 -0700 (PDT)
-Received: from cyan-mbp ([136.226.240.168])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4adca4asm104828005ad.78.2025.05.22.01.20.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 01:20:17 -0700 (PDT)
-Date: Thu, 22 May 2025 16:20:13 +0800
-From: Cyan Yang <cyan.yang@sifive.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, alex@ghiti.fr, samuel.holland@sifive.com,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/12] riscv: Add SiFive xsfvqmaccdod and xsfvqmaccqoq
- vendor extensions
-Message-ID: <aC7ePdD0bNhi48kz@cyan-mbp>
-References: <20250516030310.16950-1-cyan.yang@sifive.com>
- <20250516030310.16950-3-cyan.yang@sifive.com>
- <CAMuHMdVoUx99rK3bZZnpTh699fQouVfmTfzvuM_UfGS=PAvW2Q@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hqqu3FuoEKTxeOieDpRFiMs3lMf/nJ233JBj+SfNUc9w+mkAYnNkqfVNi/KemQ7QrCAhYDHxNmRK33Nfrd1QE0ZQvxU87TPVNCHbQSxt4ePyZG1rHAj3Mlcos6w8JMiQ7W+oku/jCZSarGyAsc43CmitTIwxNgFA5i4yXL+WwdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uI1F9-0002pc-9c; Thu, 22 May 2025 10:25:35 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uI1F8-000haq-1f;
+	Thu, 22 May 2025 10:25:34 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uI1F8-002hyA-1F;
+	Thu, 22 May 2025 10:25:34 +0200
+Date: Thu, 22 May 2025 10:25:34 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v11 07/13] net: pse-pd: Add support for budget
+ evaluation strategies
+Message-ID: <aC7ffmSISYYFnn0U@pengutronix.de>
+References: <20250520-feature_poe_port_prio-v11-0-bbaf447e1b28@bootlin.com>
+ <20250520-feature_poe_port_prio-v11-7-bbaf447e1b28@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVoUx99rK3bZZnpTh699fQouVfmTfzvuM_UfGS=PAvW2Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250520-feature_poe_port_prio-v11-7-bbaf447e1b28@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Tue, May 20, 2025 at 11:26:39AM +0200, Geert Uytterhoeven wrote:
-> Hi Cyan,
+On Tue, May 20, 2025 at 06:11:09PM +0200, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 > 
-> On Fri, 16 May 2025 at 05:07, Cyan Yang <cyan.yang@sifive.com> wrote:
-> > Add SiFive vendor extension support to the kernel with the target of
-> > "xsfvqmaccdod" and "xsfvqmaccqoq".
-> >
-> > Signed-off-by: Cyan Yang <cyan.yang@sifive.com>
+> This patch introduces the ability to configure the PSE PI budget evaluation
+> strategies. Budget evaluation strategies is utilized by PSE controllers to
+> determine which ports to turn off first in scenarios such as power budget
+> exceedance.
 > 
-> Thanks for your patch, which is now commit 2d147d77ae6e96c1 ("riscv:
-> Add SiFive xsfvqmaccdod and xsfvqmaccqoq vendor extensions")
-> in riscv/for-next.
+> The pis_prio_max value is used to define the maximum priority level
+> supported by the controller. Both the current priority and the maximum
+> priority are exposed to the user through the pse_ethtool_get_status call.
 > 
-> > --- a/arch/riscv/Kconfig.vendor
-> > +++ b/arch/riscv/Kconfig.vendor
-> > @@ -16,6 +16,19 @@ config RISCV_ISA_VENDOR_EXT_ANDES
-> >           If you don't know what to do here, say Y.
-> >  endmenu
-> >
-> > +menu "SiFive"
-> > +config RISCV_ISA_VENDOR_EXT_SIFIVE
-> > +       bool "SiFive vendor extension support"
-> > +       select RISCV_ISA_VENDOR_EXT
-> > +       default y
+> This patch add support for two mode of budget evaluation strategies.
+> 1. Static Method:
 > 
-> I guess this has no dependency on ARCH_SIFIVE and does not default
-> to ARCH_SIFIVE because this extension can be present on non-Sifive
-> SoCs, too?
+>    This method involves distributing power based on PD classification.
+>    It’s straightforward and stable, the PSE core keeping track of the
+>    budget and subtracting the power requested by each PD’s class.
 > 
-> Probably I should have asked this when the other RISCV_ISA_VENDOR_EXT_*
-> were introduced, but at least for ANDES I already know the answer.
+>    Advantages: Every PD gets its promised power at any time, which
+>    guarantees reliability.
 > 
+>    Disadvantages: PD classification steps are large, meaning devices
+>    request much more power than they actually need. As a result, the power
+>    supply may only operate at, say, 50% capacity, which is inefficient and
+>    wastes money.
+> 
+>    Priority max value is matching the number of PSE PIs within the PSE.
+> 
+> 2. Dynamic Method:
+> 
+>    To address the inefficiencies of the static method, vendors like
+>    Microchip have introduced dynamic power budgeting, as seen in the
+>    PD692x0 firmware. This method monitors the current consumption per port
+>    and subtracts it from the available power budget. When the budget is
+>    exceeded, lower-priority ports are shut down.
+> 
+>    Advantages: This method optimizes resource utilization, saving costs.
+> 
+>    Disadvantages: Low-priority devices may experience instability.
+> 
+>    Priority max value is set by the PSE controller driver.
+> 
+> For now, budget evaluation methods are not configurable and cannot be
+> mixed. They are hardcoded in the PSE driver itself, as no current PSE
+> controller supports both methods.
+> 
+> Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-Yes, you are right.
+Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-ARCH_SIFIVE enables support for SiFive SoC platform.
-
-RISCV_ISA_VENDOR_EXT_SIFIVE enables support for SiFive vendor
-extensions, which are not limited to the SiFive SoC platform.
-
-> > +       help
-> > +         Say N here if you want to disable all SiFive vendor extension
-> > +         support. This will cause any SiFive vendor extensions that are
-> > +         requested by hardware probing to be ignored.
-> > +
-> > +         If you don't know what to do here, say Y.
-> > +endmenu
-> > +
-> >  menu "T-Head"
-> >  config RISCV_ISA_VENDOR_EXT_THEAD
-> >         bool "T-Head vendor extension support"
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
-Regards,
-Cyan
-
+Thank you!
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
