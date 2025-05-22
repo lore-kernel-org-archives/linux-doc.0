@@ -1,83 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B2818FDBE;
-	Thu, 22 May 2025 03:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEB9221723
+	for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 06:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747885813; cv=none; b=p7oegy2bDnB44cix6hq+eA4ThaTn4zGQhwMfIeZT3A9+d6Esf2Lc5/xhW1cNa08OAUAIy9SG1hpgjf5c5RaBz8GMLKD4Zv1OmOIxOxzwPBJfss+yVqQ+93zQmSZngMr/R2JH6CUcWtYWmUudVhDV6oEiw0BMT3Fgiu5ZubfTwGg=
+	t=1747896225; cv=none; b=nKjuhpCl/ghQpf4hiSPQ6QPM4NncCRRpwwMcvFkQ9+0j4C9j6TvfF30ZuswRF4X74a19r+mrODqCEpOgxCUueym6n65Og6pX5W2TDbqkjbsfjg6EOpS2sR63L9sHiO7pO9yjTAtLMOLrklhMjaELsKITTcBhO+OegTk5toONv4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747885813; c=relaxed/simple;
-	bh=5bmRQ5FWNcUrlmbzVqI8v3MehweThc2e0m1Ovg3RPZs=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=dxVqribmwLSOx/1CKUEkH5xpgT/x8QMebpT5lZP/U4urE7i8GXS9dcO8ii7qCd6BQiDDv2Fub2pywparjysdkQw1o/GJcMJsPQFxCqmr0iiON8moiF9aNpq+WojlQd8C/vK50cpJpbTyKK86oUSxUwug23OROA6ixXaka6KTRdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DHoOGTSH; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DHoOGTSH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B127C4CEEB;
-	Thu, 22 May 2025 03:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747885813;
-	bh=5bmRQ5FWNcUrlmbzVqI8v3MehweThc2e0m1Ovg3RPZs=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=DHoOGTSH9vaMJSq1yh6/IBTgib7TuOaJXeKERupx0OBwsBBbFUcR1zHNaXvSkKqqt
-	 XQvqGerceT0EE3F9T4/JC2lMNt1Ps5ooP9W4CY9hU+YDWw0XdYYukpf5F4akirDmp+
-	 dkTFcbKsG9+oOe6nyjyaQovAUGg2ZDGiyYfgrTch7OoX9teFTbb39E4eFnbsSWKRkO
-	 hDeFVzVFlXSSR8gKYBpn3mD/ET6Q77NIFRx3h0MtJ26gGAAZkKpyU5lfTEWIXzHS3t
-	 J/IzsRmAqWxlZcnY6YrqQZ3RNa3sHzCSbW6j/06QdYeTBksUNKzIKx6plRQUXg2g02
-	 lK+FkStTgiqeg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33FFC380AA7C;
-	Thu, 22 May 2025 03:50:50 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1747896225; c=relaxed/simple;
+	bh=dxDP5IQt5rtpMdaHBgCk/Tk6qBhSaHaiq5AmRp9SC68=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lvFBnr7W/38cq9ZjsWfMGQ7hOhDb7HEaJGRTzpBtYLuZ+VnjV76fXtbVHZfzygWjWYxBo5lmYG/FQ96hWQPCwlwqjG2AdtTs5CzbfYmzC2gJDrHxiJohQ/fA1wPtf/swHGGBayoPyhwXVWzAnN/hwcsDY/XywquGFdgQs6ihH0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uHzeA-0006k1-53; Thu, 22 May 2025 08:43:18 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uHze7-000gpo-02;
+	Thu, 22 May 2025 08:43:15 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uHze6-002gka-2f;
+	Thu, 22 May 2025 08:43:14 +0200
+Date: Thu, 22 May 2025 08:43:14 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v11 01/13] net: pse-pd: Introduce
+ attached_phydev to pse control
+Message-ID: <aC7Hgu_ieB31Wy_r@pengutronix.de>
+References: <20250520-feature_poe_port_prio-v11-0-bbaf447e1b28@bootlin.com>
+ <20250520-feature_poe_port_prio-v11-1-bbaf447e1b28@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v17 0/1] net: hinic3: Add a driver for Huawei 3rd gen
- NIC
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <174788584899.2369658.3358222992773503494.git-patchwork-notify@kernel.org>
-Date: Thu, 22 May 2025 03:50:48 +0000
-References: <cover.1747736586.git.gur.stavi@huawei.com>
-In-Reply-To: <cover.1747736586.git.gur.stavi@huawei.com>
-To: Gur Stavi <gur.stavi@huawei.com>
-Cc: gongfan1@huawei.com, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- horms@kernel.org, andrew+netdev@lunn.ch, linux-doc@vger.kernel.org,
- corbet@lwn.net, helgaas@kernel.org, luosifu@huawei.com, guoxin09@huawei.com,
- shenchenyang1@hisilicon.com, zhoushuai28@huawei.com, wulike1@huawei.com,
- shijing34@huawei.com, meny.yossefi@huawei.com, lee@trager.us,
- mpe@ellerman.id.au, sumang@marvell.com, przemyslaw.kitszel@intel.com,
- jdamato@fastly.com, christophe.jaillet@wanadoo.fr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250520-feature_poe_port_prio-v11-1-bbaf447e1b28@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Tue, 20 May 2025 13:26:58 +0300 you wrote:
-> This is the 1/3 patch of the patch-set described below.
+On Tue, May 20, 2025 at 06:11:03PM +0200, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 > 
-> The patch-set contains driver for Huawei's 3rd generation HiNIC
-> Ethernet device that will be available in the future.
+> In preparation for reporting PSE events via ethtool notifications,
+> introduce an attached_phydev field in the pse_control structure.
+> This field stores the phy_device associated with the PSE PI,
+> ensuring that notifications are sent to the correct network
+> interface.
 > 
-> This is an SRIOV device, designed for data centers.
-> Initially, the driver only supports VFs.
+> The attached_phydev pointer is directly tied to the PHY lifecycle. It
+> is set when the PHY is registered and cleared when the PHY is removed.
+> There is no need to use a refcount, as doing so could interfere with
+> the PHY removal process.
 > 
-> [...]
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-Here is the summary with links:
-  - [net-next,v17,1/1] hinic3: module initialization and tx/rx logic
-    https://git.kernel.org/netdev/net-next/c/17fcb3dc12bb
+Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de> 
 
-You are awesome, thank you!
+Thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
