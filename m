@@ -1,213 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE601F09B3;
-	Thu, 22 May 2025 10:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33D4221F0A;
+	Thu, 22 May 2025 11:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747910758; cv=none; b=jUonOzbdm2Hx4ZOAzc15uTMorGZlocNDpbW1fDIvQPoCgEnnvyykxG3D3tehGPkt2v7mwxp1uURJYLMOBhlVJ96JWDsSGLzg4rmFj0NF7RjlHaoW38oXZm0LM+5t0Paghs4CPgGXdYmvtd0032Yi2OYcXqVR9NnS7GjFC1zinfI=
+	t=1747912529; cv=none; b=QeYhF1fM0r9L+5st2VXb6qqbBBh3NQ5nizWqhsrWrxAlBW+73WTPeOqRXJ6YvFxGVPX3sg676t3REqN52XYHUKvgSm7OT4MCQ4i0eulW1R65ZxgJm5q+X4u8v9osGSWihg5i+SefMOa9kJYQL3RcKSycC9NwgZ6DSMeXP9szowI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747910758; c=relaxed/simple;
-	bh=nDcDTTGWl2yNVjSeuRh+ALACWWAJZtCLqBjSo46X0nU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EdPQfqsKj9KGW+3MNfkuY5o8dobbbsR1kKxkKk4aTEXQgeY2ikW+iPGle6mg52FTTB8LKEoR+IxTWjRUCdQk2C2CZmPfFVix/0yiJveOB0zb191ut3ZSkK42+B02T0EHI+93Rd35c/LYagU/vQ/2qLt4JzAbm0qke3r0GDA3GYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LQLKd20Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747912529; c=relaxed/simple;
+	bh=PYiCglQe17p+UCnGT1JX2kII7JObgxkxKAaLnythrUM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DFPssCqNolR2HWsJ1C2A7Vfx/b5xtSXlYEt9jDerqkJhDztSeY8+sKlNEAVojX6dvoPWAs5huDQhjg8xzH5pzHag5Lgtw6sa5LKIe5kSgvcn7cyGHxGRuZ9PwXBx7PT9iqHwv2j5jjhECF0DkXe4k97AKM7QCgHDOUaAkII90iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XNsgnW/P; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LQLKd20Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 076FCC4CEE4;
-	Thu, 22 May 2025 10:45:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747910757;
-	bh=nDcDTTGWl2yNVjSeuRh+ALACWWAJZtCLqBjSo46X0nU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LQLKd20YrDh9cKYVTE2CAwkfGzxze+YXO4wa8qmjDPQmdxJC64hmQB8mUj5vaJt5k
-	 DFETI4Fy1JZRYDt/GXijPQeTVnQpNBccKokd6z8j+C/h4ZKITM/SDsN7HoCov0y35k
-	 I2LsL/XSonjFI2DZ4EkSkODwTuI4MreNj1Pd0H65m+ZOxt6PexJj0M1CGJuzLJ1hfn
-	 +2otw82IqooOsAUyTY5Iu+DTe/42rPczBzB91Ac1ruVfs0EJY+wWq+eqftHE0K09pD
-	 1iIL/X3CAFRS50UMuiHObK6pj89PSaWUoxOQVXwTG/tfVZgMteRi2QEBHvTAA08TIU
-	 C8EIrpHaiL90w==
-Date: Thu, 22 May 2025 11:45:51 +0100
-From: Lee Jones <lee@kernel.org>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, netdev@vger.kernel.org,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v7 8/8] mfd: zl3073x: Register DPLL sub-device
- during init
-Message-ID: <20250522104551.GD1199143@google.com>
-References: <20250507124358.48776-9-ivecera@redhat.com>
- <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
- <2e3eb9e3-151d-42ef-9043-998e762d3ba6@redhat.com>
- <aBt1N6TcSckYj23A@smile.fi.intel.com>
- <20250507152609.GK3865826@google.com>
- <b095ffb9-c274-4520-a45e-96861268500b@redhat.com>
- <20250513094126.GF2936510@google.com>
- <6f693bb5-da3c-4363-895f-58a267e52a18@redhat.com>
- <20250522073902.GC8794@google.com>
- <7421647b-ae85-4f34-843c-02f1fb21d7f3@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XNsgnW/P"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6f8b0fdd5ffso77807276d6.0;
+        Thu, 22 May 2025 04:15:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747912527; x=1748517327; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Xif0BFiKHRKFy77wQivk8+MEWBvoVtTEierfI/Fy18Y=;
+        b=XNsgnW/PUG6c/rjJ83pvhAByBMv5GupUxd6fJcOVTjAmSvB6XHNOr3xKu/ZBEWUnAc
+         x8gFoaDVla1WQFrwuqq7W8P01O/9FNpYlB4GeNvv8DxkH6R+DBz24W9wuJs9/FMelAMs
+         S+c/2z1p0VxI1GTNVcdvSH0EPou++Vu9K12g3WrkOgOLdX6Pdqe+on+HFdoi1jt1ijKa
+         uwBLjZs8HvrBaq3X0FKbXLmNk9yAf0dbM1vrJmxVW7MCilbLdUgxwKzd+r2QUmC2dR2g
+         4hUYRso8xI8+u1xrraOTbuo0eZ1QsZwqNtChvjt8eD6zYOV3VgIgJeBpUgPEtD1lbsNp
+         /dIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747912527; x=1748517327;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xif0BFiKHRKFy77wQivk8+MEWBvoVtTEierfI/Fy18Y=;
+        b=SfrdupxguTM3JNTwH2FZW0NsDPmL8RvqEBSJnzknCQEvOW129ZPGaqG+ExmNi+pFpp
+         /baO/pYohJtzQCti/CUWjDVU+Ogrp4YDflo0nqmFsHcoay4fQTQtjWzKI4D+qe9zq82T
+         o+xiwpSFabviQ43U+U5LGtc1tqJYu2PgLti74qO0JuzJHP2Q2e9uQFIJElg9fb2J9EtA
+         cOUuwFIPZNMfEWzS66KvL5PlhSU9JpEGDTrsNVB3bbHZwDsaQYYWGKnQkQTgaNZv6S8T
+         DLwSqHB+JSKmutj6VPvanoaQIZdI0q9eD0aLO1Jq1WoNmZWAZdgfIy7y1O9fuhiQm6ZT
+         28Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCU5hPz3AiDnCLOt1ix1GR1VxmJNoRBuyU6Yz5xGaRHXo2o4Fd6oxrgj7Crm2/n/zJ8uZol80NMZTLTHFePK@vger.kernel.org, AJvYcCW+XfTp6bYqHW4IC79N+5IQhzl5r/1iG5Al1RGj8GZY5rYTgyOSgk6LgTGjATD05PFjkT4JdDsoeSY=@vger.kernel.org, AJvYcCWTv4178lyzRNWJv3Lycvknt8bsALDrqZ/LM6G5GT8BFCbSn+jExhUjVujOjLuNcR6Zx/M+ackkA7g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaldxHpIaYjfvooEN0QNGN9Vhqqnxkpd8GcnIOnD3lI3jhsUFd
+	zI9jnoxIXevg41CIoVTolMohenMw7DL/VDAvVVUieA9CaPPEhmaX4u8F
+X-Gm-Gg: ASbGncu+gSKPIKoid5lOCFvF6CrAmtYrTN9HuVUADQ5znsyoHddZBkKi10mcVfd+yRk
+	GdEAhojn+dN1VRBEJb0hzZxL/KTWL5BTYnV8AYFwoRfksw2RZ+fZqBjxg1Zzp8XAtraf6dzhtcM
+	UgdAQmSqw2OedBMM/u5Tj8e81iR8MYedaOaBWvwHwNSjiRkdrXFULyApgQKXkdO3rdTl9oH9J3G
+	zAgyJQLT7g9y4d2Xlh3CuQ89ijINUf1mj0trZNFFzjqXyxRF9667MvdTRbhu/OgWCk0gbex+T3l
+	KZDXLkyE0hawk7cxzbwW1T58qFoh6aBTwyXPIpgN6XVuoWIund82WTa19wyxcV4ShWw7FJcHYsi
+	cRw==
+X-Google-Smtp-Source: AGHT+IF+w9MKktfhqzOrURUJ6c7DxwXWpC4hkXUEFIIUtW7CQjQt72TsTF4tBGZW48aVTTDOw3j/RQ==
+X-Received: by 2002:ad4:5f08:0:b0:6e8:f166:b19c with SMTP id 6a1803df08f44-6f8b08ee744mr332249466d6.41.1747912526433;
+        Thu, 22 May 2025 04:15:26 -0700 (PDT)
+Received: from ?IPV6:2600:6c56:7d00:582f::64e? ([2600:6c56:7d00:582f::64e])
+        by smtp.googlemail.com with ESMTPSA id 6a1803df08f44-6f8b0883f45sm98958816d6.23.2025.05.22.04.15.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 May 2025 04:15:26 -0700 (PDT)
+Message-ID: <b62c0462-8185-4eb8-8ac6-7f2abc387768@gmail.com>
+Date: Thu, 22 May 2025 06:15:24 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] cpufreq, docs: (userspace governor) add that actual freq
+ is >= scaling_setspeed
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Shashank Balaji <shashank.mahadasyam@sony.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shinya Takumi <shinya.takumi@sony.com>
+References: <20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com>
+ <15871c67-0d18-430f-935e-261b2cda855b@gmail.com>
+ <CAJZ5v0gz3Y+RGqBf9E1hzq9rwfrryd98Xpk51DtLd-uck5y-rw@mail.gmail.com>
+Content-Language: en-US
+From: Russell Haley <yumpusamongus@gmail.com>
+In-Reply-To: <CAJZ5v0gz3Y+RGqBf9E1hzq9rwfrryd98Xpk51DtLd-uck5y-rw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7421647b-ae85-4f34-843c-02f1fb21d7f3@redhat.com>
 
-On Thu, 22 May 2025, Ivan Vecera wrote:
 
+
+On 5/22/25 4:47 AM, Rafael J. Wysocki wrote:
+> On Thu, May 22, 2025 at 10:51 AM Russell Haley <yumpusamongus@gmail.com> wrote:
+>>
+>>
+>> On 5/22/25 3:05 AM, Shashank Balaji wrote:
+>>> The userspace governor does not have the CPUFREQ_GOV_STRICT_TARGET flag, which
+>>> means the requested frequency may not strictly be followed. This is true in the
+>>> case of the intel_pstate driver with HWP enabled. When programming the
+>>> HWP_REQUEST MSR, the min_perf is set to `scaling_setspeed`, and the max_perf
+>>> is set to the policy's max. So, the hardware is free to increase the frequency
+>>> beyond the requested frequency.
+>>>
+>>> This behaviour can be slightly surprising, given the current wording "allows
+>>> userspace to set the CPU frequency". Hence, document this.
+>>>
+>>
+>> In my opinion, the documentation is correct, and it is the
+>> implementation in intel_pstate that is wrong. If the user wanted two
+>> separate knobs that control the minimum and maximum frequencies, they
+>> could leave intel_pstate in "active" mode and change scaling_min_freq
+>> and scaling_max_freq.
+>>
+>> If the user asks for the frequency to be set from userspace, the
+>> frequency had damn well better be set from userspace.
 > 
-> 
-> On 22. 05. 25 9:39 dop., Lee Jones wrote:
-> > On Tue, 13 May 2025, Ivan Vecera wrote:
-> > 
-> > > On 13. 05. 25 11:41 dop., Lee Jones wrote:
-> > > > On Mon, 12 May 2025, Ivan Vecera wrote:
-> > > > 
-> > > > > On 07. 05. 25 5:26 odp., Lee Jones wrote:
-> > > > > > On Wed, 07 May 2025, Andy Shevchenko wrote:
-> > > > > > 
-> > > > > > > On Wed, May 07, 2025 at 03:56:37PM +0200, Ivan Vecera wrote:
-> > > > > > > > On 07. 05. 25 3:41 odp., Andy Shevchenko wrote:
-> > > > > > > > > On Wed, May 7, 2025 at 3:45 PM Ivan Vecera <ivecera@redhat.com> wrote:
-> > > > > > > 
-> > > > > > > ...
-> > > > > > > 
-> > > > > > > > > > +static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
-> > > > > > > > > > +       { .channel = 0, },
-> > > > > > > > > > +       { .channel = 1, },
-> > > > > > > > > > +       { .channel = 2, },
-> > > > > > > > > > +       { .channel = 3, },
-> > > > > > > > > > +       { .channel = 4, },
-> > > > > > > > > > +};
-> > > > > > > > > 
-> > > > > > > > > > +static const struct mfd_cell zl3073x_devs[] = {
-> > > > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 0),
-> > > > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 1),
-> > > > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 2),
-> > > > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 3),
-> > > > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 4),
-> > > > > > > > > > +};
-> > > > > > > > > 
-> > > > > > > > > > +#define ZL3073X_MAX_CHANNELS   5
-> > > > > > > > > 
-> > > > > > > > > Btw, wouldn't be better to keep the above lists synchronised like
-> > > > > > > > > 
-> > > > > > > > > 1. Make ZL3073X_CELL() to use indexed variant
-> > > > > > > > > 
-> > > > > > > > > [idx] = ...
-> > > > > > > > > 
-> > > > > > > > > 2. Define the channel numbers
-> > > > > > > > > 
-> > > > > > > > > and use them in both data structures.
-> > > > > > > > > 
-> > > > > > > > > ...
-> > > > > > > > 
-> > > > > > > > WDYM?
-> > > > > > > > 
-> > > > > > > > > OTOH, I'm not sure why we even need this. If this is going to be
-> > > > > > > > > sequential, can't we make a core to decide which cell will be given
-> > > > > > > > > which id?
-> > > > > > > > 
-> > > > > > > > Just a note that after introduction of PHC sub-driver the array will look
-> > > > > > > > like:
-> > > > > > > > static const struct mfd_cell zl3073x_devs[] = {
-> > > > > > > >           ZL3073X_CELL("zl3073x-dpll", 0),  // DPLL sub-dev for chan 0
-> > > > > > > >           ZL3073X_CELL("zl3073x-phc", 0),   // PHC sub-dev for chan 0
-> > > > > > > >           ZL3073X_CELL("zl3073x-dpll", 1),  // ...
-> > > > > > > >           ZL3073X_CELL("zl3073x-phc", 1),
-> > > > > > > >           ZL3073X_CELL("zl3073x-dpll", 2),
-> > > > > > > >           ZL3073X_CELL("zl3073x-phc", 2),
-> > > > > > > >           ZL3073X_CELL("zl3073x-dpll", 3),
-> > > > > > > >           ZL3073X_CELL("zl3073x-phc", 3),
-> > > > > > > >           ZL3073X_CELL("zl3073x-dpll", 4),
-> > > > > > > >           ZL3073X_CELL("zl3073x-phc", 4),   // PHC sub-dev for chan 4
-> > > > > > > > };
-> > > > > > > 
-> > > > > > > Ah, this is very important piece. Then I mean only this kind of change
-> > > > > > > 
-> > > > > > > enum {
-> > > > > > > 	// this or whatever meaningful names
-> > > > > > > 	..._CH_0	0
-> > > > > > > 	..._CH_1	1
-> > > > > > > 	...
-> > > > > > > };
-> > > > > > > 
-> > > > > > > static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
-> > > > > > >           { .channel = ..._CH_0, },
-> > > > > > >           ...
-> > > > > > > };
-> > > > > > > 
-> > > > > > > static const struct mfd_cell zl3073x_devs[] = {
-> > > > > > >           ZL3073X_CELL("zl3073x-dpll", ..._CH_0),
-> > > > > > >           ZL3073X_CELL("zl3073x-phc", ..._CH_0),
-> > > > > > >           ...
-> > > > > > > };
-> > > > > > 
-> > > > > > This is getting hectic.  All for a sequential enumeration.  Seeing as
-> > > > > > there are no other differentiations, why not use IDA in the child
-> > > > > > instead?
-> > > > > 
-> > > > > For that, there have to be two IDAs, one for DPLLs and one for PHCs...
-> > > > 
-> > > > Sorry, can you explain a bit more.  Why is this a problem?
-> > > > 
-> > > > The IDA API is very simple.
-> > > > 
-> > > > Much better than building your own bespoke MACROs.
-> > > 
-> > > I will try to explain this in more detail... This MFD driver handles
-> > > chip family ZL3073x where the x == number of DPLL channels and can
-> > > be from <1, 5>.
-> > > 
-> > > The driver creates 'x' DPLL sub-devices during probe and has to pass
-> > > channel number that should this sub-device use. Here can be used IDA
-> > > in DPLL sub-driver:
-> > > e.g. ida_alloc_max(zldev->channels, zldev->max_channels, GFP_KERNEL);
-> > > 
-> > > This way the DPLL sub-device get its own unique channel ID to use.
-> > > 
-> > > The situation is getting more complicated with PHC sub-devices because
-> > > the chip can provide UP TO 'x' PHC sub-devices depending on HW
-> > > configuration. To handle this the MFD driver has to check this HW config
-> > > for particular channel if it is capable to provide PHC functionality.
-> > > 
-> > > E.g. ZL30735 chip has 5 channels, in this case the MFD driver should
-> > > create 5 DPLL sub-devices. And then lets say channel 0, 2 and 4 are
-> > > PHC capable. Then the MFD driver should create 3 PHC sub-devices and
-> > > pass 0, 2 resp. 4 for them.
-> > 
-> > Where is the code that determines which channels are PHC capable?
-> 
-> It is not included in this series and will be added once the PTP driver
-> will be added. But the code looks like:
-> 
-> for (i = 0; i < ZL3073X_MAX_CHANNELS; i++) {
-> 	if (channel_is_in_nco_mode(..., i)) {
-> 		struct mfd_cell phc_dev = ZL3073X_CELL("zl3073x-phc", i);
-> 		rc = devm_mfd_add_devices(zldev->dev,
-> 					  PLATFORM_DEVID_AUTO, &phc_dev,
-> 					  1, NULL, 0, NULL);
-> 		...
-> 	}
-> }
+> The userspace governor requests a frequency between policy->min and
+> policy->max on behalf of user space.  In intel_pstate this translates
+> to setting DESIRED_PERF to the requested value which is also the case
+> for the other governors.
 
-It's the channel_is_in_nco_mode() code I wanted to see.
+Huh.  On this Skylake box with kernel 6.14.6, it seems to be setting
+Minimum_Performance, and leaving desired at 0.
 
-What if you register all PHC devices, then bomb out if
-!channel_is_in_nco_mode()?  Presumably this can / should also live in
-the PHC driver as well?
+> echo userspace | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+userspace
+> echo 1400000 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed
+1400000
+> sudo x86_energy_perf_policy &| grep REQ
+cpu0: HWP_REQ: min 14 max 40 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+cpu1: HWP_REQ: min 14 max 40 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+cpu2: HWP_REQ: min 14 max 40 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+cpu3: HWP_REQ: min 14 max 40 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+cpu4: HWP_REQ: min 14 max 40 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+cpu5: HWP_REQ: min 14 max 40 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+cpu6: HWP_REQ: min 14 max 40 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+cpu7: HWP_REQ: min 14 max 40 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
 
--- 
-Lee Jones [李琼斯]
+Cheers,
+Russell
