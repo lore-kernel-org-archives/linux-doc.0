@@ -1,135 +1,209 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7145211F
-	for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 08:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2056327F194
+	for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 08:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747902390; cv=none; b=WUUAi+npL5PRF4zln4vQ9KWXI7vRJc5zGcSWsOL4hyQQjByqr1z/uHOTRpgKkCNSgZxiII7rRhA0yPO66m3ZclOhhF/6BPO0/EyG1PpCbZahyCrOjsJwjza5TsUH9FPrIhGkeUffgj2usN7WL/MX4TUoErnYYWo10m9UmAfjaR0=
+	t=1747903643; cv=none; b=a2kmylTQ/Tja7ztVJ1yQtV53bgHtsOAv7j1JiUziDSzuRhCN2rVZMRXFTUBFFCNi+mcmrOD7/ik9PF0/Oiu+JOjCd3YYhJZyQ13o+vO2bqh3jWrXQUQYUlT2D4D7CpNr5SxmFY0i5BICvsUM/Du7ICPzAEDnyOq4xfRVpdBYPME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747902390; c=relaxed/simple;
-	bh=n+5XOZJO39DicMLZfH4LEibGAtaPq4lPmMHF/KL0+f4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hqqu3FuoEKTxeOieDpRFiMs3lMf/nJ233JBj+SfNUc9w+mkAYnNkqfVNi/KemQ7QrCAhYDHxNmRK33Nfrd1QE0ZQvxU87TPVNCHbQSxt4ePyZG1rHAj3Mlcos6w8JMiQ7W+oku/jCZSarGyAsc43CmitTIwxNgFA5i4yXL+WwdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uI1F9-0002pc-9c; Thu, 22 May 2025 10:25:35 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uI1F8-000haq-1f;
-	Thu, 22 May 2025 10:25:34 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uI1F8-002hyA-1F;
-	Thu, 22 May 2025 10:25:34 +0200
-Date: Thu, 22 May 2025 10:25:34 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v11 07/13] net: pse-pd: Add support for budget
- evaluation strategies
-Message-ID: <aC7ffmSISYYFnn0U@pengutronix.de>
-References: <20250520-feature_poe_port_prio-v11-0-bbaf447e1b28@bootlin.com>
- <20250520-feature_poe_port_prio-v11-7-bbaf447e1b28@bootlin.com>
+	s=arc-20240116; t=1747903643; c=relaxed/simple;
+	bh=U+OG+d8hfbvDmx6UAkB0xp/yTFEsXXxzx5uEKuDitx0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sQAvtP8wiOAmpsvk7K0L9OwhCawu5RZY2/uJfj/CfEvYI2dOR/SCrFDSC29bIzvh3mZwIgcMHApqMc0SQmkB8Dbg2439d87HkymS0VF8aSceHj6RALMc8ohN1xStm7F2iAErHeyYl3C/24OO2eRSMhKPmdaF4zwakzQ9uThUdcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tGl8jzIA; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tGl8jzIA"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ad5740dd20eso706507766b.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 01:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747903639; x=1748508439; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oS/IyWoxphzadKMNL528mkjgxZl+WM6LE8gdVJhwq9M=;
+        b=tGl8jzIAXGP8jQrpoyyYSzS3E0Z9xsSOUiJwxlbrFZRBZbLTYuDRucvBQjoZHU1n0f
+         qrWDqxV1qN0kD4OnnxMZk6Y0MBYYE6EiiUGv4YQv5aXtdh8oYURnoe4Qa3J5WgtiibtB
+         t6DcNt8wYdG1K7YhxoR8WbY9KZtnNUxM5lkUslm6LyuEzWBLb5H78NlSB5qTUrMuQpkm
+         YVowJiEhIz5rRlIURv0D9mD26gqD9OtXwvFoK2UCk2SKl7Keptzf98P6Oq+snMj73tSA
+         uKVKU5wXkcTAJ5nnqjPMtYM6mPIYO0cyHV0GTCIjnk230BozxPFtRxDJmPAgGFIySI6Q
+         umCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747903639; x=1748508439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oS/IyWoxphzadKMNL528mkjgxZl+WM6LE8gdVJhwq9M=;
+        b=aTggNdVSbvu9xkDhjwtcyItUqahqnGhM6oXBCqtBQcUitIcjpwQAQoMbV9BtsIE6qQ
+         aJo7tUNHZmByRqj4WqKII1s+ZRPbkeEYYrCt9NwN04s+oFfu+t5AbaXlU556igxnF8wZ
+         g+8nkHbiqVlCSE+Ukv4QqkeIqxuwbESgDbwA0cu0aTZaQXa3+5ZbgFZLPcKypXVbDVa4
+         hPG01p7aJwBfYfoS9OlLAwSo3nTDecwgIJXnnJgyJ2KFVuCIdJ2AD4yFshtNqfj86Hcv
+         vkKzZnAwqwE3874xeqaNK60r2jC0BTUjR4IYXksRRvRLmVNqr1eyQaFxoD3cg8eNElRg
+         XOYw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvKMMUruqg/0wgM+msVrL8UaK6wau8SeyHdW4N5YacSqaryhhCg1kb+PamJY63pB0FC/hLVL79m30=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywmh6bPi1YTlj6lncctvypk0RS10RUsZwLsChUt7nrYBa67nMCA
+	DfSOQ2i1j85N+YmgpN3m90yif0u2/Hk/yeP0Ay1+cVPIi1yla+uDfaOL4IFpZFRIzJBaBAqvjJf
+	UBCD7aL3meNnwFgLbUnUxhASzTWrA+a6tR/6BBqEY
+X-Gm-Gg: ASbGnctqufi8rPxYCocCCDsA/QcDRtAacSZQFhSWOgd19X0Jx7W6to2uDU3YYSNcQdI
+	cko6gw5kwrQf4woFXof0Oqz+X7s7ml2DV6UJnpfHy+LPdefYijNB5us11KDeS1S11mP1A8CodNn
+	IMp8FTXOfOMg3xabs9vzPccjrfZOMD0Hro/ggSxIBwITH1Me2OGf+HyCyxp1D0c2JZ47yv9cy2r
+	w==
+X-Google-Smtp-Source: AGHT+IGeAg1FS5B957kESwNOhWbrhXwRf3wUtm+gPXXt8nbTePldZrjWHzjSiP9EyuW/zL2m5UDSODG2jnkgkuOoADI=
+X-Received: by 2002:a17:906:9fc6:b0:ac6:ff34:d046 with SMTP id
+ a640c23a62f3a-ad52d468b54mr2375897166b.2.1747903639073; Thu, 22 May 2025
+ 01:47:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250520-feature_poe_port_prio-v11-7-bbaf447e1b28@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <cover.1747349530.git.babu.moger@amd.com> <CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com>
+ <4dbcea13-382e-4af2-960d-0e66652cc2f5@amd.com> <8dd6e3a0-b2e1-48a7-8fa4-62e78b1407ae@intel.com>
+ <6c77b065-a54e-4b9c-a4cf-8b81676f2ab2@amd.com> <f4178258-f7ad-4db2-9284-3f28e8ee8d00@intel.com>
+ <92bcab75-72c6-46d4-97a2-119e7124c90c@amd.com> <11465976-f030-4c1b-88c6-3eebf0c8f13b@intel.com>
+ <CALPaoCjTwySGX9i7uAtCWLKQpmELKP55xDLJhHmUve8ptsfFTw@mail.gmail.com>
+ <7f10fa69-d1fe-4748-b10c-fa0c9b60bd66@intel.com> <aC5lL_qY00vd8qp4@agluck-desk3>
+ <a131e8ed-88b2-4fed-983b-5deea955a9a5@intel.com> <SJ1PR11MB6083B627895846B8663B4805FC99A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+In-Reply-To: <SJ1PR11MB6083B627895846B8663B4805FC99A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+From: Peter Newman <peternewman@google.com>
+Date: Thu, 22 May 2025 10:47:08 +0200
+X-Gm-Features: AX0GCFvn_pniYEQ4ayGp21nJqPmU30VsCiLX7_tjgWkuAxOIR_cGH5liC51ZY9o
+Message-ID: <CALPaoCjh_NXQLtNBqei=7a6Jsr17fEnPO+kqMaNq4xNu2UPDJA@mail.gmail.com>
+Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "Chatre, Reinette" <reinette.chatre@intel.com>, "Moger, Babu" <bmoger@amd.com>, 
+	"babu.moger@amd.com" <babu.moger@amd.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "james.morse@arm.com" <james.morse@arm.com>, 
+	"dave.martin@arm.com" <dave.martin@arm.com>, "fenghuay@nvidia.com" <fenghuay@nvidia.com>, 
+	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"paulmck@kernel.org" <paulmck@kernel.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "thuth@redhat.com" <thuth@redhat.com>, 
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, "ardb@kernel.org" <ardb@kernel.org>, 
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
+	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>, 
+	"jpoimboe@kernel.org" <jpoimboe@kernel.org>, 
+	"alexandre.chartre@oracle.com" <alexandre.chartre@oracle.com>, 
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>, 
+	"thomas.lendacky@amd.com" <thomas.lendacky@amd.com>, "perry.yuan@amd.com" <perry.yuan@amd.com>, 
+	"seanjc@google.com" <seanjc@google.com>, "Huang, Kai" <kai.huang@intel.com>, 
+	"Li, Xiaoyao" <xiaoyao.li@intel.com>, 
+	"kan.liang@linux.intel.com" <kan.liang@linux.intel.com>, "Li, Xin3" <xin3.li@intel.com>, 
+	"ebiggers@google.com" <ebiggers@google.com>, "xin@zytor.com" <xin@zytor.com>, 
+	"Mehta, Sohil" <sohil.mehta@intel.com>, 
+	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>, 
+	"mario.limonciello@amd.com" <mario.limonciello@amd.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>, "Eranian, Stephane" <eranian@google.com>, 
+	"Xiaojian.Du@amd.com" <Xiaojian.Du@amd.com>, "gautham.shenoy@amd.com" <gautham.shenoy@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 20, 2025 at 06:11:09PM +0200, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> 
-> This patch introduces the ability to configure the PSE PI budget evaluation
-> strategies. Budget evaluation strategies is utilized by PSE controllers to
-> determine which ports to turn off first in scenarios such as power budget
-> exceedance.
-> 
-> The pis_prio_max value is used to define the maximum priority level
-> supported by the controller. Both the current priority and the maximum
-> priority are exposed to the user through the pse_ethtool_get_status call.
-> 
-> This patch add support for two mode of budget evaluation strategies.
-> 1. Static Method:
-> 
->    This method involves distributing power based on PD classification.
->    It’s straightforward and stable, the PSE core keeping track of the
->    budget and subtracting the power requested by each PD’s class.
-> 
->    Advantages: Every PD gets its promised power at any time, which
->    guarantees reliability.
-> 
->    Disadvantages: PD classification steps are large, meaning devices
->    request much more power than they actually need. As a result, the power
->    supply may only operate at, say, 50% capacity, which is inefficient and
->    wastes money.
-> 
->    Priority max value is matching the number of PSE PIs within the PSE.
-> 
-> 2. Dynamic Method:
-> 
->    To address the inefficiencies of the static method, vendors like
->    Microchip have introduced dynamic power budgeting, as seen in the
->    PD692x0 firmware. This method monitors the current consumption per port
->    and subtracts it from the available power budget. When the budget is
->    exceeded, lower-priority ports are shut down.
-> 
->    Advantages: This method optimizes resource utilization, saving costs.
-> 
->    Disadvantages: Low-priority devices may experience instability.
-> 
->    Priority max value is set by the PSE controller driver.
-> 
-> For now, budget evaluation methods are not configurable and cannot be
-> mixed. They are hardcoded in the PSE driver itself, as no current PSE
-> controller supports both methods.
-> 
-> Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+Hi Tony, Reinette,
 
-Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
+On Thu, May 22, 2025 at 2:21=E2=80=AFAM Luck, Tony <tony.luck@intel.com> wr=
+ote:
+>
+> > >>> There's also the mongroup-RMID overcommit use case I described
+> > >>> above[1]. On Intel we can safely assume that there are counters to
+> > >>> back all RMIDs, so num_mbm_cntrs would be calculated directly from
+> > >>> num_rmids.
+> > >>
+> > >> This is about the:
+> > >>    There's now more interest in Google for allowing explicit control=
+ of
+> > >>    where RMIDs are assigned on Intel platforms. Even though the numb=
+er of
+> > >>    RMIDs implemented by hardware tends to be roughly the number of
+> > >>    containers they want to support, they often still need to create
+> > >>    containers when all RMIDs have already been allocated, which is n=
+ot
+> > >>    currently allowed. Once the container has been created and starts
+> > >>    running, it's no longer possible to move its threads into a monit=
+oring
+> > >>    group whenever RMIDs should become available again, so it's impor=
+tant
+> > >>    for resctrl to maintain an accurate task list for a container eve=
+n
+> > >>    when RMIDs are not available.
+> > >>
+> > >> I see a monitor group as a collection of tasks that need to be monit=
+ored together.
+> > >> The "task list" is the group of tasks that share a monitoring ID tha=
+t
+> > >> is required to be a valid ID since when any of the tasks are schedul=
+ed that ID is
+> > >> written to the hardware. I intentionally tried to not use RMID since=
+ I believe
+> > >> this is required for all archs.
+> > >> I thus do not understand how a task can start running when it does n=
+ot have
+> > >> a valid monitoring ID. The idea of "deferred assignment" is not clea=
+r to me,
+> > >> there can never be "unmonitored tasks", no? I think I am missing som=
+ething here.
 
-Thank you!
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+You are correct. I did forget to mention something...
+
+> > >
+> > > In the AMD/RMID implemenentation this might be achieved with somethin=
+g
+> > > extra in the task structure to denote whether a task is in a monitore=
+d
+> > > group or not. E.g. We add "task->rmid_valid" as well as "task->rmid".
+> > > Tasks in an unmonitored group retain their "task->rmid" (that's what
+> > > identifies them as a member of a group) but have task->rmid_valid set
+> > > to false.  Context switch code would be updated to load "0" into the
+> > > IA32_PQR_ASSOC.RMID field for tasks without a valid RMID. So they
+> > > would still be monitored, but activity would be bundled with all
+> > > tasks in the default resctrl group.
+> > >
+> > > Presumably something analogous could be done for ARM/MPAM.
+> > >
+> >
+> > I do not interpret this as an unmonitored task but instead a task that
+> > belongs to the default resource group. Specifically, any data accumulat=
+ed by
+> > such a task is attributed to the default resource group. Having tasks
+> > in a separate group but their monitoring data accumulating in/contribut=
+ed to
+> > the default resource group (that has its own set of tasks) sounds wrong=
+ to me.
+> > Such an implementation makes any monitoring data of default resource gr=
+oup
+> > invalid, and by extension impossible to use default resource group to m=
+anage
+> > an allocation for a group of monitor groups if user space needs insight
+> > in monitoring data across all these monitor groups. User space will nee=
+d to
+> > interact with resctrl differently and individually query monitor groups=
+ instead
+> > of CTRL_MON group once.
+>
+> Maybe assign one of the limited supply of RMIDs for these "unmonitored"
+> tasks. Populate a resctrl group named "unmonitored" that lists all the
+> unmonitored tasks in a (read-only) "tasks" file. And supply all the count=
+s
+> for these tasks in normal looking "mon_data" directory.
+
+I needed to switch to an rdtgroup struct pointer rather than hardware
+IDs in the task structure to indicate group membership[1], otherwise
+it's not possible to determine which tasks are in a group when it
+doesn't have a unique HW ID value.
+
+Also this is required for shared assignment so that changing a group's
+IDs in a domain only requires updating running tasks rather than
+needing to search the entire task list, which would lead to the same
+problem we encountered in mongroup rename[2].
+
+-Peter
+
+[1] https://lore.kernel.org/lkml/20240325172707.73966-5-peternewman@google.=
+com/
+[2] https://lore.kernel.org/lkml/CALPaoCh0SbG1+VbbgcxjubE7Cc2Pb6QqhG3NH6X=
+=3DWwsNfqNjtA@mail.gmail.com/
