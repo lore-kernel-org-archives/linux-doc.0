@@ -1,119 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4916018CC1D;
-	Thu, 22 May 2025 17:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1B318EFD4;
+	Thu, 22 May 2025 17:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747934448; cv=none; b=AreDKDJJqbv0y/XX40w7R1XK02GCEu4/HszTRf+j9Yf7hN0dr1LNiAOc38ekv6Rt0Q5BIT6RsMNOI/sBzBtdaPXLJxjrzbUBWK7yEiocrJ9CZx3VbyykXw1ti7w2qELHQBu4M598nC2JFsAaFhzrPAm47vAe0M/FcO/FVm2UxlI=
+	t=1747934469; cv=none; b=Or9EjEtBlTM1SJOQMphGau3lJ8DMRktPkwMSkdayiL/JrKOysU4SLf5ZEzCEbB/ux2U/qfeSFyry4AA6xRtlPFnf2+4xrCGNPNX7rwoLdmfgUdFaHAFykiMCVsWjyDXB9BXaiFlx8/F9Tt3rpE+4Jz49OmnPX1A/aMg+aWZoGN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747934448; c=relaxed/simple;
-	bh=f0XMvMxyxmQO+2lM8j8iwFTLKsVl26kGRvuGKeTW2FI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gyHmQX0vd0PIGZgmFP39WP/rP9xk9LaF6ieCw8TDDZ6yb21osWHHURjkmjbyXoOLOJ3p9Vs8Axd5+eJL1rxRpPvDJCRboz24hibjljLIuNSm9avBk7o4xikaILaVpKeDi/h3i9cX/j1TQyT/UEQltPIYd7LBJ18Yi4cFqCSeTOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dImguw1T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747934469; c=relaxed/simple;
+	bh=meBhFZpR93iGhBpH25sRiAYWI/AL3rJJZhbmq7MKvFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X1BmjSDSTwEgu6Veu5NIcT/sQaIqmL8skqHGvnmJCNwBqg7HPn0ZF+95RK82VHsgubXG+MSLXyq4nScuuffxHOUdqenNEptdgtHCJlrIlGJbpuxWFpP2wVFd3QxMhdSVrVwRlF0Lij2K14WPdHaMgKJdCg0GjxnhFm+wxL3j2oA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1BBj2FY; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dImguw1T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0759C4CEF4;
-	Thu, 22 May 2025 17:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747934447;
-	bh=f0XMvMxyxmQO+2lM8j8iwFTLKsVl26kGRvuGKeTW2FI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dImguw1T60mad+h3HSsvAIAGBZoPyTPvysg0PLKfbw7ZusucDBwWkXb/t8dv8WMOU
-	 ZZ6aAsxZ3NJaHzMeK/jILjLP3f8g/G5mfEWuPVyaHDO7YU2O0/3emWRgm3pOcU/MoM
-	 JmlGrDbi1bgSs7VKOTVEUhua/5BFdd5TCnrm1JsexjraKyYjwoxxR/waR0FmqALK7U
-	 xbqfkbyRGTquiPEsVtBNQYh/T7x6txLXkXBg1QEvdEh+0GNyr9mlk8LW4muXOp/J3t
-	 wYvzYg2cpvpsRfSGiwFDKDnCHx7VRengnDHNYN1c1iRuk7Zj09NcuXByPiXItZX38l
-	 KVc5EXz0yFjaw==
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ac34257295dso1339062266b.2;
-        Thu, 22 May 2025 10:20:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVXT1/6UD6XBHV1JonEYQL83WmOLTqSbLuSoXXgaYBLlGMDKtdWHtPOqDV39cvtHgvoVS2QCpRiAS0=@vger.kernel.org, AJvYcCVgpdCRHCeBWsPqcw4v0ko0LAS0O/yxV7mAdAKLLo15EzOWmfRZeA9i36m6ThmJBZcYaMENVugZUgwO/AfaJU6a8A==@vger.kernel.org, AJvYcCWHsSwGOiHjE6vkKn7iKwfN2UTTtLgRspCyQIPzw7DY8BzjuReaomOD5TZcV8XMMOtUH3PJ/Kn5wlhQw5HB@vger.kernel.org
-X-Gm-Message-State: AOJu0YydNwJe1+3AVpaKYlVtmtTdUIpYPn8qRTGXsZY+w8SbAmcZzGvU
-	f541O1zAvQYPeW+SG1YLN6jtQFX0yCDUZUTJJXbE8shoJIDjB/SwqzQLn0JP2cg7kDgK5JDUQ+0
-	g4HGjV1J6GOV9l5pQqDhpmNBytDqQ8A==
-X-Google-Smtp-Source: AGHT+IGAYYG+vIgGuI/ayC2uGqWgyniPCcMHhUSyeQcygsPjUjSYmhf9rYJn77siFd52fYZ5ibkezDZJq/F4ygapM/I=
-X-Received: by 2002:a17:907:3f08:b0:ad5:6939:8333 with SMTP id
- a640c23a62f3a-ad569398704mr1462923066b.37.1747934446333; Thu, 22 May 2025
- 10:20:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1BBj2FY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747934468; x=1779470468;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=meBhFZpR93iGhBpH25sRiAYWI/AL3rJJZhbmq7MKvFo=;
+  b=B1BBj2FYlIjaS5GIjWKjcg7olYvglRccdnq7hJOmWepR843Kpy4JxqNu
+   CttlBuq03GKrSKMce26Vv5LE2KbYQopnF83ZqlBXVRRoGTGDSxSGfiZMI
+   HImeTPofjQZcdbNNkuTltO08ib80DmBuAd9W+rJ+0umB0Ex0klRcef716
+   5XP9+efAd/Cy7aoBzLU0jXQK+hkmKjLUY/UtuGpNWr1FEiE3QTELMPV8s
+   5GabDiQI1wMXbN3aDU/JsC7xw1wxbvJdjqG7NVj30XeiCWeQJUEWN3unW
+   tPb0X81DknPwL00YOl6PsFdkTIZFSw9e2fYCXXG+s3tcONhzZYv9rXBPt
+   w==;
+X-CSE-ConnectionGUID: vze3mEi5S52UfzrrGky6IA==
+X-CSE-MsgGUID: 1HRR6CK3QuSvbHRQZ9Li8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="75372025"
+X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
+   d="scan'208";a="75372025"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 10:21:06 -0700
+X-CSE-ConnectionGUID: NSuJojDyQNq5mgYkId4n5g==
+X-CSE-MsgGUID: 5JD9Ntu7QxKrD9ag2JWnjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
+   d="scan'208";a="145852227"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.103.51])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 10:21:05 -0700
+Date: Thu, 22 May 2025 10:21:03 -0700
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Peter Newman <peternewman@google.com>
+Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
+	"Moger, Babu" <bmoger@amd.com>,
+	"babu.moger@amd.com" <babu.moger@amd.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"dave.martin@arm.com" <dave.martin@arm.com>,
+	"fenghuay@nvidia.com" <fenghuay@nvidia.com>,
+	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"paulmck@kernel.org" <paulmck@kernel.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"thuth@redhat.com" <thuth@redhat.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"ardb@kernel.org" <ardb@kernel.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+	"jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+	"alexandre.chartre@oracle.com" <alexandre.chartre@oracle.com>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
+	"perry.yuan@amd.com" <perry.yuan@amd.com>,
+	"seanjc@google.com" <seanjc@google.com>,
+	"Huang, Kai" <kai.huang@intel.com>,
+	"Li, Xiaoyao" <xiaoyao.li@intel.com>,
+	"kan.liang@linux.intel.com" <kan.liang@linux.intel.com>,
+	"Li, Xin3" <xin3.li@intel.com>,
+	"ebiggers@google.com" <ebiggers@google.com>,
+	"xin@zytor.com" <xin@zytor.com>,
+	"Mehta, Sohil" <sohil.mehta@intel.com>,
+	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+	"mario.limonciello@amd.com" <mario.limonciello@amd.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
+	"Eranian, Stephane" <eranian@google.com>,
+	"Xiaojian.Du@amd.com" <Xiaojian.Du@amd.com>,
+	"gautham.shenoy@amd.com" <gautham.shenoy@amd.com>
+Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+Message-ID: <aC9c_29Jz4aEtRWl@agluck-desk3>
+References: <6c77b065-a54e-4b9c-a4cf-8b81676f2ab2@amd.com>
+ <f4178258-f7ad-4db2-9284-3f28e8ee8d00@intel.com>
+ <92bcab75-72c6-46d4-97a2-119e7124c90c@amd.com>
+ <11465976-f030-4c1b-88c6-3eebf0c8f13b@intel.com>
+ <CALPaoCjTwySGX9i7uAtCWLKQpmELKP55xDLJhHmUve8ptsfFTw@mail.gmail.com>
+ <7f10fa69-d1fe-4748-b10c-fa0c9b60bd66@intel.com>
+ <aC5lL_qY00vd8qp4@agluck-desk3>
+ <a131e8ed-88b2-4fed-983b-5deea955a9a5@intel.com>
+ <SJ1PR11MB6083B627895846B8663B4805FC99A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <CALPaoCjh_NXQLtNBqei=7a6Jsr17fEnPO+kqMaNq4xNu2UPDJA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250520-arm-brbe-v19-v22-0-c1ddde38e7f8@kernel.org>
- <20250520-arm-brbe-v19-v22-2-c1ddde38e7f8@kernel.org> <aC9NhvYzajduVm7y@e133380.arm.com>
-In-Reply-To: <aC9NhvYzajduVm7y@e133380.arm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 22 May 2025 12:20:35 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKWY7rRGTbHXTmm4RC9F8fqrs133=75XFkVdm91bLHfaw@mail.gmail.com>
-X-Gm-Features: AX0GCFvVXljRLS6CQowdkTNTXjrD3dK31miPdgViETu3tYaW68KPRqx4Jf1fUa0
-Message-ID: <CAL_JsqKWY7rRGTbHXTmm4RC9F8fqrs133=75XFkVdm91bLHfaw@mail.gmail.com>
-Subject: Re: [PATCH v22 2/5] arm64: el2_setup.h: Make __init_el2_fgt labels
- consistent, again
-To: Dave Martin <Dave.Martin@arm.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	James Clark <james.clark@linaro.org>, Anshuman Khandual <anshuman.khandual@arm.com>, 
-	Leo Yan <leo.yan@arm.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALPaoCjh_NXQLtNBqei=7a6Jsr17fEnPO+kqMaNq4xNu2UPDJA@mail.gmail.com>
 
-On Thu, May 22, 2025 at 11:15=E2=80=AFAM Dave Martin <Dave.Martin@arm.com> =
-wrote:
->
-> On Tue, May 20, 2025 at 05:27:37PM -0500, Rob Herring (Arm) wrote:
-> > From: Anshuman Khandual <anshuman.khandual@arm.com>
-> >
-> > Commit 5b39db6037e7 ("arm64: el2_setup.h: Rename some labels to be more
-> > diff-friendly") reworked the labels in __init_el2_fgt to say what's
-> > skipped rather than what the target location is. The exception was
-> > "set_fgt_" which is where registers are written. In reviewing the BRBE
-> > additions, Will suggested "set_debug_fgt_" where HDFGxTR_EL2 are
-> > written. Doing that would partially revert commit 5b39db6037e7 undoing
-> > the goal of minimizing additions here, but it would follow the
-> > convention for labels where registers are written.
-> >
-> > So let's do both. Branches that skip something go to a "skip" label and
-> > places that set registers have a "set" label. This results in some
-> > double labels, but it makes things entirely consistent.
-> >
-> > While we're here, the SME skip label was incorrectly named, so fix it.
-> >
-> > Reported-by: Will Deacon <will@kernel.org>
-> > Cc: Dave Martin <Dave.Martin@arm.com>
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > ---
-> > This one can be applied even if the rest of the series is not.
-> >
-> > v22:
-> >  - New patch
-> > ---
-> >  arch/arm64/include/asm/el2_setup.h | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/as=
-m/el2_setup.h
-> > index ebceaae3c749..30f57b0334a3 100644
-> > --- a/arch/arm64/include/asm/el2_setup.h
-> > +++ b/arch/arm64/include/asm/el2_setup.h
-> > @@ -204,19 +204,21 @@
-> >       orr     x0, x0, #(1 << 62)
-> >
-> >  .Lskip_spe_fgt_\@:
-> > +
-> > +.Lset_debug_fgt_\@:
->
-> Dangling label?  There doesn't seem to be any branch to it in this
-> series, unless I've missed something.
+> > Maybe assign one of the limited supply of RMIDs for these "unmonitored"
+> > tasks. Populate a resctrl group named "unmonitored" that lists all the
+> > unmonitored tasks in a (read-only) "tasks" file. And supply all the counts
+> > for these tasks in normal looking "mon_data" directory.
+> 
+> I needed to switch to an rdtgroup struct pointer rather than hardware
+> IDs in the task structure to indicate group membership[1], otherwise
+> it's not possible to determine which tasks are in a group when it
+> doesn't have a unique HW ID value.
+> 
+> Also this is required for shared assignment so that changing a group's
+> IDs in a domain only requires updating running tasks rather than
+> needing to search the entire task list, which would lead to the same
+> problem we encountered in mongroup rename[2].
 
-I tried to explain that in the commit message. To have both what you
-wanted and what Will suggested, you end up with 2 labels in between
-the last skip and setting registers.
+Having a pointer to the rdtgroup in the task structure does make
+file system operations easier. But the cost appears to be more
+complexity (and memory references) in the context switch code.
 
-Rob
+Your patch[1] seems to do some extra work outside of the static_branch
+protected sections. So has a cost to context switch even if resctrl
+is not in use.
+
+Chasing pointers "closid = rgrp->mon.parent->closid;" could be
+expensive when those miss in the cache.
+
+> 
+> -Peter
+> 
+> [1] https://lore.kernel.org/lkml/20240325172707.73966-5-peternewman@google.com/
+> [2] https://lore.kernel.org/lkml/CALPaoCh0SbG1+VbbgcxjubE7Cc2Pb6QqhG3NH6X=WwsNfqNjtA@mail.gmail.com/
+
+-Tony
