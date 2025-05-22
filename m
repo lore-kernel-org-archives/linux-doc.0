@@ -1,157 +1,239 @@
-Received: from mail.nightmared.fr (mail.nightmared.fr [51.158.148.24])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C907B27C869;
-	Thu, 22 May 2025 08:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.158.148.24
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFBF2222AA
+	for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 09:14:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747904245; cv=none; b=caYe0Ue5mYyD5MBKeS1kZXftKOs71m8skGELY9ruYW0viHKIsdly1GU4NBs1ChQ2ndOFotrmYutnDw1OcnHkSV5jFqvBmhNAMDFiZAuVeOWVCpOHldyYCYw+NKpPnsmtnNc4JoWuHLDEvFl5t6/6hTsoBS5PfDBGkOxVy4O5jmA=
+	t=1747905292; cv=none; b=mQVbLezYzmyqY38wD4UK0zHnIXzG85NesaSnRSQLRg7+ApUrIQxkzHk4+SxB3kuMm+56EfjZS1/0EmAkfw9BlA8YR7lShW3atgojynsvZuaHKNCj3aX3lY3mkAUdQEQ2IxtGXG1hno9X+PMJuGN5B9//ukQCXlvl7FSobSdI/f0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747904245; c=relaxed/simple;
-	bh=brniH7v+gBzA6HHT54dvM9BL5QJ1ugLgjVvnfc0BXPQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Iixq+QkybybgNODZumgalsVobi28t/lVObVwYqsWuH3l5/s5o4oMB9HJ3Xls/RcXwu474kqgG8kiG/0ZxRBWUg8Birx0mpEFVt3ECO3pT7MSJoT6fpUUIeVRkvEHZ4oejD7mQfQldtqKlD9Cs3IZK/SgxChShzxW8r1+VJRuQao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nightmared.fr; spf=pass smtp.mailfrom=nightmared.fr; dkim=pass (2048-bit key) header.d=nightmared.fr header.i=@nightmared.fr header.b=VSitrMbB; arc=none smtp.client-ip=51.158.148.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nightmared.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nightmared.fr
+	s=arc-20240116; t=1747905292; c=relaxed/simple;
+	bh=yPEzhJ1VGkWekJKIK5gnTTnrZRwjQc9hAl5EQLOHkTk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=awspWh0cUpGYao9ujRtrLv9SRF0rifsAjDzzzVbjF6pavBcleSCCECELB6TOosu3Tmrc21LsqsDIyVBWRE7ly9g9le99PqDIvkDSXO9l05hfULnGi42c1C1gdvQo/5RdFKdEbZx1XYPBxXuEOP12zMocw7h/eNUa9k3R8tZtHjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l9hrgqoD; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nightmared.fr header.i=@nightmared.fr header.b="VSitrMbB"
-Received: from [10.5.1.10] (atoulon-651-1-170-218.w83-113.abo.wanadoo.fr [83.113.65.218])
-	by mail.nightmared.fr (Postfix) with ESMTPSA id DF5AA1085270;
-	Thu, 22 May 2025 08:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nightmared.fr;
-	s=docker; t=1747904239;
-	bh=brniH7v+gBzA6HHT54dvM9BL5QJ1ugLgjVvnfc0BXPQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VSitrMbBYMgwuDW6QfnwldB4YRoStylRSII/Rc2hgKXik82GAvZacpAIa1kS6OW6x
-	 rxWmaxeHNb4C9q39Ac0gthXq4N/9X2U/ACTMAvoxg12QnXxqjcO5crTwCEPn0GeMSj
-	 p/7qT3Iq7wjQEBupg5TQZL7bfgL3KZIhqJUnn1Jq+o0rG9upkyJMKuESoRlHyRoFLr
-	 ATK8mR4WF35F2Z1Fd6E9UQyv/qjp1F1MoXgVKwrn642akmfZ9nyjQqo6RYlNrJpfsH
-	 AGB3RTi7ps/6ce4OPcluwlAMfYb5RzWGcUt3xJ4AI2eYofWQnXDM1zSSXNAnqczLkw
-	 50YwmzPD8yi4A==
-Message-ID: <784fa662-9104-4d8a-9b68-7edc90a8affe@nightmared.fr>
-Date: Thu, 22 May 2025 10:57:18 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l9hrgqoD"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac34257295dso1230367066b.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 02:14:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747905289; x=1748510089; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yPEzhJ1VGkWekJKIK5gnTTnrZRwjQc9hAl5EQLOHkTk=;
+        b=l9hrgqoDCR/uPi5gMQ6hFvfWYuuz1IOtSGkIiw9D4xvhaS6wb4vaON1bEmY6pGEKVE
+         Zi8ofg4ZqJIMVbNQJNrXEe7rhCLDWfe42Lwu2fksLS6MuHVL1XV3pkskB6xDjfebH1qs
+         /cwboMBbxwPcpNtD+EyyzYj+Kzu5iEBHa4WKxpsk+yYc9APKwxsGmy0gSKKYJ3i8y7PF
+         BZH5bs+nKx5+wOcRnf5Me9/uLEdRbqs9O+H9hDPeMreCdNv7G6g1eXeGkxnE1edI2xLh
+         qanVx4Gv6zwlh4sPiVWLHVrmKCfl6YyWY+SCG4p8bzG4vK9WoymZIWgibRzbEuU0BGgd
+         57fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747905289; x=1748510089;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yPEzhJ1VGkWekJKIK5gnTTnrZRwjQc9hAl5EQLOHkTk=;
+        b=mv75+UwF37yZ+4h6RCrVjkyMAxmQcC2S9RNfbLid6LtbM7gEuQ3V79i0k/niFcu1ZP
+         wUyVSQQ/qdYoeZ8HpYS980NzSRts/DbeCvzOdcm+3p8v2EFz+iy4D3oGpyetD10QWYr5
+         glRYvXUmG+VQ8YS6+tSgyCNqiKtNOlTa717s0fnaiH5sCKtD8JFhweB3DQnXExIYEBlL
+         DpN2wIuAWhIwe+/6DNTLeGnMNLlv360g1hnqWqYRYPjD/uE+jwR3HR7pU/LjW51BfuE2
+         oNmxbwy+Zf9oAhdEM5+DwQrgYVRvJ3rV9KHl9bGgXkUUkGumkopieVQ5XodwyHc4TvYH
+         xG0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVolTze+Yu9U/+4GmJbd5wWXkcY6+rzoglR+w+8Nv7uE/akVz2xm8swI8/Kzr1ZG3zSN3EVx6YKm2w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7bnozlM2rOTodyLcb6WCx4LRlIH8zQVNaFXdjkFzIaF1EXyYT
+	zJ7N6exXcAY4XfYWbt1CK46man+CSJ3pbWOSEwEaXzmOuvRTndcmvXjsaFvXU983KjrjZaTx4hh
+	DG2gVt0VK8GUV5Ra0SCU780sRB2gM0FFm+TlU5/rp
+X-Gm-Gg: ASbGncsoPeC30lf3BEJzqRpOEllgG1xPqBxQONm+NT7bFXzAbrjWSUukjtG5v4cPIfH
+	OvTR9jv5mbH2cYu6bGpW6id9lIbC0Bf1CZ7Dl1fZKd2l07Vaf/J/Xwwi1Ys8s3krlf6WOUqBIkJ
+	b7xxbr315lOYArikMuif6u3om8row1szut9eHSV28Y24Rs6LueVtD+QoZhe4aYjQtXICpOVUwQo
+	NHkGufTYvYy
+X-Google-Smtp-Source: AGHT+IFDa3ewC071iRmLXF9aFjT5k5BIB7bxRZo61X7gO695TNiEGA8zwKr0nYWn60rHu8vGzkU0kNIAKD8PvXdbuGc=
+X-Received: by 2002:a17:907:1b18:b0:ad2:532e:abe9 with SMTP id
+ a640c23a62f3a-ad52d4383camr2148091866b.1.1747905289173; Thu, 22 May 2025
+ 02:14:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/9] LSM: Introduce a new hook:
- security_kernel_module_load
-To: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250521140121.591482-1-git@nightmared.fr>
- <20250521140121.591482-2-git@nightmared.fr>
- <20250521220349.GA22189@mail.hallyn.com>
-Content-Language: en-US
-From: Simon Thoby <git@nightmared.fr>
-In-Reply-To: <20250521220349.GA22189@mail.hallyn.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1747349530.git.babu.moger@amd.com> <CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com>
+ <4dbcea13-382e-4af2-960d-0e66652cc2f5@amd.com> <8dd6e3a0-b2e1-48a7-8fa4-62e78b1407ae@intel.com>
+ <6c77b065-a54e-4b9c-a4cf-8b81676f2ab2@amd.com> <f4178258-f7ad-4db2-9284-3f28e8ee8d00@intel.com>
+ <92bcab75-72c6-46d4-97a2-119e7124c90c@amd.com> <11465976-f030-4c1b-88c6-3eebf0c8f13b@intel.com>
+ <CALPaoCgtcz6tZnmeH8v4r2=HRVh7qEDZgraLU+Euhq3qLkRZhA@mail.gmail.com> <31aec24f-b3df-4a8a-910d-6df175962e84@intel.com>
+In-Reply-To: <31aec24f-b3df-4a8a-910d-6df175962e84@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Thu, 22 May 2025 11:14:38 +0200
+X-Gm-Features: AX0GCFvcrUtKEQVNxrFeDbCvjPcbo2oRBH8TH0Kp3zXiwMns9-LC25AqGG6bkxw
+Message-ID: <CALPaoCj438UfH3QA_VnGo-pj2a_48sJufUWjBKT3MQatcMJ_Uw@mail.gmail.com>
+Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Moger, Babu" <bmoger@amd.com>, babu.moger@amd.com, corbet@lwn.net, tony.luck@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, james.morse@arm.com, dave.martin@arm.com, 
+	fenghuay@nvidia.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, 
+	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org, 
+	ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com, 
+	jpoimboe@kernel.org, alexandre.chartre@oracle.com, 
+	pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com, 
+	perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com, 
+	xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com, 
+	ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com, 
+	andrew.cooper3@citrix.com, mario.limonciello@amd.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, eranian@google.com, Xiaojian.Du@amd.com, 
+	gautham.shenoy@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Reinette,
 
+On Thu, May 22, 2025 at 1:05=E2=80=AFAM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi Peter,
+>
+> On 5/21/25 7:27 AM, Peter Newman wrote:
+> > On Wed, May 21, 2025 at 1:44=E2=80=AFAM Reinette Chatre
+> > <reinette.chatre@intel.com> wrote:
+> >> On 5/20/25 4:25 PM, Moger, Babu wrote:
+>
+> ...
+> >>>
+> >>> Here=E2=80=99s my current understanding of soft-ABMC. Peter may have =
+a more in-depth perspective on this.
+> >>>
+> >>> Soft-ABMC:
+> >>> a. num_mbm_cntrs: This is a software-defined limit based on the numbe=
+r of active RMIDs that can be supported. The value can be obtained using th=
+e code referenced in [4].
+> >>>
+> >>> b. Assignments: No hardware configuration is required. We simply need=
+ to ensure that no more than num_mbm_cntrs RMIDs are active at any given ti=
+me.
+> >>>
+> >>> c. Configuration: Controlled via /info/L3_MON/mbm_total_bytes_config =
+and mbm_local_bytes_config.
+> >>>
+> >>> d. Events: Only two events can be assigned(local and total).
+> >>>
+> >>> ABMC:
+> >>> a. num_mbm_cntrs: This is defined by the hardware.
+> >>> b. Assignments: Requires special MSR writes to assign counters.
+> >>> c. Configuration: Comes from /info/L3_MON/counter_configs/.
+> >>> d. Events: More than two events can be assigned to a group (currently=
+ up to 2).
+> >>>
+> >>> Commonalities:
+> >>> a. Assignments can be either exclusive or shared in both these modes.
+> >>>
+> >>> Given these, I believe we can easily accommodate soft-ABMC in this in=
+terface.
+> >>
+> >> This is not so obvious to me. It looks to me as though the user is for=
+ced to interpret
+> >> the content of resctrl files differently based on soft-ABMC vs ABMC ma=
+king the interface
+> >> inconsistent and user thus needing to know details of implementations.=
+ This is what the previous
+> >> discussion I linked to aimed to address. It sounds to me as though you=
+ believe that this is no longer
+> >> an issue. Could you please show examples of what a user can expect fro=
+m the interfaces and how a user
+> >> will interact with the interfaces on both a non-ABMC and ABMC system?
+> >
+> > At the interface level, I think mbm_L3_assignments on a non-ABMC
+> > system would only need to contain a single line:
+> >
+> > 0=3Ds;1=3Ds;...;31=3Ds
+>
+> It should be obvious to user space how to interpret the fields. When ther=
+e is
+> thus a single "mbm_cntr_assign" mode used for ABMC and soft-ABMC a single
+> line like this would be difficult to parse since that would imply/require
+> that user space knows whether it is running on ABMC or soft-ABMC system,
+> which we should avoid.
+>
+> If there are different modes, for example "mbm_cntr_event_assign" and
+> "mbm_cntr_group_assign" then this could be used by user space to distingu=
+ish
+> how to interact with mbm_L3_assignments making something like this possib=
+le.
 
-On 5/22/25 00:03, Serge E. Hallyn wrote:
-> On Wed, May 21, 2025 at 04:01:05PM +0200, Simon THOBY wrote:
->> Introduce a new hook to allow LSMs to decide whether to block the load
->> of a kernel module.
->>
->> Two hooks already exist:
->> - kernel_module_request is called when the kernel itself (not userspace)
->>  request the load of a module, e.g. because a device was detected.
->>  - security_kernel_load_data(LOADING_MODULE) is called when userspace calls
->>  init_module/finit_module, but lack information about the module because
->>  its  headers have not been loaded into kernel space, let alone parsed.
->>  This may not be sufficient for some LSMs.
->>
->> This new hook is similar to security_kernel_load_data(LOADING_MODULE),
->> but called after the module signature and header are verified, and only
->> takes the module name for now.
->>
->> Signed-off-by: Simon THOBY <git@nightmared.fr>
->> ---
->>  include/linux/lsm_hook_defs.h |  1 +
->>  include/linux/module.h        |  1 +
->>  include/linux/security.h      |  6 ++++++
->>  kernel/module/main.c          |  4 ++++
->>  security/security.c           | 14 ++++++++++++++
->>  5 files changed, 26 insertions(+)
->>
->> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
->> index bf3bbac4e02a..51c5212d8bb6 100644
->> --- a/include/linux/lsm_hook_defs.h
->> +++ b/include/linux/lsm_hook_defs.h
->> @@ -223,6 +223,7 @@ LSM_HOOK(void, LSM_RET_VOID, cred_getlsmprop, const struct cred *c,
->>  LSM_HOOK(int, 0, kernel_act_as, struct cred *new, u32 secid)
->>  LSM_HOOK(int, 0, kernel_create_files_as, struct cred *new, struct inode *inode)
->>  LSM_HOOK(int, 0, kernel_module_request, char *kmod_name)
->> +LSM_HOOK(int, 0, kernel_module_load, const char *kmod_name)
->>  LSM_HOOK(int, 0, kernel_load_data, enum kernel_load_data_id id, bool contents)
->>  LSM_HOOK(int, 0, kernel_post_load_data, char *buf, loff_t size,
->>  	 enum kernel_load_data_id id, char *description)
->> diff --git a/include/linux/module.h b/include/linux/module.h
->> index 8050f77c3b64..b6b8d6f7f599 100644
->> --- a/include/linux/module.h
->> +++ b/include/linux/module.h
->> @@ -39,6 +39,7 @@ struct modversion_info {
->>  	char name[MODULE_NAME_LEN];
->>  };
->>  
->> +struct load_info;
->>  struct module;
->>  struct exception_table_entry;
->>  
->> diff --git a/include/linux/security.h b/include/linux/security.h
->> index cc9b54d95d22..e175b2cc8caf 100644
->> --- a/include/linux/security.h
->> +++ b/include/linux/security.h
->> @@ -498,6 +498,7 @@ void security_cred_getlsmprop(const struct cred *c, struct lsm_prop *prop);
->>  int security_kernel_act_as(struct cred *new, u32 secid);
->>  int security_kernel_create_files_as(struct cred *new, struct inode *inode);
->>  int security_kernel_module_request(char *kmod_name);
->> +int security_kernel_module_load(const char *kmod_name);
->>  int security_kernel_load_data(enum kernel_load_data_id id, bool contents);
->>  int security_kernel_post_load_data(char *buf, loff_t size,
->>  				   enum kernel_load_data_id id,
->> @@ -1255,6 +1256,11 @@ static inline int security_kernel_module_request(char *kmod_name)
->>  	return 0;
->>  }
->>  
->> +static inline int security_kernel_module_load(const char *kmod_name)
->> +{
->> +	return 0;
->> +}
->> +
->>  static inline int security_kernel_load_data(enum kernel_load_data_id id, bool contents)
->>  {
->>  	return 0;
->> diff --git a/kernel/module/main.c b/kernel/module/main.c
->> index a2859dc3eea6..12a1a5f4d823 100644
->> --- a/kernel/module/main.c
->> +++ b/kernel/module/main.c
->> @@ -3228,6 +3228,10 @@ static int early_mod_check(struct load_info *info, int flags)
->>  		return -EPERM;
->>  	}
->>  
->> +	err = security_kernel_module_load(info->name);
-> 
-> Would it be more useful to pass in the whole info struct?
-> 
+I meant to say I was proposing the format of this file when in the
+group assignment mode. I didn't mean to imply that a separate mode
+wasn't needed.
 
-I thought about that, but was afraid the LSM hook is still called very early in
-the boot process. I though the 'struct load_info' was only partially populated,
-but upon further checking, you're right, and most fields of the structure were
-already setup by the time the hook is called:
-- len, hdr in the copy_module_from_user function
-- sig_ok in module_sig_check
-- sechdrs, secstrings, index, strtab and name in elf_validity_cache_copy
+>
+> >
+> > But maybe for consistency we would synthesize a single, unmodifiable
+> > counter configuration to reflect that allocating an RMID in a domain
+> > results in assignment to all events and deallocating the RMID
+> > unassigns all events. We could call it "group" to say it's assigning
+> > at the group level, or perhaps just '*':
+> >
+> > *:0=3Ds;1=3Ds;...;31=3Ds
+> >
+> > I'm not sure about allowing a '*' on ABMC hardware, because it could
+> > be interpreted as allocating a lot of counters when a large number of
+> > event configurations exist.
+> >
+> > *:0=3Ds;1=3Ds;...;31=3Ds
+> >
+>
+> Either could work also. Whether it is "group" or "*" ABMC systems could
+> respond with "not supported". Will think about this more but would
+> like to hear your opinion about the flexibility that distinguishing betwe=
+en
+> a "mbm_cntr_event_assign" and "mbm_cntr_group_assign" mode provides.
 
-So I could definitely pass in the info struct instead.
+I agree it's clearer when they are separate modes. Between "*" and
+"group", I prefer "group" because it seems the least ambiguous.
 
-On that note, I wonder if I should move 'struct load_info' out of kernel/module/internal.h,
-because I'm fairly certain we don't want to have linux/security.h depending on an internal
-header file from the module subsystem.
+I just want to make sure we'd never want both modes at the same time,
+such as an implementation with both a small number of monitoring IDs
+and a small number of MBM counters. I support one MPAM implementation
+that has a small number of PARTIDs and only one MBWU counter per
+domain. Fingers crossed that the number of PARTIDs it supports isn't
+small compared to the number of jobs we would run on it. Otherwise
+maybe it will work out to just pick the more limited of the two
+(monitor IDs or counters) and make allocation of one drive the other.
 
-<snip>
+(In case you read this before my earlier reply[1], see the note about
+rdtgroup pointers in the task_struct, as this is a prerequisite for
+overcommitting HW monitor IDs.)
 
+Thanks,
+-Peter
+
+[1] https://lore.kernel.org/lkml/CALPaoCjh_NXQLtNBqei=3D7a6Jsr17fEnPO+kqMaN=
+q4xNu2UPDJA@mail.gmail.com/
+
+>
+> Reinette
+>
+> > -Peter
+> >
+> >
+> >>
+> >> Thank you
+> >>
+> >> Reinette
+> >>
+> >>>
+> >>>>>>
+> >>>>>> [2] https://lore.kernel.org/lkml/afb99efe-0de2-f7ad-d0b8-f2a0ea998=
+efd@amd.com/
+> >>>>>> [3] https://lore.kernel.org/lkml/CALPaoCg3KpF94g2MEmfP_Ro2mQZYFA8s=
+KVkmb+7isotKNgdY9A@mail.gmail.com/
+> >>>>>
+> >>>>
+> >>>>
+> >>>
+> >>
+>
