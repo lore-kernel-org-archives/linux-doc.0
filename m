@@ -1,98 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82EF19ABDE;
-	Thu, 22 May 2025 09:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129153C38;
+	Thu, 22 May 2025 09:56:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747907239; cv=none; b=ii/kC/O3SG9Nj0gRs0+HwvBzmaBPa5VaxEq00c7jqpECC+9wyoXDXlol7XGQNhylpiAR/3juvSZtUIFajBpB9TVssu/UN1KqDrCPfhquMq74PvOFwHSPi+7YBFNteZkBRKSRAxHIVo/GkLx7wCRHVLJqYfg/Q1irc9+wRTHzSVM=
+	t=1747907796; cv=none; b=ipHVCThUlg2XUcE7yqOmKp+TOlMKCb49rHI9l5d7buNsqC8UsviF6L1cDMUlz8MtUCEIEog8mZOayPC5SKZP3e2mVzZoUAlkxlB2kzCdBfSN9Y9n5UMN48KUecCGv3zETkzGc0mg3vihMpSVk2MZPlWLuyuWIk9b1q3iPRS5cuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747907239; c=relaxed/simple;
-	bh=wPk4ppqhqv2VPlVT26EM2PkHrNSLSJCeGnRWlxBg7Rk=;
+	s=arc-20240116; t=1747907796; c=relaxed/simple;
+	bh=l+UBCZ90uofbpfwu3YkJzh8e5MpIZHy9Wgl4VOlqqQ8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k3NbAkf4yTW0S111Jm4XobjpGCkwtcTzpvXXQIf8isGezXtAuwaGfMF1LLIGJjcnZFvIH53vDWgtXM2r7Op42AFeNKhYpeauN7EM4EpmYo4PgAeBXXfWLUBwO5a18r01VS7JSmecsmDe6sFno3BFASFR3lDWb8+7U9N6FhlWHdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FCIR5Zow; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=uDBf+lfVdHRyiPxybkixwWfyNwWd6uvef5b4bOsrUCn11uiF+C2dB7ogwqQAPwi+/jg/u7qrF6d54X23hw3uVG87cSCqfC9OSESZRwxcw1iSnPkHFabQaecNQaHW6/u7Jjnm5WnLBe1JLBS43WOZt7ha/1orFF3Jg2crbxbiEjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sOGhBB7A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FCIR5Zow"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CAC2C4CEE4;
-	Thu, 22 May 2025 09:47:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sOGhBB7A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74330C4CEE4;
+	Thu, 22 May 2025 09:56:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747907237;
-	bh=wPk4ppqhqv2VPlVT26EM2PkHrNSLSJCeGnRWlxBg7Rk=;
+	s=k20201202; t=1747907794;
+	bh=l+UBCZ90uofbpfwu3YkJzh8e5MpIZHy9Wgl4VOlqqQ8=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FCIR5ZowXZABtr+GqkpGFt4VxzB/wqaf2T8kdnoTKbL9IHDlFogYClH3XneW86das
-	 E72mm1uKBFyTyp8LOWFXdrcJvjL+nfZEg/V4NY9jfRmLlZ/J2byM0me5SNYuIWTRpn
-	 jt2Of3S3fh+CSuV10FF5PGpWacglQBKkFZEQaug/PdZBKn+FKGOB8zr5P+lx5QiMuX
-	 GgVH9zePHbmZ5uPU22XxlXr68TOjLoV55UMz1/NhHmO0HVxJECVwjIfa0M3BlwNfW6
-	 70jOhcLggwk0BrLHrbjKJh/kQHJalyX8zIi2pncbbFqhl/6IPVnqhRA7SKt2OjKWIi
-	 HMs82u5f4nrPQ==
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3f8ae3ed8f4so5005190b6e.3;
-        Thu, 22 May 2025 02:47:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWAurBNXusr889NPPPrFdLZoa9iRiwj6IHY3XWTonzRcfXpgMhj8TN0utMpZDzf3yuKvru20UQlIOg=@vger.kernel.org, AJvYcCWJh/Re0K0m+NVWP4r6AnzBz3ud4dT0nMURB9g4hLcHZE2cv7GWrWkFdiDEs05oVCwVk5f6IUqq/kMsWVq3@vger.kernel.org, AJvYcCWe0Dw91dwiWKKqeLL0uXVz1HyjjMHNI0v8nyzqyBAejI2UbzqLiBk0vbsinbFLiRBhn2oNTbEgbgY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmFTIkN1DmYsm5g84lWEMhYZsWsJkDfno9XZGaIooF6ivHIl4W
-	rmskHtwgNEbPz8UBdDsB0G4p51/t3Hd/PhZZ2D72DeQ0oMnvD9SbZq9rFe8+JO6Mclwh0rD/nKf
-	+IabsLrDZ/Vahq+nug6XVpKjB4jWI2+4=
-X-Google-Smtp-Source: AGHT+IHqj6QSMl9Aw2ToZVsCr3PhfufkcskyUJbk05OX0Q2RQ3/40Slrwh7uo0rEXdISL7J7PqeZOJVJKZNg9Y4Glqg=
-X-Received: by 2002:a05:6808:338a:b0:3f6:a9d4:b7e4 with SMTP id
- 5614622812f47-404d86f3f18mr16853920b6e.20.1747907236480; Thu, 22 May 2025
- 02:47:16 -0700 (PDT)
+	b=sOGhBB7AyYSHlj7s2xcnLFewRhTps5gnKReHSzWTEv8zi3E98oOyS9oyoqLK62vRu
+	 jyy8rRfgpQAnXZ9HZ7zBzmKaeTZjRs229VPnKLG4KGH5kysl1/rf2OAQs9qmZF0P6Y
+	 7BfzEdsSSvIYATjrOFYUAizciWlFftbXCaGf7zk5RFEJBhbf6KOBqoJkUoHPjBEWwQ
+	 TCmW1vWkXLUI3xdgV8BIgDkmwzXtewI7CU144XoA371TaF9OepfCpmvBtVWDh/2/Hq
+	 kdHh0ZgNC8DOm2qQQDUmgkDCff9h+jbflCaglp92F4i7Drkub1MdLT9sZ6g8QDSBId
+	 gN/o3tp9TnZ0Q==
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-604f0d27c24so4082080eaf.2;
+        Thu, 22 May 2025 02:56:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUWUfWuPSb0mbGJJmzPD+HZTF5QDVVNbmuiV5jyc4IOt5S/O77zDTrU56WFueqTG+el3mA5n54ovlc=@vger.kernel.org, AJvYcCV1CNCVHuuhTGkP7wH0Bic1//mbV0OXRimpjDDLZQnZfB9pROJyPXbZ9fFm013XyEBHlw6MyawSJMQ=@vger.kernel.org, AJvYcCVBF9KMq/Lj59JBfxHM/0b8It6hJO75ecWY863rp1x26BBbrLGOhhYQbz2KZbCgJG32OtwHCcL7Kf34kqWv@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCrT4x94uWNozXSS2WduA4Gu9wg7Vre62mH/Rkl3nkrSSxfck0
+	E/FAfAQp6lWnE+vioOujvx6BCkuG5ghjHhGam3KTEA8oDBf29r7NtthpOla+0z3z/R4HxShth/C
+	AIQOROsAd3Wr5xetxisSwFwDCLEHQsMQ=
+X-Google-Smtp-Source: AGHT+IFDlauQgvFUHi7zRroxnG0JT5GL+TEEToKRpHxNLwLE2g/bn421wTKa1Lj6BeKs24deqdV/eZDC+3zwVRMva/k=
+X-Received: by 2002:a4a:ec49:0:b0:607:dd61:9c33 with SMTP id
+ 006d021491bc7-609f48646b0mr13509442eaf.1.1747907793770; Thu, 22 May 2025
+ 02:56:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com> <15871c67-0d18-430f-935e-261b2cda855b@gmail.com>
-In-Reply-To: <15871c67-0d18-430f-935e-261b2cda855b@gmail.com>
+References: <20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com>
+ <15871c67-0d18-430f-935e-261b2cda855b@gmail.com> <aC7yeQvKVQ1No9EW@JPC00244420>
+In-Reply-To: <aC7yeQvKVQ1No9EW@JPC00244420>
 From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 22 May 2025 11:47:04 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gz3Y+RGqBf9E1hzq9rwfrryd98Xpk51DtLd-uck5y-rw@mail.gmail.com>
-X-Gm-Features: AX0GCFuEkuL_MNkf6jCc8Tj-u2AdKArucmRgg0Lk2TB1xeDhvOGntl8-Xw66Wng
-Message-ID: <CAJZ5v0gz3Y+RGqBf9E1hzq9rwfrryd98Xpk51DtLd-uck5y-rw@mail.gmail.com>
+Date: Thu, 22 May 2025 11:56:22 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0i6i6xt5-QOU2r0MDxR+7aOXYBUJ4kkJFQg6+RekayTNQ@mail.gmail.com>
+X-Gm-Features: AX0GCFuDeg96kru4SyCumlyfA3Q7mWIK4DCxHnyPBE6HaK68vl43j7pxhzrRxqk
+Message-ID: <CAJZ5v0i6i6xt5-QOU2r0MDxR+7aOXYBUJ4kkJFQg6+RekayTNQ@mail.gmail.com>
 Subject: Re: [PATCH] cpufreq, docs: (userspace governor) add that actual freq
  is >= scaling_setspeed
-To: Russell Haley <yumpusamongus@gmail.com>
-Cc: Shashank Balaji <shashank.mahadasyam@sony.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+To: Shashank Balaji <shashank.mahadasyam@sony.com>
+Cc: Russell Haley <yumpusamongus@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Shinya Takumi <shinya.takumi@sony.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 22, 2025 at 10:51=E2=80=AFAM Russell Haley <yumpusamongus@gmail=
-.com> wrote:
+On Thu, May 22, 2025 at 11:46=E2=80=AFAM Shashank Balaji
+<shashank.mahadasyam@sony.com> wrote:
 >
+> Hi Russell,
 >
-> On 5/22/25 3:05 AM, Shashank Balaji wrote:
-> > The userspace governor does not have the CPUFREQ_GOV_STRICT_TARGET flag=
-, which
-> > means the requested frequency may not strictly be followed. This is tru=
-e in the
-> > case of the intel_pstate driver with HWP enabled. When programming the
-> > HWP_REQUEST MSR, the min_perf is set to `scaling_setspeed`, and the max=
-_perf
-> > is set to the policy's max. So, the hardware is free to increase the fr=
-equency
-> > beyond the requested frequency.
-> >
-> > This behaviour can be slightly surprising, given the current wording "a=
-llows
-> > userspace to set the CPU frequency". Hence, document this.
-> >
+> On Thu, May 22, 2025 at 03:50:55AM -0500, Russell Haley wrote:
+> > If the user asks for the frequency to be set from userspace, the
+> > frequency had damn well better be set from userspace.
 >
-> In my opinion, the documentation is correct, and it is the
-> implementation in intel_pstate that is wrong. If the user wanted two
-> separate knobs that control the minimum and maximum frequencies, they
-> could leave intel_pstate in "active" mode and change scaling_min_freq
-> and scaling_max_freq.
->
-> If the user asks for the frequency to be set from userspace, the
-> frequency had damn well better be set from userspace.
+> First of all, I agree with you. In fact, before sending this patch, I
+> was considering adding CPUFREQ_GOV_STRICT_TARGET to the userspace
+> governor. intel_pstate should handle the rest of it.
 
-The userspace governor requests a frequency between policy->min and
-policy->max on behalf of user space.  In intel_pstate this translates
-to setting DESIRED_PERF to the requested value which is also the case
-for the other governors.
+This wouldn't work the way you expect, though.  It would cause the
+driver to always set the frequency to policy->max.
 
-There is no guarantee that the request will be granted by the
-hardware, either way.
+> > In my opinion, the documentation is correct, and it is the
+> > implementation in intel_pstate that is wrong. If the user wanted two
+> > separate knobs that control the minimum and maximum frequencies, they
+> > could leave intel_pstate in "active" mode and change scaling_min_freq
+> > and scaling_max_freq.
+>
+> If intel_pstate is left in "active" mode, then userspace can't use any
+> of the other governors. Moreover, intel_pstate's min and max frequencies
+> apply to all the cpus.
+
+That's not true.
+
+scaling_min_freq and scaling_max_freq is per CPU, but the values from
+there are subject to hardware coordination.
+
+> Whereas, the userspace governor can be set on a per-cpu basis.
+
+This is also subject to hardware coordination.
+
+> Let's say this is "fixed" by adding CPUFREQ_GOV_STRICT_TARGET flag to
+> the userspace governor. Then userspace has no way to get back the
+> current behavior where the hardware automagically increases frequency
+> beyond the target frequency. At least not without a new interface.
+>
+> With the current behaviour, userspace can have it both ways:
+>     - actual frequency =3D target frequency
+>     - actual frequency >=3D target frequency
+>
+> And the occasional higher frequency shouldn't hurt performance, right?
+> But if they still want exact equality, with the current interface, they
+> can do that too.
+>
+> This consideration is what led me to document the "actual freq >=3D targe=
+t
+> freq" rather than patch it so that "actual freq =3D target freq".
+
+The documentation can be adjusted by replacing "set" with "request" in
+the userspace governor description and adding a clarification to it
+that the requested frequency is between the policy min and max levels.
+
+With HWP enabled, the closest to setting the frequency to a specific
+value one can get is by setting scaling_min_freq and scaling_max_freq
+to that value.
