@@ -1,137 +1,188 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E40C3234;
-	Thu, 22 May 2025 07:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7D8221F0C;
+	Thu, 22 May 2025 07:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747899239; cv=none; b=b66au5RPCMgE5UeGUTSnEQKA8kVD80ee5cGVJqU5xCH1SRF0w6jXESPsHhdun/x/R/Ow8PZaE/MBFKJBRIW2+7nA8y8nkpd2mjYiiG7m7QjMvtc3pguy09FCGGnT9XDlB0iUvVAU169RcdxUYOH9lykCCSFafGCq+15frLPX4F4=
+	t=1747899549; cv=none; b=tpb7Bcwvp9EXBPkULeysmcpU2EhbjyWF8WCR9EHXxUdF0QIKdaB0eRO40L1N2M9RkX2nnbe9hXME0FrgAchfj3eh4Y5hx+kEkW0Mxv7B32Q2xjKf1XvYEOV45DRSCyiJtsWuUI398HP9WF9k31rwsS9K5t5OaugoO2Z85qKvdTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747899239; c=relaxed/simple;
-	bh=afyt6vYfbzReFuh6xX3pKfOpek+1H61IQUVeBZj8jEM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eXypGXYQt+r/qfnmoqyO6424xK/GDIv1zLLEwLju0c8Kot9nGA/CymLCs6LgcJTz2ECZMaqUFIQClGfKqcuo5N9bCd8dsrPHd3dk81ZzSDYQ6WxjXiq/N2AiDqJWE9bbQU/E3j/aqmGRsrSl8/1hR7dxCN+IXT/qSQlSSf+d728=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5242f137a1eso2377987e0c.1;
-        Thu, 22 May 2025 00:33:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747899235; x=1748504035;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X7KW42M2nPHRBzgnk6YsRbRV24Eym9REz3RjLED1wag=;
-        b=I1OExxbLDyUAkVZhhoEZyCilMQkquKKGH+LI/QJArc5rQWkQSVx8AXYeGWxNkTb5oy
-         jQgFQyNjQc0D+J7yQui+1/D12E1+azdMWI+PDsFJr2X1+I+sXPIiOQvh6OhyC6dXOHZp
-         4vloLPdrzcBZQqqZbPtmnSD9aB7p6YV4XFoyGM7LSPyzDE7liZ21FhMjSp7oPCWYkQYC
-         8sJpbhW1wYJpVA8xOdAt3AnnmT5UtZAeb1TP0uX0opSiTPjLOcXfDmxIKvhLicVBR2SP
-         apxX3QKoxjibfj9LTFgMRMnciHSo9/tSo0x++9lsJRlqicLaa69mJQ8S/UHfIh+U3vNp
-         OsZw==
-X-Forwarded-Encrypted: i=1; AJvYcCWw7CsoLgcnJanHlpOs2YWXm2n1pOYOVvfTDUOkW1xAQZFj52fWFGEcWVoX+76DgQet5KCte6Ip@vger.kernel.org, AJvYcCX2dBlsx+hu7I6nDDCCzgXiVm4yll+BbuAEL90dHP5kKWyjzE2XuYKtiuppjHOAc374tbj/TYrsL7Y=@vger.kernel.org, AJvYcCXgJkzdDfR9BK426nRGmt8iK3l49IaTsn4HMdCzeqeb+go/9dw5zZwz+DBQCw2xjlLqLa45Zk1UzH4U@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiIKpWS1LsDdtG4Syg3DVtOaZUCr6QdoDT5C/Ecy/c4XMl5ahc
-	9lFzEWRkK55xy8JgKr+DMsSoqNO1GbQJCRUC2wR6/60lyNQwQZ9Qyn/HzAxa2mNy
-X-Gm-Gg: ASbGnctW+p3hBoTw05omx9MgU5hwKGqNOf46lh6qoxspkMLqKnjBaXJIhRdozFFAjU5
-	js/y/NQw5EWKukl2pi2WTGyLWBOUuDBVZ+IzllaVUzs8LSG9pw3heQH7OUTg/DZaZibm89iz2ki
-	kbDF8mepiynz9VT0uvFZ1GIQGEkjk5wl3gR7MpOuwxX4tZ7Jl6N5z8BAuFT1+8MmdX2f8nKkzu7
-	c6hDUX++u4tZICVbMvdLSDLHbEPixOoYn/hWUg57ZuDoZ45gNgOxgT25jOHDn5zPnoMFbIyYRIa
-	QdDRadtvTZCZJy9QezE6fpQWhcDmg0A54hYtJTBQLrMnOycI/X//D+tw8tcQHOtFjrL9DOqCX/Z
-	3lzLLvOxDn+J/HA==
-X-Google-Smtp-Source: AGHT+IHikIZLZ1dZSgH/RR2Hdv8CSv8vbOX08ARUI5So85blok34d0/WyJjUj46TinX6Rt76XAidYA==
-X-Received: by 2002:a05:6122:a1f:b0:527:8771:2d39 with SMTP id 71dfb90a1353d-52dbcd6d66dmr19724074e0c.7.1747899235036;
-        Thu, 22 May 2025 00:33:55 -0700 (PDT)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52dba910901sm11367008e0c.2.2025.05.22.00.33.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 00:33:54 -0700 (PDT)
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-4e14dd8abdaso2061520137.3;
-        Thu, 22 May 2025 00:33:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUQOsYvbTuRwXmLJS9UUXZGOsFd+L7QMvKR5welDqXnMH9wBqGnzpNKnCPe+pv5DfPBfO2+xHPpxfc=@vger.kernel.org, AJvYcCX+4R3Iz2nSf4Ps108yyz+lYgUSc47F2Cq/agLTUYYoG+iC1HOlFydgisr1QzA3W58uHXPgOEtH@vger.kernel.org, AJvYcCXI36llW902E4N2dEAsdFPZqUA5cO08XogZ3ovDmByput4ZFLitE4Hc+0fUW1/DrpvZ8/ObKaEzrA1X@vger.kernel.org
-X-Received: by 2002:a05:6102:b06:b0:4e2:aafe:1bb7 with SMTP id
- ada2fe7eead31-4e2aafe1e8dmr8036440137.15.1747899234351; Thu, 22 May 2025
- 00:33:54 -0700 (PDT)
+	s=arc-20240116; t=1747899549; c=relaxed/simple;
+	bh=/iaPqy0c+HX2+uonr5lbQ0iX6eNHdizPwfyg0c7fd5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tX0LRhFs2fXBrpcCtOOGYd+WBduCEz7wJ4MP8FQlcOXG16rQ4OrGEnaAadYU8z3boJSqvcZnE+iiPF16Y0c+AkQUWC6M9N4c3AIMbVWnO49u9Jc0Rugi2e0S/eGvbYQvX/iprJ2HSL/TeqkrS6++S+GvfkleQLhi3zuZBo20v1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZRDfe3mm; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZRDfe3mm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C31B4C4CEE4;
+	Thu, 22 May 2025 07:39:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747899549;
+	bh=/iaPqy0c+HX2+uonr5lbQ0iX6eNHdizPwfyg0c7fd5k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZRDfe3mmSjGc1jix3U1NAucjLjSMdgJCeQrhsoUjojwTIhEc3xtcwgUHVJHyjFOk4
+	 Flc38yuVIo8sUGKJOgQpyen/aQHQGwyp9DpEzROpJxiHZVj8NoFfoNHiafW0Z1G47v
+	 3wNZpEIj5B7cxL+KWpdTne1gu8ukrHpoSicQz10vww+EqT1qg5tnFbS2T5iFd24q5A
+	 bKtNz9/oJt83eSV2eqS3alvVX+FapvgpdBDVESlI7mFE/VzhjgxMMeWmPsYdf5y8uv
+	 nM4nfFVvu/hPUsSuza2hpety0C/H+Q0w+az7/imJWKZJdPZDBIX/mTyZVjNE5pNhVr
+	 Oj7kvMQpmAwsw==
+Date: Thu, 22 May 2025 08:39:02 +0100
+From: Lee Jones <lee@kernel.org>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, netdev@vger.kernel.org,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v7 8/8] mfd: zl3073x: Register DPLL sub-device
+ during init
+Message-ID: <20250522073902.GC8794@google.com>
+References: <20250507124358.48776-1-ivecera@redhat.com>
+ <20250507124358.48776-9-ivecera@redhat.com>
+ <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
+ <2e3eb9e3-151d-42ef-9043-998e762d3ba6@redhat.com>
+ <aBt1N6TcSckYj23A@smile.fi.intel.com>
+ <20250507152609.GK3865826@google.com>
+ <b095ffb9-c274-4520-a45e-96861268500b@redhat.com>
+ <20250513094126.GF2936510@google.com>
+ <6f693bb5-da3c-4363-895f-58a267e52a18@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <a679123dfa5a5a421b8ed3e34963835e019099b0.1747820705.git.geert+renesas@glider.be>
- <20250521-ancient-discreet-weasel-98b145-mkl@pengutronix.de>
-In-Reply-To: <20250521-ancient-discreet-weasel-98b145-mkl@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 22 May 2025 09:33:42 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXVbBciPriF6wWBUE0FHs3ZfEHAodFOsACiaMCEbLKpeg@mail.gmail.com>
-X-Gm-Features: AX0GCFthFAH_k5GLf92vZ0TJkMlPKuOGRFvQs0hIExouVBk96m2MS6fQ5ujhrd8
-Message-ID: <CAMuHMdXVbBciPriF6wWBUE0FHs3ZfEHAodFOsACiaMCEbLKpeg@mail.gmail.com>
-Subject: Re: [PATCH] documentation: networking: can: Document alloc_candev_mqs()
-To: Marc Kleine-Budde <mkl@pengutronix.de>
-Cc: Oliver Hartkopp <socketcan@hartkopp.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Wolfgang Grandegger <wg@grandegger.com>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, linux-can@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6f693bb5-da3c-4363-895f-58a267e52a18@redhat.com>
 
-Hi Marc,
+On Tue, 13 May 2025, Ivan Vecera wrote:
 
-On Wed, 21 May 2025 at 12:07, Marc Kleine-Budde <mkl@pengutronix.de> wrote:
-> On 21.05.2025 11:51:21, Geert Uytterhoeven wrote:
-> > Since the introduction of alloc_candev_mqs() and friends, there is no
-> > longer a need to allocate a generic network device and perform explicit
-> > CAN-specific setup.  Remove the code showing this setup, and document
-> > alloc_candev_mqs() instead.
->
-> Makes sense.
->
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > Dunno if this deserves
-> > Fixes: 39549eef3587f1c1 ("can: CAN Network device driver and Netlink interface")
-> >
-> >  Documentation/networking/can.rst | 9 +++------
-> >  1 file changed, 3 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
-> > index b018ce346392652b..784dbd19b140d262 100644
-> > --- a/Documentation/networking/can.rst
-> > +++ b/Documentation/networking/can.rst
-> > @@ -1106,13 +1106,10 @@ General Settings
-> >
-> >  .. code-block:: C
->
-> This breaks the rst rendering. I think you should remove the "..
-> code-block:: C"...
+> On 13. 05. 25 11:41 dop., Lee Jones wrote:
+> > On Mon, 12 May 2025, Ivan Vecera wrote:
+> > 
+> > > On 07. 05. 25 5:26 odp., Lee Jones wrote:
+> > > > On Wed, 07 May 2025, Andy Shevchenko wrote:
+> > > > 
+> > > > > On Wed, May 07, 2025 at 03:56:37PM +0200, Ivan Vecera wrote:
+> > > > > > On 07. 05. 25 3:41 odp., Andy Shevchenko wrote:
+> > > > > > > On Wed, May 7, 2025 at 3:45 PM Ivan Vecera <ivecera@redhat.com> wrote:
+> > > > > 
+> > > > > ...
+> > > > > 
+> > > > > > > > +static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
+> > > > > > > > +       { .channel = 0, },
+> > > > > > > > +       { .channel = 1, },
+> > > > > > > > +       { .channel = 2, },
+> > > > > > > > +       { .channel = 3, },
+> > > > > > > > +       { .channel = 4, },
+> > > > > > > > +};
+> > > > > > > 
+> > > > > > > > +static const struct mfd_cell zl3073x_devs[] = {
+> > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 0),
+> > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 1),
+> > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 2),
+> > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 3),
+> > > > > > > > +       ZL3073X_CELL("zl3073x-dpll", 4),
+> > > > > > > > +};
+> > > > > > > 
+> > > > > > > > +#define ZL3073X_MAX_CHANNELS   5
+> > > > > > > 
+> > > > > > > Btw, wouldn't be better to keep the above lists synchronised like
+> > > > > > > 
+> > > > > > > 1. Make ZL3073X_CELL() to use indexed variant
+> > > > > > > 
+> > > > > > > [idx] = ...
+> > > > > > > 
+> > > > > > > 2. Define the channel numbers
+> > > > > > > 
+> > > > > > > and use them in both data structures.
+> > > > > > > 
+> > > > > > > ...
+> > > > > > 
+> > > > > > WDYM?
+> > > > > > 
+> > > > > > > OTOH, I'm not sure why we even need this. If this is going to be
+> > > > > > > sequential, can't we make a core to decide which cell will be given
+> > > > > > > which id?
+> > > > > > 
+> > > > > > Just a note that after introduction of PHC sub-driver the array will look
+> > > > > > like:
+> > > > > > static const struct mfd_cell zl3073x_devs[] = {
+> > > > > >          ZL3073X_CELL("zl3073x-dpll", 0),  // DPLL sub-dev for chan 0
+> > > > > >          ZL3073X_CELL("zl3073x-phc", 0),   // PHC sub-dev for chan 0
+> > > > > >          ZL3073X_CELL("zl3073x-dpll", 1),  // ...
+> > > > > >          ZL3073X_CELL("zl3073x-phc", 1),
+> > > > > >          ZL3073X_CELL("zl3073x-dpll", 2),
+> > > > > >          ZL3073X_CELL("zl3073x-phc", 2),
+> > > > > >          ZL3073X_CELL("zl3073x-dpll", 3),
+> > > > > >          ZL3073X_CELL("zl3073x-phc", 3),
+> > > > > >          ZL3073X_CELL("zl3073x-dpll", 4),
+> > > > > >          ZL3073X_CELL("zl3073x-phc", 4),   // PHC sub-dev for chan 4
+> > > > > > };
+> > > > > 
+> > > > > Ah, this is very important piece. Then I mean only this kind of change
+> > > > > 
+> > > > > enum {
+> > > > > 	// this or whatever meaningful names
+> > > > > 	..._CH_0	0
+> > > > > 	..._CH_1	1
+> > > > > 	...
+> > > > > };
+> > > > > 
+> > > > > static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
+> > > > >          { .channel = ..._CH_0, },
+> > > > >          ...
+> > > > > };
+> > > > > 
+> > > > > static const struct mfd_cell zl3073x_devs[] = {
+> > > > >          ZL3073X_CELL("zl3073x-dpll", ..._CH_0),
+> > > > >          ZL3073X_CELL("zl3073x-phc", ..._CH_0),
+> > > > >          ...
+> > > > > };
+> > > > 
+> > > > This is getting hectic.  All for a sequential enumeration.  Seeing as
+> > > > there are no other differentiations, why not use IDA in the child
+> > > > instead?
+> > > 
+> > > For that, there have to be two IDAs, one for DPLLs and one for PHCs...
+> > 
+> > Sorry, can you explain a bit more.  Why is this a problem?
+> > 
+> > The IDA API is very simple.
+> > 
+> > Much better than building your own bespoke MACROs.
+> 
+> I will try to explain this in more detail... This MFD driver handles
+> chip family ZL3073x where the x == number of DPLL channels and can
+> be from <1, 5>.
+> 
+> The driver creates 'x' DPLL sub-devices during probe and has to pass
+> channel number that should this sub-device use. Here can be used IDA
+> in DPLL sub-driver:
+> e.g. ida_alloc_max(zldev->channels, zldev->max_channels, GFP_KERNEL);
+> 
+> This way the DPLL sub-device get its own unique channel ID to use.
+> 
+> The situation is getting more complicated with PHC sub-devices because
+> the chip can provide UP TO 'x' PHC sub-devices depending on HW
+> configuration. To handle this the MFD driver has to check this HW config
+> for particular channel if it is capable to provide PHC functionality.
+> 
+> E.g. ZL30735 chip has 5 channels, in this case the MFD driver should
+> create 5 DPLL sub-devices. And then lets say channel 0, 2 and 4 are
+> PHC capable. Then the MFD driver should create 3 PHC sub-devices and
+> pass 0, 2 resp. 4 for them.
 
-Doh, how did I miss that? Will fix...
-
->
-> >
-> > -    dev->type  = ARPHRD_CAN; /* the netdevice hardware type */
-> > -    dev->flags = IFF_NOARP;  /* CAN has no arp */
-> > +CAN network device drivers can use alloc_candev_mqs() and friends instead of
-> > +alloc_netdev_mqs(), to automatically take care of CAN-specific setup:
->
-> and add a second ":" after "setup:"
->
-> >
-> > -    dev->mtu = CAN_MTU; /* sizeof(struct can_frame) -> Classical CAN interface */
-> > -
-> > -    or alternative, when the controller supports CAN with flexible data rate:
-> > -    dev->mtu = CANFD_MTU; /* sizeof(struct canfd_frame) -> CAN FD interface */
-> > +    dev = alloc_candev_mqs(...);
-> >
-> >  The struct can_frame or struct canfd_frame is the payload of each socket
-> >  buffer (skbuff) in the protocol family PF_CAN.
-=
-Gr{oetje,eeting}s,
-
-                        Geert
+Where is the code that determines which channels are PHC capable?
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Lee Jones [李琼斯]
