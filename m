@@ -1,95 +1,107 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF41221719
-	for <linux-doc@vger.kernel.org>; Thu, 22 May 2025 06:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB121A841C;
+	Thu, 22 May 2025 07:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747896931; cv=none; b=sbv5S8sAGwpzKXNUyxh1eDgu9R7dL5OYKe4lXQMgg08nZ/hNGMiciKMLggLTfedn9EWzP7ASKCP1FSPgszZ+UJRbwDg2Fd9EZ2VHpF1l+4T3JqNXcjQ+fk5OiWF/AOs2dXg6DmEfO+00zwz8FMwfNNthzCWDHe8Mcjxwil4dKMs=
+	t=1747897357; cv=none; b=Mr+QqCRvoIDD/yC8uQUygPJvdI9PjacxBqMmoFdgunb1eqy3NjeZG9P4bvY3K5JEbLVp5yPfG895EhENU3eMrIVnpWOvyDXGqVkj6UHoZfMtnEXUnJk6KkkjOKYHPwPokFKx1l8ww+MMA+ZDTAjDZxzZWBK49GIVq7HqFKRdZ5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747896931; c=relaxed/simple;
-	bh=vz+PyYG/Bbm3H0tfOscOMNjbX8osLb/RRhhrSOI8KFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IfNZ5oUsrho/y/52jGTXEt0hlgR/RSsena4NGGVDv9csyp3O1bUSx+Yn/MRWzoPp88Evp0TglVjDilc4Z0H/Xzq/OTkCEQqSaLG7CuayAmJ53x6KUvevNdt61NyupvmLJOOtODDEo0Ew8uyNi8wZ1mmFLxD2toEoMdA651ggn8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uHzpg-000055-EY; Thu, 22 May 2025 08:55:12 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uHzpf-000gqd-1m;
-	Thu, 22 May 2025 08:55:11 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uHzpf-002gnm-1K;
-	Thu, 22 May 2025 08:55:11 +0200
-Date: Thu, 22 May 2025 08:55:11 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v11 02/13] net: pse-pd: Add support for
- reporting events
-Message-ID: <aC7KT0xHNFhDPqFY@pengutronix.de>
-References: <20250520-feature_poe_port_prio-v11-0-bbaf447e1b28@bootlin.com>
- <20250520-feature_poe_port_prio-v11-2-bbaf447e1b28@bootlin.com>
+	s=arc-20240116; t=1747897357; c=relaxed/simple;
+	bh=uA2NaTnSrsjaw+u1a1w4m99SGUK5RHR7xtImeGhk49g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=h+APQYwf3QfxLLvnKT+J/U/YBTkg/8rA3piVrTY/QPRv+JTRpuv8TLWseOw5dNmeDoYUNeJhQ565+J4GzgCvxMrs38ZSGrYC+me5AehjDvpL47C5NK1yosR/B+2BhmQHm8o8u02G0Zvm8gXsahpHMT+CcMUZCW79hE8wu7TBQ6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZO4y/2m8; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZO4y/2m8"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-30ea8e2bbaaso4538598a91.2;
+        Thu, 22 May 2025 00:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747897355; x=1748502155; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jGtCz5gnhXYzL9ayCi6Yx/k+BthTHNTVsByaVh8/+D0=;
+        b=ZO4y/2m8ylkHghvF74kzQLrWPnJ6mZPQJIgecpOG7oaD5tp+SdhNWKKLn6EEM9/1e2
+         gf+hRFwGdHmKfTLz3mGCoVZm2GMfDfCqqWrX5qmcFh6XFTPYtkfTieZb5t0Uemrgu9fD
+         oRXZE+7iNTPtzbea2XBsa05VwJrRk6l7NI5gkaJCUpympg3zz71RCCFY0axr5dVx31zO
+         VNm8/kMgGBih3i0USszpGDRz5w8So4MoQvpJ5vqvsAtZ1YHTPE6ns74MAdrWN3Fahifv
+         wbE3iCJvS53uSHzYVSGHiW+ii7byb+lQExKaqxnHVolyzutLbqF2koLJ5xOaUXaXZT0F
+         TcaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747897355; x=1748502155;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jGtCz5gnhXYzL9ayCi6Yx/k+BthTHNTVsByaVh8/+D0=;
+        b=f5NEvHeaKdZ8adA62/0CvWzqcTZbJRCTouAJf3bu/NTFUwMKMCnZmZkHkHb1+qv1r7
+         Xblo1pH6+nVD+RqoJ+9HNxM6u02ZhQQkZru54lc1xWwyhmNALcdP0W5p5CyG/pDjLoSo
+         NqQiheWNP+pUgOZ4rLEsfOryKko6LuaK9aFnKmmSHteilF0zb8elMHsAPYmwde3JoKrm
+         qkcMEFQ+xGXhGi5J5NF4plHy3d11klzKrkoTbMYh6EguUbNkZKvj9FUu7XFiJtlX/CES
+         PsVBO3TYTGA9hm2k6FtWw188e/5YsS9UbnOAsmE+VXEkIYlnMg7t9+DDm7lfNklspkHt
+         cujw==
+X-Forwarded-Encrypted: i=1; AJvYcCUxdw+JeBMFG5PZ1sVQv4mqnqXsUkmRHHCtwdxQSeI7jPZI6C9LjFlpqtGPc/fGyq+JeiEaiOPjgBo=@vger.kernel.org, AJvYcCXYfOTrnVaNFN/ODgMtwn+TW/f/WCplsPHHDuJAtMsl/T3ZItgknCiBLMVDWDiBPzE7XnGLMAYssungBg3p@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMp7x+UUp8hDQHltDJ51aD6lb1T3LnIW4NIJuxIanQ2C2/q/j4
+	GoT3/jFkpLZRWo6kCWsfCMFSbMPMkO+3U/wv3Ibl3tyXcv0zgljifnFIQD4kI/r5
+X-Gm-Gg: ASbGnctTQp7PmyXNbaIvl42ZAt8eGv4LGXQRNwh2ftczvDVTwB70z4rU6LIdj2qzycq
+	2RxjMpvZAsSI9kcoUBHd6Mart94Ewg0dftMAh7zaL1TKE1LLHQFdHKi5WGJqQ5f5UuW1nyNbapb
+	R9JLmrfsfbVwZqGaV14+MvgNSxT6oah/UFBWbkgAk2pQ3Rx47GKCHhSbCGfRT2fLk//1WrCIpeC
+	lCvlmviQLu9AstAWqSZbM3ae9Ah+7IykOYzOSEvsL0gisaSZ6p+tVUpjYskjTN8/3Ii3byE2+rn
+	AxeG/RIzSO5ifjaZBAOg3Q0TZCWIkR3kvsvvXjIjTz5Vtss5yakDEqNgp67rapW73DPbY1x06V1
+	pkeV9t80zL4jMFA==
+X-Google-Smtp-Source: AGHT+IGLZQvgE6vIaT87y4QlfLMbqTSQVnSQp3oMK/aK4G8bVgQ/LuMqQC40bpRTNLSNHvIWBuWD5A==
+X-Received: by 2002:a17:90b:3e8e:b0:2ff:4e90:3c55 with SMTP id 98e67ed59e1d1-30e7d5ac887mr34551529a91.27.1747897354183;
+        Thu, 22 May 2025 00:02:34 -0700 (PDT)
+Received: from SHOUYELIU-MC0.tencent.com ([43.132.141.21])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2982c04d12sm3646879a12.21.2025.05.22.00.02.31
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 22 May 2025 00:02:33 -0700 (PDT)
+From: shouyeliu <shouyeliu@gmail.com>
+To: ray.huang@amd.com,
+	gautham.shenoy@amd.com,
+	mario.limonciello@amd.com,
+	perry.yuan@amd.com,
+	corbet@lwn.net
+Cc: linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shouye Liu <shouyeliu@tencent.com>
+Subject: [PATCH] Documentation: amd-pstate:fix minimum performance state label error
+Date: Thu, 22 May 2025 15:01:41 +0800
+Message-Id: <20250522070140.17557-1-shouyeliu@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250520-feature_poe_port_prio-v11-2-bbaf447e1b28@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 20, 2025 at 06:11:04PM +0200, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> 
-> Add support for devm_pse_irq_helper() to register PSE interrupts and report
-> events such as over-current or over-temperature conditions. This follows a
-> similar approach to the regulator API but also sends notifications using a
-> dedicated PSE ethtool netlink socket.
-> 
-> Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+In the AMD P-States Performance Scale diagram, the labels for "Max Perf"
+and "Lowest Perf" were incorrectly used to define the range for
+"Desired Perf".The "Desired performance target" should be bounded by the
+"Maximum requested performance" and the "Minimum requested performance",
+which corresponds to "Max Perf" and "Min Perf", respectively.
 
-Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Signed-off-by: Shouye Liu <shouyeliu@tencent.com>
+---
+ Documentation/admin-guide/pm/amd-pstate.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you!
+diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+index 412423c54f25..e1771f2225d5 100644
+--- a/Documentation/admin-guide/pm/amd-pstate.rst
++++ b/Documentation/admin-guide/pm/amd-pstate.rst
+@@ -72,7 +72,7 @@ to manage each performance update behavior. ::
+   Lowest non-        |                       |                         |                       |
+   linear perf ------>+-----------------------+                         +-----------------------+
+                      |                       |                         |                       |
+-                     |                       |       Lowest perf  ---->|                       |
++                     |                       |          Min perf  ---->|                       |
+                      |                       |                         |                       |
+   Lowest perf ------>+-----------------------+                         +-----------------------+
+                      |                       |                         |                       |
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.19.1
+
