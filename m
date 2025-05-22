@@ -1,353 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F65C223313;
-	Thu, 22 May 2025 07:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07688202988;
+	Thu, 22 May 2025 07:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747898277; cv=none; b=LxKwGO6kS/ChIHHhRUr/rPAsRdEQoZz8252a+x/OPBCAlAcCiC2rCCUXOn1OT5B7UPeQ1SFuMRfwcLDLmBAXGTWEj9p27HupLpzB/O6q4qGhwyVM7T5k4qC9Jg0QQaepAxmBLKMszB/DwGNkhydATcoSjjkm9XNE4KfoB906l6w=
+	t=1747898923; cv=none; b=dyaPhP40b84Y3ZmbYKRw9OEF50bwaW1289FyaqeI96VdaRasQiw94QbNd/VdhmpQOmK/lkC0FLO7elBLJe4LkPf2ixmSVSH5tx84ouLt/oTWlKBH2xhLlJ+ASSyH9Nxj9sG2LblVm+Ef6bBggC4T2wCLD5HfAjXqnUi/ce/ZQSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747898277; c=relaxed/simple;
-	bh=RBfEx3162mbB+OlkOVLAYGSIHMmdR4c1LkTJqUJI4rE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Emi8qh+S9i6f8/73Xc7dGG48/ZCKxaQQ6DuezBslzV64BiT9I7JijQCmcAN48DQLvxRiWl1s8Q/sLIJKo2YQd0Fao7OJaSOnyyYj78ymZRqTN/OWqXwKfERZGUvYON7u0W5Vm348CKu1sT+yeLucV7xBHBoqg+z1R+oZmq0vGPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AYZANZLF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747898923; c=relaxed/simple;
+	bh=KZdv6Z0YK/lfcikuoIW7xyDZNHZ76Zlsa7Mknlwx1N0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uBmBzH0lUyow58shdB3Cv53XSMJL+iP7lZvi5U6NenFJ7W6e6cmCxUvvdIAcd7xHfE3OIkw9D+nThFPQ1GdZmEgWcF/2kls0l9TiP/D41zz/PPfTarVuwuVttviSLg90/7jPB7UO0gKKzpIa9+SAx8PjFKCiLQp2AdX6x1c8eKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ib3yNxEs; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AYZANZLF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F4D7C4CEE4;
-	Thu, 22 May 2025 07:17:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747898275;
-	bh=RBfEx3162mbB+OlkOVLAYGSIHMmdR4c1LkTJqUJI4rE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AYZANZLF1q+VpvyppqfCbYcdVmCTUt1BG6bjVEm1vkMYS+tA6MauObDFwHmEvXXYl
-	 tqJ7sbVdb2kFRIFvUzQd4pZJemTWv0sfZJnRfr1/H7HJfXTVR6S9Sb6jiRwZGjaPbs
-	 0g5sTSoxYVWHYMl3b75edj3CISgLu3o30HlsXzRxGMNwns4/mHgp6fiP9wWQBOmyEg
-	 TG+i723euNjbiEqbD7Dysg2kvKNI1UEaC6/02q68FvmjiYkPe/XkOFd55kgg8Y3Swd
-	 nN5Ss+YPQvcgiLEN5i1a7ICPE6VWeIg8l+N07wxjY4NTMupMPi4H4nG7DjmcWdw7VT
-	 WeXQYTpGsCKPA==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Matthias Maennich <maennich@google.com>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 3/3] docs/core-api/symbol-namespaces: drop table of contents and section numbering
-Date: Thu, 22 May 2025 16:17:22 +0900
-Message-ID: <20250522071744.2362563-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250522071744.2362563-1-masahiroy@kernel.org>
-References: <20250522071744.2362563-1-masahiroy@kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ib3yNxEs"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A22DF43B77;
+	Thu, 22 May 2025 07:28:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747898917;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4JY0tOi4vZjkrIAmVNhcdxDZ/2M98xTujKUJaASQzHI=;
+	b=Ib3yNxEs/5s44AFOE1RwGqaQ3/C/qZgn2d71AFEvZWt7k9cSiTL6woWNrw80/K+W6/Z/V7
+	kPpQoV2bzFWLRmpCywhJlPQUEg2FXlo+1nPIaf5l0cpBMiAzN9raixCTiTWtHG2MAT2dvw
+	sQ/zOcBmUvR5DU4gtyDa+MzbOlcDIse1XjwVI+yIroFSWP+dFmY21GxXL7/XktKyaWOIPe
+	yff37LPcs4+KyUCuNN9KOzfcxdlETTCBb1PO57HImPoi3YGPlPgcnozmejJeah9bwmPEng
+	p+dHgqDtnYmeAW4q5nFCbFmQTz/G7k6Pz/kBamcKo+eZpnfao0DUC72lv/PdQQ==
+Date: Thu, 22 May 2025 09:28:24 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
+ Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
+ Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, Louis Chauvet
+ <louis.chauvet@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>, Inki
+ Dae <inki.dae@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Manikandan Muralidharan
+ <manikandan.m@microchip.com>, Adam Ford <aford173@gmail.com>, Adrien
+ Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin
+ <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung
+ <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
+ Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>, Dharma Balasubiramani
+ <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
+ Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
+ Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
+ Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
+ <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
+ <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
+ Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
+ <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan
+ <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>, Xin Ji
+ <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@gehealthcare.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Peter Senna Tschudin
+ <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, Kuninori Morimoto
+ <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Michal Simek
+ <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+Message-ID: <20250522092824.421e766c@booty>
+In-Reply-To: <36ade269-a590-4243-889c-006f37d9ae6e@nxp.com>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+	<20250521162216.79dd3290@booty>
+	<36ade269-a590-4243-889c-006f37d9ae6e@nxp.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=a
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdehfeeiucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeetffdtleehgefhffffudekhfdujeeuvdefhfetleeftefgffekjeetjedtvdevnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepleehpdhrtghpthhtohepvhhitghtohhrrdhlihhusehngihprdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidri
+ hhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-The manually updated table of contents and section numbering are hard
-to maintain.
+Hello Liu,
 
-Make changes similar to the following commits:
+On Thu, 22 May 2025 11:20:17 +0800
+Liu Ying <victor.liu@nxp.com> wrote:
 
-  5e8f0ba38a4d ("docs/kbuild/makefiles: throw out the local table of contents")
-  1a4c1c9df72e ("docs/kbuild/makefiles: drop section numbering, use references")
+> > If not, can we at least add a band-aid 'X:' entry for
+> > drivers/gpu/drm/bridge/imx?
+> > 
+> > I think the other matching entry is the one to consider:
+> > 
+> > DRM DRIVERS FOR FREESCALE IMX BRIDGE
+> > M:	Liu Ying <victor.liu@nxp.com>
+> > L:	dri-devel@lists.freedesktop.org
+> > S:	Maintained
+> > F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> > F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+> > F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
+> > F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
+> > F:	drivers/gpu/drm/bridge/imx/
+> > 
+> > (https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAINTAINERS?ref_type=heads#L7940-7948)
+> > 
+> > However it does not list any trees. I _guess_ drm-misc applies here as
+> > a fallback as well as common sense.
+> > 
+> > Liu, should this entry have a 'T:' line for drm/misc?  
+> 
+> These bridge drivers also don't have a 'T:' line:
+> 
+> DRM DRIVER FOR CHIPONE ICN6211 MIPI-DSI to RGB CONVERTER BRIDGE
+> DRM DRIVER FOR PARADE PS8640 BRIDGE CHIP
+> DRM DRIVER FOR TI DLPC3433 MIPI DSI TO DMD BRIDGE
+> DRM DRIVER FOR TI SN65DSI86 BRIDGE CHIP
+> LONTIUM LT8912B MIPI TO HDMI BRIDGE
+> MEGACHIPS STDPXXXX-GE-B850V3-FW LVDS/DP++ BRIDGES
+> MICROCHIP SAM9x7-COMPATIBLE LVDS CONTROLLER
+> 
+> I think that they fallback to drm-misc since "DRM DRIVERS FOR BRIDGE CHIPS"
+> covers them.  I don't have strong opinion on adding a "T" line to them, at
+> least to "DRM DRIVERS FOR FREESCALE IMX BRIDGE".  Anyway, it would be good
+> to know comments from maintainers for "DRM DRIVERS FOR BRIDGE CHIPS" and
+> "DRM DRIVERS".
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I agree the fallback seems OK for this MAINTAINERS entry.
 
- Documentation/core-api/symbol-namespaces.rst  | 45 +++++++------------
- .../it_IT/core-api/symbol-namespaces.rst      | 32 +++++++------
- .../zh_CN/core-api/symbol-namespaces.rst      | 41 +++++++----------
- 3 files changed, 47 insertions(+), 71 deletions(-)
+The other entry (ARM/FREESCALE IMX / MXC ARM ARCHITECTURE) is another
+story.
 
-diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-index c6f59c5e2564..f7cfa7b73e97 100644
---- a/Documentation/core-api/symbol-namespaces.rst
-+++ b/Documentation/core-api/symbol-namespaces.rst
-@@ -6,18 +6,8 @@ The following document describes how to use Symbol Namespaces to structure the
- export surface of in-kernel symbols exported through the family of
- EXPORT_SYMBOL() macros.
- 
--.. Table of Contents
--
--	=== 1 Introduction
--	=== 2 How to define Symbol Namespaces
--	   --- 2.1 Using the EXPORT_SYMBOL macros
--	   --- 2.2 Using the DEFAULT_SYMBOL_NAMESPACE define
--	=== 3 How to use Symbols exported in Namespaces
--	=== 4 Loading Modules that use namespaced Symbols
--	=== 5 Automatically creating MODULE_IMPORT_NS statements
--
--1. Introduction
--===============
-+Introduction
-+============
- 
- Symbol Namespaces have been introduced as a means to structure the export
- surface of the in-kernel API. It allows subsystem maintainers to partition
-@@ -31,15 +21,15 @@ its configuration, reject loading the module or warn about a missing import.
- Additionally, it is possible to put symbols into a module namespace, strictly
- limiting which modules are allowed to use these symbols.
- 
--2. How to define Symbol Namespaces
--==================================
-+How to define Symbol Namespaces
-+===============================
- 
- Symbols can be exported into namespace using different methods. All of them are
- changing the way EXPORT_SYMBOL and friends are instrumented to create ksymtab
- entries.
- 
--2.1 Using the EXPORT_SYMBOL macros
--==================================
-+Using the EXPORT_SYMBOL macros
-+------------------------------
- 
- In addition to the macros EXPORT_SYMBOL() and EXPORT_SYMBOL_GPL(), that allow
- exporting of kernel symbols to the kernel symbol table, variants of these are
-@@ -57,8 +47,8 @@ refer to ``NULL``. There is no default namespace if none is defined. ``modpost``
- and kernel/module/main.c make use the namespace at build time or module load
- time, respectively.
- 
--2.2 Using the DEFAULT_SYMBOL_NAMESPACE define
--=============================================
-+Using the DEFAULT_SYMBOL_NAMESPACE define
-+-----------------------------------------
- 
- Defining namespaces for all symbols of a subsystem can be very verbose and may
- become hard to maintain. Therefore a default define (DEFAULT_SYMBOL_NAMESPACE)
-@@ -86,8 +76,8 @@ unit as preprocessor statement. The above example would then read::
- within the corresponding compilation unit before the #include for
- <linux/export.h>. Typically it's placed before the first #include statement.
- 
--2.3 Using the EXPORT_SYMBOL_GPL_FOR_MODULES() macro
--===================================================
-+Using the EXPORT_SYMBOL_GPL_FOR_MODULES() macro
-+-----------------------------------------------
- 
- Symbols exported using this macro are put into a module namespace. This
- namespace cannot be imported.
-@@ -102,8 +92,8 @@ For example:
- will limit usage of this symbol to modules whoes name matches the given
- patterns.
- 
--3. How to use Symbols exported in Namespaces
--============================================
-+How to use Symbols exported in Namespaces
-+=========================================
- 
- In order to use symbols that are exported into namespaces, kernel modules need
- to explicitly import these namespaces. Otherwise the kernel might reject to
-@@ -125,11 +115,10 @@ inspected with modinfo::
- 
- 
- It is advisable to add the MODULE_IMPORT_NS() statement close to other module
--metadata definitions like MODULE_AUTHOR() or MODULE_LICENSE(). Refer to section
--5. for a way to create missing import statements automatically.
-+metadata definitions like MODULE_AUTHOR() or MODULE_LICENSE().
- 
--4. Loading Modules that use namespaced Symbols
--==============================================
-+Loading Modules that use namespaced Symbols
-+===========================================
- 
- At module loading time (e.g. ``insmod``), the kernel will check each symbol
- referenced from the module for its availability and whether the namespace it
-@@ -140,8 +129,8 @@ allow loading of modules that don't satisfy this precondition, a configuration
- option is available: Setting MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS=y will
- enable loading regardless, but will emit a warning.
- 
--5. Automatically creating MODULE_IMPORT_NS statements
--=====================================================
-+Automatically creating MODULE_IMPORT_NS statements
-+==================================================
- 
- Missing namespaces imports can easily be detected at build time. In fact,
- modpost will emit a warning if a module uses a symbol from a namespace
-diff --git a/Documentation/translations/it_IT/core-api/symbol-namespaces.rst b/Documentation/translations/it_IT/core-api/symbol-namespaces.rst
-index 6ee713988531..baa344f4523a 100644
---- a/Documentation/translations/it_IT/core-api/symbol-namespaces.rst
-+++ b/Documentation/translations/it_IT/core-api/symbol-namespaces.rst
-@@ -10,8 +10,8 @@ Questo documento descrive come usare lo spazio dei nomi dei simboli
- per strutturare quello che viene esportato internamente al kernel
- grazie alle macro della famiglia EXPORT_SYMBOL().
- 
--1. Introduzione
--===============
-+Introduzione
-+============
- 
- Lo spazio dei nomi dei simboli è stato introdotto come mezzo per strutturare
- l'API esposta internamente al kernel. Permette ai manutentori di un
-@@ -24,15 +24,15 @@ devono prima importare detto spazio. Altrimenti il kernel, a seconda
- della configurazione, potrebbe rifiutare di caricare il modulo o
- avvisare l'utente di un'importazione mancante.
- 
--2. Come definire uno spazio dei nomi dei simboli
--================================================
-+Come definire uno spazio dei nomi dei simboli
-+=============================================
- 
- I simboli possono essere esportati in spazi dei nomi usando diversi
- meccanismi.  Tutti questi meccanismi cambiano il modo in cui
- EXPORT_SYMBOL e simili vengono guidati verso la creazione di voci in ksymtab.
- 
--2.1 Usare le macro EXPORT_SYMBOL
--================================
-+Usare le macro EXPORT_SYMBOL
-+----------------------------
- 
- In aggiunta alle macro EXPORT_SYMBOL() e EXPORT_SYMBOL_GPL(), che permettono
- di esportare simboli del kernel nella rispettiva tabella, ci sono
-@@ -53,8 +53,8 @@ di base. Il programma ``modpost`` e il codice in kernel/module/main.c usano lo
- spazio dei nomi, rispettivamente, durante la compilazione e durante il
- caricamento di un modulo.
- 
--2.2 Usare il simbolo di preprocessore DEFAULT_SYMBOL_NAMESPACE
--==============================================================
-+Usare il simbolo di preprocessore DEFAULT_SYMBOL_NAMESPACE
-+----------------------------------------------------------
- 
- Definire lo spazio dei nomi per tutti i simboli di un sottosistema può essere
- logorante e di difficile manutenzione. Perciò è stato fornito un simbolo
-@@ -83,8 +83,8 @@ direttamente nei file da compilare. L'esempio precedente diventerebbe::
- 
- Questo va messo prima di un qualsiasi uso di EXPORT_SYMBOL.
- 
--3. Come usare i simboli esportati attraverso uno spazio dei nomi
--================================================================
-+Come usare i simboli esportati attraverso uno spazio dei nomi
-+=============================================================
- 
- Per usare i simboli esportati da uno spazio dei nomi, i moduli del
- kernel devono esplicitamente importare il relativo spazio dei nomi; altrimenti
-@@ -108,12 +108,10 @@ modinfo::
- 
- 
- Si consiglia di posizionare la dichiarazione MODULE_IMPORT_NS() vicino
--ai metadati del modulo come MODULE_AUTHOR() o MODULE_LICENSE(). Fate
--riferimento alla sezione 5. per creare automaticamente le importazioni
--mancanti.
-+ai metadati del modulo come MODULE_AUTHOR() o MODULE_LICENSE().
- 
--4. Caricare moduli che usano simboli provenienti da spazi dei nomi
--==================================================================
-+Caricare moduli che usano simboli provenienti da spazi dei nomi
-+===============================================================
- 
- Quando un modulo viene caricato (per esempio usando ``insmod``), il kernel
- verificherà la disponibilità di ogni simbolo usato e se lo spazio dei nomi
-@@ -125,8 +123,8 @@ un'opzione di configurazione: impostare
- MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS=y caricherà i moduli comunque ma
- emetterà un avviso.
- 
--5. Creare automaticamente la dichiarazione MODULE_IMPORT_NS
--===========================================================
-+Creare automaticamente la dichiarazione MODULE_IMPORT_NS
-+========================================================
- 
- La mancanza di un'importazione può essere individuata facilmente al momento
- della compilazione. Infatti, modpost emetterà un avviso se il modulo usa
-diff --git a/Documentation/translations/zh_CN/core-api/symbol-namespaces.rst b/Documentation/translations/zh_CN/core-api/symbol-namespaces.rst
-index b1bec219912d..d9477ccea98f 100644
---- a/Documentation/translations/zh_CN/core-api/symbol-namespaces.rst
-+++ b/Documentation/translations/zh_CN/core-api/symbol-namespaces.rst
-@@ -14,18 +14,8 @@
- 
- 本文档描述了如何使用符号命名空间来构造通过EXPORT_SYMBOL()系列宏导出的内核内符号的导出面。
- 
--.. 目录
--
--       === 1 简介
--       === 2 如何定义符号命名空间
--          --- 2.1 使用EXPORT_SYMBOL宏
--          --- 2.2 使用DEFAULT_SYMBOL_NAMESPACE定义
--       === 3 如何使用命名空间中导出的符号
--       === 4 加载使用命名空间符号的模块
--       === 5 自动创建MODULE_IMPORT_NS声明
--
--1. 简介
--=======
-+简介
-+====
- 
- 符号命名空间已经被引入，作为构造内核内API的导出面的一种手段。它允许子系统维护者将
- 他们导出的符号划分进独立的命名空间。这对于文档的编写非常有用（想想SUBSYSTEM_DEBUG
-@@ -33,14 +23,14 @@
- 的模块必须导入命名空间。否则，内核将根据其配置，拒绝加载该模块或警告说缺少
- 导入。
- 
--2. 如何定义符号命名空间
--=======================
-+如何定义符号命名空间
-+====================
- 
- 符号可以用不同的方法导出到命名空间。所有这些都在改变 EXPORT_SYMBOL 和与之类似的那些宏
- 被检测到的方式，以创建 ksymtab 条目。
- 
--2.1 使用EXPORT_SYMBOL宏
--=======================
-+使用EXPORT_SYMBOL宏
-+-------------------
- 
- 除了允许将内核符号导出到内核符号表的宏EXPORT_SYMBOL()和EXPORT_SYMBOL_GPL()之外，
- 这些宏的变体还可以将符号导出到某个命名空间：EXPORT_SYMBOL_NS() 和 EXPORT_SYMBOL_NS_GPL()。
-@@ -54,8 +44,8 @@
- 导出时未指明命名空间的符号将指向 ``NULL`` 。如果没有定义命名空间，则默认没有。
- ``modpost`` 和kernel/module/main.c分别在构建时或模块加载时使用名称空间。
- 
--2.2 使用DEFAULT_SYMBOL_NAMESPACE定义
--====================================
-+使用DEFAULT_SYMBOL_NAMESPACE定义
-+--------------------------------
- 
- 为一个子系统的所有符号定义命名空间可能会非常冗长，并可能变得难以维护。因此，我
- 们提供了一个默认定义（DEFAULT_SYMBOL_NAMESPACE），如果设置了这个定义， 它将成
-@@ -80,8 +70,8 @@
- 
- 应置于相关编译单元中任何 EXPORT_SYMBOL 宏之前
- 
--3. 如何使用命名空间中导出的符号
--===============================
-+如何使用命名空间中导出的符号
-+============================
- 
- 为了使用被导出到命名空间的符号，内核模块需要明确地导入这些命名空间。
- 否则内核可能会拒绝加载该模块。模块代码需要使用宏MODULE_IMPORT_NS来
-@@ -100,11 +90,10 @@
- 
- 
- 建议将 MODULE_IMPORT_NS() 语句添加到靠近其他模块元数据定义的地方，
--如 MODULE_AUTHOR() 或 MODULE_LICENSE() 。关于自动创建缺失的导入
--语句的方法，请参考第5节。
-+如 MODULE_AUTHOR() 或 MODULE_LICENSE() 。
- 
--4. 加载使用命名空间符号的模块
--=============================
-+加载使用命名空间符号的模块
-+==========================
- 
- 在模块加载时（比如 ``insmod`` ），内核将检查每个从模块中引用的符号是否可
- 用，以及它可能被导出到的名字空间是否被模块导入。内核的默认行为是拒绝
-@@ -113,8 +102,8 @@ EINVAL方式失败。要允许加载不满足这个前提条件的模块，可
- 设置 MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS=y 将使加载不受影响，但会
- 发出警告。
- 
--5. 自动创建MODULE_IMPORT_NS声明
--===============================
-+自动创建MODULE_IMPORT_NS声明
-+============================
- 
- 缺少命名空间的导入可以在构建时很容易被检测到。事实上，如果一个模块
- 使用了一个命名空间的符号而没有导入它，modpost会发出警告。
+> >>       drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_alloc() API  
+> > 
+> > Not acked/reviewed, some discussion happened. I am resending it in v4,
+> > possibly with updates based on the discussion.  
+> 
+> I still think the main structures in imx8qxp-pixel-combiner.c and imx*-ldb.c
+> should have the same lifetime with the allocated bridges.  I added a new
+> comment on this driver in v2 just now.
+
+Thanks, let's continue the conversation there.
+
+Luca
+
 -- 
-2.43.0
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
