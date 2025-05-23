@@ -1,138 +1,254 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5EE17A318;
-	Fri, 23 May 2025 17:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D3A2951D9;
+	Fri, 23 May 2025 17:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748021391; cv=none; b=F29sIqBec67CMbiguRYLFddMlfPF6VAj8GVFN2qczclaeTYYLjyQEvHsNPlYYwUd1JflhiTE4+VRg8qsd43smBfOsiLRYKM+qbFRADFCfBTOfElBVmG1JxjUrF1yybIfjYxdud7HghkVpohrddRBqhjL3W8SDCkngrXrzjyftjs=
+	t=1748021671; cv=none; b=AHE0Kn3yTR7DIUuxJPS75/bIR0y/kvvUeDj7hEwBhsVYxImnqyLQm6YAaqbBHfO+sKYQtjjfr52Jjcsi+/lvB6ig1zghJp+nGCbQuAyMydZUxY4KZnaFaTGCfay98Yn0bW+91p1zqV/Z0WD2Dp+6+mURY869FPiMPcHaCV+Hm8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748021391; c=relaxed/simple;
-	bh=Hg+POBQs/xSBvuTsP18TF/uKSrgQvrTbuM9KHUW+3HE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N2zSc/WqOb4fNvOCVFxatm2AUsOiD43MtTuxsMUuiXHe6aPFDlh5GGHZE/2Elopg52XgR8wa+O6RKtT56y2ekcmxXE+LhzrbKc6eYc+iWk3DlQRxW3qEjDGoANW0EVTCkb2apnxxl/5FzpjdQLDdpa6VfwtJ6aLuhZuw79swEA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbZzzYVj; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1748021671; c=relaxed/simple;
+	bh=o/MfV3NBdoLlJ+2K8YIIS097SZ/GoVrhpmXnuk4lhS0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=NHM9rJ8yaaM7tSHC27+T3RZfYD7ur0H0JT9WULenQq/BYCZqbr4y7UpINdftI46BsrkjTkreCkTd77TkgqZc++GmxSzaNeyxXxUCvWJ+qtsWele7wReyiLGlxjj0zDZk4vBq05ysKPA4wkbJgDVO8RbQTxFz49ipfC6txkZmgBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DWOh6P3z; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbZzzYVj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DWOh6P3z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748021390; x=1779557390;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Hg+POBQs/xSBvuTsP18TF/uKSrgQvrTbuM9KHUW+3HE=;
-  b=HbZzzYVjelaF1fiyaFC40w+at4VPWFYz2pcl4VrZ8N/9JXodMko/OTnT
-   b3KtxdIzLYlXGo2B8S4Y5K1aTWP2glU21B0ngc00KKGRP5NgVzjqFQOEs
-   JtuCcdynQQr1PtJAASJxpufVkimojSidHZO2HggQUTbi0F1mnMMP+xx4y
-   +C9X0b8km12RGd3z+SIwtz1kUUfKCg/EOlx5BSQa+TK/pty1mPKqzJUDa
-   W/vHeQqPyznErMMd8AxHghfLlsxrbY2ZZBjpRFs1yug/LvkrvbIPiNbq/
-   gITGCWwQ9o3q4H92y5q19Wl+L0s3g7Wbad7RYSbiTfEhlpXAVVQ7UPnxM
-   w==;
-X-CSE-ConnectionGUID: 3D+JbRTsTDW04zolJJ5SlQ==
-X-CSE-MsgGUID: cINeZdSGS6m67R6dEiIJuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50009251"
+  t=1748021670; x=1779557670;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=o/MfV3NBdoLlJ+2K8YIIS097SZ/GoVrhpmXnuk4lhS0=;
+  b=DWOh6P3zYKXprTBNn08PtuRamjz7BhNmSCx6RiwS3tlZdyrLYDc4U6af
+   tf1m0qB1mYsRNL4nJkf2ULvS0TBfkjZbBjE3sGRgoxpAI/7xTgb9c9upd
+   nvMfu2mBc29apN5yjvjvfggWj4KO/QmwmpAPOcQ/tu6FtI3i76Y1DxAqU
+   hg/5WpEmEOnKZ5S0bfuvesO2v7hdTpZ0wY5dcaHGMu8IBMebwqa4mHTjT
+   pZnmV6wRrJop5scx7GAtxMZqedh9k7Y8AjV6CgkslsP7UZHXiQC1uLj04
+   w3r/0xA02Mdh64ODWJc8N8hiD6gHtBFP+1pVz/WIF09cTcd8kOThbALUZ
+   A==;
+X-CSE-ConnectionGUID: rr0vuA4ATZyn4WePMIDH8g==
+X-CSE-MsgGUID: XNI2bBW/RPazlA6jcoC6tA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="60343224"
 X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="50009251"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 10:29:49 -0700
-X-CSE-ConnectionGUID: PqTrVVY7SsqG0j33D4snSw==
-X-CSE-MsgGUID: 60OZtcGTTyOGheO66+8wWw==
+   d="scan'208";a="60343224"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 10:34:29 -0700
+X-CSE-ConnectionGUID: 74aNxdbuQviu7Jiggnwokg==
+X-CSE-MsgGUID: GL52UcBGRBSbQAZ4kf0u8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="146204841"
-Received: from msatwood-mobl.amr.corp.intel.com (HELO [10.125.109.147]) ([10.125.109.147])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 10:29:49 -0700
-Message-ID: <f76327dd-b505-4a24-938c-5b917da9aff2@intel.com>
-Date: Fri, 23 May 2025 10:29:48 -0700
+   d="scan'208";a="142178954"
+Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
+  by orviesa008.jf.intel.com with ESMTP; 23 May 2025 10:33:02 -0700
+From: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+To: donald.hunter@gmail.com,
+	kuba@kernel.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	vadim.fedorenko@linux.dev,
+	jiri@resnulli.us,
+	anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com,
+	andrew+netdev@lunn.ch,
+	aleksandr.loktionov@intel.com,
+	corbet@lwn.net
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-rdma@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Milena Olech <milena.olech@intel.com>
+Subject: [PATCH net-next v4 1/3] dpll: add reference-sync netlink attribute
+Date: Fri, 23 May 2025 19:26:48 +0200
+Message-Id: <20250523172650.1517164-2-arkadiusz.kubalewski@intel.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20250523172650.1517164-1-arkadiusz.kubalewski@intel.com>
+References: <20250523172650.1517164-1-arkadiusz.kubalewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/5] KVM: SEV: Add SEV-SNP CipherTextHiding support
-To: Ashish Kalra <Ashish.Kalra@amd.com>, corbet@lwn.net, seanjc@google.com,
- pbonzini@redhat.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, hpa@zytor.com, herbert@gondor.apana.org.au,
- akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org
-Cc: x86@kernel.org, thuth@redhat.com, ardb@kernel.org,
- gregkh@linuxfoundation.org, john.allen@amd.com, davem@davemloft.net,
- thomas.lendacky@amd.com, michael.roth@amd.com, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <cover.1747696092.git.ashish.kalra@amd.com>
- <e663930ca516aadbd71422af66e6939dd77e7b06.1747696092.git.ashish.kalra@amd.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <e663930ca516aadbd71422af66e6939dd77e7b06.1747696092.git.ashish.kalra@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/19/25 17:02, Ashish Kalra wrote:
-> +	kvm-amd.ciphertext_hiding_nr_asids=
-> +			[KVM,AMD] Enables SEV-SNP CipherTextHiding feature and
-> +			controls show many ASIDs are available for SEV-SNP guests.
-> +			The ASID space is basically split into legacy SEV and
-> +			SEV-ES+. CipherTextHiding feature further splits the
-> +			SEV-ES+ ASID space into SEV-ES and SEV-SNP.
-> +			If the value is -1, then it is used as an auto flag
-> +			and splits the ASID space equally between SEV-ES and
-> +			SEV-SNP ASIDs.
+Add new netlink attribute to allow user space configuration of reference
+sync pin pairs, where both pins are used to provide one clock signal
+consisting of both: base frequency and sync signal.
 
-This help text isn't great.
+Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Reviewed-by: Milena Olech <milena.olech@intel.com>
+Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+---
+v4:
+- no change.
+---
+ Documentation/driver-api/dpll.rst     | 25 +++++++++++++++++++++++++
+ Documentation/netlink/specs/dpll.yaml | 19 +++++++++++++++++++
+ drivers/dpll/dpll_nl.c                | 10 ++++++++--
+ drivers/dpll/dpll_nl.h                |  1 +
+ include/uapi/linux/dpll.h             |  1 +
+ 5 files changed, 54 insertions(+), 2 deletions(-)
 
-It doesn't come out and say what the connection between CipherTextHiding
-and SEV-ES+. It's also impossible to choose a good number without
-knowing how large the ASID space is in the first place.
-
-Why use "-1"? Why not just take "auto" as a parameter?
-
-It also needs to say what CipherTextHiding is in the first place and be
-more clear about what the tradeoffs are from enabling this.
-
+diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
+index e6855cd37e85..7570890c6cd1 100644
+--- a/Documentation/driver-api/dpll.rst
++++ b/Documentation/driver-api/dpll.rst
+@@ -235,6 +235,31 @@ the pin.
+   ``DPLL_A_PIN_ESYNC_PULSE``                pulse type of Embedded SYNC
+   ========================================= =================================
+ 
++Reference SYNC
++==============
++
++The device may support the Reference SYNC feature, which allows the combination
++of two inputs into a Reference SYNC pair. In this configuration, clock signals
++from both inputs are used to synchronize the dpll device. The higher frequency
++signal is utilized for the loop bandwidth of the DPLL, while the lower frequency
++signal is used to syntonize the output signal of the DPLL device. This feature
++enables the provision of a high-quality loop bandwidth signal from an external
++source.
++
++A capable input provides a list of inputs that can be paired to create a
++Reference SYNC pair. To control this feature, the user must request a desired
++state for a target pin: use ``DPLL_PIN_STATE_CONNECTED`` to enable or
++``DPLL_PIN_STATE_DISCONNECTED`` to disable the feature. Only two pins can be
++bound to form a Reference SYNC pair at any given time.
++
++  ============================== ==========================================
++  ``DPLL_A_PIN_REFERENCE_SYNC``  nested attribute for providing info or
++                                 requesting configuration of the Reference
++                                 SYNC feature
++    ``DPLL_A_PIN_ID``            target pin id for Reference SYNC pair
++    ``DPLL_A_PIN_STATE``         state of Reference SYNC pair connection
++  ============================== ==========================================
++
+ Configuration commands group
+ ============================
+ 
+diff --git a/Documentation/netlink/specs/dpll.yaml b/Documentation/netlink/specs/dpll.yaml
+index 8feefeae5376..333b4596b36f 100644
+--- a/Documentation/netlink/specs/dpll.yaml
++++ b/Documentation/netlink/specs/dpll.yaml
+@@ -406,6 +406,15 @@ attribute-sets:
+         doc: |
+           A ratio of high to low state of a SYNC signal pulse embedded
+           into base clock frequency. Value is in percents.
++      -
++        name: reference-sync
++        type: nest
++        multi-attr: true
++        nested-attributes: reference-sync
++        doc: |
++          Capable pin provides list of pins that can be bound to create a
++          reference-sync pin pair.
++
+   -
+     name: pin-parent-device
+     subset-of: pin
+@@ -436,6 +445,14 @@ attribute-sets:
+         name: frequency-min
+       -
+         name: frequency-max
++  -
++    name: reference-sync
++    subset-of: pin
++    attributes:
++      -
++        name: id
++      -
++        name: state
+ 
+ operations:
+   enum-name: dpll_cmd
+@@ -574,6 +591,7 @@ operations:
+             - esync-frequency
+             - esync-frequency-supported
+             - esync-pulse
++            - reference-sync
+ 
+       dump:
+         request:
+@@ -601,6 +619,7 @@ operations:
+             - parent-pin
+             - phase-adjust
+             - esync-frequency
++            - reference-sync
+     -
+       name: pin-create-ntf
+       doc: Notification about pin appearing
+diff --git a/drivers/dpll/dpll_nl.c b/drivers/dpll/dpll_nl.c
+index fe9b6893d261..d709a8dc304f 100644
+--- a/drivers/dpll/dpll_nl.c
++++ b/drivers/dpll/dpll_nl.c
+@@ -24,6 +24,11 @@ const struct nla_policy dpll_pin_parent_pin_nl_policy[DPLL_A_PIN_STATE + 1] = {
+ 	[DPLL_A_PIN_STATE] = NLA_POLICY_RANGE(NLA_U32, 1, 3),
+ };
+ 
++const struct nla_policy dpll_reference_sync_nl_policy[DPLL_A_PIN_STATE + 1] = {
++	[DPLL_A_PIN_ID] = { .type = NLA_U32, },
++	[DPLL_A_PIN_STATE] = NLA_POLICY_RANGE(NLA_U32, 1, 3),
++};
++
+ /* DPLL_CMD_DEVICE_ID_GET - do */
+ static const struct nla_policy dpll_device_id_get_nl_policy[DPLL_A_TYPE + 1] = {
+ 	[DPLL_A_MODULE_NAME] = { .type = NLA_NUL_STRING, },
+@@ -62,7 +67,7 @@ static const struct nla_policy dpll_pin_get_dump_nl_policy[DPLL_A_PIN_ID + 1] =
+ };
+ 
+ /* DPLL_CMD_PIN_SET - do */
+-static const struct nla_policy dpll_pin_set_nl_policy[DPLL_A_PIN_ESYNC_FREQUENCY + 1] = {
++static const struct nla_policy dpll_pin_set_nl_policy[DPLL_A_PIN_REFERENCE_SYNC + 1] = {
+ 	[DPLL_A_PIN_ID] = { .type = NLA_U32, },
+ 	[DPLL_A_PIN_FREQUENCY] = { .type = NLA_U64, },
+ 	[DPLL_A_PIN_DIRECTION] = NLA_POLICY_RANGE(NLA_U32, 1, 2),
+@@ -72,6 +77,7 @@ static const struct nla_policy dpll_pin_set_nl_policy[DPLL_A_PIN_ESYNC_FREQUENCY
+ 	[DPLL_A_PIN_PARENT_PIN] = NLA_POLICY_NESTED(dpll_pin_parent_pin_nl_policy),
+ 	[DPLL_A_PIN_PHASE_ADJUST] = { .type = NLA_S32, },
+ 	[DPLL_A_PIN_ESYNC_FREQUENCY] = { .type = NLA_U64, },
++	[DPLL_A_PIN_REFERENCE_SYNC] = NLA_POLICY_NESTED(dpll_reference_sync_nl_policy),
+ };
+ 
+ /* Ops table for dpll */
+@@ -139,7 +145,7 @@ static const struct genl_split_ops dpll_nl_ops[] = {
+ 		.doit		= dpll_nl_pin_set_doit,
+ 		.post_doit	= dpll_pin_post_doit,
+ 		.policy		= dpll_pin_set_nl_policy,
+-		.maxattr	= DPLL_A_PIN_ESYNC_FREQUENCY,
++		.maxattr	= DPLL_A_PIN_REFERENCE_SYNC,
+ 		.flags		= GENL_ADMIN_PERM | GENL_CMD_CAP_DO,
+ 	},
+ };
+diff --git a/drivers/dpll/dpll_nl.h b/drivers/dpll/dpll_nl.h
+index f491262bee4f..3da10cfe9a6e 100644
+--- a/drivers/dpll/dpll_nl.h
++++ b/drivers/dpll/dpll_nl.h
+@@ -14,6 +14,7 @@
+ /* Common nested types */
+ extern const struct nla_policy dpll_pin_parent_device_nl_policy[DPLL_A_PIN_PHASE_OFFSET + 1];
+ extern const struct nla_policy dpll_pin_parent_pin_nl_policy[DPLL_A_PIN_STATE + 1];
++extern const struct nla_policy dpll_reference_sync_nl_policy[DPLL_A_PIN_STATE + 1];
+ 
+ int dpll_lock_doit(const struct genl_split_ops *ops, struct sk_buff *skb,
+ 		   struct genl_info *info);
+diff --git a/include/uapi/linux/dpll.h b/include/uapi/linux/dpll.h
+index bf97d4b6d51f..f6cb6209566c 100644
+--- a/include/uapi/linux/dpll.h
++++ b/include/uapi/linux/dpll.h
+@@ -237,6 +237,7 @@ enum dpll_a_pin {
+ 	DPLL_A_PIN_ESYNC_FREQUENCY,
+ 	DPLL_A_PIN_ESYNC_FREQUENCY_SUPPORTED,
+ 	DPLL_A_PIN_ESYNC_PULSE,
++	DPLL_A_PIN_REFERENCE_SYNC,
+ 
+ 	__DPLL_A_PIN_MAX,
+ 	DPLL_A_PIN_MAX = (__DPLL_A_PIN_MAX - 1)
+-- 
+2.38.1
 
