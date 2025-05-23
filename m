@@ -1,169 +1,158 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FF92949F4
-	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 18:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629A5295DB9
+	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 18:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748023814; cv=none; b=FU3/gckDgc5ARtIk/NNS2+C7tc72CqU6mvdwMhoEQQitqy0Sf8ltra82MEfJf3qdJTT5G0YurGJ9+ORZEGk4UFEckC8ascFRIv7qXzvRA1xfkq87ATzSm6kJWydL++YWQ7bZ4AMjEcYEZv5G08lcGTiftYlhVyBu6oNGsZEXeAw=
+	t=1748025049; cv=none; b=l3ap3AvRoZuJcnL44CkY+UJJtVlY1Az1Z3c9kBw5Hz9J18eKkdIXxjDl4ZJxw6Pxq1mal2oSHYYDInm4Ni1ejNtzb5w+lOOoxB5NtMW91ynij26+TykgILh1J2segERKzsLFlXiBmuPj9Xby/ppmwQg15/ZIZjZSDQsWtWXKFYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748023814; c=relaxed/simple;
-	bh=UU1RX1eq4TtMyJ2pnNDAtBTGry3M60mWbysvaPNt8HQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WxQKxtMy6RR8r4ar2ggK7CtGibsb7UI+JkJ8NJRZiCE8zwQtr59CFBsmv1D8lbRkuTbf+03GT29n91EUORBqpXBtO+uAZxM5Yk5WffGCPjmb0mmLCzZpVUpsTEVxRkyXPXKtElDVsnxmySb+YRbfVeL4/uRjL2mYA2MCxfTzz+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=vhTiVtnT; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1748025049; c=relaxed/simple;
+	bh=JbUIjDHozqFZ2+ZIIgiUMiStVmYqgccKErpZffZ0FfQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=upEdq5CH78xKJMjoIsFmqGr5Q1GqwWCid20CXWhmUyu971BYhNhw464utLpWK/gUuHngzHM6i9qwSqWnN7p+Q2YI/K6bKpA4zFJI6v3OUOwK97z7U7vNrsBS3JBIQmb1oI7SXhO595CMgr58p19R2TqecOFLhe7jr1qukWG+QLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=rhEIa+hf; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="vhTiVtnT"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4767e969b94so1554771cf.2
-        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 11:10:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rhEIa+hf"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b1f7357b5b6so106965a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 11:30:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1748023812; x=1748628612; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=si3A8XaUwff9ewfSpNvPOminfhYVFidrmtQfQaknH9s=;
-        b=vhTiVtnTz4LOjwyzTdabaDahbKkVHP6urUwaCxgIh6syZFInBoixGfTVXPrxTQMCv9
-         Isg1maXlzIOZXap/wLfvoDQ32bF7VBPxw1Yl6W79KTL48bwJODecy22ftdiMmPz1XOnZ
-         xaK7iIEhMFGSwpR9LtXvEZNexN50SvecTqUaKCA5MEaf3fzqKQ/QNw+z2IGCjOMiHnlo
-         JSyHbXi+vvVi4ILn9ytq2WksmTPDKEifR0StZ5tzKu/AJh5PXv/7wFbFCBlDI9zSRyvY
-         onRnBdqXuz57SJO7zXbRpwnoODoXHqNdb7/4p+2a7wJ6KscN6Pswa8MNVWDmibJDBlGU
-         gWTg==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1748025047; x=1748629847; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gWbUHPNgvAgT5G9XCmvjzlBHTlpN3kX1yERm+5eFQko=;
+        b=rhEIa+hf27Y0eogw4f14fmL/RUgsPCjErP4boL5tqlV8qiJU5oNRGebUrW3BfBg/pl
+         HcXzZRCbqoSNCxHmt5M/FEFoY1vQIAA6gMLKstDImwuioj4yJOyHcPMujIPE8CuC3Rk4
+         lkWcWTRYa1V5brIK/1fGVlHa7Bhyqf5ZHS4762XOzAg9nL1gAkAbunOSfhjyz2FMTimR
+         9WHgPUMo+OOTOGAxDz4nXBQflbBr40xR1HDB2OB6DAkp0RfSjT/F3wE8KXMMvXV/43wD
+         5f0TZVNHIaevd7EJhxS7SD3x+qXkh4caexYLB3t/x5pf92rZqDsiWfotAhwq/uEtN45Q
+         8IOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748023812; x=1748628612;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=si3A8XaUwff9ewfSpNvPOminfhYVFidrmtQfQaknH9s=;
-        b=sRQ8Crvyru1rRKzX4hOEqddyOPm1Hoa24l+KsaDq+mYY7W4123gjVyVbhvitHzXLsX
-         icfwElQpnt9gM8syX1n4RWvNIB5ZTtnuMPok4RNOq1wHIaTmix3M78EUaVTJE43AObFJ
-         d3CO11uZDwFAS01cE/vJ4ZRcje2rdE8N01hMW662O4KfsWKrSxhMPiqV5yyAPrZi/d95
-         fuczFOICyRZ4fqvTWkBAaFr+igFTpelX1U+9xJAKsYQTIUJaSSnWBX8HCHQ8B3/I2eS7
-         eescwVa2s4h7UmYRJQSArKwwklK1WhLxzmiCIEjGRAcfgGVtdifloHUwRBFAr3Wbzjtb
-         KAog==
-X-Forwarded-Encrypted: i=1; AJvYcCXZ6wRNfF/JJgAKsNZpUK54O0N+akGce6C0qCWPz9scEEWVh1OfznOKy6o2A8+hxbZBWLIOLIeAsf4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjKkG2t0VoaWMlWLE4fHPkV2dRClBTOkzLCpyemNvqZ6kLrf95
-	pIkTSTl59WjokggkPLs4CbCzsYyjN0oAexvIx7di4TmVPoGPrCC0gSljJFkKEHAC0g+BlOlSLMV
-	wC6W4XSYdrIa7DlvfVs6XhTLe4xOY1s9GFh3UbOE+sA==
-X-Gm-Gg: ASbGncuXogr7VMWqiU0dimwbMxFSDl7KHlU+dKleDKcXo1eCR9ZsXjHjTXFdFb/u6MJ
-	tMw8uyLe36Gvcmc8za7BE3XV86e5sRA2vghfrKF/bHl36K0owhAIk+FZshF5jK/o5zL3saaB2J7
-	5MJCNDzhtSux2pqn5wcVNlTnfUx1bZVA==
-X-Google-Smtp-Source: AGHT+IHrhwlhpbZgGn/INwXn8JABUEPnTpSZnLrw9spErvT2Y1rpItsFgRTQatYYH58STp3erxQD5FNgCdtGvUD856o=
-X-Received: by 2002:a05:622a:4ccf:b0:48a:2a08:cbef with SMTP id
- d75a77b69052e-49f4624f333mr3037761cf.5.1748023812162; Fri, 23 May 2025
- 11:10:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748025047; x=1748629847;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gWbUHPNgvAgT5G9XCmvjzlBHTlpN3kX1yERm+5eFQko=;
+        b=qOSdtik033OiQIrICVUXR+lz3jYEhs6ZBOwbjIoOVYN6hGz3kBAhnL/UpAc4OTdyfR
+         7ycdUz8LYGwXV5QO1odX4opuVKfY3AtnUP9AdgD/AG4iaCosBEJCi9JSf7ROCR4YDIT0
+         OiPLjClK818e/0I7sITao5eahfbZsUWlsjq0Zk6nGyZdHrCN1ZF36PW1IMsQ5IMF7h4s
+         iHY1Lm0CX3mCTV1tRohnmom/8mcri/nw2+ZzL4I1SevYd0XhOfZqypx4taRQX9UOkLuk
+         yIscxKNtCUcjjkb+Lnn2FgR9i87J7WRi5P1CIgXd8u3TDl8uWQ+kdooQByp5jr9HM3pE
+         S9qA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUkCVNp1SGPOTVGN3tfSp7SN2KRthJcqgb/tTBHWmOaUkEvxeLVegqBi7Qd7/X4oiy0QLiLB3db7k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/nRcjiyQB9bWeqqhVf1WKiZwhnZaDwiVBcpOlOLorDLjdMpwd
+	QcURtWYmSk1AaXai3XpHsJhoaGQoCZLl2WhnmS3nCIGh1Qzic6k0rIzJtdazjCaSpiA=
+X-Gm-Gg: ASbGncsNyiB8iWm+xDXUVLVNdw5Z7EN/WYnUkAxPkJBgzliPwUm1kzHVpOhXJ2eFQF5
+	i4GChHX22nC00gXpO9VgLjLMS+iqxWTr7RGDa0llFVbFZMsg/RYIVCseNflJisu0TyBL/UDFhg3
+	Us+mKvJ3uHzOV2X318TMlBP9eOLTTafrUm303NEhx/ZT23LVhB+RDsDJt4Jqj3nPrziG3djIuFA
+	YJMwbpoKkFAcC60l0l0P/1QHBmCCdXYOuX/rw3fcorVq2yAg4PDRgf7wg5PJwPlg+ZPqvvEy+10
+	fcQqOJ8eWuASiDv4aq6ccl/3NQeGJTitDDjE/JV9eWTw6IM=
+X-Google-Smtp-Source: AGHT+IF6EgWK2eUC5Xu5iRop7pXN3/Fhxf1IfDgAGTEelKq535OUbR+gaTA3ptsvLBrT9R7jy18zfQ==
+X-Received: by 2002:a17:90b:17c1:b0:310:c46c:ee6b with SMTP id 98e67ed59e1d1-31111a4c866mr121461a91.33.1748025046448;
+        Fri, 23 May 2025 11:30:46 -0700 (PDT)
+Received: from ghost ([2601:647:6700:64d0:bb2c:c7d9:9014:13ab])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-310f7eb53a9sm1014559a91.12.2025.05.23.11.30.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 May 2025 11:30:45 -0700 (PDT)
+Date: Fri, 23 May 2025 11:30:42 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Anup Patel <anup@brainfault.org>,
+	Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+	linux-kselftest@vger.kernel.org,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Deepak Gupta <debug@rivosinc.com>
+Subject: Re: [PATCH v8 09/14] riscv: misaligned: move emulated access
+ uniformity check in a function
+Message-ID: <aDC-0qe5STR7ow4m@ghost>
+References: <20250523101932.1594077-1-cleger@rivosinc.com>
+ <20250523101932.1594077-10-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-9-pasha.tatashin@soleen.com> <CADrL8HWdAzQRVhLh2Pq1GV2fy6tus66Eo37PvG9A98kUJTihsg@mail.gmail.com>
-In-Reply-To: <CADrL8HWdAzQRVhLh2Pq1GV2fy6tus66Eo37PvG9A98kUJTihsg@mail.gmail.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 23 May 2025 14:09:34 -0400
-X-Gm-Features: AX0GCFsjdnMDiIp0JeLxLW-c2VjwkiovzqMTPqtMLc5iAfcnOak-tebCgQ6toto
-Message-ID: <CA+CK2bB5K5zUg+-PZ2xs+iRhQskGzNgt8+ELN501ni9SM98srQ@mail.gmail.com>
-Subject: Re: [RFC v2 08/16] luo: luo_files: add infrastructure for FDs
-To: James Houghton <jthoughton@google.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250523101932.1594077-10-cleger@rivosinc.com>
 
-On Thu, May 15, 2025 at 7:16=E2=80=AFPM James Houghton <jthoughton@google.c=
-om> wrote:
->
-> On Thu, May 15, 2025 at 11:23=E2=80=AFAM Pasha Tatashin
-> <pasha.tatashin@soleen.com> wrote:
-> > +/**
-> > + * luo_retrieve_file - Find a registered file instance by its token.
-> > + * @token: The unique token of the file instance to retrieve.
-> > + * @file: Output parameter. On success (return value 0), this will poi=
-nt
-> > + * to the retrieved "struct file".
-> > + *
-> > + * Searches the global list for a &struct luo_file matching the @token=
-. Uses a
-> > + * read lock, allowing concurrent retrievals.
-> > + *
-> > + * Return: 0 on success. Negative errno on failure.
-> > + */
-> > +int luo_retrieve_file(u64 token, struct file **file)
-> > +{
-> > +       struct luo_file *luo_file;
-> > +       int ret =3D 0;
-> > +
-> > +       luo_files_recreate_luo_files_xa_in();
-> > +       luo_state_read_enter();
-> > +       if (!liveupdate_state_updated()) {
-> > +               pr_warn("File can be retrieved only in updated state\n"=
-);
-> > +               luo_state_read_exit();
-> > +               return -EBUSY;
-> > +       }
-> > +
-> > +       luo_file =3D xa_load(&luo_files_xa_in, token);
-> > +       if (luo_file && !luo_file->reclaimed) {
-> > +               luo_file->reclaimed =3D true;
->
-> I haven't been able to pay too much attention to the series yet, and I
-> know this was posted as an RFC, so pardon my nit-picking.
->
-> I think you need to have xchg here for this not to be racy, so something =
-like:
->
-> `if (luo_file && !xchg(&luo_file->reclaimed, true))`
->
-> Or maybe you meant to avoid this race some other way; IIUC,
-> luo_state_read_enter() is not sufficient.
+On Fri, May 23, 2025 at 12:19:26PM +0200, Clément Léger wrote:
+> Split the code that check for the uniformity of misaligned accesses
+> performance on all cpus from check_unaligned_access_emulated_all_cpus()
+> to its own function which will be used for delegation check. No
+> functional changes intended.
+> 
+> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> ---
+>  arch/riscv/kernel/traps_misaligned.c | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
+> index f1b2af515592..7ecaa8103fe7 100644
+> --- a/arch/riscv/kernel/traps_misaligned.c
+> +++ b/arch/riscv/kernel/traps_misaligned.c
+> @@ -645,6 +645,18 @@ bool __init check_vector_unaligned_access_emulated_all_cpus(void)
+>  }
+>  #endif
+>  
+> +static bool all_cpus_unaligned_scalar_access_emulated(void)
+> +{
+> +	int cpu;
+> +
+> +	for_each_online_cpu(cpu)
+> +		if (per_cpu(misaligned_access_speed, cpu) !=
+> +		    RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED)
+> +			return false;
+> +
+> +	return true;
+> +}
 
-Thank you for catching this. This is a bug, I actually added a per fd
-mutex lock to struct luo_file that is supposed to be used here. I am
-going to address this in the next version.
+This ends up wasting time when !CONFIG_RISCV_SCALAR_MISALIGNED since it
+will always return false in that case. Maybe there is a way to simplify
+the ifdefs and still have performant code, but I don't think this is a
+big enough problem to prevent this patch from merging.
 
-Thanks,
-Pasha
+Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
+Tested-by: Charlie Jenkins <charlie@rivosinc.com>
 
->
-> Thanks!
->
-> > +               ret =3D luo_file->fs->retrieve(luo_file->fs->arg,
-> > +                                            luo_file->private_data,
-> > +                                            file);
-> > +               if (!ret)
-> > +                       luo_file->file =3D *file;
-> > +       } else if (luo_file && luo_file->reclaimed) {
-> > +               pr_err("The file descriptor for token %lld has already =
-been retrieved\n",
-> > +                      token);
-> > +               ret =3D -EINVAL;
-> > +       } else {
-> > +               ret =3D -ENOENT;
-> > +       }
-> > +
-> > +       luo_state_read_exit();
-> > +
-> > +       return ret;
-> > +}
+> +
+>  #ifdef CONFIG_RISCV_SCALAR_MISALIGNED
+>  
+>  static bool unaligned_ctl __read_mostly;
+> @@ -683,8 +695,6 @@ static int cpu_online_check_unaligned_access_emulated(unsigned int cpu)
+>  
+>  bool __init check_unaligned_access_emulated_all_cpus(void)
+>  {
+> -	int cpu;
+> -
+>  	/*
+>  	 * We can only support PR_UNALIGN controls if all CPUs have misaligned
+>  	 * accesses emulated since tasks requesting such control can run on any
+> @@ -692,10 +702,8 @@ bool __init check_unaligned_access_emulated_all_cpus(void)
+>  	 */
+>  	on_each_cpu(check_unaligned_access_emulated, NULL, 1);
+>  
+> -	for_each_online_cpu(cpu)
+> -		if (per_cpu(misaligned_access_speed, cpu)
+> -		    != RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED)
+> -			return false;
+> +	if (!all_cpus_unaligned_scalar_access_emulated())
+> +		return false;
+>  
+>  	unaligned_ctl = true;
+>  	return true;
+> -- 
+> 2.49.0
+> 
