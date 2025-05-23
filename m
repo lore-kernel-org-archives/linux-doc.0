@@ -1,65 +1,65 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F340E1A83E8
-	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 19:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C3A20F080
+	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 19:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748028125; cv=none; b=h9ZImKL/DPqlh/JJtkUQmjwF3zGxCPXxiRZDdxU9OAXuQa/L1DJxiy3c847bSSehzizhIxZ8xFIHG7l0SqQNffcPvVBNuSvZUrofc/VTQOrbj/i26VAL2pTWpQTF2LuzCTb3WpIL6C8xPpXQm2luGLKMnwL600puf3W5gp1Qmb4=
+	t=1748028236; cv=none; b=oH+zT34nfxa0eNT83GWNw7zwr/xAwJvtsV4MUSkcXJM8fLpoykhV0SmM0gmBhEEOFFkbHFtFKpAXMLHXeGPVqTK9a3AImUoBenrJ69MhtQYwenFqll7QZk+qwU/CwnjGkJtToPfoXMMlRz+GUr/VzLK0ZNcMGDXrSIKXTq/NLEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748028125; c=relaxed/simple;
-	bh=QTgsq+8ZSYotM2YZLiiLRhq0j7JWuLmmzU6tbY7ZKFs=;
+	s=arc-20240116; t=1748028236; c=relaxed/simple;
+	bh=NECU1W/GfeOBqRjNfEa0fXcRwvYNTzTuGDKdrAlKpxI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=am8xBvZIq4yIgoCPyc2N3nCDmkQIXNI7rOxSdr2gW8ve+Jfs+3rWUM22iqeeU0SWaopCqkPe0ayzoW4DqrJ5+4ZwMSvUpZ7pdlvna0STg4oJ3YIMeQI1Mr9IDB7lpDINqy2JKUnXdPlgCkgOjNTyb14fYA2y7ZXd8GkIHLg+/gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=cE8JETa/; arc=none smtp.client-ip=209.85.210.175
+	 In-Reply-To:Content-Type; b=l5o1HxCy1hJQIn63Bf14xn1lWoyYwrRmW7JTDNPbHuNz3ieiRL0PzIrvdb1CqeHPAmO41sxvlWoJ3v8L78cEVfQgh+IVYcPlp7lvHWsnx0dFS9Y4YoQezhPGyYAWN9oRd5XoNDz6Qwto18xuk11VuiHUy/7A4prLuW9tM6bUP9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=hG14mgnU; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="cE8JETa/"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7399838db7fso294373b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 12:22:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="hG14mgnU"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b26f7d2c1f1so229137a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 12:23:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1748028123; x=1748632923; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1748028234; x=1748633034; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ral+N2d0KfCW37vBolJovFgnCe0tWP7reKx7tiu0DfE=;
-        b=cE8JETa/oOGBqW0x9SvgpyUmskZh1q7/pZkOozdng89F5CqAU0gpMM0ZIsko11MFDl
-         GQpX5f+z47jJllsE22FaQmoulPgEwqrRvHkQxNrVuS8huyrmowpv2S11zk6KsRpRJoTh
-         215wcU0Uyz8CrsJM1grlvO/scEM2W0FJN6YQplJX9nawK2FzH9otqaLmpRM414sOWQLR
-         x+CI+QxQokpK8VEE5RPpWLDm/cQv/5uqDPP/zzGu5mXZWeKr+hOv82A29IvQO0L0uFd1
-         SwD7ANJ8U+3xzyU7m+dYS9ZBkCDCDhcfeI6WGwgvScLyMFs930ERMPwSErxqOwFK9FS1
-         +LiA==
+        bh=ymdNLyOhnChndrLOo/uMB8HrcV+eYphQgSa+w1rmBgc=;
+        b=hG14mgnU8afCrC1AcBz5inUvSd1hIq5OLXqGLtnXyyGHcDTE9Gs8ZZjjKpQVmMV+Bx
+         ZuSvS2JDya0t8D3m/ljaYj95SIF4goBnPgllk4nnmUDFrvyCOa0R4jD/v8nNNmFNu4Cf
+         rwqhO4n4k7hKdzKR/dfre9/VEJ6SRTz43LxxVzj5eqF4t9/9SINWuBVOrEOhGJNJRfNa
+         2+Xrm1+N1etW1MbNwImqSVS71Ivd1EJ2hBVWrX2IOyLP9wzCpaAiLBuptVyJMKOO/Ldy
+         I0yya5u0EIH+g21vYC2LEnud1odXLGbmz4qtBIBtCVrG8T/aZ9KoFHoXO3z55UnojL/X
+         tQcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748028123; x=1748632923;
+        d=1e100.net; s=20230601; t=1748028234; x=1748633034;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ral+N2d0KfCW37vBolJovFgnCe0tWP7reKx7tiu0DfE=;
-        b=pAlnH8s/4srBzqfHXXbuBqNAZbj03ElCaNeyGJrR9+eyUf77KC3yoeG3LAKe6AL9mN
-         WAUThslMkj+IwmpcuZuuIlqGoyc70XY1IZy0KObZS7cLN48RlIE36Be8ZB5MpKEi6Q5H
-         MAyRfout8vBnlnBkdovotboiqp22L3Gy1MSZQcpmFbcn5bneL9uuDawlC5ynZSmz9jOz
-         dcz5jJN6thbfx/7W34WIGVkgQvrmsWtWnPd1Vb3912+pWjypij1ziTvALL0U3N5S2uOn
-         I6a4VomQIn+2JHNlcLOf7Hu6e6huE+Ixeu/CqJ/p6hmqb5hFwgUbY5DH1qj5rnc35cXN
-         3cFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWf+fcprpKzmAd9/yfCJWU40pNUfS9TrFV6FpMDyhEahJkUjsYkKh0CgUoEu952hvlio6gJ3/MW/NY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgX12C7FndCzQnmKBDl90IFVzaPfzqv4ZTkDTo3LKc87nMCVWx
-	WIx3S/QRlffEwK2ek8wAGqUL0uEz4aQyxqdomoZZ4HpC9nO7akvf9hzD6SRhDvNR9kk=
-X-Gm-Gg: ASbGncsdF+kXFlTDwB3x5Q4XVaorLMI56YxOpSTHSO6C5Wtb5Ieoc//sM7bJzcGzCZM
-	SUX+NOuyrF1xVcn6HPkhFsKPfa90RX+QRRPbra2kbi234AhLOIyRlaJSEhTa9h15nxBgcQvpPvb
-	RHde2gff0cB5isVaWGPh/J8WEPvLKgGdqrvTHAvmUDEk7b/8ypay8XCfTATakk7JIDtFg6qwE6p
-	rcbUTB1jxN90jsz1pKFotuV09HcJ+DR8VIm5sOORCspi28RgJaBLcUamfVHP65dRZ1Crmd5JGYv
-	Kuzo2Rj27bESFZZva4aLKrSji9F4GmtLkv1jKq3q+pLd6JpfvsOLyTdMhBNXTNLNirMOJRCeIkm
-	yqbJF8B6ctZ4/5PzpqawU
-X-Google-Smtp-Source: AGHT+IFZ/6OL3e/+nBzCYIYloiMUYM//2VK/chpXTyoMI+nuh1v5hqPREUkHkrHrx1lhvJEatv4h8w==
-X-Received: by 2002:a05:6a00:391e:b0:742:ae7e:7da1 with SMTP id d2e1a72fcca58-745fdb50dfamr1094649b3a.0.1748028123175;
-        Fri, 23 May 2025 12:22:03 -0700 (PDT)
+        bh=ymdNLyOhnChndrLOo/uMB8HrcV+eYphQgSa+w1rmBgc=;
+        b=Ol0nZw8bnIMTchQDOdNtSrcauAlPeWnodEHrdZP/yvAbqDVWxycU2DJTpADEhdIt+6
+         kAKGFlJI00A3LqZbyARM5kEyzR6gMXvutiigEaPsh5A5SV/Wccmtl9ziUtMhZAfM9EUP
+         ukTFiAEhWuZO8qoP0Koc75zOK7kl33aJUKeViqYjjRJpZn7ro9o1+jwprO0dh+OOqZN7
+         g6bUkLxErfvOOELjoNFSU2zSXumjY7KntPRZyNpctfstpWrO6W1tqL3T5oNzw8hHLji1
+         Sl36RZ2ErXD27qki/ewUITmYUuppKVp8NhvmkXfFQ6raziDgM5l0cWpA7y1xOVRJpXuV
+         SnEg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0qVSCVzHo/A4WwtViu3tqAVxVWM52qZGKmmqHJX/Y0iENdW32Jga3p0sCsrbd5hjIAANt6g31Y7w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzolh89F6gQyswWIi4uIeqoa7J310MH0SW0yj9qmoFKklC0Nq/s
+	nqXbRtmQ1Ug5XD5WI4xD0aJP/7FW0By5JOhF4VdcFmYSYSxz5X3ZA8F0dtV99oWLlFM=
+X-Gm-Gg: ASbGnctiXza4gPHCKMU25eJsqXjll3QsLcsmGbM7jh8nzNzPhatLoulPW/SKoga4swg
+	4csRmT2TKAeNxdlkeU7KLXBAMgHOMR+ALSthZhjgioO7SEA3ZldFA9/4FfEPUy64DpwWfRTlKBJ
+	cU4lKQQLES+LEzwoU9HBYZqoGO0JrQpIR0br53O7jFCn/9kRetBkvEinr+WxZ/HWFMhJPNXLsTW
+	LnG4qyZG0IWnaJ/9CTVfYXWx7Eq4kZzSuZ2cOYwO+wUJg2HiCdMIoSs48ensLLNzsH7Rub7168u
+	s6oPthXSnS+Df6rZTsDDKiJeK8nKfa7MXF09RQ/WpfE+9+nwVLKzGL54ynQTvch9XIfy/m/B2qO
+	dqTwR70ZoAoracuzKvwz6
+X-Google-Smtp-Source: AGHT+IGHsnt5I+k7LE92/G9eFGeVn+BHXduOeLqVjzYHaGY4iH/sZrh2puQGctc+9XB7qZF1QzFT9w==
+X-Received: by 2002:a17:903:244a:b0:223:5c33:56a8 with SMTP id d9443c01a7336-23414fb18ffmr9697045ad.35.1748028233664;
+        Fri, 23 May 2025 12:23:53 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a98770cdsm13178352b3a.151.2025.05.23.12.21.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4af1b75sm127752175ad.85.2025.05.23.12.23.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 May 2025 12:22:02 -0700 (PDT)
-Message-ID: <b2afb9c7-a3d2-4bf6-bfaa-d804358ccd88@rivosinc.com>
-Date: Fri, 23 May 2025 21:21:51 +0200
+        Fri, 23 May 2025 12:23:53 -0700 (PDT)
+Message-ID: <01696003-e2b4-4450-85cf-715e31b136d5@rivosinc.com>
+Date: Fri, 23 May 2025 21:23:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,105 +67,91 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 09/14] riscv: misaligned: move emulated access
- uniformity check in a function
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
+Subject: Re: [PATCH v8 13/14] RISC-V: KVM: add support for FWFT SBI extension
+To: Atish Patra <atish.patra@linux.dev>,
+ =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
  Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
  Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org, Samuel Holland <samuel.holland@sifive.com>,
- Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>
+ linux-kselftest@vger.kernel.org
+Cc: Samuel Holland <samuel.holland@sifive.com>,
+ Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>,
+ Charlie Jenkins <charlie@rivosinc.com>,
+ linux-riscv <linux-riscv-bounces@lists.infradead.org>
 References: <20250523101932.1594077-1-cleger@rivosinc.com>
- <20250523101932.1594077-10-cleger@rivosinc.com> <aDC-0qe5STR7ow4m@ghost>
+ <20250523101932.1594077-14-cleger@rivosinc.com>
+ <DA3K95ZYJ52S.1K6O3LN6WEI0N@ventanamicro.com>
+ <9f9e2869-725d-4590-887a-9b0ef091472e@rivosinc.com>
+ <DA3OJ7WWUGLT.35AVP0QQDJRZV@ventanamicro.com>
+ <5dd587b3-8c04-41d1-b677-5b07266cfec5@linux.dev>
 Content-Language: en-US
 From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <aDC-0qe5STR7ow4m@ghost>
+In-Reply-To: <5dd587b3-8c04-41d1-b677-5b07266cfec5@linux.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 23/05/2025 20:30, Charlie Jenkins wrote:
-> On Fri, May 23, 2025 at 12:19:26PM +0200, Clément Léger wrote:
->> Split the code that check for the uniformity of misaligned accesses
->> performance on all cpus from check_unaligned_access_emulated_all_cpus()
->> to its own function which will be used for delegation check. No
->> functional changes intended.
+On 23/05/2025 20:02, Atish Patra wrote:
+> On 5/23/25 9:27 AM, Radim KrÄmÃ¡Å wrote:
+>> 2025-05-23T17:29:49+02:00, Clément Léger <cleger@rivosinc.com>:
+>>> On 23/05/2025 15:05, Radim Krčmář wrote:
+>>>> 2025-05-23T12:19:30+02:00, Clément Léger <cleger@rivosinc.com>:
+>>>>> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
+>>>>> +static const enum sbi_fwft_feature_t kvm_fwft_defined_features[] = {
+>>>>> +    SBI_FWFT_MISALIGNED_EXC_DELEG,
+>>>>> +    SBI_FWFT_LANDING_PAD,
+>>>>> +    SBI_FWFT_SHADOW_STACK,
+>>>>> +    SBI_FWFT_DOUBLE_TRAP,
+>>>>> +    SBI_FWFT_PTE_AD_HW_UPDATING,
+>>>>> +    SBI_FWFT_POINTER_MASKING_PMLEN,
+>>>>> +};
+>>>>
+>>>> How will userspace control which subset of these features is allowed in
+>>>> the guest?
+>>>>
+>>>> (We can reuse the KVM SBI extension interface if we don't want to add a
+>>>>   FWFT specific ONE_REG.)
+>>>
+>>> Hi Radim,
+>>>
+>>> I didn't looked at that part. But most likely using the kvm one reg
+>>> interface seems ok like what is done for STA ? We could have per feature
+>>> override with one reg per feature.
 >>
->> Signed-off-by: Clément Léger <cleger@rivosinc.com>
->> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
->> ---
->>  arch/riscv/kernel/traps_misaligned.c | 20 ++++++++++++++------
->>  1 file changed, 14 insertions(+), 6 deletions(-)
+>> Sounds fine.
 >>
->> diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
->> index f1b2af515592..7ecaa8103fe7 100644
->> --- a/arch/riscv/kernel/traps_misaligned.c
->> +++ b/arch/riscv/kernel/traps_misaligned.c
->> @@ -645,6 +645,18 @@ bool __init check_vector_unaligned_access_emulated_all_cpus(void)
->>  }
->>  #endif
->>  
->> +static bool all_cpus_unaligned_scalar_access_emulated(void)
->> +{
->> +	int cpu;
->> +
->> +	for_each_online_cpu(cpu)
->> +		if (per_cpu(misaligned_access_speed, cpu) !=
->> +		    RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED)
->> +			return false;
->> +
->> +	return true;
->> +}
 > 
-> This ends up wasting time when !CONFIG_RISCV_SCALAR_MISALIGNED since it
-> will always return false in that case. Maybe there is a way to simplify
-> the ifdefs and still have performant code, but I don't think this is a
-> big enough problem to prevent this patch from merging.
-
-Yeah I though of that as well but the amount of call to this function is
-probably well below 10 times so I guess it does not really matters in
-that case to justify yet another ifdef ?
-
+> Yeah. We can have a follow up series for SBI FWFT state that allows user
+> space to toggle each state individually.
 > 
-> Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
-> Tested-by: Charlie Jenkins <charlie@rivosinc.com>
-
-Thanks,
-
-Clément
-
-> 
->> +
->>  #ifdef CONFIG_RISCV_SCALAR_MISALIGNED
->>  
->>  static bool unaligned_ctl __read_mostly;
->> @@ -683,8 +695,6 @@ static int cpu_online_check_unaligned_access_emulated(unsigned int cpu)
->>  
->>  bool __init check_unaligned_access_emulated_all_cpus(void)
->>  {
->> -	int cpu;
->> -
->>  	/*
->>  	 * We can only support PR_UNALIGN controls if all CPUs have misaligned
->>  	 * accesses emulated since tasks requesting such control can run on any
->> @@ -692,10 +702,8 @@ bool __init check_unaligned_access_emulated_all_cpus(void)
->>  	 */
->>  	on_each_cpu(check_unaligned_access_emulated, NULL, 1);
->>  
->> -	for_each_online_cpu(cpu)
->> -		if (per_cpu(misaligned_access_speed, cpu)
->> -		    != RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED)
->> -			return false;
->> +	if (!all_cpus_unaligned_scalar_access_emulated())
->> +		return false;
->>  
->>  	unaligned_ctl = true;
->>  	return true;
->> -- 
->> 2.49.0
+>>> Is this something blocking though ? We'd like to merge FWFT once SBI 3.0
+>>> is ratified so that would be nice not delaying it too much. I'll take a
+>>> look at it to see if it isn't too long to implement.
 >>
+>> Not blocking, but I would at least default FWFT to disabled, because
+>> current userspace cannot handle [14/14].  (Well... save/restore was
+>> probably broken even before, but let's try to not make it worse. :])
+>>
+> 
+> User space can not enable or disable misaligned access delegation as
+> there is no interface for now rightly pointed by you. I guess supporting
+> that would be quicker than fixing the broader guest save/restore
+> anyways. Isn't it ?
+> 
+> We can have the patches ready for the next MW for FWFT one reg interface.
+
+Yeah sure I'll work on that in the meantime.
+
+> 
+>> Thanks.
+>>
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> 
 
