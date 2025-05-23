@@ -1,168 +1,272 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CACF22A4FC
-	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 10:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01104227E9E;
+	Fri, 23 May 2025 10:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747995788; cv=none; b=HGJILTqkwN5ADGM7ZoszHdBMb4DxjljRny1YNs8AfwJpLD2RDAPTFiV0CoKEQboJta4y0zd9donWhBE6kFolhyVTi9hWXTg0R7ADUIimvDdQR5DDtmoE9dz8tv0bWxaHBJkQBrNcDVtv/w2LzfJolFOtwmBhvXchqMxejIKwEu8=
+	t=1747996158; cv=none; b=X2DTI7mxzkMkFnfmiICM77Bml3RfNhuIZOnXKeEl8LYv0HFiwhYB7g8vlT55/1RZ63eTDzyb7rb69OhE11bOspcE0CiAR4NYFczWWw8ZgXsuuFpgTZZkf9zZ08IX+tH61Xn8z+1Bbix9kvmmLh3xnoltqbx1IpkDJuqy6KM5hSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747995788; c=relaxed/simple;
-	bh=e9Zv6MyOruJNuSW+pX4lrxjbHhF9mFEMsBWjimF3ZhY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mXx4qyDseulD5zjWG3rWmJRGEqCkpGY3cWWxbfLw2VUdgYztmn6cig7B4x7b8BLOoP+mvAVdrAwhgUa+GjSNIgb+NdKcnnzKeXB1ZVw108klpg8dX1R9YdkwTNuOwuVxGRjgWAXflY5B/fb8nOq9b9q1DNaiTSJI5EFmX3JgXmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=CcEbbbNh; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1747996158; c=relaxed/simple;
+	bh=69dBOB9t5w6+DiXnD4zLoDAgDAyiYK0UYmfZGxLAz/4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OHMfYZX/pHtyTi1QOi1yOjhZik/0MzQUnVXsJIBoJtU8e/q9OoKe/PCZha6Bp37EiuuXkr12ep4+fm54MM0UhbtG55m8bzT0F2YcLL3iveK4jOf8+HMmyfPxJoelSfil68oXrPePGxdGn07H3mkqXk5UUgGCvyiyzN7GOQw22Yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SVpGnTvc; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="CcEbbbNh"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742af848148so5435628b3a.1
-        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 03:23:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1747995785; x=1748600585; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jL4iC9TbsUd0FaNofW/nJkV1WGoug0A9XRZElPbt0BQ=;
-        b=CcEbbbNhQGus+iKvllfw3GK8En6ZEWuRu55e/YIyBKPXS24kKr3xODUWbPA8mziPUQ
-         pCBM0Fq/B3ZY+OtvPZbPoZ89q9vd+32U3DkTpai0gT3XzaoY0UgCQswJgULjOokz4+t9
-         01YWLDvldc9TaVkfp/7Mjp7Be7TCWjXW5a2AHRsWLt2SaPPOp4l72n1n/XDJfBk1eERt
-         vX7byG29q1Skn2LFm0Zi1MfKezDnKYWEGrD6DaEYtFVpXWLAOk6uXo8VBhZmsdZHYBv3
-         W3PVaPEpmTWaRRViJCRi+lO3cuJMgFXJpDAA8WIiDc6vdKn0VT95UZgiTKxSoTOTi/a9
-         NDgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747995785; x=1748600585;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jL4iC9TbsUd0FaNofW/nJkV1WGoug0A9XRZElPbt0BQ=;
-        b=kqPTzRgOWRxfB+XG2shqL1GgTxXZXcOLmcWShr/vqZSLG9SD5Kpc7Ozl270oo24SJj
-         ImX8FM+x7FhAoZQkWv4s7lZvJg2uk0UJshVBnd/PY+qs6we/vQsV6Ar664t8m9hLj8HX
-         aWymuVwgGmXaOSq0ixsa5VAs3nAzlrkqORbG4tAzaYrxM3pWMt46dzE80GatBqs8Bu+W
-         G37/M6IBzeDIdRktRGlV/lWGB0dRUHRHcB8ac7URr4JkH+Uif58+Gg46yBLMereiqdYH
-         T7pPOJ82Ol67/5UPPweXEDRepYxhRqAWQWCFIDSOiTI5dV6Bvxbda13wBer/r4jMPOX9
-         h0rA==
-X-Forwarded-Encrypted: i=1; AJvYcCXCBbnGksX2n3nMkLF5n8I6eUw0grnJOJn2BhcchxYJ9085NfwQk44a7qrAkfUHb2dTZDMkAE5dekU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywar61vESow5Na3vldsaGUQrX2Z56kiBAuxThzEECqjNtqlU4gA
-	sKyqru0NBmN1ZfL54gnpWm1XBBuOlF3TIUBst/kvkQOMvF8OvcDNLU/TLPHE8N7qbXI=
-X-Gm-Gg: ASbGncvyLJMxcx9a0mD7/3hnKcsDRPbXmq55Fopa4M724AlBflqev3ZDXjtCCf27glX
-	6YwqnpjGG5Qzi940BktywpfQB4+QO5DQ3225YeSlxy2gjncPI2FURVGeNaZFfaDcF1UXjXDHcx1
-	L+Z071hjjg5Imjy1dZuoN9GXfTkrrmKEQy8bpU2kVzR49YKmBHjeaeAaUHbXg+3HYveE08jbIOu
-	kfLjBL37aYml2Fe6ybkCy9T4YyyyqeIexc+Ox6vmjltq9grarEj+7wM6KoBu9TsOnEuI8f25wa4
-	zidR9KqMoPKMPBMcbphuHYA9/VB58849xGwV7NaquC/lMJZyjZSO
-X-Google-Smtp-Source: AGHT+IEbv4B8UCIzN6nDmsaNwoV85BuQ6Mp+F2TMaxmDctRPfjMepLlOopoKzZHjGeALummtngi9+Q==
-X-Received: by 2002:a05:6a00:98d:b0:736:34a2:8a23 with SMTP id d2e1a72fcca58-745ed8f5d5bmr3385811b3a.15.1747995785079;
-        Fri, 23 May 2025 03:23:05 -0700 (PDT)
-Received: from carbon-x1.. ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9829ce8sm12466688b3a.118.2025.05.23.03.22.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 03:23:04 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
-To: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Anup Patel <anup@brainfault.org>,
-	Atish Patra <atishp@atishpatra.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Atish Patra <atishp@rivosinc.com>
-Subject: [PATCH v8 14/14] RISC-V: KVM: add support for SBI_FWFT_MISALIGNED_DELEG
-Date: Fri, 23 May 2025 12:19:31 +0200
-Message-ID: <20250523101932.1594077-15-cleger@rivosinc.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250523101932.1594077-1-cleger@rivosinc.com>
-References: <20250523101932.1594077-1-cleger@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SVpGnTvc"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54N67iam021071;
+	Fri, 23 May 2025 10:28:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	KDRRLq7VC2NTZWRaWPaOjv8BPHkEbqS5eOTo89pXTfQ=; b=SVpGnTvcUoNo43oV
+	nbAN5tgpBbUIrdI39tY9EmRdXYxUIl58jImYrnfIixKte/dHRnNQw+KbHLhQMUmu
+	f6kq3cayRFgHau5bZzhaN8B/G3+mjZKsMOnzuzaCTuVei8xf+41LW6VEikHSlErz
+	WzlPWyuHpGhUOiOYzR4m/tXnIjDzVtPNltXn0gdHF1/RtNKg5QMie0PGKPWepwi0
+	OyYONarTm+RGdwoa6sWl9eXJFpwq2foI54UocM7Ql3w0lfPgzgaTmclG8TVKV9cH
+	diDU4SwKmc3lgmWkZv3L22BGQVK1qyiyarmll0m00o9yqxjQi7Fz9YsfSJd23kT5
+	MZC9oA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwfa1rb1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 May 2025 10:28:52 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54NASY4W011410
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 May 2025 10:28:34 GMT
+Received: from [10.253.12.254] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 23 May
+ 2025 03:28:28 -0700
+Message-ID: <a182df27-5b0d-42d1-8f58-4e7a913bb12d@quicinc.com>
+Date: Fri, 23 May 2025 18:28:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 01/14] dt-bindings: net: Add PPE for Qualcomm
+ IPQ9574 SoC
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
+        Suruchi Agarwal
+	<quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>,
+        "Simon
+ Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook
+	<kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        "Philipp
+ Zabel" <p.zabel@pengutronix.de>,
+        <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
+        <srinivas.kandagatla@linaro.org>, <bartosz.golaszewski@linaro.org>,
+        <john@phrozen.org>
+References: <20250513-qcom_ipq_ppe-v4-0-4fbe40cbbb71@quicinc.com>
+ <20250513-qcom_ipq_ppe-v4-1-4fbe40cbbb71@quicinc.com>
+ <20250519-garrulous-monumental-shrimp-94ad70@kuoka>
+Content-Language: en-US
+From: Luo Jie <quic_luoj@quicinc.com>
+In-Reply-To: <20250519-garrulous-monumental-shrimp-94ad70@kuoka>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=V9990fni c=1 sm=1 tr=0 ts=68304de4 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=gEfo2CItAAAA:8
+ a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=Prh-tzD87P_o6MH7a5AA:9 a=QEXdDO2ut3YA:10
+ a=HtAgjdVYPwQA:10 a=sptkURWiP4Gy88Gu7hUp:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: GtcXkqmuuM1ynK2KNuUbAyDpRkW5s3MV
+X-Proofpoint-GUID: GtcXkqmuuM1ynK2KNuUbAyDpRkW5s3MV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIzMDA5MyBTYWx0ZWRfX5H5lP9vRMAOB
+ UDYRnaKYEXzsEh6wm4eFMj0HlpSBRTVspvJ/D1I/3cEq1JCev7eDvasAJwjAlqD20Daj7jTw80L
+ W1aGpUAfvAf/m4LdRpvgYg36bVUgnvUlR6QqejYCl1urz8Gdnq196PbY5MuKwDqfaC++s8dY9og
+ 9/uEMRfVkDir5PLFvC2UAmfhDfB27JwSlvY4QGG37bGNGCl/n2RRwG1yBdI3FdtUaRiiAf4g+VF
+ 3CxCqWZWEQUck3hJoRtB8ka7UrgsiqJNDJpG2mGqKBF530U/vWjploYG1Kzhak1/UqeeQ7AUlmH
+ q+O94dLUKTKu2N6YvmVA0X843uqAKLwzCO6XzUTSe+tP/Q6Fcso9+TDv7DY14D75UatWnGOQOW3
+ 96V8OhRMJwuwki70TMKVroY4PjcJsF4CZtu+gFUNjnalxeAq6dtgiAACH8hECAzpwQDQvPdl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-23_03,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 bulkscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 spamscore=0 phishscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505230093
 
-SBI_FWFT_MISALIGNED_DELEG needs hedeleg to be modified to delegate
-misaligned load/store exceptions. Save and restore it during CPU
-load/put.
 
-Signed-off-by: Clément Léger <cleger@rivosinc.com>
-Reviewed-by: Deepak Gupta <debug@rivosinc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
----
- arch/riscv/kvm/vcpu_sbi_fwft.c | 41 ++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
 
-diff --git a/arch/riscv/kvm/vcpu_sbi_fwft.c b/arch/riscv/kvm/vcpu_sbi_fwft.c
-index b0f66c7bf010..6770c043bbcb 100644
---- a/arch/riscv/kvm/vcpu_sbi_fwft.c
-+++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
-@@ -14,6 +14,8 @@
- #include <asm/kvm_vcpu_sbi.h>
- #include <asm/kvm_vcpu_sbi_fwft.h>
- 
-+#define MIS_DELEG (BIT_ULL(EXC_LOAD_MISALIGNED) | BIT_ULL(EXC_STORE_MISALIGNED))
-+
- struct kvm_sbi_fwft_feature {
- 	/**
- 	 * @id: Feature ID
-@@ -68,7 +70,46 @@ static bool kvm_fwft_is_defined_feature(enum sbi_fwft_feature_t feature)
- 	return false;
- }
- 
-+static bool kvm_sbi_fwft_misaligned_delegation_supported(struct kvm_vcpu *vcpu)
-+{
-+	return misaligned_traps_can_delegate();
-+}
-+
-+static long kvm_sbi_fwft_set_misaligned_delegation(struct kvm_vcpu *vcpu,
-+					struct kvm_sbi_fwft_config *conf,
-+					unsigned long value)
-+{
-+	struct kvm_vcpu_config *cfg = &vcpu->arch.cfg;
-+
-+	if (value == 1) {
-+		cfg->hedeleg |= MIS_DELEG;
-+		csr_set(CSR_HEDELEG, MIS_DELEG);
-+	} else if (value == 0) {
-+		cfg->hedeleg &= ~MIS_DELEG;
-+		csr_clear(CSR_HEDELEG, MIS_DELEG);
-+	} else {
-+		return SBI_ERR_INVALID_PARAM;
-+	}
-+
-+	return SBI_SUCCESS;
-+}
-+
-+static long kvm_sbi_fwft_get_misaligned_delegation(struct kvm_vcpu *vcpu,
-+					struct kvm_sbi_fwft_config *conf,
-+					unsigned long *value)
-+{
-+	*value = (csr_read(CSR_HEDELEG) & MIS_DELEG) == MIS_DELEG;
-+
-+	return SBI_SUCCESS;
-+}
-+
- static const struct kvm_sbi_fwft_feature features[] = {
-+	{
-+		.id = SBI_FWFT_MISALIGNED_EXC_DELEG,
-+		.supported = kvm_sbi_fwft_misaligned_delegation_supported,
-+		.set = kvm_sbi_fwft_set_misaligned_delegation,
-+		.get = kvm_sbi_fwft_get_misaligned_delegation,
-+	},
- };
- 
- static struct kvm_sbi_fwft_config *
--- 
-2.49.0
+On 5/19/2025 4:16 PM, Krzysztof Kozlowski wrote:
+> On Tue, May 13, 2025 at 05:58:21PM GMT, Luo Jie wrote:
+>> The PPE (packet process engine) hardware block is available in Qualcomm
+>> IPQ chipsets that support PPE architecture, such as IPQ9574. The PPE in
+>> the IPQ9574 SoC includes six ethernet ports (6 GMAC and 6 XGMAC), which
+>> are used to connect with external PHY devices by PCS. It includes an L2
+>> switch function for bridging packets among the 6 ethernet ports and the
+>> CPU port. The CPU port enables packet transfer between the ethernet
+>> ports and the ARM cores in the SoC, using the ethernet DMA.
+>>
+>> The PPE also includes packet processing offload capabilities for various
+>> networking functions such as route and bridge flows, VLANs, different
+>> tunnel protocols and VPN.
+>>
+>> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+>> ---
+>>   .../devicetree/bindings/net/qcom,ipq9574-ppe.yaml  | 406 +++++++++++++++++++++
+>>   1 file changed, 406 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml b/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
+>> new file mode 100644
+>> index 000000000000..f36f4d180674
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
+>> @@ -0,0 +1,406 @@
+>> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/net/qcom,ipq9574-ppe.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Qualcomm IPQ packet process engine (PPE)
+>> +
+>> +maintainers:
+>> +  - Luo Jie <quic_luoj@quicinc.com>
+>> +  - Lei Wei <quic_leiwei@quicinc.com>
+>> +  - Suruchi Agarwal <quic_suruchia@quicinc.com>
+>> +  - Pavithra R <quic_pavir@quicinc.com>>
+> 
+> Double >>
+
+Thanks, will fix it.
+
+> 
+>> +
+>> +description:
+> 
+> You got here comment didn't you?
+> 
+
+Yes. We initially believed the '|' marker may not be required
+since the format of hardware diagram in the description is
+preserved with a specific '|' already. However we relooked
+at this again, and will go ahead will add the marker based
+on the below documentation reference.
+
+https://docs.kernel.org/devicetree/bindings/writing-schema.html#example-schema
+
+>> +  The Ethernet functionality in the PPE (Packet Process Engine) is comprised
+>> +  of three components, the switch core, port wrapper and Ethernet DMA.
+>> +
+>> +  The Switch core in the IPQ9574 PPE has maximum of 6 front panel ports and
+>> +  two FIFO interfaces. One of the two FIFO interfaces is used for Ethernet
+>> +  port to host CPU communication using Ethernet DMA. The other is used
+>> +  communicating to the EIP engine which is used for IPsec offload. On the
+>> +  IPQ9574, the PPE includes 6 GMAC/XGMACs that can be connected with external
+>> +  Ethernet PHY. Switch core also includes BM (Buffer Management), QM (Queue
+>> +  Management) and SCH (Scheduler) modules for supporting the packet processing.
+> 
+> ...
+> 
+>> +  clock-names:
+>> +    items:
+>> +      - const: ppe
+>> +      - const: apb
+>> +      - const: ipe
+>> +      - const: btq
+>> +
+>> +  resets:
+>> +    maxItems: 1
+>> +    description: PPE reset, which is necessary before configuring PPE hardware
+>> +
+>> +  interconnects:
+>> +    items:
+>> +      - description: Clock path leading to PPE switch core function
+>> +      - description: Clock path leading to PPE register access
+>> +      - description: Clock path leading to QoS generation
+>> +      - description: Clock path leading to timeout reference
+>> +      - description: Clock path leading to NSS NOC from memory NOC
+>> +      - description: Clock path leading to memory NOC from NSS NOC
+>> +      - description: Clock path leading to enhanced memory NOC from NSS NOC
+>> +
+>> +  interconnect-names:
+>> +    items:
+>> +      - const: ppe
+>> +      - const: ppe_cfg
+>> +      - const: qos_gen
+>> +      - const: timeout_ref
+>> +      - const: nssnoc_memnoc
+>> +      - const: memnoc_nssnoc
+>> +      - const: memnoc_nssnoc_1
+>> +
+>> +  ethernet-dma:
+> 
+> I don't get why this is a separate node.
+> 
+
+We used a separate node because the EDMA (Ethernet DMA)
+is a separate block within the PPE block, with specific
+functions like ports-to-host-CPU packet transfer and
+hardware packet steering. We felt that a separate node
+would depict the hierarchy more clearly. Could you please
+suggest if a single node is recommended instead?
+
+>> +    type: object
+>> +    additionalProperties: false
+>> +    description:
+>> +      EDMA (Ethernet DMA) is used to transmit packets between PPE and ARM
+>> +      host CPU. There are 32 TX descriptor rings, 32 TX completion rings,
+>> +      24 RX descriptor rings and 8 RX fill rings supported.
+>> +
+>> +    properties:
+>> +      clocks:
+>> +        items:
+>> +          - description: EDMA system clock from NSS Clock Controller
+>> +          - description: EDMA APB (Advanced Peripheral Bus) clock from
+>> +              NSS Clock Controller
+>> +
+>> +      clock-names:
+>> +        items:
+>> +          - const: sys
+>> +          - const: apb
+>> +
+>> +      resets:
+>> +        maxItems: 1
+>> +        description: EDMA reset from NSS clock controller
+>> +
+>> +      interrupts:
+>> +        minItems: 29
+>> +        maxItems: 57
+> 
+> Why is this flexible on the same SoC?
+
+Thanks for pointing to this. I reviewed this again and agree
+that this need not be a flexible setting. I will fix this in
+the next update by setting 'minItems' and 'maxItems' here to
+the count of all available EDMA interrupts.
+
+> 
+> Best regards,
+> Krzysztof
+> 
 
