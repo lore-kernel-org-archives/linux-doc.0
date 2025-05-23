@@ -1,157 +1,113 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C3A20F080
-	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 19:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAA27E1;
+	Fri, 23 May 2025 19:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748028236; cv=none; b=oH+zT34nfxa0eNT83GWNw7zwr/xAwJvtsV4MUSkcXJM8fLpoykhV0SmM0gmBhEEOFFkbHFtFKpAXMLHXeGPVqTK9a3AImUoBenrJ69MhtQYwenFqll7QZk+qwU/CwnjGkJtToPfoXMMlRz+GUr/VzLK0ZNcMGDXrSIKXTq/NLEw=
+	t=1748029954; cv=none; b=uNteoQVodGyQW/FueqFMA68A7uIJvAKtAN2QAqJzDzCwKXpa8S3fPBlWKhHyeqArKRz/hlNpdSX9k93v7wAciCqCyu/+3okCAJwnnX0UOqjwyMC8fA1AiXApv580DU/crH4ul+ArHT3crXLZFFpAtMK2Xim6i0eIbScrGsiXABQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748028236; c=relaxed/simple;
-	bh=NECU1W/GfeOBqRjNfEa0fXcRwvYNTzTuGDKdrAlKpxI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l5o1HxCy1hJQIn63Bf14xn1lWoyYwrRmW7JTDNPbHuNz3ieiRL0PzIrvdb1CqeHPAmO41sxvlWoJ3v8L78cEVfQgh+IVYcPlp7lvHWsnx0dFS9Y4YoQezhPGyYAWN9oRd5XoNDz6Qwto18xuk11VuiHUy/7A4prLuW9tM6bUP9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=hG14mgnU; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1748029954; c=relaxed/simple;
+	bh=DoYl8neMKOeuqXR7Psb9wz68aPAx8dAQ69CSXWwjT6E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jUGebExs9u25GtmYCwOhllu1gQxuwgwdj/YYEdpDqemVs5N0UVA14ZyyPHvKXhzXiF+D9auluc2J96s3V2yzPjij/10HtvcIbgJ+Wm1Qqx2kBL04jchN5F5Vg/2VjlJ4uteu06jgs+2BDpLmplZmr3szazDx3aHbZHT40JRS8Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HkqxEfBn; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="hG14mgnU"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b26f7d2c1f1so229137a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 12:23:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HkqxEfBn"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-47690a4ec97so1685421cf.2;
+        Fri, 23 May 2025 12:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1748028234; x=1748633034; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ymdNLyOhnChndrLOo/uMB8HrcV+eYphQgSa+w1rmBgc=;
-        b=hG14mgnU8afCrC1AcBz5inUvSd1hIq5OLXqGLtnXyyGHcDTE9Gs8ZZjjKpQVmMV+Bx
-         ZuSvS2JDya0t8D3m/ljaYj95SIF4goBnPgllk4nnmUDFrvyCOa0R4jD/v8nNNmFNu4Cf
-         rwqhO4n4k7hKdzKR/dfre9/VEJ6SRTz43LxxVzj5eqF4t9/9SINWuBVOrEOhGJNJRfNa
-         2+Xrm1+N1etW1MbNwImqSVS71Ivd1EJ2hBVWrX2IOyLP9wzCpaAiLBuptVyJMKOO/Ldy
-         I0yya5u0EIH+g21vYC2LEnud1odXLGbmz4qtBIBtCVrG8T/aZ9KoFHoXO3z55UnojL/X
-         tQcg==
+        d=gmail.com; s=20230601; t=1748029952; x=1748634752; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LZuMU82VeoD6SjXQ3MttsAUR2lLhSZagEoZvudH6MeI=;
+        b=HkqxEfBnNGZDEk4TxbCu0w+9cLuSTUeft7+cy5CBnKZLf6aKBhHvKvEW1NduM8RumO
+         UHjnIoUDoGfm3Z54He+Pk7FUSDqnb06bfUwyrmbkhQQhx4nq1DWCWHQymnP+k0s5UFBp
+         zJ9xEtVaq0t4MR3GVSjs4P1MdAuKneAuNavM34il9lblUtJfXDCCyZ4KAz0yMRQy/Nx+
+         0tlXqZhuZKFeAHL4qYzKL6lgU4dKklD4igDh0yZt0XlOW6YaAr337EwFVx+6Vjft4L5n
+         aNEF0rhL56kztAN8QPvTUz7HbrzCZuQLJ69rdMVmtx9/gkozHYbZ2KMef5PThlEmlyGe
+         n8/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748028234; x=1748633034;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ymdNLyOhnChndrLOo/uMB8HrcV+eYphQgSa+w1rmBgc=;
-        b=Ol0nZw8bnIMTchQDOdNtSrcauAlPeWnodEHrdZP/yvAbqDVWxycU2DJTpADEhdIt+6
-         kAKGFlJI00A3LqZbyARM5kEyzR6gMXvutiigEaPsh5A5SV/Wccmtl9ziUtMhZAfM9EUP
-         ukTFiAEhWuZO8qoP0Koc75zOK7kl33aJUKeViqYjjRJpZn7ro9o1+jwprO0dh+OOqZN7
-         g6bUkLxErfvOOELjoNFSU2zSXumjY7KntPRZyNpctfstpWrO6W1tqL3T5oNzw8hHLji1
-         Sl36RZ2ErXD27qki/ewUITmYUuppKVp8NhvmkXfFQ6raziDgM5l0cWpA7y1xOVRJpXuV
-         SnEg==
-X-Forwarded-Encrypted: i=1; AJvYcCU0qVSCVzHo/A4WwtViu3tqAVxVWM52qZGKmmqHJX/Y0iENdW32Jga3p0sCsrbd5hjIAANt6g31Y7w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzolh89F6gQyswWIi4uIeqoa7J310MH0SW0yj9qmoFKklC0Nq/s
-	nqXbRtmQ1Ug5XD5WI4xD0aJP/7FW0By5JOhF4VdcFmYSYSxz5X3ZA8F0dtV99oWLlFM=
-X-Gm-Gg: ASbGnctiXza4gPHCKMU25eJsqXjll3QsLcsmGbM7jh8nzNzPhatLoulPW/SKoga4swg
-	4csRmT2TKAeNxdlkeU7KLXBAMgHOMR+ALSthZhjgioO7SEA3ZldFA9/4FfEPUy64DpwWfRTlKBJ
-	cU4lKQQLES+LEzwoU9HBYZqoGO0JrQpIR0br53O7jFCn/9kRetBkvEinr+WxZ/HWFMhJPNXLsTW
-	LnG4qyZG0IWnaJ/9CTVfYXWx7Eq4kZzSuZ2cOYwO+wUJg2HiCdMIoSs48ensLLNzsH7Rub7168u
-	s6oPthXSnS+Df6rZTsDDKiJeK8nKfa7MXF09RQ/WpfE+9+nwVLKzGL54ynQTvch9XIfy/m/B2qO
-	dqTwR70ZoAoracuzKvwz6
-X-Google-Smtp-Source: AGHT+IGHsnt5I+k7LE92/G9eFGeVn+BHXduOeLqVjzYHaGY4iH/sZrh2puQGctc+9XB7qZF1QzFT9w==
-X-Received: by 2002:a17:903:244a:b0:223:5c33:56a8 with SMTP id d9443c01a7336-23414fb18ffmr9697045ad.35.1748028233664;
-        Fri, 23 May 2025 12:23:53 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4af1b75sm127752175ad.85.2025.05.23.12.23.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 May 2025 12:23:53 -0700 (PDT)
-Message-ID: <01696003-e2b4-4450-85cf-715e31b136d5@rivosinc.com>
-Date: Fri, 23 May 2025 21:23:41 +0200
+        d=1e100.net; s=20230601; t=1748029952; x=1748634752;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LZuMU82VeoD6SjXQ3MttsAUR2lLhSZagEoZvudH6MeI=;
+        b=hpARzcNsNh8uQTEO5NnywZC2lkNyL7AAj+D+RrRLaxBUhTaOJkUlpXQougMTOFbxsv
+         jZhfrpC7PbDRM/AspXi1sMU7rcr75nOK+Ljp5FCdA5hC462G+6Rc86wDxsgbqPo33pJk
+         RctobgD0qCTGTWavSsYDD/Tl82L/c7IfEB5uQ1LtLTizaSoCYWe2XEeVBZU/lxcEj5qJ
+         4OLvft5IsDRijR36i+yiJj+XclxhE1S3n6Ev5cPnIE7lsBoeSEXLpJe0JRLXWnbzbAvk
+         ZAXwcYTVbutSIYzTRkauro1d6z3xFoDOPVC0hwnuvpOUkKcHLsVbLmiOyDtobbSQ/zga
+         R8kw==
+X-Forwarded-Encrypted: i=1; AJvYcCUS3gNd9A+U6ub5vkUVwvyYCOiejruZA6kU8IZWryXPHff3QQSAO+tRm+EPMFAoES061lJh1tt9kHXP5JCL@vger.kernel.org, AJvYcCVDbNVrS2DcsETenppdZpqyStuIkEAViNYfVD71DuJCyV5ApQnH52lB93ZN7beWLh03KtyZNPPxQ1o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZf49C4zaEx+4HcVAnj7LsiYsOgFGLZv7hHV2XuyzpT60ZNEzE
+	1oxn/N9/dHOIseDlKcxuekTdfOi0DESVszj5vdxqzWmJpDyEnH1iMfEB
+X-Gm-Gg: ASbGncv3C/UPBDZ31OvAfzprw58s8tgW5OMLRVoQo1p+LWV5JMMe3qw4wEnuzKppKqu
+	ry4MjwmiK6sVa8iWckRx8XdS0Ho6MzyBSAapxu1nC1mIVnjGOtwg870DTNC4ownQ+IGCD9hTmkl
+	fXeRtElYr7yQ+S8X3PqNVgVLFnCC5Kd74T+bpbwqtwmE7mf7e3HF/qWw/vTPKzC1/Kc4a4uTr4j
+	CnOG2kqxqrgKzbo0RJwrHTsgOmJFhkyfumagQ6z9eWS7oK/EA+dRjenGEBhcNtS5hi1L7XD8bSe
+	PgjvEO1C23uWJQaUk5StrYzq4XwV/90c1qiz2pV46Kgw/AVoO4z1K+eWU2QC9t5gxw==
+X-Google-Smtp-Source: AGHT+IGnQY/z93JEf+AGmMMUkG5oJIhr6LzAzc5bOd7Mu9OECAnddCKCevcAKu7ElP4DlshKGt75zg==
+X-Received: by 2002:a05:622a:1b94:b0:494:a01d:a912 with SMTP id d75a77b69052e-49f46940cc6mr8469011cf.13.1748029952122;
+        Fri, 23 May 2025 12:52:32 -0700 (PDT)
+Received: from [10.0.0.88] ([2607:fea8:bad7:5400:a4e6:39bc:5bd6:cf8f])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-494ae4fd718sm117133001cf.53.2025.05.23.12.52.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 May 2025 12:52:31 -0700 (PDT)
+From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Subject: [PATCH v2 0/2] drm: add overview diagram for drm stack
+Date: Fri, 23 May 2025 15:52:24 -0400
+Message-Id: <20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 13/14] RISC-V: KVM: add support for FWFT SBI extension
-To: Atish Patra <atish.patra@linux.dev>,
- =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org
-Cc: Samuel Holland <samuel.holland@sifive.com>,
- Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>,
- Charlie Jenkins <charlie@rivosinc.com>,
- linux-riscv <linux-riscv-bounces@lists.infradead.org>
-References: <20250523101932.1594077-1-cleger@rivosinc.com>
- <20250523101932.1594077-14-cleger@rivosinc.com>
- <DA3K95ZYJ52S.1K6O3LN6WEI0N@ventanamicro.com>
- <9f9e2869-725d-4590-887a-9b0ef091472e@rivosinc.com>
- <DA3OJ7WWUGLT.35AVP0QQDJRZV@ventanamicro.com>
- <5dd587b3-8c04-41d1-b677-5b07266cfec5@linux.dev>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <5dd587b3-8c04-41d1-b677-5b07266cfec5@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPjRMGgC/3WNQQ6CMBBFr0Jm7Rg6UiSuuIdhgcwUJhFKWiQaw
+ t2t7F2+l/z3N4gSVCLcsg2CrBrVTwnolEE3tFMvqJwYKCebWyLkMCL7Dl8zt4tEvJRV6UouKkM
+ EaTUHcfo+ivcm8aBx8eFzHKzmZ/+3VoMG2YhjW1yL/MF1P7b6PHd+hGbf9y8DXZydrgAAAA==
+X-Change-ID: 20250522-drm-doc-updates-3686f6d48122
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748029951; l=889;
+ i=abdulrasaqolawani@gmail.com; s=20250522; h=from:subject:message-id;
+ bh=DoYl8neMKOeuqXR7Psb9wz68aPAx8dAQ69CSXWwjT6E=;
+ b=WA/dUAMQLPhuxLwgIo8veI2CO3as2EZ8+WPAF94JfZrJoUrO/ZohIijjxG3vKnUIVAMSISNKq
+ zNem1mKp16/DieY+exXzEmk6SjqacQLsWM+zx0Ufrao/Hb2Ykj7Mgvi
+X-Developer-Key: i=abdulrasaqolawani@gmail.com; a=ed25519;
+ pk=LCvBseqd+rEj8B1vNEnSSfNcqQwMsfWx1DGDT1LYddo=
 
+Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+---
+Changes in v2:
+- Update the overview diagram to display correctly by putting in a literal block.
+- Also update the overview section diagram to a higher order.
+- Ensured docs are successfully rendering by building for htmldocs and pdfdocs.
+- Rendered pages are okay on html and pdf.
+- Link to v1: https://lore.kernel.org/r/20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com
 
+---
+Abdulrasaq Lawani (2):
+      drm: add overview diagram for drm stack
+      drm: add overview diagram for drm stack
 
-On 23/05/2025 20:02, Atish Patra wrote:
-> On 5/23/25 9:27 AM, Radim KrÄmÃ¡Å wrote:
->> 2025-05-23T17:29:49+02:00, Clément Léger <cleger@rivosinc.com>:
->>> On 23/05/2025 15:05, Radim Krčmář wrote:
->>>> 2025-05-23T12:19:30+02:00, Clément Léger <cleger@rivosinc.com>:
->>>>> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
->>>>> +static const enum sbi_fwft_feature_t kvm_fwft_defined_features[] = {
->>>>> +    SBI_FWFT_MISALIGNED_EXC_DELEG,
->>>>> +    SBI_FWFT_LANDING_PAD,
->>>>> +    SBI_FWFT_SHADOW_STACK,
->>>>> +    SBI_FWFT_DOUBLE_TRAP,
->>>>> +    SBI_FWFT_PTE_AD_HW_UPDATING,
->>>>> +    SBI_FWFT_POINTER_MASKING_PMLEN,
->>>>> +};
->>>>
->>>> How will userspace control which subset of these features is allowed in
->>>> the guest?
->>>>
->>>> (We can reuse the KVM SBI extension interface if we don't want to add a
->>>>   FWFT specific ONE_REG.)
->>>
->>> Hi Radim,
->>>
->>> I didn't looked at that part. But most likely using the kvm one reg
->>> interface seems ok like what is done for STA ? We could have per feature
->>> override with one reg per feature.
->>
->> Sounds fine.
->>
-> 
-> Yeah. We can have a follow up series for SBI FWFT state that allows user
-> space to toggle each state individually.
-> 
->>> Is this something blocking though ? We'd like to merge FWFT once SBI 3.0
->>> is ratified so that would be nice not delaying it too much. I'll take a
->>> look at it to see if it isn't too long to implement.
->>
->> Not blocking, but I would at least default FWFT to disabled, because
->> current userspace cannot handle [14/14].  (Well... save/restore was
->> probably broken even before, but let's try to not make it worse. :])
->>
-> 
-> User space can not enable or disable misaligned access delegation as
-> there is no interface for now rightly pointed by you. I guess supporting
-> that would be quicker than fixing the broader guest save/restore
-> anyways. Isn't it ?
-> 
-> We can have the patches ready for the next MW for FWFT one reg interface.
+ Documentation/gpu/introduction.rst | 40 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
+---
+base-commit: 4d07f5440d7afee27dada528aaf5230e760531cb
+change-id: 20250522-drm-doc-updates-3686f6d48122
 
-Yeah sure I'll work on that in the meantime.
-
-> 
->> Thanks.
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
-> 
+Best regards,
+-- 
+Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
 
