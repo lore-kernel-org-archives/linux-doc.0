@@ -1,139 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2048.outbound.protection.outlook.com [40.107.101.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3D97482;
-	Fri, 23 May 2025 21:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748034488; cv=none; b=UyhroImnkeQdCaNguq8cu0hfRQf9gzhOksTBzOCwBRhEERrzf+tUHycub/T6KqTRgNX+pOiUcFhpQUddRFXq3fs21CGWcuqrlF1E6i5HdbBaH5QRGbZRCmmFRUTqgAzeq56IaVv7nkwU4vbTM67Tl5zorQ5bW5+6+/0z10g5zNU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748034488; c=relaxed/simple;
-	bh=KksZrHEYvyaWSZU9uURQGptlo2FYY37CSSHT0roAn68=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iy7WDUHg87McBiUi7waeFteVbG64IHBTUYXQdM0KdO8X4RiznsxEU/212sweYJRpXppcD5BvjlxadXqoXV7gV2i2zuU/Ei3txRbzVfb4LQBz0IhKsnMEvuxVGkKBJqiwie9oGaTsnNFWn8Qu3svxodkFlNn43ZBNqkCphp0pWwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FzWY/B42; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EFE29A0;
+	Fri, 23 May 2025 21:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748035070; cv=fail; b=ez3DFgQ053NLFkBfU3ka7bpj00+AejFn/bJaO2+zDbo4po3Ogp1wIKF/wqwOYWYdn6q/k+1pepdcgigekRCgbHe0TmEzWsPRqBSQVShvg/TIics+kVRdNyKvg1a0mNhpDCzYeI6x82668QtyTPdhEZLT/Jw3wk1sBf81lS2l3VM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748035070; c=relaxed/simple;
+	bh=6oXtJNUEM4p2eHi8v6/upXfaMGkyJspjBVKgwSFKpFw=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jW2wnWGPOjhWQhOHFkvsWjGUsh3GzaSp+GNxGu8mewonrBo0iM/pGZS6l51TrvTOs6df6cvvvSNLTBZxjAFH9XVidup29Udy6u3jgZFzmLaoBeftFIGmxLvnpPb+e0mEYR5vv48CaV5Bpa39HQrNXa2Of8qdWrc41xQ75EBZB20=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=oT1uBqdL; arc=fail smtp.client-ip=40.107.101.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FzWY/B42"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748034486; x=1779570486;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KksZrHEYvyaWSZU9uURQGptlo2FYY37CSSHT0roAn68=;
-  b=FzWY/B42RWe/RSuUut5FamHOue8mO+5jzbkMEjOxqH/s/8CA64NGXTgZ
-   5kv7cmRMoRrpkDtT5ODrTMFFB7ypayL41zLDi1tfhTXPy6dOFFun0N4sz
-   WH9OguNsigrJCMMTm+zG31Eky5gyS9CNaP32DDwt7boEnUmTn4pZU2xWa
-   VwzfkMT588Z7bGR8lIm4gUJBiNf7sfEBNbmFLDKQIomt+8PhxutafqZi+
-   ktLjhMVWRdKyYXqY2/BWXBCgb8thx2nT2USgpl97Je6X4bNAkU/EVstwx
-   V7pjBUkb/t7rYnDTflCcNFWRxDI/WQeu/axzFU3Kyhc88jrt+BmdKym/u
-   Q==;
-X-CSE-ConnectionGUID: OzBrbmThR22h336x16WVWA==
-X-CSE-MsgGUID: CH3633ePRQW/9ugh1g0/Gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="67659679"
-X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="67659679"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 14:08:05 -0700
-X-CSE-ConnectionGUID: uqjJ+UCwQ3iogb5NKvMMTg==
-X-CSE-MsgGUID: w3Z8+MBhSNiJpU5c014p3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
-   d="scan'208";a="172260236"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.103.51])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 14:08:05 -0700
-Date: Fri, 23 May 2025 14:08:03 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "Chatre, Reinette" <reinette.chatre@intel.com>,
-	Babu Moger <babu.moger@amd.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-Cc: "james.morse@arm.com" <james.morse@arm.com>,
-	"dave.martin@arm.com" <dave.martin@arm.com>,
-	"fenghuay@nvidia.com" <fenghuay@nvidia.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"paulmck@kernel.org" <paulmck@kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"thuth@redhat.com" <thuth@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"ardb@kernel.org" <ardb@kernel.org>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-	"jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-	"alexandre.chartre@oracle.com" <alexandre.chartre@oracle.com>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-	"perry.yuan@amd.com" <perry.yuan@amd.com>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"Huang, Kai" <kai.huang@intel.com>,
-	"Li, Xiaoyao" <xiaoyao.li@intel.com>,
-	"kan.liang@linux.intel.com" <kan.liang@linux.intel.com>,
-	"Li, Xin3" <xin3.li@intel.com>,
-	"ebiggers@google.com" <ebiggers@google.com>,
-	"xin@zytor.com" <xin@zytor.com>,
-	"Mehta, Sohil" <sohil.mehta@intel.com>,
-	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-	"mario.limonciello@amd.com" <mario.limonciello@amd.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"peternewman@google.com" <peternewman@google.com>,
-	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
-	"Eranian, Stephane" <eranian@google.com>,
-	"Xiaojian.Du@amd.com" <Xiaojian.Du@amd.com>,
-	"gautham.shenoy@amd.com" <gautham.shenoy@amd.com>
-Subject: Re: [PATCH v13 11/27] x86/resctrl: Implement
- resctrl_arch_config_cntr() to assign a counter with ABMC
-Message-ID: <aDDjs4PZxeouNJr0@agluck-desk3>
-References: <cover.1747349530.git.babu.moger@amd.com>
- <e7e8f489ef148a4dcd5837d71c83efad47b5b7c3.1747349530.git.babu.moger@amd.com>
- <dd195d60-3e40-42be-88e5-7f3bbbba63ce@intel.com>
- <SJ1PR11MB6083C5179F98E3873CA34C35FC99A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="oT1uBqdL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gEgZdox6CWZJs6j5NaqacBdiFa4yoZxYcLxyLnxQcX134wzEhQfaKdZrd0MQs3NcsvaGyqmMBkMouSRVHdyCA5aG84pjrC/klLjGzFJu8Wvd89R5uoTpJKz70q0CQor/bZMPqjZr0I32+NPXyGbGs/5ysxG1E3RUbGl2DBng863dQM0S1lgSlW3GN88RZC7AlIEfn+eC+6bDdXkFqG8uhyoZZcU6UvmEtonV3OAHUYxrZydhqkcnPYmc7NamYSWl1RoXK5/C+A92i4Sd51JdtPQokNbHbLR+4q01bu+zqqLWupumE5LTrkoD2b/toUzeX0LuSvdIyKrE94hsZGHzYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xVeyY/JTasKpZ68J8KNVrZWeDLm4NEUigU3f0TSAdns=;
+ b=D84tnXvhQFtxkTL3NUzTdc0O6f3lLOMAtYJWDSBT/GWovVR5Jx7dfCu/GYGMAxyuJzwCdzxBAlUnZhtt3/ubZm8tjDLZH5BMgu54Or8pEKR64rfCsG3XCkuNxSVLajR29SSeRIMUVg1Zq6OnQ0WfjDw+1GTGvHDNlMER9ahesVrxAeF00CyOTUmGr67SG1E4sMJcI7FvTgtT04F7zRy6YRSTOcIjhSRPnXo5HhSFb/mctQ4Kr4YBZiPo2n2aYVCI0cY9DYVmGPMzwsxcZTd3p9+5v5uca77kD8eKdeiAysPrQq6l58Ixlg9VMipBX4yCCggL4Fvryw+XWOzGPShT5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xVeyY/JTasKpZ68J8KNVrZWeDLm4NEUigU3f0TSAdns=;
+ b=oT1uBqdLSs4GTyTlmp5/DjRLoL3/6Dz57VUCNOUv1DpozGUUfC9Y/FE+95MYVMrSMWJzzG7fMcIaJCH/3ir/itWoqmdZb3EepRzWeDiteh7tqEHFk1VTXXxTMLmyFr0mRpsNYuuy3R68vazzdmTo9rRVSEzrC7lNSG+0gaDl5OU29eE7wZ83lNiDMVu1jEM9RmthcfbIX6MZ9A0BDsFsR+k8KrjcCV+7i08/F6wjXyrN3EWkacqIoTtZNFL0wCV+Q3i57f/0RuA21pCZRY5lHTLM8dlXecalU8Q3h2c76zfNo5YZWvBRBPaud8unwY9kQd8ctZunGY7RNvPPkpGR0w==
+Received: from MW4PR03CA0131.namprd03.prod.outlook.com (2603:10b6:303:8c::16)
+ by SA5PPFCB4F033D6.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8e2) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.31; Fri, 23 May
+ 2025 21:17:45 +0000
+Received: from SJ1PEPF000026CA.namprd04.prod.outlook.com
+ (2603:10b6:303:8c:cafe::7) by MW4PR03CA0131.outlook.office365.com
+ (2603:10b6:303:8c::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Fri,
+ 23 May 2025 21:17:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ1PEPF000026CA.mail.protection.outlook.com (10.167.244.107) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8769.18 via Frontend Transport; Fri, 23 May 2025 21:17:44 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 23 May
+ 2025 14:17:34 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 23 May
+ 2025 14:17:33 -0700
+Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Fri, 23 May 2025 14:17:32 -0700
+Date: Fri, 23 May 2025 14:17:31 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+CC: "jgg@nvidia.com" <jgg@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"will@kernel.org" <will@kernel.org>, "bagasdotme@gmail.com"
+	<bagasdotme@gmail.com>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
+	"joro@8bytes.org" <joro@8bytes.org>, "thierry.reding@gmail.com"
+	<thierry.reding@gmail.com>, "vdumpa@nvidia.com" <vdumpa@nvidia.com>,
+	"jonathanh@nvidia.com" <jonathanh@nvidia.com>, "shuah@kernel.org"
+	<shuah@kernel.org>, "jsnitsel@redhat.com" <jsnitsel@redhat.com>,
+	"nathan@kernel.org" <nathan@kernel.org>, "peterz@infradead.org"
+	<peterz@infradead.org>, "Liu, Yi L" <yi.l.liu@intel.com>,
+	"mshavit@google.com" <mshavit@google.com>, "praan@google.com"
+	<praan@google.com>, "zhangzekun11@huawei.com" <zhangzekun11@huawei.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
+	<patches@lists.linux.dev>, "mochs@nvidia.com" <mochs@nvidia.com>,
+	"alok.a.tiwari@oracle.com" <alok.a.tiwari@oracle.com>, "vasant.hegde@amd.com"
+	<vasant.hegde@amd.com>, "dwmw2@infradead.org" <dwmw2@infradead.org>,
+	"baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v5 02/29] iommufd: Introduce iommufd_object_alloc_ucmd
+ helper
+Message-ID: <aDDl6+HpkzrxQH27@Asurada-Nvidia>
+References: <cover.1747537752.git.nicolinc@nvidia.com>
+ <4cc3e95520bbade9004615d04fdf5624e0b2d51d.1747537752.git.nicolinc@nvidia.com>
+ <BN9PR11MB5276E1932E77354694D45C678C98A@BN9PR11MB5276.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB6083C5179F98E3873CA34C35FC99A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+In-Reply-To: <BN9PR11MB5276E1932E77354694D45C678C98A@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000026CA:EE_|SA5PPFCB4F033D6:EE_
+X-MS-Office365-Filtering-Correlation-Id: 084b79b3-fa98-418d-8d6b-08dd9a3f42bb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?lm+5bf6VFZmGaXXP+HxWhM9PcXo62Jfm4uQ/mE7UDaaM9XkkT1umCbk4rBEI?=
+ =?us-ascii?Q?kP+bEOWa4Q91++HVT+JJx+gqI4ONjoEH4dTEuR+3X7XXgLd4FJuER4rKiW6K?=
+ =?us-ascii?Q?ppqw1/auyxttVQNTL+1AIyycflh21EyIdQiJcQgaVOKKT0FIP5X6hqhiLKg8?=
+ =?us-ascii?Q?DhVHr+gqBd+G5aurmmYEfvta6O76QHPUT/Y0PtRpwcpSMRj8qX3K92uVVuLD?=
+ =?us-ascii?Q?UTyF+JZPLaZp1sJm7/wYsM6Kduk2mBrds/FYiRyJVjiB3ih9JLRwEABdjtoQ?=
+ =?us-ascii?Q?ztWpkvGm94CDsHJCQRN7AsVoEQ4d2NW08HxeSKXLa1HqCCT+EK8lBFQiAEOM?=
+ =?us-ascii?Q?JPLxeNy02GGxtSGkPASIJozj1xaEEr5+W0H8QWnsALREPZKuJxvn1a+1y1yt?=
+ =?us-ascii?Q?wpIDC30jSoEsJ88I9AjKN17HSyw5dOztxjZNq96baGu3vHbAf0RnuntPQFmS?=
+ =?us-ascii?Q?sVm1bDilb/QkOwcRYe9r/WeDhQsxWzr+FyFdbQSBHEnAK6GTO/DGImjGMZKI?=
+ =?us-ascii?Q?zaSfyoU9hop3d2mtc9g+JSoHcn3lRrQDcdqZifWwpF8nIOQg3iH31As5a/b+?=
+ =?us-ascii?Q?UmHMQa6KRj9Eoru4wGUfdFLVn9vILcUWILNdgLUgRjviN8X66T846/brqtop?=
+ =?us-ascii?Q?YX2pyrhVShxtu0UuzZjDeyZ4VTYg8KXvjaJTZoUdObpDXR5dMZiNJymjQgss?=
+ =?us-ascii?Q?TenQcRNd05GOvcF81kPX6ycWRR6waGteEMQF2sgUaEDjZ6y6nc3QwJpQhbVK?=
+ =?us-ascii?Q?QkSypBiqDy0qr8l63q2RoJOL2ktqGlQawElVeqXh8R1+grv1/9QAu+tZTxP2?=
+ =?us-ascii?Q?o3y2klQvXaTVJOIl6Cr9+VEU8fbc3o9eQ6ERTUWF1rxlIIAdrlcrUGMmMvH/?=
+ =?us-ascii?Q?f3bgOIgqz2FwYhg6gnA0PII3wggIvzjpWCotDgkPg6L9rFOQck36rT/iToih?=
+ =?us-ascii?Q?CaJiRtEPBs4Jp/W4DzzNJGNG2m2Id9SRdca16SXBQb0k58b0MyuVWcyOxJ58?=
+ =?us-ascii?Q?blfQMjVKiOtPMGoggJ/R3Uf7Bj8/mpFg49AnPAs1B1qhLaBDXWyOivYQ/TcQ?=
+ =?us-ascii?Q?mHDtxLxb5+0Cdb4beB9aqBvh5xHQCTvQwUNrx/Wgi5Mrs1rXMLaRR6VGQqHv?=
+ =?us-ascii?Q?CSOLGeMGdDLNi04SHZ4iZFtO22tXStmhQqrNceT2vfa9nRfRt81i7yGVXWV1?=
+ =?us-ascii?Q?Dlhu58pVyp9cC4hbwM44O6WGovZelgxMa5xUrVhOoOjDoVlOgEgohZ901AJq?=
+ =?us-ascii?Q?+Nc0YpmoU8njdIYWd5a8q5RNoRhgOnMkD2WwZRBJILFXhmOy8ML3CHXJUZEA?=
+ =?us-ascii?Q?23OKVbvOvMyExvmqRII1NHvv2UXxU0A52hz6u0fKXpmDtWURsofxISTJgvDo?=
+ =?us-ascii?Q?CTaQBYjQc4wvBn9JuKM+PmabY35ZG/11p2atc5X+sMB5Ea1Q22KDOJeN4mta?=
+ =?us-ascii?Q?Po+NQLmSCcmpqMwr8ApoGaTO6qhLIb820kaVNRWtkzDPBCn7MYH59ahkZdnb?=
+ =?us-ascii?Q?0gzu2edO5Wr5KN1TKCEHOnWqYy/k39+MFGph?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2025 21:17:44.9417
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 084b79b3-fa98-418d-8d6b-08dd9a3f42bb
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF000026CA.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPFCB4F033D6
 
-On Thu, May 22, 2025 at 10:16:16PM +0000, Luck, Tony wrote:
-> > It looks to me as though there are a couple of changes in the telemetry work
-> > that would benefit this work. https://lore.kernel.org/lkml/20250521225049.132551-2-tony.luck@intel.com/
-> > switches the monitor events to be maintained in an array indexed by event ID, eliminating the
-> > need for searching the evt_list that this work does in a couple of places. Also note the handy
-> > new for_each_mbm_event() helper (https://lore.kernel.org/lkml/20250521225049.132551-5-tony.luck@intel.com/).
+On Fri, May 23, 2025 at 07:46:13AM +0000, Tian, Kevin wrote:
+> > From: Nicolin Chen <nicolinc@nvidia.com>
+> > Sent: Sunday, May 18, 2025 11:21 AM
+> > 
+> > @@ -135,6 +135,7 @@ struct iommufd_ucmd {
+> >  	void __user *ubuffer;
+> >  	u32 user_size;
+> >  	void *cmd;
+> > +	struct iommufd_object *new_obj;
 > 
-> Yesterday I ran through the exercise of rebasing my AET patches on top of these
-> ABMC patches in order to check whether the ABMC patches painted resctrl
-> into some corner that would be hard to get back out of.
-> 
-> Good news: they don't.
-> 
-> There was a bunch of manual patching to make the first four patches fit on top
-> of the ABMC code, but I also noticed a few places where things were simpler
-> after combining the two series.
-> 
-> Maybe a good path forward would be to take those first four patches from
-> my AET series and then build ABMC on top of those.
+> Could just be called as 'obj'. but not a strong preference.
 
-As an encouragement to try this direction, I took my four patches
-on top of tip x86/cache and then applied Babu's ABMC series.
+Jason named it "alloced_obj" to clarify the purpose, I believe.
+I picked a shorter "new_obj" while keeping its purpose. I think
+I will keep it in this way.
 
-Changes to Babu's code:
-1) Adapt where needed for removal of evt_list. Use event array instead.
-2) Use for_each_mbm_event() [Maybe didn't get all places?]
-3) Bring the s/evt_val/evt_cfg/ fix into patch 20 from 21
-4) Fix fir tree declaration for resctrl_process_assign()
-
-I don't have an AMD system to check if the ABMC parts still work. But
-it does pass the resctrl self tests, so legacy isn't broken.
-
-Patches in the "my_mbm_plus_babu_abmc" branch of my kernel.org
-repo: git://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git
-
--Tony
+Thanks
+Nicolin
