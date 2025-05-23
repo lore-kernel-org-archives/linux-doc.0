@@ -1,66 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FF3EC5;
-	Fri, 23 May 2025 22:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B74E3D76;
+	Fri, 23 May 2025 22:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748037998; cv=none; b=cV+8Hys7WSw3PG+cT5lQN5AtAQ1dZ63Cu6yjHgSTlevXHaWKPvabDVsP20dnZUqPx9ee3wHX+x0Vhs8wXO5CMvZ3vLjh2MUCdf+TVaVzwSKD3cdHWaaj8xXDpjL2Up7qBQnashMEg665JkFuOVahaFhg0aVxRZgAWVCw/l52qsE=
+	t=1748039755; cv=none; b=pg5eianWIYeT0KutVipPi2Z7LY9EDWZ20+FwuvCk7/HTfq4wv+mwPenYDjcseJq7+uAUAonbwOofD1+Wt7xtLz7PZck3+r5duPIzXGHvyruA+M/8aOaA71EI3dKv2uKglf8D2j4H+xkWmTFWC4HaZ1bA+cS1SgPpD7SXnOm+uyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748037998; c=relaxed/simple;
-	bh=9j5tlxC9rdno3FMlsu5r9h9OfHHQcZ1zaGT9VEOlFpc=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=chWnHVj//uYqVSHC6BT8A68V1vfUbvGQdqzbR19YcvRYGzNVDmjOm8POaUp3MEgb4xDFIFYsVa/NTVSZOJoy9pSle2cO28ZEqh57rpO/nIOxgC+E/57CkqgxmUtEMHzI0X0LkRhbzqByQTTxBgTIHfAvSZwjjgc5KM7wbcaRfEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ApTu7dV5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748039755; c=relaxed/simple;
+	bh=R3v32M7eOha9gh09Kow3yei6xT+ZwIa9TVcaF1rvUUY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UqKgAnqHWQiV247tyMJJYs9OsJbjuhpOAqQgdWVQMa6prxzFVlCXUZsmXeI4qjU0+bsxBKFfPlTARrW9gd3MWXo26PbcUeeRB6jQDUG6Kvvb9ITT/Qfx3K0Ws1tRocnnxoErZAo6powyVaorpmWSiCHkTHisHV+d8iMcxszXB14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D0K+hNdB; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ApTu7dV5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7546EC4CEE9;
-	Fri, 23 May 2025 22:06:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1748037997;
-	bh=9j5tlxC9rdno3FMlsu5r9h9OfHHQcZ1zaGT9VEOlFpc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ApTu7dV5uDOWeMTHCQkL+mjCt1c3VsfCC95+l/gatD5ByaXnCF7A3AITxXV6OAmf4
-	 TheeBLzg5+YeuKYtkCmxDkU3gMOpshuv8ZalA9zGHLNm5ImZ/mZp+1gKCOxxe7kckA
-	 LPGhzTprtehL92dmLrSfMMw58GiV3bMdEnEhAtck=
-Date: Fri, 23 May 2025 15:06:35 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Chen Yu <yu.c.chen@intel.com>
-Cc: peterz@infradead.org, mkoutny@suse.com, mingo@redhat.com, tj@kernel.org,
- hannes@cmpxchg.org, corbet@lwn.net, mgorman@suse.de, mhocko@kernel.org,
- muchun.song@linux.dev, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- tim.c.chen@intel.com, aubrey.li@intel.com, libo.chen@oracle.com,
- kprateek.nayak@amd.com, vineethr@linux.ibm.com, venkat88@linux.ibm.com,
- ayushjai@amd.com, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, yu.chen.surf@foxmail.com
-Subject: Re: [PATCH v5 0/2] sched/numa: add statistics of numa balance task
- migration
-Message-Id: <20250523150635.5901dbb92b8379c9d88f88ca@linux-foundation.org>
-In-Reply-To: <cover.1748002400.git.yu.c.chen@intel.com>
-References: <cover.1748002400.git.yu.c.chen@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D0K+hNdB"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a37b5de515so59793f8f.2;
+        Fri, 23 May 2025 15:35:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748039752; x=1748644552; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8lgVAHO/czzeAtaJDGCKfGMz8u6/aTJ16whMyiWADto=;
+        b=D0K+hNdBrcI1vIEcLNgtZoCuLf0eJyiPoI/BqiAh6ULiHAoGH7T5GC/hfBT9Ez7+8Y
+         rStpR3I/HXbVqRBKngvcv8BQfQobgjCzuPBBFWoD/T0Dpe/2BkhkgKw1nZmuSpxStRUV
+         v6fKvdgqhVEuLB4P/vlqlmBF5MD2MSfaQBBFtq7sYB1fbEf8u9PVMqrk55wdWdfLbTRC
+         e6V9nGPuHwBOEsj8LvSotStrADecU1fkM3UtPt2YjcaKK2k1cqDSXS2XyXJmnOJ6Ww5K
+         TAUrEqE9woagIkkvTtb91bnyVLpISl1KE/4bNqzEoXWBNuhy1HxXBCVmZo1KD9jw7d/R
+         kdSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748039752; x=1748644552;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8lgVAHO/czzeAtaJDGCKfGMz8u6/aTJ16whMyiWADto=;
+        b=cHfzLWh2w0F3hhHdpvCdFvzJQ22qwr5Ws8O1yPEjZT/24v/lYgukVB3yvbpQJu+81k
+         eBKOdvhsKw8Qlmr3AqeSXz250Lk6tJTcb3q4KVMhyReQTPUCu9TahPf2FWAquUdOrdyk
+         xKXQoPbkI9MtrxlLYINgq7SShhq2zYMmKBrvJ2bwXdoTctLSYpx1TqJ8X+Atv8Ls5/Ow
+         kccyVfb1t2ay85BvaQ3EzAUv/oyOpv9ubSeu8NwYkwD4qxrg/xhpJZ2u3HadyAKyir/x
+         E2iDCLtJYeoUdvc+AZxDbDrCw74LxvlRPqX1t4A6Pe+27l4VaiQiW0CWv/mKArDYbBlp
+         59+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUNGGb+y15M0ajJ13eAt1ZxFJVaUWYFuuXVnKx25HhEARPSZ77dmEnSnuqDCkk1YKHAdnd4YxqVj7vz@vger.kernel.org, AJvYcCVhQHjDR5FZOQUp/saIm5V3GPeOwAA3pxrFRhbAnQxSJD5GPmCFu0DwvFGMAKrafYECm4oP72xwUr/mlfbe@vger.kernel.org, AJvYcCWigtwX+QfdiUjLtYwF8kgeAmSEreFJ7OI/dqenvihSM9DRCEvd2p8z91c7HXusETadKRRk+IOlZiI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyRi7H1RLZIJvFkPzUAaELu53p8hCDVPWUq4rDdM5k/LwBAErj
+	JjrzIdxJ8YIjAKQBGUD93Rx10GxVw5KCqOqpveqol0wV8tfgH3TlWN5F
+X-Gm-Gg: ASbGncs0wMGJVgdm5WJDA5AimTwxO3XKbiN8GD5D303yzivzMFyPZCNd69t5opVlgbd
+	kTTnxxQInJuyp+SHtkDcWKtkho6B6ftYkTT3Bj+PUOYyZCoW7itgp1hlJBOx+N9Fpbz/Jm04hPU
+	Jw4qk12reMEf9gKjl8eaSkB74tJYAZWwSmQNxkJ7XuJCyGC9SDneCMjF/3a1MSK9dbWHK24y8aY
+	BiisfJPR2UtIXgZ5SWno0q5kC9dfR4VSijffV2q0GuCftMiw/gQgMZ7rFc3USWW6l/SeUu0/IG/
+	voCsuvSf2IJWfWbeGtAqe99fpxrYFzDyopHhz0TSckTz5X5sflvj4yEgxm/AzMohPR9HDDUoBWk
+	OgKe83mL5LGO7ECRXKXdzyw==
+X-Google-Smtp-Source: AGHT+IHNCmDrthyRWLdsW0S4y1tBk2Qg7NjozkGUjBeOQg4TdeelrMl1BaksiVpfVaJ7NZZqdianyw==
+X-Received: by 2002:a05:600c:511b:b0:43b:c0fa:f9c4 with SMTP id 5b1f17b1804b1-44c94c246aemr2310755e9.4.1748039751408;
+        Fri, 23 May 2025 15:35:51 -0700 (PDT)
+Received: from localhost.localdomain (84-72-156-211.dclient.hispeed.ch. [84.72.156.211])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f6b29672sm165202375e9.3.2025.05.23.15.35.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 May 2025 15:35:50 -0700 (PDT)
+From: Lothar Rubusch <l.rubusch@gmail.com>
+To: jic23@kernel.org,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	corbet@lwn.net,
+	lucas.p.stankus@gmail.com,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com
+Cc: l.rubusch@gmail.com,
+	linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/12] iio: accel: adxl313: add power-save on activity/inactivity
+Date: Fri, 23 May 2025 22:35:11 +0000
+Message-Id: <20250523223523.35218-1-l.rubusch@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 23 May 2025 20:48:02 +0800 Chen Yu <yu.c.chen@intel.com> wrote:
+The patch set covers the following topics:
+- add debug register and regmap cache
+- prepare iio channel scan_type and scan_index
+- prepare interrupt handling
+- implement fifo with watermark
+- add activity/inactivity together with auto-sleep with link bit
+- documentation
 
-> Introducing the task migration and swap statistics in the following places:
-> /sys/fs/cgroup/{GROUP}/memory.stat
-> /proc/{PID}/sched
-> /proc/vmstat
-> 
-> These statistics facilitate a rapid evaluation of the performance and resource
-> utilization of the target workload.
+Since activity and inactivity here are implemented covering all axis, I
+assumed x&y&z. Thus the driver uses a fake channel for activity/inactiviy.
 
-Thanks.  I added this.
+Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+---
+v2 -> v3:
+- verify keeping trailing comma when it's multi-line assignment [v1 02/12]
+- adxl313_set_fifo(): verify have two on one line to make it easier to read [v1 07/12]
+- adxl313_fifo_transfer(): verify removal of useless initialization of ret [v1 07/12]
+- adxl313_fifo_transfer(): verify usage of array_size() from overflow.h [v1 07/12]
+- adxl313_fifo_transfer(): verify return 0 here [v1 07/12]
+- adxl313_irq_handler(): verify "Why do we need the label?" / moving the call under the conditional [v1 07/12]
+- verify reorganization of half condition for Activity [v1 09/12] and Inactivity [v1 10/12]
+- verify usage of MICRO instead of 1000000
+- adxl313_is_act_inact_en(): restructure according to return logic value, or negative error
+- adxl313_set_act_inact_en(): restructure function, use regmap_assign_bits()
+- adxl313_set_act_inact_en(): verify makeing it a logical split [v1 11/12]
+- adxl313_fifo_transfer(): change iterator variable type from int to unsigned int [v2 07/12]
+- adxl313_fifo_reset(): add comment on why reset status registers does not do error check ("At least comment...") [v2 07/12]
+- adxl313_fifo_push(): change iterator variable from int to unsigned int [v2 08/12]
+- adxl313_fifo_push(): remove duplicate check for samples being <0 [v2 08/12]
+- apply regmap_assign_bits() in several places to replace regmap_update_bits() depending on bools
+- adxl313_set_watermark(): rename mask variable to make it more comprehensive
+- removal of duplicate blanks in various places (sry, my keyboard died) [v1 07/12]
 
-We're late in -rc7 but an earlier verison of this did have a run in
-linux-next.  Could reviewers please take a look relatively soon, let us
-know whether they believe this looks suitable for 6.16-rc1?
+v1 -> v2:
+- usage of units.h
+- simplify approach for return values
+---
+Lothar Rubusch (12):
+  iio: accel: adxl313: add debug register
+  iio: accel: adxl313: introduce channel scan_index
+  iio: accel: adxl313: configure scan type for buffer
+  iio: accel: adxl313: make use of regmap cache
+  iio: accel: adxl313: add function to enable measurement
+  iio: accel: adxl313: prepare interrupt handling
+  iio: accel: adxl313: add basic interrupt handling
+  iio: accel: adxl313: add FIFO watermark
+  iio: accel: adxl313: add activity sensing
+  iio: accel: adxl313: add inactivity sensing
+  iio: accel: adxl313: implement power-save on inactivity
+  docs: iio: add ADXL313 accelerometer
+
+ Documentation/iio/adxl313.rst    | 196 ++++++++++
+ Documentation/iio/index.rst      |   1 +
+ drivers/iio/accel/adxl313.h      |  35 +-
+ drivers/iio/accel/adxl313_core.c | 625 ++++++++++++++++++++++++++++++-
+ drivers/iio/accel/adxl313_i2c.c  |   6 +
+ drivers/iio/accel/adxl313_spi.c  |   6 +
+ 6 files changed, 859 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/iio/adxl313.rst
+
+-- 
+2.39.5
 
