@@ -1,128 +1,138 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DCB29373F
-	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 16:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5EE17A318;
+	Fri, 23 May 2025 17:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748017632; cv=none; b=sMhZY8Vnw+ndvVQsgVB8aaTA0ZVpMwDRiL8FwY9mAgNAhpn7vki7nkwqPtty5YvDSRLC3F2kOsG+XihR0/D8FiUqCBFI+qjZMRt6IFKmUncPvswopgUENYi9eHjfQowxm2iT2m9cU2cRr3N1snnkQ61vT1QvDWR2yaV6Hr2dQeU=
+	t=1748021391; cv=none; b=F29sIqBec67CMbiguRYLFddMlfPF6VAj8GVFN2qczclaeTYYLjyQEvHsNPlYYwUd1JflhiTE4+VRg8qsd43smBfOsiLRYKM+qbFRADFCfBTOfElBVmG1JxjUrF1yybIfjYxdud7HghkVpohrddRBqhjL3W8SDCkngrXrzjyftjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748017632; c=relaxed/simple;
-	bh=xoy2iHNo1joT7Vza5E4ulrB5ALTkKGuwFJzZh05QFXY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=kbSWUqbXIk/zRD0czkaPBNqfspH7AT+JIIcMFHyZQIAYndA2+RWgs9GNQKNL9hAHCvqFmncgD54sXeV1UsNGspo6jcR96S8zqSp+m1WpHAejvlwx/6GJ6suBmJctovU+R21Cv8+JqhN7/BOt6fs6Us86QUfaDYFLxv/gtKb2g7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=YWVho5t0; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1748021391; c=relaxed/simple;
+	bh=Hg+POBQs/xSBvuTsP18TF/uKSrgQvrTbuM9KHUW+3HE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N2zSc/WqOb4fNvOCVFxatm2AUsOiD43MtTuxsMUuiXHe6aPFDlh5GGHZE/2Elopg52XgR8wa+O6RKtT56y2ekcmxXE+LhzrbKc6eYc+iWk3DlQRxW3qEjDGoANW0EVTCkb2apnxxl/5FzpjdQLDdpa6VfwtJ6aLuhZuw79swEA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbZzzYVj; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="YWVho5t0"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a367226ad2so16174f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 09:27:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1748017628; x=1748622428; darn=vger.kernel.org;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ia6puvfZPG5fMJM1ZRtmeD9phh8ksFStnHEcrbqR9QM=;
-        b=YWVho5t00wvenZuAzoFsjd+SDYyEJKBKLddYH1sizwOm6UT4z3PLA+rgnyNaTcoNWY
-         ivS2MCzrHRq9yzMIG4GiOV5tfNJrpVcRRNU3uFKdvwid2zy0LRznIFvCMYlMXSsya+r+
-         G2H1sQ+6JiML5gGBxo6avtIDrJc+xO0KuS5aJaJ52FslLlHm2YGRZftDYhgDOzvERsEB
-         FlI5XrWoq0+HDRHs7wvgWSt8geb5p0uUl/ntjExeO5ZUwG/JB+T/zPVsjf5VsDde1z7i
-         AbnfTu8soC+Eb2DMd18QwSUKo8DbVYnIdhiugDfbf9O6Qg9NEUAW4F1FhHsHRPvgil8U
-         IWJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748017628; x=1748622428;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ia6puvfZPG5fMJM1ZRtmeD9phh8ksFStnHEcrbqR9QM=;
-        b=QLAtkTa6E+Kt0VKo3zSXHtkLfqDWJg0ZPiLAEQ/GI2LSAK2HlDqh/9u0ooGoMK/2+5
-         gXWRR02DAM4BqAHwKnt4M9jHetyzElagfWpV/UDST7MyrJuOZWtaSY+76bawsuhbzMQY
-         dwexSbj62AK5eGu4TBbl7NiIFGdMy6b7+Aye3HRZqP3TPRPnbZGJpWEF9nuXW0PIW7V7
-         9oA8LH0NF9XGLGjGDhhCs5JzVvht+VNSLxyty9Qw4eiZOBd1ndvOVU2xJNAX8uoVNSpA
-         iwSov8T8JIghabctUOPfNGLGTipWDKNcrLv8Iu7J/z6RMXqnfTKeD+R+Kpicfvf41+yg
-         fWsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUB3N4ne0gIlBSq3Exu12Mr3alf0W7Q3WvaNp2/QBDK2w1pZluWw1Ek3Hy28cWw4F1v4FtSj7AyWmU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh0qa7IQU0hcJCOgDk3jZPwc/q79TWtTTPIUxmgaZaRLYeofPp
-	gfWiM7VRM8/wn6+ehNMo/EKhQZdw1YSf9yb6my2zCTLIRXhIepQxaGU1JsXbjJVAPPRqWw8sZ/Q
-	LsLVl
-X-Gm-Gg: ASbGnctyPUj9WR21XanoKi0D/wTIQ8qKjoIdcHRK/B+o2zq+UnXFpaYG8l+yalphee4
-	4tRQTPdXYlqjXPEiFRLHyYd6H48BlU2+m+lZmsqBNxc/8T7zDhptT/W8ZEwZ/zdDlI7oSiWzT1y
-	UiU6xosO7cuPsZKG+LkPS/vchl2wavHGncvEH8/gnbg/q8a//HgTIVmD8USUI71ILhvi0j00DEw
-	tamSL3KFg64ewcKZX1iBoehg2g3tNfDsT+f1bWB3i0uoYinLXIBpey4SBLA46HlrXfkrycXVWCF
-	yOWEFGIMMPioeR5MnpWlHyk9Yx4Lv5duCN9e/ndfjc/7dmvK9EdGgoN4Zq8TPS56u7ebwg==
-X-Google-Smtp-Source: AGHT+IGu5SqOXXJDnZhsvGxzP9Q90JnNNFmT1bVPxtvjIRaUq9pqy0zhm7LZZhwBJv3AkH7nFc+56w==
-X-Received: by 2002:a05:6000:230e:b0:3a4:bafb:adaa with SMTP id ffacd0b85a97d-3a4c2b3b3d4mr1273822f8f.3.1748017627898;
-        Fri, 23 May 2025 09:27:07 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200:be84:d9ad:e5e6:f60b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a368250dbbsm22377027f8f.47.2025.05.23.09.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 09:27:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbZzzYVj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748021390; x=1779557390;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Hg+POBQs/xSBvuTsP18TF/uKSrgQvrTbuM9KHUW+3HE=;
+  b=HbZzzYVjelaF1fiyaFC40w+at4VPWFYz2pcl4VrZ8N/9JXodMko/OTnT
+   b3KtxdIzLYlXGo2B8S4Y5K1aTWP2glU21B0ngc00KKGRP5NgVzjqFQOEs
+   JtuCcdynQQr1PtJAASJxpufVkimojSidHZO2HggQUTbi0F1mnMMP+xx4y
+   +C9X0b8km12RGd3z+SIwtz1kUUfKCg/EOlx5BSQa+TK/pty1mPKqzJUDa
+   W/vHeQqPyznErMMd8AxHghfLlsxrbY2ZZBjpRFs1yug/LvkrvbIPiNbq/
+   gITGCWwQ9o3q4H92y5q19Wl+L0s3g7Wbad7RYSbiTfEhlpXAVVQ7UPnxM
+   w==;
+X-CSE-ConnectionGUID: 3D+JbRTsTDW04zolJJ5SlQ==
+X-CSE-MsgGUID: cINeZdSGS6m67R6dEiIJuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50009251"
+X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
+   d="scan'208";a="50009251"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 10:29:49 -0700
+X-CSE-ConnectionGUID: PqTrVVY7SsqG0j33D4snSw==
+X-CSE-MsgGUID: 60OZtcGTTyOGheO66+8wWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,309,1739865600"; 
+   d="scan'208";a="146204841"
+Received: from msatwood-mobl.amr.corp.intel.com (HELO [10.125.109.147]) ([10.125.109.147])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 10:29:49 -0700
+Message-ID: <f76327dd-b505-4a24-938c-5b917da9aff2@intel.com>
+Date: Fri, 23 May 2025 10:29:48 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/5] KVM: SEV: Add SEV-SNP CipherTextHiding support
+To: Ashish Kalra <Ashish.Kalra@amd.com>, corbet@lwn.net, seanjc@google.com,
+ pbonzini@redhat.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, hpa@zytor.com, herbert@gondor.apana.org.au,
+ akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org
+Cc: x86@kernel.org, thuth@redhat.com, ardb@kernel.org,
+ gregkh@linuxfoundation.org, john.allen@amd.com, davem@davemloft.net,
+ thomas.lendacky@amd.com, michael.roth@amd.com, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <cover.1747696092.git.ashish.kalra@amd.com>
+ <e663930ca516aadbd71422af66e6939dd77e7b06.1747696092.git.ashish.kalra@amd.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
+ oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
+ 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
+ ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
+ VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
+ iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
+ c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
+ pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
+ ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
+ QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzUVEYXZpZCBDaHJp
+ c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
+ LmNvbT7CwXgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
+ lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
+ MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
+ IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
+ aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
+ I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
+ E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
+ F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
+ CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
+ P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
+ 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lczsFNBFRjzmoBEACyAxbvUEhd
+ GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
+ MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
+ Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
+ lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
+ 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
+ qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
+ BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
+ 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
+ vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
+ FCRl0Bvyj1YZUql+ZkptgGjikQARAQABwsFfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
+ l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
+ yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
+ +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
+ asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
+ WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
+ sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
+ KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
+ MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
+ hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
+ vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
+In-Reply-To: <e663930ca516aadbd71422af66e6939dd77e7b06.1747696092.git.ashish.kalra@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 23 May 2025 18:27:07 +0200
-Message-Id: <DA3OJ7WWUGLT.35AVP0QQDJRZV@ventanamicro.com>
-Subject: Re: [PATCH v8 13/14] RISC-V: KVM: add support for FWFT SBI
- extension
-Cc: "Samuel Holland" <samuel.holland@sifive.com>, "Andrew Jones"
- <ajones@ventanamicro.com>, "Deepak Gupta" <debug@rivosinc.com>, "Charlie
- Jenkins" <charlie@rivosinc.com>, "Atish Patra" <atishp@rivosinc.com>,
- "linux-riscv" <linux-riscv-bounces@lists.infradead.org>
-To: =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, "Paul
- Walmsley" <paul.walmsley@sifive.com>, "Palmer Dabbelt"
- <palmer@dabbelt.com>, "Anup Patel" <anup@brainfault.org>, "Atish Patra"
- <atishp@atishpatra.org>, "Shuah Khan" <shuah@kernel.org>, "Jonathan Corbet"
- <corbet@lwn.net>, <linux-riscv@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
- <linux-kselftest@vger.kernel.org>
-From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
-References: <20250523101932.1594077-1-cleger@rivosinc.com>
- <20250523101932.1594077-14-cleger@rivosinc.com>
- <DA3K95ZYJ52S.1K6O3LN6WEI0N@ventanamicro.com>
- <9f9e2869-725d-4590-887a-9b0ef091472e@rivosinc.com>
-In-Reply-To: <9f9e2869-725d-4590-887a-9b0ef091472e@rivosinc.com>
+Content-Transfer-Encoding: 7bit
 
-2025-05-23T17:29:49+02:00, Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>:
-> On 23/05/2025 15:05, Radim Kr=C4=8Dm=C3=A1=C5=99 wrote:
->> 2025-05-23T12:19:30+02:00, Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>=
-:
->>> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
->>> +static const enum sbi_fwft_feature_t kvm_fwft_defined_features[] =3D {
->>> +	SBI_FWFT_MISALIGNED_EXC_DELEG,
->>> +	SBI_FWFT_LANDING_PAD,
->>> +	SBI_FWFT_SHADOW_STACK,
->>> +	SBI_FWFT_DOUBLE_TRAP,
->>> +	SBI_FWFT_PTE_AD_HW_UPDATING,
->>> +	SBI_FWFT_POINTER_MASKING_PMLEN,
->>> +};
->>=20
->> How will userspace control which subset of these features is allowed in
->> the guest?
->>=20
->> (We can reuse the KVM SBI extension interface if we don't want to add a
->>  FWFT specific ONE_REG.)
->
-> Hi Radim,
->
-> I didn't looked at that part. But most likely using the kvm one reg
-> interface seems ok like what is done for STA ? We could have per feature
-> override with one reg per feature.
+On 5/19/25 17:02, Ashish Kalra wrote:
+> +	kvm-amd.ciphertext_hiding_nr_asids=
+> +			[KVM,AMD] Enables SEV-SNP CipherTextHiding feature and
+> +			controls show many ASIDs are available for SEV-SNP guests.
+> +			The ASID space is basically split into legacy SEV and
+> +			SEV-ES+. CipherTextHiding feature further splits the
+> +			SEV-ES+ ASID space into SEV-ES and SEV-SNP.
+> +			If the value is -1, then it is used as an auto flag
+> +			and splits the ASID space equally between SEV-ES and
+> +			SEV-SNP ASIDs.
 
-Sounds fine.
+This help text isn't great.
 
-> Is this something blocking though ? We'd like to merge FWFT once SBI 3.0
-> is ratified so that would be nice not delaying it too much. I'll take a
-> look at it to see if it isn't too long to implement.
+It doesn't come out and say what the connection between CipherTextHiding
+and SEV-ES+. It's also impossible to choose a good number without
+knowing how large the ASID space is in the first place.
 
-Not blocking, but I would at least default FWFT to disabled, because
-current userspace cannot handle [14/14].  (Well... save/restore was
-probably broken even before, but let's try to not make it worse. :])
+Why use "-1"? Why not just take "auto" as a parameter?
 
-Thanks.
+It also needs to say what CipherTextHiding is in the first place and be
+more clear about what the tradeoffs are from enabling this.
+
+
