@@ -1,63 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160FF221FAC;
-	Fri, 23 May 2025 16:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DCB29373F
+	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 16:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748017181; cv=none; b=iWUH5tay3ybQ0fqEGIywpSk6QmqUUkQ4V8xnhP9S5k/QiJV0Rw2aDQln06oVGA4Twh4C2G/TYuicB21xnpFVpJz69RGgHQpJIOMck6tWrmEBtyFthR3FZuFUYNYz2mps4wcOolHW9G5rlf52doKUcLZlCs4En8kIH6PoP5AbpPk=
+	t=1748017632; cv=none; b=sMhZY8Vnw+ndvVQsgVB8aaTA0ZVpMwDRiL8FwY9mAgNAhpn7vki7nkwqPtty5YvDSRLC3F2kOsG+XihR0/D8FiUqCBFI+qjZMRt6IFKmUncPvswopgUENYi9eHjfQowxm2iT2m9cU2cRr3N1snnkQ61vT1QvDWR2yaV6Hr2dQeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748017181; c=relaxed/simple;
-	bh=luf3+Ha4Xa5pt6ZffZvBB9i4XTf5thEHdVl0hP9DzCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LMV6IhnUQRB3jCcFzyJ2+w88lpxFTRuMmM8t+nBFtx9KqUat7RSTn7T3RQj5R+fE4RK5Hs59GRrRZzPA3PQYVk7U+5OgqTlCqduoNa3ytLqx473/5OMyl1+7gOgWEnDS5VCwNenFb1s7U+8bgkYf2bj3GlbjAF0lAgmg5id9gFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=smeoKuRu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748017632; c=relaxed/simple;
+	bh=xoy2iHNo1joT7Vza5E4ulrB5ALTkKGuwFJzZh05QFXY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=kbSWUqbXIk/zRD0czkaPBNqfspH7AT+JIIcMFHyZQIAYndA2+RWgs9GNQKNL9hAHCvqFmncgD54sXeV1UsNGspo6jcR96S8zqSp+m1WpHAejvlwx/6GJ6suBmJctovU+R21Cv8+JqhN7/BOt6fs6Us86QUfaDYFLxv/gtKb2g7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=YWVho5t0; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="smeoKuRu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C31CC4CEE9;
-	Fri, 23 May 2025 16:19:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748017179;
-	bh=luf3+Ha4Xa5pt6ZffZvBB9i4XTf5thEHdVl0hP9DzCQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=smeoKuRuWvb+gS+tIXYSXhUfnnOxe3pmRgxBamojExCBZOzR1RDp3H4y3CmCvqHVY
-	 2p0evLhx47tsF9/oEjZ4Fli8Eu1uC11CqVBCoSQGljQ8ADfjN4CxcFbuMzIhFlLGIB
-	 vWh9Hb10v2jOlaex8bZ0mQBiat0pFiMPxFwv02drpwRzSlNwWeiZ/IGkLyC31a8Qr2
-	 q4BcfDLlfPiazileqSFDyPo+TeVegwm+TTS+YnnfC6n/E31mJ3pGp1emPW/RS64Y7f
-	 zBUZDEksnGRGp+7gSqNp2Tp5YOMPTv4sZy8gL5yF/RJGD7xJ8borylXS2OdebVteqR
-	 4PAHWjvpJqBeg==
-Date: Fri, 23 May 2025 16:19:38 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: mhklinux@outlook.com
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	corbet@lwn.net, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/1] Documentation: hyperv: Update VMBus doc with new
- features and info
-Message-ID: <aDCgGoJSbQaR0MEk@liuwe-devbox-ubuntu-v2.tail21d00.ts.net>
-References: <20250520044435.7734-1-mhklinux@outlook.com>
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="YWVho5t0"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a367226ad2so16174f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 09:27:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1748017628; x=1748622428; darn=vger.kernel.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ia6puvfZPG5fMJM1ZRtmeD9phh8ksFStnHEcrbqR9QM=;
+        b=YWVho5t00wvenZuAzoFsjd+SDYyEJKBKLddYH1sizwOm6UT4z3PLA+rgnyNaTcoNWY
+         ivS2MCzrHRq9yzMIG4GiOV5tfNJrpVcRRNU3uFKdvwid2zy0LRznIFvCMYlMXSsya+r+
+         G2H1sQ+6JiML5gGBxo6avtIDrJc+xO0KuS5aJaJ52FslLlHm2YGRZftDYhgDOzvERsEB
+         FlI5XrWoq0+HDRHs7wvgWSt8geb5p0uUl/ntjExeO5ZUwG/JB+T/zPVsjf5VsDde1z7i
+         AbnfTu8soC+Eb2DMd18QwSUKo8DbVYnIdhiugDfbf9O6Qg9NEUAW4F1FhHsHRPvgil8U
+         IWJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748017628; x=1748622428;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ia6puvfZPG5fMJM1ZRtmeD9phh8ksFStnHEcrbqR9QM=;
+        b=QLAtkTa6E+Kt0VKo3zSXHtkLfqDWJg0ZPiLAEQ/GI2LSAK2HlDqh/9u0ooGoMK/2+5
+         gXWRR02DAM4BqAHwKnt4M9jHetyzElagfWpV/UDST7MyrJuOZWtaSY+76bawsuhbzMQY
+         dwexSbj62AK5eGu4TBbl7NiIFGdMy6b7+Aye3HRZqP3TPRPnbZGJpWEF9nuXW0PIW7V7
+         9oA8LH0NF9XGLGjGDhhCs5JzVvht+VNSLxyty9Qw4eiZOBd1ndvOVU2xJNAX8uoVNSpA
+         iwSov8T8JIghabctUOPfNGLGTipWDKNcrLv8Iu7J/z6RMXqnfTKeD+R+Kpicfvf41+yg
+         fWsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUB3N4ne0gIlBSq3Exu12Mr3alf0W7Q3WvaNp2/QBDK2w1pZluWw1Ek3Hy28cWw4F1v4FtSj7AyWmU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh0qa7IQU0hcJCOgDk3jZPwc/q79TWtTTPIUxmgaZaRLYeofPp
+	gfWiM7VRM8/wn6+ehNMo/EKhQZdw1YSf9yb6my2zCTLIRXhIepQxaGU1JsXbjJVAPPRqWw8sZ/Q
+	LsLVl
+X-Gm-Gg: ASbGnctyPUj9WR21XanoKi0D/wTIQ8qKjoIdcHRK/B+o2zq+UnXFpaYG8l+yalphee4
+	4tRQTPdXYlqjXPEiFRLHyYd6H48BlU2+m+lZmsqBNxc/8T7zDhptT/W8ZEwZ/zdDlI7oSiWzT1y
+	UiU6xosO7cuPsZKG+LkPS/vchl2wavHGncvEH8/gnbg/q8a//HgTIVmD8USUI71ILhvi0j00DEw
+	tamSL3KFg64ewcKZX1iBoehg2g3tNfDsT+f1bWB3i0uoYinLXIBpey4SBLA46HlrXfkrycXVWCF
+	yOWEFGIMMPioeR5MnpWlHyk9Yx4Lv5duCN9e/ndfjc/7dmvK9EdGgoN4Zq8TPS56u7ebwg==
+X-Google-Smtp-Source: AGHT+IGu5SqOXXJDnZhsvGxzP9Q90JnNNFmT1bVPxtvjIRaUq9pqy0zhm7LZZhwBJv3AkH7nFc+56w==
+X-Received: by 2002:a05:6000:230e:b0:3a4:bafb:adaa with SMTP id ffacd0b85a97d-3a4c2b3b3d4mr1273822f8f.3.1748017627898;
+        Fri, 23 May 2025 09:27:07 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200:be84:d9ad:e5e6:f60b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a368250dbbsm22377027f8f.47.2025.05.23.09.27.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 May 2025 09:27:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250520044435.7734-1-mhklinux@outlook.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 23 May 2025 18:27:07 +0200
+Message-Id: <DA3OJ7WWUGLT.35AVP0QQDJRZV@ventanamicro.com>
+Subject: Re: [PATCH v8 13/14] RISC-V: KVM: add support for FWFT SBI
+ extension
+Cc: "Samuel Holland" <samuel.holland@sifive.com>, "Andrew Jones"
+ <ajones@ventanamicro.com>, "Deepak Gupta" <debug@rivosinc.com>, "Charlie
+ Jenkins" <charlie@rivosinc.com>, "Atish Patra" <atishp@rivosinc.com>,
+ "linux-riscv" <linux-riscv-bounces@lists.infradead.org>
+To: =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, "Paul
+ Walmsley" <paul.walmsley@sifive.com>, "Palmer Dabbelt"
+ <palmer@dabbelt.com>, "Anup Patel" <anup@brainfault.org>, "Atish Patra"
+ <atishp@atishpatra.org>, "Shuah Khan" <shuah@kernel.org>, "Jonathan Corbet"
+ <corbet@lwn.net>, <linux-riscv@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
+ <linux-kselftest@vger.kernel.org>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
+References: <20250523101932.1594077-1-cleger@rivosinc.com>
+ <20250523101932.1594077-14-cleger@rivosinc.com>
+ <DA3K95ZYJ52S.1K6O3LN6WEI0N@ventanamicro.com>
+ <9f9e2869-725d-4590-887a-9b0ef091472e@rivosinc.com>
+In-Reply-To: <9f9e2869-725d-4590-887a-9b0ef091472e@rivosinc.com>
 
-On Mon, May 19, 2025 at 09:44:35PM -0700, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
-> 
-> Starting in the 6.15 kernel, VMBus interrupts are automatically
-> assigned away from a CPU that is being taken offline. Add documentation
-> describing this case.
-> 
-> Also add details of Hyper-V behavior when the primary channel of
-> a VMBus device is closed as the result of unbinding the device's
-> driver. This behavior has not changed, but it was not previously
-> documented.
-> 
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+2025-05-23T17:29:49+02:00, Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>:
+> On 23/05/2025 15:05, Radim Kr=C4=8Dm=C3=A1=C5=99 wrote:
+>> 2025-05-23T12:19:30+02:00, Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>=
+:
+>>> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
+>>> +static const enum sbi_fwft_feature_t kvm_fwft_defined_features[] =3D {
+>>> +	SBI_FWFT_MISALIGNED_EXC_DELEG,
+>>> +	SBI_FWFT_LANDING_PAD,
+>>> +	SBI_FWFT_SHADOW_STACK,
+>>> +	SBI_FWFT_DOUBLE_TRAP,
+>>> +	SBI_FWFT_PTE_AD_HW_UPDATING,
+>>> +	SBI_FWFT_POINTER_MASKING_PMLEN,
+>>> +};
+>>=20
+>> How will userspace control which subset of these features is allowed in
+>> the guest?
+>>=20
+>> (We can reuse the KVM SBI extension interface if we don't want to add a
+>>  FWFT specific ONE_REG.)
+>
+> Hi Radim,
+>
+> I didn't looked at that part. But most likely using the kvm one reg
+> interface seems ok like what is done for STA ? We could have per feature
+> override with one reg per feature.
 
-Queued. Thanks.
+Sounds fine.
+
+> Is this something blocking though ? We'd like to merge FWFT once SBI 3.0
+> is ratified so that would be nice not delaying it too much. I'll take a
+> look at it to see if it isn't too long to implement.
+
+Not blocking, but I would at least default FWFT to disabled, because
+current userspace cannot handle [14/14].  (Well... save/restore was
+probably broken even before, but let's try to not make it worse. :])
+
+Thanks.
