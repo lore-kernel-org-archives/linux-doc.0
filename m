@@ -1,89 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8CF7DA7F;
-	Fri, 23 May 2025 15:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B6D2951B5
+	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 15:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748013354; cv=none; b=TaxsJS+Zx2WQLxgEvIm2vOoOZdrmbuGNC+V61nhGV8Cf66Hejy+VFbM7pP48IVLOxnUIqKYN3sXWAZ7gk3Lm93v0xwu5PAWKvDW0AkEBdSzKr4zSWK1V8Lb1gM85qYs/YgX1yM9/p/3gzbhSpSzDVRZtDpxHuVEpQICOMdHxUOc=
+	t=1748014206; cv=none; b=OSHVcpNEkv9ckWQtEVvW3lE2UXQkKQtZb327rxe5/v+FEvbSooNSxBfDVWI24g/Dk80sdZ+zLa4P+K/JhkMkO2Gu1XUSxDlcvN0IRR7rGNv6duga0kcnlqfYvmeifjFWFlEvqC0M0rHsOLZ3UeTCaY2aVe1PPppuTbBJ6Ehpwb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748013354; c=relaxed/simple;
-	bh=XWCE6jqKFyONnv3rqRo5aIekZYBw6AYzIcZy4RKLG3w=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=gUvbWIjqZGzR0kwBk9GxyLtL3M9i+ynSJrVbCTXlDQA560qtQa44FhYAbR3seiEPvon5wCBSKuavj3TY1q5K4ntsUwBVvVITJbvor4jl449ydX3lPNEItpX/T468aHuHhP/lTqKJrC7HZTlcIHqjIPyRz/bxtnKtnk0N3aQ3Wnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HX8ckC8A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748014206; c=relaxed/simple;
+	bh=ap09PPMpRfnB0hj509ImQDib3x/WBo05UmUabOlkmMQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rjWbl8qL1ap3GJG2lrUArG4ArL7DlZe912ke0hPqeSYPMvRtfudZtOS1Q7ZNBsPw9GP7JX2R9WoqaOGO/Glx27z+EnK2lnS7YVqxIIzohCXFE3LStJ/5seP2YPPiNZMCyjnym31/1u8DZzgFLIqYs/LdXCx1uYsaANk56Jwqt5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=au2b19yy; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HX8ckC8A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C994AC4CEE9;
-	Fri, 23 May 2025 15:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748013353;
-	bh=XWCE6jqKFyONnv3rqRo5aIekZYBw6AYzIcZy4RKLG3w=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=HX8ckC8AMTt3FFPZ5hRUKl69FZBqaXO6fLB2Y7SpVFP65PAO1kjsi8SJWon7Y8VAL
-	 5AlZGipDmdwo6ASrUJHjlZWt23IWVhtZ8w28sd2J+3k/5KL0Ds5/1Kd8fX92L9NeSK
-	 djeiHI1ul7E3zdbl/W4YgmZQN1kHFHTDKeqsu/HEEZ+Cnkla1/YwztmITvG8ynuDgE
-	 JgYg8/t8HUSDfYIDhxSbHCCufsrGiAF7Z4dT97PjU3++rt/osFUnAzdC53SPsceP8v
-	 LTwB//5TEGvRiD/yhKtzXkNNBxvtdGzOsRy/8HOt85jlnfIqIfWPNhzlqEZfOF+w9l
-	 PDqA51dZv9e7g==
-Date: Fri, 23 May 2025 08:15:49 -0700
-From: Kees Cook <kees@kernel.org>
-To: Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>
-CC: Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>,
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>, Ard Biesheuvel <ardb@kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- linux-kernel@vger.kernel.org, x86@kernel.org, kasan-dev@googlegroups.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org,
- sparclinux@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v2 08/14] powerpc: Handle KCOV __init vs inline mismatches
-User-Agent: K-9 Mail for Android
-In-Reply-To: <e50abba6c962772c73342bacf20fb87dc99dd542.camel@linux.ibm.com>
-References: <20250523043251.it.550-kees@kernel.org> <20250523043935.2009972-8-kees@kernel.org> <e50abba6c962772c73342bacf20fb87dc99dd542.camel@linux.ibm.com>
-Message-ID: <6E407BC0-4D84-4420-AE07-EF85EBA1AB1C@kernel.org>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="au2b19yy"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-231fc83a33aso80025ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 08:30:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1748014204; x=1748619004; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZysAlyZtrotmIvgcjSaWUnFpu8BmC8DX1etzBHhsTSU=;
+        b=au2b19yy/hEXIDR70yx3j2KpImtXIwV86QHhgBsABWTIW4fWk+b0jjYDAaYivlApNN
+         3jZBrz3D5sO2NmM+ivU5iQcspLE/S+Bcw+PTQ7tOSwpspQFaAY7DxJrFvzNET4WfpJiN
+         UzmBMG+vKTwpiErtkNIFaDBauBf5BoflY+NPKyw9nYhh+w3nqhm79+Da63JwtlM69GNZ
+         7irLjmIDHXusZULnNboj6lzXnEh1q3htFJQxzrRhtFJaiWURlaG3gqwYD+iVJvHKyvCf
+         Pxfp32tkCekGCQbwHoKgsWhRGksYzZGWI/N8cd+oKGUyS3uSZrnT2RXJeaEYreMMlPbK
+         KhtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748014204; x=1748619004;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZysAlyZtrotmIvgcjSaWUnFpu8BmC8DX1etzBHhsTSU=;
+        b=g2h//dO2i9ys+nlp7sR33llhP1oBFf/DC1lOec2/cdLdX5lJwX8H72MkT3xqxZJCLt
+         a1SI9cB/ZSFpKvL6pTlSP6bn2KSOEI7w2xyHVGQCAEIDg4aoPWg1iYB7+psSGmaTg7mB
+         HcOXbpBmqU9HdTuOOHUGofZaURn1/aQJHVW2SNLOzo52Guj8yjIo3Xa4oQ/WrWbd39jm
+         Hf2VCftnNsThgWNfw7rYi2kabkXDY61JQXE7wx00EGKGNwTrio3gFvQApYboG3ooFquO
+         Ejl1/YwzNkTRkZGVwN3j+YYKmD0PDKgNHDGAUGSiWDAyIVv9lgAfJa2eUXUcfE6nTWKS
+         YMlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUwAFRDhc+Gd33mKAOe7glrtpJYUVoFR+w6P+aq1J1HmEOylCKzMhINnmNbZnTXKQJncYzs49O0lsI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxvnQygxG1TOIU7TVt+2pQlqVTI2+iznxzpP2HLL0g+G3geLQ2
+	M+yzxdsp14kM+a3FD02c5mF6dEZghanImNDxDBzZp+qLAEntJqMFys3xs3JPbExBM0w=
+X-Gm-Gg: ASbGncu/b6SMk7fNB4BdQLTcTmADpCVNhOclY3fH6nwi1EURYUvr1CjBBnfH0tdNbEF
+	2I1g8YaakPq9FCPICIMxwbCiHDqtOGBGAGaa1yKD+tnYW8ayigyvCqOig9XScjnYVpDSv1gNhiM
+	MPkzMxyZ81R1W548G3q/MNcOCmKbYwZs4LwA43o2jx56IeWzwecN61FYcrqLzLOFXIORw/bRXkd
+	dIc36CTaTPVKrGfHDtcit6sLXFTpIPbaFxrC0uUOORAfL4kulMG3OD5R90fr4pjpPbzkB3PNZje
+	5N25h49Q0L/oJU9JIAdFphSU99Hn24e3TYcdFaBNJGpBepygnQTa7h/RiSN8Y0lzah+qMXorP9w
+	pt34xIOzZYnLYsMgvTUYr
+X-Google-Smtp-Source: AGHT+IEdlANg8wwO3+blZsMeIKZDl/aWdfuOZvDvj8FeW02HTI0mk6reEwHEpni5Wcy/mFcYlo/kjQ==
+X-Received: by 2002:a17:902:dac7:b0:224:e0f:4b5 with SMTP id d9443c01a7336-231de351d32mr381454745ad.7.1748014204025;
+        Fri, 23 May 2025 08:30:04 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4ed195csm125049005ad.212.2025.05.23.08.29.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 May 2025 08:30:03 -0700 (PDT)
+Message-ID: <9f9e2869-725d-4590-887a-9b0ef091472e@rivosinc.com>
+Date: Fri, 23 May 2025 17:29:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 13/14] RISC-V: KVM: add support for FWFT SBI extension
+To: =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
+ Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+ linux-kselftest@vger.kernel.org
+Cc: Samuel Holland <samuel.holland@sifive.com>,
+ Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>,
+ Charlie Jenkins <charlie@rivosinc.com>, Atish Patra <atishp@rivosinc.com>,
+ linux-riscv <linux-riscv-bounces@lists.infradead.org>
+References: <20250523101932.1594077-1-cleger@rivosinc.com>
+ <20250523101932.1594077-14-cleger@rivosinc.com>
+ <DA3K95ZYJ52S.1K6O3LN6WEI0N@ventanamicro.com>
+Content-Language: en-US
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <DA3K95ZYJ52S.1K6O3LN6WEI0N@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
 
-On May 22, 2025 10:24:30 PM PDT, Andrew Donnellan <ajd@linux=2Eibm=2Ecom> =
-wrote:
->On Thu, 2025-05-22 at 21:39 -0700, Kees Cook wrote:
->> When KCOV is enabled all functions get instrumented, unless
->> the __no_sanitize_coverage attribute is used=2E To prepare for
->> __no_sanitize_coverage being applied to __init functions, we have to
->> handle differences in how GCC's inline optimizations get resolved=2E
->> For
->> s390 this requires forcing a couple functions to be inline with
->
->I assume you mean powerpc here, though I'm sure my employer is happy
->that you're at least confusing us with IBM's other architecture :)
+On 23/05/2025 15:05, Radim Krčmář wrote:
+> 2025-05-23T12:19:30+02:00, Clément Léger <cleger@rivosinc.com>:
+>> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
+>> +static const enum sbi_fwft_feature_t kvm_fwft_defined_features[] = {
+>> +	SBI_FWFT_MISALIGNED_EXC_DELEG,
+>> +	SBI_FWFT_LANDING_PAD,
+>> +	SBI_FWFT_SHADOW_STACK,
+>> +	SBI_FWFT_DOUBLE_TRAP,
+>> +	SBI_FWFT_PTE_AD_HW_UPDATING,
+>> +	SBI_FWFT_POINTER_MASKING_PMLEN,
+>> +};
+> 
+> How will userspace control which subset of these features is allowed in
+> the guest?
+> 
+> (We can reuse the KVM SBI extension interface if we don't want to add a
+>  FWFT specific ONE_REG.)
 
-Whoops! Yes=2E Paste-o on my part=2E The rest of the sentence was updated =
-correctly though=2E :)
+Hi Radim,
 
---=20
-Kees Cook
+I didn't looked at that part. But most likely using the kvm one reg
+interface seems ok like what is done for STA ? We could have per feature
+override with one reg per feature.
+
+Is this something blocking though ? We'd like to merge FWFT once SBI 3.0
+is ratified so that would be nice not delaying it too much. I'll take a
+look at it to see if it isn't too long to implement.
+
+Thanks,
+
+Clément
+
+> 
+> Thanks.
+
