@@ -1,62 +1,62 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE46229B29
-	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 10:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B16B226CFD
+	for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 10:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747995717; cv=none; b=NmZD1D4of4HpN3DDWSF5ZMIuxw9LvRuZpnXSZSVMOvpEDZRMHaEK8wkPfi9+oTjyq8wqVbZLoQtXea015IF12sIz2LJ4oJoSfY0steyOdnQqHha9Vzn35T/wzuwmYR0zNTRko4y+f5IML8PvYRwhzcmMUfFKlwVmZMSFHx2ze4k=
+	t=1747995727; cv=none; b=p03d4ElYDmZnv6SDT0gmWo0XiZBv6SZlmyqlswrRE5YgiEhXYIUdmAW7rTLMn0j2mYOr21RqZcXBgvHUdT3yTA93JYW+itMhHIPfPDuCH9bHLYu5GoBTQ9PGmcsHTcDcaMWKgILgXIR/Md6u7JdyWbeoIfh4b81ir3bM5sGS/0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747995717; c=relaxed/simple;
-	bh=MaIrwOKv+YVVxdhE/r+zc5gTHYqZ311Osy8lrbnqATY=;
+	s=arc-20240116; t=1747995727; c=relaxed/simple;
+	bh=WrnyhIasMq6stNyEMZaWBeMPZeLi0WsnQ5RqREJagnE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nj8xs3Z1XhnOgBCUoku1k3K20OALKn5UqFYqobLPv9kWzOOB6NZbnM60o3CI1mqylVHIoEonNilNW0g4K7GeDMtGIQNEjvjmTiaTFk/Q6Umz/RYIPMa40OXpz284q1N44dvQnJNcBvxwv99csM5/wWu7NwVaDwGqFI64w3ttbc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=yMrtqUMl; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version:Content-Type; b=TNmKisjry8m7S2ETw2E8BTc78mxEYLKaLfJM0qHPHKwhgDTmO1PoF9eQR/SaRRIpUM4NFd7UCAlP6udhDoHsSG0qirXS4+3CdG3N/Qw4Lu01ZemWu4aUHltfo4bmr4S9opwwMbe8z9O6nJGDXYVIsBgFPWa2eF6KfFyH6hEVrjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=hWsPuST9; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="yMrtqUMl"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-74068f95d9fso7843283b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 03:21:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="hWsPuST9"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-742c5eb7d1cso7685732b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 23 May 2025 03:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1747995715; x=1748600515; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1747995725; x=1748600525; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0iF+NUUhZJ5jxYVuPSRzuPMezDiacMrJKv4fNDBdRi4=;
-        b=yMrtqUMlz+nxJOf9HsPSzCfSgeQVBPEsX1wp2SxYEMT5QIFZ6VAHO1pj6GnO62LQ0f
-         DIHAff2AWzcjxCA2r8kBAOdlhJ9boIswRj/O+BUAkGwZPUGwssQWwZLd/bHfbCc7ytvU
-         CrGCLDTUj+iYGk2/GCVfwjrO+W4CdnKsyc3/vTQVHGzUWTWriH5oPJFUn6el4DOruNyD
-         I/AB7+e07zmpMO4H/6It1VZz1v7IMIgg/RLV1OeErz7O2mndvqyqjxt/Ujou4nawgB14
-         GP6vpgUsaJhcLNi1wnzYfG7v1gUeXOM99XcgrvAJL6zRAKe0ESGRdesOxg6Bs8bnaugL
-         MBBQ==
+        bh=r+BbSDDHoenIJ3oteuCEH5EGHycpOZc3PIlMBGmoJPY=;
+        b=hWsPuST9ePr0oAag0BP3gnLxUGbrjBRqKnYZUHvKUIc3gD7bwyc8nYFZcYtPYvc9Ua
+         zv8S1bJYNEgqbe8weP00C9y5RTtih0lPfJGO/i52rI8lHo6F2qHsddvRSsnSTYFuvrxZ
+         ijk63m7ydyinwqSlmSmWr4BAl2Ur5b8udyVUoTknY4EvtjAxnySB7XjsLglnqK3fUejT
+         0lP0QWaVYKAFRwG6UlNihI8QnhBnKvk4mEfXkyCfVU9nKNNyHA7scQPypJTKdbvoHY/0
+         OlZBCK20wCIJxP8loOIfbj4oJmSWj/fYmfXKaoZkvA6yE5vOrm04U74Q14yc6F5+1e7Z
+         twyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747995715; x=1748600515;
+        d=1e100.net; s=20230601; t=1747995725; x=1748600525;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0iF+NUUhZJ5jxYVuPSRzuPMezDiacMrJKv4fNDBdRi4=;
-        b=Rx9+ccZg6ZlL5Fkc5juqXBJlalDcvYFGcdtFcE8GI98BfjvyrZiLsTnn3uAhw4lkVa
-         VCBnuydraQZv83Yw0mqjYyqkyakALhA/2DmHbRrO+j/O87+1wo/NSNA1dg7hLCVpRSft
-         78lv5bTG2CLtX8B01vhp9ZNDFpimn5OwCF7EYj8FbGYgO7+73uq0RuPNtVR2Stg17EvT
-         21GmaO149C1sRc3mFcihx6vDg6uM+ab+wS84cHGewhmdCX8tJ4jej24BjrrDaJ9n0226
-         a9gkG/XsMkDIau2CiDGHN2pBsqmrnpSGai3t83xuzf0U9p6C5HM+4WCoPrDcQo/YchKg
-         etxA==
-X-Forwarded-Encrypted: i=1; AJvYcCXCKlR+5PL78qnWs/Hb2i0Ny4oHijTwfD8OuR5lAmby05fEpUivKfB6DR6iXlxqoZlGOeNfgcHQF60=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSU1Z6hxftCDvm9eLNkXFeWGP9nMAlwbIT3WMcKFHucjTeozBX
-	iz3XSaGaL5zwspi2aByqLg0G8/GJUgpVvWPLSJImvvCVjlgE9JMQ7Vf4gegvcnlpwpM=
-X-Gm-Gg: ASbGncsPhqI2IL7G5NIuybpe8HkhDElTLRRtdFjDHtPvX3CVAUCWDxFK+tkMXzrZWUJ
-	6mDjZGsaV+15+QmYEDorpTFnIDhd873vRY7rEE2Cbr5LWGDIQhgohbX5YsFDkKvC9uTpd13KyX5
-	Q8aoenJBoXUsfixE5dmjO5KElaiEqSBDwWa3SZJzgVtJYtTFKP+6WVQjHQN2cIge0kvAvD5zpVk
-	FO69GCYcDoe5qEDqw2Jwrtc48pBDFtzgic15Rc3zLGOJMYr8SnuCik6MFtHw83umQlJVJrRR9sX
-	vhC0kjDIpjLFQ+CV5Q+dN7NYm7m/Xd5ZY9srV4QU2Xqx0tto7GvxsIgyB7ImuEc=
-X-Google-Smtp-Source: AGHT+IGnAPommgiaP/CHramKAPhXT2HV8FVP99uDHVdDg9TxfQgHz5LyukuEd2GDLOcnoMCuXHDtSQ==
-X-Received: by 2002:a05:6a00:858f:b0:73e:1566:5960 with SMTP id d2e1a72fcca58-742acd507c1mr36450146b3a.19.1747995715587;
-        Fri, 23 May 2025 03:21:55 -0700 (PDT)
+        bh=r+BbSDDHoenIJ3oteuCEH5EGHycpOZc3PIlMBGmoJPY=;
+        b=YJNhFQornqKtVjOdoDKqdU/kNrqdTCLxjiYBlPtmJJDvU1qMxcaJjdvTRcRl2DUch0
+         qz9TipSvf7DC9dlf4MbPYKcAcfetFwAuD8iOEliB2+g4UiPijHAncOLCXGw9bL1rp4g6
+         3XANnMNWtIQ1uY9H/4bKDopv8FR6yXk0RbY9cx7tMXPUnv1ukC8MwHRc/aKaNShD4zzh
+         G9fGIs2UVeieeYHiVL9QDGIqniGLSLkAbkT7cH6HMiP4d9ea0CkMviG/DxRpGHfdwj2G
+         AJ9u22WAhPwj5fvYcXCzv67c5IcmbgPIbRN8/2Hu9eiPaC9wkxPB+gTm54yhW5Apb/w8
+         7DCw==
+X-Forwarded-Encrypted: i=1; AJvYcCU01zoF9a8HSP6ksqQbP3utccVA6kIPCD29/SpNJ4wtqrsCIy4lU8QwXrEPcDgnijTS7Ym6XP/A/Jg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw42dl0wUlmqx3UydlsUhkRfuucUfWLR3PonmqI0hdkYNFhU/ux
+	ECK/tgBW/U4p86j2DQN8OMzdJEIQlDAcTC1ORPVz1ZtLmtkXNqP0L4i4edoJgsuzNV0=
+X-Gm-Gg: ASbGncv3Q1vg+whTjNe4S5wCa7FKOdcUEAfPaDaYNtzzRIBSV4TL2UZnZiATVPaDc18
+	uC+RMRb9KluYi/CR7ONPF1GHFgUiqzAUjGZETEET/xYLbEjNWbAR3rQ52AFmvpiBDIuEwvIGGnX
+	muMibh4fyYyxgmrrIed2uRD0rcxr6/RVMmwbx2Mk6CFgkRAlCI3NP5XzwxgOh/jpp4yOCmQbLt6
+	G8EMyfX2+99cTr1ndaLhj2OZ0REdeovPbPeTCc7iPM7Vpxk5A8pilxHS1JckPs3EM7xYADsjol2
+	eSuXUGQpjt/aAHk6yHzge7KNTdn/kDNd99rRMcz+1K5gi+FZzqF7
+X-Google-Smtp-Source: AGHT+IGKTvrfjxP+cm7Qm4VGpAeva7NGxp+n2OLS1ggJxzcYA6qQkaI/iWC4Vzlh5iYGSGWB+//FSA==
+X-Received: by 2002:a05:6a00:4614:b0:736:5822:74b4 with SMTP id d2e1a72fcca58-742a98d4a75mr42390281b3a.21.1747995725139;
+        Fri, 23 May 2025 03:22:05 -0700 (PDT)
 Received: from carbon-x1.. ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9829ce8sm12466688b3a.118.2025.05.23.03.21.46
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9829ce8sm12466688b3a.118.2025.05.23.03.21.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 03:21:55 -0700 (PDT)
+        Fri, 23 May 2025 03:22:04 -0700 (PDT)
 From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -75,9 +75,9 @@ Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	Andrew Jones <ajones@ventanamicro.com>,
 	Deepak Gupta <debug@rivosinc.com>,
 	Charlie Jenkins <charlie@rivosinc.com>
-Subject: [PATCH v8 07/14] riscv: misaligned: use on_each_cpu() for scalar misaligned access probing
-Date: Fri, 23 May 2025 12:19:24 +0200
-Message-ID: <20250523101932.1594077-8-cleger@rivosinc.com>
+Subject: [PATCH v8 08/14] riscv: misaligned: declare misaligned_access_speed under CONFIG_RISCV_MISALIGNED
+Date: Fri, 23 May 2025 12:19:25 +0200
+Message-ID: <20250523101932.1594077-9-cleger@rivosinc.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250523101932.1594077-1-cleger@rivosinc.com>
 References: <20250523101932.1594077-1-cleger@rivosinc.com>
@@ -90,52 +90,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-schedule_on_each_cpu() was used without any good reason while documented
-as very slow. This call was in the boot path, so better use
-on_each_cpu() for scalar misaligned checking. Vector misaligned check
-still needs to use schedule_on_each_cpu() since it requires irqs to be
-enabled but that's less of a problem since this code is ran in a kthread.
-Add a comment to explicit that.
+While misaligned_access_speed was defined in a file compile with
+CONFIG_RISCV_MISALIGNED, its definition was under
+CONFIG_RISCV_SCALAR_MISALIGNED. This resulted in compilation problems
+when using it in a file compiled with CONFIG_RISCV_MISALIGNED.
+
+Move the declaration under CONFIG_RISCV_MISALIGNED so that it can be
+used unconditionnally when compiled with that config and remove the check
+for that variable in traps_misaligned.c.
 
 Signed-off-by: Clément Léger <cleger@rivosinc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 ---
- arch/riscv/kernel/traps_misaligned.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ arch/riscv/include/asm/cpufeature.h  | 5 ++++-
+ arch/riscv/kernel/traps_misaligned.c | 2 --
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
+diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
+index dbe5970d4fe6..2bfa4ef383ed 100644
+--- a/arch/riscv/include/asm/cpufeature.h
++++ b/arch/riscv/include/asm/cpufeature.h
+@@ -72,7 +72,6 @@ int cpu_online_unaligned_access_init(unsigned int cpu);
+ #if defined(CONFIG_RISCV_SCALAR_MISALIGNED)
+ void unaligned_emulation_finish(void);
+ bool unaligned_ctl_available(void);
+-DECLARE_PER_CPU(long, misaligned_access_speed);
+ #else
+ static inline bool unaligned_ctl_available(void)
+ {
+@@ -80,6 +79,10 @@ static inline bool unaligned_ctl_available(void)
+ }
+ #endif
+ 
++#if defined(CONFIG_RISCV_MISALIGNED)
++DECLARE_PER_CPU(long, misaligned_access_speed);
++#endif
++
+ bool __init check_vector_unaligned_access_emulated_all_cpus(void);
+ #if defined(CONFIG_RISCV_VECTOR_MISALIGNED)
+ void check_vector_unaligned_access_emulated(struct work_struct *work __always_unused);
 diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
-index 592b1a28e897..34b4a4e9dfca 100644
+index 34b4a4e9dfca..f1b2af515592 100644
 --- a/arch/riscv/kernel/traps_misaligned.c
 +++ b/arch/riscv/kernel/traps_misaligned.c
-@@ -627,6 +627,10 @@ bool __init check_vector_unaligned_access_emulated_all_cpus(void)
- {
- 	int cpu;
+@@ -369,9 +369,7 @@ static int handle_scalar_misaligned_load(struct pt_regs *regs)
  
-+	/*
-+	 * While being documented as very slow, schedule_on_each_cpu() is used since
-+	 * kernel_vector_begin() expects irqs to be enabled or it will panic()
-+	 */
- 	schedule_on_each_cpu(check_vector_unaligned_access_emulated);
+ 	perf_sw_event(PERF_COUNT_SW_ALIGNMENT_FAULTS, 1, regs, addr);
  
- 	for_each_online_cpu(cpu)
-@@ -647,7 +651,7 @@ bool __init check_vector_unaligned_access_emulated_all_cpus(void)
+-#ifdef CONFIG_RISCV_PROBE_UNALIGNED_ACCESS
+ 	*this_cpu_ptr(&misaligned_access_speed) = RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED;
+-#endif
  
- static bool unaligned_ctl __read_mostly;
- 
--static void check_unaligned_access_emulated(struct work_struct *work __always_unused)
-+static void check_unaligned_access_emulated(void *arg __always_unused)
- {
- 	int cpu = smp_processor_id();
- 	long *mas_ptr = per_cpu_ptr(&misaligned_access_speed, cpu);
-@@ -688,7 +692,7 @@ bool __init check_unaligned_access_emulated_all_cpus(void)
- 	 * accesses emulated since tasks requesting such control can run on any
- 	 * CPU.
- 	 */
--	schedule_on_each_cpu(check_unaligned_access_emulated);
-+	on_each_cpu(check_unaligned_access_emulated, NULL, 1);
- 
- 	for_each_online_cpu(cpu)
- 		if (per_cpu(misaligned_access_speed, cpu)
+ 	if (!unaligned_enabled)
+ 		return -1;
 -- 
 2.49.0
 
