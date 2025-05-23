@@ -1,182 +1,110 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1E91B0414;
-	Fri, 23 May 2025 19:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A863322338;
+	Fri, 23 May 2025 20:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748029957; cv=none; b=ZvmhrUydx8KZ+NgeY+/yPGR9BqWiqAJSV5z6jPDbkS74XbK2h7upYC/jVvAROWFrLYE0TfXjCwGo434gW737qqZkUnVWX6Pk107lOv3u8xmCgm5meoM+evRUjm0Ys6kgKsIGPazmrioIS5vogTr2R1Bo9fJPVAq33e7dgW2IwBs=
+	t=1748032111; cv=none; b=AOiBAxjD9S25c3buvtfvmu7V1LGvFlRAM3AvKQxinzzaghJT+7HC94QlZ/XRaHQ7duJkvf5AEi3vr8LxIKCFkys8eCoJoPehRJk3pLmo19icXYX2awjXDgfM+KOaYNHmsBsOjuZY+XXI9dnoV0mWZ2l/YSsQXTbpMyTakjvruBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748029957; c=relaxed/simple;
-	bh=OKaP4B0Xnh5TJoF72fSANLfkmXr2lapzq7QazmotoOE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=f2fA6dDL488rhIPkXd0cFW8OcZd3xcrkrxLvdvnwuXrXw/IYI0h6YDBeau7iTqhtxinzIpQxPrb/IA97RXHSuYvqYaDlNl6BDho5MHF4oPhDDZYbLDQ2z7QI85k5tTTxokvMkNtbNXbYxmJ/QlwgoA56sDKc47myWyHKeMiamM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QYJc6+jI; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748032111; c=relaxed/simple;
+	bh=mCqS/Kijb63hfjRogkIoo1V9a7plAKd5pBatsPb3zS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=An9HTiL0bNA4gZqLd+hPMKDmuQkClv/6HoDX/TW6yoIu93r7VBSmHU8JWSzodBS3PE3gKUEpwXL0PmalcCLkilnaB96565HqOj5NsdzJz7GaH6cgg3kOFJTcT4JN0kzMwubt81K3UrULP76ecMvLg3zrKuUeQk2ZPGYU/yzXA34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cKCTWrMO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QYJc6+jI"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7cd0a7b672bso12349585a.2;
-        Fri, 23 May 2025 12:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748029954; x=1748634754; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WmPCjoSXFBtyUZwjoj/rRSZyZWME/2nkz3kS++4dL0o=;
-        b=QYJc6+jIVwQ+LHix3TdIC/7ir5Z32nnU7IwcgzrCe15zoa/vf69421WPzLxmJY5qOf
-         N8oNeMKpID7zQLD+aEWE5bLWenyvUtg/uw2NooansXlXd2qP+LqGNgzbUsREl6YYP69+
-         I3D8zcE4R2U06nFpdy1zPV3xLndjJ7qws4ZwkDV/NRnrJ0h4cypspEf9Iv+t7VRX2XAq
-         v7EquxIU8PKZ9wNs1hGN/pv+unGtUMZQH7T0zgRlwMfe9ywiLACqQRADOyh3KGKiobNI
-         UcxeWxxKQc+sMfBJn+JW41v4RFt9jRNxh+5QHP+QLzYr+giZA8I2VzA+E8mEvPnYX+1/
-         zGgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748029954; x=1748634754;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WmPCjoSXFBtyUZwjoj/rRSZyZWME/2nkz3kS++4dL0o=;
-        b=RJJxM2Gz92/8tYOGyIaMTCP0vLEBggjbf2yUt8Ebl0tnr2kYlahpVDUSBcrj9PtDHs
-         78tmd1ogI8arPxYr2hRpQtfQ91yt2b6oTsSKJD17kPDbSZxQFxM775ZXuTv7kMBa7aog
-         VDgmdVTg5W1jOx5E7qDETslgMZdVW6zoZD4FSBAm9/LliXPCkdep0W6sUsYBgGim0wzI
-         jtMcet6vL9FsdJCgcH6BNGfx29+oqEcGDRWQor2jZqkldPBN9mErELOg/7V8ZkzRCbsY
-         CfFiiQSH4C0aF4jkEJ4OS9CTC6mjD9gmEKV/jiiaCmqH1GK5FfCe6d/Rt8WonZnmaErR
-         tu8A==
-X-Forwarded-Encrypted: i=1; AJvYcCV/RSzkJgVsAahm6sg0fSgJL1VbFT+EJix5h0nQkkp703swXOU8vEmLC7YdKlSJM0GGm05mfhE9rhc=@vger.kernel.org, AJvYcCXBiM6FjFVSjPrluoY4icpcKmV68agLiCN4IqjX8sC5C0yvWB1V7lk046mcGSoVg4wQWPFhT4NejVTVcEx0@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNNofKI4sX+9qCVTPXXIPjoHHjHWcLCKufiWC/5awj8PgS/ygl
-	hdlMa1AMR76RYFZApYKDLCS8/XmmcJrht3QnRrHlDMyONE0Cvasf1GZR
-X-Gm-Gg: ASbGnctGF0wExZkpLVd3AQWGEYXinGeZz2yTlYNj12OGyG1ec/JvNfAe90OEVRHcmZB
-	VPTNef4KgqMqAoVLVkaljvUyzbS+HzDJQBbDjShVA0cm6cUJ27Dr4EkWLlPg+pBn9iR80Q+ktaz
-	CY1Bb45PqLHOgmv7CDw3GnY/qnJROhtr5Ba1kWz3GlD4yocJegum+MsTn9c5tAvcBFm1wDHRR1+
-	jZEpGyB95VwzQuwut2lg00H7KxqbbKDgFJnCQoicp14gnJztc+aSDZhjRbgJJP3O+pU6Domecm2
-	M3pre3ZuiWcWS52V7MQqCmVpHMBW11QFLZMdYgrDViutLDvStlcwfFrGHgKSOP1Kvg==
-X-Google-Smtp-Source: AGHT+IHEPwBBepU5BOws+80VBNcZYVDCzQXJTxhWGn+7xzZI195OkqyZLZqqugwwVyfoO0lqkMvQpA==
-X-Received: by 2002:a05:622a:4c0e:b0:494:af82:7804 with SMTP id d75a77b69052e-49f46e41135mr8653601cf.29.1748029954290;
-        Fri, 23 May 2025 12:52:34 -0700 (PDT)
-Received: from [10.0.0.88] ([2607:fea8:bad7:5400:a4e6:39bc:5bd6:cf8f])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-494ae4fd718sm117133001cf.53.2025.05.23.12.52.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 12:52:33 -0700 (PDT)
-From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-Date: Fri, 23 May 2025 15:52:26 -0400
-Subject: [PATCH v2 2/2] drm: add overview diagram for drm stack
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cKCTWrMO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74E60C4CEEF;
+	Fri, 23 May 2025 20:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748032111;
+	bh=mCqS/Kijb63hfjRogkIoo1V9a7plAKd5pBatsPb3zS4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cKCTWrMOz8QGFkwtap37uEMcxPQVostPEoFPh+liJpGoIZm7yUbph01VSxYIZ9Mnu
+	 Xp2SFx8fCFcAMCn/ELInspiWG36xJF3J7d0jPlVxo6aeh9oNz5+dzf8Kq3g/Xe/so1
+	 mYCrUnXAuBAVZPsZr7ruImlYVc+gipnIRXGuB54FA2ds4IMAQQ3eh1QLM/4b0qJj2M
+	 gTr/IjcVsa0wubmGcNRixgHZajZrPNsHowCdWXY/LC03W+Pu6hAChB6eWCEPXnK99u
+	 2vaA5rFoq3M2ELAJVxf64ufJ8UJLD7jY5t0UU+6I6+n7SgWhzCzujvRIpD5lc47LG4
+	 +IQz87qYLaslQ==
+Date: Fri, 23 May 2025 13:28:28 -0700
+From: Kees Cook <kees@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	Michal Wilczynski <michal.wilczynski@intel.com>,
+	Juergen Gross <jgross@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Roger Pau Monne <roger.pau@citrix.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Usama Arif <usama.arif@bytedance.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
+	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-mm@kvack.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2 04/14] x86: Handle KCOV __init vs inline mismatches
+Message-ID: <202505231327.3FA45E4B@keescook>
+References: <20250523043251.it.550-kees@kernel.org>
+ <20250523043935.2009972-4-kees@kernel.org>
+ <aDCHl0RBMgNzGu6j@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250523-drm-doc-updates-v2-2-e517df152cf6@gmail.com>
-References: <20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com>
-In-Reply-To: <20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748029951; l=3657;
- i=abdulrasaqolawani@gmail.com; s=20250522; h=from:subject:message-id;
- bh=OKaP4B0Xnh5TJoF72fSANLfkmXr2lapzq7QazmotoOE=;
- b=ykqV2SnKCAiSw0h64hCOwcwDzdGjEq6siC0Lx768zLLib1IaPQvCVP0qmBLUThAToYtOoXtU1
- LnvqueGSk+ZAcOyJ06XsiQUpaQMozq9sjVixalqZn/GupAVctm0gERF
-X-Developer-Key: i=abdulrasaqolawani@gmail.com; a=ed25519;
- pk=LCvBseqd+rEj8B1vNEnSSfNcqQwMsfWx1DGDT1LYddo=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aDCHl0RBMgNzGu6j@google.com>
 
-Put overview diagram into a literal block
-and set its section title to a higher order
----
- Documentation/gpu/introduction.rst | 72 ++++++++++++++++++++------------------
- 1 file changed, 37 insertions(+), 35 deletions(-)
+On Fri, May 23, 2025 at 07:35:03AM -0700, Sean Christopherson wrote:
+> On Thu, May 22, 2025, Kees Cook wrote:
+> > diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+> > index 921c1c783bc1..72f13d643fca 100644
+> > --- a/arch/x86/kernel/kvm.c
+> > +++ b/arch/x86/kernel/kvm.c
+> > @@ -420,7 +420,7 @@ static u64 kvm_steal_clock(int cpu)
+> >  	return steal;
+> >  }
+> >  
+> > -static inline void __set_percpu_decrypted(void *ptr, unsigned long size)
+> > +static __always_inline void __set_percpu_decrypted(void *ptr, unsigned long size)
+> 
+> I'd rather drop the "inline" and explicitly mark this "__init".  There's value
+> in documenting and enforcing that memory is marked decrypted/shared only during
+> boot.
 
-diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
-index 91bb0efc96d69921a122c5265b1431fa18110a7a..2653048ad4bb0ecbc2b676295440442dddbabae6 100644
---- a/Documentation/gpu/introduction.rst
-+++ b/Documentation/gpu/introduction.rst
-@@ -15,41 +15,43 @@ and the new vblank internals, in addition to all the regular features
- found in current kernels.
- 
- Overview of the Linux DRM Architecture
-------------------------------------------------
--+-----------------------------+
--|     User-space Apps         |
--| (Games, Browsers, ML, etc.) |
--+-----------------------------+
--              |
--              v
--+---------------------------------------+
--|    Graphics APIs   |   Compute APIs   |
--|  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
--+---------------------------------------+
--          |                   |
--          v                   v
--+---------------------+  +-----------------------+
--|  User-space Driver  |  |    Compute Runtime    |
--|  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
--+---------------------+  +-----------------------+
--          |                   |
--          +--------+----------+
--                   |
--                   v
--        +-----------------------+
--        |   libdrm (DRM API)    |
--        +-----------------------+
--                   |
--                   v
--+-------------------------------------------+
--|     Kernel DRM/KMS Driver (i915, amdgpu,  |
--|     nouveau, etc.)                        |
--+-------------------------------------------+
--        |                       |
--        v                       v
--+----------------+     +-------------------+
--| GPU Display HW |     | GPU Compute Units |
--+----------------+     +-------------------+
-+======================================
-+::
-+
-+        +-----------------------------+
-+        |     User-space Apps         |
-+        | (Games, Browsers, ML, etc.) |
-+        +-----------------------------+
-+                      |
-+                      v
-+        +---------------------------------------+
-+        |    Graphics APIs   |   Compute APIs   |
-+        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
-+        +---------------------------------------+
-+                |                   |
-+                v                   v
-+        +---------------------+  +-----------------------+
-+        |  User-space Driver  |  |    Compute Runtime    |
-+        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
-+        +---------------------+  +-----------------------+
-+                |                   |
-+                +--------+----------+
-+                         |
-+                         v
-+                +-----------------------+
-+                |   libdrm (DRM API)    |
-+                +-----------------------+
-+                          |
-+                          v
-+        +-------------------------------------------+
-+        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
-+        |     nouveau, etc.)                        |
-+        +-------------------------------------------+
-+                |                       |
-+                v                       v
-+        +----------------+     +-------------------+
-+        | GPU Display HW |     | GPU Compute Units |
-+        +----------------+     +-------------------+
- 
- 
- Style Guidelines
+Sure! I will swap this around. Thanks!
+
+-Kees
 
 -- 
-2.43.0
-
+Kees Cook
