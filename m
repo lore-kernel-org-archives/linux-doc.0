@@ -1,206 +1,156 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jpms-ob02.noc.sony.co.jp (jpms-ob02.noc.sony.co.jp [211.125.140.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167B2218AC8;
-	Fri, 23 May 2025 03:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621492DCBEE;
+	Fri, 23 May 2025 04:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747969849; cv=none; b=dt/Jub4qZdm5bovj+VmWMBXY4DwWtx/jHLPVBSLmHsiKNmTarG4P3ghPywbgfSzhI47ofWstOCWnCqxRAsfhhoAu2dyY3pDfxMMb+CAPZ5fEsDTba1NXAXHi5SZHS4rS6Y6HKI8KlUrzEoiuu6Hasey2pCLcZ1/7ctDjV7p1ls4=
+	t=1747974358; cv=none; b=Gzdip6E7DrYHZlCPXz55/Aez+zW0PSguFQ5z22zuBMaKoFt9zwsQpd4fqZXe+KOKvqUczr5IWUTizxJgZZnd8TusFJ6etmfBeV7n2CuxbclYMbF4DtBIt6NxX7WApiXK1RY8oeNi8qYOoue/XhOdZMZPh7ED9MhmfwWXsweIq54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747969849; c=relaxed/simple;
-	bh=EDg1HtRdEKu2wx072cSUDWyclmRErO56Gv/XPdGs1ZM=;
+	s=arc-20240116; t=1747974358; c=relaxed/simple;
+	bh=BzdyDwDeJv2F5cDzsWzhnvqe+JoeKHLuUefOZkQJHIw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m6GWPCyqRyqzlkEPbhxEbA4gamvYZdzIF35qpLsrftZUlFC73UwLrurvXwTlywuVFo7QUDx3LeYoO/cg9QvQUbNow3eSlKjFvQI4O6+G9NWVugkQ6KIdDNpchgOztkPGDa5ynkxC8FCm3wxnugEYSunvnPzgWiq4wxe2xhCnwUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lzReLTYK; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=iswoc3KfNLWGrNcw/pnP903I+B+eF3CawRmY1U43jRTU9AjmYVjXPi+3k10Ihnft7IbxhySVzqjP2bimit7iV8A6fDjwcJ+78GWmbcDGw1BpEgg+i3EsUDrn6Wjdv78rZX1Qf5EfDh7YHyC2ca3eUTqueVnsUwWjBoaLKOGmboA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=acRWXqCT; arc=none smtp.client-ip=211.125.140.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lzReLTYK"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-73c17c770a7so9257338b3a.2;
-        Thu, 22 May 2025 20:10:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="acRWXqCT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747969847; x=1748574647; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IQ+DvPxjKWEL7WwSCKI9gbi6R0NoaJVuMVX8JBqcEaw=;
-        b=lzReLTYKNmOdFdM6nlTEu1aHVWWKDa7BndxmAuLx3cosdTISirob1TX6YOf2WZDmXE
-         +QfuBxIg+c5NDfguQo5HvAtwbC0BDbxzPq9+Xkd9XQM0z2f+CrHTg5qoS2kAZ/scSnoa
-         B/9KkcuHa/+x9iqwz4GGsTYdJe5My9nAMK2yVhp+QxBLHmknl12bHUyBXDuDHM1+BYJX
-         n40ELEsRNO2a4RCAqBJzz3VBZe6De2m9R1wcl5ioHRs/jLe4GIW3nYdnSgpsvdBmqwoo
-         4WcCbxdMAswIiZEf7jn6KvKEjBnbxlZNEkykyQk60ZhDBk4dtEvmpga/lye+UqGtjOe0
-         mj0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747969847; x=1748574647;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IQ+DvPxjKWEL7WwSCKI9gbi6R0NoaJVuMVX8JBqcEaw=;
-        b=X8DbINYluLnJQNnVlzKmy7K64qOJzR8Y1DQWSykxekfIXlR+ltYuE7GEMPd7bXLsQk
-         D5uGduYfzY9lfqGFW4BaFPrAiLDzzG4kjBWg2TMmcoYB1OBMQnzg1pa/EZ9ao0B2IPAv
-         jC/Ky2JgHEO6UUmqTEbifa1OmbrKeRHkAqZKruwWwkLRaTGidQ10oBUizSVu6ti3EWDB
-         UUNXnYjqY5ZwzcQBExXzQcV8PSEXvVcuKaQM6YmCwRmu5SN+iFFXGW4rElJihCecyEhf
-         P4na8368jnBlCSnFZ6DiUEMxtikCuiuHrqJk7mp76mL+XrgPA+E5t7oAswKyijbi2Yg3
-         yhAA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6Os4dXdvW4rliLlYoky3DlgQP1DKnRejQ9zWtWy3coLe1AGaUOMKjJHhFEygnJVIBu3r+ssHY/Y3aOzAy@vger.kernel.org, AJvYcCXC29OVyrcD87YyLujn3EUbVVyZGGRWbwXvcNNzkzVqBgcEJf4gliokBsWuxWUPjPJwr1+TzTRc17Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/JkNEVf49r2E4EazytmWqs1NHVL5snQ1zqS3M3z7NplLppNb0
-	/xmmsRPD7LCwgNcB1FGIHi0TEoQt3yZ/CfCoclH6z08+SGa8iiDJoJw/cIxV3Q==
-X-Gm-Gg: ASbGncvovvzlpCclsA2pA0WzLmUtZcdnTHcJ6HBHRys29tIgCFy4ELTpxwbpuZ+vq7I
-	vwshAQgvUhDuTqXF+PPTtaW2nt2DwJSwDBRu/zao2q7qMS8qzjlcCaOWbJftUac0e89+cm+GLtM
-	VLG5yxFbFAijafaRa83VNsvJI0QN5ejnA5aOROEumiU69Vv6PnHBI6/uvGPdVgN+g/p/Sp1kQ9t
-	zFpDG2CM9SjhBvGKsdbsVJcREiXbPREQiO4iGJ/oYeW9eR7GS9djNAE7MbQ5+pPnot37JknWuE1
-	RTesjYKIWjniMllIKB+aVaHjDERYIeZX0VUGy0vTLVrTp/j37hy9f/oKxYgPfw==
-X-Google-Smtp-Source: AGHT+IHakgt4Oo144LFlK0CdrZV/uiDMprRX9FVu7JhxaNdV3cktYYQ5oHfnfFpCIqZpXDB87tP8lw==
-X-Received: by 2002:a05:6a20:7d9a:b0:215:a9d5:1a46 with SMTP id adf61e73a8af0-21879eda720mr1812330637.12.1747969847013;
-        Thu, 22 May 2025 20:10:47 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb0a89edsm11828150a12.67.2025.05.22.20.10.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 20:10:46 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 6EDF642439C3; Fri, 23 May 2025 10:10:43 +0700 (WIB)
-Date: Fri, 23 May 2025 10:10:42 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: add overview diagram for drm stack
-Message-ID: <aC_nMs-hAyd8cpDJ@archie.me>
-References: <20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com>
+  d=sony.com; s=s1jp; t=1747974356; x=1779510356;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gar/FB2757pqFBaQ0cGxeTWivVdQr0YcZQ+QVR8jFjk=;
+  b=acRWXqCTvNAyyD66Fv1Ln+kGhiWuCNJVBjy7ngGgRvC4BYuMlfWcLnSg
+   p10ti+1Jp7NUZlmn2yt1UArcIapTPGtjuBT/8cqnVqhY65U6Gf8EXLezM
+   NrZxEPUcm4xUJOCO87jVb4IzH19KQoXSunT5fMeXkL3q7coye9DVNEfEk
+   RjkU8rtSWCyPhNW/mVVupYSDQRfSkaMUZxtlYxJyVSb63Y3PCq10OcbJN
+   FTTz3p+wVnP/SV0kt63LgtYi4xTQ2agejySOUrmOOr3dGjo7FBzwZm7M9
+   GblIsJUq7p1r8q1zM5cchxlDbsAfFO0rmJw0eSnIQpODWyP1ng6lgF2s/
+   g==;
+Received: from unknown (HELO jpmta-ob1.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::6])
+  by jpms-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 13:25:47 +0900
+X-IronPort-AV: E=Sophos;i="6.15,307,1739804400"; 
+   d="scan'208";a="562996545"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob1.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 13:25:48 +0900
+Date: Fri, 23 May 2025 13:25:44 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Russell Haley <yumpusamongus@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Shinya Takumi <shinya.takumi@sony.com>
+Subject: Re: [PATCH] cpufreq, docs: (userspace governor) add that actual freq
+ is >= scaling_setspeed
+Message-ID: <aC_4yLsFVVszI_FA@JPC00244420>
+References: <20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com>
+ <15871c67-0d18-430f-935e-261b2cda855b@gmail.com>
+ <CAJZ5v0gz3Y+RGqBf9E1hzq9rwfrryd98Xpk51DtLd-uck5y-rw@mail.gmail.com>
+ <b62c0462-8185-4eb8-8ac6-7f2abc387768@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fFwlWSH1Re80NIG0"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com>
+In-Reply-To: <b62c0462-8185-4eb8-8ac6-7f2abc387768@gmail.com>
 
+Hi Russell,
 
---fFwlWSH1Re80NIG0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, May 22, 2025 at 06:15:24AM -0500, Russell Haley wrote:
+> > The userspace governor requests a frequency between policy->min and
+> > policy->max on behalf of user space.  In intel_pstate this translates
+> > to setting DESIRED_PERF to the requested value which is also the case
+> > for the other governors.
+> 
+> Huh.  On this Skylake box with kernel 6.14.6, it seems to be setting
+> Minimum_Performance, and leaving desired at 0.
+> 
+> > echo userspace | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+> userspace
+> > echo 1400000 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_setspeed
+> 1400000
+> > sudo x86_energy_perf_policy &| grep REQ
+> cpu0: HWP_REQ: min 14 max 40 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
 
-On Thu, May 22, 2025 at 06:20:27PM -0400, Abdulrasaq Lawani wrote:
-> -[Insert diagram of typical DRM stack here]
-> +Overview of the Linux DRM Architecture
-> +-----------------------------------------------
-> ++-----------------------------+
-> +|     User-space Apps         |
-> +| (Games, Browsers, ML, etc.) |
-> ++-----------------------------+
-> +              |
-> +              v
-> ++---------------------------------------+
-> +|    Graphics APIs   |   Compute APIs   |
-> +|  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
-> ++---------------------------------------+
-> +          |                   |
-> +          v                   v
-> ++---------------------+  +-----------------------+
-> +|  User-space Driver  |  |    Compute Runtime    |
-> +|  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
-> ++---------------------+  +-----------------------+
-> +          |                   |
-> +          +--------+----------+
-> +                   |
-> +                   v
-> +        +-----------------------+
-> +        |   libdrm (DRM API)    |
-> +        +-----------------------+
-> +                   |
-> +                   v
-> ++-------------------------------------------+
-> +|     Kernel DRM/KMS Driver (i915, amdgpu,  |
-> +|     nouveau, etc.)                        |
-> ++-------------------------------------------+
-> +        |                       |
-> +        v                       v
-> ++----------------+     +-------------------+
-> +| GPU Display HW |     | GPU Compute Units |
-> ++----------------+     +-------------------+
-> +
+Oh cool, I didn't know about x86_energy_perf_policy.
 
-I get multiple Sphinx indentation warnings and errors:
+Consider the following on a Raptor Lake machine:
 
-Documentation/gpu/introduction.rst:23: ERROR: Unexpected indentation. [docu=
-tils]
-Documentation/gpu/introduction.rst:22: WARNING: Block quote ends without a =
-blank line; unexpected unindent. [docutils]
-Documentation/gpu/introduction.rst:23: WARNING: Blank line required after t=
-able. [docutils]
-Documentation/gpu/introduction.rst:24: WARNING: Line block ends without a b=
-lank line. [docutils]
-Documentation/gpu/introduction.rst:25: WARNING: Block quote ends without a =
-blank line; unexpected unindent. [docutils]
-Documentation/gpu/introduction.rst:29: ERROR: Unexpected indentation. [docu=
-tils]
-Documentation/gpu/introduction.rst:28: WARNING: Block quote ends without a =
-blank line; unexpected unindent. [docutils]
-Documentation/gpu/introduction.rst:29: WARNING: Blank line required after t=
-able. [docutils]
-Documentation/gpu/introduction.rst:29: WARNING: Inline substitution_referen=
-ce start-string without end-string. [docutils]
-Documentation/gpu/introduction.rst:30: WARNING: Line block ends without a b=
-lank line. [docutils]
-Documentation/gpu/introduction.rst:31: WARNING: Block quote ends without a =
-blank line; unexpected unindent. [docutils]
-Documentation/gpu/introduction.rst:35: ERROR: Unexpected indentation. [docu=
-tils]
-Documentation/gpu/introduction.rst:35: WARNING: Inline substitution_referen=
-ce start-string without end-string. [docutils]
-Documentation/gpu/introduction.rst:36: WARNING: Line block ends without a b=
-lank line. [docutils]
-Documentation/gpu/introduction.rst:37: ERROR: Unexpected indentation. [docu=
-tils]
-Documentation/gpu/introduction.rst:37: WARNING: Blank line required after t=
-able. [docutils]
-Documentation/gpu/introduction.rst:38: WARNING: Line block ends without a b=
-lank line. [docutils]
-Documentation/gpu/introduction.rst:39: WARNING: Block quote ends without a =
-blank line; unexpected unindent. [docutils]
-Documentation/gpu/introduction.rst:42: ERROR: Unexpected indentation. [docu=
-tils]
-Documentation/gpu/introduction.rst:42: WARNING: Blank line required after t=
-able. [docutils]
-Documentation/gpu/introduction.rst:43: WARNING: Line block ends without a b=
-lank line. [docutils]
-Documentation/gpu/introduction.rst:44: WARNING: Block quote ends without a =
-blank line; unexpected unindent. [docutils]
-Documentation/gpu/introduction.rst:48: ERROR: Unexpected indentation. [docu=
-tils]
-Documentation/gpu/introduction.rst:48: WARNING: Blank line required after t=
-able. [docutils]
-Documentation/gpu/introduction.rst:48: WARNING: Inline substitution_referen=
-ce start-string without end-string. [docutils]
-Documentation/gpu/introduction.rst:49: WARNING: Line block ends without a b=
-lank line. [docutils]
-Documentation/gpu/introduction.rst:50: WARNING: Block quote ends without a =
-blank line; unexpected unindent. [docutils]
+1. HWP_REQUEST MSR set by intel_pstate in active mode:
 
-Please wrap the diagram above in literal code block.
+	# echo active > intel_pstate/status
+	# x86_energy_perf_policy -c 0 2>&1 | grep REQ
+	cpu0: HWP_REQ: min 11 max 68 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+	pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*10^0us)
+	# echo 2000000 > cpufreq/policy0/scaling_min_freq 
+	# echo 3000000 > cpufreq/policy0/scaling_max_freq 
+	# x86_energy_perf_policy -c 0 2>&1 | grep REQ
+	cpu0: HWP_REQ: min 26 max 39 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+	pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*10^0us)
 
-Thanks.
+	scaling_{min,max}_freq just affect the min and max frequencies
+	set in HWP_REQEST. desired_freq is left at 0.
 
---=20
-An old man doll... just what I always wanted! - Clara
+2. HWP_REQUEST MSR set by intel_pstate in passive mode with userspace
+governor:
 
---fFwlWSH1Re80NIG0
-Content-Type: application/pgp-signature; name=signature.asc
+	# echo passive > intel_pstate/status
+	# echo userspace > cpufreq/policy0/scaling_governor 
+	# cat cpufreq/policy0/scaling_setspeed 
+	866151
+	# x86_energy_perf_policy -c 0 2>&1 | grep REQ
+	cpu0: HWP_REQ: min 11 max 68 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+	pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*10^0us)
+	# echo 2000000 > cpufreq/policy0/scaling_setspeed 
+	# x86_energy_perf_policy -c 0 2>&1 | grep REQ
+	cpu0: HWP_REQ: min 26 max 68 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+	pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*10^0us)
 
------BEGIN PGP SIGNATURE-----
+	scaling_setspeed only changes the min frequency in HWP_REQUEST.
+	Meaning, software is explicitly allowing the hardware to choose
+	higher frequencies.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaC/nLwAKCRD2uYlJVVFO
-o0YoAPwP/GehTZZ/E4/JcMOdTC7wObkIe1OLa0lGTzgAjWND6AEApJP3MFdq+y9+
-RaJncUrLjmh4hjOHSxP5jQUoYmWL6wY=
-=++Ke
------END PGP SIGNATURE-----
+3. Same as above, except with strictuserspace governor, which is a
+custom kernel module which is exactly the same as the userspace
+governor, except it has the CPUFREQ_GOV_STRICT_TARGET flag set:
 
---fFwlWSH1Re80NIG0--
+	# echo strictuserspace > cpufreq/policy0/scaling_governor 
+	# x86_energy_perf_policy -c 0 2>&1 | grep REQ
+	cpu0: HWP_REQ: min 26 max 26 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+	pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*10^0us)
+	# echo 3000000 > cpufreq/policy0/scaling_setspeed 
+	# x86_energy_perf_policy -c 0 2>&1 | grep REQ
+	cpu0: HWP_REQ: min 39 max 39 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+	pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*10^0us)
+
+	With the strict flag set, intel_pstate honours this by setting
+	the min and max freq same.
+
+desired_perf is always 0 in the above cases. The strict flag check is done in
+intel_cpufreq_update_pstate, which sets max_pstate to target_pstate if policy
+has strict target, and cpu->max_perf_ratio otherwise.
+
+As Russell and Rafael have noted, CPU frequency is subject to hardware
+coordination and optimizations. While I get that, shouldn't software try
+its best with whatever interface it has available? If a user sets the
+userspace governor, that's because they want to have manual control over
+CPU frequency, for whatever reason. The kernel should honor this by
+setting the min and max freq in HWP_REQUEST equal. The current behaviour
+explicitly lets the hardware choose higher frequencies.
+
+Since Russell pointed out that the "actual freq >= target freq" can be
+achieved by leaving intel_pstate active and setting scaling_{min,max}_freq
+instead (for some reason this slipped my mind), I now think the strict target
+flag should be added to the userspace governor, leaving the documentation as
+is. Maybe a warning like "you may want to set this exact frequency, but it's
+subject to hardware coordination, so beware" can be added.
+
+Thanks
+
+Regards,
+Shashank
