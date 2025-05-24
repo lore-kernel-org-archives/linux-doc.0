@@ -1,129 +1,246 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D0D194A44;
-	Sat, 24 May 2025 11:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3374572623;
+	Sat, 24 May 2025 11:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748084611; cv=none; b=gflG5g12K2GRHXlz1wzWqP2EZyZqBM8ugAqDk5TpsbtmULlFTqwb2hN8O/1tjEpYZWiD0T4FDM5UiaHEiI/im02xJv7ddqOkc7e2j9/0Qbxj6iaiJXSGsoPX6/gRzB2DqbFVUt0MP4nhCu+MOPHRO+qGAZ38lImZIIprO+52TGA=
+	t=1748085559; cv=none; b=do5q64Xhz7FQBfqwfbZAsxL9dcvxkEi6MHiEjFYdqaw0ME3JZREVKbfdZepKDca8pFKCZyij+Ujt8MfeQzhy4esDp6Xq5lZGobvjPgyZWEa/h9eIzBl2jdMpTGD7j/MH46pZ/X6lIuL+JXe+WsB25IPaQCiNAebdN36L+7xi22A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748084611; c=relaxed/simple;
-	bh=0JfAm6XyLt8Uvc0tgfIphr7NJd8emCwE8S+wsVjBD7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pXM1WIJRcfiWnVedTKeKtGK7ulYms9Yz40GQwBr+JZyRP8kE++oToEzBSbx5ygx4XLWNRv6Yz91XD6SrsdNE0+RDRSKQM3EKX6EJ1c9zPNcA3+rUGDMo6TwUUY6Do62Gtt0ZH6XMND3zF6f1x6AZS9c8qLczU63kvF74rX6r4S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JFuRV/sz; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1748085559; c=relaxed/simple;
+	bh=ZeM+da8JfZ8lnROmjH/nTyqDodwA3mKLYrHfnIhGZ/A=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=Q4YcaqGR9AsAwxBwdBVoukCH5mRYPUwenYLG8c0JxOHsrJlZ0xNxaJAaMvTyB6GUW6U6Te7DZ+Hghi0pGC29GOB4Nd2DsQg+9GcRayO/6G/awFgaBzOHE2DIUZCKWQQnHwpM5KIC6UpHf9MfCd5e/Yzlu8VjDxr63m/c8xfH0xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gdr46dTK; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JFuRV/sz"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C74AE439FF;
-	Sat, 24 May 2025 11:03:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1748084601;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhGo38p9AkZZZjS8zqaVWp4e4joqF7J4aXzGFF+CwMo=;
-	b=JFuRV/szLE4v7nVrWLQbgWBmGZsH0XwI8sozeptD2rLnQbxO3TnrRk77r8eMBK0eV4RDfq
-	PcmSGE0xQkAmzXerO13gos8BDcag8sCIMUMbDFaSHNI4AI+0O3q2myRlmj/X7KiCgQF9lk
-	xNey3XDpw2JxOtw0qfw51yMW0vRJu8qnNIG+qcw4f0x65+UIBOwn9UKeOqld3IJQhov/xe
-	kycACu2V8DCFP1RgHj7HXMCsoT4iiDB921UpkSEsZdoqCfzw8Y/yT5xhb8UE3gbly4+P7z
-	xxBO4f8k7YXRWkEWhe/xlnGzfHiUK4FKegWyplPA1uMZdUtkZGVUt676UT/gtQ==
-Date: Sat, 24 May 2025 13:03:18 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
- Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v12 07/13] net: pse-pd: Add support for budget
- evaluation strategies
-Message-ID: <20250524130318.72daea05@kmaincent-XPS-13-7390>
-In-Reply-To: <20250524-feature_poe_port_prio-v12-7-d65fd61df7a7@bootlin.com>
-References: <20250524-feature_poe_port_prio-v12-0-d65fd61df7a7@bootlin.com>
-	<20250524-feature_poe_port_prio-v12-7-d65fd61df7a7@bootlin.com>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gdr46dTK"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7398d65476eso522929b3a.1;
+        Sat, 24 May 2025 04:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748085556; x=1748690356; darn=vger.kernel.org;
+        h=mime-version:references:message-id:date:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rScpXVbASUqjAgnv8asCUXuGu69m7xK2h2FjiRqoUxs=;
+        b=gdr46dTKVWlw860DLDTO1i756MGbSuyzxbNPkHA/2h8xnd7JKuXaWItWmYeZWbV5US
+         s9unF/sjNDzC04R5svLT9o/wHXZp8rmmW0VzrBQooXqMd6WeoRwBFaFWBP8aqiuAV4aO
+         RXc1zCrMwF/rBheb2Iwsj0gObtgcusLi5yPsT6fwPnIKGIiuOnYD2GVx/SI/nDvefLz/
+         P4cppyTF7nuIDaRMzWREufuWdQrwirh++hYEDkwpaYJ90u9m8ZKRxaqRYQ8c1usjhveU
+         PKLROFJUpb5a18SKD7LfFqf7Uyiu+oytmZeH65bvZe371TTahuxKZmfTFME4niVnqy5e
+         PO1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748085556; x=1748690356;
+        h=mime-version:references:message-id:date:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rScpXVbASUqjAgnv8asCUXuGu69m7xK2h2FjiRqoUxs=;
+        b=gg6RCfEZhv66eSk76Tn9KNvwPeAKpjE0pGXfw2jEqMhhOZthSDQ20bSQ1OQGmOr9Lx
+         PevUXG6dvuZTBopJ7hQH7zl6eT28nvJgjddxqtjKyHLle3aQrrodD8R43OFOgQS33npB
+         MHY2Q9ZaYRW/04C6zvX/SJ+scJKsuDR/XDVHmlL/ajgcYcTyv33/k9SPCAAXQPn1Cly1
+         FoDnjc9Gkg1MaRSWERn/I9Wwhb7aimWdqg6gVq55EwhheHBaMRzop1nU+7XtESx93Bic
+         KI4uSSmi+b5AQX7pE9MT0HUtFAiP7nVCRTKymTAGVt+72bZI2RF9FbGC1P5XyQXvi5UX
+         W6jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4S251QJksDeezNZ4QS0fQyMErKyH6Ou4WdVGl+ykREKHF21DHoXnhVqaDADgnQOXw26Ny1TJ6Y5k=@vger.kernel.org, AJvYcCURLShftmeP/rqSH1AC7Ry5qqVPN3xeogahYBkA/fhnA2SJDodYMnZmC6rTi/y2TLs6B8WtQwdUr89ZPdJkV6nF@vger.kernel.org, AJvYcCVRoP49L7pRR+RSHeMRwTF9rc2yE2CAt2+maTVDFHiWLL0E/nHUsL4dRF36qFyxcU9cSsKG8ojjiPt76A==@vger.kernel.org, AJvYcCVuX4/GG1Cb1E7aB5/SeDacK4KG2MPO0THJ1o0GrpyLllIwLsBL1j4TwW/TIRfccNahH0vdcr1Bda7vz1KVLJepLV0wN1lt@vger.kernel.org, AJvYcCW3JbQ0ua019PFi62EcZrSAaEUZ4KMieoAd41jTWaHtIvui9/CcfWr+p0b89+kh0dNJjYsNzHVR98XI9oi3@vger.kernel.org, AJvYcCWL5jk+RE0J+vv+44ofFXnTuedMrZdOchLguChFYxFAeSfMOFBuWN7jnxP44xQVqST25sKkuCmzScaRpcS/@vger.kernel.org, AJvYcCWW8MGXdw6Vym3TxzJFmNZN4DFssUYpXo4sGvgN3it2QbZ+1TjemgwVIFxN03bPA141z+6lPBDzm5l8EvSKCZ94@vger.kernel.org, AJvYcCXC0zF6ImNVIY9amNrNogiu5HlHiYIf/BHSReyst52nhoxjwvVzmOh12jwPTpE+qrfxzEq77nFEs8139Q==@vger.kernel.org, AJvYcCXdJSmb5F1X2ycyYLW1CkgIIOkD11wm7boNXqt4bAjtAhY2ItoifkWF0m1B7/MryFoKa2l0K30aGL99@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvGHP6xoVsY17CuTjP4lJNnzByERifjxZd8q+zDYbzmJ7setRT
+	jhFzOBMUqPg5wXJTlJ5arTmmK/uozAv/pE8h5b7sMYIcbuUzzoeg4m3z
+X-Gm-Gg: ASbGncv1TI5PFUHOw1ShfVWGEeQinHXEWEFG0JM2D+rfMxC79y8g3wr/6nBDzFGxXKt
+	7aCy0aSTRcW5T4Wyy+JzjOR82zlQlQrqMcEUnlzcsC/7BKn9SwGLxtjiExS4J83AVWq2RoaqZqT
+	Mm7kbmcC/geBowUYb3ZYMLWUQMQfr55E5tllaCOaCcaDYjRG39F8/ay5wsvj2iGWRuriXH6p1zY
+	+eef52OStW2/0QIyb2UTmotELeV2liVOmGc3vdCnKeAAaSo5W4nkFWbIq5Y5rqvuc92TR/nHQZz
+	nurnAubngyoL0uC5KfvOqzBrJUvLm2/XcZX8zGVndjqWc2lnA1mjqlo=
+X-Google-Smtp-Source: AGHT+IHzgyF4RMk4/VcB/ult2huesDrd3BktU05/6T5tjhGyNb1hL3EGlpy4BVyGxnMoNfwEQoYJDQ==
+X-Received: by 2002:a05:6a00:1903:b0:73e:2367:c914 with SMTP id d2e1a72fcca58-745fe068d61mr3795551b3a.7.1748085556260;
+        Sat, 24 May 2025 04:19:16 -0700 (PDT)
+Received: from dw-tp ([49.205.218.89])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a96dfacesm14024380b3a.5.2025.05.24.04.19.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 May 2025 04:19:15 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Cc: Kees Cook <kees@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	linuxppc-dev@lists.ozlabs.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2 08/14] powerpc: Handle KCOV __init vs inline mismatches
+In-Reply-To: <20250523043935.2009972-8-kees@kernel.org>
+Date: Sat, 24 May 2025 16:13:02 +0530
+Message-ID: <87jz662ssp.fsf@gmail.com>
+References: <20250523043251.it.550-kees@kernel.org> <20250523043935.2009972-8-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdduudehheculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefguddtfeevtddugeevgfevtdfgvdfhtdeuleetffefffffhffgteekvdefudeiieenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgduleemkeehkeejmeejuddttdemvgeigegsmegtkegrsgemvggvkeemjegvieeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgduleemkeehkeejmeejuddttdemvgeigegsmegtkegrsgemvggvkeemjegvieekpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvjedprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrt
- ghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomh
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain
 
-Le Sat, 24 May 2025 12:56:09 +0200,
-Kory Maincent <kory.maincent@bootlin.com> a =C3=A9crit :
+Kees Cook <kees@kernel.org> writes:
 
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
->=20
-> This patch introduces the ability to configure the PSE PI budget evaluati=
-on
-> strategies. Budget evaluation strategies is utilized by PSE controllers to
-> determine which ports to turn off first in scenarios such as power budget
-> exceedance.
->=20
-> The pis_prio_max value is used to define the maximum priority level
-> supported by the controller. Both the current priority and the maximum
-> priority are exposed to the user through the pse_ethtool_get_status call.
->=20
-> This patch add support for two mode of budget evaluation strategies.
-> 1. Static Method:
->=20
->    This method involves distributing power based on PD classification.
->    It=E2=80=99s straightforward and stable, the PSE core keeping track of=
- the
->    budget and subtracting the power requested by each PD=E2=80=99s class.
->=20
->    Advantages: Every PD gets its promised power at any time, which
->    guarantees reliability.
->=20
->    Disadvantages: PD classification steps are large, meaning devices
->    request much more power than they actually need. As a result, the power
->    supply may only operate at, say, 50% capacity, which is inefficient and
->    wastes money.
->=20
->    Priority max value is matching the number of PSE PIs within the PSE.
->=20
-> 2. Dynamic Method:
->=20
->    To address the inefficiencies of the static method, vendors like
->    Microchip have introduced dynamic power budgeting, as seen in the
->    PD692x0 firmware. This method monitors the current consumption per port
->    and subtracts it from the available power budget. When the budget is
->    exceeded, lower-priority ports are shut down.
->=20
->    Advantages: This method optimizes resource utilization, saving costs.
->=20
->    Disadvantages: Low-priority devices may experience instability.
->=20
->    Priority max value is set by the PSE controller driver.
->=20
-> For now, budget evaluation methods are not configurable and cannot be
-> mixed. They are hardcoded in the PSE driver itself, as no current PSE
-> controller supports both methods.
->=20
-> Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> When KCOV is enabled all functions get instrumented, unless
+> the __no_sanitize_coverage attribute is used. To prepare for
+> __no_sanitize_coverage being applied to __init functions, we have to
+> handle differences in how GCC's inline optimizations get resolved. For
+> s390 this requires forcing a couple functions to be inline with
+> __always_inline.
+>
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Cc: Naveen N Rao <naveen@kernel.org>
+> Cc: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+> Cc: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: <linuxppc-dev@lists.ozlabs.org>
+> ---
+>  arch/powerpc/mm/book3s64/hash_utils.c    | 2 +-
+>  arch/powerpc/mm/book3s64/radix_pgtable.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/powerpc/mm/book3s64/hash_utils.c b/arch/powerpc/mm/book3s64/hash_utils.c
+> index 5158aefe4873..93f1e1eb5ea6 100644
+> --- a/arch/powerpc/mm/book3s64/hash_utils.c
+> +++ b/arch/powerpc/mm/book3s64/hash_utils.c
+> @@ -409,7 +409,7 @@ static DEFINE_RAW_SPINLOCK(linear_map_kf_hash_lock);
+>  
+>  static phys_addr_t kfence_pool;
+>  
+> -static inline void hash_kfence_alloc_pool(void)
+> +static __always_inline void hash_kfence_alloc_pool(void)
+>  {
+>  	if (!kfence_early_init_enabled())
+>  		goto err;
+> diff --git a/arch/powerpc/mm/book3s64/radix_pgtable.c b/arch/powerpc/mm/book3s64/radix_pgtable.c
+> index 9f764bc42b8c..3238e9ed46b5 100644
+> --- a/arch/powerpc/mm/book3s64/radix_pgtable.c
+> +++ b/arch/powerpc/mm/book3s64/radix_pgtable.c
+> @@ -363,7 +363,7 @@ static int __meminit create_physical_mapping(unsigned long start,
+>  }
+>  
+>  #ifdef CONFIG_KFENCE
+> -static inline phys_addr_t alloc_kfence_pool(void)
+> +static __always_inline phys_addr_t alloc_kfence_pool(void)
+>  {
+>  	phys_addr_t kfence_pool;
+>  
 
-Forgot to add:
-Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+I remember seeing a warning msg around .init.text section. Let me dig
+that...
+
+... Here it is: https://lore.kernel.org/oe-kbuild-all/202504190552.mnFGs5sj-lkp@intel.com/
+
+I am not sure why it only complains for hash_debug_pagealloc_alloc_slots().
+I believe there should me more functions to mark with __init here.
+Anyways, here is the patch of what I had in mind.. I am not a compiler expert,
+so please let me know your thoughts on this.
+
+-ritesh
+
+
+From 59d64dc0014ccb4ae13ed08ab596738628ee23b1 Mon Sep 17 00:00:00 2001
+Message-Id: <59d64dc0014ccb4ae13ed08ab596738628ee23b1.1748084756.git.ritesh.list@gmail.com>
+From: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Date: Sat, 24 May 2025 16:14:08 +0530
+Subject: [RFC] powerpc/mm/book3s64: Move few kfence & debug_pagealloc
+ related calls to __init section
+
+Move few kfence and debug_pagealloc related functions in hash_utils.c
+and radix_pgtable.c to __init sections since these are only invoked once
+by an __init function during system initialization.
+
+i.e.
+- hash_debug_pagealloc_alloc_slots()
+- hash_kfence_alloc_pool()
+- hash_kfence_map_pool()
+  The above 3 functions only gets called by __init htab_initialize().
+
+- alloc_kfence_pool()
+- map_kfence_pool()
+  The above 2 functions only gets called by __init radix_init_pgtable()
+
+This should also help fix warning msgs like:
+
+>> WARNING: modpost: vmlinux: section mismatch in reference:
+hash_debug_pagealloc_alloc_slots+0xb0 (section: .text) ->
+memblock_alloc_try_nid (section: .init.text)
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202504190552.mnFGs5sj-lkp@intel.com/
+Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+---
+ arch/powerpc/mm/book3s64/hash_utils.c    | 6 +++---
+ arch/powerpc/mm/book3s64/radix_pgtable.c | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/arch/powerpc/mm/book3s64/hash_utils.c b/arch/powerpc/mm/book3s64/hash_utils.c
+index 5158aefe4873..4693c464fc5a 100644
+--- a/arch/powerpc/mm/book3s64/hash_utils.c
++++ b/arch/powerpc/mm/book3s64/hash_utils.c
+@@ -343,7 +343,7 @@ static inline bool hash_supports_debug_pagealloc(void)
+ static u8 *linear_map_hash_slots;
+ static unsigned long linear_map_hash_count;
+ static DEFINE_RAW_SPINLOCK(linear_map_hash_lock);
+-static void hash_debug_pagealloc_alloc_slots(void)
++static __init void hash_debug_pagealloc_alloc_slots(void)
+ {
+ 	if (!hash_supports_debug_pagealloc())
+ 		return;
+@@ -409,7 +409,7 @@ static DEFINE_RAW_SPINLOCK(linear_map_kf_hash_lock);
+ 
+ static phys_addr_t kfence_pool;
+ 
+-static inline void hash_kfence_alloc_pool(void)
++static __init void hash_kfence_alloc_pool(void)
+ {
+ 	if (!kfence_early_init_enabled())
+ 		goto err;
+@@ -445,7 +445,7 @@ static inline void hash_kfence_alloc_pool(void)
+ 	disable_kfence();
+ }
+ 
+-static inline void hash_kfence_map_pool(void)
++static __init void hash_kfence_map_pool(void)
+ {
+ 	unsigned long kfence_pool_start, kfence_pool_end;
+ 	unsigned long prot = pgprot_val(PAGE_KERNEL);
+diff --git a/arch/powerpc/mm/book3s64/radix_pgtable.c b/arch/powerpc/mm/book3s64/radix_pgtable.c
+index 311e2112d782..ed226ee1569a 100644
+--- a/arch/powerpc/mm/book3s64/radix_pgtable.c
++++ b/arch/powerpc/mm/book3s64/radix_pgtable.c
+@@ -363,7 +363,7 @@ static int __meminit create_physical_mapping(unsigned long start,
+ }
+ 
+ #ifdef CONFIG_KFENCE
+-static inline phys_addr_t alloc_kfence_pool(void)
++static __init phys_addr_t alloc_kfence_pool(void)
+ {
+ 	phys_addr_t kfence_pool;
+ 
+@@ -393,7 +393,7 @@ static inline phys_addr_t alloc_kfence_pool(void)
+ 	return 0;
+ }
+ 
+-static inline void map_kfence_pool(phys_addr_t kfence_pool)
++static __init void map_kfence_pool(phys_addr_t kfence_pool)
+ {
+ 	if (!kfence_pool)
+ 		return;
+-- 
+2.39.5
+
