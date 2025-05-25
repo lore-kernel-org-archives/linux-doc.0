@@ -1,129 +1,295 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D942F23BE;
-	Sat, 24 May 2025 17:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19F21885A5;
+	Sun, 25 May 2025 09:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748108109; cv=none; b=U2sY+8augKDpZh9VrRFFFQtWhdLPfW55ZAUQBQGJh/pR7TzAO9H2t/mtM1FTUtlm6bejV92EJXCus0VeZ2Cnr9fge0/Asqfh9zxMBcAW/6eBj4KbrkNE/DVNjG+bECZEYCCKcvVFMNYFQYUIROj6Aw4OYWKt9jIRcjrPSZaeY6U=
+	t=1748164007; cv=none; b=hww0UcTws4cMNT7yb42TJ/RI6Lq4swiVkalOMY2sM2xeXNw5njS2IxaBgp6huiFICeYoQcpW3GfWsmiUUC3V7/TwPjDXGurzJW1vv0KA+NA1Gxwfq191FMTSa1ON0+49cePonYpVIapF4Z8eHjufEUPev7w3xtO3ZlefqDE0V8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748108109; c=relaxed/simple;
-	bh=i/LAb6xVbxT1aJ90RfLFJRh5A3lT0zdiGCBkjFs2BmE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=doNqu0xhBP10cR9cRLFLrbgOsIsEvWYhVYzq+kINJOacnsl9COV5TzyjdAjfKjhIKPY1yMAhPCk50vk4Sspvu9W4193W63vy5uPGjAeA9AwRzPCtt/+n7C/IniGQovkN58QyZVKmswitOBdYNH9yLt7s4GMC9DTqrjyRiu0VmLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BOwYRy2u; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748164007; c=relaxed/simple;
+	bh=D33noQ2AMXpbt2NqWECeX0gAwhvUwt4rDukf/XL12Gw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iyT2p03GJY7Egxv2ptpLuk1102IcsIcBWa83b9xFtggh6JdnwH4mPLjYDm5w2o8tI2eTZoYTLYidMUJCEGtvOvMnrRs1wpJV2oBkxSvvOPY4bSb0sAgnK8qNpNo3dApuafOI895lrOmgDfLuSLSO/1kuzg5gEzF54tIgDvZHIuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VBoH9eVB; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RSWFhWVd; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BOwYRy2u"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ad564b7aea9so375683066b.1;
-        Sat, 24 May 2025 10:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748108106; x=1748712906; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6esos0NCbJWOrHjcUciV7jdqA8qN5ZRshgoZfehNMKs=;
-        b=BOwYRy2uTmy1EpOVc/c6Rs0Kh8DZHBrPvvvYhmjZ64PRFfQSAsoSYLrBkbBKzAJpRe
-         cz6h6n3r6hXeqs/I2HN4attqDPtyOamSa5+jR8fLmYQ0HUyxY0RZYW2GWSnYxCXUgRqR
-         1vwoR5q5ZIIqbizTflzqB71W8svb+1Ld+72mu3nVAgymfmIvnJS/M5Eh31E1ryysi1Qf
-         RxxRS5wqgXdcRLJVwoinYre1HKvZcoOYr80qywfE+5Il9TdP45wF20Lqn0R44+A6Ql5K
-         I71hDWEWMF1KzVTx6P1vovS9wNnLXYdE1wIf1PGCa882CgyJQiGuB7+uM6TjjcMzD7Qc
-         oZbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748108106; x=1748712906;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6esos0NCbJWOrHjcUciV7jdqA8qN5ZRshgoZfehNMKs=;
-        b=uRHaJqcJ/Pr74bJduwdszDqWoTRUe9ESSgxQ/b5GGrMCTlX+LB3fp8A3+YX5VHyrjR
-         EesRowNfYVd6iggh5QAt+BASo2aBL2bmkqcwdFiEdmZ+Q9GqLKPXEsGgrodv5SDBB9vT
-         +XIEYxrn8EqzkwP138vj1YfZW/33yne7+qZIuCpeTx5fu1ckmshjZ4qLnd+zYbf6Ggby
-         1DxShKmk4wqftMgxiMFmCuqk+xkykJlqeFaQNY3CdWZqefWhUKV+kLMf1Mtx3DjHEkzH
-         Es2UhbkIlKxNDkZLDq72vgEq0/562GNE6MTf5zeH0/07aHYoes43wCkqovsna9qVOHhP
-         Exww==
-X-Forwarded-Encrypted: i=1; AJvYcCUD9MD6zFivE7yIIO93AZWa9JeBbHlba/slvaLOmQv+7aXE66kJlrH3C5ML2r8fpOMohxUrIBQSy9s=@vger.kernel.org, AJvYcCWFVsucTuc60jqMnDLDJfU/PyR+i0S7AJTFvgKRldK/AWLYZ+zqX8k2fRvCTvghAPSNAG1V/O/FM4Qp0a1B@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEzzc7lBFNsRwmIQ0SB5mRgYwyanm6xR9UecINrnjIgASFXXrU
-	gxjnmKZFknCEVW6XqqdQhLBANHSUWRqBjfCR+iYoBz19qYKr7EfU6aNhxlThv4B0iy6EhBGpTd8
-	hTnza2EzT+hPjU+TK/GNVZz7oDBfz1sU=
-X-Gm-Gg: ASbGnctNqnWhrrlrcu2lMjOISad+5BQRgqDQn7yVeApZtUddKSPNVff/NjfJ6wAuQ5j
-	E1s4n9407cYG9nlKaKTZKfCTQyKarOME0RTNSj9rBsqleapaVwO0RycqdbI7yhEBIlqimFPuGRH
-	AjNIPJ7MKnGSH+Fvn2w03CsSawN6igkQ7Hmc3vMF33Kc5Wm8pFnKAEFZNnaojG07i/xw==
-X-Google-Smtp-Source: AGHT+IH7TxQKxV5rqnlT4lgf1dRHo65M8Huun796jND/WC3MPI6epVJVwGlHgQV8HtghIxJJCAIRdYl+87zUl5rXFss=
-X-Received: by 2002:a17:906:6a26:b0:ad5:4998:9f1a with SMTP id
- a640c23a62f3a-ad63f984b0fmr718065366b.5.1748108105950; Sat, 24 May 2025
- 10:35:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VBoH9eVB";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RSWFhWVd"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1748164003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=10c6UuaUy4gsHzyjK2Ohkf/opmVxLXcOaDen0Va9OQs=;
+	b=VBoH9eVBxEV9wLTBH6/J9vF7Uhr8nPoYO99Q3JJBHUbNiDINCYUxReQIzHxJJ8Mca0WFFT
+	O75xm1I0kKICTRDbskWa7Y/yOFWjAg+/Ns6jDmyp8RnCYR+POe08CnAUKZsW5Xt7akv637
+	jegvVHPpISlv+W2N9GfJgpIc8GIW3rCC1bxe+K1q2B/f0S+MNiA2esiL84/TmsB1kopojP
+	Ysw6jpnVll8VMlAdaI4SHY83yb4sSg2LSyCeeDDhBCwP2UkCntAabwXfT107wyywct7SSv
+	E6iwWmOSxkj9D5m3w5ANuGjS74xeWOvTMbzOxuxp+qlmQLhqem+3GtvlWl7wGw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1748164003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=10c6UuaUy4gsHzyjK2Ohkf/opmVxLXcOaDen0Va9OQs=;
+	b=RSWFhWVdmJrlquNScQ3F1eWUdb/ckMT7qIwsfiXscLP/beD0PsdE3lJlYVAvW10DqQYciU
+	/2bU2yyKKEjgYjDg==
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
+ jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+ gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: Re: [PATCH v3 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+In-Reply-To: <20250523101833.17940-3-zhangtianyang@loongson.cn>
+References: <20250523101833.17940-1-zhangtianyang@loongson.cn>
+ <20250523101833.17940-3-zhangtianyang@loongson.cn>
+Date: Sun, 25 May 2025 11:06:42 +0200
+Message-ID: <87ecwdqct9.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com> <87ecwfczcw.fsf@trenco.lwn.net>
-In-Reply-To: <87ecwfczcw.fsf@trenco.lwn.net>
-From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-Date: Sat, 24 May 2025 13:34:55 -0400
-X-Gm-Features: AX0GCFsi-MN0UA4uRCGebgf9C8Rt3Zsaglwx2_dkVsiyykORTxqO9nOADvqJFIA
-Message-ID: <CAC0Z3JtyP+QKdP9WiuyURfnU9ccobzvChCBK1i=eENm5DEyQNw@mail.gmail.com>
-Subject: Re: [PATCH] drm: add overview diagram for drm stack
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Thanks for the feedback. I have added the fix and sent another version
-(v2) of the patch.
+On Fri, May 23 2025 at 18:18, Tianyang Zhang wrote:
+>  
+> -static void avecintc_sync(struct avecintc_data *adata)
+> +void avecintc_sync(struct avecintc_data *adata)
+>  {
+>  	struct pending_list *plist;
+>  
+> @@ -109,7 +99,7 @@ static int avecintc_set_affinity(struct irq_data *data, const struct cpumask *de
+>  			return -EBUSY;
+>  
+>  		if (cpu_online(adata->cpu) && cpumask_test_cpu(adata->cpu, dest))
+> -			return 0;
+> +			return IRQ_SET_MASK_OK_DONE;
 
-https://lore.kernel.org/all/20250523-drm-doc-updates-v2-0-e517df152cf6@gmai=
-l.com/
+This change really wants to be seperate with a proper explanation and
+not burried inside of this pile of changes.
 
-best regards,
-Abdulrasaq
+> +static inline bool invalid_queue_is_full(int node, u32 *tail)
+> +{
+> +	u32 head;
+> +
+> +	head = read_queue_head(node);
 
+Please move the initialization into the declaration line:
 
-On Fri, May 23, 2025 at 7:58=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> Abdulrasaq Lawani <abdulrasaqolawani@gmail.com> writes:
->
-> > Add an overview diagram of Linux DRM architecture for
-> > graphics and compute to introduction.rst
-> >
-> > ---
-> > Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-> > ---
-> >  Documentation/gpu/introduction.rst | 38 ++++++++++++++++++++++++++++++=
-+++++++-
-> >  1 file changed, 37 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/int=
-roduction.rst
-> > index 3cd0c8860b949408ed570d3f9384edd5f03df002..91bb0efc96d69921a122c52=
-65b1431fa18110a7a 100644
-> > --- a/Documentation/gpu/introduction.rst
-> > +++ b/Documentation/gpu/introduction.rst
-> > @@ -14,7 +14,43 @@ including the TTM memory manager, output configurati=
-on and mode setting,
-> >  and the new vblank internals, in addition to all the regular features
-> >  found in current kernels.
-> >
-> > -[Insert diagram of typical DRM stack here]
-> > +Overview of the Linux DRM Architecture
-> > +-----------------------------------------------
-> > ++-----------------------------+
-> > +|     User-space Apps         |
-> > +| (Games, Browsers, ML, etc.) |
-> > ++-----------------------------+
->
-> [...]
->
-> Please actually build the docs after a change like this and look at the
-> results; they will not be what you expect here.  You need to put that
-> diagram into a literal block.
->
-> Thanks,
->
-> jon
+       u32 head = read_queue...();
+
+All over the place, where it's the first operation in the code. That
+makes the code more dense and easier to follow.
+
+> +	*tail = read_queue_tail(node);
+> +
+> +	return !!(head == ((*tail + 1) % INVALID_QUEUE_SIZE));
+
+What's the !! for? A == B is a boolean expression already.
+
+> +}
+> +
+> +static void invalid_enqueue(struct redirect_queue *rqueue, struct irde_inv_cmd *cmd)
+> +{
+> +	struct irde_inv_cmd *inv_addr;
+> +	u32 tail;
+> +
+> +	guard(raw_spinlock_irqsave)(&rqueue->lock);
+> +
+> +	while (invalid_queue_is_full(rqueue->node, &tail))
+> +		cpu_relax();
+> +
+> +	inv_addr = (struct irde_inv_cmd *)(rqueue->base + tail * sizeof(struct irde_inv_cmd));
+> +	memcpy(inv_addr, cmd, sizeof(struct irde_inv_cmd));
+> +	tail = (tail + 1) % INVALID_QUEUE_SIZE;
+> +
+> +	/*
+> +	 * The uncache-memory access may have an out of order problem cache-memory access,
+> +	 * so a barrier is needed to ensure tail is valid
+> +	 */
+
+This comment does not make sense at all.
+
+What's the actual uncached vs. cached access problem here? AFAICT it's
+all about the ordering of the writes:
+
+    You need to ensure that the memcpy() data is visible _before_ the
+    tail is updated, no?
+
+> +	wmb();
+> +
+> +	write_queue_tail(rqueue->node, tail);
+> +}
+
+> +static int redirect_table_free(struct redirect_item *item)
+
+That return value is there to be ignored by the only caller, right?
+
+> +{
+> +	struct redirect_table *ird_table;
+> +	struct redirect_entry *entry;
+> +
+> +	ird_table = item->table;
+> +
+> +	entry = item->entry;
+> +	memset(entry, 0, sizeof(struct redirect_entry));
+> +
+> +	scoped_guard(raw_spinlock_irqsave, &ird_table->lock)
+> +		bitmap_release_region(ird_table->bitmap, item->index, 0);
+> +
+> +	kfree(item->gpid);
+> +
+> +	irde_invlid_entry_node(item);
+> +
+> +	return 0;
+> +}
+> +
+> +static inline void redirect_domain_prepare_entry(struct redirect_item *item,
+> +					struct avecintc_data *adata)
+
+Please align the argument in the second line properly:
+
+https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#line-breaks
+
+> +
+> +static inline void redirect_ack_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static inline void redirect_unmask_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static inline void redirect_mask_irq(struct irq_data *d)
+> +{
+> +}
+
+These want some explanation why they are empty.
+
+> +
+> +static struct irq_chip loongarch_redirect_chip = {
+> +	.name			= "REDIRECT",
+> +	.irq_ack		= redirect_ack_irq,
+> +	.irq_mask		= redirect_mask_irq,
+> +	.irq_unmask		= redirect_unmask_irq,
+> +	.irq_set_affinity	= redirect_set_affinity,
+> +	.irq_compose_msi_msg	= redirect_compose_msi_msg,
+> +};
+> +out_free_resources:
+> +	redirect_free_resources(domain, virq, nr_irqs);
+> +	irq_domain_free_irqs_common(domain, virq, nr_irqs);
+> +
+> +	return -EINVAL;
+
+-ENOMEM?
+
+> +}
+> +
+> +	bitmap = bitmap_zalloc(IRD_ENTRIES, GFP_KERNEL);
+> +	if (!bitmap) {
+> +		pr_err("Node [%d] redirect table bitmap alloc pages failed!\n", node);
+> +		return -ENOMEM;
+
+Leaks pages.
+
+> +	}
+> +
+> +	ird_table->bitmap = bitmap;
+> +	ird_table->nr_ird = IRD_ENTRIES;
+> +	ird_table->node = node;
+> +
+> +	raw_spin_lock_init(&ird_table->lock);
+> +
+> +	if (redirect_queue_init(node))
+> +		return -EINVAL;
+
+Leaks pages and bitmap.
+
+> +
+> +	iocsr_write64(CFG_DISABLE_IDLE, LOONGARCH_IOCSR_REDIRECT_CFG);
+> +	iocsr_write64(__pa(ird_table->table), LOONGARCH_IOCSR_REDIRECT_TBR);
+> +
+> +	return 0;
+> +}
+
+> +#if defined(CONFIG_ACPI)
+
+#ifdef CONFIG_ACPI
+
+> +static int __init redirect_reg_base_init(void)
+> +{
+> +	acpi_status status;
+> +	uint64_t addr = 0;
+
+What's this initialization for?
+
+> +int __init redirect_acpi_init(struct irq_domain *parent)
+> +{
+> +	struct fwnode_handle *fwnode;
+> +	struct irq_domain *domain;
+> +	int ret;
+> +
+> +	fwnode = irq_domain_alloc_named_fwnode("redirect");
+> +	if (!fwnode) {
+> +		pr_err("Unable to alloc redirect domain handle\n");
+> +		goto fail;
+> +	}
+> +
+> +	domain = irq_domain_create_hierarchy(parent, 0, IRD_ENTRIES, fwnode,
+> +			&redirect_domain_ops, irde_descs);
+
+Please align the arguments in the second line properly.
+
+> +	if (!domain) {
+> +		pr_err("Unable to alloc redirect domain\n");
+> +		goto out_free_fwnode;
+> +	}
+> +
+> +	redirect_domain = domain;
+> +
+> +	ret = redirect_table_init(0);
+> +	if (ret)
+> +		goto out_free_table;
+> +
+> +	ret = acpi_cascade_irqdomain_init();
+> +	if (ret < 0) {
+> +		pr_err("Failed to cascade IRQ domain, ret=%d\n", ret);
+> +		goto out_free_table;
+> +	}
+> +
+> +	cpuhp_setup_state_nocalls(CPUHP_AP_IRQ_REDIRECT_STARTING,
+> +				  "irqchip/loongarch/redirect:starting",
+> +				  redirect_cpu_online, NULL);
+
+Hmm.
+
+> +static int redirect_cpu_online(unsigned int cpu)
+> +{
+> +	int ret, node = cpu_to_node(cpu);
+> +
+> +	if (cpu != cpumask_first(cpumask_of_node(node)))
+> +		return 0;
+> +
+> +	ret = redirect_table_init(node);
+> +	if (ret) {
+> +		redirect_table_fini(node);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+
+So if you unplug all CPUs of a node and then replug the first CPU in the
+node, then this invokes redirect_table_init() unconditionally, which
+will unconditionally allocate pages and bitmap again ....
+
+Thanks,
+
+        tglx
