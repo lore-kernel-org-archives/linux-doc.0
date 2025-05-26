@@ -1,168 +1,91 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0358E4C6E;
-	Sun, 25 May 2025 22:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B212DCBF0;
+	Mon, 26 May 2025 01:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748212294; cv=none; b=ZfaRYOqK326cdBXlLQpss3FG044OnmumHmRy9S/gvxPmM9vLCJnbt2wVpxvueISsMT6GjbsGARCwgSeRVS/riHXCpoKQra878pZiuY95c1UIEnVm2RrwJXP7w5z57u3GP5JUhPlErGsGslEYaQ54epHbBczf+oidbGXjRLGhBNk=
+	t=1748222043; cv=none; b=lGby2FaEg/MhGzKvHjaDSkHsfMtPpsoF3RRtrxY7NIgnTM4rG+V8ji+ACUX0mxAZZ6G1MvFawf1Gb4efcGmes/qP0vQ66fPf1iI3ey10t836iImxe8W1zeaMsgldqOkSg2aetzIJpNAt/Wp2+9rMSczUdrMytHrY0cxu8+603XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748212294; c=relaxed/simple;
-	bh=IeMM05OqHnOOhC29RLdPNxztZuvbTiFhqT0KwYHxVt8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=bToaSBoFpIjtv8SS7f7O59HCaVRHTe1NgNoZ3bL8tnByD5GrSZtUTOvHjAeEBJqIMv70PemOum4YWHmN3/c67qnU4Jsm/nEO6MPkCycFQInUQ8myQHeOt3ze9yX2iGY4RzWbv9OIMBNacbRkSgh0xNwzn3gM+/egoTVvZMTDKPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UlcI6sSF; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UlcI6sSF"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-74068f95d9fso1117531b3a.0;
-        Sun, 25 May 2025 15:31:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748212292; x=1748817092; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BNk1HW/GPBBVIki2yiAq9nzP3MYBLWG6yDhALpawHdE=;
-        b=UlcI6sSFmKna4AaP3zWAQLdGE/FGyza0kfA3OF1LQ5HvJOaT00f/UYVSJOcqTclReD
-         Fg8e3h9zI7AjIQ2zfinJMkry1XE6BA80v9tyxxkXj4VejGWQjKJtq6xbst0AJgYYjn6n
-         K0qxMQMFxUfou6soxK0lmMVYOoujs/6GmxXl6g3x7yZHdFzBrbkAA3vhWYw4o2L9fCHC
-         8TIpRKM5F/SWWMvJzmaPT2Ume3xWDEkoHsx9foqcEX0CnNlqxeSOjrH6/bubG1wVvcLG
-         30OmBkSWRd8D/jshhjQNi5dJlNrrvDB4ByRIXfNfQ0mV2kfpl/vIYNs8IrMX0rUEi1UQ
-         X/PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748212292; x=1748817092;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BNk1HW/GPBBVIki2yiAq9nzP3MYBLWG6yDhALpawHdE=;
-        b=dxyqbEGLy8Bjzb9khyCNkaQkiAX9eR2CMegoACg22ukoNFNdNdqykoLy5N2l62JC5k
-         dUUfal5jd7bK+goI7mO0eMzbBluiiOTbgMPt/LEcIO7a/KgdKcIQfLQIIwNq550nzdRo
-         f+iWsi6dKfG9cTN1BTvDVs1KQ5k63z90Z6r8aOk6XPFBpp3YyXBNa9RD+veI4EvPpiBw
-         DWv5kX3c+rni3mZFh/avi/WGVjQ83hrnEPEYHoMuLakKiTd6HXJGTg1+SZPWM+GzEdz/
-         ytZTjlZXdThWtmDRDQL0B5PSsEjrNq/RhdVr+juJKIAv2JKUuVVuV7Ri05m2Wkh7l07T
-         R7xg==
-X-Forwarded-Encrypted: i=1; AJvYcCUp9Cvf217ewfOr976v1zI8QOgwiaKYQMT+4BaANNtsDEJHGiuB5ZjXw3OPBWktwDOz9yOEb/fVKZy679lflF14x2mCcw==@vger.kernel.org, AJvYcCWywklj5zgRVDja1PEqmNO8vCva8QMaxalszOu0X3zakXFDTjN2t8MjkZKvg+vhSOSCB5nTznG/sXzW27WY@vger.kernel.org, AJvYcCXhS3/MKC+DCDdf6V+EbYSpxVaQXi0VMIBhn4H5qa1FbxQ3R3fqKTJlAW3FiBh2FwquGQo/LovKaH4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/aS3hts3wJ1BWooTRadsE3MYGjpg+Af8rxgXz+hjuDXutTkO4
-	hMD9scie3KZNrCamrJDMymlpzTjOhmyQ1rcNjsa/dcdM8QwIWIfMta3h
-X-Gm-Gg: ASbGncs6lz07eUOdRnKnnHGImMoBFNNJrC0pkbKJg/j88aQAXfJi5YETiMsApG1BPjF
-	x23b474ZpdzW/gs5GWEbUrqmQvdAe/jZCpy8RsDauZekXb7Pn1Zge/60Z3ojaqy1kPrHDOKbUgy
-	H+XqyaSC95YljMiRFVWinnIyW1i5RvcrgtmA+wAvZFKUmp62WRGcOsPo72cWSznl5NtR3IxZ/UN
-	ZMStPyMYKevNwvcWvVBplMiaz9BN2Wyb1nBEqaGaqFI1p6N9RAAplqnsCM0W1w98ljQ9qG4aqD0
-	m6svro6Cs6mqC6Eot5rQONaLCLxvRb2Bn1PxnvXlmBrv9KSRbXnEfyYEhJxuZFnG5NoQ10Wym8C
-	z7rWPabJszm4Ywsdch408BXy6vMBUQtgTviI1vVKf0CEGVA==
-X-Google-Smtp-Source: AGHT+IFTk+EvF2W9G//EcorjDe7dKdWV289H14hln+o8U9THUxAgVaqSH5tdMkI3QRz7WvL39iK3ag==
-X-Received: by 2002:a05:6a00:10d2:b0:72d:3b2e:fef9 with SMTP id d2e1a72fcca58-745fe03c2damr10085373b3a.20.1748212292052;
-        Sun, 25 May 2025 15:31:32 -0700 (PDT)
-Received: from [127.0.0.1] (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9877030sm16403042b3a.148.2025.05.25.15.31.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 May 2025 15:31:31 -0700 (PDT)
-Date: Sun, 25 May 2025 15:31:29 -0700
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: =?ISO-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-CC: Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>,
- Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>,
- Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
- Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
- Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org,
- linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v11_0/6=5D_platform/x86=3A_A?=
- =?US-ASCII?Q?dd_Lenovo_WMI_Gaming_Series_Drivers?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <2c7ffaa6-e639-e215-42d0-78a2b185ad45@linux.intel.com>
-References: <20250522015350.471070-1-derekjohn.clark@gmail.com> <2972c4c6-7080-e058-ec39-b8c1dc603f7a@linux.intel.com> <2c7ffaa6-e639-e215-42d0-78a2b185ad45@linux.intel.com>
-Message-ID: <755BCB57-A912-44BF-AD6C-6B9AFA33A340@gmail.com>
+	s=arc-20240116; t=1748222043; c=relaxed/simple;
+	bh=wskpfSBk00HYBA0Tej3B6ZAMAwJQx7pQ//EIJvQT524=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=ZZGNGiiEBjpKZYJzP2467s263QhxKK5/HWSNKCiAkDtMHxSyjT0Bz718jbu/r9jDJesSfZSMSLr9KWcb+pmC+f0FgLXZGr2xzsONFoWbkCqjbHWZBKzFcxoUXmCFUHewNc5HJ1WAlBOcsCzT28W0Z50TgS/EoFSP0MWO31B8LZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4b5Hnw0jRPz4f3kvh;
+	Mon, 26 May 2025 09:13:24 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id CC35E1A12F0;
+	Mon, 26 May 2025 09:13:50 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP4 (Coremail) with SMTP id gCh0CgC3Gl9MwDNoew4aNg--.4276S3;
+	Mon, 26 May 2025 09:13:50 +0800 (CST)
+Subject: Re: [PATCH 06/23] md/md-bitmap: add a new sysfs api bitmap_type
+To: Xiao Ni <xni@redhat.com>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: hch@lst.de, colyli@kernel.org, song@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
+References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
+ <20250524061320.370630-7-yukuai1@huaweicloud.com>
+ <CALTww2_sxkU83=F+BqBJB29-gada2=sF-cZR98e5UiARJQuNjg@mail.gmail.com>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <0e527b24-3980-2126-67f0-0958f2bc3789@huaweicloud.com>
+Date: Mon, 26 May 2025 09:13:48 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CALTww2_sxkU83=F+BqBJB29-gada2=sF-cZR98e5UiARJQuNjg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgC3Gl9MwDNoew4aNg--.4276S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw1kArWUWw4ruFykGrW8Crg_yoW3XFXEgF
+	W8XayxJ348WF1FyF12vr1SkrWUta1xtFZ5XrZ5Zwn3X34rJa9xCrZ5Cr9Iqrn7Ja1xAwnF
+	9rZ8Zr17tr95ZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbfAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+	c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
+	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
+	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
+Hi,
 
+在 2025/05/26 0:32, Xiao Ni 写道:
+>> The api will be used by mdadm to set bitmap_ops while creating new array
+> Hi Kuai
+> 
+> Maybe you want to say "set bitmap type" here? And can you explain more
+> here, why does it need this sys file while creating a new array? The
+> reason I ask is that it doesn't use a sys file when creating an array
+> with bitmap.
 
-On May 25, 2025 2:41:51 PM PDT, "Ilpo J=C3=A4rvinen" <ilpo=2Ejarvinen@linu=
-x=2Eintel=2Ecom> wrote:
->On Mon, 26 May 2025, Ilpo J=C3=A4rvinen wrote:
->
->> On Wed, 21 May 2025, Derek J=2E Clark wrote:
->>=20
->> > Adds support for the Lenovo "Gaming Series" of laptop hardware that u=
-se
->> > WMI interfaces that control various power settings=2E There are multi=
-ple WMI
->> > interfaces that work in concert to provide getting and setting values=
- as
->> > well as validation of input=2E Currently only the "Gamezone", "Other
->> > Mode", and "LENOVO_CAPABILITY_DATA_01" interfaces are implemented, bu=
-t
->> > I attempted to structure the driver so that adding the "Custom Mode",
->> > "Lighting", and other data block interfaces would be trivial in later
->> > patches=2E
->> >=20
->> > This driver attempts to standardize the exposed sysfs by mirroring th=
-e
->> > asus-armoury driver currently under review=2E As such, a lot of
->> > inspiration has been drawn from that driver=2E
->> > https://lore=2Ekernel=2Eorg/platform-driver-x86/20250319065827=2E5347=
-8-1-luke@ljones=2Edev/#t
->> >=20
->> > The drivers have been tested by me on the Lenovo Legion Go and Legion=
- Go
->> > S=2E
->> >=20
->> > Suggested-by: Mario Limonciello <superm1@kernel=2Eorg>
->> > Reviewed-by: Armin Wolf <W_Armin@gmx=2Ede>
->> > Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
->> > ---
->> > v11:
->> >   - Fix formmating issues=2E
->>=20
->> Thanks for the update, I've applied this now into the review-ilpo-next=
-=20
->> branch=2E BUT, this is very late in the cycle now and if there's a buil=
-d=20
->> issue (or LKP doesn't build test it in reasonable time), I'll have to d=
-rop=20
->> this series and postpone it into the next cycle as I don't want to dela=
-y=20
->> the main PR to Linus too long=2E
->>=20
->> But lets hope for the best, I think some depends on issues were fixed=
-=20
->> earlier (IIRC), so hopefully it works good enough now=2E :-)
+I do mean mddev->bitmap_ops here, this is the same as mddev->pers and
+the md/level api. The mdadm patch will write the new helper before
+running array.
+> 
+> And if it really needs this, can this be gotten by superblock?
 
->Hmpf, these give me a few new warnings related to this series:
->
->make W=3D1 drivers/platform/x86/
->make C=3D2 drivers/platform/x86/
->
->=2E=2E=2EI really don't know why sparse complains about the lock context=
-=20
->imbalance though, those functions use guard()=2E
-
-Hmm, I'll take a look at it=2E
-
-Is there a comprehensive list of all tests that need to be run? I'd like t=
-o improve my process to avoid these in the future=2E
-
->There's also a copy-paste error:
->
-> * lwmi_gz_profile_get_get() - Get the current platform profile=2E
->
->=2E=2E=2E_get_get -> =2E=2E=2E_set
->Get -> Set
-
-
-Do you want me to submit v12 whenever it's ready,  or wait for the merge w=
-indow to open? Trying to avoid too much noise on your end=2E
+Theoretically, I can, however, the bitmap superblock is read by
+bitmap_ops->create method, and we need to set the bitmap_ops
+first. And changing the framwork will be much complex.
 
 Thanks,
-- Derek
+Kuai
+
