@@ -1,230 +1,141 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE1E1A23A6;
-	Mon, 26 May 2025 20:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C8C84D13;
+	Mon, 26 May 2025 21:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748292315; cv=none; b=GxHRBqLjbcUuRcc5peFPLmADaujC0uVOf/q7QZZvevH5XIwFwDXkfYjUYpJ34mZZpoCx4BOOzzXl5fTEUlCU5O4gMozQv0MhP/h95ctaSK/+gm9hYRoJ0lU/SvyCQXp7lZ6JHFF5zzRQPxkz+n/XekBn1x0GyIJPjP/vbCsmHdo=
+	t=1748293782; cv=none; b=ZQ5X0TsyPtbxWAmO+Bm8G79LYHmMs57imS1NMp0Un9wMbVrzs2sKvCIL+JpY3O1nY4HNj/lH2LSMMitOgeY1aMxPZK4BCkzdjlmyN3JKuFkAltjunbPBM+r23IU3R8blGvMCyKwSa7x2ZDp2ZROO1Iu7eDHMhPzIHCiQJrkdCOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748292315; c=relaxed/simple;
-	bh=8XlFPKAgRZu8iNf7wu/BNssYGbs3cVElibPBDElcwUs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CoTOxQYKPAeNEack0ecsxWpTIGvedSKgThZVRAMTDQA/ov6gQ9XXwLIXzCphe6zi+0Y18p8M8eFwf1C0+USt++f7GN+8CDS/gAJaqtUHNVM8C7GY5NcsUwGtQhb9RsXlimJDnQMFnyS0SFmMJx/6GmcDpnRVbkDGqrY/SqRg4Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gd7sQbpK; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748293782; c=relaxed/simple;
+	bh=Oi6m9zluj9+upljpAJCCZuQWC64rKRxq5v43Dw2FA6s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eE2SgbQfG9UuUpnr5PI5ebR9RIEodwe9XfQBiJSTqW+hsUrHmlWmBoSwjwFRtr0mKJScmdy8YgHt/4n/88FSLAQm0qfNWr7AiTylU/fAds7gELWdFu+TNNbWilCPu1SRezm5wdU5h1RqxhNzDeON6pG/1oXRERJRmvBFBZh3Q3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=STloriLV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gd7sQbpK"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e7db5b0ddb1so139592276.2;
-        Mon, 26 May 2025 13:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748292312; x=1748897112; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Rqf564IOkfuJ6413mTRFf6vGhtbkwIX3nVlwVv5RmSQ=;
-        b=gd7sQbpKACMcly2FkJKdWqcF8eAohKD8pghxCtrLuZ4aSEOhmEA/Xv6VixN/83nJGz
-         2fYAdVeZ11Y2TNvtxy9POd2BKHVKtywSXReiwQUDyY0X5rSSUmXYgrQdI3L2zjvZ0bhb
-         MbrjctrHG/U34c4mdlExXf+KxChmF6a/A3PLfsVIgRloWqrwqa+7HBMpdgJB+/syzvWb
-         3zYhYLFd4Kl4dlkXvycX3ZROZ/xnJC5WZ82Tf5sGW3S46GtIFMhqT4kVJ7XOlEXvPAsc
-         EgsOUEK8+2P+8za8dBXdIYG2gXEFm7cvw4KPVPDHUoGpXUJJKSw1DWTkb/+EBU85gVqh
-         VNdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748292312; x=1748897112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Rqf564IOkfuJ6413mTRFf6vGhtbkwIX3nVlwVv5RmSQ=;
-        b=Hm9TAcnzwiXhwgBTcSxV9wEnzE6Nfu8nmDDc9OabE2dUExoJz2wUshHXlBqjyvBpcY
-         XS5xlC4Rb2km729SmQjoCZbkEUX0fi4Z6k9jgqfd2EQ35gL+UnivDPdFsmlS4m6HO4kC
-         OuHYNWj6qCI5bOjq3LO2JlkmJuur/vSheGuqUyIYCi+hB46RKyfkDcWzgUFLvBTQ9X8u
-         I1CIEXtrVWKQM85LWINosdLyfTyGk681TKN2Km2UTar734QTPcLuOVSnpiOjV+HWiG/z
-         aQse6NgZ9YwSrFfZYpH51KJ33xcZJcEqH2QQwQeBJqthkIoToOJ4LTNrC3pd8U47bZg2
-         nlaA==
-X-Forwarded-Encrypted: i=1; AJvYcCW09K8Rrf5kwmBm3qHRsN8vGADGMtSpuBDCNyU5QWURZOtFAgCJIqc44TmiEt1gglATA7Pc8SJYJblnBppO@vger.kernel.org, AJvYcCWaGCL/bDsZfopShcObuyGgUPgjrPoGOLdvRRegJn1a0ANfmWpb+flz4loErG+/sea52PEDvREWjWSi@vger.kernel.org, AJvYcCXWH2OZfaRJX5X2JFIjPptUkLh/M78NjCTEr5NYV/v5Kv6h/2Y0Hy6C0IpalILC2goncNcCKgZk0Dc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcnLESfn2GSh86iSnBRIbmdMvfEf0EfieAGHRvLXWg3NR7gQqb
-	VVomWObgeBU/uquAUYGgVWXMWESsX2eS/I2hJaEO0vBtEGD0jAB7vxkxliUhypSYJtl+sgrPg13
-	1FQPyUOAErkLJMRmnS6uM3sguHh1MbFCCM98j
-X-Gm-Gg: ASbGncvuAFdYSw95NDaMYQVmikBJlp72DlReqlRQG0aXNlpLaMemz0Hq1arTQm3EvL4
-	w+PFPbVJbEFHjyvxr6tOemLwPXFg1QhOgAJACCEWh3pXV0A2Ca8A8b2biWOutwhCX/r6kuATic+
-	jJAOp9VNxHzu+NvKnenAC9QS4oBZnallHoLWfUamZD22I=
-X-Google-Smtp-Source: AGHT+IGdBy5zw4tTzbnTdoJ6ppl77oUzVRKJu8Q+Tu2nce+ksoqH7+b9/m0gtrRcpaYpMh/JI1/29vanzAd5xvFReh8=
-X-Received: by 2002:a05:690c:4d03:b0:70e:4745:33d4 with SMTP id
- 00721157ae682-70e474534d2mr39344047b3.7.1748292312213; Mon, 26 May 2025
- 13:45:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="STloriLV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D41C4CEE7;
+	Mon, 26 May 2025 21:09:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748293781;
+	bh=Oi6m9zluj9+upljpAJCCZuQWC64rKRxq5v43Dw2FA6s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=STloriLVBeMKppjjdQPNQViDlg9IzHsHKwKh2FvRoKdtK3pMZR64tmTyNr8jTPRra
+	 mwCXo2djmbcXwFh3Diw76oAiHdM8luheSHGssJBt4mCXSZuhnVM978uW7xhnHz8tvx
+	 k/8+GT71v+R+mvZ80fxhf2sTgDemhQGb9pBOiKNUGaZKkqp0ycQm9dbzsuDruAdqtK
+	 Wsm9DyEsoyc9H1trgTSrpi+1mxp8Ntrbk0DtVWQHBQK2PIOBTRwKOqSvXPVyTeAmZw
+	 i82rZkmZ51I8D60XTxj45vPJd3t98e+ybS2V42uR4CVw2thERJGSO8sA080/rx/wBe
+	 M/rKecMlArLyA==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 0/4] mm/damon: introduce DAMON_STAT for simple and practical access monitoring
+Date: Mon, 26 May 2025 14:09:32 -0700
+Message-Id: <20250526210936.2744-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250523223523.35218-1-l.rubusch@gmail.com> <20250523223523.35218-5-l.rubusch@gmail.com>
- <20250525132216.0bbc7067@jic23-huawei>
-In-Reply-To: <20250525132216.0bbc7067@jic23-huawei>
-From: Lothar Rubusch <l.rubusch@gmail.com>
-Date: Mon, 26 May 2025 22:44:35 +0200
-X-Gm-Features: AX0GCFuNL-6WiLGB2hsMgCme7HXIhsANbBf-3eOD4wpjLlWpAt_OeqCzXs3Td90
-Message-ID: <CAFXKEHa5pK_wc+JJR1EWtJt=Z5Dwj-+rKD9+W-sEMn7uxFNvcg@mail.gmail.com>
-Subject: Re: [PATCH v3 04/12] iio: accel: adxl313: make use of regmap cache
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net, 
-	lucas.p.stankus@gmail.com, lars@metafoo.de, Michael.Hennerich@analog.com, 
-	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+DAMON-based access monitoring is not simple due to required DAMON
+control and results visualizations.  Introduce a static kernel module
+for making it simple.  The module can be enabled without manual setup
+and provides access pattern metrics that easy to fetch and understand
+the practical access pattern information, namely estimated memory
+bandwidth and memory idle time percentiles.
 
-On Sun, May 25, 2025 at 2:22=E2=80=AFPM Jonathan Cameron <jic23@kernel.org>=
- wrote:
->
-> On Fri, 23 May 2025 22:35:15 +0000
-> Lothar Rubusch <l.rubusch@gmail.com> wrote:
->
-> > Setup regmap cache to cache register configuration. This is a preparato=
-ry
-> > step for follow up patches, to allow easy acces to the cached
-> > configuration.
->
-> I think this stands on it's own given registers like the calibbias
-> are already both written and read from.  So I'd generalize the justificat=
-ion
-> to simply reducing unnecessary bus traffic.
->
+Background and Problems
+=======================
 
-I (think I) need regmap cache especially for activity / inactivity.
-For instance, using cached settings should make it easier to verify
-what was enabled when evaluating incomming interrupts. I will rework
-the commit message here.
+DAMON can be used for monitoring data access patterns of the system and
+workloads.  Specifically, users can start DAMON to monitor access events
+on specific address space with fine controls including address ranges to
+monitor and time intervals between samplings and aggregations.  The
+resulting access information snapshot contains access frequency
+(nr_accesses) and how long the frequency was kept (age) for each byte.
 
-Best,
-L
+The monitoring usage is not simple and practical enough for production
+usage.  Users should first start DAMON with a number of parameters, and
+wait until DAMON's monitoring results capture a reasonable amount of the
+time data (age).  In production, such manual start and wait is
+impractical to capture useful information from a high number of machines
+in a timely manner.
 
-> Jonathan
->
-> >
-> > Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
-> > ---
-> >  drivers/iio/accel/adxl313.h      |  2 ++
-> >  drivers/iio/accel/adxl313_core.c | 17 +++++++++++++++++
-> >  drivers/iio/accel/adxl313_i2c.c  |  6 ++++++
-> >  drivers/iio/accel/adxl313_spi.c  |  6 ++++++
-> >  4 files changed, 31 insertions(+)
-> >
-> > diff --git a/drivers/iio/accel/adxl313.h b/drivers/iio/accel/adxl313.h
-> > index 72f624af4686..fc937bdf83b6 100644
-> > --- a/drivers/iio/accel/adxl313.h
-> > +++ b/drivers/iio/accel/adxl313.h
-> > @@ -54,6 +54,8 @@ extern const struct regmap_access_table adxl312_writa=
-ble_regs_table;
-> >  extern const struct regmap_access_table adxl313_writable_regs_table;
-> >  extern const struct regmap_access_table adxl314_writable_regs_table;
-> >
-> > +bool adxl313_is_volatile_reg(struct device *dev, unsigned int reg);
-> > +
-> >  enum adxl313_device_type {
-> >       ADXL312,
-> >       ADXL313,
-> > diff --git a/drivers/iio/accel/adxl313_core.c b/drivers/iio/accel/adxl3=
-13_core.c
-> > index 06a771bb4726..0c893c286017 100644
-> > --- a/drivers/iio/accel/adxl313_core.c
-> > +++ b/drivers/iio/accel/adxl313_core.c
-> > @@ -46,6 +46,23 @@ const struct regmap_access_table adxl314_readable_re=
-gs_table =3D {
-> >  };
-> >  EXPORT_SYMBOL_NS_GPL(adxl314_readable_regs_table, IIO_ADXL313);
-> >
-> > +bool adxl313_is_volatile_reg(struct device *dev, unsigned int reg)
-> > +{
-> > +     switch (reg) {
-> > +     case ADXL313_REG_DATA_AXIS(0):
-> > +     case ADXL313_REG_DATA_AXIS(1):
-> > +     case ADXL313_REG_DATA_AXIS(2):
-> > +     case ADXL313_REG_DATA_AXIS(3):
-> > +     case ADXL313_REG_DATA_AXIS(4):
-> > +     case ADXL313_REG_DATA_AXIS(5):
-> > +     case ADXL313_REG_FIFO_STATUS:
-> > +             return true;
-> > +     default:
-> > +             return false;
-> > +     }
-> > +}
-> > +EXPORT_SYMBOL_NS_GPL(adxl313_is_volatile_reg, "IIO_ADXL313");
-> > +
-> >  static int adxl312_check_id(struct device *dev,
-> >                           struct adxl313_data *data)
-> >  {
-> > diff --git a/drivers/iio/accel/adxl313_i2c.c b/drivers/iio/accel/adxl31=
-3_i2c.c
-> > index a4cf0cf2c5aa..e8636e8ab14f 100644
-> > --- a/drivers/iio/accel/adxl313_i2c.c
-> > +++ b/drivers/iio/accel/adxl313_i2c.c
-> > @@ -21,6 +21,8 @@ static const struct regmap_config adxl31x_i2c_regmap_=
-config[] =3D {
-> >               .rd_table       =3D &adxl312_readable_regs_table,
-> >               .wr_table       =3D &adxl312_writable_regs_table,
-> >               .max_register   =3D 0x39,
-> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
-> > +             .cache_type     =3D REGCACHE_MAPLE,
-> >       },
-> >       [ADXL313] =3D {
-> >               .reg_bits       =3D 8,
-> > @@ -28,6 +30,8 @@ static const struct regmap_config adxl31x_i2c_regmap_=
-config[] =3D {
-> >               .rd_table       =3D &adxl313_readable_regs_table,
-> >               .wr_table       =3D &adxl313_writable_regs_table,
-> >               .max_register   =3D 0x39,
-> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
-> > +             .cache_type     =3D REGCACHE_MAPLE,
-> >       },
-> >       [ADXL314] =3D {
-> >               .reg_bits       =3D 8,
-> > @@ -35,6 +39,8 @@ static const struct regmap_config adxl31x_i2c_regmap_=
-config[] =3D {
-> >               .rd_table       =3D &adxl314_readable_regs_table,
-> >               .wr_table       =3D &adxl314_writable_regs_table,
-> >               .max_register   =3D 0x39,
-> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
-> > +             .cache_type     =3D REGCACHE_MAPLE,
-> >       },
-> >  };
-> >
-> > diff --git a/drivers/iio/accel/adxl313_spi.c b/drivers/iio/accel/adxl31=
-3_spi.c
-> > index 9a16b40bff34..68e323e81aeb 100644
-> > --- a/drivers/iio/accel/adxl313_spi.c
-> > +++ b/drivers/iio/accel/adxl313_spi.c
-> > @@ -24,6 +24,8 @@ static const struct regmap_config adxl31x_spi_regmap_=
-config[] =3D {
-> >               .max_register   =3D 0x39,
-> >               /* Setting bits 7 and 6 enables multiple-byte read */
-> >               .read_flag_mask =3D BIT(7) | BIT(6),
-> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
-> > +             .cache_type     =3D REGCACHE_MAPLE,
-> >       },
-> >       [ADXL313] =3D {
-> >               .reg_bits       =3D 8,
-> > @@ -33,6 +35,8 @@ static const struct regmap_config adxl31x_spi_regmap_=
-config[] =3D {
-> >               .max_register   =3D 0x39,
-> >               /* Setting bits 7 and 6 enables multiple-byte read */
-> >               .read_flag_mask =3D BIT(7) | BIT(6),
-> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
-> > +             .cache_type     =3D REGCACHE_MAPLE,
-> >       },
-> >       [ADXL314] =3D {
-> >               .reg_bits       =3D 8,
-> > @@ -42,6 +46,8 @@ static const struct regmap_config adxl31x_spi_regmap_=
-config[] =3D {
-> >               .max_register   =3D 0x39,
-> >               /* Setting bits 7 and 6 enables multiple-byte read */
-> >               .read_flag_mask =3D BIT(7) | BIT(6),
-> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
-> > +             .cache_type     =3D REGCACHE_MAPLE,
-> >       },
-> >  };
-> >
->
+The monitoring result is also too detailed to be used on production
+environments.  The raw results are hard to be aggregated and/or compared
+for production environments having a large scale of time, space and
+machines fleet.
+
+Users have to implement and use their own automation of DAMON control
+and results processing.  It is repetitive and challenging since there is
+no good reference or guideline for such automation.
+
+Solution: DAMON_STAT
+====================
+
+Implement such automation in kernel space as a static kernel module,
+namely DAMON_STAT.  It can be enabled at build, boot, or run time via
+its build configuration or module parameter.  It monitors the entire
+physical address space with monitoring intervals that auto-tuned for a
+reasonable amount of access observations and minimum overhead.  It
+converts the raw monitoring results into simpler metrics that can easily
+be aggregated and compared, namely estimated memory bandwidth and idle
+time percentiles.  Refer to the commit messages of the second and the
+third patches of this patch series for more details about the metrics.
+
+Discussions
+===========
+
+The module aims to be useful on production environments constructed with
+a large number of machines that run a long time.  The auto-tuned
+monitoring intervals ensure a reasonable quality of the outputs.  The
+auto-tuning also ensures its overhead be reasonable and low enough to be
+enabled always on the production.  The simplified monitoring results
+metrics can be useful for showing both coldness (idle time percentiles)
+and hotness (memory bandwidth) of the system's access pattern.  We
+expect the information can be useful for assessing system memory
+utilization and inspiring optimizations or investigations on both kernel
+and user space memory management logics for large scale fleets.
+
+We hence expect the module is good enough to be just used in most
+environments.  For special cases that require a custom access monitoring
+automation, users will still benefit by using DAMON_STAT as a reference
+or a guideline for their specialized automation.
+
+Revision History
+================
+
+Changes from RFC
+(https://lore.kernel.org/20250519164415.43935-1-sj@kernel.org)
+- Add an admin-guide documentation
+- Wordsmith commit messages
+- Rebase to latest mm-new
+
+SeongJae Park (4):
+  mm/damon: introduce DAMON_STAT module
+  mm/damon/stat: calculate and expose estimated memory bandwidth
+  mm/damon/stat: calculate and expose idle time percentiles
+  Docs/admin-guide/mm/damon: add DAMON_STAT usage document
+
+ Documentation/admin-guide/mm/damon/index.rst |   1 +
+ Documentation/admin-guide/mm/damon/stat.rst  |  69 ++++++
+ mm/damon/Kconfig                             |  16 ++
+ mm/damon/Makefile                            |   1 +
+ mm/damon/stat.c                              | 245 +++++++++++++++++++
+ 5 files changed, 332 insertions(+)
+ create mode 100644 Documentation/admin-guide/mm/damon/stat.rst
+ create mode 100644 mm/damon/stat.c
+
+
+base-commit: 90887f57d7a67917136e7c70d26fb3f2fcdc6f53
+-- 
+2.39.5
