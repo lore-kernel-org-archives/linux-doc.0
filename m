@@ -1,223 +1,200 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2064.outbound.protection.outlook.com [40.107.244.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EF02101BD;
-	Mon, 26 May 2025 12:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748264187; cv=fail; b=GfMjDqyNBuelulp18Bw2bdeC0p63p6wxvERJRqyWlJ78qqrdNekq9U/vqJUl+MUR1Jf+/bLj/OPwK/PLUXqMUdN7Cgwu9ttrvWxua0/bUbCnpAnDQhuP91jPO+1D/oXigKelr33ijRbI0PRO4BZ3e7Gk0SB3CFJRrjvWQL8mylo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748264187; c=relaxed/simple;
-	bh=jhpGfvv6CWUzPoQCHO3Atk0OtyqOuJlyW3j0S+K3L1o=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PbTKkerbg+2aqvND6X6K13BN6YLCa4MiPNcYxlOCpyz6kSLppp91oa4sEa0jDOibfentYsIqof1JWM0rrY5s8Qno1drfiuk9S9uASHVEn4aoW7alQNLRUkt5rEdZ2DIu2Gv+MB5563KIIo2msH78GNr3BedznzyECqer+hVLq2o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LBYjKjgo; arc=fail smtp.client-ip=40.107.244.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6402D1DD9AD
+	for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 13:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748265263; cv=none; b=UtDc6RaK4kQEK0KEr+AnBT10usDWvIaGaW2AMgPCjQO97LwB4PWxR1uQZ4uL4GQr+ALGA3c4c9t6FV1QOpvoDP2OpLjajssGkN2AHzGhV5KWyRNSgXa6VgLhfVWado1PXnpUU/FEi+TtQj5S6JIr6OzMH765KIEYmmGKSJMfFWA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748265263; c=relaxed/simple;
+	bh=bO/0Xaesh46tkH/6EtZkwZJC/Ke1U0YJEB9UHrN+Dm8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D1q7IltMLS0f3kuYc6tpElYQVS+mnkmvvgBsbokJKT3dLgpq7Xa+iMYpelEFZkAyJMrxd8Lime78lYqaxOXEWaAACuM3pEirHmQsXN2GW2cu6zbrRNEmwrCEzEy/az1W5BQAc7SQmVbuSSp3PWYi/hZLCNv+dR0loKCGvL7y5I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KUUxQOio; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LBYjKjgo"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Clb7ykSBid4sQQsY2ifx7GstAIzsuMnC4MjEx1xvylR4KLKJ6AvOlmarIaSKS28UKTj7q6oiaWPyWoxwup64zX/uTd3G1GukcheW0MH4+YupEyecIOdulsCTjdLYMdpe32t/joIEn5DT/e7l5Tc06ZixyHKsPpeIwg/njwEDRG2JfenBKy+vaax+j6HvxRJ26YKU+yQw0PiKl26gWdpdms6xzog6LL5uqM3i67FPxOHZWqw3IqqOO43ZFwRyXdBR56pFhdmSGPt/In0GPU+N2et2n5YP2aVaLGi1pexcFYN8xbQwtbC4dwK4JAu5KiYD3WLuObP99b0NqTLeQE7Zyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zw2huqsza4q5J5wpoyqjqOyZRA3CmN84hy7iWKy+kRo=;
- b=ilxMDph2jqKAQQbA+ps9GNqjNcTDXXxu2SSljW9/r8kBPEYG15xdEJYedjqO4YJ49oaq0CQ8oQNiFq3qkpz4s1ACWqmUIHc8HGzzyaRhiHFisytO3wjC81pOoSu4+ujJwTJy4MOqCQQKKPO9k5vVde2zGHHgRS7mn0t4zVWKHc/8z9gZqTccNA0wO1arTHXFckjf1sCSfNLOS1umgJJRZ7wpDIm3NHxf3+totAqCEosgTd8tTUHeRQW7ulqSBHIJWLPP4wO05qDIOOaZygdkv1hcym9uZvdw1KhkAuuX7npsaSefHe56ZLftujydxz1dTH4pu54NwzBdIX8HgCDUtQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zw2huqsza4q5J5wpoyqjqOyZRA3CmN84hy7iWKy+kRo=;
- b=LBYjKjgoDeXApNYl6PDVywXke+ZXvDt/f2zXkoDh1c4OofooOHyVj9Ecqfhj6nFz8ZrM0myHjik2Xeo4Lp1Rfi+ECJmv8JHiJiTuNK4zAu72Og2cU4TaEj6ms9xJ6CGdJVEKaKKmtHelG5AQS617o3tGX+8eiNf4Ogxb99CBNrA=
-Received: from BYAPR01CA0039.prod.exchangelabs.com (2603:10b6:a03:94::16) by
- PH0PR12MB7862.namprd12.prod.outlook.com (2603:10b6:510:26d::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8699.20; Mon, 26 May 2025 12:56:21 +0000
-Received: from SJ1PEPF00001CE6.namprd03.prod.outlook.com
- (2603:10b6:a03:94:cafe::2b) by BYAPR01CA0039.outlook.office365.com
- (2603:10b6:a03:94::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Mon,
- 26 May 2025 12:56:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00001CE6.mail.protection.outlook.com (10.167.242.22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8769.18 via Frontend Transport; Mon, 26 May 2025 12:56:21 +0000
-Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 26 May
- 2025 07:56:17 -0500
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, "Jonathan
- Corbet" <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>, "Danilo
- Krummrich" <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Lucas
- Stach" <l.stach@pengutronix.de>, =?UTF-8?q?Ma=C3=ADra=20Canal?=
-	<mcanal@igalia.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v11 09/10] drm/doc: Document some tracepoints as uAPI
-Date: Mon, 26 May 2025 14:54:51 +0200
-Message-ID: <20250526125505.2360-10-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KUUxQOio"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6020ff8d54bso3615608a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 06:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1748265259; x=1748870059; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w4+k+Nu4YkKy6LiE5cuySMYYEE0NwgP2DNr9A1G8YXc=;
+        b=KUUxQOioZeOAGszWiKDU3uq0iFdDVn77YVhuo2ERuRq1WW3ra4JBYNaAJVVw2IXUoa
+         QGQZruTsgNepWFNjHEUjzwQTd+1rHFDCNnDtIhT802sYepmgQYUxW6giRHH3irY+JEwk
+         3RmM0EBM0ZPDowE2ygC13debGBCSM9DzH1MYQS9zeGfQWK5QWN8froVEqrcPLGL83j6N
+         pHPkyhTuNRXprjXN2rZ+x2jC3uks9HEQC9seYUO2Yj8AmSOGhDzW3p5gIyQk2bgsiQfx
+         xDEvU3RWlpHrsUUG6YN92CPre/UEowdrXmawQejmjgdHzRV1a1IMzCxlfd9/EY3zBmlC
+         izpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748265259; x=1748870059;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w4+k+Nu4YkKy6LiE5cuySMYYEE0NwgP2DNr9A1G8YXc=;
+        b=Yq1OJp77L9Tqx7m9naTpwVYsiX+geUftGAlVmxlyN7rLY+HUuc4XdlMcfs5WPf68pQ
+         +ULXDQ83W+LWf6Tg0v0/JGkAbZeGnbP4mZB8kJ9bgwfrBbZyP4UULn+OyVnh//nhEBM3
+         bJqqoBDbMxS7yjH6ZK7EmXcgrJBZEOj4ipfaIcZ/oFKLJM/mwuXIrp+NhXRZsPdhyH0R
+         HlY2jLC0uqHvJgYFv0+m/7Ry2IhzAU5+XCLaIE1Frh9GUoE5jyvuACQ9/Gk7fLd9HWqM
+         wIqFgfXq4DA/f/UYN24SRxhFMjlqocCF8soQAvOTrMsVFlQxpI+Z3LTzXXgUrDWUTaob
+         /3mw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpDKU1y/yd/KeOdqzP6efZu2X6+Pm1LDECs3WioTZnINVziKRsPLKJ+QxY6hLKvZaz5YCW7uzsrL4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywe+Yiec+8WVEtJZo73WhCe5zEawRpgqrlE4eo0Ht6QLz+BgaSb
+	Jjh0iUhGuSu2fuHSfJQ/MJNL6BoCO77HjvYt8lY8JP/XNR7N30vR72FgtqQ+DLh+qZs+vmf9BXI
+	W9o1NyX0VL7KrN9HFcZ0zZVpqcCL71BaQtE8WnQXJ
+X-Gm-Gg: ASbGncuW3eyt2luy6CW8VZKmtpE0YaJUb+P4xIjaqJrwUQjU11T5WktgwfxRzDXQXUe
+	XR30fjfZwj6TL8JqYpGgmTFZDycc6S+4cqLjCK2/VNx8wJeneqENbA/A4W+2sIeb1H/lV6X1X94
+	TZ1TPZbptErVGlAEPSuLfImzmng8zOLnq3gXRolg2W30Dj4LU9ISNiLSyZiFjtpMg1toCLufh66
+	Zgz2dpLdDrV
+X-Google-Smtp-Source: AGHT+IGSDYm4oUBrMvAWr4qV6JEwgtkxAoXA09ViNidu+7oqcKIQevQbpQyCq8UT33Rf3UPLw9iojM9JPNyO0bGNSiY=
+X-Received: by 2002:a05:6402:5cb:b0:5f8:36b2:dc1a with SMTP id
+ 4fb4d7f45d1cf-602d9dfb022mr6373984a12.16.1748265259311; Mon, 26 May 2025
+ 06:14:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <cover.1747349530.git.babu.moger@amd.com> <e7e8f489ef148a4dcd5837d71c83efad47b5b7c3.1747349530.git.babu.moger@amd.com>
+ <dd195d60-3e40-42be-88e5-7f3bbbba63ce@intel.com> <SJ1PR11MB6083C5179F98E3873CA34C35FC99A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <aDDjs4PZxeouNJr0@agluck-desk3>
+In-Reply-To: <aDDjs4PZxeouNJr0@agluck-desk3>
+From: Peter Newman <peternewman@google.com>
+Date: Mon, 26 May 2025 15:14:08 +0200
+X-Gm-Features: AX0GCFs_DCKZgy9xuJ0w8LNwHoWYFzGA3d96dNjxjpA4WAsm7kDE__eyTTN92UE
+Message-ID: <CALPaoCj7FBv_vfDp+4tgqo4p8T7Eov_Ys+CQRoAX6u43a4OTDQ@mail.gmail.com>
+Subject: Re: [PATCH v13 11/27] x86/resctrl: Implement resctrl_arch_config_cntr()
+ to assign a counter with ABMC
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "Chatre, Reinette" <reinette.chatre@intel.com>, Babu Moger <babu.moger@amd.com>, 
+	"corbet@lwn.net" <corbet@lwn.net>, "tglx@linutronix.de" <tglx@linutronix.de>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "james.morse@arm.com" <james.morse@arm.com>, 
+	"dave.martin@arm.com" <dave.martin@arm.com>, "fenghuay@nvidia.com" <fenghuay@nvidia.com>, 
+	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"paulmck@kernel.org" <paulmck@kernel.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "thuth@redhat.com" <thuth@redhat.com>, 
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, "ardb@kernel.org" <ardb@kernel.org>, 
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
+	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>, 
+	"jpoimboe@kernel.org" <jpoimboe@kernel.org>, 
+	"alexandre.chartre@oracle.com" <alexandre.chartre@oracle.com>, 
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>, 
+	"thomas.lendacky@amd.com" <thomas.lendacky@amd.com>, "perry.yuan@amd.com" <perry.yuan@amd.com>, 
+	"seanjc@google.com" <seanjc@google.com>, "Huang, Kai" <kai.huang@intel.com>, 
+	"Li, Xiaoyao" <xiaoyao.li@intel.com>, 
+	"kan.liang@linux.intel.com" <kan.liang@linux.intel.com>, "Li, Xin3" <xin3.li@intel.com>, 
+	"ebiggers@google.com" <ebiggers@google.com>, "xin@zytor.com" <xin@zytor.com>, 
+	"Mehta, Sohil" <sohil.mehta@intel.com>, 
+	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>, 
+	"mario.limonciello@amd.com" <mario.limonciello@amd.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>, "Eranian, Stephane" <eranian@google.com>, 
+	"Xiaojian.Du@amd.com" <Xiaojian.Du@amd.com>, "gautham.shenoy@amd.com" <gautham.shenoy@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE6:EE_|PH0PR12MB7862:EE_
-X-MS-Office365-Filtering-Correlation-Id: d43c0d50-3325-4015-7361-08dd9c54b714
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|1800799024|36860700013|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?YXdvSXdDSVpLUitud0EzZ0ZQMks0NUFqYmxqTlFsME42azJ5MUtlKzc4aFps?=
- =?utf-8?B?N200eVhQcHM2d1hvYWYwZHZyZjlZRmRreHNlMzEzTHZHTnRodlh3QjRIMXFn?=
- =?utf-8?B?RkVyc2IwcUNKYkd2T2wrQVlQWCthWkFsVkNyL01DdTVDNU1ZYll4cll2NWVu?=
- =?utf-8?B?N3lTRE1GK3hoVW91bG9BRVhtcFVwOXlsU3NNVmVHeHZ6V2s5aEl0MDgvSHN0?=
- =?utf-8?B?dlFQQmVsY2RLcWxCc3c2RWN5UnpNbVh2TytaalBGT2RMQ1V2Rjhpa0loYUMv?=
- =?utf-8?B?M1lYTTV1ckFmRjlqZGpiKzVNN2kwOGF0djlzOUFWZEl0VG9oeTJwazBicjZV?=
- =?utf-8?B?d29YazRMRlgxTHVZUHFkajNIUnFmU0J2MUY5YU54Y041bHdTcWY0aG5HaDVs?=
- =?utf-8?B?M2ZMdkhvNTRlODdMQkdJWHYvdHU4NHZmbVlQNnJrWHNMaTFvdVExYWJONlpF?=
- =?utf-8?B?K2QyVzhsWTFnSjhLZEVpbzl5UDdVUXZLSFhMZzFQM2g0WXhKR3dKbG1VNlVN?=
- =?utf-8?B?Z2g5aGloV3RoL3doN09IenBqb2FIaXVtc0ZQNnQxNmNuNU1xdjZGNjFwUE5h?=
- =?utf-8?B?c2NUZXNEN1VKV2N4eCtMRTJVT2VqOTJjSW9XektuZlRJT21XY1ZyRmdXQnI4?=
- =?utf-8?B?MUpWZEhCQ1ZhajlVa3VVTXJ0OGFDanZjamJKdFVwOUp4NGFWdzFhS3k0QjB2?=
- =?utf-8?B?YVJsWWlHT3BHYzhWeFA3eWp1Nnd6V2xXeGtuWnFHM2RsZkYxMENDeGhqa2c0?=
- =?utf-8?B?cjR3eWRIYVFIbXRXckZmaHEzWGsyd2phcWNqRExTWkRSU0xOVHNRMnVrZTQx?=
- =?utf-8?B?UHpCQnZOSVpPNHcvVE5zalJqWHJ0QzlLNENuY3BvZ1lMWndZSVBuT29Id3BC?=
- =?utf-8?B?Mktma3RmY1VFRW12SitidnZabDlTSlNtQjdMREpRdksrWFpxKzZ4MEkzN1BI?=
- =?utf-8?B?MjF0Y1M3Ui95a0orTStsS1kzUWlwMGRRblJTS3BYaU5zbUJDMHFzcXdzdUxC?=
- =?utf-8?B?aFdzbVEzeTc4WlFnYmR5bDY2bFhIamh6SmM2QTdWcVRSTktJZTNxaEVmTnZV?=
- =?utf-8?B?d1p1SkVUMzNnM3dvNjN6RFVvVVJQNVhqeXZob0ZhVVp5dDFGN0wwRnRiTVIw?=
- =?utf-8?B?MDBmVSs4RlJKZ0p1eEhXdnRFc2xZK1IrL3B6d2xkMmd3K0JwODYzUDNRZ0o0?=
- =?utf-8?B?NWp4OXN6MENDVDI2MkZmbDB6TWZvRnRQbUVMS2o2NFg1RlJBeVpSSXpyMTYw?=
- =?utf-8?B?dFZKNUNXdzFJUkpFUCszSC8zOThPZHBycFRsQ3hLekRyQldmelowemRCTmNn?=
- =?utf-8?B?aUtBRmxlWnVncGtZNVEvTTQvVUdyQzIvWklseS9uTUVGdkNZYUI4RXlReE5s?=
- =?utf-8?B?TmJ0enB5ckxpZGU1OEZZa3UxMzE1UHBCbXZWSjNRbDFndzFzNnpzWGR3TjFu?=
- =?utf-8?B?RHF2R3ZkVTdJTkswL3pCR21rcDJZd1d4VGllSEozbUg4MjV1TE54cWJPT1kw?=
- =?utf-8?B?N3Nqa3hXaFYwTGZiTWhyT21vU21FNlZPU1dFdng2Z1NvbFNqUmp6cDgranda?=
- =?utf-8?B?RHFOQW9xT2hOUnJQTjdMWWg2U00wNFBjOUxERkJnYlc2czB3dzkwZjVpRklj?=
- =?utf-8?B?ZlFwUkRIdWJubHZDZEVtYkowanF3MHlBMHFZejVYQkQ3cnpTWlFWVm9qanFN?=
- =?utf-8?B?WGFNVHBRcXZUQVphK0JrTmpOaktkdGJOUndOTzdJOVF5ajUzR29JbnF2RVR1?=
- =?utf-8?B?clYrK1R6KzR2dk9ZTFRaa0tlZzdFVWlibWV6NVRrVGNzQmQxeDRFLzAzTkpq?=
- =?utf-8?B?cG9Wc0RjTzF3QUhHQjkxU2l0TzB4a2VJOGx1TjZ0QWhFZDFsRllhTzVZWldE?=
- =?utf-8?B?Z2J0SWoyczlYcFBOYlBEN1R6dE9valZlYnRoSEZBUVZzR3Y5Uit2OXdSNkY5?=
- =?utf-8?B?NTI5NVMyaWp3dTdidDI5Y1ZBSmd4ZitFQU1SRmxIRWxhSjlycUIyeUpmK25p?=
- =?utf-8?B?aEpidlJDUG41QjBobDJBRGNSS1BuaFRZSmU4VWJjbFlFeWVRaG5LbnJsb3VR?=
- =?utf-8?B?SUhyYmZ0aTJnTGYvMmxxUmRHcUF4ME1NZUpXZz09?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(1800799024)(36860700013)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 12:56:21.7969
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d43c0d50-3325-4015-7361-08dd9c54b714
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CE6.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7862
+Content-Transfer-Encoding: quoted-printable
 
-This commit adds a document section in drm-uapi.rst about tracepoints,
-and mark the events gpu_scheduler_trace.h as stable uAPI.
+Hi Tony,
 
-The goal is to explicitly state that tools can rely on the fields,
-formats and semantics of these events.
+On Fri, May 23, 2025 at 11:08=E2=80=AFPM Luck, Tony <tony.luck@intel.com> w=
+rote:
+>
+> On Thu, May 22, 2025 at 10:16:16PM +0000, Luck, Tony wrote:
+> > > It looks to me as though there are a couple of changes in the telemet=
+ry work
+> > > that would benefit this work. https://lore.kernel.org/lkml/2025052122=
+5049.132551-2-tony.luck@intel.com/
+> > > switches the monitor events to be maintained in an array indexed by e=
+vent ID, eliminating the
+> > > need for searching the evt_list that this work does in a couple of pl=
+aces. Also note the handy
+> > > new for_each_mbm_event() helper (https://lore.kernel.org/lkml/2025052=
+1225049.132551-5-tony.luck@intel.com/).
+> >
+> > Yesterday I ran through the exercise of rebasing my AET patches on top =
+of these
+> > ABMC patches in order to check whether the ABMC patches painted resctrl
+> > into some corner that would be hard to get back out of.
+> >
+> > Good news: they don't.
+> >
+> > There was a bunch of manual patching to make the first four patches fit=
+ on top
+> > of the ABMC code, but I also noticed a few places where things were sim=
+pler
+> > after combining the two series.
+> >
+> > Maybe a good path forward would be to take those first four patches fro=
+m
+> > my AET series and then build ABMC on top of those.
+>
+> As an encouragement to try this direction, I took my four patches
+> on top of tip x86/cache and then applied Babu's ABMC series.
 
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
-Acked-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- Documentation/gpu/drm-uapi.rst                | 19 ++++++++++++++++
- .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 22 +++++++++++++++++++
- 2 files changed, 41 insertions(+)
+I did the same thing last week, except in the other order, so I
+switched to your changes to test.
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 69f72e71a96e..4863a4deb0ee 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -693,3 +693,22 @@ dma-buf interoperability
- 
- Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
- information on how dma-buf is integrated and exposed within DRM.
-+
-+
-+Trace events
-+============
-+
-+See Documentation/trace/tracepoints.rst for information about using
-+Linux Kernel Tracepoints.
-+In the DRM subsystem, some events are considered stable uAPI to avoid
-+breaking tools (e.g.: GPUVis, umr) relying on them. Stable means that fields
-+cannot be removed, nor their formatting updated. Adding new fields is
-+possible, under the normal uAPI requirements.
-+
-+Stable uAPI events
-+------------------
-+
-+From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
-+
-+.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+   :doc: uAPI trace events
-\ No newline at end of file
-diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-index 781b20349389..261713dd7d5a 100644
---- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-@@ -32,6 +32,28 @@
- #define TRACE_SYSTEM gpu_scheduler
- #define TRACE_INCLUDE_FILE gpu_scheduler_trace
- 
-+/**
-+ * DOC: uAPI trace events
-+ *
-+ * ``drm_sched_job_queue``, ``drm_sched_job_run``, ``drm_sched_job_add_dep``,
-+ * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are considered
-+ * stable uAPI.
-+ *
-+ * Common trace events attributes:
-+ *
-+ * * ``dev``   - the dev_name() of the device running the job.
-+ *
-+ * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
-+ *   uniquely identifies where the job is going to be executed.
-+ *
-+ * * ``fence`` - the &struct dma_fence.context and the &struct dma_fence.seqno of
-+ *   &struct drm_sched_fence.finished
-+ *
-+ * All the events depends on drm_sched_job_arm() having been called already for
-+ * the job because they use &struct drm_sched_job.sched or
-+ * &struct drm_sched_job.s_fence.
-+ */
-+
- DECLARE_EVENT_CLASS(drm_sched_job,
- 	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
- 	    TP_ARGS(sched_job, entity),
--- 
-2.43.0
+>
+> Changes to Babu's code:
+> 1) Adapt where needed for removal of evt_list. Use event array instead.
+> 2) Use for_each_mbm_event() [Maybe didn't get all places?]
+> 3) Bring the s/evt_val/evt_cfg/ fix into patch 20 from 21
+> 4) Fix fir tree declaration for resctrl_process_assign()
+>
+> I don't have an AMD system to check if the ABMC parts still work. But
+> it does pass the resctrl self tests, so legacy isn't broken.
+>
+> Patches in the "my_mbm_plus_babu_abmc" branch of my kernel.org
+> repo: git://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git
 
+Thanks for applying my suggestion[1] about the array entry sizes, but
+you needed one more dereference:
+
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c
+b/arch/x86/kernel/cpu/resctrl/core.c
+index 1db6a61e27746..0c27e0a5a7b96 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -399,7 +399,7 @@ static int domain_setup_ctrlval(struct
+rdt_resource *r, struct rdt_ctrl_domain *
+  */
+ static int arch_domain_mbm_alloc(u32 num_rmid, struct
+rdt_hw_mon_domain *hw_dom)
+ {
+-       size_t tsize =3D sizeof(hw_dom->arch_mbm_states[0]);
++       size_t tsize =3D sizeof(*hw_dom->arch_mbm_states[0]);
+        enum resctrl_event_id evt;
+        int idx;
+
+diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+index 098ff002d2232..44ec33cb165f7 100644
+--- a/fs/resctrl/rdtgroup.c
++++ b/fs/resctrl/rdtgroup.c
+@@ -4819,7 +4823,7 @@ void resctrl_offline_mon_domain(struct
+rdt_resource *r, struct rdt_mon_domain *d
+ static int domain_setup_mon_state(struct rdt_resource *r, struct
+rdt_mon_domain *d)
+ {
+        u32 idx_limit =3D resctrl_arch_system_num_rmid_idx();
+-       size_t tsize =3D sizeof(d->mbm_states[0]);
++       size_t tsize =3D sizeof(*d->mbm_states[0]);
+        enum resctrl_event_id evt;
+        int idx;
+
+
+You should be able to repro an array overrun without ABMC, and a page
+fault is likely if the system implements a lot of RMIDs. The AMD EPYC
+9B45 I tested on implements 4096 RMIDs.
+
+Thanks,
+-Peter
+
+
+[1] https://lore.kernel.org/lkml/CALPaoCj8yfzJ=3D5CkxTPQXc0-WRWpu0xKRX8v4FA=
+WFGQKtXtMUw@mail.gmail.com/
