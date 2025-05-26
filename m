@@ -1,75 +1,176 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6ED151990
-	for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 01:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DA5846C
+	for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 01:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748222093; cv=none; b=ISTvsCc1u4IyFI/y9Rec/b6Kntl3jT7okPKyu531HkzHeEeYQ5c87FKtphlD7t3LS4rQtqvNOP+Nt9Ii9vdsm5GxJkqzF4ZQssdhQ2LLS9/lR7tJHKeMplWME1Fy8385CI32I8/xZh58/82YEdtmyCONwXxXGk3sNPfrIxrIQsk=
+	t=1748223973; cv=none; b=GF5eq/Y325PbAqtUH6MY8tCCjFZarrajLtfmvE3u3a7cGdrAnIXOEWHx3CwxMNtXD44974ACjwKbMpS/E8J0k/zl9n0CBzQHoiR+U8X0Uizp8nV1BDhkJdGpqGmVy8ovOjUq8cV9qPqKMXVSc3K/8SujjOUbxON13t9DFd7OpIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748222093; c=relaxed/simple;
-	bh=wK8iotMm7YuIyvWzMfRLm+zMPkx9dIkY5oQlX+KyoAw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m/AzjBFmdUywCBCtEKjgAuX2R6Zo+WCsh/L9VxIDhthVx1WPkjEuWtxwYTZj1vg4j0n+JKDH0Qmv21zDMGkjrJQxjyY9T/uTCHHF3OxK3Ye2yIIu5I81vRw5MWBLAEoYXQiU/rrG6/a4cCMNtQvyaSRsqpqXWXHdk8vFy+dEUXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=J9QcUn8B; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	s=arc-20240116; t=1748223973; c=relaxed/simple;
+	bh=avQT8PyI3lebe+jvDhFejRbfs5/P6o/qFy8DbdNBJ7c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J1iMH5pEJAgpCQYpc6S/hfaB7C/SQ5xu7zZ9HCGkoRqP3YXGksPRolL8LWR8EAYRb3znOZLAwKxrkSPFYZj3EvK/8RUrsp716ix02RXMh6pKW7u1gNpa2Kr3hO4BIFs+3cuQIgTKelkJrW8Ek4ctimj4QEtcvG56/zQDozXQKJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D1NqYsc5; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="J9QcUn8B"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1748222079;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D1NqYsc5"
+Message-ID: <2b8810d1-b312-4ee6-928c-e078b8c52000@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1748223959;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=aYqvaegJpg9+7eYaLc+ma0QkJLUvpDi0F26E0i+3CRU=;
-	b=J9QcUn8BTAzqe3Dpls4aaGGyrnjVBbjaY0Y6Ex7yp92AV2HLbDxUqRVuT9/6jvV88NQRnh
-	eO1crmCU8OQltDm7Vk0+RbW9unKWPFfucz4lWjAN7880esFK/w/q84hW5oIXITcJM3+Veh
-	bSUPaPXeAin3hnVkApRxm92+jQlyKStwgn3+0CKH33+sZCGYznHauW1LgTam51jS3K9oBB
-	iC39JcInZsSKYwCfCoA+AYEOaPKwABjq7F9u4SLpqPRAcK6zY6ja6NjcCyNSk+J02S6210
-	N8xnuUBPS0Mmxonkkl2qWtYTyn/BQUiPxcTPZG+u9VjKI+3o3kwi+zKSlAJYIg==
-From: George Anthony Vernon <contact@gvernon.com>
-To: dmitry.torokhov@gmail.com,
-	corbet@lwn.net,
-	skhan@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	George Anthony Vernon <contact@gvernon.com>
-Subject: [PATCH 0/3] Multiple fixes to Amiga joystick documentation
-Date: Mon, 26 May 2025 02:14:40 +0100
-Message-ID: <20250526011443.136804-1-contact@gvernon.com>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E9kj9b7G03RkcCUZzfbgk5ZYXL85YjieEBuLF4BZ1dk=;
+	b=D1NqYsc5sCvF5UWehhuKAxPft2KqmSx1u9333NBHR0p0MPpgRd9vUurqLc4wYmU7IaiNuz
+	PG3PwwZpIS4yjHEB0A30yrRAwn5QwFscTvrBlPTnPkYopNAPGNQcyyYW8wvHGMhequnDMM
+	zQw2QCEKTkfOBSLrX9nn5sJlFmPqb2k=
+Date: Mon, 26 May 2025 09:45:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH v3 1/2] Docs/LoongArch: Add Advanced Extended-Redirect IRQ
+ model description
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, tglx@linutronix.de,
+ jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+ gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250523101833.17940-1-zhangtianyang@loongson.cn>
+ <20250523101833.17940-2-zhangtianyang@loongson.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20250523101833.17940-2-zhangtianyang@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-Hi,
 
-I've made a few fixes to the Amiga joystick documentation. I discovered
-the unintentional spanning cell when experimenting with the Sphinx
-manpage builder which emits warnings for those.
+在 5/23/25 6:18 PM, Tianyang Zhang 写道:
+> Introduce the redirect interrupt controllers.When the redirect interrupt
+> controller is enabled, the routing target of MSI interrupts is no longer a
+> specific CPU and vector number, but a specific redirect entry. The actual
+> CPU and vector number used are described by the redirect entry.
+>
+> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
 
-I've split these fixes up into logically separated commits which I hope
-make them easy to review. Please do let me know if I've done so in poor
-taste.
+Only for Chinese:
+
+
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+
 
 Thanks,
 
-George
+Yanteng
 
-George Anthony Vernon (3):
-  input: docs: Fix broken table formatting
-  input: docs: Correct Amiga 4-jstick adapter pinout
-  input: docs: Fix Amiga joysticks grammar & formatting
-
- Documentation/input/devices/amijoy.rst | 126 +++++++++++++------------
- 1 file changed, 68 insertions(+), 58 deletions(-)
-
--- 
-2.49.0
-
+> ---
+>   .../arch/loongarch/irq-chip-model.rst         | 38 +++++++++++++++++++
+>   .../zh_CN/arch/loongarch/irq-chip-model.rst   | 37 ++++++++++++++++++
+>   2 files changed, 75 insertions(+)
+>
+> diff --git a/Documentation/arch/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+> index a7ecce11e445..d9a2e8d7f70e 100644
+> --- a/Documentation/arch/loongarch/irq-chip-model.rst
+> +++ b/Documentation/arch/loongarch/irq-chip-model.rst
+> @@ -181,6 +181,44 @@ go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then go to CPUINTC directly::
+>                | Devices |
+>                +---------+
+>   
+> +Advanced Extended IRQ model (with redirection)
+> +==============================================
+> +
+> +In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
+> +to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, PCH-MSI interrupts go
+> +to REDIRECT for remapping it to AVEC, and then go to CPUINTC directly, while all
+> +other devices interrupts go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then
+> +go to CPUINTC directly::
+> +
+> + +-----+     +-----------------------+     +-------+
+> + | IPI | --> |        CPUINTC        | <-- | Timer |
+> + +-----+     +-----------------------+     +-------+
+> +              ^          ^          ^
+> +              |          |          |
+> +       +---------+ +----------+ +---------+     +-------+
+> +       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
+> +       +---------+ +----------+ +---------+     +-------+
+> +            ^            ^
+> +            |            |
+> +            |      +----------+
+> +            |      | REDIRECT |
+> +            |      +----------+
+> +            |            ^
+> +            |            |
+> +       +---------+  +---------+
+> +       | PCH-PIC |  | PCH-MSI |
+> +       +---------+  +---------+
+> +         ^     ^           ^
+> +         |     |           |
+> + +---------+ +---------+ +---------+
+> + | Devices | | PCH-LPC | | Devices |
+> + +---------+ +---------+ +---------+
+> +                  ^
+> +                  |
+> +             +---------+
+> +             | Devices |
+> +             +---------+
+> +
+>   ACPI-related definitions
+>   ========================
+>   
+> diff --git a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+> index d4ff80de47b6..7e4e3e55c7ad 100644
+> --- a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+> +++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+> @@ -174,6 +174,43 @@ CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断发送到AVECINTC，
+>                | Devices |
+>                +---------+
+>   
+> +高级扩展IRQ模型 (带重定向)
+> +==========================
+> +
+> +在这种模型里面，IPI（Inter-Processor Interrupt）和CPU本地时钟中断直接发送到CPUINTC，
+> +CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断首先发送到REDIRECT模块,完成重定向后发
+> +送到AVECINTC，而后通过AVECINTC直接送达CPUINTC，而其他所有设备的中断则分别发送到所连
+> +接的PCH-PIC/PCH-LPC，然后由EIOINTC统一收集，再直接到达CPUINTC::
+> +
+> + +-----+     +-----------------------+     +-------+
+> + | IPI | --> |        CPUINTC        | <-- | Timer |
+> + +-----+     +-----------------------+     +-------+
+> +              ^          ^          ^
+> +              |          |          |
+> +       +---------+ +----------+ +---------+     +-------+
+> +       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
+> +       +---------+ +----------+ +---------+     +-------+
+> +            ^            ^
+> +            |            |
+> +            |      +----------+
+> +            |      | REDIRECT |
+> +            |      +----------+
+> +            |            ^
+> +            |            |
+> +       +---------+  +---------+
+> +       | PCH-PIC |  | PCH-MSI |
+> +       +---------+  +---------+
+> +         ^     ^           ^
+> +         |     |           |
+> + +---------+ +---------+ +---------+
+> + | Devices | | PCH-LPC | | Devices |
+> + +---------+ +---------+ +---------+
+> +                  ^
+> +                  |
+> +             +---------+
+> +             | Devices |
+> +             +---------+
+> +
+>   ACPI相关的定义
+>   ==============
+>   
