@@ -1,45 +1,45 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2062.outbound.protection.outlook.com [40.107.244.62])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2064.outbound.protection.outlook.com [40.107.244.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FCA149DF0;
-	Mon, 26 May 2025 12:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EF02101BD;
+	Mon, 26 May 2025 12:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.64
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748264140; cv=fail; b=u8vUBixQaqZL9+48a52I4LfBQLrRQr3uxv9LVGwFh5+yfhNhSf7cSIB2gyiRPPHEBB992ZPyvH9AfKDSC+H2LxevkBJoPOmNps5p/4s0e5llIpfX5Eph0hByED5NrbyapniaKhrQYBANYlQyEM4e01jc9OZ+Y9zYa/5GmAAZWIw=
+	t=1748264187; cv=fail; b=GfMjDqyNBuelulp18Bw2bdeC0p63p6wxvERJRqyWlJ78qqrdNekq9U/vqJUl+MUR1Jf+/bLj/OPwK/PLUXqMUdN7Cgwu9ttrvWxua0/bUbCnpAnDQhuP91jPO+1D/oXigKelr33ijRbI0PRO4BZ3e7Gk0SB3CFJRrjvWQL8mylo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748264140; c=relaxed/simple;
-	bh=RbGAnDOwrTtwentdyW8ofGEWt7dqOvS4uUZvgioDNQg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CxW1IrdiOAR2vqimDOlMdOwxCVtHxjNIiDEuJlhTX3PgesAwoWhXfo5u6dpwtmihhu3CghbqXlu2Qg5ni2L+c5S70oZUsHGPHIFlAqQEOTdJHYy8e6+aBOW1/bJTxUMSL5tlvZUoR2eWi0mx8QftfcVN2IpYnv/YQpCwDOHjYIQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=U+MSisGj; arc=fail smtp.client-ip=40.107.244.62
+	s=arc-20240116; t=1748264187; c=relaxed/simple;
+	bh=jhpGfvv6CWUzPoQCHO3Atk0OtyqOuJlyW3j0S+K3L1o=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PbTKkerbg+2aqvND6X6K13BN6YLCa4MiPNcYxlOCpyz6kSLppp91oa4sEa0jDOibfentYsIqof1JWM0rrY5s8Qno1drfiuk9S9uASHVEn4aoW7alQNLRUkt5rEdZ2DIu2Gv+MB5563KIIo2msH78GNr3BedznzyECqer+hVLq2o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LBYjKjgo; arc=fail smtp.client-ip=40.107.244.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="U+MSisGj"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LBYjKjgo"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WXg1ffKixIo5QLCu9LdPMNufWyb0j+2ysJ3g+6LLW8IMEF1VIH72LVnSaKJ2oU27Wk6rYRea64BVTyOsI0VgWiuraPgCnu+sEuPQ8KPXYDvGXr2j8oElVKuG99uAbAd1WqAqWu3sIVPcOH0YDaBEyo8qacgrCMvR5tkivMTm/SdsY65Cg2ZqVnoDP2wqiX6xpqLyamk6YQDhm17v70I7LtLBFNdHFMuCfLFR/Z+z9lRGU+LU6wdhluZmo/mJN9JuIY6g7w7XbbiXNF1nUee41wy072/sevzinkhniTtHSHTxVseYCJmbXHMIxnruHJwTJRzRrza7dpxJFyKKBRd0Xw==
+ b=Clb7ykSBid4sQQsY2ifx7GstAIzsuMnC4MjEx1xvylR4KLKJ6AvOlmarIaSKS28UKTj7q6oiaWPyWoxwup64zX/uTd3G1GukcheW0MH4+YupEyecIOdulsCTjdLYMdpe32t/joIEn5DT/e7l5Tc06ZixyHKsPpeIwg/njwEDRG2JfenBKy+vaax+j6HvxRJ26YKU+yQw0PiKl26gWdpdms6xzog6LL5uqM3i67FPxOHZWqw3IqqOO43ZFwRyXdBR56pFhdmSGPt/In0GPU+N2et2n5YP2aVaLGi1pexcFYN8xbQwtbC4dwK4JAu5KiYD3WLuObP99b0NqTLeQE7Zyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6B8P1zxfJDoyoU0W3IawYc8DH8YXTlPWkpb4fSZ9TNA=;
- b=oLH/XTiqFnCu56FvOf+qnciryrf2CTTAPqNglGIq3iDsYtbbv8xzljBEkx0SRSjF52L7ZqmhVKxy8NRTgxA0T2RpF2JGMdzSVMDrF6iHckDW1wOD/gjolakB3YNdoJ5C6mKqG868VveWGv0UdALWBj0ZPBQXqn63UFdrNS90fbDc3RqdQx7f81NxzC27oyhkWhhbdH/ZdpN9D0tvpNk3lrVw33ZKkULO1euh4Whqx3yyohE/slFRzU8LVqYpv+MRLIzYWQqRkJE87vXaBFbElsch9wNoDF6GshR/TT5Xp4OqDYYwSxQT3hyU0jLMn5d5ZezdypdoumCvwDe2TfLWnA==
+ bh=zw2huqsza4q5J5wpoyqjqOyZRA3CmN84hy7iWKy+kRo=;
+ b=ilxMDph2jqKAQQbA+ps9GNqjNcTDXXxu2SSljW9/r8kBPEYG15xdEJYedjqO4YJ49oaq0CQ8oQNiFq3qkpz4s1ACWqmUIHc8HGzzyaRhiHFisytO3wjC81pOoSu4+ujJwTJy4MOqCQQKKPO9k5vVde2zGHHgRS7mn0t4zVWKHc/8z9gZqTccNA0wO1arTHXFckjf1sCSfNLOS1umgJJRZ7wpDIm3NHxf3+totAqCEosgTd8tTUHeRQW7ulqSBHIJWLPP4wO05qDIOOaZygdkv1hcym9uZvdw1KhkAuuX7npsaSefHe56ZLftujydxz1dTH4pu54NwzBdIX8HgCDUtQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=igalia.com smtp.mailfrom=amd.com; dmarc=pass
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6B8P1zxfJDoyoU0W3IawYc8DH8YXTlPWkpb4fSZ9TNA=;
- b=U+MSisGj84SKPUI9CT14iXrTTQNrGD9tGGIv5zEqN4bWzlyQ9nukI4MhmlfmhBFtd+/h2KEyfNtxYa3aRQig/O8VmIHv7g+rUzZEcqGQW94A65GzzfboxHcdxLkHlvTn/luFCw58EuSja+HFbOzGD4oCMVKwzRMxGWZj42z5JX8=
-Received: from SJ0PR13CA0001.namprd13.prod.outlook.com (2603:10b6:a03:2c0::6)
- by IA1PR12MB6044.namprd12.prod.outlook.com (2603:10b6:208:3d4::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Mon, 26 May
- 2025 12:55:34 +0000
-Received: from SJ1PEPF00001CEB.namprd03.prod.outlook.com
- (2603:10b6:a03:2c0:cafe::66) by SJ0PR13CA0001.outlook.office365.com
- (2603:10b6:a03:2c0::6) with Microsoft SMTP Server (version=TLS1_3,
+ bh=zw2huqsza4q5J5wpoyqjqOyZRA3CmN84hy7iWKy+kRo=;
+ b=LBYjKjgoDeXApNYl6PDVywXke+ZXvDt/f2zXkoDh1c4OofooOHyVj9Ecqfhj6nFz8ZrM0myHjik2Xeo4Lp1Rfi+ECJmv8JHiJiTuNK4zAu72Og2cU4TaEj6ms9xJ6CGdJVEKaKKmtHelG5AQS617o3tGX+8eiNf4Ogxb99CBNrA=
+Received: from BYAPR01CA0039.prod.exchangelabs.com (2603:10b6:a03:94::16) by
+ PH0PR12MB7862.namprd12.prod.outlook.com (2603:10b6:510:26d::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8699.20; Mon, 26 May 2025 12:56:21 +0000
+Received: from SJ1PEPF00001CE6.namprd03.prod.outlook.com
+ (2603:10b6:a03:94:cafe::2b) by BYAPR01CA0039.outlook.office365.com
+ (2603:10b6:a03:94::16) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Mon,
- 26 May 2025 12:55:31 +0000
+ 26 May 2025 12:56:08 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,45 +47,33 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00001CEB.mail.protection.outlook.com (10.167.242.27) with Microsoft
+ SJ1PEPF00001CE6.mail.protection.outlook.com (10.167.242.22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8769.18 via Frontend Transport; Mon, 26 May 2025 12:55:30 +0000
+ 15.20.8769.18 via Frontend Transport; Mon, 26 May 2025 12:56:21 +0000
 Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 26 May
- 2025 07:55:22 -0500
+ 2025 07:56:17 -0500
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To:
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Alex Deucher
-	<alexander.deucher@amd.com>, Boris Brezillon <boris.brezillon@collabora.com>,
-	Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, "Dmitry
- Baryshkov" <lumag@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
-	"Frank Binns" <frank.binns@imgtec.com>, Jonathan Corbet <corbet@lwn.net>,
-	Liviu Dudau <liviu.dudau@arm.com>, Lizhi Hou <lizhi.hou@amd.com>, Lucas De
- Marchi <lucas.demarchi@intel.com>, Lucas Stach <l.stach@pengutronix.de>,
-	Lyude Paul <lyude@redhat.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Matt Coster <matt.coster@imgtec.com>,
-	Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Melissa Wen <mwen@igalia.com>, Min Ma <min.ma@amd.com>, Oded Gabbay
-	<ogabbay@kernel.org>, Philipp Stanner <phasta@kernel.org>, Qiang Yu
-	<yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>, Rob Herring
-	<robh@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter
-	<simona@ffwll.ch>, Steven Price <steven.price@arm.com>, Sumit Semwal
-	<sumit.semwal@linaro.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
-	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<etnaviv@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
-	<intel-xe@lists.freedesktop.org>, <lima@lists.freedesktop.org>,
-	<linaro-mm-sig@lists.linaro.org>, <linux-arm-msm@vger.kernel.org>,
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, "Jonathan
+ Corbet" <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>, "Danilo
+ Krummrich" <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Lucas
+ Stach" <l.stach@pengutronix.de>, =?UTF-8?q?Ma=C3=ADra=20Canal?=
+	<mcanal@igalia.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <nouveau@lists.freedesktop.org>
-Subject: [PATCH v11 00/10] Improve gpu_scheduler trace events + UAPI
-Date: Mon, 26 May 2025 14:54:42 +0200
-Message-ID: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
+	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH v11 09/10] drm/doc: Document some tracepoints as uAPI
+Date: Mon, 26 May 2025 14:54:51 +0200
+Message-ID: <20250526125505.2360-10-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
+References: <20250526125505.2360-1-pierre-eric.pelloux-prayer@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -98,156 +86,138 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEB:EE_|IA1PR12MB6044:EE_
-X-MS-Office365-Filtering-Correlation-Id: 593ebef6-bda9-4046-d91f-08dd9c54986d
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE6:EE_|PH0PR12MB7862:EE_
+X-MS-Office365-Filtering-Correlation-Id: d43c0d50-3325-4015-7361-08dd9c54b714
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|7416014;
+	BCL:0;ARA:13230040|7416014|376014|82310400026|1800799024|36860700013|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WHI1OFRDMG1hYy9xYkxmMGNDNUFxMjBSMEYxWklWMlhFeFR2bGNMWVNESUpz?=
- =?utf-8?B?aVJJNS9oem1hbGkvN3RwSjA1cnFKUUEwRkJGL0dheGpnT2xJWGN6ODgwSGpw?=
- =?utf-8?B?blViMkIxOHMxZVMxUkNscWM4a1NiaXhld3FPY3BpM2pzWnVlN2dxY2ozQm5r?=
- =?utf-8?B?Uzd1VUYrbnQ5blRudGZFU0JOUjFrMFdrUGhVeHYva1oyVGM1Ri9LVHJHUlRW?=
- =?utf-8?B?TmZhNCszNTJjdmJtOWZyUWNCRlpKa1EvVlNDaGdKeGVkdFB4N09tOVh4REhP?=
- =?utf-8?B?a1hRMnc2Z1BWT2NVYlZ1Wm9rOHZ2M2tkeHcyRmlkVGJ1SnQvalZDaWZXWGR5?=
- =?utf-8?B?K2dRNmV0TFZsWkRTVU82VE5TSzg2enJyYmQwT0RiSTd4bFE1TFJQdTBvd21I?=
- =?utf-8?B?alg2WHVPS0Z2cDkvVFYyT0d3Q0NzNThFU1F3MHZYN2lVNVp0T1kvSzcxOHhU?=
- =?utf-8?B?SEZqTmdrQndxWk80UmxHR1czWnBBTUxGLzA4bzk0K0FLbjNqL0xmYWhQVExI?=
- =?utf-8?B?c3ZYVEtlQ29WNUloTHJvUTlsRFVWUlVpbVBlNnA5MDd3VTVZblhkcTdoRCta?=
- =?utf-8?B?Ump0dnA0UUV2dTBIamJEV0Q0QmthM1VKSEFaZUpjQVpVaXcya3pQNkZWSDU0?=
- =?utf-8?B?RTJtWCswRUJ6bmdrZDRGVGUrWkswWC9PRzJnSHhXbnpkc3ZKT3FkZkpxTDk1?=
- =?utf-8?B?R3BFZ3dYdC9hRktiUWRhU0pydzJXcFpiUzBoblluRVEwS0dRSG5sZDdEeG1S?=
- =?utf-8?B?THVjSFBpL2Fid1RrRDd3dDR2Ry8vbWlRUzh1NUtYbW9veFpjZW5TZXZIZVV1?=
- =?utf-8?B?ZkhkUUNqclFza0pGUG5OTHYxV1UrTFpOV2VUVFpPU25ZQzZHcmUrQnZlOUcr?=
- =?utf-8?B?Wk5sNDFrR2RWdnhuVmRmeTB4NkxDYnk5UVlHckRCdE5oYVRsekhjQUVQQzVp?=
- =?utf-8?B?NFErTTNWendyL0U4aDNKK0JuVVAydkJGZTBNZGp3cFZwcERmTFdoR1ZIbUF3?=
- =?utf-8?B?S1lLUHJNTEpFeHpORG5ka1NEeWxiNU1wanU1dHdJYTBBUUEwK2ZjSHljQXMx?=
- =?utf-8?B?RVVUZW8zZ25HNzNzTlF5amM4c3U2aSt4b05vTXhNS0ltRkVyM3dSS2crdWo2?=
- =?utf-8?B?VzBUKzNYVFpUOVR0SDNVbE5qc1FpbzVscVBZZnE1L0tJSUlDa3RaTlBDWlEw?=
- =?utf-8?B?VWhRaVBqLzZlMk5ZcTJRUDA0M21HelJqL1BxQko3V2FscWVJL2dPaXVraTQy?=
- =?utf-8?B?Qk5sOWRyTGJ3QWZKU3oveVM0Sk93K2JxS1Z3eFAvQ3YvYmdtd1J1MTc0NFVv?=
- =?utf-8?B?bGlrL0k0ME1SOW93MHlubFVDSXNCOHVpQkNvcjRTWlAzQmFCREVxWkI3V3JP?=
- =?utf-8?B?d0Z0R0RlWnZTcTdQT0VUamZyMTNwR2ZZODV2MU1qOVpzcnVCeXVST1NWbFdY?=
- =?utf-8?B?TlA2cGh0NHVLNzR6Y3FHYjB5YklFRmRudVNmL2psR2VnVU1ndjNnMnlmYTZJ?=
- =?utf-8?B?dHR3R2lhVEdabkZRUUtVR2NpQTkwYjNlZ05uTFE5Y09acjBqNjB2Y0d3eVlI?=
- =?utf-8?B?cHlCSUtDall6RDlab082WitCMHdTY2JWNGdzcjB1OERSaGNFRFJTTnEyQ1Bo?=
- =?utf-8?B?MTd3VzNzUnhXSVV0dXhiZ0dseXIwNlRqMElCY3cyVnpqRklEdzJoZkZEb2RT?=
- =?utf-8?B?Z3pjUUVYcy9oQ29VM0Y3ek5QdTgwZDlEQzBMd0l0R0crNlE3ZEVhUGhOVTNy?=
- =?utf-8?B?UE9LRlEzOHA0Q1lxYlVsRU9sbDhzNGxwRHJrZTdDajI4V2pHSWhtUkc0QnVD?=
- =?utf-8?B?OExQd3BDaWNFekdNQi9JTjdqQmlkTzdRczZhNlNnUHUrdytqR2kwdk1nc2U5?=
- =?utf-8?B?VVNWSWIwUHJhczBCTU8zd0tqL3BDRXRLVm1oSVQxVTcrSk93ckpXcDNvcEJ1?=
- =?utf-8?B?MlFEY1N0WWhibDBTcGlON2M1YWM5OEhBOXF1U2RnN2FTbjlZRnUwUitVamY2?=
- =?utf-8?B?NFFHSGdWWEFnPT0=?=
+	=?utf-8?B?YXdvSXdDSVpLUitud0EzZ0ZQMks0NUFqYmxqTlFsME42azJ5MUtlKzc4aFps?=
+ =?utf-8?B?N200eVhQcHM2d1hvYWYwZHZyZjlZRmRreHNlMzEzTHZHTnRodlh3QjRIMXFn?=
+ =?utf-8?B?RkVyc2IwcUNKYkd2T2wrQVlQWCthWkFsVkNyL01DdTVDNU1ZYll4cll2NWVu?=
+ =?utf-8?B?N3lTRE1GK3hoVW91bG9BRVhtcFVwOXlsU3NNVmVHeHZ6V2s5aEl0MDgvSHN0?=
+ =?utf-8?B?dlFQQmVsY2RLcWxCc3c2RWN5UnpNbVh2TytaalBGT2RMQ1V2Rjhpa0loYUMv?=
+ =?utf-8?B?M1lYTTV1ckFmRjlqZGpiKzVNN2kwOGF0djlzOUFWZEl0VG9oeTJwazBicjZV?=
+ =?utf-8?B?d29YazRMRlgxTHVZUHFkajNIUnFmU0J2MUY5YU54Y041bHdTcWY0aG5HaDVs?=
+ =?utf-8?B?M2ZMdkhvNTRlODdMQkdJWHYvdHU4NHZmbVlQNnJrWHNMaTFvdVExYWJONlpF?=
+ =?utf-8?B?K2QyVzhsWTFnSjhLZEVpbzl5UDdVUXZLSFhMZzFQM2g0WXhKR3dKbG1VNlVN?=
+ =?utf-8?B?Z2g5aGloV3RoL3doN09IenBqb2FIaXVtc0ZQNnQxNmNuNU1xdjZGNjFwUE5h?=
+ =?utf-8?B?c2NUZXNEN1VKV2N4eCtMRTJVT2VqOTJjSW9XektuZlRJT21XY1ZyRmdXQnI4?=
+ =?utf-8?B?MUpWZEhCQ1ZhajlVa3VVTXJ0OGFDanZjamJKdFVwOUp4NGFWdzFhS3k0QjB2?=
+ =?utf-8?B?YVJsWWlHT3BHYzhWeFA3eWp1Nnd6V2xXeGtuWnFHM2RsZkYxMENDeGhqa2c0?=
+ =?utf-8?B?cjR3eWRIYVFIbXRXckZmaHEzWGsyd2phcWNqRExTWkRSU0xOVHNRMnVrZTQx?=
+ =?utf-8?B?UHpCQnZOSVpPNHcvVE5zalJqWHJ0QzlLNENuY3BvZ1lMWndZSVBuT29Id3BC?=
+ =?utf-8?B?Mktma3RmY1VFRW12SitidnZabDlTSlNtQjdMREpRdksrWFpxKzZ4MEkzN1BI?=
+ =?utf-8?B?MjF0Y1M3Ui95a0orTStsS1kzUWlwMGRRblJTS3BYaU5zbUJDMHFzcXdzdUxC?=
+ =?utf-8?B?aFdzbVEzeTc4WlFnYmR5bDY2bFhIamh6SmM2QTdWcVRSTktJZTNxaEVmTnZV?=
+ =?utf-8?B?d1p1SkVUMzNnM3dvNjN6RFVvVVJQNVhqeXZob0ZhVVp5dDFGN0wwRnRiTVIw?=
+ =?utf-8?B?MDBmVSs4RlJKZ0p1eEhXdnRFc2xZK1IrL3B6d2xkMmd3K0JwODYzUDNRZ0o0?=
+ =?utf-8?B?NWp4OXN6MENDVDI2MkZmbDB6TWZvRnRQbUVMS2o2NFg1RlJBeVpSSXpyMTYw?=
+ =?utf-8?B?dFZKNUNXdzFJUkpFUCszSC8zOThPZHBycFRsQ3hLekRyQldmelowemRCTmNn?=
+ =?utf-8?B?aUtBRmxlWnVncGtZNVEvTTQvVUdyQzIvWklseS9uTUVGdkNZYUI4RXlReE5s?=
+ =?utf-8?B?TmJ0enB5ckxpZGU1OEZZa3UxMzE1UHBCbXZWSjNRbDFndzFzNnpzWGR3TjFu?=
+ =?utf-8?B?RHF2R3ZkVTdJTkswL3pCR21rcDJZd1d4VGllSEozbUg4MjV1TE54cWJPT1kw?=
+ =?utf-8?B?N3Nqa3hXaFYwTGZiTWhyT21vU21FNlZPU1dFdng2Z1NvbFNqUmp6cDgranda?=
+ =?utf-8?B?RHFOQW9xT2hOUnJQTjdMWWg2U00wNFBjOUxERkJnYlc2czB3dzkwZjVpRklj?=
+ =?utf-8?B?ZlFwUkRIdWJubHZDZEVtYkowanF3MHlBMHFZejVYQkQ3cnpTWlFWVm9qanFN?=
+ =?utf-8?B?WGFNVHBRcXZUQVphK0JrTmpOaktkdGJOUndOTzdJOVF5ajUzR29JbnF2RVR1?=
+ =?utf-8?B?clYrK1R6KzR2dk9ZTFRaa0tlZzdFVWlibWV6NVRrVGNzQmQxeDRFLzAzTkpq?=
+ =?utf-8?B?cG9Wc0RjTzF3QUhHQjkxU2l0TzB4a2VJOGx1TjZ0QWhFZDFsRllhTzVZWldE?=
+ =?utf-8?B?Z2J0SWoyczlYcFBOYlBEN1R6dE9valZlYnRoSEZBUVZzR3Y5Uit2OXdSNkY5?=
+ =?utf-8?B?NTI5NVMyaWp3dTdidDI5Y1ZBSmd4ZitFQU1SRmxIRWxhSjlycUIyeUpmK25p?=
+ =?utf-8?B?aEpidlJDUG41QjBobDJBRGNSS1BuaFRZSmU4VWJjbFlFeWVRaG5LbnJsb3VR?=
+ =?utf-8?B?SUhyYmZ0aTJnTGYvMmxxUmRHcUF4ME1NZUpXZz09?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(1800799024)(36860700013)(921020);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 12:55:30.3756
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 12:56:21.7969
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 593ebef6-bda9-4046-d91f-08dd9c54986d
+X-MS-Exchange-CrossTenant-Network-Message-Id: d43c0d50-3325-4015-7361-08dd9c54b714
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CEB.namprd03.prod.outlook.com
+	SJ1PEPF00001CE6.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6044
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7862
 
-Hi,
+This commit adds a document section in drm-uapi.rst about tracepoints,
+and mark the events gpu_scheduler_trace.h as stable uAPI.
 
-The initial goal of this series was to improve the drm and amdgpu
-trace events to be able to expose more of the inner workings of
-the scheduler and drivers to developers via tools.
+The goal is to explicitly state that tools can rely on the fields,
+formats and semantics of these events.
 
-Then, the series evolved to become focused only on gpu_scheduler.
-The changes around vblank events will be part of a different
-series, as well as the amdgpu ones.
+Acked-by: Lucas Stach <l.stach@pengutronix.de>
+Acked-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+---
+ Documentation/gpu/drm-uapi.rst                | 19 ++++++++++++++++
+ .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 22 +++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
-Moreover Sima suggested to make some trace events stable uAPI,
-so tools can rely on them long term.
-
-The first patches extend and cleanup the gpu scheduler events,
-then add a documentation entry in drm-uapi.rst.
-
-The last 2 patches are new in v8. One is based on a suggestion
-from Tvrtko and gets rid of drm_sched_job::id. The other is a
-cleanup of amdgpu trace events to use the fence=%llu:%llu format.
-
-The drm_sched_job patches don't affect gpuvis which has code to parse
-the gpu_scheduler events but these events are not enabled.
-
-Changes since v10:
-* fixed 2 errors reported by kernel test robot
-* rebased on drm-misc-next
-
-Changes since v9:
-* fixed documentation link syntax
-* fixed typos in commit messages
-* spelled out that these events cannot be used before
-  drm_sched_job_arm has been called
-
-Changes since v8:
-* swapped patches 8 & 9
-* rebased on drm-next
-
-Changes since v7:
-* uint64_t -> u64
-* reworked dependencies tracing (Tvrtko)
-* use common name prefix for all events (Tvrtko)
-* dropped drm_sched_job::id (Tvrtko)
-
-Useful links:
-- userspace tool using the updated events:
-https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
-- v8:
-https://lists.freedesktop.org/archives/dri-devel/2025-March/496781.html
-
-Pierre-Eric Pelloux-Prayer (10):
-  drm/debugfs: Output client_id in in drm_clients_info
-  drm/sched: Store the drm client_id in drm_sched_fence
-  drm/sched: Add device name to the drm_sched_process_job event
-  drm/sched: Cleanup gpu_scheduler trace events
-  drm/sched: Trace dependencies for GPU jobs
-  drm/sched: Add the drm_client_id to the drm_sched_run/exec_job events
-  drm/sched: Cleanup event names
-  drm: Get rid of drm_sched_job.id
-  drm/doc: Document some tracepoints as uAPI
-  drm/amdgpu: update trace format to match gpu_scheduler_trace
-
- Documentation/gpu/drm-uapi.rst                |  19 ++++
- drivers/accel/amdxdna/aie2_ctx.c              |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  32 ++----
- drivers/gpu/drm/drm_debugfs.c                 |  10 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
- drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
- drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
- drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
- drivers/gpu/drm/lima/lima_gem.c               |   2 +-
- drivers/gpu/drm/lima/lima_sched.c             |   6 +-
- drivers/gpu/drm/lima/lima_sched.h             |   3 +-
- drivers/gpu/drm/lima/lima_trace.h             |   6 +-
- drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
- drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
- drivers/gpu/drm/panthor/panthor_drv.c         |   3 +-
- drivers/gpu/drm/panthor/panthor_mmu.c         |   2 +-
- drivers/gpu/drm/panthor/panthor_sched.c       |   5 +-
- drivers/gpu/drm/panthor/panthor_sched.h       |   3 +-
- .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 103 +++++++++++++-----
- drivers/gpu/drm/scheduler/sched_entity.c      |  16 ++-
- drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
- drivers/gpu/drm/scheduler/sched_internal.h    |   2 +-
- drivers/gpu/drm/scheduler/sched_main.c        |  12 +-
- .../gpu/drm/scheduler/tests/mock_scheduler.c  |   3 +-
- drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
- drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
- include/drm/gpu_scheduler.h                   |  13 ++-
- 32 files changed, 191 insertions(+), 101 deletions(-)
-
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 69f72e71a96e..4863a4deb0ee 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -693,3 +693,22 @@ dma-buf interoperability
+ 
+ Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+ information on how dma-buf is integrated and exposed within DRM.
++
++
++Trace events
++============
++
++See Documentation/trace/tracepoints.rst for information about using
++Linux Kernel Tracepoints.
++In the DRM subsystem, some events are considered stable uAPI to avoid
++breaking tools (e.g.: GPUVis, umr) relying on them. Stable means that fields
++cannot be removed, nor their formatting updated. Adding new fields is
++possible, under the normal uAPI requirements.
++
++Stable uAPI events
++------------------
++
++From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
++
++.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
++   :doc: uAPI trace events
+\ No newline at end of file
+diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+index 781b20349389..261713dd7d5a 100644
+--- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
++++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+@@ -32,6 +32,28 @@
+ #define TRACE_SYSTEM gpu_scheduler
+ #define TRACE_INCLUDE_FILE gpu_scheduler_trace
+ 
++/**
++ * DOC: uAPI trace events
++ *
++ * ``drm_sched_job_queue``, ``drm_sched_job_run``, ``drm_sched_job_add_dep``,
++ * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are considered
++ * stable uAPI.
++ *
++ * Common trace events attributes:
++ *
++ * * ``dev``   - the dev_name() of the device running the job.
++ *
++ * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
++ *   uniquely identifies where the job is going to be executed.
++ *
++ * * ``fence`` - the &struct dma_fence.context and the &struct dma_fence.seqno of
++ *   &struct drm_sched_fence.finished
++ *
++ * All the events depends on drm_sched_job_arm() having been called already for
++ * the job because they use &struct drm_sched_job.sched or
++ * &struct drm_sched_job.s_fence.
++ */
++
+ DECLARE_EVENT_CLASS(drm_sched_job,
+ 	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
+ 	    TP_ARGS(sched_job, entity),
 -- 
 2.43.0
 
