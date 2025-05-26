@@ -1,183 +1,215 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4498A1F872D
-	for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 14:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6B3149C7B
+	for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 14:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748268060; cv=none; b=K1KI7Kovb6ZArOInuRQofbl43EsdotJN34rcQ9ZjJYcALyjZeq00HfAQ2OP7oeMwWJU1vKSI9i3zjr0HKfyy9W3sOuPXhcbLIfJ6qVdvFEOqaYNjsxj4ZqN0QN/GT5RX7nZv2GkkHC5inpnPl3pTd2CVv8+Dx4c237cnajikVS0=
+	t=1748269151; cv=none; b=sQCbZQ82S5hGGFEOnC2+UTO1/BhJeMQHSsTpGRJNmI5coYd9oLdxpL9NhyzCogBTq3opCbxhxX+mhMK9QF3gwWoj8NvEoEarsN6cuLg6dUizu7G90Tdi971XSfCHG7k9xqT7GwlayeCzYz6GmEysWpV/bugwvGR41YWiOKs+Dug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748268060; c=relaxed/simple;
-	bh=nMyPEDnf/zkddzZ2Cw4741aAO+yU0d/61z+A8WlOS94=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b6px2+a/YTZnGQGATn7f3mDvvED121zeaETn/LNpuBs9GT/EZcBOHtBlDymDkOmsQN87EU53AXar047e40tuEpViKUkq8navklUtyFZsiZDUWOA76LWU9OYzdGkvLWnjqcYba6D601KWCFththSP6Ai4UN4aVm9qEbguX6Vtpvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=FBLIAQVM; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	s=arc-20240116; t=1748269151; c=relaxed/simple;
+	bh=zZY12G2RUE6dyOkl3opChCWHjj1XJx+3D/Lm++dU8bA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=trxquOh8pIFDNAZPXvgi1yGP229lZ3jIaFEKUc9FZiF6a52qiJ5XfqvHZde1VVDfoPi+AFUzSRtDDAMrFSOvhlXfnmglITFMRmje7yKjlKV+0nEDYJhRhfFXq8juzBNazohHubqnFV9ctrsTKx6Gsb2h2LNmno/rGQuxJUrU/5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=U4T43Ytx; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="FBLIAQVM"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1748268056;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="U4T43Ytx"
+Date: Mon, 26 May 2025 16:19:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1748269147;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=V6dGYyUwgVkfLIw2/DVw8Hb9GNF0VcyeeqTRDuJIL/A=;
-	b=FBLIAQVMmdfIUncAJN6oqa+PKQUXox17Sv8De+wBqYNWky7H0t30it9SRYSgQ1JOmYz7Ey
-	AXDSbnfDLv3hzEGyKbgIBfrrYUu/azuKE+gSYdPamgrSL4O5rX0Mht4E3D1URBTZfesCsG
-	59DWMnU7iTfXY8dA8jI2SbqwIiNQ/Q2DIL6vuO6q7LjDFzr+FQ2G8c9FKrY+OpQ+76LSiH
-	mKyReVAEgCccBBTUsWezHYP2LXwo4nbhVKbbAgLYifOAGZ387j/WZRqpdQ5GPE+okuuNYt
-	cPLakPex6754Op1M2Zc/TbFyNxLUnnagCiy+xpMVLkKYYSMtg+kqkQZx8eOJNg==
-From: George Anthony Vernon <contact@gvernon.com>
-To: dmitry.torokhov@gmail.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: George Anthony Vernon <contact@gvernon.com>,
-	bagasdotme@gmail.com,
-	linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2 4/4] input: docs: Make headings compliant w/ guidelines
-Date: Mon, 26 May 2025 14:59:52 +0100
-Message-ID: <20250526135957.180254-5-contact@gvernon.com>
-In-Reply-To: <20250526135957.180254-1-contact@gvernon.com>
-References: <20250526135957.180254-1-contact@gvernon.com>
+	bh=QP47mBiBQT/WSbbK5SaleZH/+hgZqZTeZEh/OAuW384=;
+	b=U4T43Ytxt22kYjLevAzW8hC3OqOrtz6ZyCo6XjtEFtQOFqdwKb/z5GADfUlQUJaLmnxPNI
+	GT7jkQhvfOJoKjyOq2fC3ODIg8T45kHtE/3roqnuIesTaamXRb6xrk+9/IAh8SaNswuUVa
+	dhjX8nnp5bca2pOtF/0OQwtOVRZW/Ow=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 00/11] kunit: Introduce UAPI testing framework
+Message-ID: <20250523-winged-donkey-of-advance-fffac7@l-nschier-aarch64>
+References: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
+Organization: AVM GmbH
 X-Migadu-Flow: FLOW_OUT
 
-Make heading adornments compliant with the guidelines to improve
-organisation of the page.
+On Mon, Apr 07, 2025 at 09:42:37AM +0200, Thomas Weißschuh wrote:
+> Currently testing of userspace and in-kernel API use two different
+> frameworks. kselftests for the userspace ones and Kunit for the
+> in-kernel ones. Besides their different scopes, both have different
+> strengths and limitations:
+> 
+> Kunit:
+> * Tests are normal kernel code.
+> * They use the regular kernel toolchain.
+> * They can be packaged and distributed as modules conveniently.
+> 
+> Kselftests:
+> * Tests are normal userspace code
+> * They need a userspace toolchain.
+>   A kernel cross toolchain is likely not enough.
+> * A fair amout of userland is required to run the tests,
+>   which means a full distro or handcrafted rootfs.
+> * There is no way to conveniently package and run kselftests with a
+>   given kernel image.
+> * The kselftests makefiles are not as powerful as regular kbuild.
+>   For example they are missing proper header dependency tracking or more
+>   complex compiler option modifications.
+> 
+> Therefore kunit is much easier to run against different kernel
+> configurations and architectures.
+> This series aims to combine kselftests and kunit, avoiding both their
+> limitations. It works by compiling the userspace kselftests as part of
+> the regular kernel build, embedding them into the kunit kernel or module
+> and executing them from there. If the kernel toolchain is not fit to
+> produce userspace because of a missing libc, the kernel's own nolibc can
+> be used instead.
+> The structured TAP output from the kselftest is integrated into the
+> kunit KTAP output transparently, the kunit parser can parse the combined
+> logs together.
+> 
+> Further room for improvements:
+> * Call each test in its completely dedicated namespace
+> * Handle additional test files besides the test executable through
+>   archives. CPIO, cramfs, etc.
+> * Compatibility with kselftest_harness.h (in progress)
+> * Expose the blobs in debugfs
+> * Provide some convience wrappers around compat userprogs
+> * Figure out a migration path/coexistence solution for
+>   kunit UAPI and tools/testing/selftests/
+> 
+> Output from the kunit example testcase, note the output of
+> "example_uapi_tests".
+> 
+> $ ./tools/testing/kunit/kunit.py run --kunitconfig lib/kunit example
+> ...
+> Running tests with:
+> $ .kunit/linux kunit.filter_glob=example kunit.enable=1 mem=1G console=tty kunit_shutdown=halt
+> [11:53:53] ================== example (10 subtests) ===================
+> [11:53:53] [PASSED] example_simple_test
+> [11:53:53] [SKIPPED] example_skip_test
+> [11:53:53] [SKIPPED] example_mark_skipped_test
+> [11:53:53] [PASSED] example_all_expect_macros_test
+> [11:53:53] [PASSED] example_static_stub_test
+> [11:53:53] [PASSED] example_static_stub_using_fn_ptr_test
+> [11:53:53] [PASSED] example_priv_test
+> [11:53:53] =================== example_params_test  ===================
+> [11:53:53] [SKIPPED] example value 3
+> [11:53:53] [PASSED] example value 2
+> [11:53:53] [PASSED] example value 1
+> [11:53:53] [SKIPPED] example value 0
+> [11:53:53] =============== [PASSED] example_params_test ===============
+> [11:53:53] [PASSED] example_slow_test
+> [11:53:53] ======================= (4 subtests) =======================
+> [11:53:53] [PASSED] procfs
+> [11:53:53] [PASSED] userspace test 2
+> [11:53:53] [SKIPPED] userspace test 3: some reason
+> [11:53:53] [PASSED] userspace test 4
+> [11:53:53] ================ [PASSED] example_uapi_test ================
+> [11:53:53] ===================== [PASSED] example =====================
+> [11:53:53] ============================================================
+> [11:53:53] Testing complete. Ran 16 tests: passed: 11, skipped: 5
+> [11:53:53] Elapsed time: 67.543s total, 1.823s configuring, 65.655s building, 0.058s running
+> 
+> Based on v6.15-rc1.
+> 
+> Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> ---
+> Changes in v2:
+> - Rebase onto v6.15-rc1
+> - Add documentation and kernel docs
+> - Resolve invalid kconfig breakages
+> - Drop already applied patch "kbuild: implement CONFIG_HEADERS_INSTALL for Usermode Linux"
+> - Drop userprogs CONFIG_WERROR integration, it doesn't need to be part of this series
+> - Replace patch prefix "kconfig" with "kbuild"
+> - Rename kunit_uapi_run_executable() to kunit_uapi_run_kselftest()
+> - Generate private, conflict-free symbols in the blob framework
+> - Handle kselftest exit codes
+> - Handle SIGABRT
+> - Forward output also to kunit debugfs log
+> - Install a fd=0 stdin filedescriptor
+> - Link to v1: https://lore.kernel.org/r/20250217-kunit-kselftests-v1-0-42b4524c3b0a@linutronix.de
+> 
+> ---
+> Thomas Weißschuh (11):
+>       kbuild: userprogs: add nolibc support
+>       kbuild: introduce CONFIG_ARCH_HAS_NOLIBC
+>       kbuild: doc: add label for userprogs section
+>       kbuild: introduce blob framework
+>       kunit: tool: Add test for nested test result reporting
+>       kunit: tool: Don't overwrite test status based on subtest counts
+>       kunit: tool: Parse skipped tests from kselftest.h
+>       kunit: Introduce UAPI testing framework
+>       kunit: uapi: Add example for UAPI tests
+>       kunit: uapi: Introduce preinit executable
+>       kunit: uapi: Validate usability of /proc
+> 
+>  Documentation/dev-tools/kunit/api/index.rst        |   5 +
+>  Documentation/dev-tools/kunit/api/uapi.rst         |  12 +
+>  Documentation/kbuild/makefiles.rst                 |  37 ++-
+>  MAINTAINERS                                        |   2 +
+>  include/kunit/uapi.h                               |  24 ++
+>  include/linux/blob.h                               |  32 +++
+>  init/Kconfig                                       |   2 +
+>  lib/kunit/.kunitconfig                             |   2 +
+>  lib/kunit/Kconfig                                  |  11 +
+>  lib/kunit/Makefile                                 |  18 +-
+>  lib/kunit/kunit-example-test.c                     |  15 ++
+>  lib/kunit/kunit-example-uapi.c                     |  56 ++++
+>  lib/kunit/uapi-preinit.c                           |  65 +++++
+>  lib/kunit/uapi.c                                   | 294 +++++++++++++++++++++
+>  scripts/Makefile.blobs                             |  19 ++
+>  scripts/Makefile.build                             |   6 +
+>  scripts/Makefile.clean                             |   2 +-
+>  scripts/Makefile.userprogs                         |  16 +-
+>  scripts/blob-wrap.c                                |  27 ++
+>  tools/include/nolibc/Kconfig.nolibc                |  13 +
+>  tools/testing/kunit/kunit_parser.py                |  13 +-
+>  tools/testing/kunit/kunit_tool_test.py             |   9 +
+>  .../test_is_test_passed-failure-nested.log         |  10 +
+>  .../test_data/test_is_test_passed-kselftest.log    |   3 +-
+>  24 files changed, 682 insertions(+), 11 deletions(-)
+> ---
+> base-commit: bf9962cc9ec3ac1dae2bf81b126657c1c49c348a
+> change-id: 20241015-kunit-kselftests-56273bc40442
+> 
+> Best regards,
+> -- 
+> Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> 
 
-Signed-off-by: George Anthony Vernon <contact@gvernon.com>
----
- Documentation/input/devices/amijoy.rst | 42 ++++++++++++++++----------
- 1 file changed, 26 insertions(+), 16 deletions(-)
+Hi Thomas,
 
-diff --git a/Documentation/input/devices/amijoy.rst b/Documentation/input/devices/amijoy.rst
-index cbc5240f8af3..a81e9de481c7 100644
---- a/Documentation/input/devices/amijoy.rst
-+++ b/Documentation/input/devices/amijoy.rst
-@@ -1,10 +1,12 @@
--~~~~~~~~~~~~~~~
-+===============
- Amiga joysticks
--~~~~~~~~~~~~~~~
-+===============
- 
-+Pinouts
-+=======
- 
- Amiga 4-joystick parallel port extension
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+----------------------------------------
- 
- Parallel port pins:
- 
-@@ -19,8 +21,8 @@ Pin    Meaning  Pin    Meaning
- 19     Gnd1	18     Gnd2
- =====  ======== ====   ==========
- 
--Amiga digital joystick pinout
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Amiga digital joystick
-+----------------------
- 
- === ============
- Pin Meaning
-@@ -36,8 +38,8 @@ Pin Meaning
- 9   Thumb button
- === ============
- 
--Amiga mouse pinout
--~~~~~~~~~~~~~~~~~~
-+Amiga mouse
-+-----------
- 
- === ============
- Pin Meaning
-@@ -53,8 +55,8 @@ Pin Meaning
- 9   Right button
- === ============
- 
--Amiga analog joystick pinout
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Amiga analog joystick
-+---------------------
- 
- === ==============
- Pin Meaning
-@@ -70,8 +72,8 @@ Pin Meaning
- 9   Analog Y
- === ==============
- 
--Amiga lightpen pinout
--~~~~~~~~~~~~~~~~~~~~~
-+Amiga lightpen
-+--------------
- 
- === =============
- Pin Meaning
-@@ -87,7 +89,11 @@ Pin Meaning
- 9   Stylus button
- === =============
- 
---------------------------------------------------------------------------------
-+Register addresses
-+==================
-+
-+JOY0DAT/JOY1DAT
-+---------------
- 
- ======== === ==== ==== ====== ===========================================
- NAME     rev ADDR type chip   Description
-@@ -159,7 +165,8 @@ JOY1DAT   Y7  Y6  Y5  Y4  Y3  Y2  Y1  Y0     X7  X6  X5  X4  X3  X2  X1  X0
-          | Right      |  4   | X1                              |
-          +------------+------+---------------------------------+
- 
---------------------------------------------------------------------------------
-+JOYTEST
-+-------
- 
- ========  === ==== ==== ====== =================================================
- NAME      rev ADDR type chip    Description
-@@ -176,7 +183,8 @@ JOYTEST       036   W   Denise  Write to all 4  joystick-mouse counters at once.
-   JOYxDAT  Y7  Y6  Y5  Y4  Y3  Y2  xx  xx     X7  X6  X5  X4  X3  X2  xx  xx
- ========= === === === === === === === === ====== === === === === === === ===
- 
---------------------------------------------------------------------------------
-+POT0DAT/POT1DAT
-+---------------
- 
- ======= === ==== ==== ====== ===========================================
- NAME    rev ADDR type chip   Description
-@@ -217,7 +225,8 @@ POT1DAT  h  014   R   Paula  Pot counter data right pair (vert., horiz.)
-          the counters will count proportionally faster.
-          This should be noted when doing variable beam displays.
- 
---------------------------------------------------------------------------------
-+POTGO
-+-----
- 
- ====== === ==== ==== ====== ================================================
- NAME   rev ADDR type chip   Description
-@@ -226,7 +235,8 @@ POTGO      034   W   Paula  Pot port (4 bit) bi-direction and data, and pot
- 			    counter start.
- ====== === ==== ==== ====== ================================================
- 
---------------------------------------------------------------------------------
-+POTINP
-+------
- 
- ====== === ==== ==== ====== ================================================
- NAME   rev ADDR type chip   Description
--- 
-2.49.0
+sorry for the long delay.  I started reviewing but am not completely 
+through the whole set (especially, I did not really look at the kunit 
+patches, yet) but would like to send you at least some feedback already.
 
+In general, I really like the idea and your approach and am looking 
+forward for an integration.
+
+Kind regards,
+Nicolas
