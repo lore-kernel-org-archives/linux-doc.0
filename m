@@ -1,145 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F40258A;
-	Mon, 26 May 2025 07:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAF32DCC0B;
+	Mon, 26 May 2025 07:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748244721; cv=none; b=qbRBK6JKxi5k8W9NXx+JrWj3wWK+gekjYYk3V7+h63uny3yrCo6gOyD6TNJ/pwD25z79MTQqUQ3x4SCh8NKIixpy3juZBrqDanBXWiskzQC5v4DEF81oXzU5LeMIt1qF+3KBghNSA7S2ri12wjL8aTrLG4AIlHhDgggxlXBabUg=
+	t=1748245549; cv=none; b=VbQ+V2M2UeLozMiM8MyH0TH08ZIXeTYMCPu3HeI99zeKHABIsFQtpPChpOuFFihVWPRjvwQrDOubXv2/JO4WXaQVt9OhI/ir8X9L6ed5vGJmtHBKknDmu+RjDQyhBInnAYJzUZ4D0bqVjXHWe4egey3+qWuIZhx13IMmzdoTCc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748244721; c=relaxed/simple;
-	bh=MO/4ARkNvR6Truprt23/4h1IxkmjVoXyFgAZc0Ho/vs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BKzRl5vfkpB7+Xb1ay0Qqa/r8yt5aOXjuIf1m/3C5pOs5XDI80tBqN3+EZex6Z+gIQyyRYPLB+25iW8wAQknCZn+It0cc6zaeZiv9c/bis1ZSgTMoe2MnlWzGYrsI2cn4CR+g7vU7xYlG4e5VfpFW3oVwgJ3QUVeEh6sFfP6AsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mbBA7aNh; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mbBA7aNh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 015A0C4CEE7;
-	Mon, 26 May 2025 07:31:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748244720;
-	bh=MO/4ARkNvR6Truprt23/4h1IxkmjVoXyFgAZc0Ho/vs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mbBA7aNhItRnqtALzSE1jHexDePTqhVw9YIoRtxHOHP2G3Ndf/GFaCJlXAKtN3UwP
-	 bTmSKc5OFoznrdWeOzN4xjDffDLgFYf7lOd4wKJjCFZ8NdrU8T48EpgAfvy4dvggXj
-	 K0GIR8wdnfmeSOUT2YRSm7ig2y/gK7ISleBryf98oCKf6jZY9TrEdJrHVckKtI4Wta
-	 gEmFZ+Xb+pL/RZ3tE5Rt/YIBVQUBegvXpTRO0ZCpuGvKO2vowtMZIJqdv5cvXyEdNt
-	 tJ4+Chd8sis6e1ISEl5zGgqLYtWbmAbYCpId+gG5/pxrHrmvDcPFNQB87qCEuNyiZx
-	 YEs1vl8p1IHlA==
-Date: Mon, 26 May 2025 10:31:39 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	changyuanl@google.com, dmatlack@google.com, rientjes@google.com,
-	corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de
-Subject: Re: [RFC v2 06/16] luo: luo_subsystems: add subsystem registration
-Message-ID: <aDQY2_XUBY9a6BsX@kernel.org>
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-7-pasha.tatashin@soleen.com>
+	s=arc-20240116; t=1748245549; c=relaxed/simple;
+	bh=IKPOttPlF0NgyQsdYLx3uMrMrLsnXJ7+pj+nFrwqMAo=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=RQa0+V5NS9PwgrqtwrR75e7k0sgdxZYDgpeIQ/tGiYFT8G2y+mp+P/pX+n6W2jSTRRqsUjbG3ZYG3aOPW28YT7RS9ewHrOxIzTG1vghsGxILdUIJ3nZNiLqo4v5s0Y23L4hZqeJvmSLD0c4IqVHhM0T7sFX7gIkZjOqCSlv4jxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4b5SV966zYz4f3k5c;
+	Mon, 26 May 2025 15:45:21 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id E4ED11A16A0;
+	Mon, 26 May 2025 15:45:41 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP4 (Coremail) with SMTP id gCh0CgCnCl8kHDRoqxQ2Ng--.6543S3;
+	Mon, 26 May 2025 15:45:41 +0800 (CST)
+Subject: Re: [PATCH 06/23] md/md-bitmap: add a new sysfs api bitmap_type
+To: Christoph Hellwig <hch@lst.de>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: xni@redhat.com, colyli@kernel.org, song@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
+References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
+ <20250524061320.370630-7-yukuai1@huaweicloud.com>
+ <20250526063226.GB12811@lst.de>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <577a1bf6-9f23-0ccd-c269-d625ae11890d@huaweicloud.com>
+Date: Mon, 26 May 2025 15:45:39 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250515182322.117840-7-pasha.tatashin@soleen.com>
+In-Reply-To: <20250526063226.GB12811@lst.de>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgCnCl8kHDRoqxQ2Ng--.6543S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7trykGry8ur43Aw1DWF1xZrb_yoW8WrWxp3
+	yfJ3ZxCFs5XFWFgw17uasF9FnYqw4DJF9IqryfX345Grn8XrsxWFWrWa1Dtw17A3W8ZF4D
+	Za45JrW8WryUuaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
+	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
-On Thu, May 15, 2025 at 06:23:10PM +0000, Pasha Tatashin wrote:
-> Introduce the framework for kernel subsystems (e.g., KVM, IOMMU, device
-> drivers) to register with LUO and participate in the live update process
-> via callbacks.
+Hi,
 
-...
+ÔÚ 2025/05/26 14:32, Christoph Hellwig Ð´µÀ:
+> On Sat, May 24, 2025 at 02:13:03PM +0800, Yu Kuai wrote:
+>> +  consistency_policy
+> 
+> .. these doc changes look unrelated, or am I missing something?
 
-> diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
-> index c2740da70958..7a130680b5f2 100644
-> --- a/include/linux/liveupdate.h
-> +++ b/include/linux/liveupdate.h
-> @@ -86,6 +86,39 @@ enum liveupdate_state  {
->  	LIVEUPDATE_STATE_UPDATED = 3,
->  };
->  
-> +/**
-> + * struct liveupdate_subsystem - Represents a subsystem participating in LUO
-> + * @prepare:      Optional. Called during LUO prepare phase. Should perform
-> + *                preparatory actions and can store a u64 handle/state
-> + *                via the 'data' pointer for use in later callbacks.
-> + *                Return 0 on success, negative error code on failure.
-> + * @freeze:       Optional. Called during LUO freeze event (before actual jump
-> + *                to new kernel). Should perform final state saving actions and
-> + *                can update the u64 handle/state via the 'data' pointer. Retur:
-> + *                0 on success, negative error code on failure.
-> + * @cancel:       Optional. Called if the live update process is canceled after
-> + *                prepare (or freeze) was called. Receives the u64 data
-> + *                set by prepare/freeze. Used for cleanup.
-> + * @finish:       Optional. Called after the live update is finished in the new
-> + *                kernel.
-> + *                Receives the u64 data set by prepare/freeze. Used for cleanup.
-> + * @name:         Mandatory. Unique name identifying the subsystem.
-> + * @arg:          Add this argument to callback functions.
-> + * @list:         List head used internally by LUO. Should not be modified by
-> + *                caller after registration.
-> + * @private_data: For LUO internal use, cached value of data field.
-> + */
-> +struct liveupdate_subsystem {
-> +	int (*prepare)(void *arg, u64 *data);
-> +	int (*freeze)(void *arg, u64 *data);
-> +	void (*cancel)(void *arg, u64 data);
-> +	void (*finish)(void *arg, u64 data);
+The position are moved to the front of the bitmap fields, because now
+bitmap/xxx is not always here.
 
-What is the intended use of arg in all these?
+Before:
 
-> +	const char *name;
-> +	void *arg;
-> +	struct list_head list;
-> +	u64 private_data;
-> +};
+All md devices contain:
+	level
+	...
+	bitmap/xxx
+	bitmap/xxx
+	consistency_policy
+	uuid
 
-I suggest to split callbacks into, say, liveupdate_ops so we could constify
-them.
-And then it seems that the data in liveupdate_subsystem can be private to
-LUO.
+After:
+All md devices contain:
+	level
+	...
+	consistency_policy
+	uuid
+	bitmap_type
+		none xxx
+		bitmap xxx
+If bitmap_type is bitmap, then the md device will also contain:
+	bitmap/xxx
+	bitmap/xxx
 
-> +
->  #ifdef CONFIG_LIVEUPDATE
->  
->  /* Return true if live update orchestrator is enabled */
-> @@ -105,6 +138,10 @@ bool liveupdate_state_updated(void);
->   */
->  bool liveupdate_state_normal(void);
->  
-> +int liveupdate_register_subsystem(struct liveupdate_subsystem *h);
+> 
+>> -static void mddev_set_bitmap_ops(struct mddev *mddev, enum md_submodule_id id)
+>> +static bool mddev_set_bitmap_ops(struct mddev *mddev)
+>>   {
+>>   	xa_lock(&md_submodule);
+>> -	mddev->bitmap_ops = xa_load(&md_submodule, id);
+>> +	mddev->bitmap_ops = xa_load(&md_submodule, mddev->bitmap_id);
+>>   	xa_unlock(&md_submodule);
+>> -	if (!mddev->bitmap_ops)
+>> -		pr_warn_once("md: can't find bitmap id %d\n", id);
+>> +
+>> +	if (!mddev->bitmap_ops) {
+>> +		pr_warn_once("md: can't find bitmap id %d\n", mddev->bitmap_id);
+>> +		return false;
+>> +	}
+>> +
+>> +	return true;
+> 
+> This also looks unrelated and like another prep patch?
 
-int liveupdate_register_subsystem(name, ops, data) ?
+The new api will set mddev->bitmap_id, and the above change switch to
+use mddev->bitmap_id to register bitmap_ops, perhaps I can factor the
+change to a new prep patch, like:
 
-> +int liveupdate_unregister_subsystem(struct liveupdate_subsystem *h);
-> +int liveupdate_get_subsystem_data(struct liveupdate_subsystem *h, u64 *data);
-> +
->  #else /* CONFIG_LIVEUPDATE */
+md: add a new field mddev->bitmap_id
 
--- 
-Sincerely yours,
-Mike.
+Before:
+mddev_set_bitmap_ops(mddev, ID_BITMAP);
+
+After:
+mddev->bitmap_id = ID_BITMAP;
+if (!mddev_set_bitmap_ops(mddev))
+	return -EINVAL;
+
+Thanks,
+Kuai
+
+> 
+> .
+> 
+
