@@ -1,115 +1,105 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72CC1F4CA0
-	for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 13:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9271B87D9;
+	Mon, 26 May 2025 13:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748266553; cv=none; b=ojYtIVx2Y3Y1XxpnSDJqidZ4m+5KsNa6yPmLnhmTiSJ8Trwc9EBFZEMEK6anPZVbhpnYN7CY/yCg12OnJirPokZiGqzjTqQpMWqJExN67NrUOfligW4djItRVBWwvYVW/IXEu5klLEHpbcZamVjno/E0wUL4THwgTYXKJo2pbKI=
+	t=1748266930; cv=none; b=OnRygGG8Hz7RiqRhfE935YsFbGJJR3Dk/QhUTsjrZNx4Pe7WYlgdGY/Nd2YaMLRxLY/Wv1EAWKQScl1v3gY4AtSZog5ZrResORPmpX984cz+BvdgBiABeWRuIWmrnlUNV1wreFu2vswVUC9PmX0vP3e73SMUlZGI9zSa5zA4g38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748266553; c=relaxed/simple;
-	bh=1Aul9o/qUilCj8W7iefEpcgzSu+rgeASpP39xJzntn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=id/TMbj+bM8DOJHVfYQvNaUi39ffDEd95jEk9dcbGkDX/piCoeqORkjQG4zbtdPdNZ1DTYohnaIb0An4QneI+iXlMaLifkKQU8rr+sfl99y7raTbKSCX0/I901QONrPI4wxsRYnVosaPoSH8//Xc8tec/qoVodJ/wcjRrtF/Yrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fzjEJjgp; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1748266930; c=relaxed/simple;
+	bh=N3jCi3khROE9TVxPRzpAHw/qGx3uAUp6MOKY3QNCs4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JVTC6gmCYN1PDkwaYWdNh0IDXHOx6MZr+nwmcHkC0+P7dI0RHllXFpOQW85/XOphMxNmI/FfNhXPepyVi/W/nY8hzn2oWIXNV0ZrYT+/i8vC+oHvJGI0InpTggC/lisMmQzZkbSVEeHiW3pyeWb9iw4zzxS3A7POhGkn9RFd/v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mN2HstQS; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fzjEJjgp"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4dd5f69e7so397483f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 06:35:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mN2HstQS"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-742c9563fafso1463295b3a.0;
+        Mon, 26 May 2025 06:42:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1748266550; x=1748871350; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Aul9o/qUilCj8W7iefEpcgzSu+rgeASpP39xJzntn8=;
-        b=fzjEJjgpUfwgKBKy0pUYsfRVl43F/9y/4D3mVFsanD9Q+QxA59OlRMZ1kO/exJqyJC
-         i/JMQ02N/oFZEwhTdBLRtUTQRHIMwAsOX0Jgdfr1r0/YHOFbHIhBXBKqShfp0Pu8JfAU
-         9hOxfZTaR/Sd88sB06O69BAZo4grv4ZakPshtZxw1hkapAVIccRiKkeYmZJfsHW2m5ww
-         gJ13YFYzn5zL/aqhFEOLsViY12rTsjZKuuKNQ3Svb1eGbpbevEYi4VDCK0+4hSwE7Adi
-         g/DM+/16DqZQwU3DKDlTrF9kdRSZcOBzFn82D0qpVbsr/193DBMNmGVaPmKPETU81UuN
-         0Wyg==
+        d=gmail.com; s=20230601; t=1748266929; x=1748871729; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=frQ0f0BJwDjiH9T/6GPovLUqHWLGL0+6wkcrVa4bH0k=;
+        b=mN2HstQSR2AhpcSfn4fg3YSHDDSLzbQJJAK29f/IWKhQg2DrctltXPsNeJe+y6qZ6A
+         y3O0lUaJzdes87oK+x7apoA3vHjaRGTjJhswsmCXO74Dtjsu8jGQCZ+iIfKCvoZPHzia
+         IeFbTSzGwkuCgRA2qX8awdzJ+m/7FXL/GdGXGChi0GdwKId+lZr6lVrVD7q7NUvTmVmJ
+         P953UWiE02L4Rk6+nmNBn6BbejpJpD14fRdVw0okOrr46ecsbioO2y3D13+EHIcXSLc7
+         9E/VBwczEXrPQPXrKa5c2UWF0xC/mz6tDB+NUtM+8eSnjjZHGccgauV7ZPxEkf4Oev5i
+         +l8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748266550; x=1748871350;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Aul9o/qUilCj8W7iefEpcgzSu+rgeASpP39xJzntn8=;
-        b=Gy/bNQKg80ML3O/AUDxR1DNhNA5aC/WN6qVhPim5KS8H6zwkckK0AQTy9N3M2qsrP6
-         Phw5tAv2gZPTn4wqWSN6O5+gZQH0LVaaGH70PDptWRjDmqwa3IcEM92RvcsvAKYJGErL
-         T7MIz+xOKatSgSqwvD2NeIo+7nhPenXJcnwonyTiGa9K4ZzIyntBxRlgW0M0CR5YzGgH
-         8gM0iNrVQYr1ozsp4liAj85wyrx8uh6ftSe3JTkkioG09+RyMjqKcd2baQyg8OAZUHP9
-         cqpK6a4f2u93fQrM/BUoYUC2mj5GywPUyDKshFxbK2EYLT74nshs36nme8GADNsSUhqa
-         ZVIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWU39VEWxTteYaDIoNxsregqJ7P/fUt0zw9bHw3PD1KKjeIJlv6OR5S1Vpu2pZW79OjrHzJ3D3STCs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+awwG04B001+YFda0SgU/F3fXK5tZ/U5Kgvw1nb2fHgZiaU7j
-	IvusGTpjaopGuigqQCoppjDhoPAOdSh0A0sC7gAHIhRRj6iJk3ufBofxy95q7kufsDE=
-X-Gm-Gg: ASbGncvpAtUd/YCxOXBPxFbpPKNCVIv+V1Sa2J+xJKI2R2RRyn5V9cdvS4n+k6Zx1sO
-	q/aj8EgRX0+XzRcSHfJu7F5Ut7XD6hBUpm0J3wUrFT4wwgKYfPRtpEHevIRLuPoHk77fkK+4/R1
-	8tpV7JR5uINbYtgxU5jPIuNrOyC9ZAWciTOuImhcHZu6jRDsUHiIbsxqfG1fSZz5Ab/t8VIX+Wg
-	BTucvJS1agB6Bm6CS0qXI06L0biBWYOfjSelljfhLB5/zp7U/aIFJERpbQWL2s3Pugu3LxAbamw
-	bR2ky2cFgqPOZBaOGmi1MTnpXGOCWWDuCdICNnaEZt4PZYGEZ19v8AzBKO6DWdf0
-X-Google-Smtp-Source: AGHT+IH9z+RmjKbKlugE59RcSaIQ+1M7ULOdQMV8GitsPIwHN1Wg9MPj97qR1ijZaSygllLPsUw4Bw==
-X-Received: by 2002:a05:6000:40df:b0:3a4:d18b:736f with SMTP id ffacd0b85a97d-3a4d18b753fmr5067346f8f.56.1748266549895;
-        Mon, 26 May 2025 06:35:49 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f3dd99edsm235481665e9.36.2025.05.26.06.35.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 May 2025 06:35:49 -0700 (PDT)
-Date: Mon, 26 May 2025 15:35:47 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Chen Yu <yu.c.chen@intel.com>, peterz@infradead.org, 
-	akpm@linux-foundation.org, mingo@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
-	corbet@lwn.net, mgorman@suse.de, mhocko@kernel.org, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, tim.c.chen@intel.com, aubrey.li@intel.com, libo.chen@oracle.com, 
-	kprateek.nayak@amd.com, vineethr@linux.ibm.com, venkat88@linux.ibm.com, ayushjai@amd.com, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, yu.chen.surf@foxmail.com
-Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
-Message-ID: <uuhyie7udxyvbdpccwi7dl5cy26ygkkuxjixpl247u5nqwpcqm@5whxlt5ddswo>
-References: <cover.1748002400.git.yu.c.chen@intel.com>
- <7ef90a88602ed536be46eba7152ed0d33bad5790.1748002400.git.yu.c.chen@intel.com>
- <cx4s4pnw5ymr4bxxmvrkhc457krq46eh6zamlr4ikp7tn3jsno@xzchjlnnawe5>
+        d=1e100.net; s=20230601; t=1748266929; x=1748871729;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=frQ0f0BJwDjiH9T/6GPovLUqHWLGL0+6wkcrVa4bH0k=;
+        b=gHIM1JqHj07HBZioHPGTUDJqsvcy/uj158Lce1t/inDnpzEs5Ecgw6kBDEHng57JV+
+         TNyo8YO/XFfApO7q5sTu/+6JMh9Ez6Ri9QVPqyG6SNhPvzzRMJiZG4ffxRejapIr02ch
+         EaeQiJRR1xM/X2vf2abx3SKqbSsbnuwyE/Fngp/oBGK9oLBJDhPQyGyaRceu3IoeQIN2
+         cc0S8er6IjEKBdljjzf1Nuc+lG3fGCIp5FcnPgyXAXXgsj5M1ruBIdXsQXVCDdlK4nch
+         7z2aoknXqeHJRF/w5YTvE2Yz/vtgStK+vinTQ/zdXOAjABDvWozMtAz/TyjzJNlAYNvj
+         DRLg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnGBNj0beZGCs5Eh8J+Y0Z0HMKF3eZprCat2JDwAK3cyL3X9o9AYSNH6Hzp2PPm0FGa2dqMt/ZtCaN4OThN7nvXji9@vger.kernel.org, AJvYcCXzjW8EtSvbdIqGmwHo04XuAQIGl3XypqOtP0+MhsyrNDClXmj8UKL4uE+pn0Lam1pthIZkp5LX5Hc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTECNIXHAqhBFRcUWbrKJeVfw61dqz28kxUSEIFO9WxkF/ImE7
+	fwgLhfLxeODW/KAsW1VpKxoCKY2ghUjnjOLIcK5L7opEWdxB5qeGHj/c
+X-Gm-Gg: ASbGncu7sTalR1P3pxI+zMzACo30x1Ji5zT+cQ7xx2ditVQ6kc0VnXVnwVlhLC7NEDO
+	KFGF5YBuw9kpTaM4/AkSZ0RHAHkH0uHdz1yyWjZygKcDYB/PJY3UyemmzkWKwmnn170fg304qBi
+	vqvAeReZGXqf1AC+FVP56cPHoASNlHTTKFSo5JhCJ5lVqvMyrPGjpvITThx07C/Eid0I49BDIg/
+	WWfs1cI0anItFIxp59mBCSXpJMKcUiwp7FMugxgJD/vjHoKv2jRChxuMvz6WtTk2N54F4quXcTA
+	JwQEWbY2mA50QhfrZBQm+JyMDYz2TNIkBax5qLSof6lBCdWMWj+dndLl5oe73BCDmj8MQoKUfvh
+	Qf4JA5/9AHCZZxclh3Fs=
+X-Google-Smtp-Source: AGHT+IEQyBevUUoLQg/Z4I8nbFN8HgNhcgvl1vZj+oKXKoJFa4vLR50xWZEaVrPbo0btIVShWkj6yw==
+X-Received: by 2002:a05:6a21:38d:b0:209:ca8b:91f2 with SMTP id adf61e73a8af0-2188c2992cdmr13559656637.19.1748266928668;
+        Mon, 26 May 2025 06:42:08 -0700 (PDT)
+Received: from localhost.localdomain (183178125027.ctinets.com. [183.178.125.27])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb084936sm16872453a12.56.2025.05.26.06.42.02
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 26 May 2025 06:42:08 -0700 (PDT)
+From: Runji Liu <runjiliu.tech@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Runji Liu <runjiliu.tech@gmail.com>
+Subject: [PATCH] docs: trace: boottime-trace.rst: fix typo
+Date: Mon, 26 May 2025 21:40:46 +0800
+Message-ID: <20250526134046.1042-1-runjiliu.tech@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pba5ial65ghy3cht"
-Content-Disposition: inline
-In-Reply-To: <cx4s4pnw5ymr4bxxmvrkhc457krq46eh6zamlr4ikp7tn3jsno@xzchjlnnawe5>
+Content-Transfer-Encoding: 8bit
 
+Replace misspelled "eariler" with "earlier" and drop the stray period
+after "example".
 
---pba5ial65ghy3cht
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
-MIME-Version: 1.0
+Signed-off-by: Runji Liu <runjiliu.tech@gmail.com>
+---
+ Documentation/trace/boottime-trace.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Fri, May 23, 2025 at 04:42:50PM -0700, Shakeel Butt <shakeel.butt@linux.dev> wrote:
-> Hmm these are scheduler events, how are these relevant to memory cgroup
-> or vmstat? Any reason to not expose these in cpu.stat?
+diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
+index d594597201fd..3efac10adb36 100644
+--- a/Documentation/trace/boottime-trace.rst
++++ b/Documentation/trace/boottime-trace.rst
+@@ -198,8 +198,8 @@ Most of the subsystems and architecture dependent drivers will be initialized
+ after that (arch_initcall or subsys_initcall). Thus, you can trace those with
+ boot-time tracing.
+ If you want to trace events before core_initcall, you can use the options
+-starting with ``kernel``. Some of them will be enabled eariler than the initcall
+-processing (for example,. ``kernel.ftrace=function`` and ``kernel.trace_event``
++starting with ``kernel``. Some of them will be enabled earlier than the initcall
++processing (for example, ``kernel.ftrace=function`` and ``kernel.trace_event``
+ will start before the initcall.)
+ 
+ 
+-- 
+2.43.0
 
-Good point. If I take it further -- this functionality needs neither
-memory controller (CONFIG_MEMCG) nor CPU controller
-(CONFIG_CGROUP_SCHED), so it might be technically calculated and exposed
-in _any_ cgroup (which would be same technical solution how cpu time is
-counted in cpu.stat regardless of CPU controller, cpu_stat_show()).
-
-Michal
-
---pba5ial65ghy3cht
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCaDRuMQAKCRAt3Wney77B
-SW8BAP4t+Hvi0LKP9OmSUAPwS3bA8QPQUvrZoDQmC08aYtF5/gD/dmVgrB6xQ1yK
-HAuRq6/nLpVwAY1doEUJs9ch7iqtfQk=
-=/lHO
------END PGP SIGNATURE-----
-
---pba5ial65ghy3cht--
