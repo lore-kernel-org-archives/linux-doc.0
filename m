@@ -1,118 +1,230 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5221C84C4;
-	Mon, 26 May 2025 20:23:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE1E1A23A6;
+	Mon, 26 May 2025 20:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748291027; cv=none; b=L2+/Ij+7YSa/KnFOrLc+MC1Rsgf3v+VGp/Bc2mpZJslNMwYupNwGdsMzxJ3hXZJ+ud4qswUTLc5f1JF8mAc5GRIOfzIHZo5QF4o0K1m1p06Tse7HEMR6DZxdciCjYYf8sCjeAUWhOlaH4u1/3YJ1M/HeN9clTvN2kBwClmJxpUI=
+	t=1748292315; cv=none; b=GxHRBqLjbcUuRcc5peFPLmADaujC0uVOf/q7QZZvevH5XIwFwDXkfYjUYpJ34mZZpoCx4BOOzzXl5fTEUlCU5O4gMozQv0MhP/h95ctaSK/+gm9hYRoJ0lU/SvyCQXp7lZ6JHFF5zzRQPxkz+n/XekBn1x0GyIJPjP/vbCsmHdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748291027; c=relaxed/simple;
-	bh=+6BRoM2/WXB05O0ZhT3DqDkDWPn5rCY/4zpmHwarQlk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mPlcd6rJ6PuoUSZqgiDuanDhbrG7NUGoaDnh+aowpUw7s/WVvy8yJ5qTk2+7gXQ1ZV3pas4iIcmnqCllC1Rxr1lmEmd/0e3o/5vlJcMHlg5Gz7d/WPf/3H+maoPQRphHd2Z2eK4JQAYBnqvCkimhtiTp+d5AHOJOBPCp9lDTAMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jVBdCNiW; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1748292315; c=relaxed/simple;
+	bh=8XlFPKAgRZu8iNf7wu/BNssYGbs3cVElibPBDElcwUs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CoTOxQYKPAeNEack0ecsxWpTIGvedSKgThZVRAMTDQA/ov6gQ9XXwLIXzCphe6zi+0Y18p8M8eFwf1C0+USt++f7GN+8CDS/gAJaqtUHNVM8C7GY5NcsUwGtQhb9RsXlimJDnQMFnyS0SFmMJx/6GmcDpnRVbkDGqrY/SqRg4Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gd7sQbpK; arc=none smtp.client-ip=209.85.219.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jVBdCNiW"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43ede096d73so19984725e9.2;
-        Mon, 26 May 2025 13:23:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gd7sQbpK"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e7db5b0ddb1so139592276.2;
+        Mon, 26 May 2025 13:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748291023; x=1748895823; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H7+gUcKKexaxy5novFqIZxIAX0ITBngrhPCqKSxeyIA=;
-        b=jVBdCNiWlUrPjf83kbgurIdSDZJG6qChM2aPPZEZSgyT+CSSDlhxTyy8VSVjBzUkCC
-         kU1eFAD2J+DHFiv90dNvGrdPFR5N359J+brDSXVwjVWTFs1NUbJSCIm6HDA4jmlIg39g
-         07h67q6ax07Zc6iXs5K7g+7lUOWsmvdpdXTxDso2fJxMFwLDH03o5Acvjzn91Hco+7aC
-         1jWM3lm0x/2Ft8vwjn25KLVxNanQwfjfstqo1V7pxdVw4FZ5v1bOaL1IPF+sBqaqHBXy
-         Dg6aWVoaUDhrY89h3tE3mqiG0LomIG8/B9jpLuHdtXZj+dv8g4q5dJCj8aOGypoqyGJ3
-         43zA==
+        d=gmail.com; s=20230601; t=1748292312; x=1748897112; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rqf564IOkfuJ6413mTRFf6vGhtbkwIX3nVlwVv5RmSQ=;
+        b=gd7sQbpKACMcly2FkJKdWqcF8eAohKD8pghxCtrLuZ4aSEOhmEA/Xv6VixN/83nJGz
+         2fYAdVeZ11Y2TNvtxy9POd2BKHVKtywSXReiwQUDyY0X5rSSUmXYgrQdI3L2zjvZ0bhb
+         MbrjctrHG/U34c4mdlExXf+KxChmF6a/A3PLfsVIgRloWqrwqa+7HBMpdgJB+/syzvWb
+         3zYhYLFd4Kl4dlkXvycX3ZROZ/xnJC5WZ82Tf5sGW3S46GtIFMhqT4kVJ7XOlEXvPAsc
+         EgsOUEK8+2P+8za8dBXdIYG2gXEFm7cvw4KPVPDHUoGpXUJJKSw1DWTkb/+EBU85gVqh
+         VNdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748291023; x=1748895823;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H7+gUcKKexaxy5novFqIZxIAX0ITBngrhPCqKSxeyIA=;
-        b=Xn78uMX4EMSC5WhhD3yuHyclEnAfnSobbrgX8Gzic3yhUDXSWwWmwRAsbhH8O9kY1Y
-         TYSfJR01TTgEelEf/Z2e9PEvn3UGgA0eWLDpsBee0m9ZWpC0w0zkd3htl3XyNXcmGzZZ
-         ST8jndppxMvx4HtNch4K+8F6JZ3g4hgXFJo3CWg9jwLZTCQ/TT6AFSWSDvQmXmoJg3jk
-         mmt8g4en7tR29qV7PsLR5lztUknX4fzOiDK3OOkJX1MjRI0Mp4kHEbpbX2Dq8R/XmvgG
-         2JEuWnvYwUMAxTghiZBRP1TXKzN6A6uVJCPpuvrEjIpVLvPyn75OxhEo6HBgLkX06S5h
-         3CFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWSaxhaiJ7TgkJMoVrQ8UnloLonHZn9Nn9O8cTjPJq8WVaHI+BTo5eKDoS5i28IR7KrIxfgolqmdmIVPlc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxD3MQx/uIAiECPolWrBrqM073Z0y9Fg/Lpofy8aOwU4m3CmvF
-	iG29W+nqysBTFHCE3IfOVGK6nFXyLOKmD09kAFSws6kBORSlE4eqByTq
-X-Gm-Gg: ASbGncsXWC4JuZsvZJndSH0oS0/W/pmz5FUhuTBKeALRJ8m+vzb9bon9EBT5YO1nmvq
-	Upj8bcUQR4udA70eaT6dfHPlqX1pdTw+93xIb2Hk0SNU3Bktk4xMNzfP2K5jhSL8YzTbtDdXGN8
-	x2hQwS3h1RYM7caMw6N4MHBY8TVpn+vDILPwnJdFVWSpNKr9hmedVjmCKxeGKZv0AwEuNj+eNdZ
-	mAprhAS20zWfFogjvv3K5WhiyyVLu48GKCA6Z5nzE7UtCdR4TZE1OX1dzdQei9oFBF9blv3sAra
-	/iwUgICyEU5ouFc0RC9i+g0Uy1LrAU8y7p3UpVJ/CN3Nh0JNIBpJ41bM9AR2rqJhJ/ZvUAOE2QB
-	II3Q=
-X-Google-Smtp-Source: AGHT+IFZTWjswAKPy+IU0hlmiBXBclD4o7fhR3ZoHwVNe9Sl7RasJ8jOpeu5CcVSK0cpxpF4k1GPsw==
-X-Received: by 2002:a05:6000:2401:b0:3a4:dd63:4ad2 with SMTP id ffacd0b85a97d-3a4dd634c14mr2939557f8f.37.1748291023340;
-        Mon, 26 May 2025 13:23:43 -0700 (PDT)
-Received: from [192.168.1.46] ([154.183.23.207])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4cc52ab88sm8737719f8f.11.2025.05.26.13.23.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 May 2025 13:23:42 -0700 (PDT)
-Message-ID: <4c4ff0ea-509a-4e33-b5b5-ddf6e7213474@gmail.com>
-Date: Mon, 26 May 2025 23:23:40 +0300
+        d=1e100.net; s=20230601; t=1748292312; x=1748897112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Rqf564IOkfuJ6413mTRFf6vGhtbkwIX3nVlwVv5RmSQ=;
+        b=Hm9TAcnzwiXhwgBTcSxV9wEnzE6Nfu8nmDDc9OabE2dUExoJz2wUshHXlBqjyvBpcY
+         XS5xlC4Rb2km729SmQjoCZbkEUX0fi4Z6k9jgqfd2EQ35gL+UnivDPdFsmlS4m6HO4kC
+         OuHYNWj6qCI5bOjq3LO2JlkmJuur/vSheGuqUyIYCi+hB46RKyfkDcWzgUFLvBTQ9X8u
+         I1CIEXtrVWKQM85LWINosdLyfTyGk681TKN2Km2UTar734QTPcLuOVSnpiOjV+HWiG/z
+         aQse6NgZ9YwSrFfZYpH51KJ33xcZJcEqH2QQwQeBJqthkIoToOJ4LTNrC3pd8U47bZg2
+         nlaA==
+X-Forwarded-Encrypted: i=1; AJvYcCW09K8Rrf5kwmBm3qHRsN8vGADGMtSpuBDCNyU5QWURZOtFAgCJIqc44TmiEt1gglATA7Pc8SJYJblnBppO@vger.kernel.org, AJvYcCWaGCL/bDsZfopShcObuyGgUPgjrPoGOLdvRRegJn1a0ANfmWpb+flz4loErG+/sea52PEDvREWjWSi@vger.kernel.org, AJvYcCXWH2OZfaRJX5X2JFIjPptUkLh/M78NjCTEr5NYV/v5Kv6h/2Y0Hy6C0IpalILC2goncNcCKgZk0Dc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcnLESfn2GSh86iSnBRIbmdMvfEf0EfieAGHRvLXWg3NR7gQqb
+	VVomWObgeBU/uquAUYGgVWXMWESsX2eS/I2hJaEO0vBtEGD0jAB7vxkxliUhypSYJtl+sgrPg13
+	1FQPyUOAErkLJMRmnS6uM3sguHh1MbFCCM98j
+X-Gm-Gg: ASbGncvuAFdYSw95NDaMYQVmikBJlp72DlReqlRQG0aXNlpLaMemz0Hq1arTQm3EvL4
+	w+PFPbVJbEFHjyvxr6tOemLwPXFg1QhOgAJACCEWh3pXV0A2Ca8A8b2biWOutwhCX/r6kuATic+
+	jJAOp9VNxHzu+NvKnenAC9QS4oBZnallHoLWfUamZD22I=
+X-Google-Smtp-Source: AGHT+IGdBy5zw4tTzbnTdoJ6ppl77oUzVRKJu8Q+Tu2nce+ksoqH7+b9/m0gtrRcpaYpMh/JI1/29vanzAd5xvFReh8=
+X-Received: by 2002:a05:690c:4d03:b0:70e:4745:33d4 with SMTP id
+ 00721157ae682-70e474534d2mr39344047b3.7.1748292312213; Mon, 26 May 2025
+ 13:45:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: escape literal asterisk to fix reST emphasis
- warning
-To: Matthew Wilcox <willy@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- shuah@kernel.org, corbet@lwn.net, masahiroy@kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250526184401.33417-1-khaledelnaggarlinux@gmail.com>
- <aDTCdQNUN4Zlw2jJ@casper.infradead.org>
-Content-Language: en-US
-From: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
-In-Reply-To: <aDTCdQNUN4Zlw2jJ@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250523223523.35218-1-l.rubusch@gmail.com> <20250523223523.35218-5-l.rubusch@gmail.com>
+ <20250525132216.0bbc7067@jic23-huawei>
+In-Reply-To: <20250525132216.0bbc7067@jic23-huawei>
+From: Lothar Rubusch <l.rubusch@gmail.com>
+Date: Mon, 26 May 2025 22:44:35 +0200
+X-Gm-Features: AX0GCFuNL-6WiLGB2hsMgCme7HXIhsANbBf-3eOD4wpjLlWpAt_OeqCzXs3Td90
+Message-ID: <CAFXKEHa5pK_wc+JJR1EWtJt=Z5Dwj-+rKD9+W-sEMn7uxFNvcg@mail.gmail.com>
+Subject: Re: [PATCH v3 04/12] iio: accel: adxl313: make use of regmap cache
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net, 
+	lucas.p.stankus@gmail.com, lars@metafoo.de, Michael.Hennerich@analog.com, 
+	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/05/2025 10:35 pm, Matthew Wilcox wrote:
-> On Mon, May 26, 2025 at 09:43:59PM +0300, Khaled Elnaggar wrote:
->> Escaped a literal '*' character in symbol-namespaces.rst to prevent
->> a Docutils warning about unmatched emphasis markers during documentation build.
-> 
-> I don't think this is the right way to fix this problem.  We want
-> the test to work in both rendered and un-rendered form.  I think
-> we can do something like:
-> 
-> -For example:
-> +For example::
-> 
-> to turn it into a block that is rendered literally.  See
-> 
->                 For example::
-> 
->                   echo $((100 * `cat active_duration` / `cat connected_duration`))
-> 
-> as an example in Documentation/ABI/stable/sysfs-bus-usb
-> 
->>  For example:
->>
->> -  EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
->> +  EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-\*")
->>
->>  will limit usage of this symbol to modules whoes name matches the given
->>  patterns.
->> --
->> 2.47.2
->>
->>
+Hi,
 
-That even looks better in rendered, (::) are actually so prevalent I don't know
-how I did not see it before. I will send v2, thank you for the proper fix.
+On Sun, May 25, 2025 at 2:22=E2=80=AFPM Jonathan Cameron <jic23@kernel.org>=
+ wrote:
+>
+> On Fri, 23 May 2025 22:35:15 +0000
+> Lothar Rubusch <l.rubusch@gmail.com> wrote:
+>
+> > Setup regmap cache to cache register configuration. This is a preparato=
+ry
+> > step for follow up patches, to allow easy acces to the cached
+> > configuration.
+>
+> I think this stands on it's own given registers like the calibbias
+> are already both written and read from.  So I'd generalize the justificat=
+ion
+> to simply reducing unnecessary bus traffic.
+>
 
+I (think I) need regmap cache especially for activity / inactivity.
+For instance, using cached settings should make it easier to verify
+what was enabled when evaluating incomming interrupts. I will rework
+the commit message here.
+
+Best,
+L
+
+> Jonathan
+>
+> >
+> > Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+> > ---
+> >  drivers/iio/accel/adxl313.h      |  2 ++
+> >  drivers/iio/accel/adxl313_core.c | 17 +++++++++++++++++
+> >  drivers/iio/accel/adxl313_i2c.c  |  6 ++++++
+> >  drivers/iio/accel/adxl313_spi.c  |  6 ++++++
+> >  4 files changed, 31 insertions(+)
+> >
+> > diff --git a/drivers/iio/accel/adxl313.h b/drivers/iio/accel/adxl313.h
+> > index 72f624af4686..fc937bdf83b6 100644
+> > --- a/drivers/iio/accel/adxl313.h
+> > +++ b/drivers/iio/accel/adxl313.h
+> > @@ -54,6 +54,8 @@ extern const struct regmap_access_table adxl312_writa=
+ble_regs_table;
+> >  extern const struct regmap_access_table adxl313_writable_regs_table;
+> >  extern const struct regmap_access_table adxl314_writable_regs_table;
+> >
+> > +bool adxl313_is_volatile_reg(struct device *dev, unsigned int reg);
+> > +
+> >  enum adxl313_device_type {
+> >       ADXL312,
+> >       ADXL313,
+> > diff --git a/drivers/iio/accel/adxl313_core.c b/drivers/iio/accel/adxl3=
+13_core.c
+> > index 06a771bb4726..0c893c286017 100644
+> > --- a/drivers/iio/accel/adxl313_core.c
+> > +++ b/drivers/iio/accel/adxl313_core.c
+> > @@ -46,6 +46,23 @@ const struct regmap_access_table adxl314_readable_re=
+gs_table =3D {
+> >  };
+> >  EXPORT_SYMBOL_NS_GPL(adxl314_readable_regs_table, IIO_ADXL313);
+> >
+> > +bool adxl313_is_volatile_reg(struct device *dev, unsigned int reg)
+> > +{
+> > +     switch (reg) {
+> > +     case ADXL313_REG_DATA_AXIS(0):
+> > +     case ADXL313_REG_DATA_AXIS(1):
+> > +     case ADXL313_REG_DATA_AXIS(2):
+> > +     case ADXL313_REG_DATA_AXIS(3):
+> > +     case ADXL313_REG_DATA_AXIS(4):
+> > +     case ADXL313_REG_DATA_AXIS(5):
+> > +     case ADXL313_REG_FIFO_STATUS:
+> > +             return true;
+> > +     default:
+> > +             return false;
+> > +     }
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(adxl313_is_volatile_reg, "IIO_ADXL313");
+> > +
+> >  static int adxl312_check_id(struct device *dev,
+> >                           struct adxl313_data *data)
+> >  {
+> > diff --git a/drivers/iio/accel/adxl313_i2c.c b/drivers/iio/accel/adxl31=
+3_i2c.c
+> > index a4cf0cf2c5aa..e8636e8ab14f 100644
+> > --- a/drivers/iio/accel/adxl313_i2c.c
+> > +++ b/drivers/iio/accel/adxl313_i2c.c
+> > @@ -21,6 +21,8 @@ static const struct regmap_config adxl31x_i2c_regmap_=
+config[] =3D {
+> >               .rd_table       =3D &adxl312_readable_regs_table,
+> >               .wr_table       =3D &adxl312_writable_regs_table,
+> >               .max_register   =3D 0x39,
+> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
+> > +             .cache_type     =3D REGCACHE_MAPLE,
+> >       },
+> >       [ADXL313] =3D {
+> >               .reg_bits       =3D 8,
+> > @@ -28,6 +30,8 @@ static const struct regmap_config adxl31x_i2c_regmap_=
+config[] =3D {
+> >               .rd_table       =3D &adxl313_readable_regs_table,
+> >               .wr_table       =3D &adxl313_writable_regs_table,
+> >               .max_register   =3D 0x39,
+> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
+> > +             .cache_type     =3D REGCACHE_MAPLE,
+> >       },
+> >       [ADXL314] =3D {
+> >               .reg_bits       =3D 8,
+> > @@ -35,6 +39,8 @@ static const struct regmap_config adxl31x_i2c_regmap_=
+config[] =3D {
+> >               .rd_table       =3D &adxl314_readable_regs_table,
+> >               .wr_table       =3D &adxl314_writable_regs_table,
+> >               .max_register   =3D 0x39,
+> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
+> > +             .cache_type     =3D REGCACHE_MAPLE,
+> >       },
+> >  };
+> >
+> > diff --git a/drivers/iio/accel/adxl313_spi.c b/drivers/iio/accel/adxl31=
+3_spi.c
+> > index 9a16b40bff34..68e323e81aeb 100644
+> > --- a/drivers/iio/accel/adxl313_spi.c
+> > +++ b/drivers/iio/accel/adxl313_spi.c
+> > @@ -24,6 +24,8 @@ static const struct regmap_config adxl31x_spi_regmap_=
+config[] =3D {
+> >               .max_register   =3D 0x39,
+> >               /* Setting bits 7 and 6 enables multiple-byte read */
+> >               .read_flag_mask =3D BIT(7) | BIT(6),
+> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
+> > +             .cache_type     =3D REGCACHE_MAPLE,
+> >       },
+> >       [ADXL313] =3D {
+> >               .reg_bits       =3D 8,
+> > @@ -33,6 +35,8 @@ static const struct regmap_config adxl31x_spi_regmap_=
+config[] =3D {
+> >               .max_register   =3D 0x39,
+> >               /* Setting bits 7 and 6 enables multiple-byte read */
+> >               .read_flag_mask =3D BIT(7) | BIT(6),
+> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
+> > +             .cache_type     =3D REGCACHE_MAPLE,
+> >       },
+> >       [ADXL314] =3D {
+> >               .reg_bits       =3D 8,
+> > @@ -42,6 +46,8 @@ static const struct regmap_config adxl31x_spi_regmap_=
+config[] =3D {
+> >               .max_register   =3D 0x39,
+> >               /* Setting bits 7 and 6 enables multiple-byte read */
+> >               .read_flag_mask =3D BIT(7) | BIT(6),
+> > +             .volatile_reg   =3D adxl313_is_volatile_reg,
+> > +             .cache_type     =3D REGCACHE_MAPLE,
+> >       },
+> >  };
+> >
+>
