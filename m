@@ -1,152 +1,383 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D2B1A8401
-	for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 07:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652491E1E19;
+	Mon, 26 May 2025 07:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748243064; cv=none; b=fbgT/P4yPdQYdKFpiJn0m185aaYQfEog2wSmv1OdRxqOAQYIFYhVsncerQCddvFyzri0JhUvtzr+qi+MhF+W8XF+rdVnO5Gbd7QYCFPHUxeqQZ7npwYQzRovFinuYSJVX5vXXIZWZ1T/vd+p/stBt51/OGRP6Kv4jnxlPb9IL14=
+	t=1748243947; cv=none; b=NFgE49816ykEOjaUgIIU0E2lKsgpaTTVtEnZMaTqomnWQJXSS1eLqLoEgmoI6HOMwkoUAAlzBLcV2+CVX3v0PAjxXn6ADwsIB8KwyxWd+tibuZfhbhVmneYFSCMK1UiUXVuEyIG5la9ctc9rR67xRIJpMuXZnLRXwmtxz33CmVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748243064; c=relaxed/simple;
-	bh=/KjtSwvPWJ1jRSl2ED9yyTGBt2MsUlLauotMZbELXeI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LoCnwmZZJ5w7jWZ/np6Kp2TBGZrUbNEHcJqCy3pSMPHFAhPHagQoyXVF5kSkloZO4e61puEqAMc+gqQ8FWp3jbWYqH2Q9eHEW2Y9VDX8XZnLgqqn26wmT3RZ0PKUomH9G8Mlgjnk9AAmb4yxmNwFa+SDvthj+B0G9tw5yJviwQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Vc8g1cOX; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1748243947; c=relaxed/simple;
+	bh=MjYPiAp6HUDGi6nKBvrWjFgh7veuqNf/NgjVVb31RgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fzvy20FF7DiuDGq0dnuExdYcmGu/og/lPa5jpPGM6ry4vdeY/tO1w5N/y/7RmeJA4hR7qJmQ3tEMzM6hanMu0quaxkUa9CsO65JU1VsaJbbQrgpBLplGba0Ah+b7SqigqiIOUCWMExDdnPJ1IE0+FvNVovB+j4Y5iebxTghzQ4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p6yYNvk1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vc8g1cOX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748243061;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZsSqa4El9fWisOjdIZpyGfNCohIxqbRRIDaHJl1MAcg=;
-	b=Vc8g1cOX6i+6wluOw+6FpbSX61PXgQKXtQPsCAnVJVWnA2Sp9CR/L+1umaxrNjzF2T3scg
-	RvvH1/PYDRSu2BHx8Ixaob9KEGUxq0EaMcWoSNbOt5gvSn+AKFRQO50FBzjKav61VsV6hT
-	zaxfiG9e2SR7p+jwSnd2IPpFV6VcN5c=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-678--Mmb2ABeP7GmexmYoIkrYw-1; Mon, 26 May 2025 03:03:49 -0400
-X-MC-Unique: -Mmb2ABeP7GmexmYoIkrYw-1
-X-Mimecast-MFC-AGG-ID: -Mmb2ABeP7GmexmYoIkrYw_1748243028
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-550d7bd9a7fso944065e87.2
-        for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 00:03:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748243028; x=1748847828;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZsSqa4El9fWisOjdIZpyGfNCohIxqbRRIDaHJl1MAcg=;
-        b=vd2itKdB2ljOf9vcvAczBoq/73071kcRVkaIzJw+QZlNdz0+G0FmY2+hHjveqQ5nlR
-         fJwoKtazAydYzLYjBCxKuYU5Z4ALQbscAF91cGzD35UVKDjNz9rcgssA2V11y847gvIM
-         c5Mco3ykMKicJqYv94cFGQj2b/tEJt0A9KKTFomOdawFIDkCHFA6JsWXvrkw3U38XDyt
-         EnKJv8LwJbgFiNKNzVtt3CVDDs3SNjiKAo9wzYVaX1FfjidD0SlayTtlY/MAd/tNASGG
-         AA0IvXMr2tMnxtHWyG+4fgYrH56jTilgpDVLzbJk3xuodPGaPEF4R1Q2szCuXomKsrwH
-         pAPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWXBSO2+UL9b8tbvAzfAsbkBRDe51idIEG1gk4OkUKJNO2uSYHWtfeVbjnDTVclvvRcHPgWCO2MaWE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdF8Xbr/biJ+Zjcufp6CRD7CY+cUfOZ36XL53emAncq1PEk9F/
-	hSAV8mSpv4ahVKD9BWJrQC15H8PqInGzFn+WGsE5dAcZmMuVff/TJ2uyBp2VCfnShSQMEXNFKuc
-	3xBgnWbB9Yg9LHSyhzfmywFm9RsueViyli3+htd+00zzUDWO8G8rgoXjIxuv8G42toymEGON641
-	FyuwbkyWUgZSzMPP0rqeEGQklOC2tzqYm/7W9D
-X-Gm-Gg: ASbGnct4FOpk4VtP4pStwPE2M1AHzfPFFnHAnquQuSkfhUYFRGvcImqIUsrkaTZzPPT
-	iDHTgVAj0fRr5pg7W5L1EB0G5yRUKvlJ8Lu8IWrVN4gUfios/OYV2OdYhXTUi01IJtHm2ig==
-X-Received: by 2002:a05:6512:e81:b0:54a:c4af:29 with SMTP id 2adb3069b0e04-5521c9b49c3mr2194370e87.52.1748243027675;
-        Mon, 26 May 2025 00:03:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFiI1Yk6wtJQGChMVRuaINop3PCJafppboQa8n3wGOEjdM+iFjM89BfGUysLGx/bSchoPaUn/ub/pVQf6fAwJQ=
-X-Received: by 2002:a05:6512:e81:b0:54a:c4af:29 with SMTP id
- 2adb3069b0e04-5521c9b49c3mr2194360e87.52.1748243027250; Mon, 26 May 2025
- 00:03:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p6yYNvk1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40C92C4CEE7;
+	Mon, 26 May 2025 07:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748243946;
+	bh=MjYPiAp6HUDGi6nKBvrWjFgh7veuqNf/NgjVVb31RgQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p6yYNvk1UZWsU9zZbkmavxfC8uunacknREKse3aaucerpdwp9F6kLDMWkQWb6DDod
+	 Vc6Uh6UwVuVY395SjjoGbswsZSWGKv5fDXisYecvI9/z2Mgx4to0suQluaTO5ARyDR
+	 cG63kecb7/uSZemKj3eKpM5wArxIFa/+FnHesIQiA7Do7pQhoZIBJn7yexMn4i2hwC
+	 ntOqS0ITdO9IOFmwN299nG81oVgmitV8y8pm/u/0cfPFyn1yjaOt8K0vRAxxdGnoQP
+	 f1RQh2VDJ+u0IVPv+odHaJqBNF7NtF+YKxZRA3sGVC5uj3AlCRrPC1+g/pfx05yZji
+	 5Br1R5PcNoMZQ==
+Date: Mon, 26 May 2025 10:18:45 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	changyuanl@google.com, dmatlack@google.com, rientjes@google.com,
+	corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de
+Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
+Message-ID: <aDQV1bAt0i8d95MQ@kernel.org>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+ <20250515182322.117840-6-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250524061320.370630-1-yukuai1@huaweicloud.com> <20250524061320.370630-9-yukuai1@huaweicloud.com>
-In-Reply-To: <20250524061320.370630-9-yukuai1@huaweicloud.com>
-From: Xiao Ni <xni@redhat.com>
-Date: Mon, 26 May 2025 15:03:33 +0800
-X-Gm-Features: AX0GCFvwXVzrH9q1dPb-evKEBo6AYWl9O-76qs7DSfOVQGYh8gvgg_A7YC7NPKI
-Message-ID: <CALTww2-bZ83SjNntJOmKmY8J8+8b2tE3JMTXbzcRr3K8yCj9xQ@mail.gmail.com>
-Subject: Re: [PATCH 08/23] md/md-bitmap: add a new method skip_sync_blocks()
- in bitmap_operations
-To: Yu Kuai <yukuai1@huaweicloud.com>
-Cc: hch@lst.de, colyli@kernel.org, song@kernel.org, yukuai3@huawei.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com, 
-	johnny.chenyi@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250515182322.117840-6-pasha.tatashin@soleen.com>
 
-On Sat, May 24, 2025 at 2:18=E2=80=AFPM Yu Kuai <yukuai1@huaweicloud.com> w=
-rote:
->
-> From: Yu Kuai <yukuai3@huawei.com>
->
-> This method is used to check if blocks can be skipped before calling
-> into pers->sync_request(), llbiltmap will use this method to skip
+On Thu, May 15, 2025 at 06:23:09PM +0000, Pasha Tatashin wrote:
+> Integrate the LUO with the KHO framework to enable passing LUO state
+> across a kexec reboot.
+> 
+> This patch introduces the following changes:
+> - During the KHO finalization phase allocate FDT blob.
+> - Populate this FDT with a LUO compatibility string ("luo-v1") and the
+>   current LUO state (`luo_state`).
+> - Implement a KHO notifier
 
-type error: s/llbiltmap/llbitmap/g
-
-> resync for unwritten/clean data blocks, and recovery/check/repair for
-> unwritten data blocks;
->
-> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+Would be nice to have more details about how LUO interacts with KHO, like
+how LUO states correspond to the state of KHO, what may trigger
+corresponding state transitions etc.
+ 
+> LUO now depends on `CONFIG_KEXEC_HANDOVER`. The core state transition
+> logic (`luo_do_*_calls`) remains unimplemented in this patch.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > ---
->  drivers/md/md-bitmap.h | 1 +
->  drivers/md/md.c        | 7 +++++++
->  2 files changed, 8 insertions(+)
->
-> diff --git a/drivers/md/md-bitmap.h b/drivers/md/md-bitmap.h
-> index 2b99ddef7a41..0de14d475ad3 100644
-> --- a/drivers/md/md-bitmap.h
-> +++ b/drivers/md/md-bitmap.h
-> @@ -98,6 +98,7 @@ struct bitmap_operations {
->         md_bitmap_fn *start_discard;
->         md_bitmap_fn *end_discard;
->
-> +       sector_t (*skip_sync_blocks)(struct mddev *mddev, sector_t offset=
-);
->         bool (*start_sync)(struct mddev *mddev, sector_t offset,
->                            sector_t *blocks, bool degraded);
->         void (*end_sync)(struct mddev *mddev, sector_t offset, sector_t *=
-blocks);
-> diff --git a/drivers/md/md.c b/drivers/md/md.c
-> index dc4b85f30e13..890c8da43b3b 100644
-> --- a/drivers/md/md.c
-> +++ b/drivers/md/md.c
-> @@ -9362,6 +9362,12 @@ void md_do_sync(struct md_thread *thread)
->                 if (test_bit(MD_RECOVERY_INTR, &mddev->recovery))
->                         break;
->
-> +               if (mddev->bitmap_ops && mddev->bitmap_ops->skip_sync_blo=
-cks) {
-> +                       sectors =3D mddev->bitmap_ops->skip_sync_blocks(m=
-ddev, j);
-> +                       if (sectors)
-> +                               goto update;
-> +               }
+>  drivers/misc/liveupdate/luo_core.c | 222 ++++++++++++++++++++++++++++-
+>  1 file changed, 219 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/misc/liveupdate/luo_core.c b/drivers/misc/liveupdate/luo_core.c
+> index 919c37b0b4d1..a76e886bc3b1 100644
+> --- a/drivers/misc/liveupdate/luo_core.c
+> +++ b/drivers/misc/liveupdate/luo_core.c
+> @@ -36,9 +36,12 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <linux/err.h>
+> +#include <linux/kexec_handover.h>
+>  #include <linux/kobject.h>
+> +#include <linux/libfdt.h>
+>  #include <linux/liveupdate.h>
+>  #include <linux/rwsem.h>
+> +#include <linux/sizes.h>
+>  #include <linux/string.h>
+>  #include "luo_internal.h"
+>  
+> @@ -55,6 +58,12 @@ const char *const luo_state_str[] = {
+>  
+>  bool luo_enabled;
+>  
+> +static void *luo_fdt_out;
+> +static void *luo_fdt_in;
+> +#define LUO_FDT_SIZE		SZ_1M
+
+Does LUO really need that much?
+
+> +#define LUO_KHO_ENTRY_NAME	"LUO"
+> +#define LUO_COMPATIBLE		"luo-v1"
 > +
->                 sectors =3D mddev->pers->sync_request(mddev, j, max_secto=
-rs,
->                                                     &skipped);
->                 if (sectors =3D=3D 0) {
-> @@ -9377,6 +9383,7 @@ void md_do_sync(struct md_thread *thread)
->                 if (test_bit(MD_RECOVERY_INTR, &mddev->recovery))
->                         break;
->
-> +update:
->                 j +=3D sectors;
->                 if (j > max_sectors)
->                         /* when skipping, extra large numbers can be retu=
-rned. */
-> --
-> 2.39.2
->
+>  static int __init early_liveupdate_param(char *buf)
+>  {
+>  	return kstrtobool(buf, &luo_enabled);
+> @@ -79,6 +88,60 @@ static inline void luo_set_state(enum liveupdate_state state)
+>  	__luo_set_state(state);
+>  }
+>  
+> +/* Called during the prepare phase, to create LUO fdt tree */
+> +static int luo_fdt_setup(struct kho_serialization *ser)
+> +{
+> +	void *fdt_out;
+> +	int ret;
+> +
+> +	fdt_out = (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
+> +					   get_order(LUO_FDT_SIZE));
+> +	if (!fdt_out) {
+> +		pr_err("failed to allocate FDT memory\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret = fdt_create_empty_tree(fdt_out, LUO_FDT_SIZE);
+> +	if (ret)
+> +		goto exit_free;
+> +
+> +	ret = fdt_setprop(fdt_out, 0, "compatible", LUO_COMPATIBLE,
+> +			  strlen(LUO_COMPATIBLE) + 1);
+> +	if (ret)
+> +		goto exit_free;
+> +
+> +	ret = kho_preserve_phys(__pa(fdt_out), LUO_FDT_SIZE);
+> +	if (ret)
+> +		goto exit_free;
+> +
+> +	ret = kho_add_subtree(ser, LUO_KHO_ENTRY_NAME, fdt_out);
+> +	if (ret)
+> +		goto exit_unpreserve;
+> +	luo_fdt_out = fdt_out;
+> +
+> +	return 0;
+> +
+> +exit_unpreserve:
+> +	kho_unpreserve_phys(__pa(fdt_out), LUO_FDT_SIZE);
+> +exit_free:
+> +	free_pages((unsigned long)fdt_out, get_order(LUO_FDT_SIZE));
+> +	pr_err("failed to prepare LUO FDT: %d\n", ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static void luo_fdt_destroy(void)
+> +{
+> +	kho_unpreserve_phys(__pa(luo_fdt_out), LUO_FDT_SIZE);
+> +	free_pages((unsigned long)luo_fdt_out, get_order(LUO_FDT_SIZE));
+> +	luo_fdt_out = NULL;
+> +}
+> +
+> +static int luo_do_prepare_calls(void)
+> +{
+> +	return 0;
+> +}
+> +
+>  static int luo_do_freeze_calls(void)
+>  {
+>  	return 0;
+> @@ -88,11 +151,111 @@ static void luo_do_finish_calls(void)
+>  {
+>  }
+>  
+> -int luo_prepare(void)
+> +static void luo_do_cancel_calls(void)
+> +{
+> +}
+> +
+> +static int __luo_prepare(struct kho_serialization *ser)
+>  {
+> +	int ret;
+> +
+> +	if (down_write_killable(&luo_state_rwsem)) {
+> +		pr_warn("[prepare] event canceled by user\n");
+> +		return -EAGAIN;
+> +	}
+> +
+> +	if (!is_current_luo_state(LIVEUPDATE_STATE_NORMAL)) {
+> +		pr_warn("Can't switch to [%s] from [%s] state\n",
+> +			luo_state_str[LIVEUPDATE_STATE_PREPARED],
+> +			LUO_STATE_STR);
+> +		ret = -EINVAL;
+> +		goto exit_unlock;
+> +	}
+> +
+> +	ret = luo_fdt_setup(ser);
+> +	if (ret)
+> +		goto exit_unlock;
 
-Reviewed-by: Xiao Ni <xni@redhat.com>
+At this point LUO should know how many subsystems are participating in live
+update, I believe it can properly size the fdt. 
 
+> +
+> +	ret = luo_do_prepare_calls();
+> +	if (ret)
+> +		goto exit_unlock;
+> +
+> +	luo_set_state(LIVEUPDATE_STATE_PREPARED);
+> +
+> +exit_unlock:
+> +	up_write(&luo_state_rwsem);
+> +
+> +	return ret;
+> +}
+> +
+> +static int __luo_cancel(void)
+> +{
+> +	if (down_write_killable(&luo_state_rwsem)) {
+> +		pr_warn("[cancel] event canceled by user\n");
+> +		return -EAGAIN;
+> +	}
+> +
+> +	if (!is_current_luo_state(LIVEUPDATE_STATE_PREPARED) &&
+> +	    !is_current_luo_state(LIVEUPDATE_STATE_FROZEN)) {
+> +		pr_warn("Can't switch to [%s] from [%s] state\n",
+> +			luo_state_str[LIVEUPDATE_STATE_NORMAL],
+> +			LUO_STATE_STR);
+> +		up_write(&luo_state_rwsem);
+> +
+> +		return -EINVAL;
+> +	}
+> +
+> +	luo_do_cancel_calls();
+> +	luo_fdt_destroy();
+> +	luo_set_state(LIVEUPDATE_STATE_NORMAL);
+> +
+> +	up_write(&luo_state_rwsem);
+> +
+>  	return 0;
+>  }
+>  
+> +static int luo_kho_notifier(struct notifier_block *self,
+> +			    unsigned long cmd, void *v)
+> +{
+> +	int ret;
+> +
+> +	switch (cmd) {
+> +	case KEXEC_KHO_FINALIZE:
+> +		ret = __luo_prepare((struct kho_serialization *)v);
+> +		break;
+> +	case KEXEC_KHO_ABORT:
+> +		ret = __luo_cancel();
+> +		break;
+> +	default:
+> +		return NOTIFY_BAD;
+> +	}
+> +
+> +	return notifier_from_errno(ret);
+> +}
+> +
+> +static struct notifier_block luo_kho_notifier_nb = {
+> +	.notifier_call = luo_kho_notifier,
+> +};
+> +
+> +/**
+> + * luo_prepare - Initiate the live update preparation phase.
+> + *
+> + * This function is called to begin the live update process. It attempts to
+> + * transition the luo to the ``LIVEUPDATE_STATE_PREPARED`` state.
+> + *
+> + * If the calls complete successfully, the orchestrator state is set
+> + * to ``LIVEUPDATE_STATE_PREPARED``. If any  call fails a
+> + * ``LIVEUPDATE_CANCEL`` is sent to roll back any actions.
+> + *
+> + * @return 0 on success, ``-EAGAIN`` if the state change was cancelled by the
+> + * user while waiting for the lock, ``-EINVAL`` if the orchestrator is not in
+> + * the normal state, or a negative error code returned by the calls.
+> + */
+> +int luo_prepare(void)
+> +{
+> +	return kho_finalize();
+> +}
+> +
+>  /**
+>   * luo_freeze() - Initiate the final freeze notification phase for live update.
+>   *
+> @@ -188,9 +351,23 @@ int luo_finish(void)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * luo_cancel - Cancel the ongoing live update from prepared or frozen states.
+> + *
+> + * This function is called to abort a live update that is currently in the
+> + * ``LIVEUPDATE_STATE_PREPARED`` state.
+> + *
+> + * If the state is correct, it triggers the ``LIVEUPDATE_CANCEL`` notifier chain
+> + * to allow subsystems to undo any actions performed during the prepare or
+> + * freeze events. Finally, the orchestrator state is transitioned back to
+> + * ``LIVEUPDATE_STATE_NORMAL``.
+> + *
+> + * @return 0 on success, or ``-EAGAIN`` if the state change was cancelled by the
+> + * user while waiting for the lock.
+> + */
+>  int luo_cancel(void)
+>  {
+> -	return 0;
+> +	return kho_abort();
+>  }
+>  
+>  void luo_state_read_enter(void)
+> @@ -205,7 +382,46 @@ void luo_state_read_exit(void)
+>  
+>  static int __init luo_startup(void)
+>  {
+> -	__luo_set_state(LIVEUPDATE_STATE_NORMAL);
+> +	phys_addr_t fdt_phys;
+> +	int ret;
+> +
+> +	if (!kho_is_enabled()) {
+> +		if (luo_enabled)
+> +			pr_warn("Disabling liveupdate because KHO is disabled\n");
+> +		luo_enabled = false;
+> +		return 0;
+> +	}
+> +
+> +	ret = register_kho_notifier(&luo_kho_notifier_nb);
+> +	if (ret) {
+> +		luo_enabled = false;
+> +		pr_warn("Failed to register with KHO [%d]\n", ret);
+> +	}
+> +
+> +	/*
+> +	 * Retrieve LUO subtree, and verify its format.  Panic in case of
+> +	 * exceptions, since machine devices and memory is in unpredictable
+> +	 * state.
+> +	 */
+> +	ret = kho_retrieve_subtree(LUO_KHO_ENTRY_NAME, &fdt_phys);
+> +	if (ret) {
+> +		if (ret != -ENOENT) {
+> +			panic("failed to retrieve FDT '%s' from KHO: %d\n",
+> +			      LUO_KHO_ENTRY_NAME, ret);
+> +		}
+> +		__luo_set_state(LIVEUPDATE_STATE_NORMAL);
+> +
+> +		return 0;
+> +	}
+> +
+> +	luo_fdt_in = __va(fdt_phys);
+> +	ret = fdt_node_check_compatible(luo_fdt_in, 0, LUO_COMPATIBLE);
+> +	if (ret) {
+> +		panic("FDT '%s' is incompatible with '%s' [%d]\n",
+> +		      LUO_KHO_ENTRY_NAME, LUO_COMPATIBLE, ret);
+> +	}
+> +
+> +	__luo_set_state(LIVEUPDATE_STATE_UPDATED);
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.49.0.1101.gccaa498523-goog
+> 
+> 
+
+-- 
+Sincerely yours,
+Mike.
