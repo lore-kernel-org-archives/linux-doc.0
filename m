@@ -1,94 +1,134 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E581F7580;
-	Mon, 26 May 2025 11:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D561FC7D2;
+	Mon, 26 May 2025 12:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748260114; cv=none; b=CQpKUPzju2jevmxZLubrz6BopNYUhfrtIq9JqzX3cqTOXXDp1fdV+VeYDQsn71GIvUjqTAa3uMdKArPYwvrBV2k7hLmUEWtxZ9J3MB2NLLNop5NL0g2X/DF3TVQ993vY42va/LsvDyQgg044/LYN9jg7KLQn+CacEJ79F2DofAI=
+	t=1748261477; cv=none; b=reCcH+R40eLXtyxq4cqHP/gklugxmRbJvdOjgNYupbUYLUgZ668eFiZMB39eAIXG5rf3+qsc8NXg0xe2cP98QvLDss2iYMNNkfd8qsVbDjT9GoTYjZ2dgWqxzD/0wvHTq79aJT9ev9fKIQK6s/Tm0x9OwkhU1Z2rpUJGYl14o8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748260114; c=relaxed/simple;
-	bh=pSmYkZtOIKnR5jsr0vOqaPB1+ARyeaia23kddpVXRIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=laJXgz4XXvwaWwCUKHHrKiyTd6WMDh+ueb9UR5jI5lDFzkss78FzzCTxo5YxQvVQ+ggBBZ/ZiMz6hXoVjlgRdHtonSzgiR75h8ovnNdlJ+OF2YDKVGgORjFO5Ih7pOfunFsFZCk5WSn0pMCK/T3EjVH68QPynCBsTz8sLekcVCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=G3S3FhXc; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1748261477; c=relaxed/simple;
+	bh=hrWZ8l1cZmzGb0rBjRlN4YTI9FJ+eVKg64HEKHwbNCc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 References; b=rMF/XH3x5Wa9aFjS9afXYU1e/oZfE1fB9gUbxZGFmE1iDpyfdAyyQFpdAyPpx2XyJeJ8oFAEOrvruA9W/25J3HxD1ny7jozp7R5vA2xx2VOiy3+plPa39phaUCn2bQwkBYwuDfbdE5xFgciBRijyGtdFiAW870KJt4XdF2nBoeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=QzVzaho+; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="G3S3FhXc"
-Received: from pendragon.ideasonboard.com (237.69-130-109.adsl-dyn.isp.belgacom.be [109.130.69.237])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E985982;
-	Mon, 26 May 2025 13:48:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748260085;
-	bh=pSmYkZtOIKnR5jsr0vOqaPB1+ARyeaia23kddpVXRIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G3S3FhXcfiJONuF9gz0H5sICxp93+1GwyfLiVjzOP0QtEhc/J9/PQrR/8PISbdvTB
-	 uZtddzbbKhbAfKh/eEc0Q8swx2i3NVZgN1T0mDYuOfBaqhlADEC6SSbk6UqhhkjRVJ
-	 9qLhvQVl5v7iXnbHbJmpHLGfSElC4JdyodAoNd4E=
-Date: Mon, 26 May 2025 13:48:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Andrew Donnellan <ajd@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Akshay Gupta <akshay.gupta@amd.com>, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH 2/2] media: uapi: Document IOCTL number assignment
-Message-ID: <20250526114824.GE17743@pendragon.ideasonboard.com>
-References: <20250526111732.487229-1-sakari.ailus@linux.intel.com>
- <20250526111732.487229-3-sakari.ailus@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="QzVzaho+"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250526121112euoutp020939f6f970e100a8dc72a890f537db4f~DEovd-X3V0823508235euoutp02J;
+	Mon, 26 May 2025 12:11:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250526121112euoutp020939f6f970e100a8dc72a890f537db4f~DEovd-X3V0823508235euoutp02J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1748261472;
+	bh=oEQfyNRCcF96rAB00+i4LTDnH6eyExMGUimV2Hx1YDM=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=QzVzaho+gT//bWlkOTURTWXtnc4hEIbMGV8JGp+3YxyiCKTP2iSsBUjdf1+HZQ4kU
+	 KfdrZt6CeW5/LJ23tYHTuLXJ3kJbiO3M7rL7lK/fpNvKAIkHIo4/mt7rD+GA9hvsRQ
+	 YvWT05wESqHMdmy9XXFENm1m1Kn4J6FrqN3/kJzQ=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250526121111eucas1p277b74b79fe4ae4323fc687a06039044d~DEovH6I0i1358313583eucas1p2X;
+	Mon, 26 May 2025 12:11:11 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250526121110eusmtip1782073e50a70b6e2a3e0c1a2ca4e7eda~DEotgHSUL0843308433eusmtip13;
+	Mon, 26 May 2025 12:11:10 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux.dev, Marek Szyprowski
+	<m.szyprowski@samsung.com>, Leon Romanovsky <leon@kernel.org>, Jens Axboe
+	<axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Keith Busch
+	<kbusch@kernel.org>, Jake Edge <jake@lwn.net>, Jonathan Corbet
+	<corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun
+	<zyjzyj2000@gmail.com>, Robin Murphy <robin.murphy@arm.com>, Joerg Roedel
+	<joro@8bytes.org>, Will Deacon <will@kernel.org>, Sagi Grimberg
+	<sagi@grimberg.me>, Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe
+	<logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>, Shameer Kolothum
+	<shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>, Andrew Morton
+	<akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org, Niklas Schnelle
+	<schnelle@linux.ibm.com>, Chuck Lever <chuck.lever@oracle.com>, Luis
+	Chamberlain <mcgrof@kernel.org>, Matthew Wilcox <willy@infradead.org>, Dan
+	Williams <dan.j.williams@intel.com>, Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [GIT PULL] dma-mapping update for Linux 6.16
+Date: Mon, 26 May 2025 14:11:05 +0200
+Message-Id: <20250526121105.434835-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250526111732.487229-3-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250526121111eucas1p277b74b79fe4ae4323fc687a06039044d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250526121111eucas1p277b74b79fe4ae4323fc687a06039044d
+X-EPHeader: CA
+X-CMS-RootMailID: 20250526121111eucas1p277b74b79fe4ae4323fc687a06039044d
+References: <CGME20250526121111eucas1p277b74b79fe4ae4323fc687a06039044d@eucas1p2.samsung.com>
 
-Hi Sakari,
+The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
 
-Thank you for the patch.
+  Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
 
+are available in the Git repository at:
 
-On Mon, May 26, 2025 at 02:17:32PM +0300, Sakari Ailus wrote:
-> Document MC IOCTL number assignment in linux/media.h. In the past the
-> assignment up to 0x7f was missed so to prevent that from happening again,
-> document the value here as well.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+  https://git.kernel.org/pub/scm/linux/kernel/git/mszyprowski/linux.git tags/dma-mapping-6.16-2025-05-26
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+for you to fetch changes up to 3ee7d9496342246f4353716f6bbf64c945ff6e2d:
 
-> ---
->  include/uapi/linux/media.h | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-> index 1c80b1d6bbaf..2808132fcf49 100644
-> --- a/include/uapi/linux/media.h
-> +++ b/include/uapi/linux/media.h
-> @@ -381,6 +381,10 @@ struct media_v2_topology {
->   */
->  #define MEDIA_REQUEST_IOC_QUEUE		_IO('|',  0x80)
->  #define MEDIA_REQUEST_IOC_REINIT	_IO('|',  0x81)
-> +/*
-> + * Don't allocate new IOCTL numbers past 0x8f, MC IOCTL number assignment ends
-> + * there!
-> + */
->  
->  #ifndef __KERNEL__
->  
+  docs: core-api: document the IOVA-based API (2025-05-06 08:36:54 +0200)
 
--- 
-Regards,
+----------------------------------------------------------------
+dma-mapping updates for Linux 6.16:
 
-Laurent Pinchart
+- new two step DMA mapping API, which is is a first step to a long path
+  to provide alternatives to scatterlist and to remove hacks, abuses and
+  design mistakes related to scatterlists; this new approach optimizes
+  some calls to DMA-IOMMU layer and cache maintenance by batching them,
+  reduces memory usage as it is no need to store mapped DMA addresses to
+  unmap them, and reduces some function call overhead; it is a combination
+  effort of many people, lead and developed by Christoph Hellwig and Leon
+  Romanovsky
+
+----------------------------------------------------------------
+Christoph Hellwig (6):
+      PCI/P2PDMA: Refactor the p2pdma mapping helpers
+      dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+      iommu: generalize the batched sync after map interface
+      iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+      dma-mapping: add a dma_need_unmap helper
+      docs: core-api: document the IOVA-based API
+
+Leon Romanovsky (3):
+      iommu: add kernel-doc for iommu_unmap_fast
+      dma-mapping: Provide an interface to allow allocate IOVA
+      dma-mapping: Implement link/unlink ranges API
+
+ Documentation/core-api/dma-api.rst |  71 ++++++
+ drivers/iommu/dma-iommu.c          | 482 ++++++++++++++++++++++++++++++++-----
+ drivers/iommu/iommu.c              |  84 ++++---
+ drivers/pci/p2pdma.c               |  38 +--
+ include/linux/dma-map-ops.h        |  54 -----
+ include/linux/dma-mapping.h        |  85 +++++++
+ include/linux/iommu.h              |   4 +
+ include/linux/pci-p2pdma.h         |  85 +++++++
+ kernel/dma/direct.c                |  44 ++--
+ kernel/dma/mapping.c               |  18 ++
+ 10 files changed, 764 insertions(+), 201 deletions(-)
+----------------------------------------------------------------
+
+Thanks!
+
+Best regards
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
