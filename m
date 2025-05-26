@@ -1,93 +1,267 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9B21F1315
-	for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 09:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DA51E1DEC
+	for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 09:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748252527; cv=none; b=Qn4F8dJrywi5zdKnTtWYeBi20KV7l+z7+zsjByCOHaZGWkYchvYinO/sY+pZAIM1VEEDmm9Y/7UuCr3Vp43mJZgFnHRyPVuoaX0CYYmnjj2ApRbzYbXRIiE7hmp8aYAssKjyUiHHN0vWzbgHm01z6cGhkntUm9lE7kV+OJTBQLc=
+	t=1748252904; cv=none; b=HblKrpr/ZOILkuwMFxT+R6gWk98snBHSnPBXi2xcsU70XKrhLrNThy060CSvbt7iutYpvZ8qBdfcQ4vfk8Le7Nw2FJTIJKHo33IS2k3m66LHzNPWcStGfE8b5e+W+3BeSGmYGlmB6pGf1s43U+XGUevJPZuLuBBXG/1V5MxBNBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748252527; c=relaxed/simple;
-	bh=27+HxxD+Nnzh7/t8b6hLfpxekNp9wQ15a2r2Zx2hs2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bW2uL8s4IIGkkwDQB2fxRwYOSZ4NVPC1iy9bx+9vXdb9mN6MWHqnDhaDe06xdBCQmmmkBdlJNnZcxq0dxpd85m4tQMs8ssKDch9o1FWwJscoyC0zMXDlgeD3TX+z0PVlt/m6GlxdMF5NyazDMQvnBs0tKraSn2H2FO3NhkkSTB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=VwSakXoz; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1748252904; c=relaxed/simple;
+	bh=IbN6/KivZVMlm7ALQ/66xVG0rSo5kKzIvU12FoY4xC8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z6bIZVmjKncEuLP+uFtQwEf1mL1jBDYt2GAwCx8qfHlLsQHSgTEXd3D/ZMDQHGhaUmeyr3BvnkZkG0+Mtpt7vMGcEvijL+31X2szPw/qZqQh/ilxORApBNmgyA0M6vOOiQvZMmujabTBKOsHCGA99f9nW8PnwCZZRKZgOK/FpQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UKpnf/yN; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="VwSakXoz"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43d0618746bso15691845e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 02:42:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UKpnf/yN"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ad883afdf0cso25707366b.0
+        for <linux-doc@vger.kernel.org>; Mon, 26 May 2025 02:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1748252524; x=1748857324; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=27+HxxD+Nnzh7/t8b6hLfpxekNp9wQ15a2r2Zx2hs2E=;
-        b=VwSakXozz/3SRJRYu7ybWRUpHuaVIpUyPaMMLFUzLddZLQcVlmmS2jTm9Uomb/61hh
-         W4f5Kp4P9d/gig+/H6t/qBsfrUbiZTyX+MioCE8+B/gdw0QoU86SYs8ZgdQv1MoQtNNT
-         57pCGXW7oLLs0wQGIWTgPs/JXxxiwTcgt8eyPh8pMFr6V2a3SyGrGlYggcNcxuK7oVrw
-         diqdGM9Z7JELko9YskyJjYZufCMUUHb42T6oHUdi9oasXXZwUM/E4ajoHZHy4FqBVivv
-         +8IRiuqCDVz81zZE33obk1+M/9TC385hcg/BQ+TqBbGFOql+FkRYBRZvEFnBI4hQqF6M
-         PpjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748252524; x=1748857324;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1748252901; x=1748857701; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=27+HxxD+Nnzh7/t8b6hLfpxekNp9wQ15a2r2Zx2hs2E=;
-        b=SxtNV21GaAdK9OEYQF3VlxB0c2TabH3uJ8/v+qT8CxX4JnEZWCiMa+dXVbF4OtzoT0
-         8wI6HEsHIP9M6JdBkvq3Cp2or9puiOzo41c4FoBsVH/GvSFesLQuoleZBaK/5NPP966h
-         HV4oA1NfEFRxcoujhR1fgnjljKf0rqmmc1YEl7tRxemZ0apIov0AEmgeR+bPwTkEpumV
-         gRnSEt/r/8jqQJfrQXG2Y1Y3Ew7tuAX4liVkjIUNE83BpMhmgXYvLCWiBcsdiFwDH2fm
-         nsmVKzvkCprksKxGBxguc5xLcJVO8dXgUjmLQDusOd3W7tezVMxjdJ3SzP+PeLbKVFTc
-         osjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVYKpIDBlmyBs5SrXiuIQLnNbU0A85RTuJ+co0dBn7gSDbHQQepnRPLi3Zb4wx8zVKNaNXxNsbsRws=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkvDhvun+YgGMJiYVKOj10rtButsF4C3QQfVVz/aFlJ+ALhYOG
-	6mHNDjSWuW0nYpZZJnY+2h1INyYIZPJbnEoyruez8DNHZOQY7qwDTXI3QmUDoCUG3bo=
-X-Gm-Gg: ASbGncsrENGxSkzrzTsfMHecQmWGh1zkCgwkfELwlyosbjOc+123O1Pqdou++0AeXlL
-	oGThX5c8TtcTRQ7+f7HK6D2PETN1LhnPDPrWj0BZ7lS/peJl7jqMNSjQIgpk+TwBm47trGnPsrP
-	uSnzkG/o92GOuolGYe/c7u/jKliOiA8PkfB9ARWOImb27z+QHs4JKQCp0Xft64hSQNLk97HL3WE
-	w4FjsRudXi3ksvJkc0Xjz4ymUXIVJCd9MyWkM1NgGNsSvWXPssZdRg4vSHZHTszJGF74bXxRj5F
-	+hS9er1u82h6iE+CoiDygSEgP5fq5bmbmPoLvDhob8bKS+QK0Yu/TzanQoY/795rbJe0qSpAWpU
-	v+AQ=
-X-Google-Smtp-Source: AGHT+IGj/TCuJ1rymJwAmhwD9hEHb2YavTmDlg3uKm0ah5yuR6f/5Sm9EUvqo4UPAzGWQCJs2xZcoA==
-X-Received: by 2002:a05:600c:3c84:b0:442:d9f2:c6ef with SMTP id 5b1f17b1804b1-44c9301660cmr86938965e9.2.1748252524118;
-        Mon, 26 May 2025 02:42:04 -0700 (PDT)
-Received: from jiri-mlt (37-48-1-197.nat.epc.tmcz.cz. [37.48.1.197])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f6b29619sm242667995e9.7.2025.05.26.02.42.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 May 2025 02:42:03 -0700 (PDT)
-Date: Mon, 26 May 2025 11:42:01 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc: donald.hunter@gmail.com, kuba@kernel.org, davem@davemloft.net, 
-	edumazet@google.com, pabeni@redhat.com, horms@kernel.org, vadim.fedorenko@linux.dev, 
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com, andrew+netdev@lunn.ch, 
-	aleksandr.loktionov@intel.com, corbet@lwn.net, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Milena Olech <milena.olech@intel.com>
-Subject: Re: [PATCH net-next v4 1/3] dpll: add reference-sync netlink
- attribute
-Message-ID: <pu6s2lvqaulyurarklqxumdtcd3tql7djhyun3ylgvyv3lmsf7@oun62hhb5hkk>
-References: <20250523172650.1517164-1-arkadiusz.kubalewski@intel.com>
- <20250523172650.1517164-2-arkadiusz.kubalewski@intel.com>
+        bh=I/dM407EBptpdXaJ6/rYo7kerjNoj/FeGvLWecyQnx8=;
+        b=UKpnf/yNUjwW9qZUndAiVuERWobv8TyhHyZ7NssKLOHWiEKK3KaMp7FUZX+6lJh6yz
+         mZpZFx2JA3Zqka6bRme1QZ2G1icB3PhhyXIpM+T+Pg2eqrGaA7HpKVpX0r2WTjLz0bRQ
+         65bC7BbcNJtWGN3iKgiHwJ8jrHPEa3QpdWtyEFCZZWnoNkGWBDJvPHLDNeX2zJOpTkU9
+         BweFC6jL8d7JgJd+JGrcMrKP3pjyJ8sBAzZScock0Cthi9ibrFl6OZFBhZoz8iE7SFMJ
+         vbDzzti53bQJbourBQRJRsA2Zkt9RPn++ebD2zJIe4itvzCBIo+Z4XUm8d67tvmz6Iug
+         w9uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748252901; x=1748857701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I/dM407EBptpdXaJ6/rYo7kerjNoj/FeGvLWecyQnx8=;
+        b=ocZfNqPwLTRUecVFUQJUaj32oATLVJWnUIzRcEAtHvYgZxWSQQ1vcag905c1W9rj/d
+         29ShWMLkhfOPK/HagacLOvT8G6aTI3dRVzkVfCI08yUJ88r0DCjvw9NzFs7DFrk+jKpk
+         /8uQfsbL5PKQR863KocgC78N5ei/sbYxito6GuyA25El1WfY5DLwk8VWL5Ahy2bWJsAp
+         l6C0DAUAvAaJQYhHWt0mrt1ETj/584w13c3IJ9nufLZIMkNzx2LRJTU+P6qjIklOwUoe
+         blHjsJnjyMmCQEP/+yc9GkxJVW4eDZKYTef+5hs8H8e/9lGN0E8XSoh+Qkm8UCDk7B21
+         My7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXQMr8K/oRz6rga57DdDAhdlxQ1i/HeKhReWxi5s8ebZfzY81fA8IUvL1fDrWp293DqHk31nmRXtkk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3ux5jMfs7X4u8LGLxx8z9QSki1g7SrQ87UH1sYPZac7t09ODt
+	LG+uHiEb4mwRAyNr897Z+wLu0213coEMZjDWNiegnnDK8Evob6W0X2jnbWgNBRXEywkbMJKgUco
+	NdGZ+wLShIJ2QjbrDT1qz9Gq6YOuF8pjMXDYekZwm
+X-Gm-Gg: ASbGnct+4okWnopQSCJ9lZiumjNhf/aB8sBV8s1PhfoQ1YFW78iZ5/WERLhhVGEe7Kp
+	FCa1R3EBhFKkfLg1NBlLLxb2YIiIwq9qeS7AVfOF/PrGd50bNo3jk/P9Wt0KOaJsrxyGNO6c4bE
+	xOonILpHa9jzyt11OkhCSLleXlSv3YkZEDsFDvCXnZb2WZkagE+8PTDFiipYcM3vIO5R066rgnD
+	A==
+X-Google-Smtp-Source: AGHT+IGOsLPlFlEvlYkCbus5+x3MBMYKoCe7UkbI/PuCUN4NG3EUAT4RU2knzTA5Ul1WnnYLmtViQvSgi4fXiCoywyw=
+X-Received: by 2002:a17:907:6eab:b0:ad5:822d:b00d with SMTP id
+ a640c23a62f3a-ad85b2119damr754537866b.45.1748252900886; Mon, 26 May 2025
+ 02:48:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250523172650.1517164-2-arkadiusz.kubalewski@intel.com>
+References: <cover.1747349530.git.babu.moger@amd.com> <6a2cdedc0b2bf7e3da82d453b0104b46a2e85529.1747349530.git.babu.moger@amd.com>
+In-Reply-To: <6a2cdedc0b2bf7e3da82d453b0104b46a2e85529.1747349530.git.babu.moger@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Mon, 26 May 2025 11:48:10 +0200
+X-Gm-Features: AX0GCFs5QnLJ7LzQu3TrunXdv4Y7Ov3b367Y6o1OV9QQKODd-523j7ZA10IRPKc
+Message-ID: <CALPaoCjvUSKLKOXzF85j8mHT=eZYM-7R0=gJ3PRgOk4yuF5ZhQ@mail.gmail.com>
+Subject: Re: [PATCH v13 24/27] x86/resctrl: Introduce the interface to modify
+ assignments in a group
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, tony.luck@intel.com, reinette.chatre@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, james.morse@arm.com, dave.martin@arm.com, 
+	fenghuay@nvidia.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, 
+	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org, 
+	ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com, 
+	jpoimboe@kernel.org, alexandre.chartre@oracle.com, 
+	pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com, 
+	perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com, 
+	xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com, 
+	ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com, 
+	andrew.cooper3@citrix.com, mario.limonciello@amd.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, eranian@google.com, Xiaojian.Du@amd.com, 
+	gautham.shenoy@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fri, May 23, 2025 at 07:26:48PM +0200, arkadiusz.kubalewski@intel.com wrote:
->Add new netlink attribute to allow user space configuration of reference
->sync pin pairs, where both pins are used to provide one clock signal
->consisting of both: base frequency and sync signal.
+Hi Babu,
+
+On Fri, May 16, 2025 at 12:56=E2=80=AFAM Babu Moger <babu.moger@amd.com> wr=
+ote:
+
+> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+> index 8d970b99bbbd..ea1782723f81 100644
+> --- a/fs/resctrl/rdtgroup.c
+> +++ b/fs/resctrl/rdtgroup.c
+> @@ -2126,6 +2126,168 @@ static int mbm_L3_assignments_show(struct kernfs_=
+open_file *of, struct seq_file
+>         return ret;
+>  }
 >
->Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
->Reviewed-by: Milena Olech <milena.olech@intel.com>
->Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+> +/*
+> + * mbm_get_mon_event_by_name() - Return the mon_evt entry for the matchi=
+ng
+> + * event name.
+> + */
+> +static struct mon_evt *mbm_get_mon_event_by_name(struct rdt_resource *r,
+> +                                                char *name)
+> +{
+> +       struct mon_evt *mevt;
+> +
+> +       list_for_each_entry(mevt, &r->mon.evt_list, list) {
+> +               if (!strcmp(mevt->name, name))
+> +                       return mevt;
+> +       }
+> +
+> +       return NULL;
+> +}
+> +
+> +static unsigned int resctrl_get_assing_type(char *assign)
+> +{
+> +       unsigned int mon_state =3D ASSIGN_NONE;
+> +       int len =3D strlen(assign);
 
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
+[  395.013183] BUG: kernel NULL pointer dereference, address: 0000000000000=
+000
+[  395.013426] #PF: supervisor read access in kernel mode
+[  395.013600] #PF: error_code(0x0000) - not-present page
+[  395.013779] PGD 39322c067 P4D 2a4f49067 PUD 2a4f4a067 PMD 0
+[  395.013973] Oops: Oops: 0000 [#1] SMP DEBUG_PAGEALLOC NOPTI
+[  395.014156] CPU: 37 UID: 0 PID: 24147 Comm: bash Not tainted
+6.15.0-dbg-DEV #13 NONE
+[  395.014403] Hardware name: Google Astoria-Turin/astoria, BIOS
+0.20241223.2-0 01/17/2025
+[  395.014652] RIP: 0010:strlen+0xb/0x20
+[  395.014778] Code: 66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 90
+90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 48 c7 c0 ff
+ff ff ff <80> 7c 07 01 00 48 8d 40 01 75 f5 c3 cc cc cc cc cc 0f 1f 40
+00 90
+[  395.015356] RSP: 0018:ffa000002f743d58 EFLAGS: 00010246
+[  395.015522] RAX: ffffffffffffffff RBX: ff11000129a00600 RCX: 00000000000=
+00000
+[  395.015747] RDX: ff110001299f5253 RSI: ffffffff827b9651 RDI: 00000000000=
+00000
+[  395.015968] RBP: 0000000000000000 R08: 000000000000003d R09: 00000000000=
+00000
+[  395.016202] R10: ffffffff827b9652 R11: 0000000000000000 R12: ffffffff830=
+5b7f8
+[  395.016421] R13: ff110001299f5240 R14: 0000000000000014 R15: 00000000000=
+00000
+[  395.016644] FS:  00007f1281ff8b80(0000) GS:ff1100bdc8276000(0000)
+knlGS:0000000000000000
+[  395.016893] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  395.017071] CR2: 0000000000000000 CR3: 0000000420bc8002 CR4: 00000000007=
+71ef0
+[  395.017298] PKRU: 55555554
+[  395.017388] Call Trace:
+[  395.017471]  <TASK>
+[  395.017545]  mbm_L3_assignments_write+0x2d4/0x4e0
+[  395.017700]  kernfs_fop_write_iter+0x132/0x1c0
+[  395.017851]  vfs_write+0x2bf/0x3c0
+[  395.017963]  ksys_write+0x82/0x100
+[  395.018074]  do_syscall_64+0xee/0x210
+[  395.018198]  ? exc_page_fault+0x81/0xe0
+[  395.018321]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[  395.018482] RIP: 0033:0x7f128177f8b3
+[  395.018598] Code: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc
+cc cc cc cc cc cc cc 48 8b 05 99 91 07 00 83 38 00 75 10 b8 01 00 00
+00 0f 05 <48> 3d 01 f0 ff ff 73 4d c3 55 48 89 e5 41 57 41 56 53 50 48
+89 d3
+[  395.019167] RSP: 002b:00007ffff66e80f8 EFLAGS: 00000246 ORIG_RAX:
+0000000000000001
+[  395.019409] RAX: ffffffffffffffda RBX: 0000000000000014 RCX: 00007f12817=
+7f8b3
+[  395.019636] RDX: 0000000000000014 RSI: 0000000001eedb60 RDI: 00000000000=
+00001
+[  395.019861] RBP: 00007ffff66e8120 R08: 0000000000000000 R09: 00000000000=
+00000
+[  395.020081] R10: 00007ffff66e81b0 R11: 0000000000000246 R12: 0000000001e=
+edb60
+[  395.020303] R13: 0000000000000001 R14: 00007f12817fa650 R15: 00000000000=
+00014
+[  395.020532]  </TASK>
+
+> +
+> +       if (!len || len > 1)
+> +               return ASSIGN_INVALID;
+> +
+> +       switch (*assign) {
+> +       case 'e':
+> +               mon_state =3D ASSIGN_EXCLUSIVE;
+> +               break;
+> +       case '_':
+> +               mon_state =3D ASSIGN_NONE;
+> +               break;
+> +       default:
+> +               mon_state =3D ASSIGN_INVALID;
+> +               break;
+> +       }
+> +
+> +       return mon_state;
+> +}
+> +
+> +static int resctrl_process_assign(struct rdt_resource *r, struct rdtgrou=
+p *rdtgrp,
+> +                                 char *config, char *tok)
+> +{
+> +       struct rdt_mon_domain *d;
+> +       char *dom_str, *id_str;
+> +       unsigned long dom_id =3D 0;
+> +       struct mon_evt *mevt;
+> +       int assign_type;
+> +       char domain[10];
+> +       bool found;
+> +       int ret;
+> +
+> +       mevt =3D mbm_get_mon_event_by_name(r, config);
+> +       if (!mevt) {
+> +               rdt_last_cmd_printf("Invalid assign configuration %s\n", =
+config);
+> +               return  -ENOENT;
+> +       }
+> +
+> +next:
+> +       if (!tok || tok[0] =3D=3D '\0')
+> +               return 0;
+> +
+> +       /* Start processing the strings for each domain */
+> +       dom_str =3D strim(strsep(&tok, ";"));
+> +
+> +       id_str =3D strsep(&dom_str, "=3D");
+
+If there's no '=3D' then dom_str becomes NULL...
+
+> +
+> +       /* Check for domain id '*' which means all domains */
+> +       if (id_str && *id_str =3D=3D '*') {
+> +               d =3D NULL;
+> +               goto check_state;
+> +       } else if (!id_str || kstrtoul(id_str, 10, &dom_id)) {
+> +               rdt_last_cmd_puts("Missing domain id\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       /* Verify if the dom_id is valid */
+> +       found =3D false;
+> +       list_for_each_entry(d, &r->mon_domains, hdr.list) {
+> +               if (d->hdr.id =3D=3D dom_id) {
+> +                       found =3D true;
+> +                       break;
+> +               }
+> +       }
+> +
+> +       if (!found) {
+> +               rdt_last_cmd_printf("Invalid domain id %ld\n", dom_id);
+> +               return -EINVAL;
+> +       }
+> +
+> +check_state:
+> +       assign_type =3D resctrl_get_assing_type(dom_str);
+
+then the resulting type of whatever this is supposed to mean is "panic"
+
+Thanks,
+-Peter
