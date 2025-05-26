@@ -1,105 +1,123 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9271B87D9;
-	Mon, 26 May 2025 13:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C7B1FE470;
+	Mon, 26 May 2025 13:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748266930; cv=none; b=OnRygGG8Hz7RiqRhfE935YsFbGJJR3Dk/QhUTsjrZNx4Pe7WYlgdGY/Nd2YaMLRxLY/Wv1EAWKQScl1v3gY4AtSZog5ZrResORPmpX984cz+BvdgBiABeWRuIWmrnlUNV1wreFu2vswVUC9PmX0vP3e73SMUlZGI9zSa5zA4g38=
+	t=1748267799; cv=none; b=CDSH/tbXDi49MU6JHvHDWt4qNRW30GAc5wNp3F6ykossaDNAAAQXCwQjvDNZnrBDpx3DtW+1FXgA4+A5WFEQOXC0SMq+IwWejv2qiSVKG+erxbQwkfenbLYeud/JPHZA3fAi+OJzt2MJF1/d0Y4wAJuhpX2foPXwdVrHGz+sbaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748266930; c=relaxed/simple;
-	bh=N3jCi3khROE9TVxPRzpAHw/qGx3uAUp6MOKY3QNCs4M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JVTC6gmCYN1PDkwaYWdNh0IDXHOx6MZr+nwmcHkC0+P7dI0RHllXFpOQW85/XOphMxNmI/FfNhXPepyVi/W/nY8hzn2oWIXNV0ZrYT+/i8vC+oHvJGI0InpTggC/lisMmQzZkbSVEeHiW3pyeWb9iw4zzxS3A7POhGkn9RFd/v4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mN2HstQS; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1748267799; c=relaxed/simple;
+	bh=hAq26EsJwp1YiANWFZYO6JlZ573De3v+gpFr0luZpQg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tHl0WfNf+xg8efY31zdDPD89IaB91eJtOklhF/FUH7vw30HXXD7aL+vlWKXMcD3XXchgo0pl0wNPphC8xtTSHx6TSJmyAvR1HrNa++lkIvJAzsmF9eqCrEQEnZyUDMyxtLHmqwHt4/3ELR8+1WqJAKzznWg9JhZpYe4IMzHatKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RC8s3gIZ; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mN2HstQS"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-742c9563fafso1463295b3a.0;
-        Mon, 26 May 2025 06:42:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RC8s3gIZ"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-742c2ed0fe1so1978801b3a.1;
+        Mon, 26 May 2025 06:56:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748266929; x=1748871729; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=frQ0f0BJwDjiH9T/6GPovLUqHWLGL0+6wkcrVa4bH0k=;
-        b=mN2HstQSR2AhpcSfn4fg3YSHDDSLzbQJJAK29f/IWKhQg2DrctltXPsNeJe+y6qZ6A
-         y3O0lUaJzdes87oK+x7apoA3vHjaRGTjJhswsmCXO74Dtjsu8jGQCZ+iIfKCvoZPHzia
-         IeFbTSzGwkuCgRA2qX8awdzJ+m/7FXL/GdGXGChi0GdwKId+lZr6lVrVD7q7NUvTmVmJ
-         P953UWiE02L4Rk6+nmNBn6BbejpJpD14fRdVw0okOrr46ecsbioO2y3D13+EHIcXSLc7
-         9E/VBwczEXrPQPXrKa5c2UWF0xC/mz6tDB+NUtM+8eSnjjZHGccgauV7ZPxEkf4Oev5i
-         +l8A==
+        d=gmail.com; s=20230601; t=1748267797; x=1748872597; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=859cJo9TYvq1IzsoVeN/+jTfHc2/ejVYnyyvhCL0W0c=;
+        b=RC8s3gIZppzp4AUDr3t59F2FWOfKFWT2uulf/a1CJNVs4ruvlFhj1F9l23Wft12aIA
+         0+108iFAQZMuSQ1FpRyNO0CaWxaHYBLrhPnWV5s5LR7w43Gm7bJ/bKWR3AesvqhzysCG
+         urRBWRkVOSfg3085pZznfgIfM9hNaNWIsWckDHA4LP2Ifighj6Oc1yuLaGKaDLHAdCDQ
+         7i9KJxRR+6YUCJikzDaKzfdE7M7n+lHHm2oJ/u4yU9NE0Mx57OLZPc8QW1s6A9tlvtET
+         Y+MApIn1/ZnGuqi+xPh/Wm4hJACgmC6HG/nxMaU5TC9fPqNSEfnx3ebQhrZ2+O64/DaX
+         M3yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748266929; x=1748871729;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=frQ0f0BJwDjiH9T/6GPovLUqHWLGL0+6wkcrVa4bH0k=;
-        b=gHIM1JqHj07HBZioHPGTUDJqsvcy/uj158Lce1t/inDnpzEs5Ecgw6kBDEHng57JV+
-         TNyo8YO/XFfApO7q5sTu/+6JMh9Ez6Ri9QVPqyG6SNhPvzzRMJiZG4ffxRejapIr02ch
-         EaeQiJRR1xM/X2vf2abx3SKqbSsbnuwyE/Fngp/oBGK9oLBJDhPQyGyaRceu3IoeQIN2
-         cc0S8er6IjEKBdljjzf1Nuc+lG3fGCIp5FcnPgyXAXXgsj5M1ruBIdXsQXVCDdlK4nch
-         7z2aoknXqeHJRF/w5YTvE2Yz/vtgStK+vinTQ/zdXOAjABDvWozMtAz/TyjzJNlAYNvj
-         DRLg==
-X-Forwarded-Encrypted: i=1; AJvYcCVnGBNj0beZGCs5Eh8J+Y0Z0HMKF3eZprCat2JDwAK3cyL3X9o9AYSNH6Hzp2PPm0FGa2dqMt/ZtCaN4OThN7nvXji9@vger.kernel.org, AJvYcCXzjW8EtSvbdIqGmwHo04XuAQIGl3XypqOtP0+MhsyrNDClXmj8UKL4uE+pn0Lam1pthIZkp5LX5Hc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTECNIXHAqhBFRcUWbrKJeVfw61dqz28kxUSEIFO9WxkF/ImE7
-	fwgLhfLxeODW/KAsW1VpKxoCKY2ghUjnjOLIcK5L7opEWdxB5qeGHj/c
-X-Gm-Gg: ASbGncu7sTalR1P3pxI+zMzACo30x1Ji5zT+cQ7xx2ditVQ6kc0VnXVnwVlhLC7NEDO
-	KFGF5YBuw9kpTaM4/AkSZ0RHAHkH0uHdz1yyWjZygKcDYB/PJY3UyemmzkWKwmnn170fg304qBi
-	vqvAeReZGXqf1AC+FVP56cPHoASNlHTTKFSo5JhCJ5lVqvMyrPGjpvITThx07C/Eid0I49BDIg/
-	WWfs1cI0anItFIxp59mBCSXpJMKcUiwp7FMugxgJD/vjHoKv2jRChxuMvz6WtTk2N54F4quXcTA
-	JwQEWbY2mA50QhfrZBQm+JyMDYz2TNIkBax5qLSof6lBCdWMWj+dndLl5oe73BCDmj8MQoKUfvh
-	Qf4JA5/9AHCZZxclh3Fs=
-X-Google-Smtp-Source: AGHT+IEQyBevUUoLQg/Z4I8nbFN8HgNhcgvl1vZj+oKXKoJFa4vLR50xWZEaVrPbo0btIVShWkj6yw==
-X-Received: by 2002:a05:6a21:38d:b0:209:ca8b:91f2 with SMTP id adf61e73a8af0-2188c2992cdmr13559656637.19.1748266928668;
-        Mon, 26 May 2025 06:42:08 -0700 (PDT)
-Received: from localhost.localdomain (183178125027.ctinets.com. [183.178.125.27])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb084936sm16872453a12.56.2025.05.26.06.42.02
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 26 May 2025 06:42:08 -0700 (PDT)
-From: Runji Liu <runjiliu.tech@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Runji Liu <runjiliu.tech@gmail.com>
-Subject: [PATCH] docs: trace: boottime-trace.rst: fix typo
-Date: Mon, 26 May 2025 21:40:46 +0800
-Message-ID: <20250526134046.1042-1-runjiliu.tech@gmail.com>
-X-Mailer: git-send-email 2.47.0
+        d=1e100.net; s=20230601; t=1748267797; x=1748872597;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=859cJo9TYvq1IzsoVeN/+jTfHc2/ejVYnyyvhCL0W0c=;
+        b=fmzVjAuhTIOyIpIKTkdj/ghaRYbx6xVbf6FIJKMaHP6fQebQt8vbbN/ox6t+P+I14F
+         TwSl3t/Z6Jazp9tcirEu7vA/DunEtsKOZovXW+w4Cit54GN8KPVzxX8I//IbTKnpFhRK
+         LLVFUc34hO0yEyt04n91yoZa+TsDYWa1p2YBYvs1DK3eU6as6J1u1jz2pB8Nkoey4ykG
+         WMRP//7fWzWYNQDHq2kLi/lSgw5d7V5O+shu2Sl9HMTwbDZ16syFtS7d8q651KOUMCoS
+         PHW+3/XSZVnuqRFmalnOkJeqKoKsBUL32xnSGQbcPdABxC33dJFyx9RwziN9+JGmkM9C
+         mkzA==
+X-Forwarded-Encrypted: i=1; AJvYcCWy0FjUwf6c199JwAlFdHFRatk2ZmK0qBxKRpvRYzt28s8WUqO64HY2bttnRS3cvFOHoytrRD+Dn69ZYfb9@vger.kernel.org, AJvYcCXqVIAGrFh8zW1sr+I950YtKZXv+B/2tjnSvxqA1KpbSfjnqt6dzFaso9gRuDoZfnY2CQEk0uEdj+g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPFQPW7yNCJblFGyob10CDXAByxxYw+pqr6jNDm9rbu5pZzHRb
+	BvdG1D/9m9wooO+sTke87xtzyPKIUfh30uDxRRYFkpluLb2DNGs90Enr
+X-Gm-Gg: ASbGncs3viBd5Ayofr8QVwwHlHb/rolR+P4zD+bNYprKHkAwNXHonLuziGyK4x4nQbM
+	1hVepXfUFGlXw/NtHCPbBuA3bu5JwTC3AyAAGV+kcbDicQseaqHR4wEy9xleAsFWLvopNPKo9P3
+	omewGjLjsYuprXVwaLNyWCV9U+HQ1EyiFsxD7aMdHqiYFwpfn90fdSAfByxdHS1BdVMtpTVLa8M
+	K21G8hqtxGJxCD4dbK9/KkSEZWD0BC7C2kxYgXZYsEXWf1U1TDbX46nY84pfE5xh7F1otM3j9G8
+	YE6Lmw0LRVDOpifHNC39mbnjYpkyFUlnBD3TOg98cnOLr+LK0mKEXO7joNF6o4huu8ac0w==
+X-Google-Smtp-Source: AGHT+IGBWkRiRhCMFT1Pq44qUq2nocKyMI0en1mClBadLXgI7beC+Fngu6Pzn97BlO70EBYQ1uO4Dw==
+X-Received: by 2002:a05:6a21:6d87:b0:1f5:6e71:e55 with SMTP id adf61e73a8af0-2188c1e8722mr15780731637.6.1748267797278;
+        Mon, 26 May 2025 06:56:37 -0700 (PDT)
+Received: from [192.168.0.150] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a96e5f74sm17019095b3a.26.2025.05.26.06.56.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 May 2025 06:56:36 -0700 (PDT)
+Message-ID: <cb2d5cbd-d1e5-4a71-a24d-d02604c4016a@gmail.com>
+Date: Mon, 26 May 2025 20:56:32 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] input: docs: Fix Amiga joysticks grammar & formatting
+To: Jonathan Corbet <corbet@lwn.net>,
+ George Anthony Vernon <contact@gvernon.com>, dmitry.torokhov@gmail.com,
+ skhan@kernel.org
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20250526011443.136804-1-contact@gvernon.com>
+ <20250526011443.136804-4-contact@gvernon.com> <aDPVOlBIpnqc7Tez@archie.me>
+ <87a56za67l.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87a56za67l.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Replace misspelled "eariler" with "earlier" and drop the stray period
-after "example".
+On 5/26/25 19:48, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> 
+>> On Mon, May 26, 2025 at 02:14:43AM +0100, George Anthony Vernon wrote:
+>>> Make small grammar fixes to Amiga joystick documentation.
+>>>
+>>> Also make heading adornments compliant with the guidelines to improve
+>>> organisation of the page.
+>>
+>> Split up these two changes into separate patches.
+> 
+> The word "also" in a changelog is indeed a hint that a patch is doing
+> too many things.
+> 
+> For a simple patch like this, though, I would not force a resend just
+> for that.
+> 
 
-Signed-off-by: Runji Liu <runjiliu.tech@gmail.com>
----
- Documentation/trace/boottime-trace.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Do you mean keeping the patch as-is?
 
-diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
-index d594597201fd..3efac10adb36 100644
---- a/Documentation/trace/boottime-trace.rst
-+++ b/Documentation/trace/boottime-trace.rst
-@@ -198,8 +198,8 @@ Most of the subsystems and architecture dependent drivers will be initialized
- after that (arch_initcall or subsys_initcall). Thus, you can trace those with
- boot-time tracing.
- If you want to trace events before core_initcall, you can use the options
--starting with ``kernel``. Some of them will be enabled eariler than the initcall
--processing (for example,. ``kernel.ftrace=function`` and ``kernel.trace_event``
-+starting with ``kernel``. Some of them will be enabled earlier than the initcall
-+processing (for example, ``kernel.ftrace=function`` and ``kernel.trace_event``
- will start before the initcall.)
- 
- 
+>>> -~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> -Amiga joystick extensions
+>>> -~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +===============
+>>> +Amiga joysticks
+>>> +===============
+>>
+>> I would prefer to keep section adornments in this doc as-is, though.
+> 
+> ...and why...?  We have a standard progression, why not use it?
+> 
+
+I'm leaning towards following doc-specific convention (i.e. on this
+doc). I could adapt to it, but some time later when I re-read the
+source I might be semantically confused.
+
+Thanks.
+
 -- 
-2.43.0
-
+An old man doll... just what I always wanted! - Clara
