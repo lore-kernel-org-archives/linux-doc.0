@@ -1,171 +1,168 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B55A10A1E;
-	Tue, 27 May 2025 02:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BF78F5E;
+	Tue, 27 May 2025 03:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748314197; cv=none; b=iyiBB1lKe1SmvRa+xhzIYsN3NlK3nr6e1kwDtH6qK9cVT6XmfpesKH/E2QRxIc5XXV6rGKXvKeT0axqAhG+Fg+oZq+x+QGV69A5Lu6N/trC+GWswvseV/7dVEAoTsnGu4dhpEQuJuuHublkyBgq2UsquV8t4fkRDWD8PBxTsXT4=
+	t=1748316656; cv=none; b=BkAoTSY7oPxTj22whIgesem09KbHz0sz4yKkAmbhHl+vaI4OG/EzqLtVUSyb+y4NO+ec6SpV0z82XFzUaGvOd/wlxrZMgXaZmkqfuFeYG6VZQRTY5I9DzIG39w07WI4x++9qivMurScmmviEzOydti47tAg6LnxynDc0J1+JW+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748314197; c=relaxed/simple;
-	bh=wqYHAaq/UdwQng5Pd61Fetys7znkp/EWqSXgR0K4aGs=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=kJxv4VQBXfReOUMqfiFgjt+BIgC44D+XVWMmuTB7rJ5Eig5S+m4sy1Dl3EcYm/YV6Zk49I2kyFsXOUtcpfine/x2na8owgRVeEwBi7OamF961vPU/CcN+OogH1zcHa+/IPMzs5ZVJ35zEUwPw2O+wj/vYDockJ9y1NelPIWNIzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4b5xtD2Zzbz4f3kvl;
-	Tue, 27 May 2025 10:49:24 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 1EBF41A07F2;
-	Tue, 27 May 2025 10:49:51 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgCnCl9OKDVoaFuHNg--.19652S3;
-	Tue, 27 May 2025 10:49:50 +0800 (CST)
-Subject: Re: [PATCH 07/23] md/md-bitmap: delay registration of bitmap_ops
- until creating bitmap
-To: Xiao Ni <xni@redhat.com>, Yu Kuai <yukuai1@huaweicloud.com>
-Cc: hch@lst.de, colyli@kernel.org, song@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
- <20250524061320.370630-8-yukuai1@huaweicloud.com>
- <CALTww2_03_fVt+KMcmtbGw-kcRsLLpAG7W62e3y0W9SpvhUVtg@mail.gmail.com>
- <12a61dcf-ad39-48e8-132f-c49979b9012b@huaweicloud.com>
- <560ae765-3fa1-42b7-a71c-e078e52e64fd@redhat.com>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <82ed0b5d-d1ba-4e58-7d3b-adeb10b1ad24@huaweicloud.com>
-Date: Tue, 27 May 2025 10:49:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	s=arc-20240116; t=1748316656; c=relaxed/simple;
+	bh=4+1dYOsA3kHiY8rIfLnjAgd8wOHuIeN0O4AklhVQ26M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tNgPsuz+bFx9p4F0t8inlF8y/5XUgtuJWyWiqw1UWQ9oGu6l6IO65YMF0CREu1OjL3Ep3yJ46a6AMQJRjElZoTmOoio1FfNbYDqdGQeYu3oRKjtivEtMl4AgB1ll4ehm2YLqpTirZM2ZqP1bkAXKVCAmB1Afo+54aksJr/hfP5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDpCasoc; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDpCasoc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4DDFC4CEEB;
+	Tue, 27 May 2025 03:30:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748316655;
+	bh=4+1dYOsA3kHiY8rIfLnjAgd8wOHuIeN0O4AklhVQ26M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PDpCasocKfbRpFVO+Gva5E2erDIv83oOIdsyR75Vq2GGa56oNa5MOdQa5qay1G54y
+	 S3D805nuKzNhvN1MGkOcNzDYg75XhUCqp/yL2uAtapUbK1S3n1G1UqKFxjn4ntxa2t
+	 CxK7rnXc/L95iZlTUmMOfPm+tWQHp0eHX8ylQn1MLkMLwWEVbEIqOGdVT8vlbCWjXx
+	 1q7/F23sOsIArXHlRGvPt/BGFksZoRCqKz9JnzG/1PYvusJQ1vfQN1bIMcZcy537wE
+	 EtK8ERnZ0Vf1prle9VJ/upLUeNrvka0s29uYXbrEKAL1WDGe39ZbtoexMTV0Oi8rty
+	 ACZ9lz8fPa0vg==
+Date: Mon, 26 May 2025 20:30:52 -0700
+From: Kees Cook <kees@kernel.org>
+To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Hans de Goede <hdegoede@redhat.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	Michal Wilczynski <michal.wilczynski@intel.com>,
+	Juergen Gross <jgross@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Roger Pau Monne <roger.pau@citrix.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Usama Arif <usama.arif@bytedance.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
+	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-mm@kvack.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2 04/14] x86: Handle KCOV __init vs inline mismatches
+Message-ID: <202505262028.E5B7A7E8@keescook>
+References: <20250523043251.it.550-kees@kernel.org>
+ <20250523043935.2009972-4-kees@kernel.org>
+ <ba4f4fd0-1bcf-3d84-c08e-ba0dd040af16@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <560ae765-3fa1-42b7-a71c-e078e52e64fd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgCnCl9OKDVoaFuHNg--.19652S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxAFWUAFWDKF4DZFW8ZFykuFg_yoW5CFyfpr
-	Z7JF13CrW5Xr1fXr12q34UZF9Yqw4kJ3srXryxXF18JrnrtrnIqr4UWF1vgr18Ar48JF1U
-	Xr1UJr1xur15XF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
-	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
-	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
-	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
-	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
-	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
-	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUZYFZUUUUU=
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+In-Reply-To: <ba4f4fd0-1bcf-3d84-c08e-ba0dd040af16@linux.intel.com>
 
-Hi,
+On Mon, May 26, 2025 at 12:53:13AM +0300, Ilpo J�rvinen wrote:
+> On Thu, 22 May 2025, Kees Cook wrote:
+> 
+> > When KCOV is enabled all functions get instrumented, unless the
+> > __no_sanitize_coverage attribute is used. To prepare for
+> > __no_sanitize_coverage being applied to __init functions, we have to
+> > handle differences in how GCC's inline optimizations get resolved. For
+> > x86 this means forcing several functions to be inline with
+> > __always_inline.
+> > 
+> > Signed-off-by: Kees Cook <kees@kernel.org>
+> > ---
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > Cc: Ingo Molnar <mingo@redhat.com>
+> > Cc: Borislav Petkov <bp@alien8.de>
+> > Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> > Cc: <x86@kernel.org>
+> > Cc: "H. Peter Anvin" <hpa@zytor.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+> > Cc: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+> > Cc: Hans de Goede <hdegoede@redhat.com>
+> > Cc: "Ilpo J�rvinen" <ilpo.jarvinen@linux.intel.com>
+> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> > Cc: Len Brown <lenb@kernel.org>
+> > Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > Cc: Mike Rapoport <rppt@kernel.org>
+> > Cc: Michal Wilczynski <michal.wilczynski@intel.com>
+> > Cc: Juergen Gross <jgross@suse.com>
+> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > Cc: Roger Pau Monne <roger.pau@citrix.com>
+> > Cc: David Woodhouse <dwmw@amazon.co.uk>
+> > Cc: Usama Arif <usama.arif@bytedance.com>
+> > Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+> > Cc: Thomas Huth <thuth@redhat.com>
+> > Cc: Brian Gerst <brgerst@gmail.com>
+> > Cc: <kvm@vger.kernel.org>
+> > Cc: <ibm-acpi-devel@lists.sourceforge.net>
+> > Cc: <platform-driver-x86@vger.kernel.org>
+> > Cc: <linux-acpi@vger.kernel.org>
+> > Cc: <linux-trace-kernel@vger.kernel.org>
+> > Cc: <linux-efi@vger.kernel.org>
+> > Cc: <linux-mm@kvack.org>
+> > ---
+> 
+> > diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> > index e7350c9fa3aa..0518d5b1f4ec 100644
+> > --- a/drivers/platform/x86/thinkpad_acpi.c
+> > +++ b/drivers/platform/x86/thinkpad_acpi.c
+> > @@ -559,12 +559,12 @@ static unsigned long __init tpacpi_check_quirks(
+> >  	return 0;
+> >  }
+> >  
+> > -static inline bool __pure __init tpacpi_is_lenovo(void)
+> > +static __always_inline bool __pure tpacpi_is_lenovo(void)
+> >  {
+> >  	return thinkpad_id.vendor == PCI_VENDOR_ID_LENOVO;
+> >  }
+> >  
+> > -static inline bool __pure __init tpacpi_is_ibm(void)
+> > +static __always_inline bool __pure tpacpi_is_ibm(void)
+> >  {
+> >  	return thinkpad_id.vendor == PCI_VENDOR_ID_IBM;
+> >  }
+> 
+> Hi Kees,
+> 
+> What's your plan on upstreaming route/timeline for this? I'd prefer to 
+> retain full control over this file as we were planning on some 
+> reorganization of files into lenovo/ subdir.
 
-在 2025/05/27 10:15, Xiao Ni 写道:
-> 
-> 在 2025/5/26 下午3:57, Yu Kuai 写道:
->> Hi,
->>
->> 在 2025/05/26 14:52, Xiao Ni 写道:
->>> On Sat, May 24, 2025 at 2:18 PM Yu Kuai <yukuai1@huaweicloud.com> wrote:
->>>>
->>>> From: Yu Kuai <yukuai3@huawei.com>
->>>>
->>>> Currently bitmap_ops is registered while allocating mddev, this is fine
->>>> when there is only one bitmap_ops, however, after introduing a new
->>>> bitmap_ops, user space need a time window to choose which bitmap_ops to
->>>> use while creating new array.
->>>
->>> Could you give more explanation about what the time window is? Is it
->>> between setting llbitmap by bitmap_type and md_bitmap_create?
->>
->> The window after this patch is that user can write the new sysfs after
->> allocating mddev, and before running the array.
-> 
-> 
-> Thanks for the explanation. Is it ok to add it in the commit log message?
+I'm not in a big rush. I'm hoping to have this all in place for v6.17,
+but the Clang feature won't be in a released compiler version until
+September. :) I can send this bit separately for your tree.
 
-ok
-> 
->>>
->>>>
->>>> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
->>>> ---
->>>>   drivers/md/md.c | 86 
->>>> +++++++++++++++++++++++++++++++------------------
->>>>   1 file changed, 55 insertions(+), 31 deletions(-)
->>>>
->>>> diff --git a/drivers/md/md.c b/drivers/md/md.c
->>>> index 4eb0c6effd5b..dc4b85f30e13 100644
->>>> --- a/drivers/md/md.c
->>>> +++ b/drivers/md/md.c
->>>> @@ -674,39 +674,50 @@ static void no_op(struct percpu_ref *r) {}
->>>>
->>>>   static bool mddev_set_bitmap_ops(struct mddev *mddev)
->>>>   {
->>>> +       struct bitmap_operations *old = mddev->bitmap_ops;
->>>> +       struct md_submodule_head *head;
->>>> +
->>>> +       if (mddev->bitmap_id == ID_BITMAP_NONE ||
->>>> +           (old && old->head.id == mddev->bitmap_id))
->>>> +               return true;
->>>> +
->>>>          xa_lock(&md_submodule);
->>>> -       mddev->bitmap_ops = xa_load(&md_submodule, mddev->bitmap_id);
->>>> +       head = xa_load(&md_submodule, mddev->bitmap_id);
->>>>          xa_unlock(&md_submodule);
->>>>
->>>> -       if (!mddev->bitmap_ops) {
->>>> -               pr_warn_once("md: can't find bitmap id %d\n", 
->>>> mddev->bitmap_id);
->>>> +       if (WARN_ON_ONCE(!head || head->type != MD_BITMAP)) {
->>>> +               pr_err("md: can't find bitmap id %d\n", 
->>>> mddev->bitmap_id);
->>>>                  return false;
->>>>          }
->>>>
->>>> +       if (old && old->group)
->>>> +               sysfs_remove_group(&mddev->kobj, old->group);
->>>
->>> I think you're handling a competition problem here. But I don't know
->>> how the old/old->group is already created when creating an array.
->>> Could you explain this?
->>
->> It's not possible now, this is because I think we want to be able to
->> switch existing array with old bitmap to new bitmap.
-> 
-> 
-> Can we add the check of old when we really want it?
+Thanks for taking a look!
 
-I'm fine, and there is no doubt we will want it.
-
-Thanks,
-Kuai
-
-> 
-> Regards
-> 
-> Xiao
-> 
->>
->> Thanks,
->> Kuai
->>
->>>
->>> Regards
->>> Xiao
->>
-> 
-> 
-> .
-> 
-
+-- 
+Kees Cook
