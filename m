@@ -1,97 +1,133 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FAA16F841;
-	Tue, 27 May 2025 08:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0EA24A05D;
+	Tue, 27 May 2025 08:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748333032; cv=none; b=It+wXIWCIOXDAUAA2jY1PJ9oKfpUa/xw+d5tjRrO86/ZDmXBIA52CCGeHhGCxExMNI7cNjjUrPvSFoFnpgun99k7bQDJ95Su/CwxjQRgYN2wd3nfasodKS35nxvf3FzFxhAWKs4qf2L8NANQfzpyaKIbUWgKDDoADzRYegYk1+E=
+	t=1748334122; cv=none; b=n8DuOtYecT7i5JDpUQKH/Icl/kdgzSJ3KKM4c3M2TJNjrfaNlwrvZ/XttpiwAYDrLlkTGC6iRpKC79iG2R7nmL9XKh5WiGTKJ69sPXS/Fek1rlMDg/SiqlHmJHisPIsLW8VkgQf0qO6tHGL//MDp9lqey9eKrc+vyfgE3j0DFqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748333032; c=relaxed/simple;
-	bh=ESHuVTrp+zD7KCJNAsBiTIPJxxySJ2aqqY36GgXQE24=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=pUt2AQn52wO1qH/Osx48korrDlf20jA1wHaOfTMMAffmjTz6djzHuAdytw0BnJgRiOs/j4R4/zF4kx3F0vtpbKCB7B0gi/TKiyB3mGUNaU6Q5Q20te9/jQ6s9sozpOKX1CdSIunnXt4ejTqRXFdfvNPAQSzuCsHStF67YUO/YNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4b64rT1z3Pz4f3jLy;
-	Tue, 27 May 2025 16:03:21 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 852561A1518;
-	Tue, 27 May 2025 16:03:46 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgD3Wl_hcTVoBB6eNg--.22750S3;
-	Tue, 27 May 2025 16:03:46 +0800 (CST)
-Subject: Re: [PATCH 11/23] md/md-bitmap: make method bitmap_ops->daemon_work
- optional
-To: Hannes Reinecke <hare@suse.de>, Yu Kuai <yukuai1@huaweicloud.com>,
- hch@lst.de, xni@redhat.com, colyli@kernel.org, song@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
- <20250524061320.370630-12-yukuai1@huaweicloud.com>
- <a1691267-304d-4a3f-898b-2f8901031d2c@suse.de>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <c7e108a6-c788-d3d9-346c-9db134ae9ae2@huaweicloud.com>
-Date: Tue, 27 May 2025 16:03:45 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	s=arc-20240116; t=1748334122; c=relaxed/simple;
+	bh=bP3dyqOcdjmeMKsrJgqUZ/tHl2pKyc9vebW0MO1p2XU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JnglORna58TQlJA8zozGCx9FC18b8u82P/emt2EBjX/U/em1gCiYYLmZI9J4LPRdPVcGakOfc+a49YZrzxJ8A5qew3v55LAUyNbURQQTdUIm+WFz2IJZKI2+OBvk9e0jpFDA6nf54hyNQCv/kpsktQS4PhS06uPawRbNR7hRJbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=stlnoo5u; arc=none smtp.client-ip=211.125.140.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="stlnoo5u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1748334120; x=1779870120;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=9M+aGmHypwA8Qm6h86CMR5EaNs6NIldl3+8PV51EqcA=;
+  b=stlnoo5uuK0XzPZUwyTV450Kw73uW69bqDF9IuiQmPxYdeSC2tETbmP6
+   tpH7M1ODe2/wiBRfemWWeJ/LEGpbcD5V4xeGWM2JP08fnNWTl8bAFQzG5
+   VXQmcDNpL2gdMm5DLfpUr/uol/pYZ52BF/1+cxaBStlofM7Jh8YMl63nj
+   M1pcv6+ZCcJoM3cEvWvFSbyKvz+k03G63eYxzE2HjclPD+q7vdxY7QdU4
+   8y9TsI7G2UKWLutQ7Q3w2euJN3c/G8pDN2lGO7vS1U3iS4GPDiNdpM6aA
+   9yBJ6H36rfBYjdmjGr3tQPud+BEBbJGbfUodmbx42FAZ60Z33cwxLZMwz
+   Q==;
+Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
+  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 17:21:53 +0900
+X-IronPort-AV: E=Sophos;i="6.15,317,1739804400"; 
+   d="scan'208";a="534528132"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 17:21:52 +0900
+Date: Tue, 27 May 2025 17:21:48 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Russell Haley <yumpusamongus@gmail.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Shinya Takumi <shinya.takumi@sony.com>
+Subject: Re: [PATCH] cpufreq, docs: (userspace governor) add that actual freq
+ is >= scaling_setspeed
+Message-ID: <aDV2HPfybqnbzJ9N@JPC00244420>
+References: <20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com>
+ <15871c67-0d18-430f-935e-261b2cda855b@gmail.com>
+ <CAJZ5v0gz3Y+RGqBf9E1hzq9rwfrryd98Xpk51DtLd-uck5y-rw@mail.gmail.com>
+ <b62c0462-8185-4eb8-8ac6-7f2abc387768@gmail.com>
+ <aC_4yLsFVVszI_FA@JPC00244420>
+ <CAJZ5v0g1o03La9aWJF1rheC9CM8SU2iC52auEAnaBpUCMunpJA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <a1691267-304d-4a3f-898b-2f8901031d2c@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgD3Wl_hcTVoBB6eNg--.22750S3
-X-Coremail-Antispam: 1UD129KBjvdXoWrZr4UXF47GFyUAFWruFy8Xwb_yoWfWrc_u3
-	4rAF9Ikr17tFsava12kanxZrZxXr4rC34jqayUtryjq3s5X34DWF9rZ3sFv3yxJFWrA3W7
-	CrZxW342yrsrujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbfAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
-	c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
-	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
-	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
-	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
-	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb_Ma5UUUUU==
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+In-Reply-To: <CAJZ5v0g1o03La9aWJF1rheC9CM8SU2iC52auEAnaBpUCMunpJA@mail.gmail.com>
 
-Hi,
+Hi Rafael,
 
-在 2025/05/27 14:19, Hannes Reinecke 写道:
-> On 5/24/25 08:13, Yu Kuai wrote:
->> From: Yu Kuai <yukuai3@huawei.com>
->>
->> daemon_work() will be called by daemon thread, on the one hand, daemon
->> thread doesn't have strict wake-up time; on the other hand, too much
->> work are put to daemon thread, like handle sync IO, handle failed
->> or specail normal IO, handle recovery, and so on. Hence daemon thread
->> may be too busy to clear dirty bits in time.
->>
->> Make bitmap_ops->daemon_work() optional and following patches will use
->> separate async work to clear dirty bits for the new bitmap.
->>
-> Why not move it to a workqueue in general?
-> The above argument is valid even for the current implementation, no?
-
-Yes, and however, I'll prefer not to touch current implementaion :(
-This is trivial comparing to other flaws like global spinlock.
-
-Thanks,
-Kuai
-
+On Fri, May 23, 2025 at 09:06:04PM +0200, Rafael J. Wysocki wrote:
+> On Fri, May 23, 2025 at 6:25 AM Shashank Balaji
+> <shashank.mahadasyam@sony.com> wrote:
+> > ...
+> > Consider the following on a Raptor Lake machine:
+> > ...
+> >
+> > 3. Same as above, except with strictuserspace governor, which is a
+> > custom kernel module which is exactly the same as the userspace
+> > governor, except it has the CPUFREQ_GOV_STRICT_TARGET flag set:
+> >
+> >         # echo strictuserspace > cpufreq/policy0/scaling_governor
+> >         # x86_energy_perf_policy -c 0 2>&1 | grep REQ
+> >         cpu0: HWP_REQ: min 26 max 26 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+> >         pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*10^0us)
+> >         # echo 3000000 > cpufreq/policy0/scaling_setspeed
+> >         # x86_energy_perf_policy -c 0 2>&1 | grep REQ
+> >         cpu0: HWP_REQ: min 39 max 39 des 0 epp 128 window 0x0 (0*10^0us) use_pkg 0
+> >         pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*10^0us)
+> >
+> >         With the strict flag set, intel_pstate honours this by setting
+> >         the min and max freq same.
+> >
+> > desired_perf is always 0 in the above cases. The strict flag check is done in
+> > intel_cpufreq_update_pstate, which sets max_pstate to target_pstate if policy
+> > has strict target, and cpu->max_perf_ratio otherwise.
+> >
+> > As Russell and Rafael have noted, CPU frequency is subject to hardware
+> > coordination and optimizations. While I get that, shouldn't software try
+> > its best with whatever interface it has available? If a user sets the
+> > userspace governor, that's because they want to have manual control over
+> > CPU frequency, for whatever reason. The kernel should honor this by
+> > setting the min and max freq in HWP_REQUEST equal. The current behaviour
+> > explicitly lets the hardware choose higher frequencies.
 > 
-> Cheers,
+> Well, the userspace governor ends up calling the same function,
+> intel_cpufreq_target(), as other cpufreq governors except for
+> schedutil.  This function needs to work for all of them and for some
+> of them setting HWP_MIN_PERF to the same value as HWP_MAX_PERF would
+> be too strict.  HWP_DESIRED_PERF can be set to the same value as
+> HWP_MIN_PERF, though (please see the attached patch).
 > 
-> Hannes
+> > Since Russell pointed out that the "actual freq >= target freq" can be
+> > achieved by leaving intel_pstate active and setting scaling_{min,max}_freq
+> > instead (for some reason this slipped my mind), I now think the strict target
+> > flag should be added to the userspace governor, leaving the documentation as
+> > is. Maybe a warning like "you may want to set this exact frequency, but it's
+> > subject to hardware coordination, so beware" can be added.
+> 
+> If you expect the userspace governor to set the frequency exactly
+> (module HW coordination), that's the only way to make it do so without
+> potentially affecting the other governors.
 
+I don't mean to say that intel_cpufreq_target() should be modified. I'm
+suggesting that the CPUFREQ_GOV_STRICT_TARGET flag be added to the
+userspace governor. That'll ensure that HWP_MIN_PERF and
+HWP_MAX_PERF are set to the target frequency. intel_cpufreq_target()
+already correctly deals with the strict target flag. To test this, I
+registered a custom governor, same as the userspace governor, except
+with the strict target flag set. Please see case 3 above.
+
+If this flag is added to the userspace governor, then whatever the
+documentation says right now will actually be true. No need to modify
+the documentation then.
+
+Regards,
+Shashank
