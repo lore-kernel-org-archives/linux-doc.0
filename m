@@ -1,188 +1,198 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541801A256B;
-	Tue, 27 May 2025 14:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99F815746F
+	for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 14:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748354540; cv=none; b=nthi1xdodQF/iP8xT6FtA2MwiA+SEGYZG4fEEAq9bWx0ksm7aBZOd9PpDDwecSWbQbzTNfvN/1Fi4q7qXZML4EYGw/hUumc0TIDKWFL5wn5WDZVHezDOQK13cmVVzd7cu0RVcehIuyEIT/dJ1fhKeybNt8xF3vrIOeYV5RfdvmA=
+	t=1748356513; cv=none; b=PKA3OwtACNparE7thABWedfgwRlsCXRWbXeubCHtVEJf2xMc1baFixznTholqE5Li1KO6+SaxZ3+ycS4qFHeiTt48f0pKLtI5fO2PZ7tX1ULJ0HgcX6umm7JG22ylVgM+/u/h8iYp/ccW40nzXY4kLBugfGbsdddMaaVTjpKduA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748354540; c=relaxed/simple;
-	bh=yo0oZBlfMtOYp40SB2fAqqqKfsg0rNIT7m84sU2j4s4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CmpCMbGWxst5hJwcD0vDftKIeQpdcdxl0Jjqw39o/Qq89S6CbjKTokTGLL9ss9J+GQHSeA+W8eX/7jZCNVMJ46jcUzE4bgn8Lr8y6xhA4g5b+8UkLTmey7t2ZK5oPrgtC0AVYhaUQ+ksEDmqCqsfW9a1/o9zIKVZ4wK6W6aAcaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BAk2Pbd/; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1748356513; c=relaxed/simple;
+	bh=Eggf1OBO+Ax8tj7dE+qQEGU2Ua47+c3JO9KLjDB03l8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iy9wUqfZm87n6XybjoxkoSQ2BPXnbanDfmrUYHJCOW+gGlRAgZxHFsLDj3Y3F6jyMl6+OzNFUmhwVYNQ8Xuw//E6t9y8NuY08gAARC8Yac8q2evUfu2ZyDcml0b0eIJ+VYb+s+3X+B3t6soGDrUq4c0qlnzan/UD1Us/SPNvzp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Okg1TdMw; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BAk2Pbd/"
-Date: Tue, 27 May 2025 16:01:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1748354526;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Okg1TdMw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1748356510;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1RLjeN+B9ynhfLIpwmZXtdB5HF0huSI0hOjSO/VoOEo=;
-	b=BAk2Pbd/JJPysmSNfFdWpiFzw1ZbscmqwYi0OO5P4uUbbl/cxRm+cE67R9CUmG77lSWEKN
-	OIVxcR42DttYY+yGY3ybCgCJFgSCcRgI8cMZvgho5su03pe8ri6GZRqnaWb6SeVn/uRWGy
-	JEB9XIELPgnKUhyf/iGlS86pm8X460E=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 01/11] kbuild: userprogs: add nolibc support
-Message-ID: <20250527-fearless-impala-of-poetry-8acc3a@l-nschier-aarch64>
-References: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
- <20250407-kunit-kselftests-v2-1-454114e287fd@linutronix.de>
- <20250522-fluorescent-liberal-pigeon-0404ed@l-nschier-aarch64>
- <20250526163610-88b7aae6-7be4-4a02-be20-ec7fe74cbf31@linutronix.de>
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=L3GI2gbUmIa7mOJoCzehrNV7F2gboefZH5wJFgdPvXA=;
+	b=Okg1TdMwgi7KHVF55MATCFpz+nqGWDHqbEh029VBMlnFoR00ZLQFE6lMOuhCD/a889N10l
+	hVTgbbqdhGlL95kB1roPCPiudkSLzIDZs+oDTwaXxN/8GgCFPgARqvL7JWKaE3EJeifKvE
+	c68z2zQPGkj3xdqti93KnNwiQ3jknF8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-128-OT_pW808M-aHGO989rBV1Q-1; Tue, 27 May 2025 10:35:08 -0400
+X-MC-Unique: OT_pW808M-aHGO989rBV1Q-1
+X-Mimecast-MFC-AGG-ID: OT_pW808M-aHGO989rBV1Q_1748356508
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3a4dcfb3bbcso898145f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 07:35:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748356507; x=1748961307;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L3GI2gbUmIa7mOJoCzehrNV7F2gboefZH5wJFgdPvXA=;
+        b=FHrbE8iNe52lXYHR4sU92OnPRvEJi29K5liuDszJ5+qBKytUs7OOJP3Yx+aOkgLPE8
+         +fJ/A4NRmLSq0iCocxdop8RyBKPyMAYviGkSg0pJ341h0w1FcKJWQpbkPoJBhpiEnncY
+         iefXX8e8IuU6yrTrLLMA4WVuHduyx0OVyWmbtqEOWpMV/XuFaFL2pwMwzHlBb/VaFH88
+         rSYwN15gW5VChUF5qGER9EvUF9SsTCwSY+r52bn9cIVhHy3VAcGg5Gnq+Pall83eb3Sk
+         qyQj/0iPorMSLLdZmAxIvS4+3oXTPWYbfEukP+cHVq3Ssp9yCH2SiYry72kDzBjwn/24
+         nyhw==
+X-Forwarded-Encrypted: i=1; AJvYcCX5NlKrmzLjsEh4P2qseqjykkVBb0OItfTyQ4thTIXJugl7L6phPHXT8z4vqCCNDtqphgT2TRiJg+I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwX84xoxbzIfhkSrP+SAKt6Xq060mcN4mssldtvozr0T5PqpUYC
+	X0YPE2Zp29G/b1bVrxlXJ4824ZbLHpmDDinCFmL0M3RgBr7LifPxPwS3PIRB17ElzYYd31MHK9h
+	mYB81GSd1eiP94eFIcoN1zLV/Ms9D38RF7iUT1/nExUTxViXMrRlmq2iX4oceKg==
+X-Gm-Gg: ASbGncsMcx2cz6p+5l3BdGNFKivST8BZ3Kw90eBgnDnTbCkfHvDLfXAPe+/qVJBue8G
+	ASfB6SiwDI37qrLX630Kp747/Km5rrhhlisKyzSAFQTwvnolipDrLTnZFgf5jQXm9+FCqZIJKXx
+	NABwtF7BJtB1dG5j5TXTtECgtKpqJihYfx55b3CARTC3EDDOTeX/0ArfzTcM2x/KJKlFec7maYp
+	3WdENQe3lfxO+olhOr5kalUxjpboWKnl7BZ5WsQlmcjxvVqhDpUzkOZExmnCVwM4V4fu3ZKAaZG
+	7QpCDNXE0x1vfRYkIsaJO3RSmbGNKm3pg0JDhw==
+X-Received: by 2002:a05:6000:178b:b0:3a4:d6ed:8df7 with SMTP id ffacd0b85a97d-3a4d6eda61amr8126383f8f.59.1748356507396;
+        Tue, 27 May 2025 07:35:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHRv/OfRRiDQA7X9BzrxYr9prABUS7Bh2GUtwtYTwY+TNdKzDqXiTPEpURBylbaeVKLg3wH2A==
+X-Received: by 2002:a05:6000:178b:b0:3a4:d6ed:8df7 with SMTP id ffacd0b85a97d-3a4d6eda61amr8126364f8f.59.1748356507047;
+        Tue, 27 May 2025 07:35:07 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.42])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4d67795eesm7198027f8f.86.2025.05.27.07.35.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 May 2025 07:35:06 -0700 (PDT)
+Message-ID: <6f33e6b7ad296f4fd0e9c089ac92e53c08cfd850.camel@redhat.com>
+Subject: Re: [RFC PATCH v2 12/12] rv: Add opid per-cpu monitor
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Ingo Molnar
+	 <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Tomas Glozar
+	 <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>
+Date: Tue, 27 May 2025 16:35:04 +0200
+In-Reply-To: <20250527133712.CFW5AcNE@linutronix.de>
+References: <20250514084314.57976-1-gmonaco@redhat.com>
+	 <20250514084314.57976-13-gmonaco@redhat.com>
+	 <20250527133712.CFW5AcNE@linutronix.de>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0ByZWRoYXQuY29tPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmbiuWMCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfJzZgD/TXjnqCyqaZH/Y2w+YVbvm93WX2eqBqiVZ6VEjTuGNs8A/iPrKbzdWC7AicnK
+ xyhmqeUWOzFx5P43S1E1dhsrLWgP
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250526163610-88b7aae6-7be4-4a02-be20-ec7fe74cbf31@linutronix.de>
-Organization: AVM GmbH
-X-Migadu-Flow: FLOW_OUT
 
-On Mon, May 26, 2025 at 04:40:17PM +0200, Thomas Weißschuh wrote:
-> On Mon, May 26, 2025 at 04:19:53PM +0200, Nicolas Schier wrote:
-> > On Mon, Apr 07, 2025 at 09:42:38AM +0200, Thomas Weißschuh wrote:
-> > > Userprogs are built with the regular kernel compiler $CC.
-> > > A kernel compiler does not necessarily contain a libc which is required
-> > > for a normal userspace application.
-> > > However the kernel tree does contain a minimal libc implementation
-> > > "nolibc" which can be used to build userspace applications.
-> > > 
-> > > Introduce support to build userprogs against nolibc instead of the
-> > > default libc of the compiler, which may not exist.
-> > > 
-> > > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-> > > 
-> > > ---
-> > > This could probably be moved out of the generic kbuild makefiles.
-> > > I think the ergonimics would suffer and this functionality could be
-> > > used by other users of userprogs.
-> > > 
-> > > Also this does currently not support out-of-tree builds.
-> > 
-> > (out-of-tree == external kmods;  out-of-source == build-dir != source-dir)
-> > 
-> > you probably meant out-of-source.
-> 
-> I *did* mean out-of-tree.
-> 
-> Out-of-source already works with the current patchset. It is the default setup of kunit.py.
-> 
-> > > For that tools/include/nolibc/*.h and usr/include/*.h would need to be
-> > > installed into the build directory.
-> > 
-> > Out-of-source builds could be achieved by adding 'headers' as 
-> > dependency, see below.
-> > 
-> > > ---
-> > >  Documentation/kbuild/makefiles.rst | 12 ++++++++++++
-> > >  scripts/Makefile.userprogs         | 16 +++++++++++++---
-> > >  2 files changed, 25 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> > > index 3b9a8bc671e2e92126857059e985d6e5b2c43fd4..f905a6f77c965311c491cfd7ab3103185af7e82e 100644
-> > > --- a/Documentation/kbuild/makefiles.rst
-> > > +++ b/Documentation/kbuild/makefiles.rst
-> > > @@ -970,6 +970,18 @@ When linking bpfilter_umh, it will be passed the extra option -static.
-> > >  
-> > >  From command line, :ref:`USERCFLAGS and USERLDFLAGS <userkbuildflags>` will also be used.
-> > >  
-> > > +Bulding userprogs against nolibc
-> > 
-> > Bulding -> Building
-> 
-> Ack.
-> 
-> > > +--------------------------------
-> > > +
-> > > +Not all kernel toolchains provide a libc.
-> > > +Simple userprogs can be built against a very simple libc call "nolibc" provided
-> > > +by the kernel source tree.
-> > > +
-> > > +Example::
-> > > +
-> > > +  # lib/kunit/Makefile
-> > > +  uapi-preinit-nolibc := $(CONFIG_ARCH_HAS_NOLIBC)
-> > > +
-> > >  When userspace programs are actually built
-> > >  ------------------------------------------
-> > >  
-> > > diff --git a/scripts/Makefile.userprogs b/scripts/Makefile.userprogs
-> > > index f3a7e1ef3753b54303718fae97f4b3c9d4eac07c..a1447c02b948901631098b585f5cf4d3ea383a57 100644
-> > > --- a/scripts/Makefile.userprogs
-> > > +++ b/scripts/Makefile.userprogs
-> > > @@ -16,10 +16,20 @@ user-csingle	:= $(addprefix $(obj)/, $(user-csingle))
-> > >  user-cmulti	:= $(addprefix $(obj)/, $(user-cmulti))
-> > >  user-cobjs	:= $(addprefix $(obj)/, $(user-cobjs))
-> > >  
-> > > +user-libgcc     := $(call try-run,$(CC) -Werror $(KBUILD_USERCFLAGS) -lgcc -x c -shared /dev/null -o "$$TMP",-lgcc)
-> > > +
-> > > +user_nolibc_ccflags := -nostdlib -nostdinc -static -fno-ident -fno-asynchronous-unwind-tables \
-> > > +		      -ffreestanding -fno-stack-protector \
-> > > +		      -isystem $(objtree)/usr/include -include $(srctree)/tools/include/nolibc/nolibc.h -isystem $(srctree)/tools/include/nolibc/
-> > > +user_nolibc_ldflags := -nostdlib -nostdinc -static
-> > > +user_nolibc_ldlibs  := $(user-libgcc)
-> > > +
-> > >  user_ccflags	= -Wp,-MMD,$(depfile) $(KBUILD_USERCFLAGS) $(userccflags) \
-> > > -			$($(target-stem)-userccflags)
-> > > -user_ldflags	= $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags)
-> > > -user_ldlibs	= $(userldlibs) $($(target-stem)-userldlibs)
-> > > +			$($(target-stem)-userccflags) $(if $($(target-stem)-nolibc),$(user_nolibc_ccflags))
-> > > +user_ldflags	= $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags) \
-> > > +			$(if $($(target-stem)-nolibc),$(user_nolibc_ldflags))
-> > > +user_ldlibs	= $(userldlibs) $($(target-stem)-userldlibs) \
-> > > +			$(if $($(target-stem)-nolibc),$(user_nolibc_ldlibs))
-> > >  
-> > >  # Create an executable from a single .c file
-> > >  quiet_cmd_user_cc_c = CC [U]  $@
-> > 
-> > Adding another hunk for scripts/Makefile.userprogs would allow to build
-> > out-of-source:
-> > 
-> > @@ -39,5 +49,5 @@ $(call multi_depend, $(user-cmulti), , -objs)
-> >  # Create .o file from a .c file
-> >  quiet_cmd_user_cc_o_c = CC [U]  $@
-> >        cmd_user_cc_o_c = $(CC) $(user_ccflags) -c -o $@ $<
-> > -$(user-cobjs): $(obj)/%.o: $(src)/%.c FORCE
-> > +$(user-cobjs): $(obj)/%.o: $(src)/%.c headers FORCE
-> >         $(call if_changed_dep,user_cc_o_c)
-> > 
-> > But I am unsure if it is ok to add 'headers' as a build dependency for 
-> > userprogs.  For me, it feels a bit odd, but I think it really makes 
-> > sense here.
-> 
-> Currently this dependency is encoded in Kconfig.
-> If CONFIG_HEADERS_INSTALL=y then the headers are installed in the 'prepare'
-> phase and already available when building any userprog.
-> To me this seems like the easier and nicer implementation.
 
-I am sure, I had an out-of-source test build that failed due to missing 
-header files -- but I can't reproduce it any more and yes, 
-CONFIG_HEADERS_INSTALL should really be enough and better in several 
-ways.
 
-Sorry for the noice.
+On Tue, 2025-05-27 at 15:37 +0200, Nam Cao wrote:
+> On Wed, May 14, 2025 at 10:43:14AM +0200, Gabriele Monaco wrote:
+> > Add a per-cpu monitor as part of the sched model:
+> > * opid: operations with preemption and irq disabled
+> > =C2=A0=C2=A0=C2=A0 Monitor to ensure wakeup and need_resched occur with=
+ irq and
+> > =C2=A0=C2=A0=C2=A0 preemption disabled or in irq handlers.
+>=20
+> This monitor reports some warnings:
+>=20
+> $ perf record -e rv:error_opid --call-graph dwarf -a -- ./stress-
+> epoll
+> (stress-epoll program from
+> https://github.com/rouming/test-tools/blob/master/stress-epoll.c)
+>=20
 
-Kind regards,
-Nicolas
+Thanks for trying it out, and good to know about this stressor.
+Unfortunately it's a bit hard to understand from this stack trace, but
+that's very likely a problem in the model.
+I have a few ideas where that could be but I believe it's something
+visible only on a physical machine (haven't tested much on x86 bare
+metal, only VM).
+You're running on bare metal right?
+
+> $ perf script
+> stress-epoll=C2=A0=C2=A0 315 [003]=C2=A0=C2=A0 527.674724: rv:error_opid:=
+ event
+> preempt_disable not expected in the state preempt_disabled
+> 	ffffffff9fdfb34f da_event_opid+0x10f ([kernel.kallsyms])
+> 	ffffffff9fdfb34f da_event_opid+0x10f ([kernel.kallsyms])
+> 	ffffffff9fdfba0d handle_preempt_disable+0x3d
+> ([kernel.kallsyms])
+> 	ffffffff9fdd32d0 __traceiter_preempt_disable+0x30
+> ([kernel.kallsyms])
+> 	ffffffff9fdd38fe trace_preempt_off+0x4e ([kernel.kallsyms])
+> 	ffffffff9fee6c1c vfs_write+0x12c ([kernel.kallsyms])
+> 	ffffffff9fee7128 ksys_write+0x68 ([kernel.kallsyms])
+> 	ffffffffa0bdbd92 do_syscall_64+0xb2 ([kernel.kallsyms])
+> 	ffffffff9fa00130 entry_SYSCALL_64_after_hwframe+0x77
+> ([kernel.kallsyms])
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f833f __GI_=
+__libc_write+0x4f (/usr/lib/x86_64-
+> linux-gnu/libc.so.6)
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f833f __GI_=
+__libc_write+0x4f (/usr/lib/x86_64-
+> linux-gnu/libc.so.6)
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1937 =
+thread_work+0x47 (/root/test-tools/stress-
+> epoll)
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 891f4 start=
+_thread+0x304 (/usr/lib/x86_64-linux-
+> gnu/libc.so.6)
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 10989b clone3+0x2=
+b (/usr/lib/x86_64-linux-
+> gnu/libc.so.6)
+>=20
+> stress-epoll=C2=A0=C2=A0 318 [002]=C2=A0=C2=A0 527.674759: rv:error_opid:=
+ event
+> preempt_disable not expected in the state disabled
+> 	ffffffff9fdfb34f da_event_opid+0x10f ([kernel.kallsyms])
+> 	ffffffff9fdfb34f da_event_opid+0x10f ([kernel.kallsyms])
+> 	ffffffff9fdfba0d handle_preempt_disable+0x3d
+> ([kernel.kallsyms])
+> 	ffffffff9fdd32d0 __traceiter_preempt_disable+0x30
+> ([kernel.kallsyms])
+> 	ffffffff9fdd38fe trace_preempt_off+0x4e ([kernel.kallsyms])
+> 	ffffffffa0bec1aa _raw_spin_lock_irq+0x1a ([kernel.kallsyms])
+> 	ffffffff9ff4fe73 eventfd_write+0x63 ([kernel.kallsyms])
+> 	ffffffff9fee6be5 vfs_write+0xf5 ([kernel.kallsyms])
+> 	ffffffff9fee7128 ksys_write+0x68 ([kernel.kallsyms])
+> 	ffffffffa0bdbd92 do_syscall_64+0xb2 ([kernel.kallsyms])
+> 	ffffffff9fa00130 entry_SYSCALL_64_after_hwframe+0x77
+> ([kernel.kallsyms])
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f833f __GI_=
+__libc_write+0x4f (/usr/lib/x86_64-
+> linux-gnu/libc.so.6)
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f833f __GI_=
+__libc_write+0x4f (/usr/lib/x86_64-
+> linux-gnu/libc.so.6)
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1937 =
+thread_work+0x47 (/root/test-tools/stress-
+> epoll)
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 891f4 start=
+_thread+0x304 (/usr/lib/x86_64-linux-
+> gnu/libc.so.6)
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 10989b clone3+0x2=
+b (/usr/lib/x86_64-linux-
+> gnu/libc.so.6)
+>=20
+> I'm not sure what I'm looking at here. Do you think these are kernel
+> bugs,
+> or the monitor is missing some corner cases?
+>=20
+
+As said, likely a missing corner case, I believe it has to do with IRQs
+(which is what makes this monitor more complex than it could be).
+
+Thanks for the pointers, I'll try reproduce it this way.
+
+Gabriele
+
