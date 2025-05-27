@@ -1,169 +1,269 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AA220FA8B;
-	Tue, 27 May 2025 07:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B047E0E8;
+	Tue, 27 May 2025 07:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748330268; cv=none; b=lD0K28cEwY/dN6W9UaHyA3b2r2yLvH3DNNa0BPZJ/En6OrZdOy9KtfH/mOKwFZHAhdI+uCjCIv/+Wj/6JCKZfi04EtWt7HDKyeWwsq/Q6N57z+53t4hBS5yPVgNR9lAC/fBsA00PzRYU2YQFUY1Rlrx5pKtqc5kKXhUtT0xJxIE=
+	t=1748331830; cv=none; b=J3jVwE5CMGal4V1YGzgRHdxoicR8vCSO720WHDHCYz0NY8Q030zwuzx9C5prsT2CpeIi36tZDz3pp2s71EdP9vzH75NmXLHM/pGATWKKdnvFbiQFKrWXTWKIqeM5OdeelDMxZw2WaDLAD4McMB0sr07Y8u/9/z2/B+2f1MhFSt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748330268; c=relaxed/simple;
-	bh=N5M4+8n1PmoUW9waCKKJ4IbGWWLrQGiPXsfkC7Aswag=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tas6axxxU27xJWZBUW70CYGRhew89Fa28fguypOFeiARD42l/UWYeX9nlwHzJBVktT3t2VSM7oVAp9s9y/jD/4khchDMA+r81TqpgUw50+8JFXFKgyYe1q6i3sFbSA2Ye5HvprCF3Nfd0SRhLa9scUmpssQwNDCBIJRJJKiQ47I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=INO/9q0n; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="INO/9q0n"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6faa01a3a5cso29732786d6.1;
-        Tue, 27 May 2025 00:17:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748330265; x=1748935065; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lX1E9djvoqZC/1p7fFQRBXo8UbYPgCN+lFFXs6U2lVU=;
-        b=INO/9q0n7ruHYoFcNb+7OLpjc0HXIr0SE8g/5J1IH1VvKCCDkdmDVs5AZL557tHt2p
-         YrSsk0FLFSt/o0rLLF8M0tBR2CDglMuQMNdyyO3NNzEg7t3Z0jAJQBr8xtnzbnt8tgvG
-         PdYy/jcweu14/tO5cxnM5w3+DnbaSZC+31+D0dudRmUZccjPzG7rASrWSnCemKd08LMb
-         QtKa1Y2GN6M2cTJ7gRJkkhRGwFiPuXlLGBHQAs1pAmzJSd5/F08CrEtA5sgIugzuLo6I
-         FlcQ0m2wT3qSs/qv549y0DMls+1laS84x1kZH81heOfR5HIfQ2r56Pg9H6Um5KJOeeD9
-         OqKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748330265; x=1748935065;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lX1E9djvoqZC/1p7fFQRBXo8UbYPgCN+lFFXs6U2lVU=;
-        b=Z55Wl33+5qJFCQI6eT03hyKzRxpwUh6kkIS82HJS3pxBmOaPlv7Uzr4EK5W1rR8MpK
-         Is/I+su9OXX/0y19lxymYCVi8FOMHzOyt3BsW4e2bCG0nEttxaZHny/enPqI4vbtNt3X
-         vFo/eIhAODE2fV9TjOi5j+sA7VNrk4wYz7kaoRh42meED/G8dgdDjPIhrhuJ83QCOqAv
-         X0Br1JWJ2V9sXy8uKBT3lTDm13+cPKHddxcFIII2Bv/VqPzoATYrfFCgYZku1yMlUbSx
-         5ovoC6c1Mw8aezm0UDt64KP6+9EkN8LtfEqw35bOEjBGE7krYR4gb1zEq8C7FtX0O/ze
-         FquA==
-X-Forwarded-Encrypted: i=1; AJvYcCUf8az0iibrEEXXZWJXGmFQnX2FbXOwZNureIxA2froB+aXVUiTGPZ2qAPMtJruCjrd0RTv5osZRwk=@vger.kernel.org, AJvYcCUzoHyo2hd9bM60nVtEqY7HbLWM2lDeaq0JQe+gT+JB790RN5Zv6Cfu/ZTwV+6c8lk9HfrpUxlH/2uf2fnR@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEuUTkPkWGB/YiJpPn/bGYkDm8H/2tH8f/CGqItHY0MpGLtOOG
-	zt/isAIaXRIW6jpnXizlXBuC7ji2/suOx8ykspnGY34qpi+UZljQLfIF/t0Ho/29j4o=
-X-Gm-Gg: ASbGnctvkzzO6D6BLG42pTyeEJqyO2HQ8Ds+HAZlAklJRGXviL0pIskdEd1zYYMIw7Y
-	MY6Krb94aPuNhfiK7RtcHhnvJEUzq89qaYXFM9qGw/UCzJT9zjacfprW3CT7y+obSa2PYfqN02p
-	ckIKlk86DVwNteUvRtYjnRikzT3fh4QlMHl0YSYZAe4HcXufFWysB91SWMjulcGw9q3ESqV7f7H
-	9XvytwsqX9KUhV/tUNKjL8CoCT3icr4diWuUUjyGlbrdcH9jLgOyEnA8WpOaXWV714CScfxCiBm
-	FHDyRqEZKbQdHsPF1WKC+JJJvMCJ1XFu5kLWzGRMnHW+HdMzBT//ZrOVdAk3B/OYxA==
-X-Google-Smtp-Source: AGHT+IHCDSzd/TvfiLGBna/mEsbX0p3R29SQo842HETWpSNPG7weloGHdW6i0AXc7ZLVKDsMECqMDg==
-X-Received: by 2002:a05:6214:401b:b0:6ed:1da2:afac with SMTP id 6a1803df08f44-6fa9d2d78aamr219074276d6.32.1748330265127;
-        Tue, 27 May 2025 00:17:45 -0700 (PDT)
-Received: from [10.0.0.88] ([2607:fea8:bad7:5400:6696:203b:ed6a:dd21])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f951b8e012sm89951266d6.26.2025.05.27.00.17.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 00:17:44 -0700 (PDT)
-From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-Date: Tue, 27 May 2025 03:17:43 -0400
-Subject: [PATCH v3] drm: add overview diagram for drm stack
+	s=arc-20240116; t=1748331830; c=relaxed/simple;
+	bh=uOIQWxx1FMjiCMOoHKlT1HRSlgvh/v+9hL5fU7Vwxt4=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=EeUn6UBvM5HeAsRCp22qPfyQq4y0bh51VxL7pyuiMWPSOhaGtLC9N8AwnFGS2MAMNyxmn7O6msOizqyFTzX0Yfu7CfNsLgzAoDL3PyJBYq317wNb23dq4+vKqznV0fX4gPqKU8PJRdrcnlbdp/YpGlA858PWftR4SRXWO2AUDf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4b64PK6Krrz4f3jJK;
+	Tue, 27 May 2025 15:43:17 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 272711A1524;
+	Tue, 27 May 2025 15:43:43 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP4 (Coremail) with SMTP id gCh0CgDHKl8tbTVozqGcNg--.28192S3;
+	Tue, 27 May 2025 15:43:42 +0800 (CST)
+Subject: Re: [PATCH 06/23] md/md-bitmap: add a new sysfs api bitmap_type
+To: Hannes Reinecke <hare@suse.de>, Yu Kuai <yukuai1@huaweicloud.com>,
+ hch@lst.de, xni@redhat.com, colyli@kernel.org, song@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
+References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
+ <20250524061320.370630-7-yukuai1@huaweicloud.com>
+ <23b75e25-fa2f-4d12-8d96-6de01e43ad49@suse.de>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <beeed703-ed7d-2973-c403-c74994962cb0@huaweicloud.com>
+Date: Tue, 27 May 2025 15:43:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250527-drm-doc-updates-v3-1-58e97a831d03@gmail.com>
-X-B4-Tracking: v=1; b=H4sIABZnNWgC/3WNwQqDMBAFf0Vy7pZkNVF66n+UHmw20UA1ktjQI
- v57oyeh9DgPZt7CognORHYpFhZMctH5MUN5Kpju27Ez4CgzQ46SS0SgMAB5Da+J2tlEKFWjrKK
- qEYgsW1Mw1r334u2euXdx9uGzHySxrf9bSYAAEsaSrOqKP+jaDa17nrUf2NZKePTLXx+Bg5GiJ
- iskaquO/rquX5C81ZTuAAAA
-X-Change-ID: 20250522-drm-doc-updates-3686f6d48122
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748330264; l=3233;
- i=abdulrasaqolawani@gmail.com; s=20250522; h=from:subject:message-id;
- bh=N5M4+8n1PmoUW9waCKKJ4IbGWWLrQGiPXsfkC7Aswag=;
- b=WlwY1CtivbbI4bn0ylIuUav0HGEaPMCoZw/i/K5Js3gh3NFVPPgWDMsnSQ8ALn8soU71W2t22
- NptewLvG38lA7r+1kW8jjc21VS3kysrtjKC+8KuhXkpjjzpzArVU0cS
-X-Developer-Key: i=abdulrasaqolawani@gmail.com; a=ed25519;
- pk=LCvBseqd+rEj8B1vNEnSSfNcqQwMsfWx1DGDT1LYddo=
+In-Reply-To: <23b75e25-fa2f-4d12-8d96-6de01e43ad49@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgDHKl8tbTVozqGcNg--.28192S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxKryDtF4kWw1DWF1DGF1fXrb_yoWxKrWkpF
+	4kJFW5GFW5Jrn3Jr17JryDZFy5Xr1UJayqqr1xXa45GF47Zr4qgF15WF1qgr1UGr48Jr1U
+	Ar1UXrnrur17XFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
+	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
-revert promotion of overview diagram title to that
-of previous commit in introduction.rst
+Hi,
 
-Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
----
-Changes in v3:
-- revert the promotion of the overview diagram header
-- Link to v2: https://lore.kernel.org/r/20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com
+在 2025/05/27 14:10, Hannes Reinecke 写道:
+> On 5/24/25 08:13, Yu Kuai wrote:
+>> From: Yu Kuai <yukuai3@huawei.com>
+>>
+>> The api will be used by mdadm to set bitmap_ops while creating new array
+>> or assemble array, prepare to add a new bitmap.
+>>
+>> Currently available options are:
+>>
+>> cat /sys/block/md0/md/bitmap_type
+>> none [bitmap]
+>>
+>> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+>> ---
+>>   Documentation/admin-guide/md.rst | 73 ++++++++++++++----------
+>>   drivers/md/md.c                  | 96 ++++++++++++++++++++++++++++++--
+>>   drivers/md/md.h                  |  2 +
+>>   3 files changed, 135 insertions(+), 36 deletions(-)
+>>
+> [ .. ]
+>> diff --git a/drivers/md/md.c b/drivers/md/md.c
+>> index 311e52d5173d..4eb0c6effd5b 100644
+>> --- a/drivers/md/md.c
+>> +++ b/drivers/md/md.c
+>> @@ -672,13 +672,18 @@ static void active_io_release(struct percpu_ref 
+>> *ref)
+>>   static void no_op(struct percpu_ref *r) {}
+>> -static void mddev_set_bitmap_ops(struct mddev *mddev, enum 
+>> md_submodule_id id)
+>> +static bool mddev_set_bitmap_ops(struct mddev *mddev)
+>>   {
+>>       xa_lock(&md_submodule);
+>> -    mddev->bitmap_ops = xa_load(&md_submodule, id);
+>> +    mddev->bitmap_ops = xa_load(&md_submodule, mddev->bitmap_id);
+>>       xa_unlock(&md_submodule);
+>> -    if (!mddev->bitmap_ops)
+>> -        pr_warn_once("md: can't find bitmap id %d\n", id);
+>> +
+>> +    if (!mddev->bitmap_ops) {
+>> +        pr_warn_once("md: can't find bitmap id %d\n", mddev->bitmap_id);
+>> +        return false;
+>> +    }
+>> +
+>> +    return true;
+>>   }
+>>   static void mddev_clear_bitmap_ops(struct mddev *mddev)
+>> @@ -688,8 +693,10 @@ static void mddev_clear_bitmap_ops(struct mddev 
+>> *mddev)
+>>   int mddev_init(struct mddev *mddev)
+>>   {
+>> -    /* TODO: support more versions */
+>> -    mddev_set_bitmap_ops(mddev, ID_BITMAP);
+>> +    mddev->bitmap_id = ID_BITMAP;
+>> +
+>> +    if (!mddev_set_bitmap_ops(mddev))
+>> +        return -EINVAL;
+>>       if (percpu_ref_init(&mddev->active_io, active_io_release,
+>>                   PERCPU_REF_ALLOW_REINIT, GFP_KERNEL)) {
+>> @@ -4155,6 +4162,82 @@ new_level_store(struct mddev *mddev, const char 
+>> *buf, size_t len)
+>>   static struct md_sysfs_entry md_new_level =
+>>   __ATTR(new_level, 0664, new_level_show, new_level_store);
+>> +static ssize_t
+>> +bitmap_type_show(struct mddev *mddev, char *page)
+>> +{
+>> +    struct md_submodule_head *head;
+>> +    unsigned long i;
+>> +    ssize_t len = 0;
+>> +
+>> +    if (mddev->bitmap_id == ID_BITMAP_NONE)
+>> +        len += sprintf(page + len, "[none] ");
+>> +    else
+>> +        len += sprintf(page + len, "none ");
+>> +
+>> +    xa_lock(&md_submodule);
+>> +    xa_for_each(&md_submodule, i, head) {
+>> +        if (head->type != MD_BITMAP)
+>> +            continue;
+>> +
+>> +        if (mddev->bitmap_id == head->id)
+>> +            len += sprintf(page + len, "[%s] ", head->name);
+>> +        else
+>> +            len += sprintf(page + len, "%s ", head->name);
+>> +    }
+>> +    xa_unlock(&md_submodule);
+>> +
+>> +    len += sprintf(page + len, "\n");
+>> +    return len;
+>> +}
+>> +
+>> +static ssize_t
+>> +bitmap_type_store(struct mddev *mddev, const char *buf, size_t len)
+>> +{
+>> +    struct md_submodule_head *head;
+>> +    enum md_submodule_id id;
+>> +    unsigned long i;
+>> +    int err;
+>> +
+>> +    if (mddev->bitmap_ops)
+>> +        return -EBUSY;
+>> +
+> Why isn't this protected by md_submodule lock?
+> The lock is taken when updating ->bitmap_ops, so I would
+> have expected it to be taken when checking it ...
 
-Changes in v2:
-- Update the overview diagram to display correctly by putting in a literal block.
-- Also update the overview section diagram to a higher order.
-- Ensured docs are successfully rendering by building for htmldocs and pdfdocs.
-- Rendered pages are okay on html and pdf.
-- Link to v1: https://lore.kernel.org/r/20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com
----
- Documentation/gpu/introduction.rst | 40 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+The design is that when bitmap is created, user can no longer set
+bitmap_id, and it's right without the protecting there will be race
+window.
 
-diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
-index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec52a45d0f3f4561424e0 100644
---- a/Documentation/gpu/introduction.rst
-+++ b/Documentation/gpu/introduction.rst
-@@ -14,7 +14,45 @@ including the TTM memory manager, output configuration and mode setting,
- and the new vblank internals, in addition to all the regular features
- found in current kernels.
- 
--[Insert diagram of typical DRM stack here]
-+Overview of the Linux DRM Architecture
-+--------------------------------------
-+::
-+
-+        +-----------------------------+
-+        |     User-space Apps         |
-+        | (Games, Browsers, ML, etc.) |
-+        +-----------------------------+
-+                      |
-+                      v
-+        +---------------------------------------+
-+        |    Graphics APIs   |   Compute APIs   |
-+        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
-+        +---------------------------------------+
-+                |                   |
-+                v                   v
-+        +---------------------+  +-----------------------+
-+        |  User-space Driver  |  |    Compute Runtime    |
-+        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
-+        +---------------------+  +-----------------------+
-+                |                   |
-+                +--------+----------+
-+                         |
-+                         v
-+                +-----------------------+
-+                |   libdrm (DRM API)    |
-+                +-----------------------+
-+                          |
-+                          v
-+        +-------------------------------------------+
-+        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
-+        |     nouveau, etc.)                        |
-+        +-------------------------------------------+
-+                |                       |
-+                v                       v
-+        +----------------+     +-------------------+
-+        | GPU Display HW |     | GPU Compute Units |
-+        +----------------+     +-------------------+
-+
- 
- Style Guidelines
- ================
+> 
+>> +    err = kstrtoint(buf, 10, &id);
+>> +    if (!err) {
+>> +        if (id == ID_BITMAP_NONE) {
+>> +            mddev->bitmap_id = id;
+>> +            return len;
+>> +        }
+>> +
+>> +        xa_lock(&md_submodule);
+>> +        head = xa_load(&md_submodule, id);
+>> +        xa_unlock(&md_submodule);
+>> +
+>> +        if (head && head->type == MD_BITMAP) {
+>> +            mddev->bitmap_id = id;
+>> +            return len;
+>> +        }
+>> +    }
+>> +
+>> +    if (cmd_match(buf, "none")) {
+>> +        mddev->bitmap_id = ID_BITMAP_NONE;
+>> +        return len;
+>> +    }
+>> +
+> That is odd coding. The 'if (!err)' condition above might
+> fall through to here, but then we already now that it cannot
+> match 'none'.
 
----
-base-commit: 4d07f5440d7afee27dada528aaf5230e760531cb
-change-id: 20250522-drm-doc-updates-3686f6d48122
+The first kstrtoint() is trying to convert the input string to int id,
+looks like I missed return -EINVAL if the id can't be found in
+md_submodule.
 
-Best regards,
--- 
-Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+> Please invert the logic, first check for 'none', and only
+> call kstroint if the match failed.
+
+Sure, this sounds better.
+
+Thanks for the review!
+Kuai
+
+> 
+>> +    xa_lock(&md_submodule);
+>> +    xa_for_each(&md_submodule, i, head) {
+>> +        if (head->type == MD_BITMAP && cmd_match(buf, head->name)) {
+>> +            mddev->bitmap_id = head->id;
+>> +            xa_unlock(&md_submodule);
+>> +            return len;
+>> +        }
+>> +    }
+>> +    xa_unlock(&md_submodule);
+>> +    return -ENOENT;
+>> +}
+>> +
+>> +static struct md_sysfs_entry md_bitmap_type =
+>> +__ATTR(bitmap_type, 0664, bitmap_type_show, bitmap_type_store);
+>> +
+>>   static ssize_t
+>>   layout_show(struct mddev *mddev, char *page)
+>>   {
+>> @@ -5719,6 +5802,7 @@ __ATTR(serialize_policy, S_IRUGO | S_IWUSR, 
+>> serialize_policy_show,
+>>   static struct attribute *md_default_attrs[] = {
+>>       &md_level.attr,
+>>       &md_new_level.attr,
+>> +    &md_bitmap_type.attr,
+>>       &md_layout.attr,
+>>       &md_raid_disks.attr,
+>>       &md_uuid.attr,
+>> diff --git a/drivers/md/md.h b/drivers/md/md.h
+>> index 13e3f9ce1b79..bf34c0a36551 100644
+>> --- a/drivers/md/md.h
+>> +++ b/drivers/md/md.h
+>> @@ -40,6 +40,7 @@ enum md_submodule_id {
+>>       ID_CLUSTER,
+>>       ID_BITMAP,
+>>       ID_LLBITMAP,    /* TODO */
+>> +    ID_BITMAP_NONE,
+>>   };
+>>   struct md_submodule_head {
+>> @@ -565,6 +566,7 @@ struct mddev {
+>>       struct percpu_ref        writes_pending;
+>>       int                sync_checkers;    /* # of threads checking 
+>> writes_pending */
+>> +    enum md_submodule_id        bitmap_id;
+>>       void                *bitmap; /* the bitmap for the device */
+>>       struct bitmap_operations    *bitmap_ops;
+>>       struct {
+> 
+> Cheers,
+> 
+> Hannes
 
