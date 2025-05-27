@@ -1,95 +1,155 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA5E1C5D61;
-	Tue, 27 May 2025 09:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908C5225D7;
+	Tue, 27 May 2025 09:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748336433; cv=none; b=f/gwbqF+LvTKYp5LpwDLiDmLz+6vnl5BDJ4e2xIY3aImPqYiKhvNOgTa2HjpU/tTTIdeiquRnHTVbNs0auoqiMVeleNmZgD/9341TnouOjbhiMR9Z0hyhS+c1WPwpcvF14t9yWroByKrNrHSTPpVmVjyZZ8ZBv0H3I+QbsfgvIE=
+	t=1748336762; cv=none; b=mS/IO8CRzDdRCrzMfoVxt4IB1CSOb5Jkzz+1NJR0fCStJZmTz3CEkTXYgmI1TylF8jATwqkqOIrqHMMEQkLHMyuSIaEqxFCeedmpdvHK1P3J+8AldmfAr0ivLEieGpiVwC0vTTzjdxaT1LlQ03j2TddwJxoKXOoa0vc7R+m5TIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748336433; c=relaxed/simple;
-	bh=vTxtSLPHRSprqIwcwlQ7ULXrGnxhvtBnoPuE4aZbL4k=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=Ly68Fh0T5a/ENcu7Phiwk55caXzB6Zndrx1l08RudLEciG6DjIeVmVFM1K5AtTGCyzT2+eTWDKIffADlDYfze+cQ04v8tR3OsQWOz8HNmJaEpGtFvMXdX5Kh8EyK2Z/6GfrjOqy7Fo90ILy12gkZgC1Snt+vZMLLN2FZtuZ9P2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4b665t4xHDz4f3jcm;
-	Tue, 27 May 2025 17:00:02 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id ED3571A07BB;
-	Tue, 27 May 2025 17:00:27 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgA3m18rfzVolkmiNg--.44075S3;
-	Tue, 27 May 2025 17:00:27 +0800 (CST)
-Subject: Re: [PATCH 23/23] md/md-llbitmap: add Kconfig
-To: Christoph Hellwig <hch@lst.de>, Yu Kuai <yukuai1@huaweicloud.com>
-Cc: xni@redhat.com, colyli@kernel.org, song@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
- <20250524061320.370630-24-yukuai1@huaweicloud.com>
- <20250527082911.GB32108@lst.de>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <cd0b3e69-40e1-62e9-4229-8fcf49b189ac@huaweicloud.com>
-Date: Tue, 27 May 2025 17:00:26 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	s=arc-20240116; t=1748336762; c=relaxed/simple;
+	bh=FAJqpmb+BoZ0AVDf80FVLHbg+9NVumyxtrdo2DmNzdE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=afal+2+7j85o+8lw1JgKPWPEM52+e2b1CDibL8byMabrWdl/ziKXc2sAy7cxjcOPgmJ/RKJWET91zy0KUY+Gh0VO/WW9pZjClbcHusiotTyE7ZWcCFLx0LG/dJXfPXSA+2p2WufOVEGNPKDvHH5PSPxKSkTXdzROIkIzNXgMZIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=DiReI8th; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="DiReI8th"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54QNbpQa007658;
+	Tue, 27 May 2025 09:05:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=kKsxNrrRq+ObuNzyEdrrMJwLMVpQZb+We6ceTAbpB
+	RE=; b=DiReI8thcZFJ8udBC/aooI/f6lbe+NnXRIj4YEXe2IXbOnINbWclU3jHr
+	Yvood8t4HjVD84IJf5PulW19NDW5uMCESziz5M184yKgY+od9hoU951MDFtnxI4/
+	baSThkMZPDdtdflNhH3OA9xKQHh6GttkicpQmYWJfSfMQmgrkAmBbI8yqJVhkEVn
+	RvSDVVvK73mSf/qozxpHM17Ha89Khga7eWCLFheob/5acW50eARwahZqZP5AIMHs
+	ws+//BwP8VpYpV304R64C7Yxf3lWzlG8v68aCKoLLgzUYudIg6FawHdPDK2nzKa5
+	BHaG0fp8Fc8Bw9xu1ZTewa1YVYZoA==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46u5ucn9w7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 May 2025 09:05:55 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54R7DHYr016700;
+	Tue, 27 May 2025 09:05:54 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 46ureua4tt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 May 2025 09:05:54 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54R95rci28508770
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 27 May 2025 09:05:53 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E139420043;
+	Tue, 27 May 2025 09:05:52 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3FEAF20040;
+	Tue, 27 May 2025 09:05:51 +0000 (GMT)
+Received: from vishalc-ibm.in.ibm.com (unknown [9.109.245.223])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 27 May 2025 09:05:51 +0000 (GMT)
+From: Vishal Chourasia <vishalc@linux.ibm.com>
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Vishal Chourasia <vishalc@linux.ibm.com>
+Subject: [PATCH] Documentation: cgroup: clarify controller enabling semantics
+Date: Tue, 27 May 2025 14:23:36 +0530
+Message-ID: <20250527085335.256045-2-vishalc@linux.ibm.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20250527082911.GB32108@lst.de>
-Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgA3m18rfzVolkmiNg--.44075S3
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYN7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87
-	Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
-	6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72
-	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4II
-	rI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr4
-	1l4c8EcI0Ec7CjxVAaw2AFwI0_Jw0_GFyl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAq
-	x4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r
-	43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF
-	7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
-	W8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7V
-	Ub7GYJUUUUU==
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: XAUiHN1XPtjLl4fF0KJuMAJtifm6UvN7
+X-Proofpoint-GUID: XAUiHN1XPtjLl4fF0KJuMAJtifm6UvN7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI3MDA3MyBTYWx0ZWRfX8Ss8AJaVoXnE wAssbYWwVmyXrn9j0/D9t5hquiuwJlDqlJkA65m2DxfH6S92hh809trgSjlIFbcfhCmgTQZu9gU 3rZ/+icwA3/Nd++GcUtGCSOisnuUYXxmoXw0JV8Uy5FNdrlIerj5GcIHPZr984brDbxaZmZ4/ZN
+ 2yqWas1jzMfXvPdtrBiCOmindH2DZzDb/74/UZFU3Nh9XcaB2ELb5JmCoJx3nWom+6qpkYVPp9x QZ3Z6nmKOXy/nrNhOPnlq8HMdCh3B/xH04lFipioVNTOu91vrn81z5i25/q92A7/9u7rPtFCxf3 5e+DkWsTPq/fSd57ByBzq3NwQZMZ8jyvCgdvCht8pirIwq9pKz84MpYEaBHtTbZYbhIP2aYidwQ
+ 0CICP9T2UquAXETtcIm284Pzwy34RFusA4xcnhUEXK1ccL/6yf2YuE2yyk31gjJcQ00eXje4
+X-Authority-Analysis: v=2.4 cv=fJM53Yae c=1 sm=1 tr=0 ts=68358073 cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=dt9VzEwgFbYA:10 a=VnNF1IyMAAAA:8 a=a_b_lNqkOoIFiPTXujYA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-27_04,2025-05-26_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=847 suspectscore=0
+ phishscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505270073
 
-Hi,
+The documentation for cgroup controller management has been updated to
+be more consistent regarding following concepts:
 
-ÔÚ 2025/05/27 16:29, Christoph Hellwig Ð´µÀ:
-> On Sat, May 24, 2025 at 02:13:20PM +0800, Yu Kuai wrote:
->>   	MD_PERSONALITY = 0,
->>   	MD_CLUSTER,
->> -	MD_BITMAP, /* TODO */
->> +	MD_BITMAP,
->>   };
->>   
->>   enum md_submodule_id {
->> @@ -39,7 +39,7 @@ enum md_submodule_id {
->>   	ID_RAID10	= 10,
->>   	ID_CLUSTER,
->>   	ID_BITMAP,
->> -	ID_LLBITMAP,	/* TODO */
->> +	ID_LLBITMAP,
-> 
-> Please just drop the TODO annotation from the initial patch.
-> 
+What does it mean to have controllers
+1) available in a cgroup, vs.
+2) enabled in a cgroup
 
-I guess this is no longer a problem with one single patch.
+Which has been clearly defined below in the documentation.
 
-Thanks,
-Kuai
+"Enabling a controller in a cgroup indicates that the distribution of
+the target resource across its immediate children will be controlled.
+Consider the following sub-hierarchy"
 
-> .
-> 
+As an example, consider
+
+/sys/fs/cgroup # cat cgroup.controllers
+cpuset cpu io memory hugetlb pids misc
+/sys/fs/cgroup # cat cgroup.subtree_control # No controllers by default
+/sys/fs/cgroup # echo +cpu +memory > cgroup.subtree_control
+/sys/fs/cgroup # cat cgroup.subtree_control
+cpu memory                   # cpu and memory enabled in /sys/fs/cgroup
+/sys/fs/cgroup # mkdir foo_cgrp
+/sys/fs/cgroup # cd foo_cgrp/
+/sys/fs/cgroup/foo_cgrp # cat cgroup.controllers
+cpu memory                   # cpu and memory available in 'foo_cgrp'
+/sys/fs/cgroup/foo_cgrp # cat cgroup.subtree_control  # empty by default
+/sys/fs/cgroup/foo_cgrp # ls
+cgroup.controllers      cpu.max.burst           memory.numa_stat
+cgroup.events           cpu.pressure            memory.oom.group
+cgroup.freeze           cpu.stat                memory.peak
+cgroup.kill             cpu.stat.local          memory.pressure
+cgroup.max.depth        cpu.weight              memory.reclaim
+cgroup.max.descendants  cpu.weight.nice         memory.stat
+cgroup.pressure         io.pressure             memory.swap.current
+cgroup.procs            memory.current          memory.swap.events
+cgroup.stat             memory.events           memory.swap.high
+cgroup.subtree_control  memory.events.local     memory.swap.max
+cgroup.threads          memory.high             memory.swap.peak
+cgroup.type             memory.low              memory.zswap.current
+cpu.idle                memory.max              memory.zswap.max
+cpu.max                 memory.min              memory.zswap.writeback
+
+Once a controller is available in a cgroup it can be used to resource
+control processes of the cgroup.
+
+Signed-off-by: Vishal Chourasia <vishalc@linux.ibm.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 1a16ce68a4d7..0e1686511c45 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -438,8 +438,8 @@ Controlling Controllers
+ Enabling and Disabling
+ ~~~~~~~~~~~~~~~~~~~~~~
+ 
+-Each cgroup has a "cgroup.controllers" file which lists all
+-controllers available for the cgroup to enable::
++Each cgroup has a cgroup.controllers file, which lists all the controllers
++available for that cgroup and which can be enabled for its children.
+ 
+   # cat cgroup.controllers
+   cpu io memory
+-- 
+2.49.0
 
