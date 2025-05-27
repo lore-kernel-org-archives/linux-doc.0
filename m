@@ -1,114 +1,156 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1029F25484B;
-	Tue, 27 May 2025 10:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910827260E;
+	Tue, 27 May 2025 12:00:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748343044; cv=none; b=jd5QcvUVJnLqlCxq+elgIWKU09k+DKtNPGTj0hX4JQ3oMfta+zBgvEOo2NK5nS0+5EUBJ8cVKdNSicHnWWIOX8UGjnEGav+ULhTseHAFXXGJh8omsUHiU7Bu6elYioKA6tgofjPF96CZKS6P4BlznkMqbMRMVeKHdB88UYchwYg=
+	t=1748347213; cv=none; b=ICrKCnezZ8kjWDmIrzORE3qqxuf2n/iE5+CJLi1oG2oYplCrSf/K1hVqUM8ppRbKAb/ZCTdiQ61b5IlLVmdRacJku0dF95nI2h4G1chvDJGI5a3T2UAjAEJQSFUcxJp6cHRCX/3TgoMROgD/pBORgAzNFHo5PV6KVHiCp+6sfoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748343044; c=relaxed/simple;
-	bh=iChCSwBj+S41jBky5HpvDJ5GYFdj24X5Q19WyfZ61l4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BBdJaCaEWkWmStINwMVWQwPIT5ZwKbmY8PLbVeW1fYo8kG9bBFkEz0PafZpwot/QVzdaw8RRI1QgFwlIYyj7jxbHC8YWCODw4jmy0qw8s6EAx5WuRNM4Sb+T8LVl6C1u7bwQ6RN4N9jIax/om4ofmg8xqjyatpaAuCmCrTFVUGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fC12pMhU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748347213; c=relaxed/simple;
+	bh=qLapHneOi+oKFJ5y90jzyILYX7eOBr5+CBwaFdeeheA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EH3cUiwfJ1VJTCagAGY5tULGGK16YKROLZub69BnRwyfdSV5H37KNyZFiVV2zedvYw09DbSX0FsS6VCwiLp0pK1KRQfyaOIo9e6tE0fbIh6HbdOkr7LkZaygM3diVpyN/kZEZwNqagen+fnuoEh+oqKh+a5UW1k2BF+nAkDbHwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kSI+l+Gz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fC12pMhU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86ACCC4CEEE;
-	Tue, 27 May 2025 10:50:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kSI+l+Gz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08819C4CEEE;
+	Tue, 27 May 2025 12:00:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748343042;
-	bh=iChCSwBj+S41jBky5HpvDJ5GYFdj24X5Q19WyfZ61l4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fC12pMhU7iPEXVlplCcUi3+eIAKiz7WknO0aoyXQ8C0BkMeB30LWHvcTEIpPyFsEz
-	 G7KSe57I++spsiqp5Ea6QU3XS0IPHXFx0sYWcJWuc03itsBENB6xBPrIZajOTZZJUA
-	 gbULJC2mebyoZw5ENZcznu44gGDJD5yjIaOm3qZRf77igm07mkaSE85g0ZIlWKAwC4
-	 yh+OI4FuUFGulIYMjXtmm56lhN5BF3Ryspb2Zf3chf3GR0QhOH9zilBOljOwrll5Ay
-	 vtF169JO8nkeocyvt2yVCkKJLsiJtZ9wgk4A5HfAON8/7hOih1fbPL1mbUEn5fkPnU
-	 Cx+FPT40shpRQ==
-Date: Tue, 27 May 2025 11:50:36 +0100
-From: Will Deacon <will@kernel.org>
-To: James Clark <james.clark@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Leo Yan <leo.yan@arm.com>, linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v21 4/4] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-Message-ID: <20250527105035.GA26328@willie-the-truck>
-References: <20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org>
- <20250407-arm-brbe-v19-v21-4-ff187ff6c928@kernel.org>
- <20250519150621.GA17177@willie-the-truck>
- <20250519215651.GB2650608-robh@kernel.org>
- <119c9a70-6ea8-46f0-b877-8a433d97ce84@linaro.org>
+	s=k20201202; t=1748347213;
+	bh=qLapHneOi+oKFJ5y90jzyILYX7eOBr5+CBwaFdeeheA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kSI+l+GzqCel77prqLwS7xz2muMHOSoXwb9KNu8Wi5eT+xMmcs3VsmvVuiAYgT9aO
+	 8Yt+IU5DdO3uGV6KTeKCA1Y5BehvCavUfEdn1X1+eXIii2h88KgOjV/3ep8hqNT/is
+	 emXWe5UbgFGLO98FK5JeWSYsGXzp5v7qWJGWlGlXGCuc+hnhQOXH0O8ZaqnQtFFY7T
+	 MC03kD61+/i7r9Yd9URlGLON6NPjYHpQcTHstWaY0aPFjfbfzherwUrKdBRdup1jEq
+	 mISnjmxyyPmN89tD2edgBRqQhp/NYYDyOUZ/idCBJEeSydNnmBdR4+m6fUKLajGupu
+	 imnXQBLNPjngA==
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-60638c07cabso1411905eaf.3;
+        Tue, 27 May 2025 05:00:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV5yDUabpcZzpK0qchngo/zFo5y/bQZ4082f1ntjMGv/GCx0yI10t5mWyyCXddcmFRIbNK52XQpQBk=@vger.kernel.org, AJvYcCVtMLbR45Orkd3mT//9ydhqG+1fK1X4W+r3Tk5+duhM537eD9xLnrmHTz/lfQqp57fhHXCIeujP/RSXTDZP@vger.kernel.org, AJvYcCXFXlgYCygK30Jc7MJgmqJjn25qOcKuWyRkpU57SkDEPm0HsdGhEInz1QZMeKptvspluQzbhNXTsww=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIa6SNMAFgB5Bvc6je1kzqFg4EctE6n38Jw+suAjCnY/CuqcH3
+	VMYHn6ijzcf/YYaVs8Zs5rSYbHw8bbiJa29RWYm/DIbiVzbJIOPJHE9rFD8zZv1U1kR0ZthhXDU
+	kDBPdUgnbygfCYld8pB2b1LC9GP5XcOY=
+X-Google-Smtp-Source: AGHT+IH1H/K9aIlXXOO/y7HLOTl7zAEeo6HfQFr7ujuFdt4n8dLkaY+8mKMTorG3P80nKepGALTJbXBe04FTHAZXQ4I=
+X-Received: by 2002:a05:6820:818d:b0:609:f2f3:5f60 with SMTP id
+ 006d021491bc7-60b9f8a9766mr6494225eaf.0.1748347212322; Tue, 27 May 2025
+ 05:00:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <119c9a70-6ea8-46f0-b877-8a433d97ce84@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com>
+ <15871c67-0d18-430f-935e-261b2cda855b@gmail.com> <CAJZ5v0gz3Y+RGqBf9E1hzq9rwfrryd98Xpk51DtLd-uck5y-rw@mail.gmail.com>
+ <b62c0462-8185-4eb8-8ac6-7f2abc387768@gmail.com> <aC_4yLsFVVszI_FA@JPC00244420>
+ <CAJZ5v0g1o03La9aWJF1rheC9CM8SU2iC52auEAnaBpUCMunpJA@mail.gmail.com> <aDV2HPfybqnbzJ9N@JPC00244420>
+In-Reply-To: <aDV2HPfybqnbzJ9N@JPC00244420>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 27 May 2025 14:00:00 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0h9d6XESiiZV+A2GNUcefSunV-D=3d-TU412mwW0vjYGA@mail.gmail.com>
+X-Gm-Features: AX0GCFsknwzCCPo2oM2FuYiPgANRZkiiVNyCLYZm3KZKQoxjkqI9Z52D-sR3j0k
+Message-ID: <CAJZ5v0h9d6XESiiZV+A2GNUcefSunV-D=3d-TU412mwW0vjYGA@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq, docs: (userspace governor) add that actual freq
+ is >= scaling_setspeed
+To: Shashank Balaji <shashank.mahadasyam@sony.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Russell Haley <yumpusamongus@gmail.com>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Shinya Takumi <shinya.takumi@sony.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 21, 2025 at 04:58:42PM +0100, James Clark wrote:
-> 
-> 
-> On 19/05/2025 10:56 pm, Rob Herring wrote:
-> > On Mon, May 19, 2025 at 04:06:22PM +0100, Will Deacon wrote:
-> > > Hey Rob,
-> > > 
-> > > On Mon, Apr 07, 2025 at 12:41:33PM -0500, Rob Herring (Arm) wrote:
-> > > > From: Anshuman Khandual <anshuman.khandual@arm.com>
-> > > > 
-> > > > The ARMv9.2 architecture introduces the optional Branch Record Buffer
-> > > > Extension (BRBE), which records information about branches as they are
-> > > > executed into set of branch record registers. BRBE is similar to x86's
-> > > > Last Branch Record (LBR) and PowerPC's Branch History Rolling Buffer
-> > > > (BHRB).
-> > > 
-> > > Since you picked this up from v19, the driver has changed considerably
-> > > and I presume you will be continuing to extend it in future as the
-> > > architecture progresses. Perhaps having you listed as Author (and
-> > > crucially, in git blame :p) with Anshuman as a Co-developed-by: would be
-> > > more appropriate?
-> > 
-> > Shrug.
-> > 
-> > > > ---
-> > > >   drivers/perf/Kconfig         |  11 +
-> > > >   drivers/perf/Makefile        |   1 +
-> > > >   drivers/perf/arm_brbe.c      | 802 +++++++++++++++++++++++++++++++++++++++++++
-> > > >   drivers/perf/arm_brbe.h      |  47 +++
-> > > >   drivers/perf/arm_pmu.c       |  15 +-
-> > > >   drivers/perf/arm_pmuv3.c     | 129 ++++++-
-> > > >   include/linux/perf/arm_pmu.h |   8 +
-> > > >   7 files changed, 1006 insertions(+), 7 deletions(-)
-> > > 
-> > > Do you know if James Clark's tests [1] are going to be respun for the
-> > > perf tool? It would be handy to have some way to test this new
-> > > functionality.
-> > 
-> > Yes. I dropped them here because I've been told by Arnaldo in the past
-> > to send userspace stuff separately.
-> > 
-> 
-> That version of the test was out of date so I've pushed the new version
-> here: https://git.linaro.org/plugins/gitiles/people/james.clark/linux.git/+/16e4a18c2d5fc53736f05c9052b1d11d74909707
-> 
-> But I'll wait for the driver changes to be finalised before posting it. Or
-> Rob can take it back into the patchset.
+Hi,
 
-Thanks, James. I just wanted to make sure that there was still a plan
-for upstreaming these separately from the driver. Have you had a chance
-to run them against this v21?
+On Tue, May 27, 2025 at 10:22=E2=80=AFAM Shashank Balaji
+<shashank.mahadasyam@sony.com> wrote:
+>
+> Hi Rafael,
+>
+> On Fri, May 23, 2025 at 09:06:04PM +0200, Rafael J. Wysocki wrote:
+> > On Fri, May 23, 2025 at 6:25=E2=80=AFAM Shashank Balaji
+> > <shashank.mahadasyam@sony.com> wrote:
+> > > ...
+> > > Consider the following on a Raptor Lake machine:
+> > > ...
+> > >
+> > > 3. Same as above, except with strictuserspace governor, which is a
+> > > custom kernel module which is exactly the same as the userspace
+> > > governor, except it has the CPUFREQ_GOV_STRICT_TARGET flag set:
+> > >
+> > >         # echo strictuserspace > cpufreq/policy0/scaling_governor
+> > >         # x86_energy_perf_policy -c 0 2>&1 | grep REQ
+> > >         cpu0: HWP_REQ: min 26 max 26 des 0 epp 128 window 0x0 (0*10^0=
+us) use_pkg 0
+> > >         pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*=
+10^0us)
+> > >         # echo 3000000 > cpufreq/policy0/scaling_setspeed
+> > >         # x86_energy_perf_policy -c 0 2>&1 | grep REQ
+> > >         cpu0: HWP_REQ: min 39 max 39 des 0 epp 128 window 0x0 (0*10^0=
+us) use_pkg 0
+> > >         pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*=
+10^0us)
+> > >
+> > >         With the strict flag set, intel_pstate honours this by settin=
+g
+> > >         the min and max freq same.
+> > >
+> > > desired_perf is always 0 in the above cases. The strict flag check is=
+ done in
+> > > intel_cpufreq_update_pstate, which sets max_pstate to target_pstate i=
+f policy
+> > > has strict target, and cpu->max_perf_ratio otherwise.
+> > >
+> > > As Russell and Rafael have noted, CPU frequency is subject to hardwar=
+e
+> > > coordination and optimizations. While I get that, shouldn't software =
+try
+> > > its best with whatever interface it has available? If a user sets the
+> > > userspace governor, that's because they want to have manual control o=
+ver
+> > > CPU frequency, for whatever reason. The kernel should honor this by
+> > > setting the min and max freq in HWP_REQUEST equal. The current behavi=
+our
+> > > explicitly lets the hardware choose higher frequencies.
+> >
+> > Well, the userspace governor ends up calling the same function,
+> > intel_cpufreq_target(), as other cpufreq governors except for
+> > schedutil.  This function needs to work for all of them and for some
+> > of them setting HWP_MIN_PERF to the same value as HWP_MAX_PERF would
+> > be too strict.  HWP_DESIRED_PERF can be set to the same value as
+> > HWP_MIN_PERF, though (please see the attached patch).
+> >
+> > > Since Russell pointed out that the "actual freq >=3D target freq" can=
+ be
+> > > achieved by leaving intel_pstate active and setting scaling_{min,max}=
+_freq
+> > > instead (for some reason this slipped my mind), I now think the stric=
+t target
+> > > flag should be added to the userspace governor, leaving the documenta=
+tion as
+> > > is. Maybe a warning like "you may want to set this exact frequency, b=
+ut it's
+> > > subject to hardware coordination, so beware" can be added.
+> >
+> > If you expect the userspace governor to set the frequency exactly
+> > (module HW coordination), that's the only way to make it do so without
+> > potentially affecting the other governors.
+>
+> I don't mean to say that intel_cpufreq_target() should be modified. I'm
+> suggesting that the CPUFREQ_GOV_STRICT_TARGET flag be added to the
+> userspace governor. That'll ensure that HWP_MIN_PERF and
+> HWP_MAX_PERF are set to the target frequency. intel_cpufreq_target()
+> already correctly deals with the strict target flag. To test this, I
+> registered a custom governor, same as the userspace governor, except
+> with the strict target flag set. Please see case 3 above.
+>
+> If this flag is added to the userspace governor, then whatever the
+> documentation says right now will actually be true. No need to modify
+> the documentation then.
 
-Will
+So please submit a patch to set CPUFREQ_GOV_STRICT_TARGET in the
+userspace governor.
+
+Thanks!
