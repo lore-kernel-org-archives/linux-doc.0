@@ -1,70 +1,73 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD04139D0A
-	for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 09:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADB61D63C0;
+	Tue, 27 May 2025 10:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748339937; cv=none; b=d7AUm6ZRj1/mjcDkxQg27oKiKQhw1NfNxu9jNKoytC4N+K8/9FMAG+MxrNTSxTSBtfp6LHODR7BEoqd7xr/+a2MMjeVe56fL6Q/FgmzgIftRCHA43ymrZTiV05ETjpc2uWdwFxk2uwo71TXRyjEH2nKn9i+Cwj+i0esbVRd+JK8=
+	t=1748340279; cv=none; b=l3ehNClpy73cpqsPBOekepuH0gHcOhGitbwxCQEi1MuCQRFKaK/T7tS92Zpksf4uPrVU3WOYZZRrKSxgK6/g77Vw17VX/1oYU8qOOXCrEJJ8PHUIHNKnomHU1+CxVT4DWVEpUdekLiCA5wEgjNU5OKnhhMHxodhcaGNf92sB+b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748339937; c=relaxed/simple;
-	bh=gPXYMkam9e7YUM5qKqIBAC+BmfBK97NM0JOhRxCvlVg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RDAWbQJlPseUCV/JngfDj9LHxrIo2ztfJ/xH+rUZC/RSCr+FgObjWfPDJqwv4jnjf7uB02oO+WBseYBJMEx+6NL+9iYcCG499jkkqRE+5lz431wFBtpG04G+qMpSMI5sFrt/Yah1h/hpou2QMqv7q+agYF2Q6DFphhQIAbgMsQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=eEzg4l66; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1748340279; c=relaxed/simple;
+	bh=atB4q9mfxkHYBz4CND/eGCnJPFD3h6p5A9WsgN1NOJo=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ppYI8ydFeceMpeKmKSVqCwt6N995tkm1xhLBlaHLL2hXXl9oGtzu96VKR/KflLXm32dpu8DHXWW15jykwT/aEU1ByIIv6yXrlCjduZa8NvSNuTneqM+N6hu43v1vpbSzlCdtwSlaS3Elz0P1IOxT7hM6NHHq+a7HZeG3xX8KcK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZA4B6jv/; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="eEzg4l66"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so43684025e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 02:58:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZA4B6jv/"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-306bf444ba2so2411527a91.1;
+        Tue, 27 May 2025 03:04:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1748339933; x=1748944733; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1748340277; x=1748945077; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ovDeM7CFy59ro2G29zEI76iQj5LO8OiJCTjhuKqfgog=;
-        b=eEzg4l66tQDN5pumWbXC13F9MqjmL8stt3aOAPNKrWn5mUs36jhHAb6D07pkKcFNQk
-         jeqyA+vHBb08Pl7NFs/1PYhsnnMQH8Jam6wqKJA0/9vqcdD4grCjwx/XCdNTgEgsI6NO
-         9zuVy0+rTIuV3unOb+1dVLFCBpl/qOENpDfvg9sBH1WFuzO9bS3FYFkB2GsH1H7WAcfM
-         qqbhLL8BPgDfWaf0aUpsbZf1PnAEmWsp3G0zdg1SFNnnv2touQeIlNcrCjC1WpFjUm23
-         P81ctXq7fhO9M1SIcC9MVEFV/7Rj3oN1p8315QYhBvlVPCPACw9yGUXBMdTMF2Ai1brF
-         h7QQ==
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7aqc8T49oslh+HPpplQG3216rFUwciiw4eqysXyXUF4=;
+        b=ZA4B6jv/eiq4StU6AIyDAzjqZn3REuoZ8P/1+AJzZq3TplLmPJ2HtBQgOophflscjl
+         KDaEwQivZnC/l7ep2UgrzQhqR5AS1bV8kOXSSRamsc4PEHVGlcYlcXOhr6gdfRttltti
+         eE6ejjvCLngFgu0wuCVcRdh8pFs84jvERKVjU5RuLJ58UIzXzNgT1kju4l1nWni5sQGv
+         DxKpg+dMKCfYgUGG4pyTYffW2Ch64WrMyFaXmp3M0Nw8LQe/WAeWPggAgQibJd3d4fQz
+         SqVWbvvZwBR/+F/0GBCi3/vBdTW75vTuVDoaWrsuqNEBxOz2G8pY9mEP3urGfgn4yL6v
+         op9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748339933; x=1748944733;
+        d=1e100.net; s=20230601; t=1748340277; x=1748945077;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ovDeM7CFy59ro2G29zEI76iQj5LO8OiJCTjhuKqfgog=;
-        b=ckVEGmA9xYvYVftlWGdigJ/IzDeO+io1qSl4e4NmK7f0IKYn0/m2nxxF3MKCWbAyh0
-         drGXn4ZeEGQUlClJUMQEGkvI4BqVzNlFPSAUurVCXH5IHhAdkm2a8Eq+QGnqexzzKnGh
-         FJNyB3frB2rtvWIkV2iMmSgZX/kW6IRtjVIoneKPZPvv+J2jW6HUkKeBnhmbfRtD4kM9
-         Kc/JKdzpXCIGsnLPIOG6K2EXJUTkEqLPY5R3eVX9UFwF9ttcspWGKGcNlYKqb39yVfTa
-         kqYuyk5hmyfVY/7R7lqHKY9JTlgYOKgG/7bH7e/eHq9ct026jyYgR4y9DIQkij3yfjUj
-         aQJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWEZvgm+ZBdlBga0Ey87ZR3Nkfg/rEkkAm8RzLM0FYEls7iNyYoAl/ixkpJ7swxLiRtiqRJjNq/ei4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUfoLARi5uMB1+rxb+pmkMD9QGUdbtohjLpdwkG+JieRlfcLkC
-	EzeME2ZvNZXhK1zqvnAgN8eq3E58s3zqMLxvLf0w8Y0BPFNYkUDscB8k/f8VgeM1ieg=
-X-Gm-Gg: ASbGncuDNlQJfeOtisPb7Y2k6a0s2maFqWm0GLt9LlqCadhleCUTrmSvtxLVSzBdaEf
-	tNHGRVFu0ZpSXWpnuVvaB5fExDZlDxG8Qlc87AvOSGtBy7U0mLV5/1mKGGHdSwg50GMn5URXbjg
-	/7fQNBZTV9yCOzftctKwZhijzet27IUi/M+qVjHs4BGIjt6Bbtem+syb5ofngmopOqfoY+nsTLn
-	TIVoTC7uYWmL5MJq3rwCcJIK6vYYLAY2OYB6vTgqbB7bTUTbrE9RlwcB3FQKx1asMPqyfMckTFm
-	GK0C1BjI8Tp7Jfj31Z1DRGWG6mjo5EPTaLBIyHIVGFJX9wo+YCvbvXIQ61osZZFP
-X-Google-Smtp-Source: AGHT+IFtwTUjZn2K0uyc0dB9w9W6AVN79yBgYpvErxn26uh2Ttzg6hAA9ZousEeaV8G5tSv1mKe7kA==
-X-Received: by 2002:a05:600c:4e16:b0:43d:98e7:38dc with SMTP id 5b1f17b1804b1-44c917f674amr93208125e9.5.1748339932904;
-        Tue, 27 May 2025 02:58:52 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-44fcbe5c4edsm14789285e9.2.2025.05.27.02.58.51
+        bh=7aqc8T49oslh+HPpplQG3216rFUwciiw4eqysXyXUF4=;
+        b=Vw7WHLRrMRjDXcAl+uFH8RKtsdFaMJRKx9T5gjonnKcWgSgrLkViNSpHYmVpT1oNaF
+         Xrq1WUZXn/Ww3PJFtI+XGJSI1ekrsUEZg6yQDHDnG+9nUopjve/ttLCianI6JPeyM6Hr
+         C9uGeP/u8W54sm7zXRZFJ9SU5/vS4IXwmlB+fK48eUTpgP3ZUILO3I3zYJM4guheTRHK
+         xNDBpeqmUrdn+54ayT1MzhPQ6mgucGWVhVS8AMedjC5VWGLPKry+Mvr4hbOoH/Fwhffy
+         VXBeyBCtbAGQ0YtHw4dqe2Bk3cKBYWEj0hVZh9HwHyjywZpr8U8CNv7GtC9dUOdCSQGk
+         NndA==
+X-Forwarded-Encrypted: i=1; AJvYcCWo/znNWk3U95SVnCVLe2QiC6j4YsMlhjuaz+ntfx85Ha+3Jv2kd2+GCbjbP4X2ffOuWvv/5xfTmAUX@vger.kernel.org, AJvYcCX0ksSVKoWv2bvmPTO6JKuDsvaQWLyhqNATi/aGD/dOM0tPXaJDZy5MHQXcmHrtSL9zar+Dllq/@vger.kernel.org, AJvYcCXVHT2SFI/AwZOF8+zyoioGXlBNmLIqI95kFuR28fhPV3n+0mKE+VwAU+8zZkFIce8ZFxo0JCRleQx9ory7@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJwC7y9fmK+H5FydCBzC48ov0Sy/tByXNRIw7NxJrOXRviRU6V
+	Va5kePo+kMc1M6qu23K0YJtpQnbIdKrtv7XdApee1RegM96S8uGnpr8M
+X-Gm-Gg: ASbGncugN1ajk27v344ucNiT2/8CglnwG/bO8K8KLEXJTjAQxcO0j7nhuqxC/BlFhZ9
+	f6elNHF5vCYviWecWA7Ifapex/pYzpYWh+bVxWVPZ64CL9gJfoXsU6xDTZGAtSQod7xwjwRs+X4
+	xnO6aEbjMz6ain74D2gFfy5+dRExqiaZn9WTE4R9CAuypnziP3nJO2DNF+MtCOBGNIv0PqOh7h8
+	4IVa6E/YkiMUC13Va9RZrRIy1Szw7IvsAi0uL7KMPnSZhmREnoEhIbjDZeLCVs9oaA9Fi/X1ozZ
+	Akrni/DTCBqrJ4XLyUac9auLDE5KMxf2g34ah8jfJ43QE/ufZxDjGM+N3sg0TA==
+X-Google-Smtp-Source: AGHT+IECP57koT4p5ndKxxShdOfs6I12HDw/1fLrYCQVGhBzGFisqQ2/wQcyX+ce9G/xHQIv8GOhkg==
+X-Received: by 2002:a17:90b:3f0d:b0:2ee:d63f:d8f with SMTP id 98e67ed59e1d1-3110f304457mr18525052a91.13.1748340277360;
+        Tue, 27 May 2025 03:04:37 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31127b886b5sm5464742a91.19.2025.05.27.03.04.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 02:58:52 -0700 (PDT)
-Date: Tue, 27 May 2025 11:58:50 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Vishal Chourasia <vishalc@linux.ibm.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+        Tue, 27 May 2025 03:04:36 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 3ABCD423BF34; Tue, 27 May 2025 17:04:29 +0700 (WIB)
+Date: Tue, 27 May 2025 17:04:29 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Vishal Chourasia <vishalc@linux.ibm.com>, Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: cgroup: clarify controller enabling
  semantics
-Message-ID: <vzdrzqphpjnvrfynx7ajdrgfraavebig4edipde3kulxp2euqh@7p32zx7ql6k6>
+Message-ID: <aDWOLU4qjhl0ds0U@archie.me>
 References: <20250527085335.256045-2-vishalc@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -73,23 +76,20 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rntxf4t2quqmp4ym"
+	protocol="application/pgp-signature"; boundary="rvrOZ3B0jJT6C2Z5"
 Content-Disposition: inline
 In-Reply-To: <20250527085335.256045-2-vishalc@linux.ibm.com>
 
 
---rntxf4t2quqmp4ym
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--rvrOZ3B0jJT6C2Z5
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] Documentation: cgroup: clarify controller enabling
- semantics
-MIME-Version: 1.0
 
-Hello.
-
-On Tue, May 27, 2025 at 02:23:36PM +0530, Vishal Chourasia <vishalc@linux.i=
-bm.com> wrote:
+On Tue, May 27, 2025 at 02:23:36PM +0530, Vishal Chourasia wrote:
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
+n-guide/cgroup-v2.rst
+> index 1a16ce68a4d7..0e1686511c45 100644
 > --- a/Documentation/admin-guide/cgroup-v2.rst
 > +++ b/Documentation/admin-guide/cgroup-v2.rst
 > @@ -438,8 +438,8 @@ Controlling Controllers
@@ -101,26 +101,30 @@ bm.com> wrote:
 > +Each cgroup has a cgroup.controllers file, which lists all the controlle=
 rs
 > +available for that cgroup and which can be enabled for its children.
+
+Keep the double colon (literal code block).
+
 > =20
 >    # cat cgroup.controllers
 >    cpu io memory
+> --=20
+> 2.49.0
+>=20
 
-Honestly, I see little difference between the two resulting formulations.
-Could you perhaps add an example where the documentation confused you or
-behavior was not what you expected based on the docs?
+Thanks.
 
-Thanks,
-Michal
+--=20
+An old man doll... just what I always wanted! - Clara
 
---rntxf4t2quqmp4ym
-Content-Type: application/pgp-signature; name="signature.asc"
+--rvrOZ3B0jJT6C2Z5
+Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCaDWM2AAKCRAt3Wney77B
-SehkAP4m2JBDAcWV7UZtGTJZhDwiZgZ5EpMBCX5UXgau7TpWXwEAyQspYhrq2elF
-Wq/V7UC4bJzdkIoiXD3ldrzKriS6VgQ=
-=vJ3L
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDWOIwAKCRD2uYlJVVFO
+ozIEAP4nNL3HcVZ1wrqZ8/JIS7zNxFUbM3PHe9sr0xsJhUe0SwEAtSFG0mRgwB4b
+lHzX/szn6UFuu1I3YPfQOAk4JaPYlwg=
+=FcOj
 -----END PGP SIGNATURE-----
 
---rntxf4t2quqmp4ym--
+--rvrOZ3B0jJT6C2Z5--
