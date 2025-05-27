@@ -1,300 +1,311 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9653027CB1B;
-	Tue, 27 May 2025 16:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748361711; cv=none; b=dYp2ihAJUR6hsnwkDbJZRAZtzqvJ/P4l4sWexV5Rw+X9YPhqeYMN3AVB5Am8wU7F3+spxyMayheBt1jDHnloVPOIBOqwArk5ic4dONZ4nnfaaOxSyUU10x29nFck+7LkPFFwqCbEF0ppj+Fl5i4NdpmUrEtvwJkiJWbkZ5dMwGw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748361711; c=relaxed/simple;
-	bh=YH9Fkz19mxcXaLduAFWSntweDCd8oWNMPNq36I/C72A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l/SkV0Y1aCptLojiDfiXCHXpmjm5Dyb5HbM4G6pvrWomvhWJlPJXDXSiOVtUpIzO8LRn88peoSM+Mka4FlRiYJyPdZHbSAz0FZtPNCPKf4gyg8F+g+x4UegI7UjD6gDHhO1315h9L/f2NmvK7Nv3/REcOrQMDqnT4nCXDUAemVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Kfzm+LhA; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02FE27FB0C;
+	Tue, 27 May 2025 17:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.83
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748366628; cv=fail; b=d8W9SzOedapmWpx+K8K4vuEZCvAud6DBAy+1fwgzqHd37URb0N31F6AVa99IzckxIrkdZmdt1LK5UfS2+1XJgWlZnLaJ/KKcW4eV1UTMc1Zm1pqoJUJHwD9u7Qru6P0wigvj+3W1n5TqdTZoRZDfqf4f/nl5zkICRY0jjjhl2gk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748366628; c=relaxed/simple;
+	bh=/6mWXqoRcLYeG9xdhNCXcyTMVB6ewFybGaiI/KOAdsw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Lm9yqAw+YHO1098PSsy+ZO6pF8VKZAZWq1OxoztHxmM0l229e66/NgpDgie+ttqsa3cCoDc0hD/X3qjcalwRbrs7hdY68oSfLix9oxkf2pcf/7XG0e3c7pvB61ngxfhrUvJ0/YpjJ1TdsI62vBCvMLyV1CmW7qj7TQeXwOWGwOQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MWE4kewe; arc=fail smtp.client-ip=40.107.93.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Kfzm+LhA"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8353041ED2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1748361702; bh=fs603I8L+okV6LYmoErK+A++No19E2z15aG40G7A/oU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Kfzm+LhAsyqy1ImjHltioMhRebqw8J2L7THI49rO8h0GBkTfhOL+5ZIOrzZZfg5uJ
-	 hnjA4F/+TnOccqX3XGnlT3em+WRn719xSSJRy9j/TKPivlpDlI0tOzYtOwdF4/wBtD
-	 ANjN1cqqh11uJQWdbQZLG3Til6rHj/x+QHGlC+JXZuyE5cJ8SZFYTTol2RzYQbQSay
-	 1nW3rA8QpELY+sEidl7RO5pV0UVN81Q59pMLDzCV74firgI0ctlZ+ApzFEZXY6tqec
-	 i9WDuvUBokl4LQuSPrEDnmd+rmB34+bt2DIWAVviiU6P3/jO33vyUFSEtgKcmuXZri
-	 haEs5Lx8MPAQw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8353041ED2;
-	Tue, 27 May 2025 16:01:42 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation for 6.16
-Date: Tue, 27 May 2025 10:01:41 -0600
-Message-ID: <87bjrekpp6.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MWE4kewe"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=B2YgJgmG0t0cf06ovPOn0Mu7F+ulBe+ZFE6FLGaSEe0pjuBdpQbl8zBLHe9HfEjm3TGRxAEj0oSKUQ3wdBID/nUu/Wbb7s5ungRF95+ArRf7v7ksNofAyfx5hMkxHbH/jEz8JY+G1Ew0pSr938OjgsuDJ9OloKPQcwlXQnqRDr9ZN+5qjQaImquh37cp8ByvtJ80e/NKvh+5wIwz29GRinGqu8NkQm2Il/XJEkOn+DhYAZ2sGjzYo5tSGXX9XSZYZktSQPh73ktz149xZjLLth0GaBV9cR/QQuevvqQtm5U1zviMHAds1itIhRMj7kPpssdQtPlu3ayEjxcm2+LAbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IQtt3O7Zb5Y2d05lSVMERmWvXwqJ3vpNrBXWVn7fRnI=;
+ b=uLkzrYhzx4Zz87QuYiT0uK7KWLRlhY7OCr7MGGjX7N93a30GTpyZTb6dcQY092LdEjbuVHMMNQ+6fw7KVWdj2J3OfihqEBmq5xT5m/4NPZR8y7e7x35mE5oqQjTl+amuvbgKQePk45ITzfrdGXqwtZIIxWmFXP1wrYHHgp72c1/3TbST+MpeJ2r+OOqgJJnIaBzyQxVZ5Qps3pOk2+i08/vHtNoTVc/1cjZVxzWSZPiHKX0J07l1xhl7rC7MRo4u+Wf2gxxQBMneLHS6Xp4XzouRcbYbRc1IqbM+R8l4pmxkuTZrRGwWGlbeRd55WTLfNu0l4EcZevnTrD4DvSvrmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IQtt3O7Zb5Y2d05lSVMERmWvXwqJ3vpNrBXWVn7fRnI=;
+ b=MWE4keweUtTEth0ewA3xD5xJTylbOnd0SCHlY532oedIjyOTn/2qXgISVPhw0XNq9TXJAUHmddUUEJk1+0+MrcKKuwp81AKnxUSL3/zduQeg2ozc0PXLVx1IBjflOxRPY0zPFKhKZyf+HTBnPZWGIUPoLdWW6+FLzcQG3KJGzD0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DS7PR12MB8417.namprd12.prod.outlook.com (2603:10b6:8:eb::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.24; Tue, 27 May
+ 2025 17:23:42 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8722.031; Tue, 27 May 2025
+ 17:23:42 +0000
+Message-ID: <6cd9873c-1add-4d19-8d08-a7c3a514bfea@amd.com>
+Date: Tue, 27 May 2025 12:23:34 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v13 01/27] x86/cpufeatures: Add support for Assignable
+ Bandwidth Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: james.morse@arm.com, dave.martin@arm.com, fenghuay@nvidia.com,
+ x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
+ akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+ ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com,
+ jpoimboe@kernel.org, alexandre.chartre@oracle.com,
+ pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com,
+ perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com,
+ xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com,
+ ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com,
+ andrew.cooper3@citrix.com, mario.limonciello@amd.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, maciej.wieczor-retman@intel.com, eranian@google.com,
+ Xiaojian.Du@amd.com, gautham.shenoy@amd.com
+References: <cover.1747349530.git.babu.moger@amd.com>
+ <aef9947e5ed68feb0d33a2c882c140e2e472276f.1747349530.git.babu.moger@amd.com>
+ <505f530c-810a-41a4-b3cf-7eb326bb6990@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <505f530c-810a-41a4-b3cf-7eb326bb6990@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN0PR10CA0024.namprd10.prod.outlook.com
+ (2603:10b6:408:143::15) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB8417:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3e633d0-ee09-4997-760f-08dd9d433a44
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VDd6Y21JL1ViVmZJL2k4Vjh2Mm1BaUpIS3VXWXNmRkx5anYwUjBpZjJ6NjNO?=
+ =?utf-8?B?dnFzZlNreEZ0d01rQ1ZhZnZMZUU1YUhxOTZud0wyTkVDUnVjRVdaYUtHUjRI?=
+ =?utf-8?B?MUpJWFNncThDbTlnVm54SEZZN3M2Qm9yWE1FM1JYWVVlNU9lUHNnZytrU0RV?=
+ =?utf-8?B?cC9vOE5PbGwremFYQ05HOC9Ua2dUTWpITzFUR0FnVEtHekpqZ25ZazBCV2pO?=
+ =?utf-8?B?UjVOSzduSkJXZDBCMXdLUEsrQzJMd0tKdjdFWDlhc0pLaEtMV0dDMlJ1OTJB?=
+ =?utf-8?B?M0RtSVIxQldIbGhEdzhkMFF1SitqUjV6ZXN1M3J3NUdyTGRFS0svR3BvSzFz?=
+ =?utf-8?B?bGJqNnVBUGdoTmdhMDhiNTQyZzZRUHRxcXBMeXMxZjJ2aWxMbWZRODA2U3Fi?=
+ =?utf-8?B?QitRWFRrU2tnTmJ5bGN2T2tEaGp0YnVDTHNyRFBRWWRvMmtjSnFpL1IxdVNa?=
+ =?utf-8?B?SkpPYkoraFh4MHUrWTRMOURieWZxWmJmWE9ZYzlZekhyTjNhdHU3ODYwWmFM?=
+ =?utf-8?B?VXNCTDYzRWxGZ0dPb3VqZ2FXTHByRC9TZE01TG1wMXk1b0ZXempIc29qeTFV?=
+ =?utf-8?B?cFBQZUIwZHQ1TE5hRUJlWVhhYWxzNHFGZkhkc1hDMGZuQXE0WXVuWTFpM1hU?=
+ =?utf-8?B?VVZCVXdZS0c1dWJjZnY1dkc1eDg0VUx2c21jYkpwa1BTSEd0bXRPeUZNa0ly?=
+ =?utf-8?B?VWdkR3VobEVHTGRIMjBxVW1XRTVFWW9VMVltUmt1UUplWVkyTENQbTBjMW93?=
+ =?utf-8?B?Vk5sSTNPcVZVOVRIRWptS3NleHFTeDM2bUhNQ0d3VGFJVDBXclU5WG5YTHFz?=
+ =?utf-8?B?MXlCM0FGNWZxY3p4Ym55K1RaTi9Sc2xzTUllL1Z2ODVHVUVnRTJUTWpzYmk1?=
+ =?utf-8?B?NkkzejdHUXFwNm9Gd0c4eE83cEMrMldobkNoWUE0RWI0bEFyZ2Q4dmJ4Rjc5?=
+ =?utf-8?B?bTlEd2hHcngxZ0xpTVQ5Rzdpc0dycGx1cWdoYzBYeWNWeTJvTUZuY1V5REZj?=
+ =?utf-8?B?Q0I1aFFCTHRpVjFkeGlvWitsY3I1dVpqRk9Wc2Z4bWpUcENEcjNzSDh3MUVS?=
+ =?utf-8?B?RTZjc2JtVnpZQnFleUk5aEhncjNacUw0dCtSaHd2ZjZrN1V0WU85aTQzUE4z?=
+ =?utf-8?B?L1orT3ZZT20wTUI5QlNIaGFMSjQ0V09OeHpZNysvNWNmbUhwaHFhVXZ1MXZH?=
+ =?utf-8?B?VVdSTGdydm9icjhKMWs2Um1lcm1nWWJsa3lHdnV6TVdZOXlxR1liaUptRG5R?=
+ =?utf-8?B?RGdYR3IzMktpWnVBdnNHN2tjbjdJc3BWU2NGL3RYWUFycGlnUXhBVENSVmNV?=
+ =?utf-8?B?dlZJMkoxVFlEcGk0bWk0NVMyeTFZK1FMekRDdWc4ZXNwUkFNTWhTZzFDS3VH?=
+ =?utf-8?B?aExzdmZOYi8vaDlHRlhLOXNKYkkwL0ZkeHJiSVl1VHcwVFlFN3RQeUE1YVdI?=
+ =?utf-8?B?dVZkR0pmUThZamdtYWVuMDJGUWo4dFQyalVSS1dVV3J5cDFFUEdBMlRaQk1U?=
+ =?utf-8?B?QWVnWFJVclJtTytySnpZRnhPM0MzMlBDRER4d3JudEgybTF3dzFaN2VmTWc5?=
+ =?utf-8?B?VFo4UzV4Yk9BZjgyUmZYVitsUW16SjRFMlNPaXJ5VlB5TXpNSWFxaTZyVlBY?=
+ =?utf-8?B?UGZiMG50TVh1WE1EbkFwY1JSUmNpUnZQR283c29odjVFZDE5d25RZ3hhWnZm?=
+ =?utf-8?B?aDVQODRjUlNyOE5RK0gyUjJ0NlhmT2JEUnVPMUtQTnMzRzgxeGFHYkNkVFA5?=
+ =?utf-8?B?eWxSOStoVkZLMXZmVEFPTWZHeXVZSktERDNVZHhJMXFGcm5IUHpTY1FzYmFh?=
+ =?utf-8?B?S3hHaGQzcG1tNWlJanJBUWtOcTB1Ry9HblhBQnlIVEFseFFIYUJUWHJwaFI1?=
+ =?utf-8?B?L1ZRT2NKV2FzMFNJK01IYnZsSVI3M3hBZXUwdllzYjdsaDk1S3B3SDBTWkxT?=
+ =?utf-8?Q?Ak15up7InnQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NzJLNnlKT3Z5K3E4ZEl3SnQ1ZWU5TjQrdGsrdGxrRFIxMEltU3d3QlB2dXVN?=
+ =?utf-8?B?Z21VWVZ3L2M2K1U5UU5RakRDSHlzb1h6NmdJVjhnSEViWEsrVjl5SjdFREJz?=
+ =?utf-8?B?ZG1nY3Jwenc5WE5JTktOVHEyK1JyNU80V2plNG03UHpFNDZoNmRZVmJHdkVS?=
+ =?utf-8?B?U1lyRXJVQUZKd0xuLytNWUI2WnpOZTUzVnptZWlQVVdLUXJpcHgzbUY5bWtD?=
+ =?utf-8?B?OHp3Rk5IN0g1dmwyWnlZOVBWdnNQZk5GdmE1NENZMUpXa0JqcEk5Q2FITC9Y?=
+ =?utf-8?B?SUUzdzdJT2RiVjZIZHIzdGU1RHVEQkdmNkQyVVM5ZFBMY09YLzJTd0xZQm9o?=
+ =?utf-8?B?elJpYys2YnFRRmRuMHhjMzh5R3lBMVk1ZUZaeElna3diMmpCS0ZKM2RITDA5?=
+ =?utf-8?B?bC9ySWNLZGVDU29Kd3BXSGxLeG1GT28wdFlPaU9zQVo5cldpYTRDYjh3VUJn?=
+ =?utf-8?B?TmhVc2FBQ2d0OCtMcUxMT2VMUEJWZlpINC9KK1dPdzY5WmJOclhWNVRLaGY1?=
+ =?utf-8?B?Ly82TmxHTFRMRjR0YjRmT0tEdldpQWFOa2t1M3FFcmkzcTJBVmJhU3JNazFo?=
+ =?utf-8?B?UDZ5amxPR3BCVEdwTmNUVTlnbHR4NldPRHFuUmlzUEp5YUVlaHp1OUpYaXhX?=
+ =?utf-8?B?VXNFR1gwTUNXV1FoS3FsbllFamk2QmpCOVV0RFRuOEZJeGZ2QVAweXNlM0Rq?=
+ =?utf-8?B?R2hibmtmbXhzVndjTkd2ZzI4ZDdoWXFwQTRZZ3ZSeDZCOUlmZWFJekNxbWVJ?=
+ =?utf-8?B?SnhManpXYytuSHRKM1JqTFd4VnFMb24rUks4dnBEamQ1alJvN1MwYTFpZ3dt?=
+ =?utf-8?B?NklXU1M0UTlFclh2UE9SZFY2VEhNa3ZTRlJodURDWmcvamZsZUtRZVJlclB2?=
+ =?utf-8?B?aUpXZTArUVRaeExxZC9IaEN4MlVxZWpTUTZUdEJLQzdQeDExYThpTEM1eFRu?=
+ =?utf-8?B?ZUpoR0R2K2JjZ1BVUHMxUDAvSnlQOWdIdDgrK01reVoxbEtxYU02eDdaSHps?=
+ =?utf-8?B?a1htTkZKZVlqNEVzR1ZGdXhTZTRUdmhpRHFPTFF3K1Rkb1pUeXJ4RnhhUTlM?=
+ =?utf-8?B?aVBLK2ZXNE01Q0V1aktSWG1aTVNTem1uNlRMREdiTDJVbURZN0llc2I4RmhN?=
+ =?utf-8?B?b0trOW5EVW5QTHZuNU01Q1FPNGlRcUVFTjR3anBTOUUxWGxOQVBSQlRNamx0?=
+ =?utf-8?B?ZEhvcUdjTVBEcVB1MGJGN3RFMkx4TmlidjNVcW5GVUk5bXZOcWtyK2tqZjVE?=
+ =?utf-8?B?ZmJNZWhQRHNSd1Z3M2xRbGp5cStBODdxbkR4TVU2SU84VmRPc3kxNzNBMDZx?=
+ =?utf-8?B?ckdsY002NXVFV1psR1BlN3luMytoSEV0QmFMY0ViTXdtSjhPYVVaMEpSTDlm?=
+ =?utf-8?B?b09Rd3ZMQVU2NnZ3ZENEUkZERldQMjYrRWxNd2xxSXFyTitpbVd6bFZRNkFY?=
+ =?utf-8?B?bzlqU2s2R09lbGdaVG5IVzdjUjhBbFRCTzA2aExoNElYVEVnbHhsYVBxVWtj?=
+ =?utf-8?B?UFJNVEl3aFVFTXpFbUFkcEV4WThZM2JhRk9SRlRuTnR2bWlJbnJSRnlKN2Fh?=
+ =?utf-8?B?YnpqUWZxVXMrbzRqcnhVNUdtUDNMUldGdTVhUEJJM0plVTlhS3N0OGdSdmdr?=
+ =?utf-8?B?ZzQ4NXYxVS9ub2tseUhKZmIvNGxkbDhaV2FnN0hhcmZBMDVIQUlraHZLSndW?=
+ =?utf-8?B?T2htN1IrQXpJQUEzeTdSYXVQc3JKZjJXSHo4VExqS0ZRWTIwQ0xEVk5sN0xk?=
+ =?utf-8?B?M05RVFdTUVhzNmEvWDVwWGVhSENreVVrVUFqRGtXMi9pRWoveEVBeHdOYWgw?=
+ =?utf-8?B?ZzFKNjhjaGxQWjM4aHNHTjhGU3VqN3NleEdzZ01iSGZZaHU2bUlPK1Q1TGFW?=
+ =?utf-8?B?OEdHbStRaGpjb09UMGw1Vys1bVRyTUcyY2lCZWhiRmZraCtIWmdCd3k2N2Q3?=
+ =?utf-8?B?TjRDQkhmbFNnZVIzeHdYSXJON0hoWlp1V05nZjk2MnUyTTFSUDVoa3o4UVZx?=
+ =?utf-8?B?SVR0Tk0wd1QwVm1janFCOTQwN2haUytKeWh2VGdVZFF0dnVLRExwNm1BcVIz?=
+ =?utf-8?B?MkYwVDFLd2RTZWtIU3dEc01jcmQ3dU5vK1pFZm5sWkowZzZtYWxMUXhsOHNU?=
+ =?utf-8?Q?66rU=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3e633d0-ee09-4997-760f-08dd9d433a44
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2025 17:23:42.4611
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X8TnBPCXnBGN2hl31MVzxhNEU8pkDI/IM4BI9i32HIVFquB8TIv3MLI9ssOmwrzc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8417
 
-The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
+Hi Reinette,
 
-  Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
+On 5/22/25 15:51, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 5/15/25 3:51 PM, Babu Moger wrote:
+>> Users can create as many monitor groups as RMIDs supported by the hardware.
+>> However, bandwidth monitoring feature on AMD system only guarantees that
+>> RMIDs currently assigned to a processor will be tracked by hardware. The
+>> counters of any other RMIDs which are no longer being tracked will be reset
+>> to zero. The MBM event counters return "Unavailable" for the RMIDs that are
+>> not tracked by hardware. So, there can be only limited number of groups
+>> that can give guaranteed monitoring numbers. With ever changing
+>> configurations there is no way to definitely know which of these groups are
+>> being tracked for certain point of time. Users do not have the option to
+>> monitor a group or set of groups for certain period of time without
+>> worrying about RMID being reset in between.
+>>
+>> The ABMC feature provides an option to the user to assign a hardware
+>> counter to an RMID, event pair and monitor the bandwidth as long as it is
+>> assigned. The assigned RMID will be tracked by the hardware until the user
+>> unassigns it manually. There is no need to worry about counters being reset
+>> during this period. Additionally, the user can specify a bitmask
+>> identifying the specific bandwidth types from the given source to track
+>> with the counter.
+>>
+>> Without ABMC enabled, monitoring will work in current mode without
+>> assignment option.
+>>
+>> The Linux resctrl subsystem provides an interface that allows monitoring of
+>> up to two memory bandwidth events per group, selected from a combination of
+>> available total and local events. When ABMC is enabled, two events will be
+>> assigned to each group by default, in line with the current interface
+>> design. Users will also have the option to configure which types of memory
+>> transactions are counted by these events.
+>>
+>> Due to the limited number of available counters (32), users may quickly
+>> exhaust the available counters. If the system runs out of assignable ABMC
+>> counters, the kernel will report an error. In such cases, users will nee
+>> dto unassign one or more active counters to free up countes for new
+> 
+> "nee dto" -> "need to"
+> "countes" -> "counters"
 
-are available in the Git repository at:
+Sure.
 
-  git://git.lwn.net/linux.git tags/docs-6.16
+> 
+>> assignments. The interface will provide options to assign or unassign
+> 
+> "The interface will" -> "resctrl will"?
+> 
 
-for you to fetch changes up to d6d886005d32e4380cee3d1095908875505ac2c6:
+Sure.
 
-  Docs: doc-guide: update sphinx.rst Sphinx version number (2025-05-21 04:2=
-8:29 -0600)
+>> events through the group-specific interface file.
+>>
+>> The feature can be detected via CPUID_Fn80000020_EBX_x00 bit 5.
+> 
+> "The feature can be detected" -> "The feature is detected"
+> 
 
-----------------------------------------------------------------
-A moderately busy cycle for documentation this time around:
+Sure.
 
-- The most significant change is the replacement of the old kernel-doc
-  script (a monstrous collection of Perl regexes that predates the Git era)
-  with a Python reimplementation.  That, too, is a horrifying collection of
-  regexes, but in a much cleaner and more maintainable structure that
-  integrates far better with the Sphinx build system.
+>> Bits Description
+>> 5    ABMC (Assignable Bandwidth Monitoring Counters)
+>>
+>> The feature details are documented in APM listed below [1].
+>> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+>> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+>> Monitoring (ABMC).
+>>
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> ...
+>>  arch/x86/include/asm/cpufeatures.h | 1 +
+>>  arch/x86/kernel/cpu/cpuid-deps.c   | 2 ++
+>>  arch/x86/kernel/cpu/scattered.c    | 1 +
+>>  3 files changed, 4 insertions(+)
+>>
+>> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+>> index 6c2c152d8a67..d5c14dc678df 100644
+>> --- a/arch/x86/include/asm/cpufeatures.h
+>> +++ b/arch/x86/include/asm/cpufeatures.h
+>> @@ -481,6 +481,7 @@
+>>  #define X86_FEATURE_AMD_HETEROGENEOUS_CORES (21*32 + 6) /* Heterogeneous Core Topology */
+>>  #define X86_FEATURE_AMD_WORKLOAD_CLASS	(21*32 + 7) /* Workload Classification */
+>>  #define X86_FEATURE_PREFER_YMM		(21*32 + 8) /* Avoid ZMM registers due to downclocking */
+>> +#define X86_FEATURE_ABMC		(21*32 + 9) /* Assignable Bandwidth Monitoring Counters */
+>>  
+>>  /*
+>>   * BUG word(s)
+>> diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-deps.c
+>> index a2fbea0be535..2f54831e04e5 100644
+>> --- a/arch/x86/kernel/cpu/cpuid-deps.c
+>> +++ b/arch/x86/kernel/cpu/cpuid-deps.c
+>> @@ -71,6 +71,8 @@ static const struct cpuid_dep cpuid_deps[] = {
+>>  	{ X86_FEATURE_CQM_MBM_LOCAL,		X86_FEATURE_CQM_LLC   },
+>>  	{ X86_FEATURE_BMEC,			X86_FEATURE_CQM_MBM_TOTAL   },
+>>  	{ X86_FEATURE_BMEC,			X86_FEATURE_CQM_MBM_LOCAL   },
+>> +	{ X86_FEATURE_ABMC,			X86_FEATURE_CQM_MBM_TOTAL   },
+>> +	{ X86_FEATURE_ABMC,			X86_FEATURE_CQM_MBM_LOCAL   },
+> 
+> Is this dependency still accurate now that the implementation switched to the 
+> "extended event ID" variant of ABMC that no longer uses the event IDs associated
+> with X86_FEATURE_CQM_MBM_TOTAL and X86_FEATURE_CQM_MBM_LOCAL?
 
-  This change has been in linux-next for the full 6.15 cycle; the small
-  number of problems that turned up have been addressed, seemingly to
-  everybody's satisfaction.  The Perl kernel-doc script remains in tree (as
-  scripts/kernel-doc.pl) and can be used with a command-line option if need
-  be.  Unless some reason to keep it around materializes, it will probably
-  go away in 6.17.
+That's a good question. Unfortunately, we may need to retain this
+dependency for now, as a significant portion of the code relies on
+functions like resctrl_is_mbm_event(), resctrl_is_mbm_enabled(),
+resctrl_arch_is_mbm_total_enabled(), and others.
 
-  Credit goes to Mauro Carvalho Chehab for doing all this work.
 
-- Some RTLA documentation updates
+> 
+>>  	{ X86_FEATURE_AVX512_BF16,		X86_FEATURE_AVX512VL  },
+>>  	{ X86_FEATURE_AVX512_FP16,		X86_FEATURE_AVX512BW  },
+>>  	{ X86_FEATURE_ENQCMD,			X86_FEATURE_XSAVES    },
+>> diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
+>> index 16f3ca30626a..3b72b72270f1 100644
+>> --- a/arch/x86/kernel/cpu/scattered.c
+>> +++ b/arch/x86/kernel/cpu/scattered.c
+>> @@ -49,6 +49,7 @@ static const struct cpuid_bit cpuid_bits[] = {
+>>  	{ X86_FEATURE_MBA,			CPUID_EBX,  6, 0x80000008, 0 },
+>>  	{ X86_FEATURE_SMBA,			CPUID_EBX,  2, 0x80000020, 0 },
+>>  	{ X86_FEATURE_BMEC,			CPUID_EBX,  3, 0x80000020, 0 },
+>> +	{ X86_FEATURE_ABMC,			CPUID_EBX,  5, 0x80000020, 0 },
+>>  	{ X86_FEATURE_AMD_WORKLOAD_CLASS,	CPUID_EAX, 22, 0x80000021, 0 },
+>>  	{ X86_FEATURE_PERFMON_V2,		CPUID_EAX,  0, 0x80000022, 0 },
+>>  	{ X86_FEATURE_AMD_LBR_V2,		CPUID_EAX,  1, 0x80000022, 0 },
+> 
+> Reinette
+> 
 
-- A handful of Chinese translations
-
-- The usual collection of typo fixes, general updates, etc.
-
-----------------------------------------------------------------
-Adrian B=C3=BCtler (1):
-      Documentation: x86: Fix a typo in fsgs.rst
-
-Akira Yokosawa (1):
-      docs: Makefile: Inherit PYTHONPYCACHEPREFIX setting as env variable
-
-Alexander Shatalin (1):
-      docs: fix typo in firmware-related section
-
-Ammar Askar (1):
-      docs: Fix conflicting contributor identity info
-
-Andres Urian Florez (1):
-      docs/sp_SP: fix links to mailing list services
-
-Anish Dabhane (1):
-      Fix spelling error for 'parallel'
-
-Bagas Sanjaya (2):
-      Documentation: ioctl-number: Update outdated submission info
-      Documentation: ioctl-number: Update table intro
-
-Chih Yun Lin (1):
-      docs: hid: Fix typo in intel-thc-hid.rst
-
-Cui Wei (1):
-      Documentation: fix speculation.rst chapter
-
-Hendrik Hamerlinck (1):
-      docs: fix "incase" typo in coresight/panic.rst
-
-James Addison (1):
-      docs: Disambiguate a pair of rST labels
-
-Jean-Michel Hautbois (1):
-      Documentation: leds: improve readibility of multicolor doc
-
-Jesung Yang (1):
-      docs: align with scripts/syscall.tbl migration
-
-Joel Savitz (1):
-      docs: namespace: Tweak and reword resource control doc
-
-Jonathan Corbet (2):
-      Merge branch 'mauro' into docs-mw
-      Merge tag 'Chinese-doc-6.16-rc1' of gitolite.kernel.org:pub/scm/linux=
-/kernel/git/alexs/linux into docs-mw
-
-Kendra Moore (1):
-      docs: dmaengine: add explanation for DMA_ASYNC_TX capability
-
-Kevin Paul Reddy Janagari (1):
-      Added usb_string function to a namespace
-
-Madadi Vineeth Reddy (1):
-      Documentation/scheduler: Fix typo in sched-stats domain field descrip=
-tion
-
-Mauro Carvalho Chehab (48):
-      scripts/kernel-doc: rename it to scripts/kernel-doc.pl
-      scripts/kernel-doc: add a symlink to the Perl version of kernel-doc
-      scripts/kernel-doc.py: add a Python parser
-      scripts/kernel-doc.py: output warnings the same way as kerneldoc
-      scripts/kernel-doc.py: better handle empty sections
-      scripts/kernel-doc.py: properly handle struct_group macros
-      scripts/kernel-doc.py: move regex methods to a separate file
-      scripts/kernel-doc.py: move KernelDoc class to a separate file
-      scripts/kernel-doc.py: move KernelFiles class to a separate file
-      scripts/kernel-doc.py: move output classes to a separate file
-      scripts/kernel-doc.py: convert message output to an interactor
-      scripts/kernel-doc.py: move file lists to the parser function
-      scripts/kernel-doc.py: implement support for -no-doc-sections
-      scripts/kernel-doc.py: fix line number output
-      scripts/kernel-doc.py: fix handling of doc output check
-      scripts/kernel-doc.py: properly handle out_section for ReST
-      scripts/kernel-doc.py: postpone warnings to the output plugin
-      docs: add a .pylintrc file with sys path for docs scripts
-      docs: sphinx: kerneldoc: verbose kernel-doc command if V=3D1
-      docs: sphinx: kerneldoc: ignore "\" characters from options
-      docs: sphinx: kerneldoc: use kernel-doc.py script
-      scripts/kernel-doc.py: Set an output format for --none
-      scripts/kernel-doc.py: adjust some coding style issues
-      scripts/lib/kdoc/kdoc_parser.py: fix Python compat with < v3.13
-      scripts/kernel-doc.py: move modulename to man class
-      scripts/kernel-doc.py: properly handle KBUILD_BUILD_TIMESTAMP
-      scripts/lib/kdoc/kdoc_parser.py: remove a python 3.9 dependency
-      scripts/kernel-doc.py: Properly handle Werror and exit codes
-      scripts/kernel-doc: switch to use kernel-doc.py
-      scripts/lib/kdoc/kdoc_files.py: allow filtering output per fname
-      scripts/kernel_doc.py: better handle exported symbols
-      scripts/kernel-doc.py: Rename the kernel doc Re class to KernRe
-      scripts/lib/kdoc/kdoc_files.py: don't try to join None
-      scripts/lib/kdoc/kdoc_parser.py: move states to a separate class
-      scripts:kdoc_files.py: use glob for export_file seek
-      docs: sphinx: kerneldoc: Use python class if available
-      docs: Makefile: get rid of KERNELDOC_CONF env variable
-      Makefile: move KERNELDOC macro to the main Makefile
-      scripts/kernel-doc.py: don't create *.pyc files
-      .gitignore: ignore Python compiled bytecode
-      docs: Sphinx: kerneldoc: only initialize kernel-doc classes once
-      scripts/lib/kdoc: change mode to 0644
-      scripts/lib/kdoc/kdoc_parser.py: move kernel entry to a class
-      docs: Makefile: store __pycache__ at the output directory
-      docs: conf.py: drop backward support for old Sphinx versions
-      MAINTAINERS: update linux-doc entry to cover new Python scripts
-      docs: kerneldoc.py: simplify exception handling logic
-      scripts: kernel-doc: prevent a KeyError when checking output
-
-N=C3=ADcolas F. R. A. Prado (1):
-      docs: automarkup: Move common logic to add and resolve xref to helper
-
-Purva Yeshi (2):
-      Documentation: trace: Reduce toctree depth
-      Documentation: trace: Refactor toctree
-
-Randy Dunlap (5):
-      cpufreq: editing corrections to cpufreq.rst
-      Docs: relay: editing cleanups
-      Docs: driver-api/basics: add kobject_event interfaces
-      docs: doc-guide: clarify latest theme usage
-      Docs: doc-guide: update sphinx.rst Sphinx version number
-
-Sean Anderson (1):
-      scripts: kernel-doc: fix parsing function-like typedefs (again)
-
-Shivam Sharma (1):
-      docs: admin-guide: fix typos in reporting-issues.rst
-
-Tomas Glozar (4):
-      Documentation/rtla: Fix duplicate text about timerlat tracer
-      Documentation/rtla: Fix typo in rtla-timerlat.rst
-      Documentation/rtla: Fix typo in common_timerlat_description.rst
-      Documentation/rtla: Include BPF sample collection
-
-Utkarsh Tiwari (1):
-      Documentation: NTB: Fix typo
-
-Wang Yaxin (2):
-      Docs/zh_CN: Translate index.rst to Simplified Chinese
-      Docs/zh_CN: Translate msg_zerocopy.rst to Simplified Chinese
-
-Yanteng Si (2):
-      docs/zh_CN: Add how-to of Chinese translation
-      MAINTAINERS: Change Yanteng's email address
-
- .gitignore                                         |    1 +
- .pylintrc                                          |    2 +
- Documentation/Makefile                             |    9 +-
- .../admin-guide/namespaces/resource-control.rst    |   24 +-
- Documentation/admin-guide/pm/cpufreq.rst           |    8 +-
- .../admin-guide/quickly-build-trimmed-linux.rst    |    4 +-
- Documentation/admin-guide/reporting-issues.rst     |    6 +-
- .../verify-bugs-and-bisect-regressions.rst         |    4 +-
- Documentation/arch/x86/x86_64/fsgs.rst             |    2 +-
- Documentation/conf.py                              |  164 +-
- Documentation/doc-guide/sphinx.rst                 |   14 +-
- Documentation/driver-api/basics.rst                |    3 +
- Documentation/driver-api/dmaengine/provider.rst    |    8 +-
- Documentation/driver-api/ntb.rst                   |    2 +-
- Documentation/driver-api/usb/usb.rst               |    1 +
- Documentation/filesystems/relay.rst                |   26 +-
- Documentation/gpu/rfc/i915_scheduler.rst           |    2 +-
- Documentation/hid/intel-thc-hid.rst                |    8 +-
- Documentation/index.rst                            |    2 +-
- Documentation/leds/leds-class-multicolor.rst       |   82 +-
- Documentation/process/1.Intro.rst                  |   12 +-
- Documentation/process/adding-syscalls.rst          |   84 +
- Documentation/scheduler/sched-stats.rst            |    2 +-
- Documentation/sphinx/automarkup.py                 |   97 +-
- Documentation/sphinx/kerneldoc.py                  |  219 +-
- Documentation/staging/speculation.rst              |    1 -
- .../tools/rtla/common_timerlat_description.rst     |   10 +-
- Documentation/tools/rtla/rtla-timerlat.rst         |    9 +-
- Documentation/trace/coresight/panic.rst            |    4 +-
- Documentation/trace/index.rst                      |   98 +-
- .../translations/sp_SP/process/2.Process.rst       |   11 +-
- Documentation/translations/sp_SP/process/howto.rst |   10 +-
- .../translations/sp_SP/process/kernel-docs.rst     |    5 +-
- .../sp_SP/process/submitting-patches.rst           |   13 +-
- Documentation/translations/zh_CN/how-to.rst        |  459 ++++
- Documentation/translations/zh_CN/index.rst         |   24 +-
- .../translations/zh_CN/networking/index.rst        |  160 ++
- .../translations/zh_CN/networking/msg_zerocopy.rst |  223 ++
- Documentation/userspace-api/ioctl/ioctl-number.rst |   13 +-
- MAINTAINERS                                        |    7 +-
- Makefile                                           |    5 +
- drivers/gpu/drm/Makefile                           |    2 +-
- drivers/gpu/drm/i915/Makefile                      |    2 +-
- include/drm/Makefile                               |    2 +-
- scripts/Makefile.build                             |    2 +-
- scripts/find-unused-docs.sh                        |    2 +-
- scripts/kernel-doc                                 | 2440 +---------------=
-----
- scripts/kernel-doc.pl                              | 2439 ++++++++++++++++=
-+++
- scripts/kernel-doc.py                              |  315 +++
- scripts/lib/kdoc/kdoc_files.py                     |  291 +++
- scripts/lib/kdoc/kdoc_output.py                    |  793 +++++++
- scripts/lib/kdoc/kdoc_parser.py                    | 1745 ++++++++++++++
- scripts/lib/kdoc/kdoc_re.py                        |  273 +++
- tools/tracing/rtla/README.txt                      |    7 +
- 54 files changed, 7336 insertions(+), 2815 deletions(-)
- create mode 100644 .pylintrc
- create mode 100644 Documentation/translations/zh_CN/how-to.rst
- create mode 100644 Documentation/translations/zh_CN/networking/index.rst
- create mode 100644 Documentation/translations/zh_CN/networking/msg_zerocop=
-y.rst
- mode change 100755 =3D> 120000 scripts/kernel-doc
- create mode 100755 scripts/kernel-doc.pl
- create mode 100755 scripts/kernel-doc.py
- create mode 100644 scripts/lib/kdoc/kdoc_files.py
- create mode 100644 scripts/lib/kdoc/kdoc_output.py
- create mode 100644 scripts/lib/kdoc/kdoc_parser.py
- create mode 100644 scripts/lib/kdoc/kdoc_re.py
+-- 
+Thanks
+Babu Moger
