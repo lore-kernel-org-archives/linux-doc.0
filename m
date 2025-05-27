@@ -1,168 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BF78F5E;
-	Tue, 27 May 2025 03:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684391DF759
+	for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 05:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748316656; cv=none; b=BkAoTSY7oPxTj22whIgesem09KbHz0sz4yKkAmbhHl+vaI4OG/EzqLtVUSyb+y4NO+ec6SpV0z82XFzUaGvOd/wlxrZMgXaZmkqfuFeYG6VZQRTY5I9DzIG39w07WI4x++9qivMurScmmviEzOydti47tAg6LnxynDc0J1+JW+c=
+	t=1748325300; cv=none; b=DYXu563gldai58jAy7rItP71OT1FhUwnY0IHaYszrTGRThqrwz8eRgHvo46BMxoqk2SfdvPTSjvkgWzWAAvdEHDV93Xx0zJaa3GrP3u5V3AuKKyE6Et0avssGYMhs1hmPV5Xyl/pxDaQLZ2NJmNwHMDS/WEo8M6VEHnP9urWR0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748316656; c=relaxed/simple;
-	bh=4+1dYOsA3kHiY8rIfLnjAgd8wOHuIeN0O4AklhVQ26M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tNgPsuz+bFx9p4F0t8inlF8y/5XUgtuJWyWiqw1UWQ9oGu6l6IO65YMF0CREu1OjL3Ep3yJ46a6AMQJRjElZoTmOoio1FfNbYDqdGQeYu3oRKjtivEtMl4AgB1ll4ehm2YLqpTirZM2ZqP1bkAXKVCAmB1Afo+54aksJr/hfP5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDpCasoc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748325300; c=relaxed/simple;
+	bh=HkjE7lQ+VQpHNv3eYK3H1wg3tTNpFZT5LgHzLZ2SYWA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kd0ATkFLrzdQhVW2djjr2pw1jO3gtDBkVn3v3PmC6OzAoQpBdJp0mjM34FZc8SOmugSodjmxT5sQG+R/9xyidqK3IYAL/o9Pj5dbXvIsDkhhe8HsY70KHfEFuKb1qfRQlbuIRDcRJpKJwhwNv6dtjsjFSD0QmKnsQGCkaEyYdQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kFWzo1kA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K6/9BIau; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kFWzo1kA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K6/9BIau; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDpCasoc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4DDFC4CEEB;
-	Tue, 27 May 2025 03:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748316655;
-	bh=4+1dYOsA3kHiY8rIfLnjAgd8wOHuIeN0O4AklhVQ26M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PDpCasocKfbRpFVO+Gva5E2erDIv83oOIdsyR75Vq2GGa56oNa5MOdQa5qay1G54y
-	 S3D805nuKzNhvN1MGkOcNzDYg75XhUCqp/yL2uAtapUbK1S3n1G1UqKFxjn4ntxa2t
-	 CxK7rnXc/L95iZlTUmMOfPm+tWQHp0eHX8ylQn1MLkMLwWEVbEIqOGdVT8vlbCWjXx
-	 1q7/F23sOsIArXHlRGvPt/BGFksZoRCqKz9JnzG/1PYvusJQ1vfQN1bIMcZcy537wE
-	 EtK8ERnZ0Vf1prle9VJ/upLUeNrvka0s29uYXbrEKAL1WDGe39ZbtoexMTV0Oi8rty
-	 ACZ9lz8fPa0vg==
-Date: Mon, 26 May 2025 20:30:52 -0700
-From: Kees Cook <kees@kernel.org>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-	Michal Wilczynski <michal.wilczynski@intel.com>,
-	Juergen Gross <jgross@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Roger Pau Monne <roger.pau@citrix.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Usama Arif <usama.arif@bytedance.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
-	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-mm@kvack.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v2 04/14] x86: Handle KCOV __init vs inline mismatches
-Message-ID: <202505262028.E5B7A7E8@keescook>
-References: <20250523043251.it.550-kees@kernel.org>
- <20250523043935.2009972-4-kees@kernel.org>
- <ba4f4fd0-1bcf-3d84-c08e-ba0dd040af16@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kFWzo1kA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K6/9BIau";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kFWzo1kA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K6/9BIau"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5D22021E7B;
+	Tue, 27 May 2025 05:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1748325295; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ujn/Hs3ODzWXnlJmvVGgJxQTg9fV2NjCnJmCZsagxwk=;
+	b=kFWzo1kA/RRvHVrlGXem/W8nkAki6Xa9bWeEHrfp1sqW8YImXC02atzvi/jhCf01eJnSPH
+	3QF02YHJlUJGEBcUaJQ2l2U3o86WLTN2fSQWs2hX2+K0wSvBCbwEycPe2lUESv0iusxCwj
+	nhIhX7UQKUmphuKSoaBstT+9Y3c5yS8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1748325295;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ujn/Hs3ODzWXnlJmvVGgJxQTg9fV2NjCnJmCZsagxwk=;
+	b=K6/9BIauxRqswmHQmlOu3EwMYa6Zp/gEBpJOaqQsH7KnIX083+chh0qF4jQ+oMEg7+Vjle
+	fKn2ShsKtanus6AQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kFWzo1kA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="K6/9BIau"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1748325295; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ujn/Hs3ODzWXnlJmvVGgJxQTg9fV2NjCnJmCZsagxwk=;
+	b=kFWzo1kA/RRvHVrlGXem/W8nkAki6Xa9bWeEHrfp1sqW8YImXC02atzvi/jhCf01eJnSPH
+	3QF02YHJlUJGEBcUaJQ2l2U3o86WLTN2fSQWs2hX2+K0wSvBCbwEycPe2lUESv0iusxCwj
+	nhIhX7UQKUmphuKSoaBstT+9Y3c5yS8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1748325295;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ujn/Hs3ODzWXnlJmvVGgJxQTg9fV2NjCnJmCZsagxwk=;
+	b=K6/9BIauxRqswmHQmlOu3EwMYa6Zp/gEBpJOaqQsH7KnIX083+chh0qF4jQ+oMEg7+Vjle
+	fKn2ShsKtanus6AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E500C13964;
+	Tue, 27 May 2025 05:54:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id TErmNa5TNWgnEwAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 27 May 2025 05:54:54 +0000
+Message-ID: <2b1e65ef-f3f2-4b6d-b671-4a19725859d8@suse.de>
+Date: Tue, 27 May 2025 07:54:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/23] md: add a new parameter 'offset' to
+ md_super_write()
+To: Yu Kuai <yukuai1@huaweicloud.com>, hch@lst.de, xni@redhat.com,
+ colyli@kernel.org, song@kernel.org, yukuai3@huawei.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com
+References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
+ <20250524061320.370630-2-yukuai1@huaweicloud.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250524061320.370630-2-yukuai1@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ba4f4fd0-1bcf-3d84-c08e-ba0dd040af16@linux.intel.com>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.31 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 5D22021E7B
+X-Spam-Flag: NO
+X-Spam-Score: -3.31
+X-Spam-Level: 
 
-On Mon, May 26, 2025 at 12:53:13AM +0300, Ilpo Järvinen wrote:
-> On Thu, 22 May 2025, Kees Cook wrote:
+On 5/24/25 08:12, Yu Kuai wrote:
+> From: Yu Kuai <yukuai3@huawei.com>
 > 
-> > When KCOV is enabled all functions get instrumented, unless the
-> > __no_sanitize_coverage attribute is used. To prepare for
-> > __no_sanitize_coverage being applied to __init functions, we have to
-> > handle differences in how GCC's inline optimizations get resolved. For
-> > x86 this means forcing several functions to be inline with
-> > __always_inline.
-> > 
-> > Signed-off-by: Kees Cook <kees@kernel.org>
-> > ---
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Ingo Molnar <mingo@redhat.com>
-> > Cc: Borislav Petkov <bp@alien8.de>
-> > Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> > Cc: <x86@kernel.org>
-> > Cc: "H. Peter Anvin" <hpa@zytor.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-> > Cc: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-> > Cc: Hans de Goede <hdegoede@redhat.com>
-> > Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
-> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > Cc: Len Brown <lenb@kernel.org>
-> > Cc: Masami Hiramatsu <mhiramat@kernel.org>
-> > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > Cc: Mike Rapoport <rppt@kernel.org>
-> > Cc: Michal Wilczynski <michal.wilczynski@intel.com>
-> > Cc: Juergen Gross <jgross@suse.com>
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > Cc: Roger Pau Monne <roger.pau@citrix.com>
-> > Cc: David Woodhouse <dwmw@amazon.co.uk>
-> > Cc: Usama Arif <usama.arif@bytedance.com>
-> > Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-> > Cc: Thomas Huth <thuth@redhat.com>
-> > Cc: Brian Gerst <brgerst@gmail.com>
-> > Cc: <kvm@vger.kernel.org>
-> > Cc: <ibm-acpi-devel@lists.sourceforge.net>
-> > Cc: <platform-driver-x86@vger.kernel.org>
-> > Cc: <linux-acpi@vger.kernel.org>
-> > Cc: <linux-trace-kernel@vger.kernel.org>
-> > Cc: <linux-efi@vger.kernel.org>
-> > Cc: <linux-mm@kvack.org>
-> > ---
+> The parameter is always set to 0 for now, following patches will use
+> this helper to write llbitmap to underlying disks, allow writing
+> dirty sectors instead of the whole page.
 > 
-> > diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> > index e7350c9fa3aa..0518d5b1f4ec 100644
-> > --- a/drivers/platform/x86/thinkpad_acpi.c
-> > +++ b/drivers/platform/x86/thinkpad_acpi.c
-> > @@ -559,12 +559,12 @@ static unsigned long __init tpacpi_check_quirks(
-> >  	return 0;
-> >  }
-> >  
-> > -static inline bool __pure __init tpacpi_is_lenovo(void)
-> > +static __always_inline bool __pure tpacpi_is_lenovo(void)
-> >  {
-> >  	return thinkpad_id.vendor == PCI_VENDOR_ID_LENOVO;
-> >  }
-> >  
-> > -static inline bool __pure __init tpacpi_is_ibm(void)
-> > +static __always_inline bool __pure tpacpi_is_ibm(void)
-> >  {
-> >  	return thinkpad_id.vendor == PCI_VENDOR_ID_IBM;
-> >  }
+> Also rename md_super_write to md_write_metadata since there is nothing
+> super-block specific.
 > 
-> Hi Kees,
+> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+> ---
+>   drivers/md/md-bitmap.c |  3 ++-
+>   drivers/md/md.c        | 28 ++++++++++++++--------------
+>   drivers/md/md.h        |  5 +++--
+>   3 files changed, 19 insertions(+), 17 deletions(-)
 > 
-> What's your plan on upstreaming route/timeline for this? I'd prefer to 
-> retain full control over this file as we were planning on some 
-> reorganization of files into lenovo/ subdir.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-I'm not in a big rush. I'm hoping to have this all in place for v6.17,
-but the Clang feature won't be in a released compiler version until
-September. :) I can send this bit separately for your tree.
+Cheers,
 
-Thanks for taking a look!
-
+Hannes
 -- 
-Kees Cook
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 NÃ¼rnberg
+HRB 36809 (AG NÃ¼rnberg), GF: I. Totev, A. McDonald, W. Knoblich
