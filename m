@@ -1,156 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910827260E;
-	Tue, 27 May 2025 12:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9446526FDBB;
+	Tue, 27 May 2025 13:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748347213; cv=none; b=ICrKCnezZ8kjWDmIrzORE3qqxuf2n/iE5+CJLi1oG2oYplCrSf/K1hVqUM8ppRbKAb/ZCTdiQ61b5IlLVmdRacJku0dF95nI2h4G1chvDJGI5a3T2UAjAEJQSFUcxJp6cHRCX/3TgoMROgD/pBORgAzNFHo5PV6KVHiCp+6sfoM=
+	t=1748350819; cv=none; b=HS1bKVfkiIxfNnI6DM6WfenGMNRA0MqWU5QYBKeVk441CjH28uJ1YzSphV7t0qRxUlF+qs684cukhdobGCL3Y43cslsaSlRZpxlOJ+SmOmK3oA7sFRMYOLLpW+aFEew2XwYiL5j4MI0+6awdTFDsPX3Svbi4PuwIQxl7+Hurtn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748347213; c=relaxed/simple;
-	bh=qLapHneOi+oKFJ5y90jzyILYX7eOBr5+CBwaFdeeheA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EH3cUiwfJ1VJTCagAGY5tULGGK16YKROLZub69BnRwyfdSV5H37KNyZFiVV2zedvYw09DbSX0FsS6VCwiLp0pK1KRQfyaOIo9e6tE0fbIh6HbdOkr7LkZaygM3diVpyN/kZEZwNqagen+fnuoEh+oqKh+a5UW1k2BF+nAkDbHwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kSI+l+Gz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748350819; c=relaxed/simple;
+	bh=6AiBnz+NtthXTl7ipClTn38s9n5ZuPe1WkRCyxo4yFc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ln3PXDDAnlwHX20JKmpXoDS6+ZO1u8ssg39rG2NfiQXFXdOb8ObmTV2bWVxgXPHlEhsL+60PNkheF98uFlk1RtzCJwxzOE/RNwTVJ+rjFxVFR1L8ZS9XJFw6z4panTfGS2fI+tMKL8KlRtlxcSDpEHBEvMH0sBfprYOiMt8Buo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=q3xlNA0K; arc=none smtp.client-ip=211.125.140.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kSI+l+Gz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08819C4CEEE;
-	Tue, 27 May 2025 12:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748347213;
-	bh=qLapHneOi+oKFJ5y90jzyILYX7eOBr5+CBwaFdeeheA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kSI+l+GzqCel77prqLwS7xz2muMHOSoXwb9KNu8Wi5eT+xMmcs3VsmvVuiAYgT9aO
-	 8Yt+IU5DdO3uGV6KTeKCA1Y5BehvCavUfEdn1X1+eXIii2h88KgOjV/3ep8hqNT/is
-	 emXWe5UbgFGLO98FK5JeWSYsGXzp5v7qWJGWlGlXGCuc+hnhQOXH0O8ZaqnQtFFY7T
-	 MC03kD61+/i7r9Yd9URlGLON6NPjYHpQcTHstWaY0aPFjfbfzherwUrKdBRdup1jEq
-	 mISnjmxyyPmN89tD2edgBRqQhp/NYYDyOUZ/idCBJEeSydNnmBdR4+m6fUKLajGupu
-	 imnXQBLNPjngA==
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-60638c07cabso1411905eaf.3;
-        Tue, 27 May 2025 05:00:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV5yDUabpcZzpK0qchngo/zFo5y/bQZ4082f1ntjMGv/GCx0yI10t5mWyyCXddcmFRIbNK52XQpQBk=@vger.kernel.org, AJvYcCVtMLbR45Orkd3mT//9ydhqG+1fK1X4W+r3Tk5+duhM537eD9xLnrmHTz/lfQqp57fhHXCIeujP/RSXTDZP@vger.kernel.org, AJvYcCXFXlgYCygK30Jc7MJgmqJjn25qOcKuWyRkpU57SkDEPm0HsdGhEInz1QZMeKptvspluQzbhNXTsww=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIa6SNMAFgB5Bvc6je1kzqFg4EctE6n38Jw+suAjCnY/CuqcH3
-	VMYHn6ijzcf/YYaVs8Zs5rSYbHw8bbiJa29RWYm/DIbiVzbJIOPJHE9rFD8zZv1U1kR0ZthhXDU
-	kDBPdUgnbygfCYld8pB2b1LC9GP5XcOY=
-X-Google-Smtp-Source: AGHT+IH1H/K9aIlXXOO/y7HLOTl7zAEeo6HfQFr7ujuFdt4n8dLkaY+8mKMTorG3P80nKepGALTJbXBe04FTHAZXQ4I=
-X-Received: by 2002:a05:6820:818d:b0:609:f2f3:5f60 with SMTP id
- 006d021491bc7-60b9f8a9766mr6494225eaf.0.1748347212322; Tue, 27 May 2025
- 05:00:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="q3xlNA0K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1748350817; x=1779886817;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:to:cc;
+  bh=2UYaaE2+OTCkjb9XKZqJZIC2PXKJNvGod0gjUbVzluY=;
+  b=q3xlNA0KKVH8AA73Qv/1pDYRJG6ouhuGLdLlZhf1vpa/qet3jeBNNw9O
+   qRUyt3v6w53LCKE9qXjze/4+G8bfSX2yjfPR8zN5ifar03RGw90WdsKlZ
+   73CGcN6UKihAxFYjcxcskxIH3RHVAJSsdYOqxb/vy14TWjyKsnD+ck3Wb
+   YzDsBvq/Fo4LOlAKMB+UX+dA1FnOtbkbylzHB5D/hxJUahmR9sLR4dOgk
+   VlaymKENvFi9t/bzsBR3RXWSEQu0AP++CKGNnfKHKKR+664epjJ4LfJrD
+   cWQJaFRJ/0A8gMYuL5DF2ydvVlETo0q1dYeDqnQQlMPG8sQJxBQS2N5r2
+   w==;
+Received: from unknown (HELO jpmta-ob1.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::6])
+  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 22:00:14 +0900
+X-IronPort-AV: E=Sophos;i="6.15,318,1739804400"; 
+   d="scan'208";a="564893578"
+Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob1.noc.sony.co.jp with ESMTP; 27 May 2025 22:00:14 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+Subject: [PATCH v2 0/2] cpufreq: userspace: add CPUFREQ_GOV_STRICT_TARGET
+ flag
+Date: Tue, 27 May 2025 21:59:08 +0900
+Message-Id: <20250527-userspace-governor-doc-v2-0-0e22c69920f2@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com>
- <15871c67-0d18-430f-935e-261b2cda855b@gmail.com> <CAJZ5v0gz3Y+RGqBf9E1hzq9rwfrryd98Xpk51DtLd-uck5y-rw@mail.gmail.com>
- <b62c0462-8185-4eb8-8ac6-7f2abc387768@gmail.com> <aC_4yLsFVVszI_FA@JPC00244420>
- <CAJZ5v0g1o03La9aWJF1rheC9CM8SU2iC52auEAnaBpUCMunpJA@mail.gmail.com> <aDV2HPfybqnbzJ9N@JPC00244420>
-In-Reply-To: <aDV2HPfybqnbzJ9N@JPC00244420>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 27 May 2025 14:00:00 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0h9d6XESiiZV+A2GNUcefSunV-D=3d-TU412mwW0vjYGA@mail.gmail.com>
-X-Gm-Features: AX0GCFsknwzCCPo2oM2FuYiPgANRZkiiVNyCLYZm3KZKQoxjkqI9Z52D-sR3j0k
-Message-ID: <CAJZ5v0h9d6XESiiZV+A2GNUcefSunV-D=3d-TU412mwW0vjYGA@mail.gmail.com>
-Subject: Re: [PATCH] cpufreq, docs: (userspace governor) add that actual freq
- is >= scaling_setspeed
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Russell Haley <yumpusamongus@gmail.com>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Shinya Takumi <shinya.takumi@sony.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABy3NWgC/4WNQQ7CIBBFr9LM2jEUxKAr72G6oDC2LGQaUGLTc
+ HexF3D5fvLe3yBTCpTh2m2QqIQcODaQhw7cbONEGHxjkEJqoaXEdxPyYh3hxIVS5ISeHZqzMsK
+ PdlReQ5OXRI/w2cP3ofEc8ovTuv+U/rf+TZYee3TGCmVIXYQ53TLH9ej4CUOt9Qu/UAUFuwAAA
+ A==
+X-Change-ID: 20250522-userspace-governor-doc-86380dbab3d5
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Shinya Takumi <shinya.takumi@sony.com>, 
+ 20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com, 
+ Shashank Balaji <shashank.mahadasyam@sony.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1158;
+ i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
+ bh=6AiBnz+NtthXTl7ipClTn38s9n5ZuPe1WkRCyxo4yFc=;
+ b=owGbwMvMwCV2mPH4Ij++H1mMp9WSGDJMt8d8OvJWer1tQL9Y06ONd/OzS15Uv+ORlJNUrn1TL
+ m6sfk+7o5SFQYyLQVZMkeWdzLoLB60sm74eZ/gGM4eVCWQIAxenAExk4mSG32x37z/zmTPhCGdc
+ hEj0o3NyjEYRttsP6LKy/I18dujq/RmMDBscVs44adPTe+fAj113BRZHPztkYzXhQqLnPIaKfw1
+ svxkA
+X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
+ fpr=EE1CAED0C13A3982F5C700F6C301C7A24E0EF86A
 
-Hi,
+In-Reply-To: 20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com
+Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+---
+Changes in v2:
+- Instead of modifying the documentation to say that variation in frequency is
+possible despite setting scaling_setspeed, add the CPUFREQ_GOV_STRICT_TARGET
+flag to the userspace governor to make its behaviour match the expectation when
+used with the intel_pstate driver with HWP enabled
+- Mention in the documentation that variation in frequency due to hardware
+factors is possible
+- Link to v1: https://lore.kernel.org/r/20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com
 
-On Tue, May 27, 2025 at 10:22=E2=80=AFAM Shashank Balaji
-<shashank.mahadasyam@sony.com> wrote:
->
-> Hi Rafael,
->
-> On Fri, May 23, 2025 at 09:06:04PM +0200, Rafael J. Wysocki wrote:
-> > On Fri, May 23, 2025 at 6:25=E2=80=AFAM Shashank Balaji
-> > <shashank.mahadasyam@sony.com> wrote:
-> > > ...
-> > > Consider the following on a Raptor Lake machine:
-> > > ...
-> > >
-> > > 3. Same as above, except with strictuserspace governor, which is a
-> > > custom kernel module which is exactly the same as the userspace
-> > > governor, except it has the CPUFREQ_GOV_STRICT_TARGET flag set:
-> > >
-> > >         # echo strictuserspace > cpufreq/policy0/scaling_governor
-> > >         # x86_energy_perf_policy -c 0 2>&1 | grep REQ
-> > >         cpu0: HWP_REQ: min 26 max 26 des 0 epp 128 window 0x0 (0*10^0=
-us) use_pkg 0
-> > >         pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*=
-10^0us)
-> > >         # echo 3000000 > cpufreq/policy0/scaling_setspeed
-> > >         # x86_energy_perf_policy -c 0 2>&1 | grep REQ
-> > >         cpu0: HWP_REQ: min 39 max 39 des 0 epp 128 window 0x0 (0*10^0=
-us) use_pkg 0
-> > >         pkg0: HWP_REQ_PKG: min 1 max 255 des 0 epp 128 window 0x0 (0*=
-10^0us)
-> > >
-> > >         With the strict flag set, intel_pstate honours this by settin=
-g
-> > >         the min and max freq same.
-> > >
-> > > desired_perf is always 0 in the above cases. The strict flag check is=
- done in
-> > > intel_cpufreq_update_pstate, which sets max_pstate to target_pstate i=
-f policy
-> > > has strict target, and cpu->max_perf_ratio otherwise.
-> > >
-> > > As Russell and Rafael have noted, CPU frequency is subject to hardwar=
-e
-> > > coordination and optimizations. While I get that, shouldn't software =
-try
-> > > its best with whatever interface it has available? If a user sets the
-> > > userspace governor, that's because they want to have manual control o=
-ver
-> > > CPU frequency, for whatever reason. The kernel should honor this by
-> > > setting the min and max freq in HWP_REQUEST equal. The current behavi=
-our
-> > > explicitly lets the hardware choose higher frequencies.
-> >
-> > Well, the userspace governor ends up calling the same function,
-> > intel_cpufreq_target(), as other cpufreq governors except for
-> > schedutil.  This function needs to work for all of them and for some
-> > of them setting HWP_MIN_PERF to the same value as HWP_MAX_PERF would
-> > be too strict.  HWP_DESIRED_PERF can be set to the same value as
-> > HWP_MIN_PERF, though (please see the attached patch).
-> >
-> > > Since Russell pointed out that the "actual freq >=3D target freq" can=
- be
-> > > achieved by leaving intel_pstate active and setting scaling_{min,max}=
-_freq
-> > > instead (for some reason this slipped my mind), I now think the stric=
-t target
-> > > flag should be added to the userspace governor, leaving the documenta=
-tion as
-> > > is. Maybe a warning like "you may want to set this exact frequency, b=
-ut it's
-> > > subject to hardware coordination, so beware" can be added.
-> >
-> > If you expect the userspace governor to set the frequency exactly
-> > (module HW coordination), that's the only way to make it do so without
-> > potentially affecting the other governors.
->
-> I don't mean to say that intel_cpufreq_target() should be modified. I'm
-> suggesting that the CPUFREQ_GOV_STRICT_TARGET flag be added to the
-> userspace governor. That'll ensure that HWP_MIN_PERF and
-> HWP_MAX_PERF are set to the target frequency. intel_cpufreq_target()
-> already correctly deals with the strict target flag. To test this, I
-> registered a custom governor, same as the userspace governor, except
-> with the strict target flag set. Please see case 3 above.
->
-> If this flag is added to the userspace governor, then whatever the
-> documentation says right now will actually be true. No need to modify
-> the documentation then.
+---
+Shashank Balaji (2):
+      cpufreq: userspace: set CPUFREQ_GOV_STRICT_TARGET flag
+      cpufreq, docs: userspace: mention variation in freq due to hw coordination
 
-So please submit a patch to set CPUFREQ_GOV_STRICT_TARGET in the
-userspace governor.
+ Documentation/admin-guide/pm/cpufreq.rst | 4 +++-
+ drivers/cpufreq/cpufreq_userspace.c      | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+---
+base-commit: 914873bc7df913db988284876c16257e6ab772c6
+change-id: 20250522-userspace-governor-doc-86380dbab3d5
 
-Thanks!
+Best regards,
+-- 
+Shashank Balaji <shashank.mahadasyam@sony.com>
+
