@@ -1,92 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B755D1ACED9;
-	Tue, 27 May 2025 13:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256551E5B7D;
+	Tue, 27 May 2025 13:26:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748352360; cv=none; b=GFiibJ5mRt7TznuVHMhPRjHha+GCio423Xs0XKVcDn7dzg2X26SKEPi13tcgqTvzz4tDA3Lcjif1Z+0q6IOr6cKtZuxWkDqLmfjow5gcfCFtv2JMUOCBNQHVi4jvTi1NYXiNm8qiOwbi7+VLnxKmYtWaf9CPUfQTPXa3Z1ERzQ0=
+	t=1748352413; cv=none; b=rtVV3Z+QzlbceVZna3+EZJ/a09CKnfvj3qgnPQrgK+MglHpR2vblLMPqEKzqtvmu2gy4VVOcQv4ccC0yrHUoDx4DbrUoURr+wfsUpWy6o5ubSDZSIo4CUevT3bNXcpjtaJvPgqBoAW0ACC/QCsNyxZfPH9GxspeDT4zMWP5SaNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748352360; c=relaxed/simple;
-	bh=RJZrjlZXyF2IEyk45tZVLBAEfHaJeaF88xrgOYA4D9A=;
+	s=arc-20240116; t=1748352413; c=relaxed/simple;
+	bh=9Nju7W2tBpY6Umbm+ZlZ2RCV+w3L+6p695flvHencLQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fwLsthoAyiX+WL15WbpElulBR/Qt8O7iS8kcuiYsqnDCQdx8DeD3rSEPBjeSQYkGJIogPwltrLXQIbrXTuFKxNxnlRpvKiOGhshpvDDNbxsoHSi8hc29cOTCiH3b7l497xaGvZYjpfIw3/pIwWqaQn5lSEOE/x+ID2dgXuzM9+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fXuaWA2T; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fw6mJCe5zfyc2fy4dqi1SCz9ua0OU8L3lK3VZV8NvN0KDEvs1FohAVHQkmgLNHQrPHhfQm+Wzgip8/4XbbQYbR6Wqu5XdSleK+uqRKyK52xo9KXBo6+GfbpG+UDdsBGjT+7m0mlpDdIBRfG/4PNSd9zqLPY4Pc9W/yyM6k7Qk58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=SIXORjoS; arc=none smtp.client-ip=211.125.140.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fXuaWA2T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF88C4CEE9;
-	Tue, 27 May 2025 13:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748352360;
-	bh=RJZrjlZXyF2IEyk45tZVLBAEfHaJeaF88xrgOYA4D9A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fXuaWA2TjqMjpqvK8uJbUl1dUHB8Dq7WIOcO4O8pSnnhGpYuXPQaQcs8SzLFZoh5Z
-	 97P9pFajTEqwuagTGvgdRuKBDpbU7axVuFJA2CI36xHsGwRY877Ywstr6AwtLUT3Za
-	 PTF1mE2BUyUJHV+ihfNBVv5lPsPdsuLJfhNUcUNPsbK3FR8/V5ZzxYfEYfNlO8ZwPY
-	 +P7Obe+q5od1kiRvY8lBN6Jf4zVF9UwUe9hj7dj8mrXFa9bBmThgOPpb8rw+Jg1/ir
-	 MIDjN2mf0c9WyYVZENEbUU+Xr+dloN1i6diuYiQkopPpKAFCnxdPF+6DV1Khjili9Q
-	 2+kgyLidpun3g==
-Date: Tue, 27 May 2025 16:25:53 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Ira Weiny <ira.weiny@intel.com>,
-	Michal Clapinski <mclapinski@google.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-	nvdimm@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] libnvdimm/e820: Add a new parameter to configure
- many regions per e820 entry
-Message-ID: <aDW9YRpTmI66gK_G@kernel.org>
-References: <20250417142525.78088-1-mclapinski@google.com>
- <6805a8382627f_18b6012946a@iweiny-mobl.notmuch>
- <CA+CK2bD8t+s7gFGDCdqA8ZaoS3exM-_9N01mYY3OB4ryBGSCEQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="SIXORjoS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1748352411; x=1779888411;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q8veB2wF5n1DVr5z/lMeUWHv1/zn9z4Fuzg/6Q4u8q4=;
+  b=SIXORjoSHw7fkasSNlPOJYr+oEEQDOMam9g4mQPZ6uDeWsRJlK30CtFM
+   5GI7wOz2Q1rME7F5o3+suaElZoSwcYUropcMg75chkodQoZMj391h2gCV
+   6Lx0enmcSV8VnQk8a4F37Mwz67gdn+9rvlC2g5n+vIA7G9+BmygjMtYqb
+   A07y1kTzo99t8Ojo+IP1KoW1b3fvxBkD3BrARtO/MpSrOuwuqBwj7F8tG
+   DqIt2hBkZ5/N7pAz29xArqoBgI1Nopbpu8KcBeYRz4eVAHcoUqdsUqGgs
+   FJlAelxSLKXOuV2g5il9jrst1xcU6UkVNiSUwqKV+lLgwME5Kv60rPg2f
+   Q==;
+Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
+  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 22:26:49 +0900
+X-IronPort-AV: E=Sophos;i="6.15,318,1739804400"; 
+   d="scan'208";a="534611313"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 22:26:49 +0900
+Date: Tue, 27 May 2025 22:26:46 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Juri Lelli <juri.lelli@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Peter Zijlstra <peterz@infradead.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Shinya Takumi <shinya.takumi@sony.com>
+Subject: Re: [PATCH] sched_deadline, docs: add affinity setting with cgroup2
+ cpuset controller
+Message-ID: <aDW9lgkZaP9pI5Jk@JPC00244420>
+References: <20250522-sched-deadline-cpu-affinity-v1-1-2172c683acac@sony.com>
+ <aDW6EckuCFTZfPZ8@jlelli-thinkpadt14gen4.remote.csb>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+CK2bD8t+s7gFGDCdqA8ZaoS3exM-_9N01mYY3OB4ryBGSCEQ@mail.gmail.com>
+In-Reply-To: <aDW6EckuCFTZfPZ8@jlelli-thinkpadt14gen4.remote.csb>
 
-On Mon, Apr 21, 2025 at 10:55:25AM -0400, Pasha Tatashin wrote:
-> On Sun, Apr 20, 2025 at 10:06 PM Ira Weiny <ira.weiny@intel.com> wrote:
-> >
-> > Michal Clapinski wrote:
-> > > Currently, the user has to specify each memory region to be used with
-> > > nvdimm via the memmap parameter. Due to the character limit of the
-> > > command line, this makes it impossible to have a lot of pmem devices.
-> > > This new parameter solves this issue by allowing users to divide
-> > > one e820 entry into many nvdimm regions.
-> > >
-> > > This change is needed for the hypervisor live update. VMs' memory will
-> > > be backed by those emulated pmem devices. To support various VM shapes
-> > > I want to create devdax devices at 1GB granularity similar to hugetlb.
-> >
-> > Why is it not sufficient to create a region out of a single memmap range
-> > and create multiple 1G dax devices within that single range?
+Hi Juri,
+
+On Tue, May 27, 2025 at 03:11:45PM +0200, Juri Lelli wrote:
+> Hello!
 > 
-> This method implies using the ndctl tool to create regions and convert
-> them to dax devices from userspace. This does not work for our use
-> case. We must have these 1 GB regions available during boot because we
-> do not want to lose memory for a devdax label. I.e., if fsdax is
-> created during boot (i.e. default pmem format), it does not have a
-> label. However, if it is created from userspace, we create a label
-> with partition properties, UUID, etc. Here, we need to use kernel
-
-Doesn't ndctl refuse to alter namespaces on "legacy" (i.e. memmap=)
-regions?
-
-> parameters to specify the properties of the pmem devices during boot
-> so they can persist across reboots without losing any memory to
-> labels.
+> On 22/05/25 17:06, Shashank Balaji wrote:
+> > Setting the cpu affinity mask of a SCHED_DEADLINE process using the cgroup v1
+> > cpuset controller is already detailed. Add similar information for cgroup v2's
+> > cpuset controller.
 > 
-> Pasha
+> Thanks a lot for working on this. Really appreaciated.
 
--- 
-Sincerely yours,
-Mike.
+Thank you :)
+
+> > +5.2 Using cgroup v2 cpuset controller
+> > +-------------------------------------
+> > +
+> > + Assuming the cgroup v2 root is mounted at ``/sys/fs/cgroup``.
+> > +
+> > +   cd /sys/fs/cgroup
+> > +   echo '+cpuset' > cgroup.subtree_control
+> > +   mkdir deadline_group
+> > +   echo 0 > deadline_group/cpuset.cpus
+> > +   echo 'root' > deadline_group/cpuset.cpus.partition
+> > +   echo $$ > deadline_group/cgroup.procs
+> > +   rt-app -t 100000:10000:d:0 -D5
+> 
+> Sadly, the example with cgroup v1 was made at a time when rt-app still
+> supported command line parameters like the above. I believe nowadays
+> that is not the case anymore and one needs to create a json file
+> describing the task to run it with rt-app.
+> 
+> I would say we should update both examples to use something a little
+> more generic, e.g.,
+> 
+> # chrt --deadline --sched-runtime 10000000 --sched-period 100000000 0 yes >/dev/null &
+> 
+> What do you think?
+> 
+> Best,
+> Juri
+
+Haha, I was just about to send the patch with the chrt example, when I
+checked out the rt-app repo and saw that it's much more powerful. I
+thought, "they must have had a good reason for using rt-app instead of
+chrt for the example", and switched it to rt-app at the last second. I
+didn't know that rt-app doesn't support command line parameters anymore.
+I'll send out v2 with the chrt example.
+
+Thanks!
+
+Regards,
+Shashank
