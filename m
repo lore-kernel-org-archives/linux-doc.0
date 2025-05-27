@@ -1,114 +1,138 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68647271459;
-	Tue, 27 May 2025 13:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336F227602A
+	for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 13:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748353043; cv=none; b=h/Pg7oZnCR4lo5rwz2jAxygQRFAA+gYjBK4iExIhJr9TDJDmaI9pv3t4DfPQiDiODiP5XtUwqFWuYek3FG7fCq8VX1b80I0sA37YZtUXjMNUKVQGYURpgtieuidq5s/wsioJoj13+Vl2OsOnNi/VyfQsF7R8OHgSxOm7vTIJPe4=
+	t=1748354195; cv=none; b=nWWj5C8sP6TUEuLYY4vZwozFG5IbQgZSfDm6XAASgACsK4Wx0fw1xFAL49sneBu8nCv5+MW4V9lnJfWJeL29RoaWnCHaiLnJttRdDrjkTleqFHCRSIRJKlj/o4Kh+Tkrl9SCJ/IJiGC3wHSrlfy58MS+g/P9owMAJMjtEbkbFzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748353043; c=relaxed/simple;
-	bh=YPFs7o1pRRdS96m8/sYCeukS83lHaWXXuwQF3hlGcx8=;
+	s=arc-20240116; t=1748354195; c=relaxed/simple;
+	bh=DR0eII5fbH35C4esC9dtXj1fUTepV7Btut4D7Bi+Yo4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GP3wyddRMQRXUx3Rh+VaHt+8EIcbXpinTyPSiHqU7zM7FrJorV5DEXn5BrUQnY99MPjusFlGL0stiKKtHlLE4EkEypxW3L31Js9EfX8ukW122wZUNum6ag/A7lLIv7pf59XIMAgIhi/TJjZQJMyyHb1B+kH3Dhhp5qlGG27yQhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lM93n7el; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6b5rbTN1; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=KqagmoF3Muha4T5ykDnDMkek3PXIsB+fN6oVhy+DdyIS7L616Xt5hqU+fbpfegO9zAeC3BbPIhqmXIGUqs7QAiu1/JFKPuAl0D5JFGV0GwVNjB2dBU4lZARfQuOrHNt54SaiE2WS3JfIfDwlLvUw37tcWuf4ObmoLiz5JTpQ0yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DBPEPISB; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lM93n7el";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6b5rbTN1"
-Date: Tue, 27 May 2025 15:37:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1748353037;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DBPEPISB"
+Date: Tue, 27 May 2025 15:56:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1748354181;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JO6gI2ty1BBSgBwH8ImLfjoNHgWaxGFBPO8/nnHGiak=;
-	b=lM93n7elEmx3f8AfKLDFsZ8IxgItqachQCS2yeUo0CRiVbN1WAK5EOtu/4DnvduuYSZJGF
-	kZ7MKQwwQ+gHPZSUzH5lgIxHSBWC6caNHuCY/65McqFU0jXUG5eJnaD9VlAglozYj/XLyp
-	QwI0oAUGeYAtVTWy7h+hzd9SdRKHiGR2IxZHnp80QU+Xw5CovYF4Ew8629nhzLVuq0AXmN
-	CGGIcJ89AI5Z0CHM7aphY4aJ8Kk15FPsLHpjxO1L9vdXju72DC/Me3yvPuKUaRmhmPLAxb
-	AGHQD2G1xeBXytmAxDU0YkI02FjgiynQlceDu0oM3PEQhtdOoTAKORswv7Fgbg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1748353037;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JO6gI2ty1BBSgBwH8ImLfjoNHgWaxGFBPO8/nnHGiak=;
-	b=6b5rbTN1sN6/DeexP7ywcdO3CQ8f0ftxhgPlJMuCbZR8/6Qz/A4Kfo7juDef4JmBh/DRnW
-	4Mk0pZogCUHLeBAg==
-From: Nam Cao <namcao@linutronix.de>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>
-Subject: Re: [RFC PATCH v2 12/12] rv: Add opid per-cpu monitor
-Message-ID: <20250527133712.CFW5AcNE@linutronix.de>
-References: <20250514084314.57976-1-gmonaco@redhat.com>
- <20250514084314.57976-13-gmonaco@redhat.com>
+	bh=FLl9VxDhC/oIjgX+m65ElyBei2vf8OKiPQtUyOdtfwU=;
+	b=DBPEPISBgfSQ0+cpOKL9TKTUzheLNL5fUFFpah1KlDRHiP+f2RorQQ12kUmuwzhQ3hM9/+
+	aXep8APlTJpGUUHdgMd5UD3XQpN1rq/czK2GzFIPWQMP6UbWVUynRwWcU27FqS8a/hnsPf
+	8Qhj4uKdcBfmBLcbqA62M1shAHCWV1g=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 09/11] kunit: uapi: Add example for UAPI tests
+Message-ID: <20250527-dark-uakari-from-pluto-fbc8ae@l-nschier-aarch64>
+References: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
+ <20250407-kunit-kselftests-v2-9-454114e287fd@linutronix.de>
+ <20250526-marvellous-abstract-koala-317cb4@l-nschier-aarch64>
+ <20250526164038-12259c68-586f-4a24-a814-8ffed5778742@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250514084314.57976-13-gmonaco@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250526164038-12259c68-586f-4a24-a814-8ffed5778742@linutronix.de>
+Organization: AVM GmbH
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, May 14, 2025 at 10:43:14AM +0200, Gabriele Monaco wrote:
-> Add a per-cpu monitor as part of the sched model:
-> * opid: operations with preemption and irq disabled
->     Monitor to ensure wakeup and need_resched occur with irq and
->     preemption disabled or in irq handlers.
+On Mon, May 26, 2025 at 04:50:19PM +0200, Thomas Weißschuh wrote:
+> On Mon, May 26, 2025 at 04:22:02PM +0200, Nicolas Schier wrote:
+> > On Mon, Apr 07, 2025 at 09:42:46AM +0200, Thomas Weißschuh wrote:
+> > > Extend the example to show how to run a userspace executable.
+> > > 
+> > > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> > > ---
+> > >  lib/kunit/.kunitconfig         |  2 ++
+> > >  lib/kunit/Makefile             |  9 ++++++++-
+> > >  lib/kunit/kunit-example-test.c | 15 +++++++++++++++
+> > >  lib/kunit/kunit-example-uapi.c | 22 ++++++++++++++++++++++
+> > >  4 files changed, 47 insertions(+), 1 deletion(-)
+> > 
+> > 
+> > Adding this diff allows 'make clean' to clean up the UAPI test binary:
+> > 
+> > 
+> > diff --git a/lib/Makefile b/lib/Makefile
+> > --- a/lib/Makefile
+> > +++ b/lib/Makefile
+> > @@ -112,8 +112,6 @@ CFLAGS_REMOVE_test_fpu_impl.o += $(CC_FLAGS_NO_FPU)
+> >  # Some KUnit files (hooks.o) need to be built-in even when KUnit is a module,
+> >  # so we can't just use obj-$(CONFIG_KUNIT).
+> > -ifdef CONFIG_KUNIT
+> > -obj-y += kunit/
+> > -endif
+> > +obj-$(if $(CONFIG_KUNIT),y) += kunit/
+> 
+> Wouldn't the following be sufficient?
+> 
+> obj-y += kunit/
+> 
+> The the kunit Makefile doesn't do anything if CONFIG_KUNIT=y and AFAIK for
+> directories obj-m and obj-y should do the same.
 
-This monitor reports some warnings:
+that's wrong.  In lib/kunit/Makefile there is
 
-$ perf record -e rv:error_opid --call-graph dwarf -a -- ./stress-epoll
-(stress-epoll program from
-https://github.com/rouming/test-tools/blob/master/stress-epoll.c)
+    obj-y += hooks.o
 
-$ perf script
-stress-epoll   315 [003]   527.674724: rv:error_opid: event preempt_disable not expected in the state preempt_disabled
-	ffffffff9fdfb34f da_event_opid+0x10f ([kernel.kallsyms])
-	ffffffff9fdfb34f da_event_opid+0x10f ([kernel.kallsyms])
-	ffffffff9fdfba0d handle_preempt_disable+0x3d ([kernel.kallsyms])
-	ffffffff9fdd32d0 __traceiter_preempt_disable+0x30 ([kernel.kallsyms])
-	ffffffff9fdd38fe trace_preempt_off+0x4e ([kernel.kallsyms])
-	ffffffff9fee6c1c vfs_write+0x12c ([kernel.kallsyms])
-	ffffffff9fee7128 ksys_write+0x68 ([kernel.kallsyms])
-	ffffffffa0bdbd92 do_syscall_64+0xb2 ([kernel.kallsyms])
-	ffffffff9fa00130 entry_SYSCALL_64_after_hwframe+0x77 ([kernel.kallsyms])
-	           f833f __GI___libc_write+0x4f (/usr/lib/x86_64-linux-gnu/libc.so.6)
-	           f833f __GI___libc_write+0x4f (/usr/lib/x86_64-linux-gnu/libc.so.6)
-	            1937 thread_work+0x47 (/root/test-tools/stress-epoll)
-	           891f4 start_thread+0x304 (/usr/lib/x86_64-linux-gnu/libc.so.6)
-	          10989b clone3+0x2b (/usr/lib/x86_64-linux-gnu/libc.so.6)
+thus, lib/kunit/hooks.o would then be built unconditionally (even w/o 
+CONFIG_KUNIT).
 
-stress-epoll   318 [002]   527.674759: rv:error_opid: event preempt_disable not expected in the state disabled
-	ffffffff9fdfb34f da_event_opid+0x10f ([kernel.kallsyms])
-	ffffffff9fdfb34f da_event_opid+0x10f ([kernel.kallsyms])
-	ffffffff9fdfba0d handle_preempt_disable+0x3d ([kernel.kallsyms])
-	ffffffff9fdd32d0 __traceiter_preempt_disable+0x30 ([kernel.kallsyms])
-	ffffffff9fdd38fe trace_preempt_off+0x4e ([kernel.kallsyms])
-	ffffffffa0bec1aa _raw_spin_lock_irq+0x1a ([kernel.kallsyms])
-	ffffffff9ff4fe73 eventfd_write+0x63 ([kernel.kallsyms])
-	ffffffff9fee6be5 vfs_write+0xf5 ([kernel.kallsyms])
-	ffffffff9fee7128 ksys_write+0x68 ([kernel.kallsyms])
-	ffffffffa0bdbd92 do_syscall_64+0xb2 ([kernel.kallsyms])
-	ffffffff9fa00130 entry_SYSCALL_64_after_hwframe+0x77 ([kernel.kallsyms])
-	           f833f __GI___libc_write+0x4f (/usr/lib/x86_64-linux-gnu/libc.so.6)
-	           f833f __GI___libc_write+0x4f (/usr/lib/x86_64-linux-gnu/libc.so.6)
-	            1937 thread_work+0x47 (/root/test-tools/stress-epoll)
-	           891f4 start_thread+0x304 (/usr/lib/x86_64-linux-gnu/libc.so.6)
-	          10989b clone3+0x2b (/usr/lib/x86_64-linux-gnu/libc.so.6)
+Iff we would add 'obj-y += kunit/' in lib/Makefile we'd have to adjust the 
+hooks.o line in lib/kunit/Makefile appropriately.
 
-I'm not sure what I'm looking at here. Do you think these are kernel bugs,
-or the monitor is missing some corner cases?
+> 
+> >  
+> >  ifeq ($(CONFIG_DEBUG_KOBJECT),y)
+> >  CFLAGS_kobject.o += -DDEBUG
+> > 
+> > 
+> > 
+> > plus the 'clean-files' addition below.
+> 
+> <snip>
+> 
+> > > diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> > > index 989933dab9ad2267f376db470b876ce2a88711b4..1b6be12676f89cafa34f0093d8136b36f4cf5532 100644
+> > > --- a/lib/kunit/Makefile
+> > > +++ b/lib/kunit/Makefile
+> > > @@ -30,4 +30,11 @@ obj-$(CONFIG_KUNIT_TEST) +=		string-stream-test.o
+> > >  obj-$(CONFIG_KUNIT_TEST) +=		assert_test.o
+> > >  endif
+> > >  
+> > > -obj-$(CONFIG_KUNIT_EXAMPLE_TEST) +=	kunit-example-test.o
+> > > +userprogs +=				kunit-example-uapi
+> > 
+> > clean-files +=				kunit-example-uapi
+> 
+> This shouldn't be necessary as $(userprogs) is automatically added to
+> __clean-files in scripts/Makefile.clean.
 
-Best regards,
-Nam
+oh yes, you're right.  Please do not any of these 'clean-files' lines.
+
+Kind regards,
+Nicolas
