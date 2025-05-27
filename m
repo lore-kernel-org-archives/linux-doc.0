@@ -1,63 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEF4280A4B;
-	Tue, 27 May 2025 18:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BBB189B80
+	for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 18:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748370613; cv=none; b=HNdCnep8d2c05HHvmIvFk+w4IMk2QU/tC4oBP3hesL0d+bUbkHkJYYWGRwH5imG0FDh0jCPmKQECFoPTG9/q7Md2kS9eg+PO3+QhjPBc1g/737Ooh9lMafox8Lx9aFFLQmAfa9k+SYd2aiCQFfFTbcw7exhKi9cIIvWA6PKBlTs=
+	t=1748371054; cv=none; b=onTSt12yJC9LJVxvTCr28c5HbNC0Ur8awc2esp1cP5Z36D0tDwvUCNybzo6PxCOBpjQRTtPym+AW4D5hbCquoQZxe3umSWf8Ai11yLQdjcogkLK0NuWt3v+ugGORc4Yml0KQH4iBL6fWi+MJm8qFAJKg+0CsXQqMpdT5pp4U3y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748370613; c=relaxed/simple;
-	bh=OhscU/fptDKfO2e1S8VTUwu7IqLv5KwjMioi27XGDEQ=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=spvX28OS47jpxS2HlTL5fGR/3s4PIbfzuLKZh7xFM62av50n7S1TSHNbjmx9/LCMDk88abw1MDNdQJq3fJsju9v6GjficcszMs7Q0q5u3eWYryhItYJZTv0gFaHlCA6StpfnDPat4wKkmNnh6t89EiJghyqEaNnbC4tkYhIECJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rYPYSTT+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748371054; c=relaxed/simple;
+	bh=TuQk566s+Q0ln3wP7QoM1+7HbVXdvrykoGXS+3NTsHo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YllIVUofxhGAfCuCyL3SzSUcN2TWUqFvDrZgycqP1fAXNj7cHDh1dpDV7ejZXxysrRC1X0qlGKJ/vOP/cs55nj734MskVeNrb3bCboeTm1kK3nrqJRnUreSb4PvF+qi/wCcMqAr8gVksbbfWwdtF6Zc6T3OyqzGj9OirEXEKy0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=G/lLt5+P; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rYPYSTT+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3214C4CEEA;
-	Tue, 27 May 2025 18:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748370613;
-	bh=OhscU/fptDKfO2e1S8VTUwu7IqLv5KwjMioi27XGDEQ=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=rYPYSTT+p4jfDvIT7p8pgNHBRIv9klbRBq4Vllfw0PszWWeoJimf0zog2KHZjarEN
-	 BKaPTVd5/+iDYFq3tgSWqM24vvT98aQn0OjZfR7Vw7ExEwUUA6POMOkiagzYi0qqXU
-	 G8q2aHWLFklbEOeajbFP25LFoZXArFfBt2z31qMEep/TqEtUY3Yd1phhPWdJo9rzXA
-	 eBnTlGxeHdKFpBG3kSA9PTEx0crjwf2d9y0iIbPnJUwi/EbtF3TIQCWuMJYyrWRZXD
-	 VH8fNk9tdCEG2aFEi5Zr8OVFfj4Cc0E910DfX47m8vF+HQGGPJk4U+QzKKzmufyn/N
-	 XKfpBuf5eapLw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70EA8380AAE2;
-	Tue, 27 May 2025 18:30:48 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation for 6.16
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87bjrekpp6.fsf@trenco.lwn.net>
-References: <87bjrekpp6.fsf@trenco.lwn.net>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87bjrekpp6.fsf@trenco.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.16
-X-PR-Tracked-Commit-Id: d6d886005d32e4380cee3d1095908875505ac2c6
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 3e443d167327b10966166c1953631936547b03d0
-Message-Id: <174837064704.1737688.1908442337069181721.pr-tracker-bot@kernel.org>
-Date: Tue, 27 May 2025 18:30:47 +0000
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="G/lLt5+P"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6046ecc3e43so4342907a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 11:37:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1748371050; x=1748975850; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hj2+lcjOXOZv7KiFPOZxmuP+mffssHA7pqR7imIqepY=;
+        b=G/lLt5+Pl+fuwo/hbvETbnCPz6ws3/LhSJtKRAHzXXxMluJ5PV+7WnSHfdEC6nB2rf
+         +TYhTxe5Sy1F5v9LFFl7hBj3zgosTrxelQSA9bvsgt+P7LPr7vejVpTNbqs6yHtWZPi1
+         2Oc6jWlylmETEIRjt/obJfFIHHIcCxNMW8DJE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748371050; x=1748975850;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hj2+lcjOXOZv7KiFPOZxmuP+mffssHA7pqR7imIqepY=;
+        b=d3/va3xOqD8U5QEQCgUdVdxjbOt1lfVzDcoMuUIs8nNrJBHKD6IGNxHc6vwiFw4NKb
+         Qsw9Ejwpse3kluDi3mScN0TVGChgYgJiVaU6+/sNsNT8woYf6XnN8mvuvYDcWcABL+4j
+         vAiVDBx10S7l3kV1a7odtWNPnTe2euILYIVtFq9g4p+8X6uAjG3fPT39JTVv26JCHTGA
+         9q1U5epr6AtyXqLKLgJ2T/7m5MZdQxYuvfMb8P4rUmCF5vh2/fMpkDPpqZbyDCDiYfnx
+         VQUgglprQsj0UHmL6Bi7YeVAfZMQn3kWrTxjJsViR2CkrwfxvpmmyIAyHBT95X2JYszX
+         b6XA==
+X-Forwarded-Encrypted: i=1; AJvYcCUh938ex7Xu70wchi290Ae4lkirjvo5RO1Vb+k1QGnwV6E4MA3wqs15TFi8VmvKezgh5VutRPnvtyQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz77EcUfXMhFoAJIe9qIJo6dxGlv6hjLCPoA0uFRSVr62F4MQPg
+	WEY/n/vZztK8e9dW9HxVvxVlw4l0cF1NLwjHyKqrjZVRWsa8onUHRNQC8uGeleBS8bp1lEr6jtl
+	m2dJB+AE=
+X-Gm-Gg: ASbGncvDFsmlQiFIAzDOVak4mp4N/5Me+2M1PQHGPpqVqlU5BrUY1azm7WzCfukyKui
+	AIw+mQ6qXG46orG3zVKjvy9vcfy+Q35Wgx22lAx9QUaxxBnn0XHfVBtxKo9BbF9z0S8PKcg+R+l
+	smRW1YNJTyj0FjnNhI8byHO0cCow97ugD0H3soxqcCO81g3Zpzu74Sn2xdCchbXhKadzmmmhEqE
+	BRHKAi+KeCgcwVhPMm+wyqYGX3mgxFhKyLREOX+vwHvqQTO3kRylBVzUsP6mHGGZc4XbJ62Acxi
+	7XXib94HgwhdBNJVOgT484ioxAp7da5po9IfsNfBmOL73NzrmTr3JBU/iuxOq7E2LKT7JruMTvL
+	WIMv1knMEsK79z5kTut527ozp
+X-Google-Smtp-Source: AGHT+IGGhIootA73gfy4Bg83mQPSE5V8Z0c9zacSRn5qG+4FVBX+KSCK1pxJ02WMRqF0V5oelYMLOQ==
+X-Received: by 2002:a05:6402:34d6:b0:601:94ab:790c with SMTP id 4fb4d7f45d1cf-602da2fb5a0mr12847877a12.18.1748371049902;
+        Tue, 27 May 2025 11:37:29 -0700 (PDT)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6051727d828sm3208a12.65.2025.05.27.11.37.29
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 May 2025 11:37:29 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso659425566b.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 11:37:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUwPsT6D3uSIEgSemEwX0zzOFi/cC4jvdb1g6bzjH+nV+MTzksaVW7YHbuX8AzGoD6BI8lc961ypTc=@vger.kernel.org
+X-Received: by 2002:a17:906:c144:b0:ad5:c312:513a with SMTP id
+ a640c23a62f3a-ad85b2c17a2mr1022204066b.56.1748371048991; Tue, 27 May 2025
+ 11:37:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <87bjrekpp6.fsf@trenco.lwn.net>
+In-Reply-To: <87bjrekpp6.fsf@trenco.lwn.net>
+From: Linus Torvalds <torvalds@linuxfoundation.org>
+Date: Tue, 27 May 2025 11:37:12 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wi6U90ddnUvh5A0AxBecSPczswRj4hsd2rvKeMv4pUNgQ@mail.gmail.com>
+X-Gm-Features: AX0GCFsyyQo8w_POWyPRKioQ18WfcIChszVMUzK-DjTlXF1qv-KGOOC-nNCgKe4
+Message-ID: <CAHk-=wi6U90ddnUvh5A0AxBecSPczswRj4hsd2rvKeMv4pUNgQ@mail.gmail.com>
+Subject: Re: [GIT PULL] Documentation for 6.16
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The pull request you sent on Tue, 27 May 2025 10:01:41 -0600:
+On Tue, 27 May 2025 at 09:01, Jonathan Corbet <corbet@lwn.net> wrote:
+>
+>  scripts/kernel-doc                                 | 2440 +-------------------
+>  scripts/kernel-doc.pl                              | 2439 +++++++++++++++++++
+>  [...]
+>  54 files changed, 7336 insertions(+), 2815 deletions(-)
+>  [...]
+> mode change 100755 => 120000 scripts/kernel-doc
+> create mode 100755 scripts/kernel-doc.pl
+> create mode 100755 scripts/kernel-doc.py
 
-> git://git.lwn.net/linux.git tags/docs-6.16
+Bah, I was unhappy about git creating this horribly diffstat, but it
+turns out that it's because the pull-request scripts by default don't
+use the fancier 'git diff' options.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/3e443d167327b10966166c1953631936547b03d0
+In particular, with the '-B' option, git will give much better results:
 
-Thank you!
+ scripts/kernel-doc                                 | 2440 +-------------------
+ scripts/{kernel-doc => kernel-doc.pl}              |    2 +-
+ [...]
+ 54 files changed, 4903 insertions(+), 2821 deletions(-)
+ [...]
+ rewrite scripts/kernel-doc (100%)
+ mode change 100755 => 120000
+ copy scripts/{kernel-doc => kernel-doc.pl} (99%)
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+but I think we never enabled the 'break rewrites' option by default
+because it generates diffs that I am not convinced non-git sources
+understand.
+
+Oh well. I just wanted to point out that git *can* do better than what
+the default settings make it do.
+
+          Linus
