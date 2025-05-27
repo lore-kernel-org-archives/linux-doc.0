@@ -1,153 +1,63 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38391CAA6C
-	for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 18:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEF4280A4B;
+	Tue, 27 May 2025 18:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748369764; cv=none; b=GmfUeJfekpcTLaB4mhnXPNoDs2i65CwrcvqHqwTjvSMmZ/finadbI2S/aVu82I0QT/RVwB1hmhBVFqnXd/6/hYPr7dwLvxdTV6eH6KlPysy3joUgbPCn9QoJR+sjgc/1KNVnf2lVCsF2Q7WMopbt6g8XV/Rr0Joq2ZTnmBlcL10=
+	t=1748370613; cv=none; b=HNdCnep8d2c05HHvmIvFk+w4IMk2QU/tC4oBP3hesL0d+bUbkHkJYYWGRwH5imG0FDh0jCPmKQECFoPTG9/q7Md2kS9eg+PO3+QhjPBc1g/737Ooh9lMafox8Lx9aFFLQmAfa9k+SYd2aiCQFfFTbcw7exhKi9cIIvWA6PKBlTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748369764; c=relaxed/simple;
-	bh=iUJ3YAqrX9ZTmc1NMHMhLqDQSB/nGX6czitUv/ydtnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qAhFcxpcnlX4e0ig4rL1rriMZ9fbgKsX9VWAazzo3ouGeWw71Fp3UUD/fMZbd7BOVCuEZ5XUlIz7R2FE24P/jLExelYcGnvBi21OsmP/tpurdr5Udhw+kmOPWBheD7qNGlVJfwUlU8auqAWsY4Au6mcxXmnUBZlkGTF7m13ev9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lvLaWjqW; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1748370613; c=relaxed/simple;
+	bh=OhscU/fptDKfO2e1S8VTUwu7IqLv5KwjMioi27XGDEQ=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=spvX28OS47jpxS2HlTL5fGR/3s4PIbfzuLKZh7xFM62av50n7S1TSHNbjmx9/LCMDk88abw1MDNdQJq3fJsju9v6GjficcszMs7Q0q5u3eWYryhItYJZTv0gFaHlCA6StpfnDPat4wKkmNnh6t89EiJghyqEaNnbC4tkYhIECJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rYPYSTT+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lvLaWjqW"
-Date: Tue, 27 May 2025 11:15:33 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1748369758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hgp7UFRFy924BDD+FB4aDdOCHtczOgvXd6rr5SomvVo=;
-	b=lvLaWjqWmcbwbDI9SnvAAklzWuKIlhtjpVMcOF4pHh+20rEa/pTZr5v1ISbaCr9S3OVMuv
-	zqd7Trm+lnrdoBM7KmRAz5w1A34aqoZaaa775IoTECuB8TXDQKeBftRMtQXqd8HShqQyix
-	RLRlzjHCwlC0vOZe6SgudD9NXXKtgbc=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: "Chen, Yu C" <yu.c.chen@intel.com>
-Cc: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
-	peterz@infradead.org, akpm@linux-foundation.org, mingo@redhat.com, tj@kernel.org, 
-	hannes@cmpxchg.org, corbet@lwn.net, mgorman@suse.de, mhocko@kernel.org, 
-	muchun.song@linux.dev, roman.gushchin@linux.dev, tim.c.chen@intel.com, 
-	aubrey.li@intel.com, libo.chen@oracle.com, kprateek.nayak@amd.com, 
-	vineethr@linux.ibm.com, venkat88@linux.ibm.com, ayushjai@amd.com, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, yu.chen.surf@foxmail.com
-Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
-Message-ID: <fpa42ohp54ewxxymaclnmiafdlfs7lbddnqhtv7haksdd5jq6z@mb6jxk3pl2m2>
-References: <cover.1748002400.git.yu.c.chen@intel.com>
- <7ef90a88602ed536be46eba7152ed0d33bad5790.1748002400.git.yu.c.chen@intel.com>
- <cx4s4pnw5ymr4bxxmvrkhc457krq46eh6zamlr4ikp7tn3jsno@xzchjlnnawe5>
- <uuhyie7udxyvbdpccwi7dl5cy26ygkkuxjixpl247u5nqwpcqm@5whxlt5ddswo>
- <a8314889-f036-49ff-9cda-01367ddccf51@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rYPYSTT+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3214C4CEEA;
+	Tue, 27 May 2025 18:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748370613;
+	bh=OhscU/fptDKfO2e1S8VTUwu7IqLv5KwjMioi27XGDEQ=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=rYPYSTT+p4jfDvIT7p8pgNHBRIv9klbRBq4Vllfw0PszWWeoJimf0zog2KHZjarEN
+	 BKaPTVd5/+iDYFq3tgSWqM24vvT98aQn0OjZfR7Vw7ExEwUUA6POMOkiagzYi0qqXU
+	 G8q2aHWLFklbEOeajbFP25LFoZXArFfBt2z31qMEep/TqEtUY3Yd1phhPWdJo9rzXA
+	 eBnTlGxeHdKFpBG3kSA9PTEx0crjwf2d9y0iIbPnJUwi/EbtF3TIQCWuMJYyrWRZXD
+	 VH8fNk9tdCEG2aFEi5Zr8OVFfj4Cc0E910DfX47m8vF+HQGGPJk4U+QzKKzmufyn/N
+	 XKfpBuf5eapLw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70EA8380AAE2;
+	Tue, 27 May 2025 18:30:48 +0000 (UTC)
+Subject: Re: [GIT PULL] Documentation for 6.16
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87bjrekpp6.fsf@trenco.lwn.net>
+References: <87bjrekpp6.fsf@trenco.lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87bjrekpp6.fsf@trenco.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.16
+X-PR-Tracked-Commit-Id: d6d886005d32e4380cee3d1095908875505ac2c6
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3e443d167327b10966166c1953631936547b03d0
+Message-Id: <174837064704.1737688.1908442337069181721.pr-tracker-bot@kernel.org>
+Date: Tue, 27 May 2025 18:30:47 +0000
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a8314889-f036-49ff-9cda-01367ddccf51@intel.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Tue, May 27, 2025 at 05:20:54PM +0800, Chen, Yu C wrote:
-> On 5/26/2025 9:35 PM, Michal Koutný wrote:
-> > On Fri, May 23, 2025 at 04:42:50PM -0700, Shakeel Butt <shakeel.butt@linux.dev> wrote:
-> > > Hmm these are scheduler events, how are these relevant to memory cgroup
-> > > or vmstat? Any reason to not expose these in cpu.stat?
-> > 
-> > Good point. If I take it further -- this functionality needs neither
-> > memory controller (CONFIG_MEMCG) nor CPU controller
-> > (CONFIG_CGROUP_SCHED), so it might be technically calculated and exposed
-> > in _any_ cgroup (which would be same technical solution how cpu time is
-> > counted in cpu.stat regardless of CPU controller, cpu_stat_show()).
-> > 
-> 
-> Yes, we can add it to cpu.stat. However, this might make it more difficult
-> for users to locate related events. Some statistics about NUMA page
-> migrations/faults are recorded in memory.stat, while others about NUMA task
-> migrations (triggered by NUMA faults periodicly) are stored in cpu.stat.
-> 
-> Do you recommend extending the struct cgroup_base_stat to include counters
-> for task_migrate/task_swap? Additionally, should we enhance
-> cgroup_base_stat_cputime_show() to parse task_migrate/task_swap in a manner
-> similar to cputime?
-> 
-> Alternatively, as Shakeel previously mentioned, could we reuse
-> "count_memcg_event_mm()" and related infrastructure while exposing these
-> statistics/events in cpu.stat? I assume Shakeel was referring to the
-> following
-> approach:
-> 
-> 1. Skip task migration/swap in memory.stat:
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index cdaab8a957f3..b8eea3eca46f 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -1529,6 +1529,11 @@ static void memcg_stat_format(struct mem_cgroup
-> *memcg, struct seq_buf *s)
->                 if (memcg_vm_event_stat[i] == PGPGIN ||
->                     memcg_vm_event_stat[i] == PGPGOUT)
->                         continue;
-> +#endif
-> +#ifdef CONFIG_NUMA_BALANCING
-> +               if (memcg_vm_event_stat[i] == NUMA_TASK_MIGRATE ||
-> +                   memcg_vm_event_stat[i] == NUMA_TASK_SWAP)
-> +                       continue;
->  #endif
-> 
-> 2.Skip task migration/swap in /proc/vmstat
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index ed08bb384ae4..ea8a8ae1cdac 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -1912,6 +1912,10 @@ static void *vmstat_next(struct seq_file *m, void
-> *arg, loff_t *pos)
->         (*pos)++;
->         if (*pos >= NR_VMSTAT_ITEMS)
->                 return NULL;
-> +#ifdef CONFIG_NUMA_BALANCING
-> +       if (*pos == NUMA_TASK_MIGRATE || *pos == NUMA_TASK_SWAP)
-> +               return NULL;
-> +#endif
-> 
-> 3. Display task migration/swap events in cpu.stat:
->  seq_buf_printf(&s, "%s %lu\n",
-> + vm_event_name(memcg_vm_event_stat[NUMA_TASK_MIGRATE]),
-> +                      memcg_events(memcg,
-> memcg_vm_event_stat[NUMA_TASK_MIGRATE]));
-> 
+The pull request you sent on Tue, 27 May 2025 10:01:41 -0600:
 
-You would need to use memcg_events() and you will need to flush the
-memcg rstat trees as well
+> git://git.lwn.net/linux.git tags/docs-6.16
 
-> 
-> It looks like more code is needed. Michal, Shakeel, could you please advise
-> which strategy is preferred, or should we keep the current version?
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3e443d167327b10966166c1953631936547b03d0
 
-I am now more inclined to keep these new stats in memory.stat as the
-current version is doing because:
+Thank you!
 
-1. Relevant stats are exposed through the same interface and we already
-   have numa balancing stats in memory.stat.
-
-2. There is no single good home for these new stats and exposing them in
-   cpu.stat would require more code and even if we reuse memcg infra, we
-   would still need to flush the memcg stats, so why not just expose in
-   the memory.stat.
-
-3. Though a bit far fetched, I think we may add more stats which sit at
-   the boundary of sched and mm in future. Numa balancing is one
-   concrete example of such stats. I am envisioning for reliable memory
-   reclaim or overcommit, there might be some useful events as well.
-   Anyways it is still unbaked atm.
-
-
-Michal, let me know your thought on this.
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
