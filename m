@@ -1,155 +1,153 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5B4283FD9
-	for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 17:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38391CAA6C
+	for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 18:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748368668; cv=none; b=tvpgDG6AgG2WU1GKVwqsJtcxIS5ZeOKSas5uoN927UE5LB5We+iXXuZJaFktZckjP2WPeKCSXXDCLOt0JzHERYy+hlJwaApUf5+q7rhrSnvAYO8ganeQ9gIEP8SUE+L4v/YRu0IhRYaFQXyWXZ5TwdHCuLnQHXJ6oWbgdSu8yQI=
+	t=1748369764; cv=none; b=GmfUeJfekpcTLaB4mhnXPNoDs2i65CwrcvqHqwTjvSMmZ/finadbI2S/aVu82I0QT/RVwB1hmhBVFqnXd/6/hYPr7dwLvxdTV6eH6KlPysy3joUgbPCn9QoJR+sjgc/1KNVnf2lVCsF2Q7WMopbt6g8XV/Rr0Joq2ZTnmBlcL10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748368668; c=relaxed/simple;
-	bh=Pba0PHIEYIGNrf6XjJ6nlDeAkd8emTX4pz2cTHqOo1M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rdxf+l+AP0Qlevf4h5RE5xKEvpVcvO1A974a7vWhKbSx6148souVwhGplfEtEITs8F8GCcWfY3DDxLBLAo65zEtZXQd1pva7ul+J8V1tGvlPR2IGpleF94l8FI0q/QCAI650Ks7HZYgXnWCDVFlNIDx1aERwFj9aK1cUrUddEGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AcKh1dl0; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1748369764; c=relaxed/simple;
+	bh=iUJ3YAqrX9ZTmc1NMHMhLqDQSB/nGX6czitUv/ydtnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qAhFcxpcnlX4e0ig4rL1rriMZ9fbgKsX9VWAazzo3ouGeWw71Fp3UUD/fMZbd7BOVCuEZ5XUlIz7R2FE24P/jLExelYcGnvBi21OsmP/tpurdr5Udhw+kmOPWBheD7qNGlVJfwUlU8auqAWsY4Au6mcxXmnUBZlkGTF7m13ev9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lvLaWjqW; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AcKh1dl0"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-442ea341570so27014295e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 10:57:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748368665; x=1748973465; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K66IbQMbjje707cA7mD5l9PP1/zHD1PIxR0a5Pb7bKE=;
-        b=AcKh1dl09BJNIrEtzO5y7K8k18nGIPCE0WjRxjU2h4vbth9eLkCuPykk5CpWMjuKBw
-         ErbtEi+Y4OS7Wjjw56BGtsDKYnemLCy1vzp6WuBauRVUCcSWmcdfxMibegATfMirNwgn
-         i7KARmrXOvpBN97SpVVor6TGV46mb4LQPpYbaZuHCVs07r1qjAQVnp1rltm8O+kzLVE+
-         RzsomXZrFk36qXsStK2SeaNK0+VMtUk2eWKBROyvqkMmfSqvm9bTGIpnrfsOQDTrQIdQ
-         vFJWy4LqP3LtCviBCvAtx079WfmjwZqnjLIWTmocN0J2lO5UvUA+Kyccjurk2ABBqUeV
-         sTqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748368665; x=1748973465;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K66IbQMbjje707cA7mD5l9PP1/zHD1PIxR0a5Pb7bKE=;
-        b=ZZALXefOSsJrF3cmG9Sgm/VVcgkt0b5O+viNK7mxyD/ukqtodQd5GPkYnC1BQtL3K+
-         C0Z/AtAfBpi50eGiQ63zbH2XONsHTbEWsWU1y96qHWpPDZO5CUAQoJzYCJ72UFR1/6/e
-         /CUWgoyo1dmGGOwYyMTNFFLkXrksR/5fZHcjD37/n9HXadc4M17BG1KKVLWiKWjb8c6R
-         FNlkVyNaPSO9S23Ty+FeEglnbDAWpiYomVsgBNkcv3HwwVYdIpcqSulo+QHQ8Lc8jQRt
-         QXqK5j53Ws1zsouVu/jV+Rp11INTLW74bSNPDWfs6J5AbKcdgOFwydNfSiTTuBUFY3JT
-         agAA==
-X-Forwarded-Encrypted: i=1; AJvYcCXFcZPIxx2pjl5WN3fUs85bVbetuDp43r2YUGLTBaNzNlHV9g6KZ7zndDj6/HtxqOgQ6IWMpLaXV0g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0F9DB8xN6MVlgfiAV+mQjAWFsWfBoutxkUDXatg2zsq7UU0Ei
-	DrNvI02JydJagDzIO0dQJ4UXjhGRvrwoteqY4ihInyomVJ+fc+XfNcw42Y/RosTSz8Y=
-X-Gm-Gg: ASbGncuC7F9txcOkM8IMLzQjCKy+aA11Kwbs6Jmi3Nf16Yic+Ku+sQUFaOBbaQuN7R+
-	rZA6P2oDAU1ZPnz6BW7iyRE1QMg7lapKX8eJ1xWjXwLj/5DLmnN031qrNCVr1Oa225RdU0X5XWS
-	K+FAB974osi1JtkMH9xQhJBLAB0sP0iUXSntjcVfppX/MKvdZ9ZqLZQawTvLN0aRIu4QM0E6z9R
-	U7U7UhJ77TXG3evdEaCMjHL9H+Y8AvzPuUVU6SRI8oYjQA9eB1OUzCuon0mTi4SFPe0NNU151aG
-	O1JFr1acRwNwKXYUGOFdwlHsqyBPWw6JIfj+EN41CXZRuPeNwpp7Yu7u
-X-Google-Smtp-Source: AGHT+IGWVp+1pe2g72Y3zco5kiY52P50nzKLHDIXvLoqcgNBLuwmb5ic8TmQyg2vlxnYIHLktroXHw==
-X-Received: by 2002:a05:600c:1e1c:b0:441:d438:4ea5 with SMTP id 5b1f17b1804b1-44c9493e6b1mr107966315e9.20.1748368664703;
-        Tue, 27 May 2025 10:57:44 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.136.128])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f6b29548sm290642395e9.4.2025.05.27.10.57.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 May 2025 10:57:44 -0700 (PDT)
-Message-ID: <c2393238-d1cb-43bd-b67e-08105a9834fd@linaro.org>
-Date: Tue, 27 May 2025 18:57:43 +0100
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lvLaWjqW"
+Date: Tue, 27 May 2025 11:15:33 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1748369758;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hgp7UFRFy924BDD+FB4aDdOCHtczOgvXd6rr5SomvVo=;
+	b=lvLaWjqWmcbwbDI9SnvAAklzWuKIlhtjpVMcOF4pHh+20rEa/pTZr5v1ISbaCr9S3OVMuv
+	zqd7Trm+lnrdoBM7KmRAz5w1A34aqoZaaa775IoTECuB8TXDQKeBftRMtQXqd8HShqQyix
+	RLRlzjHCwlC0vOZe6SgudD9NXXKtgbc=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: "Chen, Yu C" <yu.c.chen@intel.com>
+Cc: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	peterz@infradead.org, akpm@linux-foundation.org, mingo@redhat.com, tj@kernel.org, 
+	hannes@cmpxchg.org, corbet@lwn.net, mgorman@suse.de, mhocko@kernel.org, 
+	muchun.song@linux.dev, roman.gushchin@linux.dev, tim.c.chen@intel.com, 
+	aubrey.li@intel.com, libo.chen@oracle.com, kprateek.nayak@amd.com, 
+	vineethr@linux.ibm.com, venkat88@linux.ibm.com, ayushjai@amd.com, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, yu.chen.surf@foxmail.com
+Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
+Message-ID: <fpa42ohp54ewxxymaclnmiafdlfs7lbddnqhtv7haksdd5jq6z@mb6jxk3pl2m2>
+References: <cover.1748002400.git.yu.c.chen@intel.com>
+ <7ef90a88602ed536be46eba7152ed0d33bad5790.1748002400.git.yu.c.chen@intel.com>
+ <cx4s4pnw5ymr4bxxmvrkhc457krq46eh6zamlr4ikp7tn3jsno@xzchjlnnawe5>
+ <uuhyie7udxyvbdpccwi7dl5cy26ygkkuxjixpl247u5nqwpcqm@5whxlt5ddswo>
+ <a8314889-f036-49ff-9cda-01367ddccf51@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v21 4/4] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-To: Will Deacon <will@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>, Leo Yan <leo.yan@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org>
- <20250407-arm-brbe-v19-v21-4-ff187ff6c928@kernel.org>
- <20250519150621.GA17177@willie-the-truck>
- <20250519215651.GB2650608-robh@kernel.org>
- <119c9a70-6ea8-46f0-b877-8a433d97ce84@linaro.org>
- <20250527105035.GA26328@willie-the-truck>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20250527105035.GA26328@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a8314889-f036-49ff-9cda-01367ddccf51@intel.com>
+X-Migadu-Flow: FLOW_OUT
 
-
-
-On 27/05/2025 11:50 am, Will Deacon wrote:
-> On Wed, May 21, 2025 at 04:58:42PM +0100, James Clark wrote:
->>
->>
->> On 19/05/2025 10:56 pm, Rob Herring wrote:
->>> On Mon, May 19, 2025 at 04:06:22PM +0100, Will Deacon wrote:
->>>> Hey Rob,
->>>>
->>>> On Mon, Apr 07, 2025 at 12:41:33PM -0500, Rob Herring (Arm) wrote:
->>>>> From: Anshuman Khandual <anshuman.khandual@arm.com>
->>>>>
->>>>> The ARMv9.2 architecture introduces the optional Branch Record Buffer
->>>>> Extension (BRBE), which records information about branches as they are
->>>>> executed into set of branch record registers. BRBE is similar to x86's
->>>>> Last Branch Record (LBR) and PowerPC's Branch History Rolling Buffer
->>>>> (BHRB).
->>>>
->>>> Since you picked this up from v19, the driver has changed considerably
->>>> and I presume you will be continuing to extend it in future as the
->>>> architecture progresses. Perhaps having you listed as Author (and
->>>> crucially, in git blame :p) with Anshuman as a Co-developed-by: would be
->>>> more appropriate?
->>>
->>> Shrug.
->>>
->>>>> ---
->>>>>    drivers/perf/Kconfig         |  11 +
->>>>>    drivers/perf/Makefile        |   1 +
->>>>>    drivers/perf/arm_brbe.c      | 802 +++++++++++++++++++++++++++++++++++++++++++
->>>>>    drivers/perf/arm_brbe.h      |  47 +++
->>>>>    drivers/perf/arm_pmu.c       |  15 +-
->>>>>    drivers/perf/arm_pmuv3.c     | 129 ++++++-
->>>>>    include/linux/perf/arm_pmu.h |   8 +
->>>>>    7 files changed, 1006 insertions(+), 7 deletions(-)
->>>>
->>>> Do you know if James Clark's tests [1] are going to be respun for the
->>>> perf tool? It would be handy to have some way to test this new
->>>> functionality.
->>>
->>> Yes. I dropped them here because I've been told by Arnaldo in the past
->>> to send userspace stuff separately.
->>>
->>
->> That version of the test was out of date so I've pushed the new version
->> here: https://git.linaro.org/plugins/gitiles/people/james.clark/linux.git/+/16e4a18c2d5fc53736f05c9052b1d11d74909707
->>
->> But I'll wait for the driver changes to be finalised before posting it. Or
->> Rob can take it back into the patchset.
+On Tue, May 27, 2025 at 05:20:54PM +0800, Chen, Yu C wrote:
+> On 5/26/2025 9:35 PM, Michal Koutný wrote:
+> > On Fri, May 23, 2025 at 04:42:50PM -0700, Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> > > Hmm these are scheduler events, how are these relevant to memory cgroup
+> > > or vmstat? Any reason to not expose these in cpu.stat?
+> > 
+> > Good point. If I take it further -- this functionality needs neither
+> > memory controller (CONFIG_MEMCG) nor CPU controller
+> > (CONFIG_CGROUP_SCHED), so it might be technically calculated and exposed
+> > in _any_ cgroup (which would be same technical solution how cpu time is
+> > counted in cpu.stat regardless of CPU controller, cpu_stat_show()).
+> > 
 > 
-> Thanks, James. I just wanted to make sure that there was still a plan
-> for upstreaming these separately from the driver. Have you had a chance
-> to run them against this v21?
+> Yes, we can add it to cpu.stat. However, this might make it more difficult
+> for users to locate related events. Some statistics about NUMA page
+> migrations/faults are recorded in memory.stat, while others about NUMA task
+> migrations (triggered by NUMA faults periodicly) are stored in cpu.stat.
 > 
-> Will
+> Do you recommend extending the struct cgroup_base_stat to include counters
+> for task_migrate/task_swap? Additionally, should we enhance
+> cgroup_base_stat_cputime_show() to parse task_migrate/task_swap in a manner
+> similar to cputime?
+> 
+> Alternatively, as Shakeel previously mentioned, could we reuse
+> "count_memcg_event_mm()" and related infrastructure while exposing these
+> statistics/events in cpu.stat? I assume Shakeel was referring to the
+> following
+> approach:
+> 
+> 1. Skip task migration/swap in memory.stat:
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index cdaab8a957f3..b8eea3eca46f 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -1529,6 +1529,11 @@ static void memcg_stat_format(struct mem_cgroup
+> *memcg, struct seq_buf *s)
+>                 if (memcg_vm_event_stat[i] == PGPGIN ||
+>                     memcg_vm_event_stat[i] == PGPGOUT)
+>                         continue;
+> +#endif
+> +#ifdef CONFIG_NUMA_BALANCING
+> +               if (memcg_vm_event_stat[i] == NUMA_TASK_MIGRATE ||
+> +                   memcg_vm_event_stat[i] == NUMA_TASK_SWAP)
+> +                       continue;
+>  #endif
+> 
+> 2.Skip task migration/swap in /proc/vmstat
+> diff --git a/mm/vmstat.c b/mm/vmstat.c
+> index ed08bb384ae4..ea8a8ae1cdac 100644
+> --- a/mm/vmstat.c
+> +++ b/mm/vmstat.c
+> @@ -1912,6 +1912,10 @@ static void *vmstat_next(struct seq_file *m, void
+> *arg, loff_t *pos)
+>         (*pos)++;
+>         if (*pos >= NR_VMSTAT_ITEMS)
+>                 return NULL;
+> +#ifdef CONFIG_NUMA_BALANCING
+> +       if (*pos == NUMA_TASK_MIGRATE || *pos == NUMA_TASK_SWAP)
+> +               return NULL;
+> +#endif
+> 
+> 3. Display task migration/swap events in cpu.stat:
+>  seq_buf_printf(&s, "%s %lu\n",
+> + vm_event_name(memcg_vm_event_stat[NUMA_TASK_MIGRATE]),
+> +                      memcg_events(memcg,
+> memcg_vm_event_stat[NUMA_TASK_MIGRATE]));
+> 
+
+You would need to use memcg_events() and you will need to flush the
+memcg rstat trees as well
+
+> 
+> It looks like more code is needed. Michal, Shakeel, could you please advise
+> which strategy is preferred, or should we keep the current version?
+
+I am now more inclined to keep these new stats in memory.stat as the
+current version is doing because:
+
+1. Relevant stats are exposed through the same interface and we already
+   have numa balancing stats in memory.stat.
+
+2. There is no single good home for these new stats and exposing them in
+   cpu.stat would require more code and even if we reuse memcg infra, we
+   would still need to flush the memcg stats, so why not just expose in
+   the memory.stat.
+
+3. Though a bit far fetched, I think we may add more stats which sit at
+   the boundary of sched and mm in future. Numa balancing is one
+   concrete example of such stats. I am envisioning for reliable memory
+   reclaim or overcommit, there might be some useful events as well.
+   Anyways it is still unbaked atm.
 
 
-Yes I'll send it once the driver is merged. And yes they're passing 
-against v21, but I'll retest v22 as well.
-
-James
-
+Michal, let me know your thought on this.
