@@ -1,121 +1,95 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4591276050;
-	Tue, 27 May 2025 14:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EC52741CD;
+	Tue, 27 May 2025 14:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748357516; cv=none; b=S9PimCnmnGcA7JXVKQ5/B7K7s4sw7MyZw2j+vX23X/ggeFY3kNnxCNFFBNyKKpv3m00otwY/iHirzXaGwDrnN7U2WwQbLwi++YBzKs2zGwo+lcZqA5yJJpymn0AwlcpvRtfB438ke8Ufqd1h4FVBcryU91/PJSqy0+I/UY0XpiI=
+	t=1748357767; cv=none; b=mAnkuQ0lEkTsBsdjHc0WMLDXL3yiVkK6Aq2pOLYYpkQ+1r8ACkinbS3SRqvCMf/0AQ4+CqfBTwVoXUB0PEaSTtCiDEfSK33YvxhZVzUWP0NvULJQj1q0p3VkW9XlM0U2BAX/nPOvxz22buxqhJGd2y+iUNdcDkEP1xkH5jraIhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748357516; c=relaxed/simple;
-	bh=cmWVBXyCnDhgtaqPxFZD0Z5OdQ75nRbRM5ot30LJH88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ob48WrOcEKxzQjDlwaBq+oNL6Ve+QwvxDCepAiMlvJ17ptQqbY0mqH0tbaGnS/YTk8yuf9GufwuwEBkik+CEO1ymUomApVQO57AXnaiQjKVoraHJQOMuYlZHYGR3SFea77MGR3H4cfmKunJoHtfLzeqVSPOucWUPrdJHN+xQjpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wdY3kauB; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1iMWerTV; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1748357767; c=relaxed/simple;
+	bh=eHjuqyD/lQ2vZbdAqRApvQJs6xFS6RwU6ELtBYhM/1Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cFY48o+nx3i7JAfNXGxcCw0XyFogCLIFHF3sCotDbwuDo9jI/0oOS33o/5A5gur5dwaeaP0vUquYcdwYxx0Id4b5pyVfPWLqmh0T5Sovl3h33hItHn09amvgVQojKFVFzinmJWAlW/3silT8Vb29PFqJKYTqn3sbR82LKYP1AfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=imp5Goyi; arc=none smtp.client-ip=211.125.140.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wdY3kauB";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1iMWerTV"
-Date: Tue, 27 May 2025 16:51:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1748357510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BLLddXy0LKyaYi11oTN10X4v2tluFuR5tW4jJF8R+Xo=;
-	b=wdY3kauBDESuhaepipwXdJdgLTkWmkFa9CQ/5nbSYokghUU/PYCjiw4zc2k9p4cgDT7bqQ
-	YWCSK5Xeq74PvsjJpif9AstmIaS0d6DvW89DIIfBG9wBrnboG6p5jC5Jae8WStSAkoqXsi
-	NyRl5qMujotsvzQ/YwFabxxxDaavmHa2XIkLcDhjosta+FX5hWwza8Rw9ugUm0hmrdphIw
-	Rzk1K/Fs9+UrTMLiEpGXx13X7iLnRwh6EwgvQQSvtHGypCkXQMvJQDbU/S2ReB1s8x+8/x
-	s8TXCKqTsDxvM+3I6ZqTxLciCikNlqiATIjXyQGB2y6UTDSTF708GHfSfr/0sQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1748357510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BLLddXy0LKyaYi11oTN10X4v2tluFuR5tW4jJF8R+Xo=;
-	b=1iMWerTV4u9O+OZ2CvRWA5izDulQijwZXuRVry3Qbczp+j+ZeBmhTjEm+guXnYhJ2C1PPl
-	h4TW8EVhEb+wZTBg==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 09/11] kunit: uapi: Add example for UAPI tests
-Message-ID: <20250527164906-a0121867-5b6d-43ae-9263-ca2bebf44d99@linutronix.de>
-References: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
- <20250407-kunit-kselftests-v2-9-454114e287fd@linutronix.de>
- <20250526-marvellous-abstract-koala-317cb4@l-nschier-aarch64>
- <20250526164038-12259c68-586f-4a24-a814-8ffed5778742@linutronix.de>
- <20250527-dark-uakari-from-pluto-fbc8ae@l-nschier-aarch64>
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="imp5Goyi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1748357765; x=1779893765;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:to:cc;
+  bh=SAxZMW8DM6vr+NwIFGrS4q745icm/7PJVP1QCR1Pedw=;
+  b=imp5GoyiL+FcyvHqZruykVJME22oyODZ3n/CUKaae76XoBX7cIp9SeOm
+   yxxHZlPgbmjYnVNkd3EADdiWCJ+KCx+MEOS6do+DUovfJGj0NxRd8k+jS
+   Fku8KaJPc4eH3TiTVM43NN3nL2642CyE3mQ534nzLYKIz/bq8nYaxhYbg
+   MxvLUVRtLKGy6W9qOhjqZmzaVoCJI7tqmftyqt+FLpXSfiJ/v1zv7Agk6
+   P6D27Wggh5nuRc+wp+rQodv5Roz4u2q5nACuaygCuPBDKePCFSqLGZjMl
+   kIGo3Xpz6aaIpDPjqlY+0KpaWhukm/hKi7xoh9kmQ4/ys3EuhWrcNZlMe
+   A==;
+Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
+  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 23:56:03 +0900
+X-IronPort-AV: E=Sophos;i="6.15,318,1739804400"; 
+   d="scan'208";a="534627491"
+Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob02.noc.sony.co.jp with ESMTP; 27 May 2025 23:56:03 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+Subject: [PATCH v2 0/2] sched_deadline, docs: update rt-app examples, add
+ cgroup v2 cpuset HOWTO
+Date: Tue, 27 May 2025 23:55:56 +0900
+Message-Id: <20250527-sched-deadline-cpu-affinity-v2-0-b8b40a4feefa@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250527-dark-uakari-from-pluto-fbc8ae@l-nschier-aarch64>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHzSNWgC/43NTQ6CMBCG4auQWTumreIPK+9hWJTpVCbRlrRIJ
+ IS7WzmBy+dbvN8CmZNwhqZaIPEkWWIoMLsKqLfhwSiuGIwytaqNwUw9O3Rs3VMCIw1vtN5LkHH
+ GTnVHdl45R1cohSGxl89Wv7fFveQxpnk7m/Rv/a87adRo9NnQ6XKwZOmWY5j3FF/Qruv6Ba0EJ
+ qrFAAAA
+X-Change-ID: 20250522-sched-deadline-cpu-affinity-b0b4edf0ddc9
+To: Jonathan Corbet <corbet@lwn.net>, Juri Lelli <juri.lelli@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Shinya Takumi <shinya.takumi@sony.com>, 
+ Shashank Balaji <shashank.mahadasyam@sony.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1047;
+ i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
+ bh=eHjuqyD/lQ2vZbdAqRApvQJs6xFS6RwU6ELtBYhM/1Y=;
+ b=owGbwMvMwCV2mPH4Ij++H1mMp9WSGDJML9WdKQ3r+ddbYDW/I0sx6oz258omN+amI4kVDQ/LF
+ vywuPewo5SFQYyLQVZMkeWdzLoLB60sm74eZ/gGM4eVCWQIAxenAExk2lKG/36B/3If3GjTF358
+ 8N9iftFb+mUfzVbZvLN99ffC0T9N26oZ/kf3bCo3jNfn+L/kS+rZ4uALDWuD+PznTM/b8nSCw7d
+ DRXwA
+X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
+ fpr=EE1CAED0C13A3982F5C700F6C301C7A24E0EF86A
 
-On Tue, May 27, 2025 at 03:56:17PM +0200, Nicolas Schier wrote:
-> On Mon, May 26, 2025 at 04:50:19PM +0200, Thomas Weiﬂschuh wrote:
-> > On Mon, May 26, 2025 at 04:22:02PM +0200, Nicolas Schier wrote:
-> > > On Mon, Apr 07, 2025 at 09:42:46AM +0200, Thomas Weiﬂschuh wrote:
-> > > > Extend the example to show how to run a userspace executable.
-> > > > 
-> > > > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> > > > ---
-> > > >  lib/kunit/.kunitconfig         |  2 ++
-> > > >  lib/kunit/Makefile             |  9 ++++++++-
-> > > >  lib/kunit/kunit-example-test.c | 15 +++++++++++++++
-> > > >  lib/kunit/kunit-example-uapi.c | 22 ++++++++++++++++++++++
-> > > >  4 files changed, 47 insertions(+), 1 deletion(-)
-> > > 
-> > > 
-> > > Adding this diff allows 'make clean' to clean up the UAPI test binary:
-> > > 
-> > > 
-> > > diff --git a/lib/Makefile b/lib/Makefile
-> > > --- a/lib/Makefile
-> > > +++ b/lib/Makefile
-> > > @@ -112,8 +112,6 @@ CFLAGS_REMOVE_test_fpu_impl.o += $(CC_FLAGS_NO_FPU)
-> > >  # Some KUnit files (hooks.o) need to be built-in even when KUnit is a module,
-> > >  # so we can't just use obj-$(CONFIG_KUNIT).
-> > > -ifdef CONFIG_KUNIT
-> > > -obj-y += kunit/
-> > > -endif
-> > > +obj-$(if $(CONFIG_KUNIT),y) += kunit/
-> > 
-> > Wouldn't the following be sufficient?
-> > 
-> > obj-y += kunit/
-> > 
-> > The the kunit Makefile doesn't do anything if CONFIG_KUNIT=y and AFAIK for
-> > directories obj-m and obj-y should do the same.
-> 
-> that's wrong.  In lib/kunit/Makefile there is
-> 
->     obj-y += hooks.o
-> 
-> thus, lib/kunit/hooks.o would then be built unconditionally (even w/o 
-> CONFIG_KUNIT).
+The main goal of this patchset is to add the cgroup v2 cpuset controller HOWTO.
+In v1 of this series, Juri commented that rt-app no longer takes command-line
+options. So I ended up converting the rt-app examples to either use chrt instead
+or use config.json.
 
-Indeed, thanks for the hint.
+Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+---
+Changes in v2:
+- update rt-app examples to either use a chrt example or use config.json
+- Link to v1: https://lore.kernel.org/r/20250522-sched-deadline-cpu-affinity-v1-1-2172c683acac@sony.com
 
-> Iff we would add 'obj-y += kunit/' in lib/Makefile we'd have to adjust the 
-> hooks.o line in lib/kunit/Makefile appropriately.
+---
+Shashank Balaji (2):
+      sched_deadline, docs: replace rt-app examples with chrt or use config.json
+      sched_deadline, docs: add affinity setting with cgroup2 cpuset controller
 
-I'll go with the 'obj-y += kunit/' solution for now.
-It keeps the special logic for hook.o in a single place, gets rid of a
-duplicate comment and is easier to understand.
+ Documentation/scheduler/sched-deadline.rst | 77 ++++++++++++++++++++----------
+ 1 file changed, 53 insertions(+), 24 deletions(-)
+---
+base-commit: 914873bc7df913db988284876c16257e6ab772c6
+change-id: 20250522-sched-deadline-cpu-affinity-b0b4edf0ddc9
 
-<snip>
+Best regards,
+-- 
+Shashank Balaji <shashank.mahadasyam@sony.com>
+
