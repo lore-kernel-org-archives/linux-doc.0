@@ -1,147 +1,132 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBB31AC891;
-	Wed, 28 May 2025 13:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17349279903;
+	Wed, 28 May 2025 13:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748438248; cv=none; b=iZrJyYhcLrTLpuvxTsR+5t2nxHqt677QrgSv4taKW1nVqI0KijS9pArmLav4QfEnY+ba5riFw3dIVc440XNHiv8u1F4L7kAo1shUenvHGs+tFiViPL9eDsVDMh13llnNQAqsW4omAQtIe+1KNt4eISWUa8yZp47Zmo9QSJfgMis=
+	t=1748438332; cv=none; b=gFkpm5dbBshHgN6LsuzYaNBWcf+AhqvMCXR8ic8ZVDLTvdcZfOhXmfceRMie3oXPVBoEPo7km2cMiAwGNYeFGpeOoYRCAqbVdOX4+rQOvvkxwa/++lOy7q6/2jZix+iFu2gRq/3qIP8gvby02Apgy3fi0KbjKAS51NUlWK+5/7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748438248; c=relaxed/simple;
-	bh=XyqXMFLpjQUAOlJ4J5EDK/pH8DkmZweApWK3C83/s9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lTwtom7UDk55/6MI0z4C4+F/pyV0v0TSW/kNCxSY7+5AP0t7qQpdC1f4/IGu8YpJGJN31zuJnWHJjSRMOOT7/Lyz/cpr4Rw/dBQMqZa7dBuxZA5RPeeHXDuF3ANT82I52wyGgn2Ye5xZ/yYLVDL5dVirbYnSgEGsr6sx/NFOkm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=f5pa5OML; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1748438332; c=relaxed/simple;
+	bh=7HyDbaSY7vbBw4ErHLqBEibTA7gjG9fAwM9QL6eQWEE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=udMn2d7KxXelz7xFMPWr3zspSUSMmT7HDlbE8aF+6iGWQJtoKISiMRLOYvfjvvMb+xLAy8Dx8q+rArzhvyhk4QLapr+bXLxzgs3OrHU2/fu4aOqwaPL2J/udguXjSE41zenrPqFyXAl8xdIaAiqSOO7kQMpi9PSiDCVNxjzFaC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=swqB3TSB; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="f5pa5OML"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6A39F43B39;
-	Wed, 28 May 2025 13:17:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1748438238;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jhe4l8G7g9CuqxjAYyb4mOmnurWtrgOLitbau5hV8GQ=;
-	b=f5pa5OML32eamqT/6wf2JaYwGb0E5OBrE0uNEUr8vEb16KKhlfBTpZDLQHmDC/oAIXmR9t
-	vcX791GXDtrvMNye5H6KAGRHoyE3dUpWmtObyq6EskJBei0K/i9c1Tr4phPLQAOKuAzPHA
-	vi77pjqXAe+bz+l4KaFY9wvE47MJaWIyyfYpJEChna3qJI07jAqbeQEv/h0M1CjLFQOmes
-	rfK8CxgR7KVVBBVCs63WpBYxdL6QLOFCThoNCHt306T6lLopESzqT6oLss/sDpaI5Oj10w
-	mONgTGbx2jnBGcMlY5QDvJTbNctGKdnZTt47lbkAlN3/KKQg5tt6FiHHCwkZYQ==
-Date: Wed, 28 May 2025 15:17:15 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
- <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
- <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
- Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH net-next v12 00/13] Add support for PSE budget
- evaluation strategy
-Message-ID: <20250528151715.59b8f738@kmaincent-XPS-13-7390>
-In-Reply-To: <8b3cdc35-8bcc-41f6-84ec-aee50638b929@redhat.com>
-References: <20250524-feature_poe_port_prio-v12-0-d65fd61df7a7@bootlin.com>
-	<8b3cdc35-8bcc-41f6-84ec-aee50638b929@redhat.com>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="swqB3TSB"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S2XrjN012354;
+	Wed, 28 May 2025 13:18:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=i7TrvR
+	j1Oh8eIIYCbVDuZ00tzac1Amn0ypbuJeHijFo=; b=swqB3TSB/cWJG8cQzXKMJb
+	uGGBXFDlHgDAs2WkR7xFdENjsZ7CUZ2d+bLeKV1H0u63Srbo3Qjmfr5hJ5xLbcj8
+	WXqssT+eo1Abhhf1C+FPXp38wB1sfT3VlCLEtnmBqnZqe6PHm7aTb2xe3IvyJTPW
+	N8s28tnNZXys7tqWiMQe3dc/9Gy1n4FOOD2Lq/QQZkzuSMxqgDQTzDXXr3QfdhkI
+	xwpmfh7yrNrULImZr7Dgs59qttHKFGgSjagMvKu/XuMgsLFrr1et07aQO+DbZPFj
+	Xa07F5o8pLINVX69ZqHUqO6bYeajXVgQmDY+YlCcweLE1m29qcWFccWWx+uI9feg
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46wgsgd19b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 May 2025 13:18:45 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54SAhupU021309;
+	Wed, 28 May 2025 13:18:44 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 46utnmqds9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 May 2025 13:18:44 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54SDIgXZ22086032
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 May 2025 13:18:42 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9583120043;
+	Wed, 28 May 2025 13:18:42 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B454E20040;
+	Wed, 28 May 2025 13:18:40 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.124.209.136])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 28 May 2025 13:18:40 +0000 (GMT)
+Date: Wed, 28 May 2025 18:48:37 +0530
+From: Vishal Chourasia <vishalc@linux.ibm.com>
+To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: cgroup: clarify controller enabling
+ semantics
+Message-ID: <aDcNLTA2JfoLXdIM@linux.ibm.com>
+References: <20250527085335.256045-2-vishalc@linux.ibm.com>
+ <vzdrzqphpjnvrfynx7ajdrgfraavebig4edipde3kulxp2euqh@7p32zx7ql6k6>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvfeefieculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefguddtfeevtddugeevgfevtdfgvdfhtdeuleetffefffffhffgteekvdefudeiieenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvkedprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtp
- dhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomh
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <vzdrzqphpjnvrfynx7ajdrgfraavebig4edipde3kulxp2euqh@7p32zx7ql6k6>
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=OIIn3TaB c=1 sm=1 tr=0 ts=68370d35 cx=c_pps a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17 a=8nJEP1OIZ-IA:10 a=dt9VzEwgFbYA:10 a=VnNF1IyMAAAA:8 a=sJNq94hGihU767Vwfd0A:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+X-Proofpoint-GUID: gZa7q5qYtC7tZPcdzV8irWfpZBYMoIy-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDExNCBTYWx0ZWRfX2i0x2PtMVyNe WNd4x+G9moReVzqwHJVaW2rnDGAFW7ON7PDNgUJuHf1CpZ0u1346LDUK9PWNBUH6kuRJUf2jGFm Dy4g4lYq8Xt+I3wr6U09pbljwqD84IHGVD5j3B9VMLXz1NG8TpCj+E3tw8KLJPhC7VVm8bej4L1
+ 4bj7dZvbaPoKPOkP+Z/hiDmk9+7nkTU3Pgk2vWAmlFGSFHHC0sWsj/5EV8hr6mpO/39OCBtAMa2 q0ndco+fi8G86dOfc5GfpT89+xXE9tGeL40E9MEyAdTnu8F3+WNVA8HaZt531bq0GBT0mbxf1hB 0DJOeI/JutGdo7YonxPMwhiinqzmltpKB18gqPS/dGJEMfyLzB0RAdTNDA6xgpGz/sZKMCwGryJ
+ u+bJ7aCGxsuwq+ZMNVKqhsbk21BDz5XV2K5CIkAQ8qLP13qgyR2Skg6z9m3iu2gDtJRdtL3+
+X-Proofpoint-ORIG-GUID: gZa7q5qYtC7tZPcdzV8irWfpZBYMoIy-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-28_06,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ bulkscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0
+ suspectscore=0 phishscore=0 malwarescore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=478 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505280114
 
-Le Wed, 28 May 2025 09:31:20 +0200,
-Paolo Abeni <pabeni@redhat.com> a =C3=A9crit :
+On Tue, May 27, 2025 at 11:58:50AM +0200, Michal Koutný wrote:
+> Hello.
+> 
+> On Tue, May 27, 2025 at 02:23:36PM +0530, Vishal Chourasia <vishalc@linux.ibm.com> wrote:
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -438,8 +438,8 @@ Controlling Controllers
+> >  Enabling and Disabling
+> >  ~~~~~~~~~~~~~~~~~~~~~~
+> >  
+> > -Each cgroup has a "cgroup.controllers" file which lists all
+> > -controllers available for the cgroup to enable::
+> > +Each cgroup has a cgroup.controllers file, which lists all the controllers
+> > +available for that cgroup and which can be enabled for its children.
+> >  
+> >    # cat cgroup.controllers
+> >    cpu io memory
+> 
+> Honestly, I see little difference between the two resulting formulations.
+> Could you perhaps add an example where the documentation confused you or
+> behavior was not what you expected based on the docs?
+Hello Michal,
 
-> On 5/24/25 12:56 PM, Kory Maincent wrote:
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> >=20
-> > This series brings support for budget evaluation strategy in the PSE
-> > subsystem. PSE controllers can set priorities to decide which ports sho=
-uld
-> > be turned off in case of special events like over-current.
-> >=20
-> > This patch series adds support for two budget evaluation strategy.
-> > 1. Static Method:
-> >=20
-> >    This method involves distributing power based on PD classification.
-> >    It=E2=80=99s straightforward and stable, the PSE core keeping track =
-of the
-> >    budget and subtracting the power requested by each PD=E2=80=99s clas=
-s.
-> >=20
-> >    Advantages: Every PD gets its promised power at any time, which
-> >    guarantees reliability.
-> >=20
-> >    Disadvantages: PD classification steps are large, meaning devices
-> >    request much more power than they actually need. As a result, the po=
-wer
-> >    supply may only operate at, say, 50% capacity, which is inefficient =
-and
-> >    wastes money.
-> >=20
-> > 2. Dynamic Method:
-> >=20
-> >    To address the inefficiencies of the static method, vendors like
-> >    Microchip have introduced dynamic power budgeting, as seen in the
-> >    PD692x0 firmware. This method monitors the current consumption per p=
-ort
-> >    and subtracts it from the available power budget. When the budget is
-> >    exceeded, lower-priority ports are shut down.
-> >=20
-> >    Advantages: This method optimizes resource utilization, saving costs.
-> >=20
-> >    Disadvantages: Low-priority devices may experience instability.
-> >=20
-> > The UAPI allows adding support for software port priority mode managed =
-from
-> > userspace later if needed.
-> >=20
-> > Patches 1-2: Add support for interrupt event report in PSE core, ethtool
-> > 	     and ethtool specs.
-> > Patch 3: Adds support for interrupt and event report in TPS23881 driver.
-> > Patches 4,5: Add support for PSE power domain in PSE core and ethtool.
-> > Patches 6-8: Add support for budget evaluation strategy in PSE core,
-> > 	     ethtool and ethtool specs.
-> > Patches 9-11: Add support for port priority and power supplies in PD692=
-x0
-> > 	      drivers.
-> > Patches 12,13: Add support for port priority in TPS23881 drivers.
-> >=20
-> > Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>=
- =20
->=20
-> I'm sorry, even if this has been posted (just) before the merge window,
-> I think an uAPI extension this late is a bit too dangerous, please
-> repost when net-next will reopen after the merge window.
+The part that was confused me, was the meaning behind controller being
+available vs. enabled in a cgroup.
 
-Ok I will.
-Would it be possible to review the netlink part of the series? (patch 2, 7 =
-and
-8)=20
+Though, the documentation does mention what it means for a controller to
+be enabled in a cgroup later in the text. But at the point of the
+change it is unclear.
 
-Regard,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thanks
+Vishal
+
+
+> 
+> Thanks,
+> Michal
+
+
