@@ -1,127 +1,130 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFA928E573;
-	Wed, 28 May 2025 18:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC2128DF21
+	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 18:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748455694; cv=none; b=f5PA+OLy62+62KXtB5qswl1iUEiaEC2axUPQuGPCo559viB3OhAZIjoGDt1IFkmMkj5umWiEo/RiYjmQHB24e24GRbinMfbyS/7pmTflti53+Nl3MGexvqSPJX7roClKeLi6kVyAFOdXfmm+6kxtvjc8QBo5SjZn3lbNnHg6L1I=
+	t=1748456741; cv=none; b=IKkqfjs7x+0t7ukpXvaOwRcnK4SKqyjvZNEl8A3qmTdwT3D7j9FlQpkyPyl66pJh2w9sHbkKSNg5hjZX+J/5u93B80SyqooJugyj/r2Y88RQnsjL9ctaomMhIMiLB75v65Tkop8FLHws/Tiobg1rwEhsuE/CKv/RnH1l6KDrRzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748455694; c=relaxed/simple;
-	bh=n7qvY25wzU4LBN1V7seQQRsvaX0gcd8CSYPUS3iqD3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m/6u/d5kL5nSGjwT6keTspB2+KKK2RbQF7sWzA2IDr3kR1DJdpxriJ6eAlXAM6AjUr4mhsg4Rh1ssgYvEGDYljkqextnwI7yWAk7gzSKkTJvyw7OUuZ32PIp+V4zk2pogRofmt7MnoGuEQdBsfD0WJMlqnQh7kMuphD0h3iLTro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ALGUjlWf; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1748456741; c=relaxed/simple;
+	bh=2c4RyGcyTBBIaHhq5vhbuQx07DTDPoo7PyvHV+koXWY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=twWrvfG14fpkq9PKp4vMnDjJ350/saCu5F8Quh2+SIwxlNxu+MofH80pqU1vODTcnxdFGjjoh2CwJZ9zQcRPjXHh6fwdImkk+LwI6f20e3aOw8HpeaOt2HLXkJ2ySKUtNZmAuqOm2vN4KE2+iNcaFLCyqf0H44P4XdkdmBxip0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=DI/xfSLk; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ALGUjlWf"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54SE9Zie032044;
-	Wed, 28 May 2025 18:08:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=SXk6xY
-	TCJrBiRraj2g3E97hdrA+qVzMbgY3MR8FW4gA=; b=ALGUjlWf8ERxczbOOQZIIQ
-	uhjC1OUxMQqHGYtb834u0O1o5EmvANTZ5SEa3j3gTbwhkhcUxi1p+FMDpfIEI9u+
-	dLiZhvmjX4ZR+AJoZhTS1+jOyISg9m9xQ/BlBbwcEJyJXgKVxnQPNFh6QKRj1bpQ
-	fPqP0WvE0RM8xKeNFDWLCz48+nJ8zOtnywSQW0KAE7odQODAd9crtauRn3H4VNH1
-	ihAFDdT4sNyUrbt+hLPeGs8KKB59XXTuKljd7TBZF+Xvl1yxkjXgkYyvIVcxau4r
-	RuqZTlTp1UlZXxGCJcYcAGE8zuwD2uUjcRHhhjRzAVSddq69oFhulqcpr8Fkcf4A
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46x40js81e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 May 2025 18:08:08 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54SElXZt015798;
-	Wed, 28 May 2025 18:08:07 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 46uu538d9w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 May 2025 18:08:07 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54SI85np34013522
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 May 2025 18:08:05 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6266D20040;
-	Wed, 28 May 2025 18:08:05 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6A93D20043;
-	Wed, 28 May 2025 18:08:03 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.124.209.136])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 28 May 2025 18:08:03 +0000 (GMT)
-Date: Wed, 28 May 2025 23:38:00 +0530
-From: Vishal Chourasia <vishalc@linux.ibm.com>
-To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: cgroup: clarify controller enabling
- semantics
-Message-ID: <aDdRAFMFY5hI2uNn@linux.ibm.com>
-References: <20250527085335.256045-2-vishalc@linux.ibm.com>
- <vzdrzqphpjnvrfynx7ajdrgfraavebig4edipde3kulxp2euqh@7p32zx7ql6k6>
- <aDcNLTA2JfoLXdIM@linux.ibm.com>
- <bdstku24kbgj2oalpbzw62uohq7centgaz7fbeatnuymjr2qct@gp2vah7mumk3>
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="DI/xfSLk"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3032a9c7cfeso7301a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 11:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1748456738; x=1749061538; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y1DgNtNfVgtxZCoAyIGz18OP4Bo5orqBMpRuB4iTX3k=;
+        b=DI/xfSLkwhD9aAt4kDul2oUw0gTKuCrXvB6WHkm1SqcP/WsGxfkH1KQKcq2+30nTWL
+         H183cIIig3Z6cDaqylzGpk4g4xyYdc9AwKTSROa+/le3geGgYMTqMRAtC2Na9KsigHsP
+         nNwGCZVADf9g773SF/gM6mDOwU8gsMarp63m46ZfWyCu1o6T5vEdiaGY7SUNNFkdnE0d
+         +1l9z/Kt2Y/N+w0UxcY1jhcZDzJ4zt96VwmVrxjI/0+AYty/duSEiiI/VL7scj7LVVVq
+         1UtPja1h7tdsLI5KkKCf+BgYIbEhhlb943vga9rjLqhUu3m0wxfzHtfefzBJ9aopIdrg
+         d0FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748456738; x=1749061538;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y1DgNtNfVgtxZCoAyIGz18OP4Bo5orqBMpRuB4iTX3k=;
+        b=X+bwS7Z7SLkdx4z3z/ceBD3U0dlLRQkn5KFo7xGLclRLJr5pkJKE6o0auKBeMnCW/H
+         nkiej0nXjuSQn/OltkL5rs7Sd+YJRE8s1khoBDbkOyxtGIpDMA0uSTR9QfmQSUyUAPNO
+         3/TKkuuHxoiAZEdPCPIIGMINpm5aKEwJP7BZzPtCgkbylzooa86ps9tR0D7bRnDmRIrR
+         sKRhHFAXUXR/5+YNbL+NhaM4iG/o16HYBtB4oED4JaZEy9ehFkVW3Xn+zAa7KIqfWR8n
+         /IbiAsMSnJ6R5mTFoOVadnqUSyjTbiAWOPmce6LmwPVNxUpY99XWeRzRsDlQqGRWRp+e
+         pbug==
+X-Forwarded-Encrypted: i=1; AJvYcCWeRTP8JbqP0Foo7BbkuaB4M6LC5zshQVwa7FodHdZ9mzzm3IuitT+ujPo6vmc1K88A1BfzonKgK1M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywu64UPQ+tXN2d8ih7HyvwZyBgtAZOVH1oENe6AEwcK1hyQ66CC
+	UCLRz9HCSAFGwD6pRwICbKClbQMQ0zPL/7ANV5cHIOUVkCbrVRndfUqu+oiZqTXaIl21YZ77ev+
+	IsxfQ/ynNn2lphz3Ha6reNrbWPmgPQTt7Bxbl+PRBUw==
+X-Gm-Gg: ASbGncu/20ogVHFVdGL+gWj3it0+yDcvuL9qEM244HkZaMZrPqv+gIZrLC3IXVBP+k5
+	3oY1MSAaf0A7Ancw0UzMb0hC9FcP9Ls6ya3ACQOKEYvbpphQJa+B+H/0ySR7dzLdTIg5EpD3rL1
+	ZdMyR11oAqN2za6jN191rFqsFEEm9Y9ASO
+X-Google-Smtp-Source: AGHT+IEL1ZmsyEu0mOM9uUeenWGvWnw6r/IpkOg2ZOyaSFG+h5gtxxKjC4pS8VpZXgUHmiU0tBsXCbt6CaOavzqbLmM=
+X-Received: by 2002:a17:90b:384a:b0:310:8d79:dfe4 with SMTP id
+ 98e67ed59e1d1-311e18132a2mr2095484a91.4.1748456737764; Wed, 28 May 2025
+ 11:25:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bdstku24kbgj2oalpbzw62uohq7centgaz7fbeatnuymjr2qct@gp2vah7mumk3>
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=SdL3duRu c=1 sm=1 tr=0 ts=68375108 cx=c_pps a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17 a=8nJEP1OIZ-IA:10 a=dt9VzEwgFbYA:10 a=KSb9T-wMAAAA:8 a=VnNF1IyMAAAA:8 a=fKiKOXW4520yZCUzCKYA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=KF4VuIdXkMyp4E_ug72i:22
-X-Proofpoint-GUID: yBv1QbkSCPABfv32Vs5UbabjPFZrMY4Q
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDE1NyBTYWx0ZWRfX7Y0ha3Ip/EK0 r7HpOSWDq3b/bM7Q0Y/81nx88O+SoPRF8urRF9BZY6He6lTjOeOVBAOIWCNjsa39ExQbwoyvjgu WJP71cjwVZ1/hTvOgQ9wc0KvlacFG+63mDojoNcYMc1bYqqTPc0jL94+O8t+Tux1uNgcuY53Qlh
- Shym0lz+BISWiNk3XkJpsg0KFbRHlknMTFCfbEzMlR6TZWN9FXNYPr0GuF+sOFuqmauMz29Vv72 wFqBb59h1ABSr4jGy9QZFKqXiT03GqNd41cLXKKQsmHj+tEuFFBb4jDfUETXMJWsd8V5DmvffZp MRLcio/xd/q2o68rvjEKZrcvIChW6YdJg1d2thni7uCDgvEDcK7HHmuhvvhlANTaFurhq+VhHV2
- SOdyeqR5p8eyPUPVHTtzaUbzb/tRTO5Cgb7F8Ae4fhXv3b9abZKASK9F96jsSks1Wg35dCF1
-X-Proofpoint-ORIG-GUID: yBv1QbkSCPABfv32Vs5UbabjPFZrMY4Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-28_09,2025-05-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- lowpriorityscore=0 mlxscore=0 adultscore=0 priorityscore=1501
- impostorscore=0 malwarescore=0 mlxlogscore=354 suspectscore=0 bulkscore=0
- spamscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505280157
+References: <20250527-ublk_task_per_io-v7-0-cbdbaf283baa@purestorage.com> <20250527-ublk_task_per_io-v7-1-cbdbaf283baa@purestorage.com>
+In-Reply-To: <20250527-ublk_task_per_io-v7-1-cbdbaf283baa@purestorage.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Wed, 28 May 2025 11:25:26 -0700
+X-Gm-Features: AX0GCFuRsiYqORRMNhWkxx1ChAuVZ4WWAaGZPWCcLkLjY7VGBp6_rK8DXEjxOFM
+Message-ID: <CADUfDZp9CpghO7vXjhptPoxHgO8HFEa5WF=oyiKS=BoPn8pirQ@mail.gmail.com>
+Subject: Re: [PATCH v7 1/8] ublk: have a per-io daemon instead of a per-queue daemon
+To: Uday Shankar <ushankar@purestorage.com>
+Cc: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+	Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 28, 2025 at 07:05:06PM +0200, Michal Koutný wrote:
-> On Wed, May 28, 2025 at 06:48:37PM +0530, Vishal Chourasia <vishalc@linux.ibm.com> wrote:
-> > The part that was confused me, was the meaning behind controller being
-> > available vs. enabled in a cgroup.
-> > 
-> > Though, the documentation does mention what it means for a controller to
-> > be enabled in a cgroup later in the text. But at the point of the
-> > change it is unclear.
-> 
-> There's a picture [1] that may be more descriptive than the docs (on
-> which it is based).
-Thanks for the reference. 
+On Tue, May 27, 2025 at 4:01=E2=80=AFPM Uday Shankar <ushankar@purestorage.=
+com> wrote:
+>
+> Currently, ublk_drv associates to each hardware queue (hctx) a unique
+> task (called the queue's ubq_daemon) which is allowed to issue
+> COMMIT_AND_FETCH commands against the hctx. If any other task attempts
+> to do so, the command fails immediately with EINVAL. When considered
+> together with the block layer architecture, the result is that for each
+> CPU C on the system, there is a unique ublk server thread which is
+> allowed to handle I/O submitted on CPU C. This can lead to suboptimal
+> performance under imbalanced load generation. For an extreme example,
+> suppose all the load is generated on CPUs mapping to a single ublk
+> server thread. Then that thread may be fully utilized and become the
+> bottleneck in the system, while other ublk server threads are totally
+> idle.
+>
+> This issue can also be addressed directly in the ublk server without
+> kernel support by having threads dequeue I/Os and pass them around to
+> ensure even load. But this solution requires inter-thread communication
+> at least twice for each I/O (submission and completion), which is
+> generally a bad pattern for performance. The problem gets even worse
+> with zero copy, as more inter-thread communication would be required to
+> have the buffer register/unregister calls to come from the correct
+> thread.
+>
+> Therefore, address this issue in ublk_drv by allowing each I/O to have
+> its own daemon task. Two I/Os in the same queue are now allowed to be
+> serviced by different daemon tasks - this was not possible before.
+> Imbalanced load can then be balanced across all ublk server threads by
+> having the ublk server threads issue FETCH_REQs in a round-robin manner.
+> As a small toy example, consider a system with a single ublk device
+> having 2 queues, each of depth 4. A ublk server having 4 threads could
+> issue its FETCH_REQs against this device as follows (where each entry is
+> the qid,tag pair that the FETCH_REQ targets):
+>
+> ublk server thread:     T0      T1      T2      T3
+>                         0,0     0,1     0,2     0,3
+>                         1,3     1,0     1,1     1,2
+>
+> This setup allows for load that is concentrated on one hctx/ublk_queue
+> to be spread out across all ublk server threads, alleviating the issue
+> described above.
+>
+> Add the new UBLK_F_PER_IO_DAEMON feature to ublk_drv, which ublk servers
+> can use to essentially test for the presence of this change and tailor
+> their behavior accordingly.
+>
+> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+> Reviewed-by: Caleb Sander Mateos <csander@purestorage.com>
 
-I didn't get the part about "io controller enabling memory controller
-too". Is it referring to the fact that multiple controller can work
-together in a cgroup? Because, enabling just the io controller does not
-automatically enable memory controller too.
+Still looks good to me.
 
-Okay, what do you suggest, should I send out V2 taking corrections from
-others?
-
-Regards,
-Vishal
-
-> 
-> HTH,
-> Michal
-> 
-> [1] https://paste.opensuse.org/pastes/987b665209bb
-
-
+Best,
+Caleb
