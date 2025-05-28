@@ -1,267 +1,163 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44222857DD
-	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 15:21:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2BF28BAAB
+	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 15:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748445720; cv=none; b=bVHesXPH/kQLosTdguN2bZWrEqZaMUpAVVmZrmjX5FseIvrl91qzDzMvVj+r1Voknm9jGjpvyZsJVI3a9s59glpyGu/+Eqd/lEwY5kTgXY9OsBuAFGRXiVcmDVzRyXYzzwRMCeS0dNPmvO1AGsQ4xXSHNtO9ldhEV3AxvE2bqP4=
+	t=1748445837; cv=none; b=lCNpK0Bjn9DvpUAy3Ax5kgqb2ihMKhV2Jr6IinhpGm2xHjkMUmqHymq+M4JE/9TS5ZC3HWAjZnbUhdxxoqXGfjLpVIrznHYqs13/GZyzpD1Qb9HreWxRcBtZCA3qXyPloDHPjtRP+g9jZX8HHSxKjOLCcrXJ8fNBA0hl3fdpZMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748445720; c=relaxed/simple;
-	bh=0L9FqIrWV1HH0CKjcDoLD6PMX4MXaZyCx+Isv4wqI6I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TiXU4tE1qS1/jT8fTISZr6QzPU3E13HorOQmXP7lqR88mB/LqrS8njU9lrnQTonuIvpQkE6VRd0Z3hoCEMKgmAsn2+8dhTiGMoofykiX5Mv2AvXlM7pERBGPmAStQtZyny0PmMlRdMZrGGBGmr0qAnsKTjNRJvzfCf9P0EFlRpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q7y8oo1+; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1748445837; c=relaxed/simple;
+	bh=OlIGNsrljXEWvdinSyO4J4xZYqnP3RN9MssjhHD6S0U=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:References:
+	 In-Reply-To:Content-Type; b=TH4fw0m9z19YsUYxcl6M9J6vKL3QizBY2t1vr6ezknnaBB8aQ6GM/C401GErfPC/Vj3H0lyBdGqxfWSIiSbA15/lFQOsVm+fqpTUft5p1+eaI8M1pjYj0VABsCqGN1Q6bn6awVb9QSGhjmkc/9sbElMWTCbjMPHtXWjuVOuSwkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rn7UjnIa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q7y8oo1+"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e7dc89108bfso1632939276.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 08:21:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1748445718; x=1749050518; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=32qgoYfovQ3gS/SAum8cU1W1nbKSlw2h8oFp1ZvYf5Q=;
-        b=Q7y8oo1+2gzsQIi+PeqDcDAEwLJqN+KmeSdhlEh3Oi3GxiDgf1I5sJWOXGjVsF0iI3
-         WvpuGJEz4EZwmJw7SAASjvpWF6xX9GVTVmSwI9JV+vJP0K9hxQ0RQZI941LbvGj9MVj9
-         bJRxr3We937W2p75QhjIWt9fa1Hp9fqxL3XM5E5y7qLDKTa0jzbIq4itUfFTgLtNIedm
-         j5L9ZtOAvfdeecYg2YWAvMxTNR4pDzqKtSNpAPWMiZ1IPBBkAtmw8bbXpWrGLvtrBCwA
-         pjsZGKulykcsqmcS+pAF85LYpXUB86JQQ1JasA17T1omW96W4pdyjy/raBYdRZBZFRwv
-         l/ug==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rn7UjnIa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1748445834;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VptaC6vHWAhUvWn27KJmHAqHCa7LDR5CmGrJB91xBRs=;
+	b=Rn7UjnIahdMPfZQS+TRSMa79rkqeUMClD7l9VcBlGMT7M89uF4M6uoAhdge33hq+neU18g
+	g34+ArW6pwzJnthSi+3r9DD1NJrAATQfMhmQvix1zW/kVMmIYa7EX7XZ2rbpS9ppWl/E1o
+	M6OH+LO5AaTHbmVsMk5cQ55TYEOU+IE=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-496-7SPggn3QPza7KpaEIIBhPQ-1; Wed, 28 May 2025 11:23:53 -0400
+X-MC-Unique: 7SPggn3QPza7KpaEIIBhPQ-1
+X-Mimecast-MFC-AGG-ID: 7SPggn3QPza7KpaEIIBhPQ_1748445833
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7d0962035b7so73928485a.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 08:23:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748445718; x=1749050518;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=32qgoYfovQ3gS/SAum8cU1W1nbKSlw2h8oFp1ZvYf5Q=;
-        b=fU1QHXKoV37yEwUNnl7ZrNciOk6aCobieqa0mRi9s1shSY10nGbcUh8BNCqfnJOmSq
-         RycU0LuJJRNSWU+0dW2zA2AqCQhQF5zbhXsp/PNv+1N2N9qigsluAmpaLU51AQz7QtLA
-         KBWoyQgYd2VToM0NHJdoVQCAVcXtXrpVUWYB2uFpP7mBYziVW62PH3aoDLWRHBjP1iS2
-         NL5XG20hzJWsKqsrRbiutyfqWdjvR/PcC44EaZKDlN8wUk2dtH0O/ORTs/8adAp03XlA
-         dFFPBWo+svprENYeF/a3TT1gyGwds9pqtauy27soVu/sAn3L10LGCm7CbWRZl4sHqUtC
-         AgZw==
-X-Forwarded-Encrypted: i=1; AJvYcCXhvT2ceDRrShLlNouTZD9U85E+yw/R17A0UAPNuIvV7kz/x9sd6jMYzF45kk3moIEbRwG9H38m8Q8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHg/jAGxZIMbf8mfDw3weqh0rEvwWCFviUbH/r+Sm7NJSX9I98
-	2lwFGcQ/UpsyAG/5RsxZhTnFjfbc8gn/3vXDkhRwFFHJOF81RGTiHVVZqeHFJ2LJVtMrMWectsf
-	v9JdWk9R/7C67vOjYwR0HvLYLUDZynUj8yBwus7WQ
-X-Gm-Gg: ASbGncv7Hh4n9O+XxlsmYD8PJLaRu4sRQ3/Ce6OWTHHc/vqLp4/Kgbbid29F8TUY+FR
-	0AyDDpPfhLKIpTqVglkaE2Uimzvg9IaJ9/704nR5ItBYRwrmHOEPsy6ZhymrfFDTbAXDHwqG7BW
-	NNXekvGM+cX/pjbRTKD07M88yo8R7/EdujbPgEyMCPZsIQpyTkrEC9ukJCtSsaLzQIj59V6q4bS
-	Ihgxg==
-X-Google-Smtp-Source: AGHT+IFSzzwtG0QBLjREdP8rJp3MI7Sye8YaM/FgQl/WLbT3PKgJS/6Q9/qQMcY7F2ocTfZADqMYbCZWjE0ffy1ogQw=
-X-Received: by 2002:a05:6902:2b0c:b0:e78:f7a0:fd02 with SMTP id
- 3f1490d57ef6-e7f61839725mr2840203276.37.1748445717406; Wed, 28 May 2025
- 08:21:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748445833; x=1749050633;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VptaC6vHWAhUvWn27KJmHAqHCa7LDR5CmGrJB91xBRs=;
+        b=IWQTP7P2Sm4BSt8Jx42Y0TLppZTpMnWdNjybRyBRMJKYFUmwAOZEbCdt9UrqynYoSx
+         nwXLkZrLq/AuGLhdOcyPsS66rUBG5NMxvipGi1IrsGfLFHVONag9IyjoS3dNAyRcl8eJ
+         8mupr64f25SuHiJ1dG0g3r6a80DnS+Ih9JBBYgv03V/54ndfNzZYuouGzYmC09olZnLr
+         C9Mmjr2JpJcc2PcUqV0SVuq4vIKAJwUbu5Z0AHaS363BnrE6iayjbquczcReLJdmGzLT
+         pNRtnc3PU5ZHeF7jLTfXEfJ6x1s9E/fcAU1b8MSFXkR+x98ddXIxvMksuvoNKHNbT3ol
+         h9lQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX1N77SkcyNFKI+RbUM6eYn9IXTpAXNLhw+zOaCVHEqt4HTGNGv/5WI24+ZksAvrMBYszQ35ZkjINs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWLfg0Vh7xTKbvxxnBaK3kf/WOmO9ig9PyPHyDasKX1poq4Brb
+	SAS335wOaqQAjEwNTfnBHsfM23h/HmgwG6QX2M7yzlyWqkY0+3+ki+j83SK7hSEInVHrG+tnncS
+	G/YRWi2z887OfzL2q1AcMsRzH++w6bzOpGg0L5yHDKcL+kQO+glvkP5+agJrbRHy334q0qEj9
+X-Gm-Gg: ASbGncupojGzX+0B3klTDMp0YU+yyji+2DPUMGTMkZNICQLaWZaPRmZ4UkZ5d3tlBTQ
+	x+b2UqYa2cnQ3RNNTgsOvskd7JtdYQz4wPmVQPrYm2jrn+ACa+c9x54h1cJXERmJ+nzG0Mm25c1
+	4LhW1LIba9d2zELG8A29B9iMNGk+uUzXcF88b4PeZjXMaZ9qjJy2zZ9cSZvZYjT1yyR2g2tzYP8
+	OsxHJfZiL8w6kbk72Lk5MygNjnhW4Qpq894cAv1mWvUYZ6QILLrQ15M6OIhewD/qABFtURHJu0y
+	7fKpsfz2wymP
+X-Received: by 2002:a05:620a:424a:b0:7c5:55f9:4bc1 with SMTP id af79cd13be357-7ceecc27054mr2090624585a.42.1748445832841;
+        Wed, 28 May 2025 08:23:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGnQ/I5pD0hhQow2ppXrZml7+WUDRAt7CMy+wi3zoafLJfGV00yEjXt2imSZol2wlQaaiVzAw==
+X-Received: by 2002:a05:620a:424a:b0:7c5:55f9:4bc1 with SMTP id af79cd13be357-7ceecc27054mr2090621085a.42.1748445832382;
+        Wed, 28 May 2025 08:23:52 -0700 (PDT)
+Received: from [172.20.4.10] ([50.234.147.137])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cfc5d486c8sm81211485a.101.2025.05.28.08.23.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 May 2025 08:23:51 -0700 (PDT)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <99be9c8e-a5c4-4378-b03b-2af01608de9f@redhat.com>
+Date: Wed, 28 May 2025 11:23:50 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109204929.1106563-1-jthoughton@google.com>
- <20250109204929.1106563-2-jthoughton@google.com> <aBqi7fDtnvxzxV1V@google.com>
-In-Reply-To: <aBqi7fDtnvxzxV1V@google.com>
-From: James Houghton <jthoughton@google.com>
-Date: Wed, 28 May 2025 11:21:21 -0400
-X-Gm-Features: AX0GCFti85Bmslv3UKy35YTx4AbsV0M4oMVo9TuLb01TfEKfWoCE-rNdRG1Yeks
-Message-ID: <CADrL8HUMm0PUqx-xNdPvSMP6z4gzs2OTUJG1sdyy88D-XWxT3g@mail.gmail.com>
-Subject: Re: [PATCH v2 01/13] KVM: Add KVM_MEM_USERFAULT memslot flag and bitmap
-To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Yan Zhao <yan.y.zhao@intel.com>, 
-	Nikita Kalyazin <kalyazin@amazon.com>, Anish Moorthy <amoorthy@google.com>, 
-	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>, 
-	David Matlack <dmatlack@google.com>, wei.w.wang@intel.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: cgroup: clarify controller enabling
+ semantics
+To: Vishal Chourasia <vishalc@linux.ibm.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250527085335.256045-2-vishalc@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <20250527085335.256045-2-vishalc@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 6, 2025 at 8:01=E2=80=AFPM Sean Christopherson <seanjc@google.c=
-om> wrote:
+On 5/27/25 4:53 AM, Vishal Chourasia wrote:
+> The documentation for cgroup controller management has been updated to
+> be more consistent regarding following concepts:
 >
-> On Thu, Jan 09, 2025, James Houghton wrote:
-> > Use one of the 14 reserved u64s in struct kvm_userspace_memory_region2
-> > for the user to provide `userfault_bitmap`.
-> >
-> > The memslot flag indicates if KVM should be reading from the
-> > `userfault_bitmap` field from the memslot. The user is permitted to
-> > provide a bogus pointer. If the pointer cannot be read from, we will
-> > return -EFAULT (with no other information) back to the user.
+> What does it mean to have controllers
+> 1) available in a cgroup, vs.
+> 2) enabled in a cgroup
 >
-> For the uAPI+infrastructure changelog, please elaborate on the design goa=
-ls and
-> choices.  The "what" is pretty obvious from the patch; describe why this =
-is being
-> added.
+> Which has been clearly defined below in the documentation.
 >
-> > Signed-off-by: James Houghton <jthoughton@google.com>
-> > ---
-> >  include/linux/kvm_host.h | 14 ++++++++++++++
-> >  include/uapi/linux/kvm.h |  4 +++-
-> >  virt/kvm/Kconfig         |  3 +++
-> >  virt/kvm/kvm_main.c      | 35 +++++++++++++++++++++++++++++++++++
-> >  4 files changed, 55 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> > index 401439bb21e3..f7a3dfd5e224 100644
-> > --- a/include/linux/kvm_host.h
-> > +++ b/include/linux/kvm_host.h
-> > @@ -590,6 +590,7 @@ struct kvm_memory_slot {
-> >       unsigned long *dirty_bitmap;
-> >       struct kvm_arch_memory_slot arch;
-> >       unsigned long userspace_addr;
-> > +     unsigned long __user *userfault_bitmap;
-> >       u32 flags;
-> >       short id;
-> >       u16 as_id;
-> > @@ -724,6 +725,11 @@ static inline bool kvm_arch_has_readonly_mem(struc=
-t kvm *kvm)
-> >  }
-> >  #endif
-> >
-> > +static inline bool kvm_has_userfault(struct kvm *kvm)
-> > +{
-> > +     return IS_ENABLED(CONFIG_HAVE_KVM_USERFAULT);
-> > +}
+> "Enabling a controller in a cgroup indicates that the distribution of
+> the target resource across its immediate children will be controlled.
+> Consider the following sub-hierarchy"
 >
-> Eh, don't think we need this wrapper.  Just check the CONFIG_xxx manually=
- in the
-> one or two places where code isn't guarded by an #ifdef.
+> As an example, consider
 >
-> >  struct kvm_memslots {
-> >       u64 generation;
-> >       atomic_long_t last_used_slot;
-> > @@ -2553,4 +2559,12 @@ long kvm_arch_vcpu_pre_fault_memory(struct kvm_v=
-cpu *vcpu,
-> >                                   struct kvm_pre_fault_memory *range);
-> >  #endif
-> >
-> > +int kvm_gfn_userfault(struct kvm *kvm, struct kvm_memory_slot *memslot=
-,
-> > +                   gfn_t gfn);
-> > +
-> > +static inline bool kvm_memslot_userfault(struct kvm_memory_slot *memsl=
-ot)
+> /sys/fs/cgroup # cat cgroup.controllers
+> cpuset cpu io memory hugetlb pids misc
+> /sys/fs/cgroup # cat cgroup.subtree_control # No controllers by default
+> /sys/fs/cgroup # echo +cpu +memory > cgroup.subtree_control
+> /sys/fs/cgroup # cat cgroup.subtree_control
+> cpu memory                   # cpu and memory enabled in /sys/fs/cgroup
+> /sys/fs/cgroup # mkdir foo_cgrp
+> /sys/fs/cgroup # cd foo_cgrp/
+> /sys/fs/cgroup/foo_cgrp # cat cgroup.controllers
+> cpu memory                   # cpu and memory available in 'foo_cgrp'
+> /sys/fs/cgroup/foo_cgrp # cat cgroup.subtree_control  # empty by default
+> /sys/fs/cgroup/foo_cgrp # ls
+> cgroup.controllers      cpu.max.burst           memory.numa_stat
+> cgroup.events           cpu.pressure            memory.oom.group
+> cgroup.freeze           cpu.stat                memory.peak
+> cgroup.kill             cpu.stat.local          memory.pressure
+> cgroup.max.depth        cpu.weight              memory.reclaim
+> cgroup.max.descendants  cpu.weight.nice         memory.stat
+> cgroup.pressure         io.pressure             memory.swap.current
+> cgroup.procs            memory.current          memory.swap.events
+> cgroup.stat             memory.events           memory.swap.high
+> cgroup.subtree_control  memory.events.local     memory.swap.max
+> cgroup.threads          memory.high             memory.swap.peak
+> cgroup.type             memory.low              memory.zswap.current
+> cpu.idle                memory.max              memory.zswap.max
+> cpu.max                 memory.min              memory.zswap.writeback
 >
-> I strongly prefer kvm_is_userfault_memslot().  KVM's weird kvm_memslot_<f=
-lag>()
-> nomenclature comes from ancient code, i.e. isn't something I would follow=
-.
+> Once a controller is available in a cgroup it can be used to resource
+> control processes of the cgroup.
 >
-> > +{
-> > +     return memslot->flags & KVM_MEM_USERFAULT;
+> Signed-off-by: Vishal Chourasia <vishalc@linux.ibm.com>
+> ---
+>   Documentation/admin-guide/cgroup-v2.rst | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> I think it's worth checking for a non-NULL memslot, even if all current c=
-allers
-> pre-check for a slot.
->
-> > @@ -2042,6 +2051,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >               if (r)
-> >                       goto out;
-> >       }
-> > +     if (mem->flags & KVM_MEM_USERFAULT)
-> > +             new->userfault_bitmap =3D
-> > +               (unsigned long __user *)(unsigned long)mem->userfault_b=
-itmap;
->
->         if (mem->flags & KVM_MEM_USERFAULT)
->                 new->userfault_bitmap =3D u64_to_user_ptr(mem->userfault_=
-bitmap);
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 1a16ce68a4d7..0e1686511c45 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -438,8 +438,8 @@ Controlling Controllers
+>   Enabling and Disabling
+>   ~~~~~~~~~~~~~~~~~~~~~
+>   
+> -Each cgroup has a "cgroup.controllers" file which lists all
+> -controllers available for the cgroup to enable::
+> +Each cgroup has a cgroup.controllers file, which lists all the controllers
+> +available for that cgroup and which can be enabled for its children.
 
-Applied this change to the other cast (where we do access_ok()) as well, th=
-anks!
+I believe breaking the sentence into two separate components is actually 
+making it less correct. There are implicit controllers that are always 
+enabled and do not show up in cgroup.controllers. Prime examples are 
+perf_event and freezer. IOW, only controllers that are available and 
+need to be explicitly enabled will show up.
 
->
-> >       r =3D kvm_set_memslot(kvm, old, new, change);
-> >       if (r)
-> > @@ -6426,3 +6438,26 @@ void kvm_exit(void)
-> >       kvm_irqfd_exit();
-> >  }
-> >  EXPORT_SYMBOL_GPL(kvm_exit);
-> > +
-> > +int kvm_gfn_userfault(struct kvm *kvm, struct kvm_memory_slot *memslot=
-,
-> > +                    gfn_t gfn)
->
-> I think this series is the perfect opportunity (read: victim) to introduc=
-e a
-> common "struct kvm_page_fault".  With a common structure to provide the g=
-fn, slot,
-> write, exec, and is_private fields, this helper can handle the checks and=
- the call
-> to kvm_prepare_memory_fault_exit().
->
-> And with that in place, I would vote to name this something like kvm_do_u=
-serfault(),
-> return a boolean, and let the caller return -EFAULT.
+Cheers,
+Longman
 
-Returning 'true' from kvm_do_userfault() without a
-kvm_prepare_memory_fault_exit() looked a bit strange at first, but I
-don't have strong feelings. I'll add a small comment there.
-
->
-> For making "struct kvm_page_fault" common, one thought would be to have a=
-rch code
-> define the entire struct, and simply assert on the few fields that common=
- KVM needs
-> being defined by arch code.  And wrap all references in CONFIG_KVM_GENERI=
-C_PAGE_FAULT.
->
-> I don't expect there will be a huge number of fields that common KVM need=
-s, i.e. I
-> don't think the maintenance burden of punting to arch code will be high. =
- And letting
-> arch code own the entire struct means we don't need to have e.g. fault->a=
-rch.present
-> vs. fault->write in KVM x86, which to me is a big net negative for readab=
-ility.
->
-> I'll respond to the cover letter with an attachment of seven patches to s=
-ketch out
-> the idea.
-
-Looks great! Thanks very much!
-
->
-> > +{
-> > +     unsigned long bitmap_chunk =3D 0;
-> > +     off_t offset;
-> > +
-> > +     if (!kvm_memslot_userfault(memslot))
-> > +             return 0;
-> > +
-> > +     if (WARN_ON_ONCE(!memslot->userfault_bitmap))
-> > +             return 0;
->
-> '0' is technically a valid userspace address.  I'd just drop this.  If we=
- have a
-> KVM bug that results in failure to generate usefaults, we'll notice quite=
- quickly.
->
-> > +
-> > +     offset =3D gfn - memslot->base_gfn;
-> > +
-> > +     if (copy_from_user(&bitmap_chunk,
-> > +                        memslot->userfault_bitmap + offset / BITS_PER_=
-LONG,
-> > +                        sizeof(bitmap_chunk)))
->
-> Since the address is checked during memslot creation, I'm pretty sure thi=
-s can
-> use __get_user().  At the very least, it should be get_user().
-
-Thanks! I agree, __get_user() should be fine.
-
->
-> > +             return -EFAULT;
-> > +
-> > +     /* Set in the bitmap means that the gfn is userfault */
-> > +     return !!(bitmap_chunk & (1ul << (offset % BITS_PER_LONG)));
->
-> test_bit()?
-
-Thanks for all the feedback and applying it for me in those patches
-you sent back. :)
