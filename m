@@ -1,133 +1,134 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7495F288C8C
-	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 14:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4230A28BA98
+	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 15:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748444066; cv=none; b=mFJL5RYA6S4JHaNceksJJbYWJimNGVjGEbUMF5RLpseiTJ0tEMV19g2Pgjp148ZLuCzLu3rY8LAb4Qn0j5pHBNlKeFe3D/sgLlnVIg3AoJBQkrGb9dazO+0KsW6vUj3gZdsW2AKwQq7WoR+1o/3nX0aLR8kDox6RYqFhG6TRFbk=
+	t=1748445036; cv=none; b=Rhgw/s6Ue1DDgiPZ4P7eJj7J/yCSgTBO+HFtfnVkOspBUAP/+q9UDqyUVU/4Td3Te3oHt1hddl7xXj8Iql9GtoAjhdTx0B/tL7DW/cNXJhO+dkPa1q+bjiG2xZg55B6kMkAWchFTY0YQv1a0rh6gb5U/pireh3yfokY1teXnV10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748444066; c=relaxed/simple;
-	bh=OLQTEynOWLTW2J82I3GAFi2XTNtVPRqouMqsxTdKyrA=;
+	s=arc-20240116; t=1748445036; c=relaxed/simple;
+	bh=oRij2I0TpTX32X/NhxasXgfEJxa8A5RThaAlheT8LBA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dgotu/cK7uDi1SfUFSc5sXr3mwLj6fHj5BQimE2DgUoKxnrQT9DovQSh2o/FNbALfJDCnTXnM1YyFQ2bhf2/BWxLFZgo/ctgCVPJ5mGJBDeZgR5BFwN19E4t2KLlS7bdnPX7hUF8GRggZv8ITMmsvzQ42Jc0gjbQbe85nUqWNuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=nuCVo/Tm; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=YM2wP07+7QRFd9Sf3m+cQPkZxI60W+LoFacyuy+Ovlds5BQ2hiSQpJZA1PB4A/iRaTYASjB+891xYJp5nVOGXZlx0rj0nP7YdKnnWDzniZSb6PkeOYRdrrTuQA0vOMmHOtiN7MTZ6dAm3vIhc1rvlK6krKJC09s2ozrNZa+5eGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XSHUHdzh; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="nuCVo/Tm"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4769f3e19a9so26601111cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 07:54:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XSHUHdzh"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e7dcd60c092so1440559276.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 08:10:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1748444063; x=1749048863; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1748445034; x=1749049834; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OLQTEynOWLTW2J82I3GAFi2XTNtVPRqouMqsxTdKyrA=;
-        b=nuCVo/TmE7nmJDKY/+7G/Fy8f30qRvkosEx1abFb/W+krsSKu4Uii8CPEO6gqCkGjJ
-         Y+OQPGzKlr8NKb+TNJi8YoqCA0bl+aEbrcSyvjelx75jGIKU5X2a7a1M7V9f3Z82iiuD
-         SP8EAIHnogoXUEHxLC7UgSavDyttjkMTjNu0dl41oZsPuuE/EIvWL0OgFY+8hTQxPT3h
-         WhLFvPNQceyXyEgvcrt/bsf0C0kJcwgURKNlFzsbttHpO6fuj8DJwTM7+umuvZ/ic8EI
-         bZYUWprE7LmF1WS+Ly/Ny9aEHhj6vF3fMNEOkvRW2uONPd5EzQudBY/J9iR7LwjKcU1o
-         B3Ug==
+        bh=mkOH/F0mBjSGdYPCUEiDsSIcD6SIWcpvbL1Z7KSMawk=;
+        b=XSHUHdzh4M3Tz1CxqHeZu5QTLHzRV3Z8TIcZdNftoj7tZJUy1qxF7vAtEIvnAlUmTE
+         JdJ/7C3uWpNaHD7A0OgWrMpPOQSSOCNiRkVqlgam5TmRHWM4uNeLXI4FgN4H6pg9dvOc
+         /YNI8k4NDPiydQqZD4S9zOl+A5gQDsBNgNtowZwexAva5z9XQKZLChtezIFfZ061EFpY
+         aTQxb3ee98rHEGg85oBwRrIFAsYtUYTDRDOXQOgCJGmEmWCg3qr8Ez/LcFK8QZoqDMEJ
+         rvqjRx5+n+1UF3ppt/Do5fixTZf9bDsTo9IdGYvIVYoXkmMrod0ABMGWssVFg2SXP5JO
+         1yKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748444063; x=1749048863;
+        d=1e100.net; s=20230601; t=1748445034; x=1749049834;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OLQTEynOWLTW2J82I3GAFi2XTNtVPRqouMqsxTdKyrA=;
-        b=ocfc8Sg8mBf4ntwHCezPqRObmfnR+jiVJLjAtu1UgNwiaVVyQwgoez5lMG1a5fl4kf
-         lMnl0CUqZjVnULsJxSFtA9Dn5xqZJeeXV0XYZLYNG4XEvahWeQ5qy6aA5rLQVMhHWhPc
-         kF00ZMNQZJnycYVyoh5Ah7ycFx+aJVI5ATCpMcMn9uP3kFYBlAjGDeOQ+9ill5IbJCtr
-         WTCTDkBJ6NM47hTGa2itq9XgT+qck3+vIh7Gj4yBIItwSd5fdFKsh8bT1Vwb35vI059X
-         ONx2KuhvC6MShlRbJpACz1qUqDgTa6HWObFzSLawvEM5uGSt5QXRfwfVeOBR/94jbRnX
-         kaZw==
-X-Forwarded-Encrypted: i=1; AJvYcCVi2YgdhW4N06F4bxikYi2LQiIv9sw/jVh2dsDcDC2mMepmKsmif38mtehUboufMlk5cTA6T3BcjXA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwA0Yzwt21gqVQ0oJrUxyOE/HS0s4cC94swEOQ/RspRz5yZWLkh
-	YkthIhuJVW+ZLjyvWDMkKjWAUyUJM4qVrWEme7Uj6GdKUGnCe63sCrAYgR5i1RZrcP8cu6/Foji
-	fbTZgQ2oWskt2fQva1Jz8AVg3B29SEJj3gN8SmK/tJQ==
-X-Gm-Gg: ASbGncvsngoPpd0Mi/WJU3M9ZbA3GXIN6R66ebcA1UYF+cJuAD3At8kH/eOygC7q7YQ
-	oXuuZIS4YjiL68fNP5wIhGjdUCThlmq0CxqvS9uHSDXjXqw8sIQEPYgJGl2cmgM4fkTysRuC96p
-	+7cW+D/NgMVgYNnhZTwttqg7aLG8f4dd4U/vfRRBX4
-X-Google-Smtp-Source: AGHT+IEipULtuHP8NgolkdOGZlrY+wJ98orFgKSxJBZZ4sZQQx6BiL/ks+Oa5sABai8uN1rdHCGApBJm6ZxwNh0g7ck=
-X-Received: by 2002:a05:622a:1b10:b0:472:28d:62b0 with SMTP id
- d75a77b69052e-49f47a0ddb2mr278495661cf.41.1748444063296; Wed, 28 May 2025
- 07:54:23 -0700 (PDT)
+        bh=mkOH/F0mBjSGdYPCUEiDsSIcD6SIWcpvbL1Z7KSMawk=;
+        b=aJiM5gRrWMS3V5dsN68BVliSyESukwbyWuORilIMskuF4MeRHOqJlj1ZHqNcIR1INI
+         L3+HQm75l56WTWsKFbfyfrwPdQTpDZcZ+E3uAIMkxSJWTCTG0KyZAUyQZYossMVTKKp0
+         4IpLNyixZTkOApLkURLknE2NGJxGjTQkKOZ5V21YGXdFdkcPC+4bpcekEAAsF2ow3898
+         qe34ultRbNrhCUZdQ3aXg7Kq8S9Wl+fw3j0Ro15gHa5wY99DmtjaxUiDI9Wyv+z3cf4i
+         RRob826EVBVyKjR/v4g8GLvUkyXcsgyY+xsgSC3nduksG36UNDkwI9D/tfCQrZlPaR6y
+         re3A==
+X-Forwarded-Encrypted: i=1; AJvYcCU6mOkZxAKzBcPK/UtesezpUrQJA6xjczuty8N9jfcTcMZ++qGSwyqo/nZ3YSxx+ZJ5Rpq332ZCXjw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYpJQOQvWWCeDudYnM5kxgXyI4YZZagmS3dfDGi883xkWt8ijS
+	IV667V7TO3iSwuY/kgwPEzs+9XK4jsuWADYktkbHiqCGNbcIxQN93msQUbc0hvfk1UD8L9nY0y1
+	p1QuFC4AnyEoX1IvNG9JQmfQU62uNxpjR/T1BAe5l
+X-Gm-Gg: ASbGncvr5MR7Ej32YfErom+BABi2+/jHMipa+LODDxsFowAgbqT+17/wm20jErceJ79
+	fVJX+nGdoSiggfy9RdFkQ26srvstU1rb0p86vnvdNzztV7ELxeZCz/IpZ5p1yjbw2sn75K4nVq5
+	P6ovrkMYgEAmnkA5RsxWdgUpMFPlm2EoNCRK3SK78mFvf7pLQpacLQ55I82w/mCsFBSYq+M7ciz
+	fYbIdkmpuWaa9VF
+X-Google-Smtp-Source: AGHT+IGR99lWrX4uBQGr2kH0bGfT4JkEfaCzPmaHW/nbBCSd4QahIO99ZAocGBZAuHyfUiwPf1Ucb1uKFWWP5NDU59M=
+X-Received: by 2002:a05:6902:2841:b0:e7d:6fe3:fc81 with SMTP id
+ 3f1490d57ef6-e7d91b459aamr21754237276.30.1748445033884; Wed, 28 May 2025
+ 08:10:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417142525.78088-1-mclapinski@google.com> <6805a8382627f_18b6012946a@iweiny-mobl.notmuch>
- <CA+CK2bD8t+s7gFGDCdqA8ZaoS3exM-_9N01mYY3OB4ryBGSCEQ@mail.gmail.com> <aDW9YRpTmI66gK_G@kernel.org>
-In-Reply-To: <aDW9YRpTmI66gK_G@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 28 May 2025 10:53:45 -0400
-X-Gm-Features: AX0GCFs1Qbwk6LJZXavFVBcYckw_C3R55DAtQO0SII537wDbPP_9ie9BDYZJ2Uo
-Message-ID: <CA+CK2bAUfXQ_CSKs4MaaNNcgPx6MRjE6Jk85tKGYUOQBG8PFNg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] libnvdimm/e820: Add a new parameter to configure
- many regions per e820 entry
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Ira Weiny <ira.weiny@intel.com>, Michal Clapinski <mclapinski@google.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250109204929.1106563-1-jthoughton@google.com>
+ <20250109204929.1106563-7-jthoughton@google.com> <aBqkINKO9PUAzZeS@google.com>
+In-Reply-To: <aBqkINKO9PUAzZeS@google.com>
+From: James Houghton <jthoughton@google.com>
+Date: Wed, 28 May 2025 11:09:58 -0400
+X-Gm-Features: AX0GCFt9PLVfklSGC-mOnCNW0mGP_16cIQYPD6tP1ev5K3PmI8fYxDutOCJrYcQ
+Message-ID: <CADrL8HXDDRC6Ey5HYWvtzQzjcM2RNX7c7ngGyjUsD3WiBF3VYA@mail.gmail.com>
+Subject: Re: [PATCH v2 06/13] KVM: arm64: Add support for KVM_MEM_USERFAULT
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Yan Zhao <yan.y.zhao@intel.com>, 
+	Nikita Kalyazin <kalyazin@amazon.com>, Anish Moorthy <amoorthy@google.com>, 
+	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>, 
+	David Matlack <dmatlack@google.com>, wei.w.wang@intel.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 27, 2025 at 9:26=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
+On Tue, May 6, 2025 at 8:06=E2=80=AFPM Sean Christopherson <seanjc@google.c=
+om> wrote:
 >
-> On Mon, Apr 21, 2025 at 10:55:25AM -0400, Pasha Tatashin wrote:
-> > On Sun, Apr 20, 2025 at 10:06=E2=80=AFPM Ira Weiny <ira.weiny@intel.com=
-> wrote:
-> > >
-> > > Michal Clapinski wrote:
-> > > > Currently, the user has to specify each memory region to be used wi=
-th
-> > > > nvdimm via the memmap parameter. Due to the character limit of the
-> > > > command line, this makes it impossible to have a lot of pmem device=
-s.
-> > > > This new parameter solves this issue by allowing users to divide
-> > > > one e820 entry into many nvdimm regions.
-> > > >
-> > > > This change is needed for the hypervisor live update. VMs' memory w=
-ill
-> > > > be backed by those emulated pmem devices. To support various VM sha=
-pes
-> > > > I want to create devdax devices at 1GB granularity similar to huget=
-lb.
-> > >
-> > > Why is it not sufficient to create a region out of a single memmap ra=
-nge
-> > > and create multiple 1G dax devices within that single range?
-> >
-> > This method implies using the ndctl tool to create regions and convert
-> > them to dax devices from userspace. This does not work for our use
-> > case. We must have these 1 GB regions available during boot because we
-> > do not want to lose memory for a devdax label. I.e., if fsdax is
-> > created during boot (i.e. default pmem format), it does not have a
-> > label. However, if it is created from userspace, we create a label
-> > with partition properties, UUID, etc. Here, we need to use kernel
+> On Thu, Jan 09, 2025, James Houghton wrote:
+> > @@ -2073,6 +2080,23 @@ void kvm_arch_commit_memory_region(struct kvm *k=
+vm,
+> >                                  enum kvm_mr_change change)
+> >  {
+> >       bool log_dirty_pages =3D new && new->flags & KVM_MEM_LOG_DIRTY_PA=
+GES;
+> > +     u32 new_flags =3D new ? new->flags : 0;
+> > +     u32 changed_flags =3D (new_flags) ^ (old ? old->flags : 0);
 >
-> Doesn't ndctl refuse to alter namespaces on "legacy" (i.e. memmap=3D)
-> regions?
+> This is a bit hard to read, and there's only one use of log_dirty_pages. =
+ With
+> zapping handled in common KVM, just do:
 
-Hi Mike
-
-ndctl works with legacy namespaces just fine. We can convert them to
-devdax/fsdax/raw pmem, create remove label, etc.
-
-Pasha
+Thanks, Sean. Yeah what you have below looks a lot better, thanks for
+applying it for me. I'll post a new version soon. One note below.
 
 >
-> > parameters to specify the properties of the pmem devices during boot
-> > so they can persist across reboots without losing any memory to
-> > labels.
-> >
-> > Pasha
+> @@ -2127,14 +2131,19 @@ void kvm_arch_commit_memory_region(struct kvm *kv=
+m,
+>                                    const struct kvm_memory_slot *new,
+>                                    enum kvm_mr_change change)
+>  {
+> -       bool log_dirty_pages =3D new && new->flags & KVM_MEM_LOG_DIRTY_PA=
+GES;
+> +       u32 old_flags =3D old ? old->flags : 0;
+> +       u32 new_flags =3D new ? new->flags : 0;
+> +
+> +       /* Nothing to do if not toggling dirty logging. */
+> +       if (!((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES))
+> +               return;
+
+This is my bug, not yours, but I think this condition must also check
+that `change =3D=3D KVM_MR_FLAGS_ONLY` for it to be correct. This, for
+example, will break the case where we are deleting a memslot that
+still has KVM_MEM_LOG_DIRTY_PAGES enabled. Will fix in the next
+version.
+
 >
-> --
-> Sincerely yours,
-> Mike.
+>         /*
+>          * At this point memslot has been committed and there is an
+>          * allocated dirty_bitmap[], dirty pages will be tracked while th=
+e
+>          * memory slot is write protected.
+>          */
+> -       if (log_dirty_pages) {
+> +       if (new_flags & KVM_MEM_LOG_DIRTY_PAGES) {
+>
+>                 if (change =3D=3D KVM_MR_DELETE)
+>                         return;
