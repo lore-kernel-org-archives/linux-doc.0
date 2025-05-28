@@ -1,77 +1,77 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799EE1FF610
-	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 04:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E001F37D3
+	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 04:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748408006; cv=none; b=lh1VQPUTOup8svs2uYoAp5JHjGy9076kPjU/XHZAuN/pbHQwUWgFuxSQTLwKqRVSprKKS/pkcUm0kiBk6XlxT1VWOLFS23TNW6Maytowj99xkbTCAai2XNAl8J9aRnGEHSqewG7zXd6hRrmh2RB5TgClkdS9Yrb3nt4Yt24Amug=
+	t=1748408304; cv=none; b=EkbjgmE5H5N2bcOuTf/jdNaS5Ol4pmrL17s9j9suFNVsTqR1kU1x3lhGKN+JSbeDl2lLkY588XEQWbIA1Bq4AWsmDpgjryP/hTJjRd8rljnhhWpLd6HT5F7m2a5bBeb0RgdEiAM3j9bveYIK8g8PL1jySS/80v/SUKByFGuJ3Pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748408006; c=relaxed/simple;
-	bh=+5bT6sLoqX1CK/nv6Y09Rlj5Wk6fqnt7kYp3W/6/AZU=;
+	s=arc-20240116; t=1748408304; c=relaxed/simple;
+	bh=2LX650AeAHn3TzSjSL4/06vnyAtRrEY3yfwhoaLvd6s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ROmi+eu5sjlMsxnhERyK9C1XxUuZVivvqpKMKfXhKt0JvCJnW1zBEXy8j/8gfH7E/5qwJZD+rST21ZCpQCWZ7S8obehhg9CRVliq7CkezuYL7IdrWGrwcwCR/Z2VQ1bGq3X6hq3koFUu/aqV+A2ed5Ie4D56ul0chmQ4IlZoAqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=agn2Ps02; arc=none smtp.client-ip=170.10.133.124
+	 To:Cc:Content-Type; b=g2JVc2Ao7QR/W1os0utl/ePQ+/RiK3Fbrg2wILJBaR4vgol6nS+1Ty5VNvHmyHLzRf3/PmzN4eDknof2kXQT5gUcKyvRP+zHO+LyjdzWkNTLwUgaooFhaW/TvKaPRwyrKzpXHRbe5xzRdFNQ1c5Qbm4z4IvHPPwf6pyzoqs80zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LZ65FbHh; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="agn2Ps02"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LZ65FbHh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748408002;
+	s=mimecast20190719; t=1748408301;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3qoz40Fv9dqOLasbkSia0eh+o0evOnHHCkU1NVu2z+o=;
-	b=agn2Ps02l63Xvf1mLtylM/SD896lnm4vby29EvZnUDfPjf0ncEa+2Ojkmiwys8dYsqFgbh
-	c2yrTDdGlonuxMhsS16jsJhS+GhhOp6ac7KtqjPoun0tje/UzJvaZVmi+iFaPaCLxyBi6L
-	TS6BZMk3eXrbmvzRm4oEkvmgky1csXs=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=lvIb7tWWsEupK9BWjz39c0yzeNm9G9imVR6VZCBLXa4=;
+	b=LZ65FbHhSY1AbsNa+qH/W0trd+X8nhpyYf/KX9GKe1PTnt4Yw8kZW947MvfIKV+SBvWHRh
+	E9qRUKiYdBfRSfsL/xdYrn9pQMngjhzFwiegFLFQ6cimDQZbGx+CAolJsNnTg21YT/9MEW
+	08dXXKHi6i46Ew/bEIykc+UQfenrf/s=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-678-R0tQFa44PdW_SBsZMDlrLQ-1; Wed, 28 May 2025 00:53:20 -0400
-X-MC-Unique: R0tQFa44PdW_SBsZMDlrLQ-1
-X-Mimecast-MFC-AGG-ID: R0tQFa44PdW_SBsZMDlrLQ_1748407999
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-32a6ecca672so11319031fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 21:53:20 -0700 (PDT)
+ us-mta-135-DtMJW2xsOZWzEgzwqUPqCA-1; Wed, 28 May 2025 00:58:19 -0400
+X-MC-Unique: DtMJW2xsOZWzEgzwqUPqCA-1
+X-Mimecast-MFC-AGG-ID: DtMJW2xsOZWzEgzwqUPqCA_1748408298
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-32805c6330aso20076931fa.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 May 2025 21:58:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748407999; x=1749012799;
+        d=1e100.net; s=20230601; t=1748408298; x=1749013098;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3qoz40Fv9dqOLasbkSia0eh+o0evOnHHCkU1NVu2z+o=;
-        b=tMXek0pHcbb6YZ+srsf2PrByIpwwsHQ7eXmivoqAzEi3q/YqfX+/Avz28pjjs4FEdm
-         2MJBt+JDIWkY84SMN+1vig4e9yLUz/JYMIM0N9l6HCOtiDMcTcxiGIqSQjlqt/T0JlIC
-         IQVkbqmwPJ/WPwVV4/NOC0+3r+AtdCoVbmreu0iMCRxeL1osEM/fO/Z4pDsS6/GNcM8M
-         8XjWgLSyf+4213t6aUTIsudrgWVHY97OUD1AnMty5CsT5cmzUd0egVRzQTG69bMCyU/L
-         oM6anU1nWCLOUFKwczHX0PEyqsmrML5o3mPGzAaC+0PbXx6yXLis7Vt7WwjZN8uNYKxx
-         wnIg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsumy0AT5raiZ/4Sse3SbjoI4v/8WSWRCkCPdI9CXw6tlYg3fm1Y3k+cSfGCwjezoftZhI90janO0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBZgu8p55eWvyIICMInMKDyiGYOATpv8Uuw2djUnAMfBjfigwQ
-	P/pT0LJO2r/o3SFyLfR7t2Jsmxur21gWuQYfwxDsgSSvmsB3SjNxEk60eRu8gobIfRsGa/CYIqN
-	136uVnSUH3qEu8586dZ/ouUrqdyfqPJ5Y8IBC/z/qQPouwLw5Xx1SOxNbbrX6aPKYLXO+Nc9zqp
-	gmRv8y2sG0uWl3wELvYZsStWjkeqvsq+OnbokS
-X-Gm-Gg: ASbGncvd7UqzPz2eK3HLVXRlW3ncsr3y7NG6HCnrBGr9UeTqcvkczt5G+Mlp6TZgthi
-	q4UaXIt5C93EAPioxoZd3JLTibmWdJ/ksWcQJzlXHKrtJQ6GQsmvgE7PTd4kkb9KsnjdkcQ==
-X-Received: by 2002:a05:651c:547:b0:326:ba31:bc1b with SMTP id 38308e7fff4ca-3295b9c6e82mr56903961fa.19.1748407998738;
-        Tue, 27 May 2025 21:53:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHST1hlfOsH7e7ZZwenC3npuT82YxgHz4N9xnnGh2MZrS78ykwqpUhtP6DEAauq3IXZOjG0ltgie6ZYMAAqIkk=
-X-Received: by 2002:a05:651c:547:b0:326:ba31:bc1b with SMTP id
- 38308e7fff4ca-3295b9c6e82mr56903931fa.19.1748407998310; Tue, 27 May 2025
- 21:53:18 -0700 (PDT)
+        bh=lvIb7tWWsEupK9BWjz39c0yzeNm9G9imVR6VZCBLXa4=;
+        b=gXaCMzp5hyixelwnQZdhHweMf5yOv0IPgsqTxxptBfOfG/nBwlOu6ooFXa3YaXUtBq
+         bW0/Qae6K2pRz0ibpDQNerFiDRNC4veP19GZH3vLqEUWaS3QwXwfsrfysOb3jXNCS4l7
+         CeOu42KTgrHZHU4855wmB7dryMA0Kt3GqZx6hIDM/+p+zzW8dIIByhlqCb/gLOU72QVF
+         ZWtwpzg6HiYR7uhzKFf8/DYOYm3aH7poztcYM1pEj0K4TT8D2QpxcrFCw/9ED1PgOexd
+         c/qOBdK9dE/JWSprs3lgiDZ+B+LJQLnMMsQuLvzOZt1pqklR3cUQtO4XGnrdMXuBs4uU
+         1dCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXnr7ooHhohJldLhVo8ctxkLZYlZd0HX+1FpofVSqr63SbKbfg+grBia8kcBGCwAz37xkStMj56Zco=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYRjeHo3BprE77mdGv4G9j9kaI1l99mmtyF24NtAzO28QTtTS0
+	pTD+8LLaYujllfER7On8zQcircvhPAcITksWtlk2s+FfV8Fj0bk6GKqFJznvoA5P6zObxo0cQH8
+	zbcdB4/LH/0o5DiSP3paHY1UDJQU5cHbmdNJtGiqlNxH0An2mJJLfMPNHW/Ehr7hwou9RImwo0q
+	NIoic1DxLY6uwE/RjmNQKmZlsL8AVYuVlfJxhr
+X-Gm-Gg: ASbGnctlTqiMwvS7rrqs/xuauZ85o6Ch0KsWcn2/D0GJrlwgplyb74kTAVTgxK77xpv
+	JToGfXtRgsGrt9YnDvNFRfOCTds9d/goxl9PrDrT6f+jJtai0KkWPKpI8HAvJJyUBAxslcQ==
+X-Received: by 2002:a05:651c:4208:b0:30b:c980:c589 with SMTP id 38308e7fff4ca-32a79aaf867mr1376031fa.14.1748408298249;
+        Tue, 27 May 2025 21:58:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGLuLgqlBSKVn3XuzZ5O4WHptTWpAn5Hj8UQwNjGJRq+mdS4yUEkruE7gijVJvks3bFhtJOEMBJBaD1evghUbY=
+X-Received: by 2002:a05:651c:4208:b0:30b:c980:c589 with SMTP id
+ 38308e7fff4ca-32a79aaf867mr1375941fa.14.1748408297836; Tue, 27 May 2025
+ 21:58:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250524061320.370630-1-yukuai1@huaweicloud.com> <20250524061320.370630-13-yukuai1@huaweicloud.com>
-In-Reply-To: <20250524061320.370630-13-yukuai1@huaweicloud.com>
+References: <20250524061320.370630-1-yukuai1@huaweicloud.com> <20250524061320.370630-15-yukuai1@huaweicloud.com>
+In-Reply-To: <20250524061320.370630-15-yukuai1@huaweicloud.com>
 From: Xiao Ni <xni@redhat.com>
-Date: Wed, 28 May 2025 12:53:05 +0800
-X-Gm-Features: AX0GCFsPvf7RCW8LBzVeUbKU7yRZ83m7i3GdKLvyxYqxJBrFEjDYTcKPMZaxrmY
-Message-ID: <CALTww2_pEnnWTGMbHUvX2CURrEvUHO=t2Notw9-Ynjemr5sDsw@mail.gmail.com>
-Subject: Re: [PATCH 12/23] md/md-bitmap: add macros for lockless bitmap
+Date: Wed, 28 May 2025 12:58:05 +0800
+X-Gm-Features: AX0GCFukkho086GfzsFTanUNNcI5WTEbYMx59B1Hh2FftMmayZ2nfabg-QIjzlg
+Message-ID: <CALTww296VZXQoBryTLkYj+JkXtQoNOuzG2SwHbnTk1KxSGRjKw@mail.gmail.com>
+Subject: Re: [PATCH 14/23] md/dm-raid: remove max_write_behind setting limit
 To: Yu Kuai <yukuai1@huaweicloud.com>
 Cc: hch@lst.de, colyli@kernel.org, song@kernel.org, yukuai3@huawei.com, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -85,81 +85,88 @@ rote:
 >
 > From: Yu Kuai <yukuai3@huawei.com>
 >
-> Also move other values to md-bitmap.h and update comments.
+> The comments said 'vaule in kB', while the value actually means the
+> number of write_behind IOs. And since md-bitmap will automatically
+> adjust the value to max COUNTER_MAX / 2, there is no need to fail
+> early.
+>
+> Also move some macros that is only used md-bitmap.c.
 >
 > Signed-off-by: Yu Kuai <yukuai3@huawei.com>
 > ---
->  drivers/md/md-bitmap.c |  9 ---------
->  drivers/md/md-bitmap.h | 17 +++++++++++++++++
->  2 files changed, 17 insertions(+), 9 deletions(-)
+>  drivers/md/dm-raid.c   |  6 +-----
+>  drivers/md/md-bitmap.c | 10 ++++++++++
+>  drivers/md/md-bitmap.h |  9 ---------
+>  3 files changed, 11 insertions(+), 14 deletions(-)
 >
+> diff --git a/drivers/md/dm-raid.c b/drivers/md/dm-raid.c
+> index 088cfe6e0f98..9757c32ea1f5 100644
+> --- a/drivers/md/dm-raid.c
+> +++ b/drivers/md/dm-raid.c
+> @@ -1356,11 +1356,7 @@ static int parse_raid_params(struct raid_set *rs, =
+struct dm_arg_set *as,
+>                                 return -EINVAL;
+>                         }
+>
+> -                       /*
+> -                        * In device-mapper, we specify things in sectors=
+, but
+> -                        * MD records this value in kB
+> -                        */
+> -                       if (value < 0 || value / 2 > COUNTER_MAX) {
+> +                       if (value < 0) {
+>                                 rs->ti->error =3D "Max write-behind limit=
+ out of range";
+>                                 return -EINVAL;
+>                         }
 > diff --git a/drivers/md/md-bitmap.c b/drivers/md/md-bitmap.c
-> index 17d41a7b30ce..689d5dba9328 100644
+> index 535bc1888e8c..098e7b6cd187 100644
 > --- a/drivers/md/md-bitmap.c
 > +++ b/drivers/md/md-bitmap.c
-> @@ -36,15 +36,6 @@
->  #include "md-bitmap.h"
->  #include "md-cluster.h"
->
-> -#define BITMAP_MAJOR_LO 3
-> -/* version 4 insists the bitmap is in little-endian order
-> - * with version 3, it is host-endian which is non-portable
-> - * Version 5 is currently set only for clustered devices
-> - */
-> -#define BITMAP_MAJOR_HI 4
-> -#define BITMAP_MAJOR_CLUSTERED 5
-> -#define        BITMAP_MAJOR_HOSTENDIAN 3
-> -
->  /*
->   * in-memory bitmap:
+> @@ -98,9 +98,19 @@
 >   *
+>   */
+>
+> +typedef __u16 bitmap_counter_t;
+> +
+>  #define PAGE_BITS (PAGE_SIZE << 3)
+>  #define PAGE_BIT_SHIFT (PAGE_SHIFT + 3)
+>
+> +#define COUNTER_BITS 16
+> +#define COUNTER_BIT_SHIFT 4
+> +#define COUNTER_BYTE_SHIFT (COUNTER_BIT_SHIFT - 3)
+> +
+> +#define NEEDED_MASK ((bitmap_counter_t) (1 << (COUNTER_BITS - 1)))
+> +#define RESYNC_MASK ((bitmap_counter_t) (1 << (COUNTER_BITS - 2)))
+> +#define COUNTER_MAX ((bitmap_counter_t) RESYNC_MASK - 1)
+> +
+>  #define NEEDED(x) (((bitmap_counter_t) x) & NEEDED_MASK)
+>  #define RESYNC(x) (((bitmap_counter_t) x) & RESYNC_MASK)
+>  #define COUNTER(x) (((bitmap_counter_t) x) & COUNTER_MAX)
 > diff --git a/drivers/md/md-bitmap.h b/drivers/md/md-bitmap.h
-> index f2d79c8a23b7..d2cdf831ef1a 100644
+> index d2cdf831ef1a..a9a0f6a8d96d 100644
 > --- a/drivers/md/md-bitmap.h
 > +++ b/drivers/md/md-bitmap.h
-> @@ -18,10 +18,27 @@ typedef __u16 bitmap_counter_t;
->  #define RESYNC_MASK ((bitmap_counter_t) (1 << (COUNTER_BITS - 2)))
->  #define COUNTER_MAX ((bitmap_counter_t) RESYNC_MASK - 1)
+> @@ -9,15 +9,6 @@
 >
-> +/*
-> + * version 3 is host-endian order, this is deprecated and not used for n=
+>  #define BITMAP_MAGIC 0x6d746962
+>
+> -typedef __u16 bitmap_counter_t;
+> -#define COUNTER_BITS 16
+> -#define COUNTER_BIT_SHIFT 4
+> -#define COUNTER_BYTE_SHIFT (COUNTER_BIT_SHIFT - 3)
+> -
+> -#define NEEDED_MASK ((bitmap_counter_t) (1 << (COUNTER_BITS - 1)))
+> -#define RESYNC_MASK ((bitmap_counter_t) (1 << (COUNTER_BITS - 2)))
+> -#define COUNTER_MAX ((bitmap_counter_t) RESYNC_MASK - 1)
+> -
+>  /*
+>   * version 3 is host-endian order, this is deprecated and not used for n=
 ew
-> + * array
-> + */
-> +#define BITMAP_MAJOR_LO                3
-> +#define BITMAP_MAJOR_HOSTENDIAN        3
-> +/* version 4 is little-endian order, the default value */
-> +#define BITMAP_MAJOR_HI                4
-> +/* version 5 is only used for cluster */
-> +#define BITMAP_MAJOR_CLUSTERED 5
-> +/* version 6 is only used for lockless bitmap */
-> +#define BITMAP_MAJOR_LOCKLESS  6
-> +
-> +#define BITMAP_SB_SIZE 1024
-
-Hi
-
-For super1, the bitmap bits are next to bitmap superblock.
-BITMAP_SB_SIZE is only used by md-llbitmap, is it better to define it
-in md-llbitmap.c?
-
-Regards
-Xiao
-
->  /* use these for bitmap->flags and bitmap->sb->state bit-fields */
->  enum bitmap_state {
->         BITMAP_STALE       =3D 1,  /* the bitmap file is out of date or h=
-ad -EIO */
->         BITMAP_WRITE_ERROR =3D 2, /* A write error has occurred */
-> +       BITMAP_FIRST_USE   =3D 3, /* llbitmap is just created */
-> +       BITMAP_CLEAN       =3D 4, /* llbitmap is created with assume_clea=
-n */
-> +       BITMAP_DAEMON_BUSY =3D 5, /* llbitmap daemon is not finished afte=
-r daemon_sleep */
->         BITMAP_HOSTENDIAN  =3D15,
->  };
->
+>   * array
 > --
 > 2.39.2
 >
+
+Reviewed-by: Xiao Ni <xni@redhat.com>
 
