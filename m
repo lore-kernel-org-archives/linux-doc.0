@@ -1,163 +1,143 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2BF28BAAB
-	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 15:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DFB27815C
+	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 15:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748445837; cv=none; b=lCNpK0Bjn9DvpUAy3Ax5kgqb2ihMKhV2Jr6IinhpGm2xHjkMUmqHymq+M4JE/9TS5ZC3HWAjZnbUhdxxoqXGfjLpVIrznHYqs13/GZyzpD1Qb9HreWxRcBtZCA3qXyPloDHPjtRP+g9jZX8HHSxKjOLCcrXJ8fNBA0hl3fdpZMI=
+	t=1748445958; cv=none; b=uVNq7jTI2ToecZqpj3MrCXQM4desHLnA5VIndKfhwZEwy7/+Vg40LF9yY+4rXgYg/sWAsP1hXivYRMTE9vLfDlLKb3M4rhXuy+dt0uHGgn1OTBvlJVayFEZkRUdLorOvGqeDo4kl4VioKT4IA9vbjbM1/gg87/Ei66a5iUBdqqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748445837; c=relaxed/simple;
-	bh=OlIGNsrljXEWvdinSyO4J4xZYqnP3RN9MssjhHD6S0U=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:References:
-	 In-Reply-To:Content-Type; b=TH4fw0m9z19YsUYxcl6M9J6vKL3QizBY2t1vr6ezknnaBB8aQ6GM/C401GErfPC/Vj3H0lyBdGqxfWSIiSbA15/lFQOsVm+fqpTUft5p1+eaI8M1pjYj0VABsCqGN1Q6bn6awVb9QSGhjmkc/9sbElMWTCbjMPHtXWjuVOuSwkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rn7UjnIa; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1748445958; c=relaxed/simple;
+	bh=JB4V1mXB50dIS2i0RJuuug4gKKlxLvXfYIwuNLk4WtQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hJPfEHGS+X6vFCPqs55dVl3Fuko5vqvZO12xNGTmm+2Jbm5ohmqrqMzkzkWya3wjZbvv3wAQEm+eqCeSI/V7BXbWsCueKaW73+c5ORfxj67uEjUgfA4vIO4frqFm0rgraK4Ifp3ec9V2O3F+vJCzrxb2amJq1Aa5XEzCGFHhYeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hCLCoJuf; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rn7UjnIa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748445834;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VptaC6vHWAhUvWn27KJmHAqHCa7LDR5CmGrJB91xBRs=;
-	b=Rn7UjnIahdMPfZQS+TRSMa79rkqeUMClD7l9VcBlGMT7M89uF4M6uoAhdge33hq+neU18g
-	g34+ArW6pwzJnthSi+3r9DD1NJrAATQfMhmQvix1zW/kVMmIYa7EX7XZ2rbpS9ppWl/E1o
-	M6OH+LO5AaTHbmVsMk5cQ55TYEOU+IE=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-496-7SPggn3QPza7KpaEIIBhPQ-1; Wed, 28 May 2025 11:23:53 -0400
-X-MC-Unique: 7SPggn3QPza7KpaEIIBhPQ-1
-X-Mimecast-MFC-AGG-ID: 7SPggn3QPza7KpaEIIBhPQ_1748445833
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7d0962035b7so73928485a.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 08:23:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hCLCoJuf"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-70e78e04e48so16202897b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 08:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1748445954; x=1749050754; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZZ+8fLpUTUE00SwjTXDSYLrDkmSnBdYHcuMZzbgG8cE=;
+        b=hCLCoJufd+CxSup/iMXxYzr9QUpe+XxDa3pPVHo9PrSg7djIXlvjxUjlwkTFQP55qh
+         978yKz96uNyJMBdeBuX9g8rUWPHd5VO3nHb0eADFxttvgcBEE+14opb6enmH6zC16ioa
+         EjAKhdfc4V2y3W/4S2HiN2McG/THvOpiD6w0tv7xGEIuRoNN1Xp5Oi0a7+B+uGiPYwL/
+         2r+EkJn9tQhTnC1oXKahnAopHF/Gz7Wu03Z2URzCer7D5s5GD6Y28+bQ6hFv7rqx+E9q
+         Oy1WXmADNc2bSRTKftASUm/jp7gR3gHRJR3CWxmOOZ+7HKjaBNFrJAJ9ulPUfkoPQdjF
+         xekw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748445833; x=1749050633;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:subject:user-agent:mime-version:date:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VptaC6vHWAhUvWn27KJmHAqHCa7LDR5CmGrJB91xBRs=;
-        b=IWQTP7P2Sm4BSt8Jx42Y0TLppZTpMnWdNjybRyBRMJKYFUmwAOZEbCdt9UrqynYoSx
-         nwXLkZrLq/AuGLhdOcyPsS66rUBG5NMxvipGi1IrsGfLFHVONag9IyjoS3dNAyRcl8eJ
-         8mupr64f25SuHiJ1dG0g3r6a80DnS+Ih9JBBYgv03V/54ndfNzZYuouGzYmC09olZnLr
-         C9Mmjr2JpJcc2PcUqV0SVuq4vIKAJwUbu5Z0AHaS363BnrE6iayjbquczcReLJdmGzLT
-         pNRtnc3PU5ZHeF7jLTfXEfJ6x1s9E/fcAU1b8MSFXkR+x98ddXIxvMksuvoNKHNbT3ol
-         h9lQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX1N77SkcyNFKI+RbUM6eYn9IXTpAXNLhw+zOaCVHEqt4HTGNGv/5WI24+ZksAvrMBYszQ35ZkjINs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWLfg0Vh7xTKbvxxnBaK3kf/WOmO9ig9PyPHyDasKX1poq4Brb
-	SAS335wOaqQAjEwNTfnBHsfM23h/HmgwG6QX2M7yzlyWqkY0+3+ki+j83SK7hSEInVHrG+tnncS
-	G/YRWi2z887OfzL2q1AcMsRzH++w6bzOpGg0L5yHDKcL+kQO+glvkP5+agJrbRHy334q0qEj9
-X-Gm-Gg: ASbGncupojGzX+0B3klTDMp0YU+yyji+2DPUMGTMkZNICQLaWZaPRmZ4UkZ5d3tlBTQ
-	x+b2UqYa2cnQ3RNNTgsOvskd7JtdYQz4wPmVQPrYm2jrn+ACa+c9x54h1cJXERmJ+nzG0Mm25c1
-	4LhW1LIba9d2zELG8A29B9iMNGk+uUzXcF88b4PeZjXMaZ9qjJy2zZ9cSZvZYjT1yyR2g2tzYP8
-	OsxHJfZiL8w6kbk72Lk5MygNjnhW4Qpq894cAv1mWvUYZ6QILLrQ15M6OIhewD/qABFtURHJu0y
-	7fKpsfz2wymP
-X-Received: by 2002:a05:620a:424a:b0:7c5:55f9:4bc1 with SMTP id af79cd13be357-7ceecc27054mr2090624585a.42.1748445832841;
-        Wed, 28 May 2025 08:23:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGnQ/I5pD0hhQow2ppXrZml7+WUDRAt7CMy+wi3zoafLJfGV00yEjXt2imSZol2wlQaaiVzAw==
-X-Received: by 2002:a05:620a:424a:b0:7c5:55f9:4bc1 with SMTP id af79cd13be357-7ceecc27054mr2090621085a.42.1748445832382;
-        Wed, 28 May 2025 08:23:52 -0700 (PDT)
-Received: from [172.20.4.10] ([50.234.147.137])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cfc5d486c8sm81211485a.101.2025.05.28.08.23.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 08:23:51 -0700 (PDT)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <99be9c8e-a5c4-4378-b03b-2af01608de9f@redhat.com>
-Date: Wed, 28 May 2025 11:23:50 -0400
+        d=1e100.net; s=20230601; t=1748445954; x=1749050754;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZZ+8fLpUTUE00SwjTXDSYLrDkmSnBdYHcuMZzbgG8cE=;
+        b=p21X00Mu1Tv2uq/Ak71Yo6pNJ1yhXDqrAPajN040Kz8RjRt+SZl0Nh0yRrBuY1vR2H
+         0/hdI5PYYAAX3OYPW2Cs5ZQLPtg2ZptlqLR8ui+NItqOP4BAj7jthiqBNJjhxJA42nEH
+         HCzp0x1kP0hFupENbqaaJzPUuefgfsJkLPsqcfz/giOk8EO9f+Ud/0Az5OCFpzbTaVQg
+         5S2Wz0kFUBW0K0UVJn2Xg5mfTgO0UGOLdqk2bpafEq+ueymHgB82Z6FdMFfAJk4VxH1o
+         goht8eorCXE2RuD3nasfQSf85pZ1riFDY1umjXXX1RAEU2TX6oSIkq2BYn+J0KQDvYWI
+         4Lkw==
+X-Forwarded-Encrypted: i=1; AJvYcCXlbuoRTplNeO9ihiPaPDhXbmGG1JIqcepu7UDt3AJiL2cBRruf2BBT5A7bmOmZCIualQKA7s2v2qw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaTQwK9oZepZ3KEsJESZCpml4/vyQjHH9k3VrCUs3T74VrlMXN
+	vFpMvdBFBovbt2HOxQe+bRA+2SIppLfnt2aLotdFwQtEBxPIz4x7hegrMvmI4a43VrkxV7B+UzG
+	O0tK0OQMKq0gW1GRG4Pg5ZJDHd2vO3Yp5tb8RNi5D
+X-Gm-Gg: ASbGncuuw0uCneux+ITFxVs+X4Mym4O9xLmVcT4hQYij956cPr39X0LIYAZ7WlXPWZM
+	uXBaJmAhZN/By8Vurh++HZ/1OnJPwqXzJNO68n110CLhLbjy1cljxoP89pAqkmuMvS/aHNKu4WN
+	CJMfymL0UUo7L08qOu5yzszZj7s2vpTlnwmQ6wJwPv3i5Zze+Rhg3AhWpecqoEeMnnEvuZR1xZi
+	yzd0Q==
+X-Google-Smtp-Source: AGHT+IHHTjFjHU0PvV1+djItsz78YttpGm4E3LPln4uNDhF+ecRDSLHAHEgplJviovwSCSuAsvDL2RN+PvRS8fF8nxk=
+X-Received: by 2002:a05:690c:6382:b0:6fb:a696:b23b with SMTP id
+ 00721157ae682-70e2daa40e4mr229796257b3.33.1748445954277; Wed, 28 May 2025
+ 08:25:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: cgroup: clarify controller enabling
- semantics
-To: Vishal Chourasia <vishalc@linux.ibm.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250527085335.256045-2-vishalc@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <20250527085335.256045-2-vishalc@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250109204929.1106563-1-jthoughton@google.com>
+ <20250109204929.1106563-7-jthoughton@google.com> <aBqkINKO9PUAzZeS@google.com>
+ <CADrL8HXDDRC6Ey5HYWvtzQzjcM2RNX7c7ngGyjUsD3WiBF3VYA@mail.gmail.com>
+In-Reply-To: <CADrL8HXDDRC6Ey5HYWvtzQzjcM2RNX7c7ngGyjUsD3WiBF3VYA@mail.gmail.com>
+From: James Houghton <jthoughton@google.com>
+Date: Wed, 28 May 2025 11:25:18 -0400
+X-Gm-Features: AX0GCFsuA5ETDJCRPXwcAF_CgwvMWNwjHd-w8eEw30VBFRDQPn6RHYkUrDT3M_g
+Message-ID: <CADrL8HXS7zvJZjOxTxPKH0dAGoMXnFrrxCW7J7CXRtaeV6izjQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/13] KVM: arm64: Add support for KVM_MEM_USERFAULT
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Yan Zhao <yan.y.zhao@intel.com>, 
+	Nikita Kalyazin <kalyazin@amazon.com>, Anish Moorthy <amoorthy@google.com>, 
+	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>, 
+	David Matlack <dmatlack@google.com>, wei.w.wang@intel.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/27/25 4:53 AM, Vishal Chourasia wrote:
-> The documentation for cgroup controller management has been updated to
-> be more consistent regarding following concepts:
+On Wed, May 28, 2025 at 11:09=E2=80=AFAM James Houghton <jthoughton@google.=
+com> wrote:
 >
-> What does it mean to have controllers
-> 1) available in a cgroup, vs.
-> 2) enabled in a cgroup
+> On Tue, May 6, 2025 at 8:06=E2=80=AFPM Sean Christopherson <seanjc@google=
+.com> wrote:
+> >
+> > On Thu, Jan 09, 2025, James Houghton wrote:
+> > > @@ -2073,6 +2080,23 @@ void kvm_arch_commit_memory_region(struct kvm =
+*kvm,
+> > >                                  enum kvm_mr_change change)
+> > >  {
+> > >       bool log_dirty_pages =3D new && new->flags & KVM_MEM_LOG_DIRTY_=
+PAGES;
+> > > +     u32 new_flags =3D new ? new->flags : 0;
+> > > +     u32 changed_flags =3D (new_flags) ^ (old ? old->flags : 0);
+> >
+> > This is a bit hard to read, and there's only one use of log_dirty_pages=
+.  With
+> > zapping handled in common KVM, just do:
 >
-> Which has been clearly defined below in the documentation.
+> Thanks, Sean. Yeah what you have below looks a lot better, thanks for
+> applying it for me. I'll post a new version soon. One note below.
 >
-> "Enabling a controller in a cgroup indicates that the distribution of
-> the target resource across its immediate children will be controlled.
-> Consider the following sub-hierarchy"
+> >
+> > @@ -2127,14 +2131,19 @@ void kvm_arch_commit_memory_region(struct kvm *=
+kvm,
+> >                                    const struct kvm_memory_slot *new,
+> >                                    enum kvm_mr_change change)
+> >  {
+> > -       bool log_dirty_pages =3D new && new->flags & KVM_MEM_LOG_DIRTY_=
+PAGES;
+> > +       u32 old_flags =3D old ? old->flags : 0;
+> > +       u32 new_flags =3D new ? new->flags : 0;
+> > +
+> > +       /* Nothing to do if not toggling dirty logging. */
+> > +       if (!((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES))
+> > +               return;
 >
-> As an example, consider
->
-> /sys/fs/cgroup # cat cgroup.controllers
-> cpuset cpu io memory hugetlb pids misc
-> /sys/fs/cgroup # cat cgroup.subtree_control # No controllers by default
-> /sys/fs/cgroup # echo +cpu +memory > cgroup.subtree_control
-> /sys/fs/cgroup # cat cgroup.subtree_control
-> cpu memory                   # cpu and memory enabled in /sys/fs/cgroup
-> /sys/fs/cgroup # mkdir foo_cgrp
-> /sys/fs/cgroup # cd foo_cgrp/
-> /sys/fs/cgroup/foo_cgrp # cat cgroup.controllers
-> cpu memory                   # cpu and memory available in 'foo_cgrp'
-> /sys/fs/cgroup/foo_cgrp # cat cgroup.subtree_control  # empty by default
-> /sys/fs/cgroup/foo_cgrp # ls
-> cgroup.controllers      cpu.max.burst           memory.numa_stat
-> cgroup.events           cpu.pressure            memory.oom.group
-> cgroup.freeze           cpu.stat                memory.peak
-> cgroup.kill             cpu.stat.local          memory.pressure
-> cgroup.max.depth        cpu.weight              memory.reclaim
-> cgroup.max.descendants  cpu.weight.nice         memory.stat
-> cgroup.pressure         io.pressure             memory.swap.current
-> cgroup.procs            memory.current          memory.swap.events
-> cgroup.stat             memory.events           memory.swap.high
-> cgroup.subtree_control  memory.events.local     memory.swap.max
-> cgroup.threads          memory.high             memory.swap.peak
-> cgroup.type             memory.low              memory.zswap.current
-> cpu.idle                memory.max              memory.zswap.max
-> cpu.max                 memory.min              memory.zswap.writeback
->
-> Once a controller is available in a cgroup it can be used to resource
-> control processes of the cgroup.
->
-> Signed-off-by: Vishal Chourasia <vishalc@linux.ibm.com>
-> ---
->   Documentation/admin-guide/cgroup-v2.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 1a16ce68a4d7..0e1686511c45 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -438,8 +438,8 @@ Controlling Controllers
->   Enabling and Disabling
->   ~~~~~~~~~~~~~~~~~~~~~
->   
-> -Each cgroup has a "cgroup.controllers" file which lists all
-> -controllers available for the cgroup to enable::
-> +Each cgroup has a cgroup.controllers file, which lists all the controllers
-> +available for that cgroup and which can be enabled for its children.
+> This is my bug, not yours, but I think this condition must also check
+> that `change =3D=3D KVM_MR_FLAGS_ONLY` for it to be correct. This, for
+> example, will break the case where we are deleting a memslot that
+> still has KVM_MEM_LOG_DIRTY_PAGES enabled. Will fix in the next
+> version.
 
-I believe breaking the sentence into two separate components is actually 
-making it less correct. There are implicit controllers that are always 
-enabled and do not show up in cgroup.controllers. Prime examples are 
-perf_event and freezer. IOW, only controllers that are available and 
-need to be explicitly enabled will show up.
+Ah it wouldn't break that example, as `new` would be NULL. But I think
+it would break the case where we are moving a memslot that keeps
+`KVM_MEM_LOG_DIRTY_PAGES`.
 
-Cheers,
-Longman
-
+>
+> >
+> >         /*
+> >          * At this point memslot has been committed and there is an
+> >          * allocated dirty_bitmap[], dirty pages will be tracked while =
+the
+> >          * memory slot is write protected.
+> >          */
+> > -       if (log_dirty_pages) {
+> > +       if (new_flags & KVM_MEM_LOG_DIRTY_PAGES) {
+> >
+> >                 if (change =3D=3D KVM_MR_DELETE)
+> >                         return;
