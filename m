@@ -1,220 +1,171 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9A528B514
-	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 15:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E3A28A415
+	for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 15:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748446516; cv=none; b=Pk9KzMkNQkU4B3ADXMtoO8opqJnqbxZn3vCfWfKbs91IrBOdM3pHUZxHqO9EepS1hmC8SMX2K++a94m+3vzYWHDJRHVS6qRGfY1rXgIgmibfu1oOA7TJbMiEnUl6shjeKbZKdMsQfEJ4GMCRJoeDoa0iTDzhogxIcbGsI2Xlr1E=
+	t=1748447138; cv=none; b=mlvtQuziKakmIDhzAkj9EGDOT1QH71v0vrUICqkxXsDBllhtjke/TYLr4NedCoq4OuVd5guqdcd3LZ1gAaiZoXlgYJXF6uUKLtV4rpxoPXosJFVY1H4ClJoQpRQj9W3CMoo/wiZ1xbnN9Jwvhl6LfKPBsfAWB23hR/ROvUm3Xas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748446516; c=relaxed/simple;
-	bh=J57SZfY4LXui76ePtrfBMHyfF57llELgFBmoKZ+iFtc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jM1MHZTAq9G09SJJByaPfqU4JH0Sy8qZ5yOSZXXogXQ7Emzc2vXmqy26iB1OzAX0GM0ECEtgUCMzHyygtkrWWJUVQZ4k4b8NYz3CUrMSuoG2uqMQuDvQI01GOju/LFzDbrvzzsAmOAkkp2X3UGJlxbK3m7YUL7oNnSPZpi1mlQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=tomeuvizoso.net; dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b=Dn7TaLR0; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
+	s=arc-20240116; t=1748447138; c=relaxed/simple;
+	bh=/CbNirfnMFT6iFLSja2Zj2oVfKKWn3klp7446jTgwUs=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:References:
+	 In-Reply-To:Content-Type; b=akRKgwIBMhaoQcoGhCXQ7XXScNsadAvAbkKvNSEjS7+R6RV8wH7BXxlmUHqbq+pppE6SGSsKpZDae2xfuBqZqF2W8Ja6iOoa42d9XFdZhozhthBPYDs+TuRU6RstLk2EMO9hASJ+xRuidHiXxXSO01kGUfjj6KbXoTWt7vwKVxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gIlkdiOn; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="Dn7TaLR0"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e7da03bb0cdso2314898276.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 08:35:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1748446509; x=1749051309; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/xxvQd++y7EnTgMMEVQbGeZAD8fz0r4wC/tmiy3K++8=;
-        b=Dn7TaLR0l8qw9XKJqK8BBgm9OqoxrSOMlR6HN24NNUEQ6z3p4mVgcjWVJCoY3fYqiE
-         SjqOqvpBbL5fMkYgbDAlB6NsyjRkdBeE9XTXiFQyhylv4QnrC0ZVUHWPCmlMlAL/QKsL
-         P1Ne1E6hDYCwFwkedGiegv66HEQZzS6f0vi9BUfYRUsNl21aFajysOqMYO5Q98cy4lU4
-         umOirpHeySjhmzvXRbm64j7BRoqmrAqNOWDoOfBn1DT78+5tK8SxWO2aROpoY7y8yMzq
-         A5Jk9pDmLhjlRPkZNxPSqfFAo3mn4zi6PPeQzl7lpz4DiQA6HXWCubmYToM8lWr+TYT3
-         CzKA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gIlkdiOn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1748447134;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pyLOwGypbK7cil/VDfYgN1Gr/yfNRiyW37n+n15jPLw=;
+	b=gIlkdiOnCtea0VdQoZOFxJQVTXWAAe8GTkTAcDCvapEC01qXZ6Uudkpe2KEVTX4LhIxckT
+	PpJ9TpCJf8B/XaQAGpnvRGOAzqQS++IVETWNWBSN3sGSw7h+ew788rMed9hiWxfkmUYqSc
+	sNi0QKL5CHYpUn8Uec/KWFcDC2fr7G8=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-101-n-ch8fMFO2O7G7kYhko3oQ-1; Wed, 28 May 2025 11:45:32 -0400
+X-MC-Unique: n-ch8fMFO2O7G7kYhko3oQ-1
+X-Mimecast-MFC-AGG-ID: n-ch8fMFO2O7G7kYhko3oQ_1748447132
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c5e28d0cc0so719437085a.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 08:45:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748446509; x=1749051309;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/xxvQd++y7EnTgMMEVQbGeZAD8fz0r4wC/tmiy3K++8=;
-        b=OU79hUB9iKGvRYtl9ffJfavpvdd5GZPVQA56V+i+8b6RAWwTkTXVhZUtob5LJF/yJx
-         d9pZ3A+zcQsg4rOki0RDrIvviJ26pLNa0pgjAxkWhygUuiLgczk7FrRQhh+Heb/Est3t
-         b73/RxRai/OXvS7Rh1y9aKmTOlbuE7y4r/uCksT2qpQRwABg6WcEz0S6L95hjqBuXpzz
-         EbB1DuCCroR6cxjKFhXfQF3QaH2nWb58te6Km1i2rO5s8v8Khb9zw7b+vi983jDIRoxz
-         ciMhV9bEPzB60ZxDsWW8W2O29oxzwzIAC00w5oLIDlNt427ES6wfn/0p3IQHNiijsC5m
-         trjw==
-X-Forwarded-Encrypted: i=1; AJvYcCWb390IuIXyQOPH+YWNefxcUXo8krFMzOesp6T06o2BKZVrm0JV0scXDGuIoLrNs031xKC6WeZ169c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQtRZ/u1rgMzrDeN0FfexL+Il68vR/jpvLw9a5YIFWmeaOCuuq
-	SVzDfy8SZPv7YvTlRj4vhUObcDQdFuRTWF6f4ysIcVaPXEDaVA8Vcgxp40NoMgpeq0ooAxgn1cF
-	sA9gR9lI=
-X-Gm-Gg: ASbGnctD2dwDdKOKMNM9MLOkc5NIhS36l+4KSAciEgJRGgbQKTc7bErgiRGrYQsCo+x
-	r4jM/k/IJp1EpFA2noiTpjwDs4tyW/M6WKkPh0PghMDqFrV/j65STvQmLu2aoP5VriV/VdkUofW
-	Hwhvqb3bvZaDjsQ1csnQHrkKUN6qRpkcR+4Z0P59Hak6OE+OA9khphKGvaA75X9LBByB8Z9uWY1
-	B9Kd7K0a5K75ae8Rdw4tp5udFcMqAq1SOxio9vNgZdj3TMyRP6W/oxHKWVcP5Nna5X8pBEQH/vY
-	50qU/CRScbAyS7hv4wNH/hXyKGG1f/XWgr2cJQ9RL1+IZ7OyeUKXNWLKRtP9hXt9326BeuJSLY0
-	uB41BIaJTAf32xATyshU=
-X-Google-Smtp-Source: AGHT+IFNri4VZP668TZRiLiVPchub4mhmoXvwTtePdpwff5wJ8RFOvLtGPEDClrpn0GJacLg8abqsA==
-X-Received: by 2002:a05:6902:284a:b0:e7d:d181:3261 with SMTP id 3f1490d57ef6-e7dd18132cdmr6259259276.12.1748446509526;
-        Wed, 28 May 2025 08:35:09 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e7f61886a4esm310749276.51.2025.05.28.08.35.09
+        d=1e100.net; s=20230601; t=1748447132; x=1749051932;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pyLOwGypbK7cil/VDfYgN1Gr/yfNRiyW37n+n15jPLw=;
+        b=bR0I6yB+/kKrw55rMoo5ec59sszp1RnKuGc/9AKLwmnpvxXCKsLHJOcBQCNafx2yrc
+         7fbL6N5yET2njEzEtGBaizbzvlg7qstfVRS5nA7sTU+IvCZi/w2oAVVOX8/VRxhfyagd
+         LdZSSTgJVsSxAXXUJpY9laQZzj3Z0j8crAA5cNMcnPYMeg77JXhsoSW+rrS+DqYCn1kj
+         pB9Za/soTDbDmhwCsFcEFe6BA5gbDgUN1YQzFdAUU4Xnm1ywek5IIjWD9hvmyEVMz6t4
+         RC13eZfOYXpCcWJ2Sax6MW0DclyCgy92W7HdZbG1+ZhcjOy9GxRu0OASNez2WWuJkBKq
+         ekAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvy+5U/3d29oc0v5ZC0eJMF2QGDx6HZmNRjsPn6z7XT9//aLd1wf/lYUX1Re4DkLs5tMOC5bG0cMw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHtTNvMs9Y0vDukq0lpgNkupQv8fauIU283s9pyEILp4vSFx9e
+	hprk+sl1F8nmREqLWpz2HsncKpHL/ab/V+NWahkJOb0rb8Y6Kk3zKNgxWfYfDb6IL5CvxPf/Va1
+	BuLwBPCygi2I7p0Qr2WXiCojNa0u/AQ4ew4Rd+/pttnKvM5bmGHnyIISnoCR+3Q==
+X-Gm-Gg: ASbGnctKKuSTG7ET+uT+jTmcF9ldhTDw/KPrFFIRDqwQ7fK/l2xRslowXPDTp1PtQZT
+	UXC84pc2Y4D+ZsCyNfI6qpmHjaiwHM1p8USaHKszH4U74FYo7hhZAlVMnKD+8pKqv1ItMpzJQ+l
+	FC6hn0RoVxNkVSNyKkuVF22l8PwgIetUl62nVtqwi0s3iskPeCJW277G+cATJIehpcpZLhJvs+Y
+	+C68yzelZbQ5/BtwT21s77HXgpbYQ9RNGloqrV0b4BXIC8TXIEBZVYIAHfOJ7roZk4sMOnF5abQ
+	8Y28U90FDC37
+X-Received: by 2002:a05:620a:2952:b0:7ce:e010:88bb with SMTP id af79cd13be357-7cfc5d3bea0mr319655485a.22.1748447132196;
+        Wed, 28 May 2025 08:45:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGUqlAX9B3FIW5eZMrtvbf91YzWhqy3WejI0SBLhs/OnmLka0kFn2dRtq7rU7LdniOGPnZkrQ==
+X-Received: by 2002:a05:620a:2952:b0:7ce:e010:88bb with SMTP id af79cd13be357-7cfc5d3bea0mr319652185a.22.1748447131835;
+        Wed, 28 May 2025 08:45:31 -0700 (PDT)
+Received: from [172.20.4.10] ([50.234.147.137])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cfb82002bdsm84495085a.17.2025.05.28.08.45.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 08:35:09 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e731a56e111so3785596276.1;
-        Wed, 28 May 2025 08:35:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVtWG0GRt0ueE9Bnw+z5uDi3NBhwM6UlHEkBgYKgTabLXCDvRMYps9cwT6EhqaFP231qz7VupN+TgbO/u83@vger.kernel.org, AJvYcCVv36bTNyd5YP21/E6+JlVkVtn+zrJNhfv4F8gR/T/1fQeS0yTtj2Ko0ilZ4LSjGCk24JmbDo4tHtUhbEc=@vger.kernel.org, AJvYcCWGDV84Ogd40UFv9hvP8jhFE5RaqDpg6uEP8PT0b/e9Fjh4VZ4iwph92joOzqp6VbWz9CTGjKEbbb/i@vger.kernel.org, AJvYcCWgQSwxv1usGpPzWqRPEGXgb0a3v0n1DBzHoZx6Ztl1ItBke5heeIbv5CAolA/EkD4EaouecC9lGjEd@vger.kernel.org
-X-Received: by 2002:a05:6902:1021:b0:e7d:ca07:a144 with SMTP id
- 3f1490d57ef6-e7dca07a23dmr8541656276.5.1748446509068; Wed, 28 May 2025
- 08:35:09 -0700 (PDT)
+        Wed, 28 May 2025 08:45:31 -0700 (PDT)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <a9d0e503-ec70-41a7-adb2-989082e4d9f2@redhat.com>
+Date: Wed, 28 May 2025 11:45:29 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
- <20250520-6-10-rocket-v5-1-18c9ca0fcb3c@tomeuvizoso.net> <CAL_Jsq+2mvUDWWvtPSryAiCNJP_=1vNRxARxWTS=-O-LTQO3Dg@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+2mvUDWWvtPSryAiCNJP_=1vNRxARxWTS=-O-LTQO3Dg@mail.gmail.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Wed, 28 May 2025 17:34:57 +0200
-X-Gmail-Original-Message-ID: <CAAObsKDE33kZ27XbgeWBqQzrZXDHwHzp2Q6A7y_osC50UG-n7g@mail.gmail.com>
-X-Gm-Features: AX0GCFtwrQfY2JjemntUXNTLyymu_4uxtqwB53YlQ42a11mlnVkp6EMD0QhiJuw
-Message-ID: <CAAObsKDE33kZ27XbgeWBqQzrZXDHwHzp2Q6A7y_osC50UG-n7g@mail.gmail.com>
-Subject: Re: [PATCH v5 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
-	Kever Yang <kever.yang@rock-chips.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: cgroup: clarify controller enabling
+ semantics
+To: Vishal Chourasia <vishalc@linux.ibm.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250527085335.256045-2-vishalc@linux.ibm.com>
+ <99be9c8e-a5c4-4378-b03b-2af01608de9f@redhat.com>
+Content-Language: en-US
+In-Reply-To: <99be9c8e-a5c4-4378-b03b-2af01608de9f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 28, 2025 at 3:41=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
+
+On 5/28/25 11:23 AM, Waiman Long wrote:
+> On 5/27/25 4:53 AM, Vishal Chourasia wrote:
+>> The documentation for cgroup controller management has been updated to
+>> be more consistent regarding following concepts:
+>>
+>> What does it mean to have controllers
+>> 1) available in a cgroup, vs.
+>> 2) enabled in a cgroup
+>>
+>> Which has been clearly defined below in the documentation.
+>>
+>> "Enabling a controller in a cgroup indicates that the distribution of
+>> the target resource across its immediate children will be controlled.
+>> Consider the following sub-hierarchy"
+>>
+>> As an example, consider
+>>
+>> /sys/fs/cgroup # cat cgroup.controllers
+>> cpuset cpu io memory hugetlb pids misc
+>> /sys/fs/cgroup # cat cgroup.subtree_control # No controllers by default
+>> /sys/fs/cgroup # echo +cpu +memory > cgroup.subtree_control
+>> /sys/fs/cgroup # cat cgroup.subtree_control
+>> cpu memory                   # cpu and memory enabled in /sys/fs/cgroup
+>> /sys/fs/cgroup # mkdir foo_cgrp
+>> /sys/fs/cgroup # cd foo_cgrp/
+>> /sys/fs/cgroup/foo_cgrp # cat cgroup.controllers
+>> cpu memory                   # cpu and memory available in 'foo_cgrp'
+>> /sys/fs/cgroup/foo_cgrp # cat cgroup.subtree_control  # empty by default
+>> /sys/fs/cgroup/foo_cgrp # ls
+>> cgroup.controllers      cpu.max.burst           memory.numa_stat
+>> cgroup.events           cpu.pressure            memory.oom.group
+>> cgroup.freeze           cpu.stat                memory.peak
+>> cgroup.kill             cpu.stat.local          memory.pressure
+>> cgroup.max.depth        cpu.weight              memory.reclaim
+>> cgroup.max.descendants  cpu.weight.nice         memory.stat
+>> cgroup.pressure         io.pressure memory.swap.current
+>> cgroup.procs            memory.current memory.swap.events
+>> cgroup.stat             memory.events           memory.swap.high
+>> cgroup.subtree_control  memory.events.local     memory.swap.max
+>> cgroup.threads          memory.high             memory.swap.peak
+>> cgroup.type             memory.low memory.zswap.current
+>> cpu.idle                memory.max              memory.zswap.max
+>> cpu.max                 memory.min memory.zswap.writeback
+>>
+>> Once a controller is available in a cgroup it can be used to resource
+>> control processes of the cgroup.
+>>
+>> Signed-off-by: Vishal Chourasia <vishalc@linux.ibm.com>
+>> ---
+>>   Documentation/admin-guide/cgroup-v2.rst | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/cgroup-v2.rst 
+>> b/Documentation/admin-guide/cgroup-v2.rst
+>> index 1a16ce68a4d7..0e1686511c45 100644
+>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>> @@ -438,8 +438,8 @@ Controlling Controllers
+>>   Enabling and Disabling
+>>   ~~~~~~~~~~~~~~~~~~~~~
+>>   -Each cgroup has a "cgroup.controllers" file which lists all
+>> -controllers available for the cgroup to enable::
+>> +Each cgroup has a cgroup.controllers file, which lists all the 
+>> controllers
+>> +available for that cgroup and which can be enabled for its children.
 >
-> On Tue, May 20, 2025 at 5:27=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.n=
-et> wrote:
-> >
-> > Add the bindings for the Neural Processing Unit IP from Rockchip.
-> >
-> > v2:
-> > - Adapt to new node structure (one node per core, each with its own
-> >   IOMMU)
-> > - Several misc. fixes from Sebastian Reichel
-> >
-> > v3:
-> > - Split register block in its constituent subblocks, and only require
-> >   the ones that the kernel would ever use (Nicolas Frattaroli)
-> > - Group supplies (Rob Herring)
-> > - Explain the way in which the top core is special (Rob Herring)
-> >
-> > v4:
-> > - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowsk=
-i)
-> > - Remove unneeded items: (Krzysztof Kozlowski)
-> > - Fix use of minItems/maxItems (Krzysztof Kozlowski)
-> > - Add reg-names to list of required properties (Krzysztof Kozlowski)
-> > - Fix example (Krzysztof Kozlowski)
-> >
-> > v5:
-> > - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
-> > - Streamline compatible property (Krzysztof Kozlowski)
-> >
-> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > ---
-> >  .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 147 +++++++++++++=
-++++++++
-> >  1 file changed, 147 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn=
--core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-cor=
-e.yaml
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..9eb426367afcbc03c387d43=
-c4b8250cdd1b9ee86
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.y=
-aml
-> > @@ -0,0 +1,147 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Neural Processing Unit IP from Rockchip
-> > +
-> > +maintainers:
-> > +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > +
-> > +description:
-> > +  Rockchip IP for accelerating inference of neural networks, based on =
-NVIDIA's
-> > +  open source NVDLA IP.
-> > +
-> > +  There is to be a node per each core in the NPU. In Rockchip's design=
- there
-> > +  will be one core that is special and needs to be powered on before a=
-ny of the
-> > +  other cores can be used. This special core is called the top core an=
-d should
-> > +  have the compatible string that corresponds to top cores.
->
-> Is this really a distinction in the h/w? If you change which core is
-> the top one in the DT, does it still work?
+> I believe breaking the sentence into two separate components is 
+> actually making it less correct. There are implicit controllers that 
+> are always enabled and do not show up in cgroup.controllers. Prime 
+> examples are perf_event and freezer. IOW, only controllers that are 
+> available and need to be explicitly enabled will show up.
 
-No, I really need to power on that one before the others can work (the
-first core is also marked as special in a diagram in the TRM).
+A correction: The cgroup.controllers file shows the controllers that are 
+available in the current cgroup and which have to be explicitly enabled 
+in cgroup.subtree_control to make them available in the child cgroups.
 
-> > +
-> > +properties:
-> > +  $nodename:
-> > +    pattern: '^npu@[a-f0-9]+$'
-> > +
-> > +  compatible:
-> > +    enum:
-> > +      - rockchip,rk3588-rknn-core-top
-> > +      - rockchip,rk3588-rknn-core
-> > +
-> > +  reg:
-> > +    maxItems: 3
-> > +
-> > +  reg-names:
-> > +    items:
-> > +      - const: pc
-> > +      - const: cna
-> > +      - const: core
-> > +
-> > +  clocks:
-> > +    minItems: 2
-> > +    maxItems: 4
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: aclk
-> > +      - const: hclk
-> > +      - const: npu
-> > +      - const: pclk
-> > +    minItems: 2
->
-> It is odd that the non-top cores only have bus clocks and no module
-> clock. But based on the clock names, I'm guessing the aclk/hclk are
-> not shared, but the npu and pclk are shared. Since you make the top
-> core probe first, then it will enable the shared clocks and the
-> non-top cores don't have to worry about them. If so, that is wrong as
-> it is letting the software design define the bindings.
+Cheers,
+Longman
 
-Yes, I think it's probably as you say, but I don't know how I could
-check. Maybe Kever, Heiko or Sebastian would have any ideas?
-
-Thanks,
-
-Tomeu
