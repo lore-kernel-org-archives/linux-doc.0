@@ -1,179 +1,226 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2064.outbound.protection.outlook.com [40.107.243.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1176522DFE3;
-	Thu, 29 May 2025 17:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748539654; cv=none; b=dNvgYmEwyyJXKv4bIYwzaab7XczpPLvnhYf5QTQ/DA8L8cOhEQ+SCOWo5KBWb13Avj++SwQLo9jni2AvNswJrIyDqPMro5YAj62bTI+nojyl6gfsUUEyMP0Q8DGVldYKBKguPljgcyUO3zoNibAQi9XZ0+VFDYXqU7wntyHIV8U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748539654; c=relaxed/simple;
-	bh=qH4v453/dendpSvOjjh1ZKW/R1SsJgK2XoSkPc/H1O4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pEpWIYtxXwD8MstZqiq/3SfCigvJFrm9M8LLHgo+evJ6PEPbZ9N3iSXPSafwTBDhpTlIedJezETJ7eDSKMy4VEYD5g1+zBnujfdu2T50y2nZR/r69Z2m/T6Ghttso3u5ohF3eeLNHpOuBZM9CT+neDAbNNdsNkTJW4iIJVInatc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t8+N4dZw; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008F61DA5F;
+	Thu, 29 May 2025 18:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748542090; cv=fail; b=uVjNg0J4sVpPMB0ujf3FPhIhiAmnfVl9JleqeT0lDgAoXs3mr0nGWcV44AXWojzYxO+1vWVnOEr/1JVx4N9GXMwGdrKBSitRQ6EruDbg7bRwaI5U3URWplKOXkwxU+vL1qZWAeWb/w/BOCW3Ep5kBCRE/buXCpNwaxp2lDMoo2w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748542090; c=relaxed/simple;
+	bh=mRTwMbENQ4Bz0llzWPdaJrdrgupga+KkEh5rYjQqK40=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=mubMBPODUqrg3s3AFwS786Y0oYL3uAVuACanCWJN9C0CZCQJbmB7vxiEF+Skp1+/xyCkBEvIMRaBXR/9WxugADhDhJ2Kd2K/eJqgTU423m4vsPBZoMxU9Q6dZCM8lVvCDUs7dx8URYIKyIRoo/H39bj612a7DhuewZF9NYOlopA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lwV04mFl; arc=fail smtp.client-ip=40.107.243.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t8+N4dZw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9035DC4AF0B;
-	Thu, 29 May 2025 17:27:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748539653;
-	bh=qH4v453/dendpSvOjjh1ZKW/R1SsJgK2XoSkPc/H1O4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=t8+N4dZwEfhe+LFdQdFK8MJrzNy7bvLmeld55BQDnlTZUtyshocGIoHG9Q40WZcPw
-	 sQjwhnS0pE4+6v1cuKiyCYdZNSqdystTTX9qPQa/JQQDunaV7D1OTBHrpYfvBH8rWR
-	 I4bt4WKKQRFnD7KDw5+1is9ziv9jMmW2lYcwx7DVz4OyepjgwIVGLz3qMzuVnQMnjr
-	 lifyHr/Wgb/uXXY+3Jej4XdsCuWpCspYzVUXaxBgQIBkyw3VPsoQZuxuMNcjWZ9TSB
-	 lectM9/hGEwmawfAB/TYKRzSY600fKZ22CRpVeBgU8mxb/yFrwZrYK8/55QJg8x0RB
-	 JrBjN0tSGQ21Q==
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ad55d6aeb07so185683566b.0;
-        Thu, 29 May 2025 10:27:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV47vZBhUogi3jw0Z79NFGHlWSkOrNPLXh7P+IP2patGwGsRn7zzxrNf2p4O7o/mW9bnuyYOuyNNjQJSohe@vger.kernel.org, AJvYcCVnd/y6J5RMaoPrTAEiWGBAPHve7VkkQNmStxPFCq/EsToGIzlKfRryoX1nZ9g0uc2YVTnTUdkqiag=@vger.kernel.org, AJvYcCXCkxl9iBIIy6nfHXKjGEk9LhV8aRU9T5Jv7xJJpPvdC8VqKyCrForSGiBVMxI78sl0zFGHlxNDsHDpZygjrQZ+0w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YynIqiuz33z4RW/2VKah5JqUhzf7cIjymz8E76CSfvT7m/VB62E
-	cf0aEEYKhu8FXwk0JtDNfWEF672AOR11syk4hlYc/WwVrAMQEz7lCFUaPbI/YRYxBwiC3On2mol
-	Yt82JWDRI5hpFucRy7dU6z9t1sGLjkQ==
-X-Google-Smtp-Source: AGHT+IG8vuuuHmnAkDYhc0wSUHyMMZZ4pVnP2sLktIt9BGUIiU4Wla89J8p0IqYHCL/M3OMkUGaMQGKSpkLntPI8/WI=
-X-Received: by 2002:a17:907:2d12:b0:ad2:2d75:d7fb with SMTP id
- a640c23a62f3a-adb322fa1c2mr29287066b.55.1748539652145; Thu, 29 May 2025
- 10:27:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lwV04mFl"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nYt3FnckuW1pvSX7PMHnDCMj5g7fLpQ8SqibZRjv/fyufds0lwm0OicB0CheygA6z82JK+ZzXWctDPO6GsSWWsdCfORlDQraPLxtg2OIWz9ifW3HkTBv+b3m0F6nCiY3WrxjbYveNnZDuZIZH1NmnPjmnoogCLRWjeS2+4XCJCd2rFusOxNWUzaUV00gkhzTFZ41+CbSfu0zDmRH1u94R3MVkS1xIy47rMkKeEln94ICGvisKlExQgblZM3W6hMz7476GsRZ+Hg7HwLI0Hl0ltRLoJyCExPEgaG8aksNY8e3BkvNnEe8+WyYp2O19IZGzDMcEWUHOy7YKuqqzM1bNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HLdONmmCwN1nmYa8/j9DF9LAzrUBt2IH2vPZzv5gjj4=;
+ b=w4WqYxTN8WEtIBtrVnLPCk8MgPysElhGtLEfXNYb3qG6MbZLl/D+3rJQ3LqRZBcufqNfgcSeOIpjXC3bYXMyUT4JH9Ve06IFh5dVG3QjySgHE/Uz6AmlRduAJx6MGr5M2h1YVj7yHJQUONbrQN/w9WujzLzgICrAifQ8YbM52QM5xUjUbOf8pOIWn5COtl098W3ZkqGTOlV8vZRwMq2/AYv7v69n9RMeFlOC8Fq0pShI9Q84rZKUn2Q7LXOzPrbLxpUPd7CzC/kIbPiZpk3KgAvkLv9i1SEboPnYQ7Ankq98vGG73JSC+js0gRGRAUifERz59PEtUT/vPpnaHNFefA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HLdONmmCwN1nmYa8/j9DF9LAzrUBt2IH2vPZzv5gjj4=;
+ b=lwV04mFl4rajVtRiFlzAlaMQCQDS7i5Kup5X+YHASDd8r37IZM0LY9ppMB5Rg1+bzwDTbuGRGZYdZpogTXzBhcDyUabGqSjPKzY4H//k5Tua4mQvWptp/OyjEs6cGCLmKOQLjxseB2gzzqzmiwztWQeIeZx+IDNb1mfcIF/5ayE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM4PR12MB5724.namprd12.prod.outlook.com (2603:10b6:8:5f::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8769.29; Thu, 29 May 2025 18:08:05 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8722.031; Thu, 29 May 2025
+ 18:08:04 +0000
+Message-ID: <4aaa13f8-9b60-467e-9dd3-bf9fecf60458@amd.com>
+Date: Thu, 29 May 2025 13:07:46 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v13 16/27] x86/resctrl: Pass entire struct rdtgroup rather
+ than passing individual members
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: james.morse@arm.com, dave.martin@arm.com, fenghuay@nvidia.com,
+ x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
+ akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+ ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com,
+ jpoimboe@kernel.org, alexandre.chartre@oracle.com,
+ pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com,
+ perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com,
+ xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com,
+ ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com,
+ andrew.cooper3@citrix.com, mario.limonciello@amd.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, maciej.wieczor-retman@intel.com, eranian@google.com,
+ Xiaojian.Du@amd.com, gautham.shenoy@amd.com
+References: <cover.1747349530.git.babu.moger@amd.com>
+ <619c9cbb6b1525a2d4a46a042384e6771800d61c.1747349530.git.babu.moger@amd.com>
+ <d4bf97a2-15ae-4093-bdf9-63c78d07eb4a@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <d4bf97a2-15ae-4093-bdf9-63c78d07eb4a@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ROAP284CA0259.BRAP284.PROD.OUTLOOK.COM
+ (2603:10d6:10:f1::20) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250520-arm-brbe-v19-v22-0-c1ddde38e7f8@kernel.org>
- <20250520-arm-brbe-v19-v22-5-c1ddde38e7f8@kernel.org> <925bf014-cea8-4cf0-9517-46291db729f2@linaro.org>
-In-Reply-To: <925bf014-cea8-4cf0-9517-46291db729f2@linaro.org>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 29 May 2025 12:27:18 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJ3t5UvWMBgLEkm_-sD_S7NEor+vWfVkU-d7va6u9xsmQ@mail.gmail.com>
-X-Gm-Features: AX0GCFuZiRqbTownBtX9p_AAnxqssjZP9dZ9VucncBlXoHjZthrkTUHlQWalK88
-Message-ID: <CAL_JsqJ3t5UvWMBgLEkm_-sD_S7NEor+vWfVkU-d7va6u9xsmQ@mail.gmail.com>
-Subject: Re: [PATCH v22 5/5] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-To: James Clark <james.clark@linaro.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Anshuman Khandual <anshuman.khandual@arm.com>, 
-	Leo Yan <leo.yan@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM4PR12MB5724:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c95825c-41a0-4540-c4f0-08dd9edbc1f2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RDF2ZWU2S001cllmR0hMdVlNclBXODBhTU85SGE0YmxCWStya0FPUFFiQnEv?=
+ =?utf-8?B?ZlBGdGVPcXZOcEEweVcvbk5yakxneFNCS0lFOWxDNlRsMkFsK2tQWmJqaDRi?=
+ =?utf-8?B?OW9qdVB5dUVLNVlhUDB1ZmpHREtockxDejlHYXUrMGxLVThpTnE1WVZ5U2Vh?=
+ =?utf-8?B?bUd4VFQ4YWxPc2dtS2hJL2ZFNDZ0NUIwRzQ0cG5ITE9WUVVGbmc2dko3NVY0?=
+ =?utf-8?B?WDBybFNjWXZ1RVdQOG1KcGhSR214U1dEd0tHZzVGeFQ3QnZTY01tei9vUURa?=
+ =?utf-8?B?eGVRWmpFcjhFbk1IeXR5bjdpODFOOUdnc0prVU10UGV6MnlzTlY2RkhPdC9s?=
+ =?utf-8?B?VVQwMUhHeHVvM1E0aHFkcktuWXgzWDNjbXlZSWZNNXhCbEs0RCtLeDZ4YnQx?=
+ =?utf-8?B?T3hDZlVBUURJL1phWlZ2c25nakdiYWRpR3kzRW93Sm1DRkNUMEQwZHhqdmRH?=
+ =?utf-8?B?QW5Tb2h5RTBzQlM5VEpGSWRoeTUrRkMxbUMySXBSbHJUVnBrNkVhTmJxOW9w?=
+ =?utf-8?B?ZzlkZUhpWW4rbU1ORSszZ1BWcmxiZTU5SXhLR1JrbUhlU0owb092dXRQaHpU?=
+ =?utf-8?B?MzZKc3NTV2ZIMUZIRGpzdytEaUVFUlZ1YVYxNlhzRlBqd0dKVjBYMTNLbkhy?=
+ =?utf-8?B?ZHpnNWRNbHpNMC9zaXdEVVNYTE9IWXl6SDFXcytTMWJOV2lYM3luL3dzelIy?=
+ =?utf-8?B?UmtKVS9yalVUdUtHSjhuZlUxVXM1dU1IcXVWa1JUTitnc3dSc3VOdGlGMmtK?=
+ =?utf-8?B?ZVAxb1c2aG00WDllaU1mUHhhN2JlNTF4TVNYUktsU3JQc1ZlWVlpYjQyU2Rj?=
+ =?utf-8?B?NkJ1Y1RlaDdtUTVZVnc0WmozUHJsVWg1RmpVdGpYaXlKdlB2UlExRnVPZG4v?=
+ =?utf-8?B?VTBtTVRNYXhnM1BEWTdnTmxnMlB5WDhmVThkOFhRZHZWa01HZ0sraE1ram5a?=
+ =?utf-8?B?akd5QzZxam9Kdnl6Mlh5dnkxYVBUbmtrejBIaEhVaWhqMkhtZmJDSVBWNHdZ?=
+ =?utf-8?B?NWFDR2lyUWRwRVZ2WWhXM1RuQ0xhQ1JBNG02NFRXeVVzRmlpSHdiR0VZcFU1?=
+ =?utf-8?B?bkVwY0RRekVxc0FLd1FRSVN3ditqOGVYQ2VtQStXdFVZS0NiZHEyYWpoU3ha?=
+ =?utf-8?B?T0pZaFVZMnhySWdiTGNObnFHT3lkN0dCVDR5SkczT0NFd09sS1VOMlFTYk1C?=
+ =?utf-8?B?VG00dEdneTR2NjdFa2RyT3p0bkVEMVFTMjlZcnhseEs0dE52UmZUcDNvUUxR?=
+ =?utf-8?B?QlBPQmVWQXVRNW96YWRtT0E4Q0ZoVDczM1JUSzZiNU51REh5eUVHN1pBT2Rh?=
+ =?utf-8?B?WXZwTmtJdkpkTkFZY1pBaGF0TnQwdnpFenZidzUzU3BtWVhpYUVnc1BoZ2lq?=
+ =?utf-8?B?L0xWWjgwTUlQQm5LejhRSXlLSEc1WEN5T0tzUmZHRjc3bGhlaGlweExYaDRu?=
+ =?utf-8?B?SzB6UkNacGE1ZUJsaXk5UXVsT2NQbnlXMFRPcVlieDl1U0NkQ1BEbW40ZVFx?=
+ =?utf-8?B?SjVlSytPMTNkSUtyMjNIM2lBSHMyZjh3MGhra0xnQmFzZEhyVkNmY2JLeThK?=
+ =?utf-8?B?bWt1OW5tS2c0VklURVAvU2o3YStYZHErZE1zaC9FRzZaYnJGWEVVamMrK2tU?=
+ =?utf-8?B?S0tBNmgyV0N4SGRLcFdmT3JXWnFtSmc2Q2NGSStwcEdmdVVGeEVBdjNvTGRH?=
+ =?utf-8?B?QWphUjB3NTFDajVQUlhHTHNSVmhoaUdqbURKbmtTYVh2TnFIbUh3QWhPbEVM?=
+ =?utf-8?B?UHBoWTdCSzRVODB4VDh2bWZkM0dkVHd0MUVhZkVNaXNZQnpOTkVxck1lY01m?=
+ =?utf-8?B?S1hVeWlZQTVBaWhyS1hDZXYzanZYdCtuRWxIVklDL3RRd0JvYmNIMXduZ0ho?=
+ =?utf-8?B?czRXMWt0T3IwZzNqZnY4MEg0WEtDWTFWd1ZmM0h6S1M5WWhKcUdYWTcxSjBN?=
+ =?utf-8?Q?Q6xHL6+DG3s=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?azF2WUpCeWtoV1RibUhCcG1xeEJLTkhoM3BzOGUraHJlWXExNU91MDVwR0hW?=
+ =?utf-8?B?aVdOQnhBRnovSlNhcmExMUxYV2hobmxhRXptM2RDbnhRSUtaNllrYlhtMFlR?=
+ =?utf-8?B?eW13VlNkeDM1ZXZ0T3R1REtWVEx2RG9YeStkRmZ6am5qUkZZZEVUUVhQU28z?=
+ =?utf-8?B?YURCNE40U2RxaXlzYzdrNXpwcW4ySEE3N2pEZjJrQVRuZUxWbHg5dW83YzdT?=
+ =?utf-8?B?eDlXZGxZT0lHSTdpQnJ3UE05TGN1M0xmUVM5L21rZ0t4dGtLTUJvOVEwZXRU?=
+ =?utf-8?B?bU1ITlc4OVk2WURtenp1enEzRzZ0d2RXYTU2cnZNTXRiZWxmWTN2YWUxRU5J?=
+ =?utf-8?B?WHhCYWFmRmZLTzhWRHRic2tpeDNXRHBsbVJmcDgwbTc4b2dOVzgxNDB3REJo?=
+ =?utf-8?B?ZTBXajF0Nkh6SVJuQVkzdXhoNjlOY1BMWmtBTHB1Sys5VW9BMzR5b2R2UWJq?=
+ =?utf-8?B?U2FIQzFDTytPVmVzSGNBS25INVRlTDY3OTl3RTZtUDlkM05WelVsSE1rRnFM?=
+ =?utf-8?B?RGJvN2JOaE1nWjhFVWNCVDhEbzRvNWxhdDAvaWJuWHc5MWcrdmljb3phUEFo?=
+ =?utf-8?B?YUVCVFFlT25FcS82TTdWc202ci9jYzZPZGR0WG85YWVJUXljYjJxZUtoUUpk?=
+ =?utf-8?B?TEJFU2FnbVZDQjJVSHlIVmczaFNOMTEwaXY4ekZxREdYM0NMVFdhK2ZOb01h?=
+ =?utf-8?B?MWpMT05IZHg5UE1OOWZBSzlRNmdyZWxhOW1tcnZ6Qm0yQVZtNm1IVG5VV1J5?=
+ =?utf-8?B?bi9JTmZjbm9iZmVId1RmV2Uzd3k3cFI3WmdiTlJLd0VnQlVBZHh1QWxveEVD?=
+ =?utf-8?B?Wm9TbnliRHI2MC9INC9PN0RJRGZkenpRQlU3Y1VDVngxUWY2b2xXUHQ2SWRP?=
+ =?utf-8?B?N0QxUWFvdHlaTTJoMEpzV1Fac0ltN2YybWt2cVpPV0xqcmxlNW9EbkRua01G?=
+ =?utf-8?B?NW1HVnN3ZDFoWTVvQ0lST3Y4M0pROTZYSVhFQktZK2xNTHRMUWlIdVN0S25J?=
+ =?utf-8?B?TE9vWVZaTWw2eUVhVmFxWkdWOE14MHNOUDZLdWprdEU0QU1hdTJFNXozRFZC?=
+ =?utf-8?B?L01ISVRPcTZ1OFlCWVBaVG8xdEhYM0ovem5vQmR2d2VVZEZQSWhjWU9Ba3Av?=
+ =?utf-8?B?WFN0MjlnTUlGZzdkTmpEL2VwckZXb0ZkR3BscFYwWmhBWlppdktKbFczODNK?=
+ =?utf-8?B?VEVoTGovN3NGcjFwdFpkWTdCZkMrbTVIS3NKREZNVkN6aWczL2U3dUp1a21G?=
+ =?utf-8?B?WWN2V3pqTkErelBnUDZjK2tEY2dqRE0xR2Iva3dQNFN5OUFyS1FYZkV3ZjE1?=
+ =?utf-8?B?SUxnYitIUUt0S0JWNm83am05ZkJIRElUSjRaeDZCTzNOVldobjR2NWtzalFt?=
+ =?utf-8?B?c1VJYXQvd0ZHVDRIckRyTTMrTEtjWFJ2cHZWRWxrb2N1RUhkYURpRDhPMnZt?=
+ =?utf-8?B?RUxQZXR3L2FGTmF3V211L2VEdCt3OXJzLzU5aXJlTi9VUGVQcTUzd053OFJn?=
+ =?utf-8?B?dExBYWw1a2o0b2ZielkvaVdhVlhTKzVIL2ZDU3lEWG5UNldhcXpaSnlMNHVt?=
+ =?utf-8?B?TTBjTElhYm8wWWsraTJGYyt6QndlUEErMS9OQktjR250dmk2RE5FWjhnM0dS?=
+ =?utf-8?B?Y0VENURqWE0wczRrYUhQTWsvZFRLK01KdUwzSWx6STVYalYrRi82aVd0NnNQ?=
+ =?utf-8?B?TkxDQlJjdFF5Z2lvZVZHVC8xZjlKYVZCcnBDMDBWaE1IaUdRNDVITmtTTlBm?=
+ =?utf-8?B?ei9YV2llOFhaSllRTmJVWE9BVjB5M2lUODRNZi9paFU4ZHVBWkJnRGZ3VDJR?=
+ =?utf-8?B?TG5XaEVmQlQzVXNPUEJtYzM3QTc0dFFCQktqdUJrRExxYWQ2VE5uNmMyaXBT?=
+ =?utf-8?B?dkdSZnlRMzhNcjAzcWgxSmhSVG5ES0ExOUFtVE94RDVkNzJTUWRoak52eG5y?=
+ =?utf-8?B?UkE5b0V1dFB4UU8yM253VFFBYmprWldTUkpXdTZJeHd0c0ZvbXZCRUxmY21H?=
+ =?utf-8?B?WXNOY0hxV1cvOUdjTE8yMzFzK2xWVUx3eXFNcFhhVmttbEVpYVNZN1NWaTRj?=
+ =?utf-8?B?MmtsNW9PT0xqdXRUalBGSGFHZmlVNFhBTnpjdmZHdHVlZTVGUGpzd0dSNjJT?=
+ =?utf-8?Q?wxhQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c95825c-41a0-4540-c4f0-08dd9edbc1f2
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2025 18:08:04.8898
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aplY6TO2Cmxwfs3SKBkS9AL6T6vsvDEf0ER7dXZ33NpuNNHqKp5TbcTnub6D59eU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5724
 
-On Wed, May 21, 2025 at 11:03=E2=80=AFAM James Clark <james.clark@linaro.or=
-g> wrote:
-> On 20/05/2025 11:27 pm, Rob Herring (Arm) wrote:
-> > The ARMv9.2 architecture introduces the optional Branch Record Buffer
-> > Extension (BRBE), which records information about branches as they are
-> > executed into set of branch record registers. BRBE is similar to x86's
-> > Last Branch Record (LBR) and PowerPC's Branch History Rolling Buffer
-> > (BHRB).
+Hi Reinette,
 
-[...]
+On 5/22/25 18:05, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 5/15/25 3:52 PM, Babu Moger wrote:
+>> The mbm_cntr_assign mode requires a cntr_id to read event data. The
+> 
+> cntr_id -> "counter ID"
+> 
 
-> > +/*
-> > + * BRBE is configured with an OR of permissions from all events, so th=
-ere may
-> > + * be events which have to be dropped or events where just the source =
-or target
-> > + * address has to be zeroed.
-> > + */
-> > +static bool filter_branch_privilege(struct perf_branch_entry *entry, u=
-64 branch_sample_type)
-> > +{
-> > +     /* We can only have a half record if permissions have not been ex=
-panded */
-> > +     if (!entry->from || !entry->to)
-> > +             return true;
-> > +
-> > +     bool from_user =3D access_ok((void __user *)(unsigned long)entry-=
->from, 4);
-> > +     bool to_user =3D access_ok((void __user *)(unsigned long)entry->t=
-o, 4);
-> > +     bool exclude_kernel =3D !((branch_sample_type & PERF_SAMPLE_BRANC=
-H_KERNEL) ||
-> > +             (is_kernel_in_hyp_mode() && (branch_sample_type & PERF_SA=
-MPLE_BRANCH_HV)));
-> > +
-> > +     /*
-> > +      * If record is within a single exception level, just need to eit=
-her
-> > +      * drop or keep the entire record.
-> > +      */
-> > +     if (from_user =3D=3D to_user)
-> > +             return ((entry->priv =3D=3D PERF_BR_PRIV_KERNEL) && !excl=
-ude_kernel) ||
-> > +                     ((entry->priv =3D=3D PERF_BR_PRIV_USER) &&
-> > +                      (branch_sample_type & PERF_SAMPLE_BRANCH_USER));
-> > +
-> > +     // Fixup calls which are syscalls
-> > +     if (entry->type =3D=3D PERF_BR_CALL && from_user && !to_user)
-> > +             entry->type =3D PERF_BR_SYSCALL;
-> > +
-> > +     /*
-> > +      * Record is across exception levels, mask addresses for the exce=
-ption
-> > +      * level we're not capturing.
-> > +      */
-> > +     if (!(branch_sample_type & PERF_SAMPLE_BRANCH_USER)) {
-> > +             if (from_user)
-> > +                     entry->from =3D 0;
-> > +             if (to_user)
-> > +                     entry->to =3D 0;
-> > +     }
-> > +
-> > +     if (exclude_kernel) {
-> > +             if (!from_user)
-> > +                     entry->from =3D 0;
-> > +             if (!to_user)
-> > +                     entry->to =3D 0;
-> > +     }
-> > +     return true;
-> > +}
-> > +
-> > +static bool filter_branch_type(struct perf_branch_entry *entry,
-> > +                            const unsigned long *event_type_mask)
-> > +{
-> > +     if (entry->type =3D=3D PERF_BR_EXTEND_ABI)
-> > +             return test_bit(PERF_BR_MAX + entry->new_type, event_type=
-_mask);
-> > +     else
-> > +             return test_bit(entry->type, event_type_mask);
-> > +}
-> > +
-> > +static bool filter_branch_record(struct perf_branch_entry *entry,
-> > +                              u64 branch_sample,
-> > +                              const unsigned long *event_type_mask)
-> > +{
-> > +     return filter_branch_type(entry, event_type_mask) &&
-> > +             filter_branch_privilege(entry, branch_sample);
+Sure.
+
+>> cntr_id is retrieved via mbm_cntr_get, which takes a struct rdtgroup as
+> 
+> cntr_id -> "counter ID"
 >
-> filter_branch_privilege() sometimes changes the branch type for
-> PERF_BR_SYSCALL so I think it should come before filter_branch_type(). I
-> didn't see any actual issue caused by this, but it's a bit hard to
-> review to see if it's working correctly.
 
-Looking at this again, I think we can drop that with this change:
+Sure.
 
-diff --git a/drivers/perf/arm_brbe.c b/drivers/perf/arm_brbe.c
-index 2f254bd40af3..acdde61a8559 100644
---- a/drivers/perf/arm_brbe.c
-+++ b/drivers/perf/arm_brbe.c
-@@ -546,7 +546,7 @@ static const int
-brbe_type_to_perf_type_map[BRBINFx_EL1_TYPE_DEBUG_EXIT + 1][2]
-        [BRBINFx_EL1_TYPE_INDIRECT_LINK] =3D { PERF_BR_IND_CALL, 0 },
-        [BRBINFx_EL1_TYPE_RET] =3D { PERF_BR_RET, 0 },
-        [BRBINFx_EL1_TYPE_DIRECT_COND] =3D { PERF_BR_COND, 0 },
--       [BRBINFx_EL1_TYPE_CALL] =3D { PERF_BR_CALL, 0 },
-+       [BRBINFx_EL1_TYPE_CALL] =3D { PERF_BR_SYSCALL, 0 },
-        [BRBINFx_EL1_TYPE_ERET] =3D { PERF_BR_ERET, 0 },
-        [BRBINFx_EL1_TYPE_IRQ] =3D { PERF_BR_IRQ, 0 },
-        [BRBINFx_EL1_TYPE_TRAP] =3D { PERF_BR_IRQ, 0 },
 
-AFAICT, the only cases for BRBINFx_EL1_TYPE_CALL are SVC, SMC, and HVC.
+> mbm_cntr_get -> mbm_cntr_get()
+> 
 
-Rob
+Sure.
+
+>> a parameter.
+>>
+>> Passing the full rdtgroup also provides access to closid and rmid, both of
+> 
+> closid -> CLOSID
+> rmid -> RMID
+> 
+
+Sure.
+>> which are necessary to read monitoring events.
+>>
+>> Refactor the code to pass the entire struct rdtgroup instead of individual
+> 
+> "the entire" -> "a pointer to"
+> 
+
+Sure.
+
+>> members in preparation for this requirement.
+>>
+>> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> Patch looks good.-- 
+Thanks
+Babu Moger
