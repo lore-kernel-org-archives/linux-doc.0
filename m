@@ -1,174 +1,179 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E02F2192FC
-	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 10:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1A02690F9
+	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 10:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748512815; cv=none; b=CsE07TMjp34UZRjIpza1vLJasjOcMbff1+h0YOsVLDUHCnd4pEzQvlEI0ok6aU9167cG3aq0hvanhr4uBaHE/2iJSy0PTzG6KEWoi6Q2EpmJXAoyOiJ1j9BnVofGcEzYrmF4HDYk5W6MTpqZbqf9/FGx0Hx9Qu1tXV18rkPg1TU=
+	t=1748515961; cv=none; b=J8lekyubuwahEIS5LLhu9C1f+zyJFOOI7qQvYtglpfGp6eVH8ONn7sLyKiO8XDhFV3azD6Hr7sRUilMTpH3/1G2pNimwKfy5ER0P67mgIDyJ22Fbp6w6Ek+U+R5sF37pkCILbrm3HoHfhMqEqycrovEYi0v4e0UOoYJwI6X6r3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748512815; c=relaxed/simple;
-	bh=/o+pGUCJ2E5HoBczbCx4HweIPeWKZgZ3uF4oHA/2+As=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bGBmZxWd1hPYIkBVJb67Bul25oBlkk4KW0gAwCZJFkxVGjY1grGwnGrnVWpLcZ0Vfzhrw91lUVG/hWNxkf0q/kR0tyOTQUM/9Ib7Wxe5cSdH7w+ySR7x2OCJXrXzd81JiuzpVmY7eP4vJZ9KG4Oltmrh2/8AV/dWFFaQ0WH5/00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OBqei3r5; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1748515961; c=relaxed/simple;
+	bh=kBj9PhMFAM+IQupSeDZxxWt0qPV6glwylmFd7BTMlGE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sNB2QgecDb2Rg8ukeJr2XFoTE63vNBHFf+JhUW6fwNomoBa1hBc0jUjtX8X1cl/51LZxkbT1YaGI2oj+0PsVsFQkiB/jnyrNHuC3fYYHTFoBfuzcsOr+2hCivEtexh4+YkHT7IeM4MuW7fb8psIQzCnZ9Z9E7ySDnn3Q+Y7aPgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P/IX6yFQ; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OBqei3r5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P/IX6yFQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748512812;
+	s=mimecast20190719; t=1748515958;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zibuTGA0nXBdxoQDJlbPTHKTXU5J45rtDsSqDQ/Mtd0=;
-	b=OBqei3r5Vy6/VIXJZdcE7PJQNyWwv0NUBZ9+pGqh26h0KcoUHEQwoWV6cp9BqyzbnOTKjd
-	dgWRUa2+p+Cq5PkeXGqNT/mkk5sNsc9VnDsEcQ92swTqGJwnONNpp5EqaoWBBLgAHjHrro
-	/8po9kon7bnlXCl5iybCAS6QntcFOpU=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-633--1up1J2wNLC5Wzxz29HCWg-1; Thu,
- 29 May 2025 06:00:08 -0400
-X-MC-Unique: -1up1J2wNLC5Wzxz29HCWg-1
-X-Mimecast-MFC-AGG-ID: -1up1J2wNLC5Wzxz29HCWg_1748512807
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 616AB19560AE;
-	Thu, 29 May 2025 10:00:06 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.35])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1FEEF19560AE;
-	Thu, 29 May 2025 09:59:59 +0000 (UTC)
-Date: Thu, 29 May 2025 17:59:54 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 1/8] ublk: have a per-io daemon instead of a per-queue
- daemon
-Message-ID: <aDgwGoGCEpwd1mFY@fedora>
-References: <20250527-ublk_task_per_io-v7-0-cbdbaf283baa@purestorage.com>
- <20250527-ublk_task_per_io-v7-1-cbdbaf283baa@purestorage.com>
+	bh=oLkIh8hUpNx+fetBHcv6ts2+oAr71F0OW4FhDVnFMS4=;
+	b=P/IX6yFQcjgrKQbcu8xkvHQdfQhtgUFHY9sN0cqMN1KlbZ7XP+lBjpuk5b28sjDB9ghWN0
+	nvVySOfMZifDLJUwED2CSqRi2P5pqE60gxbfyKHMT54rvheyYJpYLxj1hPBStg36J49YUg
+	qeaQqiZ/Aw6mJvPgO4lhSqW/KAipRbs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-73-Z41XWLB_MzqryyfdfSoOXw-1; Thu, 29 May 2025 06:52:37 -0400
+X-MC-Unique: Z41XWLB_MzqryyfdfSoOXw-1
+X-Mimecast-MFC-AGG-ID: Z41XWLB_MzqryyfdfSoOXw_1748515956
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a3561206b3so342765f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 03:52:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748515956; x=1749120756;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oLkIh8hUpNx+fetBHcv6ts2+oAr71F0OW4FhDVnFMS4=;
+        b=gil+9KNbnWScziv08EDpuLZo5iP643te/1fkCe1Uz3yn+Bgt3p5TCpeExCDStwAgMi
+         uHedrz8qa2OwgpG1elazNZNyUz3VH6k5Sknyfdcc4FLeTdGKUAfYbW9abCEApDNT7D/u
+         ovcpTPJMowNvn40n6kjPc8yAhb7Anb8V3iMAStuneGvMNNruzP5NaO4xBN69j3ORgraP
+         K5HRCsBNb+IMimp67rMp7gpdclFv68Frhzbx258C/NDvNI4GcVey2Py9bV/anE6H4DCo
+         M6e8y6U/3Cx5oXdeCIyKIhiDWX92MpxEDpNz5Jtv4Sb42qeBhW2gWT7BxTspi8TUMxSC
+         KhMg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdRWY+12q6kXwx2bjj3cmDqa1M13aew/fbyGdnthugHaDwuiMUgV1ThxnOJbkFYaIPLPampFVwvgM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywbwz2/VZn+JP7AhQ3OxFFUE+MkK5k9UQFAdZ2svhm1vdWxdrxq
+	2Rztkuw05L1fJ7rP87pMoEvX5AFYybPr88BPtgN3Lz2mv8eTf5JyV1rNz686sl4pr5pef+O27L5
+	hYayfwfNpyoV6p0lDF6hAjXhBLiz1Fw+nIpqrgY5bHv6EHZFLUWiAjo8MGLrTzw==
+X-Gm-Gg: ASbGncvoL50jlY+cecZ0IO6JoaHcipsawJ5WgkIfxzDqbG3VeE0J4RvPLbVPL/E860E
+	VzwshYtubozYdowehpM+fnZFyPt5lZ9zfPkiPHFsOmKHFhysntIIIof3uUKPIAzqS7VkFdCtCTt
+	8MJZis9NQ2ejdYSkoZnOCyZw8hPTcGjdBqLLqQdAAN7axvR0Og0vr4xxnZrew48q80bkDTua28O
+	3Z41+BQmxac9JQcQjKrOoAcjej59sZ5wpSXKlYYtdCltZboYhX/hvbpsEuegLXVpQTU/xF1pGG/
+	qNP0KMGd0Lh5D0LEstJPP6G/hzLWRtFdVrwwBJTUG3HkJrngeSbtAfbXdpQ=
+X-Received: by 2002:a05:6000:2905:b0:3a4:cfe3:850f with SMTP id ffacd0b85a97d-3a4cfe3866emr18548898f8f.26.1748515956330;
+        Thu, 29 May 2025 03:52:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHd5rBzaY1hUfRsYOE+gTC/pugRVRTJ9nUCAUf9lmcPzrrorgZJVoTSNaWXkDhPqzVybmEIrg==
+X-Received: by 2002:a05:6000:2905:b0:3a4:cfe3:850f with SMTP id ffacd0b85a97d-3a4cfe3866emr18548873f8f.26.1748515955955;
+        Thu, 29 May 2025 03:52:35 -0700 (PDT)
+Received: from ?IPV6:2a0d:3341:cce5:2e10:5e9b:1ef6:e9f3:6bc4? ([2a0d:3341:cce5:2e10:5e9b:1ef6:e9f3:6bc4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe73eebsm1627199f8f.44.2025.05.29.03.52.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 May 2025 03:52:35 -0700 (PDT)
+Message-ID: <6ae0ad5a-f560-43c5-a581-e4699634b65e@redhat.com>
+Date: Thu, 29 May 2025 12:52:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250527-ublk_task_per_io-v7-1-cbdbaf283baa@purestorage.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net v2] net: wwan: t7xx: Fix napi rx poll issue
+To: Jinjian Song <jinjian.song@fibocom.com>,
+ chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
+ haijun.liu@mediatek.com, m.chetan.kumar@linux.intel.com,
+ ricardo.martinez@linux.intel.com, loic.poulain@linaro.org,
+ ryazanov.s.a@gmail.com, johannes@sipsolutions.net, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
+ linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com,
+ corbet@lwn.net, linux-mediatek@lists.infradead.org, helgaas@kernel.org,
+ danielwinkler@google.com, andrew+netdev@lunn.ch, horms@kernel.org,
+ sreehari.kancharla@linux.intel.com, ilpo.jarvinen@linux.intel.com
+References: <20250528082827.4654-1-jinjian.song@fibocom.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250528082827.4654-1-jinjian.song@fibocom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 27, 2025 at 05:01:24PM -0600, Uday Shankar wrote:
-> Currently, ublk_drv associates to each hardware queue (hctx) a unique
-> task (called the queue's ubq_daemon) which is allowed to issue
-> COMMIT_AND_FETCH commands against the hctx. If any other task attempts
-> to do so, the command fails immediately with EINVAL. When considered
-> together with the block layer architecture, the result is that for each
-> CPU C on the system, there is a unique ublk server thread which is
-> allowed to handle I/O submitted on CPU C. This can lead to suboptimal
-> performance under imbalanced load generation. For an extreme example,
-> suppose all the load is generated on CPUs mapping to a single ublk
-> server thread. Then that thread may be fully utilized and become the
-> bottleneck in the system, while other ublk server threads are totally
-> idle.
+On 5/28/25 10:28 AM, Jinjian Song wrote:
+> When driver handles the napi rx polling requests, the netdev might
+> have been released by the dellink logic triggered by the disconnect
+> operation on user plane. However, in the logic of processing skb in
+> polling, an invalid netdev is still being used, which causes a panic.
 > 
-> This issue can also be addressed directly in the ublk server without
-> kernel support by having threads dequeue I/Os and pass them around to
-> ensure even load. But this solution requires inter-thread communication
-> at least twice for each I/O (submission and completion), which is
-> generally a bad pattern for performance. The problem gets even worse
-> with zero copy, as more inter-thread communication would be required to
-> have the buffer register/unregister calls to come from the correct
-> thread.
+> BUG: kernel NULL pointer dereference, address: 00000000000000f1
+> Oops: 0000 [#1] PREEMPT SMP NOPTI
+> RIP: 0010:dev_gro_receive+0x3a/0x620
+> [...]
+> Call Trace:
+>  <IRQ>
+>  ? __die_body+0x68/0xb0
+>  ? page_fault_oops+0x379/0x3e0
+>  ? exc_page_fault+0x4f/0xa0
+>  ? asm_exc_page_fault+0x22/0x30
+>  ? __pfx_t7xx_ccmni_recv_skb+0x10/0x10 [mtk_t7xx (HASH:1400 7)]
+>  ? dev_gro_receive+0x3a/0x620
+>  napi_gro_receive+0xad/0x170
+>  t7xx_ccmni_recv_skb+0x48/0x70 [mtk_t7xx (HASH:1400 7)]
+>  t7xx_dpmaif_napi_rx_poll+0x590/0x800 [mtk_t7xx (HASH:1400 7)]
+>  net_rx_action+0x103/0x470
+>  irq_exit_rcu+0x13a/0x310
+>  sysvec_apic_timer_interrupt+0x56/0x90
+>  </IRQ>
 > 
-> Therefore, address this issue in ublk_drv by allowing each I/O to have
-> its own daemon task. Two I/Os in the same queue are now allowed to be
-> serviced by different daemon tasks - this was not possible before.
-> Imbalanced load can then be balanced across all ublk server threads by
-> having the ublk server threads issue FETCH_REQs in a round-robin manner.
-> As a small toy example, consider a system with a single ublk device
-> having 2 queues, each of depth 4. A ublk server having 4 threads could
-> issue its FETCH_REQs against this device as follows (where each entry is
-> the qid,tag pair that the FETCH_REQ targets):
+> Fixes: 5545b7b9f294 ("net: wwan: t7xx: Add NAPI support")
+> Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
+> ---
+>  drivers/net/wwan/t7xx/t7xx_netdev.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
 > 
-> ublk server thread:	T0	T1	T2	T3
-> 			0,0	0,1	0,2	0,3
-> 			1,3	1,0	1,1	1,2
-> 
-> This setup allows for load that is concentrated on one hctx/ublk_queue
-> to be spread out across all ublk server threads, alleviating the issue
-> described above.
-> 
-> Add the new UBLK_F_PER_IO_DAEMON feature to ublk_drv, which ublk servers
-> can use to essentially test for the presence of this change and tailor
-> their behavior accordingly.
-> 
-> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
-> Reviewed-by: Caleb Sander Mateos <csander@purestorage.com>
+> diff --git a/drivers/net/wwan/t7xx/t7xx_netdev.c b/drivers/net/wwan/t7xx/t7xx_netdev.c
+> index 91fa082e9cab..48007384c030 100644
+> --- a/drivers/net/wwan/t7xx/t7xx_netdev.c
+> +++ b/drivers/net/wwan/t7xx/t7xx_netdev.c
+> @@ -172,7 +172,7 @@ static void t7xx_ccmni_start(struct t7xx_ccmni_ctrl *ctlb)
+>  	int i;
+>  
+>  	for (i = 0; i < ctlb->nic_dev_num; i++) {
+> -		ccmni = ctlb->ccmni_inst[i];
+> +		ccmni = READ_ONCE(ctlb->ccmni_inst[i]);
+>  		if (!ccmni)
+>  			continue;
+>  
+> @@ -192,7 +192,7 @@ static void t7xx_ccmni_pre_stop(struct t7xx_ccmni_ctrl *ctlb)
+>  	int i;
+>  
+>  	for (i = 0; i < ctlb->nic_dev_num; i++) {
+> -		ccmni = ctlb->ccmni_inst[i];
+> +		ccmni = READ_ONCE(ctlb->ccmni_inst[i]);
+>  		if (!ccmni)
+>  			continue;
+>  
+> @@ -210,7 +210,7 @@ static void t7xx_ccmni_post_stop(struct t7xx_ccmni_ctrl *ctlb)
+>  		t7xx_ccmni_disable_napi(ctlb);
+>  
+>  	for (i = 0; i < ctlb->nic_dev_num; i++) {
+> -		ccmni = ctlb->ccmni_inst[i];
+> +		ccmni = READ_ONCE(ctlb->ccmni_inst[i]);
+>  		if (!ccmni)
+>  			continue;
+>  
+> @@ -302,7 +302,7 @@ static int t7xx_ccmni_wwan_newlink(void *ctxt, struct net_device *dev, u32 if_id
+>  	ccmni->ctlb = ctlb;
+>  	ccmni->dev = dev;
+>  	atomic_set(&ccmni->usage, 0);
+> -	ctlb->ccmni_inst[if_id] = ccmni;
+> +	WRITE_ONCE(ctlb->ccmni_inst[if_id], ccmni);
+>  
+>  	ret = register_netdevice(dev);
+>  	if (ret)
+> @@ -321,9 +321,10 @@ static void t7xx_ccmni_wwan_dellink(void *ctxt, struct net_device *dev, struct l
+>  	if (if_id >= ARRAY_SIZE(ctlb->ccmni_inst))
+>  		return;
+>  
+> -	if (WARN_ON(ctlb->ccmni_inst[if_id] != ccmni))
+> +	if (WARN_ON(READ_ONCE(ctlb->ccmni_inst[if_id]) != ccmni))
 
-This patch looks close to go, just one panic triggered immediately by
-the following steps, I think it needs to be addressed first.
+READ_ONCE is only needed when the the lock protecting ctlb->ccmni_inst
+is not held. It's not needed here, and likely in pre/post stop operations.
 
-Maybe we need to add one such stress test for UBLK_F_PER_IO_DAEMON too.
-
-
-1) run heavy IO:
-
-[root@ktest-40 ublk]# ./kublk add -t null -q 2 --nthreads 4 --per_io_tasks
-dev id 0: nr_hw_queues 2 queue_depth 128 block size 512 dev_capacity 524288000
-	max rq size 1048576 daemon pid 1283 flags 0x2042 state LIVE
-	queue 0: affinity(0 )
-	queue 1: affinity(8 )
-[root@ktest-40 ublk]#
-[root@ktest-40 ublk]# ~/git/fio/t/io_uring -p 0 -n 8 /dev/ublkb0
-
-Or
-
-`fio -numjobs=8 --ioengine=libaio --iodepth=128 --iodepth_batch_submit=32 \
-	--iodepth_batch_complete_min=32`
-
-2) panic immediately:
-
-[   51.297750] BUG: kernel NULL pointer dereference, address: 0000000000000000
-[   51.298719] #PF: supervisor read access in kernel mode
-[   51.299403] #PF: error_code(0x0000) - not-present page
-[   51.300069] PGD 1161c8067 P4D 1161c8067 PUD 11a793067 PMD 0 
-[   51.300825] Oops: Oops: 0000 [#1] SMP NOPTI
-[   51.301389] CPU: 0 UID: 0 PID: 1285 Comm: kublk Not tainted 6.15.0+ #288 PREEMPT(full) 
-[   51.302375] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-1.fc39 04/01/2014
-[   51.303551] RIP: 0010:io_uring_cmd_done+0xa7/0x1d0
-[   51.304226] Code: 48 89 f1 48 89 f0 48 83 e1 bf 80 cc 01 48 81 c9 00 01 80 00 83 e6 40 48 0f 45 c1 48 89 43 48 44 89 6b 58 c7 43 5c 00 00 00 00 <8b> 07 f6 c4 08 74 12 48 89 93 e8 00 00 0
-[   51.306554] RSP: 0018:ffffd1da436e3a40 EFLAGS: 00010246
-[   51.307253] RAX: 0000000000000100 RBX: ffff8d9cd3737300 RCX: 0000000000000001
-[   51.308178] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-[   51.309333] RBP: 0000000000000001 R08: 0000000000000018 R09: 0000000000190015
-[   51.310744] R10: 0000000000190015 R11: 0000000000000035 R12: ffff8d9cd1c7c000
-[   51.311986] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-[   51.313386] FS:  00007f2c293916c0(0000) GS:ffff8da179df6000(0000) knlGS:0000000000000000
-[   51.314899] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   51.315926] CR2: 0000000000000000 CR3: 00000001161c9002 CR4: 0000000000772ef0
-[   51.317179] PKRU: 55555554
-[   51.317682] Call Trace:
-[   51.318040]  <TASK>
-[   51.318355]  ublk_cmd_list_tw_cb+0x30/0x40 [ublk_drv]
-[   51.319061]  __io_run_local_work_loop+0x72/0x80
-[   51.319696]  __io_run_local_work+0x69/0x1e0
-[   51.320274]  io_cqring_wait+0x8f/0x6a0
-[   51.320794]  __do_sys_io_uring_enter+0x500/0x770
-[   51.321422]  do_syscall_64+0x82/0x170
-[   51.321891]  ? __do_sys_io_uring_enter+0x500/0x770
-
-
-
-
-Thanks,
-Ming
+/P
 
