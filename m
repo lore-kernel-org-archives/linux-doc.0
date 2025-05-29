@@ -1,449 +1,165 @@
-Received: from mail-pf1-f225.google.com (mail-pf1-f225.google.com [209.85.210.225])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954FC25E82D
-	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 23:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD3A2550D0
+	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 23:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748562471; cv=none; b=Ol1pfbiYMrlRjoYy0LECBkBRev0O3ZyOD3PHJHliKdJRgoNs0XuZVC0NGwxMXTBTLJVXfTW1JSAdc/t9+K0o98YXwognunsNXyi/onKSRU0gp0LHkgZfzTsZgz8z2I1E3rMawrgb9Jbg2YjHP6YRMYbE/KM0zVpteDHExpVe63s=
+	t=1748562574; cv=none; b=XTpuupVmf6zwFaSrFc3rrCqNFWvr/UTnfV5nx1SBXauTKHN8qi/EbYBtFq2UYjvHdXaGIEwvCaJc4kGEm57gmnLbwdq/pPQji+Wiz2RLpAT2HEaWN17zvBAfspfFPi02QDCoJ6COWQ7Zc8qWy9H7qaZf30stDZFz5RPvYqp2cws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748562471; c=relaxed/simple;
-	bh=cG6DwOTES7Wr1Mys+5MNrPViClJyvreq1N/+Wqx3nzw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HAT7mVKF7DioyCLj/dKJk1XQtfIifBpmCFDuv5K1iNnPPinDpu6rv+ytWgPD4R320YFuiemK1i1kKX6clJkmf7YL53AqV2oRqmMcjUTl15IO0+gvAAgWmxLQu6II9lc3XZSjQ36MBq7MQ0cgBWmzTacZn1AigoV2GL+O6avrcdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=e3yj3hpl; arc=none smtp.client-ip=209.85.210.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+	s=arc-20240116; t=1748562574; c=relaxed/simple;
+	bh=njDQ8Lhj+rbQY91bCgJ2J/LI6phcjK0rry9e5UVMEYo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G/tTTO5nXYRDh7rqvXT72rN4jrPIixOEziQMcuB6bW4N7vTUclFW3aJd2TqJBpoWfqP1DWCG8bowc4SDphYXP+Ocyk8gbqKcoyztAEvhPHmf6Yx5Ja0uYOyB4S4DePfJfadvLXDfhugA7Lf17903rIDRkSUwFaMWyaXQlauWHO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Ma1HFYxb; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="e3yj3hpl"
-Received: by mail-pf1-f225.google.com with SMTP id d2e1a72fcca58-74264d1832eso1496362b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 16:47:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Ma1HFYxb"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e7569ccf04cso1271982276.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 16:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1748562468; x=1749167268; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Mqr8wPmXHui64U4BrsJfaf/eXjrHjuKhn37qP/UCybM=;
-        b=e3yj3hplIB5egdLA776Aq/L1+PD53TZzVL/t9Ql8/uUbW6prokdlWBewz/RQn7tVaT
-         hNLaSseDgEdKXkE40F+HPvXfiQD5YSvtBKrzxg/HH397tPAPdPr+QoL0YOE0wJdIMA+y
-         lAQ8jglztWGbjqkSzts1A1iVcrrL1YTpYxYbvzR4tVQiYyK/WJKvFjpXuHcn7pguWK2l
-         IzpZk3hJ5uRDtelB1y9OkXUnkiLbYv3a3QeSjisOY1ia+z64u2ao+yz04xxAIvK5czMQ
-         DU84MQiAD++Xu/5u3rooPewEDwWFoPAPgKWq9G0RYuA+6/l440O98dGlRsodX5BenufB
-         Axog==
+        d=paul-moore.com; s=google; t=1748562570; x=1749167370; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IzrpMWMfPR3T2gCVNz/ykn1poKsGqIWx4fYMabbDEoU=;
+        b=Ma1HFYxbpQWiO5QgZg/176AE28nFmcx4LGBbFEj2ed6gW7KquDE8lkkFg5lYuS5nrp
+         ZnVR9EMCcTIn8swlEw8SwbYF+P5CIMZKly1ju8Ciuxn3F/YPKAeyrOKzYF3VzU8XbFts
+         xzFAGS5MLLhuTxE41HqMT34c+xEYvWg+D3Vo4Kl7kQRR5jQLjYCpDtTekHmJl6Sq9jH1
+         2eNjbNxi6fFmbourM8UwjWyiLUR5V1md3o6lM/AkUKkTxv8DiFoRnC0IAcAW48YBYtCh
+         gf9f84AH8h1OHq3Ao5j5Kedgi+GurI7XFxavKxOymPXg1zJA2bMm8RF625x2tb9mwA3e
+         DghA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748562468; x=1749167268;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1748562570; x=1749167370;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Mqr8wPmXHui64U4BrsJfaf/eXjrHjuKhn37qP/UCybM=;
-        b=jqhqd2ZEQqOPLFY9V+5iH5cSQsu51h3nmYNeUjeK8P5lTyLJLeKShsF+ClUPBn9J0t
-         iygDuEllAF2OWVLDYZqOc1VfCSM2KCZFUpS+93mWxjeiY2MH8vzetNWLd0QDEdOL48iR
-         VoU4errt1+rAlwbFn+azu/8Tk8lRz/hCv2Dw5FxUiQKVxIgg5KZfpua3ZNCDU7Na0PFi
-         AGnWXI+l7QTg4meZRqgdm2Ys+eGzPLOeEp3AQldkjM0IrAQMhEgAdRr5tyGnFqN592n/
-         AeYhgxK+Pzu2k+xXyRzXb5nSsxdDXD1Wfy5Qy7p4aUlQvP0BcdQZPCdA/IwBanJ9kvhd
-         4cXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW8w2NC1y8vGkb+5vJaMjjif7L5rCE1l0Tx+rND9Lo+ayxlZ4K3xUwXylcv2UWYAhd++ncbYQLWUpk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKw2lC2exQ8B56DyvgEq/scY9cyHdt2C/wNBEw6C8Ps0Gs0xlr
-	cEBlM9hHwsiu3jEkelplTojwr/ee2zAnctIGBllClfAJpPXHOgEdV1UUiEh8hVCXysZOGlVCz8w
-	Y5BvhKjnCrm/G+IYjpsGdTYrEpzHfj27+R9vj
-X-Gm-Gg: ASbGnctD9V62u+J2HpjYcrZtv/P8JOWCqrMvrsNQIH7syYXtG+GDUXuwM70lBIL9J+e
-	B4j6XQatf8gIpb/YsQnuGEy+b9BJE2hjiB1JGutKTidtFjTwHurk+27gOe4/XmXgGbwTfBspOSv
-	ABk2KKl9y1kp1WdmItb1tCIvVtzzAJr0hvTSkZ2iRvtlYnw3Ud5sCGc6KrTjySyaUNIswZ/Eh3f
-	73I996ml/meTF7Kh9Dgi4AnZZD270NwkMtOQDfIbJsT7+OLD5Dj8Sx2fvcunBDUC8VVVIpw6UPW
-	uTqq3DymoFwh7WTPp/3vjwx1QZxtG461ITvkvlvgg10r1g==
-X-Google-Smtp-Source: AGHT+IG1ZPTXQp/BEvmIHUxdKJYm74BGOXdyiJgEIpYxUg7isBcxi57Ly1duzFJtzxTUubhEVl6D8HB0kQJI
-X-Received: by 2002:a05:6870:5baa:b0:2ba:11d5:ad64 with SMTP id 586e51a60fabf-2e921353e2fmr674071fac.23.1748562457590;
-        Thu, 29 May 2025 16:47:37 -0700 (PDT)
-Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.128])
-        by smtp-relay.gmail.com with ESMTPS id 006d021491bc7-60c1ec07d44sm25115eaf.24.2025.05.29.16.47.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 16:47:37 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [IPv6:2620:125:9007:640:7:70:36:0])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 34E313409F5;
-	Thu, 29 May 2025 17:47:35 -0600 (MDT)
-Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
-	id C78EAE40FA4; Thu, 29 May 2025 17:47:34 -0600 (MDT)
-From: Uday Shankar <ushankar@purestorage.com>
-Date: Thu, 29 May 2025 17:47:15 -0600
-Subject: [PATCH v8 6/9] selftests: ublk: kublk: decouple ublk_queues from
- ublk server threads
+        bh=IzrpMWMfPR3T2gCVNz/ykn1poKsGqIWx4fYMabbDEoU=;
+        b=gv99c4gA64cfK2MX8sf6+8iyksEjgjutEDoo1lj/sTGWDFJmObegR4tQgi+Yrons/+
+         J/C5UzFsRIRereN0m+J1TPOmBlRDFHab2nZ7PySx1Y9yMePXbad0+GheLgXwk3X0XNp6
+         sBxjWKE6LYDZljVUw+zCW+GNo5Ohx6uRZ0S5PzBr5tfOujSob0VjZ6APTIOwM5YALLj7
+         4Z2RgxJ56vpuF3+rPB4IurhQXT8jaELaGi4Ph2ZUVcFzfbduhkYRBHKejcNuDdLCCe/3
+         rO3l4XnZnTslOBEelJPINKf7a7ctl4RQaBKRi1VIbPWmK5sbbJk+xPE0DZVOM3ff/NFv
+         vwtA==
+X-Forwarded-Encrypted: i=1; AJvYcCUy289RsbtpCaFdhtE1K8MfSHMQN22DlBaUac8TsUQAHbd6kbSjSxCo4EEa/PHmlJOQeD1IY/7JDe4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpzJLopAenVEggNI7M6VPrk35OQx4295nSVi7T9S55iL4DPuxm
+	tzjK2kIUOoudKF+DWz5Bj4vU3WQnzaBSEF7HgYDeI8BkzkC2QgPW7CGo45tOIXOM7TBYiP7Ilss
+	KRq2sEzIl2EHJ2MvNqYNq3dIFHts6k7QI3rK7r0P/
+X-Gm-Gg: ASbGncv1q21hcYOosQVZ8CKp6H3e0KyGotVahLEB6BJNLx8pTsEdn6uucDkp3GzMjtx
+	gsoR9MjlfuENtNehpRI9JEajoxSJL8G9K/1Tm4NsOWHb7ABXlZ0xCbAwe9GxvfwAlgL4Z2ZeZ9J
+	GxsU9aXMcU9PIbbMSdv/RzMPXkLGLwtByi
+X-Google-Smtp-Source: AGHT+IGhztxCAK3YTRu6P4h6gxYqvuSLD7WfoNzyStJqIFYGaHOmc7yQwpS7nzoIzkVnhQPYk9/qIXwf6pJLAlBDxC0=
+X-Received: by 2002:a05:6902:330b:b0:e7d:6a68:f572 with SMTP id
+ 3f1490d57ef6-e7f81bb773dmr2259538276.10.1748562570009; Thu, 29 May 2025
+ 16:49:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-ublk_task_per_io-v8-6-e9d3b119336a@purestorage.com>
-References: <20250529-ublk_task_per_io-v8-0-e9d3b119336a@purestorage.com>
-In-Reply-To: <20250529-ublk_task_per_io-v8-0-e9d3b119336a@purestorage.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
- Caleb Sander Mateos <csander@purestorage.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- Uday Shankar <ushankar@purestorage.com>
-X-Mailer: b4 0.14.2
+References: <20250521140121.591482-1-git@nightmared.fr> <20250521140121.591482-10-git@nightmared.fr>
+ <CAHC9VhR-80zxgo+q07Aw8HqK+qiPdnuXC0axONGac0e9JxXvmw@mail.gmail.com> <4939d8ab-3911-4759-b8d6-cb57ff9f9cda@nightmared.fr>
+In-Reply-To: <4939d8ab-3911-4759-b8d6-cb57ff9f9cda@nightmared.fr>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 29 May 2025 19:49:19 -0400
+X-Gm-Features: AX0GCFt-dubQ8zjyvLFIAb7yxjUrHx2vekSE7cPMRUm7dhYCysWfX-kgOpwdxLI
+Message-ID: <CAHC9VhT5JrhzGhRnJ4VNo6e941o-xdAG-FC-Q6wDbSZhgSUWOQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 9/9] Loadpol LSM: add a minimal documentation
+To: Simon Thoby <git@nightmared.fr>
+Cc: linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Kees Cook <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add support in kublk for decoupled ublk_queues and ublk server threads.
-kublk now has two modes of operation:
-
-- (preexisting mode) threads and queues are paired 1:1, and each thread
-  services all the I/Os of one queue
-- (new mode) thread and queue counts are independently configurable.
-  threads service I/Os in a way that balances load across threads even
-  if load is not balanced over queues.
-
-The default is the preexisting mode. The new mode is activated by
-passing the --per_io_tasks flag.
-
-Signed-off-by: Uday Shankar <ushankar@purestorage.com>
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
----
- tools/testing/selftests/ublk/file_backed.c |   4 +-
- tools/testing/selftests/ublk/kublk.c       | 105 ++++++++++++++++++++++++-----
- tools/testing/selftests/ublk/kublk.h       |   5 ++
- tools/testing/selftests/ublk/null.c        |   6 +-
- tools/testing/selftests/ublk/stripe.c      |   4 +-
- 5 files changed, 100 insertions(+), 24 deletions(-)
-
-diff --git a/tools/testing/selftests/ublk/file_backed.c b/tools/testing/selftests/ublk/file_backed.c
-index 922a87108b9f7bae53098e74602c7b1f3e0246bc..cfa59b631693793465f0e6909a6fbe1a364f4523 100644
---- a/tools/testing/selftests/ublk/file_backed.c
-+++ b/tools/testing/selftests/ublk/file_backed.c
-@@ -54,7 +54,7 @@ static int loop_queue_tgt_rw_io(struct ublk_queue *q, const struct ublksrv_io_de
- 
- 	ublk_io_alloc_sqes(ublk_get_io(q, tag), sqe, 3);
- 
--	io_uring_prep_buf_register(sqe[0], 0, tag, q->q_id, tag);
-+	io_uring_prep_buf_register(sqe[0], 0, tag, q->q_id, ublk_get_io(q, tag)->buf_index);
- 	sqe[0]->flags |= IOSQE_CQE_SKIP_SUCCESS | IOSQE_IO_HARDLINK;
- 	sqe[0]->user_data = build_user_data(tag,
- 			ublk_cmd_op_nr(sqe[0]->cmd_op), 0, q->q_id, 1);
-@@ -66,7 +66,7 @@ static int loop_queue_tgt_rw_io(struct ublk_queue *q, const struct ublksrv_io_de
- 	sqe[1]->flags |= IOSQE_FIXED_FILE | IOSQE_IO_HARDLINK;
- 	sqe[1]->user_data = build_user_data(tag, ublk_op, 0, q->q_id, 1);
- 
--	io_uring_prep_buf_unregister(sqe[2], 0, tag, q->q_id, tag);
-+	io_uring_prep_buf_unregister(sqe[2], 0, tag, q->q_id, ublk_get_io(q, tag)->buf_index);
- 	sqe[2]->user_data = build_user_data(tag, ublk_cmd_op_nr(sqe[2]->cmd_op), 0, q->q_id, 1);
- 
- 	return 2;
-diff --git a/tools/testing/selftests/ublk/kublk.c b/tools/testing/selftests/ublk/kublk.c
-index 40431a8357a8f74d7d62e271e9090c8708c3ecc5..a98e14e4c245965d817b93843ff9a4011291223b 100644
---- a/tools/testing/selftests/ublk/kublk.c
-+++ b/tools/testing/selftests/ublk/kublk.c
-@@ -505,8 +505,11 @@ static int ublk_thread_init(struct ublk_thread *t)
- 	}
- 
- 	if (dev->dev_info.flags & (UBLK_F_SUPPORT_ZERO_COPY | UBLK_F_AUTO_BUF_REG)) {
-+		unsigned nr_ios = dev->dev_info.queue_depth * dev->dev_info.nr_hw_queues;
-+		unsigned max_nr_ios_per_thread = nr_ios / dev->nthreads;
-+		max_nr_ios_per_thread += !!(nr_ios % dev->nthreads);
- 		ret = io_uring_register_buffers_sparse(
--			&t->ring, dev->dev_info.queue_depth);
-+			&t->ring, max_nr_ios_per_thread);
- 		if (ret) {
- 			ublk_err("ublk dev %d thread %d register spare buffers failed %d",
- 					dev->dev_info.dev_id, t->idx, ret);
-@@ -578,7 +581,7 @@ static void ublk_set_auto_buf_reg(const struct ublk_queue *q,
- 	if (q->tgt_ops->buf_index)
- 		buf.index = q->tgt_ops->buf_index(q, tag);
- 	else
--		buf.index = tag;
-+		buf.index = q->ios[tag].buf_index;
- 
- 	if (q->state & UBLKSRV_AUTO_BUF_REG_FALLBACK)
- 		buf.flags = UBLK_AUTO_BUF_REG_FALLBACK;
-@@ -660,18 +663,44 @@ int ublk_queue_io_cmd(struct ublk_io *io)
- 
- static void ublk_submit_fetch_commands(struct ublk_thread *t)
- {
--	/*
--	 * Service exclusively the queue whose q_id matches our thread
--	 * index. This may change in the future.
--	 */
--	struct ublk_queue *q = &t->dev->q[t->idx];
-+	struct ublk_queue *q;
- 	struct ublk_io *io;
--	int i = 0;
-+	int i = 0, j = 0;
- 
--	for (i = 0; i < q->q_depth; i++) {
--		io = &q->ios[i];
--		io->t = t;
--		ublk_queue_io_cmd(io);
-+	if (t->dev->per_io_tasks) {
-+		/*
-+		 * Lexicographically order all the (qid,tag) pairs, with
-+		 * qid taking priority (so (1,0) > (0,1)). Then make
-+		 * this thread the daemon for every Nth entry in this
-+		 * list (N is the number of threads), starting at this
-+		 * thread's index. This ensures that each queue is
-+		 * handled by as many ublk server threads as possible,
-+		 * so that load that is concentrated on one or a few
-+		 * queues can make use of all ublk server threads.
-+		 */
-+		const struct ublksrv_ctrl_dev_info *dinfo = &t->dev->dev_info;
-+		int nr_ios = dinfo->nr_hw_queues * dinfo->queue_depth;
-+		for (i = t->idx; i < nr_ios; i += t->dev->nthreads) {
-+			int q_id = i / dinfo->queue_depth;
-+			int tag = i % dinfo->queue_depth;
-+			q = &t->dev->q[q_id];
-+			io = &q->ios[tag];
-+			io->t = t;
-+			io->buf_index = j++;
-+			ublk_queue_io_cmd(io);
-+		}
-+	} else {
-+		/*
-+		 * Service exclusively the queue whose q_id matches our
-+		 * thread index.
-+		 */
-+		struct ublk_queue *q = &t->dev->q[t->idx];
-+		for (i = 0; i < q->q_depth; i++) {
-+			io = &q->ios[i];
-+			io->t = t;
-+			io->buf_index = i;
-+			ublk_queue_io_cmd(io);
-+		}
- 	}
- }
- 
-@@ -826,7 +855,8 @@ static void *ublk_io_handler_fn(void *data)
- 		return NULL;
- 	}
- 	/* IO perf is sensitive with queue pthread affinity on NUMA machine*/
--	ublk_thread_set_sched_affinity(t, info->affinity);
-+	if (info->affinity)
-+		ublk_thread_set_sched_affinity(t, info->affinity);
- 	sem_post(info->ready);
- 
- 	ublk_dbg(UBLK_DBG_THREAD, "tid %d: ublk dev %d thread %u started\n",
-@@ -893,7 +923,7 @@ static int ublk_start_daemon(const struct dev_ctx *ctx, struct ublk_dev *dev)
- 
- 	ublk_dbg(UBLK_DBG_DEV, "%s enter\n", __func__);
- 
--	tinfo = calloc(sizeof(struct ublk_thread_info), dinfo->nr_hw_queues);
-+	tinfo = calloc(sizeof(struct ublk_thread_info), dev->nthreads);
- 	if (!tinfo)
- 		return -ENOMEM;
- 
-@@ -919,17 +949,29 @@ static int ublk_start_daemon(const struct dev_ctx *ctx, struct ublk_dev *dev)
- 				 dinfo->dev_id, i);
- 			goto fail;
- 		}
-+	}
- 
-+	for (i = 0; i < dev->nthreads; i++) {
- 		tinfo[i].dev = dev;
- 		tinfo[i].idx = i;
- 		tinfo[i].ready = &ready;
--		tinfo[i].affinity = &affinity_buf[i];
+On Thu, May 22, 2025 at 5:23=E2=80=AFAM Simon Thoby <git@nightmared.fr> wro=
+te:
+> On 5/21/25 23:31, Paul Moore wrote:
+> > On Wed, May 21, 2025 at 10:03=E2=80=AFAM Simon THOBY <git@nightmared.fr=
+> wrote:
+> >>
+> >> Introduce a minimal documentation for Loadpol, presenting the policy
+> >> format and the two user interfaces: the securityfs policy file and the
+> >> sysctl.
+> >>
+> >> Signed-off-by: Simon THOBY <git@nightmared.fr>
+> >> ---
+> >>  Documentation/admin-guide/LSM/Loadpol.rst | 81 ++++++++++++++++++++++=
 +
-+		/*
-+		 * If threads are not tied 1:1 to queues, setting thread
-+		 * affinity based on queue affinity makes little sense.
-+		 * However, thread CPU affinity has significant impact
-+		 * on performance, so to compare fairly, we'll still set
-+		 * thread CPU affinity based on queue affinity where
-+		 * possible.
-+		 */
-+		if (dev->nthreads == dinfo->nr_hw_queues)
-+			tinfo[i].affinity = &affinity_buf[i];
- 		pthread_create(&dev->threads[i].thread, NULL,
- 				ublk_io_handler_fn,
- 				&tinfo[i]);
- 	}
- 
--	for (i = 0; i < dinfo->nr_hw_queues; i++)
-+	for (i = 0; i < dev->nthreads; i++)
- 		sem_wait(&ready);
- 	free(tinfo);
- 	free(affinity_buf);
-@@ -953,7 +995,7 @@ static int ublk_start_daemon(const struct dev_ctx *ctx, struct ublk_dev *dev)
- 		ublk_send_dev_event(ctx, dev, dev->dev_info.dev_id);
- 
- 	/* wait until we are terminated */
--	for (i = 0; i < dinfo->nr_hw_queues; i++)
-+	for (i = 0; i < dev->nthreads; i++)
- 		pthread_join(dev->threads[i].thread, &thread_ret);
-  fail:
- 	for (i = 0; i < dinfo->nr_hw_queues; i++)
-@@ -1063,6 +1105,7 @@ static int ublk_stop_io_daemon(const struct ublk_dev *dev)
- 
- static int __cmd_dev_add(const struct dev_ctx *ctx)
- {
-+	unsigned nthreads = ctx->nthreads;
- 	unsigned nr_queues = ctx->nr_hw_queues;
- 	const char *tgt_type = ctx->tgt_type;
- 	unsigned depth = ctx->queue_depth;
-@@ -1086,6 +1129,23 @@ static int __cmd_dev_add(const struct dev_ctx *ctx)
- 		return -EINVAL;
- 	}
- 
-+	/* default to 1:1 threads:queues if nthreads is unspecified */
-+	if (!nthreads)
-+		nthreads = nr_queues;
-+
-+	if (nthreads > UBLK_MAX_THREADS) {
-+		ublk_err("%s: %u is too many threads (max %u)\n",
-+				__func__, nthreads, UBLK_MAX_THREADS);
-+		return -EINVAL;
-+	}
-+
-+	if (nthreads != nr_queues && !ctx->per_io_tasks) {
-+		ublk_err("%s: threads %u must be same as queues %u if "
-+			"not using per_io_tasks\n",
-+			__func__, nthreads, nr_queues);
-+		return -EINVAL;
-+	}
-+
- 	dev = ublk_ctrl_init();
- 	if (!dev) {
- 		ublk_err("%s: can't alloc dev id %d, type %s\n",
-@@ -1109,6 +1169,8 @@ static int __cmd_dev_add(const struct dev_ctx *ctx)
- 	if ((features & UBLK_F_QUIESCE) &&
- 			(info->flags & UBLK_F_USER_RECOVERY))
- 		info->flags |= UBLK_F_QUIESCE;
-+	dev->nthreads = nthreads;
-+	dev->per_io_tasks = ctx->per_io_tasks;
- 	dev->tgt.ops = ops;
- 	dev->tgt.sq_depth = depth;
- 	dev->tgt.cq_depth = depth;
-@@ -1307,6 +1369,7 @@ static int cmd_dev_get_features(void)
- 		[const_ilog2(UBLK_F_UPDATE_SIZE)] = "UPDATE_SIZE",
- 		[const_ilog2(UBLK_F_AUTO_BUF_REG)] = "AUTO_BUF_REG",
- 		[const_ilog2(UBLK_F_QUIESCE)] = "QUIESCE",
-+		[const_ilog2(UBLK_F_PER_IO_DAEMON)] = "PER_IO_DAEMON",
- 	};
- 	struct ublk_dev *dev;
- 	__u64 features = 0;
-@@ -1401,8 +1464,10 @@ static void __cmd_create_help(char *exe, bool recovery)
- 			exe, recovery ? "recover" : "add");
- 	printf("\t[--foreground] [--quiet] [-z] [--auto_zc] [--auto_zc_fallback] [--debug_mask mask] [-r 0|1 ] [-g]\n");
- 	printf("\t[-e 0|1 ] [-i 0|1]\n");
-+	printf("\t[--nthreads threads] [--per_io_tasks]\n");
- 	printf("\t[target options] [backfile1] [backfile2] ...\n");
- 	printf("\tdefault: nr_queues=2(max 32), depth=128(max 1024), dev_id=-1(auto allocation)\n");
-+	printf("\tdefault: nthreads=nr_queues");
- 
- 	for (i = 0; i < sizeof(tgt_ops_list) / sizeof(tgt_ops_list[0]); i++) {
- 		const struct ublk_tgt_ops *ops = tgt_ops_list[i];
-@@ -1459,6 +1524,8 @@ int main(int argc, char *argv[])
- 		{ "auto_zc",		0,	NULL,  0 },
- 		{ "auto_zc_fallback", 	0,	NULL,  0 },
- 		{ "size",		1,	NULL, 's'},
-+		{ "nthreads",		1,	NULL,  0 },
-+		{ "per_io_tasks",	0,	NULL,  0 },
- 		{ 0, 0, 0, 0 }
- 	};
- 	const struct ublk_tgt_ops *ops = NULL;
-@@ -1534,6 +1601,10 @@ int main(int argc, char *argv[])
- 				ctx.flags |= UBLK_F_AUTO_BUF_REG;
- 			if (!strcmp(longopts[option_idx].name, "auto_zc_fallback"))
- 				ctx.auto_zc_fallback = 1;
-+			if (!strcmp(longopts[option_idx].name, "nthreads"))
-+				ctx.nthreads = strtol(optarg, NULL, 10);
-+			if (!strcmp(longopts[option_idx].name, "per_io_tasks"))
-+				ctx.per_io_tasks = 1;
- 			break;
- 		case '?':
- 			/*
-diff --git a/tools/testing/selftests/ublk/kublk.h b/tools/testing/selftests/ublk/kublk.h
-index 3a2ae095bee18633acd5a9c923cfab2d14fe3bff..6be601536b3d2c095654da5fba0cf13a51142052 100644
---- a/tools/testing/selftests/ublk/kublk.h
-+++ b/tools/testing/selftests/ublk/kublk.h
-@@ -80,6 +80,7 @@ struct dev_ctx {
- 	char tgt_type[16];
- 	unsigned long flags;
- 	unsigned nr_hw_queues;
-+	unsigned short nthreads;
- 	unsigned queue_depth;
- 	int dev_id;
- 	int nr_files;
-@@ -89,6 +90,7 @@ struct dev_ctx {
- 	unsigned int	fg:1;
- 	unsigned int	recovery:1;
- 	unsigned int	auto_zc_fallback:1;
-+	unsigned int	per_io_tasks:1;
- 
- 	int _evtfd;
- 	int _shmid;
-@@ -131,6 +133,7 @@ struct ublk_io {
- 
- 	int result;
- 
-+	unsigned short buf_index;
- 	unsigned short tgt_ios;
- 	void *private_data;
- 	struct ublk_thread *t;
-@@ -203,6 +206,8 @@ struct ublk_dev {
- 	struct ublksrv_ctrl_dev_info  dev_info;
- 	struct ublk_queue q[UBLK_MAX_QUEUES];
- 	struct ublk_thread threads[UBLK_MAX_THREADS];
-+	unsigned nthreads;
-+	unsigned per_io_tasks;
- 
- 	int fds[MAX_BACK_FILES + 1];	/* fds[0] points to /dev/ublkcN */
- 	int nr_fds;
-diff --git a/tools/testing/selftests/ublk/null.c b/tools/testing/selftests/ublk/null.c
-index 9acc7e0d271b5ae52d6d31587cc5bfb63b19778d..afe0b99d77eec74acae04952a9af5348252bc599 100644
---- a/tools/testing/selftests/ublk/null.c
-+++ b/tools/testing/selftests/ublk/null.c
-@@ -62,7 +62,7 @@ static int null_queue_zc_io(struct ublk_queue *q, int tag)
- 
- 	ublk_io_alloc_sqes(ublk_get_io(q, tag), sqe, 3);
- 
--	io_uring_prep_buf_register(sqe[0], 0, tag, q->q_id, tag);
-+	io_uring_prep_buf_register(sqe[0], 0, tag, q->q_id, ublk_get_io(q, tag)->buf_index);
- 	sqe[0]->user_data = build_user_data(tag,
- 			ublk_cmd_op_nr(sqe[0]->cmd_op), 0, q->q_id, 1);
- 	sqe[0]->flags |= IOSQE_CQE_SKIP_SUCCESS | IOSQE_IO_HARDLINK;
-@@ -70,7 +70,7 @@ static int null_queue_zc_io(struct ublk_queue *q, int tag)
- 	__setup_nop_io(tag, iod, sqe[1], q->q_id);
- 	sqe[1]->flags |= IOSQE_IO_HARDLINK;
- 
--	io_uring_prep_buf_unregister(sqe[2], 0, tag, q->q_id, tag);
-+	io_uring_prep_buf_unregister(sqe[2], 0, tag, q->q_id, ublk_get_io(q, tag)->buf_index);
- 	sqe[2]->user_data = build_user_data(tag, ublk_cmd_op_nr(sqe[2]->cmd_op), 0, q->q_id, 1);
- 
- 	// buf register is marked as IOSQE_CQE_SKIP_SUCCESS
-@@ -136,7 +136,7 @@ static unsigned short ublk_null_buf_index(const struct ublk_queue *q, int tag)
- {
- 	if (q->state & UBLKSRV_AUTO_BUF_REG_FALLBACK)
- 		return (unsigned short)-1;
--	return tag;
-+	return q->ios[tag].buf_index;
- }
- 
- const struct ublk_tgt_ops null_tgt_ops = {
-diff --git a/tools/testing/selftests/ublk/stripe.c b/tools/testing/selftests/ublk/stripe.c
-index 97079c3121ef8d4edc71891a289dd40658ce3f2a..37d50bbf5f5e86a520efedc9228510f8e1273625 100644
---- a/tools/testing/selftests/ublk/stripe.c
-+++ b/tools/testing/selftests/ublk/stripe.c
-@@ -141,7 +141,7 @@ static int stripe_queue_tgt_rw_io(struct ublk_queue *q, const struct ublksrv_io_
- 	ublk_io_alloc_sqes(ublk_get_io(q, tag), sqe, s->nr + extra);
- 
- 	if (zc) {
--		io_uring_prep_buf_register(sqe[0], 0, tag, q->q_id, tag);
-+		io_uring_prep_buf_register(sqe[0], 0, tag, q->q_id, io->buf_index);
- 		sqe[0]->flags |= IOSQE_CQE_SKIP_SUCCESS | IOSQE_IO_HARDLINK;
- 		sqe[0]->user_data = build_user_data(tag,
- 			ublk_cmd_op_nr(sqe[0]->cmd_op), 0, q->q_id, 1);
-@@ -167,7 +167,7 @@ static int stripe_queue_tgt_rw_io(struct ublk_queue *q, const struct ublksrv_io_
- 	if (zc) {
- 		struct io_uring_sqe *unreg = sqe[s->nr + 1];
- 
--		io_uring_prep_buf_unregister(unreg, 0, tag, q->q_id, tag);
-+		io_uring_prep_buf_unregister(unreg, 0, tag, q->q_id, io->buf_index);
- 		unreg->user_data = build_user_data(
- 			tag, ublk_cmd_op_nr(unreg->cmd_op), 0, q->q_id, 1);
- 	}
+> >>  Documentation/admin-guide/LSM/index.rst   |  1 +
+> >>  2 files changed, 82 insertions(+)
+> >>  create mode 100644 Documentation/admin-guide/LSM/Loadpol.rst
+> >>
+> >> diff --git a/Documentation/admin-guide/LSM/Loadpol.rst b/Documentation=
+/admin-guide/LSM/Loadpol.rst
+> >> new file mode 100644
+> >> index 000000000000..0aa24a8d393c
+> >> --- /dev/null
+> >> +++ b/Documentation/admin-guide/LSM/Loadpol.rst
+> >> @@ -0,0 +1,81 @@
+> >> +.. SPDX-License-Identifier: GPL-2.0
+> >> +
+> >> +=3D=3D=3D=3D=3D=3D=3D
+> >> +Loadpol
+> >> +=3D=3D=3D=3D=3D=3D=3D
+> >> +
+> >> +Loadpol is a Linux Security Module that enforces a user-provided poli=
+cy
+> >> +when decided whether a dynamic module can be loaded or not.
+> >
+> > Considering the relatively small scope of Loadpol, I have to ask if
+> > you've considered augmenting other LSMs to meet your needs?  While
+> > LoadPin is different from what you are proposing here, it does
+> > similarly limit its scope to kernel module load operations, and given
+> > the current simplicity of LoadPin I imagine one could find a creative
+> > way to extend it to support what you are trying to do.
+>
+> I indeed felt a bit ridiculous introducing a new LSM for a limited featur=
+e
+> like that!
 
--- 
-2.34.1
+Please don't feel bad about it, often simply doing "something" is what
+makes things happen, even if that original "something" turns out not
+to be the final "thing" :)
 
+> What's more, I don't see it being extended much in the future - we could
+> always imagine things like signed policy updates, but other than that it'=
+s
+> probably "feature-complete", as the feature itself is fairly small.
+> The difficulty with LoadPin is that it rely relies on the notion of
+> filesystem (which is coupled with the origin of the kernel modules) to en=
+sure
+> that modules are valid. On a general-purpose distributions, the modules
+> would be stored on the same (non-integrity-verified) filesystem, so
+> segregating the modules by filesystem is not really possible there.
+> Extending LoadPin to provide the same features is probably possible, but =
+I
+> fear this would add complexity to loading by trying to make it do two
+> slightly different jobs at once.
+
+My thinking around possible augmentation of LoadPin is that both
+LoadPin and Loadpol share a similar, limited focus of controlling
+access to kernel module loading and Loadpol has support for a basic
+loadable policy, a policy that could likely be extended to support a
+LoadPin-esque construct that limit module loading based on filesystem
+pinning.  It probably makes more sense to think of adding LoadPin
+support to Loadpol, rather than augmenting LoadPin to support the
+Loadpol concepts, but for consistency with upstream we probably need
+to speak in terms of the latter.
+
+> CC-ing Kees Cook as he is the maintainer of the LoadPin module, he may ha=
+ve
+> opinions on what features may or may not fit inside LoadPin.
+
+Of course, the combination, or not, of LoadPin and Loadpol is really
+up to the two of you.
+
+> As for other LSMs, I don't really see one that tries to provide similar
+> features, but I someone is open to extending an existing LSM for that, I
+> would be happy to help.
+
+I think LoadPin is the obvious choice.
+
+--=20
+paul-moore.com
