@@ -1,174 +1,153 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC4719EED3;
-	Thu, 29 May 2025 01:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866B92472BD
+	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 03:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748482093; cv=none; b=bVK5V/C7tmQryRgjTjSKnA1/iMIj9RiJoFuLebRq6Hja7tSpQXvkp33mZEgQhuhklOmspVaYAd+j9vkY2FHr1bTZ4dnpA1ARh/wHG+KCuxCxHakhllqrho3hsC4756TYsYme9siWTANmWzJSN88RYoIX/qkRJ9QdtyV7S8os/kc=
+	t=1748490771; cv=none; b=bNTMX34rLYPnk+jtHIukcqF0/bAblVoOx55KuGWed/G52Ac3l69ADM/icKyvI6/3AyiUjNw1Cbe2KFF9qtSfO3sU8p2pKhIQxmTXAM2Yg8ju/caV3OJInJjyGZq3gvnXWo5kuBJHKEtzbJ9zcrZyEPYFH99T9L2TKS4DgCs2+sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748482093; c=relaxed/simple;
-	bh=jqnorrBw8WKXKlYbmOCJtgDiXmZMkG7t4CSzybmUHBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GtKc1M9YiOijJmydvQUAjwqFo57bMQg3SSVfq8s/ONPirUa+CtSYpraNi3mt5AddKsXGFe+RksIOFdL5cXlAzNEX5Ta2eH9QF5b4IXAao2FoT2JbFVKn5vuI0VAscEjnwnc+LS8/rQXimB83dxsQOViCcykoW5BkSBWeiLGC2mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XzJE8iWc; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748490771; c=relaxed/simple;
+	bh=jjBdYG5dDlk4ROjsfQyxf8vSTtJMMJIcoc8Ttyljtjc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Nkxz4g5NOSNIomwMN9lJ2xBHveY7RXqDb2soQnJaImQGDJzuMT47+HsSMfpEbst7V1V8mnNWgCpY9cJXoTaXz5TkaugTK0rV5jarRaLD8KRXIBlp8IL6BnBESbL7U4vCdSXxCrR0bwyallsmlW9EYE/5xAwSR4D1JNT43V0Md0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PQxs0M8M; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XzJE8iWc"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso275738b3a.0;
-        Wed, 28 May 2025 18:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748482091; x=1749086891; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hoeXSFYRWh2i4KgtON46+79vyPFN+5fYuOEhE49cAOI=;
-        b=XzJE8iWcwHdxqV+FY2qX8Al8Kog+XeT4F9CTIf6XMphfElD3fC8j/JWU1ijpHoCj6F
-         wlRxXzrcDXZwA6DC8gpIJqpfu20IJxTlaftIBBdOOjSYGIeeiAIN2GTux8vEuLPeMd/7
-         TOupmZ1KQ1HI2IlLMqqFNB+Eh4eDQt3+yOn6DSFojpfl3PVZCJMj96qkGZ1WoRVLFZo2
-         metbrIspDrVi0uGQdlcjYGUXPx3xWBBl6fuFr77lj5Vf0lks/0qzxt0XP1vtr0XFyGT2
-         /Ppv7Y4daGF2W+nfDUCTGBg4njdnaMbL897oc1SG2PABL5QVHTeQmASNIsE3x7OiNsao
-         oIyg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PQxs0M8M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1748490768;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4hhA7GC2WW/+lJ32k1Z0Il2RFszCwZCLWK9Duc96zI4=;
+	b=PQxs0M8Mr/58+3U/lORfJYDDaBetf+jKt2GTau1T1n5nH9WyeTcJR0YJ5dgOEC3gtbJy+3
+	Byz9CFkkUMk0+vvnXPAwj17uAnl2GlBSqAauDds7SCL2vm/mFCiYW69omolyL1y3QwsQBT
+	7phPyNtAnn+b6mN8fm/uE44Wdk5JM0I=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-183-CKFpngDPPMeZSznsV4mqhQ-1; Wed, 28 May 2025 23:52:47 -0400
+X-MC-Unique: CKFpngDPPMeZSznsV4mqhQ-1
+X-Mimecast-MFC-AGG-ID: CKFpngDPPMeZSznsV4mqhQ_1748490767
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-70e7b4e1522so8872687b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 May 2025 20:52:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748482091; x=1749086891;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hoeXSFYRWh2i4KgtON46+79vyPFN+5fYuOEhE49cAOI=;
-        b=o2GjXIwBuC5xxR6b0lLox/pgi9iHl+KH2MKruSqM/AyG/RXwhcEfG0QjlfpwxhN/aw
-         Poa5Fe+r/CVGaOaXKpYm0dnAkfOh9zCSz5E/xFpa+ddPM+JWDtTlusgq8yvIeYhNYelQ
-         r+cL9kKgdC59oLmnaIPVmBaMSOQSxlKMcyVPoylMexyXjqJWWw33nxRYUScm+8Hxw+a/
-         lAEMj6IVL3o2dA4QWmGaMCQD+mBJSW7ks0K7OVDd9eCIGI5lluNmUn8g99tD9U/LZamp
-         Ep/a5ir1/tLeOAX3L9qfAcE74r3M99nqPRKPnrSh9422Tst326Rd8EwEo5+CO0GNFs6T
-         l1HA==
-X-Forwarded-Encrypted: i=1; AJvYcCUqBph/TZVgRUHRBlmMynbET9vlCn2eHpfu2L8up6Ul7L5t3jXLoz8kvUgaw2vEeZOWXqL6Z8HTexz/Z8qE@vger.kernel.org, AJvYcCXlgCTzQlFM4l1lUl1guGUZWnWy18QUjyfj1pkSeQo7ma2waBPP3voOLrA0MmTWZ5BJ446Ueysf/WY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcB3HY2ViradU1A8N1lQnC2N1+PSpRV4yrm7G3zbq53tTWsw0D
-	/v/XBtNOv39vloC9IfI8eRctrVWShHPZ5rzd99kzDpAOGVHachqne5Ak
-X-Gm-Gg: ASbGncsUFXZi6/KkX2gPYHqBSiHFr8ZLjWdExQ1OwhjJUYfoJSCInuYsQsnOFfxSTKN
-	O0Vl0tXZKmq8cMlH9wwStjbUd4TCTVnG4p+aZLFYJWKyn6mtK1bn8+vpao+8TxNs0SmrJsZ+gX1
-	yJhI24OH6WDhn/ZqRJiRy5uUz+g+6QInCTF4iWaOSwBKyCjX6iGrkGpDToZXpnrh/QO1TyP3HnQ
-	3aJ91uMnnmQy1unCCYfmjn1w+DlQbqkJ9iHcDcPpgpf84DnETOfr5ox3rqB5+xX3/dZBw8Z2YKC
-	kgCOl/FLg/CbBgSln/G1TgU7gvLfVUbTeqN7lHg6/A8cp6r+c56GQUZJxebLDQ==
-X-Google-Smtp-Source: AGHT+IEz+1R42eNysUwZ0fqEej6CVAYfSf8TKl3yY1k7/5eS4TAR5HPasxyR4xeGfgyqO10P1uKdmA==
-X-Received: by 2002:a05:6a00:3994:b0:740:a023:5d60 with SMTP id d2e1a72fcca58-745fe083439mr27047681b3a.19.1748482090915;
-        Wed, 28 May 2025 18:28:10 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747afeab6a7sm253212b3a.59.2025.05.28.18.28.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 18:28:09 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 0B67041E4844; Thu, 29 May 2025 08:28:07 +0700 (WIB)
-Date: Thu, 29 May 2025 08:28:07 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm: add overview diagram for drm stack
-Message-ID: <aDe4J8Cmlzicggx2@archie.me>
-References: <20250527-drm-doc-updates-v3-1-58e97a831d03@gmail.com>
+        d=1e100.net; s=20230601; t=1748490766; x=1749095566;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4hhA7GC2WW/+lJ32k1Z0Il2RFszCwZCLWK9Duc96zI4=;
+        b=J+bHp3DrbO/neTsKHTfAydKLLdCpkte6SWt8BZNJhzQaz5K6ttWwaqCkoh6GPjiGFs
+         6Ar6qIKKq1hXJLq4WDEJWJzRZyibqM3PX9b6slbxv8XkfvlmGgTtZl/J56/7WN/PQI9d
+         KY9cGK5jYbZwbbRyr8LTJiXHhrcj4pPonSKdfmkBxXLpBQI4sQEwp6EMjWciky3P8YlJ
+         Ghv5Uj9RPABVZ54tkjCiYnewBrRFV80kc7vaJIazgrlVUvf7ENaYXysphJczFkpzkSBG
+         7aF1A7xmdFxp5W9f/6vxXPQsewXv2GarlvEq0OqRiuAK1mCToj+V3KkXJOPLzi6b14q9
+         /BYw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzXMTQfXOV45wMW+NdpsZ0I/niVaCK13ZXh5lOFhIG4MFm7/qohFFNY1JdwVjb/cHEpm4t6KKTnno=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzuk0g1jR3hXy7ABt1GZNJhYFb/7W15VuCuUwnmWZimkqtuAGGu
+	cAdVOdHeaIWlZbczHrExXDTScVxqCp9Yhi63IcY9+xRzfw8aoW2zT/BlZIW/sfQlwyOc/d9Jyg4
+	qjcOGWQKwlNQrAVB0qt1EniXqlgg/KJx5PvvtFAT5XoH/ElysC44Es35GZjm3s3Vp+7bdi0+1g1
+	TiH/NafjxWJ0DucYhR9SpSMm9ky7HqsU+3U25B
+X-Gm-Gg: ASbGncsPwsHyQ32wme41Bup/iFaP9K57ov4DiUBvTvm44IAs95cl2Y3mPqeWwBqllqp
+	Ur4psfe/eBSs2oEZsETP45sCs7xTlVwPKwyTbefcMlVBHHQnsZ+zQnJ2xo4J0dgepAWDr3OQ=
+X-Received: by 2002:a05:690c:6c84:b0:70c:9364:2c61 with SMTP id 00721157ae682-70e2d99acecmr259480877b3.9.1748490766696;
+        Wed, 28 May 2025 20:52:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBHhgbNYXKNeLYZZxqGSVehk4q8NKnO868u4K0Pc9kRLFdHIZrfkpOjP7qA1+UiLAH4quPFQdOA6jB8tjDF2Q=
+X-Received: by 2002:a05:690c:6c84:b0:70c:9364:2c61 with SMTP id
+ 00721157ae682-70e2d99acecmr259480667b3.9.1748490766362; Wed, 28 May 2025
+ 20:52:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aC/adGMqQaMC2iPq"
-Content-Disposition: inline
-In-Reply-To: <20250527-drm-doc-updates-v3-1-58e97a831d03@gmail.com>
-
-
---aC/adGMqQaMC2iPq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20250515032226.128900-1-npache@redhat.com> <a956379a-7472-4972-bf3d-fe2b2b6715b5@linux.alibaba.com>
+In-Reply-To: <a956379a-7472-4972-bf3d-fe2b2b6715b5@linux.alibaba.com>
+From: Nico Pache <npache@redhat.com>
+Date: Wed, 28 May 2025 21:52:20 -0600
+X-Gm-Features: AX0GCFsiYEJ1VuiCFlFESTf-xqRr1WAwbgRTyelRq-SxIdDhpm-aFp66aQ0MKqc
+Message-ID: <CAA1CXcDKOPk+7keQG43_0PzaAnVFLDrVNq=rnZK_m_QVFjk8og@mail.gmail.com>
+Subject: Re: [PATCH v7 00/12] khugepaged: mTHP support
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
+	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
+	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 27, 2025 at 03:17:43AM -0400, Abdulrasaq Lawani wrote:
-> revert promotion of overview diagram title to that
-> of previous commit in introduction.rst
->=20
+On Wed, May 28, 2025 at 6:39=E2=80=AFAM Baolin Wang
+<baolin.wang@linux.alibaba.com> wrote:
+>
+>
+>
+> On 2025/5/15 11:22, Nico Pache wrote:
+> > The following series provides khugepaged and madvise collapse with the
+> > capability to collapse anonymous memory regions to mTHPs.
+> >
+> > To achieve this we generalize the khugepaged functions to no longer dep=
+end
+> > on PMD_ORDER. Then during the PMD scan, we keep track of chunks of page=
+s
+> > (defined by KHUGEPAGED_MTHP_MIN_ORDER) that are utilized. This info is
+> > tracked using a bitmap. After the PMD scan is done, we do binary recurs=
+ion
+> > on the bitmap to find the optimal mTHP sizes for the PMD range. The
+> > restriction on max_ptes_none is removed during the scan, to make sure w=
+e
+> > account for the whole PMD range. When no mTHP size is enabled, the lega=
+cy
+> > behavior of khugepaged is maintained. max_ptes_none will be scaled by t=
+he
+> > attempted collapse order to determine how full a THP must be to be
+> > eligible. If a mTHP collapse is attempted, but contains swapped out, or
+> > shared pages, we dont perform the collapse.
+> >
+> > With the default max_ptes_none=3D511, the code should keep its most of =
+its
+> > original behavior. To exercise mTHP collapse we need to set
+> > max_ptes_none<=3D255. With max_ptes_none > HPAGE_PMD_NR/2 you will
+> > experience collapse "creep" and constantly promote mTHPs to the next
+> > available size. This is due the fact that it will introduce at least 2x
+> > the number of pages, and on a future scan will satisfy that condition o=
+nce
+> > again.
+> >
+> > Patch 1:     Refactor/rename hpage_collapse
+> > Patch 2:     Some refactoring to combine madvise_collapse and khugepage=
+d
+> > Patch 3-5:   Generalize khugepaged functions for arbitrary orders
+> > Patch 6-9:   The mTHP patches
+> > Patch 10-11: Tracing/stats
+> > Patch 12:    Documentation
+>
+> When I tested 64K mTHP collapse and disabled PMD-sized THP, I found that
+> khugepaged couldn't scan and collapse 64K mTHP. I send out two fix
+> patches[1], and with these patches applied, 64K mTHP collapse works
+> well. I hope my two patches can be folded into your next version series
+> if you think there are no issues. Thanks.
 
-The patch description doesn't really describe the diff below, which is
-to add overview diagram instead. Maybe you can replace that with from your =
-v1?
+Thank you for looking into that and fixing it, I had originally
+decided to only allow khugepaged to collapse to mTHP if the PMD size
+was enabled as well. It was on my todo list :) I'll work on adding
+your patches to my set, and do some proper testing again!
+>
+> [1]
+> https://lore.kernel.org/all/ac9ed6d71b439611f9c94b3506a8ce975d4636e9.1748=
+435162.git.baolin.wang@linux.alibaba.com/
+>
 
-> diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/intro=
-duction.rst
-> index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec52a4=
-5d0f3f4561424e0 100644
-> --- a/Documentation/gpu/introduction.rst
-> +++ b/Documentation/gpu/introduction.rst
-> @@ -14,7 +14,45 @@ including the TTM memory manager, output configuration=
- and mode setting,
->  and the new vblank internals, in addition to all the regular features
->  found in current kernels.
-> =20
-> -[Insert diagram of typical DRM stack here]
-> +Overview of the Linux DRM Architecture
-> +--------------------------------------
-> +::
-> +
-> +        +-----------------------------+
-> +        |     User-space Apps         |
-> +        | (Games, Browsers, ML, etc.) |
-> +        +-----------------------------+
-> +                      |
-> +                      v
-> +        +---------------------------------------+
-> +        |    Graphics APIs   |   Compute APIs   |
-> +        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
-> +        +---------------------------------------+
-> +                |                   |
-> +                v                   v
-> +        +---------------------+  +-----------------------+
-> +        |  User-space Driver  |  |    Compute Runtime    |
-> +        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
-> +        +---------------------+  +-----------------------+
-> +                |                   |
-> +                +--------+----------+
-> +                         |
-> +                         v
-> +                +-----------------------+
-> +                |   libdrm (DRM API)    |
-> +                +-----------------------+
-> +                          |
-> +                          v
-> +        +-------------------------------------------+
-> +        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
-> +        |     nouveau, etc.)                        |
-> +        +-------------------------------------------+
-> +                |                       |
-> +                v                       v
-> +        +----------------+     +-------------------+
-> +        | GPU Display HW |     | GPU Compute Units |
-> +        +----------------+     +-------------------+
-> +
-> =20
->  Style Guidelines
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-
-The diff itself looks good.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---aC/adGMqQaMC2iPq
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDe4JwAKCRD2uYlJVVFO
-o1vSAP9RDdnvD215ocVJi8rTafh7HN5OcFggjOd1N/NN53BQMAEA1/hsLPZqX2Zd
-BajmnAxuQKkeSKG/0y85fJPYpq7JNQc=
-=1KWA
------END PGP SIGNATURE-----
-
---aC/adGMqQaMC2iPq--
