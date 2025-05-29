@@ -1,176 +1,441 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5AA2192FB;
-	Thu, 29 May 2025 09:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13927215F53;
+	Thu, 29 May 2025 09:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748509351; cv=none; b=Ord4PchMtW3YJmT6WcqRK3cXrx+alQojHCXmuBF0zCVg4FlHQykc8O8z+8JynkPT/fjC+aSlBkHMS2ZmhlOVB1zA+ZVm+rlFXWeqifUwtoQ8wb2+iQIajo1pauFX9qB+tlSYFFR32rkE/C2BWBlGHC8Zpzw3R6DFi1EVOTMHzFQ=
+	t=1748509412; cv=none; b=CpAmfqz66TxHATFjAZtWHgSJjCW6hPt/Ps5ZGuDvydl8QtlI1+TP6YBWXs2Qs0+bSXG9uVwW/kQc/UXFIxmNJchpZpzdujEZsNizOJVNrjEesY+LBNfT6q84ouJh5oy3F8l4xHlne0cklxwQPSmlE5TX2JBEJLf+mNCRy9owFbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748509351; c=relaxed/simple;
-	bh=sMkdftC0+Tx/IZelfW2inRhlPRbTlYeUucKCNb7CRMM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iuWRJ6Cc8KrHZu1U5MzTX8L5Pemcm+Gqa7l9g/8cN/lHIAbgJGbOt23URgCcZ1janGgRvWEghRcF44vPaGkyes1ZxFHNBA0YQH+yLCJVWxB8WYJe74zXCas+xfoubaQaKr23247KbqHpoArZ8cBkB4ouOqXkaO7+foXRNePqrqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JNFiDfnm; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JNFiDfnm"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so7263405e9.1;
-        Thu, 29 May 2025 02:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748509348; x=1749114148; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8AXfRWEnLXngbO6ozFx9Vdj+sRj7LpGEVmnez0nbKG8=;
-        b=JNFiDfnmrDT7w1plt23ylGhR00wAkKHlbXfiMaCspLQKscn9bg4b3ML4nVae1XGPIk
-         RCQeGUlSi/AG/Y85vnsjsB4Gv8OqubUCGRApEG6C8iVFPOek7mezRXLnaeMY3A6pq84Y
-         dvV53si2iZqzXGCHXxXiH+0DjEWSMfQRp9wwk5lBjAd6xjwBvmIGlmhRF0LO5duyf3BT
-         64JjINN+nfUKHss3Eqz8gq73qT2G5rV4qSh/zcwo54FaGgl/v4ecGrhnpUcMpyBcOIn6
-         +fRjwbai9TfYj1WQmiOg0+bYR5Du1fFiOZ+8Mo3ynyrnwVI4Ztsunnuda5V2/ZWsNcN5
-         FxyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748509348; x=1749114148;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8AXfRWEnLXngbO6ozFx9Vdj+sRj7LpGEVmnez0nbKG8=;
-        b=bOssOGdAiUmMhNFg+8T50+71K9CZpXa8zTQsbOyoXWgQzmE7gPt7Ifm6Has/p1JSFG
-         9ubZscNiMSY9MCWDgLpX5c/Ko/9IBwrB9C4izN2MP9fMsI1tKryyk/bp63dw50alGYs8
-         M0VPiITEtOr0f0y5i1CiprmE+WQvVXN5Yucjt6MRY6lesn7MW8eRJ/EecsES6CpIRlzy
-         SfTVa0n/PfqZZ4s74S6mi3kwWfgGPgX28RxCwEs4gqePLNmTrheu2xLoCF4gbEPCwZRB
-         TFXPvYldjY0xiCDYk+/w+cETRt4UlePt1PAwdRQAXaxOJiTM5g4hT+Y9bYVs0samjmpw
-         k3HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUD8Oak8C3hyPujTQp7p5qQNtKuQvqlqftJUudaHp7Yc2PyN8Wt/2MTvV/w2YCaDykbafy9wulboHo=@vger.kernel.org, AJvYcCX3y+PRBK866Uc/7JHfNpBaMc0TulswOxt5u3vBFnrq/VXpuWnCkOvM6BzxJhn/oxYNmfNA339KUdCHKcu6@vger.kernel.org, AJvYcCXg+K1WHPCYjRF6OrC7h5eX+Al/u70kboWo37GnaWo1RwKbpnjF4Z1HH5EgVop/Qtu8/irK/jpug+CfmPk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCAX6KtIlAq/QuE2pjIHzLHSGkDzq0k0kgJwNT/O4Gxj2AatJ+
-	RlplPL1oo6k2nYIvJD2mqh6L3bV3JAnXayEWFJYU4i6Gil8NFs6f4Nc7
-X-Gm-Gg: ASbGncsBOr44S/yeeusPcAiS1bL+VhN7tnS2YyYmgJn3/F0+eV8GPBpqMrVdnPuQkNq
-	BzgryWv3UXZFmkqVdZ/TVWBoaQAvjBGN4zATCiIcbBtehnCLoBzOOH5Y+2PEODmfbuub0XeAWfc
-	+ugIAcsc+G1cGLQKreBn880UCFTEmnogV7kMFLEWnBW69C1WTWJTdIFbDKcwmNTV8sI8i/TUD3i
-	vaAhf+VMnUS/gUipqeckbbOSZ15E+S5qcimgSI173V8DNDZAZ6VOlHnEFvuL8AMEaDpxi2WVpzW
-	SGbGaQld7Q5qh1l2PWM0pYN+Ckq6HWwro5JX7RE1GZRnJVYh2VELcVOpGgYLRR95SqrWYBPqmm3
-	DcBIikE/EvNQ8hd89PIIZMVMHLf2xLZQNyejQGpXED+obknwGBewq1A==
-X-Google-Smtp-Source: AGHT+IFS+6s+jXMSUM+bVy+Oz+xiERYfpm6I7yWMzURvuDDqqqnXdeEsGmmT/Co0X8obLIFaytbc0g==
-X-Received: by 2002:a05:600c:3b25:b0:450:b240:aaab with SMTP id 5b1f17b1804b1-450d0566ea5mr13600055e9.8.1748509348003;
-        Thu, 29 May 2025 02:02:28 -0700 (PDT)
-Received: from puma.museclub.art (p200300cf9f4db30084345851a1a1c45b.dip0.t-ipconnect.de. [2003:cf:9f4d:b300:8434:5851:a1a1:c45b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450cfc17a04sm14057565e9.24.2025.05.29.02.02.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 02:02:27 -0700 (PDT)
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-To: eugene.shalygin@gmail.com
-Cc: Roy Seitz <royseitz@bluewin.ch>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (asus-ec-sensors) add support for ROG STRIX Z490-F GAMING
-Date: Thu, 29 May 2025 11:01:41 +0200
-Message-ID: <20250529090222.154696-1-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1748509412; c=relaxed/simple;
+	bh=J7NxoBMtaTkBpaBj4y6PZe06UU2bm+m2zYAG/Bh2SAY=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=P+e5khNrEkUaav3u0kcHxtgm48saOoPnpMHtdnRUUyMANwn3/aI15gjelDLc2VFc23Jk+hZMlr+ewfZ467iow5WWM0c/Z5zCuADMII1hSNM3gRQcLcQCR7xw8hbvta139IayMhmV1RZpTUzdLS/XB5cOXg31qvSd8juvwMfiA98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4b7L4G416gz4f3jJG;
+	Thu, 29 May 2025 17:02:54 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id DE4D71A0B0A;
+	Thu, 29 May 2025 17:03:19 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP4 (Coremail) with SMTP id gCh0CgDXOl_VIjho4gVzNw--.64257S3;
+	Thu, 29 May 2025 17:03:19 +0800 (CST)
+Subject: Re: [PATCH 18/23] md/md-llbitmap: implement APIs to mange bitmap
+ lifetime
+To: Xiao Ni <xni@redhat.com>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: hch@lst.de, colyli@kernel.org, song@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
+References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
+ <20250524061320.370630-19-yukuai1@huaweicloud.com>
+ <CALTww2-+0h2Pxq0PJLZQxcoYpMJuiKuv6CZQ3kgX5PeqBkxKsQ@mail.gmail.com>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <0f5b4641-cd4a-dccc-6f13-f2fa3221dee1@huaweicloud.com>
+Date: Thu, 29 May 2025 17:03:17 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <CALTww2-+0h2Pxq0PJLZQxcoYpMJuiKuv6CZQ3kgX5PeqBkxKsQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgDXOl_VIjho4gVzNw--.64257S3
+X-Coremail-Antispam: 1UD129KBjvJXoWfGF4fGw1xWw47Ar1DJw4fXwb_yoWDtF4rpF
+	WxXFn8Ka13JryrXr17Xr97ZFWFqr4ktr9Fvr97Aa4rGr1qkrs3KryrGFyUG34kZr1rGF4k
+	A3W5GrsxuF18WFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
+	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
-From: Roy Seitz <royseitz@bluewin.ch>
+Hi,
 
-This adds support for the ROG STRIX Z490-F GAMING board.
+在 2025/05/29 15:03, Xiao Ni 写道:
+> Hi Kuai
+> 
+> Is it better to put this patch before patch15. I'm reading patch15.
+> But I need to read this patch first to understand how llbitmap is
+> created and loaded. Then I can go to read the io related part.
 
-Signed-off-by: Roy Seitz <royseitz@bluewin.ch>
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst |  1 +
- drivers/hwmon/asus-ec-sensors.c         | 32 +++++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+Never mind, I'll merge patch 15-23 into one single patch in the next
+version, it's better for review.
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 816d1f9947ea..502b0faf3b31 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -29,6 +29,7 @@ Supported boards:
-  * ROG STRIX X570-F GAMING
-  * ROG STRIX X570-I GAMING
-  * ROG STRIX Z390-F GAMING
-+ * ROG STRIX Z490-F GAMING
-  * ROG STRIX Z690-A GAMING WIFI D4
-  * ROG ZENITH II EXTREME
-  * ROG ZENITH II EXTREME ALPHA
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index e0a95197c71b..c3d5bcbd63f8 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -166,6 +166,7 @@ enum board_family {
- 	family_amd_500_series,
- 	family_amd_600_series,
- 	family_intel_300_series,
-+	family_intel_400_series,
- 	family_intel_600_series
- };
- 
-@@ -279,6 +280,20 @@ static const struct ec_sensor_info sensors_family_intel_300[] = {
- 		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
- };
- 
-+static const struct ec_sensor_info sensors_family_intel_400[] = {
-+	[ec_sensor_temp_chipset] =
-+		EC_SENSOR("Chipset", hwmon_temp, 1, 0x00, 0x3a),
-+	[ec_sensor_temp_cpu] = EC_SENSOR("CPU", hwmon_temp, 1, 0x00, 0x3b),
-+	[ec_sensor_temp_mb] =
-+		EC_SENSOR("Motherboard", hwmon_temp, 1, 0x00, 0x3c),
-+	[ec_sensor_temp_t_sensor] =
-+		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
-+	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
-+	[ec_sensor_fan_cpu_opt] =
-+		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
-+	[ec_sensor_fan_vrm_hs] = EC_SENSOR("VRM HS", hwmon_fan, 2, 0x00, 0xb2),
-+};
-+
- static const struct ec_sensor_info sensors_family_intel_600[] = {
- 	[ec_sensor_temp_t_sensor] =
- 		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
-@@ -498,6 +513,18 @@ static const struct ec_board_info board_info_strix_z390_f_gaming = {
- 	.family = family_intel_300_series,
- };
- 
-+static const struct ec_board_info board_info_strix_z490_f_gaming = {
-+	.sensors = SENSOR_TEMP_CHIPSET |
-+		SENSOR_TEMP_CPU |
-+		SENSOR_TEMP_MB |
-+		SENSOR_TEMP_T_SENSOR |
-+		SENSOR_TEMP_VRM |
-+		SENSOR_FAN_CPU_OPT |
-+		SENSOR_FAN_VRM_HS,
-+	.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
-+	.family = family_intel_400_series,
-+};
-+
- static const struct ec_board_info board_info_strix_z690_a_gaming_wifi_d4 = {
- 	.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM,
- 	.mutex_path = ASUS_HW_ACCESS_MUTEX_RMTW_ASMX,
-@@ -586,6 +613,8 @@ static const struct dmi_system_id dmi_table[] = {
- 					&board_info_strix_x570_i_gaming),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z390-F GAMING",
- 					&board_info_strix_z390_f_gaming),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z490-F GAMING",
-+					&board_info_strix_z490_f_gaming),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z690-A GAMING WIFI D4",
- 					&board_info_strix_z690_a_gaming_wifi_d4),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG ZENITH II EXTREME",
-@@ -1061,6 +1090,9 @@ static int asus_ec_probe(struct platform_device *pdev)
- 	case family_intel_300_series:
- 		ec_data->sensors_info = sensors_family_intel_300;
- 		break;
-+	case family_intel_400_series:
-+		ec_data->sensors_info = sensors_family_intel_400;
-+		break;
- 	case family_intel_600_series:
- 		ec_data->sensors_info = sensors_family_intel_600;
- 		break;
--- 
-2.49.0
+Thanks,
+Kuai
+
+> 
+> Regards
+> Xiao
+> 
+> On Sat, May 24, 2025 at 2:18 PM Yu Kuai <yukuai1@huaweicloud.com> wrote:
+>>
+>> From: Yu Kuai <yukuai3@huawei.com>
+>>
+>> Include following APIs:
+>>   - llbitmap_create
+>>   - llbitmap_resize
+>>   - llbitmap_load
+>>   - llbitmap_destroy
+>>
+>> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+>> ---
+>>   drivers/md/md-llbitmap.c | 322 +++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 322 insertions(+)
+>>
+>> diff --git a/drivers/md/md-llbitmap.c b/drivers/md/md-llbitmap.c
+>> index 4d5f9a139a25..23283c4f7263 100644
+>> --- a/drivers/md/md-llbitmap.c
+>> +++ b/drivers/md/md-llbitmap.c
+>> @@ -689,4 +689,326 @@ static void llbitmap_resume(struct llbitmap *llbitmap, int page_idx)
+>>          wake_up(&pctl->wait);
+>>   }
+>>
+>> +static int llbitmap_check_support(struct mddev *mddev)
+>> +{
+>> +       if (test_bit(MD_HAS_JOURNAL, &mddev->flags)) {
+>> +               pr_notice("md/llbitmap: %s: array with journal cannot have bitmap\n",
+>> +                         mdname(mddev));
+>> +               return -EBUSY;
+>> +       }
+>> +
+>> +       if (mddev->bitmap_info.space == 0) {
+>> +               if (mddev->bitmap_info.default_space == 0) {
+>> +                       pr_notice("md/llbitmap: %s: no space for bitmap\n",
+>> +                                 mdname(mddev));
+>> +                       return -ENOSPC;
+>> +               }
+>> +       }
+>> +
+>> +       if (!mddev->persistent) {
+>> +               pr_notice("md/llbitmap: %s: array must be persistent\n",
+>> +                         mdname(mddev));
+>> +               return -EOPNOTSUPP;
+>> +       }
+>> +
+>> +       if (mddev->bitmap_info.file) {
+>> +               pr_notice("md/llbitmap: %s: doesn't support bitmap file\n",
+>> +                         mdname(mddev));
+>> +               return -EOPNOTSUPP;
+>> +       }
+>> +
+>> +       if (mddev->bitmap_info.external) {
+>> +               pr_notice("md/llbitmap: %s: doesn't support external metadata\n",
+>> +                         mdname(mddev));
+>> +               return -EOPNOTSUPP;
+>> +       }
+>> +
+>> +       if (mddev_is_dm(mddev)) {
+>> +               pr_notice("md/llbitmap: %s: doesn't support dm-raid\n",
+>> +                         mdname(mddev));
+>> +               return -EOPNOTSUPP;
+>> +       }
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int llbitmap_init(struct llbitmap *llbitmap)
+>> +{
+>> +       struct mddev *mddev = llbitmap->mddev;
+>> +       sector_t blocks = mddev->resync_max_sectors;
+>> +       unsigned long chunksize = MIN_CHUNK_SIZE;
+>> +       unsigned long chunks = DIV_ROUND_UP(blocks, chunksize);
+>> +       unsigned long space = mddev->bitmap_info.space << SECTOR_SHIFT;
+>> +       int ret;
+>> +
+>> +       while (chunks > space) {
+>> +               chunksize = chunksize << 1;
+>> +               chunks = DIV_ROUND_UP(blocks, chunksize);
+>> +       }
+>> +
+>> +       llbitmap->chunkshift = ffz(~chunksize);
+>> +       llbitmap->chunksize = chunksize;
+>> +       llbitmap->chunks = chunks;
+>> +       mddev->bitmap_info.daemon_sleep = DEFAULT_DAEMON_SLEEP;
+>> +
+>> +       ret = llbitmap_cache_pages(llbitmap);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       llbitmap_state_machine(llbitmap, 0, llbitmap->chunks - 1, BitmapActionInit);
+>> +       return 0;
+>> +}
+>> +
+>> +static int llbitmap_read_sb(struct llbitmap *llbitmap)
+>> +{
+>> +       struct mddev *mddev = llbitmap->mddev;
+>> +       unsigned long daemon_sleep;
+>> +       unsigned long chunksize;
+>> +       unsigned long events;
+>> +       struct page *sb_page;
+>> +       bitmap_super_t *sb;
+>> +       int ret = -EINVAL;
+>> +
+>> +       if (!mddev->bitmap_info.offset) {
+>> +               pr_err("md/llbitmap: %s: no super block found", mdname(mddev));
+>> +               return -EINVAL;
+>> +       }
+>> +
+>> +       sb_page = llbitmap_read_page(llbitmap, 0);
+>> +       if (IS_ERR(sb_page)) {
+>> +               pr_err("md/llbitmap: %s: read super block failed",
+>> +                      mdname(mddev));
+>> +               ret = -EIO;
+>> +               goto out;
+>> +       }
+>> +
+>> +       sb = kmap_local_page(sb_page);
+>> +       if (sb->magic != cpu_to_le32(BITMAP_MAGIC)) {
+>> +               pr_err("md/llbitmap: %s: invalid super block magic number",
+>> +                      mdname(mddev));
+>> +               goto out_put_page;
+>> +       }
+>> +
+>> +       if (sb->version != cpu_to_le32(BITMAP_MAJOR_LOCKLESS)) {
+>> +               pr_err("md/llbitmap: %s: invalid super block version",
+>> +                      mdname(mddev));
+>> +               goto out_put_page;
+>> +       }
+>> +
+>> +       if (memcmp(sb->uuid, mddev->uuid, 16)) {
+>> +               pr_err("md/llbitmap: %s: bitmap superblock UUID mismatch\n",
+>> +                      mdname(mddev));
+>> +               goto out_put_page;
+>> +       }
+>> +
+>> +       if (mddev->bitmap_info.space == 0) {
+>> +               int room = le32_to_cpu(sb->sectors_reserved);
+>> +
+>> +               if (room)
+>> +                       mddev->bitmap_info.space = room;
+>> +               else
+>> +                       mddev->bitmap_info.space = mddev->bitmap_info.default_space;
+>> +       }
+>> +       llbitmap->flags = le32_to_cpu(sb->state);
+>> +       if (test_and_clear_bit(BITMAP_FIRST_USE, &llbitmap->flags)) {
+>> +               ret = llbitmap_init(llbitmap);
+>> +               goto out_put_page;
+>> +       }
+>> +
+>> +       chunksize = le32_to_cpu(sb->chunksize);
+>> +       if (!is_power_of_2(chunksize)) {
+>> +               pr_err("md/llbitmap: %s: chunksize not a power of 2",
+>> +                      mdname(mddev));
+>> +               goto out_put_page;
+>> +       }
+>> +
+>> +       if (chunksize < DIV_ROUND_UP(mddev->resync_max_sectors,
+>> +                                    mddev->bitmap_info.space << SECTOR_SHIFT)) {
+>> +               pr_err("md/llbitmap: %s: chunksize too small %lu < %llu / %lu",
+>> +                      mdname(mddev), chunksize, mddev->resync_max_sectors,
+>> +                      mddev->bitmap_info.space);
+>> +               goto out_put_page;
+>> +       }
+>> +
+>> +       daemon_sleep = le32_to_cpu(sb->daemon_sleep);
+>> +       if (daemon_sleep < 1 || daemon_sleep > MAX_SCHEDULE_TIMEOUT / HZ) {
+>> +               pr_err("md/llbitmap: %s: daemon sleep %lu period out of range",
+>> +                      mdname(mddev), daemon_sleep);
+>> +               goto out_put_page;
+>> +       }
+>> +
+>> +       events = le64_to_cpu(sb->events);
+>> +       if (events < mddev->events) {
+>> +               pr_warn("md/llbitmap :%s: bitmap file is out of date (%lu < %llu) -- forcing full recovery",
+>> +                       mdname(mddev), events, mddev->events);
+>> +               set_bit(BITMAP_STALE, &llbitmap->flags);
+>> +       }
+>> +
+>> +       sb->sync_size = cpu_to_le64(mddev->resync_max_sectors);
+>> +       mddev->bitmap_info.chunksize = chunksize;
+>> +       mddev->bitmap_info.daemon_sleep = daemon_sleep;
+>> +
+>> +       llbitmap->chunksize = chunksize;
+>> +       llbitmap->chunks = DIV_ROUND_UP(mddev->resync_max_sectors, chunksize);
+>> +       llbitmap->chunkshift = ffz(~chunksize);
+>> +       ret = llbitmap_cache_pages(llbitmap);
+>> +
+>> +out_put_page:
+>> +       __free_page(sb_page);
+>> +out:
+>> +       kunmap_local(sb);
+>> +       return ret;
+>> +}
+>> +
+>> +static void llbitmap_pending_timer_fn(struct timer_list *t)
+>> +{
+>> +       struct llbitmap *llbitmap = from_timer(llbitmap, t, pending_timer);
+>> +
+>> +       if (work_busy(&llbitmap->daemon_work)) {
+>> +               pr_warn("daemon_work not finished\n");
+>> +               set_bit(BITMAP_DAEMON_BUSY, &llbitmap->flags);
+>> +               return;
+>> +       }
+>> +
+>> +       queue_work(md_llbitmap_io_wq, &llbitmap->daemon_work);
+>> +}
+>> +
+>> +static void md_llbitmap_daemon_fn(struct work_struct *work)
+>> +{
+>> +       struct llbitmap *llbitmap =
+>> +               container_of(work, struct llbitmap, daemon_work);
+>> +       unsigned long start;
+>> +       unsigned long end;
+>> +       bool restart;
+>> +       int idx;
+>> +
+>> +       if (llbitmap->mddev->degraded)
+>> +               return;
+>> +
+>> +retry:
+>> +       start = 0;
+>> +       end = min(llbitmap->chunks, PAGE_SIZE - BITMAP_SB_SIZE) - 1;
+>> +       restart = false;
+>> +
+>> +       for (idx = 0; idx < llbitmap->nr_pages; idx++) {
+>> +               struct llbitmap_page_ctl *pctl = llbitmap->pctl[idx];
+>> +
+>> +               if (idx > 0) {
+>> +                       start = end + 1;
+>> +                       end = min(end + PAGE_SIZE, llbitmap->chunks - 1);
+>> +               }
+>> +
+>> +               if (!test_bit(LLPageFlush, &pctl->flags) &&
+>> +                   time_before(jiffies, pctl->expire)) {
+>> +                       restart = true;
+>> +                       continue;
+>> +               }
+>> +
+>> +               llbitmap_suspend(llbitmap, idx);
+>> +               llbitmap_state_machine(llbitmap, start, end, BitmapActionDaemon);
+>> +               llbitmap_resume(llbitmap, idx);
+>> +       }
+>> +
+>> +       /*
+>> +        * If the daemon took a long time to finish, retry to prevent missing
+>> +        * clearing dirty bits.
+>> +        */
+>> +       if (test_and_clear_bit(BITMAP_DAEMON_BUSY, &llbitmap->flags))
+>> +               goto retry;
+>> +
+>> +       /* If some page is dirty but not expired, setup timer again */
+>> +       if (restart)
+>> +               mod_timer(&llbitmap->pending_timer,
+>> +                         jiffies + llbitmap->mddev->bitmap_info.daemon_sleep * HZ);
+>> +}
+>> +
+>> +static int llbitmap_create(struct mddev *mddev)
+>> +{
+>> +       struct llbitmap *llbitmap;
+>> +       int ret;
+>> +
+>> +       ret = llbitmap_check_support(mddev);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       llbitmap = kzalloc(sizeof(*llbitmap), GFP_KERNEL);
+>> +       if (!llbitmap)
+>> +               return -ENOMEM;
+>> +
+>> +       llbitmap->mddev = mddev;
+>> +       llbitmap->io_size = bdev_logical_block_size(mddev->gendisk->part0);
+>> +       llbitmap->bits_per_page = PAGE_SIZE / llbitmap->io_size;
+>> +
+>> +       timer_setup(&llbitmap->pending_timer, llbitmap_pending_timer_fn, 0);
+>> +       INIT_WORK(&llbitmap->daemon_work, md_llbitmap_daemon_fn);
+>> +       atomic_set(&llbitmap->behind_writes, 0);
+>> +       init_waitqueue_head(&llbitmap->behind_wait);
+>> +
+>> +       mutex_lock(&mddev->bitmap_info.mutex);
+>> +       mddev->bitmap = llbitmap;
+>> +       ret = llbitmap_read_sb(llbitmap);
+>> +       mutex_unlock(&mddev->bitmap_info.mutex);
+>> +       if (ret)
+>> +               goto err_out;
+>> +
+>> +       return 0;
+>> +
+>> +err_out:
+>> +       kfree(llbitmap);
+>> +       return ret;
+>> +}
+>> +
+>> +static int llbitmap_resize(struct mddev *mddev, sector_t blocks, int chunksize)
+>> +{
+>> +       struct llbitmap *llbitmap = mddev->bitmap;
+>> +       unsigned long chunks;
+>> +
+>> +       if (chunksize == 0)
+>> +               chunksize = llbitmap->chunksize;
+>> +
+>> +       /* If there is enough space, leave the chunksize unchanged. */
+>> +       chunks = DIV_ROUND_UP(blocks, chunksize);
+>> +       while (chunks > mddev->bitmap_info.space << SECTOR_SHIFT) {
+>> +               chunksize = chunksize << 1;
+>> +               chunks = DIV_ROUND_UP(blocks, chunksize);
+>> +       }
+>> +
+>> +       llbitmap->chunkshift = ffz(~chunksize);
+>> +       llbitmap->chunksize = chunksize;
+>> +       llbitmap->chunks = chunks;
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int llbitmap_load(struct mddev *mddev)
+>> +{
+>> +       enum llbitmap_action action = BitmapActionReload;
+>> +       struct llbitmap *llbitmap = mddev->bitmap;
+>> +
+>> +       if (test_and_clear_bit(BITMAP_STALE, &llbitmap->flags))
+>> +               action = BitmapActionStale;
+>> +
+>> +       llbitmap_state_machine(llbitmap, 0, llbitmap->chunks - 1, action);
+>> +       return 0;
+>> +}
+>> +
+>> +static void llbitmap_destroy(struct mddev *mddev)
+>> +{
+>> +       struct llbitmap *llbitmap = mddev->bitmap;
+>> +
+>> +       if (!llbitmap)
+>> +               return;
+>> +
+>> +       mutex_lock(&mddev->bitmap_info.mutex);
+>> +
+>> +       timer_delete_sync(&llbitmap->pending_timer);
+>> +       flush_workqueue(md_llbitmap_io_wq);
+>> +       flush_workqueue(md_llbitmap_unplug_wq);
+>> +
+>> +       mddev->bitmap = NULL;
+>> +       llbitmap_free_pages(llbitmap);
+>> +       kfree(llbitmap);
+>> +       mutex_unlock(&mddev->bitmap_info.mutex);
+>> +}
+>> +
+>>   #endif /* CONFIG_MD_LLBITMAP */
+>> --
+>> 2.39.2
+>>
+> 
+> 
+> .
+> 
 
