@@ -1,67 +1,66 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B86F290BB6
-	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 11:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23196290D8E
+	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 11:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748518406; cv=none; b=EoAe/7SD1lhHF3c817BroET0kqCbh/Cj7Hwsi0dQgmJyBPhErftowgDTifbsQbRwELpKPsoZpicjnIHB3fYt5vP5L0FjfoK6yW2PhW0VnOB0fpQIYQYSespBITVTOqoUZyimmIEwds28QMmm3Fv9WBsAeAGPO0C0X1hgqxiHszY=
+	t=1748518409; cv=none; b=nmTtgTBy+2gR1YcaqbZyXeR6f/o+AazR9OusTbtAprtlewWG5z/WJHrn5z/mLfSAr2IV9FkA7GO9Sg0GF6lI3YQtIBjzA2/MUjYICmLXJBA7l9CouxPAjkLG33+Guu4eD/t7NOcuJlCjny5MSS023rNJVqPghZVq2iRx2QcEEcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748518406; c=relaxed/simple;
-	bh=fv8zs7U4SClL58XDHSkZwnh3zEUlaOm5ycAnfP1gusM=;
+	s=arc-20240116; t=1748518409; c=relaxed/simple;
+	bh=E1yjj826OV2i042EqOElXmFPrF8pEcz4phQ8lctqMVU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ob5wHn2zRtJ32Mn/9w0afmypoEeTsVSS8suivTBtxK/gx1YESF+yTymiJGAfYeEkebhlz2izn4iwVlAWNk+L/2NEAwNI14JYtwWC0/tOre387dYuz645u/QHpN15rqZQasOS8RLAsjoSBeyAUnw2YS0GjovT4FGlx/JJqGJ1jUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UongR5c0; arc=none smtp.client-ip=209.85.128.43
+	 In-Reply-To:To:Cc; b=NXcALK+fAa7BFhEAClyNMo9hQFOIfXzP+ZeBUfHWrJPJ4IVpDgpliv/ajryKvlUAvCu0/ZSuXJcQbzSbITLSJSA6Oj1ObEDsiBPucfOOAA7HWGbWi7GjLoCB1Ec0cFtlkFfj5mSQCoylzifT4SwWO/A3IchaXCm7XO4SUr5MNWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fc/RZXSL; arc=none smtp.client-ip=209.85.128.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UongR5c0"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-442f9043f56so5501995e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 04:33:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fc/RZXSL"
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-43cfe574976so6795835e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 04:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748518403; x=1749123203; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1748518404; x=1749123204; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qITqjVqZrl9SX6GSxZHwr88LBNU/7n9MeuQuQ3uKHDc=;
-        b=UongR5c0J2Fmr75OfhnDi8wuvDmAKMu5oUPcVRSxR5qhsN1i8/YWjPyH2r6v6c3061
-         tFPQdbEh/gRCtrLh6+mwOc4biFWENVwoGAXouewlGWlKaomE1EFjNMEffq0u+Tm3PBeQ
-         Dr8Z9P+9HDTttAiW3er0EFKRxPoe1e8HVeKRXsJXhT1Vi41hIlXGLjqZcpt61gpghBcI
-         6ecos1TXYUzREranCylbRxnHG3MQBChZOPqBWST3QhRXSyhZrx2rJPtl5p/nuh7sWWIG
-         0aTjrO19nrwWMn6Ai3nockvBfzGvn2Bqs+Qoyv9M3F7kmQI7+ycR+XSpcUOxz/zic0bt
-         QnGw==
+        bh=TxG8SPa3uepeFqsoLKl29LMbTYOpGZ70IvRiGVenFk8=;
+        b=fc/RZXSL81pqAVuRokshOxMxcYWZPGbMkL3muIio9Dvd6yqD3m5YvT8YjprFDKmJCI
+         oD9+co81lsqxx7AkJiZOZuvn42vzDjtB5XDbebiIkjCZBpXGyVrn3e1J4hoSzEXd7CV6
+         xfkZMPoNdkbtUxSRvq5BH7vbqOJhK2fTCoprUFj6HOg++WTFA8KVT7OcQE3Me7S0ma08
+         ivpTRaWhP0ImFUQ/bydvrGAONHsoCt8fgduU4mGHggP3vw5hxwm+VX/HUrN/s18qPQoy
+         z80cJw8lY50SFe1i5pNgjhwONJ4C4m5HBEwFiJoo0FUoJjz/eY9HsWne2zJJeQgus3/+
+         25Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748518403; x=1749123203;
+        d=1e100.net; s=20230601; t=1748518404; x=1749123204;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qITqjVqZrl9SX6GSxZHwr88LBNU/7n9MeuQuQ3uKHDc=;
-        b=j5jpTRZlUZoLAQjy1vPfd3BCRBPioOxM47LLXl8YD9DyFzDQLLFoEcrtMsZGqb6037
-         yu6YC66qoMNeOUxJAu/nX0waVsxy5c7jIBDz1n4Yn7FP7Sqms1kSkZDVSSdoGOV54WvV
-         QkWTtqHEtLzUCrGpDzXeJ/NHkmgJUVBowEO6T/zBewShlGZVe7gMqMdXmV0pmmM7142J
-         v1im1X7ZFMLeEIYQxrvafLJMixYI9mXA6hxOZ3XWyKkakWT335N1vn2DBzp+KnKZwssj
-         M0HylvRNjCR1ZJAqSE07/OQ4+uQ1BZvtI5gnQCejbfW6opRN/zjLy9JYOrzlrXNrlfuw
-         tLmw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/ullTQxSBaze0xIs9TqkHa+LRmsWjwfRcN2CW/6Q7+cw3Agx+bMUP2Qi10vtbso7xASnSc4uXiMY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywf4LYLAMH+grSxy50fHdWvhVBB67Q5htFe6p4CxRH+gDDDEVYE
-	khzQzqOtMZw7SaZyJCfjEhlmfzi7LCiIHG0oDLC9+xVtb5aPBfJzmIjO4uf1+M7jMMyUXoG/Ygk
-	Py20r6rv3rQ==
-X-Gm-Gg: ASbGncudUaUsN38gnDODfjKx7J67c6i3md31qUrI2UtuHFi974mfwvixOPTxpqet/rY
-	sr/ygu2xc9jLEGFACmGtlU5vQjFvbNsU9qtA6FAHmRP/zAOIe6CxXJyNyVZugg1kqeI0touwyMv
-	OZe66sQv0cINV3T4oJkOCzfZnh37iUUOLQ4z7tFtn7A4EcwKqgcekRoUb/kcxW2MIqKXBNgWpXK
-	ut7/SczS2fOUCLaI6FSSo8Im9SeutaAffw07y4VM7HmOrQCVMs5Una4T7GtBHXMSXGn5VdCJcan
-	5KK9JyTwaRsQ0fUfViK7SYk/Ci6hTjmHBJ825FwlMvXG6Uh1n6NrDn9cinJr
-X-Google-Smtp-Source: AGHT+IG4188DaxQr4q1DiAwcRxaSKT7JPRQ1HaA18jMnppKU9PUElMmbbzXeEo99MB4ggugZlyN3Lw==
-X-Received: by 2002:a05:600c:4592:b0:43d:17f1:2640 with SMTP id 5b1f17b1804b1-44c92a549d2mr188083195e9.26.1748518402784;
-        Thu, 29 May 2025 04:33:22 -0700 (PDT)
+        bh=TxG8SPa3uepeFqsoLKl29LMbTYOpGZ70IvRiGVenFk8=;
+        b=CAXkIsLy99q7M5t5emjkQsuzj3HIciCpnStCDPy0w0LU8E47Mao1tElErSd+7z+F3w
+         zdkwDbh/8zpLxzgOAQlva8GmWOQ556arWmbxViMj9yI2YMT8r2wxsOyZbZJzx5iplPxJ
+         wvZBcWUj3uMesY40rvU0GxhSTBc5mic9UJDKUXwoz41+FLZ09MePuQtt/2wDxOW7rasz
+         d9399cW+dNytLp2idX5Ltb0JlU/4t8/9Cl153VRsxqMYP7AygdQASR74ucLCPQnduUTG
+         bhy0phRd+Nfh6K/O3CNdoAgiESj31Uaz8UW9QOTqs98TrXmF2qaBBYcTIFim4GXMJcig
+         9egg==
+X-Forwarded-Encrypted: i=1; AJvYcCXosfXtcfVVXpwkZy1qx8TDBvRP66PisJ87rSHaOs+5IjhDea9DxSzm3fVYDLrfyaska0o2LG8q0yg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzW6me5TQtOf9PhlBrSBx7YFqB964V0BwBwdRZNFT9NpD8e+veH
+	D658nqF/WBMenr0LF0UP9b+6QfTJalTaxavgcuMEMjhSqqSxmq77f/+xhqNut3MASy4=
+X-Gm-Gg: ASbGnctlXBeK+n1yrWy40sLdx47nIitXRqn3xogzadmdlwQ7Pj8UOLnVLp/z9+2k1uS
+	iMrxj97KnBMvlwvcI7z1akzLpWfh9AiZX7w4l8Oeub9KAe/jcOzMrJd/EQl5SKqKq8CInfOsLez
+	0HSLmR7pTi4c9ljuYVdjI4LY3OYst/6eW1VKWgve+7kcWh0Dstm7bSSbWMApx6FOZ/v1xFbshVQ
+	RRIXQKbEjhMcVfoMtiy2xUkqJjX9B00WUxoZUJFm3Xrt4afwH9A2I10V2icmUoY2AqtchMUYoZY
+	Y+s/exjxeHq+Izs15Emoydb0YeZ6NlTSf8HdEdo1r/Ueu7GV+9C2nAJ8qkl2
+X-Google-Smtp-Source: AGHT+IFa3tbBIinQlu5QLSXdztzNSxtKZbpAOFxf4JVhGWyoTyRCcEYjmPGyAmzQyVI8/KRfEZZhCw==
+X-Received: by 2002:a05:600c:6749:b0:44b:eb56:1d48 with SMTP id 5b1f17b1804b1-45072545a0fmr59959615e9.4.1748518404390;
+        Thu, 29 May 2025 04:33:24 -0700 (PDT)
 Received: from ho-tower-lan.lan ([37.18.136.128])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450cfc3785bsm17443945e9.40.2025.05.29.04.33.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450cfc3785bsm17443945e9.40.2025.05.29.04.33.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 04:33:22 -0700 (PDT)
+        Thu, 29 May 2025 04:33:23 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Thu, 29 May 2025 12:30:31 +0100
-Subject: [PATCH v2 10/11] perf tools: Add support for
- perf_event_attr::config4
+Date: Thu, 29 May 2025 12:30:32 +0100
+Subject: [PATCH v2 11/11] perf docs: arm-spe: Document new SPE filtering
+ features
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-james-perf-feat_spe_eft-v2-10-a01a9baad06a@linaro.org>
+Message-Id: <20250529-james-perf-feat_spe_eft-v2-11-a01a9baad06a@linaro.org>
 References: <20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org>
 In-Reply-To: <20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org>
 To: Catalin Marinas <catalin.marinas@arm.com>, 
@@ -86,202 +85,159 @@ To: Catalin Marinas <catalin.marinas@arm.com>,
  Adrian Hunter <adrian.hunter@intel.com>
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
  linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, 
- kvmarm@lists.linux.dev, Leo Yan <leo.yan@arm.com>, 
- James Clark <james.clark@linaro.org>
+ kvmarm@lists.linux.dev, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-perf_event_attr has gained a new field, config4, so add support for it
-extending the existing configN support.
+FEAT_SPE_EFT and FEAT_SPE_FDS etc have new user facing format attributes
+so document them. Also document existing 'event_filter' bits that were
+missing from the doc and the fact that latency values are stored in the
+weight field.
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/tests/parse-events.c | 14 +++++++++++++-
- tools/perf/util/parse-events.c  | 11 +++++++++++
- tools/perf/util/parse-events.h  |  1 +
- tools/perf/util/parse-events.l  |  1 +
- tools/perf/util/pmu.c           |  8 ++++++++
- tools/perf/util/pmu.h           |  1 +
- 6 files changed, 35 insertions(+), 1 deletion(-)
+ tools/perf/Documentation/perf-arm-spe.txt | 97 ++++++++++++++++++++++++++++---
+ 1 file changed, 88 insertions(+), 9 deletions(-)
 
-diff --git a/tools/perf/tests/parse-events.c b/tools/perf/tests/parse-events.c
-index 5ec2e5607987..5f624a63d550 100644
---- a/tools/perf/tests/parse-events.c
-+++ b/tools/perf/tests/parse-events.c
-@@ -615,6 +615,8 @@ static int test__checkevent_pmu(struct evlist *evlist)
- 	TEST_ASSERT_VAL("wrong config1",    1 == evsel->core.attr.config1);
- 	TEST_ASSERT_VAL("wrong config2",    3 == evsel->core.attr.config2);
- 	TEST_ASSERT_VAL("wrong config3",    0 == evsel->core.attr.config3);
-+	TEST_ASSERT_VAL("wrong config4",    0 == evsel->core.attr.config4);
-+
- 	/*
- 	 * The period value gets configured within evlist__config,
- 	 * while this test executes only parse events method.
-@@ -637,6 +639,7 @@ static int test__checkevent_list(struct evlist *evlist)
- 		TEST_ASSERT_VAL("wrong config1", 0 == evsel->core.attr.config1);
- 		TEST_ASSERT_VAL("wrong config2", 0 == evsel->core.attr.config2);
- 		TEST_ASSERT_VAL("wrong config3", 0 == evsel->core.attr.config3);
-+		TEST_ASSERT_VAL("wrong config4", 0 == evsel->core.attr.config4);
- 		TEST_ASSERT_VAL("wrong exclude_user", !evsel->core.attr.exclude_user);
- 		TEST_ASSERT_VAL("wrong exclude_kernel", !evsel->core.attr.exclude_kernel);
- 		TEST_ASSERT_VAL("wrong exclude_hv", !evsel->core.attr.exclude_hv);
-@@ -813,6 +816,15 @@ static int test__checkterms_simple(struct parse_events_terms *terms)
- 	TEST_ASSERT_VAL("wrong val", term->val.num == 4);
- 	TEST_ASSERT_VAL("wrong config", !strcmp(term->config, "config3"));
+diff --git a/tools/perf/Documentation/perf-arm-spe.txt b/tools/perf/Documentation/perf-arm-spe.txt
+index 37afade4f1b2..4092b53b58d2 100644
+--- a/tools/perf/Documentation/perf-arm-spe.txt
++++ b/tools/perf/Documentation/perf-arm-spe.txt
+@@ -141,27 +141,65 @@ Config parameters
+ These are placed between the // in the event and comma separated. For example '-e
+ arm_spe/load_filter=1,min_latency=10/'
  
-+	/* config4=5 */
-+	term = list_entry(term->list.next, struct parse_events_term, list);
-+	TEST_ASSERT_VAL("wrong type term",
-+			term->type_term == PARSE_EVENTS__TERM_TYPE_CONFIG4);
-+	TEST_ASSERT_VAL("wrong type val",
-+			term->type_val == PARSE_EVENTS__TERM_TYPE_NUM);
-+	TEST_ASSERT_VAL("wrong val", term->val.num == 5);
-+	TEST_ASSERT_VAL("wrong config", !strcmp(term->config, "config4"));
-+
- 	/* umask=1*/
- 	term = list_entry(term->list.next, struct parse_events_term, list);
- 	TEST_ASSERT_VAL("wrong type term",
-@@ -2451,7 +2463,7 @@ struct terms_test {
+-  branch_filter=1     - collect branches only (PMSFCR.B)
+-  event_filter=<mask> - filter on specific events (PMSEVFR) - see bitfield description below
++  event_filter=<mask> - logical AND filter on specific events (PMSEVFR) - see bitfield description below
++  inv_event_filter=<mask> - logical OR to filter out specific events (PMSNEVFR, FEAT_SPEv1p2) - see bitfield description below
+   jitter=1            - use jitter to avoid resonance when sampling (PMSIRR.RND)
+-  load_filter=1       - collect loads only (PMSFCR.LD)
+   min_latency=<n>     - collect only samples with this latency or higher* (PMSLATFR)
+   pa_enable=1         - collect physical address (as well as VA) of loads/stores (PMSCR.PA) - requires privilege
+   pct_enable=1        - collect physical timestamp instead of virtual timestamp (PMSCR.PCT) - requires privilege
+-  store_filter=1      - collect stores only (PMSFCR.ST)
+   ts_enable=1         - enable timestamping with value of generic timer (PMSCR.TS)
+   discard=1           - enable SPE PMU events but don't collect sample data - see 'Discard mode' (PMBLIMITR.FM = DISCARD)
++  data_src_filter=<mask> - mask to filter from 0-63 possible data sources (PMSDSFR, FEAT_SPE_FDS) - See 'Data source filtering'
  
- static const struct terms_test test__terms[] = {
- 	[0] = {
--		.str   = "config=10,config1,config2=3,config3=4,umask=1,read,r0xead",
-+		.str   = "config=10,config1,config2=3,config3=4,config4=5,umask=1,read,r0xead",
- 		.check = test__checkterms_simple,
- 	},
- };
-diff --git a/tools/perf/util/parse-events.c b/tools/perf/util/parse-events.c
-index 5152fd5a6ead..7e37f91e7b49 100644
---- a/tools/perf/util/parse-events.c
-+++ b/tools/perf/util/parse-events.c
-@@ -247,6 +247,8 @@ __add_event(struct list_head *list, int *idx,
- 					      PERF_PMU_FORMAT_VALUE_CONFIG2, "config2");
- 		perf_pmu__warn_invalid_config(pmu, attr->config3, name,
- 					      PERF_PMU_FORMAT_VALUE_CONFIG3, "config3");
-+		perf_pmu__warn_invalid_config(pmu, attr->config4, name,
-+					      PERF_PMU_FORMAT_VALUE_CONFIG4, "config4");
- 	}
- 	if (init_attr)
- 		event_attr_init(attr);
-@@ -783,6 +785,7 @@ const char *parse_events__term_type_str(enum parse_events__term_type term_type)
- 		[PARSE_EVENTS__TERM_TYPE_CONFIG1]		= "config1",
- 		[PARSE_EVENTS__TERM_TYPE_CONFIG2]		= "config2",
- 		[PARSE_EVENTS__TERM_TYPE_CONFIG3]		= "config3",
-+		[PARSE_EVENTS__TERM_TYPE_CONFIG4]		= "config4",
- 		[PARSE_EVENTS__TERM_TYPE_NAME]			= "name",
- 		[PARSE_EVENTS__TERM_TYPE_SAMPLE_PERIOD]		= "period",
- 		[PARSE_EVENTS__TERM_TYPE_SAMPLE_FREQ]		= "freq",
-@@ -830,6 +833,7 @@ config_term_avail(enum parse_events__term_type term_type, struct parse_events_er
- 	case PARSE_EVENTS__TERM_TYPE_CONFIG1:
- 	case PARSE_EVENTS__TERM_TYPE_CONFIG2:
- 	case PARSE_EVENTS__TERM_TYPE_CONFIG3:
-+	case PARSE_EVENTS__TERM_TYPE_CONFIG4:
- 	case PARSE_EVENTS__TERM_TYPE_NAME:
- 	case PARSE_EVENTS__TERM_TYPE_METRIC_ID:
- 	case PARSE_EVENTS__TERM_TYPE_SAMPLE_PERIOD:
-@@ -898,6 +902,10 @@ do {									   \
- 		CHECK_TYPE_VAL(NUM);
- 		attr->config3 = term->val.num;
- 		break;
-+	case PARSE_EVENTS__TERM_TYPE_CONFIG4:
-+		CHECK_TYPE_VAL(NUM);
-+		attr->config4 = term->val.num;
-+		break;
- 	case PARSE_EVENTS__TERM_TYPE_SAMPLE_PERIOD:
- 		CHECK_TYPE_VAL(NUM);
- 		break;
-@@ -1097,6 +1105,7 @@ static int config_term_tracepoint(struct perf_event_attr *attr,
- 	case PARSE_EVENTS__TERM_TYPE_CONFIG1:
- 	case PARSE_EVENTS__TERM_TYPE_CONFIG2:
- 	case PARSE_EVENTS__TERM_TYPE_CONFIG3:
-+	case PARSE_EVENTS__TERM_TYPE_CONFIG4:
- 	case PARSE_EVENTS__TERM_TYPE_NAME:
- 	case PARSE_EVENTS__TERM_TYPE_SAMPLE_PERIOD:
- 	case PARSE_EVENTS__TERM_TYPE_SAMPLE_FREQ:
-@@ -1237,6 +1246,7 @@ do {								\
- 		case PARSE_EVENTS__TERM_TYPE_CONFIG1:
- 		case PARSE_EVENTS__TERM_TYPE_CONFIG2:
- 		case PARSE_EVENTS__TERM_TYPE_CONFIG3:
-+		case PARSE_EVENTS__TERM_TYPE_CONFIG4:
- 		case PARSE_EVENTS__TERM_TYPE_NAME:
- 		case PARSE_EVENTS__TERM_TYPE_METRIC_ID:
- 		case PARSE_EVENTS__TERM_TYPE_RAW:
-@@ -1274,6 +1284,7 @@ static int get_config_chgs(struct perf_pmu *pmu, struct parse_events_terms *head
- 		case PARSE_EVENTS__TERM_TYPE_CONFIG1:
- 		case PARSE_EVENTS__TERM_TYPE_CONFIG2:
- 		case PARSE_EVENTS__TERM_TYPE_CONFIG3:
-+		case PARSE_EVENTS__TERM_TYPE_CONFIG4:
- 		case PARSE_EVENTS__TERM_TYPE_NAME:
- 		case PARSE_EVENTS__TERM_TYPE_SAMPLE_PERIOD:
- 		case PARSE_EVENTS__TERM_TYPE_SAMPLE_FREQ:
-diff --git a/tools/perf/util/parse-events.h b/tools/perf/util/parse-events.h
-index e176a34ab088..6e90c26066d4 100644
---- a/tools/perf/util/parse-events.h
-+++ b/tools/perf/util/parse-events.h
-@@ -58,6 +58,7 @@ enum parse_events__term_type {
- 	PARSE_EVENTS__TERM_TYPE_CONFIG1,
- 	PARSE_EVENTS__TERM_TYPE_CONFIG2,
- 	PARSE_EVENTS__TERM_TYPE_CONFIG3,
-+	PARSE_EVENTS__TERM_TYPE_CONFIG4,
- 	PARSE_EVENTS__TERM_TYPE_NAME,
- 	PARSE_EVENTS__TERM_TYPE_SAMPLE_PERIOD,
- 	PARSE_EVENTS__TERM_TYPE_SAMPLE_FREQ,
-diff --git a/tools/perf/util/parse-events.l b/tools/perf/util/parse-events.l
-index 7ed86e3e34e3..8e2986d55bc4 100644
---- a/tools/perf/util/parse-events.l
-+++ b/tools/perf/util/parse-events.l
-@@ -317,6 +317,7 @@ config			{ return term(yyscanner, PARSE_EVENTS__TERM_TYPE_CONFIG); }
- config1			{ return term(yyscanner, PARSE_EVENTS__TERM_TYPE_CONFIG1); }
- config2			{ return term(yyscanner, PARSE_EVENTS__TERM_TYPE_CONFIG2); }
- config3			{ return term(yyscanner, PARSE_EVENTS__TERM_TYPE_CONFIG3); }
-+config4			{ return term(yyscanner, PARSE_EVENTS__TERM_TYPE_CONFIG4); }
- name			{ return term(yyscanner, PARSE_EVENTS__TERM_TYPE_NAME); }
- period			{ return term(yyscanner, PARSE_EVENTS__TERM_TYPE_SAMPLE_PERIOD); }
- freq			{ return term(yyscanner, PARSE_EVENTS__TERM_TYPE_SAMPLE_FREQ); }
-diff --git a/tools/perf/util/pmu.c b/tools/perf/util/pmu.c
-index b7ebac5ab1d1..fc50df65d540 100644
---- a/tools/perf/util/pmu.c
-+++ b/tools/perf/util/pmu.c
-@@ -1427,6 +1427,10 @@ static int pmu_config_term(const struct perf_pmu *pmu,
- 			assert(term->type_val == PARSE_EVENTS__TERM_TYPE_NUM);
- 			pmu_format_value(bits, term->val.num, &attr->config3, zero);
- 			break;
-+		case PARSE_EVENTS__TERM_TYPE_CONFIG4:
-+			assert(term->type_val == PARSE_EVENTS__TERM_TYPE_NUM);
-+			pmu_format_value(bits, term->val.num, &attr->config4, zero);
-+			break;
- 		case PARSE_EVENTS__TERM_TYPE_USER: /* Not hardcoded. */
- 			return -EINVAL;
- 		case PARSE_EVENTS__TERM_TYPE_NAME ... PARSE_EVENTS__TERM_TYPE_HARDWARE:
-@@ -1474,6 +1478,9 @@ static int pmu_config_term(const struct perf_pmu *pmu,
- 	case PERF_PMU_FORMAT_VALUE_CONFIG3:
- 		vp = &attr->config3;
- 		break;
-+	case PERF_PMU_FORMAT_VALUE_CONFIG4:
-+		vp = &attr->config4;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -1787,6 +1794,7 @@ int perf_pmu__for_each_format(struct perf_pmu *pmu, void *state, pmu_format_call
- 		"config1=0..0xffffffffffffffff",
- 		"config2=0..0xffffffffffffffff",
- 		"config3=0..0xffffffffffffffff",
-+		"config4=0..0xffffffffffffffff",
- 		"name=string",
- 		"period=number",
- 		"freq=number",
-diff --git a/tools/perf/util/pmu.h b/tools/perf/util/pmu.h
-index b93014cc3670..1ce5377935db 100644
---- a/tools/perf/util/pmu.h
-+++ b/tools/perf/util/pmu.h
-@@ -22,6 +22,7 @@ enum {
- 	PERF_PMU_FORMAT_VALUE_CONFIG1,
- 	PERF_PMU_FORMAT_VALUE_CONFIG2,
- 	PERF_PMU_FORMAT_VALUE_CONFIG3,
-+	PERF_PMU_FORMAT_VALUE_CONFIG4,
- 	PERF_PMU_FORMAT_VALUE_CONFIG_END,
- };
+ +++*+++ Latency is the total latency from the point at which sampling started on that instruction, rather
+ than only the execution latency.
+ 
+-Only some events can be filtered on; these include:
+-
+-  bit 1     - instruction retired (i.e. omit speculative instructions)
++Only some events can be filtered on using 'event_filter' bits. The overall
++filter is the logical AND of these bits, for example if bits 3 and 5 are set
++only samples that have both 'L1D cache refill' AND 'TLB walk' are recorded. When
++FEAT_SPEv1p2 is implemented 'inv_event_filter' can also be used to exclude
++events that have any (OR) of the filter's bits set. For example setting bits 3
++and 5 in 'inv_event_filter' will exclude any events that are either L1D cache
++refill OR TLB walk. If the same bit is set in both filters it's UNPREDICTABLE
++whether the sample is included or excluded. Filter bits for both event_filter
++and inv_event_filter are:
++
++  bit 1     - Instruction retired (i.e. omit speculative instructions)
++  bit 2     - L1D access (FEAT_SPEv1p4)
+   bit 3     - L1D refill
++  bit 4     - TLB access (FEAT_SPEv1p4)
+   bit 5     - TLB refill
+-  bit 7     - mispredict
+-  bit 11    - misaligned access
++  bit 6     - Not taken event (FEAT_SPEv1p2)
++  bit 7     - Mispredict
++  bit 8     - Last level cache access (FEAT_SPEv1p4)
++  bit 9     - Last level cache miss (FEAT_SPEv1p4)
++  bit 10    - Remote access (FEAT_SPEv1p4)
++  bit 11    - Misaligned access (FEAT_SPEv1p1)
++  bit 12-15 - IMPLEMENTATION DEFINED events (when implemented)
++  bit 16    - Transaction (FEAT_TME)
++  bit 17    - Partial or empty SME or SVE predicate (FEAT_SPEv1p1)
++  bit 18    - Empty SME or SVE predicate (FEAT_SPEv1p1)
++  bit 19    - L2D access (FEAT_SPEv1p4)
++  bit 20    - L2D miss (FEAT_SPEv1p4)
++  bit 21    - Cache data modified (FEAT_SPEv1p4)
++  bit 22    - Recently fetched (FEAT_SPEv1p4)
++  bit 23    - Data snooped (FEAT_SPEv1p4)
++  bit 24    - Streaming SVE mode event (when FEAT_SPE_SME is implemented), or
++              IMPLEMENTATION DEFINED event 24 (when implemented, only versions
++              less than FEAT_SPEv1p4)
++  bit 25    - SMCU or external coprocessor operation event when FEAT_SPE_SME is
++              implemented, or IMPLEMENTATION DEFINED event 25 (when implemented,
++              only versions less than FEAT_SPEv1p4)
++  bit 26-31 - IMPLEMENTATION DEFINED events (only versions less than FEAT_SPEv1p4)
++  bit 48-63 - IMPLEMENTATION DEFINED events (when implemented)
++
++For IMPLEMENTATION DEFINED bits, refer to the CPU TRM if these bits are
++implemented.
++
++The driver will reject events if requested filter bits require unimplemented SPE
++versions, but will not reject filter bits for unimplemented IMPDEF bits or when
++their related feature is not present (e.g. SME). For example, if FEAT_SPEv1p2 is
++not implemented, filtering on "Not taken event" (bit 6) will be rejected.
+ 
+ So to sample just retired instructions:
+ 
+@@ -171,6 +209,31 @@ or just mispredicted branches:
+ 
+   perf record -e arm_spe/event_filter=0x80/ -- ./mybench
+ 
++When set, the following filters can be used to select samples that match any of
++the operation types (OR filtering). If only one is set then only samples of that
++type are collected:
++
++  branch_filter=1     - Collect branches (PMSFCR.B)
++  load_filter=1       - Collect loads (PMSFCR.LD)
++  store_filter=1      - Collect stores (PMSFCR.ST)
++
++When extended filtering is supported (FEAT_SPE_EFT), SIMD and float
++pointer operations can also be selected:
++
++  simd_filter=1         - Collect SIMD loads, stores and operations (PMSFCR.SIMD)
++  float_filter=1        - Collect floating point loads, stores and operations (PMSFCR.FP)
++
++When extended filtering is supported (FEAT_SPE_EFT), operation type filters can
++be changed to AND using _mask fields. For example samples could be selected if
++they are store AND SIMD by setting 'store_filter=1,simd_filter=1,
++store_filter_mask=1,simd_filter_mask=1'. The new masks are as follows:
++
++  branch_filter_mask=1  - Change branch filter behavior from OR to AND (PMSFCR.Bm)
++  load_filter_mask=1    - Change load filter behavior from OR to AND (PMSFCR.LDm)
++  store_filter_mask=1   - Change store filter behavior from OR to AND (PMSFCR.STm)
++  simd_filter_mask=1    - Change SIMD filter behavior from OR to AND (PMSFCR.SIMDm)
++  float_filter_mask=1   - Change floating point filter behavior from OR to AND (PMSFCR.FPm)
++
+ Viewing the data
+ ~~~~~~~~~~~~~~~~~
+ 
+@@ -204,6 +267,10 @@ Memory access details are also stored on the samples and this can be viewed with
+ 
+   perf report --mem-mode
+ 
++The latency value from the SPE sample is stored in the 'weight' field of the
++Perf samples and can be displayed in Perf script and report outputs by enabling
++its display from the command line.
++
+ Common errors
+ ~~~~~~~~~~~~~
+ 
+@@ -247,6 +314,18 @@ to minimize output. Then run perf stat:
+   perf record -e arm_spe/discard/ -a -N -B --no-bpf-event -o - > /dev/null &
+   perf stat -e SAMPLE_FEED_LD
+ 
++Data source filtering
++~~~~~~~~~~~~~~~~~~~~~
++
++When FEAT_SPE_FDS is present, 'data_src_filter' can be used as a mask to filter
++on a subset (0 - 63) of possible data source IDs. The full range of data sources
++is 0 - 65535 although these are unlikely to be used in practice. Data sources
++are IMPDEF so refer to the TRM for the mappings. Each bit N of the filter maps
++to data source N. The filter is an OR of all the bits, so for example setting
++bits 0 and 3 includes only packets from data sources 0 OR 3. When
++'data_src_filter' is set to 0 data source filtering is disabled and all data
++sources are included.
++
+ SEE ALSO
+ --------
  
 
 -- 
