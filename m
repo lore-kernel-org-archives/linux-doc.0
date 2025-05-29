@@ -1,191 +1,176 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845961EB2F;
-	Thu, 29 May 2025 08:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5AA2192FB;
+	Thu, 29 May 2025 09:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748507290; cv=none; b=Ia6j6ks1QFeFU40ActyF/Gbc//ggKOZHkyJrWAFdKFZ6LtLxVMlYHebFPecxzGfB8rR1XbZbXkiLsK0rzEoVMFUcD9gBpXO0XBVB+OxsbsIHpBWXZ7OWn1J2LxeWsPdFwETfEOVWjktLsGjVMYXuZj1SRpUxI0vplKuS/+Y9IAo=
+	t=1748509351; cv=none; b=Ord4PchMtW3YJmT6WcqRK3cXrx+alQojHCXmuBF0zCVg4FlHQykc8O8z+8JynkPT/fjC+aSlBkHMS2ZmhlOVB1zA+ZVm+rlFXWeqifUwtoQ8wb2+iQIajo1pauFX9qB+tlSYFFR32rkE/C2BWBlGHC8Zpzw3R6DFi1EVOTMHzFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748507290; c=relaxed/simple;
-	bh=UK+2ozS77qj0vsbMk1/tmVRHT1LAkM8SEGNSjhz+Zio=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ENWvpPrpOAiuCjvv+BxmjF33yrAGfRLtKJ4dUFu+5vDGf5k2NTTvEDvbPqIc1hHuIJABTzFuzueowGmj0i9LfgYjAOQCzt3JtDbuAXXV78XYL3uRZdV1kMX1bNPD06skU5m/OBRa+Lh745Lp4OkyGWQ3+9ab336ZK6nmxu0Ui54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=UMV40FJ8; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1748509351; c=relaxed/simple;
+	bh=sMkdftC0+Tx/IZelfW2inRhlPRbTlYeUucKCNb7CRMM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iuWRJ6Cc8KrHZu1U5MzTX8L5Pemcm+Gqa7l9g/8cN/lHIAbgJGbOt23URgCcZ1janGgRvWEghRcF44vPaGkyes1ZxFHNBA0YQH+yLCJVWxB8WYJe74zXCas+xfoubaQaKr23247KbqHpoArZ8cBkB4ouOqXkaO7+foXRNePqrqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JNFiDfnm; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="UMV40FJ8"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1748507284; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=ngl560kZEKSyWNZckI7eA5BnwDW53BnjR6Q03uPelj0=;
-	b=UMV40FJ83//5fzdJZUBLdggOl5PYA9kKE/hWN+erATQHaerXx41N4cHYMVVTf2vL60g+C04HOhmIQJpuWVnOno4MZSaJ1fnuaBRT3Iebh4hC+JqKGf6T0uKVk3ntCO9G8GB+HPKJe9fHOKsS/kZIjraqobiaIKP4w2Cvrv5hgSs=
-Received: from 30.74.144.146(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WcGcH7v_1748507280 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 29 May 2025 16:28:01 +0800
-Message-ID: <2610143f-3274-47c0-9a11-777be673c186@linux.alibaba.com>
-Date: Thu, 29 May 2025 16:27:59 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JNFiDfnm"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so7263405e9.1;
+        Thu, 29 May 2025 02:02:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748509348; x=1749114148; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8AXfRWEnLXngbO6ozFx9Vdj+sRj7LpGEVmnez0nbKG8=;
+        b=JNFiDfnmrDT7w1plt23ylGhR00wAkKHlbXfiMaCspLQKscn9bg4b3ML4nVae1XGPIk
+         RCQeGUlSi/AG/Y85vnsjsB4Gv8OqubUCGRApEG6C8iVFPOek7mezRXLnaeMY3A6pq84Y
+         dvV53si2iZqzXGCHXxXiH+0DjEWSMfQRp9wwk5lBjAd6xjwBvmIGlmhRF0LO5duyf3BT
+         64JjINN+nfUKHss3Eqz8gq73qT2G5rV4qSh/zcwo54FaGgl/v4ecGrhnpUcMpyBcOIn6
+         +fRjwbai9TfYj1WQmiOg0+bYR5Du1fFiOZ+8Mo3ynyrnwVI4Ztsunnuda5V2/ZWsNcN5
+         FxyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748509348; x=1749114148;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8AXfRWEnLXngbO6ozFx9Vdj+sRj7LpGEVmnez0nbKG8=;
+        b=bOssOGdAiUmMhNFg+8T50+71K9CZpXa8zTQsbOyoXWgQzmE7gPt7Ifm6Has/p1JSFG
+         9ubZscNiMSY9MCWDgLpX5c/Ko/9IBwrB9C4izN2MP9fMsI1tKryyk/bp63dw50alGYs8
+         M0VPiITEtOr0f0y5i1CiprmE+WQvVXN5Yucjt6MRY6lesn7MW8eRJ/EecsES6CpIRlzy
+         SfTVa0n/PfqZZ4s74S6mi3kwWfgGPgX28RxCwEs4gqePLNmTrheu2xLoCF4gbEPCwZRB
+         TFXPvYldjY0xiCDYk+/w+cETRt4UlePt1PAwdRQAXaxOJiTM5g4hT+Y9bYVs0samjmpw
+         k3HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUD8Oak8C3hyPujTQp7p5qQNtKuQvqlqftJUudaHp7Yc2PyN8Wt/2MTvV/w2YCaDykbafy9wulboHo=@vger.kernel.org, AJvYcCX3y+PRBK866Uc/7JHfNpBaMc0TulswOxt5u3vBFnrq/VXpuWnCkOvM6BzxJhn/oxYNmfNA339KUdCHKcu6@vger.kernel.org, AJvYcCXg+K1WHPCYjRF6OrC7h5eX+Al/u70kboWo37GnaWo1RwKbpnjF4Z1HH5EgVop/Qtu8/irK/jpug+CfmPk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCAX6KtIlAq/QuE2pjIHzLHSGkDzq0k0kgJwNT/O4Gxj2AatJ+
+	RlplPL1oo6k2nYIvJD2mqh6L3bV3JAnXayEWFJYU4i6Gil8NFs6f4Nc7
+X-Gm-Gg: ASbGncsBOr44S/yeeusPcAiS1bL+VhN7tnS2YyYmgJn3/F0+eV8GPBpqMrVdnPuQkNq
+	BzgryWv3UXZFmkqVdZ/TVWBoaQAvjBGN4zATCiIcbBtehnCLoBzOOH5Y+2PEODmfbuub0XeAWfc
+	+ugIAcsc+G1cGLQKreBn880UCFTEmnogV7kMFLEWnBW69C1WTWJTdIFbDKcwmNTV8sI8i/TUD3i
+	vaAhf+VMnUS/gUipqeckbbOSZ15E+S5qcimgSI173V8DNDZAZ6VOlHnEFvuL8AMEaDpxi2WVpzW
+	SGbGaQld7Q5qh1l2PWM0pYN+Ckq6HWwro5JX7RE1GZRnJVYh2VELcVOpGgYLRR95SqrWYBPqmm3
+	DcBIikE/EvNQ8hd89PIIZMVMHLf2xLZQNyejQGpXED+obknwGBewq1A==
+X-Google-Smtp-Source: AGHT+IFS+6s+jXMSUM+bVy+Oz+xiERYfpm6I7yWMzURvuDDqqqnXdeEsGmmT/Co0X8obLIFaytbc0g==
+X-Received: by 2002:a05:600c:3b25:b0:450:b240:aaab with SMTP id 5b1f17b1804b1-450d0566ea5mr13600055e9.8.1748509348003;
+        Thu, 29 May 2025 02:02:28 -0700 (PDT)
+Received: from puma.museclub.art (p200300cf9f4db30084345851a1a1c45b.dip0.t-ipconnect.de. [2003:cf:9f4d:b300:8434:5851:a1a1:c45b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450cfc17a04sm14057565e9.24.2025.05.29.02.02.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 May 2025 02:02:27 -0700 (PDT)
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+To: eugene.shalygin@gmail.com
+Cc: Roy Seitz <royseitz@bluewin.ch>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (asus-ec-sensors) add support for ROG STRIX Z490-F GAMING
+Date: Thu, 29 May 2025 11:01:41 +0200
+Message-ID: <20250529090222.154696-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/12] khugepaged: introduce khugepaged_scan_bitmap for
- mTHP support
-To: Nico Pache <npache@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>, David Rientjes
- <rientjes@google.com>, zokeefe@google.com, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, ziy@nvidia.com,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, hannes@cmpxchg.org, mhocko@suse.com,
- rdunlap@infradead.org
-References: <20250515032226.128900-1-npache@redhat.com>
- <20250515032226.128900-7-npache@redhat.com>
- <9c54397f-3cbf-4fa2-bf69-ba89613d355f@linux.alibaba.com>
- <CAA1CXcC9MB2Nw4MmGajESfH8DhAsh4QvTj4ABG3+Rg2iPi087w@mail.gmail.com>
- <ed1d1281-ece3-4d2c-8e58-aaeb436d3927@linux.alibaba.com>
- <CAA1CXcAWcahkxzsvK_bcWei6or_gKBjt+97dqhuSem8N7cBAQw@mail.gmail.com>
- <1f00fdc3-a3a3-464b-8565-4c1b23d34f8d@linux.alibaba.com>
- <cf33ff99-ac97-4a33-9df0-01a59d5b8424@redhat.com>
- <e800189d-ad3d-409d-bfba-2c32a6ac66c0@linux.alibaba.com>
- <CAA1CXcAAbPXTHvBoSW5uxo5uH4NnQompMSsE-xG+VHGJhhiCew@mail.gmail.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <CAA1CXcAAbPXTHvBoSW5uxo5uH4NnQompMSsE-xG+VHGJhhiCew@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+From: Roy Seitz <royseitz@bluewin.ch>
 
+This adds support for the ROG STRIX Z490-F GAMING board.
 
-On 2025/5/29 12:02, Nico Pache wrote:
-> On Wed, May 28, 2025 at 8:04 AM Baolin Wang
-> <baolin.wang@linux.alibaba.com> wrote:
->>
->>
->>
->> On 2025/5/28 17:26, David Hildenbrand wrote:
->>> On 22.05.25 11:39, Baolin Wang wrote:
->>>>
->>>>
->>>> On 2025/5/21 18:23, Nico Pache wrote:
->>>>> On Tue, May 20, 2025 at 4:09 AM Baolin Wang
->>>>> <baolin.wang@linux.alibaba.com> wrote:
->>>>>>
->>>>>> Sorry for late reply.
->>>>>>
->>>>>> On 2025/5/17 14:47, Nico Pache wrote:
->>>>>>> On Thu, May 15, 2025 at 9:20 PM Baolin Wang
->>>>>>> <baolin.wang@linux.alibaba.com> wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> On 2025/5/15 11:22, Nico Pache wrote:
->>>>>>>>> khugepaged scans anons PMD ranges for potential collapse to a
->>>>>>>>> hugepage.
->>>>>>>>> To add mTHP support we use this scan to instead record chunks of
->>>>>>>>> utilized
->>>>>>>>> sections of the PMD.
->>>>>>>>>
->>>>>>>>> khugepaged_scan_bitmap uses a stack struct to recursively scan a
->>>>>>>>> bitmap
->>>>>>>>> that represents chunks of utilized regions. We can then determine
->>>>>>>>> what
->>>>>>>>> mTHP size fits best and in the following patch, we set this
->>>>>>>>> bitmap while
->>>>>>>>> scanning the anon PMD. A minimum collapse order of 2 is used as
->>>>>>>>> this is
->>>>>>>>> the lowest order supported by anon memory.
->>>>>>>>>
->>>>>>>>> max_ptes_none is used as a scale to determine how "full" an order
->>>>>>>>> must
->>>>>>>>> be before being considered for collapse.
->>>>>>>>>
->>>>>>>>> When attempting to collapse an order that has its order set to
->>>>>>>>> "always"
->>>>>>>>> lets always collapse to that order in a greedy manner without
->>>>>>>>> considering the number of bits set.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Nico Pache <npache@redhat.com>
->>>>>>>>
->>>>>>>> Sigh. You still haven't addressed or explained the issues I
->>>>>>>> previously
->>>>>>>> raised [1], so I don't know how to review this patch again...
->>>>>>> Can you still reproduce this issue?
->>>>>>
->>>>>> Yes, I can still reproduce this issue with today's (5/20) mm-new
->>>>>> branch.
->>>>>>
->>>>>> I've disabled PMD-sized THP in my system:
->>>>>> [root]# cat /sys/kernel/mm/transparent_hugepage/enabled
->>>>>> always madvise [never]
->>>>>> [root]# cat
->>>>>> /sys/kernel/mm/transparent_hugepage/hugepages-2048kB/enabled
->>>>>> always inherit madvise [never]
->>>>>>
->>>>>> And I tried calling madvise() with MADV_COLLAPSE for anonymous memory,
->>>>>> and I can still see it collapsing to a PMD-sized THP.
->>>>> Hi Baolin ! Thank you for your reply and willingness to test again :)
->>>>>
->>>>> I didn't realize we were talking about madvise collapse-- this makes
->>>>> sense now. I also figured out why I could "reproduce" it before. My
->>>>> script was always enabling the THP settings in two places, and I only
->>>>> commented out one to test this. But this time I was doing more manual
->>>>> testing.
->>>>>
->>>>> The original design of madvise_collapse ignores the sysfs and
->>>>> collapses even if you have an order disabled. I believe this behavior
->>>>> is wrong, but by design. I spent some time playing around with madvise
->>>>> collapses with and w/o my changes. This is not a new thing, I
->>>>> reproduced the issue in 6.11 (Fedora 41), and I think its been
->>>>> possible since the inception of madvise collapse 3 years ago. I
->>>>> noticed a similar behavior on one of my RFC since it was "breaking"
->>>>> selftests, and the fix was to reincorporate this broken sysfs
->>>>> behavior.
->>>>
->>>> OK. Thanks for the explanation.
->>>>
->>>>> 7d8faaf15545 ("mm/madvise: introduce MADV_COLLAPSE sync hugepage
->>>>> collapse")
->>>>> "This call is independent of the system-wide THP sysfs settings, but
->>>>> will fail for memory marked VM_NOHUGEPAGE."
->>>>>
->>>>> The second condition holds true (and fails for VM_NOHUGEPAGE), but I
->>>>> dont know if we actually want madvise_collapse to be independent of
->>>>> the system-wide.
->>>>
->>>> This design principle surprised me a bit, and I failed to find the
->>>> reason in the commit log. I agree that "never should mean never," and we
->>>> should respect the THP/mTHP sysfs setting. Additionally, for the
->>>> 'shmem_enabled' sysfs interface controlled for shmem/tmpfs, THP collapse
->>>> can still be prohibited through the 'deny' configuration. The rules here
->>>> are somewhat confusing.
->>>
->>> I recall that we decided to overwrite "VM_NOHUGEPAGE", because the
->>> assumption is that the same app that triggered MADV_NOHUGEPAGE triggers
->>> the collapse. So the app decides on its own behavior.
->>>
->>> Similarly, allowing for collapsing in a VM without VM_HUGEPAGE in the
->>> "madvise" mode would be fine.
->>>
->>> But in the "never" case, we should just "never" collapse.
->>
->> OK. Let's fix the "never" case first. Thanks.
-> Great, I will update that in the next version!
+Signed-off-by: Roy Seitz <royseitz@bluewin.ch>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst |  1 +
+ drivers/hwmon/asus-ec-sensors.c         | 32 +++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-I've sent a patchset to fix the MADV_COLLAPSE issue for anonymous memory 
-and shmem [1]. Please have a look.
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 816d1f9947ea..502b0faf3b31 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -29,6 +29,7 @@ Supported boards:
+  * ROG STRIX X570-F GAMING
+  * ROG STRIX X570-I GAMING
+  * ROG STRIX Z390-F GAMING
++ * ROG STRIX Z490-F GAMING
+  * ROG STRIX Z690-A GAMING WIFI D4
+  * ROG ZENITH II EXTREME
+  * ROG ZENITH II EXTREME ALPHA
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index e0a95197c71b..c3d5bcbd63f8 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -166,6 +166,7 @@ enum board_family {
+ 	family_amd_500_series,
+ 	family_amd_600_series,
+ 	family_intel_300_series,
++	family_intel_400_series,
+ 	family_intel_600_series
+ };
+ 
+@@ -279,6 +280,20 @@ static const struct ec_sensor_info sensors_family_intel_300[] = {
+ 		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
+ };
+ 
++static const struct ec_sensor_info sensors_family_intel_400[] = {
++	[ec_sensor_temp_chipset] =
++		EC_SENSOR("Chipset", hwmon_temp, 1, 0x00, 0x3a),
++	[ec_sensor_temp_cpu] = EC_SENSOR("CPU", hwmon_temp, 1, 0x00, 0x3b),
++	[ec_sensor_temp_mb] =
++		EC_SENSOR("Motherboard", hwmon_temp, 1, 0x00, 0x3c),
++	[ec_sensor_temp_t_sensor] =
++		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
++	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
++	[ec_sensor_fan_cpu_opt] =
++		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
++	[ec_sensor_fan_vrm_hs] = EC_SENSOR("VRM HS", hwmon_fan, 2, 0x00, 0xb2),
++};
++
+ static const struct ec_sensor_info sensors_family_intel_600[] = {
+ 	[ec_sensor_temp_t_sensor] =
+ 		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
+@@ -498,6 +513,18 @@ static const struct ec_board_info board_info_strix_z390_f_gaming = {
+ 	.family = family_intel_300_series,
+ };
+ 
++static const struct ec_board_info board_info_strix_z490_f_gaming = {
++	.sensors = SENSOR_TEMP_CHIPSET |
++		SENSOR_TEMP_CPU |
++		SENSOR_TEMP_MB |
++		SENSOR_TEMP_T_SENSOR |
++		SENSOR_TEMP_VRM |
++		SENSOR_FAN_CPU_OPT |
++		SENSOR_FAN_VRM_HS,
++	.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
++	.family = family_intel_400_series,
++};
++
+ static const struct ec_board_info board_info_strix_z690_a_gaming_wifi_d4 = {
+ 	.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM,
+ 	.mutex_path = ASUS_HW_ACCESS_MUTEX_RMTW_ASMX,
+@@ -586,6 +613,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_strix_x570_i_gaming),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z390-F GAMING",
+ 					&board_info_strix_z390_f_gaming),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z490-F GAMING",
++					&board_info_strix_z490_f_gaming),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX Z690-A GAMING WIFI D4",
+ 					&board_info_strix_z690_a_gaming_wifi_d4),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG ZENITH II EXTREME",
+@@ -1061,6 +1090,9 @@ static int asus_ec_probe(struct platform_device *pdev)
+ 	case family_intel_300_series:
+ 		ec_data->sensors_info = sensors_family_intel_300;
+ 		break;
++	case family_intel_400_series:
++		ec_data->sensors_info = sensors_family_intel_400;
++		break;
+ 	case family_intel_600_series:
+ 		ec_data->sensors_info = sensors_family_intel_600;
+ 		break;
+-- 
+2.49.0
 
-[1] 
-https://lore.kernel.org/all/cover.1748506520.git.baolin.wang@linux.alibaba.com/
