@@ -1,468 +1,171 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC8424E019
-	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 07:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4356D215F7D;
+	Thu, 29 May 2025 07:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748502249; cv=none; b=CBcYbR8JEdB5NyAkEv8ux9F5YnVIVRJcbOW+T/GVj3gWBPX8OrgHq7DTbq/augw7597EERsFGGSm+XJ/RZ/ngqEBifyD1U1Y587IaQa7C5zxLEometvZzWl7zi1x1P4ZaHhEbXXYr0QqLm/kGzLst5fpgTSiU/5uaaWQ89d1Nbk=
+	t=1748503308; cv=none; b=tVBwWNTG4X4cSOK6OFFKIxe4dsoNVTu6P3HO/ARrNb8wdDQRYg1bsOpekwAEjPxf+JLmQqgf6LZ377hpGD1edZe0Nn/y4tECcWOjYcH9/rnZOWt6BKPvbe3pnOtoikba9dfRzUaQOhw56fpTHRMthi/zvny5rUANHMVR72avyZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748502249; c=relaxed/simple;
-	bh=gGAIBfPLJ5mzuI2J9XqVGwHUjLcIMVokl51TD/0nSPE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LptT3aoauytq46ZHtYtqvF/4NVeKt6v+ULDPMlJ2eGJe2LDd7GOz1/F81EM5K1ztuxPItst0e5DFSENnuykZZp0YD3zi+k9zdHVsmNMmJQuVW9USZcyFIT5awXVr1WJPTzwYwHvoz0NGp/6lMDpHP13Thy4AGJ6jZhaM0VrKrAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DJ/OyZEd; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DJ/OyZEd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748502246;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FLyhUeKcdVZ0yoXoNzS788RI+RJY/OUuQZYjxQszTis=;
-	b=DJ/OyZEduU4p/V3smNxH5TYKAeyks3mflZjr+KCFa/8UiCdKh+K5ctpbLETbskPglem37T
-	1pqadVaZBAKM2Nanhnl6BPt9O41nZR9RZueB2cVI9V2NUSGFPDKs/A5iCyrfAid0Glxw67
-	GXZmbua1cDaq+x9rVDst1CM/43Hhytc=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-279-QwJmIh9pMOyXxMxA005wfA-1; Thu, 29 May 2025 03:04:05 -0400
-X-MC-Unique: QwJmIh9pMOyXxMxA005wfA-1
-X-Mimecast-MFC-AGG-ID: QwJmIh9pMOyXxMxA005wfA_1748502244
-Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-553227ef925so309455e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 00:04:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748502244; x=1749107044;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FLyhUeKcdVZ0yoXoNzS788RI+RJY/OUuQZYjxQszTis=;
-        b=Ym0di/WcEQr94w803KULnsLMS7RFNt9gzkeN16xuEvn/We2vusTn81iz8lm3OL0ckv
-         syHjoIKR7Y8I7ggmR9rh0d33xl4vX2QGFm0wA9vV8tEeDhe60W7c3/bvl7EzsIngpamx
-         cIEmUhhyC25Gj5oMWDwdk6i3/zXCZURaleh117wbG/9KHCzMd8n+8AG/A7HwrKaXa8wX
-         TjO4S+PgSD9z9TUJJPALEe4m++6Kcr/eBS4DO1hPFRqevGFmgsSEhfCIRh0Ct95UuXXP
-         9eiu8JBGX2K5Fatc2ZSZEhyGUCHh3bCsAlfxeQ94iyPEtDLjLGIciNtaiWLUito7w6Qw
-         k3tA==
-X-Forwarded-Encrypted: i=1; AJvYcCVrzSx0dip0jcflBOmQu1zW0cOpyyCATyysvPMMgtsOUalNQMC0b0/xeR80evrPjq4jb4KljvkH9Rs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTu381lHOa52+quBhAN3459lv4bBYR/nTRQ2Wz6X+B6hmW1iuR
-	tS/CahyXQON6/FTTicRgivswOHiXoeDX0UcS+AC87V8gCyeL2En7mA34lMJ91yNDlC2FuWY0MCU
-	Uot1gF+se+pbW2XE3mJ5ShrPp7sG++yNngdzjTRSkYvA7K2rGvhgy3O3Hpo2V+i2zs3eMDzFpsu
-	+euUJ7OASghUO7YOHIBlaW0q3GjHC5h7DmWzrX
-X-Gm-Gg: ASbGncuVg/xF3/Asqs4F8kKuj8lxhkIUvpVSkmvxlmkWTgkZD8MInfIEOAt9hSDas2g
-	Touigmwz2rqeORkZT830B1FXtGNp2jHBxGwJ9N+nDy5L1QDKciAujE06KAuJTnYne/5OTXg==
-X-Received: by 2002:a05:6512:a88:b0:550:e527:886f with SMTP id 2adb3069b0e04-5521c9b48a5mr6226586e87.51.1748502243512;
-        Thu, 29 May 2025 00:04:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEhBwtEWV7FTygdRfcy4kngKHINa8KsHRMkeClwkAOFQYJyufuKIr4JvD4VEJD5vzTS24wJDQc0jIE+CufADn0=
-X-Received: by 2002:a05:6512:a88:b0:550:e527:886f with SMTP id
- 2adb3069b0e04-5521c9b48a5mr6226569e87.51.1748502242998; Thu, 29 May 2025
- 00:04:02 -0700 (PDT)
+	s=arc-20240116; t=1748503308; c=relaxed/simple;
+	bh=4r8s018V6hpEZ8hKjDggDlJrjQWWMqz83TXHccd+u2Y=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=BV4sdjjvDW4WLmwzHWWKKXnoBD8M/buAPD2jxUamgqt0/iOuEc+HhfDb+g54RwHMAq6i3TUBvYrLpM1GryVPRLdHIi5/ZFBIQckDQt7shci2sNXhopNH9jZozK7aEZXTeyDjJtQmfjjpAHki0YtcUFXm1xlvCgzVYf52JFJAsAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-681ff7000002311f-6a-68380b04bd67
+Message-ID: <82ea9158-c71e-4c11-a46d-397e9ec9349b@sk.com>
+Date: Thu, 29 May 2025 16:21:39 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250524061320.370630-1-yukuai1@huaweicloud.com> <20250524061320.370630-19-yukuai1@huaweicloud.com>
-In-Reply-To: <20250524061320.370630-19-yukuai1@huaweicloud.com>
-From: Xiao Ni <xni@redhat.com>
-Date: Thu, 29 May 2025 15:03:50 +0800
-X-Gm-Features: AX0GCFt6aelieDdKVpFEW95DgBTQaabsDTo6V1Wck7H_eO8X27kgvzCG7zQ3eY8
-Message-ID: <CALTww2-+0h2Pxq0PJLZQxcoYpMJuiKuv6CZQ3kgX5PeqBkxKsQ@mail.gmail.com>
-Subject: Re: [PATCH 18/23] md/md-llbitmap: implement APIs to mange bitmap lifetime
-To: Yu Kuai <yukuai1@huaweicloud.com>
-Cc: hch@lst.de, colyli@kernel.org, song@kernel.org, yukuai3@huawei.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com, 
-	johnny.chenyi@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Cc: kernel_team@skhynix.com, Jonathan Corbet <corbet@lwn.net>,
+ damon@lists.linux.dev, kernel-team@meta.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 0/4] mm/damon: introduce DAMON_STAT for simple and
+ practical access monitoring
+Content-Language: ko
+To: SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+References: <20250526210936.2744-1-sj@kernel.org>
+From: Honggyu Kim <honggyu.kim@sk.com>
+In-Reply-To: <20250526210936.2744-1-sj@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrDLMWRmVeSWpSXmKPExsXC9ZZnkS4Lt0WGwYlzUhZz1q9hs3hyoJ3R
+	4sn/36wW+y4CuQvblrBYXN41h83i3pr/rBaHv75hcuDw2LSqk81j06dJ7B4nZvxm8XixeSaj
+	x+K+yawe5y5WeHzeJBfAHsVlk5Kak1mWWqRvl8CVMf/obuaCv2oVyxf/ZWlgbJbvYuTkkBAw
+	kZiw5DgzjH2+9y47iM0rYCmx7PZV1i5GDg4WAVWJdztcIcKCEidnPmEBsUUF5CXu35oBVs4s
+	sJtRYmKrLogtLJAi8Wz5DUaIuIjE7M42ZpAxIgI+Ei3LE0HCQgKGErN+7mEFsdkE1CSuvJzE
+	BGJzChhJfN7XygTRaibRtbULaoy8xPa3c4DGcAFdeYJN4uWbVhaIkyUlDq64wTKBUXAWkvNm
+	IVk9C8msWUhmLWBkWcUolJlXlpuYmWOil1GZl1mhl5yfu4kRGCfLav9E72D8dCH4EKMAB6MS
+	D+8JRvMMIdbEsuLK3EOMEhzMSiK8TfZmGUK8KYmVValF+fFFpTmpxYcYpTlYlMR5jb6VpwgJ
+	pCeWpGanphakFsFkmTg4pRoY09NsPCpSuB9NnCEj0c8T6Jz83Uvpx9710gt7Yp7KvFg4v7zA
+	esqfGX/7f6w9HcBffqz0ynxB7QlX1TrDXoVzLrNSN+UUbxHgXVAWu/1v+N+MV65BV5SXdLzJ
+	Dm1v1TSc/Mrl57xPNf7HDrEf4v8yWe8R/7EUM8ntt9S5ppafyeLS7VhRt2+uEktxRqKhFnNR
+	cSIALASJrI8CAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMLMWRmVeSWpSXmKPExsXCNUNLT5eF2yLDYP9yPos569ewWTw50M5o
+	8eT/b1aLfReB3MNzT7JaLGxbwmJxedccNot7a/6zWhz++obJgdNj06pONo9Nnyaxe5yY8ZvF
+	48XmmYwei/sms3qcu1jhsfjFByaPz5vkAjiiuGxSUnMyy1KL9O0SuDLmH93NXPBXrWL54r8s
+	DYzN8l2MnBwSAiYS53vvsoPYvAKWEstuX2XtYuTgYBFQlXi3wxUiLChxcuYTFhBbVEBe4v6t
+	GWDlzAK7GSUmtuqC2MICKRLPlt9ghIiLSMzubGMGGSMi4CPRsjwRJCwkYCgx6+ceVhCbTUBN
+	4srLSUwgNqeAkcTnfa1MEK1mEl1bu6DGyEtsfzuHeQIj3ywkV8xCsmEWkpZZSFoWMLKsYhTJ
+	zCvLTczMMdUrzs6ozMus0EvOz93ECAz6ZbV/Ju5g/HLZ/RCjAAejEg/vCUbzDCHWxLLiytxD
+	jBIczEoivE32ZhlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeb3CUxOEBNITS1KzU1MLUotgskwc
+	nFINjPvnbQ6vu8EvJ2WUyu1fkL0iqULqfKA8X9RRB3PR7mbeu8cEjwQrnanwYQgLD92b+3Xt
+	9VPfqmMNrUJmcLmKGVrdP1efyDJtNXvD2hS11euMEhbExTK9ub++LV+nUGFL/5e3Ruu3iX7Z
+	1HD3yf1ekfl3hcK3Fb798i++evJKrsMf3a8sUHMLVmIpzkg01GIuKk4EAEBzpEJ2AgAA
+X-CFilter-Loop: Reflected
 
-Hi Kuai
+Hi SeongJae,
 
-Is it better to put this patch before patch15. I'm reading patch15.
-But I need to read this patch first to understand how llbitmap is
-created and loaded. Then I can go to read the io related part.
+Thanks for your work.
 
-Regards
-Xiao
+On 5/27/2025 6:09 AM, SeongJae Park wrote:
+> DAMON-based access monitoring is not simple due to required DAMON
+> control and results visualizations.  Introduce a static kernel module
+> for making it simple.  The module can be enabled without manual setup
+> and provides access pattern metrics that easy to fetch and understand
+> the practical access pattern information, namely estimated memory
+> bandwidth and memory idle time percentiles.
+> 
+> Background and Problems
+> =======================
+> 
+> DAMON can be used for monitoring data access patterns of the system and
+> workloads.  Specifically, users can start DAMON to monitor access events
+> on specific address space with fine controls including address ranges to
+> monitor and time intervals between samplings and aggregations.  The
+> resulting access information snapshot contains access frequency
+> (nr_accesses) and how long the frequency was kept (age) for each byte.
+> 
+> The monitoring usage is not simple and practical enough for production
+> usage.  Users should first start DAMON with a number of parameters, and
+> wait until DAMON's monitoring results capture a reasonable amount of the
+> time data (age).  In production, such manual start and wait is
+> impractical to capture useful information from a high number of machines
+> in a timely manner.
+> 
+> The monitoring result is also too detailed to be used on production
+> environments.  The raw results are hard to be aggregated and/or compared
+> for production environments having a large scale of time, space and
+> machines fleet.
+> 
+> Users have to implement and use their own automation of DAMON control
+> and results processing.  It is repetitive and challenging since there is
+> no good reference or guideline for such automation.
+> 
+> Solution: DAMON_STAT
+> ====================
+> 
+> Implement such automation in kernel space as a static kernel module,
+> namely DAMON_STAT.  It can be enabled at build, boot, or run time via
+> its build configuration or module parameter.  It monitors the entire
+> physical address space with monitoring intervals that auto-tuned for a
+> reasonable amount of access observations and minimum overhead.  It
+> converts the raw monitoring results into simpler metrics that can easily
+> be aggregated and compared, namely estimated memory bandwidth and idle
+> time percentiles.  Refer to the commit messages of the second and the
+> third patches of this patch series for more details about the metrics.
 
-On Sat, May 24, 2025 at 2:18=E2=80=AFPM Yu Kuai <yukuai1@huaweicloud.com> w=
-rote:
->
-> From: Yu Kuai <yukuai3@huawei.com>
->
-> Include following APIs:
->  - llbitmap_create
->  - llbitmap_resize
->  - llbitmap_load
->  - llbitmap_destroy
->
-> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
-> ---
->  drivers/md/md-llbitmap.c | 322 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 322 insertions(+)
->
-> diff --git a/drivers/md/md-llbitmap.c b/drivers/md/md-llbitmap.c
-> index 4d5f9a139a25..23283c4f7263 100644
-> --- a/drivers/md/md-llbitmap.c
-> +++ b/drivers/md/md-llbitmap.c
-> @@ -689,4 +689,326 @@ static void llbitmap_resume(struct llbitmap *llbitm=
-ap, int page_idx)
->         wake_up(&pctl->wait);
->  }
->
-> +static int llbitmap_check_support(struct mddev *mddev)
-> +{
-> +       if (test_bit(MD_HAS_JOURNAL, &mddev->flags)) {
-> +               pr_notice("md/llbitmap: %s: array with journal cannot hav=
-e bitmap\n",
-> +                         mdname(mddev));
-> +               return -EBUSY;
-> +       }
-> +
-> +       if (mddev->bitmap_info.space =3D=3D 0) {
-> +               if (mddev->bitmap_info.default_space =3D=3D 0) {
-> +                       pr_notice("md/llbitmap: %s: no space for bitmap\n=
-",
-> +                                 mdname(mddev));
-> +                       return -ENOSPC;
-> +               }
-> +       }
-> +
-> +       if (!mddev->persistent) {
-> +               pr_notice("md/llbitmap: %s: array must be persistent\n",
-> +                         mdname(mddev));
-> +               return -EOPNOTSUPP;
-> +       }
-> +
-> +       if (mddev->bitmap_info.file) {
-> +               pr_notice("md/llbitmap: %s: doesn't support bitmap file\n=
-",
-> +                         mdname(mddev));
-> +               return -EOPNOTSUPP;
-> +       }
-> +
-> +       if (mddev->bitmap_info.external) {
-> +               pr_notice("md/llbitmap: %s: doesn't support external meta=
-data\n",
-> +                         mdname(mddev));
-> +               return -EOPNOTSUPP;
-> +       }
-> +
-> +       if (mddev_is_dm(mddev)) {
-> +               pr_notice("md/llbitmap: %s: doesn't support dm-raid\n",
-> +                         mdname(mddev));
-> +               return -EOPNOTSUPP;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int llbitmap_init(struct llbitmap *llbitmap)
-> +{
-> +       struct mddev *mddev =3D llbitmap->mddev;
-> +       sector_t blocks =3D mddev->resync_max_sectors;
-> +       unsigned long chunksize =3D MIN_CHUNK_SIZE;
-> +       unsigned long chunks =3D DIV_ROUND_UP(blocks, chunksize);
-> +       unsigned long space =3D mddev->bitmap_info.space << SECTOR_SHIFT;
-> +       int ret;
-> +
-> +       while (chunks > space) {
-> +               chunksize =3D chunksize << 1;
-> +               chunks =3D DIV_ROUND_UP(blocks, chunksize);
-> +       }
-> +
-> +       llbitmap->chunkshift =3D ffz(~chunksize);
-> +       llbitmap->chunksize =3D chunksize;
-> +       llbitmap->chunks =3D chunks;
-> +       mddev->bitmap_info.daemon_sleep =3D DEFAULT_DAEMON_SLEEP;
-> +
-> +       ret =3D llbitmap_cache_pages(llbitmap);
-> +       if (ret)
-> +               return ret;
-> +
-> +       llbitmap_state_machine(llbitmap, 0, llbitmap->chunks - 1, BitmapA=
-ctionInit);
-> +       return 0;
-> +}
-> +
-> +static int llbitmap_read_sb(struct llbitmap *llbitmap)
-> +{
-> +       struct mddev *mddev =3D llbitmap->mddev;
-> +       unsigned long daemon_sleep;
-> +       unsigned long chunksize;
-> +       unsigned long events;
-> +       struct page *sb_page;
-> +       bitmap_super_t *sb;
-> +       int ret =3D -EINVAL;
-> +
-> +       if (!mddev->bitmap_info.offset) {
-> +               pr_err("md/llbitmap: %s: no super block found", mdname(md=
-dev));
-> +               return -EINVAL;
-> +       }
-> +
-> +       sb_page =3D llbitmap_read_page(llbitmap, 0);
-> +       if (IS_ERR(sb_page)) {
-> +               pr_err("md/llbitmap: %s: read super block failed",
-> +                      mdname(mddev));
-> +               ret =3D -EIO;
-> +               goto out;
-> +       }
-> +
-> +       sb =3D kmap_local_page(sb_page);
-> +       if (sb->magic !=3D cpu_to_le32(BITMAP_MAGIC)) {
-> +               pr_err("md/llbitmap: %s: invalid super block magic number=
-",
-> +                      mdname(mddev));
-> +               goto out_put_page;
-> +       }
-> +
-> +       if (sb->version !=3D cpu_to_le32(BITMAP_MAJOR_LOCKLESS)) {
-> +               pr_err("md/llbitmap: %s: invalid super block version",
-> +                      mdname(mddev));
-> +               goto out_put_page;
-> +       }
-> +
-> +       if (memcmp(sb->uuid, mddev->uuid, 16)) {
-> +               pr_err("md/llbitmap: %s: bitmap superblock UUID mismatch\=
-n",
-> +                      mdname(mddev));
-> +               goto out_put_page;
-> +       }
-> +
-> +       if (mddev->bitmap_info.space =3D=3D 0) {
-> +               int room =3D le32_to_cpu(sb->sectors_reserved);
-> +
-> +               if (room)
-> +                       mddev->bitmap_info.space =3D room;
-> +               else
-> +                       mddev->bitmap_info.space =3D mddev->bitmap_info.d=
-efault_space;
-> +       }
-> +       llbitmap->flags =3D le32_to_cpu(sb->state);
-> +       if (test_and_clear_bit(BITMAP_FIRST_USE, &llbitmap->flags)) {
-> +               ret =3D llbitmap_init(llbitmap);
-> +               goto out_put_page;
-> +       }
-> +
-> +       chunksize =3D le32_to_cpu(sb->chunksize);
-> +       if (!is_power_of_2(chunksize)) {
-> +               pr_err("md/llbitmap: %s: chunksize not a power of 2",
-> +                      mdname(mddev));
-> +               goto out_put_page;
-> +       }
-> +
-> +       if (chunksize < DIV_ROUND_UP(mddev->resync_max_sectors,
-> +                                    mddev->bitmap_info.space << SECTOR_S=
-HIFT)) {
-> +               pr_err("md/llbitmap: %s: chunksize too small %lu < %llu /=
- %lu",
-> +                      mdname(mddev), chunksize, mddev->resync_max_sector=
-s,
-> +                      mddev->bitmap_info.space);
-> +               goto out_put_page;
-> +       }
-> +
-> +       daemon_sleep =3D le32_to_cpu(sb->daemon_sleep);
-> +       if (daemon_sleep < 1 || daemon_sleep > MAX_SCHEDULE_TIMEOUT / HZ)=
- {
-> +               pr_err("md/llbitmap: %s: daemon sleep %lu period out of r=
-ange",
-> +                      mdname(mddev), daemon_sleep);
-> +               goto out_put_page;
-> +       }
-> +
-> +       events =3D le64_to_cpu(sb->events);
-> +       if (events < mddev->events) {
-> +               pr_warn("md/llbitmap :%s: bitmap file is out of date (%lu=
- < %llu) -- forcing full recovery",
-> +                       mdname(mddev), events, mddev->events);
-> +               set_bit(BITMAP_STALE, &llbitmap->flags);
-> +       }
-> +
-> +       sb->sync_size =3D cpu_to_le64(mddev->resync_max_sectors);
-> +       mddev->bitmap_info.chunksize =3D chunksize;
-> +       mddev->bitmap_info.daemon_sleep =3D daemon_sleep;
-> +
-> +       llbitmap->chunksize =3D chunksize;
-> +       llbitmap->chunks =3D DIV_ROUND_UP(mddev->resync_max_sectors, chun=
-ksize);
-> +       llbitmap->chunkshift =3D ffz(~chunksize);
-> +       ret =3D llbitmap_cache_pages(llbitmap);
-> +
-> +out_put_page:
-> +       __free_page(sb_page);
-> +out:
-> +       kunmap_local(sb);
-> +       return ret;
-> +}
-> +
-> +static void llbitmap_pending_timer_fn(struct timer_list *t)
-> +{
-> +       struct llbitmap *llbitmap =3D from_timer(llbitmap, t, pending_tim=
-er);
-> +
-> +       if (work_busy(&llbitmap->daemon_work)) {
-> +               pr_warn("daemon_work not finished\n");
-> +               set_bit(BITMAP_DAEMON_BUSY, &llbitmap->flags);
-> +               return;
-> +       }
-> +
-> +       queue_work(md_llbitmap_io_wq, &llbitmap->daemon_work);
-> +}
-> +
-> +static void md_llbitmap_daemon_fn(struct work_struct *work)
-> +{
-> +       struct llbitmap *llbitmap =3D
-> +               container_of(work, struct llbitmap, daemon_work);
-> +       unsigned long start;
-> +       unsigned long end;
-> +       bool restart;
-> +       int idx;
-> +
-> +       if (llbitmap->mddev->degraded)
-> +               return;
-> +
-> +retry:
-> +       start =3D 0;
-> +       end =3D min(llbitmap->chunks, PAGE_SIZE - BITMAP_SB_SIZE) - 1;
-> +       restart =3D false;
-> +
-> +       for (idx =3D 0; idx < llbitmap->nr_pages; idx++) {
-> +               struct llbitmap_page_ctl *pctl =3D llbitmap->pctl[idx];
-> +
-> +               if (idx > 0) {
-> +                       start =3D end + 1;
-> +                       end =3D min(end + PAGE_SIZE, llbitmap->chunks - 1=
-);
-> +               }
-> +
-> +               if (!test_bit(LLPageFlush, &pctl->flags) &&
-> +                   time_before(jiffies, pctl->expire)) {
-> +                       restart =3D true;
-> +                       continue;
-> +               }
-> +
-> +               llbitmap_suspend(llbitmap, idx);
-> +               llbitmap_state_machine(llbitmap, start, end, BitmapAction=
-Daemon);
-> +               llbitmap_resume(llbitmap, idx);
-> +       }
-> +
-> +       /*
-> +        * If the daemon took a long time to finish, retry to prevent mis=
-sing
-> +        * clearing dirty bits.
-> +        */
-> +       if (test_and_clear_bit(BITMAP_DAEMON_BUSY, &llbitmap->flags))
-> +               goto retry;
-> +
-> +       /* If some page is dirty but not expired, setup timer again */
-> +       if (restart)
-> +               mod_timer(&llbitmap->pending_timer,
-> +                         jiffies + llbitmap->mddev->bitmap_info.daemon_s=
-leep * HZ);
-> +}
-> +
-> +static int llbitmap_create(struct mddev *mddev)
-> +{
-> +       struct llbitmap *llbitmap;
-> +       int ret;
-> +
-> +       ret =3D llbitmap_check_support(mddev);
-> +       if (ret)
-> +               return ret;
-> +
-> +       llbitmap =3D kzalloc(sizeof(*llbitmap), GFP_KERNEL);
-> +       if (!llbitmap)
-> +               return -ENOMEM;
-> +
-> +       llbitmap->mddev =3D mddev;
-> +       llbitmap->io_size =3D bdev_logical_block_size(mddev->gendisk->par=
-t0);
-> +       llbitmap->bits_per_page =3D PAGE_SIZE / llbitmap->io_size;
-> +
-> +       timer_setup(&llbitmap->pending_timer, llbitmap_pending_timer_fn, =
-0);
-> +       INIT_WORK(&llbitmap->daemon_work, md_llbitmap_daemon_fn);
-> +       atomic_set(&llbitmap->behind_writes, 0);
-> +       init_waitqueue_head(&llbitmap->behind_wait);
-> +
-> +       mutex_lock(&mddev->bitmap_info.mutex);
-> +       mddev->bitmap =3D llbitmap;
-> +       ret =3D llbitmap_read_sb(llbitmap);
-> +       mutex_unlock(&mddev->bitmap_info.mutex);
-> +       if (ret)
-> +               goto err_out;
-> +
-> +       return 0;
-> +
-> +err_out:
-> +       kfree(llbitmap);
-> +       return ret;
-> +}
-> +
-> +static int llbitmap_resize(struct mddev *mddev, sector_t blocks, int chu=
-nksize)
-> +{
-> +       struct llbitmap *llbitmap =3D mddev->bitmap;
-> +       unsigned long chunks;
-> +
-> +       if (chunksize =3D=3D 0)
-> +               chunksize =3D llbitmap->chunksize;
-> +
-> +       /* If there is enough space, leave the chunksize unchanged. */
-> +       chunks =3D DIV_ROUND_UP(blocks, chunksize);
-> +       while (chunks > mddev->bitmap_info.space << SECTOR_SHIFT) {
-> +               chunksize =3D chunksize << 1;
-> +               chunks =3D DIV_ROUND_UP(blocks, chunksize);
-> +       }
-> +
-> +       llbitmap->chunkshift =3D ffz(~chunksize);
-> +       llbitmap->chunksize =3D chunksize;
-> +       llbitmap->chunks =3D chunks;
-> +
-> +       return 0;
-> +}
-> +
-> +static int llbitmap_load(struct mddev *mddev)
-> +{
-> +       enum llbitmap_action action =3D BitmapActionReload;
-> +       struct llbitmap *llbitmap =3D mddev->bitmap;
-> +
-> +       if (test_and_clear_bit(BITMAP_STALE, &llbitmap->flags))
-> +               action =3D BitmapActionStale;
-> +
-> +       llbitmap_state_machine(llbitmap, 0, llbitmap->chunks - 1, action)=
-;
-> +       return 0;
-> +}
-> +
-> +static void llbitmap_destroy(struct mddev *mddev)
-> +{
-> +       struct llbitmap *llbitmap =3D mddev->bitmap;
-> +
-> +       if (!llbitmap)
-> +               return;
-> +
-> +       mutex_lock(&mddev->bitmap_info.mutex);
-> +
-> +       timer_delete_sync(&llbitmap->pending_timer);
-> +       flush_workqueue(md_llbitmap_io_wq);
-> +       flush_workqueue(md_llbitmap_unplug_wq);
-> +
-> +       mddev->bitmap =3D NULL;
-> +       llbitmap_free_pages(llbitmap);
-> +       kfree(llbitmap);
-> +       mutex_unlock(&mddev->bitmap_info.mutex);
-> +}
-> +
->  #endif /* CONFIG_MD_LLBITMAP */
-> --
-> 2.39.2
->
+I see the description looks good but it'd be useful if you could share some
+execution commands and expected output examples that some newbies can get better
+ideas.
+
+I honestly do not have a clear idea how I can use this kind of static kernel
+modules as general users although I have developed some features of DAMON.
+
+So could you please help?
+
+Thanks,
+Honggyu
+
+> 
+> Discussions
+> ===========
+> 
+> The module aims to be useful on production environments constructed with
+> a large number of machines that run a long time.  The auto-tuned
+> monitoring intervals ensure a reasonable quality of the outputs.  The
+> auto-tuning also ensures its overhead be reasonable and low enough to be
+> enabled always on the production.  The simplified monitoring results
+> metrics can be useful for showing both coldness (idle time percentiles)
+> and hotness (memory bandwidth) of the system's access pattern.  We
+> expect the information can be useful for assessing system memory
+> utilization and inspiring optimizations or investigations on both kernel
+> and user space memory management logics for large scale fleets.
+> 
+> We hence expect the module is good enough to be just used in most
+> environments.  For special cases that require a custom access monitoring
+> automation, users will still benefit by using DAMON_STAT as a reference
+> or a guideline for their specialized automation.
+> 
+> Revision History
+> ================
+> 
+> Changes from RFC
+> (https://lore.kernel.org/20250519164415.43935-1-sj@kernel.org)
+> - Add an admin-guide documentation
+> - Wordsmith commit messages
+> - Rebase to latest mm-new
+> 
+> SeongJae Park (4):
+>    mm/damon: introduce DAMON_STAT module
+>    mm/damon/stat: calculate and expose estimated memory bandwidth
+>    mm/damon/stat: calculate and expose idle time percentiles
+>    Docs/admin-guide/mm/damon: add DAMON_STAT usage document
+> 
+>   Documentation/admin-guide/mm/damon/index.rst |   1 +
+>   Documentation/admin-guide/mm/damon/stat.rst  |  69 ++++++
+>   mm/damon/Kconfig                             |  16 ++
+>   mm/damon/Makefile                            |   1 +
+>   mm/damon/stat.c                              | 245 +++++++++++++++++++
+>   5 files changed, 332 insertions(+)
+>   create mode 100644 Documentation/admin-guide/mm/damon/stat.rst
+>   create mode 100644 mm/damon/stat.c
+> 
+> 
+> base-commit: 90887f57d7a67917136e7c70d26fb3f2fcdc6f53
 
