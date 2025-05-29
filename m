@@ -1,92 +1,201 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A7928DB77
-	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 09:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB7F28DB60
+	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 09:48:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748512101; cv=none; b=pjw8Cvz5tBSAcMFdMOHyK23dOpmZwMvtTzBBWEacVT7IR7PgnRUMJgAPdjdswLErCLLdf+zPkwCbE9deX/ViWcLrhzPkIuHvPEghM6jmTVTKxdxG8ZrMACOn0zkBzKWwBvtMH2F4jml70F36Q2Z/MO54E7Ek9G2podGLGupfg0o=
+	t=1748512105; cv=none; b=dm91b6+YHpOYnXqZKCDRjkyakLyYD4WpBnOZYhlS8ufLW/MdTGSymBK21N6ZMGC0M3vZfVC5Sw0xl9p7EsgDx3xz7UiBkdonERocdXX9sfzebwcA0gZpu/X5HPE0UZFdnrssV7xaxye46ETQlk5AH3ayZqqAJltkGoXQGxRnhVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748512101; c=relaxed/simple;
-	bh=QSW8yr7Wa8nIzabX+tA183Hg5HQRpsGXIwYwkre3aHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r3CckNj+2Xk0+yfUBTaSgE0fHO4DZMUnQ1SDHoQtvh//tqjOp1iXXzQl2ZMK+bus3+52eAIRIAV7E/Ypg3T0UjNogfyIr/8/6XlSrgqE2nnPmzXRDDzxuSNud79IK6I+/ivRkTH3cRmEeWSrP+Yb+wzs2guDIAfshsswBFr/vf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C7x7Ye0c; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1748512105; c=relaxed/simple;
+	bh=mCBPF3CJ36k4V5dXJH2gpRnAP5FNb2FulINW8M6tPfs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ii+HeXlpV95mx2GterQJVOR21We0MKacf04oEf5ocs3zNjU9FpAC0NExrGePwHMhxWEELlL0Z0qATQ3EVcGmvtn0slHuN3I50RyhCAFJiIPvZpwpYBHSh+9xBwFjHJQiGAAgk4k6062nbA58lko9obChEvHYhE86agClhSzKiKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OJyLbDUW; arc=none smtp.client-ip=209.85.128.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C7x7Ye0c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748512097;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6ry7WPuUyLkq5CyNjr1ayrOEZ4+99+KqGgcnAG6eR+Q=;
-	b=C7x7Ye0ccV1jmeipxoTL38P0hrNeQtSbyQAPVeGqi8wpyK6uLF/9qhwDoNGdwNuGIjP6Ea
-	JZko58HOvnL2Co9FPBjAlnbhXUK0QuAwJDKc6D3VaE+h+xUnHjQwm5g8lfeBUmON4LbE6c
-	tMYq+islGEOAIngA+SK4pSS0rlxz02o=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-658-z78Vrh78N5GS2Mn1yMs8qA-1; Thu,
- 29 May 2025 05:48:11 -0400
-X-MC-Unique: z78Vrh78N5GS2Mn1yMs8qA-1
-X-Mimecast-MFC-AGG-ID: z78Vrh78N5GS2Mn1yMs8qA_1748512089
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AC7891800366;
-	Thu, 29 May 2025 09:48:09 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.35])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8D4E21955D82;
-	Thu, 29 May 2025 09:48:03 +0000 (UTC)
-Date: Thu, 29 May 2025 17:47:58 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 7/8] selftests: ublk: add test for per io daemons
-Message-ID: <aDgtTqj-s_SN7wCK@fedora>
-References: <20250527-ublk_task_per_io-v7-0-cbdbaf283baa@purestorage.com>
- <20250527-ublk_task_per_io-v7-7-cbdbaf283baa@purestorage.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OJyLbDUW"
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-450ccda1a6eso6515775e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 02:48:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748512102; x=1749116902; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BaFVkQVJDKjRYWtNug3oA8cOPJXftESUXFz7M4SIesM=;
+        b=OJyLbDUWEbBQO61Qw8f3Z/PO0CAfQdxlUweiWMFETjxe+aIjZMzTFnQUMoNazwYmxh
+         gI54WVsxvf55MZ/sAXNSBo154EEQocUlF5pYuVwgp1SUAnWa09Zis/RoMQ8sB5Ao44rR
+         QlITn2EXAqMHG2bxk6VcHoEb1LWytE3j4MAJ2khD7hNMP1R1YqKin6Hk9IFQgn7DKk7b
+         JhevVCW3LvmicpUE0QZtbFtGqw3MJlkR8I5y1gJ1RmyUqyUCW+qn+3L/7UV5ufiHvRRJ
+         Oz+bTcYsrKCokb4KnoW3fubFEJpb9Z2su687aqZaF3ChTda3aaD7sXUDt74UXJBk02YA
+         /kZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748512102; x=1749116902;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BaFVkQVJDKjRYWtNug3oA8cOPJXftESUXFz7M4SIesM=;
+        b=WRcAhIgD5GS7fofOOWx0VJ8qBC5eqo+0CExkUVAsJBH9vXWlt5cm70Wlf5XsdZFqBp
+         2I9XNsa5HAG+OL0X8+FZY7b2cI3odCfjEmy79AHFx022WxCoU8olsQR28H+tStXTMk3T
+         zqNCJ+269zi0uwjb3Bvpk1PmDiS01B7zfWfSCVFE1nejpbxH53hk/vpsIjVflqiqMpFT
+         i0baoIOit3W7QITWW0aG46hyzeqgUPkBss40PgVmv/QJMKlkM9VzOpQfHYzykYh0e3+1
+         9GoAd9k9WU+BD+EG3yFRKRoX9JkFK1EqWbfhCZpVt51HjdeHT2BRgoXC7lhSmFxwSE0o
+         MjNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXdWDDxNrsWGQsMa0rDansZcXhXFzfkdAsTMULTnQLddOPQ5CIvPw1IUQimZ7aGEnWEmIXyor0+oZY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwFYCGk0t2H/WIOHQqOpmcdSpEOV6RTxI9XtowFkweSr041dGT
+	6U7wvWsUT+PStenT3BLrkeHWe+iiie7WiEdjyNQAy7OTyjMbuo7PnuwrEf8APZHaigE=
+X-Gm-Gg: ASbGnctJO3OVU7zlgDVro2Z4YTRmaTNSB/jFa5j/XPOxzmyP454d/IraQoJIy//URuV
+	v+bttiECY2aWnIl1/GX/teUul+qmB649Cm5Jd32zIOGWH3RXk9lLzBuU4Fl0bsoLLLzeemZYqgL
+	L3HEwBTyrRUdEuEMf9ye5bTfqrxz4lArAqxQ5P5ZNufVLjUjKBA13wfrBuWLQdfTzD8KCeQSlMS
+	oYRShaltsM68tngZwVxJes0gqyJirKDl0QPSzf3AUSOw962RR2Ci1HYZUCfPUMNBNko0MDZTs6m
+	oWZOUwx/7D4GhoZY111ATA2PgO4XzY8RkRYFiO/vFgVlLmeiGxt8KQcj
+X-Google-Smtp-Source: AGHT+IGqR9/I2Bjkk0qR5H6OlZDpGRs84NmDbQcbBpPkkl4lqLIAxu7/3yK/uxy3vBcppOHkP1XOiw==
+X-Received: by 2002:a05:600c:4e14:b0:444:34c7:3ed9 with SMTP id 5b1f17b1804b1-44c955da4f7mr185008435e9.26.1748512101772;
+        Thu, 29 May 2025 02:48:21 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.136.128])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450cfc27dd8sm15171385e9.26.2025.05.29.02.48.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 May 2025 02:48:21 -0700 (PDT)
+Message-ID: <d412031a-cdfa-4983-8702-1e1bb93d5641@linaro.org>
+Date: Thu, 29 May 2025 10:48:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250527-ublk_task_per_io-v7-7-cbdbaf283baa@purestorage.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v22 0/5] arm64/perf: Enable branch stack sampling
+To: "Rob Herring (Arm)" <robh@kernel.org>, Will Deacon <will@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvmarm@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, Mark Rutland <mark.rutland@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, Leo Yan <leo.yan@arm.com>
+References: <20250520-arm-brbe-v19-v22-0-c1ddde38e7f8@kernel.org>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20250520-arm-brbe-v19-v22-0-c1ddde38e7f8@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 27, 2025 at 05:01:30PM -0600, Uday Shankar wrote:
-> Add a new test test_generic_12 which:
-> 
-> - sets up a ublk server with per_io_tasks and a different number of ublk
->   server threads and ublk_queues. This is possible now that these
->   objects are decoupled
-> - runs some I/O load from a single CPU
-> - verifies that all the ublk server threads handle some I/O
-> 
-> Before this changeset, this test fails, since I/O issued from one CPU is
-> always handled by the one ublk server thread. After this changeset, the
-> test passes.
-> 
-> In the future, the last check above may be strengthened to "verify that
-> all ublk server threads handle the same amount of I/O." However, this
-> requires some adjustments/bugfixes to tag allocation, so this work is
-> postponed to a followup.
-> 
-> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
 
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
 
-Thanks,
-Ming
+On 20/05/2025 11:27 pm, Rob Herring (Arm) wrote:
+> This series enables perf branch stack sampling support on arm64 via a
+> v9.2 arch feature called Branch Record Buffer Extension (BRBE). Details
+> on BRBE can be found in the Arm ARM[1] chapter D18.
+> 
+> I've picked up this series from Anshuman. v19 and later versions have
+> been reworked quite a bit by Mark and myself. The bulk of those changes
+> are in patch 5.
+> 
+> A git branch is here[2].
+> 
+> [1] https://developer.arm.com/documentation/ddi0487/latest/
+> [2] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git arm/brbe-v22
+> 
+> Changes in v22:
+>   - New patch reworking the labels in el2_setup.h
+>   - Move branch stack disabling after armpmu_stop() in armpmu_del()
+>   - Fix branch_records_alloc() to work on heterogeneous systems
+>   - Make setting .sched_task function ptr conditional on BRBE support
+>   - Reword booting.rst section name (s/feature/the/) and move next to
+>     other PMU related features instead of in the middle of SME features.
+>   - Drop setting SYS_BRBCR_EL1
+>   - Drop CONFIG_ARM64_BRBE ifdef
+>   - Rework initialization of HFGITR_EL2
+> 
+> v21:
+>   - https://lore.kernel.org/r/20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org
+>   - Drop clean-up patches 1-7 already applied
+>   - Rebase on v6.15-rc1
+> 
+> v20:
+>   - https://lore.kernel.org/r/20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org
+>   - Added back some of the arm64 specific exception types. The x86 IRQ
+>     branches also include other exceptions like page faults. On arm64, we
+>     can distinguish the exception types, so we do. Also, to better
+>     align with x86, we convert 'call' branches which are user to kernel
+>     to 'syscall'.
+>   - Only enable exceptions and exception returns if recording kernel
+>     branches (matching x86)
+>   - Drop requiring event and branch privileges to match
+>   - Add "branches" caps sysfs attribute like x86
+>   - Reword comment about FZP and MDCR_EL2.HPMN interaction
+>   - Rework BRBE invalidation to avoid invalidating in interrupt handler
+>     when no handled events capture the branch stack (i.e. when there are
+>     multiple users).
+>   - Also clear BRBCR_ELx bits in brbe_disable(). This is for KVM nVHE
+>     checks if BRBE is enabled.
+>   - Document that MDCR_EL3.SBRBE can be 0b01 also
+> 
+> v19:
+>   - https://lore.kernel.org/all/20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org/
+>   - Drop saving of branch records when task scheduled out (Mark). Make
+>     sched_task() callback actually get called. Enabling requires a call
+>     to perf_sched_cb_inc(). So the saving of branch records never
+>     happened.
+>   - Got rid of added armpmu ops. All BRBE support is contained within
+>     pmuv3 code.
+>   - Fix freeze on overflow for VHE
+>   - The cycle counter doesn't freeze BRBE on overflow, so avoid assigning
+>     it when BRBE is enabled.
+>   - Drop all the Arm specific exception branches. Not a clear need for
+>     them.
+>   - Fix handling of branch 'cycles' reading. CC field is
+>     mantissa/exponent, not an integer.
+>   - Rework s/w filtering to better match h/w filtering
+>   - Reject events with disjoint event filter and branch filter or with
+>     exclude_host set
+>   - Dropped perf test patch which has been applied for 6.14
+>   - Dropped patch "KVM: arm64: Explicitly handle BRBE traps as UNDEFINED"
+>     which has been applied for 6.14
+> 
+> v18:
+>   - https://lore.kernel.org/all/20240613061731.3109448-1-anshuman.khandual@arm.com/
+> 
+> For v1-v17, see the above link. Not going to duplicate it all here...
+> 
+> Signed-off-by: "Rob Herring (Arm)" <robh@kernel.org>
+> ---
+> ---
+> Anshuman Khandual (4):
+>        arm64/sysreg: Add BRBE registers and fields
+>        arm64: el2_setup.h: Make __init_el2_fgt labels consistent, again
+>        arm64: Handle BRBE booting requirements
+>        KVM: arm64: nvhe: Disable branch generation in nVHE guests
+> 
+> Rob Herring (Arm) (1):
+>        perf: arm_pmuv3: Add support for the Branch Record Buffer Extension (BRBE)
+> 
+>   Documentation/arch/arm64/booting.rst |  21 +
+>   arch/arm64/include/asm/el2_setup.h   |  81 +++-
+>   arch/arm64/include/asm/kvm_host.h    |   2 +
+>   arch/arm64/include/asm/sysreg.h      |  17 +-
+>   arch/arm64/kvm/debug.c               |   4 +
+>   arch/arm64/kvm/hyp/nvhe/debug-sr.c   |  32 ++
+>   arch/arm64/kvm/hyp/nvhe/switch.c     |   2 +-
+>   arch/arm64/tools/sysreg              | 132 ++++++
+>   drivers/perf/Kconfig                 |  11 +
+>   drivers/perf/Makefile                |   1 +
+>   drivers/perf/arm_brbe.c              | 802 +++++++++++++++++++++++++++++++++++
+>   drivers/perf/arm_brbe.h              |  47 ++
+>   drivers/perf/arm_pmu.c               |  16 +-
+>   drivers/perf/arm_pmuv3.c             | 125 +++++-
+>   include/linux/perf/arm_pmu.h         |   8 +
+>   15 files changed, 1276 insertions(+), 25 deletions(-)
+> ---
+> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+> change-id: 20250129-arm-brbe-v19-24d5d9e5e623
+> 
+> Best regards,
+
+Tested-by: James Clark <james.clark@linaro.org>
+
 
