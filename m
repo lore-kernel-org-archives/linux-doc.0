@@ -1,143 +1,133 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79036224AFB
-	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 12:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D7D1F3BAB
+	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 14:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748522591; cv=none; b=rCqp8EKnX4gL48HSL+PqKSM2PeeQWRI1oya1HCprD8Ke0qsVs7BeRZC2P0ro4CGSv6XqVwjiASlbLSKf9m19Nlc2junvUOj4226HJAXAWtmEujF/pzGxsdKvJuktGDTYRWn7chR7TT57XAVYFL3MPwIWuOTyYiQHjOPPOJtGX1U=
+	t=1748530614; cv=none; b=U9DutL3PlBGogqm7yX/W2UozQHvlwrp3asI6tDB+HnMmzN6HpPYLZSYpa2AnVTK+7GR958brk8xOTiconx9mfmQ4sZqkf6TQXH+KvwXhWJzpXhXSjuATBQb5I0Bk/Hlx8GRP7XdXZwVf1nF7Igq2DFezr4pbljUYK1YCKHf2Jfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748522591; c=relaxed/simple;
-	bh=V+k0YYVajMtJvjJHVuTTJYUaZiiFudh9Jn7Ksm1pgoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=slUg5a4quTwE8UEHHqI+hGGHgUydGRgTnE564VxwHMcP55MlcTfLvGg+k6xFJHswyQ+mzy1PYuh4iDES7D7AiFWZWaGYzAOoFegkZ7hIkB2361k94rfAKqVbLP8bDerUIsJsquDvIqrj2ulnk+f70o86LfDfs8Pw7SfscKUN2Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=kP6lhdRG; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1748530614; c=relaxed/simple;
+	bh=B1zsO3xLB87dBpNzAoGuj+8RJlTANU2xKvOZOU1twOU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=sNqyf3HLg/WCziaFt38YWruUcmvBGxa/xvKqDBpktYLiCW76SgoraLjoTqBxjrjz8rZnv+gvjrQdt7SSA1M+yJxvOSEnbMB0hbJkK0iUdy01G+u5L73ANvuRLUJJNPGnVkHYVE76n3NUWPlueMy2tPUw2vPpE/Pf8NoTeswpYR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hyXLQnv7; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="kP6lhdRG"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a4dc0f164fso821709f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 05:43:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hyXLQnv7"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-30a59538b17so986717a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 07:56:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1748522587; x=1749127387; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mJYtTflbkn898/BLxpK7QKxJtXnTWVg7vYFavAXp8EE=;
-        b=kP6lhdRGJGkdXgQzXxmy1ksFt5oU4/5W/LyM1p1LngNC0bZNtI6jROQSrP3jnzjdZl
-         Ltb4flIV+bPyYT4hvSKuuYQlJUy/DM0Md4TFDwk5L4NjClsQ6l1qDNUWDWe6lzTsdZpy
-         mn0Cfy3cb2NHpD8nn3RLAVLf2l92ajODi23NtUwlVuAWCE7jCSTGZYiACsJNke7l2UWp
-         4e0h7xJXJEiEXIHo+Z2yKwQ1Ufmx6b2msJXicZ7ZMiSntjaJe/6qHwg6rbVnwXHWaSEF
-         0lnFZdOJW5YBrDMEzPzs0jl7pIvSOiRNqxJgrnS7oCDjqER8i4o/K99GZAGiTaSc48U6
-         1YAw==
+        d=google.com; s=20230601; t=1748530612; x=1749135412; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wtc8z1lt0l7J7qwleBMoPVIkOE4MKmf5AJAUWp638/g=;
+        b=hyXLQnv7oXEntBAzMTAPyUhwAnRTHCci3ptm+H6vpNjcZ1SBsaYZSIS29rQ37BWRpM
+         nKzmyry1m8ComuGB7/wEP6B9vDah1u8dqm/H3gOFh3VDFjK+ZSlbcGMOtKXMiDAiiZku
+         lFOo3WOLxA5IzhFi5bgUXGTJ9TwfWXvBU+aLki3q/k4yE2nNC9zwlpZtzd2ekdFrrr6F
+         lxP5/6WNKc8IgRWY+EBOE9ZCn2LQW90EoDlj3uMzQsRSgqXilJEdL7hiMmIHjMHoxxUT
+         4w/Hetq61CgISID1WKgCiGeboNyuxjhIplPTnToCLy1X9M/Rxgqn181FNyXpnmzxy1RM
+         miwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748522587; x=1749127387;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mJYtTflbkn898/BLxpK7QKxJtXnTWVg7vYFavAXp8EE=;
-        b=ajKhj/0RcJr1Eq45koVR0LhLQFRyMMd1oyqwFG91MZ763I9DWsrGBpD7o2/9Xqstk3
-         nmp8PGMxLL2JsuOkBz8JTDd2CU+MYDYxfpissMT/s6cBux87ofzVmB1e+sWtbx9ck3nK
-         T3sUOayvmFdGbEPcKYpsSqdh5amECwYaoLHs9pWtLA5p9yHzA6rxiNZkL+ihaTrcgNlc
-         kd7nBkfqzHGhpxydoyYN/+WAJIUdGj0sl3OHwOk+X5E50rrSfKESq+rIHrXgGRNTzmtY
-         DFS/GibwdIKzGqaTJCk+G9FshZrJLFTPKPdruCc9JTAhWrxl8bRhgn+/shcnmOgF2+xV
-         aCog==
-X-Forwarded-Encrypted: i=1; AJvYcCUq/x/gZESHBmf+iHNp5oW/PEZ1G/Hd2hlNbp5hEWqcxG01Re5Uap6u8QSp1dxjJGuRA3xUMgYIUtw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwM5PUq2mQyvIyOL4D0UBd4vwhLMbogpqegBAGE6e0ryl3j4PDl
-	QgTd5dTe+jPeEhbMhWwD4Ffztjw/KL+n9s2osxHUu19YdiEnuyeb8IedHxXhJHQ2DNE=
-X-Gm-Gg: ASbGncv3JUa4WvgGWLpVbmqmfJxCipw1JzIC4IQq1i0EBjTzV9JEVQHqfCozezuys+Q
-	03/AahkqohZb6C9bapCyC/23eQoebKYHLjxpuHD7sOTlTrYYjHWF3W1Cjv8+48/AecssWbRonHu
-	MWmfoDB5I8HOVoZzkAJ9dQxlbAXyLCqoj5+YQ4qUvspwfZF/k430gFFkMFvL+6wQ8W9mRpq0kvU
-	q6bX4bKSHUvOtGvv850UanEoGQoYcxpR7PKlOMnRYhsKAIcBW2MXOtAzaNNT4iTAciX55i+7NoG
-	IIAaMF9Usyq93m7pi/JxtkFfM6D0IDJyFeG6sss=
-X-Google-Smtp-Source: AGHT+IH1qVc7QxmWdlIwYswNWc2JM2wrCY/fhXTQ9RO7aSAjTmjiWe3//9USHzfv3DqUERGinpMtXg==
-X-Received: by 2002:a05:6000:26c8:b0:3a4:ef70:e0e1 with SMTP id ffacd0b85a97d-3a4ef70e20dmr1890290f8f.55.1748522586703;
-        Thu, 29 May 2025 05:43:06 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200::ce80])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe7415asm1948902f8f.57.2025.05.29.05.43.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 05:43:06 -0700 (PDT)
-Date: Thu, 29 May 2025 14:43:05 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
-	Samuel Holland <samuel.holland@sifive.com>, Deepak Gupta <debug@rivosinc.com>, 
-	Charlie Jenkins <charlie@rivosinc.com>
-Subject: Re: [PATCH v8 08/14] riscv: misaligned: declare
- misaligned_access_speed under CONFIG_RISCV_MISALIGNED
-Message-ID: <20250529-84d9bececfab561dfc68b723@orel>
-References: <20250523101932.1594077-1-cleger@rivosinc.com>
- <20250523101932.1594077-9-cleger@rivosinc.com>
+        d=1e100.net; s=20230601; t=1748530612; x=1749135412;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wtc8z1lt0l7J7qwleBMoPVIkOE4MKmf5AJAUWp638/g=;
+        b=hysIjtfxAkQdhOqlB9OhHaa6YEvaxtG7oGLZJnPvQrfr7ie/3ibuy2dg4QtWBDalHr
+         iILSzReGGvwlC7M+mXDJzVk3pf6wKoZkGUhq2qeCIcXl7GpeDrnYl1bC5TWC1j4ODD0h
+         CrnvaSheCkTGg5TB92stk4QMfDjIhY4CZ6+gXE+hMpCs3oGJ8QcevwWHYrKORKEscuBz
+         4+/pRvFEcrgPp8fVe9opeYctVk3iqd+owmcfIjBeNc0W6DerToYNsvGCqMVF+pSbATiL
+         TXXU8VqeVgkrugIOvakHKyPBmfXyHC5DdT2ge4fUMOy3qO2TPrT00o8CBH8BRvhXoMcV
+         n3/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUGhD+hir3/lyd96WG9uHgQchpzyFyuc3r7agOrGrpj9Rm3ftrjVWqldTjUV89m/06tm3ZdsCGYpR4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjtcvBZsTZ50j3bq/IFwXlerWxXXKQ3MbJnt8R3d+KSvuSCapL
+	jrGJK1E3zPfQpVpdhtLhszoA2XaDLSxkGGYulYYTuOYFn08QLnWrHUM5YXm9GLnEJMhz4QMCSsk
+	1U7o7Kw==
+X-Google-Smtp-Source: AGHT+IEOksNt6WLBVwwH9cCjd/EZtQ2Y3bLCTU4Al9fuM3w6GA9Cf3/1B4op9exa2/CpdjOTCglkD0RIbFs=
+X-Received: from pjbpq14.prod.google.com ([2002:a17:90b:3d8e:b0:311:2c1f:b0d8])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:1c09:b0:30c:4b1d:330
+ with SMTP id 98e67ed59e1d1-311e7460123mr9878567a91.27.1748530611851; Thu, 29
+ May 2025 07:56:51 -0700 (PDT)
+Date: Thu, 29 May 2025 07:56:50 -0700
+In-Reply-To: <aDd-lbrJAX62UQLn@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250523101932.1594077-9-cleger@rivosinc.com>
+Mime-Version: 1.0
+References: <20250109204929.1106563-1-jthoughton@google.com>
+ <20250109204929.1106563-6-jthoughton@google.com> <aBqj3s8THH9SFzLO@google.com>
+ <aDdwXrbAHmVqu0kA@linux.dev> <aDd-lbrJAX62UQLn@google.com>
+Message-ID: <aDh1sgc5oAYDfGnF@google.com>
+Subject: Re: [PATCH v2 05/13] KVM: x86/mmu: Add support for KVM_MEM_USERFAULT
+From: Sean Christopherson <seanjc@google.com>
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: James Houghton <jthoughton@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Yan Zhao <yan.y.zhao@intel.com>, 
+	Nikita Kalyazin <kalyazin@amazon.com>, Anish Moorthy <amoorthy@google.com>, 
+	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>, 
+	David Matlack <dmatlack@google.com>, wei.w.wang@intel.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, May 23, 2025 at 12:19:25PM +0200, Clément Léger wrote:
-> While misaligned_access_speed was defined in a file compile with
-> CONFIG_RISCV_MISALIGNED, its definition was under
-> CONFIG_RISCV_SCALAR_MISALIGNED. This resulted in compilation problems
-> when using it in a file compiled with CONFIG_RISCV_MISALIGNED.
+On Wed, May 28, 2025, Sean Christopherson wrote:
+> On Wed, May 28, 2025, Oliver Upton wrote:
+> > On Tue, May 06, 2025 at 05:05:50PM -0700, Sean Christopherson wrote:
+> > > > +	if ((old_flags ^ new_flags) & KVM_MEM_USERFAULT &&
+> > > > +	    (change == KVM_MR_FLAGS_ONLY)) {
+> > > > +		if (old_flags & KVM_MEM_USERFAULT)
+> > > > +			kvm_mmu_recover_huge_pages(kvm, new);
+> > > > +		else
+> > > > +			kvm_arch_flush_shadow_memslot(kvm, old);
+> > > 
+> > > The call to kvm_arch_flush_shadow_memslot() should definitely go in common code.
+> > > The fancy recovery logic is arch specific, but blasting the memslot when userfault
+> > > is toggled on is not.
+> > 
+> > Not like anything in KVM is consistent but sprinkling translation
+> > changes / invalidations between arch and generic code feels
+> > error-prone.
 > 
-> Move the declaration under CONFIG_RISCV_MISALIGNED so that it can be
-> used unconditionnally when compiled with that config and remove the check
-> for that variable in traps_misaligned.c.
+> Eh, leaving critical operations to arch code isn't exactly error free either :-)
 > 
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> ---
->  arch/riscv/include/asm/cpufeature.h  | 5 ++++-
->  arch/riscv/kernel/traps_misaligned.c | 2 --
->  2 files changed, 4 insertions(+), 3 deletions(-)
+> > Especially if there isn't clear ownership of a particular flag, e.g. 0 -> 1
+> > transitions happen in generic code and 1 -> 0 happens in arch code.
 > 
-> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-> index dbe5970d4fe6..2bfa4ef383ed 100644
-> --- a/arch/riscv/include/asm/cpufeature.h
-> +++ b/arch/riscv/include/asm/cpufeature.h
-> @@ -72,7 +72,6 @@ int cpu_online_unaligned_access_init(unsigned int cpu);
->  #if defined(CONFIG_RISCV_SCALAR_MISALIGNED)
->  void unaligned_emulation_finish(void);
->  bool unaligned_ctl_available(void);
-> -DECLARE_PER_CPU(long, misaligned_access_speed);
->  #else
->  static inline bool unaligned_ctl_available(void)
->  {
-> @@ -80,6 +79,10 @@ static inline bool unaligned_ctl_available(void)
->  }
->  #endif
->  
-> +#if defined(CONFIG_RISCV_MISALIGNED)
-> +DECLARE_PER_CPU(long, misaligned_access_speed);
-> +#endif
-> +
->  bool __init check_vector_unaligned_access_emulated_all_cpus(void);
->  #if defined(CONFIG_RISCV_VECTOR_MISALIGNED)
->  void check_vector_unaligned_access_emulated(struct work_struct *work __always_unused);
-> diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
-> index 34b4a4e9dfca..f1b2af515592 100644
-> --- a/arch/riscv/kernel/traps_misaligned.c
-> +++ b/arch/riscv/kernel/traps_misaligned.c
-> @@ -369,9 +369,7 @@ static int handle_scalar_misaligned_load(struct pt_regs *regs)
->  
->  	perf_sw_event(PERF_COUNT_SW_ALIGNMENT_FAULTS, 1, regs, addr);
->  
-> -#ifdef CONFIG_RISCV_PROBE_UNALIGNED_ACCESS
->  	*this_cpu_ptr(&misaligned_access_speed) = RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED;
-> -#endif
->  
->  	if (!unaligned_enabled)
->  		return -1;
-> -- 
-> 2.49.0
->
+> The difference I see is that removing access to the memslot on 0=>1 is mandatory,
+> whereas any action on 1=>0 is not.  So IMO it's not arbitrary sprinkling of
+> invalidations, it's deliberately putting the common, mandatory logic in generic
+> code, while leaving optional performance tweaks to arch code.
+> 
+> > Even in the case of KVM_MEM_USERFAULT, an architecture could potentially
+> > preserve the stage-2 translations but reap access permissions without
+> > modifying page tables / TLBs.
+> 
+> Yes, but that wouldn't be strictly unique to KVM_MEM_USERFAULT.
+> 
+> E.g. for NUMA balancing faults (or rather, the PROT_NONE conversions), KVM could
+> handle the mmu_notifier invalidations by removing access while keeping the PTEs,
+> so that faulting the memory back would be a lighter weight operation.  Ditto for
+> reacting to other protection changes that come through mmu_notifiers.
+> 
+> If we want to go down that general path, my preference would be to put the control
+> logic in generic code, and then call dedicated arch APIs for removing protections.
+> 
+> > I'm happy with arch interfaces that clearly express intent (make this
+> > memslot inaccessible), then the architecture can make an informed
+> > decision about how to best achieve that. Otherwise we're always going to
+> > use the largest possible hammer potentially overinvalidate.
+> 
+> Yeah, definitely no argument there given x86's history in this area.  Though if
+> we want to tackle that problem straightaway, I think I'd vote to add the
+> aforementioned dedicated APIs for removing protections, with a generic default
+> implementation that simply invokes kvm_arch_flush_shadow_memslot().
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Alternatively, we could punt on this issue entirely by not allowing userspace to
+set KVM_MEM_USERFAULT on anything but KVM_MR_CREATE.  I.e. allow a FLAGS_ONLY
+update to clear USERFAULT, but not set USERFAULT.
+
+Other than emulating poisoned pages, is there a (potential) use case for setting
+KVM_MEM_USERFAULT after a VM has been created?
