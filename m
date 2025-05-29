@@ -1,310 +1,217 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2075.outbound.protection.outlook.com [40.107.96.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBC41C860C;
-	Thu, 29 May 2025 16:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748535969; cv=fail; b=BA3dm0w50AO4fCwHZvBUANGpQ8vdzXLHkVteyyOLrTCbdAb/BiivG1wwI49+k1vXxX0Vl3SIX0lx+1R8ApKTA1XuBu9WXrlN1Fi4FQLQxCjPgM0vNndZsCMN0uyMAzdG0VOUyhJBXqsSESGLkfxuC/hIP5gQjgIFkpXWQwtw5oA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748535969; c=relaxed/simple;
-	bh=m8+QgQOghNaZpZdq2ils2aZbzHIueyu+/2yOWeIXXvU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ihOjPov9/+chrofC0Z43Acajekw4iLgQAFXJj8/17sGmXL8DdUbkhIJQ0AkuDH5JZYp1gZtT225k5rTHqUV2MkvtUdUThB4lC7T6suXKoeg7JQhst/Jn7TNna8SIO+79JhU1zbqSl1yNsquv9xj+ivxH88QkuRjFMJMQkCLpa1M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=BFtuEMkl; arc=fail smtp.client-ip=40.107.96.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="BFtuEMkl"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XVflu7y5H9VM1fokAx8KTEzZSNBigzMTOVbofW+P2wLQBrEtt/xbquutZ+pr5DUj8hbJ8B6iihp+pAa9icTGyM42yjKZsvAVsrvc/1pxG3Sw43kOb6G9aNohPx8TVwdc+4WWd1LL+vDiX8+rbOBi3kwYkVNqyoQ08OpEqMF9rj3RcXB7DGpZ1OCgOHNKvC6yK2VNST6Q+Rzqd5nQ751qq8vQfeOGrv3YWjEKi0xZF7wNmzqJ+8J6VoLMV/cHgTQtxkcEBnH/w0djrL4gZYdqsZfUuXnd4Ud5FpDWMCNjSNbSUZ1tzKqD+bwMi7xTDLvMRiYSxdW1IbNMsHQ2NUTGSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wc0vZ7vqpmNcOPyfwroMtpQnXMLXAAPOKohYYwLj7qY=;
- b=O1qJ0QMNSNAw93W6s7HOB4aKAsAkrQ6iG48AQdPoGOkQ5gtOfSiAVfJSW+sLoETfEmlfrK249g27NkehuHP8A3lm+yMeAXIKi6SUck96klNzM+9safD3QtdlTBoJHZ6OYtpaLtJ2QDKlscY5iejvxi+VmbRAEaokklyoG+QHa8TkH2Eg3bbGFU9IXkzp/iphlA99uHuM4ofIDNpKqf8wDrZPx2fiHFRvCd+Bjj/VDjK1FMOj9C+WldEBwlqXlyKJXL9OdHuN+oE6cZlEgkdSNh2aCt9T5aB4K0/uAKcewroDMJ3L+5YNK4i2ARf0mb49jRmr7nNK4KpzcQlkuar2nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wc0vZ7vqpmNcOPyfwroMtpQnXMLXAAPOKohYYwLj7qY=;
- b=BFtuEMkljU63H9fJeX/AnVenpg5iEnOtoy1CxrEnJcEGcKVfQMNJlcoVr7783W9YUmNC48nEmOALtIThgJFN5iYWMiIIdcKx+q4d3emwrIBhUVDPZL8NsFLbk23N/7mpDo/79G3mYZIc+BA5/rZ6T38dP/O9gQ2SJKIE+cB9tgk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by BL1PR12MB5827.namprd12.prod.outlook.com (2603:10b6:208:396::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.31; Thu, 29 May
- 2025 16:26:01 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8722.031; Thu, 29 May 2025
- 16:26:01 +0000
-Message-ID: <dc2ac138-10fc-4e0f-bb50-1f9d5df82918@amd.com>
-Date: Thu, 29 May 2025 11:25:56 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v13 14/27] x86/resctrl: Add the functionality to unassign
- MBM events
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: james.morse@arm.com, dave.martin@arm.com, fenghuay@nvidia.com,
- x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
- akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
- ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com,
- jpoimboe@kernel.org, alexandre.chartre@oracle.com,
- pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com,
- perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com,
- xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com,
- ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com,
- andrew.cooper3@citrix.com, mario.limonciello@amd.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, maciej.wieczor-retman@intel.com, eranian@google.com,
- Xiaojian.Du@amd.com, gautham.shenoy@amd.com
-References: <cover.1747349530.git.babu.moger@amd.com>
- <1ba0091cad7d1e5ab32136d4742580294a2ce5e3.1747349530.git.babu.moger@amd.com>
- <d54c8b00-c30d-4c01-b748-34c1d87743d4@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <d54c8b00-c30d-4c01-b748-34c1d87743d4@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0043.namprd11.prod.outlook.com
- (2603:10b6:806:d0::18) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D0A722AE59;
+	Thu, 29 May 2025 16:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748537012; cv=none; b=Q9kXJCWNTyNr2C+MBNuxUA/8fxYsOytzh/GcHup+U6DMgv2wQKFVhvjJJMme6STipwhTxl/69szfD+BdJ4AOtpcj8Ak68bAoTYva4LYj5kiWXW9vcRMdIeM1JjRdCzyhvmXoGGNpR9mzDFD2rn2WJ9v/xI6l/f3dzPaipwg4rMQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748537012; c=relaxed/simple;
+	bh=Bc7Pb/Rdg0No0aGitcplljqMVvqFoQPDeqTREWyEUkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SEDZMTa+nlqKp/I5rw5dRzCjXcO36LSgUZv77WIt0KBgWh8n6L70LQTOoG2JIkpI0McAwrmdo2W4Qtw9HikxhB5rYFBeHicEispHY+8/NIviE3NwqyKHUgBMiHh75FY5rADeqmBPHR9jJ3eFctAD59boU5p3A7AufsmLXywBVaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02B8E1764;
+	Thu, 29 May 2025 09:43:13 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 17FA03F673;
+	Thu, 29 May 2025 09:43:29 -0700 (PDT)
+Date: Thu, 29 May 2025 17:43:24 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v2 11/11] perf docs: arm-spe: Document new SPE filtering
+ features
+Message-ID: <20250529164324.GM2566836@e132581.arm.com>
+References: <20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org>
+ <20250529-james-perf-feat_spe_eft-v2-11-a01a9baad06a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|BL1PR12MB5827:EE_
-X-MS-Office365-Filtering-Correlation-Id: 560a2916-3391-4ee8-1f1b-08dd9ecd8010
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VUtWL1R0U0E0NFdUUEFkdVdhQTV1TjhpUkNMWUlHRlg1UnNLR25NVk1WbVRh?=
- =?utf-8?B?RURMbUZjZ2psbVNXY3gvUE1wYUlBejZMb0N5ZWlsVXl2Zy9MRWFpc1AycE05?=
- =?utf-8?B?NFo0WlRoMHhFV2kwNG51cXZpTE0vVXJpN2paRWVYbVZBYkh4NU9ZZ1RSU3Q2?=
- =?utf-8?B?S0lycWcwQ1hUMGZtMTJpYVdKOWwwNEoyWXJzZVlDaldzbU1QbkY3RlUyOFRa?=
- =?utf-8?B?b3I2U0ZwQndJcVE4WE9hSzMxUWxhWndjcGRNQnl3V1liS1FvcWM0TFk3Qy9T?=
- =?utf-8?B?djhqV2NoRkxMSzFxeEMxeUNqZHE1Mm85cGgrZUVzN29aTzN2ZUVRK2Q1Unp0?=
- =?utf-8?B?cWpRT1liZW5xRmFwNGsvUkZPMmxjQnJwZENvM3RvTzgrcGdWRWlvWGhiSEoy?=
- =?utf-8?B?REgycGpkSGRLUEpKV3RZVlhTNWNMUDJZSkY2TkY0WU1GdG1TYnJ1dXV2UWtv?=
- =?utf-8?B?Z2pmSU11L3RNbHpvTVpkTkc3MWZ5ekg1YXRNdytpbW1aWDFvUDJZTW1HcWd1?=
- =?utf-8?B?bk0yaE55RWVjQjRhcFozd1R0cHFhdS9MZEtlOUdxbzkyWGVWQVBuZ0ZPbUJa?=
- =?utf-8?B?dG1iclJ6NkV2VDZWM1AvaWRjcU9FdzRmTkF1cVFVMDhsTVE2aWpCMGUxVnp4?=
- =?utf-8?B?aGMrS2JDOEpka09XL0VEOFcxRGp3U1JMbDhYUVNkNzM2M0lmZFFBOW1walQw?=
- =?utf-8?B?RlY3c20vTmFiQy93QVFUNDFncVVIdDdjdjYzNjZDckZaZ1krdXpzTXhtNUpj?=
- =?utf-8?B?ZGw5dlRwLzdsSkgxNmlwaTZoN2xJQWFuVlVaL3UzWGN0eG5aaHJuOU5hNEtv?=
- =?utf-8?B?U3FaRnlBLy80V2dLRzI3NGYrOVJTR0JiUWlIeHJ6eERCWmJic0ZPMlZTOFBq?=
- =?utf-8?B?aGdBNTI0MnFuWk8rdVkvUGh5Q1BCYVZQc01LeE5kcDJURmNqdTZ4dUtVREpk?=
- =?utf-8?B?anFRYTZYMEpZSG1xWkJ4aHVwN3BxS2hqQVlGdkFibFEvTktLVGFxcVZqUGZ0?=
- =?utf-8?B?TTQwaHVlVTAyQWZva0NwektMOXdUcW9QS01BT3ZPbmNNSmhRbFpwS25yYjM1?=
- =?utf-8?B?YW5mN1BPb1REN2tVQkdZY1p2TFk1ZlAwQnhadDRXbHdEd1YyUjJTOGp5eElz?=
- =?utf-8?B?Q0VIT2RZWWdSWU96bEdYTjdncERTM3luNGNHd3pYVkxYUnVwMWwwZzJURjZQ?=
- =?utf-8?B?STJSaFVhSUc0WWxLSlVOSTJVdWRJcVhoSWFONW1CVUJMMTdKbVJYdTVCaTcv?=
- =?utf-8?B?OVZUSEw3WkdEZ0d1ZnF1QUlaenhFa0l5R0U1Tk9Qb0dBMHdQc2lucmd5c0ZE?=
- =?utf-8?B?WlFZdDB6enFmMTAzUTRBV2RPeFErWDA1SUJNV1pJWEcvbktnQ3ZpS1JBcXBF?=
- =?utf-8?B?eUdjQmIzaU1WalpnakIyTWdRRHhDMW5icXhtMTNldXo4VVpiTG0vTlV0TFNF?=
- =?utf-8?B?ZWp4aHBXWmErbmNpSzlZNDRGM2oyVUJLV3RMR3F3K1owMk5zMndmMzdkMEha?=
- =?utf-8?B?b05STSt0VnBQZzlPMnFWRldrT1Y3SXBkcEZWMmJ2VVozZkszZDRwRTZOTUxM?=
- =?utf-8?B?Z3hTYnB3ekVGekVvb1pxVU0rZEsvL1VYWHIwakdGSXE5NWFTMnZ1YW1rVVdz?=
- =?utf-8?B?d1pyZXVHL1Q5YnNmRXU2ZFZ3S2RzTVc5eEtXQm9iaXR5eFVZTi81eURCN2dG?=
- =?utf-8?B?R25VMEZmUjJBMFJRbldkZlhzZ3NCOE4zc3FxMWpUbXA1U0VBOUU2LzhUSDcz?=
- =?utf-8?B?TTB4YjBFQUZ6SE1IYWdTMFV5MkZmUW9taFVuTHJvbjAvMENMRzNKekRqS0Js?=
- =?utf-8?B?RVM0cGR1ZmRJeUl3UXh3eG9oQ3ZSam1SeXhQZkVQcXZ1cmIwckczN2RGK2p1?=
- =?utf-8?B?R0VpTUpjZXRoRWM2bE1HeW8rMmF0VnVoTUJpSXVYd1JWRW1peHhIdC8wRm5F?=
- =?utf-8?Q?PZJAmviR9q8=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RTIrMVVnVER6b1kxQXBLSXUvMkpwaW4xQ2xHTDF2aXFiZm9qUzExRTUxN1Z1?=
- =?utf-8?B?bjlOeDNlamZKVHI0dkpCeXloVHhkQWFIVG01a0l2V3VIMEJTWHowaFhQblV1?=
- =?utf-8?B?TmtDYWZmQ3hJYkZqSEx3bFRvUi96RWhDeElLbU5WVDFRT1Q1T2loaFZ6QStF?=
- =?utf-8?B?aFNVR1hWZDFaRzZ3TnkyMWhCYmp6S3pHeG9YdW1QQndOVHAxTUFJOVRYc3RU?=
- =?utf-8?B?aFBsZ1VxdHhHWXZCVDJuUS9UdDlQRHZwMkdxdXZBN3F2Z01wSjJRZzJaTnhv?=
- =?utf-8?B?THdVYzdua2UrWFByQWllQWF2bE1tOFZXYzNkbE9vSGl5cGxWR0pQeElaclhz?=
- =?utf-8?B?c0xxd2lycXgvU1BxSmhjbjN5emtQVHIrM3RoamcrYVNocnhldWUwZFBkS2lY?=
- =?utf-8?B?UjBrWnBKc01IN0NnbENQekdHQVRNc2xHU0ZIYmYvQTM5b3dxa1ZwL2pCOE5G?=
- =?utf-8?B?TGlyemdpdGhYUDFjdmVDcWlYdkJKTGhmdEhCS0hkSktwRnpCdnE4QWdIR0Uz?=
- =?utf-8?B?UjJsYUEvOTlIamFpbVk3ZGJDd0REOFI3ZktjV0Z4VldNZGhJaTJSVGs4Ylh0?=
- =?utf-8?B?R1NLMU1rYmFQQzdMTTRNZHJIeDF5V2ZWZ0xVeTRwWUdtZFBwL1lERXZneEtX?=
- =?utf-8?B?MExMMEcxeVlvUmZ1M25kWlFFUjlzQ25zV3Y0NTBsaFNDVjlpeUtENk5xNXp0?=
- =?utf-8?B?L2JEMTRZczNBSzVydnIxVll2N1ZyOWZhWUpINTZrWEpJMHBGK3c3RzVpSk5K?=
- =?utf-8?B?WUpUeFBBWEI0SkFSUGZEUE9xQWxYdldsZ0MvUm1oUWJ6OGtaeCtXeW1XVUJB?=
- =?utf-8?B?YWh3N3FUK1FmdTFMR0FCK0IwVUsxeGNBNUxQVEduNUFleHpsa2xmejdicm9L?=
- =?utf-8?B?OU54RHBuTWVjSUNoWWU3RDR1Q1dFS2gvOE42aDgrR29xaUdka0Q2QVBLK1ZE?=
- =?utf-8?B?b1RSSWVsTzA1b0RqblNrRHZZV3BXR08yQitObTAvQVF2OEc2c1RxMzRxMDgv?=
- =?utf-8?B?UnFsTEhiTjNPN0YvUFQ2MFkrZm1CckExSjd5U3d2d2VBci9vT1Q0ZUlCak1l?=
- =?utf-8?B?MWR1QUdGa25pN1krVTVPTHlmSCtjYWZnVWszWG9jRjU0QnA4SnptdjJ4UnF2?=
- =?utf-8?B?YTJJdTNZakJEN25GdlNvOFYwdTNsdFVYL0NaZUpFSkFkYTljRzkyTHdNYmhB?=
- =?utf-8?B?RmFyTXFianJwK21FSWhheDYwa2pkaExyc25wN0N6dWN4clc0RUdzaHYrYUx6?=
- =?utf-8?B?Rk5rOTdxTDhDQS9QY3pOdzVFSkYrUmpZUWNaRDZoYWxmL0l6ck5MQ2xNeGN3?=
- =?utf-8?B?dWZrNWVWT2Rrbk1Qbkd6aUN1TldUdnRSL2U3ZTJFMWg2ZHhEMzlRM29uUFIv?=
- =?utf-8?B?OEZRZHRlUEVQKzIwTWlVVGhpQzFpL1N5NkM2R3JLejE5ZDJPMHZvYVVGQW02?=
- =?utf-8?B?c3Q0aGNmUkdNY2JTN1BxUlhOd1hpUHBvbU5jTzVxS0FVblB3Z0ZhZkhYSTRp?=
- =?utf-8?B?QVU2OERrU0tHM2lKS3BDM1ZNWjM2NFE1Z2haZVo3ODdoRVJ3azEzYm9xZkVw?=
- =?utf-8?B?WjBZU2dZV1hPczRkVXdBUEpHU2dYTHphVm9TaWUxK2tVQ2NjWElHLzhVQitW?=
- =?utf-8?B?KzlrZmU0YmFxMXlQM1hPYzdMK1hVWStjVmlVemY0aXZWTHhObjQ0N3M4YVVB?=
- =?utf-8?B?bnZETHVqYUxnTk13OVVaRk9EQUNsS05VMGt0OHlIdlhtOWltM0NKWk5QaGMw?=
- =?utf-8?B?QkpwTzdrUlh3c1NuaThSNkgzcUNOYWRaZGNpbEFHL2VrSkhnLzhJNWdGUjhi?=
- =?utf-8?B?RThuTEpacGNnTlozSmlCUnBzU096eUQ5eVREL3F5UHo0Y2ZGQ2UxS2RLNUUy?=
- =?utf-8?B?bEI5WGtWei94YjNTM0RRY3U4cUdBRmZMNVNtVG5xazB4aFBFa250a05qWlpk?=
- =?utf-8?B?MEhaUzNldkRsRE4vWk9PRlk0Z09xY1VhOXpyaTFOZWlENXgyV1NmMmFLeVpz?=
- =?utf-8?B?VmQyUzVtRjdwdnh1ZXY5Qi8ySkdDU3dMeWhsdlJiOWgwY3RVSWlpMU1JKzBl?=
- =?utf-8?B?bGtCbUdsWjBwT09lS2pHbUJGQW84eXJHeGVCOHpYS2xtVnNHbHdaMytUY0pH?=
- =?utf-8?Q?O8Go=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 560a2916-3391-4ee8-1f1b-08dd9ecd8010
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2025 16:26:01.2480
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q+Gvw93IS46AA1h0yoQaB5UaaudizEtcvKidUGvlu01HZT6lk5O+QPSGw9f7jx+a
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5827
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250529-james-perf-feat_spe_eft-v2-11-a01a9baad06a@linaro.org>
 
-Hi Reinette,
+On Thu, May 29, 2025 at 12:30:32PM +0100, James Clark wrote:
+> FEAT_SPE_EFT and FEAT_SPE_FDS etc have new user facing format attributes
+> so document them. Also document existing 'event_filter' bits that were
+> missing from the doc and the fact that latency values are stored in the
+> weight field.
+> 
+> Signed-off-by: James Clark <james.clark@linaro.org>
 
-On 5/22/25 17:49, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 5/15/25 3:51 PM, Babu Moger wrote:
->> The mbm_cntr_assign mode offers "num_mbm_cntrs" number of counters that
->> can be assigned to an RMID, event pair and monitor the bandwidth as long
->> as it is assigned. If all the counters are in use, the kernel will log the
->> error message "Unable to allocate counter in domain" in
->> /sys/fs/resctrl/info/last_cmd_status when a new assignment is requested.
->>
->> To make space for a new assignment, users must unassign an already
->> assigned counter and retry the assignment again.
->>
->> Add the functionality to unassign and free the counters in the domain.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> ...
-> 
->> ---
->>  fs/resctrl/internal.h |  2 ++
->>  fs/resctrl/monitor.c  | 60 +++++++++++++++++++++++++++++++++++++++++++
->>  2 files changed, 62 insertions(+)
->>
->> diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
->> index ce4fcac91937..64ddc107fcab 100644
->> --- a/fs/resctrl/internal.h
->> +++ b/fs/resctrl/internal.h
->> @@ -379,6 +379,8 @@ int resctrl_find_cleanest_closid(void);
->>  
->>  int resctrl_assign_cntr_event(struct rdt_resource *r, struct rdt_mon_domain *d,
->>  			      struct rdtgroup *rdtgrp, enum resctrl_event_id evtid);
->> +int resctrl_unassign_cntr_event(struct rdt_resource *r, struct rdt_mon_domain *d,
->> +				struct rdtgroup *rdtgrp, enum resctrl_event_id evtid);
->>  
->>  #ifdef CONFIG_RESCTRL_FS_PSEUDO_LOCK
->>  int rdtgroup_locksetup_enter(struct rdtgroup *rdtgrp);
->> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
->> index d76fd0840946..fbc938bd3b23 100644
->> --- a/fs/resctrl/monitor.c
->> +++ b/fs/resctrl/monitor.c
->> @@ -989,6 +989,14 @@ static int mbm_cntr_alloc(struct rdt_resource *r, struct rdt_mon_domain *d,
->>  	return -ENOSPC;
->>  }
->>  
->> +/*
->> + * mbm_cntr_free() -  Reset cntr_id to zero.
-> 
-> "Reset cntr_id to zero"? cntr_id is an index to an array.
-> Please provide accurate and useful descriptions.
+LGTM:
 
-Yes. My bad. Will correct it.
+Reviewed-by: Leo Yan <leo.yan@arm.com>
 
+> ---
+>  tools/perf/Documentation/perf-arm-spe.txt | 97 ++++++++++++++++++++++++++++---
+>  1 file changed, 88 insertions(+), 9 deletions(-)
 > 
->> + */
->> +static void mbm_cntr_free(struct rdt_mon_domain *d, int cntr_id)
->> +{
->> +	memset(&d->cntr_cfg[cntr_id], 0, sizeof(struct mbm_cntr_cfg));
->> +}
->> +
->>  /*
->>   * mbm_get_mon_event() - Return the mon_evt entry for the matching evtid.
->>   */
->> @@ -1068,3 +1076,55 @@ int resctrl_assign_cntr_event(struct rdt_resource *r, struct rdt_mon_domain *d,
->>  
->>  	return ret;
->>  }
->> +
->> +/*
->> + * Unassign and free the counter if assigned.
->> + */
->> +static int resctrl_free_config_cntr(struct rdt_resource *r, struct rdt_mon_domain *d,
->> +				    struct rdtgroup *rdtgrp, enum resctrl_event_id evtid)
->> +{
->> +	struct mon_evt *mevt;
->> +	int cntr_id;
->> +
->> +	cntr_id = mbm_cntr_get(r, d, rdtgrp, evtid);
->> +
->> +	/* If there is no cntr_id assigned, nothing to do */
->> +	if (cntr_id < 0)
->> +		return 0;
->> +
->> +	mevt = mbm_get_mon_event(r, evtid);
->> +	if (!mevt) {
->> +		rdt_last_cmd_printf("Invalid event id %d\n", evtid);
+> diff --git a/tools/perf/Documentation/perf-arm-spe.txt b/tools/perf/Documentation/perf-arm-spe.txt
+> index 37afade4f1b2..4092b53b58d2 100644
+> --- a/tools/perf/Documentation/perf-arm-spe.txt
+> +++ b/tools/perf/Documentation/perf-arm-spe.txt
+> @@ -141,27 +141,65 @@ Config parameters
+>  These are placed between the // in the event and comma separated. For example '-e
+>  arm_spe/load_filter=1,min_latency=10/'
+>  
+> -  branch_filter=1     - collect branches only (PMSFCR.B)
+> -  event_filter=<mask> - filter on specific events (PMSEVFR) - see bitfield description below
+> +  event_filter=<mask> - logical AND filter on specific events (PMSEVFR) - see bitfield description below
+> +  inv_event_filter=<mask> - logical OR to filter out specific events (PMSNEVFR, FEAT_SPEv1p2) - see bitfield description below
+>    jitter=1            - use jitter to avoid resonance when sampling (PMSIRR.RND)
+> -  load_filter=1       - collect loads only (PMSFCR.LD)
+>    min_latency=<n>     - collect only samples with this latency or higher* (PMSLATFR)
+>    pa_enable=1         - collect physical address (as well as VA) of loads/stores (PMSCR.PA) - requires privilege
+>    pct_enable=1        - collect physical timestamp instead of virtual timestamp (PMSCR.PCT) - requires privilege
+> -  store_filter=1      - collect stores only (PMSFCR.ST)
+>    ts_enable=1         - enable timestamping with value of generic timer (PMSCR.TS)
+>    discard=1           - enable SPE PMU events but don't collect sample data - see 'Discard mode' (PMBLIMITR.FM = DISCARD)
+> +  data_src_filter=<mask> - mask to filter from 0-63 possible data sources (PMSDSFR, FEAT_SPE_FDS) - See 'Data source filtering'
+>  
+>  +++*+++ Latency is the total latency from the point at which sampling started on that instruction, rather
+>  than only the execution latency.
+>  
+> -Only some events can be filtered on; these include:
+> -
+> -  bit 1     - instruction retired (i.e. omit speculative instructions)
+> +Only some events can be filtered on using 'event_filter' bits. The overall
+> +filter is the logical AND of these bits, for example if bits 3 and 5 are set
+> +only samples that have both 'L1D cache refill' AND 'TLB walk' are recorded. When
+> +FEAT_SPEv1p2 is implemented 'inv_event_filter' can also be used to exclude
+> +events that have any (OR) of the filter's bits set. For example setting bits 3
+> +and 5 in 'inv_event_filter' will exclude any events that are either L1D cache
+> +refill OR TLB walk. If the same bit is set in both filters it's UNPREDICTABLE
+> +whether the sample is included or excluded. Filter bits for both event_filter
+> +and inv_event_filter are:
+> +
+> +  bit 1     - Instruction retired (i.e. omit speculative instructions)
+> +  bit 2     - L1D access (FEAT_SPEv1p4)
+>    bit 3     - L1D refill
+> +  bit 4     - TLB access (FEAT_SPEv1p4)
+>    bit 5     - TLB refill
+> -  bit 7     - mispredict
+> -  bit 11    - misaligned access
+> +  bit 6     - Not taken event (FEAT_SPEv1p2)
+> +  bit 7     - Mispredict
+> +  bit 8     - Last level cache access (FEAT_SPEv1p4)
+> +  bit 9     - Last level cache miss (FEAT_SPEv1p4)
+> +  bit 10    - Remote access (FEAT_SPEv1p4)
+> +  bit 11    - Misaligned access (FEAT_SPEv1p1)
+> +  bit 12-15 - IMPLEMENTATION DEFINED events (when implemented)
+> +  bit 16    - Transaction (FEAT_TME)
+> +  bit 17    - Partial or empty SME or SVE predicate (FEAT_SPEv1p1)
+> +  bit 18    - Empty SME or SVE predicate (FEAT_SPEv1p1)
+> +  bit 19    - L2D access (FEAT_SPEv1p4)
+> +  bit 20    - L2D miss (FEAT_SPEv1p4)
+> +  bit 21    - Cache data modified (FEAT_SPEv1p4)
+> +  bit 22    - Recently fetched (FEAT_SPEv1p4)
+> +  bit 23    - Data snooped (FEAT_SPEv1p4)
+> +  bit 24    - Streaming SVE mode event (when FEAT_SPE_SME is implemented), or
+> +              IMPLEMENTATION DEFINED event 24 (when implemented, only versions
+> +              less than FEAT_SPEv1p4)
+> +  bit 25    - SMCU or external coprocessor operation event when FEAT_SPE_SME is
+> +              implemented, or IMPLEMENTATION DEFINED event 25 (when implemented,
+> +              only versions less than FEAT_SPEv1p4)
+> +  bit 26-31 - IMPLEMENTATION DEFINED events (only versions less than FEAT_SPEv1p4)
+> +  bit 48-63 - IMPLEMENTATION DEFINED events (when implemented)
+> +
+> +For IMPLEMENTATION DEFINED bits, refer to the CPU TRM if these bits are
+> +implemented.
+> +
+> +The driver will reject events if requested filter bits require unimplemented SPE
+> +versions, but will not reject filter bits for unimplemented IMPDEF bits or when
+> +their related feature is not present (e.g. SME). For example, if FEAT_SPEv1p2 is
+> +not implemented, filtering on "Not taken event" (bit 6) will be rejected.
+>  
+>  So to sample just retired instructions:
+>  
+> @@ -171,6 +209,31 @@ or just mispredicted branches:
+>  
+>    perf record -e arm_spe/event_filter=0x80/ -- ./mybench
+>  
+> +When set, the following filters can be used to select samples that match any of
+> +the operation types (OR filtering). If only one is set then only samples of that
+> +type are collected:
+> +
+> +  branch_filter=1     - Collect branches (PMSFCR.B)
+> +  load_filter=1       - Collect loads (PMSFCR.LD)
+> +  store_filter=1      - Collect stores (PMSFCR.ST)
+> +
+> +When extended filtering is supported (FEAT_SPE_EFT), SIMD and float
+> +pointer operations can also be selected:
+> +
+> +  simd_filter=1         - Collect SIMD loads, stores and operations (PMSFCR.SIMD)
+> +  float_filter=1        - Collect floating point loads, stores and operations (PMSFCR.FP)
+> +
+> +When extended filtering is supported (FEAT_SPE_EFT), operation type filters can
+> +be changed to AND using _mask fields. For example samples could be selected if
+> +they are store AND SIMD by setting 'store_filter=1,simd_filter=1,
+> +store_filter_mask=1,simd_filter_mask=1'. The new masks are as follows:
+> +
+> +  branch_filter_mask=1  - Change branch filter behavior from OR to AND (PMSFCR.Bm)
+> +  load_filter_mask=1    - Change load filter behavior from OR to AND (PMSFCR.LDm)
+> +  store_filter_mask=1   - Change store filter behavior from OR to AND (PMSFCR.STm)
+> +  simd_filter_mask=1    - Change SIMD filter behavior from OR to AND (PMSFCR.SIMDm)
+> +  float_filter_mask=1   - Change floating point filter behavior from OR to AND (PMSFCR.FPm)
+> +
+>  Viewing the data
+>  ~~~~~~~~~~~~~~~~~
+>  
+> @@ -204,6 +267,10 @@ Memory access details are also stored on the samples and this can be viewed with
+>  
+>    perf report --mem-mode
+>  
+> +The latency value from the SPE sample is stored in the 'weight' field of the
+> +Perf samples and can be displayed in Perf script and report outputs by enabling
+> +its display from the command line.
+> +
+>  Common errors
+>  ~~~~~~~~~~~~~
+>  
+> @@ -247,6 +314,18 @@ to minimize output. Then run perf stat:
+>    perf record -e arm_spe/discard/ -a -N -B --no-bpf-event -o - > /dev/null &
+>    perf stat -e SAMPLE_FEED_LD
+>  
+> +Data source filtering
+> +~~~~~~~~~~~~~~~~~~~~~
+> +
+> +When FEAT_SPE_FDS is present, 'data_src_filter' can be used as a mask to filter
+> +on a subset (0 - 63) of possible data source IDs. The full range of data sources
+> +is 0 - 65535 although these are unlikely to be used in practice. Data sources
+> +are IMPDEF so refer to the TRM for the mappings. Each bit N of the filter maps
+> +to data source N. The filter is an OR of all the bits, so for example setting
+> +bits 0 and 3 includes only packets from data sources 0 OR 3. When
+> +'data_src_filter' is set to 0 data source filtering is disabled and all data
+> +sources are included.
+> +
+>  SEE ALSO
+>  --------
+>  
 > 
-> Similar to previous comment this is in kernel bug territory and could be simplified
-> by passing mon_evt instead. Although this is the unassign portion where 
-> evt_cfg seems unnecessary.
-
-Sure. The call mbm_get_mon_event() is not required anymore in this path.
-
+> -- 
+> 2.34.1
 > 
->> +		return -EINVAL;
->> +	}
->> +
->> +	resctrl_config_cntr(r, d, evtid, rdtgrp->mon.rmid, rdtgrp->closid,
->> +			    cntr_id, mevt->evt_cfg, false);
->> +
->> +	mbm_cntr_free(d, cntr_id);
->> +
->> +	return 0;
->> +}
->> +
->> +/*
->> + * Unassign a hardware counter associated with @evtid from the domain and
->> + * the group. Unassign the counters from all the domains if @d is NULL else
->> + * unassign from @d.
->> + */
->> +int  resctrl_unassign_cntr_event(struct rdt_resource *r, struct rdt_mon_domain *d,
->> +				 struct rdtgroup *rdtgrp, enum resctrl_event_id evtid)
->> +{
->> +	int ret;
->> +
->> +	if (!d) {
->> +		list_for_each_entry(d, &r->mon_domains, hdr.list) {
->> +			ret = resctrl_free_config_cntr(r, d, rdtgrp, evtid);
->> +			if (ret)
->> +				return ret;
->> +		}
->> +	} else {
->> +		ret = resctrl_free_config_cntr(r, d, rdtgrp, evtid);
->> +	}
->> +
->> +	return ret;
->> +}
 > 
-> Reinette
-> 
-
--- 
-Thanks
-Babu Moger
