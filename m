@@ -1,120 +1,107 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F1E22C355
-	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 13:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B366D22D782
+	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 14:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748610453; cv=none; b=q6Q/W98qdkseTo9HtG7DPRzUxSoPDp6o2L9S8cYHo8qG5DynQ4kwbOdcRvjrGgfROP1x1wi5UvnG4FYWnDt/Xzan2fRm+/hYRXqWsW9njIj4VAO1WXksmqDPKS/kgsw+VXq7Nx2QlXrJ47kJpE0qnm2SCFS8iwTzzy3QKfJOT6k=
+	t=1748617180; cv=none; b=orxB0dQ/d+WpaNNMTFQ/E6+XxV430Qz6XL4E+OsTz/yYVC7LiV8CPTgR2LmjLkH43c4bt7rY39IAHt3Gnekq+Hw73sDv7VGDTBzUgiQcbUQ1gM4+5aUZhKIKLNd986qWYTC0pk7sxy5N2XkCw5kVnYK9lfBLrVZyJFiPHEE1zDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748610453; c=relaxed/simple;
-	bh=h4jwctbW8pXg3O6hJrQAv0f+KY+PlydbIAeGTRF0HdE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GEt5EGWB1iZZ916cENQCcJQYk2FjvGewAypQ2SkdssxWzW9b+d9fulf5evhX8HE0Nj1QG0aunOYweWelOxpZ9sHQ9lzQbNMyH2IbviH8MCa26lY/fRpzx/PyayvlJ6hvhzh8YVcaZ2+UheAdNrlVB2r7pBL6S152RM2iys690oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=VO6PZKdE; arc=none smtp.client-ip=209.85.166.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1748617180; c=relaxed/simple;
+	bh=jasKmp2aQuprGgWI5wC0BqX8f7HQURC6vV2wipWoXUk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ry0obpkdwP+ksV8++s8EJoa86bCEi1Z/jCOipEXWWHdqwkH0rS54P1YlzsOAaKplNV34PLw8CAYPcRJ4Zh7zOcX49M7TDkmyYYlvaxCt/LirQgLCapPIwta3vE5cbgzp4u7e227PD2NiV+kjRJdqgAWaBZ0RxZ8YFk10CY4UZmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ZKbzoavf; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="VO6PZKdE"
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-86a07a1acffso141871439f.0
-        for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 06:07:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ZKbzoavf"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-70e302191a3so18749677b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 07:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1748610450; x=1749215250; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+        d=paul-moore.com; s=google; t=1748617177; x=1749221977; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M+zllA0JepvlfuREVmf3nCF0usvpNrfKCbR5PkTeodQ=;
-        b=VO6PZKdEzYmCiAL4/bfvM6EAnbxC1HVa8lz2kZMsMzLCRm7p0n9+W8yJD9IH2JxkaR
-         nHe5CksjbM8qHonhSykwH0P7+D2ZBc+P8PcJosgYRAl6FzM0UVx+qpXHueJUjPVZlhea
-         xd+h6mQNBch6coBDdk/ozPsQFt1hdcOjzdv8RkvcrmpWU01ykoCDZiQf5weiy2Kue1su
-         ZICHzVsKoE0ZGEC/Rc9u9csSEljXJy7XRRFnm9dukspZqTQfCvxD+Ip70K6RlDaiaAQJ
-         3OYuFoVNxR3ocTp49r7HxVadcFmcDHP+MpaLlDDV051EEu7DYnOrMSvegGUk15UO+JoE
-         71IA==
+        bh=FAAu3PNn/g5swmaHMNzxUtR7zHSWqNSkf/EYcL84FJM=;
+        b=ZKbzoavfJTTsa1cyffhW4nXl/B2WC9layXNA/Xwo4HB1mjXpmYbPZnxWkFNlisELmd
+         jAeyAgL9mMb7qJbVHJOUBWT7WsY/P8iJiU447v9jhfjs8clOJCQFPqIz5p+tUUaRg4QQ
+         pqa/2gHJnE6jlOO/7+SiXrX0Tzaq/qm8opI2itTNMgTnTztfNWYxQLoqoUO24cHElzhr
+         PX2UL8PcTbab76f871N6wVhxRyhIyMMaGe4VjQhDAln3ez+tuvmXMeuKK4kOIuyQWpA3
+         8vYI2H81GIXnusEcRhT/wb+GCs17fB1zPeyPi5Zwwor0ddJFGOvho48cupfENEED+BIr
+         a1Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748610450; x=1749215250;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1748617177; x=1749221977;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M+zllA0JepvlfuREVmf3nCF0usvpNrfKCbR5PkTeodQ=;
-        b=uFa9BQeyJ51vF3bquwJSQ3qbdbR+H/EVcpdLgrcG6CCDuJNpYWeD1FxghXkJf0a8w9
-         pbWmylLQxCFsTvpb+rxgQnv4kVpSDyp6fBbUH1unnEtHVlAtRI4nrcZoRkY/YwPa7cPD
-         xHGpxL2qjYLBGSyToyxsdWhkHYX0aXOxZGJ6JOVFH0RhE+Tg2hRUBJSOeSOj8Ye0qQ0O
-         MdYp9GCyFMihi9FFAQv7/EJRGsPhQ8WD3Icm4tJ2qd4KaX3YiieJ82eBcJLV8IHii1rR
-         KB6Ue4icZKAZKc2ZACCnikNBtuQMrlmjHaNNpvyRhlN0hWsVkwWCc6whV237htNCQih/
-         6gtg==
-X-Forwarded-Encrypted: i=1; AJvYcCV6Z/Yq6bod7S3AhWcKzX7D6dyhITgsYtJHHfF4VReGwkUGY8zdy3mHFi6h/8T9jpcuvwqE9aFGSqQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0uLgPmAHucppN41ITmOsks82Yp77AAKXvNcADHic9KOuqhwpO
-	aHsuhKBWgavz4EbtyVR8Mt4VxXoTmN7/dSzw1nfel8ZMQeil9iTi6xOECfwvqKP+SEI=
-X-Gm-Gg: ASbGncuMpzjb6Civ1qRQWB7jqQSFOAt7MCkPvMnzWpR+4XDEkx8kchLuuoAHXjo1yGf
-	q15SgFO+efeuloCrTt/Up5qQoleoSomSQBMADCeh+NbkEgHy2pMvoiQ2V/bKCOwRXnZNt2QLwyR
-	BgOj+DsWxpMHfuklE6d+sIVPPR1om3t779nsTevgvbCFAdiHBDE5ELTKaVHFKJp3B1i3RD0xD75
-	5qp8lRmW5LhjxnaRgOSlVogVbSHqLHfn9/i9IIYGjfRqWZTLvJ0IL5LRUd8D1EbRXoaFZ85ZHkA
-	ssf5wJLMfjXU4vcBgz0AAhs/iTU9J7xua82jgsa0UA==
-X-Google-Smtp-Source: AGHT+IFfMvqEazUYtf2SirmN7JtlcpvFyW/az1d0hhAS8lUwYVAN/ahd2bFle1R0bSvbYHbgXjTrew==
-X-Received: by 2002:a05:6602:4017:b0:86c:f2c1:70d2 with SMTP id ca18e2360f4ac-86d000aeacdmr411795639f.3.1748610449967;
-        Fri, 30 May 2025 06:07:29 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fdd7ed8154sm424022173.100.2025.05.30.06.07.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 06:07:29 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Ming Lei <ming.lei@redhat.com>, 
- Caleb Sander Mateos <csander@purestorage.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Uday Shankar <ushankar@purestorage.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-In-Reply-To: <20250529-ublk_task_per_io-v8-0-e9d3b119336a@purestorage.com>
-References: <20250529-ublk_task_per_io-v8-0-e9d3b119336a@purestorage.com>
-Subject: Re: [PATCH v8 0/9] ublk: decouple server threads from
- ublk_queues/hctxs
-Message-Id: <174861044873.875376.13955426854748469811.b4-ty@kernel.dk>
-Date: Fri, 30 May 2025 07:07:28 -0600
+        bh=FAAu3PNn/g5swmaHMNzxUtR7zHSWqNSkf/EYcL84FJM=;
+        b=akGCnM4I1x75X4F8SJT0zN0Ad3j5tvWZCP1i5Ztk8/sCNnm4rJTJRCdA23BxlyF3hn
+         Qh7TmCzYIkd7UPKynFOOxPzH5z7jpiuPWaErb1l8FM9yjtgCrLemvY+c2kDLzKPTpqSr
+         F9I5bHeQob6K1pzD9i5dlscdg1V6onz2YV3QM71l3GuWS8FtT9ytyLCw0h7I5CsIQCcy
+         6VayW55N6Wjp0jluCqPdME76iYMeQujMvXWj27DBgo0O8nm/ulG33cKdhAZ8q5WCtWmC
+         E7RyZXJJeboD7HxbA+E6oUwjJ7Ld/qh5UqeFa27JiU6pP6hHcg1ppQlAbrAusEhzA7cT
+         MSCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWO+87IqVfG9u+ESAyXcnTH0O4y85vNDiLnPM/F8hvHojmwJEe5VVz1j7nyAojoTmZIgKNemw9DC3A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsC9fnkHX4a/W9xvAXIXKewDuAhKDLViSv493ehQwB50etJviE
+	7Yq1KzQE/VkO5IFfKJW39FMbjmkdhH5OP2y7xCc6ZlBrm87fOnHlhIQczd7ERkgdJGgSnuKmq6D
+	wbEzQ35wa3n8R66RqlMDfrGP+9PREtIp3GvATrxRd
+X-Gm-Gg: ASbGnctWc5X5Fj1KtXUgS7/pe8ntjUfUnFBGniyqU0CqisZ2tIjFrzvhc/kzs19VQy3
+	Q9sNX0/gA1mvN06W5XvMq+TeIxqC484dcVb3eFLEmwZgyfvNt3p5Ty1ELLHxjSRdq7B2PsU2IWZ
+	LtyLHFbS1gHqOVV7zd1zfdT+rtg0jRxRxoKhtbdHgpVu8=
+X-Google-Smtp-Source: AGHT+IHHnVePMsvh3ufc14xyANHYkK76dmtQi3C9pr0hEAJFnSpRDvuBz9Sw+cjnx2wg+DaroEvhGoRJ1j6utE6EWUc=
+X-Received: by 2002:a05:690c:c0b:b0:70e:2a04:c768 with SMTP id
+ 00721157ae682-70f97e9b96cmr52596327b3.14.1748617177588; Fri, 30 May 2025
+ 07:59:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-7b9b9
+References: <20250521140121.591482-1-git@nightmared.fr> <20250521140121.591482-10-git@nightmared.fr>
+ <CAHC9VhR-80zxgo+q07Aw8HqK+qiPdnuXC0axONGac0e9JxXvmw@mail.gmail.com>
+ <4939d8ab-3911-4759-b8d6-cb57ff9f9cda@nightmared.fr> <CAHC9VhT5JrhzGhRnJ4VNo6e941o-xdAG-FC-Q6wDbSZhgSUWOQ@mail.gmail.com>
+ <2495c0bf-5a24-483b-835f-abf433687889@nightmared.fr>
+In-Reply-To: <2495c0bf-5a24-483b-835f-abf433687889@nightmared.fr>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 30 May 2025 10:59:26 -0400
+X-Gm-Features: AX0GCFvKjrCn57dBCtHrgxUd83Gfghrq1tsQqynYBLqWk4EKe074m06s3Cas29k
+Message-ID: <CAHC9VhSvwOZXnh4o3O8_+QXXKJ32D=9ogoizvNzEEGpzQWhx+A@mail.gmail.com>
+Subject: Re: [RFC PATCH 9/9] Loadpol LSM: add a minimal documentation
+To: Simon Thoby <git@nightmared.fr>, Kees Cook <kees@kernel.org>
+Cc: linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, May 30, 2025 at 3:03=E2=80=AFAM Simon Thoby <git@nightmared.fr> wro=
+te:
+> On 5/30/25 01:49, Paul Moore wrote:
+> >
+> > My thinking around possible augmentation of LoadPin is that both
+> > LoadPin and Loadpol share a similar, limited focus of controlling
+> > access to kernel module loading and Loadpol has support for a basic
+> > loadable policy, a policy that could likely be extended to support a
+> > LoadPin-esque construct that limit module loading based on filesystem
+> > pinning.  It probably makes more sense to think of adding LoadPin
+> > support to Loadpol, rather than augmenting LoadPin to support the
+> > Loadpol concepts, but for consistency with upstream we probably need
+> > to speak in terms of the latter.
+>
+> Thanks for the reply, I now see what you meant. I will try to put somethi=
+ng
+> together (hopefully next week), starting with looking at how we can expre=
+ss
+> the current LoadPin feature set as a loadable and user-extensible policy,=
+ and
+> then add non-filesystem-related policy entries (like module name restrict=
+ions)
+> to that policy.
 
-On Thu, 29 May 2025 17:47:09 -0600, Uday Shankar wrote:
-> This patch set aims to allow ublk server threads to better balance load
-> amongst themselves by decoupling server threads from ublk_queues/hctxs,
-> so that multiple threads can service I/Os that are issued from a single
-> CPU. This can improve performance for workloads in which ublk server CPU
-> is a bottleneck, and for which load is issued from CPUs which are not
-> balanced across ublk_queues/hctxs.
-> 
-> [...]
+You may want to see what Kees thinks of the idea before you spend too
+much time on this as he is the LoadPin maintainer.  I'm guessing he
+would be okay with the additions, but that is just a guess on my part.
 
-Applied, thanks!
-
-[1/9] ublk: have a per-io daemon instead of a per-queue daemon
-      commit: b8af2e5dfcc3314c09a97dabcf6e2b1f644cf820
-[2/9] selftests: ublk: kublk: plumb q_id in io_uring user_data
-      commit: b9c564b74d8aa549d74f97b6a9f429fedb9a4e97
-[3/9] selftests: ublk: kublk: tie sqe allocation to io instead of queue
-      commit: c306e71dba79624cee2eb5a80bc5013b47943241
-[4/9] selftests: ublk: kublk: lift queue initialization out of thread
-      commit: 83f5c5d62905353a1be597c62d82b0ad14f23a7f
-[5/9] selftests: ublk: kublk: move per-thread data out of ublk_queue
-      commit: f21561bc01bf887c2f620d2e4a9a52b999f776cd
-[6/9] selftests: ublk: kublk: decouple ublk_queues from ublk server threads
-      commit: 5163fa0f106d7a31c185559f95c7afd3672e69e6
-[7/9] selftests: ublk: add functional test for per io daemons
-      commit: 5e580d6b7e2004e308148a67d9ade3f26fd5949d
-[8/9] selftests: ublk: add stress test for per io daemons
-      commit: 6b29c3106a5fc2b4e14facf1ee7e663554f805bd
-[9/9] Documentation: ublk: document UBLK_F_PER_IO_DAEMON
-      commit: b02f5eedbcabe6e1982fdd7ff3f0ac5d1fddc68f
-
-Best regards,
--- 
-Jens Axboe
-
-
-
+--=20
+paul-moore.com
