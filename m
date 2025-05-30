@@ -1,66 +1,66 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91309221F18
-	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 04:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B267223DF9
+	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 04:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748580668; cv=none; b=TQqI20cH6LFDEdvPcV4x6XZcaipNwySOQaEPynd6Pq6w3/bhmNtQ+VLhlhbGhN9s3Ia1UNk7P4k3SSzIfviRu+5SzdNyyZxZDxehGpYgIHVWHT7DFqwx2QolcIxqLO6GiaMmsQXzvf204sq10A09tEREilVCs75M/GTrWwPu7ks=
+	t=1748580671; cv=none; b=XJ5y3FZnC7YO9IQuvJBxq/oABkKBHNnFATA8aXqdNI68OtWPhhzm6NSL7PghfdpVIe+iZuUwOBQZV3ObEyZweWItfQRpw78KM5AHurK1j8jHLUSZHe/6oim3/k7furprc3wHWigTMTOM0YurkL8rna/8gHsLmu6Jl0gay2hzgGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748580668; c=relaxed/simple;
-	bh=8QZ3Y17huIwvFuKYxGqjjNV9gzRi3SV/EMTE+e4j/s4=;
+	s=arc-20240116; t=1748580671; c=relaxed/simple;
+	bh=lWGVKyybSScfvzAgnxZfdPakMV9WV+eXSxEJF4cb1lY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=SMaYiENhmcC0xjnVzir0VcSM/FB8Ial3bOZDK16FL6a1HdGa90uHg/06U/ygYcCtvMvnDMdSm9dAZltH4kf4tlZZqFJpXiwt9rw7JU6jhalSQP+2WFpWh1ODysRqhWtQlyITvdP9lJwRYaTClvh1YnizVVph4dlfzCKdwBeOsUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=qxK5LkC2; arc=none smtp.client-ip=209.85.210.180
+	 In-Reply-To:To; b=Ibs397dOjAxr1N7Hxdjby3KdNFboIFNiT+n4NYJdZcjmRCARWglzOBESepD+urtyGXgCz2wwlYv+GgbQnDN7yj1SzlPQfl8et1QSts2wvHq+U2YrF9UM9o7TdJyYOwB8mxBWg6NP6TVWe66EGEhRTtjFqbA2nz6XbvAAsLeaQOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=AWkz7vON; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="qxK5LkC2"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso1319102b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 21:51:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="AWkz7vON"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-73c17c770a7so1814613b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 21:51:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1748580665; x=1749185465; darn=vger.kernel.org;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1748580669; x=1749185469; darn=vger.kernel.org;
         h=to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6kg49tLaS0z1IHYonGafIguL3mgiSEk4xR/nFylD2io=;
-        b=qxK5LkC2DVB0dYvE/5pN+icN9wP4bhzrrBuDTB69R2C0vaEqqECOq08QDZZdixunwy
-         ravpjfFDJsy0E9EXEezXCMzeISk1PXqmD78evKIkZgildwI6t7XrYoXG1KGGM6FUBQcR
-         2Td1OlJGf+YKouksaSeFP/kYW4rUFoWKy+AKRxU/+7U7/c6nVp1/ZKCcF0fiUJQfBNmj
-         +UWyOXN1/oVXIn11kiEmFie8JOUFJ1p+x/+kYhJLtRPnFKtLOddyRQ/5m1489PvhzeCj
-         c6PemcxaIzKBn4Hla9hhHmS7AfLmmNSDWiHc8NCTcOA3H8MPx1/fIkFdZgz4SB6rQain
-         tyCw==
+        bh=Z15gseFrGsCaLlozqKPcH2zd7I0guJGS0A9lc7pAtL0=;
+        b=AWkz7vONAUKHEJ1BTAsIGd6+oLDDkSLczPChdvQu5ORyUjUBYLo06jokq4YNudLMd0
+         cZFWXtDlVdc5pzmsSve234WgkjNFvOezh9bjRcCR+paKjqvLBv2m+BgkJ30lu3+0vbJD
+         2AMhCM4e8rCFp6xoWniyyggyVCvKBOoO8EOXONeAVfHyP6iJq2aYs4i7gDstIaEK52Cp
+         pHfacsIBbZtr2Gqp11V8OXkI40tcMRcs7SF6QMBCJ344XKw6pxNUDD3r/jTNCpV4CKxo
+         9lVs9n/6bFHCm81RS8tI+KQzLTk31WH98vmjTi8kDnoCWzPzPGevHa/P8qio4ArxfuuR
+         sVmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748580665; x=1749185465;
+        d=1e100.net; s=20230601; t=1748580669; x=1749185469;
         h=to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6kg49tLaS0z1IHYonGafIguL3mgiSEk4xR/nFylD2io=;
-        b=bupb8LGz+gydTMgFzQgM4TlOIbNNtMW3WrJdVrGFuseUeGYrYxeKBl1RYFwFZnBujI
-         SG6UubaBl2HS857+qJdden6O3p77VjvZPN91rH7MZzay9UfIeU7jk3Oix6/SS3kS9zGB
-         kl0mAvhXfoOStHen/1x17ep3uMZ9wkMpgU/VK1mRFfQTukQHVX3ornhgH90u06hjuk1O
-         1mXOWx2DuBDhbS7sp8KyC9a86Ch8tt2ufUW0cz8+IbbcS2S9Es7QA+HND+L1UOKnM994
-         yld06Qz21spJatoIcffc4lVhmLV5e1SDZktM7kfS2tMoTkZbPdwgrQsijbMS8kVNfavh
-         YC/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUjnwoLFy8ykLoKTJ/4s7uBQtT25cYtK86gQE4UXuQO1zDdYW4G7KSy9dCJnpa50z5LEaevTprEe08=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOo/n5D2fZ3BYqUpDRJl00UAMALTX0m9TqaDabLbcf1om3XsZ/
-	NhDeoq2J9a5jNb0ukC5JML77du56pI99RM8mPXK9t9zFaR5d9sjiXb/3KfgpispXmts=
-X-Gm-Gg: ASbGncuxrrAKx616uoOGViInF/yh0QA0HEYj/dub+l7/XbhL8Sf1AjvR4b0XCAus4cT
-	I/mgMPC87iQiTPv9YVLLKu1qIX77H61TEY2JipWv1ssovlJh1MP1iqdCydjK9bJj11AJ8SjwaLa
-	q+6ycrl3ROMSdkhoGNbSUPS8zWnCzXl1ZO/40sV/FKmgfOX9mKnlwMryVADOpy1+aUZYm7Ug+9O
-	tLVXgcfkcAhYywmfgHov8dI1j+mBpfTupC0WpNMlRRyW38A3nP6QbgFMvHxNUQxqzKGyKYUdTl0
-	E5e3ZD+hbnLWVccqUXbfCGNNWK5FC+0gZbc9LKb5UJUz2ebcUq/2n39RRg2uWJg=
-X-Google-Smtp-Source: AGHT+IH9+BHJNIoXbgVGyUoI7SrCOCtJTbLtcbCTAW+31fagg/7EMzO3Z6Fm63/CoKEr+0ydoICMHQ==
-X-Received: by 2002:a05:6a00:2389:b0:740:9abe:4d94 with SMTP id d2e1a72fcca58-747bda192e1mr2706018b3a.21.1748580664899;
-        Thu, 29 May 2025 21:51:04 -0700 (PDT)
+        bh=Z15gseFrGsCaLlozqKPcH2zd7I0guJGS0A9lc7pAtL0=;
+        b=gs+lP76K2RHgpx8n/1+8edZhYnhhGt+gFPr7Y9Hq4By3wsefXGh1pOn3ovK0TYv7fH
+         Lh2WG9WuV4lb8Z+UeyArbXnjSSgRwAb8yOc6KNmB2+IbRF9u3683x5sCn3yjO4mouOHD
+         11/oK7WrffytL8l/ULzxUKRLrY1EBgh7wgkkLfAcDjmzpK6OmQkr25kC+U4oxSg0MBt+
+         I1NNGk2TQR9v+4EA/R/55T83QhfkqEYEjpqo5FdPc174bb5hHHprnulIIeE23r1n42vj
+         lCcKauIeiUrBmemnu0+xIrkdvXvItwBzPhVFoe3uAUfJhk5sVC1aXrkS+tM4XVN4qh9v
+         nnAw==
+X-Forwarded-Encrypted: i=1; AJvYcCUoKAko3R+5N0ug57foBz9M9QAXP02SPmRCVDtsdKov+xaEjQv/gbLrTgn2Fr5TEgkdCkmnQeSYPmI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx30SckifIBJDs5y/ZItZMaoquWKc4HKC+TDoN13hQ+u+tT1jDd
+	3VbTC/Qyaiz2y6vjU+qaya6jAUWu179mfvb1krvNR/WtspirB9hROa4UooUTjeOvrxI=
+X-Gm-Gg: ASbGncsKAtqPVJ4+hRlHqOmPq8CAP476Tv+uMHDUPEDqEUFuaEDkZmAVK2MOW96Uwg9
+	T1Nl/IH5FEN/oDIRYEax0f6Xkd3BOpE1ZL+Ar2seJjEzqf7Qaejlh5bf437TLlZj/Ok8Hl2JgHI
+	oXUZhCMjq8yPZToKC5X6J/FwWypf3u56e9tp8UDuZXs0f8GbXv6vVsWswqcWL/rI+kNmTkVvvgN
+	VFneLtpqzOAVSW0wXiCyTAhyBjCprJhHL24pRl3yUvFh7/w3XoZa9KEuvfH6IgUgMYM2bClj0Af
+	809cuoHWBs+xvsxXCz4h0OWNwF93CfvgaGFaChDHFKq56y0qT51y
+X-Google-Smtp-Source: AGHT+IFEAyvdh+gmFNHHDHekWEQMYLOTZZa1DYZNnrPSAK+MYRW4HLZI96PlWLiwNkqJ19TNscPw2g==
+X-Received: by 2002:a05:6a00:805:b0:736:5b85:a911 with SMTP id d2e1a72fcca58-747bd9658a0mr3200511b3a.8.1748580669233;
+        Thu, 29 May 2025 21:51:09 -0700 (PDT)
 Received: from localhost ([157.82.128.1])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-747afff71eesm2159761b3a.159.2025.05.29.21.51.01
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-747affafa42sm2231166b3a.92.2025.05.29.21.51.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 May 2025 21:51:04 -0700 (PDT)
+        Thu, 29 May 2025 21:51:08 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Fri, 30 May 2025 13:50:13 +0900
-Subject: [PATCH net-next v12 09/10] selftest: tap: Add tests for virtio-net
- ioctls
+Date: Fri, 30 May 2025 13:50:14 +0900
+Subject: [PATCH net-next v12 10/10] vhost/net: Support
+ VIRTIO_NET_F_HASH_REPORT
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250530-rss-v12-9-95d8b348de91@daynix.com>
+Message-Id: <20250530-rss-v12-10-95d8b348de91@daynix.com>
 References: <20250530-rss-v12-0-95d8b348de91@daynix.com>
 In-Reply-To: <20250530-rss-v12-0-95d8b348de91@daynix.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
@@ -88,174 +88,138 @@ To: Jonathan Corbet <corbet@lwn.net>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
 X-Mailer: b4 0.15-dev-edae6
 
-They only test the ioctls are wired up to the implementation common with
-tun as it is already tested for tun.
+VIRTIO_NET_F_HASH_REPORT allows to report hash values calculated on the
+host. When VHOST_NET_F_VIRTIO_NET_HDR is employed, it will report no
+hash values (i.e., the hash_report member is always set to
+VIRTIO_NET_HASH_REPORT_NONE). Otherwise, the values reported by the
+underlying socket will be reported.
+
+VIRTIO_NET_F_HASH_REPORT requires VIRTIO_F_VERSION_1.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Tested-by: Lei Yang <leiyang@redhat.com>
 ---
- tools/testing/selftests/net/config |   1 +
- tools/testing/selftests/net/tap.c  | 131 ++++++++++++++++++++++++++++++++++++-
- 2 files changed, 129 insertions(+), 3 deletions(-)
+ drivers/vhost/net.c | 68 +++++++++++++++++++++++++++--------------------------
+ 1 file changed, 35 insertions(+), 33 deletions(-)
 
-diff --git a/tools/testing/selftests/net/config b/tools/testing/selftests/net/config
-index 61e5116987f3..00cb1e65b392 100644
---- a/tools/testing/selftests/net/config
-+++ b/tools/testing/selftests/net/config
-@@ -99,6 +99,7 @@ CONFIG_IPV6_IOAM6_LWTUNNEL=y
- CONFIG_CRYPTO_SM4_GENERIC=y
- CONFIG_AMT=m
- CONFIG_TUN=y
-+CONFIG_TUN_VNET_CROSS_LE=y
- CONFIG_VXLAN=m
- CONFIG_IP_SCTP=m
- CONFIG_NETFILTER_XT_MATCH_POLICY=m
-diff --git a/tools/testing/selftests/net/tap.c b/tools/testing/selftests/net/tap.c
-index 247c3b3ac1c9..0decbc338965 100644
---- a/tools/testing/selftests/net/tap.c
-+++ b/tools/testing/selftests/net/tap.c
-@@ -387,9 +387,6 @@ FIXTURE_TEARDOWN(tap)
- 	if (self->fd != -1)
- 		close(self->fd);
+diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
+index b9b9e9d40951..fc5b43e43a06 100644
+--- a/drivers/vhost/net.c
++++ b/drivers/vhost/net.c
+@@ -73,6 +73,7 @@ enum {
+ 	VHOST_NET_FEATURES = VHOST_FEATURES |
+ 			 (1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
+ 			 (1ULL << VIRTIO_NET_F_MRG_RXBUF) |
++			 (1ULL << VIRTIO_NET_F_HASH_REPORT) |
+ 			 (1ULL << VIRTIO_F_ACCESS_PLATFORM) |
+ 			 (1ULL << VIRTIO_F_RING_RESET)
+ };
+@@ -1097,10 +1098,6 @@ static void handle_rx(struct vhost_net *net)
+ 		.msg_controllen = 0,
+ 		.msg_flags = MSG_DONTWAIT,
+ 	};
+-	struct virtio_net_hdr hdr = {
+-		.flags = 0,
+-		.gso_type = VIRTIO_NET_HDR_GSO_NONE
+-	};
+ 	size_t total_len = 0;
+ 	int err, mergeable;
+ 	s16 headcount;
+@@ -1174,11 +1171,15 @@ static void handle_rx(struct vhost_net *net)
+ 		/* We don't need to be notified again. */
+ 		iov_iter_init(&msg.msg_iter, ITER_DEST, vq->iov, in, vhost_len);
+ 		fixup = msg.msg_iter;
+-		if (unlikely((vhost_hlen))) {
+-			/* We will supply the header ourselves
+-			 * TODO: support TSO.
+-			 */
+-			iov_iter_advance(&msg.msg_iter, vhost_hlen);
++		/*
++		 * Supply virtio_net_hdr if VHOST_NET_F_VIRTIO_NET_HDR
++		 * TODO: support TSO.
++		 */
++		if (unlikely(vhost_hlen) &&
++		    iov_iter_zero(vhost_hlen, &msg.msg_iter) != vhost_hlen) {
++			vq_err(vq, "Unable to write vnet_hdr at addr %p\n",
++			       vq->iov->iov_base);
++			goto out;
+ 		}
+ 		err = sock->ops->recvmsg(sock, &msg,
+ 					 sock_len, MSG_DONTWAIT | MSG_TRUNC);
+@@ -1191,30 +1192,24 @@ static void handle_rx(struct vhost_net *net)
+ 			vhost_discard_vq_desc(vq, headcount);
+ 			continue;
+ 		}
+-		/* Supply virtio_net_hdr if VHOST_NET_F_VIRTIO_NET_HDR */
+-		if (unlikely(vhost_hlen)) {
+-			if (copy_to_iter(&hdr, sizeof(hdr),
+-					 &fixup) != sizeof(hdr)) {
+-				vq_err(vq, "Unable to write vnet_hdr "
+-				       "at addr %p\n", vq->iov->iov_base);
+-				goto out;
+-			}
+-		} else {
+-			/* Header came from socket; we'll need to patch
+-			 * ->num_buffers over if VIRTIO_NET_F_MRG_RXBUF
+-			 */
+-			iov_iter_advance(&fixup, sizeof(hdr));
+-		}
+ 		/* TODO: Should check and handle checksum. */
  
--	ret = dev_delete(param_dev_tap_name);
--	EXPECT_EQ(ret, 0);
--
- 	ret = dev_delete(param_dev_dummy_name);
- 	EXPECT_EQ(ret, 0);
- }
-@@ -431,4 +428,132 @@ TEST_F(tap, test_packet_crash_tap_invalid_eth_proto)
- 	ASSERT_EQ(errno, EINVAL);
- }
++		/*
++		 * We'll need to patch ->num_buffers over if
++		 * VIRTIO_NET_F_MRG_RXBUF or VIRTIO_F_VERSION_1
++		 */
+ 		num_buffers = cpu_to_vhost16(vq, headcount);
+-		if (likely(set_num_buffers) &&
+-		    copy_to_iter(&num_buffers, sizeof num_buffers,
+-				 &fixup) != sizeof num_buffers) {
+-			vq_err(vq, "Failed num_buffers write");
+-			vhost_discard_vq_desc(vq, headcount);
+-			goto out;
++		if (likely(set_num_buffers)) {
++			iov_iter_advance(&fixup, offsetof(struct virtio_net_hdr_v1, num_buffers));
++
++			if (copy_to_iter(&num_buffers, sizeof(num_buffers),
++					 &fixup) != sizeof(num_buffers)) {
++				vq_err(vq, "Failed num_buffers write");
++				vhost_discard_vq_desc(vq, headcount);
++				goto out;
++			}
+ 		}
++
+ 		nvq->done_idx += headcount;
+ 		if (nvq->done_idx > VHOST_NET_BATCH)
+ 			vhost_net_signal_used(nvq);
+@@ -1607,10 +1602,13 @@ static int vhost_net_set_features(struct vhost_net *n, u64 features)
+ 	size_t vhost_hlen, sock_hlen, hdr_len;
+ 	int i;
  
-+TEST_F(tap, test_vnethdrsz)
-+{
-+	int sz = sizeof(struct virtio_net_hdr_v1_hash);
-+
-+	ASSERT_FALSE(dev_delete(param_dev_tap_name));
-+
-+	ASSERT_FALSE(ioctl(self->fd, TUNSETVNETHDRSZ, &sz));
-+	sz = 0;
-+	ASSERT_FALSE(ioctl(self->fd, TUNGETVNETHDRSZ, &sz));
-+	EXPECT_EQ(sizeof(struct virtio_net_hdr_v1_hash), sz);
-+}
-+
-+TEST_F(tap, test_vnetle)
-+{
-+	int le = 1;
-+
-+	ASSERT_FALSE(dev_delete(param_dev_tap_name));
-+
-+	ASSERT_FALSE(ioctl(self->fd, TUNSETVNETLE, &le));
-+	le = 0;
-+	ASSERT_FALSE(ioctl(self->fd, TUNGETVNETLE, &le));
-+	EXPECT_EQ(1, le);
-+}
-+
-+TEST_F(tap, test_vnetbe)
-+{
-+	int be = 1;
-+	int ret;
-+
-+	ASSERT_FALSE(dev_delete(param_dev_tap_name));
-+
-+	ret = ioctl(self->fd, TUNSETVNETBE, &be);
-+	if (ret == -1 && errno == EINVAL)
-+		SKIP(return, "TUNSETVNETBE not supported");
-+
-+	ASSERT_FALSE(ret);
-+	be = 0;
-+	ASSERT_FALSE(ioctl(self->fd, TUNGETVNETBE, &be));
-+	EXPECT_EQ(1, be);
-+}
-+
-+TEST_F(tap, test_getvnethashtypes)
-+{
-+	uint32_t hash_types;
-+	int ret;
-+
-+	ASSERT_FALSE(dev_delete(param_dev_tap_name));
-+
-+	ret = ioctl(self->fd, TUNGETVNETHASHTYPES, &hash_types);
-+	if (ret == -1 && errno == EINVAL)
-+		SKIP(return, "TUNGETVNETHASHTYPES not supported");
-+
-+	EXPECT_FALSE(ret);
-+}
-+
-+FIXTURE(tap_setvnethash)
-+{
-+	int fd;
-+};
-+
-+FIXTURE_VARIANT(tap_setvnethash)
-+{
-+	unsigned int cmd;
-+};
-+
-+FIXTURE_VARIANT_ADD(tap_setvnethash, reportingautomq)
-+{
-+	.cmd = TUNSETVNETREPORTINGAUTOMQ
-+};
-+
-+FIXTURE_VARIANT_ADD(tap_setvnethash, reportingrss)
-+{
-+	.cmd = TUNSETVNETREPORTINGRSS
-+};
-+
-+FIXTURE_VARIANT_ADD(tap_setvnethash, rss)
-+{
-+	.cmd = TUNSETVNETRSS
-+};
-+
-+FIXTURE_SETUP(tap_setvnethash)
-+{
-+	int ret;
-+
-+	ret = dev_create(param_dev_dummy_name, "dummy", NULL, NULL);
-+	ASSERT_FALSE(ret);
-+
-+	ret = dev_create(param_dev_tap_name, "macvtap", macvtap_fill_rtattr,
-+			 NULL);
-+	ASSERT_FALSE(ret)
-+		EXPECT_FALSE(dev_delete(param_dev_dummy_name));
-+
-+	self->fd = opentap(param_dev_tap_name);
-+	ASSERT_LT(0, self->fd)
-+		EXPECT_FALSE(dev_delete(param_dev_dummy_name));
-+}
-+
-+FIXTURE_TEARDOWN(tap_setvnethash)
-+{
-+	EXPECT_FALSE(close(self->fd));
-+	EXPECT_FALSE(dev_delete(param_dev_dummy_name));
-+}
-+
-+TEST_F(tap_setvnethash, test_alive)
-+{
-+	struct tun_vnet_rss rss = { .hash_types = 0 };
-+	int ret;
-+
-+	ret = ioctl(self->fd, variant->cmd, &rss);
-+
-+	if (ret == -1 && errno == EINVAL)
-+		SKIP(return, "not supported");
-+
-+	EXPECT_FALSE(ret);
-+}
-+
-+TEST_F(tap_setvnethash, test_deleted)
-+{
-+	ASSERT_FALSE(dev_delete(param_dev_tap_name));
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, variant->cmd));
-+
-+	if (errno == EINVAL)
-+		SKIP(return, "not supported");
-+
-+	EXPECT_EQ(EBADFD, errno);
-+}
-+
- TEST_HARNESS_MAIN
+-	hdr_len = (features & ((1ULL << VIRTIO_NET_F_MRG_RXBUF) |
+-			       (1ULL << VIRTIO_F_VERSION_1))) ?
+-			sizeof(struct virtio_net_hdr_mrg_rxbuf) :
+-			sizeof(struct virtio_net_hdr);
++	if (features & (1ULL << VIRTIO_NET_F_HASH_REPORT))
++		hdr_len = sizeof(struct virtio_net_hdr_v1_hash);
++	else if (features & ((1ULL << VIRTIO_NET_F_MRG_RXBUF) |
++			     (1ULL << VIRTIO_F_VERSION_1)))
++		hdr_len = sizeof(struct virtio_net_hdr_mrg_rxbuf);
++	else
++		hdr_len = sizeof(struct virtio_net_hdr);
+ 	if (features & (1 << VHOST_NET_F_VIRTIO_NET_HDR)) {
+ 		/* vhost provides vnet_hdr */
+ 		vhost_hlen = hdr_len;
+@@ -1691,6 +1689,10 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+ 			return -EFAULT;
+ 		if (features & ~VHOST_NET_FEATURES)
+ 			return -EOPNOTSUPP;
++		if ((features & ((1ULL << VIRTIO_F_VERSION_1) |
++				 (1ULL << VIRTIO_NET_F_HASH_REPORT))) ==
++		    (1ULL << VIRTIO_NET_F_HASH_REPORT))
++			return -EINVAL;
+ 		return vhost_net_set_features(n, features);
+ 	case VHOST_GET_BACKEND_FEATURES:
+ 		features = VHOST_NET_BACKEND_FEATURES;
 
 -- 
 2.49.0
