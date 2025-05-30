@@ -1,118 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F68AD5E;
-	Fri, 30 May 2025 00:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDE178F59
+	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 01:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748566589; cv=none; b=VMsPbteKLiaclB44YiADWoblI/tTxZ2/yC+Yg4glal7KCM8tjC3iNcHToZ3yCPG9mrOeqr9I5YBj3wfF8GwRUr7Xgedfyzj/FoPKLu2w8QHBBD3NJZd+htZcCOYEnFAm168K3pUqm8MU2mKM9y1zk+bPVNd8NmFJfAeaoWzm9Gg=
+	t=1748568829; cv=none; b=XUK1sLW10O7e3OvrouAw8+khFG51A421aksMfovn9u1+PQHi7mCz1/1+hYRuDPckVsO7680NdLIwY7kzpieK9gWfdOg1VQLAWEu2XeYiudKDAk5IfukIUkgJKd3mN4uk7fce0yVHIc7mmwfuhveOlvN7KpcGe3AMxI+3Zz5s4Zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748566589; c=relaxed/simple;
-	bh=yg6Wh8XDP53XOaEfOboKxLKTBHVS/nUo2gmPowtLxbo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fY9x/DbKqMFpWfvtpuXq8fsC0a6PvNmX1YlLQFvA3MIpQ1qZzfDSKcNOR0kSThWfvgex26A9wAmFr1CXFarHk23DaqlQ+TFRjj32OEM/L8hIw663pcWNVxqm9Xxi0rqMXQES/51qFu3GVy+OPl8aztxE3ZLaueholW7wa+ypCoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5yTMsUX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748568829; c=relaxed/simple;
+	bh=FMpA4RSm8ne9pEdJlb8jlNv3zSaTEZX72+fA8B7cDZQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tlz1JLMIwB6OtmfF90OjJY8DxmqKEjH5VSxgRt2ZOcXNfEnm4iakYmZsYBz7TvyM8nERE5Es5pBAXRfMKX1jaPtGxXV9qByoZ53RgBmWgNKMfBWliomAgPkIYyJ4tgpHqC3Hz7lXZlO8SCjwYmbWNxOwvNIyUvQY9D4JLNR849I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=YbSgN/vP; arc=none smtp.client-ip=209.85.166.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5yTMsUX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51CDEC4CEE7;
-	Fri, 30 May 2025 00:56:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748566589;
-	bh=yg6Wh8XDP53XOaEfOboKxLKTBHVS/nUo2gmPowtLxbo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D5yTMsUXYJkXKA/3AcLLVZtYKMkrbG7yBjq6Hz2CnCLmzDpTU+WuwJY/phWaP7LWK
-	 DH4sGRZP5sNjiuZI2lbzQ42iNVCv7M0Lqom0Yvd9yfFjLlLPun+tW5laqn3p8EPiO6
-	 VhGLVjm8KUzTfHtQPYo9eDBQnBW6wmwRx5MTcO3HPFAmIWG/wBR2Tn7rVV4fgCHfUF
-	 buiRCeXTUvQPm9FWsgGuzQBy2kAfzGJAMk+NYCX5cWZivNmpmV7UDFhsAFL+3BQwo6
-	 gsjjyQFKCMLAJ0P8cRIkGgi58XLvnhBBxXbrTn0iq0kNZELtg4Aj+XGs1NTiEORLZN
-	 Cx4g/jqxeB+WA==
-Date: Thu, 29 May 2025 17:56:27 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc: donald.hunter@gmail.com, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, horms@kernel.org, vadim.fedorenko@linux.dev,
- jiri@resnulli.us, anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
- andrew+netdev@lunn.ch, aleksandr.loktionov@intel.com, corbet@lwn.net,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
- linux-doc@vger.kernel.org, Milena Olech <milena.olech@intel.com>
-Subject: Re: [PATCH net-next v4 2/3] dpll: add reference sync get/set
-Message-ID: <20250529175627.4e6a3b07@kernel.org>
-In-Reply-To: <20250523172650.1517164-3-arkadiusz.kubalewski@intel.com>
-References: <20250523172650.1517164-1-arkadiusz.kubalewski@intel.com>
-	<20250523172650.1517164-3-arkadiusz.kubalewski@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="YbSgN/vP"
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-86d013c5e79so31401839f.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 18:33:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1748568825; x=1749173625; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=63YhklUO+WBFbPxAfzObLOK/MHzwz+yybl5BUcMH4q8=;
+        b=YbSgN/vPPvKka3jZDEtkJbCQ12e2jYrQWs/2EK66K2iJP+Nn0NhGcB26/qtczjyEU+
+         zVnpx6fvF/iZQpO8iS/H9PjRUmBnhqvgr8vY7BeefCExk+DBLF9Zn3yD7RLZeivwk+Le
+         yaBf38ej3UTVI+BTm6kBgOgAPhjvi6q0oQkAacXnUPGLCAkTCxqH2UIZ6XGsRaIUvRDm
+         mdj7gIEN9gNCkwYYtsKAds0f9OeWSmulKVnCiGNxNsH4qXQauOFiZV280WL5nxwz2AEx
+         Urx5MDweS2sse7RviXZ1ys+FE701EuE5DEHO9lbc/zl399ss22DrPBhxarYy4LCTHnc9
+         hvlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748568825; x=1749173625;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=63YhklUO+WBFbPxAfzObLOK/MHzwz+yybl5BUcMH4q8=;
+        b=dS3M1eutYJs5FHl+aUlt9xoSFbEiIQdZ9Z5KNKSQ8zWwe74QUkfk9jVwuRRB77to0O
+         cT2avnotPAyjBTaj1uiI7afAmXWuTKLYNtw8R2QHyECQOfBFFpRvrmlO9AQ/qLJucs4/
+         5sPY37qDvzpHY8R5IynSf0VUdREBWBPLWsFklrvbcvf+oy66y/A2ZNQW4k63DLjBu6GO
+         Ef4QOiAmHRQ+4V2pwOCTRgWm6dAqrcPgCogIqz0yJdeopY9wlrP6oIrINQh7LJ5QGXFb
+         P5E9Vh2AhD5DQ2uXqHdqXpGdKhBExbtRk9Is2buX3Ak0LOupv+sXpw1kJrFjfDe4tf8Q
+         eJvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXEejxNAVRA3V0yc4xXIYhzd5GkS1chueN/ghuNxHMiJd40lnpY0lOFn7lTVmbpa3ixEiRkII5J3Vs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxD17e6MJOPtrJAGwBMXp1Cy9R90EMAHmiXItrTUPzW3GAa2MjY
+	4ELVs03jRFcVxYjumYQN3fFsN8vjcUf5VE4wlv8ag7p5pN+qeT30nQOC/E/8Cxv4pdc=
+X-Gm-Gg: ASbGncvVYpeICLLqKYJO0Imep1zlRSE912vA8CvgTLz21aY53HCVOmvQ5A/4bmQgUDK
+	zCQOy+QKqsTcR0dJwKDkCghLHSq9qUWh2q/NiH6VsLn5wsFgr3hacpW2dDrRcdHsb330X44OQRm
+	Qm1+UL3DzYiSkDBHe53yRdvErfd2VVTcp2LxtUlojxBo/4YuhnUPDC+jm/i/GjVfFG6R/2zOEp2
+	WWzY0zSIT0s6Um26INVTc8V6xS+lwPNmrinLz1Ro0uC1mrViJ0FAKd8L05d5TQWVJLS3RH0TxFM
+	LG5kWjKLSt1Mfppw3SXab+igjJ/lLs5OU1Tv2DuJzMC5QU5JEAkwbHYvMgM=
+X-Google-Smtp-Source: AGHT+IEFewJDcfGiFulGvASHgCG+gQHnrzGVAH4ehGl9q9BWmJdWLOEPyauL/ILbXyseIIfHsaD5lA==
+X-Received: by 2002:a05:6602:5dd:b0:86d:5b3:15d7 with SMTP id ca18e2360f4ac-86d05b316a6mr11323139f.0.1748568825576;
+        Thu, 29 May 2025 18:33:45 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fdd7e28fa3sm255381173.45.2025.05.29.18.33.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 May 2025 18:33:44 -0700 (PDT)
+Message-ID: <d3882634-1071-4219-86fd-c9c72ded91b9@kernel.dk>
+Date: Thu, 29 May 2025 19:33:43 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/9] ublk: have a per-io daemon instead of a per-queue
+ daemon
+To: Uday Shankar <ushankar@purestorage.com>, Ming Lei <ming.lei@redhat.com>,
+ Caleb Sander Mateos <csander@purestorage.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250529-ublk_task_per_io-v8-0-e9d3b119336a@purestorage.com>
+ <20250529-ublk_task_per_io-v8-1-e9d3b119336a@purestorage.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20250529-ublk_task_per_io-v8-1-e9d3b119336a@purestorage.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Fri, 23 May 2025 19:26:49 +0200 Arkadiusz Kubalewski wrote:
-> +static int
-> +dpll_pin_ref_sync_state_set(struct dpll_pin *pin,
-> +			    unsigned long ref_sync_pin_idx,
-> +			    const enum dpll_pin_state state,
-> +			    struct netlink_ext_ack *extack)
-> +
-> +{
-> +	struct dpll_pin_ref *ref, *failed;
-> +	const struct dpll_pin_ops *ops;
-> +	enum dpll_pin_state old_state;
-> +	struct dpll_pin *ref_sync_pin;
-> +	struct dpll_device *dpll;
-> +	unsigned long i;
-> +	int ret;
-> +
-> +	ref_sync_pin =3D xa_find(&pin->ref_sync_pins, &ref_sync_pin_idx,
-> +			       ULONG_MAX, XA_PRESENT);
-> +	if (!ref_sync_pin) {
-> +		NL_SET_ERR_MSG(extack, "reference sync pin not found");
-> +		return -EINVAL;
-> +	}
-> +	if (!dpll_pin_available(ref_sync_pin)) {
-> +		NL_SET_ERR_MSG(extack, "reference sync pin not available");
-> +		return -EINVAL;
-> +	}
-> +	ref =3D dpll_xa_ref_dpll_first(&pin->dpll_refs);
-> +	ASSERT_NOT_NULL(ref);
+LGTM:
 
-why the assert? The next line will crash very.. "informatively"
-if ref is NULL =F0=9F=A4=B7=EF=B8=8F
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-> +static int
-> +dpll_pin_ref_sync_set(struct dpll_pin *pin, struct nlattr *nest,
-> +		      struct netlink_ext_ack *extack)
-> +{
-> +	struct nlattr *tb[DPLL_A_PIN_MAX + 1];
-> +	enum dpll_pin_state state;
-> +	u32 sync_pin_id;
-> +
-> +	nla_parse_nested(tb, DPLL_A_PIN_MAX, nest,
-> +			 dpll_reference_sync_nl_policy, extack);
-> +	if (!tb[DPLL_A_PIN_ID]) {
-
-NL_REQ_ATTR_CHECK(), please
-
-	if (NL_REQ_ATTR_CHECK(extack, nest, tb, DPLL_A_PIN_ID) ||
-	    NL_REQ_ATTR_CHECK(extack, nest, tb, DPLL_A_PIN_STATE))
-		return -EINVAL;
-
-it will set ATTR_MISS metadata for you. Not 100% sure if Python YNL
-can decode miss attrs in nests but that's a SMOP :) C YNL can do it.
-
-> +		NL_SET_ERR_MSG(extack, "sync pin id expected");
-> +		return -EINVAL;
-> +	}
-> +	sync_pin_id =3D nla_get_u32(tb[DPLL_A_PIN_ID]);
-> +
-> +	if (!tb[DPLL_A_PIN_STATE]) {
-> +		NL_SET_ERR_MSG(extack, "sync pin state expected");
-> +		return -EINVAL;
-> +	}
-> +	state =3D nla_get_u32(tb[DPLL_A_PIN_STATE]);
-> +
-> +	return dpll_pin_ref_sync_state_set(pin, sync_pin_id, state, extack);
-> +}
+-- 
+Jens Axboe
