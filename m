@@ -1,226 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5339C1553A3
-	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 02:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EA0155335;
+	Fri, 30 May 2025 03:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748571203; cv=none; b=LqBxkAVPoq/7z/pclrSGIxY9Vp929+D7pppEaykpDCWPQNR7hX8Sc9ySXvRmJAbZGf92ubgpRu1EY+MAct3sg/+rwfIOx3XV8zyHZxSNO6ml5dFehaXhIo7aiVoYvQifvjAyccuINuVCetSi5QXbHNdQ2Z8czGzMWwnYlqLlRfg=
+	t=1748574171; cv=none; b=XoaRa6gh5/GixAheqiRNCEq5acGZkJFr+Fs+1DliGwRbflifuRt49RPVuotsNyJ7kTiH3ZLNoBQgHgdSXz9MvLgVAdgVlFPq4W+4WQNlYDyq4X9pzZtJUvUIC2FTzRYqlknq9FzQrjQ0MhuvYUEr5gjT9x9tucO+z77s3xOquFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748571203; c=relaxed/simple;
-	bh=wap4tC67QkTxarLmJrcG2So2hb8DBHqqnT0nUw4uwP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a8O6E5a7aAhjnA26MUosSMEt37Tho00A83fQsJpfIhVVycpjKYf29Ei1F9mK9CW1DD+Z89vGHeIwBdgaBllfbEdZMCLUIS51rAiNKribnlkGsp3RU+7X2XuK+D8TvBLWbvviGKupKW8yIg/dybwEEMNe2oEa8IJP/GKfXTXcPvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AUIYpv5v; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1748574171; c=relaxed/simple;
+	bh=H20DZxJJ1yGzZ/Nk6Ga7RSWoWgAA3WXWsCcc8u22kLQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HCmrNOHsYegMhSv9pRvsjNDW5HlizYBQDUgWbGgCTnvKHp+iXjFwQ0bgTtUbIawU0HUJqmLzkqBpLQEYm11x+A+CO4OcpH0HfaHZMxGhjhswirn2/QuMlQqMCsm2WGT6+4txD1DOwtSXiIlTx+S2z04IDxa3BSZIgTrPqZtGWTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=n0E5f/jQ; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AUIYpv5v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748571199;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l31e+xj+b8/YAIp7qmIPHsvaoZ+t/aWIeSplxyrBR0s=;
-	b=AUIYpv5vyruTaXZ131Zei5g1uYVYLTsR37xJYl3jZ7+gZU58hUZKPHgHHEeQ09tln4dECV
-	hhI5OVN0fWpDUz0r4uPlITDn6NNsQf0fHk2fGXJGhrrWkUgASD7DpkZrU3nhZ7/K1mBGK6
-	InRHw9pqOgD65mxuo/9JFVNYfIC7Nwg=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-612-1UTFMNcMMMie1Fs1PzqLxA-1; Thu,
- 29 May 2025 22:13:15 -0400
-X-MC-Unique: 1UTFMNcMMMie1Fs1PzqLxA-1
-X-Mimecast-MFC-AGG-ID: 1UTFMNcMMMie1Fs1PzqLxA_1748571193
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 07D921800446;
-	Fri, 30 May 2025 02:13:13 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.107])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7051919560B0;
-	Fri, 30 May 2025 02:13:06 +0000 (UTC)
-Date: Fri, 30 May 2025 10:13:00 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 8/9] selftests: ublk: add stress test for per io
- daemons
-Message-ID: <aDkULJG9zwqCWqTk@fedora>
-References: <20250529-ublk_task_per_io-v8-0-e9d3b119336a@purestorage.com>
- <20250529-ublk_task_per_io-v8-8-e9d3b119336a@purestorage.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="n0E5f/jQ"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1748574166; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=DAgpEBG7lmS2E9GcUvqSz/E0dYP9VfRFSqUiZg8V0VE=;
+	b=n0E5f/jQ4KYapFdporPqlcAh6WAwP0lvvfJOYnGY7EvC4TUJHEQ45RNU0kCcgQ/7brU4WkvV3ORWWoGKMtcX1MR4Y8F+VBzNRoSEsUfR+JeuejeSnM7hYdU76gX/p6bzBespahVQhd9FF+ywnDxqvTOZl/MyqLDTEidUoQh20Ts=
+Received: from 30.74.144.115(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WcJjWJe_1748574162 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 30 May 2025 11:02:43 +0800
+Message-ID: <07b4db81-095d-4f02-a34f-16f0743039ce@linux.alibaba.com>
+Date: Fri, 30 May 2025 11:02:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250529-ublk_task_per_io-v8-8-e9d3b119336a@purestorage.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 03/12] khugepaged: generalize hugepage_vma_revalidate
+ for mTHP support
+To: Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+ baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
+ aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
+ catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
+ dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org
+References: <20250515032226.128900-1-npache@redhat.com>
+ <20250515032226.128900-4-npache@redhat.com>
+ <469db7d1-ba99-4dc7-af13-b5fe850d4031@linux.alibaba.com>
+ <CAA1CXcA4a3pJ_dJ77TvRRimPiNYacyRe5GMY=iUEz-27NHCVxQ@mail.gmail.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <CAA1CXcA4a3pJ_dJ77TvRRimPiNYacyRe5GMY=iUEz-27NHCVxQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 29, 2025 at 05:47:17PM -0600, Uday Shankar wrote:
-> Add a new test_stress_06 for the per io daemons feature. This is just a
-> copy of test_stress_01 with the per_io_tasks flag added, with varying
-> amounts of nthreads. This test is able to reproduce a panic which was
-> caught manually during development [1]; in the current version of this
-> patch set, it passes.
+
+
+On 2025/5/29 12:00, Nico Pache wrote:
+> On Fri, May 23, 2025 at 12:55 AM Baolin Wang
+> <baolin.wang@linux.alibaba.com> wrote:
+>>
+>>
+>>
+>> On 2025/5/15 11:22, Nico Pache wrote:
+>>> For khugepaged to support different mTHP orders, we must generalize this
+>>> to check if the PMD is not shared by another VMA and the order is
+>>> enabled.
+>>>
+>>> No functional change in this patch.
+>>>
+>>> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>>> Co-developed-by: Dev Jain <dev.jain@arm.com>
+>>> Signed-off-by: Dev Jain <dev.jain@arm.com>
+>>> Signed-off-by: Nico Pache <npache@redhat.com>
+>>> ---
+>>>    mm/khugepaged.c | 10 +++++-----
+>>>    1 file changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>>> index 5457571d505a..0c4d6a02d59c 100644
+>>> --- a/mm/khugepaged.c
+>>> +++ b/mm/khugepaged.c
+>>> @@ -920,7 +920,7 @@ static int khugepaged_find_target_node(struct collapse_control *cc)
+>>>    static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+>>>                                   bool expect_anon,
+>>>                                   struct vm_area_struct **vmap,
+>>> -                                struct collapse_control *cc)
+>>> +                                struct collapse_control *cc, int order)
+>>>    {
+>>>        struct vm_area_struct *vma;
+>>>        unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
+>>> @@ -934,7 +934,7 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+>>>
+>>>        if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
+>>
+>> Sorry, I missed this before. Should we also change 'PMD_ORDER' to
+>> 'order' for the thp_vma_suitable_order()?
+> This was changed since the last version (v5) due to an email from Hugh.
+> https://lore.kernel.org/lkml/7a81339c-f9e5-a718-fa7f-6e3fb134dca5@google.com/
 > 
-> Note that this commit also makes all stress tests using the
-> run_io_and_remove helper more stressful by additionally exercising the
-> batch submit (queue_rqs) path.
-> 
-> [1] https://lore.kernel.org/linux-block/aDgwGoGCEpwd1mFY@fedora/
-> 
-> Suggested-by: Ming Lei <ming.lei@redhat.com>
-> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
-> ---
->  tools/testing/selftests/ublk/Makefile          |  1 +
->  tools/testing/selftests/ublk/test_common.sh    |  5 ++++
->  tools/testing/selftests/ublk/test_stress_06.sh | 36 ++++++++++++++++++++++++++
->  3 files changed, 42 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/ublk/Makefile b/tools/testing/selftests/ublk/Makefile
-> index 5d7f4ecfb81612f919a89eb442f948d6bfafe225..1fb1a95d452c2e9a7ed78cb8b12be2b759074e11 100644
-> --- a/tools/testing/selftests/ublk/Makefile
-> +++ b/tools/testing/selftests/ublk/Makefile
-> @@ -38,6 +38,7 @@ TEST_PROGS += test_stress_02.sh
->  TEST_PROGS += test_stress_03.sh
->  TEST_PROGS += test_stress_04.sh
->  TEST_PROGS += test_stress_05.sh
-> +TEST_PROGS += test_stress_06.sh
->  
->  TEST_GEN_PROGS_EXTENDED = kublk
->  
-> diff --git a/tools/testing/selftests/ublk/test_common.sh b/tools/testing/selftests/ublk/test_common.sh
-> index 0145569ee7e9a45b41898c2c789842b4c8380f18..8a4dbd09feb0a885ec7539f1a285ed6f437fe3ab 100755
-> --- a/tools/testing/selftests/ublk/test_common.sh
-> +++ b/tools/testing/selftests/ublk/test_common.sh
-> @@ -278,6 +278,11 @@ __run_io_and_remove()
->  	fio --name=job1 --filename=/dev/ublkb"${dev_id}" --ioengine=libaio \
->  		--rw=randrw --norandommap --iodepth=256 --size="${size}" --numjobs="$(nproc)" \
->  		--runtime=20 --time_based > /dev/null 2>&1 &
-> +	fio --name=batchjob --filename=/dev/ublkb"${dev_id}" --ioengine=io_uring \
-> +		--rw=randrw --norandommap --iodepth=256 --size="${size}" \
-> +		--numjobs="$(nproc)" --runtime=20 --time_based \
-> +		--iodepth_batch_submit=32 --iodepth_batch_complete_min=32 \
-> +		--force_async=7 > /dev/null 2>&1 &
+> As I noted in my reply to him, although he was not able to reproduce
+> an issue due to this, we always need to revalidate the PMD order to
+> verify the PMD range is not shared by another VMA.
 
-I think we can replace job1 with the batchjob simply.
-
->  	sleep 2
->  	if [ "${kill_server}" = "yes" ]; then
->  		local state
-> diff --git a/tools/testing/selftests/ublk/test_stress_06.sh b/tools/testing/selftests/ublk/test_stress_06.sh
-> new file mode 100755
-> index 0000000000000000000000000000000000000000..3aee8521032e3962b8b070cda8eb295b01e7b124
-> --- /dev/null
-> +++ b/tools/testing/selftests/ublk/test_stress_06.sh
-> @@ -0,0 +1,36 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +. "$(cd "$(dirname "$0")" && pwd)"/test_common.sh
-> +TID="stress_06"
-> +ERR_CODE=0
-> +
-> +ublk_io_and_remove()
-> +{
-> +	run_io_and_remove "$@"
-> +	ERR_CODE=$?
-> +	if [ ${ERR_CODE} -ne 0 ]; then
-> +		echo "$TID failure: $*"
-> +		_show_result $TID $ERR_CODE
-> +	fi
-> +}
-> +
-> +if ! _have_program fio; then
-> +	exit "$UBLK_SKIP_CODE"
-> +fi
-> +
-> +_prep_test "stress" "run IO and remove device with per_io_tasks"
-> +
-> +_create_backfile 0 256M
-> +_create_backfile 1 128M
-> +_create_backfile 2 128M
-> +
-> +ublk_io_and_remove 8G -t null -q 4 --nthreads 5 --per_io_tasks &
-> +ublk_io_and_remove 256M -t loop -q 4 --nthreads 3 --per_io_tasks \
-> +        "${UBLK_BACKFILES[0]}" &
-> +ublk_io_and_remove 256M -t stripe -q 4 --nthreads 4 --per_io_tasks \
-> +        "${UBLK_BACKFILES[1]}" "${UBLK_BACKFILES[2]}" &
-> +wait
-
-We plan to reuse the test for blktest or liburing test, so feature check
-is needed.
-
-But this patch shouldn't be a blocker, and it can be one follow-up with
-something like the following with above batchjob change, then generic
-feature can be covered completely wrt. stress test.
-
-
-diff --git a/tools/testing/selftests/ublk/test_stress_03.sh b/tools/testing/selftests/ublk/test_stress_03.sh
-index 7d728ce50774..f5908c1357d2 100755
---- a/tools/testing/selftests/ublk/test_stress_03.sh
-+++ b/tools/testing/selftests/ublk/test_stress_03.sh
-@@ -41,5 +41,13 @@ if _have_feature "AUTO_BUF_REG"; then
- fi
- wait
- 
-+if _have_feature "PER_IO_DAEMON"; then
-+	ublk_io_and_remove 8G -t null -q 4 --nthreads 8 --per_io_tasks &
-+	ublk_io_and_remove 256M -t loop -q 4 --nthreads 8 --per_io_tasks "${UBLK_BACKFILES[0]}" &
-+	ublk_io_and_remove 256M -t stripe -q 4 --nthreads 8 --per_io_tasks "${UBLK_BACKFILES[1]}" "${UBLK_BACKFILES[2]}" &
-+	ublk_io_and_remove 8G -t null -q 4 -z --nthreads 8 --per_io_tasks &
-+fi
-+wait
-+
- _cleanup_test "stress"
- _show_result $TID $ERR_CODE
-diff --git a/tools/testing/selftests/ublk/test_stress_04.sh b/tools/testing/selftests/ublk/test_stress_04.sh
-index 9bcfa64ea1f0..be3ecdbe9bb4 100755
---- a/tools/testing/selftests/ublk/test_stress_04.sh
-+++ b/tools/testing/selftests/ublk/test_stress_04.sh
-@@ -38,6 +38,13 @@ if _have_feature "AUTO_BUF_REG"; then
- 	ublk_io_and_kill_daemon 256M -t stripe -q 4 --auto_zc "${UBLK_BACKFILES[1]}" "${UBLK_BACKFILES[2]}" &
- 	ublk_io_and_kill_daemon 8G -t null -q 4 -z --auto_zc --auto_zc_fallback &
- fi
-+
-+if _have_feature "PER_IO_DAEMON"; then
-+	ublk_io_and_kill_daemon 8G -t null -q 4 --nthreads 8 --per_io_tasks &
-+	ublk_io_and_kill_daemon 256M -t loop -q 4 --nthreads 8 --per_io_tasks "${UBLK_BACKFILES[0]}" &
-+	ublk_io_and_kill_daemon 256M -t stripe -q 4 --nthreads 8 --per_io_tasks "${UBLK_BACKFILES[1]}" "${UBLK_BACKFILES[2]}" &
-+	ublk_io_and_kill_daemon 8G -t null -q 4 -z --nthreads 8 --per_io_tasks &
-+fi
- wait
- 
- _cleanup_test "stress"
-diff --git a/tools/testing/selftests/ublk/test_stress_05.sh b/tools/testing/selftests/ublk/test_stress_05.sh
-index bcfc904cefc6..5634b1db1ded 100755
---- a/tools/testing/selftests/ublk/test_stress_05.sh
-+++ b/tools/testing/selftests/ublk/test_stress_05.sh
-@@ -69,5 +69,12 @@ if _have_feature "AUTO_BUF_REG"; then
- 	done
- fi
- 
-+if _have_feature "PER_IO_DAEMON"; then
-+	ublk_io_and_remove 8G -t null -q 4 --nthreads 8 --per_io_tasks -r 1 -i "$reissue" &
-+	ublk_io_and_remove 256M -t loop -q 4 --nthreads 8 --per_io_tasks -r 1 -i "$reissue" "${UBLK_BACKFILES[0]}" &
-+	ublk_io_and_remove 8G -t null -q 4 -z --nthreads 8 --per_io_tasks -r 1 -i "$reissue"  &
-+fi
-+wait
-+
- _cleanup_test "stress"
- _show_result $TID $ERR_CODE
-
-
-Thanks,
-Ming
-
+OK. I see. Better to add some comments like Hugh did to make it clear.
