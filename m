@@ -1,226 +1,431 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B267223DF9
-	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 04:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FDC1898F8
+	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 05:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748580671; cv=none; b=XJ5y3FZnC7YO9IQuvJBxq/oABkKBHNnFATA8aXqdNI68OtWPhhzm6NSL7PghfdpVIe+iZuUwOBQZV3ObEyZweWItfQRpw78KM5AHurK1j8jHLUSZHe/6oim3/k7furprc3wHWigTMTOM0YurkL8rna/8gHsLmu6Jl0gay2hzgGI=
+	t=1748581279; cv=none; b=iWRN8c/wpbskg+UmimZiVQ6piNmUxFhb9XZ6w9R5CbTsGHeIOb/PYz0alZSKeYRH6vQ9hOvqDPuroUEcSXXzVKi3+TEgOb9LMjEw5M/qLcwjUUD8AAPel4KOlgyA1jlQm2IADcbRZI9Nmv0SVKUkWT4wiRxQM8U4JLHT/njNvhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748580671; c=relaxed/simple;
-	bh=lWGVKyybSScfvzAgnxZfdPakMV9WV+eXSxEJF4cb1lY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=Ibs397dOjAxr1N7Hxdjby3KdNFboIFNiT+n4NYJdZcjmRCARWglzOBESepD+urtyGXgCz2wwlYv+GgbQnDN7yj1SzlPQfl8et1QSts2wvHq+U2YrF9UM9o7TdJyYOwB8mxBWg6NP6TVWe66EGEhRTtjFqbA2nz6XbvAAsLeaQOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=AWkz7vON; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	s=arc-20240116; t=1748581279; c=relaxed/simple;
+	bh=ajONNee7DSFh9hzWW1WkECibcgt3MTxMZ7o6cVRbDfw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ChmWNIGfmnRBoNKpiEGy/bstngQx8Meg50XWFiUdvl6DlEMKScYXZCXfFJ9vMWG+SpxjhFqNTpQwiSwA+tDwFgydZXVR/f5BuRkk9uIZnkE075O+qPeXMRB1LX2J2fAKCtcUg5Kykh+NMWVJm4ZAS3oSk7dnsUfTktTk0UgF+1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=cbGwXyQx; arc=none smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="AWkz7vON"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-73c17c770a7so1814613b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 21:51:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="cbGwXyQx"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2c6ed7efb1dso928780fac.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 22:01:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1748580669; x=1749185469; darn=vger.kernel.org;
-        h=to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z15gseFrGsCaLlozqKPcH2zd7I0guJGS0A9lc7pAtL0=;
-        b=AWkz7vONAUKHEJ1BTAsIGd6+oLDDkSLczPChdvQu5ORyUjUBYLo06jokq4YNudLMd0
-         cZFWXtDlVdc5pzmsSve234WgkjNFvOezh9bjRcCR+paKjqvLBv2m+BgkJ30lu3+0vbJD
-         2AMhCM4e8rCFp6xoWniyyggyVCvKBOoO8EOXONeAVfHyP6iJq2aYs4i7gDstIaEK52Cp
-         pHfacsIBbZtr2Gqp11V8OXkI40tcMRcs7SF6QMBCJ344XKw6pxNUDD3r/jTNCpV4CKxo
-         9lVs9n/6bFHCm81RS8tI+KQzLTk31WH98vmjTi8kDnoCWzPzPGevHa/P8qio4ArxfuuR
-         sVmw==
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1748581276; x=1749186076; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YunbdSs6YerLx1tbMdF1KtWTH3umX9wbCKgI+0kPVQc=;
+        b=cbGwXyQxPCRxDBXg6blezO/wgcfScZng2I30mmCt5O2Iym1lCgI7QBO5/EYKslblbR
+         yUWNv7OX6nAH9S9IhqUJ6WiJq+LQSfuUZs+FCM11Du9EyrlXW7spU+i1QFgJE3RivGwc
+         DlvjDWxqD32M/LH5aZ8Cdp31R9RaPFZlYh9z3CYU9NAmpEg0bgUlB43nIiQD2meDYxXd
+         1HwnI0coZK9Tg/sruAYHsfbn5eDVaNz+F3fXr9XN/bZ9xCP7FQ4sMtbK5f8W4N7Aqmk3
+         bMRd8vj7oz5k4EUVe+6g2wfgIzEd7xvy8Nf3GYrovW+FW+LX5u7izyvcIG7Mlba3t9vc
+         bPVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748580669; x=1749185469;
-        h=to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z15gseFrGsCaLlozqKPcH2zd7I0guJGS0A9lc7pAtL0=;
-        b=gs+lP76K2RHgpx8n/1+8edZhYnhhGt+gFPr7Y9Hq4By3wsefXGh1pOn3ovK0TYv7fH
-         Lh2WG9WuV4lb8Z+UeyArbXnjSSgRwAb8yOc6KNmB2+IbRF9u3683x5sCn3yjO4mouOHD
-         11/oK7WrffytL8l/ULzxUKRLrY1EBgh7wgkkLfAcDjmzpK6OmQkr25kC+U4oxSg0MBt+
-         I1NNGk2TQR9v+4EA/R/55T83QhfkqEYEjpqo5FdPc174bb5hHHprnulIIeE23r1n42vj
-         lCcKauIeiUrBmemnu0+xIrkdvXvItwBzPhVFoe3uAUfJhk5sVC1aXrkS+tM4XVN4qh9v
-         nnAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUoKAko3R+5N0ug57foBz9M9QAXP02SPmRCVDtsdKov+xaEjQv/gbLrTgn2Fr5TEgkdCkmnQeSYPmI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx30SckifIBJDs5y/ZItZMaoquWKc4HKC+TDoN13hQ+u+tT1jDd
-	3VbTC/Qyaiz2y6vjU+qaya6jAUWu179mfvb1krvNR/WtspirB9hROa4UooUTjeOvrxI=
-X-Gm-Gg: ASbGncsKAtqPVJ4+hRlHqOmPq8CAP476Tv+uMHDUPEDqEUFuaEDkZmAVK2MOW96Uwg9
-	T1Nl/IH5FEN/oDIRYEax0f6Xkd3BOpE1ZL+Ar2seJjEzqf7Qaejlh5bf437TLlZj/Ok8Hl2JgHI
-	oXUZhCMjq8yPZToKC5X6J/FwWypf3u56e9tp8UDuZXs0f8GbXv6vVsWswqcWL/rI+kNmTkVvvgN
-	VFneLtpqzOAVSW0wXiCyTAhyBjCprJhHL24pRl3yUvFh7/w3XoZa9KEuvfH6IgUgMYM2bClj0Af
-	809cuoHWBs+xvsxXCz4h0OWNwF93CfvgaGFaChDHFKq56y0qT51y
-X-Google-Smtp-Source: AGHT+IFEAyvdh+gmFNHHDHekWEQMYLOTZZa1DYZNnrPSAK+MYRW4HLZI96PlWLiwNkqJ19TNscPw2g==
-X-Received: by 2002:a05:6a00:805:b0:736:5b85:a911 with SMTP id d2e1a72fcca58-747bd9658a0mr3200511b3a.8.1748580669233;
-        Thu, 29 May 2025 21:51:09 -0700 (PDT)
-Received: from localhost ([157.82.128.1])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-747affafa42sm2231166b3a.92.2025.05.29.21.51.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 May 2025 21:51:08 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Fri, 30 May 2025 13:50:14 +0900
-Subject: [PATCH net-next v12 10/10] vhost/net: Support
- VIRTIO_NET_F_HASH_REPORT
+        d=1e100.net; s=20230601; t=1748581276; x=1749186076;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YunbdSs6YerLx1tbMdF1KtWTH3umX9wbCKgI+0kPVQc=;
+        b=fC2MXDrnZqe1r+KzutxkiDna1qFnEPRB/R3OToZeYec4wLkxHsP8f+An5ejYpbLav2
+         Lvk7aiGvo4dNXINSupeWt+XiV3ShdmtOgpncD5vAOS9GWtHmjYyX9bX6Zw/fp71c4aOC
+         Q0WKRYnIhojh9v2d61NaSjeNMW8oZWvnCjFXWlCZfgXpDPrP/ke9njFij6aTlop3d+tH
+         qXZQYffuiW9aeZE31rQTdu2mWaFqDeQpg+rWwLoDcT63znJyFqb0h9DvkIQKSLM+BSwG
+         UMUyERPnTaYd+fSZYcdqsv0Uwqya0LLy+Cxc3Jcz1ZJ+EQCN/lHlhx/eIc9Zgj7kI0rr
+         5KCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWIePGnV1P2qwVwkQgPTKsog2l2KtyfKNKycfia76sWJLruvR4sgPqFMkBpY/9nOcNp0wJqWkNbAUs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxO/y4RhCGSsAQ6ZMEaaR51hkCEB/2VlQzo/2d2TPABg0UrF/e4
+	oDUzrm5L4xMDL0jz1ETVUrgbEDrk7o08sPQFKew2zN8xyI5Mdg9DV6Hn8QDGpPAosZ6mLyYX2OY
+	JC4pvTGnTBnoGmyPJezt/CDBnLFIpguBmhZyItFiafzVDyyx7LPlrLZk=
+X-Gm-Gg: ASbGncv342wWBJXU8Tngvb7YyfMEB9AuEhtSaaGxzQjXiYFhx/mZ7Iqtqtqyawa8iti
+	LgDU0epHsfJf5qrOmUZu51GQe3MmyYzzUIWF+SAfdpDEm2pthoktVkecdfs4qvKOspFHhqXUsPS
+	YD+UJgIs1ctzUUie/3hBafQXOCT7xfCQ==
+X-Google-Smtp-Source: AGHT+IEu0lOSPJ9gaj/CnOwHje1qwXsd2Ga+tHw7jydiVfOP0oJ25upss+fSU4AYeKjvCe3VkINEKEXkzD1honycBcI=
+X-Received: by 2002:a05:622a:2305:b0:4a3:e3df:f9de with SMTP id
+ d75a77b69052e-4a4400691d9mr41392931cf.23.1748581265568; Thu, 29 May 2025
+ 22:01:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250530-rss-v12-10-95d8b348de91@daynix.com>
-References: <20250530-rss-v12-0-95d8b348de91@daynix.com>
-In-Reply-To: <20250530-rss-v12-0-95d8b348de91@daynix.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, kvm@vger.kernel.org, 
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
- Yuri Benditovich <yuri.benditovich@daynix.com>, 
- Andrew Melnychenko <andrew@daynix.com>, 
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
- Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>, 
- Akihiko Odaki <akihiko.odaki@daynix.com>
-X-Mailer: b4 0.15-dev-edae6
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+ <20250515182322.117840-5-pasha.tatashin@soleen.com> <aDQKrOjtHXbJqG9n@kernel.org>
+In-Reply-To: <aDQKrOjtHXbJqG9n@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 30 May 2025 01:00:28 -0400
+X-Gm-Features: AX0GCFsuGxA3WBHfUh4AZ4DEUOnu93SjPzxpR3IzxCxUZLpciEuTt-_BKbMOu1g
+Message-ID: <CA+CK2bDWVu137cPdbu7yOBNGm_ixoeJkQucZW_gPXV3FzTPMKQ@mail.gmail.com>
+Subject: Re: [RFC v2 04/16] luo: luo_core: Live Update Orchestrator
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, dmatlack@google.com, rientjes@google.com, 
+	corbet@lwn.net, rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, 
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
+	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
+	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
+	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de
+Content-Type: text/plain; charset="UTF-8"
 
-VIRTIO_NET_F_HASH_REPORT allows to report hash values calculated on the
-host. When VHOST_NET_F_VIRTIO_NET_HDR is employed, it will report no
-hash values (i.e., the hash_report member is always set to
-VIRTIO_NET_HASH_REPORT_NONE). Otherwise, the values reported by the
-underlying socket will be reported.
+> > +config LIVEUPDATE
+> > +     bool "Live Update Orchestrator"
+> > +     depends on KEXEC_HANDOVER
+> > +     help
+> > +       Enable the Live Update Orchestrator. Live Update is a mechanism,
+> > +       typically based on kexec, that allows the kernel to be updated
+> > +       while keeping selected devices operational across the transition.
+> > +       These devices are intended to be reclaimed by the new kernel and
+> > +       re-attached to their original workload without requiring a device
+> > +       reset.
+> > +
+> > +       This functionality depends on specific support within device drivers
+> > +       and related kernel subsystems.
+>
+> This is not clear if the ability to reattach a device to the new kernel or
+> the entire live update functionality depends on specific support with
+> drivers.
+>
+> Probably better phrase it as
+>
+>           Ability to handover a device from old to new kernel depends ...
 
-VIRTIO_NET_F_HASH_REPORT requires VIRTIO_F_VERSION_1.
+Updated
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Tested-by: Lei Yang <leiyang@redhat.com>
----
- drivers/vhost/net.c | 68 +++++++++++++++++++++++++++--------------------------
- 1 file changed, 35 insertions(+), 33 deletions(-)
+>
+> > +
+> > +       This feature is primarily used in cloud environments to quickly
+> > +       update the kernel hypervisor with minimal disruption to the
+> > +       running virtual machines.
+>
+> I wouldn't put it into Kconfig. If anything I'd make it
+>
+>           This feature primarily targets virtual machine hosts to quickly ...
 
-diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
-index b9b9e9d40951..fc5b43e43a06 100644
---- a/drivers/vhost/net.c
-+++ b/drivers/vhost/net.c
-@@ -73,6 +73,7 @@ enum {
- 	VHOST_NET_FEATURES = VHOST_FEATURES |
- 			 (1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
- 			 (1ULL << VIRTIO_NET_F_MRG_RXBUF) |
-+			 (1ULL << VIRTIO_NET_F_HASH_REPORT) |
- 			 (1ULL << VIRTIO_F_ACCESS_PLATFORM) |
- 			 (1ULL << VIRTIO_F_RING_RESET)
- };
-@@ -1097,10 +1098,6 @@ static void handle_rx(struct vhost_net *net)
- 		.msg_controllen = 0,
- 		.msg_flags = MSG_DONTWAIT,
- 	};
--	struct virtio_net_hdr hdr = {
--		.flags = 0,
--		.gso_type = VIRTIO_NET_HDR_GSO_NONE
--	};
- 	size_t total_len = 0;
- 	int err, mergeable;
- 	s16 headcount;
-@@ -1174,11 +1171,15 @@ static void handle_rx(struct vhost_net *net)
- 		/* We don't need to be notified again. */
- 		iov_iter_init(&msg.msg_iter, ITER_DEST, vq->iov, in, vhost_len);
- 		fixup = msg.msg_iter;
--		if (unlikely((vhost_hlen))) {
--			/* We will supply the header ourselves
--			 * TODO: support TSO.
--			 */
--			iov_iter_advance(&msg.msg_iter, vhost_hlen);
-+		/*
-+		 * Supply virtio_net_hdr if VHOST_NET_F_VIRTIO_NET_HDR
-+		 * TODO: support TSO.
-+		 */
-+		if (unlikely(vhost_hlen) &&
-+		    iov_iter_zero(vhost_hlen, &msg.msg_iter) != vhost_hlen) {
-+			vq_err(vq, "Unable to write vnet_hdr at addr %p\n",
-+			       vq->iov->iov_base);
-+			goto out;
- 		}
- 		err = sock->ops->recvmsg(sock, &msg,
- 					 sock_len, MSG_DONTWAIT | MSG_TRUNC);
-@@ -1191,30 +1192,24 @@ static void handle_rx(struct vhost_net *net)
- 			vhost_discard_vq_desc(vq, headcount);
- 			continue;
- 		}
--		/* Supply virtio_net_hdr if VHOST_NET_F_VIRTIO_NET_HDR */
--		if (unlikely(vhost_hlen)) {
--			if (copy_to_iter(&hdr, sizeof(hdr),
--					 &fixup) != sizeof(hdr)) {
--				vq_err(vq, "Unable to write vnet_hdr "
--				       "at addr %p\n", vq->iov->iov_base);
--				goto out;
--			}
--		} else {
--			/* Header came from socket; we'll need to patch
--			 * ->num_buffers over if VIRTIO_NET_F_MRG_RXBUF
--			 */
--			iov_iter_advance(&fixup, sizeof(hdr));
--		}
- 		/* TODO: Should check and handle checksum. */
- 
-+		/*
-+		 * We'll need to patch ->num_buffers over if
-+		 * VIRTIO_NET_F_MRG_RXBUF or VIRTIO_F_VERSION_1
-+		 */
- 		num_buffers = cpu_to_vhost16(vq, headcount);
--		if (likely(set_num_buffers) &&
--		    copy_to_iter(&num_buffers, sizeof num_buffers,
--				 &fixup) != sizeof num_buffers) {
--			vq_err(vq, "Failed num_buffers write");
--			vhost_discard_vq_desc(vq, headcount);
--			goto out;
-+		if (likely(set_num_buffers)) {
-+			iov_iter_advance(&fixup, offsetof(struct virtio_net_hdr_v1, num_buffers));
-+
-+			if (copy_to_iter(&num_buffers, sizeof(num_buffers),
-+					 &fixup) != sizeof(num_buffers)) {
-+				vq_err(vq, "Failed num_buffers write");
-+				vhost_discard_vq_desc(vq, headcount);
-+				goto out;
-+			}
- 		}
-+
- 		nvq->done_idx += headcount;
- 		if (nvq->done_idx > VHOST_NET_BATCH)
- 			vhost_net_signal_used(nvq);
-@@ -1607,10 +1602,13 @@ static int vhost_net_set_features(struct vhost_net *n, u64 features)
- 	size_t vhost_hlen, sock_hlen, hdr_len;
- 	int i;
- 
--	hdr_len = (features & ((1ULL << VIRTIO_NET_F_MRG_RXBUF) |
--			       (1ULL << VIRTIO_F_VERSION_1))) ?
--			sizeof(struct virtio_net_hdr_mrg_rxbuf) :
--			sizeof(struct virtio_net_hdr);
-+	if (features & (1ULL << VIRTIO_NET_F_HASH_REPORT))
-+		hdr_len = sizeof(struct virtio_net_hdr_v1_hash);
-+	else if (features & ((1ULL << VIRTIO_NET_F_MRG_RXBUF) |
-+			     (1ULL << VIRTIO_F_VERSION_1)))
-+		hdr_len = sizeof(struct virtio_net_hdr_mrg_rxbuf);
-+	else
-+		hdr_len = sizeof(struct virtio_net_hdr);
- 	if (features & (1 << VHOST_NET_F_VIRTIO_NET_HDR)) {
- 		/* vhost provides vnet_hdr */
- 		vhost_hlen = hdr_len;
-@@ -1691,6 +1689,10 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
- 			return -EFAULT;
- 		if (features & ~VHOST_NET_FEATURES)
- 			return -EOPNOTSUPP;
-+		if ((features & ((1ULL << VIRTIO_F_VERSION_1) |
-+				 (1ULL << VIRTIO_NET_F_HASH_REPORT))) ==
-+		    (1ULL << VIRTIO_NET_F_HASH_REPORT))
-+			return -EINVAL;
- 		return vhost_net_set_features(n, features);
- 	case VHOST_GET_BACKEND_FEATURES:
- 		features = VHOST_NET_BACKEND_FEATURES;
+Ok
 
--- 
-2.49.0
+> > + * The core of LUO is a state machine that tracks the progress of a live update,
+> > + * along with a callback API that allows other kernel subsystems to participate
+> > + * in the process. Example subsystems that can hook into LUO include: kvm,
+> > + * iommu, interrupts, vfio, participating filesystems, and mm.
+>
+> Please spell out memory management.
 
+Done.
+
+>
+> > + * LUO uses KHO to transfer memory state from the current Kernel to the next
+>
+> A link to KHO docs would have been nice, but I'm not sure kernel-doc can do
+> that nicely.
+
+Added a link, a simple path to rst, is apparently correctly converted
+to a link by sphinx.
+
+>
+> > + * Kernel.
+>
+> Why capital 'K'? :)
+
+Fixed.
+
+>
+> > + * The LUO state machine ensures that operations are performed in the correct
+> > + * sequence and provides a mechanism to track and recover from potential
+> > + * failures, and select devices and subsystems that should participate in
+> > + * live update sequence.
+> > + */
+> > +
+> > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > +
+> > +#include <linux/err.h>
+> > +#include <linux/kobject.h>
+> > +#include <linux/liveupdate.h>
+> > +#include <linux/rwsem.h>
+> > +#include <linux/string.h>
+> > +#include "luo_internal.h"
+> > +
+> > +static DECLARE_RWSEM(luo_state_rwsem);
+> > +
+> > +enum liveupdate_state luo_state;
+>
+> static?
+
+Fixed
+
+> Hmm, luo_state is initialized to 0 (NORMAL) which means we always start
+> from NORMAL, although the second kernel is not in the normal state until
+> the handover is complete. Maybe we need an initial "unknown" state until
+> some of luo code starts running and would set an actual known state?
+
+Added: LIVEUPDATE_STATE_UNDEFINED that exists only before LUO is
+initialized during boot.
+
+> > +const char *const luo_state_str[] = {
+> > +     [LIVEUPDATE_STATE_NORMAL]       = "normal",
+> > +     [LIVEUPDATE_STATE_PREPARED]     = "prepared",
+> > +     [LIVEUPDATE_STATE_FROZEN]       = "frozen",
+> > +     [LIVEUPDATE_STATE_UPDATED]      = "updated",
+> > +};
+> > +
+> > +bool luo_enabled;
+>
+> static?
+
+Fixed.
+
+>
+> > +static int __init early_liveupdate_param(char *buf)
+> > +{
+> > +     return kstrtobool(buf, &luo_enabled);
+> > +}
+> > +early_param("liveupdate", early_liveupdate_param);
+> > +
+> > +/* Return true if the current state is equal to the provided state */
+> > +static inline bool is_current_luo_state(enum liveupdate_state expected_state)
+> > +{
+> > +     return READ_ONCE(luo_state) == expected_state;
+> > +}
+> > +
+> > +static void __luo_set_state(enum liveupdate_state state)
+> > +{
+> > +     WRITE_ONCE(luo_state, state);
+> > +}
+> > +
+> > +static inline void luo_set_state(enum liveupdate_state state)
+> > +{
+> > +     pr_info("Switched from [%s] to [%s] state\n",
+> > +             LUO_STATE_STR, luo_state_str[state]);
+>
+> Maybe LUO_CURRENT_STATE_STR?
+
+Done
+
+> > +     __luo_set_state(state);
+> > +}
+> > +
+> > +static int luo_do_freeze_calls(void)
+> > +{
+> > +     return 0;
+> > +}
+> > +
+> > +static void luo_do_finish_calls(void)
+> > +{
+> > +}
+> > +
+> > +int luo_prepare(void)
+> > +{
+> > +     return 0;
+> > +}
+> > +
+> > +/**
+> > + * luo_freeze() - Initiate the final freeze notification phase for live update.
+> > + *
+> > + * Attempts to transition the live update orchestrator state from
+> > + * %LIVEUPDATE_STATE_PREPARED to %LIVEUPDATE_STATE_FROZEN. This function is
+> > + * typically called just before the actual reboot system call (e.g., kexec)
+> > + * is invoked, either directly by the orchestration tool or potentially from
+> > + * within the reboot syscall path itself.
+> > + *
+> > + * Based on the outcome of the notification process:
+> > + * - If luo_do_freeze_calls() returns 0 (all callbacks succeeded), the state
+> > + * is set to %LIVEUPDATE_STATE_FROZEN using luo_set_state(), indicating
+> > + * readiness for the imminent kexec.
+> > + * - If luo_do_freeze_calls() returns a negative error code (a callback
+> > + * failed), the state is reverted to %LIVEUPDATE_STATE_NORMAL using
+> > + * luo_set_state() to cancel the live update attempt.
+>
+> The kernel-doc comments are mostly for users of a function and describe how
+> it should be used rather how it is implemented.
+
+SGTM, cleaned-up.
+
+> I don't think it's important to mention return values of
+> luo_do_freeze_calls() here. The important things are whether registered
+> subsystems succeeded to freeze or not and the state changes.
+> I'd also mention that if a subsystem fails to freeze, everything is
+> canceled.
+
+Added
+
+> > +/**
+> > + * luo_finish - Finalize the live update process in the new kernel.
+> > + *
+> > + * This function is called  after a successful live update reboot into a new
+> > + * kernel, once the new kernel is ready to transition to the normal operational
+> > + * state. It signals the completion of the live update sequence to subsystems.
+> > + *
+> > + * It first attempts to acquire the write lock for the orchestrator state.
+> > + *
+> > + * Then, it checks if the system is in the ``LIVEUPDATE_STATE_UPDATED`` state.
+> > + * If not, it logs a warning and returns ``-EINVAL``.
+> > + *
+> > + * If the state is correct, it triggers the ``LIVEUPDATE_FINISH`` notifier
+>
+> Here too, you describe what the function does rather how it should be used
+
+Fixed
+
+>
+> > + * chain. Note that the return value of the notifier is intentionally ignored as
+> > + * finish callbacks must not fail. Finally, the orchestrator state is
+>
+> And what should happen if there was an error in a finish callback?
+
+Scream, warn, panic, we cannot allow running a system past liveupdate,
+if some state was not properly passed from the previous kernel to the
+current kernel. This may result in catastrophic memory leaks.
+
+> > +static int __init luo_startup(void)
+> > +{
+> > +     __luo_set_state(LIVEUPDATE_STATE_NORMAL);
+> > +
+> > +     return 0;
+> > +}
+> > +early_initcall(luo_startup);
+>
+> This means that the second kernel starts with luo_state == NORMAL, then
+> at early_initcall transitions to NORMAL again and later is set to UPDATED,
+> doesn't it?
+
+In the next patch, in this function we transition to UPDATED. So,
+technically, we go from NORMAL to UPDATED. However, I added UNDEFINED
+state so, in this function we either go from UNDEFINED to UPDATED or
+UNDEFINED to NORMAL.
+
+
+> > + * @return true if the system is in the ``LIVEUPDATE_STATE_NORMAL`` state,
+> > + * false otherwise.
+> > + */
+> > +bool liveupdate_state_normal(void)
+> > +{
+> > +     return is_current_luo_state(LIVEUPDATE_STATE_NORMAL);
+> > +}
+> > +EXPORT_SYMBOL_GPL(liveupdate_state_normal);
+>
+> Won't liveupdate_get_state() do?
+
+Yeah, we can simply return state, and let caller to compare. However,
+I think, caller is only interested if this is normal state or if live
+update is in progress. I will keep them, and also added
+liveupdate_get_state().
+
+> > +
+> > +/**
+> > + * liveupdate_enabled - Check if the live update feature is enabled.
+> > + *
+> > + * This function returns the state of the live update feature flag, which
+> > + * can be controlled via the ``liveupdate`` kernel command-line parameter.
+> > + *
+> > + * @return true if live update is enabled, false otherwise.
+> > + */
+> > +bool liveupdate_enabled(void)
+> > +{
+> > +     return luo_enabled;
+> > +}
+> > +EXPORT_SYMBOL_GPL(liveupdate_enabled);
+> > diff --git a/drivers/misc/liveupdate/luo_internal.h b/drivers/misc/liveupdate/luo_internal.h
+> > new file mode 100644
+> > index 000000000000..34e73fb0318c
+> > --- /dev/null
+> > +++ b/drivers/misc/liveupdate/luo_internal.h
+> > @@ -0,0 +1,26 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +
+> > +/*
+> > + * Copyright (c) 2025, Google LLC.
+> > + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> > + */
+> > +
+> > +#ifndef _LINUX_LUO_INTERNAL_H
+> > +#define _LINUX_LUO_INTERNAL_H
+> > +
+> > +int luo_cancel(void);
+> > +int luo_prepare(void);
+> > +int luo_freeze(void);
+> > +int luo_finish(void);
+> > +
+> > +void luo_state_read_enter(void);
+> > +void luo_state_read_exit(void);
+> > +
+> > +extern const char *const luo_state_str[];
+> > +
+> > +/* Get the current state as a string */
+> > +#define LUO_STATE_STR luo_state_str[READ_ONCE(luo_state)]
+>
+> IIUC you need the macro to have LUO_STATE_STR available in all files in
+> liveupdate/ but without exposing luo_state.
+>
+> I think that we can do a function call to get that string, will make things
+> nicer IMHO.
+
+Done.
+
+>
+> > +
+> > +extern enum liveupdate_state luo_state;
+> > +
+> > +#endif /* _LINUX_LUO_INTERNAL_H */
+> > diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
+> > new file mode 100644
+> > index 000000000000..c2740da70958
+> > --- /dev/null
+> > +++ b/include/linux/liveupdate.h
+> > @@ -0,0 +1,131 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +
+> > +/*
+> > + * Copyright (c) 2025, Google LLC.
+> > + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> > + */
+> > +#ifndef _LINUX_LIVEUPDATE_H
+> > +#define _LINUX_LIVEUPDATE_H
+> > +
+> > +#include <linux/bug.h>
+> > +#include <linux/types.h>
+> > +#include <linux/list.h>
+> > +
+> > +/**
+> > + * enum liveupdate_event - Events that trigger live update callbacks.
+> > + * @LIVEUPDATE_PREPARE: PREPARE should happens *before* the blackout window.
+>
+> should happen or happens ;-)
+
+Done
+
+>
+> > + *                      Subsystems should prepare for an upcoming reboot by
+> > + *                      serializing their states. However, it must be considered
+>
+> It's not only about state serialization, it's also about adjusting
+> operational mode so that state that was serialized won't be changed or at
+> least the changes from PREPARE to FREEZE would be accounted somehow.
+
+By serialization, I mean is to save their state, but I agree, the
+devices and resources are also should be in a limited state where the
+serialized data should not be altered between prepare and freeze (i.e.
+no memfd resizing, no new DMA mappings, etc).
+
+Thank you for your comments.
+Pasha
