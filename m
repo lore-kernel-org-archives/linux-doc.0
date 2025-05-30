@@ -1,165 +1,68 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD3A2550D0
-	for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 23:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EC979D2;
+	Fri, 30 May 2025 00:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748562574; cv=none; b=XTpuupVmf6zwFaSrFc3rrCqNFWvr/UTnfV5nx1SBXauTKHN8qi/EbYBtFq2UYjvHdXaGIEwvCaJc4kGEm57gmnLbwdq/pPQji+Wiz2RLpAT2HEaWN17zvBAfspfFPi02QDCoJ6COWQ7Zc8qWy9H7qaZf30stDZFz5RPvYqp2cws=
+	t=1748565195; cv=none; b=IK/QdTWvLtvaBpVaPEwgl3ePN0Wq3LSFZefGE5Y081+UeNusnh1oS3/BGlRhv9ETT1kAHUOXBWMw553OdafnhmPIfNaD4m1ChmxImVqRSvv3e2GuKMXDUSJAzzo/65R14JPjc3nKOTRpJbj1k7y6s3T7P0qvNey1bXZ3VtLBx/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748562574; c=relaxed/simple;
-	bh=njDQ8Lhj+rbQY91bCgJ2J/LI6phcjK0rry9e5UVMEYo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G/tTTO5nXYRDh7rqvXT72rN4jrPIixOEziQMcuB6bW4N7vTUclFW3aJd2TqJBpoWfqP1DWCG8bowc4SDphYXP+Ocyk8gbqKcoyztAEvhPHmf6Yx5Ja0uYOyB4S4DePfJfadvLXDfhugA7Lf17903rIDRkSUwFaMWyaXQlauWHO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Ma1HFYxb; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1748565195; c=relaxed/simple;
+	bh=NQvdTxmbBmPADvv5Bbcr1DYjCqG9xYmrWl2KDuQ7cd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OpUqtY5ZZj5unTwLG0cavv383IsYldTxd8MZSYKLP6wG2Btc5Kv9CnHqenaka3cNfVgDzOED9jVxelv8oZL4EU7ec9ZoRjiZvsKdlXYdZrGM0llF9/bBE5TNWzgMngQ+eBa6rUxSKtgG+7Isy4bPDGFn/BJqQcE6/oGnJmHO2Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E+n7t5zf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Ma1HFYxb"
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e7569ccf04cso1271982276.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 16:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1748562570; x=1749167370; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IzrpMWMfPR3T2gCVNz/ykn1poKsGqIWx4fYMabbDEoU=;
-        b=Ma1HFYxbpQWiO5QgZg/176AE28nFmcx4LGBbFEj2ed6gW7KquDE8lkkFg5lYuS5nrp
-         ZnVR9EMCcTIn8swlEw8SwbYF+P5CIMZKly1ju8Ciuxn3F/YPKAeyrOKzYF3VzU8XbFts
-         xzFAGS5MLLhuTxE41HqMT34c+xEYvWg+D3Vo4Kl7kQRR5jQLjYCpDtTekHmJl6Sq9jH1
-         2eNjbNxi6fFmbourM8UwjWyiLUR5V1md3o6lM/AkUKkTxv8DiFoRnC0IAcAW48YBYtCh
-         gf9f84AH8h1OHq3Ao5j5Kedgi+GurI7XFxavKxOymPXg1zJA2bMm8RF625x2tb9mwA3e
-         DghA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748562570; x=1749167370;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IzrpMWMfPR3T2gCVNz/ykn1poKsGqIWx4fYMabbDEoU=;
-        b=gv99c4gA64cfK2MX8sf6+8iyksEjgjutEDoo1lj/sTGWDFJmObegR4tQgi+Yrons/+
-         J/C5UzFsRIRereN0m+J1TPOmBlRDFHab2nZ7PySx1Y9yMePXbad0+GheLgXwk3X0XNp6
-         sBxjWKE6LYDZljVUw+zCW+GNo5Ohx6uRZ0S5PzBr5tfOujSob0VjZ6APTIOwM5YALLj7
-         4Z2RgxJ56vpuF3+rPB4IurhQXT8jaELaGi4Ph2ZUVcFzfbduhkYRBHKejcNuDdLCCe/3
-         rO3l4XnZnTslOBEelJPINKf7a7ctl4RQaBKRi1VIbPWmK5sbbJk+xPE0DZVOM3ff/NFv
-         vwtA==
-X-Forwarded-Encrypted: i=1; AJvYcCUy289RsbtpCaFdhtE1K8MfSHMQN22DlBaUac8TsUQAHbd6kbSjSxCo4EEa/PHmlJOQeD1IY/7JDe4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpzJLopAenVEggNI7M6VPrk35OQx4295nSVi7T9S55iL4DPuxm
-	tzjK2kIUOoudKF+DWz5Bj4vU3WQnzaBSEF7HgYDeI8BkzkC2QgPW7CGo45tOIXOM7TBYiP7Ilss
-	KRq2sEzIl2EHJ2MvNqYNq3dIFHts6k7QI3rK7r0P/
-X-Gm-Gg: ASbGncv1q21hcYOosQVZ8CKp6H3e0KyGotVahLEB6BJNLx8pTsEdn6uucDkp3GzMjtx
-	gsoR9MjlfuENtNehpRI9JEajoxSJL8G9K/1Tm4NsOWHb7ABXlZ0xCbAwe9GxvfwAlgL4Z2ZeZ9J
-	GxsU9aXMcU9PIbbMSdv/RzMPXkLGLwtByi
-X-Google-Smtp-Source: AGHT+IGhztxCAK3YTRu6P4h6gxYqvuSLD7WfoNzyStJqIFYGaHOmc7yQwpS7nzoIzkVnhQPYk9/qIXwf6pJLAlBDxC0=
-X-Received: by 2002:a05:6902:330b:b0:e7d:6a68:f572 with SMTP id
- 3f1490d57ef6-e7f81bb773dmr2259538276.10.1748562570009; Thu, 29 May 2025
- 16:49:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E+n7t5zf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFC2BC4CEE7;
+	Fri, 30 May 2025 00:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748565194;
+	bh=NQvdTxmbBmPADvv5Bbcr1DYjCqG9xYmrWl2KDuQ7cd4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=E+n7t5zfIFrF1CjovLBdfycoxonkpvmWIN0L7aYqj25oaLSpUpaYTviCLiAh2pE/6
+	 S4h8xcxxOf95sbBmUGh5dJzDId6h3o4t9EalM9eCBCqV7q7nf/Jh+SqJNhUXHoleEc
+	 L6wmVYboycw+cVdrv94ihOoltdFrMRaMSoEiA7CXZ2Ydsnu2+ARz4eSIs7aRs1jvVP
+	 OD4ndEQ3ryL/7KldvqM3YFgyvFbZpmvEuRHRXDULSm8gdPI7igggoLKyCObYmylMaa
+	 CryyCHOL1DdOUdU0GZmWjkniRReeDHu3cMn7KszmDGwxF1JVZc6Cxtbb6NV9wbhy3d
+	 hzLAAfCVfMwbw==
+Date: Thu, 29 May 2025 17:33:11 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc: donald.hunter@gmail.com, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, horms@kernel.org, vadim.fedorenko@linux.dev,
+ jiri@resnulli.us, anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
+ andrew+netdev@lunn.ch, aleksandr.loktionov@intel.com,
+ milena.olech@intel.com, corbet@lwn.net, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v4 1/3] dpll: add phase-offset-monitor feature
+ to netlink spec
+Message-ID: <20250529173311.15fcff9b@kernel.org>
+In-Reply-To: <20250523154224.1510987-2-arkadiusz.kubalewski@intel.com>
+References: <20250523154224.1510987-1-arkadiusz.kubalewski@intel.com>
+	<20250523154224.1510987-2-arkadiusz.kubalewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250521140121.591482-1-git@nightmared.fr> <20250521140121.591482-10-git@nightmared.fr>
- <CAHC9VhR-80zxgo+q07Aw8HqK+qiPdnuXC0axONGac0e9JxXvmw@mail.gmail.com> <4939d8ab-3911-4759-b8d6-cb57ff9f9cda@nightmared.fr>
-In-Reply-To: <4939d8ab-3911-4759-b8d6-cb57ff9f9cda@nightmared.fr>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 29 May 2025 19:49:19 -0400
-X-Gm-Features: AX0GCFt-dubQ8zjyvLFIAb7yxjUrHx2vekSE7cPMRUm7dhYCysWfX-kgOpwdxLI
-Message-ID: <CAHC9VhT5JrhzGhRnJ4VNo6e941o-xdAG-FC-Q6wDbSZhgSUWOQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 9/9] Loadpol LSM: add a minimal documentation
-To: Simon Thoby <git@nightmared.fr>
-Cc: linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Kees Cook <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 22, 2025 at 5:23=E2=80=AFAM Simon Thoby <git@nightmared.fr> wro=
-te:
-> On 5/21/25 23:31, Paul Moore wrote:
-> > On Wed, May 21, 2025 at 10:03=E2=80=AFAM Simon THOBY <git@nightmared.fr=
-> wrote:
-> >>
-> >> Introduce a minimal documentation for Loadpol, presenting the policy
-> >> format and the two user interfaces: the securityfs policy file and the
-> >> sysctl.
-> >>
-> >> Signed-off-by: Simon THOBY <git@nightmared.fr>
-> >> ---
-> >>  Documentation/admin-guide/LSM/Loadpol.rst | 81 ++++++++++++++++++++++=
-+
-> >>  Documentation/admin-guide/LSM/index.rst   |  1 +
-> >>  2 files changed, 82 insertions(+)
-> >>  create mode 100644 Documentation/admin-guide/LSM/Loadpol.rst
-> >>
-> >> diff --git a/Documentation/admin-guide/LSM/Loadpol.rst b/Documentation=
-/admin-guide/LSM/Loadpol.rst
-> >> new file mode 100644
-> >> index 000000000000..0aa24a8d393c
-> >> --- /dev/null
-> >> +++ b/Documentation/admin-guide/LSM/Loadpol.rst
-> >> @@ -0,0 +1,81 @@
-> >> +.. SPDX-License-Identifier: GPL-2.0
-> >> +
-> >> +=3D=3D=3D=3D=3D=3D=3D
-> >> +Loadpol
-> >> +=3D=3D=3D=3D=3D=3D=3D
-> >> +
-> >> +Loadpol is a Linux Security Module that enforces a user-provided poli=
-cy
-> >> +when decided whether a dynamic module can be loaded or not.
-> >
-> > Considering the relatively small scope of Loadpol, I have to ask if
-> > you've considered augmenting other LSMs to meet your needs?  While
-> > LoadPin is different from what you are proposing here, it does
-> > similarly limit its scope to kernel module load operations, and given
-> > the current simplicity of LoadPin I imagine one could find a creative
-> > way to extend it to support what you are trying to do.
->
-> I indeed felt a bit ridiculous introducing a new LSM for a limited featur=
-e
-> like that!
+On Fri, 23 May 2025 17:42:22 +0200 Arkadiusz Kubalewski wrote:
+> +Phase offset measurement is typically performed against the current active
+> +source. However, some DPLL (Digital Phase-Locked Loop) devices may offer
+> +the capability to monitor phase offsets across all available inputs.
+> +The attribute and current feature state shall be included in the response
+> +message of the ``DPLL_CMD_DEVICE_GET`` command for supported DPLL devices.
+> +In such cases, users can also control the feature using the
+> +``DPLL_CMD_DEVICE_SET`` command by setting the ``enum dpll_feature_state``
+> +values for the attribute.
 
-Please don't feel bad about it, often simply doing "something" is what
-makes things happen, even if that original "something" turns out not
-to be the final "thing" :)
+Since we're waiting for the merge window to be over - could you mention
+the attribute the PHASE_OFFSET comes out as? DPLL_A_PIN_PHASE_OFFSET ?
 
-> What's more, I don't see it being extended much in the future - we could
-> always imagine things like signed policy updates, but other than that it'=
-s
-> probably "feature-complete", as the feature itself is fairly small.
-> The difficulty with LoadPin is that it rely relies on the notion of
-> filesystem (which is coupled with the origin of the kernel modules) to en=
-sure
-> that modules are valid. On a general-purpose distributions, the modules
-> would be stored on the same (non-integrity-verified) filesystem, so
-> segregating the modules by filesystem is not really possible there.
-> Extending LoadPin to provide the same features is probably possible, but =
-I
-> fear this would add complexity to loading by trying to make it do two
-> slightly different jobs at once.
-
-My thinking around possible augmentation of LoadPin is that both
-LoadPin and Loadpol share a similar, limited focus of controlling
-access to kernel module loading and Loadpol has support for a basic
-loadable policy, a policy that could likely be extended to support a
-LoadPin-esque construct that limit module loading based on filesystem
-pinning.  It probably makes more sense to think of adding LoadPin
-support to Loadpol, rather than augmenting LoadPin to support the
-Loadpol concepts, but for consistency with upstream we probably need
-to speak in terms of the latter.
-
-> CC-ing Kees Cook as he is the maintainer of the LoadPin module, he may ha=
-ve
-> opinions on what features may or may not fit inside LoadPin.
-
-Of course, the combination, or not, of LoadPin and Loadpol is really
-up to the two of you.
-
-> As for other LSMs, I don't really see one that tries to provide similar
-> features, but I someone is open to extending an existing LSM for that, I
-> would be happy to help.
-
-I think LoadPin is the obvious choice.
-
---=20
-paul-moore.com
+BTW I noticed that in the YAML spec, in a comment we say
+DPLL_A_PHASE_OFFSET a couple of times, missing the _PIN.
