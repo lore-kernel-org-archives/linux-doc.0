@@ -1,198 +1,282 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.168.213])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846159476;
-	Fri, 30 May 2025 03:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.168.213
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C495619D065
+	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 04:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748576677; cv=none; b=PPEYejwwBXazojZj8yI46pQ796ZFLc0k8/nZwoSPitoQxnXqsoE98lvq4Zm2Og+bG+opddXCFUQVZHyf/yHsk+WDrBHJjyOuJ4UQHpXLS6+mN94Py6cuXappusOz27VUiJh8r1HayZNItv04i8x0PFWlXOZrfwXXaj1l4dYw/0w=
+	t=1748580629; cv=none; b=WfcqoOQilQ9B+FjHjma75aDcWxJwxiTKrbwkUchJksUWGcv+KJXD6T+eRUFxc0P373/siU5u0UTDwyRfbqC3qPPLzidM7atBm++/nbE8iCIkpwBYBiUnmtxo+M5GBTKfN/sJtKlYJ6cLp4dqf+5usOj/84ktBrffUPd3OmqC1XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748576677; c=relaxed/simple;
-	bh=dIGjffcg6YtgnsPBnx4IS1i7Bnt38cmcuHBI6hTjwtE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J3iUowGouJz6PMjk2rIW/CxtCT2H5J7clqVfohEe7Ow+LkHMEuTNPQmRo1eg2Y94MraDP/NwTezBr/KyRSAVS1oXJ1FlmZVDbjlUlqWf5E3QJDEzatoLKAyASMR8g+MQZJu/WzZdJ5Ebe8xJMjTakyFGxgtWe7Iw3PNLgGWGGvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.229.168.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrAB3WR6HKTlo0MPfCQ--.54948S2;
-	Fri, 30 May 2025 11:44:07 +0800 (CST)
-Received: from [10.12.164.29] (unknown [10.12.164.29])
-	by gateway (Coremail) with SMTP id _____wAXHwOCKTlofER3Aw--.14052S2;
-	Fri, 30 May 2025 11:44:06 +0800 (CST)
-Message-ID: <d38e5648-1700-4d8f-896d-58053a5393ba@hust.edu.cn>
-Date: Fri, 30 May 2025 11:44:02 +0800
+	s=arc-20240116; t=1748580629; c=relaxed/simple;
+	bh=N8sW+IwYvL5X5LNdVS5M4lmPLLZ+kwZNLPyEOkP5pHA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To; b=VgJzFhr4nSiVIFrygah7L5lwtjGJOX/itdgw9c2hBxOj0ewy4ijaPUzf8A1mVGfxeUZjeZwpmdQ7Vx1FT5CYcDUeCXrKcwDg6zyq+DVbvqCohLf+YGXmstSD7HXtIAxJ9hvRY/60gOFB4imtrnNCy7hzDYIItb2aPJ8hpQj7rZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=iHxuenpq; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="iHxuenpq"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-73bf5aa95e7so1241951b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 May 2025 21:50:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1748580627; x=1749185427; darn=vger.kernel.org;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hPQKvC3ql9fhFzmc6zvGI30HxdvNWYp5SnQBcJyISWQ=;
+        b=iHxuenpq/7pGSEhYalJmM0fUAev/hb4TJG0UJMDoCKKZ80TytPtOdOmYnsLIZV41gJ
+         Y7YUPwuLQEDH32zfXmsSeRlNrzEDY2C7DPphXUtvli88flN8z296A4X6+txDls0BX0ZH
+         VIyKmJGRL4+jPEi46q04LaqNlmA+oKz1+do3nnJEfuAMUyS1h6VoiYSKMeJctTg9tge+
+         8mqGVTSWpSGwuzmrbzg6bs/oDpFWr8JIX1lArnjLk+C6hkeVPweKGiXDVm0Vd0nqV8Tj
+         SpZ3XGSxi+YOt/OBPy29ag9PHhlcKM8nUC4k+oUcIOcktNecOWxp9R92E7WZOgxknN0m
+         6tZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748580627; x=1749185427;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hPQKvC3ql9fhFzmc6zvGI30HxdvNWYp5SnQBcJyISWQ=;
+        b=QE77RZQ6Oay/huKnhkeLlrxLUa8Rm7tfxIqrCszIJ1Ep/SU5vEvhViCOkUBlzVZNzC
+         I3WFGjumdq9ylvaUb/g0T8TKgW1a87lYaBOeaVvDM4VS3AyYlJi3pL6Zs6rhvVm6SxnN
+         GF6LpZ5M7R/sAYR43wuyAD0d/KBzW3KA7zUcFTIaZ3zCGopNfk62/hSFesb/7i2MjYUt
+         cAleJI9tkPf66OuGh8Jupo8FH8tYPDVfuFdbdIq39xvZGLe2UX7XVbVPa3OiqUQu08Zw
+         5fYzvLZPAe2A+1ruSBmBm64ozuqodFbDa+/22pCy6BpvWCB7Vyubu0KkQAnVaZ1l24k2
+         yDxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWlAEQgW8wjh08RIZtZCWIRcpWXGl/B+az6LHCKos0kMdZx9dku/7bEHkZYSMY6PZHL4ylfngrxkk8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6UxwvSmQ0bXNDiIMuKR+tza13zCgM7Mq6HGkPCXXWyg9SbSpi
+	oZk43MeVa7JvhyJHXbLYUnlbdmx8UKkvw45KoU1cC801pSNAWe5LCSltSC68zfsqoXI=
+X-Gm-Gg: ASbGnctji5xU2LXFE6aq2QGVSHOwzoJhPHI9qq0kIFc6FM8ia8TqZY3lsAXIAqndYzu
+	eXAFe4hgI5I+UX4kb1/8iPm5PP7iH9At3s1fXcC0QfcGcIojLpAwT/GZvbI9Q5kD7yDGT2fgrvK
+	vHIDrKqnFS2kJw+36yV47prtwF1fZQzEK9s/KqkqinQVV4JSxLucMfN2tPOb7z4AacxXpC3hu85
+	3rOXQAIKBVdIw7fiRVl7mnB8ew5Hw8rHmjuGEJPX3s9YDdeCJBUcr9Cl9qR3RePRu83kVxvmsbK
+	am4Z9sSLwdsW3TsYi2M1/o3noDvhajg/z69lkD6c+jd/WWeYRIpR
+X-Google-Smtp-Source: AGHT+IHqoTL77XLOwzCe4hUoocyG8Rzb3Oor60nWaLLzGCI3oRz/BPnDLMFFIcAqwWKligPLSQnBfA==
+X-Received: by 2002:a05:6a20:2449:b0:1f3:1d13:96b3 with SMTP id adf61e73a8af0-21ad94e0024mr3321043637.5.1748580626892;
+        Thu, 29 May 2025 21:50:26 -0700 (PDT)
+Received: from localhost ([157.82.128.1])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-747affafba1sm2156259b3a.110.2025.05.29.21.50.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 May 2025 21:50:26 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH net-next v12 00/10] tun: Introduce virtio-net hashing
+ feature
+Date: Fri, 30 May 2025 13:50:04 +0900
+Message-Id: <20250530-rss-v12-0-95d8b348de91@daynix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux next] Docs/zh_CN: Translate vxlan.rst to Simplified
- Chinese
-To: jiang.kun2@zte.com.cn, alexs@kernel.org, si.yanteng@linux.dev,
- corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: xu.xin16@zte.com.cn, yang.yang29@zte.com.cn, fan.yu9@zte.com.cn,
- qiu.yutan@zte.com.cn, wang.yaxin@zte.com.cn
-References: <202505301132492152dM75edlCkVrcPL71Omc5@zte.com.cn>
-Content-Language: en-US
-From: =?UTF-8?B?5oWV5Yas5Lqu?= <dzm91@hust.edu.cn>
-In-Reply-To: <202505301132492152dM75edlCkVrcPL71Omc5@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrAB3WR6HKTlo0MPfCQ--.54948S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW3GF13Gr4xtF1UJFWrXF18Zrb_yoW7GF1fpF
-	Wqgryxtw47KFyFkrW8Ga15Jrn0kFykCan7GFyxK3Wktr4fG3yktry7Krn8GrZagryrZFyF
-	va1kGry5u3yIyaDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
-	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
-	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
-	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
-	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVj
-	vjDU0xZFpf9x07jfpndUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPw4OWgC/4XSyW7bMBAG4FcxdC6FGXK4+dT3KHKguNREECmRF
+ MGGkXfvRHIaFTr0JnL4/Vw092bKY81Tcz7dmzEvdapDzwOUP05NvIT+dxY18UQjQRIQKDFOk8h
+ W2eR8LsHahle+jrnU6xrzq+nzLPp8nZsnrlzqNA/jbc1fcK1zkkIAB1oiYItEJKVAEZ7rpT4P7
+ ZD462cKt75e2zi8rDmL3FnUSGiIWmnAkPmvVV+WwKNeb7AoASIaBRyWOnDygGiHJG2IGDnKXsk
+ cIZt4QPov+rzhhjSjomIxLhUAnQ7IfCENCH5DhlGH0UNIFlwxB2S/kZSPnex6PJKgY9eldETuG
+ ykwG3KMbOioaFMKSXVAfo/shjyjVKwx/DpS5+6AEHYKt67hSWYKnU5WBR8KHBnu2WMzRGYUQ4z
+ By6Kw/MM+tv4b89s7d+/8aMIuTFlw/aXO59Ni2s/fHg2v/vgDNtHPdvMCAAA=
+X-Change-ID: 20240403-rss-e737d89efa77
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
+ Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+X-Mailer: b4 0.15-dev-edae6
 
+NOTE: I'm leaving Daynix Computing Ltd., for which I worked on this
+patch series, by the end of this month.
 
-在 2025/5/30 11:32, jiang.kun2@zte.com.cn 写道:
-> From: Qiu Yutan <qiu.yutan@zte.com.cn>
->
-> translate the "vxlan.rst" into Simplified Chinese
->
-> Update to commit 33a1aaf82bcf("docs: vxlan: add info
-> about device features")
->
-> Signed-off-by: Qiu Yutan <qiu.yutan@zte.com.cn>
-> Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
-> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-> Signed-off-by: xu xin <xu.xin16@zte.com.cn>
-> ---
->   .../translations/zh_CN/networking/index.rst   |  2 +-
->   .../translations/zh_CN/networking/vxlan.rst   | 85 +++++++++++++++++++
->   2 files changed, 86 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/networking/vxlan.rst
->
-> diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
-> index d07dd69f980b..ed62950c6a1b 100644
-> --- a/Documentation/translations/zh_CN/networking/index.rst
-> +++ b/Documentation/translations/zh_CN/networking/index.rst
-> @@ -21,6 +21,7 @@
->      :maxdepth: 1
->
->      msg_zerocopy
-> +   vxlan.rst
+While net-next is closed, this is the last chance for me to send another
+version so let me send the local changes now.
 
-How about using vxlan other than vxlan.rst, consistent with others?
+Please contact Yuri Benditovich, who is CCed on this email, for anything
+about this series.
 
-Dongliang Mu
+virtio-net have two usage of hashes: one is RSS and another is hash
+reporting. Conventionally the hash calculation was done by the VMM.
+However, computing the hash after the queue was chosen defeats the
+purpose of RSS.
 
->
->   Todolist:
->
-> @@ -142,7 +143,6 @@ Todolist:
->   *   tuntap
->   *   udplite
->   *   vrf
-> -*   vxlan
->   *   x25
->   *   x25-iface
->   *   xfrm_device
-> diff --git a/Documentation/translations/zh_CN/networking/vxlan.rst b/Documentation/translations/zh_CN/networking/vxlan.rst
-> new file mode 100644
-> index 000000000000..b1a67d2e7b8e
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/networking/vxlan.rst
-> @@ -0,0 +1,85 @@
-> +.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/networking/vxlan.rst
-> +
-> +:翻译:
-> +
-> + 范雨 Fan Yu <fan.yu9@zte.com.cn>
-> +
-> +:校译:
-> +
-> + - 邱禹潭 Qiu Yutan <qiu.yutan@zte.com.cn>
-> + - 徐鑫 xu xin <xu.xin16@zte.com.cn>
-> +
-> +==========================
-> +虚拟扩展本地局域网协议文档
-> +==========================
-> +
-> +VXLAN 协议是一种隧道协议，旨在解决 IEEE 802.1q 中 VLAN ID（4096）有限的问题。
-> +VXLAN 将标识符的大小扩展到 24 位（16777216）。
-> +
-> +VXLAN 在 IETF RFC 7348 中进行了描述，并已由多家供应商设计实现。
-> +该协议通过 UDP 协议运行，并使用特定目的端口。
-> +本文档介绍了 Linux 内核隧道设备，Openvswitch 也有单独的 VXLAN 实现。
-> +
-> +与大多数隧道不同，VXLAN 是 1 对 N 的网络，而不仅仅是点对点网络。
-> +VXLAN 设备可以通过类似于学习桥接器的方式动态学习另一端点的 IP 地址，也可以利用静态配置的转发条目。
-> +
-> +VXLAN 的管理方式与它的两个近邻 GRE 和 VLAN 相似。
-> +配置 VXLAN 需要 iproute2 的版本与 VXLAN 首次向上游合并的内核版本相匹配。
-> +
-> +1. 创建 vxlan 设备::
-> +
-> +	# ip link add vxlan0 type vxlan id 42 group 239.1.1.1 dev eth1 dstport 4789
-> +
-> +这将创建一个名为 vxlan0 的网络设备，该设备通过 eth1 使用组播组 239.1.1.1 处理转发表中没有条目的流量。
-> +目标端口号设置为 IANA 分配的值 4789，VXLAN 的 Linux 实现早于 IANA 选择标准目的端口号的时间。
-> +因此默认使用 Linux 选择的值，以保持向后兼容性。
-> +
-> +2. 删除 vxlan 设备::
-> +
-> +	# ip link delete vxlan0
-> +
-> +3. 查看 vxlan 设备信息::
-> +
-> +	# ip -d link show vxlan0
-> +
-> +使用新的 bridge 命令可以创建、销毁和显示 vxlan 转发表。
-> +
-> +1. 创建vxlan转发表项::
-> +
-> +	# bridge fdb add to 00:17:42:8a:b4:05 dst 192.19.0.2 dev vxlan0
-> +
-> +2. 删除vxlan转发表项::
-> +
-> +	# bridge fdb delete 00:17:42:8a:b4:05 dev vxlan0
-> +
-> +3. 显示vxlan转发表项::
-> +
-> +	# bridge fdb show dev vxlan0
-> +
-> +以下网络接口控制器特性可能表明对 UDP 隧道相关的卸载支持（最常见的是 VXLAN 功能，
-> +但是对特定封装协议的支持取决于网络接口控制器）：
-> +
-> + - `tx-udp_tnl-segmentation`
-> + - `tx-udp_tnl-csum-segmentation`
-> +    对 UDP 封装帧执行 TCP 分段卸载的能力
-> +
-> + - `rx-udp_tunnel-port-offload`
-> +    在接收端解析 UDP 封装帧，使网络接口控制器能够执行协议感知卸载，
-> +    例如内部帧的校验和验证卸载（只有不带协议感知卸载的网络接口控制器才需要）
-> +
-> +对于支持 `rx-udp_tunnel-port-offload` 的设备，可使用 `ethtool` 查询当前卸载端口的列表::
-> +
-> +  $ ethtool --show-tunnels eth0
-> +  Tunnel information for eth0:
-> +    UDP port table 0:
-> +      Size: 4
-> +      Types: vxlan
-> +      No entries
-> +    UDP port table 1:
-> +      Size: 4
-> +      Types: geneve, vxlan-gpe
-> +      Entries (1):
-> +          port 1230, vxlan-gpe
+Another approach is to use eBPF steering program. This approach has
+another downside: it cannot report the calculated hash due to the
+restrictive nature of eBPF.
+
+Introduce the code to compute hashes to the kernel in order to overcome
+thse challenges.
+
+An alternative solution is to extend the eBPF steering program so that it
+will be able to report to the userspace, but it is based on context
+rewrites, which is in feature freeze. We can adopt kfuncs, but they will
+not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
+and vhost_net).
+
+The patches for QEMU to use this new feature was submitted as RFC and
+is available at:
+https://patchew.org/QEMU/20250530-hash-v5-0-343d7d7a8200@daynix.com/
+
+This work was presented at LPC 2024:
+https://lpc.events/event/18/contributions/1963/
+
+V1 -> V2:
+  Changed to introduce a new BPF program type.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+Changes in v12:
+- Updated tools/testing/selftests/net/config.
+- Split TUNSETVNETHASH.
+- Link to v11: https://lore.kernel.org/r/20250317-rss-v11-0-4cacca92f31f@daynix.com
+
+Changes in v11:
+- Added the missing code to free vnet_hash in patch
+  "tap: Introduce virtio-net hash feature".
+- Link to v10: https://lore.kernel.org/r/20250313-rss-v10-0-3185d73a9af0@daynix.com
+
+Changes in v10:
+- Split common code and TUN/TAP-specific code into separate patches.
+- Reverted a spurious style change in patch "tun: Introduce virtio-net
+  hash feature".
+- Added a comment explaining disable_ipv6 in tests.
+- Used AF_PACKET for patch "selftest: tun: Add tests for
+  virtio-net hashing". I also added the usage of FIXTURE_VARIANT() as
+  the testing function now needs access to more variant-specific
+  variables.
+- Corrected the message of patch "selftest: tun: Add tests for
+  virtio-net hashing"; it mentioned validation of configuration but
+  it is not scope of this patch.
+- Expanded the description of patch "selftest: tun: Add tests for
+  virtio-net hashing".
+- Added patch "tun: Allow steering eBPF program to fall back".
+- Changed to handle TUNGETVNETHASHCAP before taking the rtnl lock.
+- Removed redundant tests for tun_vnet_ioctl().
+- Added patch "selftest: tap: Add tests for virtio-net ioctls".
+- Added a design explanation of ioctls for extensibility and migration.
+- Removed a few branches in patch
+  "vhost/net: Support VIRTIO_NET_F_HASH_REPORT".
+- Link to v9: https://lore.kernel.org/r/20250307-rss-v9-0-df76624025eb@daynix.com
+
+Changes in v9:
+- Added a missing return statement in patch
+  "tun: Introduce virtio-net hash feature".
+- Link to v8: https://lore.kernel.org/r/20250306-rss-v8-0-7ab4f56ff423@daynix.com
+
+Changes in v8:
+- Disabled IPv6 to eliminate noises in tests.
+- Added a branch in tap to avoid unnecessary dissection when hash
+  reporting is disabled.
+- Removed unnecessary rtnl_lock().
+- Extracted code to handle new ioctls into separate functions to avoid
+  adding extra NULL checks to the code handling other ioctls.
+- Introduced variable named "fd" to __tun_chr_ioctl().
+- s/-/=/g in a patch message to avoid confusing Git.
+- Link to v7: https://lore.kernel.org/r/20250228-rss-v7-0-844205cbbdd6@daynix.com
+
+Changes in v7:
+- Ensured to set hash_report to VIRTIO_NET_HASH_REPORT_NONE for
+  VHOST_NET_F_VIRTIO_NET_HDR.
+- s/4/sizeof(u32)/ in patch "virtio_net: Add functions for hashing".
+- Added tap_skb_cb type.
+- Rebased.
+- Link to v6: https://lore.kernel.org/r/20250109-rss-v6-0-b1c90ad708f6@daynix.com
+
+Changes in v6:
+- Extracted changes to fill vnet header holes into another series.
+- Squashed patches "skbuff: Introduce SKB_EXT_TUN_VNET_HASH", "tun:
+  Introduce virtio-net hash reporting feature", and "tun: Introduce
+  virtio-net RSS" into patch "tun: Introduce virtio-net hash feature".
+- Dropped the RFC tag.
+- Link to v5: https://lore.kernel.org/r/20241008-rss-v5-0-f3cf68df005d@daynix.com
+
+Changes in v5:
+- Fixed a compilation error with CONFIG_TUN_VNET_CROSS_LE.
+- Optimized the calculation of the hash value according to:
+  https://git.dpdk.org/dpdk/commit/?id=3fb1ea032bd6ff8317af5dac9af901f1f324cab4
+- Added patch "tun: Unify vnet implementation".
+- Dropped patch "tap: Pad virtio header with zero".
+- Added patch "selftest: tun: Test vnet ioctls without device".
+- Reworked selftests to skip for older kernels.
+- Documented the case when the underlying device is deleted and packets
+  have queue_mapping set by TC.
+- Reordered test harness arguments.
+- Added code to handle fragmented packets.
+- Link to v4: https://lore.kernel.org/r/20240924-rss-v4-0-84e932ec0e6c@daynix.com
+
+Changes in v4:
+- Moved tun_vnet_hash_ext to if_tun.h.
+- Renamed virtio_net_toeplitz() to virtio_net_toeplitz_calc().
+- Replaced htons() with cpu_to_be16().
+- Changed virtio_net_hash_rss() to return void.
+- Reordered variable declarations in virtio_net_hash_rss().
+- Removed virtio_net_hdr_v1_hash_from_skb().
+- Updated messages of "tap: Pad virtio header with zero" and
+  "tun: Pad virtio header with zero".
+- Fixed vnet_hash allocation size.
+- Ensured to free vnet_hash when destructing tun_struct.
+- Link to v3: https://lore.kernel.org/r/20240915-rss-v3-0-c630015db082@daynix.com
+
+Changes in v3:
+- Reverted back to add ioctl.
+- Split patch "tun: Introduce virtio-net hashing feature" into
+  "tun: Introduce virtio-net hash reporting feature" and
+  "tun: Introduce virtio-net RSS".
+- Changed to reuse hash values computed for automq instead of performing
+  RSS hashing when hash reporting is requested but RSS is not.
+- Extracted relevant data from struct tun_struct to keep it minimal.
+- Added kernel-doc.
+- Changed to allow calling TUNGETVNETHASHCAP before TUNSETIFF.
+- Initialized num_buffers with 1.
+- Added a test case for unclassified packets.
+- Fixed error handling in tests.
+- Changed tests to verify that the queue index will not overflow.
+- Rebased.
+- Link to v2: https://lore.kernel.org/r/20231015141644.260646-1-akihiko.odaki@daynix.com
+
+---
+Akihiko Odaki (10):
+      virtio_net: Add functions for hashing
+      net: flow_dissector: Export flow_keys_dissector_symmetric
+      tun: Allow steering eBPF program to fall back
+      tun: Add common virtio-net hash feature code
+      tun: Introduce virtio-net hash feature
+      tap: Introduce virtio-net hash feature
+      selftest: tun: Test vnet ioctls without device
+      selftest: tun: Add tests for virtio-net hashing
+      selftest: tap: Add tests for virtio-net ioctls
+      vhost/net: Support VIRTIO_NET_F_HASH_REPORT
+
+ Documentation/networking/tuntap.rst  |   7 +
+ drivers/net/Kconfig                  |   1 +
+ drivers/net/ipvlan/ipvtap.c          |   2 +-
+ drivers/net/macvtap.c                |   2 +-
+ drivers/net/tap.c                    |  80 +++++-
+ drivers/net/tun.c                    |  92 +++++--
+ drivers/net/tun_vnet.h               | 165 +++++++++++-
+ drivers/vhost/net.c                  |  68 ++---
+ include/linux/if_tap.h               |   4 +-
+ include/linux/skbuff.h               |   3 +
+ include/linux/virtio_net.h           | 188 ++++++++++++++
+ include/net/flow_dissector.h         |   1 +
+ include/uapi/linux/if_tun.h          |  80 ++++++
+ net/core/flow_dissector.c            |   3 +-
+ net/core/skbuff.c                    |   4 +
+ tools/testing/selftests/net/Makefile |   2 +-
+ tools/testing/selftests/net/config   |   1 +
+ tools/testing/selftests/net/tap.c    | 131 +++++++++-
+ tools/testing/selftests/net/tun.c    | 485 ++++++++++++++++++++++++++++++++++-
+ 19 files changed, 1234 insertions(+), 85 deletions(-)
+---
+base-commit: 5cb8274d66c611b7889565c418a8158517810f9b
+change-id: 20240403-rss-e737d89efa77
+
+Best regards,
+-- 
+Akihiko Odaki <akihiko.odaki@daynix.com>
 
