@@ -1,56 +1,67 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF3E9476
-	for <linux-doc@vger.kernel.org>; Fri, 30 May 2025 03:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.168.213])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846159476;
+	Fri, 30 May 2025 03:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.168.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748576303; cv=none; b=UZr0iYkmqp45phkACSUp0sfH6pl+vVSjgNHr+D3twzs+BMRUYqPcZnIzho7G1iv+vVbT/qy3KFgybGelHoArurxvGzTluudU5wjupeQXeO9HBdBsCXzrDjWLBIKGbXgxuArjfdjVBoQPsjE98ugG3qBcSftLo3r37hiNFHagYQc=
+	t=1748576677; cv=none; b=PPEYejwwBXazojZj8yI46pQ796ZFLc0k8/nZwoSPitoQxnXqsoE98lvq4Zm2Og+bG+opddXCFUQVZHyf/yHsk+WDrBHJjyOuJ4UQHpXLS6+mN94Py6cuXappusOz27VUiJh8r1HayZNItv04i8x0PFWlXOZrfwXXaj1l4dYw/0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748576303; c=relaxed/simple;
-	bh=aIICxjROYO+OwyuZW/nb0jLjTiLlixKVhk7YG2FwyLA=;
+	s=arc-20240116; t=1748576677; c=relaxed/simple;
+	bh=dIGjffcg6YtgnsPBnx4IS1i7Bnt38cmcuHBI6hTjwtE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LOqg1XQhiI8esC7vOA/M0G3jdOBVZaiFVFDOqpURnWjdjqTDccIX5bejBPsL0fbNmGbHe8H7V6Q3hlHr3iCB7K9slbcpxpzWItUO/JvtyoCvBdWSW5By6cdup+Yo0RTXo0E+N2a6fzsZKdytDXKPSM0tBGaJjLgZHyrcQ1Ucmo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cnTzav7H; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cnTzav7H"
-Message-ID: <63cbb800-0040-4f41-8a82-90251da6914e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1748576296;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MfkkJbAGy6/93fUv29ZuYr5keyGXNJjkwskr1G9pMkU=;
-	b=cnTzav7H0qZUeyltvR8pE6JBWZqTAuaCI/GHgDRQ9faREnggC9FyRO14gMDdi7xiE72CXe
-	2SWDxFqC0ZLeojAkHxkHPYtpoPq1KhgiVe4OQ5hzeKmvb7zCMLpi+4/Zay8akqfshmtbE5
-	PwLN+Vdly7CIGeSB//A5T4R7Z7SGt/o=
-Date: Fri, 30 May 2025 11:37:55 +0800
+	 In-Reply-To:Content-Type; b=J3iUowGouJz6PMjk2rIW/CxtCT2H5J7clqVfohEe7Ow+LkHMEuTNPQmRo1eg2Y94MraDP/NwTezBr/KyRSAVS1oXJ1FlmZVDbjlUlqWf5E3QJDEzatoLKAyASMR8g+MQZJu/WzZdJ5Ebe8xJMjTakyFGxgtWe7Iw3PNLgGWGGvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.229.168.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrAB3WR6HKTlo0MPfCQ--.54948S2;
+	Fri, 30 May 2025 11:44:07 +0800 (CST)
+Received: from [10.12.164.29] (unknown [10.12.164.29])
+	by gateway (Coremail) with SMTP id _____wAXHwOCKTlofER3Aw--.14052S2;
+	Fri, 30 May 2025 11:44:06 +0800 (CST)
+Message-ID: <d38e5648-1700-4d8f-896d-58053a5393ba@hust.edu.cn>
+Date: Fri, 30 May 2025 11:44:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH linux next] Docs/zh_CN: Translate vxlan.rst to Simplified
  Chinese
-To: jiang.kun2@zte.com.cn, alexs@kernel.org, dzm91@hust.edu.cn,
+To: jiang.kun2@zte.com.cn, alexs@kernel.org, si.yanteng@linux.dev,
  corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc: xu.xin16@zte.com.cn, yang.yang29@zte.com.cn, fan.yu9@zte.com.cn,
  qiu.yutan@zte.com.cn, wang.yaxin@zte.com.cn
 References: <202505301132492152dM75edlCkVrcPL71Omc5@zte.com.cn>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
+From: =?UTF-8?B?5oWV5Yas5Lqu?= <dzm91@hust.edu.cn>
 In-Reply-To: <202505301132492152dM75edlCkVrcPL71Omc5@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-CM-TRANSID:HgEQrAB3WR6HKTlo0MPfCQ--.54948S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW3GF13Gr4xtF1UJFWrXF18Zrb_yoW7GF1fpF
+	Wqgryxtw47KFyFkrW8Ga15Jrn0kFykCan7GFyxK3Wktr4fG3yktry7Krn8GrZagryrZFyF
+	va1kGry5u3yIyaDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
+	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
+	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
+	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVj
+	vjDU0xZFpf9x07jfpndUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-在 5/30/25 11:32 AM, jiang.kun2@zte.com.cn 写道:
+在 2025/5/30 11:32, jiang.kun2@zte.com.cn 写道:
 > From: Qiu Yutan <qiu.yutan@zte.com.cn>
 >
 > translate the "vxlan.rst" into Simplified Chinese
@@ -62,14 +73,6 @@ X-Migadu-Flow: FLOW_OUT
 > Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
 > Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
 > Signed-off-by: xu xin <xu.xin16@zte.com.cn>
-
-Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
-
-
-Thanks,
-
-Yanteng
-
 > ---
 >   .../translations/zh_CN/networking/index.rst   |  2 +-
 >   .../translations/zh_CN/networking/vxlan.rst   | 85 +++++++++++++++++++
@@ -85,6 +88,11 @@ Yanteng
 >
 >      msg_zerocopy
 > +   vxlan.rst
+
+How about using vxlan other than vxlan.rst, consistent with others?
+
+Dongliang Mu
+
 >
 >   Todolist:
 >
@@ -187,3 +195,4 @@ Yanteng
 > +      Types: geneve, vxlan-gpe
 > +      Entries (1):
 > +          port 1230, vxlan-gpe
+
