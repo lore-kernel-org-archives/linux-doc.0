@@ -1,152 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD281448E0;
-	Sat, 31 May 2025 16:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A1286323;
+	Sat, 31 May 2025 16:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748709281; cv=none; b=Gtd1fA10LZOsaFwkPZEWqeqnjDbPjglML2c+TZ9Q34tfao+r5vAjpfJ3lTpeTftvBdma1/GVMGVCbxQj+cb2tY8UvcVW4PHLzDbGIQmo67165uGi2Q5YJCetS5QFapzZE2VmMkBdOYOTov+hdlyacM80w+IWVhNs/menqNUyUx4=
+	t=1748710669; cv=none; b=uqCXoxe+nNF/QDrQTkLPvA3i4ZcJpX2F8VbsyBQ0fD/hQQfEOetCfDN5Qg9PwFoDQw5z0JSD6V6x2CRTlQsN+U+GFiScc/eXXfg8jyDhVkrKPpxbl4ZWd6xApxHietEaNavUz8J4f7EGKgFkdIdpauvICdqZzMarPcxzib4YBKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748709281; c=relaxed/simple;
-	bh=LBeZakZJii6oUPSZqeG48dOeeJUonlf7KQZttFKzggE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mrs7busEYOolW/0Pc/itoRiE3B0yPlAFfe+9comBYKNaExocByDGAbvCvL5R55waCOC3z9sbfScw/EPxDu40ejUoLpmLZjKnfP8fuOF1zU/Zu7AQzgLC5mGVQ0RCFTQHXo9tngS/tMxgZY2VZkT/ldfRzgdyvpyrfYVv0VpbknQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bfZFuyHp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748710669; c=relaxed/simple;
+	bh=MeOtkIrLMT6IjO2sNqCraauEVwJylK9XitUYKe63gT8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=unA6m2RlPdjgUUSv9MIJz4e9+eWINhvLyA9PltHqcFhtAbmk67y/eaQSZQlIhRFaWNtAWT/zji7UulsdesASdT6oRh6o2oAXn/7G3NUGQSfyeEu2MJCR610pqwr1ul8iDgnsk/3uQwFYyhJJ1VEwsQwDOitMwtABekPaibnN/e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vS4O4fxK; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bfZFuyHp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5B7AC4CEE3;
-	Sat, 31 May 2025 16:34:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748709280;
-	bh=LBeZakZJii6oUPSZqeG48dOeeJUonlf7KQZttFKzggE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bfZFuyHpddDVrAtTdyjGqEt9xMdd215skpdu8NjNLoehzJp0Pz4P08QCvD6BrBk3j
-	 fO1J8CHUmOdEKXQXXmhmO3xca29NFHOTJABdO2Mo0v/HrwOHGWiSQ+CF3s2UCYRBU6
-	 a9qbeZsCJGzPNgh6kcMqH3ZpWzI4vzyCZpoO7l8FrpCd4dboY2Bh/aTZs2WTqbM3nF
-	 bhMOYscrqaTSwTHqRok4rW47zYW64HaDDi2/4Vkio9GWtP6mC5J9pf0q4PAwZs/rbl
-	 L8BZoPlZjmupCb9PduJu2XTWFJTO0l1BR27eeHakFc/dXVf/WjqYy3Ak7qW2ep/OuK
-	 1T15TPzvhP3Ow==
-Date: Sat, 31 May 2025 17:34:31 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
- Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/12] iio: accel: adxl313: add activity sensing
-Message-ID: <20250531173431.3a5a535d@jic23-huawei>
-In-Reply-To: <CAFXKEHb96Kyr_L_Mw3UQxxD=nR8X2bU3TCcgH6OWsqYfaQtE+Q@mail.gmail.com>
-References: <20250523223523.35218-1-l.rubusch@gmail.com>
-	<20250523223523.35218-10-l.rubusch@gmail.com>
-	<20250525140351.559be514@jic23-huawei>
-	<CAFXKEHb96Kyr_L_Mw3UQxxD=nR8X2bU3TCcgH6OWsqYfaQtE+Q@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vS4O4fxK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=Otdj8ujGAF2QmUcG8kvdd7R/HPnA2c9NJiQzWXZJi3w=; b=vS4O4fxKFnEbTgQGKLGoqXmXFL
+	pLw/6RbtSBMAcyaOmCL9SyDQyJT2ezrbf66EvB6gpih7lKsflY9guCr6t35Dd3RCytIftnY3yx9Mo
+	PmiX9J/GpezlJwXgaILEElJs8AuCyhOPZdcpXCjaD5X9rExWbdGu5zpmcWuI9XhCdMamMgOY0r7w/
+	UkAV0NBMfkL8HeCKdlSeVLpYKHNrwMyJTrC67HmQc+gEPv17L5mTCeMnVEXRpgMO72tlAUL/Gxmbm
+	MZDIkw4seT4zOei06JtMBdQyWJvKI7TSDKWhL5kQm3/SSEY54/v57Yd1WqYER0U35gnS5Sxpw8UwX
+	QLTICNAQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uLPWa-0000000Gvr7-41Bt;
+	Sat, 31 May 2025 16:57:37 +0000
+Message-ID: <863ff758-d9a1-4800-8746-ee63ee2a4e63@infradead.org>
+Date: Sat, 31 May 2025 09:57:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: cxl: fix typos and improve clarity in
+ memory-devices.rst
+Content-Language: en-US
+To: Alok Tiwari <alok.a.tiwari@oracle.com>, dave@stgolabs.net,
+ jonathan.cameron@huawei.com, dave.jiang@intel.com,
+ alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
+ dan.j.williams@intel.com, corbet@lwn.net, linux-cxl@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, darren.kenny@oracle.com
+References: <20250531075209.3334261-1-alok.a.tiwari@oracle.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250531075209.3334261-1-alok.a.tiwari@oracle.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, 29 May 2025 18:22:50 +0200
-Lothar Rubusch <l.rubusch@gmail.com> wrote:
 
-> Hi Jonathan,
->=20
-> On Sun, May 25, 2025 at 3:04=E2=80=AFPM Jonathan Cameron <jic23@kernel.or=
-g> wrote:
-> >
-> > On Fri, 23 May 2025 22:35:20 +0000
-> > Lothar Rubusch <l.rubusch@gmail.com> wrote:
-> > =20
-> > > Add possibilities to set a threshold for activity sensing. Extend the
-> > > interrupt handler to process activity interrupts. Provide functions t=
-o set
-> > > the activity threshold and to enable/disable activity sensing. Furthe=
-r add
-> > > a fake channel for having x, y and z axis anded on the iio channel.
-> > >
-> > > This is a preparatory patch. Some of the definitions and functions are
-> > > supposed to be extended for inactivity later on.
-> > >
-> > > Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com> =20
-> > One comment I found confusing.
-> >
-> > I see this hardware is similar to our friend the axl345 so some of the =
-outcomes
-> > of final reviews on that series may apply here as well. =20
->=20
-> Yes. To be honest with you, I already saw several places, where I
-> probably need to send you some refac for the ADXL345 as well.
-> Implementing the same type of source a second time, sometimes leads
-> [me] to different[/better?] solutions and brings different insights.
->=20
-> > =20
-> > > ---
-> > >  drivers/iio/accel/adxl313_core.c | 229 +++++++++++++++++++++++++++++=
-+-
-> > >  1 file changed, 227 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/iio/accel/adxl313_core.c b/drivers/iio/accel/adx=
-l313_core.c
-> > > index 80991cd9bd79..74bb7cfe8a55 100644
-> > > --- a/drivers/iio/accel/adxl313_core.c
-> > > +++ b/drivers/iio/accel/adxl313_core.c =20
-> > =20
-> > >  static const unsigned long adxl313_scan_masks[] =3D {
-> > > @@ -300,6 +334,60 @@ static int adxl313_read_freq_avail(struct iio_de=
-v *indio_dev,
-> > >       }
-> > >  }
-> > >
-> > > +static int adxl313_is_act_inact_en(struct adxl313_data *data,
-> > > +                                enum adxl313_activity_type type)
-> > > +{
-> > > +     unsigned int axis_ctrl;
-> > > +     unsigned int regval;
-> > > +     int axis_en, int_en, ret;
-> > > +
-> > > +     ret =3D regmap_read(data->regmap, ADXL313_REG_ACT_INACT_CTL, &a=
-xis_ctrl);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +
-> > > +     /* Check if axis for activity are enabled */ =20
-> >
-> > If all 3 axis perhaps?  Or If any axis?  I'm not sure what intent is he=
-re. =20
->=20
-> For the ADXL313 I do generally all axis, i.e. x-, y-, z-axis - enabled
-> and disabled, respectively. I'll modify the comment.
->=20
-> Sry about spamming the ML with my emails about the reset function. I
-> oversaw your other mail. Patches will be merged.
 
-Lol. I did the same thing just now. Don't worry about it!
+On 5/31/25 12:51 AM, Alok Tiwari wrote:
+> This patch corrects several typographical issues and improves phrasing
+> in memory-devices.rst:
+> 
+> - Fixes duplicate word ("1 one") and adjusts phrasing for clarity.
+> - Adds missing hyphen in "on-device".
+> - Corrects "a give memory device" to "a given memory device".
+> - fix singular/plural "decoder resource" -> "decoder resources".
+> - Clarifies "spans to Host Bridges" -> "spans two Host Bridges".
+> 
+> These changes improve readability and accuracy of the documentation.
+> 
+> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
 
-J
->=20
-> Best,
-> L
->=20
-> > =20
-> > > +     if (type !=3D ADXL313_ACTIVITY)
-> > > +             return 0;
-> > > +
-> > > +     axis_en =3D FIELD_GET(ADXL313_ACT_XYZ_EN, axis_ctrl);
-> > > +
-> > > +     /* The axis are enabled, now check if specific interrupt is ena=
-bled */
-> > > +     ret =3D regmap_read(data->regmap, ADXL313_REG_INT_ENABLE, &regv=
-al);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +
-> > > +     int_en =3D adxl313_act_int_reg[type] & regval;
-> > > +
-> > > +     return axis_en && int_en;
-> > > +} =20
-> > =20
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
+Thanks.
+
+(This time not in html.)
+
+
+> ---
+>  Documentation/driver-api/cxl/memory-devices.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/cxl/memory-devices.rst b/Documentation/driver-api/cxl/memory-devices.rst
+> index d732c42526df..e9e2952a967d 100644
+> --- a/Documentation/driver-api/cxl/memory-devices.rst
+> +++ b/Documentation/driver-api/cxl/memory-devices.rst
+> @@ -29,8 +29,8 @@ Platform firmware enumerates a menu of interleave options at the "CXL root port"
+>  (Linux term for the top of the CXL decode topology). From there, PCIe topology
+>  dictates which endpoints can participate in which Host Bridge decode regimes.
+>  Each PCIe Switch in the path between the root and an endpoint introduces a point
+> -at which the interleave can be split. For example platform firmware may say at a
+> -given range only decodes to 1 one Host Bridge, but that Host Bridge may in turn
+> +at which the interleave can be split. For example, platform firmware may say at a
+> +given range only decodes to one Host Bridge, but that Host Bridge may in turn
+>  interleave cycles across multiple Root Ports. An intervening Switch between a
+>  port and an endpoint may interleave cycles across multiple Downstream Switch
+>  Ports, etc.
+> @@ -187,7 +187,7 @@ decodes them to "ports", "ports" decode to "endpoints", and "endpoints"
+>  represent the decode from SPA (System Physical Address) to DPA (Device Physical
+>  Address).
+>  
+> -Continuing the RAID analogy, disks have both topology metadata and on device
+> +Continuing the RAID analogy, disks have both topology metadata and on-device
+>  metadata that determine RAID set assembly. CXL Port topology and CXL Port link
+>  status is metadata for CXL.mem set assembly. The CXL Port topology is enumerated
+>  by the arrival of a CXL.mem device. I.e. unless and until the PCIe core attaches
+> @@ -197,7 +197,7 @@ the Linux PCI core to tear down switch-level CXL resources because the endpoint
+>  ->remove() event cleans up the port data that was established to support that
+>  Memory Expander.
+>  
+> -The port metadata and potential decode schemes that a give memory device may
+> +The port metadata and potential decode schemes that a given memory device may
+>  participate can be determined via a command like::
+>  
+>      # cxl list -BDMu -d root -m mem3
+> @@ -249,8 +249,8 @@ participate can be determined via a command like::
+>  ...which queries the CXL topology to ask "given CXL Memory Expander with a kernel
+>  device name of 'mem3' which platform level decode ranges may this device
+>  participate". A given expander can participate in multiple CXL.mem interleave
+> -sets simultaneously depending on how many decoder resource it has. In this
+> -example mem3 can participate in one or more of a PMEM interleave that spans to
+> +sets simultaneously depending on how many decoder resources it has. In this
+> +example mem3 can participate in one or more of a PMEM interleave that spans two
+>  Host Bridges, a PMEM interleave that targets a single Host Bridge, a Volatile
+>  memory interleave that spans 2 Host Bridges, and a Volatile memory interleave
+>  that only targets a single Host Bridge.
+
+-- 
+~Randy
