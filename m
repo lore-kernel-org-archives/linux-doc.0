@@ -1,88 +1,157 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B7713A244;
-	Fri, 30 May 2025 22:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B75944F;
+	Sat, 31 May 2025 03:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748644565; cv=none; b=CGSeOgvcgfj2u6AHMQbez/ixrSvGef7K2X1JtvdrCSebb87/5LpBMnIkb9w2XdpjKmycPPPsUZXDcUyQJMVpR471BrowMPFqv9llASK+uKiOU46KnYjghvLbEQ7gRrwDR6K2zYVaHKWG+duE8LlTbPjfK62mvi4kZ2mzI3p/hdI=
+	t=1748663343; cv=none; b=DsfOGRVFliRB/EfdQOouVriQqkQw6e8pBbfZ1HZneC61F100yFuxxCBNXBmYKsu1UhXeDse/N0Yl08v8MItSjDue9TuravdQiBFlIyTZ8ZwWSgkOnRZVx9ojLSVXPCPqztcPOFmrRfi6iv/gtaYbbQM5p0mAXgEieKLg4GIaI0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748644565; c=relaxed/simple;
-	bh=9iRrBbKhBcH104PdZNqqsZXGDeAsEnfcOvJpHS8KBng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AFkkrIUiSfwITEc1w2CRR+wjTkhn1CUOG6P+6pTEkyJsjLAZJlZ3xLHh03o7idd9I0KlwxR3DsrMUuodY7mOTshDMuc1sXyP7O6Qb3pEyTJlzGThT1Fw7iHyVbDsshlkiWob4wePfXsa7GYxJX611s78gZ0v/9KkNQWcJb9ZAzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TxnwlAOz; arc=none smtp.client-ip=209.85.215.172
+	s=arc-20240116; t=1748663343; c=relaxed/simple;
+	bh=bXKgutgBBgDmFxEdbyOlpIc/AywSS2pEfOu4ZPuyFZA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W4xXJcXCQ5J4izcS0JyzshjoEMRZ0Mwdf5Qnvdo8BibvVMywvKlSs4BvVTCrJI3lT8kzQXMYKWhUVT0KHPtxBE8xcDOx4YaHWsG1STILH3i+cj6+p5ffu1SyXOsSKWWMFcQlF/hxhD8hxvp9DyChbzdXd/rTq80HvqBm0tumBJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=myyq3npL; arc=none smtp.client-ip=209.85.219.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TxnwlAOz"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b1ff9b276c2so1528100a12.1;
-        Fri, 30 May 2025 15:36:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="myyq3npL"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6facc3b9559so29743866d6.0;
+        Fri, 30 May 2025 20:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748644563; x=1749249363; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Au/WNJA8WqsNFHZ7XLmxt17fic0juTEPdSvf0qBYcM4=;
-        b=TxnwlAOzolHeVHHTMwfflAO7lQwXuLffyZc9AfCFUi+TLYgF8BtGXv7IhT0JvKlzae
-         olwSk1ejT4FDuS3qlAHeZMlJRq9vCwNrYcqOLSWnE9kdZmuTagL0N+6kfoPJrd3/77aV
-         2Jx3zjEsgrPrUgYyjsZR6yanvDvkjeoazI5zgr3CZIJlbjrRnAQZed/xARHXYNnCjx3q
-         Ee2Vmugbf5WWSoHnKAnoENQoByjD/WC+q+di+ybPR+w6uvY/MrWzKm5TCepgQYmK1zpg
-         new7DrBDKC6JVNZMSNwVY4/RH3QaZY2XZMzZIUncvKcnsf3D4lqD0nREIzkp8chlVAvB
-         wm3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748644563; x=1749249363;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1748663341; x=1749268141; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Au/WNJA8WqsNFHZ7XLmxt17fic0juTEPdSvf0qBYcM4=;
-        b=SCu/KtYKUt/b3R098TZVBr/apR4cEuk6lcpmrXevpZSUBO8SKmCU1CNyAyu02EIgJU
-         V2HWKREt8QTFbmLAiOoD8A9G0D8KhuzIphsGcvQuXULYcYXFd02r3YXeFlnS3Na/Ql1s
-         2CGtaqf5XoAiiB/s9GSyLbXvk1n/vNEpXSOGUlo8dne/PTI4eF7HvsGr0faXHVnUNC5p
-         lz5DM1kVgij+5wqD4K/9yLVPzhVDaHiCg5ynKQKXbKWOLxZjujtHn0qLHDw9+Os3Pwwo
-         rbOCxZlElqhJO3fXrGRYC4iI+obihl8p7CrFieWoa76b7ydZqEiZhIpgW++IL/CCvKis
-         KzOA==
-X-Forwarded-Encrypted: i=1; AJvYcCV2+nDTzGXS8zSCgbRG1z5z2AT9HnWKYt3+meVOkA0nhpuovW8NRs2dg8nSrNBpTGJcw5FVrIbJLY+yy8CC@vger.kernel.org, AJvYcCVUzKxcQCJijMv0QSELtWsV/LR5r4ddffIGPxJLqzJASZeirodsR9nFfg2Qa9V9IPdC6dlSJsJGDzo7UQA=@vger.kernel.org, AJvYcCX0HImfws4Lw2OU0HljNMVeQGmmkmtau/d6kevdv6UsmpPqWBzXq5ibedqzUegYHuxaBdZ27GwGrEY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM+h9XdaXvFDSj2hx+DpU7vVXj8nttv77z+Q0647DJu6L+5T1y
-	21ax+reMbIKnmMRMw+WX8N8oolhhD/YMATPv9kUn5NiT0UGdIg+ix3em
-X-Gm-Gg: ASbGncs9V2eC1Cc8lkWYOR79sCHpY4plYcWR+jNQ55EiuuRSlbd/gVuUaggYqQvNJc1
-	MR6QsCqs1cpoahs8aT67xmGELIkX/AInJGoQyJgWNbS/OMMgN5GPv0hEn2qQvceG6Y3GkZ3z6ZY
-	xSYFLpNzO6QSuPPQSsKJpuCoGfngMJXN/8+EHmgTQjiNBBpnjN8Jq05RJ4m4pE8GaxdCLe9gA58
-	TrOdSSBCAdEnJ6ScXSITYAXexAW2pIXQXfG76gBCgSsrLM9AULOU264mj0u7O3alfPZ99K5EMzH
-	wGFNSNgbbaOW1Jxys9UBouywYurmY1NaWIN0745sKRGxfEjiN945
-X-Google-Smtp-Source: AGHT+IEidlXG4wBqg4jen6ReNQ7Ewx8jMVQ+HaFeguKmpH1BzLDw3dNtYT4QqPsDuy+S7/U1sC1Ong==
-X-Received: by 2002:a17:90b:2e4b:b0:312:1c83:58e9 with SMTP id 98e67ed59e1d1-3127c6a02bemr161026a91.5.1748644562759;
-        Fri, 30 May 2025 15:36:02 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:24e0:5639:ebc6:8c16])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e2f9820sm1699452a91.22.2025.05.30.15.36.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 15:36:02 -0700 (PDT)
-Date: Fri, 30 May 2025 15:35:59 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: George Anthony Vernon <contact@gvernon.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, bagasdotme@gmail.com, 
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2 0/4] Multiple fixes to Amiga joystick documentation
-Message-ID: <w3tcbri2zs5hbctlzrm6oulbjgubitzbv4obr7np3rwmxgrqe5@jriz35clhnre>
-References: <20250526135957.180254-1-contact@gvernon.com>
+        bh=76qLuztV60iQGLn5sp4b2X4+KO3vVQw6ocNKjB2Ik0M=;
+        b=myyq3npLCEWvzgwEX42bofM2etn5fhSEtu47s8hpUKO/04yT9K4QVFdL5Jm6cKMSp+
+         GBnj0k74bPilGroang6oiuiHmJ/2lDl1fCVvYKDBm6uNj89OD4qStSKjEo35zgQdidjJ
+         hXwQwwkTeeEQlBkKSNmlTXJM3Y6HNUxuHyWQczFncXIrZvkGLZptOJHMyhw2bC3NhLg1
+         9KruaiZ6soeKkFwaN+FBnfKYLTsVEpj03mKlKdjDwWlwzSZZ+0GH9XF27dOEfq/9fuSK
+         PxsjflKyIFBZRpSOsNkxg7VJHHldFkvJi5S6xJhRsuNfjZ0fofmxXtYST9TcmIVNf42u
+         X0/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748663341; x=1749268141;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=76qLuztV60iQGLn5sp4b2X4+KO3vVQw6ocNKjB2Ik0M=;
+        b=gk9/vyzZwb9vKbnb4E2o0+F64IquSRoR25Bmfcl5LfDaPjSvmWpQiywOuhdS13nG/q
+         fUO5GCRIMu1G44WRznc5o0TcBBX/f5rns9gLdoUtb77wDXafeEKDON8NWwP0csZgf4/s
+         RTZyUUgI+EEzAUhSMGwsNSO6ZDrqPQeqr2niubTxTP+M1aef/f6lC9uqFYD0j7lFG1NT
+         /j+cfdlDGES6nuUx3rwZT4GyBrzQQz5LzAHO4sF0vJIro0aCyuPB+zFbtOB7vT2vf2jo
+         QPF5OXoELE66rxD54JdaCr1QbvpbHi3rVEZy8xPdQyezzkYNTjHjscD1LjhEJHgsjHfa
+         ehtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWLgtEco9OuGa9JLhSApyC+H/F9EYhRoWhAr7mLHr7hG7rk9Jto6BtJTq8GmGMz7Zid9X0+qM/RKQ=@vger.kernel.org, AJvYcCUdanpIqt4qntuQLckGT6NcA5LC3kHvKVXn1WcWBeFoTi3jPJ2rX410PhKjsOBbJQjTKtKqwyMmK9TYmDto@vger.kernel.org, AJvYcCW6VpFTlOyjBvBWLVTUTc6OfcGvzvqsHyGG87PtaF7kaMxRib/NgxGxnxrqxOqTBDVeNU7DTvbZeu0SI56An44h1J6LRA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPh0rP78tCwt7ZVVWpVxwu+s+R1+I9srTg2W+zN8MC9qkD3PfM
+	aIwnTbwzb5OlWKzkIwggHQyXyhkVyXOow/ga34n4nys1kTHx1g8xhHw8i69kjKeHZvX8Agenl8v
+	Bqs/62maajtwcqhIS5GPwnNh597++XPQ=
+X-Gm-Gg: ASbGncuC+WRRYYbW68+vyhZjDFrGp6IEZ/RY48a0TV2VMiz5Oy0FdZDnHM/NHrOmt4Q
+	YZCP6G57/+vDmG8DhQo1Xk8rrw/2+r4Eb4wmfyD1RcS13P3j6W4fyuSY53Zpe5xSIVQBhasfdAR
+	EVcgA1wPDJRfNfuifeK5cpkF6fET7QtLJuXssePO4SxYY3
+X-Google-Smtp-Source: AGHT+IHX2JVirrixh78so9Fn86OIa5AbSRfPoDhKRveiPy+oOBGtB1HhyqEnfb3cMFWL4dRiIoIYKcR38dCrk6pr69o=
+X-Received: by 2002:a05:6214:509d:b0:6fa:c18e:b8d7 with SMTP id
+ 6a1803df08f44-6fad1952c9dmr75779106d6.25.1748663340985; Fri, 30 May 2025
+ 20:49:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250526135957.180254-1-contact@gvernon.com>
+References: <20250522015350.471070-1-derekjohn.clark@gmail.com>
+ <2972c4c6-7080-e058-ec39-b8c1dc603f7a@linux.intel.com> <2c7ffaa6-e639-e215-42d0-78a2b185ad45@linux.intel.com>
+In-Reply-To: <2c7ffaa6-e639-e215-42d0-78a2b185ad45@linux.intel.com>
+From: Derek John Clark <derekjohn.clark@gmail.com>
+Date: Fri, 30 May 2025 20:48:50 -0700
+X-Gm-Features: AX0GCFvYSFg8JfeoEW8-4Z12btdwYqpfGj4nyKSFF7YoM6Desoy-OcsA4bzYXVo
+Message-ID: <CAFqHKTnp2zMTAfdYBpxestSErpsgwSf_TmkLjjU0W5HOFiC9bA@mail.gmail.com>
+Subject: Re: [PATCH v11 0/6] platform/x86: Add Lenovo WMI Gaming Series Drivers
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, Luke Jones <luke@ljones.dev>, 
+	Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, "Cody T . -H . Chiu" <codyit@gmail.com>, 
+	John Martens <johnfanv2@gmail.com>, Kurt Borja <kuurtb@gmail.com>, 
+	platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 26, 2025 at 02:59:48PM +0100, George Anthony Vernon wrote:
-> Hi, this patch series covers a few fixes & heading imps to the Amiga
-> joystick documentation.
-> 
-> I've kept the section adornments changes amid ongoing discussion about
-> it.
+On Sun, May 25, 2025 at 2:42=E2=80=AFPM Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+>
+> On Mon, 26 May 2025, Ilpo J=C3=A4rvinen wrote:
+>
+> > On Wed, 21 May 2025, Derek J. Clark wrote:
+> >
+> > > Adds support for the Lenovo "Gaming Series" of laptop hardware that u=
+se
+> > > WMI interfaces that control various power settings. There are multipl=
+e WMI
+> > > interfaces that work in concert to provide getting and setting values=
+ as
+> > > well as validation of input. Currently only the "Gamezone", "Other
+> > > Mode", and "LENOVO_CAPABILITY_DATA_01" interfaces are implemented, bu=
+t
+> > > I attempted to structure the driver so that adding the "Custom Mode",
+> > > "Lighting", and other data block interfaces would be trivial in later
+> > > patches.
+> > >
+> > > This driver attempts to standardize the exposed sysfs by mirroring th=
+e
+> > > asus-armoury driver currently under review. As such, a lot of
+> > > inspiration has been drawn from that driver.
+> > > https://lore.kernel.org/platform-driver-x86/20250319065827.53478-1-lu=
+ke@ljones.dev/#t
+> > >
+> > > The drivers have been tested by me on the Lenovo Legion Go and Legion=
+ Go
+> > > S.
+> > >
+> > > Suggested-by: Mario Limonciello <superm1@kernel.org>
+> > > Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+> > > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> > > ---
+> > > v11:
+> > >   - Fix formmating issues.
+> >
+> > Thanks for the update, I've applied this now into the review-ilpo-next
+> > branch. BUT, this is very late in the cycle now and if there's a build
+> > issue (or LKP doesn't build test it in reasonable time), I'll have to d=
+rop
+> > this series and postpone it into the next cycle as I don't want to dela=
+y
+> > the main PR to Linus too long.
+> >
+> > But lets hope for the best, I think some depends on issues were fixed
+> > earlier (IIRC), so hopefully it works good enough now. :-)
+>
+> Hmpf, these give me a few new warnings related to this series:
+>
+> make W=3D1 drivers/platform/x86/
+> make C=3D2 drivers/platform/x86/
 
-Applied the lot, thank you.
+When I use scoped_guard the warnings go away. It seems to be a
+limitation of sparse in that its not correctly identifying the guard
+will be unlocked on the return perhaps? In any case, if you're okay
+with a scoped guard here (matches both other invocations) I'll send it
+up.
 
--- 
-Dmitry
+I also took care of the warnings for W=3D1.
+
+> ...I really don't know why sparse complains about the lock context
+> imbalance though, those functions use guard().
+>
+> There's also a copy-paste error:
+>
+>  * lwmi_gz_profile_get_get() - Get the current platform profile.
+>
+> ..._get_get -> ..._set
+> Get -> Set
+>
+>
+>
+> --
+>  i.
