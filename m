@@ -1,173 +1,115 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717696FBF;
-	Sun,  1 Jun 2025 22:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793EE28C2CA
+	for <linux-doc@vger.kernel.org>; Sun,  1 Jun 2025 23:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748816334; cv=none; b=AU8ZGPZ/Jad7WtF3b1liwgq952N4O8kU2JkOH5ZEE/iC3082YAIslwyRweUO9S+ReUZYy8XisuTbV6VpnxKcW3c+ysUm6urXiKedJPeN8EVeuQcbE1nG2gOVTC9BLEo0Y5MoZ/YI3QueBGV3lGyUgLOjZz3ORDmxfGO/5MdPDpU=
+	t=1748820651; cv=none; b=PHAOS9hpdzXBdBfMsglAxTPHajMbaqvdI0nEahgMLYbELvIdDWhvsZ2gzRY8OQZoLtHtuGrXjniA0RwTcHHXSOqDYNDoZQLMXlUcJHDpZxWmnreFN9Amrlgp7acxQGxFRaxzhdtm1WOXJz8EcQU9FrBT3PC6Ygv5UoeHamVRmfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748816334; c=relaxed/simple;
-	bh=q5bj5dHeAF0jw1D9B79SOZIYQ/2vhai+oYehV5QXNxk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LuYjIsMRH6ugs7Sn5wSJ+pWaI7I4kOh4oausenIUpZzniNI4OsZ7Pd++Nyot0er9fyB+oe+Q3KA02gyqjQ6/5fFX8PLrmhho+M4oewE33jdNoNZG2u+eHFgfCLXfTgu1INDK6y0EQWi7cgR2wXKuYuj8cqcQQ6SRUVT1zvkRMqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fandLP8Q; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748820651; c=relaxed/simple;
+	bh=SSGlRVBX7Ip3ay6aSI5KJLngtv0nEq6HZf42gbzA32M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZO5gbEtmPGXzaWjcF633qNK+Ipn1t3eONMlz3SDZCst3vNUkbh98KYxB53RQX9IuaMdCzSb1yfE90JKy+vbQKGO/sFbSjgEI48XtK/iTbGaLqr+n/Nxciwszat8twKaBZB84IhHWXu/1EVYekwmHqwj1TsNd80fXvICo7qMeUOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ALjex9gR; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fandLP8Q"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7d0976776dcso355116185a.2;
-        Sun, 01 Jun 2025 15:18:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ALjex9gR"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4a44b3526e6so29767491cf.0
+        for <linux-doc@vger.kernel.org>; Sun, 01 Jun 2025 16:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748816331; x=1749421131; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ASuAMgM5DsTFJTj9WldWE2aobhWhSAfKBSNCSHlRwfs=;
-        b=fandLP8QL8Z87QpfDJQiUUuOV3AGQf3IxmE+XZZSTbkgZSXZrPEv8mDIoYDkzQqThl
-         rW9hj41AnVlNAIKY22V/ztnMWWERGKVKCd8oXR+NFXNzbKs0q2XwZpiYDADGCz6Tq7rV
-         G0uZ7JgJpFDRd4B5GcJM9pK+S0YUjV2FvRDkERhxMawLN1q75itxlIrSe8T+jlR7ofrV
-         QwzSgWlt5kdWhlY2DgIRP0tntNwdmYu8ea+dtMgsnFsT05PMWq6zokbewAb6AkyFq2M+
-         jPDISeSY2+EHokAfJXzSnAwDsRIh4y9kD+5x28yPSJ3r5nQffL/V1nE/uSXQMCvaO8YA
-         5BRQ==
+        d=gourry.net; s=google; t=1748820647; x=1749425447; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z3ahtq5iYBzerYLsn2L4RRjLdCR+uk5v7bMh9egaPjI=;
+        b=ALjex9gRMTmQ50it4soOyvAbAxZmVhMqeTenLVUSlJgmgg2i436msWqW7NPxB+PcGz
+         8E71fLpVjbn7fnG32k8Cd33Im37uQienEuVV5aZKfwwRJH/g2N4N0WSPUcHv/YJVB7Me
+         vUCq1fJJRACnOIOO82ys7g6agTDGMGelgnXRZMkBRCPcyTJgNNyyNPL4QORouDo0bsWf
+         LuiaONA3E5+LirJ8+frAHn94QnCaeSXPMS6UcWmmIxfgNPZMKmu1tTd1z2XgaaH2ZLfK
+         s+wdNie7dcETYVAw3m7HcYLpI70eH6OKE/gT4ftKWRzPf9MJRXa9tWRLAiVM0w8zarNq
+         p++Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748816331; x=1749421131;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ASuAMgM5DsTFJTj9WldWE2aobhWhSAfKBSNCSHlRwfs=;
-        b=eJ+Je7ECkOIqZ0hpfRwqwn9KmG2AH8dTUFdMtuRf8iUCDbOLLBTvYBr6AqGnrZyal7
-         XKL6fe2B5e/vPkVfoQgrRhdl1zT8C8XhOnpQGwTRdr3TFxGPEIFMl3DWr+L8DS+Gf9KB
-         ziB5M7v22G5okdPqyPw+aicJ92NGl926ccQACinb79ZQNQAb7StFoQ9PIwpsmk70Yjh5
-         W2cuGsb1TIVzKg9gpWmVOgtced+ebXt4+ftZpQnBxgCGgb1YAYLfhMPe8w9I3lrmzXiu
-         GmDpuM4PFk0Qai5l+WLlVVAIMNtiBY467Fz4TRfF5mccDq0jOWsVzm+nGe27arG0MbcJ
-         xP5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUyxHH2YJbgwoooIcfJtu0bZ205h44BI/OCNWnr6EwSdgKkiGrVpOwEPiZsSUbU3zottuyTIKmP27g=@vger.kernel.org, AJvYcCVSt83SrcntSsk5PAu3esYW3uPmzq8B55rFEQZ7VDpbukHjJnwqaX3Bs5v/No9Y2xEbTsWQSK50/UdABUM/@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyU6SponIBU/JxkTsCOSOliPQmXwzAGHXw0FjKblhfMV06uT9D
-	BhMhvtc2mk0tQ8OH8yGqdnYg5rkF3p1R7FEyafkfkZFIwo2LIE9cA1lP
-X-Gm-Gg: ASbGncs6q6pu4abQfYMi0uW6n2yrxSXtciQzyd43vDgI4eFzRLlPgE1gsxZYt1W90Dv
-	anXkoYKXxK8krGUmsiVHUsukH9TOqCVvQRGjY/yA/U/3PkhaJS9CI+hXRT096RKdeiwuabkWErh
-	jDmuueATmmdEqwvffWf6P9IyMQ8t3lWYDYyIrxGXb9Zq76+QJWyHG/QhR23Xw7iUDBX58MZGmcj
-	XXkhqwNZnawGQYIQ7rMeJEEmCWoQQS6NCVHybMJ/I/FATkfwcd7hv1CPrGQarx0W0jzKwKJ6jFA
-	pSq5Vw2P9pB7YpE1zF91ILQRLSe0DGwsg1tc/oDY0uFSpfZO6Q9rWlh2mTxptVbtAA==
-X-Google-Smtp-Source: AGHT+IFvrmdqb1Jbez/1pqAFUzOD1aoANA/UWpASTj5vWXRE59vvCBBQj7T26GKh6jtI6UAtH/NggQ==
-X-Received: by 2002:a05:620a:458b:b0:7c5:65ab:5002 with SMTP id af79cd13be357-7d0eaccf947mr1097655685a.49.1748816331192;
-        Sun, 01 Jun 2025 15:18:51 -0700 (PDT)
-Received: from [10.0.0.88] ([2607:fea8:bad7:5400:5458:c6fd:17d9:9820])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d09a1951casm536030285a.68.2025.06.01.15.18.49
+        d=1e100.net; s=20230601; t=1748820647; x=1749425447;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z3ahtq5iYBzerYLsn2L4RRjLdCR+uk5v7bMh9egaPjI=;
+        b=fW5cH6X6HzS82WXzIEHV/g3C4xTE8SY/GYNttFygJqJDERpXP3tu/ldVGWj6daESRQ
+         X0KSuKgtvmJZuOOQx4KG49xK/4kSkxouU/rSuQzTDAf0NoAp8v3TOHbjzKqysC71Gt4p
+         sgjFl3m9LPyhLajgdpEkVvv4a7va8toKd7WjkvcuRl29j0QDUQlWNDZvHVVqs2lvuzxW
+         lja6wl5t8501IVr/8iJLlJar/0AOXzeWPsVN4lAQerE8fKATNsn9QdaFROxKtdPaBBzF
+         lIkkjt0BAaNuB3PbwePK7cof+orDrgtBaEXTnqlWvFQVwR5fMTUQZ8FXEUHftuGRV/lV
+         PDkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX/sX8X3a4JcqQujSJWbIlndTpUrdPB2DajLcZ3tV3SwrgM/ZWBy3bbB4nKN3jYbPgBTYolU2sDGIs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfPlnLKjfg0Lw/QqHqKlsyVKISjUUl4+mzoldBOF7yCisb42r5
+	tU9cKaD78QbkaOJsKiz2KCoMdgLJIGW9q5tCUD6QPRYt9WdcvMfTw7lYxIDRSvuYteQ=
+X-Gm-Gg: ASbGncvfkxFdPUbiLX4+yHiZc2ziyRw+INmJEj4SR9lmhG8102jxFFBnFUyivvnXieE
+	vSoPWzdPReul+QCcXbo0E7731K7a6X3escJ3Lnsl7UttU1TI5A5aySQplQHdtppowMmq+iBirar
+	Ft3nhiXqli+hQzg8ky0DTkfDxYwIMyD/7KeFr7O6jNlBNGGxNED1HIlDpUdq+MW2h/H721odcFd
+	kI0gL0ITN9D1sGObC7mkWyD7Kmfn9p2as3lNyqZrb4PfNG+dN93rev5E3mQa9pkwbwMVtGRKkJB
+	dcHsd8XuPRBoQ0pn7g0Cr6ZvrKftz11HdbmiRKTtNMLcg3wuhY8CF0NuRPb7nOkhJwyGgmEsjcr
+	dZIk6gQuGmwyQneRvEkcSNuWQqy8Shmg=
+X-Google-Smtp-Source: AGHT+IHAt46IPZ2ZNZ13vLsgj7LdizYMg33TCIokRzOtUXTMz4rVh+t4qoD51lnIbRNNJhpIDOFVlg==
+X-Received: by 2002:a05:620a:1a93:b0:7c5:49b7:237c with SMTP id af79cd13be357-7d0a1fb77c1mr1867411185a.27.1748820647265;
+        Sun, 01 Jun 2025 16:30:47 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-42.washdc.ftas.verizon.net. [96.255.20.42])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fac6e00cebsm52506366d6.73.2025.06.01.16.30.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 15:18:49 -0700 (PDT)
-From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-Date: Sun, 01 Jun 2025 18:18:47 -0400
-Subject: [PATCH v4] drm: add overview diagram for drm stack
+        Sun, 01 Jun 2025 16:30:46 -0700 (PDT)
+Date: Sun, 1 Jun 2025 19:30:44 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Alok Tiwari <alok.a.tiwari@oracle.com>
+Cc: dave@stgolabs.net, jonathan.cameron@huawei.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, vishal.l.verma@intel.com,
+	ira.weiny@intel.com, dan.j.williams@intel.com, corbet@lwn.net,
+	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, darren.kenny@oracle.com
+Subject: Re: [PATCH] Documentation: cxl: fix typos and improve clarity in
+ memory-devices.rst
+Message-ID: <aDzipGmldaeje43H@gourry-fedora-PF4VCD3F>
+References: <20250531075209.3334261-1-alok.a.tiwari@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAMbRPGgC/3XNwQ6CMBAE0F8hPbum3VJAT/6H8YDsFpqIkBaJh
- vDvFk5E4nEmeTOTCOwdB3FOJuF5dMF1zxjSQyKqpnzWDI5iFijRSIMI5FugroJXT+XAAXRWZDa
- jtFCIIqres3XvdfF6i7lxYej8Zz0Y1dL+3xoVKCDFlkyap/JOl7ot3eNYda1Ytkbcer33CBLYq
- JysMljZ7Nfrrc/3Xsd/U/ApLwutSOqtn+f5CyLdqyguAQAA
-X-Change-ID: 20250522-drm-doc-updates-3686f6d48122
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748816329; l=3417;
- i=abdulrasaqolawani@gmail.com; s=20250522; h=from:subject:message-id;
- bh=q5bj5dHeAF0jw1D9B79SOZIYQ/2vhai+oYehV5QXNxk=;
- b=sjsMrBAa7gu2PoEDTIe+RBXPWGT4CuRLEafyGtWYHvOlDONiQzwpYYmo5l0FI/+XGq+fkjsus
- pSEv0WevVJoBsq2PwUBQZtAeEHuTadQ3flbJV7IY2822TGRCzWuLpqn
-X-Developer-Key: i=abdulrasaqolawani@gmail.com; a=ed25519;
- pk=LCvBseqd+rEj8B1vNEnSSfNcqQwMsfWx1DGDT1LYddo=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250531075209.3334261-1-alok.a.tiwari@oracle.com>
 
-Add an overview diagram of Linux DRM architecture for
-graphics and compute to introduction.rst
+On Sat, May 31, 2025 at 12:51:58AM -0700, Alok Tiwari wrote:
+> This patch corrects several typographical issues and improves phrasing
+> in memory-devices.rst:
+> 
+> - Fixes duplicate word ("1 one") and adjusts phrasing for clarity.
+> - Adds missing hyphen in "on-device".
+> - Corrects "a give memory device" to "a given memory device".
+> - fix singular/plural "decoder resource" -> "decoder resources".
+> - Clarifies "spans to Host Bridges" -> "spans two Host Bridges".
+> 
+> These changes improve readability and accuracy of the documentation.
+> 
+> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+> ---
+>  Documentation/driver-api/cxl/memory-devices.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/cxl/memory-devices.rst b/Documentation/driver-api/cxl/memory-devices.rst
+> index d732c42526df..e9e2952a967d 100644
+> --- a/Documentation/driver-api/cxl/memory-devices.rst
+> +++ b/Documentation/driver-api/cxl/memory-devices.rst
+> @@ -29,8 +29,8 @@ Platform firmware enumerates a menu of interleave options at the "CXL root port"
+>  (Linux term for the top of the CXL decode topology). From there, PCIe topology
+>  dictates which endpoints can participate in which Host Bridge decode regimes.
+>  Each PCIe Switch in the path between the root and an endpoint introduces a point
+> -at which the interleave can be split. For example platform firmware may say at a
+> -given range only decodes to 1 one Host Bridge, but that Host Bridge may in turn
+> +at which the interleave can be split. For example, platform firmware may say at a
+                                                                                ^^^^
+If you wouldn't mind, can you also change:                           "at a"  - >  "a"
 
-Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
----
-Changes in v4:
-- Ensure patch description describe diff adding overview diagram.
-- Link to v3: https://lore.kernel.org/r/20250527-drm-doc-updates-v3-1-58e97a831d03@gmail.com
+Otherwise
 
-Changes in v3:
-- revert the promotion of the overview diagram header
-- Link to v2: https://lore.kernel.org/r/20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com
-
-Changes in v2:
-- Update the overview diagram to display correctly by putting in a literal block.
-- Also update the overview section diagram to a higher order.
-- Ensured docs are successfully rendering by building for htmldocs and pdfdocs.
-- Rendered pages are okay on html and pdf.
-- Link to v1: https://lore.kernel.org/r/20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com
----
- Documentation/gpu/introduction.rst | 40 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
-index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec52a45d0f3f4561424e0 100644
---- a/Documentation/gpu/introduction.rst
-+++ b/Documentation/gpu/introduction.rst
-@@ -14,7 +14,45 @@ including the TTM memory manager, output configuration and mode setting,
- and the new vblank internals, in addition to all the regular features
- found in current kernels.
- 
--[Insert diagram of typical DRM stack here]
-+Overview of the Linux DRM Architecture
-+--------------------------------------
-+::
-+
-+        +-----------------------------+
-+        |     User-space Apps         |
-+        | (Games, Browsers, ML, etc.) |
-+        +-----------------------------+
-+                      |
-+                      v
-+        +---------------------------------------+
-+        |    Graphics APIs   |   Compute APIs   |
-+        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
-+        +---------------------------------------+
-+                |                   |
-+                v                   v
-+        +---------------------+  +-----------------------+
-+        |  User-space Driver  |  |    Compute Runtime    |
-+        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
-+        +---------------------+  +-----------------------+
-+                |                   |
-+                +--------+----------+
-+                         |
-+                         v
-+                +-----------------------+
-+                |   libdrm (DRM API)    |
-+                +-----------------------+
-+                          |
-+                          v
-+        +-------------------------------------------+
-+        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
-+        |     nouveau, etc.)                        |
-+        +-------------------------------------------+
-+                |                       |
-+                v                       v
-+        +----------------+     +-------------------+
-+        | GPU Display HW |     | GPU Compute Units |
-+        +----------------+     +-------------------+
-+
- 
- Style Guidelines
- ================
-
----
-base-commit: 4d07f5440d7afee27dada528aaf5230e760531cb
-change-id: 20250522-drm-doc-updates-3686f6d48122
-
-Best regards,
--- 
-Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-
+Reviewed-by: Gregory Price <gourry@gourry.net>
