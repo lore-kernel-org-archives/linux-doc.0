@@ -1,168 +1,63 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706DB18DB1C
-	for <linux-doc@vger.kernel.org>; Sun,  1 Jun 2025 06:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684B017A30F;
+	Sun,  1 Jun 2025 07:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748760081; cv=none; b=Cx4jImTauJ6eQ7VPHxdA8b9Ugu+08+/H2JAMjx7v7G8o5mdJiPUp2z4x2rEbGhk3zxqzsZjKRaSpz/xCVywrreQ9SoI0zvQgPA/D+3FlyjB/VhKgxlFE2iMrKLbB6cV/N3r9itxsgmEYkEykkwbg3T4DxY1GDjjf62QI/Y24Viw=
+	t=1748763452; cv=none; b=ICyvoQoDCxx3NoSqcUOwoppZbFbw+vyw/pAvHUmAhteIfprxmsmfSmZkdJV/qg5IoIBSZuDUsFQRCDpYrKPfSyrzY/1HMcBiJT2060VBZwKAjjXO4fxKEnPRwf9+zcf5crBQAraiS5wHczBO+6iF7q3GEAQM26t/sclzIxHMXtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748760081; c=relaxed/simple;
-	bh=7nIuduBZSDN8yG4gI1AL7If3QAxZl6VdPtjos3S82gY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k/oS5qopNNkQOb8aMYX7gYqx6LGIpmAftX2zymJdLa0NLiliVdvHbG5ESi5hi/tgDzwaL1GNu+0KcjzO3hKTSrJVDuijf1JsKAzh7sgLl/fOLZuccucNtCOIq19aPi6VuWbq5K2uWcL9DmH0H87Rf524evW25Ng0Airri/W+mNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=tomeuvizoso.net; dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b=Iv91YkLV; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
+	s=arc-20240116; t=1748763452; c=relaxed/simple;
+	bh=tyGsOVSDYorh9HaW+EfaNB/Fo+Bsp+pz+XBA+8J64Y4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QNvbUKJ0GSJDlHj8D+g0QRORoJLq68FFOh1z1lmZbSn+mJRwWy3xvOxcEI/D24Q0wJFuLHUmHGGPIQVLR2HVfJ1CA1v4opxd4HOjF/LJmlHMhnjPj0nJL9XnSpqzl1ZKzLOXbLKYj63348hnxe+5NqlfJATx3p796zJyTaE8D9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ymSV42HN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="Iv91YkLV"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-70f862dbeaeso33352507b3.1
-        for <linux-doc@vger.kernel.org>; Sat, 31 May 2025 23:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1748760078; x=1749364878; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CDv2NwLqpacBBYcKaq5onzHq7Gle/gc1PiMFPCdKyB0=;
-        b=Iv91YkLVutRzPUJt7I5MEKsmYl4bqFiausDX1QTkkNJJKMrplETK1xNBQtirXsbS7C
-         Rh/+LiXzgBmZz/gKbyFX/opx09kF6Qy6IYcs/T5tI4l6ADh1zufSdIKl9UPtTAlFuc4x
-         /dz1WQWCdStLmkv/Dwg//TNjPeExY6OkJfRv/ty5c6NDgkXbxBL73ehtB58PEZfqJWd4
-         TcNb+RokOzJYIP/a+qBaq9nNmT7NswFl9zBCl7Htx5ena49a7Gl+/vpI6OqNwOSz10Uy
-         MXz59/Wu7MrZEKYKc5S2Pj+wmS1jRP18QlOlNgMM1djtUWMNEnbmCL2o0ZrUbbTmr0r0
-         V65Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748760078; x=1749364878;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CDv2NwLqpacBBYcKaq5onzHq7Gle/gc1PiMFPCdKyB0=;
-        b=KWbQXgmyDoBZv3Wkjc/OlqUthDhmTxKmcVE0FeAEICaXCfycTc12oNlJ/zRzQjq/wV
-         4PxbKCJmzztWCAwTb20otm/4Va4e2NYjpVtAwI56+CBBc5jYBL1O4P1iEelgYMFnEc12
-         jhC+kXP1w+Fe9i61ovsuq+DA0wCYsl5bBVGwDWMLmBC1+gKpft+B5qy4GAZ7pIN6SYya
-         tFsoQYCHMkHKTRCyQ4s0G+CN5+jQoWtjKngWG6efFeFkBTXMIBDQVlTy8vmK+IK6eXdz
-         2lk6iVBZDR8aztR/iR7KUKnJAWrmgajpxFAQMrc5lAdieSTxXsD4xRZtoc/AN6pMjMKf
-         oz4g==
-X-Forwarded-Encrypted: i=1; AJvYcCVBqNjPojJafDdBsrvURdoFV3lveEJJLW0laJOy1ub+AmZnH7zQ1tpcnXBnfZCK4iHIywtQuCbWHWE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRJ84lZHI8yPV1z8FNC2kH5W8F7xRbDCuiq0lrgvPVMroN48A9
-	+i9CCQKx33/b1XzR5LTzp5wu49HUF7qzeTGnozLPduwUqZ9JIybasyzp/90oMY/BCbM=
-X-Gm-Gg: ASbGncvTx+RV5iX/kYzQmv/KK4kcQfG7OchK6E6DjaSb0efzCX9oI9SqLd4fz2AwYoV
-	5w8pleFRnhcLnqU8moOhkpTUmS45ePy8d4H6lxXqp3oh7HG0X7HgBcgFIRVeRDPzGOrB/BuYExX
-	eEmYMvq41wytxHwLI5Sru4cgUihLMELccR+vuPrmz6CR4ThJIDGou57zdHAJNx3FFvybHiXaIid
-	qs1bIXFVPczMMMNs5BlQZc52V/ZKoGm+FSkr/4J4R4iuS+6w4nDgNit3ueiq05/hNWbKyRjoRJu
-	tpBe6DmrrNTeu6U+Rz5kjPsk/Reo0+3c9NMJB39nJfd9UW0UuY0VfghEXnRsp91cKZtrUb+leLa
-	Jh7HFpEGton1qGCMyUbyUifE1np8mhg==
-X-Google-Smtp-Source: AGHT+IG7QFqS1UaU0YMRasbmTCx1Tr0K8NUXc+2x5saWfwUXHo9/8qNmSBwBg1YWxFL8D3/84TKyfg==
-X-Received: by 2002:a05:690c:7401:b0:70d:ee83:373b with SMTP id 00721157ae682-71057c05dd7mr113923437b3.13.1748760078191;
-        Sat, 31 May 2025 23:41:18 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-70f8ac10d35sm15501757b3.67.2025.05.31.23.41.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 31 May 2025 23:41:17 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e7c5d4709caso3232886276.1;
-        Sat, 31 May 2025 23:41:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW4CqoNp0vHiwKvDuqV0KtmBY2XYHHgJyx+5Gq+J8ez1ZNP2C9aMyyN0jMKwjErhfEYnPYAF3iWApP6@vger.kernel.org, AJvYcCWMGkuKj8wCKudYlGU09Qx4Uydj1hSG+b8WKrXjEKqC1BZb7ThBqdCha69v2qI6+zzSUqQA7OMv089H@vger.kernel.org, AJvYcCWhKMFiaj17hJMlx25KDCb6MEpqA5JKWJeuTDEuYynugfChPlKrZURQyA6jza5g52L0UEHPqMvCCe2WHVE=@vger.kernel.org, AJvYcCXKCe8Gq6wVcYEHQk8NEE7lrF49TP+G4tqbFEOgss6RMXmQq9cBkroYcNV7lUD5whPzeUSgfgudB+HHPKgC@vger.kernel.org
-X-Received: by 2002:a05:6902:1245:b0:e7d:c51d:4b17 with SMTP id
- 3f1490d57ef6-e7fec876436mr9326569276.8.1748760077303; Sat, 31 May 2025
- 23:41:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ymSV42HN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 487FCC4CEE7;
+	Sun,  1 Jun 2025 07:37:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1748763450;
+	bh=tyGsOVSDYorh9HaW+EfaNB/Fo+Bsp+pz+XBA+8J64Y4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ymSV42HNxbQxqmaZXfZpjwNSu5HsUm4XwTm4xBmc+V5rmLm3OPUH8Kqx86fC2CoGn
+	 qLyRAvBmsYKgxu7Se7n8VbrFXZ1aZO1YZ3kUdOkehgR5IU/jjH1q5FgUVFdkSAEYcm
+	 f6pAsPXQxGN1WrLwwyHOKmTSOFvODJkIoOk6n92w=
+Date: Sun, 1 Jun 2025 09:37:26 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>
+Subject: Re: [PATCH v1 1/2] usb: gadget: pxa25x_udc: Switch to use
+ devm_gpio_request_one()
+Message-ID: <2025060110-smooth-flatten-590f@gregkh>
+References: <20250531212331.3635269-1-andriy.shevchenko@linux.intel.com>
+ <20250531212331.3635269-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250519-6-10-rocket-v4-0-d6dff6b4c0ae@tomeuvizoso.net> <CA+VMnFzisyMFzze52RRf6=Gstq29jmukrPSfqXfBWrVw0a7k1Q@mail.gmail.com>
-In-Reply-To: <CA+VMnFzisyMFzze52RRf6=Gstq29jmukrPSfqXfBWrVw0a7k1Q@mail.gmail.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Sun, 1 Jun 2025 08:41:06 +0200
-X-Gmail-Original-Message-ID: <CAAObsKDhjkQ_wVcOiVsGPB6QPuWkKPrWEGd-6Oq7BgjX9NhTJA@mail.gmail.com>
-X-Gm-Features: AX0GCFuCkivNAaBx7rL3ymXj2J3pJIXqNYSSzMxHaNqO3jwK8nThi-KXGe-k1Hs
-Message-ID: <CAAObsKDhjkQ_wVcOiVsGPB6QPuWkKPrWEGd-6Oq7BgjX9NhTJA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] New DRM accel driver for Rockchip's RKNN NPU
-To: Jagan Teki <jagan@edgeble.ai>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250531212331.3635269-2-andriy.shevchenko@linux.intel.com>
 
-On Fri, May 30, 2025 at 8:50=E2=80=AFPM Jagan Teki <jagan@edgeble.ai> wrote=
-:
->
-> On Mon, 19 May 2025 at 19:14, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
-> >
-> > This series adds a new driver for the NPU that Rockchip includes in its
-> > newer SoCs, developed by them on the NVDLA base.
-> >
-> > In its current form, it supports the specific NPU in the RK3588 SoC.
-> >
-> > The userspace driver is part of Mesa and an initial draft can be found =
-at:
-> >
-> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
-> >
-> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > ---
-> > Changes in v4:
-> > - Several fixes to DT bindings.
-> > - Link to v3: https://lore.kernel.org/r/20250516-6-10-rocket-v3-0-7051a=
-c9225db@tomeuvizoso.net
-> >
-> > Changes in v3:
-> > - Reference in the device tree only the register blocks that are
-> >   actually used.
-> > - Several style and robustness fixes suggested in the mailing list.
-> > - Added patches from Nicolas Frattaroli that add support to the NPU for
-> >   the Rock 5B board.
-> > - Link to v2: https://lore.kernel.org/r/20250225-6-10-rocket-v2-0-d4dbc=
-fafc141@tomeuvizoso.net
-> >
-> > Changes in v2:
-> > - Drop patch adding the rk3588 compatible to rockchip-iommu (Sebastian =
-Reichel)
-> > - Drop patch adding support for multiple power domains to rockchip-iomm=
-u (Sebastian Reichel)
-> > - Link to v1: https://lore.kernel.org/r/20240612-6-10-rocket-v1-0-060e4=
-8eea250@tomeuvizoso.net
-> >
-> > ---
-> > Nicolas Frattaroli (2):
-> >       arm64: dts: rockchip: add pd_npu label for RK3588 power domains
-> >       arm64: dts: rockchip: enable NPU on ROCK 5B
-> >
-> > Tomeu Vizoso (8):
-> >       dt-bindings: npu: rockchip,rknn: Add bindings
-> >       arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588s
-> >       arm64: dts: rockchip: Enable the NPU on quartzpro64
-> >       accel/rocket: Add registers header
-> >       accel/rocket: Add a new driver for Rockchip's NPU
-> >       accel/rocket: Add IOCTL for BO creation
-> >       accel/rocket: Add job submission IOCTL
-> >       accel/rocket: Add IOCTLs for synchronizing memory accesses
->
-> Can this be possible to infer yolov8/10? Do we need to convert PT/ONNX
-> to any other common format's unlike rknn?
+On Sun, Jun 01, 2025 at 12:21:38AM +0300, Andy Shevchenko wrote:
+> devm_gpio_request() is going to be removed. This driver is only user of that
+> API. Convert it to use different API.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/usb/gadget/udc/pxa25x_udc.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 
-Both considerations are entirely dependent on the userspace driver.
-This kernel driver should be able to support a userspace driver that
-accelerates any YOLO version. Should also be able to support without
-changes a userspace driver that implements execution of ONNX, PyTorch
-models, etc. With or without conversion to an intermediate model
-format.
 
-Regarding the particular userspace driver that has been submitted for
-review to Mesa, you can put questions and comments at:
-
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
-
-Thanks,
-
-Tomeu
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
