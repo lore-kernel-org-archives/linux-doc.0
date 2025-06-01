@@ -1,160 +1,173 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E76140E30;
-	Sun,  1 Jun 2025 19:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717696FBF;
+	Sun,  1 Jun 2025 22:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748807664; cv=none; b=Be1FEc0bo3fxVnegS/vCJW0dWUSttnlwIhRsoMPEU4ZAsl4yhb68+8B15bRf3VkBD6QLoRPReFLwznSJ/oA8sQdleNeOi9noHH3DcVAGOHB5ZYgHi84CGK0ZVi/cyseukF02Yzg/dB7Ki+MdaCDGS2y2nnAK0ah+L9RBtErEB4s=
+	t=1748816334; cv=none; b=AU8ZGPZ/Jad7WtF3b1liwgq952N4O8kU2JkOH5ZEE/iC3082YAIslwyRweUO9S+ReUZYy8XisuTbV6VpnxKcW3c+ysUm6urXiKedJPeN8EVeuQcbE1nG2gOVTC9BLEo0Y5MoZ/YI3QueBGV3lGyUgLOjZz3ORDmxfGO/5MdPDpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748807664; c=relaxed/simple;
-	bh=okmqYDFYTj0N8/RbvtxGNYxNglDX9bIPQed8iT5MgSg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dc+p0EYek7ytmgEtZwBz7b/hD7hTNQuVfR45jw56qe7u7r3GNEc2FIUMQjq/ODVJaBV0YMnOPRthiUbbWvQ72mz24opko8lzk1kWIQVpxK7V7xCUi/BXTtE/vzJHcBCDe7yC9RDJGl74fD+0pbZsPqASArskVF/We4Qr91OE1JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P0r6DrPA; arc=none smtp.client-ip=209.85.208.43
+	s=arc-20240116; t=1748816334; c=relaxed/simple;
+	bh=q5bj5dHeAF0jw1D9B79SOZIYQ/2vhai+oYehV5QXNxk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LuYjIsMRH6ugs7Sn5wSJ+pWaI7I4kOh4oausenIUpZzniNI4OsZ7Pd++Nyot0er9fyB+oe+Q3KA02gyqjQ6/5fFX8PLrmhho+M4oewE33jdNoNZG2u+eHFgfCLXfTgu1INDK6y0EQWi7cgR2wXKuYuj8cqcQQ6SRUVT1zvkRMqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fandLP8Q; arc=none smtp.client-ip=209.85.222.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P0r6DrPA"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-60497d07279so7859373a12.3;
-        Sun, 01 Jun 2025 12:54:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fandLP8Q"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7d0976776dcso355116185a.2;
+        Sun, 01 Jun 2025 15:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748807660; x=1749412460; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BeF/949IPaTKS3FEiz0D2QNOdvwROIAr78Br60q0vkc=;
-        b=P0r6DrPA0dBZ4Y5aUzeuXixv6GpFjZ6Cddfnsv4kx8Zc2iC3/hUu0YkiZ0jUXmNZuM
-         cy9Mwto1yN062byy55kYA5lGhHIcKOfFiohR0pvajiLYsTZ+jOcoQFaEAKvbHV3F2h4j
-         949xOhzIFNPW/A4q6sD8tGbPxjueYTLiMSG75fOqS/B7t0Ee53A7BYQgud27snzTvLcH
-         fIzesaEXKx/B4IazASg42kpHHKDM7W+5wp8gh4nDNM40MzKKOmixDbal0llYb08MiCtB
-         g8dd09yVXxJHYntk586+fEvG1EYdOrom9+lkQrchkR3D9fekWXQh7ML/WM0mFztl0Trr
-         n2IA==
+        d=gmail.com; s=20230601; t=1748816331; x=1749421131; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ASuAMgM5DsTFJTj9WldWE2aobhWhSAfKBSNCSHlRwfs=;
+        b=fandLP8QL8Z87QpfDJQiUUuOV3AGQf3IxmE+XZZSTbkgZSXZrPEv8mDIoYDkzQqThl
+         rW9hj41AnVlNAIKY22V/ztnMWWERGKVKCd8oXR+NFXNzbKs0q2XwZpiYDADGCz6Tq7rV
+         G0uZ7JgJpFDRd4B5GcJM9pK+S0YUjV2FvRDkERhxMawLN1q75itxlIrSe8T+jlR7ofrV
+         QwzSgWlt5kdWhlY2DgIRP0tntNwdmYu8ea+dtMgsnFsT05PMWq6zokbewAb6AkyFq2M+
+         jPDISeSY2+EHokAfJXzSnAwDsRIh4y9kD+5x28yPSJ3r5nQffL/V1nE/uSXQMCvaO8YA
+         5BRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748807660; x=1749412460;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BeF/949IPaTKS3FEiz0D2QNOdvwROIAr78Br60q0vkc=;
-        b=gr/dNQhMzqR9in+TvTvqnVG1BkHWW1jHStyy1voQv2CmVlsKOeJRODoYpt9KZvR+uI
-         Bd1VThWU+Y5KIg0Giun4ZGPgsy07NVdgYq+5EmWLefUcP/hHbNHkJ2zpiDcaLfQLD1l3
-         Ta27qGpAkviZneBvA5JM2Ztoe+hm1CHEP901fdoT08eoX8vzAknlj1ReDrU+HXzyjb68
-         vCx4cjmzGXBVVLXyk1vyBNQORh3sbK3sUPHcgFoghmj4XTUT1eFoskiHWKt1Q9YdmGqL
-         FMqgzo8Mrq1KeGuZXNJqDXWJCpmAS1NbNqqjF+Nr/WHtbcMTwsYMhedbr7jaQ2xGc7he
-         vRdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVvZOX+Zw3UgAClwjQrh0zBFCZIUIRgWacO++aHC7sxUSKpLu3pA/H026pIuzOwlIPDftsRNjm+KxU=@vger.kernel.org, AJvYcCWibdqAz/IajWYRptHKEg9z9aKtUB/DDOEsz0rCc7C0bkwF1pdp+L0JiRu1uLmYifwYE0wTTu/0EvSQ@vger.kernel.org, AJvYcCXu1JvRwqhiqppDISKgqFMglQj1dJMUwUMlg3gV4GgvxN3mKi4laA4Cg3uL7WlkznK7W1XaTJcrK3jG1T31@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmHS8gOgQnIHJxICUVLOLS1KDsGHxuG4hPBg4L+KWDKEovpeT1
-	mfnQFISy3FuT3r1+B+mZe13Gyn7WTybThqxquz/fWKEogxB7GlUg0M4Rnbteqboy+Ts8HrHURfj
-	er18asl7Gts6YPvOcdb87hPhKbh9dsnc=
-X-Gm-Gg: ASbGnct8tbzOUQ1lHYKtd+whahjwFTlEs4kiYqBANZZPvpQNeTCH40WXO6EtfZMzVBr
-	227gpLpikPO2ny031axEXsDmY5NlB57YrvWvPjvAIkhMjFOPxfHcmNP522RlpU88APHozKxPCOQ
-	McSGn6E+gKdfzZIb4UMqclebDD8jlmz/l0
-X-Google-Smtp-Source: AGHT+IFeiRxISUrPSwHaJZo2F9AfzgmgvdlWWkKx8O60ki8IaOmiTIlD2glCFQ04x3ZnrEYWSt5aIWE5XAIJX5ob2VY=
-X-Received: by 2002:a17:907:2d9e:b0:ad8:ac7e:eead with SMTP id
- a640c23a62f3a-adb36be22a1mr872958566b.39.1748807659567; Sun, 01 Jun 2025
- 12:54:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748816331; x=1749421131;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ASuAMgM5DsTFJTj9WldWE2aobhWhSAfKBSNCSHlRwfs=;
+        b=eJ+Je7ECkOIqZ0hpfRwqwn9KmG2AH8dTUFdMtuRf8iUCDbOLLBTvYBr6AqGnrZyal7
+         XKL6fe2B5e/vPkVfoQgrRhdl1zT8C8XhOnpQGwTRdr3TFxGPEIFMl3DWr+L8DS+Gf9KB
+         ziB5M7v22G5okdPqyPw+aicJ92NGl926ccQACinb79ZQNQAb7StFoQ9PIwpsmk70Yjh5
+         W2cuGsb1TIVzKg9gpWmVOgtced+ebXt4+ftZpQnBxgCGgb1YAYLfhMPe8w9I3lrmzXiu
+         GmDpuM4PFk0Qai5l+WLlVVAIMNtiBY467Fz4TRfF5mccDq0jOWsVzm+nGe27arG0MbcJ
+         xP5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUyxHH2YJbgwoooIcfJtu0bZ205h44BI/OCNWnr6EwSdgKkiGrVpOwEPiZsSUbU3zottuyTIKmP27g=@vger.kernel.org, AJvYcCVSt83SrcntSsk5PAu3esYW3uPmzq8B55rFEQZ7VDpbukHjJnwqaX3Bs5v/No9Y2xEbTsWQSK50/UdABUM/@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyU6SponIBU/JxkTsCOSOliPQmXwzAGHXw0FjKblhfMV06uT9D
+	BhMhvtc2mk0tQ8OH8yGqdnYg5rkF3p1R7FEyafkfkZFIwo2LIE9cA1lP
+X-Gm-Gg: ASbGncs6q6pu4abQfYMi0uW6n2yrxSXtciQzyd43vDgI4eFzRLlPgE1gsxZYt1W90Dv
+	anXkoYKXxK8krGUmsiVHUsukH9TOqCVvQRGjY/yA/U/3PkhaJS9CI+hXRT096RKdeiwuabkWErh
+	jDmuueATmmdEqwvffWf6P9IyMQ8t3lWYDYyIrxGXb9Zq76+QJWyHG/QhR23Xw7iUDBX58MZGmcj
+	XXkhqwNZnawGQYIQ7rMeJEEmCWoQQS6NCVHybMJ/I/FATkfwcd7hv1CPrGQarx0W0jzKwKJ6jFA
+	pSq5Vw2P9pB7YpE1zF91ILQRLSe0DGwsg1tc/oDY0uFSpfZO6Q9rWlh2mTxptVbtAA==
+X-Google-Smtp-Source: AGHT+IFvrmdqb1Jbez/1pqAFUzOD1aoANA/UWpASTj5vWXRE59vvCBBQj7T26GKh6jtI6UAtH/NggQ==
+X-Received: by 2002:a05:620a:458b:b0:7c5:65ab:5002 with SMTP id af79cd13be357-7d0eaccf947mr1097655685a.49.1748816331192;
+        Sun, 01 Jun 2025 15:18:51 -0700 (PDT)
+Received: from [10.0.0.88] ([2607:fea8:bad7:5400:5458:c6fd:17d9:9820])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d09a1951casm536030285a.68.2025.06.01.15.18.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Jun 2025 15:18:49 -0700 (PDT)
+From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Date: Sun, 01 Jun 2025 18:18:47 -0400
+Subject: [PATCH v4] drm: add overview diagram for drm stack
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250601172139.59156-1-l.rubusch@gmail.com> <20250601172139.59156-11-l.rubusch@gmail.com>
-In-Reply-To: <20250601172139.59156-11-l.rubusch@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 1 Jun 2025 22:53:43 +0300
-X-Gm-Features: AX0GCFtzLuDg3Z8rNDToVIodY39D5KaVGPsm9B3o6B-8A-k8SanEKJlCDCWwF5Q
-Message-ID: <CAHp75Ve+f4c-aVD3vMfi1NP7vohJWDFFO+F4ckYCKkw2iYDsFw@mail.gmail.com>
-Subject: Re: [PATCH v4 10/11] iio: accel: adxl313: add AC coupled
- activity/inactivity events
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de, 
-	Michael.Hennerich@analog.com, bagasdotme@gmail.com, linux-iio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAMbRPGgC/3XNwQ6CMBAE0F8hPbum3VJAT/6H8YDsFpqIkBaJh
+ vDvFk5E4nEmeTOTCOwdB3FOJuF5dMF1zxjSQyKqpnzWDI5iFijRSIMI5FugroJXT+XAAXRWZDa
+ jtFCIIqres3XvdfF6i7lxYej8Zz0Y1dL+3xoVKCDFlkyap/JOl7ot3eNYda1Ytkbcer33CBLYq
+ JysMljZ7Nfrrc/3Xsd/U/ApLwutSOqtn+f5CyLdqyguAQAA
+X-Change-ID: 20250522-drm-doc-updates-3686f6d48122
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748816329; l=3417;
+ i=abdulrasaqolawani@gmail.com; s=20250522; h=from:subject:message-id;
+ bh=q5bj5dHeAF0jw1D9B79SOZIYQ/2vhai+oYehV5QXNxk=;
+ b=sjsMrBAa7gu2PoEDTIe+RBXPWGT4CuRLEafyGtWYHvOlDONiQzwpYYmo5l0FI/+XGq+fkjsus
+ pSEv0WevVJoBsq2PwUBQZtAeEHuTadQ3flbJV7IY2822TGRCzWuLpqn
+X-Developer-Key: i=abdulrasaqolawani@gmail.com; a=ed25519;
+ pk=LCvBseqd+rEj8B1vNEnSSfNcqQwMsfWx1DGDT1LYddo=
 
-On Sun, Jun 1, 2025 at 8:22=E2=80=AFPM Lothar Rubusch <l.rubusch@gmail.com>=
- wrote:
->
-> Add AC coupling activity and inactivity as MAG_ADAPTIVE events. This adds
-> up an additional set of threshold and period handles, verifies matching
-> disabling functionality and extends setting the link bit to complementary
-> event configurations.
->
-> This means, e.g. either ACTIVITY or ACTIVITY_AC can be enabled. The most
-> recent set will remain configured. Disabling ACTIVITY where ACTIVITY_AC w=
-as
-> enabled is ignored, since it does not match (should be disabling
-> ACTIVITY_AC). When INACTIVITY or INACTIVITY_AC is also enabled, the link
-> bit will be set. Note, having the link bit and auto-sleep in place activi=
-ty
-> and inactivity indicate the power save state change and thus will only be
-> triggered once a state transition occurs. Since there is a separate AC bi=
-t
-> for ACTIVITY and for INACTIVITY, events can be linked independently from
-> each other i.e. ACTIVITY can be linked to INACTIVITY_AC for instance.
->
-> When one of both is disabled, the link bit will be removed. Hence, the
-> remaining event will not indicate a plain state change anymore, but occur
-> as a periodically triggered inactivity event or for each activity event
-> above the threshold.
+Add an overview diagram of Linux DRM architecture for
+graphics and compute to introduction.rst
 
-...
+Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+---
+Changes in v4:
+- Ensure patch description describe diff adding overview diagram.
+- Link to v3: https://lore.kernel.org/r/20250527-drm-doc-updates-v3-1-58e97a831d03@gmail.com
 
-> +/**
-> + * adxl313_is_act_inact_ac() - Check if AC coupling is enabled.
+Changes in v3:
+- revert the promotion of the overview diagram header
+- Link to v2: https://lore.kernel.org/r/20250523-drm-doc-updates-v2-0-e517df152cf6@gmail.com
 
-> + *
+Changes in v2:
+- Update the overview diagram to display correctly by putting in a literal block.
+- Also update the overview section diagram to a higher order.
+- Ensured docs are successfully rendering by building for htmldocs and pdfdocs.
+- Rendered pages are okay on html and pdf.
+- Link to v1: https://lore.kernel.org/r/20250522-drm-doc-updates-v1-1-d1efd54740bd@gmail.com
+---
+ Documentation/gpu/introduction.rst | 40 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
-Unneeded blank line.
+diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
+index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec52a45d0f3f4561424e0 100644
+--- a/Documentation/gpu/introduction.rst
++++ b/Documentation/gpu/introduction.rst
+@@ -14,7 +14,45 @@ including the TTM memory manager, output configuration and mode setting,
+ and the new vblank internals, in addition to all the regular features
+ found in current kernels.
+ 
+-[Insert diagram of typical DRM stack here]
++Overview of the Linux DRM Architecture
++--------------------------------------
++::
++
++        +-----------------------------+
++        |     User-space Apps         |
++        | (Games, Browsers, ML, etc.) |
++        +-----------------------------+
++                      |
++                      v
++        +---------------------------------------+
++        |    Graphics APIs   |   Compute APIs   |
++        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
++        +---------------------------------------+
++                |                   |
++                v                   v
++        +---------------------+  +-----------------------+
++        |  User-space Driver  |  |    Compute Runtime    |
++        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
++        +---------------------+  +-----------------------+
++                |                   |
++                +--------+----------+
++                         |
++                         v
++                +-----------------------+
++                |   libdrm (DRM API)    |
++                +-----------------------+
++                          |
++                          v
++        +-------------------------------------------+
++        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
++        |     nouveau, etc.)                        |
++        +-------------------------------------------+
++                |                       |
++                v                       v
++        +----------------+     +-------------------+
++        | GPU Display HW |     | GPU Compute Units |
++        +----------------+     +-------------------+
++
+ 
+ Style Guidelines
+ ================
 
-> + * @data: The device data.
-> + * @type: The activity or inactivity type.
-> + *
-> + * Provide a type of activity or inactivity, combined with either AC cou=
-pling
-> + * set, or default to DC coupling. This function verifies, if the combin=
-ation is
-> + * currently enabled or not.
-> + *
-> + * Return if the provided activity type has AC coupling enabled or a neg=
-ative
-> + * error value.
+---
+base-commit: 4d07f5440d7afee27dada528aaf5230e760531cb
+change-id: 20250522-drm-doc-updates-3686f6d48122
 
-Missing Return section. Always try kernel-doc validation when adding
-new kernel-doc descriptions.
+Best regards,
+-- 
+Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
 
-> + */
-
-...
-
->         unsigned int regval;
-> +       int coupling;
-
-Why? Doesn't 'ret' suffice?
-
->         int axis_en, int_en, ret;
-
-...
-
-> -       int act_en, inact_en;
-> -       bool en;
-> +       int act_en, inact_en, act_ac_en, inact_ac_en;
-> +       bool en, act_inact_ac;
->         int ret;
-
-For all your patches: try really hard to avoid the ping-pong coding,
-i.e. when you add something in one patch in the series and change in
-the other for no reason. I.o.w. when the initial code may be written
-already in a form that doesn't need further changes (e.g., switch-case
-vs. if).
-
-This patch is *very* noisy due to the above. So, just slow down, try a
-new approach that you have less '-' lines in the diff:s all over the
-code.
-
---=20
-With Best Regards,
-Andy Shevchenko
