@@ -1,161 +1,120 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC4B1E25F2;
-	Mon,  2 Jun 2025 09:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2911474DA;
+	Mon,  2 Jun 2025 10:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748857721; cv=none; b=TfjSWfJIFHUjT1QmlhyWdF7sZp+W0ROpQe59a2MRlkr5r+3jDMioQ+/QyWt+BoOgplNLRQHPVpJVvvnTkzbFe4z46C/HJUbKvhWpQe/wx9y2KNTCKVa2A/8Y9nDwfUYdc19tb+WHEqDt1T1EUJe2DNpPRudOsHsF0DiRRg2IDIc=
+	t=1748860119; cv=none; b=ZeMx0JzAJPWNfOvCnTbJTG9HAFMB+tNQ9/MoDhIEOWNWRkxYL0JQhDqoB5yAcauhfsml/JsZdBESKI4XxaHa/eMweZJ4fXXRUxnqGaiFHCJ32D4uZbCu8CYfPEr4Bg2C5HcHABi9a8GMAckP/35/RFWBTezfmi5LB5jpUv3jRmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748857721; c=relaxed/simple;
-	bh=OKeStrGIby2EGi8mJ3mXl/AW4GYR762m/+3o9JFp7m0=;
+	s=arc-20240116; t=1748860119; c=relaxed/simple;
+	bh=OuYd3hOfZThZU0t6WFn7pLEFQFhkMYGVDnq/qUDfuL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=srR8ox2jMJ2RA1fT5bwBwHRcLOQBbL+DGE0RTZ6d5RDdMGHxsf6iUZKwESAgSeVj/iVdZOe6Pwbt36J5kTelMypTygsPQYXnf8jkirdJc/GeOAZFQhkL6YcSA0aoKwrV1zqtK0a4nvxplrlmbUWmlrgki7URzWQuCpfuYZpuf9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W0K0/FwT; arc=none smtp.client-ip=209.85.222.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=F5Q1zHMyaE8WJ/cJyl110OEXmLSHmsLwAgaScfDZCyZG1oHdWNh6XBWufXkCigJ+WBBXQaeexznFMGhwv4tXSH+Oi+gs8AyYoVmGANcMPRnMuOQCEehWkoTn5LuLSDiYmWe5xU85V0UFADfNgx3sh3vbyWcccJYIwZjtwwAL7sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BgHSNsXQ; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W0K0/FwT"
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-87dfeb9d0c9so611657241.3;
-        Mon, 02 Jun 2025 02:48:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BgHSNsXQ"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-311bd8ce7e4so3620116a91.3;
+        Mon, 02 Jun 2025 03:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748857719; x=1749462519; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1748860117; x=1749464917; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cu1Khd9CgiQKdcwgPbMeK/RzLAfO2doPW3CBZFxJfBM=;
-        b=W0K0/FwTY/FI3dhB1dRqeX9HO10RtYiWsZNFLGKDUeV7Nb0sfMwVH6gHnRqminVh7j
-         OG38Al6BxYl0L0UrkB2+hb+IDovEf82zStSj7jIfy3Kzm7RMQmEnq393SLQW3tz1JyRQ
-         ormguJK24PSTHzqS7WSj7Ya+UVN0rkytz1dT/lPnS6c75LijoP6HCn5dFtEY0JejGMx7
-         AseLdx0i2h6i3Maqstu/tDGqmKwuqxGKOljoQc9GL6TGZlgMAARvjSlYI5q/k9Jk2No4
-         kWpp9njx94fogbqooahy/5KeqkDnkLVoBOXtioeaORutwk76jn7rHOIkeMlABm+f5y3A
-         TKbA==
+        bh=OuYd3hOfZThZU0t6WFn7pLEFQFhkMYGVDnq/qUDfuL0=;
+        b=BgHSNsXQairP+05/sqMjDXTVOegTZBvtc/+6LAZN2HBNGJrmCArzvCkkzrQWkiV1dT
+         Us8tqPO10zgaMTQU6Yj+rqa5QaqJRplpfvLNbQ1beftfJH00/2bqpZ+VPb3sTOxLcwk8
+         Ubj6h03w8d2dFZggtia0VdLwsjCrrkZNPlZzUGS4JxozZvq/99Lgx+w65gnelH3kJCUq
+         KppcJr0gI1bacc26ECJOozig/9ABv4x+PxLmCfemm9FD8gTK5Tq8vubLG5IJFj9MtwS3
+         RDTaZ8e90hivQ3qdY8u+JW2dX5oPa9G1LAtoDQ2drCpW2rVQSnoHzoUp3k4pbEwCmin+
+         sp0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748857719; x=1749462519;
+        d=1e100.net; s=20230601; t=1748860117; x=1749464917;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Cu1Khd9CgiQKdcwgPbMeK/RzLAfO2doPW3CBZFxJfBM=;
-        b=qRBzKh31BPXh4m/gGrvEhr6XuBAo5Pi3wBOHxbcCllC+EQEZBs2N1IYZVPPCbgi3vK
-         IkF+diTgglQ3ikeuEW1ebM8oWuQ9m1u+lRVQ11Gzi6/ylU8jZVEXons/ECHm2YgsptMm
-         BHW5vltP6OWo0yiMkuHPem6p/tqvv7L9LYXD0ZBjvuAxT3ELUxbro3igUH2jN6AAJzek
-         I2WyH3XaJRpR2d+64cOyo8rlT1VgENYNd9t5cwrQOSCij3LnMwvq7KM8IOosObtdYF8d
-         qYSp6pmUS/ILuxl3RYiIg9oIkiMqEeQWrwryKWHYUqf/25/GwzLMlxKNT8q1wsB8zKxl
-         yfkA==
-X-Forwarded-Encrypted: i=1; AJvYcCV4RnEe2qHphy59ky2TQakL+EhzsilyhFN7nSMR8Ijgoc00ZisbnWnHHeijg6M6Y1cENtZpDqo/XfZV@vger.kernel.org, AJvYcCV8jny1Pn1oOO25ONgTMdUCyImcgKCfAEAi8MXmet0jYPTHjPE1Ht6aTihCL5EO0nX9cZryjJM8S5jm03ws@vger.kernel.org, AJvYcCVDMQfKKS7uairob+6P6sXalcjSHLGqzuP5A+QC/IOS/WV1nRgjUaJdyRTdSPRjEWo1KLtwTCACvmb2@vger.kernel.org, AJvYcCVJoJOVRJqbnCNM+zqdcgZO7GGwS5I3N8nKgT1ynVqBQimBMudBFr+49thaZzlmA3oasRQaec00GY6+@vger.kernel.org, AJvYcCX99jt1x4FLP6iK5MbItUgs4QxHwmd5cxjc5Mh19y9+cMEa3Ukg0488OoZDOii0V8KgBBkRzP2ZtPw8@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3lDdtrtA8VcdTqlgp9DY9K5y9W3HvitDNaWbEF4vRB05hB3px
-	HR4nyiMfDrq/VsQbIWqEcWo+Ld6XUgCZYDyCj+8m+jJvJnsyL09Ra29W
-X-Gm-Gg: ASbGncs21CfoO8PPnEU0eFlOq3CqD67baqMhm/5Ra6T2wnieLc5rxBZeMWzNdNPBwbj
-	lL+l8PACgKTGGqJ4DAN4MJ0qyCH2xUlD1EAQqWpTAG76RKY96DZviZ6dT6KRRRonCRoNNPRldCw
-	IHnz5K8HX+7+XgowOZhyPmkonpPA8/Fk2+devVC2NTPD7GfbjCTAeuH1ovj8iVzy6+qqxbaA13E
-	9GvrB92qbcJuWrwNlLIwbsXNWPzZGl2dOWvWgDbp/4qeza9ueJdd8zfGKz15BLXuIRUCZr3bRqT
-	6G7y9fG1MquyzldzxICMSy5ZbcFLl0NAMXbQQyM91TbR2e5iH0AJ0eNKucsjjXJ3EOifQhzKXZ+
-	C
-X-Google-Smtp-Source: AGHT+IHuPPrU0h5hoopFKW1BD5CeygjjdtkEywfgREUczufl9/6ic34e8Vw+3bJZzrWb+kOFlgD1xg==
-X-Received: by 2002:a05:6102:949:b0:4e6:f7e9:c4a5 with SMTP id ada2fe7eead31-4e701ccd25emr4346427137.22.1748857718821;
-        Mon, 02 Jun 2025 02:48:38 -0700 (PDT)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:1225:ec01:ecf2:8e21:9f0f:159e])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87e2a3b63besm6069305241.30.2025.06.02.02.48.30
+        bh=OuYd3hOfZThZU0t6WFn7pLEFQFhkMYGVDnq/qUDfuL0=;
+        b=s1jJjQh1qZEyC+4fJV4DqHniJSjiVDqIisKabZrSRWkCk7TJ/MjguLJm+onMEUo11s
+         4ExFkBvc78YWMljdj+zfqyp1apcNlQg49MxXY5AAw3711z5oCadjtt4Nii3nc0khxhgG
+         qQ4nT23B+1OYPlrGuO/P42CPpds0oYgZvznb6LOPN3mnWym/9s+UmMovhd4pAQjZenL/
+         39Sh0TgFX3M+bzIRSO6+Yo+KyTmAHm1aUVDhPLl9+j4K2URqwNzMKbYZmdOU8SsTFOhB
+         OajW2GRUGnoTgKBp2dAg1yE9KwY4cuqeq3HYRcYuvcKrnJ2hYnVpsUbfHhGLDgfDc5J7
+         6WcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2yWrysRMwJP6bhkKM7XZVQBQGgdi+xpulT+kSzz6vrR0IJq7Bww7UcL7/mKHm62ss52R0JpHSo5s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWunlwZKFRuIh4lrT/I5FgFhta9Ajs9M7TB9nNtE2IRg5brY7J
+	BJWCsSEYgpOC+dhsZ8CXFFZkgzhVqqFsuCk98P0V3w0+BPoAJfS4r9gc
+X-Gm-Gg: ASbGncu9CHvY8CN7o/+jUSOibweepP6PAfD2xpDkd66fJqyrIB/tv4YtihadqL8xUiG
+	7nVKIkVqLacAqO5BrI5PNEaUwq4gUytndrEGBUNcfHtCG0OsCMemspf9S7Zp+9L9wdMHF1wV0RO
+	SSCWbCc6Zx6xB0wJ8JzSDQdlUAZaqvZaU6cXdVrz9rHwZc/sa8FS3a2GueOV2+2cBPtoDjFTz7A
+	8vYxhT/N7h9wr+Nfwh+poNq0CpGd2vPxHm7Tos2j+Ml8SDTbA2PUXPPsCaqxjjgFn7r+EVIGYQy
+	k7MPGwLARKo3Zyf/frDNzy96Kf1HNeSKkQF2pe6QGS2ic3e7Wfc=
+X-Google-Smtp-Source: AGHT+IE+liVhMoyKDMDliAK4dVbSyWeXCdAOFmNkSSiGaidC3KRBwGMgukh56ysEGbrmL57jT/9JNQ==
+X-Received: by 2002:a17:90b:1d51:b0:311:a314:c2dc with SMTP id 98e67ed59e1d1-3125036bafdmr21358726a91.14.1748860117238;
+        Mon, 02 Jun 2025 03:28:37 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506bd974asm67847265ad.97.2025.06.02.03.28.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jun 2025 02:48:38 -0700 (PDT)
-Date: Mon, 2 Jun 2025 11:48:26 +0200
-From: Jorge Marques <gastmaier@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] iio: code: mark iio_dev as const in
- iio_buffer_enabled
-Message-ID: <o5uaw756dho7v76pzvkn7ukfpsam4vmaryzvmtxmfehu7hnqa7@ppasiqfu44rq>
-References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
- <20250422-iio-driver-ad4052-v2-2-638af47e9eb3@analog.com>
- <20250426164524.166ce3c8@jic23-huawei>
+        Mon, 02 Jun 2025 03:28:36 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id C95664209E8C; Mon, 02 Jun 2025 17:28:31 +0700 (WIB)
+Date: Mon, 2 Jun 2025 17:28:31 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>,
+	William Raezer <wraezer@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, corbet@lwn.net
+Subject: Re: [PATCH] Documentation: Add a source tree map overview
+Message-ID: <aD18z7fXZDpN9Wpb@archie.me>
+References: <CAKg96b=n1pZi4FUBqe+puUJo9ndRfU8npvo9w6fE6Enshe73Hg@mail.gmail.com>
+ <f882f6d9-c914-48af-97b7-0aad6d995819@infradead.org>
+ <aDz92QNc3ZSVkdx3@archie.me>
+ <6459566b-bf9f-4e07-9290-41853cdee9ec@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wdCv78B4gWZchILF"
 Content-Disposition: inline
-In-Reply-To: <20250426164524.166ce3c8@jic23-huawei>
+In-Reply-To: <6459566b-bf9f-4e07-9290-41853cdee9ec@infradead.org>
 
-On Sat, Apr 26, 2025 at 04:45:24PM +0100, Jonathan Cameron wrote:
-> On Tue, 22 Apr 2025 13:34:47 +0200
-> Jorge Marques <jorge.marques@analog.com> wrote:
-> 
-> > The iio_dev struct is never modified inside the method, mark it as
-> > const.
-> > This allows to be called from get_current_scan_type, and is useful
-> > when the scan_type depends on the buffer state.
-> Now I'm confused.   scan type is only relevant when the buffer is enabled
-> so how can it change as a result of that action?
-> 
-> Maybe all will become clear in later patches!
-> 
-> Jonathan
 
-Hi Jonathan, you are right, this commit will be dropped in v3. The
-driver scan type depends on oversampling value, so it has an
-has_ext_scan_type, and is only relevant for buffer readings.
+--wdCv78B4gWZchILF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-My mistake came to fruition from the fact the tool libiio at any context
-but local does not support changes to /sys /dev, including scan_type
-changes (it scans once at service start), so I kept getting odd
-behaviour that led me to the wrong solution.
+On Sun, Jun 01, 2025 at 07:49:08PM -0700, Randy Dunlap wrote:
+>=20
+>=20
+> On 6/1/25 6:26 PM, Bagas Sanjaya wrote:
+> > On Sun, Jun 01, 2025 at 09:50:14AM -0700, Randy Dunlap wrote:
+> >>
+> >> Also, when I look at source-map.html with a web browser, no parts of
+> >> the source-map are shown. (tested with multiple browsers)
+>=20
+> No, I mean that what I see is mostly a blank/empty page.
+> Other that the sidebar, it only contains this line:
+>=20
+> =C2=A9The kernel development community. | Powered by Sphinx 8.2.3 & Alaba=
+ster 1.0.0 | Page source
 
-So, in summary for V3, the widths are set as follows:
+OK, thanks!
 
-* spi_transfer.bits_per_word = scan_type.realbits
-* spi_transfer.len = scan_type.realbits == 24 ? 4 : 2
-* scan_type.storagebits = 32: Used by tools, such as libiio, to compute
-  number of samples.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-This ensures the minimum number of bytes transferred in the SPI bus, to
-optimize speed, while respecting SPI Engine Limitation of a fixed width
-(generally 32-bits). Similar to commit
-ce45446e520c85db022 (iio: adc: ad4000: Avoid potential double data word read)
+--wdCv78B4gWZchILF
+Content-Type: application/pgp-signature; name=signature.asc
 
-Regards,
-Jorge
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> > 
-> > Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-> > ---
-> >  drivers/iio/industrialio-core.c | 2 +-
-> >  include/linux/iio/iio.h         | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
-> > index 178e99b111debc59a247fcc3a6037e429db3bebf..bc6a2ac6415eccf201e148ea98c0b5982787eb6d 100644
-> > --- a/drivers/iio/industrialio-core.c
-> > +++ b/drivers/iio/industrialio-core.c
-> > @@ -212,7 +212,7 @@ EXPORT_SYMBOL_GPL(iio_device_id);
-> >   *
-> >   * Returns: True, if the buffer is enabled.
-> >   */
-> > -bool iio_buffer_enabled(struct iio_dev *indio_dev)
-> > +bool iio_buffer_enabled(const struct iio_dev *indio_dev)
-> >  {
-> >  	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
-> >  
-> > diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-> > index 638cf2420fbd85cf2924d09d061df601d1d4bb2a..88569e1a888bde4d2bfb5b9f030096af1c15d68d 100644
-> > --- a/include/linux/iio/iio.h
-> > +++ b/include/linux/iio/iio.h
-> > @@ -629,7 +629,7 @@ struct iio_dev {
-> >  
-> >  int iio_device_id(struct iio_dev *indio_dev);
-> >  int iio_device_get_current_mode(struct iio_dev *indio_dev);
-> > -bool iio_buffer_enabled(struct iio_dev *indio_dev);
-> > +bool iio_buffer_enabled(const struct iio_dev *indio_dev);
-> >  
-> >  const struct iio_chan_spec
-> >  *iio_find_channel_from_si(struct iio_dev *indio_dev, int si);
-> > 
-> 
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaD18ywAKCRD2uYlJVVFO
+o8MMAQDhLa+WofbVfZja/hmJNHarEiIZbcxy7jnWERk7jiTrzwD/RPZrDylOdhdf
+2pLvhj2IetPxdlAZi+HbS8TOX8trjA8=
+=winf
+-----END PGP SIGNATURE-----
+
+--wdCv78B4gWZchILF--
