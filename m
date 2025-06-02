@@ -1,145 +1,172 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AA01C245C
-	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 15:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6B2221DBD;
+	Mon,  2 Jun 2025 16:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748878432; cv=none; b=Xn+7GpFniUbhIBxchLeoGwpoOQa/vzma1WkmShKntXNF5SWTi/jzfAW3DO7V6dTsdGjrzhF5qQm3diozt5H5F4G8/v9OmTO3UmN5jtLMz1Whz0pPeKseZLJMiaJQjX7kY46EozWEk2anaRoo0e8soLG3cpdkle5F/TdXSz/7zAw=
+	t=1748881987; cv=none; b=sEYTqeesBWFQM15glYVCBXDUTYYgjS/7rcbKZyrs841Sor7ENdAM3E1OO53Qaf5mnyG8KUfRO9ClUbgtynozdK9VziGeWhJvsMhWi3XXR9Sm+Z2f7BEjWhPBPqlGxbwYn6zHUdroxS411L+PNucPK1ciyOUo9EGDyZS/dLhwvvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748878432; c=relaxed/simple;
-	bh=8tOtsQM+x4oiZCMtV4+BcU+eJaqF5wDJFxyrlOBUziE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N8480axM+lcNw/HM0jswP9KzUWqDp/joRks6KMiCJ2BWakpsRdz49nPsfUo5oYR9S8Ri+5tH/4MzY10M3MdA8R6MIoEO0ArSLi+tiD5zm/ITZWGMS2Tt8YfxwWQ82ogfJWE1XRhoBRHLFAvNsVBm/s5flwm+qDtxo3uAznTUI/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=jymCDRw8; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1748881987; c=relaxed/simple;
+	bh=Xz+aD4WKbatFaE/ZleOL4RDN8L49A9nba2WKv1yXxo4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k8xqyf3rEJ6nJ8Pz5RXQ4oVFG1m8p1h37YH+EMIuhMk6Wuk/Fi/2EiCfnQ5+fvMVB6PeheJDgnUoEQjut9yGoOwgJ91esRgz+KKqaHxVyYfNgwSIf/U8Fqtjca3TNPHHnwZwFlZEczdNCQHXKvsrgL/givlARwvRPzYXJlHNeWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MTjmzWDz; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jymCDRw8"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e812ed38d02so1622462276.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Jun 2025 08:33:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTjmzWDz"
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4e591544d42so1527813137.3;
+        Mon, 02 Jun 2025 09:33:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1748878430; x=1749483230; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gNfa+WaZFsZmSiE6Z+4+/C3YChzz471UVxFf3Euk8Ps=;
-        b=jymCDRw8K7sjpTSSwhlXygPKhHkqYCPdilde28Pp5ZeBHnQnIkdHaCOJAy8yjnTHU9
-         XUKIpmrBC6uXWnpOFA7Q0kNvIfBJMAIOVXZT5dkKyNRCqi1Pape5ZZp+/KcrPayyCkJM
-         YTT7cS67IOxJj/uZMsb9KsIRQgEVLOpuNJjw4x/VvBeCfKcUqcVKuHknIfg7k59VpiYa
-         YKv9HG0amompCXmQpmOoozSNN1eDCA7svtyVjXNu4uVelWjboJgNrFWmXt4Fj4PK+QMl
-         orKjbDSSOKd4I/qxX91HAVmJ3FKkonhmkd12oaL/GawekTOJ1Bz6ots6vQXKGmuUtOOQ
-         hTtQ==
+        d=gmail.com; s=20230601; t=1748881984; x=1749486784; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5dE+UsxBMqGkP0BbEtqtbaQdE82KuzoJQUPmSA85nzc=;
+        b=MTjmzWDzhNK8OLfLgUrToQm+eVx/QIMBgDcpkfLCCHEd+66eWzkJl0ALR0FPnkoq1R
+         Vr86J43862OBZkvyFrp3rQkNmcEcZc7NtGgvo6Y+rrt0Yg9MknR9tkP4/mm2rQfTcP9u
+         L09iaRbfK46hOgXf+AACpWILofwuiT/W4qmXvvjxZpLoEb3XfIgRwCp5xzdd93Dszuz6
+         DLxdOrMhElJxJSJ+2V394APflTs45RElnU/TqpZUvS1Xt6R9lEwAiPNlReW2qLFJdkGU
+         HrtsE3vZ5DCDX5eEbRHysUA6sdeIImjXmrnT0YLKy2va5aSfYypI7x/UDmtBuYJcfFEo
+         rnSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748878430; x=1749483230;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gNfa+WaZFsZmSiE6Z+4+/C3YChzz471UVxFf3Euk8Ps=;
-        b=XGFzMeMFDrZkmF02ihO4x9DGUd4ucRIsoLNh3+ga2Whf+cASYgdyfmU0Vo4ZAL90Ph
-         kZBC5E8qd6gVLDTMbBCcjgdNN5m66BwVR4P7XUc6Psyjl1q5KWxWaOSV+rawy1IfqqCo
-         K9yH+ILw3uvlECEwEZxC0Z7+eXj4D5f/WDhvZAjkbDjmVz7lgMLWG2dxEpHRcNbB/i+D
-         upYS1Wi3Ff/n+JKIoHXOp1Lf0e+QJVZrMlaLci59pmOkMikFxhCDWk12EAG7FNmWmuIb
-         Bvupf9lYGJitzPOdt2PBidhVppKx1kFcgo7X0XkO5SkPNie7PN0sJr7bquHmiv9hsnst
-         PBlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVP9lYcsc9MMz3P48M9fGdMxB7YVcFWxm+8QByzuQ/BDPVnWA9hTZgYbEpyfFAtIFxWsIS+y5H8lAI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP9H+MjAwr26XuMnPWa+lqxfPyqnBbvvYNPrYPh4uu5oX6yc83
-	PqjtdRN2TZSTD0okOLycqQqrFX2vaVXBGFtXre1U/1HUUwahEe5XSu41hOo/efB4PUO9WLLCcfl
-	wyH0n
-X-Gm-Gg: ASbGncv4L15QYJQIoO39lZHKf9HphPNoKltGV9h+5TtDkClxQxf2ynM58pUdDg3v8qj
-	/pVZVJ/iGQIWFXD32Xn3+HS3q4qQu1f8f8HHgyYxZuwy3i3fd3wlzAfcZIQnuhtcDn8VP8gmH5x
-	IiD6gqO0LKMiiauSOhec7qQ32YRwS8kHYZUMZ1vkTBarkCiRs5kY7Ap8yqafPJEyM1d3wY7M4CP
-	TcdArClrfUrv7OdKpb89n9XkSI7K4BCQMV0KJgGLMZXP/mWFACucDerCsooU78tHbcyb1Kdm9qe
-	0+1G8PTlwNIAJZJimd/4D/lEDk+eJ2GE8CI21YP/CnOum62ccSbTqKGSFQ1a3ncKOnjgLJ1ArHk
-	v9d5mjWjfxCPXjGXnj/O0yT9Lvug5GD+Ow9P5nh4=
-X-Google-Smtp-Source: AGHT+IF57uQxHGgOlzBwzxJo2Ni/WLdwC/o2d4xhErwQ5I03YvinhZUc+GTLgNq4seyU6RFMT+NPuQ==
-X-Received: by 2002:a4a:ee08:0:b0:60d:63fe:2472 with SMTP id 006d021491bc7-60d63fe2755mr6583332eaf.1.1748878418793;
-        Mon, 02 Jun 2025 08:33:38 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:74f4:5886:86e1:3bcf? ([2600:8803:e7e4:1d00:74f4:5886:86e1:3bcf])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-60c1ebb00f9sm1488625eaf.40.2025.06.02.08.33.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 08:33:37 -0700 (PDT)
-Message-ID: <008ea5d1-52f1-44dc-8576-d8bdd5c5beda@baylibre.com>
-Date: Mon, 2 Jun 2025 10:33:36 -0500
+        d=1e100.net; s=20230601; t=1748881984; x=1749486784;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5dE+UsxBMqGkP0BbEtqtbaQdE82KuzoJQUPmSA85nzc=;
+        b=N1i3VA6u/jmV2W4Q5R+/hgm49cNLi1KJyIZ8A9gICw5iJUMs06pmuY93iORXKhefws
+         TFMn1My2VJ7Oh5/1fygfdb68FY19+Z4SWY1+DjQxhT8fUJ4e8/T0c6YXEi7OyTmvR7oK
+         7no/6NaSBKtRDqhAblki0hJFlJ1gZjhJp1mecW26yttQahMw8NOkN69bwNj0jM4+EkDr
+         n+oaFrJ5WXjm/ZKrxQ7sJBSjmWVuZ92r46Er2Mf+qjUKToS93mEgzj0mXVBzpa2NoI55
+         2x9s+o/D6FO2m0w1oo3wPI6RrW3IyptTP3Lxr5n/B9qO7EOwGY5EUA4PO7fu/Y2Dz9wZ
+         RHyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUoeppsOy4YsU3OmDKSW5QNgAL/nwzYn4geIX4wwSsN+/PIpkKZFIb59ITd9oeovX4GhwsnqPCoG0AP@vger.kernel.org, AJvYcCV3knfzbs88kGs42q23EE0o3HRdbMGos/Pw8FY3c2QhwGImncPrfUKwIWk0DzEHOxM/Z9JDLOn/kIyV@vger.kernel.org, AJvYcCVGZfrFMhp16U3PAYYdymfdgu58XBHM5SYamYyFjC+38vCvI2EBn4zvsQ8ftM85r/+CaieCE7gCN9Tg@vger.kernel.org, AJvYcCVdJQLJ31JFvcNJh23c44rm/tQjc2KPRIwUFl4THAjeZLe+t1h1pJNVGN9edvNqAyOJv1D6QsjPFjoP@vger.kernel.org, AJvYcCX684NwhN2Bhohfg9oPLxHGxKT0SUK+k4nGKF8M4D8TTQWG0F1cHAD2hxaIzznnyIiWZpqrzwwk3j8RxxfD@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAOADZZxShqZodVtRsf5fU6QrvZf8eEqP5JS9x9q2FpOV1uMSi
+	TRowqON22IVdAMus06Yj9539sbJ2hTijjA+b5uxjrVwwUNcmOFOan4K3
+X-Gm-Gg: ASbGncsYXxsQ1wfaEPDBytAcw/jAqeXkbAqPBWaw/bdlOEH0pYo04EnnXQStLEtm3BR
+	3lA6QUsSHenepjpYVdLBRc0itfXE+HrzcCTmvnORJA28T1bQ3qt2hC3A1zyxnFn+lqsQdzkiQTH
+	/TCH9ed+duMeTVceiS0j11bqtMKcRqaEO39+yQ5Z817EDB2lIZ4+gAY8DZE3Laqh5+5zmEmhOuM
+	DrnEnDpNKbGdIYcxiNRPzOyZBuIDYlp05CJ5eucEI0MNywGoD7EgX0ToQjlWKDfDzYISJqyMYI+
+	NGIRGyVU0V+zjhdYMvC0xpYB/2R2zvQApCFz7A7A0vOhtgmPCpi8zawqrOpcMwxOztyiKFx7vZK
+	8
+X-Google-Smtp-Source: AGHT+IES5AO+Rxsfz4apvd5o1ztpHWeCsDwi5GiSxhjId0o3aGmiE04FWzNCWRSYdyXaBFN0S23Amw==
+X-Received: by 2002:a05:6102:ccb:b0:4e6:d995:94f9 with SMTP id ada2fe7eead31-4e701c887c2mr5933484137.12.1748881984383;
+        Mon, 02 Jun 2025 09:33:04 -0700 (PDT)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:1225:ec01:ecf2:8e21:9f0f:159e])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e644429616sm7449963137.1.2025.06.02.09.32.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jun 2025 09:33:03 -0700 (PDT)
+Date: Mon, 2 Jun 2025 18:32:52 +0200
+From: Jorge Marques <gastmaier@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] dt-bindings: iio: adc: Add adi,ad4052
+Message-ID: <a6cguahvrbqjv2wtisvgg2wvm2tj3awmn7omo6ebfpts6v546o@4xzpj353vlsx>
+References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
+ <20250422-iio-driver-ad4052-v2-3-638af47e9eb3@analog.com>
+ <88a326e7-3910-4e02-b4ba-7afe06402871@baylibre.com>
+ <hvexchm2ozsto5s2o6n5j2z3odrkbcamgmg67umd4aehwzmgie@dvtx6anioasq>
+ <1b0e9003-7322-46fa-b2ba-518a142616dc@baylibre.com>
+ <vchomz3iazgdmotcs3jskrugi2qmdxyo74t4ruo2fsc7cjwtqb@7rtdmdkxobvg>
+ <a6f62963-5776-47e4-bdac-78e921a6e476@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] iio: adc: add support for ad4052
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: Jorge Marques <jorge.marques@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
- <20250422-iio-driver-ad4052-v2-5-638af47e9eb3@analog.com>
- <c82b8c53-e653-4cd3-80ef-37c5daf9314c@baylibre.com>
- <zofjbh4yvtz4sfj2t6cpdohqqlrgwqdqtiahpvalbbfv2tdqqi@g5zpdp3zn4gb>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <zofjbh4yvtz4sfj2t6cpdohqqlrgwqdqtiahpvalbbfv2tdqqi@g5zpdp3zn4gb>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a6f62963-5776-47e4-bdac-78e921a6e476@baylibre.com>
 
-On 6/2/25 6:16 AM, Jorge Marques wrote:
-> Hi David,
+Hi David,
+
+On Mon, Jun 02, 2025 at 10:17:18AM -0500, David Lechner wrote:
+> On 6/2/25 4:17 AM, Jorge Marques wrote:
+> > On Tue, Apr 29, 2025 at 10:45:20AM -0500, David Lechner wrote:
+> >> On 4/29/25 8:48 AM, Jorge Marques wrote:
+> >>> Hi David, 
+> >>>
+> >>> I didn't went through your's and Jonathan's ad4052.c review yet,
+> >>> but for the trigger-source-cells I need to dig deeper and make
+> >>> considerable changes to the driver, as well as hardware tests.
+> >>> My idea was to have a less customizable driver, but I get that it is
+> >>> more interesting to make it user-definable.
+> >>
+> >> We don't need to make the driver support all possibilities, but the devicetree
+> >> needs to be as complete as possible since it can't be as easily changed in the
+> >> future.
+> >>
+> > 
+> > Ack.
+> > 
+> > I see that the node goes in the spi controller (the parent). To use the
+> > same information in the driver I need to look-up the parent node, then
+> > the node. I don't plan to do that in the version of the driver, just an
+> > observation.
+> > 
+> > There is something else I want to discuss on the dt-bindings actually.
+> > According to the schema, the spi-max-frequency is:
+> > 
+> >   > Maximum SPI clocking speed of the device in Hz.
+> > 
+> > The ad4052 has 2 maximum speeds: Configuration mode (lower) and ADC Mode
+> > (higher, depends on VIO). The solution I came up, to not require a
+> > custom regmap spi bus, is to have spi-max-frequency bound the
+> > Configuration mode speed,
 > 
-> On Fri, Apr 25, 2025 at 06:13:48PM -0500, David Lechner wrote:
->> On 4/22/25 6:34 AM, Jorge Marques wrote:
-
-...
-
->>> +static int ad4052_probe(struct spi_device *spi)
->>> +{
->>> +	const struct ad4052_chip_info *chip;
->>> +	struct device *dev = &spi->dev;
->>> +	struct iio_dev *indio_dev;
->>> +	struct ad4052_state *st;
->>> +	int ret = 0;
->>> +
->>> +	chip = spi_get_device_match_data(spi);
->>> +	if (!chip)
->>> +		return dev_err_probe(dev, -ENODEV,
->>> +				     "Could not find chip info data\n");
->>> +
->>> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
->>> +	if (!indio_dev)
->>> +		return -ENOMEM;
->>> +
->>> +	st = iio_priv(indio_dev);
->>> +	st->spi = spi;
->>> +	spi_set_drvdata(spi, st);
->>> +	init_completion(&st->completion);
->>> +
->>> +	st->regmap = devm_regmap_init_spi(spi, &ad4052_regmap_config);
->>> +	if (IS_ERR(st->regmap))
->>> +		return dev_err_probe(dev, PTR_ERR(st->regmap),
->>> +				     "Failed to initialize regmap\n");
->>> +
->>> +	st->mode = AD4052_SAMPLE_MODE;
->>> +	st->wait_event = false;
->>> +	st->chip = chip;
->>> +	st->grade = chip->prod_id <= 0x75 ? AD4052_2MSPS : AD4052_500KSPS;
->>> +	st->oversampling_frequency = AD4052_FS_OFFSET(st->grade);
->>> +	st->events_frequency = AD4052_FS_OFFSET(st->grade);
->>
->> Somewhere around here, we should be turning on the power supplies. Also, it
->> looks like we need some special handling to get the reference voltage. If there
->> is a supply connected to REF, use that, if not, use VDD which requires writing
->> to a register to let the chip know.
->>
-> Yes, v3 will add regulators.
-> Vref can be sourced from either REF (default) or VDD.
-> So the idea is, if REF node not provided, set VDD as REF?
+> The purpose of spi-max-frequency in the devicetree is that sometimes
+> the wiring of a complete system makes the effective max frequency
+> lower than what is allowed by the datasheet. So this really needs
+> to be the absolute highest frequency allowed.
 > 
-Yes, you can do this with devm_regulator_get_enable_read_voltage() if it
-returns -ENODEV, for the REF supply, then call it again on the VDD supply.
+> > and have ADC Mode set by VIO regulator
+> > voltage, through spi_transfer.speed_hz. At the end of the day, both are
+> > bounded by the spi controller maximum speed.
+> 
+> If spi_transfer.speed_hz > spi-max-frequency, then the core SPI code
+> uses spi-max-frequency. So I don't think this would actually work.
+> 
+Ok, so that's something that may be worth some attention.
+
+At spi/spi.c#2472
+	if (!of_property_read_u32(nc, "spi-max-frequency", &value))
+		spi->max_speed_hz = value;
+
+At spi/spi.c#4090
+	if (!xfer->speed_hz)
+		xfer->speed_hz = spi->max_speed_hz;
+
+So, speed_hz is max-spi-frequency only if xfer->speed_hz is 0 and
+not bounded by it.
+
+Then at spi-axi-spi-engine.c:
+
+	static int spi_engine_precompile_message(struct spi_message *msg)
+	{
+  		clk_div = DIV_ROUND_UP(max_hz, xfer->speed_hz);
+		xfer->effective_speed_hz = max_hz / min(clk_div, 256U);
+	}
+
+Where max_hz is set only by the IP spi_clk. If at the driver I set
+xfer.speed_hz, it won't be bounded by max-spi-frequency.
+
+The only that seems to bound as described is the layer for flash memory
+at spi-mem.c@spi_mem_adjust_op_freq.
+
+For the adc driver, I will then consider your behavioral description and
+create a custom regmap bus to limit set the reg access speed (fixed),
+and keep adc mode speed set by VIO. And consider spi-max-frequency can
+further reduce both speeds.
+(or should instead be handled at the driver like spi-mem.c ?)
+
+Thanks for the quick reply!
+Jorge
