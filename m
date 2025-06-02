@@ -1,120 +1,198 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2911474DA;
-	Mon,  2 Jun 2025 10:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444321E885A;
+	Mon,  2 Jun 2025 10:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748860119; cv=none; b=ZeMx0JzAJPWNfOvCnTbJTG9HAFMB+tNQ9/MoDhIEOWNWRkxYL0JQhDqoB5yAcauhfsml/JsZdBESKI4XxaHa/eMweZJ4fXXRUxnqGaiFHCJ32D4uZbCu8CYfPEr4Bg2C5HcHABi9a8GMAckP/35/RFWBTezfmi5LB5jpUv3jRmw=
+	t=1748860722; cv=none; b=R9/SHn65RcXi5s0WnuKVKTL2scPHBR8wYrvE2yHbpROG/EpJ3+AyWhaq/zQCJHd5ayP2qyYvgqlPvUULk7+hJ3iq6e1kN+XEusi37v01HkVzvzhr4lzWBHBITA33IaKhxGyWdNOuX+xcHKk/FYm7RvdabeOIipprAcm6PPWpAbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748860119; c=relaxed/simple;
-	bh=OuYd3hOfZThZU0t6WFn7pLEFQFhkMYGVDnq/qUDfuL0=;
+	s=arc-20240116; t=1748860722; c=relaxed/simple;
+	bh=vlGm7NoJVTdY5rMQoj+/eKcWHgSfT26Ch33MqngzHpA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F5Q1zHMyaE8WJ/cJyl110OEXmLSHmsLwAgaScfDZCyZG1oHdWNh6XBWufXkCigJ+WBBXQaeexznFMGhwv4tXSH+Oi+gs8AyYoVmGANcMPRnMuOQCEehWkoTn5LuLSDiYmWe5xU85V0UFADfNgx3sh3vbyWcccJYIwZjtwwAL7sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BgHSNsXQ; arc=none smtp.client-ip=209.85.216.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=uAkYzZUHq6+0Im1gXH9vaP7klZbP4Poga9zcN28TcaULlMVVGk2fWZdUQ2xjTNKi45wcNqw1aA+G190JtSmf8frWiOwpAz9MqEvP/chYN3kmWwkepMAIrkLWJZqJpcVkaA+0N/V0JrjB9cg47X16hJH0PXHCJud2SaN7Bp/Gknc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V1i4aU5Y; arc=none smtp.client-ip=209.85.221.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BgHSNsXQ"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-311bd8ce7e4so3620116a91.3;
-        Mon, 02 Jun 2025 03:28:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V1i4aU5Y"
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-52eec011ff2so1365816e0c.1;
+        Mon, 02 Jun 2025 03:38:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748860117; x=1749464917; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OuYd3hOfZThZU0t6WFn7pLEFQFhkMYGVDnq/qUDfuL0=;
-        b=BgHSNsXQairP+05/sqMjDXTVOegTZBvtc/+6LAZN2HBNGJrmCArzvCkkzrQWkiV1dT
-         Us8tqPO10zgaMTQU6Yj+rqa5QaqJRplpfvLNbQ1beftfJH00/2bqpZ+VPb3sTOxLcwk8
-         Ubj6h03w8d2dFZggtia0VdLwsjCrrkZNPlZzUGS4JxozZvq/99Lgx+w65gnelH3kJCUq
-         KppcJr0gI1bacc26ECJOozig/9ABv4x+PxLmCfemm9FD8gTK5Tq8vubLG5IJFj9MtwS3
-         RDTaZ8e90hivQ3qdY8u+JW2dX5oPa9G1LAtoDQ2drCpW2rVQSnoHzoUp3k4pbEwCmin+
-         sp0Q==
+        d=gmail.com; s=20230601; t=1748860720; x=1749465520; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9ztgng4bXNGVQuJIZ6DTocfGtin3f377FQSFRju5g4c=;
+        b=V1i4aU5YG9VgdDpkMlrq8i2uiQL9bxX6lsILbz8ghF7kByAv262vFuAumxX3URSmul
+         tjP8fkkbAJUhsOYkr0uZo00AKgV5nxnpF9s6XK9AYnCOCCg52Marb0bvKd8+g/Kk4NWZ
+         2MYSI3tALDcF+od79UYigMN5A+DXOfraakK1Ndm0HM1HaBKjFAT53of5K5QKx1+o+msF
+         hq4wQeNDPcWe4pD+yaGAjKlEMLaLSOoPNikSazrAP5B9aoUViIMmzASClDH6hBeKS58/
+         wz9VKwfK1pEd4Y4D41c7jyMmecDd7lPOG6tT/mFg/mvQtE2GcakIDIsqNmnpHdm5bxY8
+         8+vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748860117; x=1749464917;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OuYd3hOfZThZU0t6WFn7pLEFQFhkMYGVDnq/qUDfuL0=;
-        b=s1jJjQh1qZEyC+4fJV4DqHniJSjiVDqIisKabZrSRWkCk7TJ/MjguLJm+onMEUo11s
-         4ExFkBvc78YWMljdj+zfqyp1apcNlQg49MxXY5AAw3711z5oCadjtt4Nii3nc0khxhgG
-         qQ4nT23B+1OYPlrGuO/P42CPpds0oYgZvznb6LOPN3mnWym/9s+UmMovhd4pAQjZenL/
-         39Sh0TgFX3M+bzIRSO6+Yo+KyTmAHm1aUVDhPLl9+j4K2URqwNzMKbYZmdOU8SsTFOhB
-         OajW2GRUGnoTgKBp2dAg1yE9KwY4cuqeq3HYRcYuvcKrnJ2hYnVpsUbfHhGLDgfDc5J7
-         6WcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX2yWrysRMwJP6bhkKM7XZVQBQGgdi+xpulT+kSzz6vrR0IJq7Bww7UcL7/mKHm62ss52R0JpHSo5s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWunlwZKFRuIh4lrT/I5FgFhta9Ajs9M7TB9nNtE2IRg5brY7J
-	BJWCsSEYgpOC+dhsZ8CXFFZkgzhVqqFsuCk98P0V3w0+BPoAJfS4r9gc
-X-Gm-Gg: ASbGncu9CHvY8CN7o/+jUSOibweepP6PAfD2xpDkd66fJqyrIB/tv4YtihadqL8xUiG
-	7nVKIkVqLacAqO5BrI5PNEaUwq4gUytndrEGBUNcfHtCG0OsCMemspf9S7Zp+9L9wdMHF1wV0RO
-	SSCWbCc6Zx6xB0wJ8JzSDQdlUAZaqvZaU6cXdVrz9rHwZc/sa8FS3a2GueOV2+2cBPtoDjFTz7A
-	8vYxhT/N7h9wr+Nfwh+poNq0CpGd2vPxHm7Tos2j+Ml8SDTbA2PUXPPsCaqxjjgFn7r+EVIGYQy
-	k7MPGwLARKo3Zyf/frDNzy96Kf1HNeSKkQF2pe6QGS2ic3e7Wfc=
-X-Google-Smtp-Source: AGHT+IE+liVhMoyKDMDliAK4dVbSyWeXCdAOFmNkSSiGaidC3KRBwGMgukh56ysEGbrmL57jT/9JNQ==
-X-Received: by 2002:a17:90b:1d51:b0:311:a314:c2dc with SMTP id 98e67ed59e1d1-3125036bafdmr21358726a91.14.1748860117238;
-        Mon, 02 Jun 2025 03:28:37 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506bd974asm67847265ad.97.2025.06.02.03.28.35
+        d=1e100.net; s=20230601; t=1748860720; x=1749465520;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ztgng4bXNGVQuJIZ6DTocfGtin3f377FQSFRju5g4c=;
+        b=s4fBl2BhaodSYzovHD/3vWEm1f4zmlMEGvcnVnhDGwXm8SPmIXA5wmAKDNQG2ogavL
+         Sx4wZzYIBM2LdC53GG5jR/SM2qgacF2PLFZOVvEoaw4Z/5K/A28Oiayf1b7Q1bQ7FqBB
+         wnM0byyTnlxzmMu3RgwDXvOZEOZDEn02xkh9xjdfBuI4z7DhAHTlGCK/gP9yaliI9Mx2
+         0ak12k8nhBzdQaIWOxvmV8OhJMSDp+71aU4cdiZI/ZY42ScpBBQEIaKkI/iVhHDN15qT
+         xM083eBK4V/EoORpeThrUq4Zq0JCXxzP6M7+GkxaXRacPTO8iWuMHC/FiF2cr3sdud62
+         wlcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUYjJ9qGrpgjbUIz487jSlxk7Rr8FFuT4C2/rK8JAdGg45f5v3gwctsYXfBNETL5992Z7yqlJCZCJYK@vger.kernel.org, AJvYcCV2sYWSPrW9BGzfaK79dR3AkeiDyhqz2x7I1ahN6EVI7erpKp6FfLVjQvvlUPwBNWsx4y39CoxdOf49@vger.kernel.org, AJvYcCV7lahjUy/5Vme1SMkOeJCB1Yt+Mrdox/2WSsEVsFuo8n58+6ZR06p+4Ve3aVvpQ9lYCDltVxjDTKRZCNN4@vger.kernel.org, AJvYcCVVu4EVTK2CI/Guv5BI7IRs7nFZBKfo1jZ91QCh0euc/JAqhzv9YIcYIr5hvrJhLeKsE3WyBcGtFv/V@vger.kernel.org, AJvYcCW38Dkb49s1u4Rif7K4DqCCCTenkjS2JmFeFKBHBXTSCLk45/6qIhdTMmTzBYNMfChc+oCOo4WDqsiy@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxnmf8eKL5oIDUnRpMVGc1Yo6XqCgskGf1OenGuf4g1qa2LxzLe
+	bmEBIwaeNSERZ8++zo2lXLV/00KHQCbGLwjA92VVl5sa8zFMYmJv49K3e4BpY85e9U4=
+X-Gm-Gg: ASbGncuoM+tCpxnzCIF/mC0krYh4pAPVEkp5eNkHZMgTn65RzjjA6VKAusU/8fTfLM9
+	qA++1nFhcsslvJ4hWvW6BtkBDDLFpH8IN5Wtk8WxAAdw2VDWsh2alrHJuX+aualEM0oKJI+Q6bv
+	AE5HlKl5j6xmNy+kADCpWv+RSexckKmCBPeyWFYvXIY398wocr3jimfdOqCSD3N1Pva4y6/eZ24
+	DzmRnWQBNzWC8GNxG0UL3Gvf/ch6nmcYjw7tvo0Zpf467tMPLd4O4t26AZoRgqwh0e2e4+Sh3xV
+	T3kywd8CpnLXtYqjn+aJFhiOAi7VJ5VgMSaD/3FFjvgEBIrSj3uuL6K1E2WyAlPqBDpT5OR/lyi
+	A
+X-Google-Smtp-Source: AGHT+IHa5cxboieLvmCtHPVB20IC9g6NUuYsJf93eIYatfbNalHTY43j35vKDJqGc+n6p6vMyFJ6/w==
+X-Received: by 2002:a05:6122:3bc1:b0:520:6773:e5ea with SMTP id 71dfb90a1353d-53084c639abmr8165473e0c.7.1748860719952;
+        Mon, 02 Jun 2025 03:38:39 -0700 (PDT)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:1225:ec01:ecf2:8e21:9f0f:159e])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5307482a15esm7388405e0c.0.2025.06.02.03.38.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jun 2025 03:28:36 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id C95664209E8C; Mon, 02 Jun 2025 17:28:31 +0700 (WIB)
-Date: Mon, 2 Jun 2025 17:28:31 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	William Raezer <wraezer@gmail.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH] Documentation: Add a source tree map overview
-Message-ID: <aD18z7fXZDpN9Wpb@archie.me>
-References: <CAKg96b=n1pZi4FUBqe+puUJo9ndRfU8npvo9w6fE6Enshe73Hg@mail.gmail.com>
- <f882f6d9-c914-48af-97b7-0aad6d995819@infradead.org>
- <aDz92QNc3ZSVkdx3@archie.me>
- <6459566b-bf9f-4e07-9290-41853cdee9ec@infradead.org>
+        Mon, 02 Jun 2025 03:38:39 -0700 (PDT)
+Date: Mon, 2 Jun 2025 12:38:27 +0200
+From: Jorge Marques <gastmaier@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 5/5] iio: adc: add support for ad4052
+Message-ID: <nz2o4fi5geowbki3flpou2ccs4hfjr356qmfx763u6lilrgp33@72bj5i7qqark>
+References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
+ <20250422-iio-driver-ad4052-v2-5-638af47e9eb3@analog.com>
+ <6zn53fgyiwtm5ad5piyt32uxcwenwgkhwhantizsjytwbf42ts@4pg6hkna3yah>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wdCv78B4gWZchILF"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <6459566b-bf9f-4e07-9290-41853cdee9ec@infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6zn53fgyiwtm5ad5piyt32uxcwenwgkhwhantizsjytwbf42ts@4pg6hkna3yah>
 
+Hi Uwe,
 
---wdCv78B4gWZchILF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, May 16, 2025 at 12:11:56PM +0200, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Tue, Apr 22, 2025 at 01:34:50PM +0200, Jorge Marques wrote:
+> > +static int ad4052_set_sampling_freq(struct ad4052_state *st, unsigned int freq)
+> > +{
+> > +	struct pwm_state pwm_st;
+> > +
+> > +	if (freq <= 0 || freq > AD4052_MAX_RATE(st->grade))
+> > +		return -EINVAL;
+> > +
+> > +	pwm_get_state(st->cnv_pwm, &pwm_st);
+> > +	pwm_st.period = DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
+> > +	return pwm_apply_might_sleep(st->cnv_pwm, &pwm_st);
+> 
+> Is it clear that pwm_st.duty_cycle isn't greater than
+> DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
+> 
+> I'm not a big fan of pwm_get_state() because the semantic is a bit
+> strange. My preferred alternative would be to either use pwm_init_state
+> and initialize all fields, or maintain a struct pwm_state in struct
+> ad4052_state.
 
-On Sun, Jun 01, 2025 at 07:49:08PM -0700, Randy Dunlap wrote:
->=20
->=20
-> On 6/1/25 6:26 PM, Bagas Sanjaya wrote:
-> > On Sun, Jun 01, 2025 at 09:50:14AM -0700, Randy Dunlap wrote:
-> >>
-> >> Also, when I look at source-map.html with a web browser, no parts of
-> >> the source-map are shown. (tested with multiple browsers)
->=20
-> No, I mean that what I see is mostly a blank/empty page.
-> Other that the sidebar, it only contains this line:
->=20
-> =C2=A9The kernel development community. | Powered by Sphinx 8.2.3 & Alaba=
-ster 1.0.0 | Page source
+Ack. I will mantain pwm_state in ad4052_state.
 
-OK, thanks!
+> 
+> > +static int ad4052_read_raw(struct iio_dev *indio_dev,
+> > +			   struct iio_chan_spec const *chan,
+> > +			   int *val, int *val2, long mask)
+> > +{
+> > +	struct ad4052_state *st = iio_priv(indio_dev);
+> > +	struct pwm_state pwm_st;
+> > +	int ret;
+> > +
+> > +	if (!iio_device_claim_direct(indio_dev))
+> > +		return -EBUSY;
+> > +
+> > +	if (st->wait_event) {
+> > +		iio_device_release_direct(indio_dev);
+> > +		return -EBUSY;
+> > +	}
+> > +
+> > +	switch (mask) {
+> > +	case IIO_CHAN_INFO_RAW:
+> > +		ret = ad4052_read_chan_raw(indio_dev, val);
+> > +		if (ret)
+> > +			goto out_release;
+> > +		ret = IIO_VAL_INT;
+> > +		break;
+> > +	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+> > +		ret = ad4052_get_oversampling_ratio(st, val);
+> > +		if (ret)
+> > +			goto out_release;
+> > +		ret = IIO_VAL_INT;
+> > +		break;
+> > +	case IIO_CHAN_INFO_SAMP_FREQ:
+> > +		ret = pwm_get_state_hw(st->cnv_pwm, &pwm_st);
+> > +		if (ret)
+> > +			goto out_release;
+> > +
+> > +		if (!pwm_st.enabled)
+> > +			pwm_get_state(st->cnv_pwm, &pwm_st);
+> > +
+> > +		*val = DIV_ROUND_UP_ULL(NSEC_PER_SEC, pwm_st.period);
+> 
+> Is this the expected semantic? I.e. if the PWM isn't running report
+> sample freq assuming the last set period (or if the pwm wasn't set
+> before the configured period length set by the bootloader, or the value
+> specified in the device tree)?
+> 
 
---=20
-An old man doll... just what I always wanted! - Clara
+Yes, but I will just use the (new) managed pwm_state instead:
 
---wdCv78B4gWZchILF
-Content-Type: application/pgp-signature; name=signature.asc
+  *val = DIV_ROUND_UP_ULL(NSEC_PER_SEC, st->pwm_st.period);
+  return IIO_VAL_INT;
 
------BEGIN PGP SIGNATURE-----
+> > +
+> > [...]
+> > +
+> > +	ret = pwm_enable(st->cnv_pwm);
+> > +	if (ret)
+> > +		goto out_pwm_error;
+> 
+> pwm_enable() is another disguised pwm_get_state().
+> 
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaD18ywAKCRD2uYlJVVFO
-o8MMAQDhLa+WofbVfZja/hmJNHarEiIZbcxy7jnWERk7jiTrzwD/RPZrDylOdhdf
-2pLvhj2IetPxdlAZi+HbS8TOX8trjA8=
-=winf
------END PGP SIGNATURE-----
+Ack.
 
---wdCv78B4gWZchILF--
+> > +
+> > +	return 0;
+> > +
+> > +out_pwm_error:
+> > +	spi_offload_trigger_disable(st->offload, st->offload_trigger);
+> > +out_offload_error:
+> > +	enable_irq(st->gp1_irq);
+> > +	spi_unoptimize_message(&st->offload_msg);
+> > +	ad4052_exit_command(st);
+> > +out_error:
+> > +	pm_runtime_mark_last_busy(&st->spi->dev);
+> > +	pm_runtime_put_autosuspend(&st->spi->dev);
+> > +
+> > +	return ret;
+> > +}
+> 
+> Best regards
+> Uwe
+
+Best regards,
+Jorge
