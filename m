@@ -1,296 +1,174 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAF12F50;
-	Mon,  2 Jun 2025 21:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748898464; cv=fail; b=VF4AQ2xif/MFUN3k1IZdE1tABq7yvFbVoOhADXrafT4C8lXWhZYG+vGOKUH34MIe5J/a9aWQGwJAJky2BRpXvwlaj1qu8g+KpTfp2Kv23umZoOZHGijOH5O6rbxV914vDKOf9aXyAkfh58CSPh5zAMrEEpMIY3wMg7DjUM18GF4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748898464; c=relaxed/simple;
-	bh=DGOiMvZ2nlGHi/eDZLGQeOe2ES6Jbj8DLDPq0RIDjrA=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Ry1Rlp0W8mikhHRKTtLjjABA1gXh/NJ6N9OPfnQWklHnGkhNUyaPiiJOhfwNhUBr7lRVu6X3jrnqXcIN6+hmUQSF03+9pqXw6q2GApMsVxIph48Ce/RWVKcPsm2xdEzOwDu7lg+4Rm0Mb0apH2wgG/k4os3KgcrdcHwrlyhTJ9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=HkLPMgxa; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Jew+rvIk; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB33C22A7ED
+	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 21:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748900569; cv=none; b=SDtkojEdSN0LuCGrGRqF+DP4tJKbNlLjr/+jro2R9GTwfYccCp0okSnLzObT+sulCcSRXlHK2w8ISpSs+KQKYg0EIOoGq2fEgXi+GsdvKqdVeCVuouC92o6Aa2zT7O9bqnrmiQeRxKBYfGaT+Zv1HpnDh2j+2VSfYSdYeR//ieo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748900569; c=relaxed/simple;
+	bh=ckaYtR2Fj0bTMmLPJv/DKzJ6ZVnPamOnPCJGUN8RsNU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=f9BERFG6gkj5SCWDt0rf/1yF45nzydqxKeH27igJPaJrs+6p1vDc7SPQIUX053hfk7DPU/zRuCbuJ6TQJFAnIb5rPJQ94Y0YjcjqZdXR37PdPli8GQkx/+JAnfFV51UnvyBkcisXBkuaCGcPxj8FGITLIK4NoTuf9jxAG1+Dwdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C/gE50r/; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HkLPMgxa";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Jew+rvIk"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 552Ju2VA023838;
-	Mon, 2 Jun 2025 21:07:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2025-04-25; bh=jxu6Zo2tQSfjvOgK
-	Om+WK1Ymec7mTnfkczKCnMI9PCg=; b=HkLPMgxa6Y59w3zeKZ3QdMQztg/c/MGn
-	tMknKGZDIFhNQfrXDpvSxU4vvodPYcSUn4wWuqylj8tcQ2BCMNebdJkG+YU58HbF
-	NHwiQSDTmSLBOY2JAwDmB25+Y4SQMYRU2Yt6BWpW4bfe7JLopcPb/ACQuNwS8B6+
-	9AOFo46bwkAjsQ88pnq8OWhGfneJulGrG+sB5wWuq8SPvXX3sGj1NDSg3koMW2uB
-	uVp+HmAwIOibtY85Kyl1lQT9rYskyEWfm66oGj0gfdnd59ToRQTrhGO6v98MTHGl
-	vri0JVU9ma7QekBdNRFaUjRsHSvo9nZ07zWRurzDtBOtoPI7H1kkew==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 471g8k8f87-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 02 Jun 2025 21:07:19 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 552KmdON040644;
-	Mon, 2 Jun 2025 21:07:18 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10on2054.outbound.protection.outlook.com [40.107.92.54])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 46yr78r7v9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 02 Jun 2025 21:07:18 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z9iGEGE0jNblkO6/qQTzQWNoMb6Q2So10BFuk2i//cp+Jdozq9HJWiZ/0F6OKDN4H6A+e/3diz9ekzkuz7D7qeErGnmS9H1gr2XOiZTfk9zCsRuU/nTzFOfb55QS8f7dCrhy9Pvxoq7StuUdY7KeaAq/LWUEWriWN7DThTaGuPAz/26878i4jcXc0bQ+ckf3tcoPV4mH89Nff4EUtpPJnIf8G2sDzkl93F56VjEQpYXyqGEf8rQRj36JESHOMjUstgeLATMuXuejvUuimEY0liSj6eg2Tc5LBhTnSBjfvYOq3+MF/P01IZtpFTS2q3RRCC0OPuy3Ngd70zTv/I/WUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jxu6Zo2tQSfjvOgKOm+WK1Ymec7mTnfkczKCnMI9PCg=;
- b=xy28WsR6tt8oJbNNp6MhlnB2bAdeRjN1/cLY894l43clcKa5QgTX4osCQoY+4UFkgFwKskh8pTuerhXchaL+BaHqGWp13QXLdjeoSl2MRwrolN9m+vkEOlMYo984NHt/jzrIY5MjsXYm05QBP3C5+/FjVNfPElRqgBH+joAayrzQr0Gq9PRFgz8NoO4PAj882MBdgaAw8sNG3aeAw8qr1ZTMr/9hMCRW3EbogQlOwstE81jUmZTUylZtJ58Xs/kMyZIIfv+n/HzmqNhz5bCFt+LHJmsnYregAWLTVXdNBWtrWJok6ya6J8Vjjo86mEwbWLwfMsPmct6SSd9ELboIZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C/gE50r/"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7462aff55bfso3855695b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 02 Jun 2025 14:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jxu6Zo2tQSfjvOgKOm+WK1Ymec7mTnfkczKCnMI9PCg=;
- b=Jew+rvIkXu9GcsVxLA/Dg0VEOz1Q+jA/QJxK3veHHY842YWJvZ7q0aUEvxZRd1CVlLD8fXth/2EL6n80Tp6hQvvGmMEj6gIxQL3UKwxVu1py3fPj+7sUbS710bTCRL8cwrw0ZawDSInBMUY4f+C7mrb//zlokCsA3pvkiwlbGDc=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by SA1PR10MB6590.namprd10.prod.outlook.com (2603:10b6:806:2bc::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.33; Mon, 2 Jun
- 2025 21:07:16 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%6]) with mapi id 15.20.8746.041; Mon, 2 Jun 2025
- 21:07:16 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Suren Baghdasaryan <surenb@google.com>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Shakeel Butt <shakeel.butt@linux.dev>,
-        Jonathan Corbet <corbet@lwn.net>, Jann Horn <jannh@google.com>,
-        Qi Zheng <zhengqi.arch@bytedance.com>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/mm: expand vma doc to highlight pte freeing, non-vma traversal
-Date: Mon,  2 Jun 2025 22:07:10 +0100
-Message-ID: <20250602210710.106159-1-lorenzo.stoakes@oracle.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0350.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:d::26) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+        d=google.com; s=20230601; t=1748900567; x=1749505367; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dq9rWg0WQtk35a/syIdVrxIN1jVZ3Xs4zsk5PWEtjOs=;
+        b=C/gE50r/vC4ZMqxFyUBaaqwgbBkNkKkfdQWqq397Ib7OxrDUhdLGq365w9HOEMktU7
+         34il4QMMfHNM96xl3B23gs0/g6CXRGubTCtFcHclDX3hnCMIpoezfJEoPeBTAY9keqig
+         uVKQYVFn3+eQDtRr4wenZGfF5rjQNZWTQaITNM50iVq17VV3V8VWyo6KlwlfbY3Qpqcy
+         lDbzPU79MSQacxH3HzdpRPILmS/DG3+eu59fkKvrOiPwoBq8z8C/d6npHmXXQyEEDwN0
+         yQK/kdisVjqQ1unHY8tCIpJEo50pf63ELrFAHUut96w/uIWQGeGF/aPs4Jtq0y5K1vub
+         xdwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748900567; x=1749505367;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dq9rWg0WQtk35a/syIdVrxIN1jVZ3Xs4zsk5PWEtjOs=;
+        b=BlKAHUq2XTUQQXTsh+CsEiloSzbcNiyTLSQwS4EcH09yWkAWha/0wzcf1eXh7X7Ze/
+         5YslurAooeInlR+mxbAwIrB2py5VnLOTe1etMh1jM8gs+T2k7JlrJof7NmfyrvmCwB8a
+         kCWv6PnvffSnOBJrNdpDfveqOjJGlZLHaTGE0SlWzN1+M/268MU4ldLMa1tiJ44+QpEc
+         UTpfxzWUA5A6n/GAKZQeYZama4096ca5utzq23VAztYWctOeC12VMzP9n8cl+qQugk+1
+         P5Up0WZiqgrHixu3vOsYJcPnDRAnvdsICHbFNxAZFKnwboG3mZ0Q15KBu9lsgEdjlL4Y
+         ahmA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyRjTt/pKB2arJkddfZtN4AnxZdU8mvMn0t5qGEqAIbzIWW77CfC5vFhM2Mn43vO0NY8BAVAQ3xfs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+516i/fxo2sZJIupQaSQUskjms6rZfb0dnioO3J3L67RJRtL6
+	M6Izp1XwAD5x6fakLzq2oc9mh4NNCtBElIew0tv2SgmAonvNaUiukAFzS3NR4Mm6RkW8114b8lP
+	mN+Yfvw==
+X-Google-Smtp-Source: AGHT+IGP+igBSt2KbXYpY47Cum6/12d7ZKaJ7lAPbHVwRqO4FufM1cqAilI67WNoocjAfjBEbiMhF3OvXWQ=
+X-Received: from pfbhd7.prod.google.com ([2002:a05:6a00:6587:b0:746:2e5d:3e6a])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:238b:b0:736:a540:c9ad
+ with SMTP id d2e1a72fcca58-747bda1a68amr19816923b3a.20.1748900567066; Mon, 02
+ Jun 2025 14:42:47 -0700 (PDT)
+Date: Mon, 2 Jun 2025 14:42:45 -0700
+In-Reply-To: <20250602192702.2125115-5-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|SA1PR10MB6590:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28440d3c-f22e-47d4-7d39-08dda219742f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?aqZhqFrhMoy9C2mr52x3hIJ3I8NiBWsxUFeI2QWJgS2bnwmWsH3iOmyCs/HJ?=
- =?us-ascii?Q?eBySkIXZNzuRTit5LPqVM+uUImCemXBHlAj2hC3rFuHoj3W967mAC78YyOf7?=
- =?us-ascii?Q?NJ4RxuLwcDXq6u+/bj4dzxH7rL4u0iJdM1XngBH3N9xAwoB0Zs0JY1nj8CTS?=
- =?us-ascii?Q?XeDxTuZ1SYN28NHSGt+VD+H6dA6hgw2Y92LO9fhldEID+Sa269MCp/+0035n?=
- =?us-ascii?Q?MVj8tqcRX2HF2aEjLa7T1WtAkABRcDxOSj+YUrseNVlwKg8i1riXVo3QLTuH?=
- =?us-ascii?Q?OqTN0F6u/XV5bSQu1kts/gsSE5MxQF8Jgue6wRkXCdcg/NAhr6UdzblMSXR/?=
- =?us-ascii?Q?rz4qpFecsJKSymHH17JNJBm5IcD+HTaod2rLBs2P7nLJwLkB5UwBqnccvKWd?=
- =?us-ascii?Q?7jVU40/OeNp3yd6FbTfes8auNZeNs6G3yk59lDlk1EH0Sm3scJ9LpXF3loh8?=
- =?us-ascii?Q?z06rCL8JU6IO7mh4KN2iqGKcKnJoIT+OPKZFnOke2eCoD+7uDmZCOF3jTRyH?=
- =?us-ascii?Q?9lfplasq+RY0OMZZBiZoSg2xDhUpdikyctsLm617XX6IiPuTLgHblKUk3dlY?=
- =?us-ascii?Q?HEBYFigauiB8JtQpIXxIqhskF9Nj5c4ERO2t25VQPpXdG9c7Ub9QA0O/wkOz?=
- =?us-ascii?Q?5zzuSR0z6IocC+eTxqnfBFai3Js1Gxr3/wSs6TJvU7R8XqzgAe9gVL+TeOTZ?=
- =?us-ascii?Q?6hcH8oYJr2adqdql/gDbocwNu1dViA01VRbBkZXYkuPdpZkhlSZHtfNYNGoV?=
- =?us-ascii?Q?p5LDI/mGuxR8+XWr0M60wdMQnrio2Sd9xt8mlLr/UZSlnoLUhUpe08KaWboI?=
- =?us-ascii?Q?I/NKatbDjZfVRhxPeTh1QUQxoTbd6WwiafIWv18oK21LquWDpYX7n2WkseJY?=
- =?us-ascii?Q?ycUu8Lvc8qi7ce7/VtgqawPTmB6ihlivGJ73xH6F1KTaau4eMgK1QuHXoGU2?=
- =?us-ascii?Q?iQmr++9KLrWAa/JDvlBRKYWn66D7sQr14tGmDZJqAP6CSYXyoQG4MadVqhZO?=
- =?us-ascii?Q?gigR4CZ76c0eWGdBCoeuG2QgApSa7f17YRI2JJKsLft/Yv96aCgI2fRYerV/?=
- =?us-ascii?Q?gwpcROR6KMsVPAQgV6Thoe1QExNowh/eXrxagOCKnhQlXoU3lgFnvE5knDpx?=
- =?us-ascii?Q?CNGpZFN2d2Z6RX6RP4OTcT99PRtxjzNlGBCp1gky3yKPXPNK4KvKxfjWM715?=
- =?us-ascii?Q?lYW967Np1l1dUoQyglMip2nxEqseMoc09XbkwekYlJ49LJc16J56oTqKhy0K?=
- =?us-ascii?Q?LGOe1UElsL3B8/8s0alucCIDn5tAanO46dLa2FUpCmAf6/0qQ+5zEHajfv2W?=
- =?us-ascii?Q?llRXfRrTS7Hw6AUGfL7HVaykJS2xqYGw0HbWLpli0d2U7FcuWa9msaM/uBII?=
- =?us-ascii?Q?6KvPWlwpkC+2RKKWKRjqPn+/xTWtVLJPkVoFaCtBLTQqAVlBYVyUZgFQZ4b4?=
- =?us-ascii?Q?AFFpkJ8UJ4U=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?RVV68EBJuLbjeIJ3ar1c+USINYFgu9TtzI12amuVYBYs3qMjLSvgCtaXXXi4?=
- =?us-ascii?Q?kJ/8e+TiqLd9fFggO+4RniDFeXXF4FpwIVNgoQUFvia3WnlE+asNgURe8YMx?=
- =?us-ascii?Q?JPeKQfab9h9YmibWBHpudMWDCLnM4vLZoMkbTCv81/7tXHnrWHO9jhf1IdfG?=
- =?us-ascii?Q?gBHkAlD+SjK67eVs7EPyuQfUDv4DOygctU+0Z79ofThVi0tDf8OuqOfRwZ0A?=
- =?us-ascii?Q?WcVbT3Xwyg1aT3/L3MkiiONBBLe15ANNfKlG+YpTE7PDuq2fmTcDxPqZ7dgh?=
- =?us-ascii?Q?xScRF6WtrPf2SKtX3k44kqf44b5rHNlxX6PZOx+5bdvnYUwwhLP0PmHOQyJL?=
- =?us-ascii?Q?aRzwS/yIEOjinO8AFSZiL2clIsiUhl6Z09P7BJ4N33N0d1LRFzYqEUe7cl2p?=
- =?us-ascii?Q?OY7hcjL9Tzscb5Q/yirS2ZlrDUFMYUHCGKo+8o4Wv5rUteGQbh/09JPAwvgn?=
- =?us-ascii?Q?/bSLA/FFVBS7cawlvLPrL6EqBX+/tgTsfylNaHU26vq6+T8sATUsdpzUi6jD?=
- =?us-ascii?Q?8pdGoOSA5UCBjHuZKMTm4/oYfiLA2aZcAysxUevscNNHVxafrp6DOGdpoOx2?=
- =?us-ascii?Q?ztuj4XCxzbCpOHAJ3HFwNHRqm6WmHbaSu+JczZC6kHZBW3AjEIwJIoj0Aju2?=
- =?us-ascii?Q?2Hv9xz6MtKonph3lJXa7tiepXjozgqwq7OAbwfDfUt7J17I9/NKVZu+YLyd7?=
- =?us-ascii?Q?ryHlJzkteZX3S7EintNA0vLNdrH3UxBjbPmoYSzV0cycfsixmPlkMyBQNcyC?=
- =?us-ascii?Q?15WrRcH/899JuNxA22YpcpGsD2WKU5SN4Jah3deYWu0eHQcbfF+gT22qARaU?=
- =?us-ascii?Q?ccZvWFdh9IeTb9B0tOf5S++JZfkHBOzPhR+gZdOfo3eZxMIIjM6dMGmFmbRW?=
- =?us-ascii?Q?FfYv817jceBaICbG3Cb40MHbgCwnYKrddbjJ/hxAHnNxXoaFZCCmr2QeD1yc?=
- =?us-ascii?Q?hOM9p0Dlbaj+Sy8C3tBraUVcxKPZv9yUFAbEblIJZTsvlh1RHJo4SenDO5/9?=
- =?us-ascii?Q?gXhtdJwXndoyBbmxZOyKNEODNLdMtWCIZ5us8RdGIN93KT/ZQqzrucU9blSN?=
- =?us-ascii?Q?uC9yPz/NW5Hd8VUn1KYVGnGj/BKDnGKVr4VYHm3wYxEhedVpmlLFm9lv/yi8?=
- =?us-ascii?Q?RdD5kxEPPfY69yxi3TdlrrYVQuyN4RbKCa7zUA/BtE52DNqTRZbUF706h2C7?=
- =?us-ascii?Q?etNAsM+GCM4+WCjJRxWvIeR9x5rnbHGcznDV9ZLAaocG+tU13FY9Xx9uL6lI?=
- =?us-ascii?Q?Snzjv0xJS+xq3pjTHJsRHnyNx5OFLlh6JB3vNx2+9Gz2gejwkRE2+Nwnm45E?=
- =?us-ascii?Q?RUPoA5s1BqB7vRzeNovrhyClpTHAN19BBwUetuIkb6gf4xE2v99+wtLD4GK9?=
- =?us-ascii?Q?XMhR5SNPClcAR71X1Sl/gbsQsyaVz17n3Nu5REaVcQCUKJrFALfbuwSbKikV?=
- =?us-ascii?Q?QjWL14eckyzM62IaHm5FyzckgvFfpInHAZS0DcA1YWqadfY+qLsSBRLCuJcd?=
- =?us-ascii?Q?oR0jIw3nDt6k90IvyIWJS1uD+nMFVLv5evm4s4/RpxSSj9FEo6P7ai8410DY?=
- =?us-ascii?Q?u8YoeRyemncfjzfP+esqg79uKkFYYejdSuseTGgkrqCNJY6I99rAwwIGVyuz?=
- =?us-ascii?Q?8A=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	9ZNyPV8GDOJO/yn6UyVw15oAHsf6d/cA/fX0gs9Oml/fbLY+NBU4fJzeOtnokpR9ZolfUHmv9PhrwGrlF5RUR+3il//224+S8iR3gBS/gDzat+4hAkKPNHwpm9f6trmKM9UPTxsuYXHE254e7UkNEWhiXKjVnpuvCgqNOVMxBA92MqjlkTY8XWg9fEj0JZhxHurgOQYB5hFEVEoIUwqDGbsoA6KDrvNEcOM0zKxaLK6oq2PSa78VCFhJo1wtbTW5WmzZYQuNdxckG4v/XoH9pvIaYSQrELsgrIQIShrH1UtdtSxh7lzKtgXmtwhSGE5GpYwR9QKLdbYoDXC3JBw/cFv0ytkVGohUFPiYnr22d3hWrgQYOLEyFOTaazSxdBxY2oUadWn+hJuvoFvQKyILhfuZAVpgFV4G9HAg9d89A6oRCQHTon6zNrwlECOvhy1goaBjIob366sLJdoPAjplW+UwMLnz7sy6xzpQuNIjeLON0nkiNRKBG+jBmaBj1Z4EUNTUEfl1znN7fjmx/VSPTPcSoQaPBloavKoSLR6cUNFLEzT006S8zK/uE8pNr48JhrrdkCpGWslGWnhvENF+q1luuBx/ZGuw36rrliiQTwc=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28440d3c-f22e-47d4-7d39-08dda219742f
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2025 21:07:16.4838
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SZQEkkUVzh7ojytVGy3lpkGdY+fzbSKGR3e1x+ea4rCJ37yQXwswbLTTjbELTqMoW7Ux7fBG8EC9VFjOao8FR3yRFCbYzPixurgiw5O3pH4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6590
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-02_07,2025-06-02_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 malwarescore=0
- phishscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2506020174
-X-Proofpoint-GUID: 7lkYDzw2nLw3mUq7cyw61Pb__EroDOVN
-X-Proofpoint-ORIG-GUID: 7lkYDzw2nLw3mUq7cyw61Pb__EroDOVN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAyMDE3MyBTYWx0ZWRfX+cjH9JT1uRlT aOaYLa24ERsGSfiYbXmGNBFPKkAJGLVOOCWArvaCII1G3BCtfnlz4gMmcgusmSJgw2hqLKKrCOf zRF4vKqgvXkthL4WqgU0LBpC+MDiR0Z7JdOfv2VG0WWgp7G+CTNZZfHpgMYejj9Xp8ah87dv6+Z
- PkmG/+uc7CbkQOznPVPnrDmzFnqqqTd0nOGoT6HDmv2peURMnfFjBUCWK5fBcVlR+lqGVLn77SE 8mCLBzr+ib9jfmXIyEDjxgGHntMka+hu3sMFQhoyZ98ukk5tcMKV5P8MpvnNoPJHfeC2uzImlOp stwOk0/ZM/47+wqFcPQ7sYIubR1+JxjQ6QV676Q7XLyRfL+U3xnLp7qPn6nqYzVeGWuF59MaxIk
- 8uSU+0KK5utwtFsVGugCV/UH9VY8ee3f/iFUlmB2VfOJiUALoL1jssJfDW9SSttugD3rkIPS
-X-Authority-Analysis: v=2.4 cv=FM4bx/os c=1 sm=1 tr=0 ts=683e1287 b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=brj9Pt4pMQsRI3ToJi4A:9 cc=ntf awl=host:13206
+Mime-Version: 1.0
+References: <20250602192702.2125115-1-coltonlewis@google.com> <20250602192702.2125115-5-coltonlewis@google.com>
+Message-ID: <aD4a1T7ZmBLNunxi@google.com>
+Subject: Re: [PATCH 04/17] KVM: arm64: Cleanup PMU includes
+From: Sean Christopherson <seanjc@google.com>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Russell King <linux@armlinux.org.uk>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-The process addresses documentation already contains a great deal of
-information about mmap/VMA locking and page table traversal and
-manipulation.
+On Mon, Jun 02, 2025, Colton Lewis wrote:
+> * Delete kvm/arm_pmu.h. These functions are mostly internal to KVM and
+>   should go in asm/kvm_host.h.
 
-However it waves it hands about non-VMA traversal. Add a section for this
-and explain the caveats around this kind of traversal.
+Ha!  I'm a hair too late, as usual.  I _just_ resurrected a patch[*] to move and
+rename all of the <kvm/arm_xxx.h> headers to <asm/kvm_xxx.h>.  If only I had
+posted on Friday when they were ready :-)
 
-Additionally, commit 6375e95f381e ("mm: pgtable: reclaim empty PTE page in
-madvise(MADV_DONTNEED)") caused zapping to also free empty PTE page
-tables. Highlight this and reference how this impacts ptdump non-VMA
-traversal of userland mappings.
+It's a relatively small series (mostly arm64 code movement), but it does touch
+all architectures due to giving the same treatment to kvm/iodev.h (and purging
+include/kvm entirely).
 
-Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Any preference/thoughts on how to proceed?  My stuff obviously isn't urgent since
+I sat on the patches for almost two years.  On the other hand, the almost pure
+code movement would be a nice precursor to this patch, e.g. move and rename to
+asm/kvm_pmu.h before extracting chunks of code into asm/kvm_host.h.
+
+[*] https://lore.kernel.org/all/20230916003118.2540661-15-seanjc@google.com
+
+
+Diff stats for context:
 ---
- Documentation/mm/process_addrs.rst | 58 ++++++++++++++++++++++++++----
- 1 file changed, 52 insertions(+), 6 deletions(-)
+Anish Ghulati (1):
+  KVM: arm64: Move arm_{psci,hypercalls}.h to an internal KVM path
 
-diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
-index e6756e78b476..83166c2b47dc 100644
---- a/Documentation/mm/process_addrs.rst
-+++ b/Documentation/mm/process_addrs.rst
-@@ -303,7 +303,9 @@ There are four key operations typically performed on page tables:
- 1. **Traversing** page tables - Simply reading page tables in order to traverse
-    them. This only requires that the VMA is kept stable, so a lock which
-    establishes this suffices for traversal (there are also lockless variants
--   which eliminate even this requirement, such as :c:func:`!gup_fast`).
-+   which eliminate even this requirement, such as :c:func:`!gup_fast`). There is
-+   also a special case of page table traversal for non-VMA regions which we
-+   consider separately below.
- 2. **Installing** page table mappings - Whether creating a new mapping or
-    modifying an existing one in such a way as to change its identity. This
-    requires that the VMA is kept stable via an mmap or VMA lock (explicitly not
-@@ -335,15 +337,14 @@ ahead and perform these operations on page tables (though internally, kernel
- operations that perform writes also acquire internal page table locks to
- serialise - see the page table implementation detail section for more details).
- 
-+.. note:: Since v6.14 and commit 6375e95f381e ("mm: pgtable: reclaim empty PTE
-+          page in madvise (MADV_DONTNEED)"), we now also free empty PTE tables
-+          on zap. This does not change zapping locking requirements.
-+
- When **installing** page table entries, the mmap or VMA lock must be held to
- keep the VMA stable. We explore why this is in the page table locking details
- section below.
- 
--.. warning:: Page tables are normally only traversed in regions covered by VMAs.
--             If you want to traverse page tables in areas that might not be
--             covered by VMAs, heavier locking is required.
--             See :c:func:`!walk_page_range_novma` for details.
--
- **Freeing** page tables is an entirely internal memory management operation and
- has special requirements (see the page freeing section below for more details).
- 
-@@ -355,6 +356,47 @@ has special requirements (see the page freeing section below for more details).
-              from the reverse mappings, but no other VMAs can be permitted to be
-              accessible and span the specified range.
- 
-+Traversing non-VMA page tables
-+------------------------------
-+
-+We've focused above on traversal of page tables belonging to VMAs. It is also
-+possible to traverse page tables which are not represented by VMAs.
-+
-+Primarily this is used to traverse kernel page table mappings. In which case one
-+must hold an mmap **read** lock on the :c:macro:`!init_mm` kernel instantiation
-+of the :c:struct:`!struct mm_struct` metadata object, as performed in
-+:c:func:`walk_page_range_novma`.
-+
-+This is generally sufficient to preclude other page table walkers (excluding
-+vmalloc regions and memory hot plug) as the intermediate kernel page tables are
-+not usually freed.
-+
-+For cases where they might be then the caller has to acquire the appropriate
-+additional locks.
-+
-+The truly unusual case is the traversal of non-VMA ranges in **userland**
-+ranges.
-+
-+This has only one user - the general page table dumping logic (implemented in
-+:c:macro:`!mm/ptdump.c`) - which seeks to expose all mappings for debug purposes
-+even if they are highly unusual (possibly architecture-specific) and are not
-+backed by a VMA.
-+
-+We must take great care in this case, as the :c:func:`!munmap` implementation
-+detaches VMAs under an mmap write lock before tearing down page tables under a
-+downgraded mmap read lock.
-+
-+This means such an operation could race with this, and thus an mmap **write**
-+lock is required.
-+
-+.. warning:: A racing zap operation is problematic if it is performed without an
-+	     exclusive lock held - since v6.14 and commit 6375e95f381e PTEs may
-+	     be freed upon zap, so if this occurs the traversal might encounter
-+	     the same issue seen due to :c:func:`!munmap`'s use of a downgraded
-+	     mmap lock.
-+
-+	     In this instance, additional appropriate locking is required.
-+
- Lock ordering
- -------------
- 
-@@ -461,6 +503,10 @@ Locking Implementation Details
- Page table locking details
- --------------------------
- 
-+.. note:: This section explores page table locking requirements for page tables
-+          encompassed by a VMA. See the above section on non-VMA page table
-+          traversal for details on how we handle that case.
-+
- In addition to the locks described in the terminology section above, we have
- additional locks dedicated to page tables:
- 
--- 
-2.49.0
+Sean Christopherson (7):
+  KVM: arm64: Include KVM headers to get forward declarations
+  KVM: arm64: Move ARM specific headers in include/kvm to arch directory
+  KVM: Move include/kvm/iodev.h to include/linux as kvm_iodev.h
+  KVM: MIPS: Stop adding virt/kvm to the arch include path
+  KVM: PPC: Stop adding virt/kvm to the arch include path
+  KVM: s390: Stop adding virt/kvm to the arch include path
+  KVM: Standardize include paths across all architectures
 
+ MAINTAINERS                                                | 1 -
+ .../arm64/include/asm/kvm_arch_timer.h                     | 2 ++
+ arch/arm64/include/asm/kvm_host.h                          | 7 +++----
+ include/kvm/arm_pmu.h => arch/arm64/include/asm/kvm_pmu.h  | 2 ++
+ .../kvm/arm_vgic.h => arch/arm64/include/asm/kvm_vgic.h    | 2 +-
+ arch/arm64/kvm/Makefile                                    | 2 --
+ arch/arm64/kvm/arch_timer.c                                | 5 ++---
+ arch/arm64/kvm/arm.c                                       | 6 +++---
+ {include => arch/arm64}/kvm/arm_hypercalls.h               | 0
+ {include => arch/arm64}/kvm/arm_psci.h                     | 0
+ arch/arm64/kvm/guest.c                                     | 2 +-
+ arch/arm64/kvm/handle_exit.c                               | 2 +-
+ arch/arm64/kvm/hyp/Makefile                                | 6 +++---
+ arch/arm64/kvm/hyp/include/hyp/switch.h                    | 4 ++--
+ arch/arm64/kvm/hyp/nvhe/switch.c                           | 4 ++--
+ arch/arm64/kvm/hyp/vhe/switch.c                            | 4 ++--
+ arch/arm64/kvm/hypercalls.c                                | 4 ++--
+ arch/arm64/kvm/pmu-emul.c                                  | 4 ++--
+ arch/arm64/kvm/psci.c                                      | 4 ++--
+ arch/arm64/kvm/pvtime.c                                    | 2 +-
+ arch/arm64/kvm/reset.c                                     | 3 +--
+ arch/arm64/kvm/trace_arm.h                                 | 2 +-
+ arch/arm64/kvm/trng.c                                      | 2 +-
+ arch/arm64/kvm/vgic/vgic-debug.c                           | 2 +-
+ arch/arm64/kvm/vgic/vgic-init.c                            | 2 +-
+ arch/arm64/kvm/vgic/vgic-irqfd.c                           | 2 +-
+ arch/arm64/kvm/vgic/vgic-kvm-device.c                      | 2 +-
+ arch/arm64/kvm/vgic/vgic-mmio-v2.c                         | 4 ++--
+ arch/arm64/kvm/vgic/vgic-mmio-v3.c                         | 4 ++--
+ arch/arm64/kvm/vgic/vgic-mmio.c                            | 6 +++---
+ arch/arm64/kvm/vgic/vgic-v2.c                              | 2 +-
+ arch/arm64/kvm/vgic/vgic-v3-nested.c                       | 3 +--
+ arch/arm64/kvm/vgic/vgic-v3.c                              | 2 +-
+ arch/loongarch/include/asm/kvm_eiointc.h                   | 2 +-
+ arch/loongarch/include/asm/kvm_ipi.h                       | 2 +-
+ arch/loongarch/include/asm/kvm_pch_pic.h                   | 2 +-
+ arch/mips/include/asm/kvm_host.h                           | 3 +--
+ arch/mips/kvm/Makefile                                     | 2 --
+ arch/powerpc/kvm/Makefile                                  | 2 --
+ arch/powerpc/kvm/mpic.c                                    | 2 +-
+ arch/riscv/kvm/Makefile                                    | 2 --
+ arch/riscv/kvm/aia_aplic.c                                 | 2 +-
+ arch/riscv/kvm/aia_imsic.c                                 | 2 +-
+ arch/s390/kvm/Makefile                                     | 2 --
+ arch/x86/kvm/Makefile                                      | 1 -
+ arch/x86/kvm/i8254.h                                       | 2 +-
+ arch/x86/kvm/ioapic.h                                      | 2 +-
+ arch/x86/kvm/irq.h                                         | 2 +-
+ arch/x86/kvm/lapic.h                                       | 2 +-
+ include/{kvm/iodev.h => linux/kvm_iodev.h}                 | 0
+ virt/kvm/Makefile.kvm                                      | 2 ++
+ virt/kvm/coalesced_mmio.c                                  | 3 +--
+ virt/kvm/eventfd.c                                         | 2 +-
+ virt/kvm/kvm_main.c                                        | 3 +--
+ 54 files changed, 64 insertions(+), 77 deletions(-)
+ rename include/kvm/arm_arch_timer.h => arch/arm64/include/asm/kvm_arch_timer.h (98%)
+ rename include/kvm/arm_pmu.h => arch/arm64/include/asm/kvm_pmu.h (99%)
+ rename include/kvm/arm_vgic.h => arch/arm64/include/asm/kvm_vgic.h (99%)
+ rename {include => arch/arm64}/kvm/arm_hypercalls.h (100%)
+ rename {include => arch/arm64}/kvm/arm_psci.h (100%)
+ rename include/{kvm/iodev.h => linux/kvm_iodev.h} (100%)
+
+
+base-commit: 45eb29140e68ffe8e93a5471006858a018480a45
+--
