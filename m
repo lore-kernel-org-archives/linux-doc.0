@@ -1,63 +1,66 @@
-Received: from mail-io1-f74.google.com (mail-io1-f74.google.com [209.85.166.74])
+Received: from mail-oa1-f74.google.com (mail-oa1-f74.google.com [209.85.160.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D519B660
-	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 19:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A21221FD0
+	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 19:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748892541; cv=none; b=YA6vpeEhi+mAdhjjzrnVyfA9gXSFF9iVzv6Yjfm/SWkKYEMVsQ6Pom81BRFqqTpMRrBLfAv62aJFYE0sztvAgaBuHA74V5/lYM7DIA3ukY1/wt8tvFNuml6jOr8dOTUzRqKt52bYyYEz745ptovSW8Utz9OdqXYP9Em4t9n27vM=
+	t=1748892542; cv=none; b=eLCJWh95xcf30GqRK0JO7+GA9UoWJzp1dYgyYR+Waw1Y5waP//fTAzNa4F5a0CrP4kdi365KYSD+2kAJUorTi5E8P+Bbno62TSE5T0fX+UuwsOyEeCfg2eAFNtgbYX1jl9+vVhbpxOe95B9gQB3rEmWFm6yrcHZrqHiWoiZ9v4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748892541; c=relaxed/simple;
-	bh=Bkp+RHmq5Zb8XC8EbWlPhlhfVe8QwDCY3ZtSkb5UPso=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=k6WMjqm2QkJuMsmE0PAfUAD4u3ZRZHHGhhIv1gj7tN6UOC75yQrOh/ukPrDzkqU4ScshmuWnuPifjsSmnKwPgdpC5j4s1eW++/Qt6eWEb1gZg7sfcfs4o2ZMQ1OJYDymkU9229JwK27MEcFNJITspbIncFi0HLPKg8hDBSzzkik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XDrZYzTf; arc=none smtp.client-ip=209.85.166.74
+	s=arc-20240116; t=1748892542; c=relaxed/simple;
+	bh=UpyLhDgeST+9yjPTPNbtC0GB4N1QHxuH3tcvChyIfWE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=iYTCo03hQBJthM6VoClpwneGO0bWQy+VkDbFF+f4Nx2/H2Kttd419etOuVSdN3a1+K1fSqw1NoG5wt7EqibNSjD3mwY4QGqm5rWwMc7OMqMlqGyMweLyUJe6Uc+6lrhg+fPrIo7hsh9f5Tndu4HWzZFKjeQa0lmlHE0dT71/kWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dWjPA7Mv; arc=none smtp.client-ip=209.85.160.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XDrZYzTf"
-Received: by mail-io1-f74.google.com with SMTP id ca18e2360f4ac-869e9667f58so757999739f.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Jun 2025 12:28:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dWjPA7Mv"
+Received: by mail-oa1-f74.google.com with SMTP id 586e51a60fabf-2e990e17650so526787fac.3
+        for <linux-doc@vger.kernel.org>; Mon, 02 Jun 2025 12:28:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1748892537; x=1749497337; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XDqE8mFNSY/ZirLnr+lInzWb5qO4cUyD2wakE3p29r0=;
-        b=XDrZYzTfUvfcveiV/2SQ3WvdQeceqlug2ytLntPdDuPPTnoTrNaYRh6IRYgh70BxJn
-         G47KoGTrpJjSvRjiOBFHdgUhd2vjt0cbJZdDJLl2bu+2BeTgZ8YXnWeysk8346CeYH5b
-         vQnRmtDS6ZPDIjzZlunD/tSRQ6FugEnoOqSoDAMZ0D62yS4MuRJizK0IrMQZC+FtHBVB
-         ZrDUQcfO+Bh4uU3OfDCioGBfoGIG9eNmFcPFxphi7Ew0KKPrZ80Wm0peBY9chO2hPaWn
-         tngZne7iGzJ6LAR972Ppv7mIhuaiTUcDzRWjoobQYGtPtg3X9UccCbM5g22B86+LIphx
-         iFMg==
+        d=google.com; s=20230601; t=1748892538; x=1749497338; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zgwK7stiipaBbElK9ZH8eFt+KmwsSimSmMPY4y4bpeQ=;
+        b=dWjPA7MvaOHSJe1kYu0WU0y08mojxXXNrP2WK0ZIjspQXsn1gjAWI5X8asaKmXo29f
+         5Js7A9y8noxsW423wRSz36mjn8W/SvOVjBAtCs10cFsOyRYQh/QIFqdfo0tmNb0lfFe/
+         hwQKs6cumge2DX+sNsYtGgPY4x6XHmweccz8EnFEMvlKYdxqE1FBIcJXufC03NCDsWAl
+         6eWK1P/80DIjVhdNeEQglmGzUy4RonP+ydFCzQx/zek0WbVljaWTNXPkr6TvUAIKIPu7
+         QhnYwsM+8Ub9XrWnTKvoqdof/HD8I55gdnAZQhL+ioVM33katWIl2v0sBqVUFtOS/wB+
+         zRyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748892537; x=1749497337;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XDqE8mFNSY/ZirLnr+lInzWb5qO4cUyD2wakE3p29r0=;
-        b=uQu2DfEJJS22n6eoMdBLaX2/LrnVT1Yr9wtqxmt/D4vvJ6Cw+6FQPaAGTBnuKxbQXV
-         No3RszSdice2uwUUbbzTSuS8/LI6pNy9hY7pUq8X/YKt+t+ZmLAyy9jt7K7vFtzjLwhH
-         36r7pDCAcGUZ3o0RIZJuHv/1MjSgB9mSMq4lIbmfBMaxqQmOaem+J/fJrnHjwVefvjrA
-         x64AS0bHz8WuJurMtjjXxnDif2uyoskEmkT6cknHVueFE8zAwQngxCNzRWYgec6sqZJQ
-         dt62z0uaYLFjl1BSr/Qx9UEciaRvECr054lXYkpg/8fU/cYiFwhaRR93dN0drg8r7WzA
-         M0wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSVfugDzjVgn404aZBto0h5ASbUWrkv7imXGgzXAQWtyRtC4MKlSzZh0R4pWqXlGaOzd7lAetmrns=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytZNv3NNWYaaD3qtD0BU2nLKIObDr+F8J0VPQNIjzhpIKq3+ZL
-	otwqVuSFdHVCAEq9/MR4uc6/xKr4/tLTtD+kJ0fx+GopA+eDveVlRhtm+jO0s9j/QV2uTFTTFLy
-	Kj7bFt+46JX7umkCoJClOe5vPCg==
-X-Google-Smtp-Source: AGHT+IFxeHQ76hpwbia1zMeQqWVTlfaiwmMC2Ena7lOl4cpvV3skj0sAcuon/x4Imo4A5kPFT2TaGxeLGLjA5Bo9DQ==
-X-Received: from ilbby12.prod.google.com ([2002:a05:6e02:260c:b0:3dd:b4dc:eb43])
+        d=1e100.net; s=20230601; t=1748892538; x=1749497338;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zgwK7stiipaBbElK9ZH8eFt+KmwsSimSmMPY4y4bpeQ=;
+        b=Rsx5sFrhk6otYap2Ur/0bO7XEX9flhrXtOnKoiWMJdfHnxeGJDG4PaNYtFBRa17KtB
+         jEiKZO1vDLhbmx6xQNLDBGJvQkpuP81UZ4wFSwSYdyayKcq5kscH7Eu7jvDZLZwAJbW1
+         2cl6kL97RtJ2DNiq1GSBo/4E12aAZyXDXm05sJX/Uabpku/MgiBPM8E4w/GiW3+4gDCe
+         j6Lc701IkOcgzY+yNCaiXB1Y6NFr35S5mjW1ODlILWkEQ5k5bFO2bIbTVylP2pG6sI5g
+         1OtX5W9pyM0ycV+Ri4WhJEr2142TXo+VHlDD3/gBoyozhnRVLL7rIw3N1GKgI8iR+hP8
+         fuHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX8xYWujFJPHdQbC1qxLi9EEBwLp+zdzKi8dmGrlFPkg/iUGiAvT3oxFS/fpg3WAQQGenhATTMVu8k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YziFccOiS4ewvq5eRhR+XK0Yc4NHH96tgjpXe64rDpnyLkr24BH
+	ZjdQ7Ay29Y7/ijh6FaeTFIQER//J1tybksnVS9HeeFeOXkvm+Dt+DwgFcWbxm1SUuDeMrV934c9
+	7EwqWadox+CVIcWm7aC7PvN2pag==
+X-Google-Smtp-Source: AGHT+IHY5orLOMss72/ttOtRz18RgR7Q6GomVkN3UzZeAOQY/fszGrZVl+8B2BDQNOJ4jWTDkgrOBQQZ8Rc/ZsDHgg==
+X-Received: from oabgs11.prod.google.com ([2002:a05:6870:ab8b:b0:2c1:5c70:acac])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6e02:194b:b0:3dc:787f:2bc8 with SMTP id e9e14a558f8ab-3dda3363f25mr100622585ab.12.1748892537342;
- Mon, 02 Jun 2025 12:28:57 -0700 (PDT)
-Date: Mon,  2 Jun 2025 19:26:45 +0000
+ 2002:a05:6870:b1cc:b0:2d8:5015:1a8f with SMTP id 586e51a60fabf-2e94881808fmr4931862fac.7.1748892538177;
+ Mon, 02 Jun 2025 12:28:58 -0700 (PDT)
+Date: Mon,  2 Jun 2025 19:26:46 +0000
+In-Reply-To: <20250602192702.2125115-1-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20250602192702.2125115-1-coltonlewis@google.com>
 X-Mailer: git-send-email 2.49.0.1204.g71687c7c1d-goog
-Message-ID: <20250602192702.2125115-1-coltonlewis@google.com>
-Subject: [PATCH 00/17] ARM64 PMU Partitioning
+Message-ID: <20250602192702.2125115-2-coltonlewis@google.com>
+Subject: [PATCH 01/17] arm64: cpufeature: Add cpucap for HPMN0
 From: Colton Lewis <coltonlewis@google.com>
 To: kvm@vger.kernel.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -71,154 +74,75 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
 	Colton Lewis <coltonlewis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Overview:
+Add a capability for FEAT_HPMN0, whether MDCR_EL2.HPMN can specify 0
+counters reserved for the guest.
 
-This series implements a new PMU scheme on ARM, a partitioned PMU
-that exists alongside the existing emulated PMU and may be enabled by
-the kernel command line kvm.reserved_host_counters or by the vcpu
-ioctl KVM_ARM_PARTITION_PMU. This is a continuation of the RFC posted
-earlier this year. [1]
+This required changing HPMN0 to an UnsignedEnum in tools/sysreg
+because otherwise not all the appropriate macros are generated to add
+it to arm64_cpu_capabilities_arm64_features.
 
-The high level overview and reason for the name is that this
-implementation takes advantage of recent CPU features to partition the
-PMU counters into a host-reserved set and a guest-reserved set. Guests
-are allowed untrapped hardware access to the most frequently used PMU
-registers and features for the guest-reserved counters only.
+Signed-off-by: Colton Lewis <coltonlewis@google.com>
+---
+ arch/arm64/kernel/cpufeature.c | 8 ++++++++
+ arch/arm64/tools/cpucaps       | 1 +
+ arch/arm64/tools/sysreg        | 6 +++---
+ 3 files changed, 12 insertions(+), 3 deletions(-)
 
-This untrapped hardware access significantly reduces the overhead of
-using performance monitoring capabilities such as the `perf` tool
-inside a guest VM. Register accesses that aren't trapping to KVM mean
-less time spent in the host kernel and more time on the workloads
-guests care about. This optimization especially shines during high
-`perf` sample rates or large numbers of events that require
-multiplexing hardware counters.
-
-Performance:
-
-For example, the following tests were carried out on identical ARM
-machines with 10 general purpose counters with identical guest images
-run on QEMU, the only difference being my PMU implementation or the
-existing one. Some arguments have been simplified here to clarify the
-purpose of the test:
-
-1) time perf record -e ${FIFTEEN_HW_EVENTS} -F 1000 -- \
-   gzip -c tmpfs/random.64M.img >/dev/null
-
-On emulated PMU this command took 4.143s real time with 0.159s system
-time. On partitioned PMU this command took 3.139s real time with
-0.110s system time, runtime reductions of 24.23% and 30.82%.
-
-2) time perf stat -dd -- \
-   automated_specint2017.sh
-
-On emulated PMU this benchmark completed in 3789.16s real time with
-224.45s system time and a final benchmark score of 4.28. On
-partitioned PMU this benchmark completed in 3525.67s real time with
-15.98s system time and a final benchmark score of 4.56. That is a
-6.95% reduction in runtime, 92.88% reduction in system time, and
-6.54% improvement in overall benchmark score.
-
-Seeing these improvements on something as lightweight as perf stat is
-remarkable and implies there would have been a much greater
-improvement with perf record. I did not test that because I was not
-confident it would even finish in a reasonable time on the emulated
-PMU
-
-Test 3 was slightly different, I ran the workload in a VM with a
-single VCPU pinned to a physical CPU and analyzed from the host where
-the physical CPU spent its time using mpstat.
-
-3) perf record -e ${FIFTEEN_HW_EVENTS} -F 4000 -- \
-   stress-ng --cpu 0 --timeout 30
-
-Over a period of 30s the cpu running with the emulated PMU spent
-34.96% of the time in the host kernel and 55.85% of the time in the
-guest. The cpu running the partitioned PMU spent 0.97% of its time in
-the host kernel and 91.06% of its time in the guest.
-
-Taken together, these tests represent a remarkable performance
-improvement for anything perf related using this new PMU
-implementation.
-
-Caveats:
-
-Because the most consistent and performant thing to do was untrap
-PMCR_EL0, the number of counters visible to the guest via PMCR_EL0.N
-is always equal to the value KVM sets for MDCR_EL2.HPMN. Previously
-allowed writes to PMCR_EL0.N via {GET,SET}_ONE_REG no longer affect
-the guest.
-
-These improvements come at a cost to 7-35 new registers that must be
-swapped at every vcpu_load and vcpu_put if the feature is enabled. I
-have been informed KVM would like to avoid paying this cost when
-possible.
-
-One solution is to make the trapping changes and context swapping lazy
-such that the trapping changes and context swapping only take place
-after the guest has actually accessed the PMU so guests that never
-access the PMU never pay the cost.
-
-This is not done here because it is not crucial to the primary
-functionality and I thought review would be more productive as soon as
-I had something complete enough for reviewers to easily play with.
-
-However, this or any better ideas are on the table for inclusion in
-future re-rolls.
-
-[1] https://lore.kernel.org/kvmarm/20250213180317.3205285-1-coltonlewis@google.com/
-
-Colton Lewis (16):
-  arm64: cpufeature: Add cpucap for HPMN0
-  arm64: Generate sign macro for sysreg Enums
-  arm64: cpufeature: Add cpucap for PMICNTR
-  KVM: arm64: Reorganize PMU functions
-  KVM: arm64: Introduce method to partition the PMU
-  perf: arm_pmuv3: Generalize counter bitmasks
-  perf: arm_pmuv3: Keep out of guest counter partition
-  KVM: arm64: Set up FGT for Partitioned PMU
-  KVM: arm64: Writethrough trapped PMEVTYPER register
-  KVM: arm64: Use physical PMSELR for PMXEVTYPER if partitioned
-  KVM: arm64: Writethrough trapped PMOVS register
-  KVM: arm64: Context switch Partitioned PMU guest registers
-  perf: pmuv3: Handle IRQs for Partitioned PMU guest counters
-  KVM: arm64: Inject recorded guest interrupts
-  KVM: arm64: Add ioctl to partition the PMU when supported
-  KVM: arm64: selftests: Add test case for partitioned PMU
-
-Marc Zyngier (1):
-  KVM: arm64: Cleanup PMU includes
-
- Documentation/virt/kvm/api.rst                |  16 +
- arch/arm/include/asm/arm_pmuv3.h              |  24 +
- arch/arm64/include/asm/arm_pmuv3.h            |  36 +-
- arch/arm64/include/asm/kvm_host.h             | 208 +++++-
- arch/arm64/include/asm/kvm_pmu.h              |  82 +++
- arch/arm64/kernel/cpufeature.c                |  15 +
- arch/arm64/kvm/Makefile                       |   2 +-
- arch/arm64/kvm/arm.c                          |  24 +-
- arch/arm64/kvm/debug.c                        |  13 +-
- arch/arm64/kvm/hyp/include/hyp/switch.h       |  65 +-
- arch/arm64/kvm/pmu-emul.c                     | 629 +----------------
- arch/arm64/kvm/pmu-part.c                     | 358 ++++++++++
- arch/arm64/kvm/pmu.c                          | 630 ++++++++++++++++++
- arch/arm64/kvm/sys_regs.c                     |  54 +-
- arch/arm64/tools/cpucaps                      |   2 +
- arch/arm64/tools/gen-sysreg.awk               |   1 +
- arch/arm64/tools/sysreg                       |   6 +-
- drivers/perf/arm_pmuv3.c                      |  55 +-
- include/kvm/arm_pmu.h                         | 199 ------
- include/linux/perf/arm_pmu.h                  |  15 +-
- include/linux/perf/arm_pmuv3.h                |  14 +-
- include/uapi/linux/kvm.h                      |   4 +
- tools/include/uapi/linux/kvm.h                |   2 +
- .../selftests/kvm/arm64/vpmu_counter_access.c |  40 +-
- virt/kvm/kvm_main.c                           |   1 +
- 25 files changed, 1616 insertions(+), 879 deletions(-)
- create mode 100644 arch/arm64/include/asm/kvm_pmu.h
- create mode 100644 arch/arm64/kvm/pmu-part.c
- delete mode 100644 include/kvm/arm_pmu.h
-
-
-base-commit: 1b85d923ba8c9e6afaf19e26708411adde94fba8
---
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index a3da020f1d1c..578eea321a60 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -541,6 +541,7 @@ static const struct arm64_ftr_bits ftr_id_mmfr0[] = {
+ };
+ 
+ static const struct arm64_ftr_bits ftr_id_aa64dfr0[] = {
++	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_HPMN0_SHIFT, 4, 0),
+ 	S_ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_DoubleLock_SHIFT, 4, 0),
+ 	ARM64_FTR_BITS(FTR_HIDDEN, FTR_NONSTRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_PMSVer_SHIFT, 4, 0),
+ 	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_CTX_CMPs_SHIFT, 4, 0),
+@@ -2884,6 +2885,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+ 		.matches = has_cpuid_feature,
+ 		ARM64_CPUID_FIELDS(ID_AA64MMFR0_EL1, FGT, FGT2)
+ 	},
++	{
++		.desc = "Hypervisor PMU Partitioning 0 Guest Counters",
++		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
++		.capability = ARM64_HAS_HPMN0,
++		.matches = has_cpuid_feature,
++		ARM64_CPUID_FIELDS(ID_AA64DFR0_EL1, HPMN0, IMP)
++	},
+ #ifdef CONFIG_ARM64_SME
+ 	{
+ 		.desc = "Scalable Matrix Extension",
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index 10effd4cff6b..5b196ba21629 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -39,6 +39,7 @@ HAS_GIC_CPUIF_SYSREGS
+ HAS_GIC_PRIO_MASKING
+ HAS_GIC_PRIO_RELAXED_SYNC
+ HAS_HCR_NV1
++HAS_HPMN0
+ HAS_HCX
+ HAS_LDAPR
+ HAS_LPA2
+diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
+index 8a8cf6874298..d29742481754 100644
+--- a/arch/arm64/tools/sysreg
++++ b/arch/arm64/tools/sysreg
+@@ -1531,9 +1531,9 @@ EndEnum
+ EndSysreg
+ 
+ Sysreg	ID_AA64DFR0_EL1	3	0	0	5	0
+-Enum	63:60	HPMN0
+-	0b0000	UNPREDICTABLE
+-	0b0001	DEF
++UnsignedEnum	63:60	HPMN0
++	0b0000	NI
++	0b0001	IMP
+ EndEnum
+ UnsignedEnum	59:56	ExtTrcBuff
+ 	0b0000	NI
+-- 
 2.49.0.1204.g71687c7c1d-goog
+
