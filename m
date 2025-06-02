@@ -1,84 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E33220F078;
-	Mon,  2 Jun 2025 11:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EBD213E69
+	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 13:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748865598; cv=none; b=m+etkz42HGBXRnaja5I7ldv1HfGhgOBw6FdvvUau6Tm9QFOI6OPpmlDFComGK1BPY3yusUfIv72jIctp/4JIft5DdwSCrIRCu41RPb8lI/vFyaEF2yIjeHjU84gff7lyWTOpaSAc8MdBSIxT1i1Yz/ToYcvE+cnhuD6V1L0ynbc=
+	t=1748870757; cv=none; b=o66NGM6/l8idOuhzB1V7jBx7ipKEoo4dxioocACQoH3cyn/xs1sOVtJu2nlrvR/NHBHst57kl38wnBp3s3Zu4VrHLcZhkHxbqyKtaw3B5IlLl+Y/Tw+zRTcwlyxFw4GkbXssTW9vm8N7EEUASDH52W9xTQrdqZjTB2Dwn+ntc1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748865598; c=relaxed/simple;
-	bh=7XYV3KkxV92L9ICtrPlZhbT2Bc4RXMJiRmkRccZBJ2c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ooy9rzYIBZqj6JEEPRLW5/SrXUO5uSy/DRezBL6/dGeooA8//HhK9ZT7zB3Qk0rc5qToDATHdiajYM52/u7/aqGwO/1O+r6Z+lhtsMMLaxC2EeD41u+uZOjPJPhc/zE0eGaOcBU55zYDbOx9KrPO/8GdhwMQm3uedYAJPD61gGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CB81C4CEEB;
-	Mon,  2 Jun 2025 11:59:55 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Oliver Hartkopp <socketcan@hartkopp.net>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Wolfgang Grandegger <wg@grandegger.com>,
-	Andrew Lunn <andrew@lunn.ch>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	linux-can@vger.kernel.org,
+	s=arc-20240116; t=1748870757; c=relaxed/simple;
+	bh=bfes8zZB5azdrucRkZ0R+StBkCNzaum0W5A5blaEZAE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rp/VRiC1e3b008VkoRpLnVjwFm42P6WiSwa05/PNe2KqUPODHB1QIfI1+nv67/rlWAtay7nKSsSJq+3A9WemgBkd3gdVonoBDPADr600YMBpvkhlJLXlY8XHXjBJ2hpPPmTvuKtxAO3al9nYJrcFTIN/iPpgCSvF7bV0amtAfNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MLpqBTkH; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MLpqBTkH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1748870753;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=badVlBQqQnqQ+WuvslSW3Ky30eTx0uVb3Tc6t4qkrJM=;
+	b=MLpqBTkHHjL9L6C1qDPr/gUILv31s45SmXHNsamJV104M5VM9YvXLLHN9Fwbq9AU7fWNdM
+	oVPJxIpthtc9yx0QiE3Ba1EKiDvwqRx3jlM7BWVxRKYI1KUVJ1D868ewTAcTgXoTDMNj5H
+	qRmOC0pJPNE8UShIGwsHjxJHizSwkng=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-618-7h5M09zkPwSRZFablYj2gw-1; Mon,
+ 02 Jun 2025 09:25:50 -0400
+X-MC-Unique: 7h5M09zkPwSRZFablYj2gw-1
+X-Mimecast-MFC-AGG-ID: 7h5M09zkPwSRZFablYj2gw_1748870746
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C5F3E1800366;
+	Mon,  2 Jun 2025 13:25:45 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.44.34.87])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B353818003FD;
+	Mon,  2 Jun 2025 13:25:36 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: linux-security-module@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-modules@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] documentation: networking: can: Document alloc_candev_mqs()
-Date: Mon,  2 Jun 2025 13:59:52 +0200
-Message-ID: <c0f9a706ba31f1a49eb72e58526cd294d97a1ce9.1748865431.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	keyrings@vger.kernel.org,
+	David Howells <dhowells@redhat.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Peter Jones <pjones@redhat.com>,
+	Robert Holmes <robeholmes@gmail.com>,
+	Jeremy Cline <jcline@redhat.com>,
+	Coiby Xu <coxu@redhat.com>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH RFC 0/1] module: Optionally use .platform keyring for signatures verification
+Date: Mon,  2 Jun 2025 15:25:34 +0200
+Message-ID: <20250602132535.897944-1-vkuznets@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Since the introduction of alloc_candev_mqs() and friends, there is no
-longer a need to allocate a generic network device and perform explicit
-CAN-specific setup.  Remove the code showing this setup, and document
-alloc_candev_mqs() instead.
+UEFI SecureBoot 'db' keys are currently not trusted for modules signatures
+verification. RedHat based downstream distros (RHEL, Fedora, ...) carry a
+patch changing that for many years (since 2019 at least). This RFC is an
+attempt to upstream it as the functionality seems to be generally useful.
 
-Fixes: 39549eef3587f1c1 ("can: CAN Network device driver and Netlink interface")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Fix RST rendering,
-  - Promote Fixes-tag.
----
- Documentation/networking/can.rst | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Previously, pre-boot keys (SecureBoot 'db', MOK) were not trusted within
+kernel at all. Things have changed since '.machine' keyring got introduced
+making MOK keys optionally trusted. Before that, there was a discussion to
+make .platform trusted by default:
+https://lore.kernel.org/lkml/1556116431-7129-1-git-send-email-robeholmes@gmail.com/
+which didn't go very far because the assumption was that this is only useful
+when the user has control over 'db'. I believe there's a fairly common
+use-case where this is true.
 
-diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
-index b018ce346392652b..bc1b585355f7ad99 100644
---- a/Documentation/networking/can.rst
-+++ b/Documentation/networking/can.rst
-@@ -1104,15 +1104,12 @@ for writing CAN network device driver are described below:
- General Settings
- ----------------
- 
--.. code-block:: C
--
--    dev->type  = ARPHRD_CAN; /* the netdevice hardware type */
--    dev->flags = IFF_NOARP;  /* CAN has no arp */
-+CAN network device drivers can use alloc_candev_mqs() and friends instead of
-+alloc_netdev_mqs(), to automatically take care of CAN-specific setup:
- 
--    dev->mtu = CAN_MTU; /* sizeof(struct can_frame) -> Classical CAN interface */
-+.. code-block:: C
- 
--    or alternative, when the controller supports CAN with flexible data rate:
--    dev->mtu = CANFD_MTU; /* sizeof(struct canfd_frame) -> CAN FD interface */
-+    dev = alloc_candev_mqs(...);
- 
- The struct can_frame or struct canfd_frame is the payload of each socket
- buffer (skbuff) in the protocol family PF_CAN.
+The use-case: virtualized and cloud infrastructure generally provide an
+ability to customize SecureBoot variables, in particular, it is possible
+to bring your own SecureBoot 'db'. This may come handy when a user wants to
+load a third party kernel module (self built or provided by a third party
+vendor) while still using a distro provided kernel. Generally, distro
+provided kernels sign modules with an ephemeral key and discard the private
+part during the build. While MOK can sometimes be used to sign something
+out-of-tree, it is a tedious process requiring either a manual intervention
+with shim or a 'certmule' 
+(see https://blogs.oracle.com/linux/post/the-machine-keyring). In contrast,
+the beauty of using SecureBoot 'db' in this scenario is that for public
+clouds and virtualized infrastructure it is normally a property of the OS
+image (or the whole infrastructure/host) and not an individual instance;
+this means that all instances created from the same template will have 'db'
+keys in '.platform' by default.
+
+The suggested approach is not to change the default, but to introduce a
+Kconfig variable (CONFIG_MODULE_SIG_PLATFORM) doing the job. Note, the 
+kernel already trusts '.platform' for kexec (see commit 278311e417be 
+("kexec, KEYS: Make use of platform keyring for signature verify"))
+and dm-verity (see commit 6fce1f40e951 ("dm verity: add support for
+signature verification with platform keyring")) so maybe changing the
+default or introducing a generic '.plarform is fully trusted' option
+would actually be better.
+
+Vitaly Kuznetsov (1):
+  module: Make use of platform keyring for module signature verify
+
+ Documentation/admin-guide/module-signing.rst |  6 ++++++
+ kernel/module/Kconfig                        | 11 +++++++++++
+ kernel/module/signing.c                      |  9 ++++++++-
+ security/integrity/Kconfig                   |  2 +-
+ 4 files changed, 26 insertions(+), 2 deletions(-)
+
 -- 
-2.43.0
+2.49.0
 
