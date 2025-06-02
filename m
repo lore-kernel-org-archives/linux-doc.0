@@ -1,108 +1,278 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FFA2C325F;
-	Mon,  2 Jun 2025 02:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C66136351
+	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 04:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748832570; cv=none; b=AyHB5+JWjE3aHvsfIch5Z9HI8qsBfWHiySTl/2rd2Z/8oa9RLhCOjnI8RbgVD7w6VTlxkxQmWrowhLTIEjTAWAcFumHdoEN3E5HPhNjLgrEBg39jgUj8ENVdvJVPjrzOSzPJXFqwIBaMeEKPjPGW2EyQBiB6vmTuCJXtXv49lGQ=
+	t=1748838759; cv=none; b=MjBI63KRaZP3BOV3Mo2gvLE6QORg0WkWUT/b1Jb4EB4Q+m3J6o35aHusF/0deN03uHLLGJvsjzj3ARFk5/I8ScWwoIlK7mlK0FDJqpOnxuxefm3QI2oRZts8/sAssBHezI/37JhrVRGCmonTJgETUc2siFutaPfaMikaOKQ4JTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748832570; c=relaxed/simple;
-	bh=7jtOMQnE4k7Ptb1rOSgSxx3tJE8kSt7sImdIjPXZZ0M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lKX+EY5H0jmAxNDv8/5SxAA2EnWC1hMlix8ngylj6dGKKbvBnR/bGnjBIXYthUI3UNuDMa5dLyDzJwnd2pxnAc6KWz7dpfg0xjdQ5CC/zuCNpAEEHg4Q1Inq57rtTbfmJONAIHZqiXbNf7ugSSaQj9091X4jn7LR/g0EZJLqDjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kJMUxVer; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1748838759; c=relaxed/simple;
+	bh=w+VxyWyeHmB8zTHz5vr1CBHLW/vpGjCdvW3zfnG5yck=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=DfStiMlFa37eJ45o1SA5HXUdiHYRHLCbOPUwDGd4CbockXkAFG/+4yqnu0ws1O3h/sov/JWr7tG8IA2rUlWdG6hr6MfJUDfvQPQ7PsnRq9wacpc7Wvm/100t5y9eLtMMdnm9T3/kWsu9jCI3Vr9z+euNQ8CL7J+nn2A9da9oRng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=RFggX+ag; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kJMUxVer"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=sR0r0ubGCSVcvnMxMB6zdK1pyNoMsW+qrdvloib0VMg=; b=kJMUxVerQGn+6t5BoPSzjjZvEx
-	Fa7l6xpdBugk/YctOzx7zaQNuEF4ZCNKps52crZm74CcduywrKbtVeBfHDpRo+Xy97seLQQcAa7FR
-	/dclnz5OUJUEFoPalXRyYLPAr5MCIbn/c6ZYb8AtfeDq7nQG+Md/xueBwcWKPxaCGv0uTGNYBBpI5
-	ffVI130IUIMQcG57r12rwhbsTxe4oCJDkR2eiHq8ZetMO6dIkxd+DC+ySBseCbh0nt2TTwV5evDLV
-	gHbLg8YSytYJ3DLfV0mESmJ0PGdu8ibWY8S3VpjfGi3A5HyIW968xEKz1/mnetsLKCZvP23reAe/n
-	D6+sNOqA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uLvEc-00000000Zzi-3ovo;
-	Mon, 02 Jun 2025 02:49:19 +0000
-Message-ID: <6459566b-bf9f-4e07-9290-41853cdee9ec@infradead.org>
-Date: Sun, 1 Jun 2025 19:49:08 -0700
+	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="RFggX+ag"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-74267c68c11so2880030b3a.0
+        for <linux-doc@vger.kernel.org>; Sun, 01 Jun 2025 21:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=inventec.com; s=google; t=1748838756; x=1749443556; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lQuGO6g/SZ9oMjTCL2qfCUD/gDCphaWVpxx22x3N+gg=;
+        b=RFggX+ag/MJBDGrDzfhH4QSiafrK4uPyc7X9vLwzDMPMf00iZiGjtM29CNN1K9dm/5
+         kCmH/4NY2Jm9IL9aG44X4Ug/aVsoikqN8g7O9ADcodLqwfXUBImqUSaZX13FLdRjjtUw
+         Xp6Dic/xniOiwhYR8rcncxfOUXbD/qd3b3p55QBY8OhjQrSvWAgdJNRBkAiA4dYAd7lK
+         XWkvZfuwwCm72la0fzM8HxKH2nMrRasvTXyled98I7M7WeVOI4LJjwNA/pTKDJZyEgyV
+         JXd4YJ6a/dfuGuk5MqsHZtvrNd37srtkIqmmFa+4PS8pTEts5aw4FkjAqLUnCMvqHpOJ
+         WZ/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748838756; x=1749443556;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lQuGO6g/SZ9oMjTCL2qfCUD/gDCphaWVpxx22x3N+gg=;
+        b=himAiFCjkcZHCdUBjklSDdiBlNSy4mUuFwCUPMve2/2pr/7pWc1SG9FrDj6JssW6bX
+         yINeq1fWHGQwW6291npIFQd3t2r93toQCvDfsg69e6E9HMStOWipy8DC5y3p8VgyJzXu
+         izG5IfBkWC3bZGe27G2UdhSYCYXp4xbASXZw6xEPahxO6Nw6/YdxwJsu2cP5eDKzsGlS
+         WYzw4V7nKK39z8BbIli0wNs1VIEJkXSEpRK9X0ov6oVkGGxSlTbBXsHzWJhjHZryqCUi
+         Z7iCbFbTUdDjQ/giSoZ+BYrLyeDUFm/DHQgCz0YBFeB+hd9Il1RkzXksjjZalxBVnpYX
+         7SGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUWJg5ZbpgTZgzdssbMv6pbfMVmvAOWhUmRrPV1h0IqCpPBQPomwwEIsANDlUH6cBbZVIfE8eKlOEs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpwJOFTdlPJtE/0HxgcNH+5dU+1HuoAHnMvSQ2NacFCaiH1Pna
+	SGdn3OWKn3+Ano6jsKYC6Zb/QSmlhF9ZY09Ihup9QvAPQ+vXSENUXccZRWGfkcInIYQ=
+X-Gm-Gg: ASbGncsVvUeARo1gejeQ7ktwx/rsa5VGmvSGJ//93HaWnLrgMQVE8pY2rOdVyxxjgxr
+	Hni0K33UhHy0e8JGrpqhnwtZVcQHSGpwxB7KgF3NEEZdN+A9fCZhUgA8oBFthGGBTbRDZ3OzsYH
+	ouGhEwtYpSGJDu5Yg3kblS9Kpjmg8ltMdMU5ninDm/4BnA23rEWX2Jcp4VLDxpdwTcED89FrX0v
+	Rru/xQFwkBprPi4qMvv8fcmpPnI30pc69scUUmDidIf0aWQ2uNha5gx//C+q+AzZlBHz9+EVi/2
+	i1UvhKhtjYedj73ErAkco318COGzp1rw4K40UbDtG8IhkyMhxxeneI+xOKABZ0H4LHkgjKqC
+X-Google-Smtp-Source: AGHT+IFauMN+Ap2bprtM63mZt0PiRavzePopZZVUp5jvD/1smKCB7wVL6nZ3R9oRF663nQCkly61lA==
+X-Received: by 2002:a05:6a21:a346:b0:1f5:535c:82dc with SMTP id adf61e73a8af0-21ae00d4b56mr15459767637.42.1748838755652;
+        Sun, 01 Jun 2025 21:32:35 -0700 (PDT)
+Received: from localhost.localdomain ([123.51.235.216])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747afeab743sm6887118b3a.54.2025.06.01.21.32.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Jun 2025 21:32:35 -0700 (PDT)
+From: Chiang Brian <chiang.brian@inventec.com>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>
+Cc: Chiang Brian <chiang.brian@inventec.com>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v8 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+Date: Mon,  2 Jun 2025 12:24:54 +0800
+Message-Id: <20250602042454.184643-3-chiang.brian@inventec.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250602042454.184643-1-chiang.brian@inventec.com>
+References: <20250602042454.184643-1-chiang.brian@inventec.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Add a source tree map overview
-To: Bagas Sanjaya <bagasdotme@gmail.com>, William Raezer <wraezer@gmail.com>,
- linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net
-References: <CAKg96b=n1pZi4FUBqe+puUJo9ndRfU8npvo9w6fE6Enshe73Hg@mail.gmail.com>
- <f882f6d9-c914-48af-97b7-0aad6d995819@infradead.org>
- <aDz92QNc3ZSVkdx3@archie.me>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aDz92QNc3ZSVkdx3@archie.me>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+The TPS53685 is a fully AMD SVI3 compliant step down
+controller with trans-inductor voltage regulator
+(TLVR) topology support, dual channels, built-in
+non-volatile memory (NVM), PMBus interface, and
+full compatible with TI NexFET smart power
+stages.
+Add support for it to the tps53679 driver.
 
+Signed-off-by: Chiang Brian <chiang.brian@inventec.com>
+---
+v7 -> v8:
+	1. Convert the type of device_id in tps53679_identify_multiphase()
+	   from int to char *
+	2. Run make.cross with ARCH i386
+	- Link to v7: https://lore.kernel.org/all/20250515081449.1433772-3-chiang.brian@inventec.com/
 
-On 6/1/25 6:26 PM, Bagas Sanjaya wrote:
-> On Sun, Jun 01, 2025 at 09:50:14AM -0700, Randy Dunlap wrote:
->> Hi,
->>
->> On 6/1/25 9:22 AM, William Raezer wrote:
->>> Hello,
->>>
->>
->> Please wrap email lines at around 72-75 characters each.
->>
->>> My name is William Raezer, and this is my first contribution to the Linux kernel. I'm submitting a simple but hopefully helpful addition: a high-level map of the Linux kernel source tree as a new document in `Documentation/source-map.rst`.
->>
->> This looks somewhat useful, although I was expecting more of a graphic presentation
->> of the tree structure. But that would cause trouble with the role of each subdirectory.
->> (and one can always use `tree` for that)
-> 
-> I was expecting tree output either.
-> 
->>
->>> As someone beginning to explore the internals of the Linux kernel, I noticed that while there is some documentation available that describes the subsystems in principle, there's no centralized overview of the source tree structure itself. This patch adds a basic source map that describes the role of each top-level directory in the kernel source.
->>>
->>> The goal is to assist both myself and others in navigating the codebase, especially new contributors who may be overwhelmed by the kernel's size and complexity. As a follow-up, I plan to add subsystem-level maps for key directories such as `kernel/`, `mm/`, and `fs/`.
->>>
->>> I hope this addition is seen as a positive and useful step, and I’m open to feedback or suggestions to improve it.
->>
->> Patches should generally be inline as email text, not as attachments.
->> This is up to the maintainer to decide about...
->> and gmail is not good as maintaining whitespace in emails.
->> (I don't see any whitespace problems in the current patch.)
-> 
-> tl;dr: see Documentation/process/submitting-patches.rst.
-> 
->>
->> I get a warning when building with this patch applied:
->>
->> Documentation/source-map.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> 
-> make htmldocs.
-> 
->>
->> Also, when I look at source-map.html with a web browser, no parts of
->> the source-map are shown. (tested with multiple browsers)
+v6 -> v7:
+	1. Modify the type of device_id from u16 to char *
+	2. Run make.cross with ARCH nios2, powerpc, and riscv
+	- Link to v6: https://lore.kernel.org/all/20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com/
 
-No, I mean that what I see is mostly a blank/empty page.
-Other that the sidebar, it only contains this line:
+v5 -> v6:
+	1. Add information about tps53685 into tps53679.rst
+	2. Add additional flags when identifing the chip as tps53685
+	3. Adjust length once returned device id is terminated by null character
+	- Link to v5: https://lore.kernel.org/all/20250314033040.3190642-1-chiang.brian@inventec.com/
 
-©The kernel development community. | Powered by Sphinx 8.2.3 & Alabaster 1.0.0 | Page source
+v4 -> v5: 
+	1. document the compatible of tps53685 into dt-bindings
+	2. add the buffer length as argument for %*ph
+	3. Add Changelog
+	- Link to v4: https://lore.kernel.org/all/CAJCfHmW61d2jd_tYpNEqBG_Z58bEnVKAmsvhrEP1zXQoXqrUVw@mail.gmail.com/
 
+v3 -> v4: 
+	1. Add length comparison into the comparison of "id",or it may be true when 
+	   the substring of "id" matches device id. 
+	2. Restore `return 0;` in `tps53679_identify_chip()`
+	- Link to v3: https://lore.kernel.org/all/CAJCfHmVyaDPh0_ThPjhBP0zMO1oE1AR=4=Zsa0cMPXU3J4v6dw@mail.gmail.com/
 
+v2 -> v3:
+	1. Remove the length comparsion in the comparison of "id".
+	- Link to v2: https://lore.kernel.org/all/CAJCfHmUteFM+nUZWBWvmwFjALg1QUL5r+=syU1HmYTL1ewQWqA@mail.gmail.com/
+
+v1 -> v2: 
+	1. Modify subject and description to meet requirements
+	2. Add "tps53685" into enum chips with numeric order
+	3. Modify the content of marco "TPS53681_DEVICE_ID" from 0x81 to "\x81"
+	   Add marco "TPS53685_DEVICE_ID" with content "TIShP"
+	4. Modify the type of "id" from u16 to char* in `tps53679_identify_chip()`
+	5. Modify the comparison of "id". It will be true if the string "id" matches 
+	   device ID and compare with type char*,
+	6. Add the length comparsion into the comparison of "id".
+	7. Modify "len" as return code in `tps53679_identify_chip()`
+	8. Output device error log with %*ph, instead of 0x%x\n" 
+	9. Use existing tps53679_identify_multiphase() with argument 
+	   "TPS53685_DEVICE_ID" in tps53685_identify() rather than creating one
+	   tps53685_identify_multiphase()
+	- Link to v1: https://lore.kernel.org/all/CAJCfHmVy3O4-nz2_PKF7TcXYr+HqTte1-bdUWLBmV7JOS7He1g@mail.gmail.com/
+
+ Documentation/hwmon/tps53679.rst |  8 +++++++
+ drivers/hwmon/pmbus/tps53679.c   | 37 ++++++++++++++++++++++++++------
+ 2 files changed, 39 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/hwmon/tps53679.rst b/Documentation/hwmon/tps53679.rst
+index 3b9561648c24..dd5e4a37375d 100644
+--- a/Documentation/hwmon/tps53679.rst
++++ b/Documentation/hwmon/tps53679.rst
+@@ -43,6 +43,14 @@ Supported chips:
+ 
+     Datasheet: https://www.ti.com/lit/gpn/TPS53681
+ 
++  * Texas Instruments TPS53685
++
++    Prefix: 'tps53685'
++
++    Addresses scanned: -
++
++    Datasheet: https://www.ti.com/lit/gpn/TPS53685
++
+   * Texas Instruments TPS53688
+ 
+     Prefix: 'tps53688'
+diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53679.c
+index 63524dff5e75..7ef0c730e2fe 100644
+--- a/drivers/hwmon/pmbus/tps53679.c
++++ b/drivers/hwmon/pmbus/tps53679.c
+@@ -16,7 +16,7 @@
+ #include "pmbus.h"
+ 
+ enum chips {
+-	tps53647, tps53667, tps53676, tps53679, tps53681, tps53688
++	tps53647, tps53667, tps53676, tps53679, tps53681, tps53685, tps53688
+ };
+ 
+ #define TPS53647_PAGE_NUM		1
+@@ -31,7 +31,8 @@ enum chips {
+ #define TPS53679_PROT_VR13_5MV		0x07 /* VR13.0 mode, 5-mV DAC */
+ #define TPS53679_PAGE_NUM		2
+ 
+-#define TPS53681_DEVICE_ID		0x81
++#define TPS53681_DEVICE_ID     "\x81"
++#define TPS53685_DEVICE_ID     "TIShP"
+ 
+ #define TPS53681_PMBUS_REVISION		0x33
+ 
+@@ -86,10 +87,12 @@ static int tps53679_identify_phases(struct i2c_client *client,
+ }
+ 
+ static int tps53679_identify_chip(struct i2c_client *client,
+-				  u8 revision, u16 id)
++				  u8 revision, char *id)
+ {
+ 	u8 buf[I2C_SMBUS_BLOCK_MAX];
+ 	int ret;
++	int buf_len;
++	int id_len;
+ 
+ 	ret = pmbus_read_byte_data(client, 0, PMBUS_REVISION);
+ 	if (ret < 0)
+@@ -102,8 +105,14 @@ static int tps53679_identify_chip(struct i2c_client *client,
+ 	ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
+ 	if (ret < 0)
+ 		return ret;
+-	if (ret != 1 || buf[0] != id) {
+-		dev_err(&client->dev, "Unexpected device ID 0x%x\n", buf[0]);
++
++	/* Adjust length if null terminator if present */
++	buf_len = (buf[ret - 1] != '\x00' ? ret : ret - 1);
++
++	id_len = strlen(id);
++
++	if (buf_len != id_len || strncmp(id, buf, id_len)) {
++		dev_err(&client->dev, "Unexpected device ID: %*ph\n", ret, buf);
+ 		return -ENODEV;
+ 	}
+ 	return 0;
+@@ -117,7 +126,7 @@ static int tps53679_identify_chip(struct i2c_client *client,
+  */
+ static int tps53679_identify_multiphase(struct i2c_client *client,
+ 					struct pmbus_driver_info *info,
+-					int pmbus_rev, int device_id)
++					int pmbus_rev, char *device_id)
+ {
+ 	int ret;
+ 
+@@ -138,6 +147,16 @@ static int tps53679_identify(struct i2c_client *client,
+ 	return tps53679_identify_mode(client, info);
+ }
+ 
++static int tps53685_identify(struct i2c_client *client,
++				 struct pmbus_driver_info *info)
++{
++	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
++			 PMBUS_HAVE_STATUS_INPUT;
++	info->format[PSC_VOLTAGE_OUT] = linear;
++	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
++					   TPS53685_DEVICE_ID);
++}
++
+ static int tps53681_identify(struct i2c_client *client,
+ 			     struct pmbus_driver_info *info)
+ {
+@@ -263,6 +282,10 @@ static int tps53679_probe(struct i2c_client *client)
+ 		info->identify = tps53681_identify;
+ 		info->read_word_data = tps53681_read_word_data;
+ 		break;
++	case tps53685:
++	    info->pages = TPS53679_PAGE_NUM;
++	    info->identify = tps53685_identify;
++		break;
+ 	default:
+ 		return -ENODEV;
+ 	}
+@@ -277,6 +300,7 @@ static const struct i2c_device_id tps53679_id[] = {
+ 	{"tps53676", tps53676},
+ 	{"tps53679", tps53679},
+ 	{"tps53681", tps53681},
++	{"tps53685", tps53685},
+ 	{"tps53688", tps53688},
+ 	{}
+ };
+@@ -289,6 +313,7 @@ static const struct of_device_id __maybe_unused tps53679_of_match[] = {
+ 	{.compatible = "ti,tps53676", .data = (void *)tps53676},
+ 	{.compatible = "ti,tps53679", .data = (void *)tps53679},
+ 	{.compatible = "ti,tps53681", .data = (void *)tps53681},
++	{.compatible = "ti,tps53685", .data = (void *)tps53685},
+ 	{.compatible = "ti,tps53688", .data = (void *)tps53688},
+ 	{}
+ };
 -- 
-~Randy
+2.43.0
 
