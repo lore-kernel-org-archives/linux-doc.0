@@ -1,115 +1,119 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793EE28C2CA
-	for <linux-doc@vger.kernel.org>; Sun,  1 Jun 2025 23:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D8F13CA9C;
+	Mon,  2 Jun 2025 01:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748820651; cv=none; b=PHAOS9hpdzXBdBfMsglAxTPHajMbaqvdI0nEahgMLYbELvIdDWhvsZ2gzRY8OQZoLtHtuGrXjniA0RwTcHHXSOqDYNDoZQLMXlUcJHDpZxWmnreFN9Amrlgp7acxQGxFRaxzhdtm1WOXJz8EcQU9FrBT3PC6Ygv5UoeHamVRmfU=
+	t=1748826465; cv=none; b=nkwkMQS8ZGm3IZky/+KiPqCf+UqaZ2miLfzXaarsuRGktBOnZaAsZPOEH8hWftgULXafFqb/+lwBIdyEJUNclIKivK0oKPr89CNYFqluCNOQwhugmBp4npn2zlhm6hbuD9UrzTAWXxnTZ5mM/fQDkcNrKZ6yzs/Y1gfbCh0Ece4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748820651; c=relaxed/simple;
-	bh=SSGlRVBX7Ip3ay6aSI5KJLngtv0nEq6HZf42gbzA32M=;
+	s=arc-20240116; t=1748826465; c=relaxed/simple;
+	bh=ohT+GGMz1TapD7ECEIgLcHGsU3rXUF8SnYQeTpXonL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZO5gbEtmPGXzaWjcF633qNK+Ipn1t3eONMlz3SDZCst3vNUkbh98KYxB53RQX9IuaMdCzSb1yfE90JKy+vbQKGO/sFbSjgEI48XtK/iTbGaLqr+n/Nxciwszat8twKaBZB84IhHWXu/1EVYekwmHqwj1TsNd80fXvICo7qMeUOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ALjex9gR; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=l8SwaAu3/YIYmBOz2tu8QU2agsep7pzyyzkNO+XwKp1YK8oLhcfkLkzOkWfykojVSFG06rjIh6cHbTvOReomGSg+mahi3EOoXphqmWe4vV7gQQ4NZp0OCrKVPEF8ay2rRf/sC2yslI5iaTPwM0oFcdQCdFtnfwyph1eHIP+kF2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WxwJOY9D; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ALjex9gR"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4a44b3526e6so29767491cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 01 Jun 2025 16:30:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WxwJOY9D"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2349282084bso47024765ad.1;
+        Sun, 01 Jun 2025 18:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1748820647; x=1749425447; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1748826463; x=1749431263; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z3ahtq5iYBzerYLsn2L4RRjLdCR+uk5v7bMh9egaPjI=;
-        b=ALjex9gRMTmQ50it4soOyvAbAxZmVhMqeTenLVUSlJgmgg2i436msWqW7NPxB+PcGz
-         8E71fLpVjbn7fnG32k8Cd33Im37uQienEuVV5aZKfwwRJH/g2N4N0WSPUcHv/YJVB7Me
-         vUCq1fJJRACnOIOO82ys7g6agTDGMGelgnXRZMkBRCPcyTJgNNyyNPL4QORouDo0bsWf
-         LuiaONA3E5+LirJ8+frAHn94QnCaeSXPMS6UcWmmIxfgNPZMKmu1tTd1z2XgaaH2ZLfK
-         s+wdNie7dcETYVAw3m7HcYLpI70eH6OKE/gT4ftKWRzPf9MJRXa9tWRLAiVM0w8zarNq
-         p++Q==
+        bh=ohT+GGMz1TapD7ECEIgLcHGsU3rXUF8SnYQeTpXonL0=;
+        b=WxwJOY9DYVhNakjzi5DUTdDsUYZRW3ahgqVNtYdWg2cnUQRoQHxrY0i21/kn4Zg/HQ
+         0YRsW9qU0Q/yZTT1z9vuNsxMP1gpyKULbGCBs6+Cku4hQ0bGJ8KbNziqPMsTprPoIm7X
+         i4H+BRr4E4s3ENDPYZFNRc0piLphOLFBwEU0DpX6x0RgVE+cjoWkspw/K2mWtbLAozMC
+         XFXclSnzoZoD2sRy9qd0/z/sgKNKX+b5NtRIfQgXgg/d/9ilHmxejyWBAnsrdKvXQMe4
+         ag7voGeDT0seGl+e5xgJCJz2bUn7XzSGWLDQ2qkywHvflBDJiuKZZCm+bOJIbJSljsby
+         mXDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748820647; x=1749425447;
+        d=1e100.net; s=20230601; t=1748826463; x=1749431263;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z3ahtq5iYBzerYLsn2L4RRjLdCR+uk5v7bMh9egaPjI=;
-        b=fW5cH6X6HzS82WXzIEHV/g3C4xTE8SY/GYNttFygJqJDERpXP3tu/ldVGWj6daESRQ
-         X0KSuKgtvmJZuOOQx4KG49xK/4kSkxouU/rSuQzTDAf0NoAp8v3TOHbjzKqysC71Gt4p
-         sgjFl3m9LPyhLajgdpEkVvv4a7va8toKd7WjkvcuRl29j0QDUQlWNDZvHVVqs2lvuzxW
-         lja6wl5t8501IVr/8iJLlJar/0AOXzeWPsVN4lAQerE8fKATNsn9QdaFROxKtdPaBBzF
-         lIkkjt0BAaNuB3PbwePK7cof+orDrgtBaEXTnqlWvFQVwR5fMTUQZ8FXEUHftuGRV/lV
-         PDkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX/sX8X3a4JcqQujSJWbIlndTpUrdPB2DajLcZ3tV3SwrgM/ZWBy3bbB4nKN3jYbPgBTYolU2sDGIs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfPlnLKjfg0Lw/QqHqKlsyVKISjUUl4+mzoldBOF7yCisb42r5
-	tU9cKaD78QbkaOJsKiz2KCoMdgLJIGW9q5tCUD6QPRYt9WdcvMfTw7lYxIDRSvuYteQ=
-X-Gm-Gg: ASbGncvfkxFdPUbiLX4+yHiZc2ziyRw+INmJEj4SR9lmhG8102jxFFBnFUyivvnXieE
-	vSoPWzdPReul+QCcXbo0E7731K7a6X3escJ3Lnsl7UttU1TI5A5aySQplQHdtppowMmq+iBirar
-	Ft3nhiXqli+hQzg8ky0DTkfDxYwIMyD/7KeFr7O6jNlBNGGxNED1HIlDpUdq+MW2h/H721odcFd
-	kI0gL0ITN9D1sGObC7mkWyD7Kmfn9p2as3lNyqZrb4PfNG+dN93rev5E3mQa9pkwbwMVtGRKkJB
-	dcHsd8XuPRBoQ0pn7g0Cr6ZvrKftz11HdbmiRKTtNMLcg3wuhY8CF0NuRPb7nOkhJwyGgmEsjcr
-	dZIk6gQuGmwyQneRvEkcSNuWQqy8Shmg=
-X-Google-Smtp-Source: AGHT+IHAt46IPZ2ZNZ13vLsgj7LdizYMg33TCIokRzOtUXTMz4rVh+t4qoD51lnIbRNNJhpIDOFVlg==
-X-Received: by 2002:a05:620a:1a93:b0:7c5:49b7:237c with SMTP id af79cd13be357-7d0a1fb77c1mr1867411185a.27.1748820647265;
-        Sun, 01 Jun 2025 16:30:47 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-42.washdc.ftas.verizon.net. [96.255.20.42])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fac6e00cebsm52506366d6.73.2025.06.01.16.30.45
+        bh=ohT+GGMz1TapD7ECEIgLcHGsU3rXUF8SnYQeTpXonL0=;
+        b=jv3VjWJC9wj1V13stG8G7Fzb84WSQPQSJ3TWkrKy2PSXG7uRSyXtzRfG47TV6KopSt
+         weUMkm1hi2s1crumGu//nKi46bz3NaTp6THWr/QpMeqCAHEMNiaLUPjrSxyhsBjYNdcF
+         eQFjAryXdT5SDcEy5BAUQkH+YRcur3ss5q0yxkHQuqZ93ZYdPBTZEqt5rFad/pyAoMs2
+         +pDuQBLI0SGZY/WOqXjWyR0SEEJxypFBmwjUtwou7bKWPHbXvsrBHHv88Fiuq6bPlA84
+         BHMsJaa/qYccUyCEPREUsviqmEpQdTHye8nYz8gKk9xQjuPpWQ/B/YCqjCWMUVPS8Elb
+         4aMA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2LugHtN1rmFWp6xcr2ZDXd+er/exp81hhV5gt9/m++saxv9zf8lzd0C4UPEgF308ixDJTndCxFbfRjkKZ@vger.kernel.org, AJvYcCW3jHAkGRRZMHG9cDRIH3Tc2AG46umy+jYScrCoVNqkzwwQn7ga01f10sBeyrWSVyZiNCzIeJ4GNfw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfA2rgJ5RmJ0KQFqF1yqi36uzCZJRlafnnkx/p21BqDyoZIgVy
+	1TrySIg4qmzf14bZitILcBUpUcshxfi1lBHd1fC7EMYH9wKXrPE9ClX6
+X-Gm-Gg: ASbGncvl5u0xitdLEv/8KS+ZUyGmTJkXZ3JKN9RVibvOPntJytRz6bFlGbNyb2QcUjk
+	zVoZSaDCBem+CJ+aHURcKUZVzGmAsaGXfXa16Q2V/6BQpgduwIZKxtQeP/cVjeKupomb8oTigAE
+	z7Ecs1p8M8StGakvPOiYkbuir/rPK+uAZOI52QiyKW22zgGmh9sqyCQQZktqYl3JuXDTQYhgQcG
+	9oI4KioVKnEUF6vkpnL7jfMWhdnWc5rrhHxnFMhPNHVYKk81OU40KWZRX0OfqLeYRGVZumSlWD5
+	xwnf5Q6xWKZVWg6eLBzsGbuJemKkw3q+DV9ZUF7JTWDDtqimagL9V/QVDve/9Q==
+X-Google-Smtp-Source: AGHT+IEjcp+TFNi40fMezUTKqju1rC7O1wGOvROVpKCXLAjmQii9+AcqfRSncpoIjxoSeSHhPr0igA==
+X-Received: by 2002:a17:902:dac5:b0:232:11e7:47c4 with SMTP id d9443c01a7336-23528ef788amr181382675ad.15.1748826463017;
+        Sun, 01 Jun 2025 18:07:43 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506cf5078sm60351535ad.172.2025.06.01.18.07.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 16:30:46 -0700 (PDT)
-Date: Sun, 1 Jun 2025 19:30:44 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Alok Tiwari <alok.a.tiwari@oracle.com>
-Cc: dave@stgolabs.net, jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	ira.weiny@intel.com, dan.j.williams@intel.com, corbet@lwn.net,
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, darren.kenny@oracle.com
-Subject: Re: [PATCH] Documentation: cxl: fix typos and improve clarity in
- memory-devices.rst
-Message-ID: <aDzipGmldaeje43H@gourry-fedora-PF4VCD3F>
-References: <20250531075209.3334261-1-alok.a.tiwari@oracle.com>
+        Sun, 01 Jun 2025 18:07:41 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 1DDA14209E8C; Mon, 02 Jun 2025 08:07:39 +0700 (WIB)
+Date: Mon, 2 Jun 2025 08:07:38 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Lothar Rubusch <l.rubusch@gmail.com>, jic23@kernel.org,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
+	Michael.Hennerich@analog.com
+Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 00/11] iio: accel: adxl313: add power-save on
+ activity/inactivity
+Message-ID: <aDz5WoBFlLiRptza@archie.me>
+References: <20250601172139.59156-1-l.rubusch@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="31vk9IEADAFheqEJ"
 Content-Disposition: inline
-In-Reply-To: <20250531075209.3334261-1-alok.a.tiwari@oracle.com>
+In-Reply-To: <20250601172139.59156-1-l.rubusch@gmail.com>
 
-On Sat, May 31, 2025 at 12:51:58AM -0700, Alok Tiwari wrote:
-> This patch corrects several typographical issues and improves phrasing
-> in memory-devices.rst:
-> 
-> - Fixes duplicate word ("1 one") and adjusts phrasing for clarity.
-> - Adds missing hyphen in "on-device".
-> - Corrects "a give memory device" to "a given memory device".
-> - fix singular/plural "decoder resource" -> "decoder resources".
-> - Clarifies "spans to Host Bridges" -> "spans two Host Bridges".
-> 
-> These changes improve readability and accuracy of the documentation.
-> 
-> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> ---
->  Documentation/driver-api/cxl/memory-devices.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/cxl/memory-devices.rst b/Documentation/driver-api/cxl/memory-devices.rst
-> index d732c42526df..e9e2952a967d 100644
-> --- a/Documentation/driver-api/cxl/memory-devices.rst
-> +++ b/Documentation/driver-api/cxl/memory-devices.rst
-> @@ -29,8 +29,8 @@ Platform firmware enumerates a menu of interleave options at the "CXL root port"
->  (Linux term for the top of the CXL decode topology). From there, PCIe topology
->  dictates which endpoints can participate in which Host Bridge decode regimes.
->  Each PCIe Switch in the path between the root and an endpoint introduces a point
-> -at which the interleave can be split. For example platform firmware may say at a
-> -given range only decodes to 1 one Host Bridge, but that Host Bridge may in turn
-> +at which the interleave can be split. For example, platform firmware may say at a
-                                                                                ^^^^
-If you wouldn't mind, can you also change:                           "at a"  - >  "a"
 
-Otherwise
+--31vk9IEADAFheqEJ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
+On Sun, Jun 01, 2025 at 05:21:28PM +0000, Lothar Rubusch wrote:
+> The patch set covers the following topics:
+> - add debug register and regmap cache
+> - prepare iio channel scan_type and scan_index
+> - prepare interrupt handling
+> - implement fifo with watermark
+> - add activity/inactivity together with auto-sleep with link bit
+> - add ac coupled activity/inactivity, integrate with auto-sleep and link =
+bit
+> - documentation
+
+The series doesn't cleanly apply on iio/testing tree. Base commit or tree?
+
+Confused...
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--31vk9IEADAFheqEJ
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaDz5UQAKCRD2uYlJVVFO
+o/w1AQCca8OXieBI2mq949WMX1G6UYZrshC0wL+gUVVpLZEdnwD/R68/W8h8RNlW
+bPodldVoo0JYWzXwHqUwbc/431WkdwE=
+=j6wZ
+-----END PGP SIGNATURE-----
+
+--31vk9IEADAFheqEJ--
