@@ -1,270 +1,177 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC2413AD26
-	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 08:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9FA13AD26;
+	Mon,  2 Jun 2025 09:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748854022; cv=none; b=Yg+Fk49ydSBG51JP/qA97Dp5KucjAneXz5kYRZW+fLpVD3+NacPp+/RreInESg0NYPxbrmsUQrDcOnZP8C1hZz6CsTIyDDaO2BVqG414eXPSXFRYqTA1GCABox2O4eqy7DEcR9aCLsgWpryVre00uZElU7nr55bklL47CATWCOE=
+	t=1748855874; cv=none; b=aCWH5ssDQtF4tEpazmlQVKlyjsgkhkLLfYbeWjixW166FQTjdWXo/Zc/UV+eWDei1fRcC1EOBswBqp4vWgkZqyaM9fEH+zBuYqFTGyLzEOQQOPsRmDX+1sbrfxCIVQATj1/5P9dBxflAKoeK6Z4BIPC62v2shq0iE26p0Rk6Hl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748854022; c=relaxed/simple;
-	bh=iJrAihL/RgBxM2ZPldjvDzI2rikYfnSDzyeJPUtN1AI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Xy7mBzK5kH3Nb09d4thumXCLOScq1/oby0l6Oiofg1mnMBoFofYCrLV9sZnM7bWt41QyxJhYhMrX1Nk+84UWp5sMqSpi/4fQpi1tuZ/B6Qw5xGW5UHmuTmJstAgbhCIjXUeA2SEqsFbWOVOIms7Q6fbHtMbGCsu5mpzYcHNmoAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pEuYWjGp; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1748855874; c=relaxed/simple;
+	bh=p3pVK36eYaUHcAq2nEti5IMb/UfHDM06YJHUt5S2oMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s1DaDyzYNlmzMRoE3di0oHzQOqB/pp8f6DXhxRvqgr6reixJLtO4M6OeEcoUyZmUYjzxGpiAZtQRwgd4STDb/ub4objMP1s6+QMLvzYEomBUQ3McxnxVGbmCgnUvvo0r4QYElnI2iZUL4c0QhWWKiMjYTQJlIhz94aJ0mQoRvLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OO1sMt5+; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pEuYWjGp"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a3798794d3so3519839f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Jun 2025 01:46:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OO1sMt5+"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-86d5e3ddb66so1042782241.2;
+        Mon, 02 Jun 2025 02:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748854018; x=1749458818; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3Uwdw45l2Wd3lmVq2PlME1vCAv/hhN+/r6aBXk6kpsw=;
-        b=pEuYWjGpp8BFk1hV4GWY0bt6wCjyPVwFumeAwFez/+4YhthK50HAtdHcTSoI9jDifZ
-         9cIzG/iz2g/z18QmDa14I2zNimw+wlLObsrg+bYh/mL9zBFmFDacuwRisRZOyR2v5vK/
-         nMXI+USKLBa0THVYhB/BweySk60LvgK23bhUbHQEn8G4lxRCqFAgBqwI6vb3z338W16z
-         an1JzImsuu2bHdZdP2w+LdT4nAojKPktgmK4OnobZchjrxpv5YRrepRIT88A0GIh5i6y
-         GTIeqHnPRQ5GrUyxsdVWqrzilcN362kPPA3h8MfflDdDrwvxkj16UkDehu18DdG523/Z
-         Ql6Q==
+        d=gmail.com; s=20230601; t=1748855871; x=1749460671; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Foak5GJOvF2qzw/Sdnn9z8LtJHh30NXj00gMeZswR34=;
+        b=OO1sMt5+I2h3AYiNYbJd772JHwWQWzY9TxEK6BfpcXOjIozsVWzEgBl+F6szcZVWiU
+         H6DKg4IK8CkBcnxPgQu7ulL3UgN/oL2lX+WRdvTZUVuKYRSOJh3tlD+O6Oe4O9du0z0j
+         ifbcuLy5baGDXPex9PObchSUdopzbiOIhFVNy0qqIwwJUzjeA28OqbXkGuEfXAM+Aev8
+         2B8kKOxEx1+K7XAS/JUyK1gwLcSfU8CnIaVvZ3sKJgezBfxA/Zzyx5bavO36/BWavMKY
+         hsVh5/tIn/T5MN3Btp9AnUFpOAy9GMJ3miDz7cc2MiG/Ak3LWla4SvxXw7VX/e8QRm+X
+         lXIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748854018; x=1749458818;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Uwdw45l2Wd3lmVq2PlME1vCAv/hhN+/r6aBXk6kpsw=;
-        b=r3md5+EgELVZ4C9jOsBka9MNQb/yxMHODyfbEFucqC+s0eAVC9qeemXs7iAqHUGVwq
-         Xm7IA5xzY3kevrRXt1seGXoQoM74C8vAW7GTj+mIYvx717rs4MIVQq0ry0bsmOLfUjmc
-         jx0TLN4zZ820qkOnDlOVzyO+XagPEYOKLqnKSZvyiKNdkb3ZqPXThr3j4j6PuVpL4StK
-         PP0QbdZBJLQK/EynaieksV9gyQUs+vmtW3iHIdYy3/k9/ZGFkxOhXue0m2FVmL0k86w0
-         u08mkKJisH57X3X4CE4zI5gpnlLR3GcVA1a+ht/aFONik+IHJ5eQOSQuJnG1mkpEBBp+
-         mZcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZU7uvEQX2bwrMXHEl105Un5BZsvv95QzvJnPZ4HsWnRfrqocdUun4zbysJ+x5lRjOOuv2OWVcyqw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAoUF4LZWkmC4mJgxt5PD/XP20ZEmhrOi1OPvZdQuDl1Cg5z6+
-	vpvsXwc1g/3LT4eUKwWO0l4BqjLOkwise4gBGOoNiBBFRel4h9VD9utE45VTZeknp18=
-X-Gm-Gg: ASbGnct0LFVWrM63Dk+G4Ni4vD4ZUcnz2Lc/hJPIz1jjIdyi7z+mEMbO6ZBZUGGuklU
-	KVSlif10ammnRXUkXyoPp1+a5SO3alXxidAiyerWRnZKTS0/kD8wLyyDmMP7DnLPO/r7MU1NCaQ
-	aUmOETVRB478cdfVtHG0DHuitfGKYe5hRS6RozpU1kppQdWredzPQxvEP1Lhcind5hhQt1Ykz6w
-	IwAvD1n7HmOEjUnwBqovmk7tquoH6ZL8wLUo229/WyGvBEecnJhRVmDknCcIRJoqQu9ARyNuMZT
-	DBefwq1wwwHSaeFsWQEHga1oF+WAdB0EvQ9VJAmnqEUy2FuKAIU5f9j6u6o=
-X-Google-Smtp-Source: AGHT+IEh0w5l6ZvkklE6p3pCXfWDL7mfyAoXy0g7V6ae/93x0vL/tglEoXvBG+M280vEiH+X8ihstA==
-X-Received: by 2002:a05:6000:420a:b0:3a4:e6e6:a026 with SMTP id ffacd0b85a97d-3a4fe393542mr5130183f8f.28.1748854018096;
-        Mon, 02 Jun 2025 01:46:58 -0700 (PDT)
-Received: from [192.168.1.221] ([5.30.189.74])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe73f67sm13881885f8f.47.2025.06.02.01.46.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 01:46:57 -0700 (PDT)
-Message-ID: <b8920325-51d2-4ac9-a521-ebaef5736d98@linaro.org>
-Date: Mon, 2 Jun 2025 11:46:51 +0300
+        d=1e100.net; s=20230601; t=1748855871; x=1749460671;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Foak5GJOvF2qzw/Sdnn9z8LtJHh30NXj00gMeZswR34=;
+        b=JjId/07qQmTEEs1ItEXXRWeEhrTHGf3Vbl0N58jcauZYA8fewjFEA/kST2o18a8kHD
+         sHV3l/0aqcn4ZFalfRFTzvQ8hX4KXFgknnPz7kkk7xVlL/MnO9mjYv9P0QKbb+Qx4uTE
+         xr+fQwjbgWLBhFUyxT7nuN8+ImTnmilRW4cAD5r7QSS4RtTwbuoIWJ8Dp5yznjY6+Obc
+         HrFmYrsRyxy9O5HRdyQB+HChxz1eRZM3QMjYzyV4NZ1k02bKfr+TmD1ULJ1XiQiH1QAc
+         /H4sJ14M9glUy98NBrbX/q2alUpAq0qfBP8slDdW+Wu07+M61qXApC9RrckBh/1TFEMf
+         X2mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUyI+l3O5Imk1/aoRyYZBBBZlJqbkZ7aA1UmrCISV+8ZARYoXZsVULcoyvDzxKZJr8g2h4XayoWK2+M@vger.kernel.org, AJvYcCVGr3OBTgqwaq2NhLulgzXCED26MexlEyIsUS9j2NI+s1MjRnG8euFNXROBE5gqlrwU3mbM8YabQy8z95ql@vger.kernel.org, AJvYcCWOggS7ckXjS8jZNzWtwzYd+eMX/HrOXOcU9ksFg3+pk+jgrmFKCdAmTXTBk5OEcI0DasiJjppErzuB@vger.kernel.org, AJvYcCWfFn5h9IAi+avNK8sexPCc5y1lgke+KHoHNfN10SRMW9vvFm8uvh1VQOJZmHXjTwcjWbOUWvsez2wL@vger.kernel.org, AJvYcCXtCdNUoOZto/C92uONLUr4A2qzm7BCxei31LbKyuqQfgx3Ey2lgE5ybcNwss/k0EqRoeyLu8UCLpQK@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlQN7JoTw92IJX7W4Btml2U5nK0qEfKErS8ivKTQapMZcQ9dbq
+	wWXhrsJjLJhvBGgOSb7y8xSqDcT7oSGn9xAeTupax8VW6dWP1Q8AAo8Y
+X-Gm-Gg: ASbGncuqqqSB4uni60OyW8GVQ3W+Hsrh2kzmYMLDjeTtjx9w69+PDlas+vaMqb4nIK0
+	powLiIZX4OO2rV9FtZaFhNTd4CClKc7Ua4cLcbxWbcE9pcT4vNRlh7zlPe1wEBAOPaeVBTFOgnc
+	TZs9mpR/u8O+bZ+8cl36FxxUDMh9ITlKWBaKVzg+XdiCsWk8I9TSuIHgcgbEAK4IIMR4I+fEcnI
+	BE9XUdPaLJsRFc0IE0UOen5e4M4leywb+/1MNS94yiGB4AC48HFYFGl8KGIYOklAWdeKgpb+W1y
+	Ifh19NKNPSbPh/G+YGIY1UvF0sJ9UTYBLR+wA3bTYjcQZ1JsSYospik6sgcETJKhpqHcXhmY9oT
+	qwKOUQ3bb9x0=
+X-Google-Smtp-Source: AGHT+IFoOchOYbJ+UDHdTg+DkrYs/5KlfIAQRWOe732oHXo514hsBw5BJWreXuIJr/izqnwWxVmW0A==
+X-Received: by 2002:a05:6102:509e:b0:4e5:ac99:e466 with SMTP id ada2fe7eead31-4e701bae7ddmr4143247137.18.1748855871236;
+        Mon, 02 Jun 2025 02:17:51 -0700 (PDT)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:1225:ec01:ecf2:8e21:9f0f:159e])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87e2a2a1622sm5937964241.10.2025.06.02.02.17.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jun 2025 02:17:50 -0700 (PDT)
+Date: Mon, 2 Jun 2025 11:17:39 +0200
+From: Jorge Marques <gastmaier@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] dt-bindings: iio: adc: Add adi,ad4052
+Message-ID: <vchomz3iazgdmotcs3jskrugi2qmdxyo74t4ruo2fsc7cjwtqb@7rtdmdkxobvg>
+References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
+ <20250422-iio-driver-ad4052-v2-3-638af47e9eb3@analog.com>
+ <88a326e7-3910-4e02-b4ba-7afe06402871@baylibre.com>
+ <hvexchm2ozsto5s2o6n5j2z3odrkbcamgmg67umd4aehwzmgie@dvtx6anioasq>
+ <1b0e9003-7322-46fa-b2ba-518a142616dc@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH 00/14] introduce kmemdump
-From: Eugen Hristev <eugen.hristev@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, corbet@lwn.net, tglx@linutronix.de,
- mingo@redhat.com, rostedt@goodmis.org, john.ogness@linutronix.de,
- senozhatsky@chromium.org, pmladek@suse.com, peterz@infradead.org,
- mojha@qti.qualcomm.com, linux-arm-kernel@lists.infradead.org,
- vincent.guittot@linaro.org, konradybcio@kernel.org,
- dietmar.eggemann@arm.com, juri.lelli@redhat.com
-References: <20250422113156.575971-1-eugen.hristev@linaro.org>
- <mtetvagzj2xltczutahqj7ijgpr3fy7ppbp5w6rmn2w2zmukux@tawhrkyoqjli>
- <26cc3478-8f65-44bb-8ebe-24a28a858dab@linaro.org>
-Content-Language: en-US
-In-Reply-To: <26cc3478-8f65-44bb-8ebe-24a28a858dab@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1b0e9003-7322-46fa-b2ba-518a142616dc@baylibre.com>
 
-
-
-On 5/9/25 18:19, Eugen Hristev wrote:
-> Hello Bjorn,
+On Tue, Apr 29, 2025 at 10:45:20AM -0500, David Lechner wrote:
+> On 4/29/25 8:48 AM, Jorge Marques wrote:
+> > Hi David, 
+> > 
+> > I didn't went through your's and Jonathan's ad4052.c review yet,
+> > but for the trigger-source-cells I need to dig deeper and make
+> > considerable changes to the driver, as well as hardware tests.
+> > My idea was to have a less customizable driver, but I get that it is
+> > more interesting to make it user-definable.
 > 
-> On 5/7/25 19:54, Bjorn Andersson wrote:
->> On Tue, Apr 22, 2025 at 02:31:42PM +0300, Eugen Hristev wrote:
->>> kmemdump is a mechanism which allows the kernel to mark specific memory
->>> areas for dumping or specific backend usage.
->>> Once regions are marked, kmemdump keeps an internal list with the regions
->>> and registers them in the backend.
->>> Further, depending on the backend driver, these regions can be dumped using
->>> firmware or different hardware block.
->>> Regions being marked beforehand, when the system is up and running, there
->>> is no need nor dependency on a panic handler, or a working kernel that can
->>> dump the debug information.
->>> The kmemdump approach works when pstore, kdump, or another mechanism do not.
->>> Pstore relies on persistent storage, a dedicated RAM area or flash, which
->>> has the disadvantage of having the memory reserved all the time, or another
->>> specific non volatile memory. Some devices cannot keep the RAM contents on
->>> reboot so ramoops does not work. Some devices do not allow kexec to run
->>> another kernel to debug the crashed one.
->>> For such devices, that have another mechanism to help debugging, like
->>> firmware, kmemdump is a viable solution.
->>>
->>> kmemdump can create a core image, similar with /proc/vmcore, with only
->>> the registered regions included. This can be loaded into crash tool/gdb and
->>> analyzed.
->>> To have this working, specific information from the kernel is registered,
->>> and this is done at kmemdump init time, no need for the kmemdump user to
->>> do anything.
->>>
->>> The implementation is based on the initial Pstore/directly mapped zones
->>> published as an RFC here:
->>> https://lore.kernel.org/all/20250217101706.2104498-1-eugen.hristev@linaro.org/
->>>
->>> The back-end implementation for qcom_smem is based on the minidump
->>> patch series and driver written by Mukesh Ojha, thanks:
->>> https://lore.kernel.org/lkml/20240131110837.14218-1-quic_mojha@quicinc.com/
->>>
->>> I appreciate the feedback on this series, I know it is a longshot, and there
->>> is a lot to improve, but I hope I am on the right track.
->>>
->>> Thanks,
->>> Eugen
->>>
->>> PS. Here is how crash tool reports the dump:
->>>
->>>      KERNEL: /home/eugen/linux-minidump/vmlinux  [TAINTED]
->>>     DUMPFILE: /home/eugen/eee
->>
->> Can you please describe the steps taken to get acquire/generate this
->> file and how to invoke crash?
->>
-> 
-> Thank you for looking into this.
-> 
-> Next week, on 16th of May, on Friday, there will be a talk related to
-> this patch series at Linaro Connect in Lisbon. In that talk I will also
-> show a demo in which all the process of acquiring the core dump and
-> crash will be covered.
-> I will be traveling the following days, if I get the time I will submit
-> the steps as a reply to this email, if not, then for sure I will submit
-> them after the talk in Lisbon.
-
-Hello again,
-
-These are steps to try out the kmemdump patches.
-
-Once you build the kernel using the patches (you will have to change the
-config to enable it, and the backend : CONFIG_DRIVER_KMEMDUMP ,
-CONFIG_QCOM_MD_KMEMDUMP_BACKEND and CONFIG_DRIVER_KMEMDUMP_COREIMAGE )
-Kernel firmware must be set to mode 'mini' by kernel module parameter
-like this : qcom_scm.download_mode=mini
-
-After you boot the kernel, make sure the qcom_md module is loaded and
-kernel displays this message :
-"kmemdump backend %s registered successfully."
-
-After this moment the crash could occur anytime.
-
-Once the crash happens, the firmware will kick in and you will see on
-the console the message saying Sahara init, etc, that the firmware is
-waiting on download mode. (this is subject to firmware supporting this
-mode, I am using sa8775p-ride board)
-
-Once the board is in download mode, you can use the qdl tool (I
-personally use edl , have not tried qdl yet), to get all the regions as
-separate files.
-The tool from the host computer will list the regions in the order they
-were downloaded.
-
-Once you have all the files simply use `cat` to put them all together,
-in the order they were dowloaded.
-e.g. md_KELF.BIN , then md_Kvmcorein.BIN, etc.
-
-Once you have the resulted file, use `crash` tool to load it, like this:
-`crash --no_modules --minimal /path/to/vmlinux /path/to/core/image`
-
-Crash has to be compiled with target=ARM64
-
-To use crash without '--minimal' option, some minor changes are required
-to crash tool, which I will submit to crash mailing list once I get more
-things sorted. Meanwhile I could provide this patch if needed for
-testing. (Also, there is a missing nr_swapfile variable from the kernel
-which needs to be kmemdumped, and not added to this series in this version)
-
-Please let me know how this works for you, if you experience
-difficulties, I can help or expand steps .
-Thanks for trying this out !
-
-
-> 
-> Eugen
-> 
->> Regards,
->> Bjorn
->>
->>>         CPUS: 8 [OFFLINE: 7]
->>>         DATE: Thu Jan  1 02:00:00 EET 1970
->>>       UPTIME: 00:00:28
->>>     NODENAME: qemuarm64
->>>      RELEASE: 6.14.0-rc5-next-20250303-00014-g011eb2aaf7b6-dirty
->>>      VERSION: #169 SMP PREEMPT Thu Apr 17 14:12:21 EEST 2025
->>>      MACHINE: aarch64  (unknown Mhz)
->>>       MEMORY: 0
->>>        PANIC: ""
->>>
->>> crash> log
->>> [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd4b2]
->>> [    0.000000] Linux version 6.14.0-rc5-next-20250303-00014-g011eb2aaf7b6-dirty (eugen@eugen-station) (aarch64-none-linux-gnu-gcc (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614, GNU ld (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 2.42.0.20240614) #169 SMP PREEMPT Thu Apr 17 14:12:21 EEST 2025
->>> [    0.000000] KASLR enabled
->>> [...]
->>>
->>> Eugen Hristev (14):
->>>   Documentation: add kmemdump
->>>   kmemdump: introduce kmemdump
->>>   kmemdump: introduce qcom-md backend driver
->>>   soc: qcom: smem: add minidump device
->>>   Documentation: kmemdump: add section for coreimage ELF
->>>   kmemdump: add coreimage ELF layer
->>>   printk: add kmsg_kmemdump_register
->>>   kmemdump: coreimage: add kmsg registration
->>>   genirq: add irq_kmemdump_register
->>>   kmemdump: coreimage: add irq registration
->>>   panic: add panic_kmemdump_register
->>>   kmemdump: coreimage: add panic registration
->>>   sched: add sched_kmemdump_register
->>>   kmemdump: coreimage: add sched registration
->>>
->>>  Documentation/debug/index.rst      |  17 ++
->>>  Documentation/debug/kmemdump.rst   |  83 +++++
->>>  drivers/Kconfig                    |   2 +
->>>  drivers/Makefile                   |   2 +
->>>  drivers/debug/Kconfig              |  39 +++
->>>  drivers/debug/Makefile             |   5 +
->>>  drivers/debug/kmemdump.c           | 197 ++++++++++++
->>>  drivers/debug/kmemdump_coreimage.c | 293 ++++++++++++++++++
->>>  drivers/debug/qcom_md.c            | 467 +++++++++++++++++++++++++++++
->>>  drivers/soc/qcom/smem.c            |  10 +
->>>  include/linux/irqnr.h              |   1 +
->>>  include/linux/kmemdump.h           |  77 +++++
->>>  include/linux/kmsg_dump.h          |   6 +
->>>  include/linux/panic.h              |   1 +
->>>  include/linux/sched.h              |   1 +
->>>  kernel/irq/irqdesc.c               |   7 +
->>>  kernel/panic.c                     |   8 +
->>>  kernel/printk/printk.c             |  13 +
->>>  kernel/sched/core.c                |   7 +
->>>  19 files changed, 1236 insertions(+)
->>>  create mode 100644 Documentation/debug/index.rst
->>>  create mode 100644 Documentation/debug/kmemdump.rst
->>>  create mode 100644 drivers/debug/Kconfig
->>>  create mode 100644 drivers/debug/Makefile
->>>  create mode 100644 drivers/debug/kmemdump.c
->>>  create mode 100644 drivers/debug/kmemdump_coreimage.c
->>>  create mode 100644 drivers/debug/qcom_md.c
->>>  create mode 100644 include/linux/kmemdump.h
->>>
->>> -- 
->>> 2.43.0
->>>
+> We don't need to make the driver support all possibilities, but the devicetree
+> needs to be as complete as possible since it can't be as easily changed in the
+> future.
 > 
 
+Ack.
+
+I see that the node goes in the spi controller (the parent). To use the
+same information in the driver I need to look-up the parent node, then
+the node. I don't plan to do that in the version of the driver, just an
+observation.
+
+There is something else I want to discuss on the dt-bindings actually.
+According to the schema, the spi-max-frequency is:
+
+  > Maximum SPI clocking speed of the device in Hz.
+
+The ad4052 has 2 maximum speeds: Configuration mode (lower) and ADC Mode
+(higher, depends on VIO). The solution I came up, to not require a
+custom regmap spi bus, is to have spi-max-frequency bound the
+Configuration mode speed, and have ADC Mode set by VIO regulator
+voltage, through spi_transfer.speed_hz. At the end of the day, both are
+bounded by the spi controller maximum speed.
+
+My concern is that having ADC mode speed higher than spi-max-frequency
+may be counter-intuitive, still, it allows to achieve the max data sheet
+speed considering VIO voltage with the lowest code boilerplate.
+
+Let me know if I can proceed this way before submitting V3.
+
+> ...
+> 
+> >>
+> >> Assuming the diagram at [1] is correct, for SPI offload use, we are missing:
+> >>
+> >>   #trigger-source-cells:
+> >>     const: 2
+> >>     description: |
+> >>       Output pins used as trigger source.
+> >>
+> >>       Cell 0 defines which pin:
+> >>       * 0 = GP0
+> >>       * 1 = GP1
+> >>
+> >>       Cell 1 defines the event:
+> >>       * 0 = Data ready
+> >>       * 1 = Min threshold
+> >>       * 2 = Max threshold
+> >>       * 3 = Either threshold
+> >>       * 4 = Device ready
+> >>       * 5 = Device enable
+> >>       * 6 = Chop control
+> >>
+> >> Bonus points for adding a header with macros for the arbitrary event values.
+> > 
+> > In the sense of describing the device and not what the driver does, I
+> > believe the proper mapping would be:
+> > 
+> >   Cell 1 defines the event:
+> >   * 0 = Disabled
+> >   * 1 = Data ready
+> >   * 2 = Min threshold
+> >   * 3 = Max threshold
+> >   * 4 = Either threshold
+> >   * 5 = CHOP control
+> >   * 6 = Device enable
+> >   * 7 = Device ready (only GP1)
+> > 
+> > I will investigate further this.
+> > 
+> >>
+> 
+> 0 = Disabled doesn't make sense to me. One would just not wire up a
+> trigger-source in that case.
+
+Ack.
+
+
+Regards,
+Jorge
