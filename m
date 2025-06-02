@@ -1,153 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FDF2405FD;
-	Mon,  2 Jun 2025 14:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849CB22687C
+	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 15:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748873002; cv=none; b=TIoc6I/ZzqkYEKwje6n3Cz1wbi7ayECZmVejbztFer6fZFwy4cJJIcevudxMdr248sGx6bj9gH16sXsXJavgTOA7uQMbtkI70oTwJEf8LJZK3GPTKarBRbXyzlb45s5XsSQeUoWqRlRo11Cn8/xghapa0smATkGgNkvHMOvEer4=
+	t=1748877443; cv=none; b=ooCbRUMBo3AsOIJW8g5o5AiaEIL2fb8C/k6+Yx+7kJYYPmxKxkb6f0RZ8H+th2Km8iszu19poHqSFBef4fxiiCRoHgjutEsLaXiReMubh8iclsaJr2cH9C+0jLs6/QoOly3L1uWeWYLVEkw1eHFxJjpOLbHbl1cCzzy7hpklNgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748873002; c=relaxed/simple;
-	bh=WRTUFe5zAa4ehyUDpuZU2A396vCsORsejbqIXvfw4eM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Nb4VGUEJAOHQsg0VsNjeVJzcSPxpOMThnFWWyHJPBYLXv0wejvSm86t9Qig5FEpSPbY0i2Ddx2eYsMUPzS9h61h+o+TV04cVaV8MUVcz+wlIj1ZGvExfvk8A5auFY3hl9bmHLtdG0uyr+DsxbinAAHR9BtfEGn7t8TedRlu/Rns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d4O0muln; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748877443; c=relaxed/simple;
+	bh=6PeBJSTna6lX3rGrf4lCGvp5OKDfktdRcJOfJVLf5WA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lcQb7byc9UCI7Am8drUrFoe7+tHDkvZV7VDSO1R5aHQ2u/EJDK/I8HOOacsnEINQTm6P2FyKkBTe3hID031UDeot2Twqt6nnV5PCAKqLAF/iBSkhu+4pgwe054+1eGNeoz9jP+WDCfvPeYVUlPxzz8S7W+QY6PifmbnL292vCFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=uQqnRoC8; arc=none smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d4O0muln"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A54F5C4CEF6;
-	Mon,  2 Jun 2025 14:03:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748873001;
-	bh=WRTUFe5zAa4ehyUDpuZU2A396vCsORsejbqIXvfw4eM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=d4O0mulna5zpsC6abaqW7ZzC6op2McHxHnBQVPqnQwhFOlxMsWRGVVWKLUXcf8a9c
-	 ohFTvdxrxc7Mw85ldB9a5qQBhmlJxwyhnI3A2zQS2IwOxh1AqxlItPsdXlfHF9ulzu
-	 yZjj/k8bPLr0m9dlKgzUOFoIHWUg7nPX5mPdQam6R5qUbEsyJjbdzRH7Kd5fCmDO1g
-	 ImOxd8OSI1VJKt5JelTrmpxO82lN+wO7Ddskf308gJgCtkZWMUf40TMHO5LBvSdWXa
-	 n88yEb3aCDXEDuEH26sbPdu8rmrtCoVVIHmhmaMURopXs2VOEuq283oc1xJH5V32Yj
-	 8ardsieZOx80w==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 02 Jun 2025 10:02:11 -0400
-Subject: [PATCH RFC v2 28/28] nfsd: add support for NOTIFY4_RENAME_ENTRY
- events
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="uQqnRoC8"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2e95f0b6cb7so494041fac.3
+        for <linux-doc@vger.kernel.org>; Mon, 02 Jun 2025 08:17:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1748877440; x=1749482240; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/FLsGzoXOAagEvr3iBgspYfHnJfzfNsAWbJHVPi43wg=;
+        b=uQqnRoC8bVrAJ7GFrYX0xzTIwaXDpPLPMjgilPOwjvArRDhEbMTgS1k4xHvtQ7SSMd
+         G9qoY5vjSo3/Gxq81aBGy+Xk1TWeaenwWzArmqCTl79zmPpzFWgPgY8wywSOUqqGBf3l
+         lqSEFYtXKeE/4IKWuMfjlcvRqgdJ4dHT3915o0KvFTno0SnYWPl6ekdBn4ZuoWPF9wpZ
+         U2Dji7zezOajUxoct4hiSze9Titte6XhsSSQf2U8f71uGPjuhgQxu5FVSRnZXpvV5y3n
+         FuADPKRHrzhvwqO00MQE0sF+wGUUvxNTiPXn2BTKapnFVA5L4m98/c4RH12SXJV/iDR8
+         sRdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748877440; x=1749482240;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/FLsGzoXOAagEvr3iBgspYfHnJfzfNsAWbJHVPi43wg=;
+        b=c0jpeGcfHq2yGdjcErEaj6v8dQAOSQWa38ogYO1twfW+c3vAgo0gSZRUFBTwLx8YYV
+         OK3LSe2G53MBse6rkzZJMcuPAvupx23dEhd2V44y2S/362TdYK51c79NP9LpYFq2RM3J
+         Oljtc1pnpWVVrigh85VcWJrv0R/teUUSNDLW7kdiND4DwIGTY3ypZzOwG13/YGQc7rnB
+         HwOfogmliA0QKELEdVQSSHKgGl4PXqnuZ2ET1mmRPIg4fTq1ZVYmCCgyUJKTyS22G0Gd
+         AM5BLo4bxOIsg65IiGbfIjeU6lz23RHzAkGr/PDMzgOj6uZV6Ls6Lj3aLR5KTmFHX7aD
+         HzRA==
+X-Forwarded-Encrypted: i=1; AJvYcCUBYWT7yEnX10E2u0l2/gYsI+OJu/IkWYBALeWTWmTLEqcTgIYxSXVAGjj4ONjDNeFgMU6OtVfznO8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6CpZiuXraQ6Dw+tk2Ut5U201RgGggFtNeuXOTOkJ5Ho4v3RPA
+	p/6Z6MPAqMVOF+pruPJGD98fJvbdxvqistHg9jUJoU6GNJfS/55drrSwFAf6BVBJ+Yw=
+X-Gm-Gg: ASbGncsFSxHygr4jXKZkZH6W3QKA9o/aMiMa4VdvZ5oXFfZuthhRrKtLJcn66tG+9XG
+	WnTgNqQexQWyA3Gvs5NUSQhTd4NQlVWN1ZHjuMQAq3VsLZLdpx6WcFnGPyKtVdoFit+wRUO6jaY
+	X/u2u/HrNL/GNaMrnJ8qPvwoB1rQB69dGPDbtNcTDCgXVizlZr2MNgQiYdnsBrZXdPtmERXsS2l
+	lfIeCJzcNKuvs6T2FiUTvQSr3YusE4nezpmbUApkO48pnQZpJrIssHqM/Gyhqyo3Aq+SkJHTgjJ
+	MXB6hRxN5DUSNlaqLhPIwJ1v9cnPgf+FM5uFoPzuI7zYRx+S2ewNHbZQebxXgrQ5HofT6exXV92
+	0b5+7Rz5DEZBEuIqUj0NxWJEeC275s26HRetGYyuTZCyyVgCyyA==
+X-Google-Smtp-Source: AGHT+IFJw1a45g7SyLmMPrQb2Epc56Sa07pw4E8vlKLf+JG+t/AybNRoowveYczNrGBWjBjxY3fQ3g==
+X-Received: by 2002:a05:6870:5493:b0:2d6:af0:8d8e with SMTP id 586e51a60fabf-2e92115fb6fmr8227470fac.2.1748877440482;
+        Mon, 02 Jun 2025 08:17:20 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:74f4:5886:86e1:3bcf? ([2600:8803:e7e4:1d00:74f4:5886:86e1:3bcf])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2e90681c6ffsm1783595fac.29.2025.06.02.08.17.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Jun 2025 08:17:20 -0700 (PDT)
+Message-ID: <a6f62963-5776-47e4-bdac-78e921a6e476@baylibre.com>
+Date: Mon, 2 Jun 2025 10:17:18 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/5] dt-bindings: iio: adc: Add adi,ad4052
+To: Jorge Marques <gastmaier@gmail.com>
+Cc: Jorge Marques <jorge.marques@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
+ <20250422-iio-driver-ad4052-v2-3-638af47e9eb3@analog.com>
+ <88a326e7-3910-4e02-b4ba-7afe06402871@baylibre.com>
+ <hvexchm2ozsto5s2o6n5j2z3odrkbcamgmg67umd4aehwzmgie@dvtx6anioasq>
+ <1b0e9003-7322-46fa-b2ba-518a142616dc@baylibre.com>
+ <vchomz3iazgdmotcs3jskrugi2qmdxyo74t4ruo2fsc7cjwtqb@7rtdmdkxobvg>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <vchomz3iazgdmotcs3jskrugi2qmdxyo74t4ruo2fsc7cjwtqb@7rtdmdkxobvg>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250602-dir-deleg-v2-28-a7919700de86@kernel.org>
-References: <20250602-dir-deleg-v2-0-a7919700de86@kernel.org>
-In-Reply-To: <20250602-dir-deleg-v2-0-a7919700de86@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Chuck Lever <chuck.lever@oracle.com>, 
- Alexander Aring <alex.aring@gmail.com>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.com>, 
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
- Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
- Bharath SM <bharathsm@microsoft.com>, NeilBrown <neil@brown.name>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Jonathan Corbet <corbet@lwn.net>, Amir Goldstein <amir73il@gmail.com>, 
- Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
- samba-technical@lists.samba.org, linux-doc@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2877; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=WRTUFe5zAa4ehyUDpuZU2A396vCsORsejbqIXvfw4eM=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoPa7rYWh5WPyBqmd/mpYouoAaeCmO7iYpghNrL
- 2FZXSv49syJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaD2u6wAKCRAADmhBGVaC
- FRLAD/9Nrz7K/6BZh3J7GzB7TSD3Iu8DHCsSAkiig2bJ4KYuyJdr/v9vr7B1pSdCR+UN7OFPToX
- Cm6Lbv3HaVp1569JJ5aYfDQoaZhxDg0IQIajjWvorce9w+r9GbvoOvWAAe5BWBJugD1asZSxQqI
- wiB9z2fvE0r2MQwvvooV7GfDANY0anAIEkbYzEWIN4fecGqDWn9Frk/3sichSwRgrrOQuYz+o5d
- zVb+QPivMvVfFmkfe9v8NbGkSFuB40v84Ab3uWvui0QTRbag79oAdWGoo+EYsACgW8fPGxMiPad
- byakNt0nXAuGnwBKf8zV3emFCUt/PcIcK7soVpY1b5UAXn7lJ2Rn3TKIORKcLJEtIZwXmRxG78a
- WzbYtyBOGJie63ytKV43ixhN0S8UghXP0Spi7OB2nn7NxwqjT3E52Cb23yNABtf4fbkVKqd0aMm
- GEnYGTeTvDnC6gzAOYqd0lBVRwPURcrqbWe1kKqJ8fqTjRjJNTJQYtpEyKGWwGrsdpYMtG0AaFj
- QxE+AnC27WCcQlSJ6dk00isFmg8Sl9aFtZ/anoVk75oIoztNAr+3gbhRNzEs/XNEQV5iIfwWD07
- P4nOoepshUDmBrvKd/rsdpJLAH/J8sdZqByh/vnJfaGnhpB5RhXUSakmBErmo95bsnfmRExVT1j
- IS0rm0gaUtKGXmA==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-Add support for RENAME events. Marshal the event into the notifylist4
-buffer and kick the callback handler.
+On 6/2/25 4:17 AM, Jorge Marques wrote:
+> On Tue, Apr 29, 2025 at 10:45:20AM -0500, David Lechner wrote:
+>> On 4/29/25 8:48 AM, Jorge Marques wrote:
+>>> Hi David, 
+>>>
+>>> I didn't went through your's and Jonathan's ad4052.c review yet,
+>>> but for the trigger-source-cells I need to dig deeper and make
+>>> considerable changes to the driver, as well as hardware tests.
+>>> My idea was to have a less customizable driver, but I get that it is
+>>> more interesting to make it user-definable.
+>>
+>> We don't need to make the driver support all possibilities, but the devicetree
+>> needs to be as complete as possible since it can't be as easily changed in the
+>> future.
+>>
+> 
+> Ack.
+> 
+> I see that the node goes in the spi controller (the parent). To use the
+> same information in the driver I need to look-up the parent node, then
+> the node. I don't plan to do that in the version of the driver, just an
+> observation.
+> 
+> There is something else I want to discuss on the dt-bindings actually.
+> According to the schema, the spi-max-frequency is:
+> 
+>   > Maximum SPI clocking speed of the device in Hz.
+> 
+> The ad4052 has 2 maximum speeds: Configuration mode (lower) and ADC Mode
+> (higher, depends on VIO). The solution I came up, to not require a
+> custom regmap spi bus, is to have spi-max-frequency bound the
+> Configuration mode speed,
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/nfs4proc.c  |  2 +-
- fs/nfsd/nfs4state.c | 39 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 1 deletion(-)
+The purpose of spi-max-frequency in the devicetree is that sometimes
+the wiring of a complete system makes the effective max frequency
+lower than what is allowed by the datasheet. So this really needs
+to be the absolute highest frequency allowed.
 
-diff --git a/fs/nfsd/nfs4proc.c b/fs/nfsd/nfs4proc.c
-index a2996343fa0db33e014731f62aaa4e7c72506a76..4573c0651aa49df6089bcc4e5d40f45d46b1c499 100644
---- a/fs/nfsd/nfs4proc.c
-+++ b/fs/nfsd/nfs4proc.c
-@@ -2292,7 +2292,7 @@ nfsd4_verify(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
- 	return status == nfserr_same ? nfs_ok : status;
- }
- 
--#define SUPPORTED_NOTIFY_MASK BIT(NOTIFY4_REMOVE_ENTRY|NOTIFY4_ADD_ENTRY)
-+#define SUPPORTED_NOTIFY_MASK BIT(NOTIFY4_REMOVE_ENTRY|NOTIFY4_ADD_ENTRY|NOTIFY4_RENAME_ENTRY)
- 
- static __be32
- nfsd4_get_dir_delegation(struct svc_rqst *rqstp,
-diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-index 9dc607e355d5839d80946d4983205c15ece6a71e..6333e95c075259af0c160eb130149c776e55f5a8 100644
---- a/fs/nfsd/nfs4state.c
-+++ b/fs/nfsd/nfs4state.c
-@@ -9722,6 +9722,45 @@ nfsd_handle_dir_event(u32 mask, const struct inode *dir, const void *data,
- 			ent->notify_vals.data = p;
- 			++nns->nns_idx;
- 		}
-+		if (mask & FS_RENAME) {
-+			struct dentry *new_dentry = fsnotify_data_dentry(data, data_type);
-+			static uint32_t notify_rename_bitmap = BIT(NOTIFY4_RENAME_ENTRY);
-+			struct notify4 *ent = &nns->nns_ent[nns->nns_idx];
-+			struct notify_rename4 nr = { };
-+			u8 *p = (u8 *)(stream->p);
-+			struct name_snapshot n;
-+			bool ret;
-+
-+			if (!(flc->flc_flags & FL_IGN_DIR_RENAME))
-+				continue;
-+
-+			/* FIXME: warn? */
-+			if (!new_dentry)
-+				continue;
-+
-+			nr.nrn_old_entry.nrm_old_entry.ne_file.len = name->len;
-+			nr.nrn_old_entry.nrm_old_entry.ne_file.data = (char *)name->name;
-+			nr.nrn_old_entry.nrm_old_entry.ne_attrs.attrmask.count = 1;
-+			nr.nrn_old_entry.nrm_old_entry.ne_attrs.attrmask.element = &zerobm;
-+			take_dentry_name_snapshot(&n, new_dentry);
-+			nr.nrn_new_entry.nad_new_entry.ne_file.len = n.name.len;
-+			nr.nrn_new_entry.nad_new_entry.ne_file.data = (char *)n.name.name;
-+			nr.nrn_new_entry.nad_new_entry.ne_attrs.attrmask.count = 1;
-+			nr.nrn_new_entry.nad_new_entry.ne_attrs.attrmask.element = &zerobm;
-+			ret = xdrgen_encode_notify_rename4(stream, &nr);
-+			release_dentry_name_snapshot(&n);
-+			if (!ret) {
-+				pr_warn("nfsd: unable to marshal notify_rename4 to xdr stream\n");
-+				continue;
-+			}
-+
-+			/* grab a notify4 in the buffer and set it up */
-+			ent->notify_mask.count = 1;
-+			ent->notify_mask.element = &notify_rename_bitmap;
-+			ent->notify_vals.len = (u8 *)stream->p - p;
-+			ent->notify_vals.data = p;
-+			++nns->nns_idx;
-+		}
- 
- 		if (nns->nns_idx)
- 			nfsd4_run_cb_notify(ncn);
+> and have ADC Mode set by VIO regulator
+> voltage, through spi_transfer.speed_hz. At the end of the day, both are
+> bounded by the spi controller maximum speed.
 
--- 
-2.49.0
+If spi_transfer.speed_hz > spi-max-frequency, then the core SPI code
+uses spi-max-frequency. So I don't think this would actually work.
+
+> 
+> My concern is that having ADC mode speed higher than spi-max-frequency
+> may be counter-intuitive, still, it allows to achieve the max data sheet
+> speed considering VIO voltage with the lowest code boilerplate.
+> 
+> Let me know if I can proceed this way before submitting V3.
 
