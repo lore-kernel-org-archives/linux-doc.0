@@ -1,278 +1,253 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C66136351
-	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 04:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604BE19D8A7
+	for <linux-doc@vger.kernel.org>; Mon,  2 Jun 2025 08:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748838759; cv=none; b=MjBI63KRaZP3BOV3Mo2gvLE6QORg0WkWUT/b1Jb4EB4Q+m3J6o35aHusF/0deN03uHLLGJvsjzj3ARFk5/I8ScWwoIlK7mlK0FDJqpOnxuxefm3QI2oRZts8/sAssBHezI/37JhrVRGCmonTJgETUc2siFutaPfaMikaOKQ4JTw=
+	t=1748852125; cv=none; b=l83p9s4Mk0kN5fhEMp6L2+PqPfGplNX2OI/yAZgY9bbbPbtMxAWiQWpw5XO/u+AYKfIe2vW19jXEhFXkCr3w0rrGbmq5jOX4Z5oNB3c+wzltod51V4NfU07kP6Y1/Lo/+M/W1mdSaXr4UBD8J38YSr99EaIPD+5m0xL8PRxDXe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748838759; c=relaxed/simple;
-	bh=w+VxyWyeHmB8zTHz5vr1CBHLW/vpGjCdvW3zfnG5yck=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DfStiMlFa37eJ45o1SA5HXUdiHYRHLCbOPUwDGd4CbockXkAFG/+4yqnu0ws1O3h/sov/JWr7tG8IA2rUlWdG6hr6MfJUDfvQPQ7PsnRq9wacpc7Wvm/100t5y9eLtMMdnm9T3/kWsu9jCI3Vr9z+euNQ8CL7J+nn2A9da9oRng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=RFggX+ag; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
+	s=arc-20240116; t=1748852125; c=relaxed/simple;
+	bh=b5WLvoDKr8I2SUBF8e44pplZtOcRqwZjkC3rqpPEaUc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kmz/j+1gUjV555o8tTFp24a4rrIVnLV7ALIt3CBmIo2L4ldIcudTMz7D+SlgvIkP39FBYq7MhGQLyt1Dc1xRPHGTwbbOCJcJYoor7zlNsVmG7/blhYzOkQvxWswy+3nAr1WDt2NkWnSTc8OA0Lbdgv3IQqvTXkVY7Dlf5vBNZKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=tomeuvizoso.net; dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b=19Z89PPv; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="RFggX+ag"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-74267c68c11so2880030b3a.0
-        for <linux-doc@vger.kernel.org>; Sun, 01 Jun 2025 21:32:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="19Z89PPv"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e812fc35985so1033251276.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Jun 2025 01:15:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inventec.com; s=google; t=1748838756; x=1749443556; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1748852121; x=1749456921; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lQuGO6g/SZ9oMjTCL2qfCUD/gDCphaWVpxx22x3N+gg=;
-        b=RFggX+ag/MJBDGrDzfhH4QSiafrK4uPyc7X9vLwzDMPMf00iZiGjtM29CNN1K9dm/5
-         kCmH/4NY2Jm9IL9aG44X4Ug/aVsoikqN8g7O9ADcodLqwfXUBImqUSaZX13FLdRjjtUw
-         Xp6Dic/xniOiwhYR8rcncxfOUXbD/qd3b3p55QBY8OhjQrSvWAgdJNRBkAiA4dYAd7lK
-         XWkvZfuwwCm72la0fzM8HxKH2nMrRasvTXyled98I7M7WeVOI4LJjwNA/pTKDJZyEgyV
-         JXd4YJ6a/dfuGuk5MqsHZtvrNd37srtkIqmmFa+4PS8pTEts5aw4FkjAqLUnCMvqHpOJ
-         WZ/A==
+        bh=IX5KaHY06tu+FKC0bEyE1X52oSF5H+UGj7sz8V9wh8Q=;
+        b=19Z89PPvcwGBoxPHcOYizASJm4sUeWPFZ9FrBcosW1XQwYwk1hSYSFKN4Efw6x3Yg2
+         b3uZTOSnSRm0S0IeKOwP1QUJzfoNoiDDcWspGjrp2zV75nyGC9x7WCVHAe4h2/s7VyuO
+         6XTkRpJo+Ic884g8M+zHrTlhWVx08nZtzq4E9Q8wJjfn9U46fn/485ohv37BE/WtNXoy
+         URGY7LczZJp895Ju73+eH74Py4r5kJAv3a+ztb5yP9W8POMuwxJClIDRFQfOPAXlJQfC
+         WufS5mS1F+LyvwKGJOatVyXEreEgo+wei9M+RNat6nn7cI3Y/a6VfqnNslpkFxOUzoCc
+         7oRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748838756; x=1749443556;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1748852121; x=1749456921;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lQuGO6g/SZ9oMjTCL2qfCUD/gDCphaWVpxx22x3N+gg=;
-        b=himAiFCjkcZHCdUBjklSDdiBlNSy4mUuFwCUPMve2/2pr/7pWc1SG9FrDj6JssW6bX
-         yINeq1fWHGQwW6291npIFQd3t2r93toQCvDfsg69e6E9HMStOWipy8DC5y3p8VgyJzXu
-         izG5IfBkWC3bZGe27G2UdhSYCYXp4xbASXZw6xEPahxO6Nw6/YdxwJsu2cP5eDKzsGlS
-         WYzw4V7nKK39z8BbIli0wNs1VIEJkXSEpRK9X0ov6oVkGGxSlTbBXsHzWJhjHZryqCUi
-         Z7iCbFbTUdDjQ/giSoZ+BYrLyeDUFm/DHQgCz0YBFeB+hd9Il1RkzXksjjZalxBVnpYX
-         7SGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUWJg5ZbpgTZgzdssbMv6pbfMVmvAOWhUmRrPV1h0IqCpPBQPomwwEIsANDlUH6cBbZVIfE8eKlOEs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpwJOFTdlPJtE/0HxgcNH+5dU+1HuoAHnMvSQ2NacFCaiH1Pna
-	SGdn3OWKn3+Ano6jsKYC6Zb/QSmlhF9ZY09Ihup9QvAPQ+vXSENUXccZRWGfkcInIYQ=
-X-Gm-Gg: ASbGncsVvUeARo1gejeQ7ktwx/rsa5VGmvSGJ//93HaWnLrgMQVE8pY2rOdVyxxjgxr
-	Hni0K33UhHy0e8JGrpqhnwtZVcQHSGpwxB7KgF3NEEZdN+A9fCZhUgA8oBFthGGBTbRDZ3OzsYH
-	ouGhEwtYpSGJDu5Yg3kblS9Kpjmg8ltMdMU5ninDm/4BnA23rEWX2Jcp4VLDxpdwTcED89FrX0v
-	Rru/xQFwkBprPi4qMvv8fcmpPnI30pc69scUUmDidIf0aWQ2uNha5gx//C+q+AzZlBHz9+EVi/2
-	i1UvhKhtjYedj73ErAkco318COGzp1rw4K40UbDtG8IhkyMhxxeneI+xOKABZ0H4LHkgjKqC
-X-Google-Smtp-Source: AGHT+IFauMN+Ap2bprtM63mZt0PiRavzePopZZVUp5jvD/1smKCB7wVL6nZ3R9oRF663nQCkly61lA==
-X-Received: by 2002:a05:6a21:a346:b0:1f5:535c:82dc with SMTP id adf61e73a8af0-21ae00d4b56mr15459767637.42.1748838755652;
-        Sun, 01 Jun 2025 21:32:35 -0700 (PDT)
-Received: from localhost.localdomain ([123.51.235.216])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747afeab743sm6887118b3a.54.2025.06.01.21.32.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 21:32:35 -0700 (PDT)
-From: Chiang Brian <chiang.brian@inventec.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>
-Cc: Chiang Brian <chiang.brian@inventec.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v8 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Date: Mon,  2 Jun 2025 12:24:54 +0800
-Message-Id: <20250602042454.184643-3-chiang.brian@inventec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250602042454.184643-1-chiang.brian@inventec.com>
-References: <20250602042454.184643-1-chiang.brian@inventec.com>
+        bh=IX5KaHY06tu+FKC0bEyE1X52oSF5H+UGj7sz8V9wh8Q=;
+        b=rL7KLN2/niOWhRhYc81KeZuHGMrnhQlDw0z9GK6SmJHBG8+xnP8xJR3IkV8vOI15zT
+         IcLGGHtUwRw59njI6rRY+BCn6VCUnd8weQAwfxVPOGmsnxPU0qBSCDrT4poz/3rVFK8T
+         yGENfD+L6rW9w173hLR+TfzU54MLAn9jFgxn/VElCmLAa+SZRS9KqanaVlmbKbJ4nLwr
+         B3tM0uH7I3N0wkfUVtOr9j730EBnVRNeiSWHohaqci7etT6Syfe0/OODFMfezd8fI14c
+         EeqMmPDZlmKOu/K17TvQSnL08OikwAN0ToXrXrjBO3gZjaNuTMySqDI5w66pHJ0QdhLg
+         7zfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXDwK1cPvoJhbLyz/aVMeO8dCxkZhJJgqbaBs07w5nW331zua9KEh80Zh+WwWquNaCV+EX7Ug14orw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJVrjTAfXSLC6Av4P0aYiDGUVcq1C9TuXM0TKD0t9Q0uF7XCvI
+	B7GA0aS0t8ljZZTjOhO9+uSwLz03CYcJ7BKc5OEJK7PTS+by7THFpEZOGuLCjknWWH8=
+X-Gm-Gg: ASbGncv8/hEyNWLXsHL9AepqeUi+jmMXmUAm1YoQ2z3LNwZu9m99G+9vbKGBpovtcck
+	0PlF5hKmulBDia7Fan5hJumb9jmwhKsW8jAGhbB12Fiue1qe1wpC861xw0tLR894fimQ51xYYiy
+	M4YcsIgSw/M5ahiLPIOp2t9ON57ZQ6JLC9TUEwmMXF8LOsulFJ79urbEY1KHRuVemNHfJOdVcsA
+	ZygiQA0gkv0P1PJo7wEv7GDY9yTWHS6Zwil/z2VayjVF1jRlUBcItBIdrXr77eVuO8VtbW4g5VY
+	4sFG1+/Gld26icslRIMQr4dtxqqeeUyChyuhljAArfkorV8bKAanB9s9BUcunHkI0ZJsHpa5c50
+	fMSxJfUTeu9Rpi1757AE=
+X-Google-Smtp-Source: AGHT+IEbpwlX9RNF9WpXDfglu7SHNHUDlo1hyRYlQSKKylNeA/9j/0aUc+ELyV9kOi9X6Sh9wsvWsA==
+X-Received: by 2002:a05:6902:723:b0:e7d:d830:41e0 with SMTP id 3f1490d57ef6-e7f81e05026mr18622675276.12.1748852120773;
+        Mon, 02 Jun 2025 01:15:20 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e7f733ec580sm2134765276.28.2025.06.02.01.15.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Jun 2025 01:15:19 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e812fc35985so1033211276.0;
+        Mon, 02 Jun 2025 01:15:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVWNZiUlC/Pocy3U76jL1naPxAfdP+6fdSp6DFpXrcAm8jXR75j/di0M4L0zZlP/PVyVwxf62yaY/981Xpj@vger.kernel.org, AJvYcCWXx1a37V/bDdM0sGzYGNYTC/BekLXJDsiemakqqHKxdcROsSrdE2zMMmhTdnT2YM16oDudRnSARFEt@vger.kernel.org, AJvYcCWqGhJucBtBMf2M6RwzIPcIsVK4ujaJd+jf4VT99Enf62rqudxxGPurRPaSJLG6jDLtHHc2Lrvidr//@vger.kernel.org, AJvYcCXTWcdNuqEnDSVHihQgFei2hLFQASwC8QrVlxFQdUdwZqwKUt7bFQePvSDrljpOxQuDpd0xBeds18t375k=@vger.kernel.org
+X-Received: by 2002:a05:6902:723:b0:e7d:d830:41e0 with SMTP id
+ 3f1490d57ef6-e7f81e05026mr18622596276.12.1748852118798; Mon, 02 Jun 2025
+ 01:15:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+ <20250520-6-10-rocket-v5-1-18c9ca0fcb3c@tomeuvizoso.net> <CAL_Jsq+2mvUDWWvtPSryAiCNJP_=1vNRxARxWTS=-O-LTQO3Dg@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+2mvUDWWvtPSryAiCNJP_=1vNRxARxWTS=-O-LTQO3Dg@mail.gmail.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Mon, 2 Jun 2025 10:15:07 +0200
+X-Gmail-Original-Message-ID: <CAAObsKBPywWbe43AeY24P_13zH5m_BCb9arAhf+FVq+w=Z3j6A@mail.gmail.com>
+X-Gm-Features: AX0GCFvNhfOr4abfwc18aAyYDuAfUB75c0n6dwgqbzT_BxLwdikrZIB5A8pfreA
+Message-ID: <CAAObsKBPywWbe43AeY24P_13zH5m_BCb9arAhf+FVq+w=Z3j6A@mail.gmail.com>
+Subject: Re: [PATCH v5 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, 
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	Kever Yang <kever.yang@rock-chips.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The TPS53685 is a fully AMD SVI3 compliant step down
-controller with trans-inductor voltage regulator
-(TLVR) topology support, dual channels, built-in
-non-volatile memory (NVM), PMBus interface, and
-full compatible with TI NexFET smart power
-stages.
-Add support for it to the tps53679 driver.
+Hi Rob,
 
-Signed-off-by: Chiang Brian <chiang.brian@inventec.com>
----
-v7 -> v8:
-	1. Convert the type of device_id in tps53679_identify_multiphase()
-	   from int to char *
-	2. Run make.cross with ARCH i386
-	- Link to v7: https://lore.kernel.org/all/20250515081449.1433772-3-chiang.brian@inventec.com/
+[adding Kever to CC]
 
-v6 -> v7:
-	1. Modify the type of device_id from u16 to char *
-	2. Run make.cross with ARCH nios2, powerpc, and riscv
-	- Link to v6: https://lore.kernel.org/all/20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com/
+On Wed, May 28, 2025 at 3:41=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+>
+> On Tue, May 20, 2025 at 5:27=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.n=
+et> wrote:
+> >
+> > Add the bindings for the Neural Processing Unit IP from Rockchip.
+> >
+> > v2:
+> > - Adapt to new node structure (one node per core, each with its own
+> >   IOMMU)
+> > - Several misc. fixes from Sebastian Reichel
+> >
+> > v3:
+> > - Split register block in its constituent subblocks, and only require
+> >   the ones that the kernel would ever use (Nicolas Frattaroli)
+> > - Group supplies (Rob Herring)
+> > - Explain the way in which the top core is special (Rob Herring)
+> >
+> > v4:
+> > - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowsk=
+i)
+> > - Remove unneeded items: (Krzysztof Kozlowski)
+> > - Fix use of minItems/maxItems (Krzysztof Kozlowski)
+> > - Add reg-names to list of required properties (Krzysztof Kozlowski)
+> > - Fix example (Krzysztof Kozlowski)
+> >
+> > v5:
+> > - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
+> > - Streamline compatible property (Krzysztof Kozlowski)
+> >
+> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > ---
+> >  .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 147 +++++++++++++=
+++++++++
+> >  1 file changed, 147 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn=
+-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-cor=
+e.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..9eb426367afcbc03c387d43=
+c4b8250cdd1b9ee86
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.y=
+aml
+> > @@ -0,0 +1,147 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Neural Processing Unit IP from Rockchip
+> > +
+> > +maintainers:
+> > +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > +
+> > +description:
+> > +  Rockchip IP for accelerating inference of neural networks, based on =
+NVIDIA's
+> > +  open source NVDLA IP.
+> > +
+> > +  There is to be a node per each core in the NPU. In Rockchip's design=
+ there
+> > +  will be one core that is special and needs to be powered on before a=
+ny of the
+> > +  other cores can be used. This special core is called the top core an=
+d should
+> > +  have the compatible string that corresponds to top cores.
+>
+> Is this really a distinction in the h/w? If you change which core is
+> the top one in the DT, does it still work?
+>
+> > +
+> > +properties:
+> > +  $nodename:
+> > +    pattern: '^npu@[a-f0-9]+$'
+> > +
+> > +  compatible:
+> > +    enum:
+> > +      - rockchip,rk3588-rknn-core-top
+> > +      - rockchip,rk3588-rknn-core
+> > +
+> > +  reg:
+> > +    maxItems: 3
+> > +
+> > +  reg-names:
+> > +    items:
+> > +      - const: pc
+> > +      - const: cna
+> > +      - const: core
+> > +
+> > +  clocks:
+> > +    minItems: 2
+> > +    maxItems: 4
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: aclk
+> > +      - const: hclk
+> > +      - const: npu
+> > +      - const: pclk
+> > +    minItems: 2
+>
+> It is odd that the non-top cores only have bus clocks and no module
+> clock.
 
-v5 -> v6:
-	1. Add information about tps53685 into tps53679.rst
-	2. Add additional flags when identifing the chip as tps53685
-	3. Adjust length once returned device id is terminated by null character
-	- Link to v5: https://lore.kernel.org/all/20250314033040.3190642-1-chiang.brian@inventec.com/
+I'm not sure I get what you mean by module clock, but the TRM says this:
 
-v4 -> v5: 
-	1. document the compatible of tps53685 into dt-bindings
-	2. add the buffer length as argument for %*ph
-	3. Add Changelog
-	- Link to v4: https://lore.kernel.org/all/CAJCfHmW61d2jd_tYpNEqBG_Z58bEnVKAmsvhrEP1zXQoXqrUVw@mail.gmail.com/
+"36.5.2 Clock and Reset
+1.5.2.1 Clock Domains
+RKNN has two clock domains, one is AHB clock, the other is AXI clock.
+AHB clock, which is
+the clock for AHB interface, while AXI clock, which is the clock for
+AXI interface. AXI clock
+also used for core clock for every Calculate Core and Control Core.
+Clock frequency can be
+controlled by CRU, please refer to the relevant sections. Automatic
+localized clock gating is
+employed throughout the design in order to minimize the dynamic power
+consumption.
+Almost all of the flip-flops are clock gated in the design. Block
+level clock gating also
+implemented in every separate block. If a block and the interface to
+the block are both idle,
+then the clock of that block will be gated automatically. This feature
+can be disabled by
+software."
 
-v3 -> v4: 
-	1. Add length comparison into the comparison of "id",or it may be true when 
-	   the substring of "id" matches device id. 
-	2. Restore `return 0;` in `tps53679_identify_chip()`
-	- Link to v3: https://lore.kernel.org/all/CAJCfHmVyaDPh0_ThPjhBP0zMO1oE1AR=4=Zsa0cMPXU3J4v6dw@mail.gmail.com/
+So maybe the AXI (aclk?) clock is being used as what you called the
+module clock?
 
-v2 -> v3:
-	1. Remove the length comparsion in the comparison of "id".
-	- Link to v2: https://lore.kernel.org/all/CAJCfHmUteFM+nUZWBWvmwFjALg1QUL5r+=syU1HmYTL1ewQWqA@mail.gmail.com/
+> But based on the clock names, I'm guessing the aclk/hclk are
+> not shared, but the npu and pclk are shared. Since you make the top
+> core probe first, then it will enable the shared clocks and the
+> non-top cores don't have to worry about them. If so, that is wrong as
+> it is letting the software design define the bindings.
 
-v1 -> v2: 
-	1. Modify subject and description to meet requirements
-	2. Add "tps53685" into enum chips with numeric order
-	3. Modify the content of marco "TPS53681_DEVICE_ID" from 0x81 to "\x81"
-	   Add marco "TPS53685_DEVICE_ID" with content "TIShP"
-	4. Modify the type of "id" from u16 to char* in `tps53679_identify_chip()`
-	5. Modify the comparison of "id". It will be true if the string "id" matches 
-	   device ID and compare with type char*,
-	6. Add the length comparsion into the comparison of "id".
-	7. Modify "len" as return code in `tps53679_identify_chip()`
-	8. Output device error log with %*ph, instead of 0x%x\n" 
-	9. Use existing tps53679_identify_multiphase() with argument 
-	   "TPS53685_DEVICE_ID" in tps53685_identify() rather than creating one
-	   tps53685_identify_multiphase()
-	- Link to v1: https://lore.kernel.org/all/CAJCfHmVy3O4-nz2_PKF7TcXYr+HqTte1-bdUWLBmV7JOS7He1g@mail.gmail.com/
+I don't really know what the pclk and npu clk are needed for, but in
+the TRM I'm seeing references to the pclk being related to the core 0
+(TOP):
 
- Documentation/hwmon/tps53679.rst |  8 +++++++
- drivers/hwmon/pmbus/tps53679.c   | 37 ++++++++++++++++++++++++++------
- 2 files changed, 39 insertions(+), 6 deletions(-)
+pclk_nputop_root_sel
+pclk_nputop_biu_en
 
-diff --git a/Documentation/hwmon/tps53679.rst b/Documentation/hwmon/tps53679.rst
-index 3b9561648c24..dd5e4a37375d 100644
---- a/Documentation/hwmon/tps53679.rst
-+++ b/Documentation/hwmon/tps53679.rst
-@@ -43,6 +43,14 @@ Supported chips:
- 
-     Datasheet: https://www.ti.com/lit/gpn/TPS53681
- 
-+  * Texas Instruments TPS53685
-+
-+    Prefix: 'tps53685'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://www.ti.com/lit/gpn/TPS53685
-+
-   * Texas Instruments TPS53688
- 
-     Prefix: 'tps53688'
-diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53679.c
-index 63524dff5e75..7ef0c730e2fe 100644
---- a/drivers/hwmon/pmbus/tps53679.c
-+++ b/drivers/hwmon/pmbus/tps53679.c
-@@ -16,7 +16,7 @@
- #include "pmbus.h"
- 
- enum chips {
--	tps53647, tps53667, tps53676, tps53679, tps53681, tps53688
-+	tps53647, tps53667, tps53676, tps53679, tps53681, tps53685, tps53688
- };
- 
- #define TPS53647_PAGE_NUM		1
-@@ -31,7 +31,8 @@ enum chips {
- #define TPS53679_PROT_VR13_5MV		0x07 /* VR13.0 mode, 5-mV DAC */
- #define TPS53679_PAGE_NUM		2
- 
--#define TPS53681_DEVICE_ID		0x81
-+#define TPS53681_DEVICE_ID     "\x81"
-+#define TPS53685_DEVICE_ID     "TIShP"
- 
- #define TPS53681_PMBUS_REVISION		0x33
- 
-@@ -86,10 +87,12 @@ static int tps53679_identify_phases(struct i2c_client *client,
- }
- 
- static int tps53679_identify_chip(struct i2c_client *client,
--				  u8 revision, u16 id)
-+				  u8 revision, char *id)
- {
- 	u8 buf[I2C_SMBUS_BLOCK_MAX];
- 	int ret;
-+	int buf_len;
-+	int id_len;
- 
- 	ret = pmbus_read_byte_data(client, 0, PMBUS_REVISION);
- 	if (ret < 0)
-@@ -102,8 +105,14 @@ static int tps53679_identify_chip(struct i2c_client *client,
- 	ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
- 	if (ret < 0)
- 		return ret;
--	if (ret != 1 || buf[0] != id) {
--		dev_err(&client->dev, "Unexpected device ID 0x%x\n", buf[0]);
-+
-+	/* Adjust length if null terminator if present */
-+	buf_len = (buf[ret - 1] != '\x00' ? ret : ret - 1);
-+
-+	id_len = strlen(id);
-+
-+	if (buf_len != id_len || strncmp(id, buf, id_len)) {
-+		dev_err(&client->dev, "Unexpected device ID: %*ph\n", ret, buf);
- 		return -ENODEV;
- 	}
- 	return 0;
-@@ -117,7 +126,7 @@ static int tps53679_identify_chip(struct i2c_client *client,
-  */
- static int tps53679_identify_multiphase(struct i2c_client *client,
- 					struct pmbus_driver_info *info,
--					int pmbus_rev, int device_id)
-+					int pmbus_rev, char *device_id)
- {
- 	int ret;
- 
-@@ -138,6 +147,16 @@ static int tps53679_identify(struct i2c_client *client,
- 	return tps53679_identify_mode(client, info);
- }
- 
-+static int tps53685_identify(struct i2c_client *client,
-+				 struct pmbus_driver_info *info)
-+{
-+	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
-+			 PMBUS_HAVE_STATUS_INPUT;
-+	info->format[PSC_VOLTAGE_OUT] = linear;
-+	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
-+					   TPS53685_DEVICE_ID);
-+}
-+
- static int tps53681_identify(struct i2c_client *client,
- 			     struct pmbus_driver_info *info)
- {
-@@ -263,6 +282,10 @@ static int tps53679_probe(struct i2c_client *client)
- 		info->identify = tps53681_identify;
- 		info->read_word_data = tps53681_read_word_data;
- 		break;
-+	case tps53685:
-+	    info->pages = TPS53679_PAGE_NUM;
-+	    info->identify = tps53685_identify;
-+		break;
- 	default:
- 		return -ENODEV;
- 	}
-@@ -277,6 +300,7 @@ static const struct i2c_device_id tps53679_id[] = {
- 	{"tps53676", tps53676},
- 	{"tps53679", tps53679},
- 	{"tps53681", tps53681},
-+	{"tps53685", tps53685},
- 	{"tps53688", tps53688},
- 	{}
- };
-@@ -289,6 +313,7 @@ static const struct of_device_id __maybe_unused tps53679_of_match[] = {
- 	{.compatible = "ti,tps53676", .data = (void *)tps53676},
- 	{.compatible = "ti,tps53679", .data = (void *)tps53679},
- 	{.compatible = "ti,tps53681", .data = (void *)tps53681},
-+	{.compatible = "ti,tps53685", .data = (void *)tps53685},
- 	{.compatible = "ti,tps53688", .data = (void *)tps53688},
- 	{}
- };
--- 
-2.43.0
+Couldn't find similar references to the "npu" clock though.
 
+Cheers,
+
+Tomeu
