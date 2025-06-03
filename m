@@ -1,37 +1,37 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431C71DB366;
-	Tue,  3 Jun 2025 14:33:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B151DB366;
+	Tue,  3 Jun 2025 14:37:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748961238; cv=none; b=f+Bw4uAMnsdmC1HgtB9uh9+ZWXEwEEqYsXkMNIH+lHNl6iYZFOMEJxoGBfe15GVQr3lv2BFlCsofCx1vaezLlBpHBAH7qdbYg9TGCxUbyvy8chEt1yx3NSmij2SKZpJ93i/Ak4Ke/RtmY/TyvMRR7/Tbe3KLv+MP5plIt8husNs=
+	t=1748961446; cv=none; b=Ub0fjCR4IsboowVIhNwhohodS4ARvKVnkJQ+IlztUPg5sx43Nu55hfysEzj16IbRqALP/lhenjjhVxznPLX5fZE9TzaSIGRK186kahPE1tP18iiZT1oSsup+cPS8kYeUoL6CT0bcWDx7zyhPW0FSgINpGPqv3fZls4MV9jOlVBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748961238; c=relaxed/simple;
-	bh=Pax7Wp8g4EBK5lfGZTNO6TWJfzNxTHPQp6fy7syi1Lk=;
+	s=arc-20240116; t=1748961446; c=relaxed/simple;
+	bh=7F0XII4V5s2KPp1ioe9SOauygO51/G8Tc6KLSdROHo0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Pq43idy+5Q6sNnf7mYkkgMcgJqrVQs/geFoqVzeNO+Agzdhgs5oCldYcHVRRiS2bDCJ2pO5u6MnY/Zc1fsVoVFtyVhqFNx3prxjE34e8F7qDIFKo0mnwe1WkuHqMt2Q5BEB4QwP+PNf7d+79S7TtxCZRvyTHE2pW1+qSz0Ikrp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bjuvxdBO; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=PJLHHKVOb2yWN1W9hLlR56xeGkMR2DYG/XnQUbft5qtslbvLFg7hEZhzLifB0DglWjs7fOT0aVL3eqGPsTv309XqGa83E1db1azgWg/67oEP4OAYgRuD4XLFR6bJGkXgp4DhUjX7F0td8DyoWkWAAHXBC+egTCjyc6b4m2Yl3MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Fzyv0y/d; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bjuvxdBO"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2C74141ED0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Fzyv0y/d"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3756041ED0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1748961236; bh=xuzJ6pVHRkOA6mC6eSB047dEohJN/pd9soeYCZQRrNY=;
+	t=1748961444; bh=uw373KZqTxfYc7CgajAJm0hoPspIDINCwb6qNNb/b2c=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bjuvxdBOkFWFGc9lPwDAFgGPB1xqaSZmxICh+WhRoqYTpFzqQ3UsZtYRwl1o7W3XQ
-	 1v09x5i1ajdt//pT9RuhWYc07eOq4VHR3IyVj2yrMi0V7GISj/1ScS2DBt5LzSV+xA
-	 PhUR6ddS3kXbntmYGyH8Dih6G/UZb+FnrM8YF9eOT/BFNx2ixsOydPxunVxvNw/2x4
-	 2pZy6hU8gIkML3r7FPR4YANeqSzl4gwELRxATwefXtl2phZVdRu1yc0U1QMzTHEmqD
-	 u0ux7dcw8WXFX/+g6iDKHp2r6ecGLcx5Rk7gQJDGwy0HmBce7QdC9szyGV5aaF+CRI
-	 O3Dduxgjs/8Ag==
+	b=Fzyv0y/daizC+CqsktU1eYw3qfqwRekvSQTdxZWnPgVQ4dTTO45tBy2VxZug9voGr
+	 Vo2Oc2sPdIN9zD5H+wA1J8Zt7YjVSyTITU8TAXH4C7QrclLYAz33xAUuYXcSFvmxVb
+	 yHGKsmXe4Ce58i9tfK01pZaqc3xTntavvgxWpKnZJsjNFZl0VKGvD4f8PdE539GgZY
+	 RNGyEkQq4byV+byRM3wi4I/y9GJ4N3irjin11LWZduBaBEd5sft2tN/Cd/RAcuwp6U
+	 ULdlp9Q1VSJq7HVGoS1AHAtbYUIiq6RSv9mmTHnQ8nWtITi1Gf0bdX84WDdy2LclZQ
+	 4NyKT8ktuA/SA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2C74141ED0;
-	Tue,  3 Jun 2025 14:33:56 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3756041ED0;
+	Tue,  3 Jun 2025 14:37:24 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan
@@ -42,15 +42,14 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan
  linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] docs/mm: expand vma doc to highlight pte freeing,
  non-vma traversal
-In-Reply-To: <28f53f7e-5ac2-4ef4-8944-6741161e6870@lucifer.local>
+In-Reply-To: <ea8c2be9-0af0-445b-b7fe-fd9e80bd6a65@lucifer.local>
 References: <20250602210710.106159-1-lorenzo.stoakes@oracle.com>
  <87bjr59634.fsf@trenco.lwn.net>
  <9fc9ac50-abce-48bd-979f-2e00b26917b5@lucifer.local>
- <38bcf562-86dc-42b2-9ffc-53cbc5d8ac22@lucifer.local>
- <877c1s9b6p.fsf@trenco.lwn.net>
- <28f53f7e-5ac2-4ef4-8944-6741161e6870@lucifer.local>
-Date: Tue, 03 Jun 2025 08:33:55 -0600
-Message-ID: <87y0u87v3g.fsf@trenco.lwn.net>
+ <8734cg9auh.fsf@trenco.lwn.net>
+ <ea8c2be9-0af0-445b-b7fe-fd9e80bd6a65@lucifer.local>
+Date: Tue, 03 Jun 2025 08:37:23 -0600
+Message-ID: <87tt4w7uxo.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,48 +60,37 @@ Content-Type: text/plain
 
 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> writes:
 
->> OK ... If you look at what's going on, some of the functions will be
->> marked, others not.  The difference is that there is no markup for
->> functions where a cross-reference cannot be made (because they are
->> undocumented).
->>
->> We could easily change the automarkup code to always do the markup; the
->> problem with that (which is also a problem with the existing markup
->> under Documentation/mm) is you'll have rendered text that looks like a
->> cross-reference link, but which is not.  We also lose a clue as to which
->> functions are still in need of documentation.
+> But to repeat - 'given C's weirdness with typing I really prefer to be
+> explicit in referencing a struct vs. e.g. a typedef.'
+
+...and I think that makes perfect sense.
+
+>> Why would you *not* want to cross-reference something and make life easier
+>> for your reader?
 >
-> Isn't it a pretty egregious requirement to require documentation of every
-> referenced function?
+> Because it apparently requires me to document every function I reference?
+> Unless I'm missing something?
 >
-> I mean if that were a known requirement I'd simply not have written this
-> document at all, frankly.
-
-Who said anything about it being a requirement?  I think we have gone
-way off track here.
-
-Certainly it would be *nice* to have all of that stuff documented, and I
-think there is value in giving a visual clue for stuff that lacks
-documentation, but I never said anything about requirements.
-
->> The right answer might be to mark them up differently, I guess.
+> I may be misunderstanding you.
 >
-> But... what I'm doing here, and what mm does elsewhere works perfectly fine? Why
-> do we need something new?
+> If not then fine, I can delay this patch, go off and do a 'cleanup' patch
+> first, that will drop the '!'s and come back to this.
+>
+> But if I need to document every referenced function that just isn't
+> feasible for me with my current workload.
+>
+> Please clarify!
 
-Because you're thinking in terms of the rendered docs, and not the
-people who read the plain text.  "function()" is far more readable than
-":c:func:`!function()`", don't you agree?  And rather easier to write as
-well.
+Hopefully I already have - I'm in no position to enforce such a
+requirement, even if I thought it would be a good thing -- and I don't.
+It's hard enough to get documentation written as it is, I certainly
+don't want to make it harder.
 
-> Surely this cross-referencing stuff is more useful for API documentation
-> that explicitly intends to describe functions like this?
-
-The cross-referencing is *to* the API documentation.  Again, you are
-mentioning a function, why would you *not* want to let the system
-automatically link to that function's documentation?  Especially since
-you're using markup that is explicitly provided for exactly that
-purpose?  Does the link cause some sort of harm?
+My suggestion would be: proceed with your changes for now, it was never
+my purpose to put obstacles there.  I'll look at having automarkup do
+something a bit more useful for references that lack documentation, then
+maybe I'll do a cleanup pass on some of the mm docs if nobody else gets
+there first.
 
 Thanks,
 
