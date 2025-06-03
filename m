@@ -1,188 +1,104 @@
-Received: from mail-il1-f201.google.com (mail-il1-f201.google.com [209.85.166.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86698223719
-	for <linux-doc@vger.kernel.org>; Tue,  3 Jun 2025 21:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C9A1A8405
+	for <linux-doc@vger.kernel.org>; Tue,  3 Jun 2025 21:32:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748986366; cv=none; b=EnyGNuWdekOzpqoTpdyweA/BSXPfhZEKvr9XmiSIMOxhxYCwgfW0TMxTww2w3gqarpwMG/C8uFkJO3vybLAFeDTT7QEOt5drq4mZ+iobZ3VCs/gvB2n+EL6EZjTRYbEQp8RYChTpIf5axeSGiJmhJ9QR4rKhn6bvyIE6E89vrHE=
+	t=1748986366; cv=none; b=gtJqMDbDjcT0pheHN2Y//5uqys5d5GZQV9iuxahsSx1thTxVbavEvScS1q2ennkRiY0IvPMKTv4M3Er0NLkQ2HO38bySz02/3o3/wtl/92fDnoyeg81kDjpFyPmqDTLqriqUziyS9KuVcs5uiAl92DRuj/YCzOceYjaV9teeSq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1748986366; c=relaxed/simple;
-	bh=mRmmFnlPCP5qmGp8cqulc+n4NmAySDPtVlsv8iPw48Q=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=OafWvdlxbf5GfXeQ46NhPaLmQ4xTDG+/mgqtWlnASd5gMuUgtzgXWzVxaNcyNp2ES0G30j1OnZ8MSyg9PzKbhEE0mdTQ6gWVltwULKKtpKU++ArS7IwcRp/UoeA0LETcpyOzNBUcMTQEAMfyAoPJUEbb6oGlaHePzVBY+ScWue0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=K8FA1uSf; arc=none smtp.client-ip=209.85.166.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	bh=LdNrLWd2uxuafdhTuCSofMH8+0+Hg3iJQFHH8rsVdic=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fBUHnFAFHvIxujBSpUjNoVXRQkB0wrGBBdIevb2S71UyFttdmy8RG6LqIw47m2pHe8DRzs3v0IjAHuey9eSinhUwmhy5XbufbR1EgK+5zB8bqEEbEGTobCqmxzjccf6TNjCWTUTalPW2meE7jDiIYEXT/KGhNlqc9YyyDcqD2HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVLhrJ6O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="K8FA1uSf"
-Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3dc9d335fffso119657405ab.0
-        for <linux-doc@vger.kernel.org>; Tue, 03 Jun 2025 14:32:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1748986362; x=1749591162; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=A0l5G93fC29AgVAtcdaJmVpgHO/IQHFXQv4WdPYaaHE=;
-        b=K8FA1uSfxXYjE7M/3EGc5Xqz1jBw8GcDGVwsHp27n1ZI7vHBo0QWT2qQjdijACY7BA
-         lwqOv2PA2bN5COEHIj2Wn68GG+8L7U6PfTrmvhlaXGpyEgz/xHgfGsQwKWU+X06EG/UE
-         2V8F6qw1w5fm+Ivo5jH9xnc9Mfk55rKMzVmVPqFSu6ppANUTxsRslGaFaCLNyadaEoxB
-         MdC5tLrVwVffEBkfLJYlp6EDqSKGHLSk/wqER1yM6wUATYBMlgrWkEGdCdrUK1yC7AmZ
-         mPOWsVnwgF7Gz0feqkFGxRyAB34+dtwPJMGpv1EPafIAEfKeeLEJ0Yoy/TEW/tygeHzU
-         ETQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748986362; x=1749591162;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A0l5G93fC29AgVAtcdaJmVpgHO/IQHFXQv4WdPYaaHE=;
-        b=HEe/y1D400fXFsSkb+cQe2T53zxqOhZwnPkp5Dnik2F8kxrkSXWWcmRsL5YfxYE9Gk
-         eZH5JhpHcNSwqbuheibjLf0sSW2b95MJ6C51m6ruwiaBdIe0HEFDk2/VRn61/9Eh/opx
-         Lk8jkWsLXw7jwXk5ORHZ2hy0k3O8HpmGgKNtiV4wpHxH439j/kjobYFX6zvypfhhuCnP
-         VoLt1tEoESl041NPPJQZUww8zchPK54vLAQOrqiVdjZlTlWaDEGJTCevd5MWGUiU6PO2
-         i59YYeba/IeiupEBeu4HZqXRN7ynQgbD8xYSvuY2GSTfsMHO+BDCqVBPftxI0kBTGZ4N
-         34Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCUVSuovBXtySeQKAZQYihQp4Req+nmRWqwoT8uygCUd+NUYDLGLxNZr8Z/ZqvrA9lbSQvDdmPJV8i0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfC3dYsfjJ4XSVcxclePOXSVgKuxbF72ogbyD/fvn7TxDFJgv2
-	p9CjJ4q06bCbMvY2IzOVaCNWiGJuBZME/3ImSRF067QfIfjujyBSfrzhazfELz8Gw4XhkU7VZH3
-	prWLO6TYR4F/dP72mII+fpIg/kg==
-X-Google-Smtp-Source: AGHT+IEpZcrefEWDzzUjOLjOnRYEdIFZat5s3G0oLfOvn/O8rphYPOQ1GWMYf3Wj71ilVVre/pSRPvqRpgjiaR79Qg==
-X-Received: from ilbbm14.prod.google.com ([2002:a05:6e02:330e:b0:3d9:2b64:6884])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a92:c241:0:b0:3dc:7a9a:44d5 with SMTP id e9e14a558f8ab-3ddbedc8c8fmr6231205ab.22.1748986362621;
- Tue, 03 Jun 2025 14:32:42 -0700 (PDT)
-Date: Tue, 03 Jun 2025 21:32:41 +0000
-In-Reply-To: <aD4llDZwb_sC_Ptj@linux.dev> (message from Oliver Upton on Mon, 2
- Jun 2025 15:28:36 -0700)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVLhrJ6O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D08B6C4CEED;
+	Tue,  3 Jun 2025 21:32:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748986365;
+	bh=LdNrLWd2uxuafdhTuCSofMH8+0+Hg3iJQFHH8rsVdic=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gVLhrJ6OtTbH+HUZZhiaUPrnqjCIOZ/1g0Cc0FwLniIlnsWDa0GyohhkPwli6VCyp
+	 r5cDJPpGXvWNAyinBieTFKNULxibg+Csv8n7eY55Qe4XKM1KXuy4g9aLdnNS6hQhW3
+	 YAUl6WuvYzqaDcTiU6x8GQjFslIDwfxPIbC1V8xeJfQT2kec2/CWINwgaa51sUu/YB
+	 EforI52wm7lUzZ/SqUo61b1YOZx2VDLVsQQq0wgv8n7WjgSJvCvGOv7bkYMkCtJfAk
+	 XUYr0f5Ih6G22/sYAnYm4SxNheYiOJoBn1oCHKXbvEQF6GNcxNvjswNqUGZl01yH7i
+	 fFQorVnaySitA==
+Date: Tue, 3 Jun 2025 23:32:42 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] docs: automarkup: Remove some Sphinx 2 holdovers
+Message-ID: <20250603233242.3892f356@foz.lan>
+In-Reply-To: <87h60wlp6g.fsf@trenco.lwn.net>
+References: <87h60wlp6g.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsnt4iww3406.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH 06/17] KVM: arm64: Introduce method to partition the PMU
-From: Colton Lewis <coltonlewis@google.com>
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
-	maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, 
-	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Oliver Upton <oliver.upton@linux.dev> writes:
+Em Tue, 03 Jun 2025 11:17:59 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> On Mon, Jun 02, 2025 at 07:26:51PM +0000, Colton Lewis wrote:
->>   static void kvm_arm_setup_mdcr_el2(struct kvm_vcpu *vcpu)
->>   {
->> +	u8 hpmn = vcpu->kvm->arch.arm_pmu->hpmn;
->> +
->>   	preempt_disable();
+> Remove a few declarations that are no longer doing anything now that we
+> have left Sphinx 2 behind.
+> 
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/sphinx/automarkup.py | 12 ++----------
+>  1 file changed, 2 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+> index fd633f7a0bc3..347de81c1ab7 100644
+> --- a/Documentation/sphinx/automarkup.py
+> +++ b/Documentation/sphinx/automarkup.py
+> @@ -150,20 +150,12 @@ def markup_func_ref_sphinx3(docname, app, match):
+>      return target_text
+>  
+>  def markup_c_ref(docname, app, match):
+> -    class_str = {# Sphinx 2 only
+> -                 RE_function: 'c-func',
+> -                 RE_generic_type: 'c-type',
+> -                 # Sphinx 3+ only
+> -                 RE_struct: 'c-struct',
+> +    class_str = {RE_struct: 'c-struct',
+>                   RE_union: 'c-union',
+>                   RE_enum: 'c-enum',
+>                   RE_typedef: 'c-type',
+>                   }
+> -    reftype_str = {# Sphinx 2 only
+> -                   RE_function: 'function',
+> -                   RE_generic_type: 'type',
+> -                   # Sphinx 3+ only
+> -                   RE_struct: 'struct',
+> +    reftype_str = {RE_struct: 'struct',
+>                     RE_union: 'union',
+>                     RE_enum: 'enum',
+>                     RE_typedef: 'type',
 
->>   	/*
->>   	 * This also clears MDCR_EL2_E2PB_MASK and MDCR_EL2_E2TB_MASK
->>   	 * to disable guest access to the profiling and trace buffers
->>   	 */
->> -	vcpu->arch.mdcr_el2 = FIELD_PREP(MDCR_EL2_HPMN,
->> -					 *host_data_ptr(nr_event_counters));
->> -	vcpu->arch.mdcr_el2 |= (MDCR_EL2_TPM |
->> +	vcpu->arch.mdcr_el2 = FIELD_PREP(MDCR_EL2_HPMN, hpmn);
->> +	vcpu->arch.mdcr_el2 |= (MDCR_EL2_HPMD |
->> +				MDCR_EL2_TPM |
+Makes sense to me. I almost removed it on one of my patches, but I
+ended forgetting about that ;-)
 
-> This isn't safe, as there's no guarantee that kvm_arch::arm_pmu is
-> pointing that the PMU for this CPU. KVM needs to derive HPMN from some
-> per-CPU state, not anything tied to the VM/vCPU.
+You probably can get rid of this too:
 
-I'm confused. Isn't this function preparing to run the vCPU on this
-CPU? Why would it be pointing at a different PMU?
+	#
+	# Sphinx 2 uses the same :c:type role for struct, union, enum and typedef
+	#
+	RE_generic_type = re.compile(r'\b(struct|union|enum|typedef)\s+([a-zA-Z_]\w+)',
+        	                     flags=re.ASCII)
 
-And HPMN is something that we only want set when running a vCPU, so
-there isn't any per-CPU state saying it should be anything but the
-default value (number of counters) outside that context.
+As this is used only on the regular expressions you dropped.
 
-Unless you just mean I should check the number of counters again and
-make sure HPMN is not an invalid value.
+After removing that:
 
->> +/**
->> + * kvm_pmu_partition() - Partition the PMU
->> + * @pmu: Pointer to pmu being partitioned
->> + * @host_counters: Number of host counters to reserve
->> + *
->> + * Partition the given PMU by taking a number of host counters to
->> + * reserve and, if it is a valid reservation, recording the
->> + * corresponding HPMN value in the hpmn field of the PMU and clearing
->> + * the guest-reserved counters from the counter mask.
->> + *
->> + * Passing 0 for @host_counters has the effect of disabling  
->> partitioning.
->> + *
->> + * Return: 0 on success, -ERROR otherwise
->> + */
->> +int kvm_pmu_partition(struct arm_pmu *pmu, u8 host_counters)
->> +{
->> +	u8 nr_counters;
->> +	u8 hpmn;
->> +
->> +	if (!kvm_pmu_reservation_is_valid(host_counters))
->> +		return -EINVAL;
->> +
->> +	nr_counters = *host_data_ptr(nr_event_counters);
->> +	hpmn = kvm_pmu_hpmn(host_counters);
->> +
->> +	if (hpmn < nr_counters) {
->> +		pmu->hpmn = hpmn;
->> +		/* Inform host driver of available counters */
->> +		bitmap_clear(pmu->cntr_mask, 0, hpmn);
->> +		bitmap_set(pmu->cntr_mask, hpmn, nr_counters);
->> +		clear_bit(ARMV8_PMU_CYCLE_IDX, pmu->cntr_mask);
->> +		if (pmuv3_has_icntr())
->> +			clear_bit(ARMV8_PMU_INSTR_IDX, pmu->cntr_mask);
->> +
->> +		kvm_debug("Partitioned PMU with HPMN %u", hpmn);
->> +	} else {
->> +		pmu->hpmn = nr_counters;
->> +		bitmap_set(pmu->cntr_mask, 0, nr_counters);
->> +		set_bit(ARMV8_PMU_CYCLE_IDX, pmu->cntr_mask);
->> +		if (pmuv3_has_icntr())
->> +			set_bit(ARMV8_PMU_INSTR_IDX, pmu->cntr_mask);
->> +
->> +		kvm_debug("Unpartitioned PMU");
->> +	}
->> +
->> +	return 0;
->> +}
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> Hmm... Just in terms of code organization I'm not sure I like having KVM
-> twiddling with *host* support for PMUv3. Feels like the ARM PMU driver
-> should own partitioning and KVM just takes what it can get.
-
-Okay. I can move the code.
-
->> @@ -239,6 +245,13 @@ void kvm_host_pmu_init(struct arm_pmu *pmu)
->>   	if (!pmuv3_implemented(kvm_arm_pmu_get_pmuver_limit()))
->>   		return;
-
->> +	if (reserved_host_counters) {
->> +		if (kvm_pmu_partition_supported())
->> +			WARN_ON(kvm_pmu_partition(pmu, reserved_host_counters));
->> +		else
->> +			kvm_err("PMU Partition is not supported");
->> +	}
->> +
-
-> Hasn't the ARM PMU been registered with perf at this point? Surely the
-> driver wouldn't be very pleased with us ripping counters out from under
-> its feet.
-
-AFAICT nothing in perf registration cares about the number of counters
-the PMU has. The PMUv3 driver tracks its own available counters through
-cntr_mask and I modify that during partition.
-
-Since this is still initialization of the PMU, I don't believe anything
-has had a chance to use a counter yet that will be ripped away.
-
-Aesthetically It makes since to change this if I move the partitioning
-code to the PMUv3 driver, but I think it's inconsequential to the
-function.
+Thanks,
+Mauro
