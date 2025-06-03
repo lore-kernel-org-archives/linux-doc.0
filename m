@@ -1,161 +1,240 @@
-Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E3522F16C;
-	Tue,  3 Jun 2025 13:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE43231A32
+	for <linux-doc@vger.kernel.org>; Tue,  3 Jun 2025 13:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748955807; cv=none; b=EE24me1UZOODtQXM6lJTaoovT+grAV6vUs2cCSXdCBUQnII2I+Xtzfpg0kLorgwIzFlM3HIgkntlrHW6KTNITTCqGzFddtvICOoIWX1lU2M5XyGPC3W/A+s13fsetF43CDESTOP0ycdBqpkIxyLQ6Trdxepwz7SZYxTDHhSvFQU=
+	t=1748957248; cv=none; b=Ydt86e9o/bhq/IrQrOH7cZzXFgpNdWwEwwmfqjL/JcXTL8RwPDoGQqDNZWdVtyHS5k4FnLxzfukiEYawNAr8d8o/2V6SkPp0kQVGrWfUdUmhRXDZYX6/DYsQeSm8K4Q1OSPyuEa7N8pteXt3qwZgAKtB27zAqAmb07Z+lMrHVpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748955807; c=relaxed/simple;
-	bh=b2cBxYIoBRT+2/xwG4IR+hUf094ccfUD1g+zGlsyiJA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JTRVALqZo0mztvOGUQy7a2vVOM/dKEWOhetO168xy6ydJ8IyCDHKt59jLHzQm6Vb5/U0GbHGZ97cZlSbEQZnwRk/5mVny2xeHa6M3ccGzEXdaOvao+UrAT0Njr2zvuqC2+9rmq/DGzZ1fEwM4h4iFzD62X/CJP6eOcPlEEu5Bso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=x1b9axSg; arc=none smtp.client-ip=198.37.111.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+	s=arc-20240116; t=1748957248; c=relaxed/simple;
+	bh=Q7lOCrXXTUcctEEqD89lwjdgZQTT45XkhavsJH1ojUw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OjIsIAdnPzqGbEBUWcT7ARpRTyaJ+NUGMBsJKb6THtYIS1Sktjj9Y7lfYb1UbPdH/8f85CQLHjaUQ/c7pR0vu3DUEsR7Ld9wlAW0WqAVwO1x20PakRp8E8XQMfhGIuakuQ5XbvqpFiSHxp6tqVLp/WJPaelX8hw27x0rvTzJBxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fOZPGoWq; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="x1b9axSg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1748955804;
-	bh=b2cBxYIoBRT+2/xwG4IR+hUf094ccfUD1g+zGlsyiJA=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=x1b9axSgbD2Av4x74Y5287EQZJqAbiqhEmC84ApEiRmgfNtLh4NiAVfDl/Ejni8+f
-	 +D6HsHEUlIW+yQxNnWJ9jzFO6X1BsQ3UYrnF23qrJfhGfpj8P4++sop/6moBtY7kDR
-	 BhQzCUR7J+3c4d+iqnPzfqTKJOaud9zYcR+Jrg5A=
-Received: from [IPv6:2601:5c4:4302:c21::a774] (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 5F3331C0384;
-	Tue, 03 Jun 2025 09:03:23 -0400 (EDT)
-Message-ID: <d34555e2b0c4746fc01d5295959a434befcf8b18.camel@HansenPartnership.com>
-Subject: Re: [PATCH RFC 1/1] module: Make use of platform keyring for module
- signature verify
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-modules@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- keyrings@vger.kernel.org, David Howells <dhowells@redhat.com>, David
- Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Luis
- Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Sami
- Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
- Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg
- <eric.snowberg@oracle.com>, Paul Moore <paul@paul-moore.com>, James Morris
- <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Peter Jones
- <pjones@redhat.com>, Robert Holmes <robeholmes@gmail.com>, Jeremy Cline
- <jcline@redhat.com>, Coiby Xu <coxu@redhat.com>, Gerd Hoffmann
- <kraxel@redhat.com>
-Date: Tue, 03 Jun 2025 09:03:22 -0400
-In-Reply-To: <87r001yzob.fsf@redhat.com>
-References: <20250602132535.897944-1-vkuznets@redhat.com>
-	 <20250602132535.897944-2-vkuznets@redhat.com>
-	 <948f5567fe4d9ae39aa2528965f123e42bf82b46.camel@HansenPartnership.com>
-	 <87r001yzob.fsf@redhat.com>
-Autocrypt: addr=James.Bottomley@HansenPartnership.com;
- prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fOZPGoWq"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2da73155e91so2271979fac.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jun 2025 06:27:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1748957245; x=1749562045; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uzG5/6FfYNA5sX3NTsG/Wy+wkRCs94Vw4PYEh9eg6hA=;
+        b=fOZPGoWq4qGBLqEejDpUtbN9VrCaWw7VDlC75lWIE8Sz5W39bAOAR2XMky4Z+xkdQg
+         AGmS4TZJ4mq4nswv3qiRyYUqes+yRBduhrnVOos/0jNpq9beBuVqZssO7tFOOSY5K76i
+         8dfxhYevl9KpEjH43umT/uHoGgCC9jBipjLH5IysXhnGYfwlu8tOrSHZ6G6mdScsZzd3
+         Fk9Qhyu7TtU20kOn4z7unbavYiyUeIeJMBWZo2UiK1/sitxljbeFSKkGPJd/veDzNJPu
+         8XDn/Qatlt3elwyAy5WL+c1WSp7CbYLbBl7L6M0lxSws4hsIIrnBZx05NlabdWfwhGIQ
+         NIaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748957245; x=1749562045;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uzG5/6FfYNA5sX3NTsG/Wy+wkRCs94Vw4PYEh9eg6hA=;
+        b=Uk78mQkVXN9suynQ3St45LMTAWWQEdJAv52KbMW7NDs95MxeGh6k4MQ5V0HbqDbRJm
+         OPt4T16qInGmD3/0u5NfIlDcdiyQfaQjE/7TX1Sat7CaR3G0yyaBrNyzhHOy572mQddA
+         qbVBY3ogUqEZxpnBwX4jYAXFRBo5dl8/bquhw1lnENmv0DINhAievdONL3k8ICqxFVxZ
+         P1citTOJ+J91VY5sPOSf6CW91c6UOuiU+s5FZvk8KhBKqIMchkuuSw7i7I30URZjawxZ
+         fRz9WR/lzHPPY+aGf9/AzSZ0+cItjkP3SmRSqG46TqWnXT78AZEfmrOdzTr8+He092hB
+         1ufw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkt8PN2xkk7ieEdODXWcOdxiKvRF8c9DRQvGxqiqwlPn3THVZKcXLoEl17D1T5WGZclOVBkRmHJ+8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCvORTh7m3SLgEP7zMHhkFv0bWqEvDZILAqYk5X7YklsNdFj8z
+	1jEIyEN2NDPFISmvGTiRhad1QLP9DVEVWpKbsxHDBgbbCKqb+lChvg3WEdEveUgPvas=
+X-Gm-Gg: ASbGncunw7/SD2OI6vkvBd15bWkhoSbrr9gROfxzStfiPUi4i2LnEqtSEs8WQqAYTZJ
+	aock3f+8UvELH1gWS22r2LxjXS5r95ksLXd6QK1o2CHD5OI3t/bFeuXkRbGfs2R+hFJdB4jQYiq
+	bLwIjpj+FbAkG6gHgSq5fVBR/JwgjBWcsr/Tkdyp1mfA31jLG+sl16Z7OL4vkp6y9MFQzMVCqNh
+	KhwrylJPKvxLjqqw2MXGGSExvnCYgE04sQTCkKYWb2+jCb9vrZ2yKLwqEdKDTMRNmP24yHIpV32
+	/zPg5dCDDTn7uguZWK88diaTlduddFnx3TFilv/dXhI0DDWGCPvKMBTv6kktWMMa7e5lffTrGxr
+	KeGETRjBBcHxLLNhllgO3RREJUg==
+X-Google-Smtp-Source: AGHT+IHR/oHIMtB0y186dpEHP2nRW08u7roI6RQa16TTsA0Xefsv43qM8XH/KFxicsxXV1pI4ADRhg==
+X-Received: by 2002:a05:6870:ebc6:b0:29e:766d:e969 with SMTP id 586e51a60fabf-2e92a1623ecmr9541391fac.10.1748957245083;
+        Tue, 03 Jun 2025 06:27:25 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:e835:af77:41c:3a1f? ([2600:8803:e7e4:1d00:e835:af77:41c:3a1f])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2e906b7f8f7sm2222601fac.38.2025.06.03.06.27.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jun 2025 06:27:24 -0700 (PDT)
+Message-ID: <4f09fa4e-704f-4a2b-abc3-e8f275d0e7bf@baylibre.com>
+Date: Tue, 3 Jun 2025 08:27:22 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/5] dt-bindings: iio: adc: Add adi,ad4052
+To: Jorge Marques <gastmaier@gmail.com>
+Cc: Jorge Marques <jorge.marques@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
+ <20250422-iio-driver-ad4052-v2-3-638af47e9eb3@analog.com>
+ <88a326e7-3910-4e02-b4ba-7afe06402871@baylibre.com>
+ <hvexchm2ozsto5s2o6n5j2z3odrkbcamgmg67umd4aehwzmgie@dvtx6anioasq>
+ <1b0e9003-7322-46fa-b2ba-518a142616dc@baylibre.com>
+ <vchomz3iazgdmotcs3jskrugi2qmdxyo74t4ruo2fsc7cjwtqb@7rtdmdkxobvg>
+ <a6f62963-5776-47e4-bdac-78e921a6e476@baylibre.com>
+ <a6cguahvrbqjv2wtisvgg2wvm2tj3awmn7omo6ebfpts6v546o@4xzpj353vlsx>
+ <fca1e8c7-2c1c-4244-a109-f674940d6030@baylibre.com>
+ <65m4itn5xp3ytc7hvpskuk4kmu54wznk4m2odt7d5a5k35vy26@ekjxegpjy5wq>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <65m4itn5xp3ytc7hvpskuk4kmu54wznk4m2odt7d5a5k35vy26@ekjxegpjy5wq>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2025-06-03 at 10:52 +0200, Vitaly Kuznetsov wrote:
-> James Bottomley <James.Bottomley@HansenPartnership.com> writes:
-[...]
-> > Also, are you sure a config option is the right thing?=C2=A0 Presumably
-> > Red Hat wants to limit its number of kernels and the design of just
-> > linking the machine keyring (i.e. MoK) was for the use case where
-> > trust is being pivoted away from db by shim, so users don't want to
-> > trust the db keys they don't control.=C2=A0 If the same kernel gets use=
-d
-> > for both situations (trusted and untrusted db) you might want a
-> > runtime means to distinguish them.
->=20
-> I was not personally involved when RH put the patch downstream (and
-> wasn't very successful in getting the background story) but it
-> doesn't even have an additional Kconfig, e.g.:
-> https://gitlab.com/redhat/centos-stream/src/kernel/centos-stream-10/-/com=
-mit/03d4694fa6511132989bac0da11fa677ea5d29f6
-> so apparently there's no desire to limit anything, basically,
-> .platform is always trusted on Fedora/RHEL systems (for a long time
-> already).
+On 6/3/25 2:29 AM, Jorge Marques wrote:
+> On Mon, Jun 02, 2025 at 12:23:40PM -0500, David Lechner wrote:
+>> On 6/2/25 11:32 AM, Jorge Marques wrote:
+>>> Hi David,
+>>>
+>>> On Mon, Jun 02, 2025 at 10:17:18AM -0500, David Lechner wrote:
+>>>> On 6/2/25 4:17 AM, Jorge Marques wrote:
+>>>>> On Tue, Apr 29, 2025 at 10:45:20AM -0500, David Lechner wrote:
+>>>>>> On 4/29/25 8:48 AM, Jorge Marques wrote:
+>>>>>>> Hi David, 
+>>>>>>>
+>>>>>>> I didn't went through your's and Jonathan's ad4052.c review yet,
+>>>>>>> but for the trigger-source-cells I need to dig deeper and make
+>>>>>>> considerable changes to the driver, as well as hardware tests.
+>>>>>>> My idea was to have a less customizable driver, but I get that it is
+>>>>>>> more interesting to make it user-definable.
+>>>>>>
+>>>>>> We don't need to make the driver support all possibilities, but the devicetree
+>>>>>> needs to be as complete as possible since it can't be as easily changed in the
+>>>>>> future.
+>>>>>>
+>>>>>
+>>>>> Ack.
+>>>>>
+>>>>> I see that the node goes in the spi controller (the parent). To use the
+>>>>> same information in the driver I need to look-up the parent node, then
+>>>>> the node. I don't plan to do that in the version of the driver, just an
+>>>>> observation.
+>>>>>
+>>>>> There is something else I want to discuss on the dt-bindings actually.
+>>>>> According to the schema, the spi-max-frequency is:
+>>>>>
+>>>>>   > Maximum SPI clocking speed of the device in Hz.
+>>>>>
+>>>>> The ad4052 has 2 maximum speeds: Configuration mode (lower) and ADC Mode
+>>>>> (higher, depends on VIO). The solution I came up, to not require a
+>>>>> custom regmap spi bus, is to have spi-max-frequency bound the
+>>>>> Configuration mode speed,
+>>>>
+>>>> The purpose of spi-max-frequency in the devicetree is that sometimes
+>>>> the wiring of a complete system makes the effective max frequency
+>>>> lower than what is allowed by the datasheet. So this really needs
+>>>> to be the absolute highest frequency allowed.
+>>>>
+>>>>> and have ADC Mode set by VIO regulator
+>>>>> voltage, through spi_transfer.speed_hz. At the end of the day, both are
+>>>>> bounded by the spi controller maximum speed.
+>>>>
+>>>> If spi_transfer.speed_hz > spi-max-frequency, then the core SPI code
+>>>> uses spi-max-frequency. So I don't think this would actually work.
+>>>>
+>>> Ok, so that's something that may be worth some attention.
+>>>
+>>> At spi/spi.c#2472
+>>> 	if (!of_property_read_u32(nc, "spi-max-frequency", &value))
+>>> 		spi->max_speed_hz = value;
+>>>
+>>> At spi/spi.c#4090
+>>> 	if (!xfer->speed_hz)
+>>> 		xfer->speed_hz = spi->max_speed_hz;
+>>>
+>>> So, speed_hz is max-spi-frequency only if xfer->speed_hz is 0 and
+>>> not bounded by it.
+>>
+>> Ah, OK, my memory was wrong. It is only bound by the controller max
+>> speed, not the device max speed.
+>>
+>> 	if (ctlr->max_speed_hz && xfer->speed_hz > ctlr->max_speed_hz)
+>> 		xfer->speed_hz = ctlr->max_speed_hz;
+>>
+>> It does seem odd that it would allow setting an individual xfer
+>> speed higher than than the given device max speed. I suppose we
+>> could submit a patch adding that check to the SPI core code and
+>> see what Mark has to say.
+>>
+> 
+> Agreed, the patch itself would be simple:
+> 
+>  	if (!xfer->speed_hz || xfer->speed_hz > spi->max_speed_hz)
+>  		xfer->speed_hz = spi->max_speed_hz;
+> 
+> But I wonder how many drivers rely on this behaviour
 
-It sounds like that's just distro politics:  RH wants to enable binary
-modules (by allowing them to be signed) but doesn't want to be seen to
-be signing them (so they can't be signed with the embedded RH key) so
-that gamers can have performant graphics drivers and the like.  Thus it
-mixes in the db keyring, which usually contains several Microsoft
-certificates and also one from the ODM manufacturer, so now it can send
-would be shippers of binary modules to those groups to get them signed.
-If you only have the built in and MoK keyrings, the only possible
-signers are either RH or the machine owner ... who isn't a single
-entity to deal with.  Personally I think this is a bit daft: Debian
-manages an out of tree module infrastructure using DKMS and MoK
-signing, so I can't see why RH can't get it to work in the same way.
+Only one way to find out. Try it. :-)
 
-> As part of the RFC, I'd like to try to understand under which
-> conditions people may not want to trust 'db'. In the most common use
-> case, 'db' is used to authorize shim and the kernel is signed by a
-> cert from shim's vendor_db, not trusting 'db' for modules after that
-> seems somawhat silly. Maybe we can detect the fact that the user took
-> control over the system with MOK and untrust .platform only then
-> (while trusting it by default)?
+>>>
+>>> Then at spi-axi-spi-engine.c:
+>>>
+>>> 	static int spi_engine_precompile_message(struct spi_message *msg)
+>>> 	{
+>>>   		clk_div = DIV_ROUND_UP(max_hz, xfer->speed_hz);
+>>> 		xfer->effective_speed_hz = max_hz / min(clk_div, 256U);
+>>> 	}
+>>>
+>>> Where max_hz is set only by the IP spi_clk. If at the driver I set
+>>> xfer.speed_hz, it won't be bounded by max-spi-frequency.
+>>>
+>>> The only that seems to bound as described is the layer for flash memory
+>>> at spi-mem.c@spi_mem_adjust_op_freq.
+>>>
+>>> For the adc driver, I will then consider your behavioral description and
+>>> create a custom regmap bus to limit set the reg access speed (fixed),
+>>> and keep adc mode speed set by VIO. And consider spi-max-frequency can
+>>> further reduce both speeds.
+>>> (or should instead be handled at the driver like spi-mem.c ?)
+>>
+>> It would be more work, but if it is common enough, we could generalize this
+>> in the core code. For example add a spi-register-max-frequency binding (or
+>> even a more general spi-max-freqency-map to map operations to max frequencies).
+>> Then we could bake it into the regmap_spi code to handle this property
+>> and not have to make a separate bus.
+>>
+>> FWIW, there are also some SPI TFT displays that use a different frequency
+>> for register access compared to framebuffer data that could potentially
+>> use this too. Right now, these just have a hard-coded register access
+>> frequency of e.g. 10 MHz.
+>>
+> 
+> I implemented the custom regmap bus for this series.
 
-Well, I think it's pretty obvious that in a standard secure boot system
-most people wouldn't want either Microsoft or the ODM manufacturer
-being in a position to sign module code for their systems.  Indeed,
-when this was first mooted by Red Hat years ago, I thought Microsoft
-refused to be the CA for our modules anyway.  From a security point of
-view, it's separation of concerns: the standard secure boot database
-guards access to the UEFI boot time before ExitBootServices.  The
-kernel is a completely separate security domain and should be guarded
-by different keys.
+Good plan.
 
-> A runtime toggle is not something I thought much about: the sole
-> purpose of this part of 'lockdown' (limitimg unsigned modules load)
-> seems to be to prevent someone who already has 'root' on the system
-> to gain kernel level access to e.g. hide its activities. In case root
-> can decide which keys are trusted, isn't it all in vain?
+> With a `spi-max-frequency-map`, the regmap bus can be removed.
+> I don't want to include this regmap spi patch to this series.
+> As I see it, struct regmap_but first need to be extended to add
+> a max_speed, e.g.
+>   
+>    @max_speed: Max transfer speed that can be used on the bus.
+> 
+> regmap_spi.c would then look for the devicetree node to fill the value
+> and on regmap_write/read fill speed_hz.
+> In this case, it could be called "register-frequency" or
+> "regmap-frequency"
+> If instead it is up to spi.c to read the devicetree node, then a way to
+> differentiate "regular" transfers from "regmap" transfers would be
+> necessary.
+> 
+> About submitting v3, should I submit only up-to the base driver, or can
+> I submit also the add offload support and add event support commits?
 
-Not exactly, the purpose of lockdown is to make root less privileged
-than ring 0 (the kernel), so that a user space privilege escalation
-does less damage.  The gold standard for all of this is supposed to be
-to foil an Evil Maid attack (physical access) but I don't think we're
-quite there yet.  From the point of view of the keyrings a lot of
-others (like .ima) have trusted signing requirements meaning root can't
-simply add keys, they have to be signed by keys in the existing trusted
-keyring as well.
-
->  Or maybe if the toggle is to just trust/not trust .platform (and not
-> e.g. disable signatures verification completely, inject a new
-> key,...) this is acceptable? Another option is to have a kernel
-> command line parameter but this is complicated for users.
-
-I was thinking that if the goal is simply to enable cloud db then the
-toggle could be detecting the presence of the MoK variables.  However,
-if the distro politics thought above is correct, that won't work for
-the RH use case of enabling additional binary modules by getting others
-to sign them.  Until we have UKI signing of the kernel command line,
-it's not such a safe vector to use for switches like this because it
-makes the Evil Maid problem worse (and they're hard for users to manage
-anyway as you say).
-
-Regards,
-
-James
+I wouldn't add anything new at this point. Being able to spread out
+the review a bit will lead to better reviews.
 
