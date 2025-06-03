@@ -1,240 +1,224 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2079.outbound.protection.outlook.com [40.107.101.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE43231A32
-	for <linux-doc@vger.kernel.org>; Tue,  3 Jun 2025 13:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748957248; cv=none; b=Ydt86e9o/bhq/IrQrOH7cZzXFgpNdWwEwwmfqjL/JcXTL8RwPDoGQqDNZWdVtyHS5k4FnLxzfukiEYawNAr8d8o/2V6SkPp0kQVGrWfUdUmhRXDZYX6/DYsQeSm8K4Q1OSPyuEa7N8pteXt3qwZgAKtB27zAqAmb07Z+lMrHVpM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748957248; c=relaxed/simple;
-	bh=Q7lOCrXXTUcctEEqD89lwjdgZQTT45XkhavsJH1ojUw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OjIsIAdnPzqGbEBUWcT7ARpRTyaJ+NUGMBsJKb6THtYIS1Sktjj9Y7lfYb1UbPdH/8f85CQLHjaUQ/c7pR0vu3DUEsR7Ld9wlAW0WqAVwO1x20PakRp8E8XQMfhGIuakuQ5XbvqpFiSHxp6tqVLp/WJPaelX8hw27x0rvTzJBxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fOZPGoWq; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F940236A79;
+	Tue,  3 Jun 2025 13:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748958078; cv=fail; b=Kg+8Ejs8jEDuvTGjHtAaVaKSwHVBI6VODh2bwhrcCsUqCo+OZQmQBXP4KNoe8MCed+xeabsClRNtUT3UWvrIAtbv+sMT45wO0cetzRMCMgGDUSuyrISFyKGf10cUigusSOYVf/orNZljSEWqzj0wvv3bO+NlV4WaQDK+QyUiYd0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748958078; c=relaxed/simple;
+	bh=jtylvG2mzEATZ0QZa+wTzUBICgxRc1Kgfs+A9oxi3Sc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=oaNjYxJ07G0st67NEFRFZpY8/WvxdXZZ4r/VE21Kim3u8y1HK+gmsEQazTuNkGeMdRs5j9SIgCw5p1TsMfM6SV5XgLRO2GH2bHAiqZAktLFotyj8n7nnOBYQxwi1G8z+upkBpFvjFX0fHBn0DiptfkOIF9JSlOpzCrXNxygttj8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xdF0/YiL; arc=fail smtp.client-ip=40.107.101.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fOZPGoWq"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2da73155e91so2271979fac.0
-        for <linux-doc@vger.kernel.org>; Tue, 03 Jun 2025 06:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1748957245; x=1749562045; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uzG5/6FfYNA5sX3NTsG/Wy+wkRCs94Vw4PYEh9eg6hA=;
-        b=fOZPGoWq4qGBLqEejDpUtbN9VrCaWw7VDlC75lWIE8Sz5W39bAOAR2XMky4Z+xkdQg
-         AGmS4TZJ4mq4nswv3qiRyYUqes+yRBduhrnVOos/0jNpq9beBuVqZssO7tFOOSY5K76i
-         8dfxhYevl9KpEjH43umT/uHoGgCC9jBipjLH5IysXhnGYfwlu8tOrSHZ6G6mdScsZzd3
-         Fk9Qhyu7TtU20kOn4z7unbavYiyUeIeJMBWZo2UiK1/sitxljbeFSKkGPJd/veDzNJPu
-         8XDn/Qatlt3elwyAy5WL+c1WSp7CbYLbBl7L6M0lxSws4hsIIrnBZx05NlabdWfwhGIQ
-         NIaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748957245; x=1749562045;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uzG5/6FfYNA5sX3NTsG/Wy+wkRCs94Vw4PYEh9eg6hA=;
-        b=Uk78mQkVXN9suynQ3St45LMTAWWQEdJAv52KbMW7NDs95MxeGh6k4MQ5V0HbqDbRJm
-         OPt4T16qInGmD3/0u5NfIlDcdiyQfaQjE/7TX1Sat7CaR3G0yyaBrNyzhHOy572mQddA
-         qbVBY3ogUqEZxpnBwX4jYAXFRBo5dl8/bquhw1lnENmv0DINhAievdONL3k8ICqxFVxZ
-         P1citTOJ+J91VY5sPOSf6CW91c6UOuiU+s5FZvk8KhBKqIMchkuuSw7i7I30URZjawxZ
-         fRz9WR/lzHPPY+aGf9/AzSZ0+cItjkP3SmRSqG46TqWnXT78AZEfmrOdzTr8+He092hB
-         1ufw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkt8PN2xkk7ieEdODXWcOdxiKvRF8c9DRQvGxqiqwlPn3THVZKcXLoEl17D1T5WGZclOVBkRmHJ+8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCvORTh7m3SLgEP7zMHhkFv0bWqEvDZILAqYk5X7YklsNdFj8z
-	1jEIyEN2NDPFISmvGTiRhad1QLP9DVEVWpKbsxHDBgbbCKqb+lChvg3WEdEveUgPvas=
-X-Gm-Gg: ASbGncunw7/SD2OI6vkvBd15bWkhoSbrr9gROfxzStfiPUi4i2LnEqtSEs8WQqAYTZJ
-	aock3f+8UvELH1gWS22r2LxjXS5r95ksLXd6QK1o2CHD5OI3t/bFeuXkRbGfs2R+hFJdB4jQYiq
-	bLwIjpj+FbAkG6gHgSq5fVBR/JwgjBWcsr/Tkdyp1mfA31jLG+sl16Z7OL4vkp6y9MFQzMVCqNh
-	KhwrylJPKvxLjqqw2MXGGSExvnCYgE04sQTCkKYWb2+jCb9vrZ2yKLwqEdKDTMRNmP24yHIpV32
-	/zPg5dCDDTn7uguZWK88diaTlduddFnx3TFilv/dXhI0DDWGCPvKMBTv6kktWMMa7e5lffTrGxr
-	KeGETRjBBcHxLLNhllgO3RREJUg==
-X-Google-Smtp-Source: AGHT+IHR/oHIMtB0y186dpEHP2nRW08u7roI6RQa16TTsA0Xefsv43qM8XH/KFxicsxXV1pI4ADRhg==
-X-Received: by 2002:a05:6870:ebc6:b0:29e:766d:e969 with SMTP id 586e51a60fabf-2e92a1623ecmr9541391fac.10.1748957245083;
-        Tue, 03 Jun 2025 06:27:25 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:e835:af77:41c:3a1f? ([2600:8803:e7e4:1d00:e835:af77:41c:3a1f])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2e906b7f8f7sm2222601fac.38.2025.06.03.06.27.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jun 2025 06:27:24 -0700 (PDT)
-Message-ID: <4f09fa4e-704f-4a2b-abc3-e8f275d0e7bf@baylibre.com>
-Date: Tue, 3 Jun 2025 08:27:22 -0500
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xdF0/YiL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xrxgvINhOgUASn7Wv62Vmxm97g4ucbq+5tR3NEBmVuQo3YdtdcXRGY2S3gOdqnhU2cBPKbhGnoWRsTfISAu7lWW4nMlDL5JcW6I7Tq87RzgXIw6LKEQUiqPHqaJyCfQjl+C5/1byMy1ybqXWmc4dKGHSrStjQlOTDmayFX10OhM5G4ptO+h5SNjscAEv1RU6wGqmndZDX9g1Q71xEMH22Me6sEl2dMXxTxf9NgCGltZdTEHPL1yV+5dgND8tuzFxNlA5W1H8NOphdPIKRXA6T3kQMrdpLFgcpETUuCThCqzzFouQm7tHr7YwNSNercrwcWKuIRu9SPhU9Prvl69Myw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0pHPpejMmNAkNNzt9zX4drtRP5OEl5PWDsIFahe6zVA=;
+ b=ezdm52RfH+F/xGnafXpsVvRI1Epm/EXDBWeg99SlXPAWn+QTx5jlc4su4IHlvlqYDHQH8v4zlvWrnx6URSORQzkrITcs4qheC34BW6ItuwfS5+RQSyjhna2nzIKKyf4aJyJzLD6O16LFiKFHRpFsWyWq1jukBOsEzxznzeRIjiYxky0YY2kqCjaTnRSryalfbEYHrziJey+mRahwvogMqjt/HRDAvIUD/5ulVoKxllNw1CBLajwuNFqyTmEgDNt+JdJk2nEy5csG3c6N2NZLsE/iivFR/BaS7jhn2nt7+PrUjAd6olCoRdXdOpGOI2APWzER6amyb/1nLRnq9LmSNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0pHPpejMmNAkNNzt9zX4drtRP5OEl5PWDsIFahe6zVA=;
+ b=xdF0/YiL+BpFPoGN/+9zqJD/rE7v70jClQr8OFWIcK6n1MqYQIuLhbZKyyeQYRsLHQdXlvf70Y5SZt8t+y46fvBQ4drTDW+ZDSpz80XFbX7Jkfrut+JSsHp7Cxd+p/25olvpJ/bz/AxsaV7aBm/WZbA8rH8HYyPQvdAAsKcV3d4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SA1PR12MB8163.namprd12.prod.outlook.com (2603:10b6:806:332::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.29; Tue, 3 Jun
+ 2025 13:41:12 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.8792.033; Tue, 3 Jun 2025
+ 13:41:12 +0000
+Message-ID: <f65a8e91-fb70-4af0-ac47-180b97ed0e6e@amd.com>
+Date: Tue, 3 Jun 2025 08:41:06 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 18/27] x86/resctrl: Add definitions for MBM event
+ configuration
+To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
+ corbet@lwn.net, tony.luck@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: james.morse@arm.com, dave.martin@arm.com, fenghuay@nvidia.com,
+ x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
+ akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+ ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com,
+ jpoimboe@kernel.org, alexandre.chartre@oracle.com,
+ pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com,
+ perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com,
+ xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com,
+ ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com,
+ andrew.cooper3@citrix.com, mario.limonciello@amd.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, maciej.wieczor-retman@intel.com, eranian@google.com,
+ Xiaojian.Du@amd.com, gautham.shenoy@amd.com
+References: <cover.1747349530.git.babu.moger@amd.com>
+ <8e9f18e1bba578d74fc3e3cb887c5101eb73e1d7.1747349530.git.babu.moger@amd.com>
+ <ee5b9df7-d087-455b-a782-027d117b2178@intel.com>
+ <da57734e-75c6-4fa5-9cc1-89376184d9c3@amd.com>
+ <d8216838-aa71-490f-809b-127bad909f1e@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <d8216838-aa71-490f-809b-127bad909f1e@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CY5PR16CA0020.namprd16.prod.outlook.com
+ (2603:10b6:930:10::16) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] dt-bindings: iio: adc: Add adi,ad4052
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: Jorge Marques <jorge.marques@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
- <20250422-iio-driver-ad4052-v2-3-638af47e9eb3@analog.com>
- <88a326e7-3910-4e02-b4ba-7afe06402871@baylibre.com>
- <hvexchm2ozsto5s2o6n5j2z3odrkbcamgmg67umd4aehwzmgie@dvtx6anioasq>
- <1b0e9003-7322-46fa-b2ba-518a142616dc@baylibre.com>
- <vchomz3iazgdmotcs3jskrugi2qmdxyo74t4ruo2fsc7cjwtqb@7rtdmdkxobvg>
- <a6f62963-5776-47e4-bdac-78e921a6e476@baylibre.com>
- <a6cguahvrbqjv2wtisvgg2wvm2tj3awmn7omo6ebfpts6v546o@4xzpj353vlsx>
- <fca1e8c7-2c1c-4244-a109-f674940d6030@baylibre.com>
- <65m4itn5xp3ytc7hvpskuk4kmu54wznk4m2odt7d5a5k35vy26@ekjxegpjy5wq>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <65m4itn5xp3ytc7hvpskuk4kmu54wznk4m2odt7d5a5k35vy26@ekjxegpjy5wq>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA1PR12MB8163:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a226777-9279-4e89-19a4-08dda2a44d8c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NDNYRHpzQU1vZVZ4blRGL3BtRjdvTmF6SkNDVEFweUZ0ZlpPNHpGQk1BSkZZ?=
+ =?utf-8?B?NmxuN3FWbXZzbHlhaU1QVmIxNkdFU3pJcHk0NkovazhVc2JlU2prUGVLcE1w?=
+ =?utf-8?B?M1lrTU0xK2RBZ3I0LzVFem0vWk54dTJyV3pOQTJUNVc2clhjMW1hSWFyN1ZC?=
+ =?utf-8?B?RW1XNG16L3VET3NDSUV5d2tPMWltSmJZZ3J5emp5eXRoc0NnbDh2YkhmVGcr?=
+ =?utf-8?B?V282Zlk2NG9UQ0Y1bFdhcTB2STRXTzdnTVFPSGpweVhaaWpxSVBnYWt1Sk5O?=
+ =?utf-8?B?ZkZEWGNybXZnV0lGMWNMQmlnZGxMaXRBYk5kTGE1bEdwbjdYRDFVTERnaThn?=
+ =?utf-8?B?aGIxdVBtR01ocWdkVDlWWGM1d3hOMUN2L0RxRkNRQ1dMRmUxN3FnckFPdHps?=
+ =?utf-8?B?S1BReG9NRXd6NThvaWhUTlhpOTJ5R3kxSHlOY092K2I4enhmd3VhSCtuOGs3?=
+ =?utf-8?B?K2ZMdkVtVjhkVVh1SnpDOXdaVTdFcEZrUmxpMnlmTDFIem1GNE9uK3JzMFk3?=
+ =?utf-8?B?SzRWN2RNYUhrSTkxMTBYU0pSZE8waUNybGJBbFBiY2lncFJxb0I0RWlRZkI4?=
+ =?utf-8?B?Ti9wcHIzWC9scktGNjRkRWlWdjhJWit6b3NOR1RxeklFbUw3eDlLcWdmVlRD?=
+ =?utf-8?B?N3RtNm0vQllXWG5JdHp2ZjZvbmJzS2ZPUUxselFEQWJiaTdIdTBmRjYvcWlq?=
+ =?utf-8?B?aFFCckR1MXQ2S0ZZcjlXRHNxL1FrRUJKVWhHa0ZLaTBYWko2c3FWd1dpK2JK?=
+ =?utf-8?B?TndOcmZWZ0JZWnlWMjZwS1lDZGRobjlneVJ4Q2d2TkpLWllUdXFQSEd6K0lo?=
+ =?utf-8?B?dE9rQ1BOMGRMYytZUzZ4NnZESG0wRjRXYjVGcUtsTmVYSXNVN3RlUFhvZFA2?=
+ =?utf-8?B?b2QzZHVHSUErNEkwM1Q3L0kzdjQ1WHRaWGRzdVdnN3l4U0hLSjliR1QwK3Av?=
+ =?utf-8?B?NitpTEgwb3ZlZDVPVFVXTFJWVkpPMHJGRG9rYXh5TjZUNDRBZmtxK1owd200?=
+ =?utf-8?B?ZVQzUld4R0ovUk9Ic2hSK3EvZk1uYXUxWkQzLzBMNU1BV0xFQlc3UTFKVFMy?=
+ =?utf-8?B?Y2Z5VjcrUGxZMXpIeVJFV0hXUncrT3dtTC8wQ3IyM3Z5MGg5SnFHU3JmR2JI?=
+ =?utf-8?B?ZHNsa2sxZzJuWkR1cDhVdWFPUC9qOFhSWTJ0SGQwdTEzeUt1WFRZdWgxMFNi?=
+ =?utf-8?B?SWtacUFVMWU3NmVGOTdqUm1jRUUzWFVKSWFKaXkzMWtmNE5pR0pBYkFiak9N?=
+ =?utf-8?B?aHJYeTVqbDlSL1MwQ045N05Hd1VvVzNlOXBFRUt0WmtMdzVISmxvWVNONWow?=
+ =?utf-8?B?enJLaGRrOTVac0dhblpLRTZsaXhtMlBaekthZ1I3aGRBdml0SWMvYUlKNDVB?=
+ =?utf-8?B?d1lHSHhZMEVOTkF5ejVHVWFPdG9adERNZS9pdDJuY1ZHQzVHWVBDc2JSSThH?=
+ =?utf-8?B?VzNKTVVhMGVIVjVvcVQ5T2NWcHFVTXl0MDlGSTJSV0tXUGY3cHFyMi9HcEU3?=
+ =?utf-8?B?MmJYUmdsaXE5aDhBaW45ckh3blJxWVZYTXRRMnJGVVphV3M0Sks3ZWJYSlBK?=
+ =?utf-8?B?ZUI1MWhlb21CaHFURS9GY1V1bDkrTWtKbzVYSDlnbVZsTDc2a1IrZS9hdTFV?=
+ =?utf-8?B?ZXdLR2Vsa25PY0dkOFg0cElKVWFZcys4QmZGeCsvWG5TaEI0SUdwL2FBK055?=
+ =?utf-8?B?azBwSFUxbk5pMDNFVHpuMm9sRW5rT3J2cEd2Qjc2bjlJNmhkUER5VDk3aGlG?=
+ =?utf-8?B?ME11eTUwRjNpVUtZdVRXYXJzV1JZZnROWllYTmRYbWZLNFE1cjRuek5tYnYw?=
+ =?utf-8?B?cVlzWFEvNzRiL0ZsekJGaHpraE16VTJzdGdVMG5LellONm9UOVhvem1ac1JN?=
+ =?utf-8?B?dW5CMktDdTJRQUVzYm5wamJ5Uzd4V0ZjZEtoVkV0dnpDQlNpQWJwZjJPWE4w?=
+ =?utf-8?Q?CSMpeVZFx20=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UHN3SExVRGE5ZjJNWEgwVTE3b3RrUjY4SE1WYm9NZE1abzNKUjkxUG8xbkI3?=
+ =?utf-8?B?RWNOd1ArcGRZaWc0K1dnNUU5Njd2aVBBbUdNNEJlcjFnQnZnYk1aUm1icHZB?=
+ =?utf-8?B?MFlOL0Z6elA0dURNZ3FmUmpmZ1NwVVlqSVpWSFVPaW1WZi9FenFCTk9MNUpO?=
+ =?utf-8?B?VU5KTjVQczlKcUs2Vi9ac05uMWllRVlXNXBTc21PVEo2RkNTNDYvZjE0Qmow?=
+ =?utf-8?B?KzZwMEkvUWlaa1Z1UmFjMC9jNFErWEJNR3dJTGJlaGZOM0dKVnRxYWJ3MXB6?=
+ =?utf-8?B?U2FaVlVzK0NtaVZvTVBoMUc1Yk1SdkFhcm9kcmd6QTJqUUVYUXFDR2Ntcm4v?=
+ =?utf-8?B?K1NETTJnTmhRQWVQMVNQamdNZWxXQ2RmWVlPdlM1MmdlbmgrNnU2dXAxYTBr?=
+ =?utf-8?B?VGp4TFA0a0tNb3JKd1hBTERXNVdZenhsZmI5L1JOajBjbXU5Q2tGUkhidWZ5?=
+ =?utf-8?B?NXhTVXYrNXc5VG5lcC9VKytjZzdRdmpGb1djRlRha1dQSE9WYmlLbmdNNnpm?=
+ =?utf-8?B?dDFqMVdITHVjSTlxbzJZbXBlLzJwbjA2ZkxkVFNrR2cyWDc1YW5adjl4RndS?=
+ =?utf-8?B?dld4alZZUmJZVk1kVzZDaXZQSmpNQ1Z5c1IycnpFaGhaZ2EzZVYvUW0yYURw?=
+ =?utf-8?B?dmVHRG44UmNjMTk1cmtvMjA3bGorSW1NSnFaMFdyK0RpOEVJZ1V1YlZqRHZv?=
+ =?utf-8?B?U3Y3bUwxMHk4RitXa1JPLzlCSm1nYlBwZ2UwcXhvMjVEQkFxdENNWElGdXZq?=
+ =?utf-8?B?eGNiUm10a01STXFPTjlzNjFOT2svUXh4MDhIdU5JVUsvcjhXWGlXaldqWmVZ?=
+ =?utf-8?B?SXRXSVFqbzAwWUI1S3ZUZXhEUVk1NG9nM2RXdi9OUnlnTnZEM0RiWlRld0pO?=
+ =?utf-8?B?eWgyQ3Rja2pmUjU1aGpRTithZ1RlRzlzSFc3Skt6RVJIUDRod0RUUHlYeC9V?=
+ =?utf-8?B?cmFFYXZnaklUbDVTeG5oU2N2RER5UGhOSmh1c21aSW42L3I1SVR6V1U3NjFN?=
+ =?utf-8?B?Unc2UVNTRGN2SlJZVk9Od3V0V05VN29OdFRzK3ZNejNwWTc2WTEzSmR4Zk4x?=
+ =?utf-8?B?U0g2aSs2THBRbHU4NFA2WGVOVGQzLzVFMXoyWVhBVVZTc3RqaWRZSm1OcS9V?=
+ =?utf-8?B?Vm1IbjdWNjg5Z2hkZUpBbjJZZ2ZFemZTNGxtaW55Ymw1S3RSNnkvN3I0eUJY?=
+ =?utf-8?B?Sy96MDcyRFBXTmtRbTNnakpwaHhqcFE2R1RUYjNjYkQvc3hxb0pkUk9QMzdF?=
+ =?utf-8?B?T1NSU243MEQwZG9HRU1GZ2tnb0owMTM0Q0NIcU9mS1RucXJsMXpnUGhhRi9M?=
+ =?utf-8?B?MUNVdVF5WXcvb0JRcTJDY3I3V1NVS3huZHpYUlFLODJCdXZOOGZBVWVwUDNj?=
+ =?utf-8?B?dHRxcDNpRXdUbEE4c3gwa0FiUlhUK2FpMkhRaUt6Ni9YdU1xOFRxNTZmd0RS?=
+ =?utf-8?B?MTBtdisxTUdjeUI1MDRIMTJ2a3RSRXhuaUFjZGY0MU5VUWg5Y2p6QmFTTnBT?=
+ =?utf-8?B?QWNuYmdGUXFyWjlrWk4yU2pqaVFpOHRpWSsrWmdWY3g4SUYvZjZneVl0TGln?=
+ =?utf-8?B?NEVXY25zVmhoSndiVnFzTTl3UkkrYWFjRFB0RjM0SUJTR3hHQ3hQVzFURlZI?=
+ =?utf-8?B?eGVkeHozTXU4ZWZKNFdBUDZoL3piaW9iNmVaY3hqK1Z6ZnhZMmVLcmtSNER0?=
+ =?utf-8?B?UXRjSkpIbzRid3ZRYnF5VTlmOU5UWFJIRnlQZTc1amJZWVlJQVRPdExZdkIx?=
+ =?utf-8?B?Y0taL1FJcDB4RmNQWDlRWlpDYUV4Z0RQOXp5VGRUOEQyN1FibG5od2dNcTFt?=
+ =?utf-8?B?M29lUXBjMU1obkhXKzJBd1dxUWpscENJQ0E2NTRWeFFsQWVxN0hOV3l4WklY?=
+ =?utf-8?B?bGJxN2dQZm5mRjFhVHEzZk1ZV0tDcEk1eG5xKy84NnhLS1pTRDU3UGxXYjhp?=
+ =?utf-8?B?Zmd2RHRpYlF6aFQ2NVhCN2syWXY1VDlIQVRHL3NzdFlYdllzWFFhTkpwVGo2?=
+ =?utf-8?B?T3VDU1R3NG5sZEVRM1NKVndWUHdkTXhqZjUrWkpuM0xHKzZkSkVGdUVldzAr?=
+ =?utf-8?B?R3k0TnZOcEVYWVlDekIwUTNqRVo5a1lzeW1rWGk0OGNiUHVhS3BOVVhoU3FS?=
+ =?utf-8?Q?t+wY=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a226777-9279-4e89-19a4-08dda2a44d8c
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 13:41:11.8232
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g4xmscbzTmp4D/krVIfh37u0pWnzZK/VOhmaJ3kwdaMGK5/0AXPwJFMwHlkGC1c9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8163
 
-On 6/3/25 2:29 AM, Jorge Marques wrote:
-> On Mon, Jun 02, 2025 at 12:23:40PM -0500, David Lechner wrote:
->> On 6/2/25 11:32 AM, Jorge Marques wrote:
->>> Hi David,
->>>
->>> On Mon, Jun 02, 2025 at 10:17:18AM -0500, David Lechner wrote:
->>>> On 6/2/25 4:17 AM, Jorge Marques wrote:
->>>>> On Tue, Apr 29, 2025 at 10:45:20AM -0500, David Lechner wrote:
->>>>>> On 4/29/25 8:48 AM, Jorge Marques wrote:
->>>>>>> Hi David, 
->>>>>>>
->>>>>>> I didn't went through your's and Jonathan's ad4052.c review yet,
->>>>>>> but for the trigger-source-cells I need to dig deeper and make
->>>>>>> considerable changes to the driver, as well as hardware tests.
->>>>>>> My idea was to have a less customizable driver, but I get that it is
->>>>>>> more interesting to make it user-definable.
->>>>>>
->>>>>> We don't need to make the driver support all possibilities, but the devicetree
->>>>>> needs to be as complete as possible since it can't be as easily changed in the
->>>>>> future.
->>>>>>
->>>>>
->>>>> Ack.
->>>>>
->>>>> I see that the node goes in the spi controller (the parent). To use the
->>>>> same information in the driver I need to look-up the parent node, then
->>>>> the node. I don't plan to do that in the version of the driver, just an
->>>>> observation.
->>>>>
->>>>> There is something else I want to discuss on the dt-bindings actually.
->>>>> According to the schema, the spi-max-frequency is:
->>>>>
->>>>>   > Maximum SPI clocking speed of the device in Hz.
->>>>>
->>>>> The ad4052 has 2 maximum speeds: Configuration mode (lower) and ADC Mode
->>>>> (higher, depends on VIO). The solution I came up, to not require a
->>>>> custom regmap spi bus, is to have spi-max-frequency bound the
->>>>> Configuration mode speed,
->>>>
->>>> The purpose of spi-max-frequency in the devicetree is that sometimes
->>>> the wiring of a complete system makes the effective max frequency
->>>> lower than what is allowed by the datasheet. So this really needs
->>>> to be the absolute highest frequency allowed.
->>>>
->>>>> and have ADC Mode set by VIO regulator
->>>>> voltage, through spi_transfer.speed_hz. At the end of the day, both are
->>>>> bounded by the spi controller maximum speed.
->>>>
->>>> If spi_transfer.speed_hz > spi-max-frequency, then the core SPI code
->>>> uses spi-max-frequency. So I don't think this would actually work.
->>>>
->>> Ok, so that's something that may be worth some attention.
->>>
->>> At spi/spi.c#2472
->>> 	if (!of_property_read_u32(nc, "spi-max-frequency", &value))
->>> 		spi->max_speed_hz = value;
->>>
->>> At spi/spi.c#4090
->>> 	if (!xfer->speed_hz)
->>> 		xfer->speed_hz = spi->max_speed_hz;
->>>
->>> So, speed_hz is max-spi-frequency only if xfer->speed_hz is 0 and
->>> not bounded by it.
->>
->> Ah, OK, my memory was wrong. It is only bound by the controller max
->> speed, not the device max speed.
->>
->> 	if (ctlr->max_speed_hz && xfer->speed_hz > ctlr->max_speed_hz)
->> 		xfer->speed_hz = ctlr->max_speed_hz;
->>
->> It does seem odd that it would allow setting an individual xfer
->> speed higher than than the given device max speed. I suppose we
->> could submit a patch adding that check to the SPI core code and
->> see what Mark has to say.
->>
-> 
-> Agreed, the patch itself would be simple:
-> 
->  	if (!xfer->speed_hz || xfer->speed_hz > spi->max_speed_hz)
->  		xfer->speed_hz = spi->max_speed_hz;
-> 
-> But I wonder how many drivers rely on this behaviour
+Hi Reinette,
 
-Only one way to find out. Try it. :-)
-
->>>
->>> Then at spi-axi-spi-engine.c:
->>>
->>> 	static int spi_engine_precompile_message(struct spi_message *msg)
->>> 	{
->>>   		clk_div = DIV_ROUND_UP(max_hz, xfer->speed_hz);
->>> 		xfer->effective_speed_hz = max_hz / min(clk_div, 256U);
->>> 	}
->>>
->>> Where max_hz is set only by the IP spi_clk. If at the driver I set
->>> xfer.speed_hz, it won't be bounded by max-spi-frequency.
->>>
->>> The only that seems to bound as described is the layer for flash memory
->>> at spi-mem.c@spi_mem_adjust_op_freq.
->>>
->>> For the adc driver, I will then consider your behavioral description and
->>> create a custom regmap bus to limit set the reg access speed (fixed),
->>> and keep adc mode speed set by VIO. And consider spi-max-frequency can
->>> further reduce both speeds.
->>> (or should instead be handled at the driver like spi-mem.c ?)
->>
->> It would be more work, but if it is common enough, we could generalize this
->> in the core code. For example add a spi-register-max-frequency binding (or
->> even a more general spi-max-freqency-map to map operations to max frequencies).
->> Then we could bake it into the regmap_spi code to handle this property
->> and not have to make a separate bus.
->>
->> FWIW, there are also some SPI TFT displays that use a different frequency
->> for register access compared to framebuffer data that could potentially
->> use this too. Right now, these just have a hard-coded register access
->> frequency of e.g. 10 MHz.
->>
+On 5/29/2025 3:58 PM, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> I implemented the custom regmap bus for this series.
-
-Good plan.
-
-> With a `spi-max-frequency-map`, the regmap bus can be removed.
-> I don't want to include this regmap spi patch to this series.
-> As I see it, struct regmap_but first need to be extended to add
-> a max_speed, e.g.
->   
->    @max_speed: Max transfer speed that can be used on the bus.
+> On 5/29/25 12:00 PM, Moger, Babu wrote:
+>> On 5/22/25 23:41, Reinette Chatre wrote:
+>>> On 5/15/25 3:52 PM, Babu Moger wrote:
 > 
-> regmap_spi.c would then look for the devicetree node to fill the value
-> and on regmap_write/read fill speed_hz.
-> In this case, it could be called "register-frequency" or
-> "regmap-frequency"
-> If instead it is up to spi.c to read the devicetree node, then a way to
-> differentiate "regular" transfers from "regmap" transfers would be
-> necessary.
 > 
-> About submitting v3, should I submit only up-to the base driver, or can
-> I submit also the add offload support and add event support commits?
+>>>> +/**
+>>>> + * struct mbm_evt_value - Specific type of memory events.
+>>>
+>>> I am trying to decipher the terminology. If these are events, then it becomes confusing
+>>> since it becomes "these events are used to configure events". You mention "memory
+>>> transaction" below, this sounds more accurate to me. Above could thus be:
+>>>
+>>> struct mbm_evt_value - Memory transaction an MBM event can be configured with.
+>>
+>> Sure.
+>>
+>>>
+>>> The name of the struct could also do with a rename to avoid the "event" term that
+>>> conflicts with the actual MBM events. Maybe "mbm_cfg_value" ... I do not think this
+>>> is a good name so please consider what would work better.
+>>
+>> I can change it to "mbm_config_value".
+> 
+> Looks good, thank you.
+> 
+> ...
+> 
+>>>> +#define NUM_MBM_EVT_VALUES             7
+>>>> +
+>>>> +/* Decoded values for each type of memory events */
+>>>
+>>> Please be consistent with terminology. In the above lines it switches
+>>> between "memory transaction types" and "memory events".
+>>
+>> "Decoded values for each type of memory transaction types"
+> 
+> I do not think "type" is needed twice. Could also be:
+> "Decoded values of each memory transaction type."
 
-I wouldn't add anything new at this point. Being able to spread out
-the review a bit will lead to better reviews.
+Sure.
+
+Thanks
+Babu
 
