@@ -1,132 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f202.google.com (mail-il1-f202.google.com [209.85.166.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153E52EB1D;
-	Tue,  3 Jun 2025 20:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99405200B99
+	for <linux-doc@vger.kernel.org>; Tue,  3 Jun 2025 20:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748981844; cv=none; b=iApVGHBtDN4oUw8+/D/IygGfXA9AAEm0rZmKKTgzVvAUjwtVeGsrfoeP6efRYEDGbvE0mGxukaKebtocgPkE3961DNzUfaFg9loNyWfR5ore+HYwevHfQs1MQOlQPrr7eJ4s+QzSIAw1sFjrbVoJM8JDPJpjc/ahXbsr8112ric=
+	t=1748983716; cv=none; b=fSELlNUXTH3Z7wTiNfCrNUA4kAwzSLOgYBI55jXMqH/0fSLj8HFiTJxUz7uCSJVlAbTIyv2jHFH6Mbf1GN/aiqZdEDsSfbg3wdV7G8aA5mS5uAKwoP/Rim1ze1/V9gstm0hjaBw8p/9RUuDiM3dM+CSvLVME6TQjHofw0xpwykM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748981844; c=relaxed/simple;
-	bh=yV4ekByytzguS9M+Qf6n8nfcrxTdF0tMI0CZ/FW+ZhI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bpUANnfm6cul9Te2e3khhEhWlui6RFwR1yGFyik4ur4HBL5FmEmq4OM+gYMO+xsNIVVEB88f074lPfvX9c4SJ8pv2TU8QmYzZyGHMes/4JtFU8pg6eLV+UICICKl5+k3Q/arZG+eZw+kIEvuFM0apouGFN2fDQT7CaZpUI+fESI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=COHJ4WCl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748983716; c=relaxed/simple;
+	bh=J4Gy+MHq+K8H73A1pdlJXVmj/G1iM1mYhcwzLpTgyXE=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=NmokzPcXj0r2sVkpd4Gmm344cODtXyLDET6wHCisVbGYzB+Ssdobvbz53/4PklrA7pzDASYVtsGIuKU3P1HF/pC8MZ6INosSrGFKmxjuLOdDGIbs8RSaLcRd2nNvSF0TJSRXLRW0Mjp4dhQdmXx0ZqBmYEn1Yn5Rzy+luwbKoJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=htkpEJRe; arc=none smtp.client-ip=209.85.166.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="COHJ4WCl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5E28C4CEED;
-	Tue,  3 Jun 2025 20:17:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748981843;
-	bh=yV4ekByytzguS9M+Qf6n8nfcrxTdF0tMI0CZ/FW+ZhI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=COHJ4WCl7wgYi/p077xcxhMr+c0ECulzW+gv4fS4wPm2p4q7u4MZnD98iq1rKD+em
-	 WFFr3W/IsOPLbgashjQK3TtL/CaAUWHvYgvItY+J0Nk/9UQOw1zIdDuasY65jYDvBD
-	 xuQG9QjyHYQ/fycBwT9/n72StDDKeNnuBpuLd6JA9lu4ibSfRyQ5STGHCdTVu5uoFp
-	 rLOnLO2zdlz9l//CCQTnruR35L602rP83EgxTdgpLBIh3La6ojwmvQ7VS1XmZr7Hdy
-	 vsjNh0XF/J/ZOxRGGONIIdFYW4QI2FYApB//Hvt+YHkuO3id79x08lA7lOBc/Qipct
-	 g+maGoP328NCg==
-Date: Tue, 3 Jun 2025 15:17:20 -0500
-From: Rob Herring <robh@kernel.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 07/10] accel/rocket: Add job submission IOCTL
-Message-ID: <20250603201720.GA2119676-robh@kernel.org>
-References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
- <20250520-6-10-rocket-v5-7-18c9ca0fcb3c@tomeuvizoso.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="htkpEJRe"
+Received: by mail-il1-f202.google.com with SMTP id e9e14a558f8ab-3ddb4ed2dcbso33654265ab.3
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jun 2025 13:48:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1748983714; x=1749588514; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xqk6Ae+AoodqjhacwdxkSu1Yb8TCbPjMAbFosVWhG+Q=;
+        b=htkpEJReoFE7VEGCg7XYcSAyYDSYdHAaZfuWAqSiunI6KT4v39wfnQ66LVoAwxMqkg
+         ks414emV9EuyBpH4k/iXTQE6kD6NjOva1Zi4bLFEalMOEObfhaF15ZDOltzD2dRf/cPU
+         bHazM9PmuQNlZ2O/CzogpguPMep0FqfmumSuUo9TlVaIHHvULDT89MTRGHNmPtzpl+Mu
+         L9hS3hsnNkO7dUAaEfuCi9wRysW7N0/ET3B7DslMHnx0n+A3KGXlu1goLjVN8CsOqoH+
+         4tBBIgV+I0J4BCBrS7F0xGudu3lX75skESdbZ6MFDF5whLEQrGkTZoIfkXLYJTG3usDC
+         Ju+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748983714; x=1749588514;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xqk6Ae+AoodqjhacwdxkSu1Yb8TCbPjMAbFosVWhG+Q=;
+        b=duADXQCdNBDH/6scbQvlDLhtOM64+WQOJx6yLnSRzy0a+5+RYX/Df/fKEB5z6I8ksJ
+         MRy1Qc0LE6g4yzYBFSrEe7TxAX7XTqo4JbafjVSVOt25P2lhcyA5Rp1ikTyTcb4UQAfP
+         0C2ILOHtqDCaMU9T9/RoxbM0D31bCMzLCEj+gNCaNn6jJtuTX4/da7cXEj9+cz2r2teR
+         WKNCp1pQLIKf8cPAZJjyMhxGIwx3bbL2VEXcnQTuO3OaXFjP8J675wafJxII2ihIZZSM
+         dOMQdplul8YftDYjUg54+7nhdDrbM3Hq6Lb/m9lP0PpweWZHIpnN0PqMSiOU0n9b0qhy
+         CkmA==
+X-Forwarded-Encrypted: i=1; AJvYcCWCTr6evmSIqNAUbaCf2cBaCwdVJRpJVhgVUUJ6nkkQh4umyt2HeJLMidrd+nqCbQcxEJtI/l9Vjfo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytnJopY8xjvkz6FYPCBKRXPm9tSXlLjNqyLZKqBVeJI5kv0tuO
+	GYM7gVvSEV67JmorKP4mFvn43av7tjH4OsDGV+4IoQIod8Z3WXnl60zy28NEFntT5PO33UR3sKI
+	ZYUCsrl7i/TOZQSNj4J0lhz5Stg==
+X-Google-Smtp-Source: AGHT+IH++9MIP5okdS2+/trmd8V6fLN6bmZyUPwJNgnr4Lv2JKgei2gsZjCTP6Pc/H1zIhLn0nH3fYC4XYFcP1PDwQ==
+X-Received: from ilbbz4.prod.google.com ([2002:a05:6e02:2684:b0:3dd:b9c7:8f2f])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6e02:260c:b0:3dd:89b0:8e1b with SMTP id e9e14a558f8ab-3ddbed8aa48mr5481105ab.15.1748983713821;
+ Tue, 03 Jun 2025 13:48:33 -0700 (PDT)
+Date: Tue, 03 Jun 2025 20:48:32 +0000
+In-Reply-To: <aD4a1T7ZmBLNunxi@google.com> (message from Sean Christopherson
+ on Mon, 2 Jun 2025 14:42:45 -0700)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250520-6-10-rocket-v5-7-18c9ca0fcb3c@tomeuvizoso.net>
+Mime-Version: 1.0
+Message-ID: <gsnta56o361r.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH 04/17] KVM: arm64: Cleanup PMU includes
+From: Colton Lewis <coltonlewis@google.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
+	maz@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, 
+	suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, 
+	shuah@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-On Tue, May 20, 2025 at 12:27:00PM +0200, Tomeu Vizoso wrote:
-> Using the DRM GPU scheduler infrastructure, with a scheduler for each
-> core.
-> 
-> Userspace can decide for a series of tasks to be executed sequentially
-> in the same core, so SRAM locality can be taken advantage of.
-> 
-> The job submission code was initially based on Panfrost.
-> 
-> v2:
-> - Remove hardcoded number of cores
-> - Misc. style fixes (Jeffrey Hugo)
-> - Repack IOCTL struct (Jeffrey Hugo)
-> 
-> v3:
-> - Adapt to a split of the register block in the DT bindings (Nicolas
->   Frattaroli)
-> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-> - Use drm_* logging functions (Thomas Zimmermann)
-> - Rename reg i/o macros (Thomas Zimmermann)
-> - Add padding to ioctls and check for zero (Jeff Hugo)
-> - Improve error handling (Nicolas Frattaroli)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Sean Christopherson <seanjc@google.com> writes:
+
+> On Mon, Jun 02, 2025, Colton Lewis wrote:
+>> * Delete kvm/arm_pmu.h. These functions are mostly internal to KVM and
+>>    should go in asm/kvm_host.h.
+
+> Ha!  I'm a hair too late, as usual.  I _just_ resurrected a patch[*] to  
+> move and
+> rename all of the <kvm/arm_xxx.h> headers to <asm/kvm_xxx.h>.  If only I  
+> had
+> posted on Friday when they were ready :-)
+
+Great minds think alike :) (In this case the other one was Marc)
+
+> It's a relatively small series (mostly arm64 code movement), but it does  
+> touch
+> all architectures due to giving the same treatment to kvm/iodev.h (and  
+> purging
+> include/kvm entirely).
+
+> Any preference/thoughts on how to proceed?  My stuff obviously isn't  
+> urgent since
+> I sat on the patches for almost two years.  On the other hand, the almost  
+> pure
+> code movement would be a nice precursor to this patch, e.g. move and  
+> rename to
+> asm/kvm_pmu.h before extracting chunks of code into asm/kvm_host.h.
+
+Letting the rename go first is fine and won't inconveneince me. I'm
+expecting this series to take a while to be accepted and Oliver told me
+I'll probably need a reroll to make my context switching lazy. Thanks
+for asking.
+
+> [*]  
+> https://lore.kernel.org/all/20230916003118.2540661-15-seanjc@google.com
 
 
-> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..aee6ebdb2bd227439449fdfcab3ce7d1e39cd4c4
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_job.c
-> @@ -0,0 +1,723 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> +/* Copyright 2019 Collabora ltd. */
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/rocket_accel.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include "rocket_core.h"
-> +#include "rocket_device.h"
-> +#include "rocket_drv.h"
-> +#include "rocket_job.h"
-> +#include "rocket_registers.h"
-> +
-> +#define JOB_TIMEOUT_MS 500
-> +
-> +static struct rocket_job *
-> +to_rocket_job(struct drm_sched_job *sched_job)
-> +{
-> +	return container_of(sched_job, struct rocket_job, base);
-> +}
-> +
-> +struct rocket_fence {
-> +	struct dma_fence base;
-> +	struct drm_device *dev;
-> +	/* rocket seqno for signaled() test */
-> +	u64 seqno;
-> +	int queue;
+> Diff stats for context:
+> ---
+> Anish Ghulati (1):
+>    KVM: arm64: Move arm_{psci,hypercalls}.h to an internal KVM path
 
-AFAICT, you are not using any of the elements here. So you can just drop 
-rocket_fence and use dma_fence.
+> Sean Christopherson (7):
+>    KVM: arm64: Include KVM headers to get forward declarations
+>    KVM: arm64: Move ARM specific headers in include/kvm to arch directory
+>    KVM: Move include/kvm/iodev.h to include/linux as kvm_iodev.h
+>    KVM: MIPS: Stop adding virt/kvm to the arch include path
+>    KVM: PPC: Stop adding virt/kvm to the arch include path
+>    KVM: s390: Stop adding virt/kvm to the arch include path
+>    KVM: Standardize include paths across all architectures
 
-Rob
+>   MAINTAINERS                                                | 1 -
+>   .../arm64/include/asm/kvm_arch_timer.h                     | 2 ++
+>   arch/arm64/include/asm/kvm_host.h                          | 7 +++----
+>   include/kvm/arm_pmu.h => arch/arm64/include/asm/kvm_pmu.h  | 2 ++
+>   .../kvm/arm_vgic.h => arch/arm64/include/asm/kvm_vgic.h    | 2 +-
+>   arch/arm64/kvm/Makefile                                    | 2 --
+>   arch/arm64/kvm/arch_timer.c                                | 5 ++---
+>   arch/arm64/kvm/arm.c                                       | 6 +++---
+>   {include => arch/arm64}/kvm/arm_hypercalls.h               | 0
+>   {include => arch/arm64}/kvm/arm_psci.h                     | 0
+>   arch/arm64/kvm/guest.c                                     | 2 +-
+>   arch/arm64/kvm/handle_exit.c                               | 2 +-
+>   arch/arm64/kvm/hyp/Makefile                                | 6 +++---
+>   arch/arm64/kvm/hyp/include/hyp/switch.h                    | 4 ++--
+>   arch/arm64/kvm/hyp/nvhe/switch.c                           | 4 ++--
+>   arch/arm64/kvm/hyp/vhe/switch.c                            | 4 ++--
+>   arch/arm64/kvm/hypercalls.c                                | 4 ++--
+>   arch/arm64/kvm/pmu-emul.c                                  | 4 ++--
+>   arch/arm64/kvm/psci.c                                      | 4 ++--
+>   arch/arm64/kvm/pvtime.c                                    | 2 +-
+>   arch/arm64/kvm/reset.c                                     | 3 +--
+>   arch/arm64/kvm/trace_arm.h                                 | 2 +-
+>   arch/arm64/kvm/trng.c                                      | 2 +-
+>   arch/arm64/kvm/vgic/vgic-debug.c                           | 2 +-
+>   arch/arm64/kvm/vgic/vgic-init.c                            | 2 +-
+>   arch/arm64/kvm/vgic/vgic-irqfd.c                           | 2 +-
+>   arch/arm64/kvm/vgic/vgic-kvm-device.c                      | 2 +-
+>   arch/arm64/kvm/vgic/vgic-mmio-v2.c                         | 4 ++--
+>   arch/arm64/kvm/vgic/vgic-mmio-v3.c                         | 4 ++--
+>   arch/arm64/kvm/vgic/vgic-mmio.c                            | 6 +++---
+>   arch/arm64/kvm/vgic/vgic-v2.c                              | 2 +-
+>   arch/arm64/kvm/vgic/vgic-v3-nested.c                       | 3 +--
+>   arch/arm64/kvm/vgic/vgic-v3.c                              | 2 +-
+>   arch/loongarch/include/asm/kvm_eiointc.h                   | 2 +-
+>   arch/loongarch/include/asm/kvm_ipi.h                       | 2 +-
+>   arch/loongarch/include/asm/kvm_pch_pic.h                   | 2 +-
+>   arch/mips/include/asm/kvm_host.h                           | 3 +--
+>   arch/mips/kvm/Makefile                                     | 2 --
+>   arch/powerpc/kvm/Makefile                                  | 2 --
+>   arch/powerpc/kvm/mpic.c                                    | 2 +-
+>   arch/riscv/kvm/Makefile                                    | 2 --
+>   arch/riscv/kvm/aia_aplic.c                                 | 2 +-
+>   arch/riscv/kvm/aia_imsic.c                                 | 2 +-
+>   arch/s390/kvm/Makefile                                     | 2 --
+>   arch/x86/kvm/Makefile                                      | 1 -
+>   arch/x86/kvm/i8254.h                                       | 2 +-
+>   arch/x86/kvm/ioapic.h                                      | 2 +-
+>   arch/x86/kvm/irq.h                                         | 2 +-
+>   arch/x86/kvm/lapic.h                                       | 2 +-
+>   include/{kvm/iodev.h => linux/kvm_iodev.h}                 | 0
+>   virt/kvm/Makefile.kvm                                      | 2 ++
+>   virt/kvm/coalesced_mmio.c                                  | 3 +--
+>   virt/kvm/eventfd.c                                         | 2 +-
+>   virt/kvm/kvm_main.c                                        | 3 +--
+>   54 files changed, 64 insertions(+), 77 deletions(-)
+>   rename include/kvm/arm_arch_timer.h =>  
+> arch/arm64/include/asm/kvm_arch_timer.h (98%)
+>   rename include/kvm/arm_pmu.h => arch/arm64/include/asm/kvm_pmu.h (99%)
+>   rename include/kvm/arm_vgic.h => arch/arm64/include/asm/kvm_vgic.h (99%)
+>   rename {include => arch/arm64}/kvm/arm_hypercalls.h (100%)
+>   rename {include => arch/arm64}/kvm/arm_psci.h (100%)
+>   rename include/{kvm/iodev.h => linux/kvm_iodev.h} (100%)
+
+
+> base-commit: 45eb29140e68ffe8e93a5471006858a018480a45
+> --
