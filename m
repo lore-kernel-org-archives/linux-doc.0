@@ -1,225 +1,254 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5900526981C;
-	Tue,  3 Jun 2025 07:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3333220E32D
+	for <linux-doc@vger.kernel.org>; Tue,  3 Jun 2025 08:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748935778; cv=none; b=hzLmzwFkGYaMSlVLmBWBsPO/ZqIS5kGZOkfBK3hDJ0BtZogl2HgXghrPi4n1zlQE9rUGmiEaMCk26Yl1GqiG70xSyHA2j4lnnfmWMpZHj7rWRM9KE7gAwgDq9LnyJjciSeqbla+DOmaBQpp4GVYqjNOB4lJFNcmlJ3uxxSrRd1g=
+	t=1748940780; cv=none; b=NXSblIcaTp1z2LUzHX1chesvtv8K+s3kRYYiNOdGCe5JnJumkHaSmcZUfcSXDy6/jOBT0OXd4da7HQiY8sIn3XHiS15JGC7PNg1hv4GEXqA8oPPwKeWb4hqp1TptdZdX8/dePWNZWeNoMd9fFTTBQBRjIxGJHu52j2C/Dijfe7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748935778; c=relaxed/simple;
-	bh=D9mDCibXbWWfbom+IVcLmQuJzP9JNt8OgAUfssS+g9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZtlxneMt/8S28wh4vwwfpEm/BQ+sUSmNks+YX6KgUl2+6nASIc7veWP2X2TgQLodInAlsTZ6UwdmHs2GqHmS/DUUGH8v7Zx65ih7APSDsyOgr3VnOlbTN7nEPLGkL1tEi5ISJbGxsSR7YeLRvNRua5bquVzYO3teNJLA2DEppWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fC2XM8Av; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748940780; c=relaxed/simple;
+	bh=9/C2MTtGy92Vv0hPG8laZGxliqByuslaG4nla4YUdig=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HFtJLq5HMuhv5Zss0HDJeOpS/iCaWOGQLEuA1fT0OI7Z7gHqgk+afZrPIOBBMmwug+HE8ZpkyT2sw8435YxAMPqYJiyX2eP5KnykB1w/UfyWDjFdUDxdzLnurB/zpz4UziWhukJSGlauU8onLfy4yvM5wgAYsfa7KhPNdEfI8dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VO5Miahl; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fC2XM8Av"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a0ac853894so4937456f8f.3;
-        Tue, 03 Jun 2025 00:29:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748935774; x=1749540574; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3+0drIHoAyZoGAlkQm5JvZx6iEUNhrBv6oQQ7O47bVI=;
-        b=fC2XM8AvAIDWAITtJDAcsSTo7jsC451AH7KNrklxi2hbSRebsCmexFsnzX8JeNeiuO
-         oR4nq8S5COHX0oDBxOnZIvA0DlLDAiVqy2z9j4FogTCYeyKLcOeXhTsBIQvPy3MV/R0Q
-         XyGZAfbILmYKini4eDvyO6rUbFCT8BF3rFoZWtlru7Me4Q1D2358fvntU9+lVijXrSfO
-         /EuaOaO21qyXOWKnOVBEqH8x/vfzETXdMltiwXJ8VeDnuD2JvugrDfds5j3IkAkON7R5
-         SF39AFC8GjHvO0MDCK1HXH76u3Ttv+1nrSx6p3yGX1/LDwHmOFYE0TtzuuNioHTRPCtR
-         cW0Q==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VO5Miahl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1748940777;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fokWVoE1/UZZzyISn1y7Db8mSF3EnEdFgZvjp1rn9Hg=;
+	b=VO5Miahlqqj311drb25ZuizB7Dlf6lnnbXzn72Bn9CdWLbwB7ss7EhAl8I1oM0Yrk5zsNI
+	kf70S+Yv8qrQysBpxatzzC/2eOb5CUeXgJvIblRjQ+vuqdNuhWizxGOxO3hDUpjrdRZGUU
+	sBrhq252EL8XT/nAxOHJe9IAPG83k+w=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-510-AWp8VGAHNOCkHLdGpsFKMA-1; Tue, 03 Jun 2025 04:52:56 -0400
+X-MC-Unique: AWp8VGAHNOCkHLdGpsFKMA-1
+X-Mimecast-MFC-AGG-ID: AWp8VGAHNOCkHLdGpsFKMA_1748940775
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-450eaae2934so22659535e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jun 2025 01:52:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748935774; x=1749540574;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3+0drIHoAyZoGAlkQm5JvZx6iEUNhrBv6oQQ7O47bVI=;
-        b=tu7L06/1Z74AcI0R3JtEdtxTPSXlYRkZcNSSQI/fwpyBIayGIjlcRZGlOWl34tvAzj
-         g7DbLGxpNPHy/PMipQRnW7L4GA0esG41iVGQCBJn/uEXLFLz0EKwHkWxw5P9BvE/A9/+
-         t1G09BYM1BAaUSZSMV/inH8zUy3bZDMNyhiTt/Ee8ljDgZfDN0wAxLo+J1JdQaFpSk+2
-         mU2sHVVbTsqsk+y3mVX5Ajoq/8F75K6IrAqJxM/RHLnxvcirE5YPrmQHKToMG9XL7WnO
-         q44FqpMcTvw7tBMroZkTOXaxmG+1k51NRLWwRobATod1ZFzwx3DywzByZlWDMOvTyvMv
-         X3Ew==
-X-Forwarded-Encrypted: i=1; AJvYcCUW4mWSmjdYTrW4Qct23kUCcLydguMbUqZzoXiKABVIbyrELS+pkNII6Cay0ghkv7IwIVXsUuLraqD9@vger.kernel.org, AJvYcCV/uNEvu8p59jxfo8T3ZbwAPtyd1jJhq8nzZGsUa8v8b84Gx1omAMha5BzzteGe/xm7pqHMtuzRdA3S@vger.kernel.org, AJvYcCVb++udFBWDx+yu3BQkjvLX0/cshn3u3rrvHixS7piyrMLXtSYNCpXN+jPKAoH2Py+Y2BnAblMqslFI@vger.kernel.org, AJvYcCWAnIOcVo8tnafK4JqgwecJ1KTDfZMPz8x5np30gTE5KhiLS39dNetXlZ7sTK4oGPJuPQnRcUNnY7OT3sJ0@vger.kernel.org, AJvYcCWsKt+VxuHZNnu4Wu3tSixi4DQISQI8+vmY6M/ef2abt6tcl5lkohWF6BmKgM0Z57UBPZy8xCNvP/gD@vger.kernel.org
-X-Gm-Message-State: AOJu0YwD9yKMjCIkXuhISCj7LRJYQVUy7F2vTdYrB1eIHCCIm0Nfrx/J
-	aZRaxtyCEjNRNXayGkc0k9gW/MsAi9DaCRQL7eqK6ssjD12aUcEnOM5n
-X-Gm-Gg: ASbGncsahKX3v+gfhTZUUl8y5Wgsqdh77qiM16FWZ8zSZSMuxbnYn74T3hTdD9H5WIw
-	yUx70TOvNxqvaxDDaWUeU65qfnmWjwkGXwTE+dy8ZILpmXHDMVHjjgtPQUCtVxicy7/5MAm5a0u
-	GvU9cMjeCGqRf7WLBcz7zfY7aTmwgZgnp0yb8aXqTCSMbN7FKRbxiRvNuGdbig10QQoO8nlRLbx
-	6bj8k2DgphM3dcweY0weyxOzHLvbu3RhTzA6qFfWHr5B2GvnONNxGybMJr4tGyXONj9n/QYvFaJ
-	hqVDK+GWADqb8UYMpNhsVfiXnZX/vkob7fpIroyVLTvS13uPE1Qb0E6A0BgdSjmmUvJ4na4=
-X-Google-Smtp-Source: AGHT+IFwLH0nIqI1FwsSQ0ReEAbBwzxHWkTVup5SaANYJucLwWpPOUjNEwECalY8pm5oxSxYcji3Sg==
-X-Received: by 2002:a05:6000:2c0d:b0:3a4:cfbf:519b with SMTP id ffacd0b85a97d-3a4fe395783mr8605356f8f.44.1748935774273;
-        Tue, 03 Jun 2025 00:29:34 -0700 (PDT)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([137.71.226.91])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe5b8a8sm17075181f8f.5.2025.06.03.00.29.31
+        d=1e100.net; s=20230601; t=1748940775; x=1749545575;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fokWVoE1/UZZzyISn1y7Db8mSF3EnEdFgZvjp1rn9Hg=;
+        b=Jj4KXvYxWe/1eVNE0NLzjsRjNs9Lb71umF8kE1jkct1sL3i/46vf1Bw73QzPHFAEA2
+         pcKQ/0ZYdj0rIXjsxNxhMl3KOmirj/eQKoTjY2LJCOZ0FfEDmfLzrSzU4Ld1JNICZL5B
+         OqK1U1VPqp+2bXeFfpbjChX7WYWqnPInNtmE9GvFxVmYPlRSVKBU5lRMJzOoElnwSLvw
+         xeF2Dqk/TkKhaoIWPl1Im/0wjaODsS/6jVONBW+4EXkjDfgCJhBLNf9L2UsG40IyaN1f
+         Lyyr0aRsg8/a9WchAuhkSrels67MNNytwJNIw4cNqJkXQHgFwb8bNsBBP+jIMJ8kBNis
+         b52w==
+X-Forwarded-Encrypted: i=1; AJvYcCW7RmdghcHXoCM61mTksWQYvLvK8Sc/2YNwMkiMafrAMChxfwCs4WiVHK2f5BSLVKLaRBQs4ghBayI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJkt7wkRgkEqiATBojBBAVckma58yq+oBEXDxiNqt6lLC1DgOD
+	dm1uMjuVu4va7NajDRzD2SXr5BSmLGIvAPgDthpwhL9Cz6TjeezCVPzKtethxDxTPpgC1aK274S
+	MIjg/at7jwMNrbwkxBcXroMiNhwnfzrK9jT4rQu7eKN/Ljx6h9+ti7e2EIcwQNw==
+X-Gm-Gg: ASbGncvJwkANU9E82rGe3UXI25/hhReptoNhkXpezcjHZ/G+T2tMdBm6x+gnHtz7nUh
+	ByPpoJZP9whJsSXJxEqwSFZ+iKDwCRAPyvHHEgEQ1AiyyDUibJ6MFjZVzH6zXFIB4iLtYhvw67w
+	vORNLQscDWxDvyrIlVsFN4pTrpfHEc8/adXE7opWtnncf1oHTDEM4yn+DdMoauMn8a3NALgmDQL
+	kvjz0/MX7kVCY5ymnrFUcVP2Fftuv6pEOkz0KKB13MkIXJFVmh+VDtW10rvvqbr/0DUR7cQlYfT
+	kef5XDo=
+X-Received: by 2002:a5d:5f50:0:b0:3a4:d994:be4b with SMTP id ffacd0b85a97d-3a4f89a47a7mr12821670f8f.1.1748940774724;
+        Tue, 03 Jun 2025 01:52:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEGEHrNubrNeaL99rs9CvcijC7m6ROFlnCc2yKxqiTtySjgF89euRWCZceONTzwb++Fm8VsBg==
+X-Received: by 2002:a5d:5f50:0:b0:3a4:d994:be4b with SMTP id ffacd0b85a97d-3a4f89a47a7mr12821635f8f.1.1748940774311;
+        Tue, 03 Jun 2025 01:52:54 -0700 (PDT)
+Received: from fedora (g3.ign.cz. [91.219.240.17])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe6c842sm17289467f8f.29.2025.06.03.01.52.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 00:29:33 -0700 (PDT)
-Date: Tue, 3 Jun 2025 09:29:29 +0200
-From: Jorge Marques <gastmaier@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] dt-bindings: iio: adc: Add adi,ad4052
-Message-ID: <65m4itn5xp3ytc7hvpskuk4kmu54wznk4m2odt7d5a5k35vy26@ekjxegpjy5wq>
-References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
- <20250422-iio-driver-ad4052-v2-3-638af47e9eb3@analog.com>
- <88a326e7-3910-4e02-b4ba-7afe06402871@baylibre.com>
- <hvexchm2ozsto5s2o6n5j2z3odrkbcamgmg67umd4aehwzmgie@dvtx6anioasq>
- <1b0e9003-7322-46fa-b2ba-518a142616dc@baylibre.com>
- <vchomz3iazgdmotcs3jskrugi2qmdxyo74t4ruo2fsc7cjwtqb@7rtdmdkxobvg>
- <a6f62963-5776-47e4-bdac-78e921a6e476@baylibre.com>
- <a6cguahvrbqjv2wtisvgg2wvm2tj3awmn7omo6ebfpts6v546o@4xzpj353vlsx>
- <fca1e8c7-2c1c-4244-a109-f674940d6030@baylibre.com>
+        Tue, 03 Jun 2025 01:52:53 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: James Bottomley <James.Bottomley@HansenPartnership.com>,
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-modules@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ keyrings@vger.kernel.org, David Howells <dhowells@redhat.com>, David
+ Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Luis
+ Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Sami
+ Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
+ Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu
+ <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>, Paul Moore
+ <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
+ <serge@hallyn.com>, Peter Jones <pjones@redhat.com>, Robert Holmes
+ <robeholmes@gmail.com>, Jeremy Cline <jcline@redhat.com>, Coiby Xu
+ <coxu@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH RFC 1/1] module: Make use of platform keyring for module
+ signature verify
+In-Reply-To: <948f5567fe4d9ae39aa2528965f123e42bf82b46.camel@HansenPartnership.com>
+References: <20250602132535.897944-1-vkuznets@redhat.com>
+ <20250602132535.897944-2-vkuznets@redhat.com>
+ <948f5567fe4d9ae39aa2528965f123e42bf82b46.camel@HansenPartnership.com>
+Date: Tue, 03 Jun 2025 10:52:52 +0200
+Message-ID: <87r001yzob.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fca1e8c7-2c1c-4244-a109-f674940d6030@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 02, 2025 at 12:23:40PM -0500, David Lechner wrote:
-> On 6/2/25 11:32 AM, Jorge Marques wrote:
-> > Hi David,
-> > 
-> > On Mon, Jun 02, 2025 at 10:17:18AM -0500, David Lechner wrote:
-> >> On 6/2/25 4:17 AM, Jorge Marques wrote:
-> >>> On Tue, Apr 29, 2025 at 10:45:20AM -0500, David Lechner wrote:
-> >>>> On 4/29/25 8:48 AM, Jorge Marques wrote:
-> >>>>> Hi David, 
-> >>>>>
-> >>>>> I didn't went through your's and Jonathan's ad4052.c review yet,
-> >>>>> but for the trigger-source-cells I need to dig deeper and make
-> >>>>> considerable changes to the driver, as well as hardware tests.
-> >>>>> My idea was to have a less customizable driver, but I get that it is
-> >>>>> more interesting to make it user-definable.
-> >>>>
-> >>>> We don't need to make the driver support all possibilities, but the devicetree
-> >>>> needs to be as complete as possible since it can't be as easily changed in the
-> >>>> future.
-> >>>>
-> >>>
-> >>> Ack.
-> >>>
-> >>> I see that the node goes in the spi controller (the parent). To use the
-> >>> same information in the driver I need to look-up the parent node, then
-> >>> the node. I don't plan to do that in the version of the driver, just an
-> >>> observation.
-> >>>
-> >>> There is something else I want to discuss on the dt-bindings actually.
-> >>> According to the schema, the spi-max-frequency is:
-> >>>
-> >>>   > Maximum SPI clocking speed of the device in Hz.
-> >>>
-> >>> The ad4052 has 2 maximum speeds: Configuration mode (lower) and ADC Mode
-> >>> (higher, depends on VIO). The solution I came up, to not require a
-> >>> custom regmap spi bus, is to have spi-max-frequency bound the
-> >>> Configuration mode speed,
-> >>
-> >> The purpose of spi-max-frequency in the devicetree is that sometimes
-> >> the wiring of a complete system makes the effective max frequency
-> >> lower than what is allowed by the datasheet. So this really needs
-> >> to be the absolute highest frequency allowed.
-> >>
-> >>> and have ADC Mode set by VIO regulator
-> >>> voltage, through spi_transfer.speed_hz. At the end of the day, both are
-> >>> bounded by the spi controller maximum speed.
-> >>
-> >> If spi_transfer.speed_hz > spi-max-frequency, then the core SPI code
-> >> uses spi-max-frequency. So I don't think this would actually work.
-> >>
-> > Ok, so that's something that may be worth some attention.
-> > 
-> > At spi/spi.c#2472
-> > 	if (!of_property_read_u32(nc, "spi-max-frequency", &value))
-> > 		spi->max_speed_hz = value;
-> > 
-> > At spi/spi.c#4090
-> > 	if (!xfer->speed_hz)
-> > 		xfer->speed_hz = spi->max_speed_hz;
-> > 
-> > So, speed_hz is max-spi-frequency only if xfer->speed_hz is 0 and
-> > not bounded by it.
-> 
-> Ah, OK, my memory was wrong. It is only bound by the controller max
-> speed, not the device max speed.
-> 
-> 	if (ctlr->max_speed_hz && xfer->speed_hz > ctlr->max_speed_hz)
-> 		xfer->speed_hz = ctlr->max_speed_hz;
-> 
-> It does seem odd that it would allow setting an individual xfer
-> speed higher than than the given device max speed. I suppose we
-> could submit a patch adding that check to the SPI core code and
-> see what Mark has to say.
+James Bottomley <James.Bottomley@HansenPartnership.com> writes:
+
+> On Mon, 2025-06-02 at 15:25 +0200, Vitaly Kuznetsov wrote:
+>> This patch complements commit 278311e417be ("kexec, KEYS: Make use of
+>> platform keyring for signature verify") and commit 6fce1f40e951
+>> ("dm verity: add support for signature verification with platform
+>> keyring")
+>> and allows for signing modules using keys from SecureBoot 'db'. This
+>> may
+>> come handy when the user has control over it, e.g. in a virtualized
+>> or a
+>> cloud environment.
+>>=20
+>> Suggested-by: Robert Holmes <robeholmes@gmail.com>
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>> =C2=A0Documentation/admin-guide/module-signing.rst |=C2=A0 6 ++++++
+>> =C2=A0kernel/module/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 11 +++++++++++
+>> =C2=A0kernel/module/signing.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 9 ++++++++-
+>> =C2=A0security/integrity/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+>> =C2=A04 files changed, 26 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/Documentation/admin-guide/module-signing.rst
+>> b/Documentation/admin-guide/module-signing.rst
+>> index a8667a777490..44ed93e586b9 100644
+>> --- a/Documentation/admin-guide/module-signing.rst
+>> +++ b/Documentation/admin-guide/module-signing.rst
+>> @@ -118,6 +118,12 @@ This has a number of options available:
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 additional certificates which will be inc=
+luded in the system
+>> keyring by
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default.
+>> =C2=A0
+>> + (5) :menuselection:`Use .platform keyring for verifying kernel
+>> modules signatures`
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 (``CONFIG_MODULE_SIG_PLATFORM``)
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 This option additionally allows modules to be =
+signed with a key
+>> present
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 in ``.platform`` keyring, e.g. a SecureBoot 'd=
+b' key.
+>> +
+>> =C2=A0Note that enabling module signing adds a dependency on the OpenSSL
+>> devel
+>> =C2=A0packages to the kernel build processes for the tool that does the
+>> signing.
+>> =C2=A0
+>> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+>> index 39278737bb68..f1b85c14548a 100644
+>> --- a/kernel/module/Kconfig
+>> +++ b/kernel/module/Kconfig
+>> @@ -340,6 +340,17 @@ config MODULE_SIG_HASH
+>> =C2=A0	default "sha3-384" if MODULE_SIG_SHA3_384
+>> =C2=A0	default "sha3-512" if MODULE_SIG_SHA3_512
+>> =C2=A0
+>> +config MODULE_SIG_PLATFORM
+>> +	bool "Use .platform keyring for verifying kernel modules
+>> signatures"
+>> +	depends on INTEGRITY_PLATFORM_KEYRING
+>> +	depends on MODULE_SIG
+>> +	help
+>> +	=C2=A0 When selected, keys from .platform keyring can be used for
+>> verifying
+>> +	=C2=A0 modules signatures. In particular, this allows to use UEFI
+>> SecureBoot
+>> +	=C2=A0 'db' for verification.
+>> +
+>> +	=C2=A0 If unsure, say N.
+>> +
+>> =C2=A0config MODULE_COMPRESS
+>> =C2=A0	bool "Module compression"
+>> =C2=A0	help
+>> diff --git a/kernel/module/signing.c b/kernel/module/signing.c
+>> index a2ff4242e623..3327e7243211 100644
+>> --- a/kernel/module/signing.c
+>> +++ b/kernel/module/signing.c
+>> @@ -61,10 +61,17 @@ int mod_verify_sig(const void *mod, struct
+>> load_info *info)
+>> =C2=A0	modlen -=3D sig_len + sizeof(ms);
+>> =C2=A0	info->len =3D modlen;
+>> =C2=A0
+>> -	return verify_pkcs7_signature(mod, modlen, mod + modlen,
+>> sig_len,
+>> +	ret =3D verify_pkcs7_signature(mod, modlen, mod + modlen,
+>> sig_len,
+>> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VERIFY_USE_SECONDARY_KEYRING,
+>> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VERIFYING_MODULE_SIGNATURE,
+>> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NULL, NULL);
+>> +	if (ret =3D=3D -ENOKEY &&
+>> IS_ENABLED(CONFIG_MODULE_SIG_PLATFORM)) {
+>> +		ret =3D verify_pkcs7_signature(mod, modlen, mod +
+>> modlen, sig_len,
+>> +				VERIFY_USE_PLATFORM_KEYRING,
+>> +				VERIFYING_MODULE_SIGNATURE,
+>> +				NULL, NULL);
+>> +	}
+>> +	return ret;
+>> =C2=A0}
 >
+> I don't think this is the correct way to do it.  If, as you say, db is
+> controlled by the end user and therefore has trusted contents, then I
+> think you want to update certs/system_keyring.c to link the platform
+> keyring into the secondary trusted one (like it does today for the
+> machine keyring), so it can be used by *every* application that checks
+> keyrings rather than just modules.
 
-Agreed, the patch itself would be simple:
+Yea, that would be the solution I allude to at the end of my cover
+letter: make .platform globally trusted so we don't need the 'trusted
+for kexec', 'trusted for dm-verity' zoo we already have.
 
- 	if (!xfer->speed_hz || xfer->speed_hz > spi->max_speed_hz)
- 		xfer->speed_hz = spi->max_speed_hz;
+>
+> Also, are you sure a config option is the right thing?  Presumably Red
+> Hat wants to limit its number of kernels and the design of just linking
+> the machine keyring (i.e. MoK) was for the use case where trust is
+> being pivoted away from db by shim, so users don't want to trust the db
+> keys they don't control.  If the same kernel gets used for both
+> situations (trusted and untrusted db) you might want a runtime means to
+> distinguish them.
 
-But I wonder how many drivers rely on this behaviour
-> > 
-> > Then at spi-axi-spi-engine.c:
-> > 
-> > 	static int spi_engine_precompile_message(struct spi_message *msg)
-> > 	{
-> >   		clk_div = DIV_ROUND_UP(max_hz, xfer->speed_hz);
-> > 		xfer->effective_speed_hz = max_hz / min(clk_div, 256U);
-> > 	}
-> > 
-> > Where max_hz is set only by the IP spi_clk. If at the driver I set
-> > xfer.speed_hz, it won't be bounded by max-spi-frequency.
-> > 
-> > The only that seems to bound as described is the layer for flash memory
-> > at spi-mem.c@spi_mem_adjust_op_freq.
-> > 
-> > For the adc driver, I will then consider your behavioral description and
-> > create a custom regmap bus to limit set the reg access speed (fixed),
-> > and keep adc mode speed set by VIO. And consider spi-max-frequency can
-> > further reduce both speeds.
-> > (or should instead be handled at the driver like spi-mem.c ?)
-> 
-> It would be more work, but if it is common enough, we could generalize this
-> in the core code. For example add a spi-register-max-frequency binding (or
-> even a more general spi-max-freqency-map to map operations to max frequencies).
-> Then we could bake it into the regmap_spi code to handle this property
-> and not have to make a separate bus.
-> 
-> FWIW, there are also some SPI TFT displays that use a different frequency
-> for register access compared to framebuffer data that could potentially
-> use this too. Right now, these just have a hard-coded register access
-> frequency of e.g. 10 MHz.
-> 
+I was not personally involved when RH put the patch downstream (and
+wasn't very successful in getting the background story) but it doesn't
+even have an additional Kconfig, e.g.:
+https://gitlab.com/redhat/centos-stream/src/kernel/centos-stream-10/-/commi=
+t/03d4694fa6511132989bac0da11fa677ea5d29f6
+so apparently there's no desire to limit anything, basically, .platform
+is always trusted on Fedora/RHEL systems (for a long time already).
 
-I implemented the custom regmap bus for this series.
-With a `spi-max-frequency-map`, the regmap bus can be removed.
-I don't want to include this regmap spi patch to this series.
-As I see it, struct regmap_but first need to be extended to add
-a max_speed, e.g.
-  
-   @max_speed: Max transfer speed that can be used on the bus.
+As part of the RFC, I'd like to try to understand under which conditions
+people may not want to trust 'db'. In the most common use case, 'db' is
+used to authorize shim and the kernel is signed by a cert from shim's
+vendor_db, not trusting 'db' for modules after that seems somawhat
+silly. Maybe we can detect the fact that the user took control over the
+system with MOK and untrust .platform only then (while trusting it by
+default)?
 
-regmap_spi.c would then look for the devicetree node to fill the value
-and on regmap_write/read fill speed_hz.
-In this case, it could be called "register-frequency" or
-"regmap-frequency"
-If instead it is up to spi.c to read the devicetree node, then a way to
-differentiate "regular" transfers from "regmap" transfers would be
-necessary.
+A runtime toggle is not something I thought much about: the sole purpose
+of this part of 'lockdown' (limitimg unsigned modules load) seems to be
+to prevent someone who already has 'root' on the system to gain kernel
+level access to e.g. hide its activities. In case root can decide which
+keys are trusted, isn't it all in vain? Or maybe if the toggle is to
+just trust/not trust .platform (and not e.g. disable signatures
+verification completely, inject a new key,...) this is acceptable?
+Another option is to have a kernel command line parameter but this is
+complicated for users.
 
-About submitting v3, should I submit only up-to the base driver, or can
-I submit also the add offload support and add event support commits?
+--=20
+Vitaly
 
-Regards,
-Jorge
