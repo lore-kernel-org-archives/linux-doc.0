@@ -1,103 +1,111 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f73.google.com (mail-ot1-f73.google.com [209.85.210.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F994C74
-	for <linux-doc@vger.kernel.org>; Tue,  3 Jun 2025 21:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B5F22F766
+	for <linux-doc@vger.kernel.org>; Tue,  3 Jun 2025 21:46:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748986537; cv=none; b=IhDTzJFehpM+A9m4XLFoxFtY8aUlPKOePCvA1Pjhi1FOoERA/aF5rYaacGQjmXHdoo42gQfLgAGFAIx7sB3IrdPGXfjRW3Mfn+GQNTOBKORVG9FLVMxTaOKg9HyY6jvZtwBq6k4jv5AgXphKFbC1WQpL5Xw9ylgIGH8WdYYgzEw=
+	t=1748987217; cv=none; b=HRA83TmGrgvO25s5MON7weaQCtbMUalWAVDuNNyeHHkveIbcnnSUcCSiYL7cEHeVHvNY07o8on6UnNjxVYdwQKsuoUJ0+RiSxH8MLnEfQWDEIcWviJ7gu0mILmgSmlegdPzRHCqwA9ObMb8drAjulfo1Gi//FLm9cgNzZJkFusA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748986537; c=relaxed/simple;
-	bh=iiBX/ORvAo10OUVW6OW4eab1dPtp91L1/QKcp+aMik8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=akpsFFRPnJorg8iBmKjGTlpjpi6W/HA0gvwYTp6yV9TXSOA+I7ndYHof4ABFid9tvJYp1lWf0X8OAF6B5Yk4V7Xfwz9KPP9RiRCMRZ9i1v8KP44oOUlhKBn+a4pOaQu2hKRL+wWUXOoUkYj2xrtd4jjXFutaAiTF9oQPjj9LEHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nV9JRgWq; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1748987217; c=relaxed/simple;
+	bh=7OkVmia+kAhC2psjz5g/UQyEwFQL6hlzlynJfKibJrY=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=SOhJiIJ64DuSnbWuL5PF4dZ8QPC9WC0kGaxYowad2PVe9FrUJ7ynRhKeFxkb9088YLtJ4OK18/rHEC3Yt7DDqUjOGoZ4uiG/aNNlP5/geYtiCdSffYcIw6f6g1VKxA7jVCh3zDu2uNuB/qn64XkyTQiZ9wr29eqCROl2wV+0hfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bi3hxfIg; arc=none smtp.client-ip=209.85.210.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nV9JRgWq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1748986533;
-	bh=iiBX/ORvAo10OUVW6OW4eab1dPtp91L1/QKcp+aMik8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nV9JRgWqtkAxr9sDHC8RlbsQ0Y1qIHLjAOOnWgUciCSBUxQQtpH2bgXdVSaJQda+g
-	 iSfQYDY6YfTBGU2YBp5p4yvjugFTadjj1OzVPwUCfPPVfItpIG/S7/bVkGAr3qWkIq
-	 knP8y7aQA+hObCGc0ClgSD95Pgmc4zkZtMhJ02ah9jpOCa+KV3GCBhtWz56dnHxrl1
-	 TOgv7t025lwvrT3aMfjN2rw2NoeB4EJqfrHGdkqOPaiF3I5OnEwJsdMy544ykiCGqW
-	 MZhnEcG1PgGTNkmmKFfppBzIqAf3FJJe47OcyPPjiz+1YWNLN2LvE6oEOsfioFyb6t
-	 f7Jb7e4D91Pbw==
-Received: from notapiano (unknown [IPv6:2600:4041:5b1a:9400:99d:464c:62e0:2118])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 94EA617E097E;
-	Tue,  3 Jun 2025 23:35:32 +0200 (CEST)
-Date: Tue, 3 Jun 2025 17:35:30 -0400
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] docs: automarkup: Mark up undocumented entities too
-Message-ID: <e6232bfc-092d-478c-b085-72bf4e9544f6@notapiano>
-References: <87cybklp2n.fsf@trenco.lwn.net>
- <74558759-8fa4-417e-9879-6a34e8685ef9@notapiano>
- <87zfeojzr0.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bi3hxfIg"
+Received: by mail-ot1-f73.google.com with SMTP id 46e09a7af769-735a567ef49so4678962a34.3
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jun 2025 14:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1748987215; x=1749592015; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LccXvjPYPBUKmolpHX2IrRx+++KKrUgiEoyHX8qZbOw=;
+        b=Bi3hxfIgHRRST+ts6mfaolap226t0NctWhE6kDXuMLdh9p7VCLfiUh54mQOMVBdPjM
+         H0S8Oe4ctU4zeJ4WkQvBD1axE9ErDgf05eVYRpbsX1g9/9XX6x2Q6WQMukvKVHIplJkc
+         k/+kDNvsy2kXUHA+FE/F9SU1K+JFUWObFpVQBUdWy5rNaoY8kRoZ8Ej4uqJZtMyAcDvp
+         YFkfttFGdyptJMZ/P30qbgY7DDbfMDyyXPI/9iXhnakAxZyDOaYxVrZcwy8S0sKYgLxF
+         94XoWkPTGfJhE+bim2J2zpq6Zw31Px4q4uhsqHyktsGyL6R/pauQbnSrmZ5p9Y/Wf8gy
+         t/yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748987215; x=1749592015;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LccXvjPYPBUKmolpHX2IrRx+++KKrUgiEoyHX8qZbOw=;
+        b=XNRqnohO7l0Zfmu7ZEJImkKdsWemxYPTE937zdrkizuIG8FOqNLdp0N4Be6jxwpRoc
+         puxdbnIQ7U47CJuQoegekfobnAwagrA69GDjldOksPnB6SW2VBYghWv51/rp+WngR6cX
+         rb69KbNrgcKMz8omKlHTQYV+Y8fVgnNexS/ICaXMNJACoadPeBT3AOYc/B4WLSCkGe5r
+         7c1o+u51pABdElGcDTysjayfp1J/rYBEYOBYG6C6AHZfi0Uul5gD5NhEQxDQBFh6xnY4
+         JWrG6l5RuzfPprmC18Qhvlb8cjmV8NqOaaz2cL9K5zKSKxKJRokN31h/Zcs0ggmAikeR
+         Ei2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXs6FN+iTvLbhy2sNPAop4w9WCgiVNq7gkC16hnD/O2tHuhJNJZlgFI05eAydl0qvLkGi0SD9wRU2k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7dnuMD5n6mr1y3MpHRJHQmxwjbGqbnHwXihIxDw1MHvI2j0Tp
+	X4rfHPhnvI1yFLvVZs1eRWLOq1HrgOIB8ZMpjO+iwnGjwjgQQr6SNozAv0q7i06JQkovAON9/jx
+	5L6SpwR0h+ETUg7vBR2wwUmY23A==
+X-Google-Smtp-Source: AGHT+IGVKt5ILqjSdW8OtKLqE/y3WeywMj3vX4/DzsQoxvrjy7RrNHS3PkxJz64AV7HAzQffHQulShSVI5b7iylTEA==
+X-Received: from oobdi8.prod.google.com ([2002:a05:6820:1e88:b0:60f:868:60e1])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6830:4882:b0:735:ebf8:b241 with SMTP id 46e09a7af769-73869d7c158mr529938a34.14.1748987214770;
+ Tue, 03 Jun 2025 14:46:54 -0700 (PDT)
+Date: Tue, 03 Jun 2025 21:46:54 +0000
+In-Reply-To: <aD4oS1_tnMPlgDJ6@linux.dev> (message from Oliver Upton on Mon, 2
+ Jun 2025 15:40:11 -0700)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87zfeojzr0.fsf@trenco.lwn.net>
+Mime-Version: 1.0
+Message-ID: <gsnt1ps033ch.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH 16/17] KVM: arm64: Add ioctl to partition the PMU when supported
+From: Colton Lewis <coltonlewis@google.com>
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
+	maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, 
+	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-On Tue, Jun 03, 2025 at 03:12:35PM -0600, Jonathan Corbet wrote:
-> Nícolas F. R. A. Prado <nfraprado@collabora.com> writes:
-> 
-> > To me the results look much better without these CSS rules, as they cause a
-> > double underline.
-> >
-> > The current CSS already adds a dotted underline to reference links through the
-> > following rule:
-> >
-> > 	a.reference {
-> > 	  border-bottom: 1px dotted #004B6B;
-> > 	}
-> 
-> OK, that is interesting ... I don't see that underline.
-> 
-> Are you using the (default) alabaster theme?  Alabaster explicitly sets
-> it to "none", as can be seen on docs.kernel.org.
+Oliver Upton <oliver.upton@linux.dev> writes:
 
-Yes. And I also see this same dotted underline on docs.kernel.org, for every URL
-on that page. I've also double-checked this is the case when accessing from my
-phone, and in incognito, so maybe this is something on your end?
+> On Mon, Jun 02, 2025 at 07:27:01PM +0000, Colton Lewis wrote:
+>> +	case KVM_ARM_PARTITION_PMU: {
 
-To be clear, you don't see underlines on any URLs on docs.kernel.org?
+> This should be a vCPU attribute similar to the other PMUv3 controls we
+> already have. Ideally a single attribute where userspace tells us it
+> wants paritioning and specifies the PMU ID to use. None of this can be
+> changed after INIT'ing the PMU.
 
-You could find the CSS rule I mentioned above in
+Okay
 
-https://docs.kernel.org/_static/alabaster.css
+>> +		struct arm_pmu *pmu;
+>> +		u8 host_counters;
+>> +
+>> +		if (unlikely(!kvm_vcpu_initialized(vcpu)))
+>> +			return -ENOEXEC;
+>> +
+>> +		if (!kvm_pmu_partition_supported())
+>> +			return -EPERM;
+>> +
+>> +		if (copy_from_user(&host_counters, argp, sizeof(host_counters)))
+>> +			return -EFAULT;
+>> +
+>> +		pmu = vcpu->kvm->arch.arm_pmu;
+>> +		return kvm_pmu_partition(pmu, host_counters);
 
-> 
-> > So when you add this underline text-decoration to the .xref tags, the ones
-> > inside <a> tags (valid xrefs) end up with two underlines.
-> >
-> > I've checked the result for both struct and functions and they work the same.
-> >
-> > So I suggest just dropping these CSS rules.
-> 
-> We need to figure out why you are seeing something different.  But I do
-> want rules to distinguish just-plain-function from
-> function-with-kerneldoc.
+> Yeah, we really can't be changing the counters available to the ARM PMU
+> driver at this point. What happens to host events already scheduled on
+> the CPU?
 
-Maybe I wasn't clear, but on my end they are already rendered differently with
-your change in automarkup.py, but without the CSS change. Both show up as bold
-monospaced texts, but only in the case where the link is valid is there a <a>
-tag, so only that one gets this dotted underline. When the xref doesn't exist
-there's no underline.
+Okay. I remember talking about this before.
 
-Thanks,
-Nícolas
+> Either the partition of host / KVM-owned counters needs to be computed
+> up front (prior to scheduling events) or KVM needs a way to direct perf
+> to reschedule events on the PMU based on the new operating constraints.
+
+Yes. I will think about it.
