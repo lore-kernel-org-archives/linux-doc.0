@@ -1,203 +1,225 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2085.outbound.protection.outlook.com [40.107.243.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4DCC13B293;
-	Tue,  3 Jun 2025 05:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748929291; cv=fail; b=sRUhi5FIpsj53SmCnK3Gh6J37PmEuJEez1XX/1HtqYJaY1qrsJk84CubcFCQCYg6asR8oQ1ycQHXsUlEIhUDJdcDb3+mePbOnN1qts82xOqtb5E1Om+LG4HDs8rTB36J6TKIztKwzufZdxqIgwX2JPo5B+ZkZykq4Mdkn11xGyA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748929291; c=relaxed/simple;
-	bh=u2uvhyU+SFRwL5vp8XNU8rysw9V6BuEmQUMdYguJBVs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MtEaCI+XTwmxkmnG53CWiw3jV/wOyJpLb1UwAZXYerhA/Amcna7/tBZ4MRWHOdFW2f/SD18gDream5xwTM0OfICAW4Wx+T+MfIw766w4gOjev3wEOCEhzgc1CeA4K2p7Z85V9FnKa8IfnVkIRLvzG7+X8Y9zo4t5UqKKXsMn8uE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Cxje8MgF; arc=fail smtp.client-ip=40.107.243.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5900526981C;
+	Tue,  3 Jun 2025 07:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748935778; cv=none; b=hzLmzwFkGYaMSlVLmBWBsPO/ZqIS5kGZOkfBK3hDJ0BtZogl2HgXghrPi4n1zlQE9rUGmiEaMCk26Yl1GqiG70xSyHA2j4lnnfmWMpZHj7rWRM9KE7gAwgDq9LnyJjciSeqbla+DOmaBQpp4GVYqjNOB4lJFNcmlJ3uxxSrRd1g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748935778; c=relaxed/simple;
+	bh=D9mDCibXbWWfbom+IVcLmQuJzP9JNt8OgAUfssS+g9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZtlxneMt/8S28wh4vwwfpEm/BQ+sUSmNks+YX6KgUl2+6nASIc7veWP2X2TgQLodInAlsTZ6UwdmHs2GqHmS/DUUGH8v7Zx65ih7APSDsyOgr3VnOlbTN7nEPLGkL1tEi5ISJbGxsSR7YeLRvNRua5bquVzYO3teNJLA2DEppWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fC2XM8Av; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Cxje8MgF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p8g9AdseMXY0nyf+lILSeemJP8/XGkY1b4C3TrbvqX+WvN/qU4RP9wIRBcKpK/urTDPmGBbR8x32UY57liG93L+CjKOXwKsv4OuIse9t9ZhW8pf5YFv3959Onl8FrgSaCTmwzTAhFKS6rwSd809+M9gAJz+pl1OX3im+Uc0T0J2OIKD152MCSPVLX+0Rh2UgJZro46miCAXX/+IPwRnjleaKRLLUPeCAvsxqICW8fYbk/x3q8sEkoajN1+7TqTr3zlUL0h2zwQOM0jo7q8SaZ1UOoRh+OFv2SeGRQidzs7/woqAH9OnKfXaAsgi95+da9k/GywSXvIdk9IU3sa4X/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aSeb71u7Rm1nsA4Y5jWWgVcHnIHOUuaTeIOiZirOzUk=;
- b=HWAK9fpPBv6/MPdUctfgLAP0xri67TwO4DBYQ67gJjczW8KbuK0sFjxx9jMgJsMjSm7AkwukYF2no+ydPgIn4mRSIGcqPr0w/PYFPgAvfdORd0VhtABW0tlUPNzg/SlRwQOOgDKLu1FzcaRZN+bX4a+X9VQQB0JE8bfxgwXhiEVqCfj/GGQ1zIN8up0Abh5AnazmYgFWTFyf1HyaEPKktwSwnlVa0Z8d50e88/2NbRl26j4oZX7OyVmYQXzkZgjJ/rCi/UbAz89C7PCbdHRdBvLkdKxrAuXN1r2u8msJeyX8PkOvpEkC1MWH6EzqLUkJBtjgcOsuurydaVPM+y8dAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aSeb71u7Rm1nsA4Y5jWWgVcHnIHOUuaTeIOiZirOzUk=;
- b=Cxje8MgF2bskXF1P21dDp7HXny3d8DMFXf5CPS+rhesfgAIvFhZ6NUp3pGzq8/6nWRy7b9QR4TfqAhjm0hsSrjSkFxTUy+xtQKUtx7H7j2lmzFaOUnm8CKbdoRS2buq6qxDWkaQBPZTxoEAa3VI8T5itUdct9lejdmwrOyhVcM+l3WLFJx3S/zSwbdtvrJnYeDKkL5Z5byoqDU030XMa3kXOlyERG6JILYIvyEGkQnA+7KsIpxe/z9tmdtE+9GgK6GnDXoRiPMwhEp/l5+j028S0c8k/Bhrxr9aYhjg/nBEA05XiugU8l9mRLHyHtyUNvbxhBMqGyjfBn9djeEvLgg==
-Received: from BLAPR03CA0110.namprd03.prod.outlook.com (2603:10b6:208:32a::25)
- by DS0PR12MB8019.namprd12.prod.outlook.com (2603:10b6:8:14e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.30; Tue, 3 Jun
- 2025 05:41:24 +0000
-Received: from BL6PEPF00020E61.namprd04.prod.outlook.com
- (2603:10b6:208:32a:cafe::c4) by BLAPR03CA0110.outlook.office365.com
- (2603:10b6:208:32a::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Tue,
- 3 Jun 2025 05:41:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BL6PEPF00020E61.mail.protection.outlook.com (10.167.249.22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8792.29 via Frontend Transport; Tue, 3 Jun 2025 05:41:23 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 2 Jun 2025
- 22:41:09 -0700
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 2 Jun
- 2025 22:41:08 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Mon, 2 Jun 2025 22:41:06 -0700
-Date: Mon, 2 Jun 2025 22:41:05 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: <kevin.tian@intel.com>, <corbet@lwn.net>, <will@kernel.org>,
-	<bagasdotme@gmail.com>, <robin.murphy@arm.com>, <joro@8bytes.org>,
-	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
-	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
-	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
-	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
-	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>,
-	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v5 14/29] iommufd/viommu: Add IOMMUFD_CMD_HW_QUEUE_ALLOC
- ioctl
-Message-ID: <aD6K8ZuAH+zjXIx2@Asurada-Nvidia>
-References: <cover.1747537752.git.nicolinc@nvidia.com>
- <5c509f092ba61d4c0852ba57b530888ffb864ccb.1747537752.git.nicolinc@nvidia.com>
- <20250530161455.GE233377@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fC2XM8Av"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a0ac853894so4937456f8f.3;
+        Tue, 03 Jun 2025 00:29:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748935774; x=1749540574; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3+0drIHoAyZoGAlkQm5JvZx6iEUNhrBv6oQQ7O47bVI=;
+        b=fC2XM8AvAIDWAITtJDAcsSTo7jsC451AH7KNrklxi2hbSRebsCmexFsnzX8JeNeiuO
+         oR4nq8S5COHX0oDBxOnZIvA0DlLDAiVqy2z9j4FogTCYeyKLcOeXhTsBIQvPy3MV/R0Q
+         XyGZAfbILmYKini4eDvyO6rUbFCT8BF3rFoZWtlru7Me4Q1D2358fvntU9+lVijXrSfO
+         /EuaOaO21qyXOWKnOVBEqH8x/vfzETXdMltiwXJ8VeDnuD2JvugrDfds5j3IkAkON7R5
+         SF39AFC8GjHvO0MDCK1HXH76u3Ttv+1nrSx6p3yGX1/LDwHmOFYE0TtzuuNioHTRPCtR
+         cW0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748935774; x=1749540574;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3+0drIHoAyZoGAlkQm5JvZx6iEUNhrBv6oQQ7O47bVI=;
+        b=tu7L06/1Z74AcI0R3JtEdtxTPSXlYRkZcNSSQI/fwpyBIayGIjlcRZGlOWl34tvAzj
+         g7DbLGxpNPHy/PMipQRnW7L4GA0esG41iVGQCBJn/uEXLFLz0EKwHkWxw5P9BvE/A9/+
+         t1G09BYM1BAaUSZSMV/inH8zUy3bZDMNyhiTt/Ee8ljDgZfDN0wAxLo+J1JdQaFpSk+2
+         mU2sHVVbTsqsk+y3mVX5Ajoq/8F75K6IrAqJxM/RHLnxvcirE5YPrmQHKToMG9XL7WnO
+         q44FqpMcTvw7tBMroZkTOXaxmG+1k51NRLWwRobATod1ZFzwx3DywzByZlWDMOvTyvMv
+         X3Ew==
+X-Forwarded-Encrypted: i=1; AJvYcCUW4mWSmjdYTrW4Qct23kUCcLydguMbUqZzoXiKABVIbyrELS+pkNII6Cay0ghkv7IwIVXsUuLraqD9@vger.kernel.org, AJvYcCV/uNEvu8p59jxfo8T3ZbwAPtyd1jJhq8nzZGsUa8v8b84Gx1omAMha5BzzteGe/xm7pqHMtuzRdA3S@vger.kernel.org, AJvYcCVb++udFBWDx+yu3BQkjvLX0/cshn3u3rrvHixS7piyrMLXtSYNCpXN+jPKAoH2Py+Y2BnAblMqslFI@vger.kernel.org, AJvYcCWAnIOcVo8tnafK4JqgwecJ1KTDfZMPz8x5np30gTE5KhiLS39dNetXlZ7sTK4oGPJuPQnRcUNnY7OT3sJ0@vger.kernel.org, AJvYcCWsKt+VxuHZNnu4Wu3tSixi4DQISQI8+vmY6M/ef2abt6tcl5lkohWF6BmKgM0Z57UBPZy8xCNvP/gD@vger.kernel.org
+X-Gm-Message-State: AOJu0YwD9yKMjCIkXuhISCj7LRJYQVUy7F2vTdYrB1eIHCCIm0Nfrx/J
+	aZRaxtyCEjNRNXayGkc0k9gW/MsAi9DaCRQL7eqK6ssjD12aUcEnOM5n
+X-Gm-Gg: ASbGncsahKX3v+gfhTZUUl8y5Wgsqdh77qiM16FWZ8zSZSMuxbnYn74T3hTdD9H5WIw
+	yUx70TOvNxqvaxDDaWUeU65qfnmWjwkGXwTE+dy8ZILpmXHDMVHjjgtPQUCtVxicy7/5MAm5a0u
+	GvU9cMjeCGqRf7WLBcz7zfY7aTmwgZgnp0yb8aXqTCSMbN7FKRbxiRvNuGdbig10QQoO8nlRLbx
+	6bj8k2DgphM3dcweY0weyxOzHLvbu3RhTzA6qFfWHr5B2GvnONNxGybMJr4tGyXONj9n/QYvFaJ
+	hqVDK+GWADqb8UYMpNhsVfiXnZX/vkob7fpIroyVLTvS13uPE1Qb0E6A0BgdSjmmUvJ4na4=
+X-Google-Smtp-Source: AGHT+IFwLH0nIqI1FwsSQ0ReEAbBwzxHWkTVup5SaANYJucLwWpPOUjNEwECalY8pm5oxSxYcji3Sg==
+X-Received: by 2002:a05:6000:2c0d:b0:3a4:cfbf:519b with SMTP id ffacd0b85a97d-3a4fe395783mr8605356f8f.44.1748935774273;
+        Tue, 03 Jun 2025 00:29:34 -0700 (PDT)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([137.71.226.91])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe5b8a8sm17075181f8f.5.2025.06.03.00.29.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jun 2025 00:29:33 -0700 (PDT)
+Date: Tue, 3 Jun 2025 09:29:29 +0200
+From: Jorge Marques <gastmaier@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] dt-bindings: iio: adc: Add adi,ad4052
+Message-ID: <65m4itn5xp3ytc7hvpskuk4kmu54wznk4m2odt7d5a5k35vy26@ekjxegpjy5wq>
+References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
+ <20250422-iio-driver-ad4052-v2-3-638af47e9eb3@analog.com>
+ <88a326e7-3910-4e02-b4ba-7afe06402871@baylibre.com>
+ <hvexchm2ozsto5s2o6n5j2z3odrkbcamgmg67umd4aehwzmgie@dvtx6anioasq>
+ <1b0e9003-7322-46fa-b2ba-518a142616dc@baylibre.com>
+ <vchomz3iazgdmotcs3jskrugi2qmdxyo74t4ruo2fsc7cjwtqb@7rtdmdkxobvg>
+ <a6f62963-5776-47e4-bdac-78e921a6e476@baylibre.com>
+ <a6cguahvrbqjv2wtisvgg2wvm2tj3awmn7omo6ebfpts6v546o@4xzpj353vlsx>
+ <fca1e8c7-2c1c-4244-a109-f674940d6030@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250530161455.GE233377@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00020E61:EE_|DS0PR12MB8019:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa3d182c-7bda-4590-1504-08dda26146e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|7416014|376014|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?JdF7qz4h0uLSjSVDDnx7RQvoWkNqOHSTQWiCtMdUKWLbyC9GoTjCwRn1PzSw?=
- =?us-ascii?Q?aSXo6hQSR9PWdYtO26yTp9RB2OkuNvVezWgDjrQGmzXRCT2d1TTROF0eoscM?=
- =?us-ascii?Q?EvHjN1Bx25V7Enua7logzDO+2NH6McQYLq74HKE1R9RMo72XoNYsCQWe37Km?=
- =?us-ascii?Q?rdkXqNxLGg87ALD+TGM6C5/5ZWkeY2AHANh6dd/04ZkFUaLv17HYD0NC8kFc?=
- =?us-ascii?Q?ntw2v0E93lw3kUgrMoC5gcUHkx5ibqxPbCb7ixgztHr1EJLNMDArMhutlRy3?=
- =?us-ascii?Q?TZ8ZhDL7qvOQgAgZVjzlSaMX1nDtluDr2uL0ow55yQHaemkpujaoOTKgSaWh?=
- =?us-ascii?Q?kM0lWuZdT435/u5TQx/szcQ+Mq0zxjxlDTgzPMe7fqA4KUH8s4EA+Jgy5Nmz?=
- =?us-ascii?Q?7tJm3UJpOnOvdAtkXZCJMHUBrABuJ/8u4uyDBEm1m3SCDJ17D14jGLApP1eY?=
- =?us-ascii?Q?lOFiwARn0eNJms1rMT8nNfbQQ1DrVT7Sb/JGyRtlfSQqQ+Vdq4uChE/CnETm?=
- =?us-ascii?Q?/M0QL+H4idctx/PStHkmabiVaF+tSRRTtixAfj9ppPJbhTA+hdFY+/7ZzvMA?=
- =?us-ascii?Q?s+fJP60m09gE8ezSET3ii6NWQrw8erd2GUIzimIgOTakbgc6SN7SeLhYc0PX?=
- =?us-ascii?Q?2j+VVpcrxRf6vtT0OD6iNr5a7w7Em/nztUcrNC61QJzZtG2GcCwmQgTYSuV8?=
- =?us-ascii?Q?ALGyCgeqZ8Y5PIvsFMdu3lXPcRasNSxPYgRhlHtXLjHlG6NBr/ABgq3RIjUf?=
- =?us-ascii?Q?3Gz/PqJ9ZRym6YGaXY//CVB5mM05joWCUHTSPDYDKnuTzbRb8lSvVtwes/hI?=
- =?us-ascii?Q?2Zdl9B2SNg/fsvCqsRUso6gKDAo5e8pslPnyTDNKQfWB6NJ1oj2MKAyWxVWP?=
- =?us-ascii?Q?9hAOxbya8s2OQ0XqFe1Sr5M6c8DnXMV67TL9yHxS+wrUCWfhrPe1d4jvQmC+?=
- =?us-ascii?Q?hODe8OY5mby0pHIFXo6f9Ou+7i9pIgi2v6wS0P9DoiO+PEfj/1EE1V1A0uGZ?=
- =?us-ascii?Q?F7MeawrPVruxpO7+mzJxjmpAuADdw4BHZreAyV/3IszFFmWpYwBznfBW3dCk?=
- =?us-ascii?Q?vO4t2PRUXUpETVJtrD60JCeIA5LX2PR76SOOem9RebyWI2iwVBEurZ9OkfPm?=
- =?us-ascii?Q?hLWeibqSX9dZGO3OQd4ojfLxHBb7RGoCXIXAIoRr4KafJ39t6PsadSo/dpcV?=
- =?us-ascii?Q?9oPUYVJsdFwJJwfASEw+r//VU9j4wueBEZWXhmqxGeqbfbQMTwT2NpuICBkv?=
- =?us-ascii?Q?9qzOuDyCN7FP1FtYxWhdCmwEfgBVT2uLrmWNCZM1C6kPLYFdMca05Wxa+6RW?=
- =?us-ascii?Q?96vMdt/PMiKOX7gE3yob/61xCe3KpWE1bNwU2+AbjQlN7HZhRFD0O5fGJVy2?=
- =?us-ascii?Q?itJXEfI6Ic/rC0Ax9oK/llYmrubfTsLV80Rz+NBcLmtpSxq+WLixcwyRmLoH?=
- =?us-ascii?Q?wkyM5+RVdjsGUG1iIUP04yHnO21bFEP+ecslosSUMEJc98hbYAkfIq1xFVQ+?=
- =?us-ascii?Q?JAL23pxXxbNNE+ussUjzKOy/uU3sYcil8oUG?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(7416014)(376014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 05:41:23.9594
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa3d182c-7bda-4590-1504-08dda26146e8
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF00020E61.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8019
+In-Reply-To: <fca1e8c7-2c1c-4244-a109-f674940d6030@baylibre.com>
 
-On Fri, May 30, 2025 at 01:14:55PM -0300, Jason Gunthorpe wrote:
-> Put a size_t in the driver ops:
+On Mon, Jun 02, 2025 at 12:23:40PM -0500, David Lechner wrote:
+> On 6/2/25 11:32 AM, Jorge Marques wrote:
+> > Hi David,
+> > 
+> > On Mon, Jun 02, 2025 at 10:17:18AM -0500, David Lechner wrote:
+> >> On 6/2/25 4:17 AM, Jorge Marques wrote:
+> >>> On Tue, Apr 29, 2025 at 10:45:20AM -0500, David Lechner wrote:
+> >>>> On 4/29/25 8:48 AM, Jorge Marques wrote:
+> >>>>> Hi David, 
+> >>>>>
+> >>>>> I didn't went through your's and Jonathan's ad4052.c review yet,
+> >>>>> but for the trigger-source-cells I need to dig deeper and make
+> >>>>> considerable changes to the driver, as well as hardware tests.
+> >>>>> My idea was to have a less customizable driver, but I get that it is
+> >>>>> more interesting to make it user-definable.
+> >>>>
+> >>>> We don't need to make the driver support all possibilities, but the devicetree
+> >>>> needs to be as complete as possible since it can't be as easily changed in the
+> >>>> future.
+> >>>>
+> >>>
+> >>> Ack.
+> >>>
+> >>> I see that the node goes in the spi controller (the parent). To use the
+> >>> same information in the driver I need to look-up the parent node, then
+> >>> the node. I don't plan to do that in the version of the driver, just an
+> >>> observation.
+> >>>
+> >>> There is something else I want to discuss on the dt-bindings actually.
+> >>> According to the schema, the spi-max-frequency is:
+> >>>
+> >>>   > Maximum SPI clocking speed of the device in Hz.
+> >>>
+> >>> The ad4052 has 2 maximum speeds: Configuration mode (lower) and ADC Mode
+> >>> (higher, depends on VIO). The solution I came up, to not require a
+> >>> custom regmap spi bus, is to have spi-max-frequency bound the
+> >>> Configuration mode speed,
+> >>
+> >> The purpose of spi-max-frequency in the devicetree is that sometimes
+> >> the wiring of a complete system makes the effective max frequency
+> >> lower than what is allowed by the datasheet. So this really needs
+> >> to be the absolute highest frequency allowed.
+> >>
+> >>> and have ADC Mode set by VIO regulator
+> >>> voltage, through spi_transfer.speed_hz. At the end of the day, both are
+> >>> bounded by the spi controller maximum speed.
+> >>
+> >> If spi_transfer.speed_hz > spi-max-frequency, then the core SPI code
+> >> uses spi-max-frequency. So I don't think this would actually work.
+> >>
+> > Ok, so that's something that may be worth some attention.
+> > 
+> > At spi/spi.c#2472
+> > 	if (!of_property_read_u32(nc, "spi-max-frequency", &value))
+> > 		spi->max_speed_hz = value;
+> > 
+> > At spi/spi.c#4090
+> > 	if (!xfer->speed_hz)
+> > 		xfer->speed_hz = spi->max_speed_hz;
+> > 
+> > So, speed_hz is max-spi-frequency only if xfer->speed_hz is 0 and
+> > not bounded by it.
 > 
->  size_t size_viommu;
->  size_t size_hw_queue;
+> Ah, OK, my memory was wrong. It is only bound by the controller max
+> speed, not the device max speed.
 > 
-> Have the driver set it via a macro like INIT_RDMA_OBJ_SIZE
+> 	if (ctlr->max_speed_hz && xfer->speed_hz > ctlr->max_speed_hz)
+> 		xfer->speed_hz = ctlr->max_speed_hz;
 > 
-> #define INIT_RDMA_OBJ_SIZE(ib_struct, drv_struct, member)                      \
-> 	.size_##ib_struct =                                                    \
-> 		(sizeof(struct drv_struct) +                                   \
-> 		 BUILD_BUG_ON_ZERO(offsetof(struct drv_struct, member)) +      \
-> 		 BUILD_BUG_ON_ZERO(                                            \
-> 			 !__same_type(((struct drv_struct *)NULL)->member,     \
-> 				      struct ib_struct)))
+> It does seem odd that it would allow setting an individual xfer
+> speed higher than than the given device max speed. I suppose we
+> could submit a patch adding that check to the SPI core code and
+> see what Mark has to say.
+>
+
+Agreed, the patch itself would be simple:
+
+ 	if (!xfer->speed_hz || xfer->speed_hz > spi->max_speed_hz)
+ 		xfer->speed_hz = spi->max_speed_hz;
+
+But I wonder how many drivers rely on this behaviour
+> > 
+> > Then at spi-axi-spi-engine.c:
+> > 
+> > 	static int spi_engine_precompile_message(struct spi_message *msg)
+> > 	{
+> >   		clk_div = DIV_ROUND_UP(max_hz, xfer->speed_hz);
+> > 		xfer->effective_speed_hz = max_hz / min(clk_div, 256U);
+> > 	}
+> > 
+> > Where max_hz is set only by the IP spi_clk. If at the driver I set
+> > xfer.speed_hz, it won't be bounded by max-spi-frequency.
+> > 
+> > The only that seems to bound as described is the layer for flash memory
+> > at spi-mem.c@spi_mem_adjust_op_freq.
+> > 
+> > For the adc driver, I will then consider your behavioral description and
+> > create a custom regmap bus to limit set the reg access speed (fixed),
+> > and keep adc mode speed set by VIO. And consider spi-max-frequency can
+> > further reduce both speeds.
+> > (or should instead be handled at the driver like spi-mem.c ?)
 > 
-> Which proves the core structure is at the front.
+> It would be more work, but if it is common enough, we could generalize this
+> in the core code. For example add a spi-register-max-frequency binding (or
+> even a more general spi-max-freqency-map to map operations to max frequencies).
+> Then we could bake it into the regmap_spi code to handle this property
+> and not have to make a separate bus.
 > 
-> Then the core code can allocate the object along with enough space for
-> the driver and call a driver function to init the driver portion of
-> the already allocated object.
+> FWIW, there are also some SPI TFT displays that use a different frequency
+> for register access compared to framebuffer data that could potentially
+> use this too. Right now, these just have a hard-coded register access
+> frequency of e.g. 10 MHz.
+> 
 
-I found that the size_viommu or size_hw_queue might not work using
-a static macro as that RDMA one does:
+I implemented the custom regmap bus for this series.
+With a `spi-max-frequency-map`, the regmap bus can be removed.
+I don't want to include this regmap spi patch to this series.
+As I see it, struct regmap_but first need to be extended to add
+a max_speed, e.g.
+  
+   @max_speed: Max transfer speed that can be used on the bus.
 
- - The size in vIOMMU case is type dependent. E.g. smmuv3 driver
-   uses one iommu_ops to support two types: vSMMU and vCMDQ
+regmap_spi.c would then look for the devicetree node to fill the value
+and on regmap_write/read fill speed_hz.
+In this case, it could be called "register-frequency" or
+"regmap-frequency"
+If instead it is up to spi.c to read the devicetree node, then a way to
+differentiate "regular" transfers from "regmap" transfers would be
+necessary.
 
- - Changing to a type-indexed size array would eventually result
-   some driver having a big size array, as the type number grows
+About submitting v3, should I submit only up-to the base driver, or can
+I submit also the add offload support and add event support commits?
 
-I came up with two alternatives:
-
-1) Define a get_viommu_size(unsigned int type) op: use a similar
-   macro in the driver function to return with:
-
-#define VIOMMU_STRUCT_SIZE(ib_struct, drv_struct, member)                      \
-	    (sizeof(drv_struct) +                                              \
- 		 BUILD_BUG_ON_ZERO(offsetof(drv_struct, member)) +             \
- 		 BUILD_BUG_ON_ZERO(!__same_type(((drv_struct *)NULL)->member,  \
- 						ib_struct)))
-
-	if (type == SMMU)
-		return VIOMMU_STRUCT_SIZE(
-			struct arm_vsmmu, struct iommufd_viommu, core);
-	return 0;
-
-2) Let core allocate with sizeof(struct iommufd_viommu), then let
-   driver krealloc during the viommu_init op call:
-
-	viommu = kzalloc(sizeof(struct iommufd_viommu), ...);
-	...
-	viommu = ops->viommu_init(viommu, dev, parent_dom, type);
-
-I am guessing that you may prefer 1 over 2? Or any better idea?
-
-Thanks
-Nicolin
+Regards,
+Jorge
