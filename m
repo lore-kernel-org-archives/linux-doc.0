@@ -1,37 +1,37 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157122AE8D;
-	Tue,  3 Jun 2025 14:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8B4239090;
+	Tue,  3 Jun 2025 14:08:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748959266; cv=none; b=Xkli0SyPJZnQOq80MvbhH9eYVYZof222BcLxTBO3AIagqn8352jy4DUoWpdPjgisTmqkfmQCbMKl+AbqPjl41NTYT9jUbonFpAR52CcGKs+d5FxcATj9b5Y/eu6xi1MCuw74VingFSUhbJLBsovqhUmBvJAqIo/8Rh8IEBYNsyw=
+	t=1748959706; cv=none; b=pWYG6b0LfwCoFS/2dTkEOaQJ1a0y5o+z2U9OBEqDlPKrP6/FgqwsEIVPIYE8ReLjbQ6PB/y8LR784sMIGPfhhy+0yVWoXmQKCVdmjfJEL9Tn/un+zPhXfMBU+BlImkUFjnl7CZkC7rL4cGdVyGerJEJDr9oLgU30hsEjcJnUw5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748959266; c=relaxed/simple;
-	bh=SvFJ05RAnyGbskOSqhSoo7yM02PL9fGa0NvU2AiQ9Ok=;
+	s=arc-20240116; t=1748959706; c=relaxed/simple;
+	bh=IGHl6mgtMPm/WARHB875ORoxrLBWMkfhUmfHv0MTJb8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=a8LBPdmsoYSkN3md5CucLo02L98bD1uz57Uy8/Ox/DX82/0lVS9ueKTm1rkwjjxPGW0F1M4sWxvbZ/ksNl5y69mhHEDDtAMWeMwNwjFzX6fUWv3is2W1dMtGXjXF09L6x6bo7CC4e5ov+iKSUH/BXxRYk3i6jaQQOxiDUvmqHtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=F93Y/bpn; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=n7KyDlfNGXTmCQnKtzvyUNJs49q4KsNBjrHuJsDQy3eFLsfA1VmCqBestUJuJOKx55rIpjMZxFOueaXxhjwDJVD4uoQLsL/Drj+luqfbcBQ+4SJtcXFql3QYuuZ1m2P4zu7qzp8WQf5Q1bYfpaJbQXiPKAGgVHvwDubUZIniDr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AuUCoHVF; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="F93Y/bpn"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D571F41ED0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AuUCoHVF"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 00F8241ED0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1748959264; bh=uOyNUmXYmGjvQ8M6ifu04w16RP5byp/ebrZPnuwV0QI=;
+	t=1748959703; bh=kPV8PzmODhGoCbC5F8Uzo9NG4JabbIz25OZ6D+Zy0Y0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=F93Y/bpnWL4BxMcfbzMXUVjpLlzjzDrdmpEj/FZcpS9d4LazP5I/V92Hk4Szna1V3
-	 oL+bMlZ23kHsdrqVWowvjQ4inyGrUdMx7zW5xTEk/vkdPDqtokWvtsF+gmUwSJ7wzo
-	 CEov2CzSe1ze2h8J20GaTId8iIPX03ApU5Xjtu+vpn2ytirpqW5zmeYaixQ12QHMrA
-	 Xz8Xryed0VVyuXRE4HVBlLyV2g/612fqFqLTGPx1O/TmdfZUh8q6I0J+9p1SaA2mdE
-	 qQo9LX4IhKUfmkBq8Du6hLSrdorBvfNM4EA1BqjXSoO1WWfDxcDmrtcymOpUPGLGVO
-	 N3L1EbKYrSTdg==
+	b=AuUCoHVFyP/+6UWarP9xJqL7C2WXKUBUpyIAN0K4+AG0tawllQExHgh2sRNEpcEuR
+	 6s4Ttz3NjxVz42xza4rj5t/zXrJIUqVOyRGhRBzKZE7OPMyQMaMqwAp7aQNZ67azwX
+	 9SqQj/7Z80bRxCRiX8xwXhtQYKBA0zaDvOkn7F/bA73Hre/11vG5oGssvzxui9xXlQ
+	 5zQB2rgfcezVs+0CLAHJ4jUVooRvD/FrIPpjkcGwwUDpkUPwkQG0d8p5WiH05MwhP+
+	 M565Ol68KibHzRpc1nXPqpjWFvsr+b9tBjWPHOexXBdAYTpTboiEMNzBtNwUHcFA8b
+	 9ir1HmuW1S2IA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D571F41ED0;
-	Tue,  3 Jun 2025 14:01:03 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 00F8241ED0;
+	Tue,  3 Jun 2025 14:08:22 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan
@@ -42,13 +42,12 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan
  linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] docs/mm: expand vma doc to highlight pte freeing,
  non-vma traversal
-In-Reply-To: <38bcf562-86dc-42b2-9ffc-53cbc5d8ac22@lucifer.local>
+In-Reply-To: <9fc9ac50-abce-48bd-979f-2e00b26917b5@lucifer.local>
 References: <20250602210710.106159-1-lorenzo.stoakes@oracle.com>
  <87bjr59634.fsf@trenco.lwn.net>
  <9fc9ac50-abce-48bd-979f-2e00b26917b5@lucifer.local>
- <38bcf562-86dc-42b2-9ffc-53cbc5d8ac22@lucifer.local>
-Date: Tue, 03 Jun 2025 08:01:02 -0600
-Message-ID: <877c1s9b6p.fsf@trenco.lwn.net>
+Date: Tue, 03 Jun 2025 08:08:22 -0600
+Message-ID: <8734cg9auh.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,35 +58,55 @@ Content-Type: text/plain
 
 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> writes:
 
->> Re: the c:func: stuff -
+> On Mon, Jun 02, 2025 at 03:38:55PM -0600, Jonathan Corbet wrote:
+>> Lorenzo Stoakes <lorenzo.stoakes@oracle.com> writes:
 >>
->> Well, the right thing is making function + type names clearly discernable, and
->> it just putting in the function name like that absolutely does not do the right
->> thing in that respect.
+>> > --- a/Documentation/mm/process_addrs.rst
+>> > +++ b/Documentation/mm/process_addrs.rst
+>> > @@ -303,7 +303,9 @@ There are four key operations typically performed on page tables:
+>> >  1. **Traversing** page tables - Simply reading page tables in order to traverse
+>> >     them. This only requires that the VMA is kept stable, so a lock which
+>> >     establishes this suffices for traversal (there are also lockless variants
+>> > -   which eliminate even this requirement, such as :c:func:`!gup_fast`).
+>> > +   which eliminate even this requirement, such as :c:func:`!gup_fast`). There is
+>> > +   also a special case of page table traversal for non-VMA regions which we
 >>
->> I feel strongly on this, as I've tried it both ways and it's a _really_ big
->> difference in how readable the document is.
+>> The "!gup_fast" caught my attention - I was unaware that Sphinx had such
+>> a thing.  Its purpose would be to appear to suppress the generation of the
+>> link that turns the cross reference into a cross reference.
 >>
->> I spent a lot of time trying to make it as readable as possible (given the
->> complexity) so would really rather not do anything that would hurt that.
->>
+>> The MM docs are full of these, do we know why?
 >
-> Somebody told me that in _other_ .rst's, seemingly, it does figure out xxx() ->
-> function and highlights it like this.
+> Removing it from the struct vm_area_struct struct immediately give:
 >
-> But for me, it does not... :)
+> /home/lorenzo/kerndev/kernels/mm/Documentation/mm/process_addrs.rst:11: WARNING: Unparseable C cross-reference: 'struct vm_area_struct'
+> Invalid C declaration: Expected identifier in nested name, got keyword: struct [error at 6]
+>   struct vm_area_struct
+>
+> And given C's weirdness with typing I really prefer to be explicit in
+> referencing a struct vs. e.g. a typedef.
 
-OK ... If you look at what's going on, some of the functions will be
-marked, others not.  The difference is that there is no markup for
-functions where a cross-reference cannot be made (because they are
-undocumented).
+That's because the :c:struct: markup doesn't want the word "struct" in
+there.  In this case, the "!" is being used, essentially, to hide the
+fact that the Sphinx markup is being entirely misused here.  You would
+be far better off just saying:
 
-We could easily change the automarkup code to always do the markup; the
-problem with that (which is also a problem with the existing markup
-under Documentation/mm) is you'll have rendered text that looks like a
-cross-reference link, but which is not.  We also lose a clue as to which
-functions are still in need of documentation.
+  **struct vm_area_struct**
 
-The right answer might be to mark them up differently, I guess.
+and avoiding the uglier markup in this case.
+
+Once again, taking out the markup entirely will cause the automarkup
+code to do the right thing, with the proviso that undocumented
+structures (which, tragically, includes struct vm_area_struct) won't be
+marked up in the current implementation.  By far the best solution here
+is to remove all of the markup and add a kerneldoc comment for this
+rather important structure.
+
+> At any rate I'm not sure it's all that useful to cross-reference these?
+
+Why would you *not* want to cross-reference something and make life easier
+for your reader?
+
+Thanks,
 
 jon
