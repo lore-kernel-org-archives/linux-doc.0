@@ -1,261 +1,176 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B970264A77
-	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 05:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1794F2581;
+	Wed,  4 Jun 2025 05:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749013755; cv=none; b=gKBLDB97P5tC3O2+TYmLjdG2BPJr9LVwKrcLnvYj5+eRFhDNfHmyFkiDwSrWZAlSooaPgkvOiv32aNergLsU9wx1W7G2k0ysOgJvLYPzi89Vu5F+RoOeLqmqNRlnvw1mnqNxM3/yBB+aejAq9yV78qD67T5h1DfmToz81HW5nAQ=
+	t=1749015924; cv=none; b=WGoyNlYKao3VkYESw48EmPYOMdXKdR2NKVJiBNJ0yhbx3ca7nyFjXYn5v68zxTz0C+lsa7dxoW73nT8P51Jr1Ep5MJZVWQ6WrDyovkVIza+tctab6rqC2IrBZFLYE4KIVKmIoTCkj5PH7zdsHPNNEAL05JYYGqt4HjoW9GUGU+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749013755; c=relaxed/simple;
-	bh=0gfkpc4dNi2Ih4MnTfuUct9EpQso8+ggaMkVuPeWOTc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tSvxO4y21GtmJpjwb3QzqZKP+lButHQVsHelYZ/Xb+lazGLx4ei4AqZVbgqQMQpY+Iz5sd3I1y7Pv88GD/HecmB/c/0tglH0nc2s9kob857wC5ZjdgW74wzbYZ276+/Zm/y6ehuL3p46YqS8rx/6RUFckyGZtHqGvlIjowS7I1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=t1E5mJqh; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
+	s=arc-20240116; t=1749015924; c=relaxed/simple;
+	bh=CfLtqzHHaY4doOrdi8xjRk+IFtdUdKN3wsI17JcTQDo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SwU+2ACDk76tvNFaudEShFbklp2zWe4uzwhXRD/qF6MuxFA+4nBXGfV62QrnF71uVDs/idg2L8ovhNISG357kSkLd20pYfTyHZuqa0g6RwCCKT7jBSXFsCN+HOLEUSSxE+HZdSY0naHym+Ifpf07BLqJDNlwQqciWyYt/6kD4jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=O1CXBuoa; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t1E5mJqh"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-30a39fa0765so9145963a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 03 Jun 2025 22:09:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1749013753; x=1749618553; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=f1C4xwS1oja4BGMpJEnpH51GbWTCvJSr7fg34G4M8Z0=;
-        b=t1E5mJqh4c0whgKHdU6foUxlAR874KIYhiRVwf85M4p3AJv03NwGLnpXVwdZKlBWSe
-         4ma2bQc9dj6S8FbA5kaWHlUUKY3rXgtQPQWAUo3GPGPEz8uCh77MgBnj4V3/w2BVvN2A
-         ILCeLFFlgybnbKKv5E/dGHIJC7C8ODJmbpIF430ZpBXcs9ox3o07yYVL1JtebAUsjHbn
-         Ef2p79Uc6YNZtUFXMYzM6JhHxUE4rRxOWwTt3n+95N7b3zP6sAy8yI7dkFMUv6xkCueA
-         Q/nIDSDhgm2j4bNkTdcdFx+W3yPolV1gG+0F+twlAi/pyvjZoV9fR6XFWoWZaRkTXbnt
-         MVow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749013753; x=1749618553;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f1C4xwS1oja4BGMpJEnpH51GbWTCvJSr7fg34G4M8Z0=;
-        b=TnqBtxrafRCY8/1/SI3lqI+6k0l43Y1/XbxPLoIpCKWjwFDGsobQbRkcSYvuFlvhTE
-         8z4henlCyujTh4kIqc2Jp1z5YKRbC35Q4ZhjdENGmGfzTT/iLGiJ6GEv8SyWjZnowWUH
-         WYwoE4x69Fsk376bZy7eJkMnGFTyt64M3a6QRFnoSUygRmMvMjB4NvgB8auo3VczZx1q
-         OE4/bhlU9QQCHtV3+kt16uwvyvtx29IL/insZJFSDUtZ+gRk5ma2931v1FdABQxqOFPS
-         H8lyKxgnEdpUFRdv2vqG+imxd6MwM/+W6eurEEubKKcIOa7UV1cFyC3bQTAXxr4ypA9g
-         tzxw==
-X-Forwarded-Encrypted: i=1; AJvYcCXXNkvX73W6DoC6nLOrJSCGII8xzW6hoEz7bpe2L4EG0Ss8dJ/Nu1C+cj63AejcappLlBVrUxrk7vI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxU7XkkfOouFCUm2cHQ/zwWTO0j2bWnG9QN02pqDhLx2U6EUXZM
-	d+uAcrniEJw4yUp15F/0iB1An4wSNAnPTZAzJMWwD4XJXH3ym1B9qhgHQBSQtimE7j4GBMcvblU
-	dsc3b6o88+xswvg==
-X-Google-Smtp-Source: AGHT+IE37oF7FCdLRpvsoThAtQNnQsYjorBYGpuYCRvh2E+9sV6A3UsbG7Yq0ZEVRpNgSOSMEJKUi/G7O4PeZg==
-X-Received: from pjbpw6.prod.google.com ([2002:a17:90b:2786:b0:311:4201:4021])
- (user=jiaqiyan job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:35c6:b0:30e:ee4:3094 with SMTP id 98e67ed59e1d1-3130ccf5129mr2212286a91.1.1749013752906;
- Tue, 03 Jun 2025 22:09:12 -0700 (PDT)
-Date: Wed,  4 Jun 2025 05:09:01 +0000
-In-Reply-To: <20250604050902.3944054-1-jiaqiyan@google.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="O1CXBuoa"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5543sB3g027925;
+	Wed, 4 Jun 2025 05:45:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=MGwMCcbZnV/E5roc53l8Op6u4fYi
+	fdCCWTjLFLVW9rQ=; b=O1CXBuoac4NeV/Tmn3ouXkdo9TRSWPiowI9DhZuAcqAg
+	f00dait1ZdF1N0f0xLdV1M3dezehBes2Ac8IDhJdI50zIPJ3Z5fTW5CqCwRDbkPR
+	V39djxRMyNzG7gm8ODm9p3yg+cXCtdoEFpmINOVvxXo2oV/pxhW+leCNpVWGPaF2
+	1BUkrUIIfVgKp5W5HUeT4+8rVqq4XyGfCvTaTxi2PwcTQrp8iof8KHyr9/83K3WT
+	HH6H8iog+ThmQZm+6tJrqff9I/0lD8jfN3pU//xBTVph2IXiIRwHJs1FEUxdiqRc
+	kTda9p/TQtve1ZyUmFI7h8evV7DTtZHCYU2hMG7SqA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 471gey8m20-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Jun 2025 05:45:13 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 5545jDNX013249;
+	Wed, 4 Jun 2025 05:45:13 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 471gey8m1v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Jun 2025 05:45:13 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5542i6L1019883;
+	Wed, 4 Jun 2025 05:45:12 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 470d3nx8v1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Jun 2025 05:45:11 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5545jAgq10092986
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 4 Jun 2025 05:45:10 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0C55E20043;
+	Wed,  4 Jun 2025 05:45:10 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 76D2520040;
+	Wed,  4 Jun 2025 05:45:07 +0000 (GMT)
+Received: from vishalc-ibm.ibm.com (unknown [9.39.20.96])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  4 Jun 2025 05:45:07 +0000 (GMT)
+From: Vishal Chourasia <vishalc@linux.ibm.com>
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com, llong@redhat.com
+Cc: Vishal Chourasia <vishalc@linux.ibm.com>
+Subject: [PATCH] Documentation: cgroup: add section explaining controller availability
+Date: Wed,  4 Jun 2025 11:13:53 +0530
+Message-ID: <20250604054352.76641-2-vishalc@linux.ibm.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250604050902.3944054-1-jiaqiyan@google.com>
-X-Mailer: git-send-email 2.50.0.rc0.604.gd4ff7b7c86-goog
-Message-ID: <20250604050902.3944054-7-jiaqiyan@google.com>
-Subject: [PATCH v2 6/6] Documentation: kvm: new uAPI for handling SEA
-From: Jiaqi Yan <jiaqiyan@google.com>
-To: maz@kernel.org, oliver.upton@linux.dev
-Cc: joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	duenwen@google.com, rananta@google.com, jthoughton@google.com, 
-	Jiaqi Yan <jiaqiyan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=ea09f6EH c=1 sm=1 tr=0 ts=683fdd69 cx=c_pps a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VnNF1IyMAAAA:8 a=HQQEU_knwVeOKeFEU2cA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: C81rhpJsaUpP4mt53DogBzq6cg6qhRV_
+X-Proofpoint-ORIG-GUID: 5O1nNfm1u2pw_IpNjj3ZO2JwPUFHqsGb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA0MDA0NSBTYWx0ZWRfX0D3w9cCZFXjF Gpt+l/EdTl85b5F/7EcRhOPrPRByNaxTuwcgn3TJcuI+ZhtbJu98scv2Bw3Ux10+LlLkxafPCD6 //TWGygtHGAlppnm8pBnrNy1Y4/5n/2DzIyE+Fv1vjFlen9a0978yOo7aJDNwzhHwXAY1Y/rAAU
+ mW4ahCocSdfzeAzGeUuyV5PF5QTNyBeaeMYYW5k00B4C6Cex5g7nOviR8KoV01iTi5qDwobc15P HIDe56bpM0f8DeMhCWBMxDcYONFWBbtW1pA4GKzN7tu5amcxHR98jgxfiM9WkjbKscWTxiqYCtw 6eGhV8oJqNt9nwOE3y04jF9k8SVSDXztYEJmehsPVNfUb9WESl1yqxXc5IvmsgTmFMB3Gk8LKPi
+ 4Ai3V3eRkWTOjV1SpshJIQ5tsaw2liJskDQhxiNyziU4RkfuxD5Fr7HcvTBAIFbpJdZlo9xS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-04_01,2025-06-03_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=842 bulkscore=0
+ spamscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 phishscore=0 mlxscore=0 adultscore=14 clxscore=1015
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506040045
 
-Document the new userspace-visible features and APIs for handling
-synchronous external abort (SEA)
-- KVM_CAP_ARM_SEA_TO_USER: How userspace enables the new feature.
-- KVM_EXIT_ARM_SEA: When userspace needs to handle SEA and what
-  userspace gets while taking the SEA.
-- KVM_CAP_ARM_INJECT_EXT_(D|I)ABT: How userspace injects SEA to
-  guest while taking the SEA.
+A new documentation section titled "Availability" has been added to
+describe the meaning of a controller being available in a cgroup,
+complementing the existing "Enabling and Disabling" section.
 
-Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+This update improves the clarity of cgroup controller management by
+explicitly distinguishing between:
+
+1. Availability – when a controller is supported by the kernel and
+   listed in "cgroup.controllers", making its interface files accessible
+   in the cgroup's directory.
+2. Enabling – when a controller is enabled via explicitly writing the
+   name of the controller to "cgroup.subtree_control" to control
+   distribution of resource across the cgroup's immediate children.
+
+As an example, consider
+
+/sys/fs/cgroup # cat cgroup.controllers
+cpuset cpu io memory hugetlb pids misc
+/sys/fs/cgroup # cat cgroup.subtree_control # No controllers enabled by default
+/sys/fs/cgroup # echo +cpu +memory > cgroup.subtree_control # enabling "cpu" and "memory"
+/sys/fs/cgroup # cat cgroup.subtree_control
+cpu memory                   # cpu and memory enabled in /sys/fs/cgroup
+/sys/fs/cgroup # mkdir foo_cgrp
+/sys/fs/cgroup # cd foo_cgrp/
+/sys/fs/cgroup/foo_cgrp # cat cgroup.controllers
+cpu memory                   # cpu and memory available in 'foo_cgrp'
+/sys/fs/cgroup/foo_cgrp # cat cgroup.subtree_control  # empty by default
+/sys/fs/cgroup/foo_cgrp # ls
+cgroup.controllers      cpu.max.burst           memory.numa_stat
+cgroup.events           cpu.pressure            memory.oom.group
+cgroup.freeze           cpu.stat                memory.peak
+cgroup.kill             cpu.stat.local          memory.pressure
+cgroup.max.depth        cpu.weight              memory.reclaim
+cgroup.max.descendants  cpu.weight.nice         memory.stat
+cgroup.pressure         io.pressure             memory.swap.current
+cgroup.procs            memory.current          memory.swap.events
+cgroup.stat             memory.events           memory.swap.high
+cgroup.subtree_control  memory.events.local     memory.swap.max
+cgroup.threads          memory.high             memory.swap.peak
+cgroup.type             memory.low              memory.zswap.current
+cpu.idle                memory.max              memory.zswap.max
+cpu.max                 memory.min              memory.zswap.writeback
+
+In this example, "cpu" and "memory" are enabled in the root cgroup,
+making them available in "foo_cgrp". This exposes the corresponding
+interface files in "foo_cgrp/", allowing resource control of processes
+in that cgroup. However, these controllers are not yet enabled in
+"foo_cgrp" itself.
+
+Once a controller is available in a cgroup it can be used to resource
+control processes of the cgroup.
+
+Signed-off-by: Vishal Chourasia <vishalc@linux.ibm.com>
 ---
- Documentation/virt/kvm/api.rst | 128 +++++++++++++++++++++++++++++----
- 1 file changed, 115 insertions(+), 13 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index fe3d6b5d2acca..c58ecb72a4b4d 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1236,8 +1236,9 @@ directly to the virtual CPU).
- 		__u8 serror_pending;
- 		__u8 serror_has_esr;
- 		__u8 ext_dabt_pending;
-+		__u8 ext_iabt_pending;
- 		/* Align it to 8 bytes */
--		__u8 pad[5];
-+		__u8 pad[4];
- 		__u64 serror_esr;
- 	} exception;
- 	__u32 reserved[12];
-@@ -1292,20 +1293,57 @@ ARM64:
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 0cc35a14afbe..202bf39867ea 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -435,6 +435,15 @@ both cgroups.
+ Controlling Controllers
+ -----------------------
  
- User space may need to inject several types of events to the guest.
- 
-+Inject SError
-+~~~~~~~~~~~~~
++Availablity
++~~~~~~~~~~~
 +
- Set the pending SError exception state for this VCPU. It is not possible to
- 'cancel' an Serror that has been made pending.
- 
--If the guest performed an access to I/O memory which could not be handled by
--userspace, for example because of missing instruction syndrome decode
--information or because there is no device mapped at the accessed IPA, then
--userspace can ask the kernel to inject an external abort using the address
--from the exiting fault on the VCPU. It is a programming error to set
--ext_dabt_pending after an exit which was not either KVM_EXIT_MMIO or
--KVM_EXIT_ARM_NISV. This feature is only available if the system supports
--KVM_CAP_ARM_INJECT_EXT_DABT. This is a helper which provides commonality in
--how userspace reports accesses for the above cases to guests, across different
--userspace implementations. Nevertheless, userspace can still emulate all Arm
--exceptions by manipulating individual registers using the KVM_SET_ONE_REG API.
-+Inject SEA (synchronous external abort)
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++A controller is available in a cgroup when it is supported by the kernel and
++listed in the "cgroup.controllers" file. Availability means the controller's
++interface files are exposed in the cgroup’s directory, allowing the
++distribution of the target resource to be observed or controlled within
++that cgroup.
 +
-+- If the guest performed an access to I/O memory which could not be handled by
-+  userspace, for example because of missing instruction syndrome decode
-+  information or because there is no device mapped at the accessed IPA.
-+
-+- If the guest consumed an uncorrected memory error, and RAS extension in the
-+  Trusted Firmware chooses to notify PE with SEA, KVM has to handle it when
-+  host APEI is unable to claim the SEA. For the following types of faults,
-+  if userspace has enabled KVM_CAP_ARM_SEA_TO_USER, KVM returns to userspace
-+  with KVM_EXIT_ARM_SEA:
-+
-+  - Synchronous external abort, not on translation table walk or hardware
-+    update of translation table.
-+
-+  - Synchronous external abort on stage-1 translation table walk or hardware
-+    update of stage-1 translation table, including all levels.
-+
-+  - Synchronous parity or ECC error on memory access, not on translation table
-+    walk.
-+
-+  - Synchronous parity or ECC error on memory access on stage-1 translation
-+    table walk or hardware update of stage-1 translation table, including
-+    all levels.
-+
-+Note that external abort or ECC error on memory access on stage-2 translation
-+table walk or hardware update of stage-2 translation table does not results in
-+KVM_EXIT_ARM_SEA, even if KVM_CAP_ARM_SEA_TO_USER is enabled.
-+
-+For the cases above, userspace can ask the kernel to replay either an external
-+data abort (by setting ext_dabt_pending) or an external instruction abort
-+(by setting ext_iabt_pending) into the faulting VCPU. KVM will use the address
-+from the existing fault on the VCPU. Setting both ext_dabt_pending and
-+ext_iabt_pending at the same time will return -EINVAL.
-+
-+It is a programming error to set ext_dabt_pending or ext_iabt_pending after an
-+exit which was not KVM_EXIT_MMIO, KVM_EXIT_ARM_NISV or KVM_EXIT_ARM_SEA.
-+Injecting SEA for data and instruction abort is only available if KVM supports
-+KVM_CAP_ARM_INJECT_EXT_DABT and KVM_CAP_ARM_INJECT_EXT_IABT respectively.
-+
-+This is a helper which provides commonality in how userspace reports accesses
-+for the above cases to guests, across different userspace implementations.
-+Nevertheless, userspace can still emulate all Arm exceptions by manipulating
-+individual registers using the KVM_SET_ONE_REG API.
- 
- See KVM_GET_VCPU_EVENTS for the data structure.
- 
-@@ -7163,6 +7201,58 @@ The valid value for 'flags' is:
-   - KVM_NOTIFY_CONTEXT_INVALID -- the VM context is corrupted and not valid
-     in VMCS. It would run into unknown result if resume the target VM.
- 
-+::
-+
-+    /* KVM_EXIT_ARM_SEA */
-+    struct {
-+      __u64 esr;
-+  #define KVM_EXIT_ARM_SEA_FLAG_GVA_VALID   (1ULL << 0)
-+  #define KVM_EXIT_ARM_SEA_FLAG_GPA_VALID   (1ULL << 1)
-+      __u64 flags;
-+      __u64 gva;
-+      __u64 gpa;
-+    } arm_sea;
-+
-+Used on arm64 systems. When the VM capability KVM_CAP_ARM_SEA_TO_USER is
-+enabled, a VM exit is generated if guest causes a synchronous external abort
-+(SEA) and the host APEI fails to handle the SEA.
-+
-+Historically KVM handles SEA by first delegating the SEA to host APEI as there
-+is high chance that the SEA is caused by consuming uncorrected memory error.
-+However, not all platforms support SEA handling in APEI, and KVM's fallback
-+handling is to inject an async SError into the guest, which usually panics
-+guest kernel unpleasantly. As an alternative, userspace can participate into
-+the SEA handling by enabling KVM_CAP_ARM_SEA_TO_USER at VM creation, after
-+querying the capability. Once enabled, when KVM has to handle the guest
-+caused SEA, it returns to userspace with KVM_EXIT_ARM_SEA, with details
-+about the SEA available in 'arm_sea'.
-+
-+The 'esr' field holds the value of the exception syndrome register (ESR) while
-+KVM taking the SEA, which tells userspace the character of the current SEA,
-+such as its Exception Class, Synchronous Error Type, Fault Specific Code and
-+so on. For more details on ESR, check the Arm Architecture Registers
-+documentation.
-+
-+The 'flags' field indicates if the faulting addresses are valid while taking
-+the SEA:
-+
-+  - KVM_EXIT_ARM_SEA_FLAG_GVA_VALID -- the faulting guest virtual address
-+    is valid and userspace can get its value in the 'gva' field.
-+  - KVM_EXIT_ARM_SEA_FLAG_GPA_VALID -- the faulting guest physical address
-+    is valid and userspace can get its value in the 'gpa' field.
-+
-+Userspace needs to take actions to handle guest SEA synchronously, namely in
-+the same thread that runs KVM_RUN and receives KVM_EXIT_ARM_SEA. One of the
-+encouraged approaches is to utilize the KVM_SET_VCPU_EVENTS to inject the SEA
-+to the faulting VCPU. This way, the guest has the opportunity to keep running
-+and limit the blast radius of the SEA to the particular guest application that
-+caused the SEA. If the Exception Class indicated by 'esr' field in 'arm_sea'
-+is data abort, userspace should inject data abort. If the Exception Class is
-+instruction abort, userspace should inject instruction abort. Userspace may
-+also emulate the SEA to VM by itself using the KVM_SET_ONE_REG API. In this
-+case, it can use the valid values from 'gva' and 'gpa' fields to manipulate
-+VCPU's registers (e.g. FAR_EL1, HPFAR_EL1).
-+
- ::
- 
- 		/* Fix the size of the union. */
-@@ -8490,7 +8580,7 @@ ENOSYS for the others.
- When enabled, KVM will exit to userspace with KVM_EXIT_SYSTEM_EVENT of
- type KVM_SYSTEM_EVENT_SUSPEND to process the guest suspend request.
- 
--7.37 KVM_CAP_ARM_WRITABLE_IMP_ID_REGS
-+7.42 KVM_CAP_ARM_WRITABLE_IMP_ID_REGS
- -------------------------------------
- 
- :Architectures: arm64
-@@ -8508,6 +8598,18 @@ aforementioned registers before the first KVM_RUN. These registers are VM
- scoped, meaning that the same set of values are presented on all vCPUs in a
- given VM.
- 
-+7.43 KVM_CAP_ARM_SEA_TO_USER
-+----------------------------
-+
-+:Architecture: arm64
-+:Target: VM
-+:Parameters: none
-+:Returns: 0 on success, -EINVAL if unsupported.
-+
-+This capability, if KVM_CHECK_EXTENSION indicates that it is available, means
-+that KVM has an implementation that allows userspace to participate in handling
-+synchronous external abort caused by VM, by an exit of KVM_EXIT_ARM_SEA.
-+
- 8. Other capabilities.
- ======================
+ Enabling and Disabling
+ ~~~~~~~~~~~~~~~~~~~~~~
  
 -- 
-2.49.0.1266.g31b7d2e469-goog
+2.49.0
 
