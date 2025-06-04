@@ -1,127 +1,83 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC6579D0;
-	Wed,  4 Jun 2025 20:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920732C3246;
+	Wed,  4 Jun 2025 22:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749070701; cv=none; b=gZQ0i0TZ2ql8M+3S8q1HWWiq5tZLKR/tV516gzHiC8fY2+2P//k1mTXBHkTdw2soc9Z/sgT+PwatKmYciLf9whIq9fVfApjVfHtxGz/d+i0PjOE7F8HA8FpJRmFyQIL7XfJ3s/kb8Ykdbddn4D9+88BbiqL3UgTt11J6/gGTw2g=
+	t=1749074714; cv=none; b=OeZq8GPw6iiRtZa6QbLCOZUa5imNINxk5Fvsx9z2iV2Zd7+RXUBc2d4bfnNx/SC+zJWfuXj3kGh5kD+R2iJUuQQ35BZlVlfU8Xx78J7O7TCsu7BNE1re+sbq2NY1RtSV3zh9Y3UfhD5ASK+Y6xxDU4rz388C0+sDi6+Wok9q/P8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749070701; c=relaxed/simple;
-	bh=RoPbyZBxENrNdcPnruV3adrDN3KizO26jpCbgNiF/fc=;
+	s=arc-20240116; t=1749074714; c=relaxed/simple;
+	bh=Nh/C3jkigC/s5IYwTai6YLcfd9DUBEpg9k9xorz/KHY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tMLNvqdMCnEUkVjr4NmE5z55B/K7208VvmpepnVWXYpZircsZ1nq+hi+gghSEtcQVKJQPeAiqvEQauF451CnPxXtd8yspasgatxeTsZpB0fG0OkXh5jgw6ClR04F17Xm7UAW9uHystZ2pis2lSwNYU9ClBNRaBzRQNYT8w440Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xeKrlC9z; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=V1udoyGETmH6eDO28yafzpzy+EfRm7Nn6xPhCKx2b89f6mfUE/wqfr7Qiv7LTAIZzbdrxnHk155bMK9EimwS6g2yVSX/Fz3/FPlNrsHe0VBuw7SB7di85G9utP6RXfMp9zaSIrq/nDtH4eDeiLiDGachkRUEsOVjCChqkxZnkQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HUiB6XqF; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xeKrlC9z"
-Date: Wed, 4 Jun 2025 13:57:49 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1749070695;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AOW1xdrjziPgqyySMNuIr3SaQxi8OEOWfnwiMMxBaSE=;
-	b=xeKrlC9zIC3ZmPVYMgcrLAAdA1ixnF5cvvgJyn8+c3/RJLlbX+/MB67tAaFBuiw+t0TcX3
-	bT5MXuHNghyhuS4IXUcX8DCQblIYjCBZmsxRaWOO1Pg4L6QzKGiQwcYAuFS5Krli8PlayG
-	Kps59HH5Y5EsnRyEyCt7qGrhtUhWWRg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
-	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
-	maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com,
-	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 06/17] KVM: arm64: Introduce method to partition the PMU
-Message-ID: <aECzTYoj1F6WHAUC@linux.dev>
-References: <aD9w3Kj4-YoizKv5@linux.dev>
- <gsntsekf1d58.fsf@coltonlewis-kvm.c.googlers.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HUiB6XqF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1749074710;
+	bh=Nh/C3jkigC/s5IYwTai6YLcfd9DUBEpg9k9xorz/KHY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HUiB6XqFFgdF60fjimTAw2GMN1B+1vgY6gDrs0juL3FXGWRXL08bKEBh/Qke//zMw
+	 jH3yUAYfCXr839Vll2/scvSCd9CSDSXcOUXN5zeXO/yutqwRWCI95JlzAUBN5NV0gr
+	 kmaNqdUhuVRg2pnMLgK4onnzfYAtK/6mXck/a/rVxhF8YDAABOwYTcUNrwMGxC9aLU
+	 8zru5C1r3tQB/D2gFuaU8DDoKEmSUpPSxR5T2JZ/ZRsEpmctbpAeLhnYXODxV17741
+	 EbWNTiYfwH/bzCDUZzCAkhyVby00kW2FNsftbp1Mv1z6OHokVH25k8rib4RyC4xpvZ
+	 trWKCK2DpDa5g==
+Received: from notapiano (unknown [IPv6:2600:4041:5b1a:9400:99d:464c:62e0:2118])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5775D17E0FCE;
+	Thu,  5 Jun 2025 00:05:09 +0200 (CEST)
+Date: Wed, 4 Jun 2025 18:05:06 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2 0/3] docs: some automarkup improvements
+Message-ID: <ebeb020a-8403-441b-ab02-f017ffcb7b83@notapiano>
+References: <20250604143645.78367-1-corbet@lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <gsntsekf1d58.fsf@coltonlewis-kvm.c.googlers.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250604143645.78367-1-corbet@lwn.net>
 
-On Wed, Jun 04, 2025 at 08:10:27PM +0000, Colton Lewis wrote:
-> Thank you Oliver for the additional explanation.
+On Wed, Jun 04, 2025 at 08:36:42AM -0600, Jonathan Corbet wrote:
+> A small set of automarkup changes to improve the visual consistency
+> of the rendered HTML documents.
 > 
-> Oliver Upton <oliver.upton@linux.dev> writes:
-> 
-> > On Tue, Jun 03, 2025 at 09:32:41PM +0000, Colton Lewis wrote:
-> > > Oliver Upton <oliver.upton@linux.dev> writes:
-> 
-> > > > On Mon, Jun 02, 2025 at 07:26:51PM +0000, Colton Lewis wrote:
-> > > > >   static void kvm_arm_setup_mdcr_el2(struct kvm_vcpu *vcpu)
-> > > > >   {
-> > > > > +	u8 hpmn = vcpu->kvm->arch.arm_pmu->hpmn;
-> > > > > +
-> > > > >   	preempt_disable();
-> 
-> > > > >   	/*
-> > > > >   	 * This also clears MDCR_EL2_E2PB_MASK and MDCR_EL2_E2TB_MASK
-> > > > >   	 * to disable guest access to the profiling and trace buffers
-> > > > >   	 */
-> > > > > -	vcpu->arch.mdcr_el2 = FIELD_PREP(MDCR_EL2_HPMN,
-> > > > > -					 *host_data_ptr(nr_event_counters));
-> > > > > -	vcpu->arch.mdcr_el2 |= (MDCR_EL2_TPM |
-> > > > > +	vcpu->arch.mdcr_el2 = FIELD_PREP(MDCR_EL2_HPMN, hpmn);
-> > > > > +	vcpu->arch.mdcr_el2 |= (MDCR_EL2_HPMD |
-> > > > > +				MDCR_EL2_TPM |
-> 
-> > > > This isn't safe, as there's no guarantee that kvm_arch::arm_pmu is
-> > > > pointing that the PMU for this CPU. KVM needs to derive HPMN from some
-> > > > per-CPU state, not anything tied to the VM/vCPU.
-> 
-> > > I'm confused. Isn't this function preparing to run the vCPU on this
-> > > CPU? Why would it be pointing at a different PMU?
-> 
-> > Because arm64 is a silly ecosystem and system designers can glue
-> > together heterogenous CPU implementations. The arm_pmu that KVM is
-> > pointing at might only match a subset of CPUs, but vCPUs migrate at the
-> > whim of the scheduler (and userspace).
-> 
-> That means the arm_pmu field might at any time point to data that
-> doesn't represent the current CPU. I'm surprised that's not swapped out
-> anywhere. Seems like it would be useful to have an arch struct be a
-> reliable source of information about the current arch.
+> Jonathan Corbet (3):
+>   docs: automarkup: Remove some Sphinx 2 holdovers
+>   docs: automarkup: Mark up undocumented entities too
+>   docs: CSS: make cross-reference links more evident
 
-There's no way to accomplish that. It is per-VM data, and you could have
-vCPUs on a mix of physical CPUs.
+This is much better. Markup, links and underlines are all looking good now.
 
-This is mitigated somewhat when the VMM explicitly selects a PMU
-implementation, as we prevent vCPUs from actually entering the guest on
-an unsupported CPU (see ON_SUPPORTED_CPU flag).
+The only other thing I noticed is that the links in the sidebar still use the
+old style, since they rely on a different CSS selector for some reason:
 
-> > There are two *very* distinct functions w.r.t. partitioning:
-> 
-> >   1) Partitioning of a particular arm_pmu that says how many counters the
-> >   host can use
-> 
-> >   2) VMM intentions to present a subset of the KVM-owned counter
-> >   partition to its guest
-> 
-> > #1 is modifying *global* state, we really can't mess with that in the
-> > context of a single VM...
-> 
-> I see the distinction more clearly now. Since KVM can only control the
-> number of counters presented to the guest through HPMN, why would the
-> VMM ever choose a subset? If the host PMU is globally partitioned to not
-> use anything in the guest range, presenting fewer counters to a guest is
-> just leaving some counters in the middle of the range unused.
+  div.sphinxsidebar a {
+    text-decoration: none;
+    border-bottom: 1px dotted #999;
+  }
 
-You may not want to give a 'full' PMU to all VMs running on a system,
-but some OSes (Windows) expect to have at least the fixed CPU cycle
-counter present. In this case the VMM would deliberately expose fewer
-counters. FEAT_HPMN0 didn't get added to the architecture by accident...
+That makes it a bit inconsistent style-wise, so I think it'd be sensible to
+update that selector as well to follow suit.
+
+In any case,
+
+Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
 Thanks,
-Oliver
+Nícolas
