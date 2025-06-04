@@ -1,64 +1,104 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C76291158;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9AC28ECE9;
 	Wed,  4 Jun 2025 14:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749047840; cv=none; b=BmbhIWZbR0yrK20ilyqLnit1LHM2t+/yRWKqSo8xIxLhurODveAzd70aVbmBPIkES0mkYs5PwU55AKlnp08apWTra/k7TZb+/4zOJDGzxlX5dv9BkWKX1dWeikeI/nRorli0bCyPPqJUYZ/HtxHklyuEDbYFrre9epbaI1oOgKM=
+	t=1749047841; cv=none; b=e/i84inXcW9E/wdRpw9LuIhG89wIfhS+0T9CW2QU9YzBy0Dwiz9OjJEXkyI9r/zlaH3jumYXOxTpEeejQJ56hquASOGnm89UWOP7uuoMuxf0gBHvcCXn8ElLoUiMmen+0GO0MywupcrDvWuEe3tn0ADNF9dI4YPwaLQrXeEz3ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749047840; c=relaxed/simple;
-	bh=U9UcFZGo4t5LQCr1cPoXo1VfTqtAYWounRfmjXPN8nQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I+XGxqBUB5whYQERf3zCOiqadB+o6DIKYoUtqbTxwVtVxXYYRDLW3mEK8o6dUBqKL/zJvdp6gkkyHCKjR0uYS6e5DiepHuVFca/XwlbDJpjxyQ/OijmZ2RCX47aNgiX0fjc/PLYj6TiIb9sCSPuaQFmjsNBG+Ydjl2dXVugMp40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tLXp9jny; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1749047841; c=relaxed/simple;
+	bh=o/eS0IF6n81//MErCyau1coRDfnLuZuoMMa9zXVwLg0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=koPhM67n+Msp1sIrbF68JqaCviKDzq+IGN2YTBWH2R0QmTKSFhelBrb334h3seMqJM6XsRADhCxH2OwL6pCSRM9/3eFMerGcNP2PwtTidM/rG5mMbr+n0IoV9tW3PuSVczRabtHsrSY/gBrWcRfoxnWza8Qt6d7ji5jdXTSs864=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=VWhgABLz; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tLXp9jny"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8D4BC41AA1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VWhgABLz"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2485541F28
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1749047837; bh=SukbAVqJ7Y6ZCjVklDhnIprrOusgKb3L2fIJadSLOfc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tLXp9jnyeGKNf9MtT9XG0Y5DuI98qyvtHP9J6J5Z5OWK/nCNg4HoURBjx4ADB9gx8
-	 ktsY9JUzRzB1qSKLbS2Cb6ONv4MFteHikBYGS7AFp947O1nc8VcJ+OXpujoPfTB3UZ
-	 YI1RINsjIyazvOQYapExokKJDo8lSzWQOthmFgMIb6jD2mUD0603cu9olcPFCxs1Nw
-	 K7Yh3LnxMyxRTgVLTKe80aPrssjKESLKHsDMkPrmq8+74VCcY09VtaLRJ7pqDNdJEb
-	 i7uYvAgZNa0MJGr6jK0HfxJqzVB1dcy4MtiT+bCLkN1e8l8shLrigpLDyeWYFrcjVV
-	 3WZr2lPE40DaQ==
+	t=1749047838; bh=wNJhZW6ihKPzqnGzsjX01EfMfrNUVHiRICJcUri79Tc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VWhgABLzPv5K191kbMmASTQ4FJhxOc93Wb0ofcM+VzBxGSI9IhJWJgus1vlJbgO3f
+	 +ezPU8nDNiyyEfi0FoBpaI+3MMb9ctJOVqkwwG+OnmwWVw+A/BGZFb/cQYN6FaghaS
+	 Au58jdselallcC7zVGKNunPxXJAfAxqKPEHfBW2PvkIaqIRJnTJEgItLEajxloRttt
+	 AHpCUl5tAYm9ZtGcdoKGIkBEe5DRnjFHZ3dP7BpbIU1WQZ+1WgP6bHbgzYHab/mwa5
+	 vL/b7osrDH7R7u9UExP6iFPPk2W/hWot5cXrjzM1Nt+L3Npnq4INA0zjUexrQyO/yE
+	 AdEvE+3cnd9Ww==
 Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id 8D4BC41AA1;
-	Wed,  4 Jun 2025 14:37:17 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPA id 2485541F28;
+	Wed,  4 Jun 2025 14:37:18 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
 	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 0/3] docs: some automarkup improvements
-Date: Wed,  4 Jun 2025 08:36:42 -0600
-Message-ID: <20250604143645.78367-1-corbet@lwn.net>
+Subject: [PATCH v2 1/3] docs: automarkup: Remove some Sphinx 2 holdovers
+Date: Wed,  4 Jun 2025 08:36:43 -0600
+Message-ID: <20250604143645.78367-2-corbet@lwn.net>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250604143645.78367-1-corbet@lwn.net>
+References: <20250604143645.78367-1-corbet@lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-A small set of automarkup changes to improve the visual consistency
-of the rendered HTML documents.
+Remove a few declarations that are no longer doing anything now that we
+have left Sphinx 2 behind.
 
-Jonathan Corbet (3):
-  docs: automarkup: Remove some Sphinx 2 holdovers
-  docs: automarkup: Mark up undocumented entities too
-  docs: CSS: make cross-reference links more evident
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+v2: Remove RE_generic_type as suggested by Mauro
 
- Documentation/sphinx-static/custom.css |  7 +++++++
- Documentation/sphinx/automarkup.py     | 27 +++++++++-----------------
- 2 files changed, 16 insertions(+), 18 deletions(-)
+ Documentation/sphinx/automarkup.py | 18 ++----------------
+ 1 file changed, 2 insertions(+), 16 deletions(-)
 
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+index fd633f7a0bc3..7828aeac92e7 100644
+--- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -22,12 +22,6 @@ from kernel_abi import get_kernel_abi
+ #
+ RE_function = re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=re.ASCII)
+ 
+-#
+-# Sphinx 2 uses the same :c:type role for struct, union, enum and typedef
+-#
+-RE_generic_type = re.compile(r'\b(struct|union|enum|typedef)\s+([a-zA-Z_]\w+)',
+-                             flags=re.ASCII)
+-
+ #
+ # Sphinx 3 uses a different C role for each one of struct, union, enum and
+ # typedef
+@@ -150,20 +144,12 @@ def markup_func_ref_sphinx3(docname, app, match):
+     return target_text
+ 
+ def markup_c_ref(docname, app, match):
+-    class_str = {# Sphinx 2 only
+-                 RE_function: 'c-func',
+-                 RE_generic_type: 'c-type',
+-                 # Sphinx 3+ only
+-                 RE_struct: 'c-struct',
++    class_str = {RE_struct: 'c-struct',
+                  RE_union: 'c-union',
+                  RE_enum: 'c-enum',
+                  RE_typedef: 'c-type',
+                  }
+-    reftype_str = {# Sphinx 2 only
+-                   RE_function: 'function',
+-                   RE_generic_type: 'type',
+-                   # Sphinx 3+ only
+-                   RE_struct: 'struct',
++    reftype_str = {RE_struct: 'struct',
+                    RE_union: 'union',
+                    RE_enum: 'enum',
+                    RE_typedef: 'type',
 -- 
 2.49.0
 
