@@ -1,194 +1,446 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9036B18B47E;
-	Wed,  4 Jun 2025 15:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F6D18E1F;
+	Wed,  4 Jun 2025 16:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749051075; cv=none; b=iLI3RX8bbplynwN+frUr33S8gqJuSqjBmTz3tC6YgQia1L9NEwx92A6k53aOC6tjkJKFdnOqFuNBDnyiXaU0/GpGdYzzHE+KLSLQAqU+KzLb2tPkx55Foq7ezOdPzOxlfttWZ94iBqs/qPsBwJvwmCUI7T8m1loYWEWuHcylzow=
+	t=1749052847; cv=none; b=rcQAVdB8ToVRm2ingzGBhn2Q0Su+mSE+Tyb9Mz0E8f4bjK/RBYF/fqsZXNmT7xGjoD/6f3p5Y2kXR6yYYgjmCcB4lI1dbY+XJsy/hkvD8UMhZkFaiveza1Ruv6deSaQH8zMA/N+MabBEFIE19Mxv98zIjYUrM8V35LRG9+XfMYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749051075; c=relaxed/simple;
-	bh=xjwQ85hYcU1ZrPH6YnswDzMKpczKMUcTOpAQm5SeA+8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XpmkHcqmtthetSrGinZLCXtNTJilwv4M9Ux2Xxez1XP5Ii80DRlXz40BvuifTmR9yYQxtysQm9wIu6S/1TmQ5v7AHeJ9BYj7AllIeA0uleuMSmML+ej/sR+Nod9YwOiUXpRxT/4gBdH/Bpo3tNTULs01Kt73vG3s89K3gl3dYM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFZ1SKoC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749052847; c=relaxed/simple;
+	bh=LseHE7CfIFuvvOh+U0FuajD9jbePBoOdvRtrH+xsXB8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fylNBakek8ZGMQ5cUCBQdT/T7gamg0qF+oXnl6+R5WJ8aHmSJ+KU6lYD9kZl3ivU+I0MnyFO/wmDsUlnWfHHSu806/yet4qF2FRLrQJfL5KcxvjTrx3iJOGXcgxW1soduIRxahBnMm39aDSeY3wruSYiifEk31By42kgniBC47M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lEPttlt9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFZ1SKoC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECB9DC4CEE4;
-	Wed,  4 Jun 2025 15:31:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lEPttlt9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DDB4C4CEED;
+	Wed,  4 Jun 2025 16:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749051074;
-	bh=xjwQ85hYcU1ZrPH6YnswDzMKpczKMUcTOpAQm5SeA+8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RFZ1SKoCh5NLJ8Hir4XT3wS2hpvE9PKPaoXUwqK6A8Y6cyWPWxoiDHP0B3g97Ezw2
-	 oHmbFqVnwwa+1BujyqnxsP0HYVzTaaMYo6TvJmShbXRzO+7+74vAELoOyv7PXZfuuE
-	 vt8jqfGmV1yKX96vfbSYofPX1rrlrfdapV5NS/Q9kHfzwJkebOYVcgEkUqSvslFs+P
-	 qRMsf01mcU1aGfLgFUgwkHhPDv1PbR2dnAGoC4JMZ/2/DoRmTpjTQvOwvN9RywAc3o
-	 6IFzqzEnCBgdXkssXygB6MpnW+faE9oMjEnP1y9MXt03hRF5mZd6hxekaJkATa9hr4
-	 fyxQftlHoBWTQ==
-Received: from [149.88.19.236] (helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uMq59-003Fww-Fx;
-	Wed, 04 Jun 2025 16:31:11 +0100
-Date: Wed, 04 Jun 2025 16:31:08 +0100
-Message-ID: <87a56ned6r.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu
- <yuzenghui@huawei.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v2 06/11] KVM: arm64: Add trap configs for PMSDSFR_EL1
-In-Reply-To: <2fb1965b-bef9-4a8e-a1c7-c8a77d957b23@linaro.org>
-References: <20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org>
-	<20250529-james-perf-feat_spe_eft-v2-6-a01a9baad06a@linaro.org>
-	<867c1ze4pg.wl-maz@kernel.org>
-	<2fb1965b-bef9-4a8e-a1c7-c8a77d957b23@linaro.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20201202; t=1749052846;
+	bh=LseHE7CfIFuvvOh+U0FuajD9jbePBoOdvRtrH+xsXB8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lEPttlt9GFYQAihZiE9qokni6J8/wqL3E19DZR/6mX9ZuSBXulAhtBuhzXgAS1zgG
+	 LOdP7zAgrx4pOv5aJitJYeAypb3BW4+i7ZXF/NLQTfEpA5u1buGgswV3+Sa+hkjyZK
+	 R3MT9YqpvjYzCda0EmTR830WibZ8YhoSz5CCeMmBkZY7zG1hWIrytoV/Rhkv4zRL5N
+	 Q0Wa4YFhUHzgvqjylLUjcxRqbY2k9FygCEyVWlkTOg2f1LXQo1g0n3BgwuAINt/G2v
+	 OgfetaDbCH7inlGBeGqgUJYJ8rQwbRL+e+BaVde3d3UVaUhpxBr48Acp/ByH78SVcC
+	 nzDnYzj55739A==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
+In-Reply-To: <20250515182322.117840-6-pasha.tatashin@soleen.com>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+	<20250515182322.117840-6-pasha.tatashin@soleen.com>
+Date: Wed, 04 Jun 2025 18:00:37 +0200
+Message-ID: <mafs0sekfts2i.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 149.88.19.236
-X-SA-Exim-Rcpt-To: james.clark@linaro.org, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, peterz@infradead.org, mingo@redhat.com, acme@kernel.org, namhyung@kernel.org, alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Tue, 03 Jun 2025 10:50:23 +0100,
-James Clark <james.clark@linaro.org> wrote:
-> 
-> 
-> 
-> On 29/05/2025 5:56 pm, Marc Zyngier wrote:
-> > On Thu, 29 May 2025 12:30:27 +0100,
-> > James Clark <james.clark@linaro.org> wrote:
-> >> 
-> >> SPE data source filtering (SPE_FEAT_FDS) adds a new register
-> >> PMSDSFR_EL1, add the trap configs for it.
-> >> 
-> >> Signed-off-by: James Clark <james.clark@linaro.org>
-> >> ---
-> >>   arch/arm64/kvm/emulate-nested.c | 1 +
-> >>   arch/arm64/kvm/sys_regs.c       | 1 +
-> >>   2 files changed, 2 insertions(+)
-> >> 
-> >> diff --git a/arch/arm64/kvm/emulate-nested.c b/arch/arm64/kvm/emulate-nested.c
-> >> index 0fcfcc0478f9..05d3e6b93ae9 100644
-> >> --- a/arch/arm64/kvm/emulate-nested.c
-> >> +++ b/arch/arm64/kvm/emulate-nested.c
-> >> @@ -1169,6 +1169,7 @@ static const struct encoding_to_trap_config encoding_to_cgt[] __initconst = {
-> >>   	SR_TRAP(SYS_PMSIRR_EL1,		CGT_MDCR_TPMS),
-> >>   	SR_TRAP(SYS_PMSLATFR_EL1,	CGT_MDCR_TPMS),
-> >>   	SR_TRAP(SYS_PMSNEVFR_EL1,	CGT_MDCR_TPMS),
-> >> +	SR_TRAP(SYS_PMSDSFR_EL1,	CGT_MDCR_TPMS),
-> >>   	SR_TRAP(SYS_TRFCR_EL1,		CGT_MDCR_TTRF),
-> >>   	SR_TRAP(SYS_TRBBASER_EL1,	CGT_MDCR_E2TB),
-> >>   	SR_TRAP(SYS_TRBLIMITR_EL1,	CGT_MDCR_E2TB),
-> >> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> >> index 5dde9285afc8..9f544ac7b5a6 100644
-> >> --- a/arch/arm64/kvm/sys_regs.c
-> >> +++ b/arch/arm64/kvm/sys_regs.c
-> >> @@ -2956,6 +2956,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
-> >>   	{ SYS_DESC(SYS_PMBLIMITR_EL1), undef_access },
-> >>   	{ SYS_DESC(SYS_PMBPTR_EL1), undef_access },
-> >>   	{ SYS_DESC(SYS_PMBSR_EL1), undef_access },
-> >> +	{ SYS_DESC(SYS_PMSDSFR_EL1), undef_access },
-> > 
-> > PMSDSFR_EL1 has an offset in the VNCR page (0x858), and must be
-> > described as such. This is equally true for a bunch of other
-> > SPE-related registers, so you might as well fix those while you're at
-> > it.
-> > 
-> > Thanks,
-> > 
-> > 	M.
-> > 
-> 
-> I got a bit stuck with what that would look like with registers that
-> are only undef in case there was something that I missed, but do I
-> just document the offsets?
-> 
-> +++ b/arch/arm64/include/asm/vncr_mapping.h
-> @@ -87,6 +87,8 @@
->  #define VNCR_PMSICR_EL1         0x838
->  #define VNCR_PMSIRR_EL1         0x840
->  #define VNCR_PMSLATFR_EL1       0x848
-> +#define VNCR_PMSNEVFR_EL1       0x850
-> +#define VNCR_PMSDSFR_EL1        0x858
+On Thu, May 15 2025, Pasha Tatashin wrote:
+
+> Integrate the LUO with the KHO framework to enable passing LUO state
+> across a kexec reboot.
 >
+> This patch introduces the following changes:
+> - During the KHO finalization phase allocate FDT blob.
+> - Populate this FDT with a LUO compatibility string ("luo-v1") and the
+>   current LUO state (`luo_state`).
+> - Implement a KHO notifier
+>
+> LUO now depends on `CONFIG_KEXEC_HANDOVER`. The core state transition
+> logic (`luo_do_*_calls`) remains unimplemented in this patch.
+>
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  drivers/misc/liveupdate/luo_core.c | 222 ++++++++++++++++++++++++++++-
+>  1 file changed, 219 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/misc/liveupdate/luo_core.c b/drivers/misc/liveupdate/luo_core.c
+> index 919c37b0b4d1..a76e886bc3b1 100644
+> --- a/drivers/misc/liveupdate/luo_core.c
+> +++ b/drivers/misc/liveupdate/luo_core.c
+> @@ -36,9 +36,12 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <linux/err.h>
+> +#include <linux/kexec_handover.h>
+>  #include <linux/kobject.h>
+> +#include <linux/libfdt.h>
+>  #include <linux/liveupdate.h>
+>  #include <linux/rwsem.h>
+> +#include <linux/sizes.h>
+>  #include <linux/string.h>
+>  #include "luo_internal.h"
+>  
+> @@ -55,6 +58,12 @@ const char *const luo_state_str[] = {
+>  
+>  bool luo_enabled;
+>  
+> +static void *luo_fdt_out;
+> +static void *luo_fdt_in;
+> +#define LUO_FDT_SIZE		SZ_1M
+> +#define LUO_KHO_ENTRY_NAME	"LUO"
+> +#define LUO_COMPATIBLE		"luo-v1"
+> +
+>  static int __init early_liveupdate_param(char *buf)
+>  {
+>  	return kstrtobool(buf, &luo_enabled);
+> @@ -79,6 +88,60 @@ static inline void luo_set_state(enum liveupdate_state state)
+>  	__luo_set_state(state);
+>  }
+>  
+> +/* Called during the prepare phase, to create LUO fdt tree */
+> +static int luo_fdt_setup(struct kho_serialization *ser)
+> +{
+> +	void *fdt_out;
+> +	int ret;
+> +
+> +	fdt_out = (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
+> +					   get_order(LUO_FDT_SIZE));
 
-This should be enough.
+Why not alloc_folio()? KHO already deals with folios so it seems
+simpler. The kho_{un,}preserve_folio() functions exist exactly for these
+kinds of allocations, so LUO also ends up being a first user. You also
+won't end up needing kho_unpreserve_phys() and all the __pa() calls.
 
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -596,6 +596,16 @@ enum vcpu_sysreg {
->         VNCR(ICH_HCR_EL2),
->         VNCR(ICH_VMCR_EL2),
-> 
-> +       /* SPE Registers */
-> +       VNCR(PMBLIMITR_EL1),
-> +       VNCR(PMBPTR_EL1),
-> +       VNCR(PMBSR_EL1),
-> +       VNCR(PMSCR_EL1),
-> +       VNCR(PMSEVFR_EL1),
-> +       VNCR(PMSICR_EL1),
-> +       VNCR(PMSIRR_EL1),
-> +       VNCR(PMSLATFR_EL1),
+> +	if (!fdt_out) {
+> +		pr_err("failed to allocate FDT memory\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret = fdt_create_empty_tree(fdt_out, LUO_FDT_SIZE);
 
-I don't see a point in having those until we actually have SPE support
-for guests, if ever, as these will potentially increase the size of
-the vcpu sysreg array for no good reason.
+You are using FDT read/write functions throughout the series to create
+new FDTs. The sequential write functions are generally more efficient
+since they are meant for creating new FDT blobs. The read/write
+functions are better for modifying an existing FDT blob.
 
-> And then sys_reg_descs[] remain as "{ SYS_DESC(SYS_PMBLIMITR_EL1),
-> undef_access }," rather than EL2_REG_VNCR() because we don't actually
-> want to change to bad_vncr_trap()?
+Is there a particular reason you do this?
 
-This seem OK for now. We may want to refine this in the future though,
-as these registers cannot trap when NV is enabled. Yes, this is a bug
-in the architecture.
+When using FDT SW functions, the creation of the tree would be something
+like:
 
-> There are some other parts about fine grained traps and res0 bits for
-> NV, but they all already look to be setup correctly. Except
-> HDFGRTR2_EL2.nPMSDSFR_EL1, but it's inverted, none of the FGT2 traps
-> are configured currently and PMSDSFR_EL1 is already trapped by
-> MDCR_EL2 anyway.
+        fdt_create()
+        fdt_finish_reservemap()
+        fdt_begin_node()
 
-Can you elaborate on that? We have:
+        // Add stuff to FDT
 
-	SR_FGT(SYS_PMSDSFR_EL1,		HDFGRTR2, nPMSDSFR_EL1, 0),
+        fdt_end_node()
+        fdt_finish()
 
-which seems to match the spec.
+In this patch, the FDT does not change much after creation so it doesn't
+look like it matters much, but in later patches, the FDT is passed to
+luo_files_fdt_setup() and luo_subsystems_fdt_setup() which probably
+modify the FDT a fair bit.
 
-We also have full support for FEAT_FGT2 already (even if we have no
-support for the stuff they trap).
+> +	if (ret)
+> +		goto exit_free;
+> +
+> +	ret = fdt_setprop(fdt_out, 0, "compatible", LUO_COMPATIBLE,
+> +			  strlen(LUO_COMPATIBLE) + 1);
 
-Thanks,
+fdt_setprop_string() instead? Or if you change to FDT SW,
+fdt_property_string().
 
-	M.
+> +	if (ret)
+> +		goto exit_free;
+> +
+> +	ret = kho_preserve_phys(__pa(fdt_out), LUO_FDT_SIZE);
+> +	if (ret)
+> +		goto exit_free;
+> +
+> +	ret = kho_add_subtree(ser, LUO_KHO_ENTRY_NAME, fdt_out);
+> +	if (ret)
+> +		goto exit_unpreserve;
+> +	luo_fdt_out = fdt_out;
+> +
+> +	return 0;
+> +
+> +exit_unpreserve:
+> +	kho_unpreserve_phys(__pa(fdt_out), LUO_FDT_SIZE);
+> +exit_free:
+> +	free_pages((unsigned long)fdt_out, get_order(LUO_FDT_SIZE));
+> +	pr_err("failed to prepare LUO FDT: %d\n", ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static void luo_fdt_destroy(void)
+> +{
+> +	kho_unpreserve_phys(__pa(luo_fdt_out), LUO_FDT_SIZE);
+> +	free_pages((unsigned long)luo_fdt_out, get_order(LUO_FDT_SIZE));
+> +	luo_fdt_out = NULL;
+> +}
+> +
+> +static int luo_do_prepare_calls(void)
+> +{
+> +	return 0;
+> +}
+> +
+>  static int luo_do_freeze_calls(void)
+>  {
+>  	return 0;
+> @@ -88,11 +151,111 @@ static void luo_do_finish_calls(void)
+>  {
+>  }
+>  
+> -int luo_prepare(void)
+> +static void luo_do_cancel_calls(void)
+> +{
+> +}
+> +
+> +static int __luo_prepare(struct kho_serialization *ser)
+>  {
+> +	int ret;
+> +
+> +	if (down_write_killable(&luo_state_rwsem)) {
+> +		pr_warn("[prepare] event canceled by user\n");
+> +		return -EAGAIN;
+> +	}
+> +
+> +	if (!is_current_luo_state(LIVEUPDATE_STATE_NORMAL)) {
+> +		pr_warn("Can't switch to [%s] from [%s] state\n",
+> +			luo_state_str[LIVEUPDATE_STATE_PREPARED],
+> +			LUO_STATE_STR);
+> +		ret = -EINVAL;
+> +		goto exit_unlock;
+> +	}
+> +
+> +	ret = luo_fdt_setup(ser);
+> +	if (ret)
+> +		goto exit_unlock;
+> +
+> +	ret = luo_do_prepare_calls();
+> +	if (ret)
+> +		goto exit_unlock;
+
+With subsystems/filesystems support in place, this can fail. But since
+luo_fdt_setup() called kho_add_subtree(), the debugfs file stays around,
+and later calls to __luo_prepare() fail because the next
+kho_add_subtree() tries to create a debugfs file that already exists. So
+you would see an error like below:
+
+    [  767.339920] debugfs: File 'LUO' in directory 'sub_fdts' already present!
+    [  767.340613] luo_core: failed to prepare LUO FDT: -17
+    [  767.341071] KHO: Failed to convert KHO state tree: -17
+    [  767.341593] luo_core: Can't switch to [normal] from [normal] state
+    [  767.342175] KHO: Failed to abort KHO finalization: -22
+
+You probably need a kho_remove_subtree() that can be called from the
+error paths.
+
+Note that __luo_cancel() is called because failure in a KHO finalize
+notifier calls the abort notifiers.
+
+This is also something to fix, since if prepare fails, all other KHO
+users who are already serialized won't even get to abort.
+
+This weirdness happens because luo_prepare() and luo_cancel() control
+the KHO state machine, but then also get controlled by it via the
+notifier callbacks. So the relationship between then is not clear.
+__luo_prepare() at least needs access to struct kho_serialization, so it
+needs to come from the callback. So I don't have a clear way to clean
+this all up off the top of my head.
+
+I suppose one way to fix this would be to move the state check to
+luo_cancel() instead. It would probably fix this problem but won't
+actually do anything about the murky hierarchy between KHO and LUO.
+
+> +
+> +	luo_set_state(LIVEUPDATE_STATE_PREPARED);
+> +
+> +exit_unlock:
+> +	up_write(&luo_state_rwsem);
+> +
+> +	return ret;
+> +}
+> +
+> +static int __luo_cancel(void)
+> +{
+> +	if (down_write_killable(&luo_state_rwsem)) {
+> +		pr_warn("[cancel] event canceled by user\n");
+> +		return -EAGAIN;
+> +	}
+> +
+> +	if (!is_current_luo_state(LIVEUPDATE_STATE_PREPARED) &&
+> +	    !is_current_luo_state(LIVEUPDATE_STATE_FROZEN)) {
+> +		pr_warn("Can't switch to [%s] from [%s] state\n",
+> +			luo_state_str[LIVEUPDATE_STATE_NORMAL],
+> +			LUO_STATE_STR);
+> +		up_write(&luo_state_rwsem);
+> +
+> +		return -EINVAL;
+> +	}
+> +
+> +	luo_do_cancel_calls();
+> +	luo_fdt_destroy();
+> +	luo_set_state(LIVEUPDATE_STATE_NORMAL);
+> +
+> +	up_write(&luo_state_rwsem);
+> +
+>  	return 0;
+>  }
+>  
+> +static int luo_kho_notifier(struct notifier_block *self,
+> +			    unsigned long cmd, void *v)
+> +{
+> +	int ret;
+> +
+> +	switch (cmd) {
+> +	case KEXEC_KHO_FINALIZE:
+> +		ret = __luo_prepare((struct kho_serialization *)v);
+> +		break;
+> +	case KEXEC_KHO_ABORT:
+> +		ret = __luo_cancel();
+> +		break;
+> +	default:
+> +		return NOTIFY_BAD;
+> +	}
+> +
+> +	return notifier_from_errno(ret);
+> +}
+> +
+> +static struct notifier_block luo_kho_notifier_nb = {
+> +	.notifier_call = luo_kho_notifier,
+> +};
+> +
+> +/**
+> + * luo_prepare - Initiate the live update preparation phase.
+> + *
+> + * This function is called to begin the live update process. It attempts to
+> + * transition the luo to the ``LIVEUPDATE_STATE_PREPARED`` state.
+> + *
+> + * If the calls complete successfully, the orchestrator state is set
+> + * to ``LIVEUPDATE_STATE_PREPARED``. If any  call fails a
+> + * ``LIVEUPDATE_CANCEL`` is sent to roll back any actions.
+> + *
+> + * @return 0 on success, ``-EAGAIN`` if the state change was cancelled by the
+> + * user while waiting for the lock, ``-EINVAL`` if the orchestrator is not in
+> + * the normal state, or a negative error code returned by the calls.
+> + */
+> +int luo_prepare(void)
+> +{
+> +	return kho_finalize();
+> +}
+> +
+>  /**
+>   * luo_freeze() - Initiate the final freeze notification phase for live update.
+>   *
+> @@ -188,9 +351,23 @@ int luo_finish(void)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * luo_cancel - Cancel the ongoing live update from prepared or frozen states.
+> + *
+> + * This function is called to abort a live update that is currently in the
+> + * ``LIVEUPDATE_STATE_PREPARED`` state.
+> + *
+> + * If the state is correct, it triggers the ``LIVEUPDATE_CANCEL`` notifier chain
+> + * to allow subsystems to undo any actions performed during the prepare or
+> + * freeze events. Finally, the orchestrator state is transitioned back to
+> + * ``LIVEUPDATE_STATE_NORMAL``.
+> + *
+> + * @return 0 on success, or ``-EAGAIN`` if the state change was cancelled by the
+> + * user while waiting for the lock.
+> + */
+>  int luo_cancel(void)
+>  {
+> -	return 0;
+> +	return kho_abort();
+>  }
+>  
+>  void luo_state_read_enter(void)
+> @@ -205,7 +382,46 @@ void luo_state_read_exit(void)
+>  
+>  static int __init luo_startup(void)
+>  {
+> -	__luo_set_state(LIVEUPDATE_STATE_NORMAL);
+> +	phys_addr_t fdt_phys;
+> +	int ret;
+> +
+> +	if (!kho_is_enabled()) {
+> +		if (luo_enabled)
+> +			pr_warn("Disabling liveupdate because KHO is disabled\n");
+> +		luo_enabled = false;
+> +		return 0;
+> +	}
+> +
+> +	ret = register_kho_notifier(&luo_kho_notifier_nb);
+> +	if (ret) {
+> +		luo_enabled = false;
+
+You set luo_enabled to false here, but none of the LUO entry points like
+luo_prepare() or luo_freeze() actually check it. So LUO will appear work
+just fine even when it hasn't initialized properly.
+
+> +		pr_warn("Failed to register with KHO [%d]\n", ret);
+
+I guess you don't return here so a previous liveupdate can still be
+recovered, even though we won't be able to make the next one. If so, a
+comment would be nice to point this out.
+
+> +	}
+> +
+> +	/*
+> +	 * Retrieve LUO subtree, and verify its format.  Panic in case of
+> +	 * exceptions, since machine devices and memory is in unpredictable
+> +	 * state.
+> +	 */
+> +	ret = kho_retrieve_subtree(LUO_KHO_ENTRY_NAME, &fdt_phys);
+> +	if (ret) {
+> +		if (ret != -ENOENT) {
+> +			panic("failed to retrieve FDT '%s' from KHO: %d\n",
+> +			      LUO_KHO_ENTRY_NAME, ret);
+> +		}
+> +		__luo_set_state(LIVEUPDATE_STATE_NORMAL);
+> +
+> +		return 0;
+> +	}
+> +
+> +	luo_fdt_in = __va(fdt_phys);
+> +	ret = fdt_node_check_compatible(luo_fdt_in, 0, LUO_COMPATIBLE);
+> +	if (ret) {
+> +		panic("FDT '%s' is incompatible with '%s' [%d]\n",
+> +		      LUO_KHO_ENTRY_NAME, LUO_COMPATIBLE, ret);
+> +	}
+> +
+> +	__luo_set_state(LIVEUPDATE_STATE_UPDATED);
+>  
+>  	return 0;
+>  }
 
 -- 
-Jazz isn't dead. It just smells funny.
+Regards,
+Pratyush Yadav
