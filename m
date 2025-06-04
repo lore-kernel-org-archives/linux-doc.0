@@ -1,145 +1,194 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195001F94A;
-	Wed,  4 Jun 2025 15:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9036B18B47E;
+	Wed,  4 Jun 2025 15:31:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749050280; cv=none; b=T/iEsI/ddt5znXUbHbyc5SMh2ObXWd0T6W9SYJKFJzAlf3d5iDYlJnz0ejOgZb1+WQ33xFwpQQAhNTZ4B6AN1rRt2d/Q9zKsS2luWaaKJ3qu98HI/WVwZtMvvkFhuw9AjvTmXkT0kSveylVhrQFZsVn92onl8ftCudVUNRsc3W8=
+	t=1749051075; cv=none; b=iLI3RX8bbplynwN+frUr33S8gqJuSqjBmTz3tC6YgQia1L9NEwx92A6k53aOC6tjkJKFdnOqFuNBDnyiXaU0/GpGdYzzHE+KLSLQAqU+KzLb2tPkx55Foq7ezOdPzOxlfttWZ94iBqs/qPsBwJvwmCUI7T8m1loYWEWuHcylzow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749050280; c=relaxed/simple;
-	bh=EjP0tX3z/aTAdpLBP8CzAHIQr7J/MGL6tjjJP89Xo24=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=a1McS5mywiHYBQ09ueltECj4hqp+U2BvIe6AS1bK9c8jkEgZfGdwN47HdonsJBmK4fLErwahX6j0sF4tSSb5UB3FSXE09l0+HcKj2bO8lpQ385mJOR+B2adLou85pr7ZVVPDImqlx2HoDLHoA4kMiBUaYBQujvcsXyfEOf+HV5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cifnpytl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749051075; c=relaxed/simple;
+	bh=xjwQ85hYcU1ZrPH6YnswDzMKpczKMUcTOpAQm5SeA+8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XpmkHcqmtthetSrGinZLCXtNTJilwv4M9Ux2Xxez1XP5Ii80DRlXz40BvuifTmR9yYQxtysQm9wIu6S/1TmQ5v7AHeJ9BYj7AllIeA0uleuMSmML+ej/sR+Nod9YwOiUXpRxT/4gBdH/Bpo3tNTULs01Kt73vG3s89K3gl3dYM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFZ1SKoC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cifnpytl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E704BC4CEE4;
-	Wed,  4 Jun 2025 15:17:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFZ1SKoC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECB9DC4CEE4;
+	Wed,  4 Jun 2025 15:31:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749050279;
-	bh=EjP0tX3z/aTAdpLBP8CzAHIQr7J/MGL6tjjJP89Xo24=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cifnpytlG90RGruI6sDOS7EhPallxy0BNw64RpE0xSzYWipShW0QF1ZHjyBscGuLh
-	 k7eDwaFPh+XMIXF/iuKyEQxOH7ySWyZvdVMi+u7kNfwqdl6ObTUX4Gts59QmX3wcRh
-	 Nncq6rP6+SIT9KRtdrDP1wIrfXFxTfXogFevDZkA1P3Hn8f18LdD+Cyb0wc1D8Tx1M
-	 /ngsQ1Ldztt2JiQynqjsrzohetey34v53vyDSo2Eyk0rDrgydfhBNIO/+xH9EgHkaC
-	 IwEY/TvqZ6RWa3x/ah4pnO52kMq3sYmNyRmNcS5YV9JKqnQ8kkTcMR//9MxvtKwCR6
-	 O5z+/9CQvTBwQ==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
-  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
-  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
-  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
-  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
-  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
-  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
-  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 04/16] luo: luo_core: Live Update Orchestrator
-In-Reply-To: <20250515182322.117840-5-pasha.tatashin@soleen.com>
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
-	<20250515182322.117840-5-pasha.tatashin@soleen.com>
-Date: Wed, 04 Jun 2025 17:17:50 +0200
-Message-ID: <mafs01przv8m9.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=k20201202; t=1749051074;
+	bh=xjwQ85hYcU1ZrPH6YnswDzMKpczKMUcTOpAQm5SeA+8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RFZ1SKoCh5NLJ8Hir4XT3wS2hpvE9PKPaoXUwqK6A8Y6cyWPWxoiDHP0B3g97Ezw2
+	 oHmbFqVnwwa+1BujyqnxsP0HYVzTaaMYo6TvJmShbXRzO+7+74vAELoOyv7PXZfuuE
+	 vt8jqfGmV1yKX96vfbSYofPX1rrlrfdapV5NS/Q9kHfzwJkebOYVcgEkUqSvslFs+P
+	 qRMsf01mcU1aGfLgFUgwkHhPDv1PbR2dnAGoC4JMZ/2/DoRmTpjTQvOwvN9RywAc3o
+	 6IFzqzEnCBgdXkssXygB6MpnW+faE9oMjEnP1y9MXt03hRF5mZd6hxekaJkATa9hr4
+	 fyxQftlHoBWTQ==
+Received: from [149.88.19.236] (helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1uMq59-003Fww-Fx;
+	Wed, 04 Jun 2025 16:31:11 +0100
+Date: Wed, 04 Jun 2025 16:31:08 +0100
+Message-ID: <87a56ned6r.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: James Clark <james.clark@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu
+ <yuzenghui@huawei.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v2 06/11] KVM: arm64: Add trap configs for PMSDSFR_EL1
+In-Reply-To: <2fb1965b-bef9-4a8e-a1c7-c8a77d957b23@linaro.org>
+References: <20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org>
+	<20250529-james-perf-feat_spe_eft-v2-6-a01a9baad06a@linaro.org>
+	<867c1ze4pg.wl-maz@kernel.org>
+	<2fb1965b-bef9-4a8e-a1c7-c8a77d957b23@linaro.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 149.88.19.236
+X-SA-Exim-Rcpt-To: james.clark@linaro.org, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, peterz@infradead.org, mingo@redhat.com, acme@kernel.org, namhyung@kernel.org, alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Thu, May 15 2025, Pasha Tatashin wrote:
-
-> Introduce LUO, a mechanism intended to facilitate kernel updates while
-> keeping designated devices operational across the transition (e.g., via
-> kexec). The primary use case is updating hypervisors with minimal
-> disruption to running virtual machines. For userspace side of hypervisor
-> update we have copyless migration. LUO is for updating the kernel.
+On Tue, 03 Jun 2025 10:50:23 +0100,
+James Clark <james.clark@linaro.org> wrote:
+> 
+> 
+> 
+> On 29/05/2025 5:56 pm, Marc Zyngier wrote:
+> > On Thu, 29 May 2025 12:30:27 +0100,
+> > James Clark <james.clark@linaro.org> wrote:
+> >> 
+> >> SPE data source filtering (SPE_FEAT_FDS) adds a new register
+> >> PMSDSFR_EL1, add the trap configs for it.
+> >> 
+> >> Signed-off-by: James Clark <james.clark@linaro.org>
+> >> ---
+> >>   arch/arm64/kvm/emulate-nested.c | 1 +
+> >>   arch/arm64/kvm/sys_regs.c       | 1 +
+> >>   2 files changed, 2 insertions(+)
+> >> 
+> >> diff --git a/arch/arm64/kvm/emulate-nested.c b/arch/arm64/kvm/emulate-nested.c
+> >> index 0fcfcc0478f9..05d3e6b93ae9 100644
+> >> --- a/arch/arm64/kvm/emulate-nested.c
+> >> +++ b/arch/arm64/kvm/emulate-nested.c
+> >> @@ -1169,6 +1169,7 @@ static const struct encoding_to_trap_config encoding_to_cgt[] __initconst = {
+> >>   	SR_TRAP(SYS_PMSIRR_EL1,		CGT_MDCR_TPMS),
+> >>   	SR_TRAP(SYS_PMSLATFR_EL1,	CGT_MDCR_TPMS),
+> >>   	SR_TRAP(SYS_PMSNEVFR_EL1,	CGT_MDCR_TPMS),
+> >> +	SR_TRAP(SYS_PMSDSFR_EL1,	CGT_MDCR_TPMS),
+> >>   	SR_TRAP(SYS_TRFCR_EL1,		CGT_MDCR_TTRF),
+> >>   	SR_TRAP(SYS_TRBBASER_EL1,	CGT_MDCR_E2TB),
+> >>   	SR_TRAP(SYS_TRBLIMITR_EL1,	CGT_MDCR_E2TB),
+> >> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> >> index 5dde9285afc8..9f544ac7b5a6 100644
+> >> --- a/arch/arm64/kvm/sys_regs.c
+> >> +++ b/arch/arm64/kvm/sys_regs.c
+> >> @@ -2956,6 +2956,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+> >>   	{ SYS_DESC(SYS_PMBLIMITR_EL1), undef_access },
+> >>   	{ SYS_DESC(SYS_PMBPTR_EL1), undef_access },
+> >>   	{ SYS_DESC(SYS_PMBSR_EL1), undef_access },
+> >> +	{ SYS_DESC(SYS_PMSDSFR_EL1), undef_access },
+> > 
+> > PMSDSFR_EL1 has an offset in the VNCR page (0x858), and must be
+> > described as such. This is equally true for a bunch of other
+> > SPE-related registers, so you might as well fix those while you're at
+> > it.
+> > 
+> > Thanks,
+> > 
+> > 	M.
+> > 
+> 
+> I got a bit stuck with what that would look like with registers that
+> are only undef in case there was something that I missed, but do I
+> just document the offsets?
+> 
+> +++ b/arch/arm64/include/asm/vncr_mapping.h
+> @@ -87,6 +87,8 @@
+>  #define VNCR_PMSICR_EL1         0x838
+>  #define VNCR_PMSIRR_EL1         0x840
+>  #define VNCR_PMSLATFR_EL1       0x848
+> +#define VNCR_PMSNEVFR_EL1       0x850
+> +#define VNCR_PMSDSFR_EL1        0x858
 >
-> This initial patch lays the groundwork for the LUO subsystem.
->
-> Further functionality, including the implementation of state transition
-> logic, integration with KHO, and hooks for subsystems and file
-> descriptors, will be added in subsequent patches.
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
-[...]
-> +/**
-> + * luo_freeze() - Initiate the final freeze notification phase for live update.
-> + *
-> + * Attempts to transition the live update orchestrator state from
-> + * %LIVEUPDATE_STATE_PREPARED to %LIVEUPDATE_STATE_FROZEN. This function is
-> + * typically called just before the actual reboot system call (e.g., kexec)
-> + * is invoked, either directly by the orchestration tool or potentially from
-> + * within the reboot syscall path itself.
-> + *
-> + * Based on the outcome of the notification process:
-> + * - If luo_do_freeze_calls() returns 0 (all callbacks succeeded), the state
-> + * is set to %LIVEUPDATE_STATE_FROZEN using luo_set_state(), indicating
-> + * readiness for the imminent kexec.
-> + * - If luo_do_freeze_calls() returns a negative error code (a callback
-> + * failed), the state is reverted to %LIVEUPDATE_STATE_NORMAL using
-> + * luo_set_state() to cancel the live update attempt.
 
-Would we end up with a more robust serialization in subsystems or
-filesystems if we do not allow freeze to fail? Then they would be forced
-to ensure they have everything in order by the time the system goes into
-prepared state, and only need to make small adjustments in the freeze
-callback.
+This should be enough.
 
-> + *
-> + * @return  0: Success. Negative error otherwise. State is reverted to
-> + * %LIVEUPDATE_STATE_NORMAL in case of an error during callbacks.
-> + */
-> +int luo_freeze(void)
-> +{
-> +	int ret;
-> +
-> +	if (down_write_killable(&luo_state_rwsem)) {
-> +		pr_warn("[freeze] event canceled by user\n");
-> +		return -EAGAIN;
-> +	}
-> +
-> +	if (!is_current_luo_state(LIVEUPDATE_STATE_PREPARED)) {
-> +		pr_warn("Can't switch to [%s] from [%s] state\n",
-> +			luo_state_str[LIVEUPDATE_STATE_FROZEN],
-> +			LUO_STATE_STR);
-> +		up_write(&luo_state_rwsem);
-> +
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = luo_do_freeze_calls();
-> +	if (!ret)
-> +		luo_set_state(LIVEUPDATE_STATE_FROZEN);
-> +	else
-> +		luo_set_state(LIVEUPDATE_STATE_NORMAL);
-> +
-> +	up_write(&luo_state_rwsem);
-> +
-> +	return ret;
-> +}
-[...]
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -596,6 +596,16 @@ enum vcpu_sysreg {
+>         VNCR(ICH_HCR_EL2),
+>         VNCR(ICH_VMCR_EL2),
+> 
+> +       /* SPE Registers */
+> +       VNCR(PMBLIMITR_EL1),
+> +       VNCR(PMBPTR_EL1),
+> +       VNCR(PMBSR_EL1),
+> +       VNCR(PMSCR_EL1),
+> +       VNCR(PMSEVFR_EL1),
+> +       VNCR(PMSICR_EL1),
+> +       VNCR(PMSIRR_EL1),
+> +       VNCR(PMSLATFR_EL1),
+
+I don't see a point in having those until we actually have SPE support
+for guests, if ever, as these will potentially increase the size of
+the vcpu sysreg array for no good reason.
+
+> And then sys_reg_descs[] remain as "{ SYS_DESC(SYS_PMBLIMITR_EL1),
+> undef_access }," rather than EL2_REG_VNCR() because we don't actually
+> want to change to bad_vncr_trap()?
+
+This seem OK for now. We may want to refine this in the future though,
+as these registers cannot trap when NV is enabled. Yes, this is a bug
+in the architecture.
+
+> There are some other parts about fine grained traps and res0 bits for
+> NV, but they all already look to be setup correctly. Except
+> HDFGRTR2_EL2.nPMSDSFR_EL1, but it's inverted, none of the FGT2 traps
+> are configured currently and PMSDSFR_EL1 is already trapped by
+> MDCR_EL2 anyway.
+
+Can you elaborate on that? We have:
+
+	SR_FGT(SYS_PMSDSFR_EL1,		HDFGRTR2, nPMSDSFR_EL1, 0),
+
+which seems to match the spec.
+
+We also have full support for FEAT_FGT2 already (even if we have no
+support for the stuff they trap).
+
+Thanks,
+
+	M.
 
 -- 
-Regards,
-Pratyush Yadav
+Jazz isn't dead. It just smells funny.
