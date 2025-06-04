@@ -1,115 +1,152 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CFC7143895;
-	Wed,  4 Jun 2025 18:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBECA1F4625;
+	Wed,  4 Jun 2025 18:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749060850; cv=none; b=DaNav3b/BCEc4RYc4zoqGs5v4BibC4FHdCQVBcFqAu8xmaztuymgv3nBHdTWpYqom7lz32HjJmu303pxTE3c768esMN4x5Np4+1cqVtY9OkenJRamoopBc3uPtV95mf3HYGZL2U9EX+dqeklgOu8JTqajq8XSjDVBdyEoarETd0=
+	t=1749061892; cv=none; b=b1e5qI7038UgI3SzT1fYImwgV+XwWUVlBQsWpc+x2mxRZbmrWKfErmeZqqRhVOZrIOt0uwcnsQaPxQQdkGrQkyIcTDh03iNhn7hAJpU3yleka1P2uYcFnxGb7NTbamRPJeAjt4dP5TOMchk84W3ueulbSlJZmZqbnqZVEX4b71k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749060850; c=relaxed/simple;
-	bh=Ih6PrpFoYo5W/qpmk508vba1vovNomriF+kLrTM1iGw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YyCG0FbA2n02qQw4f2f6D3DSMhYUqtQJHNRC8SBp9hf1U2juSXsx4XEUWUk5z6im33nFHu7DlvaF7lZyAzwL2seb5CsyG0No3xJgoFD3RrYAZebveUMrYZ2l2Ge59+C4dt0fQSs9XE5IMIVPRjPjsitpzkTft+gjTIMNSW9tjs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C089612FC;
-	Wed,  4 Jun 2025 11:13:49 -0700 (PDT)
-Received: from [10.57.26.187] (unknown [10.57.26.187])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D96B3F5A1;
-	Wed,  4 Jun 2025 11:14:02 -0700 (PDT)
-Message-ID: <921810b5-436e-4402-8304-9ba2eb335ed9@arm.com>
-Date: Wed, 4 Jun 2025 19:14:00 +0100
+	s=arc-20240116; t=1749061892; c=relaxed/simple;
+	bh=TTccoSC8u0U8JAyudIFqRLqdhcUIXwmp4ws5Q3WnaBM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c2dsi7TVDOHJFBt//kzpZT0YlBDSE+wbKY1PbIAMhKjZed7Kyi97vo44dlaCsLPZ4CIceU/jXSv/GZ30IJ7ce7fCJkFx1cOBj5XhcKX4iuXuGHiDWuX3ltq9NUx3F7jBpUFx1ow4BlvuwDDwoYEotlHKldAN7ghnXnAfeeaPoIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d3bhN1iP; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d3bhN1iP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25E4CC4CEE4;
+	Wed,  4 Jun 2025 18:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749061891;
+	bh=TTccoSC8u0U8JAyudIFqRLqdhcUIXwmp4ws5Q3WnaBM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=d3bhN1iPy3ThjZWVrgAwb3qTfEDDILFdEoQEAem2WbVuLwufaUG5pQsbck2GuH8yZ
+	 RPR9lepicdrnPN1ucrSbfEciCHIc9cRwndS0tJO1a0nWiqzGt3XYpHT9z55FZJYu5K
+	 U2ca/1bNy1K94/OdQ3SRchpMz27OrmWBGHZ/Nkb2eVsBK0MiEAAlM907ZdZhErAQ+0
+	 rNjgXb9y2Kmh3UU5g0MiP2wZkWkit7/nuWcNMpwrpMuLRSi9OaObaACQvYFzrOzCY+
+	 mHHKBcM/4ynaHfJG/OhSDhhUGg+tYIoKgZnyVEAja/vjG7f7zYIQCx52E60c4Hzh6C
+	 ppSloIVZ1twig==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v2 0/4] mm/damon: introduce DAMON_STAT for simple and practical access monitoring
+Date: Wed,  4 Jun 2025 11:31:23 -0700
+Message-Id: <20250604183127.13968-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/10] accel/rocket: Add a new driver for Rockchip's
- NPU
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net>
- <20250604-6-10-rocket-v6-5-237ac75ddb5e@tomeuvizoso.net>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250604-6-10-rocket-v6-5-237ac75ddb5e@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-[ Since Daniel made me look... ]
+DAMON-based access monitoring is not simple due to required DAMON
+control and results visualizations.  Introduce a static kernel module
+for making it simple.  The module can be enabled without manual setup
+and provides access pattern metrics that easy to fetch and understand
+the practical access pattern information, namely estimated memory
+bandwidth and memory idle time percentiles.
 
-On 2025-06-04 8:57 am, Tomeu Vizoso wrote:
-[...]
-> diff --git a/drivers/accel/rocket/Kconfig b/drivers/accel/rocket/Kconfig
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..9a59c6c61bf4d6460d8008b16331f001c97de67d
-> --- /dev/null
-> +++ b/drivers/accel/rocket/Kconfig
-> @@ -0,0 +1,25 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +config DRM_ACCEL_ROCKET
-> +       tristate "Rocket (support for Rockchip NPUs)"
-> +       depends on DRM
-> +       depends on ARM64 || COMPILE_TEST
+Background and Problems
+=======================
 
-Best make that "(ARCH_ROCKCHIP && ARM64) || COMPILE_TEST" now before 
-someone else inevitably does. Or perhaps just a pre-emptive 
-"ARCH_ROCKCHIP || COMPILE_TEST" if this is the same NPU that's in RV1126 
-etc.
+DAMON can be used for monitoring data access patterns of the system and
+workloads.  Specifically, users can start DAMON to monitor access events
+on specific address space with fine controls including address ranges to
+monitor and time intervals between samplings and aggregations.  The
+resulting access information snapshot contains access frequency
+(nr_accesses) and how long the frequency was kept (age) for each byte.
 
-> +       depends on MMU
-> +       select DRM_SCHED
-> +       select IOMMU_SUPPORT
+The monitoring usage is not simple and practical enough for production
+usage.  Users should first start DAMON with a number of parameters, and
+wait until DAMON's monitoring results capture a reasonable amount of the
+time data (age).  In production, such manual start and wait is
+impractical to capture useful information from a high number of machines
+in a timely manner.
 
-Selecting user-visible symbols is often considered bad form, but this 
-one isn't even functional - all you're doing here is forcing the 
-top-level availability of all the IOMMU driver/API options.
+The monitoring result is also too detailed to be used on production
+environments.  The raw results are hard to be aggregated and/or compared
+for production environments having a large scale of time, space and
+machines fleet.
 
-If you really want to nanny the user and dissuade them from building a 
-config which is unlikely to be useful in practice, then at best maybe 
-"depends on ROCKCHIP_IOMMU || COMPILE_TEST", but TBH I wouldn't even 
-bother with that. Even if you want to rely on using the IOMMU client API 
-unconditionally, it'll fail decisively enough at runtime if there's no 
-IOMMU present (or the API is stubbed out entirely).
+Users have to implement and use their own automation of DAMON control
+and results processing.  It is repetitive and challenging since there is
+no good reference or guideline for such automation.
 
-> +       select IOMMU_IO_PGTABLE_LPAE
+Solution: DAMON_STAT
+====================
 
-And I have no idea what this might think it's here for :/
+Implement such automation in kernel space as a static kernel module,
+namely DAMON_STAT.  It can be enabled at build, boot, or run time via
+its build configuration or module parameter.  It monitors the entire
+physical address space with monitoring intervals that auto-tuned for a
+reasonable amount of access observations and minimum overhead.  It
+converts the raw monitoring results into simpler metrics that can easily
+be aggregated and compared, namely estimated memory bandwidth and idle
+time percentiles.
 
-Thanks,
-Robin.
+Understanding of the metrics and the user interface of DAMON_STAT is
+essential.  Refer to the commit messages of the second and the third
+patches of this patch series for more details about the metrics.  For
+the user interface, the standard module parameters system is used.
+Refer to the fourth patch of this patch series for details of the user
+interface.
 
-> +       select DRM_GEM_SHMEM_HELPER
-> +       help
-> +	  Choose this option if you have a Rockchip SoC that contains a
-> +	  compatible Neural Processing Unit (NPU), such as the RK3588. Called by
-> +	  Rockchip either RKNN or RKNPU, it accelerates inference of neural
-> +	  networks.
-> +
-> +	  The interface exposed to userspace is described in
-> +	  include/uapi/drm/rocket_accel.h and is used by the Rocket userspace
-> +	  driver in Mesa3D.
-> +
-> +	  If unsure, say N.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called rocket.
+Discussions
+===========
+
+The module aims to be useful on production environments constructed with
+a large number of machines that run a long time.  The auto-tuned
+monitoring intervals ensure a reasonable quality of the outputs.  The
+auto-tuning also ensures its overhead be reasonable and low enough to be
+enabled always on the production.  The simplified monitoring results
+metrics can be useful for showing both coldness (idle time percentiles)
+and hotness (memory bandwidth) of the system's access pattern.  We
+expect the information can be useful for assessing system memory
+utilization and inspiring optimizations or investigations on both kernel
+and user space memory management logics for large scale fleets.
+
+We hence expect the module is good enough to be just used in most
+environments.  For special cases that require a custom access monitoring
+automation, users will still benefit by using DAMON_STAT as a reference
+or a guideline for their specialized automation.
+
+Revision History
+================
+
+Changes from v1
+(https://lore.kernel.org/20250526210936.2744-1-sj@kernel.org)
+- Wordsmith cover letter for usage document reference
+- Rebase to latest mm-new
+
+Changes from RFC
+(https://lore.kernel.org/20250519164415.43935-1-sj@kernel.org)
+- Add an admin-guide documentation
+- Wordsmith commit messages
+- Rebase to latest mm-new
+
+SeongJae Park (4):
+  mm/damon: introduce DAMON_STAT module
+  mm/damon/stat: calculate and expose estimated memory bandwidth
+  mm/damon/stat: calculate and expose idle time percentiles
+  Docs/admin-guide/mm/damon: add DAMON_STAT usage document
+
+ Documentation/admin-guide/mm/damon/index.rst |   1 +
+ Documentation/admin-guide/mm/damon/stat.rst  |  69 ++++++
+ mm/damon/Kconfig                             |  16 ++
+ mm/damon/Makefile                            |   1 +
+ mm/damon/stat.c                              | 245 +++++++++++++++++++
+ 5 files changed, 332 insertions(+)
+ create mode 100644 Documentation/admin-guide/mm/damon/stat.rst
+ create mode 100644 mm/damon/stat.c
+
+
+base-commit: c28c2c0b515650b906025a5c41dc0989155720dd
+-- 
+2.39.5
