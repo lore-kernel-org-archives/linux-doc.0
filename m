@@ -1,108 +1,135 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9786028BA8B
-	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 09:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569E41804A;
+	Wed,  4 Jun 2025 09:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749028213; cv=none; b=MfGTWwGr7MFLOYbOssSmYm4aynmHcZ9VZ6SY+TAUbqck6LiYZMs9Dr3nC8CHm0XHnimcFGel+wnOTvf/SAtiNFYeBVM4JeH7tvFuGdaEHS9bD8gCPqToxNhageNqn7xqWevoYcnaQtbOF7AzM6seZeMKT/kcOXsotzsuawkskWU=
+	t=1749028484; cv=none; b=AbdxxMfh9t8prRKcTbQe4Oa59qRCof/8u5pOo0LxKuj/d5wT4cC9d/gbfMY7LPjy+hs8dAjeQ5ljtrpl8VvL1gzxV9NboPLSjsrS1K0eJzfKCLCUXNyRQhbCv0YaLL3jyN2VIu9mxZEC7sSZ/lZ0IAgn2Yt9Ri+28HA571wTZGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749028213; c=relaxed/simple;
-	bh=oMW4MaSwYK2mtMHKkMAV4IJupcfvcbWA0rhfA8QumkE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DMC99iucee77nBjwYLM1minN+0xxUtylex5ebC0jW8IphRa/NxLz1J366ySnD+ggrikWT5sd4wvs6ZIObhBo+020+Y9twrcehTfmvE3qwBCIv7jJHUpbwCf/F5lzNslGWrlTYC6N9us45wcdgv61/H5neM29clHP1JIDoQBr4NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=WxZFvWXm; arc=none smtp.client-ip=209.85.221.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1749028484; c=relaxed/simple;
+	bh=FszywAEUd6pZfQDmYpN22h+dypZnSE9YiVfQDrP2LAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqf/X8HJCmIyucK49H3yKygTkOSqsR9dnNr5YEYcBVQ21/dz4VfmYob/zfRGY8tywknrA+FysiyS2FmNPxG2RdG/FMD0ffPtZW3FPJ4/L2kp4E3a1ZbBxf1G8TPrMB1AaZCj5W5bcqjSR2Sx79pyJPWgBe0u6N5pY5P3uM4Gois=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R813ESye; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="WxZFvWXm"
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-3a366843fa6so3479004f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Jun 2025 02:10:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R813ESye"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2349f096605so81185015ad.3;
+        Wed, 04 Jun 2025 02:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1749028209; x=1749633009; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CwmthOPo3ZeLQxOOTrEK+OkcJyUZaBTnj0LjrMJahQQ=;
-        b=WxZFvWXmWUyomFHlC3XbrdIdOPi/tsaJ3iKX36VyBqNPlfZsk7/CuWYTdpBAZXcfZl
-         n+pbUrGPvRyd1leBkaCDvhYitVP44K+WSPbYLnH1sV4WSDuERuTH5esa4KMWYbZSlGOn
-         kh+v6mEkZdIypchHCjVff8rqlSXDq+hZr99VkK5NVP5P2k/SPJsVruErjCpTVxgMz8mX
-         2WOUpsNq5qWl4yKo6r2MvX7cLUryBkF2xsrlnbNu8YB33RCgPjdpXAJ3UzpfmVEU+D0y
-         uduETeb0VxtapyjwN+RRFG6t3DiKh96zhZL/242U+j+9cCDE83KP7QiJ9vaiqdBqnmCH
-         c9tA==
+        d=gmail.com; s=20230601; t=1749028482; x=1749633282; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FszywAEUd6pZfQDmYpN22h+dypZnSE9YiVfQDrP2LAA=;
+        b=R813ESyeAjcAqnFzw6v3hqWjLBOMQFc6P2YRMNx5YEkMk0UsGmIC9pNx/Wxcnyn89w
+         bjtGaF4BMxNiehHNVlCuUxuDEcsMG/S+YrOlFZESX4pSEg9XNkBRDWZVY+yViUjjWChC
+         vSqTFbmmbLfNQ9NKWF3osLkDuWY1RK1KQMw6xd5WCPAPtbzL5ARlfwBZtdNQfzDSQL1Q
+         /+sOOPjqRvmmeJ5dSTavXXUVBwDIW/DSdw5Ath+byP3+ML4YoueV0WQJNlvm8oZUHJzy
+         /pCHH20MR85fO6zl8ct4eZOnDw8SXQmcnBvEVlVAlFHfl5tn1gdKIdsScPqwEPW1r8U/
+         VRDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749028209; x=1749633009;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CwmthOPo3ZeLQxOOTrEK+OkcJyUZaBTnj0LjrMJahQQ=;
-        b=UxZphKAIMcyFs7R9CTk1sVdHm981WXIeIE/aP3b/lYT0+FQmDaF8G+N+x1RoRXaW7g
-         6Ei9epCmvmGtDlx2mCJbtZVGsiDhc0DLM9ly0yM/5WR9f2u3JuYeWP42z2/+psY880lP
-         WuyYAQT8GoaARaFSr5DrAdgbBWqERyAfvQx6puH3vC+Rau8PhlcC4hKdQkM1N6cSZAzH
-         swri67YTtzofgS9sdL3/quvcTB+PX7df9X11x+YYQgkEfhwieDqwRFKHdi5DuFHg2U4N
-         odE/WMmrLfoy37IubHmEzjaAe3n/Mdc2niGG9v+jPcMl5uIzG891Q25GVYH2FbI51JkS
-         LJwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhS9aYvVeJTan+qHaVLyFqg18QiBu7gLV+Qj5fi7ACiuiC1mx0w7+0TFb3j93c1Bzd/Km/7Y7g+RQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAXmzRBKsBwbL4eROJoldpYLev2aJTqvAAfjPlVGUg2roI1erm
-	8tcqYLvrSrF9/LXjICI/UDwGihCPY5dlAnPK8XFJA3MkW17DSAqT8gp6H1xAGJiDJCI=
-X-Gm-Gg: ASbGncueD6RW04u2BA20apMO4lwKIxU24E2JeEe1xLIbw3CiiheociHt9/iuoIIoD7M
-	OBbV+k4Lh4TEhHRyhU9CJksNpgxXb2MasMO6C7LQolcz8bdI86Zq3sWgD2fO/rGD5uv1dR/uYB6
-	toI11uh24q3WSW2lBvDQ2EsPKzehOszDEqu21KeINX0fOZLVzXW+JKgdegzo1bM3j9YIGhMLCt1
-	rNqKqoUIu3UzX0DXwR/qWptov4yiBn6Pede7gKgicGH0eXH9+G8NbXypKFrNULv4EH2TvfDjJXH
-	y0WJes+PaGTJ8QUy4tu/ivbQLd4v0+AvmWZJOYPWu/+mjxBoZfT7EOo9N/j5nZDIAnxy6A==
-X-Google-Smtp-Source: AGHT+IHwbnqda0WUALZPR6BH5wV/ac7KPGSXsO6qAre2G/QftXFom+glyTD0clAk18FXdlE5JE+qRA==
-X-Received: by 2002:a05:6000:4011:b0:3a4:f7df:7564 with SMTP id ffacd0b85a97d-3a51d6832f3mr1560987f8f.0.1749028208696;
-        Wed, 04 Jun 2025 02:10:08 -0700 (PDT)
-Received: from [10.0.1.22] (109-81-1-248.rct.o2.cz. [109.81.1.248])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5215e4ce1sm877352f8f.37.2025.06.04.02.10.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Jun 2025 02:10:08 -0700 (PDT)
-Message-ID: <95f14895-5c30-44e6-b185-824aacf0f997@suse.com>
-Date: Wed, 4 Jun 2025 11:10:07 +0200
+        d=1e100.net; s=20230601; t=1749028482; x=1749633282;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FszywAEUd6pZfQDmYpN22h+dypZnSE9YiVfQDrP2LAA=;
+        b=nRpQSoY41m3qYecTI7q9+a3RClc35PNUAUhG/geZBvumZGX63/9jtPqDXVpS/EDFmp
+         v0OkNrjxk2yZAckTQJ+zwhMMvpjo7frjATjy/lOIaIHACElJKG0o7ZCu80ZNPP7BAdQP
+         sd+sSC88eLUO1glNFpMWd2jVrE4HgVo5QvtG175bWgcr6bqlQXsnCmNDEv/XHqPBKnDS
+         ePDXyl8txGRhLowNNMeyXkL7vK+lV0dpeiwdzCkk7R0qp2kvvQil/CIA0Zt0dDbfhN+y
+         Fjm4C81+ve0HxRkTwTWgjgMtnQAiMxBqX90cUarn5aB6N99sZUkeoVJoJiKSg2ukpGyC
+         4vQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1wtDYFqr+Q5+P/Gt2yredyu3bxj75a/YRld9XVBpfmUhqK45p8OPdeEB1MJdwly0tbdvOWv9wRS4=@vger.kernel.org, AJvYcCXkLsPcUMmCBrMktnJpXehkw7ETyrD+4JfFL2PvuJIOPuGrooo9WFDJ/2U55bL1SIEkLAca9aOxbpoQv/Zf@vger.kernel.org
+X-Gm-Message-State: AOJu0YweJkstegG7TcX/nXCv8QxoSZVTg7SqFMx0DJcr/CFdwJ34Jwk4
+	9/fp94jDztsp/nTaiWY6FYpKtjbfMKSYKXdy3En9ocXC5PlbeucFsfpCYUaWtw==
+X-Gm-Gg: ASbGncu+I5HUu/fge6d9P3hX/gtS2QCsIlWJ9hybONKbnUfQi9nSGZm1B2ssSMN34sO
+	rzkza9i+i79rWSewz5UxtO/dsmMEC1UsfWdwoTprCIqTTgBlhXVB5DuT9t/eJqmXGOAZ1YrG39R
+	nWrMd9TqIPgnz0n0oi+OtjMvJbSdK1LVJUHgbUeBw5OgEAGOoUhD7KSg+CkzDfRfg03Ekm7SCh/
+	3YqLNnVEzUsrqRX3yPucY7gai4zlUM0Pp7wX6MbFxdJf01JvjSF/rKf2Xl2ZlwgzixVzPh0kOj/
+	TA+GR6YU7cGT/XhAZ0fp4uE09SPyZUb73S5xXFi/Zcx2+St/F+w=
+X-Google-Smtp-Source: AGHT+IFXXw3Cek6NZAMJnlbjJ2ADflh+cuXsfA08GrFx//AYT30qt4aR46N3RX9ZYq9Vtsp3SRWyMA==
+X-Received: by 2002:a17:902:cf04:b0:235:c781:c305 with SMTP id d9443c01a7336-235e11cc0ffmr37347475ad.24.1749028482211;
+        Wed, 04 Jun 2025 02:14:42 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e39749esm9346875a91.32.2025.06.04.02.14.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jun 2025 02:14:41 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 60ACF4208F51; Wed, 04 Jun 2025 16:14:38 +0700 (WIB)
+Date: Wed, 4 Jun 2025 16:14:38 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Petr Pavlu <petr.pavlu@suse.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
+	Matthias Maennich <maennich@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] module: Wrap EXPORT_SYMBOL_GPL_FOR_MODULES() example in
+ literal code block
+Message-ID: <aEAOfrOofriBIaxz@archie.me>
+References: <20250604005110.13040-1-bagasdotme@gmail.com>
+ <95f14895-5c30-44e6-b185-824aacf0f997@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] module: Wrap EXPORT_SYMBOL_GPL_FOR_MODULES() example in
- literal code block
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
- Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Peter Zijlstra <peterz@infradead.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20250604005110.13040-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20250604005110.13040-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/Xyd1jlyKOGXQY5c"
+Content-Disposition: inline
+In-Reply-To: <95f14895-5c30-44e6-b185-824aacf0f997@suse.com>
 
-On 6/4/25 2:51 AM, Bagas Sanjaya wrote:
-> Stephen Rothwell reports htmldocs warning:
-> 
-> Documentation/core-api/symbol-namespaces.rst:90: WARNING: Inline emphasis start-string without end-string. [docutils]
-> 
-> Fix the warning by wrapping EXPORT_SYMBOL_GPL_FOR_MODULES() example in
-> literal code block, just like other examples in symbol namespaces
-> documentation.
-> 
-> Fixes: 707f853d7fa3 ("module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20250526180350.06b825de@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-An earlier patch for the problem was sent in
-https://lore.kernel.org/all/20250526211039.163449-1-khaledelnaggarlinux@gmail.com/.
+--/Xyd1jlyKOGXQY5c
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The fix should go through the kbuild tree as the problem currently
-originates on its for-next branch.
+On Wed, Jun 04, 2025 at 11:10:07AM +0200, Petr Pavlu wrote:
+> On 6/4/25 2:51 AM, Bagas Sanjaya wrote:
+> > Stephen Rothwell reports htmldocs warning:
+> >=20
+> > Documentation/core-api/symbol-namespaces.rst:90: WARNING: Inline emphas=
+is start-string without end-string. [docutils]
+> >=20
+> > Fix the warning by wrapping EXPORT_SYMBOL_GPL_FOR_MODULES() example in
+> > literal code block, just like other examples in symbol namespaces
+> > documentation.
+> >=20
+> > Fixes: 707f853d7fa3 ("module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() h=
+elper")
+> > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> > Closes: https://lore.kernel.org/linux-next/20250526180350.06b825de@canb=
+=2Eauug.org.au/
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>=20
+> An earlier patch for the problem was sent in
+> https://lore.kernel.org/all/20250526211039.163449-1-khaledelnaggarlinux@g=
+mail.com/.
+>=20
+> The fix should go through the kbuild tree as the problem currently
+> originates on its for-next branch.
 
--- 
-Thanks,
-Petr
+OK, thanks! I didn't see Khaled's patch as I was in hurry...
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--/Xyd1jlyKOGXQY5c
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaEAOeQAKCRD2uYlJVVFO
+owP0AP9D0w+Mp+HobeVQlnxBW/zchuohdhXwQmzHLHFyD5K42AEAqWPuLS9+yoj4
+RfC111nByFzWYJOSNtuKOJ4PGtA50Ac=
+=/Mkh
+-----END PGP SIGNATURE-----
+
+--/Xyd1jlyKOGXQY5c--
