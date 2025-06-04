@@ -1,118 +1,381 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBB414A4F9;
-	Wed,  4 Jun 2025 00:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9933E14286
+	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 01:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748998278; cv=none; b=FrjPVFxYTv8woQc5h7r3+EEN3ybASTg9Zak1ihtIJC5NPdlJXb6u9AqFJB2YsiY5hbXraAKdhl0OE8k0fPZyATm/BkZ2IVKtlCWnFOLDUcU+E6NYcUXo3lOcBTy2Kxjint5txyVIoiMyd0q+Ln79XEzc3zzwl44w8isZiOvuHkk=
+	t=1748999927; cv=none; b=GHm9pwClYO1g5QMeePB5eo1CjtBFYAow5PuXJTcAwK4kd1aKNyqNS1AgxwbyquykXRybKPCw/skbr0YPCYjMeifs9iEVm5FqS2CXidEikocR2A4cQV69k8BqzgYwrCQldEqDWGEmDv9FyQmpr8zbeSUnDRo3lPPq5EG8J/p7Sj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748998278; c=relaxed/simple;
-	bh=qBzNwBzfolO2/LfeGfIOJHvjCQIIBYm7a0UQHpcr9gs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PsSv1pqNlEr/fuWTT9GquoocKnIIrFVaWlTEO72yu/58Lk0zcpSGXnS894Odr3tHsZZLvXdBov7DVl2U5Qh1jlGF6mMnunJSU/GdA9+zvPD1Fn5KL/W30oLUqspL0N1xvigDhhe/8I9BdyBZ8JoTYOcExd1SQ8DUkxAPH9c6tfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZRPfEF5L; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748999927; c=relaxed/simple;
+	bh=TU5raU8CLI5e3LMHuVmzVjSuFh7aCubUMZ1v6HP3ni4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VOhJC6C0PT0zFUL72HyBeeMcMQAL5bXVCOJFV3uvq5UiIkYbBkJ6C1kafFdxXw2pN7vlrbOkbT0yMYeM2QZ0Q7l8TV0cdksFjq4fAjkVy7R7gh/uhdo0rvxOe0+A557aakvB8knH6s0YK4c8X4wLK2p8Gw7VVQiYfckD/SbI8XU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UinGPSTj; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZRPfEF5L"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so4784641b3a.0;
-        Tue, 03 Jun 2025 17:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748998276; x=1749603076; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fWmlyCAlnT2OdldqgB6HsoakV73qVZDwnZszdKB+GK8=;
-        b=ZRPfEF5Lm+Ji2lM3kWk4k6iAWn8HJr4PIuXgrijSGd1/ERHgG9EXETjKEJqr22G0Om
-         K/4220Z/1zAAqOgC+WFqzBo8k1k0UAMKEqTSLsBonWiM+kf8d24E5TNo2LNsuK1Avg0X
-         RmArVvYQFx6pXVHeemzSbFXp+WpcDLJuMs8c8AGM+A4fl08fTaxfUx7kncR6UORYO0ys
-         R5WxQKuUJ0KNS4MxO6rxl8li5fsx2g2ZiK0kzXoagbREod6+E0qhcRsmrKuez9TmmH65
-         xBA8wTZcunEGwkac35qPFU8KpiVi3z5hJkCYu7G+LETYdiHixDUS47bcAgq7U0oxBQ+V
-         E4rA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UinGPSTj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1748999923;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FGSicdZ/oCg5lp+er2IEvl27RXvIulGaT4Ab9/IfYPs=;
+	b=UinGPSTjeYwTNToKFpXOba9gtkV/Af3cAJ2Xc4fmR1zEJxkkk0wrlUNwQ9fjaqcjHmDZiy
+	4HD/vBgPYku4OjR0hZ+Mi+GOzlgQaej2eruCI1SJBx0TzGZL6XeH3RWkwh8rEWOxZ1xcfd
+	moWNf4Y1JWLIcQFSmGTcD9JYe1tIYMk=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-375-cII-8HEgPZiRx5p5AnEzJg-1; Tue, 03 Jun 2025 21:18:42 -0400
+X-MC-Unique: cII-8HEgPZiRx5p5AnEzJg-1
+X-Mimecast-MFC-AGG-ID: cII-8HEgPZiRx5p5AnEzJg_1748999921
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7480d44e6f9so169305b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jun 2025 18:18:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748998276; x=1749603076;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fWmlyCAlnT2OdldqgB6HsoakV73qVZDwnZszdKB+GK8=;
-        b=kXCq1p29sONQjiCMDmQZwAHZibF+SVu1gUabXEuqdNLjt5foR3pKVICXRnLTsn2G1h
-         FPLosbEzIe9dpT6J9O2ehAVWuV2S55Qi6PDZnS7UY9/k+pMIFUf5Hd0LS2G9dynRsCOf
-         Cdd1g4y/hYWwazZvP/YXkukUZMkeReVIZEwRQph/ZvAq4yVxn+RsgiXDYnJfZPh9U5TK
-         GwqJocE7Kd6wh4pWIXCyBk7rqyKutaHkeDOznjNI93A6JB59UC9wtQZ8TjsY/njN+IHV
-         KO+YT+Pt2BebwBKRqTbHbHgJoIfUzC4zpRp0sJNiIM9icZ3j3Zltml0iI3CNiJuPeesc
-         A3sA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgj3H2UjArU9L/bo+C9OzId2pP8Av3jwlt8c4f8TP/nBI2HZdhr9fUzqzg2GopkCDPw7molIaUVonpAW6v@vger.kernel.org, AJvYcCWdkBnPNb1HyF9z9gMWce57QfcZHgKigF6jB82Tsxwca5/mBllzGUI6GybyBsbeZjniSxrQxRQ7YBo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWEPGsxeCJXS4xOIO/1OWvWRnYssPCMJ9Sw86iPD5RREL7hhd8
-	FzNlgqKYjwXhA+8n6ax55YqNvRSV0+Hi1b4ObI3tj3wEP0OujfZxM6Tn
-X-Gm-Gg: ASbGncsS0YOYpJsNSwuHpVL5TpWWUQrjQfY4JOAvpA1NEQiDJWBF3Ku/WK4xyrpuZOu
-	zCY/LQoRvL77yZa3162j9+A4M7s7YfXfVjR5p8WA7/q1pyCkDx68NQAp2n711vgt1ZzhYfZ+/n8
-	WSH/DKVVhntfqgTpfHNq3mQmHelGxkwnz8PJUOtI3OcJD44UvNKmqtrmLbGtX+PI4prV/g2LxFu
-	42e8HmXsc6I5X53IJ7eCCrsKhppL3zh+rmwmhXbGZQMZO0lCLyzdLalnCaV/6XOFv57ZPhMcbSb
-	kiDygarT0tTDRM6oKXJYQFSP445jlZBxvU0SU0kVnIeFDqtWIUg=
-X-Google-Smtp-Source: AGHT+IF159HmD5hepvxivJRJH4JtIaxvmo53Xo/sR+42O6QZd7/fg8pOX20EevUWqTdRNYyeLTI7XA==
-X-Received: by 2002:a17:902:ea08:b0:235:6aa:1675 with SMTP id d9443c01a7336-235e120f8d4mr9973865ad.52.1748998275999;
-        Tue, 03 Jun 2025 17:51:15 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-235069fa2c7sm92607795ad.0.2025.06.03.17.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 17:51:15 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7A5B94209E8D; Wed, 04 Jun 2025 07:51:12 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Build System <linux-kbuild@vger.kernel.org>
-Cc: Matthias Maennich <maennich@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] module: Wrap EXPORT_SYMBOL_GPL_FOR_MODULES() example in literal code block
-Date: Wed,  4 Jun 2025 07:51:09 +0700
-Message-ID: <20250604005110.13040-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1748999921; x=1749604721;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FGSicdZ/oCg5lp+er2IEvl27RXvIulGaT4Ab9/IfYPs=;
+        b=sg9Q8Gjnr2QE9g9X+G1UzmdJO8L11mg6T9WyVZLeCrQGvNkFi1P5UI7n/3jz8WZCol
+         2NkKgrqYXMJTGEC5LlnKOU6JAwTKrJyeqW3By3ECVD804k8puQsWlWB14XTQR+lyNTRq
+         SKrIBrWlYpdMC1ABEZ1/m1nxhcKmZreDBpJLQc2FG23q0nAgaWDP5H/dOghSPBJIjVeF
+         SV2vY0YS5uvBmkkRpidsFZ+YjIOY3y7CcoSSjfVL8Tg6/6MioMz2C6LQqoBPg9sEVHhm
+         bnoDM4fmxKwUOKuiaHg5HuXfx8JykP2p0VUm/CzqCpDYXuyky+YLPSz90FDpXkOR4zv3
+         0Sag==
+X-Forwarded-Encrypted: i=1; AJvYcCX1fTvt6LlqnArjpJw5rvvIpWfb6gCNmVIS1sKbIjIXJiIUeyIttylja2TzABzJ4pygj81Vq/iSch4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDvB6xAxU2vVtv+qx+03VtbM5NyPx/WmDpR3BJETjI6V44ubub
+	raqrjf9mWvYMP3qIi7c+RT9JzcrViPbumBJkMGqb9je7ZdvYzGhIOyLNhVHQh0Yu5SPV65sJDYj
+	O0WuuNL6Nza2SZR4Qhdyp3Lf9YGL4bz9gGNC6kJsL+UIofem1Z7Kr9TgCe2xi9vso8uT/zurVPF
+	Watanuosw3qBsog2bf5xmapqBWqw9sNXw9pGtn
+X-Gm-Gg: ASbGncsAlBkb0uzltDCXA9UMle7Y4s2m3mJaV9kOU1U7wpXmg90haoViszp8nXJURhW
+	9+e/UpqYvQ3crY8yqu9+EkKkcUGp3Hbslus3zlM9Sbh3df3bxS/QmpygRSDQSrBupQgKHRg==
+X-Received: by 2002:a05:6a21:15c9:b0:203:addb:5a29 with SMTP id adf61e73a8af0-21d2478a934mr804225637.40.1748999921394;
+        Tue, 03 Jun 2025 18:18:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE9x2Jsz+oEkjdyApeUA+CuoK8myNpbDW4bJgTDO/ZV8ngn2BsxLUd0KXN3ouD9XKiPa4r78geNfVRdh7nw+0I=
+X-Received: by 2002:a05:6a21:15c9:b0:203:addb:5a29 with SMTP id
+ adf61e73a8af0-21d2478a934mr804171637.40.1748999920971; Tue, 03 Jun 2025
+ 18:18:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1380; i=bagasdotme@gmail.com; h=from:subject; bh=qBzNwBzfolO2/LfeGfIOJHvjCQIIBYm7a0UQHpcr9gs=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBn20z/+60rY9kOxaPbm9vOz7ZN9QwQauu1mtiyw7uuXy r6/YlZyRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACYSpMXIMM1k1vk34Ze+Hee1 ZpJft8TQ440LE/evDvd1ZXLTlt84dpDhf8KmsvlcN80iKv7dWd0j8csg1XJig/BqxbtTJud4GQU 48QMA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20250530-rss-v12-0-95d8b348de91@daynix.com> <20250530-rss-v12-1-95d8b348de91@daynix.com>
+ <CACGkMEufffSj1GQMqwf598__-JgNtXRpyvsLtjSbr3angLmJXg@mail.gmail.com> <95cb2640-570d-4f51-8775-af5248c6bc5a@daynix.com>
+In-Reply-To: <95cb2640-570d-4f51-8775-af5248c6bc5a@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 4 Jun 2025 09:18:29 +0800
+X-Gm-Features: AX0GCFuo2dPa7ucM1Nh8rfxdTLetjqqveALggfJbyBjhCoXiIN_FHhv1NK0hF9M
+Message-ID: <CACGkMEu6fZaErFEu7_UFsykXRL7Z+CwmkcxmvJHC+eN_j0pQvg@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 01/10] virtio_net: Add functions for hashing
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
+	Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Stephen Rothwell reports htmldocs warning:
+On Tue, Jun 3, 2025 at 1:31=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix.=
+com> wrote:
+>
+> On 2025/06/03 12:19, Jason Wang wrote:
+> > On Fri, May 30, 2025 at 12:50=E2=80=AFPM Akihiko Odaki <akihiko.odaki@d=
+aynix.com> wrote:
+> >>
+> >> They are useful to implement VIRTIO_NET_F_RSS and
+> >> VIRTIO_NET_F_HASH_REPORT.
+> >>
+> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> >> Tested-by: Lei Yang <leiyang@redhat.com>
+> >> ---
+> >>   include/linux/virtio_net.h | 188 +++++++++++++++++++++++++++++++++++=
+++++++++++
+> >>   1 file changed, 188 insertions(+)
+> >>
+> >> diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
+> >> index 02a9f4dc594d..426f33b4b824 100644
+> >> --- a/include/linux/virtio_net.h
+> >> +++ b/include/linux/virtio_net.h
+> >> @@ -9,6 +9,194 @@
+> >>   #include <uapi/linux/tcp.h>
+> >>   #include <uapi/linux/virtio_net.h>
+> >>
+> >> +struct virtio_net_hash {
+> >> +       u32 value;
+> >> +       u16 report;
+> >> +};
+> >> +
+> >> +struct virtio_net_toeplitz_state {
+> >> +       u32 hash;
+> >> +       const u32 *key;
+> >> +};
+> >> +
+> >> +#define VIRTIO_NET_SUPPORTED_HASH_TYPES (VIRTIO_NET_RSS_HASH_TYPE_IPv=
+4 | \
+> >> +                                        VIRTIO_NET_RSS_HASH_TYPE_TCPv=
+4 | \
+> >> +                                        VIRTIO_NET_RSS_HASH_TYPE_UDPv=
+4 | \
+> >> +                                        VIRTIO_NET_RSS_HASH_TYPE_IPv6=
+ | \
+> >> +                                        VIRTIO_NET_RSS_HASH_TYPE_TCPv=
+6 | \
+> >> +                                        VIRTIO_NET_RSS_HASH_TYPE_UDPv=
+6)
+> >> +
+> >> +#define VIRTIO_NET_RSS_MAX_KEY_SIZE 40
+> >> +
+> >> +static inline void virtio_net_toeplitz_convert_key(u32 *input, size_t=
+ len)
+> >> +{
+> >> +       while (len >=3D sizeof(*input)) {
+> >> +               *input =3D be32_to_cpu((__force __be32)*input);
+> >> +               input++;
+> >> +               len -=3D sizeof(*input);
+> >> +       }
+> >> +}
+> >> +
+> >> +static inline void virtio_net_toeplitz_calc(struct virtio_net_toeplit=
+z_state *state,
+> >> +                                           const __be32 *input, size_=
+t len)
+> >> +{
+> >> +       while (len >=3D sizeof(*input)) {
+> >> +               for (u32 map =3D be32_to_cpu(*input); map; map &=3D (m=
+ap - 1)) {
+> >> +                       u32 i =3D ffs(map);
+> >> +
+> >> +                       state->hash ^=3D state->key[0] << (32 - i) |
+> >> +                                      (u32)((u64)state->key[1] >> i);
+> >> +               }
+> >> +
+> >> +               state->key++;
+> >> +               input++;
+> >> +               len -=3D sizeof(*input);
+> >> +       }
+> >> +}
+> >> +
+> >> +static inline u8 virtio_net_hash_key_length(u32 types)
+> >> +{
+> >> +       size_t len =3D 0;
+> >> +
+> >> +       if (types & VIRTIO_NET_HASH_REPORT_IPv4)
+> >> +               len =3D max(len,
+> >> +                         sizeof(struct flow_dissector_key_ipv4_addrs)=
+);
+> >> +
+> >> +       if (types &
+> >> +           (VIRTIO_NET_HASH_REPORT_TCPv4 | VIRTIO_NET_HASH_REPORT_UDP=
+v4))
+> >> +               len =3D max(len,
+> >> +                         sizeof(struct flow_dissector_key_ipv4_addrs)=
+ +
+> >> +                         sizeof(struct flow_dissector_key_ports));
+> >> +
+> >> +       if (types & VIRTIO_NET_HASH_REPORT_IPv6)
+> >> +               len =3D max(len,
+> >> +                         sizeof(struct flow_dissector_key_ipv6_addrs)=
+);
+> >> +
+> >> +       if (types &
+> >> +           (VIRTIO_NET_HASH_REPORT_TCPv6 | VIRTIO_NET_HASH_REPORT_UDP=
+v6))
+> >> +               len =3D max(len,
+> >> +                         sizeof(struct flow_dissector_key_ipv6_addrs)=
+ +
+> >> +                         sizeof(struct flow_dissector_key_ports));
+> >> +
+> >> +       return len + sizeof(u32);
+> >> +}
+> >> +
+> >> +static inline u32 virtio_net_hash_report(u32 types,
+> >> +                                        const struct flow_keys_basic =
+*keys)
+> >> +{
+> >> +       switch (keys->basic.n_proto) {
+> >> +       case cpu_to_be16(ETH_P_IP):
+> >> +               if (!(keys->control.flags & FLOW_DIS_IS_FRAGMENT)) {
+> >> +                       if (keys->basic.ip_proto =3D=3D IPPROTO_TCP &&
+> >> +                           (types & VIRTIO_NET_RSS_HASH_TYPE_TCPv4))
+> >> +                               return VIRTIO_NET_HASH_REPORT_TCPv4;
+> >> +
+> >> +                       if (keys->basic.ip_proto =3D=3D IPPROTO_UDP &&
+> >> +                           (types & VIRTIO_NET_RSS_HASH_TYPE_UDPv4))
+> >> +                               return VIRTIO_NET_HASH_REPORT_UDPv4;
+> >> +               }
+> >> +
+> >> +               if (types & VIRTIO_NET_RSS_HASH_TYPE_IPv4)
+> >> +                       return VIRTIO_NET_HASH_REPORT_IPv4;
+> >> +
+> >> +               return VIRTIO_NET_HASH_REPORT_NONE;
+> >> +
+> >> +       case cpu_to_be16(ETH_P_IPV6):
+> >> +               if (!(keys->control.flags & FLOW_DIS_IS_FRAGMENT)) {
+> >> +                       if (keys->basic.ip_proto =3D=3D IPPROTO_TCP &&
+> >> +                           (types & VIRTIO_NET_RSS_HASH_TYPE_TCPv6))
+> >> +                               return VIRTIO_NET_HASH_REPORT_TCPv6;
+> >> +
+> >> +                       if (keys->basic.ip_proto =3D=3D IPPROTO_UDP &&
+> >> +                           (types & VIRTIO_NET_RSS_HASH_TYPE_UDPv6))
+> >> +                               return VIRTIO_NET_HASH_REPORT_UDPv6;
+> >> +               }
+> >> +
+> >> +               if (types & VIRTIO_NET_RSS_HASH_TYPE_IPv6)
+> >> +                       return VIRTIO_NET_HASH_REPORT_IPv6;
+> >> +
+> >> +               return VIRTIO_NET_HASH_REPORT_NONE;
+> >> +
+> >> +       default:
+> >> +               return VIRTIO_NET_HASH_REPORT_NONE;
+> >> +       }
+> >> +}
+> >> +
+> >> +static inline void virtio_net_hash_rss(const struct sk_buff *skb,
+> >> +                                      u32 types, const u32 *key,
+> >> +                                      struct virtio_net_hash *hash)
+> >> +{
+> >> +       struct virtio_net_toeplitz_state toeplitz_state =3D { .key =3D=
+ key };
+> >> +       struct flow_keys flow;
+> >> +       struct flow_keys_basic flow_basic;
+> >> +       u16 report;
+> >> +
+> >> +       if (!skb_flow_dissect_flow_keys(skb, &flow, 0)) {
+> >> +               hash->report =3D VIRTIO_NET_HASH_REPORT_NONE;
+> >> +               return;
+> >> +       }
+> >> +
+> >> +       flow_basic =3D (struct flow_keys_basic) {
+> >> +               .control =3D flow.control,
+> >> +               .basic =3D flow.basic
+> >> +       };
+> >> +
+> >> +       report =3D virtio_net_hash_report(types, &flow_basic);
+> >> +
+> >> +       switch (report) {
+> >> +       case VIRTIO_NET_HASH_REPORT_IPv4:
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state,
+> >> +                                        (__be32 *)&flow.addrs.v4addrs=
+,
+> >> +                                        sizeof(flow.addrs.v4addrs));
+> >> +               break;
+> >> +
+> >> +       case VIRTIO_NET_HASH_REPORT_TCPv4:
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state,
+> >> +                                        (__be32 *)&flow.addrs.v4addrs=
+,
+> >> +                                        sizeof(flow.addrs.v4addrs));
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state, &flow.ports.=
+ports,
+> >> +                                        sizeof(flow.ports.ports));
+> >> +               break;
+> >> +
+> >> +       case VIRTIO_NET_HASH_REPORT_UDPv4:
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state,
+> >> +                                        (__be32 *)&flow.addrs.v4addrs=
+,
+> >> +                                        sizeof(flow.addrs.v4addrs));
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state, &flow.ports.=
+ports,
+> >> +                                        sizeof(flow.ports.ports));
+> >> +               break;
+> >> +
+> >> +       case VIRTIO_NET_HASH_REPORT_IPv6:
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state,
+> >> +                                        (__be32 *)&flow.addrs.v6addrs=
+,
+> >> +                                        sizeof(flow.addrs.v6addrs));
+> >> +               break;
+> >> +
+> >> +       case VIRTIO_NET_HASH_REPORT_TCPv6:
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state,
+> >> +                                        (__be32 *)&flow.addrs.v6addrs=
+,
+> >> +                                        sizeof(flow.addrs.v6addrs));
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state, &flow.ports.=
+ports,
+> >> +                                        sizeof(flow.ports.ports));
+> >> +               break;
+> >> +
+> >> +       case VIRTIO_NET_HASH_REPORT_UDPv6:
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state,
+> >> +                                        (__be32 *)&flow.addrs.v6addrs=
+,
+> >> +                                        sizeof(flow.addrs.v6addrs));
+> >> +               virtio_net_toeplitz_calc(&toeplitz_state, &flow.ports.=
+ports,
+> >> +                                        sizeof(flow.ports.ports));
+> >> +               break;
+> >> +
+> >> +       default:
+> >> +               hash->report =3D VIRTIO_NET_HASH_REPORT_NONE;
+> >> +               return;
+> >
+> > So I still think we need a comment here to explain why this is not an
+> > issue if the device can report HASH_XXX_EX. Or we need to add the
+> > support, since this is the code from the driver side, I don't think we
+> > need to worry about the device implementation issues.
+>
+> This is on the device side, and don't report HASH_TYPE_XXX_EX.
+>
+> >
+> > For the issue of the number of options, does the spec forbid fallback
+> > to VIRTIO_NET_HASH_REPORT_NONE? If not, we can do that.
+>
+> 5.1.6.4.3.4 "IPv6 packets with extension header" says:
+>  > If VIRTIO_NET_HASH_TYPE_TCP_EX is set and the packet has a TCPv6
+>  > header, the hash is calculated over the following fields:
+>  > - Home address from the home address option in the IPv6 destination
+>  >   options header. If the extension header is not present, use the
+>  >   Source IPv6 address.
+>  > - IPv6 address that is contained in the Routing-Header-Type-2 from the
+>  >   associated extension header. If the extension header is not present,
+>  >   use the Destination IPv6 address.
+>  > - Source TCP port
+>  > - Destination TCP port
+>
+> Therefore, if VIRTIO_NET_HASH_TYPE_TCP_EX is set, the packet has a TCPv6
+> and an home address option in the IPv6 destination options header is
+> present, the hash is calculated over the home address. If the hash is
+> not calculated over the home address in such a case, the device is
+> contradicting with this section and violating the spec. The same goes
+> for the other HASH_TYPE_XXX_EX types and Routing-Header-Type-2.
 
-Documentation/core-api/symbol-namespaces.rst:90: WARNING: Inline emphasis start-string without end-string. [docutils]
+Just to make sure we are one the same page. I meant:
 
-Fix the warning by wrapping EXPORT_SYMBOL_GPL_FOR_MODULES() example in
-literal code block, just like other examples in symbol namespaces
-documentation.
+1) If the hash is not calculated over the home address (in the case of
+IPv6 destination destination), it can still report
+VIRTIO_NET_RSS_HASH_TYPE_IPv6. This is what you implemented in your
+series. So the device can simply fallback to e.g TCPv6 if it can't
+understand all or part of the IPv6 options.
+2) the VIRTIO_NET_SUPPORTED_HASH_TYPES is not checked against the
+tun_vnet_ioctl_sethash(), so userspace may set
+VIRTIO_NET_HASH_TYPE_TCP_EX regardless of what has been returned by
+tun_vnet_ioctl_gethashtypes(). In this case they won't get
+VIRTIO_NET_HASH_TYPE_TCP_EX.
+3) implementing part of the hash types might complicate the migration
+or at least we need to describe the expectations of libvirt or other
+management in this case. For example, do we plan to have a dedicated
+Qemu command line like:
 
-Fixes: 707f853d7fa3 ("module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250526180350.06b825de@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/core-api/symbol-namespaces.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-device virtio-net-pci,hash_report=3Don,supported_hash_types=3DX,Y,Z?
 
-diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-index f7cfa7b73e974d..32fc73dc5529e8 100644
---- a/Documentation/core-api/symbol-namespaces.rst
-+++ b/Documentation/core-api/symbol-namespaces.rst
-@@ -85,7 +85,7 @@ namespace cannot be imported.
- The macro takes a comma separated list of module names, allowing only those
- modules to access this symbol. Simple tail-globs are supported.
- 
--For example:
-+For example::
- 
-   EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
- 
+Thanks
 
-base-commit: 85c4f3d89b17f569e9b718df6b6e19d6081f01c7
--- 
-An old man doll... just what I always wanted! - Clara
+>
+> Regards,
+> Akihiko Odaki
+>
 
