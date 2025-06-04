@@ -1,72 +1,137 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f73.google.com (mail-oa1-f73.google.com [209.85.160.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5E3111BF
-	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 19:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0997323906A
+	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 20:10:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749067081; cv=none; b=IYLv1Qqv9K4mQ93NNpzGV+EeeGMOpgFSCoR0qmdD6/2HFcpL9sxD6b/08Crmic4QCwXm52JRH+sXDsckNHtr4Fjgf1miP2ELcaGGsIy7jYXiGhlIXbEiBvcphujZr9H691NF+kXMWTADMBNrv1tIec+CVCBDBaxXDt3UxDtv1pE=
+	t=1749067819; cv=none; b=osxjSoevK//j6ZUSXiDctmzjND+/y+j5cE80sJOiN/8W1YAMSAHAbMdVGWFCVkt/fOrLIScep+VigrXPGdW/aflUjZ/mO9Q3ZISBw0rZ703wLsSbIhwqQrpI4IDTwutiK+qPHutLr04VpwFutXb+GEzelfpdEEqgROvwnjUhnek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749067081; c=relaxed/simple;
-	bh=MtEcXvSBqlDajMvn4pxyQ9s8RlPQxxogQ42+1cKhjws=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hPZ8rO/zKYD+hfxE96yB0xHZG80k82YI0r7WIT8e4g7gScftIH0kzyo8IWAXgiNQaQcgptx/feqGWFNZ35MDGG13m6xiAKW8hVRmaamye4QvZsfZIs2RWS9LntSqy9cKthOiFrTph6gCCtOuDY9z3Ih3vL+q8UaiT/Vwj+SsRlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WNn6SADB; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1749067819; c=relaxed/simple;
+	bh=+FLkUpcT3PESJgNscr3x/ohUzN/uoff55tujHNikLec=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=UP5iLXIaSwpYfcjKmxDPhH7pfUkfbXVfPMOa4xIBfc5S3R5Uo4gjaplFQ7S6XEvtvSpLCWkJOpudj57uNBNDfttOVw3AV3GKO8jB1jLV1XSb79icWcTFldWlWnQSw2ZWyFUI1myXkNhqyXydgiblNJ0zVDDrNG2IyjR8GSNDNG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=I3Lpes4f; arc=none smtp.client-ip=209.85.160.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WNn6SADB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=2FCJ8Iv1jgWJxPYue/rI9dkZdU7wEm0Sep+qu9AYn5o=; b=WNn6SADBf7VZ5DZftzkrbHd7x+
-	cagGh+03hJWxDj0kgt9PDs0wVX5eimNF9i9yVbum0U2aL5mBVOxS1nX6LLIbiCWTPCxNb8MGw7DSd
-	x0rznPZYswbAkmRd9brV+IH4Ts/1lFYefv6VgNTnfUeDd831GJigaJtSnEdIwVJKdevzRnuPUW7su
-	vhOSKgQkN/BTeg8j7kNXeLuLVQoFoTQxs09HbImS2zd7SptT1TttHz7GKcd1iIvR371ZKfTq2nhsw
-	uB/mLFl/mHrIos9E8qDk8wAjV3LaBV+bbJKrL46SokpD8yQoQwdceZhzkDQJ7xg/jTN/nk5a+ydoe
-	0pUbdzPA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uMuFH-00000003SIK-0N4k;
-	Wed, 04 Jun 2025 19:57:55 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-doc@vger.kernel.org,
-	James.Bottomley@HansenPartnership.com
-Subject: [PATCH] doc: Include scatterlist APIs in htmldocs
-Date: Wed,  4 Jun 2025 20:57:51 +0100
-Message-ID: <20250604195753.823742-1-willy@infradead.org>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I3Lpes4f"
+Received: by mail-oa1-f73.google.com with SMTP id 586e51a60fabf-2d5723630a2so437071fac.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 Jun 2025 13:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1749067817; x=1749672617; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lHzQy57VH5Dlm3eWN9P8hBycQlEQ3v1q3yM5kgGsFF0=;
+        b=I3Lpes4fMRWtbG2HncubAuVa4fBsxiLZuFn15RYH0bj5pqgX/iL9jnIlNdxEynTEn8
+         XSjLKO5dyO+yIJ1ZOntSlM/qsk+/Jb62Wg12g50gYqyLZQ9rh2WEgMm+GSnQvblSWdAg
+         OjM8389zVuuR9em/E0SHuhj3WdS8tpRgfChvfsfLxKG4p5NJDaKXxim6kKP5EgF7nTt9
+         K8Ne9r4JqF+LWK0FjHqYl8eT8JVwr/rX90/KXHUvCL+8xvmiMv25/JLePy5ZpShyRF7l
+         yp2QO0LepnDlPR2Uv6ue0SjcX4PZu+07/MHxhv4OhXLXN3Jy6XV7Io6rBIq9vLfrigIK
+         t6nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749067817; x=1749672617;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lHzQy57VH5Dlm3eWN9P8hBycQlEQ3v1q3yM5kgGsFF0=;
+        b=TjET1p9EKR7FBwcZRVPwY+Z6PB1BFYMRzHjyR3IJNMAdVZZx0w+hkM2j6OPIy3MdhR
+         TY/Tddqna/KtFpu//Hxm9HlyrH7oDQn+wLLLHjbtShMeNfiG99jv81x+ZNfML6aX8q8b
+         wJoiA5G9b2NrJ3H/uVQDlm+gk5RLTP+FKf0aOwgkarU3ULRtADZlOJf4VLOxQEdtWUpA
+         oG41rVPAjxW/n/ZgHIhII3rY9MIt2Bg438irDu9X8tNFIN3fv1r5Ecg8xw86IKG4zLjD
+         Dg01SiZ+6MlqndddflxsOixGkw+U7Hodqrx4XVMWr8yYZ9BLFmGu/uf232TINgw+Jhv9
+         cwkw==
+X-Forwarded-Encrypted: i=1; AJvYcCWcsvuv5d0ODXT4mVHRmhMvaEydUnvpPQDxhn3XYrp7WIyJgBw9dUotHm/HgWhnUgahs5K+Ty7g/D8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWSwJgf0zQjtijnh/35/2rIGiI75E8ccQYC/99YttHRlcvl1b+
+	C0LITTly0nWHRACzg/2kpcci/f/a0azMNuYbYFlR6I0w7AjGztGXriLMm2ZYSlDUw3Skw/0hGrH
+	yYpmKsefxEPA7qZZ2VqCU1b8i2A==
+X-Google-Smtp-Source: AGHT+IGLogg78YRXI+ioMZ0+UVCCfd+jEelWcrdnbClXw8ZFThU177ehWe7bFnJXpvQmuVRW9orWyDUTziNbdD2zgw==
+X-Received: from oabgq6.prod.google.com ([2002:a05:6870:d906:b0:2b8:e735:4798])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6871:4387:b0:2b8:f595:2374 with SMTP id 586e51a60fabf-2e9bf502cc2mr2945734fac.36.1749067817128;
+ Wed, 04 Jun 2025 13:10:17 -0700 (PDT)
+Date: Wed, 04 Jun 2025 20:10:16 +0000
+In-Reply-To: <aD96rn78BSUDbEu1@linux.dev> (message from Oliver Upton on Tue, 3
+ Jun 2025 15:43:58 -0700)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Message-ID: <gsnttt4v1d5j.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH 00/17] ARM64 PMU Partitioning
+From: Colton Lewis <coltonlewis@google.com>
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
+	maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, 
+	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-We have all this fine kernel-doc written, and it's not published
-anywhere.  Expose it to public view.
+Oliver Upton <oliver.upton@linux.dev> writes:
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- Documentation/core-api/dma-api.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+> On Mon, Jun 02, 2025 at 07:26:45PM +0000, Colton Lewis wrote:
+>> Caveats:
 
-diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-index 2ad08517e626..190ed8fe55ba 100644
---- a/Documentation/core-api/dma-api.rst
-+++ b/Documentation/core-api/dma-api.rst
-@@ -915,3 +915,9 @@ the driver. When driver does unmap, debug_dma_unmap() checks the flag and if
- this flag is still set, prints warning message that includes call trace that
- leads up to the unmap. This interface can be called from dma_mapping_error()
- routines to enable DMA mapping error check debugging.
-+
-+Functions and structures
-+========================
-+
-+.. kernel-doc:: include/linux/scatterlist.h
-+.. kernel-doc:: lib/scatterlist.c
--- 
-2.47.2
+>> Because the most consistent and performant thing to do was untrap
+>> PMCR_EL0, the number of counters visible to the guest via PMCR_EL0.N
+>> is always equal to the value KVM sets for MDCR_EL2.HPMN. Previously
+>> allowed writes to PMCR_EL0.N via {GET,SET}_ONE_REG no longer affect
+>> the guest.
 
+>> These improvements come at a cost to 7-35 new registers that must be
+>> swapped at every vcpu_load and vcpu_put if the feature is enabled. I
+>> have been informed KVM would like to avoid paying this cost when
+>> possible.
+
+>> One solution is to make the trapping changes and context swapping lazy
+>> such that the trapping changes and context swapping only take place
+>> after the guest has actually accessed the PMU so guests that never
+>> access the PMU never pay the cost.
+
+> You should try and model this similar to how we manage the debug
+> breakpoints/watchpoints. In that case the debug register context is
+> loaded if either:
+
+>   (1) Self-hosted debug is actively in use by the guest, or
+
+>   (2) The guest has accessed a debug register since the last vcpu_load()
+
+Okay
+
+>> This is not done here because it is not crucial to the primary
+>> functionality and I thought review would be more productive as soon as
+>> I had something complete enough for reviewers to easily play with.
+
+>> However, this or any better ideas are on the table for inclusion in
+>> future re-rolls.
+
+> One of the other things that I'd like to see is if we can pare down the
+> amount of CPU feature dependencies for a partitioned PMU. Annoyingly,
+> there aren't a lot of machines out there with FEAT_FGT yet, and you
+> should be able to make all of this work in VHE + FEAT_PMUv3p1.
+
+> That "just" comes at the cost of extra traps (leaving TPM and
+> potentially TPMCR set). You can mitigate the cost of this by emulating
+> accesses in the fast path that don't need to go out to a kernel context
+> to be serviced. Same goes for requiring FEAT_HPMN0 to expose 0 event
+> counters, we can fall back to TPM traps if needed.
+
+> Taking perf out of the picture should still give you a significant
+> reduction vPMU overheads.
+
+Okay
+
+> Last thing, let's table guest support for FEAT_PMUv3_ICNTR for the time
+> being. Yes, it falls in the KVM-owned range, but we can just handle it
+> with a fine-grained undef for now. Once the core infrastructure has
+> landed upstream we can start layering new features into the partitioned
+> implementation.
+
+Sure
+
+> Thanks,
+> Oliver
