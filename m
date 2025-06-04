@@ -1,125 +1,74 @@
-Received: from mail-oa1-f74.google.com (mail-oa1-f74.google.com [209.85.160.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1413321C182
-	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 20:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9B08F6E
+	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 20:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749067928; cv=none; b=d/TD5rWISgxfHPQQDFQVhhWiFllgVroEw5yJDKDFES0KYX1sqE7P3wiLUYudhjvda3onnqCV2FmJQa2obAQg1fv0qtc+8io5rET+3Q2513/Pg3TKViLhE/D/jX/eOMl2agQP1RI8+rPzWeIv883ZxIpSqinXHlyH3WUC7BQZq20=
+	t=1749068860; cv=none; b=Xt+/SWYyz+KOLbFoKMzQelOVwdzgJkbe73GKmnd1u5h0ngm7WOgf2BiMa+fLbW+pn2I08Kd8N/qyeQ2aJQfAYn92uBncwZ3iGKInOxOgNKqpObPVOfjQn0WwVLorjeS/YX5zZqLm84kHBLgNTjdoKWAH+nZG9H3nEgcIpdhaFl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749067928; c=relaxed/simple;
-	bh=Yf/iHPu8H60AsxB9qOlBzBCZlW0/bPjuVXhfXOJSwAA=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=I3WkncHn/RWpP8IJtECvs8Oh+jCS42VqVk9O7c7M+mfMfKZT9gHxbgGizYQ3MzZln/SsQmJUf7y8EWW7q1dSIHNF7QPUJVnNFK1NNdmM8yCqtbdr95ueXmqj3r1zocKLfb6MxFEZPksjyVQZ522RDnV0cQG4VKycL6VK7tIXsu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QW3CdoRg; arc=none smtp.client-ip=209.85.160.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1749068860; c=relaxed/simple;
+	bh=D5XAvNSElBpESK72/pR+Pvy4fxxNEjzoL7sxE1kkEzs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EFk6FlyjjYQrNgv705yq7cX8W/oc3ZZmN4DzHbcJ35cNOoNBl20hBqMrdPQQ+7l5dWfqwM3pdC9bzvr1WLTyNcfTuJ0TcgoY12/NHWP35uiXDO+Vdm//hCBexUuHRDbo3KQn/gq000iIwLPQBVXmqKZvAbQt7PaSZhXvgy6Xx0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DGl4OW/D; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QW3CdoRg"
-Received: by mail-oa1-f74.google.com with SMTP id 586e51a60fabf-2e90e7f170eso296320fac.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Jun 2025 13:12:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1749067926; x=1749672726; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=l2ZfRBtkCFUyGNfWWgvViMBCRTnEKTD5lF2sn5A9h8E=;
-        b=QW3CdoRgS7be6+MpiXVr20xsSl8gq75nvx/SVIA0bhQZvSJzUSG8XdDBSXwtpR1iZi
-         PbOP8kAfNSr6FlC/PHJxH/Zo4j2EBysGEmQu+2mF+5zV1s8kGcFulctFNOqt+b5ILSmm
-         H4EM06P5uhtiGqGBTdhG27TF+rvUZ7Y++8jqw1b1722O6OrtrUiUyQ3ZY4YYd/A/VKMC
-         RzT+O5La9OIuE3R8PKZdlPFUOhvqpDnbFXSVDJRkE3TW4gL04Hul1XG/mYlzQyiO6FZ7
-         rV3tgUKhBWX9xt+zKvRwWWv5L5dj1B0Tpa9CI9N4uOteK2QvthW1eym8Nx9yZD7wVh5v
-         wgzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749067926; x=1749672726;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l2ZfRBtkCFUyGNfWWgvViMBCRTnEKTD5lF2sn5A9h8E=;
-        b=CtUK5O6Azv/kxbFweCI4RB4TADCnGR4f3TJ4byo2D7wM8txZjBBHf0PUdbrK2e4uKL
-         /Z4SGxbYQ5wrp/mAYqO2KGCQS8FZp+hO4lrBzU3ycTzHHA831XnXZNfOPZZqAbsEH2H8
-         uypnA46aYXvScpRWfj8vcCc0VDwhHgIyem6yfhQIiGhlXNjMNg/UaJHOL0clkw8kgv4z
-         7eEGW2mg4oh8fa/YMnB0nNelvDm9nIlNTrOgxvIc2B0d8m/cMU9CnvVGlDqwwu7KMHL5
-         mKiPNjjsidCld9+7Fmzc5LgyFoPZtKo3Y2MpKiywJbMFE/W645f0D27D6VLVKDUw4xcn
-         iwaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvlAcWL85/I4bpxyfUq+hGAy7ktvAh6xvCciFD/G7Va38MSOjZV1By8atXXXah2jynjkXN+OfoFQM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/e/u4X1Aate9DUVrsNBrUGNgDXxZd0OBDEgi2/YY7fP5XnYJe
-	QV8TFppR4wr1R78cX4oS/TTfRXEdMplLD4JrwTSZGIRiglPmcMBK5cE/Vb3S5Xyyszevbc/pu6G
-	WdEABFSM7atL2RRNhvn4EhlKPBA==
-X-Google-Smtp-Source: AGHT+IHnv4E1vDPP/ZiBUn0UZugjQZBj8858Crg/sw9WU1O9tNE8wE+e6qgJBHSzAxiHAj9ZIzvPLqoD1kotwzxLmg==
-X-Received: from oabfz25.prod.google.com ([2002:a05:6870:ed99:b0:2e9:175e:cff3])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6871:e716:b0:2d4:e29d:5297 with SMTP id 586e51a60fabf-2e9bfbe153emr3220979fac.29.1749067926258;
- Wed, 04 Jun 2025 13:12:06 -0700 (PDT)
-Date: Wed, 04 Jun 2025 20:12:05 +0000
-In-Reply-To: <gsnt1ps033ch.fsf@coltonlewis-kvm.c.googlers.com> (message from
- Colton Lewis on Tue, 03 Jun 2025 21:46:54 +0000)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DGl4OW/D"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=88YYN+sWuxWiLaVximl7nM/TOPRshJcJXwaLDANmr8Q=; b=DGl4OW/DjOj7V3VxRL8nwzuBNJ
+	uSBcfYSm3rYAZAJ96JvRP8akGg4nCfNaYHjIIkH71yEEEPKUjNMHx2pubdqJDNLWDY8xrDZp09FTs
+	fPgkirECJZzv7OkBq75v2AFVd3jIs2jFx1KEv8FmxgPhmCxH/jON+PpGkW+UVDnVUUEPAw8bN88ys
+	yGOSI+IW7sS0emvvQMisYkkzN/uZa8peceo7yAD8M8nLgmbKVpkzyiWWTsgfcXxWdOstbLeh8p854
+	Kh7vmjitB2SBdTpXJT9uebIiH8OFoFp2y7UxA2mYAXuVmYLZNwm8pi+R94Gw7VpFREQ/s+GHxE481
+	TvqHSSIw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uMuhy-0000000101p-3Nar;
+	Wed, 04 Jun 2025 20:27:35 +0000
+Message-ID: <98c88245-6368-4d67-b5a3-54a3d1e1a150@infradead.org>
+Date: Wed, 4 Jun 2025 13:27:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsntplfj1d2i.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH 16/17] KVM: arm64: Add ioctl to partition the PMU when supported
-From: Colton Lewis <coltonlewis@google.com>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: oliver.upton@linux.dev, kvm@vger.kernel.org, pbonzini@redhat.com, 
-	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
-	will@kernel.org, maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, 
-	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: htm.rst not included in toctree
+To: Matthew Wilcox <willy@infradead.org>,
+ Athira Rajeev <atrajeev@linux.ibm.com>
+Cc: Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, linux-doc@vger.kernel.org
+References: <aECkEJm6sl5cvcw6@casper.infradead.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aECkEJm6sl5cvcw6@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> Oliver Upton <oliver.upton@linux.dev> writes:
 
->> On Mon, Jun 02, 2025 at 07:27:01PM +0000, Colton Lewis wrote:
->>> +	case KVM_ARM_PARTITION_PMU: {
 
->> This should be a vCPU attribute similar to the other PMUv3 controls we
->> already have. Ideally a single attribute where userspace tells us it
->> wants paritioning and specifies the PMU ID to use. None of this can be
->> changed after INIT'ing the PMU.
+On 6/4/25 12:52 PM, Matthew Wilcox wrote:
+> commit ab1456c5aa7a introduced a new warning to the documentation build:
+> 
+> linux/Documentation/arch/powerpc/htm.rst: WARNING: document isn't included in any toctree
+> 
+> You probably just want to include 'htm' on a line in arch/powerpc/index.rst
+> but you'd know better than I would where to put it.
+> 
+> 
 
-> Okay
+There is a fix posted for this:
 
->>> +		struct arm_pmu *pmu;
->>> +		u8 host_counters;
->>> +
->>> +		if (unlikely(!kvm_vcpu_initialized(vcpu)))
->>> +			return -ENOEXEC;
->>> +
->>> +		if (!kvm_pmu_partition_supported())
->>> +			return -EPERM;
->>> +
->>> +		if (copy_from_user(&host_counters, argp, sizeof(host_counters)))
->>> +			return -EFAULT;
->>> +
->>> +		pmu = vcpu->kvm->arch.arm_pmu;
->>> +		return kvm_pmu_partition(pmu, host_counters);
+https://lore.kernel.org/all/20250528054146.2658537-2-me@brighamcampbell.com/
 
->> Yeah, we really can't be changing the counters available to the ARM PMU
->> driver at this point. What happens to host events already scheduled on
->> the CPU?
+Just a small matter of someone merging it...
 
-> Okay. I remember talking about this before.
+-- 
+~Randy
 
->> Either the partition of host / KVM-owned counters needs to be computed
->> up front (prior to scheduling events) or KVM needs a way to direct perf
->> to reschedule events on the PMU based on the new operating constraints.
-
-> Yes. I will think about it.
-
-It would be cool to have perf reschedule events. I'm not positive how to
-do that, but it looks not too hard. Can someone comment on the
-correctness and feasibility here?
-
-1. Scan perf events and call event_sched_out on all events using the
-    counters KVM wants.
-2. Do the PMU surgery to change the available counters.
-3. Call ctx_resched to reschedule events with the available counters.
-
-There is a second option to avoid a permanent partition up front. We
-know which counters are in use through used_mask. We could check if the
-partition would claim any counters in use and fail with an error if it
-would.
