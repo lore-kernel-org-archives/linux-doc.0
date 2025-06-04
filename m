@@ -1,226 +1,193 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA27216605;
-	Wed,  4 Jun 2025 02:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6521510F9
+	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 05:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749005811; cv=none; b=VXNTWxy8pIactNj3tgIwz151hH49UMuuYMGxLXayZ9XoXm4FfKufRy9Vb8ZjHqgHunQoMTi1DjfapkS2vXKcGOmRItLKzF18nq39YHS4vCMKxWRkxLHhvXopOEwP2qfOth1o0URft42yWbr08N+IK7sjfPDAmC4C0i339rzV6ao=
+	t=1749013747; cv=none; b=P7YUiceKtAHS7dGFLb+/ZQpphx+2icFEhkw41mqgIS5uA3rR4pE51OgbptRGyV1cuh5F3CCfmxQOh8jU5LUZUP/Kg+GunsoDJpnsZz/lajzVK19UhwswX8nKuEL28c2NakUZ8Koa7jWUUcPLK36PqHl5YdyeKkG95mbg2T1JK9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749005811; c=relaxed/simple;
-	bh=9ADNWried8jflnHLRDx186uAkTp4IyX00tCTcIjR754=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eBGaAfHgK0MbH3CdJWMSg2/jOMjSPjT0JctdUJc/MYgd/wn8kdpPagv01ZukFNySAPjAxsnwFHnw62ay/L82V7axAQJSpK2KEd38QkPG9HuLMs5ch4fY2DsAYvkkkc+maBCDNlvaJ7D2TzRD9HGXmeAnSJ7a/1vIc3XZG4POaHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ry5W4Pg0; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1749013747; c=relaxed/simple;
+	bh=bXYb3Fv57WgD098ckyuMFMuLy5/rfO9F4rSK52NJVXg=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=WxeH3ACqvXOWa1dHxI0vCW4Np70d9lJqGemT54+QLZ6zKaHM2iwvdSI4uXASC9O+OOjTPkY+s4fdSfrm9uLEmRusF8Zi77RGZh2ijb9jMd8IczrtpiIVhrhbf3KIcjoSyYBkcP9YWLUDmdFDVSrt40KlyCM8l2N7phL7OHUGheE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OkYH/epC; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ry5W4Pg0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=1+gC4E8VWHE9PGcJadHKddNRK0r0Jr+nTzO4YDbUhM8=; b=ry5W4Pg0sUCX5eeqe6bN55Axow
-	baO70AknOxnRoArfgroiLNCmk+65aLqidvM1S9KFlSh/TdjpZECN+/9kgSdH0imMJM0/zJj6kzZ8R
-	2R/P+ENkj+UMMyRxIHfcRfcjb3D/OVdP5EPflz1iHxwphqN73Oh8Sh5K3U08QLG56rHoHpj4pmPvX
-	5hPoFwY/206CLFN0aunwsOCgqjikXhACGEoyoSNyanwo/OkGTQI3/dzWS4g5gRxGeqq7V/BudQEm0
-	3XetiJLZVX12WzH/JGRD14jKIpb0ZGvTVkh6/J+QRnWHfAfk5Jei17yQt6jBVbl8DRs8NeXUMwZwQ
-	0swV/6lA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uMeIl-00000002gNf-2hWz;
-	Wed, 04 Jun 2025 02:56:27 +0000
-Message-ID: <7992a607-c06f-4739-a0cd-52b5e06100b2@infradead.org>
-Date: Tue, 3 Jun 2025 19:56:22 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OkYH/epC"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7394772635dso4306213b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jun 2025 22:09:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1749013745; x=1749618545; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=NrHVO1JlSwACRF1JM0S/mT4335rXAQlO0tShDIgF4kg=;
+        b=OkYH/epChKHPPZlfS6IyUjrdvLMKQLJK/RyuLYoK96W2E+E3txL6+LRnjMAxfCWzgm
+         1jQXEesJgnVbkT7bZCw1PDculuyhLrRyXWl+Z6BzfMrzC3qXqe/gRtuc0qpSldk2JQqs
+         C+Etgb17ZSJtd0/NdlLwI7EpyErRcEjYnE1QkPs6R73saUIfNW7yXqPamz/xGwNP5z/i
+         H7zFEBudGw1w2lNVHotFtsr4B/G5yNFKnr3oHmHND2nZbiais0inya1MymC1AGKtfaOY
+         h7bIWzcnx7vnTkHOy0hnsJPeglPMHkwM6NrqnbuFEbdWzhgFM+1zePMcRwfK85T+N3wc
+         83Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749013745; x=1749618545;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NrHVO1JlSwACRF1JM0S/mT4335rXAQlO0tShDIgF4kg=;
+        b=k3KQfOu73qsEjj0nHeE5OzeTMxWxu/1Cji+jVN5Gx2A742/652cW5QMxBvYjzwdNdY
+         dgYT6WXZ4w3j1ELpiib6939/nTNCoexpN++nwDpVRltjuUQXC/jqc64Ryjfj3p17n0YV
+         3TWBmHX97O/AjYotWd/9QEKUFEsPhMAs9OeRlq8CyDXqHP68esbTnJhpZn5uNzs6bI8F
+         DNiNZYnJmkZO+cZOiyB67G1evSWIW/NKc1uBE77j8s1voUNCcYehySPSu7VhxEcpckkl
+         U8X0EubfMbPxtIuEShSkSLAxMFL2TYRloZvqH1nsHUcSMZqo4ZYD/h+aJhqtAu4AB5PY
+         MCTA==
+X-Forwarded-Encrypted: i=1; AJvYcCURZkFUoTPmVODNmRNR6JpeFD+SFI003xoZ5sc17rE5oswzDpXVDe0AwIy5p1QEG0jj9L5/yZLkF3M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0QYV9RknfTQnqEM/jsO2vYRPGRAX9DA+RLsCeA2ZTnzZfgvxl
+	wVLmfDbZXNOEl/aQFjL0749oKRnsiJhdiRWZ/nlQt+iHdQAGxfc9Zol2XiI2N3M1Q+zWohxt96W
+	fHw+eX5VsV5J3Dw==
+X-Google-Smtp-Source: AGHT+IEABKtEFFU5liXpEXSptkYGDpsy283hDhs01hedhxVkwnKMuF3CclWqZbgRuZmc+jHI4P4dRe8JCJ2ZzQ==
+X-Received: from pgbcq2.prod.google.com ([2002:a05:6a02:4082:b0:b2d:249f:ea07])
+ (user=jiaqiyan job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a20:1586:b0:1f5:8e94:2e81 with SMTP id adf61e73a8af0-21d22a6ca78mr2158789637.9.1749013744670;
+ Tue, 03 Jun 2025 22:09:04 -0700 (PDT)
+Date: Wed,  4 Jun 2025 05:08:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hyperv-next v3 01/15] Documentation: hyperv: Confidential
- VMBus
-To: Roman Kisel <romank@linux.microsoft.com>, alok.a.tiwari@oracle.com,
- arnd@arndb.de, bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com,
- decui@microsoft.com, haiyangz@microsoft.com, hpa@zytor.com,
- kys@microsoft.com, mingo@redhat.com, mhklinux@outlook.com,
- tglx@linutronix.de, wei.liu@kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, x86@kernel.org
-Cc: apais@microsoft.com, benhill@microsoft.com, bperkins@microsoft.com,
- sunilmut@microsoft.com
-References: <20250604004341.7194-1-romank@linux.microsoft.com>
- <20250604004341.7194-2-romank@linux.microsoft.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250604004341.7194-2-romank@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.50.0.rc0.604.gd4ff7b7c86-goog
+Message-ID: <20250604050902.3944054-1-jiaqiyan@google.com>
+Subject: [PATCH v2 0/6] VMM can handle guest SEA via KVM_EXIT_ARM_SEA
+From: Jiaqi Yan <jiaqiyan@google.com>
+To: maz@kernel.org, oliver.upton@linux.dev
+Cc: joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	duenwen@google.com, rananta@google.com, jthoughton@google.com, 
+	Jiaqi Yan <jiaqiyan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi--
+Problem
+=======
 
-On 6/3/25 5:43 PM, Roman Kisel wrote:
-> Define what the confidential VMBus is and describe what advantages
-> it offers on the capable hardware.
-> 
-> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-> Reviewed-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> ---
->  Documentation/virt/hyperv/coco.rst | 125 ++++++++++++++++++++++++++++-
->  1 file changed, 124 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/hyperv/coco.rst b/Documentation/virt/hyperv/coco.rst
-> index c15d6fe34b4e..b4904b64219d 100644
-> --- a/Documentation/virt/hyperv/coco.rst
-> +++ b/Documentation/virt/hyperv/coco.rst
-> @@ -178,7 +178,7 @@ These Hyper-V and VMBus memory pages are marked as decrypted:
->  
->  * VMBus monitor pages
->  
-> -* Synthetic interrupt controller (synic) related pages (unless supplied by
-> +* Synthetic interrupt controller (SynIC) related pages (unless supplied by
->    the paravisor)
->  
->  * Per-cpu hypercall input and output pages (unless running with a paravisor)
-> @@ -258,3 +258,126 @@ normal page fault is generated instead of #VC or #VE, and the page-fault-
->  based handlers for load_unaligned_zeropad() fixup the reference. When the
->  encrypted/decrypted transition is complete, the pages are marked as "present"
->  again. See hv_vtom_clear_present() and hv_vtom_set_host_visibility().
-> +
-> +Confidential VMBus
-> +------------------
-> +
-> +The confidential VMBus enables the confidential guest not to interact with the
-> +untrusted host partition and the untrusted hypervisor. Instead, the guest relies
-> +on the trusted paravisor to communicate with the devices processing sensitive
-> +data. The hardware (SNP or TDX) encrypts the guest memory and the register state
-> +while measuring the paravisor image using the platform security processor to
-> +ensure trusted and confidential computing.
-> +
-> +Confidential VMBus provides a secure communication channel between the guest and
-> +the paravisor, ensuring that sensitive data is protected from  hypervisor-level
-                                                                ^^
-                                                              s/  / /
+When host APEI is unable to claim synchronous external abort (SEA)
+during stage-2 guest abort, today KVM directly injects an async SError
+into the VCPU then resumes it. The injected SError usually results in
+unpleasant guest kernel panic.
 
-> +access through memory encryption and register state isolation.
-> +
-> +The unencrypted data never leaves the VM so neither the host partition nor the
-> +hypervisor can access it at all. In addition to that, the guest only needs to
-> +establish a VMBus connection with the paravisor for the channels that process
-> +sensitive data, and the paravisor abstracts the details of communicating with
-> +the specific devices away.
-> +
-> +Confidential VMBus is an extension of Confidential Computing (CoCo) VMs
-> +(a.k.a. "Isolated" VMs in Hyper-V terminology). Without Confidential VMBus,
-> +guest VMBus device drivers (the "VSC"s in VMBus terminology) communicate
-> +with VMBus servers (the VSPs) running on the Hyper-V host. The
-> +communication must be through memory that has been decrypted so the
-> +host can access it. With Confidential VMBus, one or more of the VSPs reside
-> +in the trusted paravisor layer in the guest VM. Since the paravisor layer also
-> +operates in encrypted memory, the memory used for communication with
-> +such VSPs does not need to be decrypted and thereby exposed to the
-> +Hyper-V host. The paravisor is responsible for communicating securely
-> +with the Hyper-V host as necessary. In some cases (e.g. time synchonization,
-> +key-value pairs exchange) the unencrypted data doesn't need to be communicated
-> +with the host at all, and a conventional VMBus connection suffices.
-> +
-> +Here is the data flow for a conventional VMBus connection and the Confidential
-> +VMBus connection (C stands for the client or VSC, S for the server or VSP):
-> +
-> ++---- GUEST ----+       +----- DEVICE ----+        +----- HOST -----+
-> +|               |       |                 |        |                |
-> +|               |       |                 |        |                |
-> +|               |       |                 ==========                |
-> +|               |       |                 |        |                |
-> +|               |       |                 |        |                |
-> +|               |       |                 |        |                |
-> ++----- C -------+       +-----------------+        +------- S ------+
-> +       ||                                                   ||
-> +       ||                                                   ||
-> ++------||------------------ VMBus --------------------------||------+
-> +|                     Interrupts, MMIO                              |
-> ++-------------------------------------------------------------------+
-> +
-> ++---- GUEST --------------- VTL0 ------+               +-- DEVICE --+
-> +|                                      |               |            |
-> +| +- PARAVISOR --------- VTL2 -----+   |               |            |
-> +| |     +-- VMBus Relay ------+    ====+================            |
-> +| |     |   Interrupts, MMIO  |    |   |               |            |
-> +| |     +-------- S ----------+    |   |               +------------+
-> +| |               ||               |   |
-> +| +---------+     ||               |   |
-> +| |  Linux  |     ||    OpenHCL    |   |
-> +| |  kernel |     ||               |   |
-> +| +---- C --+-----||---------------+   |
-> +|       ||        ||                   |
-> ++-------++------- C -------------------+               +------------+
-> +        ||                                             |    HOST    |
-> +        ||                                             +---- S -----+
-> ++-------||----------------- VMBus ---------------------------||-----+
-> +|                     Interrupts, MMIO                              |
-> ++-------------------------------------------------------------------+
-> +
-> +An implementation of the VMBus relay that offers the Confidential VMBus channels
-> +is available in the OpenVMM project as a part of the OpenHCL paravisor. Please
-> +refer to https://openvmm.dev/ and https://github.com/microsoft/openvmm for more
-> +information about the OpenHCL paravisor.
-> +
-> +A guest that is running with a paravisor must determine at runtime if
-> +Confidential VMBus is supported by the current paravisor. It does so by first
-> +trying to establish a Confidential VMBus connection with the paravisor using
-> +standard mechanisms where the memory remains encrypted. If this succeeds,
-> +then the guest can proceed to use Confidential VMBus. If it fails, then the
-> +guest must fallback to establishing a non-Confidential VMBus connection with
-> +the Hyper-V host.
-> +
-> +Confidential VMBus is a characteristic of the VMBus connection as a whole,
-> +and of each VMBus channel that is created. When a Confidential VMBus
-> +connection is established, the paravisor provides the guest the message-passing
-> +path that is used for VMBus device creation and deletion, and it provides a
-> +per-CPU synthetic interrupt controller (SynIC) just like the SynIC that is
-> +offered by the Hyper-V host. Each VMBus device that is offered to the guest
-> +indicates the degree to which it participates in Confidential VMBus. The offer
-> +indicates if the device uses encrypted ring buffers, and if the device uses
-> +encrypted memory for DMA that is done outside the ring buffer. These settings
-> +may be different for different devices using the same Confidential VMBus
-> +connection.
+One of the major situation of guest SEA is when VCPU consumes recoverable
+uncorrected memory error (UER), which is not uncommon at all in modern
+datacenter servers with large amounts of physical memory. Although SError
+and guest panic is sufficient to stop the propagation of corrupted memory
+there is room to recover from an UER in a more graceful manner.
 
-Various lines throughout:
-Please try to keep line lengths to <= 80 characters foe people who read
-documentation in a terminal window.
+Proposed Solution
+=================
 
-> +Although these settings are separate, in practice it'll always be encrypted
-> +ring buffer only or both encrypted ring buffer and external data. If a channel
-> +is offered by the paravisor with confidential VMBus, the ring buffer can always
-> +be encrypted since it's strictly for communication between the VTL2 paravisor
-> +and the VTL0 guest. However, other memory regions are often used for e.g. DMA,
-> +so they need to be accessible by the underlying hardware, and must be unencrypted
-> +(unless the device supports encrypted memory). Currently, there are no any VSPs
+Alternatively KVM can replay the SEA to the faulting VCPU, via existing
+KVM_SET_VCPU_EVENTS API. If the memory poison consumption or the fault
+that cause SEA is not from guest kernel, the blast radius can be limited
+to the consuming or faulting guest userspace process, so the VM can keep
+running.
 
-                                                                       not
+In addition, instead of doing under the hood without involving userspace,
+there are benefits to redirect the SEA to VMM:
 
-> +in OpenHCL that support encrypted external memory, but we will use it in the
-> +future.
-> +
-> +Because some devices on a Confidential VMBus may require decrypted ring buffers
-> +and DMA transfers, the guest must interact with two SynICs -- the one provided
-> +by the paravisor and the one provided by the Hyper-V host when Confidential
-> +VMBus is not offered. Interrupts are always signaled by the paravisor SynIC, but
-> +the guest must check for messages and for channel interrupts on both SynICs.
-> +
-> +In the case of a confidential VM, regular SynIC access by the guest is
-> +intercepted by the paravisor (this includes various MSRs such as the SIMP and
-> +SIEFP, as well as hypercalls like HvPostMessage and HvSignalEvent). If the guest
-> +actually wants to communicate with the hypervisor, it has to use special mechanisms
-> +(GHCB page on SNP, or tdcall on TDX). Messages will always be one or the other:
-> +with confidential VMBus, all messages use the paravisor SynIC, otherwise they all
-> +use the hypervisor SynIC. For interrupt signaling, though, some channels may be
-> +running on the host (non-confidential, using the VMBus relay) and use the hypervisor
-> +SynIC, and some on the paravisor and use its SynIC. The RelIDs are coordinated by
-> +the OpenHCL VMBus server and are guaranteed to be unique regardless of whether
-> +the channel originated on the host or the paravisor.
+- VM customers care about the disruptions caused by memory errors, and
+  VMM usually has the responsibility to start the process of notifying
+  the customers of memory error events in their VMs. For example some
+  cloud provider emits a critical log in their observability UI [1], and
+  provides playbook for customers on how to mitigate disruptions to
+  their workloads.
+
+- VMM can protect future memory error consumption by unmapping the poisoned
+  pages from stage-2 page table with KVM userfault, or by splitting the
+  memslot that contains the poisoned guest pages [2].
+
+- VMM can keep track of SEA events in the VM. When VMM thinks the status
+  on the host or the VM is bad enough, e.g. number of distinct SEAs
+  exceeds a threshold, it can restart the VM on another healthy host.
+
+- Behavior parity with x86 architecture. When machine check exception
+  (MCE) is caused by VCPU, kernel or KVM signals userspace SIGBUS to
+  let VMM either recover from the MCE, or terminate itself with VM.
+  The prior RFC proposes to implement SIGBUS on arm64 as well, but
+  Marc preferred VCPU exit over signal [3]. However, implementation
+  aside, returning SEA to VMM is on par with returning MCE to VMM.
+
+Once SEA is redirected to VMM, among other actions, VMM is encouraged
+to inject external aborts into the faulting VCPU, which is already
+supported by KVM on arm64. We notice injecting instruction abort is not
+fully supported by KVM_SET_VCPU_EVENTS. Complement it in the patchset.
+
+New UAPIs
+=========
+
+This patchset introduces following userspace-visiable changes to empower
+VMM to control what happens next for SEA on guest memory:
+
+- KVM_CAP_ARM_SEA_TO_USER. While taking SEA, if userspace has enabled
+  this new capability at VM creation, and the SEA is not caused by
+  memory allocated for stage-2 translation table, instead of injecting
+  SError, return KVM_EXIT_ARM_SEA to userspace.
+
+- KVM_EXIT_ARM_SEA. This is the VM exit reason VMM gets. The details
+  about the SEA is provided in arm_sea as much as possible, including
+  sanitized ESR value at EL2, if guest virtual and physical addresses
+  (GPA and GVA) are available and the values if available.
+
+- KVM_CAP_ARM_INJECT_EXT_IABT. VMM today can inject external data abort
+  to VCPU via KVM_SET_VCPU_EVENTS API. However, in case of instruction
+  abort, VMM cannot inject it via KVM_SET_VCPU_EVENTS.
+  KVM_CAP_ARM_INJECT_EXT_IABT is just a natural extend to
+  KVM_CAP_ARM_INJECT_EXT_DABT that tells VMM KVM_SET_VCPU_EVENTS now
+  supports external instruction abort.
+
+
+* From v1 [4]:
+  - Rebased on commit 4d62121ce9b5 ("KVM: arm64: vgic-debug: Avoid
+    dereferencing NULL ITE pointer").
+  - Sanitize ESR_EL2 before reporting it to userspace.
+  - Do not do KVM_EXIT_ARM_SEA when SEA is caused by memory allocated to
+    stage-2 translation table.
+
+[1] https://cloud.google.com/solutions/sap/docs/manage-host-errors
+[2] https://lore.kernel.org/kvm/20250109204929.1106563-1-jthoughton@google.com
+[3] https://lore.kernel.org/kvm/86pljbqqh0.wl-maz@kernel.org
+[4] https://lore.kernel.org/kvm/20250505161412.1926643-1-jiaqiyan@google.com
+
+Jiaqi Yan (5):
+  KVM: arm64: VM exit to userspace to handle SEA
+  KVM: arm64: Set FnV for VCPU when FAR_EL2 is invalid
+  KVM: selftests: Test for KVM_EXIT_ARM_SEA and KVM_CAP_ARM_SEA_TO_USER
+  KVM: selftests: Test for KVM_CAP_INJECT_EXT_IABT
+  Documentation: kvm: new uAPI for handling SEA
+
+Raghavendra Rao Ananta (1):
+  KVM: arm64: Allow userspace to inject external instruction aborts
+
+ Documentation/virt/kvm/api.rst                | 128 ++++++-
+ arch/arm64/include/asm/kvm_emulate.h          |  67 ++++
+ arch/arm64/include/asm/kvm_host.h             |   8 +
+ arch/arm64/include/asm/kvm_ras.h              |   2 +-
+ arch/arm64/include/uapi/asm/kvm.h             |   3 +-
+ arch/arm64/kvm/arm.c                          |   6 +
+ arch/arm64/kvm/guest.c                        |  13 +-
+ arch/arm64/kvm/inject_fault.c                 |   3 +
+ arch/arm64/kvm/mmu.c                          |  59 ++-
+ include/uapi/linux/kvm.h                      |  12 +
+ tools/arch/arm64/include/asm/esr.h            |   2 +
+ tools/arch/arm64/include/uapi/asm/kvm.h       |   3 +-
+ tools/testing/selftests/kvm/Makefile.kvm      |   2 +
+ .../testing/selftests/kvm/arm64/inject_iabt.c |  98 +++++
+ .../testing/selftests/kvm/arm64/sea_to_user.c | 340 ++++++++++++++++++
+ tools/testing/selftests/kvm/lib/kvm_util.c    |   1 +
+ 16 files changed, 718 insertions(+), 29 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/arm64/inject_iabt.c
+ create mode 100644 tools/testing/selftests/kvm/arm64/sea_to_user.c
 
 -- 
-~Randy
+2.49.0.1266.g31b7d2e469-goog
 
