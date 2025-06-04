@@ -1,118 +1,127 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8352F79D0
-	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 20:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC6579D0;
+	Wed,  4 Jun 2025 20:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749070659; cv=none; b=aFYvCnw/nVzkKNSVn4d4RMBLbDNx1sNkjDknNNFz/FqcQMHLqN/AkhSZoT0i42zRxc2yKFrpdoYikRiTFzMQkvSNaRn79gSa3jpnSFuD7klnFPfnQEuLduiCfFzPjvObtO8PRjPjb/JyYIt9IEJKDE2Fj2dmjI+u+FKK5zvRehE=
+	t=1749070701; cv=none; b=gZQ0i0TZ2ql8M+3S8q1HWWiq5tZLKR/tV516gzHiC8fY2+2P//k1mTXBHkTdw2soc9Z/sgT+PwatKmYciLf9whIq9fVfApjVfHtxGz/d+i0PjOE7F8HA8FpJRmFyQIL7XfJ3s/kb8Ykdbddn4D9+88BbiqL3UgTt11J6/gGTw2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749070659; c=relaxed/simple;
-	bh=1vST3d9J+9mW/eRenww622kSYS5wCzxY9RtthIWdeFs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Kk1cO8zLLwqB03YeOyk3Szq7lqqLuPN8xUOzTeiDo10/mBCgaquQPI2atg+wGLkYah2NQqoyeYp8VNMd1pig0Kjh7sHbv90f3MzKLwE1w8pmij8f6WD5zJUyXQVic41C/1rVp9cSWoa64bWKUxijdaVWX3H/YhdAy36AJh2g8y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=i9gch/fW; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1749070701; c=relaxed/simple;
+	bh=RoPbyZBxENrNdcPnruV3adrDN3KizO26jpCbgNiF/fc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tMLNvqdMCnEUkVjr4NmE5z55B/K7208VvmpepnVWXYpZircsZ1nq+hi+gghSEtcQVKJQPeAiqvEQauF451CnPxXtd8yspasgatxeTsZpB0fG0OkXh5jgw6ClR04F17Xm7UAW9uHystZ2pis2lSwNYU9ClBNRaBzRQNYT8w440Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xeKrlC9z; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="i9gch/fW"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=ljwtLIuX0wIzcnsY7b7SPx0ajLhrnZjvPBoaqfAfTes=; b=i9gch/fW460X9ituX4jZFgbc/h
-	wxctmLuuo8WxbWTPTS0EH4eT5H8dW39l4gCvX6eNnVqyniGqBnLsEfOFTD9/eGT/GaYKUk8pnbxbT
-	McTsYaZDJ7xfvAHQUKniE2AArIyXlq53nys0eqa4rs2xfyhsXOGVWoc5U+GUA5t37dJ+NGVuhjX/f
-	rFf2A1/x1dz/vjwEZrhexnc9ybKuXGYiHcHJs9FzlsueW3eJFJZqC/+qZRjhv/iBiCYZ9lbno9zId
-	bcLoP7965Gf5GNsQSCFr7Ic9zb/f+jfHq7p40VKR1Ih76H6WNCdecjU63Z9fDV6xV8wb6yzFpeNKk
-	W4/zr/Hw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uMvB0-000000010KF-0bgu;
-	Wed, 04 Jun 2025 20:57:35 +0000
-Message-ID: <3bc4e779-7a79-42c1-8867-024f643a22fc@infradead.org>
-Date: Wed, 4 Jun 2025 13:57:31 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xeKrlC9z"
+Date: Wed, 4 Jun 2025 13:57:49 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1749070695;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AOW1xdrjziPgqyySMNuIr3SaQxi8OEOWfnwiMMxBaSE=;
+	b=xeKrlC9zIC3ZmPVYMgcrLAAdA1ixnF5cvvgJyn8+c3/RJLlbX+/MB67tAaFBuiw+t0TcX3
+	bT5MXuHNghyhuS4IXUcX8DCQblIYjCBZmsxRaWOO1Pg4L6QzKGiQwcYAuFS5Krli8PlayG
+	Kps59HH5Y5EsnRyEyCt7qGrhtUhWWRg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
+	maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com,
+	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 06/17] KVM: arm64: Introduce method to partition the PMU
+Message-ID: <aECzTYoj1F6WHAUC@linux.dev>
+References: <aD9w3Kj4-YoizKv5@linux.dev>
+ <gsntsekf1d58.fsf@coltonlewis-kvm.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] doc: Include scatterlist APIs in htmldocs
-From: Randy Dunlap <rdunlap@infradead.org>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, James.Bottomley@HansenPartnership.com
-References: <20250604195753.823742-1-willy@infradead.org>
- <1449b983-fd49-4e88-9c4d-7b5b2205a16d@infradead.org>
-Content-Language: en-US
-In-Reply-To: <1449b983-fd49-4e88-9c4d-7b5b2205a16d@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <gsntsekf1d58.fsf@coltonlewis-kvm.c.googlers.com>
+X-Migadu-Flow: FLOW_OUT
 
-I missed one:
+On Wed, Jun 04, 2025 at 08:10:27PM +0000, Colton Lewis wrote:
+> Thank you Oliver for the additional explanation.
+> 
+> Oliver Upton <oliver.upton@linux.dev> writes:
+> 
+> > On Tue, Jun 03, 2025 at 09:32:41PM +0000, Colton Lewis wrote:
+> > > Oliver Upton <oliver.upton@linux.dev> writes:
+> 
+> > > > On Mon, Jun 02, 2025 at 07:26:51PM +0000, Colton Lewis wrote:
+> > > > >   static void kvm_arm_setup_mdcr_el2(struct kvm_vcpu *vcpu)
+> > > > >   {
+> > > > > +	u8 hpmn = vcpu->kvm->arch.arm_pmu->hpmn;
+> > > > > +
+> > > > >   	preempt_disable();
+> 
+> > > > >   	/*
+> > > > >   	 * This also clears MDCR_EL2_E2PB_MASK and MDCR_EL2_E2TB_MASK
+> > > > >   	 * to disable guest access to the profiling and trace buffers
+> > > > >   	 */
+> > > > > -	vcpu->arch.mdcr_el2 = FIELD_PREP(MDCR_EL2_HPMN,
+> > > > > -					 *host_data_ptr(nr_event_counters));
+> > > > > -	vcpu->arch.mdcr_el2 |= (MDCR_EL2_TPM |
+> > > > > +	vcpu->arch.mdcr_el2 = FIELD_PREP(MDCR_EL2_HPMN, hpmn);
+> > > > > +	vcpu->arch.mdcr_el2 |= (MDCR_EL2_HPMD |
+> > > > > +				MDCR_EL2_TPM |
+> 
+> > > > This isn't safe, as there's no guarantee that kvm_arch::arm_pmu is
+> > > > pointing that the PMU for this CPU. KVM needs to derive HPMN from some
+> > > > per-CPU state, not anything tied to the VM/vCPU.
+> 
+> > > I'm confused. Isn't this function preparing to run the vCPU on this
+> > > CPU? Why would it be pointing at a different PMU?
+> 
+> > Because arm64 is a silly ecosystem and system designers can glue
+> > together heterogenous CPU implementations. The arm_pmu that KVM is
+> > pointing at might only match a subset of CPUs, but vCPUs migrate at the
+> > whim of the scheduler (and userspace).
+> 
+> That means the arm_pmu field might at any time point to data that
+> doesn't represent the current CPU. I'm surprised that's not swapped out
+> anywhere. Seems like it would be useful to have an arch struct be a
+> reliable source of information about the current arch.
 
-On 6/4/25 1:47 PM, Randy Dunlap wrote:
-> 
-> 
-> On 6/4/25 12:57 PM, Matthew Wilcox (Oracle) wrote:
->> We have all this fine kernel-doc written, and it's not published
->> anywhere.  Expose it to public view.
-> 
-> Good idea.
-> 
->>
->> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
->> ---
->>  Documentation/core-api/dma-api.rst | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
->> index 2ad08517e626..190ed8fe55ba 100644
->> --- a/Documentation/core-api/dma-api.rst
->> +++ b/Documentation/core-api/dma-api.rst
->> @@ -915,3 +915,9 @@ the driver. When driver does unmap, debug_dma_unmap() checks the flag and if
->>  this flag is still set, prints warning message that includes call trace that
->>  leads up to the unmap. This interface can be called from dma_mapping_error()
->>  routines to enable DMA mapping error check debugging.
->> +
->> +Functions and structures
->> +========================
->> +
->> +.. kernel-doc:: include/linux/scatterlist.h
->> +.. kernel-doc:: lib/scatterlist.c
-> 
-> <linux/scatterlist.h> contains this line (#102):
-> 
->  *   Usually the next entry will be @sg@ + 1, but if this sg element is part
-> 
-> Those @ signs make that line not render correctly:
-> 
->   Usually the next entry will be sg**** + 1, but if this sg element is part of a
->   chained scatterlist, it could jump to the start of a new scatterlist array.
-> 
-> 
-> Similarly for the sg_chain() function:
-> 
->  *   Links @prv@ and @sgl@ together, to form a longer scatterlist.
-> 
-> and sg_last() in lib/scatterlist.c: (3 instances)
-> 
->  *   Note that the @sgl@ pointer passed in need not be the first one,
->  *   the important bit is that @nents@ denotes the number of entries that
->  *   exist from @sgl@.
-> 
+There's no way to accomplish that. It is per-VM data, and you could have
+vCPUs on a mix of physical CPUs.
 
-In lib/scatterlist.c, function sg_alloc_table():
+This is mitigated somewhat when the VMM explicitly selects a PMU
+implementation, as we prevent vCPUs from actually entering the guest on
+an unsupported CPU (see ON_SUPPORTED_CPU flag).
 
- *    Allocate and initialize an sg table. If @nents@ is larger than
-
-
+> > There are two *very* distinct functions w.r.t. partitioning:
 > 
-> Do you want to send a patch for these?  or I could do it...
+> >   1) Partitioning of a particular arm_pmu that says how many counters the
+> >   host can use
 > 
+> >   2) VMM intentions to present a subset of the KVM-owned counter
+> >   partition to its guest
+> 
+> > #1 is modifying *global* state, we really can't mess with that in the
+> > context of a single VM...
+> 
+> I see the distinction more clearly now. Since KVM can only control the
+> number of counters presented to the guest through HPMN, why would the
+> VMM ever choose a subset? If the host PMU is globally partitioned to not
+> use anything in the guest range, presenting fewer counters to a guest is
+> just leaving some counters in the middle of the range unused.
 
--- 
-~Randy
+You may not want to give a 'full' PMU to all VMs running on a system,
+but some OSes (Windows) expect to have at least the fixed CPU cycle
+counter present. In this case the VMM would deliberately expose fewer
+counters. FEAT_HPMN0 didn't get added to the architecture by accident...
 
+Thanks,
+Oliver
