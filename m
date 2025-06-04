@@ -1,200 +1,270 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFAE149C64
-	for <linux-doc@vger.kernel.org>; Wed,  4 Jun 2025 07:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A115723C8CD;
+	Wed,  4 Jun 2025 07:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749023277; cv=none; b=oAXKPcrqdERihJU0wFjFXUE7vCVXpCWzepWzCY/28Gd2Zs+JtAlR8GD2D3fSXUfrXEJhY33aX6efdf+NRzSjW+DF51Fbg9V6T32N5EKTjfEnWIZXNbPlH1kWUro0gVOhR9F2plN6XNeVUJfp98jFRdlkoZiXdUVmGx2/audKX/M=
+	t=1749023850; cv=none; b=fcHuStE3uQ/Plb+NgSO6iIk4hk7yR/ElfcOYS70o7JgT6uYKzGdOkS6K78GdV/SOIY0mEt34FAiNG9SnMQjR26irnv4VI6UkccVJUzm23w/HAoZqPAuYSho7Z1bv0TLSGOlVvo4Pzo1ibyV4bFO+s+VaAOyxypekshYEHvj10eY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749023277; c=relaxed/simple;
-	bh=t2007AxeJCzN8DYFU1TDmOYxveSLIawRFTPoFEFfSlA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ehNNOSFKfA2taes69He0q1vpis0I7mQsyQ/jfDHpXq1NDcyH5OFk+cHa+17E7tVcqc3nCQSMb/FyB0u6ihlfp9qXJU97LJs+Semc543ANVLrVLBjvrpEGjwybNRehpjGW90HPwbPWl+2v95yKUCJ9Wm0H6E9B/zLZuDds9H9mFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-346-CpQ8g-iNOpGYCBRPpErmHQ-1; Wed, 04 Jun 2025 03:47:52 -0400
-X-MC-Unique: CpQ8g-iNOpGYCBRPpErmHQ-1
-X-Mimecast-MFC-AGG-ID: CpQ8g-iNOpGYCBRPpErmHQ_1749023272
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-450cb902173so2996125e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Jun 2025 00:47:52 -0700 (PDT)
+	s=arc-20240116; t=1749023850; c=relaxed/simple;
+	bh=PPBBZVV5X2yIaXKYJPYbC1Es2JWpid63Upy7t3DvwmY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=G/qDi1ZAU42T5m/MdGHfrBG3UqDgrgqRQZ2igKOHt/BZkMQ8qLhPoKEBrGMljGFHMlZQeJXi7JFyJBXTBONPRGq+MKr5AhCLSrGcTQdKP7kxmXxEmjPTjWtNQ9EA8D2FH1Xdfov4WnNf3YEYhjRfj0h3hbdtirsOBPV+0YrFqpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-604f5691bceso11812962a12.0;
+        Wed, 04 Jun 2025 00:57:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749023271; x=1749628071;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1749023845; x=1749628645;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9ygmWQWXbYd84BZ22kC3DM6odLW06NCGE4pAVf3jq5k=;
-        b=ZEmnHNskYCliua/yrGtLUD9omxyfLPNZVFyScG+LF4hN6tsakMqJZpG1ioz6qS1Gm4
-         Asw7cVCitI5HeoeipE0orUsUkikZWigi23nrOhNKMNABUGVO6RgqSmjY/Rg85YUgSz4e
-         ozmPZjGTZQKZUC8nIXpPWzW1Bc1jthrTJmHj3jmfHzFKlfUdXkdcKgJaJure1zdZe0qq
-         mjpa9/0Op6+wfquJ/v0uV1GhIK9FcLsRZj/S3g5ZHlEKUatxrlpquR4dc8p21sGMHAF4
-         aOKqE2nI3DQwHeBq99a02Lr/OosHzBbXwE39CX4pKH0hYHK7nPKkgHdHac/d7usLmYc3
-         OslQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVy12njaqmen2hrOICvBpjdyJY72uRObR8kflK02EjZskSw+IsenDiwFBB85kxtRPcu0BdkpSJw+Co=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvNu49XSqOT6h0xBg3xHeaV2RiwRwvMHKGpWRRHw6L+6l/Nk4W
-	AJiOZoQ7mNmWvJ9EDRKgH9aiud5QOcRi5MP3IWzCfleIbTLa4K1jZmFFn8oSY1Pcggm5oIjx5Cw
-	TjIDmKQlNE0g1riouVylDNJgbqljuVE4z/pfARt6vCEXrXFmEOhp4eyVh0xa5YQ==
-X-Gm-Gg: ASbGnctO2wotnT2P+3Go5yGdjumvGsxOQU4BROGrey2O/tur5GGjYQ2pFrg+a9ObMSG
-	pnVEab8QE02g8w7unlmInEnh0TsDkzwur+kCzD65CYKDlEOFxK9lk64BYJ0++bAYz0b3h8Wurun
-	WIbM5kJo35hdHa4tb3cnffsEHZvJ6KXYEx2kKUkeAjxgnoSgBa/3YHvwmSFV8TD12AgoONEDYgo
-	0tvDNnNqQSPmDUp1S22ZaIavKb0wBBwac0qNWCy/JMoegKZ5fP0osUj/qvogb8BFl+K6aDlaWdT
-	mY7oQNk=
-X-Received: by 2002:a05:600c:4f46:b0:442:f4a3:a2c0 with SMTP id 5b1f17b1804b1-451efeb62edmr16204995e9.13.1749023271484;
-        Wed, 04 Jun 2025 00:47:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGJk55eb8TjJoA47+XoMh9gAce9YiEwRtdQfUP3XiuiMssBNBDp3zfR4HUA5bIORLwXMaPKeQ==
-X-Received: by 2002:a05:600c:4f46:b0:442:f4a3:a2c0 with SMTP id 5b1f17b1804b1-451efeb62edmr16204515e9.13.1749023270973;
-        Wed, 04 Jun 2025 00:47:50 -0700 (PDT)
-Received: from fedora (g3.ign.cz. [91.219.240.17])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d8000d8csm188712405e9.24.2025.06.04.00.47.49
+        bh=NeqiHaJFVUqzajBPrmH9xxTn9d5bNYR6oESxo/yec5U=;
+        b=b5enOm/vXIG3f+Kim9kf1IZ5hBJJ5dubsko6yJtMtWsj54YCXckFYk897X/ZPUyeDU
+         dQtFSFVlKF/S9iKNNhe9z29cZc3N7KYXwXGethDSJ+hCctXbD5N2lnfmyyaiu3XGyHSu
+         9iutTeMjfr02YOisyQKwiz21GWLEiLKRDdVMRocgn7M6ea6bT3542x3M7IH1V8/sxooM
+         dm59oMCslgee2VybRC8cofS7VpDZJWPc329USBhgUFJwSc8PBPbd5Ivg3nsfIo8Szb64
+         AUcXxweOZxLZU6MKeApc/XsBVVqw3p3dVxzFcbMumg1gyzwVObU+CHRYVwD75nlL9Kqg
+         eWKA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7bPBXwCXhLd6QdLIyIXlmLEaTYqr/D7EHUseenGrjr6+Os7Eu9/nACPS01iFqARWbbfVC0M1YDCd60IyY@vger.kernel.org, AJvYcCVGjFlRKTp5y+3i9fltvFjcqwJ/Ln8ckMTtJ12nfLtSRQ38eCXNxE4u7i/jpkkvYdI9bq54UrccYLarEoU=@vger.kernel.org, AJvYcCWUZ7mXib2dO/if3VwFDoftRY3KnKnvGyM2F3ISZWueOcQR7QGA/pgXjTW/X2JJ6i7iBI+9nQPXNoo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRzOSGq1+TueEiQFurVWpIdapJhQrs1AIs7gkpfPmxfh+Kvp7X
+	H2e7f8Eykz77xszd2k/UaTJg0xXan574Mp1qF6WAt3Uaj6/9idnnpJiY
+X-Gm-Gg: ASbGncuY0Xl21M7ugAQFM7owYcvfmj3CDIR2jFpCUu5eujDLNbRYL+m3F8Yw54aUaw6
+	V8loabUoFCQlWR7eALDOracSYzPXcapJ8xmltjCNG9xo+OhSB+MrGD46IwuIojj9p09eYuh5AjS
+	2kdMl07vfYajhH1N9jtxtvgfn6nPCryenkR/Kj/mS24899UaDuibZ8FffsbcSCcP1mM4zfNp2q2
+	RThWF4sxQn4Xlc6XMkCqRgECAHrQdcj3yl6OgFXe/o/k/JVqTMW9RSyOUpDWVbTKhotzcMHDrdJ
+	junO6GtpPCrW/C178TyJ5r6AmIEczBHpbSbCLvObBNQDkxRwFYTIgiytRN4RiRTZi+dTdnlQt6m
+	5VTYzk4HqnMdhZwq8FMGV
+X-Google-Smtp-Source: AGHT+IG4KhR8Z3k4aQMME4cyMj0++br0TPt481d++GP1kJY/SKddu72lDvPfwX9imdPXq0ET1sOp5w==
+X-Received: by 2002:a05:6402:2742:b0:601:f4dd:8572 with SMTP id 4fb4d7f45d1cf-606ea3b0072mr2031096a12.17.1749023844568;
+        Wed, 04 Jun 2025 00:57:24 -0700 (PDT)
+Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-606fb36a160sm348569a12.45.2025.06.04.00.57.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jun 2025 00:47:50 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: James Bottomley <James.Bottomley@HansenPartnership.com>,
- linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-modules@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- keyrings@vger.kernel.org, David Howells <dhowells@redhat.com>, David
- Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Luis
- Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Sami
- Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
- Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu
- <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Eric Snowberg <eric.snowberg@oracle.com>, Paul Moore
- <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
- <serge@hallyn.com>, Peter Jones <pjones@redhat.com>, Robert Holmes
- <robeholmes@gmail.com>, Jeremy Cline <jcline@redhat.com>, Coiby Xu
- <coxu@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH RFC 1/1] module: Make use of platform keyring for module
- signature verify
-In-Reply-To: <d34555e2b0c4746fc01d5295959a434befcf8b18.camel@HansenPartnership.com>
-References: <20250602132535.897944-1-vkuznets@redhat.com>
- <20250602132535.897944-2-vkuznets@redhat.com>
- <948f5567fe4d9ae39aa2528965f123e42bf82b46.camel@HansenPartnership.com>
- <87r001yzob.fsf@redhat.com>
- <d34555e2b0c4746fc01d5295959a434befcf8b18.camel@HansenPartnership.com>
-Date: Wed, 04 Jun 2025 09:47:48 +0200
-Message-ID: <8734cgosm3.fsf@redhat.com>
+        Wed, 04 Jun 2025 00:57:24 -0700 (PDT)
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Wed, 04 Jun 2025 09:57:14 +0200
+Subject: [PATCH v6 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250604-6-10-rocket-v6-1-237ac75ddb5e@tomeuvizoso.net>
+References: <20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net>
+In-Reply-To: <20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Kever Yang <kever.yang@rock-chips.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 
-James Bottomley <James.Bottomley@HansenPartnership.com> writes:
+Add the bindings for the Neural Processing Unit IP from Rockchip.
 
-> On Tue, 2025-06-03 at 10:52 +0200, Vitaly Kuznetsov wrote:
->> James Bottomley <James.Bottomley@HansenPartnership.com> writes:
-> [...]
->> > Also, are you sure a config option is the right thing?=C2=A0 Presumably
->> > Red Hat wants to limit its number of kernels and the design of just
->> > linking the machine keyring (i.e. MoK) was for the use case where
->> > trust is being pivoted away from db by shim, so users don't want to
->> > trust the db keys they don't control.=C2=A0 If the same kernel gets us=
-ed
->> > for both situations (trusted and untrusted db) you might want a
->> > runtime means to distinguish them.
->>=20
->> I was not personally involved when RH put the patch downstream (and
->> wasn't very successful in getting the background story) but it
->> doesn't even have an additional Kconfig, e.g.:
->> https://gitlab.com/redhat/centos-stream/src/kernel/centos-stream-10/-/co=
-mmit/03d4694fa6511132989bac0da11fa677ea5d29f6
->> so apparently there's no desire to limit anything, basically,
->> .platform is always trusted on Fedora/RHEL systems (for a long time
->> already).
->
-> It sounds like that's just distro politics:  RH wants to enable binary
-> modules (by allowing them to be signed) but doesn't want to be seen to
-> be signing them (so they can't be signed with the embedded RH key) so
-> that gamers can have performant graphics drivers and the like.  Thus it
-> mixes in the db keyring, which usually contains several Microsoft
-> certificates and also one from the ODM manufacturer, so now it can send
-> would be shippers of binary modules to those groups to get them signed.
-> If you only have the built in and MoK keyrings, the only possible
-> signers are either RH or the machine owner ... who isn't a single
-> entity to deal with.  Personally I think this is a bit daft: Debian
-> manages an out of tree module infrastructure using DKMS and MoK
-> signing, so I can't see why RH can't get it to work in the same way.
->
+v2:
+- Adapt to new node structure (one node per core, each with its own
+  IOMMU)
+- Several misc. fixes from Sebastian Reichel
 
-I guess such approach can be used with some limitations: the out-of-tree
-module must be open source, the vendor of the module must commit to
-fixing (inevitable) module build issues when the distro updates its
-kernel and so on. It, however, doesn't help the users which want to
-build and sign their own modules themselves.
+v3:
+- Split register block in its constituent subblocks, and only require
+  the ones that the kernel would ever use (Nicolas Frattaroli)
+- Group supplies (Rob Herring)
+- Explain the way in which the top core is special (Rob Herring)
 
->> As part of the RFC, I'd like to try to understand under which
->> conditions people may not want to trust 'db'. In the most common use
->> case, 'db' is used to authorize shim and the kernel is signed by a
->> cert from shim's vendor_db, not trusting 'db' for modules after that
->> seems somawhat silly. Maybe we can detect the fact that the user took
->> control over the system with MOK and untrust .platform only then
->> (while trusting it by default)?
->
-> Well, I think it's pretty obvious that in a standard secure boot system
-> most people wouldn't want either Microsoft or the ODM manufacturer
-> being in a position to sign module code for their systems.  Indeed,
-> when this was first mooted by Red Hat years ago, I thought Microsoft
-> refused to be the CA for our modules anyway.  From a security point of
-> view, it's separation of concerns: the standard secure boot database
-> guards access to the UEFI boot time before ExitBootServices.  The
-> kernel is a completely separate security domain and should be guarded
-> by different keys.
->
->> A runtime toggle is not something I thought much about: the sole
->> purpose of this part of 'lockdown' (limitimg unsigned modules load)
->> seems to be to prevent someone who already has 'root' on the system
->> to gain kernel level access to e.g. hide its activities. In case root
->> can decide which keys are trusted, isn't it all in vain?
->
-> Not exactly, the purpose of lockdown is to make root less privileged
-> than ring 0 (the kernel), so that a user space privilege escalation
-> does less damage.  The gold standard for all of this is supposed to be
-> to foil an Evil Maid attack (physical access) but I don't think we're
-> quite there yet.  From the point of view of the keyrings a lot of
-> others (like .ima) have trusted signing requirements meaning root can't
-> simply add keys, they have to be signed by keys in the existing trusted
-> keyring as well.
->
->>  Or maybe if the toggle is to just trust/not trust .platform (and not
->> e.g. disable signatures verification completely, inject a new
->> key,...) this is acceptable? Another option is to have a kernel
->> command line parameter but this is complicated for users.
->
-> I was thinking that if the goal is simply to enable cloud db then the
-> toggle could be detecting the presence of the MoK variables.  However,
-> if the distro politics thought above is correct, that won't work for
-> the RH use case of enabling additional binary modules by getting others
-> to sign them.  Until we have UKI signing of the kernel command line,
-> it's not such a safe vector to use for switches like this because it
-> makes the Evil Maid problem worse (and they're hard for users to manage
-> anyway as you say).
+v4:
+- Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
+- Remove unneeded items: (Krzysztof Kozlowski)
+- Fix use of minItems/maxItems (Krzysztof Kozlowski)
+- Add reg-names to list of required properties (Krzysztof Kozlowski)
+- Fix example (Krzysztof Kozlowski)
 
-(FWIW, RH-signed UKI is already present in RHEL/Fedora/derivatives along
-with a set of good known UKI cmdline extentions ('fips=3D1',
-'crashkernel=3D...',...) so adding e.g. 'platform_is_trusted=3D1' extension
-*is* possible).
+v5:
+- Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
+- Streamline compatible property (Krzysztof Kozlowski)
 
-So if we consider trusting/not trusing platform to be a distro choice
-("politics"), then I guess the suggested Kconfig approach may make
-sense? I, however, quite like the idea to complement it with an
-automatic toggle based on the MOK status: we can make the Kconfig a
-tristate:
-- Platform is never trusted (current approach)
-- Platform is always trusted
-- Platform is trused when MOK is not used
-To me, this third option makes sense: if a user wants to take ownership
-over the system, they can use MOK and sign the kernel itself and/or
-out-of-tree modules with it. If the user doesn't care, then there's no
-reason to not trust 'db'.
+v6:
+- Remove mention to NVDLA, as the hardware is only incidentally related
+  (Kever Yang)
+- Mark pclk and npu clocks as required by all clocks (Rob Herring)
 
---=20
-Vitaly
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 144 +++++++++++++++++++++
+ 1 file changed, 144 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..9a5e9e213912d0997da2f6ae26189adf044dcc7b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
+@@ -0,0 +1,144 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Neural Processing Unit IP from Rockchip
++
++maintainers:
++  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
++
++description:
++  Rockchip IP for accelerating inference of neural networks.
++
++  There is to be a node per each core in the NPU. In Rockchip's design there
++  will be one core that is special and needs to be powered on before any of the
++  other cores can be used. This special core is called the top core and should
++  have the compatible string that corresponds to top cores.
++
++properties:
++  $nodename:
++    pattern: '^npu@[a-f0-9]+$'
++
++  compatible:
++    enum:
++      - rockchip,rk3588-rknn-core-top
++      - rockchip,rk3588-rknn-core
++
++  reg:
++    maxItems: 3
++
++  reg-names:
++    items:
++      - const: pc
++      - const: cna
++      - const: core
++
++  clocks:
++    maxItems: 4
++
++  clock-names:
++    items:
++      - const: aclk
++      - const: hclk
++      - const: npu
++      - const: pclk
++
++  interrupts:
++    maxItems: 1
++
++  iommus:
++    maxItems: 1
++
++  npu-supply: true
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 2
++
++  reset-names:
++    items:
++      - const: srst_a
++      - const: srst_h
++
++  sram-supply: true
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++  - interrupts
++  - iommus
++  - power-domains
++  - resets
++  - reset-names
++  - npu-supply
++  - sram-supply
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - rockchip,rknn-core-top
++    then:
++      properties:
++        clocks:
++          minItems: 4
++
++        clock-names:
++          minItems: 4
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - rockchip,rknn-core
++    then:
++      properties:
++        clocks:
++          maxItems: 2
++        clock-names:
++          maxItems: 2
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/rk3588-power.h>
++    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
++
++    bus {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      npu@fdab0000 {
++        compatible = "rockchip,rk3588-rknn-core-top";
++        reg = <0x0 0xfdab0000 0x0 0x1000>,
++              <0x0 0xfdab1000 0x0 0x1000>,
++              <0x0 0xfdab3000 0x0 0x1000>;
++        reg-names = "pc", "cna", "core";
++        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
++        assigned-clock-rates = <200000000>;
++        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
++                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
++        clock-names = "aclk", "hclk", "npu", "pclk";
++        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
++        iommus = <&rknn_mmu_top>;
++        npu-supply = <&vdd_npu_s0>;
++        power-domains = <&power RK3588_PD_NPUTOP>;
++        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
++        reset-names = "srst_a", "srst_h";
++        sram-supply = <&vdd_npu_mem_s0>;
++      };
++    };
++...
+
+-- 
+2.49.0
 
