@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBECA1F4625;
-	Wed,  4 Jun 2025 18:31:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8667F20D4FF;
+	Wed,  4 Jun 2025 18:31:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749061892; cv=none; b=b1e5qI7038UgI3SzT1fYImwgV+XwWUVlBQsWpc+x2mxRZbmrWKfErmeZqqRhVOZrIOt0uwcnsQaPxQQdkGrQkyIcTDh03iNhn7hAJpU3yleka1P2uYcFnxGb7NTbamRPJeAjt4dP5TOMchk84W3ueulbSlJZmZqbnqZVEX4b71k=
+	t=1749061896; cv=none; b=ETRteuEw6vm0wHQMyY+nnOrWcXHi2MGf9vJlr8KvdUHgx9TOkGxVp98zuyr8X2B+1ngyfKkQGvYpYUHop/+Sjx4Nxa1rrlpgcgirOVJ7xF4u64Mo3BbeMmUCwHolEy9MiAsPZh4vnWpgI8QD4OevYHAmr14dVQnQd75N9fimV7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749061892; c=relaxed/simple;
-	bh=TTccoSC8u0U8JAyudIFqRLqdhcUIXwmp4ws5Q3WnaBM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c2dsi7TVDOHJFBt//kzpZT0YlBDSE+wbKY1PbIAMhKjZed7Kyi97vo44dlaCsLPZ4CIceU/jXSv/GZ30IJ7ce7fCJkFx1cOBj5XhcKX4iuXuGHiDWuX3ltq9NUx3F7jBpUFx1ow4BlvuwDDwoYEotlHKldAN7ghnXnAfeeaPoIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d3bhN1iP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749061896; c=relaxed/simple;
+	bh=gYQU/YXDeNgT1BMcNObhy08nWBlr86fWpjeWwTbkqzA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=cALEFrwds1d8PcciztBmcbUwd3aRlys0Wy5z0Bzsl5GPztyGfS28lW0yvBntPZ/Vh6AZlCgwElGUcTxflfwarTwaYpFPs5XZsvgavnmloc1RDGtdBROnq2KOEq/kIyyCQcFzgHNMeTUpoqoBE/OLS+2JQRGNIWQlorKd5cmslZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWwqW/Ib; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d3bhN1iP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25E4CC4CEE4;
-	Wed,  4 Jun 2025 18:31:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWwqW/Ib"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D19FFC4CEF1;
+	Wed,  4 Jun 2025 18:31:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749061891;
-	bh=TTccoSC8u0U8JAyudIFqRLqdhcUIXwmp4ws5Q3WnaBM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=d3bhN1iPy3ThjZWVrgAwb3qTfEDDILFdEoQEAem2WbVuLwufaUG5pQsbck2GuH8yZ
-	 RPR9lepicdrnPN1ucrSbfEciCHIc9cRwndS0tJO1a0nWiqzGt3XYpHT9z55FZJYu5K
-	 U2ca/1bNy1K94/OdQ3SRchpMz27OrmWBGHZ/Nkb2eVsBK0MiEAAlM907ZdZhErAQ+0
-	 rNjgXb9y2Kmh3UU5g0MiP2wZkWkit7/nuWcNMpwrpMuLRSi9OaObaACQvYFzrOzCY+
-	 mHHKBcM/4ynaHfJG/OhSDhhUGg+tYIoKgZnyVEAja/vjG7f7zYIQCx52E60c4Hzh6C
-	 ppSloIVZ1twig==
+	s=k20201202; t=1749061896;
+	bh=gYQU/YXDeNgT1BMcNObhy08nWBlr86fWpjeWwTbkqzA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=uWwqW/IbIQSxR7WAexf6dNLzEPriLBPWkOrtKaDXrSodU/jR6bqYHU8zlYqx4RdVY
+	 dlRMCGJnEOhReOrQ7fqcOIuPn0BznEU1upLOicsUjU4B/bQU8UaKuRRdgjq4rFimqx
+	 NAEHPX8pAFkBm/spKRN4zNHuftXB3JRW8jKBdLKGHpoWfiIQX+ZhC1t8itmmpiYnU8
+	 lYc12eVK5Qy7f6pdagHUg/Xot4AROneCKD6oDTm06er/UonsxejPtaBPAPdHCGPSEG
+	 dw3PFAyapZv1gCPaXkGskrYeyWM/dYbG/fF/0ObhuNde3Fj9Q13VUmBLoUilTYl4qV
+	 GWHjYUg6e5zKw==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -34,10 +35,12 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH v2 0/4] mm/damon: introduce DAMON_STAT for simple and practical access monitoring
-Date: Wed,  4 Jun 2025 11:31:23 -0700
-Message-Id: <20250604183127.13968-1-sj@kernel.org>
+Subject: [PATCH v2 4/4] Docs/admin-guide/mm/damon: add DAMON_STAT usage document
+Date: Wed,  4 Jun 2025 11:31:27 -0700
+Message-Id: <20250604183127.13968-5-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250604183127.13968-1-sj@kernel.org>
+References: <20250604183127.13968-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,107 +49,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DAMON-based access monitoring is not simple due to required DAMON
-control and results visualizations.  Introduce a static kernel module
-for making it simple.  The module can be enabled without manual setup
-and provides access pattern metrics that easy to fetch and understand
-the practical access pattern information, namely estimated memory
-bandwidth and memory idle time percentiles.
+Document DAMON_STAT usage and add a link to it on DAMON admin-guide
+page.
 
-Background and Problems
-=======================
-
-DAMON can be used for monitoring data access patterns of the system and
-workloads.  Specifically, users can start DAMON to monitor access events
-on specific address space with fine controls including address ranges to
-monitor and time intervals between samplings and aggregations.  The
-resulting access information snapshot contains access frequency
-(nr_accesses) and how long the frequency was kept (age) for each byte.
-
-The monitoring usage is not simple and practical enough for production
-usage.  Users should first start DAMON with a number of parameters, and
-wait until DAMON's monitoring results capture a reasonable amount of the
-time data (age).  In production, such manual start and wait is
-impractical to capture useful information from a high number of machines
-in a timely manner.
-
-The monitoring result is also too detailed to be used on production
-environments.  The raw results are hard to be aggregated and/or compared
-for production environments having a large scale of time, space and
-machines fleet.
-
-Users have to implement and use their own automation of DAMON control
-and results processing.  It is repetitive and challenging since there is
-no good reference or guideline for such automation.
-
-Solution: DAMON_STAT
-====================
-
-Implement such automation in kernel space as a static kernel module,
-namely DAMON_STAT.  It can be enabled at build, boot, or run time via
-its build configuration or module parameter.  It monitors the entire
-physical address space with monitoring intervals that auto-tuned for a
-reasonable amount of access observations and minimum overhead.  It
-converts the raw monitoring results into simpler metrics that can easily
-be aggregated and compared, namely estimated memory bandwidth and idle
-time percentiles.
-
-Understanding of the metrics and the user interface of DAMON_STAT is
-essential.  Refer to the commit messages of the second and the third
-patches of this patch series for more details about the metrics.  For
-the user interface, the standard module parameters system is used.
-Refer to the fourth patch of this patch series for details of the user
-interface.
-
-Discussions
-===========
-
-The module aims to be useful on production environments constructed with
-a large number of machines that run a long time.  The auto-tuned
-monitoring intervals ensure a reasonable quality of the outputs.  The
-auto-tuning also ensures its overhead be reasonable and low enough to be
-enabled always on the production.  The simplified monitoring results
-metrics can be useful for showing both coldness (idle time percentiles)
-and hotness (memory bandwidth) of the system's access pattern.  We
-expect the information can be useful for assessing system memory
-utilization and inspiring optimizations or investigations on both kernel
-and user space memory management logics for large scale fleets.
-
-We hence expect the module is good enough to be just used in most
-environments.  For special cases that require a custom access monitoring
-automation, users will still benefit by using DAMON_STAT as a reference
-or a guideline for their specialized automation.
-
-Revision History
-================
-
-Changes from v1
-(https://lore.kernel.org/20250526210936.2744-1-sj@kernel.org)
-- Wordsmith cover letter for usage document reference
-- Rebase to latest mm-new
-
-Changes from RFC
-(https://lore.kernel.org/20250519164415.43935-1-sj@kernel.org)
-- Add an admin-guide documentation
-- Wordsmith commit messages
-- Rebase to latest mm-new
-
-SeongJae Park (4):
-  mm/damon: introduce DAMON_STAT module
-  mm/damon/stat: calculate and expose estimated memory bandwidth
-  mm/damon/stat: calculate and expose idle time percentiles
-  Docs/admin-guide/mm/damon: add DAMON_STAT usage document
-
- Documentation/admin-guide/mm/damon/index.rst |   1 +
- Documentation/admin-guide/mm/damon/stat.rst  |  69 ++++++
- mm/damon/Kconfig                             |  16 ++
- mm/damon/Makefile                            |   1 +
- mm/damon/stat.c                              | 245 +++++++++++++++++++
- 5 files changed, 332 insertions(+)
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/admin-guide/mm/damon/index.rst |  1 +
+ Documentation/admin-guide/mm/damon/stat.rst  | 69 ++++++++++++++++++++
+ 2 files changed, 70 insertions(+)
  create mode 100644 Documentation/admin-guide/mm/damon/stat.rst
- create mode 100644 mm/damon/stat.c
 
-
-base-commit: c28c2c0b515650b906025a5c41dc0989155720dd
+diff --git a/Documentation/admin-guide/mm/damon/index.rst b/Documentation/admin-guide/mm/damon/index.rst
+index bc7e976120e0..3ce3164480c7 100644
+--- a/Documentation/admin-guide/mm/damon/index.rst
++++ b/Documentation/admin-guide/mm/damon/index.rst
+@@ -14,3 +14,4 @@ access monitoring and access-aware system operations.
+    usage
+    reclaim
+    lru_sort
++   stat
+diff --git a/Documentation/admin-guide/mm/damon/stat.rst b/Documentation/admin-guide/mm/damon/stat.rst
+new file mode 100644
+index 000000000000..4c517c2c219a
+--- /dev/null
++++ b/Documentation/admin-guide/mm/damon/stat.rst
+@@ -0,0 +1,69 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===================================
++Data Access Monitoring Results Stat
++===================================
++
++Data Access Monitoring Results Stat (DAMON_STAT) is a static kernel module that
++is aimed to be used for simple access pattern monitoring.  It monitors accesses
++on the system's entire physical memory using DAMON, and provides simplified
++access monitoring results statistics, namely idle time percentiles and
++estimated memory bandwidth.
++
++Monitoring Accuracy and Overhead
++================================
++
++DAMON_STAT uses monitoring intervals :ref:`auto-tuning
++<damon_design_monitoring_intervals_autotuning>` to make its accuracy high and
++overhead minimum.  It auto-tunes the intervals aiming 4 % of observable access
++events to be captured in each snapshot, while limiting the resulting sampling
++events to be 5 milliseconds in minimum and 10 seconds in maximum.  On a few
++production server systems, it resulted in consuming only 0.x % single CPU time,
++while capturing reasonable quality of access patterns.
++
++Interface: Module Parameters
++============================
++
++To use this feature, you should first ensure your system is running on a kernel
++that is built with ``CONFIG_DAMON_STAT=y``.  The feature can be enabled by
++default at build time, by setting ``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` true.
++
++To let sysadmins enable or disable it at boot and/or runtime, and read the
++monitoring results, DAMON_STAT provides module parameters.  Following
++sections are descriptions of the parameters.
++
++enabled
++-------
++
++Enable or disable DAMON_STAT.
++
++You can enable DAMON_STAT by setting the value of this parameter as ``Y``.
++Setting it as ``N`` disables DAMON_STAT.  The default value is set by
++``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` build config option.
++
++estimated_memory_bandwidth
++--------------------------
++
++Estimated memory bandwidth consumption (bytes per second) of the system.
++
++DAMON_STAT reads observed access events on the current DAMON results snapshot
++and converts it to memory bandwidth consumption estimation in bytes per second.
++The resulting metric is exposed to user via this read-only parameter.  Because
++DAMON uses sampling, this is only an estimation of the access intensity rather
++than accurate memory bandwidth.
++
++memory_idle_ms_percentiles
++--------------------------
++
++Per-byte idle time (milliseconds) percentiles of the system.
++
++DAMON_STAT calculates how long each byte of the memory was not accessed until
++now (idle time), based on the current DAMON results snapshot.  If DAMON found a
++region of access frequency (nr_accesses) larger than zero, every byte of the
++region gets zero idle time.  If a region has zero access frequency
++(nr_accesses), how long the region was keeping the zero access frequency (age)
++becomes the idle time of every byte of the region.  Then, DAMON_STAT exposes
++the percentiles of the idle time values via this read-only parameter.  Reading
++the parameter returns 101 idle time values in milliseconds, separated by comma.
++Each value represents 0-th, 1st, 2nd, 3rd, ..., 99th and 100th percentile idle
++times.
 -- 
 2.39.5
