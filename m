@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816B618E1F;
-	Wed,  4 Jun 2025 16:03:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF331DDA0C;
+	Wed,  4 Jun 2025 16:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749052996; cv=none; b=Rf11S15IEDm+1ufQIFT7z0DcLOD8lykyhCkEmmc7BeJcx4j/OP/tt/gSLXTHsFV3s7kppbgAM8XdUXCJPmw96hcvlc4OyFpa+a3F15WZnIZ2Yo1Z+3BhCBRAOus/jPyM+yjyIYpVhq9Q+8bABYGT72IXBKzePDDT8ZSl3U4i0j8=
+	t=1749054617; cv=none; b=GjMYuikXkdFVA7wTe6lkWJ0UX43Ue+sDiQZK+FNOQbiR1u39+cZPeOklEIqfDL2A37K+Yfm79UJBIBgk7ithwxg4YnCXrW0MqmaGEmNSriBZhBRfBhkPFfF9l7e8SodA/dWGYq2pfH9+t37U00SB9v361cT5jQBofJoXztKtuEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749052996; c=relaxed/simple;
-	bh=9aZRPwCzG+hd7s+OZOm2wdSI0vs5RWHmsaU+Uw6uWOM=;
+	s=arc-20240116; t=1749054617; c=relaxed/simple;
+	bh=1Dkfld7z7Nz/jU3LSfpdgyvyWJ0WOr284arW7DyFew4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=S9IAs8fJt6Y0+9V6d2npkFypi+uaZiYpQOZ04F/Penki5WujTlX8dyeVe0T8m0vxph12WOBSzCiNY98jnUYhoXKq4EKYmPI77YOFDvLEN4IRYDxBbrXlhOzvayCMjWJhftX9EcOWbiyLX88OZmAroguqX7N8soKe1QZFWiKUBbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uFRMqztp; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=JC9XJK3vlx+Tckgk/SiIt5BSayWj24ckh1/77yRITdNe65IPFV2Lw0v3rvriLf6uLPDSjZcRnVwC3Di3uOBFs1OTI7Z8Qy7RZH911m2G3RWGarxfbdiS6+stoqQF6eCDDasMNgTvYY4MD4qeAIKwSjOY7UWTaVvXOnk3tdJ6Z38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LX3EfVya; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uFRMqztp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65E11C4CEE4;
-	Wed,  4 Jun 2025 16:03:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LX3EfVya"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98FC8C4CEE4;
+	Wed,  4 Jun 2025 16:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749052995;
-	bh=9aZRPwCzG+hd7s+OZOm2wdSI0vs5RWHmsaU+Uw6uWOM=;
+	s=k20201202; t=1749054616;
+	bh=1Dkfld7z7Nz/jU3LSfpdgyvyWJ0WOr284arW7DyFew4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=uFRMqztpQ+FUYtVBFJNoUYnCssGOmr5EK0+hMQr+XR5SFyd9buqw1hj6WtapTgX4K
-	 W/lTxSrO8C3FOiq6rsRfvLnck9w+7hwuq+74VhqHqm/QTeGhwvozOobNxyDbaOBG5m
-	 sE4ol0DTfioMdqVIwfnpVa1xWsfHbit7DJdC+Rw0LXTSQcs5DvPRotIjkDP5rMt8aY
-	 Gbackjv5P9WvQzxa5sqRvFZ8f5gOhKTWwiLlNKogQOnsFggK/YyhPvvxK3UsB0u2r9
-	 hKE0izLUmcDi1cWc2g+wEFlSM1TyEJVpxmOZBEHs8ovgLkJ4dZfbbRX1AmYFi8vGMp
-	 WBN7rlPWM1ngQ==
+	b=LX3EfVyaLIfpmPLwRexknSU0TIIK28XO7r0RXp96qDPl8vwqunyVvHzvdu7yKQ/w/
+	 ux+Mpd3pS3CC6t2zHvMRibzNivZNuP5TJWYptRmWPSTeBxaD7cHPImZFtu2ZZbGXUQ
+	 0EXLq3db7FtfNheso90cWfC1hY35rcEoW5/LeDroePH+N5dq3xd9ECyaykBANnnyDX
+	 WLSNcAqLWbZmvJwB84YEgvrMjyla9/b59NSKpLiYbDK7mATzwdbyf50lyasPXLGtLn
+	 t9SMREzpOgrkiOoXNbjwptAiehjhoFVC7/0suH3ZzB6OM12ZzSizJzetUKFDHT6vNK
+	 GX8Vc8AhBn5oA==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
@@ -51,12 +51,12 @@ Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
   andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
   bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
   stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 01/16] kho: make debugfs interface optional
-In-Reply-To: <20250515182322.117840-2-pasha.tatashin@soleen.com>
+Subject: Re: [RFC v2 06/16] luo: luo_subsystems: add subsystem registration
+In-Reply-To: <20250515182322.117840-7-pasha.tatashin@soleen.com>
 References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
-	<20250515182322.117840-2-pasha.tatashin@soleen.com>
-Date: Wed, 04 Jun 2025 18:03:06 +0200
-Message-ID: <mafs0msantryd.fsf@kernel.org>
+	<20250515182322.117840-7-pasha.tatashin@soleen.com>
+Date: Wed, 04 Jun 2025 18:30:07 +0200
+Message-ID: <mafs0iklbtqpc.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -68,23 +68,102 @@ Content-Type: text/plain
 
 On Thu, May 15 2025, Pasha Tatashin wrote:
 
-> Currently, KHO is controlled via debugfs interface, but once LUO is
-> introduced, it can control KHO, and the debug interface becomes
-> optional.
+> Introduce the framework for kernel subsystems (e.g., KVM, IOMMU, device
+> drivers) to register with LUO and participate in the live update process
+> via callbacks.
 >
-> Add a separate config CONFIG_KEXEC_HANDOVER_DEBUG that enables
-> the debugfs interface, and allows to inspect the tree.
+> Subsystem Registration:
+> - Defines struct liveupdate_subsystem in linux/liveupdate.h,
+>   which subsystems use to provide their name and optional callbacks
+>   (prepare, freeze, cancel, finish). The callbacks accept
+>   a u64 *data intended for passing state/handles.
+> - Exports liveupdate_register_subsystem() and
+>   liveupdate_unregister_subsystem() API functions.
+> - Adds drivers/misc/liveupdate/luo_subsystems.c to manage a list
+>   of registered subsystems.
+>   Registration/unregistration is restricted to
+>   specific LUO states (NORMAL/UPDATED).
 >
-> Move all debufs related code to a new file to keep the .c files
-
-Nit: s/debufs/debugfs/
-
-I don't have any other feedback for this patch so a lot of bits wasted
-for one typo fix ;-)
-
-> clear of ifdefs.
+> Callback Framework:
+> - The main luo_core.c state transition functions
+>   now delegate to new luo_do_subsystems_*_calls() functions
+>   defined in luo_subsystems.c.
+> - These new functions are intended to iterate through the registered
+>   subsystems and invoke their corresponding callbacks.
+>
+> FDT Integration:
+> - Adds a /subsystems subnode within the main LUO FDT created in
+>   luo_core.c. This node has its own compatibility string
+>   (subsystems-v1).
+> - luo_subsystems_fdt_setup() populates this node by adding a
+>   property for each registered subsystem, using the subsystem's
+>   name.
+>   Currently, these properties are initialized with a placeholder
+>   u64 value (0).
+> - luo_subsystems_startup() is called from luo_core.c on boot to
+>   find and validate the /subsystems node in the FDT received via
+>   KHO. It panics if the node is missing or incompatible.
+> - Adds a stub API function liveupdate_get_subsystem_data() intended
+>   for subsystems to retrieve their persisted u64 data from the FDT
+>       in the new kernel.
 >
 > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+[...]
+> +/**
+> + * liveupdate_unregister_subsystem - Unregister a kernel subsystem handler from
+> + * LUO
+> + * @h: Pointer to the same liveupdate_subsystem structure that was used during
+> + * registration.
+> + *
+> + * Unregisters a previously registered subsystem handler. Typically called
+> + * during module exit or subsystem teardown. LUO removes the structure from its
+> + * internal list; the caller is responsible for any necessary memory cleanup
+> + * of the structure itself.
+> + *
+> + * Return: 0 on success, negative error code otherwise.
+> + * -EINVAL if h is NULL.
+> + * -ENOENT if the specified handler @h is not found in the registration list.
+> + * -EBUSY if LUO is not in the NORMAL state.
+> + */
+> +int liveupdate_unregister_subsystem(struct liveupdate_subsystem *h)
+> +{
+> +	struct liveupdate_subsystem *iter;
+> +	bool found = false;
+> +	int ret = 0;
+> +
+> +	luo_state_read_enter();
+> +	if (!liveupdate_state_normal() && !liveupdate_state_updated()) {
+> +		luo_state_read_exit();
+> +		return -EBUSY;
+> +	}
+> +
+> +	mutex_lock(&luo_subsystem_list_mutex);
+> +	list_for_each_entry(iter, &luo_subsystems_list, list) {
+> +		if (iter == h) {
+> +			found = true;
+
+Nit: you don't actually need the found variable. You can do the same
+check that list_for_each_entry() uses, which is to call
+list_entry_is_head().
+
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (found) {
+> +		list_del_init(&h->list);
+> +	} else {
+> +		pr_warn("Subsystem handler '%s' not found for unregistration.\n",
+> +			h->name);
+> +		ret = -ENOENT;
+> +	}
+> +
+> +	mutex_unlock(&luo_subsystem_list_mutex);
+> +	luo_state_read_exit();
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(liveupdate_unregister_subsystem);
 [...]
 
 -- 
