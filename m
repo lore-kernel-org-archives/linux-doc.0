@@ -1,102 +1,88 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08EB01F12F8;
-	Thu,  5 Jun 2025 19:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B1F21A454;
+	Thu,  5 Jun 2025 19:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749151868; cv=none; b=BY/ex2O27zhC+bo2eyUudcok9wAu31zda6hc0zJRM28SYmbbS1sriqkxMIiTP6VLo4V6JPXG7JnwQlqAlT6DlcPGBXYyI1rOFVKp6JTzTNJc3RjR+a4gFbV4+czPCVPB1W2U4Tax1qHaDmkcpqcQNUxrR7shzcBR0tUr1/gSoug=
+	t=1749152373; cv=none; b=XVsJJ0cwI59scpYsf7Sgt3YKxLjssg5prZlW8WvVt8VBfJ+Rq0VVFbBC9V54t0EkywqWRQMainNG9fS12T9xWadxX4dDoN6uFkkkaICyr0z8nZ91cA9XohgV/zC0U9sXNEvGWc13avVca8cLbHlLf9dIIooDPD7P5QpKCE1vlOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749151868; c=relaxed/simple;
-	bh=h59S5S1u9vMLMxe1jN+tUHdzOCLKBM7ZdWNtmf+wHA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QhjNFltS4SRZQ4tO7Uo37MVkb7RGiJy8WAfonE+b/GdCscSDGsOB7bLcoxdy1iGYsOF8TbwIb4NzHBuRoTd0zVUTdx0Q2hQyUd95HxAq9BezBLo1gfVujpk+J33lVLalr60j7w4P1/yuMU/mS+SW3KmlW692Ac0Pier+EEbFMss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sY5Eoj0z; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1749152373; c=relaxed/simple;
+	bh=8kX+0SKha7Pws3nxTa2q2GKi8InvsonHOdQzOKyIg5c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=soxTOE9GaW4JShrn3EGQOq9SsBIfUpN4CQ8ex9QTcT9wgc5qr9R1l5JcYGO8+tezoqTcv7bLxtT3LUfHzqyUlNxTFumNQm1vylqKgY66RKi6QiN3AbtM/W1YcGI6OQRdM6IUjkGHVG0BStNmqjbYnDA3KtyYeRLgOdr+9NTT37U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sNoFza2W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sY5Eoj0z"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Di35m64wW7cXSvLt7vXf+4LHH6sxLrueLsuX5i2B3Dc=; b=sY5Eoj0zzo3800W15hQupxzguW
-	3OeKWA1MAb5aqVpsYqqmQ+oSV0bK4dNdkw95WLRyozZEABxljokVlXhuNt0My7S113Q6P/DDHuitQ
-	YFlcaoiTV40NBdWaDBzs89grTct2z8J+h6FBMrfZVkfKJTq4KrFeVYbOe8CyciRR1KHIfkEKlPuQv
-	tmZ6FaxRoJr4EDl7HBEx4XnMlfDuJbV913DqjXFJGF0iydBrkJgOy5xeAc2BddhOzaN1pxdkR+zic
-	qLvQtNNj/G8S0TGfxKZGc4qXJdeZ/FynqGtd8iU+x9XvGlclvDRhXNS0u34tSyeoBBmmAIOXmcvqR
-	SbFXVkgA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uNGIp-00000004ZKc-078Y;
-	Thu, 05 Jun 2025 19:31:03 +0000
-Date: Thu, 5 Jun 2025 20:31:02 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] scripts/kernel-doc: drop "_noprof" on function prototypes
-Message-ID: <aEHwdoNCrF4-KY_i@casper.infradead.org>
-References: <20240326054149.2121-1-rdunlap@infradead.org>
- <aEHq_Jy3hPQIzaO-@casper.infradead.org>
- <875xhaf145.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sNoFza2W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27446C4CEF1;
+	Thu,  5 Jun 2025 19:39:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749152373;
+	bh=8kX+0SKha7Pws3nxTa2q2GKi8InvsonHOdQzOKyIg5c=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=sNoFza2WKsj59ZBl3LyAwyuvCSQonfD4ecSrSv0VaXOY3dzUibhwa9zE6zg+LxxD/
+	 YSVMpXnm1l5h5te334aTFJAQ7jaM7ToibyjLWWUnG5LgEx+m38qsLI4Yh8c3VpnnCv
+	 zmsAO09bjS4Cgblt10mOjAnsP7X+AHhCEoAVcpi666fiHyXtTE/A4GzDZvmeg0Tpwv
+	 rBQA2qs17HVBPcC1HcnhjfHmKCDNRV3d+Vxzbf+PREf80nh5WNTMs5rtAmJW+KmqNg
+	 T23MyVltYfjCZXQ5cBoFuBAv5BsUamckLeMahq3m+a5eHL6Zl7nxZMjhH3RbYoUnOD
+	 HEJ16LRabBrKw==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5534edc6493so1651154e87.1;
+        Thu, 05 Jun 2025 12:39:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWBbUEEWqRF1EILN2Rj/dIEqO7gvdSRtdydfU2/7z8VvFyA32XpKTV4c0TqP34zJjkmvgjns7Vf0sJtk+g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1JnKVBO/GA1oeYxLImc7GO9vctV93+NQujCb7BPXuqNHG1paY
+	8gcMmp+EF1r/w4PqTym81AW3Ynmv0T1ARaQMeHDNn5YVcyiXl/zvK/YchhBeR/AAfrD/m3fnA/I
+	ZMIl3zj/0w/fIekuY+yFMCbt3TpAYRRs=
+X-Google-Smtp-Source: AGHT+IGsSiZ3bAmB/88G8wDxNMfEjert3Zql/M99zaJiTWefbqY+2uUyuySefy7f1WLQwJ6fWz5vkqNRoTpjEeyfoFY=
+X-Received: by 2002:ac2:53ac:0:b0:553:20f2:2e77 with SMTP id
+ 2adb3069b0e04-55366e33a1emr80046e87.55.1749152371856; Thu, 05 Jun 2025
+ 12:39:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <875xhaf145.fsf@trenco.lwn.net>
+References: <20250526184401.33417-1-khaledelnaggarlinux@gmail.com> <20250526211039.163449-1-khaledelnaggarlinux@gmail.com>
+In-Reply-To: <20250526211039.163449-1-khaledelnaggarlinux@gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 6 Jun 2025 04:38:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR8ie2VmJ2RiMZaV4MaHi=hGebev7LV+jpD2cNt430aQQ@mail.gmail.com>
+X-Gm-Features: AX0GCFuFmrxL8miWi2wty8frgs2Oth1qCIdZqsrJMDUMEj9DGCIH_tEVwPEpd4k
+Message-ID: <CAK7LNAR8ie2VmJ2RiMZaV4MaHi=hGebev7LV+jpD2cNt430aQQ@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: symbol-namespaces: fix reST warning with literal block
+To: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+Cc: linux-doc@vger.kernel.org, willy@infradead.org, 
+	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, corbet@lwn.net, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 05, 2025 at 01:18:50PM -0600, Jonathan Corbet wrote:
-> Matthew Wilcox <willy@infradead.org> writes:
-> > This turns out not to be enough.  For example, krealloc() is
-> > currently undocumented.  This is because we match the function name
-> > in EXPORT_SYMBOL() against the function name in the comment, and they
-> > don't match.  This patch restores the documentation, although only
-> > for the python version of kernel-doc, and I'm pretty sure there's a
-> > better way to do it (eg building it into the export_symbol* regexes).
-> > I can turn this into a proper patch if this is the way to go, but for
-> > now it's just to illustrate the problem.
-> 
-> FWIW, I have no problem with leaving the perl version behind, I expect
-> we'll drop it in 6.17.
-> 
-> (Meanwhile I don't object to your fix as a short-term workaround)
+On Tue, May 27, 2025 at 6:10=E2=80=AFAM Khaled Elnaggar
+<khaledelnaggarlinux@gmail.com> wrote:
+>
+> Use a literal block for the EXPORT_SYMBOL_GPL_FOR_MODULES() example to
+> avoid a Docutils warning about unmatched '*'. This ensures correct render=
+ing
+> and keeps the source readable.
+>
+> Warning:
+> Documentation/core-api/symbol-namespaces.rst:90: WARNING: Inline emphasis=
+ start-string without end-string. [docutils]
+>
+> Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+> ---
+>
+> Changes in v2:
+> - Use 'For example::' to create a literal block, suggested by Matthew Wil=
+cox.
+>
+> --
 
-OK, will give Mauro 24 hours to comment, then resend as a patch if
-there are no objections.
 
-> We see other variants of this problem out there, where we want to
-> document foo(), but that's really just a macro calling _foo(), where the
-> real code is.
-> 
-> I wonder if we could add some sort of a marker to the kerneldoc comment
-> saying "we are documenting foo(), but do you checks against _foo()"
-> instead?  That would be more general than trying to keep a list of
-> suffixes to hack off.
 
-kernel-doc is our own format, so sure, we can add whatever marker
-we want to it.  I think it's not quite general enough because we have
-situations like:
+Applied to linux-kbuild.
+Thanks.
 
-static inline void foo(int x)
-{
-	numa_foo(x, NUMA_NO_NODE);
-};
-
-/**
- * foo - Frobnicate
- * @x: How many
- * @nid: Which node
- */
-void numa_foo(int x, int node)
-{ .. }
-
-and now we're documenting a parameter that doesn't exist.  The only
-solution is to move the kdoc to the header file, which is annoying for
-everyone.  Or replicate the declaration in the C file and kdoc it there.
+--=20
+Best Regards
+Masahiro Yamada
