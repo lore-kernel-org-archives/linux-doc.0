@@ -1,247 +1,274 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A381255E23
-	for <linux-doc@vger.kernel.org>; Thu,  5 Jun 2025 10:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66896197A76
+	for <linux-doc@vger.kernel.org>; Thu,  5 Jun 2025 11:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749120622; cv=none; b=E2r0aPVTZiGmGO0su8N6OoatCM7aAwtEnQo8aBCUocdSvdpMGULrQjTSWCxsxkxt1LBQVcz0zNA4cdkdzIiMw8DXsJGmmw5noVNIuASNJJsEq+caNg1n4BvmDf/v3yV7axRpfgIU7S0yxIh4JQgq+6KIqtMrU1BEOI6+Dly9f9c=
+	t=1749122398; cv=none; b=RCNHsZ4RM34iao/iEbDk4vWsUFEttLNqF/j/TDUGswqiJA+ff5q3ZjUAse8yXjbnRNI/+HQklblU1e+opzKZXCuOel5Q4ISto29xH/wPQ/MRVya/I9wZbRKMF/utz3uKKmm8fZ5LyqnNHZvRrhzejjAg2um5nRl9RKCEUuad948=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749120622; c=relaxed/simple;
-	bh=MMFbkI7zMPzBdRBdPQfb7pTJMjgrsMrJkf8SuH2PcGg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mkMo8EBNKEh9Kh5xPX9x0xfwtA6gXN71jLU8COXf4HGOQ5mWvTDMbL7KV8sYH1G0i1zYaJn9GqqoWCNUsPje6woc5bhJtofAP5+Az44xDgsvqs0Vv6yhG9oiQTED1Amxj/RdhG2mj+gHDYY94zFVbZpOKKEC/MHOBFgZFTjQ6cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s5Yneaw9; arc=none smtp.client-ip=209.85.128.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1749122398; c=relaxed/simple;
+	bh=tHc68XFdlwjQX1R4Nf5XhXHFkCFSh0AgX2Cnu0Lzfuc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M8lgggUAYey6Tll76/exZEQPAr9RJgAUSvQd/kIOnmBprs1CEqsc6liAa6OOw/uY08jVocC9//6Bcq7cg+2LxS0QHOF1g/Nn1NKDKVvkiV+pZr+YxYnzAfP9oBqqXOe0eJouXf54m5k2g1ZMdK6PgirvJVRUK7gLpzWCEQ0cTgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vK7RiwZV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XHJsNMK2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vK7RiwZV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XHJsNMK2; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s5Yneaw9"
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-442f9043f56so4277105e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Jun 2025 03:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749120618; x=1749725418; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TYtpnIAkK3WcCc9sKEGdtsuC5KifjqgSXfNa01d683g=;
-        b=s5Yneaw9KHvOhvd1NjYXiRndEXnRicPmtfIvSUpJbU4CCeD8zAHMw05ghUhtLD+CN9
-         04gMz20XVIlaXkPYZ6p6u/AFHBvE83BFdOmbcqUrZGCsksipl/+FssurC3dVPFIH2n/7
-         5AwcwzvmEQwUH9MjBGot+IjCqn+ovnNFszmQ5f17cijwjM2N+cEuIDD6TshMxKVX4JYl
-         gqsAkETajdXLmeBDTn/ahpqkei0SopherOOmOj37Gg8H2XO53TW69UoalfV4asZbQ1p/
-         bZyDiXQC2cTwyMrj402S5bLSVBYAhHj29o2DKqQToy1j/YsxvvQTiMavQytnkwUv7mbx
-         pvPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749120618; x=1749725418;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TYtpnIAkK3WcCc9sKEGdtsuC5KifjqgSXfNa01d683g=;
-        b=wW1Hx7xs1mGeuSJkIptjWn096+aH7MvT3VOrEsYH/kgQZgFjssTsG9pbLgXQZg5ZfV
-         /w/XiT+EXNrdtDVsnp5A4wOMu3NtIrYOSpaitqbUZXg8WRhitgfhCWY5W+Y77e0AGcHc
-         sxNhg6z0IPRfa7NSPIF7Tjg9SF9Sn33IBpJg5oyTzFjyfVl5a4EgCnFlrKQ5981K+oCj
-         wwwWWxKIeGxQTjQNlVWRnSwKuXWb2EignY6+MYZq3Q8aRmpFglGJhKXAnX4zQ3AEw6l1
-         RpJopAgeWD1HVibS+36nZS3vg2/x69V9SUFozer8NLa4VtdUOoY3SnqZPEa6aEw24x7U
-         hgBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSUGB7tHE2fuQzIOrhzeRyn2FrUGUfE1HUW9XSTOw/284rdjxT9s5CMWnDjWu+O2ZhzKpHQhjUuLQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys6Cr8XcZWaHYh8kKMuRwB+DHX87u7K6M/o7OzGKaouV83uCtX
-	tpGUjeq9NFAAGLHpU0AAOvhRGmUF6F87LaauPc5nnjX3CJsg3yLoJ29ayGAmJlIu7os=
-X-Gm-Gg: ASbGncvk29YCuTiOWafPnrNGW9/lbtif2y96WER+F8Baw1GMHiZB9tStqpRX+fP82y1
-	ztNTEGmIg0xJPj+cvT6F8GzGHHjuQpFfeE3OifzKZ4Fc6KQPuYFa4Xf4EdfTBWQPpAw83E45uKd
-	DhOXop4EUjx9a2lu+kvkk4KlX8IWjuwMdaVdNapz4O8GwyTFE//92VlbbOTrGyBwpCHEiDj7d+8
-	7Ky4y4N1FW8A8C2OEXCEOvvNAyXCjUfFFIWO0eCYYJljpp+8zgxggRLJ12+qvjTSa/R5ldcFTLj
-	0nV+q7bblqwFp9xeGgBDQCQ1qqfNYQ29SbBSKDr+3wg/F7Y8zb/7m56SK57x
-X-Google-Smtp-Source: AGHT+IF209QtdWKQIFSgWNU834ITMWh9f6gxkjT2rjm5O4GQe4Nyl3IJTR6vikF94ywt0/mEA5L8wg==
-X-Received: by 2002:a05:600c:548d:b0:43c:f597:d589 with SMTP id 5b1f17b1804b1-451f0b20d15mr54093555e9.27.1749120617749;
-        Thu, 05 Jun 2025 03:50:17 -0700 (PDT)
-Received: from ho-tower-lan.lan ([37.18.136.128])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-451f990cfe3sm20629965e9.23.2025.06.05.03.50.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 03:50:16 -0700 (PDT)
-From: James Clark <james.clark@linaro.org>
-Date: Thu, 05 Jun 2025 11:49:08 +0100
-Subject: [PATCH v3 10/10] perf docs: arm-spe: Document new SPE filtering
- features
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vK7RiwZV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XHJsNMK2";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vK7RiwZV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XHJsNMK2"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 91D8D34A75;
+	Thu,  5 Jun 2025 11:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1749122394; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v2Ue1JMlytjtMnxI/P2E86/Rt42RmUffq+homzYUw/c=;
+	b=vK7RiwZV69p19WILwjFZ+rFs6qkBr+nheRQdqpSH8LqMGE0OtlA3RfxdMUn2nUyLU5Lfgh
+	9EyHjZcHI316Tn6u+7m6ZcoD9MG07hFuTbLN/NhyH9ptgJMOnKouXny6XvGUXodYa/36NO
+	QooZBNxUYqzmhL4Ewua//aFcQ3MLNt4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1749122394;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v2Ue1JMlytjtMnxI/P2E86/Rt42RmUffq+homzYUw/c=;
+	b=XHJsNMK23B1jnmwX/K1a9ZhtTNU8K2cdBtpsT9bRx6t61DSno9GjtvtGxktlWNj3JyCDQ/
+	29L2y3rq90eVVIAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1749122394; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v2Ue1JMlytjtMnxI/P2E86/Rt42RmUffq+homzYUw/c=;
+	b=vK7RiwZV69p19WILwjFZ+rFs6qkBr+nheRQdqpSH8LqMGE0OtlA3RfxdMUn2nUyLU5Lfgh
+	9EyHjZcHI316Tn6u+7m6ZcoD9MG07hFuTbLN/NhyH9ptgJMOnKouXny6XvGUXodYa/36NO
+	QooZBNxUYqzmhL4Ewua//aFcQ3MLNt4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1749122394;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v2Ue1JMlytjtMnxI/P2E86/Rt42RmUffq+homzYUw/c=;
+	b=XHJsNMK23B1jnmwX/K1a9ZhtTNU8K2cdBtpsT9bRx6t61DSno9GjtvtGxktlWNj3JyCDQ/
+	29L2y3rq90eVVIAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8230C1373E;
+	Thu,  5 Jun 2025 11:19:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BVrDH1p9QWjsBAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 05 Jun 2025 11:19:54 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 3A68EA0951; Thu,  5 Jun 2025 13:19:54 +0200 (CEST)
+Date: Thu, 5 Jun 2025 13:19:54 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, 
+	Paulo Alcantara <pc@manguebit.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
+	Bharath SM <bharathsm@microsoft.com>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v2 04/28] vfs: allow mkdir to wait for delegation
+ break on parent
+Message-ID: <wqp4ruxfzv47xwz2fca5trvpwg7rxufvd3nlfiu5kfsasqzsih@lutnvxe4ri62>
+References: <20250602-dir-deleg-v2-0-a7919700de86@kernel.org>
+ <20250602-dir-deleg-v2-4-a7919700de86@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250605-james-perf-feat_spe_eft-v3-10-71b0c9f98093@linaro.org>
-References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org>
-In-Reply-To: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
- Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>, 
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, leo.yan@arm.com
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, 
- kvmarm@lists.linux.dev, James Clark <james.clark@linaro.org>
-X-Mailer: b4 0.14.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250602-dir-deleg-v2-4-a7919700de86@kernel.org>
+X-Spamd-Result: default: False [-2.23 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.13)[-0.668];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	R_RATELIMIT(0.00)[to_ip_from(RL63fqwwx8ot6gmekemcs76f9d)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,samba.org,manguebit.com,microsoft.com,talpey.com,brown.name,redhat.com,lwn.net,szeredi.hu,vger.kernel.org,lists.samba.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.23
 
-FEAT_SPE_EFT and FEAT_SPE_FDS etc have new user facing format attributes
-so document them. Also document existing 'event_filter' bits that were
-missing from the doc and the fact that latency values are stored in the
-weight field.
+On Mon 02-06-25 10:01:47, Jeff Layton wrote:
+> In order to add directory delegation support, we need to break
+> delegations on the parent whenever there is going to be a change in the
+> directory.
+> 
+> Rename the existing vfs_mkdir to __vfs_mkdir, make it static and add a
+> new delegated_inode parameter. Add a new exported vfs_mkdir wrapper
+> around it that passes a NULL pointer for delegated_inode.
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
-Tested-by: Leo Yan <leo.yan@arm.com>
-Signed-off-by: James Clark <james.clark@linaro.org>
----
- tools/perf/Documentation/perf-arm-spe.txt | 97 ++++++++++++++++++++++++++++---
- 1 file changed, 88 insertions(+), 9 deletions(-)
+FWIW I went through the changes adding breaking of delegations to VFS
+directory functions and they look ok to me. Just I dislike the addition of
+__vfs_mkdir() (and similar) helpers because over longer term the helpers
+tend to pile up and the maze of functions (already hard to follow in VFS)
+gets unwieldy. Either I'd try to give it a proper name or (if exposing the
+functionality to the external world is fine - which seems it is) you could
+just add the argument to vfs_mkdir() and change all the callers? I've
+checked and for each of the modified functions there's less than 10 callers
+so the churn shouldn't be that big. What do others think?
 
-diff --git a/tools/perf/Documentation/perf-arm-spe.txt b/tools/perf/Documentation/perf-arm-spe.txt
-index 37afade4f1b2..4092b53b58d2 100644
---- a/tools/perf/Documentation/perf-arm-spe.txt
-+++ b/tools/perf/Documentation/perf-arm-spe.txt
-@@ -141,27 +141,65 @@ Config parameters
- These are placed between the // in the event and comma separated. For example '-e
- arm_spe/load_filter=1,min_latency=10/'
- 
--  branch_filter=1     - collect branches only (PMSFCR.B)
--  event_filter=<mask> - filter on specific events (PMSEVFR) - see bitfield description below
-+  event_filter=<mask> - logical AND filter on specific events (PMSEVFR) - see bitfield description below
-+  inv_event_filter=<mask> - logical OR to filter out specific events (PMSNEVFR, FEAT_SPEv1p2) - see bitfield description below
-   jitter=1            - use jitter to avoid resonance when sampling (PMSIRR.RND)
--  load_filter=1       - collect loads only (PMSFCR.LD)
-   min_latency=<n>     - collect only samples with this latency or higher* (PMSLATFR)
-   pa_enable=1         - collect physical address (as well as VA) of loads/stores (PMSCR.PA) - requires privilege
-   pct_enable=1        - collect physical timestamp instead of virtual timestamp (PMSCR.PCT) - requires privilege
--  store_filter=1      - collect stores only (PMSFCR.ST)
-   ts_enable=1         - enable timestamping with value of generic timer (PMSCR.TS)
-   discard=1           - enable SPE PMU events but don't collect sample data - see 'Discard mode' (PMBLIMITR.FM = DISCARD)
-+  data_src_filter=<mask> - mask to filter from 0-63 possible data sources (PMSDSFR, FEAT_SPE_FDS) - See 'Data source filtering'
- 
- +++*+++ Latency is the total latency from the point at which sampling started on that instruction, rather
- than only the execution latency.
- 
--Only some events can be filtered on; these include:
--
--  bit 1     - instruction retired (i.e. omit speculative instructions)
-+Only some events can be filtered on using 'event_filter' bits. The overall
-+filter is the logical AND of these bits, for example if bits 3 and 5 are set
-+only samples that have both 'L1D cache refill' AND 'TLB walk' are recorded. When
-+FEAT_SPEv1p2 is implemented 'inv_event_filter' can also be used to exclude
-+events that have any (OR) of the filter's bits set. For example setting bits 3
-+and 5 in 'inv_event_filter' will exclude any events that are either L1D cache
-+refill OR TLB walk. If the same bit is set in both filters it's UNPREDICTABLE
-+whether the sample is included or excluded. Filter bits for both event_filter
-+and inv_event_filter are:
-+
-+  bit 1     - Instruction retired (i.e. omit speculative instructions)
-+  bit 2     - L1D access (FEAT_SPEv1p4)
-   bit 3     - L1D refill
-+  bit 4     - TLB access (FEAT_SPEv1p4)
-   bit 5     - TLB refill
--  bit 7     - mispredict
--  bit 11    - misaligned access
-+  bit 6     - Not taken event (FEAT_SPEv1p2)
-+  bit 7     - Mispredict
-+  bit 8     - Last level cache access (FEAT_SPEv1p4)
-+  bit 9     - Last level cache miss (FEAT_SPEv1p4)
-+  bit 10    - Remote access (FEAT_SPEv1p4)
-+  bit 11    - Misaligned access (FEAT_SPEv1p1)
-+  bit 12-15 - IMPLEMENTATION DEFINED events (when implemented)
-+  bit 16    - Transaction (FEAT_TME)
-+  bit 17    - Partial or empty SME or SVE predicate (FEAT_SPEv1p1)
-+  bit 18    - Empty SME or SVE predicate (FEAT_SPEv1p1)
-+  bit 19    - L2D access (FEAT_SPEv1p4)
-+  bit 20    - L2D miss (FEAT_SPEv1p4)
-+  bit 21    - Cache data modified (FEAT_SPEv1p4)
-+  bit 22    - Recently fetched (FEAT_SPEv1p4)
-+  bit 23    - Data snooped (FEAT_SPEv1p4)
-+  bit 24    - Streaming SVE mode event (when FEAT_SPE_SME is implemented), or
-+              IMPLEMENTATION DEFINED event 24 (when implemented, only versions
-+              less than FEAT_SPEv1p4)
-+  bit 25    - SMCU or external coprocessor operation event when FEAT_SPE_SME is
-+              implemented, or IMPLEMENTATION DEFINED event 25 (when implemented,
-+              only versions less than FEAT_SPEv1p4)
-+  bit 26-31 - IMPLEMENTATION DEFINED events (only versions less than FEAT_SPEv1p4)
-+  bit 48-63 - IMPLEMENTATION DEFINED events (when implemented)
-+
-+For IMPLEMENTATION DEFINED bits, refer to the CPU TRM if these bits are
-+implemented.
-+
-+The driver will reject events if requested filter bits require unimplemented SPE
-+versions, but will not reject filter bits for unimplemented IMPDEF bits or when
-+their related feature is not present (e.g. SME). For example, if FEAT_SPEv1p2 is
-+not implemented, filtering on "Not taken event" (bit 6) will be rejected.
- 
- So to sample just retired instructions:
- 
-@@ -171,6 +209,31 @@ or just mispredicted branches:
- 
-   perf record -e arm_spe/event_filter=0x80/ -- ./mybench
- 
-+When set, the following filters can be used to select samples that match any of
-+the operation types (OR filtering). If only one is set then only samples of that
-+type are collected:
-+
-+  branch_filter=1     - Collect branches (PMSFCR.B)
-+  load_filter=1       - Collect loads (PMSFCR.LD)
-+  store_filter=1      - Collect stores (PMSFCR.ST)
-+
-+When extended filtering is supported (FEAT_SPE_EFT), SIMD and float
-+pointer operations can also be selected:
-+
-+  simd_filter=1         - Collect SIMD loads, stores and operations (PMSFCR.SIMD)
-+  float_filter=1        - Collect floating point loads, stores and operations (PMSFCR.FP)
-+
-+When extended filtering is supported (FEAT_SPE_EFT), operation type filters can
-+be changed to AND using _mask fields. For example samples could be selected if
-+they are store AND SIMD by setting 'store_filter=1,simd_filter=1,
-+store_filter_mask=1,simd_filter_mask=1'. The new masks are as follows:
-+
-+  branch_filter_mask=1  - Change branch filter behavior from OR to AND (PMSFCR.Bm)
-+  load_filter_mask=1    - Change load filter behavior from OR to AND (PMSFCR.LDm)
-+  store_filter_mask=1   - Change store filter behavior from OR to AND (PMSFCR.STm)
-+  simd_filter_mask=1    - Change SIMD filter behavior from OR to AND (PMSFCR.SIMDm)
-+  float_filter_mask=1   - Change floating point filter behavior from OR to AND (PMSFCR.FPm)
-+
- Viewing the data
- ~~~~~~~~~~~~~~~~~
- 
-@@ -204,6 +267,10 @@ Memory access details are also stored on the samples and this can be viewed with
- 
-   perf report --mem-mode
- 
-+The latency value from the SPE sample is stored in the 'weight' field of the
-+Perf samples and can be displayed in Perf script and report outputs by enabling
-+its display from the command line.
-+
- Common errors
- ~~~~~~~~~~~~~
- 
-@@ -247,6 +314,18 @@ to minimize output. Then run perf stat:
-   perf record -e arm_spe/discard/ -a -N -B --no-bpf-event -o - > /dev/null &
-   perf stat -e SAMPLE_FEED_LD
- 
-+Data source filtering
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+When FEAT_SPE_FDS is present, 'data_src_filter' can be used as a mask to filter
-+on a subset (0 - 63) of possible data source IDs. The full range of data sources
-+is 0 - 65535 although these are unlikely to be used in practice. Data sources
-+are IMPDEF so refer to the TRM for the mappings. Each bit N of the filter maps
-+to data source N. The filter is an OR of all the bits, so for example setting
-+bits 0 and 3 includes only packets from data sources 0 OR 3. When
-+'data_src_filter' is set to 0 data source filtering is disabled and all data
-+sources are included.
-+
- SEE ALSO
- --------
- 
+								Honza
 
+> ---
+>  fs/namei.c | 67 +++++++++++++++++++++++++++++++++++++++-----------------------
+>  1 file changed, 42 insertions(+), 25 deletions(-)
+> 
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 0fea12860036162c01a291558e068fde9c986142..7c9e237ed1b1a535934ffe5e523424bb035e7ae0 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4318,29 +4318,9 @@ SYSCALL_DEFINE3(mknod, const char __user *, filename, umode_t, mode, unsigned, d
+>  	return do_mknodat(AT_FDCWD, getname(filename), mode, dev);
+>  }
+>  
+> -/**
+> - * vfs_mkdir - create directory returning correct dentry if possible
+> - * @idmap:	idmap of the mount the inode was found from
+> - * @dir:	inode of the parent directory
+> - * @dentry:	dentry of the child directory
+> - * @mode:	mode of the child directory
+> - *
+> - * Create a directory.
+> - *
+> - * If the inode has been found through an idmapped mount the idmap of
+> - * the vfsmount must be passed through @idmap. This function will then take
+> - * care to map the inode according to @idmap before checking permissions.
+> - * On non-idmapped mounts or if permission checking is to be performed on the
+> - * raw inode simply pass @nop_mnt_idmap.
+> - *
+> - * In the event that the filesystem does not use the *@dentry but leaves it
+> - * negative or unhashes it and possibly splices a different one returning it,
+> - * the original dentry is dput() and the alternate is returned.
+> - *
+> - * In case of an error the dentry is dput() and an ERR_PTR() is returned.
+> - */
+> -struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+> -			 struct dentry *dentry, umode_t mode)
+> +static struct dentry *__vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+> +				  struct dentry *dentry, umode_t mode,
+> +				  struct inode **delegated_inode)
+>  {
+>  	int error;
+>  	unsigned max_links = dir->i_sb->s_max_links;
+> @@ -4363,6 +4343,10 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+>  	if (max_links && dir->i_nlink >= max_links)
+>  		goto err;
+>  
+> +	error = try_break_deleg(dir, delegated_inode);
+> +	if (error)
+> +		goto err;
+> +
+>  	de = dir->i_op->mkdir(idmap, dir, dentry, mode);
+>  	error = PTR_ERR(de);
+>  	if (IS_ERR(de))
+> @@ -4378,6 +4362,33 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+>  	dput(dentry);
+>  	return ERR_PTR(error);
+>  }
+> +
+> +/**
+> + * vfs_mkdir - create directory returning correct dentry if possible
+> + * @idmap:	idmap of the mount the inode was found from
+> + * @dir:	inode of the parent directory
+> + * @dentry:	dentry of the child directory
+> + * @mode:	mode of the child directory
+> + *
+> + * Create a directory.
+> + *
+> + * If the inode has been found through an idmapped mount the idmap of
+> + * the vfsmount must be passed through @idmap. This function will then take
+> + * care to map the inode according to @idmap before checking permissions.
+> + * On non-idmapped mounts or if permission checking is to be performed on the
+> + * raw inode simply pass @nop_mnt_idmap.
+> + *
+> + * In the event that the filesystem does not use the *@dentry but leaves it
+> + * negative or unhashes it and possibly splices a different one returning it,
+> + * the original dentry is dput() and the alternate is returned.
+> + *
+> + * In case of an error the dentry is dput() and an ERR_PTR() is returned.
+> + */
+> +struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+> +			 struct dentry *dentry, umode_t mode)
+> +{
+> +	return __vfs_mkdir(idmap, dir, dentry, mode, NULL);
+> +}
+>  EXPORT_SYMBOL(vfs_mkdir);
+>  
+>  int do_mkdirat(int dfd, struct filename *name, umode_t mode)
+> @@ -4386,6 +4397,7 @@ int do_mkdirat(int dfd, struct filename *name, umode_t mode)
+>  	struct path path;
+>  	int error;
+>  	unsigned int lookup_flags = LOOKUP_DIRECTORY;
+> +	struct inode *delegated_inode = NULL;
+>  
+>  retry:
+>  	dentry = filename_create(dfd, name, &path, lookup_flags);
+> @@ -4396,12 +4408,17 @@ int do_mkdirat(int dfd, struct filename *name, umode_t mode)
+>  	error = security_path_mkdir(&path, dentry,
+>  			mode_strip_umask(path.dentry->d_inode, mode));
+>  	if (!error) {
+> -		dentry = vfs_mkdir(mnt_idmap(path.mnt), path.dentry->d_inode,
+> -				  dentry, mode);
+> +		dentry = __vfs_mkdir(mnt_idmap(path.mnt), path.dentry->d_inode,
+> +				     dentry, mode, &delegated_inode);
+>  		if (IS_ERR(dentry))
+>  			error = PTR_ERR(dentry);
+>  	}
+>  	done_path_create(&path, dentry);
+> +	if (delegated_inode) {
+> +		error = break_deleg_wait(&delegated_inode);
+> +		if (!error)
+> +			goto retry;
+> +	}
+>  	if (retry_estale(error, lookup_flags)) {
+>  		lookup_flags |= LOOKUP_REVAL;
+>  		goto retry;
+> 
+> -- 
+> 2.49.0
+> 
 -- 
-2.34.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
