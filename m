@@ -1,53 +1,47 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D75927452;
-	Thu,  5 Jun 2025 21:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1392328E17;
+	Thu,  5 Jun 2025 22:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749157448; cv=none; b=e2ATYI2lORvTE5eMgORlc5VCzLeNKe2zHekf/RYBUe1Qxl5wJBzIr2WiEITI7z9ptK4GwKdxIs/2BIpl3Q9R7UX3rY7oEG/RXPpZR6CM7Y5Ch7gJdKAWEvfBubC6SXCEQV+7DssJTjQdvwDNEQiry4IHRGk0nGv+I2TuU0jssRQ=
+	t=1749163857; cv=none; b=i9YUKEbxEPEuarjNzbrkTWwWaOYHvdkLJXIcX9B2FEKUGrZobQv3ZX9m1OMnNShQ8pSXeOIab0vLS0fX9PIeXkqZfHG9qpcfYdMOL2Z6NnxI3DPUhfub+wPg+tOWEJOdV3x/G0jcFRzqUtj2+DAzgUAulzsmyWpHCeQqxNtiSJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749157448; c=relaxed/simple;
-	bh=5z4lyN6eFPIUIuW6ETWM+sIFBqvUb6kdsqF23bzMXIQ=;
+	s=arc-20240116; t=1749163857; c=relaxed/simple;
+	bh=w5rGUCB60HCMrQ5sxrkuw3dHXn6zg5hHhTznI168je0=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dx9MWYnh8TJkgyXsnR8JlBij0O0tl+mnZTxvbBjymSoCKCGiQw2jG53Jp2QiTxULSRt+XDGTHIbnU+Bn/uzxRywK1cp63+v2jt3QMxbZH/CtRi9G+rXieOvHiZ4Y/QnqMZLpOSRGViFA/xqG9OB9TInUBk399cMqgUc6zn6Y75M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=cD7s8vD0; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 MIME-Version:Content-Type; b=M1wZ/Xlb/FxlN79Lr/fwX9lHFaFMaGSBe57sRMKFuwT4be3dKeQETCZi31tc3o51iLll6tuu/lMIGjl+Ui3HdMHqxOVou7UU2s4PwW9cszbAr2ijCsmg+asPJgxqGVrirRTEMz2Dn02DltBeIgJL3GloWMwFmKQa2HSRi0Bfvpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QvFkZus6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="cD7s8vD0"
-Received: from DESKTOP-0403QTC. (unknown [40.65.108.177])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 8450D210D0C2;
-	Thu,  5 Jun 2025 14:04:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8450D210D0C2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1749157441;
-	bh=Gund+dK5aJW6UtaEJ+x2rgplZpVnxwe1S5F5gyh6HAA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Reply-To:From;
-	b=cD7s8vD0a0AfPh3ebIr231hpAoYtxnmr5f0EAkqfQvSQ1jXXObO60Olle7BNyh26Y
-	 PQSAfLA3l+EG5LI4UboSinv7mYXWDeCbzO5VLzMylLYL36WykSm86yqe0ISRwemYjE
-	 RuzFbs8q4U3a2qW3X85abq+4uV8QpooHP9orWnmw=
-Date: Thu, 5 Jun 2025 14:03:58 -0700
-From: Jacob Pan <jacob.pan@linux.microsoft.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev, Joerg Roedel
- <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, Kevin Tian
- <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, llvm@lists.linux.dev, Bill Wendling
- <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Robin
- Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, Suravee
- Suthikulpanit <suravee.suthikulpanit@amd.com>, Will Deacon
- <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
- <alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>,
- Michael Roth <michael.roth@amd.com>, Pasha Tatashin
- <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
- jacob.pan@linux.microsoft.com
-Subject: Re: [PATCH v2 12/15] iommupt: Add the x86 64 bit page table format
-Message-ID: <20250605140358.2dd6c083@DESKTOP-0403QTC.>
-In-Reply-To: <12-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
-References: <0-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
-	<12-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
-Reply-To: jacob.pan@linux.microsoft.com
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QvFkZus6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A94F7C4CEE7;
+	Thu,  5 Jun 2025 22:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749163856;
+	bh=w5rGUCB60HCMrQ5sxrkuw3dHXn6zg5hHhTznI168je0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QvFkZus6+IFnjXFu/n2GiBb6aJkvDWuNZmF3dz+Uvqfx2BMWokX280z9NNrXeREZE
+	 WZL+/T37cxMWASmx+OCqeZpVwHpWbPDcorxGUXm5Eg4BDzdDH+3+UgW+ZgJN2m6q0r
+	 6cJFep/Mpfvyqh+9hi60zQrRxXaoprGAJB0/WnV08l21MSfhaxz6g0F7q6VoXM0Dig
+	 +1uwuFIhY9kw39yRsr6NyZGg2/RPlLKw/SNj4aa2KiTvynIXGrqQFvf651uYt4GwhN
+	 nXTd84j+EwMBPIAHsDuJsGWWR0rGqVAppUGjz24B/3y3uzzCwD+OlYs4hneQA0RxXI
+	 UmKv7vLuTuYiQ==
+Date: Fri, 6 Jun 2025 00:50:51 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Andrew Morton
+ <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] scripts/kernel-doc: drop "_noprof" on function
+ prototypes
+Message-ID: <20250606005051.60a48cb4@foz.lan>
+In-Reply-To: <aEHwdoNCrF4-KY_i@casper.infradead.org>
+References: <20240326054149.2121-1-rdunlap@infradead.org>
+	<aEHq_Jy3hPQIzaO-@casper.infradead.org>
+	<875xhaf145.fsf@trenco.lwn.net>
+	<aEHwdoNCrF4-KY_i@casper.infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,28 +51,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Jason,
+Em Thu, 5 Jun 2025 20:31:02 +0100
+Matthew Wilcox <willy@infradead.org> escreveu:
 
-On Mon,  5 May 2025 11:18:42 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+> On Thu, Jun 05, 2025 at 01:18:50PM -0600, Jonathan Corbet wrote:
+> > Matthew Wilcox <willy@infradead.org> writes:  
+> > > This turns out not to be enough.  For example, krealloc() is
+> > > currently undocumented.  This is because we match the function name
+> > > in EXPORT_SYMBOL() against the function name in the comment, and they
+> > > don't match.  This patch restores the documentation, although only
+> > > for the python version of kernel-doc, and I'm pretty sure there's a
+> > > better way to do it (eg building it into the export_symbol* regexes).
+> > > I can turn this into a proper patch if this is the way to go, but for
+> > > now it's just to illustrate the problem.  
+> > 
+> > FWIW, I have no problem with leaving the perl version behind, I expect
+> > we'll drop it in 6.17.
 
-> +config IOMMU_PT_X86_64
-> +       tristate "IOMMU page table for x86 64 bit, 4/5 levels"
-> +	depends on !GENERIC_ATOMIC64 # for cmpxchg64
-> +	default n
-> +	help
-> +	  iommu_domain implementation for the x86 64 bit 4/5 level
-> page table.
-> +	  It supports 4K/2M/1G page sizes and can decode a sign
-> extended
-> +	  portion of the 64 bit IOVA space.
-> +
-> +	  Selected automatically by an IOMMU driver that uses this
-> format. +
->  config IOMMU_PT_KUNIT_TEST
->  	tristate "IOMMU Page Table KUnit Test" if !KUNIT_ALL_TESTS
->  	depends on KUNIT
->  	depends on IOMMU_PT_AMDV1 || !IOMMU_PT_AMDV1
-> +	depends on IOMMU_PT_X86_64 || !IOMMU_PT_X86_64
-Is this intended? or you mean:
-depends on IOMMU_PT_X86_64 || IOMMU_PT_AMDV1
+I agree with Jon: it is time to retire the perl version. 
+
+> > 
+> > (Meanwhile I don't object to your fix as a short-term workaround)  
+> 
+> OK, will give Mauro 24 hours to comment, then resend as a patch if
+> there are no objections.
+> 
+> > We see other variants of this problem out there, where we want to
+> > document foo(), but that's really just a macro calling _foo(), where the
+> > real code is.
+
+The problem is that one may want to document both _foo() and foo(),
+if they have different arguments. I'm pretty sure we have cases like
+that.
+
+> > 
+> > I wonder if we could add some sort of a marker to the kerneldoc comment
+> > saying "we are documenting foo(), but do you checks against _foo()"
+> > instead?  That would be more general than trying to keep a list of
+> > suffixes to hack off.  
+> 
+> kernel-doc is our own format, so sure, we can add whatever marker
+> we want to it.  I think it's not quite general enough because we have
+> situations like:
+> 
+> static inline void foo(int x)
+> {
+> 	numa_foo(x, NUMA_NO_NODE);
+> };
+> 
+> /**
+>  * foo - Frobnicate
+>  * @x: How many
+>  * @nid: Which node
+>  */
+> void numa_foo(int x, int node)
+> { .. }
+
+If I"m not mistaken, if you do things like that, kernel-doc.py will
+complain that "foo" is not "numa_foo". It will also complain that
+"nid" doesn't exist and "node" is not documented.
+
+Basically, there is a strict check there (if it got properly 
+backported from the Perl version) which checks if kernel-doc
+is documenting the next function prototype name and argument
+names.
+
+The rationale is that we caught several cases where a function was
+removed, renamed and/or have their parameters renamed without the
+corresponding kernel-doc change. So, the verification is now
+stricter (*). When we enabled such check, we fixed several bad
+kernel-doc markups.
+
+(*) Also, kernel-doc handles files in one pass at read time,
+    sequentially. It could be possible to change it, but kernel-doc 
+    is already complex enough, and placing the markup just before
+    the function is a good practice anyway.
+
+> and now we're documenting a parameter that doesn't exist.  The only
+> solution is to move the kdoc to the header file, which is annoying for
+> everyone.  Or replicate the declaration in the C file and kdoc it there.
+
+Heh, for my taste, having kernel-docs at header files look better, as
+this is where the kAPIs should be defined anyway. 
+
+Ok, one may change the behavior of a function without touching the
+arguments and forget to update kernel-doc at the header files to tell
+about such change, but this is problematic anyway, as, if someone is
+relying on a certain behavior of a kAPI function, changing its behavior
+may result on unexpected results at the current callers - and even
+future callers.
+
+Thanks,
+Mauro
