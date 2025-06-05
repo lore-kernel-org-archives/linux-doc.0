@@ -1,111 +1,167 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADB6770E2
-	for <linux-doc@vger.kernel.org>; Thu,  5 Jun 2025 15:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D78B1EF080;
+	Thu,  5 Jun 2025 15:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749138628; cv=none; b=kFQ1+AgJpai+zmNvxin4VNPbdV1EEp8COXknvP/PV/pBj78+fG4j6ulSyPLk1z0JN8fxUAA5PaffAkYmNdGFguNlszfJgoh5G9zzXijVjWb3NuojcsnVjXJXVFxHKfvqPJMckpKuJG6ueLRZv0i/5o/3yzYB4cP3Yo2if+IIduQ=
+	t=1749138854; cv=none; b=l3TkyzSXhFGRodEPehmAEMx6wzHKGoRpNEOxTEfjYoMUi18iqvDcrh4s91e5HOQaEw74bpkAGMPWHefOHKtrv9wHxMlC7CtzuEhU463+0B3HEKASmkvp4b76ETN56oHW14xUX65hC4VlaUY6GdwdXrzqndLtnxZ8NhmBoracIxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749138628; c=relaxed/simple;
-	bh=PH2gg5/25bWwXBMWyv5HpO0mhwg5KYPWfIuk4bNNBPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=efRVGjNVMplojMt1yf1qd97Lg95yQEGKKqS1gL8XlXPLMgYga2nsPL8qXd4Ow0Tj6yjVs0JNTBohCciZIh7XJGe3dSdN6DYXX8us9Zt+xW+S6zUDLnas6c1jAhfplgEvFwRGuci/yV4H4kheyL83vlEUipIYm5/rIRfy+QB/2dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Hvn1lwir; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1749138854; c=relaxed/simple;
+	bh=XJ4OnNteacnUcBJgU18uNHRd0LUAn8+t4EqsM7xK1mk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=NpR4iFQkF7RKxpxDO9kJG1/hmAJV2H9/OpXtcmozcJw+sDy0KRS+Hj0SQn/QVZ+GQqusllGh2lkmqAgVhXNsqItF0vUveYTyifbpbhkCJ509Kqn3A/dp2MARWaY38fFGPKhJMhXZBF33tDNyBiWzXMrzzjv7WkOFiCRoddqGrEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=CJN8AhF/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q4UPYCXi; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Hvn1lwir"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a36748920cso1167532f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Jun 2025 08:50:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1749138624; x=1749743424; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JRCqLN5L4Rr3WE8pJIILtJZPUbBl7/a5g9L3/1Mvsfo=;
-        b=Hvn1lwirJd9qggJQ5xoWI5LFYst7HV5ityrA7rsdjNxzkAPIBpTjqfjY1KWxr4wV79
-         gE+ihtJ+FXEgQI6WUk5AC6rRnQlOGnqqKkasmxFkTdQr4M1dNCGeA00K9U9/KW7Lud1J
-         MMJk8PYLCJ16TAK9mTM7LPfMKnAobWv4tUKSgv0uNbwGkva/je25pwKoCH0tem1KH4wi
-         TnB/xLzpi3g0H1Sf76oXX0MH9vJrF5CxKe/Kc5X6vHJnPergEeaBjWJEPku2xw/pTeiz
-         7IHhtNu7tczRUn0spjpWAa7hUPa7BsbDxTWbkUOy81a3rm2j13Ek5XLxF3uwfVuY6jTq
-         /Y1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749138624; x=1749743424;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JRCqLN5L4Rr3WE8pJIILtJZPUbBl7/a5g9L3/1Mvsfo=;
-        b=UXv7DyAEi2T9OE5xb6QK6W0gVwNv6K8KT6LOCtpyRX09qVUBzGvjeXeHY2KvUEb2ne
-         kh7FnK78LhBn+0D7FvoN+peiicKPwzhZknvhGeMfc0TW6vnp+FeEsXYGwKvqa7lgHWxy
-         e0P8LDq2SZBtrrRaScdjQrS+SzyKXoovCak0+YjKNlNbTCZH7qc5c8xNzUnhRhNQlZ/N
-         PMtZuVhn0qpNtxiGWYLAv9tzhNTJr7bSI08zkGV3iknrfu13/8pjSu4Pjh294ftk1Mfu
-         2UoLeJrATNnlx0s4Q5Xpk0mVAiubNLQPUxkIS6MLElQBDKMYaIZfzJNxi3t0yNtJRp0l
-         ovxw==
-X-Forwarded-Encrypted: i=1; AJvYcCV+cE1T9GFF7pCP52wMItYm8kkOOsm6DSYfvstQ5U3qWnGoXOlvWhocV6+a8vvtlbfLV8BDkdtwVYI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAp82CnSd66O3sg1meRR2kx2qm+e4DHMymbQGM3irXcN6HAFkk
-	5hYdXqOc6WOXbOdw+XbO/wbGcIMtmOGWAAJY207GLHjtiL/0iZ5YRbabpmAgjecIAfI=
-X-Gm-Gg: ASbGnct752gcMlbKs9ForVue8/rwFCzJ6g7n1ulFJ8r8aqTKMh1uBdy+M6/jwE1t+E8
-	eEwcEeVgh6SBf71kEsflURa1U+LPuYh/uMLIkB3EH36EgexukLKAHP2gDoMSbAgww61oeXBj9Wc
-	slQXT1EKtvuhqw2g0Ryyt4dQgYh/OYOu2oGzwUbD8HvlT4NLyBkJAk7/3UOE5KadkAMCQtoJXqj
-	OKpfCtBr8Sx1IclNzYQ1S1hQ/oVBKjPLoxRaP+llk1mV17j06yROCjFdtmL0NnJLRDLcyEQ2zyR
-	jskCRUPYLfoFkRofHGaWKR1pE1cdzfws0kmFF0psRkSRHDYclzO39g==
-X-Google-Smtp-Source: AGHT+IELoMlwsCu+FjoJVCzoFEowpMUAlbq++KbjZI5GGOu59FebaVIM2y+qSY8qYZiSkvqrwc1U4A==
-X-Received: by 2002:a05:6000:220d:b0:3a4:eed7:15f2 with SMTP id ffacd0b85a97d-3a51d96ae39mr6337955f8f.43.1749138624495;
-        Thu, 05 Jun 2025 08:50:24 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe7414fsm25349729f8f.55.2025.06.05.08.50.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 08:50:24 -0700 (PDT)
-Date: Thu, 5 Jun 2025 17:50:22 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Vishal Chourasia <vishalc@linux.ibm.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llong@redhat.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v2] Documentation: cgroup: add section explaining
- controller availability
-Message-ID: <xn2sq6byy2qvylmnhzgzhjuac44t5qnndq5eo2rp23xjndbhlg@oymknwf3cxw5>
-References: <20250605145421.193189-2-vishalc@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="CJN8AhF/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q4UPYCXi"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DF84D114011C;
+	Thu,  5 Jun 2025 11:54:08 -0400 (EDT)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-04.internal (MEProxy); Thu, 05 Jun 2025 11:54:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1749138848;
+	 x=1749225248; bh=Qn245qQSyJEYdSkDPOgQGR69RTFiYTcg/zViHoyBBD0=; b=
+	CJN8AhF/P3whIfl3cMyusFbeq+OyGon/w+UuMXjXYLuqEntG2kSJKw+wI+h+Mw7u
+	RGpFhyEGvhjOQZqM7eSmRjU63eBxFNAc2MZjmB4Uux3rgKETrdsp4vNBuHuUAdCd
+	jN5jSqyPZ0OmPfq6BtIGMIvSYfQMBF4pj14SSxP9Zhrg/rnsfeVGbUNNNPbV0LIY
+	EEy2RzoKUPFczRJUjwOGLg9FnuYkzua/gqyK9mW55ngEZgWIo+k07jW3FWcCCOX/
+	sKJ+XcB3JagAiNaNsFr0O8k25rQYRtHECIJhKvV3YEKqZLG5F8HQf2BOXAiZgmOk
+	8fan6C6YpQxTryE6SPmtpg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749138848; x=
+	1749225248; bh=Qn245qQSyJEYdSkDPOgQGR69RTFiYTcg/zViHoyBBD0=; b=Q
+	4UPYCXiwOigcqrN1IPf0slad6+4inUQQ7hvSMvUvtvfmeK+Xz1zv8aX/6VEvucgY
+	/nfphvyfeklslWllMNhy1nmHZ/LZKTi+hGZ2Oxhhbr7VE5Spz+bsYcm7qjU/C7IR
+	/Q9ht/aql9AX2yEyZWzi0ZBkTKoz+UhWja+zyknVenmO7tTWgmQrkVKm2u6tYM0T
+	BbB8fX56QqGVtTPjOHk11bnDpLDy4CcHgoqIbu1Dt9PlJFLgLS1P3vcrct2w+fgd
+	1ZExkM4GFbchmcBhSZuCVf6iaoxjEmgtXNT02JzcBgcm8inIWwlg5nnhrE+XdSDK
+	snIHOVyyGRoRXCDOOrOVA==
+X-ME-Sender: <xms:n71BaNdKsqSkFYejiCh9O9VkXJHCclNIrkhmKoMMnLunqguDzhJ0fg>
+    <xme:n71BaOcP2fNek97Kt4J29mon2CLdICSL2gV-gv1UCqg63oSF07501kjWvzoZClRYz
+    Man1KChh1q_R3XxBCM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdefkeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedfofgrrhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnh
+    hovhhosehsqhhuvggssgdrtggrqeenucggtffrrghtthgvrhhnpefhuedvheetgeehtdeh
+    tdevheduvdejjefggfeijedvgeekhfefleehkeehvdffheenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhho
+    sehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouh
+    htpdhrtghpthhtohepihhkvghprghnhhgtsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
+    figprghrmhhinhesghhmgidruggvpdhrtghpthhtohephhhmhheshhhmhhdrvghnghdrsg
+    hrpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhn
+    thgvlhdrtghomhdprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuhigrd
+    hinhhtvghlrdgtohhmpdhrtghpthhtohepihgsmhdqrggtphhiqdguvghvvghlsehlihhs
+    thhsrdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghpthhtoheptghorhgsvghtsehlfi
+    hnrdhnvghtpdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrthdrtghomhdprhgt
+    phhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:n71BaP_Sc7vGI49Jm4mDEDgCgnKZfkVX3D3G8rZ5knqlhvj7F6lZ3w>
+    <xmx:n71BaClsV-_9JTLYIQ3KPOZ8qbJx4Ae6Xp6tKkBdgkD2qzFyssjA1A>
+    <xmx:n71BaJ9kw8Hpi5UKvkYuaeTz7-gapc4ZU1hs8FQbuehokZC_dB-2bA>
+    <xmx:n71BaIm7_x46AORl57uWXZz_OxDgddbvqq4GZ542URutTcglQ9L-dA>
+    <xmx:oL1BaDNAU7hCoNSMfXjxgqO-lI7ASvmY4lBaEIeuE2GKton50KTiwpsA>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 6D6222CE0061; Thu,  5 Jun 2025 11:54:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bayaay3n4q7jtjk7"
-Content-Disposition: inline
-In-Reply-To: <20250605145421.193189-2-vishalc@linux.ibm.com>
+X-ThreadId: T107eb5199b18744c
+Date: Thu, 05 Jun 2025 11:53:47 -0400
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Hans de Goede" <hdegoede@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ ikepanhc@gmail.com, "Henrique de Moraes Holschuh" <hmh@hmh.eng.br>,
+ "Armin Wolf" <W_Armin@gmx.de>, linux-doc@vger.kernel.org,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Message-Id: <71f410f4-6ac6-41d2-8c99-2a02e0f05fed@app.fastmail.com>
+In-Reply-To: <aEEyEfYgpPQm8Tlx@smile.fi.intel.com>
+References: <mpearson-lenovo@squebb.ca>
+ <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
+ <aEEyEfYgpPQm8Tlx@smile.fi.intel.com>
+Subject: Re: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
+Hi Andy
 
---bayaay3n4q7jtjk7
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] Documentation: cgroup: add section explaining
- controller availability
-MIME-Version: 1.0
+On Thu, Jun 5, 2025, at 1:58 AM, Andy Shevchenko wrote:
+> On Wed, Jun 04, 2025 at 01:36:53PM -0400, Mark Pearson wrote:
+>> Create lenovo subdirectory for holding Lenovo specific drivers.
+>
+> ...
+>
+>> -F:	drivers/platform/x86/lenovo-wmi-hotkey-utilities.c
+>> +F:	drivers/platform/x86/lenovo/lenovo-wmi-hotkey-utilities.c
+>
+> You may follow the trick in the Makefile (see intel folder) to avoid repetition
+> of the folder name in the file names. Note, the modules will be called the
+> same (assuming no ABI breakages due to renames).
+>
+Interesting - I'll have to look at that a bit more.
+Any objections if I leave that for a future change?
 
-On Thu, Jun 05, 2025 at 08:24:22PM +0530, Vishal Chourasia <vishalc@linux.i=
-bm.com> wrote:
-=2E..
->=20
-> Signed-off-by: Vishal Chourasia <vishalc@linux.ibm.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> ...
+>
+>> -# IBM Thinkpad and Lenovo
+>> +# IBM Thinkpad
+>
+> This is a bit ambiguous now. It's IBM and Lenove for ThinkPad... Perhaps you
+> should put some kind of date or so? Like
+>
+> # IBM Thinkpad (before 2007)
+>
+> (note, I speculated on the year, you may know better what to put there).
+>
 
-Acked-by: Michal Koutn=FD <mkoutny@suse.com>
+Sure. Realistically the thinkpad_acpi driver still works for the (pretty old now!) IBM Thinkpads so it's a bit messy.
 
---bayaay3n4q7jtjk7
-Content-Type: application/pgp-signature; name="signature.asc"
+Main reason I did this is those two IBM specific drivers aren't, to my understanding, active for Lenovo devices now, and it seemed wrong to move them. Not sure if anybody really cares though :) I just didn't want to step on any toes.
 
------BEGIN PGP SIGNATURE-----
+IBM sold the PC business to Lenovo in 2005, so I can put that date there unless anybody else has concerns.
 
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCaEG8vAAKCRAt3Wney77B
-SXmRAQDPQPSQbPWaqiXwU4vsbDRInrcwQad8DauYGFYkN3J/UQD/RsuAsYUG7+pd
-13hnOACyQdZK9AGRKldC1S4PUT8p6ws=
-=Vr5j
------END PGP SIGNATURE-----
+> ...
+>
+>> +++ b/drivers/platform/x86/lenovo/Makefile
+>> @@ -0,0 +1,15 @@
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +#
+>> +# Makefile for linux/drivers/platform/x86/lenovo
+>> +# Lenovo x86 Platform-Specific Drivers
+>> +#
+>> +obj-$(CONFIG_IDEAPAD_LAPTOP)	+= ideapad-laptop.o
+>> +obj-$(CONFIG_LENOVO_WMI_HOTKEY_UTILITIES)	+= lenovo-wmi-hotkey-utilities.o
+>> +obj-$(CONFIG_LENOVO_YMC)	+= lenovo-ymc.o
+>> +obj-$(CONFIG_THINKPAD_ACPI)	+= thinkpad_acpi.o
+>> +obj-$(CONFIG_THINKPAD_LMI)	+= think-lmi.o
+>> +obj-$(CONFIG_YOGABOOK)		+= lenovo-yogabook.o
+>> +obj-$(CONFIG_YT2_1380)		+= lenovo-yoga-tab2-pro-1380-fastcharger.o
+>> +obj-$(CONFIG_LENOVO_WMI_CAMERA)	+= lenovo-wmi-camera.o
+>
+>> +
+>> +
+>
+> No need to have even a single blank line at the end of file. Usually editors
+> even complain about this.
+>
+My bad - I missed this one. Will fix in v2.
 
---bayaay3n4q7jtjk7--
+Thanks for the review
+Mark
