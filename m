@@ -1,130 +1,84 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2059A17548;
-	Thu,  5 Jun 2025 21:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D75927452;
+	Thu,  5 Jun 2025 21:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749157421; cv=none; b=FPTWwuoBew3iiEwaOiS7dPjI6r5BogVlfOngpdBkYUJqB+WDvpKHpEWKbbRZoEMWw+AOGnyNaY8YB7GNbqmvoznqXRLVRKv8IuwdPjfJAewacFH9xsCgqdhBqbn2VM0CbgsUB685KXNR9CEEu0IsrR4UM0Wm1ocs2hucFYCm0WA=
+	t=1749157448; cv=none; b=e2ATYI2lORvTE5eMgORlc5VCzLeNKe2zHekf/RYBUe1Qxl5wJBzIr2WiEITI7z9ptK4GwKdxIs/2BIpl3Q9R7UX3rY7oEG/RXPpZR6CM7Y5Ch7gJdKAWEvfBubC6SXCEQV+7DssJTjQdvwDNEQiry4IHRGk0nGv+I2TuU0jssRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749157421; c=relaxed/simple;
-	bh=DxZuCT3zQTNmwF1w5Jm8UNNxG3gAbyWGaSO957EG0X0=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=NFX/E9MhZbRZK8XCZn49S3ZW/9jo83RSzlGFJe4vnhDQwFV4anST5IBrksM/HKKnlhgFeQrRsnAUQafx2fjvtHUO7WqD3uVpgKiVAQEoUwV78/PkTeauHolGBZPQtBpkfd8QsNWmn2x9LT10LjQLevXko6lZBAOHzDYcYE7Iivo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=lXP4G1Xq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eeiE05iw; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1749157448; c=relaxed/simple;
+	bh=5z4lyN6eFPIUIuW6ETWM+sIFBqvUb6kdsqF23bzMXIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Dx9MWYnh8TJkgyXsnR8JlBij0O0tl+mnZTxvbBjymSoCKCGiQw2jG53Jp2QiTxULSRt+XDGTHIbnU+Bn/uzxRywK1cp63+v2jt3QMxbZH/CtRi9G+rXieOvHiZ4Y/QnqMZLpOSRGViFA/xqG9OB9TInUBk399cMqgUc6zn6Y75M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=cD7s8vD0; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="lXP4G1Xq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eeiE05iw"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 934E825400A6;
-	Thu,  5 Jun 2025 17:03:36 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-12.internal (MEProxy); Thu, 05 Jun 2025 17:03:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1749157416;
-	 x=1749243816; bh=zVXTQZbdvC/TAzsb8x4vqo9EMW+NlidVTsUt3AlM1ic=; b=
-	lXP4G1Xq5ZjVlFKq7Gix18VYqGVRI/WRB0nc7KXjXTNDuuRMIHdVUkJd5GDrEqbn
-	F0fBSSDKhriKiwnMEKUEKPSZwyHliTMH38NCC2h4d1UPa9P8Q0Jh5eEZXo1sRyXJ
-	R1k7Y6xy0TIC3edWP5R2/Jz/IxHIFArRH9F6jB8rpgj3rmFk51OW0/RNAv24mVzW
-	Tx4hNjMkzSGZRVPDZ5M4CddPVoG7OF//c1EDNtFfWif/UglsuUfsG6mUA5dVtORf
-	vOKyBhq10IhVRJvBTcZpOq89utXSmCajHfH1d+F61dSeroEHmBMtsr3SqLsWTY+R
-	nQasJAaVFhP9l0DurRyrUQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749157416; x=
-	1749243816; bh=zVXTQZbdvC/TAzsb8x4vqo9EMW+NlidVTsUt3AlM1ic=; b=e
-	eiE05iwGYDaO3E/O8JDndkKK0VxO6F1x6Hm+rFuL2llSHoH1UAXlJuLOflOElRMD
-	9v1rv9b6bzgasRmeA7aJcU4Zs4VT0vvmr+BFoSt72hzIn1uKN/Ndex6j3ViGtWoo
-	8LHA0abS9VAUTl6Z1bZ9hLdClhmLfyZfFm/6ZdIThtPeiIHVlp7ja5A+RCaB6zU9
-	Uf6JQHymBioylFyLYZt+gaZnBAC0jEG+/hWGDmwmE8avbY7hJwwGeG6pqZOmIvac
-	IUZ29rY7b6Fs2cSdiR6WRg0LH+3jqwBeJTzHHdpDBd55rTY1gyeAHZ/l9Yyl4yw8
-	KDt0c+rhum9FGvMTmGmxA==
-X-ME-Sender: <xms:JwZCaNOYXk3GU1KfdHQwcm5gjtm0nFK96JEChOWimEFb3Xsf0z7tDw>
-    <xme:JwZCaP-_DhP4kX2MeE_ciRlbqT7TmRQtQ8NoFCUmBoRJ5UsTBbFMUu9073LjeT52O
-    ktUjF2kVaSwlzXyEuY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegudegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedfofgrrhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnh
-    hovhhosehsqhhuvggssgdrtggrqeenucggtffrrghtthgvrhhnpefhuedvheetgeehtdeh
-    tdevheduvdejjefggfeijedvgeekhfefleehkeehvdffheenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhho
-    sehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouh
-    htpdhrtghpthhtohepihhkvghprghnhhgtsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    figprghrmhhinhesghhmgidruggvpdhrtghpthhtohephhhmhheshhhmhhdrvghnghdrsg
-    hrpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhn
-    thgvlhdrtghomhdprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuhigrd
-    hinhhtvghlrdgtohhmpdhrtghpthhtohepihgsmhdqrggtphhiqdguvghvvghlsehlihhs
-    thhsrdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghpthhtoheptghorhgsvghtsehlfi
-    hnrdhnvghtpdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrthdrtghomhdprhgt
-    phhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:JwZCaMQxO3al6dnB9sAdgd8ehpyzlkre8wKXr_4f6tlTNw8GmhNm2Q>
-    <xmx:JwZCaJu0faNmirli2wnJb6Qgxyczz_r6eaqfNJ85KVD4rGjFJ2wxTA>
-    <xmx:JwZCaFfs8LEfV22mhfqxO6oZU_Bd1x-r8bDhi14rhokQhsQUNLo5yw>
-    <xmx:JwZCaF1nBQuTKr9assGbqRn69EmcugK5WfAevgrNEySn17TCeyC7tw>
-    <xmx:KAZCaB89Oo0mEfqAobynotnzf2EN0r0SWxl4WmYtyFEH5vw3KrU3ka-W>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id BFFF82CE0060; Thu,  5 Jun 2025 17:03:35 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="cD7s8vD0"
+Received: from DESKTOP-0403QTC. (unknown [40.65.108.177])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8450D210D0C2;
+	Thu,  5 Jun 2025 14:04:00 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8450D210D0C2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1749157441;
+	bh=Gund+dK5aJW6UtaEJ+x2rgplZpVnxwe1S5F5gyh6HAA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Reply-To:From;
+	b=cD7s8vD0a0AfPh3ebIr231hpAoYtxnmr5f0EAkqfQvSQ1jXXObO60Olle7BNyh26Y
+	 PQSAfLA3l+EG5LI4UboSinv7mYXWDeCbzO5VLzMylLYL36WykSm86yqe0ISRwemYjE
+	 RuzFbs8q4U3a2qW3X85abq+4uV8QpooHP9orWnmw=
+Date: Thu, 5 Jun 2025 14:03:58 -0700
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev, Joerg Roedel
+ <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, Kevin Tian
+ <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, llvm@lists.linux.dev, Bill Wendling
+ <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Robin
+ Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, Suravee
+ Suthikulpanit <suravee.suthikulpanit@amd.com>, Will Deacon
+ <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
+ <alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>,
+ Michael Roth <michael.roth@amd.com>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ jacob.pan@linux.microsoft.com
+Subject: Re: [PATCH v2 12/15] iommupt: Add the x86 64 bit page table format
+Message-ID: <20250605140358.2dd6c083@DESKTOP-0403QTC.>
+In-Reply-To: <12-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
+References: <0-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
+	<12-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
+Reply-To: jacob.pan@linux.microsoft.com
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T107eb5199b18744c
-Date: Thu, 05 Jun 2025 17:03:15 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Hans de Goede" <hdegoede@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
- ikepanhc@gmail.com, "Henrique de Moraes Holschuh" <hmh@hmh.eng.br>,
- "Armin Wolf" <W_Armin@gmx.de>, linux-doc@vger.kernel.org,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Message-Id: <dd3b79e3-a0d1-4413-8c69-58ca6b4fb8c9@app.fastmail.com>
-In-Reply-To: <aEHzYT4XqhzIpO5k@smile.fi.intel.com>
-References: <mpearson-lenovo@squebb.ca>
- <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
- <aEEyEfYgpPQm8Tlx@smile.fi.intel.com>
- <71f410f4-6ac6-41d2-8c99-2a02e0f05fed@app.fastmail.com>
- <aEHzYT4XqhzIpO5k@smile.fi.intel.com>
-Subject: Re: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Andy
+Hi Jason,
 
-On Thu, Jun 5, 2025, at 3:43 PM, Andy Shevchenko wrote:
-> On Thu, Jun 05, 2025 at 11:53:47AM -0400, Mark Pearson wrote:
->> On Thu, Jun 5, 2025, at 1:58 AM, Andy Shevchenko wrote:
->> > On Wed, Jun 04, 2025 at 01:36:53PM -0400, Mark Pearson wrote:
->> >> Create lenovo subdirectory for holding Lenovo specific drivers.
->
-> ...
->
->> >> -F:	drivers/platform/x86/lenovo-wmi-hotkey-utilities.c
->> >> +F:	drivers/platform/x86/lenovo/lenovo-wmi-hotkey-utilities.c
->> >
->> > You may follow the trick in the Makefile (see intel folder) to avoid repetition
->> > of the folder name in the file names. Note, the modules will be called the
->> > same (assuming no ABI breakages due to renames).
->> >
->> Interesting - I'll have to look at that a bit more.
->> Any objections if I leave that for a future change?
->
-> IF it's nearest future :-)
->
-I got this implemented - I'll include it with v3. It's less complicated than I thought when I initially looked. 
-Thanks for the suggestion.
+On Mon,  5 May 2025 11:18:42 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Mark
+> +config IOMMU_PT_X86_64
+> +       tristate "IOMMU page table for x86 64 bit, 4/5 levels"
+> +	depends on !GENERIC_ATOMIC64 # for cmpxchg64
+> +	default n
+> +	help
+> +	  iommu_domain implementation for the x86 64 bit 4/5 level
+> page table.
+> +	  It supports 4K/2M/1G page sizes and can decode a sign
+> extended
+> +	  portion of the 64 bit IOVA space.
+> +
+> +	  Selected automatically by an IOMMU driver that uses this
+> format. +
+>  config IOMMU_PT_KUNIT_TEST
+>  	tristate "IOMMU Page Table KUnit Test" if !KUNIT_ALL_TESTS
+>  	depends on KUNIT
+>  	depends on IOMMU_PT_AMDV1 || !IOMMU_PT_AMDV1
+> +	depends on IOMMU_PT_X86_64 || !IOMMU_PT_X86_64
+Is this intended? or you mean:
+depends on IOMMU_PT_X86_64 || IOMMU_PT_AMDV1
