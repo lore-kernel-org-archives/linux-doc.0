@@ -1,188 +1,186 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA0E22EF5
-	for <linux-doc@vger.kernel.org>; Thu,  5 Jun 2025 01:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1755C1EF1D;
+	Thu,  5 Jun 2025 02:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749088547; cv=none; b=cpuqLpFvtuK8kAkR8GTbOnzLvFxPUAoXkDO7CPIuEUlDWtfB3lj760LZmFZw9Pvz+//mUYZIFLFKOh0Y8SH4300H3kAEzL+QvQT3Fj2aeXmqlgWMu5nSWn2boc2/54s5X9QiDxbKwGjX/lDOmLqTTf22rnXBzwBa7SC2npCYwcs=
+	t=1749088881; cv=none; b=jhaPjZn6+biivVilG2/Ustb6yLgQgb1T+7V42Df2WR25IAWwxE9YqmfTwq8eFmLbnREBBf/xZovCvM7hQyw47G5YwtD5GVITAALAii+4GVa5K4AeHpFDprqpKOj6n9E0KIjlxY5pJWXmmUZ9FxolsG7eb7qGQ/bsfCQR4C9GYm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749088547; c=relaxed/simple;
-	bh=+c9Fev8/Meg10Uoay1ZU/kdCAOWZDW9/gdNngKjH6Go=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RzJtwAhtlTAYa9ZX3EHC9h2Sn0+vZGmskfVWojU+ihHeksezuxN7MjpsKOuIlkPbPYyuS7dUyOpttzgBDxK8iyXhUS6MDasQPx/58SxPJn1dXt3cdXEmaX+GddN01Yy9qdhWF8wKagY9+NKnDvgwGZPAL7ZrOcC+LA6g1J5XcaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e9dn5VPb; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1749088881; c=relaxed/simple;
+	bh=fnHqjeoRa3loKHhYS5bX+oT63Gr6BHq+bGrhR4L6D7g=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oIo3ntH/baon3kgvQ5I1JtWDEUdsshIMPH2zEJlD+Lk8cX03cqqvAGhBeCAxltaROg5aPH595FWZmtED6ex2EXjep248j350+ze79/9ts/sLnERFY7A1tSOY2pWRJQRrjJgW5ApgTuYNQLh27aAk/pshriMxVWLrcDWclvws16Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L0bwDh/6; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e9dn5VPb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1749088543;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9AwB0rFfcz08HKP4jJKt0w7l+d02ZrCK/l/MYo9cvhM=;
-	b=e9dn5VPbZ6cPgXsKMO7iQ7MzNkm1ovj9A6LaFLwiNX1h5NVcXetUqvVfxQI8mBrgNhXKsC
-	oUD0FoTkMG4vV7oUtMGvfdLBZiQPLKCr76DNa1y3bbiN7NxvKfuGCf0XMRPWCS9CBmzm0f
-	35Ri7rZ9YuSt05kUdm+Eq4JVxYypZoQ=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-35-hdUTU_kpPYi3j5KXu9wHfg-1; Wed, 04 Jun 2025 21:55:42 -0400
-X-MC-Unique: hdUTU_kpPYi3j5KXu9wHfg-1
-X-Mimecast-MFC-AGG-ID: hdUTU_kpPYi3j5KXu9wHfg_1749088542
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-74292762324so491495b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 04 Jun 2025 18:55:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L0bwDh/6"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-23526264386so4272235ad.2;
+        Wed, 04 Jun 2025 19:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749088879; x=1749693679; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B4XY4QyVzfpslN+lSr0r9kDuHIIiF3VbHDAvnPwfeec=;
+        b=L0bwDh/6/26vyFkC1lSYqtj1/FAAx7QFN8uQjhCa7w3glw3X2C0OxwnRaYJnYsfE3o
+         DXM8XROS7rLHoPvQ8BeizF5JcAApifQzwvzAnVJV3vO5LgHxyxTR7w6qXvtXHMRKxk4J
+         cD9Pusae0/FpB2dyG1ZA88TMwVM/3b7fidgaBxUGu/L+EbmjpyJvRky2IXgL2/oEavZX
+         6lF7x/oS3fWGc3IGtznTEaDDT327nGjJBFTIzSdf6dIknAoMCd7TuLJydgebBGcNDdLh
+         p+8/haFlfrk+lYHZRXkzhAkLSRubqtsHfmgnKIsvo2irVFY8oQ5BKLuYRgmABSLVKoPA
+         YMcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749088541; x=1749693341;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9AwB0rFfcz08HKP4jJKt0w7l+d02ZrCK/l/MYo9cvhM=;
-        b=P2o+d6ULkShpxprEeUVK6TajEBDF3ACIRG1YnfzkANzECv6fGgR24urNeP8Xjlvinw
-         Q0cMweRUSlZp2xnmkHbzSekg5PPvtKeSlncYapvA+OPBmR1tluyPkQpygvSiaXvd7ve5
-         HO0cndfKj4jtwdUPuofKBPFmRmBoZv8vbY9qVbkmCKhGZjT9QpXNFEyJ0seODZtk1mpW
-         8f5ckgNbLzu6UbHJijFmiHRuQKvHtT41CUYm+8wB4Slqo1F5t0gySZDWDFei8+R0iGaq
-         KjCfF7scvTmMSGVcK85ArkBNkeOr7DcFg71SLv3Ck34jh6k4NsvXf7n/1q09LkHn9xno
-         Pbaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvsuv9cpx0W/VS9KmZ76OVJYud0cN2hA7lW+mnJtws1j0JRuhOYByDUC13q+XMLYtdP/eSnkTuslo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywlc/0+32BoF4CNqU9klnjhnyuxfWd79QT9BtUr+0KmjGEYNTE5
-	v8s8AvoW996CgGMQQzk1xi2avJ3FSHVQo4nb3TgLv9CsZ966mLofokMJd2n2CtSG37f6rF+4T0Q
-	Cl0xy5y8eixCkpmr8ZfNN5E6WLodFT58WJZY+hNjB5TtNOjdcuOfA9cwGg3Wq1Eg8p2+Pr2gljr
-	We9cJrzqpcklgQ5a2GXH2ZXJ6GiQGBn30VzNTw
-X-Gm-Gg: ASbGncvHXiNjvlHzxOqughXIXtZ6DMXmPkTArtHNvmHdkK4RdFnsNNkSo7TDM+88gT/
-	G3QzeqohVbkwLlCCqvXAspcW0h/nv5TLyG6CDUv0Oj1+rv/OBZgkZbpbyI2GynjJPEZM5
-X-Received: by 2002:a05:6a00:2388:b0:740:9d7c:aeb9 with SMTP id d2e1a72fcca58-7480b4d1082mr6213297b3a.21.1749088541567;
-        Wed, 04 Jun 2025 18:55:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFwnJcqWyBWgiV7ZC471A+qE9fAqmmsGEYcyWVU07xTy7Qtf9rwO6aj8PQ3oqhbhbV/So3yIUnkKqxQkvKzki0=
-X-Received: by 2002:a05:6a00:2388:b0:740:9d7c:aeb9 with SMTP id
- d2e1a72fcca58-7480b4d1082mr6213256b3a.21.1749088541126; Wed, 04 Jun 2025
- 18:55:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749088879; x=1749693679;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B4XY4QyVzfpslN+lSr0r9kDuHIIiF3VbHDAvnPwfeec=;
+        b=J8TMaXD/aoNso2Q/lR1FUnlmblc9Z8Eb3zLlRFDPJKcFhzoWks8s1+27h4I4CJ83iq
+         iWlM+8MqpLjOTaumBGIEtg3ZI0aW8qTceDQQhA2TEdBNCyN5aAXiS2TFooB9vVTWHWBz
+         za9IwAuA8Pj22GeEmZGnKe1R8dSiOviT3xMAfARtIb8SZ3l3h1v4zlsl5ikYiOjkQJB7
+         wwXjG8m8aePzHZPpIUrt/gWsNSPG2OOt/eUUkhyBBi37EGI407kd6M3toyV7YQeI9EZJ
+         /m4AP5b45UgUZ2pYZ0mT8Tt7IIlYrDWmHGjTkNJmt8RiWnLoTpPxhArJWQ5f9qLyKHCW
+         eFwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/Kd/aHztu1UTqdqRLCrwBaZIVTnQ2GSb8CTzyGDki08GknsFn0rwQ1AjyzJY5aZUAQGv5PBqe9+lKIU4X@vger.kernel.org, AJvYcCXtLyLPZApQMy9V3A/hjqXDqql4NrxQ37NLjWLHVDNBi2QPOYlnOUmLzgj32Nz2gbKEoZ2Zw+ZlgBM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxiSxOgUSbTv8BWXbKFNZKY8ZMseL6BptVjiMyThvRwZ+QSL/Np
+	A36yDopEg3G9FgROfbT8ZAhke5iLjU3TN+Ti0sbcPwukrO6S50kdnX7i
+X-Gm-Gg: ASbGncuZh0vyfA5xZic/t7WjoU9Qfh/R1pOVMTHRsTYeSJMtWAQ9LD/UQAWSxJyBaoh
+	gxyBCnizAUwIA9JLB3Jzwd5KgwF7ZZhRUyrGTpSm2/RM87XX7/vxNh0akw+ZtxqjlPGQTk2jOxB
+	OekRKjLAa5RIKVLPy6fOeiYCOL9psFBylKwEWxTa1PLGdHEd/vidNYV3tjSzwO35oc17przaXuM
+	+KX6zd8M51NYkwf9P9wPbJyBNo6ii1B+pE2xf/W3z437yzrVLQsweVvd58plTFrfHc9EnsGXwWU
+	WuTNJPFCp32w4UJ0pj7UWBQMB5+GdQdynZV+ROQRSBU/ZWH3QRI=
+X-Google-Smtp-Source: AGHT+IGyZy18YKprGlTzoo34XE4Q33oI40JvIwcZGv4ymlfnzos5D3EVaruPWivmKI3pyBJL2DdAxQ==
+X-Received: by 2002:a17:902:cecf:b0:234:8ec1:4aea with SMTP id d9443c01a7336-235e1200863mr66986925ad.52.1749088879071;
+        Wed, 04 Jun 2025 19:01:19 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2eceb297c8sm9365315a12.26.2025.06.04.19.01.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jun 2025 19:01:18 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id ABA104209E8C; Thu, 05 Jun 2025 09:01:14 +0700 (WIB)
+Date: Thu, 5 Jun 2025 09:01:14 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] drm: add overview diagram for drm stack
+Message-ID: <aED6ahMoKjO11JVv@archie.me>
+References: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
+ <aDz-Pq4eMAYmzqsJ@archie.me>
+ <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250530-rss-v12-0-95d8b348de91@daynix.com> <20250530-rss-v12-3-95d8b348de91@daynix.com>
- <CACGkMEvVf0LrquZcWSv3vp-r44sTj0ZDnjwbwB20N0aU35+vxw@mail.gmail.com> <517d5838-3313-4b31-b96d-d471b062cd1a@daynix.com>
-In-Reply-To: <517d5838-3313-4b31-b96d-d471b062cd1a@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 5 Jun 2025 09:55:29 +0800
-X-Gm-Features: AX0GCFurXm0NIffhahLwnERAjW3lh1v_d_xG6UdMjWsQHXxbHYsep8L113YBN6k
-Message-ID: <CACGkMEvyaY0rdNTj_jP_4HF5TrCCNeTKZZ8U2LsMikLqyctkzA@mail.gmail.com>
-Subject: Re: [PATCH net-next v12 03/10] tun: Allow steering eBPF program to
- fall back
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
-	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
-	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
-	Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="esmnYBZSXAl4HZ/C"
+Content-Disposition: inline
+In-Reply-To: <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
+
+
+--esmnYBZSXAl4HZ/C
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 4, 2025 at 3:24=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix.=
-com> wrote:
->
-> On 2025/06/04 10:27, Jason Wang wrote:
-> > On Fri, May 30, 2025 at 12:50=E2=80=AFPM Akihiko Odaki <akihiko.odaki@d=
-aynix.com> wrote:
-> >>
-> >> This clarifies a steering eBPF program takes precedence over the other
-> >> steering algorithms.
-> >
-> > Let's give an example on the use case for this.
-> >
-> >>
-> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> >> ---
-> >>   Documentation/networking/tuntap.rst |  7 +++++++
-> >>   drivers/net/tun.c                   | 28 +++++++++++++++++----------=
--
-> >>   include/uapi/linux/if_tun.h         |  9 +++++++++
-> >>   3 files changed, 33 insertions(+), 11 deletions(-)
-> >>
-> >> diff --git a/Documentation/networking/tuntap.rst b/Documentation/netwo=
-rking/tuntap.rst
-> >> index 4d7087f727be..86b4ae8caa8a 100644
-> >> --- a/Documentation/networking/tuntap.rst
-> >> +++ b/Documentation/networking/tuntap.rst
-> >> @@ -206,6 +206,13 @@ enable is true we enable it, otherwise we disable=
- it::
-> >>         return ioctl(fd, TUNSETQUEUE, (void *)&ifr);
-> >>     }
-> >>
-> >> +3.4 Reference
-> >> +-------------
-> >> +
-> >> +``linux/if_tun.h`` defines the interface described below:
-> >> +
-> >> +.. kernel-doc:: include/uapi/linux/if_tun.h
-> >> +
-> >>   Universal TUN/TAP device driver Frequently Asked Question
-> >>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>
-> >> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-> >> index d8f4d3e996a7..9133ab9ed3f5 100644
-> >> --- a/drivers/net/tun.c
-> >> +++ b/drivers/net/tun.c
-> >> @@ -476,21 +476,29 @@ static u16 tun_automq_select_queue(struct tun_st=
-ruct *tun, struct sk_buff *skb)
-> >>          return txq;
-> >>   }
-> >>
-> >> -static u16 tun_ebpf_select_queue(struct tun_struct *tun, struct sk_bu=
-ff *skb)
-> >> +static bool tun_ebpf_select_queue(struct tun_struct *tun, struct sk_b=
-uff *skb,
-> >> +                                 u16 *ret)
-> >>   {
-> >>          struct tun_prog *prog;
-> >>          u32 numqueues;
-> >> -       u16 ret =3D 0;
-> >> +       u32 prog_ret;
-> >> +
-> >> +       prog =3D rcu_dereference(tun->steering_prog);
-> >> +       if (!prog)
-> >> +               return false;
-> >>
-> >>          numqueues =3D READ_ONCE(tun->numqueues);
-> >> -       if (!numqueues)
-> >> -               return 0;
-> >> +       if (!numqueues) {
-> >> +               *ret =3D 0;
-> >> +               return true;
-> >> +       }
-> >>
-> >> -       prog =3D rcu_dereference(tun->steering_prog);
-> >> -       if (prog)
-> >> -               ret =3D bpf_prog_run_clear_cb(prog->prog, skb);
-> >> +       prog_ret =3D bpf_prog_run_clear_cb(prog->prog, skb);
-> >> +       if (prog_ret =3D=3D TUN_STEERINGEBPF_FALLBACK)
-> >> +               return false;
-> >
-> > This seems to break the uAPI. So I think we need a new ioctl to enable
-> > the behaviour
->
-> I assumed it is fine to repurpose one of the 32-bit integer values since
-> 32-bit integer is too big to specify the queue number, but it may not be
-> fine. I don't have a concrete use case either.
->
-> Perhaps it is safer to note that TUNSETSTEERINGEBPF takes precedence
-> over TUNSETVNETRSS to allow such an extension in the future (but without
-> implementing one now).
+On Wed, Jun 04, 2025 at 04:37:27PM +0200, Simona Vetter wrote:
+> On Mon, Jun 02, 2025 at 08:28:30AM +0700, Bagas Sanjaya wrote:
+> > On Sun, Jun 01, 2025 at 06:18:47PM -0400, Abdulrasaq Lawani wrote:
+> > > Add an overview diagram of Linux DRM architecture for
+> > > graphics and compute to introduction.rst
+> > >=20
+> > > Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+> > > ---
+> > > <snipped>...
+> > > diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/i=
+ntroduction.rst
+> > > index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec=
+52a45d0f3f4561424e0 100644
+> > > --- a/Documentation/gpu/introduction.rst
+> > > +++ b/Documentation/gpu/introduction.rst
+> > > @@ -14,7 +14,45 @@ including the TTM memory manager, output configura=
+tion and mode setting,
+> > >  and the new vblank internals, in addition to all the regular features
+> > >  found in current kernels.
+> > > =20
+> > > -[Insert diagram of typical DRM stack here]
+> > > +Overview of the Linux DRM Architecture
+> > > +--------------------------------------
+> > > +::
+> > > +
+> > > +        +-----------------------------+
+> > > +        |     User-space Apps         |
+> > > +        | (Games, Browsers, ML, etc.) |
+> > > +        +-----------------------------+
+> > > +                      |
+> > > +                      v
+> > > +        +---------------------------------------+
+> > > +        |    Graphics APIs   |   Compute APIs   |
+> > > +        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
+> > > +        +---------------------------------------+
+> > > +                |                   |
+> > > +                v                   v
+> > > +        +---------------------+  +-----------------------+
+> > > +        |  User-space Driver  |  |    Compute Runtime    |
+> > > +        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
+> > > +        +---------------------+  +-----------------------+
+> > > +                |                   |
+> > > +                +--------+----------+
+> > > +                         |
+> > > +                         v
+> > > +                +-----------------------+
+> > > +                |   libdrm (DRM API)    |
+> > > +                +-----------------------+
+> > > +                          |
+> > > +                          v
+> > > +        +-------------------------------------------+
+> > > +        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
+> > > +        |     nouveau, etc.)                        |
+> > > +        +-------------------------------------------+
+> > > +                |                       |
+> > > +                v                       v
+> > > +        +----------------+     +-------------------+
+> > > +        | GPU Display HW |     | GPU Compute Units |
+> > > +        +----------------+     +-------------------+
+> > > +
+>=20
+> I'm a bit late to the party, apologies. I'm not sure how much use there is
+> in an extremely simplified diagram like this, least because it's really
+> incomplete and leaves out the entire display and compositor side.
+>=20
+> My idea was that we'd instead link to the large pile of introductory and
+> overview talks further down in this file, if people want to get an
+> overview over what drm does.
 
-Yes, that's my original point. Let's start from something that is
-simpler and safer.
+So the stub that's being patched here can be removed, right?
 
-Thanks
+>=20
+> If you want I guess you could add some links to the relevant wikipedia
+> pages, I think they also do a fairly decent job of explaining the big
+> picture.
 
+What articles?
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--esmnYBZSXAl4HZ/C
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaED6agAKCRD2uYlJVVFO
+o+P/AP46+k76LZr5ysuDahlolJMYUhTpQvrwrM4YWtWsu9yU8QEA9v9QEfg1I8Ew
+mwig43hchoMKvLYr3f/QQu4dFHZ1fQ0=
+=capg
+-----END PGP SIGNATURE-----
+
+--esmnYBZSXAl4HZ/C--
