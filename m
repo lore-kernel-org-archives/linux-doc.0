@@ -1,145 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1392328E17;
-	Thu,  5 Jun 2025 22:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606D428E17;
+	Thu,  5 Jun 2025 22:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749163857; cv=none; b=i9YUKEbxEPEuarjNzbrkTWwWaOYHvdkLJXIcX9B2FEKUGrZobQv3ZX9m1OMnNShQ8pSXeOIab0vLS0fX9PIeXkqZfHG9qpcfYdMOL2Z6NnxI3DPUhfub+wPg+tOWEJOdV3x/G0jcFRzqUtj2+DAzgUAulzsmyWpHCeQqxNtiSJc=
+	t=1749164219; cv=none; b=pwXoh+TOTVfxL/elpkmuetz1cQPbA6SexYY86OW8NYg6tG/QvqHwFFABzOBBw0ajTpB2r4axwmaBWsaVUnMqTwUongjZdPqIHTFe6NJqLCbQq6OmZifS0InJVjgR+y71ltxIJJnlZ2zwAI58OYKuy6+pq4NWZJ7e3/o5PcDcnsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749163857; c=relaxed/simple;
-	bh=w5rGUCB60HCMrQ5sxrkuw3dHXn6zg5hHhTznI168je0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M1wZ/Xlb/FxlN79Lr/fwX9lHFaFMaGSBe57sRMKFuwT4be3dKeQETCZi31tc3o51iLll6tuu/lMIGjl+Ui3HdMHqxOVou7UU2s4PwW9cszbAr2ijCsmg+asPJgxqGVrirRTEMz2Dn02DltBeIgJL3GloWMwFmKQa2HSRi0Bfvpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QvFkZus6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749164219; c=relaxed/simple;
+	bh=W9wvLgzBpwRlr4/h5Pqc8uGzskgjGvLoJgQexId1ewo=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YLCqnTxjU/WZ+7CN119mT+/jk4wuxH75wndfgG8I7Cte61B54PpUtA78PC4ydMYFPR4OheWeARtsKM/8oFeK7uueXUuoBTV1i0hJeJSqOtvlZ2Xlkx7uxXjlRytvRjRIte1wsBPHFXBvYVuTRxVFiGQU1bbUEo0sY0p0QGC7aB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RsTV1M3o; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QvFkZus6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A94F7C4CEE7;
-	Thu,  5 Jun 2025 22:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749163856;
-	bh=w5rGUCB60HCMrQ5sxrkuw3dHXn6zg5hHhTznI168je0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QvFkZus6+IFnjXFu/n2GiBb6aJkvDWuNZmF3dz+Uvqfx2BMWokX280z9NNrXeREZE
-	 WZL+/T37cxMWASmx+OCqeZpVwHpWbPDcorxGUXm5Eg4BDzdDH+3+UgW+ZgJN2m6q0r
-	 6cJFep/Mpfvyqh+9hi60zQrRxXaoprGAJB0/WnV08l21MSfhaxz6g0F7q6VoXM0Dig
-	 +1uwuFIhY9kw39yRsr6NyZGg2/RPlLKw/SNj4aa2KiTvynIXGrqQFvf651uYt4GwhN
-	 nXTd84j+EwMBPIAHsDuJsGWWR0rGqVAppUGjz24B/3y3uzzCwD+OlYs4hneQA0RxXI
-	 UmKv7vLuTuYiQ==
-Date: Fri, 6 Jun 2025 00:50:51 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Andrew Morton
- <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] scripts/kernel-doc: drop "_noprof" on function
- prototypes
-Message-ID: <20250606005051.60a48cb4@foz.lan>
-In-Reply-To: <aEHwdoNCrF4-KY_i@casper.infradead.org>
-References: <20240326054149.2121-1-rdunlap@infradead.org>
-	<aEHq_Jy3hPQIzaO-@casper.infradead.org>
-	<875xhaf145.fsf@trenco.lwn.net>
-	<aEHwdoNCrF4-KY_i@casper.infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RsTV1M3o"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-235e1d4cba0so13091865ad.2;
+        Thu, 05 Jun 2025 15:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749164217; x=1749769017; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=W9wvLgzBpwRlr4/h5Pqc8uGzskgjGvLoJgQexId1ewo=;
+        b=RsTV1M3ozDSUsv4nizOG6X5AfKI0rqfXTpRa1Muvh8nL6iPcH6arYPukrxwR6HegL0
+         CeuHaD5kH07OmPs1kznKDOUyaVYFVpxUzrHQPAuTbmWPTpkq2EWvrHozfOcf3yXwHMM1
+         OcNt7/xikbU0n7ly/c5EGRfBAEoC+ltAueBCNJ7Xh5kBWvT/UjKnaTAxDAbezSgikIJF
+         A3lHCcLWtlmOdwncPPuwBcVTd/DE9GUobbjNozrojZBVULDRX29OuO7MWzmR7xCjSVmk
+         +itXwOJsxVvVABRyL23UTgXXmxdD82mtTJDGKo3QaUBGAQ7VFXpZtMqyF/gzkpjGkILN
+         vpuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749164217; x=1749769017;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W9wvLgzBpwRlr4/h5Pqc8uGzskgjGvLoJgQexId1ewo=;
+        b=eRLEud8m6vtJ5L/j6YpBLHL06IvXBDObrpCAs35MFxM2r93eubERiir9cKpChCEI9b
+         fqByEBCamjqqZ1+K8PjAPaFitOMgz8eyaOSSLflF6eTA+cgaEudnhf4ySm3pMYh7MYha
+         jD5qZc/695O5jZQIFC8ZP23cjBIwnTRn/cOxxjXFRJ7Ft4B2W+C9SB8kGFOu7HDXSGRa
+         QcFzFoFFRXsP3iXd4sPocgai113UJnIiE9hy6P4h0lN78+C6qf3mE0qUhMJ/1TA+2+7p
+         4NhF0lFZjR61S76FLLVIPz2evOrwCM5x2SmkiGrDuzI15mJvUTGX2PrE0677EBodpEcH
+         fIVw==
+X-Forwarded-Encrypted: i=1; AJvYcCU2RluOc2i23GbQ14LjTDtRL0hqQlSF+duioj0jIR8lNI/FI6/OhrCWp19jUJkDYg/6V9PRo466DgcNY8yw@vger.kernel.org, AJvYcCUOUZuS3n4K+exFtJFYDKn1oJuulZWzls3AHcMcJallj4nrPyR26YOcbqnZ6OZl54zUbxnZ+Qi/I3ir@vger.kernel.org, AJvYcCUtNubFflFDeVUf8d1b+9gz7LK0+OvO1cG07PrEmOOuPXXjehje0Jy7JMIOmrAOkykSG6mv4UDd@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxACv24uxFxZ/jFuoHFSS525J4ZrEzMLCJtl+LZ+88gfZA8mlb
+	lQScJlescIe1lzJyezDDfE850+Ra8/SxTsvvXdBSmbuIO8ygJ71k9g9K
+X-Gm-Gg: ASbGncvWF+d0NYCEZvUzzUtsgzlx+aF4vG3r8fqU70Tj1Esj6f2XDfH0+UMTZtjkRFJ
+	dUpzNiMFQJesY9ctfGKlYxWCPTxU+uvvzqPADXLUGjEPxP+yPM62ZngNgnA8zhQY05e/Ttrwjuu
+	BNx8oF7DOG3hZMI/01DmvfvxHQXgHwzpoP/lthpWtwaNZ2YyTzpYzJ2Wv6cUPnDcbiu8+JgpvPk
+	lshSrH3jhF14j6tmEiUe1CgXZV2VAGjRJ1bxLSfRtyyz2pdVj2XNhqN8bR743vJrzQ4uaQvcTkc
+	dsikkmG/qHoBjH4q7TOdMGcP+p3MlaZFZ3aeekGfxSf1Y3I8Jq0=
+X-Google-Smtp-Source: AGHT+IF7aHWSDBE7OP8NbpbLMzieQT5Htocm4zHVaqcG6HRv4pd99kgqlQnHXj7COrmzwMCnUYQJdQ==
+X-Received: by 2002:a17:902:ccd2:b0:234:d399:f948 with SMTP id d9443c01a7336-23601d973bfmr14933535ad.33.1749164217443;
+        Thu, 05 Jun 2025 15:56:57 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23603410b83sm1173335ad.215.2025.06.05.15.56.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 15:56:56 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 0CDCA4222987; Fri, 06 Jun 2025 05:56:53 +0700 (WIB)
+Date: Fri, 6 Jun 2025 05:56:53 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Vishal Chourasia <vishalc@linux.ibm.com>, Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llong@redhat.com
+Subject: Re: [PATCH v2] Documentation: cgroup: add section explaining
+ controller availability
+Message-ID: <aEIgtdrFbyNf4v85@archie.me>
+References: <20250605145421.193189-2-vishalc@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3nMlU14CJAHOY03i"
+Content-Disposition: inline
+In-Reply-To: <20250605145421.193189-2-vishalc@linux.ibm.com>
 
-Em Thu, 5 Jun 2025 20:31:02 +0100
-Matthew Wilcox <willy@infradead.org> escreveu:
 
-> On Thu, Jun 05, 2025 at 01:18:50PM -0600, Jonathan Corbet wrote:
-> > Matthew Wilcox <willy@infradead.org> writes:  
-> > > This turns out not to be enough.  For example, krealloc() is
-> > > currently undocumented.  This is because we match the function name
-> > > in EXPORT_SYMBOL() against the function name in the comment, and they
-> > > don't match.  This patch restores the documentation, although only
-> > > for the python version of kernel-doc, and I'm pretty sure there's a
-> > > better way to do it (eg building it into the export_symbol* regexes).
-> > > I can turn this into a proper patch if this is the way to go, but for
-> > > now it's just to illustrate the problem.  
-> > 
-> > FWIW, I have no problem with leaving the perl version behind, I expect
-> > we'll drop it in 6.17.
+--3nMlU14CJAHOY03i
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I agree with Jon: it is time to retire the perl version. 
+On Thu, Jun 05, 2025 at 08:24:22PM +0530, Vishal Chourasia wrote:
+> A new documentation section titled "Availability" has been added to
+> describe the meaning of a controller being available in a cgroup,
+> complementing the existing "Enabling and Disabling" section.
 
-> > 
-> > (Meanwhile I don't object to your fix as a short-term workaround)  
-> 
-> OK, will give Mauro 24 hours to comment, then resend as a patch if
-> there are no objections.
-> 
-> > We see other variants of this problem out there, where we want to
-> > document foo(), but that's really just a macro calling _foo(), where the
-> > real code is.
+'Add "Availability" section to Control Group v2 docs. It describes ...'
 
-The problem is that one may want to document both _foo() and foo(),
-if they have different arguments. I'm pretty sure we have cases like
-that.
+> +Availablity
+> +~~~~~~~~~~~
+> +
+> +A controller is available in a cgroup when it is supported by the kernel=
+ (i.e.,
+> +compiled in, not disabled and not attached to a v1 hierarchy) and listed=
+ in the
+> +"cgroup.controllers" file. Availability means the controller's interface=
+ files
+> +are exposed in the cgroup=E2=80=99s directory, allowing the distribution=
+ of the target
+> +resource to be observed or controlled within that cgroup.
+> +
 
-> > 
-> > I wonder if we could add some sort of a marker to the kerneldoc comment
-> > saying "we are documenting foo(), but do you checks against _foo()"
-> > instead?  That would be more general than trying to keep a list of
-> > suffixes to hack off.  
-> 
-> kernel-doc is our own format, so sure, we can add whatever marker
-> we want to it.  I think it's not quite general enough because we have
-> situations like:
-> 
-> static inline void foo(int x)
-> {
-> 	numa_foo(x, NUMA_NO_NODE);
-> };
-> 
-> /**
->  * foo - Frobnicate
->  * @x: How many
->  * @nid: Which node
->  */
-> void numa_foo(int x, int node)
-> { .. }
+The wording LGTM, thanks!
 
-If I"m not mistaken, if you do things like that, kernel-doc.py will
-complain that "foo" is not "numa_foo". It will also complain that
-"nid" doesn't exist and "node" is not documented.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Basically, there is a strict check there (if it got properly 
-backported from the Perl version) which checks if kernel-doc
-is documenting the next function prototype name and argument
-names.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-The rationale is that we caught several cases where a function was
-removed, renamed and/or have their parameters renamed without the
-corresponding kernel-doc change. So, the verification is now
-stricter (*). When we enabled such check, we fixed several bad
-kernel-doc markups.
+--3nMlU14CJAHOY03i
+Content-Type: application/pgp-signature; name=signature.asc
 
-(*) Also, kernel-doc handles files in one pass at read time,
-    sequentially. It could be possible to change it, but kernel-doc 
-    is already complex enough, and placing the markup just before
-    the function is a good practice anyway.
+-----BEGIN PGP SIGNATURE-----
 
-> and now we're documenting a parameter that doesn't exist.  The only
-> solution is to move the kdoc to the header file, which is annoying for
-> everyone.  Or replicate the declaration in the C file and kdoc it there.
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaEIgsQAKCRD2uYlJVVFO
+o+xtAP9RbHJTrpVIIXhiUHpiNTItRIIwIZVCzIZXFaOjhTwPwQD/ZQL/DLUTfLqI
+ij2yh516RPu1k7N80NPmapHZ3f+YqgU=
+=WD/J
+-----END PGP SIGNATURE-----
 
-Heh, for my taste, having kernel-docs at header files look better, as
-this is where the kAPIs should be defined anyway. 
-
-Ok, one may change the behavior of a function without touching the
-arguments and forget to update kernel-doc at the header files to tell
-about such change, but this is problematic anyway, as, if someone is
-relying on a certain behavior of a kAPI function, changing its behavior
-may result on unexpected results at the current callers - and even
-future callers.
-
-Thanks,
-Mauro
+--3nMlU14CJAHOY03i--
