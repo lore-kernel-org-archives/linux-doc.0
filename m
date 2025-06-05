@@ -1,122 +1,153 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1740415746F;
-	Thu,  5 Jun 2025 14:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C5D198E91
+	for <linux-doc@vger.kernel.org>; Thu,  5 Jun 2025 14:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749135322; cv=none; b=ApyjGp2FW3epAy1IoFkWPKltqF0lvGRp1HjH0I47CU+hWYG2QZnQqVmcSMtoIdm5+SKIAbjpHB+X2ObqVa+DsqwPRQQ4BdWRKTTB9pCJuHjd1s5JEfPTutAYQouhG90gV1NfMra0wGDKsYW7F2XILhgya7z86OU2Vlw8OVuQxxY=
+	t=1749135367; cv=none; b=Y3F1QL0Eev6IbYF+OnUAgFVxWXinIenO0UJFnh3OB9f6WdH2JqzaVvgHipHz1mp9GBmDBpRsi7RbvId392am2QYPyLRSGeb1Of3X2ANEQsko7BnNDKXa2ra3qwtbvaxXekEVxX9peDrubuisDDQUiwuXVD+vbgyFpwGJBDyAPjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749135322; c=relaxed/simple;
-	bh=p0T6YklgVc/kE7J3KrEpxvJGi7M9mrfxVk2al7JemAE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MybjXOIrh6PHYr16a3p9A86rY+WqDBOsWInswrVhqJg49mhLcWHmLb1TyXTzISNkAtD1RORPC7iN3XaLpz5uTnQ2Zo+qnF6XdlH8+axsjKqWqCE2SoxeB9oumNv014IUV6WdMAl1OA+WXeocwVTQcUHPDJtfz8NzW7DCikb1Kjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=GVDE04oH; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="GVDE04oH"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5557HZMJ023831;
-	Thu, 5 Jun 2025 14:55:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=p0T6Yk
-	lgVc/kE7J3KrEpxvJGi7M9mrfxVk2al7JemAE=; b=GVDE04oHO+Aqj9r4AsvLj6
-	OeyOJhNsHFM+5YHGpmU1A3PM0g/Zd2pnqCO1Wd4zkU9kExs7GlJ6G1fCF7So7ida
-	YVa4JnQxXNdEdKwK1X9A63a9X7lbAnd81tv44pEVRlXCD5V/iQ8H/KkLYkfMRVwP
-	W7ZFzSCXf85untp3wkHSO/q3vocuHaG01ovvQZBcagTTNzwNeTFTPczBd5AdWavs
-	b30fz3Q8WK5dR1KXemAwHf2Va3lSl/B/nrNQtE9tl9KRTwqAfmarvKVyYlH9RJJM
-	PrDjZ4jRD/lcknWMKgOHGCbFuvn2m92jZXV75PRf+HChr0VlYpUP9YY+uUnznQDw
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 471gf01d31-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Jun 2025 14:55:15 +0000 (GMT)
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 555EtEWQ032175;
-	Thu, 5 Jun 2025 14:55:14 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 471gf01d2w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Jun 2025 14:55:14 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 555DPqMa024899;
-	Thu, 5 Jun 2025 14:55:13 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 470dkmn3k7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Jun 2025 14:55:13 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 555EtBYE45220144
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 5 Jun 2025 14:55:11 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5116C20043;
-	Thu,  5 Jun 2025 14:55:11 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2C51520040;
-	Thu,  5 Jun 2025 14:55:09 +0000 (GMT)
-Received: from [9.124.213.71] (unknown [9.124.213.71])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  5 Jun 2025 14:55:08 +0000 (GMT)
-Message-ID: <9cf8f840-ff3f-4978-a454-9f2bba28c763@linux.ibm.com>
-Date: Thu, 5 Jun 2025 20:25:07 +0530
+	s=arc-20240116; t=1749135367; c=relaxed/simple;
+	bh=DHu18rmA0sU7oZNUXhtODTBETFCDhL2OEUU38uuVFxI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=LwO5QYm0ebHRnmoy52M8lhHdKibI5QURq4yN1mKNuhUTBoLbqr1RlW7PbnNvjV0yThnhffNUZ5k47oQ7sVXjfYcU9xr3q0WhkGzzJ+uRlReMB4N3s5Hybuqbi+I1mcLXoYzhc4ZqZ9q4OBKoGSc2wz7+dYYZxQqiwStszWzkjyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-192-8YUaOjpKPpOd6_AuvxEAGQ-1; Thu, 05 Jun 2025 10:56:04 -0400
+X-MC-Unique: 8YUaOjpKPpOd6_AuvxEAGQ-1
+X-Mimecast-MFC-AGG-ID: 8YUaOjpKPpOd6_AuvxEAGQ_1749135363
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-440667e7f92so7921355e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Jun 2025 07:56:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749135363; x=1749740163;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HFA6j3WG2u6wCRFKF+JPzUGEfqC8djtrecvjhVi86Lo=;
+        b=BKTDiZdTti4MOpQVrQ9EnCo9nr0UFIq6S6+0SGr6A3aS9idBdVxeKh0ia4uDqSgt6d
+         2p3kMfuMyl91NVPsS7ipqwb1tVLmwt82NZ4W1/A079nG188XzinoE8X5bt+NC1hy40h+
+         8hcgkU2Dys3iIJe/MFr/Abpe22AdQAjPhJ+UZi1qx6s4cHp92nYl+IaR63IBBi6GNZZY
+         xa05ZlWkezoHyzM+8aSu4nkJCZUybwYyjNrQ2csBoogqJ4mKeRETBQxEK2hGHue/ZhX5
+         tX63FMvFZNVP/nBSXteCGla5oc8DmUMtDI7LA1KlA7eWI63dwJ49/Ijlheh3J03MuNbQ
+         bFZw==
+X-Forwarded-Encrypted: i=1; AJvYcCXcaHLU2taLxn0B3fc9hk7nUcEzJCtniCf1yPHPnfpl6it48muMuHPW4xsoQpAhXSwT56h5FUBwzqs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx794k75++fSl4x7ol0tjrmc2KM/ThRV6uP/HfafirD2jL3EAIs
+	iz/dV6Yv9qH3bd+GoxEb/f7x3ZNvPIqg6uV5D5WRzcKrYaZqTjMeQhcd/qr2rpVT7fLYZb5vVDE
+	//H8gOCYDF732B2122lfodUw3h0+uWPJYdtCKacJ66xxfGll5626XBUUnSJ6eyA==
+X-Gm-Gg: ASbGncsyR0itYxT4XMmJuBtka2PbbT4LxhSRVMjS3Em+siIP5Hp2Dxknt/mpQcZU1ai
+	biQOkrB70MmzgUv6lgNVTreyfyqTkvweCORLRCOtzpnESyZAnfo4Gn7oaZ8HQLbirp1OPMydoQ+
+	SgeG/5D8wciuyMnu+SJpFDGHzCnWb77RIbRfX9q26y0aTTBCW/rcDZM8TDWaaKDxFxlfjRA/u61
+	jznnstQz/KnkHkemE+x1e0nuAl1GgwzoO5WHs+InHT3vSKzvdbgbKnGNaM4v0Imha45218Ff6dU
+	tYTS7PSjQ45iB52pXw==
+X-Received: by 2002:adf:e38c:0:b0:3a5:2670:e220 with SMTP id ffacd0b85a97d-3a52670e28dmr3061245f8f.32.1749135362783;
+        Thu, 05 Jun 2025 07:56:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHA81c6wZglVzh0Z3/rZiV4JQo/XmLeKsTiTnUWO5wj0USvJJ+iJpt9siQ/hlalGpRgG5o3Zw==
+X-Received: by 2002:adf:e38c:0:b0:3a5:2670:e220 with SMTP id ffacd0b85a97d-3a52670e28dmr3061215f8f.32.1749135362368;
+        Thu, 05 Jun 2025 07:56:02 -0700 (PDT)
+Received: from fedora (g3.ign.cz. [91.219.240.17])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-451f990cfe3sm27314005e9.23.2025.06.05.07.56.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 07:56:02 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Eric Snowberg <eric.snowberg@oracle.com>
+Cc: James Bottomley <James.Bottomley@HansenPartnership.com>,
+ "linux-security-module@vger.kernel.org"
+ <linux-security-module@vger.kernel.org>, "linux-integrity@vger.kernel.org"
+ <linux-integrity@vger.kernel.org>, "linux-modules@vger.kernel.org"
+ <linux-modules@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "keyrings@vger.kernel.org"
+ <keyrings@vger.kernel.org>, David Howells <dhowells@redhat.com>, David
+ Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Luis
+ Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Sami
+ Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
+ Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu
+ <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge
+ E. Hallyn" <serge@hallyn.com>, Peter Jones <pjones@redhat.com>, Robert
+ Holmes <robeholmes@gmail.com>, Jeremy Cline <jcline@redhat.com>, Coiby Xu
+ <coxu@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH RFC 0/1] module: Optionally use .platform keyring for
+ signatures verification
+In-Reply-To: <435F53C6-DC08-49CA-AA36-9747FC1B50DF@oracle.com>
+References: <20250602132535.897944-1-vkuznets@redhat.com>
+ <0FD18D05-6114-4A25-BD77-C32C1D706CC3@oracle.com>
+ <f0b37bc55ed3c02569c74f0fbdb6afa8efd329e2.camel@HansenPartnership.com>
+ <87zfemoc76.fsf@redhat.com>
+ <435F53C6-DC08-49CA-AA36-9747FC1B50DF@oracle.com>
+Date: Thu, 05 Jun 2025 16:56:00 +0200
+Message-ID: <87qzzynsov.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: cgroup: add section explaining controller
- availability
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, llong@redhat.com
-References: <20250604054352.76641-2-vishalc@linux.ibm.com>
- <mzki6zhrnxdvuqgu56rztrkw473u2r4uqt5mu3t3nv2afyhaub@4qneqmlxgwog>
-Content-Language: en-US, en-IN
-From: Vishal Chourasia <vishalc@linux.ibm.com>
-In-Reply-To: <mzki6zhrnxdvuqgu56rztrkw473u2r4uqt5mu3t3nv2afyhaub@4qneqmlxgwog>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Pq2TbxM3 c=1 sm=1 tr=0 ts=6841afd3 cx=c_pps a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VnNF1IyMAAAA:8 a=GxmAIsd5OcVHd3j8ewQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA1MDEyNSBTYWx0ZWRfX0ceUVp5Pc7CD Ufya8y2QyGeGhLdJ4N/fVahHIC/UMkGanajrXI8QpUVXtsguVGS7NarUk2IanQjYPWMAE+SkzGg HSWqMtpSacnl/Uw3ks33AwnSdF4DCxNCFJ86JMt2abu0hHSnStW/LWLf4QMvTh5H4PNPSaOTTmt
- MytnECdeAunIlEAvlpmaKyWLm90om6s2G6sigdbCfcpTcENB7An0GJVR3kKeySvwcoMz8ZliIBs E6PaXUyL1etee/JTeWj6rOeOzA+oNqJyHi+BOpdYJFNrBEpbp5FLWNlu7d3o5YLXJL/ceQk/uyd u0caMyTwduv4eny98mf8V/7ikNYilTpITBcsdXxpyQo1C01V1OpoT7kVdTW+u6JPigKB2vyXRUt
- IRZS9AKClInfiOberTx2m+bapYRnh2p/4FnJ5yQOSz7JqHhrSSPnqtBwZGCfu4zH2xNs+UoV
-X-Proofpoint-GUID: LMrcLdyAHaGgPgMDpd8JoeeMvrlp64Ll
-X-Proofpoint-ORIG-GUID: OnE3_pgoGwbZ84Kiv2IEI_khJbzI1N8P
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-05_03,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 mlxlogscore=886
- phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- mlxscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506050125
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 05/06/25 15:15, Michal Koutný wrote:
-> On Wed, Jun 04, 2025 at 11:13:53AM +0530, Vishal Chourasia <vishalc@linux.ibm.com> wrote:
->> +Availablity
->> +~~~~~~~~~~~
->> +
->> +A controller is available in a cgroup when it is supported by the kernel and
-> +A controller is available in a cgroup when it is supported by the
-> +kernel (compiled, not disabled and not attached to a v1 hierarchy) and
+Eric Snowberg <eric.snowberg@oracle.com> writes:
+
+>> On Jun 5, 2025, at 1:54=E2=80=AFAM, Vitaly Kuznetsov <vkuznets@redhat.co=
+m> wrote:
+>>=20
+>> 'certwrapper' offers _a_ solution which is great. It may, however, not
+>> be very convenient to use when a user wants to re-use the same OS image
+>> (e.g. provided by the distro vendor) for various different use-cases as
+>> proper 'certwrapper' binary needs to be placed on the ESP (and thus
+>> we'll end up with a bunch of images instead of one). 'db' is different
+>> because it normally lives outside of the OS disk so it is possible to
+>> register the exact same OS image with different properties (e.g. with
+>> and without a custom cert which allows to load third party modules).
 >
-> Maybe this point about v1 exclusion. But altogether this section as
-> drafted looks sensible to me.
-
-I will add this.
-
-Thanks,
-Vishal
-
+> Could you please provide more details? The kernel module is signed with=20
+> a specific key. The =E2=80=98db=E2=80=99  key in the cloud image must mat=
+ch whatever key=20
+> was used to sign the kernel module.
 >
-> Thanks,
-> Michal
+> Why can=E2=80=99t the RPM package that contains the kernel module also in=
+clude=20
+> the required =E2=80=98certwrapper=E2=80=99?  When the RPM is installed, t=
+he appropriate=20
+> =E2=80=98certwrapper=E2=80=99 is placed on the ESP.  There can be any num=
+ber of 'certwrappers'=20
+> in the ESP. Doesn=E2=80=99t this solution address the issue?
+
+I think it does but let me elaborate on where I believe some (minor?)
+inconvenience comes from.
+
+We have various actors here:
+1) The OS image which is coming from a distro vendor.
+
+2) The user, which takes the OS image and registers it with specific
+properties (including 'db') with various infrastructures (e.g. different
+clouds).
+
+3) A third party kmod vendor which produces a module compatible with the
+OS version. The module may only make sense for certain VMs on certain
+clouds.
+
+The customization of the VM normally happens upon first boot: a generic
+image from the OS vendor (1) boots and then some provisioning agent
+(cloud-init, WALA,...) takes over and e.g. installs additional
+stuff. This additional stuff may include third party kmods from (3).
+
+The 'certwrapper' must carry the key which the third party vendor (3) uses
+and it must be signed by a key which the user (2) put to the 'db'. If we
+want to have the 'certwrapper' shipped inside the same RPM as the kernel
+module, it will be signed by the same third party vendor (3). While this
+looks a bit weird ('self-signed certwrapper'), I don't see why this
+can't work.=20
+
+Besides the need to teach (3) how to build certwrappers, an inconvenience
+in this scheme comes from the fact that to activate a 'certwrapper'
+which we install from a custom rpm, we need a reboot. Cloud instances
+often back burstable workloads and this can be seen as annoyance.
+
+--=20
+Vitaly
+
