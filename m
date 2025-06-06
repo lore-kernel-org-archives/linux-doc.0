@@ -1,822 +1,177 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CF61DF75B
-	for <linux-doc@vger.kernel.org>; Fri,  6 Jun 2025 06:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9DF1E5B6D;
+	Fri,  6 Jun 2025 06:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749191077; cv=none; b=CSNTnSyuLgE2dlw5tM6XogX/Mx78cEG7krdlr0JWegxZ3DVmNsz/LzOcCVg/UyK1Y79AGD3ijoNhEMPxEpwr5F0Xi7M/DjVK9pM0NAOjnq0xGHamPG4pmks09hdQbDLnBMALovgH8lgGcM8da+Yd9JIy8aYaWPnOfXULSb7RoKA=
+	t=1749191341; cv=none; b=CxRR4fYZKxM3UpL3hiUeHGN8ON3tGhK2scYimoglpWcsnzx/98Nc4ZjrXccIeiVJGtWMJIk3KZTBTkDHBhkGX2mi5kH5G5nVrcfAy6W5gw0A9szIQ8Is/LnOii0cSanjbuvQ8yMmlzTuaUIpr7wckqbDt3/ulKrAkjBApCN5ZhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749191077; c=relaxed/simple;
-	bh=8VNU7X/UpHjJ1b3+dd3BZ2upVoWtCjDEqdlH/0eBaRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u7UVnXrOxmL4a/eRUSz5uJzGCDUFS6785Dxygs4Xk9xUUzCH7ZQ1yDeoSaMD1BT8Bsl8qXpF8d1D7ipXbQ1PCvY4opJmcGD7iudjF5K41uCiqqHp7GixZNxqRddOOXoN0qOc/GqJiZOeoQhVDmUe8vDlVRxkhDs7OwkbQ7fjbvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ThbIUi6K; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ThbIUi6K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1749191074;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bPCo3hg7cYpHsrcl3rXE8ZbPS6eSun1veK4zy9KFNC8=;
-	b=ThbIUi6KNf5azzf+QFSy06eYCbUVoOBwpR5502QEaXb1JsPyYOkraSqvcFal6sVXwcfOee
-	1mx7kxwamXSyhuyYmiljl/gRuGip3WCz6YWQ4j5Z7j68QixunVaWKFPWWj6C1EPGA7N6dL
-	ioz5i5yjnH22lt01JBjU35rh7TTNrZc=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-3-cWrL8xyCMaGgb3cWyJOiow-1; Fri, 06 Jun 2025 02:24:31 -0400
-X-MC-Unique: cWrL8xyCMaGgb3cWyJOiow-1
-X-Mimecast-MFC-AGG-ID: cWrL8xyCMaGgb3cWyJOiow_1749191070
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-742951722b3so1535642b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Jun 2025 23:24:31 -0700 (PDT)
+	s=arc-20240116; t=1749191341; c=relaxed/simple;
+	bh=3xAbZPGH9ibkSw2OQPvd5qNkxMgmKjzCh7ZIwvdJLro=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YW8z5hMcAHBoiN3HowqKXAYWa+hh04o+rsWawGT/rLgDHM0Xj0ByyT4cmcgtpkx14lKWe3dX1p32yb18yZN9Dkk4BrzVJlJjEC1QedDdWne1YeymEBeHwTsYxfAmhNS4Q9sF4CD/qzPReXzcltxlePIr7rxdTjThPMdbgiZwG4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-605b9488c28so2914824a12.2;
+        Thu, 05 Jun 2025 23:28:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749191070; x=1749795870;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bPCo3hg7cYpHsrcl3rXE8ZbPS6eSun1veK4zy9KFNC8=;
-        b=r8SUVB7UqHRfBJV9L9BBY7NQCRFV/W269+UAilbz5YPOlXY7b07CmBVanrrY3uwcFP
-         w4o8mZR+rUKx4KwEhDJ3/+1J31fbZCZJyG2ZCfXHa6VakwOw/ejAUJ5jYukWQHGFynXJ
-         Svl2PjBenzfCQTCHZ4Bg35Wzuj0vH7dd9xesEnydRXjGq+7gwvJKi/qohoKtY3iYKZrj
-         xK70K+R0dLVBo8uLnLxe31A3qqYMd7NBNI+zQOb9aHvxbZ7bLpJu3DXd2MVvjsttHA59
-         q35zAWRPw4FdtApDI38GLYH5LqnNNAyh+dcbjT2Dwn7G+t4H8j75MU2aWIKbxehKI5/+
-         LGqA==
-X-Gm-Message-State: AOJu0YxjmfRHKOdbOmQZQKcOFPFjpGSnjVqyeslEMfHbxWkvoYsi15AW
-	mKOGwe2D3eCIQFzphp+zpDhiWUPb5Uhz7+p3UEoECMtpjeTL1jWZ3kBUwmiEvfmvgUydrbITBIL
-	ZdcIvXwqLaT/yHns13q2JF1nSmggJlGNEGJfCaLquZqYe0vB0BC2pxEoJIdUc7A==
-X-Gm-Gg: ASbGnctbYFOJ0fF1sCjzTkNfM85xo0161aXNigcol69DExk9+7Me05mbGXInOAfP3RX
-	CX/tqXGkRLP7TV0Ge5id7HG736oI9ivCtgX40rLGHDK3xr7UtFi5XCAug7ISEwFReEud6sFG+GI
-	qXI0Nx11hG1assiOdeWQ52CG6K/ob6tc9mYhrjq2wD8mBhssFrDnBezHwk1rJX4ixv8+iGuEoLG
-	P06CUhUQ1V6v4zfR1OQ0cl5ANGLoiMUo3ZIhoGWanojAsh5fUOXE3ma8fRD+7Czo0VtoWaD1PDR
-	RGQqLExoEeccIVcaww==
-X-Received: by 2002:a05:6a00:228a:b0:736:ff65:3fcc with SMTP id d2e1a72fcca58-74827f14be7mr3090781b3a.16.1749191069462;
-        Thu, 05 Jun 2025 23:24:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGjIqcKWNA0hXuJVHG8V/iDrPx+vwHcKcEol9IVF/ghslOTF6YSeR53I9qgFdrBlF/qVMHoPg==
-X-Received: by 2002:a05:6a00:228a:b0:736:ff65:3fcc with SMTP id d2e1a72fcca58-74827f14be7mr3090751b3a.16.1749191068960;
-        Thu, 05 Jun 2025 23:24:28 -0700 (PDT)
-Received: from [10.72.120.2] ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0e9d57sm593483b3a.160.2025.06.05.23.24.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Jun 2025 23:24:27 -0700 (PDT)
-Message-ID: <89b1283c-c256-4830-96dd-ef9e5a7ce355@redhat.com>
-Date: Fri, 6 Jun 2025 14:24:21 +0800
+        d=1e100.net; s=20230601; t=1749191336; x=1749796136;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Azp50qUoKvhWib2z96ivM3bk0Xe8grvpHixajVtU5v4=;
+        b=hfaZPKIbpNa1ScHnD4Dz9dnacVYanITzFerXx9xtr9dp4dnQPG1czculK5rjB9Rqdw
+         5XgseD+Q7SSxA+3HqpGgqnCDXBix9pChnKdpYcEEQrvxdAnXe2K3oCTozR97kkMKCE+y
+         RHtmWdRH2rt32Go3twZgpBKEJ6/cVH9tIVbL5EF9NfIn9aC1mHVuG3VpUFmGm3kqhnEb
+         PIIMJ1XTgRMpqAzA9ZkjrDSN68q8DfzZ/W6YOs6Fxph4O7nfDCJdOf0hZX9hahso7OGl
+         vQ16QHnaSUFwsgCODH4BK9Y4k5rzixoCiFWAvLbYB81X4bxh3zsHyoEB3P3njINyEbrQ
+         jpnA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEoMv7YFNCYuxE3gS2p9MUfYGEaJPibBWA8MI+Rtfao74nM7H75TSo5Db/I7nrLSf/OzYf+vK9D3c=@vger.kernel.org, AJvYcCW32XIyW1fxMbkRWMduhXBDVwtR0nJHdQdoHCcixXbZ7EpHcbCctc4G68IaV3i8ODxiLRNpUf0Qd0d75sw=@vger.kernel.org, AJvYcCWownmWm2iBzTacHPbb9F8bka1qzT3PIn2AcTZn8H+DZTFrTaBPVDA8vKvzDhJVof43CGh3aZZRd+5teoHm@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgEE9HsWIzRCh4gyrSo6kBpmM/UbL2tbbjZSkSZMwS4fonvcOG
+	l781t0SN2HaFJ3oUgix5iBxCf+G5Ir8nKeTSpuc4uEpt68jEIsZDscAt
+X-Gm-Gg: ASbGncsVv4TizZbrGdfrEsvWpSt+B4uJqqirubjHGbol/Bh/PvGuSrB4o18hdbhGeTe
+	LUYC7e9u1M87hEhLMjEP6PfM5XTBwr/DnEZ54xitHtuBjBSy3YYisRb4wVxBiYHcMxaOuXxD+9f
+	Q9OlgpustO6dAbAxLRr8sLPZ57EWdQoPXXJBoh0fVGgTO6h6eyWmI/Os1I+4AORCVkXscd1tuOT
+	imwLHAjOzaFWKdTz+JcVQ256Yoppa+SPSd8mgTtmzMJWz7HpcPLjfzi5GI9IOsWn265XVoGxicG
+	1fjYX4gX5RADstcPWVpZ8nBrmHjnCzfQ0wN99VuJZBei1usojS15IVMbi/yrssSFOfagT21vKhf
+	QkSP0vTHq0SZ8F9zAcXL8NnUpunEQNq0=
+X-Google-Smtp-Source: AGHT+IGXNQ/Kv/GAHaZTlEm0PZukBBO2kWUNKuvYaAwM9uxr8U9d/fuebZy2jBADIT8dDmhYUoCnRw==
+X-Received: by 2002:a17:906:eecb:b0:ad8:8efe:31fe with SMTP id a640c23a62f3a-ade1ab876f7mr153758766b.43.1749191335712;
+        Thu, 05 Jun 2025 23:28:55 -0700 (PDT)
+Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1d754653sm67989966b.20.2025.06.05.23.28.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 23:28:55 -0700 (PDT)
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: [PATCH v7 00/10] New DRM accel driver for Rockchip's RKNN NPU
+Date: Fri, 06 Jun 2025 08:28:20 +0200
+Message-Id: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/23] md/md-llbitmap: implement llbitmap IO
-To: Yu Kuai <yukuai1@huaweicloud.com>, hch@lst.de, colyli@kernel.org,
- song@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
- <20250524061320.370630-16-yukuai1@huaweicloud.com>
- <4b1e7a50-f448-4e0f-a498-a8c6b0c7f97d@redhat.com>
- <7ef969ed-8468-5d63-a08d-886ca853f772@huaweicloud.com>
-From: Xiao Ni <xni@redhat.com>
-In-Reply-To: <7ef969ed-8468-5d63-a08d-886ca853f772@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAISKQmgC/23OzWrDMBAE4FcJOldl9R/31PcIPUirVSNKrWK7J
+ m3wu1cOlESg4wzMx1zZTFOmmb0crmyiNc+5jDW4pwPDsx/fiedYM5MgNVghueUC+FTwgxY+KGE
+ jJRQaHauLr4lSvty001vN5zwvZfq54avY276zCg4cLJA+Enlp4HUpn/S95t8yl+eRFrZrq/wXD
+ EhpWkFWIeoYMPn9j+gL6i4YYVtBVcHV2uNQ9Rj6gn4UhlbQ+wcbU7JBI3jqC+ZBkNAKpgriiAN
+ 6SBgU9gV7FyzoVrBVkMp5dCbGYDoftm37AzYXVxT2AQAA
+X-Change-ID: 20240612-6-10-rocket-9316defc14c7
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>, 
+ Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 
+This series adds a new driver for the NPU that Rockchip includes in its
+newer SoCs, developed by them on the NVDLA base.
 
-在 2025/6/6 上午11:48, Yu Kuai 写道:
-> Hi,
->
-> 在 2025/06/06 11:21, Xiao Ni 写道:
->> Hi Kuai
->>
->> I've read some codes of llbitmap, but I don't figure out the 
->> relationship of in memory bits and in storage bits. Does llbitmap 
->> have the two types as old bitmap? For example, in llbitmap_create, 
->> there is a argument ->bits_per_page which is calculated by 
->> PAGE_SIZE/logical_block_size. As the graph bellow, bits_per_page is 8 
->> (4K/512byte). What does the bit mean? And in the graph below, it 
->> talks 512 bits in one block, what does this bit mean?  I haven't 
->> walked through all codes, maybe I can get the answer myself. If you 
->> can give a summary of how many types of bit and what's the usage of 
->> the bit, it can help to understand it easier.
->
-> llbitmap bit is always 1 byte, it's the same in memory and on disk.
+In its current form, it supports the specific NPU in the RK3588 SoC.
 
+The userspace driver is part of Mesa and an initial draft can be found at:
 
-I c, thanks for the explanation.
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
 
->
-> bits_per_page bit is used to track dirty sectors in the memory page.
->
-> For example, usually 4k page will contain 8 sectors, each sector is 512
-> bytes, if one llbitmap bit is dirty, then the related bits_per_page bit
-> will be set as well, and later will write the sector to disk.
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+---
+Changes in v7:
+- Actually enable process isolation by allocating its own IOMMU domain
+  to each DRM client.
+- Link to v6: https://lore.kernel.org/r/20250604-6-10-rocket-v6-0-237ac75ddb5e@tomeuvizoso.net
 
+Changes in v6:
+- Make all cores depend on pclk and npu clocks
+- Fix BO sync direction logic
+- Misc. cleanups
+- Link to v5: https://lore.kernel.org/r/20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net
 
-Maybe consider another name of bits_per_page? bits_per_page can easily 
-let people to think the bitmat bits in one page. Through the graph 
-below, maybe blocks_per_page?
+Changes in v5:
+- Use bulk clk API
+- Rename bindings file
+- Syntax improvement to bindings
+- Link to v4: https://lore.kernel.org/r/20250519-6-10-rocket-v4-0-d6dff6b4c0ae@tomeuvizoso.net
 
-Regards
+Changes in v4:
+- Several fixes to DT bindings.
+- Link to v3: https://lore.kernel.org/r/20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net
 
-Xiao
+Changes in v3:
+- Reference in the device tree only the register blocks that are
+  actually used.
+- Several style and robustness fixes suggested in the mailing list.
+- Added patches from Nicolas Frattaroli that add support to the NPU for
+  the Rock 5B board.
+- Link to v2: https://lore.kernel.org/r/20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net
 
->
-> Thanks,
-> kuai
->
->>
->> Best Regards
->>
->> Xiao
->>
->> 在 2025/5/24 下午2:13, Yu Kuai 写道:
->>> From: Yu Kuai <yukuai3@huawei.com>
->>>
->>> READ
->>>
->>> While creating bitmap, all pages will be allocated and read for 
->>> llbitmap,
->>> there won't be read afterwards
->>>
->>> WRITE
->>>
->>> WRITE IO is divided into logical_block_size of the page, the dirty 
->>> state
->>> of each block is tracked independently, for example:
->>>
->>> each page is 4k, contain 8 blocks; each block is 512 bytes contain 
->>> 512 bit;
->>>
->>> | page0 | page1 | ... | page 31 |
->>> |       |
->>> |        \-----------------------\
->>> |                                |
->>> | block0 | block1 | ... | block 8|
->>> |        |
->>> |         \-----------------\
->>> |                            |
->>> | bit0 | bit1 | ... | bit511 |
->>>
->>>  From IO path, if one bit is changed to Dirty or NeedSync, the 
->>> corresponding
->>> subpage will be marked dirty, such block must write first before the 
->>> IO is
->>> issued. This behaviour will affect IO performance, to reduce the 
->>> impact, if
->>> multiple bits are changed in the same block in a short time, all 
->>> bits in
->>> this block will be changed to Dirty/NeedSync, so that there won't be 
->>> any
->>> overhead until daemon clears dirty bits.
->>>
->>> Also add data structure definition and comments.
->>>
->>> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
->>> ---
->>>   drivers/md/md-llbitmap.c | 571 
->>> +++++++++++++++++++++++++++++++++++++++
->>>   1 file changed, 571 insertions(+)
->>>   create mode 100644 drivers/md/md-llbitmap.c
->>>
->>> diff --git a/drivers/md/md-llbitmap.c b/drivers/md/md-llbitmap.c
->>> new file mode 100644
->>> index 000000000000..1a01b6777527
->>> --- /dev/null
->>> +++ b/drivers/md/md-llbitmap.c
->>> @@ -0,0 +1,571 @@
->>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>> +
->>> +#ifdef CONFIG_MD_LLBITMAP
->>> +
->>> +#include <linux/blkdev.h>
->>> +#include <linux/module.h>
->>> +#include <linux/errno.h>
->>> +#include <linux/slab.h>
->>> +#include <linux/init.h>
->>> +#include <linux/timer.h>
->>> +#include <linux/sched.h>
->>> +#include <linux/list.h>
->>> +#include <linux/file.h>
->>> +#include <linux/seq_file.h>
->>> +#include <trace/events/block.h>
->>> +
->>> +#include "md.h"
->>> +#include "md-bitmap.h"
->>> +
->>> +/*
->>> + * #### Background
->>> + *
->>> + * Redundant data is used to enhance data fault tolerance, and the 
->>> storage
->>> + * method for redundant data vary depending on the RAID levels. And 
->>> it's
->>> + * important to maintain the consistency of redundant data.
->>> + *
->>> + * Bitmap is used to record which data blocks have been 
->>> synchronized and which
->>> + * ones need to be resynchronized or recovered. Each bit in the bitmap
->>> + * represents a segment of data in the array. When a bit is set, it 
->>> indicates
->>> + * that the multiple redundant copies of that data segment may not be
->>> + * consistent. Data synchronization can be performed based on the 
->>> bitmap after
->>> + * power failure or readding a disk. If there is no bitmap, a full 
->>> disk
->>> + * synchronization is required.
->>> + *
->>> + * #### Key Features
->>> + *
->>> + *  - IO fastpath is lockless, if user issues lots of write IO to 
->>> the same
->>> + *  bitmap bit in a short time, only the first write have 
->>> additional overhead
->>> + *  to update bitmap bit, no additional overhead for the following 
->>> writes;
->>> + *  - support only resync or recover written data, means in the 
->>> case creating
->>> + *  new array or replacing with a new disk, there is no need to do 
->>> a full disk
->>> + *  resync/recovery;
->>> + *
->>> + * #### Key Concept
->>> + *
->>> + * ##### State Machine
->>> + *
->>> + * Each bit is one byte, contain 6 difference state, see 
->>> llbitmap_state. And
->>> + * there are total 8 differenct actions, see llbitmap_action, can 
->>> change state:
->>> + *
->>> + * llbitmap state machine: transitions between states
->>> + *
->>> + * |           | Startwrite | Startsync | Endsync | Abortsync|
->>> + * | --------- | ---------- | --------- | ------- | ------- |
->>> + * | Unwritten | Dirty      | x         | x       | x |
->>> + * | Clean     | Dirty      | x         | x       | x |
->>> + * | Dirty     | x          | x         | x       | x |
->>> + * | NeedSync  | x          | Syncing   | x       | x |
->>> + * | Syncing   | x          | Syncing   | Dirty   | NeedSync |
->>> + *
->>> + * |           | Reload   | Daemon | Discard   | Stale     |
->>> + * | --------- | -------- | ------ | --------- | --------- |
->>> + * | Unwritten | x        | x      | x         | x         |
->>> + * | Clean     | x        | x      | Unwritten | NeedSync  |
->>> + * | Dirty     | NeedSync | Clean  | Unwritten | NeedSync  |
->>> + * | NeedSync  | x        | x      | Unwritten | x         |
->>> + * | Syncing   | NeedSync | x      | Unwritten | NeedSync  |
->>> + *
->>> + * Typical scenarios:
->>> + *
->>> + * 1) Create new array
->>> + * All bits will be set to Unwritten by default, if --assume-clean 
->>> is set,
->>> + * all bits will be set to Clean instead.
->>> + *
->>> + * 2) write data, raid1/raid10 have full copy of data, while 
->>> raid456 doesn't and
->>> + * rely on xor data
->>> + *
->>> + * 2.1) write new data to raid1/raid10:
->>> + * Unwritten --StartWrite--> Dirty
->>> + *
->>> + * 2.2) write new data to raid456:
->>> + * Unwritten --StartWrite--> NeedSync
->>> + *
->>> + * Because the initial recover for raid456 is skipped, the xor data 
->>> is not build
->>> + * yet, the bit must set to NeedSync first and after lazy initial 
->>> recover is
->>> + * finished, the bit will finially set to Dirty(see 5.1 and 5.4);
->>> + *
->>> + * 2.3) cover write
->>> + * Clean --StartWrite--> Dirty
->>> + *
->>> + * 3) daemon, if the array is not degraded:
->>> + * Dirty --Daemon--> Clean
->>> + *
->>> + * For degraded array, the Dirty bit will never be cleared, prevent 
->>> full disk
->>> + * recovery while readding a removed disk.
->>> + *
->>> + * 4) discard
->>> + * {Clean, Dirty, NeedSync, Syncing} --Discard--> Unwritten
->>> + *
->>> + * 5) resync and recover
->>> + *
->>> + * 5.1) common process
->>> + * NeedSync --Startsync--> Syncing --Endsync--> Dirty --Daemon--> 
->>> Clean
->>> + *
->>> + * 5.2) resync after power failure
->>> + * Dirty --Reload--> NeedSync
->>> + *
->>> + * 5.3) recover while replacing with a new disk
->>> + * By default, the old bitmap framework will recover all data, and 
->>> llbitmap
->>> + * implement this by a new helper, see llbitmap_skip_sync_blocks:
->>> + *
->>> + * skip recover for bits other than dirty or clean;
->>> + *
->>> + * 5.4) lazy initial recover for raid5:
->>> + * By default, the old bitmap framework will only allow new recover 
->>> when there
->>> + * are spares(new disk), a new recovery flag 
->>> MD_RECOVERY_LAZY_RECOVER is add
->>> + * to perform raid456 lazy recover for set bits(from 2.2).
->>> + *
->>> + * ##### Bitmap IO
->>> + *
->>> + * ##### Chunksize
->>> + *
->>> + * The default bitmap size is 128k, incluing 1k bitmap super block, 
->>> and
->>> + * the default size of segment of data in the array each 
->>> bit(chunksize) is 64k,
->>> + * and chunksize will adjust to twice the old size each time if the 
->>> total number
->>> + * bits is not less than 127k.(see llbitmap_init)
->>> + *
->>> + * ##### READ
->>> + *
->>> + * While creating bitmap, all pages will be allocated and read for 
->>> llbitmap,
->>> + * there won't be read afterwards
->>> + *
->>> + * ##### WRITE
->>> + *
->>> + * WRITE IO is divided into logical_block_size of the array, the 
->>> dirty state
->>> + * of each block is tracked independently, for example:
->>> + *
->>> + * each page is 4k, contain 8 blocks; each block is 512 bytes 
->>> contain 512 bit;
->>> + *
->>> + * | page0 | page1 | ... | page 31 |
->>> + * |       |
->>> + * |        \-----------------------\
->>> + * |                                |
->>> + * | block0 | block1 | ... | block 8|
->>> + * |        |
->>> + * |         \-----------------\
->>> + * |                            |
->>> + * | bit0 | bit1 | ... | bit511 |
->>> + *
->>> + * From IO path, if one bit is changed to Dirty or NeedSync, the 
->>> corresponding
->>> + * subpage will be marked dirty, such block must write first before 
->>> the IO is
->>> + * issued. This behaviour will affect IO performance, to reduce the 
->>> impact, if
->>> + * multiple bits are changed in the same block in a short time, all 
->>> bits in this
->>> + * block will be changed to Dirty/NeedSync, so that there won't be 
->>> any overhead
->>> + * until daemon clears dirty bits.
->>> + *
->>> + * ##### Dirty Bits syncronization
->>> + *
->>> + * IO fast path will set bits to dirty, and those dirty bits will 
->>> be cleared
->>> + * by daemon after IO is done. llbitmap_page_ctl is used to 
->>> synchronize between
->>> + * IO path and daemon;
->>> + *
->>> + * IO path:
->>> + *  1) try to grab a reference, if succeed, set expire time after 
->>> 5s and return;
->>> + *  2) if failed to grab a reference, wait for daemon to finish 
->>> clearing dirty
->>> + *  bits;
->>> + *
->>> + * Daemon(Daemon will be waken up every daemon_sleep seconds):
->>> + * For each page:
->>> + *  1) check if page expired, if not skip this page; for expired page:
->>> + *  2) suspend the page and wait for inflight write IO to be done;
->>> + *  3) change dirty page to clean;
->>> + *  4) resume the page;
->>> + */
->>> +
->>> +#define BITMAP_SB_SIZE 1024
->>> +
->>> +/* 64k is the max IO size of sync IO for raid1/raid10 */
->>> +#define MIN_CHUNK_SIZE (64 * 2)
->>> +
->>> +/* By default, daemon will be waken up every 30s */
->>> +#define DEFAULT_DAEMON_SLEEP 30
->>> +
->>> +/*
->>> + * Dirtied bits that have not been accessed for more than 5s will 
->>> be cleared
->>> + * by daemon.
->>> + */
->>> +#define BARRIER_IDLE 5
->>> +
->>> +enum llbitmap_state {
->>> +    /* No valid data, init state after assemble the array */
->>> +    BitUnwritten = 0,
->>> +    /* data is consistent */
->>> +    BitClean,
->>> +    /* data will be consistent after IO is done, set directly for 
->>> writes */
->>> +    BitDirty,
->>> +    /*
->>> +     * data need to be resynchronized:
->>> +     * 1) set directly for writes if array is degraded, prevent 
->>> full disk
->>> +     * synchronization after readding a disk;
->>> +     * 2) reassemble the array after power failure, and dirty bits are
->>> +     * found after reloading the bitmap;
->>> +     * 3) set for first write for raid5, to build initial xor data 
->>> lazily
->>> +     */
->>> +    BitNeedSync,
->>> +    /* data is synchronizing */
->>> +    BitSyncing,
->>> +    nr_llbitmap_state,
->>> +    BitNone = 0xff,
->>> +};
->>> +
->>> +enum llbitmap_action {
->>> +    /* User write new data, this is the only action from IO fast 
->>> path */
->>> +    BitmapActionStartwrite = 0,
->>> +    /* Start recovery */
->>> +    BitmapActionStartsync,
->>> +    /* Finish recovery */
->>> +    BitmapActionEndsync,
->>> +    /* Failed recovery */
->>> +    BitmapActionAbortsync,
->>> +    /* Reassemble the array */
->>> +    BitmapActionReload,
->>> +    /* Daemon thread is trying to clear dirty bits */
->>> +    BitmapActionDaemon,
->>> +    /* Data is deleted */
->>> +    BitmapActionDiscard,
->>> +    /*
->>> +     * Bitmap is stale, mark all bits in addition to BitUnwritten to
->>> +     * BitNeedSync.
->>> +     */
->>> +    BitmapActionStale,
->>> +    nr_llbitmap_action,
->>> +    /* Init state is BitUnwritten */
->>> +    BitmapActionInit,
->>> +};
->>> +
->>> +enum llbitmap_page_state {
->>> +    LLPageFlush = 0,
->>> +    LLPageDirty,
->>> +};
->>> +
->>> +struct llbitmap_page_ctl {
->>> +    char *state;
->>> +    struct page *page;
->>> +    unsigned long expire;
->>> +    unsigned long flags;
->>> +    wait_queue_head_t wait;
->>> +    struct percpu_ref active;
->>> +    /* Per block size dirty state, maximum 64k page / 1 sector = 
->>> 128 */
->>> +    unsigned long dirty[];
->>> +};
->>> +
->>> +struct llbitmap {
->>> +    struct mddev *mddev;
->>> +    struct llbitmap_page_ctl **pctl;
->>> +
->>> +    unsigned int nr_pages;
->>> +    unsigned int io_size;
->>> +    unsigned int bits_per_page;
->>> +
->>> +    /* shift of one chunk */
->>> +    unsigned long chunkshift;
->>> +    /* size of one chunk in sector */
->>> +    unsigned long chunksize;
->>> +    /* total number of chunks */
->>> +    unsigned long chunks;
->>> +    unsigned long last_end_sync;
->>> +    /* fires on first BitDirty state */
->>> +    struct timer_list pending_timer;
->>> +    struct work_struct daemon_work;
->>> +
->>> +    unsigned long flags;
->>> +    __u64    events_cleared;
->>> +
->>> +    /* for slow disks */
->>> +    atomic_t behind_writes;
->>> +    wait_queue_head_t behind_wait;
->>> +};
->>> +
->>> +struct llbitmap_unplug_work {
->>> +    struct work_struct work;
->>> +    struct llbitmap *llbitmap;
->>> +    struct completion *done;
->>> +};
->>> +
->>> +static struct workqueue_struct *md_llbitmap_io_wq;
->>> +static struct workqueue_struct *md_llbitmap_unplug_wq;
->>> +
->>> +static char state_machine[nr_llbitmap_state][nr_llbitmap_action] = {
->>> +    [BitUnwritten] = {
->>> +        [BitmapActionStartwrite]    = BitDirty,
->>> +        [BitmapActionStartsync]        = BitNone,
->>> +        [BitmapActionEndsync]        = BitNone,
->>> +        [BitmapActionAbortsync]        = BitNone,
->>> +        [BitmapActionReload]        = BitNone,
->>> +        [BitmapActionDaemon]        = BitNone,
->>> +        [BitmapActionDiscard]        = BitNone,
->>> +        [BitmapActionStale]        = BitNone,
->>> +    },
->>> +    [BitClean] = {
->>> +        [BitmapActionStartwrite]    = BitDirty,
->>> +        [BitmapActionStartsync]        = BitNone,
->>> +        [BitmapActionEndsync]        = BitNone,
->>> +        [BitmapActionAbortsync]        = BitNone,
->>> +        [BitmapActionReload]        = BitNone,
->>> +        [BitmapActionDaemon]        = BitNone,
->>> +        [BitmapActionDiscard]        = BitUnwritten,
->>> +        [BitmapActionStale]        = BitNeedSync,
->>> +    },
->>> +    [BitDirty] = {
->>> +        [BitmapActionStartwrite]    = BitNone,
->>> +        [BitmapActionStartsync]        = BitNone,
->>> +        [BitmapActionEndsync]        = BitNone,
->>> +        [BitmapActionAbortsync]        = BitNone,
->>> +        [BitmapActionReload]        = BitNeedSync,
->>> +        [BitmapActionDaemon]        = BitClean,
->>> +        [BitmapActionDiscard]        = BitUnwritten,
->>> +        [BitmapActionStale]        = BitNeedSync,
->>> +    },
->>> +    [BitNeedSync] = {
->>> +        [BitmapActionStartwrite]    = BitNone,
->>> +        [BitmapActionStartsync]        = BitSyncing,
->>> +        [BitmapActionEndsync]        = BitNone,
->>> +        [BitmapActionAbortsync]        = BitNone,
->>> +        [BitmapActionReload]        = BitNone,
->>> +        [BitmapActionDaemon]        = BitNone,
->>> +        [BitmapActionDiscard]        = BitUnwritten,
->>> +        [BitmapActionStale]        = BitNone,
->>> +    },
->>> +    [BitSyncing] = {
->>> +        [BitmapActionStartwrite]    = BitNone,
->>> +        [BitmapActionStartsync]        = BitSyncing,
->>> +        [BitmapActionEndsync]        = BitDirty,
->>> +        [BitmapActionAbortsync]        = BitNeedSync,
->>> +        [BitmapActionReload]        = BitNeedSync,
->>> +        [BitmapActionDaemon]        = BitNone,
->>> +        [BitmapActionDiscard]        = BitUnwritten,
->>> +        [BitmapActionStale]        = BitNeedSync,
->>> +    },
->>> +};
->>> +
->>> +static enum llbitmap_state llbitmap_read(struct llbitmap *llbitmap, 
->>> loff_t pos)
->>> +{
->>> +    unsigned int idx;
->>> +    unsigned int offset;
->>> +
->>> +    pos += BITMAP_SB_SIZE;
->>> +    idx = pos >> PAGE_SHIFT;
->>> +    offset = offset_in_page(pos);
->>> +
->>> +    return llbitmap->pctl[idx]->state[offset];
->>> +}
->>> +
->>> +/* set all the bits in the subpage as dirty */
->>> +static void llbitmap_infect_dirty_bits(struct llbitmap *llbitmap,
->>> +                       struct llbitmap_page_ctl *pctl,
->>> +                       unsigned int bit, unsigned int offset)
->>> +{
->>> +    bool level_456 = raid_is_456(llbitmap->mddev);
->>> +    unsigned int io_size = llbitmap->io_size;
->>> +    int pos;
->>> +
->>> +    for (pos = bit * io_size; pos < (bit + 1) * io_size; pos++) {
->>> +        if (pos == offset)
->>> +            continue;
->>> +
->>> +        switch (pctl->state[pos]) {
->>> +        case BitUnwritten:
->>> +            pctl->state[pos] = level_456 ? BitNeedSync : BitDirty;
->>> +            break;
->>> +        case BitClean:
->>> +            pctl->state[pos] = BitDirty;
->>> +            break;
->>> +        };
->>> +    }
->>> +
->>> +}
->>> +
->>> +static void llbitmap_set_page_dirty(struct llbitmap *llbitmap, int 
->>> idx,
->>> +                    int offset)
->>> +{
->>> +    struct llbitmap_page_ctl *pctl = llbitmap->pctl[idx];
->>> +    unsigned int io_size = llbitmap->io_size;
->>> +    int bit = offset / io_size;
->>> +    int pos;
->>> +
->>> +    if (!test_bit(LLPageDirty, &pctl->flags))
->>> +        set_bit(LLPageDirty, &pctl->flags);
->>> +
->>> +    /*
->>> +     * The subpage usually contains a total of 512 bits. If any 
->>> single bit
->>> +     * within the subpage is marked as dirty, the entire sector 
->>> will be
->>> +     * written. To avoid impacting write performance, when multiple 
->>> bits
->>> +     * within the same sector are modified within a short time 
->>> frame, all
->>> +     * bits in the sector will be collectively marked as dirty at 
->>> once.
->>> +     */
->>> +    if (test_and_set_bit(bit, pctl->dirty)) {
->>> +        llbitmap_infect_dirty_bits(llbitmap, pctl, bit, offset);
->>> +        return;
->>> +    }
->>> +
->>> +    for (pos = bit * io_size; pos < (bit + 1) * io_size; pos++) {
->>> +        if (pos == offset)
->>> +            continue;
->>> +        if (pctl->state[pos] == BitDirty ||
->>> +            pctl->state[pos] == BitNeedSync) {
->>> +            llbitmap_infect_dirty_bits(llbitmap, pctl, bit, offset);
->>> +            return;
->>> +        }
->>> +    }
->>> +}
->>> +
->>> +static void llbitmap_write(struct llbitmap *llbitmap, enum 
->>> llbitmap_state state,
->>> +               loff_t pos)
->>> +{
->>> +    unsigned int idx;
->>> +    unsigned int offset;
->>> +
->>> +    pos += BITMAP_SB_SIZE;
->>> +    idx = pos >> PAGE_SHIFT;
->>> +    offset = offset_in_page(pos);
->>> +
->>> +    llbitmap->pctl[idx]->state[offset] = state;
->>> +    if (state == BitDirty || state == BitNeedSync)
->>> +        llbitmap_set_page_dirty(llbitmap, idx, offset);
->>> +}
->>> +
->>> +static struct page *llbitmap_read_page(struct llbitmap *llbitmap, 
->>> int idx)
->>> +{
->>> +    struct mddev *mddev = llbitmap->mddev;
->>> +    struct page *page = NULL;
->>> +    struct md_rdev *rdev;
->>> +
->>> +    if (llbitmap->pctl && llbitmap->pctl[idx])
->>> +        page = llbitmap->pctl[idx]->page;
->>> +    if (page)
->>> +        return page;
->>> +
->>> +    page = alloc_page(GFP_KERNEL | __GFP_ZERO);
->>> +    if (!page)
->>> +        return ERR_PTR(-ENOMEM);
->>> +
->>> +    rdev_for_each(rdev, mddev) {
->>> +        sector_t sector;
->>> +
->>> +        if (rdev->raid_disk < 0 || test_bit(Faulty, &rdev->flags))
->>> +            continue;
->>> +
->>> +        sector = mddev->bitmap_info.offset +
->>> +             (idx << PAGE_SECTORS_SHIFT);
->>> +
->>> +        if (sync_page_io(rdev, sector, PAGE_SIZE, page, REQ_OP_READ,
->>> +                 true))
->>> +            return page;
->>> +
->>> +        md_error(mddev, rdev);
->>> +    }
->>> +
->>> +    __free_page(page);
->>> +    return ERR_PTR(-EIO);
->>> +}
->>> +
->>> +static void llbitmap_write_page(struct llbitmap *llbitmap, int idx)
->>> +{
->>> +    struct page *page = llbitmap->pctl[idx]->page;
->>> +    struct mddev *mddev = llbitmap->mddev;
->>> +    struct md_rdev *rdev;
->>> +    int bit;
->>> +
->>> +    for (bit = 0; bit < llbitmap->bits_per_page; bit++) {
->>> +        struct llbitmap_page_ctl *pctl = llbitmap->pctl[idx];
->>> +
->>> +        if (!test_and_clear_bit(bit, pctl->dirty))
->>> +            continue;
->>> +
->>> +        rdev_for_each(rdev, mddev) {
->>> +            sector_t sector;
->>> +            sector_t bit_sector = llbitmap->io_size >> SECTOR_SHIFT;
->>> +
->>> +            if (rdev->raid_disk < 0 || test_bit(Faulty, &rdev->flags))
->>> +                continue;
->>> +
->>> +            sector = mddev->bitmap_info.offset + rdev->sb_start +
->>> +                 (idx << PAGE_SECTORS_SHIFT) +
->>> +                 bit * bit_sector;
->>> +            md_write_metadata(mddev, rdev, sector,
->>> +                      llbitmap->io_size, page,
->>> +                      bit * llbitmap->io_size);
->>> +        }
->>> +    }
->>> +}
->>> +
->>> +static void active_release(struct percpu_ref *ref)
->>> +{
->>> +    struct llbitmap_page_ctl *pctl =
->>> +        container_of(ref, struct llbitmap_page_ctl, active);
->>> +
->>> +    wake_up(&pctl->wait);
->>> +}
->>> +
->>> +static void llbitmap_free_pages(struct llbitmap *llbitmap)
->>> +{
->>> +    int i;
->>> +
->>> +    if (!llbitmap->pctl)
->>> +        return;
->>> +
->>> +    for (i = 0; i < llbitmap->nr_pages; i++) {
->>> +        struct llbitmap_page_ctl *pctl = llbitmap->pctl[i];
->>> +
->>> +        if (!pctl || !pctl->page)
->>> +            break;
->>> +
->>> +        __free_page(pctl->page);
->>> +        percpu_ref_exit(&pctl->active);
->>> +    }
->>> +
->>> +    kfree(llbitmap->pctl[0]);
->>> +    kfree(llbitmap->pctl);
->>> +    llbitmap->pctl = NULL;
->>> +}
->>> +
->>> +static int llbitmap_cache_pages(struct llbitmap *llbitmap)
->>> +{
->>> +    struct llbitmap_page_ctl *pctl;
->>> +    unsigned int nr_pages = DIV_ROUND_UP(llbitmap->chunks + 
->>> BITMAP_SB_SIZE,
->>> +                         PAGE_SIZE);
->>> +    unsigned int size = struct_size(pctl, dirty,
->>> + BITS_TO_LONGS(llbitmap->bits_per_page));
->>> +    int i;
->>> +
->>> +    llbitmap->pctl = kmalloc_array(nr_pages, sizeof(void *),
->>> +                       GFP_KERNEL | __GFP_ZERO);
->>> +    if (!llbitmap->pctl)
->>> +        return -ENOMEM;
->>> +
->>> +    size = round_up(size, cache_line_size());
->>> +    pctl = kmalloc_array(nr_pages, size, GFP_KERNEL | __GFP_ZERO);
->>> +    if (!pctl) {
->>> +        kfree(llbitmap->pctl);
->>> +        return -ENOMEM;
->>> +    }
->>> +
->>> +    llbitmap->nr_pages = nr_pages;
->>> +
->>> +    for (i = 0; i < nr_pages; i++, pctl = (void *)pctl + size) {
->>> +        struct page *page = llbitmap_read_page(llbitmap, i);
->>> +
->>> +        llbitmap->pctl[i] = pctl;
->>> +
->>> +        if (IS_ERR(page)) {
->>> +            llbitmap_free_pages(llbitmap);
->>> +            return PTR_ERR(page);
->>> +        }
->>> +
->>> +        if (percpu_ref_init(&pctl->active, active_release,
->>> +                    PERCPU_REF_ALLOW_REINIT, GFP_KERNEL)) {
->>> +            __free_page(page);
->>> +            llbitmap_free_pages(llbitmap);
->>> +            return -ENOMEM;
->>> +        }
->>> +
->>> +        pctl->page = page;
->>> +        pctl->state = page_address(page);
->>> +        init_waitqueue_head(&pctl->wait);
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +#endif /* CONFIG_MD_LLBITMAP */
->>
->>
->> .
->>
->
+Changes in v2:
+- Drop patch adding the rk3588 compatible to rockchip-iommu (Sebastian Reichel)
+- Drop patch adding support for multiple power domains to rockchip-iommu (Sebastian Reichel)
+- Link to v1: https://lore.kernel.org/r/20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net
+
+---
+Nicolas Frattaroli (2):
+      arm64: dts: rockchip: add pd_npu label for RK3588 power domains
+      arm64: dts: rockchip: enable NPU on ROCK 5B
+
+Tomeu Vizoso (8):
+      accel/rocket: Add registers header
+      accel/rocket: Add a new driver for Rockchip's NPU
+      accel/rocket: Add IOCTL for BO creation
+      accel/rocket: Add job submission IOCTL
+      accel/rocket: Add IOCTLs for synchronizing memory accesses
+      dt-bindings: npu: rockchip,rknn: Add bindings
+      arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588-base
+      arm64: dts: rockchip: Enable the NPU on quartzpro64
+
+ Documentation/accel/index.rst                      |    1 +
+ Documentation/accel/rocket/index.rst               |   19 +
+ .../bindings/npu/rockchip,rk3588-rknn-core.yaml    |  118 +
+ MAINTAINERS                                        |   10 +
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi      |   89 +-
+ .../arm64/boot/dts/rockchip/rk3588-quartzpro64.dts |   30 +
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts    |   56 +
+ drivers/accel/Kconfig                              |    1 +
+ drivers/accel/Makefile                             |    1 +
+ drivers/accel/rocket/Kconfig                       |   25 +
+ drivers/accel/rocket/Makefile                      |   10 +
+ drivers/accel/rocket/rocket_core.c                 |   80 +
+ drivers/accel/rocket/rocket_core.h                 |   59 +
+ drivers/accel/rocket/rocket_device.c               |   31 +
+ drivers/accel/rocket/rocket_device.h               |   30 +
+ drivers/accel/rocket/rocket_drv.c                  |  301 ++
+ drivers/accel/rocket/rocket_drv.h                  |   19 +
+ drivers/accel/rocket/rocket_gem.c                  |  197 +
+ drivers/accel/rocket/rocket_gem.h                  |   32 +
+ drivers/accel/rocket/rocket_job.c                  |  700 ++++
+ drivers/accel/rocket/rocket_job.h                  |   52 +
+ drivers/accel/rocket/rocket_registers.h            | 4425 ++++++++++++++++++++
+ include/uapi/drm/rocket_accel.h                    |  145 +
+ 23 files changed, 6430 insertions(+), 1 deletion(-)
+---
+base-commit: a6d708809579ed3d902465785666085ff07a1d7c
+change-id: 20240612-6-10-rocket-9316defc14c7
+
+Best regards,
+-- 
+Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
