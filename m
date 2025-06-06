@@ -1,179 +1,190 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2049.outbound.protection.outlook.com [40.107.93.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0511EB193;
-	Fri,  6 Jun 2025 04:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749183071; cv=none; b=jGbpGcPINB5HyLlAw5D+omCJ2dz25vzrW5zhjmHTuJk3Yy0xvX8UUGJUSycG2w2yQHxaMwlC8ThrFznZSpBrkGbOuIJyqA3dYAsDQF66A3JqdQNmQA6yDnT6V4RnOkbU9Sn4NeHD/6L+9k/cSTCD1j4xopBCA8EwfjzG/ghtMnU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749183071; c=relaxed/simple;
-	bh=2kY4Go81E2dF+qeMLrkXW4LbExK3+rImFvjfbx8ZZu8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E9sgEILRz4caNRgWsexTAjZ5f0WGn7MRVkQGM10bKXFYhQXOdvr7tgGYqkhojdP7ZPg7iieNYl3GMCROTqs9T7WvCzNf/9ut6H+etNhjCjmZy8pupcieeAnRKogJJeXPaFbj7nCNfIuS/FSBCCVSFpQ6L8HpUKBLm7ZzrUsFCvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=crxCbg5E; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C76B1FB3;
+	Fri,  6 Jun 2025 04:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749185211; cv=fail; b=A1s7ecz1YOxwadarOGxZo3ZDheXC2XWYZBsJCCRmoh8+AfLUsHGNmdjEys+7yMs68hqpzfFustVj61wnpgmEM9ACObKzgCaC0ecKho8erH5CR3vN8j/tx2v4QDhGoyQkrVRiXEMkfuMAJqSQeQ/pfRHfOv6h0//FWovZGXofKJQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749185211; c=relaxed/simple;
+	bh=+opEEGLq3Yv8bpVx1bAPq0fYi4cwRvXeqzJMaIeN+k4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EfAtuAkDxoIFyq09ijsVv5Yr2qk1T8qBmolcFtg+aaPsiCq/CklLsl2ZaIa1SIpXmH5DEd6tYMl94aWcPhhBVmZXK16WIuAkq4U7O8OjxKo8PVwZp5tZZp/GlK2pteSmvBfI4zj3ri5xy4NZ9t9dUqwmNQuYZK2dqxWG/1RBhSs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=L161cLuS; arc=fail smtp.client-ip=40.107.93.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="crxCbg5E"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5563hEB1032442;
-	Fri, 6 Jun 2025 04:11:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pp1; bh=GfCIQ+I+Kmm9i+SJMOocANua/+UE
-	SN4mldpm6BZBNak=; b=crxCbg5EbwHx3t0/VHaHDarL5zRP9HXUpkha7UyJiS8R
-	K6/7/P6oJRQ38RlaA0JpaTeuxMBq59fdiY6P7aAMD+f7/F91bxSiwCc4ttD0fzJc
-	YPi0f3jZii0k+Za5He2ayGcF7GFEOjJ/RI3ATD6obwWnqonhicqkflsgFJ7UmNSG
-	PXzbIh2SyNw9Qzfz7MnW7Jb2tDR6In/vRQ0RQyTuXmN2CxbQ/zg6kmpSHP94DDO3
-	QNaYpZKxbNVIJBp+gy5aBXUZN/7wI/ZX11m7NJFEUF20qtOQqXt7/gY+JmHP70R3
-	yDGWxUSz4ZkgWNsPGUKRKciToXc813INSvwzxHYDKw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 473j1y1erc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Jun 2025 04:11:00 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 5563u5u4027426;
-	Fri, 6 Jun 2025 04:11:00 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 473j1y1era-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Jun 2025 04:11:00 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5562dVCD022569;
-	Fri, 6 Jun 2025 04:10:59 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 470c3tqyu5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Jun 2025 04:10:59 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5564AvOk44106146
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 6 Jun 2025 04:10:57 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7EB5E2004B;
-	Fri,  6 Jun 2025 04:10:57 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E94E520043;
-	Fri,  6 Jun 2025 04:10:54 +0000 (GMT)
-Received: from vishalc-ibm.ibm.com (unknown [9.124.214.245])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  6 Jun 2025 04:10:54 +0000 (GMT)
-From: Vishal Chourasia <vishalc@linux.ibm.com>
-To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, llong@redhat.com
-Cc: Vishal Chourasia <vishalc@linux.ibm.com>
-Subject: [PATCH v3] Documentation: cgroup: add section explaining controller availability
-Date: Fri,  6 Jun 2025 09:40:05 +0530
-Message-ID: <20250606041004.12753-2-vishalc@linux.ibm.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="L161cLuS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JvvNzVCcEZlqPLTlcpLt/Nw3gcjdBiwhUz8DpGiU2LykE+heikMi60rA2oP2ky9+JqZzsokYWJQf7SeKctkbR1hQEiiEvZ/kvVO0wsPqEJsR1mr4xV5/bnEmkFReu5iiwylZnK3LCpnEaqlhXGAlbXVwcbN3Em1UFtG9uYc6rdebHMPoF358F08XyNkSR1OPP7HoUrr2BEX+6GYPYM55IfPbl0fBaJkFBGRi/5HeoHh957MXO4eoMhmsvwXEehwuRk/JIN4EeuypdC0DrNyUYZDsSq21CjKOx7qCt2k2yxND7quvy7DWZxgTRHT7Auw071r3dQd00ysDCr2mpCTtvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EDMBr25Rd5V/4UNv3zTo9MCi6cLNrHYng1lWkmFyUmA=;
+ b=FTcDdNMTCo7qKxcV6L9EY7P0zPCMDU0ZBM+ERKH4JdJL++oD94uYVrPkKwAds6pH1Ypgb+vgz6dKgiWP7ZTuzgFigRUD5YCyu7A/SnMJbU2wjFoCLMHUps2IgO59uTI9kebDWhrtjbR9N5JVC5F8OQy3msDSkLes2b2tLCct/MJH7SwKs00OitK9LjqQPWqqsi615FTyQa/saDzyQ9twJyPMmCInirAgDWe54c9rjX1U/Go/6Y6KfXyUmZgFLQix/+A15Wo4K3gs4QULvA4cQzNc5EsfYCB1cplmOFLupTTavjMvHm2dbMk4fMKxyGL9Sl/ShxVqqad4PG4ZL5fNCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EDMBr25Rd5V/4UNv3zTo9MCi6cLNrHYng1lWkmFyUmA=;
+ b=L161cLuSOXA+uQ+QpbQpk5BhOXXyOpIbnvsAZXjEvXGC/boKaCDwutYtTDOJ2eezMO4xit7IvI3s8KHrmPHX2XIKzE+oFVS1q83GF+udmAqtcLxgRpxHNDx7p2usAHolupsnb4WCWKbCNBVyPTgOan1ieyPgjVjT9h9oBmNaY+4caKkojhdxj7ZHuuwXdUyz0v1w2CPL4X+py4ASgkU4gW3YQJBTluxmLnaAN/E0nGhVXC7L0UZ3PQT9aEWWbFSPKPF+l6d0uhiPCEJpz/JvW3igb/RbY+9DDpnowmA3ulx3USTZTGkba2Zq1YFI5eFH1rwQQy3G0q1cl5m/0U40Hg==
+Received: from MW4PR04CA0172.namprd04.prod.outlook.com (2603:10b6:303:85::27)
+ by PH8PR12MB7181.namprd12.prod.outlook.com (2603:10b6:510:22a::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.32; Fri, 6 Jun
+ 2025 04:46:45 +0000
+Received: from SJ5PEPF00000204.namprd05.prod.outlook.com
+ (2603:10b6:303:85:cafe::bd) by MW4PR04CA0172.outlook.office365.com
+ (2603:10b6:303:85::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.19 via Frontend Transport; Fri,
+ 6 Jun 2025 04:46:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SJ5PEPF00000204.mail.protection.outlook.com (10.167.244.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8792.29 via Frontend Transport; Fri, 6 Jun 2025 04:46:44 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 5 Jun 2025
+ 21:46:32 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 5 Jun
+ 2025 21:46:32 -0700
+Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Thu, 5 Jun 2025 21:46:30 -0700
+Date: Thu, 5 Jun 2025 21:46:28 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: <kevin.tian@intel.com>, <corbet@lwn.net>, <will@kernel.org>,
+	<bagasdotme@gmail.com>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
+	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
+	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
+	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
+	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>,
+	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v5 10/29] iommufd: Abstract iopt_pin_pages and
+ iopt_unpin_pages helpers
+Message-ID: <aEJypNAzkGGT375k@Asurada-Nvidia>
+References: <cover.1747537752.git.nicolinc@nvidia.com>
+ <49f7143c1b513049fd8158278a11d9f8b6c837d3.1747537752.git.nicolinc@nvidia.com>
+ <20250528171754.GY61950@nvidia.com>
+ <aEEY28ZXH+NqiE+T@Asurada-Nvidia>
+ <20250605151648.GD19710@nvidia.com>
+ <aEHOI522eucrOZyI@Asurada-Nvidia>
+ <20250605194034.GF19710@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Nezm13D4 c=1 sm=1 tr=0 ts=68426a54 cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=iox4zFpeAAAA:8 a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=OQokVuce23VSDdhOoqgA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=WzC6qhA0u3u7Ye7llzcV:22
-X-Proofpoint-GUID: v7V_0o9xOW4lR6tmm3RqM-TN-i4swoEs
-X-Proofpoint-ORIG-GUID: kqB2Xcrb2UVBPrqXHLzHazwFswrCVxeK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA2MDAzNSBTYWx0ZWRfX/L1pXNtxcCA+ fNvoX4u3Cktx81QZ1l6SQwUGvzuQ6ZisOdLRDdEbfkc9jNLV7WznLJmc9aM4ZwwQfvgeIv5aqfN 0k1CvcwOP3xiAPgyMEHTjdm99GBb2xwponzzE8UHl5pjxFWBLYvAt0JwIeQg1GyTgehfWfrbPjo
- jIjNnnW56ia+gLKzvg1NTbIqPdY4oS8jhuyDm4/4xvUajePK44KvAYzZfh33bVrFNGDpoEnSGd2 f+rk5UHJN0IRstfIVI0/LE1y37j4m4f/wyagnN69WIJ6Gzk0Ed8xhJ+d2mlFZTjh6OwO+NO8TaS +vFWIU5ZLoTZ8IBtNBJFeqK828HpYAQH6/4nrR57zKkwHJGnUL3kmwnSzXqwSbF29MPMpz2+G+H
- ADYRYO0Ilr3l/mB+oCWoLu0i+p4EgkkUE35nn5U2KZIU4IEKy7KavSBRTItKP0nuYiStP6AM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-06_01,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
- bulkscore=0 phishscore=0 spamscore=0 mlxscore=0 malwarescore=0
- suspectscore=0 mlxlogscore=790 lowpriorityscore=0 priorityscore=1501
- adultscore=1 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506060035
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250605194034.GF19710@nvidia.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF00000204:EE_|PH8PR12MB7181:EE_
+X-MS-Office365-Filtering-Correlation-Id: 699a4de5-c5a2-4073-9ca2-08dda4b523a7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|36860700013|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?hzgwbogu5Hwb6Bg92lwYHmC1OWuoUGYVGV3KTDtA7Ubx1IFkSzbmIzsVYLje?=
+ =?us-ascii?Q?hFC9Mkg4HQ/sp2bQkcV37R7c2Hd3N4s3umYIJz1WNiXHHRQ8eEuHmi4nG1FK?=
+ =?us-ascii?Q?k3Nb5AjCHLp+kHpnF8FTePrELgXOPVfapUNYpNpZqpzJrO5yXrgALsW3Vqet?=
+ =?us-ascii?Q?Cm9z7NbP/v8CoUGt65k4v8WSbNcUF5rxdOcPi60xKYKaS4z6SRXjviGsbftC?=
+ =?us-ascii?Q?p0EYLucx+nQR+n5E2wrHELSKg+TwbSPfgQFrZPDCw+XrY1A3I86/NQZ6G/uD?=
+ =?us-ascii?Q?dqV2BoVXEBu17GjPCC7lwTrZNnUPqlUmut2RmrN+r1WokoL8Xi0ZHF88AD8V?=
+ =?us-ascii?Q?kCm0BNPOey4TS6kpUSZNNsJi5sEhq3galp0M0NLFjU3PgUlgk0YxM0Klyv1C?=
+ =?us-ascii?Q?xvrUKQ60D8rEe3EBAk1sMnj/s3HZ8+TMp+iS0x0jy9yJs3jHvv71OA+2DssM?=
+ =?us-ascii?Q?TsKqf9TRw/sXPcqNxW32IjkVHRRegnRvqTlPHgHTbaTbjtItLHea7BDoR2Hf?=
+ =?us-ascii?Q?HJjmOb0/HK+TzfiAFVSGLdVuo5YVPsbQdeiLj2mzdxj8TVGAyerISpOSxoCw?=
+ =?us-ascii?Q?A1R55nzkmSLJca5hNhAwIITOFzcD2Zn6LNmZoIprzeX/Lx5XR7FvTUEpTx5b?=
+ =?us-ascii?Q?Ur/Nc45f+JNY6OnxJ8XmflnkqkVKjLk5UukFNQdTslq62A08FbF6UWte3VnI?=
+ =?us-ascii?Q?4LoJgVVokWgfmFNg0wTaPhBz25bH4KYpa88Y7YyPGMlx+ITDJn9qKdD6FNss?=
+ =?us-ascii?Q?DSak1tIpnirLJyj9ame3Tz8WS4B0Dr6LYDLANC5jBCq6Up+GHEWbOSL5IKPB?=
+ =?us-ascii?Q?Fm8M7z1idAsi3uDdZO9zeGY5Kwz4ijLD2gFW/Iwd+wnCsvF93OrlFCNpKm9Z?=
+ =?us-ascii?Q?f23uC8GEaHTsHlTpkm1DJrCaT1qFNVXlNYqdsyGL64J//X/UVIUk4M8A8Etz?=
+ =?us-ascii?Q?hbGMYAo/zyki07YX5nQNeZBjMr/AHA37dO+jLJ11VwWLi8DzSOLx9HvRvRUT?=
+ =?us-ascii?Q?1v21FGXMzwLSz4a/tg5Unntg2Isttsj5Usxi6oD+nvUDUzvwioYGlQrgeohu?=
+ =?us-ascii?Q?w0GtiVYAkx5NdRBwJ2IdhDOwDPJ7BiDQNGkiC2dtrgPdbBv0n6sf+DKpzM2n?=
+ =?us-ascii?Q?xs0fahXBmAByz311zb5DQ/G6t+LtbJV7viixGODBnwQ6ybWryzfwH67M5A/Q?=
+ =?us-ascii?Q?d1n0Vkzbtu2XU9r0DgnylrbHWfOwkCodcQUSIPEf4mFogHVttWosG4R3BqFN?=
+ =?us-ascii?Q?2Bo6dRXmvZy7uOUEyMUIZaY6II4aKV5hy5dt3yudQMOVvy5qupLDXL2WIiMj?=
+ =?us-ascii?Q?DUTxWFP2hWnIRJo755OGRhmnUrbSV2vG/JH43Os4HDZqM9UEIOw2MT4LzYRj?=
+ =?us-ascii?Q?xk0gd/J/wNst7SnePCC1r0LmThNlL3dR+TsJE7jtgyygWl0fCCEI+ftWA62y?=
+ =?us-ascii?Q?j7InS8luWdX9ez6f0buTYk9/gexI6WL3OtWP1Y7uiFcJ+8HKrP44+mC3XkOg?=
+ =?us-ascii?Q?BDn3i/H+g8RcOITYxnYs6MG3imrK/Rskoder?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2025 04:46:44.9665
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 699a4de5-c5a2-4073-9ca2-08dda4b523a7
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF00000204.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7181
 
-Add "Availability" section to Control Group v2 docs. It describes the
-meaning of a controller being available in a cgroup, complementing the
-existing "Enabling and Disabling" section.
+On Thu, Jun 05, 2025 at 04:40:34PM -0300, Jason Gunthorpe wrote:
+> On Thu, Jun 05, 2025 at 10:04:35AM -0700, Nicolin Chen wrote:
+> > On Thu, Jun 05, 2025 at 12:16:48PM -0300, Jason Gunthorpe wrote:
+> > > On Wed, Jun 04, 2025 at 09:11:07PM -0700, Nicolin Chen wrote:
+> > > 
+> > > > I found the entire ictx would be locked by iommufd_access_create(),
+> > > > then the release fop couldn't even get invoked to destroy objects.
+> > > 
+> > > Yes, that makes sense..
+> > > 
+> > > It looks to me like you can safely leave ictx as NULL instead of
+> > > adding a flag? That would be nicer than leaving a unrefcounted
+> > > pointer floating around..
+> > 
+> > Hmm, there are a few iommufd_get_object calls using access->ictx
+> > in iommufd_access_attach() and iommufd_access_destroy().
+> 
+> I counted:
+> 
+> iommufd_access_change_ioas_id
+>  * Don't call this
+> iommufd_access_destroy_object
+>  * Don't put if null
+> iommufd_access_create
+>  * Don't set it
+> iommufd_access_destroy
+>  * Call iommufd_object_destroy_user directly
+> iommufd_access_notify_unmap
+>  * Check for null access->ops->unmap and skip the lock_obj/put_obj
 
-This update improves the clarity of cgroup controller management by
-explicitly distinguishing between:
+Yea. And I added a set of lighter "_internal" helpers so the caller
+side looks consistent:
 
-1. Availability – when a controller is supported by the kernel and
-   listed in "cgroup.controllers", making its interface files accessible
-   in the cgroup's directory.
-2. Enabling – when a controller is enabled via explicitly writing the
-   name of the controller to "cgroup.subtree_control" to control
-   distribution of resource across the cgroup's immediate children.
+	access = iommufd_access_create_internal(viommu->ictx);
+	rc = iommufd_access_attach_internal(access, viommu->hwpt->ioas);
+	...
+	iommufd_access_detach_internal(access);
+	iommufd_access_destroy_internal(ictx, access);
 
-As an example, consider
-
-/sys/fs/cgroup # cat cgroup.controllers
-cpuset cpu io memory hugetlb pids misc
-/sys/fs/cgroup # cat cgroup.subtree_control # No controllers enabled by default
-/sys/fs/cgroup # echo +cpu +memory > cgroup.subtree_control # enabling "cpu" and "memory"
-/sys/fs/cgroup # cat cgroup.subtree_control
-cpu memory                   # cpu and memory enabled in /sys/fs/cgroup
-/sys/fs/cgroup # mkdir foo_cgrp
-/sys/fs/cgroup # cd foo_cgrp/
-/sys/fs/cgroup/foo_cgrp # cat cgroup.controllers
-cpu memory                   # cpu and memory available in 'foo_cgrp'
-/sys/fs/cgroup/foo_cgrp # cat cgroup.subtree_control  # empty by default
-/sys/fs/cgroup/foo_cgrp # ls
-cgroup.controllers      cpu.max.burst           memory.numa_stat
-cgroup.events           cpu.pressure            memory.oom.group
-cgroup.freeze           cpu.stat                memory.peak
-cgroup.kill             cpu.stat.local          memory.pressure
-cgroup.max.depth        cpu.weight              memory.reclaim
-cgroup.max.descendants  cpu.weight.nice         memory.stat
-cgroup.pressure         io.pressure             memory.swap.current
-cgroup.procs            memory.current          memory.swap.events
-cgroup.stat             memory.events           memory.swap.high
-cgroup.subtree_control  memory.events.local     memory.swap.max
-cgroup.threads          memory.high             memory.swap.peak
-cgroup.type             memory.low              memory.zswap.current
-cpu.idle                memory.max              memory.zswap.max
-cpu.max                 memory.min              memory.zswap.writeback
-
-In this example, "cpu" and "memory" are enabled in the root cgroup,
-making them available in "foo_cgrp". This exposes the corresponding
-interface files in "foo_cgrp/", allowing resource control of processes
-in that cgroup. However, these controllers are not yet enabled in
-"foo_cgrp" itself.
-
-Once a controller is available in a cgroup it can be used to resource
-control processes of the cgroup.
-
-Acked-by: Michal Koutný <mkoutny@suse.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Vishal Chourasia <vishalc@linux.ibm.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 0cc35a14afbe..31acc64e656f 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -435,6 +435,15 @@ both cgroups.
- Controlling Controllers
- -----------------------
- 
-+Availablity
-+~~~~~~~~~~~
-+
-+A controller is available in a cgroup when it is supported by the kernel (i.e.,
-+compiled in, not disabled and not attached to a v1 hierarchy) and listed in the
-+"cgroup.controllers" file. Availability means the controller's interface files
-+are exposed in the cgroup’s directory, allowing the distribution of the target
-+resource to be observed or controlled within that cgroup.
-+
- Enabling and Disabling
- ~~~~~~~~~~~~~~~~~~~~~~
- 
--- 
-2.49.0
-
+Thanks
+Nicolin
