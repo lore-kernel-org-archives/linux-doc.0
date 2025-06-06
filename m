@@ -1,177 +1,113 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAEF258CFA;
-	Fri,  6 Jun 2025 06:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEF5189F43;
+	Fri,  6 Jun 2025 08:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749191358; cv=none; b=KBGujxJtMXH6O3eSazGKT4dIuRZwCfnaH4GybMUQX0aAO4ZawJxSb3gaL47Wc1wY+Dwyn5Mv0tetm6MyxGQk/OTJ4CD8wef7cNSa0yGUFyaXnDiCogTg9hgao4NBEv6HzuU90M2PxwvTUF1NjAD2gq1b3B075s0wOnsBKCJffns=
+	t=1749198140; cv=none; b=X8UKH8Dg8U1WemXkmNTz+xIy/iQpJvVnW9b2bxxCe0WZdeLNLjQLY87nVe1ZHnaulubuAus3U0DLFRCo3Pf8zvYg04DbIQTJmi/vlpyJFfqy27PA21Cc4ytq8J/glNGyk8Hltgbwcyp26enWoQ28yUuXtKyKUxsifBmPKjBedrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749191358; c=relaxed/simple;
-	bh=qcLANFQYB6F1aTadtJclYNPeTflXqceuvsxjG9tl5Gg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UqUqzLEdVS2q1Rv+hMs9o91wIIJ69hp+vytQ699kC5knxCRxGe+BHFG9QSAfn208DrODz4gQyVHhw+SyMmYTdXf7NoiTa6n1dm8oJ80OTke9fEVXzT0F8xnzdUmjqeulFnCQz+cHme5b5VM6W+DUz3wC9GjBlkAA332/Hxk6tNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-604b9c53f6fso3569073a12.2;
-        Thu, 05 Jun 2025 23:29:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749191354; x=1749796154;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=anhtEfC+aYWJeJvUly60jdWH8rm+sVcW8pcF9vb2eMk=;
-        b=W3vCRqnirNsT3umsMTw/mj5V5iWtrD/uBseXACX3CeeyJBkPqWldRBYkH0heEv64jx
-         i3TOZzf10LXmZ0X6SRIqx/ta0Mx5lS6HniHCp2BCRlvc8fxTUO+xae+ic52FuCyU8L7j
-         maXxuME/2/VeoLjpDhIFzH4Du4mITHessTVDuvrWu369xBy7LdIMVuD2HJA979/AVlQE
-         GostxWctYxM1Uwi//5ucCbuJSNU0FvcL5GytB7MVCauEAD2P7AjY4sYI2bO5OOd4Oalr
-         mtMsnbJP3u+yG3Oj5JxPfNLxUEk+XZdrj1OzUCOOkquJiOS8qIv8yinxVSXSFs/CAjr3
-         +pSg==
-X-Forwarded-Encrypted: i=1; AJvYcCU50p100FaiJ42YuHz3xLJiLsTIDyZS0P1kcZsmdKmQQ3GfCfjlKoTJEkzR0EvZzTTnK7k/HgPQKQU=@vger.kernel.org, AJvYcCU8GYGKaJMGPev38HkJQ1+ZiURLq8XVmA+/b9GfeKMOSKqOysPgY/GzMRnn0uzbWv3BcC+5Iekh9DEd8JI=@vger.kernel.org, AJvYcCVFBfEsrCODwoRlxbKeyoviaI4GQs1XjkMgIZ1VmTf+h/5ukaOkS9j/39yRyqfUCNKhL/1ReV/BNUgDzJua@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNOHkmsBvMoVe9EET6GqbDkKD74L5v0K34xYl8KkqYK2rrowWM
-	QNF3eyKg1jjekmw2z1L2WVxq/jwYkxk1o00W1Q/eSbaK219WXjsO93wz
-X-Gm-Gg: ASbGnct5rIOgL6MZS1JIVWArfWRAZ0M4BvWBBAxLgvWEpIXQQzrkR5KA9BO4aAYFDyU
-	0jM0kwBKMR6VA9acKO9+1UovLoZrocwSgp1cZwSFxnnTgR+grGps+sVH6g2p7Bu5EAplC6wv7zI
-	E0Vo8wO5GjTGhgRQBcelsTMleS0iJac45r988FG8U6oXFe9Zjg9CGYLtXjeYQmOp1s/3Gxv6vwV
-	RbwP8KrUFTC3npqbROPmptsQfTLGMcG2noID7/imwk8JusoEkk87E/NldAVvULDcRPbNZo8YoLD
-	+UmBXb6mST+zZx5w7Y3q7G8Jh3yFH8wVWEGxhdluliwXsMo29q1mawM6A3A7lTiswK5j3qRt9+h
-	UwNj3YOfF3jEFu5BJ1Ett
-X-Google-Smtp-Source: AGHT+IEQhHpZGVCxH1ZaUqlfgXtzTnbNuSiyE94GQATLfAusLPGKyuMEVAdsVmPX89pYi5j539z3bQ==
-X-Received: by 2002:a17:907:94c8:b0:ad5:55db:e413 with SMTP id a640c23a62f3a-ade1a9248d4mr174784266b.26.1749191353364;
-        Thu, 05 Jun 2025 23:29:13 -0700 (PDT)
-Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1d754653sm67989966b.20.2025.06.05.23.29.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 23:29:12 -0700 (PDT)
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 06 Jun 2025 08:28:30 +0200
-Subject: [PATCH v7 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
+	s=arc-20240116; t=1749198140; c=relaxed/simple;
+	bh=5Wcwpm0Z8kSMrpruTks0M12X5foA0MV5jmGMbNb+6dM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TxylhGxcl2Fy6ozcNJTUj/CaoL376lEydp/9cpomx8zsNk/sPhrwkEl/JDdvZQmi9szLzGjekv+m846PY9Nxj7bsRUI5fyEOgxr+xB1EAqLVd87DGhBBZGBmCl0Q0kb4ZSfj61gGWlaGGqbibKFdfD7iK5PGeckxmV2zBVYyhHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PgiPE4xi; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PgiPE4xi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749198139; x=1780734139;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5Wcwpm0Z8kSMrpruTks0M12X5foA0MV5jmGMbNb+6dM=;
+  b=PgiPE4xiq3agC8yfPvRGGyqz3Bj1BMWMdd6oCY8ZAouBCRbkMMsGe+OY
+   i/B5uao6dM6AynfMRjNOXBKYiLSD5IX72c+mhHPlSUYJHqQvZLF4IRB0o
+   piknMLz/7MqpxmeyNHsHm/ppDG6ppSXlcXsBW1HTZFrC3sMVnT6Ai4P+U
+   9+/8fIpsvWT6cMER6DawjHhacNUIVYsGD+DVyxINSgFpAV2RKqjzKumz/
+   bsp0ok70rtfvKSXDIwLmb2Lm9zQf7RLX3BMeK+RNqBxmdX8F6BU1P8sfp
+   kbNbMbDqG8magKrqFTehdT5BuAXAds5db0RRiExaMOcsW7S9yca9MC3OP
+   w==;
+X-CSE-ConnectionGUID: eMynQqGZRumCpVJn7QcTCg==
+X-CSE-MsgGUID: U7i0eh3wT7u74oiA/d3JCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51486171"
+X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
+   d="scan'208";a="51486171"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 01:22:18 -0700
+X-CSE-ConnectionGUID: eboYxtTKRUmWuzIQmUOnyA==
+X-CSE-MsgGUID: 1kUmMYwXQ2eM37IKT+dL5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
+   d="scan'208";a="145776851"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 01:22:14 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uNSL5-00000004837-1i9R;
+	Fri, 06 Jun 2025 11:22:11 +0300
+Date: Fri, 6 Jun 2025 11:22:11 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, ikepanhc@gmail.com,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Armin Wolf <W_Armin@gmx.de>, linux-doc@vger.kernel.org,
+	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+	ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
+Message-ID: <aEKlM5lzhuVdYS-U@smile.fi.intel.com>
+References: <mpearson-lenovo@squebb.ca>
+ <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
+ <aEEyEfYgpPQm8Tlx@smile.fi.intel.com>
+ <71f410f4-6ac6-41d2-8c99-2a02e0f05fed@app.fastmail.com>
+ <aEHzYT4XqhzIpO5k@smile.fi.intel.com>
+ <dd3b79e3-a0d1-4413-8c69-58ca6b4fb8c9@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
-In-Reply-To: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>, 
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dd3b79e3-a0d1-4413-8c69-58ca6b4fb8c9@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+On Thu, Jun 05, 2025 at 05:03:15PM -0400, Mark Pearson wrote:
+> On Thu, Jun 5, 2025, at 3:43 PM, Andy Shevchenko wrote:
+> > On Thu, Jun 05, 2025 at 11:53:47AM -0400, Mark Pearson wrote:
+> >> On Thu, Jun 5, 2025, at 1:58 AM, Andy Shevchenko wrote:
+> >> > On Wed, Jun 04, 2025 at 01:36:53PM -0400, Mark Pearson wrote:
+> >> >> Create lenovo subdirectory for holding Lenovo specific drivers.
 
-The NPU on the ROCK5B uses the same regulator for both the sram-supply
-and the npu's supply. Add this regulator, and enable all the NPU bits.
-Also add the regulator as a domain-supply to the pd_npu power domain.
+...
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
----
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 56 +++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+> >> >> -F:	drivers/platform/x86/lenovo-wmi-hotkey-utilities.c
+> >> >> +F:	drivers/platform/x86/lenovo/lenovo-wmi-hotkey-utilities.c
+> >> >
+> >> > You may follow the trick in the Makefile (see intel folder) to avoid repetition
+> >> > of the folder name in the file names. Note, the modules will be called the
+> >> > same (assuming no ABI breakages due to renames).
+> >> >
+> >> Interesting - I'll have to look at that a bit more.
+> >> Any objections if I leave that for a future change?
+> >
+> > IF it's nearest future :-)
+> >
+> I got this implemented - I'll include it with v3. It's less complicated than
+> I thought when I initially looked. 
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d22068475c5dc6cb885f878f3f527a66edf1ba70..49500f7cbcb14af4919a6c1997e9e53a01d84973 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -316,6 +316,28 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c1m2_xfer>;
-+	status = "okay";
-+
-+	vdd_npu_s0: regulator@42 {
-+		compatible = "rockchip,rk8602";
-+		reg = <0x42>;
-+		fcs,suspend-voltage-selector = <1>;
-+		regulator-name = "vdd_npu_s0";
-+		regulator-boot-on;
-+		regulator-min-microvolt = <550000>;
-+		regulator-max-microvolt = <950000>;
-+		regulator-ramp-delay = <2300>;
-+		vin-supply = <&vcc5v0_sys>;
-+
-+		regulator-state-mem {
-+			regulator-off-in-suspend;
-+		};
-+	};
-+};
-+
- &i2c6 {
- 	status = "okay";
- 
-@@ -440,6 +462,10 @@ &pd_gpu {
- 	domain-supply = <&vdd_gpu_s0>;
- };
- 
-+&pd_npu {
-+	domain-supply = <&vdd_npu_s0>;
-+};
-+
- &pinctrl {
- 	hdmirx {
- 		hdmirx_hpd: hdmirx-5v-detection {
-@@ -500,6 +526,36 @@ &pwm1 {
- 	status = "okay";
- };
- 
-+&rknn_core_top {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_1 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_2 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_mmu_top {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_1 {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_2 {
-+	status = "okay";
-+};
-+
- &saradc {
- 	vref-supply = <&avcc_1v8_s0>;
- 	status = "okay";
+Thank you!
+
+> Thanks for the suggestion.
+
+You're welcome!
 
 -- 
-2.49.0
+With Best Regards,
+Andy Shevchenko
+
 
