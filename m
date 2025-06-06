@@ -1,113 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEF5189F43;
-	Fri,  6 Jun 2025 08:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00FE0265CC5;
+	Fri,  6 Jun 2025 08:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749198140; cv=none; b=X8UKH8Dg8U1WemXkmNTz+xIy/iQpJvVnW9b2bxxCe0WZdeLNLjQLY87nVe1ZHnaulubuAus3U0DLFRCo3Pf8zvYg04DbIQTJmi/vlpyJFfqy27PA21Cc4ytq8J/glNGyk8Hltgbwcyp26enWoQ28yUuXtKyKUxsifBmPKjBedrs=
+	t=1749200202; cv=none; b=kGSBnAN2n1roeudwg37DRri3QCGjWNAyrhwnFxCuBjW45L+BD1el9NxTycelXRemFeJ8HzC4xF2r99NkCmc/CB4CLm47vAr/KvhopgqqdUIcDg7j6nBKl5gcYTmac2DBKzz+Kt7h7fsOLZI2abjgcp3L7MZRajHQQfQAiafA9qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749198140; c=relaxed/simple;
-	bh=5Wcwpm0Z8kSMrpruTks0M12X5foA0MV5jmGMbNb+6dM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TxylhGxcl2Fy6ozcNJTUj/CaoL376lEydp/9cpomx8zsNk/sPhrwkEl/JDdvZQmi9szLzGjekv+m846PY9Nxj7bsRUI5fyEOgxr+xB1EAqLVd87DGhBBZGBmCl0Q0kb4ZSfj61gGWlaGGqbibKFdfD7iK5PGeckxmV2zBVYyhHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PgiPE4xi; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PgiPE4xi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749198139; x=1780734139;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5Wcwpm0Z8kSMrpruTks0M12X5foA0MV5jmGMbNb+6dM=;
-  b=PgiPE4xiq3agC8yfPvRGGyqz3Bj1BMWMdd6oCY8ZAouBCRbkMMsGe+OY
-   i/B5uao6dM6AynfMRjNOXBKYiLSD5IX72c+mhHPlSUYJHqQvZLF4IRB0o
-   piknMLz/7MqpxmeyNHsHm/ppDG6ppSXlcXsBW1HTZFrC3sMVnT6Ai4P+U
-   9+/8fIpsvWT6cMER6DawjHhacNUIVYsGD+DVyxINSgFpAV2RKqjzKumz/
-   bsp0ok70rtfvKSXDIwLmb2Lm9zQf7RLX3BMeK+RNqBxmdX8F6BU1P8sfp
-   kbNbMbDqG8magKrqFTehdT5BuAXAds5db0RRiExaMOcsW7S9yca9MC3OP
-   w==;
-X-CSE-ConnectionGUID: eMynQqGZRumCpVJn7QcTCg==
-X-CSE-MsgGUID: U7i0eh3wT7u74oiA/d3JCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51486171"
-X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="51486171"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 01:22:18 -0700
-X-CSE-ConnectionGUID: eboYxtTKRUmWuzIQmUOnyA==
-X-CSE-MsgGUID: 1kUmMYwXQ2eM37IKT+dL5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="145776851"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 01:22:14 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uNSL5-00000004837-1i9R;
-	Fri, 06 Jun 2025 11:22:11 +0300
-Date: Fri, 6 Jun 2025 11:22:11 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, ikepanhc@gmail.com,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Armin Wolf <W_Armin@gmx.de>, linux-doc@vger.kernel.org,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
-	ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
-Message-ID: <aEKlM5lzhuVdYS-U@smile.fi.intel.com>
-References: <mpearson-lenovo@squebb.ca>
- <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
- <aEEyEfYgpPQm8Tlx@smile.fi.intel.com>
- <71f410f4-6ac6-41d2-8c99-2a02e0f05fed@app.fastmail.com>
- <aEHzYT4XqhzIpO5k@smile.fi.intel.com>
- <dd3b79e3-a0d1-4413-8c69-58ca6b4fb8c9@app.fastmail.com>
+	s=arc-20240116; t=1749200202; c=relaxed/simple;
+	bh=oA1jw9FL/EQacFPmNkgTSY6MfvlP3z2SAdsG0q4xTqg=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=KYcZb4JS4w0ApQlIaYq0jsq/ukbRk2MfWwyHML/d7OTH8suJDovFBt4WCeJqiKE9DTStRtlqpwE84FNvBh06It2OtDL84Cjppx5MY/0Tl1h9BHwVFQnHOgLvel0hgPh9TobeFjvPscldXJ4+UVBljtx8NVooOXLfhcfD51FOFEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bDFYJ4BKMzKHNmq;
+	Fri,  6 Jun 2025 16:56:36 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id EC1531A1A34;
+	Fri,  6 Jun 2025 16:56:34 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP4 (Coremail) with SMTP id gCh0CgBXu19BrUJoqv+vOg--.7485S3;
+	Fri, 06 Jun 2025 16:56:34 +0800 (CST)
+Subject: Re: [PATCH 15/23] md/md-llbitmap: implement llbitmap IO
+To: Xiao Ni <xni@redhat.com>, Yu Kuai <yukuai1@huaweicloud.com>, hch@lst.de,
+ colyli@kernel.org, song@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
+References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
+ <20250524061320.370630-16-yukuai1@huaweicloud.com>
+ <4b1e7a50-f448-4e0f-a498-a8c6b0c7f97d@redhat.com>
+ <7ef969ed-8468-5d63-a08d-886ca853f772@huaweicloud.com>
+ <89b1283c-c256-4830-96dd-ef9e5a7ce355@redhat.com>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <54391288-57fc-ed5e-9ba6-aaf93bb71e3d@huaweicloud.com>
+Date: Fri, 6 Jun 2025 16:56:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd3b79e3-a0d1-4413-8c69-58ca6b4fb8c9@app.fastmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <89b1283c-c256-4830-96dd-ef9e5a7ce355@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgBXu19BrUJoqv+vOg--.7485S3
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYt7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
+	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8I
+	cVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2js
+	IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
+	5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeV
+	CFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxG
+	xcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrw
+	CF54CYxVCY1x0262kKe7AKxVWUtVW8ZwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
+	ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+	1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUp
+	6wZUUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
-On Thu, Jun 05, 2025 at 05:03:15PM -0400, Mark Pearson wrote:
-> On Thu, Jun 5, 2025, at 3:43 PM, Andy Shevchenko wrote:
-> > On Thu, Jun 05, 2025 at 11:53:47AM -0400, Mark Pearson wrote:
-> >> On Thu, Jun 5, 2025, at 1:58 AM, Andy Shevchenko wrote:
-> >> > On Wed, Jun 04, 2025 at 01:36:53PM -0400, Mark Pearson wrote:
-> >> >> Create lenovo subdirectory for holding Lenovo specific drivers.
+Hi,
 
-...
+在 2025/06/06 14:24, Xiao Ni 写道:
+> Maybe consider another name of bits_per_page? bits_per_page can easily 
+> let people to think the bitmat bits in one page. Through the graph 
+> below, maybe blocks_per_page?
 
-> >> >> -F:	drivers/platform/x86/lenovo-wmi-hotkey-utilities.c
-> >> >> +F:	drivers/platform/x86/lenovo/lenovo-wmi-hotkey-utilities.c
-> >> >
-> >> > You may follow the trick in the Makefile (see intel folder) to avoid repetition
-> >> > of the folder name in the file names. Note, the modules will be called the
-> >> > same (assuming no ABI breakages due to renames).
-> >> >
-> >> Interesting - I'll have to look at that a bit more.
-> >> Any objections if I leave that for a future change?
-> >
-> > IF it's nearest future :-)
-> >
-> I got this implemented - I'll include it with v3. It's less complicated than
-> I thought when I initially looked. 
+Sounds good. :)
 
-Thank you!
-
-> Thanks for the suggestion.
-
-You're welcome!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Thanks,
+Kuai
 
