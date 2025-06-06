@@ -1,191 +1,124 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB15381C4;
-	Fri,  6 Jun 2025 17:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54991DFD9A
+	for <linux-doc@vger.kernel.org>; Fri,  6 Jun 2025 17:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749231050; cv=none; b=J6epEtE9XoF2aaH9Brr4SzrgJqvtMU5jFG5c0fJkS5kqcmu6SG30uuLlKmzbmY28C5GgGeYexR6ycyFHHvcTbholy5xVQnlfi22iprBg4zqoKPSsX+zsUYIkaDMj6ayyyszuvXimy/P8EaptyGCFYjhpPFhICs71NaLSPYiB1jk=
+	t=1749231457; cv=none; b=FrCnZ9xob2OZO6Evgpzf4JBvxSHy1xA1FrM6kgNfZRVJ9SsWJdbzvYf3koyRNklyoLtXuJvt99GiNayV76cb4c/glwVbH+L5bfkg3yci6ndVyzD5AwXwP3JTJpjq79syCLu8ZwUg9VafALTZHAkhSLWqtz7p/pSG951wt0lE+h0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749231050; c=relaxed/simple;
-	bh=vtruwHAZP8jmnD7e7b3tX0idebIT4rs+90lUDZ5HlpU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=AqWHKR/ZXPjH2hoF8san573QJIRjSLOBPWHWgiS6rN7M4pjCHeAlFBMAzhMhiCIerF4UH2ETI7Omk+RvAREahcDCdpHbamVv1DcXYWPPiGAXA3Gv5cl3Ia9hn9ATTPPXHVdV4PY7Hv7wuU2rnAiD2bnGyq5FfaUijooJzEzOXmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=JZC64LVX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fG9GmERv; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1749231457; c=relaxed/simple;
+	bh=vPIpEDJIxKfhkTcu+dZoQqd7Um5ZG/Wxw0SY+43oEc8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mn5jn3iQmZdwvPZL/Zct4L9u4NFdQqAyTsNvgFJ3ZfXQCXr3evYP0nld+U6C4vZFqh5sFSwJyyWjJ2xh5nnsBE8PAGplFz1RsmQZ0/l7CrrIO0hPnDHVWPx5g0aXKsfY3agNjk/FN+zdjV0iL8+zVUWzSA4mUaQ/rOL5HI6cui4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=manifault.com; spf=pass smtp.mailfrom=manifault.com; dkim=pass (2048-bit key) header.d=manifault-com.20230601.gappssmtp.com header.i=@manifault-com.20230601.gappssmtp.com header.b=nj9ce7m+; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=manifault.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manifault.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="JZC64LVX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fG9GmERv"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 86B3511400BA;
-	Fri,  6 Jun 2025 13:30:46 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-12.internal (MEProxy); Fri, 06 Jun 2025 13:30:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1749231046;
-	 x=1749317446; bh=CxdpNWHLhJQTJYp3lPIgeA/cQMR7pKQl5v7aS7fdBik=; b=
-	JZC64LVXZ8/jaa6a5GyMkx5tXFpXykYPZbyEDB2G8WSn5TRpUN8CqdeKFacu/2Hq
-	B1rB1onnam2g+j1oAk6fK/Nz3+eVT9ygbQzug6WCFpSCZ8bdAtvPPNcAUci3aAvj
-	CAk8e5Ec0VOT57N18yAyGgTEnzXWLP8K4ovfwC63bv/OhnbBNQ4E3WXhpXgN+ZxN
-	w858qIh/3Uw89LRePceyVF9qLuJzhEULSxkoFxL/9ITCc8YmxnkBI/QroeURJemP
-	6leUtimspsw7BMLxBVuWitf73lW3jg14nxmCUEzhSL0VuOoz/9JiVEBdnXbrSvOr
-	oA6CLu+NM/iJLI1Y0QfreA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749231046; x=
-	1749317446; bh=CxdpNWHLhJQTJYp3lPIgeA/cQMR7pKQl5v7aS7fdBik=; b=f
-	G9GmERvIJyoHD3bS/Uf3Ighsn46oYATf4LNqZhUD8BsyaMvAdP+pGUcKiy56D6W/
-	xeeThvFtqqDzP96fa92rgYPqd4CieOT2JRzF3VKJLCbWbXgfHbCkY9MAfei17tsM
-	V4k4aRXGYacvnZY4KyIWoacy57wh0+VQ7XWHarftb5ZxrQuHKC4M7PVSrrp10r8S
-	G2yYGxJhmXp9m889FRoVi7hFF9qYyGzeNlUE9fcBsPKdObhNrRVR6Isxyqqznqi1
-	a+sZHgBTp1+uPWljxKiStrXtIf2Uu2ddYwkjWKv+koSJ0cGCRfXBtXw3a5HlL6SX
-	BACCuTtkD6Q/DiY45MSCw==
-X-ME-Sender: <xms:xSVDaCrH-gIoSAXnolxC-NwFfBIRedIY8bEfcO-IxX5zQ03kgI87RA>
-    <xme:xSVDaAqlZOK-74z8v4c7OdU9BCr0ZiWm95i-f1tQMD1OAt_hIMwlBSLOa04FAB9en
-    VyzSstjicarWJpYT5Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehfeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedfofgrrhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnh
-    hovhhosehsqhhuvggssgdrtggrqeenucggtffrrghtthgvrhhnpeehveetgfdvuedthfef
-    hfevjefgtefhgffgteduhfevuddvjefguefhvedtjefhkeenucffohhmrghinhepghhith
-    dqshgtmhdrtghomhdpghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdptddurdho
-    rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    hpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrgdpnhgspghrtghpthhtohep
-    udefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehikhgvphgrnhhhtgesghhmrg
-    hilhdrtghomhdprhgtphhtthhopeifpggrrhhmihhnsehgmhigrdguvgdprhgtphhtthho
-    pehhmhhhsehhmhhhrdgvnhhgrdgsrhdprhgtphhtthhopehlkhhpsehinhhtvghlrdgtoh
-    hmpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhn
-    thgvlhdrtghomhdprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuhigrd
-    hinhhtvghlrdgtohhmpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishht
-    shdrlhhinhhugidruggvvhdprhgtphhtthhopehisghmqdgrtghpihdquggvvhgvlheslh
-    hishhtshdrshhouhhrtggvfhhorhhgvgdrnhgvthdprhgtphhtthhopegtohhrsggvthes
-    lhifnhdrnhgvth
-X-ME-Proxy: <xmx:xSVDaHOZuZlLRYP92PTRgTgoxwSMWaMEFUrbGuOaobQwmMcJFN5Brg>
-    <xmx:xSVDaB4Uy6iA4UnnpQHilQwZxX3BY5jK_rNA0fLCIlU-ivE6QAwdHA>
-    <xmx:xSVDaB5Jdh6gtY7L4QFMMnT4aw42iIHpWVlN_YhpdZ8j_v-0rOpsnQ>
-    <xmx:xSVDaBiynCru4kenoYzwuo1FguuMDxeKoa8oIKYu-dhaNjKGjCV1hg>
-    <xmx:xiVDaCDAwFpvv1UA5MWfUTlGuFtM1SEhWSwkHhL10BC93O3wuLzvNYfA>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 6162A2CE0063; Fri,  6 Jun 2025 13:30:45 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=manifault-com.20230601.gappssmtp.com header.i=@manifault-com.20230601.gappssmtp.com header.b="nj9ce7m+"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3dd87b83302so10036945ab.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Jun 2025 10:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=manifault-com.20230601.gappssmtp.com; s=20230601; t=1749231454; x=1749836254; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hjmgHwU8i86bDRJzXQwmHUhM8F0hM0j8Ly1R4pl+zL0=;
+        b=nj9ce7m+LS9kWr33Xbps7GYPrBhf+zKcynj5dwMCfPAR0zjNQcc6m1BNkKACFCbJFd
+         ZDMuElTUilOvCqtWdizp4+13QNKoG/VGJBst1IBEabO6HBHOB0++xy5UAVzsah7OHg6L
+         HYL6TBWDsbon6Cl2iWF3JP8NWGH/Ac8qGYGctuSSzAFHub9JxHM4C/bldmKGinjhCQHT
+         UFrZwc7LwCAuas1o0nh6GL3GLPYaK8e2PeD6C3KjkmBNxDkBw7nrCYS5YyJQFQPpmGFg
+         wH0sSiLd/Lk6omwMMsXhYz5oXg/0wAOQpoBzNIKNbW20RLYFhDqOJtjJ+phmG4mHsAL6
+         svAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749231454; x=1749836254;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hjmgHwU8i86bDRJzXQwmHUhM8F0hM0j8Ly1R4pl+zL0=;
+        b=cNgCQNER/kvUlt5kuWP6dhAxaGRz+LPX//Dc+M2OQq5cPGySLEREj+RUkSWWr0ZJFX
+         Gx9vJoUMutqumt8UCTtMW008tPDA1g7+5o/7GKJeUSXv9o6ICxjYCUHMxuoPmnLkvZvw
+         8bt9nDkHLjJ+40dQSkiAbtiTNb6tQWwwR3LcdOrdSRC8WZDr7nEwhyjhvGwdoYZScrFM
+         WHBKJWMfr8imWVw4EM5ParbfpBfVSZu35yKVjD+BcYYa9ieWaegwXvZVk1WFecTLr4er
+         KlQhFI/PJKots/aPBoM4KDJDr+r+vzqCwWMPQBRx1XmlCM63LDCmUpDGnngC8fkjOWw6
+         KGlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWoX0jCNJXA6CcyZx6qf11ARKoi4P5iHNw4BQQQ4STOfAdiANCLWmb4keuSalWciU9VxEpw5mmvPCY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycZF5Wn6O68QNiNEW5ljDniEJJKekmOdbRxfJt1zB4Aic0Aw1x
+	qppDc3YiA2Vlh1+hFndN2gso7zVhJ/cM7Dixcf7id1zP4YdbNj/cr8aMbdu6ftyHaZOy
+X-Gm-Gg: ASbGncsbSN5LxRSinpX0Qk/ya1YAOLH8A4NpjonYJvrz0Q73s4ne/7c9KwV0MEvMwaX
+	033h5rNavVM2ximBlb0Ogs+fpmzXHlDwhIMSJs3lS3m/0tGyME5qgzUhJ998fk7jmd3GDxzG5I/
+	eYXhbEdtA6tYibK+KXnL2XeL7vJD2wc8a1oryYKYIrdjs2tCvCDncxK0K6FsO2bT9Fn/9sQqHPo
+	AaZyRz34epbPi1Q7w/43JtuaF++m438H2MM2EnILFF9UL2d5vzmineb2pe49o8mZCUHMyjXEdMf
+	bboey/LOcyv9Q07uW8KkjVVuV/JE9i8iXA/P6fjJlQfew2TOesmPx95VRW3/e0vflOAc4A==
+X-Google-Smtp-Source: AGHT+IEWFeYDgHF2aPKD60TtUWh5UCpHGwpxG1vz1cbPOgZ3p661GBvZaintCfTEI5JlxH7z7nAidw==
+X-Received: by 2002:a05:6e02:1c0f:b0:3dd:a13c:b663 with SMTP id e9e14a558f8ab-3ddce495e82mr44503905ab.14.1749231453912;
+        Fri, 06 Jun 2025 10:37:33 -0700 (PDT)
+Received: from localhost (c-76-141-129-107.hsd1.il.comcast.net. [76.141.129.107])
+        by smtp.gmail.com with UTF8SMTPSA id 8926c6da1cb9f-500df585606sm529431173.64.2025.06.06.10.37.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 10:37:33 -0700 (PDT)
+Date: Fri, 6 Jun 2025 12:37:32 -0500
+From: David Vernet <void@manifault.com>
+To: Dave Thaler <dthaler1968@googlemail.com>
+Cc: 'Eslam Khafagy' <eslam.medhat1993@gmail.com>, ast@kernel.org, 
+	linux-doc@vger.kernel.org, skhan@linuxfoundation.org, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next] Documentation: Fix spelling mistake.
+Message-ID: <nlb4qwgyrx3iyw3tzy2t7f2t5z77k7rskqusfwfnh3aa6vif7x@zcdkq5tjjqt3>
+References: <20250606100511.368450-1-eslam.medhat1993@gmail.com>
+ <04a101dbd6f6$2635cac0$72a16040$@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T107eb5199b18744c
-Date: Fri, 06 Jun 2025 13:30:25 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Hans de Goede" <hdegoede@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
- ikepanhc@gmail.com, "Henrique de Moraes Holschuh" <hmh@hmh.eng.br>,
- "Armin Wolf" <W_Armin@gmx.de>,
- "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
- linux-doc@vger.kernel.org,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Message-Id: <6d17454f-faac-4616-ac2e-7da80feedf2c@app.fastmail.com>
-In-Reply-To: <202506062319.F0IpDxF6-lkp@intel.com>
-References: <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
- <202506062319.F0IpDxF6-lkp@intel.com>
-Subject: Re: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="k3ir7k5vvyhxzszp"
+Content-Disposition: inline
+In-Reply-To: <04a101dbd6f6$2635cac0$72a16040$@gmail.com>
+User-Agent: NeoMutt/20250510-dirty
 
-Hi,
 
-On Fri, Jun 6, 2025, at 11:58 AM, kernel test robot wrote:
-> Hi Mark,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on next-20250606]
-> [cannot apply to v6.15]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    
-> https://github.com/intel-lab-lkp/linux/commits/Mark-Pearson/platform-x86-Move-Lenovo-files-into-lenovo-subdir/20250605-013934
-> base:   linus/master
-> patch link:    
-> https://lore.kernel.org/r/20250604173702.3025074-1-mpearson-lenovo%40squebb.ca
-> patch subject: [PATCH v2] platform/x86: Move Lenovo files into lenovo 
-> subdir
-> config: x86_64-randconfig-078-20250606 
-> (https://download.01.org/0day-ci/archive/20250606/202506062319.F0IpDxF6-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20250606/202506062319.F0IpDxF6-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202506062319.F0IpDxF6-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    drivers/platform/x86/lenovo/think-lmi.c: In function 'certificate_store':
->>> drivers/platform/x86/lenovo/think-lmi.c:661:47: warning: '%s' directive argument is null [-Wformat-overflow=]
->      661 |                 return kasprintf(GFP_KERNEL, "%s,%s", arg1, 
-> arg2);
->          |                                               ^~
->    drivers/platform/x86/lenovo/think-lmi.c:657:50: warning: '%s' 
-> directive argument is null [-Wformat-overflow=]
->      657 |                 return kasprintf(GFP_KERNEL, "%s,%s,%s",
->          |                                                  ^~
->
->
-> vim +661 drivers/platform/x86/lenovo/think-lmi.c
->
-> 640a5fa50a42b9 drivers/platform/x86/think-lmi.c Mark Pearson 2021-11-17 
->  652  
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  653  static char *cert_command(struct tlmi_pwd_setting *setting, const 
-> char *arg1, const char *arg2)
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  654  {
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  655  	/* Prepend with SVC or SMC if multicert supported */
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  656  	if (tlmi_priv.pwdcfg.core.password_mode >= 
-> TLMI_PWDCFG_MODE_MULTICERT)
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  657  		return kasprintf(GFP_KERNEL, "%s,%s,%s",
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  658  				 setting == tlmi_priv.pwd_admin ? "SVC" : "SMC",
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  659  				 arg1, arg2);
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  660  	else
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
-> @661  		return kasprintf(GFP_KERNEL, "%s,%s", arg1, arg2);
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  662  }
-> 5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 
->  663  
->
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+--k3ir7k5vvyhxzszp
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH bpf-next] Documentation: Fix spelling mistake.
+MIME-Version: 1.0
 
-I'm unable to reproduce this issue with a W=1 build and I think it's a false positive.
+On Fri, Jun 06, 2025 at 08:17:41AM -0700, Dave Thaler wrote:
+> > -----Original Message-----
+> > From: Eslam Khafagy <eslam.medhat1993@gmail.com>
+> > Sent: Friday, June 6, 2025 3:05 AM
+> > To: void@manifault.com; ast@kernel.org
+> > Cc: linux-doc@vger.kernel.org; skhan@linuxfoundation.org;
+> bpf@vger.kernel.org;
+> > Eslam Khafagy <eslam.medhat1993@gmail.com>
+> > Subject: [PATCH bpf-next] Documentation: Fix spelling mistake.
+> >=20
+> > Fix typo "desination =3D> destination"
+> > in file
+> > Documentation/bpf/standardization/instruction-set.rst
+> >=20
+> > Signed-off-by: Eslam Khafagy <eslam.medhat1993@gmail.com>
 
-Am I safe to ignore this report?
+Acked-by: David Vernet <void@manifault.com>
 
-Mark
+> However the phrase "dividing -1" is one I find confusing.  E.g.,
+> "INT_MIN dividing -1" sounds like "-1 / INT_MIN" rather than the inverse.
+> Perhaps "divided by" instead of "dividing" assuming the inverse is meant.
+
++1, probably worth fixing in a follow-on diff
+
+--k3ir7k5vvyhxzszp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRBxU1So5MTLwphjdFZ5LhpZcTzZAUCaEMnXAAKCRBZ5LhpZcTz
+ZDuHAQDW8/3XFM2RbdM24rGGM4R9Zkq8guM4rEpeulA7x2GllAEAzHxglTp3OZoS
+E4RHfjMtOSFTIjMqhsGUXgg31cZ7gg8=
+=p148
+-----END PGP SIGNATURE-----
+
+--k3ir7k5vvyhxzszp--
