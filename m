@@ -1,58 +1,58 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5984E28540B
-	for <linux-doc@vger.kernel.org>; Fri,  6 Jun 2025 16:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519A228982A
+	for <linux-doc@vger.kernel.org>; Fri,  6 Jun 2025 16:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749226408; cv=none; b=pG7gJwff5JBsgTphE8qEAkV9ENO5YwRlzKeAMNxbfhVZ1JytELNQLPrnjxv7jPtoER1MWmpG74qsIlDRRK86Wd6g+YFgzOkQPC2teaJyrZgmONzGswiSW8/p1sqdHWsZXNSag5S/L6AOthlny3pqp5PeA7WW+U4PpISWWL1u/d8=
+	t=1749227011; cv=none; b=dEUPgqvRH0Wk26QlkAFEUSMc71e8WxTzVcRiBf3yRcjA0E67RWLpEAgcysCV/boBN2p5qxqn3etTYlNEOmdfohWjEAPSoAuXphESsi6E7J6ZLVNsWZKJNBNhnQttxVbeNdwmeqBy3Tt9XohAIKHH3uamxojZbOT49/beNDRhnqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749226408; c=relaxed/simple;
-	bh=3c+OLiucfxV1ODvVU6ZZSFapIkuKRd0oSKGghYOHS4Y=;
+	s=arc-20240116; t=1749227011; c=relaxed/simple;
+	bh=g0LVpQxipeOCOXuAtAJhs14mbqA3NiYPX4nhcwbpzZw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QfqKj6H2Ux+WTQHe7+XmGukjl/VqHt2PKqKFMBUkpi8x0v+kJGolmyL7u820kloYFegGomsZqMW8jDgKWeVQdDV9LJ3RGi9z7iJXhfj1qloieRZSJqV7Aybf0zMRuUtELzCgJsjkLQkfL7UvO23n8DQzEPC41CgTkdV7bU4bHTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=UvFYjfJ7; arc=none smtp.client-ip=209.85.160.181
+	 To:Cc:Content-Type; b=NjzNVhRlH19ukdUqSz7xI9mec3uOesRtxqN2m1T1Mg1qeFRFRyO2lH+LH+WDHwJ3Yr4mjvUO/7S3QUnsqNLBLVeXppP/zTwye/5IsXZnu9E+WUHJDDo3TZfbPnLuAyPPpbSs59YWGHkwVt6fJ8PdD7Q2PWLWG1g8sqEqoopJBLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=oQfDrnf1; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="UvFYjfJ7"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4a58f79d6e9so21728721cf.2
-        for <linux-doc@vger.kernel.org>; Fri, 06 Jun 2025 09:13:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="oQfDrnf1"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4a589b7dd5fso37719981cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Jun 2025 09:23:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1749226406; x=1749831206; darn=vger.kernel.org;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1749227008; x=1749831808; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3c+OLiucfxV1ODvVU6ZZSFapIkuKRd0oSKGghYOHS4Y=;
-        b=UvFYjfJ7E1AYqFNifHJ5vAD1nNFuopa6CqxKS7CzMVV/zdci4oALssnI+fKuU0bZIE
-         54K38UM6kiDb+UTarbiwFst1UU/sCv4W62u2CH6v4wUWp9qQluFTFNwyyJWlWmkdiBh3
-         9nIsaak6uIFKEiO9EkDUqZNIEG08+hZUo5QBI1ESMZQgyhNaKdzsNETC0YmFExWflKoB
-         JKUwscRQ0Y3/bI5WU5lZeHUQPRsnAYBj0fDOMUEFpAhFqdGHnYVZHDf/7EaWeyrr/sP0
-         OrrCoJiE+ra/XIZkh8DIXwXjZwtMJ026l1OZPG6mrgDcufElcIM41E0/iDYQA+7bkf6C
-         YXaA==
+        bh=mFpeqJEhDacu967h49T3bcYqqSd1cDscEpckxmXpo1A=;
+        b=oQfDrnf1GHhy/Yfm+t50dRTNVkCkE+yZVcatrecWiCe8q37aUIjfNYV5GXxTN06KyJ
+         5/9ldkHF70sTN7w5sklsNmXQRJBn4VKA9j3pfxpOUVprJUCIqKbgILwlndgGEZ2SsMyg
+         K8B3oZflr0jCgfSEFukr31lOT4lRSUmpSRU8WWWYUfrUOTJo4oaUs1k5PBTRInGGzY7g
+         TbeyEDHASgFdyVeo0wLEzDa2V/3Objfqgb+re2QSod7CHS1Z8+QVx6mok/q7JffePFlh
+         nMK5kKCzQEkL3Lqm98b+/yKgwnz+18Bz8RUXH/dZ07CRKEX1eiTeLI8FTOlcqpBr8yTz
+         JtEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749226406; x=1749831206;
+        d=1e100.net; s=20230601; t=1749227008; x=1749831808;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3c+OLiucfxV1ODvVU6ZZSFapIkuKRd0oSKGghYOHS4Y=;
-        b=oOO48/Ebf6WZ8gy/vHf48KDTXyCjSELuVzrTwLBDm97zZdcQKrJJpmjuBn6K8hMAHx
-         gwj0yWuSN1Yqyg9eEE3o9iglDKevWxx8mZYYDX6UNIwt08+opQFHfiYUzJ62c1EcZcHg
-         TdDMVvwonaQht5iLr3hMEil/ZZAEU2USDenRxuPYmiUZL88yqjT2mEibmIifR7yVMAjj
-         6Qm1wvk5HsOjYjCNuLQroRmGU3w1skW0h+OIUum8CZb0mzCu+kqfDGYUsfI2HmyPZJf7
-         X3jVYCvo+rdGDwE39G6uuXngxj2UjpgjTkibf4NaVpwqrMNaM0kHfYuUkp4O45xaNpS3
-         EzYw==
-X-Forwarded-Encrypted: i=1; AJvYcCV06pEZDLZStT58I13XfgSt68ljji0HIniFpvJfBsW2Z+QjtMjbKp/xnHgKcmF/D73v5f/TVzshhR0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXNyv1/OyepbySLZjzjYyeJnixHPFwOyCTt61xGXadjdkUBug5
-	61RpfgosW6htIg+Xuz+0mOBgBp0dpeGjhi9T7cfKcQWPhfCUhIhJCJSQwJxNvhFCz8G5G19k3/D
-	4QuwBWMm6x3gr8DTDw2ShSQVO/+YrwMwxtgl/aiSmtw==
-X-Gm-Gg: ASbGnctRxSqtAy7xUlIekAUWSiKL7xQs38reHbx/YvEzlrqAKMuGhu6oOXfOh5tgIW7
-	BGYkHCkpsFBsqVn5CybiY/JcD8FC0txNXg6NKn+efz4LJsmWaNhz6k+V3E8HUWJDifLf3chsb+o
-	bcOKOBnaURlGeerwzq5qQDoZ+33TYw4LfYetYcLjSo
-X-Google-Smtp-Source: AGHT+IFvzMrq1D8K+hzBBEnf8MX2QMLz487m/utY5M5EEZJ2BtgId21E4drPVwNqY3sPf1S055BglVV7u01P7fkvw7c=
-X-Received: by 2002:ac8:4f83:0:b0:4a6:b603:c37e with SMTP id
- d75a77b69052e-4a6b603c3d3mr34513811cf.2.1749226406222; Fri, 06 Jun 2025
- 09:13:26 -0700 (PDT)
+        bh=mFpeqJEhDacu967h49T3bcYqqSd1cDscEpckxmXpo1A=;
+        b=pWGdP3pIi+TK65dtW0FRgkAmf6BR+pmv0g3QrKJpgvNjWJy9KqPvROO7sMQgkC7K10
+         zQRcegFTeJl4ko9CXoOkrzUvxdliMNHSoAugSAno/RG5pJ0tPyaToq48cV5jA6o4UoBX
+         p2NrFYyymU+9tWP/eklthhUFMGX5r46FjFqtRqI70nteoDi3o6TGI2FLLyeeUoFA/g3I
+         lWd9CAA/ZR/HkVG1ZcTNT7vL6Yb6/x6l/5ObqqpdVqT5+g0os1FtMqfeS7MgMgEry+XZ
+         hFL+O3JiHDZ8mI6HJq/OnT1lMwFWZoEflb3ZAT8ZyWDd600w2IAFyfQwl42j64dvbwpR
+         1WvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWE5cjS6ZJeuSI75j98jgy9QbRWOem/HS0rZ8GG4YjsDvXigl5mUys44PMHUrUs2NLW2SxuZw5i7WQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF52AIDPsWKuVkBElLxEPVTleCAfZx8jJuONLqLIGwG2UhgCR/
+	7r/f4Amj6/7Z8ldjzM2HMKZH3PNNHjtJDKohD9X4chpGipiNlfszlrWffJAzpsyboSxqhVgVLwm
+	q4E+WZRmF0DY9Xy/dJJxoYkqys6lHWxoISObSwiS8qg==
+X-Gm-Gg: ASbGncvJXN1LCZhyWupZdSwxtuiOeITWgVX5xpGgSHbwsJ86L0oekLFVRcUPQbqv0M6
+	RTJNdrl3bBOhIYZONauWq2NSWBk+0kM8XM95JrFdxFn9lwu61G6VHR0ys3LL4Nop/j0pxID7OAr
+	39AuZeTxFYoYNaN/96ElPregMQgRv96y2KjgR3dqci
+X-Google-Smtp-Source: AGHT+IGPsHSaGwXVvY8YZpTqOE2qMLkHKMqQkhbImGTUUVVWXZpV4mBeVtnt3fOpZqXUHctLEMLr/kgfyV+cty9EU04=
+X-Received: by 2002:a05:622a:a044:b0:4a2:719b:1231 with SMTP id
+ d75a77b69052e-4a5b9d96135mr48575531cf.35.1749227008164; Fri, 06 Jun 2025
+ 09:23:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,13 +60,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-2-pasha.tatashin@soleen.com> <mafs0msantryd.fsf@kernel.org>
-In-Reply-To: <mafs0msantryd.fsf@kernel.org>
+ <20250515182322.117840-4-pasha.tatashin@soleen.com> <mafs05xhbv9fd.fsf@kernel.org>
+In-Reply-To: <mafs05xhbv9fd.fsf@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 6 Jun 2025 12:12:49 -0400
-X-Gm-Features: AX0GCFuCUPrJe40udzBKChlGW4OEJnp5DLFei3Onke-YT3nN79_JOUAzGKiEZOg
-Message-ID: <CA+CK2bAc6joxJPCTdNkn8JxWA0MWtQfASiwNuHA68Nqt+7O61A@mail.gmail.com>
-Subject: Re: [RFC v2 01/16] kho: make debugfs interface optional
+Date: Fri, 6 Jun 2025 12:22:51 -0400
+X-Gm-Features: AX0GCFutlDyG92JoXPnUdMDlv9OT8nRqcidR71SxEcHa0BYzPpqGY1tjEjK24Po
+Message-ID: <CA+CK2bAZY7L20CwkHMKwThYj9nK8S4jHm-NXx-EhXpXntnv6Jw@mail.gmail.com>
+Subject: Re: [RFC v2 03/16] kho: add kho_unpreserve_folio/phys
 To: Pratyush Yadav <pratyush@kernel.org>
 Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
 	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
@@ -91,23 +91,92 @@ Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 4, 2025 at 12:03=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
+On Wed, Jun 4, 2025 at 11:00=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
 > wrote:
 >
 > On Thu, May 15 2025, Pasha Tatashin wrote:
 >
-> > Currently, KHO is controlled via debugfs interface, but once LUO is
-> > introduced, it can control KHO, and the debug interface becomes
-> > optional.
+> > From: Changyuan Lyu <changyuanl@google.com>
 > >
-> > Add a separate config CONFIG_KEXEC_HANDOVER_DEBUG that enables
-> > the debugfs interface, and allows to inspect the tree.
+> > Allow users of KHO to cancel the previous preservation by adding the
+> > necessary interfaces to unpreserve folio.
 > >
-> > Move all debufs related code to a new file to keep the .c files
+> > Signed-off-by: Changyuan Lyu <changyuanl@google.com>
+> > Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > ---
+> >  include/linux/kexec_handover.h | 12 +++++
+> >  kernel/kexec_handover.c        | 84 ++++++++++++++++++++++++++++------
+> >  2 files changed, 83 insertions(+), 13 deletions(-)
+> >
+> [...]
+> > diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
+> > index 8ff561e36a87..eb305e7e6129 100644
+> > --- a/kernel/kexec_handover.c
+> > +++ b/kernel/kexec_handover.c
+> > @@ -101,26 +101,33 @@ static void *xa_load_or_alloc(struct xarray *xa, =
+unsigned long index, size_t sz)
+> >       return elm;
+> >  }
+> >
+> > -static void __kho_unpreserve(struct kho_mem_track *track, unsigned lon=
+g pfn,
+> > -                          unsigned long end_pfn)
+> > +static void __kho_unpreserve_order(struct kho_mem_track *track, unsign=
+ed long pfn,
+> > +                                unsigned int order)
+> >  {
+> >       struct kho_mem_phys_bits *bits;
+> >       struct kho_mem_phys *physxa;
+> > +     const unsigned long pfn_high =3D pfn >> order;
+> >
+> > -     while (pfn < end_pfn) {
+> > -             const unsigned int order =3D
+> > -                     min(count_trailing_zeros(pfn), ilog2(end_pfn - pf=
+n));
+> > -             const unsigned long pfn_high =3D pfn >> order;
+> > +     physxa =3D xa_load(&track->orders, order);
+> > +     if (!physxa)
+> > +             return;
+> >
+> > -             physxa =3D xa_load(&track->orders, order);
+> > -             if (!physxa)
+> > -                     continue;
+> > +     bits =3D xa_load(&physxa->phys_bits, pfn_high / PRESERVE_BITS);
+> > +     if (!bits)
+> > +             return;
+> >
+> > -             bits =3D xa_load(&physxa->phys_bits, pfn_high / PRESERVE_=
+BITS);
+> > -             if (!bits)
+> > -                     continue;
+> > +     clear_bit(pfn_high % PRESERVE_BITS, bits->preserve);
+> > +}
+> >
+> > -             clear_bit(pfn_high % PRESERVE_BITS, bits->preserve);
+> > +static void __kho_unpreserve(struct kho_mem_track *track, unsigned lon=
+g pfn,
+> > +                          unsigned long end_pfn)
+> > +{
+> > +     unsigned int order;
+> > +
+> > +     while (pfn < end_pfn) {
+> > +             order =3D min(count_trailing_zeros(pfn), ilog2(end_pfn - =
+pfn));
 >
-> Nit: s/debufs/debugfs/
+> This is fragile. If the preserve call spans say 4 PFNs, then it gets
+> preserved as a order 2 allocation, but if the PFNs are unpreserved
+> one-by-one, __kho_unpreserve_order() will unpreserve from the order 0
+> xarray, which will end up doing nothing, leaking those pages.
+>
+> It should either look through all orders to find the PFN, or at least
+> have a requirement in the API that the same phys and size combination as
+> the preserve call must be given to unpreserve.
 
-Done.
+Thank you Pratyush, this is an excellent point. I will add to the
+comments of these functions, that it is a requirement to unpreserve
+exactly the memory that was preserved, and subsections are not
+allowed. I do not think this is needed, but in the future, if a use
+case arises, we can relax this requirement.
 
-Thanks,
 Pasha
