@@ -1,106 +1,123 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193021A5BBF;
-	Fri,  6 Jun 2025 15:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749225485; cv=pass; b=FtbsgFIRfOGO84xXTTFurRPTTIjrdUN+5Pvng3vk98E1vMhRCQ4b6k8VAvO3kGlS5Z7OhOyUHEI83rFXvsCyatOyAGp2UvBvstD8xsDv/Y/giFE7PVMpsK60/0Zn4SU8d7uw1ESbrLlmvW4FALmSuVxyg+E85tXSC7iHQBpC6n0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749225485; c=relaxed/simple;
-	bh=vycj8gjcEZ+bm23D5leWAwXb3RRniPJSFGDD7+kMt9s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GwmT9j9b8F0rysRv7zz/80OpKT2OK+bC6fXzXJdF2mLd1nBR9ddeNSYCVV77lr4uC6Mqkk7t+vwSMum+bX5lSc80Apuvvcp/rtIIsLn0dRf+dQSxBh/5UTOa2o0lswq9nWXpy/2Cf3shpza8u9Y2NLkHVELB6CPuEt5k/7SI67I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b=QH1vKODG; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F5D288C93;
+	Fri,  6 Jun 2025 15:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749225547; cv=none; b=oTIIv2ssW6vVIdWWkBxRU8fvYyyTh5aOiWRC1DxAWIHLlkaCpMwoWnDrcQeR5UxNGvU7UpRn7NSfhgRPkRrBBX5VLN927u5ZHsuFOSFfAzFoLgaKuyjpCGhFGrXrV4tsSnz9cyDdLCgYZ/RVeH8yfwStSqOx34Ga+byELgPFHsU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749225547; c=relaxed/simple;
+	bh=DqILrp7MAmIHBHpVhQPDe90I9D1u0u26u1bnK5dDg38=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ca3e5TGHTMaKcz3Zb7lmS2bkeZWGBuTJgGtyjHXu2EAv6+9uK7HEPjtNzTSQDssApjR2G9qm9mYnYaXZmcHUQ5BgWXLn1itdC9ldQTdPVqYQNcR8gxmlYYc71rFL/JYoMoHU5YFZd0glW+n+yVZOc0+6nw72BIAzr4NiwtIeT0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TsbMtZCo; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b="QH1vKODG"
-ARC-Seal: i=1; a=rsa-sha256; t=1749225476; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=NYZ7f8leMzC2ymDf3ysaAlOhnBwwfo+ICLpMWRoC8PrrI0qAwJ5NbQnxtgOP/OosZ1QrMQA59r9AghzbbcrmNUOqfeESizPsSoGFooTDpvnRQDSAiCclLClyCXznY9jSUjCbZr/Enjp26BSTrhWfYpqqa6wAPZRQosy7v6Dtkkw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1749225476; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=UBFyDDLc1XMNjUwKbv/5YR9uucwhhwGf+YONUGBjl8g=; 
-	b=I+eMS1tc5tmRURjI70XxKj6enoKvFOPz7hPJFOC9b1XNbLfcdKITykSJDhVGPDKJ21Z1IcKaHoPCE0f0aFrgvfPdKZFHNzCM82QohxMsEbBtFaV0Zvwk/WoL7QtAdsPc0hcrRNoiz9r6vm0Sc5Ll1Rgk9wMjLM7f8bT7H59+kAA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nfraprado@collabora.com;
-	dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749225476;
-	s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=UBFyDDLc1XMNjUwKbv/5YR9uucwhhwGf+YONUGBjl8g=;
-	b=QH1vKODGwgXA+YBqRmYjQxTmkO1kXSDZhxvktEsX79WdRhgSqOCz7D8kV5WzXtrl
-	DRojKpWVnwF6bOpE5/2T55q7l3N/WmG/sZ1BmdiWCkkJCBJZ5nDl42hZ+O1nzArN+od
-	jj84BxhpK6BCSyTC22BnWNBI1UK0yRJKg93dJAHE=
-Received: by mx.zohomail.com with SMTPS id 1749225474614216.59788784587943;
-	Fri, 6 Jun 2025 08:57:54 -0700 (PDT)
-Message-ID: <24f62de7a5560d6dc093ba57af5271b5aa03d244.camel@collabora.com>
-Subject: Re: [PATCH v2 0/3] docs: some automarkup improvements
-From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Mauro Carvalho
- Chehab <mchehab+huawei@kernel.org>
-Date: Fri, 06 Jun 2025 11:57:41 -0400
-In-Reply-To: <8734cegndo.fsf@trenco.lwn.net>
-References: <20250604143645.78367-1-corbet@lwn.net>
-	 <ebeb020a-8403-441b-ab02-f017ffcb7b83@notapiano>
-	 <8734cegndo.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TsbMtZCo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749225545; x=1780761545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DqILrp7MAmIHBHpVhQPDe90I9D1u0u26u1bnK5dDg38=;
+  b=TsbMtZCoduM1sxMFrHH7pI8RIMh/6aFAQUogt/xFqKsStFglorQhHQH7
+   MjmM9ez1vNzBxMRktIAmzZ0Eq3wzQfw7/rkhA9WLy1DI3ETnw+crSO3+J
+   f3/BRYF18Btquo8hFk6ruadTZ4o4c/ul78T10kc3X2QIJOGsOLHeB2dqq
+   XyCFJpwX33kFOBtlHKfKFqbXicP08wzejlAcQUis/7nFI/L1A+2pDjOXm
+   XyWLYalWduLhC6XecGAvUj6TgvoNHKK5VPb1A0mFeEtjRSiVYEXSVDjtM
+   J/TCwRf0gOwPAqnVXKcY+hKovQ0jC7IcUfdCyehB7OKGrZpQQpLezZXHc
+   w==;
+X-CSE-ConnectionGUID: Aq6Y4urORS2+jJtmwBmbiQ==
+X-CSE-MsgGUID: PPY+fI+3TEWLs8oZrTv3Jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="51525633"
+X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
+   d="scan'208";a="51525633"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 08:59:04 -0700
+X-CSE-ConnectionGUID: oZVF5Z4hQXmdJLGOaHW+Wg==
+X-CSE-MsgGUID: AjXvMA79Q3u8y2LSr675og==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
+   d="scan'208";a="151020215"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 06 Jun 2025 08:59:01 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uNZT9-00055V-0u;
+	Fri, 06 Jun 2025 15:58:59 +0000
+Date: Fri, 6 Jun 2025 23:58:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: oe-kbuild-all@lists.linux.dev, ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com, corbet@lwn.net, ikepanhc@gmail.com,
+	hmh@hmh.eng.br, W_Armin@gmx.de, andriy.shevchenko@linux.intel.com,
+	linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
+Message-ID: <202506062319.F0IpDxF6-lkp@intel.com>
+References: <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
 
-On Thu, 2025-06-05 at 10:32 -0600, Jonathan Corbet wrote:
-> N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com> writes:
->=20
-> > The only other thing I noticed is that the links in the sidebar
-> > still use the
-> > old style, since they rely on a different CSS selector for some
-> > reason:
-> >=20
-> > =C2=A0 div.sphinxsidebar a {
-> > =C2=A0=C2=A0=C2=A0 text-decoration: none;
-> > =C2=A0=C2=A0=C2=A0 border-bottom: 1px dotted #999;
-> > =C2=A0 }
-> >=20
-> > That makes it a bit inconsistent style-wise, so I think it'd be
-> > sensible to
-> > update that selector as well to follow suit.
->=20
-> Sigh.=C2=A0 Of course, making it exactly the same doesn't work well due t=
-o
-> the shading that we already use in the sidebar.=C2=A0 Since we know
-> everything in the sidebar is a link, I suggest something like this:
->=20
-> =C2=A0=C2=A0=C2=A0 a.sphinxsidebar a { border-bottom: none; }
-> =C2=A0=C2=A0=C2=A0 a.sphinxsidebar a:hover {
-> =C2=A0=C2=A0=C2=A0=C2=A0	border-bottom: none;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 text-decoration: underline;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 text-underline-offset: 0.3em;
-> =C2=A0=C2=A0=C2=A0 }
->=20
-> That makes the sidebar relatively uncluttered, but still lights up
-> the
-> links in a visible way when the pointer passes over them.
+Hi Mark,
 
-Personally I'm fine with either approach. Just note that there's a typo
-there, should be div. not a.:
+kernel test robot noticed the following build warnings:
 
-   div.sphinxsidebar a { border-bottom: none; }
-   div.sphinxsidebar a:hover {
-       border-bottom: none;
-       text-decoration: underline;
-       text-underline-offset: 0.3em;
-   }
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20250606]
+[cannot apply to v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---=20
-Thanks,
-N=C3=ADcolas
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Pearson/platform-x86-Move-Lenovo-files-into-lenovo-subdir/20250605-013934
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250604173702.3025074-1-mpearson-lenovo%40squebb.ca
+patch subject: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
+config: x86_64-randconfig-078-20250606 (https://download.01.org/0day-ci/archive/20250606/202506062319.F0IpDxF6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506062319.F0IpDxF6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506062319.F0IpDxF6-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/platform/x86/lenovo/think-lmi.c: In function 'certificate_store':
+>> drivers/platform/x86/lenovo/think-lmi.c:661:47: warning: '%s' directive argument is null [-Wformat-overflow=]
+     661 |                 return kasprintf(GFP_KERNEL, "%s,%s", arg1, arg2);
+         |                                               ^~
+   drivers/platform/x86/lenovo/think-lmi.c:657:50: warning: '%s' directive argument is null [-Wformat-overflow=]
+     657 |                 return kasprintf(GFP_KERNEL, "%s,%s,%s",
+         |                                                  ^~
+
+
+vim +661 drivers/platform/x86/lenovo/think-lmi.c
+
+640a5fa50a42b9 drivers/platform/x86/think-lmi.c Mark Pearson 2021-11-17  652  
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  653  static char *cert_command(struct tlmi_pwd_setting *setting, const char *arg1, const char *arg2)
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  654  {
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  655  	/* Prepend with SVC or SMC if multicert supported */
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  656  	if (tlmi_priv.pwdcfg.core.password_mode >= TLMI_PWDCFG_MODE_MULTICERT)
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  657  		return kasprintf(GFP_KERNEL, "%s,%s,%s",
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  658  				 setting == tlmi_priv.pwd_admin ? "SVC" : "SMC",
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  659  				 arg1, arg2);
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  660  	else
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24 @661  		return kasprintf(GFP_KERNEL, "%s,%s", arg1, arg2);
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  662  }
+5dcb5ef125907d drivers/platform/x86/think-lmi.c Mark Pearson 2024-10-24  663  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
