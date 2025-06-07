@@ -1,88 +1,93 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A7A17BA1;
-	Sat,  7 Jun 2025 08:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5831FF5F9;
+	Sat,  7 Jun 2025 08:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749284355; cv=fail; b=qnn0TJttaGivcDAMOAq6tWzdZYzUZz8zGA3aFHdCQARqAo0VOerYtOIrqY3JSBwmp0t6RKG7GiZA67O/4Unq4J0L90iT4+jb5ZALD+kyMC36S6RmpCseXd9a1zb4R/GKt3hTKy7FWIT9hsqhdNmWHk1ddMZgx+jUgcdDoJcyGxo=
+	t=1749285361; cv=fail; b=RwARTcZCW2rpqRepFluifSQmCDtozbeEilctC/DEwF3iNAX3PgOcJAnuIDn9FtiWQzJ+mmojWiFShKs9P+2jvV+k3vihiZ5Dt13fOn1VHRy5GUv/IkBQmuQf3hrF4vLJQV60IvQGREmA0AFSGuIjcV/PVTZGqM9KVsk87WOQt58=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749284355; c=relaxed/simple;
-	bh=t2iA1jfve6MneL0pRt/OMUdMc6VivNo+XEoSOPO4/ZU=;
+	s=arc-20240116; t=1749285361; c=relaxed/simple;
+	bh=7rNhM+myVyPALWxid1nvi16f24KLfwM7Gu1EuznJ5Bw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=UniJl1itvZr3xMJQ8rwe6xxWbH33vv/Ej9GUya3EIzp3CTylJRg9zTfX01T01sDSdS3RrbAHF2/vd37lMHMy9mx+Y0jrlKaaSSfl/w09GK7TGenwkPZPMAdrLBSCJphx+bwIXdhbNmFp8PckJoTr10F5RSgUZaoTsqCxbWztbDc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=OWteRkto; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=BqMI7bsZ; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Disposition:In-Reply-To:MIME-Version; b=gRmsByadOIMgARciCuuUSvEMdQws2QbAhzr+NnnFgt1nTD4p1xeonjbfkaKHa1j5CIIKlD640bLphyQghMWKexx59g8Hw34hihXb+XPBF9SJrlNwIigCevObrIaFN7XT9YFFrAeM445f/NxlpH4UCDC79Uq+9JaVdvtA4cDdkX8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZN+JSQkQ; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=eSLhASWo; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="OWteRkto";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="BqMI7bsZ"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5576nwOl024809;
-	Sat, 7 Jun 2025 08:18:23 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZN+JSQkQ";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="eSLhASWo"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5577iYif027528;
+	Sat, 7 Jun 2025 08:35:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=E/UUQEq6US9kBKzEUD
-	RKdGoWCPliL8OzmVOXiurqiH4=; b=OWteRktoS12agT6pKLt97syS+KYTUUAW01
-	tJXpY13YK/2hMCnzcmbyTeQ1X+MkXOwTGpgO7EARIWTXmlf+67Fjte7nihir/IbX
-	aVbFPDj402FyiJJhgoHnew626HFIf94uNKNQcJgk5tCKiYucdInhkNC+W+CSHIpP
-	gFd0619Smq3V1iG5hrZMKrIg79MZJ90HiVJR5iP0w4zTfLsS5KnZicx/mS4jC5tj
-	SEXZApxMAwfdnDo1NiSVfDefex7Fp7VcpKGGsnWRH56LocM0lVuEIOD00/knt5Vf
-	W+QLSOGg8O2cir1Q9+94E7PpI9poytx2xVhekW8JpOvAy45Jnspg==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 474dfe83x2-1
+	:references:subject:to; s=corp-2025-04-25; bh=UNDor8zJvPL9ZIjQFt
+	XpcQICif1WDbKmQfdCqnEhirE=; b=ZN+JSQkQNlFZurFJ5NXKVSJ6Knt014SOko
+	HI6+A6Vc7x8tPT4lCFWYsQzXDQYCk4RL9HH9hvTpzWjcBKi1kh0OvRo4vBticMy1
+	gpWL2Ltsvw/QR0cyAct4mYZgdpUqMqkWoNwt1JNPl2Dak+NkRA1SBF8ptNO1xaHk
+	tJMOvd7offd1eGrZRZ/UU8GMVA1ZTgRDZTZD3jFl1hRSU2C365tIAbiK1B1GNGEJ
+	77clGpCyBeA+/bxt9AJLQnZIwBeQ+2ULotQrqQqsfZvuIdyuKcQPH4k1VuLDtVhV
+	ou98NG7NLIcIAA+m6MRmxwKma0DC8c/SR/D4+2ooHys05paK97aw==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 474d1v04fc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 07 Jun 2025 08:18:22 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55766fVU011966;
-	Sat, 7 Jun 2025 08:18:21 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04on2087.outbound.protection.outlook.com [40.107.102.87])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 474bv6wpmb-1
+	Sat, 07 Jun 2025 08:35:04 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5576OBiw020255;
+	Sat, 7 Jun 2025 08:35:04 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10on2051.outbound.protection.outlook.com [40.107.93.51])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 474bvc5xcy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 07 Jun 2025 08:18:21 +0000
+	Sat, 07 Jun 2025 08:35:04 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ciGZtNElYAzPBH6JdtG3r2ZZ4m7eITtRL2FAZYzqVYkJrqN2sgbHdSYXyTVQm+wUBoRtlHmKIv9i81NnT5+Qx1033TGon9aqq25EXVrS2SbnbRZ3bSRt+uc4GYZA7OxC/oF6KQ2xGHxoZ+dvVdDeyPtgyStAqRR+6+KhBt2ScXurkY8QDKP7FWSFyU1J/gpPU4orNxT7pQUKSpbM4vSeTT/3AVzJE/BdeydFeCjH9ckyG4zyw9eBskFralNvklOA50YR1hZ8IJRuSk5sUbidtjhxP8YoNhGNZ7ax/kwjful5A5wVu9QG+1PRn2X3g9oKikvwjCvHQuSVfgSXVjbAeg==
+ b=x+tyWcTLHbG83Wagr5ccyE3WrGjXR58ck/kK9ZcG6jOPUoeTyBAcHbnAqDzMucFvzieEsad62xju4vjceH3XxXm0lVMdXnZanIUr26fPMF/yK5kPYLW0j5CO1LiW80eyCnhuwGpXU6/njQq+7lLIPrdXT9cI9W3aQi4ChoiRT4K+ktkJzs1NM6GgI8d1/eNjAi6NgI+wSpG81InZzTVEUGipZsw9eYRrRaMqT3YZwOKnu1zeLRy4poznbhqKgS7+mn6DorODnZk4w3Dhhu+d4NAAFpUPBxDgDMiIh/KKYRFG2oVrx6h4BmN9AJKVp0QXnePOsLL5orkt6CtME+u3KQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E/UUQEq6US9kBKzEUDRKdGoWCPliL8OzmVOXiurqiH4=;
- b=UNAlfm+MIVSiMBlKNRlwqim9ntJsjgHpfCum7/8Z9xeaAQq+KpCbkHVrcPjRVnE/5K/cfAkf2OCJwiikGdWRAt9cTsP58BlA8oEp3gp6xADKFHyPV1NZXIixqzQdfh9kEjcNU68typOijyu/BnLozz4cpcL3mxuPeR/tbyl3hiG8R40xUu/xLcWqOjju4zslpirOIrXGuBDt9nEp8EyqPj4hVhh5Oi715VgESC4jaak5ZknUJPLY8NVKk/Zdtt0qOcC2TSXxnVPgMWobBeOqKFfrs1Us1kuiidWO3in1AA+vqN4KmqQmJDJeeswwQkslsdUQi0Q3ce3XgqfdCP44Gg==
+ bh=UNDor8zJvPL9ZIjQFtXpcQICif1WDbKmQfdCqnEhirE=;
+ b=RF/BD0tSOQnMWm93HAgEJ59ILRegVCOxS+C2uc8vF/qDFmO4pymIJ6J1awWDQPphzO2z55Umkc5mD26xd9rpe/otjYnGiGSHOuQbB2+SaWvR1aBrj1YzBEslLLV3z1Vpuqw2+T+BNW1JhmkKBakfrhtJydZWNXStsFDwhVsV4B4RUqMOIYlZ/Z+MllDntv/JajZ+2FiAThCJOU1mD0P+FrCvv9UVrAhYp/QSXsLumeES2idfvXeSI1NLcFWaJwVgxlKw/z5gi6fQolg6rj5YxPZUdajX3jdw8fYa/G2fU0GfV/lyXjnt27DUn8dPeq9f6EyzRRx5F1FhMymaVce7Fw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E/UUQEq6US9kBKzEUDRKdGoWCPliL8OzmVOXiurqiH4=;
- b=BqMI7bsZmnxYikZr8+77Uw6pQ6FpG7IE97nIUHSsg7Z8v7LvAmu51kiQxPapM8KjtgVRDAQNEB5FKqbqfJBaACWMWzQ2KS7qKzSuxJ+SlN6qZGcEAKAbwhlteiVP2+R2g3kQd39UKUy08eG570Az+Srsl7aYPsLu1moc9026tCk=
+ bh=UNDor8zJvPL9ZIjQFtXpcQICif1WDbKmQfdCqnEhirE=;
+ b=eSLhASWoXFhoqjFiedERERkwTiQsT2r6XSjYrfG3UYxRGFclIpSL1TKcLU2L5DZvTFaNjvptNEoLyfPmc6eLbgCQrPtbI+hmde1T06bgIT8RIDNo5oSWa4NmXJzlOVpQeYLsmFJigDpcEo4ZNyWf750YMzy2BnkwFAw8+gVN1/Q=
 Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by BY5PR10MB4147.namprd10.prod.outlook.com (2603:10b6:a03:20e::14) with
+ by IA0PR10MB6769.namprd10.prod.outlook.com (2603:10b6:208:43e::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.39; Sat, 7 Jun
- 2025 08:18:17 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.25; Sat, 7 Jun
+ 2025 08:35:01 +0000
 Received: from BL4PR10MB8229.namprd10.prod.outlook.com
  ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
  ([fe80::552b:16d2:af:c582%4]) with mapi id 15.20.8813.018; Sat, 7 Jun 2025
- 08:18:17 +0000
-Date: Sat, 7 Jun 2025 09:18:13 +0100
+ 08:35:01 +0000
+Date: Sat, 7 Jun 2025 09:35:00 +0100
 From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
+To: Zi Yan <ziy@nvidia.com>
+Cc: Usama Arif <usamaarif642@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
         linux-mm@kvack.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
-        riel@surriel.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+        riel@surriel.com, baolin.wang@linux.alibaba.com,
         Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
         dev.jain@arm.com, hughd@google.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@meta.com
+        linux-doc@vger.kernel.org, kernel-team@meta.com,
+        Juan Yescas <jyescas@google.com>, Breno Leitao <leitao@debian.org>
 Subject: Re: [RFC] mm: khugepaged: use largest enabled hugepage order for
  min_free_kbytes
-Message-ID: <063273aa-a852-492a-93da-ba5229f544ca@lucifer.local>
+Message-ID: <c6f3a80e-b5d0-4790-a783-69f47c31c39c@lucifer.local>
 References: <20250606143700.3256414-1-usamaarif642@gmail.com>
+ <A409F7B3-A901-40F9-A694-DC3FB00B57FE@nvidia.com>
+ <b807deec-99a9-4691-9001-c2f3adf586b9@gmail.com>
+ <35A3819F-C8EE-48DB-8EB4-093C04DEF504@nvidia.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250606143700.3256414-1-usamaarif642@gmail.com>
-X-ClientProxiedBy: LO4P123CA0249.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a7::20) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+In-Reply-To: <35A3819F-C8EE-48DB-8EB4-093C04DEF504@nvidia.com>
+X-ClientProxiedBy: LO4P123CA0346.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18d::9) To BL4PR10MB8229.namprd10.prod.outlook.com
+ (2603:10b6:208:4e6::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,439 +95,219 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|BY5PR10MB4147:EE_
-X-MS-Office365-Filtering-Correlation-Id: 98625e20-9faa-497e-de49-08dda59bda27
+X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|IA0PR10MB6769:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3dd4053a-f933-451c-c48b-08dda59e31eb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?agpSCVCF+FFSApms1Z4A9X/3KqTTdSXVI6Y7IxoBYcCfA0jQ5m1VjRz0xyjm?=
- =?us-ascii?Q?V4EzmgD8HKmC+LlDbtQ60ONgTJcO/ZvwWSrDBodhMrJiBg6N80d9wGjGHTzt?=
- =?us-ascii?Q?MEjSD/+dNnR3sMLWLSV1W+2cvtbTBSac6M74MquiwGdJ0H8LriGclbJh62+8?=
- =?us-ascii?Q?JsgM4uE9PthreavPysLq2w+jIogP1zdPdIC4KbME97Y5pPzsDil0xSgxB62C?=
- =?us-ascii?Q?w1SAUwChsbbrQ6fUsv+in/sB55wfgcvmUeNdmjODQ+fuZ4QKjnzzmdtBTDm5?=
- =?us-ascii?Q?P0Yj8c3NTa4GIrUVqBN/5HWESuxCiJGyGw4icChSfipwi69z79dL0Ctc/M8v?=
- =?us-ascii?Q?NEqA5gZIsHCrr2lvPzDbkNYztLGB87G4CuIZ1Wmomhk8IhoJJF73IR1+KL/7?=
- =?us-ascii?Q?fY4xXZwVS5RgEw9imB/Lkkkd7AefU3lHcfxoKg4ZN62Me03UbOQULdzQvG8Q?=
- =?us-ascii?Q?HumdchnyxxJZHi1P0W0PJCgYoE8KPieRY9QtTzw3S8YL3huXzEf67JYqQbHk?=
- =?us-ascii?Q?jwC/sWopmMijUwwEkkZ/BzUhyBztukqfs8woPHHvtO0zi8DtAQLb7vgZWOOF?=
- =?us-ascii?Q?Zi2GhPjcmNBkeOHBL56QHBU2Ewz3wQ6upB736K+JiP8ScBztFKmIRPGKz99D?=
- =?us-ascii?Q?5Y80M1ZrdPp4BFMLB1MbTrUqsvF58LbIpFqA/AE11RUQzIUsuQ9LinBIWFDO?=
- =?us-ascii?Q?/187xgEGIXPl/5ea0Idp5VsRO0/NEtBGIWriAep5PRCEUZ/zhZrCPJ+QoOwq?=
- =?us-ascii?Q?u8QHiMWmoopUwUrwZMQH9ofobP73H4RF+9xJy/DyiZMKinx+O7NkwrvZhNsS?=
- =?us-ascii?Q?qw4VMmKBPxPE9vtphhVr3IQ1rcSztzzYYkKqSH0/1xqkhOYqYCNFFrxi65gZ?=
- =?us-ascii?Q?B28Gyz0JxT/CFA7YsopwAlrbUwlsbaZA0atoQqBVGosXq+8emnhu4g21+L6u?=
- =?us-ascii?Q?yP43Rkphv2htPSJ9GokNxX5YG3F7NhjQY9X5kUtQFR/rXX2BvmZxZwkIIwji?=
- =?us-ascii?Q?ETpV8LbG8f/oSsfuGeBmQJTFHl4oumFsm/iDMdDVJu3JQGe2bedtMxeNu0Jy?=
- =?us-ascii?Q?+ovLXCZfxg6Y18a0qLoUq0Ba2eCAwe7O11PvF42+drMdHwecx8R8wrHyZEMS?=
- =?us-ascii?Q?CzhShCPsHjHNbyRS5v0NEYu1fneIlzvoG+wiYCOkV0ImZg+2Ymjgrf/GDMNm?=
- =?us-ascii?Q?kk3/J+ScVlYfRsEk2rpAqsQYwNEHMbPNt5B8XVlobI4yFbG93/ohEW5vztkx?=
- =?us-ascii?Q?zYZ+9wi6fB8VJibxvLZW94AP7hEVHI3BNFQRBVe0ACyjgOFq9mw6hSPdgja5?=
- =?us-ascii?Q?dXTZks4LgUhHvnscdDdMf1OsnS+Yh4CYCfYRHrj56CYJ4GMSCBIpLNipvqj8?=
- =?us-ascii?Q?wKRIcYCuDQ2VYFPBz0e2dtEXIB81+a3Vii4SWHnesaC7LnQGgIpF31Gll5BS?=
- =?us-ascii?Q?FaJ4KM1U82Y=3D?=
+	=?us-ascii?Q?r9YI8md2STwBgKB52lLJYSeyK14HDtF9Lg8cgoUEd+PPlqGrKeaUwSrwDU8j?=
+ =?us-ascii?Q?ebLdBV2UZp4gIc55kWeqI+/9wc9XqtE0dCmrS4eIlwJWuFcc/PL43zCQmoxf?=
+ =?us-ascii?Q?0rwIFA6wqA0r3RlSjphY5qr1suhzqRVg4Hp7KyCYTSuEYh9TmlvVSNUxuHdD?=
+ =?us-ascii?Q?ZHd0Tt+1K9SOkNh+F/o9e2bWEgNzlFUXJjKI+/BiZrEeVDsqyF7/zBbRyz0S?=
+ =?us-ascii?Q?Bva5i2BSgeX8yv/8GW9BLfRgnsIUc+wk36Be39+NR2EtKS1u8bTOf+C+HBiQ?=
+ =?us-ascii?Q?4t3caeUzKqdIQicOSaIhgGLcO3nFwyIk4D2knBwGEOH9qU9zVwd4CocS4NQs?=
+ =?us-ascii?Q?+q5BTkGrVBDzvBkl5hxdQIzMwDg47NiOpvwO3G3uNLX3RNhsHLFenG0QVx83?=
+ =?us-ascii?Q?GTwqBpykclnzRlT4TWyq3mBXbA6gDj9tNHBRTINeLfkp2OQ32ElnHP5m/OSN?=
+ =?us-ascii?Q?vf5QhBcQpZuXVhJxjCSK8PQZtU5+LhPLsGXgs8F2BJXN+O9grT0rMN/UqmJr?=
+ =?us-ascii?Q?yKgECQTZ5j9Giho8bKsbncrh+USXxyda/GSAQrYpIVNPP9OlwNOke667SChj?=
+ =?us-ascii?Q?YDu1W33vyuvnAE6QyZCZSxoo09cPwedaS0wIehNlWjjTZ7iQFFnKOxa84YX6?=
+ =?us-ascii?Q?taEKGYPF4urR1hPfWvcgJYBS7dLvmCRPQdDw9ORPCNZXYP8fgHtw3kXSPH8Y?=
+ =?us-ascii?Q?UxQTeYp8g0yN1cDQaQXEykwb+9vM/NRHnv1+bzPToU6tGgO8WBqaXwOqURph?=
+ =?us-ascii?Q?ow4VnBmVoL4506f0s4h2etbPPvx/VnCg0yzDAZyqU4KulryGiON3pmGKJXkH?=
+ =?us-ascii?Q?KLfVxnny4L8FvhS/uV3F68WUx/w5CgX3N/CKCJf8NkSlx+IZlyVHoHwRnjfb?=
+ =?us-ascii?Q?ZNzi9NB4yWSr4PrrC9DdaAxDAT1ry+qRvDRl2/dD9Z4y71cQtD+tg7AQbRB9?=
+ =?us-ascii?Q?xq4v+gtkeNX5kmn0LJhTIllgVJlmdLj/Q/7Kd6KstdIXsEx9Gvd4Y4GvAu03?=
+ =?us-ascii?Q?Iw0M8qRdL+I9Ma8Ghn0dTt/zIiFT4YDqu6cgNCEpM0QRlYqsfZeWS89Yu7WZ?=
+ =?us-ascii?Q?IYC3y9hpqImSBlN4eqhX7BtDqncWIz670eHxIFlPlyKWV4NYRZIOEZcLuHjY?=
+ =?us-ascii?Q?pi3wTFI8aNzaoKymAAjz25rCDTwUYt5McWGXEtU9b7OY8h43HuDSY/Uq5w9x?=
+ =?us-ascii?Q?F+aNjK7jLfFjfwt7zdlVh7m8cc/pdDFsZ8pDGXF7UsbUgx+I7LmkKO9Gj5q5?=
+ =?us-ascii?Q?YnHM3pHeX4u8xVcp+tsidFp4Dp3U/Oia4obBv/eKhlzhHYEjiR14Xi8miaW8?=
+ =?us-ascii?Q?4K3aZriRIsyyap0I0BxBw9DupBF1gF5Dq0WZczhenIELilx55wzE3THti5yh?=
+ =?us-ascii?Q?nLtg+FAqFJsa8Mwq+Uf4cg2lcVM5GUYuq18nt94U8q5RmvPNPT15v6Lnn022?=
+ =?us-ascii?Q?bAQgca+y2+4=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Gb84xp6oBq1kJiL9r0L2R9Yk47JnNNElQ90BRhX/SBmVpT3yodcaEgBYE8kH?=
- =?us-ascii?Q?Hm2/zmwXz2b7aiaITlacxeQQ+W4Dw74fb8M7TEyQMrR6oDppJI8FJWUwHtEe?=
- =?us-ascii?Q?sjlBjGuYFYLxysQ3LTj/I/UVMTK11k47K+6alsLFEyb42oRpz9I2AJWKf+Sp?=
- =?us-ascii?Q?Z9Isuz/6+ZdUNO+2/hr+WImoNz4oOgqrI/EU++2KX+dhqDo+uQzsTECD/V+A?=
- =?us-ascii?Q?aFLzXCx97TM+I4/ckHuiUT7NdGC0raFfuaeDY6J24qngFxNlerk4J5Ozbp0A?=
- =?us-ascii?Q?DnRNj4RoL071P8MXi3yoItOsLBV7ebvlCIn+dBAsUR6h85KBatcNaI9iX1zr?=
- =?us-ascii?Q?5Z3I0z8reDK2k6J/S+icQovSvsAM1nUltZaln9eV5pP69garpKPmfEdVGo0B?=
- =?us-ascii?Q?yexMid6Cp1U6KYfVlmCxVt6DwuHEiDSaRKoORtCU3+gpyrq+q5ho3u3sHbM+?=
- =?us-ascii?Q?GpvuNAgkESZXmRJPJ67NpnkjuNzazEg4sYM90DyrGkBMWIsGGCWBszhdSnBO?=
- =?us-ascii?Q?/xO3WxZudtfm/BpoKbQm976yVyiXK0Il0w5MJxYZjUsTEoRTLXxIS0UJTTtS?=
- =?us-ascii?Q?f6mDAzRMZWTaF/LbFgchJ5LMKkxmt65PeR4Imy0okTDYdm9gaB4iP7uvoPN8?=
- =?us-ascii?Q?48+LM9C8ZbnHmmD3X/43GD5tAvihvJiilr4FZTaPJkQEBNXIb9JRbIVcyuy5?=
- =?us-ascii?Q?tEYnajg+fidBMwU1CeXOs/HlZ6oD6BScC51rUy63MOwgI3/ayV1ua2IwOBFi?=
- =?us-ascii?Q?LBrVOWiMVZIeyiBXoJ3WHtwtdr0sZ76y7B/zfaOb8BDt+hQz6JV53qrP91Hp?=
- =?us-ascii?Q?znHC30C5qEDNkf3+f1jeHpCx6NRUyXLqVoZcloGbllvslytxrLq9oULJQ5mK?=
- =?us-ascii?Q?RveufsaMkTawlSksX4b4bRtdwoCXRY0zq6GYVwpddhF3jrBBbbEN1u8AxlCh?=
- =?us-ascii?Q?NDHAPMjQYsfi50+VayvEOOqXA2N5ge7TycJwkmHWOEQwVFJ2pxHVMjRNoFJq?=
- =?us-ascii?Q?Qy6vTQphrn1ZTv+XKh1uHCo/sAzikZaxx0cK7mvWFvvgaBJmKrcfeoHoIEnU?=
- =?us-ascii?Q?1cAlNmpo/VlIRCTQKCfIP8CADr977JA5w5Sm9dSPOZhcV1Ata/LGkFpVOS6P?=
- =?us-ascii?Q?mjRZ15Hi8tTh+JDUuSCB8XUcOGIoxklZOoFD8r8PRDB259Rpho97473CFeF9?=
- =?us-ascii?Q?aMZfF0oXqnDWZ6bTIE0FR8EmbiRLIkujMqKlsP07vB+puhrdDWGpQo0zQy1/?=
- =?us-ascii?Q?J+27yYrOzJ5g5uWZex9S/jvR3Of5DGSuB9Di0N6+J5zHujV+f6V0FUeyLj+t?=
- =?us-ascii?Q?g7oDg/VAP9MucUmQL+ottP/HoOkajN57aCf9EMq5rzNRUo7uu8kfst2PaBXE?=
- =?us-ascii?Q?cSSn79vH+R9sXfwyo4BWySROB8dlmvK+fiiv5KCBV2WH4AnKBuPvqgXGCfNf?=
- =?us-ascii?Q?tnwYeLFLbZGULsjugPmvPAwnMcSKu18+V5sxedt7eRyRPhK2YF2JxqQvpNRi?=
- =?us-ascii?Q?2HeJOnkmFMRQrKrHufxNoUZh7XCbR42cbJGJo+jhORXjiOeip9JwIOHlvsx8?=
- =?us-ascii?Q?r0R6On2GSsYuXy5DujRpCVAaBYfCMV/pwoRv76Wo+VeRAqPbjXQWoZ4ae2n8?=
- =?us-ascii?Q?kg=3D=3D?=
+	=?us-ascii?Q?jVq/LpERdtwnX2+b+QB83qgh1M10iWR7yZQrUUnJfxWJWUgWZTtuD/O9ofH2?=
+ =?us-ascii?Q?YifhqF2Tj7eVwTtXPhXVC5sDY6NaWdtRd0es++igog3Ajghd0x907hECl525?=
+ =?us-ascii?Q?0FoFlIoHQC4yM8LzinPLPe/6L1SN1xcxAjXprCbyKgrIF0lMCb6S2sXIcN/y?=
+ =?us-ascii?Q?9WsFVmG0sOc5KOEWc9FGdnMXfstYyxiO59c2eh+1PO6cxjLMdtwyu4GJcd4r?=
+ =?us-ascii?Q?shjm78pqWoC8+DmBFOeofnBXiu0tthR8fLw7tGe0PrTjZ1lW+RlWsjons4vz?=
+ =?us-ascii?Q?G+/pOoGcMR7/epA9HUZnSqlHi0kyPwNaoCNu2dLsYcRH9+f1o1eCMX5cwMuW?=
+ =?us-ascii?Q?nHljoO8a/0XYVDipUITj74o8bQ1/EVkaG6zMpgJDa8MUfcRJm8ehfKaCvZ9v?=
+ =?us-ascii?Q?FpfJpN7i6rYgx6eoGyUIJqgKP17lSGQcFm6/9XbAcZs2EySt/yU1FYwBIgoO?=
+ =?us-ascii?Q?M6mC6Jsf3UbV5DUjLAHNoV9cSVomQixnWC+w0A6DZWHFjauKXlV1R6r2TSBH?=
+ =?us-ascii?Q?topyEowr1R60RQI1ME5u3m5yX4Zp0vCmJLk59OkOr4Cz59crwSWtPzzgO7qA?=
+ =?us-ascii?Q?dxs+P6fLoD0wT4GVkZKNraY3UG2/n3JWnz9yTqCnrpb6Rf0B8+FaLjgG/G6Y?=
+ =?us-ascii?Q?r/Y7PhXoOTi3CwwagShXJcn98HdnuIhdYJIDNk7Xo2eDfcdoHMww9NezNzcc?=
+ =?us-ascii?Q?BcwRXqGPI86DNLtk75CfGJAeF1ABu6NpHCLvamZhXz7YtJRG2gfM4QRGfs6X?=
+ =?us-ascii?Q?sabC6U8Ot/CjvqOJ4aFP5Ogp3jdSTkV8Y33DQd140JhTl62U7ENbgltsS0Oh?=
+ =?us-ascii?Q?q/PphjdLSP+2TcoJYcQpUdlcRSfQ+lXjyQVFzQvgsa4K0uU5m51Tfptzrm/M?=
+ =?us-ascii?Q?qfRmvnKjUOaYcRTdQyco3QcWmKhq4d6U2VFRpqihmaOqVAfAS5Sn7De9X56H?=
+ =?us-ascii?Q?wlh1AadhxdjjzNVWoGJmt+Mz+Ffan8sfLk1Wp6s8v2ljtrangzIMYLkM0PtA?=
+ =?us-ascii?Q?8Fc6wGV3XLQpjCCCgtKxCSmHfogIzUXG4Yget3uRVGuHn+4Q0UTdOguD0bTj?=
+ =?us-ascii?Q?sr/ohaxDv8Vc5xu9Y5rLHl7UUHerb1A8vkmJ1I4V8e2otmFU38wBbFS27o2m?=
+ =?us-ascii?Q?Z1yQpqNBPYYToo27/hNcgim6xCo0NgtsE7HnHSDS793rZ/rK3IKrS5h0EvqX?=
+ =?us-ascii?Q?JEj2gaumZixV8k1rIWO+sEL8HlJfZfwMF8gmf56jK+hR+iYyGizenOlJ0RKl?=
+ =?us-ascii?Q?iB2g8ZprGxTSStFL6qlLEw6V0jNcwlG2SO7hOcy/N1iQmzzGAHnZH9WaC3PH?=
+ =?us-ascii?Q?odw0Rr60PnAGgv7u7qEUVjNkzMKfFhTMorZ9IVTKEc3GeEV27t7tGsZD5IHa?=
+ =?us-ascii?Q?kNeuaYeM2PjiddYjpDhs31qN93yakoATsT6JB8jPuuF765Nm0UNjTIX6ZTWV?=
+ =?us-ascii?Q?AkgnkqxCbSq/Xt+w6ZtVkwD+twT+nZGKAEvYpVyrxpKEfr7LDwCjM8MIFsrA?=
+ =?us-ascii?Q?YQnc1jPu3N8urazGHfIujrxgHgkWdcqknSRrJKvuMljHRFArte+K/UZikACx?=
+ =?us-ascii?Q?xAPrKFynp116pb1MdOGaKe83zItUpYUKmQIR5j6e/G0MqNY/pfbsabJg1lpi?=
+ =?us-ascii?Q?CQ=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	yGGxfZlaRdfHUlz6Zq1hMMaJCYDAA4IX2s5pLAOYPvK0eaIKT7Ya26tY32lT0JP/+O71L2Fva4r2oIliOmrLFXdiUpMXrCvF1lWJVQuFzMAb/vSBV/CQ8QKGld3QPTmEmgrN3CxUJ9+6j0j5t3WyY9AjsPRu68KxM6XRKKgX3rySx5f1VNtS+D/IWund7uHxKuWMsmHb7AEJ5hnQ69cazPsa2ZmChjNSZGX4puafigmJ2sIvX3WxICmRVuO60NUSeh6CJynWVOVtFEIDI8AAdhlBBBtmjPzxBjvlF/pPbT5n+Y8e5aSWPnbBgtUEhF1FTVBPVZcYXfOyWqqRNLuvsZe3g6VOkx67jrsiX5d7G7+MZ0snr2qUDZOZU1avYYEFo6vX42stiwhywws7VUtzp8rGwId/EaUx3sxdvIF6yFqu5OCT3vAZSyAUy5U2aMbe0zA1Qviju0wtnmPA4OE532kIcBRbD3211abrCr77nIk1vpE0wqEgLf7yr9Kdsn+K0ljZ9E3sRzDNt6Ktps6YLRzpPVqayOm+ly4yLlRcb6C1y/sTxG4gHzjJCOlxQQpktxbKOcBitF0qveCNQBuhmPULMYxzl6kEq6Ii1GyhBf4=
+	TZVlPGCg755ZLISbTy9bO/oh2GyFB8Wtvl7D/wYtmz+jJC0fnKdAC5A0UjTwTP3kpJrcOUMBy9I/eisAAd6yxD+exZSP3M/201benhSYbaryzIalc7oPQfn+sVLascfCjonMyIvyQrroSa+gCXDrM9JyxE73x3uckAfW3fsHBlyvE6mU2Fu2De5TXS8BLTEwBICM4+PvRlLnLrDWVNk0l8YjYyS5Tn4DoONcBihY9ff3ibzsA38zQawyN+7ItI3wWR74Ga2CemSDNnszv4bzktpXiKJmWoaIDrWPa6ScDKdjzFV/CReKbEquqRuYMs3U45D6m3SKNO29nsaiGl8n+VT+lpBOJThdL7TbwRWkajDfz+NiB++Q5b4e/6DqzTEqg+/ami0UMpjkl0vOpuDIJJP1mLBcrO5Iakgx9PB9kkJ5U7jqTnIu1Sg9g2KT5YJkOE3yqLb0dvHP00T75Zo3WHsVq/VFQALFJ/xpxkmjRNhsVYSM67XfXct71k8a/bfUw7wIz81NOKzA2j2F6oFI9jZr8yOzyqlRTgjl7nfYHuh166n5cXQV8LrvuMx2hrZosKR4BpbOZ78/0jUdjJu9iBC+unR8LxObNi/f6P1rLOY=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98625e20-9faa-497e-de49-08dda59bda27
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3dd4053a-f933-451c-c48b-08dda59e31eb
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2025 08:18:17.5162
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2025 08:35:01.8420
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G5NSA8Oh07V0SUrTDpuLaWgzP3qbphnMVUmhldCbkh+ZdrqUurJuOR+lsQXH1ULztetlX3a46CMriUTR/Ur3zdP3++g3bQ7oNTAU47XmM2s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4147
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZaRF9hSSUYCcYtSJMlHUjZZjtvMYh6rDPOfAZ8/hmx12uNXPPhDBUy8Un+2i09VFEbKr1u8cUviRcmu7q2CX3SYjZDuIYo7IB2gUNVivDfY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB6769
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-07_04,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 malwarescore=0
- mlxlogscore=999 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2506070059
-X-Proofpoint-ORIG-GUID: vUOsAiDOAlT04YRPf8kELOLtKYiM30n2
-X-Proofpoint-GUID: vUOsAiDOAlT04YRPf8kELOLtKYiM30n2
-X-Authority-Analysis: v=2.4 cv=MMhgmNZl c=1 sm=1 tr=0 ts=6843f5ce b=1 cx=c_pps a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=6IFa9wvqVegA:10 a=GoEa3M9JfhUA:10 a=VwQbUJbxAAAA:8 a=Ikd4Dj_1AAAA:8 a=pGLkceISAAAA:8 a=bvqPwbmyMqAi63Tnno4A:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA3MDA1OSBTYWx0ZWRfX/HLU4mJnqkvd OtrrobT9LUHM5rvJU3KNZtCdATy9l0+ZG76YYYM5pDc9OwiQ4ztmwPbHe+NfFNbyYRZLNbYX7li 5nr4THbT01fIwq1Nlm7dBTOqplY6liwz7qAOhUXg8lV0Pu0z/ARNevFC3kSHN7TmfxECQGLTidD
- Iti5YbLe50TLL+E+tKldk5FUrUIR2JFasp+Va3fFz0NL9PbZP0AB/eROBnUkobgZJJ+IBQVm+G7 VEbU8IAPwXEgN0phVuvZvx18CpzqnQh6TwxLDRGkRDWSvImp4Y+/bPtrfnlyeqGtBnmmPN7Tr3G 4y73+XYIOp9Bs2zpOZkkHWKMleMZ023BJ/OQQ4bUQGp5XlC1ipKjWdzT/fCASF59ehJI1J6ihK+
- TtXmHMsuSzWX/vyb2oT9okyqc8/Vj6sPENn4aVzf+AWRuCnPIlVGZwu3yq0wqd15C9Tmc6F0
+ definitions=main-2506070061
+X-Proofpoint-GUID: ljtMrnB-2qpIJVUxVfmxccuyrljATNa-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA3MDA2MSBTYWx0ZWRfXxMN73XlbFXcu 60tjg7erhyPfsL5OGv5L63cL1Cb5vj2t98VJ7ufj9VBFIoAdcMOoddiQNVIRzu4YNZxKAikrobB MgAlosUdFU4mTpa3mIFWzgZERANBC4om6FeeRc81ndHiaRAniUYnKc6feNRlku3SAnRkK6eqWP2
+ SeO8rHP8fCQYk4VVnPTvspdYcFwxIKdhRG/LdUCgTsGmx3whlNAw4AbZkgVV5a1YxdVAzZAcRgC q2rILp+hnwGGyYAl3UfatsbW54bQZXtehlAp+h9T3MaPhTTWe6DjaArIZcpCT9jvLS03jyUIcwq geJiqaNhkG0NklZeyoPXSChqT4YruUBvHXMkYeeTi3mTxZxC6UrOhpcaHsY4FC+fUGT31tYyPti
+ +5HEEn3AYqYK0I8B8aO7TqWnF+xuErqnkngAi8/RwIHUnJJ15w4iTK8cvg5X5Mf0uYE1C7VV
+X-Proofpoint-ORIG-GUID: ljtMrnB-2qpIJVUxVfmxccuyrljATNa-
+X-Authority-Analysis: v=2.4 cv=d731yQjE c=1 sm=1 tr=0 ts=6843f9b8 b=1 cx=c_pps a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=6IFa9wvqVegA:10 a=GoEa3M9JfhUA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=2ODr4BAumaqrhBJ9y9AA:9 a=CjuIK1q_8ugA:10 cc=ntf awl=host:13207
 
-It's important to base against mm-new for new mm stuff, PAGE_BLOCK_ORDER got
-renamed to PAGE_BLOCK_MAX_ORDER in Zi's series at [0] and this doesn't compile.
+On Fri, Jun 06, 2025 at 12:10:43PM -0400, Zi Yan wrote:
+> On 6 Jun 2025, at 11:38, Usama Arif wrote:
+>
+> > On 06/06/2025 16:18, Zi Yan wrote:
+> >> On 6 Jun 2025, at 10:37, Usama Arif wrote:
+> >>
+> >>> On arm64 machines with 64K PAGE_SIZE, the min_free_kbytes and hence the
+> >>> watermarks are evaluated to extremely high values, for e.g. a server with
+> >>> 480G of memory, only 2M mTHP hugepage size set to madvise, with the rest
+> >>> of the sizes set to never, the min, low and high watermarks evaluate to
+> >>> 11.2G, 14G and 16.8G respectively.
+> >>> In contrast for 4K PAGE_SIZE of the same machine, with only 2M THP hugepage
+> >>> size set to madvise, the min, low and high watermarks evaluate to 86M, 566M
+> >>> and 1G respectively.
+> >>> This is because set_recommended_min_free_kbytes is designed for PMD
+> >>> hugepages (pageblock_order = min(HPAGE_PMD_ORDER, PAGE_BLOCK_ORDER)).
+> >>> Such high watermark values can cause performance and latency issues in
+> >>> memory bound applications on arm servers that use 64K PAGE_SIZE, eventhough
+> >>> most of them would never actually use a 512M PMD THP.
+> >>>
+> >>> Instead of using HPAGE_PMD_ORDER for pageblock_order use the highest large
+> >>> folio order enabled in set_recommended_min_free_kbytes.
+> >>> With this patch, when only 2M THP hugepage size is set to madvise for the
+> >>> same machine with 64K page size, with the rest of the sizes set to never,
+> >>> the min, low and high watermarks evaluate to 2.08G, 2.6G and 3.1G
+> >>> respectively. When 512M THP hugepage size is set to madvise for the same
+> >>> machine with 64K page size, the min, low and high watermarks evaluate to
+> >>> 11.2G, 14G and 16.8G respectively, the same as without this patch.
+> >>
+> >> Getting pageblock_order involved here might be confusing. I think you just
+> >> want to adjust min, low and high watermarks to reasonable values.
+> >> Is it OK to rename min_thp_pageblock_nr_pages to min_nr_free_pages_per_zone
+> >> and move MIGRATE_PCPTYPES * MIGRATE_PCPTYPES inside? Otherwise, the changes
+> >> look reasonable to me.
+> >
+> > Hi Zi,
+> >
+> > Thanks for the review!
+> >
+> > I forgot to change it in another place, sorry about that! So can't move
+> > MIGRATE_PCPTYPES * MIGRATE_PCPTYPES into the combined function.
+> > Have added the additional place where min_thp_pageblock_nr_pages() is called
+> > as a fixlet here:
+> > https://lore.kernel.org/all/a179fd65-dc3f-4769-9916-3033497188ba@gmail.com/
+> >
+> > I think atleast in this context the orginal name pageblock_nr_pages isn't
+> > correct as its min(HPAGE_PMD_ORDER, PAGE_BLOCK_ORDER).
+> > The new name min_thp_pageblock_nr_pages is also not really good, so happy
+> > to change it to something appropriate.
+>
+> Got it. pageblock is the defragmentation granularity. If user only wants
+> 2MB mTHP, maybe pageblock order should be adjusted. Otherwise,
+> kernel will defragment at 512MB granularity, which might not be efficient.
+> Maybe make pageblock_order a boot time parameter?
+>
+> In addition, we are mixing two things together:
+> 1. min, low, and high watermarks: they affect when memory reclaim and compaction
+>    will be triggered;
+> 2. pageblock order: it is the granularity of defragmentation for creating
+>    mTHP/THP.
+>
+> In your use case, you want to lower watermarks, right? Considering what you
+> said below, I wonder if we want a way of enforcing vm.min_free_kbytes,
+> like a new sysctl knob, vm.force_min_free_kbytes (yeah the suggestion
+> is lame, sorry).
 
-Please always do a quick rebase + compile check before sending.
+Hmmm :>) I really think this is something we should do automatically.
 
-[0]:  https://lkml.kernel.org/r/20250604211427.1590859-1-ziy@nvidia.com
-
-Overall this seems to me to be implemented at the wrong level of
-abstraction - we implement set_recommended_min_free_kbytes() to interact
-with the page block mechanism.
-
-While the problem you describe is absolutely a problem and we need to
-figure out a way to avoid reserving ridiculous amounts of memory for higher
-page tables, we surely need to figure this out at a page block granularity
-don't we?
-
-On Fri, Jun 06, 2025 at 03:37:00PM +0100, Usama Arif wrote:
-> On arm64 machines with 64K PAGE_SIZE, the min_free_kbytes and hence the
-> watermarks are evaluated to extremely high values, for e.g. a server with
-> 480G of memory, only 2M mTHP hugepage size set to madvise, with the rest
-> of the sizes set to never, the min, low and high watermarks evaluate to
-> 11.2G, 14G and 16.8G respectively.
-> In contrast for 4K PAGE_SIZE of the same machine, with only 2M THP hugepage
-> size set to madvise, the min, low and high watermarks evaluate to 86M, 566M
-> and 1G respectively.
-> This is because set_recommended_min_free_kbytes is designed for PMD
-> hugepages (pageblock_order = min(HPAGE_PMD_ORDER, PAGE_BLOCK_ORDER)).
-
-Right it is, but not this line really, the _pageblock order_ is set to be
-the minimum of the huge page PMD order and PAGE_BLOCK_MAX_ORDER as it makes
-sense to use page block heuristics to reduce the odds of fragmentation and
-so we can grab a PMD huge page at a time.
-
-Obviously if the user wants to set a _smaller_ page block order they can,
-but if it's larger we want to heuristically avoid fragmentation of
-physically contiguous huge page aligned ranges (the whole page block
-mechanism).
-
-I absolutely hate how set_recommended_min_free_kbytes() has basically
-hacked in some THP considerations but otherwise invokes
-calculate_min_free_kbytes()... ugh. But an existing issue.
-
-> Such high watermark values can cause performance and latency issues in
-> memory bound applications on arm servers that use 64K PAGE_SIZE, eventhough
-> most of them would never actually use a 512M PMD THP.
-
-512MB, yeah crazy. We've not thought this through, and this is a very real
-issue.
-
-Again, it strikes me that we should be changing the page block order for 64
-KB arm64 rather than this calculation though.
-
-Keep in mind pageblocks are a heuristic mechanism designed to reduce
-fragmentation, the decision could be made to cap how far we're willing to
-go with that...
+I know it's becoming silly as Usama and others have clearly demonstrated the 'T'
+in THP doesn't stand for transparent, but I think providing a new sysctl for an
+apparently automated system is not the way to go, especially as we intend to
+make it more automagic in future.
 
 >
-> Instead of using HPAGE_PMD_ORDER for pageblock_order use the highest large
-> folio order enabled in set_recommended_min_free_kbytes.
-> With this patch, when only 2M THP hugepage size is set to madvise for the
-> same machine with 64K page size, with the rest of the sizes set to never,
-> the min, low and high watermarks evaluate to 2.08G, 2.6G and 3.1G
-> respectively. When 512M THP hugepage size is set to madvise for the same
-> machine with 64K page size, the min, low and high watermarks evaluate to
-> 11.2G, 14G and 16.8G respectively, the same as without this patch.
+> I think for 2, we might want to decouple pageblock order from defragmentation
+> granularity.
 
-Hmm, but what happens if a user changes this live, does this get updated?
+Well, isn't pageblock order explicitly a heuristic for defragmenting physical
+memory for the purposes of higher order allocations?
 
-OK I see it does via:
+I don't think we can decouple that.
 
-sysfs stuff -> enabled_store() -> start_stop_khugepaged() -> set_recommended_min_free_kbytes()
+But I think we can say, as the existence of PAGE_BLOCK_MAX_ORDER already sort of
+implies, 'we are fine with increasing the chances of fragmentation of
+<ridiculously huge page size> in order to improve reclaim behaviour'.
 
-But don't we want to change this in general? Does somebody happening to
-have 512MB THP at madvise or always suggest we want insane watermark
-numbers?
+And again really strikes me that the parameter to adjust here is pageblock size,
+maybe default max size for systems with very large page table size.
 
-I'm not really convinced by this 'dynamic' aspect, you're changing global
-watermark numbers and reserves _massively_ based on a 'maybe' use of
-something that's meant to be transparent + best-effort...
+The THP mechanism is meant to be 'best effort' and opportunistic right? So it's
+ok if we aren't quite perfect in providing crazy huge page sizes.
 
->
-> An alternative solution would be to change PAGE_BLOCK_ORDER by changing
-> ARCH_FORCE_MAX_ORDER to a lower value for ARM64_64K_PAGES. However, this
-> is not dynamic with hugepage size, will need different kernel builds for
-> different hugepage sizes and most users won't know that this needs to be
-> done as it can be difficult to detmermine that the performance and latency
-> issues are coming from the high watermark values.
+I think 'on arm64 64KB we give up on page block beyond sensible mTHP size' is
+really a fine thing to do, and implementable by just... changing max pageblock
+order :>)
 
-Or, we could adjust pageblock_order accordingly in this instance no?
+Not having pageblocks at the crazy size doesn't mean those regions won't exist,
+it just means they're more likely not to due to fragmentation.
+
+512MB PMD's... man haha.
 
 >
-> All watermark numbers are for zones of nodes that had the highest number
-> of pages, i.e. the value for min size for 4K is obtained using:
-> cat /proc/zoneinfo  | grep -i min | awk '{print $2}' | sort -n  | tail -n 1 | awk '{print $1 * 4096 / 1024 / 1024}';
-> and for 64K using:
-> cat /proc/zoneinfo  | grep -i min | awk '{print $2}' | sort -n  | tail -n 1 | awk '{print $1 * 65536 / 1024 / 1024}';
 >
-> An arbirtary min of 128 pages is used for when no hugepage sizes are set
-> enabled.
-
-I don't think it's really okay to out and out add an arbitrary value like this
-without explanation. This is basis for rejection of the patch already.
-
-That seems a little low too no?
-
-IMPORTANT: I'd really like to see some before/after numbers for 4k, 16k,
-64k with THP enabled/disabled so you can prove your patch isn't
-fundamentally changing these values unexpectedly for users that aren't
-using crazy page sizes.
-
+> >>
+> >> Another concern on tying watermarks to highest THP order is that if
+> >> user enables PMD THP on such systems with 2MB mTHP enabled initially,
+> >> it could trigger unexpected memory reclaim and compaction, right?
+> >> That might surprise user, since they just want to adjust availability
+> >> of THP sizes, but the whole system suddenly begins to be busy.
+> >> Have you experimented with it?
+> >>
+> >
+> > Yes I would imagine it would trigger reclaim and compaction if the system memory
+> > is too low, but that should hopefully be expected? If the user is enabling 512M
+> > THP, they should expect changes by kernel to allow them to give hugepage of
+> > that size.
+> > Also hopefully, no one is enabling PMD THPs when the system is so low on
+> > memory that it triggers reclaim! There would be an OOM after just a few
+> > of those are faulted in.
 >
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> ---
->  include/linux/huge_mm.h | 25 +++++++++++++++++++++++++
->  mm/khugepaged.c         | 32 ++++++++++++++++++++++++++++----
->  mm/shmem.c              | 29 +++++------------------------
->  3 files changed, 58 insertions(+), 28 deletions(-)
 >
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index 2f190c90192d..fb4e51ef0acb 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -170,6 +170,25 @@ static inline void count_mthp_stat(int order, enum mthp_stat_item item)
->  }
->  #endif
 >
-> +/*
-> + * Definitions for "huge tmpfs": tmpfs mounted with the huge= option
-> + *
-> + * SHMEM_HUGE_NEVER:
-> + *	disables huge pages for the mount;
-> + * SHMEM_HUGE_ALWAYS:
-> + *	enables huge pages for the mount;
-> + * SHMEM_HUGE_WITHIN_SIZE:
-> + *	only allocate huge pages if the page will be fully within i_size,
-> + *	also respect madvise() hints;
-> + * SHMEM_HUGE_ADVISE:
-> + *	only allocate huge pages if requested with madvise();
-> + */
-> +
-> + #define SHMEM_HUGE_NEVER	0
-> + #define SHMEM_HUGE_ALWAYS	1
-> + #define SHMEM_HUGE_WITHIN_SIZE	2
-> + #define SHMEM_HUGE_ADVISE	3
-> +
->  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->
->  extern unsigned long transparent_hugepage_flags;
-> @@ -177,6 +196,12 @@ extern unsigned long huge_anon_orders_always;
->  extern unsigned long huge_anon_orders_madvise;
->  extern unsigned long huge_anon_orders_inherit;
->
-> +extern int shmem_huge __read_mostly;
-> +extern unsigned long huge_shmem_orders_always;
-> +extern unsigned long huge_shmem_orders_madvise;
-> +extern unsigned long huge_shmem_orders_inherit;
-> +extern unsigned long huge_shmem_orders_within_size;
-> +
-
-Rather than exposing all of this shmem state as globals, can we not just have
-shmem provide a function that grabs this informtaion?
-
->  static inline bool hugepage_global_enabled(void)
->  {
->  	return transparent_hugepage_flags &
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 15203ea7d007..e64cba74eb2a 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -2607,6 +2607,26 @@ static int khugepaged(void *none)
->  	return 0;
->  }
->
-
-> +static int thp_highest_allowable_order(void)
-
-Thisa absolutely needs a comment.
-
-> +{
-> +	unsigned long orders = READ_ONCE(huge_anon_orders_always)
-> +			       | READ_ONCE(huge_anon_orders_madvise)
-> +			       | READ_ONCE(huge_shmem_orders_always)
-> +			       | READ_ONCE(huge_shmem_orders_madvise)
-> +			       | READ_ONCE(huge_shmem_orders_within_size);
-
-Same comment as above, have shmem export this.
-
-> +	if (hugepage_global_enabled())
-> +		orders |= READ_ONCE(huge_anon_orders_inherit);
-> +	if (shmem_huge != SHMEM_HUGE_NEVER)
-> +		orders |= READ_ONCE(huge_shmem_orders_inherit);
-> +
-> +	return orders == 0 ? 0 : fls(orders) - 1;
-> +}
-> +
-> +static unsigned long min_thp_pageblock_nr_pages(void)
-
-I really really hate this name. This isn't number of pageblock pages any
-more this is something else? You're not changing the page block size right?
-
-> +{
-> +	return (1UL << min(thp_highest_allowable_order(), PAGE_BLOCK_ORDER));
-> +}
-> +
->  static void set_recommended_min_free_kbytes(void)
->  {
->  	struct zone *zone;
-> @@ -2638,12 +2658,16 @@ static void set_recommended_min_free_kbytes(void)
-
-You provide a 'patchlet' in
-https://lore.kernel.org/all/a179fd65-dc3f-4769-9916-3033497188ba@gmail.com/
-
-That also does:
-
-        /* Ensure 2 pageblocks are free to assist fragmentation avoidance */
--       recommended_min = pageblock_nr_pages * nr_zones * 2;
-+       recommended_min = min_thp_pageblock_nr_pages() * nr_zones * 2;
-
-So comment here - this comment is now incorrect, this isn't 2 page blocks,
-it's 2 of 'sub-pageblock size as if page blocks were dynamically altered by
-always/madvise THP size'.
-
-Again, this whole thing strikes me as we're doing things at the wrong level
-of abstraction.
-
-And you're definitely now not helping avoid pageblock-sized
-fragmentation. You're accepting that you need less so... why not reduce
-pageblock size? :)
-
-	/*
-	 * Make sure that on average at least two pageblocks are almost free
-	 * of another type, one for a migratetype to fall back to and a
-
-^ remainder of comment
-
->  	 * second to avoid subsequent fallbacks of other types There are 3
->  	 * MIGRATE_TYPES we care about.
->  	 */
-> -	recommended_min += pageblock_nr_pages * nr_zones *
-> +	recommended_min += min_thp_pageblock_nr_pages() * nr_zones *
->  			   MIGRATE_PCPTYPES * MIGRATE_PCPTYPES;
-
-This just seems wrong now and contradicts the comment - you're setting
-minimum pages based on migrate PCP types that operate at pageblock order
-but without reference to the actual number of page block pages?
-
-So the comment is just wrong now? 'make sure there are at least two
-pageblocks', well this isn't what you're doing is it? So why there are we
-making reference to PCP counts etc.?
-
-This seems like we're essentially just tuning these numbers someswhat
-arbitrarily to reduce them?
-
->
-> -	/* don't ever allow to reserve more than 5% of the lowmem */
-> -	recommended_min = min(recommended_min,
-> -			      (unsigned long) nr_free_buffer_pages() / 20);
-> +	/*
-> +	 * Don't ever allow to reserve more than 5% of the lowmem.
-> +	 * Use a min of 128 pages when all THP orders are set to never.
-
-Why? Did you just choose this number out of the blue?
-
-Previously, on x86-64 with thp -> never on everything a pageblock order-9
-wouldn't this be a much higher value?
-
-I mean just putting '128' here is not acceptable. It needs to be justified
-(even if empirically with data to back it) and defined as a named thing.
-
-
-> +	 */
-> +	recommended_min = clamp(recommended_min, 128,
-> +				(unsigned long) nr_free_buffer_pages() / 20);
-> +
->  	recommended_min <<= (PAGE_SHIFT-10);
->
->  	if (recommended_min > min_free_kbytes) {
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 0c5fb4ffa03a..8e92678d1175 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -136,10 +136,10 @@ struct shmem_options {
->  };
->
->  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> -static unsigned long huge_shmem_orders_always __read_mostly;
-> -static unsigned long huge_shmem_orders_madvise __read_mostly;
-> -static unsigned long huge_shmem_orders_inherit __read_mostly;
-> -static unsigned long huge_shmem_orders_within_size __read_mostly;
-> +unsigned long huge_shmem_orders_always __read_mostly;
-> +unsigned long huge_shmem_orders_madvise __read_mostly;
-> +unsigned long huge_shmem_orders_inherit __read_mostly;
-> +unsigned long huge_shmem_orders_within_size __read_mostly;
-
-Again, we really shouldn't need to do this.
-
->  static bool shmem_orders_configured __initdata;
->  #endif
->
-> @@ -516,25 +516,6 @@ static bool shmem_confirm_swap(struct address_space *mapping,
->  	return xa_load(&mapping->i_pages, index) == swp_to_radix_entry(swap);
->  }
->
-> -/*
-> - * Definitions for "huge tmpfs": tmpfs mounted with the huge= option
-> - *
-> - * SHMEM_HUGE_NEVER:
-> - *	disables huge pages for the mount;
-> - * SHMEM_HUGE_ALWAYS:
-> - *	enables huge pages for the mount;
-> - * SHMEM_HUGE_WITHIN_SIZE:
-> - *	only allocate huge pages if the page will be fully within i_size,
-> - *	also respect madvise() hints;
-> - * SHMEM_HUGE_ADVISE:
-> - *	only allocate huge pages if requested with madvise();
-> - */
-> -
-> -#define SHMEM_HUGE_NEVER	0
-> -#define SHMEM_HUGE_ALWAYS	1
-> -#define SHMEM_HUGE_WITHIN_SIZE	2
-> -#define SHMEM_HUGE_ADVISE	3
-> -
-
-Again we really shouldn't need to do this, just provide some function from
-shmem that gives you what you need.
-
->  /*
->   * Special values.
->   * Only can be set via /sys/kernel/mm/transparent_hugepage/shmem_enabled:
-> @@ -551,7 +532,7 @@ static bool shmem_confirm_swap(struct address_space *mapping,
->  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->  /* ifdef here to avoid bloating shmem.o when not necessary */
->
-> -static int shmem_huge __read_mostly = SHMEM_HUGE_NEVER;
-> +int shmem_huge __read_mostly = SHMEM_HUGE_NEVER;
-
-Same comment.
-
->  static int tmpfs_huge __read_mostly = SHMEM_HUGE_NEVER;
->
->  /**
-> --
-> 2.47.1
->
+> Best Regards,
+> Yan, Zi
