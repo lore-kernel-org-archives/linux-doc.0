@@ -1,100 +1,310 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1779F20DD42
-	for <linux-doc@vger.kernel.org>; Sat,  7 Jun 2025 12:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4084C8F;
+	Sat,  7 Jun 2025 12:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749298870; cv=none; b=mELGImyd5uvZ9AVH1aTAKGe/HrmfhYCFOzoPkVEw5HwmloxeU6jvq0+uA33+Oc5WMEmsmPAzam3k2AwZ5ud3cJw/jHYaNNV9HTdWIbMhSz1BbZwRFf5ri6/GoNnb7Nypn6ffjS7s8re8LILBem4ZwbHR+0vmtVJdFL2FH3DQXpM=
+	t=1749299094; cv=none; b=ixcqygSBbc+1TzceLhdlKTQJYwk7Kx6CmmNYN+PWn0Nr+rzSXlIEn4S+kCsxjXl6xZepOKu18L1pACIaDWzLinY3sLjMovp9VJ0hpWvFnJn5pwiIUyNfBFKFIJz4dAKdmIBCNfidvi/AzSrc4cf29irhEONhDM3HDUJT4xLk1lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749298870; c=relaxed/simple;
-	bh=XvJI5UClyerlsaGHeIyQRx39N1RfL/ZwBA5uVNroaWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sJ5aVufKKXLangJXRXcFPbHJRscL5yDRGIVAPEccWdNDitASDNmfixI6BgT5US4wYGGoll9zY0scLh9p3pgKBhsR1cvbU1WBDoMzDO1MfqaibuTKvZ2pWwJHfoPJwyC66jYsw/WdfmxuV3cULazqTV2MD96Ys9GKZoZkZa29NIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B3Li0Gvl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749299094; c=relaxed/simple;
+	bh=znNst42lmPj7ogIgobmbMUb3tJpztF/EXesUWMovEeQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dZJ3Po2u7DAZh+PFHFip8nPdiJmtfrKbf+DhaX+tWLDfBtp67felt0Q2ldDLdqR5tuQyyLBhm2vZH3gwdMbLwZkor1rpST/Z+OcoldFK/+uKRY6TsisLD7gEOd72pHxL9YiE931l51kktDIj+OKEYnET75xXnV3Bajo+/J7xK4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=vt3qx6Qr; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B3Li0Gvl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA65C4CEE4;
-	Sat,  7 Jun 2025 12:21:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749298870;
-	bh=XvJI5UClyerlsaGHeIyQRx39N1RfL/ZwBA5uVNroaWc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=B3Li0Gvl0AUUj3fBtNWwwBZOgV1X7DXh8hdqC6nl3QCC+WyWCXkYP+JI6Ltdjphk1
-	 y3yM6m55hmpVGLwgsayXPK5ddYbR6SSUxYivPATzMlk4Jvv9ERKKOvdyI1XCJNTqCR
-	 MxFQyHPszxZqFo+H2rxBae3+/aXnQUtV29RYEUvFU+Az6AjeqomHq2e1axqVxbwlV1
-	 FbGl81XFiFXf9xFIRsjL57M/LoaFWPyd2KjNMPAmV4ldHpZ+3H1yFCsqn9u/EiRRvZ
-	 FargVXbUW0GBZBT+9B4QzLcJgBmFDqzl0t8v45uauw38jNANPx3+a1o/MPAW15NAt+
-	 boypjbbSFNLyQ==
-Date: Sat, 7 Jun 2025 14:21:05 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] kernel-doc: Fix symbol matching for dropped suffixes
-Message-ID: <20250607142105.2e768300@foz.lan>
-In-Reply-To: <20250606141543.1285671-1-willy@infradead.org>
-References: <20250606141543.1285671-1-willy@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="vt3qx6Qr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=oLS1KFEltUOFGxNGj6XeO70K6kHeWgsxYD83o7TwBko=; b=vt3qx6Qr4XYNUfbW89rhyMhIHK
+	RUsbuFW40hCFrw9qF7mmgY0m7xNo9YwcgAKicthWaEpFY9uhrdV1nQl5UckilstXJ9RkXaaqKVl0c
+	dtsshpIjfiRZ8USENmNvKtqjOsR9M1CbJG/wGi1R+21+bnzuPx789C7DhxRN7nIrXe/ArMbEpysTd
+	IZISLJXQsJwlhumSW8zTdRLDYqGP9PepWKUWFPnz3gbQu1asOKBKZvJPQJKUWq8/VOeQujsGMzfYl
+	zLmm2V1p2WbbZwcTIWHSG5osyYRCJmRl9c8voR2hD1sEg7cN3sIEOnmKotN7APZKxIaFN+Gkt9CEa
+	iOE4OwZQ==;
+Received: from i53875b1f.versanet.de ([83.135.91.31] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1uNsas-0001Lo-C8; Sat, 07 Jun 2025 14:24:14 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
+ Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: Re: [PATCH v7 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
+Date: Sat, 07 Jun 2025 14:24:12 +0200
+Message-ID: <10540765.0AQdONaE2F@diego>
+In-Reply-To: <6946302.MhkbZ0Pkbq@workhorse>
+References:
+ <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+ <20250606-6-10-rocket-v7-10-dc16cfe6fe4e@tomeuvizoso.net>
+ <6946302.MhkbZ0Pkbq@workhorse>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Em Fri,  6 Jun 2025 15:15:42 +0100
-"Matthew Wilcox (Oracle)" <willy@infradead.org> escreveu:
+Am Freitag, 6. Juni 2025, 11:20:32 Mitteleurop=C3=A4ische Sommerzeit schrie=
+b Nicolas Frattaroli:
+> Hi Tomeu,
+>=20
+> On Friday, 6 June 2025 08:28:30 Central European Summer Time Tomeu Vizoso=
+ wrote:
+> > From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> >=20
+> > The NPU on the ROCK5B uses the same regulator for both the sram-supply
+> > and the npu's supply. Add this regulator, and enable all the NPU bits.
+> > Also add the regulator as a domain-supply to the pd_npu power domain.
+> >=20
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> > ---
+> >  arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 56 +++++++++++++++++=
+++++++++
+> >  1 file changed, 56 insertions(+)
+> >=20
+> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm=
+64/boot/dts/rockchip/rk3588-rock-5b.dts
+> > index d22068475c5dc6cb885f878f3f527a66edf1ba70..49500f7cbcb14af4919a6c1=
+997e9e53a01d84973 100644
+> > --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+> > +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+> > @@ -316,6 +316,28 @@ regulator-state-mem {
+> >  	};
+> >  };
+> > =20
+> > +&i2c1 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&i2c1m2_xfer>;
+> > +	status =3D "okay";
+> > +
+> > +	vdd_npu_s0: regulator@42 {
+> > +		compatible =3D "rockchip,rk8602";
+> > +		reg =3D <0x42>;
+> > +		fcs,suspend-voltage-selector =3D <1>;
+> > +		regulator-name =3D "vdd_npu_s0";
+> > +		regulator-boot-on;
+> > +		regulator-min-microvolt =3D <550000>;
+> > +		regulator-max-microvolt =3D <950000>;
+> > +		regulator-ramp-delay =3D <2300>;
+> > +		vin-supply =3D <&vcc5v0_sys>;
+> > +
+> > +		regulator-state-mem {
+> > +			regulator-off-in-suspend;
+> > +		};
+> > +	};
+> > +};
+> > +
+> >  &i2c6 {
+> >  	status =3D "okay";
+> > =20
+> > @@ -440,6 +462,10 @@ &pd_gpu {
+> >  	domain-supply =3D <&vdd_gpu_s0>;
+> >  };
+> > =20
+> > +&pd_npu {
+> > +	domain-supply =3D <&vdd_npu_s0>;
+> > +};
+> > +
+> >  &pinctrl {
+> >  	hdmirx {
+> >  		hdmirx_hpd: hdmirx-5v-detection {
+> > @@ -500,6 +526,36 @@ &pwm1 {
+> >  	status =3D "okay";
+> >  };
+> > =20
+> > +&rknn_core_top {
+> > +	npu-supply =3D <&vdd_npu_s0>;
+> > +	sram-supply =3D <&vdd_npu_s0>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&rknn_core_1 {
+> > +	npu-supply =3D <&vdd_npu_s0>;
+> > +	sram-supply =3D <&vdd_npu_s0>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&rknn_core_2 {
+> > +	npu-supply =3D <&vdd_npu_s0>;
+> > +	sram-supply =3D <&vdd_npu_s0>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&rknn_mmu_top {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&rknn_mmu_1 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&rknn_mmu_2 {
+> > +	status =3D "okay";
+> > +};
+> > +
+> >  &saradc {
+> >  	vref-supply =3D <&avcc_1v8_s0>;
+> >  	status =3D "okay";
+> >=20
+> >=20
+>=20
+> Feel free to replace this patch with the following, if your series is
+> based on linux-next or v6.16. It moves the enablement into the new
+> shared ROCK 5B/5B+ dtsi, and I've added a regulator-enable-ramp-delay
+> while I was at it because I've run into hard-to-reproduce problems
+> relating to it before that Heiko quickly identified and fixed in his
+> recent series[1] for basically all already present regulators. Remains
+> to be seen if the final patch lands in that form but this should make
+> it easier for people to try out as it means a bad luck roll for the
+> day won't make them run into as many weird issues.
+>=20
+> [1]: https://lore.kernel.org/all/20250605185001.377055-1-heiko@sntech.de/
 
-> The support for dropping "_noprof" missed dropping the suffix from
-> exported symbols.  That meant that using the :export: feature would
-> look for kernel-doc for (eg) krealloc_noprof() and not find the
-> kernel-doc for krealloc().
-> 
-> Fixes: 51a7bf0238c2 (scripts/kernel-doc: drop "_noprof" on function prototypes)
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Reading that just now reminds me to point to=20
+https://lore.kernel.org/lkml/20250606190418.478633-1-heiko@sntech.de/
+
+As Chen Yu pointed out in the reply to v2, this is more a property of the
+regulator IC itself, so likely should go into the driver.
+
+So with a bit of luck after 6.16-rc1 all the fan53555 clones should use
+somewhat hardware-accurate enable-times.
+
+
+> From ff1c370a158f4340aa5dfa4ed5034e815e5371be Mon Sep 17 00:00:00 2001
+> From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> Date: Tue, 3 Jun 2025 17:03:10 +0200
+> Subject: [PATCH] arm64: dts: rockchip: enable NPU on ROCK 5B/+
+>=20
+> The NPU on the ROCK5B uses the same regulator for both the sram-supply
+> and the npu's supply. Add this regulator, and enable all the NPU bits.
+> Also add the regulator as a domain-supply to the pd_npu power domain.
+>=20
+> The 5B+'s regulator setup is identical to the 5B in this regard, so it
+> goes in the shared .dtsi.
+>=20
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > ---
->  scripts/lib/kdoc/kdoc_parser.py | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 062453eefc7a..2c6143f7ca0f 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -1171,16 +1171,24 @@ class KernelDoc:
->          with a staticmethod decorator.
->          """
->  
-> +        # We support documenting some exported symbols with different
-> +        # names.  A horrible hack.
-> +        suffixes = [ '_noprof' ]
+>  .../boot/dts/rockchip/rk3588-rock-5b.dtsi     | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi b/arch/arm6=
+4/boot/dts/rockchip/rk3588-rock-5b.dtsi
+> index 51e83f0ed809..5a20cc2555fb 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
+> @@ -332,6 +332,29 @@ regulator-state-mem {
+>  	};
+>  };
+> =20
+> +&i2c1 {
+> +	pinctrl-names =3D "default";
+> +	pinctrl-0 =3D <&i2c1m2_xfer>;
+> +	status =3D "okay";
 > +
->          # Note: it accepts only one EXPORT_SYMBOL* per line, as having
->          # multiple export lines would violate Kernel coding style.
->  
->          if export_symbol.search(line):
->              symbol = export_symbol.group(2)
-> +            for suffix in suffixes:
-> +                symbol = symbol.removesuffix(suffix)
->              function_set.add(symbol)
->              return
->  
->          if export_symbol_ns.search(line):
->              symbol = export_symbol_ns.group(2)
-> +            for suffix in suffixes:
-> +                symbol = symbol.removesuffix(suffix)
->              function_set.add(symbol)
+> +	vdd_npu_s0: regulator@42 {
+> +		compatible =3D "rockchip,rk8602";
+> +		reg =3D <0x42>;
+> +		fcs,suspend-voltage-selector =3D <1>;
+> +		regulator-name =3D "vdd_npu_s0";
+> +		regulator-boot-on;
+> +		regulator-enable-ramp-delay =3D <500>;
+> +		regulator-min-microvolt =3D <550000>;
+> +		regulator-max-microvolt =3D <950000>;
+> +		regulator-ramp-delay =3D <2300>;
+> +		vin-supply =3D <&vcc5v0_sys>;
+> +
+> +		regulator-state-mem {
+> +			regulator-off-in-suspend;
+> +		};
+> +	};
+> +};
+> +
+>  &i2c3 {
 
-For now, this sounds ok to me.
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
->  
->      def process_normal(self, ln, line):
+I think your patch here has some other dependency still?
+Because in the rk3588-rock-5b.dtsi there is no i2c3 yet
+In torvalds' branch from _just now_ ;-) .
 
 
+Heiko
 
-Thanks,
-Mauro
+>  	status =3D "okay";
+>  };
+> @@ -521,6 +544,10 @@ &pd_gpu {
+>  	domain-supply =3D <&vdd_gpu_s0>;
+>  };
+> =20
+> +&pd_npu {
+> +	domain-supply =3D <&vdd_npu_s0>;
+> +};
+> +
+>  &pinctrl {
+>  	hdmirx {
+>  		hdmirx_hpd: hdmirx-5v-detection {
+> @@ -585,6 +612,36 @@ &pwm1 {
+>  	status =3D "okay";
+>  };
+> =20
+> +&rknn_core_top {
+> +	npu-supply =3D <&vdd_npu_s0>;
+> +	sram-supply =3D <&vdd_npu_s0>;
+> +	status =3D "okay";
+> +};
+> +
+> +&rknn_core_1 {
+> +	npu-supply =3D <&vdd_npu_s0>;
+> +	sram-supply =3D <&vdd_npu_s0>;
+> +	status =3D "okay";
+> +};
+> +
+> +&rknn_core_2 {
+> +	npu-supply =3D <&vdd_npu_s0>;
+> +	sram-supply =3D <&vdd_npu_s0>;
+> +	status =3D "okay";
+> +};
+> +
+> +&rknn_mmu_top {
+> +	status =3D "okay";
+> +};
+> +
+> +&rknn_mmu_1 {
+> +	status =3D "okay";
+> +};
+> +
+> +&rknn_mmu_2 {
+> +	status =3D "okay";
+> +};
+> +
+>  &saradc {
+>  	vref-supply =3D <&avcc_1v8_s0>;
+>  	status =3D "okay";
+>=20
+
+
+
+
