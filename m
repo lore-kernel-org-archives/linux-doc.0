@@ -1,148 +1,205 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CFC1DFFD;
-	Sat,  7 Jun 2025 16:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52EA219E8
+	for <linux-doc@vger.kernel.org>; Sat,  7 Jun 2025 16:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749313407; cv=none; b=UPaovUgIVxc5WUqaDnM8ALAoZb0XAhfvRgz9v6AGYySzakpi3fmLM3uBeKridJoxBI6BHbOfY4Kk+IY8ixR9cNZ8o9a+34Ru+EQ2Tp6N7Yc7nhwU43DX6UMxle+PJ0wFEeIaetVBQvYQGtFMuKAqLgRDd1YV/7q9MJRC5ArT7LE=
+	t=1749314324; cv=none; b=I/0e/smqLOywbl6Fy5KDie5E8LHxIjKpg4+ays4A76IFC4pyDrqIJUXIG4BII0IMoohxaT/R5eqUyv0Bbqix2BSTl0xFF/Q5G+rfyjUfHjLEeRVuPxKUPacVvtzXDMcEWXLM/yFBVdEuTK31ZGV4dI+KVr27pWhjkQAdrZxRb0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749313407; c=relaxed/simple;
-	bh=/C8aKTgpxFq/51Om8jvnGyrWGjteETkE8yR5x4OCV1A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p8HKZqqzUNRBVC1rCo3FDxwcCFZ1myX7apfksuM7k5SzQFm1O+3g8oL0NTpin6S0m0GcTEiRWK/ZQEOfrwvWqD8LHUNqaEe9PaLGcnctv64lHesrLz3VTXT+Gaqeiw7yGScrBiWk4HGzNTahB0RweABRb4/EED31Uf50yYGV0uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=bAATkdTf; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1749314324; c=relaxed/simple;
+	bh=VYxVxX9AW57l6Cb2iaClCVZPprLPDSxyNtPcHAAXaaI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BHdDoxNcZBFtUcaH8CPMBANFMvDtVMuk//ZUOhHgcyDVDafuJVQAFE13lakNxqj05qQ0a99qJlZBUycMHyAIhiZajJGf0vZ6mhJ10SaO0AOvMOcyTlGHAbhQ5og/feOHTbuIFBGJMIJM7SV77tJpctmWUx0717G2Bg7EcvZjlmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Te/RFej6; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="bAATkdTf"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 557Ce0lg011099;
-	Sat, 7 Jun 2025 16:23:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=VNQcpR3FgrVvkaxcmYX2339ffI8LJ
-	aNen8iQlJEMRQM=; b=bAATkdTfPDMniHDK+iOn63SkYVctFQBAbKVMcfuXwNgXa
-	c0AoYOV/IsyLfqppKAJJ5Iajb/av8HRx5NaFw4lPAeCJYL6Wf5kHTQSE+yvDZD/e
-	CP/4/pDIL37+/rWoInMh9nnsJNGOSuZuRk9yJYM8zrlENVrhsl21oYRM3uKmNXjA
-	wbTOoG0Q5QCaveo37YjFGHrW2O7DPA2VVLLrtyN2d3R0jl41HkGT/gjvFBBkYv7i
-	mVqQMip4jaN2OTKEPKSiZpXBJ1HHDzy9J0lCxluf9ye4tI2r6UNJ9vpYPP+Im8uF
-	64HFLJvuUq8ntxnkf1EylkbEbnrQ+ajdkf8JrMasw==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 474dywratb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 07 Jun 2025 16:23:24 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 557CKxhK020775;
-	Sat, 7 Jun 2025 16:23:08 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 474bv6utcx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 07 Jun 2025 16:23:08 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 557GJakY008514;
-	Sat, 7 Jun 2025 16:23:07 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 474bv6utcp-1;
-	Sat, 07 Jun 2025 16:23:07 +0000
-From: Alok Tiwari <alok.a.tiwari@oracle.com>
-To: corbet@lwn.net, linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        martin.petersen@oracle.com
-Cc: alok.a.tiwari@oracle.com, himanshu.madhani@oracle.com,
-        darren.kenny@oracle.com, linux-kernel@vger.kernel.org
-Subject: [PATCH] scsi: docs: scsi_fc_transport: Add documentation for FC Remote Ports
-Date: Sat,  7 Jun 2025 09:22:56 -0700
-Message-ID: <20250607162304.1765430-1-alok.a.tiwari@oracle.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Te/RFej6"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2351227b098so23144015ad.2
+        for <linux-doc@vger.kernel.org>; Sat, 07 Jun 2025 09:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749314322; x=1749919122; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1vLZfGdsk77ss346BEUhTNTYQdyXj7pd49WUq/3ORhE=;
+        b=Te/RFej6u7gGU7Pzy8XPyc8noMzq0aHUvdJV9njew4TkT6SxS+tZ9Qn3oK15Xqmg9s
+         deckfvXA93FbFe8JBww6AN5zLKwVPlwtt0u0aRywfiZ5F3srWXkmwlMYiPKNUnII1JhH
+         hXakgkklvx3aeYNRUFZcNF4C+2iOqmY0ne6ZF1Mwghdoa2wVhWUI+9JtP5Ize7bceyx/
+         JTzK/zZs/XWOZxAlOKpA6Ws6UCGQErE9U4YsCLvGRDfP4ljwk4BSKGDC8Uh8/VBothNt
+         okSgyU68ar1l8yjabCZyi84OX3xmULBqaf1r2HpJrYvXqs5LVLIxOK4A0ZFgPvIan/Vq
+         prjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749314322; x=1749919122;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1vLZfGdsk77ss346BEUhTNTYQdyXj7pd49WUq/3ORhE=;
+        b=tPB24xYLzE+H4S/vlMokBOz5ot04DFr9LYfO52XI7Rr5/3XryggzFSOWUqNxMmZAKQ
+         yfB3AMBmHR5cKQQyj1B+2apXtj8z+Fv777f+pK6TMkstsUgQXrp32mZzFyerXKNhKkcv
+         4V6WPt9wBfeJL8eZwxLQbu/91u68jhDCgfe5kyMNZ9B/VAj3g3BKzEkYuzmN2Vs82hUX
+         0TkNkKmKKXKmdFQlM0NN7X0wJzU/nvUm+sW//wSDUtiCjx/RN8P5e7coHyqzMGSq4qZt
+         3zCyP21l3qe2lYIZ2/G4OZmcHiPDvamHOg5jjm25NLWkIOtnCjO25cW5HS5j8mNrmk72
+         8mGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUoNYHTVstgwnYpkZ+EVCGKhuygWZDlolTNfsa13UEI2MmsMRVImsbB3SPefmudTdaLFW23gmeRf2E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypXf02tyThwA/lhqL4vhWAqEEuRSdEYSCQElIkRbGTM8sflXFk
+	Aoc0iawI/o2IV3blZCZahMLCiaPWx9DAAvE0xOcejMeOTXUFQ5DEYrrc
+X-Gm-Gg: ASbGncvqD1Eo3PABfzXZl5hJTXuKmEnYsoUqQ1isQoeYwweLx1ylZxb6kjxhdN23gkn
+	1TwNTruzo5YaXz6p/z3HqjkY2WMpY3k/oph0LmcIS7bNx46O8mb8/2zbakyCrKF3hTTXcyqWSb6
+	QohnNM7Y1i9NL3ixPt3g/7DJd971rxYzR5fkf460qwryAVJBLJ/R1H2zGBZD6yo4AH8UlovBCeg
+	WjznXmOzUbYWWodtHj2rM4C78gsZsY0Fw2m0sdNLkvmX3NX08BaqwFlv7JXqGmaIzm1/8fKmmoW
+	6NMVNqjnc09ef9ZDIReUT4vXFv0rAoMtRkVkWAgsJ8MdgH4Jnjx1HOdfs5Xc/b9fvPfu
+X-Google-Smtp-Source: AGHT+IGWJV+6o8t7X1svZMO22fe6+5Gl5bQVPLQUlybkn5Fvhr88ZTkmx6d7gSIGL0Ogcu9Oi9q0ow==
+X-Received: by 2002:a17:902:f70f:b0:235:1962:1bf4 with SMTP id d9443c01a7336-23601cfe4bamr113701515ad.14.1749314321932;
+        Sat, 07 Jun 2025 09:38:41 -0700 (PDT)
+Received: from localhost.localdomain ([223.72.62.183])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23603078957sm28949535ad.41.2025.06.07.09.38.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jun 2025 09:38:41 -0700 (PDT)
+From: chris.wei.cui@gmail.com
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	dzm91@hust.edu.cn
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	Cui Wei <chris.wei.cui@gmail.com>
+Subject: [PATCH v3] Docs/zh_CN: Translate speculation.rst to Simplified Chinese
+Date: Sun,  8 Jun 2025 00:38:13 +0800
+Message-ID: <20250607163814.7800-1-chris.wei.cui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-07_06,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- malwarescore=0 suspectscore=0 spamscore=0 phishscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2506070117
-X-Authority-Analysis: v=2.4 cv=fdaty1QF c=1 sm=1 tr=0 ts=6844677c b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=Q_fQxBA_vzZ2BlmfIw4A:9 cc=ntf awl=host:13206
-X-Proofpoint-ORIG-GUID: bReM-n9k3kUoaxYAJBYAL6mirJ5ouhh7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA3MDExOCBTYWx0ZWRfX1u2FmG1l6S/Y FttwI4P6fLJm+1LQclFNscljvD7N7HivIxK5oXWt/edqmCVi2oKlLdQGCuMOCah+g2WCUn81xME ajm9/tRNqwQ1JnE8z+IFqzJejU2IQ05PYP56lSlN/ZIZClCIbNWG8Lxmw6NuN621uDYQeCkZT/Q
- YqPTj1e4jrPOu9oS/QNlfBJtBqSa6xsBK7mGU5c085v5Ip3hn8kgXeITx/j0h2NOq7VZ/9y6aB/ OHzMqOkmcnxVzaJqJhL5+uXv835Kq5K5sBUMyACI4cwnJPW4vWIFkRDAHiwPATHX8CWPvaX9EX5 2qW4SJWBrmDeYoAbC2+NM/+wXY9inBStfqGdy8vtuPjTO61GhIJ30/c3vGN6PDx4C/AnbVtLVDk
- IloODh87WgL79T/QwLOyD/nYvu7alSEPBwZGf9ZPmbDaRqjplPYqy50XMFM9twibnXZAlMT6
-X-Proofpoint-GUID: bReM-n9k3kUoaxYAJBYAL6mirJ5ouhh7
 
-This patch updates the scsi_fc_transport.rst documentation by
-replacing the outdated << To Be Supplied >> placeholder under
-the "FC Remote Ports (rports)" section with a detailed explanation
-of remote port functionality in the Fibre Channel (FC) transport class.
+From: Cui Wei <chris.wei.cui@gmail.com>
 
-The new documentation covers:
-What rports are and their role in FC-based SCSI communication
-Their representation in sysfs (/sys/class/fc_remote_ports/)
-Common sysfs attributes such as (port_id, port_name, node_name,
-and port_state).
-Their typical lifecycle (creation and removal)
-Guidance for driver developers on using fc_remote_port_add() and
-fc_remote_port_delete()
+translate the "speculation.rst" into Simplified Chinese and adjust
+zh_CN/staging/index.rst.
 
-This change improves the completeness and usefulness of the
-FC transport documentation for developers and users interacting
-with Fibre Channel drivers in the Linux SCSI subsystem
+Update the translation through commit 6382f4e4e7bd
+("Documentation: fix speculation.rst chapter")
 
-Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+Signed-off-by: Cui Wei <chris.wei.cui@gmail.com>
 ---
- Documentation/scsi/scsi_fc_transport.rst | 35 +++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+ .../translations/zh_CN/staging/index.rst      |  2 +-
+ .../zh_CN/staging/speculation.rst             | 85 +++++++++++++++++++
+ 2 files changed, 86 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/staging/speculation.rst
 
-diff --git a/Documentation/scsi/scsi_fc_transport.rst b/Documentation/scsi/scsi_fc_transport.rst
-index e3ddcfb7f8fd..5ef75575924e 100644
---- a/Documentation/scsi/scsi_fc_transport.rst
-+++ b/Documentation/scsi/scsi_fc_transport.rst
-@@ -30,7 +30,40 @@ This file is found at Documentation/scsi/scsi_fc_transport.rst
+diff --git a/Documentation/translations/zh_CN/staging/index.rst b/Documentation/translations/zh_CN/staging/index.rst
+index bb55c81c84a3..6d68fabce175 100644
+--- a/Documentation/translations/zh_CN/staging/index.rst
++++ b/Documentation/translations/zh_CN/staging/index.rst
+@@ -13,6 +13,7 @@
+ .. toctree::
+    :maxdepth: 2
  
- FC Remote Ports (rports)
- ========================
--<< To Be Supplied >>
-+
-+  In the Fibre Channel (FC) subsystem, a remote port (rport) refers to a
-+  remote Fibre Channel node that the local port can communicate with.
-+  These are typically storage targets (e.g., arrays, tapes) that respond
-+  to SCSI commands over FC transport.
-+
-+  In Linux, rports are managed by the FC transport class and are
-+  represented in sysfs under:
-+
-+    /sys/class/fc_remote_ports/
-+
-+  Each rport directory contains attributes describing the remote port,
-+  such as port ID, node name, port state, and link speed.
-+
-+  rports are typically created by the FC transport when a new device is
-+  discovered during a fabric login or scan, and they persist until the
-+  device is removed or the link is lost.
-+
-+  Common attributes:
-+  - node_name: World Wide Node Name (WWNN).
-+  - port_name: World Wide Port Name (WWPN).
-+  - port_id: FC address of the remote port.
-+  - roles: Indicates if the port is an initiator, target, or both.
-+  - port_state: Shows the current operational state.
-+
-+  After discovering a remote port, the driver typically populates a
-+  fc_rport_identifiers structure and invokes fc_remote_port_add() to
-+  create and register the remote port with the SCSI subsystem via the
-+  Fibre Channel (FC) transport class.
-+
-+  rports are also visible via sysfs as children of the FC host adapter.
-+
-+  For developers: use fc_remote_port_add() and fc_remote_port_delete() when
-+  implementing a driver that interacts with the FC transport class.
++   speculation
+    xz
  
- 
- FC Virtual Ports (vports)
+ TODOList:
+@@ -21,6 +22,5 @@ TODOList:
+ * lzo
+ * remoteproc
+ * rpmsg
+-* speculation
+ * static-keys
+ * tee
+diff --git a/Documentation/translations/zh_CN/staging/speculation.rst b/Documentation/translations/zh_CN/staging/speculation.rst
+new file mode 100644
+index 000000000000..c36d33f67897
+--- /dev/null
++++ b/Documentation/translations/zh_CN/staging/speculation.rst
+@@ -0,0 +1,85 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/staging/speculation.rst
++
++:翻译:
++
++ 崔巍 Cui Wei <chris.wei.cui@gmail.com>
++
++========
++推测执行
++========
++
++本文档解释了推测执行的潜在影响，以及如何使用通用API来减轻不良影响。
++
++------------------------------------------------------------------------------
++
++为提高性能并减少平均延迟，许多现代处理器都采用分支预测等推测执行技术，执行结果
++可能在后续阶段被丢弃。
++
++通常情况下，我们无法从架构状态（如寄存器内容）观察到推测执行。然而，在某些情况
++下从微架构状态观察其影响是可能的，例如数据是否存在于缓存中。这种状态可能会形成
++侧信道，通过观察侧信道可以提取秘密信息。
++
++例如，在分支预测存在的情况下，边界检查可能被推测执行的代码忽略。考虑以下代码::
++
++	int load_array(int *array, unsigned int index)
++	{
++		if (index >= MAX_ARRAY_ELEMS)
++			return 0;
++		else
++			return array[index];
++	}
++
++在arm64上，可以编译成如下汇编序列::
++
++	CMP	<index>, #MAX_ARRAY_ELEMS
++	B.LT	less
++	MOV	<returnval>, #0
++	RET
++  less:
++	LDR	<returnval>, [<array>, <index>]
++	RET
++
++处理器有可能误预测条件分支，并推测性装载array[index]，即使index >= MAX_ARRAY_ELEMS。
++这个值随后会被丢弃，但推测的装载可能会影响微架构状态，随后可被测量到。
++
++涉及多个依赖内存访问的更复杂序列可能会导致敏感信息泄露。以前面的示例为基础，考虑
++以下代码::
++
++	int load_dependent_arrays(int *arr1, int *arr2, int index)
++	{
++		int val1, val2,
++
++		val1 = load_array(arr1, index);
++		val2 = load_array(arr2, val1);
++
++		return val2;
++	}
++
++根据推测，对load_array()的第一次调用可能会返回一个越界地址的值，而第二次调用将影响
++依赖于该值的微架构状态。这可能会提供一个任意读取原语。
++
++缓解推测执行侧信道
++==================
++
++内核提供了一个通用API以确保即使在推测情况下也能遵守边界检查。受推测执行侧信道影响
++的架构应当实现这些原语。
++
++<linux/nospec.h>中的array_index_nospec()辅助函数可用于防止信息通过侧信道泄漏。
++
++调用array_index_nospec(index, size)将返回一个经过净化的索引值，即使在CPU推测执行
++条件下，该值也会被严格限制在[0, size)范围内。
++
++这可以用来保护前面的load_array()示例::
++
++	int load_array(int *array, unsigned int index)
++	{
++		if (index >= MAX_ARRAY_ELEMS)
++			return 0;
++		else {
++			index = array_index_nospec(index, MAX_ARRAY_ELEMS);
++			return array[index];
++		}
++	}
 -- 
-2.47.1
+2.43.0
 
