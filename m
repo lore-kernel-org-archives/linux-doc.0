@@ -1,139 +1,75 @@
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8799220FAA4;
-	Fri,  6 Jun 2025 19:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1CD2B9CD;
+	Sat,  7 Jun 2025 03:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749238246; cv=none; b=UrvDorodLQQB5qAnnRrESj+IIy29oVd/uiAnKJFiEvr2TGn3IQ6r84Z6Cjs7gvJWff0bzZrOUE+QPkJQUbp/Z/1UmBODcs4v9Mow0XnHnSVGtcS4cuC9QgtYFjHFhAtffg82IJ4fiPYORV7JjfjZtkXWMjsgwJQxWrKlYPhbdvE=
+	t=1749266996; cv=none; b=FNIEhpolyZAPWB0nrpqTlC6J2FE/ILJnaW3kzMC15pBJrxAUqYNSsUu67hSitu1a3BctR+vqLj0toid5oGzr0dOucXrHKQjcF1WP6J6cz7a04DWFAEITPqeXZG4LhFM7VjetOgM/n5HYR4COJqfPcmUIgTIN4ikRs1bfIhNgpvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749238246; c=relaxed/simple;
-	bh=mop+KlpuK8X386yUkF6VkytkPGwtEzTMMJxWKOhtygo=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=iw2Qr7jETCB3lQ1f/Xp7/6pngmQe9RFyJHh0ZIhGZL1hkLy01C4MKdjBbH6kumMXyNmywhZPWoctD1iu+suLFrZAiN1UM7p4fj8+Y8Qf3ySvdbwUIRng/vasBriYuZpMLL170llirUtc3K+UZVXyFYrxItXEwshkKYL9++pfmiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=R/CZGEpf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ls3Sm07C; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1749266996; c=relaxed/simple;
+	bh=TIl01MZ6QwJkAwLwgfNi1L7gG8/dK3TwzuDq26jaMT4=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=IG3eyfebkrlaolv5KXLgugnNFO+Ol7zAAphk0/SaTJnXyyQN5E0L3U++06BT6FmS1EwtWkpPrIG9QbMzMiPklm5rFOdLdh1LzibjMn931Y/cDauzwRRoglsHDiLdKWWK8jOO1L0s61SXpzbs0EyV53EU+v70F2J4YOaC+Nml4+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e3ATq996; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="R/CZGEpf";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ls3Sm07C"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 8D1301140193;
-	Fri,  6 Jun 2025 15:30:43 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-12.internal (MEProxy); Fri, 06 Jun 2025 15:30:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1749238243;
-	 x=1749324643; bh=lEYf3neoow/7vEvxjuEgRsFKRcKeW6cqpzgTmhNHb2g=; b=
-	R/CZGEpf2uJtX9c5zhVO/wgEY531AM5LvDJrSmDrK3jEQzjTkTMzcjRX187dWR84
-	oIbQD8KXGP6YFK9fYC23LRe49M5teDXkK0Kz7d1KVsrLoPZaXXSuRO5by7URUhJN
-	lDmsEUOkOigp1YI6oTnhyIiVzJO7mPl/eULFOqIHC8v85yCxpCbrOhurSUqR+DaQ
-	jxtJ504ytF76XFsmpCienWJKMYFCl3B3Gy8iBKA6zE9AdW+D1ZxDzxrPKqx5eNWv
-	XMeezlkno9ykDQXuhvmLat4lxi6u0mObQxYc4iVVrgInmEeM2NYXWruCDmoW0umO
-	pP2u54ml6Z1U53fqM8UCzg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749238243; x=
-	1749324643; bh=lEYf3neoow/7vEvxjuEgRsFKRcKeW6cqpzgTmhNHb2g=; b=l
-	s3Sm07C1nnR2e9ZaUstuOe39LaA4ILuj5i6IH3wzVdHTi2IaLfZElQ5ssZ8WfQqZ
-	KWosRgmzq2hWEZEj/wjD8GGoMZC/LFUF10n+yLMrRoT7YU5SPNlPDei4/GOYszWL
-	5ex4LXel+75mZdZSLX/L2VdWwvZprLGAWd4y0wNBOKXsho5qSDQVbqMvjf0rbjMt
-	4G1QNaZrTS/8hWtQGnRbOv8xbxVeNndzyU43UN1FphT9p9HhnPoHc3A5tGqEnltC
-	3DffjneC9Mql+t6N0uXSou61iqT2fo8S9fDRn1ABSiAVQB5Bd3a+9nxr64it5oJE
-	vNYJmwuMNFA5c6V43yVYg==
-X-ME-Sender: <xms:4kFDaIxR-T4VMUeCvpyO6b0aNY6mc-cKHTNvPCsAcnYXO97MTjv0tQ>
-    <xme:4kFDaMSccayqbSsT7xH9tiE_xNR1r_maZ-9AHpaTrTTfmElVg5ZrkUQtuS-UPF_pO
-    kMZkGg2lr7GnKFSHXA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehheduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedfofgrrhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnh
-    hovhhosehsqhhuvggssgdrtggrqeenucggtffrrghtthgvrhhnpefhuedvheetgeehtdeh
-    tdevheduvdejjefggfeijedvgeekhfefleehkeehvdffheenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhho
-    sehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedufedpmhhouggvpehsmhhtphhouh
-    htpdhrtghpthhtohepihhkvghprghnhhgtsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    figprghrmhhinhesghhmgidruggvpdhrtghpthhtohephhhmhheshhhmhhdrvghnghdrsg
-    hrpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopegrnhgurhhi
-    hidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoh
-    epihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphht
-    thhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtg
-    hpthhtohepihgsmhdqrggtphhiqdguvghvvghlsehlihhsthhsrdhsohhurhgtvghfohhr
-    ghgvrdhnvghtpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvght
-X-ME-Proxy: <xmx:4kFDaKUvSPNU1VHVDoLtZsVeoDlZrIuwcqaUW64hDiY5ihLIY22pxw>
-    <xmx:4kFDaGjzibfTxl3_FCUnSXmYzJKrgoIEJNYTi1bBxdOQkl1z75bDjA>
-    <xmx:4kFDaKDXj-b13AJ8C7SQoQBZPyRQEg6wgtjZydwznk16NGjYmI29ug>
-    <xmx:4kFDaHIrX28gXw3p76CQa6l6t2qX-poMA5iFKfHiiFVqfd7undZuOw>
-    <xmx:40FDaAILvoi3Ti-qur14dEFImeIPFodxm3Q5F2ESeqfvgtfgCTm4u-vx>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 2ADB22CE0063; Fri,  6 Jun 2025 15:30:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e3ATq996"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 402F2C4CEE4;
+	Sat,  7 Jun 2025 03:29:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749266996;
+	bh=TIl01MZ6QwJkAwLwgfNi1L7gG8/dK3TwzuDq26jaMT4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=e3ATq996x8FJO4xKtiOFQ6+KpAADHIEozwXBHlRuqRPZVQqvO5uY2uOy0Sj9iJLEO
+	 ffLxxeX+V3vq3x50MekuNxKf0ip5a+sOwahKeOkbcgCfENipEh0OZ92mszlhT9TvpP
+	 fiRkPSnrbVLMsFqf9lZbIiBM2zr5OZSI3Lz+SPFJcBSq5hTHCmIeniNwdae8i2J+VR
+	 zkrq3By/F0WkGAV2LbnxJB0ob0P9annDIKhKaWLwSsZAGeSDUZqGxg3v0/YFl52qoh
+	 JS0UyPi01ubVLEtC745OGz4h8u5WZEg+xBpZFZQyfaH0bpbmppVLZQKMnnDJrQ/9OV
+	 +Bpk1r28S8zdQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EAF873806649;
+	Sat,  7 Jun 2025 03:30:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T107eb5199b18744c
-Date: Fri, 06 Jun 2025 15:30:21 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Cc: "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Hans de Goede" <hdegoede@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
- ikepanhc@gmail.com, "Henrique de Moraes Holschuh" <hmh@hmh.eng.br>,
- "Armin Wolf" <W_Armin@gmx.de>, linux-doc@vger.kernel.org,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Message-Id: <68f7cbc2-f81b-47ff-9dfb-093c54bec760@app.fastmail.com>
-In-Reply-To: <aEM6PTCql7l1n6e0@smile.fi.intel.com>
-References: <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
- <202506062319.F0IpDxF6-lkp@intel.com>
- <6d17454f-faac-4616-ac2e-7da80feedf2c@app.fastmail.com>
- <aEM6Da6CZ0DI3x8w@smile.fi.intel.com> <aEM6PTCql7l1n6e0@smile.fi.intel.com>
-Subject: Re: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf-next] Documentation: Fix spelling mistake.
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174926702776.4076603.7797789674870904310.git-patchwork-notify@kernel.org>
+Date: Sat, 07 Jun 2025 03:30:27 +0000
+References: <20250606100511.368450-1-eslam.medhat1993@gmail.com>
+In-Reply-To: <20250606100511.368450-1-eslam.medhat1993@gmail.com>
+To: Eslam Khafagy <eslam.medhat1993@gmail.com>
+Cc: void@manifault.com, ast@kernel.org, linux-doc@vger.kernel.org,
+ skhan@linuxfoundation.org, bpf@vger.kernel.org
 
-Thanks Andy
+Hello:
 
-On Fri, Jun 6, 2025, at 2:58 PM, Andy Shevchenko wrote:
-> On Fri, Jun 06, 2025 at 09:57:17PM +0300, Andy Shevchenko wrote:
->> On Fri, Jun 06, 2025 at 01:30:25PM -0400, Mark Pearson wrote:
->> > On Fri, Jun 6, 2025, at 11:58 AM, kernel test robot wrote:
->
-> ...
->
->> > I'm unable to reproduce this issue with a W=1 build
->> 
->> Do you have GCC-12?
->
-> To be more precise you need to have a CONFIG_DMI=n.
->
->> > and I think it's a false positive.
->> 
->> I think the problematic line is in certificate_store().
->> You need to check the value of dmi_get_system_info().
->> Or make sure the DMI is always selected (depend on DMI
->> in Kconfig, perhaps).
->> 
+This patch was applied to bpf/bpf-next.git (master)
+by Alexei Starovoitov <ast@kernel.org>:
 
-I think this is already in place, but it's a bit of a tangled nest of Kconfig options and could depend on the architecture. I can't disable it in my current build anyway.
+On Fri,  6 Jun 2025 13:05:11 +0300 you wrote:
+> Fix typo "desination => destination"
+> in file
+> Documentation/bpf/standardization/instruction-set.rst
+> 
+> Signed-off-by: Eslam Khafagy <eslam.medhat1993@gmail.com>
+> ---
+>  Documentation/bpf/standardization/instruction-set.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
->> > Am I safe to ignore this report?
->> 
->> Please, try to fix it.
+Here is the summary with links:
+  - [bpf-next] Documentation: Fix spelling mistake.
+    https://git.kernel.org/bpf/bpf-next/c/e41079f53e87
 
-Ack. 
-I'll add in a check for the dmi_get_system_info returning NULL, and add a depends on DMI.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks for the pointers.
 
-Mark
