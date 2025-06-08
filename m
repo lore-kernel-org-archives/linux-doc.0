@@ -1,149 +1,148 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F0D8834
-	for <linux-doc@vger.kernel.org>; Sun,  8 Jun 2025 19:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECB61D7E26;
+	Sun,  8 Jun 2025 23:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749412258; cv=none; b=cDiUN7efqqHdxUYu3k7GVHfyuyYOrkCQtzuGi43HnN2HtHRMmiYNi0o6MuDVWKhAnmbFS+NMEaIOn5qGyobsqL/9H9uRT/pAV7tNy328yYSqcFXuJbzBMin0XtPnTAhNzdqCPUxExpoje/02f7iKkdCKneypg1n988EcISeehws=
+	t=1749426986; cv=none; b=kOaF/k4LqKsZJulRU+uIX3nDo55myhtgqiFC2d0USLCftZOwbrNekXvXRTX97R6K172PVm3G3h4p/gsPXUfhXs6CoG6L4qJNtf+fFxK+BIGphIImNhGL/KpxIj5Yf7iw+4fWfACCy7QsakXhWVhSat1xLvV9w1YXphtcpksGDaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749412258; c=relaxed/simple;
-	bh=88AMdzoFBNDmcJryiNgWHCdeSzJ8LhZcwCy5uW/BCxk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GUfB0lirBfLbRLkMyp8VLrIF7QUat+vP8xvcLuvTBM6v711tSBCvHMUr3gC3MNboPrrea6T/ldzd8qyvEgyYdZBXEQBb9ir/h0nA9mKtiT1dp5qrpx0BBJ8eKT9ATlU8u9OY4O2WpRFkOXo/Y7yPZm6zUKj7jcKKGRN5Uhven+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=egbcbY8i; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1749426986; c=relaxed/simple;
+	bh=u5xYsTnGy1AJyvJymV7jx4kZswjXoUV+JFE54ziUBSI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b4hYdNERDh/YxH9gNFO8o59RtwFzDNwqw88P92QyLdxnA+xsgI2L/ATmfAIbDp9kBF+gZ9/HCIMCDnUiMw08NxxO47Do7/3mglMJl+QR2wFlKwcw0FaQj5Z/gI/HC+IlIGWrZAWVbx7yAOy7xSgRjgoJYUv96QaGU/fZTspWCrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=pwilPovl; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="egbcbY8i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1749412256;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gasXKz9Jxw9/3PJAbVT23bLVIJ4As+DGQBJkm0aCWhY=;
-	b=egbcbY8iDYnIUp5dn8colB019QrT7YbsmOqJGcvx0hh5bBEaMb8YApelE1+/lEYkztgeUT
-	U4xLg7/gsFAFXKyVINqOANGrnaePe75eeKpRtpmHKMUx3f0bRAyiTl1wGKva9RMhtDla0L
-	ofsW3o7y+c2G5CacUVEopcaXj9A6Pz8=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-65-U0hyTtJxNDera_L95W_ICg-1; Sun, 08 Jun 2025 15:50:54 -0400
-X-MC-Unique: U0hyTtJxNDera_L95W_ICg-1
-X-Mimecast-MFC-AGG-ID: U0hyTtJxNDera_L95W_ICg_1749412254
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-70e86a2a1b8so53898607b3.1
-        for <linux-doc@vger.kernel.org>; Sun, 08 Jun 2025 12:50:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749412254; x=1750017054;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gasXKz9Jxw9/3PJAbVT23bLVIJ4As+DGQBJkm0aCWhY=;
-        b=iFWMPU7BP8tgcJQmEIL+feGH2/3cKDZHQlgAAo3kdV2FkDBMCCTujL31r1V7uDSwhn
-         ddkS4MLBKY40abGAP0H0Vbv8tbw9h70qz4+BmEFJ4X1zkeFEPtFp0U4ePZQb+6WduqM7
-         4cXACufXeMSag/hmzAiS0LDbmhLQfK/x2boM0ejwev583b+gqsEgJkfMGb3WBWtLp78F
-         XM0oB7IrYPPEulk2xUpG+As8X6oCBBYPQUTUf9e6TItd6D+2u1+ZH3BWwQEBiJVjpQg6
-         4OukKX7lv7ym+dY61sAKLwy7YVB0xKmjxYa8GM+fB+OVlqii6pASvSSk2o071jmWjn+K
-         1o2g==
-X-Forwarded-Encrypted: i=1; AJvYcCW0sWGjKSmGoc7gM07++NyY6iz6eu7nvTdkmveG9n8mGJ3k/UgwvVj2CdcZBRd6Pii140plo/SzVpM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5t7v+4sVrfGAtj3KiNREjVnoX5o5prFEcJ09HrPEuMFgRzWS8
-	aG/TBB6lxmp1O03+VcV4rGAUI/BE0ZG6Fgs5GNbpFaroU34aF2AMW7C4ysTNjqD/DpB5KZvTUrx
-	96S23BHCtYQRRWwbrPRo5err927Wku7oQHG3OJFtxpoQ+Gcq09tYLgDPDuauzcMn6hWlG+SBKZx
-	EkgIlPqNnsvBkqPSWMcQdUJka2ScjX9TPqtW78
-X-Gm-Gg: ASbGnctBnYPzQb3sST4DFFqEbkJCKpHIlb8w2QWXIHjGhe/JY9bgus2gnv3dO3YwsVF
-	fedRAquWtgYGyzP6uYgMrjXlVBOSfs/35Gc6gG4Z4TY9/oXmZMX1eTE7J4t/+E5GZw6ZZCTlCZa
-	Ei4Bpl1Q==
-X-Received: by 2002:a05:690c:dca:b0:70c:a854:8384 with SMTP id 00721157ae682-710f76784cemr168534547b3.11.1749412254116;
-        Sun, 08 Jun 2025 12:50:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHWu7stkyjiQ0ZNuf8d9CDJ+dvYKVA2Wk959nktD4U5pqCa+ofumNklHDu4qFrTOBzjYxXs/wKaTDWnjxinMPk=
-X-Received: by 2002:a05:690c:dca:b0:70c:a854:8384 with SMTP id
- 00721157ae682-710f76784cemr168534137b3.11.1749412253792; Sun, 08 Jun 2025
- 12:50:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="pwilPovl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=YPWssQlTXDSI3t2RATSpzlw/gpxFS97PzwjrGfpMDqo=; b=pwilPovlCz6FBoE5
+	nOiJ6YA6hLO54HEkwam9HCe4eXzPSaAmGyybDMHve9EfMYirQSY0ddTbb1UivfqmiVezTM2bIwKxS
+	EU0kLZc85dlMBIwpj0QxiPXpSW7t3KyD2Kz0b8LgfPqXpCrDlww5d1mSU6Dt+BtOoyu4TKhWo6bBq
+	546JzyeJowIESZhdlOaQda++twqu34MvWveR1Fl7aj8xgLV1akXCVnzgNh+qeAhSpeeD80l0Rtu3B
+	tqqNdKE8hGQ5KZYv3vLvfy+f/igQ4JrP4AcE1GGQjN9omme4xahje8/mIZuTKY7iij4J89oIILOIv
+	NQjYPd70078MQG7Yyw==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1uOPsA-008J5r-23;
+	Sun, 08 Jun 2025 23:56:18 +0000
+From: linux@treblig.org
+To: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] usb: core: Remove unused usb_unlink_anchored_urbs
+Date: Mon,  9 Jun 2025 00:56:17 +0100
+Message-ID: <20250608235617.200731-1-linux@treblig.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515032226.128900-1-npache@redhat.com> <20250515032226.128900-13-npache@redhat.com>
- <bc8f72f3-01d9-43db-a632-1f4b9a1d5276@arm.com> <CAA1CXcDOEdJRvZMu2Fyy4wsdy8k8nj4c45s4JanO9HzyJgyXOw@mail.gmail.com>
- <b09d7553-c3c6-453a-8e3a-86dc4caeb431@arm.com>
-In-Reply-To: <b09d7553-c3c6-453a-8e3a-86dc4caeb431@arm.com>
-From: Nico Pache <npache@redhat.com>
-Date: Sun, 8 Jun 2025 13:50:27 -0600
-X-Gm-Features: AX0GCFubrwAxCeJO6WQ3ctfkybHkm-zGqyO1Fes9K65B6S5xXXinZkRMQU9vx5Y
-Message-ID: <CAA1CXcB-A9U8GEodPrm3QdndzB2MY7eZHnoojVYU5fi_DJBbcw@mail.gmail.com>
-Subject: Re: [PATCH v7 12/12] Documentation: mm: update the admin guide for
- mTHP collapse
-To: Dev Jain <dev.jain@arm.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com, 
-	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
-	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
-	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
-	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
-	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, 
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 7, 2025 at 8:35=E2=80=AFAM Dev Jain <dev.jain@arm.com> wrote:
->
->
-> On 07/06/25 6:27 pm, Nico Pache wrote:
-> > On Sat, Jun 7, 2025 at 12:45=E2=80=AFAM Dev Jain <dev.jain@arm.com> wro=
-te:
-> >>
-> >> On 15/05/25 8:52 am, Nico Pache wrote:
-> >>
-> >> Now that we can collapse to mTHPs lets update the admin guide to
-> >> reflect these changes and provide proper guidence on how to utilize it=
-.
-> >>
-> >> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> >> Signed-off-by: Nico Pache <npache@redhat.com>
-> >> ---
-> >>   Documentation/admin-guide/mm/transhuge.rst | 14 +++++++++++++-
-> >>   1 file changed, 13 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentatio=
-n/admin-guide/mm/transhuge.rst
-> >> index dff8d5985f0f..5c63fe51b3ad 100644
-> >> --- a/Documentation/admin-guide/mm/transhuge.rst
-> >> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> >>
-> >>
-> >> We need to modify/remove the following paragraph:
-> >>
-> >> khugepaged currently only searches for opportunities to collapse to
-> >> PMD-sized THP and no attempt is made to collapse to other THP
-> >> sizes.
-> > On this version this is currently still true, but once I add Baolin's
-> > patch it will not be true. Thanks for the reminder :)
->
-> You referenced Baolin's patch in the other email too, can you send the li=
-nk,
-> or the patch?
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-He didn't send it to the mailing list, but rather off chain to all the
-recipients of this series. You should have it in your email look for
+usb_unlink_anchored_urbs() has been unused since it's last use was
+removed in 2009 by
+commit 9b9c5aaeedfd ("ar9170: xmit code revamp")
 
-Subject: "mm: khugepaged: allow khugepaged to check all anonymous mTHP
-orders" and "mm: khugepaged: kick khugepaged for enabling
-none-PMD-sized mTHPs"
+Remove it.
 
--- Nico
->
-> >
-> > -- Nico
-> >
->
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ Documentation/driver-api/usb/anchors.rst | 11 ---------
+ drivers/usb/core/urb.c                   | 29 +++---------------------
+ include/linux/usb.h                      |  1 -
+ 3 files changed, 3 insertions(+), 38 deletions(-)
+
+diff --git a/Documentation/driver-api/usb/anchors.rst b/Documentation/driver-api/usb/anchors.rst
+index 4b248e691bd6..5a93d171e76c 100644
+--- a/Documentation/driver-api/usb/anchors.rst
++++ b/Documentation/driver-api/usb/anchors.rst
+@@ -45,17 +45,6 @@ This function kills all URBs associated with an anchor. The URBs
+ are called in the reverse temporal order they were submitted.
+ This way no data can be reordered.
+ 
+-:c:func:`usb_unlink_anchored_urbs`
+-----------------------------------
+-
+-
+-This function unlinks all URBs associated with an anchor. The URBs
+-are processed in the reverse temporal order they were submitted.
+-This is similar to :c:func:`usb_kill_anchored_urbs`, but it will not sleep.
+-Therefore no guarantee is made that the URBs have been unlinked when
+-the call returns. They may be unlinked later but will be unlinked in
+-finite time.
+-
+ :c:func:`usb_scuttle_anchored_urbs`
+ -----------------------------------
+ 
+diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
+index 5e52a35486af..0e58a8531d6e 100644
+--- a/drivers/usb/core/urb.c
++++ b/drivers/usb/core/urb.c
+@@ -597,10 +597,9 @@ EXPORT_SYMBOL_GPL(usb_submit_urb);
+  * code).
+  *
+  * Drivers should not call this routine or related routines, such as
+- * usb_kill_urb() or usb_unlink_anchored_urbs(), after their disconnect
+- * method has returned.  The disconnect function should synchronize with
+- * a driver's I/O routines to insure that all URB-related activity has
+- * completed before it returns.
++ * usb_kill_urb(), after their disconnect method has returned. The
++ * disconnect function should synchronize with a driver's I/O routines
++ * to insure that all URB-related activity has completed before it returns.
+  *
+  * This request is asynchronous, however the HCD might call the ->complete()
+  * callback during unlink. Therefore when drivers call usb_unlink_urb(), they
+@@ -890,28 +889,6 @@ void usb_unpoison_anchored_urbs(struct usb_anchor *anchor)
+ 	spin_unlock_irqrestore(&anchor->lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(usb_unpoison_anchored_urbs);
+-/**
+- * usb_unlink_anchored_urbs - asynchronously cancel transfer requests en masse
+- * @anchor: anchor the requests are bound to
+- *
+- * this allows all outstanding URBs to be unlinked starting
+- * from the back of the queue. This function is asynchronous.
+- * The unlinking is just triggered. It may happen after this
+- * function has returned.
+- *
+- * This routine should not be called by a driver after its disconnect
+- * method has returned.
+- */
+-void usb_unlink_anchored_urbs(struct usb_anchor *anchor)
+-{
+-	struct urb *victim;
+-
+-	while ((victim = usb_get_from_anchor(anchor)) != NULL) {
+-		usb_unlink_urb(victim);
+-		usb_put_urb(victim);
+-	}
+-}
+-EXPORT_SYMBOL_GPL(usb_unlink_anchored_urbs);
+ 
+ /**
+  * usb_anchor_suspend_wakeups
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 1b2545b4363b..e8662843e68c 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -1780,7 +1780,6 @@ extern void usb_block_urb(struct urb *urb);
+ extern void usb_kill_anchored_urbs(struct usb_anchor *anchor);
+ extern void usb_poison_anchored_urbs(struct usb_anchor *anchor);
+ extern void usb_unpoison_anchored_urbs(struct usb_anchor *anchor);
+-extern void usb_unlink_anchored_urbs(struct usb_anchor *anchor);
+ extern void usb_anchor_suspend_wakeups(struct usb_anchor *anchor);
+ extern void usb_anchor_resume_wakeups(struct usb_anchor *anchor);
+ extern void usb_anchor_urb(struct urb *urb, struct usb_anchor *anchor);
+-- 
+2.49.0
 
