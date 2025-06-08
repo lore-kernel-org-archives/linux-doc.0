@@ -1,143 +1,288 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6A18BEC;
-	Sun,  8 Jun 2025 15:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A25E3B19A;
+	Sun,  8 Jun 2025 16:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749397624; cv=none; b=luhTSF9qhEJFlae+wRFd8z4cJTarOQBlA3L6cybauYQNWK2qr9yKcvrnlT5+sl50Tca3fgmi2PhuhMGnTbRzGb+zEVZFXfh7IiqDKSubmBoTWQUqhsKzFtVOf6sySjPco6UH1Fq/MxD0TYuqSOjYSJsn2KkQ2i0UBMld5c3RF4k=
+	t=1749398910; cv=none; b=cioKllml9T7UmNNN/jdHWAfT8hZVwhfM0Ns2+b55jLBaR07iXKjcbmi98vGiMAlzfPjg93/bs1uAPfyisKMITvyH89JsOTmPPTHibNGIbfP++oD8zF2cJiqSX/7gXOrQEh/b6izb6YUV5pZiKBNhvwZF99gPQYD87K90QvsYNhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749397624; c=relaxed/simple;
-	bh=VtIBuujtVAe9ASiGT9BsyX+qi6TyxqLYyqSi7Zr+ZGE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qeVGFfxUDK43MATMTHP+M2THwSz76FI/8XGByq4zOcCgp+GzLmZMDcZDn4IKOJfAYOO2hGyzWgUGm7VBf2Gz+EwoYS+yn9Y6v0wwQobvlNfQQU8iAS+i7lNI4n181kw7NpwEnRjpRExBI40aoa1Dz/F0oGdY9y+oBuc451kSa+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=sZcJT/5L; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1749398910; c=relaxed/simple;
+	bh=zT8pfwQggTwjmmpDXtomNlqsYnWtwB9hIB8F6T6RC+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=asAoavyqFhBglrE7HJcySulLCzO7t7YOptH0wTPdBpMcaogOxly2B8mbfCLnpnVGUrFzFT45UXvfyrhiTQuo0vKjgImIjr/GiqNbdaImc55tyThvLXu3Tsrd1x/Bsc+wwqOSZYAtkHF6D57GwxAo3CsK72p8IVxj1i2HUJMCGX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xj8w+fMy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="sZcJT/5L"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=TFKJzYrumdhep1lYtqFRG7p84j1OyXJi+ZaTUY9ohok=; b=sZcJT/5LY9QryJOT
-	6oK3PfNhYE+2f9eNgqOW+QXw40/dycc0eVuBfWFQ6LNU5Jp6XWMvesPsezc/3AAxxxhLocSSvh9KZ
-	kPB5MLAANJ7A25pb/OI7OWW4hsfTJKs0xty+yCKowUNw3B4f4PpDM52E/LxhiJ+awZuhXu5KtRvbF
-	mvqlGAXmZMdlXkYLseUXZTZnqVkhMZQJI4BYP23rjt09DS/PK2xru45BEu13xP3AZnDbUKJW9y45U
-	Gl9tjVTvnXJIJtgGDLB/sLIho595b0R0B/Wjvffl+xJoIIERuZZe1p6JmQLkq/K/w9zgknkf3DcUa
-	r7didnBtgMixzGPKRQ==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1uOIEY-008GlJ-1u;
-	Sun, 08 Jun 2025 15:46:54 +0000
-From: linux@treblig.org
-To: gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	corbet@lwn.net
-Cc: linux-serial@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] serial: Remove unused uart_get_console
-Date: Sun,  8 Jun 2025 16:46:54 +0100
-Message-ID: <20250608154654.73994-1-linux@treblig.org>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xj8w+fMy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E69DC4CEEE;
+	Sun,  8 Jun 2025 16:08:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749398910;
+	bh=zT8pfwQggTwjmmpDXtomNlqsYnWtwB9hIB8F6T6RC+E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Xj8w+fMyKv7xpICegf/+7VHdDm9sO30btmf3HpDcyvX23r097EtVi4JXHIXgd7WND
+	 U+JlaHDLEEhqB/Z4jQaFmJyA/NeBYFS++fd9vgbeQQgUTy5h8RK7XRqgrxIOeUvqsa
+	 JYXOQQQRQoXMGe0C2X9S0kUwnSDaEwTXiOHOpRmZE4f8SoUCwhjDd5XYvTzx4FPvfr
+	 9upcldIwK9Og8I5u9dxGRVPD75kp9NLDxAUs3aQUI95mveS+iLJ9IrQf7dY9+G7R8y
+	 6FVGGNpgupbDp3smUgEDnTv3ECNaurCWBUdmkqH1R/GE6AUgWCMcN7Bq5DvSRje2Br
+	 zH2OSedBg4nqw==
+Date: Sun, 8 Jun 2025 17:08:19 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
+ Michael.Hennerich@analog.com, bagasdotme@gmail.com,
+ linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 07/11] iio: accel: adxl313: add activity sensing
+Message-ID: <20250608170819.3de87f4e@jic23-huawei>
+In-Reply-To: <20250601172139.59156-8-l.rubusch@gmail.com>
+References: <20250601172139.59156-1-l.rubusch@gmail.com>
+	<20250601172139.59156-8-l.rubusch@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Sun,  1 Jun 2025 17:21:35 +0000
+Lothar Rubusch <l.rubusch@gmail.com> wrote:
 
-uart_get_console() has been unused since 2019's
-commit bd0d9d159988 ("serial: remove ks8695 driver")
+> Add possibilities to set a threshold for activity sensing. Extend the
+> interrupt handler to process activity interrupts. Provide functions to set
+> the activity threshold and to enable/disable activity sensing. Further add
+> a fake channel for having x, y and z axis anded on the iio channel.
+> 
+> This is a preparatory patch. Some of the definitions and functions are
+> supposed to be extended for inactivity later on.
+> 
+> Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
 
-Remove it, and it's associated docs.
+Hi Lothar,
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- Documentation/driver-api/serial/driver.rst |  7 +++---
- drivers/tty/serial/serial_core.c           | 27 ----------------------
- include/linux/serial_core.h                |  2 --
- 3 files changed, 3 insertions(+), 33 deletions(-)
+My main question from this read through is whether we need to be quite
+so careful on disabling measurement when configuring events.  It is rather
+unusual if that is necessary and I'm not sure that's what the datasheet
+is implying with the vague bit of advice.
 
-diff --git a/Documentation/driver-api/serial/driver.rst b/Documentation/driver-api/serial/driver.rst
-index fa1ebfcd4472..c1db6a1a67c4 100644
---- a/Documentation/driver-api/serial/driver.rst
-+++ b/Documentation/driver-api/serial/driver.rst
-@@ -24,9 +24,8 @@ console support.
- Console Support
- ---------------
- 
--The serial core provides a few helper functions.  This includes identifying
--the correct port structure (via uart_get_console()) and decoding command line
--arguments (uart_parse_options()).
-+The serial core provides a few helper functions.  This includes
-+decoding command line arguments (uart_parse_options()).
- 
- There is also a helper function (uart_console_write()) which performs a
- character by character write, translating newlines to CRLF sequences.
-@@ -76,7 +75,7 @@ Other functions
-            uart_add_one_port uart_remove_one_port uart_console_write
-            uart_parse_earlycon uart_parse_options uart_set_options
-            uart_get_lsr_info uart_handle_dcd_change uart_handle_cts_change
--           uart_try_toggle_sysrq uart_get_console
-+           uart_try_toggle_sysrq
- 
- .. kernel-doc:: include/linux/serial_core.h
-    :identifiers: uart_port_tx_limited uart_port_tx
-diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/serial_core.c
-index 1f7708a91fc6..c15e005047bb 100644
---- a/drivers/tty/serial/serial_core.c
-+++ b/drivers/tty/serial/serial_core.c
-@@ -2131,33 +2131,6 @@ void uart_console_write(struct uart_port *port, const char *s,
- }
- EXPORT_SYMBOL_GPL(uart_console_write);
- 
--/**
-- * uart_get_console - get uart port for console
-- * @ports: ports to search in
-- * @nr: number of @ports
-- * @co: console to search for
-- * Returns: uart_port for the console @co
-- *
-- * Check whether an invalid uart number has been specified (as @co->index), and
-- * if so, search for the first available port that does have console support.
-- */
--struct uart_port * __init
--uart_get_console(struct uart_port *ports, int nr, struct console *co)
--{
--	int idx = co->index;
--
--	if (idx < 0 || idx >= nr || (ports[idx].iobase == 0 &&
--				     ports[idx].membase == NULL))
--		for (idx = 0; idx < nr; idx++)
--			if (ports[idx].iobase != 0 ||
--			    ports[idx].membase != NULL)
--				break;
--
--	co->index = idx;
--
--	return ports + idx;
--}
--
- /**
-  * uart_parse_earlycon - Parse earlycon options
-  * @p:	     ptr to 2nd field (ie., just beyond '<name>,')
-diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
-index 914b5e97e056..cfd891357573 100644
---- a/include/linux/serial_core.h
-+++ b/include/linux/serial_core.h
-@@ -1101,8 +1101,6 @@ static inline bool uart_console_registered(struct uart_port *port)
- 	return uart_console(port) && console_is_registered(port->cons);
- }
- 
--struct uart_port *uart_get_console(struct uart_port *ports, int nr,
--				   struct console *c);
- int uart_parse_earlycon(char *p, enum uart_iotype *iotype,
- 			resource_size_t *addr, char **options);
- void uart_parse_options(const char *options, int *baud, int *parity, int *bits,
--- 
-2.49.0
+>  static const unsigned long adxl313_scan_masks[] = {
+> @@ -297,6 +331,68 @@ static int adxl313_read_freq_avail(struct iio_dev *indio_dev,
+>  	}
+>  }
+>  
+> +static int adxl313_is_act_inact_en(struct adxl313_data *data,
+> +				   enum adxl313_activity_type type)
+> +{
+> +	unsigned int axis_ctrl;
+> +	unsigned int regval;
+> +	int axis_en, int_en, ret;
+> +
+> +	ret = regmap_read(data->regmap, ADXL313_REG_ACT_INACT_CTL, &axis_ctrl);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Check if axis for activity are enabled */
+> +	if (type != ADXL313_ACTIVITY)
 
+As below - only one value possible, so don't check it.
+
+> +		return 0;
+> +
+> +	axis_en = FIELD_GET(ADXL313_ACT_XYZ_EN, axis_ctrl);
+> +
+> +	/* The axis are enabled, now check if specific interrupt is enabled */
+> +	ret = regmap_read(data->regmap, ADXL313_REG_INT_ENABLE, &regval);
+> +	if (ret)
+> +		return ret;
+> +
+> +	int_en = adxl313_act_int_reg[type] & regval;
+> +
+> +	return axis_en && int_en;
+> +}
+> +
+> +static int adxl313_set_act_inact_en(struct adxl313_data *data,
+> +				    enum adxl313_activity_type type,
+> +				    bool cmd_en)
+> +{
+> +	unsigned int axis_ctrl;
+> +	unsigned int threshold;
+> +	int ret;
+> +
+> +	if (type != ADXL313_ACTIVITY)
+
+As the enum only has one value you can drop this check.
+Obviously it's dropped in next patch anyway but better to never
+introduce it.
+
+> +		return 0;
+> +
+> +	axis_ctrl = ADXL313_ACT_XYZ_EN;
+> +
+> +	ret = adxl313_set_measure_en(data, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_assign_bits(data->regmap, ADXL313_REG_ACT_INACT_CTL,
+> +				 axis_ctrl, cmd_en);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_read(data->regmap, adxl313_act_thresh_reg[type], &threshold);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_assign_bits(data->regmap, ADXL313_REG_INT_ENABLE,
+> +				 adxl313_act_int_reg[type],
+> +				 cmd_en && threshold);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return adxl313_set_measure_en(data, true);
+> +}
+> +
+>  static int adxl313_read_raw(struct iio_dev *indio_dev,
+>  			    struct iio_chan_spec const *chan,
+>  			    int *val, int *val2, long mask)
+> @@ -370,6 +466,113 @@ static int adxl313_write_raw(struct iio_dev *indio_dev,
+>  	}
+>  }
+
+> +
+> +static int adxl313_read_event_value(struct iio_dev *indio_dev,
+> +				    const struct iio_chan_spec *chan,
+> +				    enum iio_event_type type,
+> +				    enum iio_event_direction dir,
+> +				    enum iio_event_info info,
+> +				    int *val, int *val2)
+> +{
+> +	struct adxl313_data *data = iio_priv(indio_dev);
+> +	unsigned int act_threshold;
+> +	int ret;
+> +
+> +	/* Measurement stays enabled, reading from regmap cache */
+
+If it isn't safe to read whilst measurements are in progress (as opposed
+to maybe getting a small variation in timing) then this seems more
+fragile than I'd like (to future code changes for example).
+
+Might need an explicit check on it being cached regcache_reg_cached()
+for example though that is very rarely used which makes me dubious
+about using it here.
+
+
+> +
+> +	if (type != IIO_EV_TYPE_MAG)
+> +		return -EINVAL;
+> +
+> +	if (info != IIO_EV_INFO_VALUE)
+> +		return -EINVAL;
+> +
+> +	switch (dir) {
+> +	case IIO_EV_DIR_RISING:
+> +		ret = regmap_read(data->regmap,
+> +				  adxl313_act_thresh_reg[ADXL313_ACTIVITY],
+> +				  &act_threshold);
+> +		if (ret)
+> +			return ret;
+> +		*val = act_threshold * 15625;
+> +		*val2 = MICRO;
+> +		return IIO_VAL_FRACTIONAL;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int adxl313_write_event_value(struct iio_dev *indio_dev,
+> +				     const struct iio_chan_spec *chan,
+> +				     enum iio_event_type type,
+> +				     enum iio_event_direction dir,
+> +				     enum iio_event_info info,
+> +				     int val, int val2)
+> +{
+> +	struct adxl313_data *data = iio_priv(indio_dev);
+> +	unsigned int regval;
+> +	int ret;
+> +
+> +	ret = adxl313_set_measure_en(data, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (type != IIO_EV_TYPE_MAG)
+> +		return -EINVAL;
+> +
+> +	if (info != IIO_EV_INFO_VALUE)
+> +		return -EINVAL;
+> +
+> +	/* Scale factor 15.625 mg/LSB */
+> +	regval = DIV_ROUND_CLOSEST(MICRO * val + val2, 15625);
+> +	switch (dir) {
+> +	case IIO_EV_DIR_RISING:
+> +		ret = regmap_write(data->regmap,
+> +				   adxl313_act_thresh_reg[ADXL313_ACTIVITY],
+> +				   regval);
+
+I'm surprised this can only be set with measurement disabled.
+Maybe a spec reference.   It's common to tweak event values as events
+come in and we generally don't have to stop data flow whilst we do.
+
+There are a few specific bits where the datasheet suggests updating
+them has unwanted side effects in measurement mode.  + there is a general
+suggestion to do configuration before enabling measurement mode.  
+I don't see anything saying it is a problem for this register.
+
+> +		if (ret)
+> +			return ret;
+> +		return adxl313_set_measure_en(data, true);
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+>  static int adxl313_set_watermark(struct iio_dev *indio_dev, unsigned int value)
+>  {
+>  	struct adxl313_data *data = iio_priv(indio_dev);
+> @@ -502,19 +705,32 @@ static int adxl313_fifo_push(struct iio_dev *indio_dev, int samples)
+>  
+>  static int adxl313_push_event(struct iio_dev *indio_dev, int int_stat)
+
+Ah. This does not also have events.  Still it's a mix, so maybe
+adxl313_handle_interrupts() or something like that.
+
+>  {
+> +	s64 ts = iio_get_time_ns(indio_dev);
+>  	struct adxl313_data *data = iio_priv(indio_dev);
+>  	int samples;
+> +	int ret = -ENOENT;
+> +
+> +	if (FIELD_GET(ADXL313_INT_ACTIVITY, int_stat)) {
+> +		ret = iio_push_event(indio_dev,
+> +				     IIO_MOD_EVENT_CODE(IIO_ACCEL, 0,
+> +							IIO_MOD_X_OR_Y_OR_Z,
+> +							IIO_EV_TYPE_MAG,
+> +							IIO_EV_DIR_RISING),
+> +				     ts);
+> +		if (ret)
+> +			return ret;
+> +	}
+>  
+>  	if (FIELD_GET(ADXL313_INT_WATERMARK, int_stat)) {
+>  		samples = adxl313_get_samples(data);
+>  		if (samples < 0)
+>  			return samples;
+>  
+> -		return adxl313_fifo_push(indio_dev, samples);
+> +		ret = adxl313_fifo_push(indio_dev, samples);
+>  	}
+>  
+>  	/* Return error if no event data was pushed to the IIO channel. */
+> -	return -ENOENT;
+> +	return ret;
+This handling works, but as Andy observed maybe the comment is now confusing
+given ret is mostly not an error.  Perhaps put that where ret is declared
+instead, or use a separate mask check at the start to quickly
+error out if no bits that we handle are set.
+>  }
