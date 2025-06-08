@@ -1,57 +1,58 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9976EC4
-	for <linux-doc@vger.kernel.org>; Sun,  8 Jun 2025 13:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA91A171D2
+	for <linux-doc@vger.kernel.org>; Sun,  8 Jun 2025 13:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749389898; cv=none; b=Ikl7E2Zs1Hz6cmcNQDEm4r+gqfzhrFRf5pQ4H8fIVVz+ENkx29+aayqk+Nx904eYEPbkV4QOei0NwMabv5+n5HbZeKV5KnxcxVTsH5WexpgW7OuH1Hp3DD9FOvA/XiYHRPvQqFlgHWeFnPWbTsh27QL0BDOkIaEaXmdnUciVUyw=
+	t=1749390596; cv=none; b=TeQXVPA98/CnH4LRYkFnd47kf2a2gjvglzwUBfTFnjyGpU0NxyK2B37wBkoDa0lOG7P7kV++bz4ki6TVWLZoRs1YdPXZ6UqzfM4F8S1SM25oh020ap328PaP0MNLLYCYDPaJSqVJkDPS9yA+d4wK31PCojc59PYBvExfcXiCfxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749389898; c=relaxed/simple;
-	bh=Xz43Jrp0mXo+o5VStxyZav5edcwHbjs4HXsY3mfy/ZU=;
+	s=arc-20240116; t=1749390596; c=relaxed/simple;
+	bh=y6JmwckEqgiW/QsqsF9yxQ8WonK0AHTU03NDtwyJasA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OmKMeXDPiEP3wwB79E5kL85MZZDKq9nR2yqQXg3faWgrc6IZKZU9wXw/duhJ5Rg4Bfp/IoMaxfPR0BlVJNgQ4skAOy4miBuuoMiG/lrTbvVB74UclpgZiaHC/xLdr/N0r3gfQY37RKsFPDYSvMtyJJwmYxR2dSK8V3hOeurUkuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=27eeKOYA; arc=none smtp.client-ip=209.85.160.169
+	 To:Cc:Content-Type; b=dqUQmN20fE3+IzXmwwNIHkt3+rsI+hx8DQRKOTf3ZZXOC1gBlAI6Z17cSq9Wak0ZmsrnaEt/8lNGDqWKTM9PqUpPSIYH/dN7ZQnktVQ4INrpEAs0XPtdDvcyLplu2a/YXy205fIuXaj/20LyDeCE4YdEhslrhvgO3/TCAOG4aD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=S2Zf8Avt; arc=none smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="27eeKOYA"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4a5ae2fdf4eso40192961cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 08 Jun 2025 06:38:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="S2Zf8Avt"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4a58c2430edso38946911cf.1
+        for <linux-doc@vger.kernel.org>; Sun, 08 Jun 2025 06:49:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1749389895; x=1749994695; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TUbBijHBgxotN6xjfy6fLHclw6xV0tsQ2jT2nZZ0+Zg=;
-        b=27eeKOYAK+9S0MMGyU7B4B/Lc0PTcvBTeT5wMDXGiR1p8hG9k9Ym4Hy5fis+uaL9q5
-         CLvmK/4nloL0LHVwkzTslfXPp/jYVCmtIiSFTIjp6t/z3tlnC6KyLL5+2wV2VJZmCfhV
-         6brt5yodSybZiJsSmEQbq05ADAdKOQ6tM3Rfp8coi3EbpxwK1SWUrL9ZnHcj4TZHv8KP
-         PCYth07qM9/O/tARnd8HZh4ab3DyJuNdHfj9jqeq+AxwgcEfj/GxEnbS/5xTBdlgzuMI
-         okYyHZrHeOLy9jOOUIFBO4UQbjFk7CLi2evFzGUXSrV3HuT9w3ricnmMlAA/dHrYkCvg
-         3MtA==
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1749390592; x=1749995392; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4hF+6UtRohKpdwZ1oZTfYRlxr9mBlwqZ6G0URvhQTB4=;
+        b=S2Zf8Avta8J2h4PUBPVM2zBAyQnAqqselXBu39w5p5n9oVOL1Avumoiw28D8POh+4u
+         asZ7vKL30bjWyzg5gVjSfSBHEP8dpymY+VW2r24XZTzLqi7L9aNwvUSxV8xCAxxQpA4f
+         Cvmfo0IsvDuGZ37Z2+5YH6nvvPwMqmezbabsO04HI/yPOE2bC8qji4wG2vSFUS5uTVTY
+         un8r3XtLZjPpR0TCvxR4c8TJIlPOOPpAKFhKEFwWUd4zzh2iCsged/rBATx5RreRtLvr
+         czu5wg+BZEav/Lh8QHX6D0MmKyAWbUkpaks2Myl5I/D6aMxdbGrlV8Shb6cz9+7pG8xZ
+         FHaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749389895; x=1749994695;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TUbBijHBgxotN6xjfy6fLHclw6xV0tsQ2jT2nZZ0+Zg=;
-        b=CiiD8D1p+8qGMm2xdFOBCmt4ZhLu4DwkRCEIveVs8qrC3daxgZa3ks0hZ49f3DSc6M
-         Vat+dSRK96RwWyLekrxhDz6MBeVS9vulbvHHUKsGamQTSN97FFTboCp+je/TOJhARy77
-         2oTIq+9COXU55wdz+NBTEb0bapkyGEUcEC1lFkWm7OJWI2es5Z77Y09lRHG5W+oGMGn5
-         35pykINNJUA5/4UTCDeOJ+BRrq8WOUcJm0lf4uuCtgZo/Asq644IWsmJgCAQLtuz4WEI
-         dUC46Bf/kL9RkchMFIp0gt2hmABFWgJ5EqN4gtaVil+7k51ZitB30NYuGXUznm4bL58b
-         t41g==
-X-Forwarded-Encrypted: i=1; AJvYcCWTH8ioWjKv5eUrpdSg7mkjhfkiCUy/DEszFyZ6puPsbImGEoCVeV6FICQcZp6NCdI39druTi9ulf8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwMX2EcZOUhprzC6U9LJzvjvcO3YyTqDpdMc19TxFLxWlSHCJH
-	xUFZsApLbLCiuk2H3WEGvKsXgukEuehoUQXxad6TdltVRV9Pyn5bJu/+1b9fsU7Q0upliQXTlEI
-	TZ4onA6zRGUtiyTOmZiSuTiQuRGClUX6RdvZn3PTujg==
-X-Gm-Gg: ASbGncuaf+hTZDPA0+huGy7fSJ/TQa2QrygZsf8030ZbK8W1UH3aYKjLqC2Npj5prQk
-	lRWoXc/opj7vrKuOBMtnYpmXASewC7OJw1AQf9bnNq0vnYi5f8SKs/9B93gwTeKe324bYpxUkXw
-	sF4zjx6Jdi0+Dhcwmk7RVJK8fjRnbUJQ==
-X-Google-Smtp-Source: AGHT+IHxkVYmrqTy++9U+zVtJe1k2fuiraSQf431LIwxqL/0g1Ki6gT4p1nw2WMON0OXJE5372Dw/jab+Jv/xTg0BRM=
-X-Received: by 2002:a05:622a:229b:b0:494:7347:d73f with SMTP id
- d75a77b69052e-4a5baa62fdbmr152821741cf.11.1749389895512; Sun, 08 Jun 2025
- 06:38:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749390592; x=1749995392;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4hF+6UtRohKpdwZ1oZTfYRlxr9mBlwqZ6G0URvhQTB4=;
+        b=GSVmyJtLIEFXBGmw3ly2Qgl/LMduAUWsNQRE7Kmq17yS6vsGBu1rZMZII9C+IN+7ga
+         kYw2dw2D/Zvyro9szvkksfefMwMetroOsxpgkvxacH4eFgtVtMLbJqYKaDL1Dr3wB3nA
+         Zlvylufs2WGRg4PtrydWkv3JuoL0OycSJF3rzcy9MvKkQs33npEn+a2Z/uUqzvvuv1j0
+         fHwEvhOYi+ziDc5d7661++Sji3FWpHUTKkV+/AABQsiSGT/YV9KhD7hvuRwkLLqhgLUz
+         82kQWzl/O9j72Z4QpN4YBCZqPwM+VzBUBU19jLdKgY+saU00220Hfm3/gwZT+MNYqRVE
+         5ZDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVQxSnM5v058viaEfYF+XM2LuyRs0Dm99z1JKY1ahrKgNqmuw6M57P6tzdXRSnA2BJ3cVF64qe50U0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2kDfqfdYwb6SCV5GfslE9AWD3S9elVD8J4cWE/9yWn60isPPs
+	NvbaDoQN4jhLHrtfS/sx3RQYCBpaGk/WYQiXJUxg5R53zv6nBtKnab76DLfnFy2z6EDz+c+nEcP
+	dF1oPqH2faPuqjy5a1Mb2YllbsmyppJT66euatYTIeA==
+X-Gm-Gg: ASbGnct5wWSBVtIM5Iua22t7TdWLhUWJY+rqLDFg+VSiRS9cG0V3YPEAe1O6r1ZdVzZ
+	g7WCsJBcOzF/BeABJXb+KlgOqQJXUn3Ef7o6gCUYg6BLhNva0U/s+ddbfUDIa03R95kDow8iZkk
+	Y3ooVBNtNp0NQd5yJskE6IQhFWeJqmQA==
+X-Google-Smtp-Source: AGHT+IGaVOqjIzAB561vdH5Hbbg07f5eH4frJqvp4egHE/9NCFYNrscEPGV/Tobtkh4P8BLSDloZ7s9mOifSf/ln61U=
+X-Received: by 2002:a05:622a:5a0f:b0:4a5:a598:bd8d with SMTP id
+ d75a77b69052e-4a5ba9952c4mr182042171cf.0.1749390592477; Sun, 08 Jun 2025
+ 06:49:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,13 +60,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-9-pasha.tatashin@soleen.com> <mafs034cetc5g.fsf@kernel.org>
-In-Reply-To: <mafs034cetc5g.fsf@kernel.org>
+ <20250515182322.117840-10-pasha.tatashin@soleen.com> <mafs0y0u6rx8y.fsf@kernel.org>
+In-Reply-To: <mafs0y0u6rx8y.fsf@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sun, 8 Jun 2025 09:37:38 -0400
-X-Gm-Features: AX0GCFtZNmgBc-IWiXVSdESmqmVzgwWJDO_gK1yQRaVW8V8y6wninwTbeWi6VDs
-Message-ID: <CA+CK2bBeCOojpZ=qoefd6NG+bO6CUh+NU8=8dMhD01=LtC9eNg@mail.gmail.com>
-Subject: Re: [RFC v2 08/16] luo: luo_files: add infrastructure for FDs
+Date: Sun, 8 Jun 2025 09:49:15 -0400
+X-Gm-Features: AX0GCFsi4mFrjkMNphkUTbPiCT0VoL7ft4Nnhm6lamBfB757JhUYg6mKdNCbvJk
+Message-ID: <CA+CK2bCigGJJqtSt1-4GP0JPVCZrTa6WS4LiMTT0J=04G64e5w@mail.gmail.com>
+Subject: Re: [RFC v2 09/16] luo: luo_files: implement file systems callbacks
 To: Pratyush Yadav <pratyush@kernel.org>
 Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
 	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
@@ -88,248 +89,117 @@ Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
 	stuart.w.hayes@gmail.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > +
-> > +/**
-> > + * luo_files_startup - Validates the LUO file-descriptors FDT node at startup.
-> > + * @fdt: Pointer to the LUO FDT blob passed from the previous kernel.
-> > + *
-> > + * This __init function checks the existence and validity of the
-> > + * '/file-descriptors' node in the FDT. This node is considered mandatory. It
+On Thu, Jun 5, 2025 at 12:04=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
+> wrote:
 >
-> Why is it mandatory? Can't a user just preserve some subsystems, and no
-> FDs?
-
-Yes, that is legal, in that case this node is going to be empty.
-
+> On Thu, May 15 2025, Pasha Tatashin wrote:
 >
-> > + * calls panic() if the node is missing, inaccessible, or invalid (e.g., missing
-> > + * compatible, wrong compatible string), indicating a critical configuration
-> > + * error for LUO.
-> > + */
-> > +void __init luo_files_startup(void *fdt)
-> > +{
-> > +     int ret, node_offset;
+> > Implements the core logic within luo_files.c to invoke the prepare,
+> > reboot, finish, and cancel callbacks for preserved file instances,
+> > replacing the previous stub implementations. It also handles
+> > the persistence and retrieval of the u64 data payload associated with
+> > each file via the LUO FDT.
+> >
+> > This completes the core mechanism enabling registered filesystem
+> > handlers to actively manage file state across the live update
+> > transition using the LUO framework.
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > ---
+> >  drivers/misc/liveupdate/luo_files.c | 105 +++++++++++++++++++++++++++-
+> >  1 file changed, 103 insertions(+), 2 deletions(-)
+> >
+> [...]
+> > @@ -305,7 +369,29 @@ int luo_do_files_prepare_calls(void)
+> >   */
+> >  int luo_do_files_freeze_calls(void)
+> >  {
+> > -     return 0;
+> > +     unsigned long token;
+> > +     struct luo_file *h;
+> > +     int ret;
 > > +
-> > +     node_offset = fdt_subnode_offset(fdt, 0, LUO_FILES_NODE_NAME);
-> > +     if (node_offset < 0)
-> > +             panic("Failed to find /file-descriptors node\n");
-> > +
-> > +     ret = fdt_node_check_compatible(fdt, node_offset,
-> > +                                     LUO_FILES_COMPATIBLE);
-> > +     if (ret) {
-> > +             panic("FDT '%s' is incompatible with '%s' [%d]\n",
-> > +                   LUO_FILES_NODE_NAME, LUO_FILES_COMPATIBLE, ret);
-> > +     }
-> > +     luo_fdt_in = fdt;
-> > +}
-> > +
-> > +static void luo_files_recreate_luo_files_xa_in(void)
-> > +{
-> > +     int parent_node_offset, file_node_offset;
-> > +     const char *node_name, *fdt_compat_str;
-> > +     struct liveupdate_filesystem *fs;
-> > +     struct luo_file *luo_file;
-> > +     const void *data_ptr;
-> > +     int ret = 0;
-> > +
-> > +     if (luo_files_xa_in_recreated || !luo_fdt_in)
-> > +             return;
-> > +
-> > +     /* Take write in order to gurantee that we re-create list once */
+> > +     xa_for_each(&luo_files_xa_out, token, h) {
 >
-> Typo: s/gurantee/guarantee
+> Should we also ensure at this point that there are no open handles to
+> this file? How else would a file system ensure the file is in quiescent
+> state to do its final serialization?
 
-Done, thanks.
+Do you mean check refcnt here? If so, this is a good idea, but first
+we need to implement the lifecycle of liveupdate agent correctectly,
+where owner of FD must survive through entering into reboot() with
+/dev/liveupdate still open.
 
+> This conflicts with my suggestion to have freeze callbacks never fail,
+> but now that I think of it, this is also important, so maybe we have to
+> live with freeze that can fail.
 >
-> > +     down_write(&luo_filesystems_list_rwsem);
-> > +     if (luo_files_xa_in_recreated)
-> > +             goto exit_unlock;
+> > +             if (h->fs->freeze) {
+> > +                     ret =3D h->fs->freeze(h->file, h->fs->arg,
+> > +                                         &h->private_data);
+> > +                     if (ret < 0) {
+> > +                             pr_err("Freeze callback failed for file t=
+oken %#0llx handler '%s' [%d]\n",
+> > +                                    (u64)token, h->fs->compatible, ret=
+);
+> > +                             __luo_do_files_cancel_calls(h);
 > > +
-> > +     parent_node_offset = fdt_subnode_offset(luo_fdt_in, 0,
-> > +                                             LUO_FILES_NODE_NAME);
-> > +
-> > +     fdt_for_each_subnode(file_node_offset, luo_fdt_in, parent_node_offset) {
-> > +             bool handler_found = false;
-> > +             u64 token;
-> > +
-> > +             node_name = fdt_get_name(luo_fdt_in, file_node_offset, NULL);
-> > +             if (!node_name) {
-> > +                     panic("Skipping FDT subnode at offset %d: Cannot get name\n",
-> > +                           file_node_offset);
->
-> Should failure to parse a specific FD really be a panic? Wouldn't it be
-> better to continue and let userspace decide if it can live with the FD
-> missing?
-
-This is not safe, the memory might be DMA or owned by a sensetive
-process, and if we proceed liveupdate reboot without properly handling
-memory, we can get corruptions, and memory leaks. Therefore, during
-liveupdate boot if there are exceptions, we should panic.
-
-> > +             }
-> > +
-> > +             ret = kstrtou64(node_name, 0, &token);
-> > +             if (ret < 0) {
-> > +                     panic("Skipping FDT node '%s': Failed to parse token\n",
-> > +                           node_name);
-> > +             }
-> > +
-> > +             fdt_compat_str = fdt_getprop(luo_fdt_in, file_node_offset,
-> > +                                          "compatible", NULL);
-> > +             if (!fdt_compat_str) {
-> > +                     panic("Skipping FDT node '%s': Missing 'compatible' property\n",
-> > +                           node_name);
-> > +             }
-> > +
-> > +             data_ptr = fdt_getprop(luo_fdt_in, file_node_offset, "data",
-> > +                                    NULL);
-> > +             if (!data_ptr) {
-> > +                     panic("Can't recover property 'data' for FDT node '%s'\n",
-> > +                           node_name);
-> > +             }
-> > +
-> > +             list_for_each_entry(fs, &luo_filesystems_list, list) {
-> > +                     if (!strcmp(fs->compatible, fdt_compat_str)) {
-> > +                             handler_found = true;
-> > +                             break;
+> > +                             return ret;
 > > +                     }
 > > +             }
-> > +
-> > +             if (!handler_found) {
-> > +                     panic("Skipping FDT node '%s': No registered handler for compatible '%s'\n",
-> > +                           node_name, fdt_compat_str);
->
-> Thinking out loud here: this means that by the time of first retrieval,
-> all file systems must be registered. Since this is called from
-> luo_do_files_finish_calls() or luo_retrieve_file(), it will come from
-> userspace, so all built in modules would be initialized by then. But
-> some loadable module might not be. I don't see much of a use case for
-> loadable modules to participate in LUO, so I don't think it should be a
-> problem.
-
-Yes, in practice I am against supporting liveupdate for loadable
-modules for FDs and devices; however, if userspace decides to use
-them, they have to be very careful in terms when data is retrieved,
-and when they are loaded.
-
-> > +             }
-> > +
-> > +             luo_file = kmalloc(sizeof(*luo_file),
-> > +                                GFP_KERNEL | __GFP_NOFAIL);
-> > +             luo_file->fs = fs;
-> > +             luo_file->file = NULL;
-> > +             memcpy(&luo_file->private_data, data_ptr, sizeof(u64));
->
-> Why not make sure data_ptr is exactly sizeof(u64) when we parse it, and
-> then simply do luo_file->private_data = (u64)*data_ptr ?
-
-Because FDT alignment is 4 bytes, we can't simply assign it.
-
-> Because if the previous kernel wrote more than a u64 in data, then
-> something is broken and we should catch that error anyway.
->
-> > +             luo_file->reclaimed = false;
-> > +             mutex_init(&luo_file->mutex);
-> > +             luo_file->state = LIVEUPDATE_STATE_UPDATED;
-> > +             ret = xa_err(xa_store(&luo_files_xa_in, token, luo_file,
-> > +                                   GFP_KERNEL | __GFP_NOFAIL));
->
-> Should you also check if something is already at token's slot, in case
-> previous kernel generated wrong tokens or FDT is broken?
-
-Good idea, added.
-
->
-> > +             if (ret < 0) {
-> > +                     panic("Failed to store luo_file for token %llu in XArray: %d\n",
-> > +                           token, ret);
-> > +             }
 > > +     }
-> > +     luo_files_xa_in_recreated = true;
 > > +
-> > +exit_unlock:
-> > +     up_write(&luo_filesystems_list_rwsem);
-> > +}
+> > +     ret =3D luo_files_commit_data_to_fdt();
+> > +     if (ret)
+> > +             __luo_do_files_cancel_calls(NULL);
 > > +
-> [...]
-> > diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
-> > index 7a130680b5f2..7afe0aac5ce4 100644
-> > --- a/include/linux/liveupdate.h
-> > +++ b/include/linux/liveupdate.h
-> > @@ -86,6 +86,55 @@ enum liveupdate_state  {
-> >       LIVEUPDATE_STATE_UPDATED = 3,
-> >  };
+> > +     return ret;
+> >  }
 > >
-> > +/* Forward declaration needed if definition isn't included */
-> > +struct file;
+> >  /**
+> > @@ -316,7 +402,20 @@ int luo_do_files_freeze_calls(void)
+> >   */
+> >  void luo_do_files_finish_calls(void)
+> >  {
+> > +     unsigned long token;
+> > +     struct luo_file *h;
 > > +
-> > +/**
-> > + * struct liveupdate_filesystem - Represents a handler for a live-updatable
-> > + * filesystem/file type.
-> > + * @prepare:       Optional. Saves state for a specific file instance (@file,
-> > + *                 @arg) before update, potentially returning value via @data.
-> > + *                 Returns 0 on success, negative errno on failure.
-> > + * @freeze:        Optional. Performs final actions just before kernel
-> > + *                 transition, potentially reading/updating the handle via
-> > + *                 @data.
-> > + *                 Returns 0 on success, negative errno on failure.
-> > + * @cancel:        Optional. Cleans up state/resources if update is aborted
-> > + *                 after prepare/freeze succeeded, using the @data handle (by
-> > + *                 value) from the successful prepare. Returns void.
-> > + * @finish:        Optional. Performs final cleanup in the new kernel using the
-> > + *                 preserved @data handle (by value). Returns void.
-> > + * @retrieve:      Retrieve the preserved file. Must be called before finish.
-> > + * @can_preserve:  callback to determine if @file with associated context (@arg)
-> > + *                 can be preserved by this handler.
-> > + *                 Return bool (true if preservable, false otherwise).
-> > + * @compatible:    The compatibility string (e.g., "memfd-v1", "vfiofd-v1")
-> > + *                 that uniquely identifies the filesystem or file type this
-> > + *                 handler supports. This is matched against the compatible
-> > + *                 string associated with individual &struct liveupdate_file
-> > + *                 instances.
-> > + * @arg:           An opaque pointer to implementation-specific context data
-> > + *                 associated with this filesystem handler registration.
-> > + * @list:          used for linking this handler instance into a global list of
-> > + *                 registered filesystem handlers.
-> > + *
-> > + * Modules that want to support live update for specific file types should
-> > + * register an instance of this structure. LUO uses this registration to
-> > + * determine if a given file can be preserved and to find the appropriate
-> > + * operations to manage its state across the update.
-> > + */
-> > +struct liveupdate_filesystem {
-> > +     int (*prepare)(struct file *file, void *arg, u64 *data);
-> > +     int (*freeze)(struct file *file, void *arg, u64 *data);
-> > +     void (*cancel)(struct file *file, void *arg, u64 data);
-> > +     void (*finish)(struct file *file, void *arg, u64 data, bool reclaimed);
-> > +     int (*retrieve)(void *arg, u64 data, struct file **file);
-> > +     bool (*can_preserve)(struct file *file, void *arg);
-> > +     const char *compatible;
-> > +     void *arg;
+> >       luo_files_recreate_luo_files_xa_in();
+> > +     xa_for_each(&luo_files_xa_in, token, h) {
+> > +             mutex_lock(&h->mutex);
+> > +             if (h->state =3D=3D LIVEUPDATE_STATE_UPDATED && h->fs->fi=
+nish) {
+> > +                     h->fs->finish(h->file, h->fs->arg,
+> > +                                   h->private_data,
+> > +                                   h->reclaimed);
+> > +                     h->state =3D LIVEUPDATE_STATE_NORMAL;
+> > +             }
+> > +             mutex_unlock(&h->mutex);
+> > +     }
 >
-> What is the use for this arg? I would expect one file type/system to
-> register one set of handlers. So they can keep their arg in a global in
-> their code. I don't see why a per-filesystem arg is needed.
+> We can also clean up luo_files_xa_in at this point, right?
 
-I think, arg is useful in case we support a subsystem is registered
-multiple times with some differences: i.e. based on mount point, or
-file types handling. Let's keep it for now, but if needed, we can
-remove that in future revisions.
+Yes, we can.
 
-> What I do think is needed is a per-file arg. Each callback gets 'data',
-> which is the serialized data, but there is no place to store runtime
-> state, like some flags or serialization metadata. Sure, you could make
-> place for it somewhere in the inode, but I think it would be a lot
-> cleaner to be able to store it in struct luo_file.
->
-> So perhaps rename private_data in struct luo_file to say
-> serialized_data, and have a field called "private" that filesystems can
-> use for their runtime state?
-
-I am not against this, but let's make this change when it is actually
-needed by a registered filesystem.
-
-Thanks,
+Thank you,
 Pasha
+
+>
+> >  }
+> >
+> >  /**
+> > @@ -330,6 +429,8 @@ void luo_do_files_finish_calls(void)
+> >   */
+> >  void luo_do_files_cancel_calls(void)
+> >  {
+> > +     __luo_do_files_cancel_calls(NULL);
+> > +     luo_files_commit_data_to_fdt();
+> >  }
+> >
+> >  /**
+>
+> --
+> Regards,
+> Pratyush Yadav
