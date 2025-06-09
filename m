@@ -1,105 +1,110 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010A51EB5B
-	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 02:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEBF2701C8;
+	Mon,  9 Jun 2025 03:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749435310; cv=none; b=tjNb2GmIHdsTr7ilFvOusWB7fdTMLubgl2yPi8EgJeI3mI+kxRui5zOyRqFzIoSiSf0e5A8NCuJBQDvuf0v4tCvt6tqKXxjYK60cMG7cm9yj9aT9YT6SjJW548bT85rX6YwxxtAUtD9IWD9HmvHdv4CewAunuciOITXtIxpIAFE=
+	t=1749438740; cv=none; b=uMgRaizXnuSUrIFSLkwI/bmQJT0VriItncs4lsk2urS/TsoXudlQBQX72wU5t/pEW7Tph8aWzXDutm+VkIAMG4aAfAt6ZFO2eIIF+Iui1jzEIseqQZWN2RXYm6nBA5sW3Oymdx/SwSE+qReHsGoNRCde6HlTIJKD2fKIxQkacsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749435310; c=relaxed/simple;
-	bh=lIAxzEla61vln/vMh9GEf4B0CGzyoZXMjaClLFzcg+4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZCemoPYCPQYQUNfn7WrEx77e8pMumEikf3kwAQcqhiUUziQQ0Dg9H0DPwCjWUu0ZPaDLrW67kBDoUAoMiyxCj01jHfOMiiSqfK0wtuz/TUPZg9sqeoR5dSCJUxpEDpg+eTEnlb3yhx1yJImh5N98FuvuizG4Md9Uu1718OMLbhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=lPeRMdml; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1749438740; c=relaxed/simple;
+	bh=dDrMQ92LuLGu55pFGVPF5AMJ71MKlzo/xb2Mi66ibTQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ebsWsQIHgyOpmoZjLZCsJaz5S6XZoAgEDg/7btKdft9BBo7nlWReNuuyICzfiO3GeP+fMaPAHdKVVJioDyK+D7Gjl7YDt6uDbgSCc+c65uuyMV4DA+OSoi4WGxUkQglYB9h6zJ1vn5jNVR/YJudUnD1NUPUg+xx+fgukOv7X5nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hbain1Vd; arc=none smtp.client-ip=115.124.30.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="lPeRMdml"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4a58d95ea53so43527081cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 08 Jun 2025 19:15:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1749435308; x=1750040108; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AydmufO++E0g/MFtFHuOsivIZ3Gs0PlbJ7oKpifNFmA=;
-        b=lPeRMdml6de+rk0HIDpidzLTQd+E78TFJvFs4o/OunYFQhn4dVtTPbd+k2ox6Ollvp
-         hGUWRqqo3gm0iPVVI3yWDttE7PfN8t6eYCpcaw4WYh0fTuLWqNQkoxmAxVbt2VbWLAo0
-         HCGtPOj2RxidfG3kWkr7IyI5VvFzk1fw/u6c/72Pt7u6Mkg1H6MeZpZkw0vhZiBFtscx
-         UPcOvZB5KG6ezrxXtCt+lZRNqLLcT9oML6tOYFQjulN1wDIw8faUtBA0i2GiwhIXDLOJ
-         Q7ESvj0eMz36OUeGTX3cPoEh0hXuDEoV95I6d1VNQd65CisBh+KxBJ4j4JvKwboGo7zc
-         F1Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749435308; x=1750040108;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AydmufO++E0g/MFtFHuOsivIZ3Gs0PlbJ7oKpifNFmA=;
-        b=JlNJooCFvcZcuSqqmom7dIVa2+Fe865BDGmtrDRfP0EwV4LatWkL9ertXQVg6CQaLc
-         RuVoxbFqW3Rpa5zTL/RExwIQwuMP46E7CsceEsG1+YsP4NHtnyu1H8dak9s/VhaE/uq7
-         +1ypz7ubSpUV/YUvyXyJqD9xx0ikOrzAXS9wrbi7b7mh10hUgZL/kNuVAjGxs7UP7uSX
-         /HaerBO+6rLaYdltlW3k7jiupJoLTE9IHUkJmhlY1ihAHRsisCG6XtzwJcmEzRjf8iXO
-         1J/6WDYf0B/TQjLUpvI9MGKYfTj+lpKRLwT+4nmkKbvgdog9XIIk0auuvA9zZjVpVKmY
-         b7Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCWYjxXJD3ySneDtKgdurfMQCgOpStffzgRQ66LxrONFt+D0zuyCpLijaQ6i3lJxbApHVIOrtT3WQ5M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywyvq8JqnJj0dm9zNdWyeUDoxCqBuYNKQkqey134IJNLP9E2gvj
-	JvmBM8poTORXqGIih9vQJwXMpppOXQPvyDJCyILrPx5YCCi+RHP60Zykpuzic8TrYmO6ytiPU3q
-	B7nt/t1EsplXLXqowUhfadYEU8uk27N/XHEkOcEPtng==
-X-Gm-Gg: ASbGncv6BXk3t4BdIQUvBMZl/Mg6k5uuwg4AEi4KIefNKi+jh2UPa03oFpSvbAM3+K3
-	QlUSPNbT6Drp27Nd1hs90BfBlj9g6uQEtJeqkZm5QHXy9LDTw0ml9ohavz32dTmKc1KfgGIQsKk
-	GnEVgSvLr/iTxeMeMwm8NdYYG2wAAxX0cvfB3CPAtm
-X-Google-Smtp-Source: AGHT+IHyNDAVSlPRlXSF3+PVFRlz7xzc9k6c4v3jOeaBWfnlwTxhrz5c+YAyhG+PuQduhw/yffksNG8ZON2q0C0fghA=
-X-Received: by 2002:a05:622a:a1b:b0:494:9072:e5bf with SMTP id
- d75a77b69052e-4a5bdd35addmr184955911cf.18.1749435307847; Sun, 08 Jun 2025
- 19:15:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hbain1Vd"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1749438728; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=D4pMAoDuYGVY/y/srg/WEDjx+BfgvSMCUgZlsMgt/Ck=;
+	b=hbain1Vdj7xorIGvIBqBRxwg0OMHYcQrJsEpzIi3BWXQAMAs1jak91L3bybDxVuKY3Kr7M1VvfeX8inQt8uJGGKM2n3zg0GcFy1qp6zWzMKuP6IGDg6c5sZiBeMlPQWIoR+N4H2SepO+enz0agItrjQmQqgMuME9gmzovH/GdWE=
+Received: from 30.74.144.144(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WdK.fGG_1749438403 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 09 Jun 2025 11:06:44 +0800
+Message-ID: <4a2c359e-79d9-447b-a43e-164333d08319@linux.alibaba.com>
+Date: Mon, 9 Jun 2025 11:06:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-6-pasha.tatashin@soleen.com> <aDQV1bAt0i8d95MQ@kernel.org>
- <CA+CK2bAn5Y71FgZvfY0oJ+-65TT19O4=h5DXguRbEQdRvhurFg@mail.gmail.com>
-In-Reply-To: <CA+CK2bAn5Y71FgZvfY0oJ+-65TT19O4=h5DXguRbEQdRvhurFg@mail.gmail.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sun, 8 Jun 2025 22:14:30 -0400
-X-Gm-Features: AX0GCFt8-dnNIlLs_4aoCF99g3jU94XH2Qg_GDQmLfM_0NNxRQANvzU8cQlDTQA
-Message-ID: <CA+CK2bANvAnkviNg1bk9L79kGRNmh10m3qwhaseZSk-3yUFVHw@mail.gmail.com>
-Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, dmatlack@google.com, rientjes@google.com, 
-	corbet@lwn.net, rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, 
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
-	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
-	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
-	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 12/12] Documentation: mm: update the admin guide for
+ mTHP collapse
+To: Nico Pache <npache@redhat.com>, Dev Jain <dev.jain@arm.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, ryan.roberts@arm.com, corbet@lwn.net,
+ rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
+ peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+ sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+ will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20250515032226.128900-1-npache@redhat.com>
+ <20250515032226.128900-13-npache@redhat.com>
+ <bc8f72f3-01d9-43db-a632-1f4b9a1d5276@arm.com>
+ <CAA1CXcDOEdJRvZMu2Fyy4wsdy8k8nj4c45s4JanO9HzyJgyXOw@mail.gmail.com>
+ <b09d7553-c3c6-453a-8e3a-86dc4caeb431@arm.com>
+ <CAA1CXcB-A9U8GEodPrm3QdndzB2MY7eZHnoojVYU5fi_DJBbcw@mail.gmail.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <CAA1CXcB-A9U8GEodPrm3QdndzB2MY7eZHnoojVYU5fi_DJBbcw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> > > +static void *luo_fdt_out;
-> > > +static void *luo_fdt_in;
-> > > +#define LUO_FDT_SIZE         SZ_1M
-> >
-> > Does LUO really need that much?
->
-> Not, really, but I am keeping it simple in this patch. I added the
-> following comment:
 
-Actually, given that we are moving files to be another subsystem, this
-can be reduced to only one page (i.e. unlikely more than one page of
-subsystems ever register), and for files we can dynamically calculate
-the required size. So, I am going to fix this.
+
+On 2025/6/9 03:50, Nico Pache wrote:
+> On Sat, Jun 7, 2025 at 8:35 AM Dev Jain <dev.jain@arm.com> wrote:
+>>
+>>
+>> On 07/06/25 6:27 pm, Nico Pache wrote:
+>>> On Sat, Jun 7, 2025 at 12:45 AM Dev Jain <dev.jain@arm.com> wrote:
+>>>>
+>>>> On 15/05/25 8:52 am, Nico Pache wrote:
+>>>>
+>>>> Now that we can collapse to mTHPs lets update the admin guide to
+>>>> reflect these changes and provide proper guidence on how to utilize it.
+>>>>
+>>>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>>> Signed-off-by: Nico Pache <npache@redhat.com>
+>>>> ---
+>>>>    Documentation/admin-guide/mm/transhuge.rst | 14 +++++++++++++-
+>>>>    1 file changed, 13 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+>>>> index dff8d5985f0f..5c63fe51b3ad 100644
+>>>> --- a/Documentation/admin-guide/mm/transhuge.rst
+>>>> +++ b/Documentation/admin-guide/mm/transhuge.rst
+>>>>
+>>>>
+>>>> We need to modify/remove the following paragraph:
+>>>>
+>>>> khugepaged currently only searches for opportunities to collapse to
+>>>> PMD-sized THP and no attempt is made to collapse to other THP
+>>>> sizes.
+>>> On this version this is currently still true, but once I add Baolin's
+>>> patch it will not be true. Thanks for the reminder :)
+>>
+>> You referenced Baolin's patch in the other email too, can you send the link,
+>> or the patch?
+> 
+> He didn't send it to the mailing list, but rather off chain to all the
+> recipients of this series. You should have it in your email look for
+> 
+> Subject: "mm: khugepaged: allow khugepaged to check all anonymous mTHP
+> orders" and "mm: khugepaged: kick khugepaged for enabling
+> none-PMD-sized mTHPs"
+
+You can find them at the following link:
+https://lore.kernel.org/all/ac9ed6d71b439611f9c94b3506a8ce975d4636e9.1748435162.git.baolin.wang@linux.alibaba.com/
