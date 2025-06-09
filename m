@@ -1,147 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E0D1CF7AF;
-	Mon,  9 Jun 2025 20:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7353E221289
+	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 20:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749501758; cv=none; b=qz7zyWIoMx/pvd9t7FdF+IwXJaaH0c7HrF3PONG1svgdwlgTNfk/zWzUjddhA6/YOd37Y60X5/PKnzqvWN3bJm8Gb+GtWWgNv1nj0LEH0CmfgGiklsODe0zxZoHstg5XT2XnsxMaLrVgiPw7/oENmZjoPke3bY18we3g3sOKzWQ=
+	t=1749502405; cv=none; b=l9b9gNL3uBz11nlblZs2uCE5rVwLQ0JTJS2P5NztFYy7RlAnu12mpQzYku226+i6mAlbDQvrGCbbb14eyh9f/Pjwni7++Ax0fAg1vq2sy/QOcEeLDx6yCZM6ZkzPIy5YfO+4A4naSxY5PsdtQ0Yup0XKSoi8/YV/4+0EQbzDFTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749501758; c=relaxed/simple;
-	bh=kz8Qmi1W6iqKFfqAlzvTIDu8B6BAVAfGpkByPREk0u0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ATuL6Qc2M8vi/3fHMOOC9NSojfJE7SAsgf9HSm+JMQI7+y3yfTSaPByBxIQEXxtBZw/kHvHlYj2n0Zv20kZZUTDNYEI0ujv8UiAEcbxQBzrOCD+7zYZJUVfCoBt1/F1ACGwYRaYlhAtEsoNS445JPxeg/Sd1hzMoCgHPqk76KTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EN2TfaSG; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749502405; c=relaxed/simple;
+	bh=xTfjhHH9vQBxwDsyrh7a17IOgjamK10rRkl/DAFNZuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P2hiRFfv57EFFWLDjCTzn4cAB+SoWeuuuZDTux2W1HGxTnVj6OhAYG3JdWYdHSumdlP0Tt1zexRgR6HXdnzEhCLkRSdJ3zrnJXQhvKp6IcfP3uZyxuNZUPRP/71MdilKtJ1y9K0SklS3x2ZzzMj92eB2FcGabeQs3mCol6z0veg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R158zvrs; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EN2TfaSG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749501756; x=1781037756;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=kz8Qmi1W6iqKFfqAlzvTIDu8B6BAVAfGpkByPREk0u0=;
-  b=EN2TfaSGAeKkaFO8D0/HwDEFmeyLpNrc3+ZRYhA2iv0l80/QSRxBlJSk
-   aFnnrGT3m0b3ZMyUOSYeSuyIWrtmHTDQ3oPyDbJgTi7LYp6DheF8+l2wd
-   dAxj9iW5pNNkFT5T05KXiOYsKwe6uk+XKQg2CkXJO0MX2HkV8eDtYLwBY
-   h/95DDf3BVyB5mbNISWHeivO7zR8JLZA3axF35+F0PZhQYe77hGr2U5hS
-   h21IEC0+10FpejaUl/bM3WjSHlDDY+0Rgr/aiphvhuLFnCxNezGpNDI4H
-   O5LkPbx7wE7ksAYJHfiIeTmtC5g6RDqolG9lWGsrgAJCDD0O0lJfZbCbP
-   g==;
-X-CSE-ConnectionGUID: HKQLNwloQWSRF2ZxelDfoQ==
-X-CSE-MsgGUID: 36XHIFanTIyiIP5G5435ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="69039733"
-X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="69039733"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 13:42:35 -0700
-X-CSE-ConnectionGUID: P7K+iHnQS8OWVmyC4a23UA==
-X-CSE-MsgGUID: 8T4zM3IYQFSJ492ZFomJ/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="151498838"
-Received: from msatwood-mobl.amr.corp.intel.com (HELO [10.125.111.99]) ([10.125.111.99])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 13:42:33 -0700
-Message-ID: <b5ac9dcf-60e9-465a-a864-58ff48dcae61@intel.com>
-Date: Mon, 9 Jun 2025 13:42:30 -0700
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R158zvrs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=k4HKqC9+1+hVBRYnUrACflYrVkV+3kzqIOKI4fsCD8I=; b=R158zvrszSIawKt1nS0K6eDB5l
+	c8aIIe0ZVWN17Z7sbOkSCCm6L+hB9CoTRKPjIjWniXVCVLKPQJaHXaXnZW8WRJEmY6JBYYwGB3EB4
+	Gl+4hNPI0qWHLtfmhfMMRaTYYrfUAQw+czSExByR2Pxgtr0QQxQ+4daZ8eLPlwd5ROpYCaPb6ZCYK
+	fcGMQQWU5bmQUrm6MLwm4CEVhP9630CaUTugTf02eahHOKvsteGG0Pt2ORMfSZpNky56sbPA/SgU0
+	pqmfgVc/zYT6Afao5ERGy3/Bcx8YLRBHvdcFBqOYxp0yheVZ8FIqKk0aWvkkWRbg/I/HEAAq3NB+1
+	1prSsNdA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uOjUf-00000008e4O-1bJb;
+	Mon, 09 Jun 2025 20:53:21 +0000
+Date: Mon, 9 Jun 2025 21:53:21 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] kernel-doc: Fix symbol matching for dropped suffixes
+Message-ID: <aEdJwQAZrTiKWBFI@casper.infradead.org>
+References: <20250606141543.1285671-1-willy@infradead.org>
+ <877c1kbr4z.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: cxl: fix typos and improve clarity in
- memory-devices.rst
-To: Alok Tiwari <alok.a.tiwari@oracle.com>, gourry@gourry.net,
- rdunlap@infradead.org, dave@stgolabs.net, jonathan.cameron@huawei.com,
- alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
- dan.j.williams@intel.com, corbet@lwn.net, linux-cxl@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, darren.kenny@oracle.com
-References: <20250609171130.2375901-1-alok.a.tiwari@oracle.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20250609171130.2375901-1-alok.a.tiwari@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877c1kbr4z.fsf@trenco.lwn.net>
 
-
-
-On 6/9/25 10:10 AM, Alok Tiwari wrote:
-> This patch corrects several typographical issues and improves phrasing
-> in memory-devices.rst:
+On Mon, Jun 09, 2025 at 02:23:56PM -0600, Jonathan Corbet wrote:
+> "Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
 > 
-> - Fixes duplicate word ("1 one") and adjusts phrasing for clarity.
-> - Adds missing hyphen in "on-device".
-> - Corrects "a give memory device" to "a given memory device".
-> - fix singular/plural "decoder resource" -> "decoder resources".
-> - Clarifies "spans to Host Bridges" -> "spans two Host Bridges".
-> - change "at a" -> "a"
+> > The support for dropping "_noprof" missed dropping the suffix from
+> > exported symbols.  That meant that using the :export: feature would
+> > look for kernel-doc for (eg) krealloc_noprof() and not find the
+> > kernel-doc for krealloc().
+> >
+> > Fixes: 51a7bf0238c2 (scripts/kernel-doc: drop "_noprof" on function prototypes)
+> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> > ---
+> >  scripts/lib/kdoc/kdoc_parser.py | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
 > 
-> These changes improve readability and accuracy of the documentation.
+> I've applied this.  Naturally, it gifts us with a new docs build
+> warning:
 > 
-> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Gregory Price <gourry@gourry.net>
-> Reviewed-by: Jonathan Cameron<jonathan.cameron@huawei.com>
-
-Applied to cxl/next
-
-> ---
-> v2->v3
-> rebase to v6.16-rc1
-> added Reviewed-by: Jonathan Cameron
-> v1->v2
-> added Reviewed-by Randy Dunlap and Gregory Price
-> change "at a" -> "a
-> ---
->  Documentation/driver-api/cxl/theory-of-operation.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> > Documentation/core-api/mm-api:40: ./mm/slub.c:4936: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+> > Documentation/core-api/mm-api:40: ./mm/slub.c:4936: ERROR: Undefined substitution referenced: "--------". [docutils]
 > 
-> diff --git a/Documentation/driver-api/cxl/theory-of-operation.rst b/Documentation/driver-api/cxl/theory-of-operation.rst
-> index 40793dad3630..257f513e320c 100644
-> --- a/Documentation/driver-api/cxl/theory-of-operation.rst
-> +++ b/Documentation/driver-api/cxl/theory-of-operation.rst
-> @@ -29,8 +29,8 @@ Platform firmware enumerates a menu of interleave options at the "CXL root port"
->  (Linux term for the top of the CXL decode topology). From there, PCIe topology
->  dictates which endpoints can participate in which Host Bridge decode regimes.
->  Each PCIe Switch in the path between the root and an endpoint introduces a point
-> -at which the interleave can be split. For example platform firmware may say at a
-> -given range only decodes to 1 one Host Bridge, but that Host Bridge may in turn
-> +at which the interleave can be split. For example, platform firmware may say a
-> +given range only decodes to one Host Bridge, but that Host Bridge may in turn
->  interleave cycles across multiple Root Ports. An intervening Switch between a
->  port and an endpoint may interleave cycles across multiple Downstream Switch
->  Ports, etc.
-> @@ -187,7 +187,7 @@ decodes them to "ports", "ports" decode to "endpoints", and "endpoints"
->  represent the decode from SPA (System Physical Address) to DPA (Device Physical
->  Address).
->  
-> -Continuing the RAID analogy, disks have both topology metadata and on device
-> +Continuing the RAID analogy, disks have both topology metadata and on-device
->  metadata that determine RAID set assembly. CXL Port topology and CXL Port link
->  status is metadata for CXL.mem set assembly. The CXL Port topology is enumerated
->  by the arrival of a CXL.mem device. I.e. unless and until the PCIe core attaches
-> @@ -197,7 +197,7 @@ the Linux PCI core to tear down switch-level CXL resources because the endpoint
->  ->remove() event cleans up the port data that was established to support that
->  Memory Expander.
->  
-> -The port metadata and potential decode schemes that a give memory device may
-> +The port metadata and potential decode schemes that a given memory device may
->  participate can be determined via a command like::
->  
->      # cxl list -BDMu -d root -m mem3
-> @@ -249,8 +249,8 @@ participate can be determined via a command like::
->  ...which queries the CXL topology to ask "given CXL Memory Expander with a kernel
->  device name of 'mem3' which platform level decode ranges may this device
->  participate". A given expander can participate in multiple CXL.mem interleave
-> -sets simultaneously depending on how many decoder resource it has. In this
-> -example mem3 can participate in one or more of a PMEM interleave that spans to
-> +sets simultaneously depending on how many decoder resources it has. In this
-> +example mem3 can participate in one or more of a PMEM interleave that spans two
->  Host Bridges, a PMEM interleave that targets a single Host Bridge, a Volatile
->  memory interleave that spans 2 Host Bridges, and a Volatile memory interleave
->  that only targets a single Host Bridge.
+> I was hoping your other slab patch series address this, but it doesn't
+> look that way...?
 
+Indeed it does.
+
+It's a pre-existing bug, that's only unmaked by this patch.  Honestly,
+I'm not that great at kerneldoc and I was hoping someone like Randy
+would notice and fix it ;-)
