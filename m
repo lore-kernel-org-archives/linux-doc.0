@@ -1,89 +1,117 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D847319EEC2;
-	Mon,  9 Jun 2025 21:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824502248BD;
+	Mon,  9 Jun 2025 21:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749504056; cv=none; b=dnYzwMe5zqrEiRxW35kFamalcUUs2Ygxwh76tPNKkytgQt/Y0Hrf2qlhS2C4vZUtaNrf9/k2k2yzpNyl6FgfikWAmp0O8y32HxTii+FFjxCovOwjmQjT3uTuhKYuoobzEnaNMbBU5i+SBJIT7cuwRFhDlydbPKLUT6GtDdnZykc=
+	t=1749504429; cv=none; b=cWnsp+2sPrNot2hsGG0BHf/J544yihAwzaWJAudla1cfEhy0rz29EF5TuGhe7UH8rIV0AnBrKxYWcLNOYZwPf2jpUK3+QGcXCxUbEJSQNfqFpmwBLHhJnp6kl80TFzVf7VOzesVjMDOFtniqF+uidPvDbCCXWSnCKo1i4q7yeTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749504056; c=relaxed/simple;
-	bh=pKhKXgCrktYuaRbEqFnERsFKR8Ry6NrACeO93JvdLyU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=vDtVIUybK/tfCH+o59DOQqa6lclQodNbBVKtkJDDF0jI/48SzxJj28/I1pFo/jB8APRoFp5Ct8bjFtP7X8wytbtM2l1UONxg69Fhmt/AmtKgkNM2AD5pRwl4Obi78CQfflodysx/jUWjzmgMwi/AqNlNCUkrvcage0+1kPUuJRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NS/+bit1; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1749504429; c=relaxed/simple;
+	bh=BIQJmCvGBr4Fpjmu65y52M9+1EgAjcjaLyvKpFI1AKM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JcHHe4kR+5YuLz9Lm4suLod4J600iYEa0c8Rhcd+pJeEkBlVopeZXXjcKLfEvORFHOSJgS4cxv+88TtyRwiQsmWfo1TNe3zy+0Ng1i5EhStA2a2hH2wmgsWf0t4jYeGBOXcUn91vnPxLdkJpW/CWxSVUs/JiEZOq+KIXh0i77ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JdAkqmV3; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NS/+bit1"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0CEE741AA1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1749504054; bh=+dhQ/0wrqPN8lw+Kdpp59M0xtPc7zzPfhdluoj3zkT4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=NS/+bit1E4/cx0odv0+xq2LtfwImttrTiGcTWcfBizuTYnHRPKKUuuE1+/PVvnXZe
-	 /rVjDMmcwTEF7MrNtTp681QBMrBq4ke+W375I/2pb594D+zmNNw5CjLRCZdvRnRZUZ
-	 FJJZiC9owjSre8Am3sdDKvB9HhSJjjCZ5L6W0JNWxzN8L41//x3JCikndQHNVpuq+E
-	 l6CXw8AKN9UCBCUWBQPw5PCmoctWFD7ua4vZifAEBLwCMvFyPcl/mxz186oC4LNHSx
-	 L65Edotwa8WtKaZfW4ZC/NRrHeB2R8jt6IeUlwKnGVGERK2G8ZwCaSX8/NAlQXUdER
-	 jXx59O9osfh4Q==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0CEE741AA1;
-	Mon,  9 Jun 2025 21:20:53 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: kernel@collabora.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Nicolas Frattaroli
- <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH 2/2] docs: document linked lists
-In-Reply-To: <20250520-linked-list-docs-v1-2-db74f7449785@collabora.com>
-References: <20250520-linked-list-docs-v1-0-db74f7449785@collabora.com>
- <20250520-linked-list-docs-v1-2-db74f7449785@collabora.com>
-Date: Mon, 09 Jun 2025 15:20:53 -0600
-Message-ID: <87v7p48vd6.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JdAkqmV3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749504427; x=1781040427;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=BIQJmCvGBr4Fpjmu65y52M9+1EgAjcjaLyvKpFI1AKM=;
+  b=JdAkqmV3HqGCO6dPnY0ouIZKs0KVrazSMMhNF5bIwyFgbkEEnR9XkVkq
+   rsmVAledQo7jbmeB9ug9hZ0cCJcR4h+OiW2zqw59wuMNcvSE/bFBnTgLb
+   E1vsi8vWhcmK/i0TWxeDbbFmQglHTAA08b/sM30Jkbnriv5+/3llgHy+F
+   tHX7wGsPXeidATH/45bQy8nmFY8xBBXPsrPdqnEluM2lLE+t41TFHpl8k
+   0H9GAB/fK8iamPTJ61/mmCrFjytsk7D37loZiVuW59ZF7JTRoA7NmtJrP
+   c4ObMe9RKbnxRBc3N/MwEza4AJVq5ieM1cj9lDY8E0VLgy/XF3GjStIyh
+   w==;
+X-CSE-ConnectionGUID: THSULm3lRJm3ZwMIyD0jcg==
+X-CSE-MsgGUID: 5T76wks/SSGpdMS8t/7gpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="61864219"
+X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
+   d="scan'208";a="61864219"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 14:27:04 -0700
+X-CSE-ConnectionGUID: +xOTWWfzR8K01sQYexcnZA==
+X-CSE-MsgGUID: WVZM2Gk7SfSY98+T/YUdlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
+   d="scan'208";a="150469050"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by fmviesa003.fm.intel.com with ESMTP; 09 Jun 2025 14:27:05 -0700
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org
+Cc: Karol Kolacinski <karol.kolacinski@intel.com>,
+	anthony.l.nguyen@intel.com,
+	richardcochran@gmail.com,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	Milena Olech <milena.olech@intel.com>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Rinitha S <sx.rinitha@intel.com>,
+	Simon Horman <horms@kernel.org>
+Subject: [PATCH net-next 08/11] ice: add ice driver PTP pin documentation
+Date: Mon,  9 Jun 2025 14:26:47 -0700
+Message-ID: <20250609212652.1138933-9-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250609212652.1138933-1-anthony.l.nguyen@intel.com>
+References: <20250609212652.1138933-1-anthony.l.nguyen@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Nicolas Frattaroli <nicolas.frattaroli@collabora.com> writes:
+From: Karol Kolacinski <karol.kolacinski@intel.com>
 
-> The kernel contains various generic data structures that should ideally
-> not be reinvented. However, it often fails to document the usage of
-> these in the in-tree kernel documentation beyond just a listing of
-> header symbols in the very lengthy kernel-api docs page. This is fine
-> for things that have simple invocations, but occasionally things devolve
-> into several layers of concatenating macros, which are subpar for humans
-> to parse.
->
-> Begin making a small impact by adding some rudimentary example-driven
-> documentation for the linked list type. It's far from exhaustive, as
-> many list modification functions are currently not mentioned. However,
-> it covers the basics and directs readers towards further documentation
-> should they be interested in concurrency.
->
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  Documentation/core-api/index.rst |   1 +
->  Documentation/core-api/list.rst  | 390 +++++++++++++++++++++++++++++++++++++++
->  2 files changed, 391 insertions(+)
+Add a description of PTP pins support by the adapters to ice driver
+documentation.
 
-So I'm only now getting around to a belated look at this.  I like it
-overall, but I do have a couple of comments:
+Reviewed-by: Milena Olech <milena.olech@intel.com>
+Signed-off-by: Karol Kolacinski <karol.kolacinski@intel.com>
+Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Tested-by: Rinitha S <sx.rinitha@intel.com> (A Contingent worker at Intel)
+Reviewed-by: Simon Horman <horms@kernel.org>
+Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+---
+ .../device_drivers/ethernet/intel/ice.rst           | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-- Is there any way to talk you into replacing all of the graphviz
-  diagrams with ascii art in literal blocks?  All the dot stuff makes
-  for pretty HTML, but is entirely unreadable for people looking at the
-  plain-text docs.
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index 3c46a48d99ba..0bca293cf9cb 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -927,6 +927,19 @@ To enable/disable UDP Segmentation Offload, issue the following command::
+ 
+   # ethtool -K <ethX> tx-udp-segmentation [off|on]
+ 
++PTP pin interface
++-----------------
++All adapters support standard PTP pin interface. SDPs (Software Definable Pin)
++are single ended pins with both periodic output and external timestamp
++supported. There are also specific differential input/output pins (TIME_SYNC,
++1PPS) with only one of the functions supported.
++
++There are adapters with DPLL, where pins are connected to the DPLL instead of
++being exposed on the board. You have to be aware that in those configurations,
++only SDP pins are exposed and each pin has its own fixed direction.
++To see input signal on those PTP pins, you need to configure DPLL properly.
++Output signal is only visible on DPLL and to send it to the board SMA/U.FL pins,
++DPLL output pins have to be manually configured.
+ 
+ GNSS module
+ -----------
+-- 
+2.47.1
 
-- All of the kerneldoc stuff for list.h is currently pulled into
-  kernel-api.rst.  Should we perhaps move it over here?
-
-Thanks,
-
-jon
