@@ -1,84 +1,64 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29334881E;
-	Mon,  9 Jun 2025 22:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE2E221FB5
+	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 22:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749506962; cv=none; b=ZThLKI4/lQUA2Bl3pPSfhnNDy5IKm3dW4OACUjGa1rB5QVpLDzWW+3Gw2ChJcbwbR4GQbkirlz/8knonz1SZ6zJKZSjLmrCqFhYhfdP3Laa63WRnMw/r1I6Hgqu1BcOmmX7X2olGfCMcM5f6lvGYWXcl5DGHZpjj+6JVuviqDBQ=
+	t=1749509749; cv=none; b=mM+0mGZDfh/Y2C0lMgC8fQ5ZUtJnJY77lKFdA4Li7aGZ1nBkzlkn6yP6j+ephLXCYb9cDfR9QdmYmEa5Cgn/gpnDeY7KmtmI8/yoKRG0ChSrf1aAz0ROwYXW2blA1PeWqLLNsh+ctXhylu8WlkP5e73HNlhiWorjqy5teJBVSPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749506962; c=relaxed/simple;
-	bh=8ltAwYFv2cksOlBrVdvRI5IV+hW9IlGKWfgQeMZpWd0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bY0BAOhoyvJhuYB5wqklk3kiUkJVjRG7iXGKw3yWoY9Te2+pY3Lo1+oUQgFoiYGx44aZ0khqevYUTpj8xNwuFJlKTZQcSSpqJTh2XLmmHQsGCeoAxgjFBV2TMp5C6eeV4BiaA6DK9I4KWBpJp1i1rcqZLORgW1iy0wrTCUX3b+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=TdnPezWJ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1749509749; c=relaxed/simple;
+	bh=P+F6LRcL1WK4H9WFEaWF7+WrKrFKB5yFtGgRoULT0I0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ePxOe9g/3OEtGzyEYvqp2LhfOha15QbnRC5pVJno7ZyQ+fvp5jcDWzJkDveqS/ufWqw1RaFHwUJZj7dLTi/uxT9myoH4z9uAvTre6ThfWIVmAPMhOYChxxaCToT8nruyJ55M+EleELsLOgHDRHj69FCQslbNWJekmNRY7PpQxuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T6BHE22F; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TdnPezWJ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4700041AA1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1749506960; bh=YD2PzxwZONyeRBUM9EwLiCsPafBrl11N8Bu2mIZK0ZA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TdnPezWJflyz+yXoHSYVsJD/fzIf9wORfxGQRWrLtEi3e430gpYtPHV3t61+kTr0K
-	 1Kyx5ECeUfFNqpNOvJl+uw+UE0LVU73kF8I2S1Ti/cNrbP28eQsOWLgCbdH3h/nBXa
-	 IoydCnzY+Ir+7JVbXDN5m9SxaACRDOE6yjt03Mi2mXNDfOfa8HV3cJj3cbklVunNje
-	 yU5/vOsS+8QNUDRDIbL41sIRcXtqy4AOwDGAC/f0hHa8P/3tEqVF//RVs3g/MNZxkq
-	 Di9Rr2j7a6HH1EA60AGpO5uodufMvnyR9Q/zmF6c41YKZIwH6PmRRLZGrnC0HrXXN6
-	 PqY3Yr0xYA5jA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4700041AA1;
-	Mon,  9 Jun 2025 22:09:20 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Swapnil Sapkal <swapnil.sapkal@amd.com>, peterz@infradead.org
-Cc: kprateek.nayak@amd.com, gautham.shenoy@amd.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- swapnil.sapkal@amd.com, Shrikanth Hegde <sshegde@linux.ibm.com>
-Subject: Re: [PATCH] docs/sched: Make the sched-stats documentation consistent
-In-Reply-To: <20250430062559.1188661-1-swapnil.sapkal@amd.com>
-References: <20250430062559.1188661-1-swapnil.sapkal@amd.com>
-Date: Mon, 09 Jun 2025 16:09:19 -0600
-Message-ID: <87ecvs8t4g.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T6BHE22F"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=8RPjB4YTZcQ+MXXZnmORzC0xLY6/Eo39YdVf3kY5V+g=; b=T6BHE22FYioH/rAjOfRftpxE9H
+	K0++koAxbtwwYiQM/wJWM+naEcEKN6usA+uUb6P6vH8lvLUQKjAu9DRiRcTSIR03vIX+hhOk248VK
+	oN9jGMLBX3094mpwAV3Q0OFXKufFn9g9+OoxOztj4gShDUavPytOO3vagv8U3R4DmEAeUKDuhUVD1
+	vNVGbJ599ewFok2DU8wS33JkGRoiC3qq9j2DguvSuS+j0Yrp3dCaqaZjw0iM/lhBDr1Mn2S9ok/rm
+	7VvYGGd8JU9c6qmd2qO7TMnjXsp3lDemHmabR+pXKAQ9JC4FTSSCT1mWwuSmPNZJVT/MJM9QhPKTF
+	4v2mZeFg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uOlP7-00000001gkR-2MPH;
+	Mon, 09 Jun 2025 22:55:45 +0000
+Message-ID: <0ed8af53-7e4f-44bd-b9fe-f71155a03233@infradead.org>
+Date: Mon, 9 Jun 2025 15:55:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/process/: Change 5.x to 6.x; clarify terms;
+ added note.
+To: Jonathan Corbet <corbet@lwn.net>, Dante Strock <dantestrock@hotmail.com>
+Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <PAXPR06MB8224F2CE53A1F4D674969B22A769A@PAXPR06MB8224.eurprd06.prod.outlook.com>
+ <87ecvtc772.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87ecvtc772.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Swapnil Sapkal <swapnil.sapkal@amd.com> writes:
 
-> pull_task(), the original function to move the task from src_rq to the
-> dst_rq during load balancing was renamed to move_tasks() in commit
-> ddcdf6e7d991 ("sched: Rename load-balancing fields")
->
-> As a part of commit 163122b7fcfa ("sched/fair: Remove
-> double_lock_balance() from load_balance()"), move_task() was broken down
-> into detach_tasks() and attach_tasks() pair to avoid holding locks of
-> both src_rq and dst_rq at the same time during load balancing.
->
-> Despite the evolution of pull_task() over the years, the sched-stats
-> documentation remained unchanged. Update the documentation to refer to
-> detach_task() instead of pull_task() which is responsible for removing
-> the task from the src_rq during load balancing.
->
-> commit 1c055a0f5d3b ("sched: Move sched domain name out of
-> CONFIG_SCHED_DEBUG") moves sched domain name out of CONFIG_SCHED_DEBUG.
-> Update the documentation related to that.
->
-> Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
-> Suggested-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> Signed-off-by: Swapnil Sapkal <swapnil.sapkal@amd.com>
-> ---
->  Documentation/scheduler/sched-stats.rst | 53 +++++++++++++++----------
->  1 file changed, 31 insertions(+), 22 deletions(-)
 
-It looks like this never got picked up; I've applied it now.
+On 6/9/25 7:37 AM, Jonathan Corbet wrote:
+> I almost wonder if the references to Mercurial shouldn't just come out;
+> I am not aware of anybody using it for kernel work at this point.
 
-Thanks,
+Ack that. +1
 
-jon
+-- 
+~Randy
+
