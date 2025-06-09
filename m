@@ -1,116 +1,84 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2F321B9F7;
-	Mon,  9 Jun 2025 21:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29334881E;
+	Mon,  9 Jun 2025 22:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749505491; cv=none; b=LgBk+u+R8NnFsE8nq8IwyLTV0F7Li/bn2nfQdh06tWRcz8rrFPafiy99yFUbzieDEnmK13vWI66hiToEX7LztoudweF9QSC/sFu1KyJKwPclcY5xUutE3/FThGIQyqDm0Y9Di4J7OihOOAodJ5YRKeKJf9WCBLwgCMzVScrVpV8=
+	t=1749506962; cv=none; b=ZThLKI4/lQUA2Bl3pPSfhnNDy5IKm3dW4OACUjGa1rB5QVpLDzWW+3Gw2ChJcbwbR4GQbkirlz/8knonz1SZ6zJKZSjLmrCqFhYhfdP3Laa63WRnMw/r1I6Hgqu1BcOmmX7X2olGfCMcM5f6lvGYWXcl5DGHZpjj+6JVuviqDBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749505491; c=relaxed/simple;
-	bh=iTno/pSsmKH3IZYHLy09owuQiiAJrCl5yto7maO1/Jw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qVagM+t6IIl+NQevv8FaS3jKWJyoGaeBeqkuWHlZo3GCv0F1o9vIeL6P7v/HLb5UO45ZJof/w4Vs0p6HR/0LogE+GbA/vf2gDZ7rQY/nwhTzvog+a5jw9mfkoNLIEiilPgY4IkRLU0fzB0IzNZ0EOemyPDy88H3edaQ5t8oj374=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jw1puFoh; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749506962; c=relaxed/simple;
+	bh=8ltAwYFv2cksOlBrVdvRI5IV+hW9IlGKWfgQeMZpWd0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bY0BAOhoyvJhuYB5wqklk3kiUkJVjRG7iXGKw3yWoY9Te2+pY3Lo1+oUQgFoiYGx44aZ0khqevYUTpj8xNwuFJlKTZQcSSpqJTh2XLmmHQsGCeoAxgjFBV2TMp5C6eeV4BiaA6DK9I4KWBpJp1i1rcqZLORgW1iy0wrTCUX3b+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=TdnPezWJ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jw1puFoh"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-af51596da56so3298443a12.0;
-        Mon, 09 Jun 2025 14:44:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749505489; x=1750110289; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/hTRjO+/iO4nm56OljGgthZtGT2JgGw2007wQVtYCLE=;
-        b=jw1puFohiaZdiMDRWgNMYxzK3fIx3Kiw1yr6mMeM67ZkQypucLpTDIMrMU8rhsOFoz
-         dBcaH+Pnf6r272HSYF82R+BugxyXaz1uYpLk/V/CCyWzEjXZpK6xZsuz8n8+q4JBuJe1
-         cxteItTf2otle3A+lJKi6yLNsP117ebraiLSNVHEdogqxLzq4RFbSpr+4dtMxpTveFc4
-         EaUaEiQnVGYmTNPm4i14PZq1TaiqKWvbbsGWjuErGSar/k1nqIsPLhc3iLDEj208ceUr
-         lrFE73o9XxxvnhdFKez8hoysCWbadkcx/e9N+kS9H3eBEYIprfWV6gCN5pTFZY+lHF1g
-         OWPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749505489; x=1750110289;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/hTRjO+/iO4nm56OljGgthZtGT2JgGw2007wQVtYCLE=;
-        b=jpfoX1d+8dzGOHq95S7O1Ru1zazeu6mELkg/hHpfMOKBHWhz2qGWXFPpLUyKpzC3IA
-         M/klCOARu658enkmh3BsYTGdPjp8f9ChQdTrLTpz1aVSTosVthhG9e3IT7b5o8caXMZo
-         9YlaGNyaEAEqPb9raCGjdK6jf3vKLWEsyZsGS2sVHQxug5yhq5GRUPAysSusqr4psVoz
-         hQ0eqifLIOgQoD6g9B9hUKJDx6sG1wvPbYvT0WDGOIUFsPMvk1gxi9d4noyL/MaluK98
-         NccMvMrX0ilsFgWb8Dn4cxBs9jzW9jBZOjlhu2/vFzxi2SH349v6YE/5eFcDpQHUX4Yg
-         zCGA==
-X-Forwarded-Encrypted: i=1; AJvYcCUa2QNte49gee6v5v/E+y7Wh0NgkV+I7nK43UtMHEY+1TtNtY62OcsIsh5hoIF/TZEvgBpKiP26lBaxFSE=@vger.kernel.org, AJvYcCV0sAVTqHdjuoNyiVkurb5WoneCOGC31lsgEsGVP/cL9+4OaN2YZoL5c5nQvkZnul7/9VJZNR6P+iE=@vger.kernel.org, AJvYcCXiw3gnUY+0o1HEMz1WP9DwNir21wXEI4oJaB+48//raQWeLihbIpDBajTS1liCgVx2gVo8YtpRSINRwbTQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6es8ESSmg6qqGnX041MeokUqY9dwR5dozLJdS/oU9mAKsluvt
-	JC2SDZdYlUQQV3nhw7ERCCUf6/cGEFYh6ZRzCqcj5DZLNap38XC2CHPR
-X-Gm-Gg: ASbGncu0TPeAMedlOY2QRpcTTtEQ9ebJ2TUqiy8BzkPLAvaQsthT3guCv9amNjUMNWm
-	3BNynP7rsJDdhqVsv8KH1K8A5hzBhgBr1ygAId+oClpmt4pgnjZwpXpy82uDFcAtG2Dz2kdoz4V
-	PMaOzJTjksGvHeR9gboIGiO6F3gTvHfYH9HhLhkOLU9+p9MScmFAwjb8/N8B5TtHwsIkQHO/xQq
-	dct77onQATwOVmEPF70kSdoL74OzdeSRGj+c9Vd0HhFXvygdRokgkJAV4Ra0FDnVSggqQjo4Cx1
-	uyiwq1mBfgUxl4Ao2EgDo5EP+pQEo/0cDDNF7D/oNUWJKiGqKOTAcaP25S06TINlZcrkWMtt7s/
-	AydeLCXv/Mg==
-X-Google-Smtp-Source: AGHT+IFIhIRlu7H7GRIM5kBMPGnoyOA+Q6qRh2XJheD4Aw8wYGONksyoiadJyqU5st/9HYNDVMedvA==
-X-Received: by 2002:a17:90b:50:b0:312:f0d0:bb0 with SMTP id 98e67ed59e1d1-31347302a8emr25430172a91.12.1749505489349;
-        Mon, 09 Jun 2025 14:44:49 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3134b044ef2sm6155649a91.3.2025.06.09.14.44.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 14:44:48 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 9 Jun 2025 14:44:47 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Chiang Brian <chiang.brian@inventec.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Message-ID: <156dc4d6-071b-4cc5-bea9-4579c140b2f9@roeck-us.net>
-References: <20250602042454.184643-1-chiang.brian@inventec.com>
- <20250602042454.184643-3-chiang.brian@inventec.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TdnPezWJ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4700041AA1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1749506960; bh=YD2PzxwZONyeRBUM9EwLiCsPafBrl11N8Bu2mIZK0ZA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=TdnPezWJflyz+yXoHSYVsJD/fzIf9wORfxGQRWrLtEi3e430gpYtPHV3t61+kTr0K
+	 1Kyx5ECeUfFNqpNOvJl+uw+UE0LVU73kF8I2S1Ti/cNrbP28eQsOWLgCbdH3h/nBXa
+	 IoydCnzY+Ir+7JVbXDN5m9SxaACRDOE6yjt03Mi2mXNDfOfa8HV3cJj3cbklVunNje
+	 yU5/vOsS+8QNUDRDIbL41sIRcXtqy4AOwDGAC/f0hHa8P/3tEqVF//RVs3g/MNZxkq
+	 Di9Rr2j7a6HH1EA60AGpO5uodufMvnyR9Q/zmF6c41YKZIwH6PmRRLZGrnC0HrXXN6
+	 PqY3Yr0xYA5jA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4700041AA1;
+	Mon,  9 Jun 2025 22:09:20 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Swapnil Sapkal <swapnil.sapkal@amd.com>, peterz@infradead.org
+Cc: kprateek.nayak@amd.com, gautham.shenoy@amd.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ swapnil.sapkal@amd.com, Shrikanth Hegde <sshegde@linux.ibm.com>
+Subject: Re: [PATCH] docs/sched: Make the sched-stats documentation consistent
+In-Reply-To: <20250430062559.1188661-1-swapnil.sapkal@amd.com>
+References: <20250430062559.1188661-1-swapnil.sapkal@amd.com>
+Date: Mon, 09 Jun 2025 16:09:19 -0600
+Message-ID: <87ecvs8t4g.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250602042454.184643-3-chiang.brian@inventec.com>
+Content-Type: text/plain
 
-On Mon, Jun 02, 2025 at 12:24:54PM +0800, Chiang Brian wrote:
-> The TPS53685 is a fully AMD SVI3 compliant step down
-> controller with trans-inductor voltage regulator
-> (TLVR) topology support, dual channels, built-in
-> non-volatile memory (NVM), PMBus interface, and
-> full compatible with TI NexFET smart power
-> stages.
-> Add support for it to the tps53679 driver.
-> 
-> Signed-off-by: Chiang Brian <chiang.brian@inventec.com>
+Swapnil Sapkal <swapnil.sapkal@amd.com> writes:
 
-I was not copied on the first patch os the series, so I guess the idea
-is that it is applied through a devicetree branch.
-Ok, with me, but I get
+> pull_task(), the original function to move the task from src_rq to the
+> dst_rq during load balancing was renamed to move_tasks() in commit
+> ddcdf6e7d991 ("sched: Rename load-balancing fields")
+>
+> As a part of commit 163122b7fcfa ("sched/fair: Remove
+> double_lock_balance() from load_balance()"), move_task() was broken down
+> into detach_tasks() and attach_tasks() pair to avoid holding locks of
+> both src_rq and dst_rq at the same time during load balancing.
+>
+> Despite the evolution of pull_task() over the years, the sched-stats
+> documentation remained unchanged. Update the documentation to refer to
+> detach_task() instead of pull_task() which is responsible for removing
+> the task from the src_rq during load balancing.
+>
+> commit 1c055a0f5d3b ("sched: Move sched domain name out of
+> CONFIG_SCHED_DEBUG") moves sched domain name out of CONFIG_SCHED_DEBUG.
+> Update the documentation related to that.
+>
+> Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> Suggested-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> Signed-off-by: Swapnil Sapkal <swapnil.sapkal@amd.com>
+> ---
+>  Documentation/scheduler/sched-stats.rst | 53 +++++++++++++++----------
+>  1 file changed, 31 insertions(+), 22 deletions(-)
 
-CHECK: Alignment should match open parenthesis
-#260: FILE: drivers/hwmon/pmbus/tps53679.c:151:
-+static int tps53685_identify(struct i2c_client *client,
-+				 struct pmbus_driver_info *info)
-
-WARNING: DT compatible string "ti,tps53685" appears un-documented -- check ./Documentation/devicetree/bindings/
-#295: FILE: drivers/hwmon/pmbus/tps53679.c:316:
-+	{.compatible = "ti,tps53685", .data = (void *)tps53685},
-
-That means I'll have to wait until the deveicetree patch is available.
-
-Other than that, please fix the alignment and, while at it, reduce the
-number of lines in the description. Line breaks should be at ~75 columns,
-not ~50 columns.
+It looks like this never got picked up; I've applied it now.
 
 Thanks,
-Guenter
+
+jon
