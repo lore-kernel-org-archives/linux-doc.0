@@ -1,114 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB9C74C14;
-	Mon,  9 Jun 2025 18:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6E427718;
+	Mon,  9 Jun 2025 18:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749492353; cv=none; b=dU0k0WZj0mxlqRHCgnogDkg5Dsf6uwRAe/33xIj68wpro/MYoNucIvWMySYJCL7fhpnJX+hF15onYgwtxs4qbNDDsdrcMFXnMPEIuQR4EkFXyWpiuFvYhluAfIEYJ9l0GgE86R29Z0DoI3yu728cNrRa8I5WDlAi5Wf0KJud4DM=
+	t=1749493421; cv=none; b=IeGlqevrglgeadzYjWGAz+2v6278w360Zcg3M5wOH+cmds5hAPFPYakaPTluyM+RRDBvMxoIRlprTN4ILnrq1RHweahUOTIWWsysInoGMF3IpKXjq8gp6wVCupuDVTM3A8FeXH74JBgInsGulf3YI+RremTmW+yJLIk3xMc/ZvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749492353; c=relaxed/simple;
-	bh=6RQ6jbjvg8dHr6Ls6CSjBRueq9yvVGm8MRlRUyIDPMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uy4au4fKnZTkBR0sTm0yuRFDW1M9FuNQ0S2h+JGQ63Unr2NPiHGZjrb7kZSqz0I0vEljuvNRge/Eu086FZRP9EzXGYIciUqKUx7Tp6JkbpJgtJxnVcSKvvRN2RmMHCER3bUXCYIFlJVA0ih8ajlijIfZolL1IKxEWOwOIp8Z9qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oz7KIscY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749493421; c=relaxed/simple;
+	bh=4xVRH7yRkfu3VnlWI3iF65T8q5VomcV67pSWNmihj9c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=Do8bbNx4J5t9LomEQKZkAP1HpMHtVZzmdb4I2IqOzFlnLMFptzQVgtebjtkg1sZ23BnwbJNpi8koh/idhVfHKNDyX2KqQwV9IKLWOh1p//sP7MbLzaJCYniMr0w8gpwCwsksD/qBO3jUO2hnxrnXMUZOvfchGTV6/5/6Y42vnd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imE8nUPt; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oz7KIscY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 358F8C4CEEB;
-	Mon,  9 Jun 2025 18:05:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749492352;
-	bh=6RQ6jbjvg8dHr6Ls6CSjBRueq9yvVGm8MRlRUyIDPMo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oz7KIscYiBzBq3Fscdr5H95rVV7+ARwjUObDyem48cqrT0uw9ce/OpOATe87OF6Y7
-	 00DjBC/teHzn4dvItravGSsen++9BbcHy7FRm7ybMWElQWJuL9yi4pILlZBwWowkRd
-	 e3+extvKJeKhPE+tXWjTMnNYJxV0u22CUBXmHFuikJ0y5A/9wTW6hI1RK7uEq5cuYD
-	 WQd1Whm1ko2SVMxidi9kW7t6nksBwtgtqm48/hdCH68khRlKP+HA+gCuyRLEZG3dOu
-	 g3SDON5ZPC6gC5ow+pwiucA6uC2OC3foiX4EHzFtI9T2mRuqRrE2Pai21eYB4/7zO2
-	 UJ8FFLg+YxYvA==
-Date: Mon, 9 Jun 2025 08:05:51 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Vishal Chourasia <vishalc@linux.ibm.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bagasdotme@gmail.com, llong@redhat.com
-Subject: Re: [PATCH v3] Documentation: cgroup: add section explaining
- controller availability
-Message-ID: <aEcif8PgY3GAbBWI@slm.duckdns.org>
-References: <20250606041004.12753-2-vishalc@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imE8nUPt"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ad891bb0957so744313066b.3;
+        Mon, 09 Jun 2025 11:23:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749493415; x=1750098215; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CW/d3YTjSFycjX6/LB8McvZq17h6mxN+2rNQt6R27Hc=;
+        b=imE8nUPtKAhEBpsofQxGtRQUxtwfVspfpp1NvQ/DHEUOlyyBMrw9yZYtwBV8MlrBt+
+         a54srRvn3/n57GLHNs9Jli0utFB8ejH3MsgNYfazsPOA1zAiwCZwe9PsCJD1J533WNZH
+         Yrna4uNDk687sIM2rxsgzcT/FkOJk6SjZtltliu88uFFchIM1s0+JIwbnidgPqngL6nT
+         9IwBRVe6Y06r4IAxNc9zU2em2NQjNhwusmR2G/pt7byN7gFsc1dRGJNs0U8WisC4zh/0
+         cjdk6CbWgnH2XCDGwD9qYvF74wz8XI9iiGOBLrnvyt6vk2Xl6y4chKJDFgJ/18OQwxIy
+         pnAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749493415; x=1750098215;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CW/d3YTjSFycjX6/LB8McvZq17h6mxN+2rNQt6R27Hc=;
+        b=Lyubd4V2QC/yU1Q4IJRbA6VgxxBj3f0xlsEprGAKwtK9H1ZD08+QmvSBQvREIsCAHN
+         DDHMyjHBAe0sYtlfqqOt89Lq7WqBk9bkd2QJKr8hX4XY5DBwlGIY8JnW0+hAwB3Hq5XY
+         /8+TI3VaOyi/kxL/9XCvfqBZl4lh1m/8uPG7JCkXK7Fj8fF7Yl3yKpRAup/MztM3y3sU
+         knXvpuPn42Y1ROU0CpmrlNGaSzpcJd/8EBHby8B/o9qynYas4jDXzINRVQYF2OTQ7qrH
+         N5pePMGW3K77p+/MSAptm7KsQl659tZxn7MWnyVxTTaySxuVp1/J22PIasaQ9uiMgw4R
+         UQyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ+cs4kKrg5LrRwLKKw3A8Y0OY1O9VSbl5xHtv9urViVusu5+oU/m6R5cbn1P8rltQUSxusKj0XUi/gu6P@vger.kernel.org, AJvYcCVyi0O6Xfm82Zv2ABKqk0XEBboIazf0jSTsTv92AQi7YHRylMqZqGFFNf5/7jjJyVESutIJR9nOEgE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLOMEndNA5YNKJ46IbfYrdTEe9/Az3XNRWVjVuLvU/Jdkje0SN
+	Zhd5l+juQkWaaeY3T5GF0svC+I0tb/JRKho0e4FyRSlHOWYd//wZi/6ww91wZQYVp/jWWjMzZ1F
+	G5pdNnBiC2pRT8G7ysXD9zXXHYFOUNNo=
+X-Gm-Gg: ASbGnctbQtsd3MOzssZwdVhvEnYN0dynz38RG/dUC9Zi/z2LagysH6CiXh3Vqjfldzw
+	5lQoRe8V2XGS8N0Wsq7zdkvlS9b19prJCaaCWqVBuAkVQC8aRfslcfe9b65KJpxhSVS/35QJ0xo
+	xMlRLUK71zWQucOraCtsrmWPmt1yRUpNcfFIRo/ar98vuJyM5Wx0zzHQZ4n+onAnUmESR1d03LH
+	oo1zQ==
+X-Google-Smtp-Source: AGHT+IFtV58+b7TdEn169blBTSTg97IoZAMWiVqeKLwKeXRa9wvFaPoz+n0HH+xJYo631uo3xl7Wtx01TrmgPDB7kbo=
+X-Received: by 2002:a17:907:1b16:b0:adb:469d:221f with SMTP id
+ a640c23a62f3a-ade1aa15864mr1341933766b.31.1749493414544; Mon, 09 Jun 2025
+ 11:23:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250606041004.12753-2-vishalc@linux.ibm.com>
+References: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
+ <aDz-Pq4eMAYmzqsJ@archie.me> <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
+In-Reply-To: <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
+From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Date: Mon, 9 Jun 2025 14:23:24 -0400
+X-Gm-Features: AX0GCFtT5VtTHa-jojzi8kLV9z5EuWYa1-xJcEXWWcyNlt2BE-xhusWO-NpDrzU
+Message-ID: <CAC0Z3JupfeHHrfj7ZeQ3E-1+E9jBrd9SPBn-eJUjEMN6iMB3aw@mail.gmail.com>
+Subject: Re: [PATCH v4] drm: add overview diagram for drm stack
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 06, 2025 at 09:40:05AM +0530, Vishal Chourasia wrote:
-> Add "Availability" section to Control Group v2 docs. It describes the
-> meaning of a controller being available in a cgroup, complementing the
-> existing "Enabling and Disabling" section.
-> 
-> This update improves the clarity of cgroup controller management by
-> explicitly distinguishing between:
-> 
-> 1. Availability – when a controller is supported by the kernel and
->    listed in "cgroup.controllers", making its interface files accessible
->    in the cgroup's directory.
-> 2. Enabling – when a controller is enabled via explicitly writing the
->    name of the controller to "cgroup.subtree_control" to control
->    distribution of resource across the cgroup's immediate children.
-> 
-> As an example, consider
-> 
-> /sys/fs/cgroup # cat cgroup.controllers
-> cpuset cpu io memory hugetlb pids misc
-> /sys/fs/cgroup # cat cgroup.subtree_control # No controllers enabled by default
-> /sys/fs/cgroup # echo +cpu +memory > cgroup.subtree_control # enabling "cpu" and "memory"
-> /sys/fs/cgroup # cat cgroup.subtree_control
-> cpu memory                   # cpu and memory enabled in /sys/fs/cgroup
-> /sys/fs/cgroup # mkdir foo_cgrp
-> /sys/fs/cgroup # cd foo_cgrp/
-> /sys/fs/cgroup/foo_cgrp # cat cgroup.controllers
-> cpu memory                   # cpu and memory available in 'foo_cgrp'
-> /sys/fs/cgroup/foo_cgrp # cat cgroup.subtree_control  # empty by default
-> /sys/fs/cgroup/foo_cgrp # ls
-> cgroup.controllers      cpu.max.burst           memory.numa_stat
-> cgroup.events           cpu.pressure            memory.oom.group
-> cgroup.freeze           cpu.stat                memory.peak
-> cgroup.kill             cpu.stat.local          memory.pressure
-> cgroup.max.depth        cpu.weight              memory.reclaim
-> cgroup.max.descendants  cpu.weight.nice         memory.stat
-> cgroup.pressure         io.pressure             memory.swap.current
-> cgroup.procs            memory.current          memory.swap.events
-> cgroup.stat             memory.events           memory.swap.high
-> cgroup.subtree_control  memory.events.local     memory.swap.max
-> cgroup.threads          memory.high             memory.swap.peak
-> cgroup.type             memory.low              memory.zswap.current
-> cpu.idle                memory.max              memory.zswap.max
-> cpu.max                 memory.min              memory.zswap.writeback
-> 
-> In this example, "cpu" and "memory" are enabled in the root cgroup,
-> making them available in "foo_cgrp". This exposes the corresponding
-> interface files in "foo_cgrp/", allowing resource control of processes
-> in that cgroup. However, these controllers are not yet enabled in
-> "foo_cgrp" itself.
-> 
-> Once a controller is available in a cgroup it can be used to resource
-> control processes of the cgroup.
-> 
-> Acked-by: Michal Koutný <mkoutny@suse.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Vishal Chourasia <vishalc@linux.ibm.com>
+Hi,
 
-Applied to cgroup/for-6.17.
+Should I go ahead make the diagram more detailed or just add the links
+in 'Slides and articles' & 'Conference talks'  to the existing
+diagram?
 
-Thanks.
+Best regards,
 
--- 
-tejun
+On Wed, Jun 4, 2025 at 10:37=E2=80=AFAM Simona Vetter <simona.vetter@ffwll.=
+ch> wrote:
+>
+> On Mon, Jun 02, 2025 at 08:28:30AM +0700, Bagas Sanjaya wrote:
+> > On Sun, Jun 01, 2025 at 06:18:47PM -0400, Abdulrasaq Lawani wrote:
+> > > Add an overview diagram of Linux DRM architecture for
+> > > graphics and compute to introduction.rst
+> > >
+> > > Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+> > > ---
+> > > <snipped>...
+> > > diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/i=
+ntroduction.rst
+> > > index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec=
+52a45d0f3f4561424e0 100644
+> > > --- a/Documentation/gpu/introduction.rst
+> > > +++ b/Documentation/gpu/introduction.rst
+> > > @@ -14,7 +14,45 @@ including the TTM memory manager, output configura=
+tion and mode setting,
+> > >  and the new vblank internals, in addition to all the regular feature=
+s
+> > >  found in current kernels.
+> > >
+> > > -[Insert diagram of typical DRM stack here]
+> > > +Overview of the Linux DRM Architecture
+> > > +--------------------------------------
+> > > +::
+> > > +
+> > > +        +-----------------------------+
+> > > +        |     User-space Apps         |
+> > > +        | (Games, Browsers, ML, etc.) |
+> > > +        +-----------------------------+
+> > > +                      |
+> > > +                      v
+> > > +        +---------------------------------------+
+> > > +        |    Graphics APIs   |   Compute APIs   |
+> > > +        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
+> > > +        +---------------------------------------+
+> > > +                |                   |
+> > > +                v                   v
+> > > +        +---------------------+  +-----------------------+
+> > > +        |  User-space Driver  |  |    Compute Runtime    |
+> > > +        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
+> > > +        +---------------------+  +-----------------------+
+> > > +                |                   |
+> > > +                +--------+----------+
+> > > +                         |
+> > > +                         v
+> > > +                +-----------------------+
+> > > +                |   libdrm (DRM API)    |
+> > > +                +-----------------------+
+> > > +                          |
+> > > +                          v
+> > > +        +-------------------------------------------+
+> > > +        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
+> > > +        |     nouveau, etc.)                        |
+> > > +        +-------------------------------------------+
+> > > +                |                       |
+> > > +                v                       v
+> > > +        +----------------+     +-------------------+
+> > > +        | GPU Display HW |     | GPU Compute Units |
+> > > +        +----------------+     +-------------------+
+> > > +
+>
+> I'm a bit late to the party, apologies. I'm not sure how much use there i=
+s
+> in an extremely simplified diagram like this, least because it's really
+> incomplete and leaves out the entire display and compositor side.
+>
+> My idea was that we'd instead link to the large pile of introductory and
+> overview talks further down in this file, if people want to get an
+> overview over what drm does.
+>
+> If you want I guess you could add some links to the relevant wikipedia
+> pages, I think they also do a fairly decent job of explaining the big
+> picture.
+>
+> Thanks, Sima
+>
+>
+> > >
+> > >  Style Guidelines
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >
+> >
+> > The patch LGTM, thanks!
+> >
+> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> >
+> > --
+> > An old man doll... just what I always wanted! - Clara
+>
+>
+>
+> --
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
