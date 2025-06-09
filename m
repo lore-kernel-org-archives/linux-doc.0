@@ -1,215 +1,174 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2073.outbound.protection.outlook.com [40.107.220.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5558D1922DE;
-	Mon,  9 Jun 2025 18:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749494962; cv=fail; b=bGFiDeOgZWrI/gBEn+/91Pu/u+lpVuJ1GGW+fQQudsOztmtlK+tQZmEvBOl7DHHRsqHWmuC6ZH/wgxxABg/qXRZQu7kCKV/PJeq8drBpzEeIADi5rNL3PyPS8hMgsQJL7IS2pmImBFWTTVAJpcD0h5OX8MxEXxgjtSFgiyTgdfo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749494962; c=relaxed/simple;
-	bh=1HuyAk1wutVnbprbcT3pxK3vdXIt42OC5GcYGZ1bKMM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=VQOM4tuIL0u6u5GGbhyXft9/s0ARAvL+pbiY9fdagqE+OrKVP7KlM85N9TYTQttha47zJhEHWWaq4f26iVUEIgT1M7qTvxXdpm19d8Kp2mwxPrvLnrdcBR4e+TO4sueOBcK+YRdk9tHaFj31He9HHEu2PPrQ+alakyJMFk26Kik=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Qv9CR1ul; arc=fail smtp.client-ip=40.107.220.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58ACC1B4121;
+	Mon,  9 Jun 2025 18:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749495040; cv=none; b=ThcSbMZk6hXhOJs85vjCRkD4vN4QjdakYfukC9WrdkxWYB4QHLjo6coWdwu0be7WDU9fEYGThVrmaaU2Fz/PQB/SU5t4H0CBQYjdP4pkWlWRZVgZF0ShSslyUeSTZd86nhWNipq/vMSOvgYEBD1wm5Gga4I7mUSTH/EEkmg9PfM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749495040; c=relaxed/simple;
+	bh=4D/QkaIrvIGoz7Dmk8fY0fnPMKOpONTp0mZAjMTzHg0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jBjToxZgvmH457DSHG4ehd1+tzUx+hetcjji1o8kmeLa0nXwPguQURjzO183UPw0wpPuU1w886J5R47lkdi+CuWmtce67Zo8WOS4R88M0E7Td0AxAoVVszvXjnrm2Lvrn3rk3t+003wnNAqNYjVTaKKJUEZlcCFE1Rm9j/nk5kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=etBGLdGU; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Qv9CR1ul"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pOrDv+4salVrEQp0Qfwr7skqs8t8xov+RHFHWriNB5hs7GLI+pjWJplI7dlxFj8j8AgkzKOV9NTfipOYylP6/0oyVlVVeW/KIcOjsyAniAowxEaKl0iQTbq/Myx12yPy54mC/atdUkTbK893jVVeey1Md4FnenAftKyMkwJDLd/IscyMEht38L5U7ukmHGB4a7LrpiKAGtN/ADz+m53I3iOZZuuW/DZ2SbwDpLNnTfsnnLQRg/TWDJNAx4M15Uo+MU+lTZGB+no6logcx53ItaJVLxWiSGpL88IAOBrh3IVkWiHZaQmBCXHpNfgPQWGCYb0iaWqFgbVhvCNuf78eRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OmfdB+mxXrR+ivPcAftEOtWMA1RzxwkTbPKB8ren2X4=;
- b=bInzWjX/psHIjLaWMi2nHcaOom2W7YhtGaYaR2a2Web2z5Cbil1F4LQOyTp53scRwOsW1UZbU2VRy42jWWCn+KFesVX8IpCs0DcpvYqenUcEhYU04FKRjWhsp3pmFtKf9U8+r7tF5SkVXz1z9nfyXO3/m1fOLsmHixbH4P6fzqXx8CqFh05Dm9IHbhhEKhkaanbAAc+oq+BwoWz+Ay10sinQaUEnKLqFM/ykYKpKJ3cMTJlk931mtirwIwQyBn9ut71J2wyE8dIKFB2hDjYl21ivW2BeAOG6QZ86JfIjyg8PBfdrxSyEWNcVGa06IUUJKElaOT0ePhVv78y9lYfMBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OmfdB+mxXrR+ivPcAftEOtWMA1RzxwkTbPKB8ren2X4=;
- b=Qv9CR1ulE0Z1P57y81RDoprR0gxGIQfFrh13wN/9hMEGkBkdAPkSL9AqOUC7is3CbwmSWP5YZNvMC71WJd12Qt7/Qp3kwnoq9USTK+AM8Iq/EnJktGDiozmRurQpzBazfG4JEeOxfyurkWK25xH+2D4HlSnyT2UTkn7wWD6KgRg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH7PR12MB7428.namprd12.prod.outlook.com (2603:10b6:510:203::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.37; Mon, 9 Jun
- 2025 18:49:15 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.8792.038; Mon, 9 Jun 2025
- 18:49:15 +0000
-Message-ID: <2d75a21d-e444-43f2-91a8-35fcebb68799@amd.com>
-Date: Mon, 9 Jun 2025 13:48:56 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH 0/5] Latest version of initial patches in AET series
-To: Tony Luck <tony.luck@intel.com>
-Cc: Xiaojian.Du@amd.com, akpm@linux-foundation.org,
- alexandre.chartre@oracle.com, andrew.cooper3@citrix.com, ardb@kernel.org,
- bmoger@amd.com, bp@alien8.de, corbet@lwn.net,
- daniel.sneddon@linux.intel.com, dave.hansen@linux.intel.com,
- dave.martin@arm.com, ebiggers@google.com, eranian@google.com,
- fenghuay@nvidia.com, gautham.shenoy@amd.com, gregkh@linuxfoundation.org,
- hpa@zytor.com, james.morse@arm.com, jpoimboe@kernel.org,
- kai.huang@intel.com, kan.liang@linux.intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
- mario.limonciello@amd.com, mingo@redhat.com, paulmck@kernel.org,
- pawan.kumar.gupta@linux.intel.com, perry.yuan@amd.com,
- peternewman@google.com, reinette.chatre@intel.com, rostedt@goodmis.org,
- seanjc@google.com, sohil.mehta@intel.com, tglx@linutronix.de,
- thomas.lendacky@amd.com, thuth@redhat.com, x86@kernel.org,
- xiaoyao.li@intel.com, xin3.li@intel.com, xin@zytor.com
-References: <20250609162139.91651-1-tony.luck@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <20250609162139.91651-1-tony.luck@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SCXP298CA0172.CHLP298.PROD.OUTLOOK.COM
- (2603:10d6:300:14c::19) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="etBGLdGU"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7426c44e014so3986756b3a.3;
+        Mon, 09 Jun 2025 11:50:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749495039; x=1750099839; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VVD9bSDa4wDIKvOapX6GB2hIY+Ptj8Km8QIbnx4Kaso=;
+        b=etBGLdGUiZw26b5BDISPTVg5DGKCOpzYbzHgLyQ513pOx5NZRFb70BhH6L0cTKpq3i
+         Ws1bdUcipINbSaJUrak+X8UTLHIkrMj7dpjBvbNsw/880JhMSgD82Lv/tRckjukwLosi
+         KqUncECuCqdlb/wS9JnL7Tj/9podWfhxHDWNXSWk96k7QeCJikb+Op0Hby7jjw1jOt44
+         //WwPuQpVqrE5EPckgN5jfZK7+3EWq1QbaGhWVR2WiGuuFAe5NK6R33SewSpeoFatPEq
+         twEwx4KjBexO0Qo7K7vOTrRQXZ16D3h7BFhwBftjPrjODU98HMU4PX3TFz3jPqlhsX/q
+         l9dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749495039; x=1750099839;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VVD9bSDa4wDIKvOapX6GB2hIY+Ptj8Km8QIbnx4Kaso=;
+        b=SOXsIixB7FCJDfmgMlDkZ854oV7V08JSFmnzfY+fQ911QPBynUf15iU3Q3kzELfO/L
+         bnmYSq5x7+4iNYi/tbVEXPAeZjk99YSQStMrGWaW/di2E3nCvD4J42HA4UE+0kw2wsTn
+         t+D4thi3Hkme1N+/Yz9HfNlba+fmwjLofQFhQuURvRmI1M3WQdgGKWHYiLtw5rawLctd
+         yybv+zT+DuLoeQLQ+KblVSuWVvJobOGuE0ITrwEfZTujcGEVVRr1SAoMYcpOUpTID3tR
+         OEhOgM2yFpOWrB+PtYsMmMJUguwysXdq1/U4G5p9qdAmoKR5cz9sR12BtOhh4jJ1IlvP
+         ru9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUUJu5Vk2FeD+wAggD+ybQs/8vtJlUWnDgO1p4T0vFxSya2wwLHJSqZbnPTiovET7KdGP7tJ+GyNMrFKFD7@vger.kernel.org, AJvYcCXHAWelyokopAXhGIi1gCo+VYjPmvxS8I5x/y7T+IZbotaaNOv8CStpLG3wXAUxUFJSeQ9T9Debum4=@vger.kernel.org, AJvYcCXWsTHRWCnoUfYiPfKrz1X5Gf8JDrQVKe+JRf6ZT754rVpJdA94Jswf4EjVevRi8czhHGZMOU98g4N8vkgKz4yKHzTpmg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJYp7T3nHJG3xRCfYUYMPdUhCOGFBI9j1PwO/l4btrGK4WjVqT
+	iWkuAjKcUqQ/VcRtMsjiO/yBsJybmt0+orXvaA7ZVbqQ2hzmP1eySWIR
+X-Gm-Gg: ASbGncvUc8T8Vu6olQfmBgW/s8l9OhE3iqvYYI7CVjx/OBPpqiPq+pZyCyoJJ5hgxhY
+	0lRvW2b6FBFogx8Z162oFT+aRZYm4MdtLSbayhfwyatTTiJIo5mMs+E9/3JaEiTKoh4dWqLOIzd
+	DOVu3EZIAGwHt2zGlwbeklpscj8ZboCvbwlCEFYtp3v0LEauul0Bu7kbYwjRW2xn4FFjO305kbe
+	+qxpFzepKy1ElWeHqVSkirzQ4q8p9174lFpGPJW7zZmxOVjIJJcsHTjBuR7f8chgz84CiuEqRoV
+	Whel02TwBhJnH9UgXhukQplwHijqHUJlxXAmGcmh1KJuA+E4/gF1cezMnQozucZADQz6/BC/9Qq
+	y5WODrxQnIaP8xAKQdN/GShX2XHIHqYejPOiDV9xOaUWCF5oqSw==
+X-Google-Smtp-Source: AGHT+IHTzo61VPYPo6yS1mpw2YckgV6ImrNivcBE+B58c9Hm3g//WaGGNbLBJMKeCeYaZxwTNOSl/A==
+X-Received: by 2002:a05:6a21:339f:b0:1f5:9961:c44 with SMTP id adf61e73a8af0-21ee257b9ffmr21862920637.3.1749495038585;
+        Mon, 09 Jun 2025 11:50:38 -0700 (PDT)
+Received: from localhost.localdomain (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2f5ed58e9bsm5625461a12.10.2025.06.09.11.50.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jun 2025 11:50:38 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Armin Wolf <W_Armin@gmx.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mario Limonciello <superm1@kernel.org>,
+	Luke Jones <luke@ljones.dev>,
+	Xino Ni <nijs1@lenovo.com>,
+	Zhixin Zhang <zhangzx36@lenovo.com>,
+	Mia Shao <shaohz1@lenovo.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	"Cody T . H . Chiu" <codyit@gmail.com>,
+	John Martens <johnfanv2@gmail.com>,
+	Kurt Borja <kuurtb@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v12 0/6] platform/x86: Add Lenovo WMI Gaming Series Drivers
+Date: Mon,  9 Jun 2025 11:50:21 -0700
+Message-ID: <20250609185027.7378-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH7PR12MB7428:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4815cbcd-dca0-438b-3082-08dda7865518
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VU1wd1M2ZWZoUlZSTUNTeHJ4ZjRLbE96QUl6ckRFeUN0Tm15L1UxaDU3T3hN?=
- =?utf-8?B?aEQyeGdMdC8yOExFUmN3ZkJMSlFVQkJjODIyL0xzOUVrSXZzSmthc0hLUTQ1?=
- =?utf-8?B?ZjlnU3VoUU51TnltOEZQWjJCOGt4bktrK3Nyd25YTHUvcEtPN095TnYwMTl1?=
- =?utf-8?B?OFVmR3ZMRlA1M0FudDhrOEZCYnFKVVZaalI5Q2V5MEhCSWg0VGpFQ0JFblMy?=
- =?utf-8?B?bTRqL2I1V0ZYanIyTkdBRm81c1pnK1U4WE5aTDNOSVVGMVF4ZlowNFRKTEx4?=
- =?utf-8?B?eURObjdiUEY5MkF1YTc1aFlBa3hPODZUaWJEamRHL1lBYmNWUCtGMFBqYWNR?=
- =?utf-8?B?ZU8xUzJCT3NQa0txbmE2VmFMT3NSU25WRTdpeURxUENjUC82T1kzOE92eXFU?=
- =?utf-8?B?N1FsTDlCZnUwdnRkYXRieFBvMUFSaCtaMUZLNHpHZFo3c1B6TjAyRVlhQXhV?=
- =?utf-8?B?ZHFrbUNncUtWY2lBYWp2eDh6MjMrWjV5dzZtOWRQc01YMnFrdkxpWjMzaUlP?=
- =?utf-8?B?ZWZ1UmhJNm5Yd2pVd2UxUVgrM0t6cUFKdi9nSjA3WDlkdVdZQXh3c2I0YjhX?=
- =?utf-8?B?TzZLOVF2emVCdm92ajY4Z1ZMY0xBVFYxV1pCL0trR2g4aTVWWTQ0c3BHMWZp?=
- =?utf-8?B?S2x6enhiYk5yaFB4SGwybmJUZnZsbmo4TVlETERFUG4xYmhYZnpOMTQ5S0dL?=
- =?utf-8?B?QWsrMWFZWFBacVJ6eFRwRGhQV0pqRGtmZDREc2xmQnhUd3ZpbzZHNTJmYWZ0?=
- =?utf-8?B?WjZFSFBJd0Z3aUN5dzJ4SnlWRm83S2VaOHkyYmtvc3BnWTVocFFuOWQzK0J0?=
- =?utf-8?B?NmtNWURGb09jcUJMY0tHTFZPRjViNURpd3p5czBGVG9VMW43VW4rdlRTdXZM?=
- =?utf-8?B?ZFA3M2trM2plL3hHWXc2Mlhycm5qTGN2ZldPRXdQc25iaVl6K2JhNHYzZXVw?=
- =?utf-8?B?Wmp3U21mcW84emVhbm90TS9MMmdGQUNtaDB0M2NOMVBvK21jTU9RN2IvOFl2?=
- =?utf-8?B?WVBlSE5zOFc5czNGb3h4SjhmZ3dRR2xMZUpoL2k0ZXE0d0ZvWHEyS3AwN25P?=
- =?utf-8?B?SDlGQVpKUDNraHkxUC9MTVFkMFZzdFRjeG9PY0lpanNhS2NLeGJKRUJEbEZI?=
- =?utf-8?B?TStqM1lOL1RSRmpmZHNBS0czdmNnbzk3L1RWdU1xcW1iT2J0Y3JacjcxYURH?=
- =?utf-8?B?Tk51cGgvYzdoVnpRb0lURFdWNVU3Z1JoSHdiQmdqMmplc2pscXlIRjFIdTdF?=
- =?utf-8?B?UkRIUDBPdVlSdC9OOGR4OXE4ZVVRTmpFdFVqSndRQkdadGpXcEN6bmdOcHYz?=
- =?utf-8?B?bjFtZ3d5aE5uU2xmZ21VRTN4bTdPcVA1SzR2L1p6dmhKNEI0KzcwbGVXT29N?=
- =?utf-8?B?c3l4aDhRMW9qY3ZSRDRRQkJMTVY0WVFNa2xTM0RRbXRjZmZpQ0U3eUIzT1hD?=
- =?utf-8?B?MkVVNFVaT0l6VWFsN0JuNXNqQlRFZm5QelFoRVVqQ2UrZ3Qzbk0zaXFTOWhW?=
- =?utf-8?B?U0JNRUM1cVhmM3dsYmx1NFhtNm9lbjExYk1wdTVCVlMrcUxvZ3pDN3pDTVZU?=
- =?utf-8?B?OEgrTzd1SmEzQTlHd1VDN0lYc08zbDZHTmErT1lVbGhXTDZwZDhVeDc4SVVM?=
- =?utf-8?B?YTJ4MnAveDlGMVdUa2VlSTd1UEwrbGhwNUU1TWprWWRmWUc4Z21NWG5IQkla?=
- =?utf-8?B?anZyalZ2VkNIMVFVK0hwK3NHamY4ZS8veWZUMTJFdjB4K1pNb0poQ3RRNU9Z?=
- =?utf-8?B?bVpvTjRSV0NRd1VIdDZ2c2s4aTQyK0RwaUIzYWVDZXhzbXVGbjF6OU9FSmUv?=
- =?utf-8?B?WkZTdzVIcnFlZnAySUduVzh4aGk2L2dlcjdzekNEcC9tc2kwM3MrbU5kZGdl?=
- =?utf-8?B?YzBGSnJ6Ulp6RWpqTFlYNXhXTVRISWpUUUtkZC9EUHNBOGkvVk95TzNXUXBx?=
- =?utf-8?Q?JaSKYb9M+uI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SzF0Skt5RGNCTTd0TUF3SEZUbGFEUmdwaGZ4cFNZbWZDWmw5WFdKbXFQMVIz?=
- =?utf-8?B?V01GNmw3OWV1d0drbW56VHRQWmFVeUY4UE9lUTRPZ1d5d0YzOUkwUG1xV29D?=
- =?utf-8?B?bHJPdUsrTERhaDlyVkgwWUFmaTluWUFidlBETlRwWjVKVlpocURWOFBocnV0?=
- =?utf-8?B?K1dWU0I4MXNYMDl2MXhuc1JRN2t3UmJDQWFMalVLakhWV21KbzFVYXozNncy?=
- =?utf-8?B?MmQ1Y05SdWVnd3JZOGtndWpPbHZQakgwMmtPQWpLV0VpaFNtRnpSZWlIQURz?=
- =?utf-8?B?UnV1TXRVekFvaENFZXpMN09JaU4xbFZOYzFMWG01clcvMTJ5RFYzaXBWQmJj?=
- =?utf-8?B?T1cxbGVVcW5hM05hR0dPZVFxOXVpREhodWt3enVZdTQzVUpyRWtEeDJYMXZO?=
- =?utf-8?B?NmkxQ2ZXcHF4K0hRaG9jdU5wWDFLZHBxYWkremdHbnNkTzVUay9vRlFpb21C?=
- =?utf-8?B?T2g1cUJpSUs2ZlUzNUlKS2NIK0V3U1FJNEJNOUZMR1dzMDBadUdTOHZISWRG?=
- =?utf-8?B?dk9wY1JiTlYya3I5RWFPeW5zNW56a1EwYUJGZUZlNGRKdGtRbzJCbFVkeWNW?=
- =?utf-8?B?SHBhbXdwM0RBUFcxdVBmRm4rSk5UTkwyek9hWTRlN1I5RlJhTWNRcUgvaWJr?=
- =?utf-8?B?U0VZdVVKeFhJMUdLelcrQnAvT21CWDV1WHlMSExsVGI0OW5OM2hsQjN1eVh1?=
- =?utf-8?B?S0FxR2NOL3FhTFlvcUprTVVKWUxFV0VnS3dEY3YwcGlpV2NNd2l1QS9FUHJs?=
- =?utf-8?B?cDRlM09seklVK3dyeUlIQksvUUNCQnozVnBYYkpEQWFrRC9iNXJhV0FFRVZV?=
- =?utf-8?B?TlhKdkNtQnBDWGxKT2pRTHdhQlJrdWk1OHMyVmczbVM5VUtHcFlRQzc4QnRB?=
- =?utf-8?B?MVpWd1ppYWtLUFhuQndKbnN6dHE2U2NGMlBXYnp2bTRzL2JZZ1dNN3NMa0w4?=
- =?utf-8?B?cm1YZDcxNTl0by9IVGo5dUhwZnUzR29JdTNoMHovYUVISE9aYWpzcE1zSnNt?=
- =?utf-8?B?UjI3UU5YZVhIY05SU1hjWVlpQUY1RXZCeE1veU9hWTRQbTA0R2hmTm9ML3d2?=
- =?utf-8?B?TW1yVXN1THQ3d2xmWHZ0WlRvWFBPOG1iNVNDYytCZjVVR1hEaGFOSVBEYk4v?=
- =?utf-8?B?V3laTFNFMEZEZUd3QXdXREtwT29IRG0zaDZZV3ZEMDFIWWJrMzFNM2s3c3ZE?=
- =?utf-8?B?ZzZIVVM5U2Y4WDVOSnNwbDhobHFNc3I5REhWdWVqNzlTWlFTZjhlWXFFd1RV?=
- =?utf-8?B?anRnMXV4OEZhZ2ZzR0ZNZ1hibkpOMm1XK1ZzaVdPeTRjZ0xNLzJlMGI4QndN?=
- =?utf-8?B?LzhQMUNxcUJuY1E3d0dnWG5XWjh6ZzZDVXZKRS82cW9mOVZmUHRyeE1tSHpl?=
- =?utf-8?B?Ly8wODBKVzR3c3BqeURaRW1oY2lCUXd5aHV3QnR1dVJKT0xuV1VxbGxxdjhy?=
- =?utf-8?B?UVR5cnBhSytsNnluZW0yQmNGbDVOMTF2WW5NZHZRZ0VFUUs3NGtKSGFGdW5D?=
- =?utf-8?B?K3pEZ0IyMGJXV2FOTnNlY0FaT2JVV3J1ai90YzNvQTRTNFkrMCttaGxYeXl6?=
- =?utf-8?B?c0ZGRURaRDB6UzlVazJRZUJ3aGRTQS8vNmQ5U1o5Mms3UTdjbmVad2IrOExW?=
- =?utf-8?B?VWFsc1pMdm9JZGFrSk1NVFY0c0FrZ3pwVXFSWWhFSWlHSnBIRHRIRkZFNUtD?=
- =?utf-8?B?VjdjMXhWMFdOeCtubGFHeVoxMCtCWDdxUlB6aTYxb1F4M2VlaS93NzN3RnpF?=
- =?utf-8?B?RVR2SEFJc3llNXJnbzNXREVmcmRyZVNUUzVobDhTYUpPejVxS2xkNmZKamJI?=
- =?utf-8?B?RWNUdHFOa3ExYmFGL2s5L2xpUTR4YlltNGlGSWVjTDRDZGVQVXhsSDR5ZDFj?=
- =?utf-8?B?cGxFd05iU3Y5d290aGJuYk5OcndacmxDa2tkRXZWdTF1ZVpVcVdyMFA3NExS?=
- =?utf-8?B?TXlWMVRPK0NWMUNtRDJsVDA2eTlocGUzbWFXaTVyTzRzRG9Hak9nUDd3NDBn?=
- =?utf-8?B?WGNOeUVvSnV2VWxkdjZPQktWdHZrNXZyYUl0N1BEWGU4K3NnZzM5NlRRN3Nt?=
- =?utf-8?B?VDIzTzdOWVBwWlNlSEFGOHoxNFdEM2pIZkdBUlRXZWVwekJ5M2xkd2VUVVQv?=
- =?utf-8?Q?XjPY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4815cbcd-dca0-438b-3082-08dda7865518
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 18:49:15.4752
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hU3qE2uu2ljD/jDsYCCK4IUT+GuisslKE+rVu6O7rYjT2y57d+sjt7ReIGSdoJR+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7428
+Content-Transfer-Encoding: 8bit
 
-Hi Tony,
+Adds support for the Lenovo "Gaming Series" of laptop hardware that use
+WMI interfaces that control various power settings. There are multiple WMI
+interfaces that work in concert to provide getting and setting values as
+well as validation of input. Currently only the "Gamezone", "Other
+Mode", and "LENOVO_CAPABILITY_DATA_01" interfaces are implemented, but
+I attempted to structure the driver so that adding the "Custom Mode",
+"Lighting", and other data block interfaces would be trivial in later
+patches.
 
-On 6/9/25 11:21, Tony Luck wrote:
-> Babu,
-> 
-> Here's my latest version of those four patches (build on top of Qinyun's
-> patch that I believe should go upstream via tip/urgent).
+This driver attempts to standardize the exposed sysfs by mirroring the
+asus-armoury driver currently under review. As such, a lot of
+inspiration has been drawn from that driver.
+https://lore.kernel.org/platform-driver-x86/20250319065827.53478-1-luke@ljones.dev/#t
 
-Wonderful. Thank you. Will rebase my patches.
+The drivers have been tested by me on the Lenovo Legion Go and Legion Go
+S.
 
-> 
-> I believe I addressed all the comments[1] in these four patches
-> 
-> [1] https://lore.kernel.org/lkml/20250521225049.132551-1-tony.luck@intel.com/
-> 
-> -Tony
-> 
-> Qinyun Tan (1):
->   x86,fs/resctrl: Remove unappropriate references to cacheinfo in the
->     resctrl subsystem.
-> 
-> Tony Luck (4):
->   x86,fs/resctrl: Consolidate monitor event descriptions
->   x86,fs/resctrl: Replace architecture event enabled checks
->   x86/resctrl: Remove 'rdt_mon_features' global variable
->   x86,fs/resctrl: Prepare for more monitor events
-> 
->  include/linux/resctrl.h                | 28 +++++---
->  include/linux/resctrl_types.h          | 15 ++--
->  arch/x86/include/asm/resctrl.h         | 16 -----
->  arch/x86/kernel/cpu/resctrl/internal.h |  9 +--
->  fs/resctrl/internal.h                  | 17 +++--
->  arch/x86/kernel/cpu/resctrl/core.c     | 65 +++++++++--------
->  arch/x86/kernel/cpu/resctrl/monitor.c  | 41 +++++------
->  fs/resctrl/ctrlmondata.c               | 17 +++--
->  fs/resctrl/monitor.c                   | 96 ++++++++++++++------------
->  fs/resctrl/rdtgroup.c                  | 79 +++++++++++----------
->  10 files changed, 204 insertions(+), 179 deletions(-)
-> 
+Suggested-by: Mario Limonciello <superm1@kernel.org>
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
+v12:
+ - Fix warnings from make W=1
+v11:
+v10:
+https://lore.kernel.org/platform-driver-x86/20250515182224.8277-1-derekjohn.clark@gmail.com/
+v9:
+https://lore.kernel.org/platform-driver-x86/20250508235217.12256-1-derekjohn.clark@gmail.com/
+v8:
+https://lore.kernel.org/platform-driver-x86/20250505010659.1450984-1-derekjohn.clark@gmail.com/
+v7:
+https://lore.kernel.org/platform-driver-x86/20250503000142.1190354-1-derekjohn.clark@gmail.com/
+v6:
+https://lore.kernel.org/platform-driver-x86/20250428012029.970017-1-derekjohn.clark@gmail.com/
+v5:
+https://lore.kernel.org/platform-driver-x86/20250408012815.1032357-1-derekjohn.clark@gmail.com/
+v4:
+https://lore.kernel.org/platform-driver-x86/20250317144326.5850-1-derekjohn.clark@gmail.com/
+v3:
+https://lore.kernel.org/platform-driver-x86/20250225220037.16073-1-derekjohn.clark@gmail.com/
+v2:
+https://lore.kernel.org/platform-driver-x86/20250102004854.14874-1-derekjohn.clark@gmail.com/
+v1:
+https://lore.kernel.org/platform-driver-x86/20241217230645.15027-1-derekjohn.clark@gmail.com/
+
+Derek J. Clark (6):
+  platform/x86: Add lenovo-wmi-* driver Documentation
+  platform/x86: Add lenovo-wmi-helpers
+  platform/x86: Add Lenovo WMI Events Driver
+  platform/x86: Add Lenovo Capability Data 01 WMI Driver
+  platform/x86: Add Lenovo Gamezone WMI Driver
+  platform/x86: Add Lenovo Other Mode WMI Driver
+
+ .../wmi/devices/lenovo-wmi-gamezone.rst       | 203 ++++++
+ .../wmi/devices/lenovo-wmi-other.rst          | 108 +++
+ MAINTAINERS                                   |  12 +
+ drivers/platform/x86/Kconfig                  |  41 ++
+ drivers/platform/x86/Makefile                 |   5 +
+ drivers/platform/x86/lenovo-wmi-capdata01.c   | 302 ++++++++
+ drivers/platform/x86/lenovo-wmi-capdata01.h   |  25 +
+ drivers/platform/x86/lenovo-wmi-events.c      | 196 ++++++
+ drivers/platform/x86/lenovo-wmi-events.h      |  20 +
+ drivers/platform/x86/lenovo-wmi-gamezone.c    | 409 +++++++++++
+ drivers/platform/x86/lenovo-wmi-gamezone.h    |  20 +
+ drivers/platform/x86/lenovo-wmi-helpers.c     |  74 ++
+ drivers/platform/x86/lenovo-wmi-helpers.h     |  20 +
+ drivers/platform/x86/lenovo-wmi-other.c       | 665 ++++++++++++++++++
+ drivers/platform/x86/lenovo-wmi-other.h       |  16 +
+ 15 files changed, 2116 insertions(+)
+ create mode 100644 Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+ create mode 100644 Documentation/wmi/devices/lenovo-wmi-other.rst
+ create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-events.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-events.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-other.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-other.h
 
 -- 
-Thanks
-Babu Moger
+2.49.0
+
