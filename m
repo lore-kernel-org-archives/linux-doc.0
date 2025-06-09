@@ -1,125 +1,98 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BBC21E0AA
-	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 23:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F751E9B31;
+	Mon,  9 Jun 2025 23:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749510699; cv=none; b=indT8MGincSDGNc2PoHHUnKIjmPbolK88cNp6lInCg/kz14wPCJIkoEAAvbDwXY1KL1Wku/6bsYQlRUrXNiq3QtRml55yixDFRysa8YLnNgRlqjQ89RLSw2rmNt7UqrBt3ugZiAnESP+3XONuDJEXoeEdev2TWXZrGm7iOiDkds=
+	t=1749512273; cv=none; b=G6p6lQKWdKhkh8CELG34dkDB/8QFIpBzknFt1+00O1eY5ru1K0mYYqrFbTkLUkIQKSw45s+9nNh0JLYfyrzVHmmmom8dx/gvNKFoSIL1gvsOR0Yt2ASB+7fCWNH0LakQ5U/iRZZhp2Hk/MOSkiVUT4dfLWzabL20i4Ik76qnSV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749510699; c=relaxed/simple;
-	bh=YBYZyG/zejxervw8g2ljD323j9IDrb4e87zC59nYm8s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RuWHS/qvVFBDOcjjMuUeCjVBYmo190B5Hd4JR1hjJiVAsmp6GAbqE+nx43LM/8otqZ39599tb4Od6lItdmswefrxcOZvcwthYF0/1XsEGx6OObeKYKlTCTUqHOd3rfw4TAc95Cj91XNKqFvtrHC4IvqrYxz2SAItsDk+K11qY4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fSxPFUEI; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1749512273; c=relaxed/simple;
+	bh=iYdPXbBfs0hWf5hFWSgk+TtoM4uOR6tLUwht/xnkfIQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=i2E7EheIHydJcihBY/RKpuoo3UYIrQE8Wkx8ZQjub0/CVm20TQO4cVJSba6RIJOvcREnv+bVIhrb/oZgTgjQG8cyhFE3fVUJyfSt21O3+8NlHaivffdwqv77Om52Z7IulgZfypOtoQurlV94X0VCh57baDQV6mXDiFJV3HnaKsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G48M2sLK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fSxPFUEI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=sJ8/lWbF9HxjdniQadUJFWFi7JyWW8Wf0F5/EhKAG1Y=; b=fSxPFUEI153ULuPg0W8RAIEZG4
-	UA30zezeL9sDPuU4843ynTlstlBKJAYYgGI8WQZvJWzRhNy+KLvmjLyeuuzfvlKYjUNEZOhK55D3U
-	2tChFT11psyN4FpRshycHFG0TG3nHHhnfA6Bicw+cIVCKC2d4aUqvPqxrLBETpIpzrLHgwZK4D/Do
-	lL2i0Pi7+fDrHx8PjW2Zh54EHaIQutPEIkVhgFXsLZFrFv5LlC3DUsIflJesUy9h73FevUnqFwbgR
-	c0X1fCs/RTg3PwgVKGRQUOohWk6lHC+rP+RIntpbae5KQgDBJiRPGUdEw2xu1Ll5Gc5DzFCkErphR
-	sYLIejKg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uOleR-00000001hFQ-2SCY;
-	Mon, 09 Jun 2025 23:11:36 +0000
-Message-ID: <8b5ebc23-2885-4ab8-8b86-91e220567bbe@infradead.org>
-Date: Mon, 9 Jun 2025 16:11:33 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G48M2sLK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A0FA9C4CEEB;
+	Mon,  9 Jun 2025 23:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749512272;
+	bh=iYdPXbBfs0hWf5hFWSgk+TtoM4uOR6tLUwht/xnkfIQ=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=G48M2sLKyGRvdihwcbHyCkFXuhYm/N3cDWTk/Zhk8YP9Cjh5jtHnUs91yYvC5hb/R
+	 DxaGaciIEjj8REh3uRq5Ur3+Ize4ZA8+lPF2cyiAQ171jaAbO72Y8vSicVhS6PF9Gs
+	 akbG1ZRPmywcMmsVVi/wk6xindAcF0gsAFIdnbAnHGKVS2rKEQcqDsR7b9FxPJKKOn
+	 z3OhnptJySO27ECr+o50wfvwg6xV1Ar6aWgY9/732t7RfHZ4cGcQl/4fLAA2T4T5rd
+	 Smml/7LXlhAbm/r01Od8E3xGWBJ/B1g7hVcfBgAJsoXgCAGpujV2v0H6trnBNjDSq8
+	 E3rO+IM3snQ3g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E501C5B552;
+	Mon,  9 Jun 2025 23:37:52 +0000 (UTC)
+From: Daniel Palmer via B4 Relay <devnull+daniel.palmer.sony.com@kernel.org>
+Date: Tue, 10 Jun 2025 08:37:38 +0900
+Subject: [PATCH] doc: Remove misleading reference to brd in dax.rst
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/process/: Change 5.x to 6.x; clarify terms;
- added note.
-To: Dante Strock <dantestrock@hotmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <PAXPR06MB8224F2CE53A1F4D674969B22A769A@PAXPR06MB8224.eurprd06.prod.outlook.com>
- <87ecvtc772.fsf@trenco.lwn.net>
- <PAXPR06MB8224F9CF845C22E7BE930624A76BA@PAXPR06MB8224.eurprd06.prod.outlook.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <PAXPR06MB8224F9CF845C22E7BE930624A76BA@PAXPR06MB8224.eurprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250610-fixdasrstbrd20250610-v1-1-4abe3b7f381a@sony.com>
+X-B4-Tracking: v=1; b=H4sIAEFwR2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDM0MD3bTMipTE4qLikqSiFLiggblJikVqiqmZkXGKElBrQVEqUB3Y2Oj
+ Y2loAn/ifM2YAAAA=
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Dan Williams <dan.j.williams@intel.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Daniel Palmer <daniel.palmer@sony.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749512271; l=1013;
+ i=daniel.palmer@sony.com; s=20250610; h=from:subject:message-id;
+ bh=bneb9TzHhD7XIfcboMGGWopLiATbX15rmlqAcruoZnw=;
+ b=LmEVIPJtVyUCpQuvYeq1sHgZr+XqcOro4z/qlbTF3O5uDLfJPq2SbLBt4AoXhKgV3OOt8qI2N
+ 5NMPTIdcnuXBPOlk9JMHouKtL5vWPg8623aHGOV9ETf0yTI/N042nIo
+X-Developer-Key: i=daniel.palmer@sony.com; a=ed25519;
+ pk=dbwvNAF3zvjUZOTEPBh6uYWrBnOi7OPuXkoDcmmS8aY=
+X-Endpoint-Received: by B4 Relay for daniel.palmer@sony.com/20250610 with
+ auth_id=430
+X-Original-From: Daniel Palmer <daniel.palmer@sony.com>
+Reply-To: daniel.palmer@sony.com
 
+From: Daniel Palmer <daniel.palmer@sony.com>
 
+brd hasn't supported DAX for a long time but dax.rst
+still suggests it as an example of how to write a DAX
+supporting block driver.
 
-On 6/9/25 12:17 PM, Dante Strock wrote:
+Remove the reference, confuse less people.
 
-[snip]
+Fixes: 7a862fbbdec6 ("brd: remove dax support")
+Signed-off-by: Daniel Palmer <daniel.palmer@sony.com>
+---
+ Documentation/filesystems/dax.rst | 1 -
+ 1 file changed, 1 deletion(-)
 
->        diff --git a/Documentation/process/2.Process.rst
->        b/Documentation/process/2.Process.rst index
->        ef3b116492df..70f8a6603454 100644 ---
->        a/Documentation/process/2.Process.rst +++
->        b/Documentation/process/2.Process.rst @@ -18,17 +18,17 @@ major
->        kernel release happening every two or three months. The recent
->        release history looks like this: ====== ================= - 5.0
->        March 3, 2019 - 5.1 May 5, 2019 - 5.2 July 7, 2019 - 5.3
->        September 15, 2019 - 5.4 November 24, 2019 - 5.5 January 6, 2020
->        + 6.10 July 14, 2024 + 6.11 September 15, 2024 + 6.12 November
->        17, 2024 + 6.13 January 20, 2025 + 6.14 March 24, 2025 + 6.15
->        May 25, 2025 ====== ================= -Every 5.x release is a
->        major kernel release with new features, internal +Every 6.x
->        release is a major kernel release with new features, internal
->        API changes, and more. A typical release can contain about
->        13,000 -changesets with changes to several hundred thousand
->        lines of code. 5.x is +changesets with changes to several
->        hundred thousand lines of code. 6.x is the leading edge of Linux
->        kernel development; the kernel uses a rolling development model
->        which is continually integrating major changes.
-> 
->    I do not object to these change and could apply this, but it might
->    be nice at some point to rephrase this stuff so that we don't end up
->    doing these updates repeatedly. After all, we'll be at 7.x within a
->    year...
+diff --git a/Documentation/filesystems/dax.rst b/Documentation/filesystems/dax.rst
+index 08dd5e254cc5..5b283f3d1eb1 100644
+--- a/Documentation/filesystems/dax.rst
++++ b/Documentation/filesystems/dax.rst
+@@ -206,7 +206,6 @@ stall the CPU for an extended period, you should also not attempt to
+ implement direct_access.
+ 
+ These block devices may be used for inspiration:
+-- brd: RAM backed block device driver
+ - pmem: NVDIMM persistent memory driver
+ 
+ 
 
-+1
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250610-fixdasrstbrd20250610-074d8ed5623d
 
->        @@ -48,9 +48,9 @@ detail later on). The merge window lasts for
->        approximately two weeks. At the end of this time, Linus Torvalds
->        will declare that the window is closed and release the -first of
->        the "rc" kernels. For the kernel which is destined to be 5.6,
->        +first of the "rc"("release candidate") kernels. For the kernel
->        which is destined to be 6.16,
-> 
->    This is a separate change. But, of course, yesterday's 6.16-rc1 is
->    in no way a "release candidate". It's really just the naming scheme
->    that Linus uses for his testing releases, calling them "release
->    candidates" muddies the water and risks reigniting old debates.
-
-I have also thought of -rc as "release candidate", but -rc[1234] are
-"early release candidates" to my brain. Or the could be called -nc[1234]
-as in "non-candidates."
-
-> 
->        +Note that not all Linux distributions have the latest version
->        of Git +or Mercurial available in their repositories. Consult
->        the package +maintainer for your distribution to get the package
->        updated or +download it directly from the website.
-> 
-[snip]
-
-> 
-> Hello,
-> 
-
-Parts of this email style guide might be helpful in the future:
-  https://people.kernel.org/tglx/notes-about-netiquette
-
-[snip]
-
-Thanks.
+Best regards,
 -- 
-~Randy
+Daniel Palmer <daniel.palmer@sony.com>
+
 
