@@ -1,99 +1,164 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727B013B58B;
-	Mon,  9 Jun 2025 08:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F49210F5D
+	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 08:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749458196; cv=none; b=fyckP0xloqfiwSrV+sdBfS1e06tw201QUa8xWyNgLWx3z/GZsfGIx/WyHZvFcRxbpPjr7Yz28BgeLaP/UGDmeLCkGkjw2/Zsso/7z9ciUbXCfkA1WFkTJcBrvB7bkrereFOvD9wO0T8pGih4ZXAOzfDJR0f5oVcPVtQ/m2kEEiQ=
+	t=1749459488; cv=none; b=P+HBL+A/zQTpHdqKcIobJy9W7sxXQoPHR3pbdJydLB0OWkW330WtloTqRljAISCPq4kd/ZacTK+xTpyHvXbBDw0DqL7huMJnRa32iT09xu7PPd/CgeaHyrJdPRvJiob2Tn2UCEwf/wofzM4s3M+zbkoLTh8jYl80LmugFx/68oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749458196; c=relaxed/simple;
-	bh=L3nfufsxXxkliDYjJl9skzl9dEnwS4z0pKQv+TvCxeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UHayUA/dD2dwThB1uRAOjIjDQuDPo8iYjCtXdS6vvXw53rH50s1BrOtuDT+UpwZn3fEITu/HNQyNPcU3T9ZyoBTn4CKAoVmlAD2aReXFJI/UtRltrGbVLSFAofq0Z9VjaPzoXOGy4hd5xxiP0WGYWj9cjbPSwVYop50XaEgehPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=E1KIr4JU; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1749459488; c=relaxed/simple;
+	bh=tObexuNu5puy0S/zrHD6bJ96PlTpeqIfPPG17mA0siE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=en1nLGI7TO3ogIH6baki/746aGf51r0+ukW9SoTeOrHeJGDmvmJloDLgV7uzLHk5aaWF5lrLsIG9sPjTlBxwAtvZGbmC1dPi3XCbvPomVm8qCMjLSKo6aWT5jwSkdit0PAh+uqze+iTy1Xv3JKhBzhTq59LF+qozYEmcHxi9GpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cKsRQe6d; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="E1KIr4JU"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 470C14316C;
-	Mon,  9 Jun 2025 08:36:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1749458185;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cKsRQe6d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1749459486;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=L3nfufsxXxkliDYjJl9skzl9dEnwS4z0pKQv+TvCxeU=;
-	b=E1KIr4JUbM5L2fJGk+ItoUEbP+1wikt2qhg+/RB4BO4VAB+j7qbb1i1YucsyZQwrqHSeEf
-	fp8Kabc1y3l6Y8deXtJSrcEOBIi2hhvz2hjY8DB8WJvLB7SS3p3VFmA4jAzaMrKtx4vqp4
-	A3tgqEyhcqmWDK8IfsVHqkWTy6nGzJUHQElRBovPJzACIafOQ5HTRl0ys+FhK4HCTyvye1
-	7aSqt/rejepgQlZ7kfs7g5Xp2H4kQCh1M0OBXkcGFaBnz5gpeFDpuLY4iAaC3GHusqwJN1
-	CXLJloukR1EpSIBT1YUU7vwlmdzNBXOyBFMtoVTwb1pV10Fl9Wqk19064tBuQQ==
-Date: Mon, 9 Jun 2025 10:36:22 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Gal Pressman <gal@nvidia.com>
-Cc: Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>, Oleksij
- Rempel <o.rempel@pengutronix.de>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>,
- Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon
- Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell
- King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
- Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH net-next v12 00/13] Add support for PSE budget
- evaluation strategy
-Message-ID: <20250609103622.7e7e471d@kmaincent-XPS-13-7390>
-In-Reply-To: <71dc12de-410d-4c69-84c5-26c1a5b3fa6e@nvidia.com>
-References: <20250524-feature_poe_port_prio-v12-0-d65fd61df7a7@bootlin.com>
-	<8b3cdc35-8bcc-41f6-84ec-aee50638b929@redhat.com>
-	<71dc12de-410d-4c69-84c5-26c1a5b3fa6e@nvidia.com>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	bh=EAX9gR6Ry+BCiLbmBNWFHsPfQj/lBkDp4XOdgquTNsY=;
+	b=cKsRQe6dUTDzZ/u7ywx5Hh+KHOVIw4dLuQUWZkZXaJkI7I4nggKjmF+i2W/Aq8TPbHAA/J
+	87Q25IWnG06oCMKbXQK3JqP0pNvUkIXXXjncduR8aXvUSaWLrzgsWHs/YRqj9THmOqha+C
+	4qua3RKkow0D6VoTV0sVEBT1ML61GRU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-94-u55zZCGWPnOhITlBw270xw-1; Mon, 09 Jun 2025 04:58:04 -0400
+X-MC-Unique: u55zZCGWPnOhITlBw270xw-1
+X-Mimecast-MFC-AGG-ID: u55zZCGWPnOhITlBw270xw_1749459483
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a4eec544c6so1625523f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Jun 2025 01:58:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749459483; x=1750064283;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EAX9gR6Ry+BCiLbmBNWFHsPfQj/lBkDp4XOdgquTNsY=;
+        b=f37Hu32/4SzATmaH8s7dck/aUKDVP4pMCESie1xsJex3KnL7JTGJWolqujvXXmDGBS
+         zxJGFgBiEji60MVPxOQwZTAhZxwtroqarI4gFu/8JZiQRNr5hGiEw7GmjcbVVsCcWB89
+         fEnXAQ9aw64eR0+r/T+P9Ca1JGV+KoPQGgpLfiThrmCKRCt7L5MeD7zZ/GH+kBTuonX/
+         AVHWKfdA5bhR0I4cUY7c6HTqO8Uoq5V67xDT8PpFRlUpkk/K6LvIamE0t7zTErCFdwET
+         itf8xD4OT+Gvp/jXVxWC/sA9rWasOC75ooG2vvtSsBRz+ZFyZxJowxplRCJ0JN9JA9AW
+         gMEw==
+X-Forwarded-Encrypted: i=1; AJvYcCXL6YqYZeJfaTFNpGg/FulG9kZvMn0klYNCW0Ypi+20qdB/LHh7Y2uPx6t1ObvSMIxMMa81KkjmGK0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfrtGa7KBqJth9b4zzThYWa4iA4e+CJUkVBCXh4fb0iR/wxxxF
+	5WzDxR8LEHAOY99p6qJmdZ3ENZ5wiKMyjeaCrvAYJfu6LBenXoK293v38DmvW27slH257+/Xqy/
+	wv4czUgQhVBpI0tMgSjNE2DYr/UP+eXo2ghkuY11hWQgDlUq1IvCq2VC56ytrbA==
+X-Gm-Gg: ASbGncvqUTmPVGxMFmb3SW4uqK//G8sxMqDJnl4GfW35D8FyhA+oMBaRsHrdRT2UTWA
+	/IiBqg8oMV1VxVNyjozjoW6PkzadhEdNxx690qOHtg2Fl2OX+R++zf0lQhQXJgoe6bHEnlqYMEP
+	s5Jaui4vOjtcnaQlfUgDDyWtUAK0ztZm0qkiPOsZRmGIQCsjvz50Zfj/tYNXBaAPlSF2AuXmz4I
+	YEWRgm/p5WDwLtWhm/iwtdl/ep5YnUftU0lpelyEZ4wmruMCIvSC2oABDUMJNcfbOX3s1uBcpun
+	yXVFCkc=
+X-Received: by 2002:a05:6000:420a:b0:3a4:fc37:70e4 with SMTP id ffacd0b85a97d-3a531cf5be1mr8000733f8f.58.1749459483389;
+        Mon, 09 Jun 2025 01:58:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEGKstU+gvDYJRoCuhWj9Uy3B0R5FuTJdpuAKJpWIzyKGQze6gxwv3jbQl0SI7KqRYCXE0l/g==
+X-Received: by 2002:a05:6000:420a:b0:3a4:fc37:70e4 with SMTP id ffacd0b85a97d-3a531cf5be1mr8000722f8f.58.1749459483016;
+        Mon, 09 Jun 2025 01:58:03 -0700 (PDT)
+Received: from fedora (g3.ign.cz. [91.219.240.17])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5323be604sm8881091f8f.42.2025.06.09.01.58.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jun 2025 01:58:02 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: James Bottomley <James.Bottomley@HansenPartnership.com>, Eric Snowberg
+ <eric.snowberg@oracle.com>, Peter Jones <pjones@redhat.com>
+Cc: "linux-security-module@vger.kernel.org"
+ <linux-security-module@vger.kernel.org>, "linux-integrity@vger.kernel.org"
+ <linux-integrity@vger.kernel.org>, "linux-modules@vger.kernel.org"
+ <linux-modules@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "keyrings@vger.kernel.org"
+ <keyrings@vger.kernel.org>, David Howells <dhowells@redhat.com>, David
+ Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Luis
+ Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Sami
+ Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
+ Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu
+ <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge
+ E. Hallyn" <serge@hallyn.com>, Robert Holmes <robeholmes@gmail.com>,
+ Jeremy Cline <jcline@redhat.com>, Coiby Xu <coxu@redhat.com>, Gerd
+ Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH RFC 0/1] module: Optionally use .platform keyring for
+ signatures verification
+In-Reply-To: <a9bb8b0cfd1af85443ff8ee615b3be0fc705ce02.camel@HansenPartnership.com>
+References: <20250602132535.897944-1-vkuznets@redhat.com>
+ <0FD18D05-6114-4A25-BD77-C32C1D706CC3@oracle.com>
+ <f0b37bc55ed3c02569c74f0fbdb6afa8efd329e2.camel@HansenPartnership.com>
+ <87zfemoc76.fsf@redhat.com>
+ <e4e838d03b3619df5523d429e0cd8160a8aef9f8.camel@HansenPartnership.com>
+ <87tt4unw1w.fsf@redhat.com>
+ <a9bb8b0cfd1af85443ff8ee615b3be0fc705ce02.camel@HansenPartnership.com>
+Date: Mon, 09 Jun 2025 10:58:01 +0200
+Message-ID: <87ldq1nvfq.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdeltdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfdutdefvedtudegvefgvedtgfdvhfdtueeltefffefffffhgfetkedvfeduieeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdelpdhrtghpthhtohepghgrlhesnhhvihguihgrrdgtohhmpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepuggrvhgvmhesuggrvhgvm
- hhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvth
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain
 
-Le Sun, 8 Jun 2025 09:17:59 +0300,
-Gal Pressman <gal@nvidia.com> a =C3=A9crit :
+James Bottomley <James.Bottomley@HansenPartnership.com> writes:
 
-> On 28/05/2025 10:31, Paolo Abeni wrote:
-> > I'm sorry, even if this has been posted (just) before the merge window,
-> > I think an uAPI extension this late is a bit too dangerous, please
-> > repost when net-next will reopen after the merge window. =20
->=20
-> Are all new uapi changes expected to come with a test that exercises the
-> functionality?
+> On Thu, 2025-06-05 at 15:43 +0200, Vitaly Kuznetsov wrote:
+>> James Bottomley <James.Bottomley@HansenPartnership.com> writes:
+>> 
+>> > On Thu, 2025-06-05 at 09:54 +0200, Vitaly Kuznetsov wrote:
+>> 
+>> So far, I got two 'runtime' ideas:
+>> - Observe MokListTrustedRT and distrust .platform when it is
+>> non-empty. This can, of course, be combine with a Kconfig for those,
+>> who do not want it at all.
+>
+> Well, not sure about that specific variable.  It seems to be set but
+> not used by shim (however it is used in the kernel to decide whether to
+> import the MoK list), so how would someone with a current distrusted db
+> get it set?  But there's also MokIgnoreDB (which is actually a RT
+> import of MokDBState) which is used to prevent importing the db certs
+> into the platform keyring in the first place.
+>
+> I think the reason this is so fragmented is because we didn't really
+> co-ordinate with shim when all the variables and switches were added. 
+> Perhaps we should document all the variables and expectations before
+> deciding on a mechanism? 
 
-I don't think so and I don't think it is doable for now on PSE. There is no=
-thing
-that could get the PSE control of a dummy PSE controller driver. We need ei=
-ther
-the support for a dummy PHY driver similarly to netdevsim or the support fo=
-r the
-MDI ports.
-By luck Maxime Chevallier is currently working on both of these tasks and h=
-ad
-already sent several times the patch series for the MDI port support.
+I was hoping Peter (pjones@) can help us here) Generally, I agree that
+as these variables originate in shim, we should describe them there and
+not try to give them some potentially undesired meaning in kernel.
 
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+>
+> The one thing we can guarantee is if the cloud use case is booting
+> without shim (is it?) then none of the RT variables will get created,
+> so checking any (or a set) of them would work.
+
+Personally, I always advocate for injecting shim in the boot chain at
+least when distro kernels are used: shim provides SBAT revocation
+mechanism which is likely going to be used when a new secureboot related
+vulnerability is discovered. SBAT was used for UKIs only but a mechanism
+for embedding it into the Linux kernel itself is coming (already merged
+for 'zboot' arches, pending for x86). If, however, someone is signing
+his own kernels and can use 'dbx' or even revoke the cert in case of a
+problem, then I guess shim can be avoided.
+
+>> and/or
+>> - Sysctl toggle. Keep things as they are by default but make
+>> .platform trusted (either for modules or for everything) when
+>> switched 'on'. This can (optionally) by combined with a previous idea
+>> and have e.g. an 'auto' state for the toggle which follows
+>> MokListTrustedRT.
+>
+> I'm less keen on user specifiable runtime because the security policy
+> of the system using a lockdown to make root less privileged than ring 0
+> can't allow a malicious root to weaken it.  However, let's see if we
+> can get a proposal that would mitigate that concern.
+>
+> Ideally, if we can get to something that works for everyone at runtime,
+> we can remove the current Kconfig explosion which is definitely adding
+> to the confusion (as shown in the Debian bug reports).
+
+-- 
+Vitaly
+
