@@ -1,103 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633C94C8E;
-	Mon,  9 Jun 2025 20:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4226D221270
+	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 20:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749500372; cv=none; b=ALWw03egjmBVDlESdiSQs8Ti68K+xtZyLdQ8cLENcy5D5oTD4mdIBBTtXM9DOEjpWK39DhpKPGptrXnDHk+LH8ZyIe9Xr0DB6aafDDZdzX/t9gWcHqzqki/WXgX66CkjBgR5dwlIzbJvLRTfvK5n29u0+r3jSFzHo3WJMnEVI3Q=
+	t=1749500639; cv=none; b=AgCtjJKc5YIbXj+ZXQHc1to50vL+2Na5yKbDTYwGn6J/6J3I2wkZwnrAe9wldwLMESZKR/RSs92Qqw6LQ3WR39PqLiQ1RKxP3InTp9ySjAxbkkJEV5zNoBOQDRc/r8VIEFJnZX1TkhXEHn04uIUOuQN+7L1eNNBOH3gSZJkOil0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749500372; c=relaxed/simple;
-	bh=xHki770puYpEzm3QMVlBGE3HdQKNbbHjet2ZCnU39dg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gh7iB9QoFHCQhKm6m89ff8uxcooih+eoBUfbgFiu1AxTgFHlEaZE0uLmlN7rObjVuh0hncjMv4oa956Hn2kUP52ABJxg83QEuti6RWyXZ/hIP66rnHzO3YZcfKUeONF10+tX9jNpCqSlOaQmJqFSdci6Q6UxjbMyMDCsQfzoQmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZ+z6DR3; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1749500639; c=relaxed/simple;
+	bh=qzio5ZFZk1EJpKZStF+L1CELCiRdwXtM4uyUKz5Bko4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cEbYRg0Dp2YTzHi47qvKNDwtogZErD3wkxPDY3rlFwtZ3duowKCqw/VmuVibenwNzslEinQhpe8S33E8z48iZhvgsSZ0h0c5Iivr8Q5ajn3hs+B/N5CKb+d4p6qO22xjigcFamT70a4Dy4AIIilFr0aJ886QBuSmV8OD7e7zz5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=GCP+uopZ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZ+z6DR3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749500372; x=1781036372;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xHki770puYpEzm3QMVlBGE3HdQKNbbHjet2ZCnU39dg=;
-  b=cZ+z6DR3hOYZKjMV81kYGYYtRaMmVuGwMD6MD+7Al9v+CmDMNmtMLMVY
-   Tzsz7mYliDLJCmVmUAGyMjINAG8CE/YqQw7AO+5IFbjNxjsQZwofCrk3i
-   xgFbtUDucQNPO5z8C2E9Vt01kib+3jmukA/C0UqXkcuLu13hRlWAs+H0t
-   RC4rXBAWkrsfJoUMl2aCiHAP070cmEawVMHl/KA+keV9adAdxR95gR7Kc
-   VC67PxEtPCmBxRbhDPiKl1femtSDTtbDlkdCtWWeEMkwNNp+rbVU8B0m8
-   OBcPt52pMJ9ERHuoZZ6WgVEWbGfe8j9rOag03ElGHKvDv1Vkm7gain9vt
-   g==;
-X-CSE-ConnectionGUID: udx6JnAdQueiteYDntjsfw==
-X-CSE-MsgGUID: FIhDey8HS5Sb7B8OPCVPmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="74126652"
-X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="74126652"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 13:19:31 -0700
-X-CSE-ConnectionGUID: vCR4LmqaSFOMbLacU69nbw==
-X-CSE-MsgGUID: GHyQfBRVRnCO/63aM5EzCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="151867743"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 13:19:27 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uOixo-000000059d8-0Xwz;
-	Mon, 09 Jun 2025 23:19:24 +0300
-Date: Mon, 9 Jun 2025 23:19:23 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com, corbet@lwn.net,
-	ikepanhc@gmail.com, hmh@hmh.eng.br, W_Armin@gmx.de,
-	linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 2/2] platform/x86: thinklmi: improved DMI handling
-Message-ID: <aEdBy6m_6aQr8l41@smile.fi.intel.com>
-References: <mpearson-lenovo@squebb.ca>
- <20250609122736.3373471-1-mpearson-lenovo@squebb.ca>
- <20250609122736.3373471-2-mpearson-lenovo@squebb.ca>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="GCP+uopZ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1312A41AA1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1749500637; bh=atJFUWaot/ICo3MOAIesl81dbvMAFLNuWpe4kyWvNwE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=GCP+uopZqPPM9yE6+VyXVQ4KVD1WmgWtp046M3WqOzChXGCZ1ro2rnsFkPlA/8tP4
+	 cUR+w3SBiqyy7PqGRYf/9ZqbaAmZPPkOlwKCvcnd49TNclU2MfVuVdhF9tF5iy3cd3
+	 uItQcVKJNnB9woChSVxqm8gOvwvPObThfxTEZOqaWKpVOI6ZXJcQ3TePUXTU/F9YO3
+	 3SDMvZgPYBcELFB/BMTClGiCaHnuSGJN15dBW65+tt5zsTQrMYwH70TvI9mkv1lXUu
+	 LBgv6VBi8yet7Cv9pLZv15JFMsVKFXdfXBnVWOXQbYjOGCubt3g6B3KgsVAqyvUfJa
+	 lfv16HQOzDdVQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1312A41AA1;
+	Mon,  9 Jun 2025 20:23:57 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] kernel-doc: Fix symbol matching for dropped suffixes
+In-Reply-To: <20250606141543.1285671-1-willy@infradead.org>
+References: <20250606141543.1285671-1-willy@infradead.org>
+Date: Mon, 09 Jun 2025 14:23:56 -0600
+Message-ID: <877c1kbr4z.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250609122736.3373471-2-mpearson-lenovo@squebb.ca>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 
-On Mon, Jun 09, 2025 at 08:27:25AM -0400, Mark Pearson wrote:
-> Fix issues reported by kernel test robot.
->  - Require DMI for think-lmi.
->  - Check return from getting serial string
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202506062319.F0IpDxF6-lkp@intel.com/
+"Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
 
-> 
+> The support for dropping "_noprof" missed dropping the suffix from
+> exported symbols.  That meant that using the :export: feature would
+> look for kernel-doc for (eg) krealloc_noprof() and not find the
+> kernel-doc for krealloc().
+>
+> Fixes: 51a7bf0238c2 (scripts/kernel-doc: drop "_noprof" on function prototypes)
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+>  scripts/lib/kdoc/kdoc_parser.py | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-No blank line in tag block.
+I've applied this.  Naturally, it gifts us with a new docs build
+warning:
 
-> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+> Documentation/core-api/mm-api:40: ./mm/slub.c:4936: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+> Documentation/core-api/mm-api:40: ./mm/slub.c:4936: ERROR: Undefined substitution referenced: "--------". [docutils]
 
->  - New patch added to series.
+I was hoping your other slab patch series address this, but it doesn't
+look that way...?
 
-Shouldn't it be the first one in the series? It seems to me that this is the
-fix of the original code as well.
+Thanks,
 
-...
-
-> +++ b/drivers/platform/x86/lenovo/think-lmi.c
-
-My understanding is that you need either Kconfig or changing C file.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+jon
