@@ -1,164 +1,121 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F49210F5D
-	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 08:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C097D17A2EF;
+	Mon,  9 Jun 2025 10:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749459488; cv=none; b=P+HBL+A/zQTpHdqKcIobJy9W7sxXQoPHR3pbdJydLB0OWkW330WtloTqRljAISCPq4kd/ZacTK+xTpyHvXbBDw0DqL7huMJnRa32iT09xu7PPd/CgeaHyrJdPRvJiob2Tn2UCEwf/wofzM4s3M+zbkoLTh8jYl80LmugFx/68oM=
+	t=1749466704; cv=none; b=YXk/oRv7b3pQizi0Gdvmz5KnWB4dSLZ41nFGOxT6AaWK89vcSbsGREDIoaVCj8m7sP5szynjGOD7oWs9rrKVFgYThYvI+gNevn/k3c6dLx1zDVMrO7Exo4DMEUBeEQm9vD7vgAEwveJsVoJq8XnWhfO2nZlMzWWgsj267LsbcLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749459488; c=relaxed/simple;
-	bh=tObexuNu5puy0S/zrHD6bJ96PlTpeqIfPPG17mA0siE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=en1nLGI7TO3ogIH6baki/746aGf51r0+ukW9SoTeOrHeJGDmvmJloDLgV7uzLHk5aaWF5lrLsIG9sPjTlBxwAtvZGbmC1dPi3XCbvPomVm8qCMjLSKo6aWT5jwSkdit0PAh+uqze+iTy1Xv3JKhBzhTq59LF+qozYEmcHxi9GpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cKsRQe6d; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cKsRQe6d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1749459486;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EAX9gR6Ry+BCiLbmBNWFHsPfQj/lBkDp4XOdgquTNsY=;
-	b=cKsRQe6dUTDzZ/u7ywx5Hh+KHOVIw4dLuQUWZkZXaJkI7I4nggKjmF+i2W/Aq8TPbHAA/J
-	87Q25IWnG06oCMKbXQK3JqP0pNvUkIXXXjncduR8aXvUSaWLrzgsWHs/YRqj9THmOqha+C
-	4qua3RKkow0D6VoTV0sVEBT1ML61GRU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-94-u55zZCGWPnOhITlBw270xw-1; Mon, 09 Jun 2025 04:58:04 -0400
-X-MC-Unique: u55zZCGWPnOhITlBw270xw-1
-X-Mimecast-MFC-AGG-ID: u55zZCGWPnOhITlBw270xw_1749459483
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a4eec544c6so1625523f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Jun 2025 01:58:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749459483; x=1750064283;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EAX9gR6Ry+BCiLbmBNWFHsPfQj/lBkDp4XOdgquTNsY=;
-        b=f37Hu32/4SzATmaH8s7dck/aUKDVP4pMCESie1xsJex3KnL7JTGJWolqujvXXmDGBS
-         zxJGFgBiEji60MVPxOQwZTAhZxwtroqarI4gFu/8JZiQRNr5hGiEw7GmjcbVVsCcWB89
-         fEnXAQ9aw64eR0+r/T+P9Ca1JGV+KoPQGgpLfiThrmCKRCt7L5MeD7zZ/GH+kBTuonX/
-         AVHWKfdA5bhR0I4cUY7c6HTqO8Uoq5V67xDT8PpFRlUpkk/K6LvIamE0t7zTErCFdwET
-         itf8xD4OT+Gvp/jXVxWC/sA9rWasOC75ooG2vvtSsBRz+ZFyZxJowxplRCJ0JN9JA9AW
-         gMEw==
-X-Forwarded-Encrypted: i=1; AJvYcCXL6YqYZeJfaTFNpGg/FulG9kZvMn0klYNCW0Ypi+20qdB/LHh7Y2uPx6t1ObvSMIxMMa81KkjmGK0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfrtGa7KBqJth9b4zzThYWa4iA4e+CJUkVBCXh4fb0iR/wxxxF
-	5WzDxR8LEHAOY99p6qJmdZ3ENZ5wiKMyjeaCrvAYJfu6LBenXoK293v38DmvW27slH257+/Xqy/
-	wv4czUgQhVBpI0tMgSjNE2DYr/UP+eXo2ghkuY11hWQgDlUq1IvCq2VC56ytrbA==
-X-Gm-Gg: ASbGncvqUTmPVGxMFmb3SW4uqK//G8sxMqDJnl4GfW35D8FyhA+oMBaRsHrdRT2UTWA
-	/IiBqg8oMV1VxVNyjozjoW6PkzadhEdNxx690qOHtg2Fl2OX+R++zf0lQhQXJgoe6bHEnlqYMEP
-	s5Jaui4vOjtcnaQlfUgDDyWtUAK0ztZm0qkiPOsZRmGIQCsjvz50Zfj/tYNXBaAPlSF2AuXmz4I
-	YEWRgm/p5WDwLtWhm/iwtdl/ep5YnUftU0lpelyEZ4wmruMCIvSC2oABDUMJNcfbOX3s1uBcpun
-	yXVFCkc=
-X-Received: by 2002:a05:6000:420a:b0:3a4:fc37:70e4 with SMTP id ffacd0b85a97d-3a531cf5be1mr8000733f8f.58.1749459483389;
-        Mon, 09 Jun 2025 01:58:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGKstU+gvDYJRoCuhWj9Uy3B0R5FuTJdpuAKJpWIzyKGQze6gxwv3jbQl0SI7KqRYCXE0l/g==
-X-Received: by 2002:a05:6000:420a:b0:3a4:fc37:70e4 with SMTP id ffacd0b85a97d-3a531cf5be1mr8000722f8f.58.1749459483016;
-        Mon, 09 Jun 2025 01:58:03 -0700 (PDT)
-Received: from fedora (g3.ign.cz. [91.219.240.17])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5323be604sm8881091f8f.42.2025.06.09.01.58.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 01:58:02 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: James Bottomley <James.Bottomley@HansenPartnership.com>, Eric Snowberg
- <eric.snowberg@oracle.com>, Peter Jones <pjones@redhat.com>
-Cc: "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>, "linux-integrity@vger.kernel.org"
- <linux-integrity@vger.kernel.org>, "linux-modules@vger.kernel.org"
- <linux-modules@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "keyrings@vger.kernel.org"
- <keyrings@vger.kernel.org>, David Howells <dhowells@redhat.com>, David
- Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Luis
- Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Sami
- Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
- Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu
- <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge
- E. Hallyn" <serge@hallyn.com>, Robert Holmes <robeholmes@gmail.com>,
- Jeremy Cline <jcline@redhat.com>, Coiby Xu <coxu@redhat.com>, Gerd
- Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH RFC 0/1] module: Optionally use .platform keyring for
- signatures verification
-In-Reply-To: <a9bb8b0cfd1af85443ff8ee615b3be0fc705ce02.camel@HansenPartnership.com>
-References: <20250602132535.897944-1-vkuznets@redhat.com>
- <0FD18D05-6114-4A25-BD77-C32C1D706CC3@oracle.com>
- <f0b37bc55ed3c02569c74f0fbdb6afa8efd329e2.camel@HansenPartnership.com>
- <87zfemoc76.fsf@redhat.com>
- <e4e838d03b3619df5523d429e0cd8160a8aef9f8.camel@HansenPartnership.com>
- <87tt4unw1w.fsf@redhat.com>
- <a9bb8b0cfd1af85443ff8ee615b3be0fc705ce02.camel@HansenPartnership.com>
-Date: Mon, 09 Jun 2025 10:58:01 +0200
-Message-ID: <87ldq1nvfq.fsf@redhat.com>
+	s=arc-20240116; t=1749466704; c=relaxed/simple;
+	bh=C7Cx3n/+cQHw1TV8E4JL6MObu0M1N20UMqS4WPfR0oU=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=F6wud8Z027QDxVG9NkVrE6wfX3iCPg4M07pPauqv4PLvWGFJ/Yj1zSuHknrXqJFZDaPkis/J9rxZChupLcD7owm4cERG05bDwlUesGOtYirScxk6RIz9r06PHidDa/SBNZGzR9eLPRq5MW+Dq+/ZCVD2EuATzOURjO62rimAQUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bG85y1Nvjz6M4qL;
+	Mon,  9 Jun 2025 18:57:58 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 647FB1404FE;
+	Mon,  9 Jun 2025 18:58:19 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 9 Jun
+ 2025 12:58:18 +0200
+Date: Mon, 9 Jun 2025 11:58:17 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Alok Tiwari <alok.a.tiwari@oracle.com>
+CC: <dave@stgolabs.net>, <dave.jiang@intel.com>, <alison.schofield@intel.com>,
+	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
+	<dan.j.williams@intel.com>, <corbet@lwn.net>, <linux-cxl@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<darren.kenny@oracle.com>
+Subject: Re: [PATCH] Documentation: cxl: fix typos and improve clarity in
+ memory-devices.rst
+Message-ID: <20250609115817.00003017@huawei.com>
+In-Reply-To: <20250531075209.3334261-1-alok.a.tiwari@oracle.com>
+References: <20250531075209.3334261-1-alok.a.tiwari@oracle.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-James Bottomley <James.Bottomley@HansenPartnership.com> writes:
+On Sat, 31 May 2025 00:51:58 -0700
+Alok Tiwari <alok.a.tiwari@oracle.com> wrote:
 
-> On Thu, 2025-06-05 at 15:43 +0200, Vitaly Kuznetsov wrote:
->> James Bottomley <James.Bottomley@HansenPartnership.com> writes:
->> 
->> > On Thu, 2025-06-05 at 09:54 +0200, Vitaly Kuznetsov wrote:
->> 
->> So far, I got two 'runtime' ideas:
->> - Observe MokListTrustedRT and distrust .platform when it is
->> non-empty. This can, of course, be combine with a Kconfig for those,
->> who do not want it at all.
->
-> Well, not sure about that specific variable.  It seems to be set but
-> not used by shim (however it is used in the kernel to decide whether to
-> import the MoK list), so how would someone with a current distrusted db
-> get it set?  But there's also MokIgnoreDB (which is actually a RT
-> import of MokDBState) which is used to prevent importing the db certs
-> into the platform keyring in the first place.
->
-> I think the reason this is so fragmented is because we didn't really
-> co-ordinate with shim when all the variables and switches were added. 
-> Perhaps we should document all the variables and expectations before
-> deciding on a mechanism? 
+> This patch corrects several typographical issues and improves phrasing
+> in memory-devices.rst:
+> 
+> - Fixes duplicate word ("1 one") and adjusts phrasing for clarity.
+> - Adds missing hyphen in "on-device".
+> - Corrects "a give memory device" to "a given memory device".
+> - fix singular/plural "decoder resource" -> "decoder resources".
+> - Clarifies "spans to Host Bridges" -> "spans two Host Bridges".
+> 
+> These changes improve readability and accuracy of the documentation.
+> 
+> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+One additional comment given you are touching this text.
 
-I was hoping Peter (pjones@) can help us here) Generally, I agree that
-as these variables originate in shim, we should describe them there and
-not try to give them some potentially undesired meaning in kernel.
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> ---
+>  Documentation/driver-api/cxl/memory-devices.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/cxl/memory-devices.rst b/Documentation/driver-api/cxl/memory-devices.rst
+> index d732c42526df..e9e2952a967d 100644
+> --- a/Documentation/driver-api/cxl/memory-devices.rst
+> +++ b/Documentation/driver-api/cxl/memory-devices.rst
+> @@ -29,8 +29,8 @@ Platform firmware enumerates a menu of interleave options at the "CXL root port"
+>  (Linux term for the top of the CXL decode topology). From there, PCIe topology
+>  dictates which endpoints can participate in which Host Bridge decode regimes.
+>  Each PCIe Switch in the path between the root and an endpoint introduces a point
+> -at which the interleave can be split. For example platform firmware may say at a
+> -given range only decodes to 1 one Host Bridge, but that Host Bridge may in turn
+> +at which the interleave can be split. For example, platform firmware may say at a
 
->
-> The one thing we can guarantee is if the cloud use case is booting
-> without shim (is it?) then none of the RT variables will get created,
-> so checking any (or a set) of them would work.
+Should probably be "platform firmware may say that a given range"
 
-Personally, I always advocate for injecting shim in the boot chain at
-least when distro kernels are used: shim provides SBAT revocation
-mechanism which is likely going to be used when a new secureboot related
-vulnerability is discovered. SBAT was used for UKIs only but a mechanism
-for embedding it into the Linux kernel itself is coming (already merged
-for 'zboot' arches, pending for x86). If, however, someone is signing
-his own kernels and can use 'dbx' or even revoke the cert in case of a
-problem, then I guess shim can be avoided.
-
->> and/or
->> - Sysctl toggle. Keep things as they are by default but make
->> .platform trusted (either for modules or for everything) when
->> switched 'on'. This can (optionally) by combined with a previous idea
->> and have e.g. an 'auto' state for the toggle which follows
->> MokListTrustedRT.
->
-> I'm less keen on user specifiable runtime because the security policy
-> of the system using a lockdown to make root less privileged than ring 0
-> can't allow a malicious root to weaken it.  However, let's see if we
-> can get a proposal that would mitigate that concern.
->
-> Ideally, if we can get to something that works for everyone at runtime,
-> we can remove the current Kconfig explosion which is definitely adding
-> to the confusion (as shown in the Debian bug reports).
-
--- 
-Vitaly
+> +given range only decodes to one Host Bridge, but that Host Bridge may in turn
+>  interleave cycles across multiple Root Ports. An intervening Switch between a
+>  port and an endpoint may interleave cycles across multiple Downstream Switch
+>  Ports, etc.
+> @@ -187,7 +187,7 @@ decodes them to "ports", "ports" decode to "endpoints", and "endpoints"
+>  represent the decode from SPA (System Physical Address) to DPA (Device Physical
+>  Address).
+>  
+> -Continuing the RAID analogy, disks have both topology metadata and on device
+> +Continuing the RAID analogy, disks have both topology metadata and on-device
+>  metadata that determine RAID set assembly. CXL Port topology and CXL Port link
+>  status is metadata for CXL.mem set assembly. The CXL Port topology is enumerated
+>  by the arrival of a CXL.mem device. I.e. unless and until the PCIe core attaches
+> @@ -197,7 +197,7 @@ the Linux PCI core to tear down switch-level CXL resources because the endpoint
+>  ->remove() event cleans up the port data that was established to support that  
+>  Memory Expander.
+>  
+> -The port metadata and potential decode schemes that a give memory device may
+> +The port metadata and potential decode schemes that a given memory device may
+>  participate can be determined via a command like::
+>  
+>      # cxl list -BDMu -d root -m mem3
+> @@ -249,8 +249,8 @@ participate can be determined via a command like::
+>  ...which queries the CXL topology to ask "given CXL Memory Expander with a kernel
+>  device name of 'mem3' which platform level decode ranges may this device
+>  participate". A given expander can participate in multiple CXL.mem interleave
+> -sets simultaneously depending on how many decoder resource it has. In this
+> -example mem3 can participate in one or more of a PMEM interleave that spans to
+> +sets simultaneously depending on how many decoder resources it has. In this
+> +example mem3 can participate in one or more of a PMEM interleave that spans two
+>  Host Bridges, a PMEM interleave that targets a single Host Bridge, a Volatile
+>  memory interleave that spans 2 Host Bridges, and a Volatile memory interleave
+>  that only targets a single Host Bridge.
 
