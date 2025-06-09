@@ -1,71 +1,104 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2063.outbound.protection.outlook.com [40.107.102.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEEEB2566F5;
-	Mon,  9 Jun 2025 13:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B99C133;
+	Mon,  9 Jun 2025 14:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749475693; cv=fail; b=obhNVJM9uKZrZYuX+WeodCBYJBqA5Jk7fjvwed9j6LP+nLcFmdHdC7daxFLpFcXMZSN4n+M3MJw5VPurIQC3lwsFhOpT1LtthOBW3GZVFCeYZ42qx/F5cwj1wSRizz2GfSY+Sbp2Rv6kBWof9oGQAmpYOQIkvv5w33uzdV+CZdA=
+	t=1749477682; cv=fail; b=QF6yCMLl96njZhWNYqnb4gS5OYxQRZrG5GFHNGgoBFw+amHmONx4Vfg2ijIU1zhjbmrYRxDjBLRBzCwQa9ejWSEokRiI/2iVRrINUV/6je2FuAENswz1AV818gEFKN/AKwLnkDCp1Jfc0uNBxqAnLZl+0jGNEZ9aK21XxBDQ2Lo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749475693; c=relaxed/simple;
-	bh=WnXTQLpD67TEarseL97NPYNgeSD4DlPltTh9UYn9VzM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=A5wKOp8oim6b/cTsRJqUxTniMSdQupty1DZYV9vrVXYfwbciRLwY/SS8UpXfmkRGKvtYXKmP2tYGqFn+8KYk1cS6A8IEI3yKqGciLv0M6kAhTJwv2RENe+esMq5SdnTYfRcZd1dOSeGSGvw/kY34bBVlPm/oCKXZv43uGS8GWos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VvEKQbU9; arc=fail smtp.client-ip=40.107.223.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1749477682; c=relaxed/simple;
+	bh=bhJgGnNc1eWYagvDOEpEIuVUPQLfnDy8ub4iVVIAOjQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YT6/ZaQK6twV3etYNYVexcoA0OIT3dCHp7+v7eyIgTFNWzdUbxsU05GU/najI0BtYDN626dfHoKLJYfr94cW9xskwc77Z51NUbGo4Pv09KhDq2SgQtU2rznwzz8LRVD8AvZDU2L/XWM2jlvtSlwwhjUp/gm41rodyHD/RkTTifo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1Wzf/Vjd; arc=fail smtp.client-ip=40.107.102.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VvEKQbU9"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1Wzf/Vjd"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DN5x4lzQkLuAiqZR4y5IyAf6pjoep4irGbWAEurg0qlSKIu7KF5P/s13/tbzy/FuXf6gvB9Ly2nP+9YO9QZ6gPcnb4KvEvGNt/9tEZDhhuF7mdmNRyBagzzb2PWkBJRxFBfNtlnonzT8pJ8z9HXAetNJxMwLRBL7Iy4auIZMSCjTXBTNJC0MvrAstws7svKjmCtCrtGJbyciGxL7OzcT+0/UbhchGZXfqdq5eQs56p6cwaGy2BD93Wl5fAbMwtaR72nCRrfV5IMQG14YLykxnCddlvrLQQ0zGWcubpzRZQ2ckQY9c99V0jdnYZtHHENglYt35xZfGvjrwb8JA+lT9Q==
+ b=zPfzJcvpo1XpStjeToFokzMa5mQJyGDOu9HdwGMnXzMewnty9a32VslrgEzXMv9kKdNksb2yl4R2qQ7cX1JV86RkWmEX5tmxo7Fa7Yxlv6xiXuC7RAPs4Ka0Oubhfu/PoHo+3qfB08J5kHHvp0OmtgpGP5BuZ4UE5PPqe8wJEzsVuIOkbUx9uJ/o8iSdO0rExX0rDIif4GeZcFeqW3D6ko6BDYycRBtJ9wpiNxOcF0XnGzvC+tcI4sRfUwBYdtNFKh7nbKE566zd53RrGvw341x19YulZDNGN8H45oRTurz6BbTpUzMy5xmQJAFA/zgAzBHjeIRR8bDbGKWwVdy1Vw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WnXTQLpD67TEarseL97NPYNgeSD4DlPltTh9UYn9VzM=;
- b=cD4KIisTs2EhkZt7ysaGEM35m4YPGEQ3y5cVR/Q1rSSb5McBooCiMIoayyZz//ApIP4M1VGQTLjMLbrAS0n022MTkM1vtiig34iSm4LCEOL5fdcHU1kmaZEoB/v3ihaI6AppjcOLSDhi4Vqac6v6TyaRrn128bEJjlq6LX2DfVdeQVA8Nr2VD7kQX9ZhORcUuff6TT05GZMqisSCfCIXtYAQtwvlcpc7rpW6t0HbPnP9spxGtAYtHydEWauEixVh4JuUo4xOS665NpTbS++3IRRSbaRAGSfXxjCBM/K8V3+HEN84FwUeinMAaXj+1zcn5KRuJxDorH9iVsb5znp8HQ==
+ bh=o+PLeahEKz4tsLMD7dZ1tpEUBbJRm6d6FVXM02E5Y7M=;
+ b=TTuvdrYY6j+4trte/Fzj25vRRYyMbPVw2ZSVrZlTD40VbnT2/+8z/JsABH+PQse9hiOqNS9kgi9c7CBILEc9L2qSx2en+LO8TD813NYiIw2F8MWTmO1b3GP5sXYQy7DZDa9Bny22zk8LZb3WSw5lBunyg49P9Atk1gMu+CnyKYaj0ObbNUtH4Ij05wo/ve9wFFV4+s5mFfgi+nDpH4Ii81jU6oB6lS8er8WQfv/fO6ZbzcOLhgLMWt3jSgxv0HYHb9VX2rgEA7RY6ssimzjh8kfS5S7kWqSHJp/bc5OKGzxn8FwvqXoYKtGityu9too3QmeVxH952ic+s1CWkb5raw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WnXTQLpD67TEarseL97NPYNgeSD4DlPltTh9UYn9VzM=;
- b=VvEKQbU97GvOJHcFqt+uvlEQfGcQAnLLuwaFcD8MazImKVmzOJYh8smcw9C8iyzLoMf5xvD0lDayOMIXkmPSDDEL4jB/kOOc5J71/gmOp5vxhDrHwosooudlAtlVJusVeVGyHvWOk7854pKgZD7QImqLy6K8nT/AAmtYF9zQVoLXpyDS6BEgdM/s5bwAqHfX9knpua5eGC6kowCKe1TPOsvNGmWXJ49Z8nR+x5TWBJuey49eN2bKVLA0lWohtpE0KvpZ2Kyf9N3qcZyqsanaWq9cRvU7QVFBnWv4vnThgtJ+GpYkRxeTBN0nIpaFq49bUDepxBzBSrhzewcQ3QWzLw==
+ bh=o+PLeahEKz4tsLMD7dZ1tpEUBbJRm6d6FVXM02E5Y7M=;
+ b=1Wzf/VjdVxu/wzF48ko4zI0jrRIBY0Oy3n1XHfkQ0HKwhqQE4RJDnnESOE8Qx+/zQgbtegppIdLX/1Gkogo4N7aQnCcxQeLYX7lrgIiue7JLfLzKnAGwSaNPv90GMh0i6nM0jpq1uz5EIx8ticCuB7F2bWTecGuiiSvnGzeatFc=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- MW4PR12MB6950.namprd12.prod.outlook.com (2603:10b6:303:207::11) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by IA1PR12MB6067.namprd12.prod.outlook.com (2603:10b6:208:3ed::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.37; Mon, 9 Jun
- 2025 13:28:08 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%4]) with mapi id 15.20.8792.038; Mon, 9 Jun 2025
- 13:28:08 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: David Hildenbrand <david@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
- baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
- dev.jain@arm.com, hughd@google.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com,
- Matthew Wilcox <willy@infradead.org>
-Subject: Re: [RFC] mm: khugepaged: use largest enabled hugepage order for
- min_free_kbytes
-Date: Mon, 09 Jun 2025 09:28:06 -0400
-X-Mailer: MailMate (2.0r6263)
-Message-ID: <76D057AA-58C1-46A0-B067-EB78FE5D2D37@nvidia.com>
-In-Reply-To: <4adf1f8b-781d-4ab0-b82e-49795ad712cb@gmail.com>
-References: <20250606143700.3256414-1-usamaarif642@gmail.com>
- <4c1d5033-0c90-4672-84a1-15978ced245d@redhat.com>
- <4adf1f8b-781d-4ab0-b82e-49795ad712cb@gmail.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.33; Mon, 9 Jun
+ 2025 14:01:18 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.8792.038; Mon, 9 Jun 2025
+ 14:01:17 +0000
+Message-ID: <00d1f3c0-4d10-43d8-b33d-f9bbeb111613@amd.com>
+Date: Mon, 9 Jun 2025 09:01:12 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: RE: [PATCH v13 11/27] x86/resctrl: Implement
+ resctrl_arch_config_cntr() to assign a counter with ABMC
+To: "Moger, Babu" <bmoger@amd.com>, "Luck, Tony" <tony.luck@intel.com>,
+ Peter Newman <peternewman@google.com>
+Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "tglx@linutronix.de"
+ <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>,
+ "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "james.morse@arm.com" <james.morse@arm.com>,
+ "dave.martin@arm.com" <dave.martin@arm.com>,
+ "fenghuay@nvidia.com" <fenghuay@nvidia.com>, "x86@kernel.org"
+ <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "paulmck@kernel.org" <paulmck@kernel.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "ardb@kernel.org" <ardb@kernel.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+ "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+ "alexandre.chartre@oracle.com" <alexandre.chartre@oracle.com>,
+ "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+ "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
+ "perry.yuan@amd.com" <perry.yuan@amd.com>,
+ "seanjc@google.com" <seanjc@google.com>, "Huang, Kai" <kai.huang@intel.com>,
+ "Li, Xiaoyao" <xiaoyao.li@intel.com>,
+ "kan.liang@linux.intel.com" <kan.liang@linux.intel.com>,
+ "Li, Xin3" <xin3.li@intel.com>, "ebiggers@google.com" <ebiggers@google.com>,
+ "xin@zytor.com" <xin@zytor.com>, "Mehta, Sohil" <sohil.mehta@intel.com>,
+ "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+ "mario.limonciello@amd.com" <mario.limonciello@amd.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
+ "Eranian, Stephane" <eranian@google.com>,
+ "Xiaojian.Du@amd.com" <Xiaojian.Du@amd.com>,
+ "gautham.shenoy@amd.com" <gautham.shenoy@amd.com>
+References: <cover.1747349530.git.babu.moger@amd.com>
+ <e7e8f489ef148a4dcd5837d71c83efad47b5b7c3.1747349530.git.babu.moger@amd.com>
+ <dd195d60-3e40-42be-88e5-7f3bbbba63ce@intel.com>
+ <SJ1PR11MB6083C5179F98E3873CA34C35FC99A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <aDDjs4PZxeouNJr0@agluck-desk3>
+ <CALPaoCj7FBv_vfDp+4tgqo4p8T7Eov_Ys+CQRoAX6u43a4OTDQ@mail.gmail.com>
+ <SJ1PR11MB60839776B024017D65EF4E65FC64A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <396dbfa9-37a5-495a-adaf-7ec1fe6471de@amd.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <396dbfa9-37a5-495a-adaf-7ec1fe6471de@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BL1P223CA0014.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:2c4::19) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR11CA0026.namprd11.prod.outlook.com
+ (2603:10b6:806:d3::31) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,294 +106,149 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|MW4PR12MB6950:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1fbb8615-4ca3-48df-e64d-08dda75978ef
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA1PR12MB6067:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91480fbe-9ad8-4704-71d9-08dda75e1af2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ODJHa2c4SThMeUlYWXRwL25uay9HRTFjbmRHS1Q5KzV5WlY1TmJTdUg3MzZ3?=
- =?utf-8?B?RjVDUitPNVZGWUtSV1VwZVMzVTM4VFNGWkMvekQzbjZ4c2xTYWE1bWlUbXha?=
- =?utf-8?B?bkovVWdNeFFFU0Q5bUlBSWxYZGMvVG1jZzdnaHhKZDNLdndIN0tGL3RsTHNp?=
- =?utf-8?B?VGo2N0g1RUtMaVJmWkx5WnYzZmNMWW5kZ3gwSktsWFRpalNBQ20wVVgyc1lk?=
- =?utf-8?B?UVZQNlg2d0JlTENMZllrSHg2OTY0RDJlQkF1UXVFMnJHY1p3RU1RSGJERFBh?=
- =?utf-8?B?QzhKMHhRd2IramxIWCs2NEtudzhydllZanRmcDN0K2NqanVxeERQNVNWTnl4?=
- =?utf-8?B?OFkzR0M3RCt2RmtLeFZRY2pyTjFWZm1EaXBiNlM1enVmMEliNjIyM29SOXhj?=
- =?utf-8?B?Mlk4aGRaN0w2dlFVVlVzU0VENlNUcnZQYVI3cnhmNmE4cGZLUTZmMHQwMGF5?=
- =?utf-8?B?dTViRjZFc0FBSVArSkNlUUpSQ0VGbEdYQnZESjNSVnorZy80OXZ5R2M4V2Jk?=
- =?utf-8?B?NWpQQncyWlg1VUY5d0E5N3ZMT3lqL0E2TWp2MHpZaFJIbUtwZ3JDeXJNUThL?=
- =?utf-8?B?SE1TenlDQzFMTW5La0RMQ2s2UzJrUElLc05iRDFjNEI4Sk1VWlVwNm5FU25t?=
- =?utf-8?B?QlAxUTRkMzE0WnNyY3BaSmxHMFd2QUpSeGtkN1NBSzdBWXozdDA0QWxBMWM3?=
- =?utf-8?B?R2l5N2pGZUhrQ2Qwd1huZTErOU1MbC9iUmJoU0N4ZWhHZmw3bGZMUTA3Y05G?=
- =?utf-8?B?eDRYMFQvc0ZBd3lFQjJ3azB4Tjd1UDMyV2FKV3YyRnlaWG5pazdlUVB0M3F6?=
- =?utf-8?B?aDRCQ2dxelBDRzlDNmREUGMzc2ZaWmpHa29ocEZQcXJBS3M5bS9UZ3l5VTlC?=
- =?utf-8?B?T1RzZlZsRktkM1RXa3JOR2lSNTE1V2M1d214TFlOTTNia1ZBTDVLcm1Jc25r?=
- =?utf-8?B?QWI5blhBVjVsTFdPSHh4cngxaVNhaEVmMmptZXBSMjd3NGlnYTZyY2NmVEVh?=
- =?utf-8?B?LzFsOTZWV3VrbEJUVFlvUkJwWXlqTmJEenFSTUd5UGZydHh5cFRFZ0dKQSts?=
- =?utf-8?B?WDRDUWxjUjlBZ04xSTVTTGVHM0hEeE1sU2RWUWNES0hmMFV3aG9kVmJaY1ZM?=
- =?utf-8?B?eG9PUTkwMFNlVG92RVltZU0zRGFuYlh2Y044RytvamdyR01pVE9Yc2NFTTE1?=
- =?utf-8?B?M0thakUyNS9scGd1bkxYUnROYU43cmZ4dmpDSGtNU0hYOEE0SWlxU29aK0Uz?=
- =?utf-8?B?NTA1V0lEMTJwVzNPZlVKM3RpWjgwUk5sTktGSnhiL1VMc3A2dGxDSE1jQjF5?=
- =?utf-8?B?L3NTWHJkZ3YwWWd5b21SYnZYVzJ1RnN3cUtsTG5lVzc4dzRjMzgrc2lTeDhr?=
- =?utf-8?B?RFlSZThFWHNnWWQ2SmJIeTZVUTNZQ2NVdlgyTDdhMWovUHE5VjBDYUtaU0RY?=
- =?utf-8?B?MVkrSXRxcnpvNTBBaW5CQ0dySjI4R21KcFlrbjUzWm5ZZk5xa1Y3QkhkdlQ0?=
- =?utf-8?B?MElRTmtidXowYmVubmc4SkQzRXhYNU1DNmtza3hsdVNwNGhxeGpsUE0yMUJQ?=
- =?utf-8?B?S3p2d1Y0V1NIbTVSYUlUUTBkWk5TTHd2QlEzRW80L0cvaVN2MnlTL0NkbVVs?=
- =?utf-8?B?UVBxcktyRFBLRmZoaHhvaWlFa0pvVGVGWS9TYUR2c09DZk5CUVVLMEVpdit2?=
- =?utf-8?B?YlZWL2hJOEM2bWkwNndLWTlQSFhQV1RqSk1zc0IyU1UwS3JKM2srQ1RScTYy?=
- =?utf-8?B?WVRpbVJtcE9RbVVmSVRQL0U1QW1xYVdXNSs0VUJkRmRVRDhJb2ZuSktxVFl3?=
- =?utf-8?B?QlNoRGl1eFBmQXNkYU1SY3ViV0NWSW1NNkxMdmU5cjVvSzRhZi9lSFQ3MGVT?=
- =?utf-8?B?enlNbkdBdTMyWnlBU0JSWUorTHNveXVxenBGTDVQQUg3QVEyUk02ZTEyc2Nt?=
- =?utf-8?Q?AvxFmwVH1KA=3D?=
+	=?utf-8?B?RmltNVN4WkFnQnEzSk5rZWdSWlpiQk5KeUJjVTF5WHE2aXF3Rmp6U3ZxMk9I?=
+ =?utf-8?B?bDZhYVdabkYza0YxMVpNWGNwY1daTmpaY3A1Tyt1Z2J6YnRQWThsYm9HMS9B?=
+ =?utf-8?B?djlWQmVPR1QwM2FwUFQ2ekROa1hlbGg3N2o4dnViT2JSa0srQ2VwL1FsYU1G?=
+ =?utf-8?B?UmFUMGlyTWdjeTR0Y3RmZjFRMDJRQjlKZCtaYXh3NUY2bkJxQndZVWorR2gr?=
+ =?utf-8?B?UkJ2Tmsrb1N3MGlwSjFrUnJiWlBjSHZxUFJUVDhOc05abTN6NGxUeHlOdHl3?=
+ =?utf-8?B?TjhhdG9STHdjbjJ5c3o5d201ZmJNeW9IVE4xMWVEeDFKelp4OFd4WGwyTDR3?=
+ =?utf-8?B?L2ZhL0duaVcybzY2QlRGTTJWZVhUbTQ5MHBWNUk3Wk1HQzRiQ01OMkxDMVBn?=
+ =?utf-8?B?RTZIcGkxZGZoUW80UmVQejVzVXhaZ0tZcG9QaUIxYmM5dlVsUWJTU2hiaVdB?=
+ =?utf-8?B?bEQ4TklUcElSNjRRb29jNnBzcTJOUDZ4OG9rWjZpSjJLNHFubkFGUnhOTVRp?=
+ =?utf-8?B?RVo4cnAvaTN4R2ZIbmhqU2xqc2NrdjM3WFc3a3VYU293dU40WTVtUmZuR3E3?=
+ =?utf-8?B?Vjd0Vlh0ZGJ3K1I0QVJXZHZCL1owNWFFb29jNVZidWdzNlc5R3VXZFNMYnBn?=
+ =?utf-8?B?bFJ1OGpKTHJEOWlUanJNVktua1oybnlPNlV0aHJDNGxCYzBQQ25pUFlXQTNu?=
+ =?utf-8?B?d0tlQ2FxdG5vcS9KUEQ1d05vWEkxc3JnS2hFbFFXbTIvQkkwZGM5SGJJV0FK?=
+ =?utf-8?B?ZlNzekdyRG05TFNFWUVTV0ZjU1ZhU1JJUmF6NzBWU0Q5eENSU1h6REtFaCto?=
+ =?utf-8?B?eC9UbTRVUVdQaitiM1RtMzhEcW5uc0VOMjRnek4yRElRZlVqcDVFNTFhZUZt?=
+ =?utf-8?B?YktaT01rTFIvem54bUtlWTFBd3lBeHZEdDFqZ3NsVnI4WVgzbzVOUytRSW02?=
+ =?utf-8?B?a3l5a0k2Yy84OTZKeUk4bGJrMG9adG1LWkxtKzVHUGZteis5QmxVS1QyWHpN?=
+ =?utf-8?B?Z1dubHFsWC9wblVCYkl1aU9tK0dwKzB0aC93THZySURTSm5LVjdhTFN1cG0r?=
+ =?utf-8?B?WkFYd0RQU3cybVBoekcxQ1pnUHVtL2gyM3dyblA3Vmhjc081QjRMdzhrK21n?=
+ =?utf-8?B?aU5HblNGSkpqbWRLWGdMVmhjMkJIQ3E3cjNWcnd6WFJmK2I2ZXJyanFXdCtm?=
+ =?utf-8?B?STVTN0d3ZFJ5SEtFWlZNL2d4bTJ0RFJtVWVlQUh0SDhqcmRlZEVFbEpRcmJu?=
+ =?utf-8?B?Nmw5Mm1zWGhvUTh5VWRRbklXZlZjOU1SMjBrOVh0SkNkT2tKRXZGdU1mQVF5?=
+ =?utf-8?B?U2QwVmtFanJVb21XNmZvYVhBWDU5UUF3dERkQ0ZHZkpYUXAvcGxySGFndGgx?=
+ =?utf-8?B?RXNQcFh6VWp0eTBrSFFnKzZTRkcvZ01WL3VOeTNZN0tOU1hYK2xpb04xZ1BX?=
+ =?utf-8?B?V0Q5alh0S0hOWnl4TlFidzBhei84RFl1Wmk3UnJFZmp4d3U4cE9FQ09nM2tQ?=
+ =?utf-8?B?Yzd5N202bG10ckNjdXp5Y0kvNXpKWEJjcjk4Qm1iMXhOdnN2UVJQbVJzQU4r?=
+ =?utf-8?B?Y1AyNCt4N1ZUQi9TRzNpT2tIRzBhdG5oSjBRQ2lSSE1kWUJtUWd4YnRzcGFB?=
+ =?utf-8?B?azJCVkdyV1RTMEh0ZXZUUTNPdndHWVR5VytMekVKdVJjUnFoZmV2dGxIWG9P?=
+ =?utf-8?B?cDVoc2c2RWswd0g1YUpVR2tuSWtmVThsUk1VRFdmWTg4SEJRdHE2Q0theU9W?=
+ =?utf-8?B?SnRJVUEvMnlnNWtxTFdTSzlKRW5ndE5zdVBDd0lxaXI3dVU0V2o1V1l4dWpO?=
+ =?utf-8?B?TjhKM0lKRElFOGwyN2NwTGJOQ1dDYWJNMWdGOVRqcXZUTEhTM0g1L1FKeUVh?=
+ =?utf-8?B?K1hxck05MlA4QXh2bDgvVUpWYk5GZXJaL09GMW85VU5XSkxlMUtUTWszdkhP?=
+ =?utf-8?Q?622tXUq6U1c=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aWpNODUwaXE2a24reitnazdTdlVQNzVZb3BOZE1rTFBEbEMzUXE3NU1SZXB5?=
- =?utf-8?B?NWgrdDZ4aFZ1Zmh6Y2RHSGNWekJ3b1RlRkQ1YTVOaDljRE4zUnRDcUhKSTlh?=
- =?utf-8?B?eDNyS2VtSWZBai9aVDU0Rk1RQ0VSMDkxVjZubTZXV3kyNjNzTHRONVN0VUZ0?=
- =?utf-8?B?Y3ZuVUV2UENheldGWnBkb3o1cHJPVG1BekgzWXRGcU5scmd4YlNmSHN4VVNS?=
- =?utf-8?B?bE9oVWx3YU5RMWh3NDJIMC9QZkZmWUMvamExa3pqV2RlYlhQK3lVbytLWUp5?=
- =?utf-8?B?clgyTHYxTmxDd1lWTkxSdWRrNUhwWGxjSmJKQ2svdy9xaVNBaVlJTUJ1OHM4?=
- =?utf-8?B?UGQwelFYcmpvMndFQktncTJGT0xoUmpmd2gyMzArM0VlTGVNYWhGSmJJSTlr?=
- =?utf-8?B?QjNndEpWQ1Z1QVFWZ0dzU3JUc0czQ05wQkNQWkE4WmxNMVFaSnQ3S0JlWVhK?=
- =?utf-8?B?d04yb1hrUGE0UGRJWjBvakdVRDVSUVp4KzEwRGp5NElRVGJPOTJSNi96WmIw?=
- =?utf-8?B?T1B5dnhMeFhsblhyZlJpNTFCbWQ3azVIVmtvN3NqWmY4VzVkS2NMVlRCYUFT?=
- =?utf-8?B?MzNSVVV3dDlWa1ljTHdkVWx4RGJrYktZMGxSSVZvajFGU3ZkYU50ejNtdDJG?=
- =?utf-8?B?T3FqVXp2NGdsWTRmR0ZQSTZzVHpDalczWlp2TUtiS1dncHZmSlcvRkdTT0Jz?=
- =?utf-8?B?dFZpT3pTT3ZCOERJSUhlRlFWNlV5ajcxcUJxWE9BZ3cvbDd5UURFL3pFMm12?=
- =?utf-8?B?WjIzbHZ3K1ZEWnd6NzUwaWhaL1B6dU9GU24wc3VYWms5Z3JrbGxIUFAwYUdk?=
- =?utf-8?B?aTlDaHREZ0kxcGtMSm1yZzB0L2Q4MUtBdkRnazZkazJIaUpQNyszY0dLcjBU?=
- =?utf-8?B?a0JBU2VXM3Jxb0daeEJlcTlRWnVSakJUcGVvTHpTWWdsNmU4aEVDN2VjK1B3?=
- =?utf-8?B?WHNtUUd4OXpjMVZrVzBmNUNrekdScFJhYXBPZXFDckFDa1locVBORXpIOEtx?=
- =?utf-8?B?UVJJdVFpUEprOFBsbjJOZDJzTXA1amNzM1BTd09kT0ViR2tydDkvZXNrSWJY?=
- =?utf-8?B?UXp3MDJnNm9WOEt2M1VHUmI0TVBmak90T1gydlJXN0k1S2JwVGpFV0QyVnQw?=
- =?utf-8?B?dk1pTUR3OUVyMU9BQTdWY2VzdjVOOEd3V2tjelZHZDhWRkY1RzdKWTJzRnNv?=
- =?utf-8?B?NllOa0R2WXQ1QWlRazVEQURGWStZT2FMaUJXVkcvQVh5RmlxYncxN1ZZaVBt?=
- =?utf-8?B?Umo0VkNaa0o4L2VHaW5ab0tPRi9ZUmVUYy9mL0daejZqdTUwT2xJOVViWHlQ?=
- =?utf-8?B?R2NqMjU1WS94TFRYRWFHVkF3VXUycjZpbTNyZkJrNTRadGk3SGQ4d0R3Nndo?=
- =?utf-8?B?R0lxelFJcnJDNUFoeXM3ZXpZSUU1THFBS3FleXEwczV4clYwVFVsWWFjQnRP?=
- =?utf-8?B?cXZVWThuM25GVWlLWWNmR2xQZjQ2VXcyU1UyMFJTL0tHWjNDZ04wRjM4WnhG?=
- =?utf-8?B?b3EwNjdtSjQ3dmVvdzVXbXduQ09iT3FNWDVNQ2VSTDdDR3NWYWZQLzdGdzFJ?=
- =?utf-8?B?akp6NkxRbndaZlJ1d1l0dXkxN0wzN2lwektPR0hNdzF3Qmd4QUVSRWtwRENx?=
- =?utf-8?B?dzBqUldHR0VBL2E3NXdCa1BvdkhvTnN1ZWx2OUJiUVlCZnBvV0JmSEtnWU9L?=
- =?utf-8?B?aWdLZStQS2tGVWsrU0VRUE5SbFlNbGlWSjhnQjNkNzh0akx2eDQ2RXkreHZT?=
- =?utf-8?B?UmlxcXI2TTlkUy9pYXZOK3gxWDdOZUk0RHFWTDNmdWRMZEJFeTEzcE5Bb2lL?=
- =?utf-8?B?QUtQV0lDcVQxUExGRWo2NmdYNVNoaDIyQ2hFZ0YzV2tvUkJTbFJVRS9LRUht?=
- =?utf-8?B?ZUluY1JOOWdaNlRsWG8zRXl0Y1pFSDcvOWlvTnEzUVJxb1RxeEN5L00zRVBS?=
- =?utf-8?B?SG5lYlVLR05MOURHcXp4bDdnRWhtN1FiNStSWGQvYzBKRXBZU0hTZDg5Vkdv?=
- =?utf-8?B?RUpTQ0RnOXhJNTl0U1lRcTk4L0ZMeHBXQ3YrUXVCRFRhcU5jZ0JuaGsyMlFV?=
- =?utf-8?B?ZGZ2Q3pCV29KaG50MjA4UDRwbHNnamVkdXJ5dFl2MXBWU3lOWldwR1Y1RC9D?=
- =?utf-8?Q?7I9mX8+2CyHoSDX/tCcVGhOwc?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fbb8615-4ca3-48df-e64d-08dda75978ef
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+	=?utf-8?B?OU1lbHliOWFwd2xNYUhwS09rTk5PL3FZSUViaGtpNGZCei9jamVBMzFlZ0Ez?=
+ =?utf-8?B?WldIcXNYblpSVndaVzl5Y2dIaUxiYXdialJQNW9NODZJNDhpM21oS1J2Qnp5?=
+ =?utf-8?B?Wk9ScStMdWpjd1oyRVl0bTYvNkYyQnBBbGVQbmF1c2JwNlRGTVEyQTdqYkd5?=
+ =?utf-8?B?REJpNjlUMkd1SytiWmdscGFwV2hhL0hPaGU3RFZYenFQNS96VGJDeFlCVElp?=
+ =?utf-8?B?d2dpcUVrVXlIZG03ejBKSXUxVFFqR3gyVkRLSHJkbXhEdjZCOC9RWlRqM1dY?=
+ =?utf-8?B?WUJwVlJ0ckkvS29WeE81U20zYlVJRHExcXBKUEFLeWcyUzVjYk8wZ3Y2cC8w?=
+ =?utf-8?B?cDJSU3B1ZStDWjBuaVNuVzJqMmtyVm9UVWZzbFlmRmJuVTZSVjVPUFl1ZGlN?=
+ =?utf-8?B?Y29DOXRyd3l6MmtKZTJkdkRNZUtEaDZxVlFNZVhPVy90dHlrTmp2WENnOHpM?=
+ =?utf-8?B?QzVGL2hzVmRKdDZudlRvb3lTK2lmaVZWQ2RHSUVKOXNiOG5wVVZGTVh3SWsr?=
+ =?utf-8?B?a2QvUjMzaGV6c3JuYlRCeFRhYkYrZ0IyeFkrQnMvSEpwSGN6N0xINC9WMmJJ?=
+ =?utf-8?B?QXNhamRzVXZTZWdKQVN4aHR5bVJYaHVBVU5LNlNYREd0cmNueGlVVjNaZUU1?=
+ =?utf-8?B?ZWd2dUNVUENkRERqNGJiRS9qeVZSNXlqNktFeEpZNnJ4NTRMb2VGb2NTNkRX?=
+ =?utf-8?B?WDd6cDVqVDM5d0owL1B4WGZ5NnN6ODhSY2UwQ3c3NENjS2pJV3pHYksxOXpV?=
+ =?utf-8?B?WUxNRHBJSDZ2Q3ZxajBCNUxiWVpuVlBQS2F0TXpvaVB1YzljN2dHa1BJdXZJ?=
+ =?utf-8?B?aFoyQVgrSlUzT2ZYNVIwSnN1ZUZkenV0cEpCT0JhZGw2allhVEMvY0tIZ1Zt?=
+ =?utf-8?B?Q3hmM1ZGZzIxUm11NDNOQzVOL2Y4N2pLbGdQZjBVak1yVHA1aHRUeHkxS0Fu?=
+ =?utf-8?B?UzNBWDBLRnhBcVRLRCtHd1dXS0xtVlVXZDBaeGF3YTZiK1I1MTRvd2cxOFhU?=
+ =?utf-8?B?S2xTeWhaTjh1NHcwbVc0WjhsU1VNMkZCNFIyL1d0Nmh2NnFzSXc0QmhReWY3?=
+ =?utf-8?B?Y0RWRjlrRS9vS0J6VWpIV2VWYnplZFJocDZ2bytXTTRwQXk1amdxNTAwSDI2?=
+ =?utf-8?B?OHdXTzhhbW5Uc2huQm81dlV3ZHVCM1A1YmFXR1AvQmFJNVFJdWNFM21RSnlG?=
+ =?utf-8?B?bzBiOGhXTzh2RXFkeHFuVVpyVVV1dVplYnhyU2FaYzhWQi93Wmh3RHhnQjYv?=
+ =?utf-8?B?SlNzMXdJV0U3b1o5NldSeUVyTnNMdEVjaGFVclB1bXJrM0pTODRCbkNDQ3V5?=
+ =?utf-8?B?RjFraUU3QUJZZ2hzRnhudkpvN1JucjYwQ1JNK1VDb1VTbjNUR0RBVVBRaVpE?=
+ =?utf-8?B?ZzBNZlF6ck5IZjJTQ2JhaDVBQlQvTWJoM3c4UWk2UlNaZGNTbGdGcWNyNWtx?=
+ =?utf-8?B?UThTTHFUczFFZ1FNaVJ4a0RLL2hvNkJMd1FiemY0WlByNmE4L2dHMDJTVlI0?=
+ =?utf-8?B?ODZtN0Y0RGRjRks2SElhVDhzQVB6UFJKeVhUME42MUE1dHNDMEZaNjZtNXg1?=
+ =?utf-8?B?dXdIRXE1Qm9xVlZLbmZ6YkFtZmdpK081SUUwOHY4OUtHN214cU0xOUI3akVl?=
+ =?utf-8?B?cTRucEhsUjJDb3ZoYkJGSm9pR2FBeFptcE8zMXV1ckJCNm8zTVNsaWt0Z3Ir?=
+ =?utf-8?B?b1hFU3NvQW9aSG1SWXhnYXhJRSswVXdhd0pLanJRbmM5L0xleUpzQnFsUmx3?=
+ =?utf-8?B?N3FweGk5b2dEQ2VXS2xnQ0lIdG4xSGpyMGt1QlVCa0gvbnZqbWhwN3I2R0Jr?=
+ =?utf-8?B?Tzc5a1IyQUNnaEVFQ1NiVXNQS0w1cE5yWVBQMFZCNVBtZEVVdkdrWXcrYkZw?=
+ =?utf-8?B?Umsybjdab052a1RRb1FZWVhTdHpuajl1WXFudkhsYTFWUnY4dlp6N1ZPUlIv?=
+ =?utf-8?B?SnUwb2s1Y3FLd3krNzd2WHRLc0VBT05FQ3JkcHZNK1kwT3BKbUVHc1E5RDd2?=
+ =?utf-8?B?YkVJYVpNbS9QcHV5Mko3NTlXdDczcThBcFQ1dnI2WWFWNWxpdmdWVDJ0N3cr?=
+ =?utf-8?B?citTS0E3TkJ0ZXVobFh1VUFzRUw1REc5TjBoN3BwUk1QSTVMWlZIZE53bS9l?=
+ =?utf-8?Q?KT6Q=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91480fbe-9ad8-4704-71d9-08dda75e1af2
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 13:28:08.0530
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 14:01:17.8921
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gXM+sRMLFjzD6Bq3CwusvcZ7k56gmZWN4eJoqaR7Tt2vsFa63dmKknBdxuBQzZ/Y
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6950
+X-MS-Exchange-CrossTenant-UserPrincipalName: zBnJN1/BfOTNPTG1GqcN3pvSXeCU9eIK1lzjIVbTh7kntLVz9cn3u5DpcMhZGRTQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6067
 
-On 9 Jun 2025, at 7:34, Usama Arif wrote:
+Hi Tony,
 
-> On 06/06/2025 18:37, David Hildenbrand wrote:
->> On 06.06.25 16:37, Usama Arif wrote:
->>> On arm64 machines with 64K PAGE_SIZE, the min_free_kbytes and hence the
->>> watermarks are evaluated to extremely high values, for e.g. a server wi=
-th
->>> 480G of memory, only 2M mTHP hugepage size set to madvise, with the res=
-t
->>> of the sizes set to never, the min, low and high watermarks evaluate to
->>> 11.2G, 14G and 16.8G respectively.
->>> In contrast for 4K PAGE_SIZE of the same machine, with only 2M THP huge=
-page
->>> size set to madvise, the min, low and high watermarks evaluate to 86M, =
-566M
->>> and 1G respectively.
->>> This is because set_recommended_min_free_kbytes is designed for PMD
->>> hugepages (pageblock_order =3D min(HPAGE_PMD_ORDER, PAGE_BLOCK_ORDER)).
->>> Such high watermark values can cause performance and latency issues in
->>> memory bound applications on arm servers that use 64K PAGE_SIZE, eventh=
-ough
->>> most of them would never actually use a 512M PMD THP.
->>>
->>> Instead of using HPAGE_PMD_ORDER for pageblock_order use the highest la=
-rge
->>> folio order enabled in set_recommended_min_free_kbytes.
->>> With this patch, when only 2M THP hugepage size is set to madvise for t=
-he
->>> same machine with 64K page size, with the rest of the sizes set to neve=
-r,
->>> the min, low and high watermarks evaluate to 2.08G, 2.6G and 3.1G
->>> respectively. When 512M THP hugepage size is set to madvise for the sam=
-e
->>> machine with 64K page size, the min, low and high watermarks evaluate t=
-o
->>> 11.2G, 14G and 16.8G respectively, the same as without this patch.
->>>
->>> An alternative solution would be to change PAGE_BLOCK_ORDER by changing
->>> ARCH_FORCE_MAX_ORDER to a lower value for ARM64_64K_PAGES. However, thi=
-s
->>> is not dynamic with hugepage size, will need different kernel builds fo=
-r
->>> different hugepage sizes and most users won't know that this needs to b=
-e
->>> done as it can be difficult to detmermine that the performance and late=
-ncy
->>> issues are coming from the high watermark values.
->>>
->>> All watermark numbers are for zones of nodes that had the highest numbe=
-r
->>> of pages, i.e. the value for min size for 4K is obtained using:
->>> cat /proc/zoneinfo=C2=A0 | grep -i min | awk '{print $2}' | sort -n=C2=
-=A0 | tail -n 1 | awk '{print $1 * 4096 / 1024 / 1024}';
->>> and for 64K using:
->>> cat /proc/zoneinfo=C2=A0 | grep -i min | awk '{print $2}' | sort -n=C2=
-=A0 | tail -n 1 | awk '{print $1 * 65536 / 1024 / 1024}';
->>>
->>> An arbirtary min of 128 pages is used for when no hugepage sizes are se=
-t
->>> enabled.
->>>
->>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
->>> ---
->>> =C2=A0 include/linux/huge_mm.h | 25 +++++++++++++++++++++++++
->>> =C2=A0 mm/khugepaged.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-| 32 ++++++++++++++++++++++++++++----
->>> =C2=A0 mm/shmem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 29 +++++------------------------
->>> =C2=A0 3 files changed, 58 insertions(+), 28 deletions(-)
->>>
->>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
->>> index 2f190c90192d..fb4e51ef0acb 100644
->>> --- a/include/linux/huge_mm.h
->>> +++ b/include/linux/huge_mm.h
->>> @@ -170,6 +170,25 @@ static inline void count_mthp_stat(int order, enum=
- mthp_stat_item item)
->>> =C2=A0 }
->>> =C2=A0 #endif
->>> =C2=A0 +/*
->>> + * Definitions for "huge tmpfs": tmpfs mounted with the huge=3D option
->>> + *
->>> + * SHMEM_HUGE_NEVER:
->>> + *=C2=A0=C2=A0=C2=A0 disables huge pages for the mount;
->>> + * SHMEM_HUGE_ALWAYS:
->>> + *=C2=A0=C2=A0=C2=A0 enables huge pages for the mount;
->>> + * SHMEM_HUGE_WITHIN_SIZE:
->>> + *=C2=A0=C2=A0=C2=A0 only allocate huge pages if the page will be full=
-y within i_size,
->>> + *=C2=A0=C2=A0=C2=A0 also respect madvise() hints;
->>> + * SHMEM_HUGE_ADVISE:
->>> + *=C2=A0=C2=A0=C2=A0 only allocate huge pages if requested with madvis=
-e();
->>> + */
->>> +
->>> + #define SHMEM_HUGE_NEVER=C2=A0=C2=A0=C2=A0 0
->>> + #define SHMEM_HUGE_ALWAYS=C2=A0=C2=A0=C2=A0 1
->>> + #define SHMEM_HUGE_WITHIN_SIZE=C2=A0=C2=A0=C2=A0 2
->>> + #define SHMEM_HUGE_ADVISE=C2=A0=C2=A0=C2=A0 3
->>> +
->>> =C2=A0 #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> =C2=A0 =C2=A0 extern unsigned long transparent_hugepage_flags;
->>> @@ -177,6 +196,12 @@ extern unsigned long huge_anon_orders_always;
->>> =C2=A0 extern unsigned long huge_anon_orders_madvise;
->>> =C2=A0 extern unsigned long huge_anon_orders_inherit;
->>> =C2=A0 +extern int shmem_huge __read_mostly;
->>> +extern unsigned long huge_shmem_orders_always;
->>> +extern unsigned long huge_shmem_orders_madvise;
->>> +extern unsigned long huge_shmem_orders_inherit;
->>> +extern unsigned long huge_shmem_orders_within_size;
+On 5/28/25 16:41, Moger, Babu wrote:
+> Hi Tony, Peter,
+> 
+> On 5/27/2025 4:41 PM, Luck, Tony wrote:
 >>
->> Do really all of these have to be exported?
+>>> Thanks for applying my suggestion[1] about the array entry sizes, but
+>>> you needed one more dereference:
 >>
->
-> Hi David,
->
-> Thanks for the review!
->
-> For the RFC, I just did it similar to the anon ones when I got the build =
-error
-> trying to use these, but yeah a much better approach would be to just hav=
-e a
-> function in shmem that would return the largest shmem thp allowable order=
-.
->
->>> +
->>> =C2=A0 static inline bool hugepage_global_enabled(void)
->>> =C2=A0 {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return transparent_hugepage_flags &
->>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->>> index 15203ea7d007..e64cba74eb2a 100644
->>> --- a/mm/khugepaged.c
->>> +++ b/mm/khugepaged.c
->>> @@ -2607,6 +2607,26 @@ static int khugepaged(void *none)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>> =C2=A0 }
->>> =C2=A0 +static int thp_highest_allowable_order(void)
+>>> -       size_t tsize = sizeof(hw_dom->arch_mbm_states[0]);
+>>> +       size_t tsize = sizeof(*hw_dom->arch_mbm_states[0]);
 >>
->> Did you mean "largest" ?
->
-> Yes
->
+>>> -       size_t tsize = sizeof(d->mbm_states[0]);
+>>> +       size_t tsize = sizeof(*d->mbm_states[0]);
 >>
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 unsigned long orders =3D READ_ONCE(huge_anon_orders=
-_always)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | READ_ONCE(huge_anon_orders_madvis=
-e)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | READ_ONCE(huge_shmem_orders_alway=
-s)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | READ_ONCE(huge_shmem_orders_madvi=
-se)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | READ_ONCE(huge_shmem_orders_withi=
-n_size);
->>> +=C2=A0=C2=A0=C2=A0 if (hugepage_global_enabled())
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 orders |=3D READ_ONCE(huge_=
-anon_orders_inherit);
->>> +=C2=A0=C2=A0=C2=A0 if (shmem_huge !=3D SHMEM_HUGE_NEVER)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 orders |=3D READ_ONCE(huge_=
-shmem_orders_inherit);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 return orders =3D=3D 0 ? 0 : fls(orders) - 1;
->>> +}
+>> Indeed yes. Thanks.
 >>
->> But how does this interact with large folios / THPs in the page cache?
->>
->
-> Yes this will be a problem.
->
-> From what I see, there doesn't seem to be a max order for pagecache, only
-> mapping_set_folio_min_order for the min.
+> 
+> Tony, Thanks for porting patches.
+> 
+> I can actually pick your branch [1] and apply review comments on top for
+> v14 series. Hope that is fine with everyone.
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git/log/?h=my_mbm_plus_babu_abmc
+> 
+> One question though: Where will the Peter's fix [2] go?
+> [2]
+> https://lore.kernel.org/lkml/CALPaoCj7FBv_vfDp+4tgqo4p8T7Eov_Ys+CQRoAX6u43a4OTDQ@mail.gmail.com/
+> 
+> thanks
+> Babu
+> 
+> 
 
-Actually, there is one[1]. But it is limited by xas_split_alloc() and
-can be lifted once xas_split_alloc() is gone (implying READ_ONLY_THP_FOR_FS
-needs to go).
+I'm currently working on v14 and plan to post the updated ABMC series
+tomorrow. I've used your multi-event support patches as the base:
 
-[1] https://elixir.bootlin.com/linux/v6.15.1/source/include/linux/pagemap.h=
-#L377
+    x86, fs/resctrl: Consolidate monitor event descriptions
 
-> Does this mean that pagecache can fault in 128M, 256M, 512M large folios?
->
-> I think this could increase the OOM rate significantly when ARM64 servers
-> are used with filesystems that support large folios..
->
-> Should there be an upper limit for pagecache? If so, it would either be a=
- new
-> sysfs entry (which I dont like :( ) or just try and reuse the existing en=
-tries
-> with something like thp_highest_allowable_order?
+    x86, fs/resctrl: Replace architecture event enabled checks
 
-MAX_PAGECACHE_ORDER limits the max folio size at the moment in theory
-and the readahead code only reads PMD level folios at max IIRC.
+    x86/resctrl: Remove 'rdt_mon_features' global variable
 
+    x86, fs/resctrl: Prepare for more monitor events
 
---
-Best Regards,
-Yan, Zi
+I noticed there are a few comments on your series here:
+https://lore.kernel.org/lkml/20250521225049.132551-1-tony.luck@intel.com/
+
+Let me know if you've updated the patches. If so, I’ll incorporate the
+latest version. Otherwise, I’ll proceed with the current base as-is.
+-- 
+Thanks
+Babu Moger
