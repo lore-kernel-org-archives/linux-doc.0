@@ -1,179 +1,125 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF77226545
-	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 23:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BBC21E0AA
+	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 23:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749510304; cv=none; b=MdMwSt0wc9l4YDLts5p+pyAE1IFAPCwq75/AQ8kwsOOKFv/08Y3sGzLCsw/MS+5Ggfa5tZz/V5xq0qRwrkNLlqgXlPWkUs6O3qpMQ12H9lNqQ8RVPJtecnMpKTf2fEhwkLnx8hbV+jGUNWHXHQDTxr417wDgFJmNqo/nBpsnGyU=
+	t=1749510699; cv=none; b=indT8MGincSDGNc2PoHHUnKIjmPbolK88cNp6lInCg/kz14wPCJIkoEAAvbDwXY1KL1Wku/6bsYQlRUrXNiq3QtRml55yixDFRysa8YLnNgRlqjQ89RLSw2rmNt7UqrBt3ugZiAnESP+3XONuDJEXoeEdev2TWXZrGm7iOiDkds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749510304; c=relaxed/simple;
-	bh=8JQVGbTAqQUabzFe20anuyHGA4gpZl+ONkN6GLx8ymI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nBp01lThwDvfPzvKIYu8ffJ1qYXTJ3DCLwg90qKUOxD/Bs4zLWMAoFNL5K1Vyr17i2OOiKPabrgyUkg2ZS3flnFUVA8Uq6f5shO+R3Bh9wXh+r+vOUk2gh2b5v+/MOVeA0KEeBaClvU0yHa0iAHnQOwnz1bjsjNufFm49L/lwOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DvQ3VvWy; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1749510699; c=relaxed/simple;
+	bh=YBYZyG/zejxervw8g2ljD323j9IDrb4e87zC59nYm8s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RuWHS/qvVFBDOcjjMuUeCjVBYmo190B5Hd4JR1hjJiVAsmp6GAbqE+nx43LM/8otqZ39599tb4Od6lItdmswefrxcOZvcwthYF0/1XsEGx6OObeKYKlTCTUqHOd3rfw4TAc95Cj91XNKqFvtrHC4IvqrYxz2SAItsDk+K11qY4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fSxPFUEI; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DvQ3VvWy"
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e75668006b9so4625827276.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Jun 2025 16:05:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1749510301; x=1750115101; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q7+cVr8dsExjTk3ijrllXSzAu8Gblm5oL77kdyoH2ZE=;
-        b=DvQ3VvWyq3FvzVm8BNKbZvXYbIOhxV8vmBzMEqQ9oKXdIKRumc0brDSk/kf+NRmTC+
-         2Ix0nE+oI2oCeQfSsZrBCTrnQVTj/UyRNhGLkkw22bh6mxO3LPLYg+lBWwnWOBr26rze
-         h00OuudIbD300dhvJpSQorDzKDm2Ebo5s3DeUSsU8H/knMwurQw53gOqc4LqbF84mL5H
-         G0iwBD6kEJ3mNnlw8MCO0QJJH/5BX78cCAZN9QDs6sRq7EEGCjewotddFFzgL2qNPBsl
-         NPU4j8bCBsjUhjFuSXCTwMk/QC1ZcYWwjXIpWqc2HScukEtzqpvywj9Dp+vvJO+cPlUj
-         lCBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749510301; x=1750115101;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q7+cVr8dsExjTk3ijrllXSzAu8Gblm5oL77kdyoH2ZE=;
-        b=XajqgJvHDJ8HDZXkxqxvoFjNcVwvJ6lt/sHBYwAE3akacBZ3qdktS/Df51u0bZCUfX
-         lNpcDYbf37LfMi4fO6PCxIcnJVXg5J9bvaPH+Idv7llNOC7L8I2ZLiIyF1/Lq66PSgIr
-         +OcTzqWzzpLhiSbbK0n8ZALJm+4dcd3zQ0A61tobTPfYqRhxZphGwfwlbEIwYcZrc0ac
-         NNMtLN4um87xGj1sTwdAxeKW/W1tZCaT5tCI1JIl8Q81gNMUeWrZ6XHIdAweakNBAn5d
-         4O2AGELSvbwnIUG7XBgGuNd2lvmYE0DAh5INQwkKhslv/vTj9d2UEua8TCIcB13XtjCP
-         SPNA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdrh5ARiFUT07iKpVkJBw81JeIVF6yMIb6f3N1V33sJOlR7rDvObHblM3DaTdfIp/w/QpzXt5HInE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNiwKPhXq+7sPzUwQwu+xEbwoBJ4rJxKqT3Qq9bR5iHzN0Aswh
-	SKSOU6h0mjAP92HBIV3l6evX4shtAr1UYaAkfvWveeWfwVFzwX9TdzOsldSmHOjlycKjt8cX9Rx
-	w/8gjQkgxdUAadGUwRG/v4zvqjQ93amnQiB6mmbA0
-X-Gm-Gg: ASbGncuxBigrh3Wj/o73U5U9b0KCRMM6FXE7JT+bcgmE7UoVgpBMVdwT1SXO47szl8i
-	iU+w4W9hoaN2W+DnatowUaaIPN9+qcErpEN1TcbaTRnzfh0+p3cNINQcMvlV//o5g4PpJEcpjwt
-	XxGTtuds+CTWc3SrxqMxmwTjIzn2y3kbv5ntqCihBPcfAGhbHP+ZXz4eNbVCT3rScHBwoNmksIu
-	A==
-X-Google-Smtp-Source: AGHT+IHDN7yYiqZfvU9YYp0Xn0iNVyQLG2U2NkvCT1T2HFwTM8W1uiwWGtxc6CrVQKMfQxc4kQw9Dq00AIFK5/ldCts=
-X-Received: by 2002:a05:690c:360e:b0:70d:f3bb:a731 with SMTP id
- 00721157ae682-710f76949a7mr201808267b3.9.1749510300215; Mon, 09 Jun 2025
- 16:05:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fSxPFUEI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=sJ8/lWbF9HxjdniQadUJFWFi7JyWW8Wf0F5/EhKAG1Y=; b=fSxPFUEI153ULuPg0W8RAIEZG4
+	UA30zezeL9sDPuU4843ynTlstlBKJAYYgGI8WQZvJWzRhNy+KLvmjLyeuuzfvlKYjUNEZOhK55D3U
+	2tChFT11psyN4FpRshycHFG0TG3nHHhnfA6Bicw+cIVCKC2d4aUqvPqxrLBETpIpzrLHgwZK4D/Do
+	lL2i0Pi7+fDrHx8PjW2Zh54EHaIQutPEIkVhgFXsLZFrFv5LlC3DUsIflJesUy9h73FevUnqFwbgR
+	c0X1fCs/RTg3PwgVKGRQUOohWk6lHC+rP+RIntpbae5KQgDBJiRPGUdEw2xu1Ll5Gc5DzFCkErphR
+	sYLIejKg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uOleR-00000001hFQ-2SCY;
+	Mon, 09 Jun 2025 23:11:36 +0000
+Message-ID: <8b5ebc23-2885-4ab8-8b86-91e220567bbe@infradead.org>
+Date: Mon, 9 Jun 2025 16:11:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aDdILHOu9g-m5hSm@google.com> <20250528201756.36271-1-jthoughton@google.com>
- <aDebZD1Kmmg15zs7@google.com>
-In-Reply-To: <aDebZD1Kmmg15zs7@google.com>
-From: James Houghton <jthoughton@google.com>
-Date: Mon, 9 Jun 2025 16:04:24 -0700
-X-Gm-Features: AX0GCFsscOLeJsC5afeLhStDd6O3F0bHoTP2OBA-juWmkL4Q85V0QPpPjCgJ_5E
-Message-ID: <CADrL8HWwWN6tgV5ws8HMmeONmmhx_xS5ZSHgV7E6Cg=NDrqCTQ@mail.gmail.com>
-Subject: Re: [PATCH v2 06/13] KVM: arm64: Add support for KVM_MEM_USERFAULT
-To: Sean Christopherson <seanjc@google.com>
-Cc: amoorthy@google.com, corbet@lwn.net, dmatlack@google.com, 
-	kalyazin@amazon.com, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, maz@kernel.org, oliver.upton@linux.dev, 
-	pbonzini@redhat.com, peterx@redhat.com, pgonda@google.com, 
-	wei.w.wang@intel.com, yan.y.zhao@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/process/: Change 5.x to 6.x; clarify terms;
+ added note.
+To: Dante Strock <dantestrock@hotmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <PAXPR06MB8224F2CE53A1F4D674969B22A769A@PAXPR06MB8224.eurprd06.prod.outlook.com>
+ <87ecvtc772.fsf@trenco.lwn.net>
+ <PAXPR06MB8224F9CF845C22E7BE930624A76BA@PAXPR06MB8224.eurprd06.prod.outlook.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <PAXPR06MB8224F9CF845C22E7BE930624A76BA@PAXPR06MB8224.eurprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 28, 2025 at 4:25=E2=80=AFPM Sean Christopherson <seanjc@google.=
-com> wrote:
->
-> On Wed, May 28, 2025, James Houghton wrote:
-> > On Wed, May 28, 2025 at 1:30=E2=80=AFPM Sean Christopherson <seanjc@goo=
-gle.com> wrote:
-> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> > index c5d21bcfa3ed4..f1db3f7742b28 100644
-> > --- a/arch/arm64/kvm/mmu.c
-> > +++ b/arch/arm64/kvm/mmu.c
-> > @@ -2127,15 +2131,23 @@ void kvm_arch_commit_memory_region(struct kvm *=
-kvm,
-> >                                  const struct kvm_memory_slot *new,
-> >                                  enum kvm_mr_change change)
-> >  {
-> > -     bool log_dirty_pages =3D new && new->flags & KVM_MEM_LOG_DIRTY_PA=
-GES;
-> > +     u32 old_flags =3D old ? old->flags : 0;
-> > +     u32 new_flags =3D new ? new->flags : 0;
-> > +
-> > +     /*
-> > +      * If only changing flags, nothing to do if not toggling
-> > +      * dirty logging.
-> > +      */
-> > +     if (change =3D=3D KVM_MR_FLAGS_ONLY &&
-> > +         !((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES))
-> > +             return;
-> >
-> >       /*
-> >        * At this point memslot has been committed and there is an
-> >        * allocated dirty_bitmap[], dirty pages will be tracked while th=
-e
-> >        * memory slot is write protected.
-> >        */
-> > -     if (log_dirty_pages) {
-> > -
-> > +     if (new_flags & KVM_MEM_LOG_DIRTY_PAGES) {
-> >               if (change =3D=3D KVM_MR_DELETE)
-> >                       return;
-> >
-> >
-> > So we need to bail out early if we are enabling KVM_MEM_USERFAULT but
-> > KVM_MEM_LOG_DIRTY_PAGES is already enabled, otherwise we'll be
-> > write-protecting a bunch of PTEs that we don't need or want to WP.
-> >
-> > When *disabling* KVM_MEM_USERFAULT, we definitely don't want to WP
-> > things, as we aren't going to get the unmap afterwards anyway.
-> >
-> > So the check we started with handles this:
-> > > > > > +       u32 old_flags =3D old ? old->flags : 0;
-> > > > > > +       u32 new_flags =3D new ? new->flags : 0;
-> > > > > > +
-> > > > > > +       /* Nothing to do if not toggling dirty logging. */
-> > > > > > +       if (!((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES=
-))
-> > > > > > +               return;
-> >
-> > So why also check for `change =3D=3D KVM_MR_FLAGS_ONLY` as well? Everyt=
-hing I just
-> > said doesn't really apply when the memslot is being created, moved, or
-> > destroyed. Otherwise, consider the case where we never enable dirty log=
-ging:
-> >
-> >  - Memslot deletion would be totally broken; we'll see that
-> >    KVM_MEM_LOG_DIRTY_PAGES is not getting toggled and then bail out, sk=
-ipping
-> >    some freeing.
->
-> No, because @new and thus new_flags will be 0.  If dirty logging wasn't e=
-nabled,
-> then there's nothing to be done.
->
-> >  - Memslot creation would be broken in a similar way; we'll skip a bunc=
-h of
-> >    setup work.
->
-> No, because @old and thus old_flags will be 0.  If dirty logging isn't be=
-ing
-> enabled, then there's nothing to be done.
->
-> >  - For memslot moving, the only case that we could possibly be leaving
-> >    KVM_MEM_LOG_DIRTY_PAGES set without the change being KVM_MR_FLAGS_ON=
-LY,
-> >    I think we still need to do the split and WP stuff.
->
-> No, because KVM invokes kvm_arch_flush_shadow_memslot() on the memslot an=
-d marks
-> it invalid prior to installing the new, moved memslot.  See kvm_invalidat=
-e_memslot().
->
-> So I'm still not seeing what's buggy.
 
-Sorry, I didn't see your reply, Sean. :(
 
-You're right, I was confusing the KVM_MEM_USERFAULT and
-KVM_MEM_LOG_DIRTY_PAGES. I'll undo the little change I said I was
-going to make.
+On 6/9/25 12:17 PM, Dante Strock wrote:
 
-Thank you!
+[snip]
+
+>        diff --git a/Documentation/process/2.Process.rst
+>        b/Documentation/process/2.Process.rst index
+>        ef3b116492df..70f8a6603454 100644 ---
+>        a/Documentation/process/2.Process.rst +++
+>        b/Documentation/process/2.Process.rst @@ -18,17 +18,17 @@ major
+>        kernel release happening every two or three months. The recent
+>        release history looks like this: ====== ================= - 5.0
+>        March 3, 2019 - 5.1 May 5, 2019 - 5.2 July 7, 2019 - 5.3
+>        September 15, 2019 - 5.4 November 24, 2019 - 5.5 January 6, 2020
+>        + 6.10 July 14, 2024 + 6.11 September 15, 2024 + 6.12 November
+>        17, 2024 + 6.13 January 20, 2025 + 6.14 March 24, 2025 + 6.15
+>        May 25, 2025 ====== ================= -Every 5.x release is a
+>        major kernel release with new features, internal +Every 6.x
+>        release is a major kernel release with new features, internal
+>        API changes, and more. A typical release can contain about
+>        13,000 -changesets with changes to several hundred thousand
+>        lines of code. 5.x is +changesets with changes to several
+>        hundred thousand lines of code. 6.x is the leading edge of Linux
+>        kernel development; the kernel uses a rolling development model
+>        which is continually integrating major changes.
+> 
+>    I do not object to these change and could apply this, but it might
+>    be nice at some point to rephrase this stuff so that we don't end up
+>    doing these updates repeatedly. After all, we'll be at 7.x within a
+>    year...
+
++1
+
+>        @@ -48,9 +48,9 @@ detail later on). The merge window lasts for
+>        approximately two weeks. At the end of this time, Linus Torvalds
+>        will declare that the window is closed and release the -first of
+>        the "rc" kernels. For the kernel which is destined to be 5.6,
+>        +first of the "rc"("release candidate") kernels. For the kernel
+>        which is destined to be 6.16,
+> 
+>    This is a separate change. But, of course, yesterday's 6.16-rc1 is
+>    in no way a "release candidate". It's really just the naming scheme
+>    that Linus uses for his testing releases, calling them "release
+>    candidates" muddies the water and risks reigniting old debates.
+
+I have also thought of -rc as "release candidate", but -rc[1234] are
+"early release candidates" to my brain. Or the could be called -nc[1234]
+as in "non-candidates."
+
+> 
+>        +Note that not all Linux distributions have the latest version
+>        of Git +or Mercurial available in their repositories. Consult
+>        the package +maintainer for your distribution to get the package
+>        updated or +download it directly from the website.
+> 
+[snip]
+
+> 
+> Hello,
+> 
+
+Parts of this email style guide might be helpful in the future:
+  https://people.kernel.org/tglx/notes-about-netiquette
+
+[snip]
+
+Thanks.
+-- 
+~Randy
+
