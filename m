@@ -1,184 +1,75 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6E427718;
-	Mon,  9 Jun 2025 18:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE311FAA;
+	Mon,  9 Jun 2025 18:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749493421; cv=none; b=IeGlqevrglgeadzYjWGAz+2v6278w360Zcg3M5wOH+cmds5hAPFPYakaPTluyM+RRDBvMxoIRlprTN4ILnrq1RHweahUOTIWWsysInoGMF3IpKXjq8gp6wVCupuDVTM3A8FeXH74JBgInsGulf3YI+RremTmW+yJLIk3xMc/ZvM=
+	t=1749493813; cv=none; b=fQpqx4gvKdJ9MevLjNt/jui4z8C/lqoS/lhT4qC9T/SDoHnwAogDF4CdUaZuqXhZGq0KsOpSMlA+vEyBfeK3ww/T6n0kk7V+h1vuHeI+erMwpGZuhxeac3mFT+X5gmA6lup7o8nyds0KA/WClssOiiVfxwn6+jcF++EZ+WjpB3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749493421; c=relaxed/simple;
-	bh=4xVRH7yRkfu3VnlWI3iF65T8q5VomcV67pSWNmihj9c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=Do8bbNx4J5t9LomEQKZkAP1HpMHtVZzmdb4I2IqOzFlnLMFptzQVgtebjtkg1sZ23BnwbJNpi8koh/idhVfHKNDyX2KqQwV9IKLWOh1p//sP7MbLzaJCYniMr0w8gpwCwsksD/qBO3jUO2hnxrnXMUZOvfchGTV6/5/6Y42vnd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imE8nUPt; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749493813; c=relaxed/simple;
+	bh=kjW3bXWtT9KddxypLMRSdi906UpsccRqwwYpDQtcvUo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=T/9dHvXNZk08Bt4GmKNLI7S6BKloY38j/A4277f4KbQ65pSvAYdGZ3KPYnAiVr17h3cEu87+s7rtBZK3dTUACyzguNDEXetrctALAAvXlcOYtB1V0esvlXNHEUIqJOwYJHcyNHbN8ng6wb3JQh0q6fnCiD06QtCOg5Y2Bcj96k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Y9CMZLa2; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imE8nUPt"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ad891bb0957so744313066b.3;
-        Mon, 09 Jun 2025 11:23:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749493415; x=1750098215; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CW/d3YTjSFycjX6/LB8McvZq17h6mxN+2rNQt6R27Hc=;
-        b=imE8nUPtKAhEBpsofQxGtRQUxtwfVspfpp1NvQ/DHEUOlyyBMrw9yZYtwBV8MlrBt+
-         a54srRvn3/n57GLHNs9Jli0utFB8ejH3MsgNYfazsPOA1zAiwCZwe9PsCJD1J533WNZH
-         Yrna4uNDk687sIM2rxsgzcT/FkOJk6SjZtltliu88uFFchIM1s0+JIwbnidgPqngL6nT
-         9IwBRVe6Y06r4IAxNc9zU2em2NQjNhwusmR2G/pt7byN7gFsc1dRGJNs0U8WisC4zh/0
-         cjdk6CbWgnH2XCDGwD9qYvF74wz8XI9iiGOBLrnvyt6vk2Xl6y4chKJDFgJ/18OQwxIy
-         pnAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749493415; x=1750098215;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CW/d3YTjSFycjX6/LB8McvZq17h6mxN+2rNQt6R27Hc=;
-        b=Lyubd4V2QC/yU1Q4IJRbA6VgxxBj3f0xlsEprGAKwtK9H1ZD08+QmvSBQvREIsCAHN
-         DDHMyjHBAe0sYtlfqqOt89Lq7WqBk9bkd2QJKr8hX4XY5DBwlGIY8JnW0+hAwB3Hq5XY
-         /8+TI3VaOyi/kxL/9XCvfqBZl4lh1m/8uPG7JCkXK7Fj8fF7Yl3yKpRAup/MztM3y3sU
-         knXvpuPn42Y1ROU0CpmrlNGaSzpcJd/8EBHby8B/o9qynYas4jDXzINRVQYF2OTQ7qrH
-         N5pePMGW3K77p+/MSAptm7KsQl659tZxn7MWnyVxTTaySxuVp1/J22PIasaQ9uiMgw4R
-         UQyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQ+cs4kKrg5LrRwLKKw3A8Y0OY1O9VSbl5xHtv9urViVusu5+oU/m6R5cbn1P8rltQUSxusKj0XUi/gu6P@vger.kernel.org, AJvYcCVyi0O6Xfm82Zv2ABKqk0XEBboIazf0jSTsTv92AQi7YHRylMqZqGFFNf5/7jjJyVESutIJR9nOEgE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLOMEndNA5YNKJ46IbfYrdTEe9/Az3XNRWVjVuLvU/Jdkje0SN
-	Zhd5l+juQkWaaeY3T5GF0svC+I0tb/JRKho0e4FyRSlHOWYd//wZi/6ww91wZQYVp/jWWjMzZ1F
-	G5pdNnBiC2pRT8G7ysXD9zXXHYFOUNNo=
-X-Gm-Gg: ASbGnctbQtsd3MOzssZwdVhvEnYN0dynz38RG/dUC9Zi/z2LagysH6CiXh3Vqjfldzw
-	5lQoRe8V2XGS8N0Wsq7zdkvlS9b19prJCaaCWqVBuAkVQC8aRfslcfe9b65KJpxhSVS/35QJ0xo
-	xMlRLUK71zWQucOraCtsrmWPmt1yRUpNcfFIRo/ar98vuJyM5Wx0zzHQZ4n+onAnUmESR1d03LH
-	oo1zQ==
-X-Google-Smtp-Source: AGHT+IFtV58+b7TdEn169blBTSTg97IoZAMWiVqeKLwKeXRa9wvFaPoz+n0HH+xJYo631uo3xl7Wtx01TrmgPDB7kbo=
-X-Received: by 2002:a17:907:1b16:b0:adb:469d:221f with SMTP id
- a640c23a62f3a-ade1aa15864mr1341933766b.31.1749493414544; Mon, 09 Jun 2025
- 11:23:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Y9CMZLa2"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8A51F41AA1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1749493808; bh=XYGYRkyG9IlI4ZNS524wiPaT2tN2DQXtYfqupXo9Sms=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Y9CMZLa294WgXKldnbrEh35bU4APnaG7nk+M8zmqx425Okivh2L2eg/21Yb85JUOs
+	 fLbXebU2jcIhWoZNGYXoIAGCJyiRrZXr7ysc5nyYV9EbfBWEzU44NniApGEYi0G1vm
+	 C3xYeE1f8lRiNgS/SsghKA2EycbugpwFPj7eYsPnZiX/YkCID4YO2sQohuVk86H9bY
+	 zERaN2ovvWVCpN1vfTr859JZgVDAJV+El7rghnoo1EuUZBbsMU1vRAw/HNGuP4QyDY
+	 SY8LSDGvmBamXubCVvYbDqS3z0McmJeWzVKji5xGp7ai47MJGWLOo5nX3CJofxUZoz
+	 gV3U0iRK+63JQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8A51F41AA1;
+	Mon,  9 Jun 2025 18:30:08 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Collin Funk <collin.funk1@gmail.com>, olteanv@gmail.com
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Collin Funk <collin.funk1@gmail.com>
+Subject: Re: [PATCH] docs: packing: Fix a typo in example code.
+In-Reply-To: <e532b992a79999d3405a363db4b2bd4504fed592.1749434907.git.collin.funk1@gmail.com>
+References: <e532b992a79999d3405a363db4b2bd4504fed592.1749434907.git.collin.funk1@gmail.com>
+Date: Mon, 09 Jun 2025 12:30:07 -0600
+Message-ID: <87jz5kbweo.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250601-drm-doc-updates-v4-1-e7c46821e009@gmail.com>
- <aDz-Pq4eMAYmzqsJ@archie.me> <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
-In-Reply-To: <aEBaJ5zMHfzhpdlz@phenom.ffwll.local>
-From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-Date: Mon, 9 Jun 2025 14:23:24 -0400
-X-Gm-Features: AX0GCFtT5VtTHa-jojzi8kLV9z5EuWYa1-xJcEXWWcyNlt2BE-xhusWO-NpDrzU
-Message-ID: <CAC0Z3JupfeHHrfj7ZeQ3E-1+E9jBrd9SPBn-eJUjEMN6iMB3aw@mail.gmail.com>
-Subject: Re: [PATCH v4] drm: add overview diagram for drm stack
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi,
+Collin Funk <collin.funk1@gmail.com> writes:
 
-Should I go ahead make the diagram more detailed or just add the links
-in 'Slides and articles' & 'Conference talks'  to the existing
-diagram?
+> Fix misspelling of "typedef".
+>
+> Signed-off-by: Collin Funk <collin.funk1@gmail.com>
+> ---
+>  Documentation/core-api/packing.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/core-api/packing.rst b/Documentation/core-api/packing.rst
+> index 0ce2078c8e13..f68f1e08fef9 100644
+> --- a/Documentation/core-api/packing.rst
+> +++ b/Documentation/core-api/packing.rst
+> @@ -319,7 +319,7 @@ Here is an example of how to use the fields APIs:
+>  
+>     #define SIZE 13
+>  
+> -   typdef struct __packed { u8 buf[SIZE]; } packed_buf_t;
+> +   typedef struct __packed { u8 buf[SIZE]; } packed_buf_t;
+>  
 
-Best regards,
+Applied, thanks.
 
-On Wed, Jun 4, 2025 at 10:37=E2=80=AFAM Simona Vetter <simona.vetter@ffwll.=
-ch> wrote:
->
-> On Mon, Jun 02, 2025 at 08:28:30AM +0700, Bagas Sanjaya wrote:
-> > On Sun, Jun 01, 2025 at 06:18:47PM -0400, Abdulrasaq Lawani wrote:
-> > > Add an overview diagram of Linux DRM architecture for
-> > > graphics and compute to introduction.rst
-> > >
-> > > Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
-> > > ---
-> > > <snipped>...
-> > > diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/i=
-ntroduction.rst
-> > > index 3cd0c8860b949408ed570d3f9384edd5f03df002..a8d3f953a470180b395ec=
-52a45d0f3f4561424e0 100644
-> > > --- a/Documentation/gpu/introduction.rst
-> > > +++ b/Documentation/gpu/introduction.rst
-> > > @@ -14,7 +14,45 @@ including the TTM memory manager, output configura=
-tion and mode setting,
-> > >  and the new vblank internals, in addition to all the regular feature=
-s
-> > >  found in current kernels.
-> > >
-> > > -[Insert diagram of typical DRM stack here]
-> > > +Overview of the Linux DRM Architecture
-> > > +--------------------------------------
-> > > +::
-> > > +
-> > > +        +-----------------------------+
-> > > +        |     User-space Apps         |
-> > > +        | (Games, Browsers, ML, etc.) |
-> > > +        +-----------------------------+
-> > > +                      |
-> > > +                      v
-> > > +        +---------------------------------------+
-> > > +        |    Graphics APIs   |   Compute APIs   |
-> > > +        |  (OpenGL, Vulkan)  |  (OpenCL, CUDA)  |
-> > > +        +---------------------------------------+
-> > > +                |                   |
-> > > +                v                   v
-> > > +        +---------------------+  +-----------------------+
-> > > +        |  User-space Driver  |  |    Compute Runtime    |
-> > > +        |  (Mesa, AMD/NVIDIA) |  |  (OpenCL, CUDA, ROCm) |
-> > > +        +---------------------+  +-----------------------+
-> > > +                |                   |
-> > > +                +--------+----------+
-> > > +                         |
-> > > +                         v
-> > > +                +-----------------------+
-> > > +                |   libdrm (DRM API)    |
-> > > +                +-----------------------+
-> > > +                          |
-> > > +                          v
-> > > +        +-------------------------------------------+
-> > > +        |     Kernel DRM/KMS Driver (i915, amdgpu,  |
-> > > +        |     nouveau, etc.)                        |
-> > > +        +-------------------------------------------+
-> > > +                |                       |
-> > > +                v                       v
-> > > +        +----------------+     +-------------------+
-> > > +        | GPU Display HW |     | GPU Compute Units |
-> > > +        +----------------+     +-------------------+
-> > > +
->
-> I'm a bit late to the party, apologies. I'm not sure how much use there i=
-s
-> in an extremely simplified diagram like this, least because it's really
-> incomplete and leaves out the entire display and compositor side.
->
-> My idea was that we'd instead link to the large pile of introductory and
-> overview talks further down in this file, if people want to get an
-> overview over what drm does.
->
-> If you want I guess you could add some links to the relevant wikipedia
-> pages, I think they also do a fairly decent job of explaining the big
-> picture.
->
-> Thanks, Sima
->
->
-> > >
-> > >  Style Guidelines
-> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >
-> >
-> > The patch LGTM, thanks!
-> >
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> >
-> > --
-> > An old man doll... just what I always wanted! - Clara
->
->
->
-> --
-> Simona Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+jon
