@@ -1,263 +1,162 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90B21FBC91;
-	Mon,  9 Jun 2025 12:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103B71E1A31;
+	Mon,  9 Jun 2025 12:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749471150; cv=none; b=mN4I4wSFA1zfyCgi1nJFD9ZmvWgssvlbsklIi30+z/F87Mp/xxpRTTn39vMFg76SH7D2FvK8rSAiLAAo7AbPtdBQruRLwd0R+UCWqOPbM6YsAeUxZcb3mDMKPqPL3E1u6mXW+YMz624lzwXD8hjl5a9i8Riu1SHKu8tW7OfbxXo=
+	t=1749472064; cv=none; b=iP1pb59ayY8Ivp7s3Y9dX8OzPufPt1slCBKudwJWoY0vLiVVxcWOyOnr+NMU306c5h5k+3DNpNeK2ZXVDEKOqaXpqS/YMMdzwdmexKr3LjYJt1f0Y4I01QST1OAZsnDeuh03upThGBxqkDLXCzG9s5STcF4VWBZ4pyjjgSFn5g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749471150; c=relaxed/simple;
-	bh=TkDVKO5fyPmsNSZNS1lvjQeL87wVD4JhK+2OYMRm1C4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=jqGwnbN7uYE5WkDKn5SMMB79RyT5uzlILJm+Art0MrwzHShtUxuk9DQaFdW3oi/nxwARaKGexkS0+heN0t057rHbmEy4KKNJasdMUNxPZNlcefWCIGtCQgeueADuA6eyop+qzRLmyymzbXYXmm61Twati/6bjAx7bQzqzFomvBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NY52ZD//; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749472064; c=relaxed/simple;
+	bh=fMxz0jV4QePrXh05PZ8xukpwaPrvRnONxi5a7SuaC2k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lPDP5FNuZ7k9W9dX7Km8C10GFX7j6T332lQwQSR9tcbcHD94IexTrgKW1wNN+i0C7T38ZWTWZgPHPGRGoZA3dZp1kz/BZ/UIsy18TQXQnhsLKZpUFDJ4WB9EiAEL75jHYfbaTLPJzZpEKkPdBYrBrpYs8aN4jFLVJBnd7He1j40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=O0s9GeJS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=b+NZrgsN; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NY52ZD//"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a528243636so2422771f8f.3;
-        Mon, 09 Jun 2025 05:12:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749471147; x=1750075947; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Vpun/tULtl0H5e1HVie0xVlPi4zB2Tu7EfAGao3SNJE=;
-        b=NY52ZD//SprPzWycI+lPrxEv4LrH4Attx5ad55Y4q6hdHwbvpanr1JnvjYD9Hvjj/X
-         HoMsvAxcpNEeEAhFdm1PfPSG5kDUJPA69Wt/DjWnu5jaFf+1twvnGMRAjJ13eGE5lcfN
-         W6xCMAMgCpddpN6zEBH40e4TXvMhj+MaGEUsxYqwUIwytEo0q+aIkdThtLqWjTRPpQYE
-         Qky7dRuH7wPDf0XW8y9r9ruoXRMvd2p89h5rIB+yPPBKaYS9bob8cDs2UpwVJl8kIzFA
-         GienTLjvunNAzq2QOHrINnF7gYephFYfYCjWBDRRxbrmcBF6XtJ1zT+bPMxqiBTyNSG3
-         RYyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749471147; x=1750075947;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vpun/tULtl0H5e1HVie0xVlPi4zB2Tu7EfAGao3SNJE=;
-        b=Vwei1PyaQIPht+++tBkRaaNJ3d/E863zXW9+xS2/m7SHK3EUyp5eohC+NRRPVYY+p2
-         lPlExlT72qe80R8LbXY2bSfkqxagaKoepOOeVAivhnXOWvfyhj7FUbQk9nX/ErSePpG1
-         yTsR1kDbrsV7ObPi6mtwZVDf/oyFCosc4tUzEKlBc3LiwWZLQjW4BLhzOGWBOKBSPWfT
-         e7q8eZ8t/NYNT5GltFMgkRJyZTG7WR1rigsIagjUrYpdJyNdYOBoJKwO5jg2NUVV2GWc
-         Z7sGDmMDoxwm+2L5p/I9Ob+G9UBLMCXsthefTvjyIu/okiQug79QXQ1eVw4o2Bh8NRRy
-         8jJA==
-X-Forwarded-Encrypted: i=1; AJvYcCVa4V+UL/V4tk8k5gQq8F3rbKuR5Xd8zKO1H0y4rLiq4aC8N9KMzdmOjKd0BovUp1HVbaD8vFMy2aj55mxk@vger.kernel.org, AJvYcCXk58O26lvRV9wr9hBMumS6zXjV+/uoUkNWANHq6Swbv1bTALKfM/Ay4hjuDBntYiiVRSUq2nMdKBA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfR70GXR721ET6y1wckggx9Q7886wZVtkHamOflKNu1xCcnsc7
-	I2Rq0Ud/vgw9f/ddJYvDhfMtTw9QQaJv+gmpvqOu0yKPR9UpcDHQbD2h
-X-Gm-Gg: ASbGnct+1SdZ3j3y6HwsIcQsxDcTGj0C6JmY8JbKUnFAqHPhd7uU3vjcg3UMyV0KaPH
-	5B34bKKd6D59PxGpyZ+3wq401NR535+Vmg9Wctyfn3zZFhs/OwYSffVdj1A9jircDPIzzhkmF5O
-	5jkyNst0q6QW5M6khWSGoBUKvp6mLG6X8qAhYg5MiA1KjBhWnQMg1bJc6OFVQQbLcfoKIWWW4s9
-	QYLxLvLWtWVHg7bNdsIbmivBM7dk2Jc7cDrXofMTcpAB6sA721B7ExqIBnv5Q2PTFtMYsp44tKk
-	U1A7gQCBHNcZdORSPOJ5xFFTEhsjHj5uPcCHiVqml/jUHIizljlaG+RzNhaMQVKDe6lvt6gs1Ma
-	hftdxou00E3FUfTOTpCCqMWbM0a/1QQx+9CCro63MfP7ZWnFX0S0OS0oraExXMPU=
-X-Google-Smtp-Source: AGHT+IHj3m1slrOYKA98Ye1v9q7Jap88kFAbrM6JW9r3QccET9QUKTfsYMIkLaJZ5F8pwxecx//m7w==
-X-Received: by 2002:a05:6000:400e:b0:3a1:f564:cd9d with SMTP id ffacd0b85a97d-3a5319b4642mr10525747f8f.36.1749471146782;
-        Mon, 09 Jun 2025 05:12:26 -0700 (PDT)
-Received: from ?IPV6:2a02:6b6f:e750:f900:146f:2c4f:d96e:4241? ([2a02:6b6f:e750:f900:146f:2c4f:d96e:4241])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a53229e009sm9712606f8f.16.2025.06.09.05.12.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jun 2025 05:12:26 -0700 (PDT)
-Message-ID: <b8490586-131b-4ce7-8835-aaa5437e3e97@gmail.com>
-Date: Mon, 9 Jun 2025 13:12:25 +0100
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="O0s9GeJS";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="b+NZrgsN"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 1A9FC1140269;
+	Mon,  9 Jun 2025 08:27:41 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Mon, 09 Jun 2025 08:27:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1749472061; x=
+	1749558461; bh=hMq8DTIOhpbuRKjy+CNcjAYhxjMFzlhGiYklMnqStJY=; b=O
+	0s9GeJSyre4tdwKfq0EMA5veJGN7cKbkEQ2DAXR0y4ZHAezW0dj/WRXItvADtyl3
+	XLD0CDUlbmVSFzvjqK1Dle0YWv95ZJ6sZ2aZHKcaT/ADrGSFLTaUP6q9UltTn0VJ
+	UEqZ5LKrxB76TTmyvObA+f2Ci/D53B3U1VkdN2vAJX2In+xJtXSM6y3bZIXFEAHO
+	mSRgCd/8BECzkXqSu0AVq7sLv6gefwjkHsrOxAYKuux406blNPIHZuFQ8tNBG1OF
+	nfiUiSs7jGpotCo1b2OP+CC9wFoxeBSRQ2Z1P/2jrf79eabf1k9HRKZ1nP57pdHM
+	diuFM24IWbTerMFNkyTXg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1749472061; x=1749558461; bh=h
+	Mq8DTIOhpbuRKjy+CNcjAYhxjMFzlhGiYklMnqStJY=; b=b+NZrgsN2f4wM4/6M
+	SwMS8Soty3Q5h2Q1s4EIy9FaKt2umG9KFmdv7d6cajV7nVnab3fBCpFZR7rycPiu
+	hguGyyhDOb6eGCKX4Dnh15BNkufskcZC+Mj3UmwEHiGIo0dcqpTsaSfWBi9evPPI
+	dxZzV6kmUJOfluVtnsMmjPVCZmhydDcx+HQBu5GAHXNQJjJIJaBv+F5LUqhLrPQr
+	5aIVO/E9FAK0d3W9aN8srsBqZ5JPjPUZBr1GQQrdUo6wc95MMk0TPQXzjL2Nfa5V
+	pA/FrgDUCPQG56qY/Ha44gV6P4TXPhYy221plty4UdvQsJC7fW9o7QyMqr8Y8K/Z
+	2f5tQ==
+X-ME-Sender: <xms:PNNGaJ2XwuOUhFomE0DFyEyS6DsC_Gp4kAkksnf4-K-KmGsvUw5TKA>
+    <xme:PNNGaAG4wwDNFVT-2WJiFlk_vQrro3s0Ru9YTl3poM6zMT6PU16CIQm7Zof5xJR35
+    vryn_gaUNaKFc8IqEI>
+X-ME-Received: <xmr:PNNGaJ6W8qBRPW92d4_2iMBJLPzErKDLDUxf4iH90CrDhILJd1VfimAExo4cgKUqAJ1ybxS3TK6FaRiYtio>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdelvdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucgoteeftdduqddtudculd
+    duhedmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhep
+    ofgrrhhkucfrvggrrhhsohhnuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsg
+    gsrdgtrgeqnecuggftrfgrthhtvghrnhepvedtlefggefgjeettddvgfekhfeugfeutdek
+    feefudeuuddvieeutdeljedvhfdvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghr
+    shhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedufedpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtohepmhhpvggrrhhsohhnqdhlvghnohhvohes
+    shhquhgvsggsrdgtrgdprhgtphhtthhopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuh
+    igrdhinhhtvghlrdgtohhmpdhrtghpthhtohephhguvghgohgvuggvsehrvgguhhgrthdr
+    tghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehikh
+    gvphgrnhhhtgesghhmrghilhdrtghomhdprhgtphhtthhopehhmhhhsehhmhhhrdgvnhhg
+    rdgsrhdprhgtphhtthhopeifpggrrhhmihhnsehgmhigrdguvgdprhgtphhtthhopegrnh
+    gurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghp
+    thhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:PNNGaG2BJ533ri87KMkBYUAknAVQvxww-nT8PyxNtNTC4xjdGANuMw>
+    <xmx:PNNGaMHN2XrDuWPJKYXoU6X7QpmeXjth0qS1rvG0FFbqSvAESwlD9w>
+    <xmx:PNNGaH-daoqYQ7VSqb_4Ul3OHpfyfa_nHIpsRMKs4Hqgqt_N0DCXDQ>
+    <xmx:PNNGaJm6ln6o3kPGFGX0l-nDK7z_35GlGKT7YY2bItEVgpSoqs2Edg>
+    <xmx:PdNGaLdP4-YULsIakq-5GEiWNTUMEiptZAh8TKRFWNNEWHhahs1qFA_4>
+Feedback-ID: ibe194615:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 Jun 2025 08:27:40 -0400 (EDT)
+From: Mark Pearson <mpearson-lenovo@squebb.ca>
+To: mpearson-lenovo@squebb.ca
+Cc: ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com,
+	corbet@lwn.net,
+	ikepanhc@gmail.com,
+	hmh@hmh.eng.br,
+	W_Armin@gmx.de,
+	andriy.shevchenko@linux.intel.com,
+	linux-doc@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v3 2/2] platform/x86: thinklmi: improved DMI handling
+Date: Mon,  9 Jun 2025 08:27:25 -0400
+Message-ID: <20250609122736.3373471-2-mpearson-lenovo@squebb.ca>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250609122736.3373471-1-mpearson-lenovo@squebb.ca>
+References: <mpearson-lenovo@squebb.ca>
+ <20250609122736.3373471-1-mpearson-lenovo@squebb.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] mm: khugepaged: use largest enabled hugepage order for
- min_free_kbytes
-From: Usama Arif <usamaarif642@gmail.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, ziy@nvidia.com
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
- linux-mm@kvack.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
- riel@surriel.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
- npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, hughd@google.com,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20250606143700.3256414-1-usamaarif642@gmail.com>
- <063273aa-a852-492a-93da-ba5229f544ca@lucifer.local>
- <8200fd8b-edae-44ab-be47-7dfccab25a24@gmail.com>
-Content-Language: en-US
-In-Reply-To: <8200fd8b-edae-44ab-be47-7dfccab25a24@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Fix issues reported by kernel test robot.
+ - Require DMI for think-lmi.
+ - Check return from getting serial string
 
-> I dont like it either :)
-> 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202506062319.F0IpDxF6-lkp@intel.com/
 
-Pressed "Ctrl+enter" instead of "enter" by mistake which sent the email prematurely :)
-Adding replies to the rest of the comments in this email.
+Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+---
+ - New patch added to series.
 
-As I mentioned in reply to David now in [1], pageblock_nr_pages is not really
-1 << PAGE_BLOCK_ORDER but is 1 << min(HPAGE_PMD_ORDER, PAGE_BLOCK_ORDER) when
-THP is enabled.
+ drivers/platform/x86/lenovo/Kconfig     | 1 +
+ drivers/platform/x86/lenovo/think-lmi.c | 8 +++++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-It needs a better name, but I think the right approach is just to change
-pageblock_order as recommended in [2]
+diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x86/lenovo/Kconfig
+index a4b565283768..207dd7f88ed0 100644
+--- a/drivers/platform/x86/lenovo/Kconfig
++++ b/drivers/platform/x86/lenovo/Kconfig
+@@ -197,6 +197,7 @@ config THINKPAD_ACPI_HOTKEY_POLL
+ config THINKPAD_LMI
+ 	tristate "Lenovo WMI-based systems management driver"
+ 	depends on ACPI_WMI
++	depends on DMI
+ 	select FW_ATTR_CLASS
+ 	help
+ 	  This driver allows changing BIOS settings on Lenovo machines whose
+diff --git a/drivers/platform/x86/lenovo/think-lmi.c b/drivers/platform/x86/lenovo/think-lmi.c
+index 143d9fdedb65..8f70c60f791f 100644
+--- a/drivers/platform/x86/lenovo/think-lmi.c
++++ b/drivers/platform/x86/lenovo/think-lmi.c
+@@ -772,6 +772,7 @@ static ssize_t certificate_store(struct kobject *kobj,
+ 	struct tlmi_pwd_setting *setting = to_tlmi_pwd_setting(kobj);
+ 	enum cert_install_mode install_mode = TLMI_CERT_INSTALL;
+ 	char *auth_str, *new_cert;
++	const char *serial;
+ 	char *signature;
+ 	char *guid;
+ 	int ret;
+@@ -789,9 +790,10 @@ static ssize_t certificate_store(struct kobject *kobj,
+ 			return -EACCES;
  
-[1] https://lore.kernel.org/all/4adf1f8b-781d-4ab0-b82e-49795ad712cb@gmail.com/
-[2] https://lore.kernel.org/all/c600a6c0-aa59-4896-9e0d-3649a32d1771@gmail.com/
-
-
-> 
->>> +{
->>> +	return (1UL << min(thp_highest_allowable_order(), PAGE_BLOCK_ORDER));
->>> +}
->>> +
->>>  static void set_recommended_min_free_kbytes(void)
->>>  {
->>>  	struct zone *zone;
->>> @@ -2638,12 +2658,16 @@ static void set_recommended_min_free_kbytes(void)
->>
->> You provide a 'patchlet' in
->> https://lore.kernel.org/all/a179fd65-dc3f-4769-9916-3033497188ba@gmail.com/
->>
->> That also does:
->>
->>         /* Ensure 2 pageblocks are free to assist fragmentation avoidance */
->> -       recommended_min = pageblock_nr_pages * nr_zones * 2;
->> +       recommended_min = min_thp_pageblock_nr_pages() * nr_zones * 2;
->>
->> So comment here - this comment is now incorrect, this isn't 2 page blocks,
->> it's 2 of 'sub-pageblock size as if page blocks were dynamically altered by
->> always/madvise THP size'.
->>
->> Again, this whole thing strikes me as we're doing things at the wrong level
->> of abstraction.
->>
->> And you're definitely now not helping avoid pageblock-sized
->> fragmentation. You're accepting that you need less so... why not reduce
->> pageblock size? :)
->>
-
-Yes agreed.
-
->> 	/*
->> 	 * Make sure that on average at least two pageblocks are almost free
->> 	 * of another type, one for a migratetype to fall back to and a
->>
->> ^ remainder of comment
->>
->>>  	 * second to avoid subsequent fallbacks of other types There are 3
->>>  	 * MIGRATE_TYPES we care about.
->>>  	 */
->>> -	recommended_min += pageblock_nr_pages * nr_zones *
->>> +	recommended_min += min_thp_pageblock_nr_pages() * nr_zones *
->>>  			   MIGRATE_PCPTYPES * MIGRATE_PCPTYPES;
->>
->> This just seems wrong now and contradicts the comment - you're setting
->> minimum pages based on migrate PCP types that operate at pageblock order
->> but without reference to the actual number of page block pages?
->>
->> So the comment is just wrong now? 'make sure there are at least two
->> pageblocks', well this isn't what you're doing is it? So why there are we
->> making reference to PCP counts etc.?
->>
->> This seems like we're essentially just tuning these numbers someswhat
->> arbitrarily to reduce them?
->>
->>>
->>> -	/* don't ever allow to reserve more than 5% of the lowmem */
->>> -	recommended_min = min(recommended_min,
->>> -			      (unsigned long) nr_free_buffer_pages() / 20);
->>> +	/*
->>> +	 * Don't ever allow to reserve more than 5% of the lowmem.
->>> +	 * Use a min of 128 pages when all THP orders are set to never.
->>
->> Why? Did you just choose this number out of the blue?
-
-
-Mentioned this in the previous comment.
->>
->> Previously, on x86-64 with thp -> never on everything a pageblock order-9
->> wouldn't this be a much higher value?
->>
->> I mean just putting '128' here is not acceptable. It needs to be justified
->> (even if empirically with data to back it) and defined as a named thing.
->>
->>
->>> +	 */
->>> +	recommended_min = clamp(recommended_min, 128,
->>> +				(unsigned long) nr_free_buffer_pages() / 20);
->>> +
->>>  	recommended_min <<= (PAGE_SHIFT-10);
->>>
->>>  	if (recommended_min > min_free_kbytes) {
->>> diff --git a/mm/shmem.c b/mm/shmem.c
->>> index 0c5fb4ffa03a..8e92678d1175 100644
->>> --- a/mm/shmem.c
->>> +++ b/mm/shmem.c
->>> @@ -136,10 +136,10 @@ struct shmem_options {
->>>  };
->>>
->>>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> -static unsigned long huge_shmem_orders_always __read_mostly;
->>> -static unsigned long huge_shmem_orders_madvise __read_mostly;
->>> -static unsigned long huge_shmem_orders_inherit __read_mostly;
->>> -static unsigned long huge_shmem_orders_within_size __read_mostly;
->>> +unsigned long huge_shmem_orders_always __read_mostly;
->>> +unsigned long huge_shmem_orders_madvise __read_mostly;
->>> +unsigned long huge_shmem_orders_inherit __read_mostly;
->>> +unsigned long huge_shmem_orders_within_size __read_mostly;
->>
->> Again, we really shouldn't need to do this.
-
-Agreed, for the RFC, I just did it similar to the anon ones when I got the build error
-trying to use these, but yeah a much better approach would be to just have a
-function in shmem that would return the largest shmem thp allowable order.
-
-
->>
->>>  static bool shmem_orders_configured __initdata;
->>>  #endif
->>>
->>> @@ -516,25 +516,6 @@ static bool shmem_confirm_swap(struct address_space *mapping,
->>>  	return xa_load(&mapping->i_pages, index) == swp_to_radix_entry(swap);
->>>  }
->>>
->>> -/*
->>> - * Definitions for "huge tmpfs": tmpfs mounted with the huge= option
->>> - *
->>> - * SHMEM_HUGE_NEVER:
->>> - *	disables huge pages for the mount;
->>> - * SHMEM_HUGE_ALWAYS:
->>> - *	enables huge pages for the mount;
->>> - * SHMEM_HUGE_WITHIN_SIZE:
->>> - *	only allocate huge pages if the page will be fully within i_size,
->>> - *	also respect madvise() hints;
->>> - * SHMEM_HUGE_ADVISE:
->>> - *	only allocate huge pages if requested with madvise();
->>> - */
->>> -
->>> -#define SHMEM_HUGE_NEVER	0
->>> -#define SHMEM_HUGE_ALWAYS	1
->>> -#define SHMEM_HUGE_WITHIN_SIZE	2
->>> -#define SHMEM_HUGE_ADVISE	3
->>> -
->>
->> Again we really shouldn't need to do this, just provide some function from
->> shmem that gives you what you need.
->>
->>>  /*
->>>   * Special values.
->>>   * Only can be set via /sys/kernel/mm/transparent_hugepage/shmem_enabled:
->>> @@ -551,7 +532,7 @@ static bool shmem_confirm_swap(struct address_space *mapping,
->>>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>>  /* ifdef here to avoid bloating shmem.o when not necessary */
->>>
->>> -static int shmem_huge __read_mostly = SHMEM_HUGE_NEVER;
->>> +int shmem_huge __read_mostly = SHMEM_HUGE_NEVER;
->>
->> Same comment.
->>
->>>  static int tmpfs_huge __read_mostly = SHMEM_HUGE_NEVER;
->>>
->>>  /**
->>> --
->>> 2.47.1
->>>
-> 
+ 		/* Format: 'serial#, signature' */
+-		auth_str = cert_command(setting,
+-					dmi_get_system_info(DMI_PRODUCT_SERIAL),
+-					setting->signature);
++		serial = dmi_get_system_info(DMI_PRODUCT_SERIAL);
++		if (!serial)
++			return -EINVAL;
++		auth_str = cert_command(setting, serial, setting->signature);
+ 		if (!auth_str)
+ 			return -ENOMEM;
+ 
+-- 
+2.43.0
 
