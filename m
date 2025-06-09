@@ -1,64 +1,179 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE2E221FB5
-	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 22:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF77226545
+	for <linux-doc@vger.kernel.org>; Mon,  9 Jun 2025 23:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749509749; cv=none; b=mM+0mGZDfh/Y2C0lMgC8fQ5ZUtJnJY77lKFdA4Li7aGZ1nBkzlkn6yP6j+ephLXCYb9cDfR9QdmYmEa5Cgn/gpnDeY7KmtmI8/yoKRG0ChSrf1aAz0ROwYXW2blA1PeWqLLNsh+ctXhylu8WlkP5e73HNlhiWorjqy5teJBVSPQ=
+	t=1749510304; cv=none; b=MdMwSt0wc9l4YDLts5p+pyAE1IFAPCwq75/AQ8kwsOOKFv/08Y3sGzLCsw/MS+5Ggfa5tZz/V5xq0qRwrkNLlqgXlPWkUs6O3qpMQ12H9lNqQ8RVPJtecnMpKTf2fEhwkLnx8hbV+jGUNWHXHQDTxr417wDgFJmNqo/nBpsnGyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749509749; c=relaxed/simple;
-	bh=P+F6LRcL1WK4H9WFEaWF7+WrKrFKB5yFtGgRoULT0I0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ePxOe9g/3OEtGzyEYvqp2LhfOha15QbnRC5pVJno7ZyQ+fvp5jcDWzJkDveqS/ufWqw1RaFHwUJZj7dLTi/uxT9myoH4z9uAvTre6ThfWIVmAPMhOYChxxaCToT8nruyJ55M+EleELsLOgHDRHj69FCQslbNWJekmNRY7PpQxuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T6BHE22F; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1749510304; c=relaxed/simple;
+	bh=8JQVGbTAqQUabzFe20anuyHGA4gpZl+ONkN6GLx8ymI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nBp01lThwDvfPzvKIYu8ffJ1qYXTJ3DCLwg90qKUOxD/Bs4zLWMAoFNL5K1Vyr17i2OOiKPabrgyUkg2ZS3flnFUVA8Uq6f5shO+R3Bh9wXh+r+vOUk2gh2b5v+/MOVeA0KEeBaClvU0yHa0iAHnQOwnz1bjsjNufFm49L/lwOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DvQ3VvWy; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T6BHE22F"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=8RPjB4YTZcQ+MXXZnmORzC0xLY6/Eo39YdVf3kY5V+g=; b=T6BHE22FYioH/rAjOfRftpxE9H
-	K0++koAxbtwwYiQM/wJWM+naEcEKN6usA+uUb6P6vH8lvLUQKjAu9DRiRcTSIR03vIX+hhOk248VK
-	oN9jGMLBX3094mpwAV3Q0OFXKufFn9g9+OoxOztj4gShDUavPytOO3vagv8U3R4DmEAeUKDuhUVD1
-	vNVGbJ599ewFok2DU8wS33JkGRoiC3qq9j2DguvSuS+j0Yrp3dCaqaZjw0iM/lhBDr1Mn2S9ok/rm
-	7VvYGGd8JU9c6qmd2qO7TMnjXsp3lDemHmabR+pXKAQ9JC4FTSSCT1mWwuSmPNZJVT/MJM9QhPKTF
-	4v2mZeFg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uOlP7-00000001gkR-2MPH;
-	Mon, 09 Jun 2025 22:55:45 +0000
-Message-ID: <0ed8af53-7e4f-44bd-b9fe-f71155a03233@infradead.org>
-Date: Mon, 9 Jun 2025 15:55:42 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DvQ3VvWy"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e75668006b9so4625827276.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Jun 2025 16:05:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1749510301; x=1750115101; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q7+cVr8dsExjTk3ijrllXSzAu8Gblm5oL77kdyoH2ZE=;
+        b=DvQ3VvWyq3FvzVm8BNKbZvXYbIOhxV8vmBzMEqQ9oKXdIKRumc0brDSk/kf+NRmTC+
+         2Ix0nE+oI2oCeQfSsZrBCTrnQVTj/UyRNhGLkkw22bh6mxO3LPLYg+lBWwnWOBr26rze
+         h00OuudIbD300dhvJpSQorDzKDm2Ebo5s3DeUSsU8H/knMwurQw53gOqc4LqbF84mL5H
+         G0iwBD6kEJ3mNnlw8MCO0QJJH/5BX78cCAZN9QDs6sRq7EEGCjewotddFFzgL2qNPBsl
+         NPU4j8bCBsjUhjFuSXCTwMk/QC1ZcYWwjXIpWqc2HScukEtzqpvywj9Dp+vvJO+cPlUj
+         lCBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749510301; x=1750115101;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q7+cVr8dsExjTk3ijrllXSzAu8Gblm5oL77kdyoH2ZE=;
+        b=XajqgJvHDJ8HDZXkxqxvoFjNcVwvJ6lt/sHBYwAE3akacBZ3qdktS/Df51u0bZCUfX
+         lNpcDYbf37LfMi4fO6PCxIcnJVXg5J9bvaPH+Idv7llNOC7L8I2ZLiIyF1/Lq66PSgIr
+         +OcTzqWzzpLhiSbbK0n8ZALJm+4dcd3zQ0A61tobTPfYqRhxZphGwfwlbEIwYcZrc0ac
+         NNMtLN4um87xGj1sTwdAxeKW/W1tZCaT5tCI1JIl8Q81gNMUeWrZ6XHIdAweakNBAn5d
+         4O2AGELSvbwnIUG7XBgGuNd2lvmYE0DAh5INQwkKhslv/vTj9d2UEua8TCIcB13XtjCP
+         SPNA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdrh5ARiFUT07iKpVkJBw81JeIVF6yMIb6f3N1V33sJOlR7rDvObHblM3DaTdfIp/w/QpzXt5HInE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNiwKPhXq+7sPzUwQwu+xEbwoBJ4rJxKqT3Qq9bR5iHzN0Aswh
+	SKSOU6h0mjAP92HBIV3l6evX4shtAr1UYaAkfvWveeWfwVFzwX9TdzOsldSmHOjlycKjt8cX9Rx
+	w/8gjQkgxdUAadGUwRG/v4zvqjQ93amnQiB6mmbA0
+X-Gm-Gg: ASbGncuxBigrh3Wj/o73U5U9b0KCRMM6FXE7JT+bcgmE7UoVgpBMVdwT1SXO47szl8i
+	iU+w4W9hoaN2W+DnatowUaaIPN9+qcErpEN1TcbaTRnzfh0+p3cNINQcMvlV//o5g4PpJEcpjwt
+	XxGTtuds+CTWc3SrxqMxmwTjIzn2y3kbv5ntqCihBPcfAGhbHP+ZXz4eNbVCT3rScHBwoNmksIu
+	A==
+X-Google-Smtp-Source: AGHT+IHDN7yYiqZfvU9YYp0Xn0iNVyQLG2U2NkvCT1T2HFwTM8W1uiwWGtxc6CrVQKMfQxc4kQw9Dq00AIFK5/ldCts=
+X-Received: by 2002:a05:690c:360e:b0:70d:f3bb:a731 with SMTP id
+ 00721157ae682-710f76949a7mr201808267b3.9.1749510300215; Mon, 09 Jun 2025
+ 16:05:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/process/: Change 5.x to 6.x; clarify terms;
- added note.
-To: Jonathan Corbet <corbet@lwn.net>, Dante Strock <dantestrock@hotmail.com>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <PAXPR06MB8224F2CE53A1F4D674969B22A769A@PAXPR06MB8224.eurprd06.prod.outlook.com>
- <87ecvtc772.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87ecvtc772.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <aDdILHOu9g-m5hSm@google.com> <20250528201756.36271-1-jthoughton@google.com>
+ <aDebZD1Kmmg15zs7@google.com>
+In-Reply-To: <aDebZD1Kmmg15zs7@google.com>
+From: James Houghton <jthoughton@google.com>
+Date: Mon, 9 Jun 2025 16:04:24 -0700
+X-Gm-Features: AX0GCFsscOLeJsC5afeLhStDd6O3F0bHoTP2OBA-juWmkL4Q85V0QPpPjCgJ_5E
+Message-ID: <CADrL8HWwWN6tgV5ws8HMmeONmmhx_xS5ZSHgV7E6Cg=NDrqCTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/13] KVM: arm64: Add support for KVM_MEM_USERFAULT
+To: Sean Christopherson <seanjc@google.com>
+Cc: amoorthy@google.com, corbet@lwn.net, dmatlack@google.com, 
+	kalyazin@amazon.com, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, maz@kernel.org, oliver.upton@linux.dev, 
+	pbonzini@redhat.com, peterx@redhat.com, pgonda@google.com, 
+	wei.w.wang@intel.com, yan.y.zhao@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, May 28, 2025 at 4:25=E2=80=AFPM Sean Christopherson <seanjc@google.=
+com> wrote:
+>
+> On Wed, May 28, 2025, James Houghton wrote:
+> > On Wed, May 28, 2025 at 1:30=E2=80=AFPM Sean Christopherson <seanjc@goo=
+gle.com> wrote:
+> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > index c5d21bcfa3ed4..f1db3f7742b28 100644
+> > --- a/arch/arm64/kvm/mmu.c
+> > +++ b/arch/arm64/kvm/mmu.c
+> > @@ -2127,15 +2131,23 @@ void kvm_arch_commit_memory_region(struct kvm *=
+kvm,
+> >                                  const struct kvm_memory_slot *new,
+> >                                  enum kvm_mr_change change)
+> >  {
+> > -     bool log_dirty_pages =3D new && new->flags & KVM_MEM_LOG_DIRTY_PA=
+GES;
+> > +     u32 old_flags =3D old ? old->flags : 0;
+> > +     u32 new_flags =3D new ? new->flags : 0;
+> > +
+> > +     /*
+> > +      * If only changing flags, nothing to do if not toggling
+> > +      * dirty logging.
+> > +      */
+> > +     if (change =3D=3D KVM_MR_FLAGS_ONLY &&
+> > +         !((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES))
+> > +             return;
+> >
+> >       /*
+> >        * At this point memslot has been committed and there is an
+> >        * allocated dirty_bitmap[], dirty pages will be tracked while th=
+e
+> >        * memory slot is write protected.
+> >        */
+> > -     if (log_dirty_pages) {
+> > -
+> > +     if (new_flags & KVM_MEM_LOG_DIRTY_PAGES) {
+> >               if (change =3D=3D KVM_MR_DELETE)
+> >                       return;
+> >
+> >
+> > So we need to bail out early if we are enabling KVM_MEM_USERFAULT but
+> > KVM_MEM_LOG_DIRTY_PAGES is already enabled, otherwise we'll be
+> > write-protecting a bunch of PTEs that we don't need or want to WP.
+> >
+> > When *disabling* KVM_MEM_USERFAULT, we definitely don't want to WP
+> > things, as we aren't going to get the unmap afterwards anyway.
+> >
+> > So the check we started with handles this:
+> > > > > > +       u32 old_flags =3D old ? old->flags : 0;
+> > > > > > +       u32 new_flags =3D new ? new->flags : 0;
+> > > > > > +
+> > > > > > +       /* Nothing to do if not toggling dirty logging. */
+> > > > > > +       if (!((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES=
+))
+> > > > > > +               return;
+> >
+> > So why also check for `change =3D=3D KVM_MR_FLAGS_ONLY` as well? Everyt=
+hing I just
+> > said doesn't really apply when the memslot is being created, moved, or
+> > destroyed. Otherwise, consider the case where we never enable dirty log=
+ging:
+> >
+> >  - Memslot deletion would be totally broken; we'll see that
+> >    KVM_MEM_LOG_DIRTY_PAGES is not getting toggled and then bail out, sk=
+ipping
+> >    some freeing.
+>
+> No, because @new and thus new_flags will be 0.  If dirty logging wasn't e=
+nabled,
+> then there's nothing to be done.
+>
+> >  - Memslot creation would be broken in a similar way; we'll skip a bunc=
+h of
+> >    setup work.
+>
+> No, because @old and thus old_flags will be 0.  If dirty logging isn't be=
+ing
+> enabled, then there's nothing to be done.
+>
+> >  - For memslot moving, the only case that we could possibly be leaving
+> >    KVM_MEM_LOG_DIRTY_PAGES set without the change being KVM_MR_FLAGS_ON=
+LY,
+> >    I think we still need to do the split and WP stuff.
+>
+> No, because KVM invokes kvm_arch_flush_shadow_memslot() on the memslot an=
+d marks
+> it invalid prior to installing the new, moved memslot.  See kvm_invalidat=
+e_memslot().
+>
+> So I'm still not seeing what's buggy.
 
+Sorry, I didn't see your reply, Sean. :(
 
-On 6/9/25 7:37 AM, Jonathan Corbet wrote:
-> I almost wonder if the references to Mercurial shouldn't just come out;
-> I am not aware of anybody using it for kernel work at this point.
+You're right, I was confusing the KVM_MEM_USERFAULT and
+KVM_MEM_LOG_DIRTY_PAGES. I'll undo the little change I said I was
+going to make.
 
-Ack that. +1
-
--- 
-~Randy
-
+Thank you!
