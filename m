@@ -1,91 +1,71 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3D910E3;
-	Mon,  9 Jun 2025 12:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DFA25392E;
+	Mon,  9 Jun 2025 13:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749473967; cv=fail; b=XNl0KhOKcHHS5fMgniS8ysAzf6e73y31ccH4Pa/iQpvtqW37ZpvCi/kpM0vzxGXLqqpW4ZxR51JaaFplKgPySYTKZ4l+FwqsHvHsCk7TDDVCqdxfMwAgb+s+yZo1jzTC/Lq0jvqDZzmthl2VVWjZhiOb1c5cYAZqpnnmd6Y7eRc=
+	t=1749475158; cv=fail; b=lqgqcv/5rKbvmYYaS9Af3kt+tUtSVT8nw6EbxdN4nt6WlTu51SpK+kevx+5c6fUAoHqc8hS5vkmmR9dm/CWf5G+m9XD7zjXVkwbT/LbW121OrNEX3fPVJqsRCRLIvG7uvJwie8uv5SDXih4ky2TXTmiea1B9C60c5pcuCmgiOoI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749473967; c=relaxed/simple;
-	bh=QuWCgcsOzb7rzU6mZbTLDmeeOs7o+Yo4NhnjqpQwugI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=anqgfKogO17nQm4u36sUNICfNtsEDv1dyaQFSJhSqbGeE8oEYoZUKUYGkqGm2cGsQQLgjrdy1bdfUZgHSCgkontr4ukK31GTkZCXxr3eRHzGt7wesR7hvpz+lYZJSxgpcsNnKpIIQarAneOsX0AKGD0XngP6RVvydZwGnlqKuiM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=TUF5sb4m; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=U/MKyE3v; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1749475158; c=relaxed/simple;
+	bh=QL6q2ygJ5ukKlIrdJP8yQc2sB9JmA9/TYKaDw/zjXA8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=odHhYwJLCpDj3/rYH+FZre/DNLnIAjyzXeQuP+dv9XkHb1xRwcU+nxxmoTsbUKDWidwREVVMDxCZfSAOAO1XWRGgG46t6EjJtYPycJx2rqniaYmqcewW7YKifsY1/EU6yoQCc+trHuuKVeRgpCgFaIHZq2z2vRINaSGIovogHi0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GiIf66ic; arc=fail smtp.client-ip=40.107.220.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TUF5sb4m";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="U/MKyE3v"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5593guhW005112;
-	Mon, 9 Jun 2025 12:59:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=AHvW1TJ+brjZJ+0LLJ2vlfcDRBwbW30+PrPHIuWSRgk=; b=
-	TUF5sb4mKJmdwXEdQWvxkuQGg51I5PWF2VROh5WxHfW6/Q+d8bqAJ01RiVYbEjql
-	a5Gu4HNgfZ9JWNwRi369PW0E94Yq7GfIrae0ZnnyCRvRtstj4+IwtV6hqaSE2eM5
-	xKbUSxCkWBYjgEbR4ZnFqyLtCSBhPlC1sFRHd1t51JAteXT8/a3rOJ9DDhYU4KOl
-	xQIWH0AgwWdLKAisBVSfT/X7AaH7FzRTYzt2v9aUfzkqxOeumAltBCV3aUq6qaAu
-	xrF1xBC2Vu+4C3g4bmRr8wpNeJ5dtVbmCGnPYACiOnWnq2E7Qawrzry7bE/3DNbs
-	PLdcH+/1+jquiAkdCY1EdA==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 474dywt1rr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 09 Jun 2025 12:59:13 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 559Bik6Z003338;
-	Mon, 9 Jun 2025 12:59:11 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10on2081.outbound.protection.outlook.com [40.107.94.81])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 474bv7dfqn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 09 Jun 2025 12:59:11 +0000
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GiIf66ic"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wKf4GGOmD3mAwLQmwhxSwjuQ9mTE+rOGDjt5P+VwZ2WDqx+yQU+ZXsn2bnkfqsAzha8HQVBZH4quF1iSzOi6S6V4e2ZFijOiI5d6daUZrR9vvsBBLXFhH7XhjQ1XbRlGjfB2gOpruJK74SFxt1fSkRWouHMxTfFQdYBDCOkzkrg6RPTKmljm4RIlQN7YnDb00+TgEhc9BTZKdf/Nx9ch7/e8uEJivWIfQ8x/ZJOg5s3gzGJcnd9O6/ujcG+eHXROnWj9F7avw6jcBzdo+e8Ag4KlQ5/EokuKxs65lxdCqpy9SvSx/6lbrWLyTvbyrSvJwnvSriNWtaUfqS8YdaDDzw==
+ b=xTEBV+ih9XJtHtvcCV2I+sfiSpKRVo4J6RUg50CLuuZpVNGoeYaHBYivCeFOwyi4Vz11KURvdkg2pF0uZKkZ7QM+QWZVsmOqTokQGR9y2nBcvwigObOvri3DgLEIvZdoYFFO5LR7xVeT6M56Are2wIpOGYEt9VQNeVvWw7GRJdd2jeH3rg2CaEh/j5lkc0qNFBov0an4jns3OAO7ArxXZcLqZyS73a4ud3SJetl9carankEIziMAUIiJcyUb2AEGzaYuTV0IJzXnsKho65gUfdjENnuH2o38XsjDLAjtGCTOPyWU/S5NuR3fqnB3kb6yrKCYF5IxTZySi/XNcgZEGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AHvW1TJ+brjZJ+0LLJ2vlfcDRBwbW30+PrPHIuWSRgk=;
- b=kvEoX2BcZK40Y24KufVpXEPXKEqC2ppLtqbCY1EBbJm4DQbgFZye4td1ZrUF9+c0wsOb+lHP3ieh/Pu2jndwoHnpVje64vF/v9Kw7BI45QVnZDVsh9iiMyLL0feVhbOgUnlP6S8lnrzxBltt8nukqvN8doOB9jmBx0J6T5GSM1HlOkE0/aA4nS5PGEcwZycDATQ0/VPk5ezE/aJRLUUFmtn8Fof7cWAv1XjNkShxgHfpMnKasPxr7Nmq3vGllHfbKbPSHQuMPiODRIch9AloKzx4qNFadZ+hBHoKFJgC2AU/Wo5oKarY83LsxdCx9AjLNEP8xqM6SDPjX76vS3unrA==
+ bh=EQJEW5ZmIWl1ScSDscRnJdD9pgmv7U0K4M5LuXQXIBM=;
+ b=NaBCD2GNepL/u9oe9yl53j46MFM8e7pgwayypjIwWUuXYr/cn3DXkTUYYCUryeqXS5xhYcJXYVPUr9OdMTscDbgD4SzbZ9E7h/t+kfsRU77/P2zLQd1BaqDbwm+ZH/CB9/RD+s7HShzwXQ5kKOFEZdChHkxPWsZ0mlpvn+fNPtwY1ARKkaFEUKVsHmbpQSg0Bswekvl/bBYhwDw1/pSiRWutwpnyK49cnWzKkQqEvhtay/LdrgaADtV/WLR0NkXk/hGx2xqk5cNV0xSmlFnYNqBuKOh1ceKx6dLvyamHZZlllhiMoAwzqmWeF97VT/Kx8KchhsyM1Q7vTRSWfnDfsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AHvW1TJ+brjZJ+0LLJ2vlfcDRBwbW30+PrPHIuWSRgk=;
- b=U/MKyE3vYDFw7sUdL5rNOiaKuvOCIx+eP3gExfdOOatoPdYdMDcFIzeAvDVtAwSkTXeWNJ6lymSLmjoM0q7eq/i9lVJADoa9LPhcYrDlvdRHTFOCC8a8l9/7098nHwn1QPi8E0iawBPNdTXe03h+/rajTGQAXZkcic9etSdV24Q=
-Received: from DS7PR10MB5328.namprd10.prod.outlook.com (2603:10b6:5:3a6::12)
- by DS4PPF18D5A7206.namprd10.prod.outlook.com (2603:10b6:f:fc00::d0d) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.35; Mon, 9 Jun
- 2025 12:59:08 +0000
-Received: from DS7PR10MB5328.namprd10.prod.outlook.com
- ([fe80::ea13:c6c1:9956:b29c]) by DS7PR10MB5328.namprd10.prod.outlook.com
- ([fe80::ea13:c6c1:9956:b29c%2]) with mapi id 15.20.8813.024; Mon, 9 Jun 2025
- 12:59:08 +0000
-Message-ID: <ee045330-c389-4661-b11e-c17d3e01f156@oracle.com>
-Date: Mon, 9 Jun 2025 18:29:00 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: cxl: fix typos and improve clarity in
- memory-devices.rst
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: dave@stgolabs.net, dave.jiang@intel.com, alison.schofield@intel.com,
-        vishal.l.verma@intel.com, ira.weiny@intel.com,
-        dan.j.williams@intel.com, corbet@lwn.net, linux-cxl@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        darren.kenny@oracle.com
-References: <20250531075209.3334261-1-alok.a.tiwari@oracle.com>
- <20250609115817.00003017@huawei.com>
-Content-Language: en-US
-From: ALOK TIWARI <alok.a.tiwari@oracle.com>
-In-Reply-To: <20250609115817.00003017@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: OSTP286CA0045.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:604:224::18) To BLAPR10MB5315.namprd10.prod.outlook.com
- (2603:10b6:208:324::8)
+ bh=EQJEW5ZmIWl1ScSDscRnJdD9pgmv7U0K4M5LuXQXIBM=;
+ b=GiIf66ickoxIHHVQiVu3pQFRBjN8ubP7JgSTvh0pcHJkCebz8gzgizwHtqx1I9/hOR+nd1dju3Y+uKM800URFyUR+6kCPBn0AFbYBN9uFntdDEB4HvBBKScb+EwV8gCg+uBCF/6m8PpKf0ZpPnmj1mo2kRyUqJM3yRkibM+zZt3X5b2iGfGY5yYd9qIrWWMV+liEQGAYQs8b1M1/RynPQvaJ4sHYyDJlA7lUgR+KkVdOj61eDK+dMaDK9duoJCPE0/MTR+7uJajYYOZ6dK0MrExVMWGQ5lWvlVQOto3RPyR0CIdKy5u3MXTGez0C0amZivXEg5c5QZfYW1UmTXiM8A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ SA1PR12MB8643.namprd12.prod.outlook.com (2603:10b6:806:387::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8792.35; Mon, 9 Jun 2025 13:19:11 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a%4]) with mapi id 15.20.8792.038; Mon, 9 Jun 2025
+ 13:19:11 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
+ linux-mm@kvack.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+ riel@surriel.com, baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
+ dev.jain@arm.com, hughd@google.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com,
+ Juan Yescas <jyescas@google.com>, Breno Leitao <leitao@debian.org>
+Subject: Re: [RFC] mm: khugepaged: use largest enabled hugepage order for
+ min_free_kbytes
+Date: Mon, 09 Jun 2025 09:19:08 -0400
+X-Mailer: MailMate (2.0r6263)
+Message-ID: <18BEDC9A-77D2-4E9B-BF5A-90F7C789D535@nvidia.com>
+In-Reply-To: <c600a6c0-aa59-4896-9e0d-3649a32d1771@gmail.com>
+References: <20250606143700.3256414-1-usamaarif642@gmail.com>
+ <A409F7B3-A901-40F9-A694-DC3FB00B57FE@nvidia.com>
+ <b807deec-99a9-4691-9001-c2f3adf586b9@gmail.com>
+ <35A3819F-C8EE-48DB-8EB4-093C04DEF504@nvidia.com>
+ <c600a6c0-aa59-4896-9e0d-3649a32d1771@gmail.com>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BL1PR13CA0265.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::30) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -93,157 +73,247 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR10MB5328:EE_|DS4PPF18D5A7206:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b33770f-59d7-4b04-4b4d-08dda7556b97
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SA1PR12MB8643:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3cd31207-ad5c-459d-1f4a-08dda75838e4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?L0xXdGVjQzZVclgyOHQwSkR5NFNzSUFMN09Cd25QOW96VTJkd3lqMXdnaFNO?=
- =?utf-8?B?L1JQbGdBQXgxYllOalA5L2c2OFZKTUROMEZwK3pzOGwweXVabHdCcHh5eWpG?=
- =?utf-8?B?ZmszRFllOStLbU52eDYzVTZzN0UyL3JzbXpTRHlqcWRJZ2xjb01oTCtVQnVN?=
- =?utf-8?B?dGJtS1M0R0xuSk94Z0hxTVJtZGJrMlNsRjlwb0pKUms4M3dmMlNrdGY5cFEw?=
- =?utf-8?B?blBPMmZOS3hCNjYzTFFpODRNcXpHVXlneVZyeExka1g5cU1QRTkySE9Va1hM?=
- =?utf-8?B?V3NTWlUvenpJNDY2cXZTSmJTM1pTalNaTThZalJqL3VtbjJJN3Fzc2s2NmZy?=
- =?utf-8?B?YXRhRUhOVHJIbTBKbjRTTXg1aTBrSnhhL0JCeUEvWWhWY2xlZXNvaXdjV1Vn?=
- =?utf-8?B?RjluNWtjVmR3YXg3eW0zY0hkcTF5U0ZaR1dkdTNJKzFwOFM3T3p1aHpUcVJN?=
- =?utf-8?B?YWYrdXBvQThOQUNZODA2V3JVZVdNS1puTmwydXZEWnAwbFFXa1dWQWNUakkw?=
- =?utf-8?B?SS81Z25zUVZCMWplWWJzZTMrWkNaRnhqWUloWmhhS3I3cDhZQ3VaTGpZTVk4?=
- =?utf-8?B?SFdKVkVuRCtKTXY0WHVlcjgzWlJ6ZG4wNVloY0NOSHhjVnA5NjFqWEt3MXQz?=
- =?utf-8?B?U3hOSFFZakc0WU02bWViREkzdFoxakR4VEloTDJCNllKdlY0bmI1NEJFemJK?=
- =?utf-8?B?d3VwOE5EaDVoOHFtRk9wRm9MOXh1YzFaYVJMS1RBamIwYWcvTHd5YnhyaWZl?=
- =?utf-8?B?bWpyMnpkOUEzeHFZUU44THhlMlYyWFl1V1RTckNNd3gzQXNIQk1XdFY0Rk9w?=
- =?utf-8?B?b0syTEs1NS9RSWNTbHRQTjlGZFA1RTJyWjNIL2ZwZlVnYnlYWkJlZCtONFhI?=
- =?utf-8?B?VEgyT01DNVdYTzlLeXJFQUQvTlVmZXZEbjZ4L2RDWHM1VFVRLzZIc0VJNXRX?=
- =?utf-8?B?dzNMMmlBRFlOSVhFWXMzblNOQVdOdU5TVEFjQjNxcnozV3VtUUZQZXVNcXF3?=
- =?utf-8?B?bDdSZHBUcmgzRm81UWxsbi9QS0Q1NElXZG1RMC9iU2RJdlVSM09Hb0tWR1FT?=
- =?utf-8?B?NGVsbXI1VEdhNjk5RnpRMFJVQkdKeXlQYlJvWkdVTE8vWEQ1R3VuMjVTWDFs?=
- =?utf-8?B?RVA1eWRIUXgySjJsN05KQ252c0dxSEdjTUh0WG9IZjFSMHVwRU1meHk3bkFN?=
- =?utf-8?B?R0FUeGxuOFlGQjhTOWJHbEhxYmpwSU1uUHJGZGc0VW1SeW01MkxxanppR1RH?=
- =?utf-8?B?YW0zK0JWd0QxUlZTTDg2WVQ3NldIR2x5OEtmSmkwWGNQYlYydTA5UWNFUHRm?=
- =?utf-8?B?bUI4WXdNaG1xWTVVMVN4NVRWbU5KbFMvVDNrVlUwZ2lXVHl1c1FyQS83V0wv?=
- =?utf-8?B?dW4yek5pZGxjT1orZloyWlNka0dadDA2Sm4vSFRJa203WCs3eVVlc2lDQnZr?=
- =?utf-8?B?c1NUeXB5em4wMmZ0VWI1dmlCY3dqaUV5OVFpN3VCNE5ibXFzbWVmT0FvRUZa?=
- =?utf-8?B?ZXFWdXV6N0hWMGF2TXBkRlhxa04rWXEwNE52UDZheTVDa2ZTSVJxNFAwK3pY?=
- =?utf-8?B?R0tJYUk3TEZjVTBoQjZSSVpYWFBJN09uUkRSMkxTK2ordXVSVzl5TkcvMXVQ?=
- =?utf-8?B?UFVxUWpTbjE0eHlNWmNVTHJSRG1vc3dYUXhlYmI1eU5nd2VIUFhjWGJhcXFo?=
- =?utf-8?B?cnA5Q2J6MGFzeW4yMlE5SWIza1RGWkRkS1QvTlZJa0dWQ1AwTlNsT1Zjb2dy?=
- =?utf-8?B?M2MyV2hsM3JGVG1OcWFVNWtROW9CcXFUbXBJeEQ3YXYyQTlpbkN2RmZiSStJ?=
- =?utf-8?B?SGo3dXFXWlJuZWtwK0JkYjNIZ1djRnJac0tTZ2hzcHc1UWZVd0xPUmJtM3Ir?=
- =?utf-8?B?dnJRNFRxNHZsVE54UjljZGxuYTNRR0FsVEc4U3dmVS9kWXc9PQ==?=
+	=?us-ascii?Q?pzQcHGzqZoFTdB9P4UFj9AwzyUtM0M6Yv64R8AXAnrbP1ESxuP0VINbGkbI6?=
+ =?us-ascii?Q?JLXnT+z6VNH+DHTAlnnKBa9UxF9+h0hkIHE97NsAhcgEBZgoHsoj6HuU+O7Z?=
+ =?us-ascii?Q?k4fb6GG8gImoGK45PmalAPWmwHcLZROvHFLVWBvHBrMEfVqZAUTUcdq8V8FI?=
+ =?us-ascii?Q?cULjU+hFflSYYGVHuf5l4n97ALgu/e16B0t+1A/5x8m2M3uHaw3Ez7UhF7j0?=
+ =?us-ascii?Q?HhcxguVqxH61vSSFzWXeiu0gJPmrvD0ffpu4Aa0Fe1ts0Ds+MtMPTJk+atu3?=
+ =?us-ascii?Q?adQD8TWF7+y4wUUzHL0nfpGEDz6y1R3MNHTqnXTotxutbTUD6/0lRuI7f/PL?=
+ =?us-ascii?Q?kY/Meaquxclq+WV6H8k0Im5hlXH5ankDUqSuDsGmnJhAcFjAWsuIL103NW8a?=
+ =?us-ascii?Q?lTMIkp2edRArCTZUdnEtokEW5ClnXWm6+nhnt6RCWkFo2QGFGzG0S6IznNv2?=
+ =?us-ascii?Q?L7PvM6Jui5dRlyZiC5Bkqz+9kx/uQye2NnfjHeYa69D+9S1oDhcrFFD0CeYr?=
+ =?us-ascii?Q?QL8D8IsQNzbE3KZCOHqriUv8FaVJ1DRdJ4bRTiY2NyIa8TnvqbKBrwlxdWlH?=
+ =?us-ascii?Q?jWHjHfhxDmCx+jZO8gXOVg5ldCY7pj0N2vas9VIaSzki+pJWL3J/ipJ1ZviT?=
+ =?us-ascii?Q?EdGnOu0kCRtdg1HRi8YvamII4lj7X1FlQe8MfBSiI9jnjRufv9zbZbUyp41g?=
+ =?us-ascii?Q?lDK4+hskWRaDTTOMQhaOHR9q1O4p33mx4WtAlEttFLyx/8mVRzVisfDjSv8y?=
+ =?us-ascii?Q?kzTeHsIadE5h5UBDQETpyn9Ma3F1GxjK1z93PNJ3Dp66VcAZcvZXRjh1ryQW?=
+ =?us-ascii?Q?Af+yqIeznDDqI9rR+6qqVX/lpScwy4w9oRcvyn5wsEPJMFmT8iDyRLUdW9Z6?=
+ =?us-ascii?Q?7yoNFfs8RRpQxwYEuo0SM82C/pX4naAsRfrrsQBb6m8nxAhc6OIiU5jOlPgI?=
+ =?us-ascii?Q?WiV0gK6pSEhJHYHCx8Vzq611JuYu7TzKdic8UUDPkwQrlNI2nNEZlmLTl264?=
+ =?us-ascii?Q?VXC4G7vT0th5Tz640wzOfPoyAlhzGTTnyc9EilgM4682HhQOzFsL+kCFSer/?=
+ =?us-ascii?Q?bmCTy9RjSyLrb2IjnwVwinwkzoI2sr/xQPzl32bGPc3XZ4TXh2DuQOPQp/X/?=
+ =?us-ascii?Q?kvxMrmDjjjxP32BAXitI4niM8Ye2FralDbhAO8SYcKXGggvgVagFpNQKPkeb?=
+ =?us-ascii?Q?0Esrk6ZuGKWMIBxiXGstEz64bRKBptPH33eyTztRMh8hYbLiWeJPdY8iurv2?=
+ =?us-ascii?Q?/tLiJTBq58iMTwyWN9ZQY6QY5o+7LcVZN+asoyUOZLM5b3ZZVaiar3UpeZuw?=
+ =?us-ascii?Q?ySVt4IqbhNYhQBAQ/uE0jbDCmcoo89uHmEbu+lXrklxDdlKy9ngSMaXRs6us?=
+ =?us-ascii?Q?wHoAt+SnRtpqbwEvejwx7bHeel+GU4lSmCA736SHWiuIJcyGLlimNj08tA7J?=
+ =?us-ascii?Q?8mMNbFuQZoM=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5328.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MElPcGRCNnBRaWVtK1Ira21vYy84U2JtajA3Z0Z2THpuWkdqQzFlcWczZG9r?=
- =?utf-8?B?dVVxejBaRE9XRXpBWUpVZWYwTy9WMlJ4MkNIeEdNSXVVaGdEMTJSa2JWOW9h?=
- =?utf-8?B?L2ppTDFhTVNCY1RRQ1FGaThJN3E3RHFxZG1UZThBbFdheHdXazkzNUN2bUJi?=
- =?utf-8?B?SlZXNXpVUTJ0Q0dqWURuaVMzYWVvZVRQTS9UdWVhSnpRMmRNbW03dTQ2NUFV?=
- =?utf-8?B?UG9YQlZneTU2bTFsTzdvMklkb3phUEJScFFqWWtiU2lLaVFndGRJUUtidXVJ?=
- =?utf-8?B?dUY3TE1PeCs5ZEI0elBvM1BQbHFDQ2pRUVJ6MDFqUm1JYkNGTWhSaGw3NlJk?=
- =?utf-8?B?RGk1Vi9talA3eDdhUDdqUHYxK1ljeXVJM0JUcWZtL3dIK1MyZzlWejJkN3g4?=
- =?utf-8?B?VGtHV3hWZ2cvZVlvSTFpUmpoN2pHLzBYYit6dzg2bnhoK0lGVXJpY2V1UHB3?=
- =?utf-8?B?MWRwMGRTRkRMb3FQaHNja1QwbjA5N0ptTzBJUFM3bC9yckMrVGxwMnIyZEtx?=
- =?utf-8?B?Tkt2eVRkc0J0RkZsVEJHMzV3MXFXUGRzTnAzaHBobGVUYlRIWW1WampmT2x3?=
- =?utf-8?B?dGlkbXZWeUEzMUIvUW55cUE1em4zM1J4VGZmS0xTZ0IwY3lLejNBUE9KTy8r?=
- =?utf-8?B?RU1iamw1YnRqUXRFdndndXVDVndRNlRQZ0t1ZjFKN3ZobW1MUExZbjJ2RVlv?=
- =?utf-8?B?MWxIZkhBN0wzSWJVMnU3S2t3ZlBlbXI2aWNLMmJjY3hzajNEWDlRUGFaeWQ5?=
- =?utf-8?B?ZmJuTHZhRVpFaTFYaVp6aG1SRW9BZG82WjRZWHpIS0FDYkphVm4xYnZJR2RN?=
- =?utf-8?B?aHhDVnNubU5DT3Q3VldWaXNMMUJjNkg5SDNEUVlTaGJicWZBQzF0RlBlVDUr?=
- =?utf-8?B?T3hZQnk4V0tjbWN0Ukc5OW13SjkycmlnNm9PTzIxNk5jcXRFNEtDMVVmSEZJ?=
- =?utf-8?B?U2llL3pqN2RqN3c4ZDdHcXk3T3Z4dkR3SlVqSXZXa3NnR1JNOWgyUzcrQi91?=
- =?utf-8?B?Mm5ML2E5NE9FUmx5QTk5bGpmMzRLY3pPSEd4alg0ZDlmVG1YK0c4YWEyWG5p?=
- =?utf-8?B?M0wrbTlHZjdhNlhUNXB3MlBQSFFSNGZVK2dTTG9IOWoydEFEVDU3Mm90bmI0?=
- =?utf-8?B?V0Q2N0VYZGdoV2NLZXgxZmUxdEh6NjVSQjJsRmowTWFjdG9pN2dSQ0hvVTlM?=
- =?utf-8?B?NkFkM3JhaThnaTk2MVFQSVQ0dDR3NHdGZHBhdFMyazFXWE50K3BYRG0vYUpK?=
- =?utf-8?B?cVl3WHdVODZtbEl6Z09Edi9VV25URDJrOEsvM3hPZmhpSEFUbkJWeVVTMER6?=
- =?utf-8?B?R1lobVVqUFJ1NmtsSUNOSjZlQ2hsTENKZC9PTHUvbWhOK1JWL3ZMbStvbzBt?=
- =?utf-8?B?WGpzZStGVlBmb3o0a1VTU09zYXRnMmQvd0U4KysvclBpQ1pHMitTUlBnOEYx?=
- =?utf-8?B?eVJlQU5oSHdQUzJXaUpNRS90RU1QM3lCaTFOVE5BdE5xWElZeEJVdkpsd3pZ?=
- =?utf-8?B?UzF6N2RKS3owSVBSMXNaUFJBNThhYlBoN09pN09kZ1lzb2l6SDFlRDM3UEtB?=
- =?utf-8?B?d25zUEp4WjhqWkFYN1NoVXRSV09rbE9hNi9PVDE2aFJpSWtySVY0WmJnd3ZP?=
- =?utf-8?B?ZGE0M0o5UHBSdmx3cTNuUzgyK0N5bnAvay9Hb1EzeUlZNTVHVFcrK3Izd3NJ?=
- =?utf-8?B?NE1IeFpGZ0o0WGlTSGdMaWhuZy9IS2VMeWh4VE9JT3lQeUtlTmJZcldnWURn?=
- =?utf-8?B?VlpFdDJzRi9QT3kxa1lWdXhTL0ViNkkzbmtudzI2eDdBVWZjTjF2alVselQz?=
- =?utf-8?B?V1FwczE0d3RuWERFU2JMbHlxVFBBU1dlSk5lZVhBRE1QaHE2UWp5dzI1MXAv?=
- =?utf-8?B?bWx4dzdTRDBRbm1uVktoRCtNSWF0MzI1V25UalQxV3FQczdIajFpOWEyTkNV?=
- =?utf-8?B?dEE1eTYwcmhzMnVOTVZEU2FxRWdvMWo0bU40aXFSWElGdVR3RkdvSjl2V1d4?=
- =?utf-8?B?SENseEZ0ZXpSUU81SVdHZWsxaGp6V2ZIbVZ0VjhTVktkTUd0cDBmaUF1cDFT?=
- =?utf-8?B?L1d6QjJzN05JWmRZRmNOdk10aTJYRE44M2FnSUhWbmFFSzBFMDd4L2pYRzNw?=
- =?utf-8?B?Z1pMZGx6RUZsa2s4a3diUFFOeWpPVWM2ajc5Mm5WK3NsWU1wd2lXRWZCSXhz?=
- =?utf-8?B?dnc9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	EHojqmgNSoxmfDhEp6USrmEkWBbgalj+cHB4x3234eVN/t7iPe8Z8mXM3Qy31Xg2pzqa+8aMi8PhV6lT2kPOHOD1Jhc5L9vjX+W3SQTF5jwoKZlcg+k3DsZPwecRusHr5opHTr8icaVxpKtlWGSB2rxNkDXNBZTf2GKD00weYGWzaJRZt5mXM4jHShZb3QnGfkA+K8Bq3T1ZlmJkR3ATzXflQD27BSl8/DqNW/RQhQIX01fVHvrXY5vx1HuicNC3McRqcu2tAqi1zCy1x/vVS0wA/kaWv2WAibxrSgvhcW+cwYa+ok9soUKsQSS6O3BN4j2TxK+B9L2xeDs/2hbUfBCEVjjGjJCNnlyNDnXEtclcHolcBpWaLirbW8mtVzhv47l/AjxaqYYiVagEepqVZIAkZNAT02dbQiJwUPIcWgqBq5uyJtLSgOQL5uzC/Aw309yOClRBlfgpa2LBKKf3m2cRIK62V9CcF63HpBGzgnNPMH1cF+Etp28TtJTOZ7EhpBXq04x92FzrA5HT1891C2rta52p0GFBca+DDEX8PqWJ06EK0b7xaB7JNW1peNbsNho65ORChTDLSWJNvzZ9jtY4j5lGwgZj+IVtt0Vv8fw=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b33770f-59d7-4b04-4b4d-08dda7556b97
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5315.namprd10.prod.outlook.com
+	=?us-ascii?Q?6B4TjNwIXJYxuhljEGJ9tX3oZvCtfZSlfnFBgQ2in+pvECWvhq6/sGt0aKdr?=
+ =?us-ascii?Q?o6nBcgWYS/BMTfK9zN2ypdzFQfRkrLXdwWaoARvYBzJ4mumhyWemBk9kl8c5?=
+ =?us-ascii?Q?hyyC2OjzIeRV2NU2N5bKQ3WkhYzpWYLrostMyDxrN+ONbnATux/amrB3FjZv?=
+ =?us-ascii?Q?fUvY3WIblhYYqmLnAOKjj7YqWb3uVOKZxcF6lKVAZrRLu+93qR78JaxgAVSk?=
+ =?us-ascii?Q?49HYFwNKDGbVdcREpf0znXnilqkA2S30zLpUxkg14eaYKPHSPt5SQXWghCHJ?=
+ =?us-ascii?Q?9F3wX2asF9arnVdk9viEmglQpw0vcg1GIa5NjqpY20QJb2/ECaSVC/PmPYCc?=
+ =?us-ascii?Q?7RoQtd6Wb/iZsb04TcEpGBTtiKUY/LaGGMv3kHUmDOG2gm+InR+JmvvF5CJI?=
+ =?us-ascii?Q?snNd3FD4J42ctrcx8ja0LTWKin+FgOb8q3dZs1Sa5YAhIEFwpKRuhhIKeBaj?=
+ =?us-ascii?Q?EKkenAVLG1i1esoMcX8RFn2pOJbOBuqL65OeB3jP8TYK07yeLVYAJ1zEl3oI?=
+ =?us-ascii?Q?El8zgcNoJ2F6/20gZGcZzfGdXNZoBv3AjUE9onhGW9prwViYzwBraTMaP7Mu?=
+ =?us-ascii?Q?+GL+uy3RJOSOzZ9Ic+1R5dOH6Qru7WklKJc+O/Cl6h08Ox+OMi4NdYfPi2tK?=
+ =?us-ascii?Q?t4LAzL3dxZo0EvBCShqQ/IWOvc5B1qey3g+Hnjigf5l1F7UfrK4NdhqTdXSR?=
+ =?us-ascii?Q?BVrTeJUXVCzglKJNBZdWm61XqR03pb3c2JtorJGXBSl+DHXP+QggTRACWHal?=
+ =?us-ascii?Q?Lolm/D1WgYCefVRUHRS+2R10861/Z8DkSW+8kEPMyijuQq/7L4yhOxXKG1cg?=
+ =?us-ascii?Q?ynjZd2LeXnjnXC9wgGzZoGpTluhuFm6n3Xqvs+A37V1JOqfwSoiibvI/2q90?=
+ =?us-ascii?Q?OuNbTadp/53kl2fnyn8HPhdil0Ym6FkjMeGjy8cBM5UgdgK/MVtXDxzJ4A1R?=
+ =?us-ascii?Q?/bz+szzVLQDsORDKwrsdlkyi49QmX5+4jNBAMDIWII5WyIAxGnYgHAOIh5nb?=
+ =?us-ascii?Q?5aP0QvZKIDwvzbjIg4URjzI4rlCMNc1iSj8WA1NcZVLcYTkgMSp7TZJwRKLn?=
+ =?us-ascii?Q?d3wdb27YrvBxjzjDpzn5PRE88c/0b3w7n2YkL6XPg4KmwIxeov+F2BOD6Ec7?=
+ =?us-ascii?Q?3LKbEWn1byKzh9+2F1Pdi1xn7qLAoxPn1wnlRQ2CY4KN9H0+SH1xr6bd+9VZ?=
+ =?us-ascii?Q?/5VBTNFtf71uvr6MBfxxvP7QO8Tcd7H6B7UyCj2CqYa6v35u3DiWSKkkSCig?=
+ =?us-ascii?Q?HsmDCuLX/kwVVwaPrUdcxQwtA4OEnorCl9NwVfcvk9GSPjU5Ci9LN+KoUj8i?=
+ =?us-ascii?Q?tsPnwahtnY/uJsa//LV39cd7psyWnFWV8ynEgNamDDCsLjJhqETHaW2QYZ2J?=
+ =?us-ascii?Q?TXR6sZKYWvxyFoYcUEN3SGJEIGm13uorkVuxrng/p57NJCHQ3wk3l3zvo+/j?=
+ =?us-ascii?Q?Xp8eF8YfPIkZxNX4VjvhVDb6UeyPOKkB7h5BKHk5Vc+nVLIEeYBBb3okd5Q9?=
+ =?us-ascii?Q?YVnIWTIuNL0xbEaXlE2gL8wtec8TKwvKw5nym6w7JGykU0QKlsYIxC6Jm1Zk?=
+ =?us-ascii?Q?tUYt6FwortLkgg59e15m2vfPOugG+2oYZHnlxrdC?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cd31207-ad5c-459d-1f4a-08dda75838e4
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 12:59:08.4356
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 13:19:11.1007
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tvMpDUtNXkly/Ldti4nImCM+BoSKtUidQM4YunjiJ1/+WMjFOgccveEYmNjYarMRxbY218/zi0PlQgWUM9NVoah931bSCPXotvqrOIGzrWM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF18D5A7206
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-09_05,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 mlxscore=0
- mlxlogscore=999 phishscore=0 spamscore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2506090095
-X-Authority-Analysis: v=2.4 cv=fdaty1QF c=1 sm=1 tr=0 ts=6846daa1 b=1 cx=c_pps a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=i0EeH86SAAAA:8 a=f6zqxb0sB_Mj2gTl5CwA:9 a=QEXdDO2ut3YA:10 cc=ntf awl=host:14714
-X-Proofpoint-ORIG-GUID: TMhZcFNJ__47gZSAV7n-H3pF5eOFcdfr
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDA5NSBTYWx0ZWRfXzHMC6jS+x3zb xYMAN+aVZx2EXoqyoJnuC/w4wvzlZxVFRk+Phe8xgTXJEjpNkfmQ1KdMx5Unp6j3p93yrmeK8Rp oSC/emUXFxzhLy4Gx6tBVrNceGXe5IqAza+Nc2873AIjZXQcA7Yh7IvJUQnfAcvaqobsQGstkPT
- N6Ns5vBDdjsuIbPFGq4swmB0iNu0sC7KBm5Lvf6boISLqeX71q2ug5aDt5MG7paaK3sEaO+smwP pebiExoyzARHbgGSfroxZkR+p1N5w3jc6wvxemshmM2HBLICGfDV2ZxPRQbGpKEr729L/tWtXPd KMCVKf0GLJvuHwathP7Szl1/+1JGTDshItVIZjHxAWsQ5EzGbeaq4OMNhazeyzgdE7MgP95+iOe
- jthvMu7ySAnnzOlgQ8rQsE/LW6CpL2kkaLs+ycR0Ae7JXtKhHqKr4UaPPl6W6rJsvFPjRHst
-X-Proofpoint-GUID: TMhZcFNJ__47gZSAV7n-H3pF5eOFcdfr
+X-MS-Exchange-CrossTenant-UserPrincipalName: mxPP7ibX4GNxBx55P12h9f5rshOuBBMuypyznr+n8816WDjRRflfSHTg9VdxLvdz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8643
 
+On 9 Jun 2025, at 7:13, Usama Arif wrote:
 
-
-
-I really appreciate your review, thanks a lot!
-
-On 09-06-2025 16:28, Jonathan Cameron wrote:
->> These changes improve readability and accuracy of the documentation.
+> On 06/06/2025 17:10, Zi Yan wrote:
+>> On 6 Jun 2025, at 11:38, Usama Arif wrote:
 >>
->> Signed-off-by: Alok Tiwari<alok.a.tiwari@oracle.com>
-> One additional comment given you are touching this text.
-> 
-> Reviewed-by: Jonathan Cameron<jonathan.cameron@huawei.com>
->> ---
->>   Documentation/driver-api/cxl/memory-devices.rst | 12 ++++++------
->>   1 file changed, 6 insertions(+), 6 deletions(-)
+>>> On 06/06/2025 16:18, Zi Yan wrote:
+>>>> On 6 Jun 2025, at 10:37, Usama Arif wrote:
+>>>>
+>>>>> On arm64 machines with 64K PAGE_SIZE, the min_free_kbytes and hence=
+ the
+>>>>> watermarks are evaluated to extremely high values, for e.g. a serve=
+r with
+>>>>> 480G of memory, only 2M mTHP hugepage size set to madvise, with the=
+ rest
+>>>>> of the sizes set to never, the min, low and high watermarks evaluat=
+e to
+>>>>> 11.2G, 14G and 16.8G respectively.
+>>>>> In contrast for 4K PAGE_SIZE of the same machine, with only 2M THP =
+hugepage
+>>>>> size set to madvise, the min, low and high watermarks evaluate to 8=
+6M, 566M
+>>>>> and 1G respectively.
+>>>>> This is because set_recommended_min_free_kbytes is designed for PMD=
+
+>>>>> hugepages (pageblock_order =3D min(HPAGE_PMD_ORDER, PAGE_BLOCK_ORDE=
+R)).
+>>>>> Such high watermark values can cause performance and latency issues=
+ in
+>>>>> memory bound applications on arm servers that use 64K PAGE_SIZE, ev=
+enthough
+>>>>> most of them would never actually use a 512M PMD THP.
+>>>>>
+>>>>> Instead of using HPAGE_PMD_ORDER for pageblock_order use the highes=
+t large
+>>>>> folio order enabled in set_recommended_min_free_kbytes.
+>>>>> With this patch, when only 2M THP hugepage size is set to madvise f=
+or the
+>>>>> same machine with 64K page size, with the rest of the sizes set to =
+never,
+>>>>> the min, low and high watermarks evaluate to 2.08G, 2.6G and 3.1G
+>>>>> respectively. When 512M THP hugepage size is set to madvise for the=
+ same
+>>>>> machine with 64K page size, the min, low and high watermarks evalua=
+te to
+>>>>> 11.2G, 14G and 16.8G respectively, the same as without this patch.
+>>>>
+>>>> Getting pageblock_order involved here might be confusing. I think yo=
+u just
+>>>> want to adjust min, low and high watermarks to reasonable values.
+>>>> Is it OK to rename min_thp_pageblock_nr_pages to min_nr_free_pages_p=
+er_zone
+>>>> and move MIGRATE_PCPTYPES * MIGRATE_PCPTYPES inside? Otherwise, the =
+changes
+>>>> look reasonable to me.
+>>>
+>>> Hi Zi,
+>>>
+>>> Thanks for the review!
+>>>
+>>> I forgot to change it in another place, sorry about that! So can't mo=
+ve
+>>> MIGRATE_PCPTYPES * MIGRATE_PCPTYPES into the combined function.
+>>> Have added the additional place where min_thp_pageblock_nr_pages() is=
+ called
+>>> as a fixlet here:
+>>> https://lore.kernel.org/all/a179fd65-dc3f-4769-9916-3033497188ba@gmai=
+l.com/
+>>>
+>>> I think atleast in this context the orginal name pageblock_nr_pages i=
+sn't
+>>> correct as its min(HPAGE_PMD_ORDER, PAGE_BLOCK_ORDER).
+>>> The new name min_thp_pageblock_nr_pages is also not really good, so h=
+appy
+>>> to change it to something appropriate.
 >>
->> diff --git a/Documentation/driver-api/cxl/memory-devices.rst b/Documentation/driver-api/cxl/memory-devices.rst
->> index d732c42526df..e9e2952a967d 100644
->> --- a/Documentation/driver-api/cxl/memory-devices.rst
->> +++ b/Documentation/driver-api/cxl/memory-devices.rst
->> @@ -29,8 +29,8 @@ Platform firmware enumerates a menu of interleave options at the "CXL root port"
->>   (Linux term for the top of the CXL decode topology). From there, PCIe topology
->>   dictates which endpoints can participate in which Host Bridge decode regimes.
->>   Each PCIe Switch in the path between the root and an endpoint introduces a point
->> -at which the interleave can be split. For example platform firmware may say at a
->> -given range only decodes to 1 one Host Bridge, but that Host Bridge may in turn
->> +at which the interleave can be split. For example, platform firmware may say at a
-> Should probably be "platform firmware may say that a given range"
+>> Got it. pageblock is the defragmentation granularity. If user only wan=
+ts
+>> 2MB mTHP, maybe pageblock order should be adjusted. Otherwise,
+>> kernel will defragment at 512MB granularity, which might not be effici=
+ent.
+>> Maybe make pageblock_order a boot time parameter?
+>>
+>> In addition, we are mixing two things together:
+>> 1. min, low, and high watermarks: they affect when memory reclaim and =
+compaction
+>>    will be triggered;
+>> 2. pageblock order: it is the granularity of defragmentation for creat=
+ing
+>>    mTHP/THP.
+>>
+>> In your use case, you want to lower watermarks, right? Considering wha=
+t you
+>> said below, I wonder if we want a way of enforcing vm.min_free_kbytes,=
 
-"We addressed these parts based on Gregory Price's comments and 
-submitted version 2 of the patch."
-use phrase -> "platform firmware may say a given range only"
+>> like a new sysctl knob, vm.force_min_free_kbytes (yeah the suggestion
+>> is lame, sorry).
+>>
+>> I think for 2, we might want to decouple pageblock order from defragme=
+ntation
+>> granularity.
+>>
+>
+> This is a good point. I only did it for the watermarks in the RFC, but =
+there
+> is no reason that the defrag granularity is done in 512M chunks and is =
+probably
+> very inefficient to do so?
+>
+> Instead of replacing the pageblock_nr_pages for just set_recommended_mi=
+n_free_kbytes,
+> maybe we just need to change the definition of pageblock_order in [1] t=
+o take into
+> account the highest large folio order enabled instead of HPAGE_PMD_ORDE=
+R?
 
-> 
->> +given range only decodes to one Host Bridge, but that Host Bridge may in turn
->>   interleave cycles across multiple Root Ports. An intervening Switch between a
->>   port and an endpoint may interleave cycles across multiple Downstream Switch
->>   Ports, etc.
->> @@ -187,7 +187,7 @@ decodes them to "ports", "ports" decode to "endpoints", and "endpoints"
->>   represent the decode from SPA (System Physical Address) to DPA (Device Physical
->>   Address).
+Ideally, yes. But pageblock migratetypes are stored in a fixed size array=
+
+determined by pageblock_order at boot time (see usemap_size() in mm/mm_in=
+it.c).
+Changing pageblock_order at runtime means we will need to resize pagebloc=
+k
+migratetypes array, which is a little unrealistic. In a system with GBs o=
+r TBs
+memory, reducing pageblock_order by 1 means doubling pageblock migratetyp=
+es
+array and replicating one pageblock migratetypes to two; increasing pageb=
+lock
+order by 1 means halving the array and splitting a pageblock into two.
+The former, if memory is enough, might be easy, but the latter is a littl=
+e
+involved, since for a pageblock with both movable and unmovable pages,
+you will need to check all pages to decide the migratetypes of the after-=
+split
+pageblocks to make sure pageblock migratetype matches the pages inside th=
+at
+pageblock.
 
 
-Thanks,
-Alok
+>
+> [1] https://elixir.bootlin.com/linux/v6.15.1/source/include/linux/pageb=
+lock-flags.h#L50
+>
+> I really want to avoid coming up with a solution that requires changing=
+ a Kconfig or needs
+> kernel commandline to change. It would mean a reboot whenever a differe=
+nt workload
+> runs on a server that works optimally with a different THP size, and th=
+at would make
+> workload orchestration a nightmare.
+>
+
+As I said above, changing pageblock order at runtime might not be easy. B=
+ut
+changing defragmentation granularity should be fine, since it just change=
+s
+the range of memory compaction. That is the reason of my proposal,
+decoupling pageblock order from defragmentation granularity. We probably
+need to do some experiments to see the impact of the decoupling, as I
+imagine defragmenting a range smaller than pageblock order is fine, but
+defragmenting a range larger than pageblock order might cause issues
+if there is any unmovable pageblock within that range. Since it is very l=
+ikely
+unmovable pages reside in an unmovable pageblock and lead to a defragment=
+ation
+failure.
+
+
+--
+Best Regards,
+Yan, Zi
