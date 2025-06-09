@@ -1,88 +1,89 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0A6221702;
-	Mon,  9 Jun 2025 21:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D847319EEC2;
+	Mon,  9 Jun 2025 21:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749504000; cv=none; b=XA8pQ0nGja+p+ccHgqqnWBXDI02uCkjjrKkyUAuite3G2Aq/YO/8OXfviZC0fLnkJNeL6TA1zQytJRYOO0FLivJp+rByp23Qgu4GSBXGIdiBvi8qVRtpUpj280ZJkW9adqVMz3YOjg44cAc3epcQVPa1PsPBwuULiIInDq7gwC4=
+	t=1749504056; cv=none; b=dnYzwMe5zqrEiRxW35kFamalcUUs2Ygxwh76tPNKkytgQt/Y0Hrf2qlhS2C4vZUtaNrf9/k2k2yzpNyl6FgfikWAmp0O8y32HxTii+FFjxCovOwjmQjT3uTuhKYuoobzEnaNMbBU5i+SBJIT7cuwRFhDlydbPKLUT6GtDdnZykc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749504000; c=relaxed/simple;
-	bh=wZ2q5oRo2lhHnt1Zf/N6cwzsOmNhhOIw7E8zYRTNPWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T93Rq7Od0E8TzNeLG06R7PoYNK/ulumBEStkSE7gobeyBGI5EXhKo82rfnNZH/d37zbcJ7LFz0FvTwK403ML55WZddVNIWAC4PbWX5S5Rc1//qnFf047JOW5egatiOg9ufNy9pPz9VClNdoItOPZ1x3po6wUZeI3hbfJ/NAM5wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m/7UzM/K; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749504056; c=relaxed/simple;
+	bh=pKhKXgCrktYuaRbEqFnERsFKR8Ry6NrACeO93JvdLyU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=vDtVIUybK/tfCH+o59DOQqa6lclQodNbBVKtkJDDF0jI/48SzxJj28/I1pFo/jB8APRoFp5Ct8bjFtP7X8wytbtM2l1UONxg69Fhmt/AmtKgkNM2AD5pRwl4Obi78CQfflodysx/jUWjzmgMwi/AqNlNCUkrvcage0+1kPUuJRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NS/+bit1; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m/7UzM/K"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2363616a1a6so2408665ad.3;
-        Mon, 09 Jun 2025 14:19:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749503998; x=1750108798; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=93yUUs9R8gjdNL2MaOJ1mLM2XTPYgYceyucvzMsvIBA=;
-        b=m/7UzM/KlkacvFS1+ZYGShnW45+ZvryHJDuy9e9lUZe1TpJadEReEuY3/dvT5k1Wzz
-         ax5/sZsWix81X06Zy5A0d1jZH0tSzcA7++aGD9y4tViu6OWuLArT3sElKqpOfMoq9BxE
-         sO3N64hc854SsocCrt4TOemTMHXG99+ZKLdp61Vq/aWCOMPn2tTM9njwXGqExPNC4J8e
-         Zphd2I+MU6pdGTUgQqkEsgvzJpjVRkxhMgLxY8c/XkRDQd7t4LrtiOKMzzrYXoJ/txNU
-         0YWFy0W+JXPXFGJ3oiYIX9PcR37itoqnL4G/tKru1h5SsLUPHbrNMPHGLU7B9qyGVq7Q
-         q4lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749503998; x=1750108798;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=93yUUs9R8gjdNL2MaOJ1mLM2XTPYgYceyucvzMsvIBA=;
-        b=dte0WZIEBz96qEq8N2X/65xOErGCY5lBv3b77TAy68xQjFji7q6qbLMhsf6fOSnqcB
-         Ctb5p3UWqFCwFcL2en/7pMYXie0Ogb2Lycv3Tlc+7UrgPM1ptcVXmG1nA1ROXR7QwBvl
-         92AhEu6PfqYLLAcimz2MISoAjrMpeZ6u63BOGnPVwEsIxgQ/dRI3NTtu24dJbshc8rUS
-         wnr4OUYtlPNNGs5zKvx6LGDBmwZEpQz7gbuY2bGY38Dj5AidQKYpMH+d+/+7ZIaZe9Zy
-         vlvjk2PoJMmomO9tHmYIA7G0vlGDD8Z7odR7yJGAFw6UrwesdHXRiCtsnKmxSsEShVO2
-         vJcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUb9w3m3ktsh8fNWQYczkEtkDawzR+k4GkWQMDt5W4P43Vn5EbHbqyFpNJenTi8eyIFjiiIFhVl67Rlv6E=@vger.kernel.org, AJvYcCWzFsircIWX57M23QwFpmZggFetaSjflM5Ye6GR8NSEjz/EXO8Ny/+FcthtsGaJnoUFjbZlErAq4f1B6fFG@vger.kernel.org, AJvYcCXOglN/aEHpoQwGp6B5ZjEMOIUDleX+zrmFf4uLNRuQch+xC5IPS/P9ur19Iy+KIEknon6V1s9Wd3U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yze3yWkovy8vUggkG4KX1MAA4Va9RloJE8HbpcdCjWxqHQ1qfNt
-	lFaCmwxSut6J0sVNNUR9lkqU7YJ/U0bZTUEUPy0kWvgwePVqXBXkFQhW
-X-Gm-Gg: ASbGnct2AHXRYaSIMu86eu1a0tMdHMiTSZUounli+jVlxGj/FZ7u86slFNWlKxbNI+U
-	0mYjL/YSDM1xGaYcPc1PwY53MraAOAkL5drHdsTTS3Xa1DFoVSncHOeMz/vyrDk/ttWpbW92bUL
-	icNHhA883HCRkec3gLf1aEgDLlGGAQwrUBMVTvu4AcH/f3F4XmKiHDEEBNXqPfNiN3/m8m55T6k
-	ud4k3AqWmglqPqB9ejcZuA1dGQ1QNsPYYJ5W1MDzc00eDlZwprqr23ybydpjJz1tTQGy4AiwKNJ
-	Be7IAIAKVgV7Qer5h89bgn2c+4G4rwWJF25COuabQVRcTNID7zgKgQm+8eydxK+A9d/Tb4ARezo
-	=
-X-Google-Smtp-Source: AGHT+IH7tXDXZYprJolFVWFBtJyM9E/IDYlCrh8MNGncnPF2IA1P73suu74PB8V1X1zvIkvw0SMOXQ==
-X-Received: by 2002:a17:903:3c2f:b0:234:b131:15a with SMTP id d9443c01a7336-23601cf68d9mr225387865ad.4.1749503998617;
-        Mon, 09 Jun 2025 14:19:58 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236035069f3sm58753895ad.231.2025.06.09.14.19.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 14:19:58 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 9 Jun 2025 14:19:57 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add ProArt X870E-CREATOR WIFI
-Message-ID: <3f935c58-5c41-43a5-86d2-e6320c058416@roeck-us.net>
-References: <20250607102626.9051-1-eugene.shalygin@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NS/+bit1"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0CEE741AA1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1749504054; bh=+dhQ/0wrqPN8lw+Kdpp59M0xtPc7zzPfhdluoj3zkT4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=NS/+bit1E4/cx0odv0+xq2LtfwImttrTiGcTWcfBizuTYnHRPKKUuuE1+/PVvnXZe
+	 /rVjDMmcwTEF7MrNtTp681QBMrBq4ke+W375I/2pb594D+zmNNw5CjLRCZdvRnRZUZ
+	 FJJZiC9owjSre8Am3sdDKvB9HhSJjjCZ5L6W0JNWxzN8L41//x3JCikndQHNVpuq+E
+	 l6CXw8AKN9UCBCUWBQPw5PCmoctWFD7ua4vZifAEBLwCMvFyPcl/mxz186oC4LNHSx
+	 L65Edotwa8WtKaZfW4ZC/NRrHeB2R8jt6IeUlwKnGVGERK2G8ZwCaSX8/NAlQXUdER
+	 jXx59O9osfh4Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0CEE741AA1;
+	Mon,  9 Jun 2025 21:20:53 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: kernel@collabora.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Nicolas Frattaroli
+ <nicolas.frattaroli@collabora.com>
+Subject: Re: [PATCH 2/2] docs: document linked lists
+In-Reply-To: <20250520-linked-list-docs-v1-2-db74f7449785@collabora.com>
+References: <20250520-linked-list-docs-v1-0-db74f7449785@collabora.com>
+ <20250520-linked-list-docs-v1-2-db74f7449785@collabora.com>
+Date: Mon, 09 Jun 2025 15:20:53 -0600
+Message-ID: <87v7p48vd6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250607102626.9051-1-eugene.shalygin@gmail.com>
+Content-Type: text/plain
 
-On Sat, Jun 07, 2025 at 12:26:14PM +0200, Eugene Shalygin wrote:
-> Adds support for the ProArt X870E-CREATOR WIFI board.
-> 
-> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com> writes:
 
-Never mind, applied on top of the other patch.
+> The kernel contains various generic data structures that should ideally
+> not be reinvented. However, it often fails to document the usage of
+> these in the in-tree kernel documentation beyond just a listing of
+> header symbols in the very lengthy kernel-api docs page. This is fine
+> for things that have simple invocations, but occasionally things devolve
+> into several layers of concatenating macros, which are subpar for humans
+> to parse.
+>
+> Begin making a small impact by adding some rudimentary example-driven
+> documentation for the linked list type. It's far from exhaustive, as
+> many list modification functions are currently not mentioned. However,
+> it covers the basics and directs readers towards further documentation
+> should they be interested in concurrency.
+>
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  Documentation/core-api/index.rst |   1 +
+>  Documentation/core-api/list.rst  | 390 +++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 391 insertions(+)
 
-Guenter
+So I'm only now getting around to a belated look at this.  I like it
+overall, but I do have a couple of comments:
+
+- Is there any way to talk you into replacing all of the graphviz
+  diagrams with ascii art in literal blocks?  All the dot stuff makes
+  for pretty HTML, but is entirely unreadable for people looking at the
+  plain-text docs.
+
+- All of the kerneldoc stuff for list.h is currently pulled into
+  kernel-api.rst.  Should we perhaps move it over here?
+
+Thanks,
+
+jon
