@@ -1,130 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC89228C9D;
-	Mon,  9 Jun 2025 20:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3799C1EB9E1;
+	Mon,  9 Jun 2025 20:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749499552; cv=none; b=hWXJfJjs6uHl+YWC78TcmEYSRR+0X9VnQGu5giJs1n3RytmakPUV0l/A1Uo9p4NIdOomWZazbRX2Enbp1pJxyXB8xD1BHaKCE+4CwvPh3BsahWs9ShIFURpbFX8QYQCUNk1d8nJfjT/bfIZUOydetXnWhA/1j9oacH03F4m38P4=
+	t=1749499972; cv=none; b=eOTCPsdPvfYsTsXufiypuagVC0kQkWym2dMeo2peZ1y7skgyeAF1mb1UakPGEi8rqYoDq+CWAqE2jSkCSZ2L/BHXjcltHtRtYQ0F7WHYe8TMMzDGXQUHXEoTWHHg5NT/LWw01Y/T+0f5Kf/sjyq2hRbHPAIciYlakDnnXsB5epQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749499552; c=relaxed/simple;
-	bh=ccxi92/CdYcFz5SRXc75fcFWq7DUZRAtA96LadU0vMs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QUwo/2osB/xjPO/BdEczGFn5pEo0s6tT0SvbWrjWi/9h1obKmkrwqDuyYgdtBg80o06Je++8Tx0OpXOEkjcyfx5rKep4fuq1b8gEqZns8jt10FjsTVzu8TYoopW186FmibKC9UUhI0ailtk75svBojiuJIplqHCY8CODWmZ/KIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RU1diagR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749499972; c=relaxed/simple;
+	bh=LJ/uZDXg4Dz+jNqe8xKGNosRt70el7DilOa/Q+s44xQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GfZAjbsPp8HUExtHvcs05G0lrrODVzkchdfumreyYile9gfqsh2EaiS2jAAbIUoEzwj86AvlkS10yobVDNac1NX+g9MNMl/eYOB4O1bs+cckZDBvBAsPcMlVVlo7dkExleqa7NpOKbKTB7EJvQBckHbeyfAQnoIMfxyjkiZUGq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCgo9+6R; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RU1diagR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01DDFC4CEF2;
-	Mon,  9 Jun 2025 20:05:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749499551;
-	bh=ccxi92/CdYcFz5SRXc75fcFWq7DUZRAtA96LadU0vMs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RU1diagRRM9N/rrqnuVcJid6v3sYjjs4ARVPWzRA4HNyGSA9Cgdp/u0DOd7zH1Z/j
-	 OBxrQfu01B0JycCekT+t4nPn90DvP01hr50A8cE4vYZG0ISAsoF77m7eWVJAYMEswg
-	 k6G/RfXhZ5L87Ok9E0E4WuVeVdsDy0u8IyF31pQv7hZqLbHe6HiQPHsb/CprKmPhKe
-	 ycsNk0UMmEUKz1V4GMpKr2Q05mIOjrGNbHSkBHVZ8sKb11hhR5Omq74yz9tR/+IUqn
-	 v6pRyoRiewXti7ki3Hfx1xSpCPIhX0Hx4zD05kynXs5lXwg4pTrv+KG5cuy/TCCcEy
-	 Zye38+GBreYng==
-From: Mario Limonciello <superm1@kernel.org>
-To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-	"H . Peter Anvin" <hpa@zytor.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCgo9+6R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749499972; x=1781035972;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LJ/uZDXg4Dz+jNqe8xKGNosRt70el7DilOa/Q+s44xQ=;
+  b=SCgo9+6RTQAEQGbo1p7wLW9MaFAD0iC0EMpdrAQWEeL6wLttW5BcMtUE
+   djC2Q9hhoI9xETJxGDkbFzZLNslqYkajKqbh2tal22WsGUX2pVVJZopmi
+   jXDHeqwbTlgokzyb7dIVd5Rc/32sAr0lh1+r2+i9tUNDplHcmLnyal38z
+   Dhg/vAZc3NUAXVlO1Av000W1BBKstmgb5C6jr4rU9+8ZYsxM4I1BPvDIb
+   sse/gbrYXXhrcVOU5o/qmr0IUAKiJXsIzdeDdGQet/QsfMkSf58Q3vOe+
+   XxgPJrbUotMvzw9AouaL3Ud3S32lmcZwz5Xze8lVqG/ir3hL7A8NV/xMc
+   Q==;
+X-CSE-ConnectionGUID: 9ZAOTH3/TJqW0nN8XK+gkg==
+X-CSE-MsgGUID: /G/ORU5TQhaDTaEfodPc9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51677175"
+X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
+   d="scan'208";a="51677175"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 13:12:50 -0700
+X-CSE-ConnectionGUID: JgUShucbQ3mQBwHf/RSvig==
+X-CSE-MsgGUID: MCcgyiSGT0aLouJwJOiQ5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
+   d="scan'208";a="147188410"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 13:12:43 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uOirG-000000059XK-27RQ;
+	Mon, 09 Jun 2025 23:12:38 +0300
+Date: Mon, 9 Jun 2025 23:12:38 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Petr Mladek <pmladek@suse.com>,
+	Sergio Perez Gonzalez <sperezglz@gmail.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	David Rientjes <rientjes@google.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Huang Rui <ray.huang@amd.com>,
-	"Gautham R . Shenoy" <gautham.shenoy@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	platform-driver-x86@vger.kernel.org (open list:AMD HETERO CORE HARDWARE FEEDBACK DRIVER),
-	linux-kernel@vger.kernel.org (open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-pm@vger.kernel.org (open list:AMD PSTATE DRIVER)
-Subject: [PATCH v11 13/13] x86/itmt: Add debugfs file to show core priorities
-Date: Mon,  9 Jun 2025 15:05:18 -0500
-Message-ID: <20250609200518.3616080-14-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250609200518.3616080-1-superm1@kernel.org>
-References: <20250609200518.3616080-1-superm1@kernel.org>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tamir Duberstein <tamird@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	Thomas Huth <thuth@redhat.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] slab: Decouple slab_debug and no_hash_pointers
+Message-ID: <aEdANsGsQHqVQ9Wy@smile.fi.intel.com>
+References: <20250415170232.it.467-kees@kernel.org>
+ <Z_-dPcdiGW0fo8Ji@pathway.suse.cz>
+ <202506051314.D6EDFA91D@keescook>
+ <aEbyHeG8qh8GChTh@pathway.suse.cz>
+ <202506090823.33ED63C@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202506090823.33ED63C@keescook>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+On Mon, Jun 09, 2025 at 08:24:47AM -0700, Kees Cook wrote:
+> On Mon, Jun 09, 2025 at 04:39:25PM +0200, Petr Mladek wrote:
 
-Multiple drivers can report priorities to ITMT. To aid in debugging
-any issues with the values reported by drivers introduce a debugfs
-file to read out the values.
+...
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- arch/x86/kernel/itmt.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+> As long as it's in -next and scheduled to land, I'm happy. I'd always
+> like it earlier, but the less workflow disruption the better! :)
 
-diff --git a/arch/x86/kernel/itmt.c b/arch/x86/kernel/itmt.c
-index 9cea1fc36c18f..243a769fdd97b 100644
---- a/arch/x86/kernel/itmt.c
-+++ b/arch/x86/kernel/itmt.c
-@@ -59,6 +59,18 @@ static ssize_t sched_itmt_enabled_write(struct file *filp,
- 	return result;
- }
- 
-+static int sched_core_priority_show(struct seq_file *s, void *unused)
-+{
-+	int cpu;
-+
-+	seq_puts(s, "CPU #\tPriority\n");
-+	for_each_possible_cpu(cpu)
-+		seq_printf(s, "%d\t%d\n", cpu, arch_asym_cpu_priority(cpu));
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(sched_core_priority);
-+
- static const struct file_operations dfs_sched_itmt_fops = {
- 	.read =         debugfs_read_file_bool,
- 	.write =        sched_itmt_enabled_write,
-@@ -67,6 +79,7 @@ static const struct file_operations dfs_sched_itmt_fops = {
- };
- 
- static struct dentry *dfs_sched_itmt;
-+static struct dentry *dfs_sched_core_prio;
- 
- /**
-  * sched_set_itmt_support() - Indicate platform supports ITMT
-@@ -102,6 +115,14 @@ int sched_set_itmt_support(void)
- 		return -ENOMEM;
- 	}
- 
-+	dfs_sched_core_prio = debugfs_create_file("sched_core_priority", 0644,
-+						  arch_debugfs_dir, NULL,
-+						  &sched_core_priority_fops);
-+	if (IS_ERR_OR_NULL(dfs_sched_core_prio)) {
-+		dfs_sched_core_prio = NULL;
-+		return -ENOMEM;
-+	}
-+
- 	sched_itmt_capable = true;
- 
- 	sysctl_sched_itmt_enabled = 1;
-@@ -133,6 +154,8 @@ void sched_clear_itmt_support(void)
- 
- 	debugfs_remove(dfs_sched_itmt);
- 	dfs_sched_itmt = NULL;
-+	debugfs_remove(dfs_sched_core_prio);
-+	dfs_sched_core_prio = NULL;
- 
- 	if (sysctl_sched_itmt_enabled) {
- 		/* disable sched_itmt if we are no longer ITMT capable */
+Hmm... The __diag patch series were in Linux Next for a few weeks and did not
+land in v6.16-rc1. Just saying that there is always chance to go into cracks.
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
