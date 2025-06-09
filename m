@@ -1,106 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94716155342;
-	Mon,  9 Jun 2025 07:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727B013B58B;
+	Mon,  9 Jun 2025 08:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749455393; cv=none; b=PTCeE+SZzXOv1QcGOntPY/Qxp3+icp7y9hsavUT2vGTJ8sY52UOkUE/QzLNHAkx/e8vTw9HMNXSjHTzxi9yWHO+ADGX1JQ9G88DmwtV6uqUaCPOGtnW1t31DqElCHsb9NAE9sH6GIjkNI1/yEP3vIy+iLWaDnTcIyjphU3x1GVg=
+	t=1749458196; cv=none; b=fyckP0xloqfiwSrV+sdBfS1e06tw201QUa8xWyNgLWx3z/GZsfGIx/WyHZvFcRxbpPjr7Yz28BgeLaP/UGDmeLCkGkjw2/Zsso/7z9ciUbXCfkA1WFkTJcBrvB7bkrereFOvD9wO0T8pGih4ZXAOzfDJR0f5oVcPVtQ/m2kEEiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749455393; c=relaxed/simple;
-	bh=lZ2ZMEBmnRHpTlTIYdzJPlUAPZOUDipAjOSeRh+GA8c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=brZUUzZjn2GUvYpS0Gks78B7W45XsOfPmuaWCu8YORV5Us3l9Eu1tTSwdT83oI/sT3VaZIMSW/KWqy/wIJsSkOe8mK+Hmh6BwGYZGw3FdhL00fsMIc5oUhHRYyB7SRe+lteJhOexA+CyZpJXyTq+Pw8av7WRCPg47mH5lZ7bBzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l3CS7xNE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749458196; c=relaxed/simple;
+	bh=L3nfufsxXxkliDYjJl9skzl9dEnwS4z0pKQv+TvCxeU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UHayUA/dD2dwThB1uRAOjIjDQuDPo8iYjCtXdS6vvXw53rH50s1BrOtuDT+UpwZn3fEITu/HNQyNPcU3T9ZyoBTn4CKAoVmlAD2aReXFJI/UtRltrGbVLSFAofq0Z9VjaPzoXOGy4hd5xxiP0WGYWj9cjbPSwVYop50XaEgehPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=E1KIr4JU; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l3CS7xNE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5D2C4CEEB;
-	Mon,  9 Jun 2025 07:49:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749455393;
-	bh=lZ2ZMEBmnRHpTlTIYdzJPlUAPZOUDipAjOSeRh+GA8c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=l3CS7xNEWwnsKqLsiTHAiEqf09/7KNYdWnQeSnuf5QO3Ws1d13IaB2Gf0+5Pk6YTY
-	 7VQiSc8fyd2T8Xcaw7ktsAzn/Gkps+3bkMCFGWlef9oG+5Zry1NzhLgFrgCQhshfHL
-	 b99OlX+kf2WKqPWFcb4GtBqoWeqqaaHLgpVh/rTVree6HAcVVwuwZFTDKWgjOL2KEm
-	 djUpztzSvKCIvax6lAH8E7cyV46POrCQDxn++/bDN8BXMgV52x5Rl3KtYh/XtmtBai
-	 AJGPtyHszcvdaBUyE7DuvKCIkr4CdREwQmRgZvizzofto8pcbs2LDKH/+ZWFoWMSV+
-	 xkd/bto3rKuaQ==
-Message-ID: <ba9f6de0-4ead-4393-9a9e-9bf5bd4656e2@kernel.org>
-Date: Mon, 9 Jun 2025 09:49:50 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="E1KIr4JU"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 470C14316C;
+	Mon,  9 Jun 2025 08:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1749458185;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L3nfufsxXxkliDYjJl9skzl9dEnwS4z0pKQv+TvCxeU=;
+	b=E1KIr4JUbM5L2fJGk+ItoUEbP+1wikt2qhg+/RB4BO4VAB+j7qbb1i1YucsyZQwrqHSeEf
+	fp8Kabc1y3l6Y8deXtJSrcEOBIi2hhvz2hjY8DB8WJvLB7SS3p3VFmA4jAzaMrKtx4vqp4
+	A3tgqEyhcqmWDK8IfsVHqkWTy6nGzJUHQElRBovPJzACIafOQ5HTRl0ys+FhK4HCTyvye1
+	7aSqt/rejepgQlZ7kfs7g5Xp2H4kQCh1M0OBXkcGFaBnz5gpeFDpuLY4iAaC3GHusqwJN1
+	CXLJloukR1EpSIBT1YUU7vwlmdzNBXOyBFMtoVTwb1pV10Fl9Wqk19064tBuQQ==
+Date: Mon, 9 Jun 2025 10:36:22 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Gal Pressman <gal@nvidia.com>
+Cc: Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>, Oleksij
+ Rempel <o.rempel@pengutronix.de>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>,
+ Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon
+ Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell
+ King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH net-next v12 00/13] Add support for PSE budget
+ evaluation strategy
+Message-ID: <20250609103622.7e7e471d@kmaincent-XPS-13-7390>
+In-Reply-To: <71dc12de-410d-4c69-84c5-26c1a5b3fa6e@nvidia.com>
+References: <20250524-feature_poe_port_prio-v12-0-d65fd61df7a7@bootlin.com>
+	<8b3cdc35-8bcc-41f6-84ec-aee50638b929@redhat.com>
+	<71dc12de-410d-4c69-84c5-26c1a5b3fa6e@nvidia.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] serial: Remove unused uart_get_console
-To: linux@treblig.org, gregkh@linuxfoundation.org, corbet@lwn.net
-Cc: linux-serial@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250608154654.73994-1-linux@treblig.org>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20250608154654.73994-1-linux@treblig.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdeltdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfdutdefvedtudegvefgvedtgfdvhfdtueeltefffefffffhgfetkedvfeduieeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdelpdhrtghpthhtohepghgrlhesnhhvihguihgrrdgtohhmpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepuggrvhgvmhesuggrvhgvm
+ hhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvth
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On 08. 06. 25, 17:46, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> uart_get_console() has been unused since 2019's
-> commit bd0d9d159988 ("serial: remove ks8695 driver")
-> 
-> Remove it, and it's associated docs.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Le Sun, 8 Jun 2025 09:17:59 +0300,
+Gal Pressman <gal@nvidia.com> a =C3=A9crit :
 
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+> On 28/05/2025 10:31, Paolo Abeni wrote:
+> > I'm sorry, even if this has been posted (just) before the merge window,
+> > I think an uAPI extension this late is a bit too dangerous, please
+> > repost when net-next will reopen after the merge window. =20
+>=20
+> Are all new uapi changes expected to come with a test that exercises the
+> functionality?
 
+I don't think so and I don't think it is doable for now on PSE. There is no=
+thing
+that could get the PSE control of a dummy PSE controller driver. We need ei=
+ther
+the support for a dummy PHY driver similarly to netdevsim or the support fo=
+r the
+MDI ports.
+By luck Maxime Chevallier is currently working on both of these tasks and h=
+ad
+already sent several times the patch series for the MDI port support.
 
--- 
-js
-suse labs
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
