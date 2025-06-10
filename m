@@ -1,130 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C47F20766E;
-	Tue, 10 Jun 2025 14:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 190211D7995;
+	Tue, 10 Jun 2025 15:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749567333; cv=none; b=W0BYVU+VsITKgHosIqHoO/yFa0/FiUFJEeIovKnWatFb5tJmAztrQT5GD2sNQI9qWZN5mp+QF+6H5K1t9fVYxptuME7tHEnO3hHyGZfCQMQbESyYaGSoRMRkOIYmFIJ3IFUmh/pSpbXbwFUxxnD0iAWaf2nIurhx2S4gmfS/PLs=
+	t=1749567711; cv=none; b=UQ68gNeOxH2bw5hGtqMVDErlvRCYoxP/O9q26zlRMAPXE1Ht/4qRS+1SdwszUtwTT23VqNPZY4Cbw5RURVx/fITw8ShWBWfk5Ja4EMbj7MpPnWfqlgupDn4TjBNUpTO8qlOxtbPL1/1fnjjRGdaJ7nDgRKJf80vwEhcvXvf2lt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749567333; c=relaxed/simple;
-	bh=o2qFIwCJqf1Owe8LoAFDkXI9Um7ln94fm/Lg5eVi6/s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bx9EOMPQtbJQdtFI/G7pCkMzFjEsL34G+8Uasi+UCanKVNzerCkHVeCNPxUDyrvGEUEowCJ3wEAr55CA8opNl2CThOhzNhFc1NUR5s7OopLAvX2Ez0E/AqMcO4Dtjo/c2NAg2NX1pejnM4+r7bAdpV63VrQzY/x3gMb0HMQjdqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sl51QyIk; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sl51QyIk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04298C4CEED;
-	Tue, 10 Jun 2025 14:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749567333;
-	bh=o2qFIwCJqf1Owe8LoAFDkXI9Um7ln94fm/Lg5eVi6/s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Sl51QyIkRvKqYv018SvVzJZZ1IvNREg1v8VuuTS4bBTEiwLbyujGGldADwF5xT8tN
-	 SwjGfmnT5myotfQhC5x4VXrpEz/YFGqll2BfRcnKFSia9CrNGOqdZ5x8ccvlz2uxVb
-	 UXW0bTsrTa7YiQxKBaApgGFE6hwBBrIwbbnkTigUEfAxqhrdMjJNMMpw5at6o0uOmd
-	 a7ZkgXr+IpLI3P2/qTFKDhtIHzvJ3lxNLJNv986w2tgeProeOj3fue8Hw3hXi0hjzq
-	 TLBCNnQNk8lokn5M4NexbgYJAE0pKDPb2DYn3/w5kdi8Mm2p3l5sg7FTewow6ayy4X
-	 HevTJcwJF1WjQ==
-Message-ID: <1e06c620-8f8e-4ddf-8356-0782bccd63a2@kernel.org>
-Date: Tue, 10 Jun 2025 16:55:26 +0200
+	s=arc-20240116; t=1749567711; c=relaxed/simple;
+	bh=OL5tXLeKRFgpl8D82iS2CUpu74bvSkEwG35mvxK1KEA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Lena5HXoAE4pTMw6IGXRTe2RGOKwybnLZd2UdSr5WZeLprD2SdzSzfbU1pJBnsF1YoMXjuWu6a7gSbSX1VekB7uSOWxLBL+iQ6xIYoxZCFs+YNXG/3QhueYahvnS1g5mRJN3ECg8qKSYn7DrkU7Zrn/YfeIcODa4CX1NG7emGXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D0A8014BF;
+	Tue, 10 Jun 2025 08:01:29 -0700 (PDT)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B3D6A3F59E;
+	Tue, 10 Jun 2025 08:01:46 -0700 (PDT)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: catalin.marinas@arm.com,
+	pcc@google.com,
+	will@kernel.org,
+	broonie@kernel.org,
+	anshuman.khandual@arm.com,
+	joey.gouly@arm.com,
+	yury.khrustalev@arm.com,
+	maz@kernel.org,
+	oliver.upton@linux.dev,
+	frederic@kernel.org,
+	shmeerali.kolothum.thodi@huawei.com,
+	akpm@linux-foundation.org,
+	surenb@google.com
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v5 0/6] support FEAT_MTE_TAGGED_FAR feature
+Date: Tue, 10 Jun 2025 16:01:38 +0100
+Message-Id: <20250610150144.2523945-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/5] i2c: piix4: Depends on X86
-To: Mario Limonciello <superm1@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Borislav Petkov <bp@alien8.de>, Jean Delvare <jdelvare@suse.com>,
- Andi Shyti <andi.shyti@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>,
- "open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>,
- Ingo Molnar <mingo@kernel.org>, linux-mips@vger.kernel.org,
- loongarch@lists.linux.dev
-References: <20250422234830.2840784-1-superm1@kernel.org>
- <20250422234830.2840784-3-superm1@kernel.org>
- <CAMuHMdVPQLjOox5sMp34Z5MTwKv2WOpHa=MpZr8hWG22fQKcjw@mail.gmail.com>
- <CAAhV-H70LXsDYMA7wz4x828rEFoJsNX0=m8F73Ge9=yfpzBpZQ@mail.gmail.com>
- <24febda9-6360-459f-82d3-6fba9ed9be83@kernel.org>
- <30a7f1a6-1e04-4fc5-9bea-e2b5956b28b7@kernel.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <30a7f1a6-1e04-4fc5-9bea-e2b5956b28b7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The FEAT_MTE_TAGGED_FAR feature provides support for
+reporting all non-address bits during a synchronous MTE tag check fault.
 
-On 10-Jun-25 16:53, Hans de Goede wrote:
-> Hi,
-> 
-> On 10-Jun-25 16:12, Mario Limonciello wrote:
->> On 6/10/2025 2:24 AM, Huacai Chen wrote:
->>> On Tue, Jun 10, 2025 at 5:16 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>>>
->>>> Hi Mario,
->>>>
->>>> CC mips, loongarch
->>>>
->>>> On Wed, 23 Apr 2025 at 01:49, Mario Limonciello <superm1@kernel.org> wrote:
->>>>> From: Mario Limonciello <mario.limonciello@amd.com>
->>>>>
->>>>> PIIX4 and compatible controllers are only for X86. As some headers are
->>>>> being moved into x86 specific headers PIIX4 won't compile on non-x86.
->>>>>
->>>>> Suggested-by: Ingo Molnar <mingo@kernel.org>
->>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>
->>>> Thanks for your patch, which is now commit 7e173eb82ae97175
->>>> ("i2c: piix4: Make CONFIG_I2C_PIIX4 dependent on CONFIG_X86")
->>>> in v6.16-rc1.
->>>>
->>>>> --- a/drivers/i2c/busses/Kconfig
->>>>> +++ b/drivers/i2c/busses/Kconfig
->>>>> @@ -200,7 +200,7 @@ config I2C_ISMT
->>>>>
->>>>>   config I2C_PIIX4
->>>>>          tristate "Intel PIIX4 and compatible (ATI/AMD/Serverworks/Broadcom/SMSC)"
->>>>> -       depends on PCI && HAS_IOPORT
->>>>> +       depends on PCI && HAS_IOPORT && X86
->>>>
->>>> Are you sure this south-bridge is not used on non-x86 platforms?
->>>> It is enabled in several non-x86 defconfigs:
->>>>
->>>>      arch/loongarch/configs/loongson3_defconfig:CONFIG_I2C_PIIX4=y
->>>>      arch/mips/configs/ip27_defconfig:CONFIG_I2C_PIIX4=m
->>>>      arch/mips/configs/loongson2k_defconfig:CONFIG_I2C_PIIX4=y
->>>>      arch/mips/configs/loongson3_defconfig:CONFIG_I2C_PIIX4=y
->>>>
->>>> The loongarch and loongson entries are probably bogus, but I wouldn't
->>>> be surprised if the SGI Onyx and Origin do use Intel south-bridges.
->>> Loongson can use AMD SB700/SB800 south bridges, which have I2C_PIIX4.
->>
->> Well we could revert this patch, but it's going to be a compile failure because of 624b0d5696a89b138408d385899dd35372db324b and other patches that go on top of that.
->>
->> My current leaning is we make a dummy fch.h header for these archs with #defines for 0.
-> 
-> Move "fch.h" to include/linux/platform/x86/ so that it is available on all arches
-> and if necessary ifdef out anything x86 specific in the C-code referencing it ?
+This patchset extends the reporting tag to include
+not only the memory tag (logical tag) but also the address tag via
+si_addr when FEAT_MTE_TAGGED_FAR feature is supported.
 
-Correction that should be include/linux/platform_data/x86/
+Patch Sequences
+================
 
-Regards,
+Patch #1 adds cpufeature FEAT_MTE_TAGGED_FAR
 
-Hans
+Patch #2 adds MTE_FAR hwcaps and export address tag when it supports
 
+Patch #3 adds mtefar hwcap test
+
+Patch #4 prepares to add mtefar testcase
+
+Patch #5 refactor check_mmap_option with loop to add mtefar testcase
+
+Patch #6 adds mtefar test cases corresponding to
+each testcase of check_mmap_options
+
+Patch History
+================
+v4 to v5:
+  - rebased on v6.16-rc1
+  - https://lore.kernel.org/linux-arm-kernel/20250507095757.1663684-1-yeoreum.yun@arm.com/
+
+v3 to v4:
+  - fix hwcap string for FEAT_MTE_TAGGED_FAR
+  - split cpufeature and hwcap modification and merge hwcap's
+    modification with exporting address tag patch
+  - add mtefar testcase on check_mmap_options
+  - https://lore.kernel.org/all/20250410074721.947380-1-yeoreum.yun@arm.com/
+
+v2 to v3:
+  - Rebase to 6.15-rc1
+  - https://lore.kernel.org/all/20250403172758.67106-1-yeoreum.yun@arm.com/
+
+v1 to v2:
+  - add hwcap test for MTE_FAR feature.
+  - add MTE_FAR doc into elf_hwcap.rst
+  - https://lore.kernel.org/all/20250403142707.26397-1-yeoreum.yun@arm.com/
+
+
+Yeoreum Yun (6):
+  arm64/cpufeature: add FEAT_MTE_TAGGED_FAR feature
+  arm64: report address tag when FEAT_MTE_TAGGED_FAR is supported
+  tools/kselftest: add MTE_FAR hwcap test
+  kselftest/arm64/mte: preparation for mtefar test
+  kselftest/arm64/mte: refactor check_mmap_option test
+  kselftest/arm64/mte: add mtefar test on check_mmap_option
+
+ Documentation/arch/arm64/elf_hwcaps.rst       |   3 +
+ Documentation/arch/arm64/tagged-pointers.rst  |  11 +-
+ arch/arm64/include/asm/hwcap.h                |   1 +
+ arch/arm64/include/uapi/asm/hwcap.h           |   1 +
+ arch/arm64/kernel/cpufeature.c                |   9 +
+ arch/arm64/kernel/cpuinfo.c                   |   1 +
+ arch/arm64/mm/fault.c                         |   7 +-
+ arch/arm64/tools/cpucaps                      |   1 +
+ tools/testing/selftests/arm64/abi/hwcap.c     |   6 +
+ .../selftests/arm64/mte/check_buffer_fill.c   |   2 +-
+ .../selftests/arm64/mte/check_child_memory.c  |   4 +-
+ .../arm64/mte/check_hugetlb_options.c         |   4 +-
+ .../selftests/arm64/mte/check_ksm_options.c   |   4 +-
+ .../selftests/arm64/mte/check_mmap_options.c  | 244 +++++++++++++-----
+ .../arm64/mte/check_tags_inclusion.c          |   2 +-
+ .../selftests/arm64/mte/check_user_mem.c      |   2 +-
+ .../selftests/arm64/mte/mte_common_util.c     |  70 ++++-
+ .../selftests/arm64/mte/mte_common_util.h     |   8 +-
+ tools/testing/selftests/arm64/mte/mte_def.h   |   8 +
+ 19 files changed, 291 insertions(+), 97 deletions(-)
+
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
