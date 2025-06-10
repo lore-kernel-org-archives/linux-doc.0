@@ -1,156 +1,235 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE088F40;
-	Tue, 10 Jun 2025 03:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EDE4C79;
+	Tue, 10 Jun 2025 03:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749525450; cv=none; b=UIeZIgIZMwY9YR/bXKeAMGSnTQrcpIFQUniOYWWrc+LT+3QwxjWHVckNKJwhvyXWgO9sXS9WaavB1LlCBx3oNzcm5XmfDRHddIGS9cFflqwESbsqJBQFu7T02qSNqbz4uY/TJNPFj1HLSIMDTcaNnO+CT5IQDqSwkB9gaGdVEkA=
+	t=1749527162; cv=none; b=gDbN1svVvM4gYtYA5EY4sFcK35601VM5ercqUCeBISFEuq1Lt2w48brZh9A0AfwlPfu1+HxH72izDD/qjI0tI6VjNVa0zB3xL6OblF+OkIIN+8EFyt+aqU95REf1F19M1aJeA24TNZEetH1dAqf9rrgNHfL/BTM+KLOTiPTHdwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749525450; c=relaxed/simple;
-	bh=45fnjTdYMVBPljf/aBVpxnA2I6FnEJGXBo6km1ABqaU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fKovybnTZn2vuvzFnqIHty30+vwqxYoDZavFBUKqwguZCn92YD0PKxCK1HmKS7AVX7WPpuzbQpi8Ze0ACxKf5tX7an/hQ22gY96psWnI19C9oy4tX0+39pumb0sPcVVGaF1H5xnkta2A5eg7+VHG5ZK4EIutoDRA5gR5IHmdmPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BVWsOk9n; arc=none smtp.client-ip=209.85.210.170
+	s=arc-20240116; t=1749527162; c=relaxed/simple;
+	bh=8e4qj6N+IXj17KUKfVGCbXzKVLM2X1zMTNP2QZuyqNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aiHCotTEoUGDH381mggws8dYghkkjn2iqM0QskAY1lMU8wlmQp6VkFRUqAFQWg4ojskwVSKzHzjowWsJCbsOjlOxJHpy/KpGZOVPc32PkXnEpiGXmH9FkapxeXKzz+L7LPARBChqgR1Wn+dJ5kTH1aRIqq9wA9V3kWxCOoPEsrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e1mJjegS; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BVWsOk9n"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742c46611b6so6250783b3a.1;
-        Mon, 09 Jun 2025 20:17:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e1mJjegS"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-748582445cfso751601b3a.2;
+        Mon, 09 Jun 2025 20:45:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749525448; x=1750130248; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rm6kdcI4n1koVKJTIy10thiRxaSDuouUmD5o5Uuwua0=;
-        b=BVWsOk9nObSf+DJaDodr7lOBoOOu406tRH6dMasdQFr8Vdl3cJlPek3VXDr0ZwXt6K
-         y/5qjO9K8LUyOOGk+jm2BxmM5qj08b1+MQX4NkNw4wpGPlr8eYGlsiLMNIdegbmVdf1l
-         oK7TzRqP1H0zPe3sW2vKtdr4b+Ucs889IsRjdOEsV8glZOX+aNV0B8t1B6GL/OCYJBZ4
-         bB0N6lsc4J1WkW+GsU6U8/JHjpQDT7F7Wa1c/bvf0nSZh+MJgBwU0Ga/+avbxXjLo8Kp
-         VbaHpyOgnU0Pk8m2hBVqv+JU2q48gonwFwRMNhMJBKahVH4qGDr9q2BCa3wAlSau5lND
-         emVQ==
+        d=gmail.com; s=20230601; t=1749527157; x=1750131957; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6xfh/WiFLIUl5mePx18jQVGyGKjTDMPbOj8xAWCL5Ao=;
+        b=e1mJjegSXT6hpzNymo67dvzCa0kDlO1zdfOwR090T5GjzFbPiM4+jdqiF4/A3LaCW6
+         hlg0vjokWJU5K0xKjR2fcCGYTTC+BC5OoXx95SN5WSG29rQOH/BeIBo4tii7xhEiopKu
+         KdCqj/oPp/HOWANBLAoIuAkGlSklayE3W5X0w8DjCRlIW8ElwQ7n6MCQwvZTRtljzQ4m
+         x5f/zFrqKE0gX2F9OY7MGQDvXsxAmgzjaIlp1f8ZX7Ek9FVh8BgpNwEFbUeWAY0mRgRx
+         xnsA+j2lqNziGolOlUws8p8sMrYaCsr1yn8iHyP1F/P+i/koq8njPBXiMI65rJv5hB2X
+         g3JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749525448; x=1750130248;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Rm6kdcI4n1koVKJTIy10thiRxaSDuouUmD5o5Uuwua0=;
-        b=MyH5QqiEkXVce3eMe4TAcUSYomETC8y63nZ6jltipWDYjBHkvheIzUJiiNxFNNbOrr
-         9lSxBr6ddVzUjv1yUxWqRzUZR95Iaqa6L7rUSKpPCy8VsEjWhhTCfGVvcNf41LXusBHs
-         ya4ushxEpC6Ot/8tsgW8cWBRljyzfPaGYgryYxJQkZVg9A1AItvtZoAzaK0kQmFaGCtc
-         9W69sZsu1533tq5H0Re0kJKuRpax0tA1u+mxtW5CstER3LhiEQhLSLJNcVS4ZBwvhLc5
-         zOK726A+kgvCjYB/U2BBGafAdQxkWf4BQAm+DaADK1o90mYkOYKejboEs+Co78bDZkuu
-         fwGA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8/60gwF1qb/8vsMiGPl3qPvo2ik6FpZ5fYi/9i0NEwfjW9n94usNhJ0xVwyuPGZviWsazgSfSZA8=@vger.kernel.org, AJvYcCWY2jb/sh4jF8UXfZhOaR3O0MIuCJ1vaXFLMPFuL+5ETn1VpeAduUTXpE4s/o+9ABGaIAV1V6obT9PS@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6G1kstCV46ei53bE1wvIGEctpVRwaLI+474UFpl2aWYoLt+ML
-	klVSoUqFQnlr4/5YNGse9JJSdEzZWb6WysN7581AONA2Ek/fNlya0fd2QMbWIw==
-X-Gm-Gg: ASbGncveJL+xGYVW80udIqShMTIgbtI4MIESWjbC7NYIOidb3Tbz6EoA+OJ0ioJyYkz
-	TPbU16p8nroGH+uhu+zYBVOI9MjagikTh1KUdmyC9Yu95z4fNlwI2vsN1MWP6eTQ0GIjNQ4xMNQ
-	ZPUeeUdZ5oIJFb4dDmDWvJl/RgDZGM5w/099FdwpJdc17HRrI2BL7rI1iIQ/+/b5K197iBaebJV
-	bonWslIjGJEpgCLDcyFXoY2Rix1Lp3GR0bitsYYfs5M4wUgAlWYH9VIs7TDtotlUJyHEZQmnY4J
-	ePMtodKlw7Jk9nlDA+1e4QQItP1ULFd1lsPPC5YsPs7HPYAP4pXKQqCdqZhG/g==
-X-Google-Smtp-Source: AGHT+IEvGrJH/l6/FleC+QIu6MpwoaBeq8cz4bgANMbiASmq7sOeOqr8hsR2xrYcawmWcsj7v+S3VQ==
-X-Received: by 2002:a05:6a00:855:b0:736:5c8e:baaa with SMTP id d2e1a72fcca58-74827e52592mr20318563b3a.2.1749525448311;
-        Mon, 09 Jun 2025 20:17:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749527157; x=1750131957;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6xfh/WiFLIUl5mePx18jQVGyGKjTDMPbOj8xAWCL5Ao=;
+        b=Jh8qU6msGtisITyRqkKIc4nUQkpPqEcf4Pk8HFLu8Xv8N/AG2+H0OSviDlqtTJM7mq
+         6dh83r7GZNHdtA+kYBkWjn1cYEqnLZOtTZvzcoofSpvgwZVF5ou7KiTYHAsWkdxlBoo1
+         AQHitzdjeFQoxwcbwRAzXGv0lIfl5D6GJ80rfZ/xS3QfJwj+tcRALfV2tYGcITsbWNB+
+         iyik3JCLVJYdXFY9POCf02Tho3FeDzQNq/lozPRlMtrf/sp2Yw47DkJBtgyKSwNPZ6lA
+         ohvL3Ll9DF7vN5YRBqP7plx0A26NWqOtB0o9SczqgQrkCd2g+DWlQ0vMkB4KF4Lcoawz
+         gnbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWwPyPDv8cLPP5fwjcaIBupmvcTqqTutkgQIhsScYWGKTybpWe11tPQO+8K+xh8zblkywWjCXW7PHPz@vger.kernel.org, AJvYcCX4vLRgK/UMkL/nVanL0LWNyNryPePE55kKK2NkgorPO8qvsOxnfmO6BI5WyP2unQvglbF//QgNXrXunRM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjuQjboea8j/yJzl/2UelC8W0OLTQ15u9dr4O5m3I5PmU/3grc
+	y9QyZkklLoRIMcSuLD/JVLsUxUWL2M6cQdZMsm1cTMXOs5Q9L/w13Gn8
+X-Gm-Gg: ASbGncvNEBW17wHl4xMUsPc1yvyYdeEXhZOJKbFXHdF5qL5K3mPgUb23mHBEotUeiEj
+	XVjeqsbF96jn+3nsq9KOa4CmwZ60aGvgw+u2gXqwODcvd+NugsOZ5OOcHXhh9PhA7Xyd6lLrdCj
+	7tfJ+D4c4FBCcMdzGc84o7yUzoJ7ucj7lmLy25ECsi48JLiKRrGalMoNRQn9gvYpb8l9cK1ZxkD
+	Lehm0zLLiFYhongVH0tT9adJokNHiMHflHkzGY34n+fXAsGuRsnqqs3Z/bU01Kc59x/dwd5669z
+	q/7vMcJ+DZI4VtAgjYERMAtm052AHrPKF0E1a9jIEd62/weEIpGOu0+W//0gFw==
+X-Google-Smtp-Source: AGHT+IF9HhHuKIYd4WZEes4fvzzUzS8fCX6PpbQyFmzMmY8uWr8bGAlgTK6uXtOuBFxQlad9q/ku/w==
+X-Received: by 2002:a05:6a00:22c7:b0:748:3485:b99d with SMTP id d2e1a72fcca58-7483485d9d4mr18151004b3a.18.1749527156782;
+        Mon, 09 Jun 2025 20:45:56 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482af7b606sm6705494b3a.67.2025.06.09.20.17.27
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0ea38dsm6702190b3a.148.2025.06.09.20.45.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 20:17:27 -0700 (PDT)
+        Mon, 09 Jun 2025 20:45:55 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 19C7E4209E8C; Tue, 10 Jun 2025 10:17:25 +0700 (WIB)
+	id EE2284209E8C; Tue, 10 Jun 2025 10:45:53 +0700 (WIB)
+Date: Tue, 10 Jun 2025 10:45:53 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux USB <linux-usb@vger.kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Felipe Balbi <balbi@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH] Documentation: usb: gadget: Wrap remaining usage snippets in literal code block
-Date: Tue, 10 Jun 2025 10:17:06 +0700
-Message-ID: <20250610031705.32774-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+To: Jonathan Corbet <corbet@lwn.net>,
+	Dante Strock <dantestrock@hotmail.com>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation/process/: Change 5.x to 6.x; clarify
+ terms; added note.
+Message-ID: <aEeqcX78zipEGJkl@archie.me>
+References: <PAXPR06MB8224F2CE53A1F4D674969B22A769A@PAXPR06MB8224.eurprd06.prod.outlook.com>
+ <87ecvtc772.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2707; i=bagasdotme@gmail.com; h=from:subject; bh=45fnjTdYMVBPljf/aBVpxnA2I6FnEJGXBo6km1ABqaU=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBnuiy1fmVcu2xR+/tqDtyGCR7wO20v0c7jtDGMsrY0w9 slsWvano5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABPxLWf4K/02JcKy/MiushVB bKIrqyN01rrplP5k0Xs51eHXLOsFCgz/nd5oze/p8DC6YdhxOKn7cXKvhWPEgeWeSmFT7KJjlE+ yAgA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tLYwtbPJs95ruY/Y"
+Content-Disposition: inline
+In-Reply-To: <87ecvtc772.fsf@trenco.lwn.net>
 
-Several configfs usage snippets forget to be formatted as literal code
-blocks. These were outputted in htmldocs output as normal paragraph
-instead. In particular, snippet for custom string descriptors as added
-in 15a7cf8caabee4 ("usb: gadget: configfs: Support arbitrary string
-descriptors") is shown as single combined paragraph, rather than two
-command lines.
 
-Wrap them like the rest of snippets.
+--tLYwtbPJs95ruY/Y
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 5e654a4655c3 ("Documentation/usb: gadget_configfs")
-Fixes: d80b5005c5dd ("docs: usb: convert documents to ReST")
-Fixes: 15a7cf8caabe ("usb: gadget: configfs: Support arbitrary string descriptors")
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-This patch is based on Uwe's numbered list indentation patch [1].
+On Mon, Jun 09, 2025 at 08:37:05AM -0600, Jonathan Corbet wrote:
+> Dante Strock <dantestrock@hotmail.com> writes:
+>=20
+> > diff --git a/Documentation/process/2.Process.rst b/Documentation/proces=
+s/2.Process.rst
+> > index ef3b116492df..70f8a6603454 100644
+> > --- a/Documentation/process/2.Process.rst
+> > +++ b/Documentation/process/2.Process.rst
+> > @@ -18,17 +18,17 @@ major kernel release happening every two or three m=
+onths.  The recent
+> >  release history looks like this:
+> > =20
+> >  	=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > -	5.0	March 3, 2019
+> > -	5.1	May 5, 2019
+> > -	5.2	July 7, 2019
+> > -	5.3	September 15, 2019
+> > -	5.4	November 24, 2019
+> > -	5.5	January 6, 2020
+> > +	6.10	July 14, 2024
+> > +	6.11	September 15, 2024
+> > +	6.12	November 17, 2024
+> > +	6.13	January 20, 2025
+> > +	6.14	March 24, 2025
+> > +	6.15	May 25, 2025
+> >  	=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > =20
+> > -Every 5.x release is a major kernel release with new features, internal
+> > +Every 6.x release is a major kernel release with new features, internal
+> >  API changes, and more.  A typical release can contain about 13,000
+> > -changesets with changes to several hundred thousand lines of code.  5.=
+x is
+> > +changesets with changes to several hundred thousand lines of code.  6.=
+x is
+> >  the leading edge of Linux kernel development; the kernel uses a
+> >  rolling development model which is continually integrating major chang=
+es.
+>=20
+> I do not object to these change and could apply this, but it might be
+> nice at some point to rephrase this stuff so that we don't end up doing
+> these updates repeatedly.  After all, we'll be at 7.x within a year... =
+=20
 
-[1]: https://lore.kernel.org/linux-doc/20250607224747.3653041-2-u.kleine-koenig@baylibre.com/
+What about not hard-coding first version number component like below?
 
-Cc: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---- >8 ----
+diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.=
+Process.rst
+index ef3b116492df08..47bcc6248a1338 100644
+--- a/Documentation/process/2.Process.rst
++++ b/Documentation/process/2.Process.rst
+@@ -13,24 +13,12 @@ how the process works is required in order to be an eff=
+ective part of it.
+ The big picture
+ ---------------
+=20
+-The kernel developers use a loosely time-based release process, with a new
+-major kernel release happening every two or three months.  The recent
+-release history looks like this:
+-
+-	=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-	5.0	March 3, 2019
+-	5.1	May 5, 2019
+-	5.2	July 7, 2019
+-	5.3	September 15, 2019
+-	5.4	November 24, 2019
+-	5.5	January 6, 2020
+-	=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-
+-Every 5.x release is a major kernel release with new features, internal
+-API changes, and more.  A typical release can contain about 13,000
+-changesets with changes to several hundred thousand lines of code.  5.x is
+-the leading edge of Linux kernel development; the kernel uses a
+-rolling development model which is continually integrating major changes.
++The kernel developers use a loosely time-based, rolling release development
++process. A new major kernel release (a.x) happens every two or three month=
+s,
++which comes with new features, internal API changes, and more. A typical
++release can contain about 13,000 changesets with changes to several hundred
++thousand lines of code. Recent releases, along with their dates, can be fo=
+und
++at `Linux Kernel Newbies site <https://kernelnewbies.org/LinuxVersions>`_.
+=20
+ A relatively straightforward discipline is followed with regard to the
+ merging of patches for each release.  At the beginning of each development
+@@ -46,13 +34,12 @@ merge window do not come out of thin air; they have bee=
+n collected, tested,
+ and staged ahead of time.  How that process works will be described in
+ detail later on).
+=20
+-The merge window lasts for approximately two weeks.  At the end of this
+-time, Linus Torvalds will declare that the window is closed and release the
+-first of the "rc" kernels.  For the kernel which is destined to be 5.6,
+-for example, the release which happens at the end of the merge window will
+-be called 5.6-rc1.  The -rc1 release is the signal that the time to
+-merge new features has passed, and that the time to stabilize the next
+-kernel has begun.
++The merge window lasts for approximately two weeks. At the end of this tim=
+e,
++Linus Torvalds will declare that the window is closed and release the firs=
+t of
++the "rc" kernels.  For the kernel which is destined to be a.x, the release
++which happens at the end of the merge window will be called a.x-rc1. That
++release is the signal that the time to merge new features has passed, and =
+that
++the time to stabilize the next kernel has begun.
+=20
+ Over the next six to ten weeks, only patches which fix problems should be
+ submitted to the mainline.  On occasion a more significant change will be
+@@ -99,13 +86,13 @@ release is made.  In the real world, this kind of perfe=
+ction is hard to
+ achieve; there are just too many variables in a project of this size.
+ There comes a point where delaying the final release just makes the problem
+ worse; the pile of changes waiting for the next merge window will grow
+-larger, creating even more regressions the next time around.  So most 5.x
++larger, creating even more regressions the next time around.  So most
+ kernels go out with a handful of known regressions though, hopefully, none
+ of them are serious.
+=20
+ Once a stable release is made, its ongoing maintenance is passed off to the
+ "stable team," currently Greg Kroah-Hartman. The stable team will release
+-occasional updates to the stable release using the 5.x.y numbering scheme.
++occasional updates to the stable release using the a.x.y numbering scheme.
+ To be considered for an update release, a patch must (1) fix a significant
+ bug, and (2) already be merged into the mainline for the next development
+ kernel. Kernels will typically receive stable updates for a little more
 
- Documentation/usb/gadget_configfs.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Thanks.
 
-diff --git a/Documentation/usb/gadget_configfs.rst b/Documentation/usb/gadget_configfs.rst
-index f069d2a0d09251..ada57c0e34aa8a 100644
---- a/Documentation/usb/gadget_configfs.rst
-+++ b/Documentation/usb/gadget_configfs.rst
-@@ -92,7 +92,7 @@ Then the strings can be specified::
- 
- Further custom string descriptors can be created as directories within the
- language's directory, with the string text being written to the "s" attribute
--within the string's directory:
-+within the string's directory::
- 
- 	$ mkdir strings/0x409/xu.0
- 	$ echo <string text> > strings/0x409/xu.0/s
-@@ -104,9 +104,9 @@ string descriptors to associate those strings with class descriptors.
- ------------------------------
- 
- Each gadget will consist of a number of configurations, their corresponding
--directories must be created:
-+directories must be created::
- 
--$ mkdir configs/<name>.<number>
-+        $ mkdir configs/<name>.<number>
- 
- where <name> can be any string which is legal in a filesystem and the
- <number> is the configuration's number, e.g.::
-@@ -246,7 +246,7 @@ a symlink to a function being removed from the configuration, e.g.::
- 	...
- 	...
- 
--Remove strings directories in configurations:
-+Remove strings directories in configurations::
- 
- 	$ rmdir configs/<config name>.<number>/strings/<lang>
- 
-@@ -270,7 +270,7 @@ e.g.::
- 	...
- 	...
- 
--Remove functions (function modules are not unloaded, though):
-+Remove functions (function modules are not unloaded, though)::
- 
- 	$ rmdir functions/<name>.<instance name>
- 
--- 
+--=20
 An old man doll... just what I always wanted! - Clara
 
+--tLYwtbPJs95ruY/Y
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaEeqbQAKCRD2uYlJVVFO
+o3y4AQC1hTD9k59RVIQu1eO+o0pxGW4kHjoCUSsVEwUUpvy65wD9Fq14tPwv4Y0P
+Ex8ixqrIPrHmHsvJagvkBwJ1EV5LDwM=
+=8b4G
+-----END PGP SIGNATURE-----
+
+--tLYwtbPJs95ruY/Y--
