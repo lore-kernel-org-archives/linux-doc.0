@@ -1,308 +1,188 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99DE023C502;
-	Tue, 10 Jun 2025 15:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7394235361;
+	Tue, 10 Jun 2025 15:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749567727; cv=none; b=NiUgm7jn7Vj51KdDKUzTP5kMrPuWAl/utT1XHi3o8xA60Zrga0XB4YwvrJ+kT5nvNB3aFjCjwvovtRLmehzMiMBPPPKvcVWgtMSgrWWYjvxPrHZdRjxHNBq8PnyuOxfNQDFoTBeK8ElYUUR3I5WGU2d1whX3abT4/EfPNg7JExw=
+	t=1749568611; cv=none; b=bKjCDKSVb/sLTBUqkFC5rgnWGfrbn7oEmqdcw1KjaQ/0G+Ov988R0Z1q0jH0JCCrcu6xWEgN4mWHehWDt588fz5F5HE99Ka8420tdV0FaSpjtBLdQ0KgpK/oPfou4N0GaBleyaxXQIHWEKze/u89FYqcEUbRwG2oUE4FUFQW1FQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749567727; c=relaxed/simple;
-	bh=CdsGf/7xKMmbGVYHunkGolE7VzdDVLZSB9UsioP4co0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=A3wUWD2naD/ZwuZACiJiXwQvb2AnzYtfuU7nDFrCWlgt9itVkRhJOnGO6yYXwd0fv67FlkeS9FdTAiSIy3t+Jc/w49Qz1JIF6wkg4WjT+y8EB2G4POgcoYuYo4aDsQcl41N70ba2qQ18gjJYWQHEoPe967K1H1fSP8Fn9ZaO0iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E13CD1713;
-	Tue, 10 Jun 2025 08:01:45 -0700 (PDT)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C582A3F59E;
-	Tue, 10 Jun 2025 08:02:02 -0700 (PDT)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: catalin.marinas@arm.com,
-	pcc@google.com,
-	will@kernel.org,
-	broonie@kernel.org,
-	anshuman.khandual@arm.com,
-	joey.gouly@arm.com,
-	yury.khrustalev@arm.com,
-	maz@kernel.org,
-	oliver.upton@linux.dev,
-	frederic@kernel.org,
-	shmeerali.kolothum.thodi@huawei.com,
-	akpm@linux-foundation.org,
-	surenb@google.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v5 6/6] kselftest/arm64/mte: add mtefar test on check_mmap_option
-Date: Tue, 10 Jun 2025 16:01:44 +0100
-Message-Id: <20250610150144.2523945-7-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250610150144.2523945-1-yeoreum.yun@arm.com>
-References: <20250610150144.2523945-1-yeoreum.yun@arm.com>
+	s=arc-20240116; t=1749568611; c=relaxed/simple;
+	bh=i+ZA5PZnarEIMUdL2kicaLXeZfd5IMGlajk3npLOGVw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d72zOtFUGUVw5hJw4ksuEP8FAPVe5MG2KLhNDy7oGeKOo7/iAK6ni7ewOJ+J7gCUW7x+lC22702sASyX4WywsqPU/Y/UfKxNzuFFPAyyion2D1XeerC3Rn9gPkTWUiapHYnqDaE+jGvepIjUafVXcFfbHOwUO7dRrBR+VAdPTxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fIh7SLtb; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fIh7SLtb"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-607434e1821so6417829a12.0;
+        Tue, 10 Jun 2025 08:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749568608; x=1750173408; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ytfxy1F91/6XXoUwKvCD7IATlqB9CgwhEYIH06zF7vg=;
+        b=fIh7SLtbnRtjOLXbp20e9rGU89UJCSYhJUdUuomg6dvlHdj3DDxZZEDjrEejbklDDK
+         K0tq6ilDCfyDlwse7p8ST2Yl7nY2fzGhti+oDDVNEIy3m/+zHjIEs1hdHPIggCKwC4HV
+         +1ilfTECEAjelXB9eLD14sZYK15H56xCHmkRBMT/3nG3SqZHxG5v64+PpBQbcKNHIaFw
+         mhsUhMeZTQkw2F+zP0N3jvYCvpzVCs69Q0H6PN9iS7T9FTdRAr2nr6KmWatsZ36fF3SY
+         M7i7h/v/pglO1yMKRy2CVqqUtcWDSshTosYni9ukRe3UaM/SNHVQ2HsA57IgTSQvDOVX
+         bTZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749568608; x=1750173408;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ytfxy1F91/6XXoUwKvCD7IATlqB9CgwhEYIH06zF7vg=;
+        b=hlT1PC8fmR8BgPo4Bfz4FYg0rbA6Bj0R20Tv3YjnedED+Wiw4fnTqd20K1G638CGVv
+         sY6jPFBFxx0c6Rz+mDg+2z5gYmjEJ9otH0fmZaT9+TKY4zLd0gAmq0FqY7SFKeWLRMoO
+         smuFzAn1gna08WscSiJiDoapYubkOoCAPagvTCo0vvYApwFWkbRR2hASCjJH0ht6XNoE
+         OqFBQ+RmmJJ6CN/YqMOBsoSPpD18zElcMPckgIZYlV3+wXcx7SLPXuRbl78lTOxkm9Le
+         nAoDe2dd2b8hQBI6CSD2TIQcaeZ0PqekgdCQTUBJWhlLxcpv6aIzK/cgIQG388AyvXuy
+         F5pA==
+X-Forwarded-Encrypted: i=1; AJvYcCUiuoxmkGeJ+9Fjb2DflF1Flsb1Y4Q3llmc0jn/uTxMgLL1X5SnDEbVLI5xinams92NxsimOZbKhGo=@vger.kernel.org, AJvYcCWgWJMcjx63Ac9o/I1Jx8hkYTkDIp4Zl0osTRJNgoDXN2K6lvonqOlx67BVanhII9s8UxW8qkeBZ3b1muCh@vger.kernel.org
+X-Gm-Message-State: AOJu0YzK5YwvfNr1P5Jjy39xnsJfD+qQPOyKxuxkhRSh6UfL1E5HNYnc
+	oh4nuMrUCucMXO3q7HRtr1HghvLCpLPV1Q92DuvsIQHQa/1CgkzZLD5v
+X-Gm-Gg: ASbGncuhG+mrsoi7VSRFn8Lpxqw4Op4ZtzyvNqSDTYzK/yCg+5yDY59YmbeYXxrszKK
+	F0unJOjRLyYa5cvice7vZzl69oBkodYjWV8rSZ8Mnmr/8q40Mf04wk9pond+pyZ3xjOVy+MhqiN
+	DdEctvkyPdYra5/Q3JQdO2RjNnLqNMdDZxeWD2e3qE1p/NUMzlV2Nvj6FKCvjFNtlSmcM1tO1gC
+	ec+VLkMoypoUZwgeplqr2/ndJwzUqE8gb63kO80wykVjhNE6TFDTIDT3RcZhPOmFc1FyuVrH1m+
+	E/hF/DEVzx3nsmadHZbo8tGBknpzYNPpP5cFVb+w7wP7cnKamTBeiaLDjbeId7ngSpFbg93tH4Z
+	plUUjySsnhDTI3X97ldOgB6x8c08v9WVGwOsAex+WXWg=
+X-Google-Smtp-Source: AGHT+IF/eSu5QqSR/oHteTbpJTYOs9uEQ5oS/WYmrUNW42bFe8vizpo1YLaaPgHkosNoBYLfa6VdUA==
+X-Received: by 2002:a17:906:c10d:b0:ad8:8945:8374 with SMTP id a640c23a62f3a-ade1abebae5mr1460765766b.61.1749568607761;
+        Tue, 10 Jun 2025 08:16:47 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:c2f:a34:6718:ee1d? ([2620:10d:c092:500::7:b9b7])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc1c800sm735176366b.79.2025.06.10.08.16.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 08:16:47 -0700 (PDT)
+Message-ID: <7b16ed90-659f-45b4-83e9-62781e5460a6@gmail.com>
+Date: Tue, 10 Jun 2025 16:16:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] mm: khugepaged: use largest enabled hugepage order for
+ min_free_kbytes
+To: Zi Yan <ziy@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: david@redhat.com, Andrew Morton <akpm@linux-foundation.org>,
+ linux-mm@kvack.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+ riel@surriel.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+ npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, hughd@google.com,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com, Juan Yescas <jyescas@google.com>,
+ Breno Leitao <leitao@debian.org>
+References: <35A3819F-C8EE-48DB-8EB4-093C04DEF504@nvidia.com>
+ <c600a6c0-aa59-4896-9e0d-3649a32d1771@gmail.com>
+ <18BEDC9A-77D2-4E9B-BF5A-90F7C789D535@nvidia.com>
+ <5bd47006-a38f-4451-8a74-467ddc5f61e1@gmail.com>
+ <0a746461-16f3-4cfb-b1a0-5146c808e354@lucifer.local>
+ <B2F966F0-8F5F-43AB-BA33-BD3E65504F4F@nvidia.com>
+ <61da7d25-f115-4be3-a09f-7696efe7f0ec@lucifer.local>
+ <AA2C4D68-B1DC-48A6-A807-56516067B9C7@nvidia.com>
+ <f980e652-8e2a-41da-af9b-39fdd439fefc@lucifer.local>
+ <2338896F-7F86-4F5A-A3CC-D14459B8F227@nvidia.com>
+ <dc32ec54-88c5-4171-a2d0-389e3ab428c3@lucifer.local>
+ <46F6B7C4-542C-4310-9C70-F7469B151C7C@nvidia.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <46F6B7C4-542C-4310-9C70-F7469B151C7C@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-If FEAT_MTE_TAGGED_FAR (Armv8.9) is supported, bits 63:60 of the fault address
-are preserved in response to synchronous tag check faults (SEGV_MTESERR).
 
-This patch adds new test cases using address tags (bits 63:60),
-corresponding to each existing test in check_mmap_option.
 
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
----
- .../selftests/arm64/mte/check_mmap_options.c  | 132 +++++++++++-------
- 1 file changed, 80 insertions(+), 52 deletions(-)
+On 10/06/2025 15:20, Zi Yan wrote:
+> On 10 Jun 2025, at 10:03, Lorenzo Stoakes wrote:
+> 
+>> On Mon, Jun 09, 2025 at 03:49:52PM -0400, Zi Yan wrote:
+>> [snip]
+>>>> I really think a hard cap, expressed in KB/MB, on pageblock size is the way to
+>>>> go (but overrideable for people crazy enough to truly want 512 MB pages - and
+>>>> who cannot then complain about watermarks).
+>>>
+>>> I agree. Basically, I am thinking:
+>>> 1) use something like 2MB as default pageblock size for all arch (the value can
+>>> be set differently if some arch wants a different pageblock size due to other reasons), this can be done by modifying PAGE_BLOCK_MAX_ORDER’s default
+>>> value;
+>>
+>> I don't think we can set this using CONFIG_PAGE_BLOCK_MAX_ORDER.
+>>
+>> Because the 'order' will be a different size depending on page size obviously.
+>>
+>> So I'm not sure how this would achieve what we want?
+>>
+>> It seems to me we should have CONFIG_PAGE_BLOCK_MAX_SIZE_MB or something like
+>> this, and we take min(page_size << CONFIG_PAGE_BLOCK_MAX_ORDER,
+>> CONFIG_PAGE_BLOCK_MAX_SIZE_MB << 20) as the size.
+> 
+> OK. Now I get what you mean. Yeah, using MB is clearer as user does not
+> need to know page size to set the right pageblock size.
+> 
 
-diff --git a/tools/testing/selftests/arm64/mte/check_mmap_options.c b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-index a784b3a31d4f..4f26617c8e69 100644
---- a/tools/testing/selftests/arm64/mte/check_mmap_options.c
-+++ b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-@@ -31,14 +31,25 @@
- #define CHECK_FILE_MEM		1
- #define CHECK_CLEAR_PROT_MTE	2
- 
-+#define ATAG_TEST_ON		1
-+#define ATAG_TEST_OFF		0
-+
- static size_t page_size;
- static int sizes[] = {
- 	1, 537, 989, 1269, MT_GRANULE_SIZE - 1, MT_GRANULE_SIZE,
- 	/* page size - 1*/ 0, /* page_size */ 0, /* page size + 1 */ 0
- };
- 
--static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
-+static int check_mte_memory(char *ptr, int size, int mode, int tag_check, int atag_test)
- {
-+	int err;
-+
-+	if (!mtefar_support && atag_test == ATAG_TEST_ON)
-+		return KSFT_SKIP;
-+
-+	if (atag_test == ATAG_TEST_ON)
-+		ptr = mte_insert_atag(ptr);
-+
- 	mte_initialize_current_context(mode, (uintptr_t)ptr, size);
- 	memset(ptr, '1', size);
- 	mte_wait_after_trig();
-@@ -64,7 +75,7 @@ static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
- 	return KSFT_PASS;
- }
- 
--static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_test)
- {
- 	char *ptr, *map_ptr;
- 	int run, result, map_size;
-@@ -86,16 +97,16 @@ static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, i
- 			munmap((void *)map_ptr, map_size);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_test);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		mte_free_memory((void *)map_ptr, map_size, mem_type, false);
--		if (result == KSFT_FAIL)
--			return KSFT_FAIL;
-+		if (result != KSFT_SKIP)
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
- 
--static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_test)
- {
- 	char *ptr, *map_ptr;
- 	int run, fd, map_size;
-@@ -124,7 +135,7 @@ static int check_file_memory_mapping(int mem_type, int mode, int mapping, int ta
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_test);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		munmap((void *)map_ptr, map_size);
- 		close(fd);
-@@ -134,7 +145,7 @@ static int check_file_memory_mapping(int mem_type, int mode, int mapping, int ta
- 	return result;
- }
- 
--static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
-+static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping, int atag_test)
- {
- 	char *ptr, *map_ptr;
- 	int run, prot_flag, result, fd, map_size;
-@@ -157,10 +168,10 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			ksft_print_msg("FAIL: mprotect not ignoring clear PROT_MTE property\n");
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_test);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		if (result != KSFT_PASS)
--			return KSFT_FAIL;
-+			return result;
- 
- 		fd = create_temp_file();
- 		if (fd == -1)
-@@ -181,17 +192,17 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_test);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		close(fd);
- 		if (result != KSFT_PASS)
--			return KSFT_FAIL;
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
- 
- const char *format_test_name(int check_type, int mem_type, int sync,
--		       int mapping, int tag_check)
-+		       int mapping, int tag_check, int atag_test)
- {
- 	static char test_name[TEST_NAME_MAX];
- 	const char* check_type_str;
-@@ -199,6 +210,7 @@ const char *format_test_name(int check_type, int mem_type, int sync,
- 	const char* sync_str;
- 	const char* mapping_str;
- 	const char* tag_check_str;
-+	const char *atag_test_str;
- 
- 	switch (check_type) {
- 	case CHECK_ANON_MEM:
-@@ -266,9 +278,22 @@ const char *format_test_name(int check_type, int mem_type, int sync,
- 		break;
- 	}
- 
-+	switch (atag_test) {
-+	case ATAG_TEST_ON:
-+		atag_test_str = "with address tag [63:60]";
-+		break;
-+	case ATAG_TEST_OFF:
-+		atag_test_str = "without address tag [63:60]";
-+		break;
-+	default:
-+		assert(0);
-+		break;
-+	}
-+
- 	snprintf(test_name, TEST_NAME_MAX,
--	         "Check %s with %s mapping, %s mode, %s memory and %s\n",
--	         check_type_str, mapping_str, sync_str, mem_type_str, tag_check_str);
-+	         "Check %s with %s mapping, %s mode, %s memory and %s (%s)\n",
-+	         check_type_str, mapping_str, sync_str, mem_type_str,
-+	         tag_check_str, atag_test_str);
- 
- 	return test_name;
- }
-@@ -281,7 +306,8 @@ int main(int argc, char *argv[])
- 	int mem_type[] = { USE_MMAP, USE_MPROTECT };
- 	int mte_sync[] = { MTE_SYNC_ERR, MTE_ASYNC_ERR };
- 	int mapping[] = { MAP_PRIVATE, MAP_SHARED };
--	int c, mt, s, m;
-+	int atag_test[] = { ATAG_TEST_OFF, ATAG_TEST_ON };
-+	int c, mt, s, m, a;
- 
- 	err = mte_default_setup();
- 	if (err)
-@@ -295,47 +321,49 @@ int main(int argc, char *argv[])
- 	sizes[item - 2] = page_size;
- 	sizes[item - 1] = page_size + 1;
- 
--	/* Register signal handlers */
--	mte_register_signal(SIGBUS, mte_default_handler, false);
--	mte_register_signal(SIGSEGV, mte_default_handler, false);
--
- 	/* Set test plan */
--	ksft_set_plan(22);
--
--	mte_enable_pstate_tco();
--
--	evaluate_test(check_anonymous_memory_mapping(USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF),
--		      format_test_name(CHECK_ANON_MEM, USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF));
--
--	evaluate_test(check_file_memory_mapping(USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF),
--		      format_test_name(CHECK_FILE_MEM, USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF));
--
--	mte_disable_pstate_tco();
--
--	evaluate_test(check_anonymous_memory_mapping(USE_MMAP, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF),
--		      format_test_name(CHECK_ANON_MEM, USE_MMAP, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF));
--	evaluate_test(check_file_memory_mapping(USE_MPROTECT, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF),
--		      format_test_name(CHECK_FILE_MEM, USE_MPROTECT, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF));
--
--	for (c = 0 ; c < ARRAY_SIZE(check_type); c++) {
--		for (s = 0; s < ARRAY_SIZE(mte_sync); s++) {
--			for (m = 0; m < ARRAY_SIZE(mapping); m++) {
--				for (mt = 0; mt < ARRAY_SIZE(mem_type); mt++) {
--					if (check_type[c] == CHECK_ANON_MEM)
--						evaluate_test(check_anonymous_memory_mapping(mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON),
--							format_test_name(CHECK_ANON_MEM, mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON));
--					else
--						evaluate_test(check_file_memory_mapping(mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON),
--							format_test_name(CHECK_FILE_MEM, mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON));
-+	ksft_set_plan(44);
-+
-+	for (a = 0; a < ARRAY_SIZE(atag_test); a++) {
-+		/* Register signal handlers */
-+		mte_register_signal(SIGBUS, mte_default_handler, atag_test[a]);
-+		mte_register_signal(SIGSEGV, mte_default_handler, atag_test[a]);
-+
-+		mte_enable_pstate_tco();
-+
-+		evaluate_test(check_anonymous_memory_mapping(USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]),
-+			      format_test_name(CHECK_ANON_MEM, USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]));
-+
-+		evaluate_test(check_file_memory_mapping(USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]),
-+			      format_test_name(CHECK_FILE_MEM, USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]));
-+
-+		mte_disable_pstate_tco();
-+
-+		evaluate_test(check_anonymous_memory_mapping(USE_MMAP, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]),
-+			      format_test_name(CHECK_ANON_MEM, USE_MMAP, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]));
-+		evaluate_test(check_file_memory_mapping(USE_MPROTECT, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]),
-+			      format_test_name(CHECK_FILE_MEM, USE_MPROTECT, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]));
-+
-+		for (c = 0 ; c < ARRAY_SIZE(check_type); c++) {
-+			for (s = 0; s < ARRAY_SIZE(mte_sync); s++) {
-+				for (m = 0; m < ARRAY_SIZE(mapping); m++) {
-+					for (mt = 0; mt < ARRAY_SIZE(mem_type); mt++) {
-+						if (check_type[c] == CHECK_ANON_MEM)
-+							evaluate_test(check_anonymous_memory_mapping(mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON, atag_test[a]),
-+								format_test_name(CHECK_ANON_MEM, mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON, atag_test[a]));
-+						else
-+							evaluate_test(check_file_memory_mapping(mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON, atag_test[a]),
-+								format_test_name(CHECK_FILE_MEM, mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON, atag_test[a]));
-+					}
- 				}
- 			}
- 		}
--	}
- 
--	evaluate_test(check_clear_prot_mte_flag(USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE),
--		      format_test_name(CHECK_CLEAR_PROT_MTE, USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_ON));
--	evaluate_test(check_clear_prot_mte_flag(USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE),
--		      format_test_name(CHECK_CLEAR_PROT_MTE, USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_ON));
-+		evaluate_test(check_clear_prot_mte_flag(USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, atag_test[a]),
-+			      format_test_name(CHECK_CLEAR_PROT_MTE, USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_ON, atag_test[a]));
-+		evaluate_test(check_clear_prot_mte_flag(USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, atag_test[a]),
-+			      format_test_name(CHECK_CLEAR_PROT_MTE, USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_ON, atag_test[a]));
-+	}
- 
- 	mte_restore_setup();
- 	ksft_print_cnts();
--- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+Just adding it here for completeness, but we could do something like below probably
+or use PAGE_SIZE_64KB instead of ARM64_64K_PAGES.
+Although it will be messy, as you would then need to do it for every arch and every
+page size of that arch.
+
+
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 99910bc649f6..ae83e31ea412 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -1023,6 +1023,7 @@ config PAGE_BLOCK_MAX_ORDER
+        default 10 if ARCH_FORCE_MAX_ORDER = 0
+        range 1 ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER != 0
+        default ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER != 0
++       default 5 if ARM64_64K_PAGES
+        help
+          The page block order refers to the power of two number of pages that
+          are physically contiguous and can have a migrate type associated to
+>>
+>>>
+>>> 2) make pageblock_order a boot time parameter, so that user who wants
+>>> 512MB pages can still get it by changing pageblock order at boot time.
+>>>
+>>
+>> Again, I don't think order is the right choice here, though having it boot time
+>> configurable (perhaps overriding the default config there) seems sensible.
+> 
+> Understood. The new pageblock size should be set using MB.
+> 
+>>
+>>> WDYT?
+>>
+>>>
+>>>>
+>>>>>
+>>>>> Often, user just ask for an impossible combination: they
+>>>>> want to use all free memory, because they paid for it, and they
+>>>>> want THPs, because they want max performance. When PMD THP is
+>>>>> small like 2MB, the “unusable” free memory is not that noticeable,
+>>>>> but when PMD THP is as large as 512MB, user just cannot unsee it. :)
+>>>>
+>>>> Well, users asking for crazy things then being surprised when they get them
+>>>> is nothing new :P
+>>>>
+>>>>>
+>>>>>
+>>>>> Best Regards,
+>>>>> Yan, Zi
+>>>>
+>>>> Thanks for your input!
+>>>>
+>>>> Cheers, Lorenzo
+>>>
+>>>
+>>> Best Regards,
+>>> Yan, Zi
+> 
+> 
+> Best Regards,
+> Yan, Zi
 
