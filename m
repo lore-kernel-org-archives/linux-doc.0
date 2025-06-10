@@ -1,81 +1,74 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A372B1A8401;
-	Tue, 10 Jun 2025 08:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B033021C184
+	for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 08:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749545335; cv=none; b=DMw222qhhSFUweFlY5RQ8poPvtY+yBNFb0nivWOL8Z42rgugX/oNzXZADl6376eaC6g2b5cRIFEHWDjxzDlbzhh6E2n6LdtXEjLZxfYhenirFFaoPZAKPj66MU5dAWqseH/IWjBx5nYV5x6V2+QrBFeJDqY/EzqNsw/yPByCfaw=
+	t=1749545389; cv=none; b=R3gOxPp1Ol/PEwy6cm2FgLMvLhi/mIgAX78qU7ubdVuBGM5LthKcR+EavPkfkFVAtZZh/OVgaGdy47kUaFvbpIiVWStziZiplJxPE3gyMmZndXQx3s7VID+hWGY21Pvs09fXR5uxCbEwVEUBmPgTB1Fx18pCTEvv8lbf+ug5Euo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749545335; c=relaxed/simple;
-	bh=SL9JhtT3DDxeAr5EA7Sf44Ku4ofDdJXtg3HBktEESyE=;
+	s=arc-20240116; t=1749545389; c=relaxed/simple;
+	bh=K+Scp3R9nRf6sR/1Zr7gmU+Lg0HdOZVGA6Nf0zel1Y0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ogc2IjrsCBp+uLjDfnFMWC7Gzsuhf8eoIfhJmW5hUjIygC81L7Z9EkuzsJm18NRbjbC0Zonj9glD1TnYgiZOW0hzcK4FTAa17uMnwJWES5GmzUB9u3O41umUnCPUWyQ6A6v6KGWxh8UZudbjoJNHyfq4uQb/rXcoBQgOf/2M5fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cuhue5vX; arc=none smtp.client-ip=209.85.210.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=FHpuocs+R7bmREv5LRkPbOjwtfISQJ3YNYG96/LxO5M+XkSfvl2lEKpifK35sRgJAHmgTJUAEU6spU+w+pMA4mCMvBDHe5Y3gusfGZhXAQlD0NIBVxPsPfTzUibgEPgbZTJfMba7fsuUh6/chTelK3io6oPAoTuBjhbZqJ0WQa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AS8JCN97; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cuhue5vX"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-747fc77ba9eso3787718b3a.0;
-        Tue, 10 Jun 2025 01:48:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AS8JCN97"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-747fc77bb2aso4022824b3a.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 01:49:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749545333; x=1750150133; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1749545386; x=1750150186; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Adyab7mK7y8FZTFYvCFrgwqWEigHl5r5FcCXAv987E=;
-        b=cuhue5vXLeX81v7hF+j6N/DBCqWKPZ4EHwrW+SRkVh8E+AAudv8OGzyPCRq9yPmI1O
-         bozm4v1X5QK3A1fB/eAybUOP++5gJrN0CaBeJw44aRoHpBFuObcc2U9NWv0V+tYntJjL
-         1BrTTkA4tGZ6E5kEtVLC+p4iJ07opVCSgC2YFSaZsUUrsgvLMHdtLrUVPFaiGF/LDEy2
-         Dc9UjbfXLospjiXOemiqrSqYfTRgcyx/2aQtPPu+4IAwWlNUNts+mQnq7zZ1G4/sFWHQ
-         uFLrTfUNNdJUD46gaq8/DYLufHqj3RKeEdivvLHMITx2m/LfUVn6w2dLJBiaq2yfyniH
-         tVww==
+        bh=7keW0GVteitisZmne7mjA3Pax3iuqyiBpu7wD1vAU+E=;
+        b=AS8JCN97Y3ofc4gsyvIuJ/JMDvWjSslWJfquppv3BLS2PhahbF9+YaJjWw7Vhmkb9X
+         FbkxxXEe397WeVPBqI9IHmsipPzqPWTb7sSD4XAypKlBZ9u79o9CUeGOCLZXG/gPTo37
+         JnNbRBWrhGWy7t/PhBk9N4MqqVgz1CN+WdBe7q57Ovjcki3SEKVqTJQN3ywnXGsKUsDi
+         EtHdeNTpkh/pHmiD+DdnDxeD5+ZVMtCrAPRMpZwtUMVaafFKtlGr6AzBeNdzNiwtNxsS
+         vmcMjufEA6cDeztwYFxP6yjIWOsQIVqYmLTfJghtGpMF7ejvvj1YJZf1gFlsJohxZtrG
+         Hr+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749545333; x=1750150133;
+        d=1e100.net; s=20230601; t=1749545386; x=1750150186;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2Adyab7mK7y8FZTFYvCFrgwqWEigHl5r5FcCXAv987E=;
-        b=AJVI4HfGkzDFmbKtqCEvbHKxPsXOdwrFwxD+zT+RAxV4sovAXhH27Tw0J1tUL6/UDG
-         qbBGGOuFEuonfQFo3riQTAPgnNx/6dKAH6EOfCeKIUUWNgWb6eLuO/1WV6scpnbxXWzs
-         weNNruAZY3DnfX460IWzkTmaANEL2yP2KUEGPgPhZjqlhB5iDsnYO4wIB0o9YtuFZ22V
-         GovgzNxTwB3O0kiG5dVMAFogSw/4JJWqhT6pbt05DVDV6lGnJrdcVnY6CNry4dkWkSLt
-         GHRZIwv9wlYMFSrBrH18TxqOMe6SJlX0WdCFBioOzSz6aKBCcz3yRcb5bOHbzWDpA1ot
-         qUPw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4lw6/f1WbyPVScOm5/WeoMgVXnhh4Xog9ihQHyVWjL1SVuNBIve/wkzIxF0DZJ4MP2lsaACqmBVFR4OTu@vger.kernel.org, AJvYcCWfqgTtNGvNt/qSgrrCCtYtsEs8wv23XZmjF45MhFEPaT7Psg9UpvSnemKOM29RuJgLqrqc/aWpeu0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOzAk20oCpF5lOY1n7tgoa/rffi5tDTb84Frou6mB7ybZi+Go7
-	kVoQ66VkNdGxIrZIe8bAXOX0rbQLZH6+LTCWeT0UoQoV6rUpWD2d2axm1DHf8A==
-X-Gm-Gg: ASbGncvvSZKiytrXq5xj333iy4VFh2hE7d4QdKelFO/nBo893OFVxovW8+tfBFZEOq4
-	iZXafBeNjWgduDu9/d2L+YjpFTGasZpB8OXCExQMS8MCCcTcs4cHdVgaBXjNEGt4oHvmT53O6lA
-	MCa6dq01CoghMtJd5xt5yW6DXQPKx0UemzGKo6z0UfI3e7QUIGWKBXdZqnO9BbxCfeaj1Ds0033
-	aZChLMW2CMtv4HFPvoi7APAWYM3/U9MQ7c4RXC6LZAnbUC47vAAummUSPSp8h0n+YATyWTyhSth
-	eqjG6g4BoPgLiRD1vRoJ9r57xKbGh5kn+ztbktqEcd9sPZuDDFbuoEeI3//HNA==
-X-Google-Smtp-Source: AGHT+IFp/a3BJUfZ11EtegJLCPwKpNZ2/owGoOb3Tq08bJgJCCkw3iG0UF0qdzi7S7gLYdonMEMPwA==
-X-Received: by 2002:a05:6a00:806:b0:737:9b:582a with SMTP id d2e1a72fcca58-74827f3dab7mr23442739b3a.24.1749545332268;
-        Tue, 10 Jun 2025 01:48:52 -0700 (PDT)
+        bh=7keW0GVteitisZmne7mjA3Pax3iuqyiBpu7wD1vAU+E=;
+        b=Mkp03DrDfrJZi5OfoGREATOA7SjZt6BmxRp06V/nkEpNWycayvQ59A6ROgh9t2GDWg
+         NcwpTkfHphEpX6W7pfjjRqQCCAoes5Lg7RlBG3WRLg8cd4ksRE+AUHRdcBFF//vPLADe
+         QO18VrdZHf6dUVKv3osJfbgilY4xu6UuqrzhjDATF1G95Q+7erNAYpZ/uKc2fPB6J+z3
+         RkZbl9db7lVf6gZVvI1ZUIltu/COF+IDd45f9qgFRbUR+9YAcMF4s50K3GCrIabui0bF
+         T0aPOb+Japk9CC/7yQlDNiqxjWUUFaA8EquOwR6JNTj8Aias/kYq9bOCvwTJ6jbIyK62
+         kJcQ==
+X-Gm-Message-State: AOJu0YybgUsQ1Q5hj4iKqAcViQlPa2l0Vo+FwF7Xnofz0F5n6pW0032F
+	86ZR11nEfHkc1RnO5LVF5lAcATH7J+vZMe0tWLxrFvQLzxtBj456GlQx
+X-Gm-Gg: ASbGncv4tKJj7uEOze1pj4XvWeCSHwVN9m8h25Nd1Cv2oI85SKAWkwhLRWSol5c93vy
+	C3iZU6DYdnbwcWJpUOsc/6tFSTTRmg7ezcaVq6OEYMIaX3rftSalS1PO6kVPUCUz2AHe0HpiF57
+	nOaEyr91WYSEYVC6I36GKGbbom8BA3ucAeDkF10gjQLez991mnuNjRrF3tsTXxjdI5q583bEBAn
+	vKkwXF/8gNG8fOsrrjpm/RoQ/2SJIqfKTqz16GdVUfefewXrb2INTv5t3WXbiz0Lq9Ps0DwfalM
+	KvCNEjFK7zcQ53kxzH0lhPyBEOsWghQC46R8/K098NVIZLTmRdNW6bJQ86n3MA==
+X-Google-Smtp-Source: AGHT+IGk5vwSRKILK2xDjXJ6bLzKhYaiLSyNBFdR3SGeLjR7t271sb34TCIopQQOQ3MimqCrffFJLg==
+X-Received: by 2002:a05:6a00:2e9c:b0:740:6f69:dce9 with SMTP id d2e1a72fcca58-74827e9cb14mr24263720b3a.0.1749545385774;
+        Tue, 10 Jun 2025 01:49:45 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482af38307sm7205070b3a.14.2025.06.10.01.48.50
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0f2e77sm7156034b3a.176.2025.06.10.01.49.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 01:48:51 -0700 (PDT)
+        Tue, 10 Jun 2025 01:49:44 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 33DBB4209E8C; Tue, 10 Jun 2025 15:48:49 +0700 (WIB)
-Date: Tue, 10 Jun 2025 15:48:48 +0700
+	id 396D14209E8C; Tue, 10 Jun 2025 15:49:42 +0700 (WIB)
+Date: Tue, 10 Jun 2025 15:49:42 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Nouveau <nouveau@lists.freedesktop.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, Dave Airlie <airlied@redhat.com>,
-	Timur Tabi <ttabi@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>
-Subject: Re: [PATCH] Documentation: nouveau: Update GSP message queue
- kernel-doc reference
-Message-ID: <aEfxcKv7pJ5L6wiP@archie.me>
-References: <20250610065258.41467-1-bagasdotme@gmail.com>
- <b17709fd-7ca6-40dc-8d9c-7d3a98d9d305@infradead.org>
+To: Dante Strock <dantestrock@hotmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] Documentation/process/: Change 5.x to 6.x; clarify
+ terms; added note.
+Message-ID: <aEfxpkzGUENMhotX@archie.me>
+References: <PAXPR06MB8224F2CE53A1F4D674969B22A769A@PAXPR06MB8224.eurprd06.prod.outlook.com>
+ <87ecvtc772.fsf@trenco.lwn.net>
+ <aEeqcX78zipEGJkl@archie.me>
+ <PAXPR06MB822465B8887324D12F1F96A5A76AA@PAXPR06MB8224.eurprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,84 +76,190 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Y8RoNhFPCm0EIgnk"
+	protocol="application/pgp-signature"; boundary="ndOIbFwSF4iJEPtY"
 Content-Disposition: inline
-In-Reply-To: <b17709fd-7ca6-40dc-8d9c-7d3a98d9d305@infradead.org>
+In-Reply-To: <PAXPR06MB822465B8887324D12F1F96A5A76AA@PAXPR06MB8224.eurprd06.prod.outlook.com>
 
 
---Y8RoNhFPCm0EIgnk
+--ndOIbFwSF4iJEPtY
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 10, 2025 at 12:34:06AM -0700, Randy Dunlap wrote:
+On Tue, Jun 10, 2025 at 07:21:16AM +0100, Dante Strock wrote:
 >=20
->=20
-> On 6/9/25 11:52 PM, Bagas Sanjaya wrote:
-> > Commit c472d828348caf ("drm/nouveau/gsp: move subdev/engine impls to
-> > subdev/gsp/rm/r535/") moves GSP-RM message queue implementation in
-> > drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c to versioned path in
-> > drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c, but forgets to
-> > update kernel-doc reference in nouveau docs, hence triggers htmldocs
-> > warnings:
+> On 10/06/2025 04:45, Bagas Sanjaya wrote:
+> > On Mon, Jun 09, 2025 at 08:37:05AM -0600, Jonathan Corbet wrote:
+> > > Dante Strock <dantestrock@hotmail.com> writes:
+> > >=20
+> > > > diff --git a/Documentation/process/2.Process.rst b/Documentation/pr=
+ocess/2.Process.rst
+> > > > index ef3b116492df..70f8a6603454 100644
+> > > > --- a/Documentation/process/2.Process.rst
+> > > > +++ b/Documentation/process/2.Process.rst
+> > > > @@ -18,17 +18,17 @@ major kernel release happening every two or thr=
+ee months.  The recent
+> > > >   release history looks like this:
+> > > >   	=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > > > -	5.0	March 3, 2019
+> > > > -	5.1	May 5, 2019
+> > > > -	5.2	July 7, 2019
+> > > > -	5.3	September 15, 2019
+> > > > -	5.4	November 24, 2019
+> > > > -	5.5	January 6, 2020
+> > > > +	6.10	July 14, 2024
+> > > > +	6.11	September 15, 2024
+> > > > +	6.12	November 17, 2024
+> > > > +	6.13	January 20, 2025
+> > > > +	6.14	March 24, 2025
+> > > > +	6.15	May 25, 2025
+> > > >   	=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > > > -Every 5.x release is a major kernel release with new features, int=
+ernal
+> > > > +Every 6.x release is a major kernel release with new features, int=
+ernal
+> > > >   API changes, and more.  A typical release can contain about 13,000
+> > > > -changesets with changes to several hundred thousand lines of code.=
+  5.x is
+> > > > +changesets with changes to several hundred thousand lines of code.=
+  6.x is
+> > > >   the leading edge of Linux kernel development; the kernel uses a
+> > > >   rolling development model which is continually integrating major =
+changes.
+> > > I do not object to these change and could apply this, but it might be
+> > > nice at some point to rephrase this stuff so that we don't end up doi=
+ng
+> > > these updates repeatedly.  After all, we'll be at 7.x within a year...
+> > What about not hard-coding first version number component like below?
 > >=20
-> > ERROR: Cannot find file ./drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> > WARNING: No kernel-doc for file ./drivers/gpu/drm/nouveau/nvkm/subdev/g=
-sp/r535.c
+> > ---- >8 ----
+> > diff --git a/Documentation/process/2.Process.rst b/Documentation/proces=
+s/2.Process.rst
+> > index ef3b116492df08..47bcc6248a1338 100644
+> > --- a/Documentation/process/2.Process.rst
+> > +++ b/Documentation/process/2.Process.rst
+> > @@ -13,24 +13,12 @@ how the process works is required in order to be an=
+ effective part of it.
+> >   The big picture
+> >   ---------------
+> > -The kernel developers use a loosely time-based release process, with a=
+ new
+> > -major kernel release happening every two or three months.  The recent
+> > -release history looks like this:
+> > -
+> > -	=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > -	5.0	March 3, 2019
+> > -	5.1	May 5, 2019
+> > -	5.2	July 7, 2019
+> > -	5.3	September 15, 2019
+> > -	5.4	November 24, 2019
+> > -	5.5	January 6, 2020
+> > -	=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > -
+> > -Every 5.x release is a major kernel release with new features, internal
+> > -API changes, and more.  A typical release can contain about 13,000
+> > -changesets with changes to several hundred thousand lines of code.  5.=
+x is
+> > -the leading edge of Linux kernel development; the kernel uses a
+> > -rolling development model which is continually integrating major chang=
+es.
+> > +The kernel developers use a loosely time-based, rolling release develo=
+pment
+> > +process. A new major kernel release (a.x) happens every two or three m=
+onths,
+> > +which comes with new features, internal API changes, and more. A typic=
+al
+> > +release can contain about 13,000 changesets with changes to several hu=
+ndred
+> > +thousand lines of code. Recent releases, along with their dates, can b=
+e found
+> > +at `Linux Kernel Newbies site <https://kernelnewbies.org/LinuxVersions=
+>`_.
+> >   A relatively straightforward discipline is followed with regard to the
+> >   merging of patches for each release.  At the beginning of each develo=
+pment
+> > @@ -46,13 +34,12 @@ merge window do not come out of thin air; they have=
+ been collected, tested,
+> >   and staged ahead of time.  How that process works will be described in
+> >   detail later on).
+> > -The merge window lasts for approximately two weeks.  At the end of this
+> > -time, Linus Torvalds will declare that the window is closed and releas=
+e the
+> > -first of the "rc" kernels.  For the kernel which is destined to be 5.6,
+> > -for example, the release which happens at the end of the merge window =
+will
+> > -be called 5.6-rc1.  The -rc1 release is the signal that the time to
+> > -merge new features has passed, and that the time to stabilize the next
+> > -kernel has begun.
+> > +The merge window lasts for approximately two weeks. At the end of this=
+ time,
+> > +Linus Torvalds will declare that the window is closed and release the =
+first of
+> > +the "rc" kernels.  For the kernel which is destined to be a.x, the rel=
+ease
+> > +which happens at the end of the merge window will be called a.x-rc1. T=
+hat
+> > +release is the signal that the time to merge new features has passed, =
+and that
+> > +the time to stabilize the next kernel has begun.
+> >   Over the next six to ten weeks, only patches which fix problems shoul=
+d be
+> >   submitted to the mainline.  On occasion a more significant change wil=
+l be
+> > @@ -99,13 +86,13 @@ release is made.  In the real world, this kind of p=
+erfection is hard to
+> >   achieve; there are just too many variables in a project of this size.
+> >   There comes a point where delaying the final release just makes the p=
+roblem
+> >   worse; the pile of changes waiting for the next merge window will grow
+> > -larger, creating even more regressions the next time around.  So most =
+5.x
+> > +larger, creating even more regressions the next time around.  So most
+> >   kernels go out with a handful of known regressions though, hopefully,=
+ none
+> >   of them are serious.
+> >   Once a stable release is made, its ongoing maintenance is passed off =
+to the
+> >   "stable team," currently Greg Kroah-Hartman. The stable team will rel=
+ease
+> > -occasional updates to the stable release using the 5.x.y numbering sch=
+eme.
+> > +occasional updates to the stable release using the a.x.y numbering sch=
+eme.
+> >   To be considered for an update release, a patch must (1) fix a signif=
+icant
+> >   bug, and (2) already be merged into the mainline for the next develop=
+ment
+> >   kernel. Kernels will typically receive stable updates for a little mo=
+re
 > >=20
-> > Update the reference.
+> > Thanks.
 > >=20
-> > Fixes: c472d828348c ("drm/nouveau/gsp: move subdev/engine impls to subd=
-ev/gsp/rm/r535/")
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > ---
-> >  Documentation/gpu/nouveau.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/gpu/nouveau.rst b/Documentation/gpu/nouveau.=
-rst
-> > index b8c801e0068cb0..878fb1ade31e4c 100644
-> > --- a/Documentation/gpu/nouveau.rst
-> > +++ b/Documentation/gpu/nouveau.rst
-> > @@ -25,7 +25,7 @@ providing a consistent API to upper layers of the dri=
-ver stack.
-> >  GSP Support
-> >  ------------------------
-> > =20
-> > -.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> > +.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
->=20
-> Are you sure?  Did that work for you?
->=20
-> I see
-> /**
->  * DOC: GSP message queue element
->=20
-> in drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c but not in the
-> file that you referenced.  Maybe it just keeps moving around...
+> I actually think this works better instead of removing the version numbers
+> entirely or updating release numbers every year. Might be worth it to look
+> for other pages in the documentation that have hard-coded version numbers
+> and changing them also so that the version numbers don't need to be updat=
+ed
+> with every release.
 
-Indeed, the same GSP docs as in v6.15.
-
->=20
->=20
-> This works for me. Please send a v2 if you see the need to.
-
-OK. I will send v2 tomorrow.
-
-Thanks.
+OK, thanks!
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---Y8RoNhFPCm0EIgnk
+--ndOIbFwSF4iJEPtY
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaEfxawAKCRD2uYlJVVFO
-o2kRAP9CJA+u5eZWn1qw86oxaYpm5u/xyz/pc+6HFOmnzwlzUQEAjpmbsMGbxIGC
-fShVOwx9gI6Zig+qYWmiMGOve5PQYQ8=
-=g2xs
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaEfxpgAKCRD2uYlJVVFO
+o2szAQD2xDZLqIovKFlpwZjI46zBnvj8MsQBsYI66TnN7fTGnwD+LulsScPZaZCw
+uDAJufBvNSVRTW5pwQt/tONSoEw+igY=
+=toyz
 -----END PGP SIGNATURE-----
 
---Y8RoNhFPCm0EIgnk--
+--ndOIbFwSF4iJEPtY--
