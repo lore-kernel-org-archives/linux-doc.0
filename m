@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C0B263C7F;
-	Tue, 10 Jun 2025 19:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9592F23AE83;
+	Tue, 10 Jun 2025 19:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749582981; cv=none; b=QgGZhvntuwArSN+kpmI0a1cdhSiVKxQjCKq6rHJRZFR5lTBfT0JJkcZZMY8tMdfW48ScBiKnmAgVmiRuTb6+RSPcTGk+r/ffCOyg0xyGWjyjFc9L5otWS8Qbt+Oi1wr6kbPkdzxN1E2q0vfw9v4mK23B/C6UC4OOzzCPdp16S8A=
+	t=1749583611; cv=none; b=DnRtdQi6fG37qjdpDbB1aXGMf2yDdjlpYite+mJ65AWFM/PKQj06hC2DiN3Xibx7SAZa8oeYz/wwi9jB4hbbUryVSfp4UsDLDkZYj0zbvbtwq/h5Wqc8w4P3YCVE24CmVrUEi7Rjf9Lb3lBLmT9Sa1hrXAfjF5FxvYmW2NFnIkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749582981; c=relaxed/simple;
-	bh=mkKwahbE5Qvvx4u+CpirJQIlcNeEGC6NB9QujrczDhA=;
+	s=arc-20240116; t=1749583611; c=relaxed/simple;
+	bh=B1731WGlq5ZYQEHLJSCoY+viCqv8V/qH6BFMdj/tGyM=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=TTUofTxU611qf5hQTRbZSHzy9x5STkCzSwvOlXQD10a7lF1hODUIAcFYIXlvclVryN957Fb2A/Mj1TWvvcbCzqjyJw86gykCc6r6LLBaaerR4T5+ostVqFU6WMRp/h/3NPy1ZhtMoPe/FjU36W3ZOwFPJKvkd3a3oLBpvRa37+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJ9PQpPf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=s9SOhb9ExeDBbP/dCvhMN6lwSF8ON4InAAqE2PADcZRxY5/KE3e+xRBRbXlaQ4t3KG/4cIXhzyvGoVtfROVH4EvNbAcWpQhcE9fpKOCr0pvd9+/xRvmqBoSYmE2tPgqtJre/+6xlwFBb1VsX9EsM6T6i6vJkgT+t7uguMZHWJy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ffsNmdUA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJ9PQpPf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ABA7C4CEED;
-	Tue, 10 Jun 2025 19:16:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ffsNmdUA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBBD6C4CEED;
+	Tue, 10 Jun 2025 19:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749582979;
-	bh=mkKwahbE5Qvvx4u+CpirJQIlcNeEGC6NB9QujrczDhA=;
+	s=k20201202; t=1749583611;
+	bh=B1731WGlq5ZYQEHLJSCoY+viCqv8V/qH6BFMdj/tGyM=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=UJ9PQpPfXLtKmIKOhDoHRUKnb5u5HGAmi9P6idJmdeHNtleK5RjCZk6W8Kyr29UFA
-	 AklKnS6h+hgZ/G0vL8dgVaXnVvNdTGcrxkHYH9D3MPhxXHLC+wrqPsvxYN3M8jz879
-	 +eRDqIV4IgMACN8LseHuiflhDjL7puuoosUjcrbe4MMBQb7PlrEdZpBeT/mVG249m/
-	 55n590Ror+BZcOj35mQFIfcK5cW1m9N8mmkOSKOb8a6/MOtmgo+V5cfUO4e7Gn1HWz
-	 q3eidz6jShyqEsP6PXSO6yc0il1q4+nUzNGGDhS1c6WJnSU0s5gd3e/5IYoXQC7xF6
-	 meypE8TGMY4Tg==
-Date: Tue, 10 Jun 2025 21:16:16 +0200 (CEST)
+	b=ffsNmdUAFmDLNU/j9JbHyeu9SCLw9KDih+rj6b6ylCdCiH019CQr22Xjxb2uRTobz
+	 YpbJijch0YiONR4okgobPpwh97ytzEN4/NgkXB2efVWCD9DTM1M+Bq5AQk1qG+Gq0p
+	 /LCDzx4I/HxEbVIQFt6wPQUcyhdyYbfADOVgEgxEPn1BymUhbdbAXOszeB8MCTsFYe
+	 rFvb76V5ZATtulcCf1VpBqNCgJC+Lx5tWdyPfcs6tK7MGt8zOraKYwxFR/cP5e0F2q
+	 bXyzEiryREVLFEXgCljwSN246yMw4/eTLFYItKuvuacHp5OKGIKVk38OeGZbEEzjB5
+	 rmTgIEQNDAY+Q==
+Date: Tue, 10 Jun 2025 21:26:48 +0200 (CEST)
 From: Jiri Kosina <jikos@kernel.org>
-To: Even Xu <even.xu@intel.com>
-cc: bentiss@kernel.org, srinivas.pandruvada@linux.intel.com, 
+To: kernel test robot <lkp@intel.com>
+cc: Even Xu <even.xu@intel.com>, bentiss@kernel.org, 
+    oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@linux.intel.com, 
     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 0/7] Add two new features for QuickI2C
-In-Reply-To: <20250514061944.125857-1-even.xu@intel.com>
-Message-ID: <39sr91o4-62ns-p7rn-4026-4o46q87878oq@xreary.bet>
-References: <20250514061944.125857-1-even.xu@intel.com>
+    linux-doc@vger.kernel.org, Chong Han <chong.han@intel.com>
+Subject: [PATCH] HID: intel-thc: make ptl_ddata static
+In-Reply-To: <202505171535.Yrj5T8jh-lkp@intel.com>
+Message-ID: <r55n2p5s-1rno-n14q-8n6s-7737pr4655p4@xreary.bet>
+References: <20250514061944.125857-8-even.xu@intel.com> <202505171535.Yrj5T8jh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,28 +45,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-On Wed, 14 May 2025, Even Xu wrote:
+From: Jiri Kosina <jkosina@suse.com>
 
-> In order to improve THC compatibility with lagacy HIDI2C touch device,
-> on Panther lake (PTL) platform, THC hardware introduces two new features
-> for I2C subsystem:
-> - Input max input size control
-> - Input interrupt delay
-> 
-> This patch set adds APIs for above two features' setting and enabling
-> in THC hardware layer driver, and enable them in QuickI2C driver.
-> 
-> Even Xu (7):
->   HID: Intel-thc-hid: Intel-thc: Add thc_dma_content into kernel doc
->   HID: Intel-thc-hid: Intel-thc: Refine code comments
->   HID: Intel-thc-hid: Intel-thc: Introduce max input size control
->   HID: Intel-thc-hid: Intel-thc: Introduce interrupt delay control
->   HID: Intel-thc-hid: Intel-quicki2c: Refine code comments
->   HID: Intel-thc-hid: Intel-quicki2c: Add driver data support
->   HID: Intel-thc-hid: Intel-quicki2c: Add two new features to PTL
+ptl_ddata is local to pci-quicki2c.c, so it'd better be static.
 
-Now queued in hid.git#for-6.17/intel-thc. Thanks,
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202505171535.Yrj5T8jh-lkp@intel.com/
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+---
 
+This is now in hid.git#for-6.17/intel-thc
+
+ drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+index 208e933e23d8..e944a6ccb776 100644
+--- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
++++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+@@ -21,7 +21,7 @@
+ #include "quicki2c-hid.h"
+ #include "quicki2c-protocol.h"
+ 
+-struct quicki2c_ddata ptl_ddata = {
++static struct quicki2c_ddata ptl_ddata = {
+ 	.max_detect_size = MAX_RX_DETECT_SIZE_PTL,
+ };
+ 
 -- 
 Jiri Kosina
 SUSE Labs
