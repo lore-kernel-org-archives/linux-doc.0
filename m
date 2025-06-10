@@ -1,130 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1B327FD6D;
-	Tue, 10 Jun 2025 07:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FB7280317
+	for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 08:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749540960; cv=none; b=eqr1U7g6Mw+0BXVJAMMySjonJkxZUslKxxSkea5P+NHq/F/6KaVpyb+qQ4PDIGOfbmnsIGsoVtVliyn3HZQeQUSeqKyYOkJ6bIqj2LxzU71Z7kE5WshYu7+6C7AhXOloLkgG7zwrXqnopliq4e0ot1aCkMYlAzuIgFDCZPH3QpM=
+	t=1749543129; cv=none; b=FZm7bWqzblr0BU8woWHOLTP5S8fe6Dp2iNwmreshdevOPvjcVAZhH4cCBiglDvn4bLqLJuKRRno9sSnbQulKDE+rsVc/Ipmcm4yZF8dZnuV82BxG1K83b25mfp68QS/8c292NLA9aI8BcTlAn4gk7A3yU/VJ1zoKXBEqvXbyAOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749540960; c=relaxed/simple;
-	bh=ElacH2Wky9DtShQPH7U56vIWBMhMOiRCTWD4CBF36RI=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=FaO4fn0FU2d3EODvvVwwhoqdO4sJG5Tx4xIEHwIMS6Rrb370BIq720cS6mkB7NY6Zkdag9Qt1rmUbhB72sGDGMk/ADnJ6EAl58myWzn3ERAME2kq6wFJw+OyGZnqq85/idzVgjN/X0PsfX8vxOT4dgyLp1qejws0giDNRzAxPCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYxdQO+A; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1749543129; c=relaxed/simple;
+	bh=yvgWF5tnQNZRDjc0fGYDrUE1mlV0Lq+VUCZV1FeRugA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GhA9Cb2K4OW9BDebvOcqAX41Yjon++/yh1iQX4FUbW82ZXZVwWSXB9DLSKlr/C1T2W7jwE/1flkoYDZqZAYQ1c6oS3i24yQP3CYkqM6+4Dpr+cWAhlpMIHAiuJ51q8Ft3KqR2TbyzlxKcmkeseC+VWDb1JGj6Ry70eB7tnz/yLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=B2L/6sPv; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYxdQO+A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749540958; x=1781076958;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=ElacH2Wky9DtShQPH7U56vIWBMhMOiRCTWD4CBF36RI=;
-  b=lYxdQO+AKUqJRNViFAFTPJamZzWsq4vSCQHhUVOD5VpRyF6VgEXN2avz
-   fbvcRYKaOHygPXKY0M8QCY7oiF5esdab2ozRohuUDBrQux4A8WrRQLsOi
-   ZghKN9x7ZQHOw6zxDlFfhqreiLToYw1T+kTOFYP24dg3zA9Kkou1sunTQ
-   mZGLbGdxBqklWXlYohCIOejWJ26W0J/P8yVaWAp3EfmpC6MmJyTGIpiYX
-   H6I+o9gmFTr7zda8lyMB3vv7Yj3QBMVULyEBtFBsC4JAQgOtBrFcsdJOb
-   IL1tT2cTk6UltO/FzBpfkvzEsqZ02A+PJ5eG8zB64GiJcOZVylqUMoW1C
-   Q==;
-X-CSE-ConnectionGUID: V8uR3U3xRaWKBwdsHC/mjg==
-X-CSE-MsgGUID: 594ohpR1TqSQVNjbDwwPIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="61907010"
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="61907010"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 00:35:58 -0700
-X-CSE-ConnectionGUID: 6ozIU5eiTcuu24hAps7wLQ==
-X-CSE-MsgGUID: pHH8Bb2iQtiT7ZpVY1dBsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="150592232"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.196])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 00:35:53 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 10 Jun 2025 10:35:50 +0300 (EEST)
-To: Mark Pearson <mpearson-lenovo@squebb.ca>
-cc: Hans de Goede <hdegoede@redhat.com>, corbet@lwn.net, ikepanhc@gmail.com, 
-    hmh@hmh.eng.br, W_Armin@gmx.de, 
-    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-    ibm-acpi-devel@lists.sourceforge.net, LKML <linux-kernel@vger.kernel.org>, 
-    kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 2/2] platform/x86: thinklmi: improved DMI handling
-In-Reply-To: <20250609122736.3373471-2-mpearson-lenovo@squebb.ca>
-Message-ID: <b792059e-44d2-82c0-574c-76c3f6a3129d@linux.intel.com>
-References: <mpearson-lenovo@squebb.ca> <20250609122736.3373471-1-mpearson-lenovo@squebb.ca> <20250609122736.3373471-2-mpearson-lenovo@squebb.ca>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="B2L/6sPv"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-450cf214200so47571065e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 01:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1749543124; x=1750147924; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jjgQIJ76dKbmwwjeGXopIMo/gsZHO8kBrQYsSavUt0k=;
+        b=B2L/6sPv4hjzgzss/Y2f2WHnLWyp9sYdo19Olow9g9PDb/yXFShZzQ9piKhvc3trpC
+         yhpDpBgGwdy4UBxUB4IIMIT1BvF3EH9qXOXUtw9GC0O3cksdqHKlfUdBfYam2iflpPy2
+         Nojx5YbuXh99Ge7RUW1Ji8+RVNtM2M6QAzk+k6/TVIhCBKiUtUaItqAhEnaS0bYBpA4A
+         h0cDAYljIHXTGUlYwoEcq3slWgVXIJ0639p0/ock22bLDGPqWtsBVep71qxQq6dxNkAn
+         F06T/r3zmozbUbLo+39aYxRjckIWk7/Z1qYrRbifIYTtwjj2D9iRnsXa4NlTn2pBHIHa
+         Irrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749543124; x=1750147924;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jjgQIJ76dKbmwwjeGXopIMo/gsZHO8kBrQYsSavUt0k=;
+        b=U6nAnbzT++g3etLsAbO2Kin5u28ilDECrbAHdiM7Dmk+4zTpTb8fQcf5nx2eT7EYEp
+         +nNXMvaQCPD+2Cy6SvIVIbx/71VokJ7vlkZL7S6QMQzUR2K/YornDS9lxVa+vvG5vvw/
+         s3oMTh6gkM4xDQc1zru/e9ldLNeCQMp1nquz5Zz0QZdBrKkmJkYqtzovlk2PxnELvdyv
+         bk6EedHXxXE3PtY7zbvenfZGk7tJ7Eo55JU5oJJHo8mZ44V/pQu7Z9wgpAzprJI68MIX
+         3dQlB51kQZnMc7ukOvuxWtQq7wBMt/+LKrvnJ0E2nX9pmgZbtfF9iulDVTYIUIhrWHs0
+         16sQ==
+X-Gm-Message-State: AOJu0Yzes6GNpkZnRRBHsLh9s3nFrXA4x6yhFZ3XDNZOyINZfK7OzeHl
+	ToiFlv5wvk9qEkUtOd2PR91KY0dxi+xV8zZmkBj+M2fQolrSF7kqjFfj/yjSDQr9H2nfgVhhHMm
+	oDpW2
+X-Gm-Gg: ASbGncv4KiQY65dCTiNUfWdYtzK1hnoZuUHVyi5yN4R/J4XkAYQx7RT3WIg7Qt0xvud
+	AYtHV3zO1IJE3oClB7RZyzNDlde2onMUghF7stexlKy2tHQs+w9sNYfDW8PKi4/uZZLTN0hCK9q
+	pMI+45ckvOPXyWtg6X9/Ry4xSUxqCooR4RJfCKjoVUDBGh+Fm5Z1E3E7TpN3KwXG8eSGBByK2nI
+	Ee6enTeH5DKrubwSxQultzp9Riy17zn0i2bd/htgehAi1aVkVUFz2wO18z0gfdEqcQgJjEZ6oeg
+	Ap6AGbuZPF6FMBNj1c7YJO8O++D3QDj6a/FY5uhTk3J4URbaLZ7pMkBo38Pw
+X-Google-Smtp-Source: AGHT+IHw7/V7r+W55JJPgOoMHWnb03kXm/kQE97NwVLeZNevpDtk4rbU8g1Mkp4wQwowMYR4Dz0aYg==
+X-Received: by 2002:a05:600c:528a:b0:453:dbe:7574 with SMTP id 5b1f17b1804b1-4530efe68f4mr70110725e9.12.1749543123640;
+        Tue, 10 Jun 2025 01:12:03 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:4d:e52b:812d:eb7c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-452730b9b3esm130838565e9.25.2025.06.10.01.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Jun 2025 01:12:03 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 0/2] gpiolib: get rid of devm_gpio_request()
+Date: Tue, 10 Jun 2025 10:11:51 +0200
+Message-ID: <174954311123.28634.1499230964159731709.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250531212331.3635269-1-andriy.shevchenko@linux.intel.com>
+References: <20250531212331.3635269-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 9 Jun 2025, Mark Pearson wrote:
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-> Fix issues reported by kernel test robot.
->  - Require DMI for think-lmi.
->  - Check return from getting serial string
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202506062319.F0IpDxF6-lkp@intel.com/
-> 
-> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> ---
->  - New patch added to series.
-> 
->  drivers/platform/x86/lenovo/Kconfig     | 1 +
->  drivers/platform/x86/lenovo/think-lmi.c | 8 +++++---
->  2 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x86/lenovo/Kconfig
-> index a4b565283768..207dd7f88ed0 100644
-> --- a/drivers/platform/x86/lenovo/Kconfig
-> +++ b/drivers/platform/x86/lenovo/Kconfig
-> @@ -197,6 +197,7 @@ config THINKPAD_ACPI_HOTKEY_POLL
->  config THINKPAD_LMI
->  	tristate "Lenovo WMI-based systems management driver"
->  	depends on ACPI_WMI
-> +	depends on DMI
->  	select FW_ATTR_CLASS
->  	help
->  	  This driver allows changing BIOS settings on Lenovo machines whose
-> diff --git a/drivers/platform/x86/lenovo/think-lmi.c b/drivers/platform/x86/lenovo/think-lmi.c
-> index 143d9fdedb65..8f70c60f791f 100644
-> --- a/drivers/platform/x86/lenovo/think-lmi.c
-> +++ b/drivers/platform/x86/lenovo/think-lmi.c
-> @@ -772,6 +772,7 @@ static ssize_t certificate_store(struct kobject *kobj,
->  	struct tlmi_pwd_setting *setting = to_tlmi_pwd_setting(kobj);
->  	enum cert_install_mode install_mode = TLMI_CERT_INSTALL;
->  	char *auth_str, *new_cert;
-> +	const char *serial;
->  	char *signature;
->  	char *guid;
->  	int ret;
-> @@ -789,9 +790,10 @@ static ssize_t certificate_store(struct kobject *kobj,
->  			return -EACCES;
->  
->  		/* Format: 'serial#, signature' */
-> -		auth_str = cert_command(setting,
-> -					dmi_get_system_info(DMI_PRODUCT_SERIAL),
-> -					setting->signature);
-> +		serial = dmi_get_system_info(DMI_PRODUCT_SERIAL);
-> +		if (!serial)
-> +			return -EINVAL;
 
-This should not return -EINVAL as it is not a problem with the input 
-parameters. Perhaps -ENODEV would make sense instead?
-
-> +		auth_str = cert_command(setting, serial, setting->signature);
->  		if (!auth_str)
->  			return -ENOMEM;
->  
+On Sun, 01 Jun 2025 00:21:37 +0300, Andy Shevchenko wrote:
+> devm_gpio_request() is used by a single driver. Replace it there and
+> kill the legacy API. Assumed to be routed via GPIO tree.
 > 
+> Andy Shevchenko (2):
+>   usb: gadget: pxa25x_udc: Switch to use devm_gpio_request_one()
+>   gpiolib: Remove unused devm_gpio_request()
+> 
+> [...]
 
+Applied, thanks!
+
+[1/2] usb: gadget: pxa25x_udc: Switch to use devm_gpio_request_one()
+      https://git.kernel.org/brgl/linux/c/32f6d31dc0401e6af7c48e5e2381997b6d957d85
+[2/2] gpiolib: Remove unused devm_gpio_request()
+      https://git.kernel.org/brgl/linux/c/a5589313383074c48a1b3751d592a6e084ae0573
+
+Best regards,
 -- 
- i.
-
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
