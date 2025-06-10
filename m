@@ -1,176 +1,99 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8931228F503;
-	Tue, 10 Jun 2025 12:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B61C292933;
+	Tue, 10 Jun 2025 12:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749558555; cv=none; b=Wi03Qaej8r7mQloqso7MmS7KxPssyQQab5+KURsuojdRgfeWkvnRn80+j6n000MzXQd62Edz1xaO520ezuysww+woZ7kDMYKuEBal4qPl23PYKI+2R9vC+4D/tnwtV4rSLS02gVsCEpEXrvT2SEUDKR5R6puL7aLy8giHrmboJM=
+	t=1749558713; cv=none; b=h+y6mTHhOFrTDlWYevY5kH5z+RY/IEv1Zj5gtLb5SnnqDynb9G8TIXiDba+hqCC16RwFf/FJQddiL8Hk+5E6Ms3mdJ/sF9xnG39mtWn3NkNl7ExRN5W/cFABz1P0jZl5TcEH6wUYbbO7Qm2yyREvAzIBxQbzgMO4hjETxj9UpWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749558555; c=relaxed/simple;
-	bh=s/Mms/MwIMqVWLnjCgYLsX7RxmSQ4yf/IkuaD8FSw5s=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=pNoCA09l++Rp8Dxj8mHYiKOh8ISrJpjpGSngS8be2pHJRKD0vnCtQYr4WCRRIdUzzESSexUUrTBS+F+eAfVniyNctYXxaHVE5D23V2QaielfTB9if+5NLRg/k5OgZW5qdkPOfZCLBFI1mQ1RgWmKDeNaB1jOeicrRVxgV9+lUZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=SQHIPIgZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HzuuaZn9; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="SQHIPIgZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HzuuaZn9"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 3F4692540105;
-	Tue, 10 Jun 2025 08:29:11 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-12.internal (MEProxy); Tue, 10 Jun 2025 08:29:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1749558551;
-	 x=1749644951; bh=b0KTzhdLUwJk/RA13SFXN+xVrwh40xkCwJtg+vK9uD0=; b=
-	SQHIPIgZzfBrshp4cxz+AB5A778efV2gH0zQ2/lJ9RPmwKPasv3t/YtcYc8G+Mqh
-	ULw6AXTRxXrLL0R0eT0Y+PO3OX+Bu5msiAmyLY640iaXQW7gNqKjk9MdT26pkah6
-	8FaPOwmoiUHB84BqvGAFPX8ZdGT8jXh7dLA6Nzr5gVLHb1d/tmPwk1V4rSodEJoC
-	VBccAx1AYw6h8/p/LdL8DKVjjC3IhZuQlRFEohbwbk5rzhedtoXmzhZ3ViokvutE
-	HMryuSGG1x6x+Fpg9cC8aFIWTyGUHg1Ve2J3lkY32/ietD12FxfriHNRMuwSC1z9
-	E+/5IziFbmxUQR7JgHmqHQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749558551; x=
-	1749644951; bh=b0KTzhdLUwJk/RA13SFXN+xVrwh40xkCwJtg+vK9uD0=; b=H
-	zuuaZn9g6Q7jc7zlV7wtU/xVlh4ExQcCROsAxd5szo+vDar+59MY5uBIkm3lE8aD
-	vgYnDVKN0KDlmnbIXVVmsbuRFlbxjbTxDqsqhDaXuVQnn/v58GMKDzO7Hb4RMHs8
-	PWxOLz3T46MhzHyYBW94mlF88OtaH9GU9P39GRMyZ/3jphG5mhubjngFwcwB+Pzg
-	A0zAzfh1fFx+TjhF6FJgoBzUWbncJZ9EbaUtgxj6DnKR2R7u3Md0qafqqA7eUMo6
-	DeVmxIVoJebyMYzMv8cS0a0GMKqt7is3ZSHJ64RMq7uMHgs8A41Ljk8CG/wkrpwG
-	MDDV4TsVT8K+zImFI+Hyw==
-X-ME-Sender: <xms:FiVIaD1p4SHd_Ol7AIJrdF3aCDwxTwnOzEIeR-C0lCPLLQX5qUOEqQ>
-    <xme:FiVIaCG5uCPvHYYfdSIAp5AbFmhEI9uqQqxboi9Jrak6CVy9CNNpA35eHyERPTxFK
-    ZyEv6jdOOIwx1K4ECY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddutdejgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
-    jeenucfhrhhomhepfdforghrkhcurfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvg
-    hnohhvohesshhquhgvsggsrdgtrgeqnecuggftrfgrthhtvghrnhepgedvgeeufffhtdel
-    iefgjefhgffgiedvjeegleeujeeutdduteehjeduhedtiedtnecuffhomhgrihhnpehkvg
-    hrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprh
-    gtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepihhkvghprghn
-    hhgtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfigprghrmhhinhesghhmgidruggvpd
-    hrtghpthhtohephhhmhheshhhmhhdrvghnghdrsghrpdhrtghpthhtoheplhhkphesihhn
-    thgvlhdrtghomhdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlih
-    hnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepihhlphhordhjrghrvhhinhgvnhes
-    lhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehisghmqdgrtghpihdquggvvh
-    gvlheslhhishhtshdrshhouhhrtggvfhhorhhgvgdrnhgvthdprhgtphhtthhopegtohhr
-    sggvtheslhifnhdrnhgvthdprhgtphhtthhopehhuggvghhovgguvgesrhgvughhrghtrd
-    gtohhm
-X-ME-Proxy: <xmx:FiVIaD7RxmtHxMynnUN8zHb7dflxNnYKtL1YzN2d5z3nArN4N6r5RQ>
-    <xmx:FiVIaI03sHHcoqn41xDZOXyD7KpDhGFmAPuFdUMlbPACTMpmGt_XIQ>
-    <xmx:FiVIaGEZMHKlc1Ma8crv7vr0ybroCqlOU4sVUmImkV0R3xkL9huROg>
-    <xmx:FiVIaJ-QmtmUwgm5Iosg0B3oz9qxAvmOe9bd0YyudIq4vywN8Nwr0w>
-    <xmx:FyVIaNUPQ_RaKZ61HuNj6fZFZuijvSnE6BDgT_fH-FZ0-iXL4YYD63WG>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 09BB62CE0063; Tue, 10 Jun 2025 08:29:10 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1749558713; c=relaxed/simple;
+	bh=UrhxQrMR7r1lFOhnld4WionzPvCFCoHIw1rdzKIyqDg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uJmxnL6cQ4clqnC22WTKlLE/5kPZ1EuxTudXhhgEYDB7+gQAOt1BH/udO46UfpY3FPhWeuPRmKtA1acUPHjiHV6SQg2gJGtEuhKu7vrfZeVY2TgrRBdVluz9MlNW2IpFJw3Cz2lgq3BqEpd9k6lQbjpuigch3uds1t9nzbYuNio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrABnSR59JUhoJWXICg--.22961S2;
+	Tue, 10 Jun 2025 20:30:53 +0800 (CST)
+Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
+	by gateway (Coremail) with SMTP id _____wB3Ykl1JUhobC0mAA--.19171S3;
+	Tue, 10 Jun 2025 20:30:52 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net,
+	Dongliang Mu <dzm91@hust.edu.cn>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/5] docs/zh_CN: update the translation of process/1.Intro.rst
+Date: Tue, 10 Jun 2025 20:30:26 +0800
+Message-ID: <a9a9c7f57db10713c477fcb0398a43687f92213e.1749557444.git.dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1749557444.git.dzm91@hust.edu.cn>
+References: <cover.1749557444.git.dzm91@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T95b0e86a2866f664
-Date: Tue, 10 Jun 2025 08:28:49 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: "Hans de Goede" <hdegoede@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
- ikepanhc@gmail.com, "Henrique de Moraes Holschuh" <hmh@hmh.eng.br>,
- "Armin Wolf" <W_Armin@gmx.de>,
- "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
- linux-doc@vger.kernel.org,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- ibm-acpi-devel@lists.sourceforge.net, LKML <linux-kernel@vger.kernel.org>,
- "kernel test robot" <lkp@intel.com>
-Message-Id: <f3b5c138-5576-4c01-b177-7450f1e91d24@app.fastmail.com>
-In-Reply-To: <b792059e-44d2-82c0-574c-76c3f6a3129d@linux.intel.com>
-References: <mpearson-lenovo@squebb.ca>
- <20250609122736.3373471-1-mpearson-lenovo@squebb.ca>
- <20250609122736.3373471-2-mpearson-lenovo@squebb.ca>
- <b792059e-44d2-82c0-574c-76c3f6a3129d@linux.intel.com>
-Subject: Re: [PATCH v3 2/2] platform/x86: thinklmi: improved DMI handling
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrABnSR59JUhoJWXICg--.22961S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxur4DGr1UJrWfGFyrtF15CFg_yoW5Gryrpa
+	4q93yxW3WxW3Wjv3s5Kw1kJF1kGFW7C3y3Gr4xKa4rGrn3J3WYv3yUJw13XasxAa4xZayD
+	uFW0yrWDZr42yaDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm2b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
+	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw2
+	8IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AK
+	xVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+	AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
+	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
+	IF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVF
+	xhVjvjDU0xZFpf9x07jfpndUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Hi Ilpo,
+Update to commit 43e9076a00b1 ("docs: Fix conflicting contributor
+identity info")
 
-On Tue, Jun 10, 2025, at 3:35 AM, Ilpo J=C3=A4rvinen wrote:
-> On Mon, 9 Jun 2025, Mark Pearson wrote:
->
->> Fix issues reported by kernel test robot.
->>  - Require DMI for think-lmi.
->>  - Check return from getting serial string
->>=20
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202506062319.F0IpDxF6-l=
-kp@intel.com/
->>=20
->> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
->> ---
->>  - New patch added to series.
->>=20
->>  drivers/platform/x86/lenovo/Kconfig     | 1 +
->>  drivers/platform/x86/lenovo/think-lmi.c | 8 +++++---
->>  2 files changed, 6 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x=
-86/lenovo/Kconfig
->> index a4b565283768..207dd7f88ed0 100644
->> --- a/drivers/platform/x86/lenovo/Kconfig
->> +++ b/drivers/platform/x86/lenovo/Kconfig
->> @@ -197,6 +197,7 @@ config THINKPAD_ACPI_HOTKEY_POLL
->>  config THINKPAD_LMI
->>  	tristate "Lenovo WMI-based systems management driver"
->>  	depends on ACPI_WMI
->> +	depends on DMI
->>  	select FW_ATTR_CLASS
->>  	help
->>  	  This driver allows changing BIOS settings on Lenovo machines whose
->> diff --git a/drivers/platform/x86/lenovo/think-lmi.c b/drivers/platfo=
-rm/x86/lenovo/think-lmi.c
->> index 143d9fdedb65..8f70c60f791f 100644
->> --- a/drivers/platform/x86/lenovo/think-lmi.c
->> +++ b/drivers/platform/x86/lenovo/think-lmi.c
->> @@ -772,6 +772,7 @@ static ssize_t certificate_store(struct kobject *=
-kobj,
->>  	struct tlmi_pwd_setting *setting =3D to_tlmi_pwd_setting(kobj);
->>  	enum cert_install_mode install_mode =3D TLMI_CERT_INSTALL;
->>  	char *auth_str, *new_cert;
->> +	const char *serial;
->>  	char *signature;
->>  	char *guid;
->>  	int ret;
->> @@ -789,9 +790,10 @@ static ssize_t certificate_store(struct kobject =
-*kobj,
->>  			return -EACCES;
->> =20
->>  		/* Format: 'serial#, signature' */
->> -		auth_str =3D cert_command(setting,
->> -					dmi_get_system_info(DMI_PRODUCT_SERIAL),
->> -					setting->signature);
->> +		serial =3D dmi_get_system_info(DMI_PRODUCT_SERIAL);
->> +		if (!serial)
->> +			return -EINVAL;
->
-> This should not return -EINVAL as it is not a problem with the input=20
-> parameters. Perhaps -ENODEV would make sense instead?
->
+scripts/checktransupdate.py reports:
+Documentation/translations/zh_CN/process/1.Intro.rst
+commit 43e9076a00b1 ("docs: Fix conflicting contributor identity info")
+1 commits needs resolving in total
 
-Good point.
-Unless Andy strongly thinks I should drop this bit, I'll fix in the next=
- version
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+ Documentation/translations/zh_CN/process/1.Intro.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thanks
-Mark
+diff --git a/Documentation/translations/zh_CN/process/1.Intro.rst b/Documentation/translations/zh_CN/process/1.Intro.rst
+index 4f9284cbe33b..e314cce49d27 100644
+--- a/Documentation/translations/zh_CN/process/1.Intro.rst
++++ b/Documentation/translations/zh_CN/process/1.Intro.rst
+@@ -182,11 +182,11 @@ Andrew Morton, Andrew Price, Tsugikazu Shibata 和 Jochen Voß 。
+ 可以获得所有版权所有者的同意（或者从内核中删除他们的代码）。因此，尤其是在
+ 可预见的将来，许可证不大可能迁移到GPL的版本3。
+ 
+-所有贡献给内核的代码都必须是合法的免费软件。因此，不接受匿名（或化名）贡献
+-者的代码。所有贡献者都需要在他们的代码上“sign off（签发）”，声明代码可以
+-在GPL下与内核一起分发。无法提供未被其所有者许可为免费软件的代码，或可能为
+-内核造成版权相关问题的代码（例如，由缺乏适当保护的反向工程工作派生的代码）
+-不能被接受。
++所有贡献给内核的代码都必须是合法的免费软件。因此，出于这个原因，身份不明的
++贡献者或匿名贡献者提交的代码将不予接受。所有贡献者都需要在他们的代码上
++“sign off（签发）”，声明代码可以在GPL下与内核一起分发。无法提供未被其所有者
++许可为免费软件的代码，或可能为内核造成版权相关问题的代码（例如，由缺乏适当
++保护的反向工程工作派生的代码）不能被接受。
+ 
+ 有关版权问题的提问在Linux开发邮件列表中很常见。这样的问题通常会得到不少答案，
+ 但请记住，回答这些问题的人不是律师，不能提供法律咨询。如果您有关于Linux源代码
+-- 
+2.43.0
+
