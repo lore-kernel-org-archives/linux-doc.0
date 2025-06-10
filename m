@@ -1,109 +1,100 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD8B201034;
-	Tue, 10 Jun 2025 15:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4E324293F;
+	Tue, 10 Jun 2025 16:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749570242; cv=none; b=nmEpNEUE/yVOmotFouDP1+BlX6fZjl5Js3f5ZxFJn4HacsURsqiJa2L/2OQUbA1PjKCYcFe+mYuOhrdNMwSn5aaGXY6s3FZXI5xz0nIwBCtSMDTEadP0m1oy63iXYb+4VSuqKbUIIjXaorn9tQNGWpwdpumzd4dRVtIyXx4PtqM=
+	t=1749572881; cv=none; b=HPESLnjRUQ1T+hN4IuRCNyD/XzASV5ngp7GZByH4jX69ZqkLa/6Q1srLdiwOzO71p+4pQ+yP4fQ7lQgr02XhTDCZnoSj3iWAXkubc+Tv5cqBmgIFB6QVNEmGqhrcjU+7RfRNbBtsEf+0+jjow3Aq0Yi/BzzIwGGYzHr0BBH9pl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749570242; c=relaxed/simple;
-	bh=FpHd5k/WuqGkFa8AqlRyJwsexbf+fo2WnOclxAlQJgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AsGmBX3dRtV8cacwhrz0t2VcbCLsBpD4VtGjz32gmRiWa6bSt3Q2MbBVAQWEjKqGCx4sfye2s/07r8YvTx1vR5peM2fxq82ZuGyhnrATQo8s+PhqAORfpAkCwlNdGI6ztao+ogB0e8fRYw162MhiTDpQWwC+kYQOs5TCCd745xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-acb5ec407b1so1009452466b.1;
-        Tue, 10 Jun 2025 08:44:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749570239; x=1750175039;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uuDaN3v7IKjjOwPuI92C78hEQA3//blEo1hg6ajXKJQ=;
-        b=q6UIZiqG4f1V73zM6C8/7eZjhty/VQILej1SeBZrFr83k98g2lJcsFJ4cQ81sIJDhJ
-         YRuxgqcIfr/srXxZZV4c1YppgfR92HWmlar89KjFOHX7NeS5ftHH6zSQRGbt0fCYXExM
-         OknpoPEGT9XSyNXSJqjlVjKYV6kYorWSSi4U9Y+8WJaiQ7zfChGrZbWNJ3Afn92U1icb
-         4PF3rxEp90uxBc69dcHGsshkR2raRPENbCtOaEM+jbGDKvxJ1WF9lmaw+NvTOhn1Fg8F
-         tJWUauRAE+nT9JsuWPzSVdWHyeSFaRJMUMwnGEZTpgC1qXdEEZYg0Jl69P0uLxqy9cAo
-         kwMw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+3raEqor6JcEX9mXibfjVaFqef2AjaN4j8JMvqitS9OIf8HBUf019xjcnbV/DFM3XfYmcHK9f@vger.kernel.org, AJvYcCU1qrgyQLo7BILe2oBQNQ1Z4g9DMS2aAnDttDlCs5GYMazLZ4dcx1mP+SnSRsKX/ROUee/buMo03h6b4+E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz16E1+ubH1FLzMm2LqrEzTqQ9iy3EeFJNiE7Bk0YHMIhh0N1vQ
-	udMZqI6SzUPK8BpezXMGTWRIqZweJ+OtBvRiyqi1w0bRvmlsERv4G20S
-X-Gm-Gg: ASbGncsm1OLxmRYv8t29kGGwQ5QJBWaljh+ulrzLTXgHH86v8Gb7HFrTSLz25+gaWNH
-	DYmkZCmzhq71K6XSgM5XtrpEKy8/c8QDItq44KdsgpH6BSt19vSmNxLxF1VY5tVhjAnKuBF+N6a
-	RIDpxYr7DITZ/S5W1P7h77j9xI7yPAVeTvKDiMrGObCx/BNKA8T5WuufXt9RYrrF8eZnahl7846
-	Lg1lnLB/OQo2WZu9T8xE2yjMksAipkdFKatkjtJcU7a44jAZPgntuirMqm2cvcU2r1CLT4/VuR7
-	aooCmJr1QYyb40rS7cP6LbJ3XnB5NbXR1vnZPtXOIv6YPZVXExy5
-X-Google-Smtp-Source: AGHT+IH7vBoM84CZWFqasHt9KzLiG9LovQysp/riPIFgA4hZQCuVBAr5gBWic0qBZysBWtn+fw9E0w==
-X-Received: by 2002:a17:907:608e:b0:ad5:c462:3f60 with SMTP id a640c23a62f3a-ade1aa93187mr1760955366b.16.1749570238942;
-        Tue, 10 Jun 2025 08:43:58 -0700 (PDT)
-Received: from gmail.com ([2a03:2880:30ff:3::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc76feesm738828966b.147.2025.06.10.08.43.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 08:43:58 -0700 (PDT)
-Date: Tue, 10 Jun 2025 08:43:55 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Ignacio Encinas Rubio <ignacio@iencinas.com>,
-	Marco Elver <elver@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jan Stancek <jstancek@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
-	Ruben Wauters <rubenru09@aol.com>, joel@joelfernandes.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
-	stern@rowland.harvard.edu
-Subject: Re: [PATCH 4/4] docs: netlink: store generated .rst files at
- Documentation/output
-Message-ID: <aEhSu56ePZ/QPHUW@gmail.com>
-References: <cover.1749551140.git.mchehab+huawei@kernel.org>
- <5183ad8aacc1a56e2dce9cc125b62905b93e83ca.1749551140.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1749572881; c=relaxed/simple;
+	bh=UQg01saWHZ2SA/EHnfOE/P97kB6OOfXIeFxq0POFGoI=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=hebZZqF/bHfdpAJt5ULjME8vg82zyagsuXbhQR1CMzpCraAzVLzFAUMu3MY4sRLcCsCOAQ0eXmE5cxxPct/Hmoue33DrNXHCz02w3ADYjeVhrzuHALJX+75OQ2vkhyml/i08Y910YxxA5/+8pruJ6Qx3Y3+gDg6FGFz55kTKYMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MAhxn2YI; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MAhxn2YI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CE0DC4CEF0;
+	Tue, 10 Jun 2025 16:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749572880;
+	bh=UQg01saWHZ2SA/EHnfOE/P97kB6OOfXIeFxq0POFGoI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=MAhxn2YI78qtGczPWBE83PlISURuIeOL+05W5FjQubzGvSi7EoCrhaQlwPloGgdbt
+	 m3KQqdhdZSPuMtJCkDrurouHSKc7fMYa7USoDs9rauIAVc2uignIg/8Sy4NlDhfGUL
+	 2ZzDxcXkt6DyW1Xswug8nfZIvyBR7fHBXbB/qj2Q+BTF+MxAdHQhNP7RlMkx5LiytS
+	 0l7bPsWJ6V911h0DIdyU6is3Rbv0e5J2y5zKehEDF/xbPd4d4KuIn43rtPPChcq/80
+	 O+WjTPhXswU5qYgeGIXQlX75e30BPG+ZBLM9h1aomo0GZSIHELeufuw+BEpU84uYoU
+	 HdoxaRU30SbfQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33C4339D6540;
+	Tue, 10 Jun 2025 16:28:32 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5183ad8aacc1a56e2dce9cc125b62905b93e83ca.1749551140.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 00/12] riscv: Add vendor extensions support for SiFive
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <174957291100.2454024.4751197828124838504.git-patchwork-notify@kernel.org>
+Date: Tue, 10 Jun 2025 16:28:31 +0000
+References: <20250516030310.16950-1-cyan.yang@sifive.com>
+In-Reply-To: <20250516030310.16950-1-cyan.yang@sifive.com>
+To: Cyan Yang <cyan.yang@sifive.com>
+Cc: linux-riscv@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, corbet@lwn.net, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+ samuel.holland@sifive.com, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Hello Mauro,
+Hello:
 
-On Tue, Jun 10, 2025 at 12:46:07PM +0200, Mauro Carvalho Chehab wrote:
-> A better long term solution is to have an extension at
-> Documentation/sphinx that parses *.yaml files for netlink files,
-> which could internally be calling ynl_gen_rst.py. Yet, some care
-> needs to be taken, as yaml extensions are also used inside device
-> tree.
+This series was applied to riscv/linux.git (fixes)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-In fact, This is very similar to what I did initially in v1. And I was
-creating a sphinx extension to handle the generation, have a look here:
+On Fri, 16 May 2025 11:02:58 +0800 you wrote:
+> This patch set adds four vendor-specific ISA extensions from SiFive:
+> "xsfvqmaccdod", "xsfvqmaccqoq", "xsfvfnrclipxfqf", and "xsfvfwmaccqqq".
+> 
+> Additionally, a new hwprobe key, RISCV_HWPROBE_KEY_VENDOR_EXT_SIFIVE_0,
+> has been added to query which SiFive vendor extensions are supported on
+> the current platform.
+> 
+> [...]
 
-https://lore.kernel.org/all/20231103135622.250314-1-leitao@debian.org/
+Here is the summary with links:
+  - [v2,01/12] dt-bindings: riscv: Add xsfvqmaccdod and xsfvqmaccqoq ISA extension description
+    https://git.kernel.org/riscv/c/0f733b5be965
+  - [v2,02/12] riscv: Add SiFive xsfvqmaccdod and xsfvqmaccqoq vendor extensions
+    (no matching commit)
+  - [v2,03/12] riscv: hwprobe: Document SiFive xsfvqmaccdod and xsfvqmaccqoq vendor extensions
+    https://git.kernel.org/riscv/c/e8fd215ed0eb
+  - [v2,04/12] riscv: hwprobe: Add SiFive vendor extension support and probe for xsfqmaccdod and xsfqmaccqoq
+    https://git.kernel.org/riscv/c/1a6274f03534
+  - [v2,05/12] dt-bindings: riscv: Add xsfvfnrclipxfqf ISA extension description
+    https://git.kernel.org/riscv/c/a5a15e07cbb9
+  - [v2,06/12] riscv: Add SiFive xsfvfnrclipxfqf vendor extension
+    (no matching commit)
+  - [v2,07/12] riscv: hwprobe: Document SiFive xsfvfnrclipxfqf vendor extension
+    https://git.kernel.org/riscv/c/659d664f7df8
+  - [v2,08/12] riscv: hwprobe: Add SiFive xsfvfnrclipxfqf vendor extension
+    https://git.kernel.org/riscv/c/1d91224394c9
+  - [v2,09/12] dt-bindings: riscv: Add xsfvfwmaccqqq ISA extension description
+    https://git.kernel.org/riscv/c/d5ca02b25f5d
+  - [v2,10/12] riscv: Add SiFive xsfvfwmaccqqq vendor extension
+    (no matching commit)
+  - [v2,11/12] riscv: hwprobe: Document SiFive xsfvfwmaccqqq vendor extension
+    https://git.kernel.org/riscv/c/a3ca43dc5271
+  - [v2,12/12] riscv: hwprobe: Add SiFive xsfvfwmaccqqq vendor extension
+    https://git.kernel.org/riscv/c/d9669e33c8fa
 
-During the review, we agree to move out of the sphinx extension.
-the reasons are the stubs/templates that needs to be created and you are
-creating here.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-So, if we decide to come back to sphinx extension, we can leverage that
-code from v1 ?!
 
-> -def generate_main_index_rst(output: str) -> None:
-> +def generate_main_index_rst(output: str, index_dir: str, ) -> None:
-
-You probably don't need the last , before ).
-
-Other than that, LGTM.
-
-The question is, are we OK with the templates that need to be created
-for netlink specs?! 
-
-Thanks for looking at it,
---breno
