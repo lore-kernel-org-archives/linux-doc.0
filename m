@@ -1,273 +1,222 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5BCA25F7A1;
-	Tue, 10 Jun 2025 05:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749534947; cv=none; b=QhaLB4/gPcqb9QHVTARYVm5d+XgGX8CIkS2+SlHo9CP93gZMtgbZg8MEOc6syz898WcnVEQS/Kx+qF+8Rmd4X9klGhqvEr7VdB3cV1dg84w4PsrDv9q15oJrh2z4eWkZYedkKQz+vZuDhaPeLXbRKlkZq39RZcqKfPlPV8J7LfM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749534947; c=relaxed/simple;
-	bh=+0T4z0vO9qztnIaSDV6wvJwobwxP00WKo9U6P6mCqsY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iRcfQObv3JsCZ6lu8OxJZT3hJ4jhI09hkxqj4TrDIu/Kl5sUBu3sZjjK6JcESgzd/Fn2A2YYmoXHTjt8nxvmdRcEBvMoKToRj+HOr4qjlOrhgywJTS/8Nq1C4pPT1A0bDkHqgl1ws9NwUDKOCXEhud+yNClYFRKD22ZDwZIVF7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=lQq3BAJt; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B25D259CBF;
+	Tue, 10 Jun 2025 05:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749535139; cv=fail; b=i2lzXGb1SX0wWeHrLX8k4YK08kKWHcyCVbXRPaudov5Oar+g44GXNbA709hKeW1orMv32nYr9xYmVSrbf3XfKxQLj6BEci5TQTw84bICGvciKJPEfUaTHMlcS2K79h4t/3lI1QD30MF7xnfnmUDTtulkIk7ZcjxX1PKkBYP4RIA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749535139; c=relaxed/simple;
+	bh=0Elrtk0K5fgT082my7WTx5sRzOihIb3v+FjmoRhxhMk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=XgWuioCRJKxE0ow7MnnT8atY4wpwn/YjurHpCqWc4la4xGGLGhI2J7UxGVpLGb9cdsq80fteiF01pfAoojElOhR+0FvTSKJFfVs66k0h+fL/WIL/F++mGoGmjBCGq/9gQKttus5oQIvTMNrrOSvWHx/kWymh+vpMmsVkj+37MIM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VWiIA9a2; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="lQq3BAJt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1749534937; x=1750139737; i=w_armin@gmx.de;
-	bh=ya1jvm18dSySPEFJ9hfzMKwh8h+hgB4EyhzLjDqHpwo=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=lQq3BAJtTbX4afhegvFzrPITZFU7XUOKJVuqAwhxVm7RzRCKUGlBS/DmTOWf4NZS
-	 S11LRBSJZ3cfHGYUGho1OG+V5MqUVp/L13XtZOK+e4OcVpIif4ftu9C0I+h2McCv0
-	 S827sVZu5iibs3qd+yDySFh+YNLbWOiPpn3SP9oY9TruatgbmZsz5EhJCc2RzhYCj
-	 o9bQ6ZIkcOx81u8HDtLTAXNdaB46UgEgVsgM3kGwF1QKrBK1TtoTtMrLwa19UJzL3
-	 t2ptB2nb92svHC4e9/H0+BGegGVbMFm4MyVlsUrZGgQX8wj+ePlag0RCwbMgAvqwq
-	 gGA407LQNFW50Zgr+Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.fritz.box ([87.177.78.219]) by mail.gmx.net
- (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1Mv2xU-1ugGFc21S4-00xuhz; Tue, 10 Jun 2025 07:55:36 +0200
-From: Armin Wolf <W_Armin@gmx.de>
-To: Dell.Client.Kernel@dell.com,
-	jithu.joseph@intel.com
-Cc: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	corbet@lwn.net,
-	platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] platform/x86: wmi: Fix WMI device naming issue
-Date: Tue, 10 Jun 2025 07:55:26 +0200
-Message-Id: <20250610055526.23688-2-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250610055526.23688-1-W_Armin@gmx.de>
-References: <20250610055526.23688-1-W_Armin@gmx.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VWiIA9a2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749535138; x=1781071138;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=0Elrtk0K5fgT082my7WTx5sRzOihIb3v+FjmoRhxhMk=;
+  b=VWiIA9a2eISH+vzef7/dy9rkgh/AwNvaa9usxoJu7KQwDmdm0LdEUE9t
+   J9bTKacJ++e1bwrNK45Q1ZPLWe3EiX+0wKu9Vj7sYoWQ1an0d242HcPVv
+   ldDkCdDRFKpUJsqhNwc5malSBvesZJ+wRFvPsb9FPw/gULeV2V2iUS86x
+   JCeX4cXePeDJQwmDbb0FbdjN39YSUniO5fBan/TbsaP3jIrurBuKNu2t8
+   6zIQmgxXYTb96wgaqohPpLk+i43AT6SIk4z3uCgktb3Z9isF5yZ0bJRXg
+   zr+IEhyI6kG7atba7pGvMkr+QjWDMoAiGJT0ROfdszbVTquEMYL76dOJ+
+   w==;
+X-CSE-ConnectionGUID: n9SlmWwNSs6aBf2gtW8R3w==
+X-CSE-MsgGUID: VR+RhIpqSBer+YLHx4fs+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51714187"
+X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
+   d="scan'208";a="51714187"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 22:58:57 -0700
+X-CSE-ConnectionGUID: sEoUwyKeTI+G2Rgbh5JmrQ==
+X-CSE-MsgGUID: 4tEBuKrrQRivmcNmJ45Vag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
+   d="scan'208";a="169902625"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 22:58:56 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 9 Jun 2025 22:58:56 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Mon, 9 Jun 2025 22:58:56 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.79)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Mon, 9 Jun 2025 22:58:55 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DvgclrxwPkAeSbnZZWF1r6Cq4guFrBv1NySCSbqcAB7YYFO/19k16Quz1XGjWthuc8ANqC2IZDViPIct+ftVPg9/A1hFBVJ8Rb+G9kGVxPaZB8uSsl9iKUf9jwCJPQ49PriNI6JhZP1exn66Y0UY1GUkWaJeIiswNpxLP3HdGb/rhXDM5tBbzdQXYCYKdbVoeCdbHJHMsto0Fbf82f35Wqdo4fuaF4FDPARNTTejPRofB/Cdt4IJN5yaQzJiwSitCPuVig+ml9ZuCvPQtbXXtIfVyPJbt9pY+myf1ZdDZ6JyluCYG4cvpET5jMCC8JBjxyLpVdt3uAWEo86lZEzBsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0Elrtk0K5fgT082my7WTx5sRzOihIb3v+FjmoRhxhMk=;
+ b=bsBdN0PsaETmeR7ih9aiCWSAqCzlcdqKOqPs7W8VqtOjv2sCwY2d0KJ4TXaGzgxJInD8kqxCcSZg48LopoRFaCXjsY65nCjw+lGi7nHrRGzUSMr5aJ/rWJ/Dpme4Sgu+0hlGP2JPOxiEPKWfMZSiAjXEJehTKvuIu+V6R4LtVbLV6faCS8wO3VVl1baG7ve2WzRhoTcQOlQDJ5puwsE7X1upq0iBNSoyLT2QKGS8w/6fBQEGmdWvFo4o7NnU8EvmYZeH8L/zcbwE4+kmhHzZDu3AJ+/YrSiXCNUnqN4DtHPCylrkR2Qt2DvPAzCBKG4/0Xd7OQBmwYnTawL8I3Hlvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ2PR11MB8452.namprd11.prod.outlook.com (2603:10b6:a03:574::22)
+ by PH0PR11MB5158.namprd11.prod.outlook.com (2603:10b6:510:3b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.30; Tue, 10 Jun
+ 2025 05:58:54 +0000
+Received: from SJ2PR11MB8452.namprd11.prod.outlook.com
+ ([fe80::d200:bfac:918a:1a38]) by SJ2PR11MB8452.namprd11.prod.outlook.com
+ ([fe80::d200:bfac:918a:1a38%6]) with mapi id 15.20.8813.022; Tue, 10 Jun 2025
+ 05:58:53 +0000
+From: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: "donald.hunter@gmail.com" <donald.hunter@gmail.com>, "davem@davemloft.net"
+	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "horms@kernel.org"
+	<horms@kernel.org>, "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>,
+	"jiri@resnulli.us" <jiri@resnulli.us>, "Nguyen, Anthony L"
+	<anthony.l.nguyen@intel.com>, "Kitszel, Przemyslaw"
+	<przemyslaw.kitszel@intel.com>, "andrew+netdev@lunn.ch"
+	<andrew+netdev@lunn.ch>, "Loktionov, Aleksandr"
+	<aleksandr.loktionov@intel.com>, "Olech, Milena" <milena.olech@intel.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "intel-wired-lan@lists.osuosl.org"
+	<intel-wired-lan@lists.osuosl.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [PATCH net-next v4 1/3] dpll: add phase-offset-monitor feature to
+ netlink spec
+Thread-Topic: [PATCH net-next v4 1/3] dpll: add phase-offset-monitor feature
+ to netlink spec
+Thread-Index: AQHby/owcizuLGg/C0GwDd53CbG5irPqXOOAgBGkFwA=
+Date: Tue, 10 Jun 2025 05:58:53 +0000
+Message-ID: <SJ2PR11MB8452106F3451FC770C6E067E9B6AA@SJ2PR11MB8452.namprd11.prod.outlook.com>
+References: <20250523154224.1510987-1-arkadiusz.kubalewski@intel.com>
+	<20250523154224.1510987-2-arkadiusz.kubalewski@intel.com>
+ <20250529173311.15fcff9b@kernel.org>
+In-Reply-To: <20250529173311.15fcff9b@kernel.org>
+Accept-Language: pl-PL, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ2PR11MB8452:EE_|PH0PR11MB5158:EE_
+x-ms-office365-filtering-correlation-id: 4389318c-98fd-46b7-8012-08dda7e3e15f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?6cQp52KKG9QO+OB2oE1BFSyYr5kgO6DjneyeFhjzTN+cX01GKcnAPuSPnslQ?=
+ =?us-ascii?Q?GBUbqaUf0DBNEesCPPClIwBKGUoXAcO+9Tt7KQdzwYZm8Q2rpKdGL6rGceps?=
+ =?us-ascii?Q?b1vF72OJ+uLdNMV5MBWiArrRRYSCkGfJ0ccU/V/uXUkBLZeffq1E4ukU/yVl?=
+ =?us-ascii?Q?zABBfjrKJE2vEeYRiZrkd6YVFlEeKSRmjZRbeitpAFiov88Tx0jmGmJTfm6i?=
+ =?us-ascii?Q?GQ67bVLKTWKdDsYTbuI5b6ZNWXfzcQ3dfe4SvobGdxdxsuZtEw2NBdtG7iMj?=
+ =?us-ascii?Q?3LCcu5WSMiIQRnvYKsuCmG1FRK9qCne1Q4CiMGgKsMHuxVRM+X6cST6SDQeG?=
+ =?us-ascii?Q?G8Xz6aGXhuLT57UhWsWjTbEAjt5i99/+DEPmxmktb62Ag8i23eszYjezoNxJ?=
+ =?us-ascii?Q?8rQBNoc8pAFT4FL9k7I9ImaPxDxWyuJUmteODWlvnWeCO67Tr2dOmOoSDQu/?=
+ =?us-ascii?Q?BG80hsjR2HaepDE++70N8j31P/7Pjr1prIV07VmJ0kcaLnhK7wsr6QLL8WGd?=
+ =?us-ascii?Q?2KX7pmo2N8A4QaYOEA9WJYm3pYSmb/zHiR/bqVgfEnsPYfcGmGN9Mzzfm9ZD?=
+ =?us-ascii?Q?CP9xotiOKTQ0UIwIASnT2WLcADOciZzEt6Ku4RG8VF9du7/iGhPuihReVqiW?=
+ =?us-ascii?Q?m8MdqjP6jt2q9v4/+1gNXwQ6rsMSYgLXbWCRIaW3xEhEikdDoPJ1x0JU3Gto?=
+ =?us-ascii?Q?Y/gjy6+Mh9tTryclNehvtvnTawjf0VZrCUWICK6j9MLfhRBLlKWbgBG8DeLl?=
+ =?us-ascii?Q?jLVCJIOry6BAyeL3TrcfWDMPWJGwpS9iSVYkICP66Q9d6zq2josPrxtEz/kE?=
+ =?us-ascii?Q?Dz7lG9j6BPUEGeFor0Ag9rPgZEfcfNqtQXmqwPG+Yjy71dwHWf/b4BDwPpwy?=
+ =?us-ascii?Q?AmkThIvMzSJA9Fj2A+Hwufn4VvuCkYUVRFZJanSBpMWNNd7/z4T9JdFDlQ8p?=
+ =?us-ascii?Q?3KHYu5lOESy5QPTnLoMt67a/Tc9OzGePl4fgiI0dZXPjnIh7dvsZVUpFy3rc?=
+ =?us-ascii?Q?pcOx9uWhBxG10eWAxsG5X7VybAZXSxnOJsQjtTajFgB2/oAD5cmwofVfBwtT?=
+ =?us-ascii?Q?beHC3xMOGKTIquKBUidFrON16runeF9qK/wf4iAi7FUt++ku2Piq+gTKl5td?=
+ =?us-ascii?Q?rrbTrxKEoOVtGC195OWZ/tFaN3kqfSOzfP8aaxuAAe6Br6yCoUTrO8A6mnR8?=
+ =?us-ascii?Q?3RKSyZS5/9XxXL1qmP9R7URj/WHBWwVp91uOk5xf6IiE6kgR0O3GwJOI5RDi?=
+ =?us-ascii?Q?KGtTGcFiwtObkEHq8tU2S1glwOSLR9JizUrdlxQP7doSUiElJEPG31Mv4aGQ?=
+ =?us-ascii?Q?dgeCRCvcP8Wh5CfSnBf4lijepWLDpNmK/KOQ33ZI3GdCEGl6BJBQNRXotJF4?=
+ =?us-ascii?Q?zFaCYSbP7pv5wPUWd1YPchJYhysZELVFGMusPjShmJZ9fK3jBy+NlHEb2wPX?=
+ =?us-ascii?Q?ZrzpKbZiehWRzp4TTX/32r55U8Yhdxfs5bazM0PYGn30SxpnNxJKUAto0T5W?=
+ =?us-ascii?Q?13wzIGQ3JGbflOk=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8452.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?A66DDt+yV91Yh05wlzMs3vARHr/VVdsBV8RGF4jzdFDeUUCpAcMqFpk+kLTE?=
+ =?us-ascii?Q?ZZWOrxTAdKwyEXpj4Q0mtxvM7UoyeUYgeNiHW+mDg5SN//VLLVfB8ZIEq3De?=
+ =?us-ascii?Q?CZzFYyJj2eAStE6c6+6t6oH0yi4wUClOgp4YjDvKYH3dbKVyrYDRf5DPyqv4?=
+ =?us-ascii?Q?2T42iPOoCUp2sGeAWHNOspgpUc3LJOH3ctywziGpVO790OWDxey/v+jZdk82?=
+ =?us-ascii?Q?VsXbcsrvP7Cy0vRJz/7nQ2Qc3TE5X8s+wp5CshU2TuIgnwVlRdDNVYGuRyFu?=
+ =?us-ascii?Q?I+iPX+jGnCmqax/iL5hZxFO0q73NO+T3ZbxreHBRYmoCErRWO0pe6EviUljQ?=
+ =?us-ascii?Q?+pRmuCfHemj1sbt+WaJJ4XFMyyeCZhUas4abCXNtiJYNL/38SjpUR0J/EGgB?=
+ =?us-ascii?Q?XJbzE38dcYRSmGgQAip++amznVoSFyULZADpY00pKYIz++3nySW7cNWAj9Mv?=
+ =?us-ascii?Q?LSWlOXA8ohIQZqd8ximjANz0dYnqVU7RTMgfNy1KPEf5xaeQzdklWTrRE+co?=
+ =?us-ascii?Q?eUhMZ0K1nJ0cXXKJ8axeljfoZsoVyz1PmPUifN4SRz5jNSz+oSTDJCTH872V?=
+ =?us-ascii?Q?fj6cNMYAV1dRvr1WJEsyMNvwDK3NR8meyIAJns4bIqf/28S/gTm4Gi/zU03q?=
+ =?us-ascii?Q?okWnA3szn94eKZx9K5j5uI5+WZMuYilY2CN7/8A2+o2HzjbQ6QdLy3li+6OS?=
+ =?us-ascii?Q?1RqioLNaPdHQrZZERazOLxGwgaBnU22xeKHSdUW/3IyCKeLkgUqrCp8Yi/QE?=
+ =?us-ascii?Q?uhVqD9pnJQZxbi2gUg7d/mLY/LT3EfulesGfPe7QL4f6rVM9hTiBRiTg4tRT?=
+ =?us-ascii?Q?VLONK9PlSwLKiClUyU0xl/g8nCWSczXQC//Wr4akmUNVMGZQ79itl7dBQUPy?=
+ =?us-ascii?Q?3sOi89z40T5ydoFYlIC0Vgs4W7DXgOIEuRvwRCBV7SiOCUCIudBiSk6GE8QL?=
+ =?us-ascii?Q?+jqIXwbniWSjVkgpD08kccQZI0jgAAnKd5/XBVwXPmsftW5DcnOUHx5K2OY4?=
+ =?us-ascii?Q?oN+MCUdGAVMbJtAxd34jVnyUTD1l9QsUAvd+ocJELEYLRy/fppqmgU2t3KAC?=
+ =?us-ascii?Q?PIJpKEaPXZzDW3LfdjPFjFV+OjKf2cFuvaOdCdJheBLWR0stNR3KIVRZPC/S?=
+ =?us-ascii?Q?B4hYtHnNSxCgtWoQbXTPnxIZcp6To8MKKyO/D5OQ+uwC7F2f4fFqkgUHiUle?=
+ =?us-ascii?Q?NqKytbWX8+3B3V4djCqJVDncyLQpIxeEmMiFQ6btFJSJaWDl70Mol2kFJqkX?=
+ =?us-ascii?Q?oeR/U1/dfqfhPP+K0KTBZCDY2/lywCVlLpNT5HA2XQ3i0hgqWQ0QiORTeC4j?=
+ =?us-ascii?Q?Wx0H9BOn6TBGvlyttWSq6iBOzpCA99vzhJyUXf7M1gjAiFgu6Ti9dIzOP1kE?=
+ =?us-ascii?Q?nLzbo6KBBZjW/3t39WGqmVDFc6UGm+5KKk46xutuELulM3YuSFMaP6Nq8JtM?=
+ =?us-ascii?Q?MaygIfHGhLefdn2FI4+RQ6hWYI1wOGCBVyRzRIx9MZzQjAOuCt/jFDx4il2j?=
+ =?us-ascii?Q?RIFiXls1uyCatCyIh8VWWfgwUMx5KPyh4bKFd4WR6pa6zQFwoTzf/PnaYDI0?=
+ =?us-ascii?Q?HxjIKzvay6xNcWfOS/dnJDkXagH/358O6ocZBI05lV+herOcdmeTOpQb72+u?=
+ =?us-ascii?Q?RQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:aqYyXzPJpKpke3K+7J3eeh4ja9j78VzP06y9bL8SV1ag5Cv9rvQ
- uXoyEUcwrq4Hizo1X1P51EdMohwPl3gmofOpNPAsJAg2euYzcpq6OhbVByyUID+FAfxZ+IA
- wY7jYz+EXOaRf/3rg9CneoAy6/k1ppmSXJpV1/rK6us4nI6tl8E0YEledPQJBdvZwfR5ktn
- 8lw1d404S/mlcZdPAYXEQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:aSPhYlOm4kE=;3pDw7KDnyf35stweq/BgNHhMY9G
- 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
- w+7WXrd
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8452.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4389318c-98fd-46b7-8012-08dda7e3e15f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2025 05:58:53.6525
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9zfnxCCSFZiwHhbMNtd8vIj/CJFzRhUEmT1OQuQyYMhTNdP5ebtksk1xvUGrNLhulEwRCl3xG5sd0z1cSqaN+7o11GV7uGyKPeAZtfbdJPA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5158
+X-OriginatorOrg: intel.com
 
-When multiple WMI devices with the same GUID are present
-inside a given system, the WMI driver core might fail to
-register all of them.
+>From: Jakub Kicinski <kuba@kernel.org>
+>Sent: Friday, May 30, 2025 2:33 AM
+>
+>On Fri, 23 May 2025 17:42:22 +0200 Arkadiusz Kubalewski wrote:
+>> +Phase offset measurement is typically performed against the current
+>>active
+>> +source. However, some DPLL (Digital Phase-Locked Loop) devices may offe=
+r
+>> +the capability to monitor phase offsets across all available inputs.
+>> +The attribute and current feature state shall be included in the
+>>response
+>> +message of the ``DPLL_CMD_DEVICE_GET`` command for supported DPLL
+>>devices.
+>> +In such cases, users can also control the feature using the
+>> +``DPLL_CMD_DEVICE_SET`` command by setting the ``enum
+>>dpll_feature_state``
+>> +values for the attribute.
+>
+>Since we're waiting for the merge window to be over - could you mention
+>the attribute the PHASE_OFFSET comes out as? DPLL_A_PIN_PHASE_OFFSET ?
+>
 
-Consider the following scenario:
+Sure, will do in v5.
 
-	WMI devices (<GUID>[-<ID>]):
-	05901221-D566-11D1-B2F0-00A0C9062910	(on PNP0C14:00)
-	05901221-D566-11D1-B2F0-00A0C9062910-1	(on PNP0C14:01)
+>BTW I noticed that in the YAML spec, in a comment we say
+>DPLL_A_PHASE_OFFSET a couple of times, missing the _PIN.
 
-If the WMI core driver somehow unbinds from PNP0C14:00, the following
-will happen upon rebinding:
+Hm, true, will try to prepare separated fix commit for those.
 
-1. The WMI driver core counts all registered WMI devices with a GUID
-   of 05901221-D566-11D1-B2F0-00A0C9062910 (count: 1).
-
-2. The new WMI device will be named
-   "05901221-D566-11D1-B2F0-00A0C9062910-1" because another device
-   with the same GUID is already registered (on PNP0C14:01).
-
-3. The new WMI device cannot be registered due to a name conflict.
-
-Use a IDA when building the WMI device name to avoid such name
-collisions by ensuring that a given WMI device ID is not reused.
-
-Userspace applications using udev for WMI device detection are not
-impacted by this change. Additionally userspace applications that do
-fully support the existing naming scheme are also not impacted. Only
-userspace applications using hardcoded sysfs paths will break.
-Introduce a kconfig option for restoring the old naming scheme to
-give developers time to fix any compatibility issues.
-
-Tested on a Asus Prime B650-Plus.
-
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- drivers/platform/x86/Kconfig |  9 +++++++++
- drivers/platform/x86/wmi.c   | 37 +++++++++++++++++++++++++++++++-----
- 2 files changed, 41 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index e5cbd58a99f3..ddc9bf501428 100644
-=2D-- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -37,6 +37,15 @@ config ACPI_WMI
- 	  It is safe to enable this driver even if your DSDT doesn't define
- 	  any ACPI-WMI devices.
-=20
-+config ACPI_WMI_LEGACY_DEVICE_NAMES
-+	bool "Use legacy WMI device naming scheme"
-+	depends on ACPI_WMI
-+	help
-+	  Say Y here to force the WMI driver core to use the old WMI device nami=
-ng
-+	  scheme when creating WMI devices. Doing so might be necessary for some
-+	  userspace applications but will cause the registration of WMI devices =
-with
-+	  the same GUID to fail in some corner cases.
-+
- config WMI_BMOF
- 	tristate "WMI embedded Binary MOF driver"
- 	depends on ACPI_WMI
-diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index e46453750d5f..21b7e54bd7ab 100644
-=2D-- a/drivers/platform/x86/wmi.c
-+++ b/drivers/platform/x86/wmi.c
-@@ -20,6 +20,7 @@
- #include <linux/bits.h>
- #include <linux/build_bug.h>
- #include <linux/device.h>
-+#include <linux/idr.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -74,6 +75,8 @@ struct wmi_guid_count_context {
- 	int count;
- };
-=20
-+static DEFINE_IDA(wmi_ida);
-+
- /*
-  * If the GUID data block is marked as expensive, we must enable and
-  * explicitily disable data collection.
-@@ -978,6 +981,19 @@ static int guid_count(const guid_t *guid)
- 	return context.count;
- }
-=20
-+static int wmi_dev_set_name(struct wmi_block *wblock, int count)
-+{
-+	if (IS_ENABLED(CONFIG_ACPI_WMI_LEGACY_DEVICE_NAMES)) {
-+		if (count)
-+			return dev_set_name(&wblock->dev.dev, "%pUL-%d", &wblock->gblock.guid,
-+					    count);
-+		else
-+			return dev_set_name(&wblock->dev.dev, "%pUL", &wblock->gblock.guid);
-+	}
-+
-+	return dev_set_name(&wblock->dev.dev, "%pUL-%d", &wblock->gblock.guid, w=
-block->dev.dev.id);
-+}
-+
- static int wmi_create_device(struct device *wmi_bus_dev,
- 			     struct wmi_block *wblock,
- 			     struct acpi_device *device)
-@@ -986,7 +1002,7 @@ static int wmi_create_device(struct device *wmi_bus_d=
-ev,
- 	struct acpi_device_info *info;
- 	acpi_handle method_handle;
- 	acpi_status status;
--	int count;
-+	int count, ret;
-=20
- 	if (wblock->gblock.flags & ACPI_WMI_EVENT) {
- 		wblock->dev.dev.type =3D &wmi_type_event;
-@@ -1057,11 +1073,18 @@ static int wmi_create_device(struct device *wmi_bu=
-s_dev,
- 	if (count < 0)
- 		return count;
-=20
--	if (count) {
--		dev_set_name(&wblock->dev.dev, "%pUL-%d", &wblock->gblock.guid, count);
-+	if (count)
- 		set_bit(WMI_GUID_DUPLICATED, &wblock->flags);
--	} else {
--		dev_set_name(&wblock->dev.dev, "%pUL", &wblock->gblock.guid);
-+
-+	ret =3D ida_alloc(&wmi_ida, GFP_KERNEL);
-+	if (ret < 0)
-+		return ret;
-+
-+	wblock->dev.dev.id =3D ret;
-+	ret =3D wmi_dev_set_name(wblock, count);
-+	if (ret < 0) {
-+		ida_free(&wmi_ida, wblock->dev.dev.id);
-+		return ret;
- 	}
-=20
- 	device_initialize(&wblock->dev.dev);
-@@ -1147,6 +1170,7 @@ static int parse_wdg(struct device *wmi_bus_dev, str=
-uct platform_device *pdev)
- 			dev_err(wmi_bus_dev, "failed to register %pUL\n",
- 				&wblock->gblock.guid);
-=20
-+			ida_free(&wmi_ida, wblock->dev.dev.id);
- 			put_device(&wblock->dev.dev);
- 		}
- 	}
-@@ -1246,7 +1270,10 @@ static void acpi_wmi_notify_handler(acpi_handle han=
-dle, u32 event, void *context
-=20
- static int wmi_remove_device(struct device *dev, void *data)
- {
-+	int id =3D dev->id;
-+
- 	device_unregister(dev);
-+	ida_free(&wmi_ida, id);
-=20
- 	return 0;
- }
-=2D-=20
-2.39.5
-
+Thank you!
+Arkadiusz
