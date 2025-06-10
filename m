@@ -1,334 +1,213 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DD125DB09;
-	Tue, 10 Jun 2025 04:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFE025F7A2;
+	Tue, 10 Jun 2025 05:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749528649; cv=none; b=GTRkMcl5GuSgrxc9PsfTrYo40agcY1gncsT0li46d4qt6+/BHROyqDQE0n17KjQRvq5YHIXZ/GEGJLOtYCPR/LqbAVc8dlArpaeBTo7NTt7f1xYwjBOVzg76nAKUfMcVzCnb4Y58WmR6kqtOKyTzRCJjtGRSpcChg3+EtAlYhD8=
+	t=1749534947; cv=none; b=n6DAKRCRKezMWa5P4fB6Gz739M0hop3Gx6aUWYZ4NwG1fkXcP9Ynr47h54Dlvj/OarO2JLekcqldBYnBNPYVjulttike//jo9E3GvJy1zaJGX3s7Zl2wx3Awm7fjPIJoEHgOSed+kpGr9z5uNevgsqTOxTDtvcEZcf6SpmAP0v8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749528649; c=relaxed/simple;
-	bh=batHVKMV99We/wInSNyLZ7hZD0DLlHrA4bGXYHgB/J8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=n4lZ1L50t8rPE613driwdaONmWoES7uXTF5nzu4uqcUh4eBwG9m5HYSXB6Fdu4/6sAW5C2v4XaCEOt1ivVKtIcAGmLzXxnEHky4f5QK1jJQHEhYmc0WuO3wbi7rf9VDJ+u2tosn6Ks2stRclFCP2EzNUISKDEGXdN+Ziw0qJi0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huycedxl; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749534947; c=relaxed/simple;
+	bh=ybT/6LzbsTJe9XbUclvW55O/CINdufKjms9E4PJV35k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lB24u5OPsA4T+9eZcjozGW215v38TpALUzfwaALQcehYQrAxvrvlZtH3Pb4as333prrA76w+eLcjwOktDbxyBsHOK4U6Cd1G5Staw63tSmjgSxL1pPI7LGi0cDosGhSVJMUqOzqXt9ysGMAl8WdNR5sep8spV0gWzUWEEor/Y7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=TLvbBoEw; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huycedxl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749528647; x=1781064647;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=batHVKMV99We/wInSNyLZ7hZD0DLlHrA4bGXYHgB/J8=;
-  b=huycedxl5HCvGcS74Siej+YJdnOM0npqigsrk5I1SuVN7l/4A9bZNz3p
-   nQ4D5RLALEoZe9DoWrdcaXmEOfbC1Yo1mamjlV8LasFIQuSYErJT6FCrl
-   TK7Mbaa2XeqmWFA25+pPBXglDdi12q7Q3tlOAIXQDPA6nawLeWVFhjuRB
-   hTZXXTb0xffPsBdBa30vTNFvvfEMhahAy1kxQDAqI/l0AguZnFP71grad
-   eAFOJoJpIFQfrMyHbnULq/x1fWic9fi2LPAnxTyoXjRoplgWjZt9q3pRd
-   1/0DpzimRkD4bOMFvYGHGYSpdxJzq+PgV+GY0bF2WPlF5z+7mqJpkzl/q
-   A==;
-X-CSE-ConnectionGUID: Y6i+/X5VTTml88Z79191eA==
-X-CSE-MsgGUID: 7+hLtiHPQ3GmfhgTut0zlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51613216"
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="51613216"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 21:10:47 -0700
-X-CSE-ConnectionGUID: UN0J4MucT0SuRvbmZlcIOw==
-X-CSE-MsgGUID: xCJEsukUSXuWAQdx2kCIgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="177646795"
-Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
-  by orviesa002.jf.intel.com with ESMTP; 09 Jun 2025 21:10:43 -0700
-From: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-To: donald.hunter@gmail.com,
-	kuba@kernel.org,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	vadim.fedorenko@linux.dev,
-	jiri@resnulli.us,
-	anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com,
-	andrew+netdev@lunn.ch,
-	aleksandr.loktionov@intel.com,
-	corbet@lwn.net
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	linux-rdma@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="TLvbBoEw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1749534934; x=1750139734; i=w_armin@gmx.de;
+	bh=i5+Pxcmp/SbEOw11Mc+rQ1F242lhNXtVYD6Xck5KQw0=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=TLvbBoEwJXQVhcNQE2Dxl+oPuXzBN0dDcWT0CBoPdtEcTkim0NYfjaYc8GoaeKiW
+	 0PEUNFG0Kpt0wdMDG+nTpM0QDVsaP2YwunAW5SojDBYOJvz9PW9d30iMPX1DXCEj7
+	 fAgPyCgpWSm6Koa/9fUyvcOl9jAA+q+GAN7TaYc/jBZTLXzfkMZqX4ha7wRVnrJkU
+	 GLrDyOtTsliNQCzSl61qGmsYYCAn58Uz0EgmgPM4EICYFW7n88+IbXCOkZY1QgX75
+	 heY1R0STooUnepP/n0VoVpmojFRoXMYu5wUjmSh0OBzFaAgKkP1VLYtXWtRT1B/AD
+	 l1eP9S7WfSw9rpSjFA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.fritz.box ([87.177.78.219]) by mail.gmx.net
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1M59GG-1uNm1i0xwC-00CM24; Tue, 10 Jun 2025 07:55:34 +0200
+From: Armin Wolf <W_Armin@gmx.de>
+To: Dell.Client.Kernel@dell.com,
+	jithu.joseph@intel.com
+Cc: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	corbet@lwn.net,
+	platform-driver-x86@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Milena Olech <milena.olech@intel.com>
-Subject: [PATCH net-next v5 3/3] ice: add ref-sync dpll pins
-Date: Tue, 10 Jun 2025 06:04:36 +0200
-Message-Id: <20250610040436.1669826-4-arkadiusz.kubalewski@intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20250610040436.1669826-1-arkadiusz.kubalewski@intel.com>
-References: <20250610040436.1669826-1-arkadiusz.kubalewski@intel.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] Documentation: ABI: Update WMI device paths in ABI docs
+Date: Tue, 10 Jun 2025 07:55:25 +0200
+Message-Id: <20250610055526.23688-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pKaX/vPIFZdWEIntIE7snXU3W4yyvzue7+cVzj+WoP0/Suu/2zB
+ SHzhKzt3TYaBSeINry9tbi4V9aOJoYWu9Bx84pYVTkHAGSs5Ar9EKRVTfeaFJMTmSGZPMhm
+ 7SpXpBhadAaUgs7MQAeHlTEFQkLdvx9y29zMrFg87p3xFN7qrE0yBTVQLpWCKCTFftc0vzF
+ zXwuLqX5RaPwOyOUc7rAg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:pmQi7xs/HFU=;FrKZryHMm9etmgFazZGZHJFfnkv
+ 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
 
-Implement reference sync input pin get/set callbacks, allow user space
-control over dpll pin pairs capable of reference sync support.
+The WMI driver core might append an ID to the WMI device name to avoid
+name collisions in case multiple WMI devices with the same GUID are
+present. Update all sysfs path referring to WMI devices to inform
+users about this important detail.
 
-Reviewed-by: Milena Olech <milena.olech@intel.com>
-Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
----
-v5:
-- rebase.
----
- .../net/ethernet/intel/ice/ice_adminq_cmd.h   |   2 +
- drivers/net/ethernet/intel/ice/ice_dpll.c     | 186 ++++++++++++++++++
- 2 files changed, 188 insertions(+)
+Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+=2D--
+ .../ABI/testing/sysfs-platform-dell-privacy-wmi          | 8 ++++----
+ .../ABI/testing/sysfs-platform-intel-wmi-sbl-fw-update   | 2 +-
+ .../ABI/testing/sysfs-platform-intel-wmi-thunderbolt     | 2 +-
+ Documentation/admin-guide/thunderbolt.rst                | 9 ++-------
+ 4 files changed, 8 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/ice/ice_adminq_cmd.h b/drivers/net/ethernet/intel/ice/ice_adminq_cmd.h
-index bdee499f991a..7fd0f0091d36 100644
---- a/drivers/net/ethernet/intel/ice/ice_adminq_cmd.h
-+++ b/drivers/net/ethernet/intel/ice/ice_adminq_cmd.h
-@@ -2288,6 +2288,8 @@ struct ice_aqc_get_cgu_abilities {
- 	u8 rsvd[3];
- };
- 
-+#define ICE_AQC_CGU_IN_CFG_FLG2_REFSYNC_EN		BIT(7)
-+
- /* Set CGU input config (direct 0x0C62) */
- struct ice_aqc_set_cgu_input_config {
- 	u8 input_idx;
-diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.c b/drivers/net/ethernet/intel/ice/ice_dpll.c
-index bce3ad6ca2a6..98f0c86f41fc 100644
---- a/drivers/net/ethernet/intel/ice/ice_dpll.c
-+++ b/drivers/net/ethernet/intel/ice/ice_dpll.c
-@@ -12,6 +12,19 @@
- #define ICE_DPLL_PIN_ESYNC_PULSE_HIGH_PERCENT	25
- #define ICE_DPLL_PIN_GEN_RCLK_FREQ		1953125
- 
-+#define ICE_SR_PFA_DPLL_DEFAULTS		0x152
-+#define ICE_DPLL_PFA_REF_SYNC_TYPE		0x2420
-+#define ICE_DPLL_PFA_REF_SYNC_TYPE2		0x2424
-+#define ICE_DPLL_PFA_END			0xFFFF
-+#define ICE_DPLL_PFA_HEADER_LEN			4
-+#define ICE_DPLL_PFA_ENTRY_LEN			3
-+#define ICE_DPLL_PFA_MAILBOX_REF_SYNC_PIN_S	4
-+#define ICE_DPLL_PFA_MASK_OFFSET		1
-+#define ICE_DPLL_PFA_VALUE_OFFSET		2
-+
-+#define ICE_DPLL_E810C_SFP_NC_PINS		2
-+#define ICE_DPLL_E810C_SFP_NC_START		4
-+
- /**
-  * enum ice_dpll_pin_type - enumerate ice pin types:
-  * @ICE_DPLL_PIN_INVALID: invalid pin type
-@@ -1314,6 +1327,89 @@ ice_dpll_input_esync_get(const struct dpll_pin *pin, void *pin_priv,
- 	return 0;
- }
- 
-+/**
-+ * ice_dpll_input_ref_sync_set - callback for setting reference sync feature
-+ * @pin: pointer to a pin
-+ * @pin_priv: private data pointer passed on pin registration
-+ * @ref_pin: pin pointer for reference sync pair
-+ * @ref_pin_priv: private data pointer of ref_pin
-+ * @state: requested state for reference sync for pin pair
-+ * @extack: error reporting
-+ *
-+ * Dpll subsystem callback. Handler for setting reference sync frequency
-+ * feature for input pin.
-+ *
-+ * Context: Acquires and releases pf->dplls.lock
-+ * Return:
-+ * * 0 - success
-+ * * negative - error
-+ */
-+static int
-+ice_dpll_input_ref_sync_set(const struct dpll_pin *pin, void *pin_priv,
-+			    const struct dpll_pin *ref_pin, void *ref_pin_priv,
-+			    const enum dpll_pin_state state,
-+			    struct netlink_ext_ack *extack)
-+{
-+	struct ice_dpll_pin *p = pin_priv;
-+	struct ice_pf *pf = p->pf;
-+	u8 flags_en = 0;
-+	int ret;
-+
-+	if (ice_dpll_is_reset(pf, extack))
-+		return -EBUSY;
-+	mutex_lock(&pf->dplls.lock);
-+
-+	if (p->flags[0] & ICE_AQC_GET_CGU_IN_CFG_FLG2_INPUT_EN)
-+		flags_en = ICE_AQC_SET_CGU_IN_CFG_FLG2_INPUT_EN;
-+	if (state == DPLL_PIN_STATE_CONNECTED)
-+		flags_en |= ICE_AQC_CGU_IN_CFG_FLG2_REFSYNC_EN;
-+	ret = ice_aq_set_input_pin_cfg(&pf->hw, p->idx, 0, flags_en, 0, 0);
-+	if (!ret)
-+		ret = ice_dpll_pin_state_update(pf, p, ICE_DPLL_PIN_TYPE_INPUT,
-+						extack);
-+	mutex_unlock(&pf->dplls.lock);
-+
-+	return ret;
-+}
-+
-+/**
-+ * ice_dpll_input_ref_sync_get - callback for getting reference sync config
-+ * @pin: pointer to a pin
-+ * @pin_priv: private data pointer passed on pin registration
-+ * @ref_pin: pin pointer for reference sync pair
-+ * @ref_pin_priv: private data pointer of ref_pin
-+ * @state: on success holds reference sync state for pin pair
-+ * @extack: error reporting
-+ *
-+ * Dpll subsystem callback. Handler for setting reference sync frequency
-+ * feature for input pin.
-+ *
-+ * Context: Acquires and releases pf->dplls.lock
-+ * Return:
-+ * * 0 - success
-+ * * negative - error
-+ */
-+static int
-+ice_dpll_input_ref_sync_get(const struct dpll_pin *pin, void *pin_priv,
-+			    const struct dpll_pin *ref_pin, void *ref_pin_priv,
-+			    enum dpll_pin_state *state,
-+			    struct netlink_ext_ack *extack)
-+{
-+	struct ice_dpll_pin *p = pin_priv;
-+	struct ice_pf *pf = p->pf;
-+
-+	if (ice_dpll_is_reset(pf, extack))
-+		return -EBUSY;
-+	mutex_lock(&pf->dplls.lock);
-+	if (p->flags[0] & ICE_AQC_CGU_IN_CFG_FLG2_REFSYNC_EN)
-+		*state = DPLL_PIN_STATE_CONNECTED;
-+	else
-+		*state = DPLL_PIN_STATE_DISCONNECTED;
-+	mutex_unlock(&pf->dplls.lock);
-+
-+	return 0;
-+}
-+
- /**
-  * ice_dpll_rclk_state_on_pin_set - set a state on rclk pin
-  * @pin: pointer to a pin
-@@ -1440,6 +1536,8 @@ static const struct dpll_pin_ops ice_dpll_input_ops = {
- 	.phase_offset_get = ice_dpll_phase_offset_get,
- 	.esync_set = ice_dpll_input_esync_set,
- 	.esync_get = ice_dpll_input_esync_get,
-+	.ref_sync_set = ice_dpll_input_ref_sync_set,
-+	.ref_sync_get = ice_dpll_input_ref_sync_get,
- };
- 
- static const struct dpll_pin_ops ice_dpll_output_ops = {
-@@ -1619,6 +1717,91 @@ static void ice_dpll_periodic_work(struct kthread_work *work)
- 				   msecs_to_jiffies(500));
- }
- 
-+/**
-+ * ice_dpll_init_ref_sync_inputs - initialize reference sync pin pairs
-+ * @pf: pf private structure
-+ *
-+ * Read DPLL TLV capabilities and initialize reference sync pin pairs in
-+ * dpll subsystem.
-+ *
-+ * Return:
-+ * * 0 - success or nothing to do (no ref-sync tlv are present)
-+ * * negative - AQ failure
-+ */
-+static int ice_dpll_init_ref_sync_inputs(struct ice_pf *pf)
-+{
-+	struct ice_dpll_pin *inputs = pf->dplls.inputs;
-+	struct ice_hw *hw = &pf->hw;
-+	u16 addr, len, end, hdr;
-+	int ret;
-+
-+	ret = ice_get_pfa_module_tlv(hw, &hdr, &len, ICE_SR_PFA_DPLL_DEFAULTS);
-+	if (ret) {
-+		dev_err(ice_pf_to_dev(pf),
-+			"Failed to read PFA dpll defaults TLV ret=%d\n", ret);
-+		return ret;
-+	}
-+	end = hdr + len;
-+
-+	for (addr = hdr + ICE_DPLL_PFA_HEADER_LEN; addr < end;
-+	     addr += ICE_DPLL_PFA_ENTRY_LEN) {
-+		unsigned long bit, ul_mask, offset;
-+		u16 pin, mask, buf;
-+		bool valid = false;
-+
-+		ret = ice_read_sr_word(hw, addr, &buf);
-+		if (ret)
-+			return ret;
-+
-+		switch (buf) {
-+		case ICE_DPLL_PFA_REF_SYNC_TYPE:
-+		case ICE_DPLL_PFA_REF_SYNC_TYPE2:
-+		{
-+			u16 mask_addr = addr + ICE_DPLL_PFA_MASK_OFFSET;
-+			u16 val_addr = addr + ICE_DPLL_PFA_VALUE_OFFSET;
-+
-+			ret = ice_read_sr_word(hw, mask_addr, &mask);
-+			if (ret)
-+				return ret;
-+			ret = ice_read_sr_word(hw, val_addr, &pin);
-+			if (ret)
-+				return ret;
-+			if (buf == ICE_DPLL_PFA_REF_SYNC_TYPE)
-+				pin >>= ICE_DPLL_PFA_MAILBOX_REF_SYNC_PIN_S;
-+			valid = true;
-+			break;
-+		}
-+		case ICE_DPLL_PFA_END:
-+			addr = end;
-+			break;
-+		default:
-+			continue;
-+		}
-+		if (!valid)
-+			continue;
-+
-+		ul_mask = mask;
-+		offset = 0;
-+		for_each_set_bit(bit, &ul_mask, BITS_PER_TYPE(u16)) {
-+			int i, j;
-+
-+			if (hw->device_id == ICE_DEV_ID_E810C_SFP &&
-+			    pin > ICE_DPLL_E810C_SFP_NC_START)
-+				offset = -ICE_DPLL_E810C_SFP_NC_PINS;
-+			i = pin + offset;
-+			j = bit + offset;
-+			if (i < 0 || j < 0)
-+				return -ERANGE;
-+			ret = dpll_pin_ref_sync_pair_add(inputs[i].pin,
-+							 inputs[j].pin);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * ice_dpll_release_pins - release pins resources from dpll subsystem
-  * @pins: pointer to pins array
-@@ -1936,6 +2119,9 @@ static int ice_dpll_init_pins(struct ice_pf *pf, bool cgu)
- 	if (ret)
- 		return ret;
- 	if (cgu) {
-+		ret = ice_dpll_init_ref_sync_inputs(pf);
-+		if (ret)
-+			goto deinit_inputs;
- 		ret = ice_dpll_init_direct_pins(pf, cgu, pf->dplls.outputs,
- 						pf->dplls.num_inputs,
- 						pf->dplls.num_outputs,
--- 
-2.38.1
+diff --git a/Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi b/D=
+ocumentation/ABI/testing/sysfs-platform-dell-privacy-wmi
+index 1f1f274a6979..b4da7b2ea0ca 100644
+=2D-- a/Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi
++++ b/Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi
+@@ -1,4 +1,4 @@
+-What:		/sys/bus/wmi/devices/6932965F-1671-4CEB-B988-D3AB0A901919/dell_pri=
+vacy_supported_type
++What:		/sys/bus/wmi/devices/6932965F-1671-4CEB-B988-D3AB0A901919[-X]/dell=
+_privacy_supported_type
+ Date:		Apr 2021
+ KernelVersion:	5.13
+ Contact:	"<perry.yuan@dell.com>"
+@@ -29,12 +29,12 @@ Description:
+=20
+ 		For example to check which privacy devices are supported::
+=20
+-		    # cat /sys/bus/wmi/drivers/dell-privacy/6932965F-1671-4CEB-B988-D3A=
+B0A901919/dell_privacy_supported_type
++		    # cat /sys/bus/wmi/drivers/dell-privacy/6932965F-1671-4CEB-B988-D3A=
+B0A901919*/dell_privacy_supported_type
+ 		    [Microphone Mute] [supported]
+ 		    [Camera Shutter] [supported]
+ 		    [ePrivacy Screen] [unsupported]
+=20
+-What:		/sys/bus/wmi/devices/6932965F-1671-4CEB-B988-D3AB0A901919/dell_pri=
+vacy_current_state
++What:		/sys/bus/wmi/devices/6932965F-1671-4CEB-B988-D3AB0A901919[-X]/dell=
+_privacy_current_state
+ Date:		Apr 2021
+ KernelVersion:	5.13
+ Contact:	"<perry.yuan@dell.com>"
+@@ -66,6 +66,6 @@ Description:
+=20
+ 		For example to check all supported current privacy device states::
+=20
+-		    # cat /sys/bus/wmi/drivers/dell-privacy/6932965F-1671-4CEB-B988-D3A=
+B0A901919/dell_privacy_current_state
++		    # cat /sys/bus/wmi/drivers/dell-privacy/6932965F-1671-4CEB-B988-D3A=
+B0A901919*/dell_privacy_current_state
+ 		    [Microphone] [unmuted]
+ 		    [Camera Shutter] [unmuted]
+diff --git a/Documentation/ABI/testing/sysfs-platform-intel-wmi-sbl-fw-upd=
+ate b/Documentation/ABI/testing/sysfs-platform-intel-wmi-sbl-fw-update
+index 02ae1e9bbfc8..7ffd1579b8f7 100644
+=2D-- a/Documentation/ABI/testing/sysfs-platform-intel-wmi-sbl-fw-update
++++ b/Documentation/ABI/testing/sysfs-platform-intel-wmi-sbl-fw-update
+@@ -1,4 +1,4 @@
+-What:		/sys/bus/wmi/devices/44FADEB1-B204-40F2-8581-394BBDC1B651/firmware=
+_update_request
++What:		/sys/bus/wmi/devices/44FADEB1-B204-40F2-8581-394BBDC1B651[-X]/firm=
+ware_update_request
+ Date:		April 2020
+ KernelVersion:	5.7
+ Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
+diff --git a/Documentation/ABI/testing/sysfs-platform-intel-wmi-thunderbol=
+t b/Documentation/ABI/testing/sysfs-platform-intel-wmi-thunderbolt
+index fd3a7ec79760..10ef1282c9d2 100644
+=2D-- a/Documentation/ABI/testing/sysfs-platform-intel-wmi-thunderbolt
++++ b/Documentation/ABI/testing/sysfs-platform-intel-wmi-thunderbolt
+@@ -1,4 +1,4 @@
+-What:		/sys/devices/platform/<platform>/force_power
++What:		/sys/bus/wmi/devices/86CCFD48-205E-4A77-9C48-2021CBEDE341[-X]/forc=
+e_power
+ Date:		September 2017
+ KernelVersion:	4.15
+ Contact:	"Mario Limonciello" <mario.limonciello@outlook.com>
+diff --git a/Documentation/admin-guide/thunderbolt.rst b/Documentation/adm=
+in-guide/thunderbolt.rst
+index 240fee618e06..102c693c8f81 100644
+=2D-- a/Documentation/admin-guide/thunderbolt.rst
++++ b/Documentation/admin-guide/thunderbolt.rst
+@@ -358,12 +358,7 @@ Forcing power
+ Many OEMs include a method that can be used to force the power of a
+ Thunderbolt controller to an "On" state even if nothing is connected.
+ If supported by your machine this will be exposed by the WMI bus with
+-a sysfs attribute called "force_power".
+-
+-For example the intel-wmi-thunderbolt driver exposes this attribute in:
+-  /sys/bus/wmi/devices/86CCFD48-205E-4A77-9C48-2021CBEDE341/force_power
+-
+-  To force the power to on, write 1 to this attribute file.
+-  To disable force power, write 0 to this attribute file.
++a sysfs attribute called "force_power", see
++Documentation/ABI/testing/sysfs-platform-intel-wmi-thunderbolt for detail=
+s.
+=20
+ Note: it's currently not possible to query the force power state of a pla=
+tform.
+=2D-=20
+2.39.5
 
