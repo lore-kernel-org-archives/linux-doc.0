@@ -1,107 +1,156 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4A7221DAD;
-	Tue, 10 Jun 2025 02:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE088F40;
+	Tue, 10 Jun 2025 03:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749521513; cv=none; b=gzhuynrBvQti8/m1mEDFwAMzA44Jg54wtBtRxcNjGaYpb3DDCEiadNi3SQB+58Ciy+DbCHuYRiVqtWKi08ej9wVo4JwBFXrKNghbXfHFz5vzf2Vjc23x7oK52eJAmn3qJXigEJZkehqpoyalu8wAyqUISUgHeEgHHuUHyJf3gF4=
+	t=1749525450; cv=none; b=UIeZIgIZMwY9YR/bXKeAMGSnTQrcpIFQUniOYWWrc+LT+3QwxjWHVckNKJwhvyXWgO9sXS9WaavB1LlCBx3oNzcm5XmfDRHddIGS9cFflqwESbsqJBQFu7T02qSNqbz4uY/TJNPFj1HLSIMDTcaNnO+CT5IQDqSwkB9gaGdVEkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749521513; c=relaxed/simple;
-	bh=CWHORAXG2oiiaHYAWxfkNRLv9y4YW0URPt7RpnYjehg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S0gy4mPTI45vL/ZDcYfjkpEoYGH3RxzFEogqLFbqa2F85WMWaIilX4L6wa4oF+B5+HMetoiR9i0VFSpLtglAqFIBJ14cS2QXPj+RwsQo4xpg3AeYFN4rVRJC+3CBCSUxcowB/fBQbDw5W8xHXOhgS7/hAN7lx9llEbuKewpOjRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=uniontech.com
+	s=arc-20240116; t=1749525450; c=relaxed/simple;
+	bh=45fnjTdYMVBPljf/aBVpxnA2I6FnEJGXBo6km1ABqaU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fKovybnTZn2vuvzFnqIHty30+vwqxYoDZavFBUKqwguZCn92YD0PKxCK1HmKS7AVX7WPpuzbQpi8Ze0ACxKf5tX7an/hQ22gY96psWnI19C9oy4tX0+39pumb0sPcVVGaF1H5xnkta2A5eg7+VHG5ZK4EIutoDRA5gR5IHmdmPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BVWsOk9n; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4a6f0bcdf45so33032681cf.0;
-        Mon, 09 Jun 2025 19:11:51 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BVWsOk9n"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742c46611b6so6250783b3a.1;
+        Mon, 09 Jun 2025 20:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749525448; x=1750130248; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rm6kdcI4n1koVKJTIy10thiRxaSDuouUmD5o5Uuwua0=;
+        b=BVWsOk9nObSf+DJaDodr7lOBoOOu406tRH6dMasdQFr8Vdl3cJlPek3VXDr0ZwXt6K
+         y/5qjO9K8LUyOOGk+jm2BxmM5qj08b1+MQX4NkNw4wpGPlr8eYGlsiLMNIdegbmVdf1l
+         oK7TzRqP1H0zPe3sW2vKtdr4b+Ucs889IsRjdOEsV8glZOX+aNV0B8t1B6GL/OCYJBZ4
+         bB0N6lsc4J1WkW+GsU6U8/JHjpQDT7F7Wa1c/bvf0nSZh+MJgBwU0Ga/+avbxXjLo8Kp
+         VbaHpyOgnU0Pk8m2hBVqv+JU2q48gonwFwRMNhMJBKahVH4qGDr9q2BCa3wAlSau5lND
+         emVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749521510; x=1750126310;
+        d=1e100.net; s=20230601; t=1749525448; x=1750130248;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ckf4J7K6nhKzDsTt0cIUCHXIZuk9xFjMGBfmOU3gBK0=;
-        b=ljO68A1RGktZwWvCLWQ/WRyPhzvg5TgO5M1NK6amgY/Q6XOGh8gZ3fa3+1y06HC358
-         UsvxhctzBRpgpRrPaQyBSKIoJ9ppqO05RSrZsn0TWnp5h9VJsLWKRC2XsL1eBIIouF5U
-         RJzF5WZALO70iSh80D5W21ifZQI6VrYKPCj2B8RDPZYiU9F3QRn0aO6ZsA8cMSs861JV
-         +Q4wdnFEAS7wmcKiuiIm5QzKU1h2jRRA9cdVtgDN3qj/SzmYMIOueEAYZPqV5Ji9mdB7
-         5o5EmSHTTcnv9E+4lkf9cpeZI2pry6G3oU4YQhglMRdstl/Bh8p9EAXPxZhHIrr/m7Yr
-         00VA==
-X-Forwarded-Encrypted: i=1; AJvYcCVaTBTBVipOnsH1Z8bdmcHPPcz59Kfw/SEHVox0mCETx4q4fk/cQcfORGw1mHr3+RP6FqEIIfOlFjcsElibhg==@vger.kernel.org, AJvYcCVhua6D6R7OncQmNAtZ9kQaPtFdXJ4IrYDgtFdZJXO0OV9pg/+FlOl58p1Ql3HshMAaUcQX5uT3vYw=@vger.kernel.org, AJvYcCXBdTDs7kUfTxNgbITdNbwxRUutfZMYpj/4uyUEH2fYczLoCpnIRFzsYHzpYbaNXXEz70shJUR9A0N7ZCeI@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKDe6hI/OnROH7zfta2k3v0u6SiYPUs7lr/jkUgzjvgd2ToIc2
-	JGPS7/vn8ys9KlpXmdS7P18zmA/QjWQ8EJGO2IQqMkHt52xlM/1p+NTv
-X-Gm-Gg: ASbGncu7d4+2T18g7LtMcwKCBvPkVAlNQE1whjGAK59Xo9TJNoFJNBSjSkc/UMSlmLE
-	2f0om9kbsL3MmAMPSgE4ZoXbH4zHUHOpq4yySTtzaRQYO0+/jyrrBCNfxDlCgFQ2zrWRhE6bLNf
-	ZYG/TS8dxA/+NVKoKwZvRllz3C9HOH4xJfzf61LPUeoOSE/39UI1kMIqKmv9IfTBojhukoqrW5C
-	CWiqFOy3F73k2aAfn/iQmnpFuh1y3PrPNj8TJFzUrwrXgx50MJzyMnC9hMTnvu3sGn3cg2uNdPC
-	KORa0fvc37c0DfTxr9LaOakR01m43cl/ur3u8+ModIiZEueUBZrGS9XftihESnAf8oEbOuec5hs
-	swjbJTgesis/8V9rgirwIGg==
-X-Google-Smtp-Source: AGHT+IGNnDHYclUyHAoKMYivG6olKNNmJJk2Yuc9+l6b5bPprUMJMh5GFyd7t+oNAOyvMHBrev76OA==
-X-Received: by 2002:a05:622a:4a8e:b0:48e:9b77:38a4 with SMTP id d75a77b69052e-4a5b9d324c6mr254645271cf.26.1749521510558;
-        Mon, 09 Jun 2025 19:11:50 -0700 (PDT)
-Received: from localhost.localdomain (ip170.ip-51-81-44.us. [51.81.44.170])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d25a61a924sm625707785a.91.2025.06.09.19.11.47
+        bh=Rm6kdcI4n1koVKJTIy10thiRxaSDuouUmD5o5Uuwua0=;
+        b=MyH5QqiEkXVce3eMe4TAcUSYomETC8y63nZ6jltipWDYjBHkvheIzUJiiNxFNNbOrr
+         9lSxBr6ddVzUjv1yUxWqRzUZR95Iaqa6L7rUSKpPCy8VsEjWhhTCfGVvcNf41LXusBHs
+         ya4ushxEpC6Ot/8tsgW8cWBRljyzfPaGYgryYxJQkZVg9A1AItvtZoAzaK0kQmFaGCtc
+         9W69sZsu1533tq5H0Re0kJKuRpax0tA1u+mxtW5CstER3LhiEQhLSLJNcVS4ZBwvhLc5
+         zOK726A+kgvCjYB/U2BBGafAdQxkWf4BQAm+DaADK1o90mYkOYKejboEs+Co78bDZkuu
+         fwGA==
+X-Forwarded-Encrypted: i=1; AJvYcCV8/60gwF1qb/8vsMiGPl3qPvo2ik6FpZ5fYi/9i0NEwfjW9n94usNhJ0xVwyuPGZviWsazgSfSZA8=@vger.kernel.org, AJvYcCWY2jb/sh4jF8UXfZhOaR3O0MIuCJ1vaXFLMPFuL+5ETn1VpeAduUTXpE4s/o+9ABGaIAV1V6obT9PS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6G1kstCV46ei53bE1wvIGEctpVRwaLI+474UFpl2aWYoLt+ML
+	klVSoUqFQnlr4/5YNGse9JJSdEzZWb6WysN7581AONA2Ek/fNlya0fd2QMbWIw==
+X-Gm-Gg: ASbGncveJL+xGYVW80udIqShMTIgbtI4MIESWjbC7NYIOidb3Tbz6EoA+OJ0ioJyYkz
+	TPbU16p8nroGH+uhu+zYBVOI9MjagikTh1KUdmyC9Yu95z4fNlwI2vsN1MWP6eTQ0GIjNQ4xMNQ
+	ZPUeeUdZ5oIJFb4dDmDWvJl/RgDZGM5w/099FdwpJdc17HRrI2BL7rI1iIQ/+/b5K197iBaebJV
+	bonWslIjGJEpgCLDcyFXoY2Rix1Lp3GR0bitsYYfs5M4wUgAlWYH9VIs7TDtotlUJyHEZQmnY4J
+	ePMtodKlw7Jk9nlDA+1e4QQItP1ULFd1lsPPC5YsPs7HPYAP4pXKQqCdqZhG/g==
+X-Google-Smtp-Source: AGHT+IEvGrJH/l6/FleC+QIu6MpwoaBeq8cz4bgANMbiASmq7sOeOqr8hsR2xrYcawmWcsj7v+S3VQ==
+X-Received: by 2002:a05:6a00:855:b0:736:5c8e:baaa with SMTP id d2e1a72fcca58-74827e52592mr20318563b3a.2.1749525448311;
+        Mon, 09 Jun 2025 20:17:28 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482af7b606sm6705494b3a.67.2025.06.09.20.17.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 19:11:50 -0700 (PDT)
-From: Chen Linxuan <chenlinxuan@uniontech.com>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: zhanjun@uniontech.com,
-	niecheng1@uniontech.com,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] doc: fuse: Add max_background and congestion_threshold
-Date: Tue, 10 Jun 2025 10:11:25 +0800
-Message-ID: <20250610021124.2800951-2-chenlinxuan@uniontech.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 09 Jun 2025 20:17:27 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 19C7E4209E8C; Tue, 10 Jun 2025 10:17:25 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux USB <linux-usb@vger.kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Felipe Balbi <balbi@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH] Documentation: usb: gadget: Wrap remaining usage snippets in literal code block
+Date: Tue, 10 Jun 2025 10:17:06 +0700
+Message-ID: <20250610031705.32774-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2707; i=bagasdotme@gmail.com; h=from:subject; bh=45fnjTdYMVBPljf/aBVpxnA2I6FnEJGXBo6km1ABqaU=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBnuiy1fmVcu2xR+/tqDtyGCR7wO20v0c7jtDGMsrY0w9 slsWvano5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABPxLWf4K/02JcKy/MiushVB bKIrqyN01rrplP5k0Xs51eHXLOsFCgz/nd5oze/p8DC6YdhxOKn7cXKvhWPEgeWeSmFT7KJjlE+ yAgA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-As I preparing patches adding selftests for fusectl,
-I notice that documentation of max_background and congestion_threshold
-is missing.
+Several configfs usage snippets forget to be formatted as literal code
+blocks. These were outputted in htmldocs output as normal paragraph
+instead. In particular, snippet for custom string descriptors as added
+in 15a7cf8caabee4 ("usb: gadget: configfs: Support arbitrary string
+descriptors") is shown as single combined paragraph, rather than two
+command lines.
 
-This patch add some descriptions about these two files.
+Wrap them like the rest of snippets.
 
-Cc: Amir Goldstein <amir73il@gmail.com>
-Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
+Fixes: 5e654a4655c3 ("Documentation/usb: gadget_configfs")
+Fixes: d80b5005c5dd ("docs: usb: convert documents to ReST")
+Fixes: 15a7cf8caabe ("usb: gadget: configfs: Support arbitrary string descriptors")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/filesystems/fuse.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+This patch is based on Uwe's numbered list indentation patch [1].
 
-diff --git a/Documentation/filesystems/fuse.rst b/Documentation/filesystems/fuse.rst
-index 1e31e87aee68c..c589316c8bb35 100644
---- a/Documentation/filesystems/fuse.rst
-+++ b/Documentation/filesystems/fuse.rst
-@@ -129,6 +129,20 @@ For each connection the following files exist within this directory:
- 	  connection.  This means that all waiting requests will be aborted an
- 	  error returned for all aborted and new requests.
+[1]: https://lore.kernel.org/linux-doc/20250607224747.3653041-2-u.kleine-koenig@baylibre.com/
+
+Cc: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+ Documentation/usb/gadget_configfs.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/usb/gadget_configfs.rst b/Documentation/usb/gadget_configfs.rst
+index f069d2a0d09251..ada57c0e34aa8a 100644
+--- a/Documentation/usb/gadget_configfs.rst
++++ b/Documentation/usb/gadget_configfs.rst
+@@ -92,7 +92,7 @@ Then the strings can be specified::
  
-+        max_background
-+          The maximum number of background requests that can be outstanding
-+          at a time. When the number of background requests reaches this limit,
-+          further requests will be blocked until some are completed, potentially
-+          causing I/O operations to stall.
-+
-+        congestion_threshold
-+          The threshold of background requests at which the kernel considers
-+          the filesystem to be congested. When the number of background requests
-+          exceeds this value, the kernel will skip asynchronous readahead
-+          operations, reducing read-ahead optimizations but preserving essential
-+          I/O, as well as suspending non-synchronous writeback operations
-+          (WB_SYNC_NONE), delaying page cache flushing to the filesystem.
-+
- Only the owner of the mount may read or write these files.
+ Further custom string descriptors can be created as directories within the
+ language's directory, with the string text being written to the "s" attribute
+-within the string's directory:
++within the string's directory::
  
- Interrupting filesystem operations
+ 	$ mkdir strings/0x409/xu.0
+ 	$ echo <string text> > strings/0x409/xu.0/s
+@@ -104,9 +104,9 @@ string descriptors to associate those strings with class descriptors.
+ ------------------------------
+ 
+ Each gadget will consist of a number of configurations, their corresponding
+-directories must be created:
++directories must be created::
+ 
+-$ mkdir configs/<name>.<number>
++        $ mkdir configs/<name>.<number>
+ 
+ where <name> can be any string which is legal in a filesystem and the
+ <number> is the configuration's number, e.g.::
+@@ -246,7 +246,7 @@ a symlink to a function being removed from the configuration, e.g.::
+ 	...
+ 	...
+ 
+-Remove strings directories in configurations:
++Remove strings directories in configurations::
+ 
+ 	$ rmdir configs/<config name>.<number>/strings/<lang>
+ 
+@@ -270,7 +270,7 @@ e.g.::
+ 	...
+ 	...
+ 
+-Remove functions (function modules are not unloaded, though):
++Remove functions (function modules are not unloaded, though)::
+ 
+ 	$ rmdir functions/<name>.<instance name>
+ 
 -- 
-2.43.0
+An old man doll... just what I always wanted! - Clara
 
