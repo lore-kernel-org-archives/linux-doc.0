@@ -1,137 +1,130 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06496289376;
-	Tue, 10 Jun 2025 08:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8286922157B
+	for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 08:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749543537; cv=none; b=TNwY1v5BY7mLJWgYdP75lmhWH/94siKf+kyKVRzxCDpsP3c2nJDoumyzmkPpfMoXzUyFi6KO+c2mPu4DqIbSJn19gnspm7XZWwn/+6p+BOVEqvb9IlpYlPNLbblhURZ7/78tfxEbXz9qQm1+Jwl5vw5m5pueyz3fMwn7L35ISzE=
+	t=1749544570; cv=none; b=JaNVoZj45GmjnxLUu18JxBcijMj1uPGdxFqpR6UzyY8iHStbjPj7jQaTF8GO64dBefS/S5TdPCUKNFGLsRQx9kaB8KHO+kWzu9q06noLfGgiywUPM5NVlfvBbf1bjgSfBR51914nQhr7qnelszk+/AyXTcCQiJghIjHKLTPjolE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749543537; c=relaxed/simple;
-	bh=TYmhhQzdL/cD2JJdewLa/1qf8twd/OUcCt86/tJZJdc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hUXU83x0abDNyicntGCrNyKGooZOV7EjBD78e33pWiqt2tXEZtCO2kaUV4Nn7MGjQfQF3OU4F/JGXicwRaQspubGeTX3WIGGxElsf5hkMXCqz+Ep9FHv4costShfnNe0rce0cDbr8MmjtJX1X1WMHnmiDNAjl9DhDUlgKd/c2Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SSHuZ3nc; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1749544570; c=relaxed/simple;
+	bh=ZQz1tLG7kcWUwenzY9ZEbwsbyY9z1eYvjc4bgBPpWjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cm2F/6VfddY3HQu0C2oN9YSmXgOtgNt19TZEngM0eINTkgGJOF50ED6uNx4KsFmtYMKU77hUKJN96/UNK8r7F/V0MuFm1s3PxixkRYA8M5q4PYs2icZYyjgu2U8QeKvo9hwWqfhtYk4NAitDWuMVrwIpDnvN7SaiTW00HhQinLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=OsXU/5uQ; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SSHuZ3nc"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0F2F444281;
-	Tue, 10 Jun 2025 08:18:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1749543533;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ywh2RgVGTSPBCH7D9W/NIFmHWpb1iZOWNtwG6KvDLXs=;
-	b=SSHuZ3ncUpsCa/w2l/NCRfZs9GzjTfgfAGYvaXTW5mlDPY1zw2YQ36BfVDaSd35gg5zeEi
-	Q3tBI1qAId8OprBzbEAoPaNWzP1VFJ/uk2f1IlQMDLP+9G3HP3lFqJbGKF76K+fMWtbJ5j
-	g1e/fvT6sYMVsGtX8c1ijGo8mLQPeJ9RErD1geqtFfWkiGEgVlfYajW4DQzKLPHZkOJ+8h
-	m+lZSyPKR/Fj+KZAo9LJM26IF5JfYi752S4Em3aBGVqu3ZJ5Z9xbjnK6jk+r+q8imYbhQY
-	uxVXGUTbQ3F/cuf2T7WXX3o8obxp1OlY9O2fhG47auSOtqJlq8GIF2JtJf8hsg==
-From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Tue, 10 Jun 2025 10:11:47 +0200
-Subject: [PATCH net-next v13 13/13] dt-bindings: net: pse-pd: ti,tps23881:
- Add interrupt description
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OsXU/5uQ"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a53359dea5so2108737f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 01:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1749544567; x=1750149367; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nDL1VH2zgeGps6X0Zhyb1MxJka1vOhvb2PWMkFIaGrM=;
+        b=OsXU/5uQyuKxZY9UMxQHOEtKqlcj4a/ExbFJyl/xr9uRf6FADU/UN5z4IRG67FfyGL
+         JhrpGRUzYeV8C1fnoJp08DkKIyjuotao3ZkS5IRStxZXw8YuNRBocCqpa01mxgDktg5o
+         Qpo28Qmap/V+UqLOFZGh0G3/pSS/8dJgfmkEt9w5cTqyPZxF7j6N49AuJ2RCn5Dws08r
+         6BvV+EWDF4T3S6oED2WmlXAoNWk4a9UlnND9mBLwDWbzMx1lLKN7jWADvCKxtc+vaECW
+         ci/jzg1r0fnTIDjHRoC59/OubN6rAv2FEzt4Tj2Vz8hmP9gFeks6r64WG8/0PMGOMHHv
+         ksTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749544567; x=1750149367;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nDL1VH2zgeGps6X0Zhyb1MxJka1vOhvb2PWMkFIaGrM=;
+        b=rBQ+xAMHa/eRu8AXef/eUIID8KPsXigxcgamA43ac25eQO3wYo+1glyXHUR7V1iBME
+         vbQlL1BvvnLawjwW1WaJo5gIU9eM+XVhp7MZ4tGfFlcIOiKjP8Njc6NDhjzYSkH6MKHW
+         NQGRuOr026K20eRq13YMqNRR4Kpu/xMEIZLl6J3OWBaAaenUihfTDNJS/uIaRbJ5nBMG
+         UQgH/KrDIxwl17gxSxvgduvfbInPkCff4jJj3V6vbFDtuvpiergl68W7asiAroC1Gmdc
+         JeISJ3spNf9Go9PQZkWPRXa5BxkYFf1LQ9uZpGK6lTH+UQGkAYSD/T9tBb2k7KviFMRr
+         F8Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCVeqnZw71jR3PAgayX2DF+JrfB/PWJb34YBPTchp4cQqucSRsqraBKWOgLSbOFGFIG6fte84K2D5dk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhYVosCTHVMyHTy3exS3D7h+J3ciLFMKg3msW13M37E+Ptkm2s
+	J4GZxMTJeBL3VLv8hPJpLYqlMJOYNcz0ba/7kA+jxCv0vdPy2zULvLGkse1/Z8qebiQ=
+X-Gm-Gg: ASbGncv5K6aLDRKGMON5Qq/5Xqj9Mgq5xRKo8dRuGOyWwE5OWCIBWk5fUkDLryIE0l/
+	nV9AMuvqUIN0pWHjE56V1sWcSSKqA5CUGjhzQ9wgXIvKedORQlwiPfxRUeuQZvrakOdm//36CFi
+	QOz+uY2CBCbDp1HVHLUtoLmhJI0hOAVyFTz/r6OSUxx30N8XLy2EmoawpV1yWkacG1bRDLpV9jo
+	KpgTA+x3n+NwIqxsNBFiEt2TUjO9Wvfh/Fd5+gRkme3lors1ZFmLLffYMdO3tOlWzTRu5Oen6Rf
+	7igrRv/lN9P/2e+4jOAyvX35RtQJanPOExjUg3P0q8uZtOTiMXVXEvyAHyUeuFjU
+X-Google-Smtp-Source: AGHT+IE/nI85vSWlttVj+F3DLQC1penmgc3tIfP/1EOoFPr6y0TcG5WWvzoq1ne1V9qLxIrFBkrV9A==
+X-Received: by 2002:a05:6000:40c9:b0:3a4:f6ba:51da with SMTP id ffacd0b85a97d-3a531786845mr13169150f8f.15.1749544566711;
+        Tue, 10 Jun 2025 01:36:06 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482af38386sm7001718b3a.6.2025.06.10.01.35.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Jun 2025 01:36:05 -0700 (PDT)
+Date: Tue, 10 Jun 2025 10:35:34 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Kees Cook <kees@kernel.org>,
+	Sergio Perez Gonzalez <sperezglz@gmail.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	David Rientjes <rientjes@google.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tamir Duberstein <tamird@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	Thomas Huth <thuth@redhat.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] slab: Decouple slab_debug and no_hash_pointers
+Message-ID: <aEfuVgR78G1YgRau@pathway.suse.cz>
+References: <20250415170232.it.467-kees@kernel.org>
+ <Z_-dPcdiGW0fo8Ji@pathway.suse.cz>
+ <202506051314.D6EDFA91D@keescook>
+ <aEbyHeG8qh8GChTh@pathway.suse.cz>
+ <202506090823.33ED63C@keescook>
+ <aEdANsGsQHqVQ9Wy@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250610-feature_poe_port_prio-v13-13-c5edc16b9ee2@bootlin.com>
-References: <20250610-feature_poe_port_prio-v13-0-c5edc16b9ee2@bootlin.com>
-In-Reply-To: <20250610-feature_poe_port_prio-v13-0-c5edc16b9ee2@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, 
- Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- Simon Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
- Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- "Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.15-dev-8cb71
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddutdeglecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvefgvdfgkeetgfefgfegkedugffghfdtffeftdeuteehjedtvdelvddvleehtdevnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgepleenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdekpdhrtghpthhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopeguvghnthhprhhojhgvtghtsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepmhgrgihimhgvrdgthhgvvhgrlhhlihgvrhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrn
- hgvlhdrohhrghdprhgtphhtthhopehhkhgrlhhlfigvihhtudesghhmrghilhdrtghomhdprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvg
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aEdANsGsQHqVQ9Wy@smile.fi.intel.com>
 
-From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+On Mon 2025-06-09 23:12:38, Andy Shevchenko wrote:
+> On Mon, Jun 09, 2025 at 08:24:47AM -0700, Kees Cook wrote:
+> > On Mon, Jun 09, 2025 at 04:39:25PM +0200, Petr Mladek wrote:
+> 
+> ...
+> 
+> > As long as it's in -next and scheduled to land, I'm happy. I'd always
+> > like it earlier, but the less workflow disruption the better! :)
+> 
+> Hmm... The __diag patch series were in Linux Next for a few weeks and did not
+> land in v6.16-rc1. Just saying that there is always chance to go into cracks.
 
-Add an interrupt property to the device tree bindings for the TI TPS23881
-PSE controller. The interrupt is primarily used to detect classification
-and disconnection events, which are essential for managing the PSE
-controller in compliance with the PoE standard.
+Urgh, I am terribly sorry for this. I forgot to do it the other
+week. And I missed it in the merge window because it was in for-6.15*
+branch. I had a feeling that I have forgot something but I did
+not find it.
 
-Interrupt support is essential for the proper functioning of the TPS23881
-controller. Without it, after a power-on (PWON), the controller will
-no longer perform detection and classification. This could lead to
-potential hazards, such as connecting a non-PoE device after a PoE device,
-which might result in magic smoke.
+OK, I guess that I am getting older or going through some more
+distracting times. And have to update my process.
 
-Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
+I have just created a list of branches which I have to merge
+for 6.17. I hope that it will do the trick.
 
-Change in v5:
-- Use standard interrupt flag in the example.
-
-Change in v3:
-- New patch
----
- Documentation/devicetree/bindings/net/pse-pd/ti,tps23881.yaml | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/net/pse-pd/ti,tps23881.yaml b/Documentation/devicetree/bindings/net/pse-pd/ti,tps23881.yaml
-index 116c00f6f19c..d0b2515cfba6 100644
---- a/Documentation/devicetree/bindings/net/pse-pd/ti,tps23881.yaml
-+++ b/Documentation/devicetree/bindings/net/pse-pd/ti,tps23881.yaml
-@@ -20,6 +20,9 @@ properties:
-   reg:
-     maxItems: 1
- 
-+  interrupts:
-+    maxItems: 1
-+
-   '#pse-cells':
-     const: 1
- 
-@@ -64,9 +67,12 @@ unevaluatedProperties: false
- required:
-   - compatible
-   - reg
-+  - interrupts
- 
- examples:
-   - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-     i2c {
-       #address-cells = <1>;
-       #size-cells = <0>;
-@@ -74,6 +80,8 @@ examples:
-       ethernet-pse@20 {
-         compatible = "ti,tps23881";
-         reg = <0x20>;
-+        interrupts = <8 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-parent = <&gpiog>;
- 
-         channels {
-           #address-cells = <1>;
-
--- 
-2.43.0
-
+Best Regards,
+Petr
