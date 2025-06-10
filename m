@@ -1,278 +1,338 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A02B28C5D0
-	for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 10:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F48021CC71;
+	Tue, 10 Jun 2025 10:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749551785; cv=none; b=hykRDP3WuhSH0+WGKH36LYTe6lTzqyQvnz/+/s0HrIWb0Hb/mEuy4pcFoUrKVansC12GopvZrb8rth470aySQNafKyU/inDwgqu9XwiTqrsnSYB8uKfVNI9fBmMknbWXpdDo+XpsEE5rIFd1B9DyCR/xmHNZDz0Hrukj15ziXro=
+	t=1749552091; cv=none; b=db6TcOsEaMcwImHsPDeXPgoPrGiBZwww8l1+EwsoSsrllTPAxSLErcU8RCI4J57+X6HjWrEf9JSpWJoD8+IlvroBBP4Q6d5v+Tw7CHBGKB6zBpT/y8EVIFlsankLTJbU2u4QdfICqMhOTKHrbrRwMStiNAzzXnfaEOPeYCLSZUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749551785; c=relaxed/simple;
-	bh=dmq8o36TWJB0FyTjqJVgXYaya0q5Y0iYVdvbZ4aVtHk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UOl/adwrhFUa7gChf42dlFX0D/aloJXju3DGfenNCtuQrkQgmSCJ6//zc7cnegQaOyoDHCmGbaJiT0HBuaD9weA6tJ+Vpf1hsVeKpGtDWxLSsg/nvXn94bpyVWgt0md4NsVUogse5q8Milion7f6DB8huQqRw/J5NDKVNJZVftw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=ab1CXMXk; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
+	s=arc-20240116; t=1749552091; c=relaxed/simple;
+	bh=hVsAPzl2ekcVzfIed1KYNBLOlJwSjoRMdMDWYK5DS3k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UNVzoQfkei2ZZqPmbtPo85UHGv1LkvxuEzbWgPL/WqONrXulL/4tjbrAMgjWske073LVs/kEeos93MJXxV/4gI1mOqMnPXBHJvgamz6mZyhI0T6NbMfrlCj13ZY/4dg6jed3CANynQl34HpUmH/YYaU3J6oHTnvVYTZQ9dbOBD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DglsHQAU; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="ab1CXMXk"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3138e64b3fcso1343730a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 03:36:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DglsHQAU"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ad56cbc7b07so769100066b.0;
+        Tue, 10 Jun 2025 03:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inventec.com; s=google; t=1749551782; x=1750156582; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RxWDwPFv6h0dImX3Gmoz9VyaNxnEqO7/sNmZV6i1DE4=;
-        b=ab1CXMXkp07nvtmr7Dy6W43krO5X0o+wXtQQC0/0C8uxRgHm1mwNu7Xf0L7E1OJyB0
-         3DkqZTaJVxBGq7RId82zpuuY9sx4DTXKluOm8GfHJbRwYZZAEqTG8qbpkwOyuvM+g5Vf
-         Xctv+AMdTVbr5pnD6BYwhvHrIS/P4QWebUlhNe/dNc2Fut/hpFkwDg6FU8it8rOokSQD
-         V3u24YRVHgr3N0lKjG+LX9QE32KzR3YVBd+MOatbt3VfTeHLERdhB/rioSiVNxjR0NhA
-         pAVWPbjnKRyKRtQYBKRf1stpYSLkJxdPgawiOZ2SJj9ZaL91TRhlhWq4l+3p2vEN3iYv
-         pxRA==
+        d=gmail.com; s=20230601; t=1749552088; x=1750156888; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GBEjVOIXjiw3gOSKaKGSvpUqb8Lc0rwKnc1mO4icXtA=;
+        b=DglsHQAU50x8g01Rp15EpzLsETH4bM9kira+opwqE17EXLLgX44P4C5BhXsx5CpJKs
+         Xyl2thK3gR9ltMdxuf+g6UARVYJrXGqpMtLg2V/QNQUYe6lKzPF5PYNBdZI+9OJHYNzJ
+         nIGvnAiNHYFC6Ix9ipE3bPpVKDVe0A0doFKiEjGvfYm5r+mkjLl3CXoUyy7lWNPIQDLY
+         qODxA6jOzrx9bZltvhK8WQYZQx4f0d/68jN77L4vOsb955P6nyhOOqAIY3PR3CCLaASY
+         tbup7gnI+siHADCEOYcq1e43rhaNhoN62nQk+qGafsgeI0xayakwkp2Pd3v19s9fK45m
+         fCdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749551782; x=1750156582;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RxWDwPFv6h0dImX3Gmoz9VyaNxnEqO7/sNmZV6i1DE4=;
-        b=pr67t0gg7Ny5hwZ40Wgns+c3v4C6RqofQiVo+TGfY3KK5f67FET7koRJ+/CafH8112
-         wPPIpx0I2QHqjnKIdahtE410KHJAz58e6FvejoXvsiCRsFJLnWo6I+foR7C6zN6uehTw
-         SFNPpdnblL5W+roiVfS2xndUIy11FN4VCHN7kgft0pJ/WXreaa2rDM8/TBNspc7ACqEM
-         li+GPhjoEYYVkmt0tZKO4Hq8BfzL2cCKc6d8TpakC3CA7hLHXXd32OlIv+N8hydAne4m
-         vHLHeOwM4YALcApz7Hv5/CJgMCbcOSSX33IwOL23DqDMF0Tt4K9mtnM3hKfVLZINk7Iv
-         yjlA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHr5m9AMHz3b6FlthH1DYduIGQzIJFrEKAZRmwGrHUioqtDetzLpgs0a8JP2IMRlnhzgTorQgAYLQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCXtgP+Q3vvEcOBqqDJRoHIz18PmPX/047fyyjLvlb9KLzO9Y6
-	8H/t4rw2yPFUML4eNT5wQgGRKf/idjhvt/SkubYe77/oAH7NO4wf9zrqiDrQiPcOMCk=
-X-Gm-Gg: ASbGncsxCbIh9Xnvh7EbobTFUdWuRjroeLBJIq0cfQRWZmT0/gZ/Gll2DboAaQujGmY
-	EACUuoVV7eBYEm6wYLH8CegCdaGLSPtwicNkvGhLyZQFNASIX8EQ7TlwMBzDLXOG9K+clXMU0Bd
-	/snwyB1W+h0+L46zz9e3xv1C+s91qcZz1s6yoQzyRKt9kZ9VPRFmbiWaVkyPxZ22SyAql7TEMA+
-	ZHqzNLHbFB39Zr42lW+CAyjqDmhxjpzrw9OMm3yCgch2+CY83RdJjLyhHsjSy0oEQduHEviioQ2
-	tbd+aGMPz/E6mMQo6/m82OE/h0PtMqyk6UKVLnSwd/mEuxv/1PMUqnFREeLQ289VMJ5F0qlmQ8O
-	S4RURkEXS2wLHaGEGNLhfVlNpzrEJV/AWZTIJy5Vl2wg=
-X-Google-Smtp-Source: AGHT+IGn8fcfrrXvZkpHFKZoSgfdWXzGVsrIu9dy8O+QoTfXt6qGcbJSz6dn7vl+kdYmmnpCPjuB9Q==
-X-Received: by 2002:a17:90b:3a8b:b0:311:e8cc:424e with SMTP id 98e67ed59e1d1-3134767ea00mr23916915a91.24.1749551781667;
-        Tue, 10 Jun 2025 03:36:21 -0700 (PDT)
-Received: from localhost.localdomain (60-250-242-163.hinet-ip.hinet.net. [60.250.242.163])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31349ff7e14sm7800595a91.45.2025.06.10.03.36.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 03:36:21 -0700 (PDT)
-From: Chiang Brian <chiang.brian@inventec.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>
-Cc: Chiang Brian <chiang.brian@inventec.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v9 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Date: Tue, 10 Jun 2025 18:25:55 +0800
-Message-Id: <20250610102556.236300-3-chiang.brian@inventec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250610102556.236300-1-chiang.brian@inventec.com>
-References: <20250610102556.236300-1-chiang.brian@inventec.com>
+        d=1e100.net; s=20230601; t=1749552088; x=1750156888;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GBEjVOIXjiw3gOSKaKGSvpUqb8Lc0rwKnc1mO4icXtA=;
+        b=M8sC2xcxMIjLfxpbIQzX4exV8i+iNGGQnVaU5kLOqQ/S8OKkf3rPyPGSB0gFi5IiaD
+         06ntEqXMH6wW2ag0mWsjB35xIrByRTRiPdVxbtdFXJe5BzCzdV9hu1qrgR316EA/F8Ga
+         mgnroGT6Z7jFnkoEwRZStsUYIPVqhusBd68nfReEIyYZMMynFY/CfN28Gv5f8vVWrt7b
+         ShXo4TT33cfOEba4yqIDmx5y74TPq76fLKB+DT8uCmKgSYGcPzGTDk2pL9hM6rofPCB7
+         i3ELsJRZTf6WcIqhzp2AqT1o0eZYoXK5UWaYsyka/yJABryTykAcDTA5ShUxkiVxn57t
+         ynJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWAyYl7A2qR4WuAdXqtMDEr2OpKfcd5jHpNB17SXBG0njar5NACKIPIW9vfMDxXI3VS3KalvOKdo4=@vger.kernel.org, AJvYcCXkTx8zEmqq7e+C2bIIRHz6f2l2Y0MX4WxOX4TVMXeac+J5J8OMPiVYDynOFeqvYE/3/vB26KqSX4eEmJeZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy20qZRnsooqKQaqnBmuIQF0oDcEu3Nb7tBCgdum+OjLfYMeh+u
+	b43JfohgvRIQ6s19Dm3VqF+HE5nAYout1qwJazIYKrfHSEz9eESlgNH/
+X-Gm-Gg: ASbGncv4m6JLR2xaxy6ow2ItIqw9qsxLOtXpjeo6JoQXUmbJZ6anURp4PekO5nRYX28
+	dYcLPQLNFR4EoLMkUBLzGXrjijXqvllT1sPzQhj7mCv6t50LiGFyah/cwkp5n23PBbJyTFxTQeY
+	WUJsQkbui05Zyx8DJZr9Op8mnk/eU6s9XxjWsdg4ozL/snt0k3wwcKRDXIkMJQ/YYu2LsmQ1tH3
+	yUNvoiNu57NbLV7em2ufCXWoaPV+R7MT70/zHEkkohay7wQUBisENB4l5CjKoeU77d47v77G4ft
+	cpVDrWTGWivHzDGoCWlLVIEdYEylxZeKD7PaT8leu2FmBbDzeQyNTG4ylSJA6RcarPp6ta+s5qn
+	/ZGnZis4LCbBKIfetbORtkViz5LjQEWSi
+X-Google-Smtp-Source: AGHT+IHcRd//B2Wob0clnLjUDUSaP52MC+Ps+W/1XHa7A8GKWRdOP3YRJcxgX1/eeyrgGIb0PVksPQ==
+X-Received: by 2002:a17:907:720d:b0:ad8:9909:20a8 with SMTP id a640c23a62f3a-ade1a9e911emr1615080466b.49.1749552087340;
+        Tue, 10 Jun 2025 03:41:27 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:c2f:a34:6718:ee1d? ([2620:10d:c092:500::7:b9b7])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc7d300sm711097366b.179.2025.06.10.03.41.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 03:41:26 -0700 (PDT)
+Message-ID: <b583f359-af9d-4121-a192-3b8991dfe8c9@gmail.com>
+Date: Tue, 10 Jun 2025 11:41:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] mm: khugepaged: use largest enabled hugepage order for
+ min_free_kbytes
+To: Zi Yan <ziy@nvidia.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, david@redhat.com,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
+ baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, hughd@google.com,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com, Juan Yescas <jyescas@google.com>,
+ Breno Leitao <leitao@debian.org>
+References: <A409F7B3-A901-40F9-A694-DC3FB00B57FE@nvidia.com>
+ <b807deec-99a9-4691-9001-c2f3adf586b9@gmail.com>
+ <35A3819F-C8EE-48DB-8EB4-093C04DEF504@nvidia.com>
+ <c600a6c0-aa59-4896-9e0d-3649a32d1771@gmail.com>
+ <18BEDC9A-77D2-4E9B-BF5A-90F7C789D535@nvidia.com>
+ <5bd47006-a38f-4451-8a74-467ddc5f61e1@gmail.com>
+ <0a746461-16f3-4cfb-b1a0-5146c808e354@lucifer.local>
+ <B2F966F0-8F5F-43AB-BA33-BD3E65504F4F@nvidia.com>
+ <61da7d25-f115-4be3-a09f-7696efe7f0ec@lucifer.local>
+ <AA2C4D68-B1DC-48A6-A807-56516067B9C7@nvidia.com>
+ <f980e652-8e2a-41da-af9b-39fdd439fefc@lucifer.local>
+ <2338896F-7F86-4F5A-A3CC-D14459B8F227@nvidia.com>
+ <35c82f60-0090-4d23-bb83-9898393cf928@gmail.com>
+ <D3992D01-63C9-42A2-A0C4-0A119AAC1BE2@nvidia.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <D3992D01-63C9-42A2-A0C4-0A119AAC1BE2@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The TPS53685 is a fully AMD SVI3 compliant step down controller with
-trans-inductor voltage regulator(TLVR) topology support, dual channels,
-built-in non-volatile memory (NVM), PMBus interface, and full compatible
-with TI NexFET smart power stages.
 
-Add support for it to the tps53679 driver.
 
-Signed-off-by: Chiang Brian <chiang.brian@inventec.com>
----
-v8 -> v9:
-- Wrap commit message body at 75 columns
-- Fix the alignment to match open parenthesis
-- Link to v8: https://lore.kernel.org/all/20250602042454.184643-3-chiang.brian@inventec.com/
+On 09/06/2025 21:24, Zi Yan wrote:
+> On 9 Jun 2025, at 16:03, Usama Arif wrote:
+> 
+>> On 09/06/2025 20:49, Zi Yan wrote:
+>>> On 9 Jun 2025, at 15:40, Lorenzo Stoakes wrote:
+>>>
+>>>> On Mon, Jun 09, 2025 at 11:20:04AM -0400, Zi Yan wrote:
+>>>>> On 9 Jun 2025, at 10:50, Lorenzo Stoakes wrote:
+>>>>>
+>>>>>> On Mon, Jun 09, 2025 at 10:37:26AM -0400, Zi Yan wrote:
+>>>>>>> On 9 Jun 2025, at 10:16, Lorenzo Stoakes wrote:
+>>>>>>>
+>>>>>>>> On Mon, Jun 09, 2025 at 03:11:27PM +0100, Usama Arif wrote:
+>>>>>>
+>>>>>> [snip]
+>>>>>>
+>>>>>>>>> So I guess the question is what should be the next step? The following has been discussed:
+>>>>>>>>>
+>>>>>>>>> - Changing pageblock_order at runtime: This seems unreasonable after Zi's explanation above
+>>>>>>>>>   and might have unintended consequences if done at runtime, so a no go?
+>>>>>>>>> - Decouple only watermark calculation and defrag granularity from pageblock order (also from Zi).
+>>>>>>>>>   The decoupling can be done separately. Watermark calculation can be decoupled using the
+>>>>>>>>>   approach taken in this RFC. Although max order used by pagecache needs to be addressed.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> I need to catch up with the thread (workload crazy atm), but why isn't it
+>>>>>>>> feasible to simply statically adjust the pageblock size?
+>>>>>>>>
+>>>>>>>> The whole point of 'defragmentation' is to _heuristically_ make it less
+>>>>>>>> likely there'll be fragmentation when requesting page blocks.
+>>>>>>>>
+>>>>>>>> And the watermark code is explicitly about providing reserves at a
+>>>>>>>> _pageblock granularity_.
+>>>>>>>>
+>>>>>>>> Why would we want to 'defragment' to 512MB physically contiguous chunks
+>>>>>>>> that we rarely use?
+>>>>>>>>
+>>>>>>>> Since it's all heuristic, it seems reasonable to me to cap it at a sensible
+>>>>>>>> level no?
+>>>>>>>
+>>>>>>> What is a sensible level? 2MB is a good starting point. If we cap pageblock
+>>>>>>> at 2MB, everyone should be happy at the moment. But if one user wants to
+>>>>>>> allocate 4MB mTHP, they will most likely fail miserably, because pageblock
+>>>>>>> is 2MB, kernel is OK to have a 2MB MIGRATE_MOVABLE pageblock next to a 2MB
+>>>>>>> MGIRATE_UNMOVABLE one, making defragmenting 4MB an impossible job.
+>>>>>>>
+>>>>>>> Defragmentation has two components: 1) pageblock, which has migratetypes
+>>>>>>> to prevent mixing movable and unmovable pages, as a single unmovable page
+>>>>>>> blocks large free pages from being created; 2) memory compaction granularity,
+>>>>>>> which is the actual work to move pages around and form a large free pages.
+>>>>>>> Currently, kernel assumes pageblock size = defragmentation granularity,
+>>>>>>> but in reality, as long as pageblock size >= defragmentation granularity,
+>>>>>>> memory compaction would still work, but not the other way around. So we
+>>>>>>> need to choose pageblock size carefully to not break memory compaction.
+>>>>>>
+>>>>>> OK I get it - the issue is that compaction itself operations at a pageblock
+>>>>>> granularity, and once you get so fragmented that compaction is critical to
+>>>>>> defragmentation, you are stuck if the pageblock is not big enough.
+>>>>>
+>>>>> Right.
+>>>>>
+>>>>>>
+>>>>>> Thing is, 512MB pageblock size for compaction seems insanely inefficient in
+>>>>>> itself, and if we're complaining about issues with unavailable reserved
+>>>>>> memory due to crazy PMD size, surely one will encounter the compaction
+>>>>>> process simply failing to succeed/taking forever/causing issues with
+>>>>>> reclaim/higher order folio allocation.
+>>>>>
+>>>>> Yep. Initially, we probably never thought PMD THP would be as large as
+>>>>> 512MB.
+>>>>
+>>>> Of course, such is the 'organic' nature of kernel development :)
+>>>>
+>>>>>
+>>>>>>
+>>>>>> I mean, I don't really know the compaction code _at all_ (ran out of time
+>>>>>> to cover in book ;), but is it all or-nothing? Does it grab a pageblock or
+>>>>>> gives up?
+>>>>>
+>>>>> compaction works on one pageblock at a time, trying to migrate in-use pages
+>>>>> within the pageblock away to create a free page for THP allocation.
+>>>>> It assumes PMD THP size is equal to pageblock size. It will keep working
+>>>>> until a PMD THP size free page is created. This is a very high level
+>>>>> description, omitting a lot of details like how to avoid excessive compaction
+>>>>> work, how to reduce compaction latency.
+>>>>
+>>>> Yeah this matches my assumptions.
+>>>>
+>>>>>
+>>>>>>
+>>>>>> Because it strikes me that a crazy pageblock size would cause really
+>>>>>> serious system issues on that basis alone if that's the case.
+>>>>>>
+>>>>>> And again this leads me back to thinking it should just be the page block
+>>>>>> size _as a whole_ that should be adjusted.
+>>>>>>
+>>>>>> Keep in mind a user can literally reduce the page block size already via
+>>>>>> CONFIG_PAGE_BLOCK_MAX_ORDER.
+>>>>>>
+>>>>>> To me it seems that we should cap it at the highest _reasonable_ mTHP size
+>>>>>> you can get on a 64KB (i.e. maximum right? RIGHT? :P) base page size
+>>>>>> system.
+>>>>>>
+>>>>>> That way, people _can still get_ super huge PMD sized huge folios up to the
+>>>>>> point of fragmentation.
+>>>>>>
+>>>>>> If we do reduce things this way we should give a config option to allow
+>>>>>> users who truly want collosal PMD sizes with associated
+>>>>>> watermarks/compaction to be able to still have it.
+>>>>>>
+>>>>>> CONFIG_PAGE_BLOCK_HARD_LIMIT_MB or something?
+>>>>>
+>>>>> I agree with capping pageblock size at a highest reasonable mTHP size.
+>>>>> In case there is some user relying on this huge PMD THP, making
+>>>>> pageblock a boot time variable might be a little better, since
+>>>>> they do not need to recompile the kernel for their need, assuming
+>>>>> distros will pick something like 2MB as the default pageblock size.
+>>>>
+>>>> Right, this seems sensible, as long as we set a _default_ that limits to
+>>>> whatever it would be, 2MB or such.
+>>>>
+>>>> I don't think it's unreasonable to make that change since this 512 MB thing
+>>>> is so entirely unexpected and unusual.
+>>>>
+>>>> I think Usama said it would be a pain it working this way if it had to be
+>>>> explicitly set as a boot time variable without defaulting like this.
+>>>>
+>>>>>
+>>>>>>
+>>>>>> I also question this de-coupling in general (I may be missing somethig
+>>>>>> however!) - the watermark code _very explicitly_ refers to providing
+>>>>>> _pageblocks_ in order to ensure _defragmentation_ right?
+>>>>>
+>>>>> Yes. Since without enough free memory (bigger than a PMD THP),
+>>>>> memory compaction will just do useless work.
+>>>>
+>>>> Yeah right, so this is a key thing and why we need to rework the current
+>>>> state of the patch.
+>>>>
+>>>>>
+>>>>>>
+>>>>>> We would need to absolutely justify why it's suddenly ok to not provide
+>>>>>> page blocks here.
+>>>>>>
+>>>>>> This is very very delicate code we have to be SO careful about.
+>>>>>>
+>>>>>> This is why I am being cautious here :)
+>>>>>
+>>>>> Understood. In theory, we can associate watermarks with THP allowed orders
+>>>>> the other way around too, meaning if user lowers vm.min_free_kbytes,
+>>>>> all THP/mTHP sizes bigger than the watermark threshold are disabled
+>>>>> automatically. This could fix the memory compaction issues, but
+>>>>> that might also drive user crazy as they cannot use the THP sizes
+>>>>> they want.
+>>>>
+>>>> Yeah that's interesting but I think that's just far too subtle and people will
+>>>> have no idea what's going on.
+>>>>
+>>>> I really think a hard cap, expressed in KB/MB, on pageblock size is the way to
+>>>> go (but overrideable for people crazy enough to truly want 512 MB pages - and
+>>>> who cannot then complain about watermarks).
+>>>
+>>> I agree. Basically, I am thinking:
+>>> 1) use something like 2MB as default pageblock size for all arch (the value can
+>>> be set differently if some arch wants a different pageblock size due to other reasons), this can be done by modifying PAGE_BLOCK_MAX_ORDER’s default
+>>> value;
+>>>
+>>> 2) make pageblock_order a boot time parameter, so that user who wants
+>>> 512MB pages can still get it by changing pageblock order at boot time.
+>>>
+>>> WDYT?
+>>>
+>>
+>> I was really hoping we would come up with a dynamic way of doing this,
+>> especially one that doesn't require any more input from the user apart
+>> from just setting the mTHP size via sysfs..
+> 
+> Then we will need to get rid of pageblock size from both watermark calculation
+> and memory compaction and think about a new anti-fragmentation mechanism
+> to handle unmovable pages as current pageblock based mechanism no longer
+> fit the need.
+> 
+> What you are expecting is:
+> 1) watermarks should change as the largest enabled THP/mTHP size changes;
+> 2) memory compaction targets the largest enabled THP/mTHP size (next step
+> would improve memory compaction to optimize for all enabled sizes);
+> 3) partitions of movable and unmovable pages can change dynamically
+> based on the largest enabled THP/mTHP size;
+> 4) pageblock size becomes irrelevant.
+> 
 
-v7 -> v8:
-- Convert the type of device_id in tps53679_identify_multiphase() from int to char *
-- Run make.cross with ARCH i386
-- Link to v7: https://lore.kernel.org/all/20250515081449.1433772-3-chiang.brian@inventec.com/
+I think both 1 and 2 can be achieved in a similar way? i.e. changing
+pageblock_order to be min(largest_enabled_thp_order(), PAGE_BLOCK_MAX_ORDER).
+But there a lot of instances of pageblock_order and pageblock_nr_pages and
+all of them would need to be audited very carefully.
 
-v6 -> v7:
-- Modify the type of device_id from u16 to char *
-- Run make.cross with ARCH nios2, powerpc, and riscv
-- Link to v6: https://lore.kernel.org/all/20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com/
+For 3, we need to do the dynamic array resizing that you mentioned for
+pageblock_flags?
 
-v5 -> v6:
-- Add information about tps53685 into tps53679.rst
-- Add additional flags when identifing the chip as tps53685
-- Adjust length once returned device id is terminated by null character
-- Link to v5: https://lore.kernel.org/all/20250314033040.3190642-1-chiang.brian@inventec.com/
+Yeah overall it sounds like quite a big change and would need a lot
+of testing to make sure nothing breaks.
 
-v4 -> v5: 
-- document the compatible of tps53685 into dt-bindings
-- add the buffer length as argument for %*ph
-- Add Changelog
-- Link to v4: https://lore.kernel.org/all/CAJCfHmW61d2jd_tYpNEqBG_Z58bEnVKAmsvhrEP1zXQoXqrUVw@mail.gmail.com/
+>>
+>> 1) in a way is already done. We can set it to 2M by setting
+>> ARCH_FORCE_MAX_ORDER to 5:
+>>
+>> In arch/arm64/Kconfig we already have:
+>>
+>> config ARCH_FORCE_MAX_ORDER
+>> 	int
+>> 	default "13" if ARM64_64K_PAGES
+>> 	default "11" if ARM64_16K_PAGES
+>> 	default "10"
+> 
+> Nah, that means user no longer can allocate pages larger than 2MB,
+> because the cap is in the buddy allocator.
+> 
+>>
+>> Doing 2) would require reboot and doing this just for changing mTHP size
+>> will probably be a nightmare for workload orchestration.
+> 
+> No. That is not what I mean. pageblock_order set at boot time only limits
+> the largest mTHP size. By default, user can get up to 2MB THP/mTHP,
+> but if they want to get 512MB THP, they can reboot with a larger pageblock
+> order and they can still use 2MB mTHP. The downside is that with
+> larger pageblock order, user cannot get the optimal THP/mTHP performance
+> kernel is designed to achieve.
+> 
 
-v3 -> v4: 
-- Add length comparison into the comparison of "id",or it may be true when the substring of "id" matches device id. 
-- Restore `return 0;` in `tps53679_identify_chip()`
-- Link to v3: https://lore.kernel.org/all/CAJCfHmVyaDPh0_ThPjhBP0zMO1oE1AR=4=Zsa0cMPXU3J4v6dw@mail.gmail.com/
+Yes, I mean this as well. If the largest mTHP size enabled goes from 2M to
+512M than we need a reboot to actually obtain 512M THPs. If we switch from 512M
+to 2M, we again need a reboot to get the best performance out of the server.
 
-v2 -> v3:
-- Remove the length comparsion in the comparison of "id".
-- Link to v2: https://lore.kernel.org/all/CAJCfHmUteFM+nUZWBWvmwFjALg1QUL5r+=syU1HmYTL1ewQWqA@mail.gmail.com/
-
-v1 -> v2: 
-- Modify subject and description to meet requirements
-- Add "tps53685" into enum chips with numeric order
-- Modify the content of marco "TPS53681_DEVICE_ID" from 0x81 to "\x81" 
-- Add marco "TPS53685_DEVICE_ID" with content "TIShP"
-- Modify the type of "id" from u16 to char* in `tps53679_identify_chip()`
-- Modify the comparison of "id". It will be true if the string "id" matches device ID and compare with type char*,
-- Add the length comparsion into the comparison of "id".
-- Modify "len" as return code in `tps53679_identify_chip()`
-- Output device error log with %*ph, instead of 0x%x\n" 
-- Use existing tps53679_identify_multiphase() with argument "TPS53685_DEVICE_ID" in tps53685_identify() rather than creating one tps53685_identify_multiphase()
-- Link to v1: https://lore.kernel.org/all/CAJCfHmVy3O4-nz2_PKF7TcXYr+HqTte1-bdUWLBmV7JOS7He1g@mail.gmail.com/
-
- Documentation/hwmon/tps53679.rst |  8 +++++++
- drivers/hwmon/pmbus/tps53679.c   | 37 ++++++++++++++++++++++++++------
- 2 files changed, 39 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/hwmon/tps53679.rst b/Documentation/hwmon/tps53679.rst
-index 3b9561648c24..dd5e4a37375d 100644
---- a/Documentation/hwmon/tps53679.rst
-+++ b/Documentation/hwmon/tps53679.rst
-@@ -43,6 +43,14 @@ Supported chips:
- 
-     Datasheet: https://www.ti.com/lit/gpn/TPS53681
- 
-+  * Texas Instruments TPS53685
-+
-+    Prefix: 'tps53685'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://www.ti.com/lit/gpn/TPS53685
-+
-   * Texas Instruments TPS53688
- 
-     Prefix: 'tps53688'
-diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53679.c
-index 63524dff5e75..47c28a8e25a5 100644
---- a/drivers/hwmon/pmbus/tps53679.c
-+++ b/drivers/hwmon/pmbus/tps53679.c
-@@ -16,7 +16,7 @@
- #include "pmbus.h"
- 
- enum chips {
--	tps53647, tps53667, tps53676, tps53679, tps53681, tps53688
-+	tps53647, tps53667, tps53676, tps53679, tps53681, tps53685, tps53688
- };
- 
- #define TPS53647_PAGE_NUM		1
-@@ -31,7 +31,8 @@ enum chips {
- #define TPS53679_PROT_VR13_5MV		0x07 /* VR13.0 mode, 5-mV DAC */
- #define TPS53679_PAGE_NUM		2
- 
--#define TPS53681_DEVICE_ID		0x81
-+#define TPS53681_DEVICE_ID     "\x81"
-+#define TPS53685_DEVICE_ID     "TIShP"
- 
- #define TPS53681_PMBUS_REVISION		0x33
- 
-@@ -86,10 +87,12 @@ static int tps53679_identify_phases(struct i2c_client *client,
- }
- 
- static int tps53679_identify_chip(struct i2c_client *client,
--				  u8 revision, u16 id)
-+				  u8 revision, char *id)
- {
- 	u8 buf[I2C_SMBUS_BLOCK_MAX];
- 	int ret;
-+	int buf_len;
-+	int id_len;
- 
- 	ret = pmbus_read_byte_data(client, 0, PMBUS_REVISION);
- 	if (ret < 0)
-@@ -102,8 +105,14 @@ static int tps53679_identify_chip(struct i2c_client *client,
- 	ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
- 	if (ret < 0)
- 		return ret;
--	if (ret != 1 || buf[0] != id) {
--		dev_err(&client->dev, "Unexpected device ID 0x%x\n", buf[0]);
-+
-+	/* Adjust length if null terminator if present */
-+	buf_len = (buf[ret - 1] != '\x00' ? ret : ret - 1);
-+
-+	id_len = strlen(id);
-+
-+	if (buf_len != id_len || strncmp(id, buf, id_len)) {
-+		dev_err(&client->dev, "Unexpected device ID: %*ph\n", ret, buf);
- 		return -ENODEV;
- 	}
- 	return 0;
-@@ -117,7 +126,7 @@ static int tps53679_identify_chip(struct i2c_client *client,
-  */
- static int tps53679_identify_multiphase(struct i2c_client *client,
- 					struct pmbus_driver_info *info,
--					int pmbus_rev, int device_id)
-+					int pmbus_rev, char *device_id)
- {
- 	int ret;
- 
-@@ -138,6 +147,16 @@ static int tps53679_identify(struct i2c_client *client,
- 	return tps53679_identify_mode(client, info);
- }
- 
-+static int tps53685_identify(struct i2c_client *client,
-+			     struct pmbus_driver_info *info)
-+{
-+	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
-+			 PMBUS_HAVE_STATUS_INPUT;
-+	info->format[PSC_VOLTAGE_OUT] = linear;
-+	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
-+					   TPS53685_DEVICE_ID);
-+}
-+
- static int tps53681_identify(struct i2c_client *client,
- 			     struct pmbus_driver_info *info)
- {
-@@ -263,6 +282,10 @@ static int tps53679_probe(struct i2c_client *client)
- 		info->identify = tps53681_identify;
- 		info->read_word_data = tps53681_read_word_data;
- 		break;
-+	case tps53685:
-+	    info->pages = TPS53679_PAGE_NUM;
-+	    info->identify = tps53685_identify;
-+		break;
- 	default:
- 		return -ENODEV;
- 	}
-@@ -277,6 +300,7 @@ static const struct i2c_device_id tps53679_id[] = {
- 	{"tps53676", tps53676},
- 	{"tps53679", tps53679},
- 	{"tps53681", tps53681},
-+	{"tps53685", tps53685},
- 	{"tps53688", tps53688},
- 	{}
- };
-@@ -289,6 +313,7 @@ static const struct of_device_id __maybe_unused tps53679_of_match[] = {
- 	{.compatible = "ti,tps53676", .data = (void *)tps53676},
- 	{.compatible = "ti,tps53679", .data = (void *)tps53679},
- 	{.compatible = "ti,tps53681", .data = (void *)tps53681},
-+	{.compatible = "ti,tps53685", .data = (void *)tps53685},
- 	{.compatible = "ti,tps53688", .data = (void *)tps53688},
- 	{}
- };
--- 
-2.25.1
+> Best Regards,
+> Yan, Zi
 
