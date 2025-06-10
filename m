@@ -1,125 +1,133 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86434286D6E;
-	Tue, 10 Jun 2025 09:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171FE28A409;
+	Tue, 10 Jun 2025 09:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749547321; cv=none; b=iVKj25FJz2HstKpwnwZsPgufW9ebQrdr+dKhndQxq7Sc/tJoQ//sTxIRzVgOTG2QrTMidqE/r0LzeAJitmTYMI0U7sEDP3icTHY0T8yI8k64mWIf3FN/P78loYCE/D54KdB6CwwNd0uFUyl/qoJaPlOERW9Uta8eWHMbk34DDD4=
+	t=1749547485; cv=none; b=CF+3mim3+TI9zfLk4/5mRmN22TdtDqyJmX4L1Y0Hgr83+l8gbmVP8dKW6jtjDLe6zK5SX4UvxEWkjIEBTNWZ4l+ZekPv/KS/47GFjif8PnmhtiU9vISldLx9QqZnXBEZx7j1gA0fEd5GHewegIjODdClW96tKZNjn0TqvT2hVdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749547321; c=relaxed/simple;
-	bh=y1mzetlCTQRwwVQd0XCZePhA+fRudsnAmGM3LW4Q1OI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZF9taqHiEQPLtybl5nu7vjmLtXC6iticnL3Kaf7qbnc8XQK3Am2C1Gf/JBMekwTosctZ1sFS2GCysAONvVGW5GykPS1bTbBQ+CW7rtAK3vAW8cZ18p41UBMXX4zBl58iLztWZrwjgXabMek9fzttvubyPnS71ET68dNiLj6bPP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ft+oExzz; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749547485; c=relaxed/simple;
+	bh=7O8pLwMtFMpTYlcRgT7szr1Viv9rchg8SjS1xi2PCaw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hGBdxDTzRwqbz8IM4hL43WkYT4apis84+UViskQjkr/rDSscwd8CHco5x36noHyexYQzH+q4tgVuAjQi7DjwUBIutvUoTMZjjD7W65T5UoxtC1DY0BlPymOWNHyuTcM0NWcVgwSgt9ojHaRW2lO8xFyJ9bVUo1TY8TebNkM0VNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h/ESNX8S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ft+oExzz"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-235f9e87f78so47384945ad.2;
-        Tue, 10 Jun 2025 02:21:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749547319; x=1750152119; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OKdiPD8LPOSWcxJtXxV50FsYXO8RX5/fbpx4WTe18gg=;
-        b=Ft+oExzzrK9Dlw2m7oy9Eikf0+BNBRdl0Gkh6ZyNtH2yuEK6WQR2HY9lTYQYhfbnq7
-         jQq9tpi/kcDdHDXnnxRSkkeHYwAoDGyOWfi4+eoNrSYvmxDOiHBpmm68qtbm4cHUsz9g
-         qqb/+M2Omzafc6ICUL2e4VlqIiIpsLO0OhRq9pfvDBEvRLGBWv8CTOO+9nmxj8pqDV6r
-         bRduedbXJs/Mf5Z2FZKKy6Rbe1gBCww3KC81zwDhHYF33KYmrTiokzuCNqt8AcADtGjX
-         4/muU+q8bQRAn/QJb6Vxdb2bayrtP9Zx0I/rP7LffmEXsROpxBH951L1Ib7yo6Rmd10h
-         VFVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749547319; x=1750152119;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OKdiPD8LPOSWcxJtXxV50FsYXO8RX5/fbpx4WTe18gg=;
-        b=pp6FHMqZgcA+wEgqRkvCHFJ5fmqnhcvEf0l46Xar4Aze+UJthXP/Yn3pXBjVp7nHVp
-         3owotfYP6VhqEaw35dzAcya9M5/AjMIKHDdW0CReTDpDRvPVAu77UKltal4AG3bxx1Mg
-         USh55FTWQwXcu/m2UiGdw2rvnYodjsLu0MrvMIApFqdd6CKm3iQPJuGDPkw7qJPbnGsM
-         qHG1mX2EnEzO+cDc8xE5R/5mbSb6iKayZoTl2p/yJhqST/U27Y7sqI9k/qJjSpa1Yn28
-         Dx17D5qf5hXodS17ND+g0pieuZuiT2iTE1TOjkr94zxZ99Gg8UjDwSvniXcU5Psh8TI6
-         dNyA==
-X-Forwarded-Encrypted: i=1; AJvYcCVlUerWVmq65zrJSFHJ+jJIVnr+CG3T5EjKEx9yvBOV2M+t7CjTazU62J1xUOIMaQY6jdtKvU1P6nA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjmKBdv2bQ3iccTpAaNnd6KhlCP428mMwymYYmEnvlNzSEm1sV
-	7zNP3QXdbbBBtQfkwM8R/P9RZT9xFKDc64rMmB9By9erAJkygDAShpHy
-X-Gm-Gg: ASbGnctmcXuwC8EynuLi5n83JbxHA9VjF19VPUyGjb5fBWihaiBDWKhFlyQndPFdvJs
-	Mz7KtcXNp1beDFn7hSn2o8H7rUtIcMF4Vidu3URxf+JZ2U4YGkAsggDD1UIqPQL3Cxies4jGeI6
-	+RzWFWxUUWmCmhGuCykT5pMahrkA9a1fv4eNpikJ38Wi5a3bval4y3jUe1kIqBAJuG+4jShKYS7
-	/ZCrwxJJ4XBOHxtSxXKvKLskT7Tzr7ytddMW2DPWCCHhQ7Q3ctzqKlzSAALATrHGIqOYqXLWxiw
-	zVMcj1gQHAt/eCoL4WxrJLoGNjdjL3Hr5asX1LL3+fLxEB91YRtTRYofb2uNWH9RjGN6hgri
-X-Google-Smtp-Source: AGHT+IF8W/u2pc9dXw02ODQ85GE5l7TzGkPD+fTzj71XXSkR/6My/iTxaFj+tl0NDcLeascIkNg8Ww==
-X-Received: by 2002:a17:902:ec87:b0:235:2403:77b6 with SMTP id d9443c01a7336-23601d702afmr223840085ad.37.1749547318680;
-        Tue, 10 Jun 2025 02:21:58 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236032fcd1fsm66749495ad.118.2025.06.10.02.21.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 02:21:58 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 8A39F4209E8C; Tue, 10 Jun 2025 16:21:55 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Cc: Feng Tang <feng.tang@intel.com>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] mm: slub: Wrap krealloc() __GFP_ZERO semantics diagram in literal code block
-Date: Tue, 10 Jun 2025 16:21:53 +0700
-Message-ID: <20250610092153.55093-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h/ESNX8S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE4EC4CEF4;
+	Tue, 10 Jun 2025 09:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749547484;
+	bh=7O8pLwMtFMpTYlcRgT7szr1Viv9rchg8SjS1xi2PCaw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=h/ESNX8SjqAIz/fIEsEV2YR9QfqZ97fQl6gbBK0Wqzd9CGz2I+2hGeYCGGNwKFF1q
+	 4GgUTzuEiwdZABnuRKxnCXdVv3KWEcsd6LXVMaY5KwJ+4VHNk/XlNHuC0h849sfxeP
+	 fDttr645y7K6OxNgsCRZvE3QMBEfm2U4xnbfPfvVj/4meDG9xO7I1dp6JXI5/Zc+Q6
+	 ReizgibSRPZSYJfww1QxdU6DiySj7el7R69zggX2xH/6KBkwWOtdnwEzgU6qiUXy41
+	 9XGHwaWfQm6hBaP9C4eIjz3eBcBQGFv9HWOCNhFOQ806wcuqL+eHrW/CIa3c86++5T
+	 2CpVzO1IsL5Uw==
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ad1b94382b8so905756966b.0;
+        Tue, 10 Jun 2025 02:24:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCURCEXMjtGT4TQH2FanKQ9gC4V+dvOql8N6eGqDkBMrJobcyE4NwkVGeQKU1w1a1c9vVdRw07cVrAYy4Q==@vger.kernel.org, AJvYcCVHp0TZtUSIML/Iq4QZfBZnl4yZOoy5KyQIQSy7FxVf8mQL7flcv0gYK9vOQOF6K6nmJr+abR2Bm6s=@vger.kernel.org, AJvYcCW3fiZH3bdLfUbVdjYW42XqUKFw2M8N4jprWd+TJSkPpy4PKDg5Kdl/DfQEdWQMmJrdQYrHpJgQQFNIa/YSC4+2TFuxQw==@vger.kernel.org, AJvYcCWYMaB339IEIX8Iz0doOq7aK5QOeO1eXD5LGLJUiUgElLqDYGxGIcHN5+MobFTgnQHglZAfv7t7SUi7@vger.kernel.org, AJvYcCX7vGqqJasEIFBmNm1polAZmgM6ufJxgsWW/HsQGd/iqhyfHZgnVmD9qR09DEf4QocNMWdHZ+NEIyNQyRBZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYv/ZzFiYUFedMZQfxxYvfv01R+OvmA2DQevizydUHp8ygAkXJ
+	ddc4A9DuqsQrL6XZfE1ht2MDe5MnYWJYjZG1XAS98uIYNluq3QLsd00+k1F+z7UEb+4T8bN/eeD
+	xewvpyhK2AxKYOrPxVPcAT/h5Bhfji9w=
+X-Google-Smtp-Source: AGHT+IHp9IrXPr6CUNbh1St5Hg3ial/rjt2FWdk+sYxhxJaYrSLty/M96Too05Y4+45YoU/INmTjI/uhZJoYsjtNpkM=
+X-Received: by 2002:a17:906:ef0d:b0:aca:d4f6:440d with SMTP id
+ a640c23a62f3a-ade7ac572a4mr171877866b.17.1749547483079; Tue, 10 Jun 2025
+ 02:24:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1586; i=bagasdotme@gmail.com; h=from:subject; bh=y1mzetlCTQRwwVQd0XCZePhA+fRudsnAmGM3LW4Q1OI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBnuP55sm3t/otz94PsBV6S4ysSEFrmy9s2QWvNjgtiW1 Du7OGT8O0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjARu7+MDK8/KgqIufmUfUxU YdvTM6lXs5fvrcSXWf9+m7bend20fBPD//xJUzs/t7Dwej49vmj3v4P6NybJte8+4fVxyZRX8T2 vn7ABAA==
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20250422234830.2840784-1-superm1@kernel.org> <20250422234830.2840784-3-superm1@kernel.org>
+ <CAMuHMdVPQLjOox5sMp34Z5MTwKv2WOpHa=MpZr8hWG22fQKcjw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVPQLjOox5sMp34Z5MTwKv2WOpHa=MpZr8hWG22fQKcjw@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Tue, 10 Jun 2025 17:24:31 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H70LXsDYMA7wz4x828rEFoJsNX0=m8F73Ge9=yfpzBpZQ@mail.gmail.com>
+X-Gm-Features: AX0GCFvyd2N-spvgVUDQiEXjOROXJ4rt5ErLp4PE6STdQ0GN935XFU-Ao7ctaOk
+Message-ID: <CAAhV-H70LXsDYMA7wz4x828rEFoJsNX0=m8F73Ge9=yfpzBpZQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/5] i2c: piix4: Depends on X86
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Mario Limonciello <superm1@kernel.org>, Borislav Petkov <bp@alien8.de>, Jean Delvare <jdelvare@suse.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <mario.limonciello@amd.com>, 
+	Yazen Ghannam <yazen.ghannam@amd.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>, 
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Hans de Goede <hdegoede@redhat.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>, 
+	"open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>, Ingo Molnar <mingo@kernel.org>, 
+	linux-mips@vger.kernel.org, loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sphinx reports htmldocs warnings:
+On Tue, Jun 10, 2025 at 5:16=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Mario,
+>
+> CC mips, loongarch
+>
+> On Wed, 23 Apr 2025 at 01:49, Mario Limonciello <superm1@kernel.org> wrot=
+e:
+> > From: Mario Limonciello <mario.limonciello@amd.com>
+> >
+> > PIIX4 and compatible controllers are only for X86. As some headers are
+> > being moved into x86 specific headers PIIX4 won't compile on non-x86.
+> >
+> > Suggested-by: Ingo Molnar <mingo@kernel.org>
+> > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>
+> Thanks for your patch, which is now commit 7e173eb82ae97175
+> ("i2c: piix4: Make CONFIG_I2C_PIIX4 dependent on CONFIG_X86")
+> in v6.16-rc1.
+>
+> > --- a/drivers/i2c/busses/Kconfig
+> > +++ b/drivers/i2c/busses/Kconfig
+> > @@ -200,7 +200,7 @@ config I2C_ISMT
+> >
+> >  config I2C_PIIX4
+> >         tristate "Intel PIIX4 and compatible (ATI/AMD/Serverworks/Broad=
+com/SMSC)"
+> > -       depends on PCI && HAS_IOPORT
+> > +       depends on PCI && HAS_IOPORT && X86
+>
+> Are you sure this south-bridge is not used on non-x86 platforms?
+> It is enabled in several non-x86 defconfigs:
+>
+>     arch/loongarch/configs/loongson3_defconfig:CONFIG_I2C_PIIX4=3Dy
+>     arch/mips/configs/ip27_defconfig:CONFIG_I2C_PIIX4=3Dm
+>     arch/mips/configs/loongson2k_defconfig:CONFIG_I2C_PIIX4=3Dy
+>     arch/mips/configs/loongson3_defconfig:CONFIG_I2C_PIIX4=3Dy
+>
+> The loongarch and loongson entries are probably bogus, but I wouldn't
+> be surprised if the SGI Onyx and Origin do use Intel south-bridges.
+Loongson can use AMD SB700/SB800 south bridges, which have I2C_PIIX4.
 
-Documentation/core-api/mm-api:40: ./mm/slub.c:4936: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-Documentation/core-api/mm-api:40: ./mm/slub.c:4936: ERROR: Undefined substitution referenced: "--------". [docutils]
+Huacai
 
-Fix the warning by wrapping krealloc() semantics diagram for __GFP_ZERO
-in literal code block.
-
-Fixes: 489a744e5fb1 ("mm: krealloc: clarify valid usage of __GFP_ZERO")
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- mm/slub.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/mm/slub.c b/mm/slub.c
-index 31e11ef256f90a..45a963e363d32b 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -4930,12 +4930,12 @@ __do_krealloc(const void *p, size_t new_size, gfp_t flags)
-  * When slub_debug_orig_size() is off, krealloc() only knows about the bucket
-  * size of an allocation (but not the exact size it was allocated with) and
-  * hence implements the following semantics for shrinking and growing buffers
-- * with __GFP_ZERO.
-+ * with __GFP_ZERO::
-  *
-- *         new             bucket
-- * 0       size             size
-- * |--------|----------------|
-- * |  keep  |      zero      |
-+ *           new             bucket
-+ *   0       size             size
-+ *   |--------|----------------|
-+ *   |  keep  |      zero      |
-  *
-  * Otherwise, the original allocation size 'orig_size' could be used to
-  * precisely clear the requested size, and the new size will also be stored
--- 
-An old man doll... just what I always wanted! - Clara
-
+>
+> >         select I2C_SMBUS
+> >         help
+> >           If you say yes to this option, support will be included for t=
+he Intel
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
+>
