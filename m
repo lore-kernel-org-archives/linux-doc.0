@@ -1,297 +1,248 @@
-Received: from smtp.smtpout.orange.fr (smtp-79.smtpout.orange.fr [80.12.242.79])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD00327472;
-	Tue, 10 Jun 2025 21:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.79
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749589756; cv=none; b=SYGmkASYXBCIGxtWdDQ/MzFYShDM/9VF7HvWwXetjePcQg//OcXO784VBZ3gkRXfOI4atbgKWrABZ6bywSQBJxkpgzb5N0pE0Yh/zDqNriyAVTDBqnY4F2uMEpnqdz/B6xOESr+IXy3XBL6DnOGwm9UzbZdHdJpF/Lg7RvtDYj0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749589756; c=relaxed/simple;
-	bh=EZjkrxi6peS+7wpXuxQb34rIlFS/bTDwMsD9Ij1kHnw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aWuvWRnABRLC7LS0/oMiBCVJyZaP0SPLAOp1zR7OKceI4b7UNmtGh6JYbUEiTSvDbE9hHrkPJNwcWR+uajMFT+ObbEyM8b84gCZYqEPlOFnwbGlUB2tESqwXoOeZKAxZEkOqYTjLf2rKFn9vhuFbs8eFOhJ6Gq7mORIiMiH+TuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=I67KCJQQ; arc=none smtp.client-ip=80.12.242.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4C4245007;
+	Tue, 10 Jun 2025 21:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749592266; cv=fail; b=fMfzDvUKUorbudvVWVGP8H1r9McyWUAmOaJqZZxfRQ+hDRsCmPu1qj83IodsPuraQfzZjHqbMUVxoxV/JAz61wycMDXlE8WP7aaOuQqzYezAaHxDYiWY9iy/SkaM5S0MYAwKX14oxU+o8GQ5HjO3vWfqNBbyOe3ADSRc6PUH42U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749592266; c=relaxed/simple;
+	bh=zwl7fxN9SO0Icm+fF6edWATV2jwFRCkq7I+mt9PedvQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=fSTxK0v9APKm9anoS5z9K11gwfxhwN5xGPsljjn5LFTUEyNitX6MAaaH+5dTxONafJxo3cxta0COHvj7syl2Jg4AQG5kcasXTrBIdC2+Br8n3lju4Pd9eS9RgfvvidPW8rzj7yRAb+VuFkWVmQSwTv17z9hDxKqno69Ytr6fyU0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=khOoX8S6; arc=fail smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="I67KCJQQ"
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPA
-	id P6CPuzDVTQ1a2P6CPunbgi; Tue, 10 Jun 2025 23:08:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1749589682;
-	bh=j/7iFzXsLAvMUXEaYKAeTYE5FeujyoCY/Mn89G6uMns=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=I67KCJQQL/+7gR+x/HS0J9W6tRTfZ5M4wCaumZynz0Fsr1APg6/3tYQsrL+BS2VWf
-	 4ubWYh4PjfytLG5zCMCJ/Ap1deu3P+vdUR87TCl11aWRXjNcmMF4X2xfqLMTUefXz3
-	 LKeYNbZ53sPd+47tq3E3m5/uGx+lWUbsoqAqxfdKGGlSjYhfqHklUkBYaeyhWwKVug
-	 GpigMaIbQikT/jUSXQzyL1xW+UokiLexkoDPwPY+dEEFbiB08WGqihSWV6V2BS/Y6r
-	 +BBJtkBY39iqu8UJ1+4WiZqusLvb0Ja14H0gYklfAMgHShpPMuPjiqnL8GhLK/0N3I
-	 vWvLIoAjbrLOw==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Tue, 10 Jun 2025 23:08:02 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <42676fe3-8758-42ea-8e21-9c3955468c78@wanadoo.fr>
-Date: Tue, 10 Jun 2025 23:07:59 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="khOoX8S6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749592264; x=1781128264;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=zwl7fxN9SO0Icm+fF6edWATV2jwFRCkq7I+mt9PedvQ=;
+  b=khOoX8S6dmufgEehe00Et2sqx1yphgbvV4PdlUwPr6jw1RzjH9GeYBB2
+   EZpS1Gyw64HO/AZJh3iW59sSgqgcATqDYNYV0UWRb2W1YIeIyI9Ec6jPL
+   o1fxhANZ2PVrdikc2RE7v7FxqCevHt0CzdMVKvhBc47kkauYXC0VBoLPk
+   qLTwDoe184Cck+DwSQWhAANjkUm86KmaMgEDe5+WiSJa2cCuzLm0veTO/
+   VAugVT5ywcpHuJ59uk8feHqZVsjDdsxpjqs0P+Y9i5TZWhUl/wcvgAofx
+   5GsVIGKxOLRXLk5MMVfB3JrL/7AUm3UHqqR0t+HeRRsPZhvA5jdtNPrFk
+   g==;
+X-CSE-ConnectionGUID: PZHboaMSTLigjGuC2UyLAg==
+X-CSE-MsgGUID: PRhvx0PVR8eRFnvJ6yjGIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="69282554"
+X-IronPort-AV: E=Sophos;i="6.16,226,1744095600"; 
+   d="scan'208";a="69282554"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 14:51:03 -0700
+X-CSE-ConnectionGUID: 3swDCq/vQjWwGRuca34EdA==
+X-CSE-MsgGUID: 7vm5FCaISOeBzk8Qk/gy3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,226,1744095600"; 
+   d="scan'208";a="147903350"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 14:51:03 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 10 Jun 2025 14:51:02 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Tue, 10 Jun 2025 14:51:02 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.55)
+ by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 10 Jun 2025 14:51:02 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=McPP2ZlTmbaNcOd0Hw5RCYzA9Oi8rnVKnGkV1oBaqGiwl6CPFVh2rIslMXDWcpjlzgo5nEYo7Ns4Xrj6wtKRi4nw8plq/xF1wWTc0u4cWRn1hg0P0L3d417WVdY1EzTKTHKtGxNjgER1uHQOSBH64XEe+Ae8e/jK65oH0LGsnY1gSwyqTNa9r2tlJ5Rs1op+xutwkypk1X48Mt0r30V2JrFx/O2VTRQl7BHyZ93RBVC9Bq/BMqxifEqU2qt2TbxdJEVYB0Zhjtf2nJgOlslDWlDhIdJvmXot2ci50fOL605YTCtkt+BNDnCMkxYc9C/qdXX7Q+yTm5N3hzVqHCYBBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zwl7fxN9SO0Icm+fF6edWATV2jwFRCkq7I+mt9PedvQ=;
+ b=D4pkNlHFLA+nw6H96qxc/HYWWkP4WeveabLcAm4ZxpRhnI2ZPwGd8H8PiAwjVOknPWsQInkNKaVduz3Weml1mbrd0zgv+Rocg8SoMzxHjob1tk5HaVyVpO9tKy+XnHv7lGAtQIrxeROQukXQMnzgc2itmfpIkdU3Tt5DO38yVDBsHhMaM5r1TeIWISf54D39Ws61WI0n6/uCsrg7to/GONG8ZhwpLbpRIUJZ8jt7QjzlIRs/nP02jkzqPs7ZpJKgNeiT2dDKMy5rOThEOcBeGGketLoWb2d+gEVdSqVUflY8QokAJBm8GCeF44Uvj4gBoBj1/sOM3h4jyT6MCeNDyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6297.namprd11.prod.outlook.com (2603:10b6:a03:458::8)
+ by LV8PR11MB8488.namprd11.prod.outlook.com (2603:10b6:408:1e7::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.29; Tue, 10 Jun
+ 2025 21:50:58 +0000
+Received: from SJ1PR11MB6297.namprd11.prod.outlook.com
+ ([fe80::dc50:edbf:3882:abf7]) by SJ1PR11MB6297.namprd11.prod.outlook.com
+ ([fe80::dc50:edbf:3882:abf7%5]) with mapi id 15.20.8813.024; Tue, 10 Jun 2025
+ 21:50:58 +0000
+From: "Salin, Samuel" <samuel.salin@intel.com>
+To: "Zaremba, Larysa" <larysa.zaremba@intel.com>,
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, "Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>, "Jiri
+ Pirko" <jiri@resnulli.us>, "Nikolova, Tatyana E"
+	<tatyana.e.nikolova@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"Lobakin, Aleksander" <aleksander.lobakin@intel.com>, Michael Ellerman
+	<mpe@ellerman.id.au>, "Fijalkowski, Maciej" <maciej.fijalkowski@intel.com>,
+	Lee Trager <lee@trager.us>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+	"Zaremba, Larysa" <larysa.zaremba@intel.com>, "Samudrala, Sridhar"
+	<sridhar.samudrala@intel.com>, "Keller, Jacob E" <jacob.e.keller@intel.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, "Polchlopek,
+ Mateusz" <mateusz.polchlopek@intel.com>, "Zaki, Ahmed"
+	<ahmed.zaki@intel.com>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Karlsson,
+ Magnus" <magnus.karlsson@intel.com>, "Tantilov, Emil S"
+	<emil.s.tantilov@intel.com>, "Chittim, Madhu" <madhu.chittim@intel.com>,
+	"Hay, Joshua A" <joshua.a.hay@intel.com>, "Olech, Milena"
+	<milena.olech@intel.com>, "Linga, Pavan Kumar" <pavan.kumar.linga@intel.com>,
+	"Singhai, Anjali" <anjali.singhai@intel.com>
+Subject: RE: [Intel-wired-lan] [PATCH iwl-next v4 07/15] idpf: remove
+ 'vport_params_reqd' field
+Thread-Topic: [Intel-wired-lan] [PATCH iwl-next v4 07/15] idpf: remove
+ 'vport_params_reqd' field
+Thread-Index: AQHbxnMgkikszEMUzUyzde56HWG+MrP9FChA
+Date: Tue, 10 Jun 2025 21:50:58 +0000
+Message-ID: <SJ1PR11MB62973B69B2CC21C7D6B5DAE79B6AA@SJ1PR11MB6297.namprd11.prod.outlook.com>
+References: <20250516145814.5422-1-larysa.zaremba@intel.com>
+ <20250516145814.5422-8-larysa.zaremba@intel.com>
+In-Reply-To: <20250516145814.5422-8-larysa.zaremba@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6297:EE_|LV8PR11MB8488:EE_
+x-ms-office365-filtering-correlation-id: a85ac4ac-d542-4c59-689b-08dda868e288
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?GdJtbQ552ohCGdvVw2NSkpaPKbAyG0YOtK9pKi+i9rbB5MIoMn/9KWG7WYpb?=
+ =?us-ascii?Q?9bUG1teJPc7F7IxtFfUPmIYlCGzJH7MMbLICPo6Yy4GtCRD02bO4mpUchaaH?=
+ =?us-ascii?Q?SEH9tJX9zg4Phv01Q2UrFZp8gcFNMtgGQkiclSvGOMLMvQAA2WRZqKssFtH7?=
+ =?us-ascii?Q?m+qI8YtTh4l7spE4XPnoLs7IQwz5jv452GAgMnext4AERQvsi8U+hbQUW4b8?=
+ =?us-ascii?Q?dfrb9xWkT3Lcxjp/XTKToj9/yD5hrQWReRqFPIsUf7o6PMVOdj21yZHkrlPN?=
+ =?us-ascii?Q?3RpGuUpTcHUv8tkx4tny5zgx4XFp1YJQSPgEkTamx2fXaBVYdsU9urJZ+XtD?=
+ =?us-ascii?Q?/mE71drCszuGXeP4P9Xb8dwqt5RTDcjuqFoMWf4GkUpPN3rZhcWnhyIocVyJ?=
+ =?us-ascii?Q?5YbIO+vrGjnlp2jlLRODKIHZY5yz3GM1k4UNXBpVkJchV1kb9ZMSHvHw9wEP?=
+ =?us-ascii?Q?rk9H+U16KNABFRcbQg66p81l/ylnFBUHI9UV5JrXd9Ag2titwJ9IvFv/Ugbk?=
+ =?us-ascii?Q?CLf5jA+pnEZoZfyiyvNnkrKGwPb5jacsPOjtjhyfTZz59ckecdWKwtGs12du?=
+ =?us-ascii?Q?gNn25TdiRBieriLp61m6FleAH1FA6+wRx5GPAduIHRhidanZy53DGZpn9BR5?=
+ =?us-ascii?Q?3B9lyOLOStPLSuKwZ+SmLpbLvWYuEvEZc+kpxMwBNyr1BhrmHrTTusSKxNXt?=
+ =?us-ascii?Q?/mYNyzecRo6ML0QXVa6aqLofiTA+2t962Ohuwnyw7KBrDJVMmSuG0g1x+v3D?=
+ =?us-ascii?Q?VvUoS3laV6e7d6Jzlp2yhP5Si/T7twj0vjCym+kyl6tuSzrkSgaKp5DMChPH?=
+ =?us-ascii?Q?Sf8AZ/aC32rmKhhb+FPEAwJ9wyh6S3hZWTCEkSyLbiRyKLGiT2hqKjcN8x9e?=
+ =?us-ascii?Q?NTk0Qsr5ucwUzjcwXAZkd7T0npa1G7Mc30P9vMk0FjdaaV4yGOs37Fxtlg8/?=
+ =?us-ascii?Q?DNf3ull/aUPUXHGm1kxjraanlosGM40zf0RamQt2ZtPS7oKroY9WU2ioimlb?=
+ =?us-ascii?Q?+8ogkDByadmd/cYrkCLEQkCHU+mb+UsKp8ZXLgH+CAY469eQnpHU7XQfKMGq?=
+ =?us-ascii?Q?PqV8m1IHtecHASYeA9rEjmOgmmlidFHfH5geyxHG5R/y80CmTZKyDqcvr7tB?=
+ =?us-ascii?Q?2kYF5gpLInmfLbYwBTwRRcCBTuF1bas94oqveRyXr3sGpzkhB6KLYomxMd+/?=
+ =?us-ascii?Q?gzhvoVM2ES2GfT4PiopXnw2wrxzRAPxx95991K2BhHEd1WSJsLGlzFOR8Znq?=
+ =?us-ascii?Q?uJH8nQl23HjyjoaTSWfc7hAxuqkGkGfRex2PtrgEk1hbprFo1NW/AS5qmBd0?=
+ =?us-ascii?Q?WS+/c/atry/O0JtzNpk+uLvHFygBQBzxxAQ3rPVSRIbAwak8F46e8EB1d8bg?=
+ =?us-ascii?Q?EnOvkePef7qorM8yGx+5NKgCPQszCaxdy/5/duD9ao+9IKKqNFZgPHfyf1bQ?=
+ =?us-ascii?Q?Tg/79XpVLG62UEcEyHyn9jou1OfHQpySgA4MD265nCCJhqRHR/gAFQ=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6297.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?c8kmmQnJCUGPUKXzEJHwFTDuxR5P82rnOId9r8rB/X5q0lkXla1pJm7yUh3G?=
+ =?us-ascii?Q?qMT/yxpNbUVOFoYpOBYVzeL6mRvtgEzs1Xk0VQ3it5GfqJkd5/ZbcGboNkqF?=
+ =?us-ascii?Q?iTFLEu413pmnJqNUSDJvFk/rVQtYNsaeLXScpEiZ4rCWms0fXyqpyVpvfb4l?=
+ =?us-ascii?Q?zbG9gXbOm3V6RQnEwpBzK/aHAYLLyaHFgYROzcbX7L8DSejaE2xC7xnhxa7J?=
+ =?us-ascii?Q?ySl+bDPOafPXt7l9b77J/5Q3e/CahxjU2l4yfS5ROyYWUicn4SmyYqtwDZr2?=
+ =?us-ascii?Q?rCq7OavMz9vMfe0NqKkSwe/tWSkUwRoKl84FEyZmwbD/5WIy5z4jKbLkywY9?=
+ =?us-ascii?Q?SaAH9W94dayPqEHz7q1fdjkTxzpWkNOUYMg9D5aiz9KdVwfQB/b+8ZIjBoG9?=
+ =?us-ascii?Q?QGj6kGCmU2RMS47EaiIqkyXfbU3TQh0zdvr9k7T7nUQiIIjAMp9s666+aWSB?=
+ =?us-ascii?Q?JY+iFVqyDMzHC5HuWmaALu8oKjlmPV1k1DGcb8NhlxhYXqZu6bdnByQyRMSd?=
+ =?us-ascii?Q?Q+e60sgepvKuYCn8aXJF0Etsh0pyDUHjV5vSgWHug+cmgdvo8BRqeEnqq9xl?=
+ =?us-ascii?Q?xSa575+US52Wiu+kGt+HFtNtlIywGB/bp1So/546c/eZ2kF43WyV3nWLiA3H?=
+ =?us-ascii?Q?a+1gUrgOcDD/nk1nIKxJaxKZoRCH1BmJjREAAQE2yDf+cnZ6g/HlxFTtMXJx?=
+ =?us-ascii?Q?D87XfB7y3DPHabgCZ0/2+PPE99KAWi0pn0PXzqgEBTx74pXeh6feNW/reVbR?=
+ =?us-ascii?Q?rytTww9/X2sWckPciSUFJDjRHlhV/qoMaMVDHwKM9pNLKFDhvKbCtwi3G1Mt?=
+ =?us-ascii?Q?qJRCKz/OVMnjijw2hPv6FaNGj3fQSWI3uCBUbWN78g2be6L9rPp7ejKii8bO?=
+ =?us-ascii?Q?CW3tkPehJbUIoaqDaetQ60YEzoK3pSJ7QyF5ZS2NNEZcRSLLKmDixPCdqhtC?=
+ =?us-ascii?Q?qwXvX32oIseAQaWlBCDVL6ND8XB4KJfSpeJhKDiL51PitKtBGYute6capJ15?=
+ =?us-ascii?Q?e3NkBhxwXbFGbc6UTI6gE1K5mG3IP56GWe0lxXuL+R3JYBw/gxLkzUH/Lp9r?=
+ =?us-ascii?Q?tx4PcycWXFdko9o2BWAxQ5GkgtWarVZvLIWnM8rU94l9S/9Ir7dTuiK/+oVT?=
+ =?us-ascii?Q?bPOdAJ58BeWpCMt7ENTyHzzUfrgZ9yNggUUldTXrO0sGh9xA2umGb++Ehmah?=
+ =?us-ascii?Q?4wmS/4K+zT268L0AajWUw9PQ2Q9lRhV5ClBN1uJ7ftXBv4SZZOs6xgCUpQIB?=
+ =?us-ascii?Q?/WRUMmEhwAmC2YfNJxSNddoMokU5KrtF3aHWX91E73aIMayHhfJDFrUy23rN?=
+ =?us-ascii?Q?8/+iThXffm8/w3Hz1ry4BJ++ZkDH93wfMzV9AR6AMAxkeVNSTnMUw3sFOSX6?=
+ =?us-ascii?Q?+AEtXnQjCAIkbxiL6btSGV+5vDSm13yFRcEmb1AbmYHPvvEGXRYPbl5Sq8by?=
+ =?us-ascii?Q?WwixxZGcvACXKDFpc0tE6BHFZdO6L2bgNjOTvCDfJ5/5nkOLBP2LhqlwRfNz?=
+ =?us-ascii?Q?7EuJpnvicKtpYcKMKCzyLsIrEHJwB3ZUnL3Q0RHD1hInNMRHaK64OXB6mKw7?=
+ =?us-ascii?Q?K76iolYu39t4T7UjyAY0iTZvdkbBlgpSm7w7hOv+?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/4] leds: add TI/National Semiconductor LP5812 LED
- Driver
-To: Nam Tran <trannamatk@gmail.com>, lee@kernel.org
-Cc: pavel@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
- conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250610174319.183375-1-trannamatk@gmail.com>
- <20250610174319.183375-4-trannamatk@gmail.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20250610174319.183375-4-trannamatk@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6297.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a85ac4ac-d542-4c59-689b-08dda868e288
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2025 21:50:58.6955
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eQm/Rsoatc7pbll02yEjCly0gx1DmkyDdkLOtUXmRRcoQ/rx2JTs/VNVcYSh4mDxNK3O9XvvDmnoHBuNqhPXXA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8488
+X-OriginatorOrg: intel.com
 
-Le 10/06/2025 à 19:43, Nam Tran a écrit :
-> The LP5812 is a 4×3 matrix RGB LED driver with an autonomous animation
-> engine and time-cross-multiplexing (TCM) support for up to 12 LEDs or
-> 4 RGB LEDs. Each LED can be configured through the related registers
-> to realize vivid and fancy lighting effects.
 
-Hi,
 
-...
+> -----Original Message-----
+> From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf Of
+> Larysa Zaremba
+> Sent: Friday, May 16, 2025 7:58 AM
+> To: intel-wired-lan@lists.osuosl.org; Nguyen, Anthony L
+> <anthony.l.nguyen@intel.com>
+> Cc: David S. Miller <davem@davemloft.net>; Eric Dumazet
+> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
+> <pabeni@redhat.com>; Simon Horman <horms@kernel.org>; Jonathan
+> Corbet <corbet@lwn.net>; Kitszel, Przemyslaw
+> <przemyslaw.kitszel@intel.com>; Jiri Pirko <jiri@resnulli.us>; Nikolova, =
+Tatyana
+> E <tatyana.e.nikolova@intel.com>; Andrew Lunn <andrew+netdev@lunn.ch>;
+> Lobakin, Aleksander <aleksander.lobakin@intel.com>; Michael Ellerman
+> <mpe@ellerman.id.au>; Fijalkowski, Maciej <maciej.fijalkowski@intel.com>;
+> Lee Trager <lee@trager.us>; Madhavan Srinivasan <maddy@linux.ibm.com>;
+> Zaremba, Larysa <larysa.zaremba@intel.com>; Samudrala, Sridhar
+> <sridhar.samudrala@intel.com>; Keller, Jacob E <jacob.e.keller@intel.com>=
+;
+> Michal Swiatkowski <michal.swiatkowski@linux.intel.com>; Polchlopek,
+> Mateusz <mateusz.polchlopek@intel.com>; Zaki, Ahmed
+> <ahmed.zaki@intel.com>; netdev@vger.kernel.org; linux-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Karlsson, Magnus
+> <magnus.karlsson@intel.com>; Tantilov, Emil S <emil.s.tantilov@intel.com>=
+;
+> Chittim, Madhu <madhu.chittim@intel.com>; Hay, Joshua A
+> <joshua.a.hay@intel.com>; Olech, Milena <milena.olech@intel.com>; Linga,
+> Pavan Kumar <pavan.kumar.linga@intel.com>; Singhai, Anjali
+> <anjali.singhai@intel.com>
+> Subject: [Intel-wired-lan] [PATCH iwl-next v4 07/15] idpf: remove
+> 'vport_params_reqd' field
+>=20
+> From: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+>=20
+> While sending a create vport message to the device control plane, a creat=
+e
+> vport virtchnl message is prepared with all the required info to initiali=
+ze the
+> vport. This info is stored in the adapter struct but never used thereafte=
+r. So,
+> remove the said field.
+>=20
+> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+> Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> ---
+> 2.47.0
 
-> +static struct lp5812_data *lp5812_of_populate_pdata(struct device *dev,
-> +						    struct device_node *np,
-> +						    struct lp5812_chip *chip)
-> +{
-> +	struct device_node *child;
-> +	struct lp5812_data *pdata;
-> +	struct lp5812_led_config *cfg;
-> +	int num_channels, i = 0, ret;
-> +
-> +	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
-> +	if (!pdata)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	num_channels = of_get_available_child_count(np);
-> +	if (num_channels == 0) {
-> +		dev_err(dev, "no LED channels\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	cfg = devm_kcalloc(dev, num_channels, sizeof(*cfg), GFP_KERNEL);
-> +	if (!cfg)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	pdata->led_config = &cfg[0];
-> +	pdata->num_channels = num_channels;
-> +
-> +	for_each_available_child_of_node(np, child) {
-
-Maybe for_each_available_child_of_node_scoped() to slihtly simplify the 
-code?
-
-> +		ret = lp5812_parse_logical_led(child, cfg, i);
-> +		if (ret) {
-> +			of_node_put(child);
-> +			return ERR_PTR(-EINVAL);
-> +		}
-> +		i++;
-> +	}
-> +
-> +	of_property_read_string(np, "label", &pdata->label);
-> +
-> +	return pdata;
-> +}
-
-...
-
-> +static ssize_t lp5812_aeu_slope_time(struct device *dev,
-> +				     struct device_attribute *attr,
-> +				     enum slope_time_num slope_chan,
-> +				     const char *buf, size_t len)
-> +{
-> +	struct lp5812_led *led;
-> +	struct lp5812_chip *chip;
-> +	struct lp5812_led_config *led_cfg;
-> +	const char *name = dev->platform_data;
-> +	int val[LED_COLOR_ID_MAX];
-> +	u8 chan_nr = 0;
-> +	char *sub_str, *str = (char *)buf;
-> +	int i, ret, aeu;
-> +	union slope_time slope_time_val;
-> +	u16 reg;
-> +
-> +	if (strcmp(name, LP5812_SC_LED) == 0)
-> +		led = dev_to_lp5812_led(dev);
-> +	else
-> +		led = dev_to_lp5812_led_mc(dev);
-> +
-> +	chan_nr = led->chan_nr;
-> +	chip = led->chip;
-> +	led_cfg = &chip->pdata->led_config[chan_nr];
-> +
-> +	sub_str = strsep(&str, ":");
-> +	if (!sub_str)
-> +		return -EINVAL;
-> +	if (kstrtoint(&sub_str[3], 0, &aeu))
-> +		return -EINVAL;
-> +
-> +	pr_info("AEU = %d", aeu);
-> +
-> +	guard(mutex)(&chip->lock);
-> +	for (i = 0; i < led_cfg->num_colors; i++) {
-> +		sub_str = strsep(&str, " ");
-> +		if (!sub_str)
-> +			return -EINVAL;
-> +		if (kstrtoint(sub_str, 0, &val[i]))
-> +			return -EINVAL;
-> +		if (val[i] < 0 || val[i] > 15)
-> +			return -EINVAL;
-> +
-> +		reg = LP5812_AEU_SLOPE_TIME_ADDR(led_cfg->led_id[i], aeu, slope_chan);
-> +
-> +		/* get original value of slope time */
-> +		ret = lp5812_read(chip, reg, &slope_time_val.time_val);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/* Update new value for slope time*/
-> +		if (slope_chan == LP5812_SLOPE_TIME_T1 || slope_chan == LP5812_SLOPE_TIME_T3)
-> +			slope_time_val.s_time.first = val[i];
-> +		if (slope_chan == LP5812_SLOPE_TIME_T2 || slope_chan == LP5812_SLOPE_TIME_T4)
-> +			slope_time_val.s_time.second = val[i];
-> +
-> +		/* Save updated value to hardware */
-> +		ret = lp5812_write(chip, reg, slope_time_val.time_val);
-
-Should we do something if ret != 0?
-
-> +	}
-> +
-> +	return len;
-> +}
-
-...
-
-> +static struct attribute *lp5812_led_attrs[] = {
-> +	&dev_attr_led_current.attr,
-> +	&dev_attr_max_current.attr,
-> +	&dev_attr_mode.attr,
-> +	&dev_attr_activate.attr,
-> +	&dev_attr_pwm_dimming_scale.attr,
-> +	&dev_attr_pwm_phase_align.attr,
-> +	&dev_attr_auto_time_pause_at_start.attr,
-> +	&dev_attr_auto_time_pause_at_stop.attr,
-> +	&dev_attr_auto_playback_eau_number.attr,
-> +	&dev_attr_auto_playback_time.attr,
-> +	&dev_attr_aeu_playback_time.attr,
-> +	&dev_attr_aeu_pwm1.attr,
-> +	&dev_attr_aeu_pwm2.attr,
-> +	&dev_attr_aeu_pwm3.attr,
-> +	&dev_attr_aeu_pwm4.attr,
-> +	&dev_attr_aeu_pwm5.attr,
-> +	&dev_attr_aeu_slop_time_t1.attr,
-> +	&dev_attr_aeu_slop_time_t2.attr,
-> +	&dev_attr_aeu_slop_time_t3.attr,
-> +	&dev_attr_aeu_slop_time_t4.attr,
-> +	&dev_attr_lod_lsd.attr,
-> +	NULL,
-
-Unneeded trailing comma after a terminator.
-
-> +};
-> +ATTRIBUTE_GROUPS(lp5812_led);
-
-...
-
-> +static int lp5812_init_led(struct lp5812_led *led, struct lp5812_chip *chip, int chan)
-> +{
-> +	struct lp5812_data *pdata = chip->pdata;
-> +	struct device *dev = &chip->i2c_cl->dev;
-> +	struct mc_subled *mc_led_info;
-> +	struct led_classdev *led_cdev;
-> +	char name[32];
-> +	int i, ret = 0;
-> +
-> +	if (pdata->led_config[chan].name) {
-> +		led->cdev.name = pdata->led_config[chan].name;
-> +	} else {
-> +		snprintf(name, sizeof(name), "%s:channel%d",
-> +			 pdata->label ? : chip->i2c_cl->name, chan);
-> +		led->cdev.name = name;
-
-Is it fine below when 'name' is defined on the stack and is used...
-
-> +	}
-> +
-> +	if (pdata->led_config[chan].is_sc_led == 0) {
-> +		mc_led_info = devm_kcalloc(dev,
-> +					   pdata->led_config[chan].num_colors,
-> +					   sizeof(*mc_led_info), GFP_KERNEL);
-> +		if (!mc_led_info)
-> +			return -ENOMEM;
-> +
-> +		led_cdev = &led->mc_cdev.led_cdev;
-> +		led_cdev->name = led->cdev.name;
-
-...here?
-
-> +		led_cdev->brightness_set_blocking = lp5812_set_mc_brightness;
-> +		led->mc_cdev.num_colors = pdata->led_config[chan].num_colors;
-> +		for (i = 0; i < led->mc_cdev.num_colors; i++) {
-> +			mc_led_info[i].color_index =
-> +				pdata->led_config[chan].color_id[i];
-> +			mc_led_info[i].channel =
-> +					pdata->led_config[chan].led_id[i];
-> +		}
-> +
-> +		led->mc_cdev.subled_info = mc_led_info;
-> +	} else {
-> +		led->cdev.brightness_set_blocking = lp5812_set_brightness;
-> +	}
-> +
-> +	led->cdev.groups = lp5812_led_groups;
-> +	led->chan_nr = chan;
-> +
-> +	if (pdata->led_config[chan].is_sc_led) {
-> +		ret = devm_led_classdev_register(dev, &led->cdev);
-> +		if (ret == 0) {
-> +			led->cdev.dev->platform_data = devm_kstrdup(dev, LP5812_SC_LED, GFP_KERNEL);
-> +			if (!led->cdev.dev->platform_data)
-> +				return -ENOMEM;
-> +		}
-> +	} else {
-> +		ret = devm_led_classdev_multicolor_register(dev, &led->mc_cdev);
-> +		if (ret == 0) {
-> +			led->mc_cdev.led_cdev.dev->platform_data =
-> +				devm_kstrdup(dev, LP5812_MC_LED, GFP_KERNEL);
-> +			if (!led->mc_cdev.led_cdev.dev->platform_data)
-> +				return -ENOMEM;
-> +
-> +			ret = sysfs_create_groups(&led->mc_cdev.led_cdev.dev->kobj,
-> +						  lp5812_led_groups);
-> +			if (ret)
-> +				dev_err(dev, "sysfs_create_groups failed\n");
-> +		}
-> +	}
-> +
-> +	if (ret) {
-> +		dev_err(dev, "led register err: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-
-...
-
-CJ
+Tested-by: Samuel Salin <Samuel.salin@intel.com>
