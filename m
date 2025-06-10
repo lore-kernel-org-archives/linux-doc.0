@@ -1,130 +1,166 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8286922157B
-	for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 08:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A372B1A8401;
+	Tue, 10 Jun 2025 08:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749544570; cv=none; b=JaNVoZj45GmjnxLUu18JxBcijMj1uPGdxFqpR6UzyY8iHStbjPj7jQaTF8GO64dBefS/S5TdPCUKNFGLsRQx9kaB8KHO+kWzu9q06noLfGgiywUPM5NVlfvBbf1bjgSfBR51914nQhr7qnelszk+/AyXTcCQiJghIjHKLTPjolE=
+	t=1749545335; cv=none; b=DMw222qhhSFUweFlY5RQ8poPvtY+yBNFb0nivWOL8Z42rgugX/oNzXZADl6376eaC6g2b5cRIFEHWDjxzDlbzhh6E2n6LdtXEjLZxfYhenirFFaoPZAKPj66MU5dAWqseH/IWjBx5nYV5x6V2+QrBFeJDqY/EzqNsw/yPByCfaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749544570; c=relaxed/simple;
-	bh=ZQz1tLG7kcWUwenzY9ZEbwsbyY9z1eYvjc4bgBPpWjU=;
+	s=arc-20240116; t=1749545335; c=relaxed/simple;
+	bh=SL9JhtT3DDxeAr5EA7Sf44Ku4ofDdJXtg3HBktEESyE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cm2F/6VfddY3HQu0C2oN9YSmXgOtgNt19TZEngM0eINTkgGJOF50ED6uNx4KsFmtYMKU77hUKJN96/UNK8r7F/V0MuFm1s3PxixkRYA8M5q4PYs2icZYyjgu2U8QeKvo9hwWqfhtYk4NAitDWuMVrwIpDnvN7SaiTW00HhQinLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=OsXU/5uQ; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ogc2IjrsCBp+uLjDfnFMWC7Gzsuhf8eoIfhJmW5hUjIygC81L7Z9EkuzsJm18NRbjbC0Zonj9glD1TnYgiZOW0hzcK4FTAa17uMnwJWES5GmzUB9u3O41umUnCPUWyQ6A6v6KGWxh8UZudbjoJNHyfq4uQb/rXcoBQgOf/2M5fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cuhue5vX; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OsXU/5uQ"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a53359dea5so2108737f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Jun 2025 01:36:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cuhue5vX"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-747fc77ba9eso3787718b3a.0;
+        Tue, 10 Jun 2025 01:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1749544567; x=1750149367; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1749545333; x=1750150133; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nDL1VH2zgeGps6X0Zhyb1MxJka1vOhvb2PWMkFIaGrM=;
-        b=OsXU/5uQyuKxZY9UMxQHOEtKqlcj4a/ExbFJyl/xr9uRf6FADU/UN5z4IRG67FfyGL
-         JhrpGRUzYeV8C1fnoJp08DkKIyjuotao3ZkS5IRStxZXw8YuNRBocCqpa01mxgDktg5o
-         Qpo28Qmap/V+UqLOFZGh0G3/pSS/8dJgfmkEt9w5cTqyPZxF7j6N49AuJ2RCn5Dws08r
-         6BvV+EWDF4T3S6oED2WmlXAoNWk4a9UlnND9mBLwDWbzMx1lLKN7jWADvCKxtc+vaECW
-         ci/jzg1r0fnTIDjHRoC59/OubN6rAv2FEzt4Tj2Vz8hmP9gFeks6r64WG8/0PMGOMHHv
-         ksTA==
+        bh=2Adyab7mK7y8FZTFYvCFrgwqWEigHl5r5FcCXAv987E=;
+        b=cuhue5vXLeX81v7hF+j6N/DBCqWKPZ4EHwrW+SRkVh8E+AAudv8OGzyPCRq9yPmI1O
+         bozm4v1X5QK3A1fB/eAybUOP++5gJrN0CaBeJw44aRoHpBFuObcc2U9NWv0V+tYntJjL
+         1BrTTkA4tGZ6E5kEtVLC+p4iJ07opVCSgC2YFSaZsUUrsgvLMHdtLrUVPFaiGF/LDEy2
+         Dc9UjbfXLospjiXOemiqrSqYfTRgcyx/2aQtPPu+4IAwWlNUNts+mQnq7zZ1G4/sFWHQ
+         uFLrTfUNNdJUD46gaq8/DYLufHqj3RKeEdivvLHMITx2m/LfUVn6w2dLJBiaq2yfyniH
+         tVww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749544567; x=1750149367;
+        d=1e100.net; s=20230601; t=1749545333; x=1750150133;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nDL1VH2zgeGps6X0Zhyb1MxJka1vOhvb2PWMkFIaGrM=;
-        b=rBQ+xAMHa/eRu8AXef/eUIID8KPsXigxcgamA43ac25eQO3wYo+1glyXHUR7V1iBME
-         vbQlL1BvvnLawjwW1WaJo5gIU9eM+XVhp7MZ4tGfFlcIOiKjP8Njc6NDhjzYSkH6MKHW
-         NQGRuOr026K20eRq13YMqNRR4Kpu/xMEIZLl6J3OWBaAaenUihfTDNJS/uIaRbJ5nBMG
-         UQgH/KrDIxwl17gxSxvgduvfbInPkCff4jJj3V6vbFDtuvpiergl68W7asiAroC1Gmdc
-         JeISJ3spNf9Go9PQZkWPRXa5BxkYFf1LQ9uZpGK6lTH+UQGkAYSD/T9tBb2k7KviFMRr
-         F8Ww==
-X-Forwarded-Encrypted: i=1; AJvYcCVeqnZw71jR3PAgayX2DF+JrfB/PWJb34YBPTchp4cQqucSRsqraBKWOgLSbOFGFIG6fte84K2D5dk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhYVosCTHVMyHTy3exS3D7h+J3ciLFMKg3msW13M37E+Ptkm2s
-	J4GZxMTJeBL3VLv8hPJpLYqlMJOYNcz0ba/7kA+jxCv0vdPy2zULvLGkse1/Z8qebiQ=
-X-Gm-Gg: ASbGncv5K6aLDRKGMON5Qq/5Xqj9Mgq5xRKo8dRuGOyWwE5OWCIBWk5fUkDLryIE0l/
-	nV9AMuvqUIN0pWHjE56V1sWcSSKqA5CUGjhzQ9wgXIvKedORQlwiPfxRUeuQZvrakOdm//36CFi
-	QOz+uY2CBCbDp1HVHLUtoLmhJI0hOAVyFTz/r6OSUxx30N8XLy2EmoawpV1yWkacG1bRDLpV9jo
-	KpgTA+x3n+NwIqxsNBFiEt2TUjO9Wvfh/Fd5+gRkme3lors1ZFmLLffYMdO3tOlWzTRu5Oen6Rf
-	7igrRv/lN9P/2e+4jOAyvX35RtQJanPOExjUg3P0q8uZtOTiMXVXEvyAHyUeuFjU
-X-Google-Smtp-Source: AGHT+IE/nI85vSWlttVj+F3DLQC1penmgc3tIfP/1EOoFPr6y0TcG5WWvzoq1ne1V9qLxIrFBkrV9A==
-X-Received: by 2002:a05:6000:40c9:b0:3a4:f6ba:51da with SMTP id ffacd0b85a97d-3a531786845mr13169150f8f.15.1749544566711;
-        Tue, 10 Jun 2025 01:36:06 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482af38386sm7001718b3a.6.2025.06.10.01.35.43
+        bh=2Adyab7mK7y8FZTFYvCFrgwqWEigHl5r5FcCXAv987E=;
+        b=AJVI4HfGkzDFmbKtqCEvbHKxPsXOdwrFwxD+zT+RAxV4sovAXhH27Tw0J1tUL6/UDG
+         qbBGGOuFEuonfQFo3riQTAPgnNx/6dKAH6EOfCeKIUUWNgWb6eLuO/1WV6scpnbxXWzs
+         weNNruAZY3DnfX460IWzkTmaANEL2yP2KUEGPgPhZjqlhB5iDsnYO4wIB0o9YtuFZ22V
+         GovgzNxTwB3O0kiG5dVMAFogSw/4JJWqhT6pbt05DVDV6lGnJrdcVnY6CNry4dkWkSLt
+         GHRZIwv9wlYMFSrBrH18TxqOMe6SJlX0WdCFBioOzSz6aKBCcz3yRcb5bOHbzWDpA1ot
+         qUPw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4lw6/f1WbyPVScOm5/WeoMgVXnhh4Xog9ihQHyVWjL1SVuNBIve/wkzIxF0DZJ4MP2lsaACqmBVFR4OTu@vger.kernel.org, AJvYcCWfqgTtNGvNt/qSgrrCCtYtsEs8wv23XZmjF45MhFEPaT7Psg9UpvSnemKOM29RuJgLqrqc/aWpeu0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOzAk20oCpF5lOY1n7tgoa/rffi5tDTb84Frou6mB7ybZi+Go7
+	kVoQ66VkNdGxIrZIe8bAXOX0rbQLZH6+LTCWeT0UoQoV6rUpWD2d2axm1DHf8A==
+X-Gm-Gg: ASbGncvvSZKiytrXq5xj333iy4VFh2hE7d4QdKelFO/nBo893OFVxovW8+tfBFZEOq4
+	iZXafBeNjWgduDu9/d2L+YjpFTGasZpB8OXCExQMS8MCCcTcs4cHdVgaBXjNEGt4oHvmT53O6lA
+	MCa6dq01CoghMtJd5xt5yW6DXQPKx0UemzGKo6z0UfI3e7QUIGWKBXdZqnO9BbxCfeaj1Ds0033
+	aZChLMW2CMtv4HFPvoi7APAWYM3/U9MQ7c4RXC6LZAnbUC47vAAummUSPSp8h0n+YATyWTyhSth
+	eqjG6g4BoPgLiRD1vRoJ9r57xKbGh5kn+ztbktqEcd9sPZuDDFbuoEeI3//HNA==
+X-Google-Smtp-Source: AGHT+IFp/a3BJUfZ11EtegJLCPwKpNZ2/owGoOb3Tq08bJgJCCkw3iG0UF0qdzi7S7gLYdonMEMPwA==
+X-Received: by 2002:a05:6a00:806:b0:737:9b:582a with SMTP id d2e1a72fcca58-74827f3dab7mr23442739b3a.24.1749545332268;
+        Tue, 10 Jun 2025 01:48:52 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482af38307sm7205070b3a.14.2025.06.10.01.48.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 01:36:05 -0700 (PDT)
-Date: Tue, 10 Jun 2025 10:35:34 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Kees Cook <kees@kernel.org>,
-	Sergio Perez Gonzalez <sperezglz@gmail.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	David Rientjes <rientjes@google.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	Thomas Huth <thuth@redhat.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] slab: Decouple slab_debug and no_hash_pointers
-Message-ID: <aEfuVgR78G1YgRau@pathway.suse.cz>
-References: <20250415170232.it.467-kees@kernel.org>
- <Z_-dPcdiGW0fo8Ji@pathway.suse.cz>
- <202506051314.D6EDFA91D@keescook>
- <aEbyHeG8qh8GChTh@pathway.suse.cz>
- <202506090823.33ED63C@keescook>
- <aEdANsGsQHqVQ9Wy@smile.fi.intel.com>
+        Tue, 10 Jun 2025 01:48:51 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 33DBB4209E8C; Tue, 10 Jun 2025 15:48:49 +0700 (WIB)
+Date: Tue, 10 Jun 2025 15:48:48 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Nouveau <nouveau@lists.freedesktop.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>, Dave Airlie <airlied@redhat.com>,
+	Timur Tabi <ttabi@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>
+Subject: Re: [PATCH] Documentation: nouveau: Update GSP message queue
+ kernel-doc reference
+Message-ID: <aEfxcKv7pJ5L6wiP@archie.me>
+References: <20250610065258.41467-1-bagasdotme@gmail.com>
+ <b17709fd-7ca6-40dc-8d9c-7d3a98d9d305@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Y8RoNhFPCm0EIgnk"
 Content-Disposition: inline
-In-Reply-To: <aEdANsGsQHqVQ9Wy@smile.fi.intel.com>
+In-Reply-To: <b17709fd-7ca6-40dc-8d9c-7d3a98d9d305@infradead.org>
 
-On Mon 2025-06-09 23:12:38, Andy Shevchenko wrote:
-> On Mon, Jun 09, 2025 at 08:24:47AM -0700, Kees Cook wrote:
-> > On Mon, Jun 09, 2025 at 04:39:25PM +0200, Petr Mladek wrote:
-> 
-> ...
-> 
-> > As long as it's in -next and scheduled to land, I'm happy. I'd always
-> > like it earlier, but the less workflow disruption the better! :)
-> 
-> Hmm... The __diag patch series were in Linux Next for a few weeks and did not
-> land in v6.16-rc1. Just saying that there is always chance to go into cracks.
 
-Urgh, I am terribly sorry for this. I forgot to do it the other
-week. And I missed it in the merge window because it was in for-6.15*
-branch. I had a feeling that I have forgot something but I did
-not find it.
+--Y8RoNhFPCm0EIgnk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK, I guess that I am getting older or going through some more
-distracting times. And have to update my process.
+On Tue, Jun 10, 2025 at 12:34:06AM -0700, Randy Dunlap wrote:
+>=20
+>=20
+> On 6/9/25 11:52 PM, Bagas Sanjaya wrote:
+> > Commit c472d828348caf ("drm/nouveau/gsp: move subdev/engine impls to
+> > subdev/gsp/rm/r535/") moves GSP-RM message queue implementation in
+> > drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c to versioned path in
+> > drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c, but forgets to
+> > update kernel-doc reference in nouveau docs, hence triggers htmldocs
+> > warnings:
+> >=20
+> > ERROR: Cannot find file ./drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> > WARNING: No kernel-doc for file ./drivers/gpu/drm/nouveau/nvkm/subdev/g=
+sp/r535.c
+> >=20
+> > Update the reference.
+> >=20
+> > Fixes: c472d828348c ("drm/nouveau/gsp: move subdev/engine impls to subd=
+ev/gsp/rm/r535/")
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > ---
+> >  Documentation/gpu/nouveau.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/Documentation/gpu/nouveau.rst b/Documentation/gpu/nouveau.=
+rst
+> > index b8c801e0068cb0..878fb1ade31e4c 100644
+> > --- a/Documentation/gpu/nouveau.rst
+> > +++ b/Documentation/gpu/nouveau.rst
+> > @@ -25,7 +25,7 @@ providing a consistent API to upper layers of the dri=
+ver stack.
+> >  GSP Support
+> >  ------------------------
+> > =20
+> > -.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> > +.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
+>=20
+> Are you sure?  Did that work for you?
+>=20
+> I see
+> /**
+>  * DOC: GSP message queue element
+>=20
+> in drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c but not in the
+> file that you referenced.  Maybe it just keeps moving around...
 
-I have just created a list of branches which I have to merge
-for 6.17. I hope that it will do the trick.
+Indeed, the same GSP docs as in v6.15.
 
-Best Regards,
-Petr
+>=20
+>=20
+> This works for me. Please send a v2 if you see the need to.
+
+OK. I will send v2 tomorrow.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--Y8RoNhFPCm0EIgnk
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaEfxawAKCRD2uYlJVVFO
+o2kRAP9CJA+u5eZWn1qw86oxaYpm5u/xyz/pc+6HFOmnzwlzUQEAjpmbsMGbxIGC
+fShVOwx9gI6Zig+qYWmiMGOve5PQYQ8=
+=g2xs
+-----END PGP SIGNATURE-----
+
+--Y8RoNhFPCm0EIgnk--
