@@ -1,111 +1,160 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E05232785;
-	Wed, 11 Jun 2025 08:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D0B231825;
+	Wed, 11 Jun 2025 08:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749628938; cv=none; b=oTATrC7tZMk94BW0RWK7VAeHkfYVGQkMnJ8vw9Ljj0HytAG79LPxqxNGLipgC+cEre92k05ywUwqVWXJ9t2EwWctYAAIw/R67ayOXbm9ITPpiqxVPLRoeLP3YCoSDiiLDe6Nh1z/GALnZKSMGAwwwLon9x2d7JTLruw7DtTEv3Q=
+	t=1749630290; cv=none; b=TBCxP1DNoP0z4qP3DJ3GMfPumI5b1xZo/aNcMHuVPRqG4fopBkjDLBccMUn0SQkrZEKs5FkY7AbqpSrgCnNSnAvUmxtEWaqS5pzSJkqdA+0RPYazp0ABYhJrg8OGaSTxuqV+F7WQtRsA0JQFFHWI3XlEJdNNSCgc3LHVuiKccf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749628938; c=relaxed/simple;
-	bh=NbzZlFbp9MilzY0lStFAU5C/JQNiGLwMk/T6fCIRSDY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BTghbnFk3w3twbxYUAmoYGKlLK5jX7IkSfMMnVhVgW5A2hD7cC6gPnG0i9fldb4cDtsRH7kbLSy3AWHzBxQi9EAIS06u8o8AdhzMhb7+3F/CYe9APyZd3dtLlGBNFc261sJ+sCntx93nuajq5jxAvIfbeR7JLXc5iZV5QL2riIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fTUNRU5m; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749630290; c=relaxed/simple;
+	bh=kZRdlavCAxUA7vtsFWahmMb55QZEg0NDyi1NLO9UNi8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oGUooif5/JaoN7FHbyK3m8V3+wcxY7fPuGPu2oHXMl4QOJIDZuxIzeTqcUnO/Czkbp9oqgiFcJ392JDQN9Vd30fIeZzkIkHioaD8rAEQ826fJBwx6CHhETM1oIlSOAcKY/z8gJJzieA7DefWBB6c+SF9OFf3JqvosSYrH4iJqZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IxFupl9a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fTUNRU5m"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-70b684670e7so435597b3.2;
-        Wed, 11 Jun 2025 01:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749628936; x=1750233736; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NbzZlFbp9MilzY0lStFAU5C/JQNiGLwMk/T6fCIRSDY=;
-        b=fTUNRU5m5ng4jjt+Ci+Q8cwAr6a9TdP9cKcqX/iWF5YkaZ0xd7o0vghv2HH80hsv8q
-         5hT4LX6RbIhaQyvDy0ZLC5aklSB8XsXv8iuG8Th0eGDhPI9HK1Wvcg9GpwIcQHCxNKKR
-         ar2Z+Ur+aToXxlYFH4MmT5yIBLMRvH/L0HMp35MWn6ImC3kR8YhWfN4Y/rEueqMQkXmz
-         kH4JpOPIyEOp654pE6wu4+zetuaJ+sPqDV5uFIIeGc9Shw26VA9hQrXFi/rXG99fAyFh
-         a2LA4x5tH2sHSQcmcP3bnA4gANxHCxr9xWw2FrneA8XX5JseCTiT5AhzEalCX61qRBCS
-         CxRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749628936; x=1750233736;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NbzZlFbp9MilzY0lStFAU5C/JQNiGLwMk/T6fCIRSDY=;
-        b=ivo7gUmu7QTezobu8n+ajJ4RlmWWgSkhKTAIOUqgdCagUKgYjU/onrJr+8T/HKD7J3
-         F5JgHHK7B3HqF8gGDrIBn8Wqgx5H+uNn6/n6+gvA9rTV3tUXDpPqZ5DhVI2IvZ/WNTcQ
-         7W2opD9G/U+/9LQZOdIcxUY/ncOrPnTXn8z6GqijvGrqp71x7p4/1LwfiiopEkCcpWOC
-         GoIBwCX8eNQCy4Ou3RvCAR3PgoRrNyMdpD+Qht16vnWiRbZTbRlkpVL7Txrl5D1qUJnK
-         aT8L/3INFrd3N1Npeusob2v1OJEUiwGPI8/pGSnFMMa7+T8FR42M6grQ6KYQ9p78dIrP
-         O/VA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQxRYEX3WGpQHJvpGmkgb/JyRlHPJFw6d1FEJ0QhG7cH+3PRz34eVvHqfJWZbVlar1O2x031hrRfE=@vger.kernel.org, AJvYcCV1Ql/GpNDDYfoYzZXaFuqtmIVMY1rHEyf+ew5PCXXRG7HLuggtfflfNwIZ+SKumH93qG0f/VbwcY1r7Yj2@vger.kernel.org, AJvYcCX8MJK1Qult3nLtslWpkkhyJ3iXJuWRFpHslwBw8gvmN0IOnAa6iAi4YM0LGu4ldBMMR8sXQ0HoA0ro@vger.kernel.org
-X-Gm-Message-State: AOJu0YygRgHdcq3ZuX31u/3FcHIcqxQyrTjpjjZRhFgrbsKIF26P/C7z
-	g90WtUNSPFvr9WHyVQVZW6b/1gduVlqMxi6t1SM50+0T+zI0TNMY5PXAfGeGilkQfcbhJczdM1c
-	zxMVpSjX8ys3lJVucMZlpfndFOen9dT8=
-X-Gm-Gg: ASbGncvJpDv0diPJTwt/mlGPNG/92KkWIwcX1U/cLtJpnDodx8xnqbaMzO3dn8EnY41
-	IrBMYg4d/lwrpbof/CanB4ind2euIuKPwsLiQIj0ZgB4wBExU1AH3AUgXi2TvcEiWQgUGCBLsdt
-	VEb7n1+YelNKk/yNi3jhtPnKzBwhe3zGmtWX0miHdjZJA=
-X-Google-Smtp-Source: AGHT+IEFQN794osZ3VLd59D7VBxAU+Dt7mNDu8xg/+i3oE7oOTCgB8eAAcKaTdrZtLq+eSw7UlLCbHhVIGHaQU/3ctk=
-X-Received: by 2002:a05:690c:39b:b0:70e:2d3d:acdd with SMTP id
- 00721157ae682-71140b08a19mr13264007b3.9.1749628935967; Wed, 11 Jun 2025
- 01:02:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IxFupl9a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 605BCC4CEEE;
+	Wed, 11 Jun 2025 08:24:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749630290;
+	bh=kZRdlavCAxUA7vtsFWahmMb55QZEg0NDyi1NLO9UNi8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IxFupl9aH+RT82Bs7IcFJgCEMA5JKESI8QbzEqK5RqE6EN2Tm1E3lW2ZG0foDSqr9
+	 soKzZXeRctSsMO+sn6ecP82PriqxssYPfRRdEkYEtrULMo4qxVt8j5PPz7oIjOeARH
+	 iwAdMciX1RYm/w32WpraPxrndHDdzOQBmnKwnmxwzcDkEKs6Y90wZyiPvUjYkG9rik
+	 UBjjFqw7C+TtpPOzoTtCxpyPEXImydvWetnmuKvZLlGfRInYADsz0p76pDYmIh2D6n
+	 XtH8h5ND0Kc80jf9igcUHk6Y18Vx+BZBn+xEOiLSb8tbc7vevCeGwnZmybRm4p0b3+
+	 pMFgl/M3413HQ==
+Date: Wed, 11 Jun 2025 10:24:47 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: lee@kernel.org, pavel@kernel.org, krzk+dt@kernel.org, robh@kernel.org, 
+	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 1/4] dt-bindings: leds: add TI/National Semiconductor
+ LP5812 LED Driver
+Message-ID: <20250611-nimble-archetypal-raptor-eadcb6@kuoka>
+References: <20250610174319.183375-1-trannamatk@gmail.com>
+ <20250610174319.183375-2-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250601172139.59156-1-l.rubusch@gmail.com> <20250601172139.59156-3-l.rubusch@gmail.com>
- <CAHp75VfitLPHZ=SUS-ME_fhJqCAwuDAzzN8yt1gq5Drvk7ySow@mail.gmail.com>
-In-Reply-To: <CAHp75VfitLPHZ=SUS-ME_fhJqCAwuDAzzN8yt1gq5Drvk7ySow@mail.gmail.com>
-From: Lothar Rubusch <l.rubusch@gmail.com>
-Date: Wed, 11 Jun 2025 10:01:39 +0200
-X-Gm-Features: AX0GCFuMW4pSdI-CDsS_FlE9LXarn6flJ_PCzzRPHk9y6kKYvg48z-GqaNKYJlI
-Message-ID: <CAFXKEHY-X-vA_9pzZgYX_HPd2gexi7r8DJJ6cp+H9Px3WY42aQ@mail.gmail.com>
-Subject: Re: [PATCH v4 02/11] iio: accel: adxl313: introduce channel buffer
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de, 
-	Michael.Hennerich@analog.com, bagasdotme@gmail.com, linux-iio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250610174319.183375-2-trannamatk@gmail.com>
 
-Hi Andy,
+On Wed, Jun 11, 2025 at 12:43:15AM GMT, Nam Tran wrote:
+> +patternProperties:
+> +  "^led@[0-3]$":
+> +    type: object
+> +    $ref: common.yaml#
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      led-cur:
+> +        $ref: /schemas/types.yaml#/definitions/uint8
+> +        description: |
+> +          LED current in 0.1 mA steps (e.g., 150 = 15.0 mA; 0 if not connected)
+> +        minimum: 0
+> +        maximum: 255
+> +
+> +      max-cur:
+> +        $ref: /schemas/types.yaml#/definitions/uint8
+> +        description: Maximum allowed current in 0.1 mA steps
+> +
+> +      reg:
+> +        minimum: 0
+> +        maximum: 3
 
-On Sun, Jun 1, 2025 at 9:08=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Sun, Jun 1, 2025 at 8:21=E2=80=AFPM Lothar Rubusch <l.rubusch@gmail.co=
-m> wrote:
-> >
-> > Add a scan_mask and scan_index to the iio channel. The scan_index
->
-> IIO
->
-> > prepares the buffer usage. According to the datasheet, the ADXL313
-> > uses 13 bit in full resolution. Add signedness, storage bits and
->
-> bits
-> ...OR...
-> 13-bit wide data field
->
-> > endianness.
+Place properties according to DTS coding style.
 
-As this is getting very annoying, I tried to set something up
-involving checkpatch, codespell and ispell. But I guess w/o
-grammatical checking. Just, in case, do I miss some simple tooling
-here, any suggestions?
+> +
+> +  '^multi-led@[4-7]$':
+> +    type: object
+> +    $ref: leds-class-multicolor.yaml#
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      reg:
+> +        minimum: 4
+> +        maximum: 7
+> +
+> +      '#address-cells':
 
-As a consequence, the alternative in the year 2025 is probably using
-chatGPT for the commit messages and we probably never will have this
-discussion anymore. Hum... ?
+Don't mix quotes. Either ' or "
 
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^led@[4-9a-f]$":
+> +        type: object
+> +        $ref: common.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          led-cur:
+> +            $ref: /schemas/types.yaml#/definitions/uint8
+
+No, use existing led common properties. Also observe the units - this is
+not uint8 but a defined type for microamp, see property-units in
+dtschema.
+
+> +            description: |
+> +              LED current in 0.1 mA steps (e.g., 150 = 15.0 mA; 0 if not connected)
+> +            minimum: 0
+> +            maximum: 255
+> +
+> +          max-cur:
+> +            $ref: /schemas/types.yaml#/definitions/uint8
+
+No, use existing led common properties. Same everywhere.
+
+> +            description: Maximum allowed current in 0.1 mA steps
+> +
+> +          reg:
+> +            minimum: 4
+> +            maximum: 15
+> +
+> +        required:
+> +          - reg
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        led-controller@1b {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            compatible = "ti,lp5812";
+> +            reg = <0x1b>;
+> +            vcc-supply = <&vdd_3v3_reg>;
+> +
+> +            led@0 {
+> +              reg = <0x0>;
+
+
+Messed/mixed indentation.
+
+BTW, such significant binding change at v9, invalidting reviews and
+rewriting the binding completely, is surprising.
+
+Best regards,
+Krzysztof
+
