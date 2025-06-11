@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3173E248191;
-	Wed, 11 Jun 2025 11:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E54A27BF8E;
+	Wed, 11 Jun 2025 12:12:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749643091; cv=none; b=qthDskjTyKQWKIZK5qz0QhDmtpvecZ5EJCIRMfvf/kxK28AVB/Qr2+bAzRAOzmZRTy/gGgT8udUMwBPkuCOoj7HzY8+AMiuDn5kBwwPZjbudY8DQH/Q3I22LQhfeIIGq6V+GaH2w1SAE+FIGYsOXRyAS1hcOba+1wCq8nnB0+oM=
+	t=1749643950; cv=none; b=e1FL6Zqju/TBRIWb8BUmk2X8vd/UeWIDnI/F8z6KfzHQ8HcHXgEbdm9g+YU89qO8WuVoyPO1NhxKVZzKTpZgI6AqVvCeDKD3hMGwkuYrTwEQirHSECkuc/jKWpKclzdK9dSM7zdHFn0NpIqsId2wIfLisN1K3V7emKDyyZe06ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749643091; c=relaxed/simple;
-	bh=lYYMfAjItLC4fLsRYmM8XcrT+WkhPcmAqDN2A8wwZbM=;
+	s=arc-20240116; t=1749643950; c=relaxed/simple;
+	bh=SLJD4xSGhnQdu4G0Y8SleRMssURTGoQ/hhnSRqumesk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nwl8k9cyVC1BS8/j7kO5suhH8rYAhamYlFwuX8ugv38ncm6oVuMGz5MUQdyYJDSS4q05ji/40VOrvgVfX3CVJ0pwGT8QzqFJjWMYov1Umql9EblQMqjDnGVnIPw62dYOtM24DmhhqQBRuX1Y5VxEA3xn10S9p8uk3eO1nTp5nLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PkSbiwVO; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=iXZPjsQxGviE8gMlXBShQoNu6Np9925ZfMLgflbHyoniTU6PedHOl36HoZ1yNNO5rJKQZbB79ImoVg5sDIqJmEgBcCF5LuRBe+1PbKDM8S5cboQ0mOmv+Ugk3ToMk4yk8bLHKZqtYWZ0X52gdZK8WOYSSrq42rkTAJEmWvIsAao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sezHiOaZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PkSbiwVO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB847C4CEEE;
-	Wed, 11 Jun 2025 11:58:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sezHiOaZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E3E6C4CEEE;
+	Wed, 11 Jun 2025 12:12:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749643089;
-	bh=lYYMfAjItLC4fLsRYmM8XcrT+WkhPcmAqDN2A8wwZbM=;
+	s=k20201202; t=1749643950;
+	bh=SLJD4xSGhnQdu4G0Y8SleRMssURTGoQ/hhnSRqumesk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PkSbiwVOZrbtfaxIHOhfWEaCd5XLI8oDnSHWJ+efp/sjm66ZmiBXgBBRycVgnUSgg
-	 Du9hcEbUrAJCDLlE6ExgOHzVQuipmpGs6wQX7EOeMI5peGZUOkv++2keNUsy9/J/0k
-	 7hYX+DuBNBhtCy2bHY8Ue9ZZNXRrN4dQE9E8r8cEASMA8gG7z9Fv9YLHi1puy5nzk9
-	 wpndB4Zr718xZd8tK5xKbtbJCi84cY1JyV2oQWLAwt68eSxMx3tnnzXZ+NBUJLkqB1
-	 GerpGtkII1SPdbOVo/se1l0BOUSa1ZPVrh31rqJEmcHf7Vn119gpLmBB6TAWmpEcfT
-	 iPNAzCP6hULGQ==
-Date: Wed, 11 Jun 2025 12:58:04 +0100
+	b=sezHiOaZuBVh2WM2w9v3+RnYxj8O2uvwWdqlcK8KwaMwuHN4PKpyQ1cbuaNgDOZOH
+	 x3I1WuOlyNgGclKVEZGC0eQZB7+P8LHY6x8zmkVhA8rM3r12uX5IjbSFcC8FHyKmn1
+	 4v/AgQMv0cIxBaEMzoHqvlXonG9Z9HdtBgFo50ACU4opYZTAKyUuy4QVvaUZ0BoGuq
+	 LfyIPCa0psvy1UtVfcH6MMwfY0K8T5Qvkid1O4HFLt5S7kWHzhNuEQMKzRFP2qKtTi
+	 7XXfyIVrvJECB5r/+v9aYXPqkQXXPPKhgsN74DnXfb99/PimSRNjSIF5f2RdBCbrNU
+	 JhTpRZoTHbcQQ==
+Date: Wed, 11 Jun 2025 13:12:24 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Yeoreum Yun <yeoreum.yun@arm.com>
 Cc: catalin.marinas@arm.com, pcc@google.com, will@kernel.org,
@@ -35,11 +35,11 @@ Cc: catalin.marinas@arm.com, pcc@google.com, will@kernel.org,
 	frederic@kernel.org, akpm@linux-foundation.org, surenb@google.com,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 6/9] kselftest/arm64/mte: add address tag related
- macro and function
-Message-ID: <5e937cf0-3b71-4c17-838e-8b38595c153c@sirena.org.uk>
+Subject: Re: [PATCH v6 7/9] kselftest/arm64/mte: add verification for address
+ tag in signal handler
+Message-ID: <5d2a3abd-f19d-4fe0-adfa-9a9860d7404d@sirena.org.uk>
 References: <20250611094107.928457-1-yeoreum.yun@arm.com>
- <20250611094107.928457-7-yeoreum.yun@arm.com>
+ <20250611094107.928457-8-yeoreum.yun@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,49 +47,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0+qKX/eUD8jBDCqq"
+	protocol="application/pgp-signature"; boundary="dMpReiqx5R2V4KiQ"
 Content-Disposition: inline
-In-Reply-To: <20250611094107.928457-7-yeoreum.yun@arm.com>
+In-Reply-To: <20250611094107.928457-8-yeoreum.yun@arm.com>
 X-Cookie: No skis take rocks like rental skis!
 
 
---0+qKX/eUD8jBDCqq
+--dMpReiqx5R2V4KiQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Jun 11, 2025 at 10:41:04AM +0100, Yeoreum Yun wrote:
-> Add address tag related macro and function to test MTE_FAR feature.
+On Wed, Jun 11, 2025 at 10:41:05AM +0100, Yeoreum Yun wrote:
+> Add the address tag [63:60] verification when synchronous mte fault is happen.
+> when signal handler is registered with SA_EXPOSE_TAGBITS,
+> address includes not only memory tag [59:56] but also address tag.
+> Therefore, when verify fault address location, remove both tags
 
-> +void *mte_insert_atag(void *ptr)
-> +{
-> +	unsigned char atag;
-> +
-> +	srandom(time(NULL));
-> +	atag =  mtefar_support ? (random() % MT_ATAG_MASK) + 1 : 0;
-> +	return (void *)MT_SET_ATAG((unsigned long)ptr, atag);
-> +}
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-Ah, this is where the time.h inclusion came from - it just got split
-into the wrong patch.  I would move that srandom() into the main()
-function, we don't need to reset the RNG every time we generate a tag
-and since time() has a resolution of a second depending on how fast the
-machine is we might manage to end up setting exactly the same value for
-every tag insertion the program does which would seem to defeat the
-point of using a RNG here.
+though if you're doing a new version there's minor stylistic stuff:
 
---0+qKX/eUD8jBDCqq
+>  		/* Compare the context for precise error */
+>  		else if (si->si_code == SEGV_MTESERR) {
+> +		 	if ((!mtefar_support && si_atag) || (si_atag != MT_FETCH_ATAG(cur_mte_cxt.trig_addr))) {
+> +			  ksft_print_msg("Invalid MTE synchronous exception caught for address tag! si_tag=%x, si_atag: %x\n", si_tag, si_atag);
+> +			  exit(KSFT_FAIL);
+> +			}
+
+Indentation seems off, also there's ksft_exit_fail_msg() but either way
+works.
+
+--dMpReiqx5R2V4KiQ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhJb0sACgkQJNaLcl1U
-h9A+1wf9FqWnxRE/oTBDa+Oapv2ZOPq4qp6V+BctcWuI4/96XjoZ5VwmFrpEbyfa
-oq8IZKJQh3Ab9MTvkzQBUpOQT6L6N1DWrmw9j92d1CZ/cCnsbhlECrthCfaAoxZv
-fOp9mgm0d33GXm/LvKOMcwTEddRfA3INrDGPJlOfpU2b8fPJHztzpI656I3zz4n0
-2n7EFIT/+o69unP5wgmvOcsD/GDXyJ8Vmaw1zTl8GyEonvvmCWSUt+jbGw2biY+T
-KNdztBsKkxHQjUrgn8Aqf+QxEcaAuDwr0FL6+Mowa+wHlkEO9ekxCy6vNMAfjCeA
-JWfGBw0pL7uQo3zM+Na3LFCkRoC+Yg==
-=w5En
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhJcqcACgkQJNaLcl1U
+h9D6BQf/aTNOEBHCdJx2AzPMclI0fnVTOqn3wjbjAva4lqTXOKFLHZfMukbLQgMt
+ZFa2UJLpKBrYoh3CG2KucTHVJcFeDfXv2PQuxC98vDWOla6CX9m1+KmtYs0hWI96
+wu/1FPcXTxhiymFlHU0Bp8LkfTfhimSXigPbKSCvyhSZWmg3UPp1f7S04agQk8N5
+oiCzwjCfckUZh1yEmlJIF/ALdO7GVzQaV3J/vpE90pajKUK8GEw1KP7qm6GYMWj9
+6bEM2rgEw41ohCucoKhFn41SEy0XPOEnlmEJEuWAnn5U8qWtrq4lP6gBE8L/y5wJ
+cC5YE4Os4Oq3fc0aLmhlCtnVYLeBSg==
+=etRc
 -----END PGP SIGNATURE-----
 
---0+qKX/eUD8jBDCqq--
+--dMpReiqx5R2V4KiQ--
