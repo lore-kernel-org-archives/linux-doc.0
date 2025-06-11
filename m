@@ -1,535 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16EC1280CC8;
-	Wed, 11 Jun 2025 18:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C26A170A26
+	for <linux-doc@vger.kernel.org>; Wed, 11 Jun 2025 18:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749665285; cv=none; b=W08D+NxpuDrDjUJsa8gvsmQEwwhQGz7+EDM8jQ1xi3PeueWP4ClfZSSzO7Iui9ocO+hiZf4kf6k8TatRMXMz4UaaxRxaS+jiB60GpWFHOyKXFf/prMo8SRqq+Aw9pfhLKNRBK66uIcYTtkdBEP+CXfbWoM83nWo4fA5AlT720wQ=
+	t=1749665719; cv=none; b=XnoPdlv05eNgEsjquOoyPIgBGsnctBV4CvV5AQFHmz1JgXHIrXsghBJtYePc6Bk5BFED0kVxBthw0m2WLECST6aDV+NdX3M5erJP2uf9OLuQ5F4YasNOgWIk/EPV2nhNHhbWSa76wvDgDAI5sfMoevSiBib/WMYr2P7Rahl0Ljk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749665285; c=relaxed/simple;
-	bh=7V4oiCEkS9aJ3ve68tq2ieHdW9fB8X9omuEAGqdBhZc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PPx/OLFdzE0lLLBqEKzxJH6V20VqS6hb33r0dn/dRscylQAFrFr46aW1djSHQZg7NMeVvYhFp6OWL3bjleDhiSOseAFetUf319L1M1WdlGKWGiLmKK61mtQ3BLBC1mapkzklTFq3dl+tPOo19BaDYZ4YoYowf6908K3UcdhW8Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8B1515A1;
-	Wed, 11 Jun 2025 11:07:43 -0700 (PDT)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 327893F673;
-	Wed, 11 Jun 2025 11:08:01 -0700 (PDT)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: catalin.marinas@arm.com,
-	pcc@google.com,
-	will@kernel.org,
-	broonie@kernel.org,
-	anshuman.khandual@arm.com,
-	joey.gouly@arm.com,
-	yury.khrustalev@arm.com,
-	maz@kernel.org,
-	oliver.upton@linux.dev,
-	frederic@kernel.org,
-	akpm@linux-foundation.org,
-	surenb@google.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v8 9/9] kselftest/arm64/mte: add mtefar tests on check_mmap_options
-Date: Wed, 11 Jun 2025 19:07:34 +0100
-Message-Id: <20250611180734.63657-10-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250611180734.63657-1-yeoreum.yun@arm.com>
-References: <20250611180734.63657-1-yeoreum.yun@arm.com>
+	s=arc-20240116; t=1749665719; c=relaxed/simple;
+	bh=ShxLF+BQufGmHMrV74DXXvxSMTrFEmKWtn9TGUP97OY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=KBD0DlilFXYihqnprz1HBFWhbRzVrzkxSnztuXFlb3leHG7BomYF2rxjdTz36RRavzzEBu+VYQRKdLg0YiOodXCyIKrgeWYaWukvOht7mQ0EdmNUaHsntrH0yDprVHSJ0iQdfq+E4hQBrCmjPiP/QuISayZV9xt0RPgfTxF//2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1uPPyh-0004Yh-S0; Wed, 11 Jun 2025 20:15:11 +0200
+Message-ID: <e3e7d5fc-ed5b-4292-bf60-4e536386f3b9@pengutronix.de>
+Date: Wed, 11 Jun 2025 20:15:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: Co-existence of GPT and fixed partitions (Was: Re: [PATCH v6 5/6]
+ block: add support for partition table defined in OF)
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+To: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Riyan Dhiman <riyandhiman14@gmail.com>, linux-doc@vger.kernel.org,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Dominique Martinet <dominique.martinet@atmark-techno.com>,
+ Li Zhijian <lizhijian@fujitsu.com>, Daniel Golle <daniel@makrotopia.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Christoph Hellwig <hch@lst.de>,
+ Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Hellwig <hch@infradead.org>,
+ Jorge Ramirez-Ortiz <jorge@foundries.io>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, Avri Altman <avri.altman@wdc.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Al Viro <viro@zeniv.linux.org.uk>, Li Lingfeng <lilingfeng3@huawei.com>,
+ Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>,
+ INAGAKI Hiroshi <musashino.open@gmail.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org,
+ Mikko Rapeli <mikko.rapeli@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, upstream@airoha.com,
+ Christian Heusel <christian@heusel.eu>,
+ Jens Wiklander <jens.wiklander@linaro.org>
+References: <20241002221306.4403-1-ansuelsmth@gmail.com>
+ <20241002221306.4403-6-ansuelsmth@gmail.com>
+ <5e9a80d6-6c89-478e-99c9-584647661f5e@pengutronix.de>
+ <CA+_ehUwa69Qa96yy0=K9AiCEJbaZt9oGCRf5gJDh-0_14shbtA@mail.gmail.com>
+ <4218cdae-07ee-433c-8a68-bb07885e43ab@pengutronix.de>
+Content-Language: en-US, de-DE, de-BE
+In-Reply-To: <4218cdae-07ee-433c-8a68-bb07885e43ab@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-If FEAT_MTE_TAGGED_FAR (Armv8.9) is supported, bits 63:60 of the fault address
-are preserved in response to synchronous tag check faults (SEGV_MTESERR).
+Hi,
 
-This patch adds new test cases using address tags (bits 63:60),
-corresponding to each existing test in check_mmap_option.
+On 12/5/24 13:12, Ahmad Fatoum wrote:
+>> Or you are telling me you had a downstream patch that declares additional
+>> partition in addition to a disk with a GPT partition table?
+>> If that's the case, I'm confused of why the additional partition can't
+>> be declared
+>> directly in GPT.
+> 
+> Many of the older boards supported by barebox used to place the barebox image
+> and the environment prior to the first partition in the unpartitioned area.
+> 
+> To still be able to access them, fixed partitions were used and the rest
+> of the system was described by MBR/GPT partitions.
+> 
+> This was partially made necessary by BootROMs having strange expectations
+> of where the bootloader needs to be placed, which partially overlapped
+> the MBR/GPT itself, making it difficult to define a partition for the bootloader.
+> 
+> For newer boards, it's more common to place the bootloader in a GPT partition
+> now. barebox has no DT binding for generically describing such a GPT partition
+> though, so boards may create a fixed-partition "alias" and use that.
 
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-Reviewed-by: Mark Brown <broonie@kernel.org>
----
- .../selftests/arm64/mte/check_mmap_options.c  | 194 +++++++++++++++---
- 1 file changed, 171 insertions(+), 23 deletions(-)
+FTR, starting with barebox v2025.03.0, barebox' default is to fix up a
+partitions container with a barebox,fixed-partition compatible for
+everything that's not an MTD. This avoids clashing with the binding
+added here for MMCs and possibly a future binding for partitioning EEPROMs.
 
-diff --git a/tools/testing/selftests/arm64/mte/check_mmap_options.c b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-index 0df7ce532465..91a81b4a9bfa 100644
---- a/tools/testing/selftests/arm64/mte/check_mmap_options.c
-+++ b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-@@ -24,6 +24,8 @@
- #define OVERFLOW		MT_GRANULE_SIZE
- #define TAG_CHECK_ON		0
- #define TAG_CHECK_OFF		1
-+#define ATAG_CHECK_ON		1
-+#define ATAG_CHECK_OFF		0
- 
- #define TEST_NAME_MAX		256
- 
-@@ -39,6 +41,7 @@ struct check_mmap_testcase {
- 	int mte_sync;
- 	int mapping;
- 	int tag_check;
-+	int atag_check;
- 	bool enable_tco;
- };
- 
-@@ -48,8 +51,14 @@ static int sizes[] = {
- 	/* page size - 1*/ 0, /* page_size */ 0, /* page size + 1 */ 0
- };
- 
--static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
-+static int check_mte_memory(char *ptr, int size, int mode, int tag_check, int atag_check)
- {
-+	if (!mtefar_support && atag_check == ATAG_CHECK_ON)
-+		return KSFT_SKIP;
-+
-+	if (atag_check == ATAG_CHECK_ON)
-+		ptr = mte_insert_atag(ptr);
-+
- 	mte_initialize_current_context(mode, (uintptr_t)ptr, size);
- 	memset(ptr, '1', size);
- 	mte_wait_after_trig();
-@@ -75,7 +84,7 @@ static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
- 	return KSFT_PASS;
- }
- 
--static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_check)
- {
- 	char *ptr, *map_ptr;
- 	int run, result, map_size;
-@@ -97,16 +106,16 @@ static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, i
- 			munmap((void *)map_ptr, map_size);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_check);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		mte_free_memory((void *)map_ptr, map_size, mem_type, false);
--		if (result == KSFT_FAIL)
--			return KSFT_FAIL;
-+		if (result != KSFT_PASS)
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
- 
--static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_check)
- {
- 	char *ptr, *map_ptr;
- 	int run, fd, map_size;
-@@ -135,17 +144,17 @@ static int check_file_memory_mapping(int mem_type, int mode, int mapping, int ta
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_check);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		munmap((void *)map_ptr, map_size);
- 		close(fd);
--		if (result == KSFT_FAIL)
--			break;
-+		if (result != KSFT_PASS)
-+			return result;
- 	}
--	return result;
-+	return KSFT_PASS;
- }
- 
--static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
-+static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping, int atag_check)
- {
- 	char *ptr, *map_ptr;
- 	int run, prot_flag, result, fd, map_size;
-@@ -168,7 +177,7 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			ksft_print_msg("FAIL: mprotect not ignoring clear PROT_MTE property\n");
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_check);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		if (result != KSFT_PASS)
- 			return KSFT_FAIL;
-@@ -192,11 +201,11 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_check);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		close(fd);
- 		if (result != KSFT_PASS)
--			return KSFT_FAIL;
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
-@@ -209,6 +218,7 @@ const char *format_test_name(struct check_mmap_testcase *tc)
- 	const char *sync_str;
- 	const char *mapping_str;
- 	const char *tag_check_str;
-+	const char *atag_check_str;
- 
- 	switch (tc->check_type) {
- 	case CHECK_ANON_MEM:
-@@ -276,10 +286,22 @@ const char *format_test_name(struct check_mmap_testcase *tc)
- 		break;
- 	}
- 
-+	switch (tc->atag_check) {
-+	case ATAG_CHECK_ON:
-+		atag_check_str = "with address tag [63:60]";
-+		break;
-+	case ATAG_CHECK_OFF:
-+		atag_check_str = "without address tag [63:60]";
-+		break;
-+	default:
-+		assert(0);
-+		break;
-+	}
-+
- 	snprintf(test_name, sizeof(test_name),
--	         "Check %s with %s mapping, %s mode, %s memory and %s\n",
-+	         "Check %s with %s mapping, %s mode, %s memory and %s (%s)\n",
- 	         check_type_str, mapping_str, sync_str, mem_type_str,
--	         tag_check_str);
-+	         tag_check_str, atag_check_str);
- 
- 	return test_name;
- }
-@@ -295,6 +317,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = true,
- 		},
- 		{
-@@ -303,6 +326,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = true,
- 		},
- 		{
-@@ -311,6 +335,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_NONE_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -319,6 +344,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_NONE_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -327,6 +353,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -335,6 +362,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -343,6 +371,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -351,6 +380,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -359,6 +389,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -367,6 +398,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -375,6 +407,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -383,6 +416,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -391,6 +425,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -399,6 +434,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -407,6 +443,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -415,6 +452,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -423,6 +461,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -431,6 +470,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -439,6 +479,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -447,6 +488,106 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_CLEAR_PROT_MTE,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_CLEAR_PROT_MTE,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_ASYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -455,6 +596,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -463,6 +605,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
- 			.enable_tco = false,
- 		},
- 	};
-@@ -479,14 +622,16 @@ int main(int argc, char *argv[])
- 	sizes[item - 2] = page_size;
- 	sizes[item - 1] = page_size + 1;
- 
--	/* Register signal handlers */
--	mte_register_signal(SIGBUS, mte_default_handler, false);
--	mte_register_signal(SIGSEGV, mte_default_handler, false);
--
- 	/* Set test plan */
- 	ksft_set_plan(ARRAY_SIZE(test_cases));
- 
- 	for (i = 0 ; i < ARRAY_SIZE(test_cases); i++) {
-+		/* Register signal handlers */
-+		mte_register_signal(SIGBUS, mte_default_handler,
-+				    test_cases[i].atag_check == ATAG_CHECK_ON);
-+		mte_register_signal(SIGSEGV, mte_default_handler,
-+				    test_cases[i].atag_check == ATAG_CHECK_ON);
-+
- 		if (test_cases[i].enable_tco)
- 			mte_enable_pstate_tco();
- 		else
-@@ -497,20 +642,23 @@ int main(int argc, char *argv[])
- 			evaluate_test(check_anonymous_memory_mapping(test_cases[i].mem_type,
- 								     test_cases[i].mte_sync,
- 								     test_cases[i].mapping,
--								     test_cases[i].tag_check),
-+								     test_cases[i].tag_check,
-+								     test_cases[i].atag_check),
- 				      format_test_name(&test_cases[i]));
- 			break;
- 		case CHECK_FILE_MEM:
- 			evaluate_test(check_file_memory_mapping(test_cases[i].mem_type,
- 							        test_cases[i].mte_sync,
- 							        test_cases[i].mapping,
--							        test_cases[i].tag_check),
-+							        test_cases[i].tag_check,
-+							        test_cases[i].atag_check),
- 				      format_test_name(&test_cases[i]));
- 			break;
- 		case CHECK_CLEAR_PROT_MTE:
- 			evaluate_test(check_clear_prot_mte_flag(test_cases[i].mem_type,
- 							        test_cases[i].mte_sync,
--							        test_cases[i].mapping),
-+							        test_cases[i].mapping,
-+							        test_cases[i].atag_check),
- 				      format_test_name(&test_cases[i]));
- 			break;
- 		default:
+Cheers,
+Ahmad
+
+> 
+> Cheers,
+> Ahmad 
+> 
+
 -- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+Pengutronix e.K.                  |                             |
+Steuerwalder Str. 21              | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany         | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686  | Fax:   +49-5121-206917-5555 |
 
