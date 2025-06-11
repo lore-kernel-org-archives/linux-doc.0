@@ -1,79 +1,140 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1F11632D7;
-	Wed, 11 Jun 2025 15:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE921A83E8;
+	Wed, 11 Jun 2025 15:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749655364; cv=none; b=leh3IJjDaR3cy3HKibTJxpl7Uc2l2VLCEwKYuPd/PRTEC+6dC+d0E0bLR7js5udII3dbYOiUpPlCyYXnOKZpWO3rko5UL11nuiFasIp4oMRChKg7axTf6rdcdaUVQk9OwnM76paEkxD0sMiabk3lHbA5nhKMoDyrn7gooHZ13TY=
+	t=1749655438; cv=none; b=LRvRB6iw7xVfOIBoSJgzMP05MesPhgXEh67PWmaJqA5xag0Hrq/U2bADk8oKvlW+N4CfQsmTUmU8ixdko/KO0yeVnkyoE44kWtzybew6TXasnKePGucGBQo38JHvMcNTq0gwfSf2S/cdXMCP/z32CTI0zXPjX3iIQjte9K+yrAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749655364; c=relaxed/simple;
-	bh=TW1ayCBNW5Vb+2luLmQ00rgDDT1bn12Np1BcZIBx7aA=;
+	s=arc-20240116; t=1749655438; c=relaxed/simple;
+	bh=hB5NPzsdUKebHol986TcEN09r28kynGS/+NNFkmxmzY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f1EMMTlbfhK17aB84Be7hmLIIk8FDPHHCgLdJc0x/bINvBKpRtvFVood1v+/X/QLF64oznmDkMOPPfa0kHrrJe/9N4WuBHhigXah1PNB/pHfr1wX+CDyXDNhyXvbsZBhMwl8WRCm0O3ZjRrj24MDjQ+JFLwb8nr+4FlVXbJt648=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-604f26055c6so1989670a12.1;
-        Wed, 11 Jun 2025 08:22:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749655360; x=1750260160;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zSnJBPEx6odgfaU8N5kmsIPZPJwYZq/K2WTwH3zBoJA=;
-        b=MMd+0b/PXDPj0+j82KrgrpuNuDgmz4xdTbLB4w6KTHy+YJ4fOnjSGW6A/ajz95QpNp
-         9a1YrlXdLH21Zg/A2lDmPu+HMECAaZ0UMue7WTAhhTZwlSHnB77ZZrAVjTkOTv3qxSwh
-         0CkCAS5ijHsOgmATxIhqPH08jOacXzhn9oPkRJJTHpGd40MM+Y9PYyNobuu4owGilk6z
-         2apDRmfSzQvShA7cKYztaHunoYYrH8HNv2MvjiDOmpcT0KZNYCExPkY+8thdoBdzDqvx
-         pOEG+KEXuL4Uee8MFYPm78GpEz/fcack/uiSBmmrXJqmz4JrZ94UgOB45lqLEJ13fnOj
-         xMAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUqrAhbL7Yl0wIxu3kpZRmFO07/BKy3Rz1j8cLzDzzyV4IEqiepzbzhZfloj0QsD4Ixku9ruZ7a@vger.kernel.org, AJvYcCVWbtHpBJWJMCIi3aUNQPxTrx9pOQhHDEO2bB97omKb5FU+F80xjnqCGlPKMXSBSuR148KwvowW2BYa3Uu1Pkaf@vger.kernel.org, AJvYcCVvyFsWkHxC9O7aFrGx26o4hPBzIWxREJQnpTp2/irLzGl6TtrgBFWWzPNnfeti0138lfy3EJU6IzKe+MBX@vger.kernel.org, AJvYcCWSpv/Cehu7HhYuhfJMym8COuwfoPw0tP0E72dDAIyyszrwwH+UOImmiRga0pZ6yklU4PYAwCuQ6ww=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5FaQOxR/j+0+GNa4Kh8X9oqVuj5eTKSmfDieDonur4dN5t/P8
-	uP3Jh3QyyFXpPwzNRsGOUHYn9WGJjehBbMUQRl7FD1enhwotr/SKU48z
-X-Gm-Gg: ASbGncsw7WFfkAA6rMHMMin0m6HZofGeHvYnUbilVuk3r6kbRm3/83TvEIa21K8+iPC
-	OhW2HJfgG8GoGN6y3hJ4+B2m388NVNVJ7m4yX0iQCFGC3QjsdwOoa2pfTJ2T+e31PrZak6V/tO7
-	aNvq+Kc2dMcC+LZ4oAlbL9oDICAPdckmk1aLlUnzaftUf/mTK2WkL9Hc46B63mIJIene6ODujRI
-	dEL+b3kzFVIiPSl8ibpvSSNxxaPaaN3Sf1uui2DazSvrHH79iXOd8dApxJLv2GT7g6/jBgKpHDd
-	lpre2o/hYJsTbyYNKwSNSziIneiA6gc6DwifYy2ZOP3OdTqoDR79PQ==
-X-Google-Smtp-Source: AGHT+IG3vasi3xQDrC942RMkJzAr5DOPhWYhyEtc5CKb+1W1BKeUx1PM+YlMfA2JSV833lGzUJx/iw==
-X-Received: by 2002:a05:6402:40ce:b0:602:a0:1f2c with SMTP id 4fb4d7f45d1cf-60844ec0490mr3365625a12.9.1749655359752;
-        Wed, 11 Jun 2025 08:22:39 -0700 (PDT)
-Received: from gmail.com ([2a03:2880:30ff:71::])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-607fbbdaadbsm3995293a12.51.2025.06.11.08.22.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 08:22:39 -0700 (PDT)
-Date: Wed, 11 Jun 2025 08:22:37 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Gustavo Luiz Duarte <gustavold@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 2/5] netconsole: implement configfs for
- msgid_enabled
-Message-ID: <aEmfPfxxkB3FxIkx@gmail.com>
-References: <20250611-netconsole-msgid-v1-0-1784a51feb1e@gmail.com>
- <20250611-netconsole-msgid-v1-2-1784a51feb1e@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DmntVkmvZuSS5Z4N/o9Kc5SVGF++Y42xTF5a77+CO7HfmQdqNOMlrt0Z7rfyodrQ1dljMILz+u5Yr4srYkrOFLHem2Ogc3+zLYE0u6yl229cufmX53m4gx1qAuQSVkYl4lpgttx+k5UXs4x/kkqhQr0biV6RyT5ouovovnlk5YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+X-CSE-ConnectionGUID: +WLqTz+BQeODSi6TrAhnjw==
+X-CSE-MsgGUID: 0oHJv4/ESO+LHUoXzmFWZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51683821"
+X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
+   d="scan'208";a="51683821"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 08:23:57 -0700
+X-CSE-ConnectionGUID: OaO9Uf/1S+ayfF1UV7Aezg==
+X-CSE-MsgGUID: 99Z2mP0LSCKA1zYlRdO/pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
+   d="scan'208";a="148136517"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 08:23:54 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andy.shevchenko@gmail.com>)
+	id 1uPNIs-00000005gQ6-0e5X;
+	Wed, 11 Jun 2025 18:23:50 +0300
+Date: Wed, 11 Jun 2025 18:23:49 +0300
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Lothar Rubusch <l.rubusch@gmail.com>, dlechner@baylibre.com,
+	nuno.sa@analog.com, corbet@lwn.net, lucas.p.stankus@gmail.com,
+	lars@metafoo.de, Michael.Hennerich@analog.com, bagasdotme@gmail.com,
+	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 07/11] iio: accel: adxl313: add activity sensing
+Message-ID: <aEmfhauUtXowGzUz@smile.fi.intel.com>
+References: <20250601172139.59156-1-l.rubusch@gmail.com>
+ <20250601172139.59156-8-l.rubusch@gmail.com>
+ <CAHp75VemOXhpRp2hfDhvzi3y5j5oL-_0xMmWRWkwEtX7Ks5nMQ@mail.gmail.com>
+ <CAFXKEHZcS2qpb1zp6kkQm_Pb-MxYHErpjD=q6huuLm1Nq=xjqA@mail.gmail.com>
+ <20250611161504.56d402e2@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250611-netconsole-msgid-v1-2-1784a51feb1e@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250611161504.56d402e2@jic23-huawei>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Jun 11, 2025 at 07:36:04AM -0700, Gustavo Luiz Duarte wrote:
-> Implement the _show and _store functions for the msgid_enabled configfs
-> attribute under userdata.
-> Set the sysdata_fields bit accordingly.
+On Wed, Jun 11, 2025 at 04:15:04PM +0100, Jonathan Cameron wrote:
+> On Wed, 11 Jun 2025 16:49:34 +0200
+> Lothar Rubusch <l.rubusch@gmail.com> wrote:
+> > On Sun, Jun 1, 2025 at 9:38 PM Andy Shevchenko
+> > <andy.shevchenko@gmail.com> wrote:
+> > > On Sun, Jun 1, 2025 at 8:22 PM Lothar Rubusch <l.rubusch@gmail.com> wrote:  
+
+...
+
+> > > > -               return adxl313_fifo_push(indio_dev, samples);
+> > > > +               ret = adxl313_fifo_push(indio_dev, samples);  
+> > >
+> > > This is not needed...
+> > >  
+> > 
+> > IMHO this will be needed, or shall be needed in the follow up context.
+> > 
+> > The [going to be renamed] function push_events() shall evaluate the
+> > interrupt status register for the events the driver can handle and
+> > also eventually drain the FIFO in case of watermark. It shall
+> > distinguish between failure, events / drain the FIFO which can be
+> > handled, and events which cannot be handled so far. It's not a if /
+> > else, there can be some event, and some fifo data. Therefore I'd like
+> > not a simple return here, but init a ret var.
+> > 
+> > I interpreted your reviews, to change the particular implementation as
+> > if there was just activity. Then in a follow up patch, rewrite it
+> > again, now to distinguish just bewteen just activity and inactivity
+> > e.g. by if/else. Eventually rewrite it by a third approach to
+> > distinghish activity, inactivity, AC-coupled activity and AC-coupled
+> > inactivity, might be now switch/case. Eventually you might complain
+> > that my patches contain way too much modification of every line in
+> > every patch.
+> > 
+> > I'd rather like to start right away with the final structure with just
+> > the first element - e.g. "activity" - leads to results like the above.
+> > Less churn among patches, but having just one element looks like
+> > having taken an over-complicated approach.
 > 
-> Signed-off-by: Gustavo Luiz Duarte <gustavold@gmail.com>
+> I'd do the from the first but with the comment up with where ret is
+> declared.  
+> 
+> > Perhaps it's my patch split? Unsure, I tried to note in the commit message:
+> > > This is a preparatory patch. Some of the definitions and functions are
+> > > supposed to be extended for inactivity later on.  
+> > Perhaps it needs more feedback here?
+> > 
+> > Another example is seting up the read/write_event_config() or
+> > read/write_event_value() functions. I mean, eventually this will
+> > become a switch/case implementation. Of course with just one element
+> > switch/case seems to be obvious overkill. Going by your advice, I
+> > changed it to if(!..) return, it's definitely cleaner. Definitely in
+> > the follow up patches this will be rewritten, though.
+> Don't do that. Just use the switch from the start.
 
-Reviewed-by: Breno Leitao <leitao@debian.org>
+But at the same time if switch becomes nested and 2+ levels, it's better
+to split the inner parts to the helpr functions or so. Doing a switch
+with 2+ levels looks ugly independently on the approach taken.
+
+> Sometimes we will give review feedback that doesn't take the whole
+> series into account (because it takes much longer to review a full series
+> then reread the feedback to spot anything that turned out to be due
+> to a later change)  In those cases it is fine to just reply to the
+> comment with - "The switch gathers additional elements in patches X,Y,Z
+> and so is introduced in this first patch to reduce churn.
+
+Indeed.
+
+> > Please, let me know what is the best approach or what I can improve to
+> > avoid such "ping pong patching" as you name it?
+> > 
+> > Might be that you're right here in this particular case, but then it
+> > would be better to discuss the final structure, isn't it?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
