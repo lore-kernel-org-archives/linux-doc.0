@@ -1,110 +1,210 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852D71DE8B5;
-	Wed, 11 Jun 2025 15:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86A61B0412;
+	Wed, 11 Jun 2025 15:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749656014; cv=none; b=uJoe+yD11v4s5YVoJKab5So49rZLyj3Q/SOQzzkWXg8Au/HQveA7wsWw5RY13WoPvFqmX43baLlNBpS5U/VHnzdYyPvdvpZIy4NhlyaGP2G/RwpyhLhqh+CZd0Nj5AgkhdktraV+kvx3yo0LeeVp/dN26QYsRZJQGoW6DV7H1DI=
+	t=1749656248; cv=none; b=PBe6a1VZ0mxrZ6VTdittKI42HikrsEQWPgBHwN1DQ7broOQWj7TXAsnxuouLkJ4f71bTrloogNEPoIQR3YJyvgGK2l6aJvF8XwSQZwHc+wWw4F++8nGcCHjOZmPPvgBrkPzDSfPAb+205PNab9OhO+wtgVPGuJUftF3VBXmV3zU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749656014; c=relaxed/simple;
-	bh=LFVvjcEUPcLUUGZ+sQE1sFmTa1aTE1eEZgoHDRCWpjI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GeRFuM2MHWncaEQX7ZqJNrwrN4ZO3Rz9xPBty5uKHqNZ3nAURygqwz8fL/tV2GVdx0AgDC+4nu2LbyScCg6mHT/DXe+rFYXV69pXnCfhzgvvwVekPtWXQ/Rno6ZsONy0sXJ4m4+xqm42LojDEzOnd0FLesOPWuZfKb5CNMQMm18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+	s=arc-20240116; t=1749656248; c=relaxed/simple;
+	bh=zydGsoJ/S/NJH8WtNAq5YLFgUzXRJ6uRpo4oan+dE5A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d27tCiXKWKBY5F/Nyzpd9g4UoJ0sH0MiHUPOesXmJXDbO6MHeAjtbOj10Bcl9Dsa1qvZKwYZmQ5r4GoKGfHFXYlHiVRyLyRf4LtFXTDj0ycJEYGMqcs96wbIvpADIk0hC6SbcMxToYsdB065SKrHjPHs1+sLMoATsG3Y6dei6nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jDpVTmX0; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-adb4e36904bso1351602866b.1;
-        Wed, 11 Jun 2025 08:33:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749656011; x=1750260811;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jDpVTmX0"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-706e7babc4eso700157b3.2;
+        Wed, 11 Jun 2025 08:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749656246; x=1750261046; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5pWEWrKCcgKVTrwcZ+8YcpLvU8fPQDchyP7vci7CIuQ=;
-        b=WDpgZU8x3q3vThT18VPGkdJaq75NykE6QKQm0Qc5kwTCbJ3+spLFJllFeuFT2FNo8x
-         YwoAVMiuIaV98TgmUIJjm8FbzEnQGhpYUy3j5LV0oddAGweCUOrxW12Y/Q8SzRuWDmUm
-         ayrjVkwvuevTcf6ERZyGPEt8oxhKj7kefeWp5WuJkeANkfy7vLHSOPRcMQjPFk8krGEG
-         Xd7YxfkyhdINUDjLwLmvevWmBSLGs6Yy5XKNywywrScCOSL0to6M1cScYrnvMNlC/ZLQ
-         Glf5vGIfKy+cEQxv+G2BpDUDedkxj1gaj5jO43yh8uOYDUsazBAO3n/oETapRheGyeUK
-         M+Kg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNGQjGlmGS8WRgKpcYegb0zdk1pwMlUtKmKw6IZ1Cx2FAx3YPblpF7nIzL4pxMCAvVkQ/NQaIH3Mk=@vger.kernel.org, AJvYcCUp64mRAlrK1YJR+jAHTpy/kPuXFJWO+3gcnrnl7ONFtVnEhH4k6pAReWgRXKnY7A34mQkSCynr@vger.kernel.org, AJvYcCVVgEQFJejv7+5hC2KjIVF2VDPKcxVp+FYccFSuY8Ll2pmxcp5LNLh6Euk4xpWXEWb95d5LJiXFi/EjYmLA@vger.kernel.org, AJvYcCXmOTc/FT9wNY7jGpV/FEvUnAgBeRLh5vR2E19I6K70JuwA9SeUdJZ/5tw9OKyYBxXk3o2ZBhuU9YVE8HOmxLQ1@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiHBktNAvpmRdr2taCkRlWVk0z5SpKUOE6gPGF9tGfatqFrlq9
-	K/pHDtcGXbFbSgIaVzKUCCIsperqUJtRi+/CsGPDrStfN1kR5jQfPw5w
-X-Gm-Gg: ASbGncvoaYG3VxU/sPYMOmz1OwaE20KCrweyHk0EEVRrJwBlXdtwHzznI+5SxZf2bJ4
-	07Zc/RskK2iAxl55U125zqmFTJcVp5lJgXqqTtgbmZu23uWa4vOXDiurF+kE4m0KtogTdnYcRlG
-	x9suqCRHU97SCEeUpvjEq7MeWDm0cEp1wy9VU1xBNwnf8PwtHRHSGGTjKwIKPttnlWjGCyIBxn/
-	VAIzboNEudn2WPHasEoZiBd87h7yDSmbgbDeY/3Ueohihgd7CTW7XrIPLsiAGw1BPE3v2i9b5Le
-	gSFRC/mN0krDXX4tavcfnRJTe21bSR5aljqeTHD3e//MG4KK5+gqlA==
-X-Google-Smtp-Source: AGHT+IEfZLGhg/nkYXc7GHKnUQ8cgynZfh8zxgjNYfMoL6iegmHZJ0pGGbPX0ENOTFyvS1/RSxxJJg==
-X-Received: by 2002:a17:907:6d23:b0:ad8:a935:b905 with SMTP id a640c23a62f3a-adea2e8a85fmr8568166b.22.1749656010593;
-        Wed, 11 Jun 2025 08:33:30 -0700 (PDT)
-Received: from gmail.com ([2a03:2880:30ff:74::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc1c87esm919503566b.107.2025.06.11.08.33.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 08:33:29 -0700 (PDT)
-Date: Wed, 11 Jun 2025 08:33:27 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Gustavo Luiz Duarte <gustavold@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 5/5] docs: netconsole: document msgid feature
-Message-ID: <aEmhx1vutCK3RsOd@gmail.com>
-References: <20250611-netconsole-msgid-v1-0-1784a51feb1e@gmail.com>
- <20250611-netconsole-msgid-v1-5-1784a51feb1e@gmail.com>
+        bh=Hju1JohcrRegQpVLjL1i+5W7BjQrb1wxNIxsFn7asag=;
+        b=jDpVTmX0+Tn3TG74BlVaQw2XhuKajuU5qva7LkPBMB+8HS+lOzkMoOC4r+PpfDAFwP
+         jB7lfLM9uq08dk22sWDoUHYcxn+VNfoijhwtAZdD+HfDoWj7UJE09qh4BvVOu2B9kP3F
+         TCqiqxYcxkBu/ZJwyc7lcNP4qzmYgyCWh5bNcRJ+L8UYabvG1xrutM62904FnhIt1xkC
+         jDvq6WN7IUcshINmkKJQEcsF1zb4oncwrz/qRJKQOe7h6PYcawnYjv/k1APzTYdcsMhI
+         sTHmz1pqRXWi9zHEuQbqMdO6F7d/3be9uKPQmCwvn5grDwKN5lj14euRRKaUBdfI12FV
+         rpYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749656246; x=1750261046;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Hju1JohcrRegQpVLjL1i+5W7BjQrb1wxNIxsFn7asag=;
+        b=grgGh8VJwzwHh7IB5S7KR4tW7L/jomuiCUSm121g4dKjvAUIzDNzjDrUh/Us3X/wRL
+         7go9HdW/VOUVULzgWjh3IFO6d9JZLh3XU/wYKA0kw2eNLah6lQDAqnbsn57Uv1J0NkdP
+         v+wipcWm8Bbr5AokTtrlwfhMpK79CgL6XQKJo2gFy8LFySa+qz6LjYZJ+Uga1/MDz/rc
+         d7AwY4diRUiUHir+tT4YcJxP9HVpcOQJFFNVo17AvoAn3zJXVxJbWpnO10tjDvbiOGum
+         SJ5+d1prHlqueCZL+1/nty3RIhBnxO24UY4HVcsUtEeI1vCQ/y+FLmX1jdwK/XowWQp9
+         1XfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPnDhpdUOcXfSWCKWDtisb6tYab7RVJEF5c7nNkWErw4aaHDnhD6u6Wm0Jzz96NbzxbxKdg5oeppaQvMe9@vger.kernel.org, AJvYcCWy/vGwsT4BdoRWJJc20ebvsfdXPTwBcTpKC5IvaWWVe5XCnoKhpslVMz4xoEpX1+ZHOs0km3rhkBLg@vger.kernel.org, AJvYcCX+RbN8NiWe8yNiErbCmvARsXiW/NKT7qVudU9YJE1he8wKJOsJAbczcKyOHBTI5CeD7AUKzn6OmP8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOwYzD0OncYmgA0Bypz585sdb/QFcrcHTBN0EwnlDcysw/C0Rz
+	tytDyCrVWHYAHOmI4CwfjBlilgPch4NeSpFoHYkEsoGsPUJpssrlxwmsU8QV7vJn2sOrZERDCc6
+	NowiD1KIN4aGen9hJ3R9e6KVpbCCFnZq8PA==
+X-Gm-Gg: ASbGnctzfstlmKuTYMRjdGEVFb8cr0fHXhjxCjRwC6Ppqp+SzvGf4vApYgRhw1XXbKN
+	Cao13V4JJg3Jc2Mumm0IDHrcimThdfK+qdv+KeET9ucZ25CpfT+pgS59WoDjufGZaLA6Bsy8F3S
+	faNKz95L5gu+steyKQSshabxiAEbQjErvvqQyrOFjgpp97KKYjoNZ74w==
+X-Google-Smtp-Source: AGHT+IGeMZl5mUz14ekaIyfrS7U2592WmIdqit7bIWdFFD45YhUdnMs7zWOw2JShIWrSV+j10DNVlMgWixfip3MlpYw=
+X-Received: by 2002:a05:690c:45c1:b0:70e:4cdc:6e51 with SMTP id
+ 00721157ae682-711409ee0f4mr24751957b3.1.1749656245706; Wed, 11 Jun 2025
+ 08:37:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250611-netconsole-msgid-v1-5-1784a51feb1e@gmail.com>
+References: <20250601172139.59156-1-l.rubusch@gmail.com> <20250601172139.59156-9-l.rubusch@gmail.com>
+ <CAHp75Vd=mzfVN_UBUHAkTyj2Ap_tz76AB0LtKEz28pR=WmNzog@mail.gmail.com>
+In-Reply-To: <CAHp75Vd=mzfVN_UBUHAkTyj2Ap_tz76AB0LtKEz28pR=WmNzog@mail.gmail.com>
+From: Lothar Rubusch <l.rubusch@gmail.com>
+Date: Wed, 11 Jun 2025 17:36:49 +0200
+X-Gm-Features: AX0GCFtIOlDEzKGW5nVeQK78ZYYesN_faqmntukiAD9GLJCKsmN4Zdvpv_ZvDus
+Message-ID: <CAFXKEHYP6o5vzsSP24SLUSs+Tu2Oqm=oVf71xy8EKKD5hoCQqg@mail.gmail.com>
+Subject: Re: [PATCH v4 08/11] iio: accel: adxl313: add inactivity sensing
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, bagasdotme@gmail.com, linux-iio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 11, 2025 at 07:36:07AM -0700, Gustavo Luiz Duarte wrote:
-> Add documentation explaining the msgid feature in netconsole.
-> 
-> This feature appends unique id to the userdata dictionary. The message
-> ID is populated from a per-target 32 bit counter which is incremented
-> for each message sent to the target. This allows a target to detect if
-> messages are dropped before reaching the target.
-> 
-> Signed-off-by: Gustavo Luiz Duarte <gustavold@gmail.com>
-> ---
->  Documentation/networking/netconsole.rst | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-> index a0076b542e9c..42a0acf2eb5e 100644
-> --- a/Documentation/networking/netconsole.rst
-> +++ b/Documentation/networking/netconsole.rst
-> @@ -340,6 +340,28 @@ In this example, the message was sent by CPU 42.
->        cpu=42    # kernel-populated value
->  
->  
-> +Message ID auto population in userdata
-> +--------------------------------------
-> +
-> +Within the netconsole configfs hierarchy, there is a file named `msgid_enabled`
-> +located in the `userdata` directory. This file controls the message ID
-> +auto-population feature, which assigns a unique id to each message sent to a
+On Sun, Jun 1, 2025 at 9:46=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Sun, Jun 1, 2025 at 8:22=E2=80=AFPM Lothar Rubusch <l.rubusch@gmail.co=
+m> wrote:
+> >
+> > Extend the interrupt handler to process interrupts as inactivity events=
+.
+> > Add functions to set threshold and period registers for inactivity. Add
+> > functions to enable / disable inactivity. Extend the fake iio channel t=
+o
+>
+> IIO
+>
+> > deal with inactivity events on x, y and z combined with AND.
+>
+> ...
+>
+> > +static int adxl313_set_inact_time_s(struct adxl313_data *data,
+> > +                                   unsigned int val_s)
+> > +{
+> > +       unsigned int max_boundary =3D 255;
+>
+> This is unclear how it's defined. What is the limit behind? Size of a
+> bit field? Decimal value from the datasheet?
+>
+> The forms of (BIT(8) - 1) or GENMASK(7, 0) may be better depending on
+> the answers to the above questions.
+>
+> > +       unsigned int val =3D min(val_s, max_boundary);
+> > +
+> > +       return regmap_write(data->regmap, ADXL313_REG_TIME_INACT, val);
+> > +}
+>
+> ...
+>
+> > -       axis_en =3D FIELD_GET(ADXL313_ACT_XYZ_EN, axis_ctrl);
+> > +       if (type =3D=3D ADXL313_ACTIVITY)
+> > +               axis_en =3D FIELD_GET(ADXL313_ACT_XYZ_EN, axis_ctrl);
+> > +       else
+> > +               axis_en =3D FIELD_GET(ADXL313_INACT_XYZ_EN, axis_ctrl);
+>
+> Even with this change my previous comment stays.
+>
+> ...
+>
+> > +       en =3D cmd_en && threshold;
+> > +       if (type =3D=3D ADXL313_INACTIVITY) {
+> > +               ret =3D regmap_read(data->regmap, ADXL313_REG_TIME_INAC=
+T, &inact_time_s);
+> > +               if (ret)
+> > +                       return ret;
+> > +
+> > +               en =3D en && inact_time_s;
+> > +       }
+>
+> ...
+>
+> > -       if (info !=3D IIO_EV_INFO_VALUE)
+> > -               return -EINVAL;
+> > -
+> > -       /* Scale factor 15.625 mg/LSB */
+> > -       regval =3D DIV_ROUND_CLOSEST(MICRO * val + val2, 15625);
+> > -       switch (dir) {
+> > -       case IIO_EV_DIR_RISING:
+> > -               ret =3D regmap_write(data->regmap,
+> > -                                  adxl313_act_thresh_reg[ADXL313_ACTIV=
+ITY],
+> > -                                  regval);
+>
+> Hmm... This was added by the previous patches, right? Why can't it be
+> done as a switch case to begin with? I remember one of the previous
+> versions had some nested switch-cases, perhaps you need to rethink on
+> how to split the code between functions to avoid too much nesting (add
+> some helper functions?).
 
-Important to say that the message id will eventually wrap, thus it is
-not very unique.
+The point here is, as I mentioned in the other mail:
+Initially, I wanted to build up the final switch/case struct i.e.
+going by MAG/MAG_ADAPTIVE, then INFO_VALUE -> RISING / FALLING and
+PERIOD.
 
-> +given target and appends the ID to userdata dictionary in every message sent.
-> +
-> +The message ID is built from a per-target 32 bit counter that is incremented
-> +for every message sent to the target. This ID can be used by the target to
-> +detect if messages were dropped before reaching the target.
+This will distinguish properties for four different types of events,
+of course it then also will use separate functions. As I uderstood
+your review, why starting with switch/case, do
+if (!MAG event) then, return right away. I implemented that as I
+understood. For further switch/case-ing, I did the same.
+Now, patch by patch, it grows. Thus the if-not-back-out lines will be
+moved out and replaced by switch/case. Worse, with every level switch
+case, all existing code needs indention, thus reading through the
+patches show (too) many changes.
 
-Please also add that we cannot rely on console ids, given some messages
-never make netconsole, thus, we never now if the message was never sent,
-or, never received.
+How can I improve to help you reviewing this or make the feedback more
+useful for me? Or is my approach wrong? I'd like to start with the
+switch case right away, then just add up what comes in with every
+other patch. If so, you'd only see the changes, since the final
+structure of this is already clear, because very similar to all
+iio/accel drivers at least (as you probably know better than me).
+
+>
+> > +       switch (info) {
+> > +       case IIO_EV_INFO_VALUE:
+> > +               /* Scale factor 15.625 mg/LSB */
+> > +               regval =3D DIV_ROUND_CLOSEST(MICRO * val + val2, 15625)=
+;
+> > +               switch (dir) {
+> > +               case IIO_EV_DIR_RISING:
+> > +                       ret =3D regmap_write(data->regmap,
+> > +                                          adxl313_act_thresh_reg[ADXL3=
+13_ACTIVITY],
+> > +                                          regval);
+> > +                       if (ret)
+> > +                               return ret;
+> > +                       return adxl313_set_measure_en(data, true);
+> > +               case IIO_EV_DIR_FALLING:
+> > +                       ret =3D regmap_write(data->regmap,
+> > +                                          adxl313_act_thresh_reg[ADXL3=
+13_INACTIVITY],
+> > +                                          regval);
+> > +                       if (ret)
+> > +                               return ret;
+> > +                       return adxl313_set_measure_en(data, true);
+> > +               default:
+> > +                       return -EINVAL;
+> > +               }
+> > +       case IIO_EV_INFO_PERIOD:
+> > +               ret =3D adxl313_set_inact_time_s(data, val);
+> >                 if (ret)
+> >                         return ret;
+> >                 return adxl313_set_measure_en(data, true);
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
