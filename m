@@ -1,534 +1,76 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 095AD2C17AD;
-	Wed, 11 Jun 2025 13:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0BB29ACC8
+	for <linux-doc@vger.kernel.org>; Wed, 11 Jun 2025 14:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749650329; cv=none; b=n4K+q9wBEdfAwsZiRhTGCdV2WUcHIJlXMc4G6N4eWKi0+JCs6sWFRf5eZxW4ZsPHuh5L9ysOcXKOHPwyVmeH0+0vqi6wCWfUTTcLKIqwTE+AERSO8sP1PBwCr6orp7xW3rp1Tv/MmAv5HGE8R6Vv6Wjc/THf+G9czaeb4IZ9gmA=
+	t=1749650695; cv=none; b=nF0ZuekmEt6AV9bqeYReCckJRBgKbxdYrVrWjEqbNpPDJtC+GzLixy7Lj3OF7ND6sOU3UGLQX5eUnbb/QAy5h5GCMVYLGoiTHaD47ADEnv8JdyXTNF4LK2VM5PnyWO6KeXSOtm1sNlVsrN8xKFxlFzzQTbN6j881SCKXDsz8kvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749650329; c=relaxed/simple;
-	bh=HwnezLJAB6j7OB4B9KI3D69lcp+guM57EJoSwvtRPvM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c/m71va/Zxg6M6KQEy4djuk6SePyJV35ddDbcu1Y35iJsnkg+rY+nIdgz+nTlCPB0dOqO7FtIqsw7PwTEgM6TBRwhxfcfmykY50dqlQ0oSyXwFMmRnx5FBnkoki7M2x+e1xSsfq7WGzQiZNQoBCpH8FGdm1ElBKuap7J4r/llyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD1A115A1;
-	Wed, 11 Jun 2025 06:58:27 -0700 (PDT)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 14CA33F673;
-	Wed, 11 Jun 2025 06:58:44 -0700 (PDT)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: catalin.marinas@arm.com,
-	pcc@google.com,
-	will@kernel.org,
-	broonie@kernel.org,
-	anshuman.khandual@arm.com,
-	joey.gouly@arm.com,
-	yury.khrustalev@arm.com,
-	maz@kernel.org,
-	oliver.upton@linux.dev,
-	frederic@kernel.org,
-	akpm@linux-foundation.org,
-	surenb@google.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v7 9/9] kselftest/arm64/mte: add mtefar tests on check_mmap_options
-Date: Wed, 11 Jun 2025 14:58:18 +0100
-Message-Id: <20250611135818.31070-10-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250611135818.31070-1-yeoreum.yun@arm.com>
-References: <20250611135818.31070-1-yeoreum.yun@arm.com>
+	s=arc-20240116; t=1749650695; c=relaxed/simple;
+	bh=rfoDfSY9BodSaLrtYekBqaMvqcOHnjl0fyfcQsXJChA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P7kGO+9VjeEhnOKw7ukn+kY7ILBvI7L81B4LgqIezGQyuzKOpLhCZcy5j7F+Nnlpc4LMVYcHb7r1P1G9sLUDmyjqSFVMG48BiEWVtuvwLIH0Sz15ZVB4iE/V1K1udFiSc8rLFizJbEvJlYTz5IZj+ZlW2CGghnbXR8WY45gRto4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wk0ZcISF; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wk0ZcISF"
+Date: Wed, 11 Jun 2025 16:04:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1749650681;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=txq23bJazbIYagctbPRu50Tm0ZoM/NcejOe7Q1liC8k=;
+	b=wk0ZcISFpG7EdDimklFUqd02SAESZEZcA+KDyXAEHqt10vo2jUvcEe/cO2Yq6tJFVV4dAc
+	L0GmmiPNFoYcR8pSaqlrip1ZkN7z2ZbLbzI7BC9ZgVP4yZxnkyM3JZqpIJm+9YnviJndsI
+	lMKJEV+PHU+WLAtw4eKKZD49/eTtZCU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	workflows@vger.kernel.org
+Subject: Re: [PATCH v3 03/16] init: re-add CONFIG_CC_CAN_LINK_STATIC
+Message-ID: <20250611-nostalgic-terrestrial-armadillo-eecfec@l-nschier-aarch64>
+References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
+ <20250611-kunit-kselftests-v3-3-55e3d148cbc6@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250611-kunit-kselftests-v3-3-55e3d148cbc6@linutronix.de>
+Organization: AVM GmbH
+X-Migadu-Flow: FLOW_OUT
 
-If FEAT_MTE_TAGGED_FAR (Armv8.9) is supported, bits 63:60 of the fault address
-are preserved in response to synchronous tag check faults (SEGV_MTESERR).
+On Wed, Jun 11, 2025 at 09:38:09AM +0200, Thomas Weißschuh wrote:
+> For the kunit UAPI functionality this feature is needed.
+> 
+> This reverts commit d1b99cdf22e0 ("init: remove unused CONFIG_CC_CAN_LINK_STATIC")
+> 
+> Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> ---
+>  init/Kconfig | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
-This patch adds new test cases using address tags (bits 63:60),
-corresponding to each existing test in check_mmap_option.
-
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
----
- .../selftests/arm64/mte/check_mmap_options.c  | 194 +++++++++++++++---
- 1 file changed, 171 insertions(+), 23 deletions(-)
-
-diff --git a/tools/testing/selftests/arm64/mte/check_mmap_options.c b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-index 0df7ce532465..91a81b4a9bfa 100644
---- a/tools/testing/selftests/arm64/mte/check_mmap_options.c
-+++ b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-@@ -24,6 +24,8 @@
- #define OVERFLOW		MT_GRANULE_SIZE
- #define TAG_CHECK_ON		0
- #define TAG_CHECK_OFF		1
-+#define ATAG_CHECK_ON		1
-+#define ATAG_CHECK_OFF		0
- 
- #define TEST_NAME_MAX		256
- 
-@@ -39,6 +41,7 @@ struct check_mmap_testcase {
- 	int mte_sync;
- 	int mapping;
- 	int tag_check;
-+	int atag_check;
- 	bool enable_tco;
- };
- 
-@@ -48,8 +51,14 @@ static int sizes[] = {
- 	/* page size - 1*/ 0, /* page_size */ 0, /* page size + 1 */ 0
- };
- 
--static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
-+static int check_mte_memory(char *ptr, int size, int mode, int tag_check, int atag_check)
- {
-+	if (!mtefar_support && atag_check == ATAG_CHECK_ON)
-+		return KSFT_SKIP;
-+
-+	if (atag_check == ATAG_CHECK_ON)
-+		ptr = mte_insert_atag(ptr);
-+
- 	mte_initialize_current_context(mode, (uintptr_t)ptr, size);
- 	memset(ptr, '1', size);
- 	mte_wait_after_trig();
-@@ -75,7 +84,7 @@ static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
- 	return KSFT_PASS;
- }
- 
--static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_check)
- {
- 	char *ptr, *map_ptr;
- 	int run, result, map_size;
-@@ -97,16 +106,16 @@ static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, i
- 			munmap((void *)map_ptr, map_size);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_check);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		mte_free_memory((void *)map_ptr, map_size, mem_type, false);
--		if (result == KSFT_FAIL)
--			return KSFT_FAIL;
-+		if (result != KSFT_PASS)
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
- 
--static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_check)
- {
- 	char *ptr, *map_ptr;
- 	int run, fd, map_size;
-@@ -135,17 +144,17 @@ static int check_file_memory_mapping(int mem_type, int mode, int mapping, int ta
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_check);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		munmap((void *)map_ptr, map_size);
- 		close(fd);
--		if (result == KSFT_FAIL)
--			break;
-+		if (result != KSFT_PASS)
-+			return result;
- 	}
--	return result;
-+	return KSFT_PASS;
- }
- 
--static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
-+static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping, int atag_check)
- {
- 	char *ptr, *map_ptr;
- 	int run, prot_flag, result, fd, map_size;
-@@ -168,7 +177,7 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			ksft_print_msg("FAIL: mprotect not ignoring clear PROT_MTE property\n");
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_check);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		if (result != KSFT_PASS)
- 			return KSFT_FAIL;
-@@ -192,11 +201,11 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_check);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		close(fd);
- 		if (result != KSFT_PASS)
--			return KSFT_FAIL;
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
-@@ -209,6 +218,7 @@ const char *format_test_name(struct check_mmap_testcase *tc)
- 	const char *sync_str;
- 	const char *mapping_str;
- 	const char *tag_check_str;
-+	const char *atag_check_str;
- 
- 	switch (tc->check_type) {
- 	case CHECK_ANON_MEM:
-@@ -276,10 +286,22 @@ const char *format_test_name(struct check_mmap_testcase *tc)
- 		break;
- 	}
- 
-+	switch (tc->atag_check) {
-+	case ATAG_CHECK_ON:
-+		atag_check_str = "with address tag [63:60]";
-+		break;
-+	case ATAG_CHECK_OFF:
-+		atag_check_str = "without address tag [63:60]";
-+		break;
-+	default:
-+		assert(0);
-+		break;
-+	}
-+
- 	snprintf(test_name, sizeof(test_name),
--	         "Check %s with %s mapping, %s mode, %s memory and %s\n",
-+	         "Check %s with %s mapping, %s mode, %s memory and %s (%s)\n",
- 	         check_type_str, mapping_str, sync_str, mem_type_str,
--	         tag_check_str);
-+	         tag_check_str, atag_check_str);
- 
- 	return test_name;
- }
-@@ -295,6 +317,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = true,
- 		},
- 		{
-@@ -303,6 +326,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = true,
- 		},
- 		{
-@@ -311,6 +335,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_NONE_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -319,6 +344,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_NONE_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -327,6 +353,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -335,6 +362,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -343,6 +371,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -351,6 +380,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -359,6 +389,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -367,6 +398,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -375,6 +407,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -383,6 +416,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -391,6 +425,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -399,6 +434,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -407,6 +443,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -415,6 +452,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -423,6 +461,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -431,6 +470,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -439,6 +479,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -447,6 +488,106 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_CLEAR_PROT_MTE,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_CLEAR_PROT_MTE,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_ASYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -455,6 +596,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -463,6 +605,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
- 			.enable_tco = false,
- 		},
- 	};
-@@ -479,14 +622,16 @@ int main(int argc, char *argv[])
- 	sizes[item - 2] = page_size;
- 	sizes[item - 1] = page_size + 1;
- 
--	/* Register signal handlers */
--	mte_register_signal(SIGBUS, mte_default_handler, false);
--	mte_register_signal(SIGSEGV, mte_default_handler, false);
--
- 	/* Set test plan */
- 	ksft_set_plan(ARRAY_SIZE(test_cases));
- 
- 	for (i = 0 ; i < ARRAY_SIZE(test_cases); i++) {
-+		/* Register signal handlers */
-+		mte_register_signal(SIGBUS, mte_default_handler,
-+				    test_cases[i].atag_check == ATAG_CHECK_ON);
-+		mte_register_signal(SIGSEGV, mte_default_handler,
-+				    test_cases[i].atag_check == ATAG_CHECK_ON);
-+
- 		if (test_cases[i].enable_tco)
- 			mte_enable_pstate_tco();
- 		else
-@@ -497,20 +642,23 @@ int main(int argc, char *argv[])
- 			evaluate_test(check_anonymous_memory_mapping(test_cases[i].mem_type,
- 								     test_cases[i].mte_sync,
- 								     test_cases[i].mapping,
--								     test_cases[i].tag_check),
-+								     test_cases[i].tag_check,
-+								     test_cases[i].atag_check),
- 				      format_test_name(&test_cases[i]));
- 			break;
- 		case CHECK_FILE_MEM:
- 			evaluate_test(check_file_memory_mapping(test_cases[i].mem_type,
- 							        test_cases[i].mte_sync,
- 							        test_cases[i].mapping,
--							        test_cases[i].tag_check),
-+							        test_cases[i].tag_check,
-+							        test_cases[i].atag_check),
- 				      format_test_name(&test_cases[i]));
- 			break;
- 		case CHECK_CLEAR_PROT_MTE:
- 			evaluate_test(check_clear_prot_mte_flag(test_cases[i].mem_type,
- 							        test_cases[i].mte_sync,
--							        test_cases[i].mapping),
-+							        test_cases[i].mapping,
-+							        test_cases[i].atag_check),
- 				      format_test_name(&test_cases[i]));
- 			break;
- 		default:
--- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
-
+Acked-by: Nicolas Schier <n.schier@avm.de>
