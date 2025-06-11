@@ -1,99 +1,136 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020F426529B;
-	Wed, 11 Jun 2025 09:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76B52233722;
+	Wed, 11 Jun 2025 09:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749634610; cv=none; b=N+qmMTBfeJxjej+dzVEvdY/Ks069n3HWaKMvflHlNeIyonU2gxO6pndMHeEQu0G+ByvcTdxr3zTNo8xVGVUZHq8b42GH6w+kSGJcgZNgGg4+8BQkd0FBl1Lt+utzU8AJKd3zSsNL1x0U4t1npJ0dwm/iH/T6vPxjuFZ4XVp04r0=
+	t=1749634874; cv=none; b=bOEgNVcuWPGk/BEiokhm5D1eAxH2pNvVU/RRi4GwpG4ZrVvJCY+gXhPsvyhVnqOB/X/Qp5s+pvE9gZy7VCZnH5NKxDSoe9rGFI0LuKzzROi4vo2jZNsrhRh9wG4H4VbLvZl2PFRDYMFkaMFTw9FBXJ1yRax+bx+wMe4QIoXuNBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749634610; c=relaxed/simple;
-	bh=mVfyXIP9JLUrBFl7GsD5f1SXSqA4+C74McYsvCIxMFg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VsT7o4tEbVgNxHB5FUGmWPJlkckn8zmHQa7CQEFaoqlog10eTOcMiOGBKQMAuoI7gJfSukA1QhIfigZbE+VLrI5Q7dbwpvHVHxP7VHfT2poH/4Ri5y7xVE/kihfdtuSujWlIk9Uf0wL0P8+m/CJRcDRfB9HSDjOMWc6oZ3MuRaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FdeFSPUb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XEs1E128; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FdeFSPUb";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XEs1E128"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1749634607;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GFksH9LPMmP7bYyfX4IW1QhQb97MRGe7VJvXQH5Qf8E=;
-	b=FdeFSPUbQlIjY88c25kRBegK96msaEAPvepPEoyamCBClJGY9Oycct/bzJGK6BmgLVkYM0
-	LyE/Q7wHK+5ICZwADHqv7FQ1crjnD3M+eWbGlh9AQcB61C1ptdS6QTvnV3TePXi4E4jo3+
-	xWFKmaDksVQQ65uqqc1/5Dg47cexbY0vjJm5mU0eTd+WW/kcR1Bzs/tPbZaw8byIsgOYgE
-	X+nfiWMO/EhZHpdPfTjeYeSYPiIn6UWG0X+kP9k2E5d5ZJyypv7Ow/WMR6ZQ9MUyeFyCd9
-	vmF5uj8Ij4RC7oG9eNiDtYN5+lOI/bxc1DqT1o/D6qI2H+tK8FWY3F9moqK4lA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1749634607;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GFksH9LPMmP7bYyfX4IW1QhQb97MRGe7VJvXQH5Qf8E=;
-	b=XEs1E128R+ew11J/9X4/Dg7rMJNr6Mga4qU9oa91HKqgncmbaeIrB7zt+2mtr+l4V5Jyqj
-	OAY1ey/tJipwEPCQ==
-Date: Wed, 11 Jun 2025 11:36:35 +0200
-Subject: [PATCH] Documentation: kunit: fix argument of MODULE_IMPORT_NS()
+	s=arc-20240116; t=1749634874; c=relaxed/simple;
+	bh=Myg8Tj8PtBQ3Nqm5pYYw+Kw6f74R493ImSkKGEUXdyI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lnIzJ5quJ9BzQAvRC6rib3nsbuCEWmzT/sKrUP2fxm0qkbt3INpC4KWz5FKPma4ypilyx48pnshbbqcZEL6+oVajnHYEyN+oKqLUUczfz+yxBjfimir2+V+WR3anXOQZj9pZ8pgnhJ2FCO8RBZ5gCn8NhAulFH5f+a0wMGRp1YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0848E1596;
+	Wed, 11 Jun 2025 02:40:52 -0700 (PDT)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 575F43F59E;
+	Wed, 11 Jun 2025 02:41:09 -0700 (PDT)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: catalin.marinas@arm.com,
+	pcc@google.com,
+	will@kernel.org,
+	broonie@kernel.org,
+	anshuman.khandual@arm.com,
+	joey.gouly@arm.com,
+	yury.khrustalev@arm.com,
+	maz@kernel.org,
+	oliver.upton@linux.dev,
+	frederic@kernel.org,
+	akpm@linux-foundation.org,
+	surenb@google.com
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v6 0/9] support FEAT_MTE_TAGGED_FAR feature
+Date: Wed, 11 Jun 2025 10:40:58 +0100
+Message-Id: <20250611094107.928457-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250611-kunit-example-v1-1-cf2a1a80518f@linutronix.de>
-X-B4-Tracking: v=1; b=H4sIACJOSWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDM0ND3ezSvMwS3dSKxNyCnFTdFENL01QTw2SDJGMTJaCegqLUtMwKsHn
- RsbW1AGflkKhfAAAA
-X-Change-ID: 20250611-kunit-example-d195e41c0b34
-To: Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749634606; l=1138;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=mVfyXIP9JLUrBFl7GsD5f1SXSqA4+C74McYsvCIxMFg=;
- b=VPkKhJXccGFHvBS/kfawZMHVmi0l4KnKzIRjNgp8MsiNCqbezdx9nHFfBFaHE+m2nMW0wzW4F
- zK1q8ktwjAACw60SLIrhyPnWJdze9N82/a858uSM0yWefP4Pyed4okv
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-The argument to MODULE_IMPORT_NS() should be a string literal.
-See commit cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
+The FEAT_MTE_TAGGED_FAR feature provides support for
+reporting all non-address bits during a synchronous MTE tag check fault.
 
-Fixes: d208025db6d6 ("Documentation: kunit: improve example on testing static functions")
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
- Documentation/dev-tools/kunit/usage.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patchset extends the reporting tag to include
+not only the memory tag (logical tag) but also the address tag via
+si_addr when FEAT_MTE_TAGGED_FAR feature is supported.
 
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index 038f480074fd7aaa1f8e1b344bc74bf3426cc173..066ecda1dd98e73a01d50545e79c38a99a3e05a2 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -699,7 +699,7 @@ the template below.
- 	#include <kunit/visibility.h>
- 	#include <my_file.h>
- 	...
--	MODULE_IMPORT_NS(EXPORTED_FOR_KUNIT_TESTING);
-+	MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
- 	...
- 	// Use do_interesting_thing() in tests
- 
+Patch Sequences
+================
 
----
-base-commit: f09079bd04a924c72d555cd97942d5f8d7eca98c
-change-id: 20250611-kunit-example-d195e41c0b34
+Patch #1 adds cpufeature FEAT_MTE_TAGGED_FAR
 
-Best regards,
--- 
-Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Patch #2 adds MTE_FAR hwcaps and export address tag when it supports
+
+Patch #3 adds mtefar hwcap test
+
+Patch #4 to #7 prepares to add mtefar testcase
+
+Patch #8 refactor check_mmap_option using general testcase pattern
+
+Patch #9 adds mtefar test cases corresponding to
+each testcase of check_mmap_options
+
+Patch History
+================
+v5 to v6:
+  - split Patch #4.
+  - refactor check_mmap_option using general testcase pattern
+  - https://lore.kernel.org/linux-arm-kernel/20250610150144.2523945-1-yeoreum.yun@arm.com/
+
+v4 to v5:
+  - rebased on v6.16-rc1
+  - https://lore.kernel.org/linux-arm-kernel/20250507095757.1663684-1-yeoreum.yun@arm.com/
+
+v3 to v4:
+  - fix hwcap string for FEAT_MTE_TAGGED_FAR
+  - split cpufeature and hwcap modification and merge hwcap's
+    modification with exporting address tag patch
+  - add mtefar testcase on check_mmap_options
+  - https://lore.kernel.org/all/20250410074721.947380-1-yeoreum.yun@arm.com/
+
+v2 to v3:
+  - Rebase to 6.15-rc1
+  - https://lore.kernel.org/all/20250403172758.67106-1-yeoreum.yun@arm.com/
+
+v1 to v2:
+  - add hwcap test for MTE_FAR feature.
+  - add MTE_FAR doc into elf_hwcap.rst
+  - https://lore.kernel.org/all/20250403142707.26397-1-yeoreum.yun@arm.com/
+
+
+Yeoreum Yun (9):
+  arm64/cpufeature: add FEAT_MTE_TAGGED_FAR feature
+  arm64: report address tag when FEAT_MTE_TAGGED_FAR is supported
+  tools/kselftest: add MTE_FAR hwcap test
+  kselftest/arm64/mte: register mte signal handler with
+    SA_EXPOSE_TAGBITS
+  kselftest/arm64/mte: check MTE_FAR feature is supported
+  kselftest/arm64/mte: add address tag related macro and function
+  kselftest/arm64/mte: add verification for address tag in signal
+    handler
+  kselftest/arm64/mte: refactor check_mmap_option test
+  kselftest/arm64/mte: add mtefar tests on check_mmap_options
+
+ Documentation/arch/arm64/elf_hwcaps.rst       |   3 +
+ Documentation/arch/arm64/tagged-pointers.rst  |  11 +-
+ arch/arm64/include/asm/hwcap.h                |   1 +
+ arch/arm64/include/uapi/asm/hwcap.h           |   1 +
+ arch/arm64/kernel/cpufeature.c                |   9 +
+ arch/arm64/kernel/cpuinfo.c                   |   1 +
+ arch/arm64/mm/fault.c                         |   7 +-
+ arch/arm64/tools/cpucaps                      |   1 +
+ tools/testing/selftests/arm64/abi/hwcap.c     |   6 +
+ .../selftests/arm64/mte/check_buffer_fill.c   |   2 +-
+ .../selftests/arm64/mte/check_child_memory.c  |   4 +-
+ .../arm64/mte/check_hugetlb_options.c         |   4 +-
+ .../selftests/arm64/mte/check_ksm_options.c   |   4 +-
+ .../selftests/arm64/mte/check_mmap_options.c  | 543 +++++++++++++++---
+ .../arm64/mte/check_tags_inclusion.c          |   2 +-
+ .../selftests/arm64/mte/check_user_mem.c      |   2 +-
+ .../selftests/arm64/mte/mte_common_util.c     |  70 ++-
+ .../selftests/arm64/mte/mte_common_util.h     |   6 +-
+ tools/testing/selftests/arm64/mte/mte_def.h   |   8 +
+ 19 files changed, 589 insertions(+), 96 deletions(-)
+
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
