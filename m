@@ -1,126 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23861A5B99;
-	Wed, 11 Jun 2025 16:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7531201000;
+	Wed, 11 Jun 2025 16:17:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749658265; cv=none; b=sK/unnk1vNILlkHkvdaca/Ya5kH3GOcImFHOBiKBrsWsE0JQNX/tv2BVxrJ85h0ToYU0FTP1TmFQ7YDMgm76KEeXGFKXslpXZajuycF2pAgNB08o/2dh4FA3ZPx/YtW2Il5U5BBplQgQEqF6qFJt5bXD340lqpdqf/ZujyMICLc=
+	t=1749658662; cv=none; b=FnzHX/Ofsj4Cy79EjDb8U59awKCJ4S5CPXBIMfBwjXLQycyi4pASY+3p7e8r37IvrD5OaOvakfXqFRgZlvu/ra1y/MJGjfH79S2b/RwjOFufC0CjmpcoVPnAMrGaLGkXdHq00XiUpH7JOjlS4OG6N9Mn36dOYzIRy5Pvme/m6hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749658265; c=relaxed/simple;
-	bh=dZ8l0HjmwfhJtitEaf6kw6c4ZQY523g8u3AvC2TJ93A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mgaUesONdmHxQPxGjFbRlizKrG+cQZRYFp+gIng/sc1frNcfrhO4AtAIc9J9LvdcbkOOhoJ2c/MPuIe4LYLLNbEK3hobDQ3YASYH5uPS8lxCHuco7w/oysezgQTUWPmJFnKoXqcvt3xSwArBDFNBuQHJ8nfT1c76h4gttUCC9M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jy6IT4ki; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749658662; c=relaxed/simple;
+	bh=FraoX4V3TAqQuBkvIAxSNPXL4fMoaDR64I9fTU/5cwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r8vRKZb0xTJvq1AGwEkMb4c5HKOJXJfkmwMxMkpXj54hrvbCVnUa5lKcjt1eOqrdatywHmCFbvyVoZsxmLMpTdXN4UQUjSRF2owqywNJbxoUjdFPyJ8OD6j0c3wWgBnvP3vz0wnGYnFlEu2sbn7JLNGUlMMBF5eCcKc7mgnQzbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TiCb9CKK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jy6IT4ki"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 007BEC4CEE3;
-	Wed, 11 Jun 2025 16:10:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TiCb9CKK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F0DFC4CEE3;
+	Wed, 11 Jun 2025 16:17:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749658264;
-	bh=dZ8l0HjmwfhJtitEaf6kw6c4ZQY523g8u3AvC2TJ93A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jy6IT4kiD2lDYe71W7diDiGt7oL1e/xuNhWSoXCCAtj4caCgRHLRqPdmYvYW0PiRI
-	 JU/i/Csy6gD8wNDGapjxU9VaUk4rfzlXsP7nOW74W1Jeq1gqes+i5e5I3jsafmU3xv
-	 OR4zg1wvmNKL9bItwL/Sz95VxD1D1hxCXh00OkDsfBDfZvLytbwFD8QO/9dImO9tEb
-	 EAC3SYvvn6DuYJ0ueHh8NNuitcZcf2HP1E6QglBZYOh3TI1kMLoOjCgdZ4yZFTg5XJ
-	 GD87oKR3rk08/4zSSO8ZZmL1RbKPuxwuVORjYwDN8svITdJw7XtZnCg7PfNLmzaL0j
-	 XBdqKJN8dmhjA==
-Date: Wed, 11 Jun 2025 18:10:56 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, "Jonathan Corbet"
- <corbet@lwn.net>, "Akira Yokosawa" <akiyks@gmail.com>, "Breno Leitao"
- <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, "Ignacio
- Encinas Rubio" <ignacio@iencinas.com>, "Marco Elver" <elver@google.com>,
- "Shuah Khan" <skhan@linuxfoundation.org>, Eric Dumazet
- <edumazet@google.com>, Jan Stancek <jstancek@redhat.com>, Paolo Abeni
- <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH 4/4] docs: netlink: store generated .rst files at
- Documentation/output
-Message-ID: <20250611181056.6543e71e@sal.lan>
-In-Reply-To: <m24iwmpl0m.fsf@gmail.com>
-References: <cover.1749551140.git.mchehab+huawei@kernel.org>
-	<5183ad8aacc1a56e2dce9cc125b62905b93e83ca.1749551140.git.mchehab+huawei@kernel.org>
-	<m24iwmpl0m.fsf@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1749658661;
+	bh=FraoX4V3TAqQuBkvIAxSNPXL4fMoaDR64I9fTU/5cwg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TiCb9CKKjnJWcrc+xA/1bEw5YOdWPb2cv1RC46vyQy/X9cUVZXYVrcZqBB7R08Ntc
+	 Q6ohhw6Ulx+0D3GMsjRQX0xJL1DHPu595b5Azao9iu6h2Sv6wrS4Sa/62oVyDdMygm
+	 WCN4bnJrZ9BOQkakZ+GxBA6ciFmpMWUcdZeubY6F5TObW3w27gXoljQxMzdT0oiFqb
+	 KPycUteZSos5uewBlje973p3ib74oIRVG5w+x/pE64NSZqXOrgp4RSbGzl47uZKEtP
+	 4uwE+EkT/GM20qgkL3bvG2/9YE9HXBksfPQfqTzXEPEUkMyhIqxzNHj/hAJrGwKpWF
+	 0OD9N2Zeaal2Q==
+Date: Wed, 11 Jun 2025 17:17:35 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: catalin.marinas@arm.com, pcc@google.com, will@kernel.org,
+	anshuman.khandual@arm.com, joey.gouly@arm.com,
+	yury.khrustalev@arm.com, maz@kernel.org, oliver.upton@linux.dev,
+	frederic@kernel.org, akpm@linux-foundation.org, surenb@google.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 2/9] arm64: report address tag when
+ FEAT_MTE_TAGGED_FAR is supported
+Message-ID: <d93452bf-7296-47fc-9d48-44c390cb5080@sirena.org.uk>
+References: <20250611135818.31070-1-yeoreum.yun@arm.com>
+ <20250611135818.31070-3-yeoreum.yun@arm.com>
+ <9a78c058-2aeb-43d8-94f8-987507a1a9a3@sirena.org.uk>
+ <aEmg9cNGAzqsrTd1@e129823.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AcPDYuBXDOqguWX5"
+Content-Disposition: inline
+In-Reply-To: <aEmg9cNGAzqsrTd1@e129823.arm.com>
+X-Cookie: No skis take rocks like rental skis!
 
-Em Wed, 11 Jun 2025 12:36:57 +0100
-Donald Hunter <donald.hunter@gmail.com> escreveu:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > It is not a good practice to store build-generated files
-> > inside $(srctree), as one may be using O=<BUILDDIR> and even
-> > have the Kernel on a read-only directory.
-> >
-> > Change the YAML generation for netlink files to be inside
-> > the documentation output directory.
-> >
-> > This solution is not perfect, though, as sphinx-build only produces
-> > html files only for files inside the source tree. As it is desired
-> > to have one netlink file per family, it means that one template
-> > file is required for every file inside Documentation/netlink/specs.
-> > Such template files are simple enough. All they need is:
-> >
-> > 	# Template for Documentation/netlink/specs/<foo>.yaml
-> > 	.. kernel-include:: $BUILDDIR/networking/netlink_spec/<foo>.rst  
-> 
-> I am not a fan of this approach because it pollutes the
-> Documentation/output dir with source files and the kernel-include
-> directive is a bit of a hacky workaround.
-> 
-> > A better long term solution is to have an extension at
-> > Documentation/sphinx that parses *.yaml files for netlink files,
-> > which could internally be calling ynl_gen_rst.py. Yet, some care
-> > needs to be taken, as yaml extensions are also used inside device
-> > tree.  
-> 
-> The extension does seem like a better approach, but as mentioned by
-> Jakub, we'd want to add stub creation to the YNL regen.
-> 
-> The only other approach I can think of to avoid generating files in the
-> source tree or polluting the Documentation/output dir is to stage all of
-> the Documentation/ tree into BUILDDIR before adding generated files
-> there, then running:
-> 
->   sphinx-build BUILDDIR/Documentation BUILDDIR/Documentation/output
+--AcPDYuBXDOqguWX5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I did some tests here adding yaml to conf.py:
+On Wed, Jun 11, 2025 at 04:29:57PM +0100, Yeoreum Yun wrote:
+> Hi Mark.
+> > On Wed, Jun 11, 2025 at 02:58:11PM +0100, Yeoreum Yun wrote:
 
-	-source_suffix = '.rst'
-	+source_suffix = ['.rst', '.yaml']
+> > >  	 * The architecture specifies that bits 63:60 of FAR_EL1 are UNKNOWN
+> > >  	 * for tag check faults. Set them to corresponding bits in the untagged
+> > > -	 * address.
+> > > +	 * address if ARM64_MTE_FAR isn't supported.
+> > > +	 * Otherwise, bits 63:60 of FAR_EL1 are KNOWN.
 
-Such change made the extension to automatically generate one file per 
-each existing yaml without the need of adding any template. I tested on 
-a brand new tree with just Sphinx + netlink files + Breno's original
-extension (untouched). Such empty tree was generated with 
-sphinx-quickstart (sent a reply to Breno with a patch with all inside
-it).
+> > Should that be "are UNKNOWN"?
 
-When applying it to the Kernel, we can do this change at
-Documentation/conf.py, together with:
+> Otherwise in here mentions the case when ARM64_MTE_FAR is supported,
+> So the bits 63:60 of FAR_EL1 are "not UNKNOWN" but I write it with
+> KNOWN.
 
-	-exclude_patterns = ['output']
-	+exclude_patterns = ['output', 'devicetree/bindings/**.yaml']
+Ah, I see - KNOWN looks like one of the specially defined architectural
+terms from the glossary of the ARM since it's all caps but KNOWN isn't
+one of those words which was confusing me.
 
-(glob pattern not tested)
+> Do you want to change this to "not UNKNOWN"?
+> or Am I missing something?
 
-As we don't want DT yaml files to be processed as netlink families.
+DDI0487L.a D24.2.43 does use the term "not UNKNOWN" for that case so
+that'd work like you suggest, or some other rewrite to use less formal
+terms.  Like I say it was specifically the use of caps.
 
-After such tests, it sounds to me that the Sphinx extension approach 
-may work without requiring templates. Tested here with Sphinx 8.1.3.
+--AcPDYuBXDOqguWX5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
-Mauro
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhJrB4ACgkQJNaLcl1U
+h9BYHgf+Iit2rwd3yHK5WEV9aQ3ItTDeP7YyFQrmZUxPDi9M1hxYKXvHUsLtyaWf
+WYnwjrzkM8ykmhzQonLE+ecQDd1wEk5Z08CBZHH0ut4EmVt6hjf333uXFF/s7jKY
+YPxMmtGvzK3hoeqXUvKKnaRZ/3ZDYOjFTUGLDCf6SuZDCF5/J2KlXNkM4WgNn+T6
+dDXllbnC/+SU5PBk9fEYG43hyEjsnkT/qAAdgomLTyzg/eddrXWSX3E0xEHOU/Hk
+fGSSBTKZB/uKky6wHF+pVF6Gs65UyZ5NFj1bnJAN+AoOIU6GHrifwPvknwinIiUv
+GKv0mQwOeqGrzaLeRineWNxPckGr3A==
+=QnsX
+-----END PGP SIGNATURE-----
+
+--AcPDYuBXDOqguWX5--
