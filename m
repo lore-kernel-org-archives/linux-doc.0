@@ -1,46 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F462E610F;
-	Wed, 11 Jun 2025 16:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8EB5D8F0;
+	Wed, 11 Jun 2025 17:03:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749660745; cv=none; b=HB4XozVvcUOBauSRgWu7x2ZNVOrYoRXjTfXfArKbWWFGzrZzqNv3+Z2EDHGBpDj8oPjDlIwD8AP77nwnGTpR8/PlaXuiE9dRj2Fc6vBiNwGbWWlD76mYdoxvbWW0zeX/ShgMjIoa8hsPUXMXMmTybImZd3sF32nWdpnNSTRxnKQ=
+	t=1749661383; cv=none; b=T0MFSWnkI412JSXiE4B4oMu8f8ChZvVjZxhbzkXbiZ7oQaGbeoKTBtCVR6+Fzf0a/vE3++yHT0n6U0I5NHuznLSts3lOOW2+ZiPCyRP6X3Pxh4H8bA+V+Ya7t/3h35AFUeuocc8jaO32U68DMAoRPvzO4elkz+/jnRmApdCxbnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749660745; c=relaxed/simple;
-	bh=bZ7Zp+RHAzcuC/JNEGT+goE+g1TCIlv+thSOowgvvLs=;
+	s=arc-20240116; t=1749661383; c=relaxed/simple;
+	bh=G0KSz/s71VLYdbW5iDsJv1tB/CxVMgpLlLEVm+oxZo0=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ek3zhZz31+w+GmxfUY9tr5arh/eIS5SH7WsZknxIYSepQtSv6BqcrrJH+ttpMB/JrDO3oJK7CeC1oFc/HtTpC54227pPrS6UZyoEGPzRbKbf85n4ntUePBYYM3eiA+pmUGr0n2SoeqCIgfO6qhrJ/ddyIMANPNcTkp168GvMsyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oRHNY/eb; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=MtkbUvlNNLWAZ1KE5ANhbPnSsP2gcpupxLD0eIYHWg1Es041L9Ddy/HWPXZDbL+rpesq7Bx2a9z+53Z/knpT4Dj6eC8RPxebgHj7dl3CugCd3BWnBMrQPQAkYWE/+yfiGwcrRoO1SOCec5vpTU7GampdR7pMhAbt7OxUuuxeGtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G68faQTa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oRHNY/eb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C014C4CEE3;
-	Wed, 11 Jun 2025 16:52:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G68faQTa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20889C4CEEA;
+	Wed, 11 Jun 2025 17:02:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749660744;
-	bh=bZ7Zp+RHAzcuC/JNEGT+goE+g1TCIlv+thSOowgvvLs=;
+	s=k20201202; t=1749661383;
+	bh=G0KSz/s71VLYdbW5iDsJv1tB/CxVMgpLlLEVm+oxZo0=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=oRHNY/ebdAaxsrEfuV+Q9nygv8R9p7UtmfltidvSspsL850DtKTM0Tk4wIghE+j5h
-	 o0XCZxyWNwQIksft8H+Va2qArgzYf+DeptwhWaz3h8GOgzAoUF7YK0KAY7U+9aD4CI
-	 cYpMoZ4kAXQBtaAIvhnszo8W10zCutmY3AYiPTSfwp8oDYyIpwvd7dRgc7a5MDd2hC
-	 TDKbsdGmSXWVrCpWFKENYAi8icAYwOQGYzqbwMm0neEjb5KFUMKXy8bDXzg6kfsrQO
-	 wLUV5HSm1nGqB0vd79sGnQH0Jw18M6nJvxYECP26PSeu6/QXZrC9IuGX8/S3zJ2OHA
-	 06wYqc1og7RPw==
-Date: Wed, 11 Jun 2025 17:52:16 +0100
+	b=G68faQTaAJPR3mXFzLQ1rT2HAVnsgMdkgBjJAyyMW6lpqhsJtie4+kEw4sgvFvfux
+	 qjeUT8gUsuAjUAKc+HvlqbKAtSZMjeb2dyUSHhHHkTeNUCAuPOSQsRp6LRZDqH5w0O
+	 7Qd1D861TWmBtQe+1KzVf10/L3/PSFpg2a0IR3Zl1ywgNXmQ/b1Q4MdIHRaoNq1niN
+	 Jn62Rhi8zaNj7WzJtbRk9tIrtSqGEdifX1nkpgqyoXKvvdRmIdMx+sPf38P7uRgHFM
+	 wCJyp86dutK8TZAWSDFSvBjqq2ASiHLPyZkGoAboc+61a/PjpPoPcjeMPOoK6MJA3l
+	 hGnLI0eL98nHw==
+Date: Wed, 11 Jun 2025 18:02:52 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, dlechner@baylibre.com,
- nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net,
- lucas.p.stankus@gmail.com, lars@metafoo.de, Michael.Hennerich@analog.com,
- bagasdotme@gmail.com, linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 08/11] iio: accel: adxl313: add inactivity sensing
-Message-ID: <20250611175216.602d6a3f@jic23-huawei>
-In-Reply-To: <CAFXKEHYP6o5vzsSP24SLUSs+Tu2Oqm=oVf71xy8EKKD5hoCQqg@mail.gmail.com>
-References: <20250601172139.59156-1-l.rubusch@gmail.com>
-	<20250601172139.59156-9-l.rubusch@gmail.com>
-	<CAHp75Vd=mzfVN_UBUHAkTyj2Ap_tz76AB0LtKEz28pR=WmNzog@mail.gmail.com>
-	<CAFXKEHYP6o5vzsSP24SLUSs+Tu2Oqm=oVf71xy8EKKD5hoCQqg@mail.gmail.com>
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>,
+ Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko
+ <andy@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <ukleinek@kernel.org>, <linux-iio@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>
+Subject: Re: [PATCH v3 1/8] Documentation: ABI: add oversampling frequency
+ in sysfs-bus-iio
+Message-ID: <20250611180252.76f1fe7f@jic23-huawei>
+In-Reply-To: <20250610-iio-driver-ad4052-v3-1-cf1e44c516d4@analog.com>
+References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
+	<20250610-iio-driver-ad4052-v3-1-cf1e44c516d4@analog.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -48,159 +51,73 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 11 Jun 2025 17:36:49 +0200
-Lothar Rubusch <l.rubusch@gmail.com> wrote:
+On Tue, 10 Jun 2025 09:34:34 +0200
+Jorge Marques <jorge.marques@analog.com> wrote:
 
-> On Sun, Jun 1, 2025 at 9:46=E2=80=AFPM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> >
-> > On Sun, Jun 1, 2025 at 8:22=E2=80=AFPM Lothar Rubusch <l.rubusch@gmail.=
-com> wrote: =20
-> > >
-> > > Extend the interrupt handler to process interrupts as inactivity even=
-ts.
-> > > Add functions to set threshold and period registers for inactivity. A=
-dd
-> > > functions to enable / disable inactivity. Extend the fake iio channel=
- to =20
-> >
-> > IIO
-> > =20
-> > > deal with inactivity events on x, y and z combined with AND. =20
-> >
-> > ...
-> > =20
-> > > +static int adxl313_set_inact_time_s(struct adxl313_data *data,
-> > > +                                   unsigned int val_s)
-> > > +{
-> > > +       unsigned int max_boundary =3D 255; =20
-> >
-> > This is unclear how it's defined. What is the limit behind? Size of a
-> > bit field? Decimal value from the datasheet?
-> >
-> > The forms of (BIT(8) - 1) or GENMASK(7, 0) may be better depending on
-> > the answers to the above questions.
-> > =20
-> > > +       unsigned int val =3D min(val_s, max_boundary);
-> > > +
-> > > +       return regmap_write(data->regmap, ADXL313_REG_TIME_INACT, val=
-);
-> > > +} =20
-> >
-> > ...
-> > =20
-> > > -       axis_en =3D FIELD_GET(ADXL313_ACT_XYZ_EN, axis_ctrl);
-> > > +       if (type =3D=3D ADXL313_ACTIVITY)
-> > > +               axis_en =3D FIELD_GET(ADXL313_ACT_XYZ_EN, axis_ctrl);
-> > > +       else
-> > > +               axis_en =3D FIELD_GET(ADXL313_INACT_XYZ_EN, axis_ctrl=
-); =20
-> >
-> > Even with this change my previous comment stays.
-> >
-> > ...
-> > =20
-> > > +       en =3D cmd_en && threshold;
-> > > +       if (type =3D=3D ADXL313_INACTIVITY) {
-> > > +               ret =3D regmap_read(data->regmap, ADXL313_REG_TIME_IN=
-ACT, &inact_time_s);
-> > > +               if (ret)
-> > > +                       return ret;
-> > > +
-> > > +               en =3D en && inact_time_s;
-> > > +       } =20
-> >
-> > ...
-> > =20
-> > > -       if (info !=3D IIO_EV_INFO_VALUE)
-> > > -               return -EINVAL;
-> > > -
-> > > -       /* Scale factor 15.625 mg/LSB */
-> > > -       regval =3D DIV_ROUND_CLOSEST(MICRO * val + val2, 15625);
-> > > -       switch (dir) {
-> > > -       case IIO_EV_DIR_RISING:
-> > > -               ret =3D regmap_write(data->regmap,
-> > > -                                  adxl313_act_thresh_reg[ADXL313_ACT=
-IVITY],
-> > > -                                  regval); =20
-> >
-> > Hmm... This was added by the previous patches, right? Why can't it be
-> > done as a switch case to begin with? I remember one of the previous
-> > versions had some nested switch-cases, perhaps you need to rethink on
-> > how to split the code between functions to avoid too much nesting (add
-> > some helper functions?). =20
->=20
-> The point here is, as I mentioned in the other mail:
-> Initially, I wanted to build up the final switch/case struct i.e.
-> going by MAG/MAG_ADAPTIVE, then INFO_VALUE -> RISING / FALLING and
-> PERIOD.
->=20
-> This will distinguish properties for four different types of events,
-> of course it then also will use separate functions. As I uderstood
-> your review, why starting with switch/case, do
-> if (!MAG event) then, return right away. I implemented that as I
-> understood. For further switch/case-ing, I did the same.
-> Now, patch by patch, it grows. Thus the if-not-back-out lines will be
-> moved out and replaced by switch/case. Worse, with every level switch
-> case, all existing code needs indention, thus reading through the
-> patches show (too) many changes.
->=20
-> How can I improve to help you reviewing this or make the feedback more
-> useful for me? Or is my approach wrong? I'd like to start with the
-> switch case right away, then just add up what comes in with every
-> other patch. If so, you'd only see the changes, since the final
-> structure of this is already clear, because very similar to all
-> iio/accel drivers at least (as you probably know better than me).
-As mentioned earlier, reviewers tend to look at patches in a linear
-fashion (and forget them more or less entirely between versions posted!)
+Trivial: 
+In the patch title use the actual file name of the new ABI.
 
-So feel free to push back on earlier review comments that say 'you could
-simplify this as X' with 'I did this because it becomes more complex in pat=
-ch 4
-and this reduces churn'.
+add oversampling_frequency in sysfs-bus-iio
 
-Maybe here factoring out some elements into helpers will reduce the churn
-anyway (to a couple of lines) and that discussion become unnecessary.
 
-J
->=20
-> > =20
-> > > +       switch (info) {
-> > > +       case IIO_EV_INFO_VALUE:
-> > > +               /* Scale factor 15.625 mg/LSB */
-> > > +               regval =3D DIV_ROUND_CLOSEST(MICRO * val + val2, 1562=
-5);
-> > > +               switch (dir) {
-> > > +               case IIO_EV_DIR_RISING:
-> > > +                       ret =3D regmap_write(data->regmap,
-> > > +                                          adxl313_act_thresh_reg[ADX=
-L313_ACTIVITY],
-> > > +                                          regval);
-> > > +                       if (ret)
-> > > +                               return ret;
-> > > +                       return adxl313_set_measure_en(data, true);
-> > > +               case IIO_EV_DIR_FALLING:
-> > > +                       ret =3D regmap_write(data->regmap,
-> > > +                                          adxl313_act_thresh_reg[ADX=
-L313_INACTIVITY],
-> > > +                                          regval);
-> > > +                       if (ret)
-> > > +                               return ret;
-> > > +                       return adxl313_set_measure_en(data, true);
-> > > +               default:
-> > > +                       return -EINVAL;
-> > > +               }
-> > > +       case IIO_EV_INFO_PERIOD:
-> > > +               ret =3D adxl313_set_inact_time_s(data, val);
-> > >                 if (ret)
-> > >                         return ret;
-> > >                 return adxl313_set_measure_en(data, true); =20
-> >
-> > --
-> > With Best Regards,
-> > Andy Shevchenko =20
->=20
+> Some devices have an internal clock used to space out the conversion
+> trigger for the oversampling filter, Consider an ADC with conversion and
+> data ready pins topology:
+> 
+>   Sampling trigger |       |       |       |       |
+>   ADC conversion   ++++    ++++    ++++    ++++    ++++
+>   ADC data ready      *       *       *       *       *
+> 
+> With the oversampling frequency, conversions are spaced:
+> 
+>   Sampling trigger |       |       |       |       |
+>   ADC conversion   + + + + + + + + + + + + + + + + + + + +
+>   ADC data ready         *       *       *       *       *
+> 
+> In some devices and ranges, this internal clock can be used to evenly
+> space the conversions between the sampling edge. In other devices the
+> oversampling frequency is fixed or is computed based on the sampling
+> frequency parameter, and the parameter is read only.
+> 
+> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> ---
+>  Documentation/ABI/testing/sysfs-bus-iio | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+> index ef52c427a015cf47bb9847782e13afbee01e9f31..e60367255be89a9acc827ec1a749b729735f60e6 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-iio
+> +++ b/Documentation/ABI/testing/sysfs-bus-iio
+> @@ -139,6 +139,23 @@ Contact:	linux-iio@vger.kernel.org
+>  Description:
+>  		Hardware dependent values supported by the oversampling filter.
+>  
+> +What:		/sys/bus/iio/devices/iio:deviceX/oversampling_frequency
+> +KernelVersion:	6.17
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +		Some devices have internal clocks for oversampling.
+
+Wrapping on each sentence is unusual. David pointed this out in v2.
+Wrap at 80 chars as a single paragraph.
+
+> +		Sets the resulting frequency in Hz to trigger a conversion used by
+> +		the oversampling filter.
+> +		If the device has a fixed internal clock or is computed based on
+> +		the sampling frequency parameter, the parameter is read only.
+> +
+> +What:		/sys/bus/iio/devices/iio:deviceX/oversampling_frequency_available
+> +KernelVersion:	6.17
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +		Hardware dependent values supported by the oversampling
+> +		frequency.
+> +
+>  What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_raw
+>  What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_supply_raw
+>  What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_i_raw
+> 
 
