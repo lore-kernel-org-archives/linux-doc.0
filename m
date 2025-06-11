@@ -1,366 +1,206 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1D91C862C;
-	Wed, 11 Jun 2025 04:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749616632; cv=none; b=FOfgPQtHWVYmfDd1ZLCTCcVzHHJ01z8crIdhjH8nsMIwvJKNXdBUooeVQ60OZgaZysWnQfXallkG5lS8Bi/mxdyKzBD/N+xJCFa+O5NwuEvb+8nkjzhn68JbZ8RykPA/xkcToy6ZFN+be+2GyZghf3lAmUcZwiYh7l8a+e0tvxI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749616632; c=relaxed/simple;
-	bh=yZs47V1oi693c4do0y7QM+Np82SYQyqJ5JEqXGb27As=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HESh52vrrp66qHKXu9SZuUaKe+L3YOeU2DzeVvSRAjYNfqbPkrDXnfOt2LsTMAhJo5ANxudOz+N1CHmYXdTWAH1Ca0+dBLaH36xI17iVVSmxr8cCLsZCjOQaCMWoVlOZn5ml9GDv/4BPiPcB9vYevI15KwPfnmqB4pX1SCBq3Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrAAnL3vPB0lofHSOAQ--.7367S2;
-	Wed, 11 Jun 2025 12:36:31 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wBHGD3JB0lobZAXAA--.39634S2;
-	Wed, 11 Jun 2025 12:36:26 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: improve formatting and content clarity
-Date: Wed, 11 Jun 2025 12:36:13 +0800
-Message-ID: <20250611043616.264245-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2045.outbound.protection.outlook.com [40.107.244.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3D0EEA8;
+	Wed, 11 Jun 2025 06:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749621914; cv=fail; b=F3EzG62q2Fdo4Kqll8g7k7tsCtNhG/AZYyKwU8T7exICfakuswxz54Bg7ZTrPuoB2rL30MMDjN3X5zWFJj1LQQwUo+f6Xk0jZpEdrH2HnXIzCkkXc21CUZTwObhORVa5AqDtnZAWcJgShFTxR2q2NAtO1ZRXzeWuwUpaffH1QjM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749621914; c=relaxed/simple;
+	bh=Na+iSy1XrvDAtIChN60c/ceAiZFZ2tLlvpg9JA+umR0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ob9SniDG26+cyl4OddUb3q8kVIxJ21jrAfvUkMLxEMe1HrW/cMakeGV6nZMerlsUFNXFbHNOIhRLpJj8T7lKlrTCAoHNWoSIFlePYfqsaHQCitYvQRrGAcUj6kU/HaNthHTrrJJ/7HRvZfcMedXU/LZD5/PYfIeHJeIPqoUVWY4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TAhkmL9e; arc=fail smtp.client-ip=40.107.244.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TAhkmL9e"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y5Ubp4kqnLRZg5RFzg0tJKz4e+BXmhvCsupXd7ZHJHy5TU+NY8jfsMpS1lSeWxCfsU6JguJLhWOfoxq+sHE0OykGOe57nyNubfd/aXNwXiOHLZubA9MfArK1v25gQU3G/Ex8dl463awDH5JP6iJdpOUqb7uAlG0QvwuKYrLQSEi2o8vk63/z7Sk9WvXNwrq577puyrPaCehXVu3SEUnI4VhrN/242P2wzBRNe0felj+3zaDuOehEmx1cE3aWZJigyzPFhgmTv1hh9qKKxdhs/VhpCqckhRqaHH1QI0++U2jnHAxvmXYUa+3vDquIJnyxA59WCMYfGmT/CZJpmJTcag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3IoYfv0xh9/+8xCwDl8lE2YfWJsrpcYJf3Pf+bHFWNQ=;
+ b=hBVtGlLS6ORIiVGyCHYWEG1mLb3W+DukcGDeE9tjuzl8qw1udEEd7+JbYG7DNPnnF3cQJu64tbWi+7+KjXpbd40ZEKD/I2/s1bB/egmnMxmfoffr8tGlPcdEPID41/T6qUs5delf78kn3QACHr6uKc13KySdMmOxtBmG854Koj8q/2O/VYt89cXyx+2fP5lUrKHBrO71rlhwfvAHkyvjZa8UBkxoEyzQ1gDHaM89hkZv3CLwCbQmneC/arsxArmmdOIePN0G2kENrM7ZwEn3FGI2CaRpCnHlQpOXm6sgJwUGqBzUD69cXhDJMl81bmdJOiO6INPHvutm2mffbBeOuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3IoYfv0xh9/+8xCwDl8lE2YfWJsrpcYJf3Pf+bHFWNQ=;
+ b=TAhkmL9eHT8i/vfYKDyWHEHOEhU59cCmtgDYYecY1Z9OKTBUG7Q1iVdgFe/eEPIWz6SmdH3lVttLbwVtBpleNEmssH0WyrenKTmHXuA6NnU4QHVIUM62idD94sspQPeGh6CFOc4518atXKg+9zNaS0ERVYdSguy5msMTKXfnahHdGUAoOG5+6DbNOo670q5Tkt1lXrZAJbrfd/TEv9axalGvGeDggV5eAY5aPrfice+qc7Gb2Hrdw98avtlXuOoAzPzQWz9KnKw1V4aHrpmvsMpJrh8aunBqfZ5EE98YbH/WWttaoRiJGju2ST6XV2S0nfCpZAV5TiG50Bey6qZIfA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7500.namprd12.prod.outlook.com (2603:10b6:610:148::17)
+ by DS7PR12MB8250.namprd12.prod.outlook.com (2603:10b6:8:db::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.38; Wed, 11 Jun
+ 2025 06:05:10 +0000
+Received: from CH3PR12MB7500.namprd12.prod.outlook.com
+ ([fe80::7470:5626:d269:2bf2]) by CH3PR12MB7500.namprd12.prod.outlook.com
+ ([fe80::7470:5626:d269:2bf2%4]) with mapi id 15.20.8792.034; Wed, 11 Jun 2025
+ 06:05:09 +0000
+Message-ID: <b1b7b052-ceac-4119-9b72-ed8f4c1fbfe2@nvidia.com>
+Date: Wed, 11 Jun 2025 09:05:01 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 00/13] Add support for PSE budget evaluation
+ strategy
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Kory Maincent <kory.maincent@bootlin.com>, Paolo Abeni
+ <pabeni@redhat.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Donald Hunter <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250524-feature_poe_port_prio-v12-0-d65fd61df7a7@bootlin.com>
+ <8b3cdc35-8bcc-41f6-84ec-aee50638b929@redhat.com>
+ <71dc12de-410d-4c69-84c5-26c1a5b3fa6e@nvidia.com>
+ <20250609103622.7e7e471d@kmaincent-XPS-13-7390>
+ <f5fb49b6-1007-4879-956d-cead2b0f1c86@nvidia.com>
+ <20250609160346.39776688@kmaincent-XPS-13-7390>
+ <0ba3c459-f95f-483e-923d-78bf406554ea@nvidia.com>
+ <cfb35f07-7f35-4c1f-9239-5c35cc301fce@lunn.ch>
+Content-Language: en-US
+From: Gal Pressman <gal@nvidia.com>
+In-Reply-To: <cfb35f07-7f35-4c1f-9239-5c35cc301fce@lunn.ch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TL2P290CA0010.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:2::8)
+ To CH3PR12MB7500.namprd12.prod.outlook.com (2603:10b6:610:148::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAAnL3vPB0lofHSOAQ--.7367S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvAXoW3Zr1rXF1DAr4Utr47Xr4DXFb_yoW8WF1xuo
-	WSv3y5Cw1DtF13Ja45G3ykJFyDWr1Syrs5Aw4UKwnru3WUJa15tws5Ja4YgrySkrW5uFn7
-	Xr1Sg34fWa13ZayDn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUO47k0a2IF6w4xM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-	IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04
-	k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAF
-	wI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
-	AF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
-	IxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
-	CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVF
-	xhVjvjDU0xZFpf9x07jhiSdUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7500:EE_|DS7PR12MB8250:EE_
+X-MS-Office365-Filtering-Correlation-Id: a9e4a8e8-70e1-4f2b-1acd-08dda8adeb99
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cnZuSEpBOFBJV3N3d0ViME9aejg5R09Yd2k0MzNUUTk5K1VONmZOclB0YWpU?=
+ =?utf-8?B?MnExdEI3TnJPdnRBeWVQYWtWNTZlMDhPSm1NUklDM3ZyZmVuWFpKMzdrTDNt?=
+ =?utf-8?B?UFJXRXp5ZENIbUJoQjFiRU8zSjBBS3J6d1paNUVlWGg3NTNlcW1lTjQ5NXNr?=
+ =?utf-8?B?SkpvbTUrdDRHZWR3TzgrR0hKM0FFbnhiWDFYa2xaZ3RrQTVpUnZWNEsyQ3pp?=
+ =?utf-8?B?alRmMFRFUlFya2hSQk9hMHBJSndUZXpsNTU3QVMrTUVZVi96SlFQK1IwbmpV?=
+ =?utf-8?B?SUNMNUtJWUFPcnl1cW1ka3ptUWE0NHArTUd3bnhsVFFMSG54bmNCVitpdldr?=
+ =?utf-8?B?NDlqcFl3c2hnaGhIL3M3eFRtMUpUZm96ellKSFE0aVNDVS9MR1VaYVJFZnFL?=
+ =?utf-8?B?UERZWVhFZE80MzI2WDdFTE1yUWg1T3RSMHhLTnlUZ0FYaklhM2hOQjkwV1JS?=
+ =?utf-8?B?Tkk0My9sZXRIQTgvUTFQcThWT0pBMGQrYm52NC9SNG9MYmJhWlAyeksxSkpY?=
+ =?utf-8?B?SDRHVjNkQjNXNHBkZnA0TDFSRU10M0N3RnU1ekJzeUhXZjQ4Wm9sN2NENUxT?=
+ =?utf-8?B?anB0SVo4bWphaEw2Wk9FSjJuUGJUNXpUNUZONWQvYWpwck9yQzI5VHVrYzNr?=
+ =?utf-8?B?aG5ORWtIUG9NaVJDdHlZNTdzTlZyYTlJcXIyTXl6WHM1bW9nQzlKZC9SRDB0?=
+ =?utf-8?B?SUU2SUFWendmV1BsWVZoS2J3eTZWRXErdlN1OElmd2ZCZFYzUDhNdG9rdkpk?=
+ =?utf-8?B?bW40MEV4YkIwLzVTTEU3cEY3MFkxM0FVMDZ6R25mcU4wbDZla2ZyaUFLM2NN?=
+ =?utf-8?B?QTdEeGxMZ0hJWXlqVVpHQnorZ01GVkphOW5jN3hGaisrKzZwaEQ3blkyQmVF?=
+ =?utf-8?B?cEE5bGU3aTFRb1ZHWEtiS2ZCZEV3YWJSb3FwOVJDN2M5a1lqa0s4c1RrNXRQ?=
+ =?utf-8?B?MFhYYjhtYkpCSEozSS9oUFJOekFLRk1PSHpYRm4zNXhadStKcmN0Y3lUSzZJ?=
+ =?utf-8?B?YUJpcGJScysyaWZPSnpZOUQwYktRTWovb1lMS205Y2tOZzBtd1FiQXAxVERm?=
+ =?utf-8?B?K0FGMlF4NDc0YUsybEpBWG80Mnd5NDcyU2ZQRDN3cmxyM0JYN2JCMnpUcUlI?=
+ =?utf-8?B?WXJjTkhhM1VXNlFwT3RpeXRJeHJLQmJpeFNjUE53K1NOQ2wxeUg1djl3Tkta?=
+ =?utf-8?B?eFplSCt0K0FTUmdmQ0F4YW9vd3R1SlFjSkZIaktaeEVobk9QU2JPVHRxZHVD?=
+ =?utf-8?B?UEtvSDhPaFp6Sjg2eHVBNUNLTDBIOFZwWXRqZ1ZBejN5elVrOEdFMkNjbVEx?=
+ =?utf-8?B?d1M1bCtnL0w5VmV3cFRhSG9ycGRWZXEyQkpDQlhzcTNoWS9Ua0ZxckJpVkFv?=
+ =?utf-8?B?ZVdwTDJwRHhBb0UxaTBjQjN1UkFwS3RvV1k1Y0ZYalI5dm1QU2RrRzZlVkEw?=
+ =?utf-8?B?KzBHWk1xMzA5Y2wzOGJJM0FLcjNZZGlWVzRlNkhKdnpFWkIvTWtORDB4Z3Ba?=
+ =?utf-8?B?ZThidCs3SmVCbytCNGxKcGdERUlKaEVFdnlMSURNSzlYUFliZGI2SDMxN2Zs?=
+ =?utf-8?B?d042Mk52cmdZWnAzTFhlQVo4TG5MYlFPWlB3VERkOWJONTdzaXVSd2lPallj?=
+ =?utf-8?B?MjdsMnpYTjlQYWh5NEtJd2VrSTFReU91UlR4bmwyRnJNd1pJbDk5RWN2aWV1?=
+ =?utf-8?B?aTNLR2JIUWMxYThVV1VpY0tReFNCWkdxVWx1aG9KWG9TYmoyS0I2M2FIeG9C?=
+ =?utf-8?B?TVV5U1dmb1dYdHMrSDhWV0h3WWtwRVlKd0t1YWY3dHoyUkUrVUYxbk1HRGdl?=
+ =?utf-8?B?MGJrVGdGaDhHMVJWS1lsZnZIMWZtaUdJWXJUQzBDRFgxQXpsNVZJbGRxTzZ5?=
+ =?utf-8?B?SHBDbThlZkV4RURWdStOcm5NbjFGbGVyTktMcktHNzZrUUkrbE1VQTE4MnBC?=
+ =?utf-8?Q?HwL5OkbbSKY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7500.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OFRkV24rOURIT2pkWTlBa2t3SUdPUyt3emFtWmo5bmFoZzFON2NnNy9VTUQw?=
+ =?utf-8?B?SE1TUGpvZEZoWGorSHFEU0pDY0ZwWVd4TXRsNU5sbHNKNnJHSUQ2aFA5c1Q3?=
+ =?utf-8?B?bWkrcGJ1RmxuVXNlU0tPREoxeGdNMjBTRTFOR1dCS1RKSzZXR2lWYm9VT2V2?=
+ =?utf-8?B?dHovaFc4M2R1Y0d6ZlBRVlpBKzhNcXhIL1JpYVZtcmptWTZoVUJuc0xzVSs2?=
+ =?utf-8?B?eW9oKzdLMldBeG45UFQvNk9obGRXdzFUbDNSV2xPQlZLSXUwN2dTR0lmOUwx?=
+ =?utf-8?B?YXFMMkVhemxDQkdaSGNNVUo1eE5yZGlxSUdHMzBiNVFVVXdkUjZXYi83WjZY?=
+ =?utf-8?B?b2RYQTEyUEp5TzhCdTZ4YWV0MU1PbjZrT3hObjZRc1U4SWM0b3U5Si9nRWF5?=
+ =?utf-8?B?a1NVTzh6UDlGYmhaL0lrSUxkbis1TjlsUEI3c1lxQlMrNnlVdW9EMDNHdkRJ?=
+ =?utf-8?B?TUY2NXZGQTkxSmFIN1AyckQ1VlhlaUwrY2ZHcllQL3pMYTI4RHJMaFpBMzJ5?=
+ =?utf-8?B?NDVubFIrOEw5aWMxSEVNcnBwVW85bjAxOUxWay9iS0xCck5hMDk0bjhHbnpH?=
+ =?utf-8?B?U2w2SzliYWI5MzVUMWFtVSsydmNzN0dYU1NUMElHMGJqV2xlTUVQM3dJZzJo?=
+ =?utf-8?B?MDBZTDQ3bXdLS0Z3bDdOTWtsRWpoNzV5RCtid2hTMzFhM0ZvN1YyZE1NbS9w?=
+ =?utf-8?B?ZTBML0VONkdMV3FLd2xkaUtxSnh3N1drSEpTbmJsUHJrMjJHMUhPU2wrMWdC?=
+ =?utf-8?B?WWQ2YnVVZzBrT01QM0xQRURrS2lmYXp2NUdVN1dacmZIR2dCbnJJMk93SEJV?=
+ =?utf-8?B?d3Q1dmxoSWtWMTBSaTkyZkhiM1JVZytnbzRDdlZGdDNQRkR5THFTd084T2g4?=
+ =?utf-8?B?MmcxN0ViM3ZVVkJOWjNQSTh5b2VyMnpvekEwbzhhKzV0WFVpQnk5ZzhnNDN2?=
+ =?utf-8?B?ZjYrQkR0eDhmc1VrdGRvNnRuVEMwWDNIVWlESHlMUjJyanFJbVkvTHVINVlV?=
+ =?utf-8?B?Nlk2M2F3bzVIWUFqM1RIUDY3a2ZYYmQvdWVoN0o4dUw0RTBJdDNRM0ZKa29N?=
+ =?utf-8?B?dkhFTkJncXZaSlU2Nk5iUHhkN05JRFp0WWZ6UU9KZmowQk1SazVCSzZOWTdS?=
+ =?utf-8?B?dUhlWEx6RjZFUVYzOFQ0RFhXa1VBSGpLalNyNVlTdEc0VkZudVpJM1N6UFRJ?=
+ =?utf-8?B?QUs2ejkvMW0xOWdhcVZreFdBeE11VTV3aFgvV2pVazBCY2ZVbXB4WVYyQ2E2?=
+ =?utf-8?B?UC9tNFc0aU04U0hsNWxRTUxQU2hzNkw3MFZKWGRWQUJQUHlSakxINi9qdzdu?=
+ =?utf-8?B?ZGVKN3lTSGorT3UybkpBSmUyeThFQnF1cXZOYWVkL2x2UnY0NCtoZnMwUE1l?=
+ =?utf-8?B?NjZNQ3NyVXI0Mlp0L2lzTGMzWithTDhGOU9RTDZLRFB0WGcvMmVMTlo1bEMx?=
+ =?utf-8?B?YzIwQVNpRWdrTlFmaGRHS0lpQjkyUjFsSkdmRnlseDJ5RWRrMG5oWFMyMnNq?=
+ =?utf-8?B?dlgyVzI0aTdUYncvTW12bnVsaU5xUHg1ZlJJajk3cVkrdXJ4ZnN4bklOYnI4?=
+ =?utf-8?B?TlpDcHJ1T2QyS1VpekRSanEzMm5nYWNoV25DWVRTQ1dNTTUzbVdNb3AxYitW?=
+ =?utf-8?B?WGxkYWRZTnpabFNBVEl4aVJCcW9pa0hZNi9QSzFTZk4zcDRqYnRidnpLcE9y?=
+ =?utf-8?B?bldSL3RBUEtMRkl0QWJRYUgyK3hOcVFHdE9pZE9PbVhicEJOQk5ocVpUTndQ?=
+ =?utf-8?B?OHpESHFlM2h3TGhuUDJPeTF1UEltS0R3Zm5vcHhXZGdZSS9NWHlRVmxOQk5W?=
+ =?utf-8?B?cXFrRTNkVVBhTEJjQ3FlTHNBeTB1NVFLSGF4TGtJZHlTUWNiRkRiM0ZuVWZP?=
+ =?utf-8?B?NGc2eURldVVVVURwaWRCQzdSbjlXNWdINEZYRTBxbXk1ekRKLzRRWjMxdFF1?=
+ =?utf-8?B?bTVNVjgxakJvQm1LbmF5V054OUVNVmRTL0dUQ3kyNHh6UnFIaVFOd041c05N?=
+ =?utf-8?B?VWhpT2xFNGlOZXp4d0s1MXROSzIzWU0wU1RuNzZ5VnlSYTY4OUh3T1c5L2dJ?=
+ =?utf-8?B?M2ZhVldaQTZ6WGx6V2RNbVhsTng0RWl3TVFCMHhaVXhZd2hMK1ZZMUFtN3J6?=
+ =?utf-8?Q?HtIxQQHOrsd+iXFn4fEyVB35v?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9e4a8e8-70e1-4f2b-1acd-08dda8adeb99
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7500.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 06:05:09.5010
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DBXRqms5rA4moza4Z3n/yh0goHKF93T9Pz56Alinel0zNwqEpYyBBU573G6x3dx5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8250
 
-This patch fixes some issues in the how-to.rst:
+On 09/06/2025 18:12, Andrew Lunn wrote:
+>> I think that in theory the userspace patches need to be posted together
+>> with the kernel, from maintainer-netdev.rst:
+>>
+>> 	User space code exercising kernel features should be posted
+>> 	alongside kernel patches. This gives reviewers a chance to see
+>> 	how any new interface is used and how well it works.
+>>
+>> I am not sure if that's really the case though.
+> 
+> The ethtool Maintainer tends to wait to the end of the cycle to pick
+> up all patches and then applies and releases a new ethtool binary. The
+> same applies for iproute2. That means the CI tests are not capable of
+> testing new features using ethtool. I'm also not sure if it needs a
+> human to update the ethtool binary on the CI systems, and how active
+> that human is. Could this be changed, sure, if somebody has the needed
+> bandwidth.
+> 
+> Using the APIs directly via ynl python is possible in CI, since that
+> is all in tree, as far as i know. However, ethtool is the primary user
+> tool, so i do see having tests for it as useful. But they might need
+> to wait for a cycle, or at least fail gracefully until the ethtool
+> binary is updated.
 
-1. Add spaces between Chinese and English or numbers;
-2. Fold some long sentences or commands;
-3. Revise a few improper description and add some important tips;
-
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- Documentation/translations/zh_CN/how-to.rst | 103 +++++++++++---------
- 1 file changed, 59 insertions(+), 44 deletions(-)
-
-diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-index 569b0209385a..fa1dc46c2b4a 100644
---- a/Documentation/translations/zh_CN/how-to.rst
-+++ b/Documentation/translations/zh_CN/how-to.rst
-@@ -1,19 +1,19 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--=========================
--Linux内核中文文档翻译规范
--=========================
-+==========================
-+Linux 内核中文文档翻译规范
-+==========================
- 
- 修订记录：
-- - v1.0 2025年3月28日，司延腾、慕冬亮共同编写了该规范。
-+ - v1.0 2025 年 3 月 28 日，司延腾、慕冬亮共同编写了该规范。
- 
- 制定规范的背景
- ==============
- 
- 过去几年，在广大社区爱好者的友好合作下，Linux 内核中文文档迎来了蓬勃的发
- 展。在翻译的早期，一切都是混乱的，社区对译稿只有一个准确翻译的要求，以鼓
--励更多的开发者参与进来，这是从0到1的必然过程，所以早期的中文文档目录更加
--具有多样性，不过好在文档不多，维护上并没有过大的压力。
-+励更多的开发者参与进来，这是从 0 到 1 的必然过程，所以早期的中文文档目录
-+更加具有多样性，不过好在文档不多，维护上并没有过大的压力。
- 
- 然而，世事变幻，不觉有年，现在内核中文文档在前进的道路上越走越远，很多潜
- 在的问题逐渐浮出水面，而且随着中文文档数量的增加，翻译更多的文档与提高中
-@@ -34,7 +34,7 @@ reviewer 们只能耐心地指导他们如何与社区更好地合作，但是
- ========
- 
- 工欲善其事必先利其器，如果您目前对内核文档翻译满怀热情，并且会独立地安装
--linux 发行版和简单地使用 linux 命令行，那么可以迅速开始了。若您尚不具备该
-+Linux 发行版和简单地使用 Linux 命令行，那么可以迅速开始了。若您尚不具备该
- 能力，很多网站上会有详细的手把手教程，最多一个上午，您应该就能掌握对应技
- 能。您需要注意的一点是，请不要使用 root 用户进行后续步骤和文档翻译。
- 
-@@ -66,11 +66,18 @@ linux 发行版和简单地使用 linux 命令行，那么可以迅速开始了
- 	cd linux
- 	./scripts/sphinx-pre-install
- 
--以Fedora为例，它的输出是这样的::
-+以 Fedora 为例，它的输出是这样的::
- 
- 	You should run:
- 
--		sudo dnf install -y dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts google-noto-sans-cjk-fonts graphviz-gd latexmk librsvg2-tools texlive-anyfontsize texlive-capt-of texlive-collection-fontsrecommended texlive-ctex texlive-eqparbox texlive-fncychap texlive-framed texlive-luatex85 texlive-multirow texlive-needspace texlive-tabulary texlive-threeparttable texlive-upquote texlive-wrapfig texlive-xecjk
-+		sudo dnf install -y dejavu-sans-fonts dejavu-sans-mono-fonts \
-+		     dejavu-serif-fonts google-noto-sans-cjk-fonts graphviz-gd \
-+	             latexmk librsvg2-tools texlive-anyfontsize texlive-capt-of \
-+		     texlive-collection-fontsrecommended texlive-ctex \
-+		     texlive-eqparbox texlive-fncychap texlive-framed \
-+		     texlive-luatex85 texlive-multirow texlive-needspace \
-+		     texlive-tabulary texlive-threeparttable texlive-upquote \
-+		     texlive-wrapfig texlive-xecjk
- 
- 	Sphinx needs to be installed either:
- 	1) via pip/pypi with:
-@@ -92,7 +99,8 @@ linux 发行版和简单地使用 linux 命令行，那么可以迅速开始了
- 		https://github.com/sphinx-doc/sphinx/pull/8313
- 
- 请您按照提示复制打印的命令到命令行执行，您必须具备 root 权限才能执行 sudo
--开头的命令。
-+开头的命令。**请注意**，最新版本 Sphinx 的文档编译速度有极大提升，强烈建议
-+您通过 pip/pypi 安装最新版本 Sphinx。
- 
- 如果您处于一个多用户环境中，为了避免对其他人造成影响，建议您配置单用户
- sphinx 虚拟环境，即只需要执行::
-@@ -126,11 +134,11 @@ sphinx 虚拟环境，即只需要执行::
- 检查编译结果
- ------------
- 
--编译输出在Documentation/output/目录下，请用浏览器打开该目录下对应
-+编译输出在 Documentation/output/ 目录下，请用浏览器打开该目录下对应
- 的文件进行检查。
- 
--git和邮箱配置
---------------
-+Git 和邮箱配置
-+--------------
- 
- 打开命令行执行::
- 
-@@ -150,11 +158,11 @@ git和邮箱配置
- 	       smtpencryption = ssl
- 	       smtpserver = smtp.migadu.com
- 	       smtpuser = si.yanteng@linux.dev
--	       smtppass = <passwd>      # 建议使用第三方客户端专用密码
-+	       smtppass = <passwd>      	# 建议使用第三方客户端专用密码
- 	       chainreplyto = false
- 	       smtpserverport = 465
- 
--关于邮件客户端的配置，请查阅Documentation/translations/zh_CN/process/email-clients.rst。
-+关于邮件客户端的配置，请查阅 Documentation/translations/zh_CN/process/email-clients.rst。
- 
- 开始翻译文档
- ============
-@@ -162,8 +170,8 @@ git和邮箱配置
- 文档索引结构
- ------------
- 
--目前中文文档是在Documentation/translations/zh_CN/目录下进行，该
--目录结构最终会与Documentation/结构一致，所以您只需要将您感兴趣的英文
-+目前中文文档是在 Documentation/translations/zh_CN/ 目录下进行，该
-+目录结构最终会与 Documentation/ 结构一致，所以您只需要将您感兴趣的英文
- 文档文件和对应的 index.rst 复制到 zh_CN 目录下对应的位置，然后修改更
- 上一级的 index 即可开始您的翻译。
- 
-@@ -183,7 +191,7 @@ git和邮箱配置
- 译文格式要求
- ------------
- 
--	- 每行长度最多不超过40个字符
-+	- 每行长度最多不超过 40 个字符
- 	- 每行长度请保持一致
- 	- 标题的下划线长度请按照一个英文一个字符、一个中文两个字符与标题对齐
- 	- 其它的修饰符请与英文文档保持一致
-@@ -192,7 +200,7 @@ git和邮箱配置
- 
- 	.. SPDX-License-Identifier: GPL-2.0
- 	.. include:: ../disclaimer-zh_CN.rst  #您需要了解该文件的路径，根
--						据您实际翻译的文档灵活调整
-+					       据您实际翻译的文档灵活调整
- 
- 	:Original: Documentation/xxx/xxx.rst  #替换为您翻译的英文文档路径
- 
-@@ -203,11 +211,11 @@ git和邮箱配置
- 翻译技巧
- --------
- 
--中文文档有每行40字符限制，因为一个中文字符等于2个英文字符。但是社区并没有
--那么严格，一个诀窍是将您的翻译的内容与英文原文的每行长度对齐即可，这样，
-+中文文档有每行 40 字符限制，因为一个中文字符等于 2 个英文字符。但是社区并
-+没有那么严格，一个诀窍是将您的翻译的内容与英文原文的每行长度对齐即可，这样，
- 您也不必总是检查有没有超限。
- 
--如果您的英文阅读能力有限，可以考虑使用辅助翻译工具，例如 deepseek 。但是您
-+如果您的英文阅读能力有限，可以考虑使用辅助翻译工具，例如 deepseek。但是您
- 必须仔细地打磨，使译文达到“信达雅”的标准。
- 
- **请注意** 社区不接受纯机器翻译的文档，社区工作建立在信任的基础上，请认真对待。
-@@ -248,14 +256,17 @@ git和邮箱配置
- 
- 	Translate .../security/self-protection.rst into Chinese.
- 
--	Update the translation through commit b080e52110ea	#请执行git log <您翻译的英文文档路径> 复制最顶部第一个补丁的sha值的前12位，替换掉12位sha值。
-+	Update the translation through commit b080e52110ea
- 	("docs: update self-protection __ro_after_init status")
-+	# 请执行 git log --oneline <您翻译的英文文档路径>，并替换上述内容
- 
--	Signed-off-by: Yanteng Si <si.yanteng@linux.dev>	#如果您前面的步骤正确执行，该行会自动显示，否则请检查gitconfig文件。
-+	Signed-off-by: Yanteng Si <si.yanteng@linux.dev>
-+	# 如果您前面的步骤正确执行，该行会自动显示，否则请检查 gitconfig 文件
- 
- 保存并退出。
- 
--**请注意** 以上四行，缺少任何一行，您都将会在第一轮审阅后返工，如果您需要一个更加明确的示例，请对 zh_CN 目录执行 git log。
-+**请注意** 以上四行，缺少任何一行，您都将会在第一轮审阅后返工，如果您需要一个
-+更加明确的示例，请对 zh_CN 目录执行 git log。
- 
- 导出补丁和制作封面
- ------------------
-@@ -263,6 +274,7 @@ git和邮箱配置
- 这个时候，可以导出补丁，做发送邮件列表最后的准备了。命令行执行::
- 
- 	git format-patch -N
-+	# N 要替换为补丁数量，一般 N 大于等于 1
- 
- 然后命令行会输出类似下面的内容::
- 
-@@ -289,10 +301,10 @@ warning 不需要解决::
- 	git branch test-trans
- 	git am 0001-xxxxx.patch
- 	./scripts/checkpatch.pl 0001-xxxxx.patch
--	直接修改您的翻译
-+	# 直接修改您的翻译
- 	git add .
- 	git am --amend
--	保存退出
-+	# 保存退出
- 	git am 0002-xxxxx.patch
- 	……
- 
-@@ -301,28 +313,30 @@ warning 不需要解决::
- 最后，如果检测时没有 warning 和 error 需要被处理或者您只有一个补丁，请跳
- 过下面这个步骤，否则请重新导出补丁制作封面::
- 
--	git format-patch -N --cover-letter --thread=shallow  #N为您的补丁数量,N一般要大于1。
-+	git format-patch -N --cover-letter --thread=shallow
-+	# N 要替换为补丁数量，一般 N 大于 1
- 
- 然后命令行会输出类似下面的内容::
- 
- 	0000-cover-letter.patch
- 	0001-docs-zh_CN-add-xxxxxxxx.patch
- 	0002-docs-zh_CN-add-xxxxxxxx.patch
-+	……
- 
--您需要用编辑器打开0号补丁，修改两处内容::
-+您需要用编辑器打开 0 号补丁，修改两处内容::
- 
- 	vim 0000-cover-letter.patch
- 
- 	...
--	Subject: [PATCH 0/1] *** SUBJECT HERE ***	#修改该字段，概括您的补丁集都做了哪些事情
-+	Subject: [PATCH 0/N] *** SUBJECT HERE *** #修改该字段，概括您的补丁集都做了哪些事情
- 
--	*** BLURB HERE ***				#修改该字段，详细描述您的补丁集做了哪些事情
-+	*** BLURB HERE ***			  #修改该字段，详细描述您的补丁集做了哪些事情
- 
- 	Yanteng Si (1):
- 	  docs/zh_CN: add xxxxx
- 	...
- 
--如果您只有一个补丁，则可以不制作封面，即0号补丁，只需要执行::
-+如果您只有一个补丁，则可以不制作封面，即 0 号补丁，只需要执行::
- 
- 	git format-patch -1
- 
-@@ -345,9 +359,10 @@ warning 不需要解决::
- 
- 打开上面您保存的邮件地址，执行::
- 
--	git send-email *.patch --to <maintainer email addr> --cc <others addr>	#一个to对应一个地址，一个cc对应一个地址，有几个就写几个。
-+	git send-email *.patch --to <maintainer email addr> --cc <others addr>
-+	# 一个 to 对应一个地址，一个 cc 对应一个地址，有几个就写几个
- 
--执行该命令时，请确保网络通常，邮件发送成功一般会返回250。
-+执行该命令时，请确保网络通常，邮件发送成功一般会返回 250。
- 
- 您可以先发送给自己，尝试发出的 patch 是否可以用 'git am' 工具正常打上。
- 如果检查正常， 您就可以放心的发送到社区评审了。
-@@ -382,15 +397,15 @@ reviewer 的评论，做到每条都有回复，每个回复都落实到位。
- 每次迭代一个补丁，不要一次多个::
- 
- 	git am <您要修改的补丁>
--	直接对文件进行您的修改
-+	# 直接对文件进行您的修改
- 	git add .
- 	git commit --amend
- 
- 当您将所有的评论落实到位后，导出第二版补丁，并修改封面::
- 
--	git format-patch -N  -v 2 --cover-letter --thread=shallow
-+	git format-patch -N -v 2 --cover-letter --thread=shallow
- 
--打开0号补丁，在 BLURB HERE 处编写相较于上个版本，您做了哪些改动。
-+打开 0 号补丁，在 BLURB HERE 处编写相较于上个版本，您做了哪些改动。
- 
- 然后执行::
- 
-@@ -414,7 +429,7 @@ reviewer 的评论，做到每条都有回复，每个回复都落实到位。
- 如果您发送到邮件列表之后。发现发错了补丁集，尤其是在多个版本迭代的过程中；
- 自己发现了一些不妥的翻译；发送错了邮件列表……
- 
--git email默认会抄送给您一份，所以您可以切换为审阅者的角色审查自己的补丁，
-+git email 默认会抄送给您一份，所以您可以切换为审阅者的角色审查自己的补丁，
- 并留下评论，描述有何不妥，将在下个版本怎么改，并付诸行动，重新提交，但是
- 注意频率，每天提交的次数不要超过两次。
- 
-@@ -425,9 +440,9 @@ git email默认会抄送给您一份，所以您可以切换为审阅者的角
- 
- 	./script/checktransupdate.py -l zh_CN``
- 
--该命令会列出需要翻译或更新的英文文档。
-+该命令会列出需要翻译或更新的英文文档，结果同时保存在 checktransupdate.log 中。
- 
--关于详细操作说明，请参考： Documentation/translations/zh_CN/doc-guide/checktransupdate.rst\
-+关于详细操作说明，请参考：Documentation/translations/zh_CN/doc-guide/checktransupdate.rst。
- 
- 进阶
- ----
-@@ -439,8 +454,8 @@ git email默认会抄送给您一份，所以您可以切换为审阅者的角
- 常见的问题
- ==========
- 
--Maintainer回复补丁不能正常apply
---------------------------------
-+Maintainer 回复补丁不能正常 apply
-+---------------------------------
- 
- 这通常是因为您的补丁与邮件列表其他人的补丁产生了冲突，别人的补丁先被 apply 了，
- 您的补丁集就无法成功 apply 了，这需要您更新本地分支，在本地解决完冲突后再次提交。
-@@ -455,5 +470,5 @@ Maintainer回复补丁不能正常apply
- 大部分情况下，是由于您发送了非纯文本格式的信件，请尽量避免使用 webmail，推荐
- 使用邮件客户端，比如 thunderbird，记得在设置中的回信配置那改为纯文本发送。
- 
--如果超过了24小时，您依旧没有在<https://lore.kernel.org/linux-doc/>发现您的邮
--件，请联系您的网络管理员帮忙解决。
-+如果超过了 24 小时，您依旧没有在<https://lore.kernel.org/linux-doc/>发现您的
-+邮件，请联系您的网络管理员帮忙解决。
--- 
-2.43.0
-
+Thanks Andrew, so I interpret this as selftests should be added when the
+userspace patches get accepted (or released?)? Not part of the original
+kernel submission?
