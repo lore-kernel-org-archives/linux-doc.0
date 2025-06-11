@@ -1,80 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE4C1A5BA4;
-	Wed, 11 Jun 2025 15:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1F11632D7;
+	Wed, 11 Jun 2025 15:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749655273; cv=none; b=GOmRfhr8iglfrn/r4t+jJ7eZbeWC3oZlNpBnK0gxI6V0MKfPEMUjPeECOAFLLSlyW6OEfXQCkClM9D16naxAWBVEcEa1RDzrS/bbpqVSZCqsEFy5bkDhH32iAKhoSIuUU6bByCpfk6bENwVL/mXFODNLBJIK/iWsgtuZwspFCW4=
+	t=1749655364; cv=none; b=leh3IJjDaR3cy3HKibTJxpl7Uc2l2VLCEwKYuPd/PRTEC+6dC+d0E0bLR7js5udII3dbYOiUpPlCyYXnOKZpWO3rko5UL11nuiFasIp4oMRChKg7axTf6rdcdaUVQk9OwnM76paEkxD0sMiabk3lHbA5nhKMoDyrn7gooHZ13TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749655273; c=relaxed/simple;
-	bh=DKHEZr32zYDl99R0N+Wj4UUft/P2f5v9PTCILH9uK90=;
+	s=arc-20240116; t=1749655364; c=relaxed/simple;
+	bh=TW1ayCBNW5Vb+2luLmQ00rgDDT1bn12Np1BcZIBx7aA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TNcRdcGY5N+cZcvl0/OUErAR3OArV6IijLZyF1C8JDdVPNojpKGe4zoQV21RpSnqkOdI8tcnP43QUT07pMiZGAqgp8wZrPr8njVLwmgnsI+XdbFHJx8kFtX2UGqcu27edOsAiKnZh/ro92AHBL8dSSG6nil4J9duorQ/JWsQt4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NcDwzFZd; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NcDwzFZd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19287C4CEE3;
-	Wed, 11 Jun 2025 15:21:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749655273;
-	bh=DKHEZr32zYDl99R0N+Wj4UUft/P2f5v9PTCILH9uK90=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NcDwzFZdWXwz9IooI7nmf21LRpBX/cPOAZNQVwMRD9Gxm1hp+C2IKKz4htVXQaFLe
-	 5wpKAVVRazh2OLhNPg/DKTduO+4r7wFCD7UJaHG205159w6JHKx/uk+pc3N4ryRm1E
-	 TiKBh64WADr2Zmu/X+IsHnLHp5nfhNBDrwfiaFJQEiPOkOqfN7eiKb1+BSDML306/P
-	 E2eE6+0xgO3L502sRvF4DbbkYelb6sqifK2Po0r278zsjzkcZGb+6AM+CdxB2gxQ1Z
-	 BXOGLGeWUxyspwwtp2JHex2TsZq9Kt/hFBbAgJZ9ZUDWz82ueTukJuoYMusgSuQrmt
-	 FgJHTQw+tnKQw==
-Date: Wed, 11 Jun 2025 16:21:05 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: catalin.marinas@arm.com, pcc@google.com, will@kernel.org,
-	anshuman.khandual@arm.com, joey.gouly@arm.com,
-	yury.khrustalev@arm.com, maz@kernel.org, oliver.upton@linux.dev,
-	frederic@kernel.org, akpm@linux-foundation.org, surenb@google.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1EMMTlbfhK17aB84Be7hmLIIk8FDPHHCgLdJc0x/bINvBKpRtvFVood1v+/X/QLF64oznmDkMOPPfa0kHrrJe/9N4WuBHhigXah1PNB/pHfr1wX+CDyXDNhyXvbsZBhMwl8WRCm0O3ZjRrj24MDjQ+JFLwb8nr+4FlVXbJt648=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-604f26055c6so1989670a12.1;
+        Wed, 11 Jun 2025 08:22:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749655360; x=1750260160;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zSnJBPEx6odgfaU8N5kmsIPZPJwYZq/K2WTwH3zBoJA=;
+        b=MMd+0b/PXDPj0+j82KrgrpuNuDgmz4xdTbLB4w6KTHy+YJ4fOnjSGW6A/ajz95QpNp
+         9a1YrlXdLH21Zg/A2lDmPu+HMECAaZ0UMue7WTAhhTZwlSHnB77ZZrAVjTkOTv3qxSwh
+         0CkCAS5ijHsOgmATxIhqPH08jOacXzhn9oPkRJJTHpGd40MM+Y9PYyNobuu4owGilk6z
+         2apDRmfSzQvShA7cKYztaHunoYYrH8HNv2MvjiDOmpcT0KZNYCExPkY+8thdoBdzDqvx
+         pOEG+KEXuL4Uee8MFYPm78GpEz/fcack/uiSBmmrXJqmz4JrZ94UgOB45lqLEJ13fnOj
+         xMAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUqrAhbL7Yl0wIxu3kpZRmFO07/BKy3Rz1j8cLzDzzyV4IEqiepzbzhZfloj0QsD4Ixku9ruZ7a@vger.kernel.org, AJvYcCVWbtHpBJWJMCIi3aUNQPxTrx9pOQhHDEO2bB97omKb5FU+F80xjnqCGlPKMXSBSuR148KwvowW2BYa3Uu1Pkaf@vger.kernel.org, AJvYcCVvyFsWkHxC9O7aFrGx26o4hPBzIWxREJQnpTp2/irLzGl6TtrgBFWWzPNnfeti0138lfy3EJU6IzKe+MBX@vger.kernel.org, AJvYcCWSpv/Cehu7HhYuhfJMym8COuwfoPw0tP0E72dDAIyyszrwwH+UOImmiRga0pZ6yklU4PYAwCuQ6ww=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5FaQOxR/j+0+GNa4Kh8X9oqVuj5eTKSmfDieDonur4dN5t/P8
+	uP3Jh3QyyFXpPwzNRsGOUHYn9WGJjehBbMUQRl7FD1enhwotr/SKU48z
+X-Gm-Gg: ASbGncsw7WFfkAA6rMHMMin0m6HZofGeHvYnUbilVuk3r6kbRm3/83TvEIa21K8+iPC
+	OhW2HJfgG8GoGN6y3hJ4+B2m388NVNVJ7m4yX0iQCFGC3QjsdwOoa2pfTJ2T+e31PrZak6V/tO7
+	aNvq+Kc2dMcC+LZ4oAlbL9oDICAPdckmk1aLlUnzaftUf/mTK2WkL9Hc46B63mIJIene6ODujRI
+	dEL+b3kzFVIiPSl8ibpvSSNxxaPaaN3Sf1uui2DazSvrHH79iXOd8dApxJLv2GT7g6/jBgKpHDd
+	lpre2o/hYJsTbyYNKwSNSziIneiA6gc6DwifYy2ZOP3OdTqoDR79PQ==
+X-Google-Smtp-Source: AGHT+IG3vasi3xQDrC942RMkJzAr5DOPhWYhyEtc5CKb+1W1BKeUx1PM+YlMfA2JSV833lGzUJx/iw==
+X-Received: by 2002:a05:6402:40ce:b0:602:a0:1f2c with SMTP id 4fb4d7f45d1cf-60844ec0490mr3365625a12.9.1749655359752;
+        Wed, 11 Jun 2025 08:22:39 -0700 (PDT)
+Received: from gmail.com ([2a03:2880:30ff:71::])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-607fbbdaadbsm3995293a12.51.2025.06.11.08.22.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jun 2025 08:22:39 -0700 (PDT)
+Date: Wed, 11 Jun 2025 08:22:37 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Gustavo Luiz Duarte <gustavold@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 6/9] kselftest/arm64/mte: add address tag related
- macro and function
-Message-ID: <8e4aec59-88b1-4246-86e7-c438a141f215@sirena.org.uk>
-References: <20250611135818.31070-1-yeoreum.yun@arm.com>
- <20250611135818.31070-7-yeoreum.yun@arm.com>
+Subject: Re: [PATCH net-next 2/5] netconsole: implement configfs for
+ msgid_enabled
+Message-ID: <aEmfPfxxkB3FxIkx@gmail.com>
+References: <20250611-netconsole-msgid-v1-0-1784a51feb1e@gmail.com>
+ <20250611-netconsole-msgid-v1-2-1784a51feb1e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2N7Eqyu4U9441N1y"
-Content-Disposition: inline
-In-Reply-To: <20250611135818.31070-7-yeoreum.yun@arm.com>
-X-Cookie: No skis take rocks like rental skis!
-
-
---2N7Eqyu4U9441N1y
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250611-netconsole-msgid-v1-2-1784a51feb1e@gmail.com>
 
-On Wed, Jun 11, 2025 at 02:58:15PM +0100, Yeoreum Yun wrote:
-> Add address tag related macro and function to test MTE_FAR feature.
+On Wed, Jun 11, 2025 at 07:36:04AM -0700, Gustavo Luiz Duarte wrote:
+> Implement the _show and _store functions for the msgid_enabled configfs
+> attribute under userdata.
+> Set the sysdata_fields bit accordingly.
+> 
+> Signed-off-by: Gustavo Luiz Duarte <gustavold@gmail.com>
 
-Reviewed-by: Mark Brown <broonie@kernel.org>
-
---2N7Eqyu4U9441N1y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhJnuEACgkQJNaLcl1U
-h9AJZwf+Jmz0qS5BNCoNsu5FojFhbVbD85Z9kyXCCOohJef2tuyya4XJgIe/VkUi
-a78ffvoXTOa1enVTB8PIKDEgKH+5WgWMQaHmRUElXH5oWTf0WNxpixppEIVAVH0W
-LZXRS3XA6rVKgIOiermPXoKA9db35TnbQUBvLgK1uyqig+ffKiYHj5GxCfoAPKyK
-k/AS0TSBlawcDTolSWxGXf4FTJWd7M4S/Lgrq6NdRlIB+E825j7SL9pmYiOUTjCW
-yqbXiUUGZfSdsOctX4hrkxapUi7TIMJ8PjjUOuVs2kbKUCCqKAde8BjYJ6N5VGVr
-uCrIMTzbCvmLjvHVaEFRaDM+BeKCNA==
-=DQq1
------END PGP SIGNATURE-----
-
---2N7Eqyu4U9441N1y--
+Reviewed-by: Breno Leitao <leitao@debian.org>
