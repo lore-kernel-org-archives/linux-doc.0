@@ -1,90 +1,140 @@
-Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959782E610F;
-	Wed, 11 Jun 2025 11:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749641306; cv=pass; b=rj9alpJsUv7+ZXHslHMtHDaJKngsJb4G2jY1UXsNl1Uc6Yu87RbBMrL/4b/m+LKmEvvh6nCag+NX8TJ6ayt+iCZ/nYI979JzEITtOU/vahdhIiZ572WNB+kVmSu1IGsz1Yj4Kg/bJqXlT1BeGQ31sXB0RwqRRQUijcRX95Bzev4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749641306; c=relaxed/simple;
-	bh=9bAtrOVhW58iEopEem9hle2TkK2vl0U06nsZRHdY2WM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZcfxChmgBxEicXL1YKiqRSUH0pw0rycVNMloOhHRJNFY5PAkOmjdtagnUleje9JbI8PE2/ArPdbSpS+zpHI8viZUJgNcE5pjOLcboys8Q02o1n4qh2GdvMpXHnoNv/wQ28CmjjqDi0TZb1Qwyw74SOUcVaq2NrTHxvPcjLqGSoA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=EL0+sO3N; arc=pass smtp.client-ip=136.143.188.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4E123099C;
+	Wed, 11 Jun 2025 11:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749641848; cv=none; b=TvUiziPlcF1tqXYW+l6inNVLUIzKiQwVzo5QB7lWH0ztmuw8ebDUV8JJFU6JPIk8pn0QFRZEcyDHSK1mD7hTObMx3M0kMlSRGasOFH/y39HEFHArXg9R+8tAJ5rtC+xT8z9ibWC1jLnMxOPM78Lzd2i5BCXIVWfvJEh0ZWYlXJY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749641848; c=relaxed/simple;
+	bh=t70ZVM9B9jXNQcg1tWA3G669RPWCqOTJ7o+RRmiouFQ=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=q+wx3bEuN2WEo+G2ZLnhcPatroeHaD8FdQwyXcEPrymRhNfN3NlCgfMHA3xLeHPhjFkv6pqfIs1tBvONX5uqy7tnwM8tHz/adnaXZhx7NBAql0fwsO9zzcp379ZVHySHnY082c+U+mUMIZxj+SWrGmrAvjzI1JLmP++AFs7O8pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jOFALx/3; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="EL0+sO3N"
-ARC-Seal: i=1; a=rsa-sha256; t=1749641287; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Fsiu+Xri1nDZzPMh2VCN8zq16LVAvMTjJ3OmnQAfIo0Cd+KL4q9SxcK3920bJGz7iOp8KBthE5wbX3MyJsuQ5UXndftvs7ap/zPmJeRRcu+AywXgV56qTx/Zh0pgBceNkTBmguW5etg/i2uo23eJ91vDuzufTKqMF+HQm/Tlnb4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1749641287; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=eEkRwX3bcu6d9EfxMC5QWhVU9QbG0O36o+5JpYQjZko=; 
-	b=BrcOXrJ2C7LB7B2faYy7CD0EMtHlee++Mjvp3Qla8lTPgXOrp3TtJMA4595hKNtsFzizTlzF2+hvATCzSnorm7BoOd47ANqeTs/TiRgqVIsqcSfDHQcUXwyFXsMl3TH0r+1ZOkyqiwFiGsy75WqjtQKtPO5q9KXFq/+abRj4e/M=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
-	dmarc=pass header.from=<ming.li@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749641287;
-	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=eEkRwX3bcu6d9EfxMC5QWhVU9QbG0O36o+5JpYQjZko=;
-	b=EL0+sO3NTKluuiu0tfMLuruliVOsc6MS3mmXKzhwxa+VNLW2L/CdR44yzfxEv1hL
-	/iiycqgnXjYcs6wZCppEtEpw8XfErG/dxDZ1HIWljWlRk2FO+hBOnXnwwAxuN9eNNKC
-	nCryFPo3CcQYXq05rnv0A+gNk2O4EMvIbtyESIGY=
-Received: by mx.zohomail.com with SMTPS id 1749641284765481.1752739316735;
-	Wed, 11 Jun 2025 04:28:04 -0700 (PDT)
-Message-ID: <a0205f77-e9b4-43b0-89b4-92897202c6f4@zohomail.com>
-Date: Wed, 11 Jun 2025 19:28:00 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jOFALx/3"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-451d3f72391so84844335e9.3;
+        Wed, 11 Jun 2025 04:37:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749641844; x=1750246644; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qR6faLEKEsL2HBhlXQ2T+G160lb/jVjJORZfNDkjTgo=;
+        b=jOFALx/3NWuRVfaopeyNQFLYmPvj9B36DvaxqLb5Ha/OXMT/cNnJuGY3TO8B+771Ko
+         bCPNG07E1CynoCDNAbGOgaoVvZ+++BWWvMtappW16ARnl5Ebe3Dx4KQUR93rJEuuUV8I
+         39/DUwCcY7heGZBH2uaQrrXblkApa+uLPrwUybl01+8+ywPbbQLY3EXBaLXJJDNK4qvh
+         XffmVMn30uMuTE+4Nv5cHdD6i36HiobAnNXxn6WjsrUW/mbaXAPKiQiwXIAyaisPYOSt
+         kRDmfnvZuDwzJ1hgScAqcgEbBBUqgcX3FEEvS6kh1XV4NHoXqmEnzcwzCIpYvpInSa3M
+         pEpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749641844; x=1750246644;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qR6faLEKEsL2HBhlXQ2T+G160lb/jVjJORZfNDkjTgo=;
+        b=rqzz6FBU4TPUWQD7XxGYreRLW6Gax44P9Vg3cY1n13KL/LsXeX8UPMGN7+HCentpbd
+         boTnQQ9LEgsAjLjzSBeeCZyjCgSfp8rSgbxOewxuBbpi33YbqGpO3MlqaTkwtn3gfbPg
+         NERxe3NPXNjEelzAmob1VX8SBSGPDwVV6YPNBE/USZ1/Ab34jxlZABRTSxrfgMUwkuDu
+         2EIVscIYhcq7t/urjMdoEu+3ZcJ8vi/V0HjfN0MhKoGS5m4V7Y+OrmXo8j0BrTEwu2/o
+         fDiTaQkPWGWTCTP7+jCWCbeDLAssoGjUuv8gm8mTRHzUEU08E4onevRCXZ5rAWKG91Op
+         /nqg==
+X-Forwarded-Encrypted: i=1; AJvYcCU1oy4K2k3qyNscNg9+GEGwEJY95dBoxSFqYJrnzj4CO2XDiwTuD7r3ZOZ70lqvSIdCHWhL9aSc@vger.kernel.org, AJvYcCXPONMxlnZhD8IlxqVjq2z5R5d7OKbvM/CQhaMne4IDuxyYfHjqdj30gAnsGDhpHFuA6R4Jockptvs3X38=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWWRpon9GUTW+aWkZusoZ1A7oJ5cpETJ7VSDnr3j4UHVhMZxK/
+	vhUYTwJmRu+5FPxdCVR/iU6E6v/1Qi9XWurSX4IZI7+PD4oqDhiFitbS
+X-Gm-Gg: ASbGncsj9WbxZ6XrRRbxnqik5mJxxoycztl0KjmSJ5V9YQ8tLnkLh7Y0ytkpuW/Xr8n
+	syAPFL0LLxI3xE2Gn7DeAEJz+Wy2MYwV717Nf9T2DAC+Me3RL3vJ3esP+fPA7Af81muLe+pOGx1
+	G1C+hcs1ZLWLHLTGIBb8EvDSrVc6jVxpDzftPZt40QoEKvPRrsrWMUnFk/BR1j0g8fx4l2+xvOJ
+	IkrPpLQMea42KBrb4ilCN9XTUwD3CGOWuFfEEgqD6JX2CBBx/4snVPnM7jDmVnCTRlxSSWnnmja
+	Rrxp/ThGqyw0rIieuPJr50RHtgW2MVxXxovr4GvOguf8ionrhX6SoZrEJIgqWMQXFJSuq1jC7Lc
+	=
+X-Google-Smtp-Source: AGHT+IHUSDusP78EOPiscyfG6WpAmC3o9BMOaRGloOtLN/xk/Tr/sY0jXpO68pJur2TvBqN/0kmB+g==
+X-Received: by 2002:a05:600c:4687:b0:453:aca:4d05 with SMTP id 5b1f17b1804b1-4532a2e8b84mr462665e9.31.1749641844216;
+        Wed, 11 Jun 2025 04:37:24 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:acc4:f1bd:6203:c85f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532513e758sm18852815e9.5.2025.06.11.04.37.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jun 2025 04:37:23 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,  "Jonathan Corbet"
+ <corbet@lwn.net>,  "Akira Yokosawa" <akiyks@gmail.com>,  "Breno Leitao"
+ <leitao@debian.org>,  "David S. Miller" <davem@davemloft.net>,  "Ignacio
+ Encinas Rubio" <ignacio@iencinas.com>,  "Marco Elver" <elver@google.com>,
+  "Shuah Khan" <skhan@linuxfoundation.org>,  Eric Dumazet
+ <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,
+  joel@joelfernandes.org,  linux-kernel-mentees@lists.linux.dev,
+  linux-kernel@vger.kernel.org,  lkmm@lists.linux.dev,
+  netdev@vger.kernel.org,  peterz@infradead.org,  stern@rowland.harvard.edu
+Subject: Re: [PATCH 3/4] docs: netlink: don't ignore generated rst files
+In-Reply-To: <1cf12ab4c027cf27decf70a40aafdd0e2f669299.1749551140.git.mchehab+huawei@kernel.org>
+Date: Wed, 11 Jun 2025 11:44:09 +0100
+Message-ID: <m2a56epngm.fsf@gmail.com>
+References: <cover.1749551140.git.mchehab+huawei@kernel.org>
+	<1cf12ab4c027cf27decf70a40aafdd0e2f669299.1749551140.git.mchehab+huawei@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: fix typo in CXL driver documentation
-To: Nai-Chen Cheng <bleach1827@gmail.com>
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, Shuah Khan
- <skhan@linuxfoundation.org>, Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Dan Williams <dan.j.williams@intel.com>
-References: <20250610173152.33566-1-bleach1827@gmail.com>
-From: Li Ming <ming.li@zohomail.com>
-In-Reply-To: <20250610173152.33566-1-bleach1827@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Feedback-ID: rr0801122758dac63f59411b822277c55400007f0e272b1e9d9f9c508b30d72fed609010fdc86e6cbecdf7e7:zu08011227c9d23f366ad105d643218e08000082d2ad27e97dfe0b0003f2bde8789392502be4494b363dda8c:rf0801122dbf444edff5dd7069e0cf5aa000007bb2898c1b75feea3ca715bc354293820032d6e470cd1008144da1145df99b:ZohoMail
-X-ZohoMailClient: External
+Content-Type: text/plain
 
-On 6/11/2025 1:31 AM, Nai-Chen Cheng wrote:
-> Fix typo 'enumates' to 'enumerate' in CXL driver operation
-> documentation to improve readability.
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+
+> Currently, the build system generates ReST files inside the
+> source directory. This is not a good idea, specially when
+> we have renames, as make clean won't get rid of them.
+
+You're right that it's not a great idea, but it's the least bad option
+with sphinx because it only supports 1 source dir. It doesn't have the
+concept of a generated-sources dir and the alternative is to pollute the
+output dir. See e.g. https://docs.kernel.org/media.h.rst
+
+> As the first step to address the issue, stop ignoring those
+> files. This way, we can see exactly what has been produced
+> at build time inside $(srctree):
 >
-> Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
-Reviewed-by: Li Ming <ming.li@zohomail.com>
+>         Documentation/networking/netlink_spec/conntrack.rst
+>         Documentation/networking/netlink_spec/devlink.rst
+>         Documentation/networking/netlink_spec/dpll.rst
+>         Documentation/networking/netlink_spec/ethtool.rst
+>         Documentation/networking/netlink_spec/fou.rst
+>         Documentation/networking/netlink_spec/handshake.rst
+>         Documentation/networking/netlink_spec/index.rst
+>         Documentation/networking/netlink_spec/lockd.rst
+>         Documentation/networking/netlink_spec/mptcp_pm.rst
+>         Documentation/networking/netlink_spec/net_shaper.rst
+>         Documentation/networking/netlink_spec/netdev.rst
+>         Documentation/networking/netlink_spec/nfsd.rst
+>         Documentation/networking/netlink_spec/nftables.rst
+>         Documentation/networking/netlink_spec/nl80211.rst
+>         Documentation/networking/netlink_spec/nlctrl.rst
+>         Documentation/networking/netlink_spec/ovs_datapath.rst
+>         Documentation/networking/netlink_spec/ovs_flow.rst
+>         Documentation/networking/netlink_spec/ovs_vport.rst
+>         Documentation/networking/netlink_spec/rt_addr.rst
+>         Documentation/networking/netlink_spec/rt_link.rst
+>         Documentation/networking/netlink_spec/rt_neigh.rst
+>         Documentation/networking/netlink_spec/rt_route.rst
+>         Documentation/networking/netlink_spec/rt_rule.rst
+>         Documentation/networking/netlink_spec/tc.rst
+>         Documentation/networking/netlink_spec/tcp_metrics.rst
+>         Documentation/networking/netlink_spec/team.rst
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/driver-api/cxl/linux/cxl-driver.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/networking/netlink_spec/.gitignore | 1 -
+>  1 file changed, 1 deletion(-)
+>  delete mode 100644 Documentation/networking/netlink_spec/.gitignore
 >
-> diff --git a/Documentation/driver-api/cxl/linux/cxl-driver.rst b/Documentation/driver-api/cxl/linux/cxl-driver.rst
-> index 9759e90c3cf1..dd6dd17dc536 100644
-> --- a/Documentation/driver-api/cxl/linux/cxl-driver.rst
-> +++ b/Documentation/driver-api/cxl/linux/cxl-driver.rst
-> @@ -20,7 +20,7 @@ The CXL driver is split into a number of drivers.
->  * cxl_port  - initializes root and provides port enumeration interface.
->  * cxl_acpi  - initializes root decoders and interacts with ACPI data.
->  * cxl_p/mem - initializes memory devices
-> -* cxl_pci   - uses cxl_port to enumates the actual fabric hierarchy.
-> +* cxl_pci   - uses cxl_port to enumerate the actual fabric hierarchy.
->  
->  Driver Devices
->  ==============
-
-
+> diff --git a/Documentation/networking/netlink_spec/.gitignore b/Documentation/networking/netlink_spec/.gitignore
+> deleted file mode 100644
+> index 30d85567b592..000000000000
+> --- a/Documentation/networking/netlink_spec/.gitignore
+> +++ /dev/null
+> @@ -1 +0,0 @@
+> -*.rst
