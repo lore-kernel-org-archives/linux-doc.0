@@ -1,145 +1,237 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BB6182;
-	Thu, 12 Jun 2025 00:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E602F4317;
+	Thu, 12 Jun 2025 01:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749686827; cv=none; b=Unxkn29gpKuRlMndIaatfFbOYnA0aukWPxgQvsokLIM7FMTz3cv+Vq933iS5AlhisUPHzLgu4nkw7QSVJZ+yEIrmuPD+IKBElGPWQMSklMkNIDE3dso9cyRQMiLa1IOGBsGWV+BKjLcXZIx+mjFTmi/LMcZn3B4lXIqM7xRjIWM=
+	t=1749690297; cv=none; b=P3F6r68guuqT3wZdgqUwUNcz/d3rpfO/7qWeeC/A5QHi9tPqyEM9SQz76K526w+SDVq+ZOlI8oiZxKPSlFgZ1qiY9GxGYEUQPDpT61cOmzKs5LWllToFwcFtsfjXnIoJAECCIE5RB32FVLXxf4x4j1WYEZ+/Vx+cIQRbO6rlqwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749686827; c=relaxed/simple;
-	bh=kM4wkz/dwxa0xW4cXGWEbX2WdUscnexwQFhQh8Zq1Gk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P7Eqtp/iucAQLefSF/tvK9rbChyqvACntgh8s0+oJPmJpLi935+9biqstb+Ft3EXqEJckfwn1YH8beB9QHkU34xywqBIOuv7BdC7EcxBqxFRz6PFfF0SRMmRl6mdMZsbkNDGIvFaQtYkLkPhr06ClKVcg3v7MM3aic68ouvQeKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fp3WfuMd; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749690297; c=relaxed/simple;
+	bh=wz12a0wo4whUmuZ1qyFTN5zdGQYr7vGk/rFBNQEeacc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=roRi9llzX80ekT7TuVZIGim1ndAQRxpsZA6PRAdoG6wPBnqe8ryiT6ri7vtuhWoBPNWsuEypYBknk3CYesSkfYySJGgjLt1Ngjw4S6e0Cvs/USLg+eh8RgImyIu7TYzIJf0/wEJEfzYbMPqAdk+DJ6r2fOuED2ha+QOiJVdR89E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ZNtAdT5q; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fp3WfuMd"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2350b1b9129so2992225ad.0;
-        Wed, 11 Jun 2025 17:07:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749686825; x=1750291625; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lQdNWisb6TalRPXEapWg0OiOyvj6XGGrfSAO9j4MbfQ=;
-        b=Fp3WfuMdOfit25omUexpMieIQqEcLCdPUXldh8lrb2/5Ypjon/Coz48jSiBclh6MSh
-         MgKdsonWW2q3lQER+P7B0QpfB1dpoLvh9zAcW810tKXItQDu5n2TvYO+WHLQ+Mpu2YQ7
-         0WyT0nTl/MaeycPkeuMP13ds4eJhYyx0tx6AzlM7QJ7KTGpGj5+2AhTFgy8IqmrZWaSO
-         UKm5mnst8lPTxWpc2T9gKRrD3o0BQKQC/H7YDgKriS7QmRDgJ+yhzocag6OoH3Zkl7h8
-         XG6iK8/J6Bldo/F/oZRjWWptVrxflNI9aYeV8jZi4L8QHUZo0ulhFEOcDnFvQZX+lHD8
-         H8Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749686825; x=1750291625;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lQdNWisb6TalRPXEapWg0OiOyvj6XGGrfSAO9j4MbfQ=;
-        b=N6Nq4aYbNooQadUv3ixRHxMtI7oeKT/d+aAIHewWoYbkCvyQYCPhsPiYsXlM61Pydz
-         6NT6pkFx7Xc6wzQ4RGHQeWB7UJXNeU52G3YG6EDohIF8OyHVEfHIn839gDkgGcgqB/At
-         dJPc1JBZOLuQpESkmlD/0w/BVE0mSrIYL+wfSQUCdJt2Du5EEQlxIO1+ntWqAj4l1uL6
-         h8Wwh7RhU2z8KwEVor/GLcOn2Zm62MRTFZyfSBiHE1pIWKwtTnMvK99213HfcD+XPnAo
-         4+sAYOX3kOUS6JsA/TQbkkh179QbqqOKo7ESLrOhJfyh3y3Ot/eVlfhk4ejhgHsHY/wK
-         wLOA==
-X-Forwarded-Encrypted: i=1; AJvYcCU8SRP4rapSwwI7j9stgT3WUEp2VVj3UbADed699bpPodz5jqCAzh82JoALr8uovhL+ZE0uoVrfHn/sUQ==@vger.kernel.org, AJvYcCXO8mS2yhbgcflzCU8BO1ObNrhPCNkLjUPZlDEA6//4nsURqXd9junmYhmu29aJRqVib+BYVD1/WMc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy037T2kTeIST5CCxwUmlrWMQXQD5RenLhi4dy6mPr8d6/oMSKm
-	FznlntUezlVhS5Q/0vuNpdnwYue8n0aKazy0NMFRYY3zobq+XRQ1BcFS
-X-Gm-Gg: ASbGncst5t86nhF0oGG38o7RDE89hsYFKpdXlQwiEmTQ4QwdZqWoK32oHylqtcqxwND
-	Cex6SGLAmRgwIgagEUESdDtlCb+AWZ0j84CKkJTs+ly0op5kbCS5Jp8hbcI6UwUGNooFG2fEvls
-	qjB8dXQGiqGfWqXMp+6GxeSFacenNc6Z490plf1Ia2qVbPJHudsZHfJtCe7UQKi6MDz6xMkT8eI
-	xEWbiDOemyyCyjJjaDzkn+RsEhtStvJOCpfrI8gNlYp8KSdhmT66l76xVN/exef+WLL+bfqoPaA
-	p03PIjYCKEBJx9fXZuvXmuj7vng0IcpUR3zOeA4vUdQpNUpq5Xpw6ke7FsTdwg==
-X-Google-Smtp-Source: AGHT+IEsN7Bu671DA14zZxy9bgMmEbIOhi5XXbISeqwcmmbAcTTvu3o69KPy92HniR4rrPpub1UMIg==
-X-Received: by 2002:a17:903:32ca:b0:234:c2e7:a0e4 with SMTP id d9443c01a7336-2364c8b81ccmr18935955ad.3.1749686825121;
-        Wed, 11 Jun 2025 17:07:05 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2364e6d9bb8sm1582135ad.113.2025.06.11.17.07.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 17:07:04 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id A96B1424180B; Thu, 12 Jun 2025 07:07:00 +0700 (WIB)
-Date: Thu, 12 Jun 2025 07:07:00 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>, "Darrick J. Wong" <djwong@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux ext4 <linux-ext4@vger.kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: Re: [PATCH] Documentation: ext4: atomic_writes: Remove
- cross-reference labels
-Message-ID: <aEoaJEhw5qHkd2_w@archie.me>
-References: <20250610091200.54075-2-bagasdotme@gmail.com>
- <20250611164800.GC6134@frogsfrogsfrogs>
- <87ikl21a5u.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZNtAdT5q"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55BMeZ482743681;
+	Wed, 11 Jun 2025 17:40:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1749681635;
+	bh=3ScxWKcILfYH0VS/UgTIF+jQeDfTkbMiB6a5wGY1/a8=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=ZNtAdT5qT05X/zaXIfzUes9m+pF2G5opXg7GQwjXVpOUyQ/toDs3hVTzrYl3Y39rU
+	 vq19vAvQHD1nijThP5FXt4F1YP1gPrA/w6El2jRWYSukeplnPguQUkeojqHk2e9mJt
+	 dtdbjbdU5OCcAwwfTYwxLLb4ct1jhNcIhs75+Qmo=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55BMeZlV1457760
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Wed, 11 Jun 2025 17:40:35 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 11
+ Jun 2025 17:40:35 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 11 Jun 2025 17:40:35 -0500
+Received: from [10.249.42.149] ([10.249.42.149])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55BMeYtX1182750;
+	Wed, 11 Jun 2025 17:40:34 -0500
+Message-ID: <f686130b-009f-4feb-bae1-022938c85923@ti.com>
+Date: Wed, 11 Jun 2025 17:40:33 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZHoNJR7Yp/fs3t3e"
-Content-Disposition: inline
-In-Reply-To: <87ikl21a5u.fsf@trenco.lwn.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/12] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+        Jens Wiklander
+	<jens.wiklander@linaro.org>,
+        Sumit Garg <sumit.garg@kernel.org>,
+        Bjorn
+ Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Apurupa Pattapu
+	<quic_apurupa@quicinc.com>,
+        Kees Cook <kees@kernel.org>,
+        "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+CC: Harshal Dev <quic_hdev@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+        <op-tee@lists.trustedfirmware.org>, <linux-kernel@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>,
+        Sumit Garg
+	<sumit.garg@oss.qualcomm.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com>
+ <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9@oss.qualcomm.com>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-3-024e3221b0b9@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
+On 5/27/25 1:56 AM, Amirreza Zarrabi wrote:
+> For drivers that can transfer data to the TEE without using shared
+> memory from client, it is necessary to receive the user address
+> directly, bypassing any processing by the TEE subsystem. Introduce
+> TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT/OUTPUT/INOUT to represent
+> userspace buffers.
+> 
 
---ZHoNJR7Yp/fs3t3e
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Could you expand on this, what is the issue with normal MEMREF?
 
-On Wed, Jun 11, 2025 at 11:05:17AM -0600, Jonathan Corbet wrote:
-> "Darrick J. Wong" <djwong@kernel.org> writes:
->=20
-> > On Tue, Jun 10, 2025 at 04:11:59PM +0700, Bagas Sanjaya wrote:
-> >> Sphinx reports htmldocs warnings on ext4 atomic block writes docs:
-> >>=20
-> >> Documentation/filesystems/ext4/atomic_writes.rst:5: WARNING: duplicate=
- label atomic_writes, other instance in Documentation/filesystems/ext4/atom=
-ic_writes.rst
-> >> Documentation/filesystems/ext4/atomic_writes.rst:207: WARNING: duplica=
-te label atomic_write_bdev_support, other instance in Documentation/filesys=
-tems/ext4/atomic_writes.rst
-> >>=20
-> >> These warnings reference duplicated cross-reference labels to themselv=
-es in
-> >> the same doc, which are because atomic_writes.rst is transcluded in
-> >> overview.rst via include:: directive, thus the culprit docs get proces=
-sed
-> >> twice.
-> >
-> > <confused> How is that possible?  atomic_writes.rst is only "include::"d
-> > once in overview.rst.  Is the file implicitly included through some
-> > other means?
->=20
-> Sphinx wants to snarf up every .rst file it sees, regardless of whether
-> it is explicitly made part of the document tree.  So it will pick up
-> atomic_writes.rst separately from the include.
->=20
-> This could be "fixed" by removing the .rst extension from the included
-> file.  But, since there is no use of the atomic_writes label to begin
-> with, it's better to just take it out.  The other fix, removing a cross
-> reference, is not entirely ideal, but there is little text between the
-> label and the reference.
+Andrew
 
-So removing the labels looks good to you, right?
-
-Confused...
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---ZHoNJR7Yp/fs3t3e
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaEoaHwAKCRD2uYlJVVFO
-ozRNAP4rqmYsSw/PYLeoGBzEqB5LnXGG8bFlzEhWr2Xjst8QGgD+IDODlnZyKYVW
-nWWTqzLnYN2LmlAyRXI2BiDN7EYWUQ0=
-=wyqL
------END PGP SIGNATURE-----
-
---ZHoNJR7Yp/fs3t3e--
+> Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+> ---
+>   drivers/tee/tee_core.c   | 33 +++++++++++++++++++++++++++++++++
+>   include/linux/tee_drv.h  |  6 ++++++
+>   include/uapi/linux/tee.h | 22 ++++++++++++++++------
+>   3 files changed, 55 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index b9ea5a85278c..74e40ed83fa7 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -387,6 +387,17 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>   			params[n].u.value.b = ip.b;
+>   			params[n].u.value.c = ip.c;
+>   			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			params[n].u.ubuf.uaddr = u64_to_user_ptr(ip.a);
+> +			params[n].u.ubuf.size = ip.b;
+> +
+> +			if (!access_ok(params[n].u.ubuf.uaddr,
+> +				       params[n].u.ubuf.size))
+> +				return -EFAULT;
+> +
+> +			break;
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -455,6 +466,11 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
+>   			    put_user(p->u.value.c, &up->c))
+>   				return -EFAULT;
+>   			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			if (put_user((u64)p->u.ubuf.size, &up->b))
+> +				return -EFAULT;
+> +			break;
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>   			if (put_user((u64)p->u.memref.size, &up->b))
+> @@ -655,6 +671,13 @@ static int params_to_supp(struct tee_context *ctx,
+>   			ip.b = p->u.value.b;
+>   			ip.c = p->u.value.c;
+>   			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			ip.a = (u64)p->u.ubuf.uaddr;
+> +			ip.b = p->u.ubuf.size;
+> +			ip.c = 0;
+> +			break;
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -757,6 +780,16 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
+>   			p->u.value.b = ip.b;
+>   			p->u.value.c = ip.c;
+>   			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			p->u.ubuf.uaddr = u64_to_user_ptr(ip.a);
+> +			p->u.ubuf.size = ip.b;
+> +
+> +			if (!access_ok(params[n].u.ubuf.uaddr,
+> +				       params[n].u.ubuf.size))
+> +				return -EFAULT;
+> +
+> +			break;
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>   		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>   			/*
+> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> index a54c203000ed..78bbf12f02f0 100644
+> --- a/include/linux/tee_drv.h
+> +++ b/include/linux/tee_drv.h
+> @@ -82,6 +82,11 @@ struct tee_param_memref {
+>   	struct tee_shm *shm;
+>   };
+>   
+> +struct tee_param_ubuf {
+> +	void * __user uaddr;
+> +	size_t size;
+> +};
+> +
+>   struct tee_param_value {
+>   	u64 a;
+>   	u64 b;
+> @@ -92,6 +97,7 @@ struct tee_param {
+>   	u64 attr;
+>   	union {
+>   		struct tee_param_memref memref;
+> +		struct tee_param_ubuf ubuf;
+>   		struct tee_param_value value;
+>   	} u;
+>   };
+> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> index d0430bee8292..3e9b1ec5dfde 100644
+> --- a/include/uapi/linux/tee.h
+> +++ b/include/uapi/linux/tee.h
+> @@ -151,6 +151,13 @@ struct tee_ioctl_buf_data {
+>   #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT	6
+>   #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT	7	/* input and output */
+>   
+> +/*
+> + * These defines userspace buffer parameters.
+> + */
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT	8
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT	9
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT	10	/* input and output */
+> +
+>   /*
+>    * Mask for the type part of the attribute, leaves room for more types
+>    */
+> @@ -186,14 +193,17 @@ struct tee_ioctl_buf_data {
+>   /**
+>    * struct tee_ioctl_param - parameter
+>    * @attr: attributes
+> - * @a: if a memref, offset into the shared memory object, else a value parameter
+> - * @b: if a memref, size of the buffer, else a value parameter
+> + * @a: if a memref, offset into the shared memory object,
+> + *     else if a ubuf, address of the user buffer,
+> + *     else a value parameter
+> + * @b: if a memref or ubuf, size of the buffer, else a value parameter
+>    * @c: if a memref, shared memory identifier, else a value parameter
+>    *
+> - * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref or value is used in
+> - * the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value and
+> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref. TEE_PARAM_ATTR_TYPE_NONE
+> - * indicates that none of the members are used.
+> + * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value is
+> + * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
+> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_UBUF_*
+> + * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
+> + * are used.
+>    *
+>    * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
+>    * identifier representing the shared memory object. A memref can reference
+> 
