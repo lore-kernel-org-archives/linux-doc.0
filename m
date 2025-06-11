@@ -1,183 +1,115 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94949801;
-	Wed, 11 Jun 2025 06:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FEE22CBD0;
+	Wed, 11 Jun 2025 06:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749624808; cv=none; b=PU7mnG1IjtGaLypZLE8ayWG8DgDzyXgSv1RDkzaPWkEmdc9BBFaZlpr5NK30jidP/OXpVVrlVf0FCUpUx6tfIRLXTWuV642fpcDzInnOzqF7DB2MTmYVjU4Iaby1ibbiNp+BTOiXKvUFjoy0bPy/kEIwE1xTs1kho1DTT3O6XC4=
+	t=1749625200; cv=none; b=J24gHtH4WC65+bv/EJhlKV3bkshmQ4dqIc22D/XRdkf1heKBlI1aiKxBIaxo17A9JSotKCE2CKwuY/ZRQYKGU4hBh9bV79fm8LxTSwL1OK6LzAra13LBOPg0JRoKBB5vN/vARnby7E0vyNp0WRomSihHgAfYKbgX3Zi74WNjrHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749624808; c=relaxed/simple;
-	bh=ywZhPZNxguASeXsz+ZQIEFvgkFGtFrdTHQm4EVnLuig=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W25KRli/H8aEk3z96/tDRI7CXvmKwpCIZLsgXoKkrfiIYvAFl07BN7PfvFIHUsA0Khap/eRiqK2fZouhTNIrwEMmWwAfNk50oVaay16l09wr9NsjBSfMaSaXdH7A124R+qQ0zPsaceMY1Kfd4ZoOw2Eq/Hrn42z1VAEqMl7k8rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WfiLb7qI; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749625200; c=relaxed/simple;
+	bh=Yo9Aj6NI6n0oVW7kfpiQql+rb8opiJFPlJ4FKWQs1k4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h6AGyGBrGRL+S1PsqpMeSmkVjmz541JgLt/OYiBeXdXyuYqRh1GsXhZtfHod0U0SFnZRXyngyr5Ekdhm6hrs/XlMfvZnMoxFWUh4Ke+ZnDYlXYkCB3RfyGTpKnblwSue4n5lPjlPnYe0PtEZLpL+AvUQuTzHWTEdflg/h0ccRtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qdzIB9Uh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WfiLb7qI"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-747e41d5469so6729968b3a.3;
-        Tue, 10 Jun 2025 23:53:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749624805; x=1750229605; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8uynCWGHOwgS7TJEhfsESrMpDq6SQHjOchuDKL6F0CQ=;
-        b=WfiLb7qI6NTUeAJTQMctO33eyyDS/89rafyPh2vHmfLq8Gxucy7ZtY+LG7VTs1HeSg
-         5PscoFZhfRrBu34m1Yj2eIvMPrzRkynKMK55+jjFWn7Hpao4kByhWH/TIZlNfVVYS0y7
-         giylwruHDb2R8aJANQG5VwKpw8Ix6Fgt/GHp6PuPDec/bRbfW4lKf3G9Gj3r015IPSJq
-         dd1JJsZTZBRaE5Mbp/uN46/RD7uz+e7Vq71Bv6rdqPufGwuO/KEcomYa7AIqSCPeNvTh
-         vMVyarLMrtvALat+nY+w66fY74c67XURQHGO8T/AFMN3x4PgvYY3fEAloy5eGf6R1u7G
-         2xew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749624805; x=1750229605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8uynCWGHOwgS7TJEhfsESrMpDq6SQHjOchuDKL6F0CQ=;
-        b=VqNnV6tP76th9U8OjLpsbRaG8LpIo/y1rhKPjdgcrS8rHpDFu97tM5G9uRhMufeQZ5
-         /4M3OL2wSozFoRu2M/HwD/26Hu9OD9rQ+LwroaY2hJTBNXE/QQRTBdPTlDa2qzoX4AOW
-         Ns/qWlx3HAqRydEjzsd+b7THY6ggW7cENLI+mqqfqrsg/WC76klVb3bAiGcqOfKw0XL3
-         51RbqKJntn8jWIt5vVtgosausl9jTLfd0VADD8rZflypgGOBGyevjR6d3/MOGzhtfdVy
-         kE03RqaMyxN5dg1zekIGMjANtN7kIKTXWpC88Gp1ji3biBsICs1BywwlgcZFwOy7AgCL
-         Pxkg==
-X-Forwarded-Encrypted: i=1; AJvYcCUaE1GwH6j/lNJnlQEy1KamrS/lZhvS7pmKPyUN3xp7SAhBTJ9Y2HDiNpJLqivl/E+fm3rPyzjFBTxv@vger.kernel.org, AJvYcCUrcHSiMNYdP2dyX7fmkflETk/VbYCXJzC10viqI6vfuxej/jNrVtcvlqodtRRuLDbYKjYdHMzL/VM=@vger.kernel.org, AJvYcCV7y4Z4xUbstVeLJTwlfh+h3RV80AZD1ZV5cjavTt5kN3qzxmkSl9fdjlPTgWiZalg/KE5oT+3+BN7c@vger.kernel.org, AJvYcCW6Y+WR+JDGdh0A1UDrd8TC16nQuCbTRluIvf44F42YNibmyOo06YELFkQtRTzpIn9HL9qZaRUk@vger.kernel.org, AJvYcCWWaXX59ZHYe31Y9cdnVTTpM7IjGfkiUzU+X/HwUMWogtgT793g7yDeZJXZ7KEk4R6p3vfAKtbECuI0pQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuySAt3XBZ2DBN9fBFTGIyfb/Sf2EenCDUfg6LPz6nxGoUSBBq
-	WhYgUv7SWb1i/V8NWEIF7O9aXmTEbwFzcU2rLXm1159KF8aTos/bpbgt
-X-Gm-Gg: ASbGncsDznjjD9axUIEx1CTht9zSCw3BiUylxfOkKDT/25acqm/MU9x8fsu0v9LYflZ
-	TzUKaYBeXcOOD7HfYgcbut2zcV9FJ7ftOnQFurBAyPp0ub+6sa2pWlKD3xTrrwM1rlNir5/GU0i
-	uJDAsvm6i0/uejjdEaLbYgWS62Z95ooCUsj8MaIfsPIQJnZP6tq8f1x2Dj7SonNbZyuW+MdXS9G
-	X70LXAEFQDNKiyO2irOr230V3reR4lwtMhBQi7Fzo5oZebHWgx4cFRQQW31nz+1J52wPSs4vWCH
-	3Yw9qs4uM8boZslYnKta0VbPJB10Q6NfaPLOmpGk418TGXnt326AUNKY5Uwx+Ki7Ez/L8LMB
-X-Google-Smtp-Source: AGHT+IHxP3vqYfSgJDfm/i4vg8P4K4JE3gMEHlJimyHW5aWR28HDA/MdfXXnCEmNEdnkpHVvNiNxmw==
-X-Received: by 2002:a05:6a00:88b:b0:740:5927:bb8b with SMTP id d2e1a72fcca58-7486ca942afmr2988582b3a.0.1749624804632;
-        Tue, 10 Jun 2025 23:53:24 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482f4aea59sm8146085b3a.81.2025.06.10.23.53.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 23:53:24 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7FF5C420AA82; Wed, 11 Jun 2025 13:53:17 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux GPIO <linux-gpio@vger.kernel.org>,
-	Linux MTD <linux-mtd@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux USB <linux-usb@vger.kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Weinberger <richard@nod.at>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Felipe Balbi <balbi@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH] Documentation: treewide: Replace remaining spinics links with lore
-Date: Wed, 11 Jun 2025 13:52:55 +0700
-Message-ID: <20250611065254.36608-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qdzIB9Uh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D053C4CEEE;
+	Wed, 11 Jun 2025 06:59:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749625199;
+	bh=Yo9Aj6NI6n0oVW7kfpiQql+rb8opiJFPlJ4FKWQs1k4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qdzIB9Uh8z/d2o4eBItKJ3MrWPM8D+PI8m4798rlUMWbiJz/TW2v87DP3Pgas/d9W
+	 2i3qUrehwXaJXBlq91drLsW1N35F10sCyigYfNbDVR8ZfGKicBMrM6EMd8Bek8mhRX
+	 bPc0vm04nrwVh/+JGrZYiC4AeokoUOsLzHSP+pgvVROwtBSCg5vgXrIuFvabPVNEOz
+	 xApZSOcdYjgdQ2jnyDBpnTFQlbPOHORGHYvLIQEi3v3S6d5TiK49399SB3Iq/UqDEF
+	 Fp20qR8triDTJDrD8gzXbsIMs8jBoyVYqHSzWYMY3EImXk+0yPjvUcV77nuUXLPUS+
+	 2QBwHz8LTwBvw==
+Message-ID: <e26093a7-2305-4d55-b836-d3bc7c503b9b@kernel.org>
+Date: Wed, 11 Jun 2025 08:59:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4260; i=bagasdotme@gmail.com; h=from:subject; bh=ywZhPZNxguASeXsz+ZQIEFvgkFGtFrdTHQm4EVnLuig=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBmear2blOVZfh2o9nz19OwMu1rOn3/5Z8w17D6iw3Em2 tXc0vtFRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACZS+YqRYekHr48HS9QE9XfJ XJkU2CZy7lnb8oq73SE/psyP6I+++oGR4fWWiv8MOULcQhw7Qxnv87X3rJl98/lSzUWfQ9oLC87 7sQAA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 0/4] leds: add new LED driver for TI LP5812
+To: Nam Tran <trannamatk@gmail.com>, lee@kernel.org
+Cc: pavel@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+ conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250610174319.183375-1-trannamatk@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250610174319.183375-1-trannamatk@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Long before introduction of lore.kernel.org, people would link
-to LKML threads on third-party archives (here spinics.net), which
-in some cases can be unreliable (as these were outside of
-kernel.org control). Replace links to them with lore counterparts
-(if any).
+On 10/06/2025 19:43, Nam Tran wrote:
+> This patch series adds support for the TI/National Semiconductor LP5812
+> 4x3 matrix RGB LED driver. The driver supports features such as autonomous
+> animation and time-cross-multiplexing (TCM) for dynamic LED effects.
+> 
+> Following feedback from both the LED and auxdisplay subsystem maintainers,
+> the driver has been moved back to the LED subsystem, under drivers/leds/rgb/.
+> This version integrates with the existing multicolor LED APIs, avoiding custom
+> sysfs where standard LED interfaces are sufficient.
+> 
+> Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> ---
+> Changes in v9:
+> - Move driver back to drivers/leds/rgb/
+> - Integrate with LED multicolor framework
+> - Refactor and simplify custom sysfs handling
+> - Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/driver-api/gpio/driver.rst                    | 2 +-
- Documentation/filesystems/ubifs-authentication.rst          | 2 +-
- .../networking/device_drivers/ethernet/ti/cpsw.rst          | 6 +++---
- Documentation/usb/gadget-testing.rst                        | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+You need to provide reason why you dropped reviews.
 
-diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-index ae433261e11a06..85d86f92c41ba7 100644
---- a/Documentation/driver-api/gpio/driver.rst
-+++ b/Documentation/driver-api/gpio/driver.rst
-@@ -750,7 +750,7 @@ compliance:
- - Test your driver with the appropriate in-kernel real-time test cases for both
-   level and edge IRQs
- 
--* [1] http://www.spinics.net/lists/linux-omap/msg120425.html
-+* [1] https://lore.kernel.org/r/1437496011-11486-1-git-send-email-bigeasy@linutronix.de/
- * [2] https://lore.kernel.org/r/1443209283-20781-2-git-send-email-grygorii.strashko@ti.com
- * [3] https://lore.kernel.org/r/1443209283-20781-3-git-send-email-grygorii.strashko@ti.com
- 
-diff --git a/Documentation/filesystems/ubifs-authentication.rst b/Documentation/filesystems/ubifs-authentication.rst
-index 3d85ee88719a6c..106bb9c056f611 100644
---- a/Documentation/filesystems/ubifs-authentication.rst
-+++ b/Documentation/filesystems/ubifs-authentication.rst
-@@ -443,6 +443,6 @@ References
- 
- [DM-VERITY]          https://www.kernel.org/doc/Documentation/device-mapper/verity.rst
- 
--[FSCRYPT-POLICY2]    https://www.spinics.net/lists/linux-ext4/msg58710.html
-+[FSCRYPT-POLICY2]    https://lore.kernel.org/r/20171023214058.128121-1-ebiggers3@gmail.com/
- 
- [UBIFS-WP]           http://www.linux-mtd.infradead.org/doc/ubifs_whitepaper.pdf
-diff --git a/Documentation/networking/device_drivers/ethernet/ti/cpsw.rst b/Documentation/networking/device_drivers/ethernet/ti/cpsw.rst
-index a88946bd188bae..d3e1304550439d 100644
---- a/Documentation/networking/device_drivers/ethernet/ti/cpsw.rst
-+++ b/Documentation/networking/device_drivers/ethernet/ti/cpsw.rst
-@@ -268,14 +268,14 @@ Example 1: One port tx AVB configuration scheme for target board
- 
- 	// Run your appropriate tools with socket option "SO_PRIORITY"
- 	// to 3 for class A and/or to 2 for class B
--	// (I took at https://www.spinics.net/lists/netdev/msg460869.html)
-+	// (I took at https://lore.kernel.org/r/20171017010128.22141-1-vinicius.gomes@intel.com/)
- 	./tsn_talker -d 18:03:73:66:87:42 -i eth0.100 -p3 -s 1500&
- 	./tsn_talker -d 18:03:73:66:87:42 -i eth0.100 -p2 -s 1500&
- 
- 13) ::
- 
- 	// run your listener on workstation (should be in same vlan)
--	// (I took at https://www.spinics.net/lists/netdev/msg460869.html)
-+	// (I took at https://lore.kernel.org/r/20171017010128.22141-1-vinicius.gomes@intel.com/)
- 	./tsn_listener -d 18:03:73:66:87:42 -i enp5s0 -s 1500
- 	Receiving data rate: 39012 kbps
- 	Receiving data rate: 39012 kbps
-@@ -555,7 +555,7 @@ Example 2: Two port tx AVB configuration scheme for target board
- 20) ::
- 
- 	// run your listener on workstation (should be in same vlan)
--	// (I took at https://www.spinics.net/lists/netdev/msg460869.html)
-+	// (I took at https://lore.kernel.org/r/20171017010128.22141-1-vinicius.gomes@intel.com/)
- 	./tsn_listener -d 18:03:73:66:87:42 -i enp5s0 -s 1500
- 	Receiving data rate: 39012 kbps
- 	Receiving data rate: 39012 kbps
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index 1998dc146c56fd..5f90af1fb57321 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -874,7 +874,7 @@ where uvc-gadget is this program:
- 
- with these patches:
- 
--	http://www.spinics.net/lists/linux-usb/msg99220.html
-+	https://lore.kernel.org/r/1386675637-18243-1-git-send-email-r.baldyga@samsung.com/
- 
- host::
- 
-
-base-commit: d3f825032091fc14c7d5e34bcd54317ae4246903
--- 
-An old man doll... just what I always wanted! - Clara
-
+Best regards,
+Krzysztof
