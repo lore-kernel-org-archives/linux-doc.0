@@ -1,112 +1,191 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8549633F3;
-	Wed, 11 Jun 2025 02:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7440EC2C9
+	for <linux-doc@vger.kernel.org>; Wed, 11 Jun 2025 03:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749609093; cv=none; b=ClHAoIO3RBjqRebKoPvt5pXJWaSPWeUe+uOODoOIpVqviS9rlLRseplKXneu/SMM3IzhMZqcUCVA1tDdl4DrP28aUxAcYZFAQYAgRnjEpprlwfG9qxM+0KzDR0YRl8nMEM7DVekzX3UnYzov4TX9VfNM0NGAGOweIt/RR2SjEgM=
+	t=1749613311; cv=none; b=AGn25WyEM6mNOLQCOHaCh0AekmNT+TYOSogAqBUd9MVDKna/ULI1GgPh97rcFtEjhByFJVWXLQRjfpqtkkUunnLeZmhP5zt0C/l/799kccJw2QZPUcswkEMwBMi9jjIRo2Xbj1/A3T67DaW1jr+cJvkjJZyWy3ZfkY7BNlMSRYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749609093; c=relaxed/simple;
-	bh=xKLApFAUmBBV2gNprmC/rRPD/egFzWvaI4Tko/JzgfY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oXQEwk15Y0e7bOdBJN6CrsCELeOqKELe3g5ctkP4/DWNkzU/2kflQeDEUjOA3iQDL8nngybnpmitUULaCRyopFhtDjHwp6ZQv6K9SHStiFHCpjH0ObqsGr98hVOO8Z8fV7ECt6JbVGdJH870gfnNQw4wWj0/7p0qoYOWmnxzR08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gkOjWuSP; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1749613311; c=relaxed/simple;
+	bh=fWpvHug4KD46JDmNRZOMiqJkfXioXvNjgZ6P+4H2Pqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WPcOqpKG1vLxDIOggmzGBfrnaAzKexUGxzeLeENUoRMc3p6DZ232xHFXoklqoC6ldZVFM31wv4azOREqin+Zt/zkXprn3/+0ELqPvieseWwX361kZnoFzDjnT2PvmUPjYNGh6vmSXIa79CKmIt8vjciVmag2oLxRXacnZdX3bW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sPDei5hw; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gkOjWuSP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=uvt9EeGWy3wqr+k+UjVs97XuH58Op+Tg12f52xG4chE=; b=gkOjWuSP0yTsD/8ydglyIlHDP3
-	ZwmImnWA85s/I5MTDyxlweenVksfg+Duh1eVUar0eEgl2jKzqiUQEGJmD/+OsbgOyNlfq85kMzlSK
-	9uxZ3d86l34pcv9eGo8SzrBX4yq7nXiNiLb6xAabD5EgLNRcwOP7CWhG6J2tG9pLonFDuEdXBtsXM
-	d/0FF9ljqLk3WH5R6rXaTAqtBnmsR0/1PJbRz21lvr1P+KT+FwtxS7apEvIpxVTprAKn8RB3ps//W
-	vtJHoyaHNn9pmiecRZ2gDtd3QdWoLT3boc+msPJ9zyheR+k9gqJ7wrQ3QE8JuA3AxmwmAvlncPguL
-	QF3Whctw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPBFO-000000024qV-1ClW;
-	Wed, 11 Jun 2025 02:31:26 +0000
-Message-ID: <8c8d82db-b8a1-481e-81c2-eeaa1ea0830d@infradead.org>
-Date: Tue, 10 Jun 2025 19:31:21 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sPDei5hw"
+Date: Tue, 10 Jun 2025 23:41:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1749613297;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FcbMdWL9nohzlfXyKkU5qmdIVkZuUvvMyKp/ZhqYUxQ=;
+	b=sPDei5hw1wxHO/c7GpPFFng4Z4B4Q2mjUKA09sRqeegIkAHF2HWzbE9gqLotIZpH32WPKx
+	BNbJB4xOq7CjLrSFybj5csBKEL8iO1ScqutkJ07iWWtBXHGMruLiXOvkc7S8QuCRVuT1jG
+	IdGyALOoF4unS5NnuNnqcIbPDZhqY6E=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Casey Chen <cachen@purestorage.com>, surenb@google.com, corbet@lwn.net, 
+	dennis@kernel.org, tj@kernel.org, cl@gentwo.org, vbabka@suse.cz, mhocko@suse.com, 
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, rientjes@google.com, 
+	roman.gushchin@linux.dev, harry.yoo@oracle.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, yzhong@purestorage.com
+Subject: Re: [PATCH] alloc_tag: add per-NUMA node stats
+Message-ID: <hvtuqyu6urtutdjfqvtowgjqf5psyubljqujwtq3exdm33a7sq@3nxcevou3pok>
+References: <20250610233053.973796-1-cachen@purestorage.com>
+ <20250610182155.36090c78124e1f60f2959d8e@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: nouveau: Update GSP message queue
- kernel-doc reference
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Nouveau <nouveau@lists.freedesktop.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, Dave Airlie <airlied@redhat.com>,
- Ben Skeggs <bskeggs@nvidia.com>, Timur Tabi <ttabi@nvidia.com>
-References: <20250611020805.22418-2-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250611020805.22418-2-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610182155.36090c78124e1f60f2959d8e@linux-foundation.org>
+X-Migadu-Flow: FLOW_OUT
 
+On Tue, Jun 10, 2025 at 06:21:55PM -0700, Andrew Morton wrote:
+> On Tue, 10 Jun 2025 17:30:53 -0600 Casey Chen <cachen@purestorage.com> wrote:
+> 
+> > Add support for tracking per-NUMA node statistics in /proc/allocinfo.
+> > Previously, each alloc_tag had a single set of counters (bytes and
+> > calls), aggregated across all CPUs. With this change, each CPU can
+> > maintain separate counters for each NUMA node, allowing finer-grained
+> > memory allocation profiling.
+> > 
+> > This feature is controlled by the new
+> > CONFIG_MEM_ALLOC_PROFILING_PER_NUMA_STATS option:
+> > 
+> > * When enabled (=y), the output includes per-node statistics following
+> >   the total bytes/calls:
+> > 
+> > <size> <calls> <tag info>
+> > ...
+> > 315456       9858     mm/dmapool.c:338 func:pool_alloc_page
+> >         nid0     94912        2966
+> >         nid1     220544       6892
+> > 7680         60       mm/dmapool.c:254 func:dma_pool_create
+> >         nid0     4224         33
+> >         nid1     3456         27
+> > 
+> > * When disabled (=n), the output remains unchanged:
+> > <size> <calls> <tag info>
+> > ...
+> > 315456       9858     mm/dmapool.c:338 func:pool_alloc_page
+> > 7680         60       mm/dmapool.c:254 func:dma_pool_create
+> > 
+> > To minimize memory overhead, per-NUMA stats counters are dynamically
+> > allocated using the percpu allocator. PERCPU_DYNAMIC_RESERVE has been
+> > increased to ensure sufficient space for in-kernel alloc_tag counters.
+> > 
+> > For in-kernel alloc_tag instances, pcpu_alloc_noprof() is used to
+> > allocate counters. These allocations are excluded from the profiling
+> > statistics themselves.
+> 
+> What is glaringly missing here is "why".
+> 
+> What is the use case?  Why does Linux want this?  What benefit does
+> this bring to our users?  This is the most important part of the
+> changelog because it tells Andrew why he is even looking at this patch.
 
+In the last thread, I was pushing to get some input from other people
+working on userspace profiling - it seems like that's where we're going
+with this, so we need to make sure people working in the same area are
+talking to each other, and if we're building tools to export data we
+want to make sure it's relevant and useful.
 
-On 6/10/25 7:08 PM, Bagas Sanjaya wrote:
-> GSP message queue docs has been moved following RPC handling split in
-> 8a8b1ec5261f20 ("drm/nouveau/gsp: split rpc handling out on its own"),
-> before GSP-RM implementation is versioned in c472d828348caf
-> ("drm/nouveau/gsp: move subdev/engine impls to subdev/gsp/rm/r535/").
-> However, the kernel-doc reference in nouveau docs is left behind, which
-> triggers htmldocs warnings:
-> 
-> ERROR: Cannot find file ./drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> WARNING: No kernel-doc for file ./drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> 
-> Update the reference.
-> 
-> Fixes: c472d828348c ("drm/nouveau/gsp: move subdev/engine impls to subdev/gsp/rm/r535/")
-> Fixes: 8a8b1ec5261f ("drm/nouveau/gsp: split rpc handling out on its own")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Steven Rostadt sent out some pings, but I don't think we've heard back
+from the relevant people, and I do want that to happen before (if) this
+goes in.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+And more basic than this, now that we've got the ability to map kernel
+address -> code that owns it, we should be seeing if that is relevant
+and interesting to the tooling people before we get fancier.
 
-Thanks.
+Casey also mentioned that this was being used for some internal stuff at
+Pure, and I'd still like to hear more about that. If they already know
+interesting and cool stuff we can use this for - great, let's please
+hear what it is.
 
-> ---
-> Changes since v1 [1]:
-> 
->   - Correct GSP kernel-doc reference file (Randy)
-> 
-> [1]: https://lore.kernel.org/linux-doc/20250610065258.41467-1-bagasdotme@gmail.com/
-> 
->  Documentation/gpu/nouveau.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/gpu/nouveau.rst b/Documentation/gpu/nouveau.rst
-> index b8c801e0068cb0..cab2e81013bc5f 100644
-> --- a/Documentation/gpu/nouveau.rst
-> +++ b/Documentation/gpu/nouveau.rst
-> @@ -25,7 +25,7 @@ providing a consistent API to upper layers of the driver stack.
->  GSP Support
->  ------------------------
->  
-> -.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> +.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c
->     :doc: GSP message queue element
->  
->  .. kernel-doc:: drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
-> 
-> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+But we definitely need some wider context before merging this.
 
--- 
-~Randy
+> Probably related to the above omission: why per-nid?  It would be more
+> flexible to present the per-cpu counts and let userspace aggregate that
+> into per-node info if that is desirable.
+
+Per nid makes more sense to me if this is for profiling, and since this
+is a text interface meant primarily for human consumption we don't want
+to bloat that excessively.
+
+We can always add multiple interfaces for viewing the same data, and
+there's nothing preventing us from adding that later if it turns out
+something else does want per-cpu counts.
+
+Per-cpu counts would, I believe, bloat the data structures quite a bit
+since the counters are internally percpu - would there then be counters
+in nr_cpus^2? I hope not :)
+
+> > +static inline struct alloc_tag_counters alloc_tag_read_nid(struct alloc_tag *tag, int nid)
+> > +{
+> > +	struct alloc_tag_counters v = { 0, 0 };
+> > +	struct alloc_tag_counters *counters;
+> > +	int cpu;
+> > +
+> > +	for_each_possible_cpu(cpu) {
+> 
+> for_each_possible_cpu() is lame - potentially much more expensive than
+> for_each_online_cpu.  Is it impractical to use for_each_online_cpu()?
+> 
+> Probably doesn't matter for a userspace displaying function but
+> userspace can do weird and unexpected things.
+
+for_each_online_cpu() means having to think hard about cpu hotplug and
+possibly adding callbacks, no? I think simple and dumb is fine here.
+
+> > +	for (i = 0; i < kernel_tags.count; i++) {
+> > +		/* Each CPU has one alloc_tag_counters per numa node */
+> > +		kernel_tags.first_tag[i].counters =
+> > +			pcpu_alloc_noprof(pcpu_counters_size,
+> > +					  sizeof(struct alloc_tag_counters),
+> > +					  false, GFP_KERNEL | __GFP_ZERO);
+> > +		if (!kernel_tags.first_tag[i].counters) {
+> > +			while (--i >= 0)
+> > +				free_percpu(kernel_tags.first_tag[i].counters);
+> > +			pr_info("Failed to allocate per-cpu alloc_tag counters\n");
+> 
+> pr_err(), methinks.
+> 
+> > +			return;
+> 
+> And now what happens.  Will the kernel even work?
+> 
+> This code path is untestable unless the developer jumps through hoops
+> and it will never be tested again.
+> 
+> We assume that __init-time allocations always succeed, so a hearty
+> panic() here would be OK.
+
+percpu allocations are more limited than normal allocations, and we did
+hit that when developing memory allocation profiling, so - maybe WARN()?
+
+> > +				int nid;
+> 
+> C99 definition.
+> 
+> > +				for (nid = 0; nid < pcpu_counters_num; nid++) {
+> 
+> If we're going to use C99 (is OK now) then it's better to go all the
+> way and give `i' loop scope.  "for (int i..".
+
+Yes please; variable reuse can lead to some nasties.
+
+Going full C99 has its own problems (you can't do it after labels, and
+only one of gcc or clang complains and I forget which - perpetual
+headache).
+
+But C99 for loops are a total no brainer.
