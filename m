@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490D5238176;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7345C239086;
 	Thu, 12 Jun 2025 10:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749724344; cv=none; b=ktLpQYHGCddKM+PnBLcDZ4yKGQaaiijzscwssVd1/HSSoi1eqg5iQMuIrYhTVCGSjZgUIkZxekGEPiW7uWkV9I9p+lleVW5hx/fP9DuVAYJVtaJ7fhZ/MAFCry7JhHFtq/zbNdsnZ4f9TTJSupVRdkBejwdXJOeRb86VOBUWcQI=
+	t=1749724344; cv=none; b=eiQeSzB3II9wcUghV/sEoWAb1BXlzmGLCz5+T3FCvW9r4LAQ7GEuu0CMxpaEWfM9RqAhCA8Rtlj+73BQYmP9tVHOMOIdL8dAB6YZu6zboMCytgOLUM6Y0FOH044o+6zfev4sLjWdHC7fVcGb6I6+CMhSIDGaGzAfrAQSywM0lsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1749724344; c=relaxed/simple;
-	bh=zjfj2Tm7h9LKUnhgzAVTuVnT8YUaP6pYYIdRhxmKFAc=;
+	bh=RRdlkBDEmtJLl36U7brH9gBLYzEATksRx+v4nftXEzw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tXA/l/xF1WP3KINNXYxXd2zHT3apIPDChoBzzPfYFDntqO1p5jfZi5M4WSdqnbn6Xq7Ha8/9kQr7BWmUMJ/UQMOt9mYTBJGYeUhE6s9SabaKKeVOuPVmt0+f/yheA7JoBRhFcRNa9FpTyqtNJX2wz47WJTNJgk0AvZsflsh0dwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BYqXdnut; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=pHodsJIpGTWMrLxVs/gUSJHCyPM7GZ6n/SqQ1wqsQXgrwRCUcMe80DS5q7bdYzD133oGW8cQY5A/SMqSB5KEMwwVxxeDg0R8EppfiSXJlJ3zpK6QtovqOd0bUrDvkpMwvo1dqVHIRpJb7l8YC/PUFP8t4vgLZpgz9guD1apD1SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UVHCopI0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BYqXdnut"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06061C4CEF3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UVHCopI0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49465C4CEF6;
 	Thu, 12 Jun 2025 10:32:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1749724344;
-	bh=zjfj2Tm7h9LKUnhgzAVTuVnT8YUaP6pYYIdRhxmKFAc=;
+	bh=RRdlkBDEmtJLl36U7brH9gBLYzEATksRx+v4nftXEzw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BYqXdnuthw7H9WVavgog7+Dtyu2zZjHtLXObVyu36oJiy8G0mt3sfoGgv4YjCLVsf
-	 Q2gfboOv1l9XEl9UTtxOSUZEQqDT8rWtS02ltHJi36t/wPjgZqTyqcYLK2iUY+5/kL
-	 6I87Po8QPA0YvrbXFaScpDWr8L/5swnRIiVS16Zr3i+NfeD2cfAtJyGoXTvcJ+mxnA
-	 WniBxdXLwUrEXZU5uIG4DCBENA+GlzUZdbo4q/acAAA7TUs4mjnHM9QacXDAqBfF/K
-	 OP8PwrpYotBK5U8/vv1e0ENlmL3EVuLRqnidmCKM/8LBqIPBjL9+FLSD4hCwfaH5L4
-	 gkXg4Qu53iz2w==
+	b=UVHCopI04I+B9FJVD3PR9QgfTRL898ozWpz/XOVzpIJ6g10EiWXU1XZWRAzJCULIa
+	 VM8wA9J8nX6xlvh//zLP6w7kEN5lJ7Qj9qwNd9w06Nt8zp2TV6MkcVnlsT2flXGwfs
+	 p/fV8CwxQX8wrywXRQhKBXLmrV5EXWnm50Og9B8OagQhhC+1oLN8G+OKNBjsQyObc1
+	 Jy//fCMCD/MyZ5jd04MFb8gBMLkksHErruJmipsLRNou6weuacF2XOGNL2fiVCXA3u
+	 3Vgp2jlfngzqnEHXU9AdY4Evjibz/0nqLFR/aapDO96CITYOhgCg7PjyO44DUIbUM5
+	 u0pARcEgU8ctA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uPfEM-00000004yvI-0hdk;
+	id 1uPfEM-00000004yvg-2Cgm;
 	Thu, 12 Jun 2025 12:32:22 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -46,8 +46,6 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Paolo Abeni" <pabeni@redhat.com>,
 	"Ruben Wauters" <rubenru09@aol.com>,
 	"Shuah Khan" <skhan@linuxfoundation.org>,
-	Jakub Kicinski <mchehab+huawei@kernel.org>,
-	Simon Horman <mchehab+huawei@kernel.org>,
 	joel@joelfernandes.org,
 	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
@@ -55,9 +53,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	netdev@vger.kernel.org,
 	peterz@infradead.org,
 	stern@rowland.harvard.edu
-Subject: [PATCH v2 04/12] tools: ynl_gen_rst.py: make the index parser more generic
-Date: Thu, 12 Jun 2025 12:31:56 +0200
-Message-ID: <3fb42a4aa79631d69041f6750dc0d55dd3067162.1749723671.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 10/12] docs: sphinx: parser_yaml.py: add Netlink specs parser
+Date: Thu, 12 Jun 2025 12:32:02 +0200
+Message-ID: <095fba5224a22b86a7604773ddaf9b5193157bc1.1749723671.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1749723671.git.mchehab+huawei@kernel.org>
 References: <cover.1749723671.git.mchehab+huawei@kernel.org>
@@ -70,78 +68,101 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-It is not a good practice to store build-generated files
-inside $(srctree), as one may be using O=<BUILDDIR> and even
-have the Kernel on a read-only directory.
-
-Change the YAML generation for netlink files to allow it
-to parse data based on the source or on the object tree.
+Place the code at parser_yaml.py to handle Netlink specs. All
+other yaml files are ignored.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/net/ynl/pyynl/ynl_gen_rst.py | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+ .pylintrc                           |  2 +-
+ Documentation/sphinx/parser_yaml.py | 39 +++++++++++++++++++++--------
+ 2 files changed, 29 insertions(+), 12 deletions(-)
 
-diff --git a/tools/net/ynl/pyynl/ynl_gen_rst.py b/tools/net/ynl/pyynl/ynl_gen_rst.py
-index 7bfb8ceeeefc..b1e5acafb998 100755
---- a/tools/net/ynl/pyynl/ynl_gen_rst.py
-+++ b/tools/net/ynl/pyynl/ynl_gen_rst.py
-@@ -365,6 +365,7 @@ def parse_arguments() -> argparse.Namespace:
+diff --git a/.pylintrc b/.pylintrc
+index 30b8ae1659f8..f1d21379254b 100644
+--- a/.pylintrc
++++ b/.pylintrc
+@@ -1,2 +1,2 @@
+ [MASTER]
+-init-hook='import sys; sys.path += ["scripts/lib/kdoc", "scripts/lib/abi"]'
++init-hook='import sys; sys.path += ["scripts/lib", "scripts/lib/kdoc", "scripts/lib/abi"]'
+diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
+index b3cde9cf7aac..eb32e3249274 100755
+--- a/Documentation/sphinx/parser_yaml.py
++++ b/Documentation/sphinx/parser_yaml.py
+@@ -3,6 +3,10 @@ Sphinx extension for processing YAML files
+ """
  
-     parser.add_argument("-v", "--verbose", action="store_true")
-     parser.add_argument("-o", "--output", help="Output file name")
-+    parser.add_argument("-d", "--input_dir", help="YAML input directory")
- 
-     # Index and input are mutually exclusive
-     group = parser.add_mutually_exclusive_group()
-@@ -405,11 +406,14 @@ def write_to_rstfile(content: str, filename: str) -> None:
-     """Write the generated content into an RST file"""
-     logging.debug("Saving RST file to %s", filename)
- 
-+    dir = os.path.dirname(filename)
-+    os.makedirs(dir, exist_ok=True)
+ import os
++import re
++import sys
 +
-     with open(filename, "w", encoding="utf-8") as rst_file:
-         rst_file.write(content)
++from pprint import pformat
  
+ from docutils.parsers.rst import Parser as RSTParser
+ from docutils.statemachine import ViewList
+@@ -10,7 +14,10 @@ from docutils.statemachine import ViewList
+ from sphinx.util import logging
+ from sphinx.parsers import Parser
  
--def generate_main_index_rst(output: str) -> None:
-+def generate_main_index_rst(output: str, index_dir: str) -> None:
-     """Generate the `networking_spec/index` content and write to the file"""
-     lines = []
- 
-@@ -418,12 +422,18 @@ def generate_main_index_rst(output: str) -> None:
-     lines.append(rst_title("Netlink Family Specifications"))
-     lines.append(rst_toctree(1))
- 
--    index_dir = os.path.dirname(output)
--    logging.debug("Looking for .rst files in %s", index_dir)
-+    index_fname = os.path.basename(output)
-+    base, ext = os.path.splitext(index_fname)
+-from pprint import pformat
++srctree = os.path.abspath(os.environ["srctree"])
++sys.path.insert(0, os.path.join(srctree, "scripts/lib"))
 +
-+    if not index_dir:
-+        index_dir = os.path.dirname(output)
++from netlink_yml_parser import NetlinkYamlParser      # pylint: disable=C0413
+ 
+ logger = logging.getLogger(__name__)
+ 
+@@ -19,8 +26,9 @@ class YamlParser(Parser):
+ 
+     supported = ('yaml', 'yml')
+ 
+-    # Overrides docutils.parsers.Parser. See sphinx.parsers.RSTParser
+-    def parse(self, inputstring, document):
++    netlink_parser = NetlinkYamlParser()
 +
-+    logging.debug(f"Looking for {ext} files in %s", index_dir)
-     for filename in sorted(os.listdir(index_dir)):
--        if not filename.endswith(".rst") or filename == "index.rst":
-+        if not filename.endswith(ext) or filename == index_fname:
-             continue
--        lines.append(f"   {filename.replace('.rst', '')}\n")
-+        base, ext = os.path.splitext(filename)
-+        lines.append(f"   {base}\n")
++    def do_parse(self, inputstring, document, msg):
+         """Parse YAML and generate a document tree."""
  
-     logging.debug("Writing an index file at %s", output)
-     write_to_rstfile("".join(lines), output)
-@@ -447,7 +457,7 @@ def main() -> None:
+         self.setup_parse(inputstring, document)
+@@ -28,14 +36,6 @@ class YamlParser(Parser):
+         result = ViewList()
  
-     if args.index:
-         # Generate the index RST file
--        generate_main_index_rst(args.output)
-+        generate_main_index_rst(args.output, args.input_dir)
+         try:
+-            # FIXME: Test logic to generate some ReST content
+-            basename = os.path.basename(document.current_source)
+-            title = os.path.splitext(basename)[0].replace('_', ' ').title()
+-
+-            msg = f"{title}\n"
+-            msg += "=" * len(title) + "\n\n"
+-            msg += "Something\n"
+-
+             # Parse message with RSTParser
+             for i, line in enumerate(msg.split('\n')):
+                 result.append(line, document.current_source, i)
+@@ -48,6 +48,23 @@ class YamlParser(Parser):
  
+         self.finish_parse()
  
- if __name__ == "__main__":
++    # Overrides docutils.parsers.Parser. See sphinx.parsers.RSTParser
++    def parse(self, inputstring, document):
++        """Check if a YAML is meant to be parsed."""
++
++        fname = document.current_source
++
++        # Handle netlink yaml specs
++        if re.search("/netlink/specs/", fname):
++            if fname.endswith("index.yaml"):
++                msg = self.netlink_parser.generate_main_index_rst(fname, None)
++            else:
++                msg = self.netlink_parser.parse_yaml_file(fname)
++
++            self.do_parse(inputstring, document, msg)
++
++        # All other yaml files are ignored
++
+ def setup(app):
+     """Setup function for the Sphinx extension."""
+ 
 -- 
 2.49.0
 
