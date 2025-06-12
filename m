@@ -1,115 +1,115 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF262299A90
-	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 15:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B656F29899D
+	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 15:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749742641; cv=none; b=RAm+9+ByWjQhvBFSCZ4+WoLYXCQfHsSx7vGu+YZdgtEMHiEH8Qv5hwNHU6mWX3GemFMrejvA6JE9QdD1EGB4Ufk01U8rGp7Hc3jmX4tmjj2RsstexQvvJHlC3jvwQKPlpLW2yQXkWzZyrBPl3JNtXfDEegyo/G5uICt6I/uuMSM=
+	t=1749742746; cv=none; b=QXIjl64PNe3dIMftwNa2vq8+lbciecqmLz4i7FeKn9+GiYg4vWfLT/Lf2MN+DXGLUdIaj/gUKuV1jc9NA/UCPhIkAtB2VgaPgoOHuupusgZ8+4A6+NNVhGRMz5V2MHeXvbZZRxUykev+iU87uIUuZGXsJc6JS2UEJWQvDEZ2JvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749742641; c=relaxed/simple;
-	bh=40oOS0EzOygRw6Ct8YfCoYPEwtrQozMXnQmoWeB0P9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=snpnZVkqQV7jrQchBK4/PNGkELL8MTITj9zOVHimxDnTbKL3IjKajXuiQyzYlcP1YIM8J/oFP48GXY7XYVjSkLBlMriyeesxFDejYL1HUSTMbnvEculwyE/50835M6H767jhk5S4+t5l7Wsrv2g/roAzxrnkpVGQJuU2Q9sWtzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CCV7CGw7; arc=none smtp.client-ip=95.215.58.173
+	s=arc-20240116; t=1749742746; c=relaxed/simple;
+	bh=bh6e3aZhERXOjQ6Gx4/GsntMfPc/vEUDeUlfzxV4/OU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LWW4+l9TK7PgXMkbhxkY5Ev1kvt1Y4Q7yKvA3l7czHphPxc5J2XZpmGmiS6O03p4pksGBMhArF84gnYAp2ldVKfrpGaDCjfnPjdGm4Su2fdF2DOzroxPJw1SFwmxfp4Z/K7qEXxog7bgEI6zLLIK3UnfHEj3oSglTmDINsIX3sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=icgN1GsS; arc=none smtp.client-ip=91.218.175.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CCV7CGw7"
-Date: Thu, 12 Jun 2025 11:37:12 -0400
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="icgN1GsS"
+Message-ID: <b7137a4a-cb87-4aa5-958f-a83d3239e967@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1749742637;
+	t=1749742740;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7CU/iQsk5gpUai/YAmYmMwFfofj02R/7lL+2KrmQX8Y=;
-	b=CCV7CGw79cuNiwv6htG/7Spz678SlAhpsv+4m607dtbbh7HzBUbTyoaLpPNBrrenxvyGBw
-	2Xx6YMoa8NPHFAv2hHjvq4c03koTlaIaNgNxrBg7ROLm64jQHArzc/G+2gAiko4tFEWxtQ
-	AeUSnHssZ/WYL8RNIUVwvdEx7XtX8c0=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: David Wang <00107082@163.com>
-Cc: cachen@purestorage.com, akpm@linux-foundation.org, cl@gentwo.org, 
-	corbet@lwn.net, dennis@kernel.org, hannes@cmpxchg.org, harry.yoo@oracle.com, 
-	jackmanb@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, mhocko@suse.com, rientjes@google.com, roman.gushchin@linux.dev, 
-	surenb@google.com, tj@kernel.org, vbabka@suse.cz, yzhong@purestorage.com, 
-	ziy@nvidia.com
-Subject: Re: [PATCH] alloc_tag: add per-NUMA node stats
-Message-ID: <ub5knll6sof6sbl4elcrdpmf7ptyds6xfusio672fgyt6sxeja@3awoyjpq7xev>
-References: <20250610233053.973796-1-cachen@purestorage.com>
- <20250612053605.5911-1-00107082@163.com>
+	bh=mx5FBx1fw+pZ6pjrn+Y9O7dYZ++IH+lPj2ErOykVNzA=;
+	b=icgN1GsSf4dXa2aarzDwWLo3Iju3i34wDoXZoI3hiV79iRnI6s4EulvHLkro7SyECmvQ5b
+	1LjfW+VJ6oyFp1e/LYzdQV1XsAuXoDs/RkibJylnYHAndNQJaLHFycVSGp5yNd87wm/fsN
+	PWE3e17NjdvWnJNa1YgTcb8Zzgi+DfI=
+Date: Thu, 12 Jun 2025 11:38:56 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250612053605.5911-1-00107082@163.com>
+Subject: Re: [net-next PATCH v6 03/10] net: pcs: Add subsystem
+To: Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>
+Cc: Vineeth Karumanchi <vineeth.karumanchi@amd.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>, linux-kernel@vger.kernel.org,
+ Kory Maincent <kory.maincent@bootlin.com>,
+ Daniel Golle <daniel@makrotopia.org>, Simon Horman <horms@kernel.org>,
+ Christian Marangi <ansuelsmth@gmail.com>, Lei Wei <quic_leiwei@quicinc.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20250610233134.3588011-1-sean.anderson@linux.dev>
+ <20250610233134.3588011-4-sean.anderson@linux.dev>
+ <f5b16bd6-01b6-45c0-9668-41ccf90445a3@infradead.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <f5b16bd6-01b6-45c0-9668-41ccf90445a3@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jun 12, 2025 at 01:36:05PM +0800, David Wang wrote:
-> Hi, 
+On 6/10/25 20:24, Randy Dunlap wrote:
+> Hi,
 > 
-> On Tue, 10 Jun 2025 17:30:53 -0600 Casey Chen <cachen@purestorage.com> wrote:
-> > Add support for tracking per-NUMA node statistics in /proc/allocinfo.
-> > Previously, each alloc_tag had a single set of counters (bytes and
-> > calls), aggregated across all CPUs. With this change, each CPU can
-> > maintain separate counters for each NUMA node, allowing finer-grained
-> > memory allocation profiling.
-> > 
-> > This feature is controlled by the new
-> > CONFIG_MEM_ALLOC_PROFILING_PER_NUMA_STATS option:
-> > 
-> > * When enabled (=y), the output includes per-node statistics following
-> >   the total bytes/calls:
-> > 
-> > <size> <calls> <tag info>
-> > ...
-> > 315456       9858     mm/dmapool.c:338 func:pool_alloc_page
-> >         nid0     94912        2966
-> >         nid1     220544       6892
-> > 7680         60       mm/dmapool.c:254 func:dma_pool_create
-> >         nid0     4224         33
-> >         nid1     3456         27
-> > 
-> > * When disabled (=n), the output remains unchanged:
-> > <size> <calls> <tag info>
-> > ...
-> > 315456       9858     mm/dmapool.c:338 func:pool_alloc_page
-> > 7680         60       mm/dmapool.c:254 func:dma_pool_create
-> > 
-> > To minimize memory overhead, per-NUMA stats counters are dynamically
-> > allocated using the percpu allocator. PERCPU_DYNAMIC_RESERVE has been
-> > increased to ensure sufficient space for in-kernel alloc_tag counters.
-> > 
-> > For in-kernel alloc_tag instances, pcpu_alloc_noprof() is used to
-> > allocate counters. These allocations are excluded from the profiling
-> > statistics themselves.
 > 
-> Considering NUMA balance, I have two questions:
-> 1. Do we need the granularity of calling sites?
-> We need that granularity to identify a possible memory leak, or somewhere
-> we can optimize its memory usage.
-> But for NUMA unbalance, the calling site would mostly be *innocent*, the
-> clue normally lies in the cpu making memory allocation, memory interface, etc...
-> The point is, when NUMA unbalance happened, can it be fixed by adjusting the calling sites?
-> Isn't <cpu, memory interface/slab name, numa id> enough to be used as key for numa
-> stats analysis?
+>> diff --git a/Documentation/networking/pcs.rst b/Documentation/networking/pcs.rst
+>> new file mode 100644
+>> index 000000000000..4b41ba884160
+>> --- /dev/null
+>> +++ b/Documentation/networking/pcs.rst
+>> @@ -0,0 +1,102 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +=============
+>> +PCS Subsystem
+>> +=============
+>> +
+>> +The PCS (Physical Coding Sublayer) subsystem handles the registration and lookup
+>> +of PCS devices. These devices contain the upper sublayers of the Ethernet
+>> +physical layer, generally handling framing, scrambling, and encoding tasks. PCS
+>> +devices may also include PMA (Physical Medium Attachment) components. PCS
+>> +devices transfer data between the Link-layer MAC device, and the rest of the
+>> +physical layer, typically via a serdes. The output of the serdes may be
+>> +connected more-or-less directly to the medium when using fiber-optic or
+>> +backplane connections (1000BASE-SX, 1000BASE-KX, etc). It may also communicate
+>> +with a separate PHY (such as over SGMII) which handles the connection to the
+>> +medium (such as 1000BASE-T).
+>> +
+>> +Looking up PCS Devices
+>> +----------------------
+>> +
+>> +There are generally two ways to look up a PCS device. If the PCS device is
+>> +internal to a larger device (such as a MAC or switch), and it does not share an
+>> +implementation with an existing PCS, then it does not need to be registered with
+>> +the PCS subsystem. Instead, you can populate a :c:type:`phylink_pcs`
+>> +in your probe function. Otherwise, you must look up the PCS.
+>> +
+>> +If your device has a :c:type:`fwnode_handle`, you can add a PCS using the
+>> +``pcs-handle`` property::
+>> +
+>> +    ethernet-controller {
+>> +        // ...
+>> +        pcs-handle = <&pcs>;
+>> +        pcs-handle-names = "internal";
+>> +    };
+>> +
+>> +Then, during your probe function, you can get the PCS using :c:func:`pcs_get`::
+> 
+> It's preferable to use                               PCS using pcs_get()::
+> instead of the :c:func: notation to make the .rst file more human-readable.
+> They produce the same generated output.
 
-kmalloc_node().
+If you find this syntax useful, then you should update
+Documentation/doc-guide/{kernel-doc,sphinx}.rst. I did not use it
+because it I did not know about it because it is not documented.
 
-Per callsite is the right granularity.
-
-But AFAIK correlating profiling information with the allocation is still
-an entirely manual process, so that's the part I'm interested in right
-now.
-
-Under the hood memory allocation profiling gives you the ability to map
-any specific allocation to the line of code that owns it - that is, map
-kernel virtual address to codetag.
-
-But I don't know if perf collects _data_ addresses on cache misses. Does
-anyone?
+--Sean
