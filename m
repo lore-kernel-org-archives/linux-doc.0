@@ -1,109 +1,84 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F18D8F5C;
-	Thu, 12 Jun 2025 06:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587AA1E25F2
+	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 06:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749708136; cv=none; b=dR9CRlAatd8Ze1cEkNuVp6LUaHhUJ5b7PVu0b0v2logrK+anfbfcACMIDMi0Okfb8La4tEz5m/NIphVs14JKVq108SqALLTBT/Zb0rrSaJNJnU+jtVwMk+ECKKMn6cKkBF0ZTvE03VPvr0dgQP/hjtkVdxBG0Wy+WeDPlToikt4=
+	t=1749709373; cv=none; b=C91h2HO4UIrpKGLIbWJsTqeRV6bMadrgPSKT+6noK2gmOg3tKyO2BOW8O3xLVjE0xQhWaaW8MrYjXxCjWJUhZL4qGgtcSMfjeIW38J7PBwquh+wuvCvSypkS8jgEXIU6iPmlSWRZkUGqYqe1CPK3DKdA3fVm64jDI/xQdqUlUps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749708136; c=relaxed/simple;
-	bh=pAbmsyoRfZFG15mlzgMmJXM4rc3bcsvg1zoS0vGgn0k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T5bwklglPgpSOyeEk52HHhCfti5xJlkcRBpkYFQrYURxHsoyJ9uYgI8MiBL1UpGBYPFGk4YvoMLlH47d/XOrSXEJGDdRAATpWJyaY49a4sKlSV2duUU8qxqnyyJG2LTR6HbhdfOwBnMiSa3XQwiKT8GyeOp06HcyFli4hlVWIm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XUZlA7cJ; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749709373; c=relaxed/simple;
+	bh=NVSA+aFvs1XO3TlVQr3XMhBpHu6vTAXKDoH9mbxB4wc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G4RRLBnv/65cED6SmTPT8CViPZkTqqSW1aF65/g0ZRJ0DRVRRPJHa2zgLbDF33b6CqFNpRHrQ/pnXDEO16+Ot1ylvMZr25VrLFyHvguzT1GhLJg6Lox5rbjSKO89y43WOO8rX+U8POpXS/0vVFQ68xNwi5XONw0FPydYkxiYQaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=oGxaZFuG; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XUZlA7cJ"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ad891bb0957so90000566b.3;
-        Wed, 11 Jun 2025 23:02:14 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="oGxaZFuG"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4a6f0bcdf45so7791591cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jun 2025 23:22:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749708133; x=1750312933; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=oo/4Sxd0qDy01xmdMqfr52l+omRW/QRjrl4YazB7gj8=;
-        b=XUZlA7cJDHsTtMaueMEW+PGxH+bPSn6TV7iSXsQ9AYLFHFgE9KTK9TeZX6MlRI4h9n
-         UBbpaMvkUZ2znsTIsbxZG7pwUNKyeuCQTb5//zBzUmDQrjP/RSISSLZEmz+FqwdyvfBi
-         srIrd8IaFatJjvFUm9FJQBTfCZbTDmuri6mYrbV9kGpIYpIWIO4xPYEaD6qnOQgrh1/z
-         xe832b7Q3G6f4mMWaGby+gExCvq15vuczn0RHQqikuWWjmDn/vvADtRXmi3L0g8u2wXk
-         d3wr/SnHvyvX8MNEoFzFd9i30Bd3xSEZmhNDnkyjS7QxrMbh6wEe+GpamfnzLbxEEGDH
-         xG2A==
+        d=szeredi.hu; s=google; t=1749709371; x=1750314171; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NVSA+aFvs1XO3TlVQr3XMhBpHu6vTAXKDoH9mbxB4wc=;
+        b=oGxaZFuGzg2ustNbGNKVleQsTCAYnk7VpaJ0pBE0Gu8xGCkdCeklfkUPIOh2gENeiw
+         x2L8jpg4makVjVhiLxNf7ijMxO2AdHtxQR/B9h40D+xj6j2lq0MaHkz2MPJTT2JsnnVP
+         mPVl1APKyY2GvXrRK2KTlcBFkougfQYVw1Z7M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749708133; x=1750312933;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oo/4Sxd0qDy01xmdMqfr52l+omRW/QRjrl4YazB7gj8=;
-        b=BCuBRY+NSBSf1fIhY0zE1PWHr+N9cdGUCcgz/5oGl1kyhADF1vwanJXDbRyXKSkoa0
-         UKCUVtvqOlEQAvxjhMCr5bWV3woTbCZRm129vmig74cgi3MK4tg5wBWdPoIz2T1vsIU7
-         9C4agVQqLKV16eRXA+oz9OWZhQLXunVDqYSmeD0TtNUq5LRlRvGQs04rHZmJ9p7mZsVD
-         B6MgU1MKSjjq/kVjF0DzYGHX++U/o50hPS8qogzWaCRymaL8gx1ODw34mpu8wX4ozVZb
-         uxs35GaSa8itYVNY5qcNNBomEKSLBTO/fXSrOHfAp0sn5MS4fBodhA+0NVvMA6/67n/9
-         iK4w==
-X-Forwarded-Encrypted: i=1; AJvYcCWlr/SJJjVG0p63g0QrEIQpGO6mFnd6o1CwsdEf2Uyx7HrzQ2AW10Bhumi+Chlgo7PjF7sA5bOqVwc=@vger.kernel.org, AJvYcCXObbcYMyTdjNY+CBHEmDGNmwfADSTwzh5chXUWuEjTvVBKFhtr1b5tveDznX/RCjEoo+lC8MTngy1BbEXO@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzcnb6U7M8k2SvdbyaM3Brw5knoPVxROn6mcRrtDpFFM22diG8y
-	BbjtRJJ5hLuZip2TV6gckYe7C7bjBsyljwCu42VKvxekkDn7f1U3hvGr
-X-Gm-Gg: ASbGncsFzMEQDuQ3APnsVjZdEtUtZg04dTua6Ap8yPpZ9l4OCpqVUTvSs+Tsi2x7zkD
-	4CWn7jicA75evG32T2THIjcOZaEQeG7fw9hmoaCNqy3TpDGBSWWpC1ZZ+e6TKOYxhr0ubn+cU/T
-	CmhmuxmMst3DLvgThfO7zfI0kCScKMf2XqCkwv0glk2lo+vfncK8Wzi4XrE9pinI6zzfhxmiSlA
-	Orf2sICegCEWCnewQnR7fLQAr6hompmHQk9KQC8KO9vtcWJ7VA3ac01aOIM9Jk0aZ/mmIYJFUBF
-	P/A899kX4cPpYJndl5fLdrtplbuYDyYMm6ZD2SH8xfJ7ukwPIPBW4xd/NAHHRpN8liUFUqpV2K2
-	mMbZJTQei+ysqmsVAUjQ=
-X-Google-Smtp-Source: AGHT+IEKm9oYlwxEfuMYPygUsnm4oedMpJvNnX+QM9kSKhyba3obIkrltlTdn+jVO7Fct9r4pW9JLw==
-X-Received: by 2002:a17:906:6a15:b0:ade:4304:6b7d with SMTP id a640c23a62f3a-ade897a28ddmr586726166b.49.1749708132915;
-        Wed, 11 Jun 2025 23:02:12 -0700 (PDT)
-Received: from eldamar.lan (c-82-192-244-13.customer.ggaweb.ch. [82.192.244.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adeadecc411sm76148266b.144.2025.06.11.23.02.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 23:02:12 -0700 (PDT)
-Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
-Received: by eldamar.lan (Postfix, from userid 1000)
-	id 8833DBE2DE0; Thu, 12 Jun 2025 08:02:11 +0200 (CEST)
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Luca Boccassi <luca.boccassi@gmail.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Salvatore Bonaccorso <carnil@debian.org>
-Subject: [PATCH] Documentation/sysctl: coredump: add %F for pidfd number
-Date: Thu, 12 Jun 2025 08:02:04 +0200
-Message-ID: <20250612060204.1159734-1-carnil@debian.org>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1749709371; x=1750314171;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NVSA+aFvs1XO3TlVQr3XMhBpHu6vTAXKDoH9mbxB4wc=;
+        b=ldk8OyMwZRv4JbuXeJ6rx4kq1KxkUCL/Xd+nV9L3S2r67YRctFQHmKE7RwZZLiqJe9
+         N95dlQvdXNu50zwb3ooGv4XYxXgk3n0bqiD1Z5nX0oNXS63yKSGnJUWbXacJhd5YrGAk
+         uSEGineAxnPo3SLuwsGEYW2yrt/pyNcimTAh39lLWc7UoRJlZTSaFtNfCw8YE1T8DII/
+         AKSCUu1Z4tnOBMpgfD0PJl+O3T5jTonbBEmSKbM5iEyRtJ4KelYm4iEcUvOBkRDj2sPg
+         s/5gx31C4dE2WQ9HEn1ZdemPekNgUCRF8YyKIpZTxxMjL0kFqD//KM8hfw9ZAnsr4hQl
+         G4Sg==
+X-Forwarded-Encrypted: i=1; AJvYcCUbtqk7f1U05gCm56xmpUsFeKYzoYE/HffCN+RMhe0X17Hmlh2xM3I3JmagGwkSvSBL1z7ccF98oCg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7Qe8YO9/E1w3WsH4AUrdS1Xw4o9lkZf3aPpCeQbzC6yoDqbvT
+	EFu+C+rwEBoEHbLehPjDo96+8hi/fDYCVCp0dMue18MDL6PmlP09i0i4Bp3SVZ1ydnwKpjsoU/e
+	in/lkeuwbPvjZtc3K5vu79KQlzVmezhwbgxDXB7FWcA==
+X-Gm-Gg: ASbGncvLp3ha4MgKZFZ4/wWkTnADvx1b2JrdkgyO4NM0FKSZY/wOUJUnEXKG65xitWU
+	46YSIp0nHz19bDGK2pdlkjRSFESaLcn+dpIf+YdQ7iZDWCxS+LkY6kdv5VYtFbnlBwneC/CGyxr
+	cJFIY8UKseVSWQRZ+mo8QHPMgrquc5K58MFzcx+h4XmEvq
+X-Google-Smtp-Source: AGHT+IH2I+YwhsNEN2W/f0jBkF1nxvsiE/H4QK8q+uPATGIvdhpGf8PYgM3jx5R7mR9gdQG0BY/Jl8TKR1yRM88Z5FA=
+X-Received: by 2002:a05:622a:1e10:b0:494:5805:c2b9 with SMTP id
+ d75a77b69052e-4a72298b30fmr46608091cf.31.1749709371314; Wed, 11 Jun 2025
+ 23:22:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250610021124.2800951-2-chenlinxuan@uniontech.com>
+In-Reply-To: <20250610021124.2800951-2-chenlinxuan@uniontech.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 12 Jun 2025 08:22:38 +0200
+X-Gm-Features: AX0GCFtg9rZdO_j-xlB7BjFTfd7v-suiRWlCa3w6oicMUUxJvtRI76Y9_mraJcE
+Message-ID: <CAJfpegtF0KUw86m_NHFGUtnfcmPgzO88hv3AOs14=j_OQYuvbQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND] doc: fuse: Add max_background and congestion_threshold
+To: Chen Linxuan <chenlinxuan@uniontech.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, zhanjun@uniontech.com, niecheng1@uniontech.com, 
+	Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-In commit b5325b2a270f ("coredump: hand a pidfd to the usermode coredump
-helper") a new core_pattern specifier, %F, was added to provide a pidfs
-to the usermode helper process referring to the crashed process.
+On Tue, 10 Jun 2025 at 04:11, Chen Linxuan <chenlinxuan@uniontech.com> wrote:
+>
+> As I preparing patches adding selftests for fusectl,
+> I notice that documentation of max_background and congestion_threshold
+> is missing.
+>
+> This patch add some descriptions about these two files.
+>
+> Cc: Amir Goldstein <amir73il@gmail.com>
+> Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
 
-Update the documentation to include the new core_pattern specifier.
+Applied, thanks.
 
-Link: https://github.com/systemd/systemd/pull/37125
-Link: https://lwn.net/Articles/1024160/
-Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
----
- Documentation/admin-guide/sysctl/kernel.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index dd49a89a62d3..f1b2ab219a08 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -177,6 +177,7 @@ core_pattern
- 	%E		executable path
- 	%c		maximum size of core file by resource limit RLIMIT_CORE
- 	%C		CPU the task ran on
-+	%F		pidfd number
- 	%<OTHER>	both are dropped
- 	========	==========================================
- 
--- 
-2.49.0
-
+Miklos
