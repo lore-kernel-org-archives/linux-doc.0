@@ -1,55 +1,76 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29B3D1798F;
-	Thu, 12 Jun 2025 05:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F18D8F5C;
+	Thu, 12 Jun 2025 06:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749706776; cv=none; b=oDELRM4xqAdirHZvGnUSZ40fiPsHYmHaEs3m6kHU/bvyZ+dbn66VqkW50dT8oqr+eusZ4+nvXOjOsh3OxUAiwy8BdwihVlGk+kzipw0i8TRNr0hPlBR3McNWCgqFLufB0IPVx6aoYAtPmDoVSylBNF54dD4NctHYwwsvyMhsAKc=
+	t=1749708136; cv=none; b=dR9CRlAatd8Ze1cEkNuVp6LUaHhUJ5b7PVu0b0v2logrK+anfbfcACMIDMi0Okfb8La4tEz5m/NIphVs14JKVq108SqALLTBT/Zb0rrSaJNJnU+jtVwMk+ECKKMn6cKkBF0ZTvE03VPvr0dgQP/hjtkVdxBG0Wy+WeDPlToikt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749706776; c=relaxed/simple;
-	bh=D5zs25k5ilJdAfvmjAwbyIJsXuPFkV9J3ttBcMMcEyo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=I4Q8iM/V955IPI5hR81/dYlBppSOzSc0XmuqQnDrAflpU5JWV9r/w989vs70refyZEO8bvBg0NLVso5vDjX7iXtd9/i9kElMwCipDLlKnLCrrmptHoERGqslO1omw3jiWxJVt0/FlxdJDPgsje/d8Zj4qFqf6wnfv0fFUvB7DGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=aN8ZsyEl; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1749708136; c=relaxed/simple;
+	bh=pAbmsyoRfZFG15mlzgMmJXM4rc3bcsvg1zoS0vGgn0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T5bwklglPgpSOyeEk52HHhCfti5xJlkcRBpkYFQrYURxHsoyJ9uYgI8MiBL1UpGBYPFGk4YvoMLlH47d/XOrSXEJGDdRAATpWJyaY49a4sKlSV2duUU8qxqnyyJG2LTR6HbhdfOwBnMiSa3XQwiKT8GyeOp06HcyFli4hlVWIm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XUZlA7cJ; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="aN8ZsyEl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=8u
-	xIV25rvzc500OQYm7n7CRS3Jb65U/qpwbuXBGHpLw=; b=aN8ZsyElLBwfE4rdkV
-	oDYF7HowdLbtdoIRzS2zsKZHoDRaIveTc01SoZPzLiIEI1Y/eKIDG9lL4psJx5Hk
-	phhjiNe770/zQMOkMcQjWaecrW/Y0BDQOfiJuM2EFkGidOPFWF68C89FcuVpwy57
-	crAOEsgzxLWkiui9twZtZ4MRA=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgB3lmVFZ0poG_P_CA--.31050S4;
-	Thu, 12 Jun 2025 13:36:21 +0800 (CST)
-From: David Wang <00107082@163.com>
-To: cachen@purestorage.com
-Cc: akpm@linux-foundation.org,
-	cl@gentwo.org,
-	corbet@lwn.net,
-	dennis@kernel.org,
-	hannes@cmpxchg.org,
-	harry.yoo@oracle.com,
-	jackmanb@google.com,
-	kent.overstreet@linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XUZlA7cJ"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ad891bb0957so90000566b.3;
+        Wed, 11 Jun 2025 23:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749708133; x=1750312933; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=oo/4Sxd0qDy01xmdMqfr52l+omRW/QRjrl4YazB7gj8=;
+        b=XUZlA7cJDHsTtMaueMEW+PGxH+bPSn6TV7iSXsQ9AYLFHFgE9KTK9TeZX6MlRI4h9n
+         UBbpaMvkUZ2znsTIsbxZG7pwUNKyeuCQTb5//zBzUmDQrjP/RSISSLZEmz+FqwdyvfBi
+         srIrd8IaFatJjvFUm9FJQBTfCZbTDmuri6mYrbV9kGpIYpIWIO4xPYEaD6qnOQgrh1/z
+         xe832b7Q3G6f4mMWaGby+gExCvq15vuczn0RHQqikuWWjmDn/vvADtRXmi3L0g8u2wXk
+         d3wr/SnHvyvX8MNEoFzFd9i30Bd3xSEZmhNDnkyjS7QxrMbh6wEe+GpamfnzLbxEEGDH
+         xG2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749708133; x=1750312933;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oo/4Sxd0qDy01xmdMqfr52l+omRW/QRjrl4YazB7gj8=;
+        b=BCuBRY+NSBSf1fIhY0zE1PWHr+N9cdGUCcgz/5oGl1kyhADF1vwanJXDbRyXKSkoa0
+         UKCUVtvqOlEQAvxjhMCr5bWV3woTbCZRm129vmig74cgi3MK4tg5wBWdPoIz2T1vsIU7
+         9C4agVQqLKV16eRXA+oz9OWZhQLXunVDqYSmeD0TtNUq5LRlRvGQs04rHZmJ9p7mZsVD
+         B6MgU1MKSjjq/kVjF0DzYGHX++U/o50hPS8qogzWaCRymaL8gx1ODw34mpu8wX4ozVZb
+         uxs35GaSa8itYVNY5qcNNBomEKSLBTO/fXSrOHfAp0sn5MS4fBodhA+0NVvMA6/67n/9
+         iK4w==
+X-Forwarded-Encrypted: i=1; AJvYcCWlr/SJJjVG0p63g0QrEIQpGO6mFnd6o1CwsdEf2Uyx7HrzQ2AW10Bhumi+Chlgo7PjF7sA5bOqVwc=@vger.kernel.org, AJvYcCXObbcYMyTdjNY+CBHEmDGNmwfADSTwzh5chXUWuEjTvVBKFhtr1b5tveDznX/RCjEoo+lC8MTngy1BbEXO@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzcnb6U7M8k2SvdbyaM3Brw5knoPVxROn6mcRrtDpFFM22diG8y
+	BbjtRJJ5hLuZip2TV6gckYe7C7bjBsyljwCu42VKvxekkDn7f1U3hvGr
+X-Gm-Gg: ASbGncsFzMEQDuQ3APnsVjZdEtUtZg04dTua6Ap8yPpZ9l4OCpqVUTvSs+Tsi2x7zkD
+	4CWn7jicA75evG32T2THIjcOZaEQeG7fw9hmoaCNqy3TpDGBSWWpC1ZZ+e6TKOYxhr0ubn+cU/T
+	CmhmuxmMst3DLvgThfO7zfI0kCScKMf2XqCkwv0glk2lo+vfncK8Wzi4XrE9pinI6zzfhxmiSlA
+	Orf2sICegCEWCnewQnR7fLQAr6hompmHQk9KQC8KO9vtcWJ7VA3ac01aOIM9Jk0aZ/mmIYJFUBF
+	P/A899kX4cPpYJndl5fLdrtplbuYDyYMm6ZD2SH8xfJ7ukwPIPBW4xd/NAHHRpN8liUFUqpV2K2
+	mMbZJTQei+ysqmsVAUjQ=
+X-Google-Smtp-Source: AGHT+IEKm9oYlwxEfuMYPygUsnm4oedMpJvNnX+QM9kSKhyba3obIkrltlTdn+jVO7Fct9r4pW9JLw==
+X-Received: by 2002:a17:906:6a15:b0:ade:4304:6b7d with SMTP id a640c23a62f3a-ade897a28ddmr586726166b.49.1749708132915;
+        Wed, 11 Jun 2025 23:02:12 -0700 (PDT)
+Received: from eldamar.lan (c-82-192-244-13.customer.ggaweb.ch. [82.192.244.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adeadecc411sm76148266b.144.2025.06.11.23.02.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jun 2025 23:02:12 -0700 (PDT)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Received: by eldamar.lan (Postfix, from userid 1000)
+	id 8833DBE2DE0; Thu, 12 Jun 2025 08:02:11 +0200 (CEST)
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Luca Boccassi <luca.boccassi@gmail.com>,
+	Oleg Nesterov <oleg@redhat.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	mhocko@suse.com,
-	rientjes@google.com,
-	roman.gushchin@linux.dev,
-	surenb@google.com,
-	tj@kernel.org,
-	vbabka@suse.cz,
-	yzhong@purestorage.com,
-	ziy@nvidia.com
-Subject: Re: [PATCH] alloc_tag: add per-NUMA node stats
-Date: Thu, 12 Jun 2025 13:36:05 +0800
-Message-Id: <20250612053605.5911-1-00107082@163.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20250610233053.973796-1-cachen@purestorage.com>
-References: <20250610233053.973796-1-cachen@purestorage.com>
+	Salvatore Bonaccorso <carnil@debian.org>
+Subject: [PATCH] Documentation/sysctl: coredump: add %F for pidfd number
+Date: Thu, 12 Jun 2025 08:02:04 +0200
+Message-ID: <20250612060204.1159734-1-carnil@debian.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,68 +78,32 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgB3lmVFZ0poG_P_CA--.31050S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Zw1UKrW8Gry3WFy8GFWfZrb_yoW8tF18pF
-	4UKw1rWF4qqr1xCrn7J3WIga4ft3Z8CFWUJ3yaq34SvF1akryfZrZrKw45uF47CF40yF1U
-	ZFWq9w17Z3W5ZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UxCzNUUUUU=
-X-CM-SenderInfo: qqqrilqqysqiywtou0bp/1tbiqAhqqmhKX67XLgAAsK
 
-Hi, 
+In commit b5325b2a270f ("coredump: hand a pidfd to the usermode coredump
+helper") a new core_pattern specifier, %F, was added to provide a pidfs
+to the usermode helper process referring to the crashed process.
 
-On Tue, 10 Jun 2025 17:30:53 -0600 Casey Chen <cachen@purestorage.com> wrote:
-> Add support for tracking per-NUMA node statistics in /proc/allocinfo.
-> Previously, each alloc_tag had a single set of counters (bytes and
-> calls), aggregated across all CPUs. With this change, each CPU can
-> maintain separate counters for each NUMA node, allowing finer-grained
-> memory allocation profiling.
-> 
-> This feature is controlled by the new
-> CONFIG_MEM_ALLOC_PROFILING_PER_NUMA_STATS option:
-> 
-> * When enabled (=y), the output includes per-node statistics following
->   the total bytes/calls:
-> 
-> <size> <calls> <tag info>
-> ...
-> 315456       9858     mm/dmapool.c:338 func:pool_alloc_page
->         nid0     94912        2966
->         nid1     220544       6892
-> 7680         60       mm/dmapool.c:254 func:dma_pool_create
->         nid0     4224         33
->         nid1     3456         27
-> 
-> * When disabled (=n), the output remains unchanged:
-> <size> <calls> <tag info>
-> ...
-> 315456       9858     mm/dmapool.c:338 func:pool_alloc_page
-> 7680         60       mm/dmapool.c:254 func:dma_pool_create
-> 
-> To minimize memory overhead, per-NUMA stats counters are dynamically
-> allocated using the percpu allocator. PERCPU_DYNAMIC_RESERVE has been
-> increased to ensure sufficient space for in-kernel alloc_tag counters.
-> 
-> For in-kernel alloc_tag instances, pcpu_alloc_noprof() is used to
-> allocate counters. These allocations are excluded from the profiling
-> statistics themselves.
+Update the documentation to include the new core_pattern specifier.
 
-Considering NUMA balance, I have two questions:
-1. Do we need the granularity of calling sites?
-We need that granularity to identify a possible memory leak, or somewhere
-we can optimize its memory usage.
-But for NUMA unbalance, the calling site would mostly be *innocent*, the
-clue normally lies in the cpu making memory allocation, memory interface, etc...
-The point is, when NUMA unbalance happened, can it be fixed by adjusting the calling sites?
-Isn't <cpu, memory interface/slab name, numa id> enough to be used as key for numa
-stats analysis?
-Any example explaining why you need the information of calling sites and how the
-information of calling site help?
+Link: https://github.com/systemd/systemd/pull/37125
+Link: https://lwn.net/Articles/1024160/
+Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-2. There are other factors affecting NUMA balance, cgroup usage, e.g...
-Could we collect those information at calling sites as well.
-
-
-
-Thanks
-David
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index dd49a89a62d3..f1b2ab219a08 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -177,6 +177,7 @@ core_pattern
+ 	%E		executable path
+ 	%c		maximum size of core file by resource limit RLIMIT_CORE
+ 	%C		CPU the task ran on
++	%F		pidfd number
+ 	%<OTHER>	both are dropped
+ 	========	==========================================
+ 
+-- 
+2.49.0
 
