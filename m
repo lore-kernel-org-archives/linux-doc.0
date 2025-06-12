@@ -1,121 +1,109 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46FFB20103A;
-	Thu, 12 Jun 2025 07:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2381C7013;
+	Thu, 12 Jun 2025 07:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749713741; cv=none; b=NJiXjWZudWP4GlBt9+QLI533ib9WykxYevCPMnC3uHk/QCBuebG60W39Ar3xGPoCT10yUSgF1aOAFb8QqZ2CPZKV8/dPGk6wqAH/O6B8xhdNhEkGNNEZRq4sjqVxcEeqQELqBvthDLdhY67jxSNAl8spUUExMNxU1GTdr2Ei/Pw=
+	t=1749713807; cv=none; b=c0Cb4cFYOm5Dg8dWQAOC7dfLiISJmnBI18qN0K3TccLVXQkMMwKwzyAg6NBcPlg2yPAnJmu6l93cPZK/X/OY/MdQdZDT94E9vOm5UY7Jv1z6n51IJX37jyL55jVSvYe0HyX7zwyO/2zrk64PQzFivxJ7DGAk68qpXG1tP2U2c9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749713741; c=relaxed/simple;
-	bh=KCX0a7J/dQCLi8OUq7jTcNS7abTSEHutYT5eX0F9dO4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nOF2nU/dD2sY7L++fRcXWIxBNg4r1ugo8XTPxkvBrlzD9MUXldaUY6RrVUUBadCcqtJ1ZZTV9b8yxTFTAWIMGjq3qI5denVIMauxzuVcgQG+VDGTmb7k+LWYYz6FQ+HuqxV6bG2gnm21JaMGj9GO0CALlzTjqhCENyfazUEqhKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B280F1595;
-	Thu, 12 Jun 2025 00:35:17 -0700 (PDT)
-Received: from [10.163.33.129] (unknown [10.163.33.129])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F4223F66E;
-	Thu, 12 Jun 2025 00:35:29 -0700 (PDT)
-Message-ID: <10f63976-afa7-4e1c-bec1-d9f2447d9c13@arm.com>
-Date: Thu, 12 Jun 2025 13:05:27 +0530
+	s=arc-20240116; t=1749713807; c=relaxed/simple;
+	bh=amK0NIN5f0CVZN6pcqtau63uuJcNZ6OKBSVmWtcbOOA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CXDIjTI+/DjDNof/ipFIB+lCslewEkCEuhf2IujyX0xU0V5tdSou0+YmrgA5CjAJ85UVu4123UhG1rJn2DjckBPjXOaTVCk7setVfvWOwxuVBohVfp0wGKGrhXj9xCF7r7WZRT8KNpZCVvk8Pa5ngrvwjMm4hO6FUvlG54rhSmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jhXpqvxi; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jhXpqvxi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5916FC4CEEA;
+	Thu, 12 Jun 2025 07:36:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749713807;
+	bh=amK0NIN5f0CVZN6pcqtau63uuJcNZ6OKBSVmWtcbOOA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jhXpqvxiJ8HB4Z6LoALegW644y4p6iJclaaAexuKW+f1jpZdYSnhGxWdVhO9fWa6y
+	 bt4S9aYCno/oHs2YizX0PjYe8k5RuprvhSVJRsd2uD6VjNlJk2YnPxJevAsZARuBqS
+	 4+vplqFYaJwis1SM29MD9diaQjEmZo3TVfwYxs25kTS4dheBDVIpO/Y6IvzJ64KrVD
+	 WkxjI6O4WLJ12rmZzhuhEGSp8FY4uFPHRwai5fEeXqQ6rW9ay+1gaqpnqHNUHFiVHw
+	 HHmSmzB586b0MKLJWjf/2PW4DSIQiSYBUXL9HjA8H6xR0I64kFvIpZLDER8WsTap0A
+	 7Y3dA/Y2bImAQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1uPcUP-0069LT-68;
+	Thu, 12 Jun 2025 08:36:45 +0100
+Date: Thu, 12 Jun 2025 08:36:44 +0100
+Message-ID: <86y0txcsxf.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: catalin.marinas@arm.com,
+	pcc@google.com,
+	will@kernel.org,
+	broonie@kernel.org,
+	anshuman.khandual@arm.com,
+	joey.gouly@arm.com,
+	yury.khrustalev@arm.com,
+	oliver.upton@linux.dev,
+	frederic@kernel.org,
+	akpm@linux-foundation.org,
+	surenb@google.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 1/9] arm64/cpufeature: add FEAT_MTE_TAGGED_FAR feature
+In-Reply-To: <20250611135818.31070-2-yeoreum.yun@arm.com>
+References: <20250611135818.31070-1-yeoreum.yun@arm.com>
+	<20250611135818.31070-2-yeoreum.yun@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/10] perf: arm_spe: Support FEAT_SPEv1p4 filters
-To: James Clark <james.clark@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, leo.yan@arm.com
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org>
- <20250605-james-perf-feat_spe_eft-v3-2-71b0c9f98093@linaro.org>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20250605-james-perf-feat_spe_eft-v3-2-71b0c9f98093@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: yeoreum.yun@arm.com, catalin.marinas@arm.com, pcc@google.com, will@kernel.org, broonie@kernel.org, anshuman.khandual@arm.com, joey.gouly@arm.com, yury.khrustalev@arm.com, oliver.upton@linux.dev, frederic@kernel.org, akpm@linux-foundation.org, surenb@google.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 05/06/25 4:19 PM, James Clark wrote:
-> FEAT_SPEv1p4 (optional from Armv8.8) adds some new filter bits, so
-> remove them from the previous version's RES0 bits using
-> PMSEVFR_EL1_RES0_V1P4_EXCL. It also makes some previously available bits
-> unavailable again, so add those back using PMSEVFR_EL1_RES0_V1P4_INCL.
-
-Just wondering - why cannot all the new applicable filter bits be added
-explicitly for PMSEVFR_EL1_RES0_V1P4 without using exclude and include
-intermediaries.
-
-> E.g:
+On Wed, 11 Jun 2025 14:58:10 +0100,
+Yeoreum Yun <yeoreum.yun@arm.com> wrote:
 > 
->   E[30], bit [30]
->   When FEAT_SPEv1p4 is _not_ implemented ...
+> Add FEAT_MTE_TAGGED_FAR cpucap which makes FAR_ELx report
+> all non-address bits on a synchronous MTE tag check fault since Armv8.9
 > 
-> FEAT_SPE_V1P3 has the same filters as V1P2 so explicitly add it to the
-> switch.
-A small nit - should FEAT_SPE_V1P3 addition be done in a previous patch
-as it is an already existing thing ?
-
-> 
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
-> Tested-by: Leo Yan <leo.yan@arm.com>
-> Signed-off-by: James Clark <james.clark@linaro.org>
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> Acked-by: Yury Khrustalev <yury.khrustalev@arm.com>
 > ---
->  arch/arm64/include/asm/sysreg.h | 7 +++++++
->  drivers/perf/arm_spe_pmu.c      | 5 ++++-
->  2 files changed, 11 insertions(+), 1 deletion(-)
+>  arch/arm64/kernel/cpufeature.c | 8 ++++++++
+>  arch/arm64/tools/cpucaps       | 1 +
+>  2 files changed, 9 insertions(+)
 > 
-> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
-> index f1bb0d10c39a..880090df3efc 100644
-> --- a/arch/arm64/include/asm/sysreg.h
-> +++ b/arch/arm64/include/asm/sysreg.h
-> @@ -358,6 +358,13 @@
->  	(PMSEVFR_EL1_RES0_IMP & ~(BIT_ULL(18) | BIT_ULL(17) | BIT_ULL(11)))
->  #define PMSEVFR_EL1_RES0_V1P2	\
->  	(PMSEVFR_EL1_RES0_V1P1 & ~BIT_ULL(6))
-> +#define PMSEVFR_EL1_RES0_V1P4_EXCL \
-> +	(BIT_ULL(2) | BIT_ULL(4) | GENMASK_ULL(10, 8) | GENMASK_ULL(23, 19))
-> +#define PMSEVFR_EL1_RES0_V1P4_INCL \
-> +	(GENMASK_ULL(31, 26))> +#define PMSEVFR_EL1_RES0_V1P4	\
-> +	(PMSEVFR_EL1_RES0_V1P4_INCL | \
-> +	(PMSEVFR_EL1_RES0_V1P2 & ~PMSEVFR_EL1_RES0_V1P4_EXCL))
+> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+> index b34044e20128..af6a6924a3e8 100644
+> --- a/arch/arm64/kernel/cpufeature.c
+> +++ b/arch/arm64/kernel/cpufeature.c
+> @@ -320,6 +320,7 @@ static const struct arm64_ftr_bits ftr_id_aa64pfr1[] = {
 >  
->  /* Buffer error reporting */
->  #define PMBSR_EL1_FAULT_FSC_SHIFT	PMBSR_EL1_MSS_SHIFT
-> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
-> index 3efed8839a4e..d9f6d229dce8 100644
-> --- a/drivers/perf/arm_spe_pmu.c
-> +++ b/drivers/perf/arm_spe_pmu.c
-> @@ -701,9 +701,12 @@ static u64 arm_spe_pmsevfr_res0(u16 pmsver)
->  	case ID_AA64DFR0_EL1_PMSVer_V1P1:
->  		return PMSEVFR_EL1_RES0_V1P1;
->  	case ID_AA64DFR0_EL1_PMSVer_V1P2:
-> +	case ID_AA64DFR0_EL1_PMSVer_V1P3:
-> +		return PMSEVFR_EL1_RES0_V1P2;
-> +	case ID_AA64DFR0_EL1_PMSVer_V1P4:
->  	/* Return the highest version we support in default */
->  	default:
-> -		return PMSEVFR_EL1_RES0_V1P2;
-> +		return PMSEVFR_EL1_RES0_V1P4;
->  	}
->  }
->  
-> 
+>  static const struct arm64_ftr_bits ftr_id_aa64pfr2[] = {
+>  	ARM64_FTR_BITS(FTR_VISIBLE, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64PFR2_EL1_FPMR_SHIFT, 4, 0),
+> +	ARM64_FTR_BITS(FTR_VISIBLE, FTR_NONSTRICT, FTR_LOWER_SAFE, ID_AA64PFR2_EL1_MTEFAR_SHIFT, 4, ID_AA64PFR2_EL1_MTEFAR_NI),
+>  	ARM64_FTR_END,
+>  };
 
+Same thing as the remark I had on FEAT_LSUI: for anything that does
+not introduce extra state, please similarly enable the feature in KVM.
+There is no point in these discrepancies.
 
+For anything that has extra state, you should at least consider what
+needs to be done.
 
+Thanks,
 
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
