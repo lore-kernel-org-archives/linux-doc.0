@@ -1,96 +1,91 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B87181F4C84;
-	Thu, 12 Jun 2025 06:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A0720E034;
+	Thu, 12 Jun 2025 07:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749710703; cv=none; b=u9fU7mwxOlFt6/HA3+WvXFXlgynZERolMLuMWjFmE2fMVTWGhjY2lbo/GmHtcwDagcCRcaJQke7E+qY2hJPHUHfWPZLHOHMig2RWk/OO9F4pkGSrY3ccibXf9q5cXxZf7jfCuRQ60rkNXH76qw1MGwGlsvt8xVdP2nf4ydYm9z0=
+	t=1749712613; cv=none; b=sid/ef5PS4ann8Ot01O/5k7KhFMNREfq5G77Ai0MXHoUZcfpHsPY8iUaxnT8ntvJkTJqTUffZHyNBcTOFz2kyyX5ezBPlza2YF0BfeN5FdTzZdtPpPFu+YjiUN57E8xOIKNvcsHRSWrM3/eFBLBRoYhcIhjbT6HKXG7ZUGA3iWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749710703; c=relaxed/simple;
-	bh=rxKO1BKV4hODD1SbaLCwVicmOFDO4mKDfQbwr7D0Nvo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W06ZC6BzD8AKUH1m+DXAKV+lzM4yWJKFrxVT1NM6MWuNX7I4crsEDlDx4kwkEBumm/gtoa1j1A/tBeTLYyeVtr+5pb/SuZa9OzUIOTvaeu6dNwsbED9LGOGY0kY3KN2lkbqArzSLFaaJIc2R5ixA6c0Pz4S9tFoTeYwO9izAkZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11DE014BF;
-	Wed, 11 Jun 2025 23:44:40 -0700 (PDT)
-Received: from [10.163.33.129] (unknown [10.163.33.129])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 711AB3F59E;
-	Wed, 11 Jun 2025 23:44:52 -0700 (PDT)
-Message-ID: <f89faeb2-1091-41af-ae06-f49bd2d4866a@arm.com>
-Date: Thu, 12 Jun 2025 12:14:49 +0530
+	s=arc-20240116; t=1749712613; c=relaxed/simple;
+	bh=mS+ktpLhZh7Ds2xfhQioR5HHUvV1fzdiZYayXvlHjoA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jIQPD7mt7532qGQoqRLazVC16Y9lZf6O0OGw+jRyljIJ6fkug/IV9gfsUtV6wmyX9DQARjIdA30fy6d5OTgmhex9adnhaN5CZE3bkpnaGzZLsAsPdJIf4VIqFjrnk3yBGuwZsg7FzK5hc2XWx0IRI1YnWIOE7TQ2yITIhQ2/60A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Tk9s0aB1; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Tk9s0aB1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=SJmgReSKLl4Wa+2IManyL48R1xCcWD1gvUcY9eksNmk=; b=Tk9s0aB1WhPtBiI4e9GgZGW9Qa
+	mKNIe6qRwT8PbbSGCV63r7Wp4mN3FCZf36uws0HSHTi3SHuDIDohALaN5mTvrK3k0cwbGrd7jZziR
+	op/CW5+mtA4LJ0KNIkIiaPw6tNCzo81/pDtRZP/GZStO4bIb4c/4xDbWLzjb7qG44iEMoRbYbkDac
+	N7Cz0GnritfBjugTK8cvoSBKSggtJ5X0z3ssSSrjZ1FNRmUSmtNg1F7BSmdIWWH2NrPgOj24NMSvX
+	Z5WAjWCL0a8VRwKAmhpvUsykjToqMi834USk+Xh5Dc/NRlSlmkgzjmHlE8fhlUeiC/DdICCacoHiK
+	0HjOTKRg==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <carnil@debian.org>)
+	id 1uPbnJ-00A2YE-5D; Thu, 12 Jun 2025 06:52:13 +0000
+Received: by eldamar.lan (Postfix, from userid 1000)
+	id 163EBBE2DE0; Thu, 12 Jun 2025 08:52:12 +0200 (CEST)
+Date: Thu, 12 Jun 2025 08:52:12 +0200
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	Oleg Nesterov <oleg@redhat.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/sysctl: coredump: add %F for pidfd number
+Message-ID: <aEp5HBrBoU6mJALT@eldamar.lan>
+References: <20250612060204.1159734-1-carnil@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/10] arm64: sysreg: Add new PMSFCR_EL1 fields and
- PMSDSFR_EL1 register
-To: James Clark <james.clark@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, leo.yan@arm.com
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org>
- <20250605-james-perf-feat_spe_eft-v3-1-71b0c9f98093@linaro.org>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20250605-james-perf-feat_spe_eft-v3-1-71b0c9f98093@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250612060204.1159734-1-carnil@debian.org>
+X-Debian-User: carnil
 
-On 05/06/25 4:18 PM, James Clark wrote:
-> Add new fields and register that are introduced for the features
-> FEAT_SPE_EFT (extended filtering) and FEAT_SPE_FDS (data source
-> filtering).
+Hi,
+
+On Thu, Jun 12, 2025 at 08:02:04AM +0200, Salvatore Bonaccorso wrote:
+> In commit b5325b2a270f ("coredump: hand a pidfd to the usermode coredump
+> helper") a new core_pattern specifier, %F, was added to provide a pidfs
+> to the usermode helper process referring to the crashed process.
 > 
-> Tested-by: Leo Yan <leo.yan@arm.com>
-> Signed-off-by: James Clark <james.clark@linaro.org>
+> Update the documentation to include the new core_pattern specifier.
+> 
+> Link: https://github.com/systemd/systemd/pull/37125
+> Link: https://lwn.net/Articles/1024160/
+> Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
 > ---
->  arch/arm64/tools/sysreg | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
+>  Documentation/admin-guide/sysctl/kernel.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
-> index 8a8cf6874298..2e897d8a4040 100644
-> --- a/arch/arm64/tools/sysreg
-> +++ b/arch/arm64/tools/sysreg
-> @@ -2859,11 +2859,20 @@ Field	0	RND
->  EndSysreg
->  
->  Sysreg	PMSFCR_EL1	3	0	9	9	4
-> -Res0	63:19
-> +Res0	63:53
-> +Field	52	SIMDm
-> +Field	51	FPm
-> +Field	50	STm
-> +Field	49	LDm
-> +Field	48	Bm
-> +Res0	47:21
-> +Field	20	SIMD
-> +Field	19	FP
->  Field	18	ST
->  Field	17	LD
->  Field	16	B
-> -Res0	15:4
-> +Res0	15:5
-> +Field	4	FDS
->  Field	3	FnE
->  Field	2	FL
->  Field	1	FT
-> 
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index dd49a89a62d3..f1b2ab219a08 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -177,6 +177,7 @@ core_pattern
+>  	%E		executable path
+>  	%c		maximum size of core file by resource limit RLIMIT_CORE
+>  	%C		CPU the task ran on
+> +	%F		pidfd number
+>  	%<OTHER>	both are dropped
+>  	========	==========================================
 
-These register fields checks out against ARM ARM DDI 0487 (L.b)
+FWIW, I was not sure if I should add a 'Fixes: b5325b2a270f
+("coredump: hand a pidfd to the usermode coredump helper") to make
+sure that it get backported as well to the series where a backport of
+b5325b2a270f landed.
 
-Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Regards,
+Salvatore
