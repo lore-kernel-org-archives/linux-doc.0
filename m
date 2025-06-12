@@ -1,246 +1,150 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352B32AE68
-	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 13:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAC0286A9;
+	Thu, 12 Jun 2025 13:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749733229; cv=none; b=XUnwqUM/scO3zRW72xGmLUTkHMMcBJ+P9XW2VpRKPSt3mD0dnMNc6B5fLGkcnFpjWC99hP/KkaBm+NmbUjfIx4CcRgjGlKhBeCSu77eQKqkUhxyZHeDASWpNUJf4idczxYiIEa2mEDDDDJrLtsqshATpHKIJVIzRC51URW5edrI=
+	t=1749733623; cv=none; b=LRZRx64Bzm0eaMvR1A2pT+Q2WU0wY6aHs9zRMmobSz7wK8Ivs5RwEq9mb/wW5Hwj0O0J+S8koMZT1ISjrmqniGMww4bVyKFPdSDZzDRGRG81tx/GPB5s2umlbc3OrE4YJUIM2IRi63KCgVJrlpECEe5u5ZXAGu83ysnpLs7ZqsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749733229; c=relaxed/simple;
-	bh=QiTjri0aOoQ3lH4SOuywEnbXxOS4s4oN3a7N7AfILcE=;
+	s=arc-20240116; t=1749733623; c=relaxed/simple;
+	bh=nIP1KIkmxoz7t37R+vM8UOzEC9TBC8VT+7bu8mFXQBA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GmCwa3PWxct0bIsi2WaRAu2vvH0GsH0+kJXRVcfjgVHCMWjCpo7oLieYPsuDJjxx09dmGOaEk71NVqW4JVdam9YVdLRBlcA9uVsh55WSSlGzu8iBMal/RvehyU029bwaYROdbIkVKrGJvPi4m8YkZpXIr9a+o5RRTOgEZMBYjnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pMtKiV+e; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=r+0bkXFSzT995gzN/e/Sv3Z2DJ42zktUaOBBbcsK7p1/c+377a3anxUJVTWyItqHN93dXeUEpZy6hCxwHtGyYrrWTsFDDXN6AIz5y8Nqg3W8psj/dbq+GMp/1VavZqmtL1nUN+M2LywJAgP1/CMSBlAOqtDLbM1ygHuWAASB29Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j8qCSoTN; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pMtKiV+e"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4a58197794eso166841cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 06:00:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j8qCSoTN"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-70e2a7a2ce6so1313057b3.0;
+        Thu, 12 Jun 2025 06:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1749733227; x=1750338027; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1749733620; x=1750338420; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fpY2v3xOolJqhxPlW7zwEpoGRpHezlEDNj9BdzLrQ3s=;
-        b=pMtKiV+eZaRQ5szPLZduVesWRr7A6wc6QhRnEEGLFDNcxYpzirkGjLCLL9kOeRXMvs
-         iobv7Ja2+3JmCuWHU41CjHv3W+oDnjf1BJCmsETGwCrVjjnC83mk9RkCscmw0sU2FCAx
-         pu76Tyi/hqRxvp2qv7t5BENjnNXZiAs4Agt5NvE3Wf0C/7kJ2pz1A8qsGPpaQa3sn0lm
-         e1PSfiEEFc6ijmE3aM/KgakYzMp1H64JYnRhknqBDmNzUl4vdtg4i0Wde7GeUFj/EPMN
-         Bxm0M94nB8NrJobWOte+/AZexenNPfsWQYFQKbPOz9zTfjjPLYVWarWHGSgoNrdcYscE
-         W2vA==
+        bh=9YTCIHOoiA9wRuF/wA++te8rmMS3KK10f8exb80B8Zk=;
+        b=j8qCSoTNYEpYVfpo95pLWKyvxFiCvvODRUKU14sh15BiE15xzUbZDkA7035UESbzOk
+         41qHJ1ZK3ACRify4EatJBTzAKP+jc4POzJfo5sxc7LI64JVtW/GNO05LJMgf9UYHCZ5s
+         MOE8k7OEObkRQVVZWGarhHhjJUve/XdZcWqKH5iCxS+xaTikLcSu1VWlW5MLSQ0cNv4E
+         RCVCmYVIk7p+ih3mLWGucptj1JxjcBPV5QnCeDf3kp9SHLUXrZDOEAjN/7mmsMaRUrVf
+         SDg2n1BOzQAVbu11MSDfbZ9GyMD4sZNobUdKpg1uTPaeaKE7SPK9QhbRcLW6VeEAhmPs
+         OWrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749733227; x=1750338027;
+        d=1e100.net; s=20230601; t=1749733620; x=1750338420;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fpY2v3xOolJqhxPlW7zwEpoGRpHezlEDNj9BdzLrQ3s=;
-        b=GWz31sj/rMoa67eT0FE4hArFfkJPH47/gIxq79myScuOgl9cOQJOmPqY8a8G7fNmFf
-         diKn7ihcdSWwhBwAX4FAYp3ynJ62FfMPpKtXUqX/OIlr7RnCOdfWugEFqJ7di28vKPk6
-         p/Mc/IIC0qZ554lvvGF46S4g5JNP3LoU7Q5UPV41i7oWTANFYK7G0zSs7riOKd+prEu0
-         ZUyq/wvXfn2B0lcmudMhw0oBtwKf0w5cQQeBRYOwiHBbh3iVaDg3TyepgXH7kAvBzTns
-         icCAflgYycyBG0wyHu8ICxSsXehQPFHcoA+k9TH8fXj1bw6PLFe0PaQqrCOg+1v+S5J8
-         zqHg==
-X-Forwarded-Encrypted: i=1; AJvYcCUzZ3Fp0vWyF2JUY1pXz/gByChiZHs4ttH7lCjJ0jAS1l0W+gLr5Cik18OD5km26zk+5s4Qwqn373M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvEfPN5Be0H6tHz05HUYPhC1V3MeKJBhxWdbSPD8nVcnuPjYAe
-	lYToNWpORnQnzHYcU4bPObwA5bShyaTpf9pbWSWniAvojYydeH0K7YuhxtIOC78Sn+GHxJ1h+9h
-	4J0wGYDRLLNbsb+7LaLHPrFaHOx0OHJqeErTkn2K5
-X-Gm-Gg: ASbGncsNpVHXNeyDvLTCoy6nfCjlqBAqG5pOjtK+RiYxB3AlUqLjuFp7POudb6Ji/gZ
-	x8gLtlpzXyWtGs/TSdm085u1SabOLFJxDpkWUPeBxJPDdNvusDYWJGy8c0qT2pX9VSax3RSUNjD
-	7FeLozCoui6WUr3PbKFNW2ze5IG4r2xl26ojWdrS/ioWVu
-X-Google-Smtp-Source: AGHT+IGY4oL+n5OsidgL3QIHNPw7v8k8ZYlSLDyq/Gl3cy0pYqbV0yAIPWuxZE2BO0OqpqN1fWJKcjJOupyMB2kYRJA=
-X-Received: by 2002:ac8:5d53:0:b0:4a6:fda0:748f with SMTP id
- d75a77b69052e-4a7262407a6mr2896471cf.7.1749733225837; Thu, 12 Jun 2025
- 06:00:25 -0700 (PDT)
+        bh=9YTCIHOoiA9wRuF/wA++te8rmMS3KK10f8exb80B8Zk=;
+        b=uTqhvb1dPyWlQi/nU2zR4CpUfjkg2MkwfBG6TGXR/HewqNKGSkg97wbRJCOcVbHiFf
+         2UH9tBU5Bjr6zwJrTnFP+rShRNhbWyCaore3XRdVxWq9SWMZYIG3q1RQ1Ij/y741iij4
+         rC/xdiIOEa83q7jPKpNsLPTUJ470YSa4DTUs8k3/braMOwp/1RxBH+5eDPS6S/1hLNJe
+         KxmVaWFW60rFmIgz1zMaMhsRLLUS1rRsB2lA/uSc9rp1E0ubU9YPAch214WNHg0US+1R
+         /batTyAaArBPpYeit83s9+/JPTLORumrGWcI68OxH5Ubu+edsn/pBnoIPI5kGBMf2Xkv
+         h4Ag==
+X-Forwarded-Encrypted: i=1; AJvYcCV2F3TaqyCv267oxeRQuAfk1ANDYolHUGOITror0c8AexKQ3gMxXxW7ZqvDIna/PXckXMhDm90ow6+7d80a@vger.kernel.org, AJvYcCWDlUoOMEfrJVNooR1ZIB99xnOSM9DVpxhaBRYYk26c7IE2gltrpXilsDvilJAAwsGYGaKfuaZT@vger.kernel.org, AJvYcCWu4oL4CM70sGI8Q/2DksL9ooG9FeAQva7Zl2PTWQnh7aCTih7tfKFcxTI8kr5nqwcwfnSwucOPxFs=@vger.kernel.org, AJvYcCXKwO0rKrqDMljOIX+B0I3oOQ0f9nl3QAcqYRGFRJqrs7su4Lylu8dmksjkqtASgUoSeEx57kAHJc4HkSXqhMmm@vger.kernel.org
+X-Gm-Message-State: AOJu0YySQjKzkbf7PRt3K186SugSO5p5NvW9SVpN9tPEvCNH9zTKIcVM
+	Hx7j+2Wo9cO5m20D7jToR7UD5J04GRH9Fjd6s9/AD+HyMLlxxsKA1wnBLRql+7ID2v8sgeJRg4D
+	1yOexl5NdQif4C5uMFR3WLu4yocvyFio=
+X-Gm-Gg: ASbGnctzHhCpyaEM2d90rk1Y80ryqPIP4Ys95rpkVFZQphdAds63SuBOKvSjYCPA8X9
+	OS42F142Rqx1t8HNqK9JyQ/bGuFa1Pvt7uCbN9/AVj8vveKuPtmsChYCb/INEewTVChzsYBSymY
+	JeXgEuDM+orfKiRPjNr8RxRTCQRs2ZUMKDnKwJWCIGIWGkpRcx/4EVeCiB1GU=
+X-Google-Smtp-Source: AGHT+IED2kJYub7iNi0oRog4IGfnH9hPbxnLWmdDYPS9CmCqxhHia+Ei+Yb2xOs3aB5jRFj+uweNWOPbidBRGHLDI3A=
+X-Received: by 2002:a05:690c:498c:b0:70e:614d:6446 with SMTP id
+ 00721157ae682-71140ae0684mr46959417b3.7.1749733620418; Thu, 12 Jun 2025
+ 06:07:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250610215516.1513296-1-visitorckw@gmail.com> <20250610215516.1513296-2-visitorckw@gmail.com>
-In-Reply-To: <20250610215516.1513296-2-visitorckw@gmail.com>
-From: Robert Pang <robertpang@google.com>
-Date: Thu, 12 Jun 2025 22:00:14 +0900
-X-Gm-Features: AX0GCFterX1Lih1AEFUT5YaLY4MozeJlnsq7BnWO39Y8Pg7nAWkI31Ftwg0dKvY
-Message-ID: <CAJhEC05pmnTd9mROTazKMFzSO+CcpY8au57oypCiXGaqhpA_2Q@mail.gmail.com>
-Subject: Re: [PATCH 1/8] lib min_heap: Add equal-elements-aware sift_down variant
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: corbet@lwn.net, colyli@kernel.org, kent.overstreet@linux.dev, 
-	akpm@linux-foundation.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-bcache@vger.kernel.org, 
-	jserv@ccns.ncku.edu.tw, stable@vger.kernel.org
+References: <20250611-netconsole-msgid-v1-0-1784a51feb1e@gmail.com>
+ <20250611-netconsole-msgid-v1-3-1784a51feb1e@gmail.com> <aEmhA0QoZy3LbAu+@gmail.com>
+In-Reply-To: <aEmhA0QoZy3LbAu+@gmail.com>
+From: Gustavo Luiz Duarte <gustavold@gmail.com>
+Date: Thu, 12 Jun 2025 14:06:48 +0100
+X-Gm-Features: AX0GCFvy6Zg8RCik0v6KsjOcOWhTWL4dg3oZ5AKee0pu47fXiiZYXGhJgvckdwQ
+Message-ID: <CAGSyskW0XHZGHsJ1R2e_Lgh1nG+SJ9Rwk_-nWfU6Xdw5VQTd8A@mail.gmail.com>
+Subject: Re: [PATCH net-next 3/5] netconsole: append msgid to sysdata
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Kuan-Wei
-
-Thanks for this patch series to address the bcache latency regression.
-I tested it but results show regression still remains. Upon review of
-the patch changes, I notice that the min_heap_sift_down_eqaware_inline
-#define macro in this patch may have been mapped incorrectly:
-
-+#define min_heap_sift_down_eqaware_inline(_heap, _pos, _func, _args)   \
-+       __min_heap_sift_down_inline(container_of(&(_heap)->nr,
-min_heap_char, nr), _pos,        \
-+                                   __minheap_obj_size(_heap), _func, _args=
-)
-
-I changed it to map to its "eqaware" counterpart like this and the
-regression does not happen again.
-
-+#define min_heap_sift_down_eqaware_inline(_heap, _pos, _func, _args)   \
-+       __min_heap_sift_down_eqaware_inline(container_of(&(_heap)->nr,
-min_heap_char, nr), _pos,        \
-+                                   __minheap_obj_size(_heap), _func, _args=
-)
-
-Do you think this correction is appropriate?
-
-Best regards
-Robert Pang
-
-On Wed, Jun 11, 2025 at 6:55=E2=80=AFAM Kuan-Wei Chiu <visitorckw@gmail.com=
-> wrote:
+On Wed, Jun 11, 2025 at 4:30=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
+ote:
 >
-> The existing min_heap_sift_down() uses the bottom-up heapify variant,
-> which reduces the number of comparisons from ~2 * log2(n) to
-> ~1 * log2(n) when all elements are distinct. However, in workloads
-> where the heap contains many equal elements, this bottom-up variant
-> can degenerate and perform up to 2 * log2(n) comparisons, while the
-> traditional top-down variant needs only O(1) comparisons in such cases.
+> On Wed, Jun 11, 2025 at 07:36:05AM -0700, Gustavo Luiz Duarte wrote:
+> > Add msgcounter to the netconsole_target struct to generate message IDs.
+> > If the msgid_enabled attribute is true, increment msgcounter and append
+> > msgid=3D<msgcounter> to sysdata buffer before sending the message.
+> >
+> > Signed-off-by: Gustavo Luiz Duarte <gustavold@gmail.com>
+> > ---
+> >  drivers/net/netconsole.c | 14 +++++++++++++-
+> >  1 file changed, 13 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
+> > index 813f50abaf9f..34b61e299eeb 100644
+> > --- a/drivers/net/netconsole.c
+> > +++ b/drivers/net/netconsole.c
+> > @@ -155,6 +155,8 @@ struct netconsole_target {
+> >       size_t                  userdata_length;
+> >       /* bit-wise with sysdata_feature bits */
+> >       u32                     sysdata_fields;
+> > +     /* protected by target_list_lock */
+> > +     u32                     msgcounter;
+> >  #endif
+> >       struct netconsole_target_stats stats;
+> >       bool                    enabled;
+> > @@ -1345,13 +1347,21 @@ static int sysdata_append_release(struct netcon=
+sole_target *nt, int offset)
+> >                        init_utsname()->release);
+> >  }
+> >
+> > +static int sysdata_append_msgid(struct netconsole_target *nt, int offs=
+et)
+> > +{
+> > +     nt->msgcounter++;
 >
-> To address this, introduce min_heap_sift_down_eqaware(), a top-down
-> heapify variant optimized for scenarios with many equal elements. This
-> variant avoids unnecessary comparisons and swaps when elements are
-> already equal or in the correct position.
+> This will eventually wrap. I am wondering if you should use the
+> overflow.h helpers to avoid warnings in UBSAN and friends.
+
+Good point. I will send v2 using one of the overflow safe macros.
+Thanks for reviewing!
+
 >
-> Cc: stable@vger.kernel.org # 6.11+
-> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> ---
->  include/linux/min_heap.h | 51 ++++++++++++++++++++++++++++++++++++++++
->  lib/min_heap.c           |  7 ++++++
->  2 files changed, 58 insertions(+)
+> Quick glanced over that filed, I found:
 >
-> diff --git a/include/linux/min_heap.h b/include/linux/min_heap.h
-> index 79ddc0adbf2b..b0d603fe5379 100644
-> --- a/include/linux/min_heap.h
-> +++ b/include/linux/min_heap.h
-> @@ -292,6 +292,52 @@ void __min_heap_sift_down_inline(min_heap_char *heap=
-, size_t pos, size_t elem_si
->         __min_heap_sift_down_inline(container_of(&(_heap)->nr, min_heap_c=
-har, nr), _pos,        \
->                                     __minheap_obj_size(_heap), _func, _ar=
-gs)
+>         /**
+>         * wrapping_add() - Intentionally perform a wrapping addition
+>         * @type: type for result of calculation
+>         * @a: first addend
+>         * @b: second addend
+>         *
+>         * Return the potentially wrapped-around addition without
+>         * tripping any wrap-around sanitizers that may be enabled.
+>         */
 >
-> +/*
-> + * Sift the element at pos down the heap.
-> + *
-> + * Variants of heap functions using an equal-elements-aware sift_down.
-> + * These may perform better when the heap contains many equal elements.
-> + */
-> +static __always_inline
-> +void __min_heap_sift_down_eqaware_inline(min_heap_char * heap, size_t po=
-s, size_t elem_size,
-> +                                        const struct min_heap_callbacks =
-*func, void *args)
-> +{
-> +       void *data =3D heap->data;
-> +       void (*swp)(void *lhs, void *rhs, void *args) =3D func->swp;
-> +       /* pre-scale counters for performance */
-> +       size_t a =3D pos * elem_size;
-> +       size_t b, c, smallest;
-> +       size_t n =3D heap->nr * elem_size;
-> +
-> +       if (!swp)
-> +               swp =3D select_swap_func(data, elem_size);
-> +
-> +       for (;;) {
-> +               b =3D 2 * a + elem_size;
-> +               c =3D b + elem_size;
-> +               smallest =3D a;
-> +
-> +               if (b >=3D n)
-> +                       break;
-> +
-> +               if (func->less(data + b, data + smallest, args))
-> +                       smallest =3D b;
-> +
-> +               if (c < n && func->less(data + c, data + smallest, args))
-> +                       smallest =3D c;
-> +
-> +               if (smallest =3D=3D a)
-> +                       break;
-> +
-> +               do_swap(data + a, data + smallest, elem_size, swp, args);
-> +               a =3D smallest;
-> +       }
-> +}
-> +
-> +#define min_heap_sift_down_eqaware_inline(_heap, _pos, _func, _args)   \
-> +       __min_heap_sift_down_inline(container_of(&(_heap)->nr, min_heap_c=
-har, nr), _pos,        \
-> +                                   __minheap_obj_size(_heap), _func, _ar=
-gs)
-> +
->  /* Sift up ith element from the heap, O(log2(nr)). */
->  static __always_inline
->  void __min_heap_sift_up_inline(min_heap_char *heap, size_t elem_size, si=
-ze_t idx,
-> @@ -433,6 +479,8 @@ void *__min_heap_peek(struct min_heap_char *heap);
->  bool __min_heap_full(min_heap_char *heap);
->  void __min_heap_sift_down(min_heap_char *heap, size_t pos, size_t elem_s=
-ize,
->                           const struct min_heap_callbacks *func, void *ar=
-gs);
-> +void __min_heap_sift_down_eqaware(min_heap_char *heap, size_t pos, size_=
-t elem_size,
-> +                                 const struct min_heap_callbacks *func, =
-void *args);
->  void __min_heap_sift_up(min_heap_char *heap, size_t elem_size, size_t id=
-x,
->                         const struct min_heap_callbacks *func, void *args=
-);
->  void __min_heapify_all(min_heap_char *heap, size_t elem_size,
-> @@ -455,6 +503,9 @@ bool __min_heap_del(min_heap_char *heap, size_t elem_=
-size, size_t idx,
->  #define min_heap_sift_down(_heap, _pos, _func, _args)  \
->         __min_heap_sift_down(container_of(&(_heap)->nr, min_heap_char, nr=
-), _pos,       \
->                              __minheap_obj_size(_heap), _func, _args)
-> +#define min_heap_sift_down_eqaware(_heap, _pos, _func, _args)  \
-> +       __min_heap_sift_down_eqaware(container_of(&(_heap)->nr, min_heap_=
-char, nr), _pos,       \
-> +                            __minheap_obj_size(_heap), _func, _args)
->  #define min_heap_sift_up(_heap, _idx, _func, _args)    \
->         __min_heap_sift_up(container_of(&(_heap)->nr, min_heap_char, nr),=
-       \
->                            __minheap_obj_size(_heap), _idx, _func, _args)
-> diff --git a/lib/min_heap.c b/lib/min_heap.c
-> index 96f01a4c5fb6..2225f40d0d7a 100644
-> --- a/lib/min_heap.c
-> +++ b/lib/min_heap.c
-> @@ -27,6 +27,13 @@ void __min_heap_sift_down(min_heap_char *heap, size_t =
-pos, size_t elem_size,
->  }
->  EXPORT_SYMBOL(__min_heap_sift_down);
+> > +     return scnprintf(&nt->extradata_complete[offset],
+> > +                      MAX_EXTRADATA_ENTRY_LEN, " msgid=3D%u\n",
+> > +                      nt->msgcounter);
+> > +}
+> > +
+> >  /*
+> >   * prepare_extradata - append sysdata at extradata_complete in runtime
+> >   * @nt: target to send message to
+> >   */
+> >  static int prepare_extradata(struct netconsole_target *nt)
+> >  {
+> > -     u32 fields =3D SYSDATA_CPU_NR | SYSDATA_TASKNAME;
+> > +     u32 fields =3D SYSDATA_CPU_NR | SYSDATA_TASKNAME | SYSDATA_MSGID;
 >
-> +void __min_heap_sift_down_eqaware(min_heap_char *heap, size_t pos, size_=
-t elem_size,
-> +                                 const struct min_heap_callbacks *func, =
-void *args)
-> +{
-> +       __min_heap_sift_down_eqaware_inline(heap, pos, elem_size, func, a=
-rgs);
-> +}
-> +EXPORT_SYMBOL(__min_heap_sift_down_eqaware);
-> +
->  void __min_heap_sift_up(min_heap_char *heap, size_t elem_size, size_t id=
-x,
->                         const struct min_heap_callbacks *func, void *args=
-)
->  {
-> --
-> 2.34.1
+> This might be gone now, according to your last patch.,
 >
+> LGTM.
