@@ -1,70 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2481F5858;
-	Thu, 12 Jun 2025 19:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64E41A5B92
+	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 20:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749757727; cv=none; b=OAK93m62kUOXsOCUZJLwB14+gwN2ZiqubNZkUF+giGv2/RvWm4zASMXdr5NHNUqVlgxMKw81R/fYPW5VT/mR+cuG8mjbzD6SdxGtTQ7AO/gvKuyaxymp8nNwdFCxscD5CGJ4gRD7o5EKuxElIjLWG8fj3u7Bb0Uq1sRNmkaE8oc=
+	t=1749758525; cv=none; b=a+1nhRqU/eZLGvJRSuaAHmR/6m/mKPFZ+wpleysRLZ4XaoUf39b8XNZG8II0F4LlfmRwruf6DgOwd8eBFSJJfBsQwU5vvPxI+rdpA01caNivkzpoSbA5Soyf7EHpUH5DO56N+Up3dONDYFohIBej8me/VcKkQxIsRraXURKMDVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749757727; c=relaxed/simple;
-	bh=FZwUSXLAo2c41SQ4E24OXwo5V+/zLDwYkLwhcEhxn18=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hgF8Siw4iIupmP0147Pir/fKSNDYuFNrDZMfmnyo4QV47oYxvG8M9uzN/YhSEthnRDgCyXwWI3FnyDW3Ncu5ujYAjhnvdMEExalQ1DuhF4uRY/K5+Mec1Z8E6LOE4+DOApQtL2N2dxWTvkWLzpkM7pUBH7ZNHr0N/fuIZXmLk30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ek4eknsP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749758525; c=relaxed/simple;
+	bh=1zQZwJvti3V5peI0NwKLIco5vf9r0SDnNyPGUQi6jsM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ls5fgEcKJYwWYQ73clKhXW2kIJLuX8mLOSYcfhIP9RXExcEQTtC2zdBHuimWW2BBQpbpYGNkuGpoMsYoB93d50aQ+wpNzNZKu0Dpxumaum6MxCvlynf85+vP/TcDyqEksO29Y/Iw9ilHvhtNXF2gkbkxNz/m4WDNVMewfTEAv14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PFTpFhBG; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ek4eknsP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3362C4CEEA;
-	Thu, 12 Jun 2025 19:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749757727;
-	bh=FZwUSXLAo2c41SQ4E24OXwo5V+/zLDwYkLwhcEhxn18=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ek4eknsPBoQjHCfWjURLJ0dgzqIc1/Gff4I8sm5qxO01qmkkMKb5yUCLFzXZV4F5m
-	 FA0CH1G5KAZ/LIV5kBuDkPjZoR8ZnD7N765gxklr5uNoWb5c6p2QgJnsGUvt+xNdx9
-	 KUFpz46myBFwUwjzToS4764jV7BQNmDohCGDXHZb/cCrPuWFylYs5aKotz40Op9+5o
-	 xKouHooofKgn9THRn/+4JGOWuCC5fhZMyV6wdGngJRJnb/5X3/TBfV60tnhbBhrXFl
-	 GuplgGHwa+jqtPyodxt+OoGYDFt4K3SIAVeuVKGuTtwGamEopr4UTLtFJE/DR2CBH0
-	 yAyiEtBLSlbaw==
-Date: Thu, 12 Jun 2025 12:48:45 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Zhu Yikai <zhuyikai1@h-partners.com>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn
- Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
- <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
- <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi
- <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>, Michael Ellerman
- <mpe@ellerman.id.au>, Suman Ghosh <sumang@marvell.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>, Christophe
- JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH net-next v02 1/1] hinic3: management interfaces
-Message-ID: <20250612124845.4f3cedd2@kernel.org>
-In-Reply-To: <11e6ee6effb60aa2c5fd79e7e3d59b03632a93f8.1749718348.git.zhuyikai1@h-partners.com>
-References: <cover.1749718348.git.zhuyikai1@h-partners.com>
-	<11e6ee6effb60aa2c5fd79e7e3d59b03632a93f8.1749718348.git.zhuyikai1@h-partners.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PFTpFhBG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1749758522;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=C4px3QPbZ1SRsAzWHP3GIAiZmhSyKEE8qa7Iyubi/WY=;
+	b=PFTpFhBGOLf3MiW5uI8C70mtOpCK/IEoH3qPRmWr/JpQOUUf1GjQWuGRsvRi56T8W+vO+A
+	ltOtbn/EmvtN6tCilW+hj8VC6nMhDwtKkaEKzKGPmPO9MPOyN8xOq2eYrUgkwePNUoFHZe
+	MfqzR4keqKM9hPpklDAXVPNHNvnlYYk=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-639-a79Eg75qPruNzc5Sp5pqxw-1; Thu,
+ 12 Jun 2025 16:01:59 -0400
+X-MC-Unique: a79Eg75qPruNzc5Sp5pqxw-1
+X-Mimecast-MFC-AGG-ID: a79Eg75qPruNzc5Sp5pqxw_1749758516
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C22A11800294;
+	Thu, 12 Jun 2025 20:01:55 +0000 (UTC)
+Received: from p16v.redhat.com (unknown [10.45.224.169])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6AEDD180045B;
+	Thu, 12 Jun 2025 20:01:47 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Shannon Nelson <shannon.nelson@amd.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Michal Schmidt <mschmidt@redhat.com>,
+	Petr Oros <poros@redhat.com>
+Subject: [PATCH net-next v9 00/14] Add Microchip ZL3073x support (part 1)
+Date: Thu, 12 Jun 2025 22:01:31 +0200
+Message-ID: <20250612200145.774195-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Thu, 12 Jun 2025 17:28:29 +0800 Fan Gong wrote:
-> +	if (!atomic_dec_and_test(&cmd_buf->ref_cnt))
-> +		return;
+Add support for Microchip Azurite DPLL/PTP/SyncE chip family that
+provides DPLL and PTP functionality. This series bring first part
+that adds the core functionality and basic DPLL support.
 
-you should use refcount.h for object reference counting
+The next part of the series will bring additional DPLL functionality
+like eSync support, phase offset and frequency offset reporting and
+phase adjustments.
 
-> +	cmdqs = hwdev->cmdqs;
-> +
-> +	dma_pool_free(cmdqs->cmd_buf_pool, cmd_buf->buf, cmd_buf->dma_addr);
-> +	kfree(cmd_buf);
+Testing was done by myself and by Prathosh Satish on Microchip EDS2
+development board with ZL30732 DPLL chip connected over I2C bus.
+
+---
+Changelog:
+v9:
+After discussion with Jakub Kicinski we agreed that it would be better
+to implement whole functionality in a single driver without touching
+MFD sub-system. Besides touching multiple sub-systems by single device
+there are also some technical issues that are easier resolvable
+in a single driver. Additionally the firmware flashing functionality
+would bring more than 1000 lines of code with previous approach to
+the MFD driver - it is not something the MFD maintainers would like
+to see.
+
+Ivan Vecera (14):
+  dt-bindings: dpll: Add DPLL device and pin
+  dt-bindings: dpll: Add support for Microchip Azurite chip family
+  dpll: Add basic Microchip ZL3073x support
+  dpll: zl3073x: Add support for devlink device info
+  dpll: zl3073x: Protect operations requiring multiple register accesses
+  dpll: zl3073x: Fetch invariants during probe
+  dpll: zl3073x: Add clock_id field
+  dpll: zl3073x: Read DPLL types and pin properties from system firmware
+  dpll: zl3073x: Register DPLL devices and pins
+  dpll: zl3073x: Implement input pin selection in manual mode
+  dpll: zl3073x: Add support to get/set priority on input pins
+  dpll: zl3073x: Implement input pin state setting in automatic mode
+  dpll: zl3073x: Add support to get/set frequency on input pins
+  dpll: zl3073x: Add support to get/set frequency on output pins
+
+ .../devicetree/bindings/dpll/dpll-device.yaml |   76 +
+ .../devicetree/bindings/dpll/dpll-pin.yaml    |   45 +
+ .../bindings/dpll/microchip,zl30731.yaml      |  115 ++
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/zl3073x.rst  |   37 +
+ MAINTAINERS                                   |   10 +
+ drivers/Kconfig                               |    4 +-
+ drivers/dpll/Kconfig                          |    6 +
+ drivers/dpll/Makefile                         |    2 +
+ drivers/dpll/zl3073x/Kconfig                  |   36 +
+ drivers/dpll/zl3073x/Makefile                 |   10 +
+ drivers/dpll/zl3073x/core.c                   |  966 +++++++++++
+ drivers/dpll/zl3073x/core.h                   |  371 ++++
+ drivers/dpll/zl3073x/dpll.c                   | 1496 +++++++++++++++++
+ drivers/dpll/zl3073x/dpll.h                   |   42 +
+ drivers/dpll/zl3073x/i2c.c                    |   95 ++
+ drivers/dpll/zl3073x/prop.c                   |  358 ++++
+ drivers/dpll/zl3073x/prop.h                   |   34 +
+ drivers/dpll/zl3073x/regs.h                   |  206 +++
+ drivers/dpll/zl3073x/spi.c                    |   95 ++
+ 20 files changed, 4003 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/dpll/dpll-device.yaml
+ create mode 100644 Documentation/devicetree/bindings/dpll/dpll-pin.yaml
+ create mode 100644 Documentation/devicetree/bindings/dpll/microchip,zl30731.yaml
+ create mode 100644 Documentation/networking/devlink/zl3073x.rst
+ create mode 100644 drivers/dpll/zl3073x/Kconfig
+ create mode 100644 drivers/dpll/zl3073x/Makefile
+ create mode 100644 drivers/dpll/zl3073x/core.c
+ create mode 100644 drivers/dpll/zl3073x/core.h
+ create mode 100644 drivers/dpll/zl3073x/dpll.c
+ create mode 100644 drivers/dpll/zl3073x/dpll.h
+ create mode 100644 drivers/dpll/zl3073x/i2c.c
+ create mode 100644 drivers/dpll/zl3073x/prop.c
+ create mode 100644 drivers/dpll/zl3073x/prop.h
+ create mode 100644 drivers/dpll/zl3073x/regs.h
+ create mode 100644 drivers/dpll/zl3073x/spi.c
+
 -- 
-pw-bot: cr
+2.49.0
+
