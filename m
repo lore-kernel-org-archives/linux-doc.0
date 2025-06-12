@@ -1,152 +1,307 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF391DACB1;
-	Thu, 12 Jun 2025 18:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3805B2D3225
+	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 19:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749752149; cv=none; b=XRSyaJerWimisSXeMTQ7FVkaw9P84bo7K9tMH2kDtRk63QCLezkkAltrmAxeAuhmByQZ5Arts6e/sfHVyIt+vf/ujwwjjE6HnqafRWvFc7sOKybnAcxQINIDueqBSm8oNNPk9yk7ukjtvYjNAup3eBPep2vPeTklY4HmMEjUpV0=
+	t=1749757132; cv=none; b=k1wW9NdDWuHcf/mgV0NEPtRd6ta4m1ykfaUMvzN2SaZTyx/xTZdBvzYTRmLQ3TuN3GOJ+whYbFapEXiKSBwb10W6Cbdz/cEIjr5kKYek8M+V4qV1kmwF4QFwcAMrBlB4MXW0UhGh+G3Lh4mZqNdZOwMPSgojPOieXb8Dv00vpfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749752149; c=relaxed/simple;
-	bh=4OofUxrS1VHn2NikWkMKBtNsbAo1AC+xDhX2JTKKUZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d79wF9Igm9frZZibc3/+iUhmP/QF3rGrQoFyeLnheFQe8uLA9ilieYHm2YDtfr7RA/dq9+aEuMkAoUgH7EyVEaRTz/6+62MBwC9ID4CHO3GcnqJVfAHZvsT2ijr/9PsVIiUkbjj6GmDV1mHxIqVo2PWE3DfnpAA+jtja1+M2Nqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QD3mk8JJ; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749757132; c=relaxed/simple;
+	bh=laFRfpo6M2yi0Eap8PdzW1E/iGcfKxTFD9eXJXJZJzs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t5ppYo+HPv6EEypUG3TTUYzzzhrRArxv3XXpWMhJcND76OGpSIk+HSmKN5w6AMa2J7qPHhElcuPLhZk5/qWhlT9w8r/CmraBPH8OEJMYViL4ts12vcSD5MoQvpqgO9UeJfUTXZuuAg8DOC3R0exSTPThV5o2JKZHJ2QH6SrHG6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=X+5aB0fR; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QD3mk8JJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749752148; x=1781288148;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4OofUxrS1VHn2NikWkMKBtNsbAo1AC+xDhX2JTKKUZU=;
-  b=QD3mk8JJIFzzkgnZdWtI/u612YZzpHaK2oMQA3cqPe/QzxshiXE2pF+9
-   8di4GBJxMvrCGNOF6R0KnBhymCclbnU692LYJVSUCHFQg5qc1Dcw3f+db
-   4i3cMIVstIZQk4Ua84c34bpllfexHE8FB49ITmk6Wn1CPbgCk3G892mlk
-   k/qc/1Vyz25lz1lTLMV0BzO0ZLU0d37a2/EsMGD4NZF1ODGbedXUfPch5
-   w/5CWMfT7D5PpZ6x4TkUk67gs+NwybepHhRxCtJundu2vHrBC7PCsU48E
-   dYdxCtWumMmdeXhXtv8cPfSxHL0yXO5Gj5tZzxGkskx7JYff6F67Mm16R
-   A==;
-X-CSE-ConnectionGUID: tFCkgajiRpO7GZrhcpt3Og==
-X-CSE-MsgGUID: PLDy0RCIRdejemds94WQ4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="62228330"
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
-   d="scan'208";a="62228330"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 11:15:47 -0700
-X-CSE-ConnectionGUID: jdO72gOWSsyQQXv8GZky7Q==
-X-CSE-MsgGUID: dZNBe+geS7+6msjZDxxpBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
-   d="scan'208";a="147511276"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Jun 2025 11:15:43 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uPmSi-000BrG-2m;
-	Thu, 12 Jun 2025 18:15:40 +0000
-Date: Fri, 13 Jun 2025 02:15:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chiang Brian <chiang.brian@inventec.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: oe-kbuild-all@lists.linux.dev, Chiang Brian <chiang.brian@inventec.com>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v9 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Message-ID: <202506130217.6OQ8zSf5-lkp@intel.com>
-References: <20250610102556.236300-3-chiang.brian@inventec.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="X+5aB0fR"
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-4067ac8f6cdso978551b6e.2
+        for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 12:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1749757128; x=1750361928; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RjlYJhvz+w/i3+8SI6xuf86sFHKHxf82C/x8Ha6fKVw=;
+        b=X+5aB0fRey6S/K8SebvuYx17EkdU48UEWAfSZP60MZENSjU63jk1TV2l9p2B1V5WPQ
+         JPdAP+9sEfoRVxbCdAR1zobunvR38RJVk1nTBugNCm3qswVTyLhckg5kc7YT9kqtTqK/
+         7J+uY+8jJxQb4tNz3ZLzuNrGRLFPUdalqIYI770vUDoOiYLjKLEumUKjocna0zAgkTVe
+         iECi/+tvXbBwH/V/Wr7QlYECaraDD4mvCmSypDUjeX6I4VeDhZuMo+RH7VLUzAG3nUiR
+         MkGj5yi6IH9ZCBwfS98DI78KLUAsYlrLnB2zlPcIyWAy3B2sx1FB3gKJYQtBXx0JRwVn
+         YdCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749757128; x=1750361928;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RjlYJhvz+w/i3+8SI6xuf86sFHKHxf82C/x8Ha6fKVw=;
+        b=EP6lr/COGMyoUxkVOqnMBsckfX28QNeFU4/SnhPDCktxbzByKoRoaELBsnqXWHSuXk
+         fb2AMFYieOc39YeFA/7wR7lr+0dPjnc49QOcCix585uKhwleMB+lQ6jkXh7h2pD4e4iC
+         paLW5O3H1rrm8z1I8ZGq5mDfZtYrEDcvKap9kDMYXeRD4U9SBc109wFqLYBBULSg0Szt
+         FuiyBZrWt9XSgpHYsexI+8weHPyuhc/Ig8WdlTAblZfTLuZ/95oqljEvmgXYlupYpPYs
+         jZp55aKWbHQz/i+Etfw8WHQCkmicaX//E39DNY8Zqnrec7wVN+uvcrEisg9Ggk3jPdCJ
+         1WSA==
+X-Forwarded-Encrypted: i=1; AJvYcCVW0ruGMZLP4+62qyzlMg0cIKn7WSmTtmXjT8CJZ4MzCq0EJP8hwl6QbLaAp70x2qd8VPpWq8jnwIQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiZSi3BvmpL50rPdFgNA9RU5LlJSp1Pr13QLa7w7yeWzvWET5n
+	ojCbB6i2BfAvvtSw75fLmf5wlZwOCU7HXLYJ5Df3EdGiIjoQJ+ly7SntSJSvtZ97ETzVCraWcqk
+	UrD7A
+X-Gm-Gg: ASbGncvYf17d5bhq1lmQ6l++bLNoSw77L1Q5Q1oqZjRjbqH0PATsU/3EEudSX/hWoXj
+	5e52tKHZdsK1M/9zHroVr0iGzqti2oSDfIseyhHBLANNyzn8EI+s17DHyf41T1VW8dull/RPC67
+	2PqvpTROepXZWZkDzWn+hV6zNwVzsTgVxAJoxOtjIAQ7pkD3zsnnAz2IBM8OnCQsf9kN+NVTI7N
+	tV2wM/PGlvcsyXwgu427okwGLd90m6aGIaacEWmskNRRcAfim7ptWt2vyrLEU8ManDSAp0/yvus
+	BWhkomzY6XxMdrEwwEkhmWKBmYTEUyBjPahGOH2fjKzi1kcXsKhMWZ2oPWvcc/n6BgRNio31ALR
+	D0UdENMUBUEzERhQaqX0KE53a8LYXE1pqumRd
+X-Google-Smtp-Source: AGHT+IFH1cKNohq9ppvOp1WyK9G10CYwqkl9hidC8ms628muweoVG62JwEwc7Yt73xcQFHHa6K+JRQ==
+X-Received: by 2002:a05:6808:16a0:b0:3f7:d16c:e283 with SMTP id 5614622812f47-40a71d5aa37mr453389b6e.11.1749757128275;
+        Thu, 12 Jun 2025 12:38:48 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:f808:847:b3ae:ff1a? ([2600:8803:e7e4:1d00:f808:847:b3ae:ff1a])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-40a68201a51sm422149b6e.10.2025.06.12.12.38.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jun 2025 12:38:47 -0700 (PDT)
+Message-ID: <afc85a4b-1535-406d-ad14-143049267b98@baylibre.com>
+Date: Thu, 12 Jun 2025 14:38:45 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250610102556.236300-3-chiang.brian@inventec.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 8/8] iio: adc: Add events support to ad4052
+To: Jorge Marques <jorge.marques@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
+ <20250610-iio-driver-ad4052-v3-8-cf1e44c516d4@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20250610-iio-driver-ad4052-v3-8-cf1e44c516d4@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Chiang,
+On 6/10/25 2:34 AM, Jorge Marques wrote:
+> The AD4052 family supports autonomous monitoring readings for threshold
+> crossings. Add support for catching the GPIO interrupt and expose as an IIO
+> event. The device allows to set either, rising and falling directions. Only
+> either threshold crossing is implemented.
+> 
+> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> ---
 
-kernel test robot noticed the following build warnings:
+...
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on groeck-staging/hwmon-next krzk-dt/for-next linus/master v6.16-rc1 next-20250612]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> +
+> +static ssize_t ad4052_events_frequency_store(struct device *dev,
+> +					     struct device_attribute *attr,
+> +					     const char *buf,
+> +					     size_t len)
+> +{
+> +	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	int ret;
+> +
+> +	if (!iio_device_claim_direct(indio_dev))
+> +		return -EBUSY;
+> +	if (st->wait_event) {
+> +		ret = -EBUSY;
+> +		goto out_release;
+> +	}
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chiang-Brian/hwmon-pmbus-tps53679-Add-support-for-TPS53685/20250610-192612
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250610102556.236300-3-chiang.brian%40inventec.com
-patch subject: [PATCH v9 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-config: s390-randconfig-r073-20250611 (https://download.01.org/0day-ci/archive/20250613/202506130217.6OQ8zSf5-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+I'm wondering if we should instead have some kind of iio_device_claim_monitor_mode()
+so that we don't have to implement this manually everywhere. If monitor mode was
+claimed, then iio_device_claim_direct() and iio_device_claim_buffer_mode() would
+both return -EBUSY. If buffer mode was claimed, iio_device_claim_monitor_mode()
+would fail. If direct mode was claimed, iio_device_claim_monitor_mode() would wait.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506130217.6OQ8zSf5-lkp@intel.com/
+> +
+> +	ret = __sysfs_match_string(AD4052_FS(st->chip->grade),
+> +				   AD4052_FS_LEN(st->chip->grade), buf);
+> +	if (ret < 0)
+> +		goto out_release;
+> +
+> +	st->events_frequency = ret;
+> +
+> +out_release:
+> +	iio_device_release_direct(indio_dev);
+> +	return ret ? ret : len;
+> +}
+> +
+> +static IIO_DEVICE_ATTR(sampling_frequency, 0644,
+> +		       ad4052_events_frequency_show,
+> +		       ad4052_events_frequency_store, 0);
+> +
+> +static ssize_t sampling_frequency_available_show(struct device *dev,
+> +						 struct device_attribute *attr,
+> +						 char *buf)
+> +{
+> +	struct ad4052_state *st = iio_priv(dev_to_iio_dev(dev));
+> +	int ret = 0;
+> +
+> +	for (u8 i = AD4052_FS_OFFSET(st->chip->grade);
+> +	     i < AD4052_FS_LEN(st->chip->grade); i++)
+> +		ret += sysfs_emit_at(buf, ret, "%s ", ad4052_conversion_freqs[i]);
+> +
+> +	ret += sysfs_emit_at(buf, ret, "\n");
+> +	return ret;
+> +}
+> +
+> +static IIO_DEVICE_ATTR_RO(sampling_frequency_available, 0);
+> +
+> +static struct attribute *ad4052_event_attributes[] = {
+> +	&iio_dev_attr_sampling_frequency.dev_attr.attr,
+> +	&iio_dev_attr_sampling_frequency_available.dev_attr.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group ad4052_event_attribute_group = {
+> +	.attrs = ad4052_event_attributes,
+> +};
+> +
+>  static int ad4052_update_xfer_raw(struct iio_dev *indio_dev,
+>  				   struct iio_chan_spec const *chan)
+>  {
+> @@ -602,6 +699,19 @@ static int ad4052_setup(struct iio_dev *indio_dev, struct iio_chan_spec const *c
+>  				  val);
+>  }
+>  
+> +static irqreturn_t ad4052_irq_handler_thresh(int irq, void *private)
+> +{
+> +	struct iio_dev *indio_dev = private;
+> +
 
-smatch warnings:
-drivers/hwmon/pmbus/tps53679.c:288 tps53679_probe() warn: inconsistent indenting
+Can we not read the status register here to find out what the exact
+event was? I guess that would require taking it out of monitor mode.
 
-vim +288 drivers/hwmon/pmbus/tps53679.c
+> +	iio_push_event(indio_dev,
+> +		       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE, 0,
+> +					    IIO_EV_TYPE_THRESH,
+> +					    IIO_EV_DIR_EITHER),
+> +		       iio_get_time_ns(indio_dev));
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static irqreturn_t ad4052_irq_handler_drdy(int irq, void *private)
+>  {
+>  	struct ad4052_state *st = private;
+> @@ -616,6 +726,18 @@ static int ad4052_request_irq(struct iio_dev *indio_dev)
+>  	struct device *dev = &st->spi->dev;
+>  	int ret;
+>  
+> +	ret = fwnode_irq_get_byname(dev_fwnode(&st->spi->dev), "gp0");
+> +	if (ret > 0) {
+> +		ret = devm_request_threaded_irq(dev, ret, NULL,
+> +						ad4052_irq_handler_thresh,
+> +						IRQF_ONESHOT, indio_dev->name,
+> +						indio_dev);
+> +		if (ret)
+> +			return ret;
+> +	} else if (ret == -EPROBE_DEFER) {
+> +		return ret;
+> +	}
 
-   249	
-   250	static int tps53679_probe(struct i2c_client *client)
-   251	{
-   252		struct device *dev = &client->dev;
-   253		struct pmbus_driver_info *info;
-   254		enum chips chip_id;
-   255	
-   256		if (dev->of_node)
-   257			chip_id = (uintptr_t)of_device_get_match_data(dev);
-   258		else
-   259			chip_id = i2c_match_id(tps53679_id, client)->driver_data;
-   260	
-   261		info = devm_kmemdup(dev, &tps53679_info, sizeof(*info), GFP_KERNEL);
-   262		if (!info)
-   263			return -ENOMEM;
-   264	
-   265		switch (chip_id) {
-   266		case tps53647:
-   267		case tps53667:
-   268			info->pages = TPS53647_PAGE_NUM;
-   269			info->identify = tps53679_identify;
-   270			break;
-   271		case tps53676:
-   272			info->identify = tps53676_identify;
-   273			break;
-   274		case tps53679:
-   275		case tps53688:
-   276			info->pages = TPS53679_PAGE_NUM;
-   277			info->identify = tps53679_identify;
-   278			break;
-   279		case tps53681:
-   280			info->pages = TPS53679_PAGE_NUM;
-   281			info->phases[0] = 6;
-   282			info->identify = tps53681_identify;
-   283			info->read_word_data = tps53681_read_word_data;
-   284			break;
-   285		case tps53685:
-   286		    info->pages = TPS53679_PAGE_NUM;
-   287		    info->identify = tps53685_identify;
- > 288			break;
-   289		default:
-   290			return -ENODEV;
-   291		}
-   292	
-   293		return pmbus_do_probe(client, info);
-   294	}
-   295	
+By swapping the order, we can avoid the else. Also, do we really want to
+ignore all other errors? It seems like there would just be ENODEV or ENOENT
+that means the interrupt is not there and we would want to pass on other
+errors.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +
+>  	ret = fwnode_irq_get_byname(dev_fwnode(&st->spi->dev), "gp1");
+>  	if (ret > 0) {
+>  		ret = devm_request_threaded_irq(dev, ret, NULL,
+
+
+...
+
+> +
+> +static int ad4052_monitor_mode_enable(struct ad4052_state *st)
+> +{
+> +	int ret;
+> +
+> +	ret = pm_runtime_resume_and_get(&st->spi->dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ad4052_conversion_frequency_set(st, st->events_frequency);
+> +	if (ret)
+> +		goto out_error;
+> +
+> +	ret = ad4052_set_operation_mode(st, AD4052_MONITOR_MODE);
+> +	if (ret)
+> +		goto out_error;
+> +
+> +	return ret;
+> +out_error:
+> +	pm_runtime_mark_last_busy(&st->spi->dev);
+> +	pm_runtime_put_autosuspend(&st->spi->dev);
+> +	return ret;
+> +}
+> +
+> +static int ad4052_monitor_mode_disable(struct ad4052_state *st)
+> +{
+> +	int ret;
+> +
+> +	pm_runtime_mark_last_busy(&st->spi->dev);
+> +	pm_runtime_put_autosuspend(&st->spi->dev);
+> +
+> +	ret = ad4052_exit_command(st);
+> +	if (ret)
+> +		return ret;
+> +	return regmap_write(st->regmap, AD4052_REG_DEVICE_STATUS,
+> +			    AD4052_REG_DEVICE_STATUS_MAX_FLAG |
+> +			    AD4052_REG_DEVICE_STATUS_MIN_FLAG);
+> +}
+> +
+
+It seems like we need to make sure monitor mode is disabled when the
+driver is removed. Otherwise we could end up with unbalanced calls to
+the pm_runtime stuff and leave the chip running.
+
+
+> +static int ad4052_read_event_value(struct iio_dev *indio_dev,
+> +				   const struct iio_chan_spec *chan,
+> +				   enum iio_event_type type,
+> +				   enum iio_event_direction dir,
+> +				   enum iio_event_info info, int *val,
+> +				   int *val2)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	int ret;
+> +
+> +	if (!iio_device_claim_direct(indio_dev))
+> +		return -EBUSY;
+> +
+> +	if (st->wait_event) {
+> +		ret = -EBUSY;
+> +		goto out_release;
+> +	}
+> +
+> +	switch (info) {
+> +	case IIO_EV_INFO_VALUE:
+> +		ret = __ad4052_read_event_info_value(st, dir, val);
+> +		break;
+> +	case IIO_EV_INFO_HYSTERESIS:
+> +		ret = __ad4052_read_event_info_hysteresis(st, dir, val);
+> +		break;
+
+These functions don't need __ prefix. There is no name clash.
+
+> +	default:
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +out_release:
+> +	iio_device_release_direct(indio_dev);
+> +	return ret ? ret : IIO_VAL_INT;
+> +}
+> +
