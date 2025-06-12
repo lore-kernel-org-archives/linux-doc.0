@@ -1,73 +1,112 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50A019DF66;
-	Thu, 12 Jun 2025 12:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50762F4326;
+	Thu, 12 Jun 2025 12:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749730943; cv=none; b=GyG1BUYJh6m4mVRNd4RYblV8OtiodxKQt0p2S1awuPB/lUkw51mmjtEFNdJ8RXs8FyBtOC0AgAytySTYUqboj7dtQOfHSB1ZmEmTHgPT++Srtqktdh8yEZ/tEzCLLKBs/gFlk2hpmgbki1hvTr+BGeYYUsTp9do/AL2qlX7yvIk=
+	t=1749732074; cv=none; b=XEUKw0T4h4u3pLR+8XstPPcfJ3U+v7HzPCLfroB0VbjugXSQEs2tVq7GYebS5JanbGkuUDclJKoi0nH5qbBzP37l2/zSI8m+8K/Xu5bjRD4eaoPcZIhO4eHKQHKU3T8Eu7QRHoQL5tEolNAihSC1G12e3MMD9G/7v1mjHqTxQfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749730943; c=relaxed/simple;
-	bh=NZqJWh5KCIoywtSRjiA0fgJJgHshegwy6qxNZ2qo2IE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=l7aq0AOugfhoyoPqpcyIk32eb73EetCnrOTLA2SRwxh72PUBjwN7ESPDLa+MM4soJh6BVxjCN60xY7Rzb1jy3q1zOxXLLycM2BC1cJUbz/BZQFMLxgGJZ6cao7OGBWuBYZkL4WdUk7h7/XJQsFJLB6PewK74Gc4MeCvjqxrS/1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NBr6znK/; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1749732074; c=relaxed/simple;
+	bh=GPx47ZNv+igRsgoY9s4VuSgva7jzA22yGk+M8NK0yYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZyXrUK1pkhLHl/ti7NhJ4ca/xe3zbWaD6iBZRP9hDyoRqsxRmCKXVSoQywjXpkxcE1XiALQFlpK9mi3KywappJAOztlfw36ZdkKkU0HQvQQkTogst9wQ6My8RBwmLlC4jFgBZMcQnchwpTN3bzaXBlw6epPWl1nAqxC1irPbdwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cek8NItr; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NBr6znK/"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EC9BE41AA1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1749730941; bh=7IBMRtiIcXkNA4P1sWxpy5b7ypIcO3OlWKJOuHFJ128=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=NBr6znK/olM+h+b9tg879FSns7+V2eX0dFb1+HOA4D5vTr30PPXl1GlsHBf3GQzrg
-	 TJjHeVTOiOglR4IP1HZzXi5uYub4iC55bjNxN5cWdiWFX3esvhg99RzmufdBNdQkzK
-	 Yg58b6xZgNo7TmYFB2oDe5xLPJDVdjY0leHGqB32hAgPHtptUjMUSMc67vERJofjo5
-	 DkYPnciO4ikjqYGhd2hORezLHioL2TByzxcyJ60GWnM0AUtk85vSo4inyJQOnJgBk3
-	 8xloEL7pBHFc+wCzlQ99g+cvrErjprDzmk/l3CfJB83Inpi+/cgDZaOZRWXruJfJru
-	 WW4wV8fK7I4QA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EC9BE41AA1;
-	Thu, 12 Jun 2025 12:22:20 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: "Darrick J. Wong" <djwong@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
- Documentation <linux-doc@vger.kernel.org>, Linux ext4
- <linux-ext4@vger.kernel.org>, Theodore Ts'o <tytso@mit.edu>, Andreas
- Dilger <adilger.kernel@dilger.ca>, "Ritesh Harjani (IBM)"
- <ritesh.list@gmail.com>
-Subject: Re: [PATCH] Documentation: ext4: atomic_writes: Remove
- cross-reference labels
-In-Reply-To: <20250612010942.GJ6179@frogsfrogsfrogs>
-References: <20250610091200.54075-2-bagasdotme@gmail.com>
- <20250611164800.GC6134@frogsfrogsfrogs> <87ikl21a5u.fsf@trenco.lwn.net>
- <aEoaJEhw5qHkd2_w@archie.me> <20250612010942.GJ6179@frogsfrogsfrogs>
-Date: Thu, 12 Jun 2025 06:22:20 -0600
-Message-ID: <87ldpxm9oj.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cek8NItr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749732073; x=1781268073;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=GPx47ZNv+igRsgoY9s4VuSgva7jzA22yGk+M8NK0yYI=;
+  b=Cek8NItrX8Kxm1ZKPVXzHsFkIEDYtTatulUSyOInefYS9BQJfem0XdTI
+   4NlAh6fEOT7TOphXP45uYPrGYoFo6n5Cs4p29gGeKir/QWaZunwGYJ2VS
+   3bNxhfTop8LGBuM0j9MiY42Lelnnq3UhQAu63iVneB4i47YkgmRUmjjCu
+   +TIJWer9oqykU4JAfTSvG8t3SOO3G/Agu3d3esrISfmGWE0Y0/JIquVY3
+   mpMPdm+qUBA7tu3Dg0nLaSRN8sEXz2SG0J8pqzo7WpQqMOeersUH/kKbq
+   JB0x1/bFlFcHyG0z4rarCK3DJ+3dzCbB/YMcV5Nkqf6Wga9qBVny+hQ3v
+   A==;
+X-CSE-ConnectionGUID: yBSG3Ni0SS+YIaGZ0gzvKw==
+X-CSE-MsgGUID: dh+klCrGT5eWlLgJ6RMifw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="52004976"
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
+   d="scan'208";a="52004976"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 05:41:12 -0700
+X-CSE-ConnectionGUID: 5Nu0z7AXSn+5oHtdzU0yBg==
+X-CSE-MsgGUID: Z9bB9wIETAKpC+I4MQv6nA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
+   d="scan'208";a="147388494"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 05:41:09 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uPhEw-00000005wzH-3wGa;
+	Thu, 12 Jun 2025 15:41:06 +0300
+Date: Thu, 12 Jun 2025 15:41:06 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, jic23@kernel.org,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
+	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 00/11] iio: accel: adxl313: add power-save on
+ activity/inactivity
+Message-ID: <aErK4ij3I83ETw-X@smile.fi.intel.com>
+References: <20250601172139.59156-1-l.rubusch@gmail.com>
+ <aDz5WoBFlLiRptza@archie.me>
+ <CAFXKEHZQZuKYS-DJ_KSmHzEO7OAGmKXCeEZ3VaLR-JJdb3Sw6Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFXKEHZQZuKYS-DJ_KSmHzEO7OAGmKXCeEZ3VaLR-JJdb3Sw6Q@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-"Darrick J. Wong" <djwong@kernel.org> writes:
+On Wed, Jun 11, 2025 at 10:04:17PM +0200, Lothar Rubusch wrote:
+> On Mon, Jun 2, 2025 at 3:07 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> >
+> > On Sun, Jun 01, 2025 at 05:21:28PM +0000, Lothar Rubusch wrote:
+> > > The patch set covers the following topics:
+> > > - add debug register and regmap cache
+> > > - prepare iio channel scan_type and scan_index
+> > > - prepare interrupt handling
+> > > - implement fifo with watermark
+> > > - add activity/inactivity together with auto-sleep with link bit
+> > > - add ac coupled activity/inactivity, integrate with auto-sleep and link bit
+> > > - documentation
+> >
+> > The series doesn't cleanly apply on iio/testing tree. Base commit or tree?
+> >
+> > Confused...
+> 
+> I'm sorry for that. My base tree is "testing" here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/log/?h=testing
+> 
+> Since this patch could be applied, I guess it could be a good base commit:
+> https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=testing&id=d4d10d3535639b946007fb7ffb5bff2d878df921
 
->> > Sphinx wants to snarf up every .rst file it sees, regardless of whether
->> > it is explicitly made part of the document tree.  So it will pick up
->> > atomic_writes.rst separately from the include.
->
-> Does that mean that overview.rst doesn't need to include the other files
-> at all?
+Don't you use --base when creating series?
+If not, use it.
 
-Not quite.  Sphinx does what is arguably the least useful thing possible
-- it picks up and parses the file, but does not place it in the TOC
-tree.  It will normally warn in such cases, at least.  So if this file
-is not brought in with an "include" directive, it needs to appear in a
-table of contents somewhere.
+Bagas, you should refer to the last lines of the (cover letter) message where
+should be base commit written. When you use `b4` tool, it does automatically
+for you find the correct base, so one needs just to call `b4 shazam -M
+$MessageID` on top of the clean vanilla tag, and it will do the rest for you.
 
-jon
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
