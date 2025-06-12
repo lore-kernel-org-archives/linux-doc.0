@@ -1,109 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2381C7013;
-	Thu, 12 Jun 2025 07:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0C3225760;
+	Thu, 12 Jun 2025 08:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749713807; cv=none; b=c0Cb4cFYOm5Dg8dWQAOC7dfLiISJmnBI18qN0K3TccLVXQkMMwKwzyAg6NBcPlg2yPAnJmu6l93cPZK/X/OY/MdQdZDT94E9vOm5UY7Jv1z6n51IJX37jyL55jVSvYe0HyX7zwyO/2zrk64PQzFivxJ7DGAk68qpXG1tP2U2c9g=
+	t=1749716098; cv=none; b=K0xteUUTB+duH8IpGRrc/+iB6UqPWNzn1IiQePx2af+rKDfP2XsvAQch31s0nnYdJitAEM34+Ij3gZjp1NancD7cD/MeLr8nBe0o2FojoHjdXLRBPEmbjT+ACC4LAk6PnfoDlWjGGflnLaH8UVlSOrMFfCUqhbW96gnvxl48RMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749713807; c=relaxed/simple;
-	bh=amK0NIN5f0CVZN6pcqtau63uuJcNZ6OKBSVmWtcbOOA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CXDIjTI+/DjDNof/ipFIB+lCslewEkCEuhf2IujyX0xU0V5tdSou0+YmrgA5CjAJ85UVu4123UhG1rJn2DjckBPjXOaTVCk7setVfvWOwxuVBohVfp0wGKGrhXj9xCF7r7WZRT8KNpZCVvk8Pa5ngrvwjMm4hO6FUvlG54rhSmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jhXpqvxi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749716098; c=relaxed/simple;
+	bh=E999MkY8G16mdwr3lLoy0otT7vL7jN3SWws9GQ/x3T4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DwsO74BSidaaqsZEFBwE0w85j44YQddEQvnj/Xars4wIqe+fG49B6iMk1jRnYhF25TmYn+E2dL0/gj9W1CCxQLZKVAWEADgvsZCbtA2mtnQa1NBfRmb56/C+4Ze+77tj51vFfern6MbZ3Gc9vbD+r+gY0A6lynHCU/rkVViJP60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=FxmvYO5B; arc=none smtp.client-ip=1.95.21.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jhXpqvxi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5916FC4CEEA;
-	Thu, 12 Jun 2025 07:36:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749713807;
-	bh=amK0NIN5f0CVZN6pcqtau63uuJcNZ6OKBSVmWtcbOOA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jhXpqvxiJ8HB4Z6LoALegW644y4p6iJclaaAexuKW+f1jpZdYSnhGxWdVhO9fWa6y
-	 bt4S9aYCno/oHs2YizX0PjYe8k5RuprvhSVJRsd2uD6VjNlJk2YnPxJevAsZARuBqS
-	 4+vplqFYaJwis1SM29MD9diaQjEmZo3TVfwYxs25kTS4dheBDVIpO/Y6IvzJ64KrVD
-	 WkxjI6O4WLJ12rmZzhuhEGSp8FY4uFPHRwai5fEeXqQ6rW9ay+1gaqpnqHNUHFiVHw
-	 HHmSmzB586b0MKLJWjf/2PW4DSIQiSYBUXL9HjA8H6xR0I64kFvIpZLDER8WsTap0A
-	 7Y3dA/Y2bImAQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uPcUP-0069LT-68;
-	Thu, 12 Jun 2025 08:36:45 +0100
-Date: Thu, 12 Jun 2025 08:36:44 +0100
-Message-ID: <86y0txcsxf.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: catalin.marinas@arm.com,
-	pcc@google.com,
-	will@kernel.org,
-	broonie@kernel.org,
-	anshuman.khandual@arm.com,
-	joey.gouly@arm.com,
-	yury.khrustalev@arm.com,
-	oliver.upton@linux.dev,
-	frederic@kernel.org,
-	akpm@linux-foundation.org,
-	surenb@google.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 1/9] arm64/cpufeature: add FEAT_MTE_TAGGED_FAR feature
-In-Reply-To: <20250611135818.31070-2-yeoreum.yun@arm.com>
-References: <20250611135818.31070-1-yeoreum.yun@arm.com>
-	<20250611135818.31070-2-yeoreum.yun@arm.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="FxmvYO5B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+	s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=P7bmc/TE0Cpmjx2x5BymBb3H3wO3D26PuXJn/y60y30=;
+	b=FxmvYO5BUUaj0e1z5HGfnvzp5/hgUVUvFFvanXs5cXQ8s9cElDxNtDWOQFxXFg
+	iDXw2D+qYpVfPsHQ0vy4I7V0PnCG70REWrivS8gGtGlzSVv+RUY1cBA/bixbaiC1
+	v889CBqgeiviCDkEKQQ+Pnn7qXqnZMf9tlwYMDdH6rUp8=
+Received: from dragon (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id Ms8vCgD31+1JjEpoEXJ+AA--.15796S3;
+	Thu, 12 Jun 2025 16:14:03 +0800 (CST)
+Date: Thu, 12 Jun 2025 16:14:00 +0800
+From: Shawn Guo <shawnguo2@yeah.net>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v17 0/7] firmware: imx: driver for NXP secure-enclave
+Message-ID: <aEqMSG8k+NpQ7ROH@dragon>
+References: <20250426-imx-se-if-v17-0-0c85155a50d1@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: yeoreum.yun@arm.com, catalin.marinas@arm.com, pcc@google.com, will@kernel.org, broonie@kernel.org, anshuman.khandual@arm.com, joey.gouly@arm.com, yury.khrustalev@arm.com, oliver.upton@linux.dev, frederic@kernel.org, akpm@linux-foundation.org, surenb@google.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250426-imx-se-if-v17-0-0c85155a50d1@nxp.com>
+X-CM-TRANSID:Ms8vCgD31+1JjEpoEXJ+AA--.15796S3
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUYJPEUUUUU
+X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiEgJqZWhKSSr63AAAs4
 
-On Wed, 11 Jun 2025 14:58:10 +0100,
-Yeoreum Yun <yeoreum.yun@arm.com> wrote:
-> 
-> Add FEAT_MTE_TAGGED_FAR cpucap which makes FAR_ELx report
-> all non-address bits on a synchronous MTE tag check fault since Armv8.9
-> 
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> Acked-by: Yury Khrustalev <yury.khrustalev@arm.com>
-> ---
->  arch/arm64/kernel/cpufeature.c | 8 ++++++++
->  arch/arm64/tools/cpucaps       | 1 +
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> index b34044e20128..af6a6924a3e8 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -320,6 +320,7 @@ static const struct arm64_ftr_bits ftr_id_aa64pfr1[] = {
->  
->  static const struct arm64_ftr_bits ftr_id_aa64pfr2[] = {
->  	ARM64_FTR_BITS(FTR_VISIBLE, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64PFR2_EL1_FPMR_SHIFT, 4, 0),
-> +	ARM64_FTR_BITS(FTR_VISIBLE, FTR_NONSTRICT, FTR_LOWER_SAFE, ID_AA64PFR2_EL1_MTEFAR_SHIFT, 4, ID_AA64PFR2_EL1_MTEFAR_NI),
->  	ARM64_FTR_END,
->  };
+Hi Pankaj,
 
-Same thing as the remark I had on FEAT_LSUI: for anything that does
-not introduce extra state, please similarly enable the feature in KVM.
-There is no point in these discrepancies.
+On Sat, Apr 26, 2025 at 12:31:31AM +0530, Pankaj Gupta wrote:
+> Testing
+> - make CHECK_DTBS=y freescale/imx8ulp-evk.dtb;
+> - make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,imx-se.yaml
+> - make C=1 CHECK=scripts/coccicheck drivers/firmware/imx/*.* W=1 > r.txt
+> - ./scripts/checkpatch.pl --git <>..HEAD
+> - Tested the Image and .dtb, on the i.MX8ULP.
 
-For anything that has extra state, you should at least consider what
-needs to be done.
+I have an i.MX93 EVK board.  Do you have some guide that I can follow
+to test the driver function properly?
 
-Thanks,
+Shawn
 
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
