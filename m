@@ -1,172 +1,100 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2536224A079
-	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 14:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B530246BC9
+	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 14:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749739082; cv=none; b=mz9Yau1qjcHURrtj3tJelYX60fGAdYogVhXfy66fGtbnspIFSCgzV0yk3RNsw0/fo5E9FSbMdA9pYYhpiirymq+BI2NwGW6Fsm9ATYgFsCJMnpthOsBMi0F22cdXYQ3mdPdC+DuONjee+mhfO85dk+rFZnwxDnoeSqGX3JLL7VA=
+	t=1749739111; cv=none; b=UJvUeNq8Ji5PtTL+W1ID2cjiAzVaKVec47lUaa4uTcxG8nvDKR2SUOnmizpXCpbBAaOWcwElSmAFHK3DgyVuRj0YfTw8ZtbkdPz9kgoyIbdDwry5K6I09E+OTLT7eQE6+s8+pSdAv8RoyJR3kRw+6AvYhHDZXlVcO/pKo1FapBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749739082; c=relaxed/simple;
-	bh=tW+MG+Iklg8zdVZJORrL9Gc9lWKL7L62gXkoMRmez4w=;
+	s=arc-20240116; t=1749739111; c=relaxed/simple;
+	bh=xHgeGD9KGMzf8/XRz90W9cuDsQ/55h7IeMVoyMASh0c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lxcfGc0esaZlp3pdTt0WSilNoZfaWCSrDTJgezNtMKnb1YECnoVkM/MGHWx32uT1M0zqi0m5Zfz+f/RbyJvJgjN03WGZK7M37f3va0/emlM1kod63SL7VHaIvdmhXp0hODOsWvTDbE3vIUfJ9zCXbyY9IS6voQr6ufpvX1m01zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDCpT7lb; arc=none smtp.client-ip=209.85.208.48
+	 To:Cc:Content-Type; b=bU8H0EmBQ/EUWSAqgLeEJtk9hXpGQ6s0kNBhzltjGpdWkearwjoe9nDNU2dmBgKehLatNu7ZEjdWExaIYJef6OYe2ZcbN8W8B/8KiIU0ikwvfWTepgm4yWgLr0Ea12Z/evjRqtDbH6HEzCeCcQ2jckWoG/IjubV1L++3rDcQA9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DNyaqc8f; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDCpT7lb"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6086502e750so2164525a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 07:37:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DNyaqc8f"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6071ac9dc3eso1862624a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 07:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749739078; x=1750343878; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1749739108; x=1750343908; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tW+MG+Iklg8zdVZJORrL9Gc9lWKL7L62gXkoMRmez4w=;
-        b=kDCpT7lbYYUfvkRz9lgs8i2pQHzFBASCZ+rF0BtLWcEXPsDT7Ffs2Muj4wu8Uz0Fw6
-         d2r2to9ahqPWBuRrCws/P90c2TrvDleqzW35sC+OQ2MsOCvluVS6Hn9wuppCtZDBDL2z
-         vxd/xs4tM5f2NYgXkdp5WViReWI9CnyokZitVXhNb0mDRN9XMDdudobC8jxA7Q7iQHAe
-         PtFc6p/EVaXO80M1Q2smM71dfK7g5mw7KO6D4gpJxNstjI+HH7m9/KVKGdqHbNgIK3Cl
-         T4xKupkSfmLFY5NiDGrtemxQL6pCAfyWjk+CPy6fi6VnhSWGm3yt3cRJspZOexVFzD7Y
-         HZYQ==
+        bh=jE+vLMxCa/4xOqAYJ5GXaea7FGk7WAyuiVVFCmrIZRY=;
+        b=DNyaqc8f1hCTBmT8B7pNEgBsRucRJq0DXReLhfHLRD7leboJYyHKmfNE5CloD0QbIN
+         Bc8fviNb0MjBqXzAtVfYwfWsMPTqM+jdbQGpDvMZLuq4HKh1y9EmFMa1nrauBBntod2c
+         yMaCa3i7KUsCUswGQDSTSOZAlN8i3p/TO8dqTWSCxUjpFvHDwAaQd5FO8MTz1zdwVS6O
+         DNfzftV8ZA5dGfPIONPvCvdmaDyBifnSTSp5IVdwDHBju1q2gn1yp4gG3sEHFZpRqAr/
+         z8XyXlAyzYl8tqY3mXHhkP3FjLuU8gVDTorpB86dtJilVG1lByy25Bxq5nQ+xZpxR8gm
+         jXkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749739078; x=1750343878;
+        d=1e100.net; s=20230601; t=1749739108; x=1750343908;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tW+MG+Iklg8zdVZJORrL9Gc9lWKL7L62gXkoMRmez4w=;
-        b=coW9R7eVN6V3FmNAWUD+DG4lLbBmTyJNDIJHffrsSN82jnpnLUnYHgWbAxOB/nfy6N
-         KWKW9bElo1+NRjlPpnla4W2l1QyMEeMtQEQetAy6y49NYjplpiEP9WVaGY3tJI3Inja1
-         +xhwVcZdNLApop5I/XZTUBzc9iZcDyB0khEYGA02gq0/aG1haC8tQ1qCDLon44DwZszJ
-         3snZzubxkJqleAHyC/YF2C6qqS9JWlqyy06LiTEsmFMZFJcwiWNzmMy00NdOaA/vZVfB
-         0tsy0osVGpiNYh4iwl97RNmog5p4Ep1iysEcaermZVyXanSoCxmcqbIdCAA+q3tBDR9D
-         BWeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfYrNUaftvVkNtPHAMhnw82JJWZazTBhEojD4AMbcXPqLzy7eoRxMmxklmGSK2HtHEVT4LNLTnKRU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOHTBvPPRDcwMLRyaMXCAVfgmgB9ZSh2KGP0qARnmBR97qgHL/
-	Xf1eTQfGmYlU/udvXtiqr+8us3Z2DnYMmUX7YDb7fhwpByirTLdbYUI2qVUd12dQSgseZxQrsdv
-	mxO1yoUjPrc/5zsm7hXQYVvyGlcb4aUs=
-X-Gm-Gg: ASbGnctB6BtX2Eli5zY3VmO8jR8MxE1vh74ylqWE5rBD+ahmF1r8P8J4ZrvConBDhL+
-	4w/Pn9daOo0jkRFAa+BFgy98JKWbUMNYxmumKekC69YH5Bn4o8juIU2t2zwhTLiqVimSZXDZlca
-	aZxrIaQaQphS9AL0Cjzlx7s1KCAHehZtQFYEZvSsV4z1s=
-X-Google-Smtp-Source: AGHT+IFh8+8tz7U6zippyVbjdBW1bJ/jzs5eV85oH4asbbjyyf9t54mZwmtSc9IsaqWoNy3+vVLWfGLT+xsmdiXLg84=
-X-Received: by 2002:a05:6402:4309:b0:607:f61f:cc2a with SMTP id
- 4fb4d7f45d1cf-60863ae5802mr3897398a12.18.1749739078109; Thu, 12 Jun 2025
- 07:37:58 -0700 (PDT)
+        bh=jE+vLMxCa/4xOqAYJ5GXaea7FGk7WAyuiVVFCmrIZRY=;
+        b=lOBu3pQAKPksiuKVZI0PGGp98n9RYQkVNYD7kLFY8TNYCYUNu1dBBGy1001h32zQpo
+         2V3kO1nIqoceSzuDbSaS/uOJpV+GHoO3mpUFSPKifkgCJ9q+o0fvCCmnJ0LTuHv3VwRG
+         GK9jV8fN7EwJHsZnr7ZVIeoum683r5V454+y9BDd2gPxpAoHLkh5ybepK+cgUD4sBeol
+         ZpBJ+gFvNLwKIm+strGLvCrOVAi89275gz8BYqY1/8aIWJG8Zo3RxamszvkxjWw9mBm2
+         OuWRUiZpYsfMkmjm4oPza/Btf5qjF3RPCRZCdS8Xilsh0MduOUDMYCo7dlhuA9kw9M6v
+         da1w==
+X-Forwarded-Encrypted: i=1; AJvYcCVRa7NN0b1ACZ8I7zZKwnpViNaEfZIsfn0xNT8YazneysSFlhrqtSFqkKDiot4tLfvfjslk8QRSX0k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx32ug6EMWKogucdfzbPW9WV56IJvMF4jBULj0Cc6rbyJyk2zWQ
+	gzEXx3PVL6phWKlhWYNYcDE6I0MsLR4not5eMQQ3skmSFWXOod/qk0ja6AjGxO687LHY6PmSoAH
+	/vvKSbJXmjtxbtNK+z058LB3/9CSp2zM=
+X-Gm-Gg: ASbGncu3j0mVU/eEUUe57ITyueQ61c3hN7UmVXQNCNa79Axbylwo49/RnUIIxKD6uGb
+	UNKKoqlL2yePwdzjoXnIl+hD1Alqm6NZFSJ/iKBdXH3rULsdMdhkSVtfv7yTNzQdqtXfDkMr3qO
+	OpVbpVpPAoKlzvfDhhZrVCtCXiqilDVpjCoOdrbPgdfFo=
+X-Google-Smtp-Source: AGHT+IHW3ELGp9+3vYbtC+Yt10f3KF3FLNuy9vdamacdaG3a1DIwxPcIsDy1htjfRVm8/wVCCTIeXaSHfS/+R2RSVFE=
+X-Received: by 2002:a05:6402:5c8:b0:607:690f:b74e with SMTP id
+ 4fb4d7f45d1cf-60863af0b15mr3417491a12.29.1749739108220; Thu, 12 Jun 2025
+ 07:38:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250607163814.7800-1-chris.wei.cui@gmail.com> <CAD-N9QU_OKc24ANr02=3SetjNwvaxeHM=2NfH__7bE3ZwQkiFw@mail.gmail.com>
-In-Reply-To: <CAD-N9QU_OKc24ANr02=3SetjNwvaxeHM=2NfH__7bE3ZwQkiFw@mail.gmail.com>
+References: <cover.1749557444.git.dzm91@hust.edu.cn>
+In-Reply-To: <cover.1749557444.git.dzm91@hust.edu.cn>
 From: Alex Shi <seakeel@gmail.com>
-Date: Thu, 12 Jun 2025 22:37:20 +0800
-X-Gm-Features: AX0GCFtN7vgiMmXN5JIO8F8Fc8bVz85nApp2RSJ3Pwg7quzQ7U9fV-sIsMhjw2Y
-Message-ID: <CAJy-AmmX3Ftr+wK+NbwVs30D2o9QyPqzDmnKZCbK_16e+c2Xyg@mail.gmail.com>
-Subject: Re: [PATCH v3] Docs/zh_CN: Translate speculation.rst to Simplified Chinese
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: chris.wei.cui@gmail.com, alexs@kernel.org, si.yanteng@linux.dev, 
-	dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org
+Date: Thu, 12 Jun 2025 22:37:49 +0800
+X-Gm-Features: AX0GCFvka-GcEidm8Xm8fVbxfCbG3eVW-Xb4N2MRiJV3Zn_XLOWuS2aH0nZNrmU
+Message-ID: <CAJy-Amn6+A8fTm2=tCv=MnSkcGz2_E4=y=Ror9F-w_jTy8Mmag@mail.gmail.com>
+Subject: Re: [PATCH 0/5] update the translation of files in the process
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 
-QXBwbGllZCBvbiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
-dC9hbGV4cy9saW51eC5naXQvLA0KVGhhbmtzIQ0KDQpEb25nbGlhbmcgTXUgPG11ZG9uZ2xpYW5n
-YWJjZEBnbWFpbC5jb20+IOS6jjIwMjXlubQ25pyIOeaXpeWRqOS4gCAwOToyMeWGmemBk++8mg0K
-Pg0KPiBPbiBTdW4sIEp1biA4LCAyMDI1IGF0IDEyOjM44oCvQU0gPGNocmlzLndlaS5jdWlAZ21h
-aWwuY29tPiB3cm90ZToNCj4gPg0KPiA+IEZyb206IEN1aSBXZWkgPGNocmlzLndlaS5jdWlAZ21h
-aWwuY29tPg0KPiA+DQo+ID4gdHJhbnNsYXRlIHRoZSAic3BlY3VsYXRpb24ucnN0IiBpbnRvIFNp
-bXBsaWZpZWQgQ2hpbmVzZSBhbmQgYWRqdXN0DQo+ID4gemhfQ04vc3RhZ2luZy9pbmRleC5yc3Qu
-DQo+ID4NCj4gPiBVcGRhdGUgdGhlIHRyYW5zbGF0aW9uIHRocm91Z2ggY29tbWl0IDYzODJmNGU0
-ZTdiZA0KPiA+ICgiRG9jdW1lbnRhdGlvbjogZml4IHNwZWN1bGF0aW9uLnJzdCBjaGFwdGVyIikN
-Cj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEN1aSBXZWkgPGNocmlzLndlaS5jdWlAZ21haWwuY29t
-Pg0KPg0KPiBSZXZpZXdlZC1ieTogRG9uZ2xpYW5nIE11IDxkem05MUBodXN0LmVkdS5jbj4NCj4N
-Cj4gPiAtLS0NCj4NCj4gTmV4dCB0aW1lLCBwbGVhc2UgcmVtZW1iZXIgdG8gYWRkIHRoZSBjaGFu
-Z2Vsb2cuIEZvciBleGFtcGxlLA0KPg0KPiB2Mi0+djM6IGFkZCB0aGUgdHJhY2tpbmcgY29tbWl0
-IG9mIEVuZ2xpc2ggZG9jdW1lbnQNCj4gdjEtPnYyOiBhZGRyZXNzIHRoZSBjb21tZW50cyBmcm9t
-IERvbmdsaWFuZyBNdQ0KPg0KPiBEb25nbGlhbmcgTXUNCj4NCj4gPiAgLi4uL3RyYW5zbGF0aW9u
-cy96aF9DTi9zdGFnaW5nL2luZGV4LnJzdCAgICAgIHwgIDIgKy0NCj4gPiAgLi4uL3poX0NOL3N0
-YWdpbmcvc3BlY3VsYXRpb24ucnN0ICAgICAgICAgICAgIHwgODUgKysrKysrKysrKysrKysrKysr
-Kw0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDg2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkN
-Cj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
-L3N0YWdpbmcvc3BlY3VsYXRpb24ucnN0DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRh
-dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc3RhZ2luZy9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9u
-L3RyYW5zbGF0aW9ucy96aF9DTi9zdGFnaW5nL2luZGV4LnJzdA0KPiA+IGluZGV4IGJiNTVjODFj
-ODRhMy4uNmQ2OGZhYmNlMTc1IDEwMDY0NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL3poX0NOL3N0YWdpbmcvaW5kZXgucnN0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90
-cmFuc2xhdGlvbnMvemhfQ04vc3RhZ2luZy9pbmRleC5yc3QNCj4gPiBAQCAtMTMsNiArMTMsNyBA
-QA0KPiA+ICAuLiB0b2N0cmVlOjoNCj4gPiAgICAgOm1heGRlcHRoOiAyDQo+ID4NCj4gPiArICAg
-c3BlY3VsYXRpb24NCj4gPiAgICAgeHoNCj4gPg0KPiA+ICBUT0RPTGlzdDoNCj4gPiBAQCAtMjEs
-NiArMjIsNSBAQCBUT0RPTGlzdDoNCj4gPiAgKiBsem8NCj4gPiAgKiByZW1vdGVwcm9jDQo+ID4g
-ICogcnBtc2cNCj4gPiAtKiBzcGVjdWxhdGlvbg0KPiA+ICAqIHN0YXRpYy1rZXlzDQo+ID4gICog
-dGVlDQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3N0
-YWdpbmcvc3BlY3VsYXRpb24ucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
-c3RhZ2luZy9zcGVjdWxhdGlvbi5yc3QNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGlu
-ZGV4IDAwMDAwMDAwMDAwMC4uYzM2ZDMzZjY3ODk3DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsr
-KyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3N0YWdpbmcvc3BlY3VsYXRpb24u
-cnN0DQo+ID4gQEAgLTAsMCArMSw4NSBAQA0KPiA+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmll
-cjogR1BMLTIuMA0KPiA+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCj4g
-PiArDQo+ID4gKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi9zdGFnaW5nL3NwZWN1bGF0aW9uLnJz
-dA0KPiA+ICsNCj4gPiArOue/u+ivkToNCj4gPiArDQo+ID4gKyDltJTlt40gQ3VpIFdlaSA8Y2hy
-aXMud2VpLmN1aUBnbWFpbC5jb20+DQo+ID4gKw0KPiA+ICs9PT09PT09PQ0KPiA+ICvmjqjmtYvm
-iafooYwNCj4gPiArPT09PT09PT0NCj4gPiArDQo+ID4gK+acrOaWh+aho+ino+mHiuS6huaOqOa1
-i+aJp+ihjOeahOa9nOWcqOW9seWTje+8jOS7peWPiuWmguS9leS9v+eUqOmAmueUqEFQSeadpeWH
-j+i9u+S4jeiJr+W9seWTjeOAgg0KPiA+ICsNCj4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+
-ID4gKw0KPiA+ICvkuLrmj5Dpq5jmgKfog73lubblh4/lsJHlubPlnYflu7bov5/vvIzorrjlpJrn
-jrDku6PlpITnkIblmajpg73ph4fnlKjliIbmlK/pooTmtYvnrYnmjqjmtYvmiafooYzmioDmnK/v
-vIzmiafooYznu5PmnpwNCj4gPiAr5Y+v6IO95Zyo5ZCO57ut6Zi25q616KKr5Lii5byD44CCDQo+
-ID4gKw0KPiA+ICvpgJrluLjmg4XlhrXkuIvvvIzmiJHku6zml6Dms5Xku47mnrbmnoTnirbmgIHv
-vIjlpoLlr4TlrZjlmajlhoXlrrnvvInop4Llr5/liLDmjqjmtYvmiafooYzjgILnhLbogIzvvIzl
-nKjmn5Dkupvmg4XlhrUNCj4gPiAr5LiL5LuO5b6u5p625p6E54q25oCB6KeC5a+f5YW25b2x5ZON
-5piv5Y+v6IO955qE77yM5L6L5aaC5pWw5o2u5piv5ZCm5a2Y5Zyo5LqO57yT5a2Y5Lit44CC6L+Z
-56eN54q25oCB5Y+v6IO95Lya5b2i5oiQDQo+ID4gK+S+p+S/oemBk++8jOmAmui/h+inguWvn+S+
-p+S/oemBk+WPr+S7peaPkOWPluenmOWvhuS/oeaBr+OAgg0KPiA+ICsNCj4gPiAr5L6L5aaC77yM
-5Zyo5YiG5pSv6aKE5rWL5a2Y5Zyo55qE5oOF5Ya15LiL77yM6L6555WM5qOA5p+l5Y+v6IO96KKr
-5o6o5rWL5omn6KGM55qE5Luj56CB5b+955Wl44CC6ICD6JmR5Lul5LiL5Luj56CBOjoNCj4gPiAr
-DQo+ID4gKyAgICAgICBpbnQgbG9hZF9hcnJheShpbnQgKmFycmF5LCB1bnNpZ25lZCBpbnQgaW5k
-ZXgpDQo+ID4gKyAgICAgICB7DQo+ID4gKyAgICAgICAgICAgICAgIGlmIChpbmRleCA+PSBNQVhf
-QVJSQVlfRUxFTVMpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIDA7DQo+ID4g
-KyAgICAgICAgICAgICAgIGVsc2UNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4g
-YXJyYXlbaW5kZXhdOw0KPiA+ICsgICAgICAgfQ0KPiA+ICsNCj4gPiAr5ZyoYXJtNjTkuIrvvIzl
-j6/ku6XnvJbor5HmiJDlpoLkuIvmsYfnvJbluo/liJc6Og0KPiA+ICsNCj4gPiArICAgICAgIENN
-UCAgICAgPGluZGV4PiwgI01BWF9BUlJBWV9FTEVNUw0KPiA+ICsgICAgICAgQi5MVCAgICBsZXNz
-DQo+ID4gKyAgICAgICBNT1YgICAgIDxyZXR1cm52YWw+LCAjMA0KPiA+ICsgICAgICAgUkVUDQo+
-ID4gKyAgbGVzczoNCj4gPiArICAgICAgIExEUiAgICAgPHJldHVybnZhbD4sIFs8YXJyYXk+LCA8
-aW5kZXg+XQ0KPiA+ICsgICAgICAgUkVUDQo+ID4gKw0KPiA+ICvlpITnkIblmajmnInlj6/og73o
-r6/pooTmtYvmnaHku7bliIbmlK/vvIzlubbmjqjmtYvmgKfoo4Xovb1hcnJheVtpbmRleF3vvIzl
-jbPkvb9pbmRleCA+PSBNQVhfQVJSQVlfRUxFTVPjgIINCj4gPiAr6L+Z5Liq5YC86ZqP5ZCO5Lya
-6KKr5Lii5byD77yM5L2G5o6o5rWL55qE6KOF6L295Y+v6IO95Lya5b2x5ZON5b6u5p625p6E54q2
-5oCB77yM6ZqP5ZCO5Y+v6KKr5rWL6YeP5Yiw44CCDQo+ID4gKw0KPiA+ICvmtonlj4rlpJrkuKrk
-vp3otZblhoXlrZjorr/pl67nmoTmm7TlpI3mnYLluo/liJflj6/og73kvJrlr7zoh7TmlY/mhJ/k
-v6Hmga/ms4TpnLLjgILku6XliY3pnaLnmoTnpLrkvovkuLrln7rnoYDvvIzogIPomZENCj4gPiAr
-5Lul5LiL5Luj56CBOjoNCj4gPiArDQo+ID4gKyAgICAgICBpbnQgbG9hZF9kZXBlbmRlbnRfYXJy
-YXlzKGludCAqYXJyMSwgaW50ICphcnIyLCBpbnQgaW5kZXgpDQo+ID4gKyAgICAgICB7DQo+ID4g
-KyAgICAgICAgICAgICAgIGludCB2YWwxLCB2YWwyLA0KPiA+ICsNCj4gPiArICAgICAgICAgICAg
-ICAgdmFsMSA9IGxvYWRfYXJyYXkoYXJyMSwgaW5kZXgpOw0KPiA+ICsgICAgICAgICAgICAgICB2
-YWwyID0gbG9hZF9hcnJheShhcnIyLCB2YWwxKTsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAg
-IHJldHVybiB2YWwyOw0KPiA+ICsgICAgICAgfQ0KPiA+ICsNCj4gPiAr5qC55o2u5o6o5rWL77yM
-5a+5bG9hZF9hcnJheSgp55qE56ys5LiA5qyh6LCD55So5Y+v6IO95Lya6L+U5Zue5LiA5Liq6LaK
-55WM5Zyw5Z2A55qE5YC877yM6ICM56ys5LqM5qyh6LCD55So5bCG5b2x5ZONDQo+ID4gK+S+nei1
-luS6juivpeWAvOeahOW+ruaetuaehOeKtuaAgeOAgui/meWPr+iDveS8muaPkOS+m+S4gOS4quS7
-u+aEj+ivu+WPluWOn+ivreOAgg0KPiA+ICsNCj4gPiAr57yT6Kej5o6o5rWL5omn6KGM5L6n5L+h
-6YGTDQo+ID4gKz09PT09PT09PT09PT09PT09PQ0KPiA+ICsNCj4gPiAr5YaF5qC45o+Q5L6b5LqG
-5LiA5Liq6YCa55SoQVBJ5Lul56Gu5L+d5Y2z5L2/5Zyo5o6o5rWL5oOF5Ya15LiL5Lmf6IO96YG1
-5a6I6L6555WM5qOA5p+l44CC5Y+X5o6o5rWL5omn6KGM5L6n5L+h6YGT5b2x5ZONDQo+ID4gK+ea
-hOaetuaehOW6lOW9k+WunueOsOi/meS6m+WOn+ivreOAgg0KPiA+ICsNCj4gPiArPGxpbnV4L25v
-c3BlYy5oPuS4reeahGFycmF5X2luZGV4X25vc3BlYygp6L6F5Yqp5Ye95pWw5Y+v55So5LqO6Ziy
-5q2i5L+h5oGv6YCa6L+H5L6n5L+h6YGT5rOE5ryP44CCDQo+ID4gKw0KPiA+ICvosIPnlKhhcnJh
-eV9pbmRleF9ub3NwZWMoaW5kZXgsIHNpemUp5bCG6L+U5Zue5LiA5Liq57uP6L+H5YeA5YyW55qE
-57Si5byV5YC877yM5Y2z5L2/5ZyoQ1BV5o6o5rWL5omn6KGMDQo+ID4gK+adoeS7tuS4i++8jOiv
-peWAvOS5n+S8muiiq+S4peagvOmZkOWItuWcqFswLCBzaXplKeiMg+WbtOWGheOAgg0KPiA+ICsN
-Cj4gPiAr6L+Z5Y+v5Lul55So5p2l5L+d5oqk5YmN6Z2i55qEbG9hZF9hcnJheSgp56S65L6LOjoN
-Cj4gPiArDQo+ID4gKyAgICAgICBpbnQgbG9hZF9hcnJheShpbnQgKmFycmF5LCB1bnNpZ25lZCBp
-bnQgaW5kZXgpDQo+ID4gKyAgICAgICB7DQo+ID4gKyAgICAgICAgICAgICAgIGlmIChpbmRleCA+
-PSBNQVhfQVJSQVlfRUxFTVMpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIDA7
-DQo+ID4gKyAgICAgICAgICAgICAgIGVsc2Ugew0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
-IGluZGV4ID0gYXJyYXlfaW5kZXhfbm9zcGVjKGluZGV4LCBNQVhfQVJSQVlfRUxFTVMpOw0KPiA+
-ICsgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBhcnJheVtpbmRleF07DQo+ID4gKyAgICAg
-ICAgICAgICAgIH0NCj4gPiArICAgICAgIH0NCj4gPiAtLQ0KPiA+IDIuNDMuMA0KPiA+DQo+ID4N
-Cg==
+Applied on https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git/=
+,
+Thanks!
+
+Dongliang Mu <dzm91@hust.edu.cn> =E4=BA=8E2025=E5=B9=B46=E6=9C=8810=E6=97=
+=A5=E5=91=A8=E4=BA=8C 20:31=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Update the Chinese translation of process/1-7.*.rst.
+>
+> Dongliang Mu (5):
+>   docs/zh_CN: update the translation of process/1.Intro.rst
+>   docs/zh_CN: update the translation of process/6.Followthrough.rst
+>   docs/zh_CN: update the translation of process/7.AdvancedTopics.rst
+>   docs/zh_CN: update the translation of process/2.Process.rst
+>   docs/zh_CN: update the translation of process/5.Posting.rst
+>
+>  .../translations/zh_CN/process/1.Intro.rst         | 10 +++++-----
+>  .../translations/zh_CN/process/2.Process.rst       |  7 +++----
+>  .../translations/zh_CN/process/5.Posting.rst       | 11 +++++++++++
+>  .../translations/zh_CN/process/6.Followthrough.rst |  5 +++++
+>  .../zh_CN/process/7.AdvancedTopics.rst             | 14 ++++++++++++++
+>  5 files changed, 38 insertions(+), 9 deletions(-)
+>
+> --
+> 2.43.0
+>
