@@ -1,267 +1,384 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F572D6605
-	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 20:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682AA2C3256
+	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 20:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749758623; cv=none; b=KDEopBokRc2FEDOE5dvuXJ5dm6AiM0HBILv+6bwzcEvveSQu9fC2NXAyolbEwm4F6RRwLNc7JAVGwE/9XZKf8kza8NVs7JYV/kTiMkP5LQMnmtHM6FlmUDbW6o8jJcLp31Fg1S6O3eHV3BoFzkZaRbNhM7aJgUKScNVWL/3bsCg=
+	t=1749759644; cv=none; b=oBrppzTJA+A21E08mEa4ecFX0q3Cahb3tF417xLU9QWcsOU8xIMEpVPv+xAcwlxsxpNNOg6XizTRRLXLU9oS1XnQMIRT1+7OvwQ+cq5Zp0B9wXD0wUoHE840DnCQSJz2oAtVmHcupq1lQXiJxTpPRsaeIiS9JPOjoXFdePHV3S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749758623; c=relaxed/simple;
-	bh=9zblmUgJtWIkKos6+zpNQ9d4+qjoBrYkzw8znx9DyTA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o8m32eDYLpoHw5KVT6ddGgc51O9rxB8ipHiAgzbJo1i/Mlcvg6Jj9i7ZMcDBeyE/qESmkv8RVkiVdoRIJzuRdV1egTmI+rhrmujosl41+klzBK1ZyX//H0A+M9liPBah0eIrnwLDECoVYi+nHauk7+kNNAEuxuNzg5O8NkSRtO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DB5bj2sw; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1749759644; c=relaxed/simple;
+	bh=6Q/PGBvknyPShMaTySM+cqmOkNrRnIyJJHTUlyaDcRg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fjNiG5ZdKISK0Sf/rLtnVhXdbYNvX2tkYet+IgPyzQoFxCqUekHXVmxvUNvPgH/FH/I1GHfcUSyHmxEMxgDcZt7Ck/t/BJ62yE1B1s1YT9Nox2rpCqdOZr9wb9SoYxzO011Xb9VAf3c7+fCbhVV5YhqFi8pwEInFsgKVpRc+BeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=tm8bH2fA; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DB5bj2sw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1749758620;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BkHZHBWuBTB8Pv5EbGd/otlclSLolWJa7Gh+KIrTNFo=;
-	b=DB5bj2swo4k7BJ2QRuIW/+zQ7sbWRwi7qrOz/c0bXzz4oafwK1zhVDrEzv0Qerb/wjc74M
-	GLhIbZaCIw61zBX+rVKVoa/i35UCJ3DxUSj9ZY0GWQyIg6bOHIzMY+LHD4fT9aHePXYu6S
-	JtDtOPcd/BAyFtT6fPlfg/1Fc7JDO9U=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-557-2s7XAF63NoGMVM-pJdq-eA-1; Thu,
- 12 Jun 2025 16:03:31 -0400
-X-MC-Unique: 2s7XAF63NoGMVM-pJdq-eA-1
-X-Mimecast-MFC-AGG-ID: 2s7XAF63NoGMVM-pJdq-eA_1749758608
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9139419560B2;
-	Thu, 12 Jun 2025 20:03:28 +0000 (UTC)
-Received: from p16v.redhat.com (unknown [10.45.224.169])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 21B5C180045B;
-	Thu, 12 Jun 2025 20:03:21 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Shannon Nelson <shannon.nelson@amd.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Petr Oros <poros@redhat.com>
-Subject: [PATCH net-next v9 13/14] dpll: zl3073x: Add support to get/set frequency on input pins
-Date: Thu, 12 Jun 2025 22:01:44 +0200
-Message-ID: <20250612200145.774195-14-ivecera@redhat.com>
-In-Reply-To: <20250612200145.774195-1-ivecera@redhat.com>
-References: <20250612200145.774195-1-ivecera@redhat.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tm8bH2fA"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-72c3b863b8eso999024a34.2
+        for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 13:20:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1749759641; x=1750364441; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LnqQFNNg7S/LY+02Og7P0coplg2HCqvVrychShtmb0Y=;
+        b=tm8bH2fAiv5IUInWReklncngSn1Jtoe0JCWTc00pJMs5xwwkSYX9PKVj+XJt51LOyl
+         Al51SfNuaOJTrqkCoUJBDRt/6+X449+aRIxNyxOg72EAvu5LfnTwxLuXN3fvs+K/TtLf
+         6H+Gok/BevwEBq2bdB1UD5MdXKk9u+Sop/4Y9p1GvPdPQJXyyNo45xYB0UxgExaZHN2L
+         JB5qfh5DFb6Y8I/DNYl85HY1DGCd5NuC0zzaoAXLB7B1/Z/RzhGJ5l/B9Yw18wtbulhy
+         WmzJzRO6Ro8V/gyvmL00UwITZBUQUZqyxsptVsx7FId5Hf99khtNJY7qq5U4lSvhQsTe
+         m6qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749759641; x=1750364441;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LnqQFNNg7S/LY+02Og7P0coplg2HCqvVrychShtmb0Y=;
+        b=fNzKQCJF7rqldspxQ6mnTgXgVsSXVqDhJA7Hu0GnlSLx2sONIcucrvaXFJTEtwMy95
+         7mALf7PJOhMgaidSZD11FpExYJUQ77piJ5RjvLJU+Srs8WC1XEy0gzK5Fmwe4TVz73iN
+         Fch4n5eVF9UoiBZoykSn6OX6i7PrBcHWEpZYZutL91wWTIrEiLXZgOGUEeNqMqElCPkH
+         URs5KWHMpvz8WxCPIkC9zzcAkJ6ehPGSENQnlsWWIAfLOzS7u2tdc5gNzbjEGcIlC97v
+         FoeC6PjGaEA93AEiIXYgwi4x2+HEwoeZ/IVgxAEA9BmiqX6/hWFeQWkCvaLbmih0HBNA
+         ovUg==
+X-Forwarded-Encrypted: i=1; AJvYcCVXyh+gR5DmD+EYj0c7UBDbTXULuf3tQssv5yPSXqbEu1gsltXwVXVtUQqJW8NDPSYGycwm1d+zMeA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYAxzDfwOhk6baGK9HEyaD52AIS+SBlTTQSARE/gTwj7/V0kgt
+	Lb8PUf6yay9zGXEndG8MPFDCK1dWHI0OvL0iSfL1HrcTKh3CkaUMDVP7sIbK9r4didQ=
+X-Gm-Gg: ASbGncu367P/n1RErJ4S8molxjz5SrORtwTpH4cUXcNJFDwhGW/1c49s/RgJG1H+mzH
+	+NilMcbzgC/WaysnO/X3sCWC+2NKnt+nqZpoozJU3vt9feekYkHXnBRxzN1hs12uWapoNAuY/eo
+	IdMsvC/BW44Hni77h48Nb4lJYJ7Aoi+wUjUAtP2HXDAFYHDxD/mWCRMmhG6ApZMohTOctPl8d6c
+	2PGeKRLMlPsVox6dxmdHdMp5YVHK+/4QnreHMfcL2tB+NXcqAKggij35AGtkqr69bRt0NtYq40K
+	HKGr270URNH6O3yH9OLiXbvLwV/h/7sm3NdnjRS5i4CXvenwP/lHIgGWlJ1S9tx60xy05AXR785
+	gqVAP7eF0c6QKT/8pitZgMxIqJy8DfbzTl8Tw
+X-Google-Smtp-Source: AGHT+IGvy63gbdgYzhxx915nytzJrnbOCs/GabFdn8/B1Ozt4U4/eT429+1bpQ6NvozpwiaByThNIA==
+X-Received: by 2002:a05:6830:8009:b0:72a:47ec:12c6 with SMTP id 46e09a7af769-73a2708d702mr121676a34.2.1749759641342;
+        Thu, 12 Jun 2025 13:20:41 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:f808:847:b3ae:ff1a? ([2600:8803:e7e4:1d00:f808:847:b3ae:ff1a])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a16a57ec5sm392377a34.18.2025.06.12.13.20.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jun 2025 13:20:40 -0700 (PDT)
+Message-ID: <5130be5d-b769-41aa-af2f-b1e16a91e569@baylibre.com>
+Date: Thu, 12 Jun 2025 15:20:40 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/8] dt-bindings: iio: adc: Add adi,ad4052
+To: Jorge Marques <gastmaier@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+ Jorge Marques <jorge.marques@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
+ <20250610-iio-driver-ad4052-v3-2-cf1e44c516d4@analog.com>
+ <20250611181818.14d147c7@jic23-huawei>
+ <xqkr3rq6ikuiz5wcbxmto4gp7wnccmmogklf2ux2edauotufim@pcuhddxdzjxi>
+ <ef0d4038-b665-4ef0-9e7b-7ad2ce154c50@baylibre.com>
+ <zd4fvyjbfurgsp3rpslo2ubpxzxn7bh5b2vh5j4j7outxdrcd7@firxlr6bfkic>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <zd4fvyjbfurgsp3rpslo2ubpxzxn7bh5b2vh5j4j7outxdrcd7@firxlr6bfkic>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add support to get/set frequency on input pins. The frequency for input
-pins (references) is computed in the device according this formula:
+On 6/12/25 2:42 PM, Jorge Marques wrote:
+> Hi David,
+> 
+> thank you for chiming in
+> 
+> On Thu, Jun 12, 2025 at 10:03:37AM -0500, David Lechner wrote:
+>> On 6/12/25 5:11 AM, Jorge Marques wrote:
+>>> On Wed, Jun 11, 2025 at 06:18:18PM +0100, Jonathan Cameron wrote:
+>>>> On Tue, 10 Jun 2025 09:34:35 +0200
+>>>> Jorge Marques <jorge.marques@analog.com> wrote:
+>>>>
+>>
+>> ...
+>>
+>>>>> +  trigger-sources:
+>>>>> +    minItems: 1
+>>>>> +    maxItems: 2
+>>>>> +    description:
+>>>>> +      Describes the output pin and event associated.
+>>
+>> trigger-sources would be an input pin connected to an external trigger.
+>> For example, the CNV pin could be connected to a trigger-source
+>> provider to trigger a conversion. But there aren't any other digital
+>> inputs, so I don't know what the 2nd source would be here.
+>>
+>> As an example, see [1]. We could potentially use the same gpio
+>> trigger-source for the conversion pin here. There is already
+>> a similar binding for pwm triggers, so we could drop the separate
+>> pwms binding as well an just have a single trigger-sources
+>> property for the CNV pin that works for both gpio and pwm.
+>>
+>> [1]: https://lore.kernel.org/linux-iio/cover.1749569957.git.Jonathan.Santos@analog.com/
+>>
+> 
+> Quick summary to familiarize myself with this part and driver.
+> 
+> On ad7768-1:
+> ad7768-1.SYNC_OUT is a digital output, ad7768-1.SYNC_IN input, and
+> ad7768-1.GPIO3 (START) configured as input. ad7768-1.GPIO[0..3] are
+> configurable GPIO, GPIO3 as START, or in PIN control mode, the input
+> GPIO[3:0] sets the power mode and modulator freq (MODEx).
+> 
+> On that thread:
+> https://lore.kernel.org/linux-iio/8abca580f43cb31d7088d07a7414b5f7efe91ead.1749569957.git.Jonathan.Santos@analog.com/
+> exposes GPIO[0..3] through gpio_chip if gpio-controller in dt.
+> 
+> https://lore.kernel.org/linux-iio/713fd786010c75858700efaec8bb285274e7057e.1749569957.git.Jonathan.Santos@analog.com/
+> trigger-sources-cells: the cell define the type of signal but *not* its
+> origin, because {DRDY, SYNC_OUT, GPIO3(START)} are dedicated pins, *so
+> there is no need to do so*.
+> 
+>>>>> +
+>>>>> +  "#trigger-source-cells":
+>>>>> +    const: 2
+>>>>> +    description: |
+>>>>> +      Output pins used as trigger source.
+>>>>> +
+>>>>> +      Cell 0 defines the event:
+>>>>> +      * 0 = Data ready
+>>>>> +      * 1 = Min threshold
+>>>>> +      * 2 = Max threshold
+>>>>> +      * 3 = Either threshold
+>>>>> +      * 4 = CHOP control
+>>>>> +      * 5 = Device enable
+>>>>> +      * 6 = Device ready (only GP1)
+>>>>
+>>>> Hmm. I'm a bit dubious on why 'what the offload trigger is'
+>>>> is a DT thing?  Is that because the IP needs to comprehend
+>>>> this?  I guess only data ready is actually supported in
+>>>> practice? 
+>>>
+>>> A trigger can be connected to trigger something other than a spi
+>>> offload, it is in the DT because it describes how the device is
+>>> connected. When using spi offload, the trigger-source at the spi handle
+>>> describes which gpio and event is routed to the offload trigger input.
+>>> At the ADC node, trigger-source-cells describe the source gpio and event
+>>> for the device driver.
+>>>
+>>> In practice, in this series, one gpio is Data ready, triggering offload
+>>> when buffer enabled, and raw reads, when disabled. And the other is
+>>> Either threshold, propagated as an IIO event. Fancy logic can be added
+>>> to the driver in future patches to allow other combinations.
+>>>
+>>> It is also worth to mention that the trigger-source is duplicated for
+>>> each node that uses it, as seen in the second dts example:
+>>>
+>>>    &adc AD4052_TRIGGER_EVENT_DATA_READY AD4052_TRIGGER_PIN_GP1
+>>>
+>>> Is repeated on both adc and spi node.
+>>
+>> That sounds wrong. This would only make sense if an output of the
+>> ADC was wired back to itself. 
+>>
+> 
+> The issue is the lack of way of describing to the driver the function of
+> each gpio, when configurable. Perhaps it is better to use
+> trigger-source-cells to only describe the topology at that node
+> receiving the trigger, e.g.
+> 
+>   trigger-sources = <&adc AD4052_TRIGGER_PIN_GP0>;
+> 
+> Below I continue the discussion.
+>>>
+>>> One last thing, on the driver, for v3, I should handle -ENOENT:
+>>>
+>>>   ret = of_parse_phandle_with_args(np, "trigger-sources",
+>>>   				   "#trigger-source-cells", i,
+>>>   				   &trigger_sources);
+>>>   if (ret)
+>>>   	return ret == -ENOENT ? 0 : ret;
+>>>
+>>> To assert only when present, since the nodes are not required.
+>>> Or, in the driver,
+>>> require AD4052_TRIGGER_PIN_GP0 if irq_get_byname finds gp0, and
+>>> require AD4052_TRIGGER_PIN_GP1 if irq_get_byname finds gp1?
+>>> (I would go with the first option).
+>>>>
+>>
+>> ,,,
+>>
+>>>>> +examples:
+>>>>> +  - |
+>>>>> +    #include <dt-bindings/gpio/gpio.h>
+>>>>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>>>>> +    #include <dt-bindings/iio/adc/adi,ad4052.h>
+>>>>> +
+>>>>> +    spi {
+>>>>> +        #address-cells = <1>;
+>>>>> +        #size-cells = <0>;
+>>>>> +
+>>>>> +        adc@0 {
+>>>>> +            compatible = "adi,ad4052";
+>>>>> +            reg = <0>;
+>>>>> +            vdd-supply = <&vdd>;
+>>>>> +            vio-supply = <&vio>;
+>>>>> +            ref-supply = <&ref>;
+>>>>> +            spi-max-frequency = <83333333>;
+>>>>> +
+>>>>> +            #trigger-source-cells = <2>;
+>>>>> +            trigger-sources = <&adc AD4052_TRIGGER_EVENT_EITHER_THRESH
+>>>>> +                                    AD4052_TRIGGER_PIN_GP0
+>>>>> +                               &adc AD4052_TRIGGER_EVENT_DATA_READY
+>>>>> +                                    AD4052_TRIGGER_PIN_GP1>;
+>>
+>> This doesn't make sense for the reason given above. These outputs
+>> aren't wired back to inputs on the ADC. They are wired to interrupts
+>> on the MCU, which is already described below.
+>>
+> Below.
+>>>>> +            interrupt-parent = <&gpio>;
+>>>>> +            interrupts = <0 0 IRQ_TYPE_EDGE_RISING>,
+>>>>> +                         <0 1 IRQ_TYPE_EDGE_FALLING>;
+>>>>> +            interrupt-names = "gp0", "gp1";
+>>>>> +            cnv-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+>>>>> +        };
+>>>>> +    };
+>>>>> +  - |
+>>>>> +    #include <dt-bindings/gpio/gpio.h>
+>>>>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>>>>> +    #include <dt-bindings/iio/adc/adi,ad4052.h>
+>>>>> +
+>>>>> +    rx_dma {
+>>>>> +            #dma-cells = <1>;
+>>>>> +    };
+>>>>> +
+>>>>> +    spi {
+>>>>> +        #address-cells = <1>;
+>>>>> +        #size-cells = <0>;
+>>>>> +
+>>>>> +        dmas = <&rx_dma 0>;
+>>>>> +        dma-names = "offload0-rx";
+>>
+>> The dmas aren't related to the ADC, so can be left out of the example.
+>>
+> Ack.
+>>>>> +        trigger-sources = <&adc AD4052_TRIGGER_EVENT_DATA_READY
+>>>>> +                                AD4052_TRIGGER_PIN_GP1>;
+>>>>> +
+>>>>> +        adc@0 {
+>>>>> +            compatible = "adi,ad4052";
+>>>>> +            reg = <0>;
+>>>>> +            vdd-supply = <&vdd>;
+>>>>> +            vio-supply = <&vio>;
+>>>>> +            spi-max-frequency = <83333333>;
+>>>>> +            pwms = <&adc_trigger 0 10000 0>;
+>>>>> +
+>>>>> +            #trigger-source-cells = <2>;
+>>>>> +            trigger-sources = <&adc AD4052_TRIGGER_EVENT_EITHER_THRESH
+>>>>> +                                    AD4052_TRIGGER_PIN_GP0
+>>>>> +                               &adc AD4052_TRIGGER_EVENT_DATA_READY
+>>>>> +                                    AD4052_TRIGGER_PIN_GP1>;
+>>
+>> Same as above - the GP pins aren't wired back to the ADC itself.
+>>
+>>>>> +            interrupt-parent = <&gpio>;
+>>>>> +            interrupts = <0 0 IRQ_TYPE_EDGE_RISING>,
+>>>>> +                         <0 1 IRQ_TYPE_EDGE_FALLING>;
+>>>>> +            interrupt-names = "gp0", "gp1";
+>>>>> +            cnv-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+>>>>> +        };
+>>>>> +    };
+> 
+> Considering the discussion above. As is, in this series GP0 is event
+> Either threshold and GP1 Data ready. A future series would aim to make
+> it truly configurable.
+> 
+> For this series then, do we then drop the second cell of trigger cell
+> and do not provide a way of describing the function of each gpio? e.g.
 
- freq = base_freq * multiplier * (nominator / denominator)
+The bindings can't be changed later, so no, don't drop the 2nd cell
+if we are going to add it back later.
 
-where the base_freq comes from the list of supported base frequencies
-and other parameters are arbitrary numbers. All these parameters are
-16-bit unsigned integers.
+But considering Jonathan's feedback, I am now questioning if we need
+the 2nd cell at all. The way trigger-source consumers work currently
+is that they request a trigger of a certain generic type, like "data
+ready". So this information could be used to determine what function
+needs to be assigned to the pin without having to define that in the
+devicetree.
 
-Co-developed-by: Prathosh Satish <Prathosh.Satish@microchip.com>
-Signed-off-by: Prathosh Satish <Prathosh.Satish@microchip.com>
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- drivers/dpll/zl3073x/dpll.c | 124 ++++++++++++++++++++++++++++++++++++
- drivers/dpll/zl3073x/regs.h |   5 ++
- 2 files changed, 129 insertions(+)
+> 
+>   - |
+>     #include <dt-bindings/gpio/gpio.h>
+>     #include <dt-bindings/interrupt-controller/irq.h>
+>     #include <dt-bindings/iio/adc/adi,ad4052.h>
+>   
+>     rx_dma {
+>             #dma-cells = <1>;
+>     };
+>   
+>     spi {
+>         #address-cells = <1>;
+>         #size-cells = <0>;
+>   
+>         trigger-sources = <&adc AD4052_TRIGGER_PIN_GP0>;
+>   
+>         adc@0 {
+>             compatible = "adi,ad4052";
+>             reg = <0>;
+>             vdd-supply = <&vdd>;
+>             vio-supply = <&vio>;
+>             spi-max-frequency = <83333333>;
+>             pwms = <&adc_trigger 0 10000 0>;
+>   
+>             // --- Other thought ------
+>             //adi,gpio-role = <AD4052_TRIGGER_EVENT_EITHER_THRESH
+>             //                 AD4052_TRIGGER_EVENT_DATA_READY>;
+>             // ------------------------
+>             interrupt-parent =  <&gpio>;
+>             interrupts = <0 0 IRQ_TYPE_EDGE_RISING>,
+>                          <0 1 IRQ_TYPE_EDGE_FALLING>;
+>             interrupt-names = "gp0", "gp1";
+>             cnv-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+>         };
+>     };
+> 
+> Other thought is to add an "adi,gpio-role" property to define gpio
+> function (as commented in the example above, matched with index of
+> interrupts-names). If no interrupt-name.gp0 but trigger-source.GP0,
+> assume role Data ready (no irq for raw read, only buffer offload).
+> 
+> What is your opinion on this?
 
-diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
-index 1f44910958781..8bd0e3e66e7f1 100644
---- a/drivers/dpll/zl3073x/dpll.c
-+++ b/drivers/dpll/zl3073x/dpll.c
-@@ -8,6 +8,7 @@
- #include <linux/dpll.h>
- #include <linux/err.h>
- #include <linux/kthread.h>
-+#include <linux/math64.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/netlink.h>
-@@ -84,6 +85,127 @@ zl3073x_dpll_pin_direction_get(const struct dpll_pin *dpll_pin, void *pin_priv,
- 	return 0;
- }
- 
-+/**
-+ * zl3073x_dpll_input_ref_frequency_get - get input reference frequency
-+ * @zldpll: pointer to zl3073x_dpll
-+ * @ref_id: reference id
-+ * @frequency: pointer to variable to store frequency
-+ *
-+ * Reads frequency of given input reference.
-+ *
-+ * Return: 0 on success, <0 on error
-+ */
-+static int
-+zl3073x_dpll_input_ref_frequency_get(struct zl3073x_dpll *zldpll, u8 ref_id,
-+				     u32 *frequency)
-+{
-+	struct zl3073x_dev *zldev = zldpll->dev;
-+	u16 base, mult, num, denom;
-+	int rc;
-+
-+	guard(mutex)(&zldev->multiop_lock);
-+
-+	/* Read reference configuration */
-+	rc = zl3073x_mb_op(zldev, ZL_REG_REF_MB_SEM, ZL_REF_MB_SEM_RD,
-+			   ZL_REG_REF_MB_MASK, BIT(ref_id));
-+	if (rc)
-+		return rc;
-+
-+	/* Read registers to compute resulting frequency */
-+	rc = zl3073x_read_u16(zldev, ZL_REG_REF_FREQ_BASE, &base);
-+	if (rc)
-+		return rc;
-+	rc = zl3073x_read_u16(zldev, ZL_REG_REF_FREQ_MULT, &mult);
-+	if (rc)
-+		return rc;
-+	rc = zl3073x_read_u16(zldev, ZL_REG_REF_RATIO_M, &num);
-+	if (rc)
-+		return rc;
-+	rc = zl3073x_read_u16(zldev, ZL_REG_REF_RATIO_N, &denom);
-+	if (rc)
-+		return rc;
-+
-+	/* Sanity check that HW has not returned zero denominator */
-+	if (!denom) {
-+		dev_err(zldev->dev,
-+			"Zero divisor for ref %u frequency got from device\n",
-+			ref_id);
-+		return -EINVAL;
-+	}
-+
-+	/* Compute the frequency */
-+	*frequency = base * mult * num / denom;
-+
-+	return rc;
-+}
-+
-+static int
-+zl3073x_dpll_input_pin_frequency_get(const struct dpll_pin *dpll_pin,
-+				     void *pin_priv,
-+				     const struct dpll_device *dpll,
-+				     void *dpll_priv, u64 *frequency,
-+				     struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dpll *zldpll = dpll_priv;
-+	struct zl3073x_dpll_pin *pin = pin_priv;
-+	u32 ref_freq;
-+	u8 ref;
-+	int rc;
-+
-+	/* Read and return ref frequency */
-+	ref = zl3073x_input_pin_ref_get(pin->id);
-+	rc = zl3073x_dpll_input_ref_frequency_get(zldpll, ref, &ref_freq);
-+	if (!rc)
-+		*frequency = ref_freq;
-+
-+	return rc;
-+}
-+
-+static int
-+zl3073x_dpll_input_pin_frequency_set(const struct dpll_pin *dpll_pin,
-+				     void *pin_priv,
-+				     const struct dpll_device *dpll,
-+				     void *dpll_priv, u64 frequency,
-+				     struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dpll *zldpll = dpll_priv;
-+	struct zl3073x_dev *zldev = zldpll->dev;
-+	struct zl3073x_dpll_pin *pin = pin_priv;
-+	u16 base, mult;
-+	u8 ref;
-+	int rc;
-+
-+	/* Get base frequency and multiplier for the requested frequency */
-+	rc = zl3073x_ref_freq_factorize(frequency, &base, &mult);
-+	if (rc)
-+		return rc;
-+
-+	guard(mutex)(&zldev->multiop_lock);
-+
-+	/* Load reference configuration */
-+	ref = zl3073x_input_pin_ref_get(pin->id);
-+	rc = zl3073x_mb_op(zldev, ZL_REG_REF_MB_SEM, ZL_REF_MB_SEM_RD,
-+			   ZL_REG_REF_MB_MASK, BIT(ref));
-+
-+	/* Update base frequency, multiplier, numerator & denominator */
-+	rc = zl3073x_write_u16(zldev, ZL_REG_REF_FREQ_BASE, base);
-+	if (rc)
-+		return rc;
-+	rc = zl3073x_write_u16(zldev, ZL_REG_REF_FREQ_MULT, mult);
-+	if (rc)
-+		return rc;
-+	rc = zl3073x_write_u16(zldev, ZL_REG_REF_RATIO_M, 1);
-+	if (rc)
-+		return rc;
-+	rc = zl3073x_write_u16(zldev, ZL_REG_REF_RATIO_N, 1);
-+	if (rc)
-+		return rc;
-+
-+	/* Commit reference configuration */
-+	return zl3073x_mb_op(zldev, ZL_REG_REF_MB_SEM, ZL_REF_MB_SEM_WR,
-+			     ZL_REG_REF_MB_MASK, BIT(ref));
-+}
-+
- /**
-  * zl3073x_dpll_selected_ref_get - get currently selected reference
-  * @zldpll: pointer to zl3073x_dpll
-@@ -592,6 +714,8 @@ zl3073x_dpll_mode_get(const struct dpll_device *dpll, void *dpll_priv,
- 
- static const struct dpll_pin_ops zl3073x_dpll_input_pin_ops = {
- 	.direction_get = zl3073x_dpll_pin_direction_get,
-+	.frequency_get = zl3073x_dpll_input_pin_frequency_get,
-+	.frequency_set = zl3073x_dpll_input_pin_frequency_set,
- 	.prio_get = zl3073x_dpll_input_pin_prio_get,
- 	.prio_set = zl3073x_dpll_input_pin_prio_set,
- 	.state_on_dpll_get = zl3073x_dpll_input_pin_state_on_dpll_get,
-diff --git a/drivers/dpll/zl3073x/regs.h b/drivers/dpll/zl3073x/regs.h
-index 34e905053a1ef..09dd314663dff 100644
---- a/drivers/dpll/zl3073x/regs.h
-+++ b/drivers/dpll/zl3073x/regs.h
-@@ -135,6 +135,11 @@
- #define ZL_REF_MB_SEM_WR			BIT(0)
- #define ZL_REF_MB_SEM_RD			BIT(1)
- 
-+#define ZL_REG_REF_FREQ_BASE			ZL_REG(10, 0x05, 2)
-+#define ZL_REG_REF_FREQ_MULT			ZL_REG(10, 0x07, 2)
-+#define ZL_REG_REF_RATIO_M			ZL_REG(10, 0x09, 2)
-+#define ZL_REG_REF_RATIO_N			ZL_REG(10, 0x0b, 2)
-+
- #define ZL_REG_REF_CONFIG			ZL_REG(10, 0x0d, 1)
- #define ZL_REF_CONFIG_ENABLE			BIT(0)
- #define ZL_REF_CONFIG_DIFF_EN			BIT(2)
--- 
-2.49.0
 
+Usually, we just have the devicetree describe how things are wired up.
+Then the driver looks at how things are wired up and decides how to
+best make use of the available resources. I.e. in the driver add some
+variables in the driver state struct that keeps track of the function
+assigned to each GP pin and use that to make decisions.
+
+In the driver, we would want to make sure to handle triggers first
+since those are less flexible (so set up SPI offload first). This
+would cause one of the GP pins to be assigned to the /RDY function.
+It doesn't matter which one.
+
+Then later, parse the interrupts property. If we see that one of
+the GP pins is already assigned to /RDY, then we know we have to
+use that pin for the /RDY interrupt as well. If both pins are still
+available, then an arbitrary one can be assigned for /RDY.
+
+Then if there is still an unused GP pin left that is actually
+wired up to an interrupt, that can be used for the events interrupt.
+
+Or we could even consider to have everything on one pin since the
+/RDY signal would never be needed at the same time as events as long
+as the events are only ever used in monitor mode.
+
+If we find that there is some case though where the driver really
+can't figure out what to do with the available information, then
+we could probably justify adding a property like you suggested.
+It seems like we could possibly do without it at this point though.
