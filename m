@@ -1,71 +1,71 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145EB2571BF
-	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 13:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B6D2459CD
+	for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 13:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749734751; cv=none; b=gh2k9R2qdKfPBXvTS2VSh/04H8dfwzWrmmPLbR49XLyJRglSVHUq2BvmRADBU8pYhKpspBsSSzPDs0PPsUpStK2h+XoD8eK1Hx/oVGoxIz1rYB03N9EoU6FdhzTvwNo2oPe8b5c4Mih2LE9C6ZIgB1yf+ZruTegNFqshc5GBvks=
+	t=1749734808; cv=none; b=neaCL+oIutVP8k9m8RygT325VVlOSpxWQ0XPPDVW80DMiIpkDQHr/RaRHyorYWpJnX6mSYt0VLmEvGIsRgCsBEmzPutgZ+BbcvZltBZ0xkt2INUn5jZvtekkHnj0HS5DA5yI5DYzCDBdaDhPHKeOxdESgl0Rtj1SBVehHEF2U/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749734751; c=relaxed/simple;
-	bh=fZJR3NV0cRGsrfTg7wRUswvgKBH8YB5HL2MnSD+NlVM=;
+	s=arc-20240116; t=1749734808; c=relaxed/simple;
+	bh=CVQ9VovITFp4al3duc780000P3ZE3EpGg5M4UugODQo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MppImsfkuVWNVM2OoRS/EcNQXNR/UVJ+hYnDgX0CgoWlO9Tv4C+SV1yNfoSyRtbzYyQl/qhjXgdMe9LfrZXK2mc7+LeCtVyc2KPVPaJJmkYfd6ZfEqzCFz900YmnjaZde2j4Zx3WqEE3q0g5wDPUt+PqOnK4S4iWckFItXqG2vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b=LivYC/g0; arc=none smtp.client-ip=209.85.166.174
+	 To:Cc:Content-Type; b=EtimHL/YxQS6+6Fv+ld5Hj8UrNwTVYOaXVu2DSdyrr+Xw40k/Mc4fkkCiOLeDr3GwTPqCOqZsmD1mS+7X8IYTx8TjOqIH0qyuFUl0WH67+OFqvAvTnooJpPX6/YNQ7sm4vr21OlPeIFVriZUA4/gLO9RlrSamiCnG8zdjblFI/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b=Uh9DXPNF; arc=none smtp.client-ip=209.85.166.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="LivYC/g0"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3ddd38ee5b8so8225165ab.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 06:25:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="Uh9DXPNF"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3dc729471e3so3541555ab.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Jun 2025 06:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1749734749; x=1750339549; darn=vger.kernel.org;
+        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1749734806; x=1750339606; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1weUA8id5AE6NfxqG74XbUonfeZX0lj6qhl+0d8DSPM=;
-        b=LivYC/g0sW0HjOG9YOAjc8vE18AajbkRpeNdGTHHeyZCKU221IlRpN8p6d5MlF1cLw
-         uceIE4vr5dp0/zzC1TKb3EY4svKOQMozmXY64GVR3cWTYeq62liol8Dn6710CjfjqlrR
-         I4LW8NZb7lGauy1W8yai70PxjprpjsZtbcbjwmMubLFo0lCO1N/lh80vL4RN4obobK9P
-         mkEHL5OJDQkPVddSbFs13GAg+Af+vVQy0zsnuCxlaCGPMXPx79085lXYKDKi+oI7FPQM
-         Mje5/bREkE86OqaoCvrmb1A7ZnMiUnO4tZhAT7y/kMPMKlHPJfL4uchRP7vSD0OIp3tJ
-         bPRw==
+        bh=2eN3swV8AIIuWWlJ3gYBwChYsvkIrC7SYyJzazn/BSI=;
+        b=Uh9DXPNF0rmS4hO/A2moRXrF7EqWLUsG33MFYRgsajNC+EyEIi15DBT6cUAcUeDr/O
+         Y8tdbyH4SurOAhZ9aKgO1Sqb3u9Ex091HtfWSLd0mVvWqHAWSQWk3ggvl8CDiiIvXbVs
+         SRot/VnAGpn4VMGeJXmjeTZ0jVYuiHX2VPtNolzSRajwi6zsNeCAcVz6nzmySNonBL07
+         A8FkhwUzuLrbDmp4cDs1WiQOGYqjYwNyVuD4UvlSA7cXIX7boYEr0vYecdHeFuYe8TYD
+         j0vUmpCPgi7C4ypudoQ4bupP6YKcrU7elqQDGfzJ/8kXZcV/20+dP4sw/alXG/LfIZA7
+         DUPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749734749; x=1750339549;
+        d=1e100.net; s=20230601; t=1749734806; x=1750339606;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1weUA8id5AE6NfxqG74XbUonfeZX0lj6qhl+0d8DSPM=;
-        b=oEdoMSlEI45Czyvpj+vlUrEY9V0OR2Sp5DGnVizSV/jJm8aMqIixCWhEhxwFibvaz3
-         dqZp+Nl1UpEVsD63/iXF9oUNcsTIG6KMMM7TegrNWJLu4bsgGbOiH5CYmDT0vGZ1c46R
-         WG5FOikI6jd0na4JcByGFkeMLcbWDZkXpNwUpmz6VyY091L6OA+7Lh12YKIICXc5vHLk
-         AYjkfGU3iJLawKZRK3f/H/+nddOT9zkH2cblWkBfqRxpjnMVa6+TlDSORXNDrTqRM8zR
-         kzxw0IxUO4d1s82nNYRxh6qUgwLPT1/nYBRmr3z5Qj24G8uTZRH/GhyJuvBrwPXOqVhq
-         Lh4w==
-X-Forwarded-Encrypted: i=1; AJvYcCXUJBvBKhgshkbDrxoCyxG0S6P7rtEDo6rszR2mTufINplXRlMShl/BGDCCgyQWRwK7BqVOR3s1DSQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/b//gKlHDvkI/+KSSk5hPJslvGnxmL3MPbdHP9xHaDolgs367
-	xtYA2sR34mplwxWIoK6/YT4JRVhOOw4EaRyWaEW/j4DRmTQFQrXacDCwobTPI6aBrx16e+sx9V7
-	zIkwbuhWXoeQBdEEwBXkcdcsyFtv2/cbUrDbDlwYqNA==
-X-Gm-Gg: ASbGncuzMR5soqroUekLz/4INJ0pCL6UWBPa/d/8RRNVtsHV2QJkdhBRIDLQsv2Yukw
-	pi4MPH8p4qnE06n0/1ISBIp0WCQP9d8dqR3Ljtw+HDR/jGUgsrdxmcwrqGM+nyoSeeTYolIPMF0
-	350TbfV8J6REAF9/4uxlBew5LjVDYIp6m2L2rS/Meg1rFK
-X-Google-Smtp-Source: AGHT+IGQ0K6TdD17j0zYHYf4GUMSVEDpfMuaxvlei9cIKMYkpxSB9dCWrPkla92Oi6O709KnFS2hkfcOfCYTHz+udUk=
-X-Received: by 2002:a05:6e02:3b07:b0:3dc:79e5:e6a8 with SMTP id
- e9e14a558f8ab-3ddf4305361mr85364955ab.15.1749734748967; Thu, 12 Jun 2025
- 06:25:48 -0700 (PDT)
+        bh=2eN3swV8AIIuWWlJ3gYBwChYsvkIrC7SYyJzazn/BSI=;
+        b=VuFUPQJBhl2dKuba7sFdhyqF2RjaGFLJT1wULgdzevlgsyZJdDnyzn1m2vxHtO/hUH
+         R1/hdDqWN/BvOuzjaqF4/UizWYqu5D8LdyrR72z1lJf18ZNufa2QI0f+adzZbpTwpP0y
+         v6IpSo6Ahfm3dekLNQYr1Zf/0OdctlR9I226oyvMQoqi0y5dP4jcuijMc6Wc42rU1RD5
+         aUavkjARNBUMzHrAZmyzkleaonVZwrFxpl6OlqvbYE6o2Hm7EWiAqSilR+If+/tw4YMS
+         akamCBJAAk3cqiiCr9uiS4geGq0a0ul3z3/Xqg7HRmYIlssknkv0xob3J8smfawgRRrF
+         BYVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBXm7Is8Cm2A1/pFhIGfYTvuWMVelcS+tA87/ou6shsHeSf9R8L5Ci7EpBIj16ckrdtot+ePigGv4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpOFNdFWWU9TiAdhm+4KZAlmjY4g+4bAi0tjcj2U49eezhP153
+	9RtyUFT4YFKx9o+/FXiqEGL9uVjeoUIYDGuu4314YidDFiXTkrVvrcRVELfIyxA6mr3jKclz+pc
+	0JaqWuYfAmf1T0eX8pKC4HOf4Xxjr0jJj5gcjkoiTIQ==
+X-Gm-Gg: ASbGnctnp1+UxoEKlPf5h+mpzt+z3TjURya4UCCi57Fye50x7uYzpwk9jlzMvGNL6sv
+	icWXg69f66mZKE+o4UCq9MjvY0uT2SA+ftUhcnpw8xOUrFDz6lfsCF8ticcff7xFtvnIPHuxh7n
+	d2LIFM3yfPREnEVDirrkTxsTcegFDXxZPoUJrtbsd3xcJ1
+X-Google-Smtp-Source: AGHT+IG2iBZqXBZpblYqqV1CfizkbcXBVYuUqCYGloOAj0H2lvAJwOXwnS5XNnZkQ46BncD7OmhOhE+Hobvx1RtA1UQ=
+X-Received: by 2002:a05:6e02:1807:b0:3dd:8663:d182 with SMTP id
+ e9e14a558f8ab-3ddf42c5b4dmr72461125ab.13.1749734805782; Thu, 12 Jun 2025
+ 06:26:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250523101932.1594077-1-cleger@rivosinc.com> <20250523101932.1594077-14-cleger@rivosinc.com>
-In-Reply-To: <20250523101932.1594077-14-cleger@rivosinc.com>
+References: <20250523101932.1594077-1-cleger@rivosinc.com> <20250523101932.1594077-15-cleger@rivosinc.com>
+In-Reply-To: <20250523101932.1594077-15-cleger@rivosinc.com>
 From: Anup Patel <anup@brainfault.org>
-Date: Thu, 12 Jun 2025 18:55:37 +0530
-X-Gm-Features: AX0GCFtRWvbG8ZIGWz91EOFFq4Am9HlN0v-k_UzF3rM3BaVpkbYlsqTs93zJo2w
-Message-ID: <CAAhSdy0BYXZazQfKGrxS6MwadTeK5JwQRRT-SRvxCWfAUAj0Bg@mail.gmail.com>
-Subject: Re: [PATCH v8 13/14] RISC-V: KVM: add support for FWFT SBI extension
+Date: Thu, 12 Jun 2025 18:56:33 +0530
+X-Gm-Features: AX0GCFtHBaD1dkadFboJHCaCDko1UoltJB37LuW30sdZ0j57mmaziXXBSUbao7Y
+Message-ID: <CAAhSdy1qnRYOh0ka4PeJDf5ybviMrf+bpYaOOka3BXVmwAPSoQ@mail.gmail.com>
+Subject: Re: [PATCH v8 14/14] RISC-V: KVM: add support for SBI_FWFT_MISALIGNED_DELEG
 To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
 Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
 	Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>, 
@@ -78,12 +78,15 @@ Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 23, 2025 at 3:52=E2=80=AFPM Cl=C3=A9ment L=C3=A9ger <cleger@riv=
+On Fri, May 23, 2025 at 3:53=E2=80=AFPM Cl=C3=A9ment L=C3=A9ger <cleger@riv=
 osinc.com> wrote:
 >
-> Add basic infrastructure to support the FWFT extension in KVM.
+> SBI_FWFT_MISALIGNED_DELEG needs hedeleg to be modified to delegate
+> misaligned load/store exceptions. Save and restore it during CPU
+> load/put.
 >
 > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
+> Reviewed-by: Deepak Gupta <debug@rivosinc.com>
 > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 > Reviewed-by: Atish Patra <atishp@rivosinc.com>
 
@@ -93,362 +96,76 @@ Thanks,
 Anup
 
 > ---
->  arch/riscv/include/asm/kvm_host.h          |   4 +
->  arch/riscv/include/asm/kvm_vcpu_sbi.h      |   1 +
->  arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h |  29 +++
->  arch/riscv/include/uapi/asm/kvm.h          |   1 +
->  arch/riscv/kvm/Makefile                    |   1 +
->  arch/riscv/kvm/vcpu_sbi.c                  |   4 +
->  arch/riscv/kvm/vcpu_sbi_fwft.c             | 216 +++++++++++++++++++++
->  7 files changed, 256 insertions(+)
->  create mode 100644 arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h
->  create mode 100644 arch/riscv/kvm/vcpu_sbi_fwft.c
+>  arch/riscv/kvm/vcpu_sbi_fwft.c | 41 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
 >
-> diff --git a/arch/riscv/include/asm/kvm_host.h b/arch/riscv/include/asm/k=
-vm_host.h
-> index 4fa02e082142..c3f880763b9a 100644
-> --- a/arch/riscv/include/asm/kvm_host.h
-> +++ b/arch/riscv/include/asm/kvm_host.h
-> @@ -19,6 +19,7 @@
->  #include <asm/kvm_vcpu_fp.h>
->  #include <asm/kvm_vcpu_insn.h>
->  #include <asm/kvm_vcpu_sbi.h>
-> +#include <asm/kvm_vcpu_sbi_fwft.h>
->  #include <asm/kvm_vcpu_timer.h>
->  #include <asm/kvm_vcpu_pmu.h>
->
-> @@ -281,6 +282,9 @@ struct kvm_vcpu_arch {
->         /* Performance monitoring context */
->         struct kvm_pmu pmu_context;
->
-> +       /* Firmware feature SBI extension context */
-> +       struct kvm_sbi_fwft fwft_context;
-> +
->         /* 'static' configurations which are set only once */
->         struct kvm_vcpu_config cfg;
->
-> diff --git a/arch/riscv/include/asm/kvm_vcpu_sbi.h b/arch/riscv/include/a=
-sm/kvm_vcpu_sbi.h
-> index cb68b3a57c8f..ffd03fed0c06 100644
-> --- a/arch/riscv/include/asm/kvm_vcpu_sbi.h
-> +++ b/arch/riscv/include/asm/kvm_vcpu_sbi.h
-> @@ -98,6 +98,7 @@ extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext=
-_hsm;
->  extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_dbcn;
->  extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_susp;
->  extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_sta;
-> +extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_fwft;
->  extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_experimental;
->  extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_vendor;
->
-> diff --git a/arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h b/arch/riscv/incl=
-ude/asm/kvm_vcpu_sbi_fwft.h
-> new file mode 100644
-> index 000000000000..9ba841355758
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2025 Rivos Inc.
-> + *
-> + * Authors:
-> + *     Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
-> + */
-> +
-> +#ifndef __KVM_VCPU_RISCV_FWFT_H
-> +#define __KVM_VCPU_RISCV_FWFT_H
-> +
-> +#include <asm/sbi.h>
-> +
-> +struct kvm_sbi_fwft_feature;
-> +
-> +struct kvm_sbi_fwft_config {
-> +       const struct kvm_sbi_fwft_feature *feature;
-> +       bool supported;
-> +       unsigned long flags;
-> +};
-> +
-> +/* FWFT data structure per vcpu */
-> +struct kvm_sbi_fwft {
-> +       struct kvm_sbi_fwft_config *configs;
-> +};
-> +
-> +#define vcpu_to_fwft(vcpu) (&(vcpu)->arch.fwft_context)
-> +
-> +#endif /* !__KVM_VCPU_RISCV_FWFT_H */
-> diff --git a/arch/riscv/include/uapi/asm/kvm.h b/arch/riscv/include/uapi/=
-asm/kvm.h
-> index 5f59fd226cc5..5ba77a3d9f6e 100644
-> --- a/arch/riscv/include/uapi/asm/kvm.h
-> +++ b/arch/riscv/include/uapi/asm/kvm.h
-> @@ -204,6 +204,7 @@ enum KVM_RISCV_SBI_EXT_ID {
->         KVM_RISCV_SBI_EXT_DBCN,
->         KVM_RISCV_SBI_EXT_STA,
->         KVM_RISCV_SBI_EXT_SUSP,
-> +       KVM_RISCV_SBI_EXT_FWFT,
->         KVM_RISCV_SBI_EXT_MAX,
->  };
->
-> diff --git a/arch/riscv/kvm/Makefile b/arch/riscv/kvm/Makefile
-> index 4e0bba91d284..06e2d52a9b88 100644
-> --- a/arch/riscv/kvm/Makefile
-> +++ b/arch/riscv/kvm/Makefile
-> @@ -26,6 +26,7 @@ kvm-y +=3D vcpu_onereg.o
->  kvm-$(CONFIG_RISCV_PMU_SBI) +=3D vcpu_pmu.o
->  kvm-y +=3D vcpu_sbi.o
->  kvm-y +=3D vcpu_sbi_base.o
-> +kvm-y +=3D vcpu_sbi_fwft.o
->  kvm-y +=3D vcpu_sbi_hsm.o
->  kvm-$(CONFIG_RISCV_PMU_SBI) +=3D vcpu_sbi_pmu.o
->  kvm-y +=3D vcpu_sbi_replace.o
-> diff --git a/arch/riscv/kvm/vcpu_sbi.c b/arch/riscv/kvm/vcpu_sbi.c
-> index 50be079b5528..0748810c0252 100644
-> --- a/arch/riscv/kvm/vcpu_sbi.c
-> +++ b/arch/riscv/kvm/vcpu_sbi.c
-> @@ -78,6 +78,10 @@ static const struct kvm_riscv_sbi_extension_entry sbi_=
-ext[] =3D {
->                 .ext_idx =3D KVM_RISCV_SBI_EXT_STA,
->                 .ext_ptr =3D &vcpu_sbi_ext_sta,
->         },
-> +       {
-> +               .ext_idx =3D KVM_RISCV_SBI_EXT_FWFT,
-> +               .ext_ptr =3D &vcpu_sbi_ext_fwft,
-> +       },
->         {
->                 .ext_idx =3D KVM_RISCV_SBI_EXT_EXPERIMENTAL,
->                 .ext_ptr =3D &vcpu_sbi_ext_experimental,
 > diff --git a/arch/riscv/kvm/vcpu_sbi_fwft.c b/arch/riscv/kvm/vcpu_sbi_fwf=
 t.c
-> new file mode 100644
-> index 000000000000..b0f66c7bf010
-> --- /dev/null
+> index b0f66c7bf010..6770c043bbcb 100644
+> --- a/arch/riscv/kvm/vcpu_sbi_fwft.c
 > +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
-> @@ -0,0 +1,216 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2025 Rivos Inc.
-> + *
-> + * Authors:
-> + *     Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
-> + */
+> @@ -14,6 +14,8 @@
+>  #include <asm/kvm_vcpu_sbi.h>
+>  #include <asm/kvm_vcpu_sbi_fwft.h>
+>
+> +#define MIS_DELEG (BIT_ULL(EXC_LOAD_MISALIGNED) | BIT_ULL(EXC_STORE_MISA=
+LIGNED))
 > +
-> +#include <linux/errno.h>
-> +#include <linux/err.h>
-> +#include <linux/kvm_host.h>
-> +#include <asm/cpufeature.h>
-> +#include <asm/sbi.h>
-> +#include <asm/kvm_vcpu_sbi.h>
-> +#include <asm/kvm_vcpu_sbi_fwft.h>
-> +
-> +struct kvm_sbi_fwft_feature {
-> +       /**
-> +        * @id: Feature ID
-> +        */
-> +       enum sbi_fwft_feature_t id;
-> +
-> +       /**
-> +        * @supported: Check if the feature is supported on the vcpu
-> +        *
-> +        * This callback is optional, if not provided the feature is assu=
-med to
-> +        * be supported
-> +        */
-> +       bool (*supported)(struct kvm_vcpu *vcpu);
-> +
-> +       /**
-> +        * @set: Set the feature value
-> +        *
-> +        * Return SBI_SUCCESS on success or an SBI error (SBI_ERR_*)
-> +        *
-> +        * This callback is mandatory
-> +        */
-> +       long (*set)(struct kvm_vcpu *vcpu, struct kvm_sbi_fwft_config *co=
-nf, unsigned long value);
-> +
-> +       /**
-> +        * @get: Get the feature current value
-> +        *
-> +        * Return SBI_SUCCESS on success or an SBI error (SBI_ERR_*)
-> +        *
-> +        * This callback is mandatory
-> +        */
-> +       long (*get)(struct kvm_vcpu *vcpu, struct kvm_sbi_fwft_config *co=
-nf, unsigned long *value);
-> +};
-> +
-> +static const enum sbi_fwft_feature_t kvm_fwft_defined_features[] =3D {
-> +       SBI_FWFT_MISALIGNED_EXC_DELEG,
-> +       SBI_FWFT_LANDING_PAD,
-> +       SBI_FWFT_SHADOW_STACK,
-> +       SBI_FWFT_DOUBLE_TRAP,
-> +       SBI_FWFT_PTE_AD_HW_UPDATING,
-> +       SBI_FWFT_POINTER_MASKING_PMLEN,
-> +};
-> +
-> +static bool kvm_fwft_is_defined_feature(enum sbi_fwft_feature_t feature)
+>  struct kvm_sbi_fwft_feature {
+>         /**
+>          * @id: Feature ID
+> @@ -68,7 +70,46 @@ static bool kvm_fwft_is_defined_feature(enum sbi_fwft_=
+feature_t feature)
+>         return false;
+>  }
+>
+> +static bool kvm_sbi_fwft_misaligned_delegation_supported(struct kvm_vcpu=
+ *vcpu)
 > +{
-> +       int i;
-> +
-> +       for (i =3D 0; i < ARRAY_SIZE(kvm_fwft_defined_features); i++) {
-> +               if (kvm_fwft_defined_features[i] =3D=3D feature)
-> +                       return true;
-> +       }
-> +
-> +       return false;
+> +       return misaligned_traps_can_delegate();
 > +}
 > +
-> +static const struct kvm_sbi_fwft_feature features[] =3D {
-> +};
-> +
-> +static struct kvm_sbi_fwft_config *
-> +kvm_sbi_fwft_get_config(struct kvm_vcpu *vcpu, enum sbi_fwft_feature_t f=
-eature)
+> +static long kvm_sbi_fwft_set_misaligned_delegation(struct kvm_vcpu *vcpu=
+,
+> +                                       struct kvm_sbi_fwft_config *conf,
+> +                                       unsigned long value)
 > +{
-> +       int i;
-> +       struct kvm_sbi_fwft *fwft =3D vcpu_to_fwft(vcpu);
+> +       struct kvm_vcpu_config *cfg =3D &vcpu->arch.cfg;
 > +
-> +       for (i =3D 0; i < ARRAY_SIZE(features); i++) {
-> +               if (fwft->configs[i].feature->id =3D=3D feature)
-> +                       return &fwft->configs[i];
+> +       if (value =3D=3D 1) {
+> +               cfg->hedeleg |=3D MIS_DELEG;
+> +               csr_set(CSR_HEDELEG, MIS_DELEG);
+> +       } else if (value =3D=3D 0) {
+> +               cfg->hedeleg &=3D ~MIS_DELEG;
+> +               csr_clear(CSR_HEDELEG, MIS_DELEG);
+> +       } else {
+> +               return SBI_ERR_INVALID_PARAM;
 > +       }
-> +
-> +       return NULL;
-> +}
-> +
-> +static int kvm_fwft_get_feature(struct kvm_vcpu *vcpu, u32 feature,
-> +                               struct kvm_sbi_fwft_config **conf)
-> +{
-> +       struct kvm_sbi_fwft_config *tconf;
-> +
-> +       tconf =3D kvm_sbi_fwft_get_config(vcpu, feature);
-> +       if (!tconf) {
-> +               if (kvm_fwft_is_defined_feature(feature))
-> +                       return SBI_ERR_NOT_SUPPORTED;
-> +
-> +               return SBI_ERR_DENIED;
-> +       }
-> +
-> +       if (!tconf->supported)
-> +               return SBI_ERR_NOT_SUPPORTED;
-> +
-> +       *conf =3D tconf;
 > +
 > +       return SBI_SUCCESS;
 > +}
 > +
-> +static int kvm_sbi_fwft_set(struct kvm_vcpu *vcpu, u32 feature,
-> +                           unsigned long value, unsigned long flags)
-> +{
-> +       int ret;
-> +       struct kvm_sbi_fwft_config *conf;
-> +
-> +       ret =3D kvm_fwft_get_feature(vcpu, feature, &conf);
-> +       if (ret)
-> +               return ret;
-> +
-> +       if ((flags & ~SBI_FWFT_SET_FLAG_LOCK) !=3D 0)
-> +               return SBI_ERR_INVALID_PARAM;
-> +
-> +       if (conf->flags & SBI_FWFT_SET_FLAG_LOCK)
-> +               return SBI_ERR_DENIED_LOCKED;
-> +
-> +       conf->flags =3D flags;
-> +
-> +       return conf->feature->set(vcpu, conf, value);
-> +}
-> +
-> +static int kvm_sbi_fwft_get(struct kvm_vcpu *vcpu, unsigned long feature=
+> +static long kvm_sbi_fwft_get_misaligned_delegation(struct kvm_vcpu *vcpu=
 ,
-> +                           unsigned long *value)
+> +                                       struct kvm_sbi_fwft_config *conf,
+> +                                       unsigned long *value)
 > +{
-> +       int ret;
-> +       struct kvm_sbi_fwft_config *conf;
+> +       *value =3D (csr_read(CSR_HEDELEG) & MIS_DELEG) =3D=3D MIS_DELEG;
 > +
-> +       ret =3D kvm_fwft_get_feature(vcpu, feature, &conf);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return conf->feature->get(vcpu, conf, value);
+> +       return SBI_SUCCESS;
 > +}
 > +
-> +static int kvm_sbi_ext_fwft_handler(struct kvm_vcpu *vcpu, struct kvm_ru=
-n *run,
-> +                                   struct kvm_vcpu_sbi_return *retdata)
-> +{
-> +       int ret;
-> +       struct kvm_cpu_context *cp =3D &vcpu->arch.guest_context;
-> +       unsigned long funcid =3D cp->a6;
-> +
-> +       switch (funcid) {
-> +       case SBI_EXT_FWFT_SET:
-> +               ret =3D kvm_sbi_fwft_set(vcpu, cp->a0, cp->a1, cp->a2);
-> +               break;
-> +       case SBI_EXT_FWFT_GET:
-> +               ret =3D kvm_sbi_fwft_get(vcpu, cp->a0, &retdata->out_val)=
-;
-> +               break;
-> +       default:
-> +               ret =3D SBI_ERR_NOT_SUPPORTED;
-> +               break;
-> +       }
-> +
-> +       retdata->err_val =3D ret;
-> +
-> +       return 0;
-> +}
-> +
-> +static int kvm_sbi_ext_fwft_init(struct kvm_vcpu *vcpu)
-> +{
-> +       struct kvm_sbi_fwft *fwft =3D vcpu_to_fwft(vcpu);
-> +       const struct kvm_sbi_fwft_feature *feature;
-> +       struct kvm_sbi_fwft_config *conf;
-> +       int i;
-> +
-> +       fwft->configs =3D kcalloc(ARRAY_SIZE(features), sizeof(struct kvm=
-_sbi_fwft_config),
-> +                               GFP_KERNEL);
-> +       if (!fwft->configs)
-> +               return -ENOMEM;
-> +
-> +       for (i =3D 0; i < ARRAY_SIZE(features); i++) {
-> +               feature =3D &features[i];
-> +               conf =3D &fwft->configs[i];
-> +               if (feature->supported)
-> +                       conf->supported =3D feature->supported(vcpu);
-> +               else
-> +                       conf->supported =3D true;
-> +
-> +               conf->feature =3D feature;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static void kvm_sbi_ext_fwft_deinit(struct kvm_vcpu *vcpu)
-> +{
-> +       struct kvm_sbi_fwft *fwft =3D vcpu_to_fwft(vcpu);
-> +
-> +       kfree(fwft->configs);
-> +}
-> +
-> +static void kvm_sbi_ext_fwft_reset(struct kvm_vcpu *vcpu)
-> +{
-> +       int i;
-> +       struct kvm_sbi_fwft *fwft =3D vcpu_to_fwft(vcpu);
-> +
-> +       for (i =3D 0; i < ARRAY_SIZE(features); i++)
-> +               fwft->configs[i].flags =3D 0;
-> +}
-> +
-> +const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_fwft =3D {
-> +       .extid_start =3D SBI_EXT_FWFT,
-> +       .extid_end =3D SBI_EXT_FWFT,
-> +       .handler =3D kvm_sbi_ext_fwft_handler,
-> +       .init =3D kvm_sbi_ext_fwft_init,
-> +       .deinit =3D kvm_sbi_ext_fwft_deinit,
-> +       .reset =3D kvm_sbi_ext_fwft_reset,
-> +};
+>  static const struct kvm_sbi_fwft_feature features[] =3D {
+> +       {
+> +               .id =3D SBI_FWFT_MISALIGNED_EXC_DELEG,
+> +               .supported =3D kvm_sbi_fwft_misaligned_delegation_support=
+ed,
+> +               .set =3D kvm_sbi_fwft_set_misaligned_delegation,
+> +               .get =3D kvm_sbi_fwft_get_misaligned_delegation,
+> +       },
+>  };
+>
+>  static struct kvm_sbi_fwft_config *
 > --
 > 2.49.0
 >
