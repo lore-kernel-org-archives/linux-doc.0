@@ -1,172 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F0C1E5213;
-	Fri, 13 Jun 2025 15:27:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA2A19D08F;
+	Fri, 13 Jun 2025 15:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749828451; cv=none; b=HnI6Bec1JbHRRIGsBqpmY8rIDT1kBN76PNhsUeZgUa7WA862BLBdJei2hEL+ryJ0hl2MGmnZYryH+4dh8r8GGaxRhvMTVG46U23JYq+eE2BSDuejm5mAdltiq+ARRdiPsXsTj/Cp5WPYYdmSgyhrJgFK0UFxM9lB6mkVXOn0Au8=
+	t=1749829332; cv=none; b=Qg5b1vCcM3cgfvAQ2zK4pyJa0VSGylHgUGXz6kpN9tTRytffExcBDoZGFqIkyk6qm3F5VxBZyFerBmbFxI6b4tTk6DyhTybV1PzUTKDnILpllEvj5wTqpdvQ2CPj3MJoDIXiBA8s9IHUf5c66/xITxl3WVr97Mp94cJIUef3wCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749828451; c=relaxed/simple;
-	bh=88xUdYBMPT3UbWHPTJRNtJ5le6acxvABX2a2MypWfUE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZrVdEqpJLXOvX0s8Pas6oIbjM/Gay4uWpBujSc+WD9N6C5DPj9OMbAnmNZTATS3MOOw9K4cTpWrPXLQEPmPer6tZVEAqvMnkFWVs57G20ln29M5Qb0UI1lMSrfnyl25QH5QrvjiTup1/cnlYfWjMVCt43/c4WjKfD4E/JYu5jbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OBosYd0U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749829332; c=relaxed/simple;
+	bh=zewWVz9OBaB1bQbv1bL1NQdNn0xp5wKBNRoUrIH5RDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aMLGCWUBClK61EKCQw2ssU12POBzGvWNVpvR2FAbH+/uA00GN689ZrcS1blY6ho3TK88xMNCilw/4e8vGo+6xHNp+bODXYKS/m5bxE8N6ncTXbMx5XbCGdFIkAylwN5BBeRP5cQ33beci5ULcfl4OY0sQUVyxO/jthC+mNRTOBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c94WwD+J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBosYd0U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC73C4CEE3;
-	Fri, 13 Jun 2025 15:27:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c94WwD+J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41AFFC4CEE3;
+	Fri, 13 Jun 2025 15:42:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749828450;
-	bh=88xUdYBMPT3UbWHPTJRNtJ5le6acxvABX2a2MypWfUE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OBosYd0UCBZw4SAiVzH5bFP26U8lcMe2wbd/3tbGiUAQ9sfKtUT2UeGBUS50U9S4P
-	 F6Qt1zqdq8JNIyEFCbk/oIp6YWZXv/UUqkYVEqLxwjhuQ/66c4+ka28Qh4HVgBdVdV
-	 SB1Mnr5ycqi1qRMC7qKas9U652pK/xJngizVsheYzvkbsjBiYv+y+i/yT/A+ogx5fN
-	 YKgYRNzaqcMkMv6xGYhGfseiaMJ58y+G4SfCtefRuriPxTMAPoUXqBZfpRLZn/UICh
-	 2ocRZSUrTAIXwmBzylEyCCg4nzKTpd2//Brxj1WhoTUAr+b6hyMJbfwbIpFQDpyln+
-	 eCaXnAU7yNhyw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
-  graf@amazon.com,  changyuanl@google.com,  rppt@kernel.org,
-  dmatlack@google.com,  rientjes@google.com,  corbet@lwn.net,
-  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 08/16] luo: luo_files: add infrastructure for FDs
-In-Reply-To: <CA+CK2bBeCOojpZ=qoefd6NG+bO6CUh+NU8=8dMhD01=LtC9eNg@mail.gmail.com>
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
-	<20250515182322.117840-9-pasha.tatashin@soleen.com>
-	<mafs034cetc5g.fsf@kernel.org>
-	<CA+CK2bBeCOojpZ=qoefd6NG+bO6CUh+NU8=8dMhD01=LtC9eNg@mail.gmail.com>
-Date: Fri, 13 Jun 2025 17:27:21 +0200
-Message-ID: <mafs0cyb7mzl2.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=k20201202; t=1749829332;
+	bh=zewWVz9OBaB1bQbv1bL1NQdNn0xp5wKBNRoUrIH5RDA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=c94WwD+JJWKs8yyv3+igkbzlPTOpkGQm3ioCluPpNTsMr8wQ6SucQvqkEjY0ZqzzW
+	 3ZaQlqzlbbHklbhU6U6WfkG/94jBAq/m/YI4CjZ7BBil8tGZw1/eo0C7m0pY3X6QpG
+	 M1sWB191a1bYcnQXQKTuJ5UZLdEJSt6b5UxTABSgMetVbF/uoKPc8YGk8SNjmZCSGq
+	 9+/IUTersjN/xlbV8rx7Sb+iZcMSTJOmu2NLQpTLBQweRNX4AnixwCxWlwJN3oCp91
+	 lzuUfDL+R/lsonzi5sHVTF9SSXr2eUNmeLbSw5DBqsqrWtTHjGCkBhJj8JthlnqxTS
+	 NeLmGje+wPXUA==
+Date: Fri, 13 Jun 2025 17:42:03 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, "Akira Yokosawa" <akiyks@gmail.com>, "Breno Leitao"
+ <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, "Ignacio Encinas Rubio"
+ <ignacio@iencinas.com>, "Jan Stancek" <jstancek@redhat.com>, "Marco Elver"
+ <elver@google.com>, "Paolo Abeni" <pabeni@redhat.com>, "Ruben Wauters"
+ <rubenru09@aol.com>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
+ peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v2 09/12] docs: sphinx: add a parser template for yaml
+ files
+Message-ID: <20250613174203.1bcdf4bc@sal.lan>
+In-Reply-To: <20250613142644.6497ed9b@foz.lan>
+References: <cover.1749723671.git.mchehab+huawei@kernel.org>
+	<39789f17215178892544ffc408a4d0d9f4017f37.1749723671.git.mchehab+huawei@kernel.org>
+	<m2tt4jnald.fsf@gmail.com>
+	<20250613142644.6497ed9b@foz.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jun 08 2025, Pasha Tatashin wrote:
+Em Fri, 13 Jun 2025 14:26:44 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-[...]
->> > +     down_write(&luo_filesystems_list_rwsem);
->> > +     if (luo_files_xa_in_recreated)
->> > +             goto exit_unlock;
->> > +
->> > +     parent_node_offset = fdt_subnode_offset(luo_fdt_in, 0,
->> > +                                             LUO_FILES_NODE_NAME);
->> > +
->> > +     fdt_for_each_subnode(file_node_offset, luo_fdt_in, parent_node_offset) {
->> > +             bool handler_found = false;
->> > +             u64 token;
->> > +
->> > +             node_name = fdt_get_name(luo_fdt_in, file_node_offset, NULL);
->> > +             if (!node_name) {
->> > +                     panic("Skipping FDT subnode at offset %d: Cannot get name\n",
->> > +                           file_node_offset);
->>
->> Should failure to parse a specific FD really be a panic? Wouldn't it be
->> better to continue and let userspace decide if it can live with the FD
->> missing?
->
-> This is not safe, the memory might be DMA or owned by a sensetive
-> process, and if we proceed liveupdate reboot without properly handling
-> memory, we can get corruptions, and memory leaks. Therefore, during
-> liveupdate boot if there are exceptions, we should panic.
+> > > +
+> > > +    supported = ('yaml', 'yml')    
+> > 
+> > I don't think we need to support the .yml extension.  
+> 
+> Ok, will drop "yml".
 
-I don't get how it would result in memory leaks or corruptions, since
-KHO would have marked that memory as preserved, and the new kernel won't
-touch it until someone restores it.
+"supported" is not just extensions. It is a list of aliases for the
+supported standard (*), like:
 
-So it can at most lead to loss of data, and in that case, userspace can
-very well decide if it can live with that loss or not.
+    supported = ('rst', 'restructuredtext', 'rest', 'restx', 'rtxt', 'rstx')
+    """Aliases this parser supports."""
 
-Or are you assuming here that even data in KHO is broken? In that case,
-it would probably be a good idea to panic early.
+    (*) see: https://www.sphinx-doc.org/en/master/_modules/docutils/parsers/rst.html
 
-[...]
->> > +             }
->> > +
->> > +             luo_file = kmalloc(sizeof(*luo_file),
->> > +                                GFP_KERNEL | __GFP_NOFAIL);
->> > +             luo_file->fs = fs;
->> > +             luo_file->file = NULL;
->> > +             memcpy(&luo_file->private_data, data_ptr, sizeof(u64));
->>
->> Why not make sure data_ptr is exactly sizeof(u64) when we parse it, and
->> then simply do luo_file->private_data = (u64)*data_ptr ?
->
-> Because FDT alignment is 4 bytes, we can't simply assign it.
+Anyway, I tried with:
 
-Hmm, good catch. Didn't think of that.
+	supported = ('yaml')    
 
->
->> Because if the previous kernel wrote more than a u64 in data, then
->> something is broken and we should catch that error anyway.
->>
->> > +             luo_file->reclaimed = false;
->> > +             mutex_init(&luo_file->mutex);
->> > +             luo_file->state = LIVEUPDATE_STATE_UPDATED;
->> > +             ret = xa_err(xa_store(&luo_files_xa_in, token, luo_file,
->> > +                                   GFP_KERNEL | __GFP_NOFAIL));
->>
-[...]
->> > +struct liveupdate_filesystem {
->> > +     int (*prepare)(struct file *file, void *arg, u64 *data);
->> > +     int (*freeze)(struct file *file, void *arg, u64 *data);
->> > +     void (*cancel)(struct file *file, void *arg, u64 data);
->> > +     void (*finish)(struct file *file, void *arg, u64 data, bool reclaimed);
->> > +     int (*retrieve)(void *arg, u64 data, struct file **file);
->> > +     bool (*can_preserve)(struct file *file, void *arg);
->> > +     const char *compatible;
->> > +     void *arg;
->>
->> What is the use for this arg? I would expect one file type/system to
->> register one set of handlers. So they can keep their arg in a global in
->> their code. I don't see why a per-filesystem arg is needed.
->
-> I think, arg is useful in case we support a subsystem is registered
-> multiple times with some differences: i.e. based on mount point, or
-> file types handling. Let's keep it for now, but if needed, we can
-> remove that in future revisions.
->
->> What I do think is needed is a per-file arg. Each callback gets 'data',
->> which is the serialized data, but there is no place to store runtime
->> state, like some flags or serialization metadata. Sure, you could make
->> place for it somewhere in the inode, but I think it would be a lot
->> cleaner to be able to store it in struct luo_file.
->>
->> So perhaps rename private_data in struct luo_file to say
->> serialized_data, and have a field called "private" that filesystems can
->> use for their runtime state?
->
-> I am not against this, but let's make this change when it is actually
-> needed by a registered filesystem.
+but it crashed with:
 
-Okay, fair enough.
+	sphinx.errors.SphinxError: Source parser for yaml not registered
 
--- 
+On my tests, if "supported" set has just one element, it crashes.
+
+On this specific case, this, for instance, works:
+
+    supported = ('yaml', 'foobar')
+
+Anyway, not worth spending too much time on it, as it could be
+a bug or a feature at either docutils or sphinx. As we want it to
+work with existing versions, I'll keep it as:
+
+	supported = ('yaml', 'yml')    
+
+at the next version.
+
+> > > +def setup(app):
+> > > +    """Setup function for the Sphinx extension."""
+> > > +
+> > > +    # Add YAML parser
+> > > +    app.add_source_parser(YamlParser)
+> > > +    app.add_source_suffix('.yaml', 'yaml')
+> > > +    app.add_source_suffix('.yml', 'yaml')    
+> > 
+> > No need to support the .yml extension.  
+
+Dropping .yml works here. So, here I'll keep just:
+
+    # Add YAML parser
+    app.add_source_parser(YamlParser)
+    app.add_source_suffix('.yaml', 'yaml')
+
 Regards,
-Pratyush Yadav
+Mauro
+
