@@ -1,105 +1,172 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B55E1E3775
-	for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 15:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F0C1E5213;
+	Fri, 13 Jun 2025 15:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749828369; cv=none; b=TYp2InCXxlZdysoAy5abdnVpbr2xVfPVC31JaBHRkdElv+/YltYj64vTepjUYDiL+2YkolkfGuGLnAKdAVrppvTT0Jafc6p6qSZD6xjVuZ8Dr0yEri+1RkBnIeQytfLt+ajcuT9dJJ/W7laEPrJLaMRI2QmDuRaNOGHzeI3KaHk=
+	t=1749828451; cv=none; b=HnI6Bec1JbHRRIGsBqpmY8rIDT1kBN76PNhsUeZgUa7WA862BLBdJei2hEL+ryJ0hl2MGmnZYryH+4dh8r8GGaxRhvMTVG46U23JYq+eE2BSDuejm5mAdltiq+ARRdiPsXsTj/Cp5WPYYdmSgyhrJgFK0UFxM9lB6mkVXOn0Au8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749828369; c=relaxed/simple;
-	bh=4e0gp9uIV7MyzxlvTTu7qZW9G/t1tf1C48sZL1Ybazo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lUmlikJAzolxXPvT9mJ0YLSoLUljPd4qF0HRgbqR0/1chycCLSpZuiJYWkfylS0JrbnEOSvtP/9PpHL6bNkHtHeLH6M/E4OtL8UfhOTNObdk+cfkcFrTDZZm7rqnHm02MuZjGpP0YXnbb5VnZBJl+cTsEjWzWNMakXiYDn9wdJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=IT+zgK9t; arc=none smtp.client-ip=209.85.166.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1749828451; c=relaxed/simple;
+	bh=88xUdYBMPT3UbWHPTJRNtJ5le6acxvABX2a2MypWfUE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZrVdEqpJLXOvX0s8Pas6oIbjM/Gay4uWpBujSc+WD9N6C5DPj9OMbAnmNZTATS3MOOw9K4cTpWrPXLQEPmPer6tZVEAqvMnkFWVs57G20ln29M5Qb0UI1lMSrfnyl25QH5QrvjiTup1/cnlYfWjMVCt43/c4WjKfD4E/JYu5jbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OBosYd0U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="IT+zgK9t"
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-86d1131551eso66582339f.3
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 08:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1749828366; x=1750433166; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pJyEx9SEtMoT9W574jcNh5RLLtb5eK5nBGN8Lv2U/V8=;
-        b=IT+zgK9tshirZFdcjv95do9YnxYi+asmrxVUqSX9K3SiLvuXrg/csjG2Lz2iD4WDrD
-         KGpO+RL09zdoGwAA7pn2wTseKl563bEVBiO5D6DWo+1E3LcdmIewF5rFEuaW3bC1hFXh
-         fu9l0iN/iKGsoGvuvAGr3/imrSfjAdbj8Yn9ov37jukVDRVnrSIL7p1HxhIFIizE+Agn
-         XBHgbrENP9pWBPGEMK+AKSzl59y9akCH0JyXU0pOJmcTp4G4wdyFZY5KIx9aTeYGx8rK
-         VfI+6GIEjBh9H5fPc2FPvCWdYLGV5Q/o+OqO+DBldp270/TiWNGbLGPnWcwp9zCVKiub
-         vIyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749828366; x=1750433166;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pJyEx9SEtMoT9W574jcNh5RLLtb5eK5nBGN8Lv2U/V8=;
-        b=Utn+1r+oFJ/ZTxBNHh9utp9mzyQI4Edub8wwfTRJMlwphnB3fjeU55HhHaYmUNhI4w
-         hQYmr9+8AkfUPG8M743VELEJAA1n1t+XWlDfSbEWPpTPoqFvyKECKRmT3wEV5aXzXFmg
-         U85ZFN6eS6gJfDwC77yHCi1M1cmpe0urMYyjuh92vD1kjSl+hcKzKgL9ugYmrhIqEEgb
-         Cwk7szuM4L8yXpByeGmk7I7cZMifIGbv5R/UGZrNqL0krGTb9JMJMmdu18C3iEdz1WST
-         s/ePVR4KH5oO4zPueSffMwVZI9oP160cSFwqClHQ7ALZNNrEKc4w1r/XQZZicRVWNpVP
-         QrYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWh5sIvpfKNbvXliklL8NKbIkyOb9bmwcq91ARUwauzieQcgAUH4YHj98tiSufmqUfip2eB1GE22E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZC6teSby9t2v1Q+KR+crKsEACLWmmbfVr9ApF/abUrbluXdzY
-	NuXWd0ylOVLukOJDUhfuKci0PY70kQRp8aKRCslez21T2coss5ZBXtnxNu/GkKcUy9w=
-X-Gm-Gg: ASbGncs1gxy13bcUD5riKfPKBCwY5YAAYO5KKnK6yDz1piemldR835mnQauzJ6/05sT
-	6pWLxCcyuW/JuxkP7lqTEB4VGkMLASOUSNwnv5LdHSrTXhErDrvAU4OoFL38yq2rg0KY0Pmw+cv
-	P8pM1hAJ6MMrBtmI6XM6IFEbd4wsllh44CNENd5alMGqECt8jexQhySpflo873v0jJDbQAagtVV
-	ufOq2nJUTpLcvn4W/9KBIIIXQ21Ju+8n+s2aqFqk8Thi4jXPJOwTYr+hSLTDfM59FMkVY/bQ0q0
-	wnseuwoXWwtrVDEnIsJccNKI76tpHBNpPf50pc/sy7hL/mYCfHU4
-X-Google-Smtp-Source: AGHT+IGYvJK3/OvP02MLHyARtWzj0lGmzWqmFxziBjJCVW+F8NXt7Xn4uM0PaH6+Trrm9TNdqvfACg==
-X-Received: by 2002:a05:6602:7504:b0:866:217f:80a with SMTP id ca18e2360f4ac-875d3c88149mr444305339f.7.1749828366385;
-        Fri, 13 Jun 2025 08:26:06 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-875d570f54fsm32817239f.10.2025.06.13.08.26.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 08:26:05 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux Documentation <linux-doc@vger.kernel.org>, 
- Linux Block Devices <linux-block@vger.kernel.org>, 
- Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Caleb Sander Mateos <csander@purestorage.com>, 
- Ming Lei <ming.lei@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Stephen Rothwell <sfr@canb.auug.org.au>
-In-Reply-To: <20250613023857.15971-1-bagasdotme@gmail.com>
-References: <20250613023857.15971-1-bagasdotme@gmail.com>
-Subject: Re: [PATCH] Documentation: ublk: Separate UBLK_F_AUTO_BUF_REG
- fallback behavior sublists
-Message-Id: <174982836505.723307.4689076506739660480.b4-ty@kernel.dk>
-Date: Fri, 13 Jun 2025 09:26:05 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBosYd0U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC73C4CEE3;
+	Fri, 13 Jun 2025 15:27:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749828450;
+	bh=88xUdYBMPT3UbWHPTJRNtJ5le6acxvABX2a2MypWfUE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OBosYd0UCBZw4SAiVzH5bFP26U8lcMe2wbd/3tbGiUAQ9sfKtUT2UeGBUS50U9S4P
+	 F6Qt1zqdq8JNIyEFCbk/oIp6YWZXv/UUqkYVEqLxwjhuQ/66c4+ka28Qh4HVgBdVdV
+	 SB1Mnr5ycqi1qRMC7qKas9U652pK/xJngizVsheYzvkbsjBiYv+y+i/yT/A+ogx5fN
+	 YKgYRNzaqcMkMv6xGYhGfseiaMJ58y+G4SfCtefRuriPxTMAPoUXqBZfpRLZn/UICh
+	 2ocRZSUrTAIXwmBzylEyCCg4nzKTpd2//Brxj1WhoTUAr+b6hyMJbfwbIpFQDpyln+
+	 eCaXnAU7yNhyw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  rppt@kernel.org,
+  dmatlack@google.com,  rientjes@google.com,  corbet@lwn.net,
+  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 08/16] luo: luo_files: add infrastructure for FDs
+In-Reply-To: <CA+CK2bBeCOojpZ=qoefd6NG+bO6CUh+NU8=8dMhD01=LtC9eNg@mail.gmail.com>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+	<20250515182322.117840-9-pasha.tatashin@soleen.com>
+	<mafs034cetc5g.fsf@kernel.org>
+	<CA+CK2bBeCOojpZ=qoefd6NG+bO6CUh+NU8=8dMhD01=LtC9eNg@mail.gmail.com>
+Date: Fri, 13 Jun 2025 17:27:21 +0200
+Message-ID: <mafs0cyb7mzl2.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-7b9b9
+Content-Type: text/plain
 
+On Sun, Jun 08 2025, Pasha Tatashin wrote:
 
-On Fri, 13 Jun 2025 09:38:57 +0700, Bagas Sanjaya wrote:
-> Stephen Rothwell reports htmldocs warning on ublk docs:
-> 
-> Documentation/block/ublk.rst:414: ERROR: Unexpected indentation. [docutils]
-> 
-> Fix the warning by separating sublists of auto buffer registration
-> fallback behavior from their appropriate parent list item.
-> 
-> [...]
+[...]
+>> > +     down_write(&luo_filesystems_list_rwsem);
+>> > +     if (luo_files_xa_in_recreated)
+>> > +             goto exit_unlock;
+>> > +
+>> > +     parent_node_offset = fdt_subnode_offset(luo_fdt_in, 0,
+>> > +                                             LUO_FILES_NODE_NAME);
+>> > +
+>> > +     fdt_for_each_subnode(file_node_offset, luo_fdt_in, parent_node_offset) {
+>> > +             bool handler_found = false;
+>> > +             u64 token;
+>> > +
+>> > +             node_name = fdt_get_name(luo_fdt_in, file_node_offset, NULL);
+>> > +             if (!node_name) {
+>> > +                     panic("Skipping FDT subnode at offset %d: Cannot get name\n",
+>> > +                           file_node_offset);
+>>
+>> Should failure to parse a specific FD really be a panic? Wouldn't it be
+>> better to continue and let userspace decide if it can live with the FD
+>> missing?
+>
+> This is not safe, the memory might be DMA or owned by a sensetive
+> process, and if we proceed liveupdate reboot without properly handling
+> memory, we can get corruptions, and memory leaks. Therefore, during
+> liveupdate boot if there are exceptions, we should panic.
 
-Applied, thanks!
+I don't get how it would result in memory leaks or corruptions, since
+KHO would have marked that memory as preserved, and the new kernel won't
+touch it until someone restores it.
 
-[1/1] Documentation: ublk: Separate UBLK_F_AUTO_BUF_REG fallback behavior sublists
-      commit: db3dfae1a2f662e69d535827703bcdbb04b8d72b
+So it can at most lead to loss of data, and in that case, userspace can
+very well decide if it can live with that loss or not.
 
-Best regards,
+Or are you assuming here that even data in KHO is broken? In that case,
+it would probably be a good idea to panic early.
+
+[...]
+>> > +             }
+>> > +
+>> > +             luo_file = kmalloc(sizeof(*luo_file),
+>> > +                                GFP_KERNEL | __GFP_NOFAIL);
+>> > +             luo_file->fs = fs;
+>> > +             luo_file->file = NULL;
+>> > +             memcpy(&luo_file->private_data, data_ptr, sizeof(u64));
+>>
+>> Why not make sure data_ptr is exactly sizeof(u64) when we parse it, and
+>> then simply do luo_file->private_data = (u64)*data_ptr ?
+>
+> Because FDT alignment is 4 bytes, we can't simply assign it.
+
+Hmm, good catch. Didn't think of that.
+
+>
+>> Because if the previous kernel wrote more than a u64 in data, then
+>> something is broken and we should catch that error anyway.
+>>
+>> > +             luo_file->reclaimed = false;
+>> > +             mutex_init(&luo_file->mutex);
+>> > +             luo_file->state = LIVEUPDATE_STATE_UPDATED;
+>> > +             ret = xa_err(xa_store(&luo_files_xa_in, token, luo_file,
+>> > +                                   GFP_KERNEL | __GFP_NOFAIL));
+>>
+[...]
+>> > +struct liveupdate_filesystem {
+>> > +     int (*prepare)(struct file *file, void *arg, u64 *data);
+>> > +     int (*freeze)(struct file *file, void *arg, u64 *data);
+>> > +     void (*cancel)(struct file *file, void *arg, u64 data);
+>> > +     void (*finish)(struct file *file, void *arg, u64 data, bool reclaimed);
+>> > +     int (*retrieve)(void *arg, u64 data, struct file **file);
+>> > +     bool (*can_preserve)(struct file *file, void *arg);
+>> > +     const char *compatible;
+>> > +     void *arg;
+>>
+>> What is the use for this arg? I would expect one file type/system to
+>> register one set of handlers. So they can keep their arg in a global in
+>> their code. I don't see why a per-filesystem arg is needed.
+>
+> I think, arg is useful in case we support a subsystem is registered
+> multiple times with some differences: i.e. based on mount point, or
+> file types handling. Let's keep it for now, but if needed, we can
+> remove that in future revisions.
+>
+>> What I do think is needed is a per-file arg. Each callback gets 'data',
+>> which is the serialized data, but there is no place to store runtime
+>> state, like some flags or serialization metadata. Sure, you could make
+>> place for it somewhere in the inode, but I think it would be a lot
+>> cleaner to be able to store it in struct luo_file.
+>>
+>> So perhaps rename private_data in struct luo_file to say
+>> serialized_data, and have a field called "private" that filesystems can
+>> use for their runtime state?
+>
+> I am not against this, but let's make this change when it is actually
+> needed by a registered filesystem.
+
+Okay, fair enough.
+
 -- 
-Jens Axboe
-
-
-
+Regards,
+Pratyush Yadav
