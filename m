@@ -1,134 +1,182 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A561ACED7;
-	Fri, 13 Jun 2025 16:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C832F1E3762
+	for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 16:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749830568; cv=none; b=pvxXLrQinWhQKR7U513DnpC3Yi3LXirDCrgN/zcpoQXDExfczM6HuHKs8VPlZXJSYOWswBy8wrYRJs5weFkbTnyVFbm1wQPrcpfzEfSC7JIUVV8uWupyvu5ANFziQxZa3XUEzZ/SZI+ZiKC5xTTPjPjbfcKVHjPu3shSoDKUaho=
+	t=1749830611; cv=none; b=uHOdpQ9uWeGw8SIZuJvaknYl5lodzeZ0wJ7O5pAkkKxbxAzkwjO64m1khpNXOd29mK7LXt8Q6uIfZPAP+QQy4lKKbrh1pQhCbyCqQPtPeTTLuJtsUwk3CZ6ze45eQFqZrzULk6Xu+xgkFmsudykS0P3iXQBzGoI5A7/fOIqJplE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749830568; c=relaxed/simple;
-	bh=aDVEjclZHq3dM+hdgbvjUwy0ua5O04khGzKkRZzx15A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ikvtrc+jykGnM188iGp8lO9HJOCMB9U4F7gNzwWo+VQCuI+psiiByJA4FNcq2K/bz7aaeqUrxYsB99v7Qf7m1bGKyWdznT/2UGg1KwkFeD9Q0j9167WAwB3SnoZ9VW5tyu0q/Jteov1GFh2XydgF8zD0wx567yhMx2u2gr9PrV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=XyInHlu3; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1749830611; c=relaxed/simple;
+	bh=gF8fryLDgUE7R04Y9/mL18frQKys+kanlKjViPMBr2g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s4aFh4NlE/kXkBrMrNcG+l4PgFxJPwxEiv32DY7dKd9pXsntUyTKE0WIfZdKRksns1DhCkhZqjY65gruFimlYVMNBZTMlACuzuJm0ia1trH5VP8312LtpCtFxkBUe3GocDSZmHfWmbAqNGyCNwNMd/4ewJDdq6+fRB+I+wbnLCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=rwv58qo4; arc=none smtp.client-ip=209.85.161.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="XyInHlu3"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55DDVaUs015720;
-	Fri, 13 Jun 2025 16:02:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pp1; bh=/0DCRS7jNv98LWVt8rDe+WfVDZJk
-	1RBINBRtUHWV9ZI=; b=XyInHlu3ttSD6jbBlwY3UkaxuYfBX3zUw8dfuU+NHLo6
-	lPkrAPt10A08m93eB1L6kQSbt1Ck0xkHSM9jTsxLJQgPIlctHPM8+YpfCk4YphlG
-	OkgJaBbGfLx4TNeTfImXZ6zqZF53c7FANWHY0E4rn0MtSUQP3eQkZrwEngCAtmJi
-	pRz58njk6nFzBnKexvS/TkjD0ztVcel64A7x+3pA8oX3fGx+1tyklY+U6FD8urKA
-	L25wW15Ik/kzmjzGlCjZiDk+JAByHIuu/BNpdplzCsE9ywffdVR++grkqMViVXLA
-	Ms8oTvnsrb5m6SiqtPd1Rr0S7VwDkGpUncYDCRzZWg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 474x4mq41j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Jun 2025 16:02:39 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 55DG2cfB004609;
-	Fri, 13 Jun 2025 16:02:38 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 474x4mq41e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Jun 2025 16:02:38 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 55DF0Txr027957;
-	Fri, 13 Jun 2025 16:02:38 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 47518mtpjf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Jun 2025 16:02:38 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 55DG2bI533686194
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 13 Jun 2025 16:02:37 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0801658043;
-	Fri, 13 Jun 2025 16:02:37 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 658B758053;
-	Fri, 13 Jun 2025 16:02:36 +0000 (GMT)
-Received: from d.ibm.com (unknown [9.61.41.78])
-	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 13 Jun 2025 16:02:36 +0000 (GMT)
-From: Dave Marquardt <davemarq@linux.ibm.com>
-Date: Fri, 13 Jun 2025 11:02:23 -0500
-Subject: [PATCH net v2] Fixed typo in netdevsim documentation
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="rwv58qo4"
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-60efc773b5fso1227058eaf.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 09:03:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1749830608; x=1750435408; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3w4DwQ7UKG+tZltk5EBs0uLUOBu/ZiYws0KL7s9WN3A=;
+        b=rwv58qo4n83JoPsWhczCiGTdjd7Yw91HumehZvkXWYVkebCdV3LCSp+SoJaDWT/t7A
+         YTlfr/vV6eOBYsmqfak8xLZkm3Ue4FeogKx4z14+Ap01MH+96O1bNp2rq96K1gx17Qiy
+         MsoXOHVfFkWcFem287dleU7p4Y0mHt5YZyK1ckgJNqiqUPCxVFIqQRdyokd2t6aS07kg
+         iYfodVce04X8SCzARZV3XO7Ms7PqrNX3QY8j65TQOtAOYMyVkulqj1cMLFm+0DR+oqU/
+         IRwLpacH45uN8GBdk/Y2XhKel6qhH3zx0CFhQkhcF+B4ajVjKQhMH/MqekO0X7JTZA72
+         Pl8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749830608; x=1750435408;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3w4DwQ7UKG+tZltk5EBs0uLUOBu/ZiYws0KL7s9WN3A=;
+        b=kwbLog+seKig+k9LCCfTsvQLSU3EBR46x3NJwBc2DBleFXGS37CZF2I7UuOFfQduh7
+         w99mzssvkhqTJ878YbSQUhBBvvfh/IFz5FNFurSIhitPteM+CZsIqG0VYgQfGlGeY+Kh
+         kMm04Yw3gWZ5MUKqukikioSttKKNXhRO36hWvjoZVfU9wTxtJewDDjnQcFsfu02W/Jzs
+         G5zNaiAHdALxxjhkRLFH5GgggVDxQzGZ2CPRbfEwaQAK7BEZzwdn/r9+C5YpLEBtViM8
+         mhid2tiQNeMUxVL47tmDnq2lwnpHgwLx5uVd8Edw96p68Lziz2p77d++i/clEWJOnaXS
+         kMHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyTm8O+40E/YCw6/GD0tmS7Ewt1ZYp5OWagpgP4Q5nU6U0TRwMCZqWuFXBQJGEfqXC3HqkRgXBtWU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoG4GJXZamrOrWQHb5FvhzxnW4Ttj1PA1g4bA2DK5/nE2yXZ5/
+	IPeEIQQKuwHcoQNU79s0+hHZPuHxN9t+b1T4maXDXjVx3Tnq2B6XYgGqRFOw7YLTMos=
+X-Gm-Gg: ASbGnctz+ZJ7gB/WXOYspY6nUSofeeOJ7Z9D7TvhKMXOsAnDXOP4q8/jGnbtmwMmuJN
+	3hdJrC3yT1u93ULWdAbMF0h1oeJse1r4s33TlgOzayiX3ds7Rj58gJNawDR6/EsUgpNiG+TzKkY
+	rhcc3bUhQNXxOMn6j/3ucjlvkG90fnX5+geJZoUFz8xuFxkO5fCugd4j72sdxrex6ifZHNI2OWU
+	Yi6qwyw13HQBOpPg9hRluB2Fl5O8St0jn9cSGlMfmubgmYi6SaTyVLOIkG/XaDmblSNHcEbLRe1
+	TDhmTnajnLc9CYPFkSvLCjip0VBnlnYf5QXw9ib0kBgFmdHkvduT/nlKIjqyGrAkgCQ0TJO/R6E
+	gNiV0nJ1hgXxwSO5ThZwMpXgHvFSo1VokWf5B
+X-Google-Smtp-Source: AGHT+IG1cpKE0bia+SjE3FQwyZTQRUfn6nnKjTjoQlx5gtEmca7DeH8NU/jmjN2PD3CGmwwp8AHo0Q==
+X-Received: by 2002:a05:6820:221a:b0:60f:3ed8:3984 with SMTP id 006d021491bc7-61110efe2acmr49835eaf.3.1749830607445;
+        Fri, 13 Jun 2025 09:03:27 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:4647:c57:a73c:39d8? ([2600:8803:e7e4:1d00:4647:c57:a73c:39d8])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-61108f07e08sm214090eaf.27.2025.06.13.09.03.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Jun 2025 09:03:25 -0700 (PDT)
+Message-ID: <fa403d19-13c5-4845-9364-58eea1b62e61@baylibre.com>
+Date: Fri, 13 Jun 2025 11:03:24 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 8/8] iio: adc: Add events support to ad4052
+To: Jorge Marques <gastmaier@gmail.com>
+Cc: Jorge Marques <jorge.marques@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
+ <20250610-iio-driver-ad4052-v3-8-cf1e44c516d4@analog.com>
+ <afc85a4b-1535-406d-ad14-143049267b98@baylibre.com>
+ <gvigk6helnl3yeouy636dgvay7tqux7lnxns3256fivzz4l3er@7ts7fz7vitff>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <gvigk6helnl3yeouy636dgvay7tqux7lnxns3256fivzz4l3er@7ts7fz7vitff>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250613-netdevsim-typo-fix-v2-1-d4e90aff3f2f@linux.ibm.com>
-X-B4-Tracking: v=1; b=H4sIAI5LTGgC/1WMQQ6CMBBFr0Jm7RCmFYmuvIdx0dJBJrEttkgwh
- LvbuHP5Xv77G2ROwhku1QaJF8kSQwF1qKAfTXgwiisMqlFtcyKFgWfHSxaP82eKOMiK1mrSTp8
- 7ZR2UcEpc9O/0BmUP9yKHFEsyJjZ/f9Tq7qhqIk0NEjqzsDfpdX1KeK+1WF/30cO+fwGD0Y4nq
- QAAAA==
-X-Change-ID: 20250612-netdevsim-typo-fix-bb313d3972bd
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        Dave Marquardt <davemarq@linux.ibm.com>
-X-Mailer: b4 0.14.2
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Y4X4sgeN c=1 sm=1 tr=0 ts=684c4b9f cx=c_pps a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VnNF1IyMAAAA:8 a=CYWh4jdgKPvq9Fx5Vf4A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: 2XLPBnR0vTB3q8tv2mnj9EI3h-zE20TE
-X-Proofpoint-ORIG-GUID: 1AaA2ISEQQJ8NUth1v7qlmgTKT_UGeMf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEzMDExNSBTYWx0ZWRfXy+u9k8mfdz2g 12mnEKj3oGRVHvNFRxfJZo1tOHtsHzfv5pIet1UYlUgJpLidJS+okPhCh8d8tAgaURGE21Jz159 28LKIRNei/qIpejgodUR46XXS+mthpArCR6Kjlz17dCHB7tHLcrXi6uKqvkjLa8zvSEgihI0T4H
- qBsDyJ7ELcJVMtoxIZdT+A262z2027WMBoStQ25EVe59b4Fc8ReQxQBtdsQqk8Mn/Ki8TrEFpsB PBSkvCVwyyTqPDxtG8BWKrn0YhjJl+acHRdEEb6A84tv50Am5p5fkUtCw6LQLP0Y9ys1iBoGg6b EEV8cLvlGgEG+gtQhGoXXX8GOHZo4sKpjrxTrmpjgesy7Y2yyhSBq58UPMbgXZZhtI2oERCQDNn
- m2CcI1Gt/5mlXMnTMnx/JcYIJweRNNEnvpAzyhnqxNomm4YSTpJ36AtwFbUlrsv4lSOOG+Hy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-13_01,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=976 spamscore=0
- clxscore=1011 lowpriorityscore=0 malwarescore=0 bulkscore=0 adultscore=0
- impostorscore=0 suspectscore=0 phishscore=0 mlxscore=0 priorityscore=1501
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506130115
 
-Fixed a typographical error in "Rate objects" section
+On 6/13/25 5:02 AM, Jorge Marques wrote:
+> Hi David,
+> On Thu, Jun 12, 2025 at 02:38:45PM -0500, David Lechner wrote:
+>> On 6/10/25 2:34 AM, Jorge Marques wrote:
+>>> The AD4052 family supports autonomous monitoring readings for threshold
+>>> crossings. Add support for catching the GPIO interrupt and expose as an IIO
+>>> event. The device allows to set either, rising and falling directions. Only
+>>> either threshold crossing is implemented.
+>>>
+>>> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+>>> ---
+>>
+>> ...
+>>
+>>> +
+>>> +static ssize_t ad4052_events_frequency_store(struct device *dev,
+>>> +					     struct device_attribute *attr,
+>>> +					     const char *buf,
+>>> +					     size_t len)
+>>> +{
+>>> +	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+>>> +	struct ad4052_state *st = iio_priv(indio_dev);
+>>> +	int ret;
+>>> +
+>>> +	if (!iio_device_claim_direct(indio_dev))
+>>> +		return -EBUSY;
+>>> +	if (st->wait_event) {
+>>> +		ret = -EBUSY;
+>>> +		goto out_release;
+>>> +	}
+>>
+>> I'm wondering if we should instead have some kind of iio_device_claim_monitor_mode()
+>> so that we don't have to implement this manually everywhere. If monitor mode was
+>> claimed, then iio_device_claim_direct() and iio_device_claim_buffer_mode() would
+>> both return -EBUSY. If buffer mode was claimed, iio_device_claim_monitor_mode()
+>> would fail. If direct mode was claimed, iio_device_claim_monitor_mode() would wait.
+>>
+> I don't think this would scale with other vendors and devices, it is a
 
-Signed-off-by: Dave Marquardt <davemarq@linux.ibm.com>
----
-- Fixed typographical error in "Rate objects" section
-- Spell checked netdevsim.rst and found no additional errors
--
----
- Documentation/networking/devlink/netdevsim.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Why not? I've seen lots of devices that have some sort of monitor mode
+where they are internally continuously comparing measurements to something
+and only signal an interrupt when some condition is met.
 
-diff --git a/Documentation/networking/devlink/netdevsim.rst b/Documentation/networking/devlink/netdevsim.rst
-index 88482725422c2345adccc0f04d2566fb5ba5ef6f..3932004eae82ce125be7f8380975c43b7175422d 100644
---- a/Documentation/networking/devlink/netdevsim.rst
-+++ b/Documentation/networking/devlink/netdevsim.rst
-@@ -62,7 +62,7 @@ Rate objects
- 
- The ``netdevsim`` driver supports rate objects management, which includes:
- 
--- registerging/unregistering leaf rate objects per VF devlink port;
-+- registering/unregistering leaf rate objects per VF devlink port;
- - creation/deletion node rate objects;
- - setting tx_share and tx_max rate values for any rate object type;
- - setting parent node for any rate object type.
+> limitation of ADI:ADC:SPI requiring to enter configuration mode to read
 
----
-base-commit: 27cea0e419d2f9dc6f51bbce5a44c70bc3774b9a
-change-id: 20250612-netdevsim-typo-fix-bb313d3972bd
+I don't see how it could be a limitiation exclusive to this combination of
+vendor, sensor type and bus type.
 
-Best regards,
--- 
-Dave Marquardt <davemarq@linux.ibm.com>
+> registers. A deep dive into the other drivers that use IIO Events is
+> needed.
+>>> +
 
+...
+
+>>> +
+>>> +static int ad4052_monitor_mode_disable(struct ad4052_state *st)
+>>> +{
+>>> +	int ret;
+>>> +
+>>> +	pm_runtime_mark_last_busy(&st->spi->dev);
+>>> +	pm_runtime_put_autosuspend(&st->spi->dev);
+>>> +
+>>> +	ret = ad4052_exit_command(st);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +	return regmap_write(st->regmap, AD4052_REG_DEVICE_STATUS,
+>>> +			    AD4052_REG_DEVICE_STATUS_MAX_FLAG |
+>>> +			    AD4052_REG_DEVICE_STATUS_MIN_FLAG);
+>>> +}
+>>> +
+>>
+>> It seems like we need to make sure monitor mode is disabled when the
+>> driver is removed. Otherwise we could end up with unbalanced calls to
+>> the pm_runtime stuff and leave the chip running.
+>>
+>>
+> When monitor mode is enabled, pm is already disabled (won't enter low
+> power). I expect the pm to handle the clean-up properly since devm is
+> used.
+> The .remove() I suggest is reg access to:
+> 
+> * Put in configuration mode, if not.
+> * Put on low power mode, if not.
+> 
+I was just thinking something like:
+
+	if (st->wait_event)
+		ad4052_monitor_mode_disable(st);
+
+Also might need to use devm_add_action_or_reset() instead of .remove
+to get correct ordering.
