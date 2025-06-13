@@ -1,320 +1,153 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9273DE555
-	for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 19:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77C72343B6;
+	Fri, 13 Jun 2025 20:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749842044; cv=none; b=a8yB6EBIF+av35YD6Ulo181hwGifLqCU6ikjdkrcfJSXvmzP2bUt6100dHp+l1LU6+Ti8tZeqDpd45tTwDtsf3b/BYubo1OuwwrXp3i6SZZfBW//xV5fXvKhWd4T3oQCTrzCSE7pgmKsnv3fWs5YFn7ObbKl99i2Mo21i2awNEA=
+	t=1749845583; cv=none; b=eX/+chosiQxGfX6pnBTXNRwloztWZGd7wSoFOZ6W3ced9nTd50DcLxp210xI3uKqUNJzg1rag6ksZHFPIb9qMu26MiWaN2TZIA+Qn7QTlob6lbLvipqzPcKrTkGsn1eMhcVtQ4ZL2ivfZalmLkJRkDyqGZZzFIKcM8fGPmvbUGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749842044; c=relaxed/simple;
-	bh=kA4jhqp4xBUNaxg/pjNO8NYIx+j2PDUAkyr5hujtTvE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WU4yNWoRK9qhsbFXpAHbF4sK4GmKQEKli/I/DcRDTq9fIj2AHTYXh+QQOQejsnnKINZ+7Bjf1LeW54mzl6bMn0iBxYqHB/7a1a2x5+sKfr78GQfaP2qPma2NVb+wSueO4WRdNzZWsT7KV3wYTkZf7IOi46dAJ7AKchKOs8FL8Ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=v2xDjngk; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1749845583; c=relaxed/simple;
+	bh=kD2ynVceQcdQa7T8ECS2SFeAwaNQpSN34BKH9Gb6w4Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ljoaBQrxQ0nJ6jtTpgkvzxWRc4gd/bBeKwIgmiTg291ALIVhuJ5UNtMk/AVgh81d5MBLZj0eTY4gpkipkFYSj/LFKHmSAqtoqVauFL1rUIPRJvzrSQ2JlOCEon2dXC2jOZlZ8ArQV52YhdKfpODCjqSDsj3whDFQnHRh8zkLpUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iCtdbqq6; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="v2xDjngk"
-Message-ID: <c3400787-7279-4a50-a61a-92a100b3b4b9@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1749842030;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nMLY4DUZwczzWxX+mHe4l4o0st/9I1jgbNlgxZD7LaY=;
-	b=v2xDjngkqnMOazJSUlqgaQsgSXXpA93WGGhUq8DjjLk1zCK+nhxQkqb5YR6ZToXdoSQfyC
-	+YaL9O+WQKi+9bQcKwRunZ1e3zFsfqjWZQe8F+93kheOLwjPxVUWs/HEtc3YMcm9QFJoy/
-	9QhIY4dMRPpt6B0hx4/bmrYTPA7tGCI=
-Date: Fri, 13 Jun 2025 20:13:47 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iCtdbqq6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749845582; x=1781381582;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kD2ynVceQcdQa7T8ECS2SFeAwaNQpSN34BKH9Gb6w4Q=;
+  b=iCtdbqq6EDT+33VTE5R8i30vEAMwsDu1vuYNsEePH2EM27XR+5x1JOLg
+   WOlMrwY23bDLeZZpQ7/Md/BoY/oUWmyS20RzazGkwwe3n+gdKBbFsJDf0
+   u/obkquMH9Fv0oNgq3oxgqq8RQtC7wwtOr923JoaEmVAGV7EOzI1z3rrL
+   UjA/R9zsbNguUEX/PMw9vVKjpsuDz5FXkMkunnueTp5DYAenPcGwqboPa
+   fiE6OaVJL4zRUxoCAiazzTklgzXCKC1pMeoLKhMiWMxnnRcdBkWMYacxU
+   bVLDVjXRo6Q17dolnckMoiYAcZy/wi7mOW5KVtDTM2kvONiYZEuEWbvpf
+   g==;
+X-CSE-ConnectionGUID: z+OmUUhmTMmc+GNKRZg55Q==
+X-CSE-MsgGUID: srKTznbiT9aohxIpD8g2Nw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="51300341"
+X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
+   d="scan'208";a="51300341"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 13:13:01 -0700
+X-CSE-ConnectionGUID: 7Rh7IRO2T12iXHL5n4lJng==
+X-CSE-MsgGUID: Civ3vyrtQKiNN7pquM/9PA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
+   d="scan'208";a="148456793"
+Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
+  by orviesa007.jf.intel.com with ESMTP; 13 Jun 2025 13:12:56 -0700
+From: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+To: donald.hunter@gmail.com,
+	kuba@kernel.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	vadim.fedorenko@linux.dev,
+	jiri@resnulli.us,
+	anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com,
+	andrew+netdev@lunn.ch,
+	aleksandr.loktionov@intel.com,
+	corbet@lwn.net
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-rdma@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Subject: [PATCH net-next v6 0/3] dpll: add Reference SYNC feature
+Date: Fri, 13 Jun 2025 22:06:52 +0200
+Message-Id: <20250613200655.1712561-1-arkadiusz.kubalewski@intel.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants during
- probe
-To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
-Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Prathosh Satish <Prathosh.Satish@microchip.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Jason Gunthorpe <jgg@ziepe.ca>, Shannon Nelson <shannon.nelson@amd.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
-References: <20250612200145.774195-1-ivecera@redhat.com>
- <20250612200145.774195-7-ivecera@redhat.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20250612200145.774195-7-ivecera@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On 12/06/2025 21:01, Ivan Vecera wrote:
-> Several configuration parameters will remain constant at runtime,
-> so we can load them during probe to avoid excessive reads from
-> the hardware.
-> 
-> Read the following parameters from the device during probe and store
-> them for later use:
-> 
-> * enablement status and frequencies of the synthesizers and their
->    associated DPLL channels
-> * enablement status and type (single-ended or differential) of input pins
-> * associated synthesizers, signal format, and enablement status of
->    outputs
-> 
-> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
-> ---
->   drivers/dpll/zl3073x/core.c | 248 +++++++++++++++++++++++++++++++
->   drivers/dpll/zl3073x/core.h | 286 ++++++++++++++++++++++++++++++++++++
->   drivers/dpll/zl3073x/regs.h |  65 ++++++++
->   3 files changed, 599 insertions(+)
-> 
-> diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
-> index 60344761545d8..3a57c85f902c4 100644
-> --- a/drivers/dpll/zl3073x/core.c
-> +++ b/drivers/dpll/zl3073x/core.c
-> @@ -6,6 +6,7 @@
->   #include <linux/dev_printk.h>
->   #include <linux/device.h>
->   #include <linux/export.h>
-> +#include <linux/math64.h>
->   #include <linux/module.h>
->   #include <linux/netlink.h>
->   #include <linux/regmap.h>
-> @@ -376,6 +377,25 @@ int zl3073x_poll_zero_u8(struct zl3073x_dev *zldev, unsigned int reg, u8 mask)
->   					ZL_POLL_SLEEP_US, ZL_POLL_TIMEOUT_US);
->   }
->   
-> +int zl3073x_mb_op(struct zl3073x_dev *zldev, unsigned int op_reg, u8 op_val,
-> +		  unsigned int mask_reg, u16 mask_val)
-> +{
-> +	int rc;
-> +
-> +	/* Set mask for the operation */
-> +	rc = zl3073x_write_u16(zldev, mask_reg, mask_val);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Trigger the operation */
-> +	rc = zl3073x_write_u8(zldev, op_reg, op_val);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Wait for the operation to actually finish */
-> +	return zl3073x_poll_zero_u8(zldev, op_reg, op_val);
-> +}
-> +
->   /**
->    * zl3073x_devlink_info_get - Devlink device info callback
->    * @devlink: devlink structure pointer
-> @@ -484,6 +504,229 @@ struct zl3073x_dev *zl3073x_devm_alloc(struct device *dev)
->   }
->   EXPORT_SYMBOL_NS_GPL(zl3073x_devm_alloc, "ZL3073X");
->   
-> +/**
-> + * zl3073x_ref_state_fetch - get input reference state
-> + * @zldev: pointer to zl3073x_dev structure
-> + * @index: input reference index to fetch state for
-> + *
-> + * Function fetches information for the given input reference that are
-> + * invariant and stores them for later use.
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +static int
-> +zl3073x_ref_state_fetch(struct zl3073x_dev *zldev, u8 index)
-> +{
-> +	struct zl3073x_ref *input = &zldev->ref[index];
-> +	u8 ref_config;
-> +	int rc;
-> +
-> +	/* If the input is differential then the configuration for N-pin
-> +	 * reference is ignored and P-pin config is used for both.
-> +	 */
-> +	if (zl3073x_is_n_pin(index) &&
-> +	    zl3073x_ref_is_diff(zldev, index - 1)) {
-> +		input->enabled = zl3073x_ref_is_enabled(zldev, index - 1);
-> +		input->diff = true;
-> +
-> +		return 0;
-> +	}
-> +
-> +	guard(mutex)(&zldev->multiop_lock);
-> +
-> +	/* Read reference configuration */
-> +	rc = zl3073x_mb_op(zldev, ZL_REG_REF_MB_SEM, ZL_REF_MB_SEM_RD,
-> +			   ZL_REG_REF_MB_MASK, BIT(index));
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Read ref_config register */
-> +	rc = zl3073x_read_u8(zldev, ZL_REG_REF_CONFIG, &ref_config);
-> +	if (rc)
-> +		return rc;
-> +
-> +	input->enabled = FIELD_GET(ZL_REF_CONFIG_ENABLE, ref_config);
-> +	input->diff = FIELD_GET(ZL_REF_CONFIG_DIFF_EN, ref_config);
-> +
-> +	dev_dbg(zldev->dev, "REF%u is %s and configured as %s\n", index,
-> +		input->enabled ? "enabled" : "disabled",
-> +		input->diff ? "differential" : "single-ended");
-> +
-> +	return rc;
-> +}
-> +
-> +/**
-> + * zl3073x_out_state_fetch - get output state
-> + * @zldev: pointer to zl3073x_dev structure
-> + * @index: output index to fetch state for
-> + *
-> + * Function fetches information for the given output (not output pin)
-> + * that are invariant and stores them for later use.
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +static int
-> +zl3073x_out_state_fetch(struct zl3073x_dev *zldev, u8 index)
-> +{
-> +	struct zl3073x_out *out = &zldev->out[index];
-> +	u8 output_ctrl, output_mode;
-> +	int rc;
-> +
-> +	/* Read output configuration */
-> +	rc = zl3073x_read_u8(zldev, ZL_REG_OUTPUT_CTRL(index), &output_ctrl);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Store info about output enablement and synthesizer the output
-> +	 * is connected to.
-> +	 */
-> +	out->enabled = FIELD_GET(ZL_OUTPUT_CTRL_EN, output_ctrl);
-> +	out->synth = FIELD_GET(ZL_OUTPUT_CTRL_SYNTH_SEL, output_ctrl);
-> +
-> +	dev_dbg(zldev->dev, "OUT%u is %s and connected to SYNTH%u\n", index,
-> +		out->enabled ? "enabled" : "disabled", out->synth);
-> +
-> +	guard(mutex)(&zldev->multiop_lock);
-> +
-> +	/* Read output configuration */
-> +	rc = zl3073x_mb_op(zldev, ZL_REG_OUTPUT_MB_SEM, ZL_OUTPUT_MB_SEM_RD,
-> +			   ZL_REG_OUTPUT_MB_MASK, BIT(index));
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Read output_mode */
-> +	rc = zl3073x_read_u8(zldev, ZL_REG_OUTPUT_MODE, &output_mode);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Extract and store output signal format */
-> +	out->signal_format = FIELD_GET(ZL_OUTPUT_MODE_SIGNAL_FORMAT,
-> +				       output_mode);
-> +
-> +	dev_dbg(zldev->dev, "OUT%u has signal format 0x%02x\n", index,
-> +		out->signal_format);
-> +
-> +	return rc;
-> +}
-> +
-> +/**
-> + * zl3073x_synth_state_fetch - get synth state
-> + * @zldev: pointer to zl3073x_dev structure
-> + * @index: synth index to fetch state for
-> + *
-> + * Function fetches information for the given synthesizer that are
-> + * invariant and stores them for later use.
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +static int
-> +zl3073x_synth_state_fetch(struct zl3073x_dev *zldev, u8 index)
-> +{
-> +	struct zl3073x_synth *synth = &zldev->synth[index];
-> +	u16 base, m, n;
-> +	u8 synth_ctrl;
-> +	u32 mult;
-> +	int rc;
-> +
-> +	/* Read synth control register */
-> +	rc = zl3073x_read_u8(zldev, ZL_REG_SYNTH_CTRL(index), &synth_ctrl);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Store info about synth enablement and DPLL channel the synth is
-> +	 * driven by.
-> +	 */
-> +	synth->enabled = FIELD_GET(ZL_SYNTH_CTRL_EN, synth_ctrl);
-> +	synth->dpll = FIELD_GET(ZL_SYNTH_CTRL_DPLL_SEL, synth_ctrl);
-> +
-> +	dev_dbg(zldev->dev, "SYNTH%u is %s and driven by DPLL%u\n", index,
-> +		synth->enabled ? "enabled" : "disabled", synth->dpll);
-> +
-> +	guard(mutex)(&zldev->multiop_lock);
+The device may support the Reference SYNC feature, which allows the
+combination of two inputs into a input pair. In this configuration,
+clock signals from both inputs are used to synchronize the DPLL device.
+The higher frequency signal is utilized for the loop bandwidth of the DPLL,
+while the lower frequency signal is used to syntonize the output signal of
+the DPLL device. This feature enables the provision of a high-quality loop
+bandwidth signal from an external source.
 
-Not a strong suggestion, but it would be good to follow netdev style
-(same for some previous functions):
+A capable input provides a list of inputs that can be bound with to create
+Reference SYNC. To control this feature, the user must request a
+desired state for a target pin: use ``DPLL_PIN_STATE_CONNECTED`` to
+enable or ``DPLL_PIN_STATE_DISCONNECTED`` to disable the feature. An input
+pin can be bound to only one other pin at any given time.
 
-https://docs.kernel.org/process/maintainer-netdev.html#using-device-managed-and-cleanup-h-constructs
+Verify pins bind state/capabilities:
+$ ./tools/net/ynl/pyynl/cli.py \
+ --spec Documentation/netlink/specs/dpll.yaml \
+ --do pin-get \
+ --json '{"id":0}'
+{'board-label': 'CVL-SDP22',
+ 'id': 0,
+ [...]
+ 'reference-sync': [{'id': 1, 'state': 'disconnected'}],
+ [...]}
 
-"Use of guard() is discouraged within any function longer than 20 lines,
-scoped_guard() is considered more readable. Using normal lock/unlock is 
-still (weakly) preferred."
+Bind the pins by setting connected state between them:
+$ ./tools/net/ynl/pyynl/cli.py \
+ --spec Documentation/netlink/specs/dpll.yaml \
+ --do pin-set \
+ --json '{"id":0, "reference-sync":{"id":1, "state":"connected"}}'
 
-> +
-> +	/* Read synth configuration */
-> +	rc = zl3073x_mb_op(zldev, ZL_REG_SYNTH_MB_SEM, ZL_SYNTH_MB_SEM_RD,
-> +			   ZL_REG_SYNTH_MB_MASK, BIT(index));
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* The output frequency is determined by the following formula:
-> +	 * base * multiplier * numerator / denominator
-> +	 *
-> +	 * Read registers with these values
-> +	 */
-> +	rc = zl3073x_read_u16(zldev, ZL_REG_SYNTH_FREQ_BASE, &base);
-> +	if (rc)
-> +		return rc;
-> +
-> +	rc = zl3073x_read_u32(zldev, ZL_REG_SYNTH_FREQ_MULT, &mult);
-> +	if (rc)
-> +		return rc;
-> +
-> +	rc = zl3073x_read_u16(zldev, ZL_REG_SYNTH_FREQ_M, &m);
-> +	if (rc)
-> +		return rc;
-> +
-> +	rc = zl3073x_read_u16(zldev, ZL_REG_SYNTH_FREQ_N, &n);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Check denominator for zero to avoid div by 0 */
-> +	if (!n) {
-> +		dev_err(zldev->dev,
-> +			"Zero divisor for SYNTH%u retrieved from device\n",
-> +			index);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Compute and store synth frequency */
-> +	zldev->synth[index].freq = div_u64(mul_u32_u32(base * m, mult), n);
-> +
-> +	dev_dbg(zldev->dev, "SYNTH%u frequency: %u Hz\n", index,
-> +		zldev->synth[index].freq);
-> +
-> +	return rc;
-> +}
-> +
-[...]
+Verify pins bind state:
+$ ./tools/net/ynl/pyynl/cli.py \
+ --spec Documentation/netlink/specs/dpll.yaml \
+ --do pin-get \
+ --json '{"id":0}'
+{'board-label': 'CVL-SDP22',
+ 'id': 0,
+ [...]
+ 'reference-sync': [{'id': 1, 'state': 'connected'}],
+ [...]}
+
+Unbind the pins by setting disconnected state between them:
+$ ./tools/net/ynl/pyynl/cli.py \
+ --spec Documentation/netlink/specs/dpll.yaml \
+ --do pin-set \
+ --json '{"id":0, "reference-sync":{"id":1, "state":"disconnected"}}'
+
+v6:
+- rebase,
+- 'dpll' -> 'DPLL'.
+
+Arkadiusz Kubalewski (3):
+  dpll: add reference-sync netlink attribute
+  dpll: add reference sync get/set
+  ice: add ref-sync dpll pins
+
+ Documentation/driver-api/dpll.rst             |  25 ++
+ Documentation/netlink/specs/dpll.yaml         |  19 ++
+ drivers/dpll/dpll_core.c                      |  45 +++
+ drivers/dpll/dpll_core.h                      |   2 +
+ drivers/dpll/dpll_netlink.c                   | 190 ++++++++++--
+ drivers/dpll/dpll_netlink.h                   |   2 +
+ drivers/dpll/dpll_nl.c                        |  10 +-
+ drivers/dpll/dpll_nl.h                        |   1 +
+ .../net/ethernet/intel/ice/ice_adminq_cmd.h   |   2 +
+ drivers/net/ethernet/intel/ice/ice_dpll.c     | 284 ++++++++++++++++++
+ drivers/net/ethernet/intel/ice/ice_dpll.h     |   2 +
+ include/linux/dpll.h                          |  13 +
+ include/uapi/linux/dpll.h                     |   1 +
+ 13 files changed, 575 insertions(+), 21 deletions(-)
+
+
+base-commit: 08207f42d3ffee43c97f16baf03d7426a3c353ca
+-- 
+2.38.1
 
