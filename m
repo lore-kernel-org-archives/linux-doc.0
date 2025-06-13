@@ -1,242 +1,297 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69ADA1E8338;
-	Fri, 13 Jun 2025 21:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749850877; cv=fail; b=WYrV5p4aPwB/WUfNCxLE3eV9Z6bhiJXsz/S8gCdfOsu8iSmodhZHMThWC+N84cl0+Ro1EzUwlm2kaGRvSNbvr/x2hbqvwC6TNcmDhX+dx0q9aZhPpzU03OzFoPekNcHeK1n/WPBo+5MGSEtGk4bwAxQ6a642Z6e66MEXonmo+X0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749850877; c=relaxed/simple;
-	bh=dMzJTN0LlwwnEStx8gW1bmTSz4giUz3twkwjavtqmAs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lG+zdIYfbS6PgfsOjEVvvgXCka5D3HYQsaEjiYhMSpxh9XzLo5cGuw5/fYppcgbHVqq5UF1Nk3kxKnXKYyvcyK8iJB/F71IxkWdkOFv/ukQaCLfs0oHu3wa4Fex2oUqKMP2zTsjrvvBToCHzEOeKH+ssugSNVy5Z7p2xSsZDnxk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lg6o5UcB; arc=fail smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8491A3168;
+	Fri, 13 Jun 2025 21:47:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749851252; cv=none; b=qG1Zo0rx6CFzsIv7IrKy0zoBCqUU6EBs3kicW+qT4a5MYjXUmxbkLmblDmCBst6nHWI2q+R/NzlsT4fUaAx6Dl1misH/Bysd9N5y8vWTdG30dDVLKDhb1EYbsfE5CTtBKUwjBcJGZdY36ztz9eWOf2dHRpCikEs5jAdpBAULzZI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749851252; c=relaxed/simple;
+	bh=UFBnmAmV5GfUyOf6hdq8Wup9xKMJWhcUGzPNLBHK/MU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YArBzj7v8WmrfkqG4816Z84GLHQQiaS11AjFU98kuIxcRKRBwwafYVe5l0iiTkmzFu7GpggmchkLERnXv2tSdYQr+3o5DJ6fVJLaYxgdRxKoeGF0dbXB9/RJnbheV9GcF9Df5BzZEyP5CuH/nLeZ5PabTzuKXqoMUQ1QoOEGSNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MAGSc2QE; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lg6o5UcB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MAGSc2QE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749850876; x=1781386876;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=dMzJTN0LlwwnEStx8gW1bmTSz4giUz3twkwjavtqmAs=;
-  b=Lg6o5UcB/LuAFIUtcB3J5I2V7w7PhbD1qLLyz87WSCXTe9q7MyGUOBjp
-   93OYVvYAvaBNz7vgDPVgOlqfu9St/SBRLqyOWCzwxLxOafBxqkJUdlnO/
-   6LkGyQ5eEiI2RaprdLkOM7brFrc/DPS22SdEwfXtaNejSB14Jn+iHPvt3
-   KWOGuvFAsGMfakk10qvaz/phQqHRaf8XwMe9igdArXPa9FSMZoWDrbnXo
-   6KwO7ZllrBJe8Pryb8yjRxdBX+hK+Cl7sdNPkzz1uR5xDoHr6KTS5EQ7D
-   YGmkZC/q9NLmczpw4lnCVDLUNzufmQcPDhACLmJCmJXp0YO67vYEM+CXS
-   w==;
-X-CSE-ConnectionGUID: lcK3VegcQf+bpYj3vtRcbQ==
-X-CSE-MsgGUID: AWXX5KtcQbSQxbZqpTuoLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="69518647"
+  t=1749851250; x=1781387250;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UFBnmAmV5GfUyOf6hdq8Wup9xKMJWhcUGzPNLBHK/MU=;
+  b=MAGSc2QEiSfKzeAojs7l+6+Cvs4lnngrmE/56QDFN98oGLR6kEXg/p6j
+   SoogtHpNv/OAABgh+SMnJ24x4BD75YDo6E2vebZs7gtpurLkBXwKnzT/I
+   LieyTXEr4ugzafOm3Qk9qFR/NnpBxLibkrmOkBDlovbtHOjrRvxzO6p9F
+   4kQgZbH+Qkky0w+lA7LB1OYFOAh9koaJ4MNI278B+47K2nIWTiNd9pe3s
+   e5dVE0T6b0fYT7JVHYO/fWD6S7MZOxFoS+xz+bD/cUqAar8YNPlM8pBii
+   QDguLhySR8EkbSebkYAdTbxkhlr153HDase8g80PAxQRNahP6Sl1OJFma
+   Q==;
+X-CSE-ConnectionGUID: 1rHZE+SQTjiNVoVFML2LVg==
+X-CSE-MsgGUID: Ag5yegggRH+Fycfuf0/lVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="63429300"
 X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="69518647"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 14:41:15 -0700
-X-CSE-ConnectionGUID: qMKAw7LRR+2XTYN1ya6rvA==
-X-CSE-MsgGUID: eX6ktp4YRAijTE/GpM1KuA==
+   d="scan'208";a="63429300"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 14:47:27 -0700
+X-CSE-ConnectionGUID: Ne47g+8qQlWTLEFFvFGPSg==
+X-CSE-MsgGUID: g1lRJdUiSHaVHxPkS/C/3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="147815133"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 14:41:13 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Fri, 13 Jun 2025 14:41:12 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Fri, 13 Jun 2025 14:41:12 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.63)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Fri, 13 Jun 2025 14:41:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cEIs+kNoZXUYLejyMHmq6E1geGtugMZLAbhAabv27fahRXZe9hqJKyTKt+M6ZlRqLR6VSIGTOq5vhVNPA1Nkx6OiXhb+A+G4nNky0rFXjuAD/+GBPOAGEwaKYU+EsZoZ13uNjmfzizQoHITHAl4EaODwZ69N+7z/W1dmZ6MyHVXorgeLjjOrzuCIZtLaphMc0Ko6NTI53HliqtgPwFQV/XQcO7Ds+F3TbeKqEqC6TxXyfnwBN1gD9O1Fh6XkQVn871UJonq4+aKwOKEfXLan1jD8kEKEi0Ii9Os7KnCEkWvRDZSlBUVVtrIDEC/ohTlK9EAKXkt6Jt5VHrHVBJ4pCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dMzJTN0LlwwnEStx8gW1bmTSz4giUz3twkwjavtqmAs=;
- b=EekFKeZMDjFuF3VCAwZXHnf3QEwqCTrMSgpIeXQlwsfRj3P2SPDw8+Li8lxzd9DfPWEnLPWWi3e+HfXp5aMtAhVB/NcYonGq6UPaXZIV1tSzOvXRCWdY5/mw+522nItqOldnmbKT1bKSzgTgpL6leWo0LUCYuF6b6yNyaYLa3S7diZI28fip4b3CcGOujvgcunw7vz3xnKTNXzzeZxRn3rykfySRNzMzxfKGrgpGPCs5v/5pJECySVu+DMNOtmk/l37Bfm0BxN9tOcgOC9STnij7R+vjPvdRAZlHbnC+0juZxryuw3N/SEyY4MegAFT30+SCCfbYvCy43zFRCiQAPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by SJ0PR11MB6573.namprd11.prod.outlook.com (2603:10b6:a03:44d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.25; Fri, 13 Jun
- 2025 21:41:10 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361%5]) with mapi id 15.20.8813.024; Fri, 13 Jun 2025
- 21:41:10 +0000
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Babu Moger <babu.moger@amd.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"Chatre, Reinette" <reinette.chatre@intel.com>, "Dave.Martin@arm.com"
-	<Dave.Martin@arm.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
-	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-CC: "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>, "paulmck@kernel.org"
-	<paulmck@kernel.org>, "thuth@redhat.com" <thuth@redhat.com>,
-	"ardb@kernel.org" <ardb@kernel.org>, "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>, "seanjc@google.com" <seanjc@google.com>,
-	"thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"manali.shukla@amd.com" <manali.shukla@amd.com>, "perry.yuan@amd.com"
-	<perry.yuan@amd.com>, "Huang, Kai" <kai.huang@intel.com>,
-	"peterz@infradead.org" <peterz@infradead.org>, "Li, Xiaoyao"
-	<xiaoyao.li@intel.com>, "kan.liang@linux.intel.com"
-	<kan.liang@linux.intel.com>, "mario.limonciello@amd.com"
-	<mario.limonciello@amd.com>, "Li, Xin3" <xin3.li@intel.com>,
-	"gautham.shenoy@amd.com" <gautham.shenoy@amd.com>, "xin@zytor.com"
-	<xin@zytor.com>, "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-	"fenghuay@nvidia.com" <fenghuay@nvidia.com>, "peternewman@google.com"
-	<peternewman@google.com>, "Wieczor-Retman, Maciej"
-	<maciej.wieczor-retman@intel.com>, "Eranian, Stephane" <eranian@google.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v14 00/32] fs,x86/resctrl: Support AMD Assignable
- Bandwidth Monitoring Counters (ABMC)
-Thread-Topic: [PATCH v14 00/32] fs,x86/resctrl: Support AMD Assignable
- Bandwidth Monitoring Counters (ABMC)
-Thread-Index: AQHb3KbxZg4IAXekYECyXyHnGpUxObQBna0Q
-Date: Fri, 13 Jun 2025 21:41:09 +0000
-Message-ID: <SJ1PR11MB6083DAFE4FD5A6D2712C088BFC77A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <cover.1749848714.git.babu.moger@amd.com>
-In-Reply-To: <cover.1749848714.git.babu.moger@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|SJ0PR11MB6573:EE_
-x-ms-office365-filtering-correlation-id: b2ffdf9f-696a-451c-0c8d-08ddaac302dd
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016|921020|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?TUNOVnl4V21MU3J6Vk9wRU9BMUFxeERHSWVxRDJnNHRQMlhET0JGcS9xZTlr?=
- =?utf-8?B?OUwrWTNKWWFpRG9iUjl6MVNvMlIxWXgzUS9BQ0Z0Y0NQOE8vSEFLYTJKeUl5?=
- =?utf-8?B?Lzlnb3pWdHlyQWl0MmxVcnFZTFJZRzllbnZKMFAxWTNDbis1MFIvNHkxUmR4?=
- =?utf-8?B?RUZhalh6S2xIb1ZhUWJiL25JZjFyRFB2T3JMT09VNjFFQ2FrbXRIRmROT3hs?=
- =?utf-8?B?UlVTWmwvUERvNWtRM3JhZ0d4Q0NjOVRheWtPZUlESDhtU0h2WndmaXVZS010?=
- =?utf-8?B?YTE0V2tmeWNWM3ZSU0txS2ZhQkNHV0F4V0U2aGZLVXdtOHdhOEMyK09TTTgv?=
- =?utf-8?B?U1ZxNXVITk8rbVZOd0Y4SXB6RGk5RGJscjN6U1hMeE42ZVA3WkJGUExEK0Vh?=
- =?utf-8?B?VmdYSE5VdzN6YU9zczlOTjAxU1dNRVhtQytiNG9KSkw2UldobG5TVWhSR0hZ?=
- =?utf-8?B?TFFHNmFoOVljN2hoSzZIVG9YRWpocm5KcXdMWlpTa0NMcXNWZ2dHbHpGaktj?=
- =?utf-8?B?ZG9XUHEzVHc5a2I5d3ZwQVQ5cHpLaTY0RDFCZFNYckJuTkpnZHAwd0puNk5K?=
- =?utf-8?B?VGRReDFXeVlCZE1HNklXdWkySUlFLzJKT2RKeGprenFLYm1YN29MTnFycnBq?=
- =?utf-8?B?ZDluVnVyaGd1MC85MDkwQzJ6MU42ZzBodnRwR0lHYkt3THJKTFN5T0owSXRa?=
- =?utf-8?B?OGFuLzlTUHVXYXdiN0xJRXNDb0lLYW0yL3h3anJDSUNyTm5ib2xQdHBOcVhz?=
- =?utf-8?B?RkpXclcza2piQnJKWEVVRWN4dFcxR05XV3QwUXhSU1ZZc3F6THNBZDlLa1I2?=
- =?utf-8?B?cWpQOFRqbllVa3pMcGFROEZnTWVNTStHOTViNGRqTGo3ckttU0p0bHNrSjg4?=
- =?utf-8?B?MTRlT2JCQ1cvVGV0Smg4akRnU0I0Q3JhZWZhbzBBc3hFTE1veE9PNkViVlQ4?=
- =?utf-8?B?S2RDZ2JKTHVYVjNCVXIzSmlpbkNzdTVKakdaKzlJYzkxZXlZMTJ3Nm9idjNM?=
- =?utf-8?B?T2xrQm1nRVplM2dUOHZhcnZPbkxqd2ZpTzNOMEQweE5nWmd2THZVV3VEZ2lX?=
- =?utf-8?B?SmdZUTA5bnJnd2RFQUg1QyttU3BIOFNLMnI2L3FDV1JSZThIWGJCTUZTb05U?=
- =?utf-8?B?aVhaVFZKWnlGVGx3NEhUZWl5c25kNzNpZWJnQmVjUlNDbmJYWW5YU1FwWGVq?=
- =?utf-8?B?V3BUMWo0SFg5YmlEZHVOWEJVbElEQjlFVC83b2RiNEx5ZmdjNzJvMU5lRno1?=
- =?utf-8?B?aFhhMkpIQ3c2WDJ1V2w3VUtpaDZ0WnhxbCtxNEpkOHpXSG1EUkdNME5vYlBJ?=
- =?utf-8?B?UExDUDBCR2UyTGlMcUdvUHZRT1R1cGFhaTNYdTN2UVBzK250d1o1cXRKeE1l?=
- =?utf-8?B?Ykg2OWRUNTZHbG9sN1BzVHZQMnJaUGdDUGthSmVqS21aaFJtUWc5NGVFVWtV?=
- =?utf-8?B?WnpBZzBRMGtvdjNWQ0F1UEN4Tmxsc3M3TFRQWGpGOXQvclg3Tkk4M3VyS0tp?=
- =?utf-8?B?S3orUlVwblYxNXpaV3VvUHl0MktVd3QxcURLNjYyYlIzNnlDcDZFdTV0VzJ4?=
- =?utf-8?B?YlRRSzV2a1pkZmhPOVRZaUc1MXN4a3NFUjRkeGtrYUlOSFRXZjlIMkgxZ2Vt?=
- =?utf-8?B?R1NMYkN3Z2kxdjhCYVQ1ZFZyaXpVUnM4ZldhcEllVjhzZXViY1dmWllNS29V?=
- =?utf-8?B?U0IrRzcvRDh2L0JMbVo0bFc2ZjZCTStxV3BZTUJFQ0s1V2pxMjR0RTNQVXBL?=
- =?utf-8?B?V2I1KzdsRmdPVzltUDk1VC9iSFZ2VHZGaDByNVZlbHVlTzJkREtRU1pnaTNH?=
- =?utf-8?B?UHFmR3hmbkdYUlhZajhpTVBpWXBHV2IvY0NJNE5vcEsxYmhEOG9UVUFoMFJp?=
- =?utf-8?B?SUxCTnpNdU81VDFZVEZRWkp4MEVOMHZ4bkJHQm51NmpTMFVoTUxaRnRoRmRm?=
- =?utf-8?B?UUQ0SFpVVmprWGd1WFBMcFF1YW5XUXVrMjFVNWdiK3NQc0xrMUlMeVdFLzhC?=
- =?utf-8?Q?c4E1IwuwFd57+zZlJFpy8L3Cw2Ua1I=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(921020)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bHRiSVNqNEhDc0k1UjJWS0tKUEw4VjBjbU5yeGdnZVNrSmpWeXBJTCtCbDNU?=
- =?utf-8?B?QUVIazcvQXpRWGIxN1RNUlovRVpVcFEvZHBHVXpqemw1eXhtM3VVbHBtdU9Y?=
- =?utf-8?B?QzZxOHJnNkpPWUdOQ3dEL05obDhMcFJFemhQU2phMm5jWmllM2R1b1RISHph?=
- =?utf-8?B?SUphc2d0TXlWSGlDeThDS0trK1ZBNzZjV1k3NStvWWVDQkNtcUdzUDR0MHln?=
- =?utf-8?B?ODM2Vi9DTnUyOTRWaFNzYWRGaFpEUjBYMS9ocStybWZHVkJiZVFZQW8ycHNv?=
- =?utf-8?B?Mi92enFKN3crTW5xbDJ1U0F4ZmJ5WjFaaDdic2szSDZ6U0VTSHJrcDhyRXlx?=
- =?utf-8?B?dlZpQk9TeU5XK1hTQUhNVUtyVHJVN2ladnFydTBRODI5WmIrODc5V3U1MnAr?=
- =?utf-8?B?TXQwbWlLUjNOeE1RNWtGZXJtYXpFQ3dtTm9DRUdJanErdGRNVVNieGtMSmNM?=
- =?utf-8?B?bDZRNzRxU25MNlIvalVPK3JITGhDN3VpSDhocytsMEpMVGJuN0dHWTNaTEow?=
- =?utf-8?B?UXhCL0hRWEVOZWs1MmhXTG0raE1kbHZ3RURPZ2YrV0xWL3d5SjFqRHhCUHlJ?=
- =?utf-8?B?NFFQeFllUTcxVVIvT1k0QlVscGZwUmdPbmNoRGd2YnNGNVNvTU5MU1MyUzVs?=
- =?utf-8?B?ZDB2YlErVm5TOWZPVWZYd1VMOTJMb2VDSk51aTFBNUg1dTExaG13VnRXMG84?=
- =?utf-8?B?a0FEQ2tpbUVsOVl4TEJyWEl2eHVhekM1VmFINms3M0wyOE9od1d4S01aeSt5?=
- =?utf-8?B?TTR5UUtkUE5TZVdiczFJNWtzK1FFU3krK2dMSlRtL3ZSMVlpTzVhM2JvSndT?=
- =?utf-8?B?OHhUVU5ROWRyQmFFSDg4anNCaDUvcHNEOUNvdTdaV2prQk1iYzVkZlp2ZC9O?=
- =?utf-8?B?NVlxYXlXYzAya2JVNUJrUnNCUlpUU1docDFxYWIxUG5kREdTL0t0VDhQNHBv?=
- =?utf-8?B?UTJTejF2Y04rMWo0bGNkRW5sM080aEhFK1dSOFhvSmVUVGJEWitRTlF6QVNt?=
- =?utf-8?B?ZTVxeFNMOVhBYnozbXBaQ2xhNHpSNlNoTWNYeFV2K0FTYUtCemFwNUk3Ly9S?=
- =?utf-8?B?cUg4NHMrd250a2t0TnF4M0pYN2gwOGp4NlkxWjhNUEJvOGlNQXh6K0FBVE9P?=
- =?utf-8?B?SENHVXhJaXplSkpkbWxUalhKTFBhWnBjd1FNbWNRZjRJSEtkR1drL0xsT0N4?=
- =?utf-8?B?QUhuaE1iTmRjQUVLemd3dzlIZUFQeVZLeTNOZ0EzRVM0RlllM1BjM0tpZFJ3?=
- =?utf-8?B?WDBKenY1SzZYZVV2bVc2dzBVa2duZnExMWZ1cWd3R0ZDQTFXOGRnSk1pNW5H?=
- =?utf-8?B?VFFCcmdkcmNhaG9odkdaOGFMVEdiOUxQd20zaldSQkl3ZC8xaTQ2WFd2a3pa?=
- =?utf-8?B?VUxONEFUT1ozRS9BWC9ZeUZlSWFKczhGcEwrN05wSXJKa3o2K083bmNYSUxJ?=
- =?utf-8?B?bUZmY09UYlNzMWFLcTc2RnhaanZrTE9yN05tTVE2cmJlbTNENVVtNG9WWTJQ?=
- =?utf-8?B?cWhKSHRSTS9NQld3eUhJOTlueUpVS3M0eHdOWFRLdkFRTk51L29vL3V6NW1u?=
- =?utf-8?B?S0Y2Q0U3dk1zbXhFTEpWdU1UQ1pBWS9OSDRFbXhaeUZDZjdrQlpiZW1ZZmVo?=
- =?utf-8?B?UHFZSzlORkM0Z01oSzdsb2hmQ2Y0Z3Fwc1JyR2VQSndjZytReG1MUllHaE5a?=
- =?utf-8?B?R2QybXV0MUt5MnR0T1BQZWFmcnNrMG9mdFBDSCtPaWZmM3kxNjd6M2RnclN5?=
- =?utf-8?B?RHVjLzZ4RVZBU1dYMytSOUNPWENsNTU1bURHcS9yRlRqbUVxOWtjNnRuWmVG?=
- =?utf-8?B?c1ZJZjVqUEV6c1d0ZnpzOHVubDdRbjl3ZGhkcjJvM01ZcDlhcmwwV2QrMDRR?=
- =?utf-8?B?amRmR1V3d1gxZiswTFBUbGo5RG5GMDhPMzIyRVp2QXN5MUY3ZTlZNjU0RmRJ?=
- =?utf-8?B?OEI4cThtUVRzM1JFaE40cFYrdzduVm5Od3B4dXVsaWdISW1PcGFzZnVHOHBC?=
- =?utf-8?B?L2pxUG44akU5bUVqK1I3VS92TGdJTjdpbFFmb1hBZVZ1UnhSejg0dm55MVAz?=
- =?utf-8?B?VHN3TTQ2MHltT1F6V2QyUVQzMW5pQlR1enU2d2pMdmhnTkRiYi9PYVFsR0hV?=
- =?utf-8?Q?PUQbHJU/6zqpw81yI/tinuW14?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+   d="scan'208";a="148472745"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 13 Jun 2025 14:47:21 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uQCF4-000D1W-2p;
+	Fri, 13 Jun 2025 21:47:18 +0000
+Date: Sat, 14 Jun 2025 05:46:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Shannon Nelson <shannon.nelson@amd.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+	Petr Oros <poros@redhat.com>
+Subject: Re: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants during
+ probe
+Message-ID: <202506140541.KcP4ErN5-lkp@intel.com>
+References: <20250612200145.774195-7-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2ffdf9f-696a-451c-0c8d-08ddaac302dd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2025 21:41:09.9632
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9nFaiz3rIbVlTy9HjN7/GQHjVDTpOJYang+8h89eE0ZxtvDUh7KHdo2JPN825OSHW6vUea09K714faJNhZP+jQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6573
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250612200145.774195-7-ivecera@redhat.com>
 
-QmFidSwNCg0KQ29tcGlsaW5nIHdpdGggIm1ha2UgVz0xIiB5b3UgaGF2ZSBzZXZlcmFsIGtlcm5l
-bGRvYyBjb21tZW50cyBvbiBuZXcgZnVuY3Rpb25zDQp0aGF0IGRvIG5vdCBkZXNjcmliZSB0aGVp
-ciBwYXJhbWV0ZXJzLg0KDQpFLmcuDQoNCi8qKg0KICogcmVzY3RybF9jb25maWdfY250cigpIC0g
-Q29uZmlndXJlIHRoZSBjb3VudGVyIElEIGZvciB0aGUgZXZlbnQsIFJNSUQgcGFpciBpbg0KICog
-dGhlIGRvbWFpbi4NCiAqDQogKiBBc3NpZ24gdGhlIGNvdW50ZXIgaWYgQGFzc2lnbiBpcyB0cnVl
-IGVsc2UgdW5hc3NpZ24gdGhlIGNvdW50ZXIuIFJlc2V0IHRoZQ0KICogYXNzb2NpYXRlZCBub24t
-YXJjaGl0ZWN0dXJhbCBzdGF0ZS4NCiAqLw0Kc3RhdGljIHZvaWQgcmVzY3RybF9jb25maWdfY250
-cihzdHJ1Y3QgcmR0X3Jlc291cmNlICpyLCBzdHJ1Y3QgcmR0X21vbl9kb21haW4gKmQsDQogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVudW0gcmVzY3RybF9ldmVudF9pZCBldnRpZCwg
-dTMyIHJtaWQsIHUzMiBjbG9zaWQsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHUz
-MiBjbnRyX2lkLCBib29sIGFzc2lnbikNCg0KDQpXYXJuaW5nOiBmcy9yZXNjdHJsL21vbml0b3Iu
-Yzo5ODQgZnVuY3Rpb24gcGFyYW1ldGVyICdyJyBub3QgZGVzY3JpYmVkIGluICdyZXNjdHJsX2Nv
-bmZpZ19jbnRyJw0KV2FybmluZzogZnMvcmVzY3RybC9tb25pdG9yLmM6OTg0IGZ1bmN0aW9uIHBh
-cmFtZXRlciAnZCcgbm90IGRlc2NyaWJlZCBpbiAncmVzY3RybF9jb25maWdfY250cicNCldhcm5p
-bmc6IGZzL3Jlc2N0cmwvbW9uaXRvci5jOjk4NCBmdW5jdGlvbiBwYXJhbWV0ZXIgJ2V2dGlkJyBu
-b3QgZGVzY3JpYmVkIGluICdyZXNjdHJsX2NvbmZpZ19jbnRyJw0KV2FybmluZzogZnMvcmVzY3Ry
-bC9tb25pdG9yLmM6OTg0IGZ1bmN0aW9uIHBhcmFtZXRlciAncm1pZCcgbm90IGRlc2NyaWJlZCBp
-biAncmVzY3RybF9jb25maWdfY250cicNCldhcm5pbmc6IGZzL3Jlc2N0cmwvbW9uaXRvci5jOjk4
-NCBmdW5jdGlvbiBwYXJhbWV0ZXIgJ2Nsb3NpZCcgbm90IGRlc2NyaWJlZCBpbiAncmVzY3RybF9j
-b25maWdfY250cicNCldhcm5pbmc6IGZzL3Jlc2N0cmwvbW9uaXRvci5jOjk4NCBmdW5jdGlvbiBw
-YXJhbWV0ZXIgJ2NudHJfaWQnIG5vdCBkZXNjcmliZWQgaW4gJ3Jlc2N0cmxfY29uZmlnX2NudHIn
-DQpXYXJuaW5nOiBmcy9yZXNjdHJsL21vbml0b3IuYzo5ODQgZnVuY3Rpb24gcGFyYW1ldGVyICdh
-c3NpZ24nIG5vdCBkZXNjcmliZWQgaW4gJ3Jlc2N0cmxfY29uZmlnX2NudHInDQoNCi1Ub255DQoN
-Cg0K
+Hi Ivan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dt-bindings-dpll-Add-DPLL-device-and-pin/20250613-041005
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250612200145.774195-7-ivecera%40redhat.com
+patch subject: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants during probe
+config: alpha-randconfig-r061-20250614 (https://download.01.org/0day-ci/archive/20250614/202506140541.KcP4ErN5-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 10.5.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506140541.KcP4ErN5-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/dpll/zl3073x/core.c:552:2-16: opportunity for str_enabled_disabled(input -> enabled)
+>> drivers/dpll/zl3073x/core.c:587:2-14: opportunity for str_enabled_disabled(out -> enabled)
+>> drivers/dpll/zl3073x/core.c:643:2-16: opportunity for str_enabled_disabled(synth -> enabled)
+
+vim +552 drivers/dpll/zl3073x/core.c
+
+   506	
+   507	/**
+   508	 * zl3073x_ref_state_fetch - get input reference state
+   509	 * @zldev: pointer to zl3073x_dev structure
+   510	 * @index: input reference index to fetch state for
+   511	 *
+   512	 * Function fetches information for the given input reference that are
+   513	 * invariant and stores them for later use.
+   514	 *
+   515	 * Return: 0 on success, <0 on error
+   516	 */
+   517	static int
+   518	zl3073x_ref_state_fetch(struct zl3073x_dev *zldev, u8 index)
+   519	{
+   520		struct zl3073x_ref *input = &zldev->ref[index];
+   521		u8 ref_config;
+   522		int rc;
+   523	
+   524		/* If the input is differential then the configuration for N-pin
+   525		 * reference is ignored and P-pin config is used for both.
+   526		 */
+   527		if (zl3073x_is_n_pin(index) &&
+   528		    zl3073x_ref_is_diff(zldev, index - 1)) {
+   529			input->enabled = zl3073x_ref_is_enabled(zldev, index - 1);
+   530			input->diff = true;
+   531	
+   532			return 0;
+   533		}
+   534	
+   535		guard(mutex)(&zldev->multiop_lock);
+   536	
+   537		/* Read reference configuration */
+   538		rc = zl3073x_mb_op(zldev, ZL_REG_REF_MB_SEM, ZL_REF_MB_SEM_RD,
+   539				   ZL_REG_REF_MB_MASK, BIT(index));
+   540		if (rc)
+   541			return rc;
+   542	
+   543		/* Read ref_config register */
+   544		rc = zl3073x_read_u8(zldev, ZL_REG_REF_CONFIG, &ref_config);
+   545		if (rc)
+   546			return rc;
+   547	
+   548		input->enabled = FIELD_GET(ZL_REF_CONFIG_ENABLE, ref_config);
+   549		input->diff = FIELD_GET(ZL_REF_CONFIG_DIFF_EN, ref_config);
+   550	
+   551		dev_dbg(zldev->dev, "REF%u is %s and configured as %s\n", index,
+ > 552			input->enabled ? "enabled" : "disabled",
+   553			input->diff ? "differential" : "single-ended");
+   554	
+   555		return rc;
+   556	}
+   557	
+   558	/**
+   559	 * zl3073x_out_state_fetch - get output state
+   560	 * @zldev: pointer to zl3073x_dev structure
+   561	 * @index: output index to fetch state for
+   562	 *
+   563	 * Function fetches information for the given output (not output pin)
+   564	 * that are invariant and stores them for later use.
+   565	 *
+   566	 * Return: 0 on success, <0 on error
+   567	 */
+   568	static int
+   569	zl3073x_out_state_fetch(struct zl3073x_dev *zldev, u8 index)
+   570	{
+   571		struct zl3073x_out *out = &zldev->out[index];
+   572		u8 output_ctrl, output_mode;
+   573		int rc;
+   574	
+   575		/* Read output configuration */
+   576		rc = zl3073x_read_u8(zldev, ZL_REG_OUTPUT_CTRL(index), &output_ctrl);
+   577		if (rc)
+   578			return rc;
+   579	
+   580		/* Store info about output enablement and synthesizer the output
+   581		 * is connected to.
+   582		 */
+   583		out->enabled = FIELD_GET(ZL_OUTPUT_CTRL_EN, output_ctrl);
+   584		out->synth = FIELD_GET(ZL_OUTPUT_CTRL_SYNTH_SEL, output_ctrl);
+   585	
+   586		dev_dbg(zldev->dev, "OUT%u is %s and connected to SYNTH%u\n", index,
+ > 587			out->enabled ? "enabled" : "disabled", out->synth);
+   588	
+   589		guard(mutex)(&zldev->multiop_lock);
+   590	
+   591		/* Read output configuration */
+   592		rc = zl3073x_mb_op(zldev, ZL_REG_OUTPUT_MB_SEM, ZL_OUTPUT_MB_SEM_RD,
+   593				   ZL_REG_OUTPUT_MB_MASK, BIT(index));
+   594		if (rc)
+   595			return rc;
+   596	
+   597		/* Read output_mode */
+   598		rc = zl3073x_read_u8(zldev, ZL_REG_OUTPUT_MODE, &output_mode);
+   599		if (rc)
+   600			return rc;
+   601	
+   602		/* Extract and store output signal format */
+   603		out->signal_format = FIELD_GET(ZL_OUTPUT_MODE_SIGNAL_FORMAT,
+   604					       output_mode);
+   605	
+   606		dev_dbg(zldev->dev, "OUT%u has signal format 0x%02x\n", index,
+   607			out->signal_format);
+   608	
+   609		return rc;
+   610	}
+   611	
+   612	/**
+   613	 * zl3073x_synth_state_fetch - get synth state
+   614	 * @zldev: pointer to zl3073x_dev structure
+   615	 * @index: synth index to fetch state for
+   616	 *
+   617	 * Function fetches information for the given synthesizer that are
+   618	 * invariant and stores them for later use.
+   619	 *
+   620	 * Return: 0 on success, <0 on error
+   621	 */
+   622	static int
+   623	zl3073x_synth_state_fetch(struct zl3073x_dev *zldev, u8 index)
+   624	{
+   625		struct zl3073x_synth *synth = &zldev->synth[index];
+   626		u16 base, m, n;
+   627		u8 synth_ctrl;
+   628		u32 mult;
+   629		int rc;
+   630	
+   631		/* Read synth control register */
+   632		rc = zl3073x_read_u8(zldev, ZL_REG_SYNTH_CTRL(index), &synth_ctrl);
+   633		if (rc)
+   634			return rc;
+   635	
+   636		/* Store info about synth enablement and DPLL channel the synth is
+   637		 * driven by.
+   638		 */
+   639		synth->enabled = FIELD_GET(ZL_SYNTH_CTRL_EN, synth_ctrl);
+   640		synth->dpll = FIELD_GET(ZL_SYNTH_CTRL_DPLL_SEL, synth_ctrl);
+   641	
+   642		dev_dbg(zldev->dev, "SYNTH%u is %s and driven by DPLL%u\n", index,
+ > 643			synth->enabled ? "enabled" : "disabled", synth->dpll);
+   644	
+   645		guard(mutex)(&zldev->multiop_lock);
+   646	
+   647		/* Read synth configuration */
+   648		rc = zl3073x_mb_op(zldev, ZL_REG_SYNTH_MB_SEM, ZL_SYNTH_MB_SEM_RD,
+   649				   ZL_REG_SYNTH_MB_MASK, BIT(index));
+   650		if (rc)
+   651			return rc;
+   652	
+   653		/* The output frequency is determined by the following formula:
+   654		 * base * multiplier * numerator / denominator
+   655		 *
+   656		 * Read registers with these values
+   657		 */
+   658		rc = zl3073x_read_u16(zldev, ZL_REG_SYNTH_FREQ_BASE, &base);
+   659		if (rc)
+   660			return rc;
+   661	
+   662		rc = zl3073x_read_u32(zldev, ZL_REG_SYNTH_FREQ_MULT, &mult);
+   663		if (rc)
+   664			return rc;
+   665	
+   666		rc = zl3073x_read_u16(zldev, ZL_REG_SYNTH_FREQ_M, &m);
+   667		if (rc)
+   668			return rc;
+   669	
+   670		rc = zl3073x_read_u16(zldev, ZL_REG_SYNTH_FREQ_N, &n);
+   671		if (rc)
+   672			return rc;
+   673	
+   674		/* Check denominator for zero to avoid div by 0 */
+   675		if (!n) {
+   676			dev_err(zldev->dev,
+   677				"Zero divisor for SYNTH%u retrieved from device\n",
+   678				index);
+   679			return -EINVAL;
+   680		}
+   681	
+   682		/* Compute and store synth frequency */
+   683		zldev->synth[index].freq = div_u64(mul_u32_u32(base * m, mult), n);
+   684	
+   685		dev_dbg(zldev->dev, "SYNTH%u frequency: %u Hz\n", index,
+   686			zldev->synth[index].freq);
+   687	
+   688		return rc;
+   689	}
+   690	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
