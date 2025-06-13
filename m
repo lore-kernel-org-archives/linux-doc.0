@@ -1,219 +1,164 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE362E11A8;
-	Fri, 13 Jun 2025 14:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FD9170A26
+	for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 14:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749824745; cv=none; b=uMjbcL/HkK3UeDnst3ZeZg3P5KMcuOwVwdmHUgnynkp03RZK4wnccRgeKUE5QxLO7g3jPNok6t+ihYSxCUHf/1rRj1ItQvIYFU+fhssGfGI+H+GEO657OOYwQl1Rdwe+ecaorSiaBkiYD6G3tdAQimJSi+VbCj/Em60CmlWP8y8=
+	t=1749824809; cv=none; b=KS2ZcaN1o/btD1cc1DiDYoObPACwdEozC/5MGlTCdVcRPLbsBOR1cLEJ21fkGWuUbt05CIjtCm+1e97u+HBv1A1I7jd3Qu0aYcA67zzhf/PygFg3amzuIDmnrEPBDsMQRIa/I6IGsicgSpfYalP0qT5OL2xRULFBrKT5s6VvnHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749824745; c=relaxed/simple;
-	bh=7nxxCzygmafMze1zm3p+C7sk/SkcGsulU3y8eIF1HT8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=p3DnGwgt8XNjTv6SsTNJG1GPtJGdVGrIUqI764iBofzicKSzp8YQUrbm5SNwy2Zs3xmcpLalcHSubI3Ee7mBtc3+WPBnHVSNNHW2nbfbHTPqlC+5sSl3pF59gPgSOZ4LYgme7BVQBbE+LW6/U2M4CO82GnG54/3adfp1l35WSLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LpdH5M1w; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749824809; c=relaxed/simple;
+	bh=ACP/hrp9Qfye/edApO/TeDy89ncgx6tq3kl7aHALZpA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WaWHEMy6GXaQjV2Mzf7LFsBN+NAMhMgp9nqkG5fpsI9Nnl95mpGfXUXYma6iEMGVkk7NVpkf1i5gwh1YLVfaOvF4hoyPMqnL6DDvlXMnAL0Gx1ddYkfDSsHJyO+nShKzZoa7DgN51oFb9XEQDRGNd5W9uK1o6SkqmNfVmBiGpTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PcAPZLKt; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LpdH5M1w"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2350fc2591dso21496785ad.1;
-        Fri, 13 Jun 2025 07:25:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PcAPZLKt"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-47e9fea29easo369001cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 07:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749824743; x=1750429543; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qbMJZEp+OXeJUxEccMiWTpp37iHTjZ0DWM07t8/kq5w=;
-        b=LpdH5M1wg1543yoDj6zeJDzKL+s6ImWqymRDuUFhI5J7bwA6GsSERsUnYbmxL1eyVa
-         cCKAAJrMDuHkejeHadtrTW0Alw278S8Zn3A91arWQWkGKj9Txw57jCdoN3IjV8Do0SCd
-         y9hE0bXasaTQDETsvkodgP8uSuEJC0V1wLJhUsyE19YBeu0YCpeWkbemJNH7x6YXvUES
-         CtVQGBpgXX46AcZ+2XfSvrOEVHTj71vKWOfGVGci5NHYllN0M2MQ+aolYuCYfL4o1GQc
-         8GYMBddWu1DWYFvkNgai/2/lxYCzV/hhJfz3Rl2nFfrr+sX+sPpXEFf4cQKsEzLrrApM
-         IyyQ==
+        d=google.com; s=20230601; t=1749824806; x=1750429606; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D8Jxe80PMT+botQHpeWFQMqNDpkBacoLOJzzs4cmSiE=;
+        b=PcAPZLKt9+nXrU53hJ90Tmhfeg2D4hDXX+ICqhmMYDTfAkWsExNYXre5UGzG+SC9iP
+         dsjdD+YV0Ax1fiUCyTZex1mxkJa1m8nrMQUqSyYBdf1vPLACemXKn8NGT6Tnb8gTh8hZ
+         FpLr+BA2NiYtD4ltLlSr6WCv1ds6HGLDHLo35BVTmzVs9eqsWc5j5pqB7TKIjIzuEgu1
+         DO/ClrAkWeOVhuBvgk+FuaslkTNYuz7/G8VKsl7VgnQGGP4lDd1hRbe5w4dbZq2A4pIf
+         bOfVx82ydMam3maChKgINNH/ffeP5bxUKsB1t2rPOsQF+G6dSFKt2CWvM3iAVnwS7m0Y
+         yj6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749824743; x=1750429543;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qbMJZEp+OXeJUxEccMiWTpp37iHTjZ0DWM07t8/kq5w=;
-        b=lMtDfnl6rjWZ+505DPz3HKLoEfV8OkcsF2wRVwQghRprGbRx+cHWjVP/T5X56JBmji
-         bJfkKf+JLCmHCWmMAW64Ds2BrHGbYWpPwl56oQsDnyf8QDgM0ZLCTfVJWcHPH7fEhMzw
-         sLZ4zQJAeecP75ybCe3KQ64HOR4WX2Fb9LvqUh5m8IwHyrjvLJ1I4f4EdfTdf19Jm+gk
-         YlO1Pu2i+zh7dbRujErNs2Cnd0dIZyUe16HZH/LKmx0KdGSjDdlQqdTVfhzU+qaQt8DT
-         vtYuZZfLzxSA/idrSCLroRcD26FfSpO6CzkbIb3JaGc98b5AnzGy4S6x/Wb+9Wv6R9NK
-         7pgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZDM+LQYq+4CoPTquavlEWp0yQnk5HcVhoLsHE7aw/KM1edx/x1wOwOxvUr3i8bGGHsOJhvUIcP24=@vger.kernel.org, AJvYcCUwjizICdkozNacBPmtSt7QKa85WW+TfQAsi7sGwDFGnmVCOv5W0CGEmNr7hyA1ytEhIFmPIkiimpMMWlTu@vger.kernel.org, AJvYcCW5V6RDDbzbqNmBKx6XHnMuTdA6DmjKjayrSWjZ25vuD8iUP5km/6eH11ravx0i/f1jB6qccGvGJdYiphg+HYEut+nPBw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxosNqFYbg/4Sm2mlhET28AXgzzLGp5QcpxScskV9USV+9afOOw
-	2ywES50knCWjF9kKcEwJYAaAcfzNWgd2JJQXHqAOeUCjMgd4js96T31l
-X-Gm-Gg: ASbGncv0H0ZT8btOJi/YY5CIAGP8+lhStVxGigFVzkurCR1JJa8ZkSWV7K5N8heoBJ/
-	+xAKcFIYkJE7TncUcWjNH9Ch16cJxewwCYxCrgreeuPWv8X/pmwe9Fe309LfzFxFD05jEL/euO5
-	3rmMTy58j86JkGVAb/EMVylNgAD1oHR8y4n4jTK42dgVj20q9LnIrIgoENes/eMDm0oinCH/yka
-	G+bB+BfBcLoXNBotnyUoxIQZ89iubO/a1q3J/Hvqog+03ISIVPehJ52dqceYxlDIZOboQ8vgQ4h
-	VtHUyffq7u/5LdLv5CBS7vfVadAQds10JkD4xP0fXS5eW/kRq/k+ishX7lOang58C5BcDw==
-X-Google-Smtp-Source: AGHT+IFSAUyJOYrFNH5kSIABO4B+RufRr/zidEOc71Ly1nTcpZMnFAZ9v7LZ/EoOYEq6B/ckMPhekw==
-X-Received: by 2002:a17:902:ecca:b0:233:fd7b:5e0d with SMTP id d9443c01a7336-23667a28c67mr11814005ad.5.1749824742839;
-        Fri, 13 Jun 2025 07:25:42 -0700 (PDT)
-Received: from ?IPv6:::1? ([2607:fb91:3ee2:c0aa:ad2:cc58:51f0:a267])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365d88c20bsm14914095ad.19.2025.06.13.07.25.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jun 2025 07:25:42 -0700 (PDT)
-Date: Fri, 13 Jun 2025 07:25:39 -0700
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: =?ISO-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-CC: Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>,
- Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>,
- Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
- Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- "Cody T . H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
- Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org,
- linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v12_0/6=5D_platform/x86=3A_A?=
- =?US-ASCII?Q?dd_Lenovo_WMI_Gaming_Series_Drivers?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <facbb66b-ea34-bc57-d673-adb84f79fb8d@linux.intel.com>
-References: <20250609185027.7378-1-derekjohn.clark@gmail.com> <facbb66b-ea34-bc57-d673-adb84f79fb8d@linux.intel.com>
-Message-ID: <8933A696-ABA4-4C79-90D3-347016B26911@gmail.com>
+        d=1e100.net; s=20230601; t=1749824806; x=1750429606;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=D8Jxe80PMT+botQHpeWFQMqNDpkBacoLOJzzs4cmSiE=;
+        b=Er1dqot3LS9p0HoXLY29Q2j8/xacSVDAZ4As1hU/uEgoRgtSfSpbFr2bYYYHijou7a
+         PQSj8KFsVZER3NgqiZlIQkCs1kWS9YajLzlPnPPssavdRgnwXtI2Nv1T1o1pCO0nn+Qk
+         rvW7IFkNV8L0PUkVTRcORBysxVfDCCd1OgIwrSRbiE5S1stU+nMXFjXduOJngBKbFmrY
+         7PsGxIk5lGId4tdIutQUryc3BoO/b+a80Hchp3bSRVElvlgA/mZq/E0pMDCTrGICrqEH
+         GFSOqVMeASAF2xY6VAAf8IEgOe89diDpUTz3vERnm08j0c082Wa62rLwBB9nYAQeYE0f
+         +0Pg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcpr+Jt0EyX2qu9z/GxLqbqZf6FHoU5zFILUSnkTjconJk4Bau05EsQJs5AUM7pVdjc11xvvL4f3Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBrKNDHS+7+ixqA55jyVkrA4PQwYnbtV3KYXRozkr8cH1b2LBq
+	B9LAWWNCoLs6bj0zqOX1zwaqmJRqeE6FQJVdshqHX5b+ZNt3TRlhrGNA0DuD8mxEIMoYb+TDHr1
+	bTGlcBxvTZ/jqR13ni8u+i/qU97sw587BJOD4Rnh8
+X-Gm-Gg: ASbGnct+m1OAQ6MsDij9afI/0jPN+9U3EA/NAo5nWrWVWoPLmlpGzgoY3lb7YDQpuPR
+	Sl1BOv+f7u2gy+/EN92QHVa8HFSYd8Ezort0uPOdJM1f1VvpMYWToYLyU9VzZX/Cy5i7ZhxrxZE
+	+YZNTQmaY6ctKIP82X0Gq/9mPQWNv42rMjgl3PK3OHw1tC
+X-Google-Smtp-Source: AGHT+IHbli7Lnsvwsi7yQrld3VyFR4wD7vNt+L+iVVFtsCnMyMdexDNlww/fNjqKMLlNLxY74C9MxoEAw1mQ94XjIUg=
+X-Received: by 2002:ac8:5fc4:0:b0:47b:840:7f5b with SMTP id
+ d75a77b69052e-4a730d79d74mr4093481cf.29.1749824805557; Fri, 13 Jun 2025
+ 07:26:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20250610215516.1513296-1-visitorckw@gmail.com>
+ <20250611184817.bf9fee25d6947a9bcf60b6f9@linux-foundation.org> <aEvCHUcNOe1YPv37@visitorckw-System-Product-Name>
+In-Reply-To: <aEvCHUcNOe1YPv37@visitorckw-System-Product-Name>
+From: Robert Pang <robertpang@google.com>
+Date: Fri, 13 Jun 2025 23:26:33 +0900
+X-Gm-Features: AX0GCFvkWwS1rcTtPYvnDVkpn-tKhNLpwiqEQsoAt3bvG3Gm0tJIQwjdfh_F5WE
+Message-ID: <CAJhEC05+0S69z+3+FB2Cd0hD+pCRyWTKLEOsc8BOmH73p1m+KQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Fix bcache regression with equality-aware heap APIs
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net, colyli@kernel.org, 
+	kent.overstreet@linux.dev, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-bcache@vger.kernel.org, 
+	jserv@ccns.ncku.edu.tw, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+Hi Andrew
 
+Bcache is designed to boost the I/O performance of slower storage
+(HDDs, network-attached storage) by leveraging fast SSDs as a block
+cache. This functionality is critical in significantly reducing I/O
+latency. Therefore, any notable increase in bcache's latency severely
+diminishes its value. For instance, our tests show a P100 (max)
+latency spike from 600 ms to 2.4 seconds every 5 minutes due to this
+regression. In real-world environments, this  increase will cause
+frequent timeouts and stalls in end-user applications that rely on
+bcache's latency improvements, highlighting the urgent need to address
+this issue.
 
-On June 13, 2025 2:07:14 AM PDT, "Ilpo J=C3=A4rvinen" <ilpo=2Ejarvinen@lin=
-ux=2Eintel=2Ecom> wrote:
->On Mon, 9 Jun 2025, Derek J=2E Clark wrote:
+Best regards
+Robert Pang
+
+On Fri, Jun 13, 2025 at 3:16=E2=80=AFPM Kuan-Wei Chiu <visitorckw@gmail.com=
+> wrote:
 >
->> Adds support for the Lenovo "Gaming Series" of laptop hardware that use
->> WMI interfaces that control various power settings=2E There are multipl=
-e WMI
->> interfaces that work in concert to provide getting and setting values a=
+> Hi Andrew,
+>
+> On Wed, Jun 11, 2025 at 06:48:17PM -0700, Andrew Morton wrote:
+> > On Wed, 11 Jun 2025 05:55:08 +0800 Kuan-Wei Chiu <visitorckw@gmail.com>=
+ wrote:
+> >
+> > > This patch series introduces equality-aware variants of the min heap
+> > > API that use a top-down heapify strategy to improve performance when
+> > > many elements are equal under the comparison function. It also update=
 s
->> well as validation of input=2E Currently only the "Gamezone", "Other
->> Mode", and "LENOVO_CAPABILITY_DATA_01" interfaces are implemented, but
->> I attempted to structure the driver so that adding the "Custom Mode",
->> "Lighting", and other data block interfaces would be trivial in later
->> patches=2E
->>=20
->> This driver attempts to standardize the exposed sysfs by mirroring the
->> asus-armoury driver currently under review=2E As such, a lot of
->> inspiration has been drawn from that driver=2E
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250319065827=2E53478-=
-1-luke@ljones=2Edev/#t
->>=20
->> The drivers have been tested by me on the Lenovo Legion Go and Legion G=
-o
->> S=2E
->>=20
->> Suggested-by: Mario Limonciello <superm1@kernel=2Eorg>
->> Reviewed-by: Armin Wolf <W_Armin@gmx=2Ede>
->> Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
->> ---
->> v12:
->>  - Fix warnings from make W=3D1
->> v11:
->> v10:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250515182224=2E8277-1=
--derekjohn=2Eclark@gmail=2Ecom/
->> v9:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250508235217=2E12256-=
-1-derekjohn=2Eclark@gmail=2Ecom/
->> v8:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250505010659=2E145098=
-4-1-derekjohn=2Eclark@gmail=2Ecom/
->> v7:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250503000142=2E119035=
-4-1-derekjohn=2Eclark@gmail=2Ecom/
->> v6:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250428012029=2E970017=
--1-derekjohn=2Eclark@gmail=2Ecom/
->> v5:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250408012815=2E103235=
-7-1-derekjohn=2Eclark@gmail=2Ecom/
->> v4:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250317144326=2E5850-1=
--derekjohn=2Eclark@gmail=2Ecom/
->> v3:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250225220037=2E16073-=
-1-derekjohn=2Eclark@gmail=2Ecom/
->> v2:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20250102004854=2E14874-=
-1-derekjohn=2Eclark@gmail=2Ecom/
->> v1:
->> https://lore=2Ekernel=2Eorg/platform-driver-x86/20241217230645=2E15027-=
-1-derekjohn=2Eclark@gmail=2Ecom/
->>=20
->> Derek J=2E Clark (6):
->>   platform/x86: Add lenovo-wmi-* driver Documentation
->>   platform/x86: Add lenovo-wmi-helpers
->>   platform/x86: Add Lenovo WMI Events Driver
->>   platform/x86: Add Lenovo Capability Data 01 WMI Driver
->>   platform/x86: Add Lenovo Gamezone WMI Driver
->>   platform/x86: Add Lenovo Other Mode WMI Driver
->>=20
->>  =2E=2E=2E/wmi/devices/lenovo-wmi-gamezone=2Erst       | 203 ++++++
->>  =2E=2E=2E/wmi/devices/lenovo-wmi-other=2Erst          | 108 +++
->>  MAINTAINERS                                   |  12 +
->>  drivers/platform/x86/Kconfig                  |  41 ++
->>  drivers/platform/x86/Makefile                 |   5 +
->>  drivers/platform/x86/lenovo-wmi-capdata01=2Ec   | 302 ++++++++
->>  drivers/platform/x86/lenovo-wmi-capdata01=2Eh   |  25 +
->>  drivers/platform/x86/lenovo-wmi-events=2Ec      | 196 ++++++
->>  drivers/platform/x86/lenovo-wmi-events=2Eh      |  20 +
->>  drivers/platform/x86/lenovo-wmi-gamezone=2Ec    | 409 +++++++++++
->>  drivers/platform/x86/lenovo-wmi-gamezone=2Eh    |  20 +
->>  drivers/platform/x86/lenovo-wmi-helpers=2Ec     |  74 ++
->>  drivers/platform/x86/lenovo-wmi-helpers=2Eh     |  20 +
->>  drivers/platform/x86/lenovo-wmi-other=2Ec       | 665 ++++++++++++++++=
-++
->>  drivers/platform/x86/lenovo-wmi-other=2Eh       |  16 +
->>  15 files changed, 2116 insertions(+)
->>  create mode 100644 Documentation/wmi/devices/lenovo-wmi-gamezone=2Erst
->>  create mode 100644 Documentation/wmi/devices/lenovo-wmi-other=2Erst
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01=2Ec
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01=2Eh
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-events=2Ec
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-events=2Eh
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone=2Ec
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone=2Eh
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-helpers=2Ec
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-helpers=2Eh
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-other=2Ec
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-other=2Eh
+> > > the documentation accordingly and modifies bcache to use the new APIs
+> > > to fix a performance regression caused by the switch to the generic m=
+in
+> > > heap library.
+> > >
+> > > In particular, invalidate_buckets_lru() in bcache suffered from
+> > > increased comparison overhead due to the bottom-up strategy introduce=
+d
+> > > in commit 866898efbb25 ("bcache: remove heap-related macros and switc=
+h
+> > > to generic min_heap"). The regression is addressed by switching to th=
+e
+> > > equality-aware variants and using the inline versions to avoid functi=
+on
+> > > call overhead in this hot path.
+> > >
+> > > Cc: stable@vger.kernel.org
+> >
+> > To justify a -stable backport this performance regression would need to
+> > have a pretty significant impact upon real-world userspace.  Especially
+> > as the patchset is large.
+> >
+> > Unfortunately the changelog provides no indication of the magnitude of
+> > the userspace impact.   Please tell us this, in detail.
+> >
+> I'll work with Robert to provide a more detailed explanation of the
+> real-world impact on userspace.
 >
->Hi Derek,
+> > Also, if we are to address this regression in -stable kernels then
+> > reverting 866898efbb25 is an obvious way - it is far far safer.  So
+> > please also tell us why the proposed patchset is a better way for us to
+> > go.
+> >
+> I agree that reverting 866898efbb25 is a much safer and smaller change
+> for backporting. In fact, I previously raised the discussion of whether
+> we should revert the commit or instead introduce an equality-aware API
+> and use it. The bcache maintainer preferred the latter, and I also
+> believe that it is a more forward-looking approach. Given that bcache
+> has run into this issue, it's likely that other users with similar use
+> cases may encounter it as well. We wouldn't want those users to
+> continue relying on the current default heapify behavior. So, although
+> reverting may be more suitable for stable in isolation, adding an
+> equality-aware API could better serve a broader set of use cases going
+> forward.
 >
->Could you please rebase this on top of for-next placing the files under=
-=20
->lenovo/ folder which we just created=2E I could have easily changed the=
-=20
->placement of the files themselves, but making the Kconfig & Makefile=20
->changes into the new files while applying would have been more=20
->complicated=2E It is better you do it so I won't end up messing up anythi=
-ng=2E
+> > (Also, each patch should have a fixes:866898efbb25 to help direct the
+> > backporting efforts)
+> >
+> Ack. Will do.
 >
->There's the lenovo-target in lenovo/Makefile which will auto add the=20
->'lenovo-' prefix to the files so you can basically rename the files like=
-=20
->this:
+> >
+> > I'll add the patches to mm.git to get you some testing but from what
+> > I'm presently seeing the -stable backporting would be unwise.
 >
->drivers/platform/x86/lenovo-wmi-other=2Ec ->
->drivers/platform/x86/lenovo/wmi-other=2Ec
+> Thanks!
 >
->=2E=2E=2Eand add them using that lenovo-target=2E
->
-
-Sure=2E I'm on travel so it may be a few days=2E I'll attempt to get it do=
-ne today if I can though=2E
-
-Should I change the docs at all for this?
-
-Cheers,
-- Derek
+> Regards,
+> Kuan-Wei
