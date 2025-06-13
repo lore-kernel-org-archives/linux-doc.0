@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5468833E1;
-	Fri, 13 Jun 2025 15:13:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFCF2E11C2;
+	Fri, 13 Jun 2025 15:18:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749827632; cv=none; b=XL38S6duzo5HjhOGk9T13qszqL2uoSPe7y0n2h5Cirh6ft+qrRdHocXELU46WhcKTNGe+FTTqn52BlUSm8+ITxngzv00moO76gExnFGvr9PxdRHLYmRB1QFyO0q4BMaaku8y33mCANVO3lQ37sGseeTNaewLsA6KPMKlqUvHoAU=
+	t=1749827936; cv=none; b=imNHZhCCsc5SjOVURSVlgNqo2od0w7Vuhsn7FEGVCSJoJFHJS9bqvEm50/YfSAsnMVx/AzKqPRRnY0TR7fGd/1EewSZSges6S3FJeG1a1qww50WtL5FKyG+pJDiLmLFBBuTTXKbS1S+6ztAog+UePrKP571u9FcUUWI2vv/3kQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749827632; c=relaxed/simple;
-	bh=FM3IrbmJmnE9i2+qWqWQlZ+E4ahHxHM5H66AV9WmBoI=;
+	s=arc-20240116; t=1749827936; c=relaxed/simple;
+	bh=d3YgWUVRWKg58VispgWHX09hXScELBYDKFXpt5XFraA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Dq36IfNbEVm9mO9K0ZciCY8C3qNThCVE+B7fyRRrwOzMqXaYkJcwd7kiHQZizPejlH8WsugRQP0RkpQ/YWmfiDp+sQFEhelP9bdOjOGivPeIBMRESXaC1eY+OmvjqXMTZaEB/d/cQR9cKirlKcERu0cu92rXJb0LXfxhPhnBGzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kly87QeW; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=i1eD1sRLKnuYvQuV/LPER63W/Qri3ktepDgblZGZkwY5RUECCZ9v63FHFXGoZZWcyDJFN7k/vulh2gDAR23tYd1/aP+HXMP7Di/7V8o8732ImSuIZC4Tw+9LXM+9fxLBUOf8pMzHyTryQxX/tE2gJZoKrXM3VTRa1bZneQESocs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AtlrWRtf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kly87QeW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51532C4CEE3;
-	Fri, 13 Jun 2025 15:13:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AtlrWRtf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6303C4CEED;
+	Fri, 13 Jun 2025 15:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749827631;
-	bh=FM3IrbmJmnE9i2+qWqWQlZ+E4ahHxHM5H66AV9WmBoI=;
+	s=k20201202; t=1749827936;
+	bh=d3YgWUVRWKg58VispgWHX09hXScELBYDKFXpt5XFraA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=kly87QeWZT/wrbptR1YPxy1l9gyVEOhvNZZmEaevtRPT9WyrvZ0TX/4+fp6YZ7aiQ
-	 afAh/kZ7hLMkf8CdrnaxRQeBQ+vnOjBT4liAml1ERCct5+1CFWyxZ4uBOdQicDrROD
-	 gRjB2u5eTm/qsBQse/skOXLuIfmS6EB7pL6ZkklPLOBw5wiIX00+2l5CRJrtz2QLlA
-	 hvNVejusVTbhm3bvR/PInaoduM3LlFHlrAFsoFTmFlQRRf59XWc4E1QguZkSoAwF1k
-	 sbn+dhQN1ND+j3porT3PrSJizbAMCdW/Y8zn8uT4C7Qf290YS0GAHbcfQHpyC6CaU6
-	 UB+VG3EAUGLqQ==
+	b=AtlrWRtf2Kufmhvu5sy7r4LAHiaKOtkOzUBYatM6VCdu4h4cdfyZ7e9hfIfV7mCyx
+	 ccQYIUKTJuWgUJhUU30EEnoxLXhW81Y9ac5mLTjrgI6Hqx/KBcBC9WB0Vu9ejdxrc+
+	 ciKSzbU5xZr9qlKs/K+Lp83FIbR/TAurjRs91YSsdOuLosVOumwAgwHhRDENTCj4vQ
+	 Of5fndiZVPFw9gI/4BoLOPv0TWOii5uiJhz2QfWsz0eVcT133/3aWXfGIitCMN3uJ2
+	 pdYFRjlBI+QGV/Megpp+qYfBOu9IdSf/m6eSHwQMzqkJM7ymQXGpc/oFkyu+RV/HhD
+	 29BkcFt1Nmpiw==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
@@ -51,14 +51,14 @@ Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
   andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
   bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
   stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 11/16] luo: luo_sysfs: add sysfs state monitoring
-In-Reply-To: <CA+CK2bCnMpRy=wYtt02Xy+R7BFhrY_RsdaZ7X4i+CUASv5Uo0Q@mail.gmail.com>
+Subject: Re: [RFC v2 09/16] luo: luo_files: implement file systems callbacks
+In-Reply-To: <CA+CK2bCigGJJqtSt1-4GP0JPVCZrTa6WS4LiMTT0J=04G64e5w@mail.gmail.com>
 References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
-	<20250515182322.117840-12-pasha.tatashin@soleen.com>
-	<mafs0plfirwh3.fsf@kernel.org>
-	<CA+CK2bCnMpRy=wYtt02Xy+R7BFhrY_RsdaZ7X4i+CUASv5Uo0Q@mail.gmail.com>
-Date: Fri, 13 Jun 2025 17:13:43 +0200
-Message-ID: <mafs0ldpvn07s.fsf@kernel.org>
+	<20250515182322.117840-10-pasha.tatashin@soleen.com>
+	<mafs0y0u6rx8y.fsf@kernel.org>
+	<CA+CK2bCigGJJqtSt1-4GP0JPVCZrTa6WS4LiMTT0J=04G64e5w@mail.gmail.com>
+Date: Fri, 13 Jun 2025 17:18:47 +0200
+Message-ID: <mafs0h60jmzzc.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -71,26 +71,50 @@ Content-Transfer-Encoding: quoted-printable
 
 On Sun, Jun 08 2025, Pasha Tatashin wrote:
 
-> On Thu, Jun 5, 2025 at 12:20=E2=80=AFPM Pratyush Yadav <pratyush@kernel.o=
+> On Thu, Jun 5, 2025 at 12:04=E2=80=AFPM Pratyush Yadav <pratyush@kernel.o=
 rg> wrote:
 >>
 >> On Thu, May 15 2025, Pasha Tatashin wrote:
 >>
->> > Introduce a sysfs interface for the Live Update Orchestrator
->> > under /sys/kernel/liveupdate/. This interface provides a way for
->> > userspace tools and scripts to monitor the current state of the LUO
->> > state machine.
+>> > Implements the core logic within luo_files.c to invoke the prepare,
+>> > reboot, finish, and cancel callbacks for preserved file instances,
+>> > replacing the previous stub implementations. It also handles
+>> > the persistence and retrieval of the u64 data payload associated with
+>> > each file via the LUO FDT.
+>> >
+>> > This completes the core mechanism enabling registered filesystem
+>> > handlers to actively manage file state across the live update
+>> > transition using the LUO framework.
+>> >
+>> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+>> > ---
+>> >  drivers/misc/liveupdate/luo_files.c | 105 +++++++++++++++++++++++++++-
+>> >  1 file changed, 103 insertions(+), 2 deletions(-)
+>> >
+>> [...]
+>> > @@ -305,7 +369,29 @@ int luo_do_files_prepare_calls(void)
+>> >   */
+>> >  int luo_do_files_freeze_calls(void)
+>> >  {
+>> > -     return 0;
+>> > +     unsigned long token;
+>> > +     struct luo_file *h;
+>> > +     int ret;
+>> > +
+>> > +     xa_for_each(&luo_files_xa_out, token, h) {
 >>
->> I am not sure if adding and maintaining a new UAPI that does the same
->> thing is worth it. Can't we just have commandline utilities that can do
->> the ioctls and fetch the LUO state, and those can be called from tools
->> and scripts?
->>
+>> Should we also ensure at this point that there are no open handles to
+>> this file? How else would a file system ensure the file is in quiescent
+>> state to do its final serialization?
 >
-> This is based on discussion from SystemD people. It is much simpler
-> for units to check the current 'state' via sysfs, and act accordingly.
+> Do you mean check refcnt here? If so, this is a good idea, but first
+> we need to implement the lifecycle of liveupdate agent correctectly,
+> where owner of FD must survive through entering into reboot() with
+> /dev/liveupdate still open.
 
-Ok, fair enough.
+Yes, by this point we should ensure refcnt =3D=3D 1. IIUC you plan to
+implement the lifecycle change in the next revision, so this can be
+added there as well I suppose.
 
 [...]
 
