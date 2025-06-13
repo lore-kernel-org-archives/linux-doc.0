@@ -1,200 +1,207 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2742E11B5;
-	Fri, 13 Jun 2025 16:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E776211A0D;
+	Fri, 13 Jun 2025 16:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749832413; cv=none; b=ggI/W92Gpk1C3iAkjaLBoqoYVLBbIeKMN1Nd3AT8i152Gil0ew+lfjQ+Luet+JRgm3xDpkKtlwU1WPfAVycrA9ANR3UfrxQkzASu0etp4HF3VDtnPwcejykDZq79hn+BNvxC9L4HitnqmqM5+ndFBjdxkgbTe4MxM8I1kWWNfRA=
+	t=1749833198; cv=none; b=buiYjLYY651Hgta+VMUWdkKxA/u9YjO+/GrikIBZIhevV64FhDUULnmiPxaCc8/bHaeKgSjrYX8cWLtjaXNRDOngRekJEdetkz7AabMTJCZbp3ovvLE2t8vbyQTSSsbPT0EPted6AndHXPFaXeMhUbLjKSnD8VvEimp8F9TVTLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749832413; c=relaxed/simple;
-	bh=1WcSibMacZOYwlTkoDbYGvtq44j+e8sb3UdJnXTKqC8=;
+	s=arc-20240116; t=1749833198; c=relaxed/simple;
+	bh=qy48ViaN3if55ls8Ik4eE788CPNqNwEPM2Qlx4wnVvY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Pd00AvCBF7aNQnYsIpPi1yNmgza2xPrZip7btgHYuc0mjyfPGHejIoW5f7Z3sUQqIoqZ8yp981tf3xFUKAkGMRCVw//RB++HFcKkTVWozrYVU2VMDslDath7EwC8mjJnUC+x1JW72oN0HetwR9eK7pGdKRFvqWp+2ohWFAdPi50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TUc0gRyK; arc=none smtp.client-ip=209.85.218.49
+	 To:Cc:Content-Type; b=neBh4qwgr+zHOKI3dysJDlwJ3ftSaKVLCWiMWeZJu964Y3pLmIVEA0UhyrPW8lvpKCtm7OTTkDdkDWPew31Gib8InidTEjGL6C85q2+wzA3Egwzp0bS0zikQeRe+JRLxvTWpuL6lnd3XrAtn+K6dGuxo5VCFpb7gVtoA7q4pd2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6XRuoG0; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TUc0gRyK"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-adb2bd27c7bso350816666b.2;
-        Fri, 13 Jun 2025 09:33:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6XRuoG0"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ade30256175so430252866b.1;
+        Fri, 13 Jun 2025 09:46:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749832410; x=1750437210; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1749833194; x=1750437994; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Va7AE6ZRu0tUcIQ8yzYRsNan45fKyNNXoobCqFtK7Vc=;
-        b=TUc0gRyKWj4D7pYXIG+9KszbZp1yMHnJlI21nQH2xlZu/Xdkoc+VcjNySy4aGEs6/n
-         edG7WVcYNokdDgVlaTltsFaAIWOYqLKHmDBy61m+Gm7U9vbRJl3pvG8yS9JuLLIBmb1i
-         J0Pk/zLRLknYc5V8nXwovJ7tSZvoGCMnSTsvZpSai5jc0dKeNnV0YF9Bb2F5yUpVM97Q
-         zETwmPMJg76s0VE0DXY/Og2r3zSM980DUD9MWIumZHR/WDGJZt9wJJTkua/ITT0NeRKp
-         q9OQwLZcEZ9ia3ZdnSVEI8U2mQDAtGEmkEuuikYgsNvmqjOnZ+ov8a2K5a1GOVaHPn9M
-         sYPg==
+        bh=8b+XF1R6IDkuZBmPOk+AjM7WkGgjUBKP1V8hx4ecgO8=;
+        b=O6XRuoG0S7GW9Gz9SODxB0VwuVfUtey9vBSipW8LeIEqZU/hKAARJ6ur5PmCLHmkDb
+         tERq0lEDMQUftSGqc5Q2OEFrt0vVVjJ9votWY84sVWNPGge3BF1VgIeVLuonDTPwuJ3G
+         X6dUZGxpSzN0tbGqiwjAKJjNf7u7WC2wPRSaHpg/RZNa+Qv92pFeP31Tn+UFybOldqCi
+         wIkYT65kYXAomxPdJRxCJ5RDxS+NjCL/g48VhSSAFMjIVTOv2RKv51+y3DGX3sxEvdeI
+         qSYVi1KqOg0iYwqvNMq3yd0ARzQ464mgUxjWvZDJB5kygyoQetyBtrHkyMQsSrEP4qIc
+         EStA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749832410; x=1750437210;
+        d=1e100.net; s=20230601; t=1749833194; x=1750437994;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Va7AE6ZRu0tUcIQ8yzYRsNan45fKyNNXoobCqFtK7Vc=;
-        b=gRs7tM2S3Oa+Kc8Cx3IK9rZwv7pYqKl2pMtCr+R9ulW2TI10SZgyKn2IzUFUgMmns8
-         0BMnkkPIZYqylqi0B5u3BFfEjYZb38x2Yez40vJcJz9aaxpldqq1HnayTHB425+ZQqjm
-         oGr0NIfWmOtdZ7kwCfsxvvhx/3Oc13VcQVHeRyraMNvsAf0mpjTcVvwwpHwhqF6rGTk5
-         4qi/mVqJZuovG+owKcnnJvISSDj093bgrkiUxHAAi3dE31XrUZD72K1EblBghSLTtE+E
-         2cvyfq3Y/e5OpZ+iP9HGRKN+jm/ZxOqoS7OwXr3Igjuw+H3dahPdk/dshHg14WtzqC3m
-         JCVw==
-X-Forwarded-Encrypted: i=1; AJvYcCWELFW3CN3HWiXC1ULkcVJgVko7fuT8Lw7PUDu/arEsr3cSom8BaJnRKenooldBdUVPrOTdt0UYysM97rg1@vger.kernel.org, AJvYcCWH1E82KtgjRCdWetODpvlHfr0vx0UscSLboTVnV3rUYHoY5n5AHEjTQnTTsowKYFwYZUGluv16xT8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9zYy9hYTDfJe7FDtGXWIlvOpoi685Q2iR+/n2weanj8tGJkPS
-	4XMkesAkvIrMTBIt4iqpLighlsFeQI232PmB0x8SBZKkUl2ct5xJjXIrNpthP3XCoaorJYs+evS
-	GBl/Hv0kOGgvOYn5nLXCqyFO2rCMZlDI=
-X-Gm-Gg: ASbGnct3z6KW4iNoBSahVOLNX/4gaOQzvRnBYr/341M8FL7shmUtO77FkgSVcmO7B0C
-	xWugC/b/HW8A+egsRBy/iogYXyDPApzrozKRhxUZCYUAdrTVWv/n/fPtlHSBSzIzQveczJi/VRF
-	NllfBZBafEQEysUTklr+HjX11MYyTtpuDC6mBzGWt1XXqPqJ12NxNw6jkFQrZLWQhH0Phod6JxD
-	GJO
-X-Google-Smtp-Source: AGHT+IG/OBkyK/agG2UVMmJWvTU1QMm4SmGMs9KD3Ezvf+J2tTxEtlceU4dEUBXWyJAHxcNkqh7edre0kjWHg3dWMyQ=
-X-Received: by 2002:a17:906:fe0c:b0:ad8:93a3:299c with SMTP id
- a640c23a62f3a-adec5436bc6mr372908166b.10.1749832409926; Fri, 13 Jun 2025
- 09:33:29 -0700 (PDT)
+        bh=8b+XF1R6IDkuZBmPOk+AjM7WkGgjUBKP1V8hx4ecgO8=;
+        b=l3AdxyUktiFjbBpkBBvf3QfJ1kV/MNSqcoq54iN65f3OKiKjc9h4Jev+LLD4djNCGA
+         NOKVR7NLi7B9gMMngVkFDqz3GGoeE4/aZ42I3PRslX8ILKOTtDSDOLCxrRr+n+P0gpwf
+         sRijcFyRPr1fy7W2xFBnkvWIq4XzRDvtgpAFc9R9j5b0ZsZ7f8P+Ig0ZcEl9TpTPdvN7
+         SCX6JsXg6avmaIvFJIQ1kKjqE04QEZ7LwI0Eeexv9hoof9PjqJh4sqDieVSSHLkqgqzf
+         HUUarWpvsSZC876Cip1DcTMwwukOmZk4iIa13qmzlD+9rZyChYgC+FAaqTY+kZWSFxzh
+         +Gew==
+X-Forwarded-Encrypted: i=1; AJvYcCUtN1SqN+LW+yyFJJSZBiVtJbamvqXQMRZSQnUfKeatZBJgKqD8Nn7OSc7g2nKRExLGTnwFq2Jw+IlvsD6h@vger.kernel.org, AJvYcCW/pEfyyLebHxz3QGuabroUXvRuF3Z3xhcRKU/lEcaqw63qt4QmN5lbyU1s+ZJ+RCz69JFRTqeTqJw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhzoW968tQ5rWlkdkEiebDD0FOcCXRssfWsaP+aKEGw30c9qyJ
+	gdwSENqnqM2ukXqxb/YsnitjANTjuSAP9T3i+aDoY5LfpLsgrO9HJuPg4xEFsJoz32JHwfL8Cdl
+	FEriytkroqwNLtLojSRCQNrzKmLwwHZk=
+X-Gm-Gg: ASbGnct5ydv6NEjsrIr4ZSQYYxBgCzIwP38XmeJJQ8CCoOZM0RwBjL8fpYZ5YKz+lOL
+	923J/TmCXhDDQAaYglmHSCcKM6rSM4DsAKpTQLAUWJdW/UFnxhORl8INH/F9ySpvcJqSVhBKsxv
+	4MV68EnFg2pofLeCEYBVwEVvNYusCmUpZp7ibmYcYZBEZFMDwd4B784iBKYQB8mNmlZd2Hl3Vel
+	9wl
+X-Google-Smtp-Source: AGHT+IFAM+0ARMBkOl378yE7TD1p2iruVPP2VsDOQczbz9maxLgWC1Hy5JyiV73B37TmNy5naByi7YIX04Dwzauu6Js=
+X-Received: by 2002:a17:907:971e:b0:ade:32fa:739e with SMTP id
+ a640c23a62f3a-adec54dac66mr411183266b.2.1749833194107; Fri, 13 Jun 2025
+ 09:46:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250612181330.31236-1-bijan311@gmail.com> <20250612181330.31236-2-bijan311@gmail.com>
- <5a50eeba-b26d-4913-8016-45278608a1ee@redhat.com>
-In-Reply-To: <5a50eeba-b26d-4913-8016-45278608a1ee@redhat.com>
+References: <20250612181330.31236-1-bijan311@gmail.com> <20250613152517.225529-1-joshua.hahnjy@gmail.com>
+In-Reply-To: <20250613152517.225529-1-joshua.hahnjy@gmail.com>
 From: Bijan Tabatabai <bijan311@gmail.com>
-Date: Fri, 13 Jun 2025 11:33:18 -0500
-X-Gm-Features: AX0GCFuazzkdI3MgkIT3-iQtcMQlbIVIrSXGr9CiMXXa7M0L7hQSrqNXvr4KFyU
-Message-ID: <CAMvvPS5U8exSvy0fknfhv8ym_dKgMVa7cfMOqn0fGyd+NSjSuQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] mm/mempolicy: Expose policy_nodemask() in include/linux/mempolicy.h
-To: David Hildenbrand <david@redhat.com>
+Date: Fri, 13 Jun 2025 11:46:22 -0500
+X-Gm-Features: AX0GCFsgz60G6jm7BUq-axwbbcXxdq8WAFNMq5rp79wrCHhDW3-XBuJijPYHKiw
+Message-ID: <CAMvvPS4COqinefth9rEB4etJF2erjQa3xfcOGQMtZ-LCUQnwFw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] mm/damon: Add DAMOS action to interleave data
+ across nodes
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
 Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, sj@kernel.org, akpm@linux-foundation.org, 
-	corbet@lwn.net, ziy@nvidia.com, matthew.brost@intel.com, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, 
-	gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com, 
-	bijantabatab@micron.com, venkataravis@micron.com, emirakhur@micron.com, 
-	ajayjoshi@micron.com, vtavarespetr@micron.com, damon@lists.linux.dev
+	corbet@lwn.net, david@redhat.com, ziy@nvidia.com, matthew.brost@intel.com, 
+	rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, 
+	ying.huang@linux.alibaba.com, apopple@nvidia.com, bijantabatab@micron.com, 
+	venkataravis@micron.com, emirakhur@micron.com, ajayjoshi@micron.com, 
+	vtavarespetr@micron.com, damon@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 13, 2025 at 8:45=E2=80=AFAM David Hildenbrand <david@redhat.com=
-> wrote:
+Hi Joshua,
+
+On Fri, Jun 13, 2025 at 10:25=E2=80=AFAM Joshua Hahn <joshua.hahnjy@gmail.c=
+om> wrote:
 >
-> On 12.06.25 20:13, Bijan Tabatabai wrote:
+> On Thu, 12 Jun 2025 13:13:26 -0500 Bijan Tabatabai <bijan311@gmail.com> w=
+rote:
+>
 > > From: Bijan Tabatabai <bijantabatab@micron.com>
 > >
-> > This patch is to allow DAMON to call policy_nodemask() so it can
-> > determine where to place a page for interleaving.
-> >
-> > Signed-off-by: Bijan Tabatabai <bijantabatab@micron.com>
-> > ---
-> >   include/linux/mempolicy.h | 9 +++++++++
-> >   mm/mempolicy.c            | 4 +---
-> >   2 files changed, 10 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-> > index 0fe96f3ab3ef..e96bf493ff7a 100644
-> > --- a/include/linux/mempolicy.h
-> > +++ b/include/linux/mempolicy.h
-> > @@ -133,6 +133,8 @@ struct mempolicy *__get_vma_policy(struct vm_area_s=
-truct *vma,
-> >   struct mempolicy *get_vma_policy(struct vm_area_struct *vma,
-> >               unsigned long addr, int order, pgoff_t *ilx);
-> >   bool vma_policy_mof(struct vm_area_struct *vma);
-> > +nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
-> > +             pgoff_t ilx, int *nid);
-> >
-> >   extern void numa_default_policy(void);
-> >   extern void numa_policy_init(void);
-> > @@ -232,6 +234,13 @@ static inline struct mempolicy *get_vma_policy(str=
-uct vm_area_struct *vma,
-> >       return NULL;
-> >   }
-> >
-> > +static inline nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy =
-*pol,
-> > +                             pgoff_t ilx, int *nid)
-> > +{
-> > +     *nid =3D NUMA_NO_NODE;
-> > +     return NULL;
-> > +}
-> > +
-> >   static inline int
-> >   vma_dup_policy(struct vm_area_struct *src, struct vm_area_struct *dst=
-)
-> >   {
-> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-> > index 3b1dfd08338b..54f539497e20 100644
-> > --- a/mm/mempolicy.c
-> > +++ b/mm/mempolicy.c
-> > @@ -596,8 +596,6 @@ static const struct mempolicy_operations mpol_ops[M=
-POL_MAX] =3D {
-> >
-> >   static bool migrate_folio_add(struct folio *folio, struct list_head *=
-foliolist,
-> >                               unsigned long flags);
-> > -static nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
-> > -                             pgoff_t ilx, int *nid);
-> >
-> >   static bool strictly_unmovable(unsigned long flags)
-> >   {
-> > @@ -2195,7 +2193,7 @@ static unsigned int interleave_nid(struct mempoli=
-cy *pol, pgoff_t ilx)
-> >    * Return a nodemask representing a mempolicy for filtering nodes for
-> >    * page allocation, together with preferred node id (or the input nod=
-e id).
-> >    */
-> > -static nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
-> > +nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
-> >                                  pgoff_t ilx, int *nid)
-> >   {
-> >       nodemask_t *nodemask =3D NULL;
+> > A recent patch set automatically set the interleave weight for each nod=
+e
+> > according to the node's maximum bandwidth [1]. In another thread, the p=
+atch
+> > set's author, Joshua Hahn, wondered if/how these weights should be chan=
+ged
+> > if the bandwidth utilization of the system changes [2].
 >
-> You actually only care about the nid for your use case.
+> Hi Bijan,
 >
-> Maybe we should add
+> Thank you for this patchset, and thank you for finding interest in my
+> question!
 >
-> get_vma_policy_node() that internally does a get_vma_policy() to then
-> give you only the node back.
+> > This patch set adds the mechanism for dynamically changing how applicat=
+ion
+> > data is interleaved across nodes while leaving the policy of what the
+> > interleave weights should be to userspace. It does this by adding a new
+> > DAMOS action: DAMOS_INTERLEAVE. We implement DAMOS_INTERLEAVE with both
+> > paddr and vaddr operations sets. Using the paddr version is useful for
+> > managing page placement globally. Using the vaddr version limits tracki=
+ng
+> > to one process per kdamond instance, but the va based tracking better
+> > captures spacial locality.
+> >
+> > DAMOS_INTERLEAVE interleaves pages within a region across nodes using t=
+he
+> > interleave weights at /sys/kernel/mm/mempolicy/weighted_interleave/node=
+<N>
+> > and the page placement algorithm in weighted_interleave_nid via
+> > policy_nodemask. We chose to reuse the mempolicy weighted interleave
+> > infrastructure to avoid reimplementing code. However, this has the awkw=
+ard
+> > side effect that only pages that are mapped to processes using
+> > MPOL_WEIGHTED_INTERLEAVE will be migrated according to new interleave
+> > weights. This might be fine because workloads that want their data to b=
+e
+> > dynamically interleaved will want their newly allocated data to be
+> > interleaved at the same ratio.
 >
-> If get_vma_policy() is not the right thing (see my reply to patch #2),
-> of course a get_task_policy_node() could be added.
+> I think this is generally true. Maybe until a user says that they have a
+> usecase where they would like to have a non-weighted-interleave policy
+> to allocate pages, but would like to place them according to a set weight=
+,
+> we can leave support for other mempolicies out for now.
 >
-> --
-> Cheers,
+> > If exposing policy_nodemask is undesirable, we have two alternative met=
+hods
+> > for having DAMON access the interleave weights it should use. We would
+> > appreciate feedback on which method is preferred.
+> > 1. Use mpol_misplaced instead
+> >   pros: mpol_misplaced is already exposed publically
+> >   cons: Would require refactoring mpol_misplaced to take a struct vm_ar=
+ea
+> >   instead of a struct vm_fault, and require refactoring mpol_misplaced =
+and
+> >   get_vma_policy to take in a struct task_struct rather than just using
+> >   current. Also requires processes to use MPOL_WEIGHTED_INTERLEAVE.
+> > 2. Add a new field to struct damos, similar to target_nid for the
+> > MIGRATE_HOT/COLD schemes.
+> >   pros: Keeps changes contained inside DAMON. Would not require process=
+es
+> >   to use MPOL_WEIGHTED_INTERLEAVE.
+> >   cons: Duplicates page placement code. Requires discussion on the sysf=
+s
+> >   interface to use for users to pass in the interleave weights.
 >
-> David / dhildenb
+> Here I agree with SJ's sentiment -- I think mpol_misplaced runs with the
+> context of working with current / fault contexts, like you pointed out.
+> Perhaps it is best to keep the scope of the changes as local as possible =
+: -)
+> As for duplicating page placement code, I think that is something we can
+> refine over iterations of this patchset, and maybe SJ will have some grea=
+t
+> ideas on how this can best be done as well.
 
-Hi David,
+David Hildenbrand responded to this and proposed adding a new function that
+just returns the nid a folio should go on based on its mempolicy. I think t=
+hat's
+probably the best way to go for now. I think the common case would want
+the weights used by this and mempolicy to be the same. However, if there is
+a use case where different weights are desired, I don't mind coming back an=
+d
+adding that functionality.
 
-I did not use get_vma_policy or mpol_misplaced, which I believe is the
-closest function that exists for what I want in this patch, because
-those functions
-seem to assume they are called inside of the task that the folio/vma
-is mapped to.
-More specifically, mpol_misplaced assumes it is being called within a
-page fault.
-This doesn't work for us, because we call it inside of a kdamond process.
+> > This patchset was tested on an AMD machine with a NUMA node with CPUs
+> > attached to DDR memory and a cpu-less NUMA node attached to CXL memory.
+> > However, this patch set should generalize to other architectures and nu=
+mber
+> > of NUMA nodes.
+>
+> I think moving the test results to the cover letter will help reviewers
+> better understand the intent of the work. Also, I think it will also be
+> very helpful to include some potential use-cases in here as well. That is=
+,
+> what workloads would benefit from placing pages according to a set ratio,
+> rather than using existing migration policies that adjust this based on
+> hotness / coldness?
 
-I would be open to adding a new function that takes in a folio, vma,
-address, and
-task_struct and returns the nid the folio should be placed on. It could pos=
-sibly
-be implemented as a function internal to mpol_misplaced because the two wou=
-ld
-be very similar.
+Noted. I will be sure to include that in the next revision.
 
-How would you propose we handle MPOL_BIND and MPOL_PREFFERED_MANY
-in this function? mpol_misplaced chooses a nid based on the node and
-cpu the fault
-occurred on, which we wouldn't have in a kdamond context. The two options I=
- see
-are either:
-1. return the nid of the first node in the policy's nodemask
-2. return NUMA_NO_NODE
-I think I would lean towards the first.
+> One such use case that I can think of is using this patchset + weighted
+> interleave auto-tuning, which would help alleviate bandwidth limitations
+> by ensuring that past the allocation stage, pages are being accessed
+> in a way that maximizes the bandwidth usage of the system (at the cost of
+> latency, which may or may not even be true based on how bandwidth-bound
+> the workload is).
 
-Thanks,
+This was the exact use case I envisioned for this patch. I talk about it in=
+ more
+detail in my reply to SeongJae.
+
+> Thank you again for the amazing patchset! Have a great day : -)
+> Joshua
+
+I appreciate you taking the time to respond,
 Bijan
