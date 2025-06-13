@@ -1,164 +1,151 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FD9170A26
-	for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 14:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D74115689A
+	for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 14:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749824809; cv=none; b=KS2ZcaN1o/btD1cc1DiDYoObPACwdEozC/5MGlTCdVcRPLbsBOR1cLEJ21fkGWuUbt05CIjtCm+1e97u+HBv1A1I7jd3Qu0aYcA67zzhf/PygFg3amzuIDmnrEPBDsMQRIa/I6IGsicgSpfYalP0qT5OL2xRULFBrKT5s6VvnHk=
+	t=1749825208; cv=none; b=ktE+Sc5Zs4yhU01C2v9QnOgmeG/PEKHWKgaBMWIRPL6zOVNnysEazbEOCfu9PzWl+n9tdFLlYXz1GS1LPFGBOmIL9VLB8I1moS2UOovXztWWhHFmjz3uvkXSp5v3cmJDgixl21udwZYjSIkYmwmUEiBf1A/YIFWel3jNpu+4K5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749824809; c=relaxed/simple;
-	bh=ACP/hrp9Qfye/edApO/TeDy89ncgx6tq3kl7aHALZpA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WaWHEMy6GXaQjV2Mzf7LFsBN+NAMhMgp9nqkG5fpsI9Nnl95mpGfXUXYma6iEMGVkk7NVpkf1i5gwh1YLVfaOvF4hoyPMqnL6DDvlXMnAL0Gx1ddYkfDSsHJyO+nShKzZoa7DgN51oFb9XEQDRGNd5W9uK1o6SkqmNfVmBiGpTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PcAPZLKt; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1749825208; c=relaxed/simple;
+	bh=WVPjwsbvnCLJBSObgDBQFwcWD+X0aMggdJGhkqv1wBA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=HMV23svtmlpjIbJW5Bs2ZgrYarwIsZrHveuJQaCSyesH78SyUo8nBzfrxQ470DQUMGlfFC/3FN0QchJU937vi2NNsCYYWrQ49aKJ7n0v3Kp0jheiBw1OZKyQXc3ZW46k4JTWUeIhG9GxEA6z4REgYZdSgIUCu6RdsfKL/TXtKQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yz5MBPn5; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PcAPZLKt"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-47e9fea29easo369001cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 07:26:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yz5MBPn5"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-451d54214adso18278145e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 07:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1749824806; x=1750429606; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D8Jxe80PMT+botQHpeWFQMqNDpkBacoLOJzzs4cmSiE=;
-        b=PcAPZLKt9+nXrU53hJ90Tmhfeg2D4hDXX+ICqhmMYDTfAkWsExNYXre5UGzG+SC9iP
-         dsjdD+YV0Ax1fiUCyTZex1mxkJa1m8nrMQUqSyYBdf1vPLACemXKn8NGT6Tnb8gTh8hZ
-         FpLr+BA2NiYtD4ltLlSr6WCv1ds6HGLDHLo35BVTmzVs9eqsWc5j5pqB7TKIjIzuEgu1
-         DO/ClrAkWeOVhuBvgk+FuaslkTNYuz7/G8VKsl7VgnQGGP4lDd1hRbe5w4dbZq2A4pIf
-         bOfVx82ydMam3maChKgINNH/ffeP5bxUKsB1t2rPOsQF+G6dSFKt2CWvM3iAVnwS7m0Y
-         yj6w==
+        d=linaro.org; s=google; t=1749825205; x=1750430005; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zgmFLvsdJ6iFhFtAs9sBOHn9N6rEmelJpZm6BimX7XE=;
+        b=yz5MBPn5jUlyoLXOCs0LxX/cxZF9wUHfZs4dw/QqAw37A9FRmmJTjfM3dIgQUYMIXQ
+         BYby5abjy7njkXV5VQjDdlx7pvCuEylNTRbkdRyzRl5SnMBacc5m+Sfnuh8EkGNF6LhS
+         yA2Vq8xqQv5WWKJeK8U+T2MuhyUBpWXgQHs1ZEfCRIhn1uDdwd26TECKQuToWCxeWdVT
+         qIjLsIe5TwUCAVIVcPpyZTaodnSDzOQcZZAlT93A/6Fvt0gBsyDgA6Cjtf3u0hQkX+DO
+         2fL1HcHj1ghL9WJ1SDaew//d+nTgFF3NtkdS6j9SuTDFwku+XP9c0OlkGvZeF2igAmID
+         q6qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749824806; x=1750429606;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D8Jxe80PMT+botQHpeWFQMqNDpkBacoLOJzzs4cmSiE=;
-        b=Er1dqot3LS9p0HoXLY29Q2j8/xacSVDAZ4As1hU/uEgoRgtSfSpbFr2bYYYHijou7a
-         PQSj8KFsVZER3NgqiZlIQkCs1kWS9YajLzlPnPPssavdRgnwXtI2Nv1T1o1pCO0nn+Qk
-         rvW7IFkNV8L0PUkVTRcORBysxVfDCCd1OgIwrSRbiE5S1stU+nMXFjXduOJngBKbFmrY
-         7PsGxIk5lGId4tdIutQUryc3BoO/b+a80Hchp3bSRVElvlgA/mZq/E0pMDCTrGICrqEH
-         GFSOqVMeASAF2xY6VAAf8IEgOe89diDpUTz3vERnm08j0c082Wa62rLwBB9nYAQeYE0f
-         +0Pg==
-X-Forwarded-Encrypted: i=1; AJvYcCVcpr+Jt0EyX2qu9z/GxLqbqZf6FHoU5zFILUSnkTjconJk4Bau05EsQJs5AUM7pVdjc11xvvL4f3Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBrKNDHS+7+ixqA55jyVkrA4PQwYnbtV3KYXRozkr8cH1b2LBq
-	B9LAWWNCoLs6bj0zqOX1zwaqmJRqeE6FQJVdshqHX5b+ZNt3TRlhrGNA0DuD8mxEIMoYb+TDHr1
-	bTGlcBxvTZ/jqR13ni8u+i/qU97sw587BJOD4Rnh8
-X-Gm-Gg: ASbGnct+m1OAQ6MsDij9afI/0jPN+9U3EA/NAo5nWrWVWoPLmlpGzgoY3lb7YDQpuPR
-	Sl1BOv+f7u2gy+/EN92QHVa8HFSYd8Ezort0uPOdJM1f1VvpMYWToYLyU9VzZX/Cy5i7ZhxrxZE
-	+YZNTQmaY6ctKIP82X0Gq/9mPQWNv42rMjgl3PK3OHw1tC
-X-Google-Smtp-Source: AGHT+IHbli7Lnsvwsi7yQrld3VyFR4wD7vNt+L+iVVFtsCnMyMdexDNlww/fNjqKMLlNLxY74C9MxoEAw1mQ94XjIUg=
-X-Received: by 2002:ac8:5fc4:0:b0:47b:840:7f5b with SMTP id
- d75a77b69052e-4a730d79d74mr4093481cf.29.1749824805557; Fri, 13 Jun 2025
- 07:26:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749825205; x=1750430005;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zgmFLvsdJ6iFhFtAs9sBOHn9N6rEmelJpZm6BimX7XE=;
+        b=W8N6O5S86HK0N4tlmX1pl38+kodIWtbRuiXqkOleCFifEySTk4XdmuAyHILL8PXLY7
+         YV+NbS8oVLa/sdzCWArnznrhivNXTFkUvzrRzIpxOGI41lD0dzQzhLFjFnj16QobJncZ
+         6+b33wSwLQGmw7ErfKfiC+qY7DHxo+mZsgGb6s79rZmFrEom9YSq32OD3ao3dvNUYFf5
+         pwPkWXJRQTO0DRaFMfjsKDrbTtRV01fiP94Mqx7jkZta6PKc5fUS3VBH8Kt0YQuisJYq
+         tsqPKPwSy8skBU4u3ZKqOmaP7idvBf/YH8FQT97W5i+xHfrnj9kmxvN0exSb+yfAsvEt
+         FWFw==
+X-Gm-Message-State: AOJu0Ywb7EW4Ps9epcIzmLb1sdAhr//ytbsyOq/sEOTImQ8LoeRwTM6Y
+	gkZLyp1A5iS1szE+LqHRRZ2xITHxqsiAAiMmwARgaQ3rxopV09wdRNNmvuwJzgFROQ8=
+X-Gm-Gg: ASbGncs2LgkoS/BiRLBg7HIYakGQsoMEM/1SbNj1qPJFLR5OiJe1fdmo3yiQGCDRrq+
+	sGB8IienUY12AkuGpMRh2/HoILb7Jf/mON9OgXxdDe57zsLwPfKn8+n9yJ4zzk+8XNQWegp2Hss
+	36wcixR9t9w2gjlF0IxGwk5cowI/IiYInAI1qiqi3vbrls9JuaMJSbt2i4oRsZ9daYYTHsxYfFN
+	uGh9JwgZpPA6Svi0VpuGKnFPk31G6G312VI+tFrKb31f8u6DpPkqp9uQbA133GMgNwzq7ftWoxO
+	K1T32EgDesEamKYa21UBwnPM5pihR/5lzFqDXtPvnMtWPCSSYdQ+vKziU5QESXyxK9HzQ6DAZmM
+	gj3RCTtCMRenxxnZR8KZdnNhMnxSagxKT1TOwdRs=
+X-Google-Smtp-Source: AGHT+IHaqiDiPxrZkJtlgp01dU1UfqfhmbQn8nOwH2pzxfHuCnqJZ61g8lNlq6CgU9ZCy4LVF+0kjQ==
+X-Received: by 2002:a05:600c:4f56:b0:43d:94:2d1e with SMTP id 5b1f17b1804b1-45334b153aamr39047735e9.13.1749825204341;
+        Fri, 13 Jun 2025 07:33:24 -0700 (PDT)
+Received: from ?IPV6:2a01:cb1d:1aa:e900:b5a7:96eb:d1b6:fda? ([2a01:cb1d:1aa:e900:b5a7:96eb:d1b6:fda])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b798d3sm2516759f8f.100.2025.06.13.07.33.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Jun 2025 07:33:24 -0700 (PDT)
+Message-ID: <f916cf7f-6d0d-4d31-8e4b-24fc7da13f4d@linaro.org>
+Date: Fri, 13 Jun 2025 17:33:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250610215516.1513296-1-visitorckw@gmail.com>
- <20250611184817.bf9fee25d6947a9bcf60b6f9@linux-foundation.org> <aEvCHUcNOe1YPv37@visitorckw-System-Product-Name>
-In-Reply-To: <aEvCHUcNOe1YPv37@visitorckw-System-Product-Name>
-From: Robert Pang <robertpang@google.com>
-Date: Fri, 13 Jun 2025 23:26:33 +0900
-X-Gm-Features: AX0GCFvkWwS1rcTtPYvnDVkpn-tKhNLpwiqEQsoAt3bvG3Gm0tJIQwjdfh_F5WE
-Message-ID: <CAJhEC05+0S69z+3+FB2Cd0hD+pCRyWTKLEOsc8BOmH73p1m+KQ@mail.gmail.com>
-Subject: Re: [PATCH 0/8] Fix bcache regression with equality-aware heap APIs
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net, colyli@kernel.org, 
-	kent.overstreet@linux.dev, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-bcache@vger.kernel.org, 
-	jserv@ccns.ncku.edu.tw, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH 09/14] genirq: add irq_kmemdump_register
+From: Eugen Hristev <eugen.hristev@linaro.org>
+To: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, corbet@lwn.net, mingo@redhat.com,
+ rostedt@goodmis.org, john.ogness@linutronix.de, senozhatsky@chromium.org,
+ pmladek@suse.com, peterz@infradead.org, mojha@qti.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, vincent.guittot@linaro.org,
+ konradybcio@kernel.org, dietmar.eggemann@arm.com, juri.lelli@redhat.com,
+ andersson@kernel.org
+References: <20250422113156.575971-1-eugen.hristev@linaro.org>
+ <20250422113156.575971-10-eugen.hristev@linaro.org> <87h61wn2qq.ffs@tglx>
+ <1331aa82-fee9-4788-abd9-ef741d00909e@linaro.org>
+Content-Language: en-US
+In-Reply-To: <1331aa82-fee9-4788-abd9-ef741d00909e@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Andrew
 
-Bcache is designed to boost the I/O performance of slower storage
-(HDDs, network-attached storage) by leveraging fast SSDs as a block
-cache. This functionality is critical in significantly reducing I/O
-latency. Therefore, any notable increase in bcache's latency severely
-diminishes its value. For instance, our tests show a P100 (max)
-latency spike from 600 ms to 2.4 seconds every 5 minutes due to this
-regression. In real-world environments, this  increase will cause
-frequent timeouts and stalls in end-user applications that rely on
-bcache's latency improvements, highlighting the urgent need to address
-this issue.
 
-Best regards
-Robert Pang
+On 5/7/25 13:27, Eugen Hristev wrote:
+> 
+> 
+> On 5/7/25 13:18, Thomas Gleixner wrote:
+>>
+>> $Subject: ... See
+>>
+>> https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#patch-submission-notes
+>>
+>> On Tue, Apr 22 2025 at 14:31, Eugen Hristev wrote:
+>>> Add function to register irq info into kmemdump.
+>>
+>> What is irq info? Please explain explicitly which information is exposed
+>> and why.
+>>
+>>>  
+>>> +void irq_kmemdump_register(void)
+>>> +{
+>>> +	kmemdump_register("irq", (void *)&nr_irqs, sizeof(nr_irqs));
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(irq_kmemdump_register);
+>>
+>> Are you going to slap a gazillion of those register a single variable
+>> functions all over the place?
+>>
+>> That's a really horrible idea.
+>>
+>> The obvious way to deal with that is to annotate the variable:
+>>
+>> static unsigned int nr_irqs = NR_IRQS;
+>> KMEMDUMP_VAR(nr_irqs);
+>>
+>> Let KMEMDUMP_VAR() store the size and the address of 'nr_irqs' in a
+>> kmemdump specific section and then kmemdump can just walk that section
+>> and dump stuff. No magic register functions and no extra storage
+>> management for static/global variables.
+>>
+>> No?
+> 
+> Thank you very much for your review ! I will try it out.
 
-On Fri, Jun 13, 2025 at 3:16=E2=80=AFPM Kuan-Wei Chiu <visitorckw@gmail.com=
-> wrote:
->
-> Hi Andrew,
->
-> On Wed, Jun 11, 2025 at 06:48:17PM -0700, Andrew Morton wrote:
-> > On Wed, 11 Jun 2025 05:55:08 +0800 Kuan-Wei Chiu <visitorckw@gmail.com>=
- wrote:
-> >
-> > > This patch series introduces equality-aware variants of the min heap
-> > > API that use a top-down heapify strategy to improve performance when
-> > > many elements are equal under the comparison function. It also update=
-s
-> > > the documentation accordingly and modifies bcache to use the new APIs
-> > > to fix a performance regression caused by the switch to the generic m=
-in
-> > > heap library.
-> > >
-> > > In particular, invalidate_buckets_lru() in bcache suffered from
-> > > increased comparison overhead due to the bottom-up strategy introduce=
-d
-> > > in commit 866898efbb25 ("bcache: remove heap-related macros and switc=
-h
-> > > to generic min_heap"). The regression is addressed by switching to th=
-e
-> > > equality-aware variants and using the inline versions to avoid functi=
-on
-> > > call overhead in this hot path.
-> > >
-> > > Cc: stable@vger.kernel.org
-> >
-> > To justify a -stable backport this performance regression would need to
-> > have a pretty significant impact upon real-world userspace.  Especially
-> > as the patchset is large.
-> >
-> > Unfortunately the changelog provides no indication of the magnitude of
-> > the userspace impact.   Please tell us this, in detail.
-> >
-> I'll work with Robert to provide a more detailed explanation of the
-> real-world impact on userspace.
->
-> > Also, if we are to address this regression in -stable kernels then
-> > reverting 866898efbb25 is an obvious way - it is far far safer.  So
-> > please also tell us why the proposed patchset is a better way for us to
-> > go.
-> >
-> I agree that reverting 866898efbb25 is a much safer and smaller change
-> for backporting. In fact, I previously raised the discussion of whether
-> we should revert the commit or instead introduce an equality-aware API
-> and use it. The bcache maintainer preferred the latter, and I also
-> believe that it is a more forward-looking approach. Given that bcache
-> has run into this issue, it's likely that other users with similar use
-> cases may encounter it as well. We wouldn't want those users to
-> continue relying on the current default heapify behavior. So, although
-> reverting may be more suitable for stable in isolation, adding an
-> equality-aware API could better serve a broader set of use cases going
-> forward.
->
-> > (Also, each patch should have a fixes:866898efbb25 to help direct the
-> > backporting efforts)
-> >
-> Ack. Will do.
->
-> >
-> > I'll add the patches to mm.git to get you some testing but from what
-> > I'm presently seeing the -stable backporting would be unwise.
->
-> Thanks!
->
-> Regards,
-> Kuan-Wei
+I have tried this way and it's much cleaner ! thanks for the suggestion.
+
+The thing that I am trying to figure out now is how to do something
+similar for a dynamically allocated memory, e.g.
+void *p = kmalloc(...);
+and then I can annotate `p` itself, it's address and size, but what I
+would also want to so dump the whole memory region pointed out by p. and
+that area address and size cannot be figured out at compile time hence I
+can't instantiate a struct inside the dedicated section for it.
+Any suggestion on how to make that better ? Or just keep the function
+call to register the area into kmemdump ?
+
+Thanks again,
+Eugen
+> 
+> Eugen
+>>
+>> Thanks,
+>>
+>>         tglx
+> 
+
