@@ -1,123 +1,202 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE4E238C26;
-	Fri, 13 Jun 2025 02:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C213823BD0E;
+	Fri, 13 Jun 2025 02:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749782350; cv=none; b=a0uO754L65C/oJkt/UTJTXxj2wYdqZzJPBsPoLHOB9LhgcA0kP1uCmGMh5PY8KR1f7+GKeiLOISLv7U5Ccan/lgyv0w02CCANqed65ut7U4+Db0N12iQyKy4VU06AbNnEaq0kJ7jaBdtzRdyuGoeVslULiqyH9ehKbfbGNzjVi8=
+	t=1749782537; cv=none; b=bfUTD9FvycDlB6eEQoFJ+ytF9QsyeH8JKeqCGmjCn0awP56AGiXw/joq45O/WaNo3vREmKT507jyXjXKH9hiEEAJOHIPspOy/2hKSI8QAlTxC5EeJyePAChd2IBaiywnNCa1mCpKVIg8RFPgi1nCWTODbyjMZJchbWiw65qx2OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749782350; c=relaxed/simple;
-	bh=33fE4qM3TNcAYqTzrr/Jfqt+YCnE9SPassKdwYIkyCg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YZ0NgaECX8V6X5aY/VSaJBcu7jeLw5I8GN7VxQCnTEbW0NQDVCEIb45jdS4+cygmtZ3KzR5daCLjaMHAX5Cqiz9UsOy8XSeZvyvbZzJflE94m+TqoWFozyCVlvTebm5GPZI8/I+dBM5vVXqnpo+yBgs/Fj4xIML9sozBcD02JRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OgdN+X2k; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749782537; c=relaxed/simple;
+	bh=pqYRi5rsk0YEszupuD4KYmkxKG16OeKfIyH7C27eGoY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kGokbXOcntozv+WPSsHG32IC0YI3AslTY03U7S7FQqNbQcfH7t8vPHWq60Yccq0rqO9sXZgpnPvWly9CACnqe8ba2OCD5ZwWxkXqIGrsYNt3NeUasoEHC0wCXKcMHhkZQkY7gEC2pIgp0AWLelqi28U/htPTpA1D/jw6XvOck7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=gCLGVge/; arc=none smtp.client-ip=115.124.30.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OgdN+X2k"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-742c7a52e97so1570929b3a.3;
-        Thu, 12 Jun 2025 19:39:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749782348; x=1750387148; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=r+trFmWQdd5NKDjPst/9tr7cgjEOjUmMLk9lwPDh7fA=;
-        b=OgdN+X2k3I8E1TXYNFaEFmt0Z+c9gTxJ5dCw+Tc63C8bx2Ocmot0+K2jK245vXWRy/
-         UVIqWfLA7POf4uHOXglBzO3GyzXZiPpggrR7LxOJJ2ysUF7EY78Im4f9UzxHUBXBCycC
-         nkAvXYUwlRy3cXDZ0BPltsLJXbdZ1b7VL//j1vCuFvV/aGss9e5vQBRic4r+3CkQijGH
-         JXFOhV4TPKTDahkiit59UD6mxoqiXis0D5SxHAm+vAkmIf0jXnjrH8l/jF7yLehGh8XC
-         eHFPH3tzfrNs7b2RRSIaoABaz2G0Jqqel/N4lFMgQ+Q1jURt31tWqveOWs9hUigXprKR
-         /TpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749782349; x=1750387149;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r+trFmWQdd5NKDjPst/9tr7cgjEOjUmMLk9lwPDh7fA=;
-        b=anH8HbrkTM7rHigTDV0ezUMzcpQUgmjKiIrYU766XkWIaTgm9Il9HhQ/pn2vmiww9H
-         otWfxzX+sEuTygtuuNyy8eYF8WoxGIlBhpr/YnuUlTwwILu5cNnoRJrX31lLq+HjGC4W
-         suXkzIpoi1gmXD6c0L/3WyK7vjLiFXVkCNhYWI9J3MgA94ATbVll0Nybi4tpMr31PiKH
-         yw8ClyRIi8zxKyBlmVpfK4Q3mrzb0ZvVlrZl+ndQaduWGxpu0+lUTsEB3qgeAAAEmSmH
-         1anAHPMUFWE3KNBHeuEFz/lev8Fo/0woZvNVzb0ML4oJ6wQoZN4lqnIMAXgOaMIWLYYY
-         cPRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVhdKuOK87YiYAaidGohqkxaKQz9+7lsqo4DO9G/CRW065jAPc1UoXv0qKz5SCSc7u0iamB/rU6wH2I@vger.kernel.org, AJvYcCXtT20wm2dz1BBUl0YJl4lLPdnEi67NQQqzf6IqIQ44aHiO9QZ4WGbeRXNPxJJnBH100xwZVtd1qMIxhA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW1kMaBY+dW7ymzaM2aTjEPKiBU4VTmSEC7pjxH+tLTYq6W3GP
-	q3hydt0Ev81QGfqCHYr4gNCkxGsUHUAHttqM0ItURxeJ848KjytHrTy3
-X-Gm-Gg: ASbGncu61vVBY5g0Nbppio+xY6B/ddmcSGAK5jdC0ORi3eBJzxcL9d7NVImwj0iw5nV
-	DhRWoEuqXIj+g5sU0aRCl3onKFobwIguQ6J6amVk823OkUJcGPoRzXsPtv4GWH2Ed/ZSH73/6SN
-	BAKyjTy+NVoGI//0DiHT3Mp8kp8dyYTtiUVpcGTR0NE2J/a3ExeXuq8sDcTblcYIv/NP49ncxPY
-	fq5H2w1ZTXpUs6z4pcJKr3YjpdjbzBzZy7V8RuRtef2KSKfst75DRHSrTTIjjxK0d7dyCwTXN30
-	Z3Rc8E/sRApq9QPdliXi9vcIUBhvZlf77F1cgodlwJ0ydbrqEXPR/YIHy7FCoQ==
-X-Google-Smtp-Source: AGHT+IEbubMI4RmYSUIGqk47Q5mLBabSCGqHgDmP/0ShfWK12ZGZtXtevJ+X3QRTX3ppWikFOiOliw==
-X-Received: by 2002:aa7:930c:0:b0:748:33f3:8da3 with SMTP id d2e1a72fcca58-7488f716f1amr2192369b3a.19.1749782348532;
-        Thu, 12 Jun 2025 19:39:08 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748900d0becsm479785b3a.154.2025.06.12.19.39.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 19:39:07 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id D675A4209E8D; Fri, 13 Jun 2025 09:39:05 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Block Devices <linux-block@vger.kernel.org>
-Cc: Caleb Sander Mateos <csander@purestorage.com>,
-	Ming Lei <ming.lei@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] Documentation: ublk: Separate UBLK_F_AUTO_BUF_REG fallback behavior sublists
-Date: Fri, 13 Jun 2025 09:38:57 +0700
-Message-ID: <20250613023857.15971-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="gCLGVge/"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1749782525; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=5315MvZb0AmJ1EAMaqLXjh4G4D6FqiZehEP9DArwnIU=;
+	b=gCLGVge/+e6yz2RDY+ZQl34poWPRvFkzYIHfUCH8rYr54CSiVr2s3BLv/9aK3PeSSK/o/zqgDgwC1QP62suZfaCazQbSWz6NUnv0g5PVqS81L8J9QcMgwhf4AK/STStS9XDfBxVz/6CYWdRFQLU19hPZ+7oeM6JF1PDGxpp/lA4=
+Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com fp:SMTPD_---0Wdisood_1749782522 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 13 Jun 2025 10:42:03 +0800
+From: "Huang, Ying" <ying.huang@linux.alibaba.com>
+To: Bijan Tabatabai <bijan311@gmail.com>,  SeongJae Park <sj@kernel.org>
+Cc: damon@lists.linux.com,  linux-mm@kvack.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  akpm@linux-foundation.org,
+  corbet@lwn.net,  david@redhat.com,  ziy@nvidia.com,
+  matthew.brost@intel.com,  joshua.hahnjy@gmail.com,  rakie.kim@sk.com,
+  byungchul@sk.com,  gourry@gourry.net,  apopple@nvidia.com,
+  bijantabatab@micron.com,  venkataravis@micron.com,  emirakhur@micron.com,
+  ajayjoshi@micron.com,  vtavarespetr@micron.com
+Subject: Re: [RFC PATCH 0/4] mm/damon: Add DAMOS action to interleave data
+ across nodes
+In-Reply-To: <20250612234942.3612-1-sj@kernel.org> (SeongJae Park's message of
+	"Thu, 12 Jun 2025 16:49:42 -0700")
+References: <20250612234942.3612-1-sj@kernel.org>
+Date: Fri, 13 Jun 2025 10:41:50 +0800
+Message-ID: <875xh0747l.fsf@DESKTOP-5N7EMDA>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1463; i=bagasdotme@gmail.com; h=from:subject; bh=33fE4qM3TNcAYqTzrr/Jfqt+YCnE9SPassKdwYIkyCg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBnefadmbHx3keWlxVVerpD9ap++2k+bGr20bq6ncEz4u qniKX4nOkpZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjARZReGvxIWqYsSJuffLl3G LdvBp7r+8WK+lvOG/7hZ0xVePyrfeZ/hn7WWxJLHD5MbVp/2uX31xKFL7JJ6f1uZvvktqdNVKgx cyQgA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=ascii
 
-Stephen Rothwell reports htmldocs warning on ublk docs:
+SeongJae Park <sj@kernel.org> writes:
 
-Documentation/block/ublk.rst:414: ERROR: Unexpected indentation. [docutils]
+> Hi Bijan,
+>
+> On Thu, 12 Jun 2025 13:13:26 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
+>
+>> From: Bijan Tabatabai <bijantabatab@micron.com>
+>> 
+>> A recent patch set automatically set the interleave weight for each node
+>> according to the node's maximum bandwidth [1]. In another thread, the patch
+>> set's author, Joshua Hahn, wondered if/how these weights should be changed
+>> if the bandwidth utilization of the system changes [2].
+>
+> Thank you for sharing the background.  I do agree it is an important question.
+>
+>> 
+>> This patch set adds the mechanism for dynamically changing how application
+>> data is interleaved across nodes while leaving the policy of what the
+>> interleave weights should be to userspace. It does this by adding a new
+>> DAMOS action: DAMOS_INTERLEAVE. We implement DAMOS_INTERLEAVE with both
+>> paddr and vaddr operations sets. Using the paddr version is useful for
+>> managing page placement globally. Using the vaddr version limits tracking
+>> to one process per kdamond instance, but the va based tracking better
+>> captures spacial locality.
+>> 
+>> DAMOS_INTERLEAVE interleaves pages within a region across nodes using the
+>> interleave weights at /sys/kernel/mm/mempolicy/weighted_interleave/node<N>
+>> and the page placement algorithm in weighted_interleave_nid via
+>> policy_nodemask.
+>
+> So, what DAMOS_INTERLEAVE will do is, migrating pages of a given DAMON region
+> into multiple nodes, following interleaving weights, right?
 
-Fix the warning by separating sublists of auto buffer registration
-fallback behavior from their appropriate parent list item.
+Hi, Bijan,
 
-Fixes: ff20c516485e ("ublk: document auto buffer registration(UBLK_F_AUTO_BUF_REG)")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250612132638.193de386@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+It's hard for me to understand what you want to do in your original
+patch description.  SeongJae's description is helpful.  So, can you add
+more description in the future version?
+
+So, you will migrate allocated pages to follow new weight?  How to
+interact with the weight specified by users explicitly?  Usually we will
+respect explicit user policy.
+
+> We already have
+> DAMOS actions for migrating pages of a given DAMON region, namely
+> DAMOS_MIGRATE_{HOT,COLD}.  The actions support only single migration target
+> node, though.  To my perspective, hence, DAMOS_INTERLEAVE looks like an
+> extended version of DAMOS_MIGRATE_{HOT,COLD} for flexible target node
+> selections.  In a way, DAMOS_INTERLEAVE is rather a restricted version of
+> DAMOS_MIGRATE_{HOT,COLD}, since it prioritizes only hotter regions, if I read
+> the second patch correctly.
+>
+> What about extending DAMOS_MIGRATE_{HOT,COLD} to support your use case?  For
+> example, letting users enter special keyword, say, 'weighted_interleave' to
+> 'target_nid' DAMON sysfs file.  In the case, DAMOS_MIGRATE_{HOT,COLD} would
+> work in the way you are implementing DAMOS_INTERLEAVE.
+>
+>> We chose to reuse the mempolicy weighted interleave
+>> infrastructure to avoid reimplementing code. However, this has the awkward
+>> side effect that only pages that are mapped to processes using
+>> MPOL_WEIGHTED_INTERLEAVE will be migrated according to new interleave
+>> weights. This might be fine because workloads that want their data to be
+>> dynamically interleaved will want their newly allocated data to be
+>> interleaved at the same ratio.
+>
+> Makes sense to me.  I'm not very familiar with interleaving and memory policy,
+> though.
+>
+>> 
+>> If exposing policy_nodemask is undesirable,
+>
+> I see you are exposing it on include/linux/mempolicy.h on the first patch of
+> this series, and I agree it is not desirable to unnecessarily expose functions.
+> But you could reduce the exposure by exporting it on mm/internal.h instead.
+> mempolicy maitnainers and reviewers who you kindly Cc-ed to this mail could
+> give us good opinions.
+>
+>> we have two alternative methods
+>> for having DAMON access the interleave weights it should use. We would
+>> appreciate feedback on which method is preferred.
+>> 1. Use mpol_misplaced instead
+>>   pros: mpol_misplaced is already exposed publically
+>>   cons: Would require refactoring mpol_misplaced to take a struct vm_area
+>>   instead of a struct vm_fault, and require refactoring mpol_misplaced and
+>>   get_vma_policy to take in a struct task_struct rather than just using
+>>   current. Also requires processes to use MPOL_WEIGHTED_INTERLEAVE.
+>
+> I feel cons is larger than pros.  mpolicy people's opinion would matter more,
+> though.
+>
+>> 2. Add a new field to struct damos, similar to target_nid for the
+>> MIGRATE_HOT/COLD schemes.
+>>   pros: Keeps changes contained inside DAMON. Would not require processes
+>>   to use MPOL_WEIGHTED_INTERLEAVE.
+>>   cons: Duplicates page placement code. Requires discussion on the sysfs
+>>   interface to use for users to pass in the interleave weights.
+>
+> I agree this is also somewhat doable.  In future, we might want to implement
+> this anyway, for non-global and flexible memory interleaving.  But if memory
+> policy people are ok with reusing policy_nodemask(), I don't think we need to
+> do this now.
+>
+>> 
+>> This patchset was tested on an AMD machine with a NUMA node with CPUs
+>> attached to DDR memory and a cpu-less NUMA node attached to CXL memory.
+>> However, this patch set should generalize to other architectures and number
+>> of NUMA nodes.
+>
+> I show the test results on the commit messages of the second and the fourth
+> patches.  In the next version, letting readers know that here would be nice.
+> Also adding a short description of what you confirmed with the tests here
+> (e.g., with the test we confirmed this patch functions as expected [and
+> achieves X % Y metric wins]) would be nice.
+>
+>> 
+>> Patches Sequence
+>> ________________
+>> The first patch exposes policy_nodemask() in include/linux/mempolicy.h to
+>> let DAMON determine where a page should be placed for interleaving.
+>> The second patch implements DAMOS_INTERLEAVE as a paddr action.
+>> The third patch moves the DAMON page migration code to ops-common, allowing
+>> vaddr actions to use it.
+>> Finally, the fourth patch implements a vaddr version of DAMOS_INTERLEAVE.
+>
+> I'll try to take look on code and add comments if something stands out, but
+> let's focus on the high level discussion first, especially whether to implement
+> this as a new DAMOS action, or extend DAMOS_MIGRATE_{HOT,COLD} actions.
+>
+> I think it would also be nice if you could add more explanation about why you
+> picked DAMON as a way to implement this feature.  I assume that's because you
+> found opportunities to utilize this feature in some access-aware way or
+> utilizing DAMOS features.  I was actually able to imagine some such usages.
+> For example, we could do the re-interleaving for hot or cold pages of specific
+> NUMA nodes or specific virtual address ranges first to make interleaving
+> effective faster.
+>
+> Also we could apply a sort of speed limit for the interleaving-migration to
+> ensure it doesn't consume memory bandwidth too much.  The limit could be
+> arbitrarily user-defined or auto-tuned for specific system metrics value (e.g.,
+> memory bandwidth balance?).
+>
+> If you have such use case in your mind or your test setups, sharing those here
+> or on the next versions of this would be very helpful for reviewers.
+>
+>> 
+>> [1] https://lore.kernel.org/linux-mm/20250520141236.2987309-1-joshua.hahnjy@gmail.com/
+>> [2] https://lore.kernel.org/linux-mm/20250313155705.1943522-1-joshua.hahnjy@gmail.com/
+
 ---
- Documentation/block/ublk.rst | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
-index abec524a04edfd..8c4030bcabb634 100644
---- a/Documentation/block/ublk.rst
-+++ b/Documentation/block/ublk.rst
-@@ -408,6 +408,7 @@ Fallback Behavior
- If auto buffer registration fails:
- 
- 1. When ``UBLK_AUTO_BUF_REG_FALLBACK`` is enabled:
-+
-    - The uring_cmd is completed
-    - ``UBLK_IO_F_NEED_REG_BUF`` is set in ``ublksrv_io_desc.op_flags``
-    - The ublk server must manually deal with the failure, such as, register
-@@ -415,6 +416,7 @@ If auto buffer registration fails:
-      for handling ublk IO
- 
- 2. If fallback is not enabled:
-+
-    - The ublk I/O request fails silently
-    - The uring_cmd won't be completed
- 
-
-base-commit: c73e4b8bde5f2defecef6a3df792971f83841bd8
--- 
-An old man doll... just what I always wanted! - Clara
-
+Best Regards,
+Huang, Ying
