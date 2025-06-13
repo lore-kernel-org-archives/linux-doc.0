@@ -1,182 +1,150 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C832F1E3762
-	for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 16:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9495200132;
+	Fri, 13 Jun 2025 16:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749830611; cv=none; b=uHOdpQ9uWeGw8SIZuJvaknYl5lodzeZ0wJ7O5pAkkKxbxAzkwjO64m1khpNXOd29mK7LXt8Q6uIfZPAP+QQy4lKKbrh1pQhCbyCqQPtPeTTLuJtsUwk3CZ6ze45eQFqZrzULk6Xu+xgkFmsudykS0P3iXQBzGoI5A7/fOIqJplE=
+	t=1749831191; cv=none; b=BNOuIyI4fw7sNT4vupIhjIkg9DlHm9Bn9D7Kx6f/obp+pdYCpYsdYGlCb8Oi5j/XDb38vTZoU3cGa2NZk6VzuW39+Quol2FxtUJR1bVShEh4hEtDuwVUC4laVrJFIT2qMqqTDcSmepDZcvjrCPngrqtoRjBtAZ/bUr/uoGbqZ+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749830611; c=relaxed/simple;
-	bh=gF8fryLDgUE7R04Y9/mL18frQKys+kanlKjViPMBr2g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s4aFh4NlE/kXkBrMrNcG+l4PgFxJPwxEiv32DY7dKd9pXsntUyTKE0WIfZdKRksns1DhCkhZqjY65gruFimlYVMNBZTMlACuzuJm0ia1trH5VP8312LtpCtFxkBUe3GocDSZmHfWmbAqNGyCNwNMd/4ewJDdq6+fRB+I+wbnLCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=rwv58qo4; arc=none smtp.client-ip=209.85.161.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1749831191; c=relaxed/simple;
+	bh=8pQuheicsXT+hM8tp9m9C5NSjcZ0mAhehkxnWitrpno=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k0z74KXSxOeA7204/nnOiO7H2eiuZ+qJ3Oh+MAxMnNWT/Ew/ZE/bo4By/g4vP+5Jy9nR5hRiReM7ZS/n6KcN1LgM7tdm6nLaZomDDYUftkThfsfUA+L/8UxFXyfFsEZraRRU6opIP1pwGYi3v5t8d5mrF9CsX4CbKF+6W9A6IpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHlmZJOX; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="rwv58qo4"
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-60efc773b5fso1227058eaf.3
-        for <linux-doc@vger.kernel.org>; Fri, 13 Jun 2025 09:03:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHlmZJOX"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-adb5cb6d8f1so404267366b.3;
+        Fri, 13 Jun 2025 09:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1749830608; x=1750435408; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3w4DwQ7UKG+tZltk5EBs0uLUOBu/ZiYws0KL7s9WN3A=;
-        b=rwv58qo4n83JoPsWhczCiGTdjd7Yw91HumehZvkXWYVkebCdV3LCSp+SoJaDWT/t7A
-         YTlfr/vV6eOBYsmqfak8xLZkm3Ue4FeogKx4z14+Ap01MH+96O1bNp2rq96K1gx17Qiy
-         MsoXOHVfFkWcFem287dleU7p4Y0mHt5YZyK1ckgJNqiqUPCxVFIqQRdyokd2t6aS07kg
-         iYfodVce04X8SCzARZV3XO7Ms7PqrNX3QY8j65TQOtAOYMyVkulqj1cMLFm+0DR+oqU/
-         IRwLpacH45uN8GBdk/Y2XhKel6qhH3zx0CFhQkhcF+B4ajVjKQhMH/MqekO0X7JTZA72
-         Pl8A==
+        d=gmail.com; s=20230601; t=1749831188; x=1750435988; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1+VwKYoq4K6K/5yHVH5q1Qz6OOz6+/W6hIZOp3rpGbI=;
+        b=lHlmZJOXHYXiJSn4q1s47011j4v23G6KtXyn/NPT3YijmHMjkvzFidp7ML79F8QiRA
+         3MeNzwFYBZeuMY/+pVGU0GViVYtdOnCw+XddXctHQP3HjuRCi3IoJ/EpQzyiSN8x7EAm
+         YLHjVH2Fn23cr1wcU4UTPEW32YxApcI9ifZ1ndkEUODD4M2zw5TOY8+akEWlKdNUxW1v
+         mq7nI294rE6o21lwNlpY6eoCYHyn8BnAnWk2LtiSzKkTLM1LIyCKqLNEHJSZD50E8MHX
+         2+NGUdjhE1CBjBKa/sgsVELgiNW33ffaoIZLnaH4yJh+CeTjBfDgEzLgFgMtSo575CbO
+         QanA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749830608; x=1750435408;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3w4DwQ7UKG+tZltk5EBs0uLUOBu/ZiYws0KL7s9WN3A=;
-        b=kwbLog+seKig+k9LCCfTsvQLSU3EBR46x3NJwBc2DBleFXGS37CZF2I7UuOFfQduh7
-         w99mzssvkhqTJ878YbSQUhBBvvfh/IFz5FNFurSIhitPteM+CZsIqG0VYgQfGlGeY+Kh
-         kMm04Yw3gWZ5MUKqukikioSttKKNXhRO36hWvjoZVfU9wTxtJewDDjnQcFsfu02W/Jzs
-         G5zNaiAHdALxxjhkRLFH5GgggVDxQzGZ2CPRbfEwaQAK7BEZzwdn/r9+C5YpLEBtViM8
-         mhid2tiQNeMUxVL47tmDnq2lwnpHgwLx5uVd8Edw96p68Lziz2p77d++i/clEWJOnaXS
-         kMHw==
-X-Forwarded-Encrypted: i=1; AJvYcCVyTm8O+40E/YCw6/GD0tmS7Ewt1ZYp5OWagpgP4Q5nU6U0TRwMCZqWuFXBQJGEfqXC3HqkRgXBtWU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoG4GJXZamrOrWQHb5FvhzxnW4Ttj1PA1g4bA2DK5/nE2yXZ5/
-	IPeEIQQKuwHcoQNU79s0+hHZPuHxN9t+b1T4maXDXjVx3Tnq2B6XYgGqRFOw7YLTMos=
-X-Gm-Gg: ASbGnctz+ZJ7gB/WXOYspY6nUSofeeOJ7Z9D7TvhKMXOsAnDXOP4q8/jGnbtmwMmuJN
-	3hdJrC3yT1u93ULWdAbMF0h1oeJse1r4s33TlgOzayiX3ds7Rj58gJNawDR6/EsUgpNiG+TzKkY
-	rhcc3bUhQNXxOMn6j/3ucjlvkG90fnX5+geJZoUFz8xuFxkO5fCugd4j72sdxrex6ifZHNI2OWU
-	Yi6qwyw13HQBOpPg9hRluB2Fl5O8St0jn9cSGlMfmubgmYi6SaTyVLOIkG/XaDmblSNHcEbLRe1
-	TDhmTnajnLc9CYPFkSvLCjip0VBnlnYf5QXw9ib0kBgFmdHkvduT/nlKIjqyGrAkgCQ0TJO/R6E
-	gNiV0nJ1hgXxwSO5ThZwMpXgHvFSo1VokWf5B
-X-Google-Smtp-Source: AGHT+IG1cpKE0bia+SjE3FQwyZTQRUfn6nnKjTjoQlx5gtEmca7DeH8NU/jmjN2PD3CGmwwp8AHo0Q==
-X-Received: by 2002:a05:6820:221a:b0:60f:3ed8:3984 with SMTP id 006d021491bc7-61110efe2acmr49835eaf.3.1749830607445;
-        Fri, 13 Jun 2025 09:03:27 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:4647:c57:a73c:39d8? ([2600:8803:e7e4:1d00:4647:c57:a73c:39d8])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-61108f07e08sm214090eaf.27.2025.06.13.09.03.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jun 2025 09:03:25 -0700 (PDT)
-Message-ID: <fa403d19-13c5-4845-9364-58eea1b62e61@baylibre.com>
-Date: Fri, 13 Jun 2025 11:03:24 -0500
+        d=1e100.net; s=20230601; t=1749831188; x=1750435988;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1+VwKYoq4K6K/5yHVH5q1Qz6OOz6+/W6hIZOp3rpGbI=;
+        b=RG1M/4p60jyvJvU+5bXhugyDnnXwoqg/iPe98reyxsJBlw/1vZjbC0Od9G8HMfNI4d
+         8GWqiYCTOJatLq9D/eYcE0MtBVoW0TqILdntiN/psqTNamKxo2DAcgiAQyBheUNsyLmU
+         6r/ryDtC6unmbPy1KLOrDJG6E/ssvhL1IZZBQTEKXertUIYBnHX0l8OYuAHSYszcPb7a
+         SQqMLfdElDRXPMjABLBZufzDps80uqY+BvUKNFCySquyWM3x8SXf+k8PSYBIrTQ+Lz93
+         AJDOWgIM+48DjJxm4oUgrt12raMyG47OL8vSJVeHa0eHtLhtPX/kztoZRpZ0dSYPq1km
+         B3cw==
+X-Forwarded-Encrypted: i=1; AJvYcCXFyWm7+IB/yZbv9bYV2dEVxzkHcc/U2OnSRGVck/aA2e4cBSjvT9mfGNb/+Qm7ooKuWx7zcE5/UgA=@vger.kernel.org, AJvYcCXpsLA7JL+362KcOtpyCUU5DUJmT/dnBSsvvsOyVvy3PW/IU29fIlrDA1FsalJtjEf2arHhudfnGGbjKbpO@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3vpbw9qjZQR88GulayLhd6g3VVVQ+Tj0DOnUTFHRD4u0YxmYj
+	IGLcop5mNIFDvl0rNliml9r84wLms2tqHeCr/NL1tVXH+YhT/8LmF+Ssc4MqllYKP7uxUOTKTEB
+	/FqHZklEUzKNsNm49xxX05zulyD1aAn0=
+X-Gm-Gg: ASbGnct5LTzxCiTjbB4E9KNxTvH/XsI50eY6NeSTRFqot7AGGQbqGTJTc/zhh+2kJ6s
+	qbtBSYTG2M94Lb0o5bgZd/jtPps+YNH0zndIURdWVvVwwhlX3WULdo2HW+fIXo4tJFttolkLkvS
+	vbVe2L5rC3QgsU2pCqR1sTJJiJvKufYTh6fm+ab3Y1QnfFPcUJDpRZA8Dfv2Aor/38ToEyk8yHP
+	qVH
+X-Google-Smtp-Source: AGHT+IFfbm2ILbzNqaWeP+BPo+t/ZcGuAqPpA1yn78O51dNA9iM+X1CfAQz9tF1EH2JVkFqRrrq4xtngmwFGJQB2JJE=
+X-Received: by 2002:a17:907:970f:b0:ade:4339:9358 with SMTP id
+ a640c23a62f3a-adec5622d75mr357900366b.22.1749831187984; Fri, 13 Jun 2025
+ 09:13:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/8] iio: adc: Add events support to ad4052
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: Jorge Marques <jorge.marques@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
- <20250610-iio-driver-ad4052-v3-8-cf1e44c516d4@analog.com>
- <afc85a4b-1535-406d-ad14-143049267b98@baylibre.com>
- <gvigk6helnl3yeouy636dgvay7tqux7lnxns3256fivzz4l3er@7ts7fz7vitff>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <gvigk6helnl3yeouy636dgvay7tqux7lnxns3256fivzz4l3er@7ts7fz7vitff>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250612181330.31236-1-bijan311@gmail.com> <20250613095525.1845-1-rakie.kim@sk.com>
+In-Reply-To: <20250613095525.1845-1-rakie.kim@sk.com>
+From: Bijan Tabatabai <bijan311@gmail.com>
+Date: Fri, 13 Jun 2025 11:12:56 -0500
+X-Gm-Features: AX0GCFvh-zD9qUo9qgFI77L0Qw-QGCNYqP0mhIl0FpPrr_nZ3onLg5ACPH5Ji9E
+Message-ID: <CAMvvPS7qgos5OFo=W_FftEn=3QqbsxKCR_-3_eiTQeqne_Yj1Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] mm/damon: Add DAMOS action to interleave data
+ across nodes
+To: Rakie Kim <rakie.kim@sk.com>
+Cc: sj@kernel.org, akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com, 
+	ziy@nvidia.com, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
+	byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com, 
+	apopple@nvidia.com, bijantabatab@micron.com, venkataravis@micron.com, 
+	emirakhur@micron.com, ajayjoshi@micron.com, vtavarespetr@micron.com, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel_team@skhynix.com, damon@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/13/25 5:02 AM, Jorge Marques wrote:
-> Hi David,
-> On Thu, Jun 12, 2025 at 02:38:45PM -0500, David Lechner wrote:
->> On 6/10/25 2:34 AM, Jorge Marques wrote:
->>> The AD4052 family supports autonomous monitoring readings for threshold
->>> crossings. Add support for catching the GPIO interrupt and expose as an IIO
->>> event. The device allows to set either, rising and falling directions. Only
->>> either threshold crossing is implemented.
->>>
->>> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
->>> ---
->>
->> ...
->>
->>> +
->>> +static ssize_t ad4052_events_frequency_store(struct device *dev,
->>> +					     struct device_attribute *attr,
->>> +					     const char *buf,
->>> +					     size_t len)
->>> +{
->>> +	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
->>> +	struct ad4052_state *st = iio_priv(indio_dev);
->>> +	int ret;
->>> +
->>> +	if (!iio_device_claim_direct(indio_dev))
->>> +		return -EBUSY;
->>> +	if (st->wait_event) {
->>> +		ret = -EBUSY;
->>> +		goto out_release;
->>> +	}
->>
->> I'm wondering if we should instead have some kind of iio_device_claim_monitor_mode()
->> so that we don't have to implement this manually everywhere. If monitor mode was
->> claimed, then iio_device_claim_direct() and iio_device_claim_buffer_mode() would
->> both return -EBUSY. If buffer mode was claimed, iio_device_claim_monitor_mode()
->> would fail. If direct mode was claimed, iio_device_claim_monitor_mode() would wait.
->>
-> I don't think this would scale with other vendors and devices, it is a
+On Fri, Jun 13, 2025 at 4:55=E2=80=AFAM Rakie Kim <rakie.kim@sk.com> wrote:
+>
+> On Thu, 12 Jun 2025 13:13:26 -0500 Bijan Tabatabai <bijan311@gmail.com> w=
+rote:
+> > From: Bijan Tabatabai <bijantabatab@micron.com>
+> >
+> > A recent patch set automatically set the interleave weight for each nod=
+e
+> > according to the node's maximum bandwidth [1]. In another thread, the p=
+atch
+> > set's author, Joshua Hahn, wondered if/how these weights should be chan=
+ged
+> > if the bandwidth utilization of the system changes [2].
+> >
+> > This patch set adds the mechanism for dynamically changing how applicat=
+ion
+> > data is interleaved across nodes while leaving the policy of what the
+> > interleave weights should be to userspace. It does this by adding a new
+> > DAMOS action: DAMOS_INTERLEAVE. We implement DAMOS_INTERLEAVE with both
+> > paddr and vaddr operations sets. Using the paddr version is useful for
+> > managing page placement globally. Using the vaddr version limits tracki=
+ng
+> > to one process per kdamond instance, but the va based tracking better
+> > captures spacial locality.
+>
+> Hi Bijan,
+>
+> Thank you for explaining the motivation and need behind this patch.
+> I believe it's important to consider the case where a new memory node
+> is added and the interleave weight values are recalculated.
+>
+> If a new memory node (say, node2) is added, there are two possible
+> approaches to consider.
+>
+> 1. Migrating pages to the newly added node2.
+>    In this case, there is a potential issue where pages may be migrated
+>    to node2, even though it is not part of the nodemask set by the user.
+>
+> 2. Ignoring the newly added node2 and continuing to use only the existing
+>    nodemask for migrations.
+>    However, if the weight values have been updated considering node2
+>    performance, avoiding node2 might reduce the effectiveness of using
+>    Weighted Interleave.
+>
+> It would be helpful to consider these two options or explore other
+> possible solutions to ensure correctness.
+>
+> Rakie
 
-Why not? I've seen lots of devices that have some sort of monitor mode
-where they are internally continuously comparing measurements to something
-and only signal an interrupt when some condition is met.
+Hi Rakie,
 
-> limitation of ADI:ADC:SPI requiring to enter configuration mode to read
+Thank you for the reply - this is not a problem I considered, but it
+is important.
 
-I don't see how it could be a limitiation exclusive to this combination of
-vendor, sensor type and bus type.
+I think option 2 is the correct choice, and is what is already done by the
+policy_nodemask function we use to determine what node to place a page. I
+do not think it makes sense to ignore the nodemask when it is explicitly se=
+t by
+the user.
+However, if we decide to change the way we get the interleave weights to be=
+ from
+a DAMON specific interface, then I think it would make sense to only
+migrate to the
+newly onlined node if the user sets a weight for that node. This is
+because in that
+case, the user is explicitly telling DAMON to use that node.
 
-> registers. A deep dive into the other drivers that use IIO Events is
-> needed.
->>> +
-
-...
-
->>> +
->>> +static int ad4052_monitor_mode_disable(struct ad4052_state *st)
->>> +{
->>> +	int ret;
->>> +
->>> +	pm_runtime_mark_last_busy(&st->spi->dev);
->>> +	pm_runtime_put_autosuspend(&st->spi->dev);
->>> +
->>> +	ret = ad4052_exit_command(st);
->>> +	if (ret)
->>> +		return ret;
->>> +	return regmap_write(st->regmap, AD4052_REG_DEVICE_STATUS,
->>> +			    AD4052_REG_DEVICE_STATUS_MAX_FLAG |
->>> +			    AD4052_REG_DEVICE_STATUS_MIN_FLAG);
->>> +}
->>> +
->>
->> It seems like we need to make sure monitor mode is disabled when the
->> driver is removed. Otherwise we could end up with unbalanced calls to
->> the pm_runtime stuff and leave the chip running.
->>
->>
-> When monitor mode is enabled, pm is already disabled (won't enter low
-> power). I expect the pm to handle the clean-up properly since devm is
-> used.
-> The .remove() I suggest is reg access to:
-> 
-> * Put in configuration mode, if not.
-> * Put on low power mode, if not.
-> 
-I was just thinking something like:
-
-	if (st->wait_event)
-		ad4052_monitor_mode_disable(st);
-
-Also might need to use devm_add_action_or_reset() instead of .remove
-to get correct ordering.
+Let me know if you have any other concerns,
+Bijan
