@@ -1,91 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA862D23B2;
-	Fri, 13 Jun 2025 10:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9DC2E173D;
+	Fri, 13 Jun 2025 10:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749809713; cv=none; b=TTCCN1cH0x1oi6c3Fzv4768hdXvJVe1RQoAOTK0aMEEldv4NHjUuxxGo68MZHFYws7AoBgeRDFVCAtxThrNbgWKX2+8uY+WOvRD8UxdXuHUyX94dEkB3t1LkanXNtnp6r71F3e7vXN4G/hzrLrXYzs+boxEIXkQGGP1aVq702VA=
+	t=1749811216; cv=none; b=uOO8tmPS8l0MDQrP/+eVeJ7IKnEnTdI2zOkJkNCzDpGPSVqPTyoIqLz5ogylEIb20oiS2WbeuQpQHjLEdCTExdaw2UowqsCUpTiyLdFwHUMESKpL5AoZk+F3Ro4Td1QhKqYrTdQCIgOeafI+7azr6QnBXmwrONXu+8qsqyhD5sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749809713; c=relaxed/simple;
-	bh=Mmx2wiHujPu/dQ2+A7mZP3qk4H3KDRZF79BQL/Bhfx0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ip4d1I7p63jRK/efvmxap2BvrLg7Ibi491loqy9VnGLLrVDjAai2AfA4/qlgRoQ7LvgN3pDpjrK9JHKSe9FkAQLuJsIBSHoZffkIJzXaOgKB/ljmaWj8e5JUbqxI8FM2Iidm6QXrUTTG+4ji6nfK2syCAkqzkq/YB5yi55pZzQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pi0t6+BN; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1749811216; c=relaxed/simple;
+	bh=mLZwn8nwTw0SpjqZedbLfqtbjfMBNExKx1RJT6U74bk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IzIqM3YrlF+qedY3CUI1W0eTClQXtaXIuTndMMqqeZY2u2yjqjZP0HZ2OXELFRaNnXYnxN3MjCOUNEnW9upahcvy4lp2mxi8BRh4eebFBIDgWd0z9hOtuTsXft97T8Q24wz3N39Jg66sFuSEFqNA8ubm+QmM/CIe1wC9JMdsPx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFWyq0c/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pi0t6+BN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749809712; x=1781345712;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=Mmx2wiHujPu/dQ2+A7mZP3qk4H3KDRZF79BQL/Bhfx0=;
-  b=Pi0t6+BN5QbZKy0c+V8aRc6gTaw3m6txMA1Me76F0L//94c16nW4v8Rp
-   FUBSPCfWRuKmmk9ondUcJ9l7xJVvwFqJ4K3ZUTo6r1REj/DYXa2sAK1Ic
-   isnE0ZS3mdwFKcMjnlhDUAhZyJdTxkOsATfTDlRjokUDHcZMabPB9BsXc
-   0nxFl6A761IGcratxh/qBPMUm99xN+EdwyuC+V094og5GExnf9uzHGcKs
-   5f+M3qiOd0+IodJWVE0AAy6Ar5SvwEVg1OTDB6fJ6n0SU28UMaWTeeA7T
-   Ve4vp6k9YBxN9Neu7w8Rt7t8WmGq83+cyDA3HfhPVzJBPCK0aV+j26EHM
-   A==;
-X-CSE-ConnectionGUID: dY4/PBCtThyLyggm1nHXaw==
-X-CSE-MsgGUID: 4qeVeGCtQ3eWG8CMORz7ZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="69595223"
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="69595223"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 03:15:11 -0700
-X-CSE-ConnectionGUID: fM9L2VxHQGKMqkw/wYZJbQ==
-X-CSE-MsgGUID: vM/HAJK6TtecF+C6VezkBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="147635800"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.102])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 03:15:07 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Dell.Client.Kernel@dell.com, jithu.joseph@intel.com, 
- Armin Wolf <W_Armin@gmx.de>
-Cc: hdegoede@redhat.com, corbet@lwn.net, 
- platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250610055526.23688-1-W_Armin@gmx.de>
-References: <20250610055526.23688-1-W_Armin@gmx.de>
-Subject: Re: [PATCH 1/2] Documentation: ABI: Update WMI device paths in ABI
- docs
-Message-Id: <174980970219.26331.6171635150526759589.b4-ty@linux.intel.com>
-Date: Fri, 13 Jun 2025 13:15:02 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFWyq0c/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0623DC4CEEB;
+	Fri, 13 Jun 2025 10:40:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749811215;
+	bh=mLZwn8nwTw0SpjqZedbLfqtbjfMBNExKx1RJT6U74bk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PFWyq0c/e1O6gPHVqvZjxxyEKgSKVMVRV84ZPqcDpoOKSs0Tcys2Boi28pGi7Nr7X
+	 xWkWCSDaI4xpq5aS+PKb8shbEagetpCELAEQ0MsDeM4roDQ69EBaTqUACzOhP4F/u6
+	 1LDvdMUXLXEUGnGimoWhWEnEgJQ+RrzWyQZwjv0Dyr3ktgtg6xzNCdPZB7JIZHa70I
+	 Rw6xb804N8kxIWuGsqxlBg5kdj48Jqn1XZ7/VXqHYTRC1k4mV5fo+OnwJaBpwPnM6F
+	 cH9g1WECWv5DfMMdvN7rDeC+u6F3bY9b9gFIxP6Y4Z77jX3tsQPZD4sT3fla2Fnxg1
+	 irXdMl4Nfn2JQ==
+Date: Fri, 13 Jun 2025 12:40:06 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>, "David S. Miller" <davem@davemloft.net>, Ignacio
+ Encinas Rubio <ignacio@iencinas.com>, Marco Elver <elver@google.com>, Shuah
+ Khan <skhan@linuxfoundation.org>, Eric Dumazet <edumazet@google.com>, Jan
+ Stancek <jstancek@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
+ Wauters <rubenru09@aol.com>, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linux.dev, lkmm@lists.linux.dev,
+ netdev@vger.kernel.org, peterz@infradead.org, stern@rowland.harvard.edu,
+ Breno Leitao <leitao@debian.org>
+Subject: Re: [PATCH v2 0/2] Some extra patches for netlink doc generation
+Message-ID: <20250613124006.3f0bb3c6@foz.lan>
+In-Reply-To: <m2ldpwnj5g.fsf@gmail.com>
+References: <cover.1749735022.git.mchehab+huawei@kernel.org>
+	<m2ldpwnj5g.fsf@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
 
-On Tue, 10 Jun 2025 07:55:25 +0200, Armin Wolf wrote:
+Em Fri, 13 Jun 2025 09:24:43 +0100
+Donald Hunter <donald.hunter@gmail.com> escreveu:
 
-> The WMI driver core might append an ID to the WMI device name to avoid
-> name collisions in case multiple WMI devices with the same GUID are
-> present. Update all sysfs path referring to WMI devices to inform
-> users about this important detail.
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
+> > This patch series comes after:
+> > 	https://lore.kernel.org/linux-doc/cover.1749723671.git.mchehab+huawei@kernel.org/T/#t  
 > 
+> Can you please incorporate this series into a v3 of the other patch set.
 
+Sure. Will send it in a few.
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
-
-The list of commits applied:
-[1/2] Documentation: ABI: Update WMI device paths in ABI docs
-      commit: c9de2e5c15cba9e9be7fd124a74b9067560d4746
-[2/2] platform/x86: wmi: Fix WMI device naming issue
-      commit: 73f0f2b52c5ea67b3140b23f58d8079d158839c8
-
---
- i.
-
+Thanks,
+Mauro
