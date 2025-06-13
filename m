@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAEA2E406;
-	Fri, 13 Jun 2025 14:58:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5468833E1;
+	Fri, 13 Jun 2025 15:13:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749826717; cv=none; b=VpDR8VA4+VLh2HZIfYyxq8HtqaPayX+YguLpQ/eBeTN9qvSEDqF60cOQ76pmCEBEbLZhCh+pyVPeU5lLIe5skSGf2t+Vh7nDlj1pLVyppIWguT59qQw2qK8s4ZJsgXBKzVTKA+WwN+/qqhGoXFs1BdFWHUVJ5x0m59K0XPT9RwE=
+	t=1749827632; cv=none; b=XL38S6duzo5HjhOGk9T13qszqL2uoSPe7y0n2h5Cirh6ft+qrRdHocXELU46WhcKTNGe+FTTqn52BlUSm8+ITxngzv00moO76gExnFGvr9PxdRHLYmRB1QFyO0q4BMaaku8y33mCANVO3lQ37sGseeTNaewLsA6KPMKlqUvHoAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749826717; c=relaxed/simple;
-	bh=iB17qoOb8HlU/gXIO+LtqUhl3ctgMUcVmL/kKRQHq+w=;
+	s=arc-20240116; t=1749827632; c=relaxed/simple;
+	bh=FM3IrbmJmnE9i2+qWqWQlZ+E4ahHxHM5H66AV9WmBoI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=F9wgeEGk9usAP2ONRtfSqYQuSHeBgifZ4DJy0kZ8s0uFUZelZkuXY6yBVhtkj55L0zkzoDuAyTCIKPBqe4RJkusRZrqDFHxv9SY91XO+R0+3WGXOa3znOnCreKbKKLSVdnL1jrjIzfH8NsnyKa0EfsD8qszGngvN/nZi83CT9Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZtLOza4k; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Dq36IfNbEVm9mO9K0ZciCY8C3qNThCVE+B7fyRRrwOzMqXaYkJcwd7kiHQZizPejlH8WsugRQP0RkpQ/YWmfiDp+sQFEhelP9bdOjOGivPeIBMRESXaC1eY+OmvjqXMTZaEB/d/cQR9cKirlKcERu0cu92rXJb0LXfxhPhnBGzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kly87QeW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZtLOza4k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 198CFC4CEE3;
-	Fri, 13 Jun 2025 14:58:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kly87QeW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51532C4CEE3;
+	Fri, 13 Jun 2025 15:13:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749826716;
-	bh=iB17qoOb8HlU/gXIO+LtqUhl3ctgMUcVmL/kKRQHq+w=;
+	s=k20201202; t=1749827631;
+	bh=FM3IrbmJmnE9i2+qWqWQlZ+E4ahHxHM5H66AV9WmBoI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ZtLOza4kFt33ZPiPPvZkUgKUFAaVPI2F6rZSPV7N0hMGTWjezapJgshD9Sttg4i8m
-	 l5k0K0vhi8JwswN72Z+VXR7wuyng4VrG619zkgMDH+ascjJJL6zuIrF1wGF/z6d6Vc
-	 lHeiF3Cmo5CwIZhBbf0AfngBPM8b5JlPSnQCUVIHFrvCg4APYyFjwnMe62M1E6MzEl
-	 /xPI2F9K+8uFKgLHuD8fKgbmnoo+/fSPZ0+HZlds4VrKVFxG8QcjcATIb40v4Lj6gB
-	 rkVA9NyNpRnRMY4k+2JJLiIJM2cnns5QfIVkF9oGS4hfyUXbiswq6VBHnoNrf57D17
-	 9nk3vU67O1/dQ==
+	b=kly87QeWZT/wrbptR1YPxy1l9gyVEOhvNZZmEaevtRPT9WyrvZ0TX/4+fp6YZ7aiQ
+	 afAh/kZ7hLMkf8CdrnaxRQeBQ+vnOjBT4liAml1ERCct5+1CFWyxZ4uBOdQicDrROD
+	 gRjB2u5eTm/qsBQse/skOXLuIfmS6EB7pL6ZkklPLOBw5wiIX00+2l5CRJrtz2QLlA
+	 hvNVejusVTbhm3bvR/PInaoduM3LlFHlrAFsoFTmFlQRRf59XWc4E1QguZkSoAwF1k
+	 sbn+dhQN1ND+j3porT3PrSJizbAMCdW/Y8zn8uT4C7Qf290YS0GAHbcfQHpyC6CaU6
+	 UB+VG3EAUGLqQ==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
@@ -51,14 +51,14 @@ Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
   andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
   bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
   stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
-In-Reply-To: <CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
+Subject: Re: [RFC v2 11/16] luo: luo_sysfs: add sysfs state monitoring
+In-Reply-To: <CA+CK2bCnMpRy=wYtt02Xy+R7BFhrY_RsdaZ7X4i+CUASv5Uo0Q@mail.gmail.com>
 References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
-	<20250515182322.117840-6-pasha.tatashin@soleen.com>
-	<mafs0sekfts2i.fsf@kernel.org>
-	<CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
-Date: Fri, 13 Jun 2025 16:58:27 +0200
-Message-ID: <mafs0sek3n0x8.fsf@kernel.org>
+	<20250515182322.117840-12-pasha.tatashin@soleen.com>
+	<mafs0plfirwh3.fsf@kernel.org>
+	<CA+CK2bCnMpRy=wYtt02Xy+R7BFhrY_RsdaZ7X4i+CUASv5Uo0Q@mail.gmail.com>
+Date: Fri, 13 Jun 2025 17:13:43 +0200
+Message-ID: <mafs0ldpvn07s.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -66,73 +66,34 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 07 2025, Pasha Tatashin wrote:
+On Sun, Jun 08 2025, Pasha Tatashin wrote:
+
+> On Thu, Jun 5, 2025 at 12:20=E2=80=AFPM Pratyush Yadav <pratyush@kernel.o=
+rg> wrote:
+>>
+>> On Thu, May 15 2025, Pasha Tatashin wrote:
+>>
+>> > Introduce a sysfs interface for the Live Update Orchestrator
+>> > under /sys/kernel/liveupdate/. This interface provides a way for
+>> > userspace tools and scripts to monitor the current state of the LUO
+>> > state machine.
+>>
+>> I am not sure if adding and maintaining a new UAPI that does the same
+>> thing is worth it. Can't we just have commandline utilities that can do
+>> the ioctls and fetch the LUO state, and those can be called from tools
+>> and scripts?
+>>
+>
+> This is based on discussion from SystemD people. It is much simpler
+> for units to check the current 'state' via sysfs, and act accordingly.
+
+Ok, fair enough.
+
 [...]
->>
->> This weirdness happens because luo_prepare() and luo_cancel() control
->> the KHO state machine, but then also get controlled by it via the
->> notifier callbacks. So the relationship between then is not clear.
->> __luo_prepare() at least needs access to struct kho_serialization, so it
->> needs to come from the callback. So I don't have a clear way to clean
->> this all up off the top of my head.
->
-> On production machine, without KHO_DEBUGFS, only LUO can control KHO
-> state, but if debugfs is enabled, KHO can be finalized manually, and
-> in this case LUO transitions to prepared state. In both cases, the
-> path is identical. The KHO debugfs path is only for
-> developers/debugging purposes.
 
-What I meant is that even without KHO_DEBUGFS, LUO drives KHO, but then
-KHO calls into LUO from the notifier, which makes the control flow
-somewhat convoluted. If LUO is supposed to be the only thing that
-interacts directly with KHO, maybe we should get rid of the notifier and
-only let LUO drive things.
-
-This can be done later though; it doesn't have to be in the initial
-revision.
-
->
->> >  static int __init luo_startup(void)
->> >  {
->> > -     __luo_set_state(LIVEUPDATE_STATE_NORMAL);
->> > +     phys_addr_t fdt_phys;
->> > +     int ret;
->> > +
->> > +     if (!kho_is_enabled()) {
->> > +             if (luo_enabled)
->> > +                     pr_warn("Disabling liveupdate because KHO is disabled\n");
->> > +             luo_enabled = false;
->> > +             return 0;
->> > +     }
->> > +
->> > +     ret = register_kho_notifier(&luo_kho_notifier_nb);
->> > +     if (ret) {
->> > +             luo_enabled = false;
->>
->> You set luo_enabled to false here, but none of the LUO entry points like
->> luo_prepare() or luo_freeze() actually check it. So LUO will appear work
->> just fine even when it hasn't initialized properly.
->
-> luo_enabled check was missing from luo_ioctl.c, as we should not
-> create a device if LUO is not enabled. This is fixed.
->
->>
->> > +             pr_warn("Failed to register with KHO [%d]\n", ret);
->>
->> I guess you don't return here so a previous liveupdate can still be
->> recovered, even though we won't be able to make the next one. If so, a
->> comment would be nice to point this out.
->
-> This is correct, but this is not going to work. Because, with the
-> current change I am disabling "/dev/liveupdate" iff luo_enable ==
-> false. Let's just return here, failing to register with KHO should not
-> really happen, it usually means that there is another notifier with
-> the same name has already registered.
-
-Okay, fair enough.
-
--- 
+--=20
 Regards,
 Pratyush Yadav
