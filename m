@@ -1,130 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A811DE4D8;
-	Sat, 14 Jun 2025 18:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBCC54670;
+	Sat, 14 Jun 2025 19:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749927376; cv=none; b=NTNLQjwP4Vcx27fo47fvXgLjLkfU3qRh3KI0MTvLvuFm1wqJ8r3NrIYdXuwSfwGxXxOE0NK9Y14wV53QupvE3jO7+20Gmaa/nEDln7MYzd1jlKDHgB6hDXEJpwy/vFH6Nbeq7oh0Nsfe2bJgQsPkph30l/JnM+qhBp7z2oNvx54=
+	t=1749927783; cv=none; b=raVOFtej5iJDUTOPhUf0aTwVjnR2n2BMKSB5alh2U8u3KZb6nsJSu9YR3PjiUrFb2S+MN+PG8fk7XR4ReJaa7iS6YMKgIBwGPTSwj9OeKgIJCZw8UsZJ9rVirMDA+Zro0BcoEjf98pXVAzlHxycU5Ax2pW/h2ukpAPSsyXBGXMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749927376; c=relaxed/simple;
-	bh=Ay9WNfd7Dkl5+6/0J8IggnfWgT3C7wSHD0mCsf3vo9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GbW1jXvxIICdGSL54YtTlRBJJ7QEnaFuNC9ksFiw8YUTDbJG9xt8gg1mbwySMUo0KmogLQI+9bKQBLh0PQtcdoGpxtQd+yKzg/AR9mALP1Xag2cEU995JKlKDZCmn/A0h7LzV3n9SuO0MRDIP7Y3C2TyaS9GwSjVDkyVjcJBP4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lnEVX1n2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749927783; c=relaxed/simple;
+	bh=wmhIl5eNtjuRRYDprAwACUTyOPlF1TtOvf3w9eerE/s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pReoRBM8VYkMRIi+TJwemdrjE+y3mJnRn8LAvIEgCwXf2vxpIMS0nMeZcHoNuRzHDPwO0e24kCZ6WlHzlZ9X+6iP8UjVRR8J8dK2q3SWE7Suqi9LNSrK02teLaRZ9Z225I7lnAPA7nUtgCWspwOSLAWjvi0nQxBX7ik5A2wvrKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMmW5sKf; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lnEVX1n2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16268C4CEEF;
-	Sat, 14 Jun 2025 18:56:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749927376;
-	bh=Ay9WNfd7Dkl5+6/0J8IggnfWgT3C7wSHD0mCsf3vo9M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lnEVX1n2MxvyMsJ4d1/QTdLtOBZR2/8cC7OnUGlndhbnoUp2wZIYEMhi7bvSkEI4F
-	 l3ui9zw3cjaof3z7J0eL4PhCdAgl5vP7rdHax9fSQd7DZQg2TAUwPwRJVWtcKJLUBN
-	 RE+cOiMKSY5W+slhJ3acsRhbi5JUGljhPHiB5vEAlRPAloJlRS8KN2lwBVGIv4B0op
-	 EgKwLx9yrdWUFYOf4mxquUTsOEanaePdCThj3/EnfDMDs4eglmzj2i8CabZydFS/4b
-	 ivbkx24q4+997EoKwW4I8iSVG12TVfLN9ObHpJ6WFtdy3C+0r6nOg9SzUMrllsPVyp
-	 Gb+91nCyrLHUA==
-Date: Sat, 14 Jun 2025 20:56:09 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, Akira
- Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ignacio
- Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>,
- Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
- Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
- netlink_yml_parser.py
-Message-ID: <20250614205609.50e7c3ad@foz.lan>
-In-Reply-To: <20250614103700.0be60115@kernel.org>
-References: <cover.1749891128.git.mchehab+huawei@kernel.org>
-	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
-	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
-	<20250614173235.7374027a@foz.lan>
-	<20250614103700.0be60115@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMmW5sKf"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ad8a8da2376so525518666b.3;
+        Sat, 14 Jun 2025 12:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749927780; x=1750532580; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TN6GkerJFD6CWH4ZgMxurVC6ip3Bfjx/2RgrJ7PlO8c=;
+        b=cMmW5sKfBblHykes7p8HKQ6uqljv6ZQiUQCEzn8UC8qgMCPoUqF8ePl0MVQvEiIJsG
+         3cBpoTw9xzOvm2DdnOVWWm2TWY64ANQHC0D1M39IGhtQUV6b6zaf8Kg+CT30a5ahtfkW
+         cvC+JsH5dAID848GMrBx8jeBEBmCf6Mbh3m5N46OuUcBeFVXq9NNkoOTg7XVm7XXfs2i
+         FRZw1UnCgvi0mbi5lyZM/arAE8G6qwvB/J/bRKV3yqVBaavQYqfkoYx5blxpev/k+4T3
+         s0KhNGHErHg8DUsmJsZrLxLqxKOkYEd+inigGvbHOJmsJtLDp7bGa/Rlfo5iRWu53/R7
+         PsBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749927780; x=1750532580;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TN6GkerJFD6CWH4ZgMxurVC6ip3Bfjx/2RgrJ7PlO8c=;
+        b=fAM90u/fTlQBxF/YpfRmO6f71m4uOk9AC57an43BWo8PDn4zJlQ7on3iaoz1kVYquc
+         lbUU+FZPjYw9hM20euU/Jux0bDCZrAg/mYhl9lLUster4wgULYV2iTMhCVPLqIUKl0XN
+         YFVZayC/hRoxPRw7kOmSeyqbtbKLa+c+NlR92VZNdD3nWdeX8RKTAiaOTO+0d7xxTwF5
+         SxFSsOHSzcq6kRY1WmgTsa5lpYhLywSeIhfg8DAlPTkd+MgeeVI4mzB+7sIGWkT6+K0Z
+         unKVW3FmDHsFo9qG847DE6F9OhRdMnGU1r4sAbINvp5nOMMW2MGPW44ZgIyXysP7Q2p1
+         hIUA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9EI9Hmzozoammj5SoO+k7S5E2ctO84yH3VykkcYulNOiCXiPeaBZBXcoSnn/dzX8X1bWBA4JyIzMY@vger.kernel.org, AJvYcCUvTQ5T0zcjcJ5Ium9xDbfrd30RL3Yqj2GqWDU2zNdzBl5CVqxN486khGjPYJWJRPtNedxGK+Rwf6Y=@vger.kernel.org, AJvYcCVSbNlPqNgWwFxGwPsJEDDcoFK0QV92fPX5ef6sr7CLXX9EBIMvaaZyNpwvXEa1V27jv/x/VRg8EsG4KRUf@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLfpOsTSfD3TIFpJH+Xr+6URhy71WCkV70wLSfwwFkqgZ1Xalm
+	O3fxARJdD1a9ePgHwsYL/K+qP6b3X2L8ENU5UT2aQ5ueWnY1+ybc85PZ8eO10QlCePk3+r6U3MF
+	3Hql3eCKQB68OErbULuV0i4uBu85VrLlUFv5z
+X-Gm-Gg: ASbGncuYhkTSEXl+FKVvPS/GYNucDD7q95jPubdbZOfnLqIONabO7aubQrXla0WUCo0
+	kdkp8PFxD0kSPUVjjzxnQBzdifzJ/FyWq5MFeSKEgC0n5pOXEM3UG0MA6njjydcjrNJHRVX9fQ+
+	cSeABEo9eTggUpQJBzzYlpL7k0N9Ecpd0DM23TKTK0v3Y=
+X-Google-Smtp-Source: AGHT+IF50GuhEIAA2Fh2jVWqVfwOST8iVXR0u7QFx4pqn+hMfIjvZh+1flLbwV32FocpRdiPFv+4QxpalQA5zgKUwFU=
+X-Received: by 2002:a17:906:ee89:b0:ada:99ed:67a3 with SMTP id
+ a640c23a62f3a-adfad38e441mr323296266b.27.1749927779997; Sat, 14 Jun 2025
+ 12:02:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250610215933.84795-1-l.rubusch@gmail.com> <20250610215933.84795-9-l.rubusch@gmail.com>
+ <aErE0xmlm4qBHg03@smile.fi.intel.com> <20250614145528.2fb9bf3f@jic23-huawei>
+In-Reply-To: <20250614145528.2fb9bf3f@jic23-huawei>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 14 Jun 2025 22:02:23 +0300
+X-Gm-Features: AX0GCFt88bJw5nhB_CRIf29OKUbv23Mn_mR9u2ZKikXKpJjNPiYuXpbHZ0JYHrs
+Message-ID: <CAHp75VeJg1Vi_-h+-j9Udzwf+ySv9oj7t2Kq_8irM8KgPGQDhg@mail.gmail.com>
+Subject: Re: [PATCH v9 08/11] iio: accel: adxl345: add inactivity feature
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, corbet@lwn.net, linux-iio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, eraretuya@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Em Sat, 14 Jun 2025 10:37:00 -0700
-Jakub Kicinski <kuba@kernel.org> escreveu:
+On Sat, Jun 14, 2025 at 4:55=E2=80=AFPM Jonathan Cameron <jic23@kernel.org>=
+ wrote:
 
-> On Sat, 14 Jun 2025 17:32:35 +0200 Mauro Carvalho Chehab wrote:
-> > > > @@ -27314,6 +27315,7 @@ M:      Jakub Kicinski <kuba@kernel.org>
-> > > >  F:     Documentation/netlink/
-> > > >  F:     Documentation/userspace-api/netlink/intro-specs.rst
-> > > >  F:     Documentation/userspace-api/netlink/specs.rst
-> > > > +F:     scripts/lib/netlink_yml_parser.py
-> > > >  F:     tools/net/ynl/    
-> > 
-> > With regards to the location itself, as I said earlier, it is up to
-> > Jon and you to decide.
-> > 
-> > My preference is to have all Python libraries at the entire Kernel
-> > inside scripts/lib (or at some other common location), no matter where
-> > the caller Python command or in-kernel Sphinx extensions are located.  
-> 
-> I understand that from the PoV of ease of maintenance of the docs.
-> Is it fair to say there is a trade off here between ease of maintenance
-> for docs maintainers and encouraging people to integrate with kernel
-> docs in novel ways?
+...
 
-Placing elsewhere won't make much difference from doc maintainers and
-developers.
+> > >     if (type =3D=3D ADXL345_ACTIVITY) {
+> > >             axis_ctrl =3D ADXL345_ACT_X_EN | ADXL345_ACT_Y_EN |
+> > >                             ADXL345_ACT_Z_EN;
+> > >     } else {
+> > > -           axis_ctrl =3D 0x00;
+> > > +           axis_ctrl =3D ADXL345_INACT_X_EN | ADXL345_INACT_Y_EN |
+> > > +                           ADXL345_INACT_Z_EN;
+> > >     }
+> >
+> > Now this can be as simple as
+> >
+> >       axis_ctrl =3D ADXL345_ACT_X_EN;
+>
+> That flag is only set in the activity case.  Confused with ADXL345_INACT_=
+X_EN?
+> (initially I thought you'd run into a bug!)
 
-I'm more interested on having a single place where python libraries
-could be placed. Eventually, some classes might be re-used in the future
-by multiple scripts and subsystems, when it makes sense, just like we do
-already with Kernel's kAPIs. This also helps when checking what is the
-Python's minimal version that are required by the Kernel when updating
-it at:
+Ouch, you are right! Please, discard my above suggestion, it's indeed
+simply wrong.
 
-	Documentation/process/changes.rst
+> >       if (type =3D=3D ADXL345_ACTIVITY)
+> >               axis_ctrl |=3D ADXL345_ACT_Y_EN | ADXL345_ACT_Z_EN;
+> >       else
+> >               axis_ctrl |=3D ADXL345_INACT_Y_EN | ADXL345_INACT_Z_EN;
+> >
+> > Yeah, I don't know how to make the diff better (it gets worse), but the=
+ end
+> > result is better.
+> >
+> > One way, which I don't like much is to previously have this conditional=
+ written as:
+> >
+> >       axis_ctrl =3D ADXL345_ACT_X_EN;
+> >       if (type =3D=3D ADXL345_ACTIVITY)
+> >               axis_ctrl |=3D ADXL345_ACT_Y_EN | ADXL345_ACT_Z_EN;
+> >       else
+> >               axis_ctrl =3D 0;
+> >
 
-And writing patches documenting it like:
 
-	d2b239099cf0 ("docs: changes: update Sphinx minimal version to 3.4.3")
-	5e25b972a22b ("docs: changes: update Python minimal version")
-
-Properly setting the minimal Python version is important specially to
-check if the minimal version set at changes.rst is compatible with
-the Makefile build targets:
-
-	$ pip install --user vermin
-	...
-	$ vermin -v scripts/lib/
-	Detecting python files..
-	Analyzing 9 files using 24 processes..
-	!2, 3.6      /new_devel/v4l/docs/scripts/lib/abi/abi_parser.py
-	!2, 3.6      /new_devel/v4l/docs/scripts/lib/abi/abi_regex.py
-	~2, ~3       /new_devel/v4l/docs/scripts/lib/abi/helpers.py
-	!2, 3.6      /new_devel/v4l/docs/scripts/lib/abi/system_symbols.py
-	!2, 3.6      /new_devel/v4l/docs/scripts/lib/kdoc/kdoc_files.py
-	!2, 3.6      /new_devel/v4l/docs/scripts/lib/kdoc/kdoc_output.py
-	!2, 3.6      /new_devel/v4l/docs/scripts/lib/kdoc/kdoc_parser.py
-	2.3, 3.0     /new_devel/v4l/docs/scripts/lib/kdoc/kdoc_re.py
-	!2, 3.6      /new_devel/v4l/docs/scripts/lib/netlink_yml_parser.py
-
-	Tips:
-	- You're using potentially backported modules: argparse, typing
-	  If so, try using the following for better results: --backport argparse --backport typing
-	- Since '# novm' or '# novermin' weren't used, a speedup can be achieved using: --no-parse-comments
-	(disable using: --no-tips)
-
-	Minimum required versions: 3.6
-	Incompatible versions:     2
-
-Thanks,
-Mauro
+--=20
+With Best Regards,
+Andy Shevchenko
