@@ -1,125 +1,95 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBCC54670;
-	Sat, 14 Jun 2025 19:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0880D1E8320;
+	Sat, 14 Jun 2025 19:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749927783; cv=none; b=raVOFtej5iJDUTOPhUf0aTwVjnR2n2BMKSB5alh2U8u3KZb6nsJSu9YR3PjiUrFb2S+MN+PG8fk7XR4ReJaa7iS6YMKgIBwGPTSwj9OeKgIJCZw8UsZJ9rVirMDA+Zro0BcoEjf98pXVAzlHxycU5Ax2pW/h2ukpAPSsyXBGXMk=
+	t=1749928412; cv=none; b=DJJc/Vjxv4+F6irdd0oF5JaWIP43rFxMJvGHMrDtNjFtSJua3JibWD8V2rdJVaH7CSSqPhTXU9NJzDQK2Lybt/WTy1B5vailiVDpidzVm2alCGQC39j6/jstkPaWtA9Z4aPzLi73wIyd1YOoBd64F+u0L3UOiJiTcgrv77Fp04c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749927783; c=relaxed/simple;
-	bh=wmhIl5eNtjuRRYDprAwACUTyOPlF1TtOvf3w9eerE/s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pReoRBM8VYkMRIi+TJwemdrjE+y3mJnRn8LAvIEgCwXf2vxpIMS0nMeZcHoNuRzHDPwO0e24kCZ6WlHzlZ9X+6iP8UjVRR8J8dK2q3SWE7Suqi9LNSrK02teLaRZ9Z225I7lnAPA7nUtgCWspwOSLAWjvi0nQxBX7ik5A2wvrKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMmW5sKf; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749928412; c=relaxed/simple;
+	bh=QcqBRvfJQvc5pYZiDg3HscRZqlrgHExx7Nb5GFswF3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MNsoQXlc8RFg4kDUi+xb17bQLH/YjVeYgGWMsgZl/yO/CqiYIZEc3T8TIwf63p8PcvDqDxxV+wWQiKhgDYtkD9mVkF12IEnNkva46+E8SpJQeFLkNkTofU6O42chBkF+kEyU43m08FQEOsz9bpQjZxUe7qSG+FWCDU8xRwZlMKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KnyxLXUf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMmW5sKf"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ad8a8da2376so525518666b.3;
-        Sat, 14 Jun 2025 12:03:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749927780; x=1750532580; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TN6GkerJFD6CWH4ZgMxurVC6ip3Bfjx/2RgrJ7PlO8c=;
-        b=cMmW5sKfBblHykes7p8HKQ6uqljv6ZQiUQCEzn8UC8qgMCPoUqF8ePl0MVQvEiIJsG
-         3cBpoTw9xzOvm2DdnOVWWm2TWY64ANQHC0D1M39IGhtQUV6b6zaf8Kg+CT30a5ahtfkW
-         cvC+JsH5dAID848GMrBx8jeBEBmCf6Mbh3m5N46OuUcBeFVXq9NNkoOTg7XVm7XXfs2i
-         FRZw1UnCgvi0mbi5lyZM/arAE8G6qwvB/J/bRKV3yqVBaavQYqfkoYx5blxpev/k+4T3
-         s0KhNGHErHg8DUsmJsZrLxLqxKOkYEd+inigGvbHOJmsJtLDp7bGa/Rlfo5iRWu53/R7
-         PsBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749927780; x=1750532580;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TN6GkerJFD6CWH4ZgMxurVC6ip3Bfjx/2RgrJ7PlO8c=;
-        b=fAM90u/fTlQBxF/YpfRmO6f71m4uOk9AC57an43BWo8PDn4zJlQ7on3iaoz1kVYquc
-         lbUU+FZPjYw9hM20euU/Jux0bDCZrAg/mYhl9lLUster4wgULYV2iTMhCVPLqIUKl0XN
-         YFVZayC/hRoxPRw7kOmSeyqbtbKLa+c+NlR92VZNdD3nWdeX8RKTAiaOTO+0d7xxTwF5
-         SxFSsOHSzcq6kRY1WmgTsa5lpYhLywSeIhfg8DAlPTkd+MgeeVI4mzB+7sIGWkT6+K0Z
-         unKVW3FmDHsFo9qG847DE6F9OhRdMnGU1r4sAbINvp5nOMMW2MGPW44ZgIyXysP7Q2p1
-         hIUA==
-X-Forwarded-Encrypted: i=1; AJvYcCU9EI9Hmzozoammj5SoO+k7S5E2ctO84yH3VykkcYulNOiCXiPeaBZBXcoSnn/dzX8X1bWBA4JyIzMY@vger.kernel.org, AJvYcCUvTQ5T0zcjcJ5Ium9xDbfrd30RL3Yqj2GqWDU2zNdzBl5CVqxN486khGjPYJWJRPtNedxGK+Rwf6Y=@vger.kernel.org, AJvYcCVSbNlPqNgWwFxGwPsJEDDcoFK0QV92fPX5ef6sr7CLXX9EBIMvaaZyNpwvXEa1V27jv/x/VRg8EsG4KRUf@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLfpOsTSfD3TIFpJH+Xr+6URhy71WCkV70wLSfwwFkqgZ1Xalm
-	O3fxARJdD1a9ePgHwsYL/K+qP6b3X2L8ENU5UT2aQ5ueWnY1+ybc85PZ8eO10QlCePk3+r6U3MF
-	3Hql3eCKQB68OErbULuV0i4uBu85VrLlUFv5z
-X-Gm-Gg: ASbGncuYhkTSEXl+FKVvPS/GYNucDD7q95jPubdbZOfnLqIONabO7aubQrXla0WUCo0
-	kdkp8PFxD0kSPUVjjzxnQBzdifzJ/FyWq5MFeSKEgC0n5pOXEM3UG0MA6njjydcjrNJHRVX9fQ+
-	cSeABEo9eTggUpQJBzzYlpL7k0N9Ecpd0DM23TKTK0v3Y=
-X-Google-Smtp-Source: AGHT+IF50GuhEIAA2Fh2jVWqVfwOST8iVXR0u7QFx4pqn+hMfIjvZh+1flLbwV32FocpRdiPFv+4QxpalQA5zgKUwFU=
-X-Received: by 2002:a17:906:ee89:b0:ada:99ed:67a3 with SMTP id
- a640c23a62f3a-adfad38e441mr323296266b.27.1749927779997; Sat, 14 Jun 2025
- 12:02:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KnyxLXUf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8A57C4CEEB;
+	Sat, 14 Jun 2025 19:13:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749928411;
+	bh=QcqBRvfJQvc5pYZiDg3HscRZqlrgHExx7Nb5GFswF3o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KnyxLXUfl1AnHsgjB2TzBn9DyyEqxXLUxmGeVkU9mv+wrKp8bwnlGDUxdriOpYwQj
+	 vIR5YWEaBwEa+9TnkcMfvImyNNO1S5XE91jB3WyhAZmGIzs2kIQ+2YTPGdbGdg/EkJ
+	 mjMlzfsjuPEH5Nt0scCrqob716ABX3gyBKjnh8lIVDAmAKHxOebiZiW2H5Z5Rnn36K
+	 rO0GOXqXouJKkCdT1MrQNN/gqa8rmrLPgLcacFpahFw+6p65+ubu2qI4LRjkd1Nd+i
+	 KeiWfYu5kS3gjeU67TQwA99wAbaVAsD6P9sw7nikEcgXJCnE92HD43dYuOhb5aAw3Z
+	 rlh0Px/ih05oQ==
+Date: Sat, 14 Jun 2025 12:13:29 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
+ <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
+ <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark
+ Brown <broonie@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v13 04/13] net: pse-pd: Add support for PSE
+ power domains
+Message-ID: <20250614121329.7720ff33@kernel.org>
+In-Reply-To: <20250610-feature_poe_port_prio-v13-4-c5edc16b9ee2@bootlin.com>
+References: <20250610-feature_poe_port_prio-v13-0-c5edc16b9ee2@bootlin.com>
+	<20250610-feature_poe_port_prio-v13-4-c5edc16b9ee2@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250610215933.84795-1-l.rubusch@gmail.com> <20250610215933.84795-9-l.rubusch@gmail.com>
- <aErE0xmlm4qBHg03@smile.fi.intel.com> <20250614145528.2fb9bf3f@jic23-huawei>
-In-Reply-To: <20250614145528.2fb9bf3f@jic23-huawei>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 14 Jun 2025 22:02:23 +0300
-X-Gm-Features: AX0GCFt88bJw5nhB_CRIf29OKUbv23Mn_mR9u2ZKikXKpJjNPiYuXpbHZ0JYHrs
-Message-ID: <CAHp75VeJg1Vi_-h+-j9Udzwf+ySv9oj7t2Kq_8irM8KgPGQDhg@mail.gmail.com>
-Subject: Re: [PATCH v9 08/11] iio: accel: adxl345: add inactivity feature
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de, 
-	Michael.Hennerich@analog.com, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, corbet@lwn.net, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, eraretuya@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jun 14, 2025 at 4:55=E2=80=AFPM Jonathan Cameron <jic23@kernel.org>=
- wrote:
+On Tue, 10 Jun 2025 10:11:38 +0200 Kory Maincent wrote:
+> +static void __pse_pw_d_release(struct kref *kref)
+> +{
+> +	struct pse_power_domain *pw_d = container_of(kref,
+> +						     struct pse_power_domain,
+> +						     refcnt);
+> +
+> +	regulator_put(pw_d->supply);
+> +	xa_erase(&pse_pw_d_map, pw_d->id);
+> +}
+> +
+> +/**
+> + * pse_flush_pw_ds - flush all PSE power domains of a PSE
+> + * @pcdev: a pointer to the initialized PSE controller device
+> + */
+> +static void pse_flush_pw_ds(struct pse_controller_dev *pcdev)
+> +{
+> +	struct pse_power_domain *pw_d;
+> +	int i;
+> +
+> +	for (i = 0; i < pcdev->nr_lines; i++) {
+> +		if (!pcdev->pi[i].pw_d)
+> +			continue;
+> +
+> +		pw_d = xa_load(&pse_pw_d_map, pcdev->pi[i].pw_d->id);
+> +		if (!pw_d)
+> +			continue;
+> +
+> +		kref_put_mutex(&pw_d->refcnt, __pse_pw_d_release,
+> +			       &pse_pw_d_mutex);
+> +	}
+> +}
 
-...
-
-> > >     if (type =3D=3D ADXL345_ACTIVITY) {
-> > >             axis_ctrl =3D ADXL345_ACT_X_EN | ADXL345_ACT_Y_EN |
-> > >                             ADXL345_ACT_Z_EN;
-> > >     } else {
-> > > -           axis_ctrl =3D 0x00;
-> > > +           axis_ctrl =3D ADXL345_INACT_X_EN | ADXL345_INACT_Y_EN |
-> > > +                           ADXL345_INACT_Z_EN;
-> > >     }
-> >
-> > Now this can be as simple as
-> >
-> >       axis_ctrl =3D ADXL345_ACT_X_EN;
->
-> That flag is only set in the activity case.  Confused with ADXL345_INACT_=
-X_EN?
-> (initially I thought you'd run into a bug!)
-
-Ouch, you are right! Please, discard my above suggestion, it's indeed
-simply wrong.
-
-> >       if (type =3D=3D ADXL345_ACTIVITY)
-> >               axis_ctrl |=3D ADXL345_ACT_Y_EN | ADXL345_ACT_Z_EN;
-> >       else
-> >               axis_ctrl |=3D ADXL345_INACT_Y_EN | ADXL345_INACT_Z_EN;
-> >
-> > Yeah, I don't know how to make the diff better (it gets worse), but the=
- end
-> > result is better.
-> >
-> > One way, which I don't like much is to previously have this conditional=
- written as:
-> >
-> >       axis_ctrl =3D ADXL345_ACT_X_EN;
-> >       if (type =3D=3D ADXL345_ACTIVITY)
-> >               axis_ctrl |=3D ADXL345_ACT_Y_EN | ADXL345_ACT_Z_EN;
-> >       else
-> >               axis_ctrl =3D 0;
-> >
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+AFAIU the release function (__pse_pw_d_release) is supposed to release
+the mutex. 
