@@ -1,273 +1,533 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2616B6EB79;
-	Sat, 14 Jun 2025 09:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BF73FFD;
+	Sat, 14 Jun 2025 10:08:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749893609; cv=none; b=UUO4jJbID2HmIBjpfAwGKQNGEWn9uvkOkDiUCXwUGa7GWuf8qhhjyhUtDV9H5vzzDpuoJ90GnuCnZG3WLPhyxK31SPiaCzuMSE3rFP7SqxqT5gME0xgXI/Ss2csYA4Eds3w7OSA6ABAOZR3xBD9jIDBsXfiz+o7WcS0i0sfTXs0=
+	t=1749895702; cv=none; b=Get3d2aZPMPtNyJ9OQNrsmEFH/sIvgicv1oa8GV+t8tH8QeGBB0k3O/1YyPWubfWNpD7zGqK1M6P7Nt2tfTfNvmRohnYkMkO/Miwt2Us/kLk65KIWhoOwlSc4DlQ5Aj/VKEQo2HodRSbWUJiQnfN1/zsodf5XMLBJG7VXT7ImPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749893609; c=relaxed/simple;
-	bh=jqiRf5jpsYfPahTWJgkrFQNqWCksHEG0UZ4QVuvztrQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UKmfwhKhuSh5yWGvJRxFEQwApPDgmEWKBt3m584AV615kT03DV0rwIA6yjFgmO/n5VHo29YJalFmQpPrOeLLb2jg9ONuKU14ZBBNea0tAszHwXhYOoXCcbFdsxEjwStgu+oDWnKP9i9KTVOBRYlRJwPHUgPqYlY8H71u43RalG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R/5ir1rT; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749895702; c=relaxed/simple;
+	bh=LYUOXEwhIzg7MROvHrJQMLI06S8gu89x+0gLB8Lf6xk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aeC4upETJ0ps+9ZTdItdmjx1Ya4mD+27O+v0fQWfNnZFv4m/5mDIHthvyfNwVpycBPvKxN0JpBjeHlAhcXFB1Yaajo/BYu9eYQAqjCLbhN9Hg9Q73Hkb5f8VaPDB6JTX6GAaXzFycGIdD0CcETM/hxjW33aYEOelIvBVmui2Tpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d+/mslCZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/5ir1rT"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a4e575db1aso322135f8f.2;
-        Sat, 14 Jun 2025 02:33:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749893604; x=1750498404; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TUaqaUgH0UpGeWeQjj9qkPhsCQex5dp5zI7Y8+I2rfg=;
-        b=R/5ir1rTd9CngVwb8JMxQCkp31X9kGkwH9QeUBTzA8+3pQpZYbzQMYm3/JR28XWjx9
-         HDa0XP/T5l8aq8J9qnU3YVHBZCLunxjSgbieHaJGKAlf4fdGaoY0/jIyuUmpKIiEncP2
-         4JCDEg4kNhxf22iu1tCbaIN3IZ65vDRRC6hB/qIH+9HswjNVC65KspEfv+XOkmEGwSyd
-         2781u2cbHePgBrYGpWSCdGrVOV4wno+AmffkeS9x8/SrAV9Lv5MOagCjD7GK3hhOzz1E
-         aDxNaDPMGLmfhnhODXwOvP68kno6LByhEG6WkLR01EFXaG2KFLvCA5Y8aDgVuHz41vts
-         muJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749893604; x=1750498404;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TUaqaUgH0UpGeWeQjj9qkPhsCQex5dp5zI7Y8+I2rfg=;
-        b=aeTLRTvfYeSieC+qj4frnSrHXvu86H/32v8ZxWQwjD71e9/XCuL1d5amSgqS4qDMPz
-         6OMP+59wnjjqmniH97yfXE1iMiKDdBdukhF4wyY98Ei1jbQNarhrukf7UPnJ12dsozgf
-         76Y40IBBmmbWQeLluPhQUVZWwuCMADQNisAwFGXONBDzgJUD4xjCLy+iOMPpFs4H0Pwz
-         4/KbzmsYGdpb6NNdMUpfWWLry9X9dZU4prcAZTfx0YnXa2PSTbkLRb+xWAtzcRxf2YD9
-         WeJsYyiaSZzwMY3cz61MK7ICdWOndTz5XeQgyvXRoSGJPbz0cQC0GigoF6l99xs2YDn0
-         0V5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWELVo6OxoZjgGQitYbf7PcYOD3irlrRTS3RMQUlLR6NKD7hNNMEWGQKG4bd+yd8NtTIdD8FPSi6tW4Xo0=@vger.kernel.org, AJvYcCXFoOEhwk6vHFcQ1pTO1Smi2xi3/+p6VWe66cy2f14ihUP6iUJH2P8vMCwIlA4GiI0kmB/OnPtH@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7T02213oFVf90JdXLRQuUsqmer2eJA/LaQ/EpokprmVkvr7zO
-	qjEKF8Xjv9xRiY88/kEuuOEHuFQkO7IZAUbq4UPHfag/XMWs25NLr498
-X-Gm-Gg: ASbGncsv3/sBAtApUl3dvTUd3GGHBH9xulzeOuMb7bnuvhlaio67Vfi49ixWrNemdYd
-	UY6zvOm798XL0sgW7jY0UdC/vWfJk4yJyuhPEhUeqVlaeh5pr3znCUXJofj1sVvBB5nxTEbDKmj
-	z2CRyMELWwHhvc/48WnugJt1+LQ3hNrU0cgOpA29dYldhomI7ExV0xag8O63rsH91EhWQoGQnZs
-	U53e0SPFr7Sc/7kFXHPaBQNs+k1KJaxRY7gtC1hBEL9Syuo3qfE2vLXmuxkMHYlfQ+bax1BxW/K
-	sPQVvG/nRbt31h/gY0EZuLzpaw28Rb0WUzS5BWEI0X4A0W2AwB5tqR9PjA2bOnIPmdmPvtYghWQ
-	P4PLE6f1cFpCnwE+PkJegk5s=
-X-Google-Smtp-Source: AGHT+IHJrX1wpdGZCfj8uCpLbwDScjIUQkTycHTtdero5rVtXihT250rUm65T5ZgeEzHzxqe+XC6Zg==
-X-Received: by 2002:a05:6000:4211:b0:3a5:324a:89b5 with SMTP id ffacd0b85a97d-3a57238353emr927568f8f.8.1749893604029;
-        Sat, 14 Jun 2025 02:33:24 -0700 (PDT)
-Received: from localhost.localdomain ([154.182.223.70])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e256d95sm77332165e9.31.2025.06.14.02.33.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Jun 2025 02:33:23 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: corbet@lwn.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	horms@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	skhan@linuxfoundation.com,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v2 1/2] docs: net: sysctl documentation cleanup
-Date: Sat, 14 Jun 2025 12:33:06 +0300
-Message-Id: <20250614093306.66542-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d+/mslCZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29800C4CEEB;
+	Sat, 14 Jun 2025 10:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749895701;
+	bh=LYUOXEwhIzg7MROvHrJQMLI06S8gu89x+0gLB8Lf6xk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=d+/mslCZ1XbCeipCJ3vAS/hAOdDogRWH+NmJSzuwH8sujHMb12Uu4FoFS9ovGlasm
+	 aVGAuntT0L+hKRpP6Pd+iPq+xZIA9L0tz7BcY8B5x6cL83y8W1BBCKLPupChwmUQCl
+	 +DZV79oTheErAo9EqRTDE+dBtn/KLBW+kEBipj9MRBMTk0JI6MpRnFPdscAPD+uQe7
+	 JC3+gKsWFWDbF4JsZlby4d4Tqhv2w/+HjpMrQW0qEwEPhZpHcTKDPDTAqjbI65Un4D
+	 p/56oLEQ4MzXKMKAlLMK6tz6hCy9p1vna5onFEyM2GP4Utg5x4S31WtbE6EnSqvHyJ
+	 w0GvM1l9a2zmA==
+Date: Sat, 14 Jun 2025 11:08:12 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>,
+ Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, "Andy Shevchenko"
+ <andy@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <ukleinek@kernel.org>, <linux-iio@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>
+Subject: Re: [PATCH v3 4/8] iio: adc: Add support for ad4052
+Message-ID: <20250614110812.39af2c41@jic23-huawei>
+In-Reply-To: <20250610-iio-driver-ad4052-v3-4-cf1e44c516d4@analog.com>
+References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
+	<20250610-iio-driver-ad4052-v3-4-cf1e44c516d4@analog.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Changes in v2:
-- Deleted space before colon for consistency
-- Standardized more boolean representation (0/1 with enabled/disabled)
+On Tue, 10 Jun 2025 09:34:37 +0200
+Jorge Marques <jorge.marques@analog.com> wrote:
 
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
- Documentation/networking/ip-sysctl.rst | 47 ++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 10 deletions(-)
+> The AD4052/AD4058/AD4050/AD4056 are versatile, 16-bit/12-bit, successive
+> approximation register (SAR) analog-to-digital converter (ADC) that
+> enables low-power, high-density data acquisition solutions without
+> sacrificing precision. This ADC offers a unique balance of performance
+> and power efficiency, plus innovative features for seamlessly switching
+> between high-resolution and low-power modes tailored to the immediate
+> needs of the system. The AD4052/AD4058/AD4050/AD4056 are ideal for
+> battery-powered, compact data acquisition and edge sensing applications.
+> 
+> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+Hi Jorge,
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 0f1251cce314..68778532faa5 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -8,14 +8,16 @@ IP Sysctl
- ==============================
- 
- ip_forward - BOOLEAN
--	- 0 - disabled (default)
--	- not 0 - enabled
-+	- 0 (disabled)
-+	- not 0 (enabled)
- 
- 	Forward Packets between interfaces.
- 
- 	This variable is special, its change resets all configuration
- 	parameters to their default state (RFC1122 for hosts, RFC1812
- 	for routers)
-+
-+	Default: 0 (disabled)
- 
- ip_default_ttl - INTEGER
- 	Default value of TTL field (Time To Live) for outgoing (but not
-@@ -75,7 +77,7 @@ fwmark_reflect - BOOLEAN
- 	If unset, these packets have a fwmark of zero. If set, they have the
- 	fwmark of the packet they are replying to.
- 
--	Default: 0
-+	Default: 0 (disabled)
- 
- fib_multipath_use_neigh - BOOLEAN
- 	Use status of existing neighbor entry when determining nexthop for
-@@ -368,7 +370,7 @@ tcp_autocorking - BOOLEAN
- 	queue. Applications can still use TCP_CORK for optimal behavior
- 	when they know how/when to uncork their sockets.
- 
--	Default : 1
-+	Default: 1 (enabled)
- 
- tcp_available_congestion_control - STRING
- 	Shows the available congestion control choices that are registered.
-@@ -407,6 +409,12 @@ tcp_congestion_control - STRING
- 
- tcp_dsack - BOOLEAN
- 	Allows TCP to send "duplicate" SACKs.
-+
-+	Possible values:
-+		- 0 (disabled)
-+		- 1 (enabled)
-+
-+	Default: 1 (enabled)
- 
- tcp_early_retrans - INTEGER
- 	Tail loss probe (TLP) converts RTOs occurring due to tail
-@@ -623,6 +631,8 @@ tcp_no_metrics_save - BOOLEAN
- 	increases overall performance, but may sometimes cause performance
- 	degradation.  If set, TCP will not cache metrics on closing
- 	connections.
-+
-+	Default: 0 (disabled)
- 
- tcp_no_ssthresh_metrics_save - BOOLEAN
- 	Controls whether TCP saves ssthresh metrics in the route cache.
-@@ -684,6 +694,8 @@ tcp_retrans_collapse - BOOLEAN
- 	Bug-to-bug compatibility with some broken printers.
- 	On retransmit try to send bigger packets to work around bugs in
- 	certain TCP stacks.
-+
-+	Default: 1 (enabled)
- 
- tcp_retries1 - INTEGER
- 	This value influences the time, after which TCP decides, that
-@@ -739,6 +751,8 @@ tcp_rmem - vector of 3 INTEGERs: min, default, max
- 
- tcp_sack - BOOLEAN
- 	Enable select acknowledgments (SACKS).
-+
-+	Default: 1 (enabled)
- 
- tcp_comp_sack_delay_ns - LONG INTEGER
- 	TCP tries to reduce number of SACK sent, using a timer
-@@ -766,7 +780,7 @@ tcp_backlog_ack_defer - BOOLEAN
- 	one ACK for the whole queue. This helps to avoid potential
- 	long latencies at end of a TCP socket syscall.
- 
--	Default : true
-+	Default: 1 (enabled)
- 
- tcp_slow_start_after_idle - BOOLEAN
- 	If set, provide RFC2861 behavior and time out the congestion
-@@ -781,7 +795,7 @@ tcp_stdurg - BOOLEAN
- 	Most hosts use the older BSD interpretation, so if you turn this on
- 	Linux might not communicate correctly with them.
- 
--	Default: FALSE
-+	Default: 0 (disabled)
- 
- tcp_synack_retries - INTEGER
- 	Number of times SYNACKs for a passive TCP connection attempt will
-@@ -1018,6 +1032,10 @@ tcp_tw_reuse_delay - UNSIGNED INTEGER
- 
- tcp_window_scaling - BOOLEAN
- 	Enable window scaling as defined in RFC1323.
-+	- 0 (disabled)
-+	- 1 (enabled)
-+
-+	Default: 1 (enabled)
- 
- tcp_shrink_window - BOOLEAN
- 	This changes how the TCP receive window is calculated.
-@@ -1160,7 +1178,7 @@ tcp_plb_enabled - BOOLEAN
- 	congestion measure (e.g. ce_ratio). PLB needs a congestion measure to
- 	make repathing decisions.
- 
--	Default: FALSE
-+	Default: 0 (disabled)
- 
- tcp_plb_idle_rehash_rounds - INTEGER
- 	Number of consecutive congested rounds (RTT) seen after which
-@@ -1352,7 +1370,7 @@ cipso_rbm_optfmt - BOOLEAN
- 
- 	Default: 0
- 
--cipso_rbm_structvalid - BOOLEAN
-+cipso_rbm_strictvalid - BOOLEAN
- 	If set, do a very strict check of the CIPSO option when
- 	ip_options_compile() is called.  If unset, relax the checks done during
- 	ip_options_compile().  Either way is "safe" as errors are caught else
-@@ -1543,7 +1561,7 @@ icmp_ignore_bogus_error_responses - BOOLEAN
- 	If this is set to TRUE, the kernel will not give such warnings, which
- 	will avoid log file clutter.
- 
--	Default: 1
-+	Default: 1 (enabled)
- 
- icmp_errors_use_inbound_ifaddr - BOOLEAN
- 
-@@ -1560,7 +1578,7 @@ icmp_errors_use_inbound_ifaddr - BOOLEAN
- 	then the primary address of the first non-loopback interface that
- 	has one will be used regardless of this setting.
- 
--	Default: 0
-+	Default: 0 (disabled)
- 
- igmp_max_memberships - INTEGER
- 	Change the maximum number of multicast groups we can subscribe to.
-@@ -1933,10 +1951,15 @@ mcast_resolicit - INTEGER
- 
- disable_policy - BOOLEAN
- 	Disable IPSEC policy (SPD) for this interface
-+
-+	Default: 0
-+
- 
- disable_xfrm - BOOLEAN
- 	Disable IPSEC encryption on this interface, whatever the policy
- 
-+	Default: 0
-+
- igmpv2_unsolicited_report_interval - INTEGER
- 	The interval in milliseconds in which the next unsolicited
- 	IGMPv1 or IGMPv2 report retransmit will take place.
-@@ -1951,11 +1974,15 @@ igmpv3_unsolicited_report_interval - INTEGER
- 
- ignore_routes_with_linkdown - BOOLEAN
-         Ignore routes whose link is down when performing a FIB lookup.
-+
-+        Default: 0 (disabled)
- 
- promote_secondaries - BOOLEAN
- 	When a primary IP address is removed from this interface
- 	promote a corresponding secondary IP address instead of
- 	removing all the corresponding secondary IP addresses.
-+
-+	Default: 0 (disabled)
- 
- drop_unicast_in_l2_multicast - BOOLEAN
- 	Drop any unicast IP packets that are received in link-layer
--- 
-2.25.1
+Various minor comments inline.
 
+Jonathan
+
+> diff --git a/drivers/iio/adc/ad4052.c b/drivers/iio/adc/ad4052.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..842f5972a1c58701addf5243e7b87da9c26c773f
+> --- /dev/null
+> +++ b/drivers/iio/adc/ad4052.c
+> @@ -0,0 +1,1083 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Analog Devices AD4052 SPI ADC driver
+> + *
+> + * Copyright 2025 Analog Devices Inc.
+> + */
+> +#include <linux/array_size.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/bitops.h>
+> +#include <linux/completion.h>
+> +#include <linux/delay.h>
+> +#include <linux/err.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/iio/iio.h>
+> +#include <linux/iio/sysfs.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/math.h>
+> +#include <linux/minmax.h>
+
+whilst I've asked you to drop the of specific code, the
+absences of an appropriate header here makes me thing you
+should take another look at these.  
+
+> +#include <linux/pm_runtime.h>
+> +#include <linux/property.h>
+> +#include <linux/pwm.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/spi/spi.h>
+> +#include <linux/string.h>
+> +#include <linux/types.h>
+> +#include <linux/units.h>
+> +#include <linux/unaligned.h>
+> +#include <dt-bindings/iio/adc/adi,ad4052.h>
+
+
+> +
+> +struct ad4052_chip_info {
+> +	const struct iio_chan_spec channels[1];
+
+As below. If it's always one drop the array.
+
+> +	const char *name;
+> +	u16 prod_id;
+> +	u8 max_avg;
+> +	u8 grade;
+> +};
+
+> +};
+> +
+> +struct ad4052_state {
+> +	const struct ad4052_bus_ops *ops;
+> +	const struct ad4052_chip_info *chip;
+> +	enum ad4052_operation_mode mode;
+> +	struct spi_device *spi;
+> +	struct pwm_device *cnv_pwm;
+> +	struct pwm_state pwm_st;
+> +	struct spi_transfer xfer;
+> +	struct gpio_desc *cnv_gp;
+> +	struct completion completion;
+> +	struct regmap *regmap;
+> +	u16 oversampling_frequency;
+> +	int gp1_irq;
+> +	int vio_uv;
+> +	int vref_uv;
+> +	u8 reg_tx[3];
+
+These look to also be used in spi transactions?  As such don't the
+need to be IIO_DMA_MINALIGN?   Fine to have all these with just one
+marking but it needs to be on the first one used in this fashion and you need
+to be sure that they are all protected by an appropriate lock.
+SYSFS access can race and the bus lock isn't sufficient as it only protects
+the actual bus, not the buffers passed.  Also don't rely on core locking
+(i.e. claim direct etc) because whether they prevent multiple users is an
+implementation detail of the core and shouldn't be relied on by users.
+They are only guaranteed to hold the buffer / direct state.
+
+> +	u8 reg_rx[3];
+> +	u8 raw[4] __aligned(IIO_DMA_MINALIGN);
+> +	u8 buf_reset_pattern[18];
+> +};
+
+
+> +
+> +#define AD4052_CHAN(bits, grade) {							\
+> +	.type = IIO_VOLTAGE,								\
+> +	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_RAW) |				\
+> +				    BIT(IIO_CHAN_INFO_SCALE) |				\
+> +				    BIT(IIO_CHAN_INFO_CALIBSCALE) |			\
+> +				    BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),		\
+> +	.info_mask_shared_by_type_available = BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),	\
+> +	.indexed = 1,									\
+> +	.channel = 0,									\
+> +	.has_ext_scan_type = 1,								\
+> +	.ext_scan_type = ad4052_scan_type_##bits##_s,					\
+> +	.num_ext_scan_type = ARRAY_SIZE(ad4052_scan_type_##bits##_s),			\
+> +	.ext_info = grade##_ext_info,							\
+> +}
+> +
+> +#define AD4052_OFFLOAD_CHAN(bits, grade) {						\
+
+Not used in this patch I think.  Push it to the later one.
+
+> +	.type = IIO_VOLTAGE,								\
+> +	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_RAW) |				\
+> +				    BIT(IIO_CHAN_INFO_SCALE) |				\
+> +				    BIT(IIO_CHAN_INFO_CALIBSCALE) |			\
+> +				    BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO) |		\
+> +				    BIT(IIO_CHAN_INFO_SAMP_FREQ),			\
+> +	.info_mask_shared_by_type_available = BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),	\
+> +	.indexed = 1,									\
+> +	.channel = 0,									\
+> +	.has_ext_scan_type = 1,								\
+> +	.ext_scan_type = ad4052_scan_type_##bits##_s,					\
+> +	.num_ext_scan_type = ARRAY_SIZE(ad4052_scan_type_##bits##_s),			\
+> +	.ext_info = grade##_ext_info,							\
+> +}
+> +
+> +static const struct ad4052_chip_info ad4050_chip_info = {
+> +	.name = "ad4050",
+> +	.channels = { AD4052_CHAN(12, AD4052_2MSPS) },
+
+Are we ever going to have more than 1?  Maybe just use channel and drop the array part.
+
+> +	.prod_id = 0x70,
+> +	.max_avg = AD4050_MAX_AVG,
+> +	.grade = AD4052_2MSPS,
+> +};
+> +
+> +static const struct ad4052_chip_info ad4052_chip_info = {
+> +	.name = "ad4052",
+> +	.channels = { AD4052_CHAN(16, AD4052_2MSPS) },
+> +	.prod_id = 0x72,
+> +	.max_avg = AD4052_MAX_AVG,
+> +	.grade = AD4052_2MSPS,
+> +};
+> +
+> +static const struct ad4052_chip_info ad4056_chip_info = {
+> +	.name = "ad4056",
+> +	.channels = { AD4052_CHAN(12, AD4052_500KSPS) },
+> +	.prod_id = 0x76,
+> +	.max_avg = AD4050_MAX_AVG,
+> +	.grade = AD4052_500KSPS,
+> +};
+> +
+> +static const struct ad4052_chip_info ad4058_chip_info = {
+> +	.name = "ad4058",
+> +	.channels = { AD4052_CHAN(16, AD4052_500KSPS) },
+> +	.prod_id = 0x78,
+> +	.max_avg = AD4052_MAX_AVG,
+> +	.grade = AD4052_500KSPS,
+> +};
+> +
+> +static int ad4052_update_xfer_raw(struct iio_dev *indio_dev,
+> +				   struct iio_chan_spec const *chan)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	const struct iio_scan_type *scan_type;
+> +	struct spi_transfer *xfer = &st->xfer;
+> +
+> +	scan_type = iio_get_current_scan_type(indio_dev, chan);
+> +	if (IS_ERR(scan_type))
+> +		return PTR_ERR(scan_type);
+> +
+> +	xfer->rx_buf = st->raw;
+> +	xfer->bits_per_word = scan_type->realbits;
+> +	xfer->len = scan_type->realbits == 24 ? 4 : 2;
+
+This is a little odd. I'm not sure what happens with len not dividing
+into a whole number of bits per word chunks.
+Maybe a comment?
+
+> +	xfer->speed_hz = AD4052_SPI_MAX_ADC_XFER_SPEED(st->vio_uv);
+> +
+> +	return 0;
+> +}
+
+
+> +static int ad4052_exit_command(struct ad4052_state *st)
+> +{
+> +	struct spi_device *spi = st->spi;
+> +	const u8 val = 0xA8;
+> +
+> +	return spi_write(spi, &val, 1);
+
+Even a one byte spi_write() requires a DMA safe buffer.
+Feel free to use spi_write_then_read() with zero size read as that doesn't
+need dma safety.
+
+> +}
+
+> +static int ad4052_set_sampling_freq(struct ad4052_state *st, unsigned int freq)
+> +{
+> +	const u32 start = 1;
+
+Only used in the check so why the local variable? Maybe this makes sense in
+later patches in which case fine to leave it here.
+
+> +
+> +	if (!in_range(freq, start, AD4052_MAX_RATE(st->chip->grade)))
+> +		return -EINVAL;
+> +
+> +	st->pwm_st.period = DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
+> +	return pwm_apply_might_sleep(st->cnv_pwm, &st->pwm_st);
+> +}
+
+
+> +static int ad4052_setup(struct iio_dev *indio_dev, struct iio_chan_spec const *chan,
+> +			const bool *ref_sel)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	const struct iio_scan_type *scan_type;
+> +	int ret;
+> +
+> +	scan_type = iio_get_current_scan_type(indio_dev, chan);
+> +	if (IS_ERR(scan_type))
+> +		return PTR_ERR(scan_type);
+> +
+> +	u8 val = FIELD_PREP(AD4052_REG_GP_CONF_MODE_MSK_0, AD4052_GP_INTR) |
+
+Declarations still at the top (unless doing cleanup.h stuff)
+
+> +		 FIELD_PREP(AD4052_REG_GP_CONF_MODE_MSK_1, AD4052_GP_DRDY);
+> +
+> +	ret = regmap_update_bits(st->regmap, AD4052_REG_GP_CONF,
+> +				 AD4052_REG_GP_CONF_MODE_MSK_1 | AD4052_REG_GP_CONF_MODE_MSK_0,
+> +				 val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	val = FIELD_PREP(AD4052_REG_INTR_CONF_EN_MSK_0, (AD4052_INTR_EN_EITHER)) |
+> +	      FIELD_PREP(AD4052_REG_INTR_CONF_EN_MSK_1, (AD4052_INTR_EN_NEITHER));
+
+Excess brackets. Also why set this here to write it many lines later?
+
+> +
+> +	if (st->chip->grade == AD4052_500KSPS) {
+> +		ret = regmap_write(st->regmap, AD4052_REG_TIMER_CONFIG,
+> +				   FIELD_PREP(AD4052_REG_TIMER_CONFIG_FS_MASK,
+> +					      AD4052_REG_TIMER_CONFIG_300KSPS));
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ret = regmap_update_bits(st->regmap, AD4052_REG_ADC_MODES,
+> +				 AD4052_REG_ADC_CONFIG_REF_EN_MSK,
+> +				 FIELD_PREP(AD4052_REG_ADC_CONFIG_REF_EN_MSK,
+> +					    *ref_sel));
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(st->regmap, AD4052_REG_DEVICE_STATUS,
+> +			   AD4052_REG_DEVICE_STATUS_DEVICE_RESET);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return regmap_update_bits(st->regmap, AD4052_REG_INTR_CONF,
+> +				  AD4052_REG_INTR_CONF_EN_MSK_0 | AD4052_REG_INTR_CONF_EN_MSK_1,
+> +				  val);
+> +}
+
+
+
+> +static int __ad4052_read_chan_raw(struct ad4052_state *st, int *val)
+> +{
+> +	struct spi_device *spi = st->spi;
+> +	struct spi_transfer t_cnv = {};
+> +	int ret;
+> +
+> +	reinit_completion(&st->completion);
+> +
+> +	if (st->cnv_gp) {
+> +		gpiod_set_value_cansleep(st->cnv_gp, 1);
+> +		gpiod_set_value_cansleep(st->cnv_gp, 0);
+> +	} else {
+> +		ret = spi_sync_transfer(spi, &t_cnv, 1);
+
+Add a comment for this.   I can't immediately spot documentation on what
+a content free transfer actually does.  I assume pulses the chip select?
+is that true for all SPI controllers?
+
+> +		if (ret)
+> +			return ret;
+> +	}
+> +	/*
+> +	 * Single sample read should be used only for oversampling and
+> +	 * sampling frequency pairs that take less than 1 sec.
+> +	 */
+> +	if (st->gp1_irq) {
+> +		ret = wait_for_completion_timeout(&st->completion,
+> +						  msecs_to_jiffies(1000));
+> +		if (!ret)
+> +			return -ETIMEDOUT;
+> +	}
+> +
+> +	ret = spi_sync_transfer(spi, &st->xfer, 1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (st->xfer.len == 2)
+> +		*val = sign_extend32(*(u16 *)(st->raw), 15);
+> +	else
+> +		*val = sign_extend32(*(u32 *)(st->raw), 23);
+> +
+> +	return ret;
+> +}
+
+> +
+> +static int ad4052_read_raw(struct iio_dev *indio_dev,
+> +			   struct iio_chan_spec const *chan, int *val,
+> +			   int *val2, long info)
+> +{
+> +	int ret;
+> +
+> +	if (info ==  IIO_CHAN_INFO_SAMP_FREQ)
+> +		return ad4052_get_samp_freq(indio_dev, chan, val, val2);
+> +	else if (info == IIO_CHAN_INFO_SCALE)
+
+if (info == IIO_CHAN_INFO_SCALE) as you returned in the if above.
+
+
+Or just make it a switch statement with default: covering the rest
+of the cases.
+
+> +		return ad4052_get_chan_scale(indio_dev, chan, val, val2);
+> +
+> +	if (!iio_device_claim_direct(indio_dev))
+> +		return -EBUSY;
+> +
+> +	ret = ad4052_read_raw_dispatch(indio_dev, chan, val, val2, info);
+> +	iio_device_release_direct(indio_dev);
+> +	return ret ? ret : IIO_VAL_INT;
+> +}
+
+> +
+> +static int ad4052_debugfs_reg_access(struct iio_dev *indio_dev, unsigned int reg,
+> +				     unsigned int writeval, unsigned int *readval)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	int ret;
+> +
+> +	if (!iio_device_claim_direct(indio_dev))
+
+For these guards in the debugfs callback, please add a comment on why they
+are needed.   We've had a lot of questions about these recently and I'd
+like it to be clear to people when they should cut and paste these and when
+not.
+
+> +		return -EBUSY;
+> +
+> +	if (readval)
+> +		ret = regmap_read(st->regmap, reg, readval);
+> +	else
+> +		ret = regmap_write(st->regmap, reg, writeval);
+> +	iio_device_release_direct(indio_dev);
+> +	return ret;
+> +}
+
+> +static int __ad4052_validate_trigger_sources(struct of_phandle_args *trigger_sources)
+> +{
+> +	switch (trigger_sources->args[1]) {
+> +	case AD4052_TRIGGER_PIN_GP1:
+> +		return trigger_sources->args[0] == AD4052_TRIGGER_EVENT_DATA_READY ?
+> +		       0 : -EINVAL;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int ad4052_validate_trigger_sources(struct iio_dev *indio_dev)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	struct of_phandle_args trigger_sources;
+> +	struct device_node *np;
+> +	int ret;
+> +
+> +	np = st->spi->dev.of_node;
+> +	ret = of_parse_phandle_with_args(np, "trigger-sources",
+> +					 "#trigger-source-cells", 0,
+> +					 &trigger_sources);
+
+Can we use fwnode_property_get_reference_args() here?
+Ideally we don't use of specific code in drivers.
+
+TWith that use dev_fnwode() to get the more generic representation.
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = __ad4052_validate_trigger_sources(&trigger_sources);
+> +	of_node_put(trigger_sources.np);
+> +	return ret;
+> +}
+> +
+> +static int ad4052_regulators_get(struct ad4052_state *st, bool *ref_sel)
+> +{
+> +	struct device *dev = &st->spi->dev;
+> +	int uv;
+> +
+> +	st->vio_uv = devm_regulator_get_enable_read_voltage(dev, "vio");
+> +	if (st->vio_uv < 0)
+> +		return dev_err_probe(dev, st->vio_uv,
+> +				     "Failed to enable and read vio voltage\n");
+> +
+> +	uv = devm_regulator_get_enable_read_voltage(dev, "vdd");
+> +	if (uv < 0)
+> +		return dev_err_probe(dev, uv,
+> +				     "Failed to enable vdd regulator\n");
+> +
+> +	st->vref_uv = devm_regulator_get_enable_read_voltage(dev, "ref");
+> +	*ref_sel = st->vref_uv == -ENODEV;
+> +	if (st->vref_uv == -ENODEV)
+> +		st->vref_uv = uv;
+
+We probably don't care but we could support only enabling vdd if we aren't
+using it's voltage.  That would allow a fake regulator if a board didn't
+supply it (as always on).  Bit of an odd corner case though to rely on a stub
+for that one but require the other regulators. Hence this is more of a comment
+than a reason to change anything!
+
+> +	else if (st->vref_uv < 0)
+> +		return dev_err_probe(dev, st->vref_uv,
+> +				     "Failed to enable and read ref voltage\n");
+> +	return 0;
+> +}
+
+
+> +
+> +static int ad4052_runtime_resume(struct device *dev)
+> +{
+> +	struct ad4052_state *st = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = regmap_clear_bits(st->regmap, AD4052_REG_DEVICE_CONFIG,
+> +				AD4052_REG_DEVICE_CONFIG_POWER_MODE_MSK);
+> +
+> +	fsleep(4000);
+I doesn't hugely matter as we don't expect an error, but normal approx
+assumption of a regmap call failing is that we have lost comms with the chip
+and in that case we just error out fast.  
+
+	if (ret)
+		return ret;
+
+	fsleep(4000);
+
+	return 0;
+
+would reflect that handling.
+
+> +	return ret;
+> +}
