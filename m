@@ -1,151 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C757B175A5;
-	Sat, 14 Jun 2025 10:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595F21F2C45
+	for <linux-doc@vger.kernel.org>; Sat, 14 Jun 2025 10:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749897385; cv=none; b=Il118XBUfOU67Bk3wqUB7qgk44R1lrsdHbYC9Z1I9BDuaFn7Lb9UZpLMhZP7ru1+BxQKsWdSJ3LL2449uhXztpnLN0DRjjYaiJE6xzre+ek8/cxRtzheT6M6zws8R9O28DH6wbUjo+CC6/+YOGDRJ+aEP7n/3lRUwlqzwaTUUuo=
+	t=1749897568; cv=none; b=nVAHSa7seeqoUzt7UvsPP1Jf/hMJsW3nT45rF/ZJs67b0RokDGmcvlKQkQZsNoP3E+livS+Zxkdyp4BpFwufHw1cSSNnIh+y6rpQdlasLCnKcDvosaGwg6OiBb6HLsa7ApdDn3Pg1Z9x6SVxbydIk+2mhrrmBoYxPBl1lZpYuRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749897385; c=relaxed/simple;
-	bh=as6jP1DxC+RFLBHeiO5K9WM7RCKivV22V+29vSgyenA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AqZyUkUECIySbq7QHggjUAxxNzE+lGR2JWMmLwOiRk6/z4BNjVzGNhTFleLT75OCVwiWdrcp0eNPgLfFk90Os6ndcnS9TecXTBBkaB0ACdTUwhy47EgrlJ56jQy0XTN+FcFkjgjFA2bBdKaTB9fkXWqzyr0qsuGC3qg7U+T9+BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xt+mCH+h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749897568; c=relaxed/simple;
+	bh=ljuppTqyX9qOD/vtLwotTaA9fqBjfssPGpbLtG8Pjsk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D2i3b29Gy9mP/69Xh/IjQbj7HvGBNuBogW7CBl4yYflgwOdLCbv9jq7C6kgw/w8uD/KpTn23sHidjVcE8fWxqXOfgPgoh1L6havnaR8KESUPdXFADAUYu2SrLhFmPwwiKvllSxdqFt09V0uYvSGZnD9xLwelvjp6uqaKO3kBrMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZLUChVXM; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xt+mCH+h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23AA3C4CEEB;
-	Sat, 14 Jun 2025 10:36:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749897385;
-	bh=as6jP1DxC+RFLBHeiO5K9WM7RCKivV22V+29vSgyenA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Xt+mCH+haSeQ4kUW2plHlus8Xzir9ynuAnKPyUJqmQa7b4YpLa1Yeh1RPJX8qnjO0
-	 +2Jd8cJVFf/bFhvjHmgFdQtyWNj+z8BkKQ7K690rMFer7BA4VvrrQol73HrP0Aad7V
-	 d8728DhRcb958HVLkROag4TGXaqIEaaIbaLizlfsgSnS99xClSPMKqSq7+HGeCfkTB
-	 vwZCjFOCBeFG/IMJAQvlLqBoSFZGX8yhbuhXk/Cb5Fo6Mu0MiIPzvLSf0skp+/iCXn
-	 pDYjkJzTkjSh9Db/mjPROb9E4CUhF6FYN9tr+crM+PrJyeyT697mQF2qouxHapy13s
-	 upLB0MIad5K+Q==
-Date: Sat, 14 Jun 2025 11:36:16 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko
- <andy@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <ukleinek@kernel.org>, <linux-iio@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>
-Subject: Re: [PATCH v3 8/8] iio: adc: Add events support to ad4052
-Message-ID: <20250614113616.4663269f@jic23-huawei>
-In-Reply-To: <20250610-iio-driver-ad4052-v3-8-cf1e44c516d4@analog.com>
-References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
-	<20250610-iio-driver-ad4052-v3-8-cf1e44c516d4@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZLUChVXM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1749897565;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mfJRAujRjuGi7KQbNecOBzzOmJkqRWWoAoZaJP2IUfQ=;
+	b=ZLUChVXMiqWrkCyec8HRcmdi1gkuickRh6CJ+TXGSq1pnoPBApe7fg2UCelHdjCkrlKSkg
+	qlPcfwT4nPBPLk/xJNS8N5Lxl9MxvArpj6OqbGanicgN7E+YJB9/zDJ98SlV4ulukxdXLU
+	fDI3jBC/YzoQ+LTDWV+nZO7nXRGPtL8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-161-G2aoBe6gMUuwFE-f18DMzQ-1; Sat,
+ 14 Jun 2025 06:39:22 -0400
+X-MC-Unique: G2aoBe6gMUuwFE-f18DMzQ-1
+X-Mimecast-MFC-AGG-ID: G2aoBe6gMUuwFE-f18DMzQ_1749897560
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4BA721800289;
+	Sat, 14 Jun 2025 10:39:19 +0000 (UTC)
+Received: from [10.45.224.53] (unknown [10.45.224.53])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 51270180045B;
+	Sat, 14 Jun 2025 10:39:10 +0000 (UTC)
+Message-ID: <00780331-37cb-48ae-bb87-06d21a9ec4d1@redhat.com>
+Date: Sat, 14 Jun 2025 12:39:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants during
+ probe
+To: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Vadim Fedorenko
+ <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Shannon Nelson <shannon.nelson@amd.com>, Dave Jiang <dave.jiang@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
+References: <20250612200145.774195-7-ivecera@redhat.com>
+ <202506140541.KcP4ErN5-lkp@intel.com>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <202506140541.KcP4ErN5-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Tue, 10 Jun 2025 09:34:41 +0200
-Jorge Marques <jorge.marques@analog.com> wrote:
 
-> The AD4052 family supports autonomous monitoring readings for threshold
-> crossings. Add support for catching the GPIO interrupt and expose as an IIO
-> event. The device allows to set either, rising and falling directions. Only
-> either threshold crossing is implemented.
+
+On 13. 06. 25 11:46 odp., kernel test robot wrote:
+> Hi Ivan,
 > 
-> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-Hi Jorge,
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on net-next/main]
+> 
+> url:https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dt-bindings- 
+> dpll-Add-DPLL-device-and-pin/20250613-041005
+> base:   net-next/main
+> patch link:https://lore.kernel.org/r/20250612200145.774195-7-ivecera%40redhat.com
+> patch subject: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants during probe
+> config: alpha-randconfig-r061-20250614 (https://download.01.org/0day-ci/archive/20250614/202506140541.KcP4ErN5- 
+> lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 10.5.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot<lkp@intel.com>
+> | Closes:https://lore.kernel.org/oe-kbuild-all/202506140541.KcP4ErN5-lkp@intel.com/
 
-A few comments inline.
+Jakub, Dave, Paolo,
+should I fix this in v10 or in a follow-up in the part 2?
 
-Jonathan
+Thanks,
+Ivan
 
->
-> +
-> +static int ad4052_write_event_config(struct iio_dev *indio_dev,
-> +				     const struct iio_chan_spec *chan,
-> +				     enum iio_event_type type,
-> +				     enum iio_event_direction dir,
-> +				     bool state)
-> +{
-> +	struct ad4052_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	if (!iio_device_claim_direct(indio_dev))
-> +		return -EBUSY;
-> +	if (st->wait_event == state) {
-> +		ret = 0;
-
-Feels like a case where init ret at declaration would be reasonable.
-
-> +		goto out_release;
-> +	}
-> +
-> +	if (state)
-> +		ret = ad4052_monitor_mode_enable(st);
-> +	else
-> +		ret = ad4052_monitor_mode_disable(st);
-> +
-> +	if (!ret)
-> +		st->wait_event = state;
-> +
-> +out_release:
-> +	iio_device_release_direct(indio_dev);
-> +	return ret;
-> +}
-
-> +
-> +static int ad4052_read_event_value(struct iio_dev *indio_dev,
-> +				   const struct iio_chan_spec *chan,
-> +				   enum iio_event_type type,
-> +				   enum iio_event_direction dir,
-> +				   enum iio_event_info info, int *val,
-> +				   int *val2)
-> +{
-> +	struct ad4052_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	if (!iio_device_claim_direct(indio_dev))
-> +		return -EBUSY;
-> +
-> +	if (st->wait_event) {
-> +		ret = -EBUSY;
-> +		goto out_release;
-
-Not being able to read event parameters whilst monitoring them seems
-very restrictive.  Can't we cache the values?  Either play games to ensure
-we get them from the regmap cache or just cache these few values in st.
-
-Checking what you are monitoring for feels like the sort of thing
-userspace might well do.
-
-Even blocking changing the monitoring parameters is unusually strict.
-Why not just drop out of monitor mode, update them and go back in?
-
-
-> +	}
-> +
-> +	switch (info) {
-> +	case IIO_EV_INFO_VALUE:
-> +		ret = __ad4052_read_event_info_value(st, dir, val);
-> +		break;
-> +	case IIO_EV_INFO_HYSTERESIS:
-> +		ret = __ad4052_read_event_info_hysteresis(st, dir, val);
-> +		break;
-> +	default:
-> +		ret = -EINVAL;
-> +		break;
-> +	}
-> +
-> +out_release:
-> +	iio_device_release_direct(indio_dev);
-> +	return ret ? ret : IIO_VAL_INT;
-> +}
