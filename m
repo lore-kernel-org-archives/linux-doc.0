@@ -1,109 +1,144 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531A7199237;
-	Sat, 14 Jun 2025 15:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA766D17;
+	Sat, 14 Jun 2025 15:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749914988; cv=none; b=rk82xp0b5vd/UxWMqnphP/EyZ1Q8zdsaj4HQdexWQENRKfEYOd+NDP6yHgs2JcYdSFXBbobfo8jqvZmWMJYYg+LlmbF6NQkBXGt4/vZz9HJKfcFxKav0D93JzBKW8EWqmcovGHu59TLc93H90DIc/gJKxLLiXW+FrraX9UnNdBI=
+	t=1749915163; cv=none; b=uP4VMD0Yqdu0/UdTaNYrJFnZ5JkDfrBySu0IYa2+59MyvJFNYKkwt1UBty1c31gjs54MfYQz0JoGiXAqBCYq29Yh4qIzPo53DcBzfukzH3pLa7iudZ60HPPgROmVHu6Es5rX7ASSsjgIUV+EnjfKbdFeTO7uOIFRBlZy0sWXTas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749914988; c=relaxed/simple;
-	bh=sOwMNuJEdfd/K0ZPJ4x0GcUMZcgwNKbSvXW3wTt/x9Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xg3ntk8yfcKgEE6sHQUrDKVsKt22mHg1uXo/md9Go+Oyt13PQOmocMUOj2SD4cOrnmilYNvbsdev5YWfhh5JKmXKNyhrIxzCZRr2c1Xvh+em1lPRc8GrGBcTR+8R7lBXNgd5hifIPo03w5y5+3EeQBDp3zn6sZl8IXXAjPpESCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=SG/+hmA2; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1749915163; c=relaxed/simple;
+	bh=wt5VV4iKKzOPs6a/o9sxhm0l0iwSY7AAKCodzPrgKt4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HZ5XhfZPX+zjQPgxk/D1lgRmGy+gOn6jSWv5bSQF1MlvwB+2IObANKxq9a+6h2Z82O2TJSJyLxmERDRHIuEL4y7gMaM2gMeASsgMr83btlUh8n6wDPyM0a30bKIALdWQbzDNs7g0gSw1O0budb4110tz93geTILtRK/8hiVeqXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TEORoHrG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="SG/+hmA2"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55E7Sbgw020426;
-	Sat, 14 Jun 2025 15:29:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=vFZDX8D7J77H7E2WhOp55VohA1juamykVyStQitET
-	aw=; b=SG/+hmA2aqDSaF8wqrYSl3+7V9jfGGF+u6Cl17tQ9UashiQQNMf9pXzxP
-	LCkrbZ7/tEfsJF79kEA3ADPc6y28mmwaG4oEIxFK5VW2vEsoEpuVAniu4aRBks7v
-	YHaTBhOGOSiOXqpw5FYOjDbk7EDfR5QTWL/iryS4ZwjrIzTPlhGs8c3uoSXEUAtg
-	BV8ul6CisyPvX8hLm0vgPKpLTfAF42nsDeNbieQh+CrfWbZjXrIG1BV63f0Dc+sd
-	Vzvd5gvulQdfOVZMFS424aV2ntffKimawbnlHWaQYXk/BriAzpORL9up1ir6+qVO
-	WBUAEmxHIGAE43USjFw5A98fQPTEQ==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4794qns612-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 14 Jun 2025 15:29:35 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 55ED69mM015168;
-	Sat, 14 Jun 2025 15:29:34 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 474yrtybcj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 14 Jun 2025 15:29:34 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 55EFTWFd38535606
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 14 Jun 2025 15:29:33 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E32F02004E;
-	Sat, 14 Jun 2025 15:29:32 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E7BCE20040;
-	Sat, 14 Jun 2025 15:29:29 +0000 (GMT)
-Received: from li-c439904c-24ed-11b2-a85c-b284a6847472.ibm.com.com (unknown [9.43.102.158])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat, 14 Jun 2025 15:29:29 +0000 (GMT)
-From: Madhavan Srinivasan <maddy@linux.ibm.com>
-To: corbet@lwn.net
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        Madhavan Srinivasan <maddy@linux.ibm.com>
-Subject: [PATCH] Documentation: embargoed-hardware-issues.rst: Add myself for Power
-Date: Sat, 14 Jun 2025 20:59:24 +0530
-Message-ID: <20250614152925.82831-1-maddy@linux.ibm.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TEORoHrG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE840C4CEEB;
+	Sat, 14 Jun 2025 15:32:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749915162;
+	bh=wt5VV4iKKzOPs6a/o9sxhm0l0iwSY7AAKCodzPrgKt4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TEORoHrGYSPL1PZ6TDYbQb+3hSK3gdnNckKqJIgbcFsh7TFztCECCuLARbk1TthE3
+	 8ju4x3PunSUqdBD5YBsVp8++WUXCEKfw5Zyw2cFpw64+bJ+em0JMx7gUMYozWesxtj
+	 cUe2RwapqfQ0BEG5G+NPpYJOgOhtsiqvcbG43BDw52s/gM1PuX6SlxWuXpBG0YZyfs
+	 tsMakaqtY6d6UinbE3LI7s7Re7iF/ZZN6u9YhOR+sRBtOAXBi3hRZQcygNS2d+A1Xw
+	 ipxps6J1LS5J0VBzsbFldM+hAj2R7wvcXMscbaPiWkj7gXXKHMGdwlb3CwMiwTrLxa
+	 4Mxd/3FC87c+Q==
+Date: Sat, 14 Jun 2025 17:32:35 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Akira Yokosawa
+ <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ignacio Encinas
+ Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>, Marco
+ Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben Wauters
+ <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
+ peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
+ netlink_yml_parser.py
+Message-ID: <20250614173235.7374027a@foz.lan>
+In-Reply-To: <CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
+References: <cover.1749891128.git.mchehab+huawei@kernel.org>
+	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
+	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: XnskIu8cH3CMAgB_0DPHG301G1KlVu3B
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE0MDEyOSBTYWx0ZWRfX+2kx+xVqjF8T uTk2t8ys+GVqWgBtqDHabZgH2zfaGpfJe9ozSZc1ra1Q0dZWFXFqTpjUfqLc8/f8ub3YpptZbsH 5JFkn6gig0bkwAIFCxqXcurvbSx31y8V/QaGxingoAuadpmSPexHgR74l55R1z/c5r1P6rFGlI0
- GLI9xnCE1hyVvikGFbt6YDbS4OF9OxcB71E+M7mzUA/X9QHoj2o3j6t/ZIpBFRvdvfo0aEWVkSe qqwFTuGGdbf/NCYiI8Fvp1lovr1xW3yaFs6XhIcyyTvV0pEkZqfHXubCm5tJOZmbf6Eee1qQt2M dFsEmZnp6avmui+1lCG1hSuJ9eFy1cRt2rPyrBHkt+W1XU2t/McABtw+cVZBON/WA6pkxT4e/zM
- vpsnx2NITclk7S+Kyk8HlOcbnf0+l29XN9RTFcE79eHIrLtG93JJm3WwbAUfUmraXE2cIOOP
-X-Authority-Analysis: v=2.4 cv=NYfm13D4 c=1 sm=1 tr=0 ts=684d955f cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=6IFa9wvqVegA:10 a=VnNF1IyMAAAA:8 a=zd2uoN0lAAAA:8 a=vzhER2c_AAAA:8 a=7CQSdrXTAAAA:8 a=QyXUC8HyAAAA:8 a=COk6AnOGAAAA:8
- a=JFNNFzKWV5WJRw__lZwA:9 a=0YTRHmU2iG2pZC6F1fw2:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: XnskIu8cH3CMAgB_0DPHG301G1KlVu3B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-14_05,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- suspectscore=0 mlxlogscore=703 mlxscore=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 clxscore=1011 spamscore=0 priorityscore=1501
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506140129
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Adding myself as the contact for Power
+Hi Donald, Jon,
 
-Signed-off-by: Madhavan Srinivasan <maddy@linux.ibm.com>
----
- Documentation/process/embargoed-hardware-issues.rst | 1 +
- 1 file changed, 1 insertion(+)
+Em Sat, 14 Jun 2025 15:22:16 +0100
+Donald Hunter <donald.hunter@gmail.com> escreveu:
 
-diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-index da6bf0f6d01e..34e00848e0da 100644
---- a/Documentation/process/embargoed-hardware-issues.rst
-+++ b/Documentation/process/embargoed-hardware-issues.rst
-@@ -290,6 +290,7 @@ an involved disclosed party. The current ambassadors list:
-   AMD		Tom Lendacky <thomas.lendacky@amd.com>
-   Ampere	Darren Hart <darren@os.amperecomputing.com>
-   ARM		Catalin Marinas <catalin.marinas@arm.com>
-+  IBM Power	Madhavan Srinivasan <maddy@linux.ibm.com>
-   IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
-   Intel		Tony Luck <tony.luck@intel.com>
-   Qualcomm	Trilok Soni <quic_tsoni@quicinc.com>
--- 
-2.49.0
+> On Sat, 14 Jun 2025 at 09:56, Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> >
+> > The parsing code from tools/net/ynl/pyynl/ynl_gen_rst.py was moved
+> > to scripts/lib/netlink_yml_parser.py. Its maintainership
+> > is done by Netlink maintainers. Yet, as it is used by Sphinx
+> > build system, add it also to linux-doc maintainers, as changes
+> > there might affect documentation builds. So, linux-docs ML
+> > should ideally be C/C on changes to it.  
+> 
+> This patch can be dropped from the series when you move the library
+> code to tools/net/ynl/pyynl/lib.
+> 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  MAINTAINERS | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index a92290fffa16..2c0b13e5d8fc 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -7202,6 +7202,7 @@ F:        scripts/get_abi.py
+> >  F:     scripts/kernel-doc*
+> >  F:     scripts/lib/abi/*
+> >  F:     scripts/lib/kdoc/*
+> > +F:     scripts/lib/netlink_yml_parser.py
+> >  F:     scripts/sphinx-pre-install
+> >  X:     Documentation/ABI/
+> >  X:     Documentation/admin-guide/media/
 
+Adding an entry that would c/c to linux-doc for the parser is
+important, as problems there will affect documentation build,
+no matter where it is located. Perhaps one option would be to 
+create a separate MAINTAINERS entry for it, like:
+
+	YAML NETLINK (YNL) DOC GENERATOR
+	M:      Donald Hunter <donald.hunter@gmail.com>
+	M:      Jakub Kicinski <kuba@kernel.org>
+	F:      <python_lib_location>/netlink_yml_parser.py
+	L:      linux-doc@vger.kernel.org
+
+to ensure that changes to it would be C/C to linux-doc.
+
+> > @@ -27314,6 +27315,7 @@ M:      Jakub Kicinski <kuba@kernel.org>
+> >  F:     Documentation/netlink/
+> >  F:     Documentation/userspace-api/netlink/intro-specs.rst
+> >  F:     Documentation/userspace-api/netlink/specs.rst
+> > +F:     scripts/lib/netlink_yml_parser.py
+> >  F:     tools/net/ynl/
+
+With regards to the location itself, as I said earlier, it is up to
+Jon and you to decide.
+
+My preference is to have all Python libraries at the entire Kernel
+inside scripts/lib (or at some other common location), no matter where
+the caller Python command or in-kernel Sphinx extensions are located.
+
+There is also slight advantage on placing them at the same location:
+if we end adding parsers for other subsystems at parse_html.py, having
+all of them at the same directory means we don't need to do something
+like:
+
+	lib_paths = [
+		"tools/net/ynl/pyynl/lib",
+		"foo",
+		"bar",
+		...
+	]
+
+	for d in lib_paths:
+		sys.path.insert(0, os.path.join(srctree, "scripts/lib"))
+
+	from netlink_yml_parser import YnlDocGenerator        # pylint: disable=C0413
+	from foo_yml_parser import FooYamlDocGenerator        # pylint: disable=C0413
+	from bar_yml_parser import BarYamlDocGenerator        # pylint: disable=C0413
+	...
+
+
+Thanks,
+Mauro
