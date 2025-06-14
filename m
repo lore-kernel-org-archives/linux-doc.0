@@ -1,98 +1,150 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDBFBA2D;
-	Sat, 14 Jun 2025 14:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81EE70808;
+	Sat, 14 Jun 2025 14:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749910538; cv=none; b=TDXtrhYWkVT4FmC9Kqi4IjNj4eRh2O8u25rw/QG+M+k5w98NBUYxchcxOUPpYx+N4Hr1UWpA+6hCq1M6iFB60JVUx7gxGrgYtoZPqmjDLpFpJOr2TXSImB7QcUsRBi8ECdYtprqAy7plT0YsYR22TRWz9iv2lpp6BnppQDy42mo=
+	t=1749910631; cv=none; b=V7v1BcQf619ZtLFiXYCIDda6LBQFm6b94qcV8RUCGkY/U1YZJhGaC6yhQXXNXldMlIlrIwTbL6jbUmtBiOZDosHyybu3rmwDtlXNgf939qA0ctyoktXPzqJIGmJsDm6/OKAG4m299q0GlcLEWqb0K4EyUTfHz6Va4Vx31nvhDNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749910538; c=relaxed/simple;
-	bh=DCmUzencsMsnMaFx/4U/i7fCe25jewj1ptzTPHuZXrg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NQrJ47HpAqaHEUHfFtS7FZL5CEaUFrI3UWYiOB2Un0QcvWDxykJAsCqeCQmdRBWjHmNChotsAJGxdpQ+i+gBXfrEmcvtgSdRiuYN8MIrQd4qCf7h13HqjSVrWhDNTECS/dh/0+wQpKGefbAT/5WNj1cBlD+Zepvt0qx09/cZRYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4BdxzNZ; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749910631; c=relaxed/simple;
+	bh=Bjaf1tdbvAELd6/YZ7q3IKeF7gZ5dfUUOgR/rJG4v2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hkk9nssG7D3LZ0NZl9KSC0lMzeiqt7hm20eFb/AOskqefo08XtRqrhk//MGXZVqeSgxtEYJC+3AbDO7DkGxXnTXYcfR4qlRNxL2POzNrzkHzw+yvsEv7k4k6Tw9k9qDcdyvx0Z8/X7iFGJozdJ4wrcDU8CBIGE0xJjqhhF5H0wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u0I+Klij; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4BdxzNZ"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-40a6692b75cso2162702b6e.1;
-        Sat, 14 Jun 2025 07:15:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749910536; x=1750515336; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=V212NBLelySDp+6/CyeJaC/8PZkKsYoStFWQx4jyJv0=;
-        b=P4BdxzNZvQYl0LFplGrz7lFcCyH2VDRiV1wAtlTS2LZ4sHh2IZMsfefZkT55swTr1/
-         UDL5duafN7cBRAbNFB0v9i4vtluyJO+jxHrbr6DvA2uNQnlRdjhzWBc1cEtjRQaVBWHA
-         0Wts33em6zLAFZYqofs5jSaXvaR3802MNc7lN7XHIk350kHVDd1reS64HSy36nm/QFC5
-         cNYlHtaSvnSFKdkde7X4G1KZ0ZnqD61jIbggZnelwcxk0dL5gXIKOJp+RuHcf7Hf9TPU
-         SUDLUzzDo10MYhYCVzRc31K4EzQlPb4eJqGv9JgZlkciC7oNnb5P3uzU068Vrmg1Emro
-         6CKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749910536; x=1750515336;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V212NBLelySDp+6/CyeJaC/8PZkKsYoStFWQx4jyJv0=;
-        b=ol7yqg+J7bit8kA5vebqJQm4XjN0iZygrDZ5w+SGZPILiKdpGieGa/RDVPsc4zcQ0o
-         o9qKl67JvFnTxcX29OmC0kq//LDy0gjJ98IEdSR26u3YrKNjf1HTeCTgtK5iNLrKg3Di
-         H5etER1dAUUmsbz4zS2J65YSt/SVIx+GUTzjfmPMbvTRImEr5dWjpe1yC4PfFVd7KgYw
-         n5efEypfsQiUtmhrm/xTP4WGf8+brTUgRxQbWXgVqDinkcGnw8ZI3uUwt487wAUbXoAq
-         FSrmAj6iqPspqOJ2VtKby0runOkOa5QeIVfVHYdpX46IxoaLPmX45kobuhWpZwqj9KnU
-         9SUw==
-X-Forwarded-Encrypted: i=1; AJvYcCWWpvMQG0WToEXlVpXpvbG79Q/AcUDaxMKgbniz//L4UHUhlM7CKnvEckwbKI+prxNp9shCZkBc+Dy+D0I=@vger.kernel.org, AJvYcCWrFymQ9CLiQ3u2R2+Cg0Ue4PvqizJ/LMl7eL24Jj71a0wgnRvf8SLvXxvD/PAk1u57s6Y8cNhv@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIKhnTGQue7mdpehwq9Tuxa30nkb2jBYTomqRSLXGET+WkHKHj
-	VX42VsCy8ani3sOYD1Pp3a2HtLfF00ybXDgweZr35ZU9DX5dNW9c79jQyxY+9/wNUkdaVnkaBSn
-	N3zQJ8ouPLPH/v0a7Cy8IhkfrHbDCpfw=
-X-Gm-Gg: ASbGncsxtgPAwi0dNDtlggoIaTpH97w72EZ5i70WMU8BwRUCQDa9nXSiCwifbsTYA80
-	Xu727TUBp/sqV0zHg4XdmcdHwA7KMmxmAIWfHMkTU8ZAAxdKeNoi5s/0r7dcJTZ1sMUTh0bLdA8
-	d7gLdO2aKjXmzL9AeUB514MzFMQND8YkhDhuiu+UrgUOnT/rPTMFI2j3yhdWv138xd1KEwFdsFj
-	Q32nSNxeWWX
-X-Google-Smtp-Source: AGHT+IE7Id5T+q892mpAZrQTdRJVM/iBsvIslk9IkOAbJoYWxBoUYMFvgoYdDkNU0o3h51zEcveta5gNqzJQn1eG0z4=
-X-Received: by 2002:a05:6808:211a:b0:404:1898:1a0b with SMTP id
- 5614622812f47-40a7c19e067mr2049349b6e.31.1749910536255; Sat, 14 Jun 2025
- 07:15:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u0I+Klij"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F81C4CEEE;
+	Sat, 14 Jun 2025 14:17:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749910630;
+	bh=Bjaf1tdbvAELd6/YZ7q3IKeF7gZ5dfUUOgR/rJG4v2c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=u0I+KlijanW87g35dfr0coFfXQmPh/xMlKuSXjDTJ5QBgBtXF4nztj7GQdpsLQyvW
+	 GgkzGroheCKy0kum23iHX+G24pRB362tVsQ5lBe9TdWfm2+1/N0MaI7WegVvLz9U27
+	 jRNS6sZFv065F7en3tf0qRHTzbQ7aXUx1b8DQwnMLyX6BW7L46U/5XprQiOj1zDRlN
+	 qtEQnTBzByVd8Glp79ZQ9oyTg4Q31SBYo/WAt0X9BQhvGiP13hAv+9ApdV9CgAFTcv
+	 bY7+ItsHybMKtHTUhyeRJ1FKO86JULPfDI4B4TapC5NZdbq32zrFMT1SHaRQISY6TB
+	 lPPD04J5cyetg==
+Date: Sat, 14 Jun 2025 15:17:03 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, dlechner@baylibre.com,
+ nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, eraretuya@gmail.com
+Subject: Re: [PATCH v9 11/11] docs: iio: add documentation for adxl345
+ driver
+Message-ID: <20250614151703.047e83fe@jic23-huawei>
+In-Reply-To: <20250610215933.84795-12-l.rubusch@gmail.com>
+References: <20250610215933.84795-1-l.rubusch@gmail.com>
+	<20250610215933.84795-12-l.rubusch@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1749891128.git.mchehab+huawei@kernel.org> <31466ece9905956c2e1a3d3fc744cfc272df5d88.1749891128.git.mchehab+huawei@kernel.org>
-In-Reply-To: <31466ece9905956c2e1a3d3fc744cfc272df5d88.1749891128.git.mchehab+huawei@kernel.org>
-From: Donald Hunter <donald.hunter@gmail.com>
-Date: Sat, 14 Jun 2025 15:15:25 +0100
-X-Gm-Features: AX0GCFu7jgqlSlj61VjuypZSCCHHVOKVJwT6Cqt0Oc5ACuVVfK8OEx-nZWS3V3c
-Message-ID: <CAD4GDZxPTFmKeNqRZBxW1ij6Gy0L3hrbB6q9G6WdFb8h6Zhr=g@mail.gmail.com>
-Subject: Re: [PATCH v4 07/14] tools: ynl_gen_rst.py: move index.rst generator
- to the script
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Akira Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Ignacio Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>, 
-	Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, joel@joelfernandes.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org, 
-	stern@rowland.harvard.edu
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, 14 Jun 2025 at 09:56, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> The index.rst generator doesn't really belong to the parsing
-> function. Move it to the command line tool, as it won't be
-> used elsewhere.
->
-> While here, make it more generic, allowing it to handle either
-> .yaml or .rst as input files.
+On Tue, 10 Jun 2025 21:59:33 +0000
+Lothar Rubusch <l.rubusch@gmail.com> wrote:
 
-I think this patch can be dropped from the series, if instead you
-remove the index generation code before refactoring into a library.
+> The documentation describes the ADXL345 driver, IIO interface,
+> interface usage and configuration.
 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  scripts/lib/netlink_yml_parser.py  | 101 ++++++++---------------------
->  tools/net/ynl/pyynl/ynl_gen_rst.py |  28 +++++++-
+Trivial but wrap commit descriptions at 75 chars.
+
+The main comment on this is that, when talking about datasheet terms / settings
+etc it would be good to reflect them back to the IIO controls that actually allow
+us to change them.
+
+Otherwise seems reasonable to me.
+
+> 
+> Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+
+
+> +
+> +Sensor Events
+> +-------------
+> +
+> +Particular IIO events will be triggered by the corresponding interrupts. The
+> +sensor driver supports no or one active INT line, where the sensor has two
+> +possible INT IOs. Configure the used INT line in the devicetree. If no INT line
+> +is configured, the sensor falls back to FIFO bypass mode and no events are
+> +possible, only X, Y and Z axis measurements are possible.
+> +
+> +The following table shows the ADXL345 related device files, found in the
+> +specific device folder path ``/sys/bus/iio/devices/iio:deviceX/events``.
+> +Note, the default activity/inactivity is DC coupled. Thus only AC coupled
+> +activity and inactivity are mentioned explicitly.
+
+This paragraph probably wants to talk about the mapping of AC coupled to 'adaptive'
+I couldn't relate it directly to the table without that.
+
+> +
+> ++---------------------------------------------+---------------------------------------------+
+> +| Event handle                                | Description                                 |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_gesture_doubletap_en               | Enable double tap detection on all axis     |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_gesture_doubletap_reset_timeout    | Double tap window in [us]                   |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_gesture_doubletap_tap2_min_delay   | Double tap latent in [us]                   |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_gesture_singletap_timeout          | Single tap duration in [us]                 |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_gesture_singletap_value            | Single tap threshold value in 62.5/LSB      |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_mag_falling_period                 | Inactivity time in seconds                  |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_mag_falling_value                  | Inactivity threshold value in 62.5/LSB      |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_mag_adaptive_rising_en             | Enable AC coupled activity on X axis        |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_mag_adaptive_falling_period        | AC coupled inactivity time in seconds       |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_mag_adaptive_falling_value         | AC coupled inactivity threshold in 62.5/LSB |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_mag_adaptive_rising_value          | AC coupled activity threshold in 62.5/LSB   |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_mag_rising_en                      | Enable activity detection on X axis         |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_mag_rising_value                   | Activity threshold value in 62.5/LSB        |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_x_gesture_singletap_en             | Enable single tap detection on X axis       |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_x&y&z_mag_falling_en               | Enable inactivity detection on all axis     |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_x&y&z_mag_adaptive_falling_en      | Enable AC coupled inactivity on all axis    |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_y_gesture_singletap_en             | Enable single tap detection on Y axis       |
+> ++---------------------------------------------+---------------------------------------------+
+> +| in_accel_z_gesture_singletap_en             | Enable single tap detection on Z axis       |
+> ++---------------------------------------------+---------------------------------------------+
+> +
+> +Find a detailed description of a particular functionality in the sensor
+> +datasheet.
+> +
+> +Setting the **ODR** explicitly will result in estimated adjusted default values
+
+Say how to set ODR etc in IIO terms as well perhaps?
+
+> +for the inactivity time detection, where higher frequencies shall default to
+> +longer wait periods, and vice versa. It is also possible to explicitly
+> +configure inactivity wait times, if the defaulting approach does not match
+> +application requirements. Setting 0 here, will fall back to default setting.
+
+I'm not particularly keen on that 0 aspect as it's unintuitive.  Why do we need
+a means to go back to the default? 
+
+> +
+> +The **g range** configuration also tries to estimate activity and inactivity
+> +thresholds when switching to another g range. The default range will be
+> +factorized by the relation of old range divided by new range. The value never
+> +becomes 0 and will be at least 1 and at most 255 i.e. 62.5g/LSB according to
+> +the datasheet. Nevertheless activity and inactivity thresholds can be
+> +overwritten by explicit values.
