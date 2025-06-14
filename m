@@ -1,69 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533C31C4A20;
-	Sat, 14 Jun 2025 19:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429BA2E3385;
+	Sat, 14 Jun 2025 20:43:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749930711; cv=none; b=TfC+BS45aQtdc4XLYuSEuX0DZXALJI6MAGHGxCJPEqUn47DuOqusxwWOuIev8WzhUwgw31/nRex6XHkc47Xatm9fDmMK2ZiVwlt2IPRSKVqzpDp6TTNWf+M0ckPv/nAq8Sc9hQO+ksezTB3Re0WR3qDy/9TTtO0w4ZoHotxHhOQ=
+	t=1749933788; cv=none; b=LXsY/rFa8d2iP3C1IspBw5KrSrLeGULvFDlO0SCA0Bk3Nb9SKVRgeNhOJGKuuu43QFTmdG5cwJ2vVH37SNyQ1IpAkx1zkPNnN8De5KWSXfnBBc/81UNTqmEGWByu0ZsY0qZTmVJbLM6nPGFzDdCgzmzdBrTtwY5ErxfsoKeeKdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749930711; c=relaxed/simple;
-	bh=MpxMa/I6gxllKAnbeDXs7r46YEtoqLfQN5rcAbxlQBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SXxlPXabPZ8Yf0I/9NH/qx+VVnJftGNr4h3ulnDTd4UnmsGahy0CiLiIzVYp8SZM7C7z2yRF6gHBjjkMRKZZsF0Z41H4Nkplwsfmfbs6snNIVH7gaDGO13Ag6oNUZTFfaY/oJS756vNNT+MMw11oVAEJkriiDQTXUntC94+dEmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dIYRgYUK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749933788; c=relaxed/simple;
+	bh=qS4oEaHzD7GsPMWS2dQmMO3ZxNs/Q+H8A8oCIx+TqkA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PwTsr+WjzShDUgWfU9IVk6t5WDv4YbVXv+TMAS+KLjs3V+Nh9n1r4nJ7YdqFZ6kCPO7nDmzIu391VV2Us6owTUwkQNCClVIBe8du78hQwrOg4moUZAdPUKUx5KNOqxSgwQ8LfnWI4rmTF4KB72+v3izSke7dGJQJo2ZK8+AHEho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZaQTNpsE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dIYRgYUK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D3BEC4CEEB;
-	Sat, 14 Jun 2025 19:51:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZaQTNpsE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D7CDC4CEEB;
+	Sat, 14 Jun 2025 20:43:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749930710;
-	bh=MpxMa/I6gxllKAnbeDXs7r46YEtoqLfQN5rcAbxlQBQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dIYRgYUKLnGks8Ce8K3QK252RYhr6anc4mPYD2mF+78g7ZQ48wZxHXS5QqXjwr5Ls
-	 Qdex4soQPhvOr8rW/96ska5IgfKOgmLsLCI+5D1eT8WdSN0hx08MrTxCnCnVSB9UZ4
-	 evJduORDbcERl810G3N7ZhVJ9s8D/Bsl8bPVBmZb+NNK2S0I3boTxvgzXag5TQ1x+1
-	 I1MVmXTRd2LQd6w0NhqXQX5GN75VzVnIW3Ye0F9g0Hv8gjqxvf481HzikJpZnNj8Cf
-	 P52ZFf1N3RB0Hy+tYPxpxaBXVnYBNOszG+UobE02d9o0UKDmJV006yC60X4hzwNeDX
-	 qLju9b5amlxHA==
-Date: Sat, 14 Jun 2025 12:51:49 -0700
+	s=k20201202; t=1749933787;
+	bh=qS4oEaHzD7GsPMWS2dQmMO3ZxNs/Q+H8A8oCIx+TqkA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZaQTNpsESTKa/UcQz7kmxedAmEVVtBrZUXGhjiQ/YhO7v54om/ZLv4KoAT2M2iFl5
+	 insgo1BpypgTHBJyIFSZAxu3EMxofaLgf7+FK4RUgWZeoOTklPToH0ZdKozkCdiEz+
+	 YLwsgn+T3R2NilCBKUYrW4WdvJx7/gWT64aC2R0oJ2bzSNX+a1gaLzJdiOzsL1ziow
+	 Xg6wcNVoxAEMKQIP40TI3e2cQDtkqE2TLqS2gEvlfHtPCldTLtnhUeiPiYmeAUEwXo
+	 Zhf3ChsieekR6JuJrBl+ZIPpNHtwD/wWHPfvsvaHATwZn1gQQch/NmvxPuMIqJgPkA
+	 ExHS7dVFPj2DQ==
 From: Jakub Kicinski <kuba@kernel.org>
-To: Gustavo Luiz Duarte <gustavold@gmail.com>
-Cc: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Shuah Khan
- <shuah@kernel.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v2 3/5] netconsole: append msgid to sysdata
-Message-ID: <20250614125149.55a8bc1f@kernel.org>
-In-Reply-To: <20250612-netconsole-msgid-v2-3-d4c1abc84bac@gmail.com>
-References: <20250612-netconsole-msgid-v2-0-d4c1abc84bac@gmail.com>
-	<20250612-netconsole-msgid-v2-3-d4c1abc84bac@gmail.com>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH] docs: process: discourage pointless boilerplate kdoc
+Date: Sat, 14 Jun 2025 13:42:57 -0700
+Message-ID: <20250614204258.61449-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 12 Jun 2025 13:02:16 -0700 Gustavo Luiz Duarte wrote:
-> diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-> index 3bf8777fcd01..baa9862c1bc3 100644
-> --- a/drivers/net/netconsole.c
-> +++ b/drivers/net/netconsole.c
-> @@ -155,6 +155,8 @@ struct netconsole_target {
->  	size_t			userdata_length;
->  	/* bit-wise with sysdata_feature bits */
->  	u32			sysdata_fields;
-> +	/* protected by target_list_lock */
-> +	u32			msgcounter;
->  #endif
+It appears that folks "less versed in kernel coding" think that its
+good style to document every function, even if they have no useful
+information to pass to the future readers of the code. This used
+to be just a waste of space, but with increased kdoc format linting
+it's also a burden when refactoring the code.
 
-kdoc is complaining that:
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: workflows@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/process/coding-style.rst | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-drivers/net/netconsole.c:167 struct member 'msgcounter' not described in 'netconsole_target'
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 19d2ed47ff79..d1a8e5465ed9 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -614,7 +614,10 @@ it.
+ 
+ When commenting the kernel API functions, please use the kernel-doc format.
+ See the files at :ref:`Documentation/doc-guide/ <doc_guide>` and
+-``scripts/kernel-doc`` for details.
++``scripts/kernel-doc`` for details. Note that the danger of over-commenting
++applies to kernel-doc comments all the same. Do not add boilerplate
++kernel-doc which simply reiterates what's obvious from the signature
++of the function.
+ 
+ The preferred style for long (multi-line) comments is:
+ 
 -- 
-pw-bot: cr
+2.49.0
+
