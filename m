@@ -1,40 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429BA2E3385;
-	Sat, 14 Jun 2025 20:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B0C1E378C;
+	Sat, 14 Jun 2025 22:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749933788; cv=none; b=LXsY/rFa8d2iP3C1IspBw5KrSrLeGULvFDlO0SCA0Bk3Nb9SKVRgeNhOJGKuuu43QFTmdG5cwJ2vVH37SNyQ1IpAkx1zkPNnN8De5KWSXfnBBc/81UNTqmEGWByu0ZsY0qZTmVJbLM6nPGFzDdCgzmzdBrTtwY5ErxfsoKeeKdc=
+	t=1749941642; cv=none; b=YHLwGDbS3rI2B0vp3989rhZ9pb8CNErbk/rlPopdIWpnXWYMrfVK/cwNP0LtpxBkcSV31dAw5scYo8eyn1eCVHCTY1L9xuq+O8A75zs3W7XmPsvYgzyq+2pLcJMjYQHX0ddf+YoJgG3nhoeqjqiiqX2nMNDePtfkvI/gNS+2oaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749933788; c=relaxed/simple;
-	bh=qS4oEaHzD7GsPMWS2dQmMO3ZxNs/Q+H8A8oCIx+TqkA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PwTsr+WjzShDUgWfU9IVk6t5WDv4YbVXv+TMAS+KLjs3V+Nh9n1r4nJ7YdqFZ6kCPO7nDmzIu391VV2Us6owTUwkQNCClVIBe8du78hQwrOg4moUZAdPUKUx5KNOqxSgwQ8LfnWI4rmTF4KB72+v3izSke7dGJQJo2ZK8+AHEho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZaQTNpsE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749941642; c=relaxed/simple;
+	bh=zT5Bt88XG2yoLSSBLBbXp2kHahf3mi2Wx2aE+1pfqV0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VfizXojcOFvb9SHKlLur+wc70KJmLTyeuMbEoMC9mSTRb2TZY4pezad6BDuD2P+QnzcyZ3mAbR+O21riXn1wEIDIuvAGdO2xoQGPKjmXmu/I5DavCEt2dfMNslWRtDjPdp86U5bc2OFxf8fVr30OxVOb4h2rxxE6UiT8yiAxSOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PKRp4jHq; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZaQTNpsE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D7CDC4CEEB;
-	Sat, 14 Jun 2025 20:43:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749933787;
-	bh=qS4oEaHzD7GsPMWS2dQmMO3ZxNs/Q+H8A8oCIx+TqkA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZaQTNpsESTKa/UcQz7kmxedAmEVVtBrZUXGhjiQ/YhO7v54om/ZLv4KoAT2M2iFl5
-	 insgo1BpypgTHBJyIFSZAxu3EMxofaLgf7+FK4RUgWZeoOTklPToH0ZdKozkCdiEz+
-	 YLwsgn+T3R2NilCBKUYrW4WdvJx7/gWT64aC2R0oJ2bzSNX+a1gaLzJdiOzsL1ziow
-	 Xg6wcNVoxAEMKQIP40TI3e2cQDtkqE2TLqS2gEvlfHtPCldTLtnhUeiPiYmeAUEwXo
-	 Zhf3ChsieekR6JuJrBl+ZIPpNHtwD/wWHPfvsvaHATwZn1gQQch/NmvxPuMIqJgPkA
-	 ExHS7dVFPj2DQ==
-From: Jakub Kicinski <kuba@kernel.org>
-To: corbet@lwn.net
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PKRp4jHq"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4519dd6523dso4262525e9.1;
+        Sat, 14 Jun 2025 15:54:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749941639; x=1750546439; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dZAQB5AlBoL07khNC9vbJww4NhXkobEbHOnm0PUs/iQ=;
+        b=PKRp4jHqRnIhbANEJjXCTpCR/FIcX2Y/IIB+tIAEck7rTBT/MTr9ZH1QC/xTBNfwoL
+         ggpVmu+F/U+cjVrou+LU1o5v7rVDHMzg2wa/2WzmZQGr73oc0WRzbl+M/yXKaZraVGvJ
+         CF8iLPV9raaYqWREr9t/vldSbk4Zv3OkxarPvldbkp7ojKJAtAyU3DWgA0v7m191k9YL
+         nzbKaktpVeMpufpu7TIrH63GWXM0KwidOLehtqXnH1DWJGLjipYpu5Y+2f3tS7574wxs
+         TQMnwFP1DS0VAa7f/mePvvjlktZtYTU6ak7fQththSMGbpz2tVUSxkptPiNmgfSCpSKO
+         nq8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749941639; x=1750546439;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dZAQB5AlBoL07khNC9vbJww4NhXkobEbHOnm0PUs/iQ=;
+        b=fubkLLJZjSZ+xy3n7uMPd7/VpqBdToZliO+sbyU5JMvAHm3AmGfhcsyMIP2e7weSMe
+         Hn3A3AR0v7BprJsZo2SFwAWkv7GkfusZCrCJJWeQJWtovng6T5t/5PaqlRMx50jXun/H
+         uhapT2H5kaDdDAVTeTemtd9Ac2Waj/Oc+wDmTllgrdXQTKxH11iCmS7z6Yv8uWit/OjT
+         dX4trCedq67kFs1sVfe8UdedBx4k7obA9vjgjF1sGjauVbPjORvyKRhcMl5ncOb6O8PF
+         oFVc9t12Q7fDAx7O64AV091Rr5zeUO6FL8MJNwBGcGxR8XMUkbxsPvLMfWyti3jQZWB/
+         872w==
+X-Forwarded-Encrypted: i=1; AJvYcCUFptfg32A0My7ZQ085bWFaE7SHcfbDQO6ILAScGHhJlkE+AfE9U5oaGXRixgSNvPnjBJYZjKavHdzbfzc=@vger.kernel.org, AJvYcCVr9sL/rVatkzwxDjWQw8OxHCj3wpCfO8xFRqgVLtJ2LcGqxw8Ppx42JzyEsr4y9W6BM7Hd8QTJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwjV5TPKtnSuTReiw0pcs8AqnIm3gOIK0BXJ3wQfG5w5Ru9yt+
+	NDeus6Wy+pRFPjHeKYWAofBAFhem/XqtZPFcr/B2dWkZ3QGRv9igMPlt
+X-Gm-Gg: ASbGncsgeqDI24kqkR8+8qW04KIDPYfilvV7UL6tuXdbaK2Ru2gP0ViG6zK6PKI05GI
+	qQtdiYNUzHdsTZz4UrCcQGRYilsCccOj0Or/GBwYXCkvne2Bf2VxNfUQpmEqNGkcyy+wSRz1S1f
+	RUiqPIhDQGyVGXQexDC7bIH8Lvkt7agjJ+D24b7jFoj5kFdSIKeeY4iBO1+XUiZ3oclhbEBywoW
+	H/UXBYrl7+VX/X6cCczB/ldaab/QQharM56K0BOKTUL8g1X2Jr1Q/yy1vEPbZ+txmIo2vQ1wRmk
+	bpeoxJ5Xy16sbYSvtg5gLZJdH1HEtcDtvNpGQkB9gElKI7MD22d+BIj/DLvzDbSw1nK0fOLb8R8
+	gUOdd2Be7yHCyX4q9QPTw/40=
+X-Google-Smtp-Source: AGHT+IERaf2KZh+GM+zOFbKtCwqYrbRWYEK7uzMmHXxZBDqX0TAJ4g7pG5vidf55uXrTDNBtsHDGlw==
+X-Received: by 2002:a05:600c:3494:b0:442:fac9:5e2f with SMTP id 5b1f17b1804b1-4533ca4b453mr15175775e9.2.1749941638558;
+        Sat, 14 Jun 2025 15:53:58 -0700 (PDT)
+Received: from localhost.localdomain ([154.182.223.70])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e2449f1sm94897025e9.23.2025.06.14.15.53.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Jun 2025 15:53:57 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: corbet@lwn.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	horms@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH] docs: process: discourage pointless boilerplate kdoc
-Date: Sat, 14 Jun 2025 13:42:57 -0700
-Message-ID: <20250614204258.61449-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.49.0
+	skhan@linuxfoundation.com,
+	jacob.e.keller@intel.com,
+	alok.a.tiwari@oracle.com,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: [PATCH v2 0/2] docs: net: sysctl documentation improvements
+Date: Sun, 15 Jun 2025 01:53:22 +0300
+Message-Id: <20250614225324.82810-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,37 +83,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It appears that folks "less versed in kernel coding" think that its
-good style to document every function, even if they have no useful
-information to pass to the future readers of the code. This used
-to be just a waste of space, but with increased kdoc format linting
-it's also a burden when refactoring the code.
+This series cleans up and clarifies networking sysctl documentation,
+specially the boolean parameters:
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: corbet@lwn.net
-CC: workflows@vger.kernel.org
-CC: linux-doc@vger.kernel.org
----
- Documentation/process/coding-style.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Patch 1: Fixes typos, adds missing defaults, and standardizes 
+	boolean representation.
+         
+Patch 2: Adds value constraint clarifications for parameters with u8
+	implementation details , fixes typos.
+	
+In this version 2 , Modifications were made to be more consistent 
+and more boolean representations are fixed.
 
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 19d2ed47ff79..d1a8e5465ed9 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -614,7 +614,10 @@ it.
- 
- When commenting the kernel API functions, please use the kernel-doc format.
- See the files at :ref:`Documentation/doc-guide/ <doc_guide>` and
--``scripts/kernel-doc`` for details.
-+``scripts/kernel-doc`` for details. Note that the danger of over-commenting
-+applies to kernel-doc comments all the same. Do not add boilerplate
-+kernel-doc which simply reiterates what's obvious from the signature
-+of the function.
- 
- The preferred style for long (multi-line) comments is:
- 
+---
+v2:
+- Standarize more boolean representation.
+- Removed inconsistent white spaces.
+
+v1: https://lore.kernel.org/all/20250612162954.55843-1-abdelrahmanfekry375@gmail.com/
+- Fix typos
+- Add missing defaults
+- standarize boolean representation.
+Abdelrahman Fekry (2):
+  docs: net: sysctl documentation cleanup
+  docs: net: clarify sysctl value constraints
+
+ Documentation/networking/ip-sysctl.rst | 117 +++++++++++++++++++------
+ 1 file changed, 92 insertions(+), 25 deletions(-)
+
 -- 
-2.49.0
+2.25.1
 
