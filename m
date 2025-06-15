@@ -1,42 +1,42 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3D11459FA
-	for <linux-doc@vger.kernel.org>; Sun, 15 Jun 2025 22:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D056263C8A
+	for <linux-doc@vger.kernel.org>; Sun, 15 Jun 2025 22:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750027642; cv=none; b=P2giW8/rnu3MEBNTQ7Oqlpevikre5K4whSZorERQRQKYJWaGLiqmSnwCWV89nvNmy64HvMXamviYj5Ac74rEJ28cWUOCHINvZ2HNq8zYxNXmx+9PAI3i+6WBMq6HNIN93weWerFr2SZkR9+wx5hKvn1hurfOi2RVkiP0dGVUWtA=
+	t=1750028038; cv=none; b=Xm3VOtzErZdCN2iN0Msp3QTkN2d1NijB2nF4Ujh7rGnnsrbTx0AOQunvO8VJOAWOaeKvGOwDVTwDpvP1h0HEnLdodgU+LZS34UH2DVbh+Yi9CupkXwhXIenxvg3cz79xqhEq6sz7XWlasjxHtSVDrXrm0GD6DvY3ftG3qggd+QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750027642; c=relaxed/simple;
-	bh=n38xCpv3OzAc5eoEys5Ppx1+wJC6uCNI7+QwXVVDbh4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sv7DOYhwZlGCt5Tq5AMdFCKY1WadTDMlteQuXwTBH0FJ2sDRXvohGRrMn4fleC/BQRIRzkAzhBYf7Br4Q6DqCdw+xggfY53KZUp6xe4sQi2gp3QKVEj74Il8s0Mgna4XOl1XEL/VWLoTD0uIjUOIE7Q7t7sM0d9oFAwepBiIYv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b=Stmu0rt+; arc=none smtp.client-ip=185.67.36.65
+	s=arc-20240116; t=1750028038; c=relaxed/simple;
+	bh=fJric2xuz/D7KmQiBryCjvqCKImRal40258ZoI4kmdE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EM/rUClQuOHSqym5vSIswlFUBsjKLkG5KsStKu+JBwHGzKdTclrCAAaXA5NuOMgZ/M2C4LwiH1p9p9WcgtIYsFhwhb4xJkBXgmRQATwfdYkusBbJkqynQ492D17pziGbcIy/reOMXKn+YBp+3PcZgiynLDXds/z5H18pecE1ljU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b=JMkbaykr; arc=none smtp.client-ip=185.67.36.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b="Stmu0rt+"
+	dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b="JMkbaykr"
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id DD619240028
-	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 00:47:12 +0200 (CEST)
+	by mout02.posteo.de (Postfix) with ESMTPS id BF814240101
+	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 00:53:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net;
-	s=1984.ea087b; t=1750027632;
-	bh=n38xCpv3OzAc5eoEys5Ppx1+wJC6uCNI7+QwXVVDbh4=;
+	s=1984.ea087b; t=1750028034;
+	bh=fJric2xuz/D7KmQiBryCjvqCKImRal40258ZoI4kmdE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:To:Cc:From;
-	b=Stmu0rt+ql5e1p0AIUDstr4JgwwkcMIIzNNWmfXJgtm8za8HVtp/FbpZZmt6Ao7BF
-	 thiWOiAEkowA01eAG9pljtOOVKnKUe5U2USSZcygCfnITRmlYZbRxKpLnuZHeMzCOZ
-	 tlckqtT2B67mQcyVkAZGn2RnJJj6msJVAIoh5qQVbaXsPVD9m1x1hog893ymPpj6oU
-	 /3cwqoZxAh0ExmTQLgPCYNov6tGD8mJVHMjpuBiZmRfRUy5LkEjTJqsa6wZPV/SH0G
-	 tC3sGk+qg4h/vsI/FFVv2qdyTgRKHr4acf5g5EIMEXUQh1LQDmffKkvjgCIV02tVMy
-	 NySq0cC+ewtEe7i1rQCBqsfC6LTu9y2iXp22he5VWVvm3s0c9p3+EnPPBvbiXB0vTb
-	 rpdzFjTDNO1dlVLF+AIvGcDbUQ9WChfiLDghKKQD02GDhV1hCpvpAWVYeXA9MoQHEX
-	 8TJQ45fJak/hkRsyI6IhlasYNpfe40LijVHbhKYe2xZu0dwCqUj
+	b=JMkbaykrVVKtI5b6bPvljsCIZ++v/233NE2h4ZHwsZOHYTVQneI1Em2kapIX9Jny5
+	 yhiK3ZA3Rx7qXjfpa/K6xrtHO0vXSiPVjmtkdnkWq2/C7bpPQMfmahtkzqPAxpEu2U
+	 FH482o+Eg5s049jJJGKv1OxPh+v/Tm2+8flONGZy6kbT7WPUfBdKhHcWYQNBsANjQx
+	 IKrhbb4XRTSANki2u7tBe37ZLIJX1zRu9WAKQRLsWjgT71pzv4+m2Hg7YeoCN4E/kR
+	 GW1EajIOaPPq1gycrBFHAzIykg3cVmAs5SWaDeD2zmFIVCmb8QLXFNj6R0kocLTgs6
+	 5xrlM0c//1xTPu/EqpJy7O+szA1HuO8UErxhFJJgjvkh6fhm3pDne3IDAGQWzsv67s
+	 UAElpjfTiD6t/s3/NUQrI/VTjvJ/Kv/vlkJ7U42TYIv9TAbtNZwos0nQ6tQqonXrtp
+	 GY52Xy1ZlB+0d7owVrP3gyKxlIMUjO6JZf+YtG/wdZ8c41bM2TF
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4bL7YW11BPz6twx;
-	Mon, 16 Jun 2025 00:47:11 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4bL7jF2ZZxz9rxF;
+	Mon, 16 Jun 2025 00:53:53 +0200 (CEST)
 From: Charalampos Mitrodimas <charmitro@posteo.net>
-Date: Sun, 15 Jun 2025 22:46:40 +0000
-Subject: [PATCH] docs: filesystems: vfs: remove broken resource link
+Date: Sun, 15 Jun 2025 22:51:53 +0000
+Subject: [PATCH v2] docs: filesystems: vfs: remove broken resource link
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,27 +45,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250616-vfs-docs-v1-1-0d87fbc0abc2@posteo.net>
-X-B4-Tracking: v=1; b=H4sIAE9NT2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDM0NT3bK0Yt2U/ORi3aREA6PEJKNkS0OTNCWg8oKi1LTMCrBR0bG1tQB
- EzTT+WgAAAA==
+Message-Id: <20250616-vfs-docs-v2-1-70b82fbabdbe@posteo.net>
+X-B4-Tracking: v=1; b=H4sIAIhOT2gC/0XMywrCMBCF4VcpszaSDLZeVr6HdJHLxGaTlEwIS
+ sm7Gwvi8j8cvg2YciCG27BBpho4pNgDDwPYRccnieB6A0oc5aRGUT0LlywLoyVqg/aqTh76fc3
+ kw2unHnPvJXBJ+b3LVX3XHzL9kaqEEtJdzt5YqY3F+5q4UDpGKjC31j7wTOICoQAAAA==
 X-Change-ID: 20250615-vfs-docs-ba02ab2c914f
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
  Jonathan Corbet <corbet@lwn.net>, neil@brown.name
 Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Charalampos Mitrodimas <charmitro@posteo.net>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750027608; l=1079;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750028010; l=1228;
  i=charmitro@posteo.net; s=20250526; h=from:subject:message-id;
- bh=n38xCpv3OzAc5eoEys5Ppx1+wJC6uCNI7+QwXVVDbh4=;
- b=nddtxwEomMpMeE87J0rAj47c6U66RVpEuH+nhePr2ZI7RKPl3PxIhwS7hqQWPLOQPFU2bIWP2
- iwOTF1YCKDpDM63A8k1C5TaZASTN+Iz0tb3QaJOx7FTehDBtVsXTVya
+ bh=fJric2xuz/D7KmQiBryCjvqCKImRal40258ZoI4kmdE=;
+ b=5zh7zA2RZutpTFQHg8S5OGUNE7swOo+Wd6Cqn5D47Xrt/Ieowfte+DKQxVXALtZkbJQq3cAoo
+ mQCxXoB94h2CACCuHi5eGKOUtlEiaUVEDWToiJC0Z5Cvmhol2vJysby
 X-Developer-Key: i=charmitro@posteo.net; a=ed25519;
  pk=PNHEh5o1dcr5kfKoZhfwdsfm3CxVfRje7vFYKIW0Mp4=
 
 The referenced link is no longer accessible. Since an alternative
-source is not available, so removing it entirely.
+source is not available, removing it entirely.
 
 Signed-off-by: Charalampos Mitrodimas <charmitro@posteo.net>
+---
+Changes in v2:
+- Removed "so" from the patch description
+- Link to v1: https://lore.kernel.org/r/20250616-vfs-docs-v1-1-0d87fbc0abc2@posteo.net
 ---
  Documentation/filesystems/vfs.rst | 3 ---
  1 file changed, 3 deletions(-)
