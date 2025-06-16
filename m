@@ -1,82 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7733F266B50;
-	Mon, 16 Jun 2025 16:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B350028750B;
+	Mon, 16 Jun 2025 17:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750093020; cv=none; b=iB3++DjhEIOBUC1n2uGuO1fBLk4WsHDlKuMt66+dAZd04l24BUCZbCylMR32s9krJ/E+ZboNGgJLuaReCyLSFRhQoTzoI/YvXDyCQfdrmWwGEqKbDMzhY8PyMSwiIGUUCHcwK6lBpBrsa+1nD4m41q20J6WFoV/K5KexTwmSxns=
+	t=1750093795; cv=none; b=KPeMJwI/9jSQ8/YJx6Vn5UXb5Yr9HsXSJU7kpvfv0A4GGZ5A/FLpzAN1Vfw/hCWoxjlYpIN2NLeiY5eVL711eucVX/zkPHbxD5IUZZW1VSbKlKrxG2fxIZHlCGnHeVvJe8MBaI5GP0Oq8IeSZfqm98IUphZ+0/OgNvR+H5fLq1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750093020; c=relaxed/simple;
-	bh=Khzz5JdxVrHoZB8y+ap9I08Otfgug9OhgIRTN6KzQvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jzOUXhYMkfVMD5GzeM1JHEvkULA6/oTMy7rBoljQgdPNA2OsjRqANXip8KJlDxnLyNRG/hYt82++EL/60H6BuiaGEjXL2ozpfUqHg8Xbd7kAaIA2wRPc3CFDAi9xVnOy0WLfty486+EsqpwvNFMir9yENOs5nn0CDDN/zXJq6Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4Xka8YI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750093795; c=relaxed/simple;
+	bh=snCdIYgJY/Gbrh8KSW/7Yf7EmPtoKnw/JLZpyosYBMw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RivSF4LzjOiMuFi1dN44TU6yOecVhqZAgmZJ+sT1mvooHoIZngkIgDWlIz4Q8wmvqE98H27saNJRFY8q60d4DrUsA2The/mvIO05It0c1Mgmf/fbkbpPyu5k+eAfmhvqIgWgPUCPYmg16W5kaRpqriUU+5vGA65UuWtJWkB3/8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RtigiTAG; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4Xka8YI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36609C4CEEA;
-	Mon, 16 Jun 2025 16:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750093020;
-	bh=Khzz5JdxVrHoZB8y+ap9I08Otfgug9OhgIRTN6KzQvI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=G4Xka8YI6AbRnNR7ypeU8g7pkFWw3b45ZH3cUXjdeeFXg+MVqiT+bcCC7J00cnxkR
-	 LVMI4z6KrU1W2k8gXxnTUJepeyukLDRnm85auZjGhgLnNZpPQgDFbaggjOGQe0gbob
-	 2/UhLiMPHpMyuQUwNL2h1rVnwlgqLsZa4kxRAXYDQIwG/YCtnTwXFvDUylp5RTogvO
-	 xQWJINri+TTqK0jHdjmhZpiTdAMpM732K9Dmz+qqa8GFSyng876viBigUbDhRNimWb
-	 MLcHL7WzZ6uHcUW4TfiAFn4Sf/Em4JgXOYCopAmwawfxocpYKpaQAqCC/oh0eVy/XQ
-	 N8xcNPehb2fwg==
-Date: Mon, 16 Jun 2025 09:56:58 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
- <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
- <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
- Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v13 07/13] net: pse-pd: Add support for budget
- evaluation strategies
-Message-ID: <20250616095658.323847a9@kernel.org>
-In-Reply-To: <20250616151437.221a4aef@kmaincent-XPS-13-7390>
-References: <20250610-feature_poe_port_prio-v13-0-c5edc16b9ee2@bootlin.com>
-	<20250610-feature_poe_port_prio-v13-7-c5edc16b9ee2@bootlin.com>
-	<20250614123311.49c6bcbf@kernel.org>
-	<20250616151437.221a4aef@kmaincent-XPS-13-7390>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RtigiTAG"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4a5901854e3so6733711cf.3;
+        Mon, 16 Jun 2025 10:09:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750093790; x=1750698590; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OALMEOmmOpixaGW3XVaHA/qsUtEIHB6pfWcetx0wYBI=;
+        b=RtigiTAG1C+x217cFfbh2LT1wyznLxUJvUY6kugXE0Ht1pQ5bSh9gf6QyRJOm4gQZR
+         NBHKplh+OM+lL9k5IlKU+GV1c7CUat0MtNy+juYl6Gm59620GbBWg9oyUOf7q7bq1atB
+         qBmaabOw1jTuOPKM/fyeh4lkcJW+Q+0MkJ0/FjriS7dzLL5JSbzXJ7UdH9hTsL/MSJ92
+         BlTIfXA+vY4m5gSvKetmeII55UurJ63EWnviETMz/OEpn1RfGI1QUz4Iv84TS+8DT9jP
+         X6KgBKLBb8rZ8y1o3aJBQpB6vPdCF5DEFfISZltzSfWD/3YvJ//MtOw3DcxKGGnlSUs7
+         9Xvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750093790; x=1750698590;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OALMEOmmOpixaGW3XVaHA/qsUtEIHB6pfWcetx0wYBI=;
+        b=IMFvQaOhHcb4STPsdYycBq9QkarWL5slzOGutvu72bchbV1QuZ05IrMXwWZY37A2MB
+         q9wksIpp4GX5bMNs27D+1dTChinHeV6zrWdfa/9YNd0nUyE5qFzSMoAZPisvTjVFx82z
+         pONEoLNUURnumYqiM6+J0msHFY+ofHehiFNtTJviuPnvWNcAG+hB3+38SxoGe26K3Zzw
+         ItQHoMwrykmzRz1YdAyeJ3oXgD3Wl+PImMDUokIMJmlVMieNcyqdZx4g1WetmhEXUP9m
+         CXn24cZZIGt2iCmZyWqeIVpCBzxINd6Gf0misuYGZ5xkTKmNPbWM7WT5PTCQYDQ/hkAO
+         sMZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdGedhy5X5YvRikwSLUMl4qxCgFM6EdTSj+KhIu0XLU9XsK6dqeglkPJkTe78DCYrJrDKVA9h9b5yaiSxvm1ve@vger.kernel.org, AJvYcCVWFu2v8sXXikTXSjt7KkkUERvl2or1EEe1YhU5N9uluLH+NydLltp/rc8shAAAq1ZzwZH8DKmqM9nQKQ/5@vger.kernel.org, AJvYcCW3htfPOfUC0CHhR//b5IDEIbI1zKbvqkzdcSxyirVU3KdrN4NH3+70YERHJBrSScSWyh+/e+zidak=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcQ+VHN+lKIpqUbxiuGL183erqoTFkI67IX0/o04eqa4F0B0g1
+	nP03/ya7MSJ+aHBy8HwkmYRIeYQQ/NV2T7n62ktWBO6Lpji2wXL39eWh
+X-Gm-Gg: ASbGncvF+3a5ls4jY2+iibcwTQU+m6YVHJk/Wg9HAROxYMtYSHRNGSFbIj0hfbaO4gV
+	wNHKAG2kh39I3c+nmUVsa6xE46a6XZ0i40GYRMTMrtzw69qmt4WG4xccG/p4g1i9XejbHrRaeAz
+	sZlhxwSDsBv6xx/ncM5/0MdBCQAkmrNJsST1JRpHjQ817jpyXrnMzA4p6NMv9gAjrYdQhcOYOeS
+	zVdwyWqPzkqiLaqydUe3fmt0xtVmJFlZjkQ/3GxkvXmNUlwTFjWlpcyA4an+09Gm4f93kZACabA
+	enRfAT7Hv73cY5cDGmI/9n88zjgYdPJcrDpIBACYsNouW1ftM/8gfTlA04ZMKR3Mtw==
+X-Google-Smtp-Source: AGHT+IG4F/SKra4kDBY1mPCktsz6zBpNw1ox5hr7Trsf+8D+LFwgE6p+83sUUeGbBLJPIl0Gg/unCg==
+X-Received: by 2002:ac8:57c1:0:b0:4a4:3cac:2c7a with SMTP id d75a77b69052e-4a73c5f4049mr51963041cf.11.1750093790247;
+        Mon, 16 Jun 2025 10:09:50 -0700 (PDT)
+Received: from localhost ([2a03:2880:20ff:6::])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a72a3112b8sm51333551cf.31.2025.06.16.10.09.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 10:09:49 -0700 (PDT)
+From: Gustavo Luiz Duarte <gustavold@gmail.com>
+Subject: [PATCH net-next v3 0/5] netconsole: Add support for msgid in
+ sysdata
+Date: Mon, 16 Jun 2025 10:08:34 -0700
+Message-Id: <20250616-netconsole-msgid-v3-0-4d2610577571@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJJPUGgC/23NTQrDIBAF4KuEWdei5qdJV71H6ULNJBlotGiQl
+ JC7V+wm0C4fb943GwT0hAGuxQYeIwVyNoXyVICZlB2RUZ8ySC5r3vCOWVyMs8E9kc1hpJ7prjT
+ N0GJnGg5p9vI40JrJO6TrtFgXeKRmorA4/86/osj9lxXil42CcSYubaVqMaAWeBtnRc+zcXPGo
+ jwC8g8gE9BXRiht2korcwT2ff8AgDaplvsAAAA=
+To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Gustavo Luiz Duarte <gustavold@gmail.com>
+X-Mailer: b4 0.13.0
 
-On Mon, 16 Jun 2025 15:14:37 +0200 Kory Maincent wrote:
-> > On Tue, 10 Jun 2025 10:11:41 +0200 Kory Maincent wrote:  
-> > > +static bool
-> > > +pse_pi_is_admin_enable_not_applied(struct pse_controller_dev *pcdev,
-> > > +				   int id)    
-> > 
-> > the only caller of this function seems to negate the return value:
-> > 
-> > drivers/net/pse-pd/pse_core.c:369:              if
-> > (!pse_pi_is_admin_enable_not_applied(pcdev, i))
-> > 
-> > let's avoid the double negation ?  
-> 
-> I thought it was better for comprehension.
-> If we inverse the behavior we would have a function name like that:
-> pse_pi_is_admin_disable_not_detected_or_applied()
-> 
-> Do you have a better proposition?
+This patch series introduces a new feature to netconsole which allows
+appending a message ID to the userdata dictionary.
 
-Would pse_pi_is_admin_enable_pending() work?
+If the msgid feature is enabled, the message ID is built from a per-target 32
+bit counter that is incremented and appended to every message sent to the target.
+
+Example::
+  echo 1 > "/sys/kernel/config/netconsole/cmdline0/userdata/msgid_enabled"
+  echo "This is message #1" > /dev/kmsg
+  echo "This is message #2" > /dev/kmsg
+  13,434,54928466,-;This is message #1
+   msgid=1
+  13,435,54934019,-;This is message #2
+   msgid=2
+
+This feature can be used by the target to detect if messages were dropped or
+reordered before reaching the target. This allows system administrators to
+assess the reliability of their netconsole pipeline and detect loss of messages
+due to network contention or temporary unavailability.
+
+Suggested-by: Breno Leitao <leitao@debian.org>
+Signed-off-by: Gustavo Luiz Duarte <gustavold@gmail.com>
+
+---
+Changes in v3:
+- Add kdoc documentation for msgcounter.
+- Link to v2: https://lore.kernel.org/r/20250612-netconsole-msgid-v2-0-d4c1abc84bac@gmail.com
+
+Changes in v2:
+- Use wrapping_assign_add() to avoid warnings in UBSAN and friends.
+- Improve documentation to clarify wrapping and distinguish msgid from sequnum.
+- Rebase and fix conflict in prepare_extradata().
+- Link to v1: https://lore.kernel.org/r/20250611-netconsole-msgid-v1-0-1784a51feb1e@gmail.com
+
+---
+Gustavo Luiz Duarte (5):
+      netconsole: introduce 'msgid' as a new sysdata field
+      netconsole: implement configfs for msgid_enabled
+      netconsole: append msgid to sysdata
+      selftests: netconsole: Add tests for 'msgid' feature in sysdata
+      docs: netconsole: document msgid feature
+
+ Documentation/networking/netconsole.rst            | 32 +++++++++++
+ drivers/net/netconsole.c                           | 66 ++++++++++++++++++++++
+ .../selftests/drivers/net/netcons_sysdata.sh       | 30 ++++++++++
+ 3 files changed, 128 insertions(+)
+---
+base-commit: 08207f42d3ffee43c97f16baf03d7426a3c353ca
+change-id: 20250609-netconsole-msgid-b93c6f8e9c60
+
+Best regards,
+-- 
+Gustavo Luiz Duarte <gustavold@gmail.com>
+
