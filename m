@@ -1,112 +1,92 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B749215773;
-	Mon, 16 Jun 2025 15:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D239784039;
+	Mon, 16 Jun 2025 15:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750086134; cv=none; b=AxMvOMy7cI2fTaYRnw7eCdrOo83hi/dIPWJrK6zyQo3XOLXfmfPVTXcSPZHIspHi+KMr+uXuQuJEY6XR/ss+oEHgLgUFsamF0h0umNCGLpeNzho9tPT7nyeDsoJ0ZS0Tm3xgj2PqKoqizH3KhdYwiUeRB/DgM+5vTfKAa+LhH88=
+	t=1750086237; cv=none; b=mVSJ6VmE92MbyX3W3w7c5hl/fLYrJPUUW5S0RxtJ1grJzb4B20MvVdFn14St4AO0A4PKwe5qqcOUjxg0qH4bjWTaVxomu+e3sZLpT3PkLD/k+jQpb1k7ffa0O9TdZnYEvfEpbflW9xxx1Gl6LH+6eaMxdJQL233EwaUOHBdkiTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750086134; c=relaxed/simple;
-	bh=5FGZTXPSRB9UdOMKVVzsofQp4QdGIsgXthBaH70tIlw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UheCqau8eUaJtbVzJm+dln2hM6Iz6hbn3npbRnqAC6jtHC7Anvq+TvHU2a15W+0WaTT84FgP22dJKveh0pzR19nKoO+pMFY8CggamBWKVPIb/AhIpxKNVP9cKO3CFXxEko9bY0rD2Dv+bfSQMPimQreg3+nAbX//91DeRbBPkFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dvUWYfKe; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750086237; c=relaxed/simple;
+	bh=Z1NVxtB6FWsUaP0Tts63iaOqkQo4XjWoxebAKiOjg/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rPnG7SUHkoHfa/DqCBTHGT7KeGvXz8U0qpMaMITvUI6A+k4y/OEHyPa9PMNbT3aJAxZqCAYcZkXnUCpi7IzpxEOf7nzLTjEDA/3LxDnCAtUYqLaFjA1N+DIRnclC5xzqMGM2uq6oQ6E+aZE+Qll1i/DSQr4Bd1nqe3VsbaaD5D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ncCrwldi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dvUWYfKe"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ade33027bcfso741649766b.1;
-        Mon, 16 Jun 2025 08:02:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750086131; x=1750690931; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xxpfP09wMONaS9jpAWxQ7WCauQRBx9+f7EU0xvtD+hk=;
-        b=dvUWYfKek2zCVmPOzspikptLipSo9TNJ5Od6eyaM/yk/dsZaD+BL6x677rarsMraRu
-         bo2GjgoYFED9zxduzelnqw7ZbWcJDRxRChq/SUQ2D7ieHskcQyskG0B8QKdmqBj/zIZb
-         ZDiX5a5tEcZqoYOZq/upcasFAZZhSbNHHhsXpZsDfVXTgx2FAZEOGEgtxvM1yaRoYx7N
-         nEGzX7GF0LhkoDVmi6NBrcp8clhuDdRQrWPlL/hO5J2r/FLOYHUw9F1tzH9X1gzCcwxT
-         xK6ENT5vXMj9O9eFUVNuMUYYzlpcZo0oxDesyG4HeyCdchY5b43QbmkJCCGfKcs64MOA
-         lfiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750086131; x=1750690931;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xxpfP09wMONaS9jpAWxQ7WCauQRBx9+f7EU0xvtD+hk=;
-        b=sqbLJJc8wciID2BJu5nASCQqrUiOnGRB89ycD8Xf7yaeUxuUtpSslUQevGJl3qzw4c
-         66uoEv3Mrtfma82jBsaHPWalAVS5j+bmoFqVmHnyjHrB7OtZih3tzwExCkpob11qTRqf
-         goxKXMnMUlai0WHim06e9MJexrikP2jy5teA7zCsx7jUACBJRZEFIq5Yu2V2kEJ70Pri
-         XEQfjSWy7OGWEDcoHMTkVbdNwj9DsddjoQ3pKzkYWy4GLYUT6NBXzbMPGHZaGrtM35SS
-         YtK3jZILpU7LEQhY4vRmOqAD2d2dvHPRr1JlKdQJNYf0vV1pBUIjV9jh4fQjZpHXhmri
-         L/qg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOZiOzWDMtaSpI6mNdHCKE65kisDOF4c06jcDGzm1sxrrF5BsBLluGwjmJrhrBKnsIPvRpRxX1gVo=@vger.kernel.org, AJvYcCWRNBf8Mtngpp27RNhPIM+4JeeLU6mGr0IbowjoKC4AAMpQKyR+d+QRySzmFEAf8fFeAwun3BDxqJLgGBLZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJkNghN2ewdMhIpd+ij+DizKJ6GnYhm31ouqMp+mvKhmlwdGfi
-	1VlvfyJwSotOZsREK0KFXM8ZjpBh6lmlnS0X9lg/S8V50fRvPYSg9FwemVjY3NZwSkWjBUsIjPp
-	xYZnwAhy9Ml6cmgefKNPGph5hRe+PGSE=
-X-Gm-Gg: ASbGncvoBW2oTXsIy69Id4Z4phlBcGJ+1a8WruUBDm80BI0XX5tmSGVTyKj+npj7q63
-	BgNzI9x51SePmh2GLEvnxDV2OnKJXONjiiV6Jx3w3SvLTUdJ/icxsBDZCsClG4UKE10VnV2gHr2
-	rcSrIntfhrMvBXB06slB4rhTXVjP1EnS6OiTdwvfT0VfsV405WhRL+JX7Qn871t+zaacdJ1V2tg
-	pi4
-X-Google-Smtp-Source: AGHT+IGJ/zFE4w+JKMjUWfvDesBnew2u7pOoc4H3+qqMTkNhD/5NjNC8e3RLUAEQRY/PUbER+yrMW04GTUY04EM7Ez0=
-X-Received: by 2002:a17:907:6d28:b0:ade:2e4b:50db with SMTP id
- a640c23a62f3a-adfad2a0920mr927784766b.10.1750086130484; Mon, 16 Jun 2025
- 08:02:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ncCrwldi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D093C4CEEA;
+	Mon, 16 Jun 2025 15:03:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750086236;
+	bh=Z1NVxtB6FWsUaP0Tts63iaOqkQo4XjWoxebAKiOjg/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ncCrwldi7KW2oR0BGna/HBIIAJv+ZAHCoEZKs/BPyn5/AoAX6SCi4QOiYwdfUhXDK
+	 FvYkI2VE7Pi53zget0gbSimS3IiNE01ZriAjIc10bUcXNbMISKldm54Qislz5xWw1f
+	 t47CTk8CTT7AkauDj92qs5EMcK6scec1Am7KlSq0juEFKe+cnu7xsAAkKXnZXx8TzS
+	 9IXoFG9gUOcL9xgDdicFC5WOZ0S4TKm3GFmf77drUF6ZLUl4a04uBgm0QIiIsIygdf
+	 IMMz13YeWwL0zt0oYXWq6XHO3ofduFutX9NUVepde1X3iycMWpig7Uv+Ub61MAfe9i
+	 sp4gIvBdMMjRA==
+Date: Mon, 16 Jun 2025 16:03:50 +0100
+From: Simon Horman <horms@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux GPIO <linux-gpio@vger.kernel.org>,
+	Linux MTD <linux-mtd@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux USB <linux-usb@vger.kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Weinberger <richard@nod.at>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Felipe Balbi <balbi@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH] Documentation: treewide: Replace remaining spinics links
+ with lore
+Message-ID: <20250616150350.GC6918@horms.kernel.org>
+References: <20250611065254.36608-2-bagasdotme@gmail.com>
+ <20250613130753.GE414686@horms.kernel.org>
+ <aEznrV9XoXNpYKwa@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250612181330.31236-1-bijan311@gmail.com> <20250612234942.3612-1-sj@kernel.org>
- <CAMvvPS4WsGkfukNscnLWW40Agg6_wmkm_QF96m+HZrEZrstR4A@mail.gmail.com> <20250616074233.GA74466@system.software.com>
-In-Reply-To: <20250616074233.GA74466@system.software.com>
-From: Bijan Tabatabai <bijan311@gmail.com>
-Date: Mon, 16 Jun 2025 10:01:57 -0500
-X-Gm-Features: AX0GCFv72kKkxX-qe1l08YvlwPCsH3UbKfNEIk9xWqIa4M8jORlTYRaH3Xzfz5g
-Message-ID: <CAMvvPS4OAHAdUJtuinCgo+oTQ8akSk8138LikLx_38pr8rtqeA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] mm/damon: Add DAMOS action to interleave data
- across nodes
-To: Byungchul Park <byungchul@sk.com>
-Cc: SeongJae Park <sj@kernel.org>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	david@redhat.com, ziy@nvidia.com, matthew.brost@intel.com, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, gourry@gourry.net, 
-	ying.huang@linux.alibaba.com, apopple@nvidia.com, bijantabatab@micron.com, 
-	venkataravis@micron.com, emirakhur@micron.com, ajayjoshi@micron.com, 
-	vtavarespetr@micron.com, damon@lists.linux.dev, kernel_team@skhynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aEznrV9XoXNpYKwa@archie.me>
 
-On Mon, Jun 16, 2025 at 2:42=E2=80=AFAM Byungchul Park <byungchul@sk.com> w=
-rote:
-[...]
+On Sat, Jun 14, 2025 at 10:08:29AM +0700, Bagas Sanjaya wrote:
+> On Fri, Jun 13, 2025 at 02:07:53PM +0100, Simon Horman wrote:
+> > I am wondering if you considered also addressing
+> > the spinics.net links in gadget-testing.rst.
+> > They are the only other instances I see under Documentation.
+> 
+> I can't find on lore remaing spinics threads ([1], [2], [3]). These are all
+> from 2012-2013 and somehow lore doesn't have linux-usb archive on that year.
+> 
+> Andrzej, Sebastian, what do you think?
+> 
+> Thanks.
+> 
+> [1]: https://lore.kernel.org/all/?q=s%3A%22f_phonet+with+SOCK_DGRAM%22
+> [2]: https://lore.kernel.org/all/?q=s%3A%22pnxmit.c%2C+test+program%22
+> [3]: https://lore.kernel.org/all/?q=s%3A%22usb%2Fgadget%3A+the+start+of+the+configfs+interface%22
 
-Hi Byungchul,
+Hi Bagas,
 
-> Your approach sounds interesting.
->
-> IIUC, the approach can be intergrated with the existing numa hinting
-> mechanism as well, so as to perform weighted interleaving migration for
-> promotion, which may result in suppressing the migration anyway tho, in
-> MPOL_WEIGHTED_INTERLEAVE set.
->
-> Do you have plan for the that too?
+Thanks for the explanation.  Based on that I think this patch is fine.
+And the remaining links can be updated in future if appropriate.
 
-I do not currently have plans to support that, but this approach could
-be used there as well.
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-> Plus, it'd be the best if you share the improvement result rather than
-> the placement data.
 
-Sure, I could add some performance data in the cover letter of the
-next revision.
-
->         Byungchul
->
-[...]
-
-Thanks,
-Bijan
