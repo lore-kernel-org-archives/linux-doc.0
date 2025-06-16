@@ -1,180 +1,207 @@
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678D426FA5E;
-	Mon, 16 Jun 2025 10:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A823C1465A5;
+	Mon, 16 Jun 2025 10:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750071342; cv=none; b=NyLrJQUuGhMY5z+XhUS5cv3qFVEvHJiMiG84IQYnCzHsJhh8RMIt6wgoFZqlWTJh6JMknd02mTb/8ReyVnQL4sg2KU41XVVsaKZ8spQptZiMF3Ba2tHqjHaYDvKOXDnxx9KsPU7si5BL8KLDTbZKRh42FMrLUVqzWWAbdZb8Oyg=
+	t=1750071554; cv=none; b=jjlxPvskZeErpzAD7OWOhtXpsbrwknV/HWk4W6hwrKErmQOLZNbso1BboZ1KP/f6FLAW+q64CAI5aCo915yULdJRrTRZeba2b8MXknvtv9OX+w59dAO+YSJfHGkq4dx717pESizcLbvyT7hgRcS3mV6xBJkQQt0pfmYGsYVeGzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750071342; c=relaxed/simple;
-	bh=aDoIFUDPbKlkZs2LaI4PiAZe0ItSZiaPAXg5nePkjDQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gTHyJ3+y5dBXUaWQFR7CwJnyd6KaB8Xj9Krt4eKojTHUVkSM1x1W6IsD4d16hRrH9svFvXqgmRaRj+6cV5+MmFiE1eASKIeHwEDzT4OdJiKut17Gi+8BY6R+WpTORYLpDsaOJQ8WWzpihov5I1+SYm4nuOeUjdD+oWiHlKRPiX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=BaOhuSjW; arc=none smtp.client-ip=115.124.30.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1750071554; c=relaxed/simple;
+	bh=ivAyhqHkPrwFRYJzP0f+A9vzerfjqRCkdprjo4/m3aw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jSQyv8Ff5mMs07PNBex3Yn7LTZZYPRTJ0qxTDochMwaiBmdfr5OBazLN/FytlrYjIxTjzGQA6Y9Pxf4gpJFTrTWE7OLoE/1U4ZslbdFj0Oifr+XswBpm/XcyIKmeb86qIrz9BwvgZKZ2/0rGV8Y/aAKSAOwh+IDLceqLdJ7zgbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WO4eQEqU; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="BaOhuSjW"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1750071336; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	bh=i8EdbzyYXZcEWHaoQ9QBBBH1FZsnTBo/AD39uza65v0=;
-	b=BaOhuSjWV2CRDTzhpmjBaK/4xbXSSvO9tMNMleL/tVkUBnw8CMQeBDW8X6ChHLz8dFt8EvhI+hfN3COW2tBNagx8BBfQnl8PycM3h8nEwV1s9i64r+UW9Lgfxuf5MyW/r1MjFvYJbFAsO0yvVLj8BA3E1YDsuMrCpTYxqaSfPR4=
-Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com fp:SMTPD_---0WdwwWRd_1750071334 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 16 Jun 2025 18:55:34 +0800
-From: "Huang, Ying" <ying.huang@linux.alibaba.com>
-To: Bijan Tabatabai <bijan311@gmail.com>
-Cc: David Hildenbrand <david@redhat.com>,  linux-mm@kvack.org,
-  linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,  sj@kernel.org,
-  akpm@linux-foundation.org,  corbet@lwn.net,  ziy@nvidia.com,
-  matthew.brost@intel.com,  joshua.hahnjy@gmail.com,  rakie.kim@sk.com,
-  byungchul@sk.com,  gourry@gourry.net,  apopple@nvidia.com,
-  bijantabatab@micron.com,  venkataravis@micron.com,  emirakhur@micron.com,
-  ajayjoshi@micron.com,  vtavarespetr@micron.com,  damon@lists.linux.dev
-Subject: Re: [RFC PATCH 1/4] mm/mempolicy: Expose policy_nodemask() in
- include/linux/mempolicy.h
-In-Reply-To: <CAMvvPS5U8exSvy0fknfhv8ym_dKgMVa7cfMOqn0fGyd+NSjSuQ@mail.gmail.com>
-	(Bijan Tabatabai's message of "Fri, 13 Jun 2025 11:33:18 -0500")
-References: <20250612181330.31236-1-bijan311@gmail.com>
-	<20250612181330.31236-2-bijan311@gmail.com>
-	<5a50eeba-b26d-4913-8016-45278608a1ee@redhat.com>
-	<CAMvvPS5U8exSvy0fknfhv8ym_dKgMVa7cfMOqn0fGyd+NSjSuQ@mail.gmail.com>
-Date: Mon, 16 Jun 2025 18:55:32 +0800
-Message-ID: <87zfe83qhn.fsf@DESKTOP-5N7EMDA>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WO4eQEqU"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ade4679fba7so800681266b.2;
+        Mon, 16 Jun 2025 03:59:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750071551; x=1750676351; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HUerpZOJO73onNYo92QlKelLbykJvFa6HSMQaRUUq74=;
+        b=WO4eQEqUni3TWzTsEdBQRAv6Key5XqbHtvi35OYeBw5HwDZ2HvRSXurSEfjmSiEwiU
+         ITlra45M3QRsQHBx79l1Qe43Hr9EAezgGhX7mElaJ46CzyuP9YP7NRZRDAa7aXydC20Q
+         P/1kzOS33F5TgsuwKNcCcpt4UC2BvZBNJAEQeI2EkXIl6v+0Q+pOCl8nk2Q27IGCaRDb
+         6WKP8xvPZofRvR3DF6RvNSQjLjuaE3PjxAHpR3mRt3ss7Y6KpRbecRc2JnD0TEsWdVME
+         CE46rG3M+nPCpTJkILWADepuTxv2FA3xwPvVsiPxVAUHaEVO9EgIDl/r0IVshDpalkO9
+         /vPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750071551; x=1750676351;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HUerpZOJO73onNYo92QlKelLbykJvFa6HSMQaRUUq74=;
+        b=qsQTIF1OOLDIOQ1BHNJSkC50EMr1sG+RB4FEw6jd1kcQ/IthiqRjxp8GVQZaE4bRUY
+         aH11gRnBfyYNm4W/8a2hLKQUSMwmrPMdRSqehqAtLxfErSXq+Hnf4xYZTNubQc44tmfa
+         DDXFqUrEoXE6mGmFV+kOWaIMce04M3lR9fWlFp063J/XHIusyZIMtTSVb2d63R8awCLL
+         LoMGPPnH50B0snAKsGX4lQV0z9GjIN4cvBOsmk10eSMjvIQ0XKj6Tmc+u+gW8jDCN0SL
+         VaX5XZf6zkvca4KHifAlX31crJ8yg2wgKs9k6ODCyUVGcfQ8YU5Kl5GTGGQy2QE9rxjl
+         KovA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpfx1MvhQZL/cpzSfCNpJsjoNIXA3w9CwZwKzKaZelfx3Qr5Grrg7Jc0VZ0iqiznF/t4CD0pmU8Cc=@vger.kernel.org, AJvYcCWrOoSVh76FO65EyMMxIDiKkNfa2/8QZN3vVdeZRFeFThl1b4NQf9yBYEe5fsKSiCus/OJi9/dZ3hK5@vger.kernel.org, AJvYcCXKirJA/eU3CENo6/VQHejd4lq4RN8KKTSbC6u7/a/++6RwvjtYw3HKkFm3Zsh6Jus9rwe65a2Xt+KubExk@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4hUtKHF9F6GgaMk0vt6+3xbGnD9u+tfGw4ZGX3DUYT14SIjdi
+	45fzacM1hsvl+EeeBvrn480bG+n6D+Ipu2AKADIjnfRsYvubP1jlJGl3cv2cZfSD7S3NZ29Xvj6
+	Hs21E6rutng5+HnU+wc8NccGKXqRIQxU=
+X-Gm-Gg: ASbGnct95bWdA/Cy/fEQ03ZCHV/VZQQphmHf4xlMhV3vcbn+HAdkp9VrOwRQBzLgRNP
+	e/Ciy58DsW29okCfhti862X9TbkM0muZ9JAihJEq4rOkXlYTO8CQY9KIzJzkoS8nyPyQNA4zq/k
+	3MIP117IrvyZ5G7zUjpUezKt3VbFg8dhaTZX4BoFachvJCz4vQEk6UNTmo
+X-Google-Smtp-Source: AGHT+IEj0l0JJd/YOnNnj6VYrjKKVCp+t0CG6lxcnBcfrsUbqPiZvWYlOO3jWuW8VuwwavUgBZGYerQdMSELsDjKuPA=
+X-Received: by 2002:a17:907:9285:b0:ad5:5198:b2ad with SMTP id
+ a640c23a62f3a-adfad59ac32mr846089466b.48.1750071550733; Mon, 16 Jun 2025
+ 03:59:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20250615222258.117771-1-l.rubusch@gmail.com> <20250615222258.117771-6-l.rubusch@gmail.com>
+In-Reply-To: <20250615222258.117771-6-l.rubusch@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 16 Jun 2025 13:58:34 +0300
+X-Gm-Features: AX0GCFu4RcbVhsjuRncgzOdsGD5SqBMHKarvEM9c27WzKqfcMa8HYO2IM5SjMgs
+Message-ID: <CAHp75VdWtY6nxFFTucoCRiq+tM5caL5N1yp_15=FSAZ7Vyk_7Q@mail.gmail.com>
+Subject: Re: [PATCH v5 5/8] iio: accel: adxl313: add inactivity sensing
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, bagasdotme@gmail.com, linux-iio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Bijan Tabatabai <bijan311@gmail.com> writes:
+On Mon, Jun 16, 2025 at 1:23=E2=80=AFAM Lothar Rubusch <l.rubusch@gmail.com=
+> wrote:
+>
+> Enhance the interrupt handler to process inactivity events. Introduce
+> functions to configure the threshold and period registers for
+> inactivity detection, as well as to enable or disable the inactivity
+> feature. Extend the fake IIO channel to handle inactivity events by
+> combining the x, y, and z axes using a logical AND operation.
 
-> On Fri, Jun 13, 2025 at 8:45=E2=80=AFAM David Hildenbrand <david@redhat.c=
-om> wrote:
->>
->> On 12.06.25 20:13, Bijan Tabatabai wrote:
->> > From: Bijan Tabatabai <bijantabatab@micron.com>
->> >
->> > This patch is to allow DAMON to call policy_nodemask() so it can
->> > determine where to place a page for interleaving.
->> >
->> > Signed-off-by: Bijan Tabatabai <bijantabatab@micron.com>
->> > ---
->> >   include/linux/mempolicy.h | 9 +++++++++
->> >   mm/mempolicy.c            | 4 +---
->> >   2 files changed, 10 insertions(+), 3 deletions(-)
->> >
->> > diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
->> > index 0fe96f3ab3ef..e96bf493ff7a 100644
->> > --- a/include/linux/mempolicy.h
->> > +++ b/include/linux/mempolicy.h
->> > @@ -133,6 +133,8 @@ struct mempolicy *__get_vma_policy(struct vm_area_=
-struct *vma,
->> >   struct mempolicy *get_vma_policy(struct vm_area_struct *vma,
->> >               unsigned long addr, int order, pgoff_t *ilx);
->> >   bool vma_policy_mof(struct vm_area_struct *vma);
->> > +nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
->> > +             pgoff_t ilx, int *nid);
->> >
->> >   extern void numa_default_policy(void);
->> >   extern void numa_policy_init(void);
->> > @@ -232,6 +234,13 @@ static inline struct mempolicy *get_vma_policy(st=
-ruct vm_area_struct *vma,
->> >       return NULL;
->> >   }
->> >
->> > +static inline nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy=
- *pol,
->> > +                             pgoff_t ilx, int *nid)
->> > +{
->> > +     *nid =3D NUMA_NO_NODE;
->> > +     return NULL;
->> > +}
->> > +
->> >   static inline int
->> >   vma_dup_policy(struct vm_area_struct *src, struct vm_area_struct *ds=
-t)
->> >   {
->> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
->> > index 3b1dfd08338b..54f539497e20 100644
->> > --- a/mm/mempolicy.c
->> > +++ b/mm/mempolicy.c
->> > @@ -596,8 +596,6 @@ static const struct mempolicy_operations mpol_ops[=
-MPOL_MAX] =3D {
->> >
->> >   static bool migrate_folio_add(struct folio *folio, struct list_head =
-*foliolist,
->> >                               unsigned long flags);
->> > -static nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
->> > -                             pgoff_t ilx, int *nid);
->> >
->> >   static bool strictly_unmovable(unsigned long flags)
->> >   {
->> > @@ -2195,7 +2193,7 @@ static unsigned int interleave_nid(struct mempol=
-icy *pol, pgoff_t ilx)
->> >    * Return a nodemask representing a mempolicy for filtering nodes for
->> >    * page allocation, together with preferred node id (or the input no=
-de id).
->> >    */
->> > -static nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
->> > +nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
->> >                                  pgoff_t ilx, int *nid)
->> >   {
->> >       nodemask_t *nodemask =3D NULL;
->>
->> You actually only care about the nid for your use case.
->>
->> Maybe we should add
->>
->> get_vma_policy_node() that internally does a get_vma_policy() to then
->> give you only the node back.
->>
->> If get_vma_policy() is not the right thing (see my reply to patch #2),
->> of course a get_task_policy_node() could be added.
->>
->> --
->> Cheers,
->>
->> David / dhildenb
->
-> Hi David,
->
-> I did not use get_vma_policy or mpol_misplaced, which I believe is the
-> closest function that exists for what I want in this patch, because
-> those functions
-> seem to assume they are called inside of the task that the folio/vma
-> is mapped to.
-> More specifically, mpol_misplaced assumes it is being called within a
-> page fault.
-> This doesn't work for us, because we call it inside of a kdamond process.
->
-> I would be open to adding a new function that takes in a folio, vma,
-> address, and
-> task_struct and returns the nid the folio should be placed on. It could p=
-ossibly
-> be implemented as a function internal to mpol_misplaced because the two w=
-ould
-> be very similar.
->
-> How would you propose we handle MPOL_BIND and MPOL_PREFFERED_MANY
-> in this function? mpol_misplaced chooses a nid based on the node and
-> cpu the fault
-> occurred on, which we wouldn't have in a kdamond context. The two options=
- I see
-> are either:
-> 1. return the nid of the first node in the policy's nodemask
-> 2. return NUMA_NO_NODE
-> I think I would lean towards the first.
+...
 
-You can try numa_node_id() first, then fall back to the first nid in
-the nodemask.
+> -       axis_en =3D FIELD_GET(ADXL313_ACT_XYZ_EN, axis_ctrl);
+> +       /* Check if axis for activity are enabled */
+> +       switch (type) {
+> +       case ADXL313_ACTIVITY:
+> +               axis_en =3D FIELD_GET(ADXL313_ACT_XYZ_EN, axis_ctrl);
+> +               break;
+> +       case ADXL313_INACTIVITY:
+> +               axis_en =3D FIELD_GET(ADXL313_INACT_XYZ_EN, axis_ctrl);
+> +               break;
+> +       default:
+> +               return -EINVAL;
+> +       }
+>
+>         if (!axis_en)
+>                 return false;
 
----
-Best Regards,
-Huang, Ying
+So, this looks better without a variable?
+
+  case FOO:
+     if (!FIELD_GET(...))
+         return false;
+     break;
+
+On the first glance it seems that next changes don't affect this.
+
+...
+
+> -       /* Start modifying configuration registers */
+
+Stray change, the next patch restores this. So why change to  begin with?
+
+>         ret =3D adxl313_set_measure_en(data, false);
+>         if (ret)
+>                 return ret;
+
+...
+
+>         /* Enable axis according to the command */
+> -       axis_ctrl =3D ADXL313_ACT_XYZ_EN;
+> +       switch (type) {
+
+I was wondering if you can use switch-case earlier in the series.
+
+> +       case ADXL313_ACTIVITY:
+> +               axis_ctrl =3D ADXL313_ACT_XYZ_EN;
+> +               break;
+> +       case ADXL313_INACTIVITY:
+> +               axis_ctrl =3D ADXL313_INACT_XYZ_EN;
+> +               break;
+> +       default:
+> +               return -EINVAL;
+> +       }
+
+...
+
+> -       if (info !=3D IIO_EV_INFO_VALUE)
+> -               return -EINVAL;
+> -
+> -       switch (dir) {
+> -       case IIO_EV_DIR_RISING:
+> +       switch (info) {
+> +       case IIO_EV_INFO_VALUE:
+> +               switch (dir) {
+> +               case IIO_EV_DIR_RISING:
+> +                       ret =3D regmap_read(data->regmap,
+> +                                         adxl313_act_thresh_reg[ADXL313_=
+ACTIVITY],
+> +                                         &act_threshold);
+> +                       if (ret)
+> +                               return ret;
+> +                       *val =3D act_threshold * 15625;
+> +                       *val2 =3D MICRO;
+> +                       return IIO_VAL_FRACTIONAL;
+> +               case IIO_EV_DIR_FALLING:
+> +                       ret =3D regmap_read(data->regmap,
+> +                                         adxl313_act_thresh_reg[ADXL313_=
+INACTIVITY],
+> +                                         &inact_threshold);
+> +                       if (ret)
+> +                               return ret;
+
+> +                       *val =3D inact_threshold * 15625;
+> +                       *val2 =3D MICRO;
+> +                       return IIO_VAL_FRACTIONAL;
+> +               default:
+> +                       return -EINVAL;
+> +               }
+> +       case IIO_EV_INFO_PERIOD:
+>                 ret =3D regmap_read(data->regmap,
+> -                                 adxl313_act_thresh_reg[ADXL313_ACTIVITY=
+],
+> -                                 &act_threshold);
+> +                                 ADXL313_REG_TIME_INACT,
+> +                                 &inact_time_s);
+>                 if (ret)
+>                         return ret;
+> -               *val =3D act_threshold * 15625;
+> -               *val2 =3D MICRO;
+> -               return IIO_VAL_FRACTIONAL;
+> +               *val =3D inact_time_s;
+> +               return IIO_VAL_INT;
+>         default:
+>                 return -EINVAL;
+>         }
+
+I still don't get what's wrong with helpers for nested switches?
+Instead of doing ping-pong with so many lines (due to indentation
+changes), just create a helper from the beginning. In this case this
+will look more like
+
+
+  if (nfo =3D=3D IIO_EV_INFO_VALUE)
+    return my_cool_helper_for_THIS_case(...);
+
+Note, I admit that not all the cases may be done like this, but just
+look at this again and perhaps something can be optimised.
+
+--
+With Best Regards,
+Andy Shevchenko
