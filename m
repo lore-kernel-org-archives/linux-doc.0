@@ -1,137 +1,122 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F8C263C9B;
-	Mon, 16 Jun 2025 15:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC5C267721
+	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 15:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750089115; cv=none; b=ge9zHnHjRXzsrpHAJ0SKikvpCelqQqrqICnORy7G2OjqAfBWBrPnMMb4YJrtsPVeTA4wXp862ZL0xL9DxLSnofEe/yLTNC7EXA7m2f93KYlwyotxezROOr/WyW6vTAJxVX6K7b0AiMkasrCxKetl8C82XqUgCOCLYryyLX1LWM8=
+	t=1750089140; cv=none; b=Dp9EX8D+FbqluYwDriCUrMd4w+C0CO79DqCXNb3rkZk7xvez4OXqtb7GVpm2UlCpn3cEFuWlsQfZyUS7XNo+5DIeZA0d6j0/GMIsjgkRfGEVYIziCIkyXqmOezzrpgtf9xTeSdEEr0ni9Ib+4Gf65e2h6stlo4e86Ekv6+G2q8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750089115; c=relaxed/simple;
-	bh=YseFtmXDi554Cdo4z4Avx8hpjypNZzIQz2GGROAIBGU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dM+4qW4gqaw4GPVc6nQ/1+dZuYWz59i/5GtmZbWElm4colwklFsoD/p6G5YG7MTc/DLcdJQLbBrtE0LV/a/yn3jxq7Sqi9di2JpF9HfOzmEo2VrJhmgB5m8d+tQbLhACQn45pXX4OMEF168ewaQB57XvrN4b4Pe67boJJ7cwEEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=dTUPR73E; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1750089140; c=relaxed/simple;
+	bh=cgvgta8aciMoxErXIYuF2aSDop9idzFQFduLa/KczfY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NOU6Gw2jadsJugwpiCfiFLlJoyEiXgqgUvhlGc5pWTDsgK+J+XRDfA2PmI0e2Q4sdLX0+taNSkE4jh4vZg56jbR2J2Z1sJ/2rTYWrZYBCjk8nLUQDG4dJGe9HRbwp4rIEOBj5YwDxqwz+4wEsXS7OgDzTq1Ic1Po6gSvdOW395o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FwI1crum; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="dTUPR73E"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55GCMGum028058;
-	Mon, 16 Jun 2025 15:51:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=ZXAqwNs+BmvglevjdpdzR5FyKl5vU3
-	UcJ4tKtauv7+Q=; b=dTUPR73EZstATk5Xe8x5JyOiaRDnUUwd1TmddGhB8x4OfL
-	yEwE0RNXvWq07vm/ZfgR1gwvNBLsd5X2o565ym48KOz5XiZmludx3pC9xQWzzv5k
-	yZKblAiuITH/m12bsz9bhwXuBf3SjlLuWwQLdJtJ/Sh81seFp0vEDXZuLi/lsY+f
-	XcxMK2gDrhsoYPlUUhtFsHlFPjIQqY7TOTFB1zkylwFhd6REs1uj8uPW18SR8aPk
-	5zhCvY0kDevN4G7eZdKvMkeYK+oo5A86t8nUwK14hVw9dxwdymqRDPnKI1xkBuC9
-	FNF17lvZPo3OEcf9x0vL0o8eio8UuO14zHPoky2Q==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4790r1thc5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Jun 2025 15:51:43 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 55GFkXBu006511;
-	Mon, 16 Jun 2025 15:51:42 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4790r1thc4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Jun 2025 15:51:42 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 55GDgiSw025751;
-	Mon, 16 Jun 2025 15:51:42 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 479xy5mxtm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Jun 2025 15:51:42 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 55GFpftI13959696
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Jun 2025 15:51:41 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 561B258054;
-	Mon, 16 Jun 2025 15:51:41 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BB9B55803F;
-	Mon, 16 Jun 2025 15:51:40 +0000 (GMT)
-Received: from d.ibm.com (unknown [9.61.172.143])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon, 16 Jun 2025 15:51:40 +0000 (GMT)
-From: Dave Marquardt <davemarq@linux.ibm.com>
-To: Joe Damato <joe@dama.to>
-Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net v2] Fixed typo in netdevsim documentation
-In-Reply-To: <aFA2c96O-VFXms3G@MacBook-Air.local> (Joe Damato's message of
-	"Mon, 16 Jun 2025 18:21:23 +0300")
-References: <20250613-netdevsim-typo-fix-v2-1-d4e90aff3f2f@linux.ibm.com>
-	<aFA1seeltkOQROVn@MacBook-Air.local>
-	<aFA2c96O-VFXms3G@MacBook-Air.local>
-Date: Mon, 16 Jun 2025 10:51:40 -0500
-Message-ID: <87msa77khf.fsf@linux.ibm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FwI1crum"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750089137;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cgvgta8aciMoxErXIYuF2aSDop9idzFQFduLa/KczfY=;
+	b=FwI1crum+6sDSY8I6SAH1U9Ei4gFbgW7lIb6eT8ud716xsA3n5FqKjt/aDGu0wRBbM09vG
+	dudwm7ZJmMPFQVe0WYrroF02niCOjQeIret7dUvkjiMCtbTSpp0rT9KYqbaG6bmNoHAkUH
+	1sndlpmKyyEoDFwQ2FHpC/+aYkO8KAg=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-322-1ZomHypYNQmKwJrmtnWk_g-1; Mon, 16 Jun 2025 11:52:16 -0400
+X-MC-Unique: 1ZomHypYNQmKwJrmtnWk_g-1
+X-Mimecast-MFC-AGG-ID: 1ZomHypYNQmKwJrmtnWk_g_1750089135
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-70e86a2a1b8so64520767b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 08:52:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750089135; x=1750693935;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cgvgta8aciMoxErXIYuF2aSDop9idzFQFduLa/KczfY=;
+        b=X7Hg+obO87HSl6is65CePvpfyhU3tL3Cxn8d4foCVfVdV/AJXBT6eDpkxoJWwAppjD
+         gXG/dmkWcK1COoa2+59HF+x4hnhQfalNu0/LM/mI0Y2HuzTPnQie8zRV85h91dyKJY4j
+         Qr2ZJGOJVrDpKyS0QQd4Xz5t0RmV6UF1rYsXAQzcRuaDIw2UwPi36h0nc5mnGMLVCYUT
+         yn8tcUIn6iXGNhLrYDH3hjDmWUoKJ4+RG1uNjvYulSoguaLMomQfIuRFLfIXDr7n1yJi
+         K7Rw1jZJdHqCl9kz588qG9jZm0m8qAaFQ8WWllT01lSMjafY2wMmgDnLs5iVZqSuLQ9L
+         jt7w==
+X-Forwarded-Encrypted: i=1; AJvYcCWK50Z5gye61uTERxhVnDCrsMIw7Hs2jB25q3CzD67P3o0gpxDPcF/3urPiCrOlxEmBgPZ9xNFUzQU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySOiEQ0KRm9yE5pqSNIJrk4HnGom7TxYBwVSdewBuqQMAIXDjc
+	r6BMQRpv54xkjqzPGmrXAekxh1Yn6+SvcC5kQMfFF8GfiiyoMZRbzii3N4xkCtH8Sw5L08IdXFz
+	CQXBhWJgryVsHswYLqKZJFmVzvhqIu8uwFZds8KC8Lt/E9GgRnn61vpSaMFwiZTf8dF15Ys41Md
+	KLa8sOLUovDCJKXK/CHkzAaPIVmR6OHse5N0zR
+X-Gm-Gg: ASbGncteGpirP9almhViKn/w1u2dB+N4OonzQ0Ee42xnLA2IpqRUGn5hRqk3UdQr0uz
+	N5Wr3KNoYu8Aeul4YguuNdmY1njUzQKc3qhrXJMZU9mL5lJ58ikj+LVaw+4ryEkIHlHCksHP8Yz
+	UZxyCjdg==
+X-Received: by 2002:a05:690c:385:b0:70d:f237:6a60 with SMTP id 00721157ae682-7117543cf7cmr125890827b3.7.1750089135460;
+        Mon, 16 Jun 2025 08:52:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGZXG6wclfxD90BTesxhzMtrDTqbltqXOg871c5dsmQbh0pbJek5ygMMH70krpIlhvDmoHznJlg+ptMx6vksPc=
+X-Received: by 2002:a05:690c:385:b0:70d:f237:6a60 with SMTP id
+ 00721157ae682-7117543cf7cmr125890177b3.7.1750089134944; Mon, 16 Jun 2025
+ 08:52:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LJ9S5Ezd8eSu0Hxm2EG1ge3DWyKJLeGx
-X-Proofpoint-ORIG-GUID: pGRXzdVMEzl4AROrX2vT8ZluptUBpSQq
-X-Authority-Analysis: v=2.4 cv=AqTu3P9P c=1 sm=1 tr=0 ts=68503d8f cx=c_pps a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=E2WpO-MOJeG5IbnZ2i8A:9 a=q1B5Xg1zIbEA:10 a=5xguyzxG5YgA:10
- a=uq99_h5TRGwA:10 a=WT8JI4QBAcwA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDEwMiBTYWx0ZWRfX4RmzJQPuPaSB wRaqGa1pcT9eAr3VON9dOVixUsZBrZbKTtWQjfiQo95NtilCfDHTqhM45JsKhgpQdsNp1EaRvld PPUzQT546ZOM+MyCAjIqmfpKQikZ5cKA7kKIIzJfnQ2woD6UwPBIrO1y9gwEkJB/7EGsGKrBwN5
- iFyLaRuNfOmcVqijYyHijv+sxI3IKI3lcCb8dPwRecLpnJ/e2XyghPix/YSCOGsn8ZmTLc8Hg9q 7wE/DBTDPOeUCjHIT84rau9nOjXx1xwun4jegOlmqENnYim3D5KswxeTB0ckdtlb8NY5kwOyR/5 UnsLXzHhtdxWk6OwrL2Byd+JB6yiGCsbHcgX2sUr6yDPKpbCH+YC3cLRt9qFk41Lvw3pFyHUQxH
- rGfnOXl6hZ0lwAO8wwCds51oXGvvm4uI9eg7VY4sGpixO+/XSJmRJ3EpFpI7MvT31vZU3/lL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-16_08,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- lowpriorityscore=0 suspectscore=0 adultscore=0 impostorscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=645 mlxscore=0 spamscore=0
- bulkscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506160102
+References: <20250515032226.128900-1-npache@redhat.com> <8621cd4f-a206-4440-9b02-52e9277ce212@arm.com>
+In-Reply-To: <8621cd4f-a206-4440-9b02-52e9277ce212@arm.com>
+From: Nico Pache <npache@redhat.com>
+Date: Mon, 16 Jun 2025 09:51:48 -0600
+X-Gm-Features: AX0GCFv_bntaKb1uWoTVlmOvBCUrEspFcRe-M6VQE_1ShbpjFnXLzcNhSs4x95w
+Message-ID: <CAA1CXcD=MOEfa6XBp3+e3dSMCmgfx0NgB0DgnxRWTAS-KKZx-g@mail.gmail.com>
+Subject: Re: [PATCH v7 00/12] khugepaged: mTHP support
+To: Dev Jain <dev.jain@arm.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com, 
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
+	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
+	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Joe Damato <joe@dama.to> writes:
+On Sun, Jun 15, 2025 at 9:52=E2=80=AFPM Dev Jain <dev.jain@arm.com> wrote:
+>
+>
+> On 15/05/25 8:52 am, Nico Pache wrote:
+> > The following series provides khugepaged and madvise collapse with the
+> > capability to collapse anonymous memory regions to mTHPs.
+>
+> Hi Nico,
+Hey Dev!
 
-> On Mon, Jun 16, 2025 at 06:18:09PM +0300, Joe Damato wrote:
->> On Fri, Jun 13, 2025 at 11:02:23AM -0500, Dave Marquardt wrote:
->> > Fixed a typographical error in "Rate objects" section
->> > 
->> > Signed-off-by: Dave Marquardt <davemarq@linux.ibm.com>
->> > ---
->> > - Fixed typographical error in "Rate objects" section
->> > - Spell checked netdevsim.rst and found no additional errors
->> > -
->> > ---
->> >  Documentation/networking/devlink/netdevsim.rst | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> For future reference, since Breno gave a Reviewed-by for the last patch [1],
->> you could have included his tag since there were no substantive changes.
->> 
->> In any case:
->> 
->> Reviewed-by: Joe Damato <joe@dama.to>
 >
-> On second thought... this should target net-next (not net) and should also CC Breno.
->
-> Have a look at:
->
->   https://www.kernel.org/doc/html/v5.16/process/submitting-patches.html
->
->   and
->
->   https://www.kernel.org/doc/html/v5.16/networking/netdev-FAQ.html
+> Can you tell the expected date of posting v8 of this patchset?
+Hopefully by next week, although it may be longer (as a try to catch
+up on everything after PTO). We were originally targeting 6.16, but we
+missed that window-- so I need to repost for 6.17, which we have
+plenty of time for. Ive also been releasing them slower as previously
+I was not giving reviewers enough time to actually review between my
+different versions (and this creates a lot of noise in people's
+inboxes).
 
-Thanks. I'll send another update shortly.
+I'm also going through some of the testing again, this time with
+redis-memtier (as David suggested).
 
--Dave
+Cheers,
+-- Nico
+>
+> >
+>
+
