@@ -1,125 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4832B1DD0D4;
-	Mon, 16 Jun 2025 06:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750056917; cv=none; b=ZK6tJtH/Pp7ldyh6VgwI+AXinc8ecQ+QKQQFTuFIaom5DDpHpnZAJUnYF//vhcMla+fCWgATogoLn6VZB7PujZyeoLNDg5MYYTYlerHN2/D87qpWoE0B2sZzLlfnhhWd/oR2rEEMxi5TRwwufRCDfiIX/nHKG6Wxl3zxx/MGoM0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750056917; c=relaxed/simple;
-	bh=JzhPaAJq3SE1ySzHxtViTC3KuZDIosj/LQ8YKkF7X1Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RHHD3S8XKanIIplen56GJWwOB7S5RrCYV/QUzJXLuF6tv5rjALUcsWvBkWMF9+Iz/zSYnK8+XOmJQ8b8PrOUphbOnNitbchhW90ZPJdtX/7KwGPUZi+PONySBNS2bi03LDSpJfpOl3xVwH8pzfkxUlN11PWQBcE1Q/4uT2Vl584=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyYWaqXu; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2CC191F7E;
+	Mon, 16 Jun 2025 07:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750057335; cv=pass; b=dU1qTExKRhIMPgGVyjWwA+BaE3SWdz6PG6PXUHcjf03UYwcD4SP6UTszEfAwsGDzxzRe8gCDuc8gZt5/jWIiMGZeDOvCJ2/HeQFJ9YQiqk+z5/6kl+p1IyEYE8en9gIET4MQlpTFFxGKRdqiLSa/u42s6Do9r16NhSp4iE4iDQU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750057335; c=relaxed/simple;
+	bh=oEb7wU/bu1oja52oKmgMha7mtv8iISClgAa0+JK8RlY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U+ydmlMxPBKBrZnNxWj64pM6OUhG4xTsJSO/IVqoPIouJsueqHNxiDaeEotUbmxTv1PwrGWvy+3zj9WV2X7ZLNQex2kVeXe+Lxa/dwn3fZAVqKOkiexY0O7pYjvhj67hg8U3oNRBXkR1OL0fwRI7mztbxsVQBJa8QSE0m7jAliQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=IxQi+7T1; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyYWaqXu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750056916; x=1781592916;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=JzhPaAJq3SE1ySzHxtViTC3KuZDIosj/LQ8YKkF7X1Q=;
-  b=cyYWaqXuzxQGoEnk6FkXdDDj6qA2SvmAUQ8BqdrJJrlwKUBQwRyGsgZb
-   qg+4uDMw8daZyiAWzuuyNJNU9bJNLHjImemojOuPIJBnI61IBJSxy+R+s
-   AeZc7mmmhIBb99FIjg17Iudw2esSOx0mkkmuvl/RxZe3d4McU5yvu62sI
-   jVqOQC0Kjt3ii4F0M1Dg4aB7R64HIXQZcOdaZY6SWGzGGkrQg5/133ADv
-   JjVAh4jqRBBcfjJioCoA5ke+m18yy8rTKZNAhZ8QyGDL8MIUZjRzyzB+3
-   cB6r1oZ2JqflzsM3sHrJCrFSY9KTp0dSifPqD2Gl/g0C2wKF0slqo3jqI
-   g==;
-X-CSE-ConnectionGUID: iMKpV/ppRhafhABIDZU6Qg==
-X-CSE-MsgGUID: h5rV8wUgTG+hA6QjQEb8dA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="74720822"
-X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
-   d="scan'208";a="74720822"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 23:55:15 -0700
-X-CSE-ConnectionGUID: eWT5UpgTTxO6CbYgUZWzxg==
-X-CSE-MsgGUID: xOYLWIvfQEeVOE3EP2VS3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
-   d="scan'208";a="149298915"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 23:55:09 -0700
-Message-ID: <b9a7ae65-edc6-46e9-bea0-163a51459884@linux.intel.com>
-Date: Mon, 16 Jun 2025 14:54:10 +0800
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="IxQi+7T1"
+ARC-Seal: i=1; a=rsa-sha256; t=1750057314; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Jifj7LPMyfhtP30MtT1rMLT80HmtvAWL7dm8J4KTHjHv0ysl3gAQ2JJsye1U79ru0Ptyvm5+F9c0fE0g2ttioPbe+VSLnCipT5Ra++D1TvHI0PnaA1zMqYapDXAoxB78QCEFlwmI0/9Tq1MvOZYOsevhuv/KTBjOVNhT+H7Lv9A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1750057314; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=w2oMih2lbo9iywrNmIQ7860yAhkMUGDVYCOSRkVl8HE=; 
+	b=Xl6Z8aNSFfTb8gDV7YCiDulQeCZ4LdwI96+oaLlG0NMP3Mi6u7FGhX1Z/DFfHyRDJb6imFWelRXCPRFzWLM9Bta63b4n8Ys7OIbaYRwjz8k26pIjZdkJOoEDaZrwRcs62hRHyT5RmG/t52K+Rto5nJcuYLtxnSkrM1KTT1p+aSI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750057314;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=w2oMih2lbo9iywrNmIQ7860yAhkMUGDVYCOSRkVl8HE=;
+	b=IxQi+7T1vu3ihlP6vgZgo5YeXRZ1xjBpC9Gb25NI5BOcn+wqUVXT+L2oBykRhQJA
+	BBkE1n6pOQHpPizZw7CG8aBOJVIee2SspJ+EEh4xOf/fcjCTlFKaUykFYEgpwEje0cy
+	l6MPeRz7CejjG12vjWB8M7zT3+cmrpQNwWCMamDU=
+Received: by mx.zohomail.com with SMTPS id 17500573121561008.1454058676544;
+	Mon, 16 Jun 2025 00:01:52 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] docs: document linked lists
+Date: Mon, 16 Jun 2025 09:01:48 +0200
+Message-ID: <4657048.LvFx2qVVIh@workhorse>
+In-Reply-To: <87v7p48vd6.fsf@trenco.lwn.net>
+References:
+ <20250520-linked-list-docs-v1-0-db74f7449785@collabora.com>
+ <20250520-linked-list-docs-v1-2-db74f7449785@collabora.com>
+ <87v7p48vd6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 10/25] iommufd/viommu: Add IOMMUFD_CMD_HW_QUEUE_ALLOC
- ioctl
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
- bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
- thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
- shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
- peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
- praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-kselftest@vger.kernel.org, patches@lists.linux.dev, mochs@nvidia.com,
- alok.a.tiwari@oracle.com, vasant.hegde@amd.com, dwmw2@infradead.org
-References: <cover.1749884998.git.nicolinc@nvidia.com>
- <7dfb002613f224f57a069d27e7bf2b306b0a5ba0.1749884998.git.nicolinc@nvidia.com>
- <1ab8030b-8d2f-4ebe-a280-6d0e4e1d17c7@linux.intel.com>
- <aE+976F9zPsjtfry@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <aE+976F9zPsjtfry@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On 6/16/25 14:47, Nicolin Chen wrote:
-> On Mon, Jun 16, 2025 at 02:12:04PM +0800, Baolu Lu wrote:
->> On 6/14/25 15:14, Nicolin Chen wrote:
->>> +	if (!viommu->ops || !viommu->ops->get_hw_queue_size ||
->>> +	    !viommu->ops->hw_queue_init_phys) {
->>> +		rc = -EOPNOTSUPP;
->>> +		goto out_put_viommu;
->>> +	}
-> Hmm, here it does abort when !viommu->ops->hw_queue_init_phys ..
+On Monday, 9 June 2025 23:20:53 Central European Summer Time Jonathan Corbet wrote:
+> Nicolas Frattaroli <nicolas.frattaroli@collabora.com> writes:
 > 
->>> +	/*
->>> +	 * FIXME once ops->hw_queue_init is introduced, this should check "if
->>> +	 * ops->hw_queue_init_phys". And "access" should be initialized to NULL.
->>> +	 */
->> I just don't follow here. Up until now, only viommu->ops->
->> hw_queue_init_phys has been added, which means the current code only
->> supports hardware queues that access guest memory using physical
->> addresses. The access object is not needed for the other type of
->> hardware queue that uses guest IOVA.
->>
->> So, why not just abort here if ops->hw_queue_init_phys is not supported
->> by the IOMMU driver?
-> .. so, it already does.
+> > The kernel contains various generic data structures that should ideally
+> > not be reinvented. However, it often fails to document the usage of
+> > these in the in-tree kernel documentation beyond just a listing of
+> > header symbols in the very lengthy kernel-api docs page. This is fine
+> > for things that have simple invocations, but occasionally things devolve
+> > into several layers of concatenating macros, which are subpar for humans
+> > to parse.
+> >
+> > Begin making a small impact by adding some rudimentary example-driven
+> > documentation for the linked list type. It's far from exhaustive, as
+> > many list modification functions are currently not mentioned. However,
+> > it covers the basics and directs readers towards further documentation
+> > should they be interested in concurrency.
+> >
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  Documentation/core-api/index.rst |   1 +
+> >  Documentation/core-api/list.rst  | 390 +++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 391 insertions(+)
 > 
->> Leave other logics to the patches that introduce
->> ops->hw_queue_init? I guess that would make this patch more readible.
-> The patch is doing in the way to support the hw_queue_init_phys
-> case only. It is just adding some extra FIXMEs as the guideline
-> for the future patch adding hw_queue_init op.
+> So I'm only now getting around to a belated look at this.  I like it
+> overall, but I do have a couple of comments:
 > 
-> I personally don't feel these are confusing. Maybe you can help
-> point out what specific wording feels odd here? Maybe "FIXME"s
-> should be "TODO"s?
+> - Is there any way to talk you into replacing all of the graphviz
+>   diagrams with ascii art in literal blocks?  All the dot stuff makes
+>   for pretty HTML, but is entirely unreadable for people looking at the
+>   plain-text docs.
 
-Oh, I probably misunderstood the logic here. For both hw_queue_init and
-hw_queue_init_phys, using an access object to pin the pages for hardware
-access is necessary, right? My understanding was that pinning pages is
-only required for hw_queue_init_phys.
+Yeah, the dot was more easily understood at one point but then I decided
+I wanted to wrestle the layout and add backedges and then not make the
+backedges look horrible. Now it's a mess. I think I can easily be
+convinced to replace it with ASCII art in literal blocks. On that note,
+I wonder if there is a tool to translate simple ASCII graphs into dot
+and then whatever output from that, which would be the ideal solution
+here to encode semantic meaning for both audiences.
+
+I'll definitely drop the back edges from the diagrams though, they
+only make things more confusing.
 
 > 
-> I could also drop all of these guideline if they are considered
-> very unnecessary.
-> 
-> Thanks
-> Nicolin
+> - All of the kerneldoc stuff for list.h is currently pulled into
+>   kernel-api.rst.  Should we perhaps move it over here?
 
-Thanks,
-baolu
+I think that's a good idea once the new documentation exhaustively
+covers everything. Pulling it into both places generates warnings,
+which is why I didn't do it for the functions I already did document.
+And doing it only for some and not others needlessly spreads things
+out across two pages, though maybe this is best dealt with having a
+"dumping ground" in each section for other functions related to that
+section, so that we have an exhaustive function listing even if no
+usage examples are provided.
+
+I will work on a v2 today which addresses your concerns, and expands
+on the documentation to also include some list modification functions.
+
+> 
+> Thanks,
+> 
+> jon
+> 
+
+Kind regards,
+Nicolas Frattaroli
+
+
+
