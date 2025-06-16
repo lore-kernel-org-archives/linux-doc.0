@@ -1,385 +1,100 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AC228C025
-	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 20:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F412BF01B;
+	Mon, 16 Jun 2025 20:52:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750104960; cv=none; b=ASY0c/ZxYwNPWOUEOKs88nk5/ocClTMUBFOAi51DkUiGJuKPdE7qu2ua2R1LBahVEBjRVHaX3sHAo0icA9PTJZRWzqDlqVMc+uQRXfjHu4JYNzVqefSiKhxoyVXLwah+b01RzEgS7NJGXpn3DxxyZwxlkwYUtA3hD0tJMNuw4c8=
+	t=1750107143; cv=none; b=tVPU2XGtqTyqY3HqTUj7Lulolf2fhjBDM0meIPcXqK6TNMqjojXNfv+k5T4+riPuuboLfAY17qP6PXRTOiv/8lsnvmkECRhO7T5OP2Q0EUJVXEJBQ7AJli5lLGyPkwpnadUfdejcPWlBGZEERNWVMWkTwNl3BlaaWJ89UMNJe24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750104960; c=relaxed/simple;
-	bh=oT2X5a9db3fvX4h+pfQea3+mOSJ3D/971Mhcdm02WP8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sEtAZnz+2/JFrc+FldewO9N7OwZKWNAbXExE+/IAZVluhx3EMdUEp7CFBIGL6c1g7v2rX00aSDp/MydonIl3in1DLnqz4Iul4OkUhqKkhtfq9PHpoaMjwapDz0QCBn/SBgGR5iYTfnpJ1tV0WtIK/eutdwSF5XuRPqA/1lxiJUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cQLV+hiw; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750107143; c=relaxed/simple;
+	bh=yjNc7sIWw5Mku9206KHf9C/9aS7bSeippWl4XAaUfl4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DYmIiBBNr3QWrpWtoqwEWAAH6pexudFKGaDA78jXLOxgHfcLiBQPBsrGoSAv83AD99QXt31AHPyxU6XR0pUwe/PKooXfRBOeBijMPJXYBsNGjfT49V3FDA/Zi9XnDPUC/fOJu4uFHBlAgXYvM1l9YxbiXTZKR2oZWOSs+hbhxjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aLIcFmOj; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cQLV+hiw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750104958;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5e7j5Lsxu01XP+JZK7FayPbs2oiwzPSDVUbmSjN7Gns=;
-	b=cQLV+hiwTJCALG9sPs1JCbgPKzpPpdqkbmqdzW14ctroVbyEC18UxKZa2k77OLFMgy4MqU
-	O33sL1X533HJ1X0tQV/8Hc+ersBVoIlEbW0UBrd5Xy9A1pnxzav59+TMb3EP9ulAq1YoNn
-	C3/2OxhSiHsW6rsx+zk2xJpXQq2A+gI=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-655-VxfjwL0JPCeatWu2opHOYw-1; Mon,
- 16 Jun 2025 16:15:56 -0400
-X-MC-Unique: VxfjwL0JPCeatWu2opHOYw-1
-X-Mimecast-MFC-AGG-ID: VxfjwL0JPCeatWu2opHOYw_1750104954
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3C33E1956095;
-	Mon, 16 Jun 2025 20:15:54 +0000 (UTC)
-Received: from p16v.luc.cera.cz (unknown [10.45.224.53])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D886F30001B1;
-	Mon, 16 Jun 2025 20:15:47 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Shannon Nelson <shannon.nelson@amd.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Petr Oros <poros@redhat.com>
-Subject: [PATCH net-next v11 14/14] dpll: zl3073x: Add support to get/set frequency on output pins
-Date: Mon, 16 Jun 2025 22:14:04 +0200
-Message-ID: <20250616201404.1412341-15-ivecera@redhat.com>
-In-Reply-To: <20250616201404.1412341-1-ivecera@redhat.com>
-References: <20250616201404.1412341-1-ivecera@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aLIcFmOj"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4a3db0666f2so112483761cf.1;
+        Mon, 16 Jun 2025 13:52:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750107141; x=1750711941; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1NUbKc6aK2XnIkpt4tJ07p4tXT+NOL6ujClKn2L62oI=;
+        b=aLIcFmOjXAgzlD+1hoVU2GZHyTa6Bb0x8RkDTTlDWTpYbGL6ZQ91in5LNTE093cgV7
+         blgEVbgFi3J8QBiaMDw9USc6SZk/YPHgHMQbAAfPQb7cAGU3o5WxY/BemevG8qv2+fLO
+         OBXqhDQ/DH9U0KvXMe8igrbgEvzWISbMR0T8ibWgjbUZyojtXP6cxuON/w/cvr1XiDkm
+         dnQjQ7NzqfkfBRdpB6OxgjFnbhiQU0B1DyrGUcWZ8y1Kc/egnaBXKgjHSpGn5vItVX3A
+         mBnRMeYf9y1BpOVEEuhrq7jBhUd75F/y1QlFEJZpjh0Zuw3+u0gKqfyV5Kg/pAoYIuy9
+         M1Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750107141; x=1750711941;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1NUbKc6aK2XnIkpt4tJ07p4tXT+NOL6ujClKn2L62oI=;
+        b=bA7SNHm0eyurvYrdXu4C0AjfgmZztHrRYHZ64waABHVX0piOxfjiHi4xHBaoeyWVcl
+         0yvMCBHNRfDc8lMHRBepSLs9Bh9w6z9fEZQ44GE7pQcseDEVJTnzMjZbcf6elAu8zh3s
+         KchugVRZeDKflRcE+wQVoVd3cIJtDM2yzHpO9j0Ds7nVZZJ2+xtzIsYYkT7FDIU+Plnb
+         V96tGePiINDOR+1bHW/bzJTVL8/QftXlypWBILIdb+F64j0rmIXpnjq5zt4CydnsC13p
+         xVav90eqncSOFZZea1ngNfYzqy/9eGlDRvqkURo2kE9VE0NH08Nz749UjnrH2sbHTy5K
+         jN0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVPyvoxWS7ri6oPNRUFXUm4+sceerPZlKHJOr4X12gF1oTDq/ZCAIlIN9lIo7wWOY2wmIzf9TLfbU/sLQ==@vger.kernel.org, AJvYcCVnV+ckTJ9MFVEd6yDFRjO9RNYcZAUGgIuwOsMFmPa7M665zhn1FEx5mQhyXrafy3dmR91/f1GI9/6s@vger.kernel.org, AJvYcCWt1HAQeZ87T97JT61gwtuCJ/H+gWE5SXr+QBC+e2iEIK/JK+czJ7z0zCW8/k57FBLaaaHkButgm+xnvaAsUw==@vger.kernel.org, AJvYcCWzrD4JD7X5dYkoX6lPYSZrjwJsy0i4nLm3BEVPj92OZr2HinH+mTFDPZLB3KK2Gd7bguLYcyfpLld+@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJKHTtVzuqGM699Z1bsNMFpTO3IzJisHaYxWZM6WW4D5C3lltS
+	hmmR4UzoYqAnLxZsF6Ri4PNwoV/eAIZ5GHe2mJHzj3Uky9ATmRioasKDPeHFTRRFiLmu3Hkm6b8
+	kAWmsMjyb9chSLUvxcbTCmnFXxh6byDc60eKN
+X-Gm-Gg: ASbGncuSqT84o9RqjhYvO6FuODox77NJrhpug0tbdzjsMDuAqVUybEqz/KtuYcx3UvJ
+	DBTnHNIoowZ+76YTnVIgCnPgK6vGmXhXC/9QCMwejzHgOQ2h4pw+BRNeupbrgdw5VLeNhWGNfDQ
+	8QOFagG9zXj/V3P3aFjdOAdX0V5ew5/f+Yu1hNBt5ryUN1QVeThI5WwGVCtKs=
+X-Google-Smtp-Source: AGHT+IGS4t2zreLQPTsOmnz3YjnJlkQB4JQstwJ2reaaH3lerJxAbIQ8Al6iM9KX9mqUf+zE87y0s4V83niCn/6mzVE=
+X-Received: by 2002:ac8:57cc:0:b0:474:f1b5:519c with SMTP id
+ d75a77b69052e-4a73c596fd2mr165931551cf.32.1750107141044; Mon, 16 Jun 2025
+ 13:52:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+References: <20250616125957.3139793-1-hch@lst.de> <20250616125957.3139793-7-hch@lst.de>
+In-Reply-To: <20250616125957.3139793-7-hch@lst.de>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 16 Jun 2025 13:52:10 -0700
+X-Gm-Features: AX0GCFuogwkY0gaMMAkWsBMtkDoY0xe9BZvnCtXb7o_PWtFPI2AQBBFyUKz9wvI
+Message-ID: <CAJnrk1YtD2eYbtjxY4JWR3r75h1QyjwHPy+1NQBRUNrDmTUnQQ@mail.gmail.com>
+Subject: Re: [PATCH 6/6] iomap: move all ioend handling to ioend.c
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add support to get/set frequencies on output pins. The frequency for
-output pin is determined by the frequency of synthesizer the output
-pin is connected to and divisor of the output to which is the given pin
-belongs. The resulting frequency of the P-pin and the N-pin from this
-output pair depends on the signal format of this output pair.
+On Mon, Jun 16, 2025 at 6:00=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> Now that the writeback code has the proper abstractions, all the ioend
+> code can be self-contained in iomap.c.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  fs/iomap/buffered-io.c | 215 ----------------------------------------
+>  fs/iomap/internal.h    |   1 -
+>  fs/iomap/ioend.c       | 220 ++++++++++++++++++++++++++++++++++++++++-
+>  3 files changed, 219 insertions(+), 217 deletions(-)
+> diff --git a/fs/iomap/internal.h b/fs/iomap/internal.h
+> index f6992a3bf66a..d05cb3aed96e 100644
+> --- a/fs/iomap/internal.h
+> +++ b/fs/iomap/internal.h
+> @@ -4,7 +4,6 @@
+>
+>  #define IOEND_BATCH_SIZE       4096
+>
+> -u32 iomap_finish_ioend_buffered(struct iomap_ioend *ioend);
+>  u32 iomap_finish_ioend_direct(struct iomap_ioend *ioend);
+>
 
-The device supports so-called N-divided signal formats where for the
-N-pin there is an additional divisor. The frequencies for both pins from
-such output pair are computed:
-
- P-pin-freq = synth_freq / output_div
- N-pin-freq = synth_freq / output_div / n_div
-
-For other signal-format types both P and N pin have the same frequency
-based only synth frequency and output divisor.
-
-Implement output pin callbacks to get and set frequency. The frequency
-setting for the output non-N-divided signal format is simple as we have
-to compute just new output divisor. For N-divided formats it is more
-complex because by changing of output divisor we change frequency for
-both P and N pins. In this case if we are changing frequency for P-pin
-we have to compute also new N-divisor for N-pin to keep its current
-frequency. From this and the above it follows that the frequency of
-the N-pin cannot be higher than the frequency of the P-pin and the
-callback must take this limitation into account.
-
-Co-developed-by: Prathosh Satish <Prathosh.Satish@microchip.com>
-Signed-off-by: Prathosh Satish <Prathosh.Satish@microchip.com>
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- drivers/dpll/zl3073x/dpll.c | 234 ++++++++++++++++++++++++++++++++++++
- drivers/dpll/zl3073x/regs.h |   5 +
- 2 files changed, 239 insertions(+)
-
-diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
-index a110109a738c3..bd4b4af2223d3 100644
---- a/drivers/dpll/zl3073x/dpll.c
-+++ b/drivers/dpll/zl3073x/dpll.c
-@@ -640,6 +640,238 @@ zl3073x_dpll_input_pin_prio_set(const struct dpll_pin *dpll_pin, void *pin_priv,
- 	return 0;
- }
- 
-+static int
-+zl3073x_dpll_output_pin_frequency_get(const struct dpll_pin *dpll_pin,
-+				      void *pin_priv,
-+				      const struct dpll_device *dpll,
-+				      void *dpll_priv, u64 *frequency,
-+				      struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dpll *zldpll = dpll_priv;
-+	struct zl3073x_dev *zldev = zldpll->dev;
-+	struct zl3073x_dpll_pin *pin = pin_priv;
-+	struct device *dev = zldev->dev;
-+	u8 out, signal_format, synth;
-+	u32 output_div, synth_freq;
-+	int rc;
-+
-+	out = zl3073x_output_pin_out_get(pin->id);
-+	synth = zl3073x_out_synth_get(zldev, out);
-+	synth_freq = zl3073x_synth_freq_get(zldev, synth);
-+
-+	guard(mutex)(&zldev->multiop_lock);
-+
-+	/* Read output configuration into mailbox */
-+	rc = zl3073x_mb_op(zldev, ZL_REG_OUTPUT_MB_SEM, ZL_OUTPUT_MB_SEM_RD,
-+			   ZL_REG_OUTPUT_MB_MASK, BIT(out));
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_read_u32(zldev, ZL_REG_OUTPUT_DIV, &output_div);
-+	if (rc)
-+		return rc;
-+
-+	/* Check output divisor for zero */
-+	if (!output_div) {
-+		dev_err(dev, "Zero divisor for output %u got from device\n",
-+			out);
-+		return -EINVAL;
-+	}
-+
-+	/* Read used signal format for the given output */
-+	signal_format = zl3073x_out_signal_format_get(zldev, out);
-+
-+	switch (signal_format) {
-+	case ZL_OUTPUT_MODE_SIGNAL_FORMAT_2_NDIV:
-+	case ZL_OUTPUT_MODE_SIGNAL_FORMAT_2_NDIV_INV:
-+		/* In case of divided format we have to distiguish between
-+		 * given output pin type.
-+		 */
-+		if (zl3073x_dpll_is_p_pin(pin)) {
-+			/* For P-pin the resulting frequency is computed as
-+			 * simple division of synth frequency and output
-+			 * divisor.
-+			 */
-+			*frequency = synth_freq / output_div;
-+		} else {
-+			/* For N-pin we have to divide additionally by
-+			 * divisor stored in esync_period output mailbox
-+			 * register that is used as N-pin divisor for these
-+			 * modes.
-+			 */
-+			u32 ndiv;
-+
-+			rc = zl3073x_read_u32(zldev, ZL_REG_OUTPUT_ESYNC_PERIOD,
-+					      &ndiv);
-+			if (rc)
-+				return rc;
-+
-+			/* Check N-pin divisor for zero */
-+			if (!ndiv) {
-+				dev_err(dev,
-+					"Zero N-pin divisor for output %u got from device\n",
-+					out);
-+				return -EINVAL;
-+			}
-+
-+			/* Compute final divisor for N-pin */
-+			*frequency = synth_freq / output_div / ndiv;
-+		}
-+		break;
-+	default:
-+		/* In other modes the resulting frequency is computed as
-+		 * division of synth frequency and output divisor.
-+		 */
-+		*frequency = synth_freq / output_div;
-+		break;
-+	}
-+
-+	return rc;
-+}
-+
-+static int
-+zl3073x_dpll_output_pin_frequency_set(const struct dpll_pin *dpll_pin,
-+				      void *pin_priv,
-+				      const struct dpll_device *dpll,
-+				      void *dpll_priv, u64 frequency,
-+				      struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dpll *zldpll = dpll_priv;
-+	struct zl3073x_dev *zldev = zldpll->dev;
-+	struct zl3073x_dpll_pin *pin = pin_priv;
-+	struct device *dev = zldev->dev;
-+	u32 output_n_freq, output_p_freq;
-+	u8 out, signal_format, synth;
-+	u32 cur_div, new_div, ndiv;
-+	u32 synth_freq;
-+	int rc;
-+
-+	out = zl3073x_output_pin_out_get(pin->id);
-+	synth = zl3073x_out_synth_get(zldev, out);
-+	synth_freq = zl3073x_synth_freq_get(zldev, synth);
-+
-+	/* Check the requested frequency divides synth frequency without
-+	 * remainder.
-+	 */
-+	if (synth_freq % (u32)frequency) {
-+		dev_err(dev, "The requested frequency must divide %u Hz\n",
-+			synth_freq);
-+		return -EINVAL;
-+	}
-+	new_div = synth_freq / (u32)frequency;
-+
-+	/* Get used signal format for the given output */
-+	signal_format = zl3073x_out_signal_format_get(zldev, out);
-+
-+	guard(mutex)(&zldev->multiop_lock);
-+
-+	/* Load output configuration */
-+	rc = zl3073x_mb_op(zldev, ZL_REG_OUTPUT_MB_SEM, ZL_OUTPUT_MB_SEM_RD,
-+			   ZL_REG_OUTPUT_MB_MASK, BIT(out));
-+	if (rc)
-+		return rc;
-+
-+	/* Check signal format */
-+	if (signal_format != ZL_OUTPUT_MODE_SIGNAL_FORMAT_2_NDIV &&
-+	    signal_format != ZL_OUTPUT_MODE_SIGNAL_FORMAT_2_NDIV_INV) {
-+		/* For non N-divided signal formats the frequency is computed
-+		 * as division of synth frequency and output divisor.
-+		 */
-+		rc = zl3073x_write_u32(zldev, ZL_REG_OUTPUT_DIV, new_div);
-+		if (rc)
-+			return rc;
-+
-+		/* For 50/50 duty cycle the divisor is equal to width */
-+		rc = zl3073x_write_u32(zldev, ZL_REG_OUTPUT_WIDTH, new_div);
-+		if (rc)
-+			return rc;
-+
-+		/* Commit output configuration */
-+		return zl3073x_mb_op(zldev,
-+				     ZL_REG_OUTPUT_MB_SEM, ZL_OUTPUT_MB_SEM_WR,
-+				     ZL_REG_OUTPUT_MB_MASK, BIT(out));
-+	}
-+
-+	/* For N-divided signal format get current divisor */
-+	rc = zl3073x_read_u32(zldev, ZL_REG_OUTPUT_DIV, &cur_div);
-+	if (rc)
-+		return rc;
-+
-+	/* Check output divisor for zero */
-+	if (!cur_div) {
-+		dev_err(dev, "Zero divisor for output %u got from device\n",
-+			out);
-+		return -EINVAL;
-+	}
-+
-+	/* Get N-pin divisor (shares the same register with esync */
-+	rc = zl3073x_read_u32(zldev, ZL_REG_OUTPUT_ESYNC_PERIOD, &ndiv);
-+	if (rc)
-+		return rc;
-+
-+	/* Check N-pin divisor for zero */
-+	if (!ndiv) {
-+		dev_err(dev,
-+			"Zero N-pin divisor for output %u got from device\n",
-+			out);
-+		return -EINVAL;
-+	}
-+
-+	/* Compute current output frequency for P-pin */
-+	output_p_freq = synth_freq / cur_div;
-+
-+	/* Compute current N-pin frequency */
-+	output_n_freq = output_p_freq / ndiv;
-+
-+	if (zl3073x_dpll_is_p_pin(pin)) {
-+		/* We are going to change output frequency for P-pin but
-+		 * if the requested frequency is less than current N-pin
-+		 * frequency then indicate a failure as we are not able
-+		 * to compute N-pin divisor to keep its frequency unchanged.
-+		 */
-+		if (frequency <= output_n_freq)
-+			return -EINVAL;
-+
-+		/* Update the output divisor */
-+		rc = zl3073x_write_u32(zldev, ZL_REG_OUTPUT_DIV, new_div);
-+		if (rc)
-+			return rc;
-+
-+		/* For 50/50 duty cycle the divisor is equal to width */
-+		rc = zl3073x_write_u32(zldev, ZL_REG_OUTPUT_WIDTH, new_div);
-+		if (rc)
-+			return rc;
-+
-+		/* Compute new divisor for N-pin */
-+		ndiv = (u32)frequency / output_n_freq;
-+	} else {
-+		/* We are going to change frequency of N-pin but if
-+		 * the requested freq is greater or equal than freq of P-pin
-+		 * in the output pair we cannot compute divisor for the N-pin.
-+		 * In this case indicate a failure.
-+		 */
-+		if (output_p_freq <= frequency)
-+			return -EINVAL;
-+
-+		/* Compute new divisor for N-pin */
-+		ndiv = output_p_freq / (u32)frequency;
-+	}
-+
-+	/* Update divisor for the N-pin */
-+	rc = zl3073x_write_u32(zldev, ZL_REG_OUTPUT_ESYNC_PERIOD, ndiv);
-+	if (rc)
-+		return rc;
-+
-+	/* For 50/50 duty cycle the divisor is equal to width */
-+	rc = zl3073x_write_u32(zldev, ZL_REG_OUTPUT_ESYNC_WIDTH, ndiv);
-+	if (rc)
-+		return rc;
-+
-+	/* Commit output configuration */
-+	return zl3073x_mb_op(zldev, ZL_REG_OUTPUT_MB_SEM, ZL_OUTPUT_MB_SEM_WR,
-+			     ZL_REG_OUTPUT_MB_MASK, BIT(out));
-+}
-+
- static int
- zl3073x_dpll_output_pin_state_on_dpll_get(const struct dpll_pin *dpll_pin,
- 					  void *pin_priv,
-@@ -724,6 +956,8 @@ static const struct dpll_pin_ops zl3073x_dpll_input_pin_ops = {
- 
- static const struct dpll_pin_ops zl3073x_dpll_output_pin_ops = {
- 	.direction_get = zl3073x_dpll_pin_direction_get,
-+	.frequency_get = zl3073x_dpll_output_pin_frequency_get,
-+	.frequency_set = zl3073x_dpll_output_pin_frequency_set,
- 	.state_on_dpll_get = zl3073x_dpll_output_pin_state_on_dpll_get,
- };
- 
-diff --git a/drivers/dpll/zl3073x/regs.h b/drivers/dpll/zl3073x/regs.h
-index 09dd314663dff..9c62906de095d 100644
---- a/drivers/dpll/zl3073x/regs.h
-+++ b/drivers/dpll/zl3073x/regs.h
-@@ -198,4 +198,9 @@
- #define ZL_OUTPUT_MODE_SIGNAL_FORMAT_2_NDIV	12
- #define ZL_OUTPUT_MODE_SIGNAL_FORMAT_2_NDIV_INV	15
- 
-+#define ZL_REG_OUTPUT_DIV			ZL_REG(14, 0x0c, 4)
-+#define ZL_REG_OUTPUT_WIDTH			ZL_REG(14, 0x10, 4)
-+#define ZL_REG_OUTPUT_ESYNC_PERIOD		ZL_REG(14, 0x14, 4)
-+#define ZL_REG_OUTPUT_ESYNC_WIDTH		ZL_REG(14, 0x18, 4)
-+
- #endif /* _ZL3073X_REGS_H */
--- 
-2.49.0
-
+Should iomap_finish_ioend_direct() get moved to ioend.c as well?
