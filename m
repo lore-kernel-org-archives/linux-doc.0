@@ -1,154 +1,80 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505B6292B3D;
-	Mon, 16 Jun 2025 12:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23FA29B78F;
+	Mon, 16 Jun 2025 13:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750078799; cv=none; b=fiHzan1WZOG91o6Rm4Pllq2wQHxrCfmqGbORjasdE8HDPGWKLZ5MePUYwC2SZ9KCy6s73gPvqSRIShMS9QfoYgneo95+S/Qcv3lS0iG6bmr6/9xB6wot1nJrr2QXPA4/hR+eXtoQWNbmPKtqskoUk8Y6kGaNTyCPgF4H84Cm0J0=
+	t=1750078806; cv=none; b=gL2lIhK/bUVIJ5FEvMdc04giHDNUN0203PmDjcZcRpNqs5sRdWg7yFcy3WnL5OITrE0dnXMMGhMOfgbE9viK81rNRXl7q9MQmhMkq3f/YzhIX4QH4NfuHdxvbB0UPy0opDg2ZxOyI7mnmq81vki7sFPAiD6EnaYBvdw3kY9vRXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750078799; c=relaxed/simple;
-	bh=6l+7fWDupKPx1PUKtngix+Asbt9XDd+GPScH8eDOZbI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oPMIMHOBU6sYuLBWX/4QbKHXMbSXskrmWeJ1x2GFFJ/hmI0UsdfCazW5m/1xk0LKodcz5vCIuj3BPSYIbzojSz8vpu/vQEnOgAiy9pJ2J7l2ELpKFY0t9sFZxTGXs7ymArunkkWwU1NZTveM+9/Bq/fhuQiV84Tg7D7889LK/48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=Z0DmCtsq; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1750078806; c=relaxed/simple;
+	bh=e1uSwlLdErjqDZyWzU/hj0Na9sgtKk4iemqYCXEZKoU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mce1mi7sVGwHzzBtj2G73al6epFrlBwJDD5O6UjbPkwL/36nrGN3jASxlPEhzrMo0u7/CAc8m+m7XGe2aapT6bcU57Jk5hJ7UR0M7j5AVjHn2wLfqMFKiGlaiBgsQb7K/Ch2KWcFsG83wzNdqQSgjD8LWSd3wj8vQ/As19jI4kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZwATEYTA; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="Z0DmCtsq"
-Received: from [192.168.42.116] (pd9e59880.dip0.t-ipconnect.de [217.229.152.128])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id AF5022FC0059;
-	Mon, 16 Jun 2025 14:59:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1750078792;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bOS4yfJw7ZHsR6k3jAVfS8tq+SMQ7zP/6jth4m1s9qg=;
-	b=Z0DmCtsqd/SfZwstPDE7axeeYVE03ZwMDIFPDbChTXAxhqH0Qt+cyKmIY+uxOFvTdjoxkh
-	loaFFTORxGNcYUvHjhDiHQ45cG+E1gDF4oQ61eqK49NxUWGendg/5rv+nE4VTajHGjDiO1
-	BcalKN8iB7ddZdSGnQRzThccjnnZASc=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <50c4d166-0254-4f5e-b006-85aef8d9dd02@tuxedocomputers.com>
-Date: Mon, 16 Jun 2025 14:59:52 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZwATEYTA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=8tVwLUserej16NPd2Va9129cuYtZXyZKK5GU8UvfgUs=; b=ZwATEYTAkiIHRmeyPXkG3m7K3e
+	JcRVg7Hee5fczHT/wV51TOtCvQWBj2I2z5DQzIFi9rFl2buCMhMgtzU8pgEQk4/9J3hpjzh7ihDSo
+	PY4i+Jgc89RrwzyQWIZhfmmKUxDMuRQOJX2Fuvv2Id24SwFWIA04C7JHI/zTFPXd61AxVmEHMyxUw
+	GCJcepmM/DZ1yveEgqqbzfPV8xZmVIYOlh4LntwMRD3yeMn9fqjw2XOJK3m2yUFN7auGXMwCCOf8g
+	i4Vwl8gYnLyIx9kNH0msLgWjLEkvvevAsS8Q11l5P47C69kKZE17rUDDcsBbwC33m1CrrKJ/HxZl9
+	5XjaM8xA==;
+Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uR9RT-00000004Sae-1Hm9;
+	Mon, 16 Jun 2025 13:00:04 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	gfs2@lists.linux.dev
+Subject: refactor the iomap writeback code
+Date: Mon, 16 Jun 2025 14:59:01 +0200
+Message-ID: <20250616125957.3139793-1-hch@lst.de>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/3] platform/x86: Add support for Uniwill laptop
- features
-To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
- hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
- ggo@tuxedocomputers.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org
-References: <20250615175957.9781-1-W_Armin@gmx.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20250615175957.9781-1-W_Armin@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Armin,
+Hi all,
 
-Am 15.06.25 um 19:59 schrieb Armin Wolf:
-> This patch series adds support for the various features found on
-> laptops manufactured by Uniwill. Those features are:
->
->   - battery charge limiting
->   - RGB lightbar control
->   - hwmon support
->   - improved hotkey support
->   - keyboard-related settings
->
-> This patch series is based on the following out-of-tree drivers:
->
->   - https://github.com/pobrn/qc71_laptop
->   - https://github.com/tuxedocomputers/tuxedo-drivers
-Better use https://gitlab.com/tuxedocomputers/development/packages/tuxedo-drivers
->
-> Additionally the OEM software of the Intel Nuc x15 was
-> reverse-engineered to have a better understanding about the underlying
-> hardware interface.
->
-> The first patch introduces the uniwill-wmi driver used for handling
-> WMI events on Uniwill devices. Due to a grave design error inside the
-> underlying WMI firmware interface (the WMI GUID was copied from the
-> Windows driver samples and is thus not unique) the driver cannot be
-> autoloaded. Instead drivers using this module will load it as an
-> module dependency.
->
-> The second patch introduces the uniwill-laptop driver that does the
-> majority of the work. This driver talks to the embedded controller
-> yet another WMI interface to control the various features. Sadly this
-> WMI firmware interfaces suffers from the exact same issue (the WMI
-> GUID is not unique) and thus a DMI whitelist has to be used for
-> loading the driver.
->
-> The last patch finally adds some documentation for configuring and
-> using both drivers.
->
-> Special thanks go to:
->
->   - github user cyear for bring up this topic on the lm-sensors issue
->     tracker and being the tester for various prototype versions
->   - github user dumingqiao for testing the battery, lightbar and
->     keyboard-related features
->   - Tuxedo computers for giving advice on how to design the userspace
->     interface
->
-> I send this series as an RFC to gather feedback and to request any
-> involved developers if they want to have their Co-developed-by tags
-> on the final patch series.
+this is an alternative approach to the writeback part of the
+"fuse: use iomap for buffered writes + writeback" series from Joanne.
+It only handles the writeback side, not the write into page cache or
+read sides, and also doesn't allow building the writeback code without
+CONFIG_BLOCK yet, despite making some progress to that.
 
-Afaik most of the initial uniwill module in tuxedo-drivers was written by 
-Christoffer, he is currently on holiday, but I will ask him when he is back. I 
-also did later added to it later.
+The big difference compared to Joanne's version is that I hope the
+split between the generic and ioend/bio based writeback code is a bit
+cleaner here.  We have two methods that define the split between the
+generic writeback code, and the implemementation of it, and all knowledge
+of ioends and bios now sits below that layer.
 
-Since this driver is a complete rewrite I'm not sure if a Co-developed by for 
-Christoffer and me is appropriate, but we would ofc be happy about it. Maybe for 
-finding out the EC register meanings that you probably at least partially copied 
-over from tuxedo-drivers?
-
-Or do you see another label more fitting?
-
-Best regards,
-
-Werner
-
->
-> Armin Wolf (3):
->    platform/x86: Add Uniwill WMI driver
->    platform/x86: Add Uniwill laptop driver
->    Documentation: laptops: Add documentation for uniwill laptops
->
->   .../ABI/testing/sysfs-driver-uniwill-laptop   |   53 +
->   Documentation/admin-guide/laptops/index.rst   |    1 +
->   .../admin-guide/laptops/uniwill-laptop.rst    |   68 +
->   Documentation/wmi/devices/uniwill-laptop.rst  |  109 ++
->   Documentation/wmi/devices/uniwill-wmi.rst     |   52 +
->   MAINTAINERS                                   |   17 +
->   drivers/platform/x86/Kconfig                  |    2 +
->   drivers/platform/x86/Makefile                 |    3 +
->   drivers/platform/x86/uniwill/Kconfig          |   49 +
->   drivers/platform/x86/uniwill/Makefile         |    8 +
->   drivers/platform/x86/uniwill/uniwill-laptop.c | 1477 +++++++++++++++++
->   drivers/platform/x86/uniwill/uniwill-wmi.c    |  178 ++
->   drivers/platform/x86/uniwill/uniwill-wmi.h    |  122 ++
->   13 files changed, 2139 insertions(+)
->   create mode 100644 Documentation/ABI/testing/sysfs-driver-uniwill-laptop
->   create mode 100644 Documentation/admin-guide/laptops/uniwill-laptop.rst
->   create mode 100644 Documentation/wmi/devices/uniwill-laptop.rst
->   create mode 100644 Documentation/wmi/devices/uniwill-wmi.rst
->   create mode 100644 drivers/platform/x86/uniwill/Kconfig
->   create mode 100644 drivers/platform/x86/uniwill/Makefile
->   create mode 100644 drivers/platform/x86/uniwill/uniwill-laptop.c
->   create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.c
->   create mode 100644 drivers/platform/x86/uniwill/uniwill-wmi.h
->
+Diffstat:
+ Documentation/filesystems/iomap/operations.rst |   37 --
+ block/fops.c                                   |   25 +
+ fs/gfs2/aops.c                                 |    8 
+ fs/gfs2/bmap.c                                 |   15 -
+ fs/iomap/buffered-io.c                         |  323 +++----------------------
+ fs/iomap/internal.h                            |    1 
+ fs/iomap/ioend.c                               |  220 ++++++++++++++++-
+ fs/iomap/trace.h                               |    2 
+ fs/xfs/xfs_aops.c                              |  238 ++++++++++--------
+ fs/zonefs/file.c                               |   29 +-
+ include/linux/iomap.h                          |   48 +--
+ 11 files changed, 487 insertions(+), 459 deletions(-)
