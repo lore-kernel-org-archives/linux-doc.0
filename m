@@ -1,135 +1,277 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539815A79B;
-	Mon, 16 Jun 2025 06:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC58433AC;
+	Mon, 16 Jun 2025 06:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750054074; cv=none; b=hUvpWBUtWhE69H9e57rwS2MEs456/xxj242+/Y6wzojszOBecuTIIhVPXKJc32Zt5/noYpyEB+qcWM6lAGonS4es77acOEPQtVDrCkvVQcPtsduSUaNYwQFXiaJWYvjkeOlBMvxfC7BZxchj8pICmVa0Y6BFuIkW0Ch6WqTQfDo=
+	t=1750054392; cv=none; b=o4Y8BPkuWVa9QnA5MMnuqMHCTsJIMv0gtMGAd2Baj7T+k/y1h76Q2VtsWtPXhAAGoiEcMJEAOLcrMe25r6dd2L8VC+qWM4VWGZXXbIrbk49txtFwYJFNJyWxcrCcMFciVlsVog4nBB3l85ww+0tbm7oscY6/9NCQb1Hri9/Q3xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750054074; c=relaxed/simple;
-	bh=3aY1BoapMOrG+X9hJ11RVDqZMjK7J273gsTC9KOzXYo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M6VIov4DjhWA0eSTJ8845pShiXMGiWWxNXbKnPVsLrA1JKWrQkhiLeGW9dnDJLJueuODl3XDOMOZM/BEzbqkP5cl74kyR/DDwlZxn07auVaeMfqXEvNL3vhibU3yariGnI5jN4aoZYsF6phsKIHhAkiwpUvmx5A7rNYEBXGbQmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qAH/5Ut/; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1750054392; c=relaxed/simple;
+	bh=iUtofJ2lBJJnR0k38D5Yh0JcJemRL1qcI7UtvYgj9UM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o+n7J38yyZZdoxNibFHeiGmEynfrkdu8gXqGDU3vWl5dEUchObSlInboKSeRfbBkqkIBc4vN+FcB5YRuStLLgiY3+Q34xKaqMCNw4vuhws3zINtr3ayEoBPKXRcAezw/C63Cb5jpW+ir7A/BXOAtMQkKNqkxj8J/X7VfunLp0H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SRi174Av; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qAH/5Ut/"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55FNrep0004958;
-	Mon, 16 Jun 2025 06:07:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=OeQccFsxYaMk+2oAr5Rfei0TTt24+
-	k+w+3UL8HZWKiw=; b=qAH/5Ut/H1NSM0b4+rVKdR/qBxvKO+gWdugz7L9lhdHMz
-	wb+x8jhnZ2MPqBV09JrAb/K1jUikPtoxpeyHCB7ir83USspzOculELRgq4F7p4j+
-	xVc6gIWUHji76kE5eq3OJWsae8cP2CZGf2QlN34l6Yw2ec7/cPMraoW/IqQF9G84
-	y9IfZMZ7mhM3lQWME3ENQLZODLvpNLXRpd13swWEeSV2YZBfoa9q1pvS+bINeRVU
-	4pS2i0Zhr79MvF5C3O7KnMatHYtO7x+XmMlH5rfo9FJ0XTOt8AxTkae+0+bgwLVi
-	okSZmEASL4eE4/OxWNsNNMWQ2Bd/C6BH27lZyss9Q==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47914ehqxe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Jun 2025 06:07:41 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55G4dPoj032093;
-	Mon, 16 Jun 2025 06:07:40 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 478yh7g6ey-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Jun 2025 06:07:40 +0000
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55G67d7f007555;
-	Mon, 16 Jun 2025 06:07:39 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 478yh7g6ej-1;
-	Mon, 16 Jun 2025 06:07:39 +0000
-From: Alok Tiwari <alok.a.tiwari@oracle.com>
-To: linux-doc@vger.kernel.org, linux-cxl@vger.kernel.org, corbet@lwn.net,
-        dave@stgolabs.net, jonathan.cameron@huawei.com, dave.jiang@intel.com,
-        alison.schofield@intel.com, vishal.l.verma@intel.com,
-        ira.weiny@intel.com, dan.j.williams@intel.com, gourry@gourry.net
-Cc: alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org,
-        darren.kenny@oracle.com
-Subject: [PATCH] cxl: docs/devices Fix typos and clarify wording in device-types.rst
-Date: Sun, 15 Jun 2025 23:07:32 -0700
-Message-ID: <20250616060737.1645393-1-alok.a.tiwari@oracle.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SRi174Av"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750054391; x=1781590391;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=iUtofJ2lBJJnR0k38D5Yh0JcJemRL1qcI7UtvYgj9UM=;
+  b=SRi174AvaoftgfxfRtFzfudM+D82kgn/S3ioPm8DFwpwq6YzanWNbeYM
+   7P+MFULmGWJWEWAE1wguBaUaHoWqVyo69s7SfOxmBA/ZmEQD4Hkov+U7o
+   aq6BvsdMExgxLEGMIEEpZncL4BNWVSrcCu7b1eVXOdi6VPDA5uZqhLlYG
+   Illqlngz2mcPchd0llbYOoe10nE/WR8KXzHrvmxrTAWrUxth2xRQizhIf
+   MhUe2K66+bKhTWZbhuGib+cV6Mjs8iCHInaCC9m6kFlcaYXLQq7Pqf9jd
+   9/2PZPuwi/ZrzEqsF6ZrHRV8bDB5OIdcp8n2Mak7Qkaecm3AeYnfjF1kK
+   w==;
+X-CSE-ConnectionGUID: rdcN2kWSQcW+IfKLFio47A==
+X-CSE-MsgGUID: niES7qcuR7mj/mEBY+oYBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="52106665"
+X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
+   d="scan'208";a="52106665"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 23:13:10 -0700
+X-CSE-ConnectionGUID: sd2pUJD5S46jXmmHW640QQ==
+X-CSE-MsgGUID: P6HgX+1BTxazlc+ar7+jBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
+   d="scan'208";a="171591560"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 23:13:04 -0700
+Message-ID: <1ab8030b-8d2f-4ebe-a280-6d0e4e1d17c7@linux.intel.com>
+Date: Mon, 16 Jun 2025 14:12:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-16_02,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- spamscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2506160039
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDAzOSBTYWx0ZWRfXx4QQKlmuKXZI VLp2EqYIjck4mohGrDvUjfp31yijgBn+I32lT4NY9loLjOLz5Ert7n8gCJtHw+MU8nN9uFKDW47 shebjA8umXRTQXMCBbuYb241uxIBJGDOr8X73cQvOVveEmJHRu8/5clISCh1MKU6ntwH2Tjy/SG
- Sf7edSC45mJnnUS4dj+A7/j3ldfee/axO1gr/j9w3cNeWOPoX4oYp/E3Tp/5vOu1As1em9qrYHl jTz86ruXzGR6xxtkvJeZGlumxQS7fWxVYtcEmgqIIGh4wYRPl2g7VyIP7c3CPY0PoQyalJmiP3x HMXvMQdmwEVdfo38kw6BohfJwxJyieu6H1wwhkS3EAj7fSleIXemgH4GIPqSdBtEiVCUtZWkvoR
- u5PFXqdLpPf54GSKNqtXoYumdYP7Yy2Vd8EWZEssE2aFIL+R9CM426HprUpBVtGwQdlVk1f0
-X-Authority-Analysis: v=2.4 cv=U4CSDfru c=1 sm=1 tr=0 ts=684fb4ad b=1 cx=c_pps a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=5rsIUXSFhDujYq55XicA:9
-X-Proofpoint-GUID: DkbpINJH-lcQiqr3Wuefolq7p5FmBC-P
-X-Proofpoint-ORIG-GUID: DkbpINJH-lcQiqr3Wuefolq7p5FmBC-P
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 10/25] iommufd/viommu: Add IOMMUFD_CMD_HW_QUEUE_ALLOC
+ ioctl
+To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com, kevin.tian@intel.com,
+ corbet@lwn.net, will@kernel.org
+Cc: bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+ thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+ shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+ peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+ praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, patches@lists.linux.dev, mochs@nvidia.com,
+ alok.a.tiwari@oracle.com, vasant.hegde@amd.com, dwmw2@infradead.org
+References: <cover.1749884998.git.nicolinc@nvidia.com>
+ <7dfb002613f224f57a069d27e7bf2b306b0a5ba0.1749884998.git.nicolinc@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <7dfb002613f224f57a069d27e7bf2b306b0a5ba0.1749884998.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix several typos and improve comment clarity in the CXL device types
-docs:
- "w/" replaced with "with"
- "sill" -> "still"
- "The allows" -> "This allows"
- "capacity" corrected to "capable"
- "more devices" corrected to "more hosts" in MLD description
+On 6/14/25 15:14, Nicolin Chen wrote:
+> Introduce a new IOMMUFD_CMD_HW_QUEUE_ALLOC ioctl for user space to allocate
+> a HW QUEUE object for a vIOMMU specific HW-accelerated queue, e.g.:
+>   - NVIDIA's Virtual Command Queue
+>   - AMD vIOMMU's Command Buffer, Event Log Buffers, and PPR Log Buffers
+> 
+> Since this is introduced with NVIDIA's VCMDQs that access the guest memory
+> in the physical address space, add an iommufd_hw_queue_alloc_phys() helper
+> that will create an access object to the queue memory in the IOAS, to avoid
+> the mappings of the guest memory from being unmapped, during the life cycle
+> of the HW queue object.
+> 
+> Reviewed-by: Pranjal Shrivastava<praan@google.com>
+> Reviewed-by: Kevin Tian<kevin.tian@intel.com>
+> Signed-off-by: Nicolin Chen<nicolinc@nvidia.com>
+> ---
+>   drivers/iommu/iommufd/iommufd_private.h |   2 +
+>   include/linux/iommufd.h                 |   1 +
+>   include/uapi/linux/iommufd.h            |  33 +++++
+>   drivers/iommu/iommufd/main.c            |   6 +
+>   drivers/iommu/iommufd/viommu.c          | 184 ++++++++++++++++++++++++
+>   5 files changed, 226 insertions(+)
+> 
 
-These changes improve readability and enhance the documentation quality.
+[...]
 
-Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
----
- Documentation/driver-api/cxl/devices/device-types.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+> diff --git a/drivers/iommu/iommufd/viommu.c b/drivers/iommu/iommufd/viommu.c
+> index 28ea5d026222..506479ece826 100644
+> --- a/drivers/iommu/iommufd/viommu.c
+> +++ b/drivers/iommu/iommufd/viommu.c
+> @@ -201,3 +201,187 @@ int iommufd_vdevice_alloc_ioctl(struct iommufd_ucmd *ucmd)
+>   	iommufd_put_object(ucmd->ictx, &viommu->obj);
+>   	return rc;
+>   }
+> +
+> +static void iommufd_hw_queue_destroy_access(struct iommufd_ctx *ictx,
+> +					    struct iommufd_access *access,
+> +					    u64 base_iova, size_t length)
+> +{
+> +	iommufd_access_unpin_pages(access, base_iova, length);
+> +	iommufd_access_detach_internal(access);
+> +	iommufd_access_destroy_internal(ictx, access);
+> +}
+> +
+> +void iommufd_hw_queue_destroy(struct iommufd_object *obj)
+> +{
+> +	struct iommufd_hw_queue *hw_queue =
+> +		container_of(obj, struct iommufd_hw_queue, obj);
+> +	struct iommufd_viommu *viommu = hw_queue->viommu;
+> +
+> +	if (hw_queue->destroy)
+> +		hw_queue->destroy(hw_queue);
+> +	if (hw_queue->access)
+> +		iommufd_hw_queue_destroy_access(viommu->ictx, hw_queue->access,
+> +						hw_queue->base_addr,
+> +						hw_queue->length);
+> +	refcount_dec(&viommu->obj.users);
+> +}
+> +
+> +/*
+> + * When the HW accesses the guest queue via physical addresses, the underlying
+> + * physical pages of the guest queue must be contiguous. Also, for the security
+> + * concern that IOMMUFD_CMD_IOAS_UNMAP could potentially remove the mappings of
+> + * the guest queue from the nesting parent iopt while the HW is still accessing
+> + * the guest queue memory physically, such a HW queue must require an access to
+> + * pin the underlying pages and prevent that from happening.
+> + */
+> +static struct iommufd_access *
+> +iommufd_hw_queue_alloc_phys(struct iommu_hw_queue_alloc *cmd,
+> +			    struct iommufd_viommu *viommu, phys_addr_t *base_pa)
+> +{
+> +	struct iommufd_access *access;
+> +	struct page **pages;
+> +	int max_npages, i;
+> +	u64 offset;
+> +	int rc;
+> +
+> +	offset =
+> +		cmd->nesting_parent_iova - PAGE_ALIGN(cmd->nesting_parent_iova);
+> +	max_npages = DIV_ROUND_UP(offset + cmd->length, PAGE_SIZE);
+> +
+> +	/*
+> +	 * FIXME allocation may fail when sizeof(*pages) * max_npages is
+> +	 * larger than PAGE_SIZE. This might need a new API returning a
+> +	 * bio_vec or something more efficient.
+> +	 */
+> +	pages = kcalloc(max_npages, sizeof(*pages), GFP_KERNEL);
+> +	if (!pages)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	access = iommufd_access_create_internal(viommu->ictx);
+> +	if (IS_ERR(access)) {
+> +		rc = PTR_ERR(access);
+> +		goto out_free;
+> +	}
+> +
+> +	rc = iommufd_access_attach_internal(access, viommu->hwpt->ioas);
+> +	if (rc)
+> +		goto out_destroy;
+> +
+> +	rc = iommufd_access_pin_pages(access, cmd->nesting_parent_iova,
+> +				      cmd->length, pages, 0);
+> +	if (rc)
+> +		goto out_detach;
+> +
+> +	/* Validate if the underlying physical pages are contiguous */
+> +	for (i = 1; i < max_npages; i++) {
+> +		if (page_to_pfn(pages[i]) == page_to_pfn(pages[i - 1]) + 1)
+> +			continue;
+> +		rc = -EFAULT;
+> +		goto out_unpin;
+> +	}
+> +
+> +	*base_pa = page_to_pfn(pages[0]) << PAGE_SHIFT;
+> +	kfree(pages);
+> +	return access;
+> +
+> +out_unpin:
+> +	iommufd_access_unpin_pages(access, cmd->nesting_parent_iova,
+> +				   cmd->length);
+> +out_detach:
+> +	iommufd_access_detach_internal(access);
+> +out_destroy:
+> +	iommufd_access_destroy_internal(viommu->ictx, access);
+> +out_free:
+> +	kfree(pages);
+> +	return ERR_PTR(rc);
+> +}
+> +
+> +int iommufd_hw_queue_alloc_ioctl(struct iommufd_ucmd *ucmd)
+> +{
+> +	struct iommu_hw_queue_alloc *cmd = ucmd->cmd;
+> +	struct iommufd_hw_queue *hw_queue;
+> +	struct iommufd_viommu *viommu;
+> +	struct iommufd_access *access;
+> +	size_t hw_queue_size;
+> +	phys_addr_t base_pa;
+> +	u64 last;
+> +	int rc;
+> +
+> +	if (cmd->flags || cmd->type == IOMMU_HW_QUEUE_TYPE_DEFAULT)
+> +		return -EOPNOTSUPP;
+> +	if (!cmd->length)
+> +		return -EINVAL;
+> +	if (check_add_overflow(cmd->nesting_parent_iova, cmd->length - 1,
+> +			       &last))
+> +		return -EOVERFLOW;
+> +
+> +	viommu = iommufd_get_viommu(ucmd, cmd->viommu_id);
+> +	if (IS_ERR(viommu))
+> +		return PTR_ERR(viommu);
+> +
+> +	if (!viommu->ops || !viommu->ops->get_hw_queue_size ||
+> +	    !viommu->ops->hw_queue_init_phys) {
+> +		rc = -EOPNOTSUPP;
+> +		goto out_put_viommu;
+> +	}
+> +
+> +	/*
+> +	 * FIXME once ops->hw_queue_init is introduced, a WARN_ON_ONCE will be
+> +	 * required, if hw_queue_init and hw_queue_init_phys both exist, since
+> +	 * they should be mutually exclusive
+> +	 */
+> +
+> +	hw_queue_size = viommu->ops->get_hw_queue_size(viommu, cmd->type);
+> +	if (!hw_queue_size) {
+> +		rc = -EOPNOTSUPP;
+> +		goto out_put_viommu;
+> +	}
+> +
+> +	/*
+> +	 * It is a driver bug for providing a hw_queue_size smaller than the
+> +	 * core HW queue structure size
+> +	 */
+> +	if (WARN_ON_ONCE(hw_queue_size < sizeof(*hw_queue))) {
+> +		rc = -EOPNOTSUPP;
+> +		goto out_put_viommu;
+> +	}
+> +
+> +	/*
+> +	 * FIXME once ops->hw_queue_init is introduced, this should check "if
+> +	 * ops->hw_queue_init_phys". And "access" should be initialized to NULL.
+> +	 */
 
-diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
-index f5e4330c1cfe..401c463af3ba 100644
---- a/Documentation/driver-api/cxl/devices/device-types.rst
-+++ b/Documentation/driver-api/cxl/devices/device-types.rst
-@@ -63,13 +63,13 @@ A Type-2 CXL Device:
- 
- * Supports cxl.io, cxl.cache, and cxl.mem protocols
- * Optionally implements coherent cache and Host-Managed Device Memory
--* Is typically an accelerator device w/ high bandwidth memory.
-+* Is typically an accelerator device with high bandwidth memory.
- 
- The primary difference between a type-1 and type-2 device is the presence
- of host-managed device memory, which allows the device to operate on a
--local memory bank - while the CPU sill has coherent DMA to the same memory.
-+local memory bank - while the CPU still has coherent DMA to the same memory.
- 
--The allows things like GPUs to expose their memory via DAX devices or file
-+This allows things like GPUs to expose their memory via DAX devices or file
- descriptors, allows drivers and programs direct access to device memory
- rather than use block-transfer semantics.
- 
-@@ -89,7 +89,7 @@ basic coherent DMA.
- Switch
- ------
- 
--A CXL switch is a device capacity of routing any CXL (and by extension, PCIe)
-+A CXL switch is a device capable of routing any CXL (and by extension, PCIe)
- protocol between an upstream, downstream, or peer devices.  Many devices, such
- as Multi-Logical Devices, imply the presence of switching in some manner.
- 
-@@ -103,7 +103,7 @@ A Single-Logical Device (SLD) is a device which presents a single device to
- one or more heads.
- 
- A Multi-Logical Device (MLD) is a device which may present multiple devices
--to one or more devices.
-+to one or more hosts.
- 
- A Single-Headed Device exposes only a single physical connection.
- 
--- 
-2.47.1
+I just don't follow here. Up until now, only viommu->ops->
+hw_queue_init_phys has been added, which means the current code only
+supports hardware queues that access guest memory using physical
+addresses. The access object is not needed for the other type of
+hardware queue that uses guest IOVA.
 
+So, why not just abort here if ops->hw_queue_init_phys is not supported
+by the IOMMU driver? Leave other logics to the patches that introduce
+ops->hw_queue_init? I guess that would make this patch more readible.
+
+> +	access = iommufd_hw_queue_alloc_phys(cmd, viommu, &base_pa);
+> +	if (IS_ERR(access)) {
+> +		rc = PTR_ERR(access);
+> +		goto out_put_viommu;
+> +	}
+
+Thanks,
+baolu
