@@ -1,113 +1,161 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E771E1E1D;
-	Mon, 16 Jun 2025 19:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D459B286884
+	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 20:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750103483; cv=none; b=lcj2ZeRGtgKl81YxAuanICDwlxHc0Fp3OVHpJnDOmmtIC83TtyYWZVnljI3gjecAGW4mREUBwTFfwKncVclIyDZSXG23/q0iermQWtbVC5zOhbxxFdlczZNUyqAXkZJZwqYpyM2ebB/Q+R636nYEkfJC49cFqVOAgCg88bpJQi0=
+	t=1750104864; cv=none; b=frwLL6qvkjTVKAgWktBRLclEjBw2SIcVeOXNSfxx0hqO2OIBTbiXyzp8HaoAwzcGYBsH7wwvrpFA3rGrEDvVyWzVkKr2tF9QJL6DFPNmaS3TPx2bEEia5eZbOKK++z3A/EWIOX11f6VtJLJ3bHi8JHRtNOY1BUvY5pfljpPJ5K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750103483; c=relaxed/simple;
-	bh=IFXcxDM9pgKU0OocNcFji54k0TH9pV4m21cMlj4+kcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qtP51lAAbN3s4YePGgiMpA/pND2qqyLujc/x42CtC5ZhfQ7T8JsogRf99B+RkKNaoWdi13LRSxgOLhkNID77WNWq5MR2YAi4ItuWtQbJq8e/n0YHlD5AhZIm43mqQfHQXIvMiStiRBSnA/nd4DPlahH8pbvmZc0lj8wQs+HYlT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bAQ5/FJy; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750104864; c=relaxed/simple;
+	bh=TwP2O71xNX5KZBAcekuLe3rjLWvw+dJPP0fdo82f4Wo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dJQDYDP3da5eFzkkq53SReYtwDVrjFKuQIg/LZtLHOhqHCKwJRvG+VUzzyhwCUeJ6RFROTWvPdYoC09Fj8RF7WHDI2YTV6B6I2cMQBhHJNCtljWjmH1H0+cnRV7wSxImcRx9AogUV7j/Rzrxkk3CAQkhyCsf2SDjL631MmFj068=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=J3eCdQ6w; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bAQ5/FJy"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b0db0b6a677so4523765a12.2;
-        Mon, 16 Jun 2025 12:51:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750103481; x=1750708281; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1kZ2DRrGUR7QsNSeLGbTWtBPiubGAHbShPimdlaNxWI=;
-        b=bAQ5/FJyq3bZ6oO/ed7q+w1r3lrf5yXiZCPvnC+ciO+2HDkiFZ3CicvaqRyVzAaaaH
-         0o9zUFmI9SWx/Be4WgGfYrLumN0jT7YJMvruMIDVP+FUgR3uEvQJs5cizxnTHtxWyn6t
-         2jz3LS5ONS/gNti2AMRLXv+lK8et290/mKxRfzkS2r92hapBe4GvblUbiWrYl2n8DTHb
-         AqK6lDs/GndPx43+QxdygrhJtVcjob7CjRMRcn+9l6bNsviGYhOiQzlgktrpth8PDQJJ
-         msl9k9kh+FFFPxANisvvIy5QMcmjR361rkP4T9xtLtdvpaxz2/mRVwUbAWLTO9MtBaWg
-         FBDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750103481; x=1750708281;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1kZ2DRrGUR7QsNSeLGbTWtBPiubGAHbShPimdlaNxWI=;
-        b=pr3IXNX+JxY2x5rl04EbEkVBVzNwNjuiEQJ6k70s8Vyhig1/Szac3CIJ00q3sYnFwK
-         P+hIFxQycQeaGEHTn2x5WKx1kHXUBLEkzFOmpBS9Cl56JDjQpJGEA7Gnbbka/KK2ya/z
-         YxKH4TJO6Cnqx3BsKznlB8tPyCz58yU9JRo/ffkUJsccC/PhGmgQgb76VpSwWNcQzJG8
-         0XmBLv6vGp7UdkcqD3TGVkxXpWEqa1mQqI09vAIN9160MhqTJ3e/W7fyuBTVXRK44XWv
-         djaj8MaCgbxDF5/NaWmswQSocxeSP8LhB8jntYxbmcv2CM5OT2ediFkOqq4rlUxlQBFg
-         t54g==
-X-Forwarded-Encrypted: i=1; AJvYcCUShrKpZt+aBp5gTDliIE2X0wOF92vBv7/6HZsAW3bnMBsEpU3mHNtmyCLUSh2kn/UWhuR5Y8YxUds=@vger.kernel.org, AJvYcCXrg9+U9Z7p+RdAJBNay84y/5CP7CzwszFR8w0gT9OhsILXhyw71Ab3ywV5BkNV14uVfwXDMLlMMH+btTEa@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQLJ6Cu3p/r8y+7MY9/reYVfV5iUN4yA6fGHGj+3QS6Hh481Ap
-	ijd08KvbEqJOVwRikuzE5ySCnzdTPfMqP/tAbKwpUAagM1OiTZAKyIfC+vbBaw==
-X-Gm-Gg: ASbGnculNXiizhe6rVSbNm57TwdVOEB+VIe9eNeclPg4UPO0EE7sYs5vyi6zpW2OwGs
-	pExcXx74VWQxZlB/OUg8lzw0btKMguVQfHe5WtKBu8XKlwlrp/P3cjDEbS86it/ZHt+CE8ek1hW
-	NyyW+dtdPB/9CYanHYRHxckIZlJ+4OTGVLY6LrufN6t8du0AFYFqpSy67hTw3/nuNqQnr4eFGWA
-	pkUqx4LVGy7OWxGXkJvKtYiI/XH4i4o5XZf7VA0BPeycG9ogi0l4a/n9/f6fZyUs3DpoXsyZwWR
-	TtWYoEnXCsay7yyc7J8UT8qI0dRgO2j7T/cRDt+1TIBEIQCI+XgjWgvEmH781Aj09w==
-X-Google-Smtp-Source: AGHT+IF8qBNhRy32BR7c1mQ/1+zzbHKQNi8eo5Kfz6Cmd8PRQK5CNCK6AcspJ9Wblm2fcbC4M36Etw==
-X-Received: by 2002:a17:90b:2d47:b0:312:db8f:9a09 with SMTP id 98e67ed59e1d1-313f1c380f7mr20083938a91.14.1750103481075;
-        Mon, 16 Jun 2025 12:51:21 -0700 (PDT)
-Received: from itsmeut ([103.215.237.35])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313c1b59ed4sm9078880a91.39.2025.06.16.12.51.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 12:51:20 -0700 (PDT)
-Date: Tue, 17 Jun 2025 01:21:16 +0530
-From: Utkarsh Singh <utkarsh.singh.em@gmail.com>
-To: linux-bcachefs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: kent.overstreet@linux.dev, corbet@lwn.net
-Subject: [PATCH] docs: bcachefs: fix spelling of 'hierarchy' in idle_work.rst
-Message-ID: <aFB1tGW3Iwf0isZ3@itsmeut>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J3eCdQ6w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750104861;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Aad9Gkf4CPYgn7WvQvhOXyC5N0TDYkAraLsrfuZwf9I=;
+	b=J3eCdQ6wtL52yfgqPPszaMz5Ui7s1A42UpbvU/7oulFl9fpVEeNMvmSd9FfbNjdWiXqNqX
+	wFJgb2jrx4yS3Zixrwv0kw7PAPv0kfgiEdkvCwt0hHR0ggUmHHigNc23xest0DSTfEmG7G
+	qbXmhVfvX7ztIdKoaFyNHi6VhbbFZrw=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-592-FGeS-c9YOQuieXqBPEq_vA-1; Mon,
+ 16 Jun 2025 16:14:17 -0400
+X-MC-Unique: FGeS-c9YOQuieXqBPEq_vA-1
+X-Mimecast-MFC-AGG-ID: FGeS-c9YOQuieXqBPEq_vA_1750104854
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 05F3D19560B2;
+	Mon, 16 Jun 2025 20:14:14 +0000 (UTC)
+Received: from p16v.luc.cera.cz (unknown [10.45.224.53])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BEB1330001B1;
+	Mon, 16 Jun 2025 20:14:05 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Shannon Nelson <shannon.nelson@amd.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Michal Schmidt <mschmidt@redhat.com>,
+	Petr Oros <poros@redhat.com>
+Subject: [PATCH net-next v11 00/14] Add Microchip ZL3073x support (part 1)
+Date: Mon, 16 Jun 2025 22:13:50 +0200
+Message-ID: <20250616201404.1412341-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-From fe1a12fe8f5342e576b37c51aae101b52fc5f528 Mon Sep 17 00:00:00 2001
-From: Utkarsh Singh <utkarsh.singh.em@gmail.com>
-Date: Tue, 17 Jun 2025 01:10:56 +0530
-Subject: [PATCH] [PATCH] docs: bcachefs: fix spelling of 'hierarchy' in
- idle_work.rst
+Add support for Microchip Azurite DPLL/PTP/SyncE chip family that
+provides DPLL and PTP functionality. This series bring first part
+that adds the core functionality and basic DPLL support.
 
-Signed-off-by: Utkarsh Singh <utkarsh.singh.em@gmail.com>
+The next part of the series will bring additional DPLL functionality
+like eSync support, phase offset and frequency offset reporting and
+phase adjustments.
+
+Testing was done by myself and by Prathosh Satish on Microchip EDS2
+development board with ZL30732 DPLL chip connected over I2C bus.
+
 ---
- Documentation/filesystems/bcachefs/future/idle_work.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changelog:
+v11:
+Fixed uninitialized 'rc' in error-path in patch 9
+v10:
+Usage of str_enabled_disabled() where possible.
+v9:
+After discussion with Jakub Kicinski we agreed that it would be better
+to implement whole functionality in a single driver without touching
+MFD sub-system. Besides touching multiple sub-systems by single device
+there are also some technical issues that are easier resolvable
+in a single driver. Additionally the firmware flashing functionality
+would bring more than 1000 lines of code with previous approach to
+the MFD driver - it is not something the MFD maintainers would like
+to see.
 
-diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
-index 59a332509dcd..8421b2ab65a2 100644
---- a/Documentation/filesystems/bcachefs/future/idle_work.rst
-+++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
-@@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
- background work while the system should be idle.
- 
- The complicating factor is that there are a number of background tasks, which
--form a heirarchy (or a digraph, depending on how you divide it up) - one
-+form a hierarchy or a digraph, depending on how you divide it up) - one
- background task may generate work for another.
- 
--Thus proper idle detection needs to model this heirarchy.
-+Thus proper idle detection needs to model this hierarchy.
- 
- - Foreground writes
- - Page cache writeback
-@@ -51,7 +51,7 @@ IDLE REGIME
- When the system becomes idle, we should start flushing our pending work
- quicker so the system can go to sleep.
- 
--Note that the definition of "idle" depends on where in the heirarchy a task
-+Note that the definition of "idle" depends on where in the hierarchy a task
- is - a task should start flushing work more quickly when the task above it has
- stopped generating new work.
- 
+Ivan Vecera (14):
+  dt-bindings: dpll: Add DPLL device and pin
+  dt-bindings: dpll: Add support for Microchip Azurite chip family
+  dpll: Add basic Microchip ZL3073x support
+  dpll: zl3073x: Add support for devlink device info
+  dpll: zl3073x: Protect operations requiring multiple register accesses
+  dpll: zl3073x: Fetch invariants during probe
+  dpll: zl3073x: Add clock_id field
+  dpll: zl3073x: Read DPLL types and pin properties from system firmware
+  dpll: zl3073x: Register DPLL devices and pins
+  dpll: zl3073x: Implement input pin selection in manual mode
+  dpll: zl3073x: Add support to get/set priority on input pins
+  dpll: zl3073x: Implement input pin state setting in automatic mode
+  dpll: zl3073x: Add support to get/set frequency on input pins
+  dpll: zl3073x: Add support to get/set frequency on output pins
+
+ .../devicetree/bindings/dpll/dpll-device.yaml |   76 +
+ .../devicetree/bindings/dpll/dpll-pin.yaml    |   45 +
+ .../bindings/dpll/microchip,zl30731.yaml      |  115 ++
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/zl3073x.rst  |   37 +
+ MAINTAINERS                                   |   10 +
+ drivers/Kconfig                               |    4 +-
+ drivers/dpll/Kconfig                          |    6 +
+ drivers/dpll/Makefile                         |    2 +
+ drivers/dpll/zl3073x/Kconfig                  |   36 +
+ drivers/dpll/zl3073x/Makefile                 |   10 +
+ drivers/dpll/zl3073x/core.c                   |  968 +++++++++++
+ drivers/dpll/zl3073x/core.h                   |  371 ++++
+ drivers/dpll/zl3073x/dpll.c                   | 1494 +++++++++++++++++
+ drivers/dpll/zl3073x/dpll.h                   |   42 +
+ drivers/dpll/zl3073x/i2c.c                    |   95 ++
+ drivers/dpll/zl3073x/prop.c                   |  358 ++++
+ drivers/dpll/zl3073x/prop.h                   |   34 +
+ drivers/dpll/zl3073x/regs.h                   |  206 +++
+ drivers/dpll/zl3073x/spi.c                    |   95 ++
+ 20 files changed, 4003 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/dpll/dpll-device.yaml
+ create mode 100644 Documentation/devicetree/bindings/dpll/dpll-pin.yaml
+ create mode 100644 Documentation/devicetree/bindings/dpll/microchip,zl30731.yaml
+ create mode 100644 Documentation/networking/devlink/zl3073x.rst
+ create mode 100644 drivers/dpll/zl3073x/Kconfig
+ create mode 100644 drivers/dpll/zl3073x/Makefile
+ create mode 100644 drivers/dpll/zl3073x/core.c
+ create mode 100644 drivers/dpll/zl3073x/core.h
+ create mode 100644 drivers/dpll/zl3073x/dpll.c
+ create mode 100644 drivers/dpll/zl3073x/dpll.h
+ create mode 100644 drivers/dpll/zl3073x/i2c.c
+ create mode 100644 drivers/dpll/zl3073x/prop.c
+ create mode 100644 drivers/dpll/zl3073x/prop.h
+ create mode 100644 drivers/dpll/zl3073x/regs.h
+ create mode 100644 drivers/dpll/zl3073x/spi.c
+
 -- 
-2.34.1
+2.49.0
 
