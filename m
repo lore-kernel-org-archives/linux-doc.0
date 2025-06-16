@@ -1,180 +1,156 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914DC20C00E
-	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 14:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D606B1D516C;
+	Mon, 16 Jun 2025 15:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750085904; cv=none; b=qs3V+AijFSHAbjSjeII4853Ib+21LrPi7ppr1D98m1KvQuFkKe0VB0MDvCiA9Gm/gZNJDtmTdbl8/Ex6GPpL+ZZ/CM5BZ9AfJm1arLeLF7WGQGbX8qikLfG/aaPG1nAYVPBFhZnhRJ7HFVb5qW5ivikK0lilJLQYrIWdlB4NZ7w=
+	t=1750086062; cv=none; b=e5pWmArylkyndakWLaz44lKNnvF1HDGN+HxaSGOPXpfNsEoJXzWgmVOG/W7UoWrDave7nuc+rKVH2c1w1aSdI2Ca1e9lz68ibg/PA8Ax5SRFAcyAVGMmLvQ6WWhoVfIDZn7lUFkog4YJNz9e/3VmsYf7gd9+GaBKKQIbkjFlMII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750085904; c=relaxed/simple;
-	bh=cPrfXMOyiWg+1h9JS6Q6gagkKfqg1QmmYqOaKsbzlBQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NAr2CSG8KfI7Icluxib5Alnxy0hHfN8Q0VDy2YxBBYAe9ifjebUeW6IUi4HzXhDWLpw1JYwBa6fw/HT4cHvo1BvFZI7xfvksI+lCieQr61qw3NYmUPFk0EkHnxbi446tsCKlP5lqr40UrZa2xvmakkFj8JaeTDgPfP+HlMnCZPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=ia6evUwi; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1750086062; c=relaxed/simple;
+	bh=Bpmy/EuqHJMhahL/U9S3uwv/T4xo7eWLTV//pSU6R1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DXcQvc/U//vvJXr0JyUjAhzGfukImOuYVjmkPIdbGecxQv1l5Lab0IZFIRHlRVezI6Yw9ro2u4ef2GzlvmPWYuUmqrI+z2nVGPBRuEsnsEX6aoehGZFMi4aCggsiBrGBOHAk7A599xWv6Ias3puLmnMbRH1vfMd+GqCk9E6YIMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=riJytrYl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="ia6evUwi"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4a58ebece05so49237741cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 07:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750085901; x=1750690701; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DuMKK0wxk2Ppc1cObPUWbdepum9enQdFn8eNSrTwIrE=;
-        b=ia6evUwisqAqbsdfGS2WQmeFvKFqfSOW/rmLZQxtc4azBceotQXLEFO5kpZgvAVAny
-         tqIBfos4/uCaFNz6ZgRpimK4t1+XmKWkRe37dRA3nkgewq5+rFYG+R3gpDLBqs5LDUux
-         ufNKmtKMM+weH3NnAGJb4LdXODp3iPGzpbepysVzv2vEvF6Bbd4W/fEW3d8YseAlAW5B
-         XRhmAk+vWEX4npvwNR4KJnjD6+xzyRDsC7lhE6xPnIHxW9SAyMkVNXCM5vLo0nSVif0V
-         ig0orE2NNRpqwD9gDf6eOs+Ln5aGN2yuzl69rpH2tSy9kFnngm/NOi78lBUwhPAqBqzD
-         6wTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750085901; x=1750690701;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DuMKK0wxk2Ppc1cObPUWbdepum9enQdFn8eNSrTwIrE=;
-        b=f/moKMwCGRm/eRdZas3Qm0XJQrjs5D3ywCb8z5dniGHVYOCmCPhwd+b8XP7XCcooH/
-         8ptTHxM/oNnt9N6/Wh6r591l8v24eStFPij8KDcJXvY0KhDaCxwqJ6YgrQ4b41qLM5Zj
-         xLDn6wNIcfXskrlc35oxHXWeowG6NlhAHnf5he33EeXiK0dpOCSxSilKGcOaeqX3jApP
-         oiBacnAzPQQpUSRpBEYtVzhw1FEI4KfLcfMyU7Cm322l9Ia8ufKHX2ezolc5wEtLhZa+
-         Ljo2ROMm1GsqAuOht28XGzI2ERryM7/YXeFEm8izZCsow6ou0nBKL6Ypl9dmdUPX0/UC
-         M7hw==
-X-Forwarded-Encrypted: i=1; AJvYcCVNPFaAruZld4hDnFBr1ZK5WD85UJEqK2/0SaCB9N7z+mO6TQqsCsdjgVRAu2wnQTf7d64ZwMf6+LE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWJzyyRfdQhDYLXnDcZucWnFiT0698QOlM1SEC8pKsl2Cs5hXY
-	PzuUA14KYI/IEhJMVkxnnzdXDj+oCB2SeHnhz9F01zp0edN0k/DqQrdDR5yj1Q4z2odhLS/upjX
-	U4aR3gae3cpU6Ipy6GBNlE4R8VtExoaBZdNQaGUXB2Q==
-X-Gm-Gg: ASbGncv5DXPazjdajPz8gQ/7aymJHcL1n8obZ7jaaWmvUxlknS2Q0PHAsKFekU4l8RU
-	XPr/zw6uXo84rKyJjKKfEqDb/z7fyceLfQXOmBxln9UTBa5JpNB5r5iKlw1gzSS8fJWzXqpTooE
-	SFA3fyBysSVRMHqL3bEpOqS4O/g1B8rKKtOVDBGOIW
-X-Google-Smtp-Source: AGHT+IHeqnVp8310ARaaqnrcuIV7Bf4XtpwoW0IDiqPPSGX8Jd8nm+uznItPFIhEpr0JFzT8rjNxr8wKmjb6IQDf1UQ=
-X-Received: by 2002:a05:622a:1814:b0:4a6:ef6d:d608 with SMTP id
- d75a77b69052e-4a73c609abfmr154969901cf.38.1750085901185; Mon, 16 Jun 2025
- 07:58:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="riJytrYl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB1BC4CEEA;
+	Mon, 16 Jun 2025 15:01:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750086062;
+	bh=Bpmy/EuqHJMhahL/U9S3uwv/T4xo7eWLTV//pSU6R1M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=riJytrYlTiiYKRZ8GLJjsTBR4ZaA/UwAcuMbdfL9+LXAPnKvXthTLWacK116Nyqy/
+	 ltQ5PT86aesVVYAXQZ3ZQ1IQ0NxCRnll352bUqb7DHBxNzK+dgz3/4NbdFxG1rQRaD
+	 Xz5wgNU2FtMhSwlXrbeIoBOWE/OcVD0IUaQjOIf+vjjJosCdfDm3bZTT8tMp5Tg7Rk
+	 kUjztVKcEoaZc1d/fCiGN/k8p1PJAzar1dZhlOXAhXkqQu1h1pREhkmgcetNYaJbid
+	 VINH2OttQV62Yqq5wPlNPlhiJ4ndoKbdLEqTIMcd8HO/dqTCtHOL3JcuPFwrHuOA7e
+	 kG13GQbp4d/vA==
+Date: Mon, 16 Jun 2025 17:00:59 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: John Stultz <jstultz@google.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: dma-buf: heaps: Add naming guidelines
+Message-ID: <20250616-pompous-macho-giraffe-ea4dbe@houat>
+References: <20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org>
+ <CANDhNCoQ=V5Uk0ThmeHdn20xmUucPb-mjCjX5pbM94EvzGRZMw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-10-pasha.tatashin@soleen.com> <mafs0y0u6rx8y.fsf@kernel.org>
- <CA+CK2bCigGJJqtSt1-4GP0JPVCZrTa6WS4LiMTT0J=04G64e5w@mail.gmail.com>
- <mafs0h60jmzzc.fsf@kernel.org> <CA+CK2bA6zsdARkRMQwadD__qXOzjABcRnwdZjfdnvLf26hsz9w@mail.gmail.com>
- <mafs0a568vuf5.fsf@kernel.org>
-In-Reply-To: <mafs0a568vuf5.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 16 Jun 2025 10:57:44 -0400
-X-Gm-Features: AX0GCFtEAEaQHrRq3yY3LztJjK9AZdUJhVhSl24FNdkzOUkQ_-QE0qUF49S7jzU
-Message-ID: <CA+CK2bBcgkrM0D0w77+UpDZsF2rDOc15iAcEJ7PMw52HQDipvA@mail.gmail.com>
-Subject: Re: [RFC v2 09/16] luo: luo_files: implement file systems callbacks
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
-	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="wajqzffnzmfie2tr"
+Content-Disposition: inline
+In-Reply-To: <CANDhNCoQ=V5Uk0ThmeHdn20xmUucPb-mjCjX5pbM94EvzGRZMw@mail.gmail.com>
+
+
+--wajqzffnzmfie2tr
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] Documentation: dma-buf: heaps: Add naming guidelines
+MIME-Version: 1.0
 
-On Mon, Jun 16, 2025 at 6:43=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
+On Tue, May 20, 2025 at 07:46:39PM -0700, John Stultz wrote:
+> On Tue, May 20, 2025 at 3:00=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
 > wrote:
->
-> On Fri, Jun 13 2025, Pasha Tatashin wrote:
->
-> > On Fri, Jun 13, 2025 at 11:18=E2=80=AFAM Pratyush Yadav <pratyush@kerne=
-l.org> wrote:
-> >>
-> >> On Sun, Jun 08 2025, Pasha Tatashin wrote:
-> >>
-> >> > On Thu, Jun 5, 2025 at 12:04=E2=80=AFPM Pratyush Yadav <pratyush@ker=
-nel.org> wrote:
-> >> >>
-> >> >> On Thu, May 15 2025, Pasha Tatashin wrote:
-> >> >>
-> >> >> > Implements the core logic within luo_files.c to invoke the prepar=
-e,
-> >> >> > reboot, finish, and cancel callbacks for preserved file instances=
-,
-> >> >> > replacing the previous stub implementations. It also handles
-> >> >> > the persistence and retrieval of the u64 data payload associated =
-with
-> >> >> > each file via the LUO FDT.
-> >> >> >
-> >> >> > This completes the core mechanism enabling registered filesystem
-> >> >> > handlers to actively manage file state across the live update
-> >> >> > transition using the LUO framework.
-> >> >> >
-> >> >> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> >> >> > ---
-> >> >> >  drivers/misc/liveupdate/luo_files.c | 105 ++++++++++++++++++++++=
-+++++-
-> >> >> >  1 file changed, 103 insertions(+), 2 deletions(-)
-> >> >> >
-> >> >> [...]
-> >> >> > @@ -305,7 +369,29 @@ int luo_do_files_prepare_calls(void)
-> >> >> >   */
-> >> >> >  int luo_do_files_freeze_calls(void)
-> >> >> >  {
-> >> >> > -     return 0;
-> >> >> > +     unsigned long token;
-> >> >> > +     struct luo_file *h;
-> >> >> > +     int ret;
-> >> >> > +
-> >> >> > +     xa_for_each(&luo_files_xa_out, token, h) {
-> >> >>
-> >> >> Should we also ensure at this point that there are no open handles =
-to
-> >> >> this file? How else would a file system ensure the file is in quies=
-cent
-> >> >> state to do its final serialization?
-> >> >
-> >> > Do you mean check refcnt here? If so, this is a good idea, but first
-> >> > we need to implement the lifecycle of liveupdate agent correctectly,
-> >> > where owner of FD must survive through entering into reboot() with
-> >> > /dev/liveupdate still open.
-> >>
-> >> Yes, by this point we should ensure refcnt =3D=3D 1. IIUC you plan to
-> >> implement the lifecycle change in the next revision, so this can be
-> >> added there as well I suppose.
 > >
-> > Yes, I am working on that. Current, WIP patch looks like this:
-> > https://github.com/soleen/linux/commit/fecf912d8b70acd23d24185a8c050476=
-4e43a279
+> > We've discussed a number of times of how some heap names are bad, but
+> > not really what makes a good heap name.
 > >
-> > However, I am not sure about refcnt =3D=3D 1 at freeze() time. We can h=
-ave
-> > programs, that never terminated while we were still in userspace (i.e.
-> > kexec -e -> reboot() -> freeze()), in that case refcnt can be anything
-> > at the time of freeze, no?
->
-> Do you mean the agent that controls the liveupdate session? Then in that
-Yes
-> case the agent can keep running with the /dev/liveupdate FD open, but it
-> must close all of the FDs preserved via LUO before doing kexec -e.
+> > Let's document what we expect the heap names to look like.
+> >
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  Documentation/userspace-api/dma-buf-heaps.rst | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentat=
+ion/userspace-api/dma-buf-heaps.rst
+> > index 535f49047ce6450796bf4380c989e109355efc05..b24618e360a9a9ba0bd8513=
+5d8c1760776f1a37f 100644
+> > --- a/Documentation/userspace-api/dma-buf-heaps.rst
+> > +++ b/Documentation/userspace-api/dma-buf-heaps.rst
+> > @@ -21,5 +21,24 @@ following heaps:
+> >     usually created either through the kernel commandline through the
+> >     `cma` parameter, a memory region Device-Tree node with the
+> >     `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` =
+or
+> >     `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
+> >     might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+> > +
+> > +Naming Convention
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +A good heap name is a name that:
+> > +
+> > +- Is stable, and won't change from one version to the other;
+> > +
+> > +- Describes the memory region the heap will allocate from, and will
+> > +  uniquely identify it in a given platform;
+> > +
+> > +- Doesn't use implementation details, such as the allocator;
+> > +
+> > +- Can describe intended usage.
+> > +
+>=20
+> Thanks again for sending this out. Sorry I've been spotty in some of
+> the discussions (I'm really trying to step back from this area).
 
-Right, but in this case the agent would have to basically kill all the
-processes the regestred FDs through it prior to 'kexec -e', I am not
-sure it is its job. However, we can add some pr_warn_once() when rfcnt
-!=3D 1, I think this is a minor change. Lets do that once we have a more
-developed userspace setup. We need to start working on liveupdated
-that would through some sort of RPCs calls store and restore FDs.
+I wasn't aware, so sorry I keep dragging you into it :)
 
-Pasha
+I guess it's in part due to the historical background, but also because
+you've been the only one who answer consistently.
+
+I wonder though, do you need help with the maintenance? We plan to rely
+a fair bit on dma-buf heaps to implement cgroup device memory
+accounting, so I'd be happy to help if I can.
+
+> I might only suggest you provide a bit more "why" to the list of
+> qualities you highlight here, just to communicate more of the
+> spirit/philosophy of how these might be judged or reviewed in the
+> future.
+
+Ack, I'll do it in the next version.
+
+> > +For example, assuming a platform with a reserved memory region located
+> > +at the RAM address 0x42000000, intended to allocate video framebuffers,
+> > +and backed by the CMA kernel allocator. Good names would be
+> > +`memory@42000000` or `video@42000000`, but `cma-video` wouldn't.
+>=20
+> The point about avoiding the allocator details, just so I better
+> understand the criteria: Would distinguishing from a contiguous pool
+> vs non-contiguous in the name be considered ok? As it's a property of
+> the buffer returned, and one that is critically important for some
+> devices. Or do you intend that to be opaque, and the usage->heap
+> mapping logic to provide that itself? (Effectively avoiding folks from
+> being able to make potentially problematic assumptions from the name?)
+>=20
+> Similarly, how would you suggest naming a heap that provides 32bit
+> allocations?   Similarly for "protected' allocations, which are being
+> proposed?
+
+I'll also add a section about that.
+
+Thanks for the review!
+Maxime
+
+--wajqzffnzmfie2tr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaFAxpwAKCRAnX84Zoj2+
+dthLAX4jXJWTWr23mzrdVjE0G05pksavbCls8/Na9ACf0dSldXY5F3uW5hTQdNtu
+ijgSIAoBgJnDB1xrVP0+2TnbO9oBTb0qRamER0Rv9fyAmrCNr9bleaw73e1XDvNG
+e3HBfB7IHQ==
+=bFVQ
+-----END PGP SIGNATURE-----
+
+--wajqzffnzmfie2tr--
