@@ -1,94 +1,92 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFA323AD;
-	Mon, 16 Jun 2025 02:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12D7296176;
+	Mon, 16 Jun 2025 03:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750042581; cv=none; b=GLOG8gd6DxJk6SRvW74UgCSqLJjy1gIDYUzi6SGKgFnIfYVB58zSkhyoozmope9OH/1TS2DcUEL4+4wqwZ2wGbADa6aldv1AgEhQYnOxc6MjW1YbwLphv2oRiQ3zs3ReszX3VvsxS12WVBWEJLICNlQBYiXPgK83jChFkv+N9iQ=
+	t=1750043111; cv=none; b=UmGGJzdKD4hFnPjsGEuHF1KByXaBn9Hc6Uit5se2VLAHofIpMVhpR7cODxKpx3gN1D/EB1fAHYcpVgSE2FF80gkGgbxCVcafqWSqJP/6gfjaVk9npBR3N0E1qneylk7yd0DyJ4Y3hZtGvGMOjFBtcysSHf9F4Xs7FAaYPQUTJkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750042581; c=relaxed/simple;
-	bh=1k8I6Mvaw6SEoyTt9FNwQEocLlvWVGRMrN/jfNzC55E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OL824Xwcj4hxmEyjoPyXReLcGtMMZYq9r/XmMqKbi3ElpbSZtapr7tMjNxwLFETpQ9b/nYc7o6dN1SrP5TFoyC0MM5Ps2jCASS9s4uPkkypqcM3r/dXt2c4YwasPCApcwgqsRDS847k4INP2N/+liFl2kqO9wk6BSUN7jGEuhmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 704ac37e4a5d11f0b29709d653e92f7d-20250616
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:47b3ed34-d5cf-4305-a2bc-5974acafac27,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:6493067,CLOUDID:fa38bf22159f6ff5d46939ea87b52e5c,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:nil,UR
-	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
-	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 704ac37e4a5d11f0b29709d653e92f7d-20250616
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <jiangyunshui@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 495715793; Mon, 16 Jun 2025 10:56:02 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 49C06E00891C;
-	Mon, 16 Jun 2025 10:56:02 +0800 (CST)
-X-ns-mid: postfix-684F87C2-25620450
-Received: from kylin-pc.. (unknown [172.25.130.133])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 9CBEFE008900;
-	Mon, 16 Jun 2025 10:56:01 +0800 (CST)
-From: Yunshui Jiang <jiangyunshui@kylinos.cn>
-To: alexander.deucher@amd.com,
-	chriistian.koenig@amd.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yunshui Jiang <jiangyunshui@kylinos.cn>
-Subject: [PATCH] drm/amdgpu: use kmalloc_array() instead of kmalloc()
-Date: Mon, 16 Jun 2025 10:55:59 +0800
-Message-ID: <20250616025559.2766331-1-jiangyunshui@kylinos.cn>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1750043111; c=relaxed/simple;
+	bh=VDYWpN/qtYIrFTNt93vXPpHqVDdhjSGG017lJvkwh7Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LfhINLprLk6Kz7SqLW6IjfTcBci2iw5YrkEKJFAGGFvaN3WsAIW7om4YuFetJfRziG6DldDbFQu1Oe0hXp3vPliOeN0NnJdNdEdJYv+qbSRed97Ik2ydym5olKCey4HufZxyBeaSpO7AkL0ZNrv/3DgK94miLv4RXwEeDrgSxIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JGgWzD73; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JGgWzD73"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=r39SR+iYOnU6Tptcpr3GxcMEhIdvdrMkRtTp26UKitU=; b=JGgWzD73KSGpQXt23KGBF6q05e
+	JTM2DsY2r5Dy65wbPP69S5cW7pDc3DnU4qzOAjp6rErRjhrMvLj/k5Uz8Xk1pY5PnbfD8uvbdD8MG
+	TN0Lc1nTibAv04NAfHPM5/H/tmOASQ4c1OoNWsTFmphmp5fSLJSmHafFXXceUuohQRAwKRckWyNIp
+	nc3k7T1/reqWlk+IYnMGuvNn/nfxQM8MidZwPqMVOfehR/V7oAfBQU9i6H4no02FkkG1WLShdJISJ
+	RQEpM5YnyJbtxg6j9jDZQITiOfYfe9JbzgwDxoPnDnKL6QXRPKMhUs5OSj8ozS4TOve44UTgzoTIN
+	ubdsa7lA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uR09b-0000000FUVX-1sBg;
+	Mon, 16 Jun 2025 03:04:59 +0000
+Message-ID: <217e3774-8a28-4adc-b2df-a31b6ba5a382@infradead.org>
+Date: Sun, 15 Jun 2025 20:04:56 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: nouveau: remove invalid kernel-doc reference to
+ r535.c
+To: HyeonSu Jeon <dev.hyeonsu.jeon@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, corbet@lwn.net
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250616021742.8304-1-dev.hyeonsu.jeon@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250616021742.8304-1-dev.hyeonsu.jeon@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use kmalloc_array() instead of kmalloc() with multiplication.
-kmalloc_array() is a safer way because of its multiply overflow check.
+Hi,
 
-Signed-off-by: Yunshui Jiang <jiangyunshui@kylinos.cn>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 6/15/25 7:17 PM, HyeonSu Jeon wrote:
+> The file drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c does not exist
+> in the tree, but is referenced in gsp.rst via a kernel-doc directive.
+> This causes an error during the documentation build
+> 
+> Removing this refernce resolves the error
+> 
+> Signed-off-by: HyeonSu Jeon <dev.hyeonsu.jeon@gmail.com>
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ras.c
-index de0944947eaf..ab02011842e4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -2563,7 +2563,7 @@ static int amdgpu_ras_badpages_read(struct amdgpu_d=
-evice *adev,
- 		goto out;
- 	}
-=20
--	*bps =3D kmalloc(sizeof(struct ras_badpage) * data->count, GFP_KERNEL);
-+	*bps =3D kmalloc_array(data->count, sizeof(struct ras_badpage), GFP_KER=
-NEL);
- 	if (!*bps) {
- 		ret =3D -ENOMEM;
- 		goto out;
-@@ -2719,7 +2719,7 @@ static int amdgpu_ras_realloc_eh_data_space(struct =
-amdgpu_device *adev,
- 	unsigned int old_space =3D data->count + data->space_left;
- 	unsigned int new_space =3D old_space + pages;
- 	unsigned int align_space =3D ALIGN(new_space, 512);
--	void *bps =3D kmalloc(align_space * sizeof(*data->bps), GFP_KERNEL);
-+	void *bps =3D kmalloc(align_space, sizeof(*data->bps), GFP_KERNEL);
-=20
- 	if (!bps) {
- 		return -ENOMEM;
---=20
-2.47.1
+Thanks for your patch.
+A previous patch has already been applied to drm-misc-fixes:
+
+https://lore.kernel.org/linux-doc/20250611020805.22418-2-bagasdotme@gmail.com/
+
+> ---
+>  Documentation/gpu/nouveau.rst | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/gpu/nouveau.rst b/Documentation/gpu/nouveau.rst
+> index b8c801e0068c..cab4a8eda850 100644
+> --- a/Documentation/gpu/nouveau.rst
+> +++ b/Documentation/gpu/nouveau.rst
+> @@ -25,8 +25,5 @@ providing a consistent API to upper layers of the driver stack.
+>  GSP Support
+>  ------------------------
+>  
+> -.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> -   :doc: GSP message queue element
+> -
+>  .. kernel-doc:: drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
+>     :doc: GSP message handling policy
+
+-- 
+~Randy
 
