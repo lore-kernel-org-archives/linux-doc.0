@@ -1,118 +1,136 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5D71EA7E1
-	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 15:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A771E501C;
+	Mon, 16 Jun 2025 15:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750087290; cv=none; b=RJV1K6svogEUra/EdYf9gZKrboKkdZ5YHDH6WJsz9TDXUG2zCyJU30Qnwtm/8oZ6cNGZ5mukIjUHYTyqoyErpbeTAl2lPQrOzL4Hz9g/EuwfZ9jNwBz6Zbsyxlvf9QNbREfv1Lqq/DSTfFXgXKjwD6o0F4VSIOgAHYdFx4L2Bz8=
+	t=1750087318; cv=none; b=gzTjynAKqYpUi9Y14cmIuGcvZXXu0B7B/I51BE+IOQ7HxqhJQSfdZ7vruZzHj0Gi2F3FSNAZHhzaHaI0QG7lfF/MAHskf+PmyYX1Eo70W70+MthlfHiY/UJCjEK0E0o6X/ilORexX23z0gY7xRBPZfzwcALGt1VwU5AOAuOSVOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750087290; c=relaxed/simple;
-	bh=lVOaOw4puZ+d2S69mpBnuCByxyPmH7NGfMU2TEKOLnc=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G36T4amHQMEjdl1V6jMT1n5NOU80Y1Ggq7B8lYVbo4bzyyqHpMZC+Y9czT0WyxfT0MDQKJLFyEk+kMlAuw0aR3X0RPrK/nBjERr8oIZM+jtPWKReL5zqO0l9w+VZvDigO+a77dBQVp/DtqR0U0/TYcfB4C4hMWRjvAHcQrGedaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20230601.gappssmtp.com header.i=@dama-to.20230601.gappssmtp.com header.b=yd9Tu8Hn; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
+	s=arc-20240116; t=1750087318; c=relaxed/simple;
+	bh=F/QyudQDY/anQvkRN0MCoaO7t8IhTLucluA7Fcylo0Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GTfoQ7SF87pC0/sgNTxF0YXmK0cxhZOZc4jM5N6oNv2ay3Ls5X2gEooViqIJszF8T4axIIJCVYqMDUoumKD/RfPiYVn0ouLtFaFkf5WCUKyUDGX8aXyrzayQd6Ns63+YaiXxFIZJuIijhxxEWmPa9LKV15ZL9Wb6HPiAuasnV8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HyaUN2wQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dama-to.20230601.gappssmtp.com header.i=@dama-to.20230601.gappssmtp.com header.b="yd9Tu8Hn"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-451d54214adso36253645e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 08:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dama-to.20230601.gappssmtp.com; s=20230601; t=1750087287; x=1750692087; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=a+DIwXU2L+60g8uk6ftsIvso91a5Gq0Tzk23jdDrW4g=;
-        b=yd9Tu8HndsGCaG3EaMcuwICN27D8NTKvK3xrPoY2u6kU7f7Zu7+F/vOI5W1Hw3yso3
-         Fpy7XjstEeJ8V1UaagRWPYEFAHxe2iqYMc7wm3nmrTV9rwMlTLQxS8Y9aICLMkvxt4RM
-         X5DBfffZrtvYOyTBHtSM61el59QdQeM7q4AFUc/WY6ShTRfgD0qwkDgn5iISazXzHBfx
-         LUTE/GyJmnDerc9RA7M0oGqDtgmrT/8SNOafbiNy4lm+an053rhOHj3uaPCd55MyBbw9
-         DZ9Kbh4TBporpCQJqsWu6tSO3d+U4t4k/7n4HEMcTpEgFPmmksxPBpsOFj2jJ7KBPNzC
-         44EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750087287; x=1750692087;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=a+DIwXU2L+60g8uk6ftsIvso91a5Gq0Tzk23jdDrW4g=;
-        b=WR5QNchS7RADeo74R1572MtG/vNksvbJgN1zHOpmNpE4T4Pr/KqXARBUwH+THWmSmm
-         XGIgWY1Jt5ZXNW6be1qOMPBRCewh4fs6irb//YzIfyFFlcR7Jp8Rsxb7yeqL4v3cMYkG
-         xD6rZJgHjx4WfryvphRB9krr2pUr68Hy3QjtJB/qg93yRIo2Rpz0jv2lxX1Q+WIZ0gqY
-         9p8bQXazZyrPQ7xD6Goh2ksN/NmXB0DV/B2eczJCQICzyRHpfAB+xMiu0KD3pLCAvDnM
-         yu0K4PPOcn2RYsIhOw8xZe6o58ppWkWK2Ykl2/nf1v1Z2r5mq5fsAXP2pcORMw2y1F8+
-         zGhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMLlkfYWCVCt3fQwo9TUsPstsqo3gM4qdVOcv/GF1WvLcceTqh1Z9WqYZzs+LE+Qhup/vAmduqfAE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXJdOAMSJylRcz8Bpuj3/jn/UCnCZgu3fzJ4vAAHWFnyxDtF4R
-	WhSknwntky0yxqkUC/UzdDKiEuipwuG/FxAy7PNLFjOykCKY86OjsvjaUv4Y2Fch8o0=
-X-Gm-Gg: ASbGncvzUvWG+fOkr5XQoAQ/IzKagc7KyF4OW15fAmfbCv+2r5O0Zf6jAdEtueO2upI
-	NaFuEaHGeu1/2xxcbMtWhwPP18OYoQM7lSzCFZvKN1kRMDs+3BmtwHeG2Xcg4SmE/iTnSl+yGZZ
-	ff5LqQNykblgrd9LvBdUbq7orQxjx7L4Op+EikaaiMAXotlRnQG49HBrSj9PKTcY5IXwxRObGBr
-	2kJ4r7rDD0vzo4Ab8S436ZQS6IJ6n7nh5LsD/0p0xOtUpMDXFlBLyjicWJohyVuy9FlMnQiMNsl
-	z24iY3YpvvdBII8yCVk1Sb7u1EyG0yyeXuW02xciJqWMcIFXkVHq9CuZSVr0zQZV7Ts=
-X-Google-Smtp-Source: AGHT+IE+n0zcSmOYsebqtq7TETsjNPxycut/07W32TCEdCIwtKSu5T5aSW+1wl8qiRDR+g9UNxIPgA==
-X-Received: by 2002:a05:600c:34c3:b0:43d:42b:e186 with SMTP id 5b1f17b1804b1-45343f2520bmr59719565e9.8.1750087287293;
-        Mon, 16 Jun 2025 08:21:27 -0700 (PDT)
-Received: from MacBook-Air.local ([5.100.243.24])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e2449f1sm151786325e9.23.2025.06.16.08.21.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 08:21:26 -0700 (PDT)
-Date: Mon, 16 Jun 2025 18:21:23 +0300
-From: Joe Damato <joe@dama.to>
-To: Dave Marquardt <davemarq@linux.ibm.com>, Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net v2] Fixed typo in netdevsim documentation
-Message-ID: <aFA2c96O-VFXms3G@MacBook-Air.local>
-Mail-Followup-To: Joe Damato <joe@dama.to>,
-	Dave Marquardt <davemarq@linux.ibm.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250613-netdevsim-typo-fix-v2-1-d4e90aff3f2f@linux.ibm.com>
- <aFA1seeltkOQROVn@MacBook-Air.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HyaUN2wQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C703C4CEEA;
+	Mon, 16 Jun 2025 15:21:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750087318;
+	bh=F/QyudQDY/anQvkRN0MCoaO7t8IhTLucluA7Fcylo0Y=;
+	h=From:Date:Subject:To:Cc:From;
+	b=HyaUN2wQUnvOmZj06/ZeoyJY0N8JQOKU8TwCyxXPEu9e4mSBG+JOffhb7m1PWDD3r
+	 JdbTuYCAKkT9Q0jw5gaBI4yco6Xj4u5IuzpTrNrj6KhYTa61/2ZzgV5mUbKOpyTDpg
+	 z81uQHC3ElzB4UY8M1TDIS+9tI5fVfsrxLT3EdEhI+PWm0hkh/9l3t35WYhMfx4GnI
+	 7nnlQnqyGSx/pJrikNehMBNzbkd2Gh1OZyeFryN34Wyy9HTnqV6Tz3rc9Z5yME7Dmc
+	 jIaMvSXbCWVfQMnQZhIBPpai/P2wLfTd8Bp/+WIQCvRqtuQT1MuV479EdzbmuWKyFP
+	 hxOtBqthEu6Bw==
+From: Maxime Ripard <mripard@kernel.org>
+Date: Mon, 16 Jun 2025 17:21:46 +0200
+Subject: [PATCH v2] Documentation: dma-buf: heaps: Add naming guidelines
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFA1seeltkOQROVn@MacBook-Air.local>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAIk2UGgC/4WNTQ6CMBBGr0Jm7Zi2CP6svIdhMZQpbZSWtEo0p
+ He3cgGX7yXf+1ZIHB0nuFQrRF5ccsEXULsKtCU/MrqhMCihGtEogcNE2L8MWqYZPU2ccAgaa6l
+ aSSS04RbKeI5s3HsL37rC1qVniJ/tZ5E/+ze5SJRIfS3N8XASZ+brnaPnxz7EEbqc8xceLSYKv
+ QAAAA==
+X-Change-ID: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jared Kangas <jkangas@redhat.com>, 
+ Mattijs Korpershoek <mkorpershoek@kernel.org>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3203; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=F/QyudQDY/anQvkRN0MCoaO7t8IhTLucluA7Fcylo0Y=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkBZpMuGPxdwfn04PlNCc0vnt5KLJi0N0WrOZFHdNc1v
+ c+rHiws7pjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATKTjD2LB7cvExg2L+mYve
+ 7jDX3zlhDdvGXDlmu1s3DbqOz36kv9M4xV9IVSSuzfnX3k+zyq7trmSslVL+tuqtbqvTNm7t5Xe
+ eOazxXBj46YvhTVnR1pzrixXs7wZfzv9aOrn/6JrOfx8nb/3tDAA=
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On Mon, Jun 16, 2025 at 06:18:09PM +0300, Joe Damato wrote:
-> On Fri, Jun 13, 2025 at 11:02:23AM -0500, Dave Marquardt wrote:
-> > Fixed a typographical error in "Rate objects" section
-> > 
-> > Signed-off-by: Dave Marquardt <davemarq@linux.ibm.com>
-> > ---
-> > - Fixed typographical error in "Rate objects" section
-> > - Spell checked netdevsim.rst and found no additional errors
-> > -
-> > ---
-> >  Documentation/networking/devlink/netdevsim.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> For future reference, since Breno gave a Reviewed-by for the last patch [1],
-> you could have included his tag since there were no substantive changes.
-> 
-> In any case:
-> 
-> Reviewed-by: Joe Damato <joe@dama.to>
+We've discussed a number of times of how some heap names are bad, but
+not really what makes a good heap name.
 
-On second thought... this should target net-next (not net) and should also CC Breno.
+Let's document what we expect the heap names to look like.
 
-Have a look at:
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Added justifications for each requirement / suggestions
+- Added a mention and example of buffer attributes
+- Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org
+---
+ Documentation/userspace-api/dma-buf-heaps.rst | 38 +++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-  https://www.kernel.org/doc/html/v5.16/process/submitting-patches.html
+diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+index 535f49047ce6450796bf4380c989e109355efc05..835ad1c3a65bc07b6f41d387d85c57162909e859 100644
+--- a/Documentation/userspace-api/dma-buf-heaps.rst
++++ b/Documentation/userspace-api/dma-buf-heaps.rst
+@@ -21,5 +21,43 @@ following heaps:
+    usually created either through the kernel commandline through the
+    `cma` parameter, a memory region Device-Tree node with the
+    `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
+    `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
+    might be called ``reserved``, ``linux,cma``, or ``default-pool``.
++
++Naming Convention
++=================
++
++``dma-buf`` heaps name should meet a number of constraints:
++
++- That name must be stable, and must not change from one version to the
++  other. Userspace identifies heaps by their name, so if the names ever
++  changes, we would be likely to introduce regressions.
++
++- That name must describe the memory region the heap will allocate from,
++  and must uniquely identify it in a given platform. Since userspace
++  applications use the heap name as the discriminant, it must be able to
++  tell which heap it wants to use reliably if there's multiple heaps.
++
++- That name must not mention implementation details, such as the
++  allocator. The heap driver will change over time, and implementation
++  details when it was introduced might not be relevant in the future.
++
++- The name should describe properties of the buffers that would be
++  allocated. Doing so will make heap identification easier for
++  userspace. Such properties are:
++
++  - ``cacheable`` / ``uncacheable`` for buffers with CPU caches enabled
++    or disabled;
++
++  - ``contiguous`` for physically contiguous buffers;
++
++  - ``protected`` for encrypted buffers not accessible the OS;
++
++- The name may describe intended usage. Doing so will make heap
++  identification easier for userspace applications and users.
++
++For example, assuming a platform with a reserved memory region located
++at the RAM address 0x42000000, intended to allocate video framebuffers,
++physically contiguous, and backed by the CMA kernel allocator. Good
++names would be ``memory@42000000-cacheable-contiguous`` or
++``video@42000000``, but ``cma-video`` wouldn't.
 
-  and
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
 
-  https://www.kernel.org/doc/html/v5.16/networking/netdev-FAQ.html
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
