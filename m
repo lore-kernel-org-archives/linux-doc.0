@@ -1,118 +1,87 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33071285C88;
-	Mon, 16 Jun 2025 12:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483B074420;
+	Mon, 16 Jun 2025 12:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750077433; cv=none; b=CAsNOKNqikIpwkgMyqhHbZOmwuCIjiFIDxHFpIq/q9MEcamze5aTiWKLw02z1WKA/h6Ott/lZN8kf7MsKmCoJSeY0AQSoFwh2wDV6++bfwMJJ7ni4M3XtAxhmitkx1MSS7VvCBo6I/a79eTuLkrCML9hDfwjWghoICuOycpx+a4=
+	t=1750078006; cv=none; b=GdzCxhxxPJVo2Ujmzu0IDKL/vE5clKf5j07eqBNpVlPy+RG7s7+DYgUXjFc9Z1yGGz+jjbtnhKuCYMhKUUwO98xMinGLWBII1EoAEia4yMhFJcuBCsN5cQWVGOwPCc2uXfZV/Vq4FM8KxCeirTKm3+IlDN364sCzDnFItZjiHJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750077433; c=relaxed/simple;
-	bh=ZeP7tjC/ZhNCZ3i6ehT8hX7C0+VGcUECL26rGy8Kgm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=umXIfXGaSPPLlZBRP2G4yBw2YMrwxpWD1y93KzXvajW5vIdNXVm29PbOxeOQ0jIEqUrmqyPfm4TYk5HQxTyuqAe51QNnTIkXNYjWHDy1hi01dqFI/bJ3ppi+Kfg8ZO/nao08DcN8CkNCxnjQElJpmCm335pmEt+rdxo/tD2l8jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mQZcCmKq; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1750078006; c=relaxed/simple;
+	bh=V3bdCqRPnnsuaSC/9tsKOoYEPCllsd2mlydlvz+Lhio=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qFnJWYKoTXCa+QsDnlVyUn8TSfPk6poGH7rQ55OeJNChxneWwxpPSDMPqNa2E1f1UKo+e4kVQA8bkwAl1A1jMhy26GBrQOC7XLeb3qxtwpGVZTgIJowetF1x9JxwPCyTFY/umgKpQ6gIldSgE6GKJl0MWkIy2w8su8CbebdTTLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=EjK7foj5; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mQZcCmKq"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6114F443D2;
-	Mon, 16 Jun 2025 12:37:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1750077423;
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="EjK7foj5"
+Received: from [192.168.42.116] (pd9e59880.dip0.t-ipconnect.de [217.229.152.128])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 6FC5B2FC0059;
+	Mon, 16 Jun 2025 14:46:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1750077998;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kG3QipumXVsgRC4HVgkiBiGQuTdDWQuhKnssOVQC3/Y=;
-	b=mQZcCmKq8vupYDAfa3gPiIL9kiqYFRpFCvdRUHZ/B+32xQJa/gwrTMGv8oSnkwr3k86MPC
-	XkGEapMDGYuj+hMt2t4YusO7Xx2llW+Ct3eHDvGylDNPjT5kcTLk42bM+lbfY70arP8Z92
-	l1jxM1yfdrYqvEW9p8hfXVNCpvK26hG3dA1gREmUae9II6ug2VAhykDTB0toYrXcoGhWcr
-	Tm86JSNlKIprxGN2pWxxCypMxRvmkrLYucTfzaT1fm1ilBjWun7XsI2IGhaCyRdRB4MEeY
-	j+06koYoplIyAQNXGOAuj/WXq9UC6V3EYaQNstnlWsiRb5pSoe6zGNRnRHaVzw==
-Date: Mon, 16 Jun 2025 14:37:00 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
- <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
- <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
- Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v13 04/13] net: pse-pd: Add support for PSE
- power domains
-Message-ID: <20250616143700.6740fa59@kmaincent-XPS-13-7390>
-In-Reply-To: <20250614121329.7720ff33@kernel.org>
-References: <20250610-feature_poe_port_prio-v13-0-c5edc16b9ee2@bootlin.com>
-	<20250610-feature_poe_port_prio-v13-4-c5edc16b9ee2@bootlin.com>
-	<20250614121329.7720ff33@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	bh=IYp63lnKIaa597PgW5Ia82OIQTnjt4Qa68nqLr/SBjY=;
+	b=EjK7foj5u2gCuabSBiWQZu5676qyN97375w5SdgnuXZenHbQ419RSOEHlAYPPRdWxcwTcw
+	0Y8BLlrvv8zLouJBFrtBDlWDRSmdSTJtHrXEtpV3KsWorfD5E6ZIPqE4TD26qydfl6LJZ6
+	3ElhDoeDeV3cYkcZzCGTXmW6pfnmD5U=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <41de4cd4-2a27-4b14-a1c0-e336a3cec317@tuxedocomputers.com>
+Date: Mon, 16 Jun 2025 14:46:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvieeitdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefguddtfeevtddugeevgfevtdfgvdfhtdeuleetffefffffhffgteekvdefudeiieenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvjedprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiiv
- ghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomh
-X-GND-Sasl: kory.maincent@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
+To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
+ hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
+ ggo@tuxedocomputers.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org
+References: <20250615175957.9781-1-W_Armin@gmx.de>
+ <20250615175957.9781-3-W_Armin@gmx.de>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20250615175957.9781-3-W_Armin@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Le Sat, 14 Jun 2025 12:13:29 -0700,
-Jakub Kicinski <kuba@kernel.org> a =C3=A9crit :
+Hi, small additon
 
-> On Tue, 10 Jun 2025 10:11:38 +0200 Kory Maincent wrote:
-> > +static void __pse_pw_d_release(struct kref *kref)
-> > +{
-> > +	struct pse_power_domain *pw_d =3D container_of(kref,
-> > +						     struct
-> > pse_power_domain,
-> > +						     refcnt);
-> > +
-> > +	regulator_put(pw_d->supply);
-> > +	xa_erase(&pse_pw_d_map, pw_d->id);
-> > +}
-> > +
-> > +/**
-> > + * pse_flush_pw_ds - flush all PSE power domains of a PSE
-> > + * @pcdev: a pointer to the initialized PSE controller device
-> > + */
-> > +static void pse_flush_pw_ds(struct pse_controller_dev *pcdev)
-> > +{
-> > +	struct pse_power_domain *pw_d;
-> > +	int i;
-> > +
-> > +	for (i =3D 0; i < pcdev->nr_lines; i++) {
-> > +		if (!pcdev->pi[i].pw_d)
-> > +			continue;
-> > +
-> > +		pw_d =3D xa_load(&pse_pw_d_map, pcdev->pi[i].pw_d->id);
-> > +		if (!pw_d)
-> > +			continue;
-> > +
-> > +		kref_put_mutex(&pw_d->refcnt, __pse_pw_d_release,
-> > +			       &pse_pw_d_mutex);
-> > +	}
-> > +} =20
->=20
-> AFAIU the release function (__pse_pw_d_release) is supposed to release
-> the mutex.=20
+Am 15.06.25 um 19:59 schrieb Armin Wolf:
+> +		functionality.
+> +
+> +What:		/sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/rainbow_animation
+> +Date:		Juni 2025
+> +KernelVersion:	6.17
+> +Contact:	Armin Wolf <W_Armin@gmx.de>
+> +Description:
+> +		Forces the integrated lightbar to display a rainbow animation when the machine
+> +		is not suspended. Writing "enable"/"disable" into this file enables/disables
+> +		this functionality.
+> +
+> +		Reading this file returns the current status of the rainbow animation functionality.
+> +
+> +What:		/sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
+> +Date:		Juni 2025
+> +KernelVersion:	6.17
+> +Contact:	Armin Wolf <W_Armin@gmx.de>
+> +Description:
+> +		Causes the integrated lightbar to display a breathing animation when the machine
+> +		has been suspended and is running on AC power. Writing "enable"/"disable" into
+> +		this file enables/disables this functionality.
+> +
+> +		Reading this file returns the current status of the breathing animation
+> +		functionality.
 
-Yes indeed thanks!
+maybe this would be better under the /sys/class/leds/*/ tree if possible
 
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
