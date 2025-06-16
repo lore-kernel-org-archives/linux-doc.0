@@ -1,113 +1,135 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5B420ED;
-	Mon, 16 Jun 2025 06:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539815A79B;
+	Mon, 16 Jun 2025 06:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750053681; cv=none; b=AxCgevTBhk4jyiAPMbqzXo6t2e8MxdHzmM3+KXfdf0H4vwjMdL3iBbgrtBaFIbqFqlStqNb5hkEwsWwQFKhgHIigRAdutad8hr0uaCVBQsE0sQ0gVmFc9gV2AOdkpCg57h9dUzi5XRh7DgPOoxQQCRpIqBfTAXgYgo8ERSkBX4o=
+	t=1750054074; cv=none; b=hUvpWBUtWhE69H9e57rwS2MEs456/xxj242+/Y6wzojszOBecuTIIhVPXKJc32Zt5/noYpyEB+qcWM6lAGonS4es77acOEPQtVDrCkvVQcPtsduSUaNYwQFXiaJWYvjkeOlBMvxfC7BZxchj8pICmVa0Y6BFuIkW0Ch6WqTQfDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750053681; c=relaxed/simple;
-	bh=nlXhZlnGBWzxtQ7YR7U0l3kKDdI7l9/WVONrHPu+8w4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=DHnsPfLzxvKCqCb137Q7uBoUhs2LnU1cwA0sJjj5oUIr43frr21zknR5C924crR5CNvMgcIRAxZC/7LYgsitvkwjEU70wdRYcyQuDtjioPaiQip69Hs80Y8TXPbHu4F22/2xRXdW3Hc71RBESHDEidROU8v6oS4qbnUbMOb3Uhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=lPwq6IUP; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1750054074; c=relaxed/simple;
+	bh=3aY1BoapMOrG+X9hJ11RVDqZMjK7J273gsTC9KOzXYo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M6VIov4DjhWA0eSTJ8845pShiXMGiWWxNXbKnPVsLrA1JKWrQkhiLeGW9dnDJLJueuODl3XDOMOZM/BEzbqkP5cl74kyR/DDwlZxn07auVaeMfqXEvNL3vhibU3yariGnI5jN4aoZYsF6phsKIHhAkiwpUvmx5A7rNYEBXGbQmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qAH/5Ut/; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="lPwq6IUP"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 55G614pE593841
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sun, 15 Jun 2025 23:01:04 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 55G614pE593841
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025052101; t=1750053666;
-	bh=CTqwpLvMy+USLU52eAJDrtYzrj8Vd/OsVH2M9Ec/smI=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=lPwq6IUPArHJpN/ArwPv4K2MNIterLHp6VK2nqBXnivrWXBBs8vXeCappTqbI9DvD
-	 86QmVIbJO+UOoD4ROlmvH8Q/2VyqzXfIDH+r1+ORSMafNt5tCvM9+jmFjTD7+65TVV
-	 sWJBnFoMIbdZgTXUBKuwlW9txR58942vtZPn3FDvze27hXMTwwxr6mwxDNZPWOhtz6
-	 xPy9iIVlT3ZX/zb/1wgBIPE01jDG9FbUNewkXVUCG/kVWut9bXa0F0az3VPcfyRi7z
-	 AmFvEq3/o4XUJMi9nLFKUGTFPhH4skXJTmVhqNSLoJysKlCViuyhWaiOo52ceCNocV
-	 Ho4zKP23fOTLA==
-Message-ID: <4383bfb1-d1bd-40ef-a458-75a335ef2fc1@zytor.com>
-Date: Sun, 15 Jun 2025 23:01:03 -0700
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qAH/5Ut/"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55FNrep0004958;
+	Mon, 16 Jun 2025 06:07:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=OeQccFsxYaMk+2oAr5Rfei0TTt24+
+	k+w+3UL8HZWKiw=; b=qAH/5Ut/H1NSM0b4+rVKdR/qBxvKO+gWdugz7L9lhdHMz
+	wb+x8jhnZ2MPqBV09JrAb/K1jUikPtoxpeyHCB7ir83USspzOculELRgq4F7p4j+
+	xVc6gIWUHji76kE5eq3OJWsae8cP2CZGf2QlN34l6Yw2ec7/cPMraoW/IqQF9G84
+	y9IfZMZ7mhM3lQWME3ENQLZODLvpNLXRpd13swWEeSV2YZBfoa9q1pvS+bINeRVU
+	4pS2i0Zhr79MvF5C3O7KnMatHYtO7x+XmMlH5rfo9FJ0XTOt8AxTkae+0+bgwLVi
+	okSZmEASL4eE4/OxWNsNNMWQ2Bd/C6BH27lZyss9Q==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47914ehqxe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 16 Jun 2025 06:07:41 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55G4dPoj032093;
+	Mon, 16 Jun 2025 06:07:40 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 478yh7g6ey-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 16 Jun 2025 06:07:40 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55G67d7f007555;
+	Mon, 16 Jun 2025 06:07:39 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 478yh7g6ej-1;
+	Mon, 16 Jun 2025 06:07:39 +0000
+From: Alok Tiwari <alok.a.tiwari@oracle.com>
+To: linux-doc@vger.kernel.org, linux-cxl@vger.kernel.org, corbet@lwn.net,
+        dave@stgolabs.net, jonathan.cameron@huawei.com, dave.jiang@intel.com,
+        alison.schofield@intel.com, vishal.l.verma@intel.com,
+        ira.weiny@intel.com, dan.j.williams@intel.com, gourry@gourry.net
+Cc: alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org,
+        darren.kenny@oracle.com
+Subject: [PATCH] cxl: docs/devices Fix typos and clarify wording in device-types.rst
+Date: Sun, 15 Jun 2025 23:07:32 -0700
+Message-ID: <20250616060737.1645393-1-alok.a.tiwari@oracle.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] Documentation: kvm: Fix a section number
-From: Xin Li <xin@zytor.com>
-To: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: pbonzini@redhat.com, corbet@lwn.net
-References: <20250414165146.2279450-1-xin@zytor.com>
-Content-Language: en-US
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <20250414165146.2279450-1-xin@zytor.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-16_02,2025-06-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999 mlxscore=0
+ spamscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2506160039
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDAzOSBTYWx0ZWRfXx4QQKlmuKXZI VLp2EqYIjck4mohGrDvUjfp31yijgBn+I32lT4NY9loLjOLz5Ert7n8gCJtHw+MU8nN9uFKDW47 shebjA8umXRTQXMCBbuYb241uxIBJGDOr8X73cQvOVveEmJHRu8/5clISCh1MKU6ntwH2Tjy/SG
+ Sf7edSC45mJnnUS4dj+A7/j3ldfee/axO1gr/j9w3cNeWOPoX4oYp/E3Tp/5vOu1As1em9qrYHl jTz86ruXzGR6xxtkvJeZGlumxQS7fWxVYtcEmgqIIGh4wYRPl2g7VyIP7c3CPY0PoQyalJmiP3x HMXvMQdmwEVdfo38kw6BohfJwxJyieu6H1wwhkS3EAj7fSleIXemgH4GIPqSdBtEiVCUtZWkvoR
+ u5PFXqdLpPf54GSKNqtXoYumdYP7Yy2Vd8EWZEssE2aFIL+R9CM426HprUpBVtGwQdlVk1f0
+X-Authority-Analysis: v=2.4 cv=U4CSDfru c=1 sm=1 tr=0 ts=684fb4ad b=1 cx=c_pps a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=5rsIUXSFhDujYq55XicA:9
+X-Proofpoint-GUID: DkbpINJH-lcQiqr3Wuefolq7p5FmBC-P
+X-Proofpoint-ORIG-GUID: DkbpINJH-lcQiqr3Wuefolq7p5FmBC-P
 
-On 4/14/2025 9:51 AM, Xin Li (Intel) wrote:
-> The previous section is 7.41, thus this should be 7.42.
-> 
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-> ---
->   Documentation/virt/kvm/api.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 47c7c3f92314..58478b470860 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -8478,7 +8478,7 @@ ENOSYS for the others.
->   When enabled, KVM will exit to userspace with KVM_EXIT_SYSTEM_EVENT of
->   type KVM_SYSTEM_EVENT_SUSPEND to process the guest suspend request.
->   
-> -7.37 KVM_CAP_ARM_WRITABLE_IMP_ID_REGS
-> +7.42 KVM_CAP_ARM_WRITABLE_IMP_ID_REGS
->   -------------------------------------
->   
->   :Architectures: arm64
-> 
-> base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
+Fix several typos and improve comment clarity in the CXL device types
+docs:
+ "w/" replaced with "with"
+ "sill" -> "still"
+ "The allows" -> "This allows"
+ "capacity" corrected to "capable"
+ "more devices" corrected to "more hosts" in MLD description
 
-A gentle ping!
+These changes improve readability and enhance the documentation quality.
+
+Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+---
+ Documentation/driver-api/cxl/devices/device-types.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
+index f5e4330c1cfe..401c463af3ba 100644
+--- a/Documentation/driver-api/cxl/devices/device-types.rst
++++ b/Documentation/driver-api/cxl/devices/device-types.rst
+@@ -63,13 +63,13 @@ A Type-2 CXL Device:
+ 
+ * Supports cxl.io, cxl.cache, and cxl.mem protocols
+ * Optionally implements coherent cache and Host-Managed Device Memory
+-* Is typically an accelerator device w/ high bandwidth memory.
++* Is typically an accelerator device with high bandwidth memory.
+ 
+ The primary difference between a type-1 and type-2 device is the presence
+ of host-managed device memory, which allows the device to operate on a
+-local memory bank - while the CPU sill has coherent DMA to the same memory.
++local memory bank - while the CPU still has coherent DMA to the same memory.
+ 
+-The allows things like GPUs to expose their memory via DAX devices or file
++This allows things like GPUs to expose their memory via DAX devices or file
+ descriptors, allows drivers and programs direct access to device memory
+ rather than use block-transfer semantics.
+ 
+@@ -89,7 +89,7 @@ basic coherent DMA.
+ Switch
+ ------
+ 
+-A CXL switch is a device capacity of routing any CXL (and by extension, PCIe)
++A CXL switch is a device capable of routing any CXL (and by extension, PCIe)
+ protocol between an upstream, downstream, or peer devices.  Many devices, such
+ as Multi-Logical Devices, imply the presence of switching in some manner.
+ 
+@@ -103,7 +103,7 @@ A Single-Logical Device (SLD) is a device which presents a single device to
+ one or more heads.
+ 
+ A Multi-Logical Device (MLD) is a device which may present multiple devices
+-to one or more devices.
++to one or more hosts.
+ 
+ A Single-Headed Device exposes only a single physical connection.
+ 
+-- 
+2.47.1
+
