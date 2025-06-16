@@ -1,200 +1,125 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D02F1494C2;
-	Mon, 16 Jun 2025 06:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4832B1DD0D4;
+	Mon, 16 Jun 2025 06:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750056709; cv=none; b=OCbkgsL/BU50CEZnAi7wY5RIY0djOB1F83QO4JyVzut1iZhq1X7F9gtcFW/9Yqc5RYEMo88hzxESLh9gM00ZisUaGJV5waJMhHh9kSXcG3cVH5uhpF+Zl2e4D/Ummmp1K8i38DfQg4MO5/hUCFC1NpiNLhnlnDcm2S206vHRxlo=
+	t=1750056917; cv=none; b=ZK6tJtH/Pp7ldyh6VgwI+AXinc8ecQ+QKQQFTuFIaom5DDpHpnZAJUnYF//vhcMla+fCWgATogoLn6VZB7PujZyeoLNDg5MYYTYlerHN2/D87qpWoE0B2sZzLlfnhhWd/oR2rEEMxi5TRwwufRCDfiIX/nHKG6Wxl3zxx/MGoM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750056709; c=relaxed/simple;
-	bh=659K2a+RVej/0E/JVasPDdOXxmtJmIlt1/h05SIk5TE=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=u+Fas1vHJiz85m6OiJTNcXE7RsZhT0p4fE6m6n2H6izTaYZW9+sifg+7K7n6CKKsqlNJTnCTBt2KZsCXLBplDKvxkkC3bvTXKW3ky8lvnPDCY0tf936hjSdvD0Mfu3+hjA6ATcDCakjsrKA71Mr5rKLwvP9sGHo2NkzU2SA/Cj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mxct.zte.com.cn (unknown [192.168.251.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bLLJT3mNdz5DN79;
-	Mon, 16 Jun 2025 14:51:37 +0800 (CST)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4bLLJD4wYKz51SW7;
-	Mon, 16 Jun 2025 14:51:24 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl2.zte.com.cn with SMTP id 55G6pAJk054921;
-	Mon, 16 Jun 2025 14:51:10 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Mon, 16 Jun 2025 14:51:12 +0800 (CST)
-Date: Mon, 16 Jun 2025 14:51:12 +0800 (CST)
-X-Zmail-TransId: 2af9684fbee0696-177c9
-X-Mailer: Zmail v1.0
-Message-ID: <20250616145112048o28iY_4L8DDaySvz_ZR9Z@zte.com.cn>
+	s=arc-20240116; t=1750056917; c=relaxed/simple;
+	bh=JzhPaAJq3SE1ySzHxtViTC3KuZDIosj/LQ8YKkF7X1Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RHHD3S8XKanIIplen56GJWwOB7S5RrCYV/QUzJXLuF6tv5rjALUcsWvBkWMF9+Iz/zSYnK8+XOmJQ8b8PrOUphbOnNitbchhW90ZPJdtX/7KwGPUZi+PONySBNS2bi03LDSpJfpOl3xVwH8pzfkxUlN11PWQBcE1Q/4uT2Vl584=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyYWaqXu; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyYWaqXu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750056916; x=1781592916;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=JzhPaAJq3SE1ySzHxtViTC3KuZDIosj/LQ8YKkF7X1Q=;
+  b=cyYWaqXuzxQGoEnk6FkXdDDj6qA2SvmAUQ8BqdrJJrlwKUBQwRyGsgZb
+   qg+4uDMw8daZyiAWzuuyNJNU9bJNLHjImemojOuPIJBnI61IBJSxy+R+s
+   AeZc7mmmhIBb99FIjg17Iudw2esSOx0mkkmuvl/RxZe3d4McU5yvu62sI
+   jVqOQC0Kjt3ii4F0M1Dg4aB7R64HIXQZcOdaZY6SWGzGGkrQg5/133ADv
+   JjVAh4jqRBBcfjJioCoA5ke+m18yy8rTKZNAhZ8QyGDL8MIUZjRzyzB+3
+   cB6r1oZ2JqflzsM3sHrJCrFSY9KTp0dSifPqD2Gl/g0C2wKF0slqo3jqI
+   g==;
+X-CSE-ConnectionGUID: iMKpV/ppRhafhABIDZU6Qg==
+X-CSE-MsgGUID: h5rV8wUgTG+hA6QjQEb8dA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="74720822"
+X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
+   d="scan'208";a="74720822"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 23:55:15 -0700
+X-CSE-ConnectionGUID: eWT5UpgTTxO6CbYgUZWzxg==
+X-CSE-MsgGUID: xOYLWIvfQEeVOE3EP2VS3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
+   d="scan'208";a="149298915"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 23:55:09 -0700
+Message-ID: <b9a7ae65-edc6-46e9-bea0-163a51459884@linux.intel.com>
+Date: Mon, 16 Jun 2025 14:54:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <alexs@kernel.org>
-Cc: <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <yang.tao172@zte.com.cn>, <ye.xingchen@zte.com.cn>,
-        <wang.yaxin@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIXSBEb2NzL3poX0NOOiBUcmFuc2xhdGUgdWJpZnMucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 55G6pAJk054921
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 684FBEF7.000/4bLLJT3mNdz5DN79
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 10/25] iommufd/viommu: Add IOMMUFD_CMD_HW_QUEUE_ALLOC
+ ioctl
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+ bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+ thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+ shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+ peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+ praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, patches@lists.linux.dev, mochs@nvidia.com,
+ alok.a.tiwari@oracle.com, vasant.hegde@amd.com, dwmw2@infradead.org
+References: <cover.1749884998.git.nicolinc@nvidia.com>
+ <7dfb002613f224f57a069d27e7bf2b306b0a5ba0.1749884998.git.nicolinc@nvidia.com>
+ <1ab8030b-8d2f-4ebe-a280-6d0e4e1d17c7@linux.intel.com>
+ <aE+976F9zPsjtfry@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <aE+976F9zPsjtfry@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
+On 6/16/25 14:47, Nicolin Chen wrote:
+> On Mon, Jun 16, 2025 at 02:12:04PM +0800, Baolu Lu wrote:
+>> On 6/14/25 15:14, Nicolin Chen wrote:
+>>> +	if (!viommu->ops || !viommu->ops->get_hw_queue_size ||
+>>> +	    !viommu->ops->hw_queue_init_phys) {
+>>> +		rc = -EOPNOTSUPP;
+>>> +		goto out_put_viommu;
+>>> +	}
+> Hmm, here it does abort when !viommu->ops->hw_queue_init_phys ..
+> 
+>>> +	/*
+>>> +	 * FIXME once ops->hw_queue_init is introduced, this should check "if
+>>> +	 * ops->hw_queue_init_phys". And "access" should be initialized to NULL.
+>>> +	 */
+>> I just don't follow here. Up until now, only viommu->ops->
+>> hw_queue_init_phys has been added, which means the current code only
+>> supports hardware queues that access guest memory using physical
+>> addresses. The access object is not needed for the other type of
+>> hardware queue that uses guest IOVA.
+>>
+>> So, why not just abort here if ops->hw_queue_init_phys is not supported
+>> by the IOMMU driver?
+> .. so, it already does.
+> 
+>> Leave other logics to the patches that introduce
+>> ops->hw_queue_init? I guess that would make this patch more readible.
+> The patch is doing in the way to support the hw_queue_init_phys
+> case only. It is just adding some extra FIXMEs as the guideline
+> for the future patch adding hw_queue_init op.
+> 
+> I personally don't feel these are confusing. Maybe you can help
+> point out what specific wording feels odd here? Maybe "FIXME"s
+> should be "TODO"s?
 
-translate the "ubifs.rst" into Simplified Chinese.
+Oh, I probably misunderstood the logic here. For both hw_queue_init and
+hw_queue_init_phys, using an access object to pin the pages for hardware
+access is necessary, right? My understanding was that pinning pages is
+only required for hw_queue_init_phys.
 
-Update to commit 5f5cae9b0e81("Documentation: ubifs: Fix
-compression idiom")
+> 
+> I could also drop all of these guideline if they are considered
+> very unnecessary.
+> 
+> Thanks
+> Nicolin
 
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-Signed-off-by: yang tao <yang.tao172@zte.com.cn>
----
- .../translations/zh_CN/filesystems/index.rst  |   1 +
- .../translations/zh_CN/filesystems/ubifs.rst  | 111 ++++++++++++++++++
- 2 files changed, 112 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs.rst
-
-diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-index 9f2a8b003778..faaa0f097223 100644
---- a/Documentation/translations/zh_CN/filesystems/index.rst
-+++ b/Documentation/translations/zh_CN/filesystems/index.rst
-@@ -26,4 +26,5 @@ Linux Kernel中的文件系统
-    virtiofs
-    debugfs
-    tmpfs
-+   ubifs
-
-diff --git a/Documentation/translations/zh_CN/filesystems/ubifs.rst b/Documentation/translations/zh_CN/filesystems/ubifs.rst
-new file mode 100644
-index 000000000000..27997777f4ea
---- /dev/null
-+++ b/Documentation/translations/zh_CN/filesystems/ubifs.rst
-@@ -0,0 +1,111 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/filesystems/ubifs.rst
-+
-+:翻译:
-+
-+   邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
-+
-+:校译:
-+
-+   - 杨涛 yang tao <yang.tao172@zte.com.cn>
-+
-+===============
-+UBI 文件系统
-+===============
-+
-+简介
-+============
-+
-+UBIFS 文件系统全称为 UBI 文件系统（UBI File System）。UBI 代表无序块镜像（Unsorted
-+Block Images）。UBIFS 是一种闪存文件系统，这意味着它专为闪存设备设计。需要理解的是，UBIFS
-+与 Linux 中任何传统文件系统（如 Ext2、XFS、JFS 等）完全不同。UBIFS 代表一类特殊的文件系统，
-+它们工作在 MTD 设备而非块设备上。该类别的另一个 Linux 文件系统是 JFFS2。
-+
-+为更清晰说明，以下是 MTD 设备与块设备的简要比较：
-+
-+1. MTD 设备代表闪存设备，由较大尺寸的擦除块组成，通常约 128KiB。块设备由小块组成，通常 512
-+   字节。
-+2. MTD 设备支持 3 种主要操作：在擦除块内偏移位置读取、在擦除块内偏移位置写入、以及擦除整个擦除
-+   块。块设备支持 2 种主要操作：读取整个块和写入整个块。
-+3. 整个擦除块必须先擦除才能重写内容。块可直接重写。
-+4. 擦除块在经历一定次数的擦写周期后会磨损，通常 SLC NAND 和 NOR 闪存为 100K-1G 次，MLC
-+   NAND 闪存为 1K-10K 次。块设备不具备磨损特性。
-+5. 擦除块可能损坏（仅限 NAND 闪存），软件需处理此问题。硬盘上的块通常不会损坏，因为硬件有坏块
-+   替换机制（至少现代 LBA 硬盘如此）。
-+
-+这充分说明了 UBIFS 与传统文件系统的本质差异。
-+
-+UBIFS 工作在 UBI 层之上。UBI 是一个独立的软件层（位于 drivers/mtd/ubi），本质上是卷管理和
-+磨损均衡层。它提供称为 UBI 卷的高级抽象，比 MTD 设备更上层。UBI 设备的编程模型与 MTD 设备非
-+常相似，仍由大容量擦除块组成，支持读/写/擦除操作，但 UBI 设备消除了磨损和坏块限制（上述列表的第
-+4 和第 5 项）。
-+
-+某种意义上，UBIFS 是 JFFS2 文件系统的下一代产品，但它与 JFFS2 差异巨大且不兼容。主要区别如下：
-+
-+* JFFS2 工作在 MTD 设备之上，UBIFS 依赖于 UBI 并工作在 UBI 卷之上。
-+* JFFS2 没有介质索引，需在挂载时构建索引，这要求全介质扫描。UBIFS 在闪存介质上维护文件系统索引
-+  信息，无需全介质扫描，因此挂载速度远快于 JFFS2。
-+* JFFS2 是直写（write-through）文件系统，而 UBIFS 支持回写（write-back），这使得 UBIFS
-+  写入速度快得多。
-+
-+与 JFFS2 类似，UBIFS 支持实时压缩，可将大量数据存入闪存。
-+
-+与 JFFS2 类似，UBIFS 能容忍异常重启和断电。它不需要类似 fsck.ext2 的工具。UBIFS 会自动重放日
-+志并从崩溃中恢复，确保闪存数据结构的一致性。
-+
-+UBIFS 具有对数级扩展性（其使用的数据结构多为树形），因此挂载时间和内存消耗不像 JFFS2 那样线性依
-+赖于闪存容量。这是因为 UBIFS 在闪存介质上维护文件系统索引。但 UBIFS 依赖于线性扩展的 UBI 层，
-+因此整体 UBI/UBIFS 栈仍是线性扩展。尽管如此，UBIFS/UBI 的扩展性仍显著优于 JFFS2。
-+
-+UBIFS 开发者认为，未来可开发同样具备对数级扩展性的 UBI2。UBI2 将支持与 UBI 相同的 API，但二进
-+制不兼容。因此 UBIFS 无需修改即可使用 UBI2。
-+
-+挂载选项
-+=============
-+
-+(*) 表示默认选项。
-+
-+====================    =======================================================
-+bulk_read               批量读取以利用闪存介质的顺序读取加速特性
-+no_bulk_read (*)        禁用批量读取
-+no_chk_data_crc (*)     跳过数据节点的 CRC 校验以提高读取性能。 仅在闪存
-+                        介质高度可靠时使用此选项。 此选项可能导致文件内容损坏无法被
-+                        察觉。
-+chk_data_crc            强制校验数据节点的 CRC
-+compr=none              覆盖默认压缩器，设置为"none"
-+compr=lzo               覆盖默认压缩器，设置为"LZO"
-+compr=zlib              覆盖默认压缩器，设置为"zlib"
-+auth_key=               指定用于文件系统身份验证的密钥。
-+                        使用此选项将强制启用身份验证。
-+                        传入的密钥必须存在于内核密钥环中， 且类型必须是'logon'
-+auth_hash_name=         用于身份验证的哈希算法。同时用于哈希计算和 HMAC
-+                        生成。典型值包括"sha256"或"sha512"
-+====================    =======================================================
-+
-+快速使用指南
-+========================
-+
-+挂载的 UBI 卷通过 "ubiX_Y" 或 "ubiX:NAME" 语法指定，其中 "X" 是 UBI 设备编号，"Y" 是 UBI
-+卷编号，"NAME" 是 UBI 卷名称。
-+
-+将 UBI 设备 0 的卷 0 挂载到 /mnt/ubifs::
-+
-+    $ mount -t ubifs ubi0_0 /mnt/ubifs
-+
-+将 UBI 设备 0 的 "rootfs" 卷挂载到 /mnt/ubifs（"rootfs" 是卷名）::
-+
-+    $ mount -t ubifs ubi0:rootfs /mnt/ubifs
-+
-+以下是内核启动参数的示例，用于将 mtd0 附加到 UBI 并挂载 "rootfs" 卷：
-+ubi.mtd=0 root=ubi0:rootfs rootfstype=ubifs
-+
-+参考资料
-+==========
-+
-+UBIFS 文档及常见问题解答/操作指南请访问 MTD 官网：
-+
-+- http://www.linux-mtd.infradead.org/doc/ubifs.html
-+- http://www.linux-mtd.infradead.org/faq/ubifs.html
--- 
-2.25.1
+Thanks,
+baolu
