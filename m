@@ -1,293 +1,325 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19681F4C98
-	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 07:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14293202C38;
+	Mon, 16 Jun 2025 07:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750059107; cv=none; b=syfSdpSofyodQWBgGP4lhksSJ2V9W+VkOiFcZGKBgPbk+es/KEOLq50NzCmS9NwCodJ99x2kCZ+DVFqESYnAx0xzU0LhlDoa3XwJNV/J00xpaZYRAYmURNjsRgBNJyrQXVorDr60A9258zrEys3TjXagnm84TaUUUFQOhd9pii0=
+	t=1750059771; cv=none; b=FKPxt5RkhHjl7sIIvu3vDM5rBlyGOJ6Tt8wWARu+iYq2oZ3mjm4Sx0nAPZEMCjHglxRWTzYJWMX66SQGiBByDjWhzWtWl/WJpjYQX9PpPr8K2mck4e2vidw5sm5iBRbTPbybcrlt+tnBJA37JxmEMuTx/ZvWV6WfXATZND4Wbf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750059107; c=relaxed/simple;
-	bh=ee5HiIoIsa3WDFCUyUGDDZltzjB7Oew/byuJhXXlAlI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UOjjSQBxqmYYqBUQm9NVG6WgnPWT16kiMvcbZHncLA/ixZv8mMm7dKjAh2OLu00fjax1hogHiVITzoQJEc9VSK9D86mSDD7Z/mYvHnxvTWRhWY9DSCVv8gTbzfijeNyPF2Q61RrpC6w8pKaQEXABmJyHCQJlnt76Kq8qAGRYT10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=DC1i+2um; arc=none smtp.client-ip=209.85.166.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="DC1i+2um"
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3ddff24fdc4so47573465ab.2
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 00:31:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1750059103; x=1750663903; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EQxXH/0dmAKUHVoHoL5MncVmJUg8FbHf/SfAogCBA2o=;
-        b=DC1i+2umUVfKRl3dV5GPu22ngrs1sm0QAx+hY6GxzRuTxJz2aEVXBVY21zCsxxxAb3
-         xQ7OnZYKqww37y7xbgOG9IasDUprZUWYFUg0EZ4MElZo6BmPrlMHfFMz5ewViqQiXtWr
-         /+kx131zxEmT0q/ZfGhXZmZzXXUWLkGa88xBOnl1w1EhoTa9j0IhgDRIKQKB+e2cHZaE
-         +dJ//AYrH56dqdU2azxMFshlEHAKGit9qUbhCcCEVP/Tbj5P5zE1/M4AtQ7TENXxPDBt
-         Wsj+Oref7Aunzg2G6havYh6dekCCPT/Diu8Z8ZalOmwWyhPA2KJHD+yvV/aEF/B2yHpy
-         yAcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750059103; x=1750663903;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EQxXH/0dmAKUHVoHoL5MncVmJUg8FbHf/SfAogCBA2o=;
-        b=W/50I4XCRNh4yfj08ZBU8qzRmnfuqlEOdaOPzguemPqbPs4XbMqWbQ7DJXG3wRLjbT
-         WmdcJcp1VtblFa30At9o/EeOxd+9/zBPxA+mj/ja4PzV+VVKQaqsb43xxDIQjhf7UgFr
-         yGUCZSey0qLLMNhK10led1+EUCRLU/VdccR4egVK9GlOqmB86B/6yql7g1CaS3G4/ILu
-         kpn/5XzDT7QbWC5mF8sDkZSub7tIJFNnWwgjq0QDBMHlL3ZxihWx2Vh5BFQ/Ebthd3AK
-         eQXgFp/I+Z8ox9M58fGkaC98mo51ZB2seqVRI2qbc1J2Kc5mUHm0MSEp9kOSpAIcq2xv
-         w2Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtATNsd3mKXFe0FNAQIqCS2iiYkGS3otQXZToCAn8KAeuo6/spMCH4GdFNwH6MxiCwCBkdvIbyYkU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/1uw+X1KIFUSg3yZp6paRplLeE/7yG8m4VizjtCtNKdWaiPZE
-	mI3NpDR3Gi6IyLiBxZ1t04cZRPIoyrgKDbnn1HU2NkNtzNU5CHG1KBXhfYiCAF2mCULMaaD5Hn/
-	nShiJtY40Xuum59KsNbUx/vozxot7nYwVbfCc5lPmPw==
-X-Gm-Gg: ASbGnctad9VuFa4ds5SBpS1KHCqSXD4lC2B7aVjb8DJcLOVQJOyXNhT3PRsSYLSqWjF
-	7/O+6rvbiT5UdCtg6J1vl1rvOUGzgZYw7Rml/ZscEsup7r6Y/A0M+lWk3x1eYq+fFS+X2y3ash8
-	Sh/7S6hlHizqWzv9Z7poBe43VbAm7PHt99oB0f0cryQmPidA==
-X-Google-Smtp-Source: AGHT+IEjHI16GxKyLasfzKkpzXfv5K8fdxEJHSmO2c+vsZ5EW3jLub+wreQ1LSFrfqb50SzP3xXNNY/tkYcEG9qkkXQ=
-X-Received: by 2002:a05:6e02:1445:b0:3dc:87c7:a5b5 with SMTP id
- e9e14a558f8ab-3de07c2710fmr92538565ab.3.1750059102855; Mon, 16 Jun 2025
- 00:31:42 -0700 (PDT)
+	s=arc-20240116; t=1750059771; c=relaxed/simple;
+	bh=uhpJklVbBbRMO7R0wFYgpRhw8DZy55F6QA/PMvAN/z8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GFB0XbP7Mejjcb7cxTP1cca9dy5YeTphdu/ivcxd0SGtkdLsrWt9dfkE7cEuMr1gkF/6F4yhzgkHR5JodxpDFavDn+SB3vt/oGnQm81P4F+axcqNB9Yqxgx3Dft4CAs6H8u0A19PoE07q60Viyqm+3LPFicPYLl9i5en4ll72MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-681ff7000002311f-e0-684fcaeedd57
+Date: Mon, 16 Jun 2025 16:42:33 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Bijan Tabatabai <bijan311@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
+	ziy@nvidia.com, matthew.brost@intel.com, joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com,
+	apopple@nvidia.com, bijantabatab@micron.com,
+	venkataravis@micron.com, emirakhur@micron.com, ajayjoshi@micron.com,
+	vtavarespetr@micron.com, damon@lists.linux.dev,
+	kernel_team@skhynix.com
+Subject: Re: [RFC PATCH 0/4] mm/damon: Add DAMOS action to interleave data
+ across nodes
+Message-ID: <20250616074233.GA74466@system.software.com>
+References: <20250612181330.31236-1-bijan311@gmail.com>
+ <20250612234942.3612-1-sj@kernel.org>
+ <CAMvvPS4WsGkfukNscnLWW40Agg6_wmkm_QF96m+HZrEZrstR4A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250604-v5_user_cfi_series-v17-0-4565c2cf869f@rivosinc.com> <20250604-v5_user_cfi_series-v17-15-4565c2cf869f@rivosinc.com>
-In-Reply-To: <20250604-v5_user_cfi_series-v17-15-4565c2cf869f@rivosinc.com>
-From: Zong Li <zong.li@sifive.com>
-Date: Mon, 16 Jun 2025 15:31:31 +0800
-X-Gm-Features: AX0GCFv07zIy78CxiGqhmmuXUJ1bc3WRbaeMC8WS8lGUU29aYh3F-BEq_8IQZZA
-Message-ID: <CANXhq0pRXX_OMW2g2ui-k7Z_ZT+5a8Sra8oE28nBh5B9K2L5bQ@mail.gmail.com>
-Subject: Re: [PATCH v17 15/27] riscv/traps: Introduce software check exception
- and uprobe handling
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMvvPS4WsGkfukNscnLWW40Agg6_wmkm_QF96m+HZrEZrstR4A@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKIsWRmVeSWpSXmKPExsXC9ZZnke67U/4ZBu2PTS1W7G1lt5izfg2b
+	xa4bIRYNPz6zWSy4d57R4smBdiDx/zerxdf1v5gtZny4xG7x8+5xdovjW+exWyxsW8JicXnX
+	HDaLe2v+s1p865O2OPz1DZPFzuY7TBbH701it1i9JsNi9tF77A4iHjtn3WX36G67zO6xeM9L
+	Jo9NqzrZPDZ9msTucWLGbxaPnQ8tPV5snsnosbhvMqvH9/UdbB69ze/YPN7vu8rm8XmTXABv
+	FJdNSmpOZllqkb5dAlfGu4/vmAomx1U0Pp3M3sC42ruLkZNDQsBEYuvrH8ww9rK7rewgNouA
+	qsTS62tZQGw2AXWJGzd+gtWICGhI7Ph+B6iGi4NZ4DezxLTDDWAJYYFIiX0Hr4DZvAIWEkcv
+	LgMrEhJYxijROuk9VEJQ4uTMJ2BTmYGm/pl3CSjOAWRLSyz/xwERlpdo3jobrJxTIFDi5JRl
+	bCC2qICyxIFtx5lAZkoI3GKX2DCthRXiakmJgytusExgFJyFZMUsJCtmIayYhWTFAkaWVYxC
+	mXlluYmZOSZ6GZV5mRV6yfm5mxiBkb2s9k/0DsZPF4IPMQpwMCrx8B7Y6pchxJpYVlyZe4hR
+	goNZSYR38QmgEG9KYmVValF+fFFpTmrxIUZpDhYlcV6jb+UpQgLpiSWp2ampBalFMFkmDk6p
+	BsagV9k1Oi9N5K/pX2ErO/R3EWf+cpFn0ZE+l4/7ti6dkDBr02YWh9SY4tLNN4S3hf258jYi
+	9qSG1LctLk6T7QtZZ155azzddaf+XrsUfaeHrZd5Z2s+6/M/rXupyFYxsGtWzf5Kp3UMZtbb
+	8leke800u/JsfoNFgeGcr5qb7B9oyG65End5vZoSS3FGoqEWc1FxIgDzJjDy6AIAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRmVeSWpSXmKPExsXC5WfdrPvulH+GwYxLihYr9rayW8xZv4bN
+	YteNEIuGH5/ZLBbcO89o8eRAO5D4/5vV4uv6X8wWMz5cYrf4efc4u8XxrfPYLQ7PPclqsbBt
+	CYvF5V1z2CzurfnPavGtT9ri0LXnrBaHv75hstjZfIfJ4vi9SewWq9dkWMw+eo/dQcxj56y7
+	7B7dbZfZPRbvecnksWlVJ5vHpk+T2D1OzPjN4rHzoaXHi80zGT0W901m9fi+voPNo7f5HZvH
+	+31X2Ty+3fbwWPziA5PH501yAfxRXDYpqTmZZalF+nYJXBnvPr5jKpgcV9H4dDJ7A+Nq7y5G
+	Tg4JAROJZXdb2UFsFgFViaXX17KA2GwC6hI3bvxkBrFFBDQkdny/A1TDxcEs8JtZYtrhBrCE
+	sECkxL6DV8BsXgELiaMXl4EVCQksY5RonfQeKiEocXLmE7CpzEBT/8y7BBTnALKlJZb/44AI
+	y0s0b50NVs4pEChxcsoyNhBbVEBZ4sC240wTGPlmIZk0C8mkWQiTZiGZtICRZRWjSGZeWW5i
+	Zo6pXnF2RmVeZoVecn7uJkZg5C6r/TNxB+OXy+6HGAU4GJV4eB9s8s8QYk0sK67MPcQowcGs
+	JMK7+IRfhhBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFer/DUBCGB9MSS1OzU1ILUIpgsEwenVAPj
+	3Jc3f/92TmY79Lyk+svvxpbbWZtfZC2YKboz//Tqe8d2r9504F7x/5SV4nfVy22eLNOPW6hz
+	6PD0PRa1Idv/NPuJt8xrK1hz2Dqj5N+vS7Lt0WJvbq4oyfl7q9ZYO5Yt5HHIg2+VLisLPTY4
+	haxe+ktQJOgQt+TUW2luekEvs6+Zri0xyVR+pMRSnJFoqMVcVJwIAKOKiFDYAgAA
+X-CFilter-Loop: Reflected
 
-On Thu, Jun 5, 2025 at 1:17=E2=80=AFAM Deepak Gupta <debug@rivosinc.com> wr=
-ote:
->
-> zicfiss / zicfilp introduces a new exception to priv isa `software check
-> exception` with cause code =3D 18. This patch implements software check
-> exception.
->
-> Additionally it implements a cfi violation handler which checks for code
-> in xtval. If xtval=3D2, it means that sw check exception happened because=
- of
-> an indirect branch not landing on 4 byte aligned PC or not landing on
-> `lpad` instruction or label value embedded in `lpad` not matching label
-> value setup in `x7`. If xtval=3D3, it means that sw check exception happe=
-ned
-> because of mismatch between link register (x1 or x5) and top of shadow
-> stack (on execution of `sspopchk`).
->
-> In case of cfi violation, SIGSEGV is raised with code=3DSEGV_CPERR.
-> SEGV_CPERR was introduced by x86 shadow stack patches.
->
-> To keep uprobes working, handle the uprobe event first before reporting
-> the CFI violation in software-check exception handler. Because when the
-> landing pad is activated, if the uprobe point is set at the lpad
-> instruction at the beginning of a function, the system triggers a softwar=
-e
-> -check exception instead of an ebreak exception due to the exception
-> priority, then uprobe can't work successfully.
->
-> Co-developed-by: Zong Li <zong.li@sifive.com>
-> Reviewed-by: Zong Li <zong.li@sifive.com>
-> Signed-off-by: Zong Li <zong.li@sifive.com>
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> ---
->  arch/riscv/include/asm/asm-prototypes.h |  1 +
->  arch/riscv/include/asm/entry-common.h   |  2 ++
->  arch/riscv/kernel/entry.S               |  3 ++
->  arch/riscv/kernel/traps.c               | 51 +++++++++++++++++++++++++++=
-++++++
->  4 files changed, 57 insertions(+)
->
-> diff --git a/arch/riscv/include/asm/asm-prototypes.h b/arch/riscv/include=
-/asm/asm-prototypes.h
-> index cd627ec289f1..5a27cefd7805 100644
-> --- a/arch/riscv/include/asm/asm-prototypes.h
-> +++ b/arch/riscv/include/asm/asm-prototypes.h
-> @@ -51,6 +51,7 @@ DECLARE_DO_ERROR_INFO(do_trap_ecall_u);
->  DECLARE_DO_ERROR_INFO(do_trap_ecall_s);
->  DECLARE_DO_ERROR_INFO(do_trap_ecall_m);
->  DECLARE_DO_ERROR_INFO(do_trap_break);
-> +DECLARE_DO_ERROR_INFO(do_trap_software_check);
->
->  asmlinkage void handle_bad_stack(struct pt_regs *regs);
->  asmlinkage void do_page_fault(struct pt_regs *regs);
-> diff --git a/arch/riscv/include/asm/entry-common.h b/arch/riscv/include/a=
-sm/entry-common.h
-> index b28ccc6cdeea..34ed149af5d1 100644
-> --- a/arch/riscv/include/asm/entry-common.h
-> +++ b/arch/riscv/include/asm/entry-common.h
-> @@ -40,4 +40,6 @@ static inline int handle_misaligned_store(struct pt_reg=
-s *regs)
->  }
->  #endif
->
-> +bool handle_user_cfi_violation(struct pt_regs *regs);
-> +
->  #endif /* _ASM_RISCV_ENTRY_COMMON_H */
-> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
-> index 978115567bca..8d25837a9384 100644
-> --- a/arch/riscv/kernel/entry.S
-> +++ b/arch/riscv/kernel/entry.S
-> @@ -474,6 +474,9 @@ SYM_DATA_START_LOCAL(excp_vect_table)
->         RISCV_PTR do_page_fault   /* load page fault */
->         RISCV_PTR do_trap_unknown
->         RISCV_PTR do_page_fault   /* store page fault */
-> +       RISCV_PTR do_trap_unknown /* cause=3D16 */
-> +       RISCV_PTR do_trap_unknown /* cause=3D17 */
-> +       RISCV_PTR do_trap_software_check /* cause=3D18 is sw check except=
-ion */
->  SYM_DATA_END_LABEL(excp_vect_table, SYM_L_LOCAL, excp_vect_table_end)
->
->  #ifndef CONFIG_MMU
-> diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
-> index 8ff8e8b36524..64388370e1ad 100644
-> --- a/arch/riscv/kernel/traps.c
-> +++ b/arch/riscv/kernel/traps.c
-> @@ -354,6 +354,57 @@ void do_trap_ecall_u(struct pt_regs *regs)
->
->  }
->
-> +#define CFI_TVAL_FCFI_CODE     2
-> +#define CFI_TVAL_BCFI_CODE     3
-> +/* handle cfi violations */
-> +bool handle_user_cfi_violation(struct pt_regs *regs)
-> +{
-> +       unsigned long tval =3D csr_read(CSR_TVAL);
-> +       bool is_fcfi =3D (tval =3D=3D CFI_TVAL_FCFI_CODE && cpu_supports_=
-indirect_br_lp_instr());
-> +       bool is_bcfi =3D (tval =3D=3D CFI_TVAL_BCFI_CODE && cpu_supports_=
-shadow_stack());
-> +
-> +       /*
-> +        * Handle uprobe event first. The probe point can be a valid targ=
-et
-> +        * of indirect jumps or calls, in this case, forward cfi violatio=
-n
-> +        * will be triggered instead of breakpoint exception.
-> +        */
-> +       if (is_fcfi && probe_breakpoint_handler(regs))
-> +               return true;
+On Fri, Jun 13, 2025 at 10:44:17AM -0500, Bijan Tabatabai wrote:
+> Hi SeongJae,
+> 
+> Thank you for your comments.
+> 
+> On Thu, Jun 12, 2025 at 6:49 PM SeongJae Park <sj@kernel.org> wrote:
+> >
+> > Hi Bijan,
+> >
+> > On Thu, 12 Jun 2025 13:13:26 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
+> >
+> > > From: Bijan Tabatabai <bijantabatab@micron.com>
+> > >
+> > > A recent patch set automatically set the interleave weight for each node
+> > > according to the node's maximum bandwidth [1]. In another thread, the patch
+> > > set's author, Joshua Hahn, wondered if/how these weights should be changed
+> > > if the bandwidth utilization of the system changes [2].
+> >
+> > Thank you for sharing the background.  I do agree it is an important question.
+> >
+> > >
+> > > This patch set adds the mechanism for dynamically changing how application
+> > > data is interleaved across nodes while leaving the policy of what the
+> > > interleave weights should be to userspace. It does this by adding a new
+> > > DAMOS action: DAMOS_INTERLEAVE. We implement DAMOS_INTERLEAVE with both
+> > > paddr and vaddr operations sets. Using the paddr version is useful for
+> > > managing page placement globally. Using the vaddr version limits tracking
+> > > to one process per kdamond instance, but the va based tracking better
+> > > captures spacial locality.
+> > >
+> > > DAMOS_INTERLEAVE interleaves pages within a region across nodes using the
+> > > interleave weights at /sys/kernel/mm/mempolicy/weighted_interleave/node<N>
+> > > and the page placement algorithm in weighted_interleave_nid via
+> > > policy_nodemask.
+> >
+> > So, what DAMOS_INTERLEAVE will do is, migrating pages of a given DAMON region
+> > into multiple nodes, following interleaving weights, right?
+> 
+> That's correct.
 
-Hi  Deepak,
-Sorry for missing something earlier. I think we would like to clear
-sstatus.SPELP in the uprobe handling case. For example:
+Your approach sounds interesting.
 
-diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
-index c2ea999c1167..e8492bb57e09 100644
---- a/arch/riscv/kernel/traps.c
-+++ b/arch/riscv/kernel/traps.c
-@@ -349,8 +349,10 @@ bool handle_user_cfi_violation(struct pt_regs *regs)
-        bool is_fcfi =3D (tval =3D=3D CFI_TVAL_FCFI_CODE &&
-cpu_supports_indirect_br_lp_instr());
-        bool is_bcfi =3D (tval =3D=3D CFI_TVAL_BCFI_CODE &&
-cpu_supports_shadow_stack());
+IIUC, the approach can be intergrated with the existing numa hinting
+mechanism as well, so as to perform weighted interleaving migration for
+promotion, which may result in suppressing the migration anyway tho, in
+MPOL_WEIGHTED_INTERLEAVE set.
 
--       if (is_fcfi && probe_breakpoint_handler(regs))
-+       if (is_fcfi && probe_breakpoint_handler(regs)) {
-+               regs->status =3D regs->status & ~SR_ELP;
-                return true;
-+       }
+Do you have plan for the that too?
 
-        if (is_fcfi || is_bcfi) {
-                do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->epc,
+Plus, it'd be the best if you share the improvement result rather than
+the placement data.
 
+	Byungchul
 
-When a user mode CFI violation occurs, the ELP state should be 1, and
-the system traps into supervisor mode. During this trap, sstatus.SPELP
-is set to 1, and the ELP state is reset to 0. If we don=E2=80=99t clear
-sstatus.SPELP, the ELP state will become 1 again after executing the
-sret instruction. As a result, the system might trigger another
-forward CFI violation upon executing the next instruction in the user
-program, unless it happens to be a lpad instruction.
-
-The previous patch was tested on QEMU, but QEMU does not set the
-sstatus.SPELP bit to 1 when a forward CFI violation occurs. Therefore,
-I suspect that QEMU might also require some fixes.
-
-Thanks
-
-> +
-> +       if (is_fcfi || is_bcfi) {
-> +               do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->epc,
-> +                             "Oops - control flow violation");
-> +               return true;
-> +       }
-> +
-> +       return false;
-> +}
-> +
-> +/*
-> + * software check exception is defined with risc-v cfi spec. Software ch=
-eck
-> + * exception is raised when:-
-> + * a) An indirect branch doesn't land on 4 byte aligned PC or `lpad`
-> + *    instruction or `label` value programmed in `lpad` instr doesn't
-> + *    match with value setup in `x7`. reported code in `xtval` is 2.
-> + * b) `sspopchk` instruction finds a mismatch between top of shadow stac=
-k (ssp)
-> + *    and x1/x5. reported code in `xtval` is 3.
-> + */
-> +asmlinkage __visible __trap_section void do_trap_software_check(struct p=
-t_regs *regs)
-> +{
-> +       if (user_mode(regs)) {
-> +               irqentry_enter_from_user_mode(regs);
-> +
-> +               /* not a cfi violation, then merge into flow of unknown t=
-rap handler */
-> +               if (!handle_user_cfi_violation(regs))
-> +                       do_trap_unknown(regs);
-> +
-> +               irqentry_exit_to_user_mode(regs);
-> +       } else {
-> +               /* sw check exception coming from kernel is a bug in kern=
-el */
-> +               die(regs, "Kernel BUG");
-> +       }
-> +}
-> +
->  #ifdef CONFIG_MMU
->  asmlinkage __visible noinstr void do_page_fault(struct pt_regs *regs)
->  {
->
-> --
-> 2.43.0
->
+> > We already have
+> > DAMOS actions for migrating pages of a given DAMON region, namely
+> > DAMOS_MIGRATE_{HOT,COLD}.  The actions support only single migration target
+> > node, though.  To my perspective, hence, DAMOS_INTERLEAVE looks like an
+> > extended version of DAMOS_MIGRATE_{HOT,COLD} for flexible target node
+> > selections.  In a way, DAMOS_INTERLEAVE is rather a restricted version of
+> > DAMOS_MIGRATE_{HOT,COLD}, since it prioritizes only hotter regions, if I read
+> > the second patch correctly.
+> >
+> > What about extending DAMOS_MIGRATE_{HOT,COLD} to support your use case?  For
+> > example, letting users enter special keyword, say, 'weighted_interleave' to
+> > 'target_nid' DAMON sysfs file.  In the case, DAMOS_MIGRATE_{HOT,COLD} would
+> > work in the way you are implementing DAMOS_INTERLEAVE.
+> 
+> I like this idea. I will do this in the next version of the patch. I
+> have a couple of questions
+> about how to go about this if you don't mind.
+> 
+> First, should I drop the vaddr implementation or implement
+> DAMOS_MIGRATE_{HOT,COLD}
+> in vaddr as well? I am leaning towards the former because I believe
+> the paddr version is
+> more important, though the vaddr version is useful if the user only
+> cares about one
+> application.
+> 
+> Second, do you have a preference for how we indicate that we are using
+> the mempolicy
+> rather than target_nid in struct damos? I was thinking of either
+> setting target_nid to
+> NUMA_NO_NODE or adding a boolean to struct damos for this.
+> 
+> Maybe it would also be a good idea to generalize it some more. I
+> implemented this using
+> just weighted interleave because I was targeting the use case where
+> the best interleave
+> weights for a workload changes as the bandwidth utilization of the
+> system changes, which
+> I will go describe in more detail further down. However, we could
+> apply the same logic for
+> any mempolicy instead of just filtering for MPOL_WEIGHTED_INTERLEAVE. This might
+> clean up the code a little bit because the logic dependent on
+> CONFIG_NUMA would be
+> contained in the mempolicy code.
+> 
+> > > We chose to reuse the mempolicy weighted interleave
+> > > infrastructure to avoid reimplementing code. However, this has the awkward
+> > > side effect that only pages that are mapped to processes using
+> > > MPOL_WEIGHTED_INTERLEAVE will be migrated according to new interleave
+> > > weights. This might be fine because workloads that want their data to be
+> > > dynamically interleaved will want their newly allocated data to be
+> > > interleaved at the same ratio.
+> >
+> > Makes sense to me.  I'm not very familiar with interleaving and memory policy,
+> > though.
+> >
+> > >
+> > > If exposing policy_nodemask is undesirable,
+> >
+> > I see you are exposing it on include/linux/mempolicy.h on the first patch of
+> > this series, and I agree it is not desirable to unnecessarily expose functions.
+> > But you could reduce the exposure by exporting it on mm/internal.h instead.
+> > mempolicy maitnainers and reviewers who you kindly Cc-ed to this mail could
+> > give us good opinions.
+> >
+> > > we have two alternative methods
+> > > for having DAMON access the interleave weights it should use. We would
+> > > appreciate feedback on which method is preferred.
+> > > 1. Use mpol_misplaced instead
+> > >   pros: mpol_misplaced is already exposed publically
+> > >   cons: Would require refactoring mpol_misplaced to take a struct vm_area
+> > >   instead of a struct vm_fault, and require refactoring mpol_misplaced and
+> > >   get_vma_policy to take in a struct task_struct rather than just using
+> > >   current. Also requires processes to use MPOL_WEIGHTED_INTERLEAVE.
+> >
+> > I feel cons is larger than pros.  mpolicy people's opinion would matter more,
+> > though.
+> >
+> > > 2. Add a new field to struct damos, similar to target_nid for the
+> > > MIGRATE_HOT/COLD schemes.
+> > >   pros: Keeps changes contained inside DAMON. Would not require processes
+> > >   to use MPOL_WEIGHTED_INTERLEAVE.
+> > >   cons: Duplicates page placement code. Requires discussion on the sysfs
+> > >   interface to use for users to pass in the interleave weights.
+> >
+> > I agree this is also somewhat doable.  In future, we might want to implement
+> > this anyway, for non-global and flexible memory interleaving.  But if memory
+> > policy people are ok with reusing policy_nodemask(), I don't think we need to
+> > do this now.
+> >
+> > >
+> > > This patchset was tested on an AMD machine with a NUMA node with CPUs
+> > > attached to DDR memory and a cpu-less NUMA node attached to CXL memory.
+> > > However, this patch set should generalize to other architectures and number
+> > > of NUMA nodes.
+> >
+> > I show the test results on the commit messages of the second and the fourth
+> > patches.  In the next version, letting readers know that here would be nice.
+> > Also adding a short description of what you confirmed with the tests here
+> > (e.g., with the test we confirmed this patch functions as expected [and
+> > achieves X % Y metric wins]) would be nice.
+> >
+> 
+> Noted. I'll include this in the cover letter of the next patch set.
+> 
+> > >
+> > > Patches Sequence
+> > > ________________
+> > > The first patch exposes policy_nodemask() in include/linux/mempolicy.h to
+> > > let DAMON determine where a page should be placed for interleaving.
+> > > The second patch implements DAMOS_INTERLEAVE as a paddr action.
+> > > The third patch moves the DAMON page migration code to ops-common, allowing
+> > > vaddr actions to use it.
+> > > Finally, the fourth patch implements a vaddr version of DAMOS_INTERLEAVE.
+> >
+> > I'll try to take look on code and add comments if something stands out, but
+> > let's focus on the high level discussion first, especially whether to implement
+> > this as a new DAMOS action, or extend DAMOS_MIGRATE_{HOT,COLD} actions.
+> 
+> Makes sense. Based on your reply, I will probably change the code significantly.
+> 
+> > I think it would also be nice if you could add more explanation about why you
+> > picked DAMON as a way to implement this feature.  I assume that's because you
+> > found opportunities to utilize this feature in some access-aware way or
+> > utilizing DAMOS features.  I was actually able to imagine some such usages.
+> > For example, we could do the re-interleaving for hot or cold pages of specific
+> > NUMA nodes or specific virtual address ranges first to make interleaving
+> > effective faster.
+> 
+> Yeah, I'll give more detail on the use case I was targeting, which I
+> will also include
+> in the cover letter of the next patch set.
+> 
+> Basically, we have seen that the best interleave weights for a workload can
+> change depending on the bandwidth utilization of the system. This was touched
+> upon in the discussion in [1]. As a toy example, imagine some
+> application that uses
+> 75% of the local bandwidth. Assuming sufficient capacity, when running alone, we
+> probably want to keep all of that application's data in local memory.
+> However, if a
+> second instance of that application begins, using the same amount of bandwidth,
+> it would be best to interleave the data of both processes to alleviate
+> the bandwidth
+> pressure from the local node. Likewise, when one of the processes ends, the data
+> should be moved back to local memory.
+> 
+> We imagine there would be a userspace application that would monitor system
+> performance characteristics, such as bandwidth utilization or memory
+> access latency,
+> and uses that information to tune the interleave weights. Others seemed to have
+> come to a similar conclusion in previous discussions [2]. We are
+> currently working
+> on a userspace program that does this, but it's not quite ready to be
+> published yet.
+> 
+> After the userspace application adjusts the interleave weights, we need some
+> mechanism to migrate the application pages that have already been allocated.
+> We think DAMON is the correct venue for this mechanism because we noticed
+> that we don't have to migrate all of the application's pages to
+> improve performance,
+> we just need to migrate the frequently accessed pages. DAMON's existing hotness
+> tracking is very useful for this. Additionally, as Ying pointed out
+> [3], a complete
+> solution must also handle when a memory node is at capacity. The existing
+> DAMOS_MIGRATE_COLD action can be used in conjunction with the functionality
+> in this patch set to provide that complete solution.
+> 
+> [1] https://lore.kernel.org/linux-mm/20250313155705.1943522-1-joshua.hahnjy@gmail.com/
+> [2] https://lore.kernel.org/linux-mm/20250314151137.892379-1-joshua.hahnjy@gmail.com/
+> [3] https://lore.kernel.org/linux-mm/87frjfx6u4.fsf@DESKTOP-5N7EMDA/
+> 
+> > Also we could apply a sort of speed limit for the interleaving-migration to
+> > ensure it doesn't consume memory bandwidth too much.  The limit could be
+> > arbitrarily user-defined or auto-tuned for specific system metrics value (e.g.,
+> > memory bandwidth balance?).
+> 
+> I agree this is a concern, but I figured DAMOS's existing quota mechanism would
+> handle it. If you could elaborate on why quotas aren't enough here,
+> that would help
+> me come up with a solution.
+> 
+> 
+> > If you have such use case in your mind or your test setups, sharing those here
+> > or on the next versions of this would be very helpful for reviewers.
+> 
+> Answered above. I will include them in the next version.
+> 
+> Thanks,
+> Bijan
+> 
+> > >
+> > > [1] https://lore.kernel.org/linux-mm/20250520141236.2987309-1-joshua.hahnjy@gmail.com/
+> > > [2] https://lore.kernel.org/linux-mm/20250313155705.1943522-1-joshua.hahnjy@gmail.com/
+> >
+> >
+> > Thanks,
+> > SJ
+> >
+> > [...]
