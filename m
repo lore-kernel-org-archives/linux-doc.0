@@ -1,96 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2D42EB5A9;
-	Mon, 16 Jun 2025 11:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC80B2E7F08;
+	Mon, 16 Jun 2025 11:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750074879; cv=none; b=ll/cZXV+ymQPrQPeEkfqYABGGy9QkF/BoUpqOmTJlsK0LjUf7MEGIo3+RyI51UpSJycXjRlWPjyghJzIUQ+6zekjPwJOxQrHoEKh2w4COEOzmYejfPk19G4f6BEfgALnDEUrDllbPijtFAW9RfFdlvfmy+2oXjQJmsn8y88Z7G0=
+	t=1750075057; cv=none; b=r/d1TUMts/Ps1x16qPD9j/DOs8anN4JX+uMGBdEu8yYab+AOvpb7eBy8j9QjkqbK0M4l9HcjtDQkgGfbUsQXQXHnECzxrBBuPAUJTWnnCNI1/32EBs0O+B9j9hEFnqLU6NND4gY0psUwnE6WbESO3YIvwf/om589Rbhiu2bTipM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750074879; c=relaxed/simple;
-	bh=a4308r24XGn+BMFT+GUDp6JTrDSZTiUE/F3YsroUvUM=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ou5xmJMU3kOmoLaNeBePW361mONUW4+hD4B7eRb3bDr1lMfHgwjntOxRWSNg2iQr2FuWjPW8BWCRvjgOjoKihLqtADPxKoH52Gdoyht+E7+hAnSGbEuAeiDKmx7AVtv7JKaT2JklFuFlfrBRefaDU8Y5W43O9S881YuJogI4t/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MCndAI6n; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1750075057; c=relaxed/simple;
+	bh=7UQcCRG/DzjoTINw75Thr/V1OSec/H5bJM6NzCoBbII=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jdMQ+/zIKquyBkt/PfqD+TZnzjaZLJ6n64KwcMI1azr5A5F6lXXsT7wmxwtrjbwSOi94Jv1QXvkiM06QhK/3wdUxV9AY5wNttdPSCxo/VES1h93cZcfI4knpatKWhkYe9JaWRz0kVo7gNg7SGHk+Uolug95vLTpmi28WwZHTS/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jZm2gFpl; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MCndAI6n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750074878; x=1781610878;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=a4308r24XGn+BMFT+GUDp6JTrDSZTiUE/F3YsroUvUM=;
-  b=MCndAI6nQbgl+aW7ifyAHQxlGUoRgSluXnyeIfbW4oqWxG8C6uXOXF66
-   HT+x+k8do595YAw27leKCFR16/Dk5wCV6xijYPv1xkfvCdJr4bB/XW7vQ
-   wMW4j/yH/kFV/SMYy/uvjJmx79BOjGTfi4DWaBANQ0sL/bOt+qe1imeNz
-   LTWDmNfW74jSKykI1YSskelSVy19ofnezf6vbZfaaX0eiAt531A+GK5rr
-   H7zgSUy1kHlQ2A+86slDVzh4KO8wFKlgmn36vM0ntLW9RQSwKvWTKIrlZ
-   5La080asbJbRuGC+1mPwBwgWMvkaE4GF9jL6IA9zJHbUNUHM8DPNjaw7j
-   Q==;
-X-CSE-ConnectionGUID: X52ILO8SQVCmwwS3K6pFvw==
-X-CSE-MsgGUID: 21Prh0tTQ360tgb8mwYStw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="51323398"
-X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; 
-   d="scan'208";a="51323398"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 04:54:35 -0700
-X-CSE-ConnectionGUID: IYbJH8q2SSmGyMvltH3CVA==
-X-CSE-MsgGUID: VG9tbGEyRFWbq9Pf22lypw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; 
-   d="scan'208";a="148824406"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.124.243.252]) ([10.124.243.252])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 04:54:29 -0700
-Message-ID: <78d05dff-f396-4214-a7fc-f0c674144aef@linux.intel.com>
-Date: Mon, 16 Jun 2025 19:54:26 +0800
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jZm2gFpl"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E54AC41C06;
+	Mon, 16 Jun 2025 11:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750075045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4FLWwkVH6DEVcvVT08KYgNqjz3qTwYhk8sdZO+Ozrho=;
+	b=jZm2gFpl1r5AR9tCK4wkoWaAfQ9rtsbE5xbxClDNOXdsW/bGcvNRujZMA1IAUDEIASF1Mu
+	jaOfqrQH1YV5vI9vhYeFExJmtEvOuif5O5pA6OpWX8qHRw/7xOne0H8jrQyuE8KGdvYUmW
+	+ush8Ud7Ufn3Ru0JuhmrnnK3BrNjdE6lLZSe/PBAF8YmVp6EmPGt95fEYuwJOBDP0+fIqh
+	48kdrHgKekJtlGGhFQ/1seG9aR+KilV9KlOScignSVQbqiYpOwJjWHX+2gSDplne9O6tA7
+	n0QSDDVLqWOt6OWxzWufjUCZ4QYFwjnK5833QhiTAWjki7iAf4dFJpET0XuzWA==
+Date: Mon, 16 Jun 2025 13:57:22 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
+ <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
+ <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark
+ Brown <broonie@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v13 02/13] net: pse-pd: Add support for
+ reporting events
+Message-ID: <20250616135722.2645177e@kmaincent-XPS-13-7390>
+In-Reply-To: <20250614121843.427cfc42@kernel.org>
+References: <20250610-feature_poe_port_prio-v13-0-c5edc16b9ee2@bootlin.com>
+	<20250610-feature_poe_port_prio-v13-2-c5edc16b9ee2@bootlin.com>
+	<20250614121843.427cfc42@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: baolu.lu@linux.intel.com, bagasdotme@gmail.com, robin.murphy@arm.com,
- joro@8bytes.org, thierry.reding@gmail.com, vdumpa@nvidia.com,
- jonathanh@nvidia.com, shuah@kernel.org, jsnitsel@redhat.com,
- nathan@kernel.org, peterz@infradead.org, yi.l.liu@intel.com,
- mshavit@google.com, praan@google.com, zhangzekun11@huawei.com,
- iommu@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
- patches@lists.linux.dev, mochs@nvidia.com, alok.a.tiwari@oracle.com,
- vasant.hegde@amd.com, dwmw2@infradead.org
-Subject: Re: [PATCH v6 17/25] iommufd: Allow an input data_type via
- iommu_hw_info
-To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com, kevin.tian@intel.com,
- corbet@lwn.net, will@kernel.org
-References: <cover.1749884998.git.nicolinc@nvidia.com>
- <8e1d8432fb7e11f0ed514bc96690ece1f5e47fdd.1749884998.git.nicolinc@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <8e1d8432fb7e11f0ed514bc96690ece1f5e47fdd.1749884998.git.nicolinc@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvieehudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefguddtfeevtddugeevgfevtdfgvdfhtdeuleetffefffffhffgteekvdefudeiieenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvjedprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiiv
+ ghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomh
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On 6/14/2025 3:14 PM, Nicolin Chen wrote:
-> The iommu_hw_info can output via the out_data_type field the vendor data
-> type from a driver, but this only allows driver to report one data type.
-> 
-> Now, with SMMUv3 having a Tegra241 CMDQV implementation, it has two sets
-> of types and data structs to report.
-> 
-> One way to support that is to use the same type field bidirectionally.
-> 
-> Reuse the same field by adding an "in_data_type", allowing user space to
-> request for a specific type and to get the corresponding data.
-> 
-> For backward compatibility, since the ioctl handler has never checked an
-> input value, add an IOMMU_HW_INFO_FLAG_INPUT_TYPE to switch between the
-> old output-only field and the new bidirectional field.
-> 
-> Reviewed-by: Kevin Tian<kevin.tian@intel.com>
-> Signed-off-by: Nicolin Chen<nicolinc@nvidia.com>
+Le Sat, 14 Jun 2025 12:18:43 -0700,
+Jakub Kicinski <kuba@kernel.org> a =C3=A9crit :
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> On Tue, 10 Jun 2025 10:11:36 +0200 Kory Maincent wrote:
+> > +static struct net_device *
+> > +pse_control_find_net_by_id(struct pse_controller_dev *pcdev, int id,
+> > +			   netdevice_tracker *tracker)
+> > +{
+> > +	struct pse_control *psec, *next;
+> > +
+> > +	mutex_lock(&pse_list_mutex);
+> > +	list_for_each_entry_safe(psec, next, &pcdev->pse_control_head,
+> > list) { =20
+>=20
+> nit: _safe is not necessary here, the body of the if always exits after
+> dropping the lock
+
+Indeed, I will drop it.
+
+> Do you plan to add more callers for this function?
+> Maybe it's better if it returns the psec pointer with the refcount
+> elevated. Because it would be pretty neat if we could move the=20
+> ethnl_pse_send_ntf(netdev, notifs, &extack); that  pse_isr() does
+> right after calling this function under the rtnl_lock.
+> I don't think calling ethnl_pse_send_ntf() may crash the kernel as is,
+> but it feels like a little bit of a trap to have ethtool code called
+> outside of any networking lock.
+
+Ok. My aim was to put the less amount of code inside the rtnl lock but if y=
+ou
+prefer I will call ethnl_pse_send_ntf() with the lock acquired.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
