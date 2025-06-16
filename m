@@ -1,253 +1,144 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A17B2698AE
-	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 10:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0F112DDA1;
+	Mon, 16 Jun 2025 10:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750068783; cv=none; b=Pq//DWHxnE6N/PsBAUJKzgWnQAx6pRaZLxUFk/igMfr+GNNcke1F2qvUiC/fVmX5yKYn3iJAB6WrokB+tU7BSse9ZYZI+oT150C5IB/2k2XrgLmawMcPx0p2N5MmTtp5lKaDluXwEvUBicnXtAC99ZxqF8aUzkJqR7/LY0HXJEo=
+	t=1750070600; cv=none; b=VHMB2LCRb+mpfSQDkWzAJtg5SFPyLCr35df9J7vkqyaHitsDTH9wqtgF69Z7XnxoYPDIfTOEMLT5DZASJ+l/NEU1hBgUZMUUOH7HrWQngX5ljovLiAGh17o/2ZHpNU42V3wMSztEEDdWDZA8ijMusCzFDNOLSB7PLSWkM8XdXh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750068783; c=relaxed/simple;
-	bh=AGLdc8sUlEHbNtvihWlXNY6ZuP0jWSwRkeYw87Ib8XY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CrEF1EnwKtGdwCjW6x+pTlyp3UGFKVA/wtJl2Y0IjWfe/4efrp3z6cSkK5fWyGYs9PTtSoGPnLI5ABEvazY8EWBQRGJyFjDY7ZpoGllCatBfWBBAdoSUAOwWQmrmTqaxYwLzBuAdabf3GjlgSDoaJjyF55lb15PG67xQ5RU4kqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yON3bbUg; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750070600; c=relaxed/simple;
+	bh=Lbtuz5Vwa/cgdysdVyVn1eSaL5ZpHU9q9W99m/VIS2U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DuPYhkPEZn0a7sv54hKJTH+BKdbJClLlM29M6aJ86+pZs5iSfGjrZ2npaFSQrUE+d0wsuqpPG+3Aao+PtPxOgofyIUZiib9TwqqILrLCStHm8peFje1vB5i3nZai3+20ZQbAYJ7gWMfGKrxDK/lQ6UxIKqZJSpbhTRi+jBUf4qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEeoQYUk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yON3bbUg"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ad93ff9f714so759076266b.2
-        for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 03:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750068779; x=1750673579; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cdiI/smVJOY0cX4ZuH0mmdvKWwyCh8vEN4C+U7z3NJo=;
-        b=yON3bbUgP1w5+T6Y/Ni6PASdj4tsCQEDqxhtU9QhVVo6DjgDSAehvo2KAwmvbApth8
-         9rcUPSlBFxXoD6r000Y9eiOYvtBF1qXx4QmjGBR0yEA38odxBl7YTuVgh8eUQSx06nRp
-         1xATpmwTZ20isOjCuvv7BLyQLxx7f50kwXD4kPzGye1LNkkIbI4MeeBLQawfGDBTRtdX
-         qnwT8mvXqISmZSJfWD1acIbD33XH9hMM2ShzxpvI3IOQDXw62KYS+iQOa7D5sWoxg3z9
-         dggldSrAvniHeB9kSgoS5Jyy4CRLMiKM/vHFRtn4TGbXGXVBnysIE/j4wzswjCvrVxaI
-         PW6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750068779; x=1750673579;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cdiI/smVJOY0cX4ZuH0mmdvKWwyCh8vEN4C+U7z3NJo=;
-        b=Ov2iJeYIvciyDq0tq1Qo0cHyJF5kQYczqjbzUlTvalsyPmMbtvJTNbCXqzKaQ+w0FD
-         i1CaHtswazXYA6g50mguzImM2CcTE0xC2WBNRCMB4WQX+o/N4ECeYo1p4dR4yrxaiabu
-         XKUWruEhfd2K1nZSDc0IwMkZiXRs9SaSS7PUlrG4KH+pHvqNf0of3+DdeEmQRySmUxRj
-         JGKwW3z3ZrAKfewEe2+WTvLb5KRU7tcav1W8Bd1N9cUcdchi5XYTo25OMwmhnYH6r/KB
-         GN32TlgDDgLT/Kkn+EBNWiAxL5r+36/EtIcF3f5/d9xNclJfjYl7T1SG0qmLtulIapZ9
-         dd7w==
-X-Gm-Message-State: AOJu0YzaEYtalpFl1ydFg6yJAFxf9gmjtgcN4Kq3saq75lDMq0qv5JTL
-	Ci5M2eS3lvu7EBM8rocFW+bmpLerWl/7psy66JXIIwoyUdom7p92p1bFWtTPu9OBhKQ=
-X-Gm-Gg: ASbGncsbDQBLNS8Hs03HwiWeHv5RwcfQtu410kqbnoGoUZhCCLDQG9jXLAyY4Iys26e
-	A6FQBYcjn22GNqs0BgLi8Zt019HRUeixFhzWCcL8XeoHrFQH10npX3E43pOPSmZs2+KMQOckDCv
-	K3xfCK/PnzPf9Hjoyft+760HSAQ4FhWTQ3Q9TsvxMY852L7ARXGlNBpV5z++8kdKFSwJMEvn9D/
-	3oxf1l8bR3SYwug+xQUVmKXGRDLUK6b99ZylxaB0+cNNFIbWbNPImNtW4ahW+W8oHn++g67DaMT
-	nCiEl/71wM0SPLD4Ru0QgngSgdqF6AaZxJxGLrMIGs71oOL8zS3grTOeZecr4zix6k7R//0GSaj
-	wFNNS
-X-Google-Smtp-Source: AGHT+IGarxBcmQbjxtZfqg39/812dZL7oJLKKdvVC7LLX0AVrEROcYWKaHBGWjIfiBnmq6KNQDjrVw==
-X-Received: by 2002:a17:907:db15:b0:ad5:8594:652e with SMTP id a640c23a62f3a-adfad469cf2mr788992566b.35.1750068779409;
-        Mon, 16 Jun 2025 03:12:59 -0700 (PDT)
-Received: from [192.168.0.33] ([82.76.24.202])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec897ac3dsm626980266b.155.2025.06.16.03.12.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jun 2025 03:12:59 -0700 (PDT)
-Message-ID: <6a493968-744a-4fa2-803c-3f64a8e7225e@linaro.org>
-Date: Mon, 16 Jun 2025 13:12:58 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEeoQYUk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16B85C4CEEA;
+	Mon, 16 Jun 2025 10:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750070599;
+	bh=Lbtuz5Vwa/cgdysdVyVn1eSaL5ZpHU9q9W99m/VIS2U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=fEeoQYUkvSV+UKCyhe2VnUgE4OoTE8gOMla6mUimejqiNyx9AGGO0bpEkR6+e8GjA
+	 TwrbkH7EfhInNPZ1hsmuhpbjfc8Bgrcw1dz6RMErFRVFYDRQL92QKG0PgQDS/gPZ9G
+	 DaGlBy5tsfQjBsXx6fchbHwqDBgW4DrtIm0wE5+Tjzq8U9KNeyyed0OvoB59wHBIsN
+	 zmKi+jQaF8xJKQT4XWYOw3j+vuFct4jlzQzkL91nkvWVl2gnR7Q3ko/7fEp3mVwVFn
+	 4t/oO+E9uMq0BYUx5Kufwfm+WvRCwxPI1eKOo1kAutdDdwTqpsoz7TrTrP550frvPi
+	 p4shshgLj89tg==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  rppt@kernel.org,
+  dmatlack@google.com,  rientjes@google.com,  corbet@lwn.net,
+  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 09/16] luo: luo_files: implement file systems callbacks
+In-Reply-To: <CA+CK2bA6zsdARkRMQwadD__qXOzjABcRnwdZjfdnvLf26hsz9w@mail.gmail.com>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+	<20250515182322.117840-10-pasha.tatashin@soleen.com>
+	<mafs0y0u6rx8y.fsf@kernel.org>
+	<CA+CK2bCigGJJqtSt1-4GP0JPVCZrTa6WS4LiMTT0J=04G64e5w@mail.gmail.com>
+	<mafs0h60jmzzc.fsf@kernel.org>
+	<CA+CK2bA6zsdARkRMQwadD__qXOzjABcRnwdZjfdnvLf26hsz9w@mail.gmail.com>
+Date: Mon, 16 Jun 2025 12:43:10 +0200
+Message-ID: <mafs0a568vuf5.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH 09/14] genirq: add irq_kmemdump_register
-To: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net, mingo@redhat.com,
- rostedt@goodmis.org, john.ogness@linutronix.de, senozhatsky@chromium.org,
- pmladek@suse.com, peterz@infradead.org, mojha@qti.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, vincent.guittot@linaro.org,
- konradybcio@kernel.org, dietmar.eggemann@arm.com, juri.lelli@redhat.com,
- andersson@kernel.org
-References: <20250422113156.575971-1-eugen.hristev@linaro.org>
- <20250422113156.575971-10-eugen.hristev@linaro.org> <87h61wn2qq.ffs@tglx>
- <1331aa82-fee9-4788-abd9-ef741d00909e@linaro.org>
- <f916cf7f-6d0d-4d31-8e4b-24fc7da13f4d@linaro.org> <87ikkzpcup.ffs@tglx>
-From: Eugen Hristev <eugen.hristev@linaro.org>
-Content-Language: en-US
-In-Reply-To: <87ikkzpcup.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jun 13 2025, Pasha Tatashin wrote:
 
-
-On 6/14/25 00:10, Thomas Gleixner wrote:
-> On Fri, Jun 13 2025 at 17:33, Eugen Hristev wrote:
->> On 5/7/25 13:27, Eugen Hristev wrote:
->>>> Let KMEMDUMP_VAR() store the size and the address of 'nr_irqs' in a
->>>> kmemdump specific section and then kmemdump can just walk that section
->>>> and dump stuff. No magic register functions and no extra storage
->>>> management for static/global variables.
->>>>
->>>> No?
->>>
->>> Thank you very much for your review ! I will try it out.
+> On Fri, Jun 13, 2025 at 11:18=E2=80=AFAM Pratyush Yadav <pratyush@kernel.=
+org> wrote:
 >>
->> I have tried this way and it's much cleaner ! thanks for the
->> suggestion.
-> 
-> Welcome.
-> 
->> The thing that I am trying to figure out now is how to do something
->> similar for a dynamically allocated memory, e.g.
->> void *p = kmalloc(...);
->> and then I can annotate `p` itself, it's address and size, but what I
->> would also want to so dump the whole memory region pointed out by p. and
->> that area address and size cannot be figured out at compile time hence I
->> can't instantiate a struct inside the dedicated section for it.
->> Any suggestion on how to make that better ? Or just keep the function
->> call to register the area into kmemdump ?
-> 
-> Right. For dynamically allocated memory there is obviously no compile
-> time magic possible.
-> 
-> But I think you can simplify the registration for dynamically allocated
-> memory significantly.
-> 
-> struct kmemdump_entry {
-> 	void			*ptr;
->         size_t			size;
->         enum kmemdump_uids	uid;
-> };
-> 
-> You use that layout for the compile time table and the runtime
-> registrations.
-> 
-> I intentionally used an UID as that avoids string allocation and all of
-> the related nonsense. Mapping UID to a string is a post processing
-> problem and really does not need to be done in the kernel. The 8
-> character strings are horribly limited and a simple 4 byte unique id is
-> achieving the same and saving space.
-> 
-> Just stick the IDs into include/linux/kmemdump_ids.h and expose the
-> content for the post processing machinery.
-> 
-> So you want KMEMDUMP_VAR() for the compile time created table to either
-> automatically create that ID derived from the variable name or you add
-> an extra argument with the ID.
+>> On Sun, Jun 08 2025, Pasha Tatashin wrote:
+>>
+>> > On Thu, Jun 5, 2025 at 12:04=E2=80=AFPM Pratyush Yadav <pratyush@kerne=
+l.org> wrote:
+>> >>
+>> >> On Thu, May 15 2025, Pasha Tatashin wrote:
+>> >>
+>> >> > Implements the core logic within luo_files.c to invoke the prepare,
+>> >> > reboot, finish, and cancel callbacks for preserved file instances,
+>> >> > replacing the previous stub implementations. It also handles
+>> >> > the persistence and retrieval of the u64 data payload associated wi=
+th
+>> >> > each file via the LUO FDT.
+>> >> >
+>> >> > This completes the core mechanism enabling registered filesystem
+>> >> > handlers to actively manage file state across the live update
+>> >> > transition using the LUO framework.
+>> >> >
+>> >> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+>> >> > ---
+>> >> >  drivers/misc/liveupdate/luo_files.c | 105 ++++++++++++++++++++++++=
++++-
+>> >> >  1 file changed, 103 insertions(+), 2 deletions(-)
+>> >> >
+>> >> [...]
+>> >> > @@ -305,7 +369,29 @@ int luo_do_files_prepare_calls(void)
+>> >> >   */
+>> >> >  int luo_do_files_freeze_calls(void)
+>> >> >  {
+>> >> > -     return 0;
+>> >> > +     unsigned long token;
+>> >> > +     struct luo_file *h;
+>> >> > +     int ret;
+>> >> > +
+>> >> > +     xa_for_each(&luo_files_xa_out, token, h) {
+>> >>
+>> >> Should we also ensure at this point that there are no open handles to
+>> >> this file? How else would a file system ensure the file is in quiesce=
+nt
+>> >> state to do its final serialization?
+>> >
+>> > Do you mean check refcnt here? If so, this is a good idea, but first
+>> > we need to implement the lifecycle of liveupdate agent correctectly,
+>> > where owner of FD must survive through entering into reboot() with
+>> > /dev/liveupdate still open.
+>>
+>> Yes, by this point we should ensure refcnt =3D=3D 1. IIUC you plan to
+>> implement the lifecycle change in the next revision, so this can be
+>> added there as well I suppose.
+>
+> Yes, I am working on that. Current, WIP patch looks like this:
+> https://github.com/soleen/linux/commit/fecf912d8b70acd23d24185a8c0504764e=
+43a279
+>
+> However, I am not sure about refcnt =3D=3D 1 at freeze() time. We can have
+> programs, that never terminated while we were still in userspace (i.e.
+> kexec -e -> reboot() -> freeze()), in that case refcnt can be anything
+> at the time of freeze, no?
 
-First of all, thank you very much for taking the time to think about this !
+Do you mean the agent that controls the liveupdate session? Then in that
+case the agent can keep running with the /dev/liveupdate FD open, but it
+must close all of the FDs preserved via LUO before doing kexec -e.
 
-In KMEMDUMP_VAR, I can use __UNIQUE_ID to derive something unique from
-the variable name for the table entry.
-
-The only problem with having something like
-
-#define KMEMDUMP_VAR(sym) \
-	 static struct entry __UNIQUE_ID(kmemdump_entry_##sym) ...
-
-is when calling it with e.g. `init_mm.pgd` which will make the `.`
-inside the name and that can't happen.
-So I have to figure a way to remove unwanted chars or pass a name to the
-macro.
-
-I cannot do something like
-static  void * ptr = &init_mm.pgd;
-and then
-KMEMDUMP_VAR(ptr)
-because ptr's dereferencing can't happen at compile time to add it's
-value into the table entry.
-
-> 
-> kmemdump_init()
->         // Use a simple fixed size array to manage this
->         // as it avoids all the memory allocation nonsense
->         // This stuff is neither performance critical nor does allocating
->         // a few hundred entries create a memory consumption problem
->         // It consumes probably way less memory than the whole IDR/XARRAY allocation
->         // string duplication logic consumes text and data space.
-> 	kmemdump_entries = kcalloc(NR_ENTRIES, sizeof(*kmemdump_entries), GFP_KERNEL);
-> 
-> kmemdump_register(void *ptr, size_t size, enum kmemdump_uids uid)
-> {
->         guard(entry_mutex);
-> 
-> 	entry = kmemdump_find_empty_slot();
->         if (!entry)
->         	return;
-> 
->         entry->ptr = ptr;
->         entry->size = size;
->         entry->uid = uid;
-> 
->         // Make this unconditional by providing a dummy backend
->         // implementation. If the backend changes re-register all
->         // entries with the new backend and be done with it.
->         backend->register(entry);
-> }
-> 
-> kmemdump_unregister(void *ptr)
-> {
->         guard(entry_mutex);
->         entry = find_entry(ptr);
->         if (entry) {
->                 backend->unregister(entry);
->         	memset(entry, 0, sizeof(*entry);
->         }
-> }
-> 
-> You get the idea.
-> 
-> Coming back to the registration at the call site itself.
-> 
->        struct foo = kmalloc(....);
-> 
->        if (!foo)
->        		return;
-> 
->        kmemdump_register(foo, sizeof(*foo), KMEMDUMP_ID_FOO);
-> 
-> That's a code duplication shitshow. You can wrap that into:
-> 
->        struct foo *foo = kmemdump_alloc(foo, KMEMDUMP_ID_FOO, kmalloc, ...);
-> 
-> #define kmemdump_alloc(var, id, fn, ...)				\
-> 	({								\
->         	void *__p = fn(##__VA_ARGS__);				\
-> 									\
->                 if (__p)						\
->                 	kmemdump_register(__p, sizeof(*var), id);	\
-> 		__p;
->         })
-> 
-
-I was thinking into a new variant of kmalloc, like e.g. kdmalloc() which
-would be a wrapper over kmalloc and also register the region into
-kmemdump like you are suggesting.
-It would be like a `dumpable` kmalloc'ed memory.
-And it could take an optional ID , if missing, it could generate one.
-
-However this would mean yet another k*malloc friend, and it would
-default to usual kmalloc if CONFIG_KMEMDUMP=n .
-I am unsure whether this would be welcome by the community
-
-Let me know what you think.
-
-Thanks again !
-Eugen
-
-> or something daft like that. And provide the matching magic for the free
-> side.
-> 
-> Thoughts?
-> 
-> Thanks,
-> 
->         tglx
-
+--=20
+Regards,
+Pratyush Yadav
