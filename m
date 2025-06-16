@@ -1,142 +1,108 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D06D2BF016;
-	Mon, 16 Jun 2025 17:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB55288C0D
+	for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 17:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750093821; cv=none; b=AgiEXP2OYCUg2WiP5PbuDRi78/WSxuSATDIsv1b//Dz+r+U+Ws07c+VE33CPHbZE8LdCXeiz7kdMbz1CkN8q0IChhkp0yhuFXN8LmY+F0jC1AGa9BP0IyncXSOpRnJqqPLzo7rGyQ9GnKWkXQwqVbTfefeeJDaMoJGyvjcAOdYY=
+	t=1750094879; cv=none; b=Rd/tT27SlJeRLtL8pvpMh4UbQ5vysQGY/DfnvVUVklSPWlSWfo0nNwAV2dhnRXD36mP+piuTtv3Y5Penb7RtvFEjyR7MPgiLks1KoFLYwjClf411itT8J2McSKMMYz84zlH3ZnyaCvhpdgtWdrNGZtG/og8LZ1kb2ne8BccZOcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750093821; c=relaxed/simple;
-	bh=1fykyusYVro73+SkCEdouTI5VeesZrBsX99TGTggxRY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EHA3RuQfpUvREYZZapmnC7VODeKLmQcQbJ/YR7tCtEDtlK2XCL2DvqJ0dBfOjAuqdnWFeZhe5wZzrYfRfugw8Z0IvYIvpsHyU3HpuKcwyTpcXY0sLGpZOorGKek0J1sgKKbll1Tr7fdZj5m7T321LdAikN34WMHCc5eTI0Usu80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ims2SCYu; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750094879; c=relaxed/simple;
+	bh=LelOrep8BFhkDNPGP79ngM80BpQG1itNZ9WdpzkFM5s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mi9P3duxFU9nFG98CVKqy+J/66zdnYY/zlxcAJTcXM5AWE+qCNnDQCZYv7eQ5driZ0ztAo4bJXSFPOOGk+G4+/rlZoDg6Sfnc1xlDnoxo/LnyMY8Vapx0jtEG1BmUz5X7cp6bY5BzqFkvMfJEDzhjJqr4ii6Gm4sY1q+UFX2o94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=B2dAcbLD; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ims2SCYu"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7d20ff236c5so103280985a.2;
-        Mon, 16 Jun 2025 10:10:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="B2dAcbLD"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6fabe9446a0so50032076d6.2
+        for <linux-doc@vger.kernel.org>; Mon, 16 Jun 2025 10:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750093815; x=1750698615; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZnKjnGPQVsYruwW26IKQXjP4KtQDe+H/2EepWEDvdH4=;
-        b=ims2SCYuni7gGXtPV4Gv3S8d6ijEGdPb6Eu91dihf7+zWnhmAcg/dVHfHkc1dXH7Gz
-         EJeGlTBq7Uh+X8bkOzwP/7wL97O8wQV4cGmUu0jwfMutpAwMTaCnBka8WDViywmoRL0A
-         ur8OGCxSDfmcGRC4v1MQ/5gFQcAq8knYZvZRPv3hrEmeSqwnfOqi7J8ykvuS0aZURpW6
-         azpgK27KqH9FM2KLBXNk4MIEkjLAskhDWEl2nkqEThjkeZC6i7p4OWSuM2U/GW7+lYEy
-         9vOVgwPJT2QCgVaJW+IJ7Z6/Mxs1gBRqqTBu7oofDTqnWPE003urkdJi5vKNHbj9sGuQ
-         72Cw==
+        d=gourry.net; s=google; t=1750094875; x=1750699675; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q7HCyyC5UYA2b8c4IzXsIvi20Ipr0wxqzS/03kE5MqM=;
+        b=B2dAcbLDn3iVHi259XWF64J5zyF9AYhh+zQcXu0SqZHfcFo/PowCm64b1vrHPMfDNE
+         KpwoV7W0PGm2hGR568bByuW+tEH2kgfy00mvGQ8xEe4z3AU+7oSpeRicazcxFyUUdaHJ
+         heiSH+sVKjzZQpbUpD6ue/WnUzrtFccvoAUWq9mjiSgt+uUVcJkgiBV7qYXWpopLcJvl
+         PkrjrmcCd25LHtEjT0+MMJc1MW1uUGu8lQ3HCH25PRdfiI7oXWzM95FgYsNVsCfcJKPX
+         jDotIWG/Li9FV6UN0g10Pr06HKGVKUvvMRdHsPtZ0Ky9Lodoy/S7jbiP6zmyu2YaYvFc
+         ey2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750093815; x=1750698615;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZnKjnGPQVsYruwW26IKQXjP4KtQDe+H/2EepWEDvdH4=;
-        b=M4GtTmKjWCGO/T6mar73xjIgvSyvhW2Bp2XeiQS9UMZXaSgu8yXw6UXEfdLzu7CVXY
-         mB6tcM7FZ2XbDFJM9mDq0zmNRqVggcjx2GDhtpfNuMkb2gek+hVmunjFQZxvB3CaZCgt
-         6YM+COgp+3doZwOZ6TSh2rh8tJ52wtLz0d77nHhkFTEvIhVWCuaMKSBKwhkk+Y6tWue3
-         XyyyYYfFA82Uav/xActQceuA2LIVweGH+3rhSdrICTZ65mQ6/Cam2kdyHuFoJdndfxYp
-         oU1yAIevKccorhaYiCPJaYsMPpg6K1GrpiphpMLmqIRA5AHGz9RF9nlv34g/Vy/X1S9J
-         YY4A==
-X-Forwarded-Encrypted: i=1; AJvYcCU3paDD3YEjfD/q/+jey1LosMwoXIBrNX6eiWbMkWgvVaMYfeYJhpYLiul8nUHUrKrMUqccnM7uh7I=@vger.kernel.org, AJvYcCUjsm8dXB2g1gKXOXSyZuKSSBj1NmAVJS1/Rx8ViEycI29JF2L++Y6JbxRnCsSpZd7eWnvC4AZ2AFMjkFq+mWUk@vger.kernel.org, AJvYcCWbe5F9zeZ/yVfTYLDPfo4+163nYuQ0IobkfchxoqCwAwXQozsk5m4rcTpk1mKf6D+ee+1tGWN6HgMkAe0H@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6DwBD1G1nj1YxCRxGRIVYlnXAHPKjwCIUnH4G70z34YwUNsNk
-	FXs7ABGhvo+/kiemXOGJYbaAeoF6Vw6IA8nJU11O/xubXVC6i9GSfSQ1
-X-Gm-Gg: ASbGncuJ2k5WQv7gOWSpMKIZ73gDWXTXNL7PeJVetry9MfjmxFO0dGHd4pSMUeWEJ6R
-	kiWGaFiuywuXrxUV7dOQnx1fZHyjuvZwWhtXJyC/7/f2Od0uwgVYdBh2DjRC/N/dE9Y4HWh50u9
-	o5Dl4sd88E11GeuQYKDiH1pgg2wW1lL3TjlOxzqnOq4LnztRyHiRgNpykQPY6soFUhCOLPz/SoL
-	GdRR7s3kF6xqSiO+1EF0JFHE4FIPrI9IjaVWM+3jgojwoHYU9sswLt2ERxMZBuqvIBGfI0/g/yv
-	vFapvbAnLWiblHfySGoTyulvZyk+7zszCHB07QIUwzFLeidg0HPCDHDd
-X-Google-Smtp-Source: AGHT+IHsQ9BByXp5pGeWBYEn81TAB7iyvrQOQoiCKdS5unwxLUFClfS9eLO2YORgalJfCQUKj/cW6g==
-X-Received: by 2002:a05:620a:414a:b0:7cd:4a08:ea12 with SMTP id af79cd13be357-7d3dddd3dcamr28146185a.0.1750093814938;
-        Mon, 16 Jun 2025 10:10:14 -0700 (PDT)
-Received: from localhost ([2a03:2880:20ff:73::])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d3b8e1cf5esm546463585a.49.2025.06.16.10.10.14
+        d=1e100.net; s=20230601; t=1750094876; x=1750699676;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q7HCyyC5UYA2b8c4IzXsIvi20Ipr0wxqzS/03kE5MqM=;
+        b=DyleoPRgkbXHs8XCOhg25Ioe/E9+4pB4/Ml4WGnFghDR2LKknq8pIzo8seoHlnVPZd
+         DyZoTyT6swneQgRlhTiFPgRg9JOwR+qRC+WtQHwfPpDLiWy/CG8LfySC9uDvxke7Z7/Z
+         lsOmdRZP+zLuTdOfoUcVf0ybr2LjF41PmLLMGU9/5QcPNG7geAuBs00kuOtoWJfBnmbu
+         HxF+i4V+niWs/G6A2tye4wYwCsmY7foA5w8DtgtgofxNAcML9nA8Vx/fEJxl2WpvGHsJ
+         uJbJMuQnp54IvBo9npbGkwMohULN2sz4+jmQ8TQuMXxufjfP7+3I9MGxmspwfg2KNmqs
+         FeaQ==
+X-Gm-Message-State: AOJu0Yyrddydj+oaRPGC5lG6NBM2pca09HNP2D7iE4tyG1Sd4+CLGeV1
+	8d50mOE14StxyGAB4l5pv1uIdFNsRLJeCfdocNNlE7mAK1wpZ8rYjd0ByOzohArO+3A=
+X-Gm-Gg: ASbGncv/cBnw7mcp0KgvTbAjO4gJJcI24qJWug24EfuefELMs4SOMyqihNaEwKXhQ/u
+	b9tLQXALiXjO1PvPj8XcH1Q2sHYDmIlIW2SCmggbNXrJ06kTIAUWgpR1r/VYKhyfrZ53aS+JE/N
+	lOwnN2286HHQlbW61bg0f+AcSPfexok1BovawfQiQR2VLS0PurKqss5eMTfi2f+yNCXTeWUV1tf
+	FWUQY+7zXXD/Cpt3ZHQBx87hmrcsvT5Kgl1R0pSccXDurDV8fc2pR//S2vgQ8SEMxKIKyliLUna
+	0S1Y4nvIwkFK/9L5WNUvqkj1w7OlxrJm90R0PnvoYGK12fUnN0+jVY3CBfN909xjTp/4
+X-Google-Smtp-Source: AGHT+IFTR01Y6+W1geCwjaW5IfCrLepVJGWaVvo70DuFbzxcMRNcEzZhf9yE9pfFqi8vBf06mSlbhg==
+X-Received: by 2002:a05:6214:20a2:b0:6fa:bf2f:41ad with SMTP id 6a1803df08f44-6fb47736bbfmr161414176d6.19.1750094875589;
+        Mon, 16 Jun 2025 10:27:55 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F ([2620:10d:c091:400::5:cf64])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fb35c72b17sm53505016d6.102.2025.06.16.10.27.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 10:10:14 -0700 (PDT)
-From: Gustavo Luiz Duarte <gustavold@gmail.com>
-Date: Mon, 16 Jun 2025 10:08:39 -0700
-Subject: [PATCH net-next v3 5/5] docs: netconsole: document msgid feature
+        Mon, 16 Jun 2025 10:27:55 -0700 (PDT)
+Date: Mon, 16 Jun 2025 12:27:53 -0500
+From: Gregory Price <gourry@gourry.net>
+To: Alok Tiwari <alok.a.tiwari@oracle.com>
+Cc: linux-doc@vger.kernel.org, linux-cxl@vger.kernel.org, corbet@lwn.net,
+	dave@stgolabs.net, jonathan.cameron@huawei.com,
+	dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com,
+	dan.j.williams@intel.com, linux-kernel@vger.kernel.org,
+	darren.kenny@oracle.com
+Subject: Re: [PATCH] cxl: docs/devices Fix typos and clarify wording in
+ device-types.rst
+Message-ID: <aFBUGTM4fpwU749k@gourry-fedora-PF4VCD3F>
+References: <20250616060737.1645393-1-alok.a.tiwari@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250616-netconsole-msgid-v3-5-4d2610577571@gmail.com>
-References: <20250616-netconsole-msgid-v3-0-4d2610577571@gmail.com>
-In-Reply-To: <20250616-netconsole-msgid-v3-0-4d2610577571@gmail.com>
-To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- Gustavo Luiz Duarte <gustavold@gmail.com>
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250616060737.1645393-1-alok.a.tiwari@oracle.com>
 
-Add documentation explaining the msgid feature in netconsole.
+On Sun, Jun 15, 2025 at 11:07:32PM -0700, Alok Tiwari wrote:
+>  Documentation/driver-api/cxl/devices/device-types.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+...
+>  
+>  A Multi-Logical Device (MLD) is a device which may present multiple devices
+> -to one or more devices.
+> +to one or more hosts.
 
-This feature appends unique id to the userdata dictionary. The message
-ID is populated from a per-target 32 bit counter which is incremented
-for each message sent to the target. This allows a target to detect if
-messages are dropped before reaching the target.
+This is subtly incorrect.
 
-Signed-off-by: Gustavo Luiz Duarte <gustavold@gmail.com>
----
- Documentation/networking/netconsole.rst | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+A *Multi-Headed* MLD presents one or more devices to one or more hosts.
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index a0076b542e9c..59cb9982afe6 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -340,6 +340,38 @@ In this example, the message was sent by CPU 42.
-       cpu=42    # kernel-populated value
- 
- 
-+Message ID auto population in userdata
-+--------------------------------------
-+
-+Within the netconsole configfs hierarchy, there is a file named `msgid_enabled`
-+located in the `userdata` directory. This file controls the message ID
-+auto-population feature, which assigns a numeric id to each message sent to a
-+given target and appends the ID to userdata dictionary in every message sent.
-+
-+The message ID is generated using a per-target 32 bit counter that is
-+incremented for every message sent to the target. Note that this counter will
-+eventually wrap around after reaching uint32_t max value, so the message ID is
-+not globally unique over time. However, it can still be used by the target to
-+detect if messages were dropped before reaching the target by identifying gaps
-+in the sequence of IDs.
-+
-+It is important to distinguish message IDs from the message <sequnum> field.
-+Some kernel messages may never reach netconsole (for example, due to printk
-+rate limiting). Thus, a gap in <sequnum> cannot be solely relied upon to
-+indicate that a message was dropped during transmission, as it may never have
-+been sent via netconsole. The message ID, on the other hand, is only assigned
-+to messages that are actually transmitted via netconsole.
-+
-+Example::
-+
-+  echo "This is message #1" > /dev/kmsg
-+  echo "This is message #2" > /dev/kmsg
-+  13,434,54928466,-;This is message #1
-+   msgid=1
-+  13,435,54934019,-;This is message #2
-+   msgid=2
-+
-+
- Extended console:
- =================
- 
+A *Multi-logical Device* presents one or more devices to one or more
+upstream devices (such as a switch).
 
--- 
-2.47.1
+You can have a Single-Headed Multi-Logical Device that presents 2
+"Logical Devices" to a single upstream device (host or switch).
 
+So please change "one or more hosts" to "one or more upstream devices".
+
+
+With that change you may add
+
+Reviewed-by: Gregory Price <gourry@gourry.net>
+
+~Gregory
