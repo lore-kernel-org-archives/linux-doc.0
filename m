@@ -1,228 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D05295D8F;
-	Mon, 16 Jun 2025 10:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678D426FA5E;
+	Mon, 16 Jun 2025 10:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750071075; cv=none; b=gikmnZw6IksytBQTSS5leXZXVVIZ0mKZR3WoMMfScBGVbD+UcOOkxVZeQDqweQXKVgtvyhnaIopPFZ86D3lpDOiA1j2HPw8CI9uUgWskOvAiMzmsgqpIfxmaqJQu6pPw1EIxvig6XeR250IgdgtJfcaF6zswLMtTxrdyjUmONaA=
+	t=1750071342; cv=none; b=NyLrJQUuGhMY5z+XhUS5cv3qFVEvHJiMiG84IQYnCzHsJhh8RMIt6wgoFZqlWTJh6JMknd02mTb/8ReyVnQL4sg2KU41XVVsaKZ8spQptZiMF3Ba2tHqjHaYDvKOXDnxx9KsPU7si5BL8KLDTbZKRh42FMrLUVqzWWAbdZb8Oyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750071075; c=relaxed/simple;
-	bh=WaQAp1hhm2gKAeY2p2nZTgu1+jygTwVGUhSeNAqM2RQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gCZPgvnLJ1D0MPMVBZNnf28xUrcnOqziQxNfZZqbn0Ts6V4UiCpzcEHDe6TP37DjcKeGlXJ727dJOG3n9i91OWuzsdMgogHr4Oj4AD/ESxHmuEMZ4yVt4b4dB9lB+nEclJrNU1iVIAGeM7+UpTeicU0sZRvPaFUjE4LPWN0lZ4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJUk/Ui9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750071342; c=relaxed/simple;
+	bh=aDoIFUDPbKlkZs2LaI4PiAZe0ItSZiaPAXg5nePkjDQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=gTHyJ3+y5dBXUaWQFR7CwJnyd6KaB8Xj9Krt4eKojTHUVkSM1x1W6IsD4d16hRrH9svFvXqgmRaRj+6cV5+MmFiE1eASKIeHwEDzT4OdJiKut17Gi+8BY6R+WpTORYLpDsaOJQ8WWzpihov5I1+SYm4nuOeUjdD+oWiHlKRPiX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=BaOhuSjW; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJUk/Ui9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 744D5C4CEF1;
-	Mon, 16 Jun 2025 10:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750071073;
-	bh=WaQAp1hhm2gKAeY2p2nZTgu1+jygTwVGUhSeNAqM2RQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BJUk/Ui9lefM/bDm0RZwP71Ccys+RiIcirvbkyHC2lIfyWHo8zRYLNdFHrIpjdAqO
-	 c93QasgHPhoURjWaivuDm5HgOv8CIV+StPUP/MGmaGb9r6DvV9MiJPo8GjUkIjQU4I
-	 k87jG2OwBsCMEk0QAaNB1A/ryl2t+CWHsVv2ujj79HrEp1Xpifn5AqsJ3zrx1a5THl
-	 PNWJShMVwyk9yo0VTvXPUlt6WlGBZMeW6torR1uYzgbWDyI1pgb2xcFqjg5qwGSxue
-	 ZayjqOhpLfwP9diAiya5uA0TXsTsqetkpdolFrk2DF2P/DOvF3kwftOvUS2IHFzGLZ
-	 l05YHL9Rpgb0w==
-Date: Mon, 16 Jun 2025 12:51:06 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, Akira
- Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ignacio
- Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>,
- Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
- Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
- netlink_yml_parser.py
-Message-ID: <20250616125106.5d7fd18f@foz.lan>
-In-Reply-To: <20250614124649.2c41407c@kernel.org>
-References: <cover.1749891128.git.mchehab+huawei@kernel.org>
-	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
-	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
-	<20250614173235.7374027a@foz.lan>
-	<20250614103700.0be60115@kernel.org>
-	<20250614205609.50e7c3ad@foz.lan>
-	<20250614124649.2c41407c@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="BaOhuSjW"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1750071336; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=i8EdbzyYXZcEWHaoQ9QBBBH1FZsnTBo/AD39uza65v0=;
+	b=BaOhuSjWV2CRDTzhpmjBaK/4xbXSSvO9tMNMleL/tVkUBnw8CMQeBDW8X6ChHLz8dFt8EvhI+hfN3COW2tBNagx8BBfQnl8PycM3h8nEwV1s9i64r+UW9Lgfxuf5MyW/r1MjFvYJbFAsO0yvVLj8BA3E1YDsuMrCpTYxqaSfPR4=
+Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com fp:SMTPD_---0WdwwWRd_1750071334 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 16 Jun 2025 18:55:34 +0800
+From: "Huang, Ying" <ying.huang@linux.alibaba.com>
+To: Bijan Tabatabai <bijan311@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>,  linux-mm@kvack.org,
+  linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,  sj@kernel.org,
+  akpm@linux-foundation.org,  corbet@lwn.net,  ziy@nvidia.com,
+  matthew.brost@intel.com,  joshua.hahnjy@gmail.com,  rakie.kim@sk.com,
+  byungchul@sk.com,  gourry@gourry.net,  apopple@nvidia.com,
+  bijantabatab@micron.com,  venkataravis@micron.com,  emirakhur@micron.com,
+  ajayjoshi@micron.com,  vtavarespetr@micron.com,  damon@lists.linux.dev
+Subject: Re: [RFC PATCH 1/4] mm/mempolicy: Expose policy_nodemask() in
+ include/linux/mempolicy.h
+In-Reply-To: <CAMvvPS5U8exSvy0fknfhv8ym_dKgMVa7cfMOqn0fGyd+NSjSuQ@mail.gmail.com>
+	(Bijan Tabatabai's message of "Fri, 13 Jun 2025 11:33:18 -0500")
+References: <20250612181330.31236-1-bijan311@gmail.com>
+	<20250612181330.31236-2-bijan311@gmail.com>
+	<5a50eeba-b26d-4913-8016-45278608a1ee@redhat.com>
+	<CAMvvPS5U8exSvy0fknfhv8ym_dKgMVa7cfMOqn0fGyd+NSjSuQ@mail.gmail.com>
+Date: Mon, 16 Jun 2025 18:55:32 +0800
+Message-ID: <87zfe83qhn.fsf@DESKTOP-5N7EMDA>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Em Sat, 14 Jun 2025 12:46:49 -0700
-Jakub Kicinski <kuba@kernel.org> escreveu:
+Bijan Tabatabai <bijan311@gmail.com> writes:
 
-> On Sat, 14 Jun 2025 20:56:09 +0200 Mauro Carvalho Chehab wrote:
-> > > I understand that from the PoV of ease of maintenance of the docs.
-> > > Is it fair to say there is a trade off here between ease of maintenan=
-ce
-> > > for docs maintainers and encouraging people to integrate with kernel
-> > > docs in novel ways?   =20
-> >=20
-> > Placing elsewhere won't make much difference from doc maintainers and
-> > developers. =20
->=20
-> I must be missing your point. Clearly it makes a difference to Donald,
-> who is a maintainer of the docs in question.
+> On Fri, Jun 13, 2025 at 8:45=E2=80=AFAM David Hildenbrand <david@redhat.c=
+om> wrote:
+>>
+>> On 12.06.25 20:13, Bijan Tabatabai wrote:
+>> > From: Bijan Tabatabai <bijantabatab@micron.com>
+>> >
+>> > This patch is to allow DAMON to call policy_nodemask() so it can
+>> > determine where to place a page for interleaving.
+>> >
+>> > Signed-off-by: Bijan Tabatabai <bijantabatab@micron.com>
+>> > ---
+>> >   include/linux/mempolicy.h | 9 +++++++++
+>> >   mm/mempolicy.c            | 4 +---
+>> >   2 files changed, 10 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
+>> > index 0fe96f3ab3ef..e96bf493ff7a 100644
+>> > --- a/include/linux/mempolicy.h
+>> > +++ b/include/linux/mempolicy.h
+>> > @@ -133,6 +133,8 @@ struct mempolicy *__get_vma_policy(struct vm_area_=
+struct *vma,
+>> >   struct mempolicy *get_vma_policy(struct vm_area_struct *vma,
+>> >               unsigned long addr, int order, pgoff_t *ilx);
+>> >   bool vma_policy_mof(struct vm_area_struct *vma);
+>> > +nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
+>> > +             pgoff_t ilx, int *nid);
+>> >
+>> >   extern void numa_default_policy(void);
+>> >   extern void numa_policy_init(void);
+>> > @@ -232,6 +234,13 @@ static inline struct mempolicy *get_vma_policy(st=
+ruct vm_area_struct *vma,
+>> >       return NULL;
+>> >   }
+>> >
+>> > +static inline nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy=
+ *pol,
+>> > +                             pgoff_t ilx, int *nid)
+>> > +{
+>> > +     *nid =3D NUMA_NO_NODE;
+>> > +     return NULL;
+>> > +}
+>> > +
+>> >   static inline int
+>> >   vma_dup_policy(struct vm_area_struct *src, struct vm_area_struct *ds=
+t)
+>> >   {
+>> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+>> > index 3b1dfd08338b..54f539497e20 100644
+>> > --- a/mm/mempolicy.c
+>> > +++ b/mm/mempolicy.c
+>> > @@ -596,8 +596,6 @@ static const struct mempolicy_operations mpol_ops[=
+MPOL_MAX] =3D {
+>> >
+>> >   static bool migrate_folio_add(struct folio *folio, struct list_head =
+*foliolist,
+>> >                               unsigned long flags);
+>> > -static nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
+>> > -                             pgoff_t ilx, int *nid);
+>> >
+>> >   static bool strictly_unmovable(unsigned long flags)
+>> >   {
+>> > @@ -2195,7 +2193,7 @@ static unsigned int interleave_nid(struct mempol=
+icy *pol, pgoff_t ilx)
+>> >    * Return a nodemask representing a mempolicy for filtering nodes for
+>> >    * page allocation, together with preferred node id (or the input no=
+de id).
+>> >    */
+>> > -static nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
+>> > +nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *pol,
+>> >                                  pgoff_t ilx, int *nid)
+>> >   {
+>> >       nodemask_t *nodemask =3D NULL;
+>>
+>> You actually only care about the nid for your use case.
+>>
+>> Maybe we should add
+>>
+>> get_vma_policy_node() that internally does a get_vma_policy() to then
+>> give you only the node back.
+>>
+>> If get_vma_policy() is not the right thing (see my reply to patch #2),
+>> of course a get_task_policy_node() could be added.
+>>
+>> --
+>> Cheers,
+>>
+>> David / dhildenb
+>
+> Hi David,
+>
+> I did not use get_vma_policy or mpol_misplaced, which I believe is the
+> closest function that exists for what I want in this patch, because
+> those functions
+> seem to assume they are called inside of the task that the folio/vma
+> is mapped to.
+> More specifically, mpol_misplaced assumes it is being called within a
+> page fault.
+> This doesn't work for us, because we call it inside of a kdamond process.
+>
+> I would be open to adding a new function that takes in a folio, vma,
+> address, and
+> task_struct and returns the nid the folio should be placed on. It could p=
+ossibly
+> be implemented as a function internal to mpol_misplaced because the two w=
+ould
+> be very similar.
+>
+> How would you propose we handle MPOL_BIND and MPOL_PREFFERED_MANY
+> in this function? mpol_misplaced chooses a nid based on the node and
+> cpu the fault
+> occurred on, which we wouldn't have in a kdamond context. The two options=
+ I see
+> are either:
+> 1. return the nid of the first node in the policy's nodemask
+> 2. return NUMA_NO_NODE
+> I think I would lean towards the first.
 
-Heh, I was just saying that I missed your point ;-)
-
-See, you said that "there is a trade off here between ease of maintenance
-for docs maintainers and encouraging people to integrate with kernel
-docs in novel ways".
-
-I can't see how being easy/hard to maintain or even "integrate with
-kernel docs in novel ways" would be affected by the script location.
-
-Whatever it is located, there should be MAINTAINERS entries that would
-point to YAML and network maintainers maintainers:
-
-	$ ./scripts/get_maintainer.pl tools/net/ynl/pyynl/ynl_gen_rst.py --nogit -=
--nogit-blame --nogit-fallback
-	Donald Hunter <donald.hunter@gmail.com> (maintainer:YAML NETLINK (YNL))
-	Jakub Kicinski <kuba@kernel.org> (maintainer:YAML NETLINK (YNL))
-	"David S. Miller" <davem@davemloft.net> (maintainer:NETWORKING [GENERAL])
-	Eric Dumazet <edumazet@google.com> (maintainer:NETWORKING [GENERAL])
-	Paolo Abeni <pabeni@redhat.com> (maintainer:NETWORKING [GENERAL])
-	Simon Horman <horms@kernel.org> (reviewer:NETWORKING [GENERAL])
-	netdev@vger.kernel.org (open list:NETWORKING [GENERAL])
-	linux-kernel@vger.kernel.org (open list)
-	YAML NETLINK (YNL) status: Unknown
-
-	(do they all apply to YNL doc parser?)
-
-Plus having doc ML/Maintainer on it:
-
-	Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-
-So, at least the file called by the Sphinx class should be at the
-linux-doc entry at the maintainers' file.
-
-The rationale is that linux-doc and Jon should be c/c, just in case some=20
-change there might end causing build issues using a version of the toolchain
-that is officially supported, as documented at
-Documentation/process/changes.rst, e.g. currently whatever it there is=20
-expected to be compatible with:
-
-	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-	        Program        Minimal version       Command to check the version
-	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-	...
-	Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-	...
-	Python (optional)      3.9.x            python3 --version
-	...
-
-
-This is independent if the YNL classes are either at scripts/lib
-or at tools/net/ynl/pyynl/lib.
-
->=20
-> > I'm more interested on having a single place where python libraries
-> > could be placed. =20
->=20
-> Me too, especially for selftests. But it's not clear to me that
-> scripts/ is the right location. I thought purely user space code
-> should live in tools/ and bulk of YNL is for user space.
-
-Several scripts under scripts/ are meant to run outside build
-time. One clear example is:
-
-	$ ./scripts/get_abi.py undefined
-
-That basically checks if the userspace sysfs API is properly
-documented, by reading the macine's sysfs node and comparing
-with the uAPI documentation. Such tool can also used to check if
-the ABI documentation Python classes are working as expected.
-
-So, it is a mix of kernel build time and userspace.
-
-There are also pure userspace tools like those two:
-
-	./scripts/get_dvb_firmware
-	./scripts/extract_xc3028.pl=09
-
-Both extract firmware files from some other OS and write as a
-Linux firmware file to be stored under /lib/firmware. They are
-userspace-only tools.
-
--
-
-=46rom my side, I don't care where Python classes would be placed,
-but I prefer having them on a single common place. It could be:
-
-	/scripts/lib
-	/tools/lib
-	/python/lib
-
-eventually with their own sub-directories on it, like what we have
-today:
-
-	${some_prefix}/kdoc
-	${some_prefix}/abi
-
-In the case of netlink, it could be:
-
-	${some_prefix}/netlink
-
-Yet, IMO, we should not have a different location for userspace
-and non-userspace, as it is very hard to draw the borders on several
-cases, like the ABI toolset.
-
-> > Eventually, some classes might be re-used in the future
-> > by multiple scripts and subsystems, when it makes sense, just like we do
-> > already with Kernel's kAPIs. This also helps when checking what is the
-> > Python's minimal version that are required by the Kernel when updating
-> > it at: =20
->=20
-> I think this is exactly the same point Donald is making, but from YNL
-> perspective. The hope is to share more code between the ReST generator,
-> the existing C generator and Python library. The later two are already
-> based on a shared spec model.
-
-That makes perfect sense to me. Yet, this doesn't preventing having
-a:
-
-	${some_prefix}/ynl
-
-directory where you would place Netlink YNL parsing, where the prefix
-would be either:
-
-	- /scripts/lib
-	- /tools/lib
-	- /python/lib
-	- something else
-
-It may even use some common classes under:
-
-	${some_prefix}/${some_common_prefix}
+You can try numa_node_id() first, then fall back to the first nid in
+the nodemask.
 
 ---
-
-Now, seeing your comments, maybe the main point is wheather it is OK to=20
-add userspace libraries to scripts/lib or not. IMO, using "/scripts/lib"
-is OK, no matter if the script is kernel-build related or "pure userspace",
-but if there are no consensus, we could migrate what we have to
-"python/lib" or to some other place.
-
-
-Thanks,
-Mauro
+Best Regards,
+Huang, Ying
