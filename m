@@ -1,92 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D8B1DDC28;
-	Mon, 16 Jun 2025 07:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0577F9;
+	Mon, 16 Jun 2025 07:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750057965; cv=none; b=dClvq7TU9ZG8rFMNnkEPJSKRqmuifvI/YpA/ou00yHR8jve6GFjClXRnDOcKAIot7iQPvB/+UB385fhwlyAXvjwEsf3xXdZ5y9oYNq0XLZB15Bi9/rmCb764ZLOhA89MDzxUkZvXKzm6G+G/gfZVM5nyCJMAD3gGtlBkOjRlyYg=
+	t=1750058883; cv=none; b=fq9bcrAUnQUznP28wTSrURPSzMYbg1spOw01QEAtfTPNvRhYajd61CMB9j3HhyU3DWdKZ1Nrk6uOsK8L29mhsq1EvucRmv1hFGhMKYF7dnKkTKqw3R+KHfTbDGS/y7UMKcs63VMxRSwuTH3F9M7Xi1moWU6DF6L7QMbuQ4KiDkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750057965; c=relaxed/simple;
-	bh=xacBKMgmFTMZBZEnYG/hW2BtKPaY7xU5btWyaSE3iwY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ci4VfOpwpuRKGb3idcLQazuARHsUwbsHmodtyREZN4rQI5P9Z32VBXo6owAD+5LFdFPzjsB4sfZPDTvczO3498WlOqdBgDQ5ZsGI+vAYmfZ5QvOx78rxDluUZPs9ftYPL+mldiXLE1v5XrTyUiHgPdlCM4JDKzvuQAE951gqWeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CDg+dkOh; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CDg+dkOh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750057965; x=1781593965;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xacBKMgmFTMZBZEnYG/hW2BtKPaY7xU5btWyaSE3iwY=;
-  b=CDg+dkOhbfqY7TtzNt12dHZ3ELBr6kszN7GmbxTuD/ShEPSHGIo2lsTp
-   izH7WJvClOp43UkEspY8dLHCcRmQjyviggnebL7yFCdoBHj+lONWurh85
-   2lUydU6xa8Ajida/0gMMAnOsbl+wQHDQYtNfWaNrVz/qrGX8Z9oJIP2hn
-   pED3Mrd6MU3JHIblYpddgv5efy1lUFBAs08snjTUuVyIhJ8asJbNsaXxr
-   XL6LZSlCTl//e9ilwAnLo1UYYVSb4HCNwRE+XL8VJoKohk3shel8NO9Q3
-   /GnE5Ehh7kU5jgd27tDUZpPJS1jJ87pc5Z0pZUdPCkPg6bnimjeEMiVCH
-   Q==;
-X-CSE-ConnectionGUID: JVmGsGTPQmWsn9UmlKGuUw==
-X-CSE-MsgGUID: MEfToax2RMqG5TA41DkGBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="55866585"
-X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
-   d="scan'208";a="55866585"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 00:12:44 -0700
-X-CSE-ConnectionGUID: HjGOjZ05Sou9BY7TtQfcPA==
-X-CSE-MsgGUID: /QmppINgRhqjZEZzCyDuPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
-   d="scan'208";a="148290800"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 00:12:37 -0700
-Message-ID: <8b57d3fb-bc0c-4ab6-8a53-22d93718b422@linux.intel.com>
-Date: Mon, 16 Jun 2025 15:11:37 +0800
+	s=arc-20240116; t=1750058883; c=relaxed/simple;
+	bh=QZnBd0tvGKes4F4h/RTCBDHZkG2oZ7PWbsHjXAeeGSo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sO0EXGs5D77J8tt6TQN7yXLAQjfZjSib3DVC/CrI8C5ur7E1HhrHw5Nw62MxDWHSu4lPJ+n7qIXDZa210UtxAHNcViF9+PKGI539TC7V/hv1+G4s75ad1aLQ5m9TZE/3yXvwzX/0m/5HtOFSNFuLsarri2woQKi6BWvfGFpKgeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4bLM4k7228z2sD0F;
+	Mon, 16 Jun 2025 15:26:30 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 222C21400D4;
+	Mon, 16 Jun 2025 15:27:56 +0800 (CST)
+Received: from DESKTOP-F6Q6J7K.china.huawei.com (10.174.175.220) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 16 Jun 2025 15:27:54 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
+	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi
+	<gur.stavi@huawei.com>, Lee Trager <lee@trager.us>, Michael Ellerman
+	<mpe@ellerman.id.au>, Suman Ghosh <sumang@marvell.com>, Przemek Kitszel
+	<przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>, Christophe
+ JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH net-next v03 0/1] net: hinic3: Add a driver for Huawei 3rd gen NIC - part 2
+Date: Mon, 16 Jun 2025 15:27:49 +0800
+Message-ID: <cover.1750054732.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 10/25] iommufd/viommu: Add IOMMUFD_CMD_HW_QUEUE_ALLOC
- ioctl
-To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com, kevin.tian@intel.com,
- corbet@lwn.net, will@kernel.org
-Cc: bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
- thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
- shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
- peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
- praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-kselftest@vger.kernel.org, patches@lists.linux.dev, mochs@nvidia.com,
- alok.a.tiwari@oracle.com, vasant.hegde@amd.com, dwmw2@infradead.org
-References: <cover.1749884998.git.nicolinc@nvidia.com>
- <7dfb002613f224f57a069d27e7bf2b306b0a5ba0.1749884998.git.nicolinc@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <7dfb002613f224f57a069d27e7bf2b306b0a5ba0.1749884998.git.nicolinc@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On 6/14/25 15:14, Nicolin Chen wrote:
-> Introduce a new IOMMUFD_CMD_HW_QUEUE_ALLOC ioctl for user space to allocate
-> a HW QUEUE object for a vIOMMU specific HW-accelerated queue, e.g.:
->   - NVIDIA's Virtual Command Queue
->   - AMD vIOMMU's Command Buffer, Event Log Buffers, and PPR Log Buffers
-> 
-> Since this is introduced with NVIDIA's VCMDQs that access the guest memory
-> in the physical address space, add an iommufd_hw_queue_alloc_phys() helper
-> that will create an access object to the queue memory in the IOAS, to avoid
-> the mappings of the guest memory from being unmapped, during the life cycle
-> of the HW queue object.
-> 
-> Reviewed-by: Pranjal Shrivastava<praan@google.com>
-> Reviewed-by: Kevin Tian<kevin.tian@intel.com>
-> Signed-off-by: Nicolin Chen<nicolinc@nvidia.com>
+This is the 2/3 patch of the patch-set described below.
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+The patch-set contains driver for Huawei's 3rd generation HiNIC
+Ethernet device that will be available in the future.
+
+This is an SRIOV device, designed for data centers.
+Initially, the driver only supports VFs.
+
+Following the discussion over RFC01, the code will be submitted in
+separate smaller patches where until the last patch the driver is
+non-functional. The RFC02 submission contains overall view of the entire
+driver but every patch will be posted as a standalone submission.
+
+Changes:
+
+PATCH 02 V01: https://lore.kernel.org/netdev/cover.1749561390.git.root@localhost.localdomain
+
+PATCH 02 V02: https://lore.kernel.org/netdev/cover.1749718348.git.zhuyikai1@h-partners.com
+* Fix build allmodconfig warning (patchwork)
+* Update cover-letter changes information.
+
+PATCH 02 V03:
+* Use refcount_*() instead of atomic_*() (Jakub Kicinski)
+* Consistency fixes : HIG->HIGH, BAR45->BAR4/5 , etc (ALOK TIWARI)
+* Code format fixes : use \n before return, remove extra spaces (ALOK TIWARI)
+* Remove hinic3_request_irq redundant error print (ALOK TIWARI)
+* Modify hinic3_wq_create error print (ALOK TIWARI)
+
+Fan Gong (1):
+  hinic3: management interfaces
+
+ drivers/net/ethernet/huawei/hinic3/Makefile   |   4 +-
+ .../net/ethernet/huawei/hinic3/hinic3_cmdq.c  | 912 ++++++++++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_cmdq.h  | 156 +++
+ .../ethernet/huawei/hinic3/hinic3_common.c    |  31 +
+ .../ethernet/huawei/hinic3/hinic3_common.h    |  27 +
+ .../net/ethernet/huawei/hinic3/hinic3_csr.h   |  79 ++
+ .../net/ethernet/huawei/hinic3/hinic3_eqs.c   | 803 +++++++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_eqs.h   | 130 +++
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    |  43 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.c   |  31 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  13 +
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  36 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  | 153 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  16 +
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   | 137 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_lld.c   |   5 +
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |  65 +-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.c  | 843 +++++++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.h  | 127 +++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   |   2 +
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  14 +-
+ .../huawei/hinic3/hinic3_queue_common.h       |   1 +
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    |   2 +
+ .../net/ethernet/huawei/hinic3/hinic3_wq.c    | 109 +++
+ .../net/ethernet/huawei/hinic3/hinic3_wq.h    |  11 +
+ 25 files changed, 3735 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_csr.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_eqs.h
+
+
+base-commit: 8909f5f4ecd551c2299b28e05254b77424c8c7dc
+-- 
+2.43.0
+
