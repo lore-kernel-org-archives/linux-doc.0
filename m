@@ -1,123 +1,88 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162CB202C48;
-	Tue, 17 Jun 2025 22:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B14420D4FF;
+	Tue, 17 Jun 2025 22:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750199157; cv=none; b=FDzc/lRoFpGp3HPSr/DzpRLJtZJf/NH+3P996z35TbqrUQx+SDqSQ8J/LAAS0pKIgEoA2+VHe/zq/MPg5IJiPghE7QDzzP5IeRs/XDDIIIGCfcXPJi4HjxbXZcD3EhWVJA9Bw19XlZ8XJKyOIDFWQ84hqP2O3m9+gYcMZp5dRxQ=
+	t=1750199407; cv=none; b=mAfE2H8dO8EZgkCZCZdGE83lnmghxB8252Yid4VIo4c5KeKP7DyAkPqx6vFhET/Ysc1O23JBb4I9iI+U7fTpDAitJvly3fQKRkvP+IfKxhdLG1Qt1vALJ8gXKPNm5XJ817eTrRN8fWQDkxMJ4fzEbwQRollXI9PztLt6/kOihgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750199157; c=relaxed/simple;
-	bh=IkHODsj3LMl6DlIAGg//NNU39NjtBqCmQQsRmb27n4s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pGF7TvQYXHRCUjecT1xNA4aXh7HMntY2k2vidQ62FT/7OjmEbPsibYYJk2uB5KnRe33aaJ8pqjNQyquDN/SM+bAlTCI6zhAw2lSHkt7gV6R9CcXkYZw285lXqvYjJpshgGa+t9hWocJylZw6Nn/GvkczXnPSnXT6kWJydGzojD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+1Ybjnk; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750199407; c=relaxed/simple;
+	bh=SGGyiCoTGoTxw00KV1kNaqflYtCwj4p1ZTrArbPnXIg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=S+xqcn834W0501ZV4J0Qk70Eghx0F/jybGsEhs3roKdtuwaIT51x9KpmDs14r/pe8r13+gD2FuPSJZYFwTya7FLMNLmXDN+1V2HNOXRUPh7hBjs7CQcSr90pYbGkBwWv4SLnpJtEmxcG3HsHPfvLEU+BSqeMkX5IEkDwFpB9jg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HF8NQaqd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+1Ybjnk"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4a43972dcd7so79800801cf.3;
-        Tue, 17 Jun 2025 15:25:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750199155; x=1750803955; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NOHudB3qWFtr4TV/okRv6w4AxszP8orrjoIXfZSBLrg=;
-        b=g+1YbjnkQ5KanzCYrF6em9UwZKyPuE1+sAUa7/1R7LJHDYhEnMUAdR9OlaapdU08uB
-         r93kQcsUEomKT3rOcjvVYr431Q+ItYTKKwKRxl/3yWI7uTQRic41CjRRxqJ6weGDipm8
-         2dx1fPlc2d3JLNr0Oxl1lqNBRaYwT/hVSTHL/AoR743w8D2aUgnMkeHZb89Ls5CcCFjf
-         PlPMV8A/nlr9iBHqs/EJXKs5exQZ4HV9fxOncesiOrfDc18U+bzdRurGsqEZtaWF3PRr
-         p2eX0VY/xJ9abnpC6jsjtMCKJsTM7YR/dMGCKXUvootR1xNjh1Arql4ZcDYuSZl+H27E
-         zU5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750199155; x=1750803955;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NOHudB3qWFtr4TV/okRv6w4AxszP8orrjoIXfZSBLrg=;
-        b=IGgclu/UsNq0Wgy6EMnSn/YhJAlJ9ktJxaEMnIbJCiYGlME/+AX0NrfNg3sTsgkwBV
-         dzrOfZXzQMM5CyEb9LDWzJX0x7bAxHFarSsovU00g3JljxtfBxnCSF7IAD3cVhgtZQiD
-         NDLEJ+bCfsQFVSOvJZB/dCykH90JzwUvI4eJ349n20/rAuNUUvHmY9nSvhUB//8Opz7H
-         +AbQwfNcd19m0NQbRP+Leroi1LQpG5eE/HXb75FefRvNuUSB8c7/jv657VAWchRbTuXY
-         w4/Xx6wJQoW1J52FWOwSrJkn1Pg+uiB3pZN1yqqR7igyo8cIjIqgvPEb0DOajSR9mQXf
-         qjFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWOAEhtkVApKd05bDdGSQfgoV0rclyKa/MrWZA8jz47bmS3GisJtsDgp29FLHDn90zvxx53I7YR7pri@vger.kernel.org, AJvYcCXKX0Y/RCn7HsYTol394N1Cu0alPvIjvsDWuHYTUDrH0/BNwmkHROzgUIexF4sBGf5xli6aOfmCvfrWRt40kA==@vger.kernel.org, AJvYcCXar8ty/VBPFrFzX50GIPvcOI72p/QIqG8g1p9PEek6OAtnmSaKTw+kh4GIokuxPhItIxKoSICapxgu@vger.kernel.org, AJvYcCXu/yF8EpvpNJRBMg30lY3bDX/MXM0ts4+R09crx9EaMNIKAG1aDsa3AwR2hDSvE+TTLr27hemgTZlVNA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7C10F7DGsnedm/VrItoUTodWY8PNpNXQq1CfIhzCUWMrEaTc2
-	+9UnBMdMVWY5DrswQYP2NttdE74cjD0IxU62sX7oP4us/DsLf0/NCxJP6OMKakA71IHe00ZGZnJ
-	ONYCNj85AXhoKoT4D8R8//gUmHpvBjY4=
-X-Gm-Gg: ASbGnctgV3vw7+InpjxRFQ8PaYPkQ2Tc89vUxDoMr63J7UwBgf3ZaukPxO4jkqWJgkd
-	CGRzMchwPGjqnTgdVtRlE5iQsIxKUiIU/FtiYB1obKUM/0KTM/EVRa0Em/8yS2HZkJD4J0VZThh
-	7fAi0HV/dIJCzP6kIKZlBfh/fMamvgS3DxBoqKemXzm6+T6OJ9DeE9Y3WX90c=
-X-Google-Smtp-Source: AGHT+IFT2IbS7IY/ZG8utAx1TX8YtZX4KzeTFUBS4g3I5+hjckINK4fFIkyAX5117p/bYpzRPLh6P82Wyv/n/vAtbzc=
-X-Received: by 2002:a05:622a:d1:b0:4a3:4d46:c2a6 with SMTP id
- d75a77b69052e-4a73c51f790mr202374651cf.7.1750199154958; Tue, 17 Jun 2025
- 15:25:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HF8NQaqd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFDD7C4CEE3;
+	Tue, 17 Jun 2025 22:30:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750199407;
+	bh=SGGyiCoTGoTxw00KV1kNaqflYtCwj4p1ZTrArbPnXIg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HF8NQaqdgVNbeHkHl3F1yA+9mKX3t6FafblUPQ6vixdZRiOBXLamWK1sgcmtAQWdP
+	 wcdIlJekyyZibdEs78WcHv4n/5GYwJrI54JPxp67dy48ssMlHjdpOFVcprQUsXBCY8
+	 AubqlKue0z0/rGlkLM0zsXdZCB68odDs1AaWTNtod2ppAW+UbHR3Llhz7oHQIocz2D
+	 0cRTGWiXnm+mwRJi1nJ5eqIG+lT047LaTVf+ZlOrD4032jf+KCfxgIuWdNz99tck4r
+	 2SYBG4JBnGoNY2F93E8Ax9MLSW3cf+mpa0+NZFMP0rWrRgZZZn8V6a9GHnV6tj9MKy
+	 IcgF9wKcy3rOQ==
+From: SeongJae Park <sj@kernel.org>
+To: Bijan Tabatabai <bijan311@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	Gregory Price <gourry@gourry.net>,
+	David Hildenbrand <david@redhat.com>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	ziy@nvidia.com,
+	matthew.brost@intel.com,
+	joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com,
+	byungchul@sk.com,
+	ying.huang@linux.alibaba.com,
+	apopple@nvidia.com,
+	bijantabatab@micron.com,
+	venkataravis@micron.com,
+	emirakhur@micron.com,
+	ajayjoshi@micron.com,
+	vtavarespetr@micron.com,
+	damon@lists.linux.dev
+Subject: Re: [RFC PATCH 1/4] mm/mempolicy: Expose policy_nodemask() in include/linux/mempolicy.h
+Date: Tue, 17 Jun 2025 15:30:05 -0700
+Message-Id: <20250617223005.2526-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <CAMvvPS7yQPoXxAecSi6B74a1Bgm1H06i+MqNDgdsZODEZSYFuw@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250617105514.3393938-1-hch@lst.de> <20250617105514.3393938-11-hch@lst.de>
-In-Reply-To: <20250617105514.3393938-11-hch@lst.de>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 17 Jun 2025 15:25:43 -0700
-X-Gm-Features: AX0GCFsI21gwIMPwJfdvUohzFbNWXhMjQxHEzcHQpvBVMKKQzS8fPtvEOYy6xzg
-Message-ID: <CAJnrk1YOtCnAD2R5G1sYipG=aTkWBdYfm-F0iioV55sE5A_HYQ@mail.gmail.com>
-Subject: Re: [PATCH 10/11] iomap: replace iomap_folio_ops with iomap_write_ops
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 17, 2025 at 3:55=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
-e:
->
->  ssize_t iomap_file_buffered_write(struct kiocb *iocb, struct iov_iter *f=
-rom,
-> -               const struct iomap_ops *ops, void *private);
-> +               const struct iomap_ops *ops,
-> +               const struct iomap_write_ops *write_ops, void *private);
->  int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops);
->  void iomap_readahead(struct readahead_control *, const struct iomap_ops =
-*ops);
->  bool iomap_is_partially_uptodate(struct folio *, size_t from, size_t cou=
-nt);
-> @@ -344,11 +337,14 @@ bool iomap_release_folio(struct folio *folio, gfp_t=
- gfp_flags);
->  void iomap_invalidate_folio(struct folio *folio, size_t offset, size_t l=
-en);
->  bool iomap_dirty_folio(struct address_space *mapping, struct folio *foli=
-o);
->  int iomap_file_unshare(struct inode *inode, loff_t pos, loff_t len,
-> -               const struct iomap_ops *ops);
-> +               const struct iomap_ops *ops,
-> +               const struct iomap_write_ops *write_ops);
->  int iomap_zero_range(struct inode *inode, loff_t pos, loff_t len,
-> -               bool *did_zero, const struct iomap_ops *ops, void *privat=
-e);
-> +               bool *did_zero, const struct iomap_ops *ops,
-> +               const struct iomap_write_ops *write_ops, void *private);
->  int iomap_truncate_page(struct inode *inode, loff_t pos, bool *did_zero,
-> -               const struct iomap_ops *ops, void *private);
-> +               const struct iomap_ops *ops,
-> +               const struct iomap_write_ops *write_ops, void *private);
->  vm_fault_t iomap_page_mkwrite(struct vm_fault *vmf, const struct iomap_o=
-ps *ops,
->                 void *private);
+On Tue, 17 Jun 2025 14:54:39 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
 
-Maybe you'll hate this idea but what about just embedding struct
-iomap_ops inside iomap_write_ops?
+[...]
+> Given this discussion, as well as Joshua's comments earlier [1], it
+> sounds like while people aren't exactly opposed to using mempolicy for
+> this, the building consensus is that it would be best not to. I will
+> move the interleave logic to DAMON for the next revision. However, I
+> still think it makes sense to use the global weights (probably via
+> get_il_weight) for now to avoid allocating pages a certain way and
+> then migrating them soon after.
 
-eg
- struct iomap_write_ops {
-        struct iomap_ops iomap_ops;
-        struct folio *(*get_folio)(struct iomap_iter *iter, loff_t pos,
-                        unsigned len);
-       ...
-}
+Makes sense to me :)
 
-and then only having to pass in iomap_write_ops?
+> 
+> I'll try to send the next version of the patch set by the end of the week.
+
+Looking forwrd to it!
+
+
+Thanks,
+SJ
+
+[...]
