@@ -1,89 +1,95 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12120295DA5;
-	Tue, 17 Jun 2025 10:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774CC29B773;
+	Tue, 17 Jun 2025 10:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750156599; cv=none; b=Sl+XYPpXrZEYOgj4wyWVQK31eqS/K8I0l3gArYeGzdkPrDndXomp68RfXspM8TYEPLUEmp5WYqvVu1TqHrxR71zbTK8Igelv4FcmXQOOlLEmjV9jTdSKgjmYPMZP8BLio4CmV1hcrmzqz50O0eJTz6U8DHjvYsVE2ixaMhnOQSM=
+	t=1750157719; cv=none; b=Gz/DHPzBkmqMoohcVoHSelm206IY4QHlpAooYLvgN6dTizSrK0ftGju/WP/IolNpXSbKkk3SJzr8oqIIP6Hb2STxOIVksgKRbq7iWB5f8dXQ+VhraRKN+7spzo26KQii7VIjViOrI4nbAXJGS3Nkk5EyeEdnKHqyIfdXBZTKCJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750156599; c=relaxed/simple;
-	bh=Mt4oHekiA92rE/VwZpu/nA4D4ECjqqc2xguHzhD9/qU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jCSgMYMDSNJD/26lSyp9H2dhA8xi9giFDwCFhqBRUuISzna3QGve7k3uxmmDOSTkco3xqJL7UxmrhygPLoHtxXNE6j5KzCm1r5zz0kIOXglSSwi2uoeWOLNCyjDY2KuXKGIEZexs2LBt8t1GZTHNj48tg6AVuvKYC8kKIoNMZGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=j6UCKw5+; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1750157719; c=relaxed/simple;
+	bh=It7C+z+ZQiZjTYV4U6l464Mu4t1CnrcCeSXc2XOZIIs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OD0wGAjwwiUL2KTmaw7KwQbAbwRBBk7Yoib8HO8gNJ02lOoue4Aamw8ADTk6dBFkb+tTVh5djaVDvpp9mA7ujqEYwD64m5pAlxrrcqmfEkCy77ZoxDywgMRByeiAU4Rvw8pvh94xJ5961AsnJTSdzuOskSZmXd3sM0R4bBBIOlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DbTBsYFR; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="j6UCKw5+"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DbTBsYFR"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=coH03vPFT2rsdcf33PRUsXpuL1g7ZkrTHF5F6QDpPTw=; b=j6UCKw5+yqg03P3VhjtZ9xHG8P
-	e4cSe5GL2d0JRvRqNrvswgi6bodPQzOEVUO5+zrI4dSd94fYfRq81jJ68n3ymYKF3kgnqk1w7PlQD
-	2rs0P1TaU43pNhvwf8LQj0XqJwyn/ztplssurZC7V2hUpBegF42QbnoqQ4qKCFRDc8vBV5jpcsLKm
-	fYB9/KUDmQJpBm1HuRUzFUIWtp1HTUjk6gitVpAulJxDtYup8LIzJTEbrlS/wy1njjaew/4jiN6sq
-	Pj03UWhF7nhi3p0cn7WieeXViPmoo4yWwK3V+nl+/JQqU9jQcTOADPV3/FKrc6GyLg8jeH2AB7Rkt
-	svxY6k8w==;
-Received: from 2001-1c00-8d82-d000-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d82:d000:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uRTfv-0000000H0cK-2kRJ;
-	Tue, 17 Jun 2025 10:36:19 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 02E7A30BDAD; Tue, 17 Jun 2025 12:36:19 +0200 (CEST)
-Date: Tue, 17 Jun 2025 12:36:18 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Koichi Okuno <fj2767dz@fujitsu.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
-Message-ID: <20250617103618.GT1613376@noisy.programming.kicks-ass.net>
-References: <20250617102819.3685543-1-fj2767dz@fujitsu.com>
- <20250617102819.3685543-3-fj2767dz@fujitsu.com>
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=FdTRRm0oC/RSm8PxtVXN0Oov8m8H711ZJMG4xk6+HFo=; b=DbTBsYFRUOkdLQd1w+CFIYHQC+
+	0hJVrG6HzYTdzsX1i49N6p4NrR1Obab2nTzlFN0FP5ci940MNPMuQ134FB79Qb9/WyeJVJc41wqpV
+	FUlQzdcIcN2RynrOI/4j6Gdd5olpiQUN3pt+/nLp3w8xum2TyMydduU5O945QrbGo/jsNVOAknWrT
+	bsseHpLpZYeeSXPPnvjEjpsZ7rkYnpfjDzB6wya1b8kpjAuGLfbwB5L2P0SNp9cBWS6WXoAlp9J/6
+	Ugheyb3Tw08NOJQrqfxjhOFrrLDTyXlizzCiPRdMJLOrB4WfCmV+vltiGB7IqYEYI+G2qF9fKuPiJ
+	UOzDqFWA==;
+Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uRTyH-00000006yks-2FyS;
+	Tue, 17 Jun 2025 10:55:18 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	gfs2@lists.linux.dev
+Subject: refactor the iomap writeback code v2
+Date: Tue, 17 Jun 2025 12:54:59 +0200
+Message-ID: <20250617105514.3393938-1-hch@lst.de>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250617102819.3685543-3-fj2767dz@fujitsu.com>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, Jun 17, 2025 at 07:27:50PM +0900, Koichi Okuno wrote:
-> +	pcipmu->pmu = (struct pmu) {
-> +		.parent		= dev,
-> +		.task_ctx_nr	= perf_invalid_context,
-> +
-> +		.pmu_enable	= fujitsu_pci__pmu_enable,
-> +		.pmu_disable	= fujitsu_pci__pmu_disable,
-> +		.event_init	= fujitsu_pci__event_init,
-> +		.add		= fujitsu_pci__event_add,
-> +		.del		= fujitsu_pci__event_del,
-> +		.start		= fujitsu_pci__event_start,
-> +		.stop		= fujitsu_pci__event_stop,
-> +		.read		= fujitsu_pci__event_read,
-> +
-> +		.attr_groups	= fujitsu_pci_pmu_attr_grps,
-> +		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
+Hi all,
 
-Should these drivers not also have PERF_PMU_CAP_NO_INTERRUPT ? Per them
-being uncore they cannot generate samples.
+this is an alternative approach to the writeback part of the
+"fuse: use iomap for buffered writes + writeback" series from Joanne.
+It doesn't try to make the code build without CONFIG_BLOCK yet.
 
-> +	};
+The big difference compared to Joanne's version is that I hope the
+split between the generic and ioend/bio based writeback code is a bit
+cleaner here.  We have two methods that define the split between the
+generic writeback code, and the implemementation of it, and all knowledge
+of ioends and bios now sits below that layer.
 
+This version passes basic testing on xfs, and gets as far as mainline
+for gfs2 (crashes in generic/361).
 
+Changes since v1:
+ - fix iomap reuse in block/zonefs/gfs2 
+ - catch too large return value from ->writeback_range
+ - mention the correct file name in a commit log
+ - add patches for folio laundering
+ - add patches for read/modify write in the generic write helpers
+
+Diffstat:
+ Documentation/filesystems/iomap/design.rst     |    3 
+ Documentation/filesystems/iomap/operations.rst |   51 --
+ block/fops.c                                   |   37 +-
+ fs/gfs2/aops.c                                 |    8 
+ fs/gfs2/bmap.c                                 |   48 +-
+ fs/gfs2/bmap.h                                 |    1 
+ fs/gfs2/file.c                                 |    3 
+ fs/iomap/buffered-io.c                         |  438 ++++++-------------------
+ fs/iomap/internal.h                            |    1 
+ fs/iomap/ioend.c                               |  220 ++++++++++++
+ fs/iomap/trace.h                               |    2 
+ fs/xfs/xfs_aops.c                              |  238 +++++++------
+ fs/xfs/xfs_file.c                              |    6 
+ fs/xfs/xfs_iomap.c                             |   12 
+ fs/xfs/xfs_iomap.h                             |    1 
+ fs/xfs/xfs_reflink.c                           |    3 
+ fs/zonefs/file.c                               |   40 +-
+ include/linux/iomap.h                          |   81 ++--
+ 18 files changed, 630 insertions(+), 563 deletions(-)
