@@ -1,176 +1,154 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6AD293B53;
-	Tue, 17 Jun 2025 09:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7990B2951D8
+	for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 09:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750152508; cv=none; b=Mrk6WbQjIJe4CIA2ousmkWUIedXcIME+XH8SkK9Jd+NQXPrOLZrRwFHWelL1thelZQeC0tVFFHBt7ramRjJMGRfidH7PPhsOflOz62sZ33Hcx9pCtDqcFGukOiPTLwpXLM+ZOHMIxrqyq2EqmtBcW6WCkLNPDx6sfSTxkNz/lWQ=
+	t=1750152625; cv=none; b=p+Hd2lDMU3T3ZFM7PK6toHmirb6iIcGX/nrRTe1MBMewUH2JYdofJZfI7aDrwS9lRigRDR7kyiCCdWfjiMWNcgjGXSaliCT0BZxWodgZDMlUMz1rCSkCURtC49taRpWVOpQbnk4n2TqaWLl6E0h3J2YoaoZhrudSguTULU0Ho2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750152508; c=relaxed/simple;
-	bh=Q5fd04hqWSCGDEzHOkzetwrrFZNmS/QF+IyVMo8AaK4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SRk8lC2NIe42nZDoQzLTUE2MqcaSIUJMyVwt6huefJ5qFy5dCqQ9K5TrJ/0lWcWK76aAWUSlbbOQhd8CIfINIufbjyRK9Y0NcdgRirKn316O72HlnjlBbAOh4fqoxBWIFzaWLq2yYGEUnqUTMDqN7gBKIw1IqMAOyLAa/TwMVds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P7KJbSIC; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750152625; c=relaxed/simple;
+	bh=HfuUqmD+8hRychMyqs4FAw+9cfKLzYZB1tT/S12Ulwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fMYBUtRTDs+xh/P/v0F64/dEYovx5vuKawBEbX7BjALMzOhsSD3IhwWahP2pMb01RP7Xm86lxi8KP5QFanebc9tywQxrCwjIUIwHc8jEplNJ8e0Qf7s3CQlt00yf6UzLl31gTuF96/ht6qq9hKTqOuMS46D6g5KMFOzR1T7mJcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gEJANKM7; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P7KJbSIC"
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e81881bdd55so718800276.0;
-        Tue, 17 Jun 2025 02:28:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gEJANKM7"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a54836cb7fso3744890f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 02:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750152506; x=1750757306; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gALTqNQrj90wQMFVEUTnuyFeDr4GZi/SD5mn5GfukAs=;
-        b=P7KJbSICWReIJutj8Q447Uisi/eY9mDBt/rX35mXu/U+mx5uFsQrb2V5w4Zwb4ghJu
-         SIR5aUdPWKBHdBGcUsyWTLHJ/VqpTjLa4Z2THi9OHMX34d1EPXg5FhI2mAejE6Z62WDW
-         l7u6v/24E7xrQW0w58biKRD8wyiL+JYjg8R7/kTLmRaWogXiAGcKIoaR8rHWPSL2uKLv
-         Qc0bIHxGG+bgm7HspunnCIsa0yjfGRBSt0Asuzj/WUQ8xtKXnrSoYbh5BzmPKHCfvFqt
-         aZZpdYyVkUU7oGwMKqDPfLkQmmr6bVtSx1P73nwbT0gBDLjjPzB5Jfrq829F2/mBN9Q/
-         sg6A==
+        d=suse.com; s=google; t=1750152622; x=1750757422; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HfuUqmD+8hRychMyqs4FAw+9cfKLzYZB1tT/S12Ulwg=;
+        b=gEJANKM7hKjGbEGRdxLSqHdSsDnvO6jpX7F2uTnhzIQSMNbC8SmkmRLeVgzcfz1gqX
+         ubbwxMlebElQ6MneRDjiwjH6EPPtNAK9aioBjPiBV9CdTeLA58NahcWng26+2Zq/Uopp
+         GFk2TedBE8MC3+bChRDj4w8ytfz/D484hguC+/GfTPBJwM9tDkrwm6ytJyH55519g+15
+         V/cNizIVX1KerkBirCF7qRv3HDTx6E87zH0glO/3xbsYzIwehCPETBR+imyVzBzJbG2S
+         71lOJdGMnhWXcPALNICjT/4mIDV6ohdtRLlz3r5xI39HwGmiDdldktS67EPZ4Bju3Q8+
+         boyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750152506; x=1750757306;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gALTqNQrj90wQMFVEUTnuyFeDr4GZi/SD5mn5GfukAs=;
-        b=vPXHS3RU6Ee/oerLz7MIEJ+SmOE4Q9ESE1xQ7Suqz0xs7AwPZrZtBotoJA4d7lSpiz
-         ERJHTHq/QS1Cv36Lgl+xjKEPSWLZL4CNo5rxyJ0L9WrhB+/LXAZJsQ/ggkGKTgCCe5i1
-         bk1LG/KjBGL6Z8lrm+ZhPHWhHcvrs4/fbp8jolguO/j5qn249Z1m71clTdWmR9BMx0ie
-         /qWcniGstK9YxblQFJ0TBql1tnij1VFzXfhjJkA2kq8UxrI2BygCivmv/8Vf/PbKTnL+
-         ISq7+A7JZELER91n8ksoxq5+mCEzsYrcXwobALwwE2xew3+AtjhzsO7MWxbCYqzw4wlE
-         WVaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJAMMcqN+FCK8Q/6qRPU1Q0+BvnHlliUK2GHd1IIs0L8f9eGxjJiEgFp6bBPMtYOLHkfCFqALlc6Ai@vger.kernel.org, AJvYcCVtmQPfvGkHP9u2/B8V11bLVt8A5A0FPyM3duGGn9MysDgF4lyYz+ESQPDQEWN7940akgz3to5PEMA7SJ4d@vger.kernel.org, AJvYcCVwo+E8703cFveWx5fLnwohqzaeR4y1GDapDpv4gKOFEJFNHzcjcs59Q4tvXojbk2OppAuDXOeLFZI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywf8rV3OwUuH55VPuhlXe5Bsg384EQSMoKicwFsk2T9x3VUmjVh
-	d2wIHjX2q6DeqK1s75iwaqwRZI1f+NA22BcfCwGZpUHI/O9Ryg+tUYk9Jr/OP1qJwTTqHI1lC5m
-	zSP5EG2ljr/vcM6ELdClIcslLwjStSRs=
-X-Gm-Gg: ASbGncuhRfiMDWq3zvvUHKbNQGLgRXd0qc4+csSPhtIiV+U7fat6PUCsRrxOUXywMGx
-	hNmLCJpylRK22tBsg6PLEv2Rgf5ILykVn6wBJ5aC78XSA0sXswrBFTjUsDThG4D5ZL/d9vwKf2z
-	OQ46CeiTivMQ70ah+sXjvVDZN3lIYFXZDPqnr+Eq81HhQ=
-X-Google-Smtp-Source: AGHT+IGfEO9KKif1fDX3wWrW5gIl4x+KT/D8NnLSgBbamSDflf/3JpdAOEJzp96RWvwMj+B2D/u2WRFgO85wbi8Vcd8=
-X-Received: by 2002:a05:690c:1d:b0:710:ee89:d34e with SMTP id
- 00721157ae682-7117551588cmr74852627b3.8.1750152506329; Tue, 17 Jun 2025
- 02:28:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750152622; x=1750757422;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HfuUqmD+8hRychMyqs4FAw+9cfKLzYZB1tT/S12Ulwg=;
+        b=lR58XQt8rHsvgchAlySMoot7+j5mNdSEGJweBKk/09fLL+to9Uk4HNjnr2qfzvpQo7
+         Mrg+hJUBjbym7e6sc2FR+4cQ+Wqqqh8ANKRzeHp+GqHxdeiKuwHpUWzsO3/NP+HcV9fJ
+         XbEyZyPlEdMEpsni3zYL5SgLx2EIrWCBWU0gCRjrkhK4Cbm8mXncH02jTvFsJf7gdakt
+         0jKErba4By44x+ititS6fZO/iurzz6DHri/nfAs6sWr+jOtAbzAwB25MZYUl3r6LQhRf
+         SEyBShSXMwFd4C8BBoWneqqM3ZXnCWyIPol2OUbXFNBDpM/0QTVnHpcEnEOYrSgoCKnA
+         TOdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU8wvd9+AU1UusPKmHNDM/qcldkJd/omLpX5Fiq9sO3SiYgbICswC/Ql3ws1a+TAov0heMNxwXauCA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyN53JTpYCwFa42t2UCJZ3VVvlumKFD5PaDKkIptMaSllTZM9rl
+	UWJdwDmMmW+/KT1lDkyjUC9BLj2PjImunU0x7Dazof2g0GT+KdpHDfgczAOcl+MgUPE=
+X-Gm-Gg: ASbGncur7MS2TlmaKZxhvyEN0MLVdsu5IRgOPzk4SlGdlh9bK2ii2HiWxa27wf6c9i/
+	R49Rqgb5Zxoe1Ge25nPdf52hLZ6NUNMkAtSaRwSUxjIUt/9S9+2C4CBubOoWqTBE0cdssyvkLZK
+	4nAeU5qWYdQYLAY+ENQfN1flRo5nlREMhR5wQfZFJsRJUhNNeaUQxX4w33q++CNOT3fTKKD80sT
+	i1zYPDBUEmGXCejfWLiPqbBit1u7Qz/2qI5dnEnOnkge+u+mCyA/PFD/pNWK4ZsSXfMJy4CXeZi
+	rKT/BXxYYCNIIYZrW7pW1Q5U9kLwZ8GLOIVQcWVf8qiQjOfiU0M6HITRb2C4peVpkJnOYZfi5rU
+	=
+X-Google-Smtp-Source: AGHT+IHSxdx77Y/6piDqFDE4kXjRy2Rd1MG8l4DBGj+2ZCwsClRdIWxnpk7JW9DxCB2MVEmaflCBSQ==
+X-Received: by 2002:a5d:5847:0:b0:3a4:cfbf:51a0 with SMTP id ffacd0b85a97d-3a57237ca69mr10145241f8f.21.1750152621643;
+        Tue, 17 Jun 2025 02:30:21 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a800d9sm13275459f8f.45.2025.06.17.02.30.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 02:30:21 -0700 (PDT)
+Date: Tue, 17 Jun 2025 11:30:19 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: "Chen, Yu C" <yu.c.chen@intel.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, peterz@infradead.org, 
+	akpm@linux-foundation.org, mingo@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
+	corbet@lwn.net, mgorman@suse.de, mhocko@kernel.org, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, tim.c.chen@intel.com, aubrey.li@intel.com, libo.chen@oracle.com, 
+	kprateek.nayak@amd.com, vineethr@linux.ibm.com, venkat88@linux.ibm.com, ayushjai@amd.com, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, yu.chen.surf@foxmail.com
+Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
+Message-ID: <h4chrmiscs66vwl4icda2emof4pbhqabpkklpql2azc5iujilm@o2ttlcanwztc>
+References: <cover.1748002400.git.yu.c.chen@intel.com>
+ <7ef90a88602ed536be46eba7152ed0d33bad5790.1748002400.git.yu.c.chen@intel.com>
+ <cx4s4pnw5ymr4bxxmvrkhc457krq46eh6zamlr4ikp7tn3jsno@xzchjlnnawe5>
+ <uuhyie7udxyvbdpccwi7dl5cy26ygkkuxjixpl247u5nqwpcqm@5whxlt5ddswo>
+ <a8314889-f036-49ff-9cda-01367ddccf51@intel.com>
+ <fpa42ohp54ewxxymaclnmiafdlfs7lbddnqhtv7haksdd5jq6z@mb6jxk3pl2m2>
+ <djkzirwswrvhuuloyitnhxcm3sh7ebk6i22tvq2zzm4cb6pl45@t64jvtpl3ys6>
+ <c6bfa201-ed88-47df-9402-ead65d7be475@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250615222258.117771-1-l.rubusch@gmail.com> <20250615222258.117771-4-l.rubusch@gmail.com>
- <CAHp75Vf6sLfVrN30divVqPBnJBQsU5b+SY24yC2PJuuTmRQ1LA@mail.gmail.com>
-In-Reply-To: <CAHp75Vf6sLfVrN30divVqPBnJBQsU5b+SY24yC2PJuuTmRQ1LA@mail.gmail.com>
-From: Lothar Rubusch <l.rubusch@gmail.com>
-Date: Tue, 17 Jun 2025 11:27:50 +0200
-X-Gm-Features: AX0GCFtdtyrQdB3K0tsd9fV7juD1I_SYR0hG_EI8QiCnyXtYFHZ8_2mUhT98E2Y
-Message-ID: <CAFXKEHan_NnmMUfuy9cyjgBsdFK+C6V7eVxq_V3--afzQYGDDQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/8] iio: accel: adxl313: add buffered FIFO watermark
- with interrupt handling
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de, 
-	Michael.Hennerich@analog.com, bagasdotme@gmail.com, linux-iio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="q522php5dxz4ohq7"
+Content-Disposition: inline
+In-Reply-To: <c6bfa201-ed88-47df-9402-ead65d7be475@intel.com>
+
+
+--q522php5dxz4ohq7
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
+MIME-Version: 1.0
 
-Hi Andy,
+On Tue, Jun 03, 2025 at 10:46:06PM +0800, "Chen, Yu C" <yu.c.chen@intel.com=
+> wrote:
+> My understanding is that the "misplaced" container is not strictly tied
+> to set_mempolicy or cpuset configuration, but is mainly caused by the
+> scheduler's generic load balancer.
 
-On Mon, Jun 16, 2025 at 11:33=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Mon, Jun 16, 2025 at 1:23=E2=80=AFAM Lothar Rubusch <l.rubusch@gmail.c=
-om> wrote:
-> >
-> > Cover the following tasks:
-> > =E2=80=93 Add scan_mask and scan_index to the IIO channel configuration=
-. The
-> > scan_index sets up buffer usage. According to the datasheet, the ADXL31=
-3
-> > uses a 13-bit wide data field in full-resolution mode. Set the
-> > signedness, number of storage bits, and endianness accordingly.
-> >
-> > =E2=80=93 Parse the devicetree for an optional interrupt line and confi=
-gure the
-> > interrupt mapping based on its presence. If no interrupt line is
-> > specified, keep the FIFO in bypass mode as currently implemented.
-> >
-> > =E2=80=93 Set up the interrupt handler. Add register access to detect a=
-nd
-> > evaluate interrupts. Implement functions to clear status registers and
-> > reset the FIFO.
-> >
-> > =E2=80=93 Implement FIFO watermark configuration and handling. Allow th=
-e
-> > watermark level to be set, evaluate the corresponding interrupt, read
-> > the FIFO contents, and push the data to the IIO channel.
->
-> ...
->
-> > +       int_line =3D ADXL313_INT1;
-> > +       irq =3D fwnode_irq_get_byname(dev_fwnode(dev), "INT1");
-> > +       if (irq < 0) {
-> > +               int_line =3D ADXL313_INT2;
-> > +               irq =3D fwnode_irq_get_byname(dev_fwnode(dev), "INT2");
-> > +               if (irq < 0)
-> > +                       int_line =3D ADXL313_INT_NONE;
-> > +       }
-> > +
-> > +       if (int_line !=3D ADXL313_INT_NONE) {
->
-> > +       } else {
->
-> > +       }
->
-> What I meant is something like this:
->
->
->        int_line =3D ADXL313_INT_NONE;
->        irq =3D fwnode_irq_get_byname(dev_fwnode(dev), "INT1");
->        if (irq > 0) {
->               int_line =3D ADXL313_INT1;
->        } else {
->                irq =3D fwnode_irq_get_byname(dev_fwnode(dev), "INT2");
->                if (irq > 0)
->                       int_line =3D ADXL313_INT2;
->        }
->
->        if (int_line =3D=3D ADXL313_INT_NONE) {
->    ...
->        } else {
->    ...
->        }
->
+You are convincing me with this that, cpu.stat fits the concept better.
+Doesn't that sound like that to you?
 
-I probably got this wrong. I interpreted Jonathans review [PATCH v3
-06/12] in the above way. Anyway, I did not read his second phrase. I
-agree, flipping if / else case and going by '=3D=3D' instead of '!=3D'
-simplifies it.
-   ...
-    > +
-    > + if (int_line =3D=3D ADXL313_INT1 || int_line =3D=3D ADXL313_INT2) {
+> Regarding the threaded subtrees mode, I was previously unfamiliar with
+> it and have been trying to understand it better.
 
-    Why not int_line !=3D ADXL313_INT_NONE ?
-    Or flip the logic so that you do that case first.
-    ...
-https://marc.info/?l=3Dlinux-iio&m=3D174817641830144&w=3D2
+No problem.
 
+> If I understand correctly, if threads within a single process are
+> placed in different cgroups via cpuset, we might need to scan
+> /proc/<PID>/sched to collect NUMA task migration/swap statistics.
 
-> Obviously with a helper you can unnest the if-else-if above.
->
-> static unsigned int _get_int_type(...)
-> {
->     if (irq > 0)
->         return ...
->     return _NONE;
-> }
->
+The premise of your series was that you didn't want to do that :-)
 
-Well, indeed. That's definitely the obvious simplification needed
-here. Thanks for pointing out.
+> I agree with your prior point that NUMA balancing task activity is not
+> directly
+> associated with either the Memory controller or the CPU controller. Altho=
+ugh
+> showing this data in cpu.stat might seem more appropriate, we expose it in
+> memory.stat due to the following trade-offs(or as an exception for
+> NUMA balancing):
+>=20
+> 1.It aligns with existing NUMA-related metrics already present in
+> memory.stat.
 
-> --
-> With Best Regards,
-> Andy Shevchenko
+That one I'd buy into. OTOH, I'd hope this could be overcome with
+documentation.
+
+> 2.It simplifies code implementation.
+
+I'd say that only applies when accepting memory.stat as the better
+place. I think the appropriately matching API should be picked first and
+implementation is only secondary to that.
+=46rom your reasoning above, I think that the concept is closer to be in
+cpu.stat =C2=AF\_(=E3=83=84)_/=C2=AF
+
+Michal
+
+--q522php5dxz4ohq7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaFE1qQAKCRB+PQLnlNv4
+CAvDAQClJdOJ0v+nc22UzxOE8RNWod98jZVrUDcK730qHKFJJwEA18yLv+cZIXXl
+mdhsA08UxzTGxv2zWwOY5iIzS+UDGQc=
+=CM6f
+-----END PGP SIGNATURE-----
+
+--q522php5dxz4ohq7--
