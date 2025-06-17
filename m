@@ -1,251 +1,251 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38D018991E;
-	Tue, 17 Jun 2025 17:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A21285079;
+	Tue, 17 Jun 2025 17:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750181016; cv=none; b=Pik7oMFiNwi3MDKKcRWPRzyHqPq1BA/dv9SmToK+3fj8A/HrGnTpJyLyHx9EiVa1sqhZLDXrf5ZBPD4UBV1ajITUr8ni34NLix7U4WFyJnCZ3Pdh7v9gawnZeY30Qh3dpVH8Wab+YEXak7e39B433EQTtYDNRRYkVh5sfTRiMhA=
+	t=1750181411; cv=none; b=M3ab12ykDaUTdXGZSl2Vvq0DYg+VzgrPtXhlBuvO7LWlfIcDzaGVSpEEr6w9I+lcQNkFi98HrCE1IxIkGQHDO3VezK5DSbc5QL6J1e5DerJL+DO32dZfoUKoDj3LVN5UTnvTLwq7sGms7cXVkTc4qaUEFpjDT5qzroWuwq+nXL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750181016; c=relaxed/simple;
-	bh=Hrcbm7dR2at0MkRPfeNTjwQ82G1ZwMmIaW0GWSsNuu4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uqB0VHuxEDkxAZA/kwnusmEUg9qNhc3tbw9NV4zOV9S4tBSZ7FPcEYnTv5fbvRLuyYWjwn2epmhOL73ttIgTKbPDEs6gVLv5gTTfFkQ1ZAw7G3pWVfOephFZ1gYT0owUeVrwk7yoXFws9mtzgVMdS+BDv1wzfqtKcfi6IWBCojs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RPk66WYa; arc=none smtp.client-ip=209.85.160.41
+	s=arc-20240116; t=1750181411; c=relaxed/simple;
+	bh=IGsmcuwJXjEnfGubxZ1RKl4+HzWgxpXUtAwOzTFRY3k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=UufTX3qONshQpMXGctEFZdo92xE8vseZyMQXk5tPKLCGFFedX0Q0b7wWqP0NWiAWsvfk0gPTpfE1S8jjNX5XxkxSKqiL1cd0j9e7/u12/Oj5sOCJmJp/g107yrzpzNjRsAgKhQG4/togmrm3QdBvbuUWR7ZJzpM4HQXOZrN4g9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mc6fMNVw; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RPk66WYa"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2e8f84653c3so1196674fac.0;
-        Tue, 17 Jun 2025 10:23:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mc6fMNVw"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b2c4476d381so5027198a12.0;
+        Tue, 17 Jun 2025 10:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750181014; x=1750785814; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ej9TAlXzgN0LHQcsnKzmV9b6lBqh4sRH5fw58an3btI=;
-        b=RPk66WYaSqJeQGpTuQthqsVteSrztCvY0gtEMDS/gyz1l7TDk3xzEBSpdEg75F8fUL
-         uC6MFOnuyPX+ncGbPAuGSop26d+gTlPlc+hHoaqGfxX/nZsSgLo/5n8Eh0bwh960IpXd
-         KSofe5sG8PZjKumPivgOcaarvIujXWNtEp/UiQG/IBIMVRinlRiGisDNhW5FMkZWkZri
-         eE1TxSj25pXkFLQ0h2Vn++6nIxWsRueWH2mrHkU3ZFpFkzAL3e8j2KfPTTxn9YBzXhzz
-         /669dQn1UOL4ym0X9CHhhyHHFpS2PORzngireJICN9Ho2ycbkqMnKh6+PIXLf7hRrMvt
-         oe9w==
+        d=gmail.com; s=20230601; t=1750181409; x=1750786209; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qhk8jGOaZDAa5EqoSmpTbXR4Ag85GcTozQgz77RVrTk=;
+        b=Mc6fMNVw4psH0BJj9Dx3O2/4OH8R+ufmf8k20sZ0xKvMiIsa63nMyw4XNNA52eB3xx
+         1tIQyvRwhm88OMApEeMYAsXpZW2Og0i+qThOnkHYNsgXOpKRqEMs6UVq46wCe++71XCx
+         xhvn+u+NV9V3Ky9UQOBm4EaWIdvNlAIprS5Y2531x7Z9+I8sl0I1M9NookINyME43bpg
+         wMyc+824Lslj5YgUoufrzMWnbS2Or4UUvn7CgeCG4Jwc2tvSLBeaNCR30sO8v+T7PP+d
+         YvIfCJm6V8dgmT5t1xjsmkfpGFVaoepUO5CfRwsMFPhYycTrOG6TYgWd7RPfZi2uVr7e
+         4V3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750181014; x=1750785814;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ej9TAlXzgN0LHQcsnKzmV9b6lBqh4sRH5fw58an3btI=;
-        b=FdupSeEVQgS7Pc7UP4u4bGsps+d5p3mCnUApR4NvZH7FHP+XMXWaFDiDdAqInfDb5s
-         HB2jsysfLMGuOZTsJAg8ra/2D+mdUuMSm786C3PEpJGIa5u1BTH18wh7yjU2s4F14xXf
-         Au4Sequ1UM69sjhTSEmsC3wVDnb7b8b6DsrO/2C1BBZ1hdjj68HQyhQD68jlQSmMSHU1
-         Bt9PEChUytTtqr1eLmZUiIHtxjU8iTKHSKrGcpoID4sGA6Q75dEaXmUXXNV7TkUzG/1i
-         MLb9ne19kti8UxHwYrxzdDRkoqEdhvo/7nG7SMIgDGWfUx2Mjp0tMyBs5DiuiJK7Ijt1
-         Nr3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUelYopJ0DiM0VpNvZG1NU6ch04B2qrocRtwFfZoMvM/69TgJnU0BMqJ32BnG4mjE9AKl8rYfApHpT4Z1I=@vger.kernel.org, AJvYcCW6SZWiZcgeYgQKBOKg8c71G7eRi+e92n0M0+/nUWRxnkYtIstUhHYtc6OCjmCeXlO6MUge82Ph@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEKBalB0R6oK6AN5hXUag52+lXJZRQ7kJbD0IRz0peFvnx64jw
-	E2Q/OFSilIAyB3bEGJwbPR0D+sScIeFyFQy2RAHek0JoPjOix62y2hxiRgyUJ85Be9SkZAjP/U/
-	Awi1CQBK0oCWVmGvEwavcWhLM6ajQG8M=
-X-Gm-Gg: ASbGncuEsRZ0/Ndsk/VmJw7pSuEnOqvQEgbcHFLGaE6F0Vtw9fVKVEIwnuOrFq4aNMG
-	AQGmZNLm6vdxGkWLCJPPLnO6qleo7wm7j2I307Zd0HuNCcG09jSs1i+NVLfdG5o6z1ebqHXbq4O
-	5fm7Aif4UBwSCQ8HWRFaAJR9iFT4enn7kcYUJE14w7YeX6tkPJs+2+Jphb7ugCX4Uwm3WOPKYDf
-	w==
-X-Google-Smtp-Source: AGHT+IGHKF0IR41tdCiQQ/QwZTYP3zh1WNnW6OvBJ5ZDaIV3FvSbKqv8iszY6CxnH5G025ZAAXULy+HPrKZVqCHkgAU=
-X-Received: by 2002:a05:6871:e785:b0:2e8:7953:ece7 with SMTP id
- 586e51a60fabf-2eaf08390ecmr8933677fac.24.1750181013728; Tue, 17 Jun 2025
- 10:23:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750181409; x=1750786209;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qhk8jGOaZDAa5EqoSmpTbXR4Ag85GcTozQgz77RVrTk=;
+        b=MDZNae7wpEho9WvnCr7AF1SS/kIe5IwbKBaSuya6Eh26bKCpg9220wOM7UUBKEnOwL
+         ysplYbD3YrDu895S2059YyuJUnSoT/nI9SntjtOo+CDu6dXf19EZaY9zliZ/gvnwJjh7
+         lqZR7qxabaIMrmKNo37RdZcZBJVUdPvXn/7zCFMUcVAeg68GZwxaWeYY3Y/Aj3olbrFj
+         of0h3RDxLHJLFe1Zpi4kDg+06PkeDd97S8uHf31XENgdMXiSeZxSabS0bRtMFlqGDHmh
+         U2O75/MQlzwBinIV963u0U9/Ufa6eB2nj26kmsMIqf39Qwf036qh4d2weIbGFZ6qvJAQ
+         3HMg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCEr2v5dfubSawnJtLVYgvnI8XM2YzpGA/IsVkqSpHE2vI8EKt7s0JssvaRLofcBCZN6D1KO2RW1DjmszM@vger.kernel.org, AJvYcCUMcG3dl3mR++0FTqQOdwgNVP/gosK9JrUxwuMZgu3Yj7r0qC3xt0m8tbxE87sV14IrntVyOZOFMAgQug==@vger.kernel.org, AJvYcCUVN7g7KEUARBWx6ixcy4/BII/6AqPPBjCkY2BSx6mob+pzZfzVFfWpNhBCVICawNQbaaWjca09t/Ll@vger.kernel.org, AJvYcCVcvzmAxwwr73rEuX5WEODpmj8Ca0oOcu3cYAD/bu8W1Xf55m2+45S8uogkIrrFMsF4+ecnHdTpfoOS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/Vjrw8eDp9j0923AaX/4vggxfFnys4mi9cS5U2Jjg0Pdfv0Nw
+	VhSVocyVxkRvgq0bwCXAyLwvqNZC8lXJ7cb1TajjtdiHd1O03Wx7n/cQ
+X-Gm-Gg: ASbGncvrXd4usIiurVdqt2aIuKCo2552Mq8HnHQZcweNxgunNxmbpwv4W5AMI+7KfAt
+	qFeLk+iqf/jTRTL1ZlnuZ5ro6cURxm3jTl/RI8nhYaTAhXX7Q5V5IwHXwwa84RL4gt/n9ZcSTzw
+	18h2p/4uS5F2j4UDntR4FvMF0mX5J6ED9QXJ8isacmB4AGNmIROjUxB+/8TleiNOx+wwgR0pjZ6
+	t37USgpVtKnp9c32yr6iFROs6PB101TFRAgSLyhN3SLzdhWORQohQdztKH40DdvQlMZOwhQ2xMQ
+	9tTeQW6B3Xu2L2254+9hadAiMDbJRFzUPLrwYWCPwVwqzVAagj6eZlL4hXU7YOS4l9lIEaG82OG
+	ZMwwWI4k=
+X-Google-Smtp-Source: AGHT+IFLuD8HTG8FAQ2HO+cOiu9Tara6TS9wXId7+ckrwN5AmK8tAnFnQoZlxup6NCubrca7a8vZhg==
+X-Received: by 2002:a05:6a21:6f8b:b0:21c:fa68:9da6 with SMTP id adf61e73a8af0-21fbc6c773fmr22731462637.8.1750181408701;
+        Tue, 17 Jun 2025 10:30:08 -0700 (PDT)
+Received: from DESKTOP-P76LG1N.lan ([42.113.163.91])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748e1a26105sm440535b3a.45.2025.06.17.10.30.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 10:30:08 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: christophe.jaillet@wanadoo.fr
+Cc: lee@kernel.org,
+	pavel@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 2/4] leds: add TI/National Semiconductor LP5812 LED Driver
+Date: Wed, 18 Jun 2025 00:30:03 +0700
+Message-Id: <20250617173003.28933-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <42676fe3-8758-42ea-8e21-9c3955468c78@wanadoo.fr>
+References: <42676fe3-8758-42ea-8e21-9c3955468c78@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1750146719.git.mchehab+huawei@kernel.org>
- <c407d769c9f47083e8f411c13989522e32262562.1750146719.git.mchehab+huawei@kernel.org>
- <m27c1ak0k9.fsf@gmail.com> <20250617154049.104ef6ff@sal.lan> <20250617180001.46931ba9@sal.lan>
-In-Reply-To: <20250617180001.46931ba9@sal.lan>
-From: Donald Hunter <donald.hunter@gmail.com>
-Date: Tue, 17 Jun 2025 18:23:22 +0100
-X-Gm-Features: Ac12FXxjYAQl11Cjy04pJrUUVKxkLrmxF1LVKWdXWiav8_AOc6p_ww281gT6_58
-Message-ID: <CAD4GDZzWMoxnatNXYbKOphzVZ4NyedD5FtjxF7cgB1ad-wDFWg@mail.gmail.com>
-Subject: Re: [PATCH v5 10/15] docs: sphinx: add a parser for yaml files for
- Netlink specs
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Akira Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Ignacio Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>, 
-	Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, joel@joelfernandes.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org, 
-	stern@rowland.harvard.edu
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 17 Jun 2025 at 17:00, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
-> >
-> > (2) is cleaner and faster, but (1) is easier to implement on an
-> > already-existing code.
->
-> The logic below implements (1). This seems to be the easiest way for
-> pyyaml. I will submit as 2 separate patches at the end of the next
-> version.
->
-> Please notice that I didn't check yet for the "quality" of the
-> line numbers. Some tweaks could be needed later on.
+On Tue, 10 Jun 2025, Christophe JAILLET wrote:
 
-Thanks for working on this. I suppose we might be able to work on an
-evolution from (1) to (2) in a followup piece of work?
+> > +static struct lp5812_data *lp5812_of_populate_pdata(struct device *dev,
+> > +						    struct device_node *np,
+> > +						    struct lp5812_chip *chip)
+> > +{
+> > +	struct device_node *child;
+> > +	struct lp5812_data *pdata;
+> > +	struct lp5812_led_config *cfg;
+> > +	int num_channels, i = 0, ret;
+> > +
+> > +	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+> > +	if (!pdata)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	num_channels = of_get_available_child_count(np);
+> > +	if (num_channels == 0) {
+> > +		dev_err(dev, "no LED channels\n");
+> > +		return ERR_PTR(-EINVAL);
+> > +	}
+> > +
+> > +	cfg = devm_kcalloc(dev, num_channels, sizeof(*cfg), GFP_KERNEL);
+> > +	if (!cfg)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	pdata->led_config = &cfg[0];
+> > +	pdata->num_channels = num_channels;
+> > +
+> > +	for_each_available_child_of_node(np, child) {
+> 
+> Maybe for_each_available_child_of_node_scoped() to slihtly simplify the 
+> code?
 
-> Regards,
-> Mauro
->
-> ---
->
-> From 750daebebadcd156b5fe9b516f4fae4bd42b9d2c Mon Sep 17 00:00:00 2001
-> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Date: Tue, 17 Jun 2025 17:54:03 +0200
-> Subject: [PATCH] docs: parser_yaml.py: add support for line numbers from the
->  parser
->
-> Instead of printing line numbers from the temp converted ReST
-> file, get them from the original source.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->
-> diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
-> index 635945e1c5ba..15c642fc0bd5 100755
-> --- a/Documentation/sphinx/parser_yaml.py
-> +++ b/Documentation/sphinx/parser_yaml.py
-> @@ -29,6 +29,8 @@ class YamlParser(Parser):
->
->      netlink_parser = YnlDocGenerator()
->
-> +    re_lineno = re.compile(r"\.\. LINENO ([0-9]+)$")
-> +
->      def do_parse(self, inputstring, document, msg):
->          """Parse YAML and generate a document tree."""
->
-> @@ -38,8 +40,14 @@ class YamlParser(Parser):
->
->          try:
->              # Parse message with RSTParser
-> -            for i, line in enumerate(msg.split('\n')):
-> -                result.append(line, document.current_source, i)
-> +            lineoffset = 0;
-> +            for line in msg.split('\n'):
-> +                match = self.re_lineno.match(line)
-> +                if match:
-> +                    lineoffset = int(match.group(1))
-> +                    continue
-> +
-> +                result.append(line, document.current_source, lineoffset)
->
->              rst_parser = RSTParser()
->              rst_parser.parse('\n'.join(result), document)
->
-> From 15c1f9db30f3abdce110e19788d87f9fe1417781 Mon Sep 17 00:00:00 2001
-> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Date: Tue, 17 Jun 2025 17:28:04 +0200
-> Subject: [PATCH] tools: netlink_yml_parser.py: add line numbers to parsed data
->
-> When something goes wrong, we want Sphinx error to point to the
-> right line number from the original source, not from the
-> processed ReST data.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->
-> diff --git a/tools/net/ynl/pyynl/netlink_yml_parser.py b/tools/net/ynl/pyynl/netlink_yml_parser.py
-> index 866551726723..a9d8ab6f2639 100755
-> --- a/tools/net/ynl/pyynl/netlink_yml_parser.py
-> +++ b/tools/net/ynl/pyynl/netlink_yml_parser.py
-> @@ -20,6 +20,16 @@
->  from typing import Any, Dict, List
->  import yaml
->
-> +LINE_STR = '__lineno__'
-> +
-> +class NumberedSafeLoader(yaml.SafeLoader):
-> +    """Override the SafeLoader class to add line number to parsed data"""
-> +
-> +    def construct_mapping(self, node):
-> +        mapping = super().construct_mapping(node)
-> +        mapping[LINE_STR] = node.start_mark.line
-> +
-> +        return mapping
->
->  class RstFormatters:
->      """RST Formatters"""
-> @@ -127,6 +137,11 @@ class RstFormatters:
->          """Return a formatted label"""
->          return f".. _{title}:\n\n"
->
-> +    @staticmethod
-> +    def rst_lineno(lineno: int) -> str:
-> +        """Return a lineno comment"""
-> +        return f".. LINENO {lineno}\n"
-> +
->  class YnlDocGenerator:
->      """YAML Netlink specs Parser"""
->
-> @@ -144,6 +159,9 @@ class YnlDocGenerator:
->          """Parse 'do' section and return a formatted string"""
->          lines = []
->          for key in do_dict.keys():
-> +            if key == LINE_STR:
-> +                lines.append(self.fmt.rst_lineno(do_dict[key]))
-> +                continue
->              lines.append(self.fmt.rst_paragraph(self.fmt.bold(key), level + 1))
->              if key in ['request', 'reply']:
->                  lines.append(self.parse_do_attributes(do_dict[key], level + 1) + "\n")
-> @@ -174,6 +192,10 @@ class YnlDocGenerator:
->              lines.append(self.fmt.rst_paragraph(operation["doc"]) + "\n")
->
->              for key in operation.keys():
-> +                if key == LINE_STR:
-> +                    lines.append(self.fmt.rst_lineno(operation[key]))
-> +                    continue
-> +
->                  if key in preprocessed:
->                      # Skip the special fields
->                      continue
-> @@ -233,6 +255,9 @@ class YnlDocGenerator:
->          for definition in defs:
->              lines.append(self.fmt.rst_section(namespace, 'definition', definition["name"]))
->              for k in definition.keys():
-> +                if k == LINE_STR:
-> +                    lines.append(self.fmt.rst_lineno(definition[k]))
-> +                    continue
->                  if k in preprocessed + ignored:
->                      continue
->                  lines.append(self.fmt.rst_fields(k, self.fmt.sanitize(definition[k]), 0))
-> @@ -268,6 +293,9 @@ class YnlDocGenerator:
->                  lines.append(self.fmt.rst_subsubsection(attr_line))
->
->                  for k in attr.keys():
-> +                    if k == LINE_STR:
-> +                        lines.append(self.fmt.rst_lineno(attr[k]))
-> +                        continue
->                      if k in preprocessed + ignored:
->                          continue
->                      if k in linkable:
-> @@ -306,6 +334,8 @@ class YnlDocGenerator:
->          lines = []
->
->          # Main header
-> +        lineno = obj.get('__lineno__', 0)
-> +        lines.append(self.fmt.rst_lineno(lineno))
->
->          family = obj['name']
->
-> @@ -354,7 +384,7 @@ class YnlDocGenerator:
->      def parse_yaml_file(self, filename: str) -> str:
->          """Transform the YAML specified by filename into an RST-formatted string"""
->          with open(filename, "r", encoding="utf-8") as spec_file:
-> -            yaml_data = yaml.safe_load(spec_file)
-> -            content = self.parse_yaml(yaml_data)
-> +            numbered_yaml = yaml.load(spec_file, Loader=NumberedSafeLoader)
-> +            content = self.parse_yaml(numbered_yaml)
->
->          return content
->
+Thanks, I'll switch to for_each_available_child_of_node_scoped().
+
+> > +static ssize_t lp5812_aeu_slope_time(struct device *dev,
+> > +				     struct device_attribute *attr,
+> > +				     enum slope_time_num slope_chan,
+> > +				     const char *buf, size_t len)
+> > +{
+> > +	struct lp5812_led *led;
+> > +	struct lp5812_chip *chip;
+> > +	struct lp5812_led_config *led_cfg;
+> > +	const char *name = dev->platform_data;
+> > +	int val[LED_COLOR_ID_MAX];
+> > +	u8 chan_nr = 0;
+> > +	char *sub_str, *str = (char *)buf;
+> > +	int i, ret, aeu;
+> > +	union slope_time slope_time_val;
+> > +	u16 reg;
+> > +
+> > +	if (strcmp(name, LP5812_SC_LED) == 0)
+> > +		led = dev_to_lp5812_led(dev);
+> > +	else
+> > +		led = dev_to_lp5812_led_mc(dev);
+> > +
+> > +	chan_nr = led->chan_nr;
+> > +	chip = led->chip;
+> > +	led_cfg = &chip->pdata->led_config[chan_nr];
+> > +
+> > +	sub_str = strsep(&str, ":");
+> > +	if (!sub_str)
+> > +		return -EINVAL;
+> > +	if (kstrtoint(&sub_str[3], 0, &aeu))
+> > +		return -EINVAL;
+> > +
+> > +	pr_info("AEU = %d", aeu);
+> > +
+> > +	guard(mutex)(&chip->lock);
+> > +	for (i = 0; i < led_cfg->num_colors; i++) {
+> > +		sub_str = strsep(&str, " ");
+> > +		if (!sub_str)
+> > +			return -EINVAL;
+> > +		if (kstrtoint(sub_str, 0, &val[i]))
+> > +			return -EINVAL;
+> > +		if (val[i] < 0 || val[i] > 15)
+> > +			return -EINVAL;
+> > +
+> > +		reg = LP5812_AEU_SLOPE_TIME_ADDR(led_cfg->led_id[i], aeu, slope_chan);
+> > +
+> > +		/* get original value of slope time */
+> > +		ret = lp5812_read(chip, reg, &slope_time_val.time_val);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		/* Update new value for slope time*/
+> > +		if (slope_chan == LP5812_SLOPE_TIME_T1 || slope_chan == LP5812_SLOPE_TIME_T3)
+> > +			slope_time_val.s_time.first = val[i];
+> > +		if (slope_chan == LP5812_SLOPE_TIME_T2 || slope_chan == LP5812_SLOPE_TIME_T4)
+> > +			slope_time_val.s_time.second = val[i];
+> > +
+> > +		/* Save updated value to hardware */
+> > +		ret = lp5812_write(chip, reg, slope_time_val.time_val);
+> 
+> Should we do something if ret != 0?
+
+Yes. I'll add a return check to handle possible write errors.
+
+> > +static struct attribute *lp5812_led_attrs[] = {
+> > +	&dev_attr_led_current.attr,
+> > +	&dev_attr_max_current.attr,
+> > +	&dev_attr_mode.attr,
+> > +	&dev_attr_activate.attr,
+> > +	&dev_attr_pwm_dimming_scale.attr,
+> > +	&dev_attr_pwm_phase_align.attr,
+> > +	&dev_attr_auto_time_pause_at_start.attr,
+> > +	&dev_attr_auto_time_pause_at_stop.attr,
+> > +	&dev_attr_auto_playback_eau_number.attr,
+> > +	&dev_attr_auto_playback_time.attr,
+> > +	&dev_attr_aeu_playback_time.attr,
+> > +	&dev_attr_aeu_pwm1.attr,
+> > +	&dev_attr_aeu_pwm2.attr,
+> > +	&dev_attr_aeu_pwm3.attr,
+> > +	&dev_attr_aeu_pwm4.attr,
+> > +	&dev_attr_aeu_pwm5.attr,
+> > +	&dev_attr_aeu_slop_time_t1.attr,
+> > +	&dev_attr_aeu_slop_time_t2.attr,
+> > +	&dev_attr_aeu_slop_time_t3.attr,
+> > +	&dev_attr_aeu_slop_time_t4.attr,
+> > +	&dev_attr_lod_lsd.attr,
+> > +	NULL,
+> 
+> Unneeded trailing comma after a terminator.
+
+I'll remove it.
+
+> > +static int lp5812_init_led(struct lp5812_led *led, struct lp5812_chip *chip, int chan)
+> > +{
+> > +	struct lp5812_data *pdata = chip->pdata;
+> > +	struct device *dev = &chip->i2c_cl->dev;
+> > +	struct mc_subled *mc_led_info;
+> > +	struct led_classdev *led_cdev;
+> > +	char name[32];
+> > +	int i, ret = 0;
+> > +
+> > +	if (pdata->led_config[chan].name) {
+> > +		led->cdev.name = pdata->led_config[chan].name;
+> > +	} else {
+> > +		snprintf(name, sizeof(name), "%s:channel%d",
+> > +			 pdata->label ? : chip->i2c_cl->name, chan);
+> > +		led->cdev.name = name;
+> 
+> Is it fine below when 'name' is defined on the stack and is used...
+> 
+> > +	}
+> > +
+> > +	if (pdata->led_config[chan].is_sc_led == 0) {
+> > +		mc_led_info = devm_kcalloc(dev,
+> > +					   pdata->led_config[chan].num_colors,
+> > +					   sizeof(*mc_led_info), GFP_KERNEL);
+> > +		if (!mc_led_info)
+> > +			return -ENOMEM;
+> > +
+> > +		led_cdev = &led->mc_cdev.led_cdev;
+> > +		led_cdev->name = led->cdev.name;
+> 
+> ...here?
+
+You're right, name was stack-allocated and unsafe to use after the function returns.
+I'll replace it with a devm_kasprintf() allocation.
+
+Appreciate your time and feedback.
+
+Best regards,
+Nam Tran
