@@ -1,139 +1,216 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4152C290098
-	for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 10:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2B31C54AF;
+	Tue, 17 Jun 2025 10:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750154507; cv=none; b=gkDguhjc0yHDLCa7sq7W0eXh3n16U0N5I/KH2qmQgdtH1BP17VMlRyVVdpaj5snSGKkWtzXflJQs/nO+8Mxp2kJ2Ex4vb2GjH64mUz0h+/TL5khbSmQ2FslouBoNoyTNudi4xyWJX2ccX+F78kePPmAlWAqRGZyR/cThMAYM4No=
+	t=1750155045; cv=none; b=teXFVuv5Lj8WnlzP5V8l57l7EJsv8K7opqBginZ615xM9KDQlMEUmF2aehNjDpFTh7AXwdfHuERcFwN/v7KYLGujKMls4riijb+QA8w8KhGP5SyxsfNJMjUA08W6CGGoFyTIVJSYolcOOm+oVctrgXoGI96VRvPd6UMUgzUHU+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750154507; c=relaxed/simple;
-	bh=A2LC6GqsevpUwEIgXIpzinCx/FD1mSRECcK3/Nn4/jE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l9QsfB1OzpVOr5qFBDthU/ML4GqwfYZxsHJf7MWBj/GeJbz/3rzQ9RUnqV2syGPgUftp4Hi7db+nct55UF+2g+gtryZOrApsnwaEwKPbeuWLZX8GDMKR+N/1lYPKd5Xzaln+MmdDgakppzZi5BLeU44kd6NphQVo19MdcG7wAWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PkOD4Q7p; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ozWp7ZwC; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PkOD4Q7p; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ozWp7ZwC; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1750155045; c=relaxed/simple;
+	bh=Oh6JNsGfOd/rf477makqU9ZFTzq4ZnDOsis1RpQYgrQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aytgTJAQPQuht0nAI7rzFIaPE780YnlrXucsRbbU6Dabt33dJxPT8krwXEIOf9yIugahunz22FvfrwmRx7IagdZ9N3zpi19HBhmx6fbKXR2Pnbdbs2u7gJThGrktRf/OsG0oF4NpE7nMZ/671DJV8W9amB+YF/z34wnwCiqUV5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HU2YaZLi; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PkOD4Q7p";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ozWp7ZwC";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PkOD4Q7p";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ozWp7ZwC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 922E92116E;
-	Tue, 17 Jun 2025 10:01:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750154504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/0/c1jRHbOOi2fD77j9U000fp9UwHVTeX+y2pfe4OJw=;
-	b=PkOD4Q7pAl2e21eYnf7PHxPL85v7MJYetKYkBy/x3pDChAUKJSah4YhZT2Un0pvcPlKPPx
-	VH0c8qCJc+b2aK5OwTEqDajSjlcyMxtOsYQ0zVtcRGDr29AFKQg4EHYlMt46yk7vyrEJJ+
-	8tk9kXgkiT2rnuypxW9RqAxVJ/Z0tco=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750154504;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/0/c1jRHbOOi2fD77j9U000fp9UwHVTeX+y2pfe4OJw=;
-	b=ozWp7ZwCxbEuiBaqap36yKTS4pWdKFkGb9xWtrYHqtLqmTH+iuyyzjq5r+522wG6TbGh6/
-	9aiHJDpyNfhvuyDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750154504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/0/c1jRHbOOi2fD77j9U000fp9UwHVTeX+y2pfe4OJw=;
-	b=PkOD4Q7pAl2e21eYnf7PHxPL85v7MJYetKYkBy/x3pDChAUKJSah4YhZT2Un0pvcPlKPPx
-	VH0c8qCJc+b2aK5OwTEqDajSjlcyMxtOsYQ0zVtcRGDr29AFKQg4EHYlMt46yk7vyrEJJ+
-	8tk9kXgkiT2rnuypxW9RqAxVJ/Z0tco=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750154504;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/0/c1jRHbOOi2fD77j9U000fp9UwHVTeX+y2pfe4OJw=;
-	b=ozWp7ZwCxbEuiBaqap36yKTS4pWdKFkGb9xWtrYHqtLqmTH+iuyyzjq5r+522wG6TbGh6/
-	9aiHJDpyNfhvuyDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8571A13A69;
-	Tue, 17 Jun 2025 10:01:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zriMIAg9UWifFQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 17 Jun 2025 10:01:44 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3A074A29F0; Tue, 17 Jun 2025 12:01:44 +0200 (CEST)
-Date: Tue, 17 Jun 2025 12:01:44 +0200
-From: Jan Kara <jack@suse.cz>
-To: Junxuan Liao <ljx@cs.wisc.edu>
-Cc: Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH 1/1] docs/vfs: update references to i_mutex to i_rwsem
-Message-ID: <zrxbf3nzuyhv2xt6xof7fn2bodthwiib7sooeknt2cdsivdpiv@qezwyhi3shgo>
-References: <666eabb6-6607-47f4-985a-0d25c764b172@cs.wisc.edu>
- <fd087bc3-879f-4444-b4ad-601a3632d138@cs.wisc.edu>
- <fduatokkcmrhtndxbmkcarycto5su7gb7jfkcb53gvzflj5o5a@itnis2jwtdt6>
- <f3eb815b-8c47-4001-b6e6-ec47ae10b288@cs.wisc.edu>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HU2YaZLi"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-70b684670e7so7232457b3.2;
+        Tue, 17 Jun 2025 03:10:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750155043; x=1750759843; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0ZGKO5x6XdddWXc4g4w2O+8ZmZY2wX1dN9F6EdAgivM=;
+        b=HU2YaZLilVvURVqcaxBVyKJix+A7Vs556V0a3OUpRi9jYQXwnCsx5GObJ11vMubULE
+         dkvvFCyS7T70f3S0RzN2hQ8mAjK6WCMwwflgOX8FLJPJuQJ/uQSzmliU4LWNE/FqWH+1
+         0tw5szsX7td2QJj1hVUtTnTBpHy6s4yjfuiFBENilWfOXX9or2zTMHeL1s3tm5Lazzsm
+         MpZikNj66oA7YakUOYtl3UUneSfLnoaMlI0CqS5HcFu1shMlX8rWqoZ7GaHQ+QBGnqxw
+         IdCKrEJeD7RtkDcvJwzfvG5tl88t6i1llqzPw0XO8s7dvBNP5Vi+v3Q1Dx6TqVlQ1zew
+         IJVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750155043; x=1750759843;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0ZGKO5x6XdddWXc4g4w2O+8ZmZY2wX1dN9F6EdAgivM=;
+        b=f887LeSYQ7TGrDE6+zNn7mCCFmlI0Sn3lUnUI0PQuVS+/rq2GlDMGTaH4HAbjd+tAI
+         Z9vAgFhfOLJIuOxGt7AlaMSkY7DSb+EqQNqdcga28klkrHeHPdUCcDK30lzmJP5fBWh4
+         6QpEbpp20IujApnilwLfpFhRY5vYjcYyoM0dejsP0wzJ9Uf36c4t97FmEOHl64Lwvp7F
+         N+cG/Ecmp2F39srFkP2UW8DwOH8SO7dTmxlBn6Th0VtBv/F5tXxL5CBGFsdel8NXwbyI
+         7HIKwksUBTO+0YO15LV3dH1WJl2ZMnvhysl0071Cbh5yxRaWbGqLFYiQGpQdiKMRovhL
+         c9Xw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFP2+hF5UH7/zgrMaAFWH7pS//OVgWIHBwV6q9csKpQ0+Ej0mfdTLHUInCRI8gsYG74IeBiJqilzw=@vger.kernel.org, AJvYcCUYMjfBipHb7DVyHvcHFQ9D5wX71weOU29j0x7oDEZo1i5Vh//zIZOts7rfiTEb07idfYOhpUnupt6ZsONc@vger.kernel.org, AJvYcCWY9TlOpQO4p4uuKMO48VUi1OBeFuqQd9BHmV9S8SMIfsxrz8z3KPoyqrefdT3cL56pbp8CUmJe8mbh@vger.kernel.org
+X-Gm-Message-State: AOJu0YyafvtHLK5+EbcT31FH+6LiM4Mz8XFLCllUEPu1m18xQzRqpQoU
+	tCh6tbUvOW37CILeDiOcn+Lz9yRBWqfWx4zDEvoWjNMJU2W5Wf2s49m+H6RjdMSv/DbKZX6R5Ls
+	OxP2+Obwp3S0pDuitn0OeU6WoNIgA9qA=
+X-Gm-Gg: ASbGnctlmnn1b/CpHjF4o4J6TpIUo9ZEL6U6A3efKrX0yWmKYWjwKU8wUP9a33YzpU2
+	cUjrGvX6yoHifdvc7sMFJcghDFcn3wQR/ulVbB4rankBkh/j3dOZJyyfQNPHmm6727k5Ld72Etg
+	XYSL3Tw0qz5s1wm/mO+B5CZwsI3Z2xOIm61SZGEIaAEVE=
+X-Google-Smtp-Source: AGHT+IEZc/AD0J55tXg6Ukf+xfhMse7bT2H6yEGuPuIv70h5Zk70N7ADYKHwKH4z9Lquuw4Es/z0zbRFpS3teMLDhv4=
+X-Received: by 2002:a05:690c:690a:b0:70e:7613:e310 with SMTP id
+ 00721157ae682-7117536d4f7mr81090447b3.2.1750155042733; Tue, 17 Jun 2025
+ 03:10:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3eb815b-8c47-4001-b6e6-ec47ae10b288@cs.wisc.edu>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
+References: <20250615222258.117771-1-l.rubusch@gmail.com> <20250615222258.117771-6-l.rubusch@gmail.com>
+ <CAHp75VdWtY6nxFFTucoCRiq+tM5caL5N1yp_15=FSAZ7Vyk_7Q@mail.gmail.com>
+In-Reply-To: <CAHp75VdWtY6nxFFTucoCRiq+tM5caL5N1yp_15=FSAZ7Vyk_7Q@mail.gmail.com>
+From: Lothar Rubusch <l.rubusch@gmail.com>
+Date: Tue, 17 Jun 2025 12:10:07 +0200
+X-Gm-Features: AX0GCFsOTPqZtdkeHmR1IdSRpCW1YzD0FgmIWYUbxJbhg65j8g4GAiiQdgHV56c
+Message-ID: <CAFXKEHYzaCCNbZo47AUHFEyS=HBFZnVNEHeQG+4VA2jhhT+yEw@mail.gmail.com>
+Subject: Re: [PATCH v5 5/8] iio: accel: adxl313: add inactivity sensing
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, bagasdotme@gmail.com, linux-iio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon 16-06-25 11:21:17, Junxuan Liao wrote:
-> 
-> 
-> On 6/16/25 5:10 AM, Jan Kara wrote:
-> > Otherwise the changes look good to me.
-> 
-> Thanks! Just for clarification, is the __d_move comment accurate? i.e.
-> Does it assume the two i_rwsem's are locked in shared mode?
+Hi Andy / Hi Jonathan,
 
-Currently, both i_rwsems are expected to be held exclusively in this case.
-Generally anything modifying directory contents must be holding i_rwsem of
-that directory exclusively. However note that this is subject to change at
-least in some cases with the work Neil Brown is doing [1].
+Two questions down below.
 
-								Honza
+On Mon, Jun 16, 2025 at 12:59=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Mon, Jun 16, 2025 at 1:23=E2=80=AFAM Lothar Rubusch <l.rubusch@gmail.c=
+om> wrote:
+> >
+[...]
+> > +       switch (info) {
+> > +       case IIO_EV_INFO_VALUE:
+> > +               switch (dir) {
+> > +               case IIO_EV_DIR_RISING:
+> > +                       ret =3D regmap_read(data->regmap,
+> > +                                         adxl313_act_thresh_reg[ADXL31=
+3_ACTIVITY],
+> > +                                         &act_threshold);
+> > +                       if (ret)
+> > +                               return ret;
+> > +                       *val =3D act_threshold * 15625;
+> > +                       *val2 =3D MICRO;
+> > +                       return IIO_VAL_FRACTIONAL;
+> > +               case IIO_EV_DIR_FALLING:
+> > +                       ret =3D regmap_read(data->regmap,
+> > +                                         adxl313_act_thresh_reg[ADXL31=
+3_INACTIVITY],
+> > +                                         &inact_threshold);
+> > +                       if (ret)
+> > +                               return ret;
+>
+> > +                       *val =3D inact_threshold * 15625;
+> > +                       *val2 =3D MICRO;
+> > +                       return IIO_VAL_FRACTIONAL;
+> > +               default:
+> > +                       return -EINVAL;
+> > +               }
+> > +       case IIO_EV_INFO_PERIOD:
+> >                 ret =3D regmap_read(data->regmap,
+> > -                                 adxl313_act_thresh_reg[ADXL313_ACTIVI=
+TY],
+> > -                                 &act_threshold);
+> > +                                 ADXL313_REG_TIME_INACT,
+> > +                                 &inact_time_s);
+> >                 if (ret)
+> >                         return ret;
+> > -               *val =3D act_threshold * 15625;
+> > -               *val2 =3D MICRO;
+> > -               return IIO_VAL_FRACTIONAL;
+> > +               *val =3D inact_time_s;
+> > +               return IIO_VAL_INT;
+> >         default:
+> >                 return -EINVAL;
+> >         }
+>
+> I still don't get what's wrong with helpers for nested switches?
+> Instead of doing ping-pong with so many lines (due to indentation
+> changes), just create a helper from the beginning. In this case this
+> will look more like
+>
+>
+>   if (nfo =3D=3D IIO_EV_INFO_VALUE)
+>     return my_cool_helper_for_THIS_case(...);
+>
+> Note, I admit that not all the cases may be done like this, but just
+> look at this again and perhaps something can be optimised.
+>
 
-[1] https://lore.kernel.org/linux-fsdevel/20250609075950.159417-1-neil@brown.name/
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+First, about helpers dealing with nested switches. The resulting
+structure then is like
+
+switch (type) {
+case IIO_EV_TYPE_MAG:
+    switch (info) {
+    case IIO_EV_INFO_VALUE:
+        switch (dir) {
+        case IIO_EV_DIR_RISING:  // activity
+            ....
+        case IIO_EV_DIR_FALLING: // inactivity
+            ....
+        }
+        case IIO_EV_INFO_PERIOD:
+            ...
+    }
+case IIO_EV_TYPE_MAG_ADAPTIVE:
+      // same as above, again for _AC events
+ ...
+}
+
+Actually I'm using a helper for nested switches. But currently I'm
+adding it quite late, when I have cases for ACTIVITY, INACTIVITY and
+ACTIVITY_AC and INACTIVITY_AC, since this results in code duplication.
+The resulting structure the looks as follows.
+
+helper_mag(...)
+{
+    switch (info) {
+    case IIO_EV_INFO_VALUE:
+        switch (dir) {
+        case IIO_EV_DIR_RISING:  // activity
+            ....
+        case IIO_EV_DIR_FALLING: // inactivity
+            ....
+        }
+        case IIO_EV_INFO_PERIOD:
+            ...
+    }
+}
+
+switch (type) {
+case IIO_EV_TYPE_MAG:
+    helper_mag(...);
+case IIO_EV_TYPE_MAG_ADAPTIVE:
+        // same as above, again for _AC events
+    helper_mag(...);
+}
+
+Is this reasonable? For the v6 now, I plan on introducing this helper
+when adding INACTIVITY sensing, having ACTIVITY already in place. This
+is, because INACTIVITY as distinguishable type is still not available,
+but would be needed as function argument as well. Does this make
+sense? Or, should I start with the helper right at the beginning? Is
+it ok to have once a nested switch in the helper?
+
+Second question is about the adxl313_read_event_config() functions,
+I'd like to have here 0 or 1 in regular cases (<0 for error). Is it ok
+if I adjust the functions slightly to guarantee this? Currently it
+generally returns >0 in cases of "true" which is correct. But this is
+most of the times 1, in some cases can be 8 or something. I just like
+it to be uniform for testing (which is not a valid argumentation). Is
+this legitimate?
+
+Best,
+L
+
+> --
+> With Best Regards,
+> Andy Shevchenko
