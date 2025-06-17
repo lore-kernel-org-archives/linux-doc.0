@@ -1,103 +1,135 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D85155C88;
-	Tue, 17 Jun 2025 17:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDCD3BBF2;
+	Tue, 17 Jun 2025 17:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750182392; cv=none; b=PryxpVmIrUrchyDL0VA1cVYKsG+SVMGjC0ZDkHanav7nvnTMIygTg9ou8XygkDNlbilR985OHQ+cGkFwt6fYcS99aTdve2dAwKQWVSdx+KqlE0ROT1ueN3+uDkPaXz/REkT1RJIjGj06jX2j/ykhSn7hYctzLI2hFxGijIYsNag=
+	t=1750182504; cv=none; b=qxUwBr0Z08uTbr4Wk5VfSyJSn3DCUiqesE6WCkm3L3ZQtLew4IlXTOreXTiHBVq7nSiCluptXov7Ud/IzBRi8QpPGoatnO7lh0vPcw+svogc0HwEeI7QKHUxpr8uc3oJFqDj2ETXsW6Cta6yMNvvh7qTYrRqUQu3lHRZZWTE/0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750182392; c=relaxed/simple;
-	bh=Uv0NCTJ00gk9YV7iyXByPsM1Wt4R014FnhORTMDPaiQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Yit6LLB66WXaTOQetVt1yf9ZA3cmvfAjsdSiFj8sZfP7wLyjpHgCtXTqyZoGb8iHdCXgclI7BMWglECZfQfnhOvMMcURnhmHfPfGKVI5okWKXYicjB/3ICmetp3wRDFjtT4jK+0juKPcGsgDanXEANDbMCw69NzyWDyOJRUuv60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UzoIKQgt; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1750182504; c=relaxed/simple;
+	bh=+XCjI5K9Mpd5ggLlm7MUlz3RbcKMVBu1U7/rKRSfuqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OjF0XhxQyhThXMVNhRV0PYl3LfteQBYm8ECtHOVTm2Hz7YTeDHpJj0jKMJCy14YB3KkvsVgOTotSJ+82UU6DEx5HxVc9YSoF6ZqihsjLikkFhtGUtYyR0Z6zUgyZbVNwJXgPDvFfU00kMbFAQ6aQN1vVBEYS7XWd6zFXd1MTrI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eI7atVmI; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UzoIKQgt"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-73c17c770a7so6814077b3a.2;
-        Tue, 17 Jun 2025 10:46:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eI7atVmI"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-747abb3cd0bso5309369b3a.1;
+        Tue, 17 Jun 2025 10:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750182390; x=1750787190; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PhXt6IXHoXRnuldAMrELoIVsG76q2w//unnbq8lMXlY=;
-        b=UzoIKQgtcHOt/kqL8VgjiuJBAlAEuiwcu/e+mU5l2w6mQMdh/REA9Wx0VV6tIvWv3s
-         i5+9zsHazouBCQpgPhwyQi3wxNmI8K10MrX68Kxovf0LBQNs31Rt3wp4/bzaRxtytWb5
-         N47LG5mghGici5vDril82BGeFXyraE4qu/Cc+NvgoarUkEF4mN6vioRz040P1qPrP8in
-         FcX90emZkQd48i7iVxzgm+wdzuc0yyk8FUSkDn3LdcekMh1blD+wUeYtUJkuy9wjM8FJ
-         cp5S0fVTaL1hPFO8w5T6JJ7KPOMuWTmwaaKOQ9kZ6+vw+xI4l0OjlccQ9llI3hMSCI6x
-         sqbQ==
+        d=gmail.com; s=20230601; t=1750182502; x=1750787302; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5+Xl7EDHQegoMM5/vxaOFryLj+bioA1aFNCNkeocZIE=;
+        b=eI7atVmI3Cmym42y/jq/YXFAkxFXlTSW1C6nwcmWtJLguUxEOFNl9I07FXjQncFhSe
+         E7PnDr92RYnWrcT2Ub0tgM3gWpo2it2zco5zAAdTdVlKnSDaAAHGXAH2JTRBMOMYnaPT
+         rpyfXNssCD7LO8o8GmnU54pgpsRay43iuAnwtCh65Cyl7xBP4R5nFG2QskATJC4i6N68
+         5WdxdM92PN4s13nT1q0Pr4ukqxbFn9x2PtniERBkTK4YMtgo3D9GGfaQK3UCW46q9h1y
+         TemVHMiuI6JatDrJ1nC6bsL7iiYnPHIQNKf4EZoeRg/mYp0WFMrvKf/F2NnY9Drr9nxU
+         Xlsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750182390; x=1750787190;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PhXt6IXHoXRnuldAMrELoIVsG76q2w//unnbq8lMXlY=;
-        b=g2M1t3Tlhd1qvQgcUlGqzMD+hudOytYp9dN/GPJULJdBkiCH81ejsQRmRN1u6RMe17
-         1tvozVch1nJ/bhYVRzn+h0mQwVWURi0jb2Po74QU0sgIaUw8+XiSGRUNS3qA6qu2TmGg
-         1kPimcPj8f3nInwINxMc4U2ZGWi7wce/pWgPqDNJuQ/t3n3iAcWU2y3WaWS1hzkkrVxc
-         zSqH9Ttuf/YkqVzr14qQm/uxmRxXyfTYBgXai2XjjcZ5TXKKoMg2D9RWCKYPDMOsAX46
-         hBwLltC9o951OabDFbAhdPMZdcsOOyn98YyLKAxM08d70mUv6vTfhQ/ubV/zZjJHVSpW
-         LK4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUudF88Imx1HR7BOwDSqUKqcZwISYmpJxPRNpBo38h1fdfdm8awKkSsnLtCyXp2v4uH1RrOB1Ofufd2D0mt@vger.kernel.org, AJvYcCVUFuqt8/RGJBrP14rzVb5NxhAbc2hzJKWrJHa/RVnlo7yO/Lu6tntB9y6NnC4KOcWuKZ2NOuYB2JxJ@vger.kernel.org, AJvYcCWGjqk89cHk38iVfEf0ijqMP8WJNQrIQkN7ahIb4WS7Gry2wWunWr23wsEEm9kGMVg8UQna4/xZX6ajoQ==@vger.kernel.org, AJvYcCX0D0HCfGABfZ/vNdoYaBJMNknpjHXM14m1/QVdv107zELbjC1nOsSJ5fHfdAYc/NpS4aT72tlxuf+v@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOaGLW7lXVHDch6aWwLEjZotDg9DirQB41VkDIPYgUu4pLsevD
-	cRZt/oOudvHJ3ektWAI0Xgcm4x8VMza1jRFnDIMVSHfL19Cb6AsQpqOa
-X-Gm-Gg: ASbGncvIgHor9iI8FKwBEmw7IlcllZPn0Hi5JrvxJf7jl6RO917WWaFOto1bcu2BBq3
-	5F/SiwqVW3cfCrWEOE4qXjLid2kmo/B4pk+LlfaW+LUvTvlaaIM3/ujbtPO8qZ8ww+Hak6S6j2Y
-	SgaBr+ICa+Le8yQG+Ej7tRGv0eWdbIL2P9TTsRMrnzcJ/v6y5+bwkK2OtInuX8MhbQ42zKKbw3S
-	6HC3mmgefIWgPRpxB0fe6zLdWNTjd+rU81xVoMmDluj28VdyZle3h/xlWXFYTZImo99iF1K9hzt
-	IFlkQE30Gi36acUoeoQpo95hkCTuA8v3ZyjPAVX5fDNNUP2BDOB07mpvFqzfqIDcAbyRCFI5
-X-Google-Smtp-Source: AGHT+IGXdP5LGQE7FQKixxHjndNV1PZ/lpzXikzhO/Gij6a0m6KK+esq1r1YMi/c5xyY+4+oT/DgqA==
-X-Received: by 2002:a05:6a00:1797:b0:737:678d:fb66 with SMTP id d2e1a72fcca58-7489cdfcb9bmr17988522b3a.5.1750182390121;
-        Tue, 17 Jun 2025 10:46:30 -0700 (PDT)
-Received: from DESKTOP-P76LG1N.lan ([42.113.163.91])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7489008229fsm9470135b3a.106.2025.06.17.10.46.27
+        d=1e100.net; s=20230601; t=1750182502; x=1750787302;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5+Xl7EDHQegoMM5/vxaOFryLj+bioA1aFNCNkeocZIE=;
+        b=DhOfp8mo7wPnWcyJ67RiQMvZICrHo1GlG22JLVuVq/rXqBqEDEHVKxZd33tKhp7ddI
+         hYdu58CqU7KlMq7qradmmq557kCbWawNz6tkgZNSdO1zE1GtjneDsvraeD/wKZiHUfp0
+         UId+Omxfw6a+l+nqbtP0BTxrylFYuVdF1JP+7GclO3551BYWbS8HGp8ynESltcEjEqah
+         E4o83PG0/K0VDT0/hQ1lUiaoZCeSprShtqF2XHRXTqekQyYFuanuXPc2PEqIT5SvVQV5
+         MueWjXI0NHCgFNhPkdau4M4W5wcM7H2iPZo2UbI6xtnqaGFdp1Iza3AdNba72CqL4EUm
+         sQ9A==
+X-Forwarded-Encrypted: i=1; AJvYcCUh/oAGJuClcWChFLU8H8/igg6/KXlAgAF85C+8I7xpXhPNqihPkJVIJ9uedcRtGmko0fKn9jfZxNs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyin+CIrc2R+LQ+xCYwc9x4zn968K4ic/RcNJjSDG/MxZDUDgPh
+	Mn4avPhlE4Aqo8AngdRzjUnuRrGAV4gLIrRSXDBeiFPeMVH71cLrFEtfSJI9
+X-Gm-Gg: ASbGncvFMs+uQqNOXxxyCvBxPUPg7KrsVGmHtu4bwht2fDYPF9jJKcj9VrEY7xQ3mOT
+	MhT3qbGa+xiNgMp6gOXkbFzflYyObyJHB6puAKD9oUFme72XL5SxfcEzQ4AmdWkYBw8bbRQRHsE
+	iKrVdtg617igK3d3IxmL/GkYOimn6HEcQRn81wOH71gAIlIG+3vBqoHqtfnqj4ZMUyYz9qSHiW8
+	Wbq9VuB6PT06cqTw+QuLrFUqmhjnnID0DIpgYnIWzHUbD2PovdP5h1OtuuLuPzpsDw2pOtYKuFy
+	hSkeCyr5JRCiTJAhVGB0oMZd1oE3W6705eAzr8bE8+WjBwFUjUdA4kwV/V1uVASY7PNfNmcthAY
+	VQgy/5gDtcMO25ViZg0PTNkI=
+X-Google-Smtp-Source: AGHT+IEhjprXOs9xwkpuoMFSMYZ7C1cb4GdCMo2ynXQHqSj1mlKbEuXO5EoB6CDfQwxFLrLNFCyxtQ==
+X-Received: by 2002:a05:6a21:68f:b0:1f3:1ba1:266a with SMTP id adf61e73a8af0-21fbc41233bmr20709696637.0.1750182502191;
+        Tue, 17 Jun 2025 10:48:22 -0700 (PDT)
+Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
+        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-b2fe1680420sm7735781a12.38.2025.06.17.10.48.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 10:46:29 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: pavel@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5] test
-Date: Wed, 18 Jun 2025 00:46:25 +0700
-Message-Id: <20250617174625.32084-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250612100325.GA381401@google.com>
-References: <20250612100325.GA381401@google.com>
+        Tue, 17 Jun 2025 10:48:21 -0700 (PDT)
+Date: Tue, 17 Jun 2025 10:48:20 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Jay Vosburgh <jv@jvosburgh.net>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hangbin Liu <liuhangbin@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] bonding: Remove support for use_carrier = 0
+Message-ID: <aFGqZGvSSEfR-sDi@mini-arch>
+References: <1922517.1750109336@famine>
+ <aFDAkS3VUgHwxxr6@mini-arch>
+ <1934950.1750126872@famine>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1934950.1750126872@famine>
 
-On Thu, 12 Jun 2025, Lee Jones wrote:
-
-> On Wed, 11 Jun 2025, Nam Tran wrote:
+On 06/16, Jay Vosburgh wrote:
+> Stanislav Fomichev <stfomichev@gmail.com> wrote:
 > 
-> > ---
-> >  drivers/leds/rgb/leds-lp5812.c | 1934 ++++++++++++++++++++++++++++++++
-> >  drivers/leds/rgb/leds-lp5812.h |  230 ++++
-> >  2 files changed, 2164 insertions(+)
-> >  create mode 100644 drivers/leds/rgb/leds-lp5812.c
-> >  create mode 100644 drivers/leds/rgb/leds-lp5812.h
+> >On 06/16, Jay Vosburgh wrote:
+> >> 	 Remove the ability to disable use_carrier in bonding, and remove
+> >> all code related to the old link state check that utilizes ethtool or
+> >> ioctl to determine the link state of an interface in a bond.
+> >> 
+> >> 	To avoid acquiring RTNL many times per second, bonding's miimon
+> >> link monitor inspects link state under RCU, but not under RTNL.  However,
+> >> ethtool implementations in drivers may sleep, and therefore the ethtool or
+> >> ioctl strategy is unsuitable for use with calls into driver ethtool
+> >> functions.
+> >> 
+> >> 	The use_carrier option was introduced in 2003, to provide
+> >> backwards compatibility for network device drivers that did not support
+> >> the then-new netif_carrier_ok/on/off system.  Today, device drivers are
+> >> expected to support netif_carrier_*, and the use_carrier backwards
+> >> compatibility logic is no longer necessary.
+> >> 
+> >> 	Bonding now always behaves as if use_carrier=1, which relies on
+> >> netif_carrier_ok() to determine the link state of interfaces.  This has
+> >> been the default setting for use_carrier since its introduction.  For
+> >> backwards compatibility, the option itself remains, but may only be set to
+> >> 1, and queries will always return 1.
+> >> 
+> >> Reported-by: syzbot+b8c48ea38ca27d150063@syzkaller.appspotmail.com
+> >> Closes: https://syzkaller.appspot.com/bug?extid=b8c48ea38ca27d150063
+> >> Link: https://lore.kernel.org/lkml/000000000000eb54bf061cfd666a@google.com/
+> >> Link: https://lore.kernel.org/netdev/20240718122017.d2e33aaac43a.I10ab9c9ded97163aef4e4de10985cd8f7de60d28@changeid/
+> >> Link: http://lore.kernel.org/netdev/aEt6LvBMwUMxmUyx@mini-arch
+> >> Signed-off-by: Jay Vosburgh <jv@jvosburgh.net>
+> >
+> >Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+> >
+> >Maybe better to target 'net' with the following?
+> >Fixes: f7a11cba0ed7 ("bonding: hold ops lock around get_link")
 > 
-> Doh!
+> 	I targeted net-next and left the Fixes: tag off on purpose.
+> 
+> 	First, the bug this nominally fixes is many years old, and
+> wasn't introduced by f7a11cba0ed7.
+> 
+> 	More importantly, though, this patch is removing functionality
+> that someone theoretically could be relying on, and I don't think such
+> removals should happen in the middle of a stable series.  The default
+> setting for use_carrier (i.e., using netif_carrier) will never hit the
+> issue in practice, so the exposure seems to be minimal for common use.
 
-Apologies - that patch was sent by mistake and is not part of the series. Please disregard it.
-I'll make sure this doesn't happen in the next submission.
-Thanks for your understanding.
-
-Best regards,
-Nam Tran
+SG, especially assuming that use_carrier has a default of 1 (so the
+issue should not appear in most/default setups).
