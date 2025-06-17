@@ -1,97 +1,142 @@
-Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
+Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BA3221568;
-	Tue, 17 Jun 2025 10:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632A43B1AB;
+	Tue, 17 Jun 2025 10:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.139.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750155316; cv=none; b=MHFO4/VEXUfFwBFJO7ifieZEc6UuhAXYauJ9OVqichc82f+4qvX4XdpA2/nVpoQ6/buEgxoahendbyzGiDNqLiLAz29QG+zJDFePTXtNIwpADOA36CLVANt8vCn0kQap7PUWD+01GW3cm28jMWE7mAlcJXfR6ygdV5XZYhb+kao=
+	t=1750156153; cv=none; b=q7KO3QQ6N7rsnM8Xxfu8Qs4X9OMyuiYPku7bQ4RdNHXeqeJt8NEFbty5XWwHujXNNxkw8IfKq4wnDi0XBmNUxVsZWyVySPcCKKyowzxAHKum+3maJNCALZ9AIp3DRCV7A3o37YZUSdUbYdVRCqSobNdWU25sUe2kq0F4o8cfzls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750155316; c=relaxed/simple;
-	bh=qi167v05pSdImwk+jUtorfAvfqhSdptwLbnqtnr/hK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J1J/b/PZS8s7pp12ZnQAnzW/iXW+OlU5YgLGA6XL4LVZTe5jGad2yufZKfXWq6QeKeS2PgnNwdruD+Z/oiLb0m34NxiySeMHqyAx3NrF/r+k+QvzyzxEmIyzpt4jKaD/bh8ATf1CFYO99Hu0yizuZ/VNbI1eQzOTZa297vunSGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=sUBCKre8; arc=none smtp.client-ip=211.125.140.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	s=arc-20240116; t=1750156153; c=relaxed/simple;
+	bh=pnhUkbY2mgh5Xqb/2wQjNDvJKL6EEQEt1xGWbB9n4sI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=g96QU6YKRs/sGkZnDCM/6PttYj8SJYfrlVN7HJC+7xQxCZ3rbrLtKERSd9TM5q+uY/NLxR/Oy9pbbFSyTbHvd6O1+hWkcuog8fSK/qzjEj9I2ppwzr+HMeb4aSG7A6JkISxIdW9UyAorjkHp3wsxyM8GJ4RwaoObJU3F6QNLiFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=jn3HOQwW; arc=none smtp.client-ip=68.232.139.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="sUBCKre8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1750155313; x=1781691313;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xAGT5VwsBh5YQsXs7TeqXfNEzf33+wLYzOeBX75jZec=;
-  b=sUBCKre8P2o3shBda7aM1/HuH6f1m+BzbtyJIGKonZIlSLNp8FyxBNee
-   vhyGmRVz/nSHM+/nIWolpijPM4dry4Qr+Jg1vq/oAWJS2p6R3NCJuor8P
-   VYUN6C92S/Fhwv7rn267cvxZMvzOzWsyZL78XReQPbvyqEriie9W7rz87
-   kUKTtm/etL0redylHQcwYxvq1tzZ3PdcVT+hhSJMs12R1imYCA+SC3Q1R
-   gndhhb2Sd6r9ebakyqAK3pCU38CFPh3opcAQelXWHWmfL7U7QQEYdsH4B
-   5TGLmbcvGJUFDSHo/mN6lJ0sFppjMr7kL91RUPvpkHIkK+CYr97wnWRx/
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="jn3HOQwW"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1750156152; x=1781692152;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pnhUkbY2mgh5Xqb/2wQjNDvJKL6EEQEt1xGWbB9n4sI=;
+  b=jn3HOQwWP+nTfxMkLNMQVVMo2EPC0mhnZ8E8bGWRiwNy8nQfEYeuZMsK
+   qzwpXwuAqjt0w2T/TRAk0JGsMLGKz0EBnpvaqRiaguAUCz1nZpqj1fRLk
+   sndsNf9x7Hao9pxzuchSNqQMrqHTGZGgG3MWawDFzW2r5ahUWKTBYi4jt
+   /GCNuOgOR2hoqWN33c58qez9gZZppKrfZ2LnEZNdF2BbsXTpFfxZU/v4F
+   54XMhEvVBFv/1SczvA3T+EYj+i08WHMjwY5XEdY592sPwbFhZvfQoLz/c
+   Dw4HhJv6W+W3IwsjLl0bGkevR4/tRaFnsWfBbxyEa0TQceSe+zyoEktTv
    Q==;
-Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
-  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 19:15:05 +0900
-X-IronPort-AV: E=Sophos;i="6.16,242,1744038000"; 
-   d="scan'208";a="543112704"
-Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
-  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 19:15:05 +0900
-Date: Tue, 17 Jun 2025 19:14:58 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Viresh Kumar <viresh.kumar@linaro.org>,
+X-CSE-ConnectionGUID: VEUI9cTvSfSIFjVhGcBRLA==
+X-CSE-MsgGUID: NzL0bd6HTnmYL6vqzUql3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="206103682"
+X-IronPort-AV: E=Sophos;i="6.16,243,1744038000"; 
+   d="scan'208";a="206103682"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 19:29:03 +0900
+Received: from oym-m3.gw.nic.fujitsu.com (oym-nat-oym-m3.gw.nic.fujitsu.com [192.168.87.60])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 1820AE0ABD;
+	Tue, 17 Jun 2025 19:29:01 +0900 (JST)
+Received: from oym-om2.fujitsu.com (oym-om2.o.css.fujitsu.com [10.85.58.162])
+	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id D8859D765C;
+	Tue, 17 Jun 2025 19:29:00 +0900 (JST)
+Received: from sm-arm-grace07.ssoft.mng.com (sm-x86-stp01.soft.fujitsu.com [10.124.178.20])
+	by oym-om2.fujitsu.com (Postfix) with ESMTP id 1D13B40045BEB;
+	Tue, 17 Jun 2025 19:29:00 +0900 (JST)
+From: Koichi Okuno <fj2767dz@fujitsu.com>
+To: Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shinya Takumi <shinya.takumi@sony.com>,
-	20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com
-Subject: Re: [PATCH v2 0/2] cpufreq: userspace: add CPUFREQ_GOV_STRICT_TARGET
- flag
-Message-ID: <aFFAIrGNlsGyKVLc@JPC00244420>
-References: <20250527-userspace-governor-doc-v2-0-0e22c69920f2@sony.com>
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Koichi Okuno <fj2767dz@fujitsu.com>
+Subject: [PATCH v5 0/2] perf: Fujitsu: Add Uncore MAC/PCI PMU driver
+Date: Tue, 17 Jun 2025 19:27:48 +0900
+Message-ID: <20250617102819.3685543-1-fj2767dz@fujitsu.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250527-userspace-governor-doc-v2-0-0e22c69920f2@sony.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Rafael,
+This adds two new dynamic PMUs to the Perf Events framework to program
+and control the Uncore MAC/PCI PMUs in Fujitsu chips.
 
-Could you please take a look at this?
+These drivers were created with reference to drivers/perf/qcom_l3_pmu.c.
 
-Thanks
+These drivers export formatting and event information to sysfs so they can
+be used by the perf user space tools with the syntaxes:
 
-Regards,
-Shashank
+perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
+perf stat -e mac_iod0_mac0_ch0/event=0x80/ ls
 
-On Tue, May 27, 2025 at 09:59:08PM +0900, Shashank Balaji wrote:
-> In-Reply-To: 20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com
-> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> ---
-> Changes in v2:
-> - Instead of modifying the documentation to say that variation in frequency is
-> possible despite setting scaling_setspeed, add the CPUFREQ_GOV_STRICT_TARGET
-> flag to the userspace governor to make its behaviour match the expectation when
-> used with the intel_pstate driver with HWP enabled
-> - Mention in the documentation that variation in frequency due to hardware
-> factors is possible
-> - Link to v1: https://lore.kernel.org/r/20250522-userspace-governor-doc-v1-1-c8a038e39084@sony.com
-> 
-> ---
-> Shashank Balaji (2):
->       cpufreq: userspace: set CPUFREQ_GOV_STRICT_TARGET flag
->       cpufreq, docs: userspace: mention variation in freq due to hw coordination
-> 
->  Documentation/admin-guide/pm/cpufreq.rst | 4 +++-
->  drivers/cpufreq/cpufreq_userspace.c      | 1 +
->  2 files changed, 4 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 914873bc7df913db988284876c16257e6ab772c6
-> change-id: 20250522-userspace-governor-doc-86380dbab3d5
-> 
-> Best regards,
-> -- 
-> Shashank Balaji <shashank.mahadasyam@sony.com>
-> 
+perf stat -e pci_iod0_pci0/ea-pci/ ls
+perf stat -e pci_iod0_pci0/event=0x80/ ls
+
+FUJITSU-MONAKA PMU Events Specification v1.1 URL:
+https://github.com/fujitsu/FUJITSU-MONAKA
+
+Changes in v5:
+- Update PMU events for FUJITSU-MONAKA to latest(v1.1) spec.
+  The changed events are as follows:
+  - Removed events:
+    ea-memory-mac-read
+    ea-memory-mac-pwrite
+  - Description changed events:
+    read-count-return
+    read-count-return-pftgt-hit
+    read-count-return-pftgt-miss
+    ea-mac
+    ea-memory
+    ea-ha
+    ea-pci
+- Modify the code as suggested. (Jonathan Cameron)
+  - Added include mod_devicetable.h.
+  - EA events that share the same description as MAC events have been
+    removed.
+    These events will remain in the specification, but will be removed
+    from the code.
+    These events will be supported in future enhancements as the
+    specification changes.
+  - Changed MAC events with the same description to different
+    description.
+  - Changed some programming styles as suggested.
+- Link to v4:https://lore.kernel.org/all/20250116045911.3382537-1-fj5100bi@fujitsu.com/
+
+Koichi Okuno (2):
+  perf: Fujitsu: Add the Uncore MAC PMU driver
+  perf: Fujitsu: Add the Uncore PCI PMU driver
+
+ .../admin-guide/perf/fujitsu_mac_pmu.rst      |  73 +++
+ .../admin-guide/perf/fujitsu_pci_pmu.rst      |  50 ++
+ Documentation/admin-guide/perf/index.rst      |   2 +
+ drivers/perf/Kconfig                          |  18 +
+ drivers/perf/Makefile                         |   2 +
+ drivers/perf/fujitsu_mac_pmu.c                | 569 ++++++++++++++++++
+ drivers/perf/fujitsu_pci_pmu.c                | 553 +++++++++++++++++
+ 7 files changed, 1267 insertions(+)
+ create mode 100644 Documentation/admin-guide/perf/fujitsu_mac_pmu.rst
+ create mode 100644 Documentation/admin-guide/perf/fujitsu_pci_pmu.rst
+ create mode 100644 drivers/perf/fujitsu_mac_pmu.c
+ create mode 100644 drivers/perf/fujitsu_pci_pmu.c
+
+-- 
+2.43.0
+
