@@ -1,50 +1,83 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4E92E06D0;
-	Tue, 17 Jun 2025 10:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D8C28C5D9
+	for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 11:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750157746; cv=none; b=NkxhnjNQebygMaWb53aHe3IbOT9fYD+oZEDWiEpE61YNzWlRDLEejZpkSS1oCPngdsmetZwa6YHc4GjQC78eYsvRkgdjyM8KzG7RtZmjxQKipEQiSi7venSxOKLly+biX+P1FHAuRvb3mYz/n4lOS/qTv9hGPOTgiEbHU1AgELo=
+	t=1750158094; cv=none; b=Z6nJpQh0Ddn0L52/WY5gPmX/iTQsQ2aKyJXg1UNyxW241JmAeLcybLdh/0NrFGNAjqm3N6OKHmFDJ1KpLq1nOAU19UsUZv9+iI0TD5vo2Ohp40vq8qN2tyARABDwIXsyaEGXxx5KeQc5ONuy9B1xOsXIg7dT0Ezz9W0MxlC50GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750157746; c=relaxed/simple;
-	bh=uwEwxEs8T9P4QihFLUaI6BH+wTj4vR9TchIamoPDhN8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N0XBbGOCZsbVCUd1oYxItNxXmpJ35evoK7rVbU9jMvjfQ993jKcyOHnROqhMEHIxDIkVbKQVkM9LU8PL7xIlTM+t9o9F2YtQCC1NB1MrzbOcbtfmAUaUgqqo6urFoGdVkKTSZgWJZLrA2cb9dYPi35zasFeDwGOO1Wtt19IzWsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Xra7ZPdn; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1750158094; c=relaxed/simple;
+	bh=IBYQZSudqTgn34Kapoq78rT+fFWNWZ9+bS43x3EWBcc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=XUDPyfbfBNUB7VtgvEIda6ssESeYkGf2+C6oTCTyO52ZeeYsbs4G8ZZ8nka6zEmBVztW7HlsWr/N0WlC8VfQ1+//14JHXptIakwU2dnuLjCR+eiA+HpHsEm9fsllp2hd6TIfLZU/xreAlAoh5Und/Yq7fnG4U3UiHwTnrA8xHrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=Qa0Mmh0S; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Xra7ZPdn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=7cm9KylYv2ZdHzemgGqtbKhQl/Mx4XXZRlwkOYNwK8I=; b=Xra7ZPdn/3MCr052BTwOEPcuq4
-	YxNMat33XPmQW+A0Sdh4b9jzEiPT+m6DvRmT2El3WfXqCeklC8vwDS3folmdygFcFTuCztyGfHCJX
-	ZqAKtsy4rZv63No/nJgpVqQ3EHybbwWHRHVt/KzUe+o+0KsQSz/T0xPpoW1Mj6lbCPER1gQhGCf44
-	u9/bCejiCCepMKBq68x9DSWk3RYKhBbUbHUNlfRexU3bpf/VGZCCzmO7pNBmhWL2mDKyHS2LXADGe
-	HOglL2mDkgbg3hc4E+wdbZYnrphBM+Fge9RTf1nD+D/02PD/u2Y6HCqKHG1eFLlbGQdHRcILhvbjw
-	XNaWszzg==;
-Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uRTyi-00000006yuL-1zE4;
-	Tue, 17 Jun 2025 10:55:45 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="Qa0Mmh0S"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-236377f00a1so48130715ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 04:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=inventec.com; s=google; t=1750158089; x=1750762889; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1DHyU2R8WPjOq8eE9G+orQPQ64Wuq4IqqrSMYFwTCBc=;
+        b=Qa0Mmh0SUDjvxQros6xspDcRisYS82W0rofYbdCTcSlLbgn0LyzGGoCz9sYazZGFKF
+         T5w9mLsYXIE0y887zNgX+V6aiBSXYnwclbM/naIuDkv9Y0romKwnXW29WgtzIXiHUDeA
+         HOIcqEv3L/RKmVEJsve+GNZTSlmBGljrJ6AWE79GU31U4zsiqf89HmfLrrV9z9G/bDdY
+         5dkYhg+k28MP6xLcXwDbME8hlEsoAwKSSm6wOaaKWmr8luoQo/c+VLlLJ2FY1FqSOcVu
+         IvvNYEhokAWi/iDO8Gdgn2q5Y7jTkt6lZ6DrohoRW+SIq/7IEWEOOU5CquhnR+8Op2KC
+         Wy1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750158089; x=1750762889;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1DHyU2R8WPjOq8eE9G+orQPQ64Wuq4IqqrSMYFwTCBc=;
+        b=Y0sXxUh2gD2JtgdukjxQRuGSB7+1L+hz5lIUrHtVAzyHuEwGPac8R3cLBdmEZYYTt5
+         pTCWUhIGE61n1vIHZhvwOamna+HTMb5kojFwFfXH5Lkeyk64B3F92xUXX+oMtA3pnykg
+         ib/BIzM+7i4NQ0PgsBijvdpgpKVldjYNWqzWtHzeoXMPU8DeRyrwX78Y9S3lDtWjai6N
+         0fKt2RbyqIVq6QOddjSonCNQ55fIfMEAHQ/ojzErUrskOcpKqRIq0jTvQnHiu3vIpZZZ
+         eF35d2WyQznhDG/eaLGEtaP+1fPd9YbqylyhtU0Ttu6K7PTrYD+FADx/JR0EF/LzmDSP
+         exaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWgRNNys3xKWCrMKvGae3d/D9xqE+S+BZVaADUzxumEwkkFjxH0UifJ921wiZ3I++Sc5l8bfwgOhnc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqJr/kE6spgxVe6KMxs+MiT4ko57AH3PmBAzPUlAJBWgoYWJFI
+	zQlwAqclcVJXwNskUA7By3BD29ltDN+1ZA0bPTUNdukGfkpKuQmZJY+RvuNSbXPpp00=
+X-Gm-Gg: ASbGncv/IKSpF2RsqVAT098qEzkpq4joA97FZaikI2SWitmTFPjgz4E75ZHf2rUhQhe
+	zDeeM68hjsA0KvbfRGyHzBAjw4/UyKxCjTKN21XbAbTanyJKxIbE8B85dPyAQ8QJVJoieSIyVGF
+	e25KVH+EgddEaSQJSZYfy8+gnx0D3696wTIFlrkrp/5Xlv7QFBw5DvK224RJQ/K2M9K9irXdC0w
+	A73un4RByoxdL/oCfrLH1k/1BqR2JtQ+pMjkQ8qQz2Og962eBwCO0Dh0o5JU2ChDWQPto39aoaO
+	0UoRzSMmZVQ2T1SIGhdoGPi1FOhqRYGeo2eDQnrfcDAsYx0Tuq9Qfk+uf7XqDhnyJieiOX1lOpO
+	SAwk+hE0=
+X-Google-Smtp-Source: AGHT+IFhiIFZVVRkKW6KlPv5Ms3limyDQ3qCAx3P+UVC13Dsqu72f+r1sPGNNNtDItxGQ9ngdyMNEQ==
+X-Received: by 2002:a17:903:1a83:b0:234:9656:7db9 with SMTP id d9443c01a7336-2366b122186mr205102705ad.32.1750158088915;
+        Tue, 17 Jun 2025 04:01:28 -0700 (PDT)
+Received: from localhost.localdomain ([123.51.235.216])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365d88f423sm77142515ad.12.2025.06.17.04.01.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 04:01:28 -0700 (PDT)
+From: Brian Chiang <chiang.brian@inventec.com>
+X-Google-Original-From: Brian Chiang <Chiang.Brian@inventec.com>
+To: linux@roeck-us.net
+Cc: alex@ghiti.fr,
+	aou@eecs.berkeley.edu,
+	chiang.brian@inventec.com,
+	corbet@lwn.net,
+	jdelvare@suse.com,
 	linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	gfs2@lists.linux.dev
-Subject: [PATCH 11/11] iomap: add read_folio_range() handler for buffered writes
-Date: Tue, 17 Jun 2025 12:55:10 +0200
-Message-ID: <20250617105514.3393938-12-hch@lst.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250617105514.3393938-1-hch@lst.de>
-References: <20250617105514.3393938-1-hch@lst.de>
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com
+Subject: Re: [PATCH v9 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+Date: Tue, 17 Jun 2025 18:51:41 +0800
+Message-Id: <20250617105141.4081335-1-Chiang.Brian@inventec.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <b278e83a-473f-46ee-b353-3f8c14d03aaf@roeck-us.net>
+References: <b278e83a-473f-46ee-b353-3f8c14d03aaf@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,127 +85,45 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-From: Joanne Koong <joannelkoong@gmail.com>
+> On Mon, 16 Jun 2025 09:15:43 -0700 Guenter Roeck wrote:
+> 
+> On 6/10/25 03:25, Chiang Brian wrote:
+> ...
+> > @@ -263,6 +282,10 @@ static int tps53679_probe(struct i2c_client *client)
+> >   		info->identify = tps53681_identify;
+> >   		info->read_word_data = tps53681_read_word_data;
+> >   		break;
+> > +	case tps53685:
+> > +	    info->pages = TPS53679_PAGE_NUM;
+> > +	    info->identify = tps53685_identify;
+> > +		break;
+> 
+> 0-day rightfully complains about the bad alignment above.
+> 
+> If you want this patch to be applied for the next kernel release,
+> I would suggest to copy the hardware monitoring list on the first patch
+> of the series. Without it, I get
+> 
+> WARNING: DT compatible string "ti,tps53685" appears un-documented -- check ./Documentation/devicetree/bindings/
+> #296: FILE: drivers/hwmon/pmbus/tps53679.c:316:
+> +	{.compatible = "ti,tps53685", .data = (void *)tps53685},
+> 
+> Since I am not copied on the first patch of the series, that patch has to be applied
+> through a different maintainer tree, and I have to wait until that is the case.
+> Not that I understand the logic behind it, but I mentioned that before, so I assume
+> this is on purpose.
 
-Add a read_folio_range() handler for buffered writes that filesystems
-may pass in if they wish to provide a custom handler for synchronously
-reading in the contents of a folio.
+Thank you for the feedback. I'll address both issues in v10:
 
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-[hch: renamed to read_folio_range, pass less arguments]
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- .../filesystems/iomap/operations.rst          |  6 +++++
- fs/iomap/buffered-io.c                        | 25 +++++++++++--------
- include/linux/iomap.h                         | 10 ++++++++
- 3 files changed, 31 insertions(+), 10 deletions(-)
+1. Fix the indentation alignment in the switch case
+2. CC linux-hwmon@vger.kernel.org on all patches in the series
 
-diff --git a/Documentation/filesystems/iomap/operations.rst b/Documentation/filesystems/iomap/operations.rst
-index 1f5732835567..813e26dbd21e 100644
---- a/Documentation/filesystems/iomap/operations.rst
-+++ b/Documentation/filesystems/iomap/operations.rst
-@@ -68,6 +68,8 @@ The following address space operations can be wrapped easily:
-      void (*put_folio)(struct inode *inode, loff_t pos, unsigned copied,
-                        struct folio *folio);
-      bool (*iomap_valid)(struct inode *inode, const struct iomap *iomap);
-+     int (*read_folio_range)(const struct iomap_iter *iter,
-+     			struct folio *folio, loff_t pos, size_t len);
-  };
- 
- iomap calls these functions:
-@@ -123,6 +125,10 @@ iomap calls these functions:
-     ``->iomap_valid``, then the iomap should considered stale and the
-     validation failed.
- 
-+  - ``read_folio_range``: Called to synchronously read in the range that will
-+    be written to. If this function is not provided, iomap will default to
-+    submitting a bio read request.
-+
- These ``struct kiocb`` flags are significant for buffered I/O with iomap:
- 
-  * ``IOCB_NOWAIT``: Turns on ``IOMAP_NOWAIT``.
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index f6e410c9ea7b..897a3ccea2df 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -667,22 +667,23 @@ iomap_write_failed(struct inode *inode, loff_t pos, unsigned len)
- 					 pos + len - 1);
- }
- 
--static int iomap_read_folio_sync(loff_t block_start, struct folio *folio,
--		size_t poff, size_t plen, const struct iomap *iomap)
-+static int iomap_read_folio_range(const struct iomap_iter *iter,
-+		struct folio *folio, loff_t pos, size_t len)
- {
-+	const struct iomap *srcmap = iomap_iter_srcmap(iter);
- 	struct bio_vec bvec;
- 	struct bio bio;
- 
--	bio_init(&bio, iomap->bdev, &bvec, 1, REQ_OP_READ);
--	bio.bi_iter.bi_sector = iomap_sector(iomap, block_start);
--	bio_add_folio_nofail(&bio, folio, plen, poff);
-+	bio_init(&bio, srcmap->bdev, &bvec, 1, REQ_OP_READ);
-+	bio.bi_iter.bi_sector = iomap_sector(srcmap, pos);
-+	bio_add_folio_nofail(&bio, folio, len, offset_in_folio(folio, pos));
- 	return submit_bio_wait(&bio);
- }
- 
--static int __iomap_write_begin(const struct iomap_iter *iter, size_t len,
-+static int __iomap_write_begin(const struct iomap_iter *iter,
-+		const struct iomap_write_ops *write_ops, size_t len,
- 		struct folio *folio)
- {
--	const struct iomap *srcmap = iomap_iter_srcmap(iter);
- 	struct iomap_folio_state *ifs;
- 	loff_t pos = iter->pos;
- 	loff_t block_size = i_blocksize(iter->inode);
-@@ -731,8 +732,12 @@ static int __iomap_write_begin(const struct iomap_iter *iter, size_t len,
- 			if (iter->flags & IOMAP_NOWAIT)
- 				return -EAGAIN;
- 
--			status = iomap_read_folio_sync(block_start, folio,
--					poff, plen, srcmap);
-+			if (write_ops && write_ops->read_folio_range)
-+				status = write_ops->read_folio_range(iter,
-+						folio, block_start, plen);
-+			else
-+				status = iomap_read_folio_range(iter,
-+						folio, block_start, plen);
- 			if (status)
- 				return status;
- 		}
-@@ -848,7 +853,7 @@ static int iomap_write_begin(struct iomap_iter *iter,
- 	else if (srcmap->flags & IOMAP_F_BUFFER_HEAD)
- 		status = __block_write_begin_int(folio, pos, len, NULL, srcmap);
- 	else
--		status = __iomap_write_begin(iter, len, folio);
-+		status = __iomap_write_begin(iter, write_ops, len, folio);
- 
- 	if (unlikely(status))
- 		goto out_unlock;
-diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-index 8d20a926b645..5ec651606c51 100644
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@ -166,6 +166,16 @@ struct iomap_write_ops {
- 	 * locked by the iomap code.
- 	 */
- 	bool (*iomap_valid)(struct inode *inode, const struct iomap *iomap);
-+
-+	/*
-+	 * Optional if the filesystem wishes to provide a custom handler for
-+	 * reading in the contents of a folio, otherwise iomap will default to
-+	 * submitting a bio read request.
-+	 *
-+	 * The read must be done synchronously.
-+	 */
-+	int (*read_folio_range)(const struct iomap_iter *iter,
-+			struct folio *folio, loff_t pos, size_t len);
- };
- 
- /*
--- 
-2.47.2
+I apologize for the oversight, this wasn't intentional, but rather due to 
+my automated CC generation only considering per-patch maintainers.
 
+For v10, I'll ensure all the devicetree and hwmon maintainer lists are 
+included on all patches so you can see the complete series.
+
+Best Regards,
+Brian Chiang
