@@ -1,138 +1,165 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AC028ECCD;
-	Tue, 17 Jun 2025 07:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D033BE65;
+	Tue, 17 Jun 2025 08:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750147151; cv=none; b=nzpRFkFMYZeWjba0C+U4Z6ghAmg6I3+O5CV9E/IwckRdRoQBIA8Sit6QF8uYgfbty+FUoGhVMM/8cCxQFP3Nqc96Ja/V4QaRJgCWtheMuqTp+FttPXept50jd4G35EjqNpzkFw5mKvqeyPFkYhGicPkXT3ZJrmAlv/fJkgAqL6Y=
+	t=1750147352; cv=none; b=K0P76FyplsKOQNZGO+7MeNuYgwqATt1KAiHGlbWnBU8hr70WLdKtSY6GMGKJZQr2lqmuuk4bKJW32oPRrKgj1gbUOuY95ckEY5VlGiDxXsdmEbgaEdQtGvI7jVS38ZxR+H3QYHO+t3b3CXCQtrCvN+q4SFFZ16jiHFsrSx3ArPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750147151; c=relaxed/simple;
-	bh=NIgJ6S2IMm67sNgLluaxm/t93R9SpN5EK5tTKzscYko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rg8UqNTLUtGw/5zPkUs1SpKD2yxfxptljTPMIbHfOgIUbBzA1fj9ASL6FfJCkH6m9EtZ5o71AeT1Bbn8b9ecoV5Qa9keC+5QdC19TTKDdqC+hKVgZj0sMFhnmGwwdkl6ryuyUx56+8NpSfL1EfAF1yylnBVCSwqAvnu02gPaQVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=riuj8blw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3dlU8pnc; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1750147352; c=relaxed/simple;
+	bh=TQlUV26hUMBvQLESC8JIjjk9jVydpjRjIcMxZ7u1zZU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VuCkY209uh0QGfONN5tg2+023STnHU32wriIwPYRRIRXoOILyYs4AHZg/lYFtpdeBVE0y+VY2yho+6fZkgvwCaDPBedgpMXRuBURDKSFPc1keZRcQtiYG1kzdwdhAe5sZF/CQyI8X3vCkYPcsV8FWovsc9lTt9ehQuUUBZ+Hyxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5vr77Nm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="riuj8blw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3dlU8pnc"
-Date: Tue, 17 Jun 2025 09:59:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750147148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hj2LJB5Pz+vjWi8da/Iv2JkklxNhs1V6axP5pIrqxJM=;
-	b=riuj8blwvDOsP6wUDdP3Ci9HXHbVoAlg32Weak2qNVuiCsD1ol6m/pAdmc6Wz+nOKmmqKg
-	3IeYSlbgY2321vJgf0z88CN2TJeN2qF5hfUcRL4jBlVM2dUs3HE7qD16NAvAmHP/2Q0Tiu
-	Bv4zf2GgxWNfyv3tMCpI3wG2QM2gYLo0w2MiidaFYgj1M6iVe1g6wxrJ1VTkOJvr9Jf1rH
-	cXvYeuXURM43LbebVBKLsOIftA5ESr5OIcgKGY3NSdHi38sICPCCjfkEXkqUUNYg//cVI+
-	+91Qelw5eKrsAUCwxPXvtbH9iLIk+rBeQm+lUtOKp6N02yrLbZppHMyNUJ3vEQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750147148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hj2LJB5Pz+vjWi8da/Iv2JkklxNhs1V6axP5pIrqxJM=;
-	b=3dlU8pncy0paXbKmJi5ztkGhzw3FggNzV5ZHCn4tYoW6SfRQ/nfHyS2G+ZITRQ05Cj+PIu
-	F15f2+z9rzshWKDQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v3 04/16] kbuild: userprogs: add nolibc support
-Message-ID: <20250617095102-d3df1c46-3d51-4f77-af0a-8299f5e71ad9@linutronix.de>
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
- <20250611-kunit-kselftests-v3-4-55e3d148cbc6@linutronix.de>
- <CAK7LNAQUN3hWYh_1=LMzVp1Ddbq3W=yGHZ5__LbcfBajfuhscg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5vr77Nm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC6D0C4CEEE;
+	Tue, 17 Jun 2025 08:02:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750147351;
+	bh=TQlUV26hUMBvQLESC8JIjjk9jVydpjRjIcMxZ7u1zZU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=t5vr77Nm3T85lDkDCkTWO06PqpqrIayAe2sYq08oix+8bAeLj3xlY80wifnqiSFU9
+	 qQwrTt4hZWLAnCrcX7JpUMQ+hADJOyEO9/fvErp2iinJaE4bO0HqbcHO5GzB7urHkE
+	 SyrleLbLpOXNxo+d23Y+d1RQMG42HS5kKA44I6G3agFivmQCEJ8dXjNFezStacqseK
+	 aSxd6wwDm1cXVtJ54cYElwpsc1YPwwjZO3lsWdsF3pLiJICbegvlV4gDFjg+KPf8F1
+	 PQUFVD95zqZ4HCupLUP7IuWGq3QkY4vOlNw01toHzQ9YSUQ6p/r1EUQFJb86aYqbCf
+	 Omkib/K37qkHg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uRRH3-00000001vcq-3jNb;
+	Tue, 17 Jun 2025 10:02:29 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Akira Yokosawa" <akiyks@gmail.com>,
+	"Breno Leitao" <leitao@debian.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	"Donald Hunter" <donald.hunter@gmail.com>,
+	"Eric Dumazet" <edumazet@google.com>,
+	"Ignacio Encinas Rubio" <ignacio@iencinas.com>,
+	"Jan Stancek" <jstancek@redhat.com>,
+	"Marco Elver" <elver@google.com>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	"Paolo Abeni" <pabeni@redhat.com>,
+	"Ruben Wauters" <rubenru09@aol.com>,
+	"Shuah Khan" <skhan@linuxfoundation.org>,
+	joel@joelfernandes.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	lkmm@lists.linux.dev,
+	netdev@vger.kernel.org,
+	peterz@infradead.org,
+	stern@rowland.harvard.edu
+Subject: [PATCH v5 01/15] docs: conf.py: properly handle include and exclude patterns
+Date: Tue, 17 Jun 2025 10:01:58 +0200
+Message-ID: <cca10f879998c8f0ea78658bf9eabf94beb0af2b.1750146719.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1750146719.git.mchehab+huawei@kernel.org>
+References: <cover.1750146719.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAQUN3hWYh_1=LMzVp1Ddbq3W=yGHZ5__LbcfBajfuhscg@mail.gmail.com>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Tue, Jun 17, 2025 at 12:35:07AM +0900, Masahiro Yamada wrote:
-> On Wed, Jun 11, 2025 at 4:38 PM Thomas Weißschuh
-> <thomas.weissschuh@linutronix.de> wrote:
-> >
-> > Userprogs are built with the regular kernel compiler $CC.
-> > A kernel compiler does not necessarily contain a libc which is required
-> > for a normal userspace application.
-> > However the kernel tree does contain a minimal libc implementation
-> > "nolibc" which can be used to build userspace applications.
-> >
-> > Introduce support to build userprogs against nolibc instead of the
-> > default libc of the compiler, which may not exist.
-> >
-> > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-> >
-> > ---
-> > This could probably be moved out of the generic kbuild makefiles.
-> > I think the ergonimics would suffer and this functionality could be
-> > used by other users of userprogs.
-> >
-> > Also this does currently not support out-of-tree builds.
-> > For that tools/include/nolibc/*.h and usr/include/*.h would need to be
-> > installed into the build directory.
+When one does:
+	make SPHINXDIRS="foo" htmldocs
 
-<snip>
+All patterns would be relative to Documentation/foo, which
+causes the include/exclude patterns like:
 
-> > --- a/scripts/Makefile.userprogs
-> > +++ b/scripts/Makefile.userprogs
-> > @@ -16,10 +16,17 @@ user-csingle        := $(addprefix $(obj)/, $(user-csingle))
-> >  user-cmulti    := $(addprefix $(obj)/, $(user-cmulti))
-> >  user-cobjs     := $(addprefix $(obj)/, $(user-cobjs))
-> >
-> > +user_nolibc_ccflags := -nostdlib -nostdinc -static -fno-ident -fno-asynchronous-unwind-tables \
-> > +                     -ffreestanding -fno-stack-protector \
-> > +                     -isystem $(objtree)/usr/include -include $(srctree)/tools/include/nolibc/nolibc.h -isystem $(srctree)/tools/include/nolibc/
-> 
-> The tools/ directory is a different world, and Kbuild scripts do not know
-> anything about it.
+	include_patterns = [
+		...
+		f'foo/*.{ext}',
+	]
 
-Ack.
+to break. This is not what it is expected. Address it by
+adding a logic to dynamically adjust the pattern when
+SPHINXDIRS is used.
 
-How does this statement affect the next patch which creates
-tools/include/nolibc/Kconfig.nolibc ?
-Is it fine to create the Kconfig file in tools/ or should I move it?
-I do want to maintain this file as part of nolibc and not KUnit.
-The possibilities I see are init/Kconfig.nolibc or lib/Kconfig.nolibc.
+That allows adding parsers for other file types.
 
-> And, you do not need to implement this in scripts/Makefile.userprogs
-> because you can move this to lib/kunit/Makefile.kunit-uapi or somewhere.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/conf.py | 52 +++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 48 insertions(+), 4 deletions(-)
 
-Understood. This is not unexpected, as hinted in the commit message.
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 12de52a2b17e..e887c1b786a4 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -17,6 +17,54 @@ import os
+ import sphinx
+ import shutil
+ 
++# Location of Documentation/ directory
++doctree = os.path.abspath('.')
++
++# List of patterns that don't contain directory names, in glob format.
++include_patterns = ['**.rst']
++exclude_patterns = []
++
++# List of patterns that contain directory names in glob format.
++dyn_include_patterns = []
++dyn_exclude_patterns = ['output']
++
++# Properly handle include/exclude patterns
++# ----------------------------------------
++
++def setup(app):
++    """
++    On Sphinx, all directories are relative to what it is passed as
++    SOURCEDIR parameter for sphinx-build. Due to that, all patterns
++    that have directory names on it need to be dynamically set, after
++    converting them to a relative patch.
++
++    As Sphinx doesn't include any patterns outside SOURCEDIR, we should
++    exclude relative patterns that start with "../".
++    """
++
++    sourcedir = app.srcdir  # full path to the source directory
++    builddir = os.environ.get("BUILDDIR")
++
++    # setup include_patterns dynamically
++    for p in dyn_include_patterns:
++        full = os.path.join(doctree, p)
++
++        rel_path = os.path.relpath(full, start = app.srcdir)
++        if rel_path.startswith("../"):
++            continue
++
++        app.config.include_patterns.append(rel_path)
++
++    # setup exclude_patterns dynamically
++    for p in dyn_exclude_patterns:
++        full = os.path.join(doctree, p)
++
++        rel_path = os.path.relpath(full, start = app.srcdir)
++        if rel_path.startswith("../"):
++            continue
++
++        app.config.exclude_patterns.append(rel_path)
++
+ # helper
+ # ------
+ 
+@@ -219,10 +267,6 @@ language = 'en'
+ # Else, today_fmt is used as the format for a strftime call.
+ #today_fmt = '%B %d, %Y'
+ 
+-# List of patterns, relative to source directory, that match files and
+-# directories to ignore when looking for source files.
+-exclude_patterns = ['output']
+-
+ # The reST default role (used for this markup: `text`) to use for all
+ # documents.
+ #default_role = None
+-- 
+2.49.0
 
-> > +user_nolibc_ldflags := -nostdlib -nostdinc -static
-> > +
-> >  user_ccflags   = -Wp,-MMD,$(depfile) $(KBUILD_USERCFLAGS) $(userccflags) \
-> > -                       $($(target-stem)-userccflags)
-> > -user_ldflags   = $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags)
-> > -user_ldlibs    = $(userldlibs) $($(target-stem)-userldlibs)
-> > +                       $($(target-stem)-userccflags) $(if $($(target-stem)-nolibc),$(user_nolibc_ccflags))
-> > +user_ldflags   = $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags) \
-> > +                       $(if $($(target-stem)-nolibc),$(user_nolibc_ldflags))
-> > +user_ldlibs    = $(userldlibs) $($(target-stem)-userldlibs) \
-> > +                       $(if $($(target-stem)-nolibc),$(user_nolibc_ldlibs))
-> >
-> >  # Create an executable from a single .c file
-> >  quiet_cmd_user_cc_c = CC [U]  $@
-
-
-Thomas
