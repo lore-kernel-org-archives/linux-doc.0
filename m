@@ -1,122 +1,208 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C763BBF2;
-	Tue, 17 Jun 2025 17:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAC1156C6F;
+	Tue, 17 Jun 2025 17:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750182880; cv=none; b=k0dfqnUcq2mi6qpAgoDMi+7LUuGweu+a76VTtlG2SqRiSR86Q04Cb4IkY6zIzMX5bwHJTZ+j4PXfSoYhhCT8VmOWcfqmMVMJ75SH316IlvQUZjsE4jnU5pe9t8IRH4NBJdjP1B4sSdkmU27wY0gwFwzaQt24ckw95R/i+hHpYks=
+	t=1750183023; cv=none; b=gKvZOaqaLLCFMOjWpAtzxAWtg+5GOpZ9wbD+Rx+iJVNHYb1/9iZVs5gc+eJj9ebA2ybZG6gY7nr1xFpcEwuK/mHndTIQr1AjqR5GkB5L4qn/DdAT4daO7gT+ZCU56jL8c55XEnU65wG/yR8rvmLZkCTIs6EgqVU3euzS6Irx+2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750182880; c=relaxed/simple;
-	bh=bgxfn7vE3uVcZL4Z/4Xgrg5I++5k5UcZdX3exMfLzn4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BQ6XKglC8jKqBzjpWSDjVHh45/a9urkJ5Q9jvw8V577n0sqN5D2l4Zr7bqzDVha0OyVvBI/UrFN3dQgySxuyVaq+04NU+cxHL+bWDe85VvlO0MR/aNDdExGbFjr9Nd4mOYooKPZx6XE/cRXxvkQgVftrIkb4G+95UmfbPY1WOes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bl28H49y; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750183023; c=relaxed/simple;
+	bh=y55Z1VjvdrkqqEtQsP/JjeLD6YX4X2Tz6tr9egFE7xs=;
+	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
+	 Content-Type:Date:Message-ID; b=pFPlRAMJ4Dj1cjxeYvGnCcNOdjeIjBVFRb2vPlvP1ni2ln9pYUgSVs8lsiFhbRc5P8qnuGceMy4c1JfKm+IO2Ry1VqG1YpM+TNlLG5FbeKFhG2PY+I/XXuSt+PgSp6cSWvOyG1l03t7sW7wKNEv2qUMeSR33SA1o0ZeNcodL5UY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net; spf=pass smtp.mailfrom=jvosburgh.net; dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b=V85HaxH1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=S8iIgrhS; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jvosburgh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bl28H49y"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4a58f79d6e9so74439051cf.2;
-        Tue, 17 Jun 2025 10:54:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750182878; x=1750787678; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OTi4WuiI5rSn4d0VdM5D16B62aIH3ZTDCOZvLTT0owQ=;
-        b=bl28H49ygnqhyLaSjZSoas5k74rbqyepz5ij3cxt3sdyl6QOwcUbAiENyF7O3fQbzD
-         i8rvicdk9RRmmjoujhP+J9Q4A7DOdE23BvRvvvDX9r7TrxzTgXdjMXTgjYXooV+KQr0i
-         1N5lXR2j8GA/0OWTdEOnECaHJBdorYYK+SRiMbmRI1MqhhX7eLPE+6LV0cbH6lG/ceeV
-         iktbI4L9EbtP2dM3wdpJvtkvT505rACRkVxKH9H73pSpN5jw9KUqB4cQe8GFmrSA5Sq3
-         /LZXp/O9STs6XCGcXpXEwJThttvX7n0T/OCy2khD5gtWYyormoN81I8MTOZFvDOPRW8d
-         3JDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750182878; x=1750787678;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OTi4WuiI5rSn4d0VdM5D16B62aIH3ZTDCOZvLTT0owQ=;
-        b=Q4i02eEJvG/8VZhFBMpsqGF2pX3DmyrhLDnpzJf+wj7Setmy8odTnr2vO4KygvokCf
-         WNzhMPcYssLu8gyaY4CUdQ9m5s2cMPxFPClMos+YIgTh+x8I0OTtL4Inu51EJe+eNGtr
-         mEKXx2WORDk8RLKe7n7Rxt2o+upLLbFXfZhCgDjwf0EV5G6AoWLRIFnJPbRJ0Yhu5j2q
-         CX2cpS0zdPxrCCemjpSyCMGveumQOvNKvTHNtGd7S6TrCHWGE7OnQlULYW66fvlrBxa9
-         kcMrZ8xybr4bqfPEWz7opS3e6mSUlG90DV/QBPsoN9hK3R1OzMp1s+hzNozTJ3FMjwXP
-         9tvw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmyg6rDd4NACPSaT7aQ3btfyrHDcfyGddEtw8ovB5ayEdA1Vzel1EHG7ibRDQALI3LhhsACoAUQsSMRg==@vger.kernel.org, AJvYcCWaZZfDXQ9MQuPKiqDZey/0ePxIQZ1cCOtWqwuwLqFf5BW0TDOeU6I+FBxes6k+7ufrdxfgMbwZfkC6@vger.kernel.org, AJvYcCWv7O5yx95Ism81Hzx5T44dLqg1+Rnyn6fMhf186Q0WP8KE9Q3Jltn7ljrEQ03C4agUQtEOayRf9qPt@vger.kernel.org, AJvYcCXPidGJTuFoRqLBPdO7CaEW3SAspt4ueekyMglfcfwCYi7OZps9SoxpaVgcKyK4BEG9+0w1sJtdxR+zcQN3Aw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWIxCRsdC3c9sudO5jkkUVi3lJKmnhQChg5Ixv/OIVcSYu2IeZ
-	im5Ihif2WklpQnNqqNv9BvMugmVlhuXLkHFHdlbjOd/ZFCftb9kDSH2pcSSsLIrRcPmxTHmIBZS
-	4WI8gBBR4xA+tbdi+ob2Sqr76vtvm9xI=
-X-Gm-Gg: ASbGncueH4EjHZS9mhnWMFKrp3GvWdUGOgV7AFC5uocBZDElza1EVquwFD9LgclT4iH
-	CTe5xnPas18lcmhWvoIQSAdoMUMtImCgaKg8NNAQZ8UyA1gWS/oxMHtUfAI5pplakhS1sL7Dkcm
-	+S6Iq/ZMdOHhbFfa1Huh215yiiC2sILOgtL5VfFfrpdxng68jSrSAKXkGHUS0CUMSKBTMvHA==
-X-Google-Smtp-Source: AGHT+IGex4UWv+HoV/9Li0Bva7BreKI2nwwf5CqKk1rUMlIevgG5vGMpxGPPINpdgZlO5LfDN26J5rEEDluUxSQJBGM=
-X-Received: by 2002:a05:622a:18a1:b0:476:7b0b:30fb with SMTP id
- d75a77b69052e-4a73c560deamr198293591cf.22.1750182877938; Tue, 17 Jun 2025
- 10:54:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b="V85HaxH1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="S8iIgrhS"
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6E2891380451;
+	Tue, 17 Jun 2025 13:56:58 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Tue, 17 Jun 2025 13:56:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jvosburgh.net;
+	 h=cc:cc:content-id:content-transfer-encoding:content-type
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to; s=fm3; t=1750183018; x=1750269418; bh=Up81oIZvfNKZDT8rbAcJp
+	/j9gEnsVPnyARrXIDiA+qk=; b=V85HaxH1p8VasxtYcF1itgRhVOn07Kp1aRqxd
+	waDh52ZISHAiIYl3HnlRLa2NoMiQLt/J79RKIwW3sfRGah2OnM28/wWlJz1noWUb
+	ZEN8lW8q7gfveFqrWcTQjNPFG+nomQ3v5g4/hUmMBnogG/WbyDKvQWUqIEmZvN2t
+	VKQecESvr79nfI2+r4ihHX+K3mgUGBMklKjy+HiEk88CeoZXEhVxdlZUJpPpT5ER
+	qSGeLON6ROQ2LL6UrxqIe/Z50Uo6ULQQPtyunbydCkThcAEdII3QKGMOlvNQ7V6M
+	BW/6U/fAC6VOU5xzqzbORDvQ1krH9oaolNr98sYuY/xzMhyng==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-id
+	:content-transfer-encoding:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1750183018; x=1750269418; bh=Up81oIZvfNKZDT8rbAcJp/j9gEnsVPnyARr
+	XIDiA+qk=; b=S8iIgrhSG5fGmROMlweiqHN3Q5pqzgp2dZ2QGA/ERuSg1QD0LPl
+	mcBhfGHNWZQ+xbLldk2ONAAYOqOdrTpRdYz/32PdYwoOcBYRIWt5zoxrDSqtKNdz
+	vzwaSYglX49k8ACh+ZaLLOGSPxW5b+K4wjsYFSPSldTB9dFPldinMi1G/aVEKB9L
+	vFzsnr7j4wonlqpk3hSodKnqjgcDzGmzx0LcnrlbOSJ7za3am8RHxAtxXJhkDmq+
+	r2Bdp/6K1/tc/oCp+ChsAufRw3hxTupfDAe99LQfIXElSu05ntSLXhRogK+flOui
+	PXu6Ws3TKMkNuEj49h0jpgX1q/y6DyzW28g==
+X-ME-Sender: <xms:aaxRaFbffABGdrSeamdU_9Wtg6DsnXdcmZg2k5IlCGPc-492ug1p8A>
+    <xme:aaxRaMZ3ECXUrWCnHIQTUnkxMOoTTxyFZqyzMi8XyKljKo_BUG04z9UcY-7VRSTzN
+    Wc61osbRHyQBylOoS0>
+X-ME-Received: <xmr:aaxRaH87h6l-okih2iZR1BOY94InP7x7hFFsSAVvJXrUMjYKRanR4clH28R_LOC3aCZdMg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdekfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefhvfevufgjfhfogggtgfffkfesthhqredtredtvden
+    ucfhrhhomheplfgrhicugghoshgsuhhrghhhuceojhhvsehjvhhoshgsuhhrghhhrdhnvg
+    htqeenucggtffrrghtthgvrhhnpeejvedukeevveeftdehuedujefgffettdekvdevgfeu
+    uefhieduheeitefffefgleenucffohhmrghinhepshihiihkrghllhgvrhdrrghpphhsph
+    hothdrtghomhdpkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomhepjhhvsehjvhhoshgsuhhrghhhrdhnvghtpdhnsggprh
+    gtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhgriihorhes
+    sghlrggtkhifrghllhdrohhrghdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofh
+    htrdhnvghtpdhrtghpthhtohepshgufhesfhhomhhitghhvghvrdhmvgdprhgtphhtthho
+    pehlihhuhhgrnhhgsghinhesghhmrghilhdrtghomhdprhgtphhtthhopegvughumhgrii
+    gvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohephhhorhhmsheskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnh
+    gurhgvfidonhgvthguvghvsehluhhnnhdrtghhpdhrtghpthhtoheptghorhgsvghtsehl
+    fihnrdhnvght
+X-ME-Proxy: <xmx:aaxRaDrb_-3YyxxpG-0oLMc9Ut1SpwbWVnmFMnGIrzmJzGdESHLQuA>
+    <xmx:aaxRaAo4otZWJEf27AQ4zpS7vRRPadvpwSI41BD0jPdleHnScPjMww>
+    <xmx:aaxRaJR0iffO6KSMVSIoYh0Twu8RWm7l0_5ufbZFF9lW5AT39RxJ9w>
+    <xmx:aaxRaIosUSeJBwnVp3oFWobI5b2vSzk96u6M77j9wmAa_0tUaV70oQ>
+    <xmx:aqxRaNzNXVbWfceCgy9o1TmzegdvMr994-8kmkdsBT8a2NG25nXcRR_F>
+Feedback-ID: i53714940:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Jun 2025 13:56:57 -0400 (EDT)
+Received: by famine.localdomain (Postfix, from userid 1000)
+	id 0C1A39FCA8; Tue, 17 Jun 2025 10:56:56 -0700 (PDT)
+Received: from famine (localhost [127.0.0.1])
+	by famine.localdomain (Postfix) with ESMTP id 092979FC65;
+	Tue, 17 Jun 2025 10:56:56 -0700 (PDT)
+From: Jay Vosburgh <jv@jvosburgh.net>
+To: Nikolay Aleksandrov <razor@blackwall.org>
+cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+    Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+    Jonathan Corbet <corbet@lwn.net>,
+    Andrew Lunn <andrew+netdev@lunn.ch>,
+    Stanislav Fomichev <sdf@fomichev.me>,
+    Hangbin Liu <liuhangbin@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] bonding: Remove support for use_carrier = 0
+In-reply-to: <92580e9d-55c1-4298-ae7a-00726a727fb5@blackwall.org>
+References: <1922517.1750109336@famine>
+ <92580e9d-55c1-4298-ae7a-00726a727fb5@blackwall.org>
+Comments: In-reply-to Nikolay Aleksandrov <razor@blackwall.org>
+   message dated "Tue, 17 Jun 2025 08:57:54 +0300."
+X-Mailer: MH-E 8.6+git; nmh 1.8+dev; Emacs 29.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250617105514.3393938-1-hch@lst.de> <20250617105514.3393938-2-hch@lst.de>
-In-Reply-To: <20250617105514.3393938-2-hch@lst.de>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 17 Jun 2025 10:54:26 -0700
-X-Gm-Features: AX0GCFsDdji5vutx2f9J16YcANLgGsyfwdscogvNs6WP3czKu7_D_i2PrHBn32E
-Message-ID: <CAJnrk1YZyuAX+OjuGdRWq1QpNj7R2BU5+Zx8mam6k+VfT9bULQ@mail.gmail.com>
-Subject: Re: [PATCH 01/11] iomap: pass more arguments using struct iomap_writepage_ctx
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1974331.1750183016.1@famine>
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Jun 2025 10:56:56 -0700
+Message-ID: <1974332.1750183016@famine>
 
-On Tue, Jun 17, 2025 at 3:55=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
-e:
+Nikolay Aleksandrov <razor@blackwall.org> wrote:
+
+>On 6/17/25 00:28, Jay Vosburgh wrote:
+>> 	 Remove the ability to disable use_carrier in bonding, and remove
+>> all code related to the old link state check that utilizes ethtool or
+>> ioctl to determine the link state of an interface in a bond.
+>> =
+
+>> 	To avoid acquiring RTNL many times per second, bonding's miimon
+>> link monitor inspects link state under RCU, but not under RTNL.  Howeve=
+r,
+>> ethtool implementations in drivers may sleep, and therefore the ethtool=
+ or
+>> ioctl strategy is unsuitable for use with calls into driver ethtool
+>> functions.
+>> =
+
+>> 	The use_carrier option was introduced in 2003, to provide
+>> backwards compatibility for network device drivers that did not support
+>> the then-new netif_carrier_ok/on/off system.  Today, device drivers are
+>> expected to support netif_carrier_*, and the use_carrier backwards
+>> compatibility logic is no longer necessary.
+>> =
+
+>> 	Bonding now always behaves as if use_carrier=3D1, which relies on
+>> netif_carrier_ok() to determine the link state of interfaces.  This has
+>> been the default setting for use_carrier since its introduction.  For
+>> backwards compatibility, the option itself remains, but may only be set=
+ to
+>> 1, and queries will always return 1.
+>> =
+
+>> Reported-by: syzbot+b8c48ea38ca27d150063@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=3Db8c48ea38ca27d150063
+>> Link: https://lore.kernel.org/lkml/000000000000eb54bf061cfd666a@google.=
+com/
+>> Link: https://lore.kernel.org/netdev/20240718122017.d2e33aaac43a.I10ab9=
+c9ded97163aef4e4de10985cd8f7de60d28@changeid/
+>> Link: http://lore.kernel.org/netdev/aEt6LvBMwUMxmUyx@mini-arch
+>> Signed-off-by: Jay Vosburgh <jv@jvosburgh.net>
+>> =
+
+>> ---
+>>  Documentation/networking/bonding.rst |  79 +++----------------
+>>  drivers/net/bonding/bond_main.c      | 113 ++-------------------------
+>>  drivers/net/bonding/bond_netlink.c   |  11 +--
+>>  drivers/net/bonding/bond_options.c   |   7 +-
+>>  drivers/net/bonding/bond_sysfs.c     |   6 +-
+>>  include/net/bonding.h                |   1 -
+>>  6 files changed, 25 insertions(+), 192 deletions(-)
+>> =
+
+>[snip]
+>> diff --git a/drivers/net/bonding/bond_netlink.c b/drivers/net/bonding/b=
+ond_netlink.c
+>> index ac5e402c34bc..98f9bef61474 100644
+>> --- a/drivers/net/bonding/bond_netlink.c
+>> +++ b/drivers/net/bonding/bond_netlink.c
+>> @@ -258,13 +258,8 @@ static int bond_changelink(struct net_device *bond=
+_dev, struct nlattr *tb[],
+>>  			return err;
+>>  	}
+>>  	if (data[IFLA_BOND_USE_CARRIER]) {
+>> -		int use_carrier =3D nla_get_u8(data[IFLA_BOND_USE_CARRIER]);
+>> -
+>> -		bond_opt_initval(&newval, use_carrier);
+>> -		err =3D __bond_opt_set(bond, BOND_OPT_USE_CARRIER, &newval,
+>> -				     data[IFLA_BOND_USE_CARRIER], extack);
+>> -		if (err)
+>> -			return err;
+>> +		if (nla_get_u8(data[IFLA_BOND_USE_CARRIER]) !=3D 1)
 >
-> Add inode and wpc fields to pass the inode and writeback context that
-> are needed in the entire writeback call chain, and let the callers
-> initialize all fields in the writeback context before calling
-> iomap_writepages to simplify the argument passing.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>you can set extack to send back an error to the user that use_carrier
+>is now obsolete
 
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+	Fair point, will add that and repost.
 
-> ---
->  block/fops.c           |  8 +++++--
->  fs/gfs2/aops.c         |  8 +++++--
->  fs/iomap/buffered-io.c | 52 +++++++++++++++++++-----------------------
->  fs/xfs/xfs_aops.c      | 24 +++++++++++++------
->  fs/zonefs/file.c       |  8 +++++--
->  include/linux/iomap.h  |  6 ++---
->  6 files changed, 61 insertions(+), 45 deletions(-)
->
-> diff --git a/block/fops.c b/block/fops.c
-> index 1309861d4c2c..3394263d942b 100644
-> --- a/block/fops.c
-> +++ b/block/fops.c
-> @@ -558,9 +558,13 @@ static const struct iomap_writeback_ops blkdev_write=
-back_ops =3D {
->  static int blkdev_writepages(struct address_space *mapping,
->                 struct writeback_control *wbc)
->  {
-> -       struct iomap_writepage_ctx wpc =3D { };
-> +       struct iomap_writepage_ctx wpc =3D {
-> +               .inode          =3D mapping->host,
-> +               .wbc            =3D wbc,
-> +               .ops            =3D &blkdev_writeback_ops
+	-J
 
-Would it be worth defining the writeback ops inside the wpc struct as
-well instead of having that be in a separate "static const struct
-iomap_writeback_ops" definition outside the function? imo it makes it
-easier to follow to just have everything listed in one place
+>> +			return -EINVAL;
+>>  	}
+>>  	if (data[IFLA_BOND_ARP_INTERVAL]) {
+>>  		int arp_interval =3D nla_get_u32(data[IFLA_BOND_ARP_INTERVAL]);
+>> @@ -676,7 +671,7 @@ static int bond_fill_info(struct sk_buff *skb,
+>>  			bond->params.peer_notif_delay * bond->params.miimon))
+>>  		goto nla_put_failure;
+>>  =
 
-> +       };
->
-> -       return iomap_writepages(mapping, wbc, &wpc, &blkdev_writeback_ops=
-);
-> +       return iomap_writepages(&wpc);
->  }
+>> -	if (nla_put_u8(skb, IFLA_BOND_USE_CARRIER, bond->params.use_carrier))
+>> +	if (nla_put_u8(skb, IFLA_BOND_USE_CARRIER, 1))
+>>  		goto nla_put_failure;
+>>  =
+
+>>  	if (nla_put_u32(skb, IFLA_BOND_ARP_INTERVAL, bond->params.arp_interva=
+l))
+
+---
+	-Jay Vosburgh, jv@jvosburgh.net
