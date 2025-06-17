@@ -1,116 +1,112 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44BD19CC3A;
-	Tue, 17 Jun 2025 01:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADAD2AD22;
+	Tue, 17 Jun 2025 01:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750122645; cv=none; b=f6+L/FbHp2l7efZUg5rAKKp1uqKuGlJBv7TkU2d4YRe8jUGe1hS3dPtSDayCfeRCbGojz+39bf1au1mAadFjOPUsC3rDIZ6tvwCgulW6ZMPXYumqfq4ukFm1qXQEjnBvZFVs7zr3loxAFIjSCYIdwE7chxs/OwzsVrF+XmsmksE=
+	t=1750122849; cv=none; b=Qo/q/hVSHEJgeO64ouMfluOslsa5sL4BB9DLEaeWwNa8fBqxXnHbcic7KoHMo1JD+H7CHm1k9Bsnka1LnEH+yLSa4SKGLFFHNfpKO/S7In8qRquoDHyfY59Q7Vo5AjhRc4it+51ThXqYarfh3okzZYfRFKpx+fYYWNxGm9qXmps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750122645; c=relaxed/simple;
-	bh=fT1xXHNwQD5SOpaUNKqqlhoPF1dWwLBuO1DYC7Fxtag=;
+	s=arc-20240116; t=1750122849; c=relaxed/simple;
+	bh=kpYk43BX78abeboUzPolvtVkkwIHChrlSj8NENX9mt4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cqWwQK+AcizlvQdFvipSOhHzBsvB3KhdcRZWC+4kv3ANW9ZYZj8X80AEO16gX/HC/rzgWJgs6FVc3iQFOGuQmFcBxs5KT+oE6PxPoFhy6F9Qs5PMzwm1VKWhRSya+ykp9OO/ygeCYgjXOlIx2oSYNfL6/JJNbxn7BWL4g/IXbqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YdKxWxtw; arc=none smtp.client-ip=209.85.210.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=T12QxZ8tz6toHybXjsSHDdT+KM8UnUZT8LK4J/96ERy6Hwet9m1/bGwBz4uIsJ9ejWT9KBRhjLsESkOlmunRfYZtuc/QkhHFSRgW+1iZoHtDWreUEbrPCs/karxtdwwINEzXXvfvTTfAnBjzics+3ho+RZLY5xouU2mLvu2QaIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YcMkGw34; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YdKxWxtw"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-748c3afd0dbso755277b3a.0;
-        Mon, 16 Jun 2025 18:10:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YcMkGw34"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-74801bc6dc5so4050595b3a.1;
+        Mon, 16 Jun 2025 18:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750122643; x=1750727443; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1750122847; x=1750727647; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xdCG7GiKOa8Kksg/uV4W6JGwK3wPZmMq/t9MwV0TaY8=;
-        b=YdKxWxtwAevjII4ABMqzCoy+xDXdGKsIUmfRIUjFvvDmLSPIXXaQd4gUbnDxriajK1
-         aOs7cI2NJSgcTVs0OBRFBMkFgDJIjx6zK3ANNOO/WTDx5LfLp/1GyEQF5eB/61+5jcVT
-         83t30MMVvXimq4celhFN4EqFCDc+WfFZfl9+rACEXAkyLd949I+N6dU5usP8kBblwbb5
-         40ufvG4m+n8jKNWOjFWFEiql8Pd3kiQFVB+GG/FRxlXA4Jl9kyQciZ9nWk8WoetVNFoD
-         85PV7FIsN6zH+vAW5eetQZPxrpFWDkU/J4fwbnsMnmG/JKtNf6216/eyBiqYqNqFjkXM
-         gnJw==
+        bh=kpYk43BX78abeboUzPolvtVkkwIHChrlSj8NENX9mt4=;
+        b=YcMkGw34O5kxtfncTQj2QH8BRFMehCO9IRAfNuN6G986kwiDhF9C3h8Zh1IplX1RM0
+         0s+VT+MDaf7ewV4O+nZRljJiZqGeYWA8bTdTCI/aR5faQKPesfUEUEtu0phZ1bI+Gzdu
+         +43XEB4DNGcalV78cXtKX2EUnPf3aFW+avPBuarmunoTsc2OxAJGxQ1njwDIRWs7nYkx
+         XVgGbud1qq0Usxcd6cpvbytZw7XQsi8LeJ4CiV/FfSH3+IfMBm1BlNc4Ga/mqisw3tom
+         wOhiCG8/7Y1VNxACHxVhVvarW7Wzoi8f/9Y+fj+lVcSNRnAtXaT785bsCma2AizflZHy
+         URLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750122643; x=1750727443;
+        d=1e100.net; s=20230601; t=1750122847; x=1750727647;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xdCG7GiKOa8Kksg/uV4W6JGwK3wPZmMq/t9MwV0TaY8=;
-        b=TrARs/YV19YZK10b6QWx2sIwSDHhyO51Fi6u7iyt7sb2UXvoXGfnY5g4mI35tdAg1D
-         gVzzU48JNuWO7phbmDwVLx81SqrarEIaEX1Ngt0XHYcWA/RtFCqQ16ufMyCyqY8mQ+VN
-         rjtEAtKRcoGgCY77T/SEGPjkddv5NQWo7xUs6B5TdHRRM4YMf28QLFfZHNTd4qNHJzbV
-         jtrVFzMOQh5y7zZuR8/Wh/VQCr6n091OXP+VYVrxW6PJqHEwR5j7KoXZOr0dI01nfWGi
-         rmTjci+MUo+4YOLZdPUny3qiIvnG6BKIIan1s/zFXA966mfAbkP+WIW7PY5wmqtAoK1K
-         16ww==
-X-Forwarded-Encrypted: i=1; AJvYcCVpRUCGpuGrsfDD6r6s4ajdtL/NgeHm+SJdgtl6pvjpophtvBKaRH7fZ654zGez/BMeEQTI6m24UG4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPdZ4XvsfOhOLyFs1REqnbK1+zTRmZ44ywt3wryC6POkZpIap0
-	tMtIGJgdir9Rkq7tDzyvizXHQ5H3sWjPLLLtFF30rkCB8Jibtc6t8ZI=
-X-Gm-Gg: ASbGncuZIw4AMLALJEC1Vqjts/U6y+ZpXl1yj2BBVHvAw5Xy/KuUW7JlIfarLecPFK0
-	8rPfElq/IGhiTblUfm+sxdjXlbg/iIRxV92AoSNmhQAzdFMqQoLgOwCE3xEAIy7iLS/op/6VDQE
-	gjeW4vLEtp7BtUomLkpT5tRusl0t4YXQ2H6HP7cDQy4b5r6SKHeckJCCDqVg4SCxdePg6BIZvW0
-	sB0fTGivbyO2oNARy1cix2OfGGCEWTdcu6v3c/URVToDLSxvY6vXgzspPLlRLPBh0qLm/0oicnw
-	B4Iet8A/xNTHyJzr4SUcpGbyptkEgwjUE3k9+/u1yxh++KfG8dCIgz1/yLxUaLzj18UyIaWmT2M
-	t8+2uO6YNqZjgS7MIpB/95JE=
-X-Google-Smtp-Source: AGHT+IH3wooPtQRQ7+Atp8Y8bDiCDFHOOMUJuevw+XdayNuEvKHxK3WB5inEZi/1Pvx032/2YdelVQ==
-X-Received: by 2002:a05:6a00:806:b0:742:3fe0:8289 with SMTP id d2e1a72fcca58-7489cfc5518mr16972640b3a.20.1750122642853;
-        Mon, 16 Jun 2025 18:10:42 -0700 (PDT)
-Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7488ffecccesm7545059b3a.5.2025.06.16.18.10.42
+        bh=kpYk43BX78abeboUzPolvtVkkwIHChrlSj8NENX9mt4=;
+        b=QjuVsB5xTxxpLW9XOcSb/WTeiA5bJaoADPtVgljaZhCHO7CPbO+EGr/qrpU51wjLJm
+         GWGvfIUGzTctq2Hqu6OhBb8VYZuXnIPw0lqqxVAbgUsczRMv5OIhVzyurfexEz4OWfDa
+         tcUSQKlJmeS7bsMVaxX1LpK2o9iJrcE/jercpTRL9cMec9U+SKNimFIJfToOTFTf2vje
+         vubcXxLXTa+rt9ljWbf5FlFOvpt4QQVwBNZcxFjZCNK1yBbwooIB7rQkJ1wyd669NDnX
+         dbTSwoL2UmX3wwrn2sVKrdXxeQo1cCQEsDYCu2mkITbSCrrShJMbOdSZrqAp/hRIbDF1
+         sXYA==
+X-Forwarded-Encrypted: i=1; AJvYcCUMdL/jLBneFzQByZ3F5bygsBwIAbAY7eNaTtEz2fvsYqjZOfpqei7T0BGUEgkyFC/9wknSNkbn/9c=@vger.kernel.org, AJvYcCXI1RgfWJkvV8GS4P81C48Vio/2lbO9KE7IKN2sedbwu6dg7Bwp/1OTxvpYrhnCQQ1UG20RpkuBniV5jRL7@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPtLX89U6v5v226otm35CV8VjuoLO/FROe4TMFZ3Vk3c9XSsgK
+	g99DHyFVXFYmvX+6Lod5rs2HmWreOW4PZq9DYWdpvIyHit0AoEWVHLOc
+X-Gm-Gg: ASbGncsoZsimBz1g9298jelemAhhGZoviVX7OsZHD/dBe7k9RJTbCnnzZeRGEmMrWXB
+	wqwYokJrQ+5sOAlHMbVtO8v6PlT6fJDPi9WDLpX5jod9+dklNKI19VyCHJJJ7zYapjQpqEYH2Ag
+	nsroURJ5UJxpKp7njzDyf0oJn2Ul4FaQlkn7TSqgGIyWs70085NspxZvCwywIpxxx4fkIbPSpXF
+	MSzCzfIA3UVjs0sLMCZJia0dh6TJ+PlUqXJzmle1VtQJ8JoL1ZSBIaI5+alCkN8QtPUs95ZfWyV
+	4kO+J/gRGpFw+hDbGdFQI/1QLBYL+ecwzEdieUDdmNlBi6eytTBwpU54EWBuAQ==
+X-Google-Smtp-Source: AGHT+IGHNJI5rDVV8B5l1SOl98BZN93rEklnkzEYfIxtQDE11ofXODrRvc4euJb8tlPe67MPYCVNZw==
+X-Received: by 2002:aa7:8219:0:b0:746:1d29:5892 with SMTP id d2e1a72fcca58-748d14987b6mr749030b3a.4.1750122846672;
+        Mon, 16 Jun 2025 18:14:06 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74890084013sm7842198b3a.96.2025.06.16.18.14.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 18:10:42 -0700 (PDT)
-Date: Mon, 16 Jun 2025 18:10:41 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Jay Vosburgh <jv@jvosburgh.net>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hangbin Liu <liuhangbin@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] bonding: Remove support for use_carrier = 0
-Message-ID: <aFDAkS3VUgHwxxr6@mini-arch>
-References: <1922517.1750109336@famine>
+        Mon, 16 Jun 2025 18:14:05 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 7996E4241812; Tue, 17 Jun 2025 08:14:03 +0700 (WIB)
+Date: Tue, 17 Jun 2025 08:14:03 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Lothar Rubusch <l.rubusch@gmail.com>, jic23@kernel.org,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
+	Michael.Hennerich@analog.com
+Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/8] iio: accel: adxl313: add power-save on
+ activity/inactivity
+Message-ID: <aFDBWztZT67hUF6I@archie.me>
+References: <20250615222258.117771-1-l.rubusch@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="J6rThkAjSk/uBmxO"
+Content-Disposition: inline
+In-Reply-To: <20250615222258.117771-1-l.rubusch@gmail.com>
+
+
+--J6rThkAjSk/uBmxO
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1922517.1750109336@famine>
+Content-Transfer-Encoding: quoted-printable
 
-On 06/16, Jay Vosburgh wrote:
-> 	 Remove the ability to disable use_carrier in bonding, and remove
-> all code related to the old link state check that utilizes ethtool or
-> ioctl to determine the link state of an interface in a bond.
-> 
-> 	To avoid acquiring RTNL many times per second, bonding's miimon
-> link monitor inspects link state under RCU, but not under RTNL.  However,
-> ethtool implementations in drivers may sleep, and therefore the ethtool or
-> ioctl strategy is unsuitable for use with calls into driver ethtool
-> functions.
-> 
-> 	The use_carrier option was introduced in 2003, to provide
-> backwards compatibility for network device drivers that did not support
-> the then-new netif_carrier_ok/on/off system.  Today, device drivers are
-> expected to support netif_carrier_*, and the use_carrier backwards
-> compatibility logic is no longer necessary.
-> 
-> 	Bonding now always behaves as if use_carrier=1, which relies on
-> netif_carrier_ok() to determine the link state of interfaces.  This has
-> been the default setting for use_carrier since its introduction.  For
-> backwards compatibility, the option itself remains, but may only be set to
-> 1, and queries will always return 1.
-> 
-> Reported-by: syzbot+b8c48ea38ca27d150063@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=b8c48ea38ca27d150063
-> Link: https://lore.kernel.org/lkml/000000000000eb54bf061cfd666a@google.com/
-> Link: https://lore.kernel.org/netdev/20240718122017.d2e33aaac43a.I10ab9c9ded97163aef4e4de10985cd8f7de60d28@changeid/
-> Link: http://lore.kernel.org/netdev/aEt6LvBMwUMxmUyx@mini-arch
-> Signed-off-by: Jay Vosburgh <jv@jvosburgh.net>
+On Sun, Jun 15, 2025 at 10:22:50PM +0000, Lothar Rubusch wrote:
+> base-commit: 7461179e080df770240850a126cc7dbffad195c8
+> prerequisite-patch-id: 263cdbf28524f1edc96717db1461d7a4be2319c2
 
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+What prerequisite patch?
 
-Maybe better to target 'net' with the following?
-Fixes: f7a11cba0ed7 ("bonding: hold ops lock around get_link")
+Confused...
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--J6rThkAjSk/uBmxO
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaFDBVgAKCRD2uYlJVVFO
+oxsJAQC6kO6Qlq0kPZ853TcbuWHF5EKhdrT+ACRSC58geoFPLwD9HHhjAfa9SkLx
+9bNVpoqGB9uGSiNHgq9NFqVmfHj8Bwc=
+=Y7Jk
+-----END PGP SIGNATURE-----
+
+--J6rThkAjSk/uBmxO--
