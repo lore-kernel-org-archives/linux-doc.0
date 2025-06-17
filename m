@@ -1,135 +1,208 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDCD3BBF2;
-	Tue, 17 Jun 2025 17:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2AE22FE11
+	for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 17:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750182504; cv=none; b=qxUwBr0Z08uTbr4Wk5VfSyJSn3DCUiqesE6WCkm3L3ZQtLew4IlXTOreXTiHBVq7nSiCluptXov7Ud/IzBRi8QpPGoatnO7lh0vPcw+svogc0HwEeI7QKHUxpr8uc3oJFqDj2ETXsW6Cta6yMNvvh7qTYrRqUQu3lHRZZWTE/0k=
+	t=1750182778; cv=none; b=Hx2O78M9h4qLmJwL83NJaHt9/wW+A6hRGHcIQGlaglWG2xcpo9ZEnHjYt+idY/Lu4eadbfbIx/RnbfRNzA6xZ5Kl0Xf66yZwozUvLA18uQoBmB3yZmfYaCw3d3KUZcI2AeeYhxZgzFmpPdIFBULr2UWdwIQwjU/h6cpT1xRydok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750182504; c=relaxed/simple;
-	bh=+XCjI5K9Mpd5ggLlm7MUlz3RbcKMVBu1U7/rKRSfuqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OjF0XhxQyhThXMVNhRV0PYl3LfteQBYm8ECtHOVTm2Hz7YTeDHpJj0jKMJCy14YB3KkvsVgOTotSJ+82UU6DEx5HxVc9YSoF6ZqihsjLikkFhtGUtYyR0Z6zUgyZbVNwJXgPDvFfU00kMbFAQ6aQN1vVBEYS7XWd6zFXd1MTrI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eI7atVmI; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750182778; c=relaxed/simple;
+	bh=t+06naoVmVF2AOSXqBSYrJu3yXVIfw+vx5pfjOIVMmY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DBYP5uJs+nI4DnxSZCDOMTkzLNbT1dlQQzFTJBhrDDTiDRARwhDE87fAq8tAJSkJ7F8i5gY3fv1oHaVFqAp4i2Tv1zhyHj5sHL7UkKDMj8BdlyA9QtD5YbYC/HK4CwjcvBxE2UJSlamslVpOoSgvomLuV2cndXVD4Q2/Do8ctzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VWY51kPc; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eI7atVmI"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-747abb3cd0bso5309369b3a.1;
-        Tue, 17 Jun 2025 10:48:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750182502; x=1750787302; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+Xl7EDHQegoMM5/vxaOFryLj+bioA1aFNCNkeocZIE=;
-        b=eI7atVmI3Cmym42y/jq/YXFAkxFXlTSW1C6nwcmWtJLguUxEOFNl9I07FXjQncFhSe
-         E7PnDr92RYnWrcT2Ub0tgM3gWpo2it2zco5zAAdTdVlKnSDaAAHGXAH2JTRBMOMYnaPT
-         rpyfXNssCD7LO8o8GmnU54pgpsRay43iuAnwtCh65Cyl7xBP4R5nFG2QskATJC4i6N68
-         5WdxdM92PN4s13nT1q0Pr4ukqxbFn9x2PtniERBkTK4YMtgo3D9GGfaQK3UCW46q9h1y
-         TemVHMiuI6JatDrJ1nC6bsL7iiYnPHIQNKf4EZoeRg/mYp0WFMrvKf/F2NnY9Drr9nxU
-         Xlsw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VWY51kPc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750182775;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VHVlghtOwl1iYTRYeyXrEKqXKy+rGsdhH54hG2oPsxQ=;
+	b=VWY51kPcMLewrs0lCjf8YUK7r8bvORhnPRsKcyMqDt8BRhcvzFnEDUxeyx+DqLs+6h6ngM
+	y1KmdD0GNUnwsFN+bVUVxsOt+6i6NtyxRL4QbKgzPhEi42znYMdogu8IP7KB/v3v5TX/4l
+	7PlAPc8EW/Pl+TiRgclw++mzlXcNpjc=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-649-0rf3DvusMraw3EndKPYYcA-1; Tue, 17 Jun 2025 13:52:54 -0400
+X-MC-Unique: 0rf3DvusMraw3EndKPYYcA-1
+X-Mimecast-MFC-AGG-ID: 0rf3DvusMraw3EndKPYYcA_1750182774
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-70e43123ec6so74188857b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 10:52:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750182502; x=1750787302;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5+Xl7EDHQegoMM5/vxaOFryLj+bioA1aFNCNkeocZIE=;
-        b=DhOfp8mo7wPnWcyJ67RiQMvZICrHo1GlG22JLVuVq/rXqBqEDEHVKxZd33tKhp7ddI
-         hYdu58CqU7KlMq7qradmmq557kCbWawNz6tkgZNSdO1zE1GtjneDsvraeD/wKZiHUfp0
-         UId+Omxfw6a+l+nqbtP0BTxrylFYuVdF1JP+7GclO3551BYWbS8HGp8ynESltcEjEqah
-         E4o83PG0/K0VDT0/hQ1lUiaoZCeSprShtqF2XHRXTqekQyYFuanuXPc2PEqIT5SvVQV5
-         MueWjXI0NHCgFNhPkdau4M4W5wcM7H2iPZo2UbI6xtnqaGFdp1Iza3AdNba72CqL4EUm
-         sQ9A==
-X-Forwarded-Encrypted: i=1; AJvYcCUh/oAGJuClcWChFLU8H8/igg6/KXlAgAF85C+8I7xpXhPNqihPkJVIJ9uedcRtGmko0fKn9jfZxNs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyin+CIrc2R+LQ+xCYwc9x4zn968K4ic/RcNJjSDG/MxZDUDgPh
-	Mn4avPhlE4Aqo8AngdRzjUnuRrGAV4gLIrRSXDBeiFPeMVH71cLrFEtfSJI9
-X-Gm-Gg: ASbGncvFMs+uQqNOXxxyCvBxPUPg7KrsVGmHtu4bwht2fDYPF9jJKcj9VrEY7xQ3mOT
-	MhT3qbGa+xiNgMp6gOXkbFzflYyObyJHB6puAKD9oUFme72XL5SxfcEzQ4AmdWkYBw8bbRQRHsE
-	iKrVdtg617igK3d3IxmL/GkYOimn6HEcQRn81wOH71gAIlIG+3vBqoHqtfnqj4ZMUyYz9qSHiW8
-	Wbq9VuB6PT06cqTw+QuLrFUqmhjnnID0DIpgYnIWzHUbD2PovdP5h1OtuuLuPzpsDw2pOtYKuFy
-	hSkeCyr5JRCiTJAhVGB0oMZd1oE3W6705eAzr8bE8+WjBwFUjUdA4kwV/V1uVASY7PNfNmcthAY
-	VQgy/5gDtcMO25ViZg0PTNkI=
-X-Google-Smtp-Source: AGHT+IEhjprXOs9xwkpuoMFSMYZ7C1cb4GdCMo2ynXQHqSj1mlKbEuXO5EoB6CDfQwxFLrLNFCyxtQ==
-X-Received: by 2002:a05:6a21:68f:b0:1f3:1ba1:266a with SMTP id adf61e73a8af0-21fbc41233bmr20709696637.0.1750182502191;
-        Tue, 17 Jun 2025 10:48:22 -0700 (PDT)
-Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-b2fe1680420sm7735781a12.38.2025.06.17.10.48.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 10:48:21 -0700 (PDT)
-Date: Tue, 17 Jun 2025 10:48:20 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Jay Vosburgh <jv@jvosburgh.net>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hangbin Liu <liuhangbin@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] bonding: Remove support for use_carrier = 0
-Message-ID: <aFGqZGvSSEfR-sDi@mini-arch>
-References: <1922517.1750109336@famine>
- <aFDAkS3VUgHwxxr6@mini-arch>
- <1934950.1750126872@famine>
+        d=1e100.net; s=20230601; t=1750182774; x=1750787574;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VHVlghtOwl1iYTRYeyXrEKqXKy+rGsdhH54hG2oPsxQ=;
+        b=lMNPrt94WJD1MCsPMDlA+CwqnX5qXRqqXEezMm/0hlwE2DRh9VZVO1gBRcjWkEqyfD
+         yuuVKcrmklBJpAWcomO/cHG3NyiBEUOpEBHbxIXUTmsHxa7/pyaZdiU+YanBlCKxoxph
+         hx0cYpp2gCd4UjPPoLjRXuXWxA0GPyhU2KLkAyxAISR8UfOd5Aufu08ISMhOyOH/6cda
+         W8vXqQJnTpFwXjI4KaHfUZ2+N6pwXe63qgut7VVBLLGZWffrC4OSQBYRUPE3MGMBakSr
+         td9sbu2cRz7pD7NRDmVJ4Allpg2GUGsdtQy9OUXxfXTsKI1YHS7bxMjBlGj873Cgtne8
+         f+2w==
+X-Forwarded-Encrypted: i=1; AJvYcCVQfzeGxQU4XQeeooQZrJLTKF2U7nmnU3A3gt+UzZny9ExB6Q7r3h8WjJ5b8KwBmKm/7QrJ2l0zpLQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrUR8cdttHi73UgdoeQsxL42mNPt5A0B+lFpjlIVBOsLz2Tghm
+	FtTeumB2zCP/f4V3YNk3EMbgs+X2nEvf2Ixy76IfxOJ8OKDTSrf7DRnCATxfz4GRltNYTy5bxdz
+	Visa0iNR/96Rp7hw5pJ21YFYc6DhEoNx/gpwfIvefN6s4O00gPGEmI7wK3Hb0P//8Rd0a9g6s7O
+	Y7p7BgWbeIqE6SMQr/2tlrzNS25dX+Cfh7oQo5
+X-Gm-Gg: ASbGnctgT2Mr+AjXv7TBG+A2lDz5yGkLxtMStPQhPI49960x58MKZJnyNAPQQlpwwrp
+	+xNEKkc4mVqdZmj/BJ/Y6WKO+y5hlj9Ppk6mkiH2jKZKK2lPRWujOGdZMaZCOqpb59OZq7ewUUO
+	3NVEBqkQ==
+X-Received: by 2002:a05:690c:9a07:b0:703:b3b8:1ca1 with SMTP id 00721157ae682-7117536e5f3mr174054057b3.5.1750182773968;
+        Tue, 17 Jun 2025 10:52:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHsuDUpqbT4Zm+fDNYLZyRvnIomvlXs1lgyYMEYTlPSDFNwpQpbOwB39H6AdaylUKoeEGHtBp3S/5ilov+jo+Q=
+X-Received: by 2002:a05:690c:9a07:b0:703:b3b8:1ca1 with SMTP id
+ 00721157ae682-7117536e5f3mr174053697b3.5.1750182773635; Tue, 17 Jun 2025
+ 10:52:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1934950.1750126872@famine>
+References: <20250515033857.132535-1-npache@redhat.com> <20250515033857.132535-2-npache@redhat.com>
+ <fcd3phzewpgzghrzse3stxi7jz7b6l5uwnhqtswcfnqvuvktip@apqh2achkutn>
+In-Reply-To: <fcd3phzewpgzghrzse3stxi7jz7b6l5uwnhqtswcfnqvuvktip@apqh2achkutn>
+From: Nico Pache <npache@redhat.com>
+Date: Tue, 17 Jun 2025 11:52:26 -0600
+X-Gm-Features: AX0GCFswQblbC-fUl4LgnBDpA9J_EkZ2hl0iyVshZHwGMIbdVVRH-b1apF1auqA
+Message-ID: <CAA1CXcDgu3bT-aUEXoFrVVYaTy_rAbdNmwMhzrkwb0+VxQM47w@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] mm: defer THP insertion to khugepaged
+To: Klara Modin <klarasmodin@gmail.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	rientjes@google.com, hannes@cmpxchg.org, lorenzo.stoakes@oracle.com, 
+	rdunlap@infradead.org, mhocko@suse.com, Liam.Howlett@oracle.com, 
+	zokeefe@google.com, surenb@google.com, jglisse@google.com, cl@gentwo.org, 
+	jack@suse.cz, dave.hansen@linux.intel.com, will@kernel.org, tiwai@suse.de, 
+	catalin.marinas@arm.com, anshuman.khandual@arm.com, dev.jain@arm.com, 
+	raquini@redhat.com, aarcange@redhat.com, kirill.shutemov@linux.intel.com, 
+	yang@os.amperecomputing.com, thomas.hellstrom@linux.intel.com, 
+	vishal.moola@gmail.com, sunnanyong@huawei.com, usamaarif642@gmail.com, 
+	wangkefeng.wang@huawei.com, ziy@nvidia.com, shuah@kernel.org, 
+	peterx@redhat.com, willy@infradead.org, ryan.roberts@arm.com, 
+	baolin.wang@linux.alibaba.com, baohua@kernel.org, david@redhat.com, 
+	mathieu.desnoyers@efficios.com, mhiramat@kernel.org, rostedt@goodmis.org, 
+	corbet@lwn.net, akpm@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 06/16, Jay Vosburgh wrote:
-> Stanislav Fomichev <stfomichev@gmail.com> wrote:
-> 
-> >On 06/16, Jay Vosburgh wrote:
-> >> 	 Remove the ability to disable use_carrier in bonding, and remove
-> >> all code related to the old link state check that utilizes ethtool or
-> >> ioctl to determine the link state of an interface in a bond.
-> >> 
-> >> 	To avoid acquiring RTNL many times per second, bonding's miimon
-> >> link monitor inspects link state under RCU, but not under RTNL.  However,
-> >> ethtool implementations in drivers may sleep, and therefore the ethtool or
-> >> ioctl strategy is unsuitable for use with calls into driver ethtool
-> >> functions.
-> >> 
-> >> 	The use_carrier option was introduced in 2003, to provide
-> >> backwards compatibility for network device drivers that did not support
-> >> the then-new netif_carrier_ok/on/off system.  Today, device drivers are
-> >> expected to support netif_carrier_*, and the use_carrier backwards
-> >> compatibility logic is no longer necessary.
-> >> 
-> >> 	Bonding now always behaves as if use_carrier=1, which relies on
-> >> netif_carrier_ok() to determine the link state of interfaces.  This has
-> >> been the default setting for use_carrier since its introduction.  For
-> >> backwards compatibility, the option itself remains, but may only be set to
-> >> 1, and queries will always return 1.
-> >> 
-> >> Reported-by: syzbot+b8c48ea38ca27d150063@syzkaller.appspotmail.com
-> >> Closes: https://syzkaller.appspot.com/bug?extid=b8c48ea38ca27d150063
-> >> Link: https://lore.kernel.org/lkml/000000000000eb54bf061cfd666a@google.com/
-> >> Link: https://lore.kernel.org/netdev/20240718122017.d2e33aaac43a.I10ab9c9ded97163aef4e4de10985cd8f7de60d28@changeid/
-> >> Link: http://lore.kernel.org/netdev/aEt6LvBMwUMxmUyx@mini-arch
-> >> Signed-off-by: Jay Vosburgh <jv@jvosburgh.net>
+On Sat, Jun 14, 2025 at 5:25=E2=80=AFAM Klara Modin <klarasmodin@gmail.com>=
+ wrote:
+>
+> Hi,
+>
+> On 2025-05-14 21:38:54 -0600, Nico Pache wrote:
+> > setting /transparent_hugepages/enabled=3Dalways allows applications
+> > to benefit from THPs without having to madvise. However, the page fault
+> > handler takes very few considerations to decide weather or not to actua=
+lly
+> > use a THP. This can lead to a lot of wasted memory. khugepaged only
+> > operates on memory that was either allocated with enabled=3Dalways or
+> > MADV_HUGEPAGE.
 > >
-> >Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+> > Introduce the ability to set enabled=3Ddefer, which will prevent THPs f=
+rom
+> > being allocated by the page fault handler unless madvise is set,
+> > leaving it up to khugepaged to decide which allocations will collapse t=
+o a
+> > THP. This should allow applications to benefits from THPs, while curbin=
+g
+> > some of the memory waste.
 > >
-> >Maybe better to target 'net' with the following?
-> >Fixes: f7a11cba0ed7 ("bonding: hold ops lock around get_link")
-> 
-> 	I targeted net-next and left the Fixes: tag off on purpose.
-> 
-> 	First, the bug this nominally fixes is many years old, and
-> wasn't introduced by f7a11cba0ed7.
-> 
-> 	More importantly, though, this patch is removing functionality
-> that someone theoretically could be relying on, and I don't think such
-> removals should happen in the middle of a stable series.  The default
-> setting for use_carrier (i.e., using netif_carrier) will never hit the
-> issue in practice, so the exposure seems to be minimal for common use.
+> > Acked-by: Zi Yan <ziy@nvidia.com>
+> > Co-developed-by: Rafael Aquini <raquini@redhat.com>
+> > Signed-off-by: Rafael Aquini <raquini@redhat.com>
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+>
+> ...
+>
+> > @@ -315,13 +318,20 @@ static ssize_t enabled_store(struct kobject *kobj=
+,
+> >
+> >       if (sysfs_streq(buf, "always")) {
+> >               clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG, &transparen=
+t_hugepage_flags);
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG, &transparen=
+t_hugepage_flags);
+> >               set_bit(TRANSPARENT_HUGEPAGE_FLAG, &transparent_hugepage_=
+flags);
+> > +     } else if (sysfs_streq(buf, "defer")) {
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_FLAG, &transparent_hugepag=
+e_flags);
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG, &transparen=
+t_hugepage_flags);
+> > +             set_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG, &transparent_=
+hugepage_flags);
+> >       } else if (sysfs_streq(buf, "madvise")) {
+> >               clear_bit(TRANSPARENT_HUGEPAGE_FLAG, &transparent_hugepag=
+e_flags);
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG, &transparen=
+t_hugepage_flags);
+> >               set_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG, &transparent_=
+hugepage_flags);
+> >       } else if (sysfs_streq(buf, "never")) {
+> >               clear_bit(TRANSPARENT_HUGEPAGE_FLAG, &transparent_hugepag=
+e_flags);
+> >               clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG, &transparen=
+t_hugepage_flags);
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG, &transparen=
+t_hugepage_flags);
+> >       } else
+> >               ret =3D -EINVAL;
+> >
+> > @@ -954,18 +964,31 @@ static int __init setup_transparent_hugepage(char=
+ *str)
+> >                       &transparent_hugepage_flags);
+> >               clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
+> >                         &transparent_hugepage_flags);
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG,
+> > +                       &transparent_hugepage_flags);
+> >               ret =3D 1;
+> > +     } else if (!strcmp(str, "defer")) {
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_FLAG,
+> > +                       &transparent_hugepage_flags);
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
+> > +                       &transparent_hugepage_flags);
+> > +             set_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG,
+> > +                       &transparent_hugepage_flags);
+>
+> There should probably be a corresponding
+>                 ret =3D 1;
+> here. Otherwise the cannot parse message will displayed even if defer
+> was set.
+Thanks Klara-- I will make sure to add it on the next version!
+>
+> >       } else if (!strcmp(str, "madvise")) {
+> >               clear_bit(TRANSPARENT_HUGEPAGE_FLAG,
+> >                         &transparent_hugepage_flags);
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG,
+> > +                       &transparent_hugepage_flags);
+> >               set_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
+> > -                     &transparent_hugepage_flags);
+> > +                       &transparent_hugepage_flags);
+> >               ret =3D 1;
+> >       } else if (!strcmp(str, "never")) {
+> >               clear_bit(TRANSPARENT_HUGEPAGE_FLAG,
+> >                         &transparent_hugepage_flags);
+> >               clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
+> >                         &transparent_hugepage_flags);
+> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG,
+> > +                       &transparent_hugepage_flags);
+> >               ret =3D 1;
+> >       }
+> >  out:
+> > --
+> > 2.49.0
+> >
+>
+> Regards,
+> Klara Modin
+>
 
-SG, especially assuming that use_carrier has a default of 1 (so the
-issue should not appear in most/default setups).
