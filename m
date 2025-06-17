@@ -1,132 +1,120 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72125221F1F;
-	Tue, 17 Jun 2025 15:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689C82DF3C9;
+	Tue, 17 Jun 2025 15:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750174504; cv=none; b=ehlnV9wQRs8o8Fww7GiS1fKRuHVu/z4RlsLjYsK4bmln5pu4G5oRkbK6F6Jd1AxehE9eVdb7vlxDS2FocL8jR7aaB9Dz+r1izPB8lHfilyo3z30AhENGfEI4zaFiLlyXbJVXAYpb5ifZTqxEnP6o3YQ5kXbT5Lt6HlsDM/Xtyx0=
+	t=1750174827; cv=none; b=qBW9bYdn7DgiREdeUbO8L7pG7wlWCAalaKyF7M8C8W4+CQQryNH+hfFQYU4TsuFurw1Wg5hiY5dDauK3ECriQEC5quRu7k/fBFrs3Gct+09sLtJ0w1Npgj/WKC8jPSd4NuZpehI849a7eidoWFswpG+CU4ypi5q71I3jRaH8m/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750174504; c=relaxed/simple;
-	bh=CPRfJWrde/3/SeuvcgoE8XZLSXfJKM2tDw/cNUxij6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZWDh0jFnSZUZxbwGTvkJ49e18Wf3BbJD91kDCRwfPHNz8dx7V6gtWx+RWrKCtrMEbvSC/5zjqxs+IkMysZjmCjpsVO7ieGSEm5mZDrQOWonqbBbpwqHXxrePeIt/M+xfbl/f28Gf9sSHEyv52x+y1NSkYCq3LamHZC4k8eSPFaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Je3VwXQw; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1750174827; c=relaxed/simple;
+	bh=tC6/NDoju0ZefrxpCxrMvxxYc+0O2W6DOLxIX/mdWoE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uuDnE6/FqWXqIEsGOBtmrVWhEdUzpcH/uDud4xJc7a7INziAnbMKUsIMueynCLznrNh+6/wTGEkpyVV/nbqqFZcMajTmoEKFZqCcH2uDYungaJknC45UhRjDwyDSywbvPCDRXSCaoZGtEYKr1DtIH8lIV7fb9gt/UZL44WedYZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMenEqtd; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Je3VwXQw"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so44169115e9.0;
-        Tue, 17 Jun 2025 08:35:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMenEqtd"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-748cd3c8829so826247b3a.2;
+        Tue, 17 Jun 2025 08:40:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750174501; x=1750779301; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MeUMhKUUGmcp9qUgtKmUDGAht+h0f117nU5fk45ORA8=;
-        b=Je3VwXQwmtcB/PPaOgIT+SfH781dLGkPHfaz7fLEJOxW8yPsyQKQ6gHKeB6S8TxFEt
-         WbVp2VzkgMWZj87cgveusv8mn2YO4R+PKgPiwjE3bEknR2klLsPN0n7+nJphHrjUtSmF
-         q5GDYH38AiuXCOOVHiJJBqY4kqSEi/J4dPZLcpfrM8L8HNoWS8fQUx1QK1BJOCIDAxwz
-         3QmGJGSbWa7wANp4FjR3FiYBkExHTVr+rwhfESnoGXVxbpS4x7hmjCJgfuUhDc5HKdf8
-         wiYmzdqx2RWYAz7KIKCwexdSJxeAyl0WQULVEilJhpd60XhlbzYTuTSiJD4RTz8gvfGo
-         jgaQ==
+        d=gmail.com; s=20230601; t=1750174826; x=1750779626; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5k96Kr7lemrnHxQ+iFUrhM42H3DOD+3Iasxmqb+VqdI=;
+        b=nMenEqtdCAVpAVzZu64s7/U31NJVFcatRzFj8FsEO+b21/ToOZskMs4svUrt3rj/r/
+         Pvr6KfZAxtRCpt8wfNrqetsc1Blh8tWgxPTjBqloipPulphwPWZg3r9jblxJ+V0q2cA1
+         6MF737N9FRXTRoDUMFBwAFt2NejmW+mqpOSXZJI/CHPMIkCTqKo3PgM3aNR6b+cg90lR
+         PavdD2v8mIAsOpFdgZcrLeS14tfio3g4EvDyECs8RlbzWsZFH5a+OUZQJARuH+7by/Ou
+         JRm9e7E8+wy8Y6EGxrBsBGBrQZuyNCsWuejhkzN4L8N+ASWvzhrar5Zd6ZMcAufqJqCy
+         oRUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750174501; x=1750779301;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MeUMhKUUGmcp9qUgtKmUDGAht+h0f117nU5fk45ORA8=;
-        b=YMneWsuDmTBwESR1Jk2rmW5zRBGllgvphoCLqrAtST2zy9O857+Etq1Ls1t1X2Oir+
-         JSjHWIBNW0uRTCCvYat/p5EM5k4yNl47FHXUuvCgT/xoWo+jTPZ+5GGptMUbbsgq5XMA
-         iTqR3aS5jekkZo1J/g7gHsMZjRJ0e7fUDN91TWq15xuVWHcMXvZDl5ipemGH7cdpaZKt
-         aYFJgEc8IJEGBO9TU65Dv+ZIilvQ3b65MHPvS+DvAKCg+UcMv6hBYgFFHveu2X0uyLnZ
-         Yh9HzCjNwk0nK+vYGrC53dOjfyiRlPSSgnaoAD9sMPDd4GlAzMoP75uskL+qwiUtN1/L
-         Pgmg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFsFUrVsNz5n3UmOkqUzxvCLZL8Gf+cHKTl7Ktn6H6RUZ4y/Vf7nVoIFG9nyE0gsqobBhYb7PKiVtV@vger.kernel.org, AJvYcCUSnpYb64RoMRsCqA2y68DsDlEJ2BFI5l698LDFCIn9jkG0buaeYEg+fimBfKu2WmgOPX/zszJQRd0R@vger.kernel.org, AJvYcCUZhNDRcZxpoNa8FwS3uvmMnUErP0fxz/TZ8I8yd/DNsp/smD5eowVV1CDJhWakxTnhTRSgJSd3EgSd@vger.kernel.org, AJvYcCW+IoeaGjRAs1+zlwwSEYCFvxOcR+YSk43MXSu/5oWqb0nZDswn8SGZ4MWPAfDLwBT3qhs+2yuuHDCN@vger.kernel.org, AJvYcCWbp0RWwUSIbxFgkq9XZojVdAzMFxrNdhWEpSsN73hUwJuxAHLU47l97C0Bf56o9NQITv2liFexe/9LlrmX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMw0Ixzkdh/Yrf03Jk/xQ2Yk5y8M/PEJNJkrbHRrvjMf2KE0+p
-	IENKpIhnHNHtFAMWnI8fZBFMhFzY/LiYuA8+M/On8vIjVhYGdaKsvvQV
-X-Gm-Gg: ASbGncuh6Pkjnc6aEqafLkiMV+kxRO1Q3b7dtFeX1v55fd0HwkB0SQNKtPwHJ2yzNxv
-	kJ6YvhsjSwtKWNEHFlODLhF8ErFHpE9jrE8VcQnBX2qSW9sRKNZlRwAY7EbplsSoDblaQo47jaB
-	SIRCvgw/I4VQwTf4y5MzG3NweeHA1h6QiAqKYxzIHL+R1qGCEq7926q4u00ds0l95rQMZk6mthh
-	4s7+NUxMN0muk5mthxLY7VrN8fx+Ib60ON/wYHYAjHxDyGoRskSLEinVeVf/Lje30f4qgn4Xj+l
-	Fb9234ZvniZxqgDZyKdWOTkXqtfZ5v8q7bJNpI4MseObjl6+nTB6wLALUF8bIALJREYqya6r0OU
-	mF0N8l70=
-X-Google-Smtp-Source: AGHT+IEcSofaIoMWRLHHOm6SNzbPQq+A9aFchPMIuRecoiBLLWlnkmk5gbcFgeFTvXVj0u/dPRX0kg==
-X-Received: by 2002:a05:6000:2289:b0:3a4:f723:3e73 with SMTP id ffacd0b85a97d-3a5723a3627mr11983013f8f.16.1750174500651;
-        Tue, 17 Jun 2025 08:35:00 -0700 (PDT)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([137.71.226.91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e224600sm180824845e9.8.2025.06.17.08.34.58
+        d=1e100.net; s=20230601; t=1750174826; x=1750779626;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5k96Kr7lemrnHxQ+iFUrhM42H3DOD+3Iasxmqb+VqdI=;
+        b=RSNp02AqmCCtwSKTTevHf3fAGeQm7ejEW73bLHRHmWAjApMgd81oMq2HZzOIlMXMEd
+         trqXcdZ9HKaz9PiGbIa5VFpZYr6fy109VaG54igs3lRQiR/V1B7GiUUsyB2GPRBrVF3U
+         TXqA9x0w8LCLXvfx/huADL8Y7Z7y2bGrdXY+ueaNbbPBlmJzpTdl3FzZFyfKhO/QyGwO
+         fIzE8YhJp96hUJ+5fJMuPh+BdgzJOlv2W9AanT6Mul2kPIP8NyumpwU/M8+6uafaEWjw
+         Pl09dLYiixCWskT+JU2oaaVkYRJvfIcOd1J8XsDsd8yurp/Wfc/mbu4m9EEaoDQdDRsj
+         4zyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVpLrhPfvTA3skw0krayiYLksrPJS7jxJStZiikEZn0DbMxn0gTo392yawtZ2G/QKanwPlIr7WeSSAH@vger.kernel.org, AJvYcCWE9r+DSMgVxDWZnyT8uPk+cH+2K+D/3w1IjAWiEX9KAa0tBxffAr6KWeY4Fl9CbbcFlQgizes0/Fq2riVr@vger.kernel.org, AJvYcCX4wUKMMqL05hZKyiACTwFsHKuer1RZWWiHJ4Is9S0dx6aTdhNcCx6WRjPJ/8R4dqcfiAFQD38Hfcl+7Q==@vger.kernel.org, AJvYcCXHJjrvks0rhqORPnRbB3XI1gooPzk1uYiEHdFaRY57aC1KgMDf8HzimWXXNKRBtdmjlZsBsWX9JoIH@vger.kernel.org
+X-Gm-Message-State: AOJu0YxENBirT0ZIOLsL03c9rEqWzXX+MYd/nP1aiwuRkwyBPc7dCMpj
+	iCJJSjFwl8qyqnrHg0n0kK26sYQuh0gINXBcdGNky6VeQAqkQq9U9QJGpQS0Gw==
+X-Gm-Gg: ASbGncsrbkdKTbYRXBuOesX8nbvMJJOYRMcsms8tbZXhEySObDysaT2XGRKHgX9vvoj
+	wMXQrXAUxB1FGWa0PVAHKt5pNEa42v3ZwmLJqHIJM2NkdWYqOHJIEofYOmCQmP7VmO88KpA7jST
+	79QAOOa84jeeahG28zsuguJFnaRjPcgusXMxkb+5ybJHH/Gn3AXVr5sGpVU0v2EhgcbhBYe32n+
+	bxxJEekyun01BFXO96u32i0r1nCi47ImdkskdSzKrggRMQOFpnwy65TGbogaTQU+JmeKaqaUkU1
+	GY5Vf+uMF2ah514MtsywGEpiOXBVecSbuEVtWyNsNeo0BAo0SMY5OxzTtK4NTR2N+jRHdX7j
+X-Google-Smtp-Source: AGHT+IGliwIj5Gizb7rONr5DP/wCV5syb2AP+bWojANJJJURJP5LW4iLHaV1dnuIjeSmsckBuXTlZA==
+X-Received: by 2002:a05:6a00:a8e:b0:748:2e7b:3308 with SMTP id d2e1a72fcca58-7489ce07d29mr18312704b3a.6.1750174825566;
+        Tue, 17 Jun 2025 08:40:25 -0700 (PDT)
+Received: from DESKTOP-P76LG1N.lan ([42.113.163.91])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74890006294sm8993731b3a.47.2025.06.17.08.40.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 08:35:00 -0700 (PDT)
-Date: Tue, 17 Jun 2025 17:34:56 +0200
-From: Jorge Marques <gastmaier@gmail.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v3 4/8] iio: adc: Add support for ad4052
-Message-ID: <oqibdd7spdxvlimrwcabqo2xryfplk4q6lnwav5grtl5juud5x@vqfego523x7a>
-References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
- <20250610-iio-driver-ad4052-v3-4-cf1e44c516d4@analog.com>
- <yw3n2csu4x4mfed33dtvl75zc5scgkjvkzruqilpw64n7esmdn@3fj77ufzm3c2>
+        Tue, 17 Jun 2025 08:40:25 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: krzk+dt@kernel.org
+Cc: lee@kernel.org,
+	pavel@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 0/4] leds: add new LED driver for TI LP5812
+Date: Tue, 17 Jun 2025 22:40:20 +0700
+Message-Id: <20250617154020.7785-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <e26093a7-2305-4d55-b836-d3bc7c503b9b@kernel.org>
+References: <e26093a7-2305-4d55-b836-d3bc7c503b9b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <yw3n2csu4x4mfed33dtvl75zc5scgkjvkzruqilpw64n7esmdn@3fj77ufzm3c2>
 
-On Tue, Jun 17, 2025 at 04:59:48PM +0200, Uwe Kleine-K�nig wrote:
-> On Tue, Jun 10, 2025 at 09:34:37AM +0200, Jorge Marques wrote:
-> > +static int ad4052_get_samp_freq(struct iio_dev *indio_dev,
-> > +				struct iio_chan_spec const *chan,
-> > +				int *val,
-> > +				int *val2)
-> > +{
-> > +	struct ad4052_state *st = iio_priv(indio_dev);
-> > +
-> > +	*val = DIV_ROUND_UP_ULL(NSEC_PER_SEC, st->pwm_st.period);
-> > +	return IIO_VAL_INT;
+On Wed, 11 Jun 2025, Krzysztof Kozlowski wrote:
+
+> On 10/06/2025 19:43, Nam Tran wrote:
+> > This patch series adds support for the TI/National Semiconductor LP5812
+> > 4x3 matrix RGB LED driver. The driver supports features such as autonomous
+> > animation and time-cross-multiplexing (TCM) for dynamic LED effects.
+> > 
+> > Following feedback from both the LED and auxdisplay subsystem maintainers,
+> > the driver has been moved back to the LED subsystem, under drivers/leds/rgb/.
+> > This version integrates with the existing multicolor LED APIs, avoiding custom
+> > sysfs where standard LED interfaces are sufficient.
+> > 
+> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> > ---
+> > Changes in v9:
+> > - Move driver back to drivers/leds/rgb/
+> > - Integrate with LED multicolor framework
+> > - Refactor and simplify custom sysfs handling
+> > - Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
 > 
-> st->pwm_st.period is the period that was requested before. If you want
-> the real period that is currently emitted, check pwm_get_state_hw().
-> 
-Hi Uwe,
+> You need to provide reason why you dropped reviews.
 
-I believe only ad4695.c uses this method and the reason for that is if
-the pwm is disabled we still want to obtain the requested value.
+In v9, the Device Tree binding was restructured to integrate with the standard
+leds-class-multicolor.yaml schema and support multi-led@ nodes with nested led@
+subnodes. This change introduced a new patternProperties hierarchy and removed
+the previous flat led@ layout used in the earlier versions.
 
-Reverting slightly to v2, the semantic to allow fetching from hw when
-enabled, and using the managed state when disabled, would be:
+Due to this substantial structural change — even though the intent and top-level
+properties remained similar — I decided to drop the Reviewed-by tag to avoid
+misrepresenting prior review coverage.
 
-	struct pwm_state pwm_st;
-	int ret
-
-	ret = pwm_get_state_hw(st->cnv_pwm, &pwm_st);
-	if (ret)
-		goto out_release;
-
-	if (!pwm_st.enabled)
-		pwm_st = st->pwm_st;
-
-	*val = DIV_ROUND_UP_ULL(NSEC_PER_SEC, pwm_st.period);
-
-Is this ok?
+I will include this explanation in the changelog of the next version (v10).
 
 Best regards,
-Jorge
-> > +}
-> 
-> Best regards
-> Uwe
-
-
+Nam Tran
