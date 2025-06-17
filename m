@@ -1,169 +1,251 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2065.outbound.protection.outlook.com [40.107.243.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282172FA64B;
-	Tue, 17 Jun 2025 16:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750179124; cv=fail; b=ce7+w5SS1R/0JUm0GMmHSLVln6uOuh4jS+DLSoz8X/C08Lt0UywTxsFom5o2JUqmt9zvKZndhmmr8lz9deot8+wKTFMSpMbd3YbnQvWt+apvrBpNaplWzv6I/fnXsr6NqxtUHTvBX2Z9LA9rn1XvqR9e+M5hqWD6rOgRYSW7ljw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750179124; c=relaxed/simple;
-	bh=W/jHBY9+wzig+Imm/f1bYnWPYEN8jqOOSA7R9pNH3wM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=PpSbQ1RhK8FuLaW7g7BxSeu4naH/DY/n+FOSLMkwKRkFY3bt+D0la0S91ZSX5xeWhAGASkSjZxeiCwgdAKpZ1ckgxuMYZExajL4YOTsK/nzYSDAPkP1Tj60dZcSMzzo0PRAfDS/Ue0dUBwPC8qgvFQigYwKXNjxJGgXl+MYfpuI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WbRDOvZZ; arc=fail smtp.client-ip=40.107.243.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38D018991E;
+	Tue, 17 Jun 2025 17:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750181016; cv=none; b=Pik7oMFiNwi3MDKKcRWPRzyHqPq1BA/dv9SmToK+3fj8A/HrGnTpJyLyHx9EiVa1sqhZLDXrf5ZBPD4UBV1ajITUr8ni34NLix7U4WFyJnCZ3Pdh7v9gawnZeY30Qh3dpVH8Wab+YEXak7e39B433EQTtYDNRRYkVh5sfTRiMhA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750181016; c=relaxed/simple;
+	bh=Hrcbm7dR2at0MkRPfeNTjwQ82G1ZwMmIaW0GWSsNuu4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uqB0VHuxEDkxAZA/kwnusmEUg9qNhc3tbw9NV4zOV9S4tBSZ7FPcEYnTv5fbvRLuyYWjwn2epmhOL73ttIgTKbPDEs6gVLv5gTTfFkQ1ZAw7G3pWVfOephFZ1gYT0owUeVrwk7yoXFws9mtzgVMdS+BDv1wzfqtKcfi6IWBCojs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RPk66WYa; arc=none smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WbRDOvZZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BzWbVrIwn/EcQruLMlrHcTcOZ2HydeI0+zSDYhKz6tKx/qNQC4VWBsfw9/b6sxWZNe7EK+mAMpdp4GXkoDyXAwatA2dn58lQq6PBSaAxhgGllcWrUV9Ymy48HzBXLxPojKnR+RdaW9zN+UIqVlMyykF2PAWIkFI59V3esyuzpYgbrq9s+lgrL9FOpbpMo0G+B64A/hBb4SCDnCJUAob9HvaCZFEyIjJo0vpmnZ1Tk5UuRvjqG1cj5dSmdYFnwG/oxI4OY0d6gZqA8Gx2Wb5dZtMhl3FTn+jQ/HCYQk50DBUxFJpXzMaONdCBv7z931By9fgJjGGwmXiUqJ0jftJw/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wEDKXEaRCFvoocC+B46ePPr+8AdrPOlrKGNvgWg+LSk=;
- b=XG3BbdEBMaMLSFoPA4FGkEBqZvEl4tKrzorf0hlJVO0CmDOuctLYDraRwiXeHVxF81+nKQbPs5WmpJ5rPGYk1Z4y665EErCRPDAWw5aejSvocTZjl9SoCq7YGE0qKSQbgY98pp+5lEINCdIkClyDO1V2cok5e5uXQlESdFHrjgJGwQRMZ7/DRXvnHgjEuw8I2rkfw5qDk/Af75UH3dpH+is+RoJej9KoFqXWwXPsluWqkpuAhGzTNOAH6YZYYgvZOGTRg7sZChbXfmflm3/D32LsTjPzHYCKIeoVSlCtc/petDydvctinrlDeDW/tNwywxpxKUBu7wYHsLugL4V9kA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wEDKXEaRCFvoocC+B46ePPr+8AdrPOlrKGNvgWg+LSk=;
- b=WbRDOvZZWJFsSvQnc+8ta6cTC45QK4tj691QQ/sXN/wyvpNJGq0hIB6aelZAp2Bhq5gQXr9tcTyCLNVLIpGavg5G+j4+22GnQy2aymF7eSkvdl547lv69OATaQOmUFlrVOgMcTQkvjSmdJMmTzQBIL7qudAMbsJQCZ7WfKeECgexmqPL57yJr7NBu9zOmJhAQ+FLmD2N/zgBu65a6WYdQvRGIhmliokwoxTajWzrTUaqQRNwPLmQDMQitQGYDMPQO4Nvr02O8hEzz2d5nFyTVOQnVnH3BIt7DOGNY1qrYTX9+Z53FZMJqVwBt1Kqgiq4AGMRHP/d6gHPmk6E1R+mAg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by SN7PR12MB6911.namprd12.prod.outlook.com (2603:10b6:806:261::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Tue, 17 Jun
- 2025 16:51:59 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8835.023; Tue, 17 Jun 2025
- 16:51:59 +0000
-Date: Tue, 17 Jun 2025 13:51:57 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
-	Joerg Roedel <joro@8bytes.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-	Bill Wendling <morbo@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
-	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
-	James Gowans <jgowans@amazon.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
-Subject: Re: [PATCH v3 02/15] genpt: Add Documentation/ files
-Message-ID: <20250617165157.GA1558251@nvidia.com>
-References: <0-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
- <2-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
- <aFDMBt1J1w8I_A8U@archie.me>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFDMBt1J1w8I_A8U@archie.me>
-X-ClientProxiedBy: YT4PR01CA0476.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:d6::16) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RPk66WYa"
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2e8f84653c3so1196674fac.0;
+        Tue, 17 Jun 2025 10:23:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750181014; x=1750785814; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ej9TAlXzgN0LHQcsnKzmV9b6lBqh4sRH5fw58an3btI=;
+        b=RPk66WYaSqJeQGpTuQthqsVteSrztCvY0gtEMDS/gyz1l7TDk3xzEBSpdEg75F8fUL
+         uC6MFOnuyPX+ncGbPAuGSop26d+gTlPlc+hHoaqGfxX/nZsSgLo/5n8Eh0bwh960IpXd
+         KSofe5sG8PZjKumPivgOcaarvIujXWNtEp/UiQG/IBIMVRinlRiGisDNhW5FMkZWkZri
+         eE1TxSj25pXkFLQ0h2Vn++6nIxWsRueWH2mrHkU3ZFpFkzAL3e8j2KfPTTxn9YBzXhzz
+         /669dQn1UOL4ym0X9CHhhyHHFpS2PORzngireJICN9Ho2ycbkqMnKh6+PIXLf7hRrMvt
+         oe9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750181014; x=1750785814;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ej9TAlXzgN0LHQcsnKzmV9b6lBqh4sRH5fw58an3btI=;
+        b=FdupSeEVQgS7Pc7UP4u4bGsps+d5p3mCnUApR4NvZH7FHP+XMXWaFDiDdAqInfDb5s
+         HB2jsysfLMGuOZTsJAg8ra/2D+mdUuMSm786C3PEpJGIa5u1BTH18wh7yjU2s4F14xXf
+         Au4Sequ1UM69sjhTSEmsC3wVDnb7b8b6DsrO/2C1BBZ1hdjj68HQyhQD68jlQSmMSHU1
+         Bt9PEChUytTtqr1eLmZUiIHtxjU8iTKHSKrGcpoID4sGA6Q75dEaXmUXXNV7TkUzG/1i
+         MLb9ne19kti8UxHwYrxzdDRkoqEdhvo/7nG7SMIgDGWfUx2Mjp0tMyBs5DiuiJK7Ijt1
+         Nr3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUelYopJ0DiM0VpNvZG1NU6ch04B2qrocRtwFfZoMvM/69TgJnU0BMqJ32BnG4mjE9AKl8rYfApHpT4Z1I=@vger.kernel.org, AJvYcCW6SZWiZcgeYgQKBOKg8c71G7eRi+e92n0M0+/nUWRxnkYtIstUhHYtc6OCjmCeXlO6MUge82Ph@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEKBalB0R6oK6AN5hXUag52+lXJZRQ7kJbD0IRz0peFvnx64jw
+	E2Q/OFSilIAyB3bEGJwbPR0D+sScIeFyFQy2RAHek0JoPjOix62y2hxiRgyUJ85Be9SkZAjP/U/
+	Awi1CQBK0oCWVmGvEwavcWhLM6ajQG8M=
+X-Gm-Gg: ASbGncuEsRZ0/Ndsk/VmJw7pSuEnOqvQEgbcHFLGaE6F0Vtw9fVKVEIwnuOrFq4aNMG
+	AQGmZNLm6vdxGkWLCJPPLnO6qleo7wm7j2I307Zd0HuNCcG09jSs1i+NVLfdG5o6z1ebqHXbq4O
+	5fm7Aif4UBwSCQ8HWRFaAJR9iFT4enn7kcYUJE14w7YeX6tkPJs+2+Jphb7ugCX4Uwm3WOPKYDf
+	w==
+X-Google-Smtp-Source: AGHT+IGHKF0IR41tdCiQQ/QwZTYP3zh1WNnW6OvBJ5ZDaIV3FvSbKqv8iszY6CxnH5G025ZAAXULy+HPrKZVqCHkgAU=
+X-Received: by 2002:a05:6871:e785:b0:2e8:7953:ece7 with SMTP id
+ 586e51a60fabf-2eaf08390ecmr8933677fac.24.1750181013728; Tue, 17 Jun 2025
+ 10:23:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SN7PR12MB6911:EE_
-X-MS-Office365-Filtering-Correlation-Id: abdc6843-0fc7-4a62-952f-08ddadbf4655
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?R+nRRuLXtjV3JhrjudMcrkLlEu05j9G4g7SxHoaBM6tTO1wPvrFGr3DI6EZ5?=
- =?us-ascii?Q?hV38Ek/BQMEJQM8NUXbArqgOkQb63NSOkWYTLo9dXXo99pIMEjiAVncJlbBC?=
- =?us-ascii?Q?ywvd2HyzvREG4BKueoA6IgNZwShS5ZhqzS/8MgerFHSuI9NcxWuf7QckE19x?=
- =?us-ascii?Q?zgAxvQKEHiGVWg0YaScN9QtilSlQ/kkocHNtPQt8cxMFkEqlVKxZ/j9seMRY?=
- =?us-ascii?Q?xL6P5ogKKfpiuc+BlxHDCEzs8Ke3J2jh6q50halq92Q0CYEKj0vMhYVE/Vua?=
- =?us-ascii?Q?e+N5gUvgDw2WQbbwTwlJxzt6ccG4r4685mQwSjv34jXHwwxqM0P3OJ/FiSGA?=
- =?us-ascii?Q?vUjLgBWbX0j/2b6eodbZ0dTfrD1cYg65DmRARjyZBn8/0y7AutqQO24Av0d9?=
- =?us-ascii?Q?zm/MOsupvqnn8WJYaaPzSbMeE7S0I/HdxFGKCJYjHiKvYWk2bfAbFjeSL8qK?=
- =?us-ascii?Q?5fI4zyjZMao6d0TQhhzA/Ph12YA6OIHpqJXIQl9F8bZLCVZdYqEll/E2PIsb?=
- =?us-ascii?Q?GLql5ELBs6JTmGZy0pONMF1SAlE/QzCM/q4jTv3+NXu/bZE8pcqSAIr6xAdg?=
- =?us-ascii?Q?zsGYNRRrtOyCWPKzGCR+6DlbLLyHQmX79VQWzD21lPi2tAMM/Sbb2FaWA4ES?=
- =?us-ascii?Q?nKUmLoOa3jtAFxbk8U3/v7iTz9CIiiVnzawfXglSojm/JghGTIpUJD/T1JUC?=
- =?us-ascii?Q?jLjwuCM+NfY9JYM9UDgYs4y3WRn2rbIkec3YMA8DRLO5H7HKHvFt1oan8dUi?=
- =?us-ascii?Q?t4InhTKDmyMHZxCBjf2aksCiapcgWrqCeiQ7qAfs8nG9LCtMYhRq0ATXymF1?=
- =?us-ascii?Q?ZRWOUy+hqpbgAXdPtZN+ZUeRpI73k+DlBI2xJ8+2pT6hTEzmNFN5WFte0e/V?=
- =?us-ascii?Q?HJkfDfKc8xkBvx6TO9BYGrGMb7e8JtkbrG7eJLv+01Tyl+aKB/k8/T1mIBJj?=
- =?us-ascii?Q?2WbcYnHqPE16NfaHq8fgx4Hl2cNjKu9WjpwnRMHexJnCegN5cE6ebtQVeEvb?=
- =?us-ascii?Q?EHx4m2MEOTomwjCcRjW8da3AG84fv93kt8FvGPmwtDTwdLD7ksGJyAz3ajCH?=
- =?us-ascii?Q?2fF1fnz9KQId+OB98MjX9iHO1OWe/yR4Oae+e3dx3+G+D+mHt9g2npbf4AT2?=
- =?us-ascii?Q?MG8CeDNwui5/JDmYiFfUMphPzn+OeJvJ6k5FvJ18Oxc8voRt5k977acKMkWy?=
- =?us-ascii?Q?Xi/S1BF2K4oLP6h/PsTvksbxu+1RtCR//hKHhIlHeG0La+iF2/sP6JjWZZSo?=
- =?us-ascii?Q?lbzfF89KnsGQXON64mm5Zv389Tcejp1N3zOoXog78F0W2/N/YN4Q88Fx8ONH?=
- =?us-ascii?Q?fyE259uvFiCwEyxDWPC82hgisraC8D+f2rkHqanM4q0yf6zARmJEdI542YGL?=
- =?us-ascii?Q?T+m+l/DW3hGqESwMJRd2adADos/6oIWvs1Kl2Fdpy0FHwoE02A=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bGaHacXrJfEa9H0qSzB+cmKBAvTdrnK5Ew0hWQxplimBCsyHPHXOacdP+3lF?=
- =?us-ascii?Q?KAcDYC6823bmGzX3tAdlrDFuoTMQ5pJBUE3BPgHLgtvUBd6NJRbXC2M03tVn?=
- =?us-ascii?Q?Y36nQ73GmlWCAg6V5mw8Lwv3EaSjjifIVUqq43Nmulf2jG8bsW1qWwpZPILa?=
- =?us-ascii?Q?ngZK9JO36Zc55+zD5Mt5uOK9VpWumjyLvNiPKdXAbdhxjILxrsNJIPEjIGjD?=
- =?us-ascii?Q?LQm/mflTZKA8GSHbCs/I+jlSX9Slr91Izg83wTGcAPy0eclLkuvljVIkHj0Q?=
- =?us-ascii?Q?vBP9BlhytaXONCBtwOkG3pucXz264qxwPmxxrLTBS1RBHc1mzEijqmYneDXl?=
- =?us-ascii?Q?d4QnG/stBKLoznCWadH79GbO0b2+dsLBBRlgsE0TVtKqILz6nCmrN8M96TGj?=
- =?us-ascii?Q?7nZxaPhc2bfWM3oCgOwra/q0k0ys9ahOZHvZpXbReLxTdDgfCA5WoNTpSPzk?=
- =?us-ascii?Q?M4gqgMAGQYnCcOEgbgZV+5vJGF5UObxaUpvIUsMZAhuH86id4j7f9OXem9aE?=
- =?us-ascii?Q?eeSvBhtykLExI+O9pyQioMI/ie081IlmngRLnZJN5uudRe3dWyuW/G6OTJhu?=
- =?us-ascii?Q?OYNY0Nli1fO1AeL3J9fBs8iyhistNOFVWKIg92ksiUZuU331yCNrVJlfGFSj?=
- =?us-ascii?Q?D94XV81vr/ETNk+gVnJdBdDj8VUppu//m/V+0KhmdQ+u3F8tma8nJRKgG2NS?=
- =?us-ascii?Q?NQ4C0CP5Vm5NdkH1dPAJBqHTLAfnnNtKv1uP/esztmAJ/KZGDfV3Z7yo2OvR?=
- =?us-ascii?Q?VUjvw61hDdk0xzrvjYuqkpua18smHLVzQK8iqUywcAg6IdwyLsGkwTu0BIa1?=
- =?us-ascii?Q?WgRtj9uWrymSKmizObKcw/MBw+h293dmKdw/677t0Ov2IOhK1woNwp/rKtJN?=
- =?us-ascii?Q?2CrTU4TQXNCioO94eTyA90jDtj+XQISKjyd/L8tQnB7zdoMYCTjOxGTe3sgL?=
- =?us-ascii?Q?jz1zqn+oMc+UiSnOnEb7zaMR3gL/kytrgh/NlZ1Yvp/hwS7KZ4eWYgMoSl9s?=
- =?us-ascii?Q?EM5nLbdvNdihOx+vsZ9IolC36VmlzJpTDLyT3mkH8YaJ3fPfGIfR1QXjxjeT?=
- =?us-ascii?Q?8v1VkR3OGrmxCTWmYVABS/BHUaStT8xMrg0FOqG/G5bRM5irYaCqbNW7W/QP?=
- =?us-ascii?Q?KMJqWBs1YrtRk197oC1ypLI26udv14B62w2jxHhbue04nlIXXGgMoKXKf2Rq?=
- =?us-ascii?Q?PUH9G9uzIWYcp91/+cbbHjFeA6zZfrdZUrO6VajGwPH1O/bJciaQnuTcIZEB?=
- =?us-ascii?Q?aQ+S+4K8nr6rOM+ZjE1HDskL4CcZSwPLqU2O8nvf90DQ1rhbTHqXYFMueDF1?=
- =?us-ascii?Q?k6zREE68BW52Z2PCiyHRO6V2+8UR8lZ6AnzxiUjqa3tEAsk0brA0Vu+KSacT?=
- =?us-ascii?Q?QcnMkZxf7w1+/3Kx16psF7RZHkZPuRUIvGLyK70VTauicq/fCXla8BD6hCD1?=
- =?us-ascii?Q?mRJvT6W6uvzAdU7IGPhuKlQzKYVlicAsT8vx0gw3fcfMHj/gtQs0Co/cMvCv?=
- =?us-ascii?Q?xvFuvV1AzE8oR8hxCrRZAaomiNwJ9w8BQ1/8MFc/FomPeObrA/Sg42S8n+Vd?=
- =?us-ascii?Q?CfF3o2iFLiwSeM6K7L0HY3HnC6S2r4Xvx4oHNE96?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abdc6843-0fc7-4a62-952f-08ddadbf4655
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 16:51:59.0969
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lFWTRswwdc5lyxtOATdLTyiKDJsMC8UmNXPY4Ejf/w+koFwhb2EPlowuT5vbLW/o
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6911
+References: <cover.1750146719.git.mchehab+huawei@kernel.org>
+ <c407d769c9f47083e8f411c13989522e32262562.1750146719.git.mchehab+huawei@kernel.org>
+ <m27c1ak0k9.fsf@gmail.com> <20250617154049.104ef6ff@sal.lan> <20250617180001.46931ba9@sal.lan>
+In-Reply-To: <20250617180001.46931ba9@sal.lan>
+From: Donald Hunter <donald.hunter@gmail.com>
+Date: Tue, 17 Jun 2025 18:23:22 +0100
+X-Gm-Features: Ac12FXxjYAQl11Cjy04pJrUUVKxkLrmxF1LVKWdXWiav8_AOc6p_ww281gT6_58
+Message-ID: <CAD4GDZzWMoxnatNXYbKOphzVZ4NyedD5FtjxF7cgB1ad-wDFWg@mail.gmail.com>
+Subject: Re: [PATCH v5 10/15] docs: sphinx: add a parser for yaml files for
+ Netlink specs
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Akira Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Ignacio Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>, 
+	Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben Wauters <rubenru09@aol.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, joel@joelfernandes.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org, 
+	stern@rowland.harvard.edu
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 17, 2025 at 08:59:34AM +0700, Bagas Sanjaya wrote:
-> On Mon, Jun 16, 2025 at 03:06:05PM -0300, Jason Gunthorpe wrote:
-> > +The generic tests are intended to prove out the format functions and give
-> > +clearer failures to speed finding the problems. Once those pass then the entire
->                     to speed up finding...
-> > +kunit suite should be run.
-> 
-> Thanks.
+On Tue, 17 Jun 2025 at 17:00, Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+> >
+> > (2) is cleaner and faster, but (1) is easier to implement on an
+> > already-existing code.
+>
+> The logic below implements (1). This seems to be the easiest way for
+> pyyaml. I will submit as 2 separate patches at the end of the next
+> version.
+>
+> Please notice that I didn't check yet for the "quality" of the
+> line numbers. Some tweaks could be needed later on.
 
-Done
+Thanks for working on this. I suppose we might be able to work on an
+evolution from (1) to (2) in a followup piece of work?
 
-Thanks,
-Jason 
-
-
+> Regards,
+> Mauro
+>
+> ---
+>
+> From 750daebebadcd156b5fe9b516f4fae4bd42b9d2c Mon Sep 17 00:00:00 2001
+> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Date: Tue, 17 Jun 2025 17:54:03 +0200
+> Subject: [PATCH] docs: parser_yaml.py: add support for line numbers from the
+>  parser
+>
+> Instead of printing line numbers from the temp converted ReST
+> file, get them from the original source.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>
+> diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
+> index 635945e1c5ba..15c642fc0bd5 100755
+> --- a/Documentation/sphinx/parser_yaml.py
+> +++ b/Documentation/sphinx/parser_yaml.py
+> @@ -29,6 +29,8 @@ class YamlParser(Parser):
+>
+>      netlink_parser = YnlDocGenerator()
+>
+> +    re_lineno = re.compile(r"\.\. LINENO ([0-9]+)$")
+> +
+>      def do_parse(self, inputstring, document, msg):
+>          """Parse YAML and generate a document tree."""
+>
+> @@ -38,8 +40,14 @@ class YamlParser(Parser):
+>
+>          try:
+>              # Parse message with RSTParser
+> -            for i, line in enumerate(msg.split('\n')):
+> -                result.append(line, document.current_source, i)
+> +            lineoffset = 0;
+> +            for line in msg.split('\n'):
+> +                match = self.re_lineno.match(line)
+> +                if match:
+> +                    lineoffset = int(match.group(1))
+> +                    continue
+> +
+> +                result.append(line, document.current_source, lineoffset)
+>
+>              rst_parser = RSTParser()
+>              rst_parser.parse('\n'.join(result), document)
+>
+> From 15c1f9db30f3abdce110e19788d87f9fe1417781 Mon Sep 17 00:00:00 2001
+> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Date: Tue, 17 Jun 2025 17:28:04 +0200
+> Subject: [PATCH] tools: netlink_yml_parser.py: add line numbers to parsed data
+>
+> When something goes wrong, we want Sphinx error to point to the
+> right line number from the original source, not from the
+> processed ReST data.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>
+> diff --git a/tools/net/ynl/pyynl/netlink_yml_parser.py b/tools/net/ynl/pyynl/netlink_yml_parser.py
+> index 866551726723..a9d8ab6f2639 100755
+> --- a/tools/net/ynl/pyynl/netlink_yml_parser.py
+> +++ b/tools/net/ynl/pyynl/netlink_yml_parser.py
+> @@ -20,6 +20,16 @@
+>  from typing import Any, Dict, List
+>  import yaml
+>
+> +LINE_STR = '__lineno__'
+> +
+> +class NumberedSafeLoader(yaml.SafeLoader):
+> +    """Override the SafeLoader class to add line number to parsed data"""
+> +
+> +    def construct_mapping(self, node):
+> +        mapping = super().construct_mapping(node)
+> +        mapping[LINE_STR] = node.start_mark.line
+> +
+> +        return mapping
+>
+>  class RstFormatters:
+>      """RST Formatters"""
+> @@ -127,6 +137,11 @@ class RstFormatters:
+>          """Return a formatted label"""
+>          return f".. _{title}:\n\n"
+>
+> +    @staticmethod
+> +    def rst_lineno(lineno: int) -> str:
+> +        """Return a lineno comment"""
+> +        return f".. LINENO {lineno}\n"
+> +
+>  class YnlDocGenerator:
+>      """YAML Netlink specs Parser"""
+>
+> @@ -144,6 +159,9 @@ class YnlDocGenerator:
+>          """Parse 'do' section and return a formatted string"""
+>          lines = []
+>          for key in do_dict.keys():
+> +            if key == LINE_STR:
+> +                lines.append(self.fmt.rst_lineno(do_dict[key]))
+> +                continue
+>              lines.append(self.fmt.rst_paragraph(self.fmt.bold(key), level + 1))
+>              if key in ['request', 'reply']:
+>                  lines.append(self.parse_do_attributes(do_dict[key], level + 1) + "\n")
+> @@ -174,6 +192,10 @@ class YnlDocGenerator:
+>              lines.append(self.fmt.rst_paragraph(operation["doc"]) + "\n")
+>
+>              for key in operation.keys():
+> +                if key == LINE_STR:
+> +                    lines.append(self.fmt.rst_lineno(operation[key]))
+> +                    continue
+> +
+>                  if key in preprocessed:
+>                      # Skip the special fields
+>                      continue
+> @@ -233,6 +255,9 @@ class YnlDocGenerator:
+>          for definition in defs:
+>              lines.append(self.fmt.rst_section(namespace, 'definition', definition["name"]))
+>              for k in definition.keys():
+> +                if k == LINE_STR:
+> +                    lines.append(self.fmt.rst_lineno(definition[k]))
+> +                    continue
+>                  if k in preprocessed + ignored:
+>                      continue
+>                  lines.append(self.fmt.rst_fields(k, self.fmt.sanitize(definition[k]), 0))
+> @@ -268,6 +293,9 @@ class YnlDocGenerator:
+>                  lines.append(self.fmt.rst_subsubsection(attr_line))
+>
+>                  for k in attr.keys():
+> +                    if k == LINE_STR:
+> +                        lines.append(self.fmt.rst_lineno(attr[k]))
+> +                        continue
+>                      if k in preprocessed + ignored:
+>                          continue
+>                      if k in linkable:
+> @@ -306,6 +334,8 @@ class YnlDocGenerator:
+>          lines = []
+>
+>          # Main header
+> +        lineno = obj.get('__lineno__', 0)
+> +        lines.append(self.fmt.rst_lineno(lineno))
+>
+>          family = obj['name']
+>
+> @@ -354,7 +384,7 @@ class YnlDocGenerator:
+>      def parse_yaml_file(self, filename: str) -> str:
+>          """Transform the YAML specified by filename into an RST-formatted string"""
+>          with open(filename, "r", encoding="utf-8") as spec_file:
+> -            yaml_data = yaml.safe_load(spec_file)
+> -            content = self.parse_yaml(yaml_data)
+> +            numbered_yaml = yaml.load(spec_file, Loader=NumberedSafeLoader)
+> +            content = self.parse_yaml(numbered_yaml)
+>
+>          return content
+>
