@@ -1,434 +1,176 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB529293C43
-	for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 09:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6AD293B53;
+	Tue, 17 Jun 2025 09:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750152433; cv=none; b=hy1UjBmHAqBOqkIvIzHXhJcFcG6ik0/SPpBI5tBfhvQDkQJHFVq+OE8mzqPuImmm0HaZigPMd/YWRvFsZf4QQJQH5CAmAgtulRH2raBYQ7aGncbMWMcT1wpGBtcX5x1BqH630SvI4Bz98v/p9PjLFkTJwAe4IQrX2pY0XyggVPQ=
+	t=1750152508; cv=none; b=Mrk6WbQjIJe4CIA2ousmkWUIedXcIME+XH8SkK9Jd+NQXPrOLZrRwFHWelL1thelZQeC0tVFFHBt7ramRjJMGRfidH7PPhsOflOz62sZ33Hcx9pCtDqcFGukOiPTLwpXLM+ZOHMIxrqyq2EqmtBcW6WCkLNPDx6sfSTxkNz/lWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750152433; c=relaxed/simple;
-	bh=I6r9O/y2M42yqBq51rW8UBBS56de96F7vfgrOUx+3jA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=EWMO5u/K5ZNuF2y2PtHly6jsi5WCDKKfVegOxeiC0lbathdb+knRtmYLxaAmIqNc3JldLdNfCEZzFiL4MAP/lCQjcmLZy9z9ZDv1mmenort0LVSmf7dUfwFui/M0d19GB6LInjinGDXzYPFG78mpazpg8udW706we65X/p+VBw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hHyr6r3E; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750152508; c=relaxed/simple;
+	bh=Q5fd04hqWSCGDEzHOkzetwrrFZNmS/QF+IyVMo8AaK4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SRk8lC2NIe42nZDoQzLTUE2MqcaSIUJMyVwt6huefJ5qFy5dCqQ9K5TrJ/0lWcWK76aAWUSlbbOQhd8CIfINIufbjyRK9Y0NcdgRirKn316O72HlnjlBbAOh4fqoxBWIFzaWLq2yYGEUnqUTMDqN7gBKIw1IqMAOyLAa/TwMVds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P7KJbSIC; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hHyr6r3E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750152430;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XtBwuVfaWRtmJKzr7U9yRn/oj8s0OpmgAA92PjCv+NU=;
-	b=hHyr6r3EDb6nTJB26KPs96psGtFHIy+OAvUElptWFD0toNSCTEXQOC3v03+BuPTifh3rer
-	Oo34dShL8PHVAsI6vpnXoC5zXZnuWnqeMA8PsK/WM9qpNk0l5B/wHdTlGK8jtWDTM45VmR
-	Tf1ZhMHDmOcDXDIvnw0x0+V5jsE/QKk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-CtY9XUG4PcqH-f070QU55Q-1; Tue, 17 Jun 2025 05:27:09 -0400
-X-MC-Unique: CtY9XUG4PcqH-f070QU55Q-1
-X-Mimecast-MFC-AGG-ID: CtY9XUG4PcqH-f070QU55Q_1750152428
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4532514dee8so45871935e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 02:27:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P7KJbSIC"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e81881bdd55so718800276.0;
+        Tue, 17 Jun 2025 02:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750152506; x=1750757306; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gALTqNQrj90wQMFVEUTnuyFeDr4GZi/SD5mn5GfukAs=;
+        b=P7KJbSICWReIJutj8Q447Uisi/eY9mDBt/rX35mXu/U+mx5uFsQrb2V5w4Zwb4ghJu
+         SIR5aUdPWKBHdBGcUsyWTLHJ/VqpTjLa4Z2THi9OHMX34d1EPXg5FhI2mAejE6Z62WDW
+         l7u6v/24E7xrQW0w58biKRD8wyiL+JYjg8R7/kTLmRaWogXiAGcKIoaR8rHWPSL2uKLv
+         Qc0bIHxGG+bgm7HspunnCIsa0yjfGRBSt0Asuzj/WUQ8xtKXnrSoYbh5BzmPKHCfvFqt
+         aZZpdYyVkUU7oGwMKqDPfLkQmmr6bVtSx1P73nwbT0gBDLjjPzB5Jfrq829F2/mBN9Q/
+         sg6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750152428; x=1750757228;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XtBwuVfaWRtmJKzr7U9yRn/oj8s0OpmgAA92PjCv+NU=;
-        b=pWPcrpr25bUO6S9yGjmNnnmtO04pvjXVR7Xp1paznuz6rizi5svq+gMnK0XEPGO06e
-         sJQgBWtX4pXGMG1I4Vb5HgKODDUYNL0hB0QPs/kT566cpizDscONBK7FA4Gvkl7vn8Mq
-         iOGC1tz0I2MddAtJB2Nrhrw5A2Q1tEsQzmll6wv52+QkVWLontLs6SU0/qQL/8F6a05a
-         TjqkIRWSXuUfyo//dOLAS0hoHH5SqqNdTJl6FNt6ocOeW+SzhWMZpLhSCmwnhKh/y7B9
-         QbFmARcoYsoGm7tpBfC7CRwJLshFQjrA3W7i4dtQSjPYlZeOJxe6Uut2LkxFw/R/T8sE
-         ThuA==
-X-Forwarded-Encrypted: i=1; AJvYcCVA0UXPpBjewyVfA58XNj0A1hGKAedJlWHNHiKfC6BtNnvSG2Tnh7FEVnoX15Ck++0jON3x6XMev4o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpyBQFuPlwpsCLSo3fvYVsvk+rnrT+II1p+j8Tcaj/Ga85l0G1
-	K3HSwIHct+B9l+CDntxOH04Ra2P5iTWINBAI2TOrXx9L9v+xgvOlsochtOA4OAyiy3BReQ4KFdl
-	aerQIbXT7m6UbtXHhZXtqLsCzQh8xVNgeQqOhZ6TeVKoWAB7JK9NnNv/7cFOa3w==
-X-Gm-Gg: ASbGncu8i/JP3xOkSJ+mBYptJkowb0fkb3WCwXcS0Q1nFaPDMEz5LeI0f6x+4QSrm+p
-	VnBv1Nk2E480MsVLHdp7FW8S4wTYQplnYn8OA8tSWOrjXGRJwhp0H5XNVM7Ls1UeR3tJQKZgqjD
-	eCL+JR7kz3eGo2wKKhv2V0aiKpcnx/t+jcDEC+5lLg97EoLZ0n40kHzYq5QGYOZThRqg2hHzFSL
-	L77Qv1NOJ46Faa0zP314XQPOZPZbVrcBw0ORmk3E5xgL2kEXFnqvQSGT7gn4GW8fHKvtcOyoxaL
-	NW9qEbVQath6dYYFu1R7sc2t/dxTDOcxtluVUyLCgFhiJ2lfnnmrfAaTWYXndChLVYJQgw==
-X-Received: by 2002:a05:600c:8b0d:b0:442:f97f:8174 with SMTP id 5b1f17b1804b1-4533caa6283mr130935895e9.18.1750152428182;
-        Tue, 17 Jun 2025 02:27:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGPlqU/rR3eJsvpbZHEe/aeH2SAigMplFnxS6IlS7vYGVu8XdPnxAfTU2VqRJO/PcWNpVEyfw==
-X-Received: by 2002:a05:600c:8b0d:b0:442:f97f:8174 with SMTP id 5b1f17b1804b1-4533caa6283mr130935405e9.18.1750152427600;
-        Tue, 17 Jun 2025 02:27:07 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2448:cb10:3ac6:72af:52e3:719a? ([2a0d:3344:2448:cb10:3ac6:72af:52e3:719a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5896356eesm1143312f8f.49.2025.06.17.02.27.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jun 2025 02:27:07 -0700 (PDT)
-Message-ID: <d652445f-3637-44bf-ac92-483e9a323a49@redhat.com>
-Date: Tue, 17 Jun 2025 11:27:04 +0200
+        d=1e100.net; s=20230601; t=1750152506; x=1750757306;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gALTqNQrj90wQMFVEUTnuyFeDr4GZi/SD5mn5GfukAs=;
+        b=vPXHS3RU6Ee/oerLz7MIEJ+SmOE4Q9ESE1xQ7Suqz0xs7AwPZrZtBotoJA4d7lSpiz
+         ERJHTHq/QS1Cv36Lgl+xjKEPSWLZL4CNo5rxyJ0L9WrhB+/LXAZJsQ/ggkGKTgCCe5i1
+         bk1LG/KjBGL6Z8lrm+ZhPHWhHcvrs4/fbp8jolguO/j5qn249Z1m71clTdWmR9BMx0ie
+         /qWcniGstK9YxblQFJ0TBql1tnij1VFzXfhjJkA2kq8UxrI2BygCivmv/8Vf/PbKTnL+
+         ISq7+A7JZELER91n8ksoxq5+mCEzsYrcXwobALwwE2xew3+AtjhzsO7MWxbCYqzw4wlE
+         WVaA==
+X-Forwarded-Encrypted: i=1; AJvYcCUJAMMcqN+FCK8Q/6qRPU1Q0+BvnHlliUK2GHd1IIs0L8f9eGxjJiEgFp6bBPMtYOLHkfCFqALlc6Ai@vger.kernel.org, AJvYcCVtmQPfvGkHP9u2/B8V11bLVt8A5A0FPyM3duGGn9MysDgF4lyYz+ESQPDQEWN7940akgz3to5PEMA7SJ4d@vger.kernel.org, AJvYcCVwo+E8703cFveWx5fLnwohqzaeR4y1GDapDpv4gKOFEJFNHzcjcs59Q4tvXojbk2OppAuDXOeLFZI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywf8rV3OwUuH55VPuhlXe5Bsg384EQSMoKicwFsk2T9x3VUmjVh
+	d2wIHjX2q6DeqK1s75iwaqwRZI1f+NA22BcfCwGZpUHI/O9Ryg+tUYk9Jr/OP1qJwTTqHI1lC5m
+	zSP5EG2ljr/vcM6ELdClIcslLwjStSRs=
+X-Gm-Gg: ASbGncuhRfiMDWq3zvvUHKbNQGLgRXd0qc4+csSPhtIiV+U7fat6PUCsRrxOUXywMGx
+	hNmLCJpylRK22tBsg6PLEv2Rgf5ILykVn6wBJ5aC78XSA0sXswrBFTjUsDThG4D5ZL/d9vwKf2z
+	OQ46CeiTivMQ70ah+sXjvVDZN3lIYFXZDPqnr+Eq81HhQ=
+X-Google-Smtp-Source: AGHT+IGfEO9KKif1fDX3wWrW5gIl4x+KT/D8NnLSgBbamSDflf/3JpdAOEJzp96RWvwMj+B2D/u2WRFgO85wbi8Vcd8=
+X-Received: by 2002:a05:690c:1d:b0:710:ee89:d34e with SMTP id
+ 00721157ae682-7117551588cmr74852627b3.8.1750152506329; Tue, 17 Jun 2025
+ 02:28:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 net-next 09/15] tcp: accecn: AccECN option
-To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com,
- linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
- dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org,
- netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
- kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
- jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
- donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
- shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
- ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
- g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
- mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
- Jason_Livingood@comcast.com, vidhi_goel@apple.com
-References: <20250610125314.18557-1-chia-yu.chang@nokia-bell-labs.com>
- <20250610125314.18557-10-chia-yu.chang@nokia-bell-labs.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250610125314.18557-10-chia-yu.chang@nokia-bell-labs.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250615222258.117771-1-l.rubusch@gmail.com> <20250615222258.117771-4-l.rubusch@gmail.com>
+ <CAHp75Vf6sLfVrN30divVqPBnJBQsU5b+SY24yC2PJuuTmRQ1LA@mail.gmail.com>
+In-Reply-To: <CAHp75Vf6sLfVrN30divVqPBnJBQsU5b+SY24yC2PJuuTmRQ1LA@mail.gmail.com>
+From: Lothar Rubusch <l.rubusch@gmail.com>
+Date: Tue, 17 Jun 2025 11:27:50 +0200
+X-Gm-Features: AX0GCFtdtyrQdB3K0tsd9fV7juD1I_SYR0hG_EI8QiCnyXtYFHZ8_2mUhT98E2Y
+Message-ID: <CAFXKEHan_NnmMUfuy9cyjgBsdFK+C6V7eVxq_V3--afzQYGDDQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/8] iio: accel: adxl313: add buffered FIFO watermark
+ with interrupt handling
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, bagasdotme@gmail.com, linux-iio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/10/25 2:53 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> @@ -294,6 +295,9 @@ struct tcp_sock {
->  		rate_app_limited:1;  /* rate_{delivered,interval_us} limited? */
->  	u8	received_ce_pending:4, /* Not yet transmit cnt of received_ce */
->  		unused2:4;
-> +	u8	accecn_minlen:2,/* Minimum length of AccECN option sent */
-> +		est_ecnfield:2,/* ECN field for AccECN delivered estimates */
+Hi Andy,
 
-It's unclear to me why you didn't use the 4 bits avail in 'unused2',
-instead of adding more fragmented bitfields.
+On Mon, Jun 16, 2025 at 11:33=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Mon, Jun 16, 2025 at 1:23=E2=80=AFAM Lothar Rubusch <l.rubusch@gmail.c=
+om> wrote:
+> >
+> > Cover the following tasks:
+> > =E2=80=93 Add scan_mask and scan_index to the IIO channel configuration=
+. The
+> > scan_index sets up buffer usage. According to the datasheet, the ADXL31=
+3
+> > uses a 13-bit wide data field in full-resolution mode. Set the
+> > signedness, number of storage bits, and endianness accordingly.
+> >
+> > =E2=80=93 Parse the devicetree for an optional interrupt line and confi=
+gure the
+> > interrupt mapping based on its presence. If no interrupt line is
+> > specified, keep the FIFO in bypass mode as currently implemented.
+> >
+> > =E2=80=93 Set up the interrupt handler. Add register access to detect a=
+nd
+> > evaluate interrupts. Implement functions to clear status registers and
+> > reset the FIFO.
+> >
+> > =E2=80=93 Implement FIFO watermark configuration and handling. Allow th=
+e
+> > watermark level to be set, evaluate the corresponding interrupt, read
+> > the FIFO contents, and push the data to the IIO channel.
+>
+> ...
+>
+> > +       int_line =3D ADXL313_INT1;
+> > +       irq =3D fwnode_irq_get_byname(dev_fwnode(dev), "INT1");
+> > +       if (irq < 0) {
+> > +               int_line =3D ADXL313_INT2;
+> > +               irq =3D fwnode_irq_get_byname(dev_fwnode(dev), "INT2");
+> > +               if (irq < 0)
+> > +                       int_line =3D ADXL313_INT_NONE;
+> > +       }
+> > +
+> > +       if (int_line !=3D ADXL313_INT_NONE) {
+>
+> > +       } else {
+>
+> > +       }
+>
+> What I meant is something like this:
+>
+>
+>        int_line =3D ADXL313_INT_NONE;
+>        irq =3D fwnode_irq_get_byname(dev_fwnode(dev), "INT1");
+>        if (irq > 0) {
+>               int_line =3D ADXL313_INT1;
+>        } else {
+>                irq =3D fwnode_irq_get_byname(dev_fwnode(dev), "INT2");
+>                if (irq > 0)
+>                       int_line =3D ADXL313_INT2;
+>        }
+>
+>        if (int_line =3D=3D ADXL313_INT_NONE) {
+>    ...
+>        } else {
+>    ...
+>        }
+>
 
-[...]
-> +/* Returns true if the byte counters can be used */
-> +static bool tcp_accecn_process_option(struct tcp_sock *tp,
-> +				      const struct sk_buff *skb,
-> +				      u32 delivered_bytes, int flag)
-> +{
-> +	u8 estimate_ecnfield = tp->est_ecnfield;
-> +	bool ambiguous_ecn_bytes_incr = false;
-> +	bool first_changed = false;
-> +	unsigned int optlen;
-> +	bool order1, res;
-> +	unsigned int i;
-> +	u8 *ptr;
-> +
-> +	if (!(flag & FLAG_SLOWPATH) || !tp->rx_opt.accecn) {
-> +		if (estimate_ecnfield) {
-> +			u8 ecnfield = estimate_ecnfield - 1;
-> +
-> +			tp->delivered_ecn_bytes[ecnfield] += delivered_bytes;
-> +			return true;
-> +		}
-> +		return false;
-> +	}
-> +
-> +	ptr = skb_transport_header(skb) + tp->rx_opt.accecn;
-> +	optlen = ptr[1] - 2;
-> +	WARN_ON_ONCE(ptr[0] != TCPOPT_ACCECN0 && ptr[0] != TCPOPT_ACCECN1);
-> +	order1 = (ptr[0] == TCPOPT_ACCECN1);
-> +	ptr += 2;
-> +
-> +	res = !!estimate_ecnfield;
-> +	for (i = 0; i < 3; i++) {
-> +		if (optlen < TCPOLEN_ACCECN_PERFIELD)
-> +			continue;
+I probably got this wrong. I interpreted Jonathans review [PATCH v3
+06/12] in the above way. Anyway, I did not read his second phrase. I
+agree, flipping if / else case and going by '=3D=3D' instead of '!=3D'
+simplifies it.
+   ...
+    > +
+    > + if (int_line =3D=3D ADXL313_INT1 || int_line =3D=3D ADXL313_INT2) {
 
-Why continuing the loop if nothing could be done? possbly just 'break;'
+    Why not int_line !=3D ADXL313_INT_NONE ?
+    Or flip the logic so that you do that case first.
+    ...
+https://marc.info/?l=3Dlinux-iio&m=3D174817641830144&w=3D2
 
-> +
-> +		u32 init_offset;
-> +		u8 ecnfield;
-> +		s32 delta;
-> +		u32 *cnt;
 
-Please don't mix variables definition and code. Move the definition at
-the beginning of the block.
+> Obviously with a helper you can unnest the if-else-if above.
+>
+> static unsigned int _get_int_type(...)
+> {
+>     if (irq > 0)
+>         return ...
+>     return _NONE;
+> }
+>
 
-[...]
-> @@ -4236,6 +4375,7 @@ static int tcp_ack(struct sock *sk, const struct sk_buff *skb, int flag)
->  	if (tcp_ecn_mode_accecn(tp))
->  		ecn_count = tcp_accecn_process(sk, skb,
->  					       tp->delivered - delivered,
-> +					       sack_state.delivered_bytes,
->  					       &flag);
->  
->  	tcp_in_ack_event(sk, flag);
-> @@ -4275,6 +4415,7 @@ static int tcp_ack(struct sock *sk, const struct sk_buff *skb, int flag)
->  	if (tcp_ecn_mode_accecn(tp))
->  		ecn_count = tcp_accecn_process(sk, skb,
->  					       tp->delivered - delivered,
-> +					       sack_state.delivered_bytes,
->  					       &flag);
+Well, indeed. That's definitely the obvious simplification needed
+here. Thanks for pointing out.
 
-The two above chunks suggest you could move more code into
-tcp_accecn_process()
-
->  	tcp_in_ack_event(sk, flag);
->  	/* If data was DSACKed, see if we can undo a cwnd reduction. */
-> @@ -4402,6 +4543,7 @@ void tcp_parse_options(const struct net *net,
->  
->  	ptr = (const unsigned char *)(th + 1);
->  	opt_rx->saw_tstamp = 0;
-> +	opt_rx->accecn = 0;
->  	opt_rx->saw_unknown = 0;
->  
->  	while (length > 0) {
-> @@ -4493,6 +4635,12 @@ void tcp_parse_options(const struct net *net,
->  					ptr, th->syn, foc, false);
->  				break;
->  
-> +			case TCPOPT_ACCECN0:
-> +			case TCPOPT_ACCECN1:
-> +				/* Save offset of AccECN option in TCP header */
-> +				opt_rx->accecn = (ptr - 2) - (__u8 *)th;
-> +				break;
-> +
->  			case TCPOPT_EXP:
->  				/* Fast Open option shares code 254 using a
->  				 * 16 bits magic number.
-> @@ -4553,11 +4701,14 @@ static bool tcp_fast_parse_options(const struct net *net,
->  	 */
->  	if (th->doff == (sizeof(*th) / 4)) {
->  		tp->rx_opt.saw_tstamp = 0;
-> +		tp->rx_opt.accecn = 0;
->  		return false;
->  	} else if (tp->rx_opt.tstamp_ok &&
->  		   th->doff == ((sizeof(*th) + TCPOLEN_TSTAMP_ALIGNED) / 4)) {
-> -		if (tcp_parse_aligned_timestamp(tp, th))
-> +		if (tcp_parse_aligned_timestamp(tp, th)) {
-> +			tp->rx_opt.accecn = 0;
->  			return true;
-> +		}
->  	}
->  
->  	tcp_parse_options(net, skb, &tp->rx_opt, 1, NULL);
-> @@ -6166,8 +6317,12 @@ void tcp_ecn_received_counters(struct sock *sk, const struct sk_buff *skb,
->  		tp->received_ce_pending = min(tp->received_ce_pending + pcount,
->  					      0xfU);
->  
-> -		if (payload_len > 0)
-> +		if (payload_len > 0) {
-> +			u8 minlen = tcp_ecnfield_to_accecn_optfield(ecnfield);
->  			tp->received_ecn_bytes[ecnfield - 1] += payload_len;
-> +			tp->accecn_minlen = max_t(u8, tp->accecn_minlen,
-> +						  minlen);
-> +		}
->  	}
->  }
->  
-> @@ -6387,6 +6542,7 @@ void tcp_rcv_established(struct sock *sk, struct sk_buff *skb)
->  	 */
->  
->  	tp->rx_opt.saw_tstamp = 0;
-> +	tp->rx_opt.accecn = 0;
->  
->  	/*	pred_flags is 0xS?10 << 16 + snd_wnd
->  	 *	if header_prediction is to be made
-> diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
-> index c5b93802d7c0..387cf8994202 100644
-> --- a/net/ipv4/tcp_ipv4.c
-> +++ b/net/ipv4/tcp_ipv4.c
-> @@ -3450,6 +3450,7 @@ static void __net_init tcp_set_hashinfo(struct net *net)
->  static int __net_init tcp_sk_init(struct net *net)
->  {
->  	net->ipv4.sysctl_tcp_ecn = TCP_ECN_IN_ECN_OUT_NOECN;
-> +	net->ipv4.sysctl_tcp_ecn_option = TCP_ECN_OPTION_FULL;
->  	net->ipv4.sysctl_tcp_ecn_fallback = 1;
->  
->  	net->ipv4.sysctl_tcp_base_mss = TCP_BASE_MSS;
-> diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-> index 78e78bca0db9..8869e49c07ec 100644
-> --- a/net/ipv4/tcp_output.c
-> +++ b/net/ipv4/tcp_output.c
-> @@ -492,6 +492,7 @@ static inline bool tcp_urg_mode(const struct tcp_sock *tp)
->  #define OPTION_SMC		BIT(9)
->  #define OPTION_MPTCP		BIT(10)
->  #define OPTION_AO		BIT(11)
-> +#define OPTION_ACCECN		BIT(12)
->  
->  static void smc_options_write(__be32 *ptr, u16 *options)
->  {
-> @@ -513,12 +514,14 @@ struct tcp_out_options {
->  	u16 mss;		/* 0 to disable */
->  	u8 ws;			/* window scale, 0 to disable */
->  	u8 num_sack_blocks;	/* number of SACK blocks to include */
-> +	u8 num_accecn_fields;	/* number of AccECN fields needed */
->  	u8 hash_size;		/* bytes in hash_location */
->  	u8 bpf_opt_len;		/* length of BPF hdr option */
->  	__u8 *hash_location;	/* temporary pointer, overloaded */
->  	__u32 tsval, tsecr;	/* need to include OPTION_TS */
->  	struct tcp_fastopen_cookie *fastopen_cookie;	/* Fast open cookie */
->  	struct mptcp_out_options mptcp;
-> +	u32 *ecn_bytes;		/* AccECN ECT/CE byte counters */
-
-This uncoditionally adds 16 bytes to out_options, bringing it to a 64
-bytes size with MPTCP disabled. I guess that adding another field will
-make the zeroing of out_options visible in perf report.
-
-You can probably avoid adding `ecn_bytes` including instead an
-additional bit telling tcp_options_write to fetch the bytes from
-tp->received_ecn_bytes or zeroing them.
-
->  };
->  
->  static void mptcp_options_write(struct tcphdr *th, __be32 *ptr,
-> @@ -710,6 +713,8 @@ static __be32 *process_tcp_ao_options(struct tcp_sock *tp,
->  	return ptr;
->  }
->  
-> +#define NOP_LEFTOVER	((TCPOPT_NOP << 8) | TCPOPT_NOP)
-> +
->  /* Write previously computed TCP options to the packet.
->   *
->   * Beware: Something in the Internet is very sensitive to the ordering of
-> @@ -728,8 +733,10 @@ static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
->  			      struct tcp_out_options *opts,
->  			      struct tcp_key *key)
->  {
-> +	u16 leftover_bytes = NOP_LEFTOVER;      /* replace next NOPs if avail */
->  	__be32 *ptr = (__be32 *)(th + 1);
->  	u16 options = opts->options;	/* mungable copy */
-> +	int leftover_size = 2;
->  
->  	if (tcp_key_is_md5(key)) {
->  		*ptr++ = htonl((TCPOPT_NOP << 24) | (TCPOPT_NOP << 16) |
-> @@ -763,18 +770,65 @@ static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
->  		*ptr++ = htonl(opts->tsecr);
->  	}
->  
-> +	if (OPTION_ACCECN & options) {
-> +		const u8 ect0_idx = INET_ECN_ECT_0 - 1;
-> +		const u8 ect1_idx = INET_ECN_ECT_1 - 1;
-> +		const u8 ce_idx = INET_ECN_CE - 1;
-> +		u32 e0b;
-> +		u32 e1b;
-> +		u32 ceb;
-> +		u8 len;
-> +
-> +		e0b = opts->ecn_bytes[ect0_idx] + TCP_ACCECN_E0B_INIT_OFFSET;
-> +		e1b = opts->ecn_bytes[ect1_idx] + TCP_ACCECN_E1B_INIT_OFFSET;
-> +		ceb = opts->ecn_bytes[ce_idx] + TCP_ACCECN_CEB_INIT_OFFSET;
-> +		len = TCPOLEN_ACCECN_BASE +
-> +		      opts->num_accecn_fields * TCPOLEN_ACCECN_PERFIELD;
-> +
-> +		if (opts->num_accecn_fields == 2) {
-> +			*ptr++ = htonl((TCPOPT_ACCECN1 << 24) | (len << 16) |
-> +				       ((e1b >> 8) & 0xffff));
-> +			*ptr++ = htonl(((e1b & 0xff) << 24) |
-> +				       (ceb & 0xffffff));
-> +		} else if (opts->num_accecn_fields == 1) {
-> +			*ptr++ = htonl((TCPOPT_ACCECN1 << 24) | (len << 16) |
-> +				       ((e1b >> 8) & 0xffff));
-> +			leftover_bytes = ((e1b & 0xff) << 8) |
-> +					 TCPOPT_NOP;
-> +			leftover_size = 1;
-> +		} else if (opts->num_accecn_fields == 0) {
-> +			leftover_bytes = (TCPOPT_ACCECN1 << 8) | len;
-> +			leftover_size = 2;
-> +		} else if (opts->num_accecn_fields == 3) {
-> +			*ptr++ = htonl((TCPOPT_ACCECN1 << 24) | (len << 16) |
-> +				       ((e1b >> 8) & 0xffff));
-> +			*ptr++ = htonl(((e1b & 0xff) << 24) |
-> +				       (ceb & 0xffffff));
-> +			*ptr++ = htonl(((e0b & 0xffffff) << 8) |
-> +				       TCPOPT_NOP);
-> +		}
-> +		if (tp)
-> +			tp->accecn_minlen = 0;
-> +	}
-> +
->  	if (unlikely(OPTION_SACK_ADVERTISE & options)) {
-> -		*ptr++ = htonl((TCPOPT_NOP << 24) |
-> -			       (TCPOPT_NOP << 16) |
-> +		*ptr++ = htonl((leftover_bytes << 16) |
->  			       (TCPOPT_SACK_PERM << 8) |
->  			       TCPOLEN_SACK_PERM);
-> +		leftover_bytes = NOP_LEFTOVER;
-> +		leftover_size = 2;
->  	}
->  
->  	if (unlikely(OPTION_WSCALE & options)) {
-> -		*ptr++ = htonl((TCPOPT_NOP << 24) |
-> +		u8 highbyte = TCPOPT_NOP;
-> +
-> +		if (unlikely(leftover_size == 1))
-> +			highbyte = leftover_bytes >> 8;
-> +		*ptr++ = htonl((highbyte << 24) |
->  			       (TCPOPT_WINDOW << 16) |
->  			       (TCPOLEN_WINDOW << 8) |
->  			       opts->ws);
-> +		leftover_bytes = NOP_LEFTOVER;
-
-This bloks looks inconsistent. AFAICS if leftover_size == 1, such a byte
-will be consumed, but the leftover size will be left unmodified.
-
->  	}
->  
->  	if (unlikely(opts->num_sack_blocks)) {
-> @@ -782,8 +836,7 @@ static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
->  			tp->duplicate_sack : tp->selective_acks;
->  		int this_sack;
->  
-> -		*ptr++ = htonl((TCPOPT_NOP  << 24) |
-> -			       (TCPOPT_NOP  << 16) |
-> +		*ptr++ = htonl((leftover_bytes << 16) |
->  			       (TCPOPT_SACK <<  8) |
->  			       (TCPOLEN_SACK_BASE + (opts->num_sack_blocks *
->  						     TCPOLEN_SACK_PERBLOCK)));
-
-Here leftover_size/bytes are consumed and not updated, which should be
-safe as they will not be used later in this function, but looks
-inconsistent.
-
-The whole options handling looks very fragile to me. I really would
-prefer something simpler (i.e. just use the avail space if any) if that
-would work.
-
-> @@ -957,6 +1068,17 @@ static unsigned int tcp_syn_options(struct sock *sk, struct sk_buff *skb,
->  		}
->  	}
->  
-> +	/* Simultaneous open SYN/ACK needs AccECN option but not SYN */
-> +	if (unlikely((TCP_SKB_CB(skb)->tcp_flags & TCPHDR_ACK) &&
-> +		     tcp_ecn_mode_accecn(tp) &&
-> +		     sock_net(sk)->ipv4.sysctl_tcp_ecn_option &&
-> +		     remaining >= TCPOLEN_ACCECN_BASE)) {
-> +		u32 saving = tcp_synack_options_combine_saving(opts);
-> +
-> +		opts->ecn_bytes = synack_ecn_bytes;
-> +		remaining -= tcp_options_fit_accecn(opts, 0, remaining, saving);
-> +	}
-> +
->  	bpf_skops_hdr_opt_len(sk, skb, NULL, NULL, 0, opts, &remaining);
->  
->  	return MAX_TCP_OPTION_SPACE - remaining;
-
-[...]
-> @@ -1036,6 +1159,14 @@ static unsigned int tcp_synack_options(const struct sock *sk,
->  
->  	smc_set_option_cond(tcp_sk(sk), ireq, opts, &remaining);
->  
-> +	if (treq->accecn_ok && sock_net(sk)->ipv4.sysctl_tcp_ecn_option &&
-> +	    remaining >= TCPOLEN_ACCECN_BASE) {
-> +		u32 saving = tcp_synack_options_combine_saving(opts);
-> +
-> +		opts->ecn_bytes = synack_ecn_bytes;
-> +		remaining -= tcp_options_fit_accecn(opts, 0, remaining, saving);
-> +	}
-> +
->  	bpf_skops_hdr_opt_len((struct sock *)sk, skb, req, syn_skb,
->  			      synack_type, opts, &remaining);
->  
-
-The similarities of the above 2 chuncks hints you could move more code
-into tcp_options_fit_accecn().
-
-/P
-
+> --
+> With Best Regards,
+> Andy Shevchenko
