@@ -1,103 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D251E008B;
-	Tue, 17 Jun 2025 04:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA561AAA1E;
+	Tue, 17 Jun 2025 04:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750134272; cv=none; b=e7B7xo9F7kDGvGe9OOXlzLR/lKaAilfIvdd9XKFpRwpQVhAmYYWjqNijLD5lClVcmYXqj30vWmtwm4UqOfcAwKWlkCQWtGWxce9wPGFx39/w7UTpIRh0SQOsWOjCo6waKYlG+6EAWi6Nh7nInynq8IEENU3naa/h3ar5s1b39Mo=
+	t=1750135342; cv=none; b=hEYaWWP3I+CZBEPd3hjwLTt0/e0z4PYdQPkb9+WMd3SXXuzEQQTBEft/aV+oEo/h3XSUZAOdr874L3Y3NRCLgzsBqCUxujv1sINrCPAwa/nFJfiegojgq8+U/feI7w2eMiJ0IHnqmLAa8QJ8UZc1Wu6GaeW9TmKhl+g4tJ2aS1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750134272; c=relaxed/simple;
-	bh=hS1jLez6pg2f2TjhjY9W1XKul5ilJirXcpZ9vDFaRGE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MwY3Ug/NBwgQzAkHk1bUWg87QpdaR1pMU6p5RyH49ZcUYjjTtm4kC7cRAUvleY6JFldJFKNrkmPMULU3ceKiuA5uDDteGYZSpQd+FerEYaWD5ztpG0ripdaZhyet8G3a3JbrSfifuk9FEU87UOFKUC28sB1C9EX8SI6+zWIaMhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ahzXS8Sg; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ahzXS8Sg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750134270; x=1781670270;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=hS1jLez6pg2f2TjhjY9W1XKul5ilJirXcpZ9vDFaRGE=;
-  b=ahzXS8SgbcC/OFnLD/sR7e5uKx+WsU5AdW1jFY2GVsRkvFZ9jFNS9NNl
-   g8TZmb2CfLQP1aUT85u26KJ3vNoNm4D50cgJcwS32leaOLmGweGcaFkrs
-   7kS2Ej5XAJlMhZSUEBgratyi9D5M9LsDc/x4Np77lmR5n0qAv20feEMg9
-   nzyZNZy2h0U5lhOoVG35hO2+cqgUsR2T34BCeSpT2NTMsQNiF8lbFbfnL
-   7V9W8dblkf32/G/VUMf3zuQ3kgA2WjuPhsaVW9794jPJWQUGmDkdsdN+F
-   e1LGvDoUM6dNRBAJbFrVzQuBYr1BHIIIh0F8+5KMqdVhpjESd1RtAglKr
-   g==;
-X-CSE-ConnectionGUID: qoTuCe63RpiN+8Tfxwdyog==
-X-CSE-MsgGUID: Dyg5ZuYyT2GSIdQMwRszog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="54909366"
-X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="54909366"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 21:24:29 -0700
-X-CSE-ConnectionGUID: osI7mkNFQI24GZf/sZPogQ==
-X-CSE-MsgGUID: 9yvR0dzZRHWogZ9sJL5FrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="153956949"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 21:24:22 -0700
-Message-ID: <c3842cc4-f057-4ab6-b0bd-f7742ca7c645@linux.intel.com>
-Date: Tue, 17 Jun 2025 12:23:20 +0800
+	s=arc-20240116; t=1750135342; c=relaxed/simple;
+	bh=TYLI+FXOM2ZRSFIY4//MnpgO5JrwEz89pltvLKC6mHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xw5cFpdZM26bO0L0UCXQAiYau6kyyev+F11ghrqGmegLz4SiA6pkpqhiYfeSEELsWrGZi5WmKOINmAlnEryIUf6b+9Xevt01L7uOl9WRwJUh/8HG58DcM7nRl7SPgBM297f+dnTbxe3VszH48lYHefSLxbLMoLgqf/r96/Oro+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2A1DB68D05; Tue, 17 Jun 2025 06:42:16 +0200 (CEST)
+Date: Tue, 17 Jun 2025 06:42:15 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev
+Subject: Re: [PATCH 3/6] iomap: refactor the writeback interface
+Message-ID: <20250617044215.GA1824@lst.de>
+References: <20250616125957.3139793-1-hch@lst.de> <20250616125957.3139793-4-hch@lst.de> <CAJnrk1bFxRj=CF7g0YswktsPS=2oSBuHX6T3cyvTRRJjuAFyfw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 07/25] iommufd/access: Add internal APIs for HW queue
- to use
-To: Nicolin Chen <nicolinc@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>
-Cc: kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
- bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
- thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
- shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
- peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
- praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-kselftest@vger.kernel.org, patches@lists.linux.dev, mochs@nvidia.com,
- alok.a.tiwari@oracle.com, vasant.hegde@amd.com, dwmw2@infradead.org
-References: <cover.1749884998.git.nicolinc@nvidia.com>
- <64145b184a0fa7c9b60532c9b475a51625edb77c.1749884998.git.nicolinc@nvidia.com>
- <20250616133719.GC1174925@nvidia.com> <aFDSNYOTToFSbFA2@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <aFDSNYOTToFSbFA2@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJnrk1bFxRj=CF7g0YswktsPS=2oSBuHX6T3cyvTRRJjuAFyfw@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 6/17/25 10:25, Nicolin Chen wrote:
->>>   struct iommufd_eventq {
->>>   	struct iommufd_object obj;
->>>   	struct iommufd_ctx *ictx;
->>> diff --git a/drivers/iommu/iommufd/device.c b/drivers/iommu/iommufd/device.c
->>> index 9293722b9cff..ad33f1e41a24 100644
->>> --- a/drivers/iommu/iommufd/device.c
->>> +++ b/drivers/iommu/iommufd/device.c
->>> @@ -1084,7 +1084,39 @@ void iommufd_access_destroy_object(struct iommufd_object *obj)
->>>   	if (access->ioas)
->>>   		WARN_ON(iommufd_access_change_ioas(access, NULL));
->>>   	mutex_unlock(&access->ioas_lock);
->>> -	iommufd_ctx_put(access->ictx);
->>> +	if (access->ops)
->>> +		iommufd_ctx_put(access->ictx);
->> I was hoping we could null the ictx to signal internal? That didn't
->> work out?
-> access->ictx should be NULL for internal. It should have been:
-> +	if (access->ictx)
-> +		iommufd_ctx_put(access->ictx);
+On Mon, Jun 16, 2025 at 03:41:12PM -0700, Joanne Koong wrote:
+> I'm not acquainted with the block io / bio layer so please do ignore
+> this if my analysis here is wrong, but AFAICT we do still need to add
+> this range to the ioend in the case where the mapping is already
+> valid? Should this be "return iomap_add_to_ioend(wpc, folio, offset,
+> end_pos, len)" instead of return 0?
 
-access->ictx could be treated as user ownership token. If it's NULL,
-there is no user ownership, indicating it's owned by the kernel. This is
-the concept here?
+Yes, absolutely.  That's what the XFS code does, which is the only thing
+I tested at this point.  All the other conversion look pretty broken
+right now, and I'm glad you spotted this before I'd run into when testing.
 
-Thanks,
-baolu
+> > -       } while (dirty_len && !error);
+> > +               ret = wpc->ops->writeback_range(wpc, folio, pos, rlen, end_pos);
+> > +               if (WARN_ON_ONCE(ret == 0))
+> > +                       return -EIO;
+> > +               if (ret < 0)
+> > +                       return ret;
+> 
+> Should we also add a warn check here for if ret > rlen?
+
+Yes, that's a good idea.
+
