@@ -1,90 +1,124 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5239433993
-	for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 01:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329631BC9F4;
+	Tue, 17 Jun 2025 01:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750124696; cv=none; b=AidoK69uSM7NT3Wm7GAIVc6QCGpWssvvwDP5cFy1LGkk8tYSlWz/45KFEXuYx77DJSaE4j6mD2At7KCbt5/igY5IwgLtVL9XWj4jTb7gIrrGhKwSBDRBz3QmWlHUQJuo930gqXBei9d5cauCf8NaK+v2iQxkRsGu9e/iPusjar8=
+	t=1750125580; cv=none; b=ovKpI78kVkT0Qjy8u9vFRjYSxfULKvlGxzZoMjFrSB115Uad43yvVCgwOMeBO5EBOQMJF8g6brfpNWhDGM/uAu6/nwg3adHtU2Yxdzo8C13R+GmsCg2Z3wkomZ9IhHxi0LBcqJSGic0A6pjEDK6ShUc1oQV6oTZD7SSd3ig5rWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750124696; c=relaxed/simple;
-	bh=FrMNpoU0KsNW0qg02rDXo3Uu0wX8loscUpEUTMv+OGA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eFeoGVbKXzsTNSpHmO1bM+WQr0evMNO+8IywvTMLRGK+rkYOGT4MvIn8U6pwJRbqoaWmF66lor2lLDlKDEmeVbtSeBrZf7MMbt6ureJ3iGE12OD0CGaW2qxMwclq8TUTD33oHRmrMVWnDHYDJHeX2D7ONftUTQPE4CkHFM7/GzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ByRUu2Ts; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1750125580; c=relaxed/simple;
+	bh=+Coljb4R4UpMZYUnBt8a/U8959C/WB4Dycfl9OSu1vY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dd+VLWE/mBNE2fZwmhlzSj4Gj3TjW9FhoUltM2RV0IAUDqofilmz0BAN1cXcQAF4999f3qgIu6t/syJvhbUAg0LoFh0N1AoB7bjRFMiMta+oaJJ6sbFxIKvzC26iFYcipaWfugfzFKHasenrI8HlB1Nlzxklrn3788Mgw7LoU04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fzvWAto3; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ByRUu2Ts"
-Message-ID: <9aa4278e-0f43-420b-b6b5-78a32263d7ec@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1750124692;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9j6dPiBh9J0ibfK+wZrIlMMj9iz4s5guo08DGg4VYmg=;
-	b=ByRUu2TsHF2kz4dnEeUzXvAzZoJvp6QzwxAHILKnjkUbd27t2f/4c3I8MO1igzw19z9HJi
-	cpyvTkgoFoearRR5vcWUdGSeM7Rq2Xlf7HcbDjOec5DcKIP71O+Oz0OxcFVDpIJBmrDo4y
-	nZsqxe5Oulo0XOp0MXeyb4cF7JAsmS4=
-Date: Tue, 17 Jun 2025 09:44:43 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fzvWAto3"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-235a3dd4f0dso32932615ad.0;
+        Mon, 16 Jun 2025 18:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750125578; x=1750730378; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1hX1AMDY5tzO+6pgqDEAwgTSbR/ALB7lMXeQZAvSn1M=;
+        b=fzvWAto3/KpxKSb6bpw+Etr7075i5RWO78niaZdPuK8nubGIMQDHRb10bz04iXJFeM
+         7bGTUL8Y2/AqJMaAIFnysAGeUOs4aaiAQXVs41vS8+JnPlp96B8WuJc3+/2X9ImW+ife
+         0bGCllSh4vbF//CbfWpQcuo3yQITIr1exuoyM8N+SFhMDjVsNNho0CpUFDpHfODntP/r
+         anwqTchL1J1K+rFdsMMczki3MNa3F2yaYSYaYNbmkxUGu4E/oB3iER5NL8ig10DIzT1j
+         6aYmDwgazrux+afwIUZYucPhzWe6lzO/7BCunb55W8RFTyapmGYfaPTplMuWaAMQdwTe
+         IQRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750125578; x=1750730378;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1hX1AMDY5tzO+6pgqDEAwgTSbR/ALB7lMXeQZAvSn1M=;
+        b=P0oGa4cCyJs45gl1l2yhjP1wYbbyy4FSWiDu7NHk/j8DZwwUPM5phHXOGiQdck1T8g
+         CjcpgxS+Ku/eFcfc45u/DAxuLxlPwkDPkXvUGyCec/VPYpRCzHUauzkDe6yK3Dj8NS0o
+         ZX5vxzS7FtXIVqKEEOoQlphUmQie6O/rSxE5lf7gNGy/S0K7x146fkL2+3wqa1Svqq1w
+         HrM2NeeutHUpGUt4WtRcibZTU6woFzb5OWYzl0pUiwV8maUT0G2yVE374JCidxMeNlSw
+         zh2nbupShHd70URS9Ja7+HADoL7mDmUQsrCJKXc90R/VYQPWak6qHmD2pYSmtgMba9ug
+         ytaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQyiwLBKFxL48/rXvPsXUWbt9rsvGaUCgYcpZ97bn8j2NiJd4gVjFJZKSJ+R5j6TZJ7E717+D5A181fXDqmTlJ@vger.kernel.org, AJvYcCWIBbY7s5gOjgij9OIBWlioOMo+6q597Q2PXSKDynoePP1ew3Nvw5L9NdqsKbN5Ops8BkWZHTy3aEc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzbf9iR+8TkgBCwth2xPxJvriH18eitSGL+iSnOPnLZlEwL6jam
+	zKrPM3g2FFfNxBfLDb84Qj1OMe+QK0e8tSRT8g2X97Z3RR+63B3jflci
+X-Gm-Gg: ASbGnctp0jmWcfygt5HKq09whmjPpVl9kAX3ZTLd6FL/EQf7J6k6o/GGXlSI5gqxjvY
+	IiVP6GWRK8TbWMmNYOsRxXGEO0RuH7Gt4odhQwzOXAURJyBFIwLM7boe5E17B35UPhzQM9pGtQ8
+	47vbCPMebLUrUr3HDlxGHfgXBHGl9+IJEZ7LYdkdBhNfiLiovGjqDD9UZ5wku7C8wpgCT50KE3i
+	aDqcZw6fTok1mUmdRjLiR3C+7jRBlV46gEEAv0wzs5qzoTVz2a916GR8ZNDhQYfN0++G3OxfAM4
+	TL4IxIy3O0C3ROck+IVCKSJ+owFMi2U2/HyTEFynTyIN5L9Z/O4MQEopuLze9g==
+X-Google-Smtp-Source: AGHT+IENVlr6sfypZBCSgv1TrxLQcdnU8woHB/y1+TMTtAT53FcBiiSN7tzD7G2ULV+Kckou8Pa6UQ==
+X-Received: by 2002:a17:902:f551:b0:220:c4e8:3b9f with SMTP id d9443c01a7336-2366aeea034mr181020465ad.0.1750125578166;
+        Mon, 16 Jun 2025 18:59:38 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea9259sm68798855ad.157.2025.06.16.18.59.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 18:59:37 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id BD1934241812; Tue, 17 Jun 2025 08:59:34 +0700 (WIB)
+Date: Tue, 17 Jun 2025 08:59:34 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+	Bill Wendling <morbo@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Will Deacon <will@kernel.org>
+Cc: Alexey Kardashevskiy <aik@amd.com>,
+	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+	James Gowans <jgowans@amazon.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
+Subject: Re: [PATCH v3 02/15] genpt: Add Documentation/ files
+Message-ID: <aFDMBt1J1w8I_A8U@archie.me>
+References: <0-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
+ <2-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/zh_CN: update git command examples in how-to.rst
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250616134003.3981866-1-dzm91@hust.edu.cn>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250616134003.3981866-1-dzm91@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4/ywsSHr1lDelbCB"
+Content-Disposition: inline
+In-Reply-To: <2-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
 
 
-在 6/16/25 9:40 PM, Dongliang Mu 写道:
-> This patch leverages `checkout -b` to shorten branch & checkout
-> and fix the missing checkout.
->
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+--4/ywsSHr1lDelbCB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Yanteng Si <si.yanteng@linux.dev>
+On Mon, Jun 16, 2025 at 03:06:05PM -0300, Jason Gunthorpe wrote:
+> +The generic tests are intended to prove out the format functions and give
+> +clearer failures to speed finding the problems. Once those pass then the=
+ entire
+                    to speed up finding...
+> +kunit suite should be run.
 
+Thanks.
 
-Thanks,
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Yanteng
+--4/ywsSHr1lDelbCB
+Content-Type: application/pgp-signature; name=signature.asc
 
-> ---
->   Documentation/translations/zh_CN/how-to.rst | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-> index 569b0209385a..0896f13d8b8d 100644
-> --- a/Documentation/translations/zh_CN/how-to.rst
-> +++ b/Documentation/translations/zh_CN/how-to.rst
-> @@ -177,8 +177,7 @@ git和邮箱配置
->   请执行以下命令，新建开发分支::
->   
->   	git checkout docs-next
-> -	git branch my-trans
-> -	git checkout my-trans
-> +	git checkout -b my-trans
->   
->   译文格式要求
->   ------------
-> @@ -286,7 +285,7 @@ warning 不需要解决::
->   然后执行以下命令为补丁追加更改::
->   
->   	git checkout docs-next
-> -	git branch test-trans
-> +	git checkout -b test-trans-new
->   	git am 0001-xxxxx.patch
->   	./scripts/checkpatch.pl 0001-xxxxx.patch
->   	直接修改您的翻译
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaFDMAgAKCRD2uYlJVVFO
+o5mNAP9EmUtcal7Izvqw7lP3O9S78LPihsJ1bErtgFPJlzLqWgEAlIEmVujduHqZ
+WoGwLnF3VHBf8yd0JdamQ/i9qhWhagE=
+=/KQE
+-----END PGP SIGNATURE-----
+
+--4/ywsSHr1lDelbCB--
