@@ -1,129 +1,238 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D8C28C5D9
-	for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 11:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848ED2DF3E5;
+	Tue, 17 Jun 2025 11:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750158094; cv=none; b=Z6nJpQh0Ddn0L52/WY5gPmX/iTQsQ2aKyJXg1UNyxW241JmAeLcybLdh/0NrFGNAjqm3N6OKHmFDJ1KpLq1nOAU19UsUZv9+iI0TD5vo2Ohp40vq8qN2tyARABDwIXsyaEGXxx5KeQc5ONuy9B1xOsXIg7dT0Ezz9W0MxlC50GY=
+	t=1750161315; cv=none; b=fkUHK3h/+SOD+CXKVQ+LbLLoHH2cGivuplaQSLg2CBxVIFtEnB7TrBnm2ehAm7f1hseExz0QzIIw+pLTSqoNxGfCBYl6C7R79OgPFzYaCsTHvPLwYstI86bu1nCpSUgAKLDSudOeeKFWnJURh85zO3FkJVx0y6O/1LVts0ShccE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750158094; c=relaxed/simple;
-	bh=IBYQZSudqTgn34Kapoq78rT+fFWNWZ9+bS43x3EWBcc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XUDPyfbfBNUB7VtgvEIda6ssESeYkGf2+C6oTCTyO52ZeeYsbs4G8ZZ8nka6zEmBVztW7HlsWr/N0WlC8VfQ1+//14JHXptIakwU2dnuLjCR+eiA+HpHsEm9fsllp2hd6TIfLZU/xreAlAoh5Und/Yq7fnG4U3UiHwTnrA8xHrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=Qa0Mmh0S; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
+	s=arc-20240116; t=1750161315; c=relaxed/simple;
+	bh=1mdzfzKY2H5RvEK9/I1kxmjAzNzCY7/xCZXh85LBGB4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bxgbYU+XyHrVFYFCgiNgUXkBce9lNwyzJLhIVzlpru/umPFFy5GiGv0EuAY++DHN3Asc30UX0W1v11W5KNJnXpLv6zZ07xQ2pFaEMTp2zLRt83fTMdY6rRoRJumlTkmoDu8b8rmQl7zdbVcGycxMm1Q0Rw7tdOzQrrPt9lNnrKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NEkTWDgK; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="Qa0Mmh0S"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-236377f00a1so48130715ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 04:01:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NEkTWDgK"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ad88d77314bso1241475066b.1;
+        Tue, 17 Jun 2025 04:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inventec.com; s=google; t=1750158089; x=1750762889; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1750161312; x=1750766112; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1DHyU2R8WPjOq8eE9G+orQPQ64Wuq4IqqrSMYFwTCBc=;
-        b=Qa0Mmh0SUDjvxQros6xspDcRisYS82W0rofYbdCTcSlLbgn0LyzGGoCz9sYazZGFKF
-         T5w9mLsYXIE0y887zNgX+V6aiBSXYnwclbM/naIuDkv9Y0romKwnXW29WgtzIXiHUDeA
-         HOIcqEv3L/RKmVEJsve+GNZTSlmBGljrJ6AWE79GU31U4zsiqf89HmfLrrV9z9G/bDdY
-         5dkYhg+k28MP6xLcXwDbME8hlEsoAwKSSm6wOaaKWmr8luoQo/c+VLlLJ2FY1FqSOcVu
-         IvvNYEhokAWi/iDO8Gdgn2q5Y7jTkt6lZ6DrohoRW+SIq/7IEWEOOU5CquhnR+8Op2KC
-         Wy1w==
+        bh=O5Oyc6Nb5eleQJDRHBvWia2WFxGzJ8AhQsoAb9pIQzw=;
+        b=NEkTWDgKTZ0pYOJAjnUOTStCbWC8MrqQWVimioPXkYKXEvQNjGWQPIHf0U7hI3I+dQ
+         JiuF7zLmqY0uzx8Q6CSlD7u1tITtOLK0xA8cK1MHi2jiP+ebAVcQeARzc8dtcRgGhZ9x
+         Slt3/2MPSRrButbQU1WeIuFWY03PSfwZGSLRWKGANyBqcXWPgGIHBkOaP0U0mSPooKZ5
+         riXOWSi2fHsRFBDcfPaBuxL6bgESs9LUV7Jw+h04Hbs6tetDEt4p10xzXg97lNBc45hg
+         aQGgxsJ4M3m772vkzNHSdnemGU7zWb1Fg2YNrHmViuen+upoIiDIjBCYHP76jG73a28E
+         HFrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750158089; x=1750762889;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1750161312; x=1750766112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1DHyU2R8WPjOq8eE9G+orQPQ64Wuq4IqqrSMYFwTCBc=;
-        b=Y0sXxUh2gD2JtgdukjxQRuGSB7+1L+hz5lIUrHtVAzyHuEwGPac8R3cLBdmEZYYTt5
-         pTCWUhIGE61n1vIHZhvwOamna+HTMb5kojFwFfXH5Lkeyk64B3F92xUXX+oMtA3pnykg
-         ib/BIzM+7i4NQ0PgsBijvdpgpKVldjYNWqzWtHzeoXMPU8DeRyrwX78Y9S3lDtWjai6N
-         0fKt2RbyqIVq6QOddjSonCNQ55fIfMEAHQ/ojzErUrskOcpKqRIq0jTvQnHiu3vIpZZZ
-         eF35d2WyQznhDG/eaLGEtaP+1fPd9YbqylyhtU0Ttu6K7PTrYD+FADx/JR0EF/LzmDSP
-         exaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWgRNNys3xKWCrMKvGae3d/D9xqE+S+BZVaADUzxumEwkkFjxH0UifJ921wiZ3I++Sc5l8bfwgOhnc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqJr/kE6spgxVe6KMxs+MiT4ko57AH3PmBAzPUlAJBWgoYWJFI
-	zQlwAqclcVJXwNskUA7By3BD29ltDN+1ZA0bPTUNdukGfkpKuQmZJY+RvuNSbXPpp00=
-X-Gm-Gg: ASbGncv/IKSpF2RsqVAT098qEzkpq4joA97FZaikI2SWitmTFPjgz4E75ZHf2rUhQhe
-	zDeeM68hjsA0KvbfRGyHzBAjw4/UyKxCjTKN21XbAbTanyJKxIbE8B85dPyAQ8QJVJoieSIyVGF
-	e25KVH+EgddEaSQJSZYfy8+gnx0D3696wTIFlrkrp/5Xlv7QFBw5DvK224RJQ/K2M9K9irXdC0w
-	A73un4RByoxdL/oCfrLH1k/1BqR2JtQ+pMjkQ8qQz2Og962eBwCO0Dh0o5JU2ChDWQPto39aoaO
-	0UoRzSMmZVQ2T1SIGhdoGPi1FOhqRYGeo2eDQnrfcDAsYx0Tuq9Qfk+uf7XqDhnyJieiOX1lOpO
-	SAwk+hE0=
-X-Google-Smtp-Source: AGHT+IFhiIFZVVRkKW6KlPv5Ms3limyDQ3qCAx3P+UVC13Dsqu72f+r1sPGNNNtDItxGQ9ngdyMNEQ==
-X-Received: by 2002:a17:903:1a83:b0:234:9656:7db9 with SMTP id d9443c01a7336-2366b122186mr205102705ad.32.1750158088915;
-        Tue, 17 Jun 2025 04:01:28 -0700 (PDT)
-Received: from localhost.localdomain ([123.51.235.216])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365d88f423sm77142515ad.12.2025.06.17.04.01.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 04:01:28 -0700 (PDT)
-From: Brian Chiang <chiang.brian@inventec.com>
-X-Google-Original-From: Brian Chiang <Chiang.Brian@inventec.com>
-To: linux@roeck-us.net
-Cc: alex@ghiti.fr,
-	aou@eecs.berkeley.edu,
-	chiang.brian@inventec.com,
-	corbet@lwn.net,
-	jdelvare@suse.com,
-	linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	palmer@dabbelt.com,
-	paul.walmsley@sifive.com
-Subject: Re: [PATCH v9 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Date: Tue, 17 Jun 2025 18:51:41 +0800
-Message-Id: <20250617105141.4081335-1-Chiang.Brian@inventec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <b278e83a-473f-46ee-b353-3f8c14d03aaf@roeck-us.net>
-References: <b278e83a-473f-46ee-b353-3f8c14d03aaf@roeck-us.net>
+        bh=O5Oyc6Nb5eleQJDRHBvWia2WFxGzJ8AhQsoAb9pIQzw=;
+        b=q6bkeD6hf15IlQl1Npb0M6Z5/Clmhlo2qAjCtTkxh7/VB9bKMM+uWo/9ApcyBG8lQw
+         OQ8DP/+pUu6YXB6NQfpX5y2GeWF9LHrPxJITGWg9OB14A5r7CrRkK58WgiOE9isaI8ev
+         w0lQaD/00Qp8YdSsq/z7SIvcQzycxd7X9l/up9BzByuUvawWl4FHuRDTbVNAjgwXiaIs
+         PsJNrsjbKLhid+39RQXM1VjDVnJBw4BLlI8s+UNfw2TjQUcq6KeHob3WPjFKSeS2rvk7
+         Hd5gLJSAQaYjDdPMuQzYt0jFFBcaAbplH8rFZws9P5vmUrN+XD8OaBCCzSZS1LblS03X
+         xhKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU71Zf3iK+yOvz3afxjwafCiOr9HkRHLrIpW6ET8d7PoABIRwRkWwUHlnJ96/JVdx+scY9O+TVf084=@vger.kernel.org, AJvYcCVIY3tragJ1fqTum7BJjBKLCWOiiNP6Ol+E1xBIfFF2yzfChDQGjZMhf1yO6cv/DkLBEC9L1PcqlpxO@vger.kernel.org, AJvYcCXmRdXTTstQkhm+doXcpCwfpq6I6j2pgQ4jJ+10p+LFTRuRLsM7dE0bInjIhkdtttiAwrTGhDAzCWONLBEF@vger.kernel.org
+X-Gm-Message-State: AOJu0YxE44cJKXjl+PIhRZ15+WPKmuJPL6FBLKomTQBdU+z3dRrkjMTQ
+	FdBVO1ONt77BEgaRI8Ho4pDFSJyksDRtLHvCF4IrnegZ+AIGFEKLDBP6gsUHEnJLh7NVlDoPA8z
+	zrlTxlvfB7q9lDcup8JwkctTl8fwKe5I=
+X-Gm-Gg: ASbGncuPfkpqjDJ3C7rv70X+Pg+pvFoWyiAzwwQQn0UwdvhYlbnDh6+lodjnWcUhITP
+	7u0xBtYQhzzxenU0WNuFX9eXebx9yNdw/IH4Knnc0hGpUH/bdiYlBT80h+dU80s2bXudbKofZIA
+	cyBqyzb6I1/fA4X/onAUhK791yQovFi5XYn2Uga6DijY981A==
+X-Google-Smtp-Source: AGHT+IE6ecDP+jSmXMWWxoAXtXPEY1Y64xRVJKCLhMyqxuvRkxxX5n8x3JBcxUdDDseal6dmwhL67NBQE9f9wzc0CiQ=
+X-Received: by 2002:a17:907:1ca2:b0:add:fa4e:8a61 with SMTP id
+ a640c23a62f3a-adfad53d2cdmr1362691666b.38.1750161311622; Tue, 17 Jun 2025
+ 04:55:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250615222258.117771-1-l.rubusch@gmail.com> <20250615222258.117771-6-l.rubusch@gmail.com>
+ <CAHp75VdWtY6nxFFTucoCRiq+tM5caL5N1yp_15=FSAZ7Vyk_7Q@mail.gmail.com> <CAFXKEHYzaCCNbZo47AUHFEyS=HBFZnVNEHeQG+4VA2jhhT+yEw@mail.gmail.com>
+In-Reply-To: <CAFXKEHYzaCCNbZo47AUHFEyS=HBFZnVNEHeQG+4VA2jhhT+yEw@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 17 Jun 2025 14:54:35 +0300
+X-Gm-Features: AX0GCFvqVsLjg7NVzpiLV7joBeHOpKz_dSx-5s5g22mcanhHrTnZaIYNIG97mW4
+Message-ID: <CAHp75VeDj1sE55_PdR6=QHAT-Nv0fwv3kss=7oeh8isdmOMoOw@mail.gmail.com>
+Subject: Re: [PATCH v5 5/8] iio: accel: adxl313: add inactivity sensing
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, bagasdotme@gmail.com, linux-iio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Mon, 16 Jun 2025 09:15:43 -0700 Guenter Roeck wrote:
-> 
-> On 6/10/25 03:25, Chiang Brian wrote:
-> ...
-> > @@ -263,6 +282,10 @@ static int tps53679_probe(struct i2c_client *client)
-> >   		info->identify = tps53681_identify;
-> >   		info->read_word_data = tps53681_read_word_data;
-> >   		break;
-> > +	case tps53685:
-> > +	    info->pages = TPS53679_PAGE_NUM;
-> > +	    info->identify = tps53685_identify;
-> > +		break;
-> 
-> 0-day rightfully complains about the bad alignment above.
-> 
-> If you want this patch to be applied for the next kernel release,
-> I would suggest to copy the hardware monitoring list on the first patch
-> of the series. Without it, I get
-> 
-> WARNING: DT compatible string "ti,tps53685" appears un-documented -- check ./Documentation/devicetree/bindings/
-> #296: FILE: drivers/hwmon/pmbus/tps53679.c:316:
-> +	{.compatible = "ti,tps53685", .data = (void *)tps53685},
-> 
-> Since I am not copied on the first patch of the series, that patch has to be applied
-> through a different maintainer tree, and I have to wait until that is the case.
-> Not that I understand the logic behind it, but I mentioned that before, so I assume
-> this is on purpose.
+On Tue, Jun 17, 2025 at 1:10=E2=80=AFPM Lothar Rubusch <l.rubusch@gmail.com=
+> wrote:
+> On Mon, Jun 16, 2025 at 12:59=E2=80=AFPM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Mon, Jun 16, 2025 at 1:23=E2=80=AFAM Lothar Rubusch <l.rubusch@gmail=
+.com> wrote:
 
-Thank you for the feedback. I'll address both issues in v10:
+[...]
 
-1. Fix the indentation alignment in the switch case
-2. CC linux-hwmon@vger.kernel.org on all patches in the series
+> > > +       switch (info) {
+> > > +       case IIO_EV_INFO_VALUE:
+> > > +               switch (dir) {
+> > > +               case IIO_EV_DIR_RISING:
+> > > +                       ret =3D regmap_read(data->regmap,
+> > > +                                         adxl313_act_thresh_reg[ADXL=
+313_ACTIVITY],
+> > > +                                         &act_threshold);
+> > > +                       if (ret)
+> > > +                               return ret;
+> > > +                       *val =3D act_threshold * 15625;
+> > > +                       *val2 =3D MICRO;
+> > > +                       return IIO_VAL_FRACTIONAL;
+> > > +               case IIO_EV_DIR_FALLING:
+> > > +                       ret =3D regmap_read(data->regmap,
+> > > +                                         adxl313_act_thresh_reg[ADXL=
+313_INACTIVITY],
+> > > +                                         &inact_threshold);
+> > > +                       if (ret)
+> > > +                               return ret;
+> >
+> > > +                       *val =3D inact_threshold * 15625;
+> > > +                       *val2 =3D MICRO;
+> > > +                       return IIO_VAL_FRACTIONAL;
+> > > +               default:
+> > > +                       return -EINVAL;
+> > > +               }
+> > > +       case IIO_EV_INFO_PERIOD:
+> > >                 ret =3D regmap_read(data->regmap,
+> > > -                                 adxl313_act_thresh_reg[ADXL313_ACTI=
+VITY],
+> > > -                                 &act_threshold);
+> > > +                                 ADXL313_REG_TIME_INACT,
+> > > +                                 &inact_time_s);
+> > >                 if (ret)
+> > >                         return ret;
+> > > -               *val =3D act_threshold * 15625;
+> > > -               *val2 =3D MICRO;
+> > > -               return IIO_VAL_FRACTIONAL;
+> > > +               *val =3D inact_time_s;
+> > > +               return IIO_VAL_INT;
+> > >         default:
+> > >                 return -EINVAL;
+> > >         }
+> >
+> > I still don't get what's wrong with helpers for nested switches?
+> > Instead of doing ping-pong with so many lines (due to indentation
+> > changes), just create a helper from the beginning. In this case this
+> > will look more like
+> >
+> >   if (nfo =3D=3D IIO_EV_INFO_VALUE)
+> >     return my_cool_helper_for_THIS_case(...);
+> >
+> > Note, I admit that not all the cases may be done like this, but just
+> > look at this again and perhaps something can be optimised.
+>
+> First, about helpers dealing with nested switches. The resulting
+> structure then is like
+>
+> switch (type) {
+> case IIO_EV_TYPE_MAG:
+>     switch (info) {
+>     case IIO_EV_INFO_VALUE:
+>         switch (dir) {
+>         case IIO_EV_DIR_RISING:  // activity
+>             ....
+>         case IIO_EV_DIR_FALLING: // inactivity
+>             ....
+>         }
+>         case IIO_EV_INFO_PERIOD:
+>             ...
+>     }
+> case IIO_EV_TYPE_MAG_ADAPTIVE:
+>       // same as above, again for _AC events
+>  ...
+> }
+>
+> Actually I'm using a helper for nested switches. But currently I'm
+> adding it quite late, when I have cases for ACTIVITY, INACTIVITY and
+> ACTIVITY_AC and INACTIVITY_AC, since this results in code duplication.
+> The resulting structure the looks as follows.
+>
+> helper_mag(...)
+> {
+>     switch (info) {
+>     case IIO_EV_INFO_VALUE:
+>         switch (dir) {
+>         case IIO_EV_DIR_RISING:  // activity
+>             ....
+>         case IIO_EV_DIR_FALLING: // inactivity
+>             ....
+>         }
+>         case IIO_EV_INFO_PERIOD:
+>             ...
+>     }
+> }
+>
+> switch (type) {
+> case IIO_EV_TYPE_MAG:
+>     helper_mag(...);
+> case IIO_EV_TYPE_MAG_ADAPTIVE:
+>         // same as above, again for _AC events
+>     helper_mag(...);
+> }
+>
+> Is this reasonable? For the v6 now, I plan on introducing this helper
+> when adding INACTIVITY sensing, having ACTIVITY already in place. This
+> is, because INACTIVITY as distinguishable type is still not available,
+> but would be needed as function argument as well. Does this make
+> sense? Or, should I start with the helper right at the beginning? Is
+> it ok to have once a nested switch in the helper?
 
-I apologize for the oversight, this wasn't intentional, but rather due to 
-my automated CC generation only considering per-patch maintainers.
+Yes, that's what even would propose here, is to make a helper with the
+current code (if it's not empty) and then fill it with the content. In
+any case try and see.
 
-For v10, I'll ensure all the devicetree and hwmon maintainer lists are 
-included on all patches so you can see the complete series.
+The (end) idea is to have only one level of the switch-case per
+function in this case and use helpers for the inner ones:
 
-Best Regards,
-Brian Chiang
+foo()
+{
+  if (...)
+    return -EINVAL;
+  switch (dir) {
+  case BAZ:
+    ...
+    break;
+  }
+}
+
+switch (type) {
+case FOO:
+  return _do_foo();
+}
+
+> Second question is about the adxl313_read_event_config() functions,
+> I'd like to have here 0 or 1 in regular cases (<0 for error). Is it ok
+> if I adjust the functions slightly to guarantee this? Currently it
+> generally returns >0 in cases of "true" which is correct. But this is
+> most of the times 1, in some cases can be 8 or something. I just like
+> it to be uniform for testing (which is not a valid argumentation). Is
+> this legitimate?
+
+If this is an ABI, better to unify this to have the same meaning of
+each of the returned values independently on the functions, if this is
+just an internal, who cares? However, there is, of course, a corner
+case if MSB is set and you will return a (positive) value as an error
+code. So, just look at the functions and decide which path you take.
+
+--=20
+With Best Regards,
+Andy Shevchenko
