@@ -1,208 +1,122 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2AE22FE11
-	for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 17:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C763BBF2;
+	Tue, 17 Jun 2025 17:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750182778; cv=none; b=Hx2O78M9h4qLmJwL83NJaHt9/wW+A6hRGHcIQGlaglWG2xcpo9ZEnHjYt+idY/Lu4eadbfbIx/RnbfRNzA6xZ5Kl0Xf66yZwozUvLA18uQoBmB3yZmfYaCw3d3KUZcI2AeeYhxZgzFmpPdIFBULr2UWdwIQwjU/h6cpT1xRydok=
+	t=1750182880; cv=none; b=k0dfqnUcq2mi6qpAgoDMi+7LUuGweu+a76VTtlG2SqRiSR86Q04Cb4IkY6zIzMX5bwHJTZ+j4PXfSoYhhCT8VmOWcfqmMVMJ75SH316IlvQUZjsE4jnU5pe9t8IRH4NBJdjP1B4sSdkmU27wY0gwFwzaQt24ckw95R/i+hHpYks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750182778; c=relaxed/simple;
-	bh=t+06naoVmVF2AOSXqBSYrJu3yXVIfw+vx5pfjOIVMmY=;
+	s=arc-20240116; t=1750182880; c=relaxed/simple;
+	bh=bgxfn7vE3uVcZL4Z/4Xgrg5I++5k5UcZdX3exMfLzn4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DBYP5uJs+nI4DnxSZCDOMTkzLNbT1dlQQzFTJBhrDDTiDRARwhDE87fAq8tAJSkJ7F8i5gY3fv1oHaVFqAp4i2Tv1zhyHj5sHL7UkKDMj8BdlyA9QtD5YbYC/HK4CwjcvBxE2UJSlamslVpOoSgvomLuV2cndXVD4Q2/Do8ctzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VWY51kPc; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=BQ6XKglC8jKqBzjpWSDjVHh45/a9urkJ5Q9jvw8V577n0sqN5D2l4Zr7bqzDVha0OyVvBI/UrFN3dQgySxuyVaq+04NU+cxHL+bWDe85VvlO0MR/aNDdExGbFjr9Nd4mOYooKPZx6XE/cRXxvkQgVftrIkb4G+95UmfbPY1WOes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bl28H49y; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VWY51kPc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750182775;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VHVlghtOwl1iYTRYeyXrEKqXKy+rGsdhH54hG2oPsxQ=;
-	b=VWY51kPcMLewrs0lCjf8YUK7r8bvORhnPRsKcyMqDt8BRhcvzFnEDUxeyx+DqLs+6h6ngM
-	y1KmdD0GNUnwsFN+bVUVxsOt+6i6NtyxRL4QbKgzPhEi42znYMdogu8IP7KB/v3v5TX/4l
-	7PlAPc8EW/Pl+TiRgclw++mzlXcNpjc=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-0rf3DvusMraw3EndKPYYcA-1; Tue, 17 Jun 2025 13:52:54 -0400
-X-MC-Unique: 0rf3DvusMraw3EndKPYYcA-1
-X-Mimecast-MFC-AGG-ID: 0rf3DvusMraw3EndKPYYcA_1750182774
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-70e43123ec6so74188857b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 10:52:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bl28H49y"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4a58f79d6e9so74439051cf.2;
+        Tue, 17 Jun 2025 10:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750182878; x=1750787678; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OTi4WuiI5rSn4d0VdM5D16B62aIH3ZTDCOZvLTT0owQ=;
+        b=bl28H49ygnqhyLaSjZSoas5k74rbqyepz5ij3cxt3sdyl6QOwcUbAiENyF7O3fQbzD
+         i8rvicdk9RRmmjoujhP+J9Q4A7DOdE23BvRvvvDX9r7TrxzTgXdjMXTgjYXooV+KQr0i
+         1N5lXR2j8GA/0OWTdEOnECaHJBdorYYK+SRiMbmRI1MqhhX7eLPE+6LV0cbH6lG/ceeV
+         iktbI4L9EbtP2dM3wdpJvtkvT505rACRkVxKH9H73pSpN5jw9KUqB4cQe8GFmrSA5Sq3
+         /LZXp/O9STs6XCGcXpXEwJThttvX7n0T/OCy2khD5gtWYyormoN81I8MTOZFvDOPRW8d
+         3JDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750182774; x=1750787574;
+        d=1e100.net; s=20230601; t=1750182878; x=1750787678;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VHVlghtOwl1iYTRYeyXrEKqXKy+rGsdhH54hG2oPsxQ=;
-        b=lMNPrt94WJD1MCsPMDlA+CwqnX5qXRqqXEezMm/0hlwE2DRh9VZVO1gBRcjWkEqyfD
-         yuuVKcrmklBJpAWcomO/cHG3NyiBEUOpEBHbxIXUTmsHxa7/pyaZdiU+YanBlCKxoxph
-         hx0cYpp2gCd4UjPPoLjRXuXWxA0GPyhU2KLkAyxAISR8UfOd5Aufu08ISMhOyOH/6cda
-         W8vXqQJnTpFwXjI4KaHfUZ2+N6pwXe63qgut7VVBLLGZWffrC4OSQBYRUPE3MGMBakSr
-         td9sbu2cRz7pD7NRDmVJ4Allpg2GUGsdtQy9OUXxfXTsKI1YHS7bxMjBlGj873Cgtne8
-         f+2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVQfzeGxQU4XQeeooQZrJLTKF2U7nmnU3A3gt+UzZny9ExB6Q7r3h8WjJ5b8KwBmKm/7QrJ2l0zpLQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrUR8cdttHi73UgdoeQsxL42mNPt5A0B+lFpjlIVBOsLz2Tghm
-	FtTeumB2zCP/f4V3YNk3EMbgs+X2nEvf2Ixy76IfxOJ8OKDTSrf7DRnCATxfz4GRltNYTy5bxdz
-	Visa0iNR/96Rp7hw5pJ21YFYc6DhEoNx/gpwfIvefN6s4O00gPGEmI7wK3Hb0P//8Rd0a9g6s7O
-	Y7p7BgWbeIqE6SMQr/2tlrzNS25dX+Cfh7oQo5
-X-Gm-Gg: ASbGnctgT2Mr+AjXv7TBG+A2lDz5yGkLxtMStPQhPI49960x58MKZJnyNAPQQlpwwrp
-	+xNEKkc4mVqdZmj/BJ/Y6WKO+y5hlj9Ppk6mkiH2jKZKK2lPRWujOGdZMaZCOqpb59OZq7ewUUO
-	3NVEBqkQ==
-X-Received: by 2002:a05:690c:9a07:b0:703:b3b8:1ca1 with SMTP id 00721157ae682-7117536e5f3mr174054057b3.5.1750182773968;
-        Tue, 17 Jun 2025 10:52:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHsuDUpqbT4Zm+fDNYLZyRvnIomvlXs1lgyYMEYTlPSDFNwpQpbOwB39H6AdaylUKoeEGHtBp3S/5ilov+jo+Q=
-X-Received: by 2002:a05:690c:9a07:b0:703:b3b8:1ca1 with SMTP id
- 00721157ae682-7117536e5f3mr174053697b3.5.1750182773635; Tue, 17 Jun 2025
- 10:52:53 -0700 (PDT)
+        bh=OTi4WuiI5rSn4d0VdM5D16B62aIH3ZTDCOZvLTT0owQ=;
+        b=Q4i02eEJvG/8VZhFBMpsqGF2pX3DmyrhLDnpzJf+wj7Setmy8odTnr2vO4KygvokCf
+         WNzhMPcYssLu8gyaY4CUdQ9m5s2cMPxFPClMos+YIgTh+x8I0OTtL4Inu51EJe+eNGtr
+         mEKXx2WORDk8RLKe7n7Rxt2o+upLLbFXfZhCgDjwf0EV5G6AoWLRIFnJPbRJ0Yhu5j2q
+         CX2cpS0zdPxrCCemjpSyCMGveumQOvNKvTHNtGd7S6TrCHWGE7OnQlULYW66fvlrBxa9
+         kcMrZ8xybr4bqfPEWz7opS3e6mSUlG90DV/QBPsoN9hK3R1OzMp1s+hzNozTJ3FMjwXP
+         9tvw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmyg6rDd4NACPSaT7aQ3btfyrHDcfyGddEtw8ovB5ayEdA1Vzel1EHG7ibRDQALI3LhhsACoAUQsSMRg==@vger.kernel.org, AJvYcCWaZZfDXQ9MQuPKiqDZey/0ePxIQZ1cCOtWqwuwLqFf5BW0TDOeU6I+FBxes6k+7ufrdxfgMbwZfkC6@vger.kernel.org, AJvYcCWv7O5yx95Ism81Hzx5T44dLqg1+Rnyn6fMhf186Q0WP8KE9Q3Jltn7ljrEQ03C4agUQtEOayRf9qPt@vger.kernel.org, AJvYcCXPidGJTuFoRqLBPdO7CaEW3SAspt4ueekyMglfcfwCYi7OZps9SoxpaVgcKyK4BEG9+0w1sJtdxR+zcQN3Aw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWIxCRsdC3c9sudO5jkkUVi3lJKmnhQChg5Ixv/OIVcSYu2IeZ
+	im5Ihif2WklpQnNqqNv9BvMugmVlhuXLkHFHdlbjOd/ZFCftb9kDSH2pcSSsLIrRcPmxTHmIBZS
+	4WI8gBBR4xA+tbdi+ob2Sqr76vtvm9xI=
+X-Gm-Gg: ASbGncueH4EjHZS9mhnWMFKrp3GvWdUGOgV7AFC5uocBZDElza1EVquwFD9LgclT4iH
+	CTe5xnPas18lcmhWvoIQSAdoMUMtImCgaKg8NNAQZ8UyA1gWS/oxMHtUfAI5pplakhS1sL7Dkcm
+	+S6Iq/ZMdOHhbFfa1Huh215yiiC2sILOgtL5VfFfrpdxng68jSrSAKXkGHUS0CUMSKBTMvHA==
+X-Google-Smtp-Source: AGHT+IGex4UWv+HoV/9Li0Bva7BreKI2nwwf5CqKk1rUMlIevgG5vGMpxGPPINpdgZlO5LfDN26J5rEEDluUxSQJBGM=
+X-Received: by 2002:a05:622a:18a1:b0:476:7b0b:30fb with SMTP id
+ d75a77b69052e-4a73c560deamr198293591cf.22.1750182877938; Tue, 17 Jun 2025
+ 10:54:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515033857.132535-1-npache@redhat.com> <20250515033857.132535-2-npache@redhat.com>
- <fcd3phzewpgzghrzse3stxi7jz7b6l5uwnhqtswcfnqvuvktip@apqh2achkutn>
-In-Reply-To: <fcd3phzewpgzghrzse3stxi7jz7b6l5uwnhqtswcfnqvuvktip@apqh2achkutn>
-From: Nico Pache <npache@redhat.com>
-Date: Tue, 17 Jun 2025 11:52:26 -0600
-X-Gm-Features: AX0GCFswQblbC-fUl4LgnBDpA9J_EkZ2hl0iyVshZHwGMIbdVVRH-b1apF1auqA
-Message-ID: <CAA1CXcDgu3bT-aUEXoFrVVYaTy_rAbdNmwMhzrkwb0+VxQM47w@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] mm: defer THP insertion to khugepaged
-To: Klara Modin <klarasmodin@gmail.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	rientjes@google.com, hannes@cmpxchg.org, lorenzo.stoakes@oracle.com, 
-	rdunlap@infradead.org, mhocko@suse.com, Liam.Howlett@oracle.com, 
-	zokeefe@google.com, surenb@google.com, jglisse@google.com, cl@gentwo.org, 
-	jack@suse.cz, dave.hansen@linux.intel.com, will@kernel.org, tiwai@suse.de, 
-	catalin.marinas@arm.com, anshuman.khandual@arm.com, dev.jain@arm.com, 
-	raquini@redhat.com, aarcange@redhat.com, kirill.shutemov@linux.intel.com, 
-	yang@os.amperecomputing.com, thomas.hellstrom@linux.intel.com, 
-	vishal.moola@gmail.com, sunnanyong@huawei.com, usamaarif642@gmail.com, 
-	wangkefeng.wang@huawei.com, ziy@nvidia.com, shuah@kernel.org, 
-	peterx@redhat.com, willy@infradead.org, ryan.roberts@arm.com, 
-	baolin.wang@linux.alibaba.com, baohua@kernel.org, david@redhat.com, 
-	mathieu.desnoyers@efficios.com, mhiramat@kernel.org, rostedt@goodmis.org, 
-	corbet@lwn.net, akpm@linux-foundation.org
+References: <20250617105514.3393938-1-hch@lst.de> <20250617105514.3393938-2-hch@lst.de>
+In-Reply-To: <20250617105514.3393938-2-hch@lst.de>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 17 Jun 2025 10:54:26 -0700
+X-Gm-Features: AX0GCFsDdji5vutx2f9J16YcANLgGsyfwdscogvNs6WP3czKu7_D_i2PrHBn32E
+Message-ID: <CAJnrk1YZyuAX+OjuGdRWq1QpNj7R2BU5+Zx8mam6k+VfT9bULQ@mail.gmail.com>
+Subject: Re: [PATCH 01/11] iomap: pass more arguments using struct iomap_writepage_ctx
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 14, 2025 at 5:25=E2=80=AFAM Klara Modin <klarasmodin@gmail.com>=
- wrote:
+On Tue, Jun 17, 2025 at 3:55=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
+e:
 >
-> Hi,
+> Add inode and wpc fields to pass the inode and writeback context that
+> are needed in the entire writeback call chain, and let the callers
+> initialize all fields in the writeback context before calling
+> iomap_writepages to simplify the argument passing.
 >
-> On 2025-05-14 21:38:54 -0600, Nico Pache wrote:
-> > setting /transparent_hugepages/enabled=3Dalways allows applications
-> > to benefit from THPs without having to madvise. However, the page fault
-> > handler takes very few considerations to decide weather or not to actua=
-lly
-> > use a THP. This can lead to a lot of wasted memory. khugepaged only
-> > operates on memory that was either allocated with enabled=3Dalways or
-> > MADV_HUGEPAGE.
-> >
-> > Introduce the ability to set enabled=3Ddefer, which will prevent THPs f=
-rom
-> > being allocated by the page fault handler unless madvise is set,
-> > leaving it up to khugepaged to decide which allocations will collapse t=
-o a
-> > THP. This should allow applications to benefits from THPs, while curbin=
-g
-> > some of the memory waste.
-> >
-> > Acked-by: Zi Yan <ziy@nvidia.com>
-> > Co-developed-by: Rafael Aquini <raquini@redhat.com>
-> > Signed-off-by: Rafael Aquini <raquini@redhat.com>
-> > Signed-off-by: Nico Pache <npache@redhat.com>
->
-> ...
->
-> > @@ -315,13 +318,20 @@ static ssize_t enabled_store(struct kobject *kobj=
-,
-> >
-> >       if (sysfs_streq(buf, "always")) {
-> >               clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG, &transparen=
-t_hugepage_flags);
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG, &transparen=
-t_hugepage_flags);
-> >               set_bit(TRANSPARENT_HUGEPAGE_FLAG, &transparent_hugepage_=
-flags);
-> > +     } else if (sysfs_streq(buf, "defer")) {
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_FLAG, &transparent_hugepag=
-e_flags);
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG, &transparen=
-t_hugepage_flags);
-> > +             set_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG, &transparent_=
-hugepage_flags);
-> >       } else if (sysfs_streq(buf, "madvise")) {
-> >               clear_bit(TRANSPARENT_HUGEPAGE_FLAG, &transparent_hugepag=
-e_flags);
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG, &transparen=
-t_hugepage_flags);
-> >               set_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG, &transparent_=
-hugepage_flags);
-> >       } else if (sysfs_streq(buf, "never")) {
-> >               clear_bit(TRANSPARENT_HUGEPAGE_FLAG, &transparent_hugepag=
-e_flags);
-> >               clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG, &transparen=
-t_hugepage_flags);
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG, &transparen=
-t_hugepage_flags);
-> >       } else
-> >               ret =3D -EINVAL;
-> >
-> > @@ -954,18 +964,31 @@ static int __init setup_transparent_hugepage(char=
- *str)
-> >                       &transparent_hugepage_flags);
-> >               clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
-> >                         &transparent_hugepage_flags);
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG,
-> > +                       &transparent_hugepage_flags);
-> >               ret =3D 1;
-> > +     } else if (!strcmp(str, "defer")) {
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_FLAG,
-> > +                       &transparent_hugepage_flags);
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
-> > +                       &transparent_hugepage_flags);
-> > +             set_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG,
-> > +                       &transparent_hugepage_flags);
->
-> There should probably be a corresponding
->                 ret =3D 1;
-> here. Otherwise the cannot parse message will displayed even if defer
-> was set.
-Thanks Klara-- I will make sure to add it on the next version!
->
-> >       } else if (!strcmp(str, "madvise")) {
-> >               clear_bit(TRANSPARENT_HUGEPAGE_FLAG,
-> >                         &transparent_hugepage_flags);
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG,
-> > +                       &transparent_hugepage_flags);
-> >               set_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
-> > -                     &transparent_hugepage_flags);
-> > +                       &transparent_hugepage_flags);
-> >               ret =3D 1;
-> >       } else if (!strcmp(str, "never")) {
-> >               clear_bit(TRANSPARENT_HUGEPAGE_FLAG,
-> >                         &transparent_hugepage_flags);
-> >               clear_bit(TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
-> >                         &transparent_hugepage_flags);
-> > +             clear_bit(TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG,
-> > +                       &transparent_hugepage_flags);
-> >               ret =3D 1;
-> >       }
-> >  out:
-> > --
-> > 2.49.0
-> >
->
-> Regards,
-> Klara Modin
->
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+
+> ---
+>  block/fops.c           |  8 +++++--
+>  fs/gfs2/aops.c         |  8 +++++--
+>  fs/iomap/buffered-io.c | 52 +++++++++++++++++++-----------------------
+>  fs/xfs/xfs_aops.c      | 24 +++++++++++++------
+>  fs/zonefs/file.c       |  8 +++++--
+>  include/linux/iomap.h  |  6 ++---
+>  6 files changed, 61 insertions(+), 45 deletions(-)
+>
+> diff --git a/block/fops.c b/block/fops.c
+> index 1309861d4c2c..3394263d942b 100644
+> --- a/block/fops.c
+> +++ b/block/fops.c
+> @@ -558,9 +558,13 @@ static const struct iomap_writeback_ops blkdev_write=
+back_ops =3D {
+>  static int blkdev_writepages(struct address_space *mapping,
+>                 struct writeback_control *wbc)
+>  {
+> -       struct iomap_writepage_ctx wpc =3D { };
+> +       struct iomap_writepage_ctx wpc =3D {
+> +               .inode          =3D mapping->host,
+> +               .wbc            =3D wbc,
+> +               .ops            =3D &blkdev_writeback_ops
+
+Would it be worth defining the writeback ops inside the wpc struct as
+well instead of having that be in a separate "static const struct
+iomap_writeback_ops" definition outside the function? imo it makes it
+easier to follow to just have everything listed in one place
+
+> +       };
+>
+> -       return iomap_writepages(mapping, wbc, &wpc, &blkdev_writeback_ops=
+);
+> +       return iomap_writepages(&wpc);
+>  }
