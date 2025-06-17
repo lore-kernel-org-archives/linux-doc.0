@@ -1,100 +1,89 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2059.outbound.protection.outlook.com [40.107.94.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECBB2BF013;
-	Tue, 17 Jun 2025 02:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750126879; cv=none; b=lKduiUqsM/qzyQqOywwe4j41nWO7SdP9HSUu0wTnvbCWsp39PtyuI/m/oFJFo5+vnn0uF24KJ3A3EEpcFxFpHhqjudXF/H3KQ7HGDWK2lbhI9Q7tvnFcAcEJyxmFzqwJ/wWLOw/Ebt/IhRUYddPLisEngN3a5b8TDddvcEbukpQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750126879; c=relaxed/simple;
-	bh=Q81PrULg4YylW+JLRnn/4+wlqHB0Tb3Mgl9k2hluRGQ=;
-	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
-	 Content-Type:Date:Message-ID; b=UF/P1RejhaFJjaBjjgjFqqPahQcFFOv6fGXQpzZisimCgdAEsH8mMXURCPdvXrJSat1ul3M1hMrmXwqI81Ufi3zBu9VJwEixnL2jfUkCbFhOC6Kvl6lQJfU7lVu8rgXLe1R4W5xGt+7IbVxVC2Uycy05ISZkzvWV1GJgbQLOxFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net; spf=pass smtp.mailfrom=jvosburgh.net; dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b=vdulkUl7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=b2pIhJiS; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jvosburgh.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8585F2BF01B;
+	Tue, 17 Jun 2025 02:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750126945; cv=fail; b=p2GtktQVsDpLnIYnhF4O2CQVlYwuP6e6E3XSoG9TCIhXC0IJriyek6ei8jPUHOFRl4t6oXzfhM5AqNPbXPrTnv0EHB/uScIInu6AOlaKEpledJ+izqoI2xNZFWQrrSy8BvrRD3RMd4O2bZk0vE9NNC9vrsz89mvdKlBfjTBZKFM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750126945; c=relaxed/simple;
+	bh=2B9PBXJ2kVKxDEAiu0Qu0LZfmMWgCbYEnaZBeKuF1+g=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BPxWO3/a9XXdJKfjPdSfKlz7qqvMVieVO4QQTYyCGaGwHmn3wfhW2AzsG8NBF4hsVo3bwfw23wv4JZk3727B47w0XxlQGACfw6mov0M+tnzVGxDQTfDpEndgA1epCgfhi3eRpHCGcXK/U2ZoMP+JMyay18UIC1EDA9a6mCWNVys=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kVBbJ9GF; arc=fail smtp.client-ip=40.107.94.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b="vdulkUl7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="b2pIhJiS"
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 3C09F25400D0;
-	Mon, 16 Jun 2025 22:21:15 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Mon, 16 Jun 2025 22:21:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jvosburgh.net;
-	 h=cc:cc:content-id:content-transfer-encoding:content-type
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to; s=fm3; t=1750126875; x=1750213275; bh=ssJWCxY6yo3tMAjHQQQVH
-	PjDYP1jdpM6tCoODuP2YO8=; b=vdulkUl7WCCGKF3F9vC0y3AjFhhOPxhHIuFvH
-	hnjgzT/awf++MpCBmaww5BYe4+lNusE/09qhyUSfG1a4v7wVAVK52pFrzy+xkeVf
-	oOed1E7SklbLjS+Igl3RV1VGB1Wc7u/yt32cq/1kSqZweQF8Jv/QFPpIajkIDGsy
-	Lq7p8i3oo0rc31hop6KepFTsbNbSN0FLg68/zeKcvLl7pStGZCDuG3CNdsfuVQWz
-	Kd/dUu2qw1fI9rpav4CW6nUQoHv3+kSW0KQijL91AGrFxHvc5Pl3jKWcmWmvLPnL
-	jbs6xRA38f0b8hqjRDeh5hmPnjlpwcWD+/KkTFpDKAY53Ljwg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-id
-	:content-transfer-encoding:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1750126875; x=1750213275; bh=ssJWCxY6yo3tMAjHQQQVHPjDYP1jdpM6tCo
-	ODuP2YO8=; b=b2pIhJiS08HNzSWZoG+sorH8cZHoaMeuvT4CvTtu/uj53AGAc+w
-	vqZh2wwuXloTp7R4P2Ld+fqUkneqsnN1ChAFELlS2D05dZqhZAoNgI0HSnwWQsL+
-	AYLiUYU2NtPczjryx59vVjLfS3OuFwgnvWfdI7wkx+YjcGsZEEElcUI2wpfch39L
-	4+u0ePu6ZUfmGiDJAvb1tTtnNetOZ+FoC+PNqX1lnKxNdOkKc9NpRy+plgZLCF6u
-	L4W5oV87H1j1/ufAymjmifkHaNImIYzxl0LYR7IcQ2LNFTcBbe0MEm2fLjVxlwaI
-	GJT4MOaGRvjAq+ZWNP4eMKAGJJMQTnns2CA==
-X-ME-Sender: <xms:GtFQaDn2TPD8de76bhemPv6KFdNaSW66hcHL1Q5hjKany3fEBLNFgw>
-    <xme:GtFQaG0ofij3YoVZG1SIskXCBhJni2yGefwwXmMOn_8Cmg_fApDgLdqH4wfnIu4Y2
-    dBUQYsW8fLHcsY929A>
-X-ME-Received: <xmr:GtFQaJp85VdUof2v5ZaSm1aS65RXSNJtj1lxvULsmUo3nYcaheOTXGvU4V7FQeiaaYGUAQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvkedvhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufgjfhfogggtgfffkfesthhqredtredt
-    vdenucfhrhhomheplfgrhicugghoshgsuhhrghhhuceojhhvsehjvhhoshgsuhhrghhhrd
-    hnvghtqeenucggtffrrghtthgvrhhnpeejvedukeevveeftdehuedujefgffettdekvdev
-    gfeuuefhieduheeitefffefgleenucffohhmrghinhepshihiihkrghllhgvrhdrrghpph
-    hsphhothdrtghomhdpkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomhepjhhvsehjvhhoshgsuhhrghhhrdhnvghtpdhnsg
-    gprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepuggrvhgv
-    mhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopehsughfsehfohhmihgthhgvvh
-    drmhgvpdhrtghpthhtoheplhhiuhhhrghnghgsihhnsehgmhgrihhlrdgtohhmpdhrtghp
-    thhtohepshhtfhhomhhitghhvghvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvgguuh
-    hmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehhohhrmhhssehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    eprghnughrvgifodhnvghtuggvvheslhhunhhnrdgthhdprhgtphhtthhopegtohhrsggv
-    theslhifnhdrnhgvth
-X-ME-Proxy: <xmx:GtFQaLnVg0n3vX1Lnc7sPNc93_T-IneKsEfsEAzhcVghH77CsMs17g>
-    <xmx:GtFQaB369W9nLAhf2M8R7rlDhSCVR4xLBbB-O9a9gboCPyGUoaC16Q>
-    <xmx:GtFQaKsoFOQT17gJbgp_2zWZPhiMb5weCEzI4AaM-XyETx8X4S5oOQ>
-    <xmx:GtFQaFWEYHPfa0xnQBOoJ7r75_PUOk5aZLs-R2AQkNHnIVxVMWqZqA>
-    <xmx:G9FQaDHtU0jr_mreC9Pb-mpRdnudS3ESn_m3btn8e5bI5MQFguhomXdK>
-Feedback-ID: i53714940:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Jun 2025 22:21:14 -0400 (EDT)
-Received: by famine.localdomain (Postfix, from userid 1000)
-	id B79789FCA6; Mon, 16 Jun 2025 19:21:12 -0700 (PDT)
-Received: from famine (localhost [127.0.0.1])
-	by famine.localdomain (Postfix) with ESMTP id B361B9FC54;
-	Mon, 16 Jun 2025 19:21:12 -0700 (PDT)
-From: Jay Vosburgh <jv@jvosburgh.net>
-To: Stanislav Fomichev <stfomichev@gmail.com>
-cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-    Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-    Jonathan Corbet <corbet@lwn.net>,
-    Andrew Lunn <andrew+netdev@lunn.ch>,
-    Stanislav Fomichev <sdf@fomichev.me>,
-    Hangbin Liu <liuhangbin@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] bonding: Remove support for use_carrier = 0
-In-reply-to: <aFDAkS3VUgHwxxr6@mini-arch>
-References: <1922517.1750109336@famine> <aFDAkS3VUgHwxxr6@mini-arch>
-Comments: In-reply-to Stanislav Fomichev <stfomichev@gmail.com>
-   message dated "Mon, 16 Jun 2025 18:10:41 -0700."
-X-Mailer: MH-E 8.6+git; nmh 1.8+dev; Emacs 29.3
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kVBbJ9GF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O2EhXS2WTh/E+mKWsL31vO13agz8S0duIXp6Nv+7sPzSdsQg3gmguY1w4e8GfscubLNPtienc7GufB4laKPGkl0i6lvz6JvENcPzgbd/PgmJ0A19bOLFNHUZivDpI1NDXSjNBmIZFPf2HbUa2yuX0YmSHPYBGuvwp5E4OabaKSqcEMtWH2ea8GoPNP4IXGA7IIKnlpEqjE+4rHNq+s7kM+AjpO17OwnabRuPKtPediC3WTM5aY0/NndPknAnhaV9qTuUhoOdH0eK68gIdfGBbs3rqY3BAHed8grfgXog1O67DZv4r1EoHSb5DKLmcrKcztjudaVjABAxCaF272nX+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SC0ghtDXpB8/EOeTvkYSLxGpcaqXSK8QmWQzX1Z0Fgk=;
+ b=nQL0udmM89zueJHMq6rtivsreK6c6aSU1ssEWXVdeSPFbc+0DQCQhta8Ql3Yn6RYm9cR9XLRO018Fqo0VfIyVU9Mprxf9B1ClOLhUf943orStwxY3jTC/OGceO782ZQHhZotp9ZiiCdGyn9Y4V+I5UslZdzuq+0EtOoOO8KOeG5YNiL/i6pQ605iX3hAnKY+qctVdLYUmSKVw/FELjwmcctssosThDor/uBTn9oejNUmakS4tgpNVlJLXL4a1Gj5TfloLlhkqvmyp89ZkV8wM6nLrtP6AbiMCxcUlyRZq+N1IztcWPfZthKbNeJaxHwfTtTZJDVHTlsMX+V+mgkBRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SC0ghtDXpB8/EOeTvkYSLxGpcaqXSK8QmWQzX1Z0Fgk=;
+ b=kVBbJ9GFZA2L3wgoIHZtETtQn1Li8ulTkTsytpg8jVFEIba5yIz0PECPdX7g+52wNZEqU2t4U0S+jlLb157t4xnyuM4uqwpotohB6+AymJSiVdf7v2XrZNM4yl7Xj9gL+d1tIs4juJ9Fub2+8F8FtOEvQVZMQGjzUk9nIC5+TV0p7OvsfcTYnMc9I+PUJJkbgFJCVOoQ0Oq0HT0vvUmNNp7TkfFh3z+Kq+mIAM9hXFWm5QxP+6t80AO3T7FlvvbHKuAcRXqajDBubtb6xE+651iUu2v1/sD8ZSKjJ0HVUL+/ZEco0UgrM+TO3Oa7Z3CjPQStd/tEdc1e+xKsMWu0Mg==
+Received: from MN0P222CA0026.NAMP222.PROD.OUTLOOK.COM (2603:10b6:208:531::31)
+ by SJ1PR12MB6313.namprd12.prod.outlook.com (2603:10b6:a03:458::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.19; Tue, 17 Jun
+ 2025 02:22:19 +0000
+Received: from MN1PEPF0000ECD6.namprd02.prod.outlook.com
+ (2603:10b6:208:531:cafe::b8) by MN0P222CA0026.outlook.office365.com
+ (2603:10b6:208:531::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.25 via Frontend Transport; Tue,
+ 17 Jun 2025 02:22:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ MN1PEPF0000ECD6.mail.protection.outlook.com (10.167.242.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8835.15 via Frontend Transport; Tue, 17 Jun 2025 02:22:18 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 16 Jun
+ 2025 19:21:59 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 16 Jun
+ 2025 19:21:59 -0700
+Received: from nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Mon, 16 Jun 2025 19:21:35 -0700
+Date: Mon, 16 Jun 2025 19:21:28 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: <kevin.tian@intel.com>, <corbet@lwn.net>, <will@kernel.org>,
+	<bagasdotme@gmail.com>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
+	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
+	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
+	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
+	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>,
+	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v6 06/25] iommufd/access: Allow access->ops to be NULL
+ for internal use
+Message-ID: <aFDRKEsdVZc2XQ91@nvidia.com>
+References: <cover.1749884998.git.nicolinc@nvidia.com>
+ <e6a989c4dd9cb94aa4a98d46ed56a2afcb41b70d.1749884998.git.nicolinc@nvidia.com>
+ <20250616133305.GB1174925@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -102,69 +91,76 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1934949.1750126872.1@famine>
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Jun 2025 19:21:12 -0700
-Message-ID: <1934950.1750126872@famine>
+Content-Disposition: inline
+In-Reply-To: <20250616133305.GB1174925@nvidia.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD6:EE_|SJ1PR12MB6313:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8684e62e-f0b0-4173-021e-08ddad45c8cd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|82310400026|1800799024|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?2p613Dkr5MdR745tDkqd8VKLOS3PJhJ8DEV1bBfmn8AbgLWz0XeK6q4O28Bh?=
+ =?us-ascii?Q?VA0aZggTe2C81tuUPlGBMMhwOvqh4A1ZyUaNcg2d66noN8MB0UoKWqTGB2wP?=
+ =?us-ascii?Q?Mnt3VoBQISjgEBkIk+GDdUK8vvl5iCC10rLmmff3e4ZO37zBAdFOCbav8NCz?=
+ =?us-ascii?Q?q/Vb+46DheRwhNozncCnAf+Jw3Htg0yXpVM0xktIIujSwlEDpN28YS+vCiFE?=
+ =?us-ascii?Q?Is3y3qwjAIwZmI1hRwv/uOewJ5b4mq003ERsRzDCWgN/lAf/J56C3PPCTu7f?=
+ =?us-ascii?Q?ui1aEeH3B14QTej+DUfgOhB0dUV+T5P8rRKpKjsa3nj3h5xyQA8dJ/pPk6Ld?=
+ =?us-ascii?Q?5dek+Mo3hm3LdJBiHKolt+8aiwFTN+E1acKTv3bUhsteGYQJO5gMnOiqMa+P?=
+ =?us-ascii?Q?32QOV3w9tYwg6fwXirhToMbGJ7YIPL6KJ8gAS3CfaelmyqX0J74dsdmSKDXO?=
+ =?us-ascii?Q?aiVQtgkzTRJPlB/LbDqU9FuMSE4XnZ++DG1drkog//B8l7lQP0hMrMxSbJWD?=
+ =?us-ascii?Q?Vkac6Us8YNi3sZlmdF1yGZ32ePae+cz/XF2RJj8BY8hEPOL0d5jA6L+Qu7Xm?=
+ =?us-ascii?Q?f6Owg7D4e8hdqf1T43f4Q08FMMs0qopfzMCBlL+0MkSUhavs6zxi3IjTcPJc?=
+ =?us-ascii?Q?nFY4BjJK3YxmLPKu4vDTk/o/6BkffmUzvaZnYfOlUC6D5Ci6EQHWTGIqTTgZ?=
+ =?us-ascii?Q?Cs3j1pC/cQV7xSPrKeQebMfvQ5DydnGLJ2gx80zRBh8TKtieBd4KF9j5MMEq?=
+ =?us-ascii?Q?f2AzBUxKHXE1ljoeifzxyRXHYHnDqV0FStC2Oi2MCmXFCZCn1J+QSeIgETyA?=
+ =?us-ascii?Q?Eykn+39iZ8TnT6fXIr9dmKIKiEQNbLMlQbwB5lExiLs6SThdjFeIigkUcS2V?=
+ =?us-ascii?Q?YhzUdZoE9xTltF/ejfK0OVwv3sWwa0O3Tb413ofItrMdz1OQvrk1U3ShZKoF?=
+ =?us-ascii?Q?1DwFx4OyBk5AqksU5mMStd6tFHccctF0aZdGZooaPifRDHc9N8Wh1fufM4x8?=
+ =?us-ascii?Q?goemlOzFVnzb9ZIj1cfUdZPaJsSZoLv7esLSeV5xNIDoCQxuKvnQv7PLm+gX?=
+ =?us-ascii?Q?SA/ifQ36vTTK0Tl+S8zYmeUt3SQ5VSU6bPFfbWgyH5GFvSAKodaeP+DIga9x?=
+ =?us-ascii?Q?GTDZYeTcH1h4MVYsFsTRaCMitucPUyGLP+IdeGAZLdw7u6BObMVw1xp2Sdjy?=
+ =?us-ascii?Q?Gq5bzYjO4t8kpnRVLyKD5bvydSPioK0doTNqfUtBLlJlq3sV+48UqCfKliql?=
+ =?us-ascii?Q?tGgv/1ALMPcuog5m1ZELYtSgT0ke4lgKWHbbDjo5tfCCsIvZB+vfKMh4PR7T?=
+ =?us-ascii?Q?EeVvTB8XKjYLngUAZTG03DDp8q27jvbHXmOZRIsKvhx6ygTR+X3jBt00nbir?=
+ =?us-ascii?Q?nax47ri6eYRmnQ91ZmXDzf7YWiohWq7IdjP3Y/GffOqFCSE3v1X5VkqWHCvL?=
+ =?us-ascii?Q?lJKGnH38428XmV5V2YW8HtHOMi2WnGyMF/Ir1qypF7obxlP1JNafyb0vF1QA?=
+ =?us-ascii?Q?hc0J25EIYwrCjfZItPO8DRkEsT9b4fYcFY7h?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 02:22:18.7777
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8684e62e-f0b0-4173-021e-08ddad45c8cd
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MN1PEPF0000ECD6.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6313
 
-Stanislav Fomichev <stfomichev@gmail.com> wrote:
+On Mon, Jun 16, 2025 at 10:33:05AM -0300, Jason Gunthorpe wrote:
+> On Sat, Jun 14, 2025 at 12:14:31AM -0700, Nicolin Chen wrote:
+> > @@ -1321,7 +1328,7 @@ int iommufd_access_pin_pages(struct iommufd_access *access, unsigned long iova,
+> >  
+> >  	/* Driver's ops don't support pin_pages */
+> >  	if (IS_ENABLED(CONFIG_IOMMUFD_TEST) &&
+> > -	    WARN_ON(access->iova_alignment != PAGE_SIZE || !access->ops->unmap))
+> > +	    WARN_ON(access->iova_alignment != PAGE_SIZE))
+> >  		return -EINVAL;
+> 
+> I don't want to loose this check, continuing blocking mdevs is still
+> important. Only the internal access should be able to use this
+> mechanism.
 
->On 06/16, Jay Vosburgh wrote:
->> 	 Remove the ability to disable use_carrier in bonding, and remove
->> all code related to the old link state check that utilizes ethtool or
->> ioctl to determine the link state of an interface in a bond.
->> =
+OK. So, it probably should be 
+	if (IS_ENABLED(CONFIG_IOMMUFD_TEST) &&
+	    WARN_ON(access->iova_alignment != PAGE_SIZE ||
+		    (access->ictx && !access->ops->unmap))
 
->> 	To avoid acquiring RTNL many times per second, bonding's miimon
->> link monitor inspects link state under RCU, but not under RTNL.  Howeve=
-r,
->> ethtool implementations in drivers may sleep, and therefore the ethtool=
- or
->> ioctl strategy is unsuitable for use with calls into driver ethtool
->> functions.
->> =
-
->> 	The use_carrier option was introduced in 2003, to provide
->> backwards compatibility for network device drivers that did not support
->> the then-new netif_carrier_ok/on/off system.  Today, device drivers are
->> expected to support netif_carrier_*, and the use_carrier backwards
->> compatibility logic is no longer necessary.
->> =
-
->> 	Bonding now always behaves as if use_carrier=3D1, which relies on
->> netif_carrier_ok() to determine the link state of interfaces.  This has
->> been the default setting for use_carrier since its introduction.  For
->> backwards compatibility, the option itself remains, but may only be set=
- to
->> 1, and queries will always return 1.
->> =
-
->> Reported-by: syzbot+b8c48ea38ca27d150063@syzkaller.appspotmail.com
->> Closes: https://syzkaller.appspot.com/bug?extid=3Db8c48ea38ca27d150063
->> Link: https://lore.kernel.org/lkml/000000000000eb54bf061cfd666a@google.=
-com/
->> Link: https://lore.kernel.org/netdev/20240718122017.d2e33aaac43a.I10ab9=
-c9ded97163aef4e4de10985cd8f7de60d28@changeid/
->> Link: http://lore.kernel.org/netdev/aEt6LvBMwUMxmUyx@mini-arch
->> Signed-off-by: Jay Vosburgh <jv@jvosburgh.net>
->
->Acked-by: Stanislav Fomichev <sdf@fomichev.me>
->
->Maybe better to target 'net' with the following?
->Fixes: f7a11cba0ed7 ("bonding: hold ops lock around get_link")
-
-	I targeted net-next and left the Fixes: tag off on purpose.
-
-	First, the bug this nominally fixes is many years old, and
-wasn't introduced by f7a11cba0ed7.
-
-	More importantly, though, this patch is removing functionality
-that someone theoretically could be relying on, and I don't think such
-removals should happen in the middle of a stable series.  The default
-setting for use_carrier (i.e., using netif_carrier) will never hit the
-issue in practice, so the exposure seems to be minimal for common use.
-
-	-J
-
----
-	-Jay Vosburgh, jv@jvosburgh.net
+Thanks
+Nicolin
