@@ -1,535 +1,235 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21C3D28002B;
-	Wed, 18 Jun 2025 08:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C318B25B1C5;
+	Wed, 18 Jun 2025 08:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750236347; cv=none; b=i9NKknMwXa6BZYuzKDxw7WOgCa7g7icTIi65WysIBAcGH7CmeVscoo6/9ke7oxkuTjWwcqoYjzKG+NWAS1JAlsuG7NLJbvGSwClB7uGzxDdd4DgwTI+6YlN5n3NqDfdepJrIQ40vYd0fvL9oiNkbphfZzaFwZt2wVaxSG6e0nvI=
+	t=1750237015; cv=none; b=UwdSE7XY6TkGp5q2+fIwrjGo/HJ+OMytLKeWUMiSOfToY+QVfEwiHG3xlaH8PgTdwZWUCaF8gxvfCC74UKrhIcKoNUqt3+q2w3DD6KiuqxAZP/10DSkxX179b/jb8IpadDc/ZoJxoMO0QUUI1zBlS7Rqc7M0GDZpe3fLRV7jLd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750236347; c=relaxed/simple;
-	bh=7V4oiCEkS9aJ3ve68tq2ieHdW9fB8X9omuEAGqdBhZc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aqjC4JWmhfnvLLyBKTEXbak9B0RAOPNyilnMNciDv8yIzsVkKpXErJowGyCIfFwAbwrjbWvySG086W7+c1YSbM1TKzSXNAGVjnldoqE41xPuNpSrRiz4z6EcDM5OguWuXSGuj2ERmOdehC+uMaH4YlVTEuhZ5B01Xjdodoev+EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2ABB1BC0;
-	Wed, 18 Jun 2025 01:45:22 -0700 (PDT)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2985F3F66E;
-	Wed, 18 Jun 2025 01:45:41 -0700 (PDT)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: catalin.marinas@arm.com,
-	pcc@google.com,
-	will@kernel.org,
-	broonie@kernel.org,
-	anshuman.khandual@arm.com,
-	joey.gouly@arm.com,
-	yury.khrustalev@arm.com,
-	maz@kernel.org,
-	oliver.upton@linux.dev,
-	frederic@kernel.org,
-	akpm@linux-foundation.org,
-	surenb@google.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v9 10/10] kselftest/arm64/mte: add mtefar tests on check_mmap_options
-Date: Wed, 18 Jun 2025 09:45:13 +0100
-Message-Id: <20250618084513.1761345-11-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250618084513.1761345-1-yeoreum.yun@arm.com>
-References: <20250618084513.1761345-1-yeoreum.yun@arm.com>
+	s=arc-20240116; t=1750237015; c=relaxed/simple;
+	bh=9To1BSpsPsNIGrHogpM+R444lxBSfMxpMbu2q+8LxE4=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pB9mafOcHPup0eUOTgXc5MG2jWbJBHpQ0RnYkNbiI+lwjXk1Gm4MHNTreaJtqqVRS3eNf75uC1IlSuhjjvqBg7GYqebyiEPORdjtAfQMwmMuIBDXDLlGcIwYhZRIGBlGq2H9j7cA3PqmYltjmk9ag3dN/mmbUN8IhgNvQ4Xnnh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bMctd6GXjz6L570;
+	Wed, 18 Jun 2025 16:52:09 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6CD6B140426;
+	Wed, 18 Jun 2025 16:56:49 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 18 Jun
+ 2025 10:56:48 +0200
+Date: Wed, 18 Jun 2025 09:56:46 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Ivan Vecera <ivecera@redhat.com>
+CC: <netdev@vger.kernel.org>, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko
+	<jiri@resnulli.us>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Prathosh Satish
+	<Prathosh.Satish@microchip.com>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, "Paolo
+ Abeni" <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, Shannon Nelson
+	<shannon.nelson@amd.com>, Dave Jiang <dave.jiang@intel.com>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Michal Schmidt <mschmidt@redhat.com>, Petr Oros
+	<poros@redhat.com>
+Subject: Re: [PATCH net-next v11 03/14] dpll: Add basic Microchip ZL3073x
+ support
+Message-ID: <20250618095646.00004595@huawei.com>
+In-Reply-To: <20250616201404.1412341-4-ivecera@redhat.com>
+References: <20250616201404.1412341-1-ivecera@redhat.com>
+	<20250616201404.1412341-4-ivecera@redhat.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-If FEAT_MTE_TAGGED_FAR (Armv8.9) is supported, bits 63:60 of the fault address
-are preserved in response to synchronous tag check faults (SEGV_MTESERR).
+On Mon, 16 Jun 2025 22:13:53 +0200
+Ivan Vecera <ivecera@redhat.com> wrote:
 
-This patch adds new test cases using address tags (bits 63:60),
-corresponding to each existing test in check_mmap_option.
+> Microchip Azurite ZL3073x represents chip family providing DPLL
+> and optionally PHC (PTP) functionality. The chips can be connected
+> be connected over I2C or SPI bus.
+> 
+> They have the following characteristics:
+> * up to 5 separate DPLL units (channels)
+> * 5 synthesizers
+> * 10 input pins (references)
+> * 10 outputs
+> * 20 output pins (output pin pair shares one output)
+> * Each reference and output can operate in either differential or
+>   single-ended mode (differential mode uses 2 pins)
+> * Each output is connected to one of the synthesizers
+> * Each synthesizer is driven by one of the DPLL unit
+> 
+> The device uses 7-bit addresses and 8-bits values. It exposes 8-, 16-,
+> 32- and 48-bits registers in address range <0x000,0x77F>. Due to 7bit
+> addressing, the range is organized into pages of 128 bytes, with each
+> page containing a page selector register at address 0x7F.
+> For reading/writing multi-byte registers, the device supports bulk
+> transfers.
+> 
+> Add basic functionality to access device registers and probe
+> functionality for both I2C and SPI cases.
+> 
+> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+A few trivial drive by comments.
 
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-Reviewed-by: Mark Brown <broonie@kernel.org>
----
- .../selftests/arm64/mte/check_mmap_options.c  | 194 +++++++++++++++---
- 1 file changed, 171 insertions(+), 23 deletions(-)
+> diff --git a/drivers/dpll/zl3073x/i2c.c b/drivers/dpll/zl3073x/i2c.c
+> new file mode 100644
+> index 0000000000000..bca1cd729895c
+> --- /dev/null
+> +++ b/drivers/dpll/zl3073x/i2c.c
+> @@ -0,0 +1,93 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/dev_printk.h>
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
+> +
+> +#include "core.h"
+> +
+> +static int zl3073x_i2c_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct zl3073x_dev *zldev;
+> +
+> +	zldev = zl3073x_devm_alloc(dev);
+> +	if (IS_ERR(zldev))
+> +		return PTR_ERR(zldev);
+> +
+> +	zldev->regmap = devm_regmap_init_i2c(client, &zl3073x_regmap_config);
+> +	if (IS_ERR(zldev->regmap)) {
+> +		dev_err_probe(dev, PTR_ERR(zldev->regmap),
+> +			      "Failed to initialize regmap\n");
+> +		return PTR_ERR(zldev->regmap);
+As below.
 
-diff --git a/tools/testing/selftests/arm64/mte/check_mmap_options.c b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-index 0df7ce532465..91a81b4a9bfa 100644
---- a/tools/testing/selftests/arm64/mte/check_mmap_options.c
-+++ b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-@@ -24,6 +24,8 @@
- #define OVERFLOW		MT_GRANULE_SIZE
- #define TAG_CHECK_ON		0
- #define TAG_CHECK_OFF		1
-+#define ATAG_CHECK_ON		1
-+#define ATAG_CHECK_OFF		0
- 
- #define TEST_NAME_MAX		256
- 
-@@ -39,6 +41,7 @@ struct check_mmap_testcase {
- 	int mte_sync;
- 	int mapping;
- 	int tag_check;
-+	int atag_check;
- 	bool enable_tco;
- };
- 
-@@ -48,8 +51,14 @@ static int sizes[] = {
- 	/* page size - 1*/ 0, /* page_size */ 0, /* page size + 1 */ 0
- };
- 
--static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
-+static int check_mte_memory(char *ptr, int size, int mode, int tag_check, int atag_check)
- {
-+	if (!mtefar_support && atag_check == ATAG_CHECK_ON)
-+		return KSFT_SKIP;
-+
-+	if (atag_check == ATAG_CHECK_ON)
-+		ptr = mte_insert_atag(ptr);
-+
- 	mte_initialize_current_context(mode, (uintptr_t)ptr, size);
- 	memset(ptr, '1', size);
- 	mte_wait_after_trig();
-@@ -75,7 +84,7 @@ static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
- 	return KSFT_PASS;
- }
- 
--static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_check)
- {
- 	char *ptr, *map_ptr;
- 	int run, result, map_size;
-@@ -97,16 +106,16 @@ static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, i
- 			munmap((void *)map_ptr, map_size);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_check);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		mte_free_memory((void *)map_ptr, map_size, mem_type, false);
--		if (result == KSFT_FAIL)
--			return KSFT_FAIL;
-+		if (result != KSFT_PASS)
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
- 
--static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_check)
- {
- 	char *ptr, *map_ptr;
- 	int run, fd, map_size;
-@@ -135,17 +144,17 @@ static int check_file_memory_mapping(int mem_type, int mode, int mapping, int ta
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_check);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		munmap((void *)map_ptr, map_size);
- 		close(fd);
--		if (result == KSFT_FAIL)
--			break;
-+		if (result != KSFT_PASS)
-+			return result;
- 	}
--	return result;
-+	return KSFT_PASS;
- }
- 
--static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
-+static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping, int atag_check)
- {
- 	char *ptr, *map_ptr;
- 	int run, prot_flag, result, fd, map_size;
-@@ -168,7 +177,7 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			ksft_print_msg("FAIL: mprotect not ignoring clear PROT_MTE property\n");
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_check);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		if (result != KSFT_PASS)
- 			return KSFT_FAIL;
-@@ -192,11 +201,11 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_check);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		close(fd);
- 		if (result != KSFT_PASS)
--			return KSFT_FAIL;
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
-@@ -209,6 +218,7 @@ const char *format_test_name(struct check_mmap_testcase *tc)
- 	const char *sync_str;
- 	const char *mapping_str;
- 	const char *tag_check_str;
-+	const char *atag_check_str;
- 
- 	switch (tc->check_type) {
- 	case CHECK_ANON_MEM:
-@@ -276,10 +286,22 @@ const char *format_test_name(struct check_mmap_testcase *tc)
- 		break;
- 	}
- 
-+	switch (tc->atag_check) {
-+	case ATAG_CHECK_ON:
-+		atag_check_str = "with address tag [63:60]";
-+		break;
-+	case ATAG_CHECK_OFF:
-+		atag_check_str = "without address tag [63:60]";
-+		break;
-+	default:
-+		assert(0);
-+		break;
-+	}
-+
- 	snprintf(test_name, sizeof(test_name),
--	         "Check %s with %s mapping, %s mode, %s memory and %s\n",
-+	         "Check %s with %s mapping, %s mode, %s memory and %s (%s)\n",
- 	         check_type_str, mapping_str, sync_str, mem_type_str,
--	         tag_check_str);
-+	         tag_check_str, atag_check_str);
- 
- 	return test_name;
- }
-@@ -295,6 +317,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = true,
- 		},
- 		{
-@@ -303,6 +326,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = true,
- 		},
- 		{
-@@ -311,6 +335,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_NONE_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -319,6 +344,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_NONE_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_OFF,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -327,6 +353,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -335,6 +362,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -343,6 +371,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -351,6 +380,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -359,6 +389,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -367,6 +398,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -375,6 +407,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -383,6 +416,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -391,6 +425,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -399,6 +434,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -407,6 +443,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -415,6 +452,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -423,6 +461,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -431,6 +470,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -439,6 +479,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -447,6 +488,106 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_ASYNC_ERR,
- 			.mapping = MAP_SHARED,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_CLEAR_PROT_MTE,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_CLEAR_PROT_MTE,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_OFF,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_ANON_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MPROTECT,
-+			.mte_sync = MTE_SYNC_ERR,
-+			.mapping = MAP_SHARED,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
-+			.enable_tco = false,
-+		},
-+		{
-+			.check_type = CHECK_FILE_MEM,
-+			.mem_type = USE_MMAP,
-+			.mte_sync = MTE_ASYNC_ERR,
-+			.mapping = MAP_PRIVATE,
-+			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -455,6 +596,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
- 			.enable_tco = false,
- 		},
- 		{
-@@ -463,6 +605,7 @@ int main(int argc, char *argv[])
- 			.mte_sync = MTE_SYNC_ERR,
- 			.mapping = MAP_PRIVATE,
- 			.tag_check = TAG_CHECK_ON,
-+			.atag_check = ATAG_CHECK_ON,
- 			.enable_tco = false,
- 		},
- 	};
-@@ -479,14 +622,16 @@ int main(int argc, char *argv[])
- 	sizes[item - 2] = page_size;
- 	sizes[item - 1] = page_size + 1;
- 
--	/* Register signal handlers */
--	mte_register_signal(SIGBUS, mte_default_handler, false);
--	mte_register_signal(SIGSEGV, mte_default_handler, false);
--
- 	/* Set test plan */
- 	ksft_set_plan(ARRAY_SIZE(test_cases));
- 
- 	for (i = 0 ; i < ARRAY_SIZE(test_cases); i++) {
-+		/* Register signal handlers */
-+		mte_register_signal(SIGBUS, mte_default_handler,
-+				    test_cases[i].atag_check == ATAG_CHECK_ON);
-+		mte_register_signal(SIGSEGV, mte_default_handler,
-+				    test_cases[i].atag_check == ATAG_CHECK_ON);
-+
- 		if (test_cases[i].enable_tco)
- 			mte_enable_pstate_tco();
- 		else
-@@ -497,20 +642,23 @@ int main(int argc, char *argv[])
- 			evaluate_test(check_anonymous_memory_mapping(test_cases[i].mem_type,
- 								     test_cases[i].mte_sync,
- 								     test_cases[i].mapping,
--								     test_cases[i].tag_check),
-+								     test_cases[i].tag_check,
-+								     test_cases[i].atag_check),
- 				      format_test_name(&test_cases[i]));
- 			break;
- 		case CHECK_FILE_MEM:
- 			evaluate_test(check_file_memory_mapping(test_cases[i].mem_type,
- 							        test_cases[i].mte_sync,
- 							        test_cases[i].mapping,
--							        test_cases[i].tag_check),
-+							        test_cases[i].tag_check,
-+							        test_cases[i].atag_check),
- 				      format_test_name(&test_cases[i]));
- 			break;
- 		case CHECK_CLEAR_PROT_MTE:
- 			evaluate_test(check_clear_prot_mte_flag(test_cases[i].mem_type,
- 							        test_cases[i].mte_sync,
--							        test_cases[i].mapping),
-+							        test_cases[i].mapping,
-+							        test_cases[i].atag_check),
- 				      format_test_name(&test_cases[i]));
- 			break;
- 		default:
--- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+> +	}
+
+> diff --git a/drivers/dpll/zl3073x/spi.c b/drivers/dpll/zl3073x/spi.c
+> new file mode 100644
+> index 0000000000000..219676da71b78
+> --- /dev/null
+> +++ b/drivers/dpll/zl3073x/spi.c
+> @@ -0,0 +1,93 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/dev_printk.h>
+> +#include <linux/err.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
+> +#include <linux/spi/spi.h>
+> +
+> +#include "core.h"
+> +
+> +static int zl3073x_spi_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev = &spi->dev;
+> +	struct zl3073x_dev *zldev;
+> +
+> +	zldev = zl3073x_devm_alloc(dev);
+> +	if (IS_ERR(zldev))
+> +		return PTR_ERR(zldev);
+> +
+> +	zldev->regmap = devm_regmap_init_spi(spi, &zl3073x_regmap_config);
+> +	if (IS_ERR(zldev->regmap)) {
+> +		dev_err_probe(dev, PTR_ERR(zldev->regmap),
+> +			      "Failed to initialize regmap\n");
+> +		return PTR_ERR(zldev->regmap);
+
+return dev_err_probe();
+One of it's biggest advantages is that dev_err_probe() returns the
+ret value passed in avoiding duplication like this and saving
+a few lines of code each time.
+
+> +	}
+> +
+> +	return zl3073x_dev_probe(zldev, spi_get_device_match_data(spi));
+> +}
+> +
+> +static const struct spi_device_id zl3073x_spi_id[] = {
+> +	{
+> +		.name = "zl30731",
+> +		.driver_data = (kernel_ulong_t)&zl3073x_chip_info[ZL30731],
+
+Not my subsystem so up to you, but in general over time we've found that
+an enum + array tends to bring few benefits over appropriately named
+zl30731_chip_info separate structures.
+
+> +	},
+> +	{
+> +		.name = "zl30732",
+> +		.driver_data = (kernel_ulong_t)&zl3073x_chip_info[ZL30732],
+> +	},
+> +	{
+> +		.name = "zl30733",
+> +		.driver_data = (kernel_ulong_t)&zl3073x_chip_info[ZL30733],
+> +	},
+> +	{
+> +		.name = "zl30734",
+> +		.driver_data = (kernel_ulong_t)&zl3073x_chip_info[ZL30734],
+> +	},
+> +	{
+> +		.name = "zl30735",
+> +		.driver_data = (kernel_ulong_t)&zl3073x_chip_info[ZL30735]
+> +	},
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(spi, zl3073x_spi_id);
+> +
+> +static const struct of_device_id zl3073x_spi_of_match[] = {
+> +	{
+> +		.compatible = "microchip,zl30731",
+> +		.data = &zl3073x_chip_info[ZL30731]
+> +	},
+> +	{
+> +		.compatible = "microchip,zl30732",
+> +		.data = &zl3073x_chip_info[ZL30732]
+> +	},
+> +	{
+> +		.compatible = "microchip,zl30733",
+> +		.data = &zl3073x_chip_info[ZL30733]
+> +	},
+> +	{
+> +		.compatible = "microchip,zl30734",
+> +		.data = &zl3073x_chip_info[ZL30734]
+> +	},
+> +	{
+> +		.compatible = "microchip,zl30735",
+> +		.data = &zl3073x_chip_info[ZL30735]
+> +	},
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, zl3073x_spi_of_match);
+> +
+> +static struct spi_driver zl3073x_spi_driver = {
+> +	.driver = {
+> +		.name = "zl3073x-spi",
+> +		.of_match_table = zl3073x_spi_of_match,
+> +	},
+> +	.probe = zl3073x_spi_probe,
+> +	.id_table = zl3073x_spi_id,
+> +};
+> +module_spi_driver(zl3073x_spi_driver);
+> +
+> +MODULE_AUTHOR("Ivan Vecera <ivecera@redhat.com>");
+> +MODULE_DESCRIPTION("Microchip ZL3073x SPI driver");
+> +MODULE_IMPORT_NS("ZL3073X");
+> +MODULE_LICENSE("GPL");
 
