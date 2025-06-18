@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8820C19539F
-	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 08:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3E7198A2F
+	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 08:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750234700; cv=none; b=uUwWjXRQvhAFeiGau7nwTkPtub7RVjP02A9dX9Upkam+hduUbv9E4UCJzh0A5PdpKPvVpqrr4TUtcz//RJ96Nhej/W6bdpB24iXjUVd2a+WFqz8mTt7ItJ4yWHvcIAeZg5kJOYlU82spwITCzqjf6KAq1yYX90GBP4kYYbvZTRw=
+	t=1750234793; cv=none; b=EyRnIHC+958LhfvJRw+UY5+9xJRWbLTNLwtFR8JXCU1yO6UgOBAiWinyWkNT0a4HNE5+L8zPEdHC9ZCrSmRnIXphwHl71PfSZlvAI6Sn47UfwafXjZWEzDwSauusId8cNGKLqhNl+SjVrFEVIVLzLDf6cKjLWspzdq9Y93YDUjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750234700; c=relaxed/simple;
-	bh=HIT6n/7l5m2IzV/J1zDbuUTzWwKJTB4He2uVyqtfuy4=;
+	s=arc-20240116; t=1750234793; c=relaxed/simple;
+	bh=67ZZJJ82Wk90GNJd8QSrc+JbZU5JNJ5yO23A1/kqh4M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kyhe4Nok+zIoDZ3lNkfbZ3AM49udHef6YLlWVoMApofU6envOa9hf3GaZ3q3OwBpe97lk1gSHx9CjR0dEqDkyia0p4MjwpvhPXgtScE9qaXfEtildve8lE9J+hBXrV9mLU4A4/qPxC7YYcubwo3Lb3ipWzAKSis7JUxmW2koogo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M4NtfT0S; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=RGpcr7OQ2r4rVEM+4E53q1QKiDeIo1GwPjy1M0aPkSNczfhNs/9/YMNbjulsvLRCIDqJ8kHi82St/8R+bri6ikkdkVk1h3Nzks7/dVRRGfZrPvR6PeZ2zRexamUK/srprrPEEBPt7z7e0Rmsu9Bzh3XizXbMq9q68J1AsrtgN1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RM43AY0d; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M4NtfT0S"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RM43AY0d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750234697;
+	s=mimecast20190719; t=1750234790;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=IFCQkgYIaZwUf2HRUruN/pyJT/6aojGRJC/P7Mga/Bo=;
-	b=M4NtfT0SH/F6H/4ObFjMGHsfiTkVlOclXIqffxACDZp0io2oyJZhvdJ7DvYxr+imrCWOZM
-	8yTWjn4jiKrQlmP3hYD0n9YODeX2upnr/oD6W3u4a7M9dHzygu3vtAbfbCRoQfjDVcgh5N
-	JdUTDidF3SzYiXgXZZdlatt3DvGyoyw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=FjBsfSR47PaVfWXC658Z7wh/Dh+hU3oJf9IYVsvV9rc=;
+	b=RM43AY0dDft/zQAqywEifp2oTgHeZkisLwV6m7NTiMEfZOD/7Sni7sQ5li/UlefvIWCJb3
+	84zQ5bOc1d3TCTejw8UOHXMOh+4saag2J3mmoxfBVuY+HO6j0UBHkpEooOM1/tv0LR9uYP
+	08X7mKnNo7rHmsuqNpxI0ETqLDmdW6E=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-389-GRZNOnyDOq6xGVWWuBJivg-1; Wed, 18 Jun 2025 04:18:16 -0400
-X-MC-Unique: GRZNOnyDOq6xGVWWuBJivg-1
-X-Mimecast-MFC-AGG-ID: GRZNOnyDOq6xGVWWuBJivg_1750234695
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-453018b4ddeso39151125e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 01:18:15 -0700 (PDT)
+ us-mta-256-WDTILlYjOsayqFnVC8hmsw-1; Wed, 18 Jun 2025 04:19:48 -0400
+X-MC-Unique: WDTILlYjOsayqFnVC8hmsw-1
+X-Mimecast-MFC-AGG-ID: WDTILlYjOsayqFnVC8hmsw_1750234787
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3a4f8fd1847so2401744f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 01:19:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750234695; x=1750839495;
+        d=1e100.net; s=20230601; t=1750234787; x=1750839587;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=IFCQkgYIaZwUf2HRUruN/pyJT/6aojGRJC/P7Mga/Bo=;
-        b=crs1Z4LoSA7ozJgAnT50d2BO5MNZ4ETqUiGH5nKBriQZp24G6siZ1tNPweyRkYs0N7
-         r5vsvU0f4LO1PVHx0CBPsJTcsXqlxdR+U8UtWW2xWIq6LInUEzO0f8qNmhHb7LVJ3yHM
-         nxEKZKTX0cW501AFu6wJv+G26+A8gIcJUhu2YynmyAil6PT9mSwJ8nFBcSc30jgqmsYm
-         JEdMqTiCM/ufu/UsITlnx0adsdQVPIprI0AG864WR83WrzKGixslrwLIs/EOkoHBPNzD
-         hWEOadHY1+2xwBKJtCCKx6OMlmbezEJldQPvPpWkxk6Vw7o+SosC7Hh5aQgKXnM4M9h5
-         /aoA==
-X-Forwarded-Encrypted: i=1; AJvYcCWL43JMclemACv16wji7RegZPAIenTM3xnVsE98vkNrAyFmax/7m/q2bUwiApkDewQpC2Z3cxIxH8s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztbV/oLzvVI4UcQdbGQaNUrzE0Twa9xLvi2X59RaVe+CFJ/0sl
-	Q7fcCHWlUFiIP0HLqC14tj/jwCHw6Ks+o7/okVuM25PAAnEcjKoChGwqrZCXkMc4wnM64EkccRi
-	ugsxV0kkaCJzHi1/7O0XzQsTeQH0SguOHynFvzce+Xz86JpN9ADzNG3UBkRiThg==
-X-Gm-Gg: ASbGncsGOtMkk6OjFtj+c8EEYu+qipxJ8bPYSn9MN35p5q7Gk/ilNClwixQgxAQMbrv
-	DRwV34YoX4Wrx6fE8XWY1MRIie5w/P2s4l2xJhW/F9bKO2I/nYrOKF0xPVP8hyj/jgME6BgtKnC
-	qphvQGUB4jr2q29gm44D1VOkxY6V21ogGzft4ddrS9xhQF5PZR+bSfmUa3o0TKYDdUU6HOti7i3
-	XeiiaWQL5a1NK44iVtlWfdmpWOjtjyHF1/DE8zuLTOb531Y4DUhJRxS/QI5y2F61WUlaODQwYY2
-	4F709J5kWjg4I0Mz0/Dd5UY+POJcEo0cjCGgUcnxULkXAvcGBDGGz6g1nEQAaPh70AQio0j2n7b
-	8jqjvHbcF+5DtmmuPXaDr5iT+p2FckNE+AjeGANLoS4Ovedw=
-X-Received: by 2002:a05:6000:250c:b0:3a5:2cca:6054 with SMTP id ffacd0b85a97d-3a572367c51mr13883564f8f.4.1750234694847;
-        Wed, 18 Jun 2025 01:18:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF4MtXoUoDbx53FYuRfYoex94WAOFiEP0m/MDOE5tCGQJ07C+BnMxhcpuzJOlZBfwrUqTwgbg==
-X-Received: by 2002:a05:6000:250c:b0:3a5:2cca:6054 with SMTP id ffacd0b85a97d-3a572367c51mr13883539f8f.4.1750234694463;
-        Wed, 18 Jun 2025 01:18:14 -0700 (PDT)
+        bh=FjBsfSR47PaVfWXC658Z7wh/Dh+hU3oJf9IYVsvV9rc=;
+        b=Tjtd2/x4Y17UirrzkbKtJt0jBSRnE6qt1K5EOgryDZUlPwx5BNGJydMnZV6kY8e02P
+         seGB/sB3vxgx/LH5LGMYtOXR0bE5aGD7L3rISDCOAFSQoHbLPmYac7ZBLXOcZ2eZ0kDH
+         HNxSt65OQzzbjYirZR67a8uN3cwzfDhYZfMeCD36i7sCdzQTKYjSEVY15VtKon/OtGp3
+         tpzclFA2sIcEGHuKaJWkqXMtr5mvPh5hTGxZibseimkoJS6+6b5Wz/OZe6H3XTs1O5wO
+         +G3lRp82bF5nuko8qm2T0T15yPa7X9u2q40LdjrVQMF0WVMfEh3DS+1UHS3i4pjK+j5B
+         eVcA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYAK30QDM49g7TqaqilpVAKvhe5rz94DTZearw7Mc0hSp9wwSDs9IJXjj17+WVjF+fP30AD8Viztg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJyhtlL69CV5t2fk7WEQNZd5pRYyDo8QXRTelNYK44sfSjONX2
+	KXqerERzB6yzooGkPZtw+Cxeat4lTn78vFnhcCjfu60tu7iQdPUQ5Duf0kY11ms1hgSKT94yzE3
+	mhB7hloHW2Lqoof0I0huuO2ejG5SQLKW/KWsYU73wxxuWKP9j00rB2Nl0u0dAxA==
+X-Gm-Gg: ASbGncu+phwgaZEHB3MOPTMdZsLI+kopYNWpH1xdPESQp4iyHK6ubKAXmz7iP5kVvxf
+	Cix9Iahvl2w6kGAZOSENNnF/LQL2hDzvj14cp23o/OZnPo7e3jt4nld7D1Fl3Gqjn2TZywcn9cT
+	Xl5A3jPgbxCQ26+FvRNeEg/n3vn0rr8j6FayFfx1k7JDvQyNA6KWnRusDojK2Woa/CUcPYiooRq
+	24Wt2xJF1A9X7iJ/q57W18AGZk2HZXoEe9CS2Uvb7P31hvrYgT/0kI77dCmgAbfc+5WyZTAnKhz
+	mnX7+n6Yin6VgH89K1oXUVXAaSY4ANyGnUGv4Dr02EGQM1YbNU5dTqDB3AJuQLFUPmdjE/0dSX4
+	qK9YwUd1BcwcPkU7R2Vl1eJ+fzf11oaRAvWB5PxNdfXspeZ8=
+X-Received: by 2002:a05:6000:4025:b0:3a4:e844:745d with SMTP id ffacd0b85a97d-3a572e6a1e9mr12811274f8f.56.1750234787150;
+        Wed, 18 Jun 2025 01:19:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGY1tDl74kcAwH1a9FR3dYqibY/bkXjfovH5qw8EmP36klN2OOkd+XZIZxkrXuB5cvDxO4iWA==
+X-Received: by 2002:a05:6000:4025:b0:3a4:e844:745d with SMTP id ffacd0b85a97d-3a572e6a1e9mr12811250f8f.56.1750234786808;
+        Wed, 18 Jun 2025 01:19:46 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f2d:2400:4052:3b5:fff9:4ed0? (p200300d82f2d2400405203b5fff94ed0.dip0.t-ipconnect.de. [2003:d8:2f2d:2400:4052:3b5:fff9:4ed0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a60d0fsm15953092f8f.22.2025.06.18.01.18.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a72cd3sm16313774f8f.32.2025.06.18.01.19.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jun 2025 01:18:14 -0700 (PDT)
-Message-ID: <b589b96f-a771-42f1-b14a-0f90db9fb55e@redhat.com>
-Date: Wed, 18 Jun 2025 10:18:13 +0200
+        Wed, 18 Jun 2025 01:19:46 -0700 (PDT)
+Message-ID: <1eceff0f-4df8-4716-8e3c-e2cb9e142511@redhat.com>
+Date: Wed, 18 Jun 2025 10:19:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -136,45 +136,22 @@ In-Reply-To: <20250618041235.1716143-2-anshuman.khandual@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 18.06.25 06:12, Anshuman Khandual wrote:
-> Add a new format for printing page table entries.
-> 
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->   Documentation/core-api/printk-formats.rst | 14 ++++++++++++++
->   lib/vsprintf.c                            | 20 ++++++++++++++++++++
->   mm/memory.c                               |  5 ++---
->   scripts/checkpatch.pl                     |  2 +-
->   4 files changed, 37 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 4b7f3646ec6ce..75a110b059ee1 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -689,6 +689,20 @@ Rust
->   Only intended to be used from Rust code to format ``core::fmt::Arguments``.
->   Do *not* use it from C.
->   
-> +Page Table Entry
-> +----------------
+> +	case 'p':
+> +		if (fmt[1] == 't' && fmt[2] == 'e') {
+> +			pte_t *pte = (pte_t *)ptr;
 > +
-> +::
-> +        %ppte
+> +			spec.field_width = 10;
+> +			spec.precision = 8;
+> +			spec.base = 16;
+> +			spec.flags = SPECIAL | SMALL | ZEROPAD;
+> +			if (sizeof(pte_t) == sizeof(u64)) {
+> +				u64 val = pte_val(*pte);
 > +
-> +Print standard page table entry pte_t.
-> +
-> +Passed by reference.
+> +				return number(buf, end, val, spec);
+> +			}
+> +			WARN_ONCE(1, "Non standard pte_t\n");
 
-Curious, why the decision to pass by reference?
-
+What about 32bit with 32bit pte_t?
 
 -- 
 Cheers,
