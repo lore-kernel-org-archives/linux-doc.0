@@ -1,219 +1,190 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2052.outbound.protection.outlook.com [40.107.100.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795D92FBFE9;
-	Wed, 18 Jun 2025 18:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750271560; cv=none; b=RNJVQesMZkJt1mqv/T/1mbc9VlH/kBgHE071aA6V20Dnu9UlA1kurgrmq42NT7dfNcDCOwBrCGD/xZTcFiJey1ivauBVHBdvZNcut/7YFAZWzARqep7l054UgsDOmWqqrio59Jp5QLOb1c51XMu9Rrl+BWjWTPR3/Zd1iRJYoNI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750271560; c=relaxed/simple;
-	bh=56Sl/nGt3m5t3J5G+VzsIzv0+c8kzRwGZwhJI4NYYaI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jsjyfm9dLrY15Bq8yqBa/NVTKlfW0hKJmq8eWvLz+7R9U7AtUe3ynzweXRcba6DbnEe0odA89JPYPTX7eM+8y+DRtqiMwCTycbejes/UMLzyWUpscnhSaq6HAii9HOtkKlmXUw7ZZVe7LSbgIabtaPK9YiLIttp+Pq+JtJKcbcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OKTxxZ3I; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439A670830;
+	Wed, 18 Jun 2025 18:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750271888; cv=fail; b=LItKzhUvbvJBpbnXeIloT+TkwfNxHgk74wIirnFNrrTAryp4JliG9J/4ZMZg/ssBEhYU8jc1WNmbqpWbKIVeV5GwoeuoK40dRpE+E1ebWsavuuvioDFr49iYRm+sKVcFDVVtfg+sRN+rnHP5b7HX+Dtr2qtlMGmqSUMLQM3UgCs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750271888; c=relaxed/simple;
+	bh=q4262qoSDwZ+d+VZowlliLUVnjqs82SrqMoYuRlS/7I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=GxBdEGNWKzzX+KEhp3E2pvzcd6BACprDowXQN0rVr+qTQ8kjQ/GmmfaLX9J9vRgaX2OoDupEwK7n/TXOOaKDzRaPgK7crnplHmVW/4gsDSxKMpQTtr9ifeHuKZBBvRECVIl0/S3nSKfgwlcgVQXQlIg7oHrvmryX9DrpOb5OGkE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gi+LmVxv; arc=fail smtp.client-ip=40.107.100.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OKTxxZ3I"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-748e81d37a7so747379b3a.1;
-        Wed, 18 Jun 2025 11:32:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750271558; x=1750876358; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4V9Yp9AA3hWAb7aqFhJTn2UKytTjSMNN61SVrfVNk7w=;
-        b=OKTxxZ3IydbBvJX/2jgRuEZAXPYyx4z3R4NgD8mc+VKQc7pQdG2aon6cGDdZZ732rH
-         nagfNVSmqoZCOj/Mb9bEl0bF1qmhy7MvnFowem10cQiiJwjRyQPaD1WvS9Et3PmG/KwJ
-         BRr56p7E5nw84abAPp1MxVHyghn4/heYYch3SG3alwpoC5tfSMjL4f+I0fAX+4rF+ciV
-         OtQC5Qa15bjJyiTzknzykR7IMHU50t/W5oPHg5sKpHj4t2leWNYe3W/DLw3qi90qyOvu
-         AN0Lbhp8p6WP372LvUs0TOl9owHCLewX4dpU0ba8s2ix/c2ZO/gezZLwk2ia276PbuqG
-         PNJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750271558; x=1750876358;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4V9Yp9AA3hWAb7aqFhJTn2UKytTjSMNN61SVrfVNk7w=;
-        b=Rt2eItVlUcWTdRhyCnItAeP0JmRGtmLAkiaoSOGsiu+GmUApbDEV3x/SdXpEJipPHN
-         6h6AvpzakGCW3GMIsgdB7dTlbR9qkCp+z6tu+nhsyGSifJhrClvjhYYJhT+JS6zd/zWA
-         2eRvO0Yp4J13uDjCKQaaN+USDauyorPdYwYV9gK/z2SbTmQo2cnVwb0jbeYRAxvpokKO
-         owe67tXx3J7vRb4MqosRy9vabQqBDyM0s2gGzhHROs18K860FjEUeMx88aQ5L4mEfeLb
-         bsMYA8Me13SJRIoCWJk7lxu/4sI8+QS0rGf6R43FMZMsPzpvrDSN6cbwsI47bRxoa+bU
-         05Wg==
-X-Forwarded-Encrypted: i=1; AJvYcCVwtTIR/ffZdDaFyJ70kPAYHU4XWjKu9Ph98o76eGJ2cscV9yed6cnsivsxAKky3Z7hZKkLoYqFs3uTBLXt@vger.kernel.org, AJvYcCWPJLgBhUFYtt33C6yCEp+H1lZRdeTVUlKhMzXVChvEi/qRuAwsF9/fZE4WiqDvHzaRMDOTz9QDENit@vger.kernel.org, AJvYcCWeCgH24jjbT11t7uZFeR0n3O8daYqjMPKDouDhp4QgqzlcA+mcJDGHQhczZCP6wIWUb8HsUDUG3sow@vger.kernel.org, AJvYcCXowv50OTZkxuB+d8UAGWjRS0MJnEnD/hDfPZmgB65fN0Bx8WEFtmqT9I/wFZZFZCSiNty5rOApbNz7NQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/MLYjd31UvJuFDUDgYPmcIWzO++p6r0CLXpP8CwWgoa9EgMN5
-	m1BHvwUVQ1VGoNrH42VHuTHzUA6sfb1QpfrblzPcUccnzdgDAMwiKBxU
-X-Gm-Gg: ASbGncvFF2JrceHmh85qFp++qm6qJQ+ZB4hPM1e63VDp69TmK0LveBlqq18Nctuc80y
-	jTcwGVnJNozpdQiCcyLYLv3/+rQtKAPOv958KIUiJA1F625oSOQHl0H+jLvGAOB07smifiXXNnF
-	IOT6Qle05xhWvjhNaS3JCJatGr1GVkJpx1k1Zyq8odn1t8X1Q8FNVXMvRGNWqVl9I7uzINBKz6d
-	q+m4Oj+A6Rs3N35Oq0YtwvbJya9gFwmL00WHuQllRobm++l++kDi6F4dLCnIgNejvYe6zC3i8M5
-	FxmIgsR+/FPJcOV0T9PC9EOVUCq8r6ETbU+FrsV346K9ZmUDbPTQLuI0+0o0448ffF6uSrB0
-X-Google-Smtp-Source: AGHT+IHxG9XbUgbsz3AXCKtUbw40NVDtwgtcYywPrcmxo7eCIXNYVplLkQY/by6iIoiecAYOBHQWHg==
-X-Received: by 2002:a05:6a21:329e:b0:1f5:97c3:41b9 with SMTP id adf61e73a8af0-21fbd505d57mr25020541637.5.1750271557612;
-        Wed, 18 Jun 2025 11:32:37 -0700 (PDT)
-Received: from DESKTOP-P76LG1N.lan ([42.113.163.91])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2fe1639f97sm9606454a12.6.2025.06.18.11.32.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 11:32:37 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Nam Tran <trannamatk@gmail.com>
-Subject: [PATCH v10 4/4] docs: leds: Document TI LP5812 LED driver
-Date: Thu, 19 Jun 2025 01:32:05 +0700
-Message-Id: <20250618183205.113344-5-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250618183205.113344-1-trannamatk@gmail.com>
-References: <20250618183205.113344-1-trannamatk@gmail.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gi+LmVxv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=umlgVuDiEyu5TEgUKTeYtht7+oQEI3wWTf/qDP/nFtvTCcUTRIJJQrVslnMO7kQuwuTOGl5tUtHeXFYBvyLzZ64uu+/Ile1lr42OntCoU+stNWk1sZOm+N1fwTBc5hZfHfjiZXT7KnXuTc4C+b9HRnByV+pXvgKH3IWVqsCWHtPpGWF4u7sIyTVA5tkZLO2zm5WCR87BQzVu/+NhmGPffmZDJUqBkbJ7t+G7vVGKHxRfxa3rglzDBCb0dfl9NpccKkqJjKrrITJCcdmaiiTeZrXx+HiXgyuczdOUrDgy+FRVyMvOlbGQZLfQC6qLVCMWetrKyJOG8pr4h07oI8bhfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AP9m5CTFPnSnjlInCJtGvtcIdsaEgOQLez3reN8phls=;
+ b=RHyoWIuHd3uWRyQ23eEFzHF6eSiWeqFcCNFoO9igl6k7q77at44f33pqmK2b48kfnz8HHiyizKz1I0QqXNcXSq7eJI2ukOXwnfyd0YwSW6ygSISmiyB/lfZit61rgESHmxQ/c+k0pt1scZkMaguT+KMFnuPbubHIkCNEuikzpzYy/Eg9o3AnpMOjKcZAAejKOWEKAZ8sHXvTnS/JOJ5IwVNDCCmwZCiFrh6coYtxOIGN+WmgHEaIo/sZhMir14tcHvrd6Fk+kPCNC/uoBW7R6Wh3d5e4WOLCo4PZiboHcb3GByUvxt0BdeXAbnhnwNyUMUGrwKCeRrbw5V0dCFzuqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AP9m5CTFPnSnjlInCJtGvtcIdsaEgOQLez3reN8phls=;
+ b=gi+LmVxvmrdmr5xpdAImciKkOG6Dm4kKFdyCq971DegHr3LvE7y/3pvNIBqlQKCQQtj2973PU+nJSuvpaf4v2Q2qDgQ4v0eV7pS6dPiRoYjacsIQrpE5oDw9/c2P6ilQzpjH11Kp0u7sCl8TKcDPNbrRCNmZbWjqmMY+iFlY+5ZaMz1xt+eJL1u2vaV3OIc1YTEdpWSDo4/V/Yl6CG+ybkVvg3Z7PuN+ULPwNbiD4bKQvm7/lDHwmSQXgGbYosw6whfmlHyGznumTwH0+TvloxziWUrL3F6IYfzLLNHGty1c4pR9lct0HBiQYvr3smQa1gLHrzJf/yoIIrqXm5gpog==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ LV3PR12MB9120.namprd12.prod.outlook.com (2603:10b6:408:1a3::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8835.28; Wed, 18 Jun 2025 18:38:04 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8835.027; Wed, 18 Jun 2025
+ 18:38:03 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Minchan Kim <minchan@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
+ Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH RFC 03/29] mm/zsmalloc: drop PageIsolated() related
+ VM_BUG_ONs
+Date: Wed, 18 Jun 2025 14:37:58 -0400
+X-Mailer: MailMate (2.0r6265)
+Message-ID: <70A74008-C336-4CFD-A074-35C9E2F2C279@nvidia.com>
+In-Reply-To: <20250618174014.1168640-4-david@redhat.com>
+References: <20250618174014.1168640-1-david@redhat.com>
+ <20250618174014.1168640-4-david@redhat.com>
+Content-Type: text/plain
+X-ClientProxiedBy: MN0P221CA0001.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:52a::7) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|LV3PR12MB9120:EE_
+X-MS-Office365-Filtering-Correlation-Id: 848af818-114e-42e8-f1c8-08ddae974208
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?vAsLkfU4UVX3CPiU9tO/d1cw9q6SwJkxOTf9NoW78LPUBeqyI0Ss4bb8gUhS?=
+ =?us-ascii?Q?jJs8ezF7Dbr+KDmIMdCIIDrXQzrOEjF9lHBqMvxoEdR9Uq9E+j8CdwOeHhKI?=
+ =?us-ascii?Q?UOShTaNGdjsdfCnedxvq4yqdrKcfp5PTXG6H4ldsddM4IDpxxbzvZ7rNIMF1?=
+ =?us-ascii?Q?MSsSsTN3CMIx+tukTRZIEKEBdRmD/VWK6PqU0x6LEB05Ppc3YaaNtUzOkPVs?=
+ =?us-ascii?Q?DpvRr8AeNFEC6Fv4g8AwkhcNJBXPnJxbtPtg9wegJ2Zm684+E/meEP6hgIPt?=
+ =?us-ascii?Q?p/yuaeiNdRRVhYjOPr6/qykf2MWoReJKr30sb1EozKTJaXEBCwWTef4qts5D?=
+ =?us-ascii?Q?w+sBDIt7IM1UMutqCKE8H8VABiGeAEcOOM4HY6D75y4tPM8fAFW7xEIf8CSv?=
+ =?us-ascii?Q?hCvZ/q/QfqNoajek+TRsvIgqY2/lm5tEysmnCHEk18dt7Jz1g/S37BSlBPTR?=
+ =?us-ascii?Q?6rz6tZB6PypAL8D+Auuo45dPufTf7v0RFZpKezd6eu2I6yeknIc5iD15r2jX?=
+ =?us-ascii?Q?9lt7QrWZu0d6rhjRoJy+oKE6rYpte2YypyuhC1Mer08egiJ31//GVkZ4/QZ9?=
+ =?us-ascii?Q?l9pO6p/irqcshyZSTOyS5NZE0uv5tvjYuJvXCKpGXTKZpWVsao0ja7kuUiCO?=
+ =?us-ascii?Q?kCJWAqIXLMnoEOPKpu4EPmoj8rLGPSog6ZagwFxDtzDZrVdRq4M2rYnS11cI?=
+ =?us-ascii?Q?HXXdI7yULM/F4ON/XP13OBIoMSBwtQVCVCpopFErgTnGD9GsY8yfwdgbzx+F?=
+ =?us-ascii?Q?obMSR8cZNWQ69i0LOMxuNpEN0jS0XDyqc/ME93NjQjutVJLxCVERbCJxW/SU?=
+ =?us-ascii?Q?ZSWV4raDsl9YBzb9ZWa34d4f5Q4aRe5W8+KNgh4HVRKqCkbz6CwsnQGpr1c4?=
+ =?us-ascii?Q?JmEaJ8ssZDNCeAKltYLmGm1mRI522ERm76MAqoPhhbu44B+i47frKxbUxJEu?=
+ =?us-ascii?Q?4X1/kTXCY9/L1ox2SBTDT2Qyr5psbRYwoQMo1QxR484XA435O9HbAQiQyXCo?=
+ =?us-ascii?Q?SgwyGUX5xAdf2jgwHEGcQR2ljD+qhq8QbV5KPCQ9lY1/VQMmfUuJIuO0QFQ5?=
+ =?us-ascii?Q?pabp4UbFdj2FZmRTzOF8tjO1iAi9wAg28h6ch7GSk4hKGTKcsKCerFMM1AsF?=
+ =?us-ascii?Q?gCRGtiFEpmJJEBFONAuPh2qVs/2DZwALDTATPEjUJ/wqZky29k60eJolaqTa?=
+ =?us-ascii?Q?bDN554JB17V6vE5nvaKJ0kyHxGn3mNjx7C97rJk53xqA4+G+OpUgmSLKI3Z2?=
+ =?us-ascii?Q?daL5d0D2kGwDTxVDMXDlku0mj+FBI5DAGH5jdsSznWmiRR1zd15QQlOjzoKt?=
+ =?us-ascii?Q?9r6hb/R57ifKAMhrl9Fi8OggT9Puo62NfyzMfuRtP20tU/j7FRy+NCCz4kMh?=
+ =?us-ascii?Q?bzyYtHe2jEa1TlKmXfh7pXS3WOTfnl0KAnqRinHZe9A9oRcXw6McXVyX3k4G?=
+ =?us-ascii?Q?pSVEUvXMQhA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Lhw8fHwQZEvEOaFEbaFQ82bI4WfVuOOpLId3qWTUqhguNdhZxwNHwybprmnx?=
+ =?us-ascii?Q?MeYxAp2Ttcg4ONpEW13KFck0bQxqV2wRsiJ8jl2jVU7tY4vwT8dhQpAMcQXC?=
+ =?us-ascii?Q?GnkKPJ68nuDf03j6vnUGefb1F6lIj59l7RUrbDjQUvM1BOJfHMKlaMHQ1Afj?=
+ =?us-ascii?Q?aek3pKKPahc064u7U8YgVtPuEPiKGY5G4KyXB2KPPna39dS9UlFzrtL+sghz?=
+ =?us-ascii?Q?By723isw8b+jBhsuDQ7cXL5PgQsfJAgwEUY/GJkC4J3PulYtYw/aNh616IlD?=
+ =?us-ascii?Q?MQGRdWtA+c/8IfNXBHZIhCqu+oj0TM/BdwOtQJPTZZAe0VlYhBPHsQKqPpkW?=
+ =?us-ascii?Q?FbpsGs3Y30KRJNOeizPAkK+abJvbitOk4KfCiiTqUfseVVtk+litokne4QNM?=
+ =?us-ascii?Q?403DNEpLyRJvs1z+dKFuwFdgWUOdPZzhNPggGmEsbKIIgBbmy5ORAUHOWIUf?=
+ =?us-ascii?Q?tFN8/nGzbA2sNC9bhH1igM+4ReZy5BaGa6fMNXoLp35W08haitdMeToiG7gU?=
+ =?us-ascii?Q?sjBo+K+Xn3+EjCusttt+asnGtMeTTNPTB0fNEhuTHeNVjnMc0YKARQrDnqn6?=
+ =?us-ascii?Q?bqxDXnGO2zTh20qv14hSI3V7/DJDNKCem6VdmkxfBUEsBmXSvV9wgE3f8Ezi?=
+ =?us-ascii?Q?U6IYF2Ai8D543fRLLKdtfnnUePf+aJ5O7+eRKPH00276qtvAWsT/49XrAF+s?=
+ =?us-ascii?Q?w72vruQraWJMGPj6a1tJ4FzxwiLleTCsKhJ/M/Gc/dINREKRHAO+LyxNqF8A?=
+ =?us-ascii?Q?NFfwgyKzrxTsALfOkAXDTWEqxUyYzkFRRzA+sa0S4cybCJTKPoIScG1aYfoJ?=
+ =?us-ascii?Q?PkNAHE6Hve6XfQn6eAsRNlP6H8LiFi+8ZuQSQU4iNL5/rDuzxaUzrmuhh7sl?=
+ =?us-ascii?Q?ZJ+tMz7P2+0jD4LFRAwhbYpfP0o3F3SnuQlKMPpw6OHyrRBnxp9/8czM0T0a?=
+ =?us-ascii?Q?YFuFx90JnmJU3VDsKFXBIPRFl3ZuTA4Zkx/x2dfMen0aiyWjCt0CU0DUiZUk?=
+ =?us-ascii?Q?+Ge6QY89uVFe2ldGF8t0ZrkxBLfjeKAGfNWBSloUbyBHtDa4d/u7LXxvrmda?=
+ =?us-ascii?Q?60hoymPB38ZwjazCl581OqA3QFts1gyUtsX2yZbxF6umaEbkrPZaKrCQhuu8?=
+ =?us-ascii?Q?2KRMA5bOUR/u6+gPNfA2VqVSZxlOUWIZ3hAcgyEF6BFTApOsaKzvtUAnuXjx?=
+ =?us-ascii?Q?tTI3RBgQTZ/41shA4RlIvlyZT1pDD36OPvv8RdWJJLTcVEDB3H6yb4C3C+zC?=
+ =?us-ascii?Q?bqyUhp+vp/D+Rou20WOmjQb/1pOC0G4RxEgKx6hMkwoudG56diIkvaRxURKY?=
+ =?us-ascii?Q?BMhScfK96+qj+YBy1lWJUCsFQ7m7GaCoHniOeRbZXd4rcZljda4JMW+Uevtj?=
+ =?us-ascii?Q?iFq0rdRqdUgZlsWJm7m8ZaVWFPh/7kndC6ywQaxrWMiVDNZ0XvoiS/ZsNsRy?=
+ =?us-ascii?Q?1/XDSG+9zicJAxpJtZBNlLNtRE09AHQXaXX9F83rLUZzicus8PdE1Kv6k4wD?=
+ =?us-ascii?Q?ec4DIZWQVUrOCTY5V0BHtF7Yd7X8ZfkH8YM/LMTAiycY5kjuuqHDRtAxzNFD?=
+ =?us-ascii?Q?UobMKIb9skRhnOE3vF7OQ/dQr51eHYZ4VAOfi5Ah?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 848af818-114e-42e8-f1c8-08ddae974208
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 18:38:03.0404
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZSiXM6PhuBR14wDIAOIlJA+M+nE1fvVLGiQygSa+zfhOwGcrsuRt9h72x0m07WN4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9120
 
-The driver provides sysfs interfaces to control and configure the
-LP5812 device and its LED channels.
+On 18 Jun 2025, at 13:39, David Hildenbrand wrote:
 
-The documetation describes the chip's capabilities, sysfs interface,
-and usage examples.
+> Let's drop these checks; these are conditions the core migration code
+> must make sure will hold either way, no need to double check.
+>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  mm/zpdesc.h   | 5 -----
+>  mm/zsmalloc.c | 5 -----
+>  2 files changed, 10 deletions(-)
+>
 
-Signed-off-by: Nam Tran <trannamatk@gmail.com>
----
- Documentation/leds/index.rst       |  1 +
- Documentation/leds/leds-lp5812.rst | 84 ++++++++++++++++++++++++++++++
- MAINTAINERS                        |  1 +
- 3 files changed, 86 insertions(+)
- create mode 100644 Documentation/leds/leds-lp5812.rst
+Acked-by: Zi Yan <ziy@nvidia.com>
 
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index 76fae171039c..bebf44004278 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -25,6 +25,7 @@ LEDs
-    leds-lp5523
-    leds-lp5562
-    leds-lp55xx
-+   leds-lp5812
-    leds-mlxcpld
-    leds-mt6370-rgb
-    leds-sc27xx
-diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
-new file mode 100644
-index 000000000000..4538cfdf415d
---- /dev/null
-+++ b/Documentation/leds/leds-lp5812.rst
-@@ -0,0 +1,84 @@
-+========================
-+Kernel driver for lp5812
-+========================
-+
-+* TI/National Semiconductor LP5812 LED Driver
-+* Datasheet: https://www.ti.com/product/LP5812#tech-docs
-+
-+Authors: Jared Zhou <jared-zhou@ti.com>
-+
-+Description
-+===========
-+
-+The LP5812 is a 4x3 matrix LED driver with support for both manual and
-+autonomous animation control. It provides features such as:
-+
-+- PWM dimming and DC current control
-+- Slope time configuration
-+- Autonomous Engine Unit (AEU) for LED animation playback
-+- Flexible scan and drive mode configuration
-+
-+This driver provides sysfs interfaces to control and configure the LP5812
-+device and its LED channels.
-+
-+Sysfs Interface
-+===============
-+
-+LP5812 device exposes a chip-level sysfs group:
-+  /sys/bus/i2c/devices/<i2c-dev-addr>/lp5812_chip_setup/
-+
-+The following attributes are available at chip level:
-+  - dev_config: Configure drive mode and scan order (RW)
-+  - device_command: Issue device-wide commands (WO)
-+  - sw_reset: Reset the hardware (WO)
-+  - fault_clear: Clear any device faults (WO)
-+  - tsd_config_status: Read thermal shutdown config status (RO)
-+
-+Each LED channel is exposed as:
-+  /sys/class/leds/led_<id>/
-+
-+Each LED exposes the following attributes:
-+  - activate: Activate or deactivate the LED (WO)
-+  - mode: manual or autonomous mode (WO)
-+  - led_current: DC current value (0–255) (WO)
-+  - max_current: maximum DC current bit setting (RO)
-+  - pwm_dimming_scale: linear or exponential (WO)
-+  - pwm_phase_align: PWM alignment mode (WO)
-+  - auto_time_pause_at_start: config start pause time (WO)
-+  - auto_time_pause_at_stop: config stop pause time (WO)
-+  - auto_playback_eau_number: Activate AEU number (WO)
-+  - auto_playback_time: Animation pattern playback times (WO)
-+  - aeu_playback_time: playback times for the specific AEU (WO)
-+  - aeu_pwm_<pwm_id>: PWM duty cycle setting for the specific AEU (WO)
-+  - aeu_slop_time_<st_id>: slop time setting for the specific AEU (WO)
-+  - lod_lsd: lod and lsd fault detected status (RO)
-+
-+Example Usage
-+=============
-+
-+To control led_A in manual mode::
-+    echo 1 1 1 > /sys/class/leds/LED_A/activate
-+    echo manual manual manual > /sys/class/leds/LED_A/mode
-+    echo 100 100 100 > /sys/class/leds/LED_A/led_current
-+    echo 50 50 50 > /sys/class/leds/LED_A/multi-intensity
-+
-+To control led_A in autonomous mode::
-+    echo 1 1 1 > /sys/bus/i2c/drivers/lp5812/xxxx/led_A/activate
-+    echo autonomous autonomous autonomous > /sys/class/leds/LED_A/mode
-+    echo linear exponential linear > /sys/class/leds/led_<id>/pwm_dimming_scale
-+    echo forward forward backward > /sys/class/leds/led_<id>/pwm_phase_align
-+    echo 0 0 0 > /sys/class/leds/led_A/auto_playback_eau_number # only use AEU1
-+    echo 10 10 10 > /sys/class/leds/led_A/auto_time_pause_at_start
-+    echo 10 10 10 > /sys/class/leds/led_A/auto_time_pause_at_stop
-+    echo 15 15 15 > /sys/class/leds/led_A/auto_playback_time
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm1
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm2
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm3
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm4
-+    echo aeu1:100 100 100 > /sys/class/leds/led_A/aeu_pwm5
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t1
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t2
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t3
-+    echo aeu1:5 5 5 > /sys/class/leds/led_A/aeu_slop_time_t4
-+    echo aeu1:1 1 1 > /sys/class/leds/led_A/aeu_playback_time
-+    echo start > /sys/bus/i2c/drivers/lp5812/xxxx/lp5812_chip_setup/device_command
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cdba86f1768b..4fefc7fb7a9a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24568,6 +24568,7 @@ S:	Maintained
- F:	Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
- F:	Documentation/ABI/testing/sysfs-class-led-lp5812
- F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-+F:	Documentation/leds/leds-lp5812.rst
- F:	drivers/leds/rgb/Kconfig
- F:	drivers/leds/rgb/Makefile
- F:	drivers/leds/rgb/leds-lp5812.c
--- 
-2.25.1
-
+Best Regards,
+Yan, Zi
