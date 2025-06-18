@@ -1,190 +1,190 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2049.outbound.protection.outlook.com [40.107.236.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159523085D3;
-	Wed, 18 Jun 2025 18:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750270464; cv=fail; b=svQDrET4QyQ/vtGD5ZOJ2y4O79IrupEsMJlaqEteYthCia3FNSMd93teex3t+Zze5VYSD/fxxTmTEkG+yv7Tpc6O8+YsYxkru+7EN56yxg21AJ3IxRMqavzw9eHiRpPyBMndAhUu9+dXGbEtsH7bQsgdh+C93eOxaQ50CS5cdzM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750270464; c=relaxed/simple;
-	bh=CazrY/4J20xIfe3J9bxeh/sOYNtpnP/X0V+/NOhY75w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NifTdXetuhn/I3Xb0f9icTIBIwW36QNSl0OJZqHe3BHtwm6TTpXSN2jiGEy6wEDjS6Nw4gcrLAqF744F7UUjw5E2eZQ3TMZFjFNJlKkZzIzDinvWzOzxKQZX1cDg64BFbFOfmaadmQNnW7hvMNqHzbgC3Yfx0D/vMYEuw1Mu0AE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TE2fzpcA; arc=fail smtp.client-ip=40.107.236.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2570C28DB62
+	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 18:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750270568; cv=none; b=MJ5WusgPD+xK7Y9mRWpf0lIWZeHulUtUDL6kOcO1lgTsz4hN2cIuefsJdwA7zHKxeTOt0BUogJWWlCRyW2R+hu+5pVmDcFHDW62KnFDV2cQVUTizIrCOLxvSzkuZJg5PzYDNJGB78c2Lt8c0AezE+m0tEAYWrHorhe9GoGBJ7cQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750270568; c=relaxed/simple;
+	bh=CNX9FgjvrXaWyWI+a2RD0sPggXx5ICFSWJLdJYnQkzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bmrbZ9fkZvSgr1h3ErOYDAKpLOh0vOOrU3maJCB7IRGdZ3INxJaYmss/Qha+0YuARrevY+TNBoRaq7jp/ahmY81VkyvBrk0//fvmFjfAuemOIJfeuO7gg8dBYRrECEqRFISPNPvZ4X9jrW0Ly9x/0XXpaGKQLsbsPQOszS7kJHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZG5TVRXR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6HSeBBKq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1SirJ28+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CWid6ThH; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TE2fzpcA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PRUnQprXMhgh4C2UFixkchi/yzscN0MkLCkjVV6FUVaWifVeGltagzBu9BEnBoptsQ1QyU1H9a+Y47LNkrI/rXATYfICPKGgkxADsyzzdwVOF+VgHydEeVGXN9v4i248KobUaGCyqP9YW/dPsXJdhmBoKFWQIzgxRk9onzIQvHtsEL0fEzWDzEPvyTLD4oIo18DkMNM3YitSIr92lwhIHvzjoxB5Fi3Vw2BnEM+aLCtu74chGGvulETIz4UiprOsce4ghOXCx7p7TE16KBR+0etyfZ/OMyNgfsdAh54+gBxKslCK+XGO0+sq+2Qk2Vsv10IVLW1FwnftK1MZxOU5NA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CazrY/4J20xIfe3J9bxeh/sOYNtpnP/X0V+/NOhY75w=;
- b=D9//1pfozTOYTcGzeeaUPW4IRz0v5KZTzzLSpV7Yb9Pw9u4Xc2ac2cdFfbbRXu++VUavFTcibPehF2WxcjGRUZvNcIFY3DSI9T0MO4V7bvjNMh7+p1GqToRDweOXdmFsUEHkn28WmrFhvvlGO2fw0ZV75I9HaIUe/5N1UaqTRkUonfDR58IRLwOsoqY3KDbXIAViVYNtZLBQs9SSg9y9aNnG6HWbLfkjJrasA/HHfRlS10XKyv8zlk1J4HyfzMdi9Vv8L+g/ivDqzGyRtk/l96i5M0wTc2915tW0+bx2A2eQlAIHk8XysfOEONtN4soMbYT1lsjp+tgGziYJKgYh1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CazrY/4J20xIfe3J9bxeh/sOYNtpnP/X0V+/NOhY75w=;
- b=TE2fzpcA+H0RFi1R7yXWkMhARUGC3OvVQupWMJy6ypGyrYzldA9c2wpoeU+4WUwktLx3AWPIdeUB162LdddeO2jDcnXVH1EdBlySGqucr5wBZtGeQ9CLgLljUssabBjqOompt6rU1Gd9QJarnY9g9YLVc+jzal7c+Ay2jgj6ntZLeo70a6BohXRer5xp4oxEILEycOAjRQCm5BFqZI96ja+cIypewPj31ZPVOCc1iyHVc6gQYdBw3dM/BZn8o6KVXEuLg7dqKtt/outsfcVQpyt3Vu63Gw3UQ8MuI04tlU1Mv9s1HXgUbYK9mRPZ+DJYfJ5TUnL44r1eh8cIRto6og==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- IA1PR12MB7640.namprd12.prod.outlook.com (2603:10b6:208:424::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Wed, 18 Jun
- 2025 18:14:20 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8835.027; Wed, 18 Jun 2025
- 18:14:20 +0000
-From: Zi Yan <ziy@nvidia.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZG5TVRXR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6HSeBBKq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1SirJ28+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CWid6ThH"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4406A21188;
+	Wed, 18 Jun 2025 18:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750270564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JlOdVz/a4EQlXZp3F15gJUtSHGLctHhNiSjojlEQkSw=;
+	b=ZG5TVRXRYlO9AHwq0tsZE6lrWi7ON4KFYMjs2CFWeXBgiB5JuRbn89hwRzJj5glZXz62bb
+	LkOA2E4ElKrzFebPAV4Q3EXquyQi0sDb9oNFHIvzk0LDFO/tRWAzcJrMFtNkSmSidXoR1O
+	/+ytFqVrlDoG263L1RsyBzRrNAZs1uY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750270564;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JlOdVz/a4EQlXZp3F15gJUtSHGLctHhNiSjojlEQkSw=;
+	b=6HSeBBKq4tXisrY4y6EpNgf9zH6o2g6WmXeVPz2L7c6O9Bx1rrfTCewkbtzVlzRSV+IQjY
+	P994sg1c1hd17LDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1SirJ28+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CWid6ThH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750270563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JlOdVz/a4EQlXZp3F15gJUtSHGLctHhNiSjojlEQkSw=;
+	b=1SirJ28+SYOXAMpJ/3KpNwIx4cYdEVfTH4t3ooG1iDK4zxRkKj6FWQ6tL+MPtUtzX6uGRE
+	Z/9fIe0bJy5Ssl1o6vXTOwy0AJ7CgvxAO9YZ0lGjeBOsTzi4mOGmSjUhXfuGruPZ1XWf5O
+	5qUQf2SYz93EyrZtZ/IUNalWp12kdRo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750270563;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JlOdVz/a4EQlXZp3F15gJUtSHGLctHhNiSjojlEQkSw=;
+	b=CWid6ThHJ+CCV2iRfOHky4ZSHshJ0AkvVWqvco6WAZdy/lTc7MTqshW6ljrxFgjUxP6Wv8
+	JgMgWpjNDBHYw6Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D77113A3F;
+	Wed, 18 Jun 2025 18:16:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hfu7GmICU2hNRgAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 18 Jun 2025 18:16:02 +0000
+Date: Wed, 18 Jun 2025 19:16:00 +0100
+From: Pedro Falcato <pfalcato@suse.de>
 To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Minchan Kim <minchan@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
- Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin <linmiaohe@huawei.com>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
- Shakeel Butt <shakeel.butt@linux.dev>
-Subject: Re: [PATCH RFC 07/29] mm/migrate: rename isolate_movable_page() to
- isolate_movable_ops_page()
-Date: Wed, 18 Jun 2025 14:14:15 -0400
-X-Mailer: MailMate (2.0r6265)
-Message-ID: <9F76592E-BB0E-4136-BDBA-195CC6FF3B03@nvidia.com>
-In-Reply-To: <20250618174014.1168640-8-david@redhat.com>
-References: <20250618174014.1168640-1-david@redhat.com>
- <20250618174014.1168640-8-david@redhat.com>
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0381.namprd13.prod.outlook.com
- (2603:10b6:208:2c0::26) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC 1/2] lib/vsprintf: Add support for pte_t
+Message-ID: <ihe6ueejcemrscqzuieunap6sk2z2yb7xr7szr77nue6qpcvm3@qnwvbvqlwdn5>
+References: <20250618041235.1716143-1-anshuman.khandual@arm.com>
+ <20250618041235.1716143-2-anshuman.khandual@arm.com>
+ <b589b96f-a771-42f1-b14a-0f90db9fb55e@redhat.com>
+ <5d037cb6-91a7-47b7-a902-c3e36f2adefb@arm.com>
+ <dc5fb92c-6636-4dce-bc66-181345f79abf@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|IA1PR12MB7640:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ad1be8d-eef6-4b0d-3867-08ddae93f203
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?vtUQTjfQ7Hr/Q+ZtpJHUtGlKkclgTKMuhNQtSYIyChG7AuHLfabX+aTA9k8C?=
- =?us-ascii?Q?vX0CEEyMZ2CAj3l4cBGwdx2plijtD67EVCW6cV7p5SjTtf4ROIe7Ij6mGdIk?=
- =?us-ascii?Q?7puQth43FNYRCZ45e1bfwsVLOHvprv5JrWpN0CL8hauamVixZRHOo84m2/rr?=
- =?us-ascii?Q?hdjWhyLtDOuRWkws2d8ufgKXAzFTcdp6a+QBpJRPsDe5oFxBP17B7KM6XpM3?=
- =?us-ascii?Q?KpWOxy+We7T+qVCcDGUiZRhdpeu2qS+zpLrSsLzpqIVIvaUG2ArxznNU6Xax?=
- =?us-ascii?Q?rJneky4D/+GU12kffixRa2DnkuKeP9MCXd4EAAq2tAza0KAX2mHhtuwFFbGH?=
- =?us-ascii?Q?1g/D4YpFR3sbq4N83WXK/6XLNPGCQC8fNMj42iB1ciZbr0l8gMBLkUaWagGT?=
- =?us-ascii?Q?sjKozfn3QDDEuTKD/nipmwsycTqMNIiaUOzqonctdTdxaRYRciOIVKe3DCAS?=
- =?us-ascii?Q?HiLwCagdvTlpwGwUJ7ysPzCbWOFSkYp36UaP3PugLzusL4hbcIamhSkaKv4Z?=
- =?us-ascii?Q?mGdVoYcjqVrzm7Gt0S5d4zbgm8UVooIqAEZyRlEF5SwCbD8detEIrsN4AxEf?=
- =?us-ascii?Q?636yXggBOhWPmI9zw606U43pRg2xTDCofYYqXrYeKq9JSyYwRWPW2JvUgGk6?=
- =?us-ascii?Q?HjTyxC/niHZznZHfhD5PGQeDVWToJa39U1sgBbKaagot7iShN3TaLqvbPZ1Y?=
- =?us-ascii?Q?y1J82Rawd+pwTKwI3APaavzLE0HhEeSd1vmwS5u3+FBgho/j+xOn4Gfit4Bc?=
- =?us-ascii?Q?8S/HGkt3zzKHHjmuQM66IhwekpRhIjWz1Ni70pogfWevyvXXHi0WfsaZBQSl?=
- =?us-ascii?Q?2A7kdUc+xjA1XPL3QnNFvAOu7U6SFRkxKM1d0gz+xSxIYde4fNGG3QynkBJn?=
- =?us-ascii?Q?k/ozP8mtia9ZS5/hJeDn55Sum1oGevpIhWElq6YCIsUSZb5yRU19L3soZjfB?=
- =?us-ascii?Q?3a385YTcfmqzGrKfFzeQDk6IGXc9dS/HVesFfc44GSnh1zi0i3gC5y79i99r?=
- =?us-ascii?Q?wT/anXvhbbYFdjca2MnKYmzeHHxwqc0qrwczyopaQw6dwlJX6nesGMCPDkwS?=
- =?us-ascii?Q?WjBm3y1qZkJF2yEIgPCz7UR6RxbjZJHBuQEUNPatJLOzU2rft++saNu4ZRBJ?=
- =?us-ascii?Q?5SM2dFT4DjctpDQUjZ15oA5UBUSIP+wlV6ZuvSC5JvfWv0MzHw6wkDi7LE0M?=
- =?us-ascii?Q?1oDGvIlbcLAZ6shHSMuHynRl+1+8+fyIZsJw+lMy6KJGEYxAMt4fiWwxKT/Y?=
- =?us-ascii?Q?1WmKC7+yhF75RtN4YB9OCAU3vrbcKN9xikiA5nyAwFU9oa4cGFjNKGvw60F8?=
- =?us-ascii?Q?LHl8jZfMBLiG0wb4WeG6BIMMg+803v3JOekXi8oHVoqAs4LBPnMkO0OpK3tv?=
- =?us-ascii?Q?R4grGQ6Erqe2moxQrt68bDobzitVHu2vyqltRJlQmOn+v0xrVs0n4oKXK0zE?=
- =?us-ascii?Q?hxu8Le1U8qY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?aVdlREtAeusphRtvf+yWOxNLegICtWS6GTuUfApnvNzelFSsCpvdfe5zzZ6r?=
- =?us-ascii?Q?bGkSykNRdiVDbgTahNUFO8DuNMTSNW3WPK3N5km4txMExSnXPp/xwt+i66bi?=
- =?us-ascii?Q?lw/G5GFAqjre19tPwVqwwuSw0NHO5uRLHrcldqzBZPDSq/Ng5Rc26Eu3AxOZ?=
- =?us-ascii?Q?57WZBvBkGvzx2s5QbVlCR/PurE7cV/O/cdkOJWD2dsYqpFdlZYQayBoy4xNA?=
- =?us-ascii?Q?POV/zLxz975XUGnYPT/POygI48tu0ohAtmbv5twZXi5CN8ZmIkQPvlDoX6Vo?=
- =?us-ascii?Q?ucai206sD8f2qrF/nDcZfxSVR8atNrGhv5e1njHDk6u/AvkKCyBKP6mc9c+y?=
- =?us-ascii?Q?7mOlBXSq+JeCEJaaMKfoOS5mawLer+bVz5CtS2cJCrQtNQrNI1AR51TKxrC6?=
- =?us-ascii?Q?jM55fg+jcr+Sff6heDLjhNh22RZN+U3d074uvtprSyhVOT64RaqiQkUSS9RO?=
- =?us-ascii?Q?jS381kUz1t+F04xQ2v1EuL5YtG7mwJZKwMK0EuRy4PMsXELKrtLLP5vNPYwk?=
- =?us-ascii?Q?/52Jc4j4+LYbbmkVLecWIL3+rSslWAU+XPoVORaYN/HpE96ZiC7mAzTkDJhh?=
- =?us-ascii?Q?ZIE+dN/tVs8HZz7wGqHezzkBsxEkwDOt+Wnc8fpzGRi8bQLAFhb12K6jNpRC?=
- =?us-ascii?Q?aEC3wmAZ346JG2/it6MUH+nDd5OK5jhkGMFcloe0l6VKfuJVKpRV9K0v/+oR?=
- =?us-ascii?Q?hsPfksbIAFcH/eSJ+So/W/DXECY8Oqrim95B3o6hhbIxywD1KfrjIK0E+Jca?=
- =?us-ascii?Q?qIib2SlARGbrV/79eUWwDxB9dVVOo3LpAFJ+ULf/hYLaIyKJyXfp18hnRUcB?=
- =?us-ascii?Q?3fPb113ez5gGdbbEmfBqJ+NwlLf2y9DBrpbPdhVbUFWlISqxVuzuYtvugCVO?=
- =?us-ascii?Q?KGE5QHKFvOCBhgmocOGDsxPNd/YV1uU6mKIK//08uC8h2JVSeOMh+gEk3iEj?=
- =?us-ascii?Q?cN4kayYWh2AgvlzydHnYMntbW6pnygpC73MBmJJm9Q/RxzNvZ1fDW/0YGfr1?=
- =?us-ascii?Q?lORHU9Qn0tfDk/EZaaR2YMocLbjvHiSMfADC6cxvWddzw8xlrxfBw4jNuvQP?=
- =?us-ascii?Q?KECP/wgFsZ/CYAzcSBdNVgNvM3JBMB3wSKHHCWtplNpalrCntIs8TMaFIGZm?=
- =?us-ascii?Q?Q3kMiotfimDJVcU5Jye3QBy1B671E5uc8uyIdrui9Jni8lqQ3MKY5uIHwLhP?=
- =?us-ascii?Q?uxZKKz3elJ/CBrv6ezv/ZUFSYLMAxgUKvMCNQetdQFMJdYZXfphccYjHH+iW?=
- =?us-ascii?Q?06uOwQ3+UMyzDdLdUm3xC8kRf9XAs0+0RrIjX8R9jwt5KpcgO3PJJUfmKD76?=
- =?us-ascii?Q?IRk0dpPTsJxu0oizbg0HIyTmSp9uXKZ7J+RM9PB90UnI7Q4aJFiLyAxiwD0P?=
- =?us-ascii?Q?ZNlBg/YW1smmmUkSGs1idu+5FXgR4GxvO4wc80QbmlGJTE5WbETOoT5qHZll?=
- =?us-ascii?Q?amocW5EiaA5IglIwyHSXJf5urs/mN4aZGfQfFZwFDBsBC+hnsTvvLO5S9yJU?=
- =?us-ascii?Q?0B7Rw/c+MAWptAB5oFkX4QCNdEPfA6WMH91wX5LiTxq1Jg7pOFZhdiY1cyU7?=
- =?us-ascii?Q?s0LB5ZXov1ajemoZVMCmit3BRdZJl1dJa1RJbleF?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ad1be8d-eef6-4b0d-3867-08ddae93f203
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 18:14:20.2867
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TiSp/dp/fqzhpuKdQ9smZsxJV8meHyirPIuqLdplFup/TW64jMujM6+BmlJlp0hQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7640
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <dc5fb92c-6636-4dce-bc66-181345f79abf@redhat.com>
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 4406A21188
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-foundation.org:email,lwn.net:email,suse.com:email,goodmis.org:email,suse.de:dkim,kvack.org:email,arm.com:email];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-On 18 Jun 2025, at 13:39, David Hildenbrand wrote:
+On Wed, Jun 18, 2025 at 10:44:20AM +0200, David Hildenbrand wrote:
+> On 18.06.25 10:37, Anshuman Khandual wrote:
+> > 
+> > 
+> > On 18/06/25 1:48 PM, David Hildenbrand wrote:
+> > > On 18.06.25 06:12, Anshuman Khandual wrote:
+> > > > Add a new format for printing page table entries.
+> > > > 
+> > > > Cc: Petr Mladek <pmladek@suse.com>
+> > > > Cc: Steven Rostedt <rostedt@goodmis.org>
+> > > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > > Cc: David Hildenbrand <david@redhat.com>
+> > > > Cc: linux-doc@vger.kernel.org
+> > > > Cc: linux-kernel@vger.kernel.org
+> > > > Cc: linux-mm@kvack.org
+> > > > Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> > > > ---
+> > > >    Documentation/core-api/printk-formats.rst | 14 ++++++++++++++
+> > > >    lib/vsprintf.c                            | 20 ++++++++++++++++++++
+> > > >    mm/memory.c                               |  5 ++---
+> > > >    scripts/checkpatch.pl                     |  2 +-
+> > > >    4 files changed, 37 insertions(+), 4 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> > > > index 4b7f3646ec6ce..75a110b059ee1 100644
+> > > > --- a/Documentation/core-api/printk-formats.rst
+> > > > +++ b/Documentation/core-api/printk-formats.rst
+> > > > @@ -689,6 +689,20 @@ Rust
+> > > >    Only intended to be used from Rust code to format ``core::fmt::Arguments``.
+> > > >    Do *not* use it from C.
+> > > >    +Page Table Entry
+> > > > +----------------
+> > > > +
+> > > > +::
+> > > > +        %ppte
+> > > > +
+> > > > +Print standard page table entry pte_t.
+> > > > +
+> > > > +Passed by reference.
+> > > 
+> > > Curious, why the decision to pass by reference?
+> > 
+> > Just to make this via %p<> based address mechanism. But wondering
+> > will it be better for the pte to be represented via value instead
+> > of reference ?
+> 
+> We commonly pass ptes to functions through value, not reference, that's why
+> I am asking.
 
-> ... and start moving back to per-page things that will absolutely not be
-> folio things in the future. Add documentation and a comment that the
-> remaining folio stuff (lock, refcount) will have to be reworked as well.
->
-> While at it, convert the VM_BUG_ON() into a WARN_ON_ONCE() and handle
-> it gracefully (relevant with further changes), and convert a
-> WARN_ON_ONCE() into a VM_WARN_ON_ONCE_PAGE().
 
-The reason is that there is no upstream code, which use movable_ops for
-folios? Is there any fundamental reason preventing movable_ops from
-being used on folios?
+All printf/printk extensions in the kernel follow %p<some letters> and use
+pointers because %p takes pointers, so it lets us use -Wformat with no issues.
 
-Best Regards,
-Yan, Zi
+So yes, taking a pte_t * is required.
+
+-- 
+Pedro
