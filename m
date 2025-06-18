@@ -1,203 +1,169 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62121C861F;
-	Wed, 18 Jun 2025 16:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAED2EF9D5;
+	Wed, 18 Jun 2025 16:40:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750263641; cv=none; b=Ui2O6qZuEEfUFUmW8u9XHt0/CZ03ER5GNWWyRoZXagQAlsW1fVMTcCb0rOL1XgV69BHaDc6KGlmm3GeoFnaV4fbMGpBW5idlsa7J7BxdTD4BX3qeG80sjHk+4XwLR5j8RolxjA1e+H5un0BnYIR9u/Qd5tK2yoCt/NS05Q4KejU=
+	t=1750264836; cv=none; b=PX/XqTtxC1xjk4BkSI3OrZz1xO9Y5Dv+WdKJpGN0DT1S6IKBy+kD2VlZbYcsT5X1KJ+TuwtPB9QVbZQFcgiXcqZnMBs055/fLISBPtMWFWes5vWPpYl6EgTTfdDy/T9De5s8ztEK9eEsVC0nMBUcGEzJevBVr1zd4PkqBOxd3Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750263641; c=relaxed/simple;
-	bh=IkySy5pTUIaa1j80e/sSRvJR71Vpo8qwgLf6v3TA6as=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iGAlDhvsyBSzlqX4zRYF6lpHUy2FaxKgjKWNEySThJYKVLvB+c8aWl76X2Y0nD7/hXlHnfjrXL9TJRUhc2rUDA3tXQ4jXrNRtxqDBbZf7ck8e8mTsqbcsXzvl2qxRtsnS/y7ttGAFMoObfAi7SjXfH3i7GMOvgxWbdMVCzj0TQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B9/zZbRF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750264836; c=relaxed/simple;
+	bh=ILmsOVDmKMiPJAcPLz+jBgce1BXTVcCPwgeOKpt7xJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IGKSPQ176FJ9jtOD9NIYSac09BKU9XKUOBjj0EKdGaONyPmoXARbUkGfAdT7t7hYrHm9JhZNJMbeR15eWmsErXxgEaPx8Yv+ACrPrskpxxEu63PxTZ74OObJ9G4pFiHOIRoslFef3O3MxlLxM//IYJfc+IXiJQJWIXvR3ed4v8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rq8Nu3cI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B9/zZbRF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0DA4C4CEE7;
-	Wed, 18 Jun 2025 16:20:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rq8Nu3cI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1150C4CEE7;
+	Wed, 18 Jun 2025 16:40:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750263640;
-	bh=IkySy5pTUIaa1j80e/sSRvJR71Vpo8qwgLf6v3TA6as=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=B9/zZbRFgUlUjn1SvFThE5Oars1U8O/jKfPUmrref+JR6AdcjD43bqeNQsK5J91vf
-	 TAEZTCRZru5ZwjP1QKJuYegddPHlQ+hMGMf/pFcT7WxDCjutITnxs8E1CqWhs9j6Sl
-	 8s47TFgICxVNvyxm1jtzbDfjGvEHpSDoJjBGKLP5v+2nI0xTvNHOQSlPF9i84+YPTm
-	 26zOvmoOKXhSRDRvH1H01TvKP42ZngFGxa6hBZq/yJEeSz0jZW10OIaf/kdRqLsd9P
-	 6GMfbiE4gpXNdTr5/ubXM43Li8PbaUbuQLxZaLl6LPiIqB2GM4ExTvRheNNy/vPDUh
-	 ZEK4fjNxVCOlg==
-Date: Wed, 18 Jun 2025 18:20:32 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org, "David S. Miller"
- <davem@davemloft.net>, Ignacio Encinas Rubio <ignacio@iencinas.com>, Marco
- Elver <elver@google.com>, Shuah Khan <skhan@linuxfoundation.org>, Donald
- Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>, Jan
- Stancek <jstancek@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
- Wauters <rubenru09@aol.com>, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linux.dev, lkmm@lists.linux.dev,
- netdev@vger.kernel.org, peterz@infradead.org, stern@rowland.harvard.edu,
- Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v6 00/15] Don't generate netlink .rst files inside
- $(srctree)
-Message-ID: <20250618182032.03e7a727@sal.lan>
-In-Reply-To: <17f2a9ce-85ac-414a-b872-fbcd30354473@gmail.com>
-References: <cover.1750246291.git.mchehab+huawei@kernel.org>
-	<17f2a9ce-85ac-414a-b872-fbcd30354473@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1750264836;
+	bh=ILmsOVDmKMiPJAcPLz+jBgce1BXTVcCPwgeOKpt7xJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rq8Nu3cINK5WPAZYaJwaoLKMlgFZpWL2kZ39JhCoohmm+bbHIYXDqwkVwQ5pe6uJ+
+	 izt2QRNS7/ny2zO2Ls98u4VX65WK5nW4rB6ZMZqk7ITxUBnJfCZzn9CMIukrXzBkGS
+	 FQXMMoBKMn3JEyhmXQ5LG+gBmklbPFd/BGHtDQ8PA53hQ1yRV1U73uqlChUK9iGxii
+	 shJdi+QeCtQaAoq4rPf4AkKFDKI3Mj4JHyIXyREvh4Ylia7ezNm/3tlpHmhnG8aEXi
+	 RkFBtcPngA2z1hPHWyISAXze3gvYnS+6JLeGDYLhogThfCzBu29MUV604Zp57A2h2G
+	 3nCdLLkLqumWA==
+Date: Wed, 18 Jun 2025 19:40:13 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
+Message-ID: <aFLr7RDKraQk8Gvt@kernel.org>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+ <20250515182322.117840-6-pasha.tatashin@soleen.com>
+ <mafs0sekfts2i.fsf@kernel.org>
+ <CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
+ <mafs0sek3n0x8.fsf@kernel.org>
+ <20250617152357.GB1376515@ziepe.ca>
+ <CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
+ <mafs05xgtw5wn.fsf@kernel.org>
+ <CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
 
-Em Thu, 19 Jun 2025 00:46:15 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
-
-> Hi Mauro,
+On Wed, Jun 18, 2025 at 10:48:09AM -0400, Pasha Tatashin wrote:
+> On Wed, Jun 18, 2025 at 9:12 AM Pratyush Yadav <pratyush@kernel.org> wrote:
+> >
+> > On Tue, Jun 17 2025, Pasha Tatashin wrote:
+> >
+> > > On Tue, Jun 17, 2025 at 11:24 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >>
+> > >> On Fri, Jun 13, 2025 at 04:58:27PM +0200, Pratyush Yadav wrote:
+> > >> > On Sat, Jun 07 2025, Pasha Tatashin wrote:
+> > >> > [...]
+> > >> > >>
+> > >> > >> This weirdness happens because luo_prepare() and luo_cancel() control
+> > >> > >> the KHO state machine, but then also get controlled by it via the
+> > >> > >> notifier callbacks. So the relationship between then is not clear.
+> > >> > >> __luo_prepare() at least needs access to struct kho_serialization, so it
+> > >> > >> needs to come from the callback. So I don't have a clear way to clean
+> > >> > >> this all up off the top of my head.
+> > >> > >
+> > >> > > On production machine, without KHO_DEBUGFS, only LUO can control KHO
+> > >> > > state, but if debugfs is enabled, KHO can be finalized manually, and
+> > >> > > in this case LUO transitions to prepared state. In both cases, the
+> > >> > > path is identical. The KHO debugfs path is only for
+> > >> > > developers/debugging purposes.
+> > >> >
+> > >> > What I meant is that even without KHO_DEBUGFS, LUO drives KHO, but then
+> > >> > KHO calls into LUO from the notifier, which makes the control flow
+> > >> > somewhat convoluted. If LUO is supposed to be the only thing that
+> > >> > interacts directly with KHO, maybe we should get rid of the notifier and
+> > >> > only let LUO drive things.
+> > >>
+> > >> Yes, we should. I think we should consider the KHO notifiers and self
+> > >> orchestration as obsoleted by LUO. That's why it was in debugfs
+> > >> because we were not ready to commit to it.
+> > >
+> > > We could do that, however, there is one example KHO user
+> > > `reserve_mem`, that is also not liveupdate related. So, it should
+> > > either be removed or modified to be handled by LUO.
+> >
+> > It still depends on kho_finalize() being called, so it still needs
+> > something to trigger its serialization. It is not automatic. And with
+> > your proposed patch to make debugfs interface optional, it can't even be
+> > used with the config disabled.
 > 
-> On 2025/06/18 20:46, Mauro Carvalho Chehab wrote:
-> > As discussed at:
-> >    https://lore.kernel.org/all/20250610101331.62ba466f@foz.lan/
-> > 
-> > changeset f061c9f7d058 ("Documentation: Document each netlink family")
-> > added a logic which generates *.rst files inside $(srctree). This is bad
-> > when O=<BUILDDIR> is used.
-> > 
-> > A recent change renamed the yaml files used by Netlink, revealing a bad
-> > side effect: as "make cleandocs" don't clean the produced files and symbols
-> > appear duplicated for people that don't build the kernel from scratch.
-> > 
-> > This series adds an yaml parser extension and uses an index file with glob for
-> > *. We opted to write such extension in a way that no actual yaml conversion
-> > code is inside it. This makes it flexible enough to handle other types of yaml
-> > files in the future. The actual yaml conversion logic were placed at 
-> > netlink_yml_parser.py. 
-> > 
-> > As requested by YNL maintainers, this version has netlink_yml_parser.py
-> > inside tools/net/ynl/pyynl/ directory. I don't like mixing libraries with
-> > binaries, nor to have Python libraries spread all over the Kernel. IMO,
-> > the best is to put all of them on a common place (scripts/lib, python/lib,
-> > lib/python, ...) but, as this can be solved later, for now let's keep it this
-> > way.
-> > 
-> > ---
-> > 
-> > v6:
-> > - YNL doc parser is now at tools/net/ynl/pyynl/lib/doc_generator.py;
-> > - two patches got merged;
-> > - added instructions to test docs with Sphinx 3.4.3 (minimal supported
-> >   version);
-> > - minor fixes.  
+> At least for now, it can still be used via LUO going into prepare
+> state, since LUO changes KHO into finalized state and reserve_mem is
+> registered to be called back from KHO.
 > 
-> Quick tests against Sphinx 3.4.3 using container images based on
-> debian:bullseye and almalinux:9, both of which have 3.4.3 as their distro
-> packages, emits a *bunch* of warnings like the following:
+> > So if it must be explicitly triggered to be preserved, why not let the
+> > trigger point be LUO instead of KHO? You can make reservemem a LUO
+> > subsystem instead.
 > 
-> /<srcdir>/Documentation/netlink/specs/conntrack.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> /<srcdir>/Documentation/netlink/specs/devlink.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> /<srcdir>/Documentation/netlink/specs/dpll.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> /<srcdir>/Documentation/netlink/specs/ethtool.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> /<srcdir>/Documentation/netlink/specs/fou.yaml:: WARNING: YAML parsing error: AttributeError("'Values' object has no attribute 'tab_width'")
-> [...]
+> Yes, LUO can do that, the only concern I raised is that  `reserve_mem`
+> is not really live update related.
+
+I only now realized what bothered me about "liveupdate". It's the name of
+the driving usecase rather then the name of the technology it implements.
+In the end what LUO does is a (more) sophisticated control for KHO.
+
+But essentially it's not that it actually implements live update, it
+provides kexec handover control plane that enables live update.
+
+And since the same machinery can be used regardless of live update, and I'm
+sure other usecases will appear as soon as the technology will become more
+mature, it makes me think that we probably should just
+s/liveupdate_/kho_control/g or something along those lines.
+ 
+> > Although to be honest, things like reservemem (or IMA perhaps?) don't
+> > really fit well with the explicit trigger mechanism. They can be carried
 > 
-> I suspect there should be a minimal required minimal version of PyYAML.
-
-Likely yes. From my side, I didn't change anything related to PyYAML, 
-except by adding a loader at the latest patch to add line numbers.
-
-The above warnings don't seem related. So, probably this was already
-an issue.
-
-Funny enough, I did, on my venv:
-
-	$ pip install PyYAML==5.1
-	$ tools/net/ynl/pyynl/ynl_gen_rst.py -i Documentation/netlink/specs/dpll.yaml -o Documentation/output/netlink/specs/dpll.rst -v
-	...
-	$ make clean; make SPHINXDIRS="netlink/specs" htmldocs
-	...
-
-but didn't get any issue (I have a later version installed outside
-venv - not sure it it will do the right thing).
-
-That's what I have at venv:
-
------------------------------ ---------
-Package                       Version
------------------------------ ---------
-alabaster                     0.7.13
-babel                         2.17.0
-certifi                       2025.6.15
-charset-normalizer            3.4.2
-docutils                      0.17.1
-idna                          3.10
-imagesize                     1.4.1
-Jinja2                        2.8.1
-MarkupSafe                    1.1.1
-packaging                     25.0
-pip                           25.1.1
-Pygments                      2.19.1
-PyYAML                        5.1
-requests                      2.32.4
-setuptools                    80.1.0
-snowballstemmer               3.0.1
-Sphinx                        3.4.3
-sphinxcontrib-applehelp       1.0.4
-sphinxcontrib-devhelp         1.0.2
-sphinxcontrib-htmlhelp        2.0.1
-sphinxcontrib-jsmath          1.0.1
-sphinxcontrib-qthelp          1.0.3
-sphinxcontrib-serializinghtml 1.1.5
-urllib3                       2.4.0
------------------------------ ---------
-
-> "pip freeze" based on almalinux:9 says:
+> Agreed. Another example I was thinking about is "kexec telemetry":
+> precise time information about kexec, including shutdown, purgatory,
+> boot. We are planning to propose kexec telemetry, and it could be LUO
+> subsystem. On the other hand, it could be useful even without live
+> update, just to measure precise kexec reboot time.
 > 
->     PyYAML==5.4.1
+> > across kexec without needing userspace explicitly driving it. Maybe we
+> > allow LUO subsystems to mark themselves as auto-preservable and LUO will
+> > preserve them regardless of state being prepared? Something to think
+> > about later down the line I suppose.
 > 
-> "pip freeze" based on debian:bullseye says:
-> 
->     PyYAML==5.3.1
-> 
-> What is the minimal required version here?
+> We can start with adding `reserve_mem` as regular subsystem, and make
+> this auto-preserve option a future expansion, when if needed.
+> Presumably, `luoctl prepare` would work for whoever plans to use just
+> `reserve_mem`.
 
-Breno, what's the minimal version? Please update requirements.txt
-to ensure that, and modify ./scripts/sphinx-pre-install to
-check for it.
+I think it would be nice to support auto-preserve sooner than later. 
+reserve_mem can already be useful for ftrace and pstore folks and if it
+would survive a kexec without any userspace intervention it would be great.
 
-> 
-> And if users of those old distros need to manually upgrade PyYAML,
-> why don't you suggest them to upgrade Sphinx as well?
-
-The criteria we used to define minimal version for python/sphinx
-was having them released at the end of 2020/beginning 2021. So,
-up to ~4 years old. We also double-checked latest LTS versions
-from major distros.
-
-With that, PyYAML 5.4.1 met the ~4 years old, and so 5.3.1 and
-5.1.
-
-funny enough:
-
-	$ git grep tab_width Documentation/netlink/
-
-doesn't return anything. Yet, tab_width is used by sphinx
-extensions. The in-kernel ones do it the right way using
-get:
-
-	tab_width = self.options.get('tab-width',
-				     self.state.document.settings.tab_width)
-
-But perhaps some other extension you might have installed on your
-environment has issues, or maybe Documentation/sphinx/parser_yaml.py
-need to expand tabs with certain versions of docutils.
-
-Please compare the versions that you're using on your test
-environment with the ones I used here.
-
-Regards,
-Mauro
+-- 
+Sincerely yours,
+Mike.
