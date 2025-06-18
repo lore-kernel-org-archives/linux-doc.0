@@ -1,140 +1,115 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FDC287511;
-	Wed, 18 Jun 2025 10:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359511C8FBA;
+	Wed, 18 Jun 2025 11:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750243217; cv=none; b=E4655D7N1lvVZZPSpVYgr49vqorDEuYYHE4dENJt88IaZHzgLTXTFXqBfs37nTDy9KR1OgyiBYwmmtf6/A7bCzDRl83M4ysyqth/HM7Dri1okBjYJq8eVq1GAGLyGDbLJzHZ8BpcMNh1yAClIi+LrnwgMYvm3vN375lgqKQ3cBc=
+	t=1750245344; cv=none; b=uOsonKjEQwhEeI3Y95woLSB5wNSrsZf3ltBoFUioK99nnDaHBdNBtWzqG++fQCjYxqC2s9wuQutKNU8Oh7ETmnoXyf/5MsvZYRrWsH8qHCNvB05Cq2A35AZQjSyQ5/T9kZs55AS3bfbxMPhAbXkhD57d+yJMj1F3A9y/lynHCzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750243217; c=relaxed/simple;
-	bh=51wCRu03wox33FTIXViaidWRudb0sMds0JcAe+JfauA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UNu8vURWnBW8zCwYMUxI+rE+eAQ+1MF1KYddFGy8cQ18zqPhFncyG3qCf8XTMOo6x8soqIrF9wgd74TN/IG3fX5K3OliIdA2UdHwKfis1b9yp8tjSPou4Tqm4XLGL5ItiqlhbMhlzX4L/l9rPaRIHkStvAHwL1pho/hNs75XwiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=SKYkjvFa; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1750245344; c=relaxed/simple;
+	bh=qeeSvmPvdi3KDW1807Ll+jEPEBJM6Ao3ui675B5bxBA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fQD2RWYBiUG915xx5MECFXJgBx4o/mXZSe68LFKI5Kd8lJhWN9Q5iOtUzT8LCn804D8SHcA3NE9WmFlfdrZ18ttqAY3OFnIMcPQSuEAIsbJn0pYjgFSj+BXrqgu1VrXevsfMqvxW5lvXysl3cRxrEvpM6t8LjViVdZPDqm+jY0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=cdEa0Hnv; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="SKYkjvFa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1750243204;
-	bh=51wCRu03wox33FTIXViaidWRudb0sMds0JcAe+JfauA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SKYkjvFabhz5v3eotyH+VR33rDo8Vn6qp1HQO9AA9JrLi0WHj7nvZDXYrgE6LXftK
-	 70KV5PoR5LINvJhOmMhRHxHEUqmMaYG/xizWBNR2bpgRdf862Z2Wi5ekUOCPGeBEbP
-	 BHnSv0SLZTUYqb3DZBCF37EAevVXAwhzLjwp73ko=
-Date: Wed, 18 Jun 2025 12:40:04 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Sung-Chi Li <lschyi@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] hwmon: (cros_ec) add PWM control over fans
-Message-ID: <179a21f9-c578-46e9-89dd-1b9e32889015@t-8ch.de>
-References: <20250512-cros_ec_fan-v3-0-a9f2b255f0cd@chromium.org>
- <20250512-cros_ec_fan-v3-2-a9f2b255f0cd@chromium.org>
- <ca2c10be-3dc4-45e1-b7fc-f8db29a1b6a0@t-8ch.de>
- <aFJqLkkdI86V3fM9@google.com>
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="cdEa0Hnv"
+Received: from [192.168.42.116] (pd9e59880.dip0.t-ipconnect.de [217.229.152.128])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id AE2F42FC007F;
+	Wed, 18 Jun 2025 13:15:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1750245332;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LgIKjqPybZi2Z93t4HwTsIjfMz0E9g+e7VTRKPye6xs=;
+	b=cdEa0HnvVvR54Sge7IQDrbG6NELzxuMWqsX11aYtJ069+/ctvGDDA+LskCGbyjwRoE1My2
+	5RIggBsGN99asW7OgclenWa38ZcMpGinT9B8BkmSGMeeIGJx+1ZZ29cCtIYF7wNoJEihga
+	UYzNkatcmr48Y6V1B7Y2mPtojzoN2Hw=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <45a985fd-5428-4cbb-843a-523ea435a228@tuxedocomputers.com>
+Date: Wed, 18 Jun 2025 13:15:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
+To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
+ hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
+ ggo@tuxedocomputers.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org
+References: <20250615175957.9781-1-W_Armin@gmx.de>
+ <20250615175957.9781-3-W_Armin@gmx.de>
+ <1020d244-4d52-4afd-ae98-bfcb2b8e7145@tuxedocomputers.com>
+ <de9d469b-9ea2-4fe3-8a7e-92fdc6d1c980@gmx.de>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <de9d469b-9ea2-4fe3-8a7e-92fdc6d1c980@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aFJqLkkdI86V3fM9@google.com>
 
-On 2025-06-18 15:26:38+0800, Sung-Chi Li wrote:
-> On Mon, May 12, 2025 at 09:30:39AM +0200, Thomas Weißschuh wrote:
-> 
-> Sorry for the late reply, I missed mails for this series.
-> 
-> > On 2025-05-12 15:11:56+0800, Sung-Chi Li via B4 Relay wrote:
-> > > From: Sung-Chi Li <lschyi@chromium.org>
-> > >  static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
-> > >  {
-> > >  	unsigned int offset;
-> > > @@ -73,7 +117,9 @@ static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
-> > >  static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> > >  			      u32 attr, int channel, long *val)
-> > >  {
-> > > +	u8 control_method;
-> > >  	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-> > > +	u8 pwm_value;
-> > >  	int ret = -EOPNOTSUPP;
-> > >  	u16 speed;
-> > >  	u8 temp;
-> > 
-> > Ordering again.
-> > 
-> > This should be:
-> > 
-> > struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-> > int ret = -EOPNOTSUPP;
-> > u8 control_method;
-> > u8 pwm_value;
-> > u16 speed;
-> > u8 temp;
-> > 
-> > or:
-> > 
-> > struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-> > u8 control_method, pwm_value, temp;
-> > int ret = -EOPNOTSUPP;
-> > u16 speed;
-> > 
-> > <snip>
-> > 
-> 
-> Would you mind to share the sorting logic, so I do not bother you with checking
-> these styling issue? Initially, I thought the sorting is based on the variable
-> name, but after seeing your example (which I am appreciated), I am not sure how
-> the sorting works. Is it sorted along with the variable types (
-> "u8 control_method", "u16 speed", etc)? If that is the case, why "u16 speed" is
-> in the middle of the u8 group variables?
+Hi,
 
-Welp, I really should have explained this, instead of assuming it to be
-obvious, sorry. The sorting is based on the length of the line, AKA
-the "reverse christmas tree".
+Am 17.06.25 um 23:50 schrieb Armin Wolf:
+> Am 16.06.25 um 14:32 schrieb Werner Sembach:
+>
+>> Hi,
+>>
+>> Am 15.06.25 um 19:59 schrieb Armin Wolf:
+[...]
+>>> +The EC behind the ``GetSetULong`` method is used by the OEM software 
+>>> supplied by the manufacturer.
+>>> +Reverse-engineering of this software is difficult since it uses an 
+>>> obfuscator, however some parts
+>>> +are not obfuscated.
+>> Iirc Christoffer said there is also another non wmi, but acpi, get/set cmd 
+>> that can write only specific regions but is faster. Just wanted to leave this 
+>> here for potential future optimizations if you are interested.
+>
+> What interface are you referring to exactly?
 
-While this is not a strict rule, the driver is already using it, so I'd
-like to stick to it. "Bonus points" for preserving preserving
-semantically useful ordering within the line-length based one.
+I think he was referring to these 2 methods in the dsdt:
 
-> > > +static inline bool is_cros_ec_cmd_fulfilled(struct cros_ec_device *cros_ec,
-> > > +					    u16 cmd, u8 version)
-> > 
-> > "fulfilled" -> "available" or "present"
-> > 
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = cros_ec_get_cmd_versions(cros_ec, cmd);
-> > > +	return ret >= 0 && (ret & EC_VER_MASK(version));
-> > > +}
-> > > +
-> > > +static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cros_ec)
-> > > +{
-> > > +	if (!IS_ENABLED(CONFIG_PM))
-> > > +		return false;
-> > 
-> > Why? This should generally work fine without CONFIG_PM.
-> > Only the suspend/resume callbacks are unnecessary in that case.
-> > 
-> 
-> I treat fan control should include restoring the fan setting after resume, so
-> I think if no CONFIG_PM, the fan control is not complete. I am good with
-> removing this check, and if you have any thoughts after this explanation, please
-> share with me, otherwise I will remove it in the next series.
+     Scope (_SB)
+     {
+         Device (INOU)
+         {
+             [...]
 
-As far as I understand, with CONFIG_PM=n the kernel won't be able to do
-any suspend/resume. So cros_ec_hwmon won't need to handle the
-suspend/resume case. However even then the regular UAPI for fan duty
-management is useful for users.
+             Method (ECRR, 1, NotSerialized)
+             {
+                 Local0 = (0xFE410000 + Arg0)
+                 Local1 = MMRW (Local0, Zero, Zero, Zero)
+                 Return (Local1)
+             }
 
+             Method (ECRW, 2, NotSerialized)
+             {
+                 Local0 = (0xFE410000 + Arg0)
+                 MMRW (Local0, One, Zero, Arg1)
+             }
 
-Thomas
+             [...]
+         }
+     }
+
+They can read/write the 0x04xx and 0x07xx addresses but not the 0x18xx ones 
+iirc, don't know about the 0x0fxx ones.
+
+I think 0x18xx was never intended to be written probably, but we use it to 
+implement a custom fan curve option in tuxedo-drivers on older devices that 
+officially don't support it.
+
+Best regards,
+
+Werner
+
