@@ -1,155 +1,78 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402901C5496
-	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 07:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21945274FC1;
+	Wed, 18 Jun 2025 07:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750231604; cv=none; b=p8X4xbN3lMvQRw5jJHKtwV84Vdbtw9n8sqljJHkouT55eH/f+Y+BptNec8q6AopjCpXx9FgfDA9CDcqtTzM1noBzX4I23bq18Kje8oNalIecCNMszMRsbPnHiUHceWchzZv3s0/vqBy4yf4+EYP3WU0io6DTvZ0vnuONGXKU/gU=
+	t=1750233080; cv=none; b=SU4yr5Xm38xfj/HEOUvr9CrCVhXFZAYWBs1a4niFkLsAcnIpmDxzndwDPI9+5OIWhWQIvJAiqQCE8TAmiaSKKkjcHo7HpQ26cZDwWpYf2NFllAw+/PEw9GU9cq5frBahACQJPkH5nQ4DWPf26xLgMcse/rvPyIs0iSJTIg3U1c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750231604; c=relaxed/simple;
-	bh=+KzNV4oOOMx38wmOYSChoYo8E3X2rejrMJIv37ZNqsk=;
+	s=arc-20240116; t=1750233080; c=relaxed/simple;
+	bh=rAfrW60BLN+fDfYASvZhfQlbeXXKoxyFtavzHgjUXuQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z6UJcXERrSbkZ0CsNuX6a77yKFRqFzZhcDwoPf2b1VvvDl3vZEDWU4iIf4ohFA51AA1LGrNqbMstDrbEbgYt1tcEGtz+57FTLWwlbshMB4ZnQE9i0QAk6DaL+6AUic22D/MZeDWFO9Zzoqln8IL6O9TD/BKZoMW77/27/mCh9eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GDAIoRop; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GDAIoRop"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3137c20213cso7781305a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 00:26:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1750231602; x=1750836402; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hM1UhMnYVhQUG4NEkfTsgeOJp+Ekml0puj+o8yaatbQ=;
-        b=GDAIoRopxPuU4liapuSYuXmAxZFhE+u/eQR9Kcpbz64AFGCXJFrYJoH4IWI8mOEw4X
-         0px/HVqYJ3ZgIaGOXm9rkOp5oR3SFArAKvE9IYo4zT4P3I6BwM8FwGw43TmS/PRKtQWA
-         OzE+0jB2KLmI+ZDDNS8Kf5H0mYlXuD5FCq9G4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=qEn55u8q6u/ca/OcI2trQ7pPVzDyO9XFTvhIjugxLntk5b/bxLI27ElcCvs4dNhEcn6xWeG8vZsRWZ/F2bLnD65caUvt9rr90Pq75oiWAXf6wONZ96xZSlG8LgpEdoZmoJMFUwh+QQ3uy29Faz3/QlGrTHdyl4dT/yiS4r6OYPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6071ac9dc3eso11484307a12.1;
+        Wed, 18 Jun 2025 00:51:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750231602; x=1750836402;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hM1UhMnYVhQUG4NEkfTsgeOJp+Ekml0puj+o8yaatbQ=;
-        b=vQHsYYQaBUA5RZ8t/pG/WhzMw3NuqJ3wcAD1huCckIUPGaZxyVNhTQU8kmAFJnL49b
-         CRTUCexxabPU5vSEI6Nn1no/7KZ5ljwnQjionySRG7sMWL6/wIkIyFA10ZwH1RSZnVOH
-         do/wEbYsn3OP4bEkQ1ha/4/HaV0nuixb4b393uD28bcCQDLc3R1xxAyQamHfyNsaSkWh
-         QBz4nPIPJADnnOBPK5GNEVPsqvG+D2y/R5iezWsnzdb6rBKC90z6EPKunv5fTS35gF7W
-         Zc2vAzpI0DjgBghEvckTQjOc8LJe0ZmvMwnZbJc1fRWtyx9w4U5g9Af2sLMyj+jBYvwv
-         2jfA==
-X-Forwarded-Encrypted: i=1; AJvYcCXkgfzfFIRptKc9yeXgcGCl9MICphp5523189HgqvnXGk73rMM7/SHK0WRHMVcXilb3H7rRpDeDw+c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVP+9RHP9m3aHqd4/szY3dONns0qN0QGksLXnvj2hSv4hEXj/K
-	Y4jN+yxi9HUrqgy17dDWTaSq6N1oLiRPILsMW4X3J5JV5YJDkgVbMDaWZFT2E6Z63w==
-X-Gm-Gg: ASbGnct7AKSIFJxn/E+lzIvNJPdQ9LDZo8hhCR8Ikyh00VqZjXkqZT7MmShQTRuFJnm
-	AbHZX7MoiFYW8T2LMbDn4fhOGDc1aa8AvH/Y2DZv9Suy7NbfjoOzxViFBlJgV5CBCHkGYD4UCU1
-	RNln8M7HiC4dn7iKfs5zTk1cVQjVQ15b2xLe50CJ1zc9m5Q15LUbfrgAvNhIRWLfJJgck9BIGak
-	rgkSwTkNOxYPS3MguhIwx6/x1P3rFBVGVWO4kSd9woQsIqr0Yi2nE1NCVswZDOq5WDs+JSDP7P5
-	M0wibY1V1g903TBXY8Nz4yEZ9AiIoXRMTwjSa75legIj30zcUr8yv5bvEQFPlnSlyQE=
-X-Google-Smtp-Source: AGHT+IGmlF2R53aG5doFh6Ww/jme75FfKP3jQE6NmFAaZ7BCSPsq9zGRmtfVZXCsvQQaCwhcGykC3g==
-X-Received: by 2002:a17:90b:38c5:b0:311:da03:3437 with SMTP id 98e67ed59e1d1-313f1d05d1bmr23596610a91.27.1750231602456;
-        Wed, 18 Jun 2025 00:26:42 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:50f9:5771:52a9:eef9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2369ebca745sm13850295ad.100.2025.06.18.00.26.40
+        d=1e100.net; s=20230601; t=1750233077; x=1750837877;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K2Oawlv3qlJ5B14XZ51kOBRIKyOtdglt4ohJphGiBj4=;
+        b=dqaVDwwweU2tHiG9Bv2WqCV3TtKQnbWylwJ3WjhXG8XJdi2Yr6w3IxxXGmGih1flop
+         EdXxE+1UtuhOHXyLeMolprIF8xrCEPKpwtPWoxbYtIFJEyQ9Xr5EWk7IOVEz3gTzkwGC
+         lh4FHUVvPpkBOcwjfaiE5DbLEzDloHALF1BMojSu1ILX1lVV1XC7z770P1nUsnqfPAaK
+         +lN9gYdoK+N0W6H0DoHsXjv6pjyVeR3AGgQ5M8wIcF4K09O9xqIAWJAEgvi2WR399pVD
+         CSuP/ETq6ALCU/NGZAwvCh09YprT1QTGVEdxOFj7busBWB5abL8M7mX0xsb/elwyAIwD
+         BSiw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6nBc54X0BNqamileJV78i/upr/mE918cXc1APG6hqRoNUpc5bO1hn6H+fAk4Oq2hyKFuyf1KDJvo=@vger.kernel.org, AJvYcCVY0s0xdgoqdifsR7C9MtBJIN1weaU/ts2z6zIVSKIxbvdkz1csHeaa1cdX2ptuzgu5bfHqOxVR@vger.kernel.org, AJvYcCW6TSERJJ33aCC3bq6bdbtVkMY2kpp6iQIKRjqO7XVuQK4+gFjJp6WKilbP2JpouCiAGIN53yaIfBEuv/6H@vger.kernel.org, AJvYcCWRxUGseCAHX2p90aXPv+fihsbVs2efZpg3Y+ypsFokZgDBmpyxwl8EmBR7osfN80he8o/K7K7S+khAK3g9Zm6n@vger.kernel.org
+X-Gm-Message-State: AOJu0YwA/JLZEoNXSHquKgYXwlRI8CULEkWtsd/TDS/F5zyVsT4UhQap
+	5RFHm/xUf5sUgnms3CaLR/xRMIhcNAAH2TvBNdfXRfEHnnCbOvNUK9RG
+X-Gm-Gg: ASbGncsVP+1ORgCdlPbrtWJdRdsIQAvJCwD+UvitvFkOKF9ety/gw6+6LBkOCrSwMoe
+	ALH80YedVSOAX5wX5ay6F2iMWQgR/iYz1IfCYBXqoEYyyY6BPORjYLJiI3mde9UNWIxRrKIwy4i
+	gyxHCFx70gBCEqkxcRPVS2G1a+E21NHLIMNJuv37P1LW8abBz3C4gTw32/d3NYLV9T7Yq+w2riN
+	o8cZwznKDmH/6sff5IRzmywkL0KaZo5WmfSI4SE76jeCDvQ/EQethP9+JsbF4KFh8LmhbwlidXH
+	G4ZW8xOpdmSxI2QX2r2kh3aCxy2/Fmb+cCOW5Gy7BJvxbdnEf77W
+X-Google-Smtp-Source: AGHT+IEROA+4lveuN1ZdmzI6YFzyyJzoc5RM1e8Cc9lT3Mb4GkQQtqkmyGFKaOws5hWV84IJgQt/FQ==
+X-Received: by 2002:a05:6402:5188:b0:607:f55d:7c56 with SMTP id 4fb4d7f45d1cf-608d097a0a3mr16221027a12.25.1750233077168;
+        Wed, 18 Jun 2025 00:51:17 -0700 (PDT)
+Received: from gmail.com ([2a03:2880:30ff:8::])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-608b4a92ea2sm9265967a12.60.2025.06.18.00.51.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 00:26:42 -0700 (PDT)
-Date: Wed, 18 Jun 2025 15:26:38 +0800
-From: Sung-Chi Li <lschyi@chromium.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        Wed, 18 Jun 2025 00:51:16 -0700 (PDT)
+Date: Wed, 18 Jun 2025 00:51:14 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Gustavo Luiz Duarte <gustavold@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] hwmon: (cros_ec) add PWM control over fans
-Message-ID: <aFJqLkkdI86V3fM9@google.com>
-References: <20250512-cros_ec_fan-v3-0-a9f2b255f0cd@chromium.org>
- <20250512-cros_ec_fan-v3-2-a9f2b255f0cd@chromium.org>
- <ca2c10be-3dc4-45e1-b7fc-f8db29a1b6a0@t-8ch.de>
+Subject: Re: [PATCH net-next v3 3/5] netconsole: append msgid to sysdata
+Message-ID: <aFJv8gGqCBZr6gOb@gmail.com>
+References: <20250616-netconsole-msgid-v3-0-4d2610577571@gmail.com>
+ <20250616-netconsole-msgid-v3-3-4d2610577571@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ca2c10be-3dc4-45e1-b7fc-f8db29a1b6a0@t-8ch.de>
+In-Reply-To: <20250616-netconsole-msgid-v3-3-4d2610577571@gmail.com>
 
-On Mon, May 12, 2025 at 09:30:39AM +0200, Thomas Weißschuh wrote:
+On Mon, Jun 16, 2025 at 10:08:37AM -0700, Gustavo Luiz Duarte wrote:
+> Add msgcounter to the netconsole_target struct to generate message IDs.
+> If the msgid_enabled attribute is true, increment msgcounter and append
+> msgid=<msgcounter> to sysdata buffer before sending the message.
+> 
+> Signed-off-by: Gustavo Luiz Duarte <gustavold@gmail.com>
 
-Sorry for the late reply, I missed mails for this series.
-
-> On 2025-05-12 15:11:56+0800, Sung-Chi Li via B4 Relay wrote:
-> > From: Sung-Chi Li <lschyi@chromium.org>
-> >  static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
-> >  {
-> >  	unsigned int offset;
-> > @@ -73,7 +117,9 @@ static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
-> >  static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> >  			      u32 attr, int channel, long *val)
-> >  {
-> > +	u8 control_method;
-> >  	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-> > +	u8 pwm_value;
-> >  	int ret = -EOPNOTSUPP;
-> >  	u16 speed;
-> >  	u8 temp;
-> 
-> Ordering again.
-> 
-> This should be:
-> 
-> struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-> int ret = -EOPNOTSUPP;
-> u8 control_method;
-> u8 pwm_value;
-> u16 speed;
-> u8 temp;
-> 
-> or:
-> 
-> struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-> u8 control_method, pwm_value, temp;
-> int ret = -EOPNOTSUPP;
-> u16 speed;
-> 
-> <snip>
-> 
-
-Would you mind to share the sorting logic, so I do not bother you with checking
-these styling issue? Initially, I thought the sorting is based on the variable
-name, but after seeing your example (which I am appreciated), I am not sure how
-the sorting works. Is it sorted along with the variable types (
-"u8 control_method", "u16 speed", etc)? If that is the case, why "u16 speed" is
-in the middle of the u8 group variables?
-
-> > +static inline bool is_cros_ec_cmd_fulfilled(struct cros_ec_device *cros_ec,
-> > +					    u16 cmd, u8 version)
-> 
-> "fulfilled" -> "available" or "present"
-> 
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = cros_ec_get_cmd_versions(cros_ec, cmd);
-> > +	return ret >= 0 && (ret & EC_VER_MASK(version));
-> > +}
-> > +
-> > +static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cros_ec)
-> > +{
-> > +	if (!IS_ENABLED(CONFIG_PM))
-> > +		return false;
-> 
-> Why? This should generally work fine without CONFIG_PM.
-> Only the suspend/resume callbacks are unnecessary in that case.
-> 
-
-I treat fan control should include restoring the fan setting after resume, so
-I think if no CONFIG_PM, the fan control is not complete. I am good with
-removing this check, and if you have any thoughts after this explanation, please
-share with me, otherwise I will remove it in the next series.
-
+Reviewed-by: Breno Leitao <leitao@debian.org>
