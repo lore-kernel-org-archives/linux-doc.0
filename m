@@ -1,124 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884C82EAB84;
-	Wed, 18 Jun 2025 16:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5202D2FEE30;
+	Wed, 18 Jun 2025 16:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750264991; cv=none; b=V8FzjW6FuTYhw5DKnr5SAjKJ6jf9vqE5Rn/WQGbv7oH9TZumD/vPaQW43WnrC0V0LXYMu8aUnIbyQHRQ0QRCqJvAdGDje57sCDjKAaPmlpisFlCZqT6dcOQxTvrzhO/AWvF5JeTW7r6l/K08WPyh2MUGPjNyJH2rkZgcWkD3RZA=
+	t=1750265654; cv=none; b=VYIK409iRbqVfpkptYaljEITys3N+gYRxtD8aLG5NoUc00k/L17rynumn/6qBQ1DFhIUgJR+8YUlYI7oQ9FPlB0kkBF65VS9Pli8ghOeslqO9eXf+PozVcHsQekTetkCJQTqIAzDukColqE0OZ1tGhRu/N29RXcpqTHtOTlEyZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750264991; c=relaxed/simple;
-	bh=Y2gd51D/BVFx6eKV+gJtQH2NJBTOAm9v65zoDB4v+hw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U7Uwoon6RidBfrN5chA5bllQnGJjRP7V8HAiApaT8u/kOBuAzpDZ4gusrTovQhCZngFsT3MbFZ5HSrKeDTTzx+fRVXDdE3XE5ceiDnWtECLplO6xvNtBPQX+uL4s3ekEQaazcbr8JqgSPHHPU7z/S5/acW1WnGp6jG5PgN/WO68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XdL1rTTv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750265654; c=relaxed/simple;
+	bh=fLxaZl4fUsD/kUCYbiqh9qHAbpI8sHC7anX6i5OIkCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QpHbn/wPk1zYoHqENvJbeYuHYSD5dQ8qVNrVJIJeDSWi1SQ8Kkd3lAvKxesobRdgA/Z1Kfq7L265KygROmxS6yj492YbwTD8of6+oKa0Z50Z2Aw6BW93gHi+wJKnGW92q2/nyYCVOJW8BAuSOl+0OUnHPWR9b/VR0C9t82stNOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CR8Py3et; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XdL1rTTv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBBBC4CEE7;
-	Wed, 18 Jun 2025 16:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750264991;
-	bh=Y2gd51D/BVFx6eKV+gJtQH2NJBTOAm9v65zoDB4v+hw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XdL1rTTvXn2f2C5znx1nHKrTEI6L05kv4a7bQuckbbMajfmxn9IYpHw6mkrdPEoph
-	 X0Y/ZOYGOBM1V6Cxyf+m4RdBWa8QmLDiBO6lKzC4EWIKi7fa/MjOxsb+yjl+cjaLEQ
-	 7GjxTqk8n7gv3hLlySnaEe7iX4baZDsRgVD5yRpG9iaK8N82fJ+gf+BkOUXm2zydB+
-	 rPEcL9TEuRt/kSuEPp0reRmnipBEjTn34ikcy4IMRbba6D0g09hkDefIuyAZrknhWW
-	 BhCbnVxVCKRSbKFZv6DQm6GJd5xmiJNwSTq3KbHFLj7RYNXY92E3nwBLPy4ykDODm4
-	 cw9DTzZzVtAzg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uRvsR-007ywr-NA;
-	Wed, 18 Jun 2025 17:43:08 +0100
-Date: Wed, 18 Jun 2025 17:43:07 +0100
-Message-ID: <86ldppc86c.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: catalin.marinas@arm.com,
-	pcc@google.com,
-	will@kernel.org,
-	broonie@kernel.org,
-	anshuman.khandual@arm.com,
-	joey.gouly@arm.com,
-	yury.khrustalev@arm.com,
-	oliver.upton@linux.dev,
-	frederic@kernel.org,
-	akpm@linux-foundation.org,
-	surenb@google.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 03/10] arm64/kvm: expose FEAT_MTE_TAGGED_FAR feature to guest
-In-Reply-To: <20250618084513.1761345-4-yeoreum.yun@arm.com>
-References: <20250618084513.1761345-1-yeoreum.yun@arm.com>
-	<20250618084513.1761345-4-yeoreum.yun@arm.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CR8Py3et"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750265651; x=1781801651;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fLxaZl4fUsD/kUCYbiqh9qHAbpI8sHC7anX6i5OIkCU=;
+  b=CR8Py3et4CMqZBXIieAmH39c532lFLM8yUuZ727HlWddg3JsF/qIRP3v
+   1EUijONNArdEOnCIS8mpgpZNfN3BgzULBOKTE4MqmzQSlnbhmrxm5FmYw
+   7cfboRS2WRpHF8RGtD5QQ14JBRu7ZvT7NefOqVOhGh7GYEOxnhxAmkFST
+   KPSLd6k03q8uWSguLUbV6aRl1WIMPp1o2xy+KjeoyvCspLMCfcY8FHoMT
+   FtR+5MtIPHZAuI8tt4sfWnnyV0coyqHAn6axAcSKAudWk2cP8ob6wEQUZ
+   HmmrZbZOdj56TB061UkDVeDCJKhplQfxJUUEKg11Z2QejQBUbI5UsXwiy
+   w==;
+X-CSE-ConnectionGUID: DcVGGFHmSwukhuFWvCnmkQ==
+X-CSE-MsgGUID: FLovYuVhS2+Y3iMvKtPXIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="56314752"
+X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
+   d="scan'208";a="56314752"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 09:54:10 -0700
+X-CSE-ConnectionGUID: APum73ZBR9mRC8sJtLUPbA==
+X-CSE-MsgGUID: udQ5ZeYFSWGuMe9lD+HUoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
+   d="scan'208";a="154613930"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 09:54:08 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uRw33-000Jzq-1W;
+	Wed, 18 Jun 2025 16:54:05 +0000
+Date: Thu, 19 Jun 2025 00:53:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux ext4 <linux-ext4@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH 3/4] Documentation: ext4: Slurp included subdocs in
+ dynamic structures docs
+Message-ID: <202506190011.J5FYoooF-lkp@intel.com>
+References: <20250618111544.22602-4-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: yeoreum.yun@arm.com, catalin.marinas@arm.com, pcc@google.com, will@kernel.org, broonie@kernel.org, anshuman.khandual@arm.com, joey.gouly@arm.com, yury.khrustalev@arm.com, oliver.upton@linux.dev, frederic@kernel.org, akpm@linux-foundation.org, surenb@google.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250618111544.22602-4-bagasdotme@gmail.com>
 
-In general, please use a patch title format that matches the one used
-for the subsystem. For KVM, that'd be "KVM: arm64: Expose ..."/
+Hi Bagas,
 
-On Wed, 18 Jun 2025 09:45:06 +0100,
-Yeoreum Yun <yeoreum.yun@arm.com> wrote:
-> 
-> expose FEAT_MTE_TAGGED_FAR feature to guest.
-> 
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> ---
->  arch/arm64/kvm/sys_regs.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index 76c2f0da821f..c8c92cb9da01 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -1586,7 +1586,7 @@ static u64 __kvm_read_sanitised_id_reg(const struct kvm_vcpu *vcpu,
->  				       const struct sys_reg_desc *r)
->  {
->  	u32 id = reg_to_encoding(r);
-> -	u64 val;
-> +	u64 val, mask;
->  
->  	if (sysreg_visible_as_raz(vcpu, r))
->  		return 0;
-> @@ -1617,8 +1617,12 @@ static u64 __kvm_read_sanitised_id_reg(const struct kvm_vcpu *vcpu,
->  		val &= ~ARM64_FEATURE_MASK(ID_AA64PFR1_EL1_MPAM_frac);
->  		break;
->  	case SYS_ID_AA64PFR2_EL1:
-> -		/* We only expose FPMR */
-> -		val &= ID_AA64PFR2_EL1_FPMR;
-> +		mask = ID_AA64PFR2_EL1_FPMR;
-> +
-> +		if (kvm_has_mte(vcpu->kvm))
-> +			mask |= ID_AA64PFR2_EL1_MTEFAR;
-> +
-> +		val &= mask;
+kernel test robot noticed the following build warnings:
 
-I don't think there is a need for an extra variable, and you could
-follow the pattern established in this file by writing this as:
+[auto build test WARNING on d3f825032091fc14c7d5e34bcd54317ae4246903]
 
-	val &= (ID_AA64PFR2_EL1_FPMR |
-		(kvm_has_mte(vcpu->kvm) ? ID_AA64PFR2_EL1_MTEFAR : 0));
+url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/Documentation-ext4-Slurp-included-subdocs-in-high-level-overview-docs/20250618-191724
+base:   d3f825032091fc14c7d5e34bcd54317ae4246903
+patch link:    https://lore.kernel.org/r/20250618111544.22602-4-bagasdotme%40gmail.com
+patch subject: [PATCH 3/4] Documentation: ext4: Slurp included subdocs in dynamic structures docs
+reproduce: (https://download.01.org/0day-ci/archive/20250619/202506190011.J5FYoooF-lkp@intel.com/reproduce)
 
-Not a big deal though.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506190011.J5FYoooF-lkp@intel.com/
 
-Thanks,
+All warnings (new ones prefixed by >>):
 
-	M.
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/firmware/intel,stratix10-svc.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/ti,tps6131x.yaml
+   Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
+   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
+>> Warning: fs/ext4/inode-test.c references a file that doesn't exist: Documentation/filesystems/ext4/inodes.rst
+   Using alabaster theme
 
 -- 
-Without deviation from the norm, progress is not possible.
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
