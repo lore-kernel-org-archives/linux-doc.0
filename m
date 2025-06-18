@@ -1,146 +1,56 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5041422068D
-	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 04:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15AA1134AC;
+	Wed, 18 Jun 2025 04:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750220691; cv=none; b=rFjemDSmQAB10HenE/z2mogGnEDe0RgW3E3tklga/undzoAM0dd7QaZpj3PQ4Tq1Cv+yULZdD0sdSzN9OQVMuMDirWhS93HIjMVlCoadnfUvKouGj76p/j/PW/6Zu2iq2TXzClhQOnI0ORlawqZvf6xk5ypCQMRMYRkkXkJYLnU=
+	t=1750221366; cv=none; b=pbYqjWf4CSveeqfH+bPm/s1+eo00SI1fvRg3HRhAhrJJGNi4h/SmibkoYnEv2nh9V6qOdlAf1Lc2CxncOOZqPxRITmOxI+QmL8YqKksWdMXh3qo/Pkjj8El3LaXpBU3UD9hBojFkl/ER7KwyS7sO1x9vdJq4eeTJPrDsLUuXXOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750220691; c=relaxed/simple;
-	bh=TlPwQV38TsKUYD4upWrrqkkEe7fCtClTkHmYIdQHZto=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=JHQz76GrD3PgKrN9tc9sHWJPFdcn58EejRzUxdr6aRUqoM+t4LK6C+jQuKw7ifrOwYTesxuFAvnVPYozlCqcA+jT/yaCVXhV/kyZBYE36xBREXHPOa+wAbtR05g3W4jujhimic04whWd67ZclrNNwfJcIpjBYMTa6ZlTXui9dqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sqlFzraH; arc=none smtp.client-ip=209.85.215.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sqlFzraH"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-b2c00e965d0so4298733a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 21:24:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750220690; x=1750825490; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P6MpWO9eGHCybkhP95T8R+1KfjKYk4MOXDyWFRHvmIc=;
-        b=sqlFzraHghTHRkzSRh5LYZqz0Li96xF/7qXzaeRb6Hsgv5Jp0FgjmB66wj3unmdJQS
-         JydoGEG6palK4LvzFRmdY7Jlru8hU3CVV2OSKH+2PEwfslG/VtLyUf6wOhnVqZU21Wuh
-         Jdf1V4QZYh041kkYjQ8YWaBueksQ1V07nsXfa28RlR9XllZz/augWVUb+lyVkdvyLqxQ
-         VG4ltejQa3Jm7Qy4M7VIxlWtoyQjgZVG7ASR1+QbMtLpz7QzgaR6GgHf9ZP8IAZT5kwQ
-         OymuRDSXy4I32QSUpCrot2nXSEllVdLCm18cqtQjVOTvQrNw9tuN+c95DB9DSwpux7g0
-         LD0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750220690; x=1750825490;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P6MpWO9eGHCybkhP95T8R+1KfjKYk4MOXDyWFRHvmIc=;
-        b=m2l28COZchMJg8XDLxZJ0/+W7BRyqF529De7SiI1TGka0W2wOcvpejJBUrNiKgY5Ue
-         7xK9uG9XtQHW2RalCDA6Gzl5ri9SiRwq1PJ1jnXOcGAVD+lzKpIijc3CsuljebUr9p6T
-         LTZc6RXvKE2wBL+Ogof1TrYM4Df/IzWc5p1qEhtHGzoWnyB0OU6J/zuzC6YrRTyyiKIw
-         hK7Y3sO/vM8d+5cLvP2yEsbqgtc0HzOoZeDeNH3eA8qCAArKXtNyW0QITtt5W0YRvzUR
-         0zX5joGLFrMhgjYj7J6Bgyn22F9BEtJIXTFwKQFRFI2lOEkq3mZ/DqVMkRCjMxItR05a
-         cELw==
-X-Forwarded-Encrypted: i=1; AJvYcCXWTLYUXTtWQsqhLWV32kAkYSuJw56XV5tb5GTyINdRlqc7wcakfLYqBbsgNix9yR6R/P3+2r6qNEE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtglIjo9izzrD4yRTBLZO35aH6K4x6HcvNBXetyWh0yC8a+EIo
-	Y+kVJkyGEZKV25hR3TVO8tGnXCk1Nyoysnz18/wk81FiG1YU5aPV3CbqJ2p3J4cryPhchN3iUhY
-	OiBUbnfrVaJ7cfuqm2WRxog==
-X-Google-Smtp-Source: AGHT+IFBmqhQDFkst9hOrle0gOrugvU+bLMa/osue2o1jv722NhjgUmFbYBlQLzwI5ul7WF7bNf9FKyZ7x+dJLfM
-X-Received: from pgbfq12.prod.google.com ([2002:a05:6a02:298c:b0:b2f:dfa3:cb81])
- (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:512:b0:218:5954:1293 with SMTP id adf61e73a8af0-21fbd668df0mr28784142637.34.1750220689787;
- Tue, 17 Jun 2025 21:24:49 -0700 (PDT)
-Date: Wed, 18 Jun 2025 04:24:24 +0000
-In-Reply-To: <20250618042424.330664-1-jthoughton@google.com>
+	s=arc-20240116; t=1750221366; c=relaxed/simple;
+	bh=WFZ8DLYLNpBbTGmKbBn9+AGBYtGiOB4wlvj05QzoGM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n0Ulv56XT7x0YEWRcqm+jq3gQPFLyJXHsEbqJ9iIs9Wuw+HiYpAdwrFMd+WouwRb4446s0lbs+0ObGXDeQXhU/2c5yoIFNOnddUfMasEAVjMJH4mQq1E8qA/jHFsG26IiisPpewiUT1AW5PaWp+xfwtjP2sWjeK8rG06NH9I79s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 52CD268D0E; Wed, 18 Jun 2025 06:35:53 +0200 (CEST)
+Date: Wed, 18 Jun 2025 06:35:53 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev
+Subject: Re: [PATCH 01/11] iomap: pass more arguments using struct
+ iomap_writepage_ctx
+Message-ID: <20250618043552.GA28041@lst.de>
+References: <20250617105514.3393938-1-hch@lst.de> <20250617105514.3393938-2-hch@lst.de> <CAJnrk1YZyuAX+OjuGdRWq1QpNj7R2BU5+Zx8mam6k+VfT9bULQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250618042424.330664-1-jthoughton@google.com>
-X-Mailer: git-send-email 2.50.0.rc2.696.g1fc2a0284f-goog
-Message-ID: <20250618042424.330664-16-jthoughton@google.com>
-Subject: [PATCH v3 15/15] KVM: Documentation: Add KVM_CAP_USERFAULT and
- KVM_MEM_USERFAULT details
-From: James Houghton <jthoughton@google.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Oliver Upton <oliver.upton@linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Yan Zhao <yan.y.zhao@intel.com>, 
-	James Houghton <jthoughton@google.com>, Nikita Kalyazin <kalyazin@amazon.com>, 
-	Anish Moorthy <amoorthy@google.com>, Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>, 
-	David Matlack <dmatlack@google.com>, wei.w.wang@intel.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJnrk1YZyuAX+OjuGdRWq1QpNj7R2BU5+Zx8mam6k+VfT9bULQ@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Include the note about memory ordering when clearing bits in
-userfault_bitmap, as it may not be obvious for users.
+On Tue, Jun 17, 2025 at 10:54:26AM -0700, Joanne Koong wrote:
+> > -       struct iomap_writepage_ctx wpc = { };
+> > +       struct iomap_writepage_ctx wpc = {
+> > +               .inode          = mapping->host,
+> > +               .wbc            = wbc,
+> > +               .ops            = &blkdev_writeback_ops
+> 
+> Would it be worth defining the writeback ops inside the wpc struct as
+> well instead of having that be in a separate "static const struct
+> iomap_writeback_ops" definition outside the function? imo it makes it
+> easier to follow to just have everything listed in one place
 
-Signed-off-by: James Houghton <jthoughton@google.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/virt/kvm/api.rst | 33 ++++++++++++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index ff0aa9eb91efe..25668206a5d80 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6308,7 +6308,8 @@ bounds checks apply (use common sense).
- 	__u64 guest_memfd_offset;
- 	__u32 guest_memfd;
- 	__u32 pad1;
--	__u64 pad2[14];
-+	__u64 userfault_bitmap;
-+	__u64 pad2[13];
-   };
- 
- A KVM_MEM_GUEST_MEMFD region _must_ have a valid guest_memfd (private memory) and
-@@ -6324,6 +6325,25 @@ state.  At VM creation time, all memory is shared, i.e. the PRIVATE attribute
- is '0' for all gfns.  Userspace can control whether memory is shared/private by
- toggling KVM_MEMORY_ATTRIBUTE_PRIVATE via KVM_SET_MEMORY_ATTRIBUTES as needed.
- 
-+When the KVM_MEM_USERFAULT flag is set, userfault_bitmap points to the starting
-+address for the bitmap that controls if vCPU memory faults should immediately
-+exit to userspace. If an invalid pointer is provided, at fault time, KVM_RUN
-+will return -EFAULT. KVM_MEM_USERFAULT is only supported when
-+KVM_CAP_USERFAULT is supported.
-+
-+userfault_bitmap should point to an array of longs where each bit in the array
-+linearly corresponds to a single gfn. Bit 0 in userfault_bitmap corresponds to
-+guest_phys_addr, bit 1 corresponds to guest_phys_addr + PAGE_SIZE, etc. If the
-+bit for a page is set, any vCPU access to that page will exit to userspace with
-+KVM_MEMORY_EXIT_FLAG_USERFAULT.
-+
-+Setting bits in userfault_bitmap has no effect on pages that have already been
-+mapped by KVM until KVM_MEM_USERFAULT is disabled and re-enabled again.
-+
-+Clearing bits in userfault_bitmap should usually be done with a store-release
-+if changes to guest memory are being made available to the guest via
-+userfault_bitmap.
-+
- S390:
- ^^^^^
- 
-@@ -8557,6 +8577,17 @@ given VM.
- When this capability is enabled, KVM resets the VCPU when setting
- MP_STATE_INIT_RECEIVED through IOCTL.  The original MP_STATE is preserved.
- 
-+7.44 KVM_CAP_USERFAULT
-+----------------------
-+
-+:Architectures: x86, arm64
-+:Returns: Informational only, -EINVAL on direct KVM_ENABLE_CAP.
-+
-+The presence of this capability indicates that KVM_SET_USER_MEMORY_REGION2 will
-+accept KVM_MEM_USERFAULT as a valid memslot flag.
-+
-+See KVM_SET_USER_MEMORY_REGION2 for more details.
-+
- 8. Other capabilities.
- ======================
- 
--- 
-2.50.0.rc2.692.g299adb8693-goog
+I'd rather not do that.  Having the structure that has function pointers
+marked const and away from the data it operates on is nice to reduce the
+attack surface. 
 
