@@ -1,152 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A62F2F4301;
-	Wed, 18 Jun 2025 17:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDFE2F5469;
+	Wed, 18 Jun 2025 17:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750268807; cv=none; b=b2QWLxBhQdXjC5TaCglL+K5FXHWQ3w/LKz9D3eBSo0VGxrH68WZpNJGSQbz/LoJmW8uYN6MrHzGLLel+KA5ldcEfWf+WiFGQg4PXFqViqm7artIkKgzlHQ0J2tfUipV/9BvNYXeLM8yLCcYag6CxhYjUsbCIr8Y2TLx+AJmTZXk=
+	t=1750269316; cv=none; b=new4lKTfSzol/cGUGB7fzxm1lK9nRIplXd//RBoR2y7I41uECNWvQhMfmjDYDjcs2w2oFj2EfDckxTzSMs6mmO7ajxhsRRRHBpfH2yPJk9bfklwBXsUHk3nzes1qMhZcfpopw8lgo2PubkGkmqvjPwGKMshUhUMlMtUcAbAqzDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750268807; c=relaxed/simple;
-	bh=CX3CVwC+8hJczoghG3urZ1kcfu4HjXWGEcQWKQNEuQA=;
+	s=arc-20240116; t=1750269316; c=relaxed/simple;
+	bh=5wT0aIrsAha0PXMViQ6wIobYxSVAr6a7EIn8WbcB6Uc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=usR05sAXzXaJrgcvBNv87sbngrRTMmigvWRJSAWaNqY9mc6ZGoxJVJhXZo0LtwVvaeFRFSas5P9n2qCXRljDyzFObtfthIMBrcf4NtlISSN1J0zgeq1swLNXMbv5cFT7hMiIqpmJSodnhKIq+BNWRpxa217ZhJJtiPCSaL4TmUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WO3KGe+6; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=t65YbicfJxsmS2al+B+j2+rRIMqHne2N+K72vuBHDjWPIocDhDhaVuG0dZd7d7VpDEu85QqFS1px0b1d6YblbdhHVkXA+1yradD3a8rVo0dLplp0NRb6BBxiAmB7skGTY2bhakw/KQqhXHQH26PLzQfxTRkisg1anqfcH+7SeIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9SDhn13; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WO3KGe+6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750268805; x=1781804805;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CX3CVwC+8hJczoghG3urZ1kcfu4HjXWGEcQWKQNEuQA=;
-  b=WO3KGe+6cvH3b04+YRNsr6Qlb5nZp89in9dUhRfqaPcKMWucNYO4LXnS
-   BHaBmInSXYV/tbxcGmp2o0Jxh2QFziCHE2srb0Wh03lEcO2rehAB6FkO0
-   /X6NN89EWJVswYC+81qdMYNi6xSxl0ZGdkdePQaJp/3WULvpqXmy9WCkC
-   6dwngi8jP6f1SvOChk92iJ4sgPrIMb8DYyCT47pgiE6SuG0/qwwcWpQ4L
-   1kZLuHfaOa+MgTNEn78f90msijswEyJS6poONNR9Snvap6uW6anj5+BtR
-   lGMRzSluZH8FCHw1xEr0xyMTC4nXkJ48MMo81jaVRG4nDuo9xe5H90XAN
-   Q==;
-X-CSE-ConnectionGUID: bYsQENp7QY+tW6VVPUJL5Q==
-X-CSE-MsgGUID: pfQfPUQjSHO+V+CsGK2UvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="63856734"
-X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="63856734"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 10:46:44 -0700
-X-CSE-ConnectionGUID: ESfDO2g2QGiLU6Mzwp161w==
-X-CSE-MsgGUID: YjB0iG07RZKToR9caSShAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="149827039"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 10:46:42 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uRwru-00000007oal-16HD;
-	Wed, 18 Jun 2025 20:46:38 +0300
-Date: Wed, 18 Jun 2025 20:46:38 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC 1/2] lib/vsprintf: Add support for pte_t
-Message-ID: <aFL7frrstgpzzgan@smile.fi.intel.com>
-References: <20250618041235.1716143-1-anshuman.khandual@arm.com>
- <20250618041235.1716143-2-anshuman.khandual@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9SDhn13"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41642C4CEE7;
+	Wed, 18 Jun 2025 17:55:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750269314;
+	bh=5wT0aIrsAha0PXMViQ6wIobYxSVAr6a7EIn8WbcB6Uc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V9SDhn13c0JD2tjlibEUADU/2YTadF28roMpREO+NiAgnQ9xC2FmjSnyGkCpIkQxI
+	 aj4ltT+dQVGJhd/slgNsY4huMq/s9VuWI0iCVJkjQaIVhmA43ZlQCdI36eY9jZbxU8
+	 S5sB5uipNgGj1dkuWSg4+WmAYz1tyS3SG/0it1nGZH/5ftfmneJKpl1lsL62Bb1zOE
+	 gNKYcOZ2R3Z8mF4IUUc7M5aD2cWvO0/XKLyBNtRLkn6NP1Mz8WF5eSnnnhr5KDfYHs
+	 Gy4lSXenkcd4etvjBxXJFBz4i16317pfiN0GkhY1/+tumtO9rgewoi9KYYNMVPxAuD
+	 f6rREnUPhqvvA==
+Date: Wed, 18 Jun 2025 19:55:12 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Jorge Marques <gastmaier@gmail.com>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v3 4/8] iio: adc: Add support for ad4052
+Message-ID: <ie44wrnocvisv2ilgds76owbk4u423rr2htpsc5pobykj37zeg@ga5y25gcdjv3>
+References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
+ <20250610-iio-driver-ad4052-v3-4-cf1e44c516d4@analog.com>
+ <yw3n2csu4x4mfed33dtvl75zc5scgkjvkzruqilpw64n7esmdn@3fj77ufzm3c2>
+ <oqibdd7spdxvlimrwcabqo2xryfplk4q6lnwav5grtl5juud5x@vqfego523x7a>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6n56agevkbvsdqk4"
 Content-Disposition: inline
-In-Reply-To: <20250618041235.1716143-2-anshuman.khandual@arm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-
-On Wed, Jun 18, 2025 at 09:42:34AM +0530, Anshuman Khandual wrote:
-> Add a new format for printing page table entries.
-
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-mm@kvack.org
-
-Please. move these to be after the '---' cutter line below. Just leave SoB tag
-alone. This will have the same effect w/o polluting commit message.
-
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
-
-(somewhere here is a good place for all your Cc: tags)
-
-...
-
-> +        %ppte
-
-I believe you can take %pte.
-
-...
-
-> +Print standard page table entry pte_t.
-> +
-> +Passed by reference.
-> +
-> +Examples for a 64 bit page table entry, given &(u64)0xc0ffee::
-
-What does this mean?
-
-> +        %ppte   0x00c0ffee
-
-Can it be ever 64-bit?
-
-...
-
-> +			spec.field_width = 10;
-> +			spec.precision = 8;
-> +			spec.base = 16;
-> +			spec.flags = SPECIAL | SMALL | ZEROPAD;
-
-Do not duplicate code we have already in the file.
-
-> +			if (sizeof(pte_t) == sizeof(u64)) {
-> +				u64 val = pte_val(*pte);
-> +
-> +				return number(buf, end, val, spec);
-> +			}
-
-Ditto.
-
-> +			WARN_ONCE(1, "Non standard pte_t\n");
-
-(almost) Ditto,
-
-> +			return error_string(buf, end, "(einval)", spec);
-
-Ditto.
-
-> +		}
-> +		fallthrough;
-
-Please, avoid this, it makes code much harder to read and maintain.
-See above how.
-
--- 
-With Best Regards,
-Andy Shevchenko
+In-Reply-To: <oqibdd7spdxvlimrwcabqo2xryfplk4q6lnwav5grtl5juud5x@vqfego523x7a>
 
 
+--6n56agevkbvsdqk4
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 4/8] iio: adc: Add support for ad4052
+MIME-Version: 1.0
+
+Hello,
+
+On Tue, Jun 17, 2025 at 05:34:56PM +0200, Jorge Marques wrote:
+> On Tue, Jun 17, 2025 at 04:59:48PM +0200, Uwe Kleine-K=F6nig wrote:
+> > On Tue, Jun 10, 2025 at 09:34:37AM +0200, Jorge Marques wrote:
+> > > +static int ad4052_get_samp_freq(struct iio_dev *indio_dev,
+> > > +				struct iio_chan_spec const *chan,
+> > > +				int *val,
+> > > +				int *val2)
+> > > +{
+> > > +	struct ad4052_state *st =3D iio_priv(indio_dev);
+> > > +
+> > > +	*val =3D DIV_ROUND_UP_ULL(NSEC_PER_SEC, st->pwm_st.period);
+> > > +	return IIO_VAL_INT;
+> >=20
+> > st->pwm_st.period is the period that was requested before. If you want
+> > the real period that is currently emitted, check pwm_get_state_hw().
+>=20
+> I believe only ad4695.c uses this method and the reason for that is if
+> the pwm is disabled we still want to obtain the requested value.
+>=20
+> Reverting slightly to v2, the semantic to allow fetching from hw when
+> enabled, and using the managed state when disabled, would be:
+>=20
+> 	struct pwm_state pwm_st;
+> 	int ret
+>=20
+> 	ret =3D pwm_get_state_hw(st->cnv_pwm, &pwm_st);
+> 	if (ret)
+> 		goto out_release;
+>=20
+> 	if (!pwm_st.enabled)
+> 		pwm_st =3D st->pwm_st;
+>=20
+> 	*val =3D DIV_ROUND_UP_ULL(NSEC_PER_SEC, pwm_st.period);
+>=20
+> Is this ok?
+
+Looks fine to me. I didn't object the original suggested code, just
+wanted to highlight the semantics.
+
+I would expect that the compiler optimizes out the unnecessary
+assignments done in pwm_st =3D st->pwm_st, as only pwm_st.period is used
+later on.
+
+Best regards
+Uwe
+
+--6n56agevkbvsdqk4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhS/X0ACgkQj4D7WH0S
+/k6uOggAutqfRasKnyDG4NPZagUBSr3nqLLjatsZLuA3uLLglPffPSkWn906uKQL
+s+GFWFqirMgxqPyT6wi37NJL5Sv0nYvqgN02HBa8uDnSOip3wVtD14B+FI1wC2+A
+puYwXaPwG/0eSZOi+XmtqO5M3bwgsnVb3ev8oH1dF1bkJKaDFnh8b73o2mqPZ2cn
+hSkHzrRTW0tWN6x9T+wUH2CfnTsgGZe/M5twgwYoLUbbPmmvca0lpOS5bxAbKjo+
+735f9Yg65sp7HDsCR8JgVjE/Yr+5No2TkWpIx8JpAMdsbq8lZKEugWPHHs16tu+8
+PWQ+2XLnIVDnEBYpBRenpgEMHFZ2+w==
+=oKT8
+-----END PGP SIGNATURE-----
+
+--6n56agevkbvsdqk4--
