@@ -1,214 +1,177 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3221D2F3C37
-	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 18:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A6E3085B5;
+	Wed, 18 Jun 2025 18:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750270775; cv=none; b=X3zb8d3672LKO4lGbkNzJb/hFK5djIpiifPi0wMpaL9lLuA4cDuAMLv1Ut6O+zc48XLxuQUlYd3stoP8eNKZ6rf0SedDGQExwwiOxJajkJZ4dktOHRBQxvxqX4Quf12p67WEwdC86ZkFfZvpOAFvEdAko4EIe5hPVViwL9vDN0Q=
+	t=1750271535; cv=none; b=CUkH8nPtByQnz1QrEp4XVAOplianXB2XgFbyA0VBbFEyK296F6xfm/UkIifHnP9TNThpEbiMB1lGnHtEbaQT/uX2c4C7HO8o03f5MRyQyVaWoKEZesyy7qPYYUn0X6xiRrIwiTVQuZuVhsJdpzJ5SyKH+7H0ALyUowymDfnHG5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750270775; c=relaxed/simple;
-	bh=MlZoJdg+22hzILIY5pkXr+G/amOejs9cl3kSiFMmC3A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qhrhL2EGU5MC8BfbO7SpAeEsifg1RXBA/aLWMRVLUSzRIrdq5sRSvOQ5zhfQx5Exz641kBkBPLSlTZlHJu+cUA3Md89z4T9seFcqeOF13RvFdXAO9WRZ3CHLldWDzb8y5PXPkZT84nbXk3X+A0QjDnAWxio6q5QL6mfmQZRSqdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sBCB2ETU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bUpHZ2GX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sBCB2ETU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bUpHZ2GX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1750271535; c=relaxed/simple;
+	bh=dF+yxwBWxoUsGAKcD6Y8qqYuRnglUnXy+NkWiLYTZww=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fy72LIaKEyNlrZKikv+AW5Qr1rMSt8kFkWuEW8DMVgfq0zObiMtUim6dt3hiP64lR77/wQW5b90kM81BztLilCLemuufwJK8yj3/Sq+RRNzkfXEysYwB6JlvTK6w+urzpqjF1F0I0eB+6YkfCu8gWWr5hjZhziiHYdGTHIInEbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aGnUPuKu; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sBCB2ETU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUpHZ2GX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sBCB2ETU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUpHZ2GX"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 13C361F7BD;
-	Wed, 18 Jun 2025 18:19:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750270771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2qoAqe6Tz+Ixn12xTbWlPEovX8xRcRkaG3QnFbPGW38=;
-	b=sBCB2ETUtaw34+DuQPPHpSrGBsVJpQUu8owr5sMTKIIGGUOXXrNOlkDWI/hq72SkdUQfRA
-	8NsnjfxmFkPYgfFtvaGN2v8LAXksKV71M7w7Ch8mRU2ytNyrpI/wPBUxWhrsyanD4rV1MO
-	08bsGxJYBAiQNTIh1YLM9sZpJsS0AUM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750270771;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2qoAqe6Tz+Ixn12xTbWlPEovX8xRcRkaG3QnFbPGW38=;
-	b=bUpHZ2GXCUtxX5l5Yyz+YWiwGQxe4ldWuSVUM3CLZdoiRquylArkeXwho32B2YoCZCXeuG
-	AaE3RSbrgMiEHkCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sBCB2ETU;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bUpHZ2GX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750270771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2qoAqe6Tz+Ixn12xTbWlPEovX8xRcRkaG3QnFbPGW38=;
-	b=sBCB2ETUtaw34+DuQPPHpSrGBsVJpQUu8owr5sMTKIIGGUOXXrNOlkDWI/hq72SkdUQfRA
-	8NsnjfxmFkPYgfFtvaGN2v8LAXksKV71M7w7Ch8mRU2ytNyrpI/wPBUxWhrsyanD4rV1MO
-	08bsGxJYBAiQNTIh1YLM9sZpJsS0AUM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750270771;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2qoAqe6Tz+Ixn12xTbWlPEovX8xRcRkaG3QnFbPGW38=;
-	b=bUpHZ2GXCUtxX5l5Yyz+YWiwGQxe4ldWuSVUM3CLZdoiRquylArkeXwho32B2YoCZCXeuG
-	AaE3RSbrgMiEHkCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4758113A3F;
-	Wed, 18 Jun 2025 18:19:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xXVlDjIDU2gyRwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 18 Jun 2025 18:19:30 +0000
-Date: Wed, 18 Jun 2025 19:19:28 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC 1/2] lib/vsprintf: Add support for pte_t
-Message-ID: <zsfblk4nfi6nigfnv7umruhewmg7fqhhtz6fiigezzk2wtn2n7@agpzorfpaywq>
-References: <20250618041235.1716143-1-anshuman.khandual@arm.com>
- <20250618041235.1716143-2-anshuman.khandual@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aGnUPuKu"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b3182c6d03bso32563a12.0;
+        Wed, 18 Jun 2025 11:32:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750271533; x=1750876333; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L7CRGl3B4BlmEVMZ+EoW9hR2IHDhKsCbZsudVTakK2c=;
+        b=aGnUPuKuvIvpJ4lNzuuGcDj7ibdRpO2H3Ebr7++fCM7gB8mkinrskD8s2C48DssiV3
+         kO74441NzVLYolIaUdza/w1Z/jJldnkBRR4Qs/Rx4tp5WSXz1x88pMBJBNWwlgwVsduI
+         1vwrw0Ht8VvTD76hWPMzhlfBX9b2I3LNj+SkGY4JiregUFBW+hjx/X0BriZdnCaccdgz
+         Bd7qt/PpWi4apGhOmF0dugsm5q9yDxC97bd2IqRy1L1R5u5Bth+tyypLE+8Gr5mHM6e6
+         zHA+Cd1Tnt8oQlq1eGj80jsqdcZ61Pq42K/+MTo/PskI/Jsz2/ZHQX3DJYi2Q8skudtx
+         uVyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750271533; x=1750876333;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L7CRGl3B4BlmEVMZ+EoW9hR2IHDhKsCbZsudVTakK2c=;
+        b=ARkuDI/QgW0EVYwfRQfQP+6dxVfklKo7XeHiUtuqWOThHy2AV+SuQ/zAAAaDd+PgfK
+         XMFLcOv1EUEIti3qxe7yBTs36mW+SFR4v3F14294hj108LZZwYsP+AtRsurWVmNaSSfK
+         s0J3Y45NwnlX+C5bpiYHAfRvnrjECm6bbv3lPjAdsHUMFYlc6W9oZND/nSrxR3rzTtUI
+         yruS+vBBS0VJuY38aafFEvKJ2C0tcjj5AzopaER4Nf1jDHHI9GfshZDr8Gt4W6jTTX+U
+         y4fFgfg7MLEB/pyCeelWp1A4miYqwxSI5+RPJbJv1Dqpw2QnzzEhII11hg6GB3rnoucj
+         xeIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVUaIu1+hvrG6TOHWXnI0TYe0ezAtNJKAbQFkE3d/TsxD4mW6LzP5MbI9GEQLFIgCiegOrnHUdjEOy31iiN@vger.kernel.org, AJvYcCW+UPaaE7wAd92NTB9OmtAx8Mw7larYEEVzJl+BhGYAqN765ZsfxnreSspo+ft+FTMsediwSxxkYmCB@vger.kernel.org, AJvYcCWDviN5XXlxe7DN296BPwLXzJl6Ug01MppgmTzOc4OylDgo1XqYL39ceTGzwENybgU9Rf7o97Zgstg2LA==@vger.kernel.org, AJvYcCWlAwYVX9mvGzQieD1ccJA9EHWxxryHyb5MDSw6/K1E/TAsirNsmyYy1PLnIRk1Opo0ZYn7pB1qRWnx@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmmMq1wYSTbmh1vUZECYFWuC/AWdb/pCQ3Dk98ZEoYOlW3MuqU
+	AmjAbcbkrIqq4MMVOZqLpUF3Yts9Pl2xA+r/bkULkSqW8G9JZlBknQKs
+X-Gm-Gg: ASbGnctmx0FiFykdel9B1SWTjX8VRe8+TndcGA/P2mk6zC6Yz8UnLc9sn4NLeHgjxFF
+	AYNqxpeFZRgEglO4Aq6FIDDm4jkQ+tsG1xgtUVEbtc22aURKukyHlKGpau6dyJRU+hBpVKebW86
+	Hyx2ZItln8zsAU9oSfNZ4o+Cjpvdb3u/0baA1sJL7qXbfDi9W5RzQb/etpnxJhe+BAFZUgy5ipB
+	yRuGcZHdy4WsNL0yWUl1oVSxaiKgZD+7/Eo5de0hlUtF5cwvoqNRr8VhyzEj1txmxAOI1zvkI2o
+	bzbYVMm7gvT8L0G5JY0Ir8rfIaxVPPYcN3OIniAoRpPRvmjM7j/TeBBwWPhODqpY3Ec8D4t5
+X-Google-Smtp-Source: AGHT+IEqNL1etkom/51dYTDHPvyPVYkcyS4yGbVSZFCBgvVFNVsV1jdPlM06YwkrLtj+IhMhK1SQSA==
+X-Received: by 2002:a05:6a21:4612:b0:1ee:e33d:f477 with SMTP id adf61e73a8af0-21fbd4cd6f3mr29144103637.15.1750271533333;
+        Wed, 18 Jun 2025 11:32:13 -0700 (PDT)
+Received: from DESKTOP-P76LG1N.lan ([42.113.163.91])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2fe1639f97sm9606454a12.6.2025.06.18.11.32.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 11:32:12 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: pavel@kernel.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Nam Tran <trannamatk@gmail.com>
+Subject: [PATCH v10 0/4] leds: add new LED driver for TI LP5812
+Date: Thu, 19 Jun 2025 01:32:01 +0700
+Message-Id: <20250618183205.113344-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250618041235.1716143-2-anshuman.khandual@arm.com>
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 13C361F7BD
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,lwn.net:email,linux-foundation.org:email,goodmis.org:email,arm.com:email,suse.de:dkim,kvack.org:email];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.01
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 18, 2025 at 09:42:34AM +0530, Anshuman Khandual wrote:
-> Add a new format for printing page table entries.
-> 
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->  Documentation/core-api/printk-formats.rst | 14 ++++++++++++++
->  lib/vsprintf.c                            | 20 ++++++++++++++++++++
->  mm/memory.c                               |  5 ++---
->  scripts/checkpatch.pl                     |  2 +-
->  4 files changed, 37 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 4b7f3646ec6ce..75a110b059ee1 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -689,6 +689,20 @@ Rust
->  Only intended to be used from Rust code to format ``core::fmt::Arguments``.
->  Do *not* use it from C.
->  
-> +Page Table Entry
-> +----------------
-> +
-> +::
-> +        %ppte
-> +
-> +Print standard page table entry pte_t.
-> +
-> +Passed by reference.
-> +
-> +Examples for a 64 bit page table entry, given &(u64)0xc0ffee::
-> +
-> +        %ppte   0x00c0ffee
+This patch series adds support for the TI/National Semiconductor LP5812
+4x3 matrix RGB LED driver. The driver supports features such as autonomous
+animation and time-cross-multiplexing (TCM) for dynamic LED effects.
 
-Ok, so what's the point of this if you're just printing the number?
+Signed-off-by: Nam Tran <trannamatk@gmail.com>
+---
+Changes in v10:
+- Address feedback on v9 regarding missing Reviewed-by tag
+- Added explanation: binding structure changed significantly to integrate
+  with the standard leds-class-multicolor.yaml schema and support multi-led@
+  nodes with nested led@ subnodes. This change introduced a new patternProperties
+  hierarchy and removed the previous flat led@ layout used in the earlier versions.
+  So the Reviewed-by tag was dropped out of caution.
+- Address binding document feedback
+  - Use consistent quotes
+  - Replace 'max-cur' with the standard 'led-max-microamp'
+  - Remove 'led-cur' property
+  - Fix mixed indentation
+- Updated core driver to align with the updated binding schema.
+- Address core driver feedback
+  - Use for_each_available_child_of_node_scoped() to simplify the code
+  - Add a return checks for lp5812_write() and lp5812_read()
+  - Remove unneeded trailing commas
+  - Fix unsafe usage of stack-allocated strings
+- Link to v9: https://lore.kernel.org/lkml/20250617154020.7785-1-trannamatk@gmail.com/
 
-Could at least do something like:
+Changes in v9:
+- Move driver back to drivers/leds/rgb/
+- Integrate with LED multicolor framework
+- Refactor and simplify custom sysfs handling
+- Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
+- Update documentation to reflect the updated sysfs.
+- Link to v8: https://lore.kernel.org/lkml/20250427082447.138359-1-trannamatk@gmail.com/
 
-%ppte 0xc0ff000|WRITE|DIRTY|PRESENT
+Changes in v8:
+- Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+- Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+- Move ti,lp5812.yaml binding to auxdisplay/ directory,
+  and update the title and $id to match new path.
+- No functional changes to the binding itself (keep Reviewed-by).
+- Update commit messages and patch titles to reflect the move.
+- Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
 
-no? Otherwise it's a not super useful wrapper around printing pte_val(*pte).
+Changes in v7:
+- Mark `chip_leds_map` as const.
+- Use consistent `ret` initialization.
+- Simplify the function `set_mix_sel_led()`.
+- Refactor `dev_config_show()` and `led_auto_animation_show()` to avoid temp buffer, malloc/free.
+- Simplify the code and ensure consistent use of mutex lock/unlock in show/store functions.
+- Remove `total_leds` and `total_aeu`.
+- Link to v6: https://lore.kernel.org/linux-leds/20250419184333.56617-1-trannamatk@gmail.com/
 
-> +
->  Thanks
->  ======
->  
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> index 3d85800757aa5..005490202ffb5 100644
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -2433,6 +2433,9 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
->   *		Without an option prints the full name of the node
->   *		f full name
->   *		P node name, including a possible unit address
-> + * - 'pte'	For a 64 bit page table entry, this prints its contents in
-> + *              a hexa decimal format
-> + *
->   * - 'x' For printing the address unmodified. Equivalent to "%lx".
->   *       Please read the documentation (path below) before using!
->   * - '[ku]s' For a BPF/tracing related format specifier, e.g. used out of
-> @@ -2542,6 +2545,23 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
->  		default:
->  			return error_string(buf, end, "(einval)", spec);
->  		}
-> +	case 'p':
-> +		if (fmt[1] == 't' && fmt[2] == 'e') {
-> +			pte_t *pte = (pte_t *)ptr;
-> +
-> +			spec.field_width = 10;
-> +			spec.precision = 8;
-> +			spec.base = 16;
-> +			spec.flags = SPECIAL | SMALL | ZEROPAD;
-> +			if (sizeof(pte_t) == sizeof(u64)) {
-> +				u64 val = pte_val(*pte);
-> +
-> +				return number(buf, end, val, spec);
-> +			}
+Changes in v6:
+- Add `vcc-supply` property to describe the LP5812 power supply.
+- Remove `chan-name` property and entire LED subnodes, as they are not needed.
+- Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
+- Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
 
-As mentioned elsewhere in the thread, this obviously doesn't work for everything
-32-bit, and 64-bit PAE, and all of the weird page table formats we have around.
+Changes in v5:
+- Rebase on v6.15-rc2
+- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
+- Address Krzysztof's review comments
+- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
+---
 
+Nam Tran (4):
+  dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+  leds: add TI/National Semiconductor LP5812 LED Driver
+  docs: ABI: Document LP5812 LED sysfs interfaces
+  docs: leds: Document TI LP5812 LED driver
+
+ .../ABI/testing/sysfs-bus-i2c-devices-lp5812  |   40 +
+ .../ABI/testing/sysfs-class-led-lp5812        |  120 +
+ .../devicetree/bindings/leds/ti,lp5812.yaml   |  229 ++
+ Documentation/leds/index.rst                  |    1 +
+ Documentation/leds/leds-lp5812.rst            |   84 +
+ MAINTAINERS                                   |   13 +
+ drivers/leds/rgb/Kconfig                      |   13 +
+ drivers/leds/rgb/Makefile                     |    1 +
+ drivers/leds/rgb/leds-lp5812.c                | 1943 +++++++++++++++++
+ drivers/leds/rgb/leds-lp5812.h                |  227 ++
+ 10 files changed, 2671 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-lp5812
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-lp5812
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+ create mode 100644 Documentation/leds/leds-lp5812.rst
+ create mode 100644 drivers/leds/rgb/leds-lp5812.c
+ create mode 100644 drivers/leds/rgb/leds-lp5812.h
+
+
+base-commit: f09079bd04a924c72d555cd97942d5f8d7eca98c
 -- 
-Pedro
+2.25.1
+
