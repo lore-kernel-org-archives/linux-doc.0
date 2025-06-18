@@ -1,70 +1,70 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EDE302CD0
-	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 17:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CE4302CDF
+	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 17:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750268482; cv=none; b=kUAf9yvBG7daxhCyTP+QtE5/vJ+mlg1f14awflslWCGCCjRG3ECMyVbabgBjdHC9VWZGcY+tJRyCOnozXqDpGoIqTN6GA0AAzXJ//48mpNBCp9jzlS2CUSfnrPD9djWNpupVmbQLpnhC+9err1lagOfx2nUeQzsmbh7dFSf5iMc=
+	t=1750268482; cv=none; b=tlOBt+XPApqycYY2mMnmucCRucpPKeZ1ce6fNhGYQnrZKpmqTliacuCd7kEpbcugMX4dz4ooOh1x/obSbFF1UWPaW2WN/k/o62yOpwnAm0eXKPbT0h7evpXBU00dRFDlET+3MZdTaWh7aNeQZhow84xSoJzngtz/JOzO2oLVASM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750268482; c=relaxed/simple;
-	bh=/I2SWzcXvlUkl4dzsdwEhOqXgULSh4KVorXOxq8r2O4=;
+	bh=7MqWYtvNLDCeRHTl94GzHGrw7bPzHhaA6ax/7SHlO8I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k/Hb24dubs3fAha4R4GQarUNq+W3ijPuQG65CjVW/2TToMjT7t8QPvf6dcGcSgedFIg7mroleAyC5oLpLET4OJY4Q0hkdS3Mcn66gjLV4DFauIQu7//hppn2rb6hydTQwzraQ4BbhcSjT1cm4F9oWmfXayH2zRmdYAVbZ/2KgmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZvQwj4Oj; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=OWbZEdkPvwwCI71J+wqiAfw4FFUTBKW6BJiPqPfEHOctuZo/NujPjNZTmHp8TdO5v64JlKhAsSA09Nga0OegXeXzbgK3E2KwM2v9pwkNVFBJs++Z87+HjjfCQ1R4pfGEtkUFgJq7WKSG+LzRCbWfskkciv9L6t7JZFdjOyNnqjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZKS1Xflf; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZvQwj4Oj"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZKS1Xflf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750268477;
+	s=mimecast20190719; t=1750268479;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VgDxyojJlL5XcnaJgd1JoaTm/pUk71nf1V9W9yKY0aE=;
-	b=ZvQwj4OjPCnBsHzO2XNsfXhjr8t6N73pOSSwJJVFdzSmD2CU2uOsj9XIGtIUEV5ChzLTb2
-	jJ46/gSt+oWoA+WVD+IKX0jP16o2h6gKT7Tp3ouKJB4duOCV/PGYVZwbVfiGgCjuVTh/Nl
-	UFVAFNjPVvJ2c+qyLVtkfcTWCIMAZvk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=HKAYn5W/PSf7oEyDpSl452LRf2zvea6hrq0MdbpucUo=;
+	b=ZKS1XflfMbufrjNTh/XCijg4PCf8FU2scUO1BgMqz/LHpVd3LrU4GKeGUIFxFARUzLgFTK
+	rYLoQp4Ktw5D4VaMMoVNm/4KP94itZxx/hD9g1c1zwNC4RIeJ0kPx015c+Zq7U0uh8T44Y
+	0Cbdc3zpRDesQBsDtTgxWx97aiuZ7ik=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-161-NTYbxtcDPQqPzNyvi05Alw-1; Wed, 18 Jun 2025 13:41:16 -0400
-X-MC-Unique: NTYbxtcDPQqPzNyvi05Alw-1
-X-Mimecast-MFC-AGG-ID: NTYbxtcDPQqPzNyvi05Alw_1750268474
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-450d290d542so43198725e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 10:41:15 -0700 (PDT)
+ us-mta-558-_lXKaQ3_N72HplgxHwz8Mg-1; Wed, 18 Jun 2025 13:41:18 -0400
+X-MC-Unique: _lXKaQ3_N72HplgxHwz8Mg-1
+X-Mimecast-MFC-AGG-ID: _lXKaQ3_N72HplgxHwz8Mg_1750268477
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-45334219311so28660675e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 10:41:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750268474; x=1750873274;
+        d=1e100.net; s=20230601; t=1750268477; x=1750873277;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VgDxyojJlL5XcnaJgd1JoaTm/pUk71nf1V9W9yKY0aE=;
-        b=sKASzScUTNbHyUpaycoESQtBP5+eF5Gv9VywKWQYrB3qRFuR7thfWdabjr+8y6l6Zh
-         r6fHikTt7gwQRQSPX+LLGxUI8aCgMq3YblNDLbCC7H5hKxOMthnpDsQQMzG8Et2/VclS
-         ju1DOBxDFiJzS9qUdebBCM8K70ULGvpLJxPzsnxTs50zfQtYZP/6U/5ikH5Z4jO0hLCP
-         QzL+DYbWcqqrjtd5Ut1eeZpZOc/R88WI7eCqPelA558BwNRQT+63Glon+SOGduGGBAP1
-         R5cCmpVOEico66TgKg8xnAKUHa+bBKhLTfzPOZu7FAzoPrb37kXuaurPv/R0yYk4iyKi
-         M2PA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdEDV/EMed9MGRInNPxMjMFZ/AbeiZF0U6i6M0oZymqEM6iQk37mCTYzUWjONjLymNsT4w5mXNy1M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjJOWNal+j3ZCxwseUcf2mkdtvJTdivZnP97TDVav4Tih/+FE/
-	MipzHBPu71A+nkSqB7qR5B1gPRCFi0z4vjyRX930b44E0W5+l3/xp7HhwuKB7cTU+7OU4Qa/IOk
-	bg3Q+hc5Ox+I92fOKBbU2ev5Spn+ZzK7huUTTtjjmlRHCnefWVbP9DtJWoEmLKA==
-X-Gm-Gg: ASbGnctHcp7EjMPl1C5NDveVUZJknmr2d5m6YOw6FQ/FMM1cdja3hkbKwcsB7y7OCpH
-	Z+FHaN0YHOfyupLGB4+l3i087mugT3GVlQTccC+7yC23o3BEn2RN0LggDGGnzTZ+t4lVtqfzCMD
-	l3bTg60nHddz5PRcWY4/mAR3GAzZE8zxD8FrGI63C33aRmuisiiaOL8PrfmzlfezUIJAroCKZdF
-	xCWaExwQi1bQpZbhLxPEDHC+Yfp1EiNpPMCYD4um3OkaEhHuSCMp6Nb09ueghWDRdQPSLsWE3TF
-	uWB25n0Vc/YT7tVAIHZdAMXmZn28LjscBhKbysNAclDhqdZO/EA3+Nckn0NRMTTf4hxUkcHXggR
-	x00b1Sw==
-X-Received: by 2002:a05:600c:3e19:b0:43d:2313:7b49 with SMTP id 5b1f17b1804b1-4533ca66cd0mr176797535e9.12.1750268474468;
-        Wed, 18 Jun 2025 10:41:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEIk5j0XUOc2qfzy9nY3G7Nge7jrVSGi6o08YDSv4Mte+xl8dtPQDJlCzuSsfiSc9/ShViabA==
-X-Received: by 2002:a05:600c:3e19:b0:43d:2313:7b49 with SMTP id 5b1f17b1804b1-4533ca66cd0mr176797145e9.12.1750268473925;
-        Wed, 18 Jun 2025 10:41:13 -0700 (PDT)
+        bh=HKAYn5W/PSf7oEyDpSl452LRf2zvea6hrq0MdbpucUo=;
+        b=eb2M4s4/6PrFHgvh1Kya4BXC1zlSMDOhp9/UXZ6EN5F083hHs8iqGAMycvBUwFCqrS
+         ab+mwLf5RAP2zM3aL3ouVJCIIOf8XbPYnP8S1Y55feqj0fR1n3gtPEU1WZRMcV8VaD/V
+         WC6ljtz7m6aZlBzaCXSMm4YZapMGY/BPlFvC/vAp+MicDX03ByNsAzSrepYIyfk7lG77
+         tHIH9gLzwyzXPbxomzPqkFjmZUINAvCVLClRCKhuSJqGgkIteI8QT2+nDHjbBYVr1xC2
+         Awze/qspvAJVJHYa/ZkDnFZ10rbvY5OUzOephshA9AzaGjHVjUL0YGJT0NrbXPRgsXX6
+         HgBg==
+X-Forwarded-Encrypted: i=1; AJvYcCW4Md/f/xncIM4i8NgoEP8SLncdwZlE9Djgh1DReCVDJhH2yC2Jz+f9iZ+hwaX8rRVoCDFzWC576ns=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQKuk8znIx1crgeHQEGIzFcstVWqHBaoGmMH8EGMZB3z9a1P4f
+	ISqI2XIgLyM60w+DpGo2qDh3i0FWRtqk+n/RGxtys2MPq/F1mldjizHf7k4QoKURmi2ad5wwUrj
+	MdrHPZ+nV5Ya7RHW+qoq96vAnHE09d19eNZEguEKGHeQ9PNKqiUYUKQDJxglO/w==
+X-Gm-Gg: ASbGncuHCXMI9DsfVhUjz/sLo8Rd9mTZffA3a4TrHS221muasp/rRLo+E3NrgZRz3so
+	cdJoLPmndrg442W2DK2+W+IQOUkbNhIZrK9Q0JtgVgbd+tzlHI3n5Em/Rn2ED1eYvDNHSvSVzxx
+	fgkrkZL25g8i7Zo0buwDBl9lDxu5nThk/U/uk/1ihkcE/QbuKVdIDisw0yCUKVfGrhKfpTGC+WH
+	9PFQIeEFCnlCqBoqvs3u3ckCaKFcsvcHVWgd4JGqe2MLeEYbR1kRCy2TDMh4W9bCNPVE5arZJIX
+	eALpufPAxVnpy39wEERIBsufXNWYLQBjDdeuBHxKAVcXj8dWTMVGXkxjNEBkM7EX0j9jrEfnqM8
+	rzcq2rg==
+X-Received: by 2002:a05:600c:1c14:b0:43c:fceb:91a with SMTP id 5b1f17b1804b1-453430ececamr157094335e9.11.1750268477153;
+        Wed, 18 Jun 2025 10:41:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IENrfq9JZf2w4nH2VRe3EOokVKel4Rw1khN0dggc1dWhdYjdSzsol44AwGmQNvJE5b04zR6vw==
+X-Received: by 2002:a05:600c:1c14:b0:43c:fceb:91a with SMTP id 5b1f17b1804b1-453430ececamr157093925e9.11.1750268476711;
+        Wed, 18 Jun 2025 10:41:16 -0700 (PDT)
 Received: from localhost (p200300d82f2d2400405203b5fff94ed0.dip0.t-ipconnect.de. [2003:d8:2f2d:2400:4052:3b5:fff9:4ed0])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4535e993c95sm3729315e9.26.2025.06.18.10.41.12
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a568b087a9sm17793395f8f.55.2025.06.18.10.41.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jun 2025 10:41:13 -0700 (PDT)
+        Wed, 18 Jun 2025 10:41:16 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -120,9 +120,9 @@ Cc: linux-mm@kvack.org,
 	Harry Yoo <harry.yoo@oracle.com>,
 	Qi Zheng <zhengqi.arch@bytedance.com>,
 	Shakeel Butt <shakeel.butt@linux.dev>
-Subject: [PATCH RFC 21/29] mm: rename PG_isolated to PG_movable_ops_isolated
-Date: Wed, 18 Jun 2025 19:40:04 +0200
-Message-ID: <20250618174014.1168640-22-david@redhat.com>
+Subject: [PATCH RFC 22/29] mm/page-flags: rename PAGE_MAPPING_MOVABLE to PAGE_MAPPING_ANON_KSM
+Date: Wed, 18 Jun 2025 19:40:05 +0200
+Message-ID: <20250618174014.1168640-23-david@redhat.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250618174014.1168640-1-david@redhat.com>
 References: <20250618174014.1168640-1-david@redhat.com>
@@ -134,125 +134,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Let's rename the flag to make it clearer where it applies (not folios
-...).
-
-While at it, define the flag only with CONFIG_MIGRATION.
+KSM is the only remaining user, let's rename the flag. While at it,
+adjust to remaining page -> folio in the doc.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/page-flags.h | 16 +++++++++++-----
- mm/compaction.c            |  2 +-
- mm/migrate.c               | 14 +++++++-------
- 3 files changed, 19 insertions(+), 13 deletions(-)
+ include/linux/page-flags.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 016a6e6fa428a..aa48b05536bca 100644
+index aa48b05536bca..abed972e902e1 100644
 --- a/include/linux/page-flags.h
 +++ b/include/linux/page-flags.h
-@@ -167,10 +167,9 @@ enum pageflags {
- 	/* Remapped by swiotlb-xen. */
- 	PG_xen_remapped = PG_owner_priv_1,
- 
--	/* non-lru isolated movable page */
--	PG_isolated = PG_reclaim,
--
- #ifdef CONFIG_MIGRATION
-+	/* movable_ops page that is isolated for migration */
-+	PG_movable_ops_isolated = PG_reclaim,
- 	/* this is a movable_ops page (for selected typed pages only) */
- 	PG_movable_ops = PG_uptodate,
- #endif
-@@ -1126,8 +1125,6 @@ static inline bool folio_contain_hwpoisoned_page(struct folio *folio)
- 
- bool is_free_buddy_page(const struct page *page);
- 
--PAGEFLAG(Isolated, isolated, PF_ANY);
--
- #ifdef CONFIG_MIGRATION
- /*
-  * This page is migratable through movable_ops (for selected typed pages
-@@ -1146,8 +1143,17 @@ PAGEFLAG(Isolated, isolated, PF_ANY);
-  * page_has_movable_ops() instead.
+@@ -697,10 +697,10 @@ PAGEFLAG_FALSE(VmemmapSelfHosted, vmemmap_self_hosted)
+  * folio->mapping points to its anon_vma, not to a struct address_space;
+  * with the PAGE_MAPPING_ANON bit set to distinguish it.  See rmap.h.
+  *
+- * On an anonymous page in a VM_MERGEABLE area, if CONFIG_KSM is enabled,
+- * the PAGE_MAPPING_MOVABLE bit may be set along with the PAGE_MAPPING_ANON
++ * On an anonymous folio in a VM_MERGEABLE area, if CONFIG_KSM is enabled,
++ * the PAGE_MAPPING_ANON_KSM bit may be set along with the PAGE_MAPPING_ANON
+  * bit; and then folio->mapping points, not to an anon_vma, but to a private
+- * structure which KSM associates with that merged page.  See ksm.h.
++ * structure which KSM associates with that merged folio.  See ksm.h.
+  *
+  * Please note that, confusingly, "folio_mapping" refers to the inode
+  * address_space which maps the folio from disk; whereas "folio_mapped"
+@@ -714,9 +714,9 @@ PAGEFLAG_FALSE(VmemmapSelfHosted, vmemmap_self_hosted)
+  * See mm/slab.h.
   */
- PAGEFLAG(MovableOps, movable_ops, PF_NO_TAIL);
-+/*
-+ * A movable_ops page has this flag set while it is isolated for migration.
-+ * This flag primarily protects against concurrent migration attempts.
-+ *
-+ * Once migration ended (success or failure), the flag is cleared. The
-+ * flag is managed by the migration core.
-+ */
-+PAGEFLAG(MovableOpsIsolated, movable_ops_isolated, PF_NO_TAIL);
- #else
- PAGEFLAG_FALSE(MovableOps, movable_ops);
-+PAGEFLAG_FALSE(MovableOpsIsolated, movable_ops_isolated);
- #endif
+ #define PAGE_MAPPING_ANON	0x1
+-#define PAGE_MAPPING_MOVABLE	0x2
+-#define PAGE_MAPPING_KSM	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE)
+-#define PAGE_MAPPING_FLAGS	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE)
++#define PAGE_MAPPING_ANON_KSM	0x2
++#define PAGE_MAPPING_KSM	(PAGE_MAPPING_ANON | PAGE_MAPPING_ANON_KSM)
++#define PAGE_MAPPING_FLAGS	(PAGE_MAPPING_ANON | PAGE_MAPPING_ANON_KSM)
  
- /**
-diff --git a/mm/compaction.c b/mm/compaction.c
-index 86d671a520e91..809e4395cadfc 100644
---- a/mm/compaction.c
-+++ b/mm/compaction.c
-@@ -1051,7 +1051,7 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
- 		if (!PageLRU(page)) {
- 			/* Isolation will grab the page lock. */
- 			if (unlikely(page_has_movable_ops(page)) &&
--					!PageIsolated(page)) {
-+			    !PageMovableOpsIsolated(page)) {
- 				if (locked) {
- 					unlock_page_lruvec_irqrestore(locked, flags);
- 					locked = NULL;
-diff --git a/mm/migrate.c b/mm/migrate.c
-index a36030de94f30..f87a998b696e2 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -135,7 +135,7 @@ bool isolate_movable_ops_page(struct page *page, isolate_mode_t mode)
- 		goto out_putfolio;
- 
- 	VM_WARN_ON_ONCE_PAGE(!page_has_movable_ops(page), page);
--	if (PageIsolated(page))
-+	if (PageMovableOpsIsolated(page))
- 		goto out_no_isolated;
- 
- 	mops = page_movable_ops(page);
-@@ -146,8 +146,8 @@ bool isolate_movable_ops_page(struct page *page, isolate_mode_t mode)
- 		goto out_no_isolated;
- 
- 	/* Driver shouldn't use the isolated flag */
--	VM_WARN_ON_ONCE_PAGE(PageIsolated(page), page);
--	SetPageIsolated(page);
-+	VM_WARN_ON_ONCE_PAGE(PageMovableOpsIsolated(page), page);
-+	SetPageMovableOpsIsolated(page);
- 	folio_unlock(folio);
- 
- 	return true;
-@@ -177,10 +177,10 @@ static void putback_movable_ops_page(struct page *page)
- 	struct folio *folio = page_folio(page);
- 
- 	VM_WARN_ON_ONCE_PAGE(!page_has_movable_ops(page), page);
--	VM_WARN_ON_ONCE_PAGE(!PageIsolated(page), page);
-+	VM_WARN_ON_ONCE_PAGE(!PageMovableOpsIsolated(page), page);
- 	folio_lock(folio);
- 	page_movable_ops(page)->putback_page(page);
--	ClearPageIsolated(page);
-+	ClearPageMovableOpsIsolated(page);
- 	folio_unlock(folio);
- 	folio_put(folio);
- }
-@@ -216,10 +216,10 @@ static int migrate_movable_ops_page(struct page *dst, struct page *src,
- 	int rc = MIGRATEPAGE_SUCCESS;
- 
- 	VM_WARN_ON_ONCE_PAGE(!page_has_movable_ops(src), src);
--	VM_WARN_ON_ONCE_PAGE(!PageIsolated(src), src);
-+	VM_WARN_ON_ONCE_PAGE(!PageMovableOpsIsolated(src), src);
- 	rc = page_movable_ops(src)->migrate_page(dst, src, mode);
- 	if (rc == MIGRATEPAGE_SUCCESS)
--		ClearPageIsolated(src);
-+		ClearPageMovableOpsIsolated(src);
- 	return rc;
- }
- 
+ static __always_inline bool folio_mapping_flags(const struct folio *folio)
+ {
 -- 
 2.49.0
 
