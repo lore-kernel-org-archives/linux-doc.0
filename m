@@ -1,52 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9D035963;
-	Wed, 18 Jun 2025 01:25:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5BF3A1DB;
+	Wed, 18 Jun 2025 01:42:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750209908; cv=none; b=AxH7PwlfZh/VQYY8YqX2fH5OTmlDad04ECRpRPpkiOBEPRnUSEd8Y6XN9jwxYklSTMahe+OUZoWiW46vnU9UX/ru/2VHiXUL6MYQcT+tzCZk+t617uJgihl4fnR8GJlRyRX/Xn89VdMz5w3YIT5lMCQ4Ae/anVSpyVob8lQD+yo=
+	t=1750210939; cv=none; b=VLMa9U7Lgg9DXFtL4z/FDZf/pTuyji90UaE5HXKnUdwp5kaxGDmQlpdmra00HzC79SnkqmjVS96slopQ75Ee0zmCWJ/UqkKXcCpVUzQ9P2R8DYTrXLW/B3iFReo34JAFGAeDcDCY0nlWvGqG9JrqTQGNVzxvHPnW0vn9q/Ct5BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750209908; c=relaxed/simple;
-	bh=vlNf4DPU02s/S3Bp9z5v57PZRC5NERyxi9d51QzIa7Y=;
+	s=arc-20240116; t=1750210939; c=relaxed/simple;
+	bh=FEyHRwPserWIMl0bLcXdk0UTDFt6hxGSfxHzMK/qJTc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=usKyo+5+8gnlT5ZYmZflhF3iyXGhPxXx8lrdCff+ukFgweaNeuqzQiWzMeRaxy8xtMuKqwP4brKf/7J9DvSfr0a8TEnGEeveIJFr7Tgy6l50+sf9pczwVuKyzRp77lY6yI5iozQoCmHVwF8vcfs2BscwZ+hoKNmhJ7UYTGJ1qnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tRlk/SaJ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=odIgD3vQ4++92lWbVSBAHmkc5sKxQOXwrdz1tzcs4IwY2NOjoA0pVa5XuRnwVkWadT/IrnThyWVHwyrQrTREw0c7a0XIJZB2pzr1ldhMWAetstknnjEWISV9WhCmuaQ+v01ipMVcSp8QeuBsH6J/WUl0OrHn18dvyxBShhjuXvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qgJ+FTQW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tRlk/SaJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB49EC4CEE3;
-	Wed, 18 Jun 2025 01:25:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qgJ+FTQW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6414EC4CEE3;
+	Wed, 18 Jun 2025 01:42:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750209907;
-	bh=vlNf4DPU02s/S3Bp9z5v57PZRC5NERyxi9d51QzIa7Y=;
+	s=k20201202; t=1750210939;
+	bh=FEyHRwPserWIMl0bLcXdk0UTDFt6hxGSfxHzMK/qJTc=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tRlk/SaJrtO1Yp2Saapb549sOJdf32hClt9BTxlQmtrLMj7oE3CDmDbIxX8hiov7R
-	 9LRI5DE4YgUr2v8fr0KsOPDm3QoZMZsS4akj++0nzVns8g4+CPRMUNBqKyTTTTuvBb
-	 97y4xgm0mUF92OJ+H9nFBaM3RqMB2XbxO1IebuxYWZxl5/zwdO2/5KmB5fFoCloOKH
-	 ENnOGQUW/qFC8W17547KzYbdipfixrFQpzox+ATc2ee9igN2yntByRXqcs2bytSPaQ
-	 /8JdJ+2NdEJC78eE7x/ZUJd9VTAoYYHKwUGDVua0FwI3kI1fu3eMH9Qsnoqh7s/46/
-	 P+RHo7DR1HoCg==
-Date: Tue, 17 Jun 2025 18:25:05 -0700
+	b=qgJ+FTQW1nJrT+v/Lu3IbgYhL2oW9SwyCtb+5WptJLw0WyKvEADL68iJ1ZuFiDsfq
+	 x022DVq8Uruvv815u2aFYcGURA9ob9plHAU+OYhZLZUS3BxirzdsqobnjErTZQJlUo
+	 T4YRNBmGn7mXiWBMJJ0RsQRydeGJQd6ENgjFE4odjJCavUBrea3uuVw8s6Mh1vPh+T
+	 U4Jt02xMj1SrR7c1LrQQmPt7z6v77ETLakS5lzptmAOL/s4Kj4FhJ4A8s7MZs0EYlk
+	 5+H69iYMYGF00S1kH6HOOj+Q7gC0as28hKlhGExcDuVmPXYDqYPDQhxFrLtVtwRtby
+	 D27ohDuhYaZQQ==
+Date: Tue, 17 Jun 2025 18:42:17 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Zhu Yikai <zhuyikai1@h-partners.com>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn
- Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
- <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
- <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi
- <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>, Michael Ellerman
- <mpe@ellerman.id.au>, Suman Ghosh <sumang@marvell.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>, Christophe
- JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH net-next v03 1/1] hinic3: management interfaces
-Message-ID: <20250617182505.6cfbd99f@kernel.org>
-In-Reply-To: <c17133d2629728942ade513d3e761277cca4b44d.1750054732.git.zhuyikai1@h-partners.com>
-References: <cover.1750054732.git.zhuyikai1@h-partners.com>
-	<c17133d2629728942ade513d3e761277cca4b44d.1750054732.git.zhuyikai1@h-partners.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Gustavo Luiz Duarte <gustavold@gmail.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Shuah Khan
+ <shuah@kernel.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v3 0/5] netconsole: Add support for msgid in
+ sysdata
+Message-ID: <20250617184217.63c068f2@kernel.org>
+In-Reply-To: <20250616-netconsole-msgid-v3-0-4d2610577571@gmail.com>
+References: <20250616-netconsole-msgid-v3-0-4d2610577571@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,9 +49,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 16 Jun 2025 15:27:50 +0800 Fan Gong wrote:
->  25 files changed, 3735 insertions(+), 15 deletions(-)
+On Mon, 16 Jun 2025 10:08:34 -0700 Gustavo Luiz Duarte wrote:
+> This patch series introduces a new feature to netconsole which allows
+> appending a message ID to the userdata dictionary.
+> 
+> If the msgid feature is enabled, the message ID is built from a per-target 32
+> bit counter that is incremented and appended to every message sent to the target.
 
-Break it up into smaller patches, please.
--- 
-pw-bot: cr
+Breno, could you review the last 3 patches? 
+These LGTM
