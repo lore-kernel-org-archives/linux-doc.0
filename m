@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7904F2C08B8;
-	Wed, 18 Jun 2025 13:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A112E6D1E;
+	Wed, 18 Jun 2025 13:16:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750252322; cv=none; b=R9aekwHTlBQ2X22CJHGxLW+QSsQgQiotCXUS7ygBCVM6h/VtWsmTApSn+6I3luCewBwCQphUOb3mcGsp4H7xtvQ2HOx7GJk5DuOpU0dXELtqZrtaOWkm/c7HVKc2hhBu/auu7pl0oms4HuFlnm+Plv3lUfOeotSkT5eUOuYy958=
+	t=1750252592; cv=none; b=BIVBuNm0wm99Oby88IngmRgGMtviRYFNsNeJ3WnNEYMGT8vzRBFU7WWRVybOCPTp0ZUdLaB7fyYv3hjnzc4/+AGPQ8Vv00OPHdy/SrdUX2dxCKj+NQhVfr8HygmqXcaZqACxhFXBZtdcqFcOhinO+AF0l3ErODGRofXKvxkUmVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750252322; c=relaxed/simple;
-	bh=s5qyzz/qBQpZoUuL9l+81lOuO/S3Lo8ObQXBuGDJkMo=;
+	s=arc-20240116; t=1750252592; c=relaxed/simple;
+	bh=xjecfFW5v6eKSOI6V0Czl6riZVUJooaKA8suMig3d4k=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XbqOUIVgzHdqlSmaV1LITRsJxKGuhYnpm5kKuUSSGiF7+ubxV58iAhDxTJY6E6ikBQMDfMcjj09sOYKU0gZTm0zPrPZQ8FKp5eDo4HFtERYdKXm/G5XnU7bj4CVfZeiC0rkc3ehFImd7fUW62I27nCrXxHUw1KbHOI8WLG8mVEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GozqKuXy; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=mkeZMft46f3LbVTuGbObBZ0VbCbjRU4/NPtJVL/sPGKFMs07e7E+2WcSd+QVKjNAYdxzh88VEjFDIzy0onpSd2eA9A91L3qVa2VGVFexO8FEYyZYRUoqHx+y99BKr5dWaGHMkEBUVy/SAvqqttmViug+l3RmUsKT3sdOsWvj5DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ankVo7Tz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GozqKuXy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CA03C4CEE7;
-	Wed, 18 Jun 2025 13:11:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ankVo7Tz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94324C4CEE7;
+	Wed, 18 Jun 2025 13:16:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750252322;
-	bh=s5qyzz/qBQpZoUuL9l+81lOuO/S3Lo8ObQXBuGDJkMo=;
+	s=k20201202; t=1750252592;
+	bh=xjecfFW5v6eKSOI6V0Czl6riZVUJooaKA8suMig3d4k=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=GozqKuXyxjUgmHEhOYXLuI/y4m8rpsuTDKgLStZR7yoSnii9/Rf/S6+YbwlUnjzeJ
-	 r21kcjcCLL7SGOmlJ1y1lzExbZBJHW3sOgcdEsIQjMxHlC2hefQ7m5EmeksGYUnC3I
-	 1iC0MFOnA7XEfodJTxoBdRjz18ca+DPjNXh7cdswd8lEqxYFc7Gylhr8xhOg2q24KO
-	 JFBIdww/zFK+lik5vw5TJO8cJHTBvRxLlggrRF/hccLVTvRLLwuayDWtGfNTo3NEcr
-	 VS7Phta3ho4Ph9cLqBRV/TVbThOaueLHdz+GJfVD9hktZqBlyJQgR+FHfQTxHld7aX
-	 GxNpyxYYXQg4A==
+	b=ankVo7Tz1dI7sCR33wFCuIARshHMf2jU+/ch40Gue8vBjlnfhiTW8pUW/m6gwht9e
+	 SzxnWzkJsxnJCThpoj+YcpqsKgZn1K2NjfKzuLyK0fflpMWhWv15VBHgcHqTOOAOSP
+	 guzb8ACWx8Si8roiR/wOdJAIeFWhuf1cmRoW1sgkLuPUtIX/bXQ1Ob6XxeKvYzojPV
+	 bga3jJkrX+/p0QxYuE1k22WTOeEXeYO9VO+QqrEL/iZO5/NIAGov//Ybshyha58WmZ
+	 u2Odxs0G+IuzobOT67lYvX5eljcDYHLuKLnNhKWGS1JjUpOJo7Ka+eD3QrTds9yUSM
+	 SLQMhdbwNsW4w==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>,  Pratyush Yadav <pratyush@kernel.org>,
-  jasonmiu@google.com,  graf@amazon.com,  changyuanl@google.com,
-  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
-  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+Cc: Pratyush Yadav <pratyush@kernel.org>,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  rppt@kernel.org,
+  dmatlack@google.com,  rientjes@google.com,  corbet@lwn.net,
+  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
   kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
   masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
   yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
@@ -51,16 +51,18 @@ Cc: Jason Gunthorpe <jgg@ziepe.ca>,  Pratyush Yadav <pratyush@kernel.org>,
   andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
   bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
   stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
-In-Reply-To: <CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
+Subject: Re: [RFC v2 09/16] luo: luo_files: implement file systems callbacks
+In-Reply-To: <CA+CK2bBcgkrM0D0w77+UpDZsF2rDOc15iAcEJ7PMw52HQDipvA@mail.gmail.com>
 References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
-	<20250515182322.117840-6-pasha.tatashin@soleen.com>
-	<mafs0sekfts2i.fsf@kernel.org>
-	<CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
-	<mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
-	<CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
-Date: Wed, 18 Jun 2025 15:11:52 +0200
-Message-ID: <mafs05xgtw5wn.fsf@kernel.org>
+	<20250515182322.117840-10-pasha.tatashin@soleen.com>
+	<mafs0y0u6rx8y.fsf@kernel.org>
+	<CA+CK2bCigGJJqtSt1-4GP0JPVCZrTa6WS4LiMTT0J=04G64e5w@mail.gmail.com>
+	<mafs0h60jmzzc.fsf@kernel.org>
+	<CA+CK2bA6zsdARkRMQwadD__qXOzjABcRnwdZjfdnvLf26hsz9w@mail.gmail.com>
+	<mafs0a568vuf5.fsf@kernel.org>
+	<CA+CK2bBcgkrM0D0w77+UpDZsF2rDOc15iAcEJ7PMw52HQDipvA@mail.gmail.com>
+Date: Wed, 18 Jun 2025 15:16:23 +0200
+Message-ID: <mafs01prhw5p4.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -71,61 +73,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 17 2025, Pasha Tatashin wrote:
+On Mon, Jun 16 2025, Pasha Tatashin wrote:
 
-> On Tue, Jun 17, 2025 at 11:24=E2=80=AFAM Jason Gunthorpe <jgg@ziepe.ca> w=
-rote:
+> On Mon, Jun 16, 2025 at 6:43=E2=80=AFAM Pratyush Yadav <pratyush@kernel.o=
+rg> wrote:
 >>
->> On Fri, Jun 13, 2025 at 04:58:27PM +0200, Pratyush Yadav wrote:
->> > On Sat, Jun 07 2025, Pasha Tatashin wrote:
->> > [...]
->> > >>
->> > >> This weirdness happens because luo_prepare() and luo_cancel() contr=
-ol
->> > >> the KHO state machine, but then also get controlled by it via the
->> > >> notifier callbacks. So the relationship between then is not clear.
->> > >> __luo_prepare() at least needs access to struct kho_serialization, =
-so it
->> > >> needs to come from the callback. So I don't have a clear way to cle=
-an
->> > >> this all up off the top of my head.
->> > >
->> > > On production machine, without KHO_DEBUGFS, only LUO can control KHO
->> > > state, but if debugfs is enabled, KHO can be finalized manually, and
->> > > in this case LUO transitions to prepared state. In both cases, the
->> > > path is identical. The KHO debugfs path is only for
->> > > developers/debugging purposes.
+>> On Fri, Jun 13 2025, Pasha Tatashin wrote:
+>>
+>> > On Fri, Jun 13, 2025 at 11:18=E2=80=AFAM Pratyush Yadav <pratyush@kern=
+el.org> wrote:
+>> >>
+>> >> On Sun, Jun 08 2025, Pasha Tatashin wrote:
+>> >>
+>> >> > On Thu, Jun 5, 2025 at 12:04=E2=80=AFPM Pratyush Yadav <pratyush@ke=
+rnel.org> wrote:
+>> >> >>
+>> >> >> On Thu, May 15 2025, Pasha Tatashin wrote:
+>> >> >>
+>> >> >> > Implements the core logic within luo_files.c to invoke the prepa=
+re,
+>> >> >> > reboot, finish, and cancel callbacks for preserved file instance=
+s,
+>> >> >> > replacing the previous stub implementations. It also handles
+>> >> >> > the persistence and retrieval of the u64 data payload associated=
+ with
+>> >> >> > each file via the LUO FDT.
+>> >> >> >
+>> >> >> > This completes the core mechanism enabling registered filesystem
+>> >> >> > handlers to actively manage file state across the live update
+>> >> >> > transition using the LUO framework.
+>> >> >> >
+>> >> >> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+>> >> >> > ---
+>> >> >> >  drivers/misc/liveupdate/luo_files.c | 105 +++++++++++++++++++++=
+++++++-
+>> >> >> >  1 file changed, 103 insertions(+), 2 deletions(-)
+>> >> >> >
+>> >> >> [...]
+>> >> >> > @@ -305,7 +369,29 @@ int luo_do_files_prepare_calls(void)
+>> >> >> >   */
+>> >> >> >  int luo_do_files_freeze_calls(void)
+>> >> >> >  {
+>> >> >> > -     return 0;
+>> >> >> > +     unsigned long token;
+>> >> >> > +     struct luo_file *h;
+>> >> >> > +     int ret;
+>> >> >> > +
+>> >> >> > +     xa_for_each(&luo_files_xa_out, token, h) {
+>> >> >>
+>> >> >> Should we also ensure at this point that there are no open handles=
+ to
+>> >> >> this file? How else would a file system ensure the file is in quie=
+scent
+>> >> >> state to do its final serialization?
+>> >> >
+>> >> > Do you mean check refcnt here? If so, this is a good idea, but first
+>> >> > we need to implement the lifecycle of liveupdate agent correctectly,
+>> >> > where owner of FD must survive through entering into reboot() with
+>> >> > /dev/liveupdate still open.
+>> >>
+>> >> Yes, by this point we should ensure refcnt =3D=3D 1. IIUC you plan to
+>> >> implement the lifecycle change in the next revision, so this can be
+>> >> added there as well I suppose.
 >> >
->> > What I meant is that even without KHO_DEBUGFS, LUO drives KHO, but then
->> > KHO calls into LUO from the notifier, which makes the control flow
->> > somewhat convoluted. If LUO is supposed to be the only thing that
->> > interacts directly with KHO, maybe we should get rid of the notifier a=
-nd
->> > only let LUO drive things.
+>> > Yes, I am working on that. Current, WIP patch looks like this:
+>> > https://github.com/soleen/linux/commit/fecf912d8b70acd23d24185a8c05047=
+64e43a279
+>> >
+>> > However, I am not sure about refcnt =3D=3D 1 at freeze() time. We can =
+have
+>> > programs, that never terminated while we were still in userspace (i.e.
+>> > kexec -e -> reboot() -> freeze()), in that case refcnt can be anything
+>> > at the time of freeze, no?
 >>
->> Yes, we should. I think we should consider the KHO notifiers and self
->> orchestration as obsoleted by LUO. That's why it was in debugfs
->> because we were not ready to commit to it.
+>> Do you mean the agent that controls the liveupdate session? Then in that
+> Yes
+>> case the agent can keep running with the /dev/liveupdate FD open, but it
+>> must close all of the FDs preserved via LUO before doing kexec -e.
 >
-> We could do that, however, there is one example KHO user
-> `reserve_mem`, that is also not liveupdate related. So, it should
-> either be removed or modified to be handled by LUO.
+> Right, but in this case the agent would have to basically kill all the
 
-It still depends on kho_finalize() being called, so it still needs
-something to trigger its serialization. It is not automatic. And with
-your proposed patch to make debugfs interface optional, it can't even be
-used with the config disabled.
+Or the participating processes can be cooperative and simply exit
+cleanly, or at least close the FDs before triggering the kexec. The
+whole live update process needs a lot of parts to cooperate anyway.
 
-So if it must be explicitly triggered to be preserved, why not let the
-trigger point be LUO instead of KHO? You can make reservemem a LUO
-subsystem instead.
+> processes the regestred FDs through it prior to 'kexec -e', I am not
+> sure it is its job. However, we can add some pr_warn_once() when rfcnt
+> !=3D 1, I think this is a minor change. Lets do that once we have a more
+> developed userspace setup. We need to start working on liveupdated
 
-Although to be honest, things like reservemem (or IMA perhaps?) don't
-really fit well with the explicit trigger mechanism. They can be carried
-across kexec without needing userspace explicitly driving it. Maybe we
-allow LUO subsystems to mark themselves as auto-preservable and LUO will
-preserve them regardless of state being prepared? Something to think
-about later down the line I suppose.
+Sure, makes sense.
+
+> that would through some sort of RPCs calls store and restore FDs.
+
+I have been playing around with some ideas on how to do this. Will try
+some things out and see if I can come up with a PoC soon.
 
 --=20
 Regards,
