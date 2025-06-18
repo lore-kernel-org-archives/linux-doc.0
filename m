@@ -1,141 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871EF2EE601;
-	Wed, 18 Jun 2025 15:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CC4F510;
+	Wed, 18 Jun 2025 15:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750258969; cv=none; b=oxXRAztfslMQSKfL9dVVJqt7lEiDw8GjbSpijPNQ+6uFY0QRpwyLcT/XFk/+5HsbLeTmC6kl50/pB0qh+NTO3fP4IgfdUibrCgynBx7W3pF20iZ0Wtedcyt/0+2pLfn+q93tO9KGGpZg7OUQszqYWaxo4tlo7N1VvvHpCaxVRXA=
+	t=1750259844; cv=none; b=eRQgHVIvE+3OmE1oGwOrIUOj0Dsmqgbby2zmAIf+c6Jd2pwZqGxgudKxb87cWpM1f35nnssRqtz+zem8mGy6ntZLYei/Lzj5rnwW6ZpF2TIg+ox6V5pc0fUwemO8LqfX2OF8WmUSl3CfBqHrq9SgFGwhfB+clZ/p1Ol5n232EyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750258969; c=relaxed/simple;
-	bh=t81ifGfWFp44BJ2Ft+uUvvxNKGSU9iLNCt2qyWfuIV4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YVb1PZ5i5CbX63lx1r20M5oytrK3dQBk7S37BYyIdfdpzknX6zbPXbtqMUY7DPcx2fVMrCx6a8o20EyxF9NrOwpCD4bVbyaDsthOibHDuakyxMFgBqZsv2MlQAcPD9utHM+MG2IfCwP3lXbVMbhSCk2RhCWcMF7sBAC8vJhmhas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AX0v04N0; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750259844; c=relaxed/simple;
+	bh=qp3zEprFcsHoCCE1DWjUUaPL9Tr6VHgIcEyvV0o9FEA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sKo3bftrReJvKlCLcnstGnchrQLWohem1Vzdr58+GNonlyyJVLx3m+Jwd5GLwgcHRSDH2hA56ff6N0ldJU6sYae43SHHng7B7VfhKFdEtMdPL3m+QB6hymQJW5/W1DiQtivA8F9UQLG5aMO1yYNP9NQdVuu/OFkobcVsHyMrzLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atwXuhJi; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AX0v04N0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atwXuhJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750258968; x=1781794968;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=t81ifGfWFp44BJ2Ft+uUvvxNKGSU9iLNCt2qyWfuIV4=;
-  b=AX0v04N0TO0lrHMwyAznWbBApBG4nBS9M7lgTzt8Dkf/S1Ih1M8WCj9g
-   I09XVnsc8NWKis2KuSFcdwRZkmCCudZKRxTKjoA330b2XLgupx8em7TWh
-   N9Y7LfeSZtxjG+3ETwSZxT0FpcFFtInidN0r6dGAB2upmNxZiNJi6YenQ
-   6FHmNSbEp6oPbBzNDGSnJ2Ugz5ym/iFbfwxPuNUobpDdffVMXche91MIJ
-   DwCE+hKIgHSldGNz6SbXBC2mHGxmRJthnieP0TtRajF1TvVV3K+9x71q/
-   +U2BTmNaRb8bnoG1KCGdtteqm2FGq87h2ExNbO8XP+gfsYy10lHDf+95Z
-   Q==;
-X-CSE-ConnectionGUID: YY+UIrTJR16CJdBgo7aAgw==
-X-CSE-MsgGUID: lzT2X7CSSQqqyi2216ri5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="63907941"
+  t=1750259842; x=1781795842;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qp3zEprFcsHoCCE1DWjUUaPL9Tr6VHgIcEyvV0o9FEA=;
+  b=atwXuhJi4uCNA1PSJwHpUy2oovF5EcCKv0eHm+MlDE+AGtIduQhXYXC+
+   geJ0rXkncNalKx9NNppdgpJpfgivHOpEj589uh9/yOhOsXlF/pewvbeGX
+   9R1mTbcMy4OYHQmXWqOmWsQqiCHfxq0WS44JEjZpK26YT3dB2qr3noyIX
+   Sq3zYvza6Jtua+p2jeNCYhhPpL4/bD+jpvsmS7Fzy+pSpn4+tX/uPz+iQ
+   dhHmnFQ+FDKw583xep7jJIuOVHfWA94gfb4aiGZDSj296OWR95l6Z7Qwf
+   uLZVWmwcrOzN28ucc/i2Py6HGg+p81d3KG0O0DWbh6EDls59TjwRR3T1u
+   w==;
+X-CSE-ConnectionGUID: LsVM1kXxTcm3BtgzvvjHxg==
+X-CSE-MsgGUID: 3pBxLW12TFmLIGwWCofoKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52626338"
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="63907941"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 08:02:47 -0700
-X-CSE-ConnectionGUID: rf8OPVHpRl2MllV8+9OTVQ==
-X-CSE-MsgGUID: ALgAo8fnQvi1hlteH6Yi/w==
+   d="scan'208";a="52626338"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 08:17:21 -0700
+X-CSE-ConnectionGUID: cqBX57m6QDSP4ZkR3jnKsQ==
+X-CSE-MsgGUID: Vrp+9Il+T7atOs5gYA+r9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="180720676"
-Received: from agladkov-desk.ger.corp.intel.com (HELO [10.125.108.97]) ([10.125.108.97])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 08:02:42 -0700
-Message-ID: <9c08c890-d8a1-4d9c-942d-d19c540216bc@intel.com>
-Date: Wed, 18 Jun 2025 08:02:42 -0700
+   d="scan'208";a="149455804"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.intel.com) ([10.245.246.172])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 08:17:16 -0700
+From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+To: linux-cxl@vger.kernel.org
+Cc: Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Subject: [PATCH] cxl: docs/driver-api/conventions resolve conflicts btw CFMWS, LMH, ED
+Date: Wed, 18 Jun 2025 17:17:05 +0200
+Message-ID: <20250618151710.1001847-1-fabio.m.de.francesco@linux.intel.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 01/19] Documentation/x86: Secure Launch kernel
- documentation
-To: "Mowka, Mateusz" <mateusz.mowka@linux.intel.com>,
- Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev
-Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
- nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
- corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
- baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-References: <20250421162712.77452-1-ross.philipson@oracle.com>
- <20250421162712.77452-2-ross.philipson@oracle.com>
- <8540352d-a7e3-4697-bc8f-2345e674548c@linux.intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <8540352d-a7e3-4697-bc8f-2345e674548c@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/18/25 01:33, Mowka, Mateusz wrote:
-> On 21-Apr-25 6:26 PM, Ross Philipson wrote:
->> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
->>
->> Introduce background, overview and configuration/ABI information
->> for the Secure Launch kernel feature.
->>
->> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
->> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
->> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> 
-> Acked-by: Mateusz Mowka <mateusz.mowka@linux.intel.com>
+Add documentation on how to resolve conflicts between CXL Fixed Memory
+Windows, Platform Memory Holes, and Endpoint Decoders.
 
-Could you tell us a little more about what this ack means?
+Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
+---
+ Documentation/driver-api/cxl/conventions.rst | 85 ++++++++++++++++++++
+ 1 file changed, 85 insertions(+)
 
-There is zero context here, and from what I can tell these two acks
-without context are your first messages on a lore-indexed public mailing
-list.
+diff --git a/Documentation/driver-api/cxl/conventions.rst b/Documentation/driver-api/cxl/conventions.rst
+index da347a81a237..acf2523ae799 100644
+--- a/Documentation/driver-api/cxl/conventions.rst
++++ b/Documentation/driver-api/cxl/conventions.rst
+@@ -45,3 +45,88 @@ Detailed Description of the Change
+ ----------------------------------
+ 
+ <Propose spec language that corrects the conflict.>
++
++
++Resolve conflict between CFMWS, Plaftform Memory Holes, and Endpoint Decoders
++=============================================================================
++
++Document
++--------
++
++CXL Revision 3.2, Version 1.0
++
++License
++-------
++
++SPDX-License Identifier: CC-BY-4.0
++
++Creator/Contributors
++--------------------
++
++Fabio M. De Francesco, Intel
++Dan J. Williams, Intel
++Mahesh Natu, Intel
++
++Summary of the Change
++---------------------
++
++According to the current CXL Specifications (Revision 3.2, Version 1.0)
++the CXL Fixed Memory Window Structure (CFMWS) describes zero or more Host
++Physical Address (HPA) windows that are associated with each CXL Host
++Bridge. Each window represents a contiguous HPA range that may be
++interleaved across one or more targets, some of which are CXL Host Bridges.
++Associated with each window are a set of restrictions that govern its
++usage. It is the OSPM’s responsibility to utilize each window for the
++specified use.
++
++Table 9-22 states the Window Size field contains that the total number of
++consecutive bytes of HPA this window represents and this value shall be a
++multiple of Number of Interleave Ways * 256 MB.
++
++Platform Firmware (BIOS) might reserve part of physical addresses below
++4 GB (e.g., the Low Memory Hole that describes PCIe memory space for MMIO
++or a requirement for the greater than 8 way interleave CXL regions starting
++at address 0). In that case the Window Size value cannot be anymore
++constrained to the NIW * 256 MB above-mentioned rule.
++
++On those systems, BIOS publishes CFMWS which communicate the active System
++Physical Address (SPA) ranges that map to a subset of the Host Physical
++Address (HPA) ranges. The SPA range trims out the hole, and capacity in the
++endpoint is lost with no SPA to map to CXL HPA in that hole.
++
++The description of the Window Size field in table 9-22 needs to take that
++special case into account.
++
++Note that the Endpoint Decoders HPA range sizes have to comply with the
++alignment constraints and so a part of their memory capacity might not be
++accessible if their size exceeds the matching CFMWS range's.
++
++Benefits of the Change
++----------------------
++
++Without this change, the OSPM wouldn't match Endpoint Decoders with CFMWS
++whose Window Size don't comply with the alignment rules and so all their
++capacity would be lost. This change allows the OSPM to match Endpoint
++Decoders whose HPA range size exceeds the matching CFMWS and create
++regions that at least utilize part of the decoders total memory capacity.
++
++References
++----------
++
++Compute Express Link Specification Revision 3.2, Version 1.0
++<https://www.computeexpresslink.org/>
++
++Detailed Description of the Change
++----------------------------------
++
++The current description of a CFMWS Window Size (table 9-22) is replaced
++with:
++
++"The total number of consecutive bytes of HPA this window represents. This
++value shall be a multiple of NIW*256 MB. On platforms that reserve physical
++addresses below 4 GB for special use (e.g., the Low Memory Hole for PCIe
++MMIO on x86), an instance of CFMWS whose Base HPA is 0 might have a window
++size that doesn't align with the NIW*256 MB constraint; note that the
++matching Endpoint Decoders HPA range size must still align to the
++above-mentioned rule and so the memory capacity that might exceeds the
++CFMWS window size will not be accessible.".
 
-I have no idea what's going on here.
+base-commit: a021802c18c4c30dff3db9bd355cacb68521f1aa
+-- 
+2.49.0
+
