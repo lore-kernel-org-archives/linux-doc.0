@@ -1,125 +1,132 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218DA2E06EF;
-	Wed, 18 Jun 2025 12:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7904F2C08B8;
+	Wed, 18 Jun 2025 13:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750251587; cv=none; b=hVnos8KxI5UNRR3FEoO8FQBaU4JgO1BOG40RO7wFSfwezShI9Bvu225aFYgHlJfNNYRBH7+nZyyQJuNLO+VrXJdLNBtiiJhi3pXNn8h3nvH4mKbLw/jPlv8S7zhItHdODQ+3Zfy8efs5SyQSNfpxm9q0HvpvFRENfSzXtf6PMbA=
+	t=1750252322; cv=none; b=R9aekwHTlBQ2X22CJHGxLW+QSsQgQiotCXUS7ygBCVM6h/VtWsmTApSn+6I3luCewBwCQphUOb3mcGsp4H7xtvQ2HOx7GJk5DuOpU0dXELtqZrtaOWkm/c7HVKc2hhBu/auu7pl0oms4HuFlnm+Plv3lUfOeotSkT5eUOuYy958=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750251587; c=relaxed/simple;
-	bh=jpls8L+8uQegmdKvyIFRZ1rhINWMqc49kXdsyT/MuEM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f+t6z620BrTSY79tidmmv3ueyZVQW334+jNov4RuvAqqle6pnzEmOyRaJC4sL/ZIAZrzgTfI2hJh5CJqk4LkAdawyfay+5esvVGUqptWmsaQAim3EKEZsx3YXd2fR3gk0iUgP9yvtUjepw8XSM0qwQ470dmVmgy4toqgFQUU+d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e0u449kP; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750252322; c=relaxed/simple;
+	bh=s5qyzz/qBQpZoUuL9l+81lOuO/S3Lo8ObQXBuGDJkMo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XbqOUIVgzHdqlSmaV1LITRsJxKGuhYnpm5kKuUSSGiF7+ubxV58iAhDxTJY6E6ikBQMDfMcjj09sOYKU0gZTm0zPrPZQ8FKp5eDo4HFtERYdKXm/G5XnU7bj4CVfZeiC0rkc3ehFImd7fUW62I27nCrXxHUw1KbHOI8WLG8mVEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GozqKuXy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0u449kP"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-60789b450ceso13403243a12.2;
-        Wed, 18 Jun 2025 05:59:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750251583; x=1750856383; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qq2+/adGDB0VmTZ24qXNIpW4sZc4xuYs5fBPLMCb+Oo=;
-        b=e0u449kPlhWDmlo9WxcjKTN9PYldz92l0aREj7nxBLiPCt1AcoyjDnBiarWpFhdCF/
-         r0tprPxLQJKDb0efxDMbOrZXCsN+5c5tXUE2kBotmYmYDjpHEpaJ74wAydb+7r/aLZ92
-         WYzlXms2v7gM5+M/BJupDbOqecAVyLXPdwjiYNKmGfp97VRWzn46wSVl9ujVLWCsXGHT
-         bsQkWSAsSh8gE1RcojqPNF1XUZbvsT6Y7dKR+7MCQH3OUnJYcp8DR8it+GimEKRoTUNf
-         AmxCpPyVF6V1sYEjLy+awLbBf0iDtX5fV6JZBDotircuDohaxRHEjTDrvgn/KKnx8xWb
-         3x6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750251583; x=1750856383;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Qq2+/adGDB0VmTZ24qXNIpW4sZc4xuYs5fBPLMCb+Oo=;
-        b=EBytCqwsa93sdsDeSHr9KXO0Dm5NuHTH9D316pOVEZmFmaMdLFB35WxuGYcQCI1F3y
-         wJY6ZStY5BOzxHEYpzCzPPPxbkJdh//tDok1cSaRM69Tek1QCD/JRE80d+gSXJShNvak
-         szm0gBaq3ZLUudLHNS8LS87DUbJdDLRPsBJxm4K1hzDyM+rHa//DRX6s4WkZygy7tfG5
-         vun+MH9EAxnYjTtkCECsjJxV717AXT4WnT1wxh3bqwGn1tWnKtVGeBctnakpMSAIMGvt
-         JAqJ6SorX6wrLQIG4OfbG5Bb9HmvPAJWovOvx14dcK4ZNcrPGTcxvgbkywkZq1FJ0q07
-         02Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCUkt2ed1L0zm6EqNpuGNIKpXxyx77BOghmyeIHI6vfv853pdddmco18Tj9wSL6hXedNm1s9D+HU4o1STG1f@vger.kernel.org, AJvYcCWXUAt2y33kVtnTr/DGkhANGwMrsEjeJAvCCWVVeiKgyUyTNGEKFGPEizWEK11RlcrPAb5OM/CjlWs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvPqr2vytdtTghHL66JZbpseUQ5qlhYakIfhRif+92x00jpNNg
-	51l0AgIjaowSTznGZiucDkeH7aywHblUiGn/g9Xsupi4S/KNH7jmnQQZa+p/LueWtEBOsHflXZ3
-	/7vmm5TfkPS30+fGhxTOan3Orh1mFw9A=
-X-Gm-Gg: ASbGncu7OuQ0H/nqq4p0Y/naxUh9XcspLOgfGVV3G/9jTFf7OxK+E+6WpU3mYO+sdWz
-	FEr/4vBzOA+rXI8CxdmLMiN+iX3FVweH7jC5r8yuQI3d7N655AMatpaWFixv2i95Buaz3VMiFsr
-	dn7AbwkEssuy4lDSyF7DCQ41x9T7b23W11vVugH+TykI0=
-X-Google-Smtp-Source: AGHT+IGyUhM+KgyxTIvqWyOzWLTSsKgqaGyZQ0JDk5kKAJf/zyENpJ2QvU/cjisgddEXfxSCX5AYb7vh3YtGwUDxnvY=
-X-Received: by 2002:a05:6402:50cc:b0:5fa:fcda:bf57 with SMTP id
- 4fb4d7f45d1cf-608d09bfb1bmr16933764a12.17.1750251582919; Wed, 18 Jun 2025
- 05:59:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GozqKuXy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CA03C4CEE7;
+	Wed, 18 Jun 2025 13:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750252322;
+	bh=s5qyzz/qBQpZoUuL9l+81lOuO/S3Lo8ObQXBuGDJkMo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=GozqKuXyxjUgmHEhOYXLuI/y4m8rpsuTDKgLStZR7yoSnii9/Rf/S6+YbwlUnjzeJ
+	 r21kcjcCLL7SGOmlJ1y1lzExbZBJHW3sOgcdEsIQjMxHlC2hefQ7m5EmeksGYUnC3I
+	 1iC0MFOnA7XEfodJTxoBdRjz18ca+DPjNXh7cdswd8lEqxYFc7Gylhr8xhOg2q24KO
+	 JFBIdww/zFK+lik5vw5TJO8cJHTBvRxLlggrRF/hccLVTvRLLwuayDWtGfNTo3NEcr
+	 VS7Phta3ho4Ph9cLqBRV/TVbThOaueLHdz+GJfVD9hktZqBlyJQgR+FHfQTxHld7aX
+	 GxNpyxYYXQg4A==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>,  Pratyush Yadav <pratyush@kernel.org>,
+  jasonmiu@google.com,  graf@amazon.com,  changyuanl@google.com,
+  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
+In-Reply-To: <CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+	<20250515182322.117840-6-pasha.tatashin@soleen.com>
+	<mafs0sekfts2i.fsf@kernel.org>
+	<CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
+	<mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
+	<CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
+Date: Wed, 18 Jun 2025 15:11:52 +0200
+Message-ID: <mafs05xgtw5wn.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250616134003.3981866-1-dzm91@hust.edu.cn> <9aa4278e-0f43-420b-b6b5-78a32263d7ec@linux.dev>
-In-Reply-To: <9aa4278e-0f43-420b-b6b5-78a32263d7ec@linux.dev>
-From: Alex Shi <seakeel@gmail.com>
-Date: Wed, 18 Jun 2025 20:59:05 +0800
-X-Gm-Features: AX0GCFtrwa1LBBshh64SHqQgycceaj7zSQ9yLJ2KdpypAVaeG1GqkzsXjVfJVdE
-Message-ID: <CAJy-Amn99xopAHTwc0ZUFfGKDmjq9Oo==Shy5Jn-YC6XcgE5zg@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: update git command examples in how-to.rst
-To: Yanteng Si <si.yanteng@linux.dev>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Applied! Thanks!
+On Tue, Jun 17 2025, Pasha Tatashin wrote:
 
-Yanteng Si <si.yanteng@linux.dev> =E4=BA=8E2025=E5=B9=B46=E6=9C=8817=E6=97=
-=A5=E5=91=A8=E4=BA=8C 09:44=E5=86=99=E9=81=93=EF=BC=9A
+> On Tue, Jun 17, 2025 at 11:24=E2=80=AFAM Jason Gunthorpe <jgg@ziepe.ca> w=
+rote:
+>>
+>> On Fri, Jun 13, 2025 at 04:58:27PM +0200, Pratyush Yadav wrote:
+>> > On Sat, Jun 07 2025, Pasha Tatashin wrote:
+>> > [...]
+>> > >>
+>> > >> This weirdness happens because luo_prepare() and luo_cancel() contr=
+ol
+>> > >> the KHO state machine, but then also get controlled by it via the
+>> > >> notifier callbacks. So the relationship between then is not clear.
+>> > >> __luo_prepare() at least needs access to struct kho_serialization, =
+so it
+>> > >> needs to come from the callback. So I don't have a clear way to cle=
+an
+>> > >> this all up off the top of my head.
+>> > >
+>> > > On production machine, without KHO_DEBUGFS, only LUO can control KHO
+>> > > state, but if debugfs is enabled, KHO can be finalized manually, and
+>> > > in this case LUO transitions to prepared state. In both cases, the
+>> > > path is identical. The KHO debugfs path is only for
+>> > > developers/debugging purposes.
+>> >
+>> > What I meant is that even without KHO_DEBUGFS, LUO drives KHO, but then
+>> > KHO calls into LUO from the notifier, which makes the control flow
+>> > somewhat convoluted. If LUO is supposed to be the only thing that
+>> > interacts directly with KHO, maybe we should get rid of the notifier a=
+nd
+>> > only let LUO drive things.
+>>
+>> Yes, we should. I think we should consider the KHO notifiers and self
+>> orchestration as obsoleted by LUO. That's why it was in debugfs
+>> because we were not ready to commit to it.
 >
->
-> =E5=9C=A8 6/16/25 9:40 PM, Dongliang Mu =E5=86=99=E9=81=93:
-> > This patch leverages `checkout -b` to shorten branch & checkout
-> > and fix the missing checkout.
-> >
-> > Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->
-> Acked-by: Yanteng Si <si.yanteng@linux.dev>
->
->
-> Thanks,
->
-> Yanteng
->
-> > ---
-> >   Documentation/translations/zh_CN/how-to.rst | 5 ++---
-> >   1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentatio=
-n/translations/zh_CN/how-to.rst
-> > index 569b0209385a..0896f13d8b8d 100644
-> > --- a/Documentation/translations/zh_CN/how-to.rst
-> > +++ b/Documentation/translations/zh_CN/how-to.rst
-> > @@ -177,8 +177,7 @@ git=E5=92=8C=E9=82=AE=E7=AE=B1=E9=85=8D=E7=BD=AE
-> >   =E8=AF=B7=E6=89=A7=E8=A1=8C=E4=BB=A5=E4=B8=8B=E5=91=BD=E4=BB=A4=EF=BC=
-=8C=E6=96=B0=E5=BB=BA=E5=BC=80=E5=8F=91=E5=88=86=E6=94=AF::
-> >
-> >       git checkout docs-next
-> > -     git branch my-trans
-> > -     git checkout my-trans
-> > +     git checkout -b my-trans
-> >
-> >   =E8=AF=91=E6=96=87=E6=A0=BC=E5=BC=8F=E8=A6=81=E6=B1=82
-> >   ------------
-> > @@ -286,7 +285,7 @@ warning =E4=B8=8D=E9=9C=80=E8=A6=81=E8=A7=A3=E5=86=
-=B3::
-> >   =E7=84=B6=E5=90=8E=E6=89=A7=E8=A1=8C=E4=BB=A5=E4=B8=8B=E5=91=BD=E4=BB=
-=A4=E4=B8=BA=E8=A1=A5=E4=B8=81=E8=BF=BD=E5=8A=A0=E6=9B=B4=E6=94=B9::
-> >
-> >       git checkout docs-next
-> > -     git branch test-trans
-> > +     git checkout -b test-trans-new
-> >       git am 0001-xxxxx.patch
-> >       ./scripts/checkpatch.pl 0001-xxxxx.patch
-> >       =E7=9B=B4=E6=8E=A5=E4=BF=AE=E6=94=B9=E6=82=A8=E7=9A=84=E7=BF=BB=
-=E8=AF=91
+> We could do that, however, there is one example KHO user
+> `reserve_mem`, that is also not liveupdate related. So, it should
+> either be removed or modified to be handled by LUO.
+
+It still depends on kho_finalize() being called, so it still needs
+something to trigger its serialization. It is not automatic. And with
+your proposed patch to make debugfs interface optional, it can't even be
+used with the config disabled.
+
+So if it must be explicitly triggered to be preserved, why not let the
+trigger point be LUO instead of KHO? You can make reservemem a LUO
+subsystem instead.
+
+Although to be honest, things like reservemem (or IMA perhaps?) don't
+really fit well with the explicit trigger mechanism. They can be carried
+across kexec without needing userspace explicitly driving it. Maybe we
+allow LUO subsystems to mark themselves as auto-preservable and LUO will
+preserve them regardless of state being prepared? Something to think
+about later down the line I suppose.
+
+--=20
+Regards,
+Pratyush Yadav
