@@ -1,50 +1,25 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C735619E819;
-	Wed, 18 Jun 2025 08:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9EF227EFF9;
+	Wed, 18 Jun 2025 08:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750235617; cv=none; b=R3M7C/CvdfD9x9+JHLysaZ0iPZXB75ucdDD9vTPi4/wj8KVzaHkCmB9L5BxJ8L5Srwv7DH4/GeCIrFfCSzkn+/67eERhekLtYVkHDdqwU9REDEoWfhq2PH8GWHdkcG994xx0Vd6mLOvIqWwxi88t5tp3fMUuxCO6X7SB/S3NIyA=
+	t=1750235641; cv=none; b=mx1vWUQvlvOa5kwNEVkra//ArUDUSJ2vlRq8PuTIHNvgk4I2dKtPwUCfLf3Q9xN+GKOLYN2p0b/JSryEPXEn/Ig1zLr9exPBKLduC7/P3XpNrWR6qGmmar6JMawlJvQvdZqDE92mZN5Lp7VGp7H2UY3LQvD18oOSeUgqMkkRh8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750235617; c=relaxed/simple;
-	bh=fIu3H0X1ir+ab5DgfWZw8Zxf2egqeIQlXSOMOU+My5c=;
+	s=arc-20240116; t=1750235641; c=relaxed/simple;
+	bh=NkVP0Pe6MixI98Ik2kCoYR/GZdPxxXULj0SRX8tgsbI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i4VIhubzAJEKUAe+BobFLMmBSY0E5svDZQc0+jTUXKt1joy07bh6JgkMFo8q7lLLbnSMTRUI/nRb1z6oCi4k0919pJGi3CPvHnt2uAzPBi6mQrxGGwPZvgk3J7DlygJi3hp4kaP18QY4RxNEWVEq+XYQyemEW7S6btFScuXMVvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZo+Qjfz; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZo+Qjfz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750235616; x=1781771616;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=fIu3H0X1ir+ab5DgfWZw8Zxf2egqeIQlXSOMOU+My5c=;
-  b=TZo+Qjfzi4wCLHB/11wruSp9VA8QxlGISaG66w533v1WSxc0plEdsYs+
-   hkjO9HgyUl/JUZyJm3wc2EovJu+JzqMcKAhEriaMtjq67akzMNj1KIHmD
-   JkdU1/Zk3puJlDlHVqjsZgY9Ayzk1ORsS+CYrkwVbuWk0h4oqiEZ/6f0c
-   BPbxaD9Mt41TjdHdZrN5BBXjIMYvS757sd07ljxPsHwNSZx13Wury3aLx
-   LMpgMVpttEdIn61q9L4rTT8bwABNHd/zfZjr9givGPHYZX+S9VHV98hrO
-   EL0tpav7TZTcKGQoiCIVBa9ecXgQUiSwlNg7rGuD7WIXrCrQAsQyEj5Lc
-   A==;
-X-CSE-ConnectionGUID: m3aupNNSTI222TTctr1y+Q==
-X-CSE-MsgGUID: kOfACOHfRR6RwtxVlSIOCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="63048642"
-X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="63048642"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 01:32:27 -0700
-X-CSE-ConnectionGUID: XdbUQy3CRfOUfn7iOGHy+w==
-X-CSE-MsgGUID: HBtqD8F8So280xiJlFKgkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="149986926"
-Received: from mmowka-mobl.ger.corp.intel.com (HELO [10.245.101.212]) ([10.245.101.212])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 01:32:20 -0700
-Message-ID: <231e4cef-2e44-4e25-9169-f298e72e8e07@linux.intel.com>
-Date: Wed, 18 Jun 2025 10:32:04 +0200
+	 In-Reply-To:Content-Type; b=nIOwHmy/go2qYVO3eHKKdsSIw+1UeAnPyzOJzy/Xb70brImo9W5Z0pAmZrtfI1/7uWmZ8RvUWZz4RAHeK3BjXTZRBF4maN1a5OfkDAf+NbLmOejri0nrXK8cMdiT4IC3uXR6rTqIquFbmPV+21e8c8EXbCxdFmurjqW367HKMsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE97114BF;
+	Wed, 18 Jun 2025 01:33:31 -0700 (PDT)
+Received: from [10.163.35.185] (unknown [10.163.35.185])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A4B853F66E;
+	Wed, 18 Jun 2025 01:33:48 -0700 (PDT)
+Message-ID: <ba8ec54d-586e-4bde-95c6-1dc2a9a937fb@arm.com>
+Date: Wed, 18 Jun 2025 14:03:45 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,59 +27,43 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 02/19] x86: Secure Launch Kconfig
-To: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev
-Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
- nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
- corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
- baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-References: <20250421162712.77452-1-ross.philipson@oracle.com>
- <20250421162712.77452-3-ross.philipson@oracle.com>
-Content-Language: pl
-From: "Mowka, Mateusz" <mateusz.mowka@linux.intel.com>
-In-Reply-To: <20250421162712.77452-3-ross.philipson@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC 1/2] lib/vsprintf: Add support for pte_t
+To: David Hildenbrand <david@redhat.com>, linux-mm@kvack.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250618041235.1716143-1-anshuman.khandual@arm.com>
+ <20250618041235.1716143-2-anshuman.khandual@arm.com>
+ <1eceff0f-4df8-4716-8e3c-e2cb9e142511@redhat.com>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <1eceff0f-4df8-4716-8e3c-e2cb9e142511@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-On 21-Apr-25 6:26 PM, Ross Philipson wrote:
-> Initial bits to bring in Secure Launch functionality. Add Kconfig
-> options for compiling in/out the Secure Launch code.
->
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
 
-Acked-by: Mateusz Mowka <mateusz.mowka@linux.intel.com>
+On 18/06/25 1:49 PM, David Hildenbrand wrote:
+>> +    case 'p':
+>> +        if (fmt[1] == 't' && fmt[2] == 'e') {
+>> +            pte_t *pte = (pte_t *)ptr;
+>> +
+>> +            spec.field_width = 10;
+>> +            spec.precision = 8;
+>> +            spec.base = 16;
+>> +            spec.flags = SPECIAL | SMALL | ZEROPAD;
+>> +            if (sizeof(pte_t) == sizeof(u64)) {
+>> +                u64 val = pte_val(*pte);
+>> +
+>> +                return number(buf, end, val, spec);
+>> +            }
+>> +            WARN_ONCE(1, "Non standard pte_t\n");
+> 
+> What about 32bit with 32bit pte_t?
 
-> ---
->   arch/x86/Kconfig | 11 +++++++++++
->   1 file changed, 11 insertions(+)
->
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 4b9f378e05f6..badde1e9742e 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -2001,6 +2001,17 @@ config EFI_RUNTIME_MAP
->   
->   	  See also Documentation/ABI/testing/sysfs-firmware-efi-runtime-map.
->   
-> +config SECURE_LAUNCH
-> +	bool "Secure Launch support"
-> +	depends on X86_64 && X86_X2APIC && TCG_TIS && TCG_CRB && CRYPTO_LIB_SHA1 && CRYPTO_LIB_SHA256
-> +	help
-> +	   The Secure Launch feature allows a kernel to be loaded
-> +	   directly through an Intel TXT measured launch. Intel TXT
-> +	   establishes a Dynamic Root of Trust for Measurement (DRTM)
-> +	   where the CPU measures the kernel image. This feature then
-> +	   continues the measurement chain over kernel configuration
-> +	   information and init images.
-> +
->   source "kernel/Kconfig.hz"
->   
->   config ARCH_SUPPORTS_KEXEC
+Ahh, missed that. Just wondering which all platforms might
+care about the 32 bit pte representation.
+
