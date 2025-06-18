@@ -1,55 +1,55 @@
 Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C982F21CC7F
-	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 04:24:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FE121D3E1
+	for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 04:24:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750220689; cv=none; b=CeaXZqyQDmOMcbfR96l95fTMsAQ6jKzpV9+DyAhFAAYbNqGXC+g1NHrHq789JtZyaYFZBXn4qt21rTchOxOjzfBEj6yvgBVgHEz2pumMmNHdbgBRIBATUmZ+Q8uSPwubiEDZjlDFUgDOzK5rfxm14zH1LyuEGw0vbn5aAd38wpU=
+	t=1750220690; cv=none; b=GkYfMZ6SPYgBRie+R4tdHqBp0B5k8rJPbtLC2pk+3wvIJE9ASMEfD9HpxfuhJrECbE9sZd4z2Q6nevtDoCkDFBWBgMG3Ky+C4jBOByhLIBvYk4GDvC6Nw2VC15fBIHfd1CmK31EHwESPN3G3CtemYyYoTXoumo5nVGBBLTGuoUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750220689; c=relaxed/simple;
-	bh=jSiCen/C1Tdc2UB541LJK2epQTbdnnCbieLg8I8XSIE=;
+	s=arc-20240116; t=1750220690; c=relaxed/simple;
+	bh=0cy61o7VXZiqX2efmaNB3wv8cOwqSs6G7BooJP5WYek=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=SWhYpWH2UOIH7GgssH/6wrqTWVunhrc1mIoV4aEfMV0FzBvkSPZyEhcQOSuBmgy+hxaIGcgFwZh1hCrBZ6UJN9CbTsU9gFrw2kOhYHf/9DnzO675BG0DuYUqiD2ejNMkpeVuKyG6wPwdv2rm4FXydZmWyCo2y71iGVfKyFTMjNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Wzund+6I; arc=none smtp.client-ip=209.85.210.202
+	 To:Cc:Content-Type; b=ntyUN/Dfg91JRmI+WmwWXqIkcDPqAj0MesjncixSlKeZKgNFJGfJt7CizLrbPDd1l0EWJkRf9L1ITR2foo0+rGCY+ONDvi2fv9e2v7QdcQxQ7edTYkrqKtNHUM06gowC9mDqi8hOeimeuuHLzDGpuHidvP1ejPTnsVHXCODIzhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wXVWoh01; arc=none smtp.client-ip=209.85.210.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Wzund+6I"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-748b4034b42so4332960b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 21:24:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wXVWoh01"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-740774348f6so5496639b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Jun 2025 21:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750220685; x=1750825485; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750220688; x=1750825488; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lJmtzreapar7RYm6csfZXNlZpVROzgpN0suNPttjN9U=;
-        b=Wzund+6Icwa5O3/0juL0BZb2/v/gcv/vvLwv+IGtYkiBSz3VkaqxW91RgcihHfLgKP
-         hMogqClv5btqfQiCSNhaC3siOaNNFbaMRlZ4z7NStt5WHlQDdMgW3DhAjjpJQBXuImEI
-         zo2gmp8JwJY24+5oxAzWNMEwLAhtQB18by9XZeKq3YDNQJjJWNl5nnZcOmdYaTdfG39s
-         Uo5vO0r+HvPJYQAewKf1hjSETfHBeC4Z1TLEyEXaoq3Hxe2r0Tn4qZTYPemi8zfYWrNT
-         k0FtyB7fRys1xt2gAxiKDF3ciYUQwr7XEbNdFigzuMO3UnL04G2SzoyD9F1pOehoLucD
-         64Lg==
+        bh=urfbfbke44pGtnk/FCqGVDeVvBhaC6syv0bCNmnixkg=;
+        b=wXVWoh01om4NO2cV4iNiTb7pXfv2E/LFLcdXfVPTVn8OXmPLyoJlINQaiDvX/7UbRQ
+         NpYTYiQ3fF+QGYDsMN7EsbH9KpBQMmYabYG+wnNr0BCDkK3Yd41SC/vUndBiaob3hCp8
+         mLEYaxO9/U+eJ4sQMYftzvZMDat3f1gCHJh3O3NnXrc7sD9J6nPt8/0FnEMmvug542Ff
+         NgVblA3MXuXSLpUNLsEZ7HJTRk6JsE6ZifpkS+KuydtPtcvZLN0Jfax/f2/sRSe+ge3x
+         bY7G2tIyJlg12NK1cdwFzrAe9JfTL+bnIsQWqW/oOieBoN7x3QU0dN+iu9U3M1msUjA+
+         U7pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750220685; x=1750825485;
+        d=1e100.net; s=20230601; t=1750220688; x=1750825488;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lJmtzreapar7RYm6csfZXNlZpVROzgpN0suNPttjN9U=;
-        b=LRUIPVgM3arqtVBpyu2zvm7gkIN0Twyj5Pmm18qncrJgdeuOHLAd0IjC48Hocky2Gr
-         bP/UptYf0zAyNZYv808tBQBT/J1FJO6C8LQwQd5sbARusEUFiwMIdOFF2f0hoX6fjjjL
-         RLCEmGbu7qQfnKzIZgBN8H1Mmqo49bWZSuckA4QJnmKnetXXGln9bL2O8mrfwqq/tKdv
-         B7bZqR2Nt+sGM0dGAOrpjrl53T04Gkwq/6WC426ypjS54PGUZ/Ukpi9aNCOq9Tt9VJ9a
-         qtXbAqLKHv+90Y/M62yEEATD1Z5641YDOD8TmvV8jlts4jb6NGzLk83LERx8xsjpi1RE
-         2AQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUeOOODVL6jBPq0VYdW5643Aa9zz9xaDiBIsG7xz7WkK82IGUq1aK6ZyV+QU7BgCCQWo8KcAp+S9hc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAnibw0e2dQlP0Gc5up/O18dGVEF5jk2xZrm0Nd15mnz7SxTWA
-	YQHT0BIGAg03/dCEpFvkypekvvGNtuDzKFZecCbN3mzo2YZ/wCFC+kKFxOSlPuaBa/lef9OTxvf
-	6Ty5hSER9DhSr73zEml5zuQ==
-X-Google-Smtp-Source: AGHT+IEYBcC2cDsFrgiMsyVhS97ys7BmjM02OsUOLrECd3uh2HcwoI2YZYxPTZFJmgzjhVgSJXNOQSUyK0OIbxzF
-X-Received: from pfus9.prod.google.com ([2002:a05:6a00:8c9:b0:747:a4c0:983d])
+        bh=urfbfbke44pGtnk/FCqGVDeVvBhaC6syv0bCNmnixkg=;
+        b=uFbJS5YAChQG5z3rqAkNg43JJlTzTE4mZQZEPce/Eh80h0MbcFBhUfQlp9+ux7BaDG
+         xpyggxbTb4wS5YfZzaxsih8QrcsHYb3F4buvKl2Z6I4ElzjpTlEQjdMNoCA/hZncVdN4
+         A348hjPW+JDqrqEVMyGK34kyPFk/vr4Bz2+ZQqFd1Jx2sqGaoshWNnRBOp3gFJvIV9gf
+         roQVOBqG14Ag+aWlovyIcCYBh4BzsWMJgMw9r4600cQSE9Kf0mBttYsUtoBSBUPkkEKV
+         4GKJCg7i8HJCke6wR/xX81Msjc9B2NdS+KJUxgKf8BBQrj4v/OcxMw/NsoWBN9ftlE5B
+         8juw==
+X-Forwarded-Encrypted: i=1; AJvYcCXirdtNvSnv6GwvVmUjNdL9TnByhtRa2+FmshDV5aNAfhCNpi41SJKYn9y/KIVyecamzlSrSoab044=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxH0+hZTN9E2wKowsf8ZBtvYGcCtKqxm9wKjqZxdR/K6upxe3kv
+	TuSbVZPVcv2A3D5/wuqv2wMLlAuYGfjyA88icsMMCQCTg7tLSznsQWdlviN0QMKxYOPcHppJQ61
+	uvjoxe17qX2Cv4uit0j6+tg==
+X-Google-Smtp-Source: AGHT+IFPdIrbDlRQ72BheICD/uy5q1y4Z/C5VNYBV8bJ51Pda+epcBJA7XWiJKZlOD5QXWSznMTbbr9aSRYhmJ8a
+X-Received: from pfbde14.prod.google.com ([2002:a05:6a00:468e:b0:748:dd5c:e882])
  (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a20:a115:b0:218:c01:ddce with SMTP id adf61e73a8af0-21fbd5d90aemr27193918637.40.1750220685258;
- Tue, 17 Jun 2025 21:24:45 -0700 (PDT)
-Date: Wed, 18 Jun 2025 04:24:21 +0000
+ 2002:a05:6a00:21c1:b0:748:323f:ba21 with SMTP id d2e1a72fcca58-7489cf5c8c2mr21855970b3a.1.1750220688256;
+ Tue, 17 Jun 2025 21:24:48 -0700 (PDT)
+Date: Wed, 18 Jun 2025 04:24:23 +0000
 In-Reply-To: <20250618042424.330664-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250618042424.330664-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.50.0.rc2.696.g1fc2a0284f-goog
-Message-ID: <20250618042424.330664-13-jthoughton@google.com>
-Subject: [PATCH v3 12/15] KVM: selftests: Inform set_memory_region_test of KVM_MEM_USERFAULT
+Message-ID: <20250618042424.330664-15-jthoughton@google.com>
+Subject: [PATCH v3 14/15] KVM: Documentation: Fix section number for KVM_CAP_ARM_WRITABLE_IMP_ID_REGS
 From: James Houghton <jthoughton@google.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
 	Oliver Upton <oliver.upton@linux.dev>
@@ -69,31 +69,33 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Yan Zhao <y
 	Anish Moorthy <amoorthy@google.com>, Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>, 
 	David Matlack <dmatlack@google.com>, wei.w.wang@intel.com, kvm@vger.kernel.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	"Xin Li (Intel)" <xin@zytor.com>
 Content-Type: text/plain; charset="UTF-8"
 
-The KVM_MEM_USERFAULT flag is supported iff KVM_CAP_USERFAULT is
-available.
+From: "Xin Li (Intel)" <xin@zytor.com>
 
+The previous section is 7.41, thus this should be 7.42.
+
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 Signed-off-by: James Houghton <jthoughton@google.com>
 ---
- tools/testing/selftests/kvm/set_memory_region_test.c | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/virt/kvm/api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/kvm/set_memory_region_test.c b/tools/testing/selftests/kvm/set_memory_region_test.c
-index ce3ac0fd6dfb4..ba3fe8a53b33e 100644
---- a/tools/testing/selftests/kvm/set_memory_region_test.c
-+++ b/tools/testing/selftests/kvm/set_memory_region_test.c
-@@ -364,6 +364,9 @@ static void test_invalid_memory_region_flags(void)
- 	if (kvm_check_cap(KVM_CAP_MEMORY_ATTRIBUTES) & KVM_MEMORY_ATTRIBUTE_PRIVATE)
- 		supported_flags |= KVM_MEM_GUEST_MEMFD;
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 1bd2d42e6424c..ff0aa9eb91efe 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -8528,7 +8528,7 @@ ENOSYS for the others.
+ When enabled, KVM will exit to userspace with KVM_EXIT_SYSTEM_EVENT of
+ type KVM_SYSTEM_EVENT_SUSPEND to process the guest suspend request.
  
-+	if (kvm_check_cap(KVM_CAP_USERFAULT))
-+		supported_flags |= KVM_MEM_USERFAULT;
-+
- 	for (i = 0; i < 32; i++) {
- 		if ((supported_flags & BIT(i)) && !(v2_only_flags & BIT(i)))
- 			continue;
+-7.37 KVM_CAP_ARM_WRITABLE_IMP_ID_REGS
++7.42 KVM_CAP_ARM_WRITABLE_IMP_ID_REGS
+ -------------------------------------
+ 
+ :Architectures: arm64
 -- 
 2.50.0.rc2.692.g299adb8693-goog
 
