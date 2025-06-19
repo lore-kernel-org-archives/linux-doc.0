@@ -1,117 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262AF25CC73
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 09:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F7E266EE6;
+	Thu, 19 Jun 2025 09:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750323605; cv=none; b=Eu+3UvomN54hiwueW0Fq1dDxZmKt7TdR51pYXlapFoqWIBIV5ITsg1uuo1hJdUCCzvf/rDAkUPOEL62UI3ZOpuV4mJ3/h14hXeOM/d5vLf88nVwaTcz0rfLK2zA4VEZOjFaQ509p9RnCbusptQ0u+HbS2lPYFWqKiElwKXfbW1I=
+	t=1750323733; cv=none; b=afmMC3M7FzPDl6aaBp2TLdiSpX1IKKCN7moWtwy86jxTmmHgYzIYbx+WwHhAPjhS67ht/UlNGW1E07fzxCuBe8mybi9zzLEs2SDcXjtHqjcTBKvRw6b/sx8Sb/BLPh5RztW07Y2IuWAkf9T2nMOxIOhNlmQ6ve7vqgojIeLPDG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750323605; c=relaxed/simple;
-	bh=UzuK/CxyCGnL+YSPUVuW3jK4T0cRHWwLE+0svoU+I9s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hK5gLAoz6qTeOmnQUvtjU7hyTaXFOuz9loM1ee+bm9YPe+A0VwjbQvIdw8+EVicFw/YFESVAwb0VFW679zLi0L5dpBQjHx1KG5PHoJMxDoeEYhEhOPWAz06Y0Pbs7C0S7/5PgauYQfX8Vqt4Hswz5uPifcWMArCK0gUoAYunq1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbRxkQlR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750323733; c=relaxed/simple;
+	bh=sxqts40hu+Zgp1o1uSnNnU4YRV1Nyg3LBUl0fy5ocyQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C9inc3d1UA1XWOmuFTHvaXuhzs4zPBQ4ujHeWsIwKCKk6c2QssiY+o1Btf4IPcezY+zBGVdEJb0PINYViCPAphOO5Rye1r7hzDEy2txin56Iu988+je++bY/7tVTct7Is0suG8CfhSAcAOg39TdcM+YSqiFxgjtVlAlSTWUP5AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=Lz+dxvYl; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbRxkQlR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AD0C4CEF9
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 09:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750323604;
-	bh=UzuK/CxyCGnL+YSPUVuW3jK4T0cRHWwLE+0svoU+I9s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=hbRxkQlRExVDwH79ADkhlXgwcMX3ygDlcbmP6ZXM7dXQNpBpOFxP8MCYW4/6U/9F8
-	 n0Oq+kPjOZHzEhc6sLC3FXXA3c/NuLYxyphmSY8nf+gV0lnrMYYLiwa2OeKrZdD2CC
-	 GZrDq0MXa4Z0d7ZeSZ5s5vsEyfyX8yiepwCeOul1+WPaTgSgKz13GgDHKUv3bEyv+R
-	 RS6L0oORVTLA69sTfvqZJvHzZ+KCaamKmXDG8ir7W0uJkZFB7b/P+ddStsNxHBtmKB
-	 O+nf2bfMF0UezscT2RMpPEDT44te82KJWxp8Tvgoyql7A4QlB+EDP70XDhGQfqr967
-	 KvAzqsn38gkHQ==
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e81749142b3so523691276.3
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 02:00:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVU0ojQ+t4WfuhIxiILwpNSfmDJQ5CLwFTG8h9eZwRUgbm8p4M7nv294gmeLjIUM39C+jzHIz7vC3w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywNrvWC3/nrXRd7RKa63cAyVfAUfvkWhXTcBixo8qava1STRCP
-	bViX5oY0K+yBJBb8Je4CxNVPTdzrBxLgDx0sCAxwBhmT6Mb0CyCN+cBhsK5sjywHyGMjqiOk+YA
-	AhdEo+CoGgfdiRecWk2JE9/rfelXyQivPOS8NDuy0Dg==
-X-Google-Smtp-Source: AGHT+IFTSpIXWJ8aJgks2cku0velW0M+JCR6Rbfmtd6WsoM033VVzHoiXCwOg94pnYfHO2hy+W/9swsQZRSpK6zIGwQ=
-X-Received: by 2002:a05:6902:2613:b0:e82:6c9b:8287 with SMTP id
- 3f1490d57ef6-e826c9b85e4mr11134815276.9.1750323604035; Thu, 19 Jun 2025
- 02:00:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="Lz+dxvYl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=YHxb3G7EW8RzN+dJgsKeTL9lqcEi84ddNrYeIybSCPk=; b=Lz+dxvYl7ugAV5gMsPRzO/Zn6T
+	Mxdaho/YZVeiUWxOl3h4OrtvnZ6048BbBDlX5dPKQ1XqhZujSpQjlCFGyTGDJm7if6VNINPaxvQ7o
+	/8kFNcpB0Rj4uYwQn53p69/iF6U2l0VZMcGB4ZK08SUUkSee1C2Bd+uoY3lEBnaDa99ka8xdolaYd
+	SkyMcwGzxVNOJqlu0QcVtDNjVOvnvaWwLcfmxjA1+76juFgGKqfFU9c6d/YlIZdO9oBjq1meeEYDr
+	PAGkuq1Dd0gbw/v6G9F9GSdHqYL3yb71Yy3TIRlUw3GNSjlg/GLMdhqeQKNJ7KWRkbwdsBY/RvAPs
+	pKCLP7BA==;
+Received: from 85-207-219-154.static.bluetone.cz ([85.207.219.154] helo=phil.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1uSB9C-0007Ey-OE; Thu, 19 Jun 2025 11:01:26 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
+ Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v7 00/10] New DRM accel driver for Rockchip's RKNN NPU
+Date: Thu, 19 Jun 2025 11:01:25 +0200
+Message-ID: <2217684.TLkxdtWsSY@phil>
+In-Reply-To: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net> <20250606-6-10-rocket-v7-2-dc16cfe6fe4e@tomeuvizoso.net>
-In-Reply-To: <20250606-6-10-rocket-v7-2-dc16cfe6fe4e@tomeuvizoso.net>
-From: Robert Foss <rfoss@kernel.org>
-Date: Thu, 19 Jun 2025 10:59:53 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi4p2wuMVVvQOJ5c6ecT=x2pr2VoZhS4wH27qaR9DptQHA@mail.gmail.com>
-X-Gm-Features: AX0GCFskbG-ChYYQk7bGtKWaX4j6fsAKjpFPkM8iQ7QewPkQLLciRbSAzy_fqYo
-Message-ID: <CAN6tsi4p2wuMVVvQOJ5c6ecT=x2pr2VoZhS4wH27qaR9DptQHA@mail.gmail.com>
-Subject: Re: [PATCH v7 02/10] accel/rocket: Add a new driver for Rockchip's NPU
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Kever Yang <kever.yang@rock-chips.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Jun 6, 2025 at 8:29=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.net>=
- wrote:
->
-> This initial version supports the NPU as shipped in the RK3588 SoC and
-> described in the first part of its TRM, in Chapter 36.
->
-> This NPU contains 3 independent cores that the driver can submit jobs
-> to.
->
-> This commit adds just hardware initialization and power management.
->
-> v2:
-> - Split cores and IOMMUs as independent devices (Sebastian Reichel)
-> - Add some documentation (Jeffrey Hugo)
-> - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
-> - Remove resets, as these haven't been found useful so far (Zenghui Yu)
-> - Repack structs (Jeffrey Hugo)
-> - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
-> - Use devm_drm_dev_alloc (Jeffrey Hugo)
-> - Use probe log helper (Jeffrey Hugo)
-> - Introduce UABI header in a later patch (Jeffrey Hugo)
->
-> v3:
-> - Adapt to a split of the register block in the DT bindings (Nicolas
->   Frattaroli)
-> - Move registers header to its own commit (Thomas Zimmermann)
-> - Misc. cleanups (Thomas Zimmermann and Jeff Hugo)
-> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-> - PM improvements (Nicolas Frattaroli)
->
-> v4:
-> - Use bulk clk API (Krzysztof Kozlowski)
->
-> v6:
-> - Remove mention to NVDLA, as the hardware is only incidentally related
->   (Kever Yang)
-> - Use calloc instead of GFP_ZERO (Jeff Hugo)
-> - Explicitly include linux/container_of.h (Jeff Hugo)
-> - pclk and npu clocks are now needed by all cores (Rob Herring)
->
-> v7:
-> - Assign its own IOMMU domain to each client, for isolation (Daniel
->   Stone and Robin Murphy)
->
+Am Freitag, 6. Juni 2025, 08:28:20 Mitteleurop=C3=A4ische Sommerzeit schrie=
+b Tomeu Vizoso:
+> This series adds a new driver for the NPU that Rockchip includes in its
+> newer SoCs, developed by them on the NVDLA base.
+>=20
+> In its current form, it supports the specific NPU in the RK3588 SoC.
+>=20
+> The userspace driver is part of Mesa and an initial draft can be found at:
+>=20
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
+>=20
 > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+> Changes in v7:
+> - Actually enable process isolation by allocating its own IOMMU domain
+>   to each DRM client.
+> - Link to v6: https://lore.kernel.org/r/20250604-6-10-rocket-v6-0-237ac75=
+ddb5e@tomeuvizoso.net
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+I was able to successfully run the SSDLite MobileDet model, detecting
+elements correctly on that "Sounds of New York" youtube video all the
+demos seem to be using ;-) - on a rk3588-tiger board.
+
+NPU needed like 30ms per frame or so and also detected the expected
+things, so
+
+Tested-by: Heiko Stuebner <heiko@sntech.de>
+
+
