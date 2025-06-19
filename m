@@ -1,72 +1,88 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C626217A30F;
-	Thu, 19 Jun 2025 14:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DFA23FC54;
+	Thu, 19 Jun 2025 14:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750344721; cv=none; b=DGfa4SvWx0AbAiuzXZitM57yzjjy14Kh4bzdzhdgVlY4RGkFNkfIxpAHRipVZ+TKfTfGCUvAdYd2Oqx7TaQ5KwtvOEgUWkI78/xdXcE22tGb04prghXt2FcWXgpQsUtlZPazNvgV2RlUuHhXddBdZyTlxAhnOsrpwlUCqFGLVcE=
+	t=1750344946; cv=none; b=ARuRlXh/e6CYZQhnupED6O/a6IObEHl7irP9Vs8VfNSvXIY4vruS+QZNtzWNMVBpxqrIV1EsUiCjd5Ce2pP+d1XzanWLaU0R7f0uVatxQd4o692KFNxVJXEAQ9yUitz/aCCFqyNbvxHkhYq0AJVkLgaqb2q/3qlVq3frkrt1ifM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750344721; c=relaxed/simple;
-	bh=DiKE0GctfAflmziKG348lyHIP5QberAm0uVi5a+CheA=;
-	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=oT4m5byEPpFTZzVEtGPXVKrWDZ6VqPOnZfpxwmqRWJSA+Iep5Qt539zbNnjhILMagxsnrPuS1FZYKo5iyIsDXbUOdsoLZCZzRJ5fy3gaQKZcJFLDTcC/QwSBmSOnl+hkCYpFgWMn80lvG6WymyDe8E9vuungy+5i2xWH8t56slc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4bNNqC1csCz501bP;
-	Thu, 19 Jun 2025 22:51:51 +0800 (CST)
-Received: from szxlzmapp03.zte.com.cn ([10.5.231.207])
-	by mse-fl2.zte.com.cn with SMTP id 55JEpn75019165;
-	Thu, 19 Jun 2025 22:51:49 +0800 (+08)
-	(envelope-from yang.yang29@zte.com.cn)
-Received: from mapi (szxlzmapp04[null])
-	by mapi (Zmail) with MAPI id mid14;
-	Thu, 19 Jun 2025 22:51:52 +0800 (CST)
-Date: Thu, 19 Jun 2025 22:51:52 +0800 (CST)
-X-Zmail-TransId: 2b0668542408ffffffffbed-cd742
-X-Mailer: Zmail v1.0
-Message-ID: <20250619225152603EIiJTlhHy4mFMv1dVTzue@zte.com.cn>
-In-Reply-To: <20250619211843633h05gWrBDMFkEH6xAVm_5y@zte.com.cn>
-References: 20250619211843633h05gWrBDMFkEH6xAVm_5y@zte.com.cn
+	s=arc-20240116; t=1750344946; c=relaxed/simple;
+	bh=ZCXeVi5NAoQxiaYJvq5NPU85M46dLEnN6Ij6bmOHHO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c2PR0ffeVbCP4coHtthClAIXZEdISuInyEE42X45lkicOUSnjuUlL7fhJnigxVTZ56XATBSE7m3m2o6jrJv4u50+fxDCN81t+pU94HdmhGM3sMUdpDfWaJzGgJgUov3PlI2dEbV5o+C5WVgeMKCfr5vvC6KwoJqY4LAVWNU8O4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rjvvEUjH; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjvvEUjH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D60FFC4CEF0;
+	Thu, 19 Jun 2025 14:55:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750344945;
+	bh=ZCXeVi5NAoQxiaYJvq5NPU85M46dLEnN6Ij6bmOHHO4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rjvvEUjHWVl9rLIeg1IMdGFdNd+KYoSmLb0gjCRNJ3ydRW7kRFoO2XHRm8gdsvF2p
+	 FyFEs0reGeXdXuBM3o7OFimmv1c+7160wM+pbi2P+acQTRKmu0LnnG0ZxpYJsCg/6v
+	 ucXphXMhCgF3keVLw+N/1FQ9th7RuhLHVxEnN4FlPQcX4+AwqHRSUYDbn5tVXTILWm
+	 lvinXcJOkEIT2e4f2AnZm9VV4HF4cGwOWwVDW1HTavUA6B6ClO6n0iZWJAVF6sOO3a
+	 ZvskE9It4FYPMmPy+tqleWNi7dTaim827SN3Ax7ifh44yBNtElE37NwTgwIjwPPZnd
+	 mLyhS9G6WBVMg==
+Date: Thu, 19 Jun 2025 07:55:43 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mark Bloch <mbloch@nvidia.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Paolo Abeni
+ <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, "Andrew Lunn"
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>,
+ <saeedm@nvidia.com>, <gal@nvidia.com>, <leonro@nvidia.com>,
+ <tariqt@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, <netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next 0/5] net/mlx5e: Add support for PCIe congestion
+ events
+Message-ID: <20250619075543.1d31f937@kernel.org>
+In-Reply-To: <20250619113721.60201-1-mbloch@nvidia.com>
+References: <20250619113721.60201-1-mbloch@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <yang.yang29@zte.com.cn>
-To: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>
-Cc: <bsingharora@gmail.com>, <akpm@linux-foundation.org>, <david@redhat.com>,
-        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
-        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
-        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>,
-        <ye.xingchen@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <jiang.kun2@zte.com.cn>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eCBuZXh0XSB0b29scy9hY2NvdW50aW5nL2RlbGF5dG9wOiBhZGQgZGVsYXl0b3AKIHRvIHJlY29yZCB0b3AtbiB0YXNrIGRlbGF5?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 55JEpn75019165
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68542407.000/4bNNqC1csCz501bP
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> Solution
-> ========
-> To address these limitations, we introduce the "delaytop" with
-> the following capabilities:
-> 1. system view: monitors latency metrics (CPU, I/O, memory, IRQ,
-> etc.) for all system processes
-> 2. supports field-based sorting (e.g., default sort by CPU latency
-> in descending order)
-> 3. dynamic interactive interface:
-> focus on specific processes with --pid;
-> limit displayed entries with --processes 20;
-> control monitoring duration with --iterations;
-For latency-sensitive scenarios, such as industrial control, communications,
-or automotive, I think this tool is useful. And it may be better if it support
-showing whole delay of system by reading PSI, just like the first few lines of
-information output by the top command.
+On Thu, 19 Jun 2025 14:37:16 +0300 Mark Bloch wrote:
+> PCIe congestion events are events generated by the firmware when the
+> device side has sustained PCIe inbound or outbound traffic above
+> certain thresholds. The high and low threshold are hysteresis thresholds
+> to prevent flapping: once the high threshold has been reached, a low
+> threshold event will be triggered only after the bandwidth usage went
+> below the low threshold.
+
+What are we supposed to do with a series half of which is tagged for
+one tree and half for another? If you want for some of the patches to
+go via the shared tree - you have to post them separately.
+Ideally you'd post them to the list in a combined "pull request +
+patches" format (see for example how Marc posts CAN patches, or Pablo
+posts netfilter). Once we pull that you can sent the net-next stuff
+separately as patches.
+
+I feel like I just had the same exact conversation with Tariq recently.
+Really not great when same process explainer has to be given to
+multiple people from the same company :( I'd like to remind y'all that
+reading the mailing list is not optional:
+
+  Mailing list participation
+  --------------------------
+  
+  Linux kernel uses mailing lists as the primary form of communication.
+  Maintainers must be subscribed and follow the appropriate subsystem-wide
+  mailing list. Either by subscribing to the whole list or using more
+  modern, selective setup like
+  `lei <https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started>`_.
+  
+See: https://www.kernel.org/doc/html/next/maintainer/feature-and-driver-maintainers.html#mailing-list-participation
+
+Then again, I guess you're not a maintainer. There are 2 maintainers
+for the driver listed and yet we get patches from a 3rd unlisted person.
+
+SMH
