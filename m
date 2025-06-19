@@ -1,88 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DFA23FC54;
-	Thu, 19 Jun 2025 14:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927263085DB;
+	Thu, 19 Jun 2025 15:17:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750344946; cv=none; b=ARuRlXh/e6CYZQhnupED6O/a6IObEHl7irP9Vs8VfNSvXIY4vruS+QZNtzWNMVBpxqrIV1EsUiCjd5Ce2pP+d1XzanWLaU0R7f0uVatxQd4o692KFNxVJXEAQ9yUitz/aCCFqyNbvxHkhYq0AJVkLgaqb2q/3qlVq3frkrt1ifM=
+	t=1750346240; cv=none; b=lV0Q/Nimk/wTifwbGHkjTNc+YAYXIhSn8s8GZ6No8dTLDRx+rGt+Ace5dLn7WXp8sYy4FjGwtCqHi5tyjABPuFz5yr67UMgZtmiU0eaRjpzsTBWahWM3Qp77a4FNAuwWVy3FHzXaBWr3H+DPMCRUj5OeJaEDCJIdHqs6redRzEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750344946; c=relaxed/simple;
-	bh=ZCXeVi5NAoQxiaYJvq5NPU85M46dLEnN6Ij6bmOHHO4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c2PR0ffeVbCP4coHtthClAIXZEdISuInyEE42X45lkicOUSnjuUlL7fhJnigxVTZ56XATBSE7m3m2o6jrJv4u50+fxDCN81t+pU94HdmhGM3sMUdpDfWaJzGgJgUov3PlI2dEbV5o+C5WVgeMKCfr5vvC6KwoJqY4LAVWNU8O4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rjvvEUjH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750346240; c=relaxed/simple;
+	bh=9cHT5F3Iq4DLNV/UcU+5bQAcKLZIjNQZKQaN/qYAq44=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=harkR+VKSkHTr/HePsgwYMvZum2F/grWvIIZ4ZM0iv+Sa+lRsvx+g0eXalQCIdJiIdlZ9e90ySc4jgHFfsqCQOBrFBUI3/wWeRatV0MQbxqDIlMIVDrVqvFh3WP8qZAYO8CAOU9W0MIoFNzXu7SdrJltkxaWZbnCr45o7yTvpuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKiX1jRO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjvvEUjH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D60FFC4CEF0;
-	Thu, 19 Jun 2025 14:55:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKiX1jRO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97502C4CEEA;
+	Thu, 19 Jun 2025 15:17:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750344945;
-	bh=ZCXeVi5NAoQxiaYJvq5NPU85M46dLEnN6Ij6bmOHHO4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rjvvEUjHWVl9rLIeg1IMdGFdNd+KYoSmLb0gjCRNJ3ydRW7kRFoO2XHRm8gdsvF2p
-	 FyFEs0reGeXdXuBM3o7OFimmv1c+7160wM+pbi2P+acQTRKmu0LnnG0ZxpYJsCg/6v
-	 ucXphXMhCgF3keVLw+N/1FQ9th7RuhLHVxEnN4FlPQcX4+AwqHRSUYDbn5tVXTILWm
-	 lvinXcJOkEIT2e4f2AnZm9VV4HF4cGwOWwVDW1HTavUA6B6ClO6n0iZWJAVF6sOO3a
-	 ZvskE9It4FYPMmPy+tqleWNi7dTaim827SN3Ax7ifh44yBNtElE37NwTgwIjwPPZnd
-	 mLyhS9G6WBVMg==
-Date: Thu, 19 Jun 2025 07:55:43 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Paolo Abeni
- <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, "Andrew Lunn"
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>,
- <saeedm@nvidia.com>, <gal@nvidia.com>, <leonro@nvidia.com>,
- <tariqt@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, <netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next 0/5] net/mlx5e: Add support for PCIe congestion
- events
-Message-ID: <20250619075543.1d31f937@kernel.org>
-In-Reply-To: <20250619113721.60201-1-mbloch@nvidia.com>
-References: <20250619113721.60201-1-mbloch@nvidia.com>
+	s=k20201202; t=1750346240;
+	bh=9cHT5F3Iq4DLNV/UcU+5bQAcKLZIjNQZKQaN/qYAq44=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vKiX1jROnvKTvYN3bZ9iGjqOPBAWiJT0wzDfVlBfQ9Js+NUvB+MhZ+vlYpedxozWE
+	 dLJpLKlTpGarBV/xgwtUFw/KjVWIOdzOLAlk2duINgGPIzjwJIJsEP5JzI0NCMn1DL
+	 Z2jGia4zbUfJpdV2vnUx/JdHPL2H08u9//mjrIXLjlSogUZKeCsUqhcZO9KMV2Dyo8
+	 vn/34AXSwfLlyX8nP4NRZdtw8yvPKO8LOzyTJHJ+F/RSFYa2Vg61PWWP91KNxz5tqM
+	 13YEG3JWFaPQRggFRfMYM5bzQYVAXj5kq060KUnE0SSxfHqsWZjebMnpIVOILB5SSi
+	 F3DqfSi31IHyQ==
+Date: Thu, 19 Jun 2025 16:17:14 +0100
+From: Lee Jones <lee@kernel.org>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Armin Wolf <W_Armin@gmx.de>, Werner Sembach <wse@tuxedocomputers.com>,
+	ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com,
+	chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
+	ggo@tuxedocomputers.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
+Message-ID: <20250619151714.GJ795775@google.com>
+References: <20250615175957.9781-1-W_Armin@gmx.de>
+ <20250615175957.9781-3-W_Armin@gmx.de>
+ <41de4cd4-2a27-4b14-a1c0-e336a3cec317@tuxedocomputers.com>
+ <d645ba09-1820-4473-96bb-8550ed0b0a26@gmx.de>
+ <20250619094757.GB587864@google.com>
+ <ebd9489d-2783-468a-ad07-e7d1c04fb165@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ebd9489d-2783-468a-ad07-e7d1c04fb165@kernel.org>
 
-On Thu, 19 Jun 2025 14:37:16 +0300 Mark Bloch wrote:
-> PCIe congestion events are events generated by the firmware when the
-> device side has sustained PCIe inbound or outbound traffic above
-> certain thresholds. The high and low threshold are hysteresis thresholds
-> to prevent flapping: once the high threshold has been reached, a low
-> threshold event will be triggered only after the bandwidth usage went
-> below the low threshold.
+On Thu, 19 Jun 2025, Hans de Goede wrote:
 
-What are we supposed to do with a series half of which is tagged for
-one tree and half for another? If you want for some of the patches to
-go via the shared tree - you have to post them separately.
-Ideally you'd post them to the list in a combined "pull request +
-patches" format (see for example how Marc posts CAN patches, or Pablo
-posts netfilter). Once we pull that you can sent the net-next stuff
-separately as patches.
+> Hi Lee,
+> 
+> On 19-Jun-25 11:47 AM, Lee Jones wrote:
+> > On Tue, 17 Jun 2025, Armin Wolf wrote:
+> > 
+> >> Am 16.06.25 um 14:46 schrieb Werner Sembach:
+> >>
+> >>> Hi, small additon
+> >>>
+> >>> Am 15.06.25 um 19:59 schrieb Armin Wolf:
+> >>>> +        functionality.
+> >>>> +
+> >>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/rainbow_animation
+> >>>> +Date:        Juni 2025
+> >>>> +KernelVersion:    6.17
+> >>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
+> >>>> +Description:
+> >>>> +        Forces the integrated lightbar to display a rainbow
+> >>>> animation when the machine
+> >>>> +        is not suspended. Writing "enable"/"disable" into this file
+> >>>> enables/disables
+> >>>> +        this functionality.
+> >>>> +
+> >>>> +        Reading this file returns the current status of the rainbow
+> >>>> animation functionality.
+> >>>> +
+> >>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
+> >>>> +Date:        Juni 2025
+> >>>> +KernelVersion:    6.17
+> >>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
+> >>>> +Description:
+> >>>> +        Causes the integrated lightbar to display a breathing
+> >>>> animation when the machine
+> >>>> +        has been suspended and is running on AC power. Writing
+> >>>> "enable"/"disable" into
+> >>>> +        this file enables/disables this functionality.
+> >>>> +
+> >>>> +        Reading this file returns the current status of the
+> >>>> breathing animation
+> >>>> +        functionality.
+> >>>
+> >>> maybe this would be better under the /sys/class/leds/*/ tree if possible
+> >>
+> >> I CCed the LED mailing list so that they can give us advice on which location is the preferred one for new drivers.
+> > 
+> > No need to involve the LED subsystem for a hardware function controlled
+> > by a single register value just because the interface involves an LED.
+> 
+> Lee, the question here is where put the sysfs attribute to put the lightbar
+> in breathing mode e.g. which of these 2 should be used?  :
+> 
+> 1. /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
+> 2. /sys/class/leds/uniwill-lightbar/breathing_in_suspend
+> 
+> I think this is a fair question and since 2. involves the LED class userspace
+> API I also think that asking for the LED maintainers input is reasonable.
+> 
+> FWIW I'm not sure myself. 2. is the more logical place / path. But 2. adds
+> a custom sysfs attr the LED class device. Whereas 1. adds a custom sysfs attr
+> in a place where these are more or less expected.
 
-I feel like I just had the same exact conversation with Tariq recently.
-Really not great when same process explainer has to be given to
-multiple people from the same company :( I'd like to remind y'all that
-reading the mailing list is not optional:
+Right.  It was a reasonable question.  Did I imply otherwise?
 
-  Mailing list participation
-  --------------------------
-  
-  Linux kernel uses mailing lists as the primary form of communication.
-  Maintainers must be subscribed and follow the appropriate subsystem-wide
-  mailing list. Either by subscribing to the whole list or using more
-  modern, selective setup like
-  `lei <https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started>`_.
-  
-See: https://www.kernel.org/doc/html/next/maintainer/feature-and-driver-maintainers.html#mailing-list-participation
+If it wasn't clear, my vote (this is not a dictatorship) is for 1.
 
-Then again, I guess you're not a maintainer. There are 2 maintainers
-for the driver listed and yet we get patches from a 3rd unlisted person.
-
-SMH
+-- 
+Lee Jones [李琼斯]
