@@ -1,77 +1,61 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2CF2459DC
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 14:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCCB263F4A;
+	Thu, 19 Jun 2025 14:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750341738; cv=none; b=f/07NHfwueFCfFdiHxI1CdkUUaVb0UwpTXySZViwn8Fvr2/PB4MMcddJj9FBXdOBs3Oq5dyrkuTTKGkCCfCTuBsCTTZN8nckmduLAzxndoeWDjxQefYmLIsRqs2fwV8+ulq054kB23OOXWyH1tAEYx+0jRNnZPgx95u24yiCjMA=
+	t=1750341905; cv=none; b=l3p1PrS4qhvQdlIbDS5pMl29g5pLPnXA597mC+SlFTwQ87yr1Ydc6y9JnD3FCIJKmNwS7tYoy8/pInbLAXJqvAZWKuVwS0WkS/H5jG/YO/Q+cG+UK3wrSvAZW89pxtE/xknM4a5t588A19PbB0sETQcqwOvJ08QFSknkUeO5nMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750341738; c=relaxed/simple;
-	bh=Wezz9bOmQBcQ1TUJ8Bn0jTeSjZaBZvH184Tg1O/8m8c=;
+	s=arc-20240116; t=1750341905; c=relaxed/simple;
+	bh=fCZ6K5MIym/kw9Lkht+ZPQGdYCIJYoEvY8PbQ22a4tc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VnRx0Kb+Mu4l8AHNAsnyrnoG7mifQjpXOzqZKlvRX/jtVofto1UBC+SZMEpm2Ae/3MMrl01bcxapllXCZmxkhbbVrQ0h1WZVJrbKh17Tq5FC4VuQwv8dnm1gko7d1DFIi44QvuV0CwiTzDrYKTwh4sO3CeVYkZtSWstIOPI7GtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=L4cFP12u; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VVWpPQSToXhunP+wZravUb37p9KKhzTw0X78zugOig0h+C0zfQVIqD18oO9IwjWWtF3PgNPPhDFmJ2vcSmmztf6SIWkDln8oovlcFgM6cBFFQMP9TDPPc67Avsiv/SQV2nSLuOJzeGHCk8R3DIsHKT+gkOtKOmfb3pU36uqO9lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mRU05Xto; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="L4cFP12u"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-55350d0eedeso808390e87.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 07:02:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1750341734; x=1750946534; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aVriD3LvP+pMWvbTjI5kbfItE2BHS3ery/f+bu7NdfQ=;
-        b=L4cFP12uTMk8JwfeO0v3GW+A+YPyvB6q4ldEMMIqkzWrA6mrG2mbkpvgLvnH/MvX3z
-         QbTGB+L8OQy+SX9+ByTM++0fJXTsogKi1hFQboJiCvDZZoVhx6EPmt0QHmt1eFN+M8db
-         1QE+Vtf1bxpzj9WSfjMffuIUT/lIgDzIru17F/wZOEpfKRr8gU/tglCq7DHdBgjfsHoE
-         sKbizAWFathofHFBdLCHMOv+JNRoxbN5+VhFCucJf3Yo4zVHWG18PtPcIFDnH2jDhB6d
-         R6e4QSoaZKy0pskD8DABQ5fxG0vrZZJn+EhlwDWF2dzO1cR23zaNGs5xsZHgbdFJr/te
-         DjEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750341734; x=1750946534;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aVriD3LvP+pMWvbTjI5kbfItE2BHS3ery/f+bu7NdfQ=;
-        b=Tc3ZZTZ3pUHnSLWcH85oxkLwmN0aW8PPoeFJDEgEFzlIWIcqzSQCaS+I+lC7gFFshG
-         EIbWO9TOZ4MbzeDMkSq3IzQFruUpfTjVGDJ8G/jZ0vSffyDfbGmoPbNCvU5YUhUYJ9j9
-         MKRGqGKo2qfSoVf9a+W7ywCa+gl9XJQSCaCVsmOot3daCnqY1N/g1ksivx/a9whZMUEV
-         qtES5ktJSc/lZnomK2RgJEeznv814CYnJeS2NOd3oZq+KQTtLFXuZtEtnpbdeY0myw9G
-         RCq4tvPAtwf9EYIgRsaXhIRzUI9XE3Ckk9nUZfBTKTS3udFhyL2dA174iKSqpgHz7rT1
-         imow==
-X-Forwarded-Encrypted: i=1; AJvYcCVG656WR3EILg+dxyvkCzlAzp/1gTFkPnvpsInLSmaz5DcXYX7A1US4/mURLjzM9a1sv7S+/BMJQCo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMeA3bRaSEYDUZcfeBsIJWptmhaSOEV1nEVSsg6Mf3tykkg3jJ
-	jC58VkvMGCvXFsxwQxNNbH3OPtPX0332ytomDX6qucIP/s1HidKQH1Th/w5YyxopeDc=
-X-Gm-Gg: ASbGncvQ2GKQSZuse6Ro+ePGEXuSLcHmVtT93O0EE+mpxOKnhmKfvHf/ev0dy0Ugg0u
-	B6kOWgLGmL9X7wnilMKurGtEI+t57uJJ1OF9xGMnt7MJ6bas5SpyOGeAM+DwoQMB085EFLuyj9I
-	pF2ps3X+u+ox+VA+sTTIprRzL9hibIrdgYSCtAX3wqiOls7YRDdfoATUfOFcef4it4mlXE6qrRr
-	aZIwN1SraDZp71iePOLUfSFgXECKWHfJ1bO82OrnC7eeTDmGD2r3iG0Dq2VTyxMyrYa/2TVQppP
-	XlvtcYX9rDQkiw958drJ/XyrwN7m0m8MESS4WDR2oQAnv177PtKDZv71BlIdGoxb+PZr3sC1epY
-	=
-X-Google-Smtp-Source: AGHT+IE8zVuCTN888UI9y/00n231FNOHGEnuXXDDP1EcNgSBpNMrZXqn05vmM5Fu8xUtJ3hiDai1XA==
-X-Received: by 2002:a05:6512:33ca:b0:553:543d:d963 with SMTP id 2adb3069b0e04-553b6f1ead0mr6203514e87.36.1750341732009;
-        Thu, 19 Jun 2025 07:02:12 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3159b909a81sm253188a91.5.2025.06.19.07.02.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 07:02:11 -0700 (PDT)
-Date: Thu, 19 Jun 2025 16:01:56 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mRU05Xto"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=VRdhn3un9kG/iMEN06yqFgmDCh1WcgJoraC+AXdndW0=; b=mRU05XtoCzZHXAYiz1I1GFiNxJ
+	E4HCkQA87dhGDBGItkGmLJ5c+of+1ISMYEdZRxk6JNlD1B2gr9H6IEEe7TX4RTBUamXxcMRtqmGXG
+	KnyY5UWzxsv+/FWNmW3ApDJs2GMLEWD5sa6vIrvLDoHBJae6iMiJU9A+luMK2pXWg/Yt6Pj0Qf+/Z
+	xZyFsYyNgCs8vWjAZ0Lrq0EsqlvzL8YKyIMf1g9mE1K528HNE1xbijzOWuNu/1o2sl0/GxNJSJle/
+	enVZLsF1SGCuP+K/BKGcqRlnMQqTDM6wRkW2ToEesH66tZenSuMj00SK2PgOPcZwUxRVf/iO1E0H3
+	6yMz84uA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uSFsi-00000004SAu-1oOU;
+	Thu, 19 Jun 2025 14:04:44 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id D5ABB3088F2; Thu, 19 Jun 2025 16:04:42 +0200 (CEST)
+Date: Thu, 19 Jun 2025 16:04:42 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Koichi Okuno <fj2767dz@fujitsu.com>, Will Deacon <will@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC 1/2] lib/vsprintf: Add support for pte_t
-Message-ID: <aFQYVPmStsIIFcMW@pathway.suse.cz>
-References: <20250618041235.1716143-1-anshuman.khandual@arm.com>
- <20250618041235.1716143-2-anshuman.khandual@arm.com>
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
+Message-ID: <20250619140442.GH1613376@noisy.programming.kicks-ass.net>
+References: <20250617102819.3685543-1-fj2767dz@fujitsu.com>
+ <20250617102819.3685543-3-fj2767dz@fujitsu.com>
+ <20250617103618.GT1613376@noisy.programming.kicks-ass.net>
+ <aFQXU5rK_HJE9zq0@J2N7QTR9R3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,62 +64,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618041235.1716143-2-anshuman.khandual@arm.com>
+In-Reply-To: <aFQXU5rK_HJE9zq0@J2N7QTR9R3>
 
-On Wed 2025-06-18 09:42:34, Anshuman Khandual wrote:
-> Add a new format for printing page table entries.
+On Thu, Jun 19, 2025 at 02:57:55PM +0100, Mark Rutland wrote:
+> On Tue, Jun 17, 2025 at 12:36:18PM +0200, Peter Zijlstra wrote:
+> > On Tue, Jun 17, 2025 at 07:27:50PM +0900, Koichi Okuno wrote:
+> > > +	pcipmu->pmu = (struct pmu) {
+> > > +		.parent		= dev,
+> > > +		.task_ctx_nr	= perf_invalid_context,
+> > > +
+> > > +		.pmu_enable	= fujitsu_pci__pmu_enable,
+> > > +		.pmu_disable	= fujitsu_pci__pmu_disable,
+> > > +		.event_init	= fujitsu_pci__event_init,
+> > > +		.add		= fujitsu_pci__event_add,
+> > > +		.del		= fujitsu_pci__event_del,
+> > > +		.start		= fujitsu_pci__event_start,
+> > > +		.stop		= fujitsu_pci__event_stop,
+> > > +		.read		= fujitsu_pci__event_read,
+> > > +
+> > > +		.attr_groups	= fujitsu_pci_pmu_attr_grps,
+> > > +		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
+> > 
+> > Should these drivers not also have PERF_PMU_CAP_NO_INTERRUPT ? Per them
+> > being uncore they cannot generate samples.
+> 
+> These PMUs actually have an interrupt, so that might be a bit confusing.
+> That said, the counters seem to be 64-bit, so the interrupt doesn't seem
+> practically necessary today.
 
-How many users do you explect, please?
+Yeah, I saw they had an interrupt. But them being uncore they must not
+sample, and NO_INTERRUPT means not being able to sample.
 
-This patch adds only one caller. It does not justify the added complexity.
+Naming urgh :-)
 
-> @@ -2542,6 +2545,23 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
->  		default:
->  			return error_string(buf, end, "(einval)", spec);
->  		}
-> +	case 'p':
+> Either way, the fujitsu_pci__event_init() function rejects sampling
+> events, so it correctly rejects sampling events.
+> 
+> IMO, it'd be a bit nicer to do the inverse, and have the perf core
+> reject sampling events by default for non-CPU PMUs.
 
-Please, do not opencode this in the already very long switch().
-Move it to a helper function.
+Yeah, there's lots of cleanup to be done. Quite possibly also some
+unification between the various drivers.
 
-
-> +		if (fmt[1] == 't' && fmt[2] == 'e') {
-> +			pte_t *pte = (pte_t *)ptr;
-
-If the value (pointer) gets dereferenced then please add a basic
-check:
-
-	if (check_pointer(&buf, end, ptr, spec))
-		return buf;
-
-> +			spec.field_width = 10;
-> +			spec.precision = 8;
-
-Is she precision = 8 really needed?
-I guess that .field_width + ZEROPAD would do the trick.
-
-And them maybe special_hex_number() might be used instead of number()
-and safe a lot of code.
-
-> +			spec.base = 16;
-> +			spec.flags = SPECIAL | SMALL | ZEROPAD;
-> +			if (sizeof(pte_t) == sizeof(u64)) {
-> +				u64 val = pte_val(*pte);
-> +
-> +				return number(buf, end, val, spec);
-> +			}
-> +			WARN_ONCE(1, "Non standard pte_t\n");
-
-This is nasty. It should be a compile-time check. And the code should
-get fixed on all architectures. If it is not easy then
-it might be a signal that the generic %ppte flag is not a good idea.
-
-> +			return error_string(buf, end, "(einval)", spec);
-> +		}
-> +		fallthrough;
->  	default:
->  		return default_pointer(buf, end, ptr, spec);
->  	}
-
-Best Regards,
-Petr
+Just need someone that knows what they're doing that has spare time,
+know anybody like that? :-)
