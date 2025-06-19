@@ -1,375 +1,175 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF6E21A434
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 11:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750331771; cv=none; b=s52bpB2BmENd3AXw2hL0rfhDa2jAHuyjRcC5NvzXlNJD4GD5kxR8Ydbr+BrGjle7P98tqsCYka2SsQHOr7pKAxlFrgB+kFmrBb5wiAAZcy8xv+jHO48NDwdN0UaZ0Cy2ltWRSej7O8ZahuiA1yQrQiv8UG/clniemGFzdvtxfd0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750331771; c=relaxed/simple;
-	bh=JNzJ+ikVlKEZOEeS2Nkj64WAcOodHqRpXfrd0eO7bg4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tXUPcQ4+4DJxV/FhahfMFqxRs+tllvV1BMr8NwJHIYoYA2lDlwE4KXvIp2Eb0BNSKhqqSmehRyH41LKhz0EEQ6zMrCXs1NsH9MAINTZwW1Wmc5/Gi3/zOJT5cG3twd1O6HcfFmCSl0k8rqLSoVrnNBB/ZesWzyVn5hGYvfpIQ2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ekOQ/lB5; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC30E227E82;
+	Thu, 19 Jun 2025 11:37:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750333065; cv=fail; b=RjRakRW02eikSumTsv6f18tPRHRRt6Y+gKGtfdGs825PEOhzjKVIznwJqHebqFsAQMsAJx6BZiIU8CX7FTcbouReuAMofzPm/SQKVi8JsOFPLjNlQFtjicLYk8ikXl2bXU4Tx7pROzmORro92LOnKEQShZe3lucqQWv5kbIo8+k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750333065; c=relaxed/simple;
+	bh=2zuP6hxiXRIGcknklDrJxSL6RZkmp+o1JsdSMeFvrmc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QXbNb05gARskjPElB/DWJz5eZ3bCipGcR6mMYCHphjnKyb5FxTwi2xV3/0Siq2i4z2IgJVj1IZ26br0lAXTx1WC2/JijaPP047XM8l74Wi6plZUXPzPBkyYJIe1AtKtZPhkjOnwwBu+7L5yVXerkGkUAgTv0x5kcWr9FmYRhD+4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eXmHA2K1; arc=fail smtp.client-ip=40.107.220.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ekOQ/lB5"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2357c61cda7so102565ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 04:16:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750331769; x=1750936569; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J0K5kka6ny6/IX+friUQkiPa7P6oG70XusQAK8iDSEg=;
-        b=ekOQ/lB5aTNETw/+LHIvFJamb1ZaoMp+VOW+YpUzL1s1Xv4ey/CNv6QS+B0DjVMXwM
-         43QnSNw1q8bWovEx8N0BcKx3/YiiBVvUsQ4vSOQEUwqlmg0roUV8G5gnHuUq5tRsAkiH
-         JGjMLt6xNvGKjlwarrrFpWQg4eo+rRVnEplZt7rvPE3lca5rA2o0uE3jQN4VdprtpNh7
-         OHSzRosGd+6BP8FJQYgo1Qd936e59S3h4dlOmQ81NzIap7HRf0o6wRVHdJ/wYB5xdp2s
-         JjQBKfoSML9i68IX4JcwnPOkpl2aUx0YLM9x2Vvqntaa7X4f3vW5G8ON60q0lyoAbLE6
-         DbLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750331769; x=1750936569;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J0K5kka6ny6/IX+friUQkiPa7P6oG70XusQAK8iDSEg=;
-        b=RVLSkyjw4xctltdmUQyDuvJAm7RqTJjTMR3aZp0PANCT/oyGvFK6hRtPWcN2MjogEL
-         H0sbcZgIYaiI9bViOVM4lgeMvrmy9Eqyh2qNrYfqyp7fG7/bm4TvTOhWXo1at79SyUnS
-         zYyR/ZK5JJniKyH1ZAwiMWJ6bhVQKr+3rIIpYBVyF/De9f6MuMN6Y50YHUk7k5frTtM0
-         VZT+NS30XEYKwSs393xbBYkiH4lVMQ2Y6f/4JTj4hDU0ugY1Wssd/82ARDloO+Dr4UiX
-         YRRAbopWuvQ7vRlOr9jsVfUaUwyNlawXoJy1JOX2BKOv4CvVvrPLWNjR0FXPCv1KwUFd
-         6g8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVb5i9y6LtJEbjhUcYp6kne5SSyE6JNRtzG0e7yOlX1TAeT/TP50o5qAxy86zvCmyv4GWS3Q+w1NOg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywm+H85ni5p3ZdHo1fzoRCwEfBiqVbsWRXPpGKV7M2S6NKTa7m6
-	VvokOU/ODMlDyC2EDmc19LHpTdLyFhPvGnvz3Ewq+80Ho7TPv8RaVlMQOeOlbWMmCA==
-X-Gm-Gg: ASbGncuuAbb2xI0GJGDJ9IqJ66eiw14Z0aMSsXTN5pNv4rAuLGarFKxCZYf0fP2mnUu
-	Oc+tkCMDSZe2NN4a4HGScmkRNmSBgWW1TkdQiMHCvhroPutpTc8gaDhOP12ovqSHahwn0Z+cxKv
-	u0nz4Ul0SmxqR4U7oVigJOX42KG1kanBX2INYgdUPsu4V+r+gFZ+faAu761L25e26WT3vAB1vw2
-	asp53n/LM221gr1+OUZE/P5H4lUMpZS50mzSmphf9VCgw8UAUwB+PChFEfdnXoUW42xWGI1JJAi
-	G+tezfKvkdpmPI8kkqCb8XuO3/XufogLrsiHu5USzzvutilkT73vt5uoM/ols686Su2Ji7tQRac
-	E8I8vMCdv5RIWo5dg4wGZ
-X-Google-Smtp-Source: AGHT+IGLBsKU5Xvykqrr05mmuSSE5AlVTYBeY0JsehoP0OVQHYRUJcJLrjggBr4O05auamlyHYplKw==
-X-Received: by 2002:a17:903:1b64:b0:234:b2bf:e676 with SMTP id d9443c01a7336-237ce039494mr2004475ad.11.1750331769012;
-        Thu, 19 Jun 2025 04:16:09 -0700 (PDT)
-Received: from google.com (232.98.126.34.bc.googleusercontent.com. [34.126.98.232])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3158a3188a3sm1912852a91.36.2025.06.19.04.16.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 04:16:08 -0700 (PDT)
-Date: Thu, 19 Jun 2025 11:15:57 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
-	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
-	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
-	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
-	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
-	zhangzekun11@huawei.com, iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
-	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com
-Subject: Re: [PATCH v6 13/25] iommufd: Add mmap interface
-Message-ID: <aFPxbfDJZzG2EqxQ@google.com>
-References: <cover.1749884998.git.nicolinc@nvidia.com>
- <c9929e0c9ec6f3f6348cd0c399d6fdfa9f35f973.1749884998.git.nicolinc@nvidia.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eXmHA2K1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fqJNYg8xne1r3Jq3Kz2UPxz90HwN9gdr/Fw7SsDZWP9Z6RPhiz6XjQnv7pCoU64M5xw6H63Gw/obYuh+X+d4SJus/EP9eoJw9+DbyjXMZq7Y3pKiBM3UsIquVsi07ciK1npMwx1bFeS3AQRvXfu2J0vn5OhLPj8/gWkgjGGDELl1EJJFZQTfAb7fIYK5UYL9mGhchooMpv6NRbEDVYuVBtCKjVLDaQkJpKJ6jtyQa+EY7kfduRM7tmBGG/zUCs2SBuPP40egJh9E/IWi/a8qG2FrKyc6JkF1+bdbuNi8U+rluhOxuv4/LbsMQZi1lVPQAgvk4m4Yp//OvhB+jZW+Bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vRHe2/5jJXY8wXB/hVxJYnu7QX5QYRG9/lFKOIN6J5M=;
+ b=enL/7PX6Bjks5TdksoeiDnw5MNWrscKSj5yP7avsI4NIEIa4sIV9wPHVyMBP7/w40y6Ls73HxVUXXF89MWl6FQjM8hYU0JA9xrKWa0Z19k40UnwarOCK3BVIlMJBQgjpgb0slQPx6YDL1zptmuzKEm1QCMba/OM1rqZ20qIQkCroVQ6ckXsz34QqmcRwgUMjyYGwVbvy6/V3xXSj+1zRS8in1EX/DZhmh8xkzqAOccngjqHaniHpfHUFuJCHErIu8AfI1QTGD2j0Rj0OKlcmPEtC/xTOtzPIZPLN7kS/cz6qvf0aW4jY9MFXFlJBkyw77gMUid2E0VgMsxJMfSTDmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=davemloft.net smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vRHe2/5jJXY8wXB/hVxJYnu7QX5QYRG9/lFKOIN6J5M=;
+ b=eXmHA2K1jRGvJkQysDfrb1BfKd4YIjs/kwkjrB+oV4dtKT09BtkSURtciIjoPRuNwkzZsv2w+rw9QhcALQ8CWacbIgp4oY+4C4UqgA2abZ4dWopnZm9mlNutYmVdbJK+cYdEC+KWOGIillIOpssxOoOjNEOHO5yDcVVxqnEx+G2CwpQL791a09LqiCIR0CQzBlhI7LBWFsglYHYzJvKqk3kpx7pHYAjDqDGQFoJoFjdrhrzDqpzFE5HKMfg2XpYrv+KA3MYGczbsN6lfuJaA4IMSjVSSH9wCPMLSGt/g8SiJbwjbjazM/Psl71Xk5drln9dnF2tWh1GcIa2+9PDQwQ==
+Received: from DM6PR06CA0077.namprd06.prod.outlook.com (2603:10b6:5:336::10)
+ by BL4PR12MB9721.namprd12.prod.outlook.com (2603:10b6:208:4ed::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.21; Thu, 19 Jun
+ 2025 11:37:38 +0000
+Received: from CY4PEPF0000EDD6.namprd03.prod.outlook.com
+ (2603:10b6:5:336:cafe::ac) by DM6PR06CA0077.outlook.office365.com
+ (2603:10b6:5:336::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.35 via Frontend Transport; Thu,
+ 19 Jun 2025 11:37:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CY4PEPF0000EDD6.mail.protection.outlook.com (10.167.241.202) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8857.21 via Frontend Transport; Thu, 19 Jun 2025 11:37:37 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 19 Jun
+ 2025 04:37:27 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Thu, 19 Jun 2025 04:37:27 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
+ Transport; Thu, 19 Jun 2025 04:37:23 -0700
+From: Mark Bloch <mbloch@nvidia.com>
+To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, "Andrew
+ Lunn" <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>
+CC: <saeedm@nvidia.com>, <gal@nvidia.com>, <leonro@nvidia.com>,
+	<tariqt@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, <netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Mark Bloch
+	<mbloch@nvidia.com>
+Subject: [PATCH net-next 0/5] net/mlx5e: Add support for PCIe congestion events
+Date: Thu, 19 Jun 2025 14:37:16 +0300
+Message-ID: <20250619113721.60201-1-mbloch@nvidia.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9929e0c9ec6f3f6348cd0c399d6fdfa9f35f973.1749884998.git.nicolinc@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD6:EE_|BL4PR12MB9721:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf29b255-6311-4a63-165b-08ddaf25b141
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|7416014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?GSMLhd8YK87/W5j4uDBwVgMeJ/guK8trgpzvWk/No7fkDfMW7olXijvjAZOF?=
+ =?us-ascii?Q?DbZfCJTNfm5/W3+wBFlxvN7Js4PfWb0PGpOMkkeLWk9pauos+S34lhWJ5wLL?=
+ =?us-ascii?Q?iDtw7xS2s8vd8mWPs8QMafG1Jv5xyIbUEO3hk5AQ6VaumoCNVCnJm58n+lah?=
+ =?us-ascii?Q?piIDILc4P0ZwuioyZQrzjSYYGSKVXz5I2fXvxgVC0pZ3oCi3lcw8iQgslptm?=
+ =?us-ascii?Q?/zzsSQL0czG3nFZ4i8ChmrKeByCwlc9Ei1xzZAq156/ILFgS/w57vOWiVdfT?=
+ =?us-ascii?Q?rY4ivbRCiy6T4yXOsGlkZf2OWCPKA538dCNSNotGblXpKNXXEFmw21Wu5vtV?=
+ =?us-ascii?Q?9zRxsUvBY0/8aNSC7AdVAJMyTTdBC69vEKq/ErWXCUS8OMUdg4vCkzZVQB86?=
+ =?us-ascii?Q?vGeMOk86keU2K+qilphBo/d/eoOewyilVt0FFO4d2oxX0vR1FO+MN/RmfHL9?=
+ =?us-ascii?Q?tdiaeqJLioKTxSgSlXHwhcslYb85lf/PrKvqi+9Tu3wwsTlBQ6PD7qubO2z/?=
+ =?us-ascii?Q?w8Xzlwxg03NwblfWNglw48L04W6q2l/2LZYw4pfRTthUwZ6rIgUys926461t?=
+ =?us-ascii?Q?C9WSchWAnyvwTAGUK4hBY3LZ95Dww9WqubwJoZLwsHjB/Rw9fmmvVRbsirLg?=
+ =?us-ascii?Q?PYpBNYjNYmsS8SRHIMt4fXnFtM9N99a+tZbsaZqphGmiX7LE1WByZNdfRDX2?=
+ =?us-ascii?Q?HfcZxUW9t89wqqjJXH2qy8fHas6Czi8fh5dQ4dLRW7fQ0iZAcAKG/K69qYOS?=
+ =?us-ascii?Q?FkpC072Yy6B+//0VFoj/XEoG9QGLaqepfWdfKNX+PDtBzybR4277IPuHHzHo?=
+ =?us-ascii?Q?ZkWWYrN2Z4PqzxbMF0pm83cPLGwxv5qxiWgoNU1xxRy1ajK/stwcdL2cw/NO?=
+ =?us-ascii?Q?wg5oHrD2SOBeGV0GQsMnXpdEBtqKV8VkAEC6s3a+hZnPEoH8O8vpdiWcsOz7?=
+ =?us-ascii?Q?kKRIDIV5Jkz4aNVIqaQV+fQw12PyJD86IZ7BO5VY3n/oPSqF4NmBBqsyTYiV?=
+ =?us-ascii?Q?eppThRrJgh1svQ+RBa6BCyx/+SDh0YCr574brF1IOwNjtLACGDiK0G8WNDxX?=
+ =?us-ascii?Q?G1aMWKcPySrG0V8o1tASunjg/Gk0KD/aNVRxbtlymyaSWVTzZRVyVA0KRImn?=
+ =?us-ascii?Q?MXUdOtNAqDhTF4IbbScYEoux3ymiDLDyg70BulYtxkSNC0MWC8gfXerZtcFR?=
+ =?us-ascii?Q?u4ZXg/L9ku86s4gCx9ngX3fQ5RnAW4PN6s9emgtr/GNwTKzpl2FtFlujApul?=
+ =?us-ascii?Q?IhERxDtQcbxGY58Flo52jh0uZSlu6QQuW+qhIThemwu/LKU72Hew0ij/vH5F?=
+ =?us-ascii?Q?ikiEkCDtGr3bVUVx+N5PxZwOigzi1g2EmqIlYgjdY0IEWskk9jHd6iblyDOn?=
+ =?us-ascii?Q?kwSovw96Xink+T5Sx7FF2OYEDSoYvHrbixjSsRp7gCE1Nt6QNSiWyCcSwO6y?=
+ =?us-ascii?Q?NJUEEw6zqXjkCLsfAPJMpc8a0Ho63NOR8m3mSM6sfUNfDtMEQTX8tJ9e8/Xl?=
+ =?us-ascii?Q?XSbyvn5gHeWsVjH6+uOp7NKyfASocyjpXciS?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 11:37:37.7872
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf29b255-6311-4a63-165b-08ddaf25b141
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EDD6.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9721
 
-On Sat, Jun 14, 2025 at 12:14:38AM -0700, Nicolin Chen wrote:
-> For vIOMMU passing through HW resources to user space (VMs), allowing a VM
-> to control the passed through HW directly by accessing hardware registers,
-> add an mmap infrastructure to map the physical MMIO pages to user space.
-> 
-> Maintain a maple tree per ictx as a translation table managing mmappable
-> regions, from an allocated for-user mmap offset to an iommufd_mmap struct,
-> where it stores the real PFN range for an io_remap_pfn_range call.
-> 
-> Keep track of the lifecycle of the mmappable region by taking refcount of
-> its owner, so as to enforce user space to unmap the region first before it
-> can destroy its owner object.
-> 
-> To allow an IOMMU driver to add and delete mmappable regions onto/from the
-> maple tree, add iommufd_viommu_alloc/destroy_mmap helpers.
->
+PCIe congestion events are events generated by the firmware when the
+device side has sustained PCIe inbound or outbound traffic above
+certain thresholds. The high and low threshold are hysteresis thresholds
+to prevent flapping: once the high threshold has been reached, a low
+threshold event will be triggered only after the bandwidth usage went
+below the low threshold.
 
-The usage of mtree seems fine now, storing pfns ranges as compared to
-pointers in v3. Input validation checks, vma checks and destroy op look
-good.
+This series adds support for receiving and exposing such events as
+ethtool counters.
 
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
+2 new pairs of counters are exposed: pci_bw_in/outbound_high/low. These
+should help the user understand if the device PCI is under pressure.
+The thresholds are configurable via sysfs.
 
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
->  drivers/iommu/iommufd/iommufd_private.h | 14 ++++++
->  include/linux/iommufd.h                 | 42 ++++++++++++++++
->  drivers/iommu/iommufd/driver.c          | 51 ++++++++++++++++++++
->  drivers/iommu/iommufd/main.c            | 64 +++++++++++++++++++++++++
->  4 files changed, 171 insertions(+)
-> 
-> diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iommufd/iommufd_private.h
-> index 1bb1c0764bc2..e8192f79fe42 100644
-> --- a/drivers/iommu/iommufd/iommufd_private.h
-> +++ b/drivers/iommu/iommufd/iommufd_private.h
-> @@ -7,6 +7,7 @@
->  #include <linux/iommu.h>
->  #include <linux/iommufd.h>
->  #include <linux/iova_bitmap.h>
-> +#include <linux/maple_tree.h>
->  #include <linux/rwsem.h>
->  #include <linux/uaccess.h>
->  #include <linux/xarray.h>
-> @@ -44,6 +45,7 @@ struct iommufd_ctx {
->  	struct xarray groups;
->  	wait_queue_head_t destroy_wait;
->  	struct rw_semaphore ioas_creation_lock;
-> +	struct maple_tree mt_mmap;
->  
->  	struct mutex sw_msi_lock;
->  	struct list_head sw_msi_list;
-> @@ -55,6 +57,18 @@ struct iommufd_ctx {
->  	struct iommufd_ioas *vfio_ioas;
->  };
->  
-> +/* Entry for iommufd_ctx::mt_mmap */
-> +struct iommufd_mmap {
-> +	struct iommufd_object *owner;
-> +
-> +	/* Allocated start position in mt_mmap tree */
-> +	unsigned long startp;
-> +
-> +	/* Physical range for io_remap_pfn_range() */
-> +	unsigned long mmio_pfn;
-> +	unsigned long num_pfns;
-> +};
-> +
->  /*
->   * The IOVA to PFN map. The map automatically copies the PFNs into multiple
->   * domains and permits sharing of PFNs between io_pagetable instances. This
-> diff --git a/include/linux/iommufd.h b/include/linux/iommufd.h
-> index acf0e8f0c630..0da9bc8f94f3 100644
-> --- a/include/linux/iommufd.h
-> +++ b/include/linux/iommufd.h
-> @@ -251,6 +251,11 @@ int _iommufd_object_depend(struct iommufd_object *obj_dependent,
->  			   struct iommufd_object *obj_depended);
->  void _iommufd_object_undepend(struct iommufd_object *obj_dependent,
->  			      struct iommufd_object *obj_depended);
-> +int _iommufd_alloc_mmap(struct iommufd_ctx *ictx, struct iommufd_object *owner,
-> +			phys_addr_t mmio_addr, size_t length,
-> +			unsigned long *offset);
-> +void _iommufd_destroy_mmap(struct iommufd_ctx *ictx,
-> +			   struct iommufd_object *owner, unsigned long offset);
->  struct device *iommufd_viommu_find_dev(struct iommufd_viommu *viommu,
->  				       unsigned long vdev_id);
->  int iommufd_viommu_get_vdev_id(struct iommufd_viommu *viommu,
-> @@ -271,6 +276,20 @@ _iommufd_object_undepend(struct iommufd_object *obj_dependent,
->  {
->  }
->  
-> +static inline int _iommufd_alloc_mmap(struct iommufd_ctx *ictx,
-> +				      struct iommufd_object *owner,
-> +				      phys_addr_t mmio_addr, size_t length,
-> +				      unsigned long *offset)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline void _iommufd_destroy_mmap(struct iommufd_ctx *ictx,
-> +					 struct iommufd_object *owner,
-> +					 unsigned long offset)
-> +{
-> +}
-> +
->  static inline struct device *
->  iommufd_viommu_find_dev(struct iommufd_viommu *viommu, unsigned long vdev_id)
->  {
-> @@ -338,4 +357,27 @@ static inline int iommufd_viommu_report_event(struct iommufd_viommu *viommu,
->  		_iommufd_object_undepend(&dependent->member.obj,               \
->  					 &depended->member.obj);               \
->  	})
-> +
-> +/*
-> + * Helpers for IOMMU driver to alloc/destroy an mmapable area for a structure.
-> + *
-> + * To support an mmappable MMIO region, kernel driver must first register it to
-> + * iommufd core to allocate an @offset, during a driver-structure initialization
-> + * (e.g. viommu_init op). Then, it should report to user space this @offset and
-> + * the @length of the MMIO region for mmap syscall.
-> + */
-> +static inline int iommufd_viommu_alloc_mmap(struct iommufd_viommu *viommu,
-> +					    phys_addr_t mmio_addr,
-> +					    size_t length,
-> +					    unsigned long *offset)
-> +{
-> +	return _iommufd_alloc_mmap(viommu->ictx, &viommu->obj, mmio_addr,
-> +				   length, offset);
-> +}
-> +
-> +static inline void iommufd_viommu_destroy_mmap(struct iommufd_viommu *viommu,
-> +					       unsigned long offset)
-> +{
-> +	_iommufd_destroy_mmap(viommu->ictx, &viommu->obj, offset);
-> +}
->  #endif
-> diff --git a/drivers/iommu/iommufd/driver.c b/drivers/iommu/iommufd/driver.c
-> index 70b7917da0cb..8220b61d8c8d 100644
-> --- a/drivers/iommu/iommufd/driver.c
-> +++ b/drivers/iommu/iommufd/driver.c
-> @@ -31,6 +31,57 @@ void _iommufd_object_undepend(struct iommufd_object *obj_dependent,
->  }
->  EXPORT_SYMBOL_NS_GPL(_iommufd_object_undepend, "IOMMUFD");
->  
-> +/*
-> + * Allocate an @offset to return to user space to use for an mmap() syscall
-> + *
-> + * Driver should use a per-structure helper in include/linux/iommufd.h
-> + */
-> +int _iommufd_alloc_mmap(struct iommufd_ctx *ictx, struct iommufd_object *owner,
-> +			phys_addr_t mmio_addr, size_t length,
-> +			unsigned long *offset)
-> +{
-> +	struct iommufd_mmap *immap;
-> +	unsigned long startp;
-> +	int rc;
-> +
-> +	if (!PAGE_ALIGNED(mmio_addr))
-> +		return -EINVAL;
-> +	if (!length || !PAGE_ALIGNED(length))
-> +		return -EINVAL;
-> +
-> +	immap = kzalloc(sizeof(*immap), GFP_KERNEL);
-> +	if (!immap)
-> +		return -ENOMEM;
-> +	immap->owner = owner;
-> +	immap->num_pfns = length >> PAGE_SHIFT;
-> +	immap->mmio_pfn = mmio_addr >> PAGE_SHIFT;
-> +
-> +	rc = mtree_alloc_range(&ictx->mt_mmap, &startp, immap, immap->num_pfns,
-> +			       0, U32_MAX >> PAGE_SHIFT, GFP_KERNEL);
-> +	if (rc < 0) {
-> +		kfree(immap);
-> +		return rc;
-> +	}
-> +
-> +	immap->startp = startp;
-> +	/* mmap() syscall will right-shift the offset in vma->vm_pgoff */
-> +	*offset = startp << PAGE_SHIFT;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(_iommufd_alloc_mmap, "IOMMUFD");
-> +
-> +/* Driver should use a per-structure helper in include/linux/iommufd.h */
-> +void _iommufd_destroy_mmap(struct iommufd_ctx *ictx,
-> +			   struct iommufd_object *owner, unsigned long offset)
-> +{
-> +	struct iommufd_mmap *immap;
-> +
-> +	immap = mtree_erase(&ictx->mt_mmap, offset >> PAGE_SHIFT);
-> +	WARN_ON_ONCE(!immap || immap->owner != owner);
-> +	kfree(immap);
-> +}
-> +EXPORT_SYMBOL_NS_GPL(_iommufd_destroy_mmap, "IOMMUFD");
-> +
->  /* Caller should xa_lock(&viommu->vdevs) to protect the return value */
->  struct device *iommufd_viommu_find_dev(struct iommufd_viommu *viommu,
->  				       unsigned long vdev_id)
-> diff --git a/drivers/iommu/iommufd/main.c b/drivers/iommu/iommufd/main.c
-> index 4e8dbbfac890..339a269ebbc8 100644
-> --- a/drivers/iommu/iommufd/main.c
-> +++ b/drivers/iommu/iommufd/main.c
-> @@ -275,6 +275,7 @@ static int iommufd_fops_open(struct inode *inode, struct file *filp)
->  	xa_init_flags(&ictx->objects, XA_FLAGS_ALLOC1 | XA_FLAGS_ACCOUNT);
->  	xa_init(&ictx->groups);
->  	ictx->file = filp;
-> +	mt_init_flags(&ictx->mt_mmap, MT_FLAGS_ALLOC_RANGE);
->  	init_waitqueue_head(&ictx->destroy_wait);
->  	mutex_init(&ictx->sw_msi_lock);
->  	INIT_LIST_HEAD(&ictx->sw_msi_list);
-> @@ -479,11 +480,74 @@ static long iommufd_fops_ioctl(struct file *filp, unsigned int cmd,
->  	return ret;
->  }
->  
-> +static void iommufd_fops_vma_open(struct vm_area_struct *vma)
-> +{
-> +	struct iommufd_mmap *immap = vma->vm_private_data;
-> +
-> +	refcount_inc(&immap->owner->users);
-> +}
-> +
-> +static void iommufd_fops_vma_close(struct vm_area_struct *vma)
-> +{
-> +	struct iommufd_mmap *immap = vma->vm_private_data;
-> +
-> +	refcount_dec(&immap->owner->users);
-> +}
-> +
-> +static const struct vm_operations_struct iommufd_vma_ops = {
-> +	.open = iommufd_fops_vma_open,
-> +	.close = iommufd_fops_vma_close,
-> +};
-> +
-> +/* The vm_pgoff must be pre-allocated from mt_mmap, and given to user space */
-> +static int iommufd_fops_mmap(struct file *filp, struct vm_area_struct *vma)
-> +{
-> +	struct iommufd_ctx *ictx = filp->private_data;
-> +	size_t length = vma->vm_end - vma->vm_start;
-> +	struct iommufd_mmap *immap;
-> +	int rc;
-> +
-> +	if (!PAGE_ALIGNED(length))
-> +		return -EINVAL;
-> +	if (!(vma->vm_flags & VM_SHARED))
-> +		return -EINVAL;
-> +	if (vma->vm_flags & VM_EXEC)
-> +		return -EPERM;
-> +
-> +	/* vma->vm_pgoff carries an index to an mtree entry (immap) */
-> +	immap = mtree_load(&ictx->mt_mmap, vma->vm_pgoff);
-> +	if (!immap)
-> +		return -ENXIO;
-> +	/*
-> +	 * mtree_load() returns the immap for any contained pgoff, only allow
-> +	 * the immap thing to be mapped
-> +	 */
-> +	if (vma->vm_pgoff != immap->startp)
-> +		return -ENXIO;
-> +	if (length != immap->num_pfns << PAGE_SHIFT)
-> +		return -ENXIO;
-> +
-> +	vma->vm_pgoff = 0;
-> +	vma->vm_private_data = immap;
-> +	vma->vm_ops = &iommufd_vma_ops;
-> +	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-> +
-> +	rc = io_remap_pfn_range(vma, vma->vm_start, immap->mmio_pfn, length,
-> +				vma->vm_page_prot);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* vm_ops.open won't be called for mmap itself. */
-> +	refcount_inc(&immap->owner->users);
-> +	return rc;
-> +}
-> +
->  static const struct file_operations iommufd_fops = {
->  	.owner = THIS_MODULE,
->  	.open = iommufd_fops_open,
->  	.release = iommufd_fops_release,
->  	.unlocked_ioctl = iommufd_fops_ioctl,
-> +	.mmap = iommufd_fops_mmap,
->  };
->  
->  /**
-> -- 
-> 2.43.0
-> 
+Dragos Tatulea (5):
+  net/mlx5: Small refactor for general object capabilities
+  net/mlx5: Add IFC bits for PCIe Congestion Event object
+  net/mlx5e: Create/destroy PCIe Congestion Event object
+  net/mlx5e: Add device PCIe congestion ethtool stats
+  net/mlx5e: Make PCIe congestion event thresholds configurable
+
+ .../ethernet/mellanox/mlx5/counters.rst       |  32 ++
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |   2 +
+ .../mellanox/mlx5/core/en/pcie_cong_event.c   | 464 ++++++++++++++++++
+ .../mellanox/mlx5/core/en/pcie_cong_event.h   |  11 +
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |   3 +
+ .../ethernet/mellanox/mlx5/core/en_stats.c    |   1 +
+ .../ethernet/mellanox/mlx5/core/en_stats.h    |   1 +
+ drivers/net/ethernet/mellanox/mlx5/core/eq.c  |   4 +
+ include/linux/mlx5/mlx5_ifc.h                 |  67 ++-
+ 10 files changed, 575 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/pcie_cong_event.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/pcie_cong_event.h
+
+
+base-commit: d3623dd5bd4e1fc9acfc08dd0064658bbbf1e8de
+-- 
+2.34.1
+
