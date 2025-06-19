@@ -1,127 +1,234 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FD5270540
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 14:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EDE21931C
+	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 14:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750341972; cv=none; b=Vq8R2RSpT4XPkbFxo47qSHKlpAAAJQ/McyKk1AFHeq3JBWUpFLQOA9KxQQ5GmL0Xf9YSHm+OBy+sQ11e3wITMDXD4L6pQjmUcv3Dh6tzZJPunscUg39HUCW2/EuOlXh7cYPdnPKYAudcj1habGZzzAAqukeUvtB8knJuSIofFuA=
+	t=1750343013; cv=none; b=oly9VEkZrt377aP8CwC3TkcwczM1dwwGMP8oFSecmik6l+vgamB5yjnMYG7YmoiNK0dga2THY9yRZL0Q7VGOtMfB8zpQEyJhkxkttVg1CIOZO/UwGGIDC5JaJr6X4XzQi2UJBwofIYrKz4WTO02drZ9SOoziFnfy/156abd4kiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750341972; c=relaxed/simple;
-	bh=TrQEbkPOhkr+wXxKi4QhmQRGh+BqEkZVvBvjASyKlYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uyovka8O3XhAmRgdY76x6uY5GzWrnPSZStd84uInIP8ht6OpXWsKDmuu7v2/hWhxVPeAJkLOPqJutNYnd9Ex3Tx20jfzpoWfxWZ2w6Nfch/iAD9AzH4VLcZAbeWfGx0wJTzmmG6k3Swo949MsrL3D3d+6doZeNPARkeq4ko5UzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LzSBQ1pv; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1750343013; c=relaxed/simple;
+	bh=XxbgwMLn2Vs7XDuh7eac00p4lMC9rCJol7+MYU09tnI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZJINrdkdFShuXMZyGzfsLYkgKtO3tiD/rKlE5jJkoHi8zeSsBbBqiA7G9lpTU+DdtD9evvYPWZdGSK8P5uzeMfL5Qcd84jABD4wb5IVHcAdA8lX3OwvTi96+0B+iqxmWcZa5TgyZA1uXstpz/S9va+JT/V3QpT/x4CRPcbQydlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=xE7gVa+k; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LzSBQ1pv"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a528243636so556835f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 07:06:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="xE7gVa+k"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4a774209cf0so5695571cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 07:23:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1750341969; x=1750946769; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TrQEbkPOhkr+wXxKi4QhmQRGh+BqEkZVvBvjASyKlYw=;
-        b=LzSBQ1pvPgzNdC/ZTrW29Q8bKLmiCf5MiOHKd+5V0Lp+MVZHSdyYZh9I37uTNd0q1v
-         PH6Qd1J2dhu/QQVF+xqduoqOqUgmDOw4XYaWAWNPKuPBlXoH0EL7jmhLn8AcQcxaPNU5
-         DGbmXOKQHlD2uFp3wquvtvaN2ml6joJCrUBxszl8pkujNvZ8MurKFbFvPBuEnnMcbQIt
-         y5M41RAIMMIK7SjO0V4IBRwzCY4z5AY0qRaQmofoEnnEvYCdVW2a9DxJDzUkEUF9vc4g
-         2epwphggVRDWkyTKfUpAmKYAfIpllRUy1lnRcH7omAR5kr0VdbP7vNStOtEfNV4gdfU4
-         K9cQ==
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750343010; x=1750947810; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5h1xIOfluYgc0C0Xb3/EzcpMoWOgLa8QXInkgO2QKQY=;
+        b=xE7gVa+kH+owuOR2PEVliv0YKw7/h6tdlClPkWGk/VucQzDErFzixxfikDGm4U0ImK
+         UUiFzgR7DUXnaKvv6Z3dA9Ln80STJD+96sAFjxR/KC/PNV7lX1TndzmK7G9CERwM0Nym
+         ErFQqbbcKlO/HqyY2PQsUIgm7uiwiPW9BnBp0VlxWmnMIlM5bmeJnCNLusppXijeDfVL
+         JlL0lMAq7K/tL/n009IWyDlSy6w38uALz3Q1cpan0n1Pz5+TkvQTcj5ygb7YRhP9DD/4
+         RdDY4TrGOfO9W68XIup/cEbHA0CITrqq4e1R8vcvwCYIUbAFTCirJz+6V+5njhGgIlcA
+         G0PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750341969; x=1750946769;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TrQEbkPOhkr+wXxKi4QhmQRGh+BqEkZVvBvjASyKlYw=;
-        b=ScM4sKcUcMO93zEXO5gB1zQniBLbst+8J5r7eZ76SZEUqlkUCWxLeV6oCi08H6BANL
-         WxazFCBxTJ7ltWvhIgNfOkN0Qcl6fYjFISQlWKW0WlnchuSO2HajUfBXEqOLP7QJPBFO
-         TOrScB7tdb07y6yrwcRJNEEFf/I2phfV8I2uvZrb74UcdKshEYTBbNKqnzfHzP0uUD04
-         aGUxntp7ye9wdy4bxaffVbfg5zADeKSAp/8YbIGSHckrrLBY4DKGP1nmFYfSXO2Dhbpx
-         TP1v91/VcGgpcIyYiydEYlJjjoXeFuDRPh9dWDdm3xPD54h7hfWwbaQjLhISaiks5BTs
-         oSmg==
-X-Forwarded-Encrypted: i=1; AJvYcCWirZgXxcktbg0/4OqM6Jt4IK58BsOBlH6OiqwG9c674RB/DJzizirCq+ylQk1fXdott/x8etBiWOU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUnCq/YZBZ6S1lV1YYsedvEcEjrNe3CgiNTTJ2Ka9u6FXyvV2x
-	HQuvPDD1Y51mRcag5aM17lWu0FidP3eEedGKr1yQPZwHxf//Ykk+C9XzruhWQgBiVqU=
-X-Gm-Gg: ASbGnct3pYIIOzw0PeGR9kvuuTcUm9tSliOvgeThNpDj4OAKSmGuBzYe/O2sU2YN48Z
-	WCznEUtozXStDdI9ImxyxHZ0VmY1fhS2AURS2TMyYYUABkrkt7dd1A+FoN6lyIWo4zKgK6KjawA
-	LYliFFnwFMlXYcoo2uKdOKfRWR94kFb6oF1AH4e6gLSo/PYwlocy+2iDjwIgdbzwC9HTEkcWYST
-	a2ZWkRZ4fgQnW+LEJ//cdc+fJUa78I+5WvaVNljP3MwHAZJK78GxwMEeD/95wPHuGlViiVvg957
-	CODQmLWiAp73uh8o3KHCyfpFDJZ2Q8ZogI4d9Z5OhVytoUu+aJm1N5CKI0U6tpg/
-X-Google-Smtp-Source: AGHT+IFYZ5Og/LPrj6v29fVm2BOf1qki8zUztiChQu5TWH5+YhTscmSrBeIdsgN0gGcw2f5/E2TFiA==
-X-Received: by 2002:a05:6000:4a03:b0:3a4:fc0a:33ca with SMTP id ffacd0b85a97d-3a572397d6amr15059912f8f.4.1750341968150;
-        Thu, 19 Jun 2025 07:06:08 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4535e9844a9sm30681385e9.12.2025.06.19.07.06.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 07:06:07 -0700 (PDT)
-Date: Thu, 19 Jun 2025 16:06:05 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: "Chen, Yu C" <yu.c.chen@intel.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, peterz@infradead.org, 
-	akpm@linux-foundation.org, mingo@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
-	corbet@lwn.net, mgorman@suse.de, mhocko@kernel.org, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, tim.c.chen@intel.com, aubrey.li@intel.com, libo.chen@oracle.com, 
-	kprateek.nayak@amd.com, vineethr@linux.ibm.com, venkat88@linux.ibm.com, ayushjai@amd.com, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, yu.chen.surf@foxmail.com
-Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
-Message-ID: <zcabngubuvvlo7ddqhv734nmponyowtrtuerhcee25yk3cqxsd@gkyioppho5zt>
-References: <cover.1748002400.git.yu.c.chen@intel.com>
- <7ef90a88602ed536be46eba7152ed0d33bad5790.1748002400.git.yu.c.chen@intel.com>
- <cx4s4pnw5ymr4bxxmvrkhc457krq46eh6zamlr4ikp7tn3jsno@xzchjlnnawe5>
- <uuhyie7udxyvbdpccwi7dl5cy26ygkkuxjixpl247u5nqwpcqm@5whxlt5ddswo>
- <a8314889-f036-49ff-9cda-01367ddccf51@intel.com>
- <fpa42ohp54ewxxymaclnmiafdlfs7lbddnqhtv7haksdd5jq6z@mb6jxk3pl2m2>
- <djkzirwswrvhuuloyitnhxcm3sh7ebk6i22tvq2zzm4cb6pl45@t64jvtpl3ys6>
- <c6bfa201-ed88-47df-9402-ead65d7be475@intel.com>
- <h4chrmiscs66vwl4icda2emof4pbhqabpkklpql2azc5iujilm@o2ttlcanwztc>
- <6e52340a-cabf-48db-b9f1-8300c1c13997@intel.com>
+        d=1e100.net; s=20230601; t=1750343010; x=1750947810;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5h1xIOfluYgc0C0Xb3/EzcpMoWOgLa8QXInkgO2QKQY=;
+        b=GIS3WyZt68/PGV8RBi3MkobJU2ZgDQVIV6DNlBGxB8FnZjPl/y9m6jQejGg72ILiQ5
+         WstYn85y03i7j7ciODrv2fVhgten25lJ8e6iuDkdhe6LoJToDC1MlYSfq6h/+Kq/YcQu
+         Z9OogweDP27KxFwGaag9RuBxyzMphf/aa0ynAxl6iVrWE0pl5qtm8mISRQkaEFmNRErA
+         yfh449VVJOvOlCBY1UgJmWcf8d2ARfKI50TW9zb9rW4Fb7/6h/Sfyv1TSRfbzyqGCIVK
+         DXHDeOI7pC3j3ngBXejpkSB9y0+yUCAe+2nlYAjy3/82nao4TpAm6BrZ4uxD/+Jrf11j
+         hhXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+TkdK/RMNjL7CbpY+DXwTb5ChmjIHo8Hq6C6JJPIWaNsZutBBSAyi1bnNVOUPPK1/W6TAJJoRYZ0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywwr+ONeLK6YOJzklnoLJDBM1512yg1zpiBOuCYYdKZUVeCPcXp
+	2agdxlFQiQfUCZlynInMMVwZuoPUvgUtA8uK1ys9xkissiIZKTI8YmTn4mEI/dlfpV4S6drRuWF
+	9ruTE8IkAQpYGU8tRwp+j5a2XXmYbG+LIG3Dqmp6nrw==
+X-Gm-Gg: ASbGnctizjy6aUJ4SzpFj5w/Ac6x74hl0qO+v4atBuTMfkkDwzF6/g70Iescfsn76Fs
+	U2T4jPYGm/eaMqSmhIquBCxB/BArliRZR9jryb0xed0aXjLgoBaRvI3NGyAMOL80oOsMgz5eN1A
+	I/xowgTtuSbe20lwScQEtsikVJz7rzKD4ukYPXMBMJ
+X-Google-Smtp-Source: AGHT+IFgDl+SFbvTz0iLbkBSTl7G9nUIsLfEJdsuadZhl2TiLu62uOrOOfIf/Aq7YpsmL3SKzsl9GriFBOi6dVUWWps=
+X-Received: by 2002:a05:622a:1a22:b0:4a4:30e7:782 with SMTP id
+ d75a77b69052e-4a73c55c3e4mr340017061cf.18.1750343009703; Thu, 19 Jun 2025
+ 07:23:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dqfju5slh7y3cmln"
-Content-Disposition: inline
-In-Reply-To: <6e52340a-cabf-48db-b9f1-8300c1c13997@intel.com>
+References: <mafs0sekfts2i.fsf@kernel.org> <CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
+ <mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
+ <CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
+ <mafs05xgtw5wn.fsf@kernel.org> <CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
+ <aFLr7RDKraQk8Gvt@kernel.org> <CA+CK2bAnCRu+k=Q78eA4kcAebxA9NgOorhwRqu-WxC913YBsBw@mail.gmail.com>
+ <CA+CK2bB3P1vX658ErkP4_-L6WZSOCcenEwUdX1qS=poDjs=i+A@mail.gmail.com> <aFP7wwCviqxujKDg@kernel.org>
+In-Reply-To: <aFP7wwCviqxujKDg@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 19 Jun 2025 10:22:52 -0400
+X-Gm-Features: AX0GCFtlezNxlPEWS3rX1awTVjMBIkf1jPaBcWwfqMJaBq_78qG-UYL3Q5zgW3Q
+Message-ID: <CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
+Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pratyush Yadav <pratyush@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
+> > > I disagree, LUO is for liveupdate flows, and is designed specifically
+> > > around the live update flows: brownout/blackout/post-liveupdate, it
+> > > should not be generalized to anticipate some other random states, and
+> > > it should only support participants that are related to live update:
+> > > iommufd/vfiofd/kvmfd/memfd/eventfd and controled via "liveupdated" the
+> > > userspace agent.
+>
+> But it's not how the things work. Once there's an API anyone can use it,
+> right?
+>
+> How do you intend to restrict this API usage to subsystems that are related
+> to the live update flow? Or userspace driving ioctls outside "liveupdated"
+> user agent?
 
---dqfju5slh7y3cmln
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
-MIME-Version: 1.0
+Hi Mike,
 
-On Thu, Jun 19, 2025 at 09:03:55PM +0800, "Chen, Yu C" <yu.c.chen@intel.com> wrote:
-> OK. Since this change has already been addressed in upstream kernel,
+LUO provides both kernel and user APIs specifically for live update
+scenarios.  Live Update is an ability to reboot kernel while keeping
+some devices operations and FDs intact. That is the only uAPI that LUO
+provides, It enables users to preserve resources via FDs for memfd,
+vfiofd, guestmemfd, kvmfd, eventfd, and any other supported FD. It
+also provides a well defined state machine for user to add an retrieve
+the resources, and for kernel to do proper serialization of these
+resources. Since this is the only uAPI that LUO provides, I do not see
+how it can be used for other scenarios.
 
-Oh, I missed that. (Otherwise I wouldn't have bothered responding
-anymore in this case.)
+> There are a lot of examples of kernel subsystems that were designed for a
+> particular thing and later were extended to support additional use cases.
 
-> I can update the numa_task_migrated/numa_task_swapped fields in
-> Documentation/admin-guide/cgroup-v2.rst to mention that, these
-> activities are not memory related but put here because they are
-> closer to numa balance's page statistics.
-> Or do you want me to submit a patch to move the items from
-> memory.stat to cpu.stat?
+If that ever becomes necessary, either the core part would need to be
+moved out to be a separate thing, or a separate state machine on top
+of KHO targeting that use case would need to be developed.
 
-I leave it up to you. (It's become sunk cost for me.)
+Currently, I don't see an immediate need for this, especially if KHO
+itself is updated so the state machine is removed, and therefore
+finalization is not required.
 
-Michal
+> I'm not saying LUO should "anticipate some other random states", what I'm
+> saying is that usecases other than liveupdate may appear and use the APIs
+> LUO provides for something else.
+>
+> > > KHO is for preserving memory, LUO uses KHO as a backbone for Live Update.
+>
+> If we make LUO the only uABI to drive KHO it becomes misnamed from the
+> start.
+> As you mentioned yourself, reserve_mem and potentially IMA and kexec
 
---dqfju5slh7y3cmln
-Content-Type: application/pgp-signature; name="signature.asc"
+Kernel-internal components like pstore/reserve_mem or IMA do not
+require a uAPI to drive their KHO interactions. They can, and should,
+directly use KHO's kernel-level APIs kho_preserve_folio() and
+kho_restore_folio().
 
------BEGIN PGP SIGNATURE-----
+KHO itself must offer these preservation primitives, rather than
+embedding a state machine that dictates a single "finalize" point for
+all users.
 
-iHUEABYKAB0WIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaFQZSwAKCRB+PQLnlNv4
-CM3dAQCuYFm+JCgZpwkdQr6jIGP6Ax9dcl0VPZZyVPb3AipPYAEA7ouwjVSo7HYj
-QQfbWU/k3DuXFPBdpkExqgZHN55LaQ8=
-=gz+O
------END PGP SIGNATURE-----
+> pstore can use reserve_mem already.
 
---dqfju5slh7y3cmln--
+That's good to know; I'll investigate how pstore currently utilizes
+reserve_mem. My current approach involves reserving the memmap for
+pstore via kernel parameters.
+
+> > So currently, KHO provides the following two types of  internal API:
+> >
+> > Preserve memory and metadata
+> > =========================
+> > kho_preserve_folio() / kho_preserve_phys()
+> > kho_unpreserve_folio() / kho_unpreserve_phys()
+> > kho_restore_folio()
+> >
+> > kho_add_subtree() kho_retrieve_subtree()
+> >
+> > State machine
+> > ===========
+> > register_kho_notifier() / unregister_kho_notifier()
+> >
+> > kho_finalize() / kho_abort()
+> >
+> > We should remove the "State machine", and only keep the "Preserve
+> > Memory" API functions. At the time these functions are called, KHO
+> > should do the magic of making sure that the memory gets preserved
+> > across the reboot.
+> >
+> > This way, reserve_mem_init() would call: kho_preserve_folio() and
+> > kho_add_subtree() during boot, and be done with it.
+>
+> Right, but we still need something to drive kho_mem_serialize().
+
+My view is that an explicit, global kho_mem_serialize() call driven
+externally (like by LUO or debugfs) is not necessary for KHO
+operations.
+
+When kho_preserve_folio() or kho_add_subtree() is called, KHO itself
+should perform the immediate actions required to ensure that specific
+folio or subtree metadata is staged for preservation across a kexec.
+Similarly, kho_unpreserve_folio() or kho_remove_subtree() (which is
+currently missing from the KHO API) should immediately update KHO's
+state to reflect that the item is no longer preserved.
+
+> And it has to be done before kexec load, at least until we resolve this.
+
+The before kexec load constrained has been fixed. The only
+"finalization" constraint we have is it should be before
+reboot(LINUX_REBOOT_CMD_KEXEC) and only because memory allocations
+during kernel shutdown are undesirable. Once KHO moves away from a
+monolithic state machine this constraint disappears. Kernel components
+could preserve their resources at appropriate times, not necessarily
+tied to a shutdown-time. For live update scenarios, LUO already
+orchestrates this timing.
+
+> Currently this is triggered either by KHO debugfs or by LUO ioctls. If we
+> completely drop KHO debugfs and notifiers, we still need something that
+> would trigger the magic.
+
+An external "magic trigger" for KHO (like the current finalize
+notifier or debugfs command) is necessary for scenarios like live
+update, where userspace resources are being preserved in a coordinated
+fashion just before kexec.
+
+For kernel-internal resources that are unrelated to such a
+userspace-driven live update flow, the respective kernel components
+should directly use KHO's primitive preservation APIs
+(kho_preserve_folio, etc.) when they need to mark their resources for
+handover. No separate, state machine or external trigger should be
+required for these individual, self-contained preservation acts.
+
+> I'm not saying we should keep KHO debugfs and notifiers, I'm saying that if
+> we make LUO the only thing driving KHO, liveupdate is not an appropriate
+> name.
+
+LUO drives KHO specifically for the purpose of live updates. If a
+different userspace use-case emerges that needs another distinct
+purpose (e.g., not to preserve a FD a or a device across kernel reboot
+(i.e. something for which LUO does not provide uAPI)), then that would
+probably need a separate from LUO uAPI instead of extending the LUO
+uAPI.
+
+Pasha
