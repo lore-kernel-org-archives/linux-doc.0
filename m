@@ -1,126 +1,105 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B787519D07B
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 02:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B437E21FF57
+	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 02:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750299746; cv=none; b=YB8i32TxFKfTFrx5e2Ji/yc3340Fmh+CZ8SmkKOVD53ajUh3GKU5OTs0Y/EMmFKSRF7XHmf9lmqPRvEgk+BMDcRfhDyHMNJKM++t2FmRMyG0oylpIdjWV8e2T6IDD3miUjcXEfC7p+7R3/ZA5WTMUeOshhQZzDTcJAVyUEAi00s=
+	t=1750301094; cv=none; b=WQyCuKXnfWV93AzDFMq0Btce4Il2mnNphrFWa9E8V6LVjFE5Ajwahd/3yRw40Srdxc4v0oBqveB5FdOPYmWawBmNSYtZhqRHduCu4EBBPq1n7axzNqoBYX4W8s25vDPLXasbYAxPF3hFyB3a6/inRbMg3aWAJtxopyKNPRxxUgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750299746; c=relaxed/simple;
-	bh=MXqV1FB2nAcOf2otr92irp2eyIbwT6af9dTLVRB9uZI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bb6Vp+gQf+pDfLYs/ZCU9nV/k3IZWpepVN20Dm2u+KMhDMF8f2X6uRdQCsOP1iahBjrvoWb7h9EiAVa0WBl2BYLVfjcZfGTYtIqHCMif428qL9R/XM3q18hTOwB6a0I5nvdqI+Dm069Mknd3kNg+7uH6eAsC8aStIXYM4NwQCKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aX4cj4Rc; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750301094; c=relaxed/simple;
+	bh=qoyTG+y8tPin1lSTQeGsP+HTVOL7kT5xddmxzpFuYF0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cONuwD6phM3mnXxYJcrdHl/PrXwEXp3EqQwxJOwBg6Q8jDaWeEH4ZLdbDeBCdD7o8TgVgfRp1Fver0OpT8VsmTb45FXCGgya0/PJawsyVi40Evh9h+aI069bdDMMxMKQDY+Wk+D6BHujsLraTr5KIcXmQ/w/qwVLencasbI+HGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lUP+jB2d; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aX4cj4Rc"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so186421b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 19:22:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lUP+jB2d"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-748e81d37a7so175181b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Jun 2025 19:44:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750299744; x=1750904544; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Kkpx/PBTQdyE9M2WtcIaowDPR6PpsdibcOjL5B7P53M=;
-        b=aX4cj4Rc+n86mfW/82XQQnteK0QXbYRRek/TYoD3jHdgqgXO6lkL6jL4XWkG3PkFXY
-         bwU+0/2PE/YC5bbdrwgYosQtgFiCIPiXuazlVNo498+naeuGag4c/+tTeVAI+0ihbGuQ
-         QjAk1xV6zoUmZ6QJA/IFgeKiULIPfmzrwGkgf6J3cmed4B2DD2hEBIMFsdFGDdZvC9vg
-         nppAG8wFiMjf9HTY56TgS7xQ3UhBQeZHMbHg7IGQELNSlnvlhCg4vVuNHW8sYpZPU8cT
-         pTi06n60gPGVaUKyzvmJEwpSlZeJpWdp5Cxl/qfZai9eXGaS4RnYwVxOTuCtJ/XpXfYQ
-         zwdA==
+        d=chromium.org; s=google; t=1750301092; x=1750905892; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NGiV4ZITlSkGta2ar3rISknYHCyA9ON09GdNG8pubLA=;
+        b=lUP+jB2dib70oqGt16Y6GBeBfnzx1zSmE8b286umuV+VGipfXEGsJve7AZHadYBTLH
+         kPqMZ6qXkDnO5ObjGixdg6pgSbSUoUIQjYMeFMYQlFXONkESGNBzF4x3ZTGzfAQuxXDb
+         6YGuw7F5C/VJuA55bICrXOMuQCNf5zlqfej/s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750299744; x=1750904544;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kkpx/PBTQdyE9M2WtcIaowDPR6PpsdibcOjL5B7P53M=;
-        b=CTjdEdqcwyLNyFZYhiH/CJLa660tK7NfVs4+JeQn0oyP9BpqY3LcXCiM2YnlqHfrI/
-         TUXtjT4rF6krzGctpNii3/U3qmf7smPlz0Kw5YJA5Y92xdneG9CvfPQoXTGmAl14RRRD
-         bATRVZI1QRIiEJrY2LXo6TkGq+2uPf5+8Ay8moUXFn2geT8vUzE/VcDGAX8GoGmh/617
-         r1oQ0M1DONVs68ivxwZj0Zek0/l14YeiCpMR0CNTEJ/RFc2MBTDVDztVyJN2gUSjC0QK
-         VRW4NooTZ8sTOaAsOpcxJbtRiburqyItuNzYd3PudyvZOVd7B7dzAJKp39qK8MCYacI2
-         xDuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWrgsS/vHt2CvZWyXRcUQKaLzyDZdOF7pbH7v7gzqKqdYzepx6UI1QXZO44Q59ENPzn6EM2jeTADl0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxApa20FJozGigqG/WYp5tZdIYbXNWEkrgXgrWuP03yHB7E9OCY
-	Q1IbWey5eQM4Q3cVR8QcyBEYL9Aht8me1QhSn82hk0eGJ9/w4e1krNhM
-X-Gm-Gg: ASbGncvov4N5sTz8dmCdEjpURwYM12RG/RBGr0xYfPp4Kv06NzEMuXIwNtXX1+KE52J
-	Fs5qrkoCu4KRft4iT9eJXX5aJP8XkH7KlfQLsstxKg7mHwPPZhB7ObyBWhUHSfrh2kaAiDyEzbY
-	GzFZIcjBPEqGtr1J0dY2Tv1Mlu1SuR0UiD5Db9hsFfRbl4FWxCdl9a963BtbJB753t8biOPvoxF
-	+4+hjKIoAT+O4RmQMN/io5PcIr8vumorRnU2Fwfzfs/EZhMePePYjk/bBl4QTQpea1k+a8dJWvF
-	qHrsY17WPDpVs0zVOS6MuFYlLdJAG8uRz2kpcIsAQP4iuFQ3WF6B4qG0z3aDO679tSpbkC8y0eb
-	/T82vYlObQbKXGD4OSXCAh3DHpcCWBjag+lirgp3Tuy8=
-X-Google-Smtp-Source: AGHT+IE4BGiVxDTH8PGJMJL0sWyhhGR19y9vjAXPM6pHW36yEwWcCNHjrtHe4ouOKjAqKM8Xjv2WRg==
-X-Received: by 2002:a05:6a00:1955:b0:742:a77b:8c3 with SMTP id d2e1a72fcca58-7489cdf05bfmr26914017b3a.4.1750299743779;
-        Wed, 18 Jun 2025 19:22:23 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748e4444c65sm2831427b3a.33.2025.06.18.19.22.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jun 2025 19:22:23 -0700 (PDT)
-Message-ID: <6fcb75ee-61db-4fb3-9c5f-2029a7fea4ee@gmail.com>
-Date: Thu, 19 Jun 2025 11:22:19 +0900
+        d=1e100.net; s=20230601; t=1750301092; x=1750905892;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NGiV4ZITlSkGta2ar3rISknYHCyA9ON09GdNG8pubLA=;
+        b=ZqIsDyR4KRBJQrxWZ0CfqQryP/U5LcLAMU82Kol27JQJssYTVYufIhJ37YC+ak48ra
+         VkTdIrMxnEVRNGwLacle3ULInw3AX42lZKvTdsCKZd3dq9D4tEAIxQf8FBP8V5sxW8mR
+         aBecrbDC9g/yxYNJuzPl0dQf1Vb/WVLdyqvaqtLYRWuK87whUTKMVFBWj8XDF1koBJQW
+         JVKedhjPM56X4jNIraER5qeaLsebmzlI7luTh75H45geCliitNMDOK9Fc7aohXh7DCGk
+         XBTwt6szPSoEaMtE+Jy4KzwJx3YUr8DyIL5nhjg7tDBH7QvM3A7NFwA1BQqvG7kaqkel
+         P67w==
+X-Forwarded-Encrypted: i=1; AJvYcCVyGPeUFS4Tm3JdJ5AFqr3A7oVD7a7V+Ukjg9CcN1XKp/0XKL2uSahCxz/+f//L7iG2eHjJtQos/wo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySUDqgeQLBYqTtLRwWtSGlHkob6EYin2VfVkBFwnxqTVw0+mQ6
+	d0Nvw1OnWcXEzVWJJ2EJldilW9wQWX0PXkImWP9m3i4ZWhfFVvUkMEk4iyKZvd3QXw==
+X-Gm-Gg: ASbGncuoGVqZVW2f2I/nsIjPUhw3iNez/I4E+d50jaVWwicBlAFIxdOH9a4+1swEiR7
+	UGy0wXkMJwAUnZHpaPg/F8BpPFQ8e0qd12215ygvdcr3L9W1WKsLVd31GgoVbqxahzDvOTQwGLH
+	M4UNxPGi/iSs0q3DswesdDMj+1u3NnhCXJl5gOj95+Rz/LxFAa85W+a+wiA+3UE6fm9mdAOw4hG
+	lH0mIpLaNID8QHM+rLdmCoz86eoSQWSc+TLVtklfrxxzUyYdhgDvtf+Vynw0PwDTdUQLc73Z+68
+	8St4pJRCHHjBjyvvUlm2M6yqFAad517GsmCvaD6qe93fto7jK5HobGdk0vzj1g8euw==
+X-Google-Smtp-Source: AGHT+IG6keXC3NsOp2Ins+/oPh724/MxHSdE1WbIS33oc9s9zagcbgJChxdFiOB1royOBlBoftNKog==
+X-Received: by 2002:a05:6a00:1d15:b0:748:e4f6:ff31 with SMTP id d2e1a72fcca58-748e4f7091emr9593788b3a.8.1750301091998;
+        Wed, 18 Jun 2025 19:44:51 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:7cb6:ce70:9b77:ed3b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748ff646231sm44607b3a.146.2025.06.18.19.44.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 19:44:51 -0700 (PDT)
+Date: Thu, 19 Jun 2025 11:44:40 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, virtualization@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Jerrin Shaji George <jerrin.shaji-george@broadcom.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Minchan Kim <minchan@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>, 
+	Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH RFC 03/29] mm/zsmalloc: drop PageIsolated() related
+ VM_BUG_ONs
+Message-ID: <ved33aqy5rlayhagg3x6xcry3cyadw6eponaj6dfwkt7xmbep6@dpcvwrfgrjxx>
+References: <20250618174014.1168640-1-david@redhat.com>
+ <20250618174014.1168640-4-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Error at www.kernel.org/doc/html/next/ since next-20250610
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Akira Yokosawa <akiyks@gmail.com>
-References: <de7bae91-3200-481f-9db2-c0dc382c91dd@gmail.com>
- <20250616140450.79b3fedb@foz.lan>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250616140450.79b3fedb@foz.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250618174014.1168640-4-david@redhat.com>
 
-Hi Mauro,
-
-On Mon, 16 Jun 2025 14:05:36 +0200, Mauro Carvalho Chehab wrote:
-> Em Mon, 16 Jun 2025 20:18:22 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-[...]
-
-> > I managed to reproduce the build error using debian bookworm's distro packages
-> > which can be close enough to Sphinx 5.3.0 used there.
-> >
-> > This is the error I got from "make htmldocs":
-> >
-> > ----------------------------------------------------------------
-> > Extension error (automarkup):
-> > Handler <function auto_markup at 0x796307745bc0> for event 'doctree-resolved' threw an exception (exception: argument for warn() given by name ('stacklevel') and position (3))
-> > ----------------------------------------------------------------
-
-> Perhaps it is related to docutils version.
-
-Looks like you are right.
-
-debian:12 (Sphinx 5.3.0) and mageia:9 (Sphinx 6.1.3) are distro releases
-whose docutils is 0.19.  They both show the same symptom.
-
-Furthermore, if I install Sphinx by using venv and saying:
-
-    pip install "docutils==0.19" Sphinx pyyaml
-
-, I have Sphinx 7.3.6 and it shows the same symptom.
-
-So you need to say "docutils!=0.19" when you install specific versions
-of Sphinx.
-
+On (25/06/18 19:39), David Hildenbrand wrote:
+> Let's drop these checks; these are conditions the core migration code
+> must make sure will hold either way, no need to double check.
 > 
-> Assuming that it doesn't work with certain versions of sphinx or
-> docutils, instead of reverting the entire patch, IMO the best would
-> be to add a check for Sphinx version, disabling the broken refs
-> only for too old versions.
-> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Can you do so against docutils 0.19 only?
-
-       Thanks, Akira
-
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
