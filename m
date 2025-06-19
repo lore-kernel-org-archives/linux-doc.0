@@ -1,170 +1,161 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1A522171D
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 09:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 064B0220F5C;
+	Thu, 19 Jun 2025 09:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750326566; cv=none; b=HGWVYWQeSPXYQHJKNwQmErLGBqJnmkzCP4+MNLhpHwLC5wRdW+M2EiNSupWm3ksuegDYJlwjzJLpCRrjutD7+f9+AXp1lBFhGg+FmkjtHSzJQw/gsknEpKjOt0ruiwH5/y4Q8baeR/UHzq7MRfvUpeItkKx19R2NDRZkD0febfE=
+	t=1750326826; cv=none; b=IK612xu1YLsiMKoSLkdhdpjkrbybs/m452LP3RTPka6wkcCYBE6BQ/HW2HLIbaBGNKsXa61O0lXGDYHxHpLoCE0VCRKO64YehuD1zjfm9QnYuFInYGLOmL7N9NCFa24SIm7KOx8Ywut/BrPpDsHeeoURyNJRhsRhP0zMuVzxH8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750326566; c=relaxed/simple;
-	bh=3LkyeQl0t9LM+cj52xpO+Ax9lI0k6dCYkCdTOXS+hWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QuADwsaMJpr5s/yu38QHx1A+I0mAx/GMI1BVt5iRJYS2qZ07E4cV8wxrMHKCWr4qYBt7r2HIbQfki09zz+WHeG/xw8O0RwilMfn+1TVtiInU9iKWRCGnkgOFdM49PrR00R+TKC1IC0gJotdkmgCdZSWmvBMLMsjsxjZtZXSWnmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PQuxVCDT; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PQuxVCDT"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2348ac8e0b4so111175ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 02:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750326562; x=1750931362; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=17oxjeeFsHFeG65L770MNpFPAUdse/NuAwqFBcFBF84=;
-        b=PQuxVCDTgWhORmrR+ZAqjQ151mrOTPmBYrhmS4vovM/Nv9PEbDz5t34HHCFxijI9mm
-         AoMwwDmkKo7sRjAXRm+uY3T2oYCPYKgFcSinlh8ag8XezsLHtXaU4ROr172WILE2I2nh
-         ojyGe5tOmRmNybjbv4b4fgAPKZmUyHZ+fdvxRxA3nV/IFiiChxuqEtta02niY+Yb5SFD
-         gRXS7ufjGxEeqozweC/UNHMlOneORaNGmao7JGAXogXkL98bHE5d6d4UN1590tWvtyKy
-         aK6+/3lGwzf5Rg3tqr3pSxypnkcKFixHGe6YdvqF0jl1c/IS71kwp+TGLb/j3tZoqcNV
-         YQgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750326562; x=1750931362;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=17oxjeeFsHFeG65L770MNpFPAUdse/NuAwqFBcFBF84=;
-        b=cvnZU7tNakNfSvvIiIrVR1HInzkT/ahhiqxn/+h4scIzeYGAxEzRya4Qd0Dxvkk8eJ
-         JDldj0tKHMSZnGLfXcwRUX1Yg71Ip8Cwaj+53Za6LLPZEj3xI3IS4h15gCAD0P71zKxr
-         50BSodrgsap3o90cbhriS8B4BSRmgL+kZ7XWvUjHBJbfRqZp/PMXC3zef9JS3YgQNElP
-         6vSpxKPHcFkVBVBlbyVcebn6LBjmrXu2dKuy+g2rijkGMfZWoUdxoFTNvoRdmwVwZx3V
-         9oGtmC89+2fdDdXoy5JiwEnqSmcOoXUbialFQgSC1iSP3NgAyf4f4tP5Hwi6LmDiOgQK
-         16Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCXm9b4ef0nW5egYU5BlNW4h6jowqITkoGAUFuFIqnCx0foRBvkaXfmMZYBBMBq6/N+aLfVvCFJHq94=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrD9gb3pflJtNUZkgR/voyXeTJRk+PYGY71nabCaAj6FLrHt+D
-	U68oWp6oALmC84bdy2PDpW3hX2dblEXw9OcBVRTicFn+N7fAy079b2iQoQZT42Z+hA==
-X-Gm-Gg: ASbGncvsPLFFHJQFHRlWQPQL0I4Tith6u8s1FVdLpaMQBUzhxUzFnrYyS39ph/8OK2j
-	jXkuAnKCAh8bpLvsLJmoJQmaRLTkD9wWomkbkri45x3xRUgjmaMNStnvqhdcDKIqKpB3uuyBO9o
-	7xvohTUV15OQwGSaLAbYlnzos/CpG4yh4FOoqn9VcTOOFgNxb4ua1dsrrzmI9Vp471kBfa6gxg1
-	DFJ0VNHAjPIlfKXm9KTjgQ3Eoi7VT7kaxXUWXvk7z/EgwYHFD5onJwltaHiBpjY7uQlj7S3sbkt
-	YJMxmVqhP5wpsPpdu7zXzbfoKn46rJJvFp+DLyWjCd8wgxGiHEYuDjVS75zx0vQmlPS4At6hMQ4
-	RERGYm/pmOMeh/IN6xxPg
-X-Google-Smtp-Source: AGHT+IEuCYASVN8j1eZMJIcAvoBEAqstpKSSgGIYZ2iYQuSQhTyrI+a8+/330LWZVAAW9AYW4syqlA==
-X-Received: by 2002:a17:902:fc46:b0:234:bcd0:3d6f with SMTP id d9443c01a7336-237cdfe9619mr1746815ad.1.1750326562236;
-        Thu, 19 Jun 2025 02:49:22 -0700 (PDT)
-Received: from google.com (232.98.126.34.bc.googleusercontent.com. [34.126.98.232])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365deb04a6sm116435595ad.178.2025.06.19.02.49.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 02:49:21 -0700 (PDT)
-Date: Thu, 19 Jun 2025 09:49:10 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, kevin.tian@intel.com, corbet@lwn.net,
-	will@kernel.org, bagasdotme@gmail.com, robin.murphy@arm.com,
-	joro@8bytes.org, thierry.reding@gmail.com, vdumpa@nvidia.com,
-	jonathanh@nvidia.com, shuah@kernel.org, jsnitsel@redhat.com,
-	nathan@kernel.org, peterz@infradead.org, yi.l.liu@intel.com,
-	mshavit@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
-	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com
-Subject: Re: [PATCH v6 07/25] iommufd/access: Add internal APIs for HW queue
- to use
-Message-ID: <aFPdFnKvus57cGOU@google.com>
-References: <cover.1749884998.git.nicolinc@nvidia.com>
- <64145b184a0fa7c9b60532c9b475a51625edb77c.1749884998.git.nicolinc@nvidia.com>
- <20250616133719.GC1174925@nvidia.com>
- <aFDSNYOTToFSbFA2@nvidia.com>
+	s=arc-20240116; t=1750326826; c=relaxed/simple;
+	bh=cXoInAMla698Hrg8juo+W+JZpAaCpFOq+g+d1caEEko=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lfxpZpTdAIuh6EOlVRCAxHcHhs0quKyCustaTiMI4CrCIoOPtSUg9mSck9njiwTiLH0wmuglxqkA42GqceY+Rgof/BSJObOgvie+8Zaw6ElcXHLvTijAjZoCsxkQiula3sC9+rVUi4yKhAvy1jywKCDNV1pEbllfpy9dGj9m93w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 26899113E;
+	Thu, 19 Jun 2025 02:53:24 -0700 (PDT)
+Received: from [10.163.35.214] (unknown [10.163.35.214])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A26673F66E;
+	Thu, 19 Jun 2025 02:53:40 -0700 (PDT)
+Message-ID: <ca4d1ac9-725c-491f-b1ff-26661952557e@arm.com>
+Date: Thu, 19 Jun 2025 15:23:37 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFDSNYOTToFSbFA2@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 1/2] lib/vsprintf: Add support for pte_t
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250618041235.1716143-1-anshuman.khandual@arm.com>
+ <20250618041235.1716143-2-anshuman.khandual@arm.com>
+ <zsfblk4nfi6nigfnv7umruhewmg7fqhhtz6fiigezzk2wtn2n7@agpzorfpaywq>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <zsfblk4nfi6nigfnv7umruhewmg7fqhhtz6fiigezzk2wtn2n7@agpzorfpaywq>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 16, 2025 at 07:25:57PM -0700, Nicolin Chen wrote:
-> On Mon, Jun 16, 2025 at 10:37:19AM -0300, Jason Gunthorpe wrote:
-> > On Sat, Jun 14, 2025 at 12:14:32AM -0700, Nicolin Chen wrote:
-> > > Now, access->ops can be NULL, to support an internal use case for the new
-> > > HW queue object. Since an access object in this case will be allocated by
-> > > an inernal iommufd object, the refcount on the ictx should be skipped, so
-> > > as not to deadlock the release of the ictx as it would otherwise wait for
-> > > the release of the access first during the release of the internal object
-> > > that could wait for the release of ictx:
-> > >     ictx --releases--> hw_queue --releases--> access
-> > >       ^                                         |
-> > >       |_________________releases________________v
-> > > 
-> > > Add a set of lightweight internal APIs to unlink access and ictx:
-> > >     ictx --releases--> hw_queue --releases--> access
-> > > 
-> > > Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> > > ---
-> > >  drivers/iommu/iommufd/iommufd_private.h |  8 ++++
-> > >  drivers/iommu/iommufd/device.c          | 59 +++++++++++++++++++++----
-> > >  2 files changed, 58 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iommufd/iommufd_private.h
-> > > index 4a375a8c9216..468717d5e5bc 100644
-> > > --- a/drivers/iommu/iommufd/iommufd_private.h
-> > > +++ b/drivers/iommu/iommufd/iommufd_private.h
-> > > @@ -484,6 +484,14 @@ void iopt_remove_access(struct io_pagetable *iopt,
-> > >  			struct iommufd_access *access, u32 iopt_access_list_id);
-> > >  void iommufd_access_destroy_object(struct iommufd_object *obj);
-> > >  
-> > > +/* iommufd_access for internal use */
-> > > +struct iommufd_access *iommufd_access_create_internal(struct iommufd_ctx *ictx);
-> > > +#define iommufd_access_destroy_internal(ictx, access) \
-> > > +	iommufd_object_destroy_user(ictx, &(access)->obj)
-> > 
-> > Use a static inline please
-> > 
-> > > +int iommufd_access_attach_internal(struct iommufd_access *access,
-> > > +				   struct iommufd_ioas *ioas);
-> > > +#define iommufd_access_detach_internal(access) iommufd_access_detach(access)
-> > 
-> > 
-> > >  struct iommufd_eventq {
-> > >  	struct iommufd_object obj;
-> > >  	struct iommufd_ctx *ictx;
-> > > diff --git a/drivers/iommu/iommufd/device.c b/drivers/iommu/iommufd/device.c
-> > > index 9293722b9cff..ad33f1e41a24 100644
-> > > --- a/drivers/iommu/iommufd/device.c
-> > > +++ b/drivers/iommu/iommufd/device.c
-> > > @@ -1084,7 +1084,39 @@ void iommufd_access_destroy_object(struct iommufd_object *obj)
-> > >  	if (access->ioas)
-> > >  		WARN_ON(iommufd_access_change_ioas(access, NULL));
-> > >  	mutex_unlock(&access->ioas_lock);
-> > > -	iommufd_ctx_put(access->ictx);
-> > > +	if (access->ops)
-> > > +		iommufd_ctx_put(access->ictx);
-> > 
-> > I was hoping we could null the ictx to signal internal? That didn't
-> > work out?
+
+
+On 18/06/25 11:49 PM, Pedro Falcato wrote:
+> On Wed, Jun 18, 2025 at 09:42:34AM +0530, Anshuman Khandual wrote:
+>> Add a new format for printing page table entries.
+>>
+>> Cc: Petr Mladek <pmladek@suse.com>
+>> Cc: Steven Rostedt <rostedt@goodmis.org>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Cc: David Hildenbrand <david@redhat.com>
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Cc: linux-mm@kvack.org
+>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>> ---
+>>  Documentation/core-api/printk-formats.rst | 14 ++++++++++++++
+>>  lib/vsprintf.c                            | 20 ++++++++++++++++++++
+>>  mm/memory.c                               |  5 ++---
+>>  scripts/checkpatch.pl                     |  2 +-
+>>  4 files changed, 37 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+>> index 4b7f3646ec6ce..75a110b059ee1 100644
+>> --- a/Documentation/core-api/printk-formats.rst
+>> +++ b/Documentation/core-api/printk-formats.rst
+>> @@ -689,6 +689,20 @@ Rust
+>>  Only intended to be used from Rust code to format ``core::fmt::Arguments``.
+>>  Do *not* use it from C.
+>>  
+>> +Page Table Entry
+>> +----------------
+>> +
+>> +::
+>> +        %ppte
+>> +
+>> +Print standard page table entry pte_t.
+>> +
+>> +Passed by reference.
+>> +
+>> +Examples for a 64 bit page table entry, given &(u64)0xc0ffee::
+>> +
+>> +        %ppte   0x00c0ffee
 > 
-> access->ictx should be NULL for internal. It should have been:
-> +	if (access->ictx)
-> +		iommufd_ctx_put(access->ictx);
+> Ok, so what's the point of this if you're just printing the number?
+
+I might have got this wrong probably. The ideas is to represent
+a 64 bit address containing a 64 bit value i.e 0xc0ffee - which
+needs to be printed via the new print format.
+
 > 
-
-Ohh sorry, just saw this. +1, I too believe this is better than relying
-on access->ops being NULL.
-
-> > I would at least add a comment here this is filtering internal that
-> > doesn't have ictx. Maybe a little inline 'iommufd_access_is_internal'
-> > is appropriate. We'll be sad down the road if we need ops for
-> > internal.
+> Could at least do something like:
 > 
-> Yea, an inline will be cleaner. Will add that.
+> %ppte 0xc0ff000|WRITE|DIRTY|PRESENT
 > 
+> no? Otherwise it's a not super useful wrapper around printing pte_val(*pte).
 
-Ack.
+Although it would be great to have PTE flags called out as well,
+the proposed patch here just wanted to transparently extract 64
+bit printable value from pte_t represented page table entries.
 
-Thanks,
-Praan
+But coming back to your suggestion above.
+
+%ppte 0xc0ff000|WRITE|DIRTY|PRESENT
+
+Should all the generic page table entry flags and contained pfn
+be extracted from the pte_t and printed via new format %ppte ?
+
+> 
+>> +
+>>  Thanks
+>>  ======
+>>  
+>> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+>> index 3d85800757aa5..005490202ffb5 100644
+>> --- a/lib/vsprintf.c
+>> +++ b/lib/vsprintf.c
+>> @@ -2433,6 +2433,9 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
+>>   *		Without an option prints the full name of the node
+>>   *		f full name
+>>   *		P node name, including a possible unit address
+>> + * - 'pte'	For a 64 bit page table entry, this prints its contents in
+>> + *              a hexa decimal format
+>> + *
+>>   * - 'x' For printing the address unmodified. Equivalent to "%lx".
+>>   *       Please read the documentation (path below) before using!
+>>   * - '[ku]s' For a BPF/tracing related format specifier, e.g. used out of
+>> @@ -2542,6 +2545,23 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+>>  		default:
+>>  			return error_string(buf, end, "(einval)", spec);
+>>  		}
+>> +	case 'p':
+>> +		if (fmt[1] == 't' && fmt[2] == 'e') {
+>> +			pte_t *pte = (pte_t *)ptr;
+>> +
+>> +			spec.field_width = 10;
+>> +			spec.precision = 8;
+>> +			spec.base = 16;
+>> +			spec.flags = SPECIAL | SMALL | ZEROPAD;
+>> +			if (sizeof(pte_t) == sizeof(u64)) {
+>> +				u64 val = pte_val(*pte);
+>> +
+>> +				return number(buf, end, val, spec);
+>> +			}
+> 
+> As mentioned elsewhere in the thread, this obviously doesn't work for everything
+> 32-bit, and 64-bit PAE, and all of the weird page table formats we have around.
+I will accommodate 32 bit formats.
+
+But what about 64-bit PAE ? Would not pte_val() also return a printable
+64 bit number for such cases. Could you please elaborate on the weird
+page table formats you mentioned and why would not pte_val() work for
+those as well.
+
