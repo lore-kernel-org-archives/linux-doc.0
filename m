@@ -1,234 +1,114 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EDE21931C
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 14:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1AD1B3923;
+	Thu, 19 Jun 2025 14:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750343013; cv=none; b=oly9VEkZrt377aP8CwC3TkcwczM1dwwGMP8oFSecmik6l+vgamB5yjnMYG7YmoiNK0dga2THY9yRZL0Q7VGOtMfB8zpQEyJhkxkttVg1CIOZO/UwGGIDC5JaJr6X4XzQi2UJBwofIYrKz4WTO02drZ9SOoziFnfy/156abd4kiM=
+	t=1750343772; cv=none; b=jxz1DYFeNnftjTWEXjMlX2gyJ03mGBM5IU7Ww/treVJh1ADovA6hgXJZhvTKumFIsptqVBMNIH3HCFPga51steb5FMvVwYP5Nn1t5eMtINALRdOd+g1M6rmM0tlkXfT12tCC/7dN5qz2sydVJy/IxJfXhNYCK7bPcZAqO+1pFO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750343013; c=relaxed/simple;
-	bh=XxbgwMLn2Vs7XDuh7eac00p4lMC9rCJol7+MYU09tnI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZJINrdkdFShuXMZyGzfsLYkgKtO3tiD/rKlE5jJkoHi8zeSsBbBqiA7G9lpTU+DdtD9evvYPWZdGSK8P5uzeMfL5Qcd84jABD4wb5IVHcAdA8lX3OwvTi96+0B+iqxmWcZa5TgyZA1uXstpz/S9va+JT/V3QpT/x4CRPcbQydlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=xE7gVa+k; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="xE7gVa+k"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4a774209cf0so5695571cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 07:23:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750343010; x=1750947810; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5h1xIOfluYgc0C0Xb3/EzcpMoWOgLa8QXInkgO2QKQY=;
-        b=xE7gVa+kH+owuOR2PEVliv0YKw7/h6tdlClPkWGk/VucQzDErFzixxfikDGm4U0ImK
-         UUiFzgR7DUXnaKvv6Z3dA9Ln80STJD+96sAFjxR/KC/PNV7lX1TndzmK7G9CERwM0Nym
-         ErFQqbbcKlO/HqyY2PQsUIgm7uiwiPW9BnBp0VlxWmnMIlM5bmeJnCNLusppXijeDfVL
-         JlL0lMAq7K/tL/n009IWyDlSy6w38uALz3Q1cpan0n1Pz5+TkvQTcj5ygb7YRhP9DD/4
-         RdDY4TrGOfO9W68XIup/cEbHA0CITrqq4e1R8vcvwCYIUbAFTCirJz+6V+5njhGgIlcA
-         G0PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750343010; x=1750947810;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5h1xIOfluYgc0C0Xb3/EzcpMoWOgLa8QXInkgO2QKQY=;
-        b=GIS3WyZt68/PGV8RBi3MkobJU2ZgDQVIV6DNlBGxB8FnZjPl/y9m6jQejGg72ILiQ5
-         WstYn85y03i7j7ciODrv2fVhgten25lJ8e6iuDkdhe6LoJToDC1MlYSfq6h/+Kq/YcQu
-         Z9OogweDP27KxFwGaag9RuBxyzMphf/aa0ynAxl6iVrWE0pl5qtm8mISRQkaEFmNRErA
-         yfh449VVJOvOlCBY1UgJmWcf8d2ARfKI50TW9zb9rW4Fb7/6h/Sfyv1TSRfbzyqGCIVK
-         DXHDeOI7pC3j3ngBXejpkSB9y0+yUCAe+2nlYAjy3/82nao4TpAm6BrZ4uxD/+Jrf11j
-         hhXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+TkdK/RMNjL7CbpY+DXwTb5ChmjIHo8Hq6C6JJPIWaNsZutBBSAyi1bnNVOUPPK1/W6TAJJoRYZ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywwr+ONeLK6YOJzklnoLJDBM1512yg1zpiBOuCYYdKZUVeCPcXp
-	2agdxlFQiQfUCZlynInMMVwZuoPUvgUtA8uK1ys9xkissiIZKTI8YmTn4mEI/dlfpV4S6drRuWF
-	9ruTE8IkAQpYGU8tRwp+j5a2XXmYbG+LIG3Dqmp6nrw==
-X-Gm-Gg: ASbGnctizjy6aUJ4SzpFj5w/Ac6x74hl0qO+v4atBuTMfkkDwzF6/g70Iescfsn76Fs
-	U2T4jPYGm/eaMqSmhIquBCxB/BArliRZR9jryb0xed0aXjLgoBaRvI3NGyAMOL80oOsMgz5eN1A
-	I/xowgTtuSbe20lwScQEtsikVJz7rzKD4ukYPXMBMJ
-X-Google-Smtp-Source: AGHT+IFgDl+SFbvTz0iLbkBSTl7G9nUIsLfEJdsuadZhl2TiLu62uOrOOfIf/Aq7YpsmL3SKzsl9GriFBOi6dVUWWps=
-X-Received: by 2002:a05:622a:1a22:b0:4a4:30e7:782 with SMTP id
- d75a77b69052e-4a73c55c3e4mr340017061cf.18.1750343009703; Thu, 19 Jun 2025
- 07:23:29 -0700 (PDT)
+	s=arc-20240116; t=1750343772; c=relaxed/simple;
+	bh=TrQM8zZWOPOJoeXZtUsX+MK3ndkBL2WDH2l4576fBY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SI5fwUTHCQe7RjmkHemmCTn3p3yZIt5NL3VFENZSZnAnuQREwdwpSl//M5ZFjAtX2xRUSLzNg2DHGC36upnoTZrxIK07VG6Onx7wx3UmU9GsItE1xnV/M3mRPP5/bY90xHxQZ3sfleWo4+13kdLB2sEMw+o7e1DndxkPFYB/YdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 25747113E;
+	Thu, 19 Jun 2025 07:35:50 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 243363F66E;
+	Thu, 19 Jun 2025 07:36:06 -0700 (PDT)
+Date: Thu, 19 Jun 2025 15:36:04 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Koichi Okuno <fj2767dz@fujitsu.com>, Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
+Message-ID: <aFQgVPRvbrfcUrkY@J2N7QTR9R3>
+References: <20250617102819.3685543-1-fj2767dz@fujitsu.com>
+ <20250617102819.3685543-3-fj2767dz@fujitsu.com>
+ <20250617103618.GT1613376@noisy.programming.kicks-ass.net>
+ <aFQXU5rK_HJE9zq0@J2N7QTR9R3>
+ <20250619140442.GH1613376@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <mafs0sekfts2i.fsf@kernel.org> <CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
- <mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
- <CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
- <mafs05xgtw5wn.fsf@kernel.org> <CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
- <aFLr7RDKraQk8Gvt@kernel.org> <CA+CK2bAnCRu+k=Q78eA4kcAebxA9NgOorhwRqu-WxC913YBsBw@mail.gmail.com>
- <CA+CK2bB3P1vX658ErkP4_-L6WZSOCcenEwUdX1qS=poDjs=i+A@mail.gmail.com> <aFP7wwCviqxujKDg@kernel.org>
-In-Reply-To: <aFP7wwCviqxujKDg@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 19 Jun 2025 10:22:52 -0400
-X-Gm-Features: AX0GCFtlezNxlPEWS3rX1awTVjMBIkf1jPaBcWwfqMJaBq_78qG-UYL3Q5zgW3Q
-Message-ID: <CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
-Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250619140442.GH1613376@noisy.programming.kicks-ass.net>
 
-> > > I disagree, LUO is for liveupdate flows, and is designed specifically
-> > > around the live update flows: brownout/blackout/post-liveupdate, it
-> > > should not be generalized to anticipate some other random states, and
-> > > it should only support participants that are related to live update:
-> > > iommufd/vfiofd/kvmfd/memfd/eventfd and controled via "liveupdated" the
-> > > userspace agent.
->
-> But it's not how the things work. Once there's an API anyone can use it,
-> right?
->
-> How do you intend to restrict this API usage to subsystems that are related
-> to the live update flow? Or userspace driving ioctls outside "liveupdated"
-> user agent?
+On Thu, Jun 19, 2025 at 04:04:42PM +0200, Peter Zijlstra wrote:
+> On Thu, Jun 19, 2025 at 02:57:55PM +0100, Mark Rutland wrote:
+> > On Tue, Jun 17, 2025 at 12:36:18PM +0200, Peter Zijlstra wrote:
+> > > On Tue, Jun 17, 2025 at 07:27:50PM +0900, Koichi Okuno wrote:
+> > > > +	pcipmu->pmu = (struct pmu) {
+> > > > +		.parent		= dev,
+> > > > +		.task_ctx_nr	= perf_invalid_context,
+> > > > +
+> > > > +		.pmu_enable	= fujitsu_pci__pmu_enable,
+> > > > +		.pmu_disable	= fujitsu_pci__pmu_disable,
+> > > > +		.event_init	= fujitsu_pci__event_init,
+> > > > +		.add		= fujitsu_pci__event_add,
+> > > > +		.del		= fujitsu_pci__event_del,
+> > > > +		.start		= fujitsu_pci__event_start,
+> > > > +		.stop		= fujitsu_pci__event_stop,
+> > > > +		.read		= fujitsu_pci__event_read,
+> > > > +
+> > > > +		.attr_groups	= fujitsu_pci_pmu_attr_grps,
+> > > > +		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
+> > > 
+> > > Should these drivers not also have PERF_PMU_CAP_NO_INTERRUPT ? Per them
+> > > being uncore they cannot generate samples.
+> > 
+> > These PMUs actually have an interrupt, so that might be a bit confusing.
+> > That said, the counters seem to be 64-bit, so the interrupt doesn't seem
+> > practically necessary today.
+> 
+> Yeah, I saw they had an interrupt. But them being uncore they must not
+> sample, and NO_INTERRUPT means not being able to sample.
+> 
+> Naming urgh :-)
 
-Hi Mike,
+Yeah :)
 
-LUO provides both kernel and user APIs specifically for live update
-scenarios.  Live Update is an ability to reboot kernel while keeping
-some devices operations and FDs intact. That is the only uAPI that LUO
-provides, It enables users to preserve resources via FDs for memfd,
-vfiofd, guestmemfd, kvmfd, eventfd, and any other supported FD. It
-also provides a well defined state machine for user to add an retrieve
-the resources, and for kernel to do proper serialization of these
-resources. Since this is the only uAPI that LUO provides, I do not see
-how it can be used for other scenarios.
+FWIW, that came to mind due to:
 
-> There are a lot of examples of kernel subsystems that were designed for a
-> particular thing and later were extended to support additional use cases.
+  https://lore.kernel.org/lkml/20250618-perf-pmu-cap-docs-v1-1-0d34387d6e47@collabora.com/
 
-If that ever becomes necessary, either the core part would need to be
-moved out to be a separate thing, or a separate state machine on top
-of KHO targeting that use case would need to be developed.
+... and if NO_INTERRUPT would be better-named as NO_SAMPLING, that might
+be a good opportunity to clean that up.
 
-Currently, I don't see an immediate need for this, especially if KHO
-itself is updated so the state machine is removed, and therefore
-finalization is not required.
+> > Either way, the fujitsu_pci__event_init() function rejects sampling
+> > events, so it correctly rejects sampling events.
+> > 
+> > IMO, it'd be a bit nicer to do the inverse, and have the perf core
+> > reject sampling events by default for non-CPU PMUs.
+> 
+> Yeah, there's lots of cleanup to be done. Quite possibly also some
+> unification between the various drivers.
+> 
+> Just need someone that knows what they're doing that has spare time,
+> know anybody like that? :-)
 
-> I'm not saying LUO should "anticipate some other random states", what I'm
-> saying is that usecases other than liveupdate may appear and use the APIs
-> LUO provides for something else.
->
-> > > KHO is for preserving memory, LUO uses KHO as a backbone for Live Update.
->
-> If we make LUO the only uABI to drive KHO it becomes misnamed from the
-> start.
-> As you mentioned yourself, reserve_mem and potentially IMA and kexec
+I think a few folk likle that live in the nearest hall of mirrors...
 
-Kernel-internal components like pstore/reserve_mem or IMA do not
-require a uAPI to drive their KHO interactions. They can, and should,
-directly use KHO's kernel-level APIs kho_preserve_folio() and
-kho_restore_folio().
+If you're happy with that in concept, I can see about getting someone to
+look at that -- the general idea has come up a few times.
 
-KHO itself must offer these preservation primitives, rather than
-embedding a state machine that dictates a single "finalize" point for
-all users.
-
-> pstore can use reserve_mem already.
-
-That's good to know; I'll investigate how pstore currently utilizes
-reserve_mem. My current approach involves reserving the memmap for
-pstore via kernel parameters.
-
-> > So currently, KHO provides the following two types of  internal API:
-> >
-> > Preserve memory and metadata
-> > =========================
-> > kho_preserve_folio() / kho_preserve_phys()
-> > kho_unpreserve_folio() / kho_unpreserve_phys()
-> > kho_restore_folio()
-> >
-> > kho_add_subtree() kho_retrieve_subtree()
-> >
-> > State machine
-> > ===========
-> > register_kho_notifier() / unregister_kho_notifier()
-> >
-> > kho_finalize() / kho_abort()
-> >
-> > We should remove the "State machine", and only keep the "Preserve
-> > Memory" API functions. At the time these functions are called, KHO
-> > should do the magic of making sure that the memory gets preserved
-> > across the reboot.
-> >
-> > This way, reserve_mem_init() would call: kho_preserve_folio() and
-> > kho_add_subtree() during boot, and be done with it.
->
-> Right, but we still need something to drive kho_mem_serialize().
-
-My view is that an explicit, global kho_mem_serialize() call driven
-externally (like by LUO or debugfs) is not necessary for KHO
-operations.
-
-When kho_preserve_folio() or kho_add_subtree() is called, KHO itself
-should perform the immediate actions required to ensure that specific
-folio or subtree metadata is staged for preservation across a kexec.
-Similarly, kho_unpreserve_folio() or kho_remove_subtree() (which is
-currently missing from the KHO API) should immediately update KHO's
-state to reflect that the item is no longer preserved.
-
-> And it has to be done before kexec load, at least until we resolve this.
-
-The before kexec load constrained has been fixed. The only
-"finalization" constraint we have is it should be before
-reboot(LINUX_REBOOT_CMD_KEXEC) and only because memory allocations
-during kernel shutdown are undesirable. Once KHO moves away from a
-monolithic state machine this constraint disappears. Kernel components
-could preserve their resources at appropriate times, not necessarily
-tied to a shutdown-time. For live update scenarios, LUO already
-orchestrates this timing.
-
-> Currently this is triggered either by KHO debugfs or by LUO ioctls. If we
-> completely drop KHO debugfs and notifiers, we still need something that
-> would trigger the magic.
-
-An external "magic trigger" for KHO (like the current finalize
-notifier or debugfs command) is necessary for scenarios like live
-update, where userspace resources are being preserved in a coordinated
-fashion just before kexec.
-
-For kernel-internal resources that are unrelated to such a
-userspace-driven live update flow, the respective kernel components
-should directly use KHO's primitive preservation APIs
-(kho_preserve_folio, etc.) when they need to mark their resources for
-handover. No separate, state machine or external trigger should be
-required for these individual, self-contained preservation acts.
-
-> I'm not saying we should keep KHO debugfs and notifiers, I'm saying that if
-> we make LUO the only thing driving KHO, liveupdate is not an appropriate
-> name.
-
-LUO drives KHO specifically for the purpose of live updates. If a
-different userspace use-case emerges that needs another distinct
-purpose (e.g., not to preserve a FD a or a device across kernel reboot
-(i.e. something for which LUO does not provide uAPI)), then that would
-probably need a separate from LUO uAPI instead of extending the LUO
-uAPI.
-
-Pasha
+Mark.
