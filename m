@@ -1,142 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DCF30E820;
-	Thu, 19 Jun 2025 20:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C822244686;
+	Thu, 19 Jun 2025 20:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750363429; cv=none; b=oKISWJdcbslrV46gq2YnWF22bp5UxVopeCmOR/uXAPUwRoWC0vBFNWFAkwhXuLeoe3CDi1eoc8oVX8H/XPivs2qQsFDpOazhhSjligVn0xm77CvtmiTnxNBCt/eS2u6O7xUkf8FHQqliRk94GwI8o+M+LTVAgEfYh3U4W1Z0I6w=
+	t=1750363622; cv=none; b=hEDVq3g2KNtNpU0BJWS178Kqaonw7VfbPPUgud5etqkqgrFIPX3jUuZOElpPqlVOlo7PBF8j7cLJNIG+JI1Jqdz8HFjeDkzlh2ZVT/trxFwyaONeiLawCEkTH1VDszgPI1B+NLCUuk0JJjFVmce/3cv+OZnF/gClf4DnVtpRlMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750363429; c=relaxed/simple;
-	bh=fk3fmHlAtMJ5XqQyz6sbrUWHSI6GW95mIPRC7IjMxio=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O0BrWPPGI5d3+uzcdNEiktA4hTugcbFgeTdss4G7A5vH5ox8HVZhh4SEwdcpLmoot/zZ3FWPS9XBe2pqat1flZTloRQNkeN/VsOFTf9pkF17AzhWL3WwSaDyeIx9kTYPsTEEMq/HbnMtYE1Cven0kLlQGG9YpyrCC6HyAdOTpsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kgBxXsXx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750363622; c=relaxed/simple;
+	bh=x8nkZpBV8B1RfMXzIjaeghHZ0IZmHLuUDZJUgB28/C8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=jpXM3fHQOGP1X2GQO8r6lzYTlX2H/D+tAtdWUOkX3sQPYvPe92Bigcp1UwnDkQwJ6qke5ds6E2U9KMTBRjk3EjfpM4qN/2Cpgpwv0krru8IuczTWwCBawMMl06HTE68E9e31ggeYL8u27mwymQOQlA9RcVQQyh6FCAhdrixLi0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rVUKW6py; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kgBxXsXx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D609FC4CEEA;
-	Thu, 19 Jun 2025 20:03:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750363429;
-	bh=fk3fmHlAtMJ5XqQyz6sbrUWHSI6GW95mIPRC7IjMxio=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kgBxXsXx+0RC+DQAfbbjIERuH0TEbASijWoawjtW8h6hyMuqO8RoUDDRxiOrCtEr4
-	 oup9YfEPiFKeHWAGQzmoTqwEIWvpLfjh/N1pOMYL7hQJzaE4a1nQCLtxJEvgd3HyOR
-	 fspVyMw+zIjDykPH0JV20aIavDqxLoSMi9evfeea7834ykIoX9N6Qgt2WoNcyy0Gnj
-	 vhdN+1o+iiEfjLkyoHDVapy8uUUQd6Dg+KSBCTQcSpNw6CujVsS8ZNYdbwCakMYw9G
-	 zLgD64tD/8RExiGfGRRsdQN/TyOL8da3lKLn/CnkDzbtP2oD++57p7KEotHFQSnOiX
-	 ofWbryazOWPYw==
-Message-ID: <7c5b6512-1374-41c9-be9a-ac05b573e2cd@kernel.org>
-Date: Thu, 19 Jun 2025 22:03:44 +0200
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rVUKW6py"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7B75A41AD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1750363619; bh=R9c4vgL7SuYf1vxfbbp+JsNTP8qE+XIiFw2ZuOXL6S8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=rVUKW6pywt1KAVhnsKmGFtuxGHE20Sn/qoL2NdO84G2FNt+qf2dslll76hqnx+p3W
+	 Bd8yIVeDuuAZh6A0J23a4GRqbZ5ovmDB7rPgiYGco+FQKEck4Brit0VA93ggk2Nkh2
+	 fuK6N4b4x9AyLkHMukIzKOOejFe5RvgZx43Wg1RiYO5x+AulGvGXdv68l8v+K69shU
+	 VTbrrzDKYi5iMvUni58QUNlolykUJlpgzMNIpVB2ol/UH6gdYhzcSQoaHEcJwpdLK/
+	 oY4FQkcPtcn7eSEeDqLQ7cn1VX67jckzQV/DSvPU5WhGIAedv/Xg8O9MhM+OUxUhiS
+	 LaJERjmb96X5Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7B75A41AD8;
+	Thu, 19 Jun 2025 20:06:59 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jakub Kicinski <kuba@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>
+Cc: Donald Hunter <donald.hunter@gmail.com>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Akira
+ Yokosawa <akiyks@gmail.com>, Breno Leitao <leitao@debian.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Ignacio
+ Encinas Rubio <ignacio@iencinas.com>, Jan Stancek <jstancek@redhat.com>,
+ Marco Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben
+ Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev,
+ netdev@vger.kernel.org, peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
+ netlink_yml_parser.py
+In-Reply-To: <20250614124649.2c41407c@kernel.org>
+References: <cover.1749891128.git.mchehab+huawei@kernel.org>
+ <ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
+ <CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
+ <20250614173235.7374027a@foz.lan> <20250614103700.0be60115@kernel.org>
+ <20250614205609.50e7c3ad@foz.lan> <20250614124649.2c41407c@kernel.org>
+Date: Thu, 19 Jun 2025 14:06:58 -0600
+Message-ID: <877c17h4wt.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
-To: Lee Jones <lee@kernel.org>
-Cc: Armin Wolf <W_Armin@gmx.de>, Werner Sembach <wse@tuxedocomputers.com>,
- ilpo.jarvinen@linux.intel.com, chumuzero@gmail.com, corbet@lwn.net,
- cs@tuxedo.de, ggo@tuxedocomputers.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20250615175957.9781-1-W_Armin@gmx.de>
- <20250615175957.9781-3-W_Armin@gmx.de>
- <41de4cd4-2a27-4b14-a1c0-e336a3cec317@tuxedocomputers.com>
- <d645ba09-1820-4473-96bb-8550ed0b0a26@gmx.de>
- <20250619094757.GB587864@google.com>
- <ebd9489d-2783-468a-ad07-e7d1c04fb165@kernel.org>
- <20250619151714.GJ795775@google.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250619151714.GJ795775@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hi Lee,
+Jakub Kicinski <kuba@kernel.org> writes:
 
-On 19-Jun-25 5:17 PM, Lee Jones wrote:
-> On Thu, 19 Jun 2025, Hans de Goede wrote:
-> 
->> Hi Lee,
->>
->> On 19-Jun-25 11:47 AM, Lee Jones wrote:
->>> On Tue, 17 Jun 2025, Armin Wolf wrote:
->>>
->>>> Am 16.06.25 um 14:46 schrieb Werner Sembach:
->>>>
->>>>> Hi, small additon
->>>>>
->>>>> Am 15.06.25 um 19:59 schrieb Armin Wolf:
->>>>>> +        functionality.
->>>>>> +
->>>>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/rainbow_animation
->>>>>> +Date:        Juni 2025
->>>>>> +KernelVersion:    6.17
->>>>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
->>>>>> +Description:
->>>>>> +        Forces the integrated lightbar to display a rainbow
->>>>>> animation when the machine
->>>>>> +        is not suspended. Writing "enable"/"disable" into this file
->>>>>> enables/disables
->>>>>> +        this functionality.
->>>>>> +
->>>>>> +        Reading this file returns the current status of the rainbow
->>>>>> animation functionality.
->>>>>> +
->>>>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
->>>>>> +Date:        Juni 2025
->>>>>> +KernelVersion:    6.17
->>>>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
->>>>>> +Description:
->>>>>> +        Causes the integrated lightbar to display a breathing
->>>>>> animation when the machine
->>>>>> +        has been suspended and is running on AC power. Writing
->>>>>> "enable"/"disable" into
->>>>>> +        this file enables/disables this functionality.
->>>>>> +
->>>>>> +        Reading this file returns the current status of the
->>>>>> breathing animation
->>>>>> +        functionality.
->>>>>
->>>>> maybe this would be better under the /sys/class/leds/*/ tree if possible
->>>>
->>>> I CCed the LED mailing list so that they can give us advice on which location is the preferred one for new drivers.
->>>
->>> No need to involve the LED subsystem for a hardware function controlled
->>> by a single register value just because the interface involves an LED.
->>
->> Lee, the question here is where put the sysfs attribute to put the lightbar
->> in breathing mode e.g. which of these 2 should be used?  :
->>
->> 1. /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
->> 2. /sys/class/leds/uniwill-lightbar/breathing_in_suspend
->>
->> I think this is a fair question and since 2. involves the LED class userspace
->> API I also think that asking for the LED maintainers input is reasonable.
->>
->> FWIW I'm not sure myself. 2. is the more logical place / path. But 2. adds
->> a custom sysfs attr the LED class device. Whereas 1. adds a custom sysfs attr
->> in a place where these are more or less expected.
-> 
-> Right.  It was a reasonable question.  Did I imply otherwise?
+> On Sat, 14 Jun 2025 20:56:09 +0200 Mauro Carvalho Chehab wrote:
 
-Sorry, my bad, I interpreted your "No need to involve the LED
-subsystem for a hardware function ..." remark as meaning that
-you did not understand why you were Cc-ed.
+>> I'm more interested on having a single place where python libraries
+>> could be placed.
+>
+> Me too, especially for selftests. But it's not clear to me that
+> scripts/ is the right location. I thought purely user space code
+> should live in tools/ and bulk of YNL is for user space.
 
-I now realize that you meant that you believe the control for
-this does not need to be under /sys/class/leds/
+I've been out wandering the woods and canyons with no connectivity for a
+bit, so missed this whole discussion, sorry.
 
-> If it wasn't clear, my vote (this is not a dictatorship) is for 1.
+Mauro and I had talked about the proper home for Python libraries when
+he reworked kernel-doc; we ended up with them under scripts/, which I
+didn't find entirely pleasing.  If you were to ask me today, I'd say
+they should be under lib/python, but tomorrow I might say something
+else...
 
-Ok, 1. works for me and that is what the patch is already doing,
-so lets keep it as as.
+In truth, I don't think it matters much, but I *do* think we should have
+a single location from which to import kernel-specific Python code.
+Spreading it throughout the tree just isn't going to lead to joy.
 
-Regards,
+Thanks,
 
-Hans
-
-
+jon
