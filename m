@@ -1,835 +1,852 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2087.outbound.protection.outlook.com [40.107.223.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91941DC9B1
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 17:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750352476; cv=none; b=TUNdYN2mzl94eT3V52Hk14C9CiN5jbZs/NzabHTTIDJM8K/l18aavGEDT6wrZMzuECcP2wNVX3LexoQx0xCbtZKKyKc0fvbAKVM/VgAa1EJUKZa/9hcUEU4OuWbeeOC0NbP8piT6OjZhTPxmyqcVIa356iRPlx5QZES3Oa4iLME=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750352476; c=relaxed/simple;
-	bh=/GmTNjtgrPPMemkeKge39sALE6U5/kksmbx6eVIdcFs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iHzgYKb07lrLxxvjT7bu1+10oCNQ9qr+534gncNNzsbSzom1nUPksbVhcHGgYk1cOEk0Aru+Bz1JEmrob62UdJq/2gFh8Fh13eYI+TuzVcKND+dp1V28D5VyST76BchmKyT8PqmdWhwz+PwqfmCNK3JUUdlPcbSbUjhO1MUCCwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=Xe/zH6c/; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C02030E826;
+	Thu, 19 Jun 2025 18:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.87
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750358530; cv=fail; b=DCsZ34zZ2G7ohaKqGuiWv52rUem97IphBtQHIQRdpLhq0E+9gqbtSJ5R5yxY5RyEvsdkrGq7iu3Vp8e4Qj4BfHgG1CT9LviPNyGO5xOVgViups5IB2ZUl2WbCPng+ki+nSpiPSfdjC+m3d251XQyOU1oOO201Gy/wKrwU6ApSKY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750358530; c=relaxed/simple;
+	bh=ZmK5eeJIUvG/56Mu48tjBAT2zsNIhCMjK714bB6W+Zs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=OV7x4SFCyZI5/0z0FmjmxJQwDN0rd2C0hzMuKD5C32VbizARE0b5h4QPArY5Xmb9zYkDySjt5D1v8llSpVOWduT7W82KyIYGUAaMMUpO/TGkfd9onmxTgbwWBdfVt88nWaOxrV96UNolJUsw3rB/GbuIdnj/LF3Jt7H9EtA46Xg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IAcTVtaB; arc=fail smtp.client-ip=40.107.223.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="Xe/zH6c/"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-747c2cc3419so643797b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 10:01:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1750352473; x=1750957273; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0vTTRRgQ6rdJnh5prjhSho+/tfs+wOjHcvrtLJgXWsw=;
-        b=Xe/zH6c/edlAF4kMvMbOsMm3PI0T1X9lHEQBiMKHELP8fcdb7+bx5KhhhYlPPku41h
-         dsRMeQp76Zu0b1Fu7Iy+bnWx/axFox84LY4v/q4T0sVJMLrPSZPWs4CxBuBXnoMkrM0r
-         mP3zQgmMeB92kUXLcVxNk5GrmBTtDje4C77ZZdObHERneUc1DFYjE3aLb0gYJjyA4fVG
-         vhbNPbXOiM+0UT2DbrsRVoVrCdgch/UeJCpVKHeHSjz3GGcQ+Lfmrw+HxdfzkFQ5rJt3
-         S7kGvesicBMBY8tuBN9Em12vxUqzw7YCPRrvVLAVVLxWGnRlspeOZcNoT8qWytSpZiSZ
-         WtYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750352473; x=1750957273;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0vTTRRgQ6rdJnh5prjhSho+/tfs+wOjHcvrtLJgXWsw=;
-        b=YAVKjR9+8rHzbMim9Kc4VedayKDYLee9QwOW4K2t8UnQBbjq8sVhHsBAn8/X9fQXjG
-         SYVPa6LA3f7jZGW95w/4VFWVd+VDS+yeUS7hiB6MSR8msx2gMBDaMvEmVByNEhMuKObZ
-         PfbYoQHEiQQiH6GXNykoAyjoBY9+s/HFQhildlpvU6tNGGEdx6h6KR9R/ukpqKaZif3F
-         YGQ1jA971Ot2qVCWlB9j3S5OJuCrAEyLD7IsBfkrI120PbP2g5oYruxXwDgxG5F9pjpE
-         PLE8oZ7tpSeXAF61HM9dWeAJMEAapBeUGLZdrHYhcYd4gNyfY7TgvKfBoxDldFo9e8Nw
-         aRQA==
-X-Forwarded-Encrypted: i=1; AJvYcCWwJf/jyyj24fU9nFH55Wqo+c1eapEoUanS/fOphr0SWO00FJS8rN09n2GWBm1wfaLNWg7bS4Fl3uA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEsAchIhQO4gbMVu+sdCQRAM3WWcISkVeeatQrtRyjjYTorSYO
-	f7OnDBBGo78j3SvxZNu0AutZ3lVlctDEUlDTZ2Yoc/ip1jQAfDkWnTxg5+drEnC6mtU=
-X-Gm-Gg: ASbGncs9n3ThtXbAXaYypTmrq0VdjYje5NVJ+wrYonu6KoU8rkB5w+6YOB9GaeAH+bu
-	6iQkz9dlpygMsshCH5fS81BYvQrOp7y+DAVvQ6VgVFfFuIusvK8z5h0YdiQg1rIef8b167MzItA
-	O45cPByJuTyrJS5v/i0KlpPQrYOj8rFnjjEgn+AHDrEVE1IDPQq4l435xoWOZTC485nC+OoVXTF
-	U1Sn6IhQhQHOPjEnIgBfhvEgpCSfLYNcbgzBZtYGY9DjZ33MOiDu+mmPdWl+WwIBOLx65W/5U42
-	2JtA2lCXk7v5hTvzElWhq39lIyli7rDNsfuAlviCKe/PU8KaiyqbdGLYacNk2apbLDxfc168Hm4
-	=
-X-Google-Smtp-Source: AGHT+IEpFXgZA1KBUgvXXN02ndMJmK3DWjNRPNPVQThlHMHyx4jKYGPZYvTNbBeTYLmsL/GsoXzmAw==
-X-Received: by 2002:a05:6a00:88d:b0:736:8c0f:7758 with SMTP id d2e1a72fcca58-7489cf74823mr26052069b3a.10.1750352472349;
-        Thu, 19 Jun 2025 10:01:12 -0700 (PDT)
-Received: from [157.82.203.223] ([157.82.203.223])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a6ca165sm248777b3a.172.2025.06.19.10.01.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jun 2025 10:01:11 -0700 (PDT)
-Message-ID: <655ea82a-f584-4c45-bd1f-2b5db44c6c25@daynix.com>
-Date: Fri, 20 Jun 2025 02:01:05 +0900
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IAcTVtaB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UrgxsFeLxC54uSOGwOLaQUf4wMLffGDQsoUIHXdG9LwI7d5C1BDNWbZbTqwuQtVX9GRAdasJucMJWsRA86Bj0SEX1c0jSWq1dFQJPYQn/sHOElIfMfzIx/1bJZpma9yOdUuOuxmb+OJpCy2xXST85mj62ibYpxzk633/i5c7SqBr6uS0WPauEFtJPcrvdr4fUuVEh7pV+EOX4JqmtFJRyMDo6ODEBDGg+q4CME0xr4QsVl7YBNq4CLsjiSmsRIil+79VSw6o2jUQm3zzi1zwG00blk/ah0jZS4R3SAcDNpspp8XDoI4A9k4XidbwhfeGwgaYgqIzZRyARFR9Qoskyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NX1EAjgG9NO2wLQVEpg7vK8R87PuYob3fn5kFl7rets=;
+ b=ok0YuKAH2uq3vWbvSw7Be+RAbe5krfifXhmwvJRKj4e8owtKOyVzT2s2aMRUs68RljIFIbinRGkdOe1vdRSEdcyalVedvnhkvnlWLS8gAKvXKtMZNZtj7ouAJxG6DulFkQct2wB3Q/nlYmEgfwYMUuNL0b/9T8ri6opdinuKS0S3ty7uS+i0ojHdFACFEsGYYC77B3igOZZ6xeLjCNtliXT1VEyICQCQ3WeNBazz7T5PinYsxgtY2axbPtFxUsIBxxibzbkdAjXdcZTqcUIxxG2Caq62hQl9X1TyFLQmjYOBLl6jj48pSNOdXE9ggdvL3LChFcolZPBeu/wOvLFsQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NX1EAjgG9NO2wLQVEpg7vK8R87PuYob3fn5kFl7rets=;
+ b=IAcTVtaB508Ad363ZCt8Jhgz++Y4bMgSuQShrW7MeV0Uq1pNbKc7cHrOvykEciPl9Qs/GZpQos57xMeTfCXgpv3qkcFEBLIoQAm2YsBPdnDll8QP/5ogLzHXvefJz+Rwza8ez4Fph1nbNVsWX8A7Er/90j78ns28rXCcTo/gmRE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SN7PR12MB7108.namprd12.prod.outlook.com (2603:10b6:806:2a3::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.26; Thu, 19 Jun
+ 2025 18:42:05 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%7]) with mapi id 15.20.8835.026; Thu, 19 Jun 2025
+ 18:42:05 +0000
+Message-ID: <93d010d7-4fc2-46ee-965b-7606fd2cd5ee@amd.com>
+Date: Thu, 19 Jun 2025 13:41:45 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v6 5/8] fs/resctrl: Add user interface to enable/disable
+ io_alloc feature
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ paulmck@kernel.org, rostedt@goodmis.org, thuth@redhat.com, ardb@kernel.org,
+ gregkh@linuxfoundation.org, seanjc@google.com, thomas.lendacky@amd.com,
+ pawan.kumar.gupta@linux.intel.com, perry.yuan@amd.com,
+ yosry.ahmed@linux.dev, kai.huang@intel.com, xiaoyao.li@intel.com,
+ peterz@infradead.org, kan.liang@linux.intel.com, mario.limonciello@amd.com,
+ xin3.li@intel.com, sohil.mehta@intel.com, chang.seok.bae@intel.com,
+ andrew.cooper3@citrix.com, ebiggers@google.com, ak@linux.intel.com,
+ xin@zytor.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1749677012.git.babu.moger@amd.com>
+ <b3d8e2ccd23b295f3735fc9f5420458cfc18a896.1749677012.git.babu.moger@amd.com>
+ <3bec3844-7fda-452b-988f-42b0de9d63ba@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <3bec3844-7fda-452b-988f-42b0de9d63ba@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CP6P284CA0076.BRAP284.PROD.OUTLOOK.COM
+ (2603:10d6:103:1a9::11) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 04/10] tun: Add common virtio-net hash
- feature code
-To: Jason Wang <jasowang@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>,
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
- Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>
-References: <20250530-rss-v12-0-95d8b348de91@daynix.com>
- <20250530-rss-v12-4-95d8b348de91@daynix.com>
- <CACGkMEupCBFH2eLv_93uy9K=+s_jQPM12mvyhU=zGbwSUnyVaA@mail.gmail.com>
- <a3e21479-2967-4604-a684-9b9b9e115f37@daynix.com>
- <CACGkMEuBb6eB9w=HgYq7wy2vW-4PMGGQKk5dd=kCm3ednJ2WxQ@mail.gmail.com>
- <56647ddd-c6ac-43cf-bcb2-626a162858a4@daynix.com>
- <CACGkMEs+3Pu9-E7RcmEzp6wZxZYwDS1G+1P3ti=Vzceq=C31YQ@mail.gmail.com>
- <48ae8ca2-d5e9-446c-b845-0df31f385ff6@daynix.com>
- <CACGkMEtXYCfPO9Zgyooz=wLBv4C_JBVWcoy0JcJpXR7pk8-=bw@mail.gmail.com>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <CACGkMEtXYCfPO9Zgyooz=wLBv4C_JBVWcoy0JcJpXR7pk8-=bw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SN7PR12MB7108:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2f7b40f-4d3d-4af3-c63d-08ddaf60fd07
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZzBPTCtwT1FnZkdRWTRMQjBSc3JzblJVSlViMURFa0twOWowQUZKZXNpeGt0?=
+ =?utf-8?B?cmozTkxWRWpKNVB6NnduMG12TWpDNEowUkxqRmpXaHBUcU1CcEt1T0kwSWs0?=
+ =?utf-8?B?QkY1bkViWEYxSllvYTRoWXlSc2t4MHRvTTBSYmpjbWczdC96eDVsTFpuOVRZ?=
+ =?utf-8?B?TmJYNjR4dzN6eloxa0YvakE3TnFqaEJwdzNUSUlvb1NXaDhkT1JiOUxQNFc5?=
+ =?utf-8?B?Mndkb3dpdU5IaER4d1l4Y0xTUUlzNWRkeFNYdEgxaXBaaWFFTHc4eDduaGxx?=
+ =?utf-8?B?NTE3VHc5cFQwRDUxcFNGMndlMFJUTEpkSXM4VmtVaGdpKzFZOGVycG5MTzUv?=
+ =?utf-8?B?clpOTG04RzNsZlFaR3Nzd1RLZ2R6anhxaDNwWUg1NFJ1bzBnZURhYUR2bXE4?=
+ =?utf-8?B?QzRpbHBLRnUwUlU2RlZ6MHI2bm5CYk8rNVgzamRKQXNHb1lkR2wvMmNEbU04?=
+ =?utf-8?B?Y1BxdUNSd3N4b2JTaTdHN2V1WVBCdm5CaUVDcXFVU0dNQnFIamlBdzhPSldG?=
+ =?utf-8?B?cDVJZkZXQXU0a2E4OGhPV05vczdQU28zZWtKc2VHTW4vL3VYeG1yVHlrV2lJ?=
+ =?utf-8?B?WUdCU0Zkalg0Y012eUQ2WkxyVkJRUXJjT0h4dTVrWi9VbXExNmlYWlBweHJ6?=
+ =?utf-8?B?V1I2bHJ6a3FWVHl6UE41Y0JsYTBXVFV1Y0tYQ05oWFM2bmxVMDQ3VTRxa29w?=
+ =?utf-8?B?eTdpSGc0TjI4WjkwV2ttU0hUSzg4QzR1YnE2SitJcDFYM1FqZ2RVMGRoNUlB?=
+ =?utf-8?B?Vy9ZT1lldVV0bTN2cjRjMkt5U2F2WklmbTk3d3M5V2VkYnBhTy84QUFpUjZB?=
+ =?utf-8?B?U1U2VHFiams3c2tFZDM2Vk13VExqRVEzVmVoTVFoeElaMVFEL0xNdm1TbStK?=
+ =?utf-8?B?a3UxdGc2UEVKZG1RTWZzTk9WNVBFVTZySmhpYlN4Y1ZUWFBudWRlcGtmeWN2?=
+ =?utf-8?B?R0hLNGI5TjJNVElndVlDeHA2ek5pbVQvVUh0K0EyWjFQREFOZlJWVXdhY2NQ?=
+ =?utf-8?B?eWZGMElGQTQ1VWJkZjJCdjlvdDZjT1lNSkhFRzRRNytUMm9Jc1pNL0k1T1NS?=
+ =?utf-8?B?YjcwREFNMVEvZVh3akdtMndCN2l6WkIvYm5qdVp3MHZKYzRNYlVLYitKamN1?=
+ =?utf-8?B?Z1NHeE9PWTFROUhmblh4L1NqaFUrQW5NdnZ6VVR6bDN6RE1FRCtqa24zUmp1?=
+ =?utf-8?B?RHhoMGZUVWY2dW5jblh4SHZSaTc0YUNGTGRrWFZrMTRRRS9mMEZ6U2F6bmxM?=
+ =?utf-8?B?NmRvWmkwU2lBbzdXMFkxQ1M2TG9YUzlsWHgwLy92clNUeXhHQTJVMUxaRjh1?=
+ =?utf-8?B?QnN5dDlZTktYZHI4RHJWQnJEdXZRazhLaHB3VDJic010M1hkY0Fqd3hZZ1Er?=
+ =?utf-8?B?eHlpVUxjbmdzVGl0bEJzV3VaRXUrU3FJZlp4UXl5OE5BL2diVkx4Nnlmdytu?=
+ =?utf-8?B?bG50dzBjWkFYZTRJYXk0Q3B5cnNOZ2QydjkxNG1JZ0F1cW1yaHF4VGVnbVpG?=
+ =?utf-8?B?cWFTUGlpTU1jSkxGYmJieU9PZm5BaW9yRitMOTB0L2xmRk9PVStPRFUrN0dv?=
+ =?utf-8?B?VG9NWXdBYk95YVZmVVJScmNGcDZJaHQ3dVdRQ1p0WUVHODZ3Z2lFb09aQmp6?=
+ =?utf-8?B?QzZLdHd4eG5EbHJhU1RnNG9xSU9IanJ2ZHdkN1hoZGVwbnpXY1IxRFpFQ05h?=
+ =?utf-8?B?SkJZMm0yWUtKa2dOeWI1VGxXUnRxSnBGNTlQRXY3YnB4OW9CZ01RenRldGVy?=
+ =?utf-8?B?ZVk3T01kWWFZZ1VhTGNtb2RhVTFERFM3emEzOWFQR0lWUWExb3BLOENqQytt?=
+ =?utf-8?B?Y0pUVGRWeXViVXkxa2JGTkl0cWEySmVkcS9USGF1OXp4aVNualJObGVkS2VT?=
+ =?utf-8?B?SUd0aEJEUklxL3REUzRDbzBGeGJ4dnE3ZFRZdGo5bU80RWpTSlVKTnhSOFhK?=
+ =?utf-8?Q?IuCiveqlVg4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Y2dwc3g0QWF0S3BmcW9FY3JRS211M2s5a09zQnZiVTgzeEtZUCt2RWRmNDJw?=
+ =?utf-8?B?emtmaGxSeEN3MmpjbmlhcnVobVVEeHhBUzljaDlTRDhuWmhRV2o3L0tSdk9K?=
+ =?utf-8?B?VmFTVE9COFpTV05vSWozL3ZoLzB2ajd2KzJlSWl2eFdwd0NyWVFsbTZSZlow?=
+ =?utf-8?B?cXNtRzk0WW9vc2VLOVFvWnB1UUxWaklwR2hrV3dnUHBxeUE5UGJNbEpZWXpr?=
+ =?utf-8?B?VzhXRGZzSTQ0VHkzUDN6VkpRdU9MdTRkUTloajlkMVBST3cwVkZ4aUIrV09r?=
+ =?utf-8?B?ajZwc1lwRWI1RHYyY0w3aGpKWW9tWkxJTWExQitEOE51bklBcFNuOWRmclpQ?=
+ =?utf-8?B?TDJINGs2UElGbGR0OTNKMU1QNlU3T3ZjMFNxUXBFUWlYcjJSNWM2cTBDZ3Bn?=
+ =?utf-8?B?TU5YSHQzS3BHRWNKSGI4WFllRkc2UlpsOWZveGsrSm9mSDJpRFl3Rm5sVFM2?=
+ =?utf-8?B?bVo3Y0YyNUllc2RqTDZQdjY2bjI2UEhEQnI5aFZUdXJJaGJBdk03anlzajJU?=
+ =?utf-8?B?MVArakk2NXVEOE5tWGF4SExNUGlqQ1ZOMkd0VVZOckJGUzBBUzFrN2hQT09h?=
+ =?utf-8?B?OWkzSi83WVM0VEU3Yko5cUV0dVoxQmhSQnVuUG56ZzZIclN0M0hlQjdMRWp3?=
+ =?utf-8?B?TExsek9td2hkeStXSTVrRnZCUEgrY2hNaDU0UTloUkl3UTY0Qy9DOWQ0eUdi?=
+ =?utf-8?B?amcrcGp1NE9LRytEUlBHWTNXNzZvOStUdk03VFV3c0orcWVkVXdtNy80VEE2?=
+ =?utf-8?B?NU1iZjFyNjB5RVpuVWVsVHlvRHRTMXptTWM1b05nNVpjU3d1L1lIdllwZ0Ev?=
+ =?utf-8?B?cU5wWlBQSVp4Y3JWL2kwSWh1aTVWQ3dVdTNIbUNibUo3RzB3MmpBRUFoM1JV?=
+ =?utf-8?B?elJKL1hrT3VBZmJVWWRkZ3Z2b2JkVmNJcFlqM1Y1MG1EeW4wZDJyMFhpZW14?=
+ =?utf-8?B?RWlUNGNWdFU5TDYwamZCbWdXanNacldMZmxEMmF6Lzg5SEp5MFRuSVp4L2Rm?=
+ =?utf-8?B?SHFiNFNrUkVFeEdESGFlTmhoMHlaTVhUMkxhZy9PMEJ0dUI3blRidnpBOXFE?=
+ =?utf-8?B?TUgyZ0k5eEREdXlva1hlcXNxU0JjdkdKdXNieGp6MmFZZEFPREFoaS94YVc0?=
+ =?utf-8?B?Zis0YTBSejEzR2d6Njduenh3ZjlIdVk4ZHdmTHNoK0pRTzk4WnZLSDR0dUpw?=
+ =?utf-8?B?K1NxMGZBZjdOZVg1UmpMeTl5N1dVd1MwejFyVzFhTWU5UGhIKzJqbzF6enVk?=
+ =?utf-8?B?RUhvUjJyeGxMTXJ6NVVObnlrRzA1bEoyU2RGVmNib2IyNy8vUlZyeEJLTFRu?=
+ =?utf-8?B?YnI0K1JFa1Y0UzJLWFVMNExsWlBGNk1FRmpMU2xoRmpsYTFlWXF2UlEvODkx?=
+ =?utf-8?B?NGVueS9VNndhNnkyNDM0UlRSd21KN1BodmhBV3JrNkNhUTdlbWN6aW9TK2Na?=
+ =?utf-8?B?djNQcjc4OWpMQndlSE5pLzl6Tm5CYytZbStoZUdkaTJ3NDQ2VnYxdHB4c3JV?=
+ =?utf-8?B?MjZ1QkNBYUlRQ3M1TGZFZ2R2UzEwZUFoQzJvbkVBaE91UVZrQkE0SVJmQU9U?=
+ =?utf-8?B?R3dML1ZQT3JZTFhKeTRhU1kwUW1WTnM0QWdFWTNCcExGSFJmKzc3bjdSTm9l?=
+ =?utf-8?B?WVh0VzBKd1NXZ3JRcitPZmhsekt3ZnZCU3VVd3Y4ZTFIYjhkK0RGUEVmNkRZ?=
+ =?utf-8?B?V2pxMjBZUWNzZWZLNkx3VGNFbEVBbWxnRXRQemx1UzVsbnBZekVtbFFDTVdV?=
+ =?utf-8?B?MXZYbU13Vml5WVk5cENrbUJ6V0xJcDRqV2RXM29jM3lGQzRQVGVZR3liMkN3?=
+ =?utf-8?B?YWxSRm84TFJqSVFoa3Bhc0pNZUxrK3QwQXdXeCsrbE1zOW9sUEgxZ3BnWVpH?=
+ =?utf-8?B?Q1F1WjEvVDNRV1dLL0U4OUl5VHVUNk1sbVE0QXlOei84UXpuSzdLdWUwNE5v?=
+ =?utf-8?B?MlVUNzY1NW45Q2ZueEE3Mzd2Vys3S0NqVXViOFovKzREemZuODR4YWN4Vit1?=
+ =?utf-8?B?R0hsZnlSeGdXai9sZmh6ZVhyOUtrVkR6NGl5dGRkcCtsaXBrMGdFVE9WM295?=
+ =?utf-8?B?QnBqUWlvSjdaaUNDMnU1bG1HTm1zbzFzc2dDRFRyODZ6dDFpeE5MaC9qUFdQ?=
+ =?utf-8?Q?SqB0=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2f7b40f-4d3d-4af3-c63d-08ddaf60fd07
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 18:42:05.6093
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XUCqHcAPxB3eMkYzCp/hmBN25u6lZXD/M+NcniuN8GGkDrAS2RDSC9RFEWZNFFAU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7108
 
-On 2025/06/17 12:39, Jason Wang wrote:
-> On Fri, Jun 6, 2025 at 5:27 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>
->> On 2025/06/06 10:01, Jason Wang wrote:
->>> On Thu, Jun 5, 2025 at 4:18 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>
->>>> On 2025/06/05 11:46, Jason Wang wrote:
->>>>> On Wed, Jun 4, 2025 at 4:42 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>
->>>>>> On 2025/06/04 10:53, Jason Wang wrote:
->>>>>>> On Fri, May 30, 2025 at 12:50 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>>>
->>>>>>>> Add common code required for the features being added to TUN and TAP.
->>>>>>>> They will be enabled for each of them in following patches.
->>>>>>>>
->>>>>>>> Added Features
->>>>>>>> ==============
->>>>>>>>
->>>>>>>> Hash reporting
->>>>>>>> --------------
->>>>>>>>
->>>>>>>> Allow the guest to reuse the hash value to make receive steering
->>>>>>>> consistent between the host and guest, and to save hash computation.
->>>>>>>>
->>>>>>>> Receive Side Scaling (RSS)
->>>>>>>> --------------------------
->>>>>>>>
->>>>>>>> RSS is a receive steering algorithm that can be negotiated to use with
->>>>>>>> virtio_net. Conventionally the hash calculation was done by the VMM.
->>>>>>>> However, computing the hash after the queue was chosen defeats the
->>>>>>>> purpose of RSS.
->>>>>>>>
->>>>>>>> Another approach is to use eBPF steering program. This approach has
->>>>>>>> another downside: it cannot report the calculated hash due to the
->>>>>>>> restrictive nature of eBPF steering program.
->>>>>>>>
->>>>>>>> Introduce the code to perform RSS to the kernel in order to overcome
->>>>>>>> thse challenges. An alternative solution is to extend the eBPF steering
->>>>>>>> program so that it will be able to report to the userspace, but I didn't
->>>>>>>> opt for it because extending the current mechanism of eBPF steering
->>>>>>>> program as is because it relies on legacy context rewriting, and
->>>>>>>> introducing kfunc-based eBPF will result in non-UAPI dependency while
->>>>>>>> the other relevant virtualization APIs such as KVM and vhost_net are
->>>>>>>> UAPIs.
->>>>>>>>
->>>>>>>> Added ioctls
->>>>>>>> ============
->>>>>>>>
->>>>>>>> They are designed to make extensibility and VM migration compatible.
->>>>>>>> This change only adds the implementation and does not expose them to
->>>>>>>> the userspace.
->>>>>>>>
->>>>>>>> TUNGETVNETHASHTYPES
->>>>>>>> -------------------
->>>>>>>>
->>>>>>>> This ioctl tells supported hash types. It is useful to check if a VM can
->>>>>>>> be migrated to the current host.
->>>>>>>>
->>>>>>>> TUNSETVNETREPORTINGAUTOMQ, TUNSETVNETREPORTINGRSS, and TUNSETVNETRSS
->>>>>>>> --------------------------------------------------------------------
->>>>>>>>
->>>>>>>> These ioctls configures a steering algorithm and, if needed, hash
->>>>>>>> reporting.
->>>>>>>>
->>>>>>>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->>>>>>>> Tested-by: Lei Yang <leiyang@redhat.com>
->>>>>>>> ---
->>>>>>>>      drivers/net/tap.c           |  10 ++-
->>>>>>>>      drivers/net/tun.c           |  12 +++-
->>>>>>>>      drivers/net/tun_vnet.h      | 165 +++++++++++++++++++++++++++++++++++++++++---
->>>>>>>>      include/uapi/linux/if_tun.h |  71 +++++++++++++++++++
->>>>>>>>      4 files changed, 244 insertions(+), 14 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/net/tap.c b/drivers/net/tap.c
->>>>>>>> index d4ece538f1b2..25c60ff2d3f2 100644
->>>>>>>> --- a/drivers/net/tap.c
->>>>>>>> +++ b/drivers/net/tap.c
->>>>>>>> @@ -179,6 +179,11 @@ static void tap_put_queue(struct tap_queue *q)
->>>>>>>>             sock_put(&q->sk);
->>>>>>>>      }
->>>>>>>>
->>>>>>>> +static const struct virtio_net_hash *tap_find_hash(const struct sk_buff *skb)
->>>>>>>> +{
->>>>>>>> +       return NULL;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>      /*
->>>>>>>>       * Select a queue based on the rxq of the device on which this packet
->>>>>>>>       * arrived. If the incoming device is not mq, calculate a flow hash
->>>>>>>> @@ -711,11 +716,12 @@ static ssize_t tap_put_user(struct tap_queue *q,
->>>>>>>>             int total;
->>>>>>>>
->>>>>>>>             if (q->flags & IFF_VNET_HDR) {
->>>>>>>> -               struct virtio_net_hdr vnet_hdr;
->>>>>>>> +               struct virtio_net_hdr_v1_hash vnet_hdr;
->>>>>>>>
->>>>>>>>                     vnet_hdr_len = READ_ONCE(q->vnet_hdr_sz);
->>>>>>>>
->>>>>>>> -               ret = tun_vnet_hdr_from_skb(q->flags, NULL, skb, &vnet_hdr);
->>>>>>>> +               ret = tun_vnet_hdr_from_skb(vnet_hdr_len, q->flags, NULL, skb,
->>>>>>>> +                                           tap_find_hash, &vnet_hdr);
->>>>>>>>                     if (ret)
->>>>>>>>                             return ret;
->>>>>>>>
->>>>>>>> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
->>>>>>>> index 9133ab9ed3f5..03d47799e9bd 100644
->>>>>>>> --- a/drivers/net/tun.c
->>>>>>>> +++ b/drivers/net/tun.c
->>>>>>>> @@ -451,6 +451,11 @@ static inline void tun_flow_save_rps_rxhash(struct tun_flow_entry *e, u32 hash)
->>>>>>>>                     e->rps_rxhash = hash;
->>>>>>>>      }
->>>>>>>>
->>>>>>>> +static const struct virtio_net_hash *tun_find_hash(const struct sk_buff *skb)
->>>>>>>> +{
->>>>>>>> +       return NULL;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>      /* We try to identify a flow through its rxhash. The reason that
->>>>>>>>       * we do not check rxq no. is because some cards(e.g 82599), chooses
->>>>>>>>       * the rxq based on the txq where the last packet of the flow comes. As
->>>>>>>> @@ -1993,7 +1998,7 @@ static ssize_t tun_put_user_xdp(struct tun_struct *tun,
->>>>>>>>             ssize_t ret;
->>>>>>>>
->>>>>>>>             if (tun->flags & IFF_VNET_HDR) {
->>>>>>>> -               struct virtio_net_hdr gso = { 0 };
->>>>>>>> +               struct virtio_net_hdr_v1_hash gso = { 0 };
->>>>>>>>
->>>>>>>>                     vnet_hdr_sz = READ_ONCE(tun->vnet_hdr_sz);
->>>>>>>>                     ret = tun_vnet_hdr_put(vnet_hdr_sz, iter, &gso);
->>>>>>>> @@ -2046,9 +2051,10 @@ static ssize_t tun_put_user(struct tun_struct *tun,
->>>>>>>>             }
->>>>>>>>
->>>>>>>>             if (vnet_hdr_sz) {
->>>>>>>> -               struct virtio_net_hdr gso;
->>>>>>>> +               struct virtio_net_hdr_v1_hash gso;
->>>>>>>>
->>>>>>>> -               ret = tun_vnet_hdr_from_skb(tun->flags, tun->dev, skb, &gso);
->>>>>>>> +               ret = tun_vnet_hdr_from_skb(vnet_hdr_sz, tun->flags, tun->dev,
->>>>>>>> +                                           skb, tun_find_hash, &gso);
->>>>>>>>                     if (ret)
->>>>>>>>                             return ret;
->>>>>>>>
->>>>>>>> diff --git a/drivers/net/tun_vnet.h b/drivers/net/tun_vnet.h
->>>>>>>> index 58b9ac7a5fc4..45d0533efc8d 100644
->>>>>>>> --- a/drivers/net/tun_vnet.h
->>>>>>>> +++ b/drivers/net/tun_vnet.h
->>>>>>>> @@ -6,6 +6,17 @@
->>>>>>>>      #define TUN_VNET_LE     0x80000000
->>>>>>>>      #define TUN_VNET_BE     0x40000000
->>>>>>>>
->>>>>>>> +typedef struct virtio_net_hash *(*tun_vnet_hash_add)(struct sk_buff *);
->>>>>>>> +typedef const struct virtio_net_hash *(*tun_vnet_hash_find)(const struct sk_buff *);
->>>>>>>> +
->>>>>>>> +struct tun_vnet_hash {
->>>>>>>> +       bool report;
->>>>>>>> +       bool rss;
->>>>>>>> +       struct tun_vnet_rss common;
->>>>>>>> +       u32 rss_key[VIRTIO_NET_RSS_MAX_KEY_SIZE];
->>>>>>>> +       u16 rss_indirection_table[];
->>>>>>>> +};
->>>>>>>> +
->>>>>>>>      static inline bool tun_vnet_legacy_is_little_endian(unsigned int flags)
->>>>>>>>      {
->>>>>>>>             bool be = IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) &&
->>>>>>>> @@ -107,6 +118,128 @@ static inline long tun_vnet_ioctl(int *vnet_hdr_sz, unsigned int *flags,
->>>>>>>>             }
->>>>>>>>      }
->>>>>>>>
->>>>>>>> +static inline long tun_vnet_ioctl_gethashtypes(u32 __user *argp)
->>>>>>>> +{
->>>>>>>> +       return put_user(VIRTIO_NET_SUPPORTED_HASH_TYPES, argp) ? -EFAULT : 0;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +static inline long tun_vnet_ioctl_sethash(struct tun_vnet_hash __rcu **hashp,
->>>>>>>> +                                         unsigned int cmd,
->>>>>>>> +                                         void __user *argp)
->>>>>>>> +{
->>>>>>>> +       struct tun_vnet_rss common;
->>>>>>>> +       struct tun_vnet_hash *hash;
->>>>>>>> +       size_t indirection_table_size;
->>>>>>>> +       size_t key_size;
->>>>>>>> +       size_t size;
->>>>>>>> +
->>>>>>>> +       switch (cmd) {
->>>>>>>> +       case TUNSETVNETREPORTINGAUTOMQ:
->>>>>>>> +               if (get_user(common.hash_types, (u32 __user *)argp))
->>>>>>>> +                       return -EFAULT;
->>>>>>>> +
->>>>>>>> +               if (common.hash_types) {
->>>>>>>> +                       hash = kzalloc(sizeof(*hash), GFP_KERNEL);
->>>>>>>> +                       if (!hash)
->>>>>>>> +                               return -ENOMEM;
->>>>>>>> +
->>>>>>>> +                       hash->report = true;
->>>>>>>> +                       hash->common.hash_types = common.hash_types;
->>>>>>>> +               } else {
->>>>>>>> +                       hash = NULL;
->>>>>>>> +               }
->>>>>>>> +               break;
->>>>>>>> +
->>>>>>>> +       case TUNSETVNETREPORTINGRSS:
->>>>>>>> +       case TUNSETVNETRSS:
->>>>>>>
->>>>>>> So the above three shows unnecessary design redundancy as well as a
->>>>>>> burden for the future extension.  Why not simply have
->>>>>>>
->>>>>>> 1) TUNSETVNET_RSS
->>>>>>> 2) TUNSETVNET_HASH_REPORT
->>>>>>> ?
->>>>>>>
->>>>>>> Which maps to
->>>>>>>
->>>>>>>      #define VIRTIO_NET_CTRL_MQ_RSS_CONFIG          1 (for configurable
->>>>>>> receive steering)
->>>>>>>      #define VIRTIO_NET_CTRL_MQ_HASH_CONFIG         2 (for configurable
->>>>>>> hash calculation)
->>>>>>>
->>>>>>> It would be always easier to start with what spec had or at least we
->>>>>>> need to explain why we choose a different design here or in the
->>>>>>> changelog to ease our life.
->>>>>>
->>>>>> TUNSETVNETREPORTINGAUTOMQ maps to VIRTIO_NET_CTRL_MQ_HASH_CONFIG.
->>>>>
->>>>> It's not:
->>>>>
->>>>> VIRTIO_NET_CTRL_MQ_HASH_CONFIG uses:
->>>>>
->>>>> struct virtio_net_hash_config {
->>>>>        le32 hash_types;
->>>>>        le16 reserved[4];
->>>>>        u8 hash_key_length;
->>>>>        u8 hash_key_data[hash_key_length];
->>>>> };
->>>>>
->>>>> but TUNSETVNETREPORTINGAUTOMQ only accepts hash_types without others:
->>>>
->>>> The others are not present because the spec doesn't specify what to do
->>>> with them and the kernel doesn't use them either.
->>>
->>> Did you mean the hash_key_length and hash_key_data? Note that we have
->>> drivers other than the Linux ones as well.
->>
->> And reserved. Drivers can set whatever to these fields. It is not
->> specified how these fields should be used.
->>
->>>
->>>>
->>>>>
->>>>>>
->>>>>> TUNSETVNETREPORTINGRSS and TUNSETVNETRSS map to
->>>>>> VIRTIO_NET_CTRL_MQ_RSS_CONFIG.
->>>>>
->>>>> I think we've already had a discussion about this.
->>>>>
->>>>> Reusing virtio-net uAPI is much better instead of having a tun
->>>>> specific one considering tun may need to support more virtio commands
->>>>> in the future. Or maybe it's the time to introduce a transport for the
->>>>> virtio control virtqueue uAPI in tuntap to avoid inventing new uAPI
->>>>> endlessly.
->>>>>
->>>>> What's more I see:
->>>>>
->>>>> struct tun_vnet_rss {
->>>>>            __u32 hash_types;
->>>>>            __u16 indirection_table_mask;
->>>>>            __u16 unclassified_queue;
->>>>> };
->>>>>
->>>>> struct tun_vnet_hash {
->>>>>            bool report;
->>>>>            bool rss;
->>>>>            struct tun_vnet_rss common;
->>>>>            u32 rss_key[VIRTIO_NET_RSS_MAX_KEY_SIZE];
->>>>>            u16 rss_indirection_table[];
->>>>> };
->>>>>
->>>>> As I pointed out in the past, let's just decouple the rss from hash,
->>>>> everything would be much simpler, or you need to explain why you
->>>>> couple this somewhere.
->>>>>
->>>>> For example:
->>>>>
->>>>> 1) why is the tun_vnet_hash not part of the uAPI but tun_vnet_rss, or
->>>>> how could userspace know what kind of format it would use for
->>>>> TUNSETVNETREPORTINGRSS?
->>>>
->>>> That was the previous version.
->>>>
->>>>> 2) what's the advantages of embedding rss specific stuff into hash
->>>>> report structure
->>>>
->>>> Because the hash types field in struct tun_vnet_rss is used by hash
->>>> reporting too.
->>>>
->>>>> 3) what's the advantages of not using virtio-net uAPI
->>>>
->>>> 1. The use cases that don't involve VM will be simplified; programs for
->>>> such a use case will not need to convert endian or to fill fileds the
->>>> kernel doesn't care.
->>>
->>> Well, virtio_net_hdr is used by packet socket as well. Considering the
->>> complexity of designing a new uAPI, it's still better.
->>
->> This patch series also reuses the datapath, following the prior examples.
->>
->>>
->>> Or maybe you can clarify which field that kernel doesn't care about?
->>> In this case TUN/TAP is basically the device datapath, if some of the
->>> fields don't make sense, it's a bug of the spec.
->>
->> reserved, hash_key_length, and hash_key_data.
+Hi Reinette,
+
+On 6/17/25 22:59, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> I may miss something when RSS is not negotiated, hash_key_length, and
-> hash_key_data is necessary, otherwise how could we calculate the hash?
+> On 6/11/25 2:23 PM, Babu Moger wrote:
+>> The io_alloc feature in resctrl is a mechanism that enables direct
+> 
+> "The ... feature ... is a mechanism"? What does it mean when a feature
+> is a mechanism? How about just "The io_alloc feature in resctrl enables ..."?
 
-I was not clear that I was referring to the fields of struct 
-virtio_net_hash_config. struct virtio_net_rss_config provides 
-hash_key_length and hash_key_data for RSS.
+Sure.
+
+> 
+>> insertion of data from I/O devices into the L3 cache.
+> 
+> Drop "L3"?
+> 
+
+Sure.
+
+>>
+>> On AMD systems, io_alloc feature is backed by SDCIAE (L3 Smart Data Cache
+>> Injection Allocation Enforcement). When enabled, SDCIAE forces all SDCI
+>> lines to be placed into the L3 cache partitions identified by the
+>> highest-supported L3_MASK_n register as reported by CPUID
+>> Fn0000_0010_EDX_x1.MAX_COS. For example, if MAX_COS=15, SDCI lines will
+>> be allocated into the L3 cache partitions determined by the bitmask in
+>> the L3_MASK_15 register.
+> 
+> This is a resctrl fs patch but most of changelog so far is about AMD's implementation
+> details. I do think it is relevant, but all the register details can
+> probably be dropped since it is too low level to support the goal. I believe the
+> goal here is to motivate resctrl fs's implementation that needs to pick highest
+> CLOSID. So, essentially the changelog needs to hightlight that AMD's implementation
+> requires highest CLOSID and without any other reference that is what resctrl fs's
+> implementation supports. I think it is important to highlight that the
+> user interface is not tied to this implementation decision to avoid future issues
+> if another architecture support "io_alloc" "differently". Internals of
+> resctrl fs can then be changed.
+> 
+
+Sure. Will split these patches. Will try make the text more generic.
+
+>>
+>> When CDP is enabled, io_alloc routes I/O traffic using the highest CLOSID
+>> allocated for the instruction cache (L3CODE).
+> 
+> Again, this is a resctrl fs patch and above is an AMD implementation detail. resctrl
+> fs should not be limited by how AMD implements the feature but can use it as first
+> reference.
+
+Sure.
 
 > 
 >>
->>>
->>>> 2. It aligns with existing UAPIs that operate in native endian and don't
->>>> use virtio-net data structures like TUNSETOFFLOAD and TUNSETVNETHDRSZ.
->>>
->>> For those two examples, it would be used by guests directly. This is
->>> different from RSS stuff.
->>
->> They are mediated by the VMM, which is no different from RSS.
+>> Introduce user interface to enable/disable "io_alloc" feature.
 > 
-> Not necessarily, e,g Qemu support vDPA control virtqueue passthrough.
+> This patch does more than this.
 
-TUNSETOFFLOAD and TUNSETVNETHDRSZ are not used with vDPA, are they?
+Sure.
 
 > 
 >>
->>>
->>> With native endian, you need an endian conversation that converts le to native.
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> ...
+> 
+>> ---
+>>  Documentation/filesystems/resctrl.rst |  34 ++++
+>>  fs/resctrl/rdtgroup.c                 | 216 +++++++++++++++++++++++++-
+> 
+> This patch contains several logical changes that are not adequately described
+> in changelog.
+> I think the following can be separate patches:
+> - rdt_bit_usage_show() change
+> - io_alloc_init() definition and usage
+> - show() and write() helpers
+> - possibly the io_alloc_closid helpers (more later)
+
+Yes. Splitting this into 3 patches.
+1. rdt_bit_usage_show() change
+   Updates shareable_bits section.
+   It calls - resctrl_io_alloc_closid().
+
+2. io_alloc_init() definition and usage
+  Introdce the inteface and add show()
+
+3. Add io_alloc write().
+   Calls resctrl_io_alloc_closid_supported() and
+resctrl_io_alloc_closid_get().
+
+
+> 
+>>  2 files changed, 248 insertions(+), 2 deletions(-)
 >>
->> That's true, but QEMU does so anyway to validate the configuration, to
->> attach/detach queues, and to share the data structures with userspace
->> RSS implementations. I expect other VMMs will do so too.
+>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+>> index c7949dd44f2f..03c829b2c276 100644
+>> --- a/Documentation/filesystems/resctrl.rst
+>> +++ b/Documentation/filesystems/resctrl.rst
+>> @@ -95,6 +95,11 @@ related to allocation:
+>>  		some platforms support devices that have their
+>>  		own settings for cache use which can over-ride
+>>  		these bits.
+>> +
+>> +		When the "io_alloc" feature is enabled, a portion of the cache
+>> +		is reserved for shared use between hardware and software. Refer
 > 
-> See above.
+> "reserved" and "shared" sounds like a contradiction. How about "is reserved" ->
+> "can be configured"?
 > 
->>
->>>
->>>>
->>>>>
->>>>> More issues:
->>>>>
->>>>> 1) max_tx_vq is ignored, so do you expect the userspace to intercept
->>>>> this and switch to using TUNSETQUEUE? This seems like a burden as TUN
->>>>> can simply accept it and do the attaching/detaching by itself
->>>>> 2) the rx depends on the indirection table, so userspace need to
->>>>> intercept the indirection and change the rx queue numbers accordingly
->>>>> 3) RSS allows a async TX/RX queue, this is not supported by TUN now,
->>>>> no matter if we decide to let userspace to intercept max_tx_vq or not,
->>>>> we need to implement it first
->>>>    > > Things would be much more simpler, if kernel can do 1) and 2).
->>>>
->>>> Attaching and detaching queues is not possible for the kernel because it
->>>> doesn't know what file descriptors that map to queues will be used by
->>>> the userspace.
->>>
->>> The kernel knows, tfile has a queue_index part.
->>
->> queue_index is set with TUNSETQUEUE so we need the ioctl.
+>> +		to "bit_usage" to see which portion is allocated for this purpose.
 > 
-> queue_index would be reshuffle during attaching/detaching since the
-> netdev core forbids sparse active queue indices.
-> 
-> But I don't see it's an issue since we are talking about introducing
-> new uAPI here.
+> This is the "shareable_bits" section and the reason why user is pointed to
+> "bit_usage" is because "shareable_bits" is a global CBM that applies to all
+> cache domains/instances while "bit_usage" is per cache domain/instance. I think
+> it will be helpful to point this out to the user.
+> Perhaps second sentence can be replaced with something like:
+> ""bit_usage" should be used to see which portions of each cache instance
+>  is configured for hardware use via the "io_alloc" feature because every cache
+>  instance can have its "io_alloc" bitmask configured independently".
 
-If queue_index is not usable, how can we pick queues for the new UAPI?
+Sure.
+
+""bit_usage" should be used to see which portions of each cache
+instance is configured for hardware use via the "io_alloc" feature
+because every cache instance can have its "io_alloc" bitmask
+configured independently.
+
 
 > 
-> If it doesn't work, it doesn't change the point, a new uAPI is needed
-> since RSS requires async tx/rx queue numbers, current TUN only allows
-> combined queue pairs.
+> Please do improve this.
+> 
+> To complete this the first part of the "shareable_bits" doc can be amended:
+> "Bitmask of shareable resource" -> "Bitmask (applicable to all instances of this resource) of shareable resource"
+> What do you think?
 
-TUN can have more tx/rx queues than the guest requests, so a VMM can 
-take the maximum of TX and RX queue numbers to derive the number of 
-queue pairs when the guest reqeusts async tx/rx queue numbers.
+Sure. Added one sentance for that.
+
+Bitmask of shareable resource with other executing entities
+(e.g. I/O). Applies to all instances of this resource.
+
+
 
 > 
->>
->>>
->>>>
->>>> The following patch does 2) for QEMU:
->>>> https://lore.kernel.org/qemu-devel/20250322-vq-v2-1-cee0aafe6404@daynix.com/
->>>
->>> See below point, form the view of the kernel, it's still a queue pair
->>> not async TX/RX queue.
->>>
->>>>
->>>> For 3), the patch for QEMU takes the maximum of TX and RX queue numbers
->>>> to derive the number of queue pairs.
->>>>
->>>>>
->>>>>> We have two ioctls here because
->>>>>> VIRTIO_NET_CTRL_MQ_RSS_CONFIG behaves differently depending on whether
->>>>>> VIRTIO_NET_F_HASH_REPORT is negotiated or not;
->>>>>
->>>>> It wouldn't be a problem if you do 1:1 mapping between virtio commands
->>>>> and TUN uAPI, otherwise it should have a bug somewhere.
->>>>
->>>> Speaking of 1:1 mapping, it is possible to map VIRTIO_NET_F_HASH_REPORT
->>>> into another ioctl. It may help add another receive steering algorithm
->>>> in the future by not requiring two ioctls (TUNSETVNETREPORTING_X and
->>>> TUNSETVNET_X).
->>>
->>> Yes and as I pointed out, virtio_net_hash_config should not be
->>> specific to automq, it can work for other steering algorithm as well.
->>
->> That's not what the virtio spec says, so it will not be 1:1 mapping
->> between virtio commands and TUN uAPI.
+>> +
+>>  "bit_usage":
+>>  		Annotated capacity bitmasks showing how all
+>>  		instances of the resource are used. The legend is:
+>> @@ -135,6 +140,35 @@ related to allocation:
+>>  			"1":
+>>  			      Non-contiguous 1s value in CBM is supported.
+>>  
+>> +"io_alloc":
+>> +		The "io_alloc" enables system software to configure the portion
 > 
-> That's only because the spec only supports RSS and AUTOMQ so far. Or
-> do we expect a new virtio_net_XXX_hash_config for the new steering
-> algorithm?
+> "The "io_alloc" enables"? Maybe just ""io_alloc" enables"?
+> 
+>> +		of the L3 cache allocated for I/O traffic.
+> 
+> Drop "L3"?
+> 
+> Can append, for example, "File may only exist if the system supports this feature on some of its cache
+> resources".
+> 
+>> +
+>> +		The feature routes the I/O traffic via specific CLOSID reserved
+>> +		for io_alloc feature. By configuring the CBM (Capacity Bit Mask)
+>> +		for the CLOSID, users can control the L3 portions available for
+>> +		I/0 traffic. The reserved CLOSID will be excluded for group creation.
+> 
+> Looking back I've commented *four* times already about how resctrl fs user interface
+> should not be made specific to AMD's implementation.
+> This paragraph just be dropped?
+> 
+> 
+> The rest can be something like:
+> 
+> 		"disabled": Portions of cache used for allocation of I/O traffic cannot be configured.
+> 		"enabled": Portions of cache used for allocation of I/O traffic can be configured using "io_alloc_cbm"
+> 		"not supported": ...
+> 
+> 		The underlying implementation may reduce resources available to
+> 		general (CPU) cache allocation. See architecture specific notes below.
+> 		Depending on usage requirements the feature can be enabled or disabled:
+> 
+> 		To enable:
+> 			# echo 1 > /sys/fs/resctrl/info/L3/io_alloc
+> 
+> 		To disable:
+> 			# echo 0 > /sys/fs/resctrl/info/L3/io_alloc
 
-No. RSS only needs struct virtio_net_rss_config for hash configuration, 
-and a new steering algorithm will only need one struct. For example, if 
-the spec is to gain siphash, we will need to add struct 
-virtio_net_siphash_config.
-
-struct virtio_net_hash_config is only for automq.
+Sure.
 
 > 
->>
->>>
->>>>
->>>>>
->>>>>> it also enables hash
->>>>>> reporting if the feature is negotiated.
->>>>>
->>>>> Again, starting from virtio-net command is easier, a strong
->>>>> justification is needed to explain why we choose another for tun/tap.
->>>>>
->>>>>>
->>>>>>>
->>>>>>> One day we would have tun_select_queue_algorithm_x() we don't have to
->>>>>>> duplicate the ioctls once again here like TUNSETVNETREPORTINGXYZ
->>>>>>
->>>>>> 5.1.6.5.6.4 Hash calculation says:
->>>>>>>     If VIRTIO_NET_F_HASH_REPORT was negotiated and the device uses
->>>>>>> automatic receive steering, the device MUST support a command to
->>>>>>> configure hash calculation parameters.
->>>>>>>
->>>>>>> The driver provides parameters for hash calculation as follows:
->>>>>>>
->>>>>>> class VIRTIO_NET_CTRL_MQ, command VIRTIO_NET_CTRL_MQ_HASH_CONFIG.
->>>>>>
->>>>>> VIRTIO_NET_CTRL_MQ_HASH_CONFIG is for automatic receive steering and not
->>>>>> for RSS (or other steering algorithms if the spec gets any in the future).
->>>>>
->>>>> I'm not sure but the spec needs some tweaking. For example, I don't
->>>>> expect there would be a dedicated hash config command for flow filters
->>>>> in the future. I think the reason why spec says like this is that
->>>>> virtio-net only supports automatic receive steering.
->>>>>
->>>>> Note that macvtap doesn't implement automatic receive steering.
->>>>
->>>> QEMU advertises VIRTIO_NET_F_CTRL_VQ for macvtap too, so it should have
->>>> implemented it. I think QEMU with macvtap still compliant to the spec.
->>>
->>> Compliant, but automatic traffic steering is the best effort as well.
->>>
->>> Nope, TUN/TAP implements a flow cache that can steer tx based on rx.
->>> Macvtap simply uses hash here.
->>>
->>>>
->>>> "5.1.6.5.6 Automatic receive steering in multiqueue mode" says:
->>>>
->>>>    > After the driver transmitted a packet of a flow on transmitqX, the
->>>>    > device SHOULD cause incoming packets for that flow to be steered to
->>>>    > receiveqX.
->>>>
->>>> It is "SHOULD", so it is still compliant if the device doesn't properly
->>>> respect the flow.
->>>
->>> Yes, a quality of implementation, or it's impractical to support a
->>> correct steering for this device as limited resources and mailious
->>> users can do syn flood etc.
->>>
->>>>
->>>>>
->>>>>>
->>>>>>>
->>>>>>>> +               if (copy_from_user(&common, argp, sizeof(common)))
->>>>>>>> +                       return -EFAULT;
->>>>>>>> +               argp = (struct tun_vnet_rss __user *)argp + 1;
->>>>>>>> +
->>>>>>>> +               indirection_table_size = ((size_t)common.indirection_table_mask + 1) * 2;
->>>>>>>> +               key_size = virtio_net_hash_key_length(common.hash_types);
->>>>>>>> +               size = struct_size(hash, rss_indirection_table,
->>>>>>>> +                                  (size_t)common.indirection_table_mask + 1);
->>>>>>>> +
->>>>>>>> +               hash = kmalloc(size, GFP_KERNEL);
->>>>>>>> +               if (!hash)
->>>>>>>> +                       return -ENOMEM;
->>>>>>>> +
->>>>>>>> +               if (copy_from_user(hash->rss_indirection_table,
->>>>>>>> +                                  argp, indirection_table_size)) {
->>>>>>>> +                       kfree(hash);
->>>>>>>> +                       return -EFAULT;
->>>>>>>> +               }
->>>>>>>> +               argp = (u16 __user *)argp + common.indirection_table_mask + 1;
->>>>>>>> +
->>>>>>>> +               if (copy_from_user(hash->rss_key, argp, key_size)) {
->>>>>>>> +                       kfree(hash);
->>>>>>>> +                       return -EFAULT;
->>>>>>>> +               }
->>>>>>>> +
->>>>>>>> +               virtio_net_toeplitz_convert_key(hash->rss_key, key_size);
->>>>>>>> +               hash->report = cmd == TUNSETVNETREPORTINGRSS;
->>>>>>>
->>>>>>> At least, if this is the only difference why not simply code this into
->>>>>>> the ioctl itself other than having a very similar command?
->>>>>>
->>>>>> It is what the previous version did. Either is fine I guess; the only
->>>>>> practical difference would be the size of the configuration struct is
->>>>>> smaller with this approach.
->>>>>>
->>>>>>>
->>>>>>>> +               hash->rss = true;
->>>>>>>> +               hash->common = common;
->>>>>>>> +               break;
->>>>>>>> +
->>>>>>>> +       default:
->>>>>>>> +               return -EINVAL;
->>>>>>>> +       }
->>>>>>>> +
->>>>>>>> +       kfree_rcu_mightsleep(rcu_replace_pointer_rtnl(*hashp, hash));
->>>>>>>> +       return 0;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +static inline void tun_vnet_hash_report(const struct tun_vnet_hash *hash,
->>>>>>>> +                                       struct sk_buff *skb,
->>>>>>>> +                                       const struct flow_keys_basic *keys,
->>>>>>>> +                                       u32 value,
->>>>>>>> +                                       tun_vnet_hash_add vnet_hash_add)
->>>>>>>> +{
->>>>>>>> +       struct virtio_net_hash *report;
->>>>>>>> +
->>>>>>>> +       if (!hash || !hash->report)
->>>>>>>> +               return;
->>>>>>>> +
->>>>>>>> +       report = vnet_hash_add(skb);
->>>>>>>> +       if (!report)
->>>>>>>> +               return;
->>>>>>>> +
->>>>>>>> +       *report = (struct virtio_net_hash) {
->>>>>>>> +               .report = virtio_net_hash_report(hash->common.hash_types, keys),
->>>>>>>> +               .value = value
->>>>>>>> +       };
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +static inline u16 tun_vnet_rss_select_queue(u32 numqueues,
->>>>>>>> +                                           const struct tun_vnet_hash *hash,
->>>>>>>> +                                           struct sk_buff *skb,
->>>>>>>> +                                           tun_vnet_hash_add vnet_hash_add)
->>>>>>>> +{
->>>>>>>> +       struct virtio_net_hash *report;
->>>>>>>> +       struct virtio_net_hash ret;
->>>>>>>> +       u16 index;
->>>>>>>> +
->>>>>>>> +       if (!numqueues)
->>>>>>>> +               return 0;
->>>>>>>> +
->>>>>>>> +       virtio_net_hash_rss(skb, hash->common.hash_types, hash->rss_key, &ret);
->>>>>>>> +
->>>>>>>> +       if (!ret.report)
->>>>>>>> +               return hash->common.unclassified_queue % numqueues;
->>>>>>>> +
->>>>>>>> +       if (hash->report) {
->>>>>>>> +               report = vnet_hash_add(skb);
->>>>>>>> +               if (report)
->>>>>>>> +                       *report = ret;
->>>>>>>> +       }
->>>>>>>> +
->>>>>>>> +       index = ret.value & hash->common.indirection_table_mask;
->>>>>>>> +
->>>>>>>> +       return hash->rss_indirection_table[index] % numqueues;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>      static inline int tun_vnet_hdr_get(int sz, unsigned int flags,
->>>>>>>>                                        struct iov_iter *from,
->>>>>>>>                                        struct virtio_net_hdr *hdr)
->>>>>>>> @@ -135,15 +268,17 @@ static inline int tun_vnet_hdr_get(int sz, unsigned int flags,
->>>>>>>>      }
->>>>>>>>
->>>>>>>>      static inline int tun_vnet_hdr_put(int sz, struct iov_iter *iter,
->>>>>>>> -                                  const struct virtio_net_hdr *hdr)
->>>>>>>> +                                  const struct virtio_net_hdr_v1_hash *hdr)
->>>>>>>>      {
->>>>>>>> +       int content_sz = MIN(sizeof(*hdr), sz);
->>>>>>>> +
->>>>>>>>             if (unlikely(iov_iter_count(iter) < sz))
->>>>>>>>                     return -EINVAL;
->>>>>>>>
->>>>>>>> -       if (unlikely(copy_to_iter(hdr, sizeof(*hdr), iter) != sizeof(*hdr)))
->>>>>>>> +       if (unlikely(copy_to_iter(hdr, content_sz, iter) != content_sz))
->>>>>>>>                     return -EFAULT;
->>>>>>>>
->>>>>>>> -       if (iov_iter_zero(sz - sizeof(*hdr), iter) != sz - sizeof(*hdr))
->>>>>>>> +       if (iov_iter_zero(sz - content_sz, iter) != sz - content_sz)
->>>>>>>>                     return -EFAULT;
->>>>>>>>
->>>>>>>>             return 0;
->>>>>>>> @@ -155,26 +290,38 @@ static inline int tun_vnet_hdr_to_skb(unsigned int flags, struct sk_buff *skb,
->>>>>>>>             return virtio_net_hdr_to_skb(skb, hdr, tun_vnet_is_little_endian(flags));
->>>>>>>>      }
->>>>>>>>
->>>>>>>> -static inline int tun_vnet_hdr_from_skb(unsigned int flags,
->>>>>>>> +static inline int tun_vnet_hdr_from_skb(int sz, unsigned int flags,
->>>>>>>>                                             const struct net_device *dev,
->>>>>>>>                                             const struct sk_buff *skb,
->>>>>>>> -                                       struct virtio_net_hdr *hdr)
->>>>>>>> +                                       tun_vnet_hash_find vnet_hash_find,
->>>>>>>> +                                       struct virtio_net_hdr_v1_hash *hdr)
->>>>>>>>      {
->>>>>>>>             int vlan_hlen = skb_vlan_tag_present(skb) ? VLAN_HLEN : 0;
->>>>>>>> +       const struct virtio_net_hash *report = sz < sizeof(struct virtio_net_hdr_v1_hash) ?
->>>>>>>> +                                              NULL : vnet_hash_find(skb);
->>>>>>>> +
->>>>>>>> +       *hdr = (struct virtio_net_hdr_v1_hash) {
->>>>>>>> +               .hash_report = VIRTIO_NET_HASH_REPORT_NONE
->>>>>>>> +       };
->>>>>>>> +
->>>>>>>> +       if (report) {
->>>>>>>> +               hdr->hash_value = cpu_to_le32(report->value);
->>>>>>>> +               hdr->hash_report = cpu_to_le16(report->report);
->>>>>>>> +       }
->>>>>>>>
->>>>>>>> -       if (virtio_net_hdr_from_skb(skb, hdr,
->>>>>>>> +       if (virtio_net_hdr_from_skb(skb, (struct virtio_net_hdr *)hdr,
->>>>>>>>                                         tun_vnet_is_little_endian(flags), true,
->>>>>>>>                                         vlan_hlen)) {
->>>>>>>>                     struct skb_shared_info *sinfo = skb_shinfo(skb);
->>>>>>>>
->>>>>>>>                     if (net_ratelimit()) {
->>>>>>>>                             netdev_err(dev, "unexpected GSO type: 0x%x, gso_size %d, hdr_len %d\n",
->>>>>>>> -                                  sinfo->gso_type, tun_vnet16_to_cpu(flags, hdr->gso_size),
->>>>>>>> -                                  tun_vnet16_to_cpu(flags, hdr->hdr_len));
->>>>>>>> +                                  sinfo->gso_type, tun_vnet16_to_cpu(flags, hdr->hdr.gso_size),
->>>>>>>> +                                  tun_vnet16_to_cpu(flags, hdr->hdr.hdr_len));
->>>>>>>>                             print_hex_dump(KERN_ERR, "tun: ",
->>>>>>>>                                            DUMP_PREFIX_NONE,
->>>>>>>>                                            16, 1, skb->head,
->>>>>>>> -                                      min(tun_vnet16_to_cpu(flags, hdr->hdr_len), 64), true);
->>>>>>>> +                                      min(tun_vnet16_to_cpu(flags, hdr->hdr.hdr_len), 64), true);
->>>>>>>>                     }
->>>>>>>>                     WARN_ON_ONCE(1);
->>>>>>>>                     return -EINVAL;
->>>>>>>> diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
->>>>>>>> index 980de74724fc..fe4b984d3bbb 100644
->>>>>>>> --- a/include/uapi/linux/if_tun.h
->>>>>>>> +++ b/include/uapi/linux/if_tun.h
->>>>>>>> @@ -62,6 +62,62 @@
->>>>>>>>      #define TUNSETCARRIER _IOW('T', 226, int)
->>>>>>>>      #define TUNGETDEVNETNS _IO('T', 227)
->>>>>>>>
->>>>>>>> +/**
->>>>>>>> + * define TUNGETVNETHASHTYPES - ioctl to get supported virtio_net hashing types
->>>>>>>> + *
->>>>>>>> + * The argument is a pointer to __u32 which will store the supported virtio_net
->>>>>>>> + * hashing types.
->>>>>>>> + */
->>>>>>>> +#define TUNGETVNETHASHTYPES _IOR('T', 228, __u32)
->>>>>>>> +
->>>>>>>> +/**
->>>>>>>> + * define TUNSETVNETREPORTINGAUTOMQ - ioctl to enable automq with hash reporting
->>>>>>>> + *
->>>>>>>> + * Disable RSS and enable automatic receive steering with hash reporting.
->>>>>>>> + *
->>>>>>>> + * The argument is a pointer to __u32 that contains a bitmask of hash types
->>>>>>>> + * allowed to be reported.
->>>>>>>> + *
->>>>>>>> + * This ioctl results in %EBADFD if the underlying device is deleted. It affects
->>>>>>>> + * all queues attached to the same device.
->>>>>>>> + *
->>>>>>>> + * This ioctl currently has no effect on XDP packets and packets with
->>>>>>>> + * queue_mapping set by TC.
->>>>>>>> + */
->>>>>>>> +#define TUNSETVNETREPORTINGAUTOMQ _IOR('T', 229, __u32)
->>>>>>>> +
->>>>>>>> +/**
->>>>>>>> + * define TUNSETVNETREPORTINGRSS - ioctl to enable RSS with hash reporting
->>>>>>>> + *
->>>>>>>> + * Disable automatic receive steering and enable RSS with hash reporting.
->>>>>>>
->>>>>>> This is unnecessary, e.g one day will have select_queue_xyz(), we
->>>>>>> don't want to say "Disable automatic receive steering and xyz ..."
->>>>>>
->>>>>> It is still something better to be documented as its behavior is
->>>>>> somewhat complicated.
->>>>>
->>>>> This is a hint of uAPI design issue.
->>>>>
->>>>>>
->>>>>> Concretely, this ioctl disables automatic receive steering but doesn't
->>>>>> disable steering by eBPF, which is implied by TUN_STEERINGEBPF_FALLBACK.
->>>>>
->>>>> It would be simpler:
->>>>>
->>>>> 1) not having TUN_STEERINGEBPF_FALLBACK
->>>>> 2) the steering algorithm depends on the last uAPI call
->>>>
->>>> What will TUNSETSTEERINGEBPF with NULL mean in that case? It currently
->>>> switches the steering algorithm to automq.
->>>
->>> A stackwise semantic then?
->>
->> Can you clarify the semantics with an example of a set of ioctls?
->> Perhaps it is an easy way to demonstrate an alternative design idea.
+>> +
+>> +		The interface provides a means to query the status of the feature.
+>> +
+>> +		Example::
+>> +
+>> +			# cat /sys/fs/resctrl/info/L3/io_alloc
+>> +			disabled
+>> +
+>> +		Feature can be enabled/disabled by writing to the interface.
+>> +		Example::
+>> +
+>> +			# echo 1 > /sys/fs/resctrl/info/L3/io_alloc
+>> +			# cat /sys/fs/resctrl/info/L3/io_alloc
+>> +			enabled
+>> +
+>> +		On AMD systems, the io_alloc feature is supported by the L3 Smart
+>> +		Data Cache Injection Allocation Enforcement (SDCIAE). The CLOSID for
+>> +		io_alloc is determined by the highest CLOSID supported by the resource.
+>> +		When CDP is enabled, io_alloc routes I/O traffic using the highest
+>> +		CLOSID allocated for the instruction cache (L3CODE).
+>> +
+>>  Memory bandwidth(MB) subdirectory contains the following files
+>>  with respect to allocation:
+>>  
+>> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+>> index 1beb124e25f6..bbc032b4d0e9 100644
+>> --- a/fs/resctrl/rdtgroup.c
+>> +++ b/fs/resctrl/rdtgroup.c
+>> @@ -70,6 +70,7 @@ static struct seq_buf last_cmd_status;
+>>  static char last_cmd_status_buf[512];
+>>  
+>>  static int rdtgroup_setup_root(struct rdt_fs_context *ctx);
+>> +static int rdtgroup_init_cat(struct resctrl_schema *s, u32 closid);
+>>  
+>>  static void rdtgroup_destroy_root(void);
+>>  
+>> @@ -232,6 +233,19 @@ bool closid_allocated(unsigned int closid)
+>>  	return !test_bit(closid, closid_free_map);
+>>  }
+>>  
+>> +static int resctrl_io_alloc_closid_alloc(u32 io_alloc_closid)
+>> +{
+>> +	if (__test_and_clear_bit(io_alloc_closid, closid_free_map))
+>> +		return io_alloc_closid;
+>> +	else
+>> +		return -ENOSPC;
+>> +}
+>> +
+>> +static void resctrl_io_alloc_closid_free(u32 io_alloc_closid)
+>> +{
+>> +	closid_free(io_alloc_closid);
+>> +}
+>> +
+>>  /**
+>>   * rdtgroup_mode_by_closid - Return mode of resource group with closid
+>>   * @closid: closid if the resource group
+>> @@ -1030,6 +1044,29 @@ static int rdt_shareable_bits_show(struct kernfs_open_file *of,
+>>  	return 0;
+>>  }
+>>  
+>> +/*
+>> + * resctrl_io_alloc_closid_get - io_alloc feature uses max CLOSID to route
+>> + * the IO traffic. Get the max CLOSID and verify if the CLOSID is available.
 > 
-> Consider user do:
+> The function name should be followed by a *brief* description.
+
+Sure.
+
 > 
-> 1) TUNSETQUEUE /* enable automq, push */
-> 2) TUNSETSTEERINGEBPF /* enable steering ebp, push */
-> 3) TUNSETETTERINGEBPF to NULL /* disable steering ebpf, pop */
+>> + *
+>> + * The total number of CLOSIDs is determined in closid_init(),  based on the
+>> + * minimum supported across all resources. If CDP (Code Data Prioritization)
+>> + * is enabled, the number of CLOSIDs is halved. The final value is returned
+>> + * by closids_supported(). Make sure this value aligns with the maximum
+>> + * CLOSID supported by the respective resource.
 > 
-> Automq is in the stack top, so TUN will use that.
+> All but the last sentence is unrelated to this function and the last sentence
+> is very vague. What is "this value" that it refers to?
 
-In that case, what will happen if the user does:
+Removed it.
 
-1) TUNSETQUEUE
-2) TUNSETVNETRSS
-3) TUNSETETTERINGEBPF to NULL
+> 
+>> + */
+>> +static int resctrl_io_alloc_closid_get(struct rdt_resource *r)
+>> +{
+>> +	int num_closids = closids_supported();
+>> +
+>> +	if (resctrl_arch_get_cdp_enabled(r->rid))
+>> +		num_closids *= 2;
+>> +
+>> +	if (num_closids != resctrl_arch_get_num_closid(r))
+>> +		return -ENOSPC;
+>> +
+>> +	return closids_supported() - 1;
+>> +}
+> 
+> resctrl_io_alloc_closid_get() seems to be trying to do two things: 
+> - determine what the io_alloc_closid is
+> - make sure the io_alloc_closid is supported
+> 
+> I think this should be split into two functions. Once the
+> io_alloc_closid is determined to be supported and io_alloc
+> enabled then there is no reason to keep checking if it is
+> supported whenever the io_alloc_closid is queried.
+> 
+> How about simplifying this to:
+> 
+> /*
+>  * note how this returns u32 that will eliminate
+>  * unnecessary error checking in usages where io_alloc_closid
+>  * needs to be determined after an resctrl_arch_get_io_alloc_enabled(r)
+>  * already confirmed io_alloc is enabled
+>  * function comment could note that this returns the CLOSID
+>  * required by io_alloc but not whether the CLOSID can
+>  * be supported, for this resctrl_io_alloc_closid_supported() should
+>  * be used.
+>  * Can also note that returned value will always be valid if
+>  * resctrl_arch_get_io_alloc_enabled(r) is true.
+>  */
+> u32 resctrl_io_alloc_closid(struct rdt_resource *r) {
+> 	if (resctrl_arch_get_cdp_enabled(r->rid))
+> 		return resctrl_arch_get_num_closid(r)/2  - 1
+> 	else
+> 		return resctrl_arch_get_num_closid(r) -1
+> }
+> 
+> /*
+>  * note how below already makes resctrl's io_alloc implementation
+>  * more generic
+>  */
+> resctrl_io_alloc_closid_supported(u32 io_alloc_closid) {
+> 	return io_alloc_closid <  closids_supported()
+> }
+> 
 
-Regards,
-Akihiko Odaki
+Sure.
+   Changed the check to
+
+    return io_alloc_closid == (closids_supported() -1)
+
+> 
+> 
+>> +
+>>  /*
+>>   * rdt_bit_usage_show - Display current usage of resources
+>>   *
+>> @@ -1058,20 +1095,23 @@ static int rdt_bit_usage_show(struct kernfs_open_file *of,
+>>  	struct rdt_ctrl_domain *dom;
+>>  	int i, hwb, swb, excl, psl;
+>>  	enum rdtgrp_mode mode;
+>> +	int io_alloc_closid;
+>>  	bool sep = false;
+>>  	u32 ctrl_val;
+>>  
+>>  	cpus_read_lock();
+>>  	mutex_lock(&rdtgroup_mutex);
+>> -	hw_shareable = r->cache.shareable_bits;
+>>  	list_for_each_entry(dom, &r->ctrl_domains, hdr.list) {
+>>  		if (sep)
+>>  			seq_putc(seq, ';');
+>> +		hw_shareable = r->cache.shareable_bits;
+>>  		sw_shareable = 0;
+>>  		exclusive = 0;
+>>  		seq_printf(seq, "%d=", dom->hdr.id);
+>>  		for (i = 0; i < closids_supported(); i++) {
+>> -			if (!closid_allocated(i))
+>> +			if (!closid_allocated(i) ||
+>> +			    (resctrl_arch_get_io_alloc_enabled(r) &&
+>> +			     i == resctrl_io_alloc_closid_get(r)))
+>>  				continue;
+>>  			ctrl_val = resctrl_arch_get_config(r, dom, i,
+>>  							   s->conf_type);
+>> @@ -1099,6 +1139,24 @@ static int rdt_bit_usage_show(struct kernfs_open_file *of,
+>>  				break;
+>>  			}
+>>  		}
+>> +
+>> +		/*
+>> +		 * When the "io_alloc" feature is enabled, a portion of the
+>> +		 * cache is reserved for shared use between hardware and software.
+>> +		 */
+>> +		if (resctrl_arch_get_io_alloc_enabled(r)) {
+>> +			io_alloc_closid = resctrl_io_alloc_closid_get(r);
+> 
+> In this implementation io_alloc_closid can be negative and the static
+> checker I used complained about the subsequent usage in 
+> resctrl_arch_get_config() that must be unsigned.
+> Since resctrl_arch_get_io_alloc_enabled(r) already passed this is one
+> example where resctrl_io_alloc_closid() can be used.
+
+Sure.
+
+> 
+>> +			if (resctrl_arch_get_cdp_enabled(r->rid))
+>> +				ctrl_val = resctrl_arch_get_config(r, dom,
+>> +								   io_alloc_closid,
+>> +								   CDP_CODE);
+>> +			else
+>> +				ctrl_val = resctrl_arch_get_config(r, dom,
+>> +								   io_alloc_closid,
+>> +								   CDP_NONE);
+>> +			hw_shareable |= ctrl_val;
+>> +		}
+>> +
+>>  		for (i = r->cache.cbm_len - 1; i >= 0; i--) {
+>>  			pseudo_locked = dom->plr ? dom->plr->cbm : 0;
+>>  			hwb = test_bit(i, &hw_shareable);
+>> @@ -1803,6 +1861,142 @@ static ssize_t mbm_local_bytes_config_write(struct kernfs_open_file *of,
+>>  	return ret ?: nbytes;
+>>  }
+>>  
+>> +static int resctrl_io_alloc_show(struct kernfs_open_file *of,
+>> +				 struct seq_file *seq, void *v)
+>> +{
+>> +	struct resctrl_schema *s = rdt_kn_parent_priv(of->kn);
+>> +	struct rdt_resource *r = s->res;
+>> +
+> 
+> Needs rdtgroup_mutex
+
+Sure.
+
+> 
+>> +	if (r->cache.io_alloc_capable) {
+>> +		if (resctrl_arch_get_io_alloc_enabled(r))
+>> +			seq_puts(seq, "enabled\n");
+>> +		else
+>> +			seq_puts(seq, "disabled\n");
+>> +	} else {
+>> +		seq_puts(seq, "not supported\n");
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +/*
+>> + * Initialize io_alloc CLOSID cache resource with default CBM values.
+> 
+> It is unclear what "default" means.
+> Could be "Initialize io_alloc CLOSID cache resource CBM with all usable (shared and unused) cache portions".
+
+Sure.
+
+> 
+>> + */
+>> +static int resctrl_io_alloc_init_cat(struct rdt_resource *r,
+>> +				     struct resctrl_schema *s, u32 closid)
+>> +{
+>> +	int ret;
+>> +
+>> +	rdt_staged_configs_clear();
+>> +
+>> +	ret = rdtgroup_init_cat(s, closid);
+>> +	if (ret < 0)
+>> +		goto out_init_cat;
+> 
+> The "out" label should reflect what is done at target, not the source.
+> Consider all the usages of "out_unlock" in resctrl.
+> Since this is the only label it can just be "out".
+
+Sure.
+
+> 
+>> +
+>> +	ret = resctrl_arch_update_domains(r, closid);
+>> +
+>> +out_init_cat:
+>> +	rdt_staged_configs_clear();
+>> +	return ret;
+>> +}
+>> +
+>> +static const char *rdtgroup_name_by_closid(int closid)
+>> +{
+>> +	struct rdtgroup *rdtgrp;
+>> +
+>> +	list_for_each_entry(rdtgrp, &rdt_all_groups, rdtgroup_list) {
+>> +		if (rdtgrp->closid == closid)
+>> +			return rdt_kn_name(rdtgrp->kn);
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>> +
+>> +/*
+>> + * When CDP is enabled, io_alloc directs traffic using the highest CLOSID
+>> + * linked to an L3CODE resource. Although CBMs can be accessed through
+>> + * either L3CODE or L3DATA resources, any updates to the schemata must
+>> + * always be performed on L3CODE.
+>> + */
+> 
+> I think that updates to the schemata needs to be made on *both* L3DATA and L3CODE.
+> Consider how __init_one_rdt_domain() works when a new resource group is created ...
+> the algorithm looks through all allocated CLOSID and the associated schemata impact
+> the CBM of the new group. If an allocated CLOSID is associated with L3CODE
+> then its "peer" L3DATA is also taken into account, similar for L3DATA.
+> If only L3CODE is updated for the io_alloc_closid then it looks to me that
+> whatever the original L3DATA schema was will keep impacting new resource
+> groups. To avoid that and ensure only accurate CBMs are used it looks to me
+> as though the L3DATA and L3CODE schema needs to be kept in sync.
+
+Sure. Will verify this.
+
+> 
+>> +static struct resctrl_schema *resctrl_schema_io_alloc(struct resctrl_schema *s)
+>> +{
+>> +	struct resctrl_schema *schema;
+>> +
+>> +	if (s->conf_type == CDP_DATA) {
+>> +		list_for_each_entry(schema, &resctrl_schema_all, list) {
+>> +			if (schema->conf_type == CDP_CODE)
+>> +				return schema;
+>> +		}
+>> +	}
+>> +
+>> +	return s;
+>> +}
+>> +
+>> +static ssize_t resctrl_io_alloc_write(struct kernfs_open_file *of, char *buf,
+>> +				      size_t nbytes, loff_t off)
+>> +{
+>> +	struct resctrl_schema *s = rdt_kn_parent_priv(of->kn);
+>> +	struct rdt_resource *r = s->res;
+>> +	char const *grp_name;
+>> +	u32 io_alloc_closid;
+>> +	bool enable;
+>> +	int ret;
+>> +
+>> +	ret = kstrtobool(buf, &enable);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	cpus_read_lock();
+>> +	mutex_lock(&rdtgroup_mutex);
+>> +
+>> +	rdt_last_cmd_clear();
+>> +
+>> +	if (!r->cache.io_alloc_capable) {
+>> +		rdt_last_cmd_puts("io_alloc feature is not supported on the resource\n");
+> 
+> This could be more useful with a small change:
+> "io_alloc is not supported on %s\n", s->name
+
+Yes.
+
+> 
+>> +		ret = -ENODEV;
+>> +		goto out_io_alloc;
+> 
+> out_io_alloc -> out_unlock
+
+Sure.
+
+> 
+>> +	}
+>> +
+>> +	io_alloc_closid = resctrl_io_alloc_closid_get(r);
+>> +	if (io_alloc_closid < 0) {
+>> +		rdt_last_cmd_puts("Max CLOSID to support io_alloc is not available\n");
+> 
+> This could be more useful to help debug by printing the value of io_alloc_closid
+> that user can compare against output of num_closids files. Here the terms become
+> a bit complicated since ideally we want to use ctrl_hw_id but that does not match
+> "num_closids", so perhaps use both terms, for example "CLOSID (ctrl_hw_id)"?
+> I am not sure here.
+
+Fine with me.
+
+> 
+>> +		ret = -EINVAL;
+>> +		goto out_io_alloc;
+>> +	}
+>> +
+>> +	if (resctrl_arch_get_io_alloc_enabled(r) != enable) {
+>> +		if (enable) {
+>> +			ret = resctrl_io_alloc_closid_alloc(io_alloc_closid);
+>> +			if (ret < 0) {
+>> +				grp_name = rdtgroup_name_by_closid(io_alloc_closid);
+> 
+> Below handles !grp_name but that would be a kernel bug, no? Maybe WARN_ON_ONCE()?
+
+Sure.
+
+> 
+>> +				rdt_last_cmd_printf("CLOSID for io_alloc is used by %s group\n",
+>> +						    grp_name ? grp_name : "another");
+> 
+> 
+> CLOSID -> ctrl_hw_id
+> 
+sure.
+
+>> +				ret = -EINVAL;
+>> +				goto out_io_alloc;
+>> +			}
+>> +
+>> +			ret = resctrl_io_alloc_init_cat(r, resctrl_schema_io_alloc(s),
+>> +							io_alloc_closid);
+>> +			if (ret) {
+>> +				rdt_last_cmd_puts("Failed to initialize io_alloc allocations\n");
+>> +				resctrl_io_alloc_closid_free(io_alloc_closid);
+>> +				goto out_io_alloc;
+>> +			}
+>> +
+>> +		} else {
+>> +			resctrl_io_alloc_closid_free(io_alloc_closid);
+>> +		}
+>> +
+>> +		ret = resctrl_arch_io_alloc_enable(r, enable);
+>> +	}
+>> +
+>> +out_io_alloc:
+> 
+> out_unlock ... to match the other places in resctrl.
+
+Sure.
+
+> 
+>> +	mutex_unlock(&rdtgroup_mutex);
+>> +	cpus_read_unlock();
+>> +
+>> +	return ret ?: nbytes;
+>> +}
+>> +
+>>  /* rdtgroup information files for one cache resource. */
+>>  static struct rftype res_common_files[] = {
+>>  	{
+>> @@ -1955,6 +2149,13 @@ static struct rftype res_common_files[] = {
+>>  		.seq_show	= rdtgroup_schemata_show,
+>>  		.fflags		= RFTYPE_CTRL_BASE,
+>>  	},
+>> +	{
+>> +		.name           = "io_alloc",
+>> +		.mode           = 0644,
+>> +		.kf_ops         = &rdtgroup_kf_single_ops,
+>> +		.seq_show       = resctrl_io_alloc_show,
+>> +		.write          = resctrl_io_alloc_write,
+>> +	},
+> 
+> Please match existing code wrt tab usage.
+
+Sure.
+
+> 
+>>  	{
+>>  		.name		= "mba_MBps_event",
+>>  		.mode		= 0644,
+>> @@ -2062,6 +2263,15 @@ static void thread_throttle_mode_init(void)
+>>  				 RFTYPE_CTRL_INFO | RFTYPE_RES_MB);
+>>  }
+>>  
+>> +static void io_alloc_init(void)
+>> +{
+>> +	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
+>> +
+>> +	if (r->cache.io_alloc_capable)
+>> +		resctrl_file_fflags_init("io_alloc",
+>> +					 RFTYPE_CTRL_INFO | RFTYPE_RES_CACHE);
+>> +}
+> 
+> Note that even if it only checks the L3 cache resource, this will make the
+> file visible to all cache resource, also L2. This is why it is important to
+> ensure documentation and implementation also accommodates resources that
+> do not support io_alloc.
+
+Agree.
+> 
+>> +
+>>  void resctrl_file_fflags_init(const char *config, unsigned long fflags)
+>>  {
+>>  	struct rftype *rft;
+>> @@ -4249,6 +4459,8 @@ int resctrl_init(void)
+>>  
+>>  	thread_throttle_mode_init();
+>>  
+>> +	io_alloc_init();
+>> +
+>>  	ret = resctrl_mon_resource_init();
+>>  	if (ret)
+>>  		return ret;
+> 
+> Reinette
+> 
+
+-- 
+Thanks
+Babu Moger
