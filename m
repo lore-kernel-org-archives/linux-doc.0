@@ -1,129 +1,72 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394D01AA782;
-	Thu, 19 Jun 2025 14:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C626217A30F;
+	Thu, 19 Jun 2025 14:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750344189; cv=none; b=RZlaolZBBNssyNiwCjSsc8rZsgLDF7BHufOLhlQBZ+fz92HgnU/YwWNq4QEhrD0ur6/Qd64CbFZBNHYObLMIWvnZPDFBrMiBnCkwiPJNTSnSUNw24nlfnqGigAeLpCNHnBcTda59kDuCRRjjKxRje3IlY1jYaudCZ+4qoGi+5pU=
+	t=1750344721; cv=none; b=DGfa4SvWx0AbAiuzXZitM57yzjjy14Kh4bzdzhdgVlY4RGkFNkfIxpAHRipVZ+TKfTfGCUvAdYd2Oqx7TaQ5KwtvOEgUWkI78/xdXcE22tGb04prghXt2FcWXgpQsUtlZPazNvgV2RlUuHhXddBdZyTlxAhnOsrpwlUCqFGLVcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750344189; c=relaxed/simple;
-	bh=/ELZptTBhqBUeDBGAiBxuTC6IoEc0cQXwy2tejgFxig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sEUafKHcdYnm8mIpn5b25d1h/Ms0BapJ4HQUZR2DBBs0q1R5dXmfk1X/Yk69c17DhRU93wUiJuHkH6cPjPJXbc1zE3nC5BLlxDMMLBGuhFq2FtGie5tTw3WlaTWT9w2KQePOaCTjrdQT/TFhf9DI9B8AY97KbTl2rj+970PvcVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dwvJA3FN; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dwvJA3FN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=BNuxxZdvnFJv9N7bIABQrfSlQ4FsyW6sCUROC/TVYZs=; b=dwvJA3FNkttNq+bMx2HmmenkhQ
-	j8FBAiEdFQLEcocmeS5dIupozZFVjf3dlJW+dgd05mbaTedMUNbKx7l5rtBeWfm0tyHVk60+Mpr4R
-	l43CfxpcnYDkLkdu6BM9Jwp3G+JM1hMH7UBw0ELGiIGf/ZidM8OjsCOlvCQmOIFVgLjEs6aVFlyML
-	gRH+c/fdlX8MtrUw5SeZx9VDIeFLFdkdb3iSEKjRWSZJfV3DvuPfby/vHKDtjoYfnJa7MFDlr47Uu
-	qMrolJeOwIYTkTV/F73lchzfdIUF2xPRhjMRXUDspUpklFwU2vSmJOgfhWf8KK27LncNnA4o1Czup
-	9P/ClWFQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uSGTg-00000004SQQ-1Keq;
-	Thu, 19 Jun 2025 14:42:56 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 8723130890E; Thu, 19 Jun 2025 16:42:54 +0200 (CEST)
-Date: Thu, 19 Jun 2025 16:42:54 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Koichi Okuno <fj2767dz@fujitsu.com>, Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
-Message-ID: <20250619144254.GK1613376@noisy.programming.kicks-ass.net>
-References: <20250617102819.3685543-1-fj2767dz@fujitsu.com>
- <20250617102819.3685543-3-fj2767dz@fujitsu.com>
- <20250617103618.GT1613376@noisy.programming.kicks-ass.net>
- <aFQXU5rK_HJE9zq0@J2N7QTR9R3>
- <20250619140442.GH1613376@noisy.programming.kicks-ass.net>
- <aFQgVPRvbrfcUrkY@J2N7QTR9R3>
+	s=arc-20240116; t=1750344721; c=relaxed/simple;
+	bh=DiKE0GctfAflmziKG348lyHIP5QberAm0uVi5a+CheA=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=oT4m5byEPpFTZzVEtGPXVKrWDZ6VqPOnZfpxwmqRWJSA+Iep5Qt539zbNnjhILMagxsnrPuS1FZYKo5iyIsDXbUOdsoLZCZzRJ5fy3gaQKZcJFLDTcC/QwSBmSOnl+hkCYpFgWMn80lvG6WymyDe8E9vuungy+5i2xWH8t56slc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4bNNqC1csCz501bP;
+	Thu, 19 Jun 2025 22:51:51 +0800 (CST)
+Received: from szxlzmapp03.zte.com.cn ([10.5.231.207])
+	by mse-fl2.zte.com.cn with SMTP id 55JEpn75019165;
+	Thu, 19 Jun 2025 22:51:49 +0800 (+08)
+	(envelope-from yang.yang29@zte.com.cn)
+Received: from mapi (szxlzmapp04[null])
+	by mapi (Zmail) with MAPI id mid14;
+	Thu, 19 Jun 2025 22:51:52 +0800 (CST)
+Date: Thu, 19 Jun 2025 22:51:52 +0800 (CST)
+X-Zmail-TransId: 2b0668542408ffffffffbed-cd742
+X-Mailer: Zmail v1.0
+Message-ID: <20250619225152603EIiJTlhHy4mFMv1dVTzue@zte.com.cn>
+In-Reply-To: <20250619211843633h05gWrBDMFkEH6xAVm_5y@zte.com.cn>
+References: 20250619211843633h05gWrBDMFkEH6xAVm_5y@zte.com.cn
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFQgVPRvbrfcUrkY@J2N7QTR9R3>
+Mime-Version: 1.0
+From: <yang.yang29@zte.com.cn>
+To: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>
+Cc: <bsingharora@gmail.com>, <akpm@linux-foundation.org>, <david@redhat.com>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
+        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
+        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>,
+        <ye.xingchen@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <jiang.kun2@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eCBuZXh0XSB0b29scy9hY2NvdW50aW5nL2RlbGF5dG9wOiBhZGQgZGVsYXl0b3AKIHRvIHJlY29yZCB0b3AtbiB0YXNrIGRlbGF5?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 55JEpn75019165
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68542407.000/4bNNqC1csCz501bP
 
-On Thu, Jun 19, 2025 at 03:36:04PM +0100, Mark Rutland wrote:
-> On Thu, Jun 19, 2025 at 04:04:42PM +0200, Peter Zijlstra wrote:
-> > On Thu, Jun 19, 2025 at 02:57:55PM +0100, Mark Rutland wrote:
-> > > On Tue, Jun 17, 2025 at 12:36:18PM +0200, Peter Zijlstra wrote:
-> > > > On Tue, Jun 17, 2025 at 07:27:50PM +0900, Koichi Okuno wrote:
-> > > > > +	pcipmu->pmu = (struct pmu) {
-> > > > > +		.parent		= dev,
-> > > > > +		.task_ctx_nr	= perf_invalid_context,
-> > > > > +
-> > > > > +		.pmu_enable	= fujitsu_pci__pmu_enable,
-> > > > > +		.pmu_disable	= fujitsu_pci__pmu_disable,
-> > > > > +		.event_init	= fujitsu_pci__event_init,
-> > > > > +		.add		= fujitsu_pci__event_add,
-> > > > > +		.del		= fujitsu_pci__event_del,
-> > > > > +		.start		= fujitsu_pci__event_start,
-> > > > > +		.stop		= fujitsu_pci__event_stop,
-> > > > > +		.read		= fujitsu_pci__event_read,
-> > > > > +
-> > > > > +		.attr_groups	= fujitsu_pci_pmu_attr_grps,
-> > > > > +		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
-> > > > 
-> > > > Should these drivers not also have PERF_PMU_CAP_NO_INTERRUPT ? Per them
-> > > > being uncore they cannot generate samples.
-> > > 
-> > > These PMUs actually have an interrupt, so that might be a bit confusing.
-> > > That said, the counters seem to be 64-bit, so the interrupt doesn't seem
-> > > practically necessary today.
-> > 
-> > Yeah, I saw they had an interrupt. But them being uncore they must not
-> > sample, and NO_INTERRUPT means not being able to sample.
-> > 
-> > Naming urgh :-)
-> 
-> Yeah :)
-> 
-> FWIW, that came to mind due to:
-> 
->   https://lore.kernel.org/lkml/20250618-perf-pmu-cap-docs-v1-1-0d34387d6e47@collabora.com/
-
-Oh hey, look at that.. Clearly that is still stuck in my unread pile :/
-
-> ... and if NO_INTERRUPT would be better-named as NO_SAMPLING, that might
-> be a good opportunity to clean that up.
-
-Yeah, that's more or less what it does, look at the few sites in
-perf/events/core.c that test it.
-
-> > Yeah, there's lots of cleanup to be done. Quite possibly also some
-> > unification between the various drivers.
-> > 
-> > Just need someone that knows what they're doing that has spare time,
-> > know anybody like that? :-)
-> 
-> I think a few folk likle that live in the nearest hall of mirrors...
-> 
-> If you're happy with that in concept, I can see about getting someone to
-> look at that -- the general idea has come up a few times.
-
-Sure.
+> Solution
+> ========
+> To address these limitations, we introduce the "delaytop" with
+> the following capabilities:
+> 1. system view: monitors latency metrics (CPU, I/O, memory, IRQ,
+> etc.) for all system processes
+> 2. supports field-based sorting (e.g., default sort by CPU latency
+> in descending order)
+> 3. dynamic interactive interface:
+> focus on specific processes with --pid;
+> limit displayed entries with --processes 20;
+> control monitoring duration with --iterations;
+For latency-sensitive scenarios, such as industrial control, communications,
+or automotive, I think this tool is useful. And it may be better if it support
+showing whole delay of system by reading PSI, just like the first few lines of
+information output by the top command.
