@@ -1,37 +1,37 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365B324167D
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 06:50:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B718D2475F7;
+	Thu, 19 Jun 2025 07:12:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750315859; cv=none; b=trJuVXdMZO2/1N/ea67Dw9m/stLqtLI1tvWTBwCBoVuCWDbPc2jDE/9haSTF4SARy9yYwufXEn5u/vxtikWoHF4RtNFzp4D+tT2tWGwoGhN5DkEY0DYjj6wl4AOSXvMmHjBq6WL03HwUXDL1FaRwFXF6pR1NdfMGHlNgIvCI1K0=
+	t=1750317169; cv=none; b=MYp8U+zBq+PV4zPTf/HSnXYJueRc52GdicNIggMyqMGCryeuZAzm0Wdr7KVj9lKguNE3p9SpgCr32j/syzFg8uzG5bVG95XdFSjmnRYNaFIHK5/dwgskdechd30vWojg32WX9++3gVKAq4CJ/t3e4iFXCALaiD4H728rNkD2zAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750315859; c=relaxed/simple;
-	bh=8IIDDK0TWHOYI3fSLBoQCmJ6fjN78uxFkmVPhr+9kJg=;
+	s=arc-20240116; t=1750317169; c=relaxed/simple;
+	bh=l3qlc40PN+JkLbZgh1BtdXkaI7iJLWml0rgWSurp/ak=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IJ48eDXJOjWgDwmpjMgH8goKwEBwWd1lhSQoKq0KVOTM0zCC/BPEbERz19F35tYiUIs0J1vol6s8fIP8HvVZKgg3vrHeJ1MDJdnbvM/dqWSHvBiOY3L/HV9ZtY5REN2hpqrf83npDyegGjncswRcphgcU+8CwZgXxSZuIKaFUCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Zq1A1Cy8; arc=none smtp.client-ip=90.155.50.34
+	 In-Reply-To:Content-Type; b=Y6b95OtY3RZ6r/Ed+0qxL5Yii0eLiEYnleIMxDXXnU4lrtTIV8mvpH5QwqYrlXwMtOvkiht6iEFlrQour0/8i3Ws6IDlffEm3wPPf/a7e2oXGNAytOqxptC8J6hrkCmFrPQa21f6VC55Sf1dOq7YpEeGWFo4rbyI3D4Je7Z6LOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Wx5k9B0l; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Zq1A1Cy8"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Wx5k9B0l"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
 	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
 	:Reply-To:Content-ID:Content-Description;
-	bh=4K2F56qD6nLe87Pk1G8I9Oe8WWd5ztieCSFZyW3Zkc0=; b=Zq1A1Cy8YfIfaqLZyy5aRyGeF3
-	5cqrg/IjArvSVzT54N/2w5NwtzifkAGzkwNSWsN7rscCZoGWQ3hGkCNNScikbBrxxofa3XyKw42Ad
-	vlUc4DOtqfTtaYidKs57lwBtdTjH/L3W0fUOZNZzStsEbGBXVlp2bYLuQ68pTTct2NBY0iAj2YVtd
-	7Sm5MND+ZnFpkhBCbC0Fhk0QbTyTJbIfp3QLZppGBaDeTI00i2G4Qy9Qai30NfkL8WZspy2vCjMic
-	QwqRSuFcPKoqC5BlLyvtSR+iyOX+NGqt8oEv4Tm/FeH7uO4PDjRZLyJqQlSXgQjTnW+viO3WSzWHS
-	C8XGCR4g==;
+	bh=R7tGyFiM7WSeVH4C/w6xl3Lu9ITt8cyLFMs5e/oyiFg=; b=Wx5k9B0lMNkIdYL64vBUzPThua
+	aSU94dIXOmmKvkqQHEANa++whmR89vAWo8RM9Z0vv7SA0C2s/BiOfeb5pCmNyd8bzOXxdyfBocNd1
+	UIxpA8jvlMdolNZa2EbNoZEa4A93pdOFOkT24WjG9S0ttYYdJkI91kfr2+ZvG13Qmqx93KvzkB1Ic
+	FMfMfvVcJXvX1b2OUf+QfqT9PN3tckfYHwWyNBrd65OmPOX3974PtIe4saun4DsK5SCfHMKqEGivz
+	tkCJRIRt3dsqp6QVrK3k/69xyDOyDdxBZq3eVHG5Ri8e9H0LBt6qLzLhmDoZls28Qg+Y1YidWEZon
+	mqL84uVQ==;
 Received: from [50.53.25.54] (helo=[192.168.254.17])
 	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uS96d-00000007Vsg-2O9z;
-	Thu, 19 Jun 2025 06:50:39 +0000
-Message-ID: <c9a5d339-c016-4e9b-958c-d1bca091dfee@infradead.org>
-Date: Wed, 18 Jun 2025 23:50:34 -0700
+	id 1uS9Ry-00000007be1-3yJg;
+	Thu, 19 Jun 2025 07:12:43 +0000
+Message-ID: <1067bbff-be53-4bec-9cec-8a4d0f531fb7@infradead.org>
+Date: Thu, 19 Jun 2025 00:12:38 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,140 +39,97 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Error at www.kernel.org/doc/html/next/ since next-20250610
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Akira Yokosawa <akiyks@gmail.com>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <de7bae91-3200-481f-9db2-c0dc382c91dd@gmail.com>
- <20250616140450.79b3fedb@foz.lan>
- <6fcb75ee-61db-4fb3-9c5f-2029a7fea4ee@gmail.com>
- <20250619081622.33958218@foz.lan>
+Subject: Re: [PATCH RFC] Documentation: typography refresh
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>,
+ Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
+ <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stanislav Fomichev <sdf@google.com>, David Vernet <void@manifault.com>,
+ Miguel Ojeda <ojeda@kernel.org>, James Seo <james@equiv.tech>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20250619042318.17325-2-bagasdotme@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250619081622.33958218@foz.lan>
+In-Reply-To: <20250619042318.17325-2-bagasdotme@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi Bagas,
+
+On 6/18/25 9:23 PM, Bagas Sanjaya wrote:
+> At present, kernel documentation uses system serif font for body text.
+> Some people, however, objected to it and instead prefer that the
+> typography choice must be legible, consistent, and accessible (after
+> all, the audience ranges developers peeking into kernel internals to
+> ordinary users that skimmed through Documentation/admin-guide/).
+> 
+> To tackle the problem, follow Wikimedia's typography refresh [1].
+> For the font choices, instead of using web fonts as in previous
+> attempt [2], use:
+> 
+>   * Linux Libertine, Georgia, Times for serif (used in h1 and h2
+>     headings)
+>   * system font for sans-serif and monospace
+> 
+> This allows for more readability and consistency without sacrificing
+
+More readability is debatable IMO.
+
+> page load times and bandwidth, as the font choices is most likely
+> already available on many platforms.
+> 
+> The reason why serif fonts is used for headings in complement to sans
+> serif in text body is to break up visual monotony of docs page by
+> creating contrast between headings (as entry point to docs information)
+> and text body, which is important considering that kernel docs are
+> quite lengthy with many sections.
+
+It's interesting that mediawiki chose to split the serif and sans serif
+usage this way. Newspapers essentially do the opposite: use sans serif
+for headlines (mostly, not consistently) and use serif for body text.
 
 
-On 6/18/25 11:16 PM, Mauro Carvalho Chehab wrote:
-> Em Thu, 19 Jun 2025 11:22:19 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
+Have you read "The Psychology of Computer Programming"?
+[https://geraldmweinberg.com/Site/Programming_Psychology.html]
+The content is very good but (at least in early editions) it was printed
+completely using a sans serif font (probably Helvetica). It's not a
+long book and I found the subject very interesting, but it took me
+forever to read it because it's (or was, don't know about the later
+editions) in sans serif typeface. I hated that part of it.
 
->>
->> Can you do so against docutils 0.19 only?
+So I applied this patch and tested it. It works as far as I can tell.
+I got tons of sans serif font text instead of serif font text that I
+don't care for. (I don't mind that the sidebar text is sans serif.)
+
+
+
+> For body text (excluding sidebar), it is set to #252525 on top
+> of #FFFFFF background as they have contrast ratio 15.3:1, which
+> is rated as AAA according to WCAG 2.0 section 1.4.6. Having slightly
+> off-black foreground text on white background can reduce eye strain
+> and juxtaposition on dyslexic readers.
 > 
-> If we're willing to do that, IMO we need to do a more generic solution
-> that will compare both versions and warn if incompatibilities are
-> detected.
+> This refresh only applies to default Alabaster theme.
 > 
-> Something like the enclosed patch (it is against my latest conf.py
-> patch).
+> [1]: https://www.mediawiki.org/wiki/Typography_refresh
+> [2]: https://lore.kernel.org/linux-doc/20231102123225.32768-1-bagasdotme@gmail.com/
 > 
-> Thanks,
-> Mauro
-> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
+>  Documentation/conf.py                      |  5 +-
+>  Documentation/sphinx-static/typography.css | 62 ++++++++++++++++++++++
+>  2 files changed, 66 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/sphinx-static/typography.css
 > 
-> [PATCH] docs: conf.py: Check Sphinx and docutils version
-> 
-> As reported by Akira, there are incompatibility issues with
-> Sphinx and docutils.
-> 
-> I manually checked that before docutils 0.17.1, yaml generation
-> doesn't work properly. Akira checked that 0.19 is problematic too.
-> 
-> After check Sphinx release notes, it seems that the
-> versions that are supposed to cope well together are:
-> 
-> 	========  ============  ============
-> 	Sphinx    Min Docutils  Max Docutils
-> 	Version   Version       Version
-> 	--------  ------------  ------------
-> 	< 4.0.0	  0.17.1        0.17.1
-> 	< 6.0.0	  0.17.1        0.18.1
-> 	< 7.0.0   0.18.0        0.18.1
-> 	>= 7.0.0  0.20.0        0.21.2
-> 	========  ============  ============
-> 
-> Add a logic inside conf.py to check the above, emitting warnings
-> if the docutils version don't match what is known to be supported.
-> 
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Closes: https://lore.kernel.org/linux-doc/6fcb75ee-61db-4fb3-9c5f-2029a7fea4ee@gmail.com/
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 5eddf5885f77..6047ec85add1 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -9,7 +9,11 @@ import os
->  import shutil
->  import sys
->  
-> +import docutils
->  import sphinx
-> +from sphinx.util import logging
-> +
-> +logger = logging.getLogger(__name__)
->  
->  # If extensions (or modules to document with autodoc) are in another directory,
->  # add these directories to sys.path here. If the directory is relative to the
-> @@ -21,11 +25,34 @@ from load_config import loadConfig               # pylint: disable=C0413,E0401
->  # Minimal supported version
->  needs_sphinx = "3.4.3"
->  
-> -# Get Sphinx version
-> -major, minor, patch = sphinx.version_info[:3]          # pylint: disable=I1101
-> +# Get Sphinx and docutils versions
-> +sphinx_ver = sphinx.version_info[:3]          # pylint: disable=I1101
-> +docutils_ver = docutils.__version_info__[:3]
-> +
-> +#
-> +if sphinx_ver < (4, 0, 0):
-> +    min_docutils = (0, 16, 0)
-> +    max_docutils = (0, 17, 1)
-> +elif sphinx_ver < (6, 0, 0):
-> +    min_docutils = (0, 17, 0)
-> +    max_docutils = (0, 18, 1)
-> +elif sphinx_ver < (7, 0, 0):
-> +    min_docutils = (0, 18, 0)
-> +    max_docutils = (0, 18, 1)
-> +else:
-> +    min_docutils = (0, 20, 0)
-> +    max_docutils = (0, 21, 2)
-> +
-> +sphinx_ver_str = ".".join([str(x) for x in sphinx_ver])
-> +docutils_ver_str = ".".join([str(x) for x in docutils_ver])
-
-
-That ".". (2 times) is ugly. ;)  (needs spaces added IMO)
-Is that compliant with PEP8?
-I can't see that PEP8 addresses usage of . directly.  For some binary operators:
-  Always surround these binary operators with a single space on either side: assignment (=),
-  augmented assignment (+=, -= etc.), comparisons (==, <, >, !=, <=, >=, in, not in, is, is not),
-  Booleans (and, or, not).
-[https://peps.python.org/pep-0008/#whitespace-in-expressions-and-statements]
 
 Thanks.
-
-> +
-> +if docutils_ver < min_docutils:
-> +    logger.warning(f"Docutils {docutils_ver_str} is too old for Sphinx {sphinx_ver_str}. Doc generation may fail")
-> +elif docutils_ver > max_docutils:
-> +    logger.warning(f"Docutils {docutils_ver_str} could be too new for Sphinx {sphinx_ver_str}. Doc generation may fail")
->  
->  # Include_patterns were added on Sphinx 5.1
-> -if (major < 5) or (major == 5 and minor < 1):
-> +if sphinx_ver < (5, 1, 0):
->      has_include_patterns = False
->  else:
->      has_include_patterns = True
-> 
-> 
 
 -- 
 ~Randy
