@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58091248F57;
-	Thu, 19 Jun 2025 06:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E01248F7B;
+	Thu, 19 Jun 2025 06:50:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750315821; cv=none; b=Fv0c5hM3taG3fxysfKZ7iewVO6lVfPwei2mMZ2yJ6GuRm4ziV+ebtIwFzAPRdXcr9v6kYt+aR8kv36U2Op4XYdvGia5CrwULHCMnv/QkEkAuIXkCalGO7qWEXJOY5ZKcwhOELHilNzdpwm/F/S6o/39CNE1O4tDzh5VdnURmckk=
+	t=1750315821; cv=none; b=T6LR11tBcFESwDUOTkBPYrSjf2/d8wDsdEq9vHHCvkazLReOsKxDor4AHRygoRpIeh//t1hYGICmhp1hox7S7afSfjtg8aEFizyTUvSYxywbqQusO55gZ8dVdZ3eF+G9DZDC5Hy8ZQui2i/h5eZJ/QQlYuO9/4KRQv402nrZrec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750315821; c=relaxed/simple;
-	bh=NWHr6s5MAHhaxWhvDkXosw3Qmf8A786TTZ4Xlu7HoGk=;
+	bh=Hv3gLw50JLGG5g7ccl776oKGKqF7lxHBB7tVJrn/eaQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MCyzEq9+yn2ov44giYcgDrr9koPmo1XwgWpmydnQ3DabNFvd/VTbaLYBhoLXO/VKNgsr0BxL5SLIApToIXAfUEOz9vJ8vxOZ/awZWbLR/KsGLRjJbgrAxmRIO/Daiue1ztWA+Svva9e7mzZ+QQZLDo9WfOi/RVsK9dI/1gooetw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKoyUQo4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=hHhX4v8g/zxV0+ZmWYY4LNXv9u2KsZgGFLRcNER9mAlm/X6JyXRf9rbnwkFc1NIC0zz7He5b5yJShcitT6+B+LMWenIht0DeEP+Ur+9YvtWwhs93EVh44yjUq/myXGw3OdJGSrEoG7Nxfhha4DR8Kfj8zdySzhrBPSzv+b6mc5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z1lC77v1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKoyUQo4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3394C113D0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z1lC77v1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEB0DC4CEF4;
 	Thu, 19 Jun 2025 06:50:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750315821;
-	bh=NWHr6s5MAHhaxWhvDkXosw3Qmf8A786TTZ4Xlu7HoGk=;
+	s=k20201202; t=1750315820;
+	bh=Hv3gLw50JLGG5g7ccl776oKGKqF7lxHBB7tVJrn/eaQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HKoyUQo4Ffzqqd/6TNqqWE8CyBYPSsYR9yebXX8DrslA4TVnNXcl/YeuCiHHJP2gE
-	 j5fzsu3JfTQ80Kxkyr7xF4FP7qSt8vDunBtc3/SxxYKGGAItx8EkXNvxNexs2ppebd
-	 oM3x5p4AqwmYL/sGVIhzrz9hIyeuHmoFzfs0jSOrh54KkUty77ujQqS7KIkp0gUnEW
-	 ZCQ+IAQkgg8BpStVcnEux/bAePfM4bFYhPSFovtbTmFSYfHCck3UzZkH4uPqlf0tpA
-	 NYC5vFpZnrFnTxkT+cQiUtxBVMbnI/IKBizhvUq323nGWEAbDtKS1VF7JkoRtCwSnf
-	 VaH47rOZj+0Mg==
+	b=Z1lC77v1CMyMlktOJ9K6fejaPpT04fOC4Le879dTqXFAifbtZk3KRi6MKQ5XlEPow
+	 4lqWFgJFjeImFQ4tHd1d6EBdeLe4WwDhT+Y5ShpfGuDn+/B6ln/JXpqejMTKC6JE4U
+	 HLaFGIVlrS5p+nO9YQVpcZRTGVqoQIv2onKEup31ieUOmCs1SgSvSDQVOI6yfx0RpA
+	 Y/cotgB3LUCyCVw/9X+KnWIDWcqYyA7KcMHhJdYOQZ1eV6AxqqRaLuPkdhekRDDt1/
+	 Ov5YWqFD4nk+JKT0zsCmRngpO/qxkXkRb6qpNj2qNKVDfh1e2p6y2mpvWtDF/XiHb9
+	 afd9EMrgl86wg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uS96J-00000003dHI-0e7s;
-	Thu, 19 Jun 2025 08:50:19 +0200
+	id 1uS96I-00000003dGq-3yTM;
+	Thu, 19 Jun 2025 08:50:18 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -46,6 +46,8 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Paolo Abeni" <pabeni@redhat.com>,
 	"Ruben Wauters" <rubenru09@aol.com>,
 	"Shuah Khan" <skhan@linuxfoundation.org>,
+	Jakub Kicinski <mchehab+huawei@kernel.org>,
+	Simon Horman <mchehab+huawei@kernel.org>,
 	joel@joelfernandes.org,
 	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
@@ -53,9 +55,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	netdev@vger.kernel.org,
 	peterz@infradead.org,
 	stern@rowland.harvard.edu
-Subject: [PATCH v7 12/17] MAINTAINERS: add netlink_yml_parser.py to linux-doc
-Date: Thu, 19 Jun 2025 08:49:05 +0200
-Message-ID: <4077605f84d7ba6423dcb5fda4e96ac950856f1d.1750315578.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v7 05/17] docs: netlink: index.rst: add a netlink index file
+Date: Thu, 19 Jun 2025 08:48:58 +0200
+Message-ID: <468efe892aecc585288a3fcdbecc1db7d4871196.1750315578.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1750315578.git.mchehab+huawei@kernel.org>
 References: <cover.1750315578.git.mchehab+huawei@kernel.org>
@@ -68,31 +70,35 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The documentation build depends on the parsing code
-at ynl_gen_rst.py. Ensure that changes to it will be c/c
-to linux-doc ML and maintainers by adding an entry for
-it. This way, if a change there would affect the build,
-or the minimal version required for Python, doc developers
-may know in advance.
+Instead of generating the index file, use glob to automatically
+include all data from yaml.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Breno Leitao <leitao@debian.org>
+Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/netlink/specs/index.rst | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 Documentation/netlink/specs/index.rst
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a92290fffa16..caa3425e5755 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7202,6 +7202,7 @@ F:	scripts/get_abi.py
- F:	scripts/kernel-doc*
- F:	scripts/lib/abi/*
- F:	scripts/lib/kdoc/*
-+F:	tools/net/ynl/pyynl/netlink_yml_parser.py
- F:	scripts/sphinx-pre-install
- X:	Documentation/ABI/
- X:	Documentation/admin-guide/media/
+diff --git a/Documentation/netlink/specs/index.rst b/Documentation/netlink/specs/index.rst
+new file mode 100644
+index 000000000000..7f7cf4a096f2
+--- /dev/null
++++ b/Documentation/netlink/specs/index.rst
+@@ -0,0 +1,13 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _specs:
++
++=============================
++Netlink Family Specifications
++=============================
++
++.. toctree::
++   :maxdepth: 1
++   :glob:
++
++   *
 -- 
 2.49.0
 
