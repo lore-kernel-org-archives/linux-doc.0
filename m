@@ -1,110 +1,127 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCCB263F4A;
-	Thu, 19 Jun 2025 14:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FD5270540
+	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 14:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750341905; cv=none; b=l3p1PrS4qhvQdlIbDS5pMl29g5pLPnXA597mC+SlFTwQ87yr1Ydc6y9JnD3FCIJKmNwS7tYoy8/pInbLAXJqvAZWKuVwS0WkS/H5jG/YO/Q+cG+UK3wrSvAZW89pxtE/xknM4a5t588A19PbB0sETQcqwOvJ08QFSknkUeO5nMc=
+	t=1750341972; cv=none; b=Vq8R2RSpT4XPkbFxo47qSHKlpAAAJQ/McyKk1AFHeq3JBWUpFLQOA9KxQQ5GmL0Xf9YSHm+OBy+sQ11e3wITMDXD4L6pQjmUcv3Dh6tzZJPunscUg39HUCW2/EuOlXh7cYPdnPKYAudcj1habGZzzAAqukeUvtB8knJuSIofFuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750341905; c=relaxed/simple;
-	bh=fCZ6K5MIym/kw9Lkht+ZPQGdYCIJYoEvY8PbQ22a4tc=;
+	s=arc-20240116; t=1750341972; c=relaxed/simple;
+	bh=TrQEbkPOhkr+wXxKi4QhmQRGh+BqEkZVvBvjASyKlYw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VVWpPQSToXhunP+wZravUb37p9KKhzTw0X78zugOig0h+C0zfQVIqD18oO9IwjWWtF3PgNPPhDFmJ2vcSmmztf6SIWkDln8oovlcFgM6cBFFQMP9TDPPc67Avsiv/SQV2nSLuOJzeGHCk8R3DIsHKT+gkOtKOmfb3pU36uqO9lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mRU05Xto; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uyovka8O3XhAmRgdY76x6uY5GzWrnPSZStd84uInIP8ht6OpXWsKDmuu7v2/hWhxVPeAJkLOPqJutNYnd9Ex3Tx20jfzpoWfxWZ2w6Nfch/iAD9AzH4VLcZAbeWfGx0wJTzmmG6k3Swo949MsrL3D3d+6doZeNPARkeq4ko5UzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LzSBQ1pv; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mRU05Xto"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=VRdhn3un9kG/iMEN06yqFgmDCh1WcgJoraC+AXdndW0=; b=mRU05XtoCzZHXAYiz1I1GFiNxJ
-	E4HCkQA87dhGDBGItkGmLJ5c+of+1ISMYEdZRxk6JNlD1B2gr9H6IEEe7TX4RTBUamXxcMRtqmGXG
-	KnyY5UWzxsv+/FWNmW3ApDJs2GMLEWD5sa6vIrvLDoHBJae6iMiJU9A+luMK2pXWg/Yt6Pj0Qf+/Z
-	xZyFsYyNgCs8vWjAZ0Lrq0EsqlvzL8YKyIMf1g9mE1K528HNE1xbijzOWuNu/1o2sl0/GxNJSJle/
-	enVZLsF1SGCuP+K/BKGcqRlnMQqTDM6wRkW2ToEesH66tZenSuMj00SK2PgOPcZwUxRVf/iO1E0H3
-	6yMz84uA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uSFsi-00000004SAu-1oOU;
-	Thu, 19 Jun 2025 14:04:44 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id D5ABB3088F2; Thu, 19 Jun 2025 16:04:42 +0200 (CEST)
-Date: Thu, 19 Jun 2025 16:04:42 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Koichi Okuno <fj2767dz@fujitsu.com>, Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
-Message-ID: <20250619140442.GH1613376@noisy.programming.kicks-ass.net>
-References: <20250617102819.3685543-1-fj2767dz@fujitsu.com>
- <20250617102819.3685543-3-fj2767dz@fujitsu.com>
- <20250617103618.GT1613376@noisy.programming.kicks-ass.net>
- <aFQXU5rK_HJE9zq0@J2N7QTR9R3>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LzSBQ1pv"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a528243636so556835f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 07:06:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1750341969; x=1750946769; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TrQEbkPOhkr+wXxKi4QhmQRGh+BqEkZVvBvjASyKlYw=;
+        b=LzSBQ1pvPgzNdC/ZTrW29Q8bKLmiCf5MiOHKd+5V0Lp+MVZHSdyYZh9I37uTNd0q1v
+         PH6Qd1J2dhu/QQVF+xqduoqOqUgmDOw4XYaWAWNPKuPBlXoH0EL7jmhLn8AcQcxaPNU5
+         DGbmXOKQHlD2uFp3wquvtvaN2ml6joJCrUBxszl8pkujNvZ8MurKFbFvPBuEnnMcbQIt
+         y5M41RAIMMIK7SjO0V4IBRwzCY4z5AY0qRaQmofoEnnEvYCdVW2a9DxJDzUkEUF9vc4g
+         2epwphggVRDWkyTKfUpAmKYAfIpllRUy1lnRcH7omAR5kr0VdbP7vNStOtEfNV4gdfU4
+         K9cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750341969; x=1750946769;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TrQEbkPOhkr+wXxKi4QhmQRGh+BqEkZVvBvjASyKlYw=;
+        b=ScM4sKcUcMO93zEXO5gB1zQniBLbst+8J5r7eZ76SZEUqlkUCWxLeV6oCi08H6BANL
+         WxazFCBxTJ7ltWvhIgNfOkN0Qcl6fYjFISQlWKW0WlnchuSO2HajUfBXEqOLP7QJPBFO
+         TOrScB7tdb07y6yrwcRJNEEFf/I2phfV8I2uvZrb74UcdKshEYTBbNKqnzfHzP0uUD04
+         aGUxntp7ye9wdy4bxaffVbfg5zADeKSAp/8YbIGSHckrrLBY4DKGP1nmFYfSXO2Dhbpx
+         TP1v91/VcGgpcIyYiydEYlJjjoXeFuDRPh9dWDdm3xPD54h7hfWwbaQjLhISaiks5BTs
+         oSmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWirZgXxcktbg0/4OqM6Jt4IK58BsOBlH6OiqwG9c674RB/DJzizirCq+ylQk1fXdott/x8etBiWOU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUnCq/YZBZ6S1lV1YYsedvEcEjrNe3CgiNTTJ2Ka9u6FXyvV2x
+	HQuvPDD1Y51mRcag5aM17lWu0FidP3eEedGKr1yQPZwHxf//Ykk+C9XzruhWQgBiVqU=
+X-Gm-Gg: ASbGnct3pYIIOzw0PeGR9kvuuTcUm9tSliOvgeThNpDj4OAKSmGuBzYe/O2sU2YN48Z
+	WCznEUtozXStDdI9ImxyxHZ0VmY1fhS2AURS2TMyYYUABkrkt7dd1A+FoN6lyIWo4zKgK6KjawA
+	LYliFFnwFMlXYcoo2uKdOKfRWR94kFb6oF1AH4e6gLSo/PYwlocy+2iDjwIgdbzwC9HTEkcWYST
+	a2ZWkRZ4fgQnW+LEJ//cdc+fJUa78I+5WvaVNljP3MwHAZJK78GxwMEeD/95wPHuGlViiVvg957
+	CODQmLWiAp73uh8o3KHCyfpFDJZ2Q8ZogI4d9Z5OhVytoUu+aJm1N5CKI0U6tpg/
+X-Google-Smtp-Source: AGHT+IFYZ5Og/LPrj6v29fVm2BOf1qki8zUztiChQu5TWH5+YhTscmSrBeIdsgN0gGcw2f5/E2TFiA==
+X-Received: by 2002:a05:6000:4a03:b0:3a4:fc0a:33ca with SMTP id ffacd0b85a97d-3a572397d6amr15059912f8f.4.1750341968150;
+        Thu, 19 Jun 2025 07:06:08 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4535e9844a9sm30681385e9.12.2025.06.19.07.06.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jun 2025 07:06:07 -0700 (PDT)
+Date: Thu, 19 Jun 2025 16:06:05 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: "Chen, Yu C" <yu.c.chen@intel.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, peterz@infradead.org, 
+	akpm@linux-foundation.org, mingo@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
+	corbet@lwn.net, mgorman@suse.de, mhocko@kernel.org, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, tim.c.chen@intel.com, aubrey.li@intel.com, libo.chen@oracle.com, 
+	kprateek.nayak@amd.com, vineethr@linux.ibm.com, venkat88@linux.ibm.com, ayushjai@amd.com, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, yu.chen.surf@foxmail.com
+Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
+Message-ID: <zcabngubuvvlo7ddqhv734nmponyowtrtuerhcee25yk3cqxsd@gkyioppho5zt>
+References: <cover.1748002400.git.yu.c.chen@intel.com>
+ <7ef90a88602ed536be46eba7152ed0d33bad5790.1748002400.git.yu.c.chen@intel.com>
+ <cx4s4pnw5ymr4bxxmvrkhc457krq46eh6zamlr4ikp7tn3jsno@xzchjlnnawe5>
+ <uuhyie7udxyvbdpccwi7dl5cy26ygkkuxjixpl247u5nqwpcqm@5whxlt5ddswo>
+ <a8314889-f036-49ff-9cda-01367ddccf51@intel.com>
+ <fpa42ohp54ewxxymaclnmiafdlfs7lbddnqhtv7haksdd5jq6z@mb6jxk3pl2m2>
+ <djkzirwswrvhuuloyitnhxcm3sh7ebk6i22tvq2zzm4cb6pl45@t64jvtpl3ys6>
+ <c6bfa201-ed88-47df-9402-ead65d7be475@intel.com>
+ <h4chrmiscs66vwl4icda2emof4pbhqabpkklpql2azc5iujilm@o2ttlcanwztc>
+ <6e52340a-cabf-48db-b9f1-8300c1c13997@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dqfju5slh7y3cmln"
 Content-Disposition: inline
-In-Reply-To: <aFQXU5rK_HJE9zq0@J2N7QTR9R3>
+In-Reply-To: <6e52340a-cabf-48db-b9f1-8300c1c13997@intel.com>
 
-On Thu, Jun 19, 2025 at 02:57:55PM +0100, Mark Rutland wrote:
-> On Tue, Jun 17, 2025 at 12:36:18PM +0200, Peter Zijlstra wrote:
-> > On Tue, Jun 17, 2025 at 07:27:50PM +0900, Koichi Okuno wrote:
-> > > +	pcipmu->pmu = (struct pmu) {
-> > > +		.parent		= dev,
-> > > +		.task_ctx_nr	= perf_invalid_context,
-> > > +
-> > > +		.pmu_enable	= fujitsu_pci__pmu_enable,
-> > > +		.pmu_disable	= fujitsu_pci__pmu_disable,
-> > > +		.event_init	= fujitsu_pci__event_init,
-> > > +		.add		= fujitsu_pci__event_add,
-> > > +		.del		= fujitsu_pci__event_del,
-> > > +		.start		= fujitsu_pci__event_start,
-> > > +		.stop		= fujitsu_pci__event_stop,
-> > > +		.read		= fujitsu_pci__event_read,
-> > > +
-> > > +		.attr_groups	= fujitsu_pci_pmu_attr_grps,
-> > > +		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
-> > 
-> > Should these drivers not also have PERF_PMU_CAP_NO_INTERRUPT ? Per them
-> > being uncore they cannot generate samples.
-> 
-> These PMUs actually have an interrupt, so that might be a bit confusing.
-> That said, the counters seem to be 64-bit, so the interrupt doesn't seem
-> practically necessary today.
 
-Yeah, I saw they had an interrupt. But them being uncore they must not
-sample, and NO_INTERRUPT means not being able to sample.
+--dqfju5slh7y3cmln
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v5 2/2] sched/numa: add statistics of numa balance task
+MIME-Version: 1.0
 
-Naming urgh :-)
+On Thu, Jun 19, 2025 at 09:03:55PM +0800, "Chen, Yu C" <yu.c.chen@intel.com> wrote:
+> OK. Since this change has already been addressed in upstream kernel,
 
-> Either way, the fujitsu_pci__event_init() function rejects sampling
-> events, so it correctly rejects sampling events.
-> 
-> IMO, it'd be a bit nicer to do the inverse, and have the perf core
-> reject sampling events by default for non-CPU PMUs.
+Oh, I missed that. (Otherwise I wouldn't have bothered responding
+anymore in this case.)
 
-Yeah, there's lots of cleanup to be done. Quite possibly also some
-unification between the various drivers.
+> I can update the numa_task_migrated/numa_task_swapped fields in
+> Documentation/admin-guide/cgroup-v2.rst to mention that, these
+> activities are not memory related but put here because they are
+> closer to numa balance's page statistics.
+> Or do you want me to submit a patch to move the items from
+> memory.stat to cpu.stat?
 
-Just need someone that knows what they're doing that has spare time,
-know anybody like that? :-)
+I leave it up to you. (It's become sunk cost for me.)
+
+Michal
+
+--dqfju5slh7y3cmln
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaFQZSwAKCRB+PQLnlNv4
+CM3dAQCuYFm+JCgZpwkdQr6jIGP6Ax9dcl0VPZZyVPb3AipPYAEA7ouwjVSo7HYj
+QQfbWU/k3DuXFPBdpkExqgZHN55LaQ8=
+=gz+O
+-----END PGP SIGNATURE-----
+
+--dqfju5slh7y3cmln--
