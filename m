@@ -1,128 +1,102 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8230230BF2
-	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 12:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE03121FF33;
+	Thu, 19 Jun 2025 12:19:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750335332; cv=none; b=aHV3h2liWtcOyEWo42ItT342b2kIIUlyqvBt3x0WnIPPfcdOhbTkQThOmHsw/zillUXGsdAjIlLaFhFzzP0PN9v5PoL8EThPDJkCH/PZ8Qjg7ceaOSVZVAESO5COX307wmzjWdFa7T7pcyru/UGanKaZ6zZkt1uWbvF6+lbes+c=
+	t=1750335600; cv=none; b=Tu4dg0lXznfYz2iYR6VbfFZRCrK9HbnT5iyzhbtbJozJWqwteKqy/1fdyYSh5hRQcQJ1TgZwdnk/B4b0YXwPZT9TZyrJS3KNmvay4WZQiPH6mw7PAwZZ7w2BJZP6KCnMiWsUxxAy9w0WbriZYrNR0zWEq65hh9iqtt2fO/djR2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750335332; c=relaxed/simple;
-	bh=1ravPs/FMxL5LuoHuJXK+mU1twHGVx7Ojyt5HQnO1BM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CUFprJtoSvNYS7pXO+0CcHjnI/0ptoyjoK4JyqSz7jTlWNiA2QS4sSAz5DYORz4y/tJbxBKxSaCvhiTRHsVXX8/f7w30LMeKkdE0hZR59+nVJq5Y1N5h96rsWW4rVfNoEV1T3Lw6hct3g+7GK5QcGUeVM0MCjKWQ3BBu5nyocQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hX2FayJz; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1750335600; c=relaxed/simple;
+	bh=XquW5ZV6oc/hCki+AgbKZYygFXjNvaYEnNIQqvtyoYk=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=I1nRXQCHzvUur4OUdVX/5cYhdhf/giMYJHyJsSusAvrQyhcXA3FdieUDA0ShCpahra4sUrhM47Q5/NHChBly01knbpVjkv7t1xabhq2Y1ppm3PXak+1dLPHsKQNbuZtY0Q8URa/HiNdu4kgHwfTfnk2bukyu0JRu4Up7RIEmX2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=leQTnC7G; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hX2FayJz"
-Message-ID: <ba027737-39df-4541-8fea-1c4cf489b43b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1750335318;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a5tu14SfjOQv5TBx7EfkgfUxq/XAyStwsImnQzyxPqY=;
-	b=hX2FayJz88BPRw7Yx23sBwK2HlaMWc7WrD5xufoIQxieXk3feCCpo6V78k6uSLItgcFPsE
-	x1fCvcVembCR3QIZ/KPkzlmeNaDJQPeBdsqKboeVHFTrRzyFjEidyBPm5dV0OqdzEGubZP
-	xApztwwVir8jr/6tE6Fqgyv28YHcjz0=
-Date: Thu, 19 Jun 2025 13:15:06 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="leQTnC7G"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a54700a463so424749f8f.1;
+        Thu, 19 Jun 2025 05:19:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750335597; x=1750940397; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uQfUHBUgL4FYDXO1aQtp+eVF7jpagDZr1s2Tf1cBE7o=;
+        b=leQTnC7Gk6AuvxIxHedMbuGZB4dlQjMmsJ5+KvFFZ0nluhEJxxCtQck26vI+XY3lt4
+         rHUdZj/EG66Z/xyJnnAoFn+D3WyKKKhlN33Rqy7N+5eHQNdFpBg7WnMe1MHw/XQIIQRr
+         REeJLnUzfwnQtXfMaR2WNAoK0mgiMqo6zHKtTFrzPrZRpxKfZn8tpmRE7Rl7s0Hsr8iR
+         v731wJ/qLTHZ6wexqh+ry2Gnf6msdm6dAvnn8Ag128T6V9v1mwk4SIlZNHiBAtwynGWc
+         E7wGX+y4LbvrhdnlqyHRtM63+3jPyDsN7kvRfiprHdI/PmdyvAS5hW/Po5j0pVYibOuV
+         fruA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750335597; x=1750940397;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uQfUHBUgL4FYDXO1aQtp+eVF7jpagDZr1s2Tf1cBE7o=;
+        b=o2p8Ni9OeLdLr0WlfrTSnwBbzsbyMeErR/PRfRiPwtQIN1sBwy9+Z9IBIHBUi0+/Mf
+         1//CCE2cmy9y6ErTLuWo3XbQQomO9vtMhMfXf08ZoYVrViBn5DbChEvoQDQKqhJReL4S
+         Xcr4iuqGEYTHtCXu9PRoXKThEfHVAYFkV2K6nL0kKdGJvmPZiTIEFsY21RgudTtpitNT
+         0fTkZT1rotLkWClKPQx8Pr49w/0MhmKzqk7K3rkbXKQ6Np2234rXbiawKb1CsrkQQkhh
+         csfm7gR4gwz01MU0CVe/qPKwum5+T7WsqLV/UEIdlVYZSSTAn2wmJbJ3N64wnVIyDu8F
+         IKNw==
+X-Forwarded-Encrypted: i=1; AJvYcCWnbxRAuaUy+4gDNAajN65r+2G/425f8kA9obsmNWR0Ovv47SiY9YCNkQF22wMdKwjKicSCUF+hltQZgcY=@vger.kernel.org, AJvYcCX7i/mtecdhSiB5XaNsHNwJcgJ1G8hsgky+LpdTKGqYegZKNvadEnnIXQbaPKwDDe81hB9dvyRu@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWRUDiEvKk1ZifL/rD1Q6graGWuefJti7/otxx8upEDVtgFK/J
+	RD3siwZnlECUh246qn9mHuSWIptcbMlDJXPQO400HXhvaiDzpLU9uke7
+X-Gm-Gg: ASbGncur7cGM912Lg/hi7CKjLGAG7c7rbHPLa23AIuW5betu0zt8feCtWpj25RdHTur
+	9opWcwzFGTaunv4PtEVnlB/18CTNAcWrk3bu53HIxxZH1IzWvcC5Prr3magP43wgOGWjR2+xAJ7
+	NKPa8JwlOwxXD0OO0POBjFnAG0HHxF8EvGTMIhZZL1oy/RodT8BGvrCHFUqF+68yv1xQUQt91NH
+	+7VXGyi0s5f6wWe3QzzWnl4KZx7sSfykKqFmOzSJkgei/OgCJOwSOuCoJZe8oL0WhDFWIc82uem
+	OlQqKqDJOaQfdgOfHpVVCukjJ6xq76izMe1EAGENIIZiZv+WKcr8MtUtlpNHpZcYGAiiEi1J
+X-Google-Smtp-Source: AGHT+IFMDYQMfyO8NuzqQxoOHc8RZSPZIdd81fqB1a+VABhpS0urt+/BDcKR/TSjd1tmz0JMUrX5ag==
+X-Received: by 2002:a05:6000:22c1:b0:3a4:f7dd:6fad with SMTP id ffacd0b85a97d-3a6c96bde70mr3293996f8f.14.1750335597039;
+        Thu, 19 Jun 2025 05:19:57 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:ad83:585e:86eb:3f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b5c372sm18955330f8f.89.2025.06.19.05.19.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jun 2025 05:19:56 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,  Jonathan Corbet
+ <corbet@lwn.net>,  linux-kernel@vger.kernel.org,  Akira Yokosawa
+ <akiyks@gmail.com>,  "David S. Miller" <davem@davemloft.net>,  Ignacio
+ Encinas Rubio <ignacio@iencinas.com>,  Marco Elver <elver@google.com>,
+  Shuah Khan <skhan@linuxfoundation.org>,  Eric Dumazet
+ <edumazet@google.com>,  Jan Stancek <jstancek@redhat.com>,  Paolo Abeni
+ <pabeni@redhat.com>,  Ruben Wauters <rubenru09@aol.com>,
+  joel@joelfernandes.org,  linux-kernel-mentees@lists.linux.dev,
+  lkmm@lists.linux.dev,  netdev@vger.kernel.org,  peterz@infradead.org,
+  stern@rowland.harvard.edu,  Breno Leitao <leitao@debian.org>,  Randy
+ Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v7 00/17] Don't generate netlink .rst files inside
+ $(srctree)
+In-Reply-To: <cover.1750315578.git.mchehab+huawei@kernel.org>
+Date: Thu, 19 Jun 2025 09:29:19 +0100
+Message-ID: <m2y0tof82o.fsf@gmail.com>
+References: <cover.1750315578.git.mchehab+huawei@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next v11 13/14] dpll: zl3073x: Add support to get/set
- frequency on input pins
-To: Paolo Abeni <pabeni@redhat.com>, Ivan Vecera <ivecera@redhat.com>,
- netdev@vger.kernel.org
-Cc: Prathosh Satish <Prathosh.Satish@microchip.com>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Jason Gunthorpe <jgg@ziepe.ca>, Shannon Nelson <shannon.nelson@amd.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
-References: <20250616201404.1412341-1-ivecera@redhat.com>
- <20250616201404.1412341-14-ivecera@redhat.com>
- <72bab3b2-bdd6-43f6-9243-55009f9c1071@redhat.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <72bab3b2-bdd6-43f6-9243-55009f9c1071@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-On 19/06/2025 12:15, Paolo Abeni wrote:
-> On 6/16/25 10:14 PM, Ivan Vecera wrote:
->> +/**
->> + * zl3073x_dpll_input_ref_frequency_get - get input reference frequency
->> + * @zldpll: pointer to zl3073x_dpll
->> + * @ref_id: reference id
->> + * @frequency: pointer to variable to store frequency
->> + *
->> + * Reads frequency of given input reference.
->> + *
->> + * Return: 0 on success, <0 on error
->> + */
->> +static int
->> +zl3073x_dpll_input_ref_frequency_get(struct zl3073x_dpll *zldpll, u8 ref_id,
->> +				     u32 *frequency)
->> +{
->> +	struct zl3073x_dev *zldev = zldpll->dev;
->> +	u16 base, mult, num, denom;
->> +	int rc;
->> +
->> +	guard(mutex)(&zldev->multiop_lock);
->> +
->> +	/* Read reference configuration */
->> +	rc = zl3073x_mb_op(zldev, ZL_REG_REF_MB_SEM, ZL_REF_MB_SEM_RD,
->> +			   ZL_REG_REF_MB_MASK, BIT(ref_id));
->> +	if (rc)
->> +		return rc;
->> +
->> +	/* Read registers to compute resulting frequency */
->> +	rc = zl3073x_read_u16(zldev, ZL_REG_REF_FREQ_BASE, &base);
->> +	if (rc)
->> +		return rc;
->> +	rc = zl3073x_read_u16(zldev, ZL_REG_REF_FREQ_MULT, &mult);
->> +	if (rc)
->> +		return rc;
->> +	rc = zl3073x_read_u16(zldev, ZL_REG_REF_RATIO_M, &num);
->> +	if (rc)
->> +		return rc;
->> +	rc = zl3073x_read_u16(zldev, ZL_REG_REF_RATIO_N, &denom);
->> +	if (rc)
->> +		return rc;
->> +
->> +	/* Sanity check that HW has not returned zero denominator */
->> +	if (!denom) {
->> +		dev_err(zldev->dev,
->> +			"Zero divisor for ref %u frequency got from device\n",
->> +			ref_id);
->> +		return -EINVAL;
->> +	}
->> +
->> +	/* Compute the frequency */
->> +	*frequency = base * mult * num / denom;
-> 
-> As base, mult, num and denom are u16, the above looks like integer
-> overflow prone.
-> 
-> I think you should explicitly cast to u64, and possibly use a u64 frequency.
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>
+> v7:
 
-I might be a good idea to use mul_u64_u32_div together with mul_u32_u32?
-These macroses will take care of overflow on 32bit platforms as well.
+ETOOFAST
 
-> 
-> /P
-> 
+https://docs.kernel.org/process/maintainer-netdev.html#resending-after-review
 
+I didn't complete reviewing v6 yet :(
+
+> - Added a patch to cleanup conf.py and address coding style issues;
+> - Added a docutils version check logic to detect known issues when
+>   building the docs with too old or too new docutils version.  The
+>   actuall min/max vesion depends on Sphinx version.
+
+It seems to me that patches 15-17 belong in a different series.
