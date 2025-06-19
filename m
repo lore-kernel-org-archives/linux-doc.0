@@ -1,102 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CA4246BBB;
-	Thu, 19 Jun 2025 19:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5762248AA
+	for <linux-doc@vger.kernel.org>; Thu, 19 Jun 2025 19:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750360762; cv=none; b=U/qT9li04/oOrryDXTfcaSCZaLow0VDzlM5FWOqSlzi9ocYHBg09cR4lsIgKL161aO2wVY7t6Tf9FTbjlZc6P+h4R5N1RYSthpeC4jYvIiA2nZvIVj+9F0GWPpFn+Yij7JDyo0KMpvft3JKgNNQkDvXWmRAMr11a5s2rmXcFLvo=
+	t=1750362708; cv=none; b=XOiOx3TDdEE3/GHPdn90ATBXyMytQWS3zidEEEkhrCiAdqtemaVuXpDrkuelbZy1qT2Ps4IgIyHsMmDN8a4Cbay5nJN1AaINhmtypjByB0YEzfB/dSK46q8mawR5R55HjFgJ/aKBU3+PpgdMP/Tr01KMXwb2JIWePVFJEpBtfGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750360762; c=relaxed/simple;
-	bh=LDMXTkVlQDnupG+UBA2IQttq9RHsgsS5cAxbc+ksyEU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jq36VpartB0eTcKqveMqitTB9YAukzqcftr8vV3t0x4F8+DWABWLZLf8wRnQzLQG31O0y5mtN4NFpjYkISyko6yzra32Vt4caa0BbAw4+t8N/9Jpnb2oTkCTPPwgunUywf4FpstGzp68Ec9e+VUzJ+VtBeAtW7p7dx5pDDFdd+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MET21Rqy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750362708; c=relaxed/simple;
+	bh=m+IS52kyLR92meFMSc55i6NzxbfxCW0kDeKpWYzBkLA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CfNGDqd4LVenPs8EYublpNbBevSv6WdfrBwGbvE9r3O0DpIhFlfC72AZori2QOs591dJ+YfxOc2DoDdcmbJbvYbntZP7YYdXBNHIOikuoi8blhc5VOiWaHiEiqeXJkS9E731K7boPXhUz/enNKKGfA+k4Qy8Rv3OdumnJqGbP2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=shQsfOY5; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MET21Rqy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93C78C4CEEA;
-	Thu, 19 Jun 2025 19:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750360761;
-	bh=LDMXTkVlQDnupG+UBA2IQttq9RHsgsS5cAxbc+ksyEU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MET21RqyYxksarZ9F9PT2gpDE69XYycjW9Ai26NHx2xjofzlYsdIJWBnPSUsTIte4
-	 KZ3qAg55yExnPpei/HOwZr9eWGR3RMsqHe5AZW+ea9bUyWsR+6Fmi8WVK0S4xyo5u4
-	 plOfsrR8zwhfbWtehabdm98sa2xjzxvc86txr5T1uB4tK3BTw8D/8RPsef806/+NvX
-	 WEOvkzpul7y/KcV3kqsYz9qvmEIUdNHCqfHWeFmFjpfU9DNPiJGuRKEm6SUdvDQrRF
-	 7yzXNJUDN+hPRxQOueAaVy47CEI6gnIdiUa2u949Plx0G64msh3cJhRWVEzdCFC0re
-	 qWiaJNBXPpIwQ==
-Date: Thu, 19 Jun 2025 12:19:20 -0700
-From: Saeed Mahameed <saeed@kernel.org>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>, saeedm@nvidia.com, gal@nvidia.com,
-	leonro@nvidia.com, tariqt@nvidia.com,
-	Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 0/5] net/mlx5e: Add support for PCIe congestion
- events
-Message-ID: <aFRiuIPidlx7Qsy9@x130>
-References: <20250619113721.60201-1-mbloch@nvidia.com>
- <20250619075543.1d31f937@kernel.org>
- <d9bcc48d-17a2-4d12-bacd-6bef296b45c6@nvidia.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="shQsfOY5"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CCEDB41AD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1750362706; bh=EX5ea/huQRHSAu4M5JjXieZ/TdJW2jjEvrEQutLyR3o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=shQsfOY5kqQ2Q9FcN6ATLObYGv8ixYm+2TqcMLH0vkgX44307a5zG3HqwYifgLsch
+	 iVAD62ChSO7bz2pRab0zEJ2hZhg+2O7BHsKLfmJd48mTpI49LQTUenyg8oVzNUqvuo
+	 XS3vaZriCIv4u09XVXytEAkCgf2CM/GVFJXk1Ybm/G3h8K0sOATDGNFLy+VF7x20+o
+	 3iOVBNb46dtQ2ijhy+sSCr4kg8TsDPGNibGN/jyKsvI0AcpXT/beALu58wgdZeIEyw
+	 QVviM8BaS+RAuAJtn+3TgTdWfFVeumSq3JvsNBH9r27QGoJDaGQOY0hGm4vuit+yBN
+	 GGscyGxqj8M8Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CCEDB41AD8;
+	Thu, 19 Jun 2025 19:51:45 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Akira Yokosawa
+ <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: Error at www.kernel.org/doc/html/next/ since next-20250610
+In-Reply-To: <20250617-translucent-crouching-poodle-a826e2@lemur>
+References: <de7bae91-3200-481f-9db2-c0dc382c91dd@gmail.com>
+ <20250617-translucent-crouching-poodle-a826e2@lemur>
+Date: Thu, 19 Jun 2025 13:51:45 -0600
+Message-ID: <87frfvh5m6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d9bcc48d-17a2-4d12-bacd-6bef296b45c6@nvidia.com>
+Content-Type: text/plain
 
-On 19 Jun 19:00, Mark Bloch wrote:
->
->
->On 19/06/2025 17:55, Jakub Kicinski wrote:
->> On Thu, 19 Jun 2025 14:37:16 +0300 Mark Bloch wrote:
->>> PCIe congestion events are events generated by the firmware when the
->>> device side has sustained PCIe inbound or outbound traffic above
->>> certain thresholds. The high and low threshold are hysteresis thresholds
->>> to prevent flapping: once the high threshold has been reached, a low
->>> threshold event will be triggered only after the bandwidth usage went
->>> below the low threshold.
->>
->> What are we supposed to do with a series half of which is tagged for
->> one tree and half for another? If you want for some of the patches to
->> go via the shared tree - you have to post them separately.
->> Ideally you'd post them to the list in a combined "pull request +
->> patches" format (see for example how Marc posts CAN patches, or Pablo
->> posts netfilter). Once we pull that you can sent the net-next stuff
->> separately as patches.
->
->Miscommunication about the proper process, thanks for the explanation.
->PR + patches seems cleaner and provides more context,
->so I’ll go with that.
->
->>
->> I feel like I just had the same exact conversation with Tariq recently.
->> Really not great when same process explainer has to be given to
->> multiple people from the same company :( I'd like to remind y'all that
->> reading the mailing list is not optional:
->
->I do follow the mailing list and double checked what should be done in
->this scenario. In the end it's my responsibility so it's my fault.
->
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
 
-I think what Mark did here is fine, Yes I understand this is not
-applicable to net-next yet, but the point is review and we can do the
-following, when review is done:
+> On Mon, Jun 16, 2025 at 08:18:22PM +0900, Akira Yokosawa wrote:
+>> I'm not sure but there might have been some minor incompatibility
+>> between past versions of dependencies.
+>> 
+>> I'd rather upgrade Sphinx to 8.2.3 (latest).
+>> 
+>> Konstantin, could you try it?
+>
+> Looks like 8.2.3 requires python-3.11, which I don't have readily
+> available on the system that builds the documentation. However,
+> upgrading to 7.4 also fixed the problem, so the latest next tree is
+> now built and should be propagating shortly.
 
-I can Apply the mlx5-next portion to mlx5-next and Mark on V2 can send the
-net-next stuff + A PR request to the mlx5-next branch, this is how we used
-to do it all the time, but this time review happens all at once for both
-trees.
+[Catching up after some much-needed time in the wilderness...]
 
-Jakub is this acceptable ? 
+Konstantin, is there any easy way to get a notification when the build
+there fails?  I was entirely unaware of the problem, needless to say.
 
+Once I've dug out a little further, I'll try to figure out why my change
+makes things explode.  It really shouldn't...so it should be possible to
+find a way to work around the problem and avoid putting in version
+requirements (and tests) that we haven't needed so far.
+
+Thanks,
+
+jon
