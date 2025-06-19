@@ -1,116 +1,122 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5011124E019;
-	Thu, 19 Jun 2025 12:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C7522E402;
+	Thu, 19 Jun 2025 12:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750335609; cv=none; b=H10zo9oZxMxDOHGf2gMFu7elSGGn3lU9tTFNU+8tKF5RV+oBnO/TX3N350LnOuZoFLuQaXvyvxbD9JADSkloCmgvZA7PQRdxSu2thdS1eKD8bvr7wlEymqG/ZBxjXDbFfTS9ZlyNRhXOSL+wwbsVV+3ojAFkxEKoERJ114zyOco=
+	t=1750336228; cv=none; b=n/p6zeGObzb2kRkHnkZdui0vjSl774ktkIq/Ozdv/g02dw2IGDz1qMB8sY/BMbSN0AqcV+gMd3HKs51KhVBbUZOSOfTGrWRWsZ2WRmFx9B1KApPEj3aP+rgDmnYMb62imlgzOVqTd5ej/1RCYDUVCGg4HP+ffXCiE5tOfoVwzPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750335609; c=relaxed/simple;
-	bh=mhfIBh/bFaJ/GFxVs2Ar3YirycGFXc5ADMl6GKVDQYk=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=V61fFlNcHSln090RK2zM7lHSxpF1lke5D5dRaduIQ9o4+zYUaOzwdKCyhlUHjRtaFOJMZh4KwvoCY0cyuLSJgo1SPLsg+YqI3UWrvcvXtEP8LxrpGU7D8w59FQRXLIcuwdgJfYYBaKn0SRYhq4pNncEeABBTA6NoWHxeEq5Ryqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iSDAlQcx; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750336228; c=relaxed/simple;
+	bh=Ww2BBz1HgkQfNGABCdYcAVENvhjoK9QiQSPMdEmdNPs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OQ0Nd5b6qRxbb0Pt0h7XOORv9vJUsN+kMwLj73+Ga7OLWYt+0NBIu8X0jyY4NREqI4bBkwdYCu9iLe6joSlnviS/y5R4EzNiPJU57pQGIlu3kYPav9r71POkHMloewmgzsjBiJbMPqWb7Wtw2L4o1DqOSVTW09kl2RzC0z/I1Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHYdw3a/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iSDAlQcx"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a4f379662cso679886f8f.0;
-        Thu, 19 Jun 2025 05:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750335605; x=1750940405; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nygRZhXsxMlH28nxkhtm4NH4pDec5lLwDc7T4mx9LAQ=;
-        b=iSDAlQcxa16kTKZdEF4DD0RlM1MZXzGc9XhkM1SmNxhlRxx1WRrm8z4D8wysImR11b
-         LIHuqfP38LySZp0K7bRzRXRNT4A5cLeQH8gUY0XQd8Ci61CTEIcL0zaLhG3pQ/nZ+MyY
-         HxPaU7/XChTTZ8nmyWFURpTzfVl/xSAsqwPH1ukMy+AGwjoG/Sbgw9CUKfslftN04H1i
-         81vN6ztCDL2P3e4rNFuK8YRGDk/FXfvSEJEHCuco8NSknNvc+RaDkVUAdxG76gd3xbh3
-         YeJ3I4+nuBg/GdzV9yQ6m/vls154rbmPAwAzs18eOAp19IbvchYGzV2AyUTZCd5meu5j
-         Bx7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750335605; x=1750940405;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nygRZhXsxMlH28nxkhtm4NH4pDec5lLwDc7T4mx9LAQ=;
-        b=K7MQCuJDs05UPDp+Hayx4nJyHfPf0Wfspsb0ZDmY7DvimTaj8jGK/ZLvSP5JMWRU7q
-         GmHjDvu7NDxII6eP9UzqDGkEt8aSse5S1yU4WkAb92kWhMBKpauKqO8uZ3AnUTEY/+Go
-         Gx/QtqtdBHohTJ13wEuIU/FVyGptyDS6nA9CSo4lqoOss09wdDMEzG2IKSZiq+duLJ1f
-         1DIEHkS9Cw7sKnQZrmf1ryLu8nAPzgtvQtybdZh4PDk7p3g6BwrKVn+BzjRuYOAFNQOL
-         fkI/+s8l10WN3k32vPHORKv1aBpEvxThM2JT3Sehxxa5rLu14f2EXIEOIs6sWKLdFbH5
-         iwag==
-X-Forwarded-Encrypted: i=1; AJvYcCU1jYyZLXFy6el+M+gL/q+wWUF35iN/XtpaYnL+9LGnBv3BwtWnKLL5Cm+sfpiXThrJucPOAusAxcZMf9g=@vger.kernel.org, AJvYcCVrpV/XqTQ6Ndq6hEYzdC4cIkOf3lcuY/X2+89cp15R9p+n70PD7gCArCi4LIUur2bJUzwMWFrL@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJqSsQ6rgDqA50F4PYEc4MXeWeIPVXPHHbwJrQnEgBG2DkJUt8
-	CU0TQMdFSai8bHL2S9OkzlYq2MHt3wklaa5KvyQ8m8PmohuZiEu35mxw
-X-Gm-Gg: ASbGncs16yM+S+Vdx6XHc07SCDwiCNTi02YCufs5oasJ0SBhC0I3CMKAPL+4LW99hRR
-	p2p1uSupSlMlF7KHFM/GkHu9M0k8EIGvn2DlG1pYO9yzwxI+G+R0c5nBf2ZB4jTLG4mgaCxdInp
-	+Ei9EWsSQ1hsr9nN36pQUZxk973T3yNBpPLgg6LBvelbptx/n4tubEqh9tRxoqwaXVwWdv5SZcj
-	9M3nVFYi1f6AjC9T7AGm+dSA05p7cSDMGX78NP7VY+YkleTqNF5etAbuV7woVcaYa3SxhtdrHP8
-	YPb1x8J/iA5HmfHRORoPLvbFuLF1GB4vsiMDdzpNR+rI1teKWdRvlKRlbUFmdzSdeNDF1Uv5
-X-Google-Smtp-Source: AGHT+IGe/eW8uV97j+Ytu4ZG/Iy5t6+Hp3owg5exZAVJPvvkIYpSPp5SobusIEtfHV7zrOM0RAnADw==
-X-Received: by 2002:a05:6000:40df:b0:3a4:eb92:39b6 with SMTP id ffacd0b85a97d-3a572e58768mr15357688f8f.54.1750335605284;
-        Thu, 19 Jun 2025 05:20:05 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:ad83:585e:86eb:3f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a589092d1asm7161585f8f.24.2025.06.19.05.20.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 05:20:04 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,  Jonathan Corbet
- <corbet@lwn.net>,  "Akira Yokosawa" <akiyks@gmail.com>,  "Breno Leitao"
- <leitao@debian.org>,  "David S. Miller" <davem@davemloft.net>,  "Eric
- Dumazet" <edumazet@google.com>,  "Ignacio Encinas Rubio"
- <ignacio@iencinas.com>,  "Jan Stancek" <jstancek@redhat.com>,  "Marco
- Elver" <elver@google.com>,  "Paolo Abeni" <pabeni@redhat.com>,  "Ruben
- Wauters" <rubenru09@aol.com>,  "Shuah Khan" <skhan@linuxfoundation.org>,
-  joel@joelfernandes.org,  linux-kernel-mentees@lists.linux.dev,
-  linux-kernel@vger.kernel.org,  lkmm@lists.linux.dev,
-  netdev@vger.kernel.org,  peterz@infradead.org,  stern@rowland.harvard.edu
-Subject: Re: [PATCH v7 12/17] MAINTAINERS: add netlink_yml_parser.py to
- linux-doc
-In-Reply-To: <4077605f84d7ba6423dcb5fda4e96ac950856f1d.1750315578.git.mchehab+huawei@kernel.org>
-Date: Thu, 19 Jun 2025 13:10:38 +0100
-Message-ID: <m2cyb0extt.fsf@gmail.com>
-References: <cover.1750315578.git.mchehab+huawei@kernel.org>
-	<4077605f84d7ba6423dcb5fda4e96ac950856f1d.1750315578.git.mchehab+huawei@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHYdw3a/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4AA4C4CEEA;
+	Thu, 19 Jun 2025 12:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750336228;
+	bh=Ww2BBz1HgkQfNGABCdYcAVENvhjoK9QiQSPMdEmdNPs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tHYdw3a/vmx4E7MTGvfkhzPZbCXCyhtdJOxdE1bsjt+dZy9eA6IOWE2vIvTa5idJG
+	 sj982uj8NGfv7X3q5h8ubEvKQheRw7ut3lLOYLtV+D1GSquW9xqXhc+IOb7lOC7Wl8
+	 JR6oeFgiouVmn4ZAcbOUoomWC3ZkAPAw3da5yedtMujWBqSlAB8+qLUMu9SnRc1f4H
+	 SjRYXbuDg5ymUCvtoj/xouZq8X81xJckC4iHfv0OYxtdXoFfkKGVqv7w5H8KmmrdYT
+	 oCMC5xlF7YaSleQrMZzSTVREpqaTEDccRjIHx+dkJwHq9f+fLabH10QBHgLHFRbnin
+	 RHxKmM8/D0aXw==
+Message-ID: <ebd9489d-2783-468a-ad07-e7d1c04fb165@kernel.org>
+Date: Thu, 19 Jun 2025 14:30:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
+To: Lee Jones <lee@kernel.org>, Armin Wolf <W_Armin@gmx.de>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, ilpo.jarvinen@linux.intel.com,
+ hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
+ ggo@tuxedocomputers.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-leds@vger.kernel.org
+References: <20250615175957.9781-1-W_Armin@gmx.de>
+ <20250615175957.9781-3-W_Armin@gmx.de>
+ <41de4cd4-2a27-4b14-a1c0-e336a3cec317@tuxedocomputers.com>
+ <d645ba09-1820-4473-96bb-8550ed0b0a26@gmx.de>
+ <20250619094757.GB587864@google.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250619094757.GB587864@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Hi Lee,
 
-> The documentation build depends on the parsing code
-> at ynl_gen_rst.py. Ensure that changes to it will be c/c
-> to linux-doc ML and maintainers by adding an entry for
-> it. This way, if a change there would affect the build,
-> or the minimal version required for Python, doc developers
-> may know in advance.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Reviewed-by: Breno Leitao <leitao@debian.org>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a92290fffa16..caa3425e5755 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7202,6 +7202,7 @@ F:	scripts/get_abi.py
->  F:	scripts/kernel-doc*
->  F:	scripts/lib/abi/*
->  F:	scripts/lib/kdoc/*
-> +F:	tools/net/ynl/pyynl/netlink_yml_parser.py
+On 19-Jun-25 11:47 AM, Lee Jones wrote:
+> On Tue, 17 Jun 2025, Armin Wolf wrote:
+> 
+>> Am 16.06.25 um 14:46 schrieb Werner Sembach:
+>>
+>>> Hi, small additon
+>>>
+>>> Am 15.06.25 um 19:59 schrieb Armin Wolf:
+>>>> +        functionality.
+>>>> +
+>>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/rainbow_animation
+>>>> +Date:        Juni 2025
+>>>> +KernelVersion:    6.17
+>>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
+>>>> +Description:
+>>>> +        Forces the integrated lightbar to display a rainbow
+>>>> animation when the machine
+>>>> +        is not suspended. Writing "enable"/"disable" into this file
+>>>> enables/disables
+>>>> +        this functionality.
+>>>> +
+>>>> +        Reading this file returns the current status of the rainbow
+>>>> animation functionality.
+>>>> +
+>>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
+>>>> +Date:        Juni 2025
+>>>> +KernelVersion:    6.17
+>>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
+>>>> +Description:
+>>>> +        Causes the integrated lightbar to display a breathing
+>>>> animation when the machine
+>>>> +        has been suspended and is running on AC power. Writing
+>>>> "enable"/"disable" into
+>>>> +        this file enables/disables this functionality.
+>>>> +
+>>>> +        Reading this file returns the current status of the
+>>>> breathing animation
+>>>> +        functionality.
+>>>
+>>> maybe this would be better under the /sys/class/leds/*/ tree if possible
+>>
+>> I CCed the LED mailing list so that they can give us advice on which location is the preferred one for new drivers.
+> 
+> No need to involve the LED subsystem for a hardware function controlled
+> by a single register value just because the interface involves an LED.
 
-Wrong path now, right?
+Lee, the question here is where put the sysfs attribute to put the lightbar
+in breathing mode e.g. which of these 2 should be used?  :
 
->  F:	scripts/sphinx-pre-install
->  X:	Documentation/ABI/
->  X:	Documentation/admin-guide/media/
+1. /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
+2. /sys/class/leds/uniwill-lightbar/breathing_in_suspend
+
+I think this is a fair question and since 2. involves the LED class userspace
+API I also think that asking for the LED maintainers input is reasonable.
+
+FWIW I'm not sure myself. 2. is the more logical place / path. But 2. adds
+a custom sysfs attr the LED class device. Whereas 1. adds a custom sysfs attr
+in a place where these are more or less expected.
+
+Regards,
+
+Hans
+
+
+
