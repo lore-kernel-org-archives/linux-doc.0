@@ -1,89 +1,142 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BAE30E82B;
-	Thu, 19 Jun 2025 19:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DCF30E820;
+	Thu, 19 Jun 2025 20:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750363013; cv=none; b=EJQg+ADa+/FF6QA8/gpgytNzr2AErMZL2qJBVvDiTqvXQL6yyGxhB3OB9BGFNCtdgqeMEZGu/Fd88QEavD6pIZeHddgcPwd5r8l//DpTjVKwmN1W5iiZh6gkTFGM4GAToBlPXfa0sqaseIw0noVcirLy1Yc03OAPNw1lN1wUc2k=
+	t=1750363429; cv=none; b=oKISWJdcbslrV46gq2YnWF22bp5UxVopeCmOR/uXAPUwRoWC0vBFNWFAkwhXuLeoe3CDi1eoc8oVX8H/XPivs2qQsFDpOazhhSjligVn0xm77CvtmiTnxNBCt/eS2u6O7xUkf8FHQqliRk94GwI8o+M+LTVAgEfYh3U4W1Z0I6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750363013; c=relaxed/simple;
-	bh=kc9yZUhhl+wZhmO8Wk+15fLRMuYCkRGwR4DU0HxHKsE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Unyaz5NxTcaceptlrBLyNr3LjsaHWPB25DqDrWKnkYsbI5gfAfiFTruKQc2YwnnoSRh3miBe89SxZxRwutR0VozUSUaN9f/p2KzXzmX82icWWd18eah1rWEtnwr+W1rlyvHQq5pTJJULQHfN9js/3Eod0+BjFflB0kIKJVUptmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=QXXkUgyT; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1750363429; c=relaxed/simple;
+	bh=fk3fmHlAtMJ5XqQyz6sbrUWHSI6GW95mIPRC7IjMxio=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O0BrWPPGI5d3+uzcdNEiktA4hTugcbFgeTdss4G7A5vH5ox8HVZhh4SEwdcpLmoot/zZ3FWPS9XBe2pqat1flZTloRQNkeN/VsOFTf9pkF17AzhWL3WwSaDyeIx9kTYPsTEEMq/HbnMtYE1Cven0kLlQGG9YpyrCC6HyAdOTpsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kgBxXsXx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="QXXkUgyT"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2AAD141AD8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1750363009; bh=pPgeY/Gg+qoV5kCFkGXINZQiuyl+REXzEHHp6WF7TWc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QXXkUgyTjGJu60So5GSYDnuzq5dsTwR30iwZ3/dMW58f/FpgOnQ5aonZpIe3KPYh9
-	 D5Pr/ftL57YI4cfcZq8bciunHkPSSklVM7D4bzjaOq26xcLHjDhgaHrF8xVq1NU3b9
-	 aAJ40urkx3382Vmik7EJ2cABNC4Jxv3m+fiKgxOeAVsLf9wGEcaxz0HjBTgT9cHeBW
-	 Icj+uQl3/7+24axbxNSlf3S9G5hjolAxv5vcFODhEEMgxZkqdV+gRLUWkPfO6GPNqy
-	 VQtTG//Ih1pW+5pWGsFQtr+NO/N2MIAAYWf8ezJ6mr3Wt8BpQ22+1hUf61e60t/dss
-	 iI9f9VPQ2t27w==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2AAD141AD8;
-	Thu, 19 Jun 2025 19:56:49 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux ext4 <linux-ext4@vger.kernel.org>
-Cc: Theodore Ts'o <tytso@mit.edu>, Andreas Dilger
- <adilger.kernel@dilger.ca>, "Darrick J. Wong" <djwong@kernel.org>, "Ritesh
- Harjani (IBM)" <ritesh.list@gmail.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>
-Subject: Re: [PATCH 0/4] Slurp (squash) ext4 subdocs
-In-Reply-To: <20250618111544.22602-1-bagasdotme@gmail.com>
-References: <20250618111544.22602-1-bagasdotme@gmail.com>
-Date: Thu, 19 Jun 2025 13:56:48 -0600
-Message-ID: <87bjqjh5dr.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kgBxXsXx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D609FC4CEEA;
+	Thu, 19 Jun 2025 20:03:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750363429;
+	bh=fk3fmHlAtMJ5XqQyz6sbrUWHSI6GW95mIPRC7IjMxio=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kgBxXsXx+0RC+DQAfbbjIERuH0TEbASijWoawjtW8h6hyMuqO8RoUDDRxiOrCtEr4
+	 oup9YfEPiFKeHWAGQzmoTqwEIWvpLfjh/N1pOMYL7hQJzaE4a1nQCLtxJEvgd3HyOR
+	 fspVyMw+zIjDykPH0JV20aIavDqxLoSMi9evfeea7834ykIoX9N6Qgt2WoNcyy0Gnj
+	 vhdN+1o+iiEfjLkyoHDVapy8uUUQd6Dg+KSBCTQcSpNw6CujVsS8ZNYdbwCakMYw9G
+	 zLgD64tD/8RExiGfGRRsdQN/TyOL8da3lKLn/CnkDzbtP2oD++57p7KEotHFQSnOiX
+	 ofWbryazOWPYw==
+Message-ID: <7c5b6512-1374-41c9-be9a-ac05b573e2cd@kernel.org>
+Date: Thu, 19 Jun 2025 22:03:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
+To: Lee Jones <lee@kernel.org>
+Cc: Armin Wolf <W_Armin@gmx.de>, Werner Sembach <wse@tuxedocomputers.com>,
+ ilpo.jarvinen@linux.intel.com, chumuzero@gmail.com, corbet@lwn.net,
+ cs@tuxedo.de, ggo@tuxedocomputers.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-leds@vger.kernel.org
+References: <20250615175957.9781-1-W_Armin@gmx.de>
+ <20250615175957.9781-3-W_Armin@gmx.de>
+ <41de4cd4-2a27-4b14-a1c0-e336a3cec317@tuxedocomputers.com>
+ <d645ba09-1820-4473-96bb-8550ed0b0a26@gmx.de>
+ <20250619094757.GB587864@google.com>
+ <ebd9489d-2783-468a-ad07-e7d1c04fb165@kernel.org>
+ <20250619151714.GJ795775@google.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250619151714.GJ795775@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Hi Lee,
 
-> When a doc is included by other doc via include:: directive, Sphinx will
-> pick the included doc and parse it independently from the including doc
-> regardless if it is listed in the docs toctree. This, however, can
-> exposes duplicate label warning that refers the label to itself (bug?)
-> when the label is placed before any section heading, since Sphinx
-> encounters the label twice, both when parsing the included and the
-> including docs.
->
-> This could be solved by removing the problematic label. However, when it
-> is heavily referenced by other doc (e.g. via :ref: directive), this can
-> be a churn. Furthermore, the include:: usage pattern in kernel docs is
-> to use it to included a common doc part that is shared by many docs
-> (e.g. isonum.txt). ext4 docs, though, is the opposite: splitting docs
-> into multiple reST files (subdocs) and including them in three master
-> docs (overview.rst, globals.rst, and dynamic.rst)
->
-> Let's slurp (squash) the subdocs instead. This will make the master docs
-> larger of course (although not as big as KVM API docs), but one can use
-> cross-reference labels without hitting aforementioned warning bug. Also,
-> docs directory structure is tidier with only 4 files (master docs and
-> about.rst). As a bonus, also reduce toctree depth as to not spill the
-> whole hierarchy.
+On 19-Jun-25 5:17 PM, Lee Jones wrote:
+> On Thu, 19 Jun 2025, Hans de Goede wrote:
+> 
+>> Hi Lee,
+>>
+>> On 19-Jun-25 11:47 AM, Lee Jones wrote:
+>>> On Tue, 17 Jun 2025, Armin Wolf wrote:
+>>>
+>>>> Am 16.06.25 um 14:46 schrieb Werner Sembach:
+>>>>
+>>>>> Hi, small additon
+>>>>>
+>>>>> Am 15.06.25 um 19:59 schrieb Armin Wolf:
+>>>>>> +        functionality.
+>>>>>> +
+>>>>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/rainbow_animation
+>>>>>> +Date:        Juni 2025
+>>>>>> +KernelVersion:    6.17
+>>>>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
+>>>>>> +Description:
+>>>>>> +        Forces the integrated lightbar to display a rainbow
+>>>>>> animation when the machine
+>>>>>> +        is not suspended. Writing "enable"/"disable" into this file
+>>>>>> enables/disables
+>>>>>> +        this functionality.
+>>>>>> +
+>>>>>> +        Reading this file returns the current status of the rainbow
+>>>>>> animation functionality.
+>>>>>> +
+>>>>>> +What: /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
+>>>>>> +Date:        Juni 2025
+>>>>>> +KernelVersion:    6.17
+>>>>>> +Contact:    Armin Wolf <W_Armin@gmx.de>
+>>>>>> +Description:
+>>>>>> +        Causes the integrated lightbar to display a breathing
+>>>>>> animation when the machine
+>>>>>> +        has been suspended and is running on AC power. Writing
+>>>>>> "enable"/"disable" into
+>>>>>> +        this file enables/disables this functionality.
+>>>>>> +
+>>>>>> +        Reading this file returns the current status of the
+>>>>>> breathing animation
+>>>>>> +        functionality.
+>>>>>
+>>>>> maybe this would be better under the /sys/class/leds/*/ tree if possible
+>>>>
+>>>> I CCed the LED mailing list so that they can give us advice on which location is the preferred one for new drivers.
+>>>
+>>> No need to involve the LED subsystem for a hardware function controlled
+>>> by a single register value just because the interface involves an LED.
+>>
+>> Lee, the question here is where put the sysfs attribute to put the lightbar
+>> in breathing mode e.g. which of these 2 should be used?  :
+>>
+>> 1. /sys/bus/wmi/devices/ABBC0F6F-8EA1-11D1-00A0-C90629100000[-X]/breathing_in_suspend
+>> 2. /sys/class/leds/uniwill-lightbar/breathing_in_suspend
+>>
+>> I think this is a fair question and since 2. involves the LED class userspace
+>> API I also think that asking for the LED maintainers input is reasonable.
+>>
+>> FWIW I'm not sure myself. 2. is the more logical place / path. But 2. adds
+>> a custom sysfs attr the LED class device. Whereas 1. adds a custom sysfs attr
+>> in a place where these are more or less expected.
+> 
+> Right.  It was a reasonable question.  Did I imply otherwise?
 
-"slurp" is not exactly a technical term that will make sense to readers
-of the changelogs.
+Sorry, my bad, I interpreted your "No need to involve the LED
+subsystem for a hardware function ..." remark as meaning that
+you did not understand why you were Cc-ed.
 
-But, more importantly... Might it be that the current file structure
-reflects the way the authors wanted to manage the docs?  It seems to me
-that just organizing the existing files into a proper toctree would be
-rather less churny and yield useful results, no?
+I now realize that you meant that you believe the control for
+this does not need to be under /sys/class/leds/
 
-jon
+> If it wasn't clear, my vote (this is not a dictatorship) is for 1.
+
+Ok, 1. works for me and that is what the patch is already doing,
+so lets keep it as as.
+
+Regards,
+
+Hans
+
+
