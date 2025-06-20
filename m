@@ -1,55 +1,55 @@
-Received: from mail-il1-f201.google.com (mail-il1-f201.google.com [209.85.166.201])
+Received: from mail-io1-f73.google.com (mail-io1-f73.google.com [209.85.166.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495C623AB94
-	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 22:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655A923ED56
+	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 22:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750457919; cv=none; b=FXnY0p1cRCbgvaLk1+ZPKLgtObeqOfDtzppB9lBhgbLuMpPGzeEc55A2r4IAcMaCJpb/gKNENm7aEYa/QCzgcuyNYl36CEvZAFzeICKcaELwOqbYQ/D2EwpQBOIjEhrMIKMq6exdgfz/y1qkHPRDcbV8R6i9I0FwqHFIIK2ZUPU=
+	t=1750457921; cv=none; b=Mms8CYHqF+fFO6iHeOIyK7dj3w2vCDRu14HOFccs64tq9OqcEFG/VEQX+prsgY2NEc610AfFE11qsoabWmNQqcZnnK4Lv2SZJLaBvlLD4NohNyV4EJXXUAcLo7TcDXPyq2F4dWHnWppOO8yoNqCvlRAJRvHVZwrcBRut8Kyf6Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750457919; c=relaxed/simple;
-	bh=/MLHiy+d8eVTeEEbOWcTciIGqCC3NZq1YQ/d7snJV4A=;
+	s=arc-20240116; t=1750457921; c=relaxed/simple;
+	bh=ZTAgaNMzI4qiekOqkv3pNeLxj5wOqxlFzSL0ObZQoaI=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=MYECYovgsFVDwFvnY1nHgwXii8TIJ0F1nrfseZWoVnOt+U1p9Bb4bfiMeJ8MUCBaftSLOEsFKl0oi24eIYY5MAyhZPWcCtq4087D1P1rfSpu7fwVWsO6bBSDbOFhy3Fu9pW0MS1zFL02AcF/CnT8HgOnuP+6D19MeSUMjbR87Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hvy23RWg; arc=none smtp.client-ip=209.85.166.201
+	 To:Cc:Content-Type; b=LQmCIRnQkfM4tsCn3Vcy2meWJcuy0G+EUecJO42aobDhSv+RC1nEz/GvYWOyrYrxBYq809W6ZrP5wSrTipa+vAC51NVT2Gsflm1rn2IFBkuWrztxbGQsQ5oT2B+detWyxfjXAyqYGQB93zQWDk4e7WwHsk8L9d4OM9edDNmSMrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B1fTMjpl; arc=none smtp.client-ip=209.85.166.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hvy23RWg"
-Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3ddc4908c4dso29973585ab.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 15:18:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B1fTMjpl"
+Received: by mail-io1-f73.google.com with SMTP id ca18e2360f4ac-86463467dddso188098239f.3
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 15:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750457916; x=1751062716; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750457917; x=1751062717; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ycwbhAp7Zd2F37ixHvuXJ2dafaPBGypIo/idKjOgZXE=;
-        b=hvy23RWg0l9nDJm7oXpJNWqrcRPsJWwprMxgxMa22gumuzb3UTXQkV2YujP147UVui
-         n8B5tZlqMm+evPPaKpeD0ApFTnOsA1EkAyCzZ3WV179OCVBOVwaU+PdMboKqogzKcqun
-         eRkvCg6UNXieWQCBnM/02PT6MimW1Rlu9zL5+oUYmpOUc7BQAgx6XA22IPIYuIjcCfX+
-         SppjY8TU93GQspmaeUVCet96jqvQa1okSINfG8NyQ7jN4ntFlYoQonVXjHAFBES+no33
-         tYU+4ohF9Tv8Ik2qZN1AmJ8Jg28MDo3Igz1kFkQX8dmmOAy6kQynKg+x3XLLovSFyhwc
-         bINA==
+        bh=Tgz/COFsBAperIPw3jbaNsXNDBcCpCZIFlLHMRVJgqY=;
+        b=B1fTMjplXpGS1iTbK6dYeZ95fWN25oPNuUEbaLnxmiqKHrvP8hGzncZCU33rzqojcg
+         uYmnJ1g+kLVwiCdMxgEeuptR2jPqu8cAKAtFlqFVlTXogG+MpLeRWABIeaE5neV8BxAo
+         NQz8QLdEVf59XiyH13SvbeOAq3n9oK0rRM6eBZamwYZ8RgoQ5qSsaPNIGfSQBG3Xgcs3
+         zX4qOxT6Hm4ET9WfOW6KlTX/PAa9qArUfOz0ZPcMHSet9ckoLHrh9K9DhpE8mXUywYhr
+         NSmfD1+kGK0XIpfVQCWvk/RtW/ZEeOO/ALT4Nf4uKW+eHq9VZjkYtdyLnyotyzMQj2ZU
+         Kmvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750457916; x=1751062716;
+        d=1e100.net; s=20230601; t=1750457917; x=1751062717;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ycwbhAp7Zd2F37ixHvuXJ2dafaPBGypIo/idKjOgZXE=;
-        b=O4/1T7YMBUIjik4CsXpzRUdZqXZ9YAdA4D5lK5zRzUJM65XNv9RqZZwSAmKg5K0IVS
-         s1Wczo3BrRV4ddgEFXdwm0iL+WgbaZYNuZsd/eMnhWmTXXaBgy94r/HSehqBFH62Jo3l
-         Ej81l/NE4AxYWMl3CEOBonyn0Qnh7Z5VEmqOCHfbj8NiXGnrUM7SWhdm5jMppeMQb7JI
-         q1bTMSfyuW+mhsNh1G861bwC3pFBBqMsH/WCb5VRgMtz0k3Zl4+jn0Gr+yWr1VRcoiDR
-         BoZlLsQoy4sJYpZ48OnAWNlvepaqUcRYmExLYQdmfCnlYGrzsaMMWlUPd6CCiMSFcvUW
-         4PrA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTcFhlyjtXPlZsyCnDDpwvIqD4hXwFxHDDTzCxKQwUbJP/RB+tAtMknjlYAaqXFBKVahzE6rMLE78=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycWA8Nf684+KkENWFs/jXo3EtmJ8fiBe2s8jvs/lCebXpGoCxU
-	GEc/LGszH8z7qCg8FpoFycCAP5qhOkJb+u4lHcS6uVUAatga/0PPeTi/4Enw2P4tTKjGZg7YDx3
-	d/inuVIx6Zm7y4Dz5amgOlzGVfg==
-X-Google-Smtp-Source: AGHT+IHdG4exJg/OMLEag+SmUtZLjuBoL7XDzzcwpjklziK4h+sFdGNrbUVUxPa6LEbWOqyaRb+b3/J1oVJBEuicPg==
-X-Received: from ilbcp2.prod.google.com ([2002:a05:6e02:3982:b0:3dd:c6fb:13fb])
+        bh=Tgz/COFsBAperIPw3jbaNsXNDBcCpCZIFlLHMRVJgqY=;
+        b=o1ehB6fNFjXn6UzK4sc5q1AwQl+PqTGTB1UGOCl9BE8vkPX8HBsjLkOfPkJ2IviBeD
+         KkvrS6ozKlyY2ZAuBU4tPaHoCDOOTLQV95wVL6SvTOSeFFGNwAh8yNRNu5P0J1zQuAIP
+         ddgOaDgSR5QbSYwVAKkwP5OtgU1dLYgbRIwelvAWn3aCi+8TuMk9wN9RE5UrKzjPUUt7
+         2Bxi5Mlr1lDZe0k9KowBW7RUI3q/qv1FYDZKndy0DqMZy93JemzbrxNJgpsA6otnW0YW
+         QVhpyvj8VgVUPwOudQnvKWuNzu8JvImkWwgAQPqUNMGknRzGrsQntNWUIVTp1Yr02cZy
+         GcMg==
+X-Forwarded-Encrypted: i=1; AJvYcCVpxHV3TF4HISGr3pVsjlj0u9jZLB3My0CBUcFSzsLNhx/aI5fCo7bLrCU/4+uB9oM7fBcYGhENqJw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxC/cUAvA19ePidYF+u/aV5y+f2DNhZq2pK+Cb48CxBX6Hiuqc
+	5t3NpyhnuM3a3PifaPVA90po4AOUIP0gQBEIJjXLODZ4PfrPgTC8TpYJa6zTsls+ZK2iOaWZg0j
+	vUca18hSLWW+tssE0QtAwpMeTFA==
+X-Google-Smtp-Source: AGHT+IGjEFFNY2ukf5QiVzn6d0Iwii2o/2bYlxITJ69QjxdmPFLoVLBssIQF8Rhp8gGY8wow9/U+VX25kMai0q6pUg==
+X-Received: from ilbee13.prod.google.com ([2002:a05:6e02:490d:b0:3dd:bec6:9d56])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a92:c26c:0:b0:3dd:c18b:c03e with SMTP id e9e14a558f8ab-3de38c21fe9mr52496035ab.5.1750457916490;
- Fri, 20 Jun 2025 15:18:36 -0700 (PDT)
-Date: Fri, 20 Jun 2025 22:13:01 +0000
+ 2002:a05:6e02:1646:b0:3db:86fc:d328 with SMTP id e9e14a558f8ab-3de38c2e1c2mr57720245ab.5.1750457917550;
+ Fri, 20 Jun 2025 15:18:37 -0700 (PDT)
+Date: Fri, 20 Jun 2025 22:13:02 +0000
 In-Reply-To: <20250620221326.1261128-1-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250620221326.1261128-1-coltonlewis@google.com>
 X-Mailer: git-send-email 2.50.0.714.g196bf9f422-goog
-Message-ID: <20250620221326.1261128-2-coltonlewis@google.com>
-Subject: [PATCH v2 01/23] arm64: cpufeature: Add cpucap for HPMN0
+Message-ID: <20250620221326.1261128-3-coltonlewis@google.com>
+Subject: [PATCH v2 02/23] arm64: Generate sign macro for sysreg Enums
 From: Colton Lewis <coltonlewis@google.com>
 To: kvm@vger.kernel.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -74,75 +74,27 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
 	Colton Lewis <coltonlewis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Add a capability for FEAT_HPMN0, whether MDCR_EL2.HPMN can specify 0
-counters reserved for the guest.
-
-This required changing HPMN0 to an UnsignedEnum in tools/sysreg
-because otherwise not all the appropriate macros are generated to add
-it to arm64_cpu_capabilities_arm64_features.
+There's no reason Enums shouldn't be equivalent to UnsignedEnums and
+explicitly specify they are unsigned. This will avoid the annoyance I
+had with HPMN0.
 
 Signed-off-by: Colton Lewis <coltonlewis@google.com>
 ---
- arch/arm64/kernel/cpufeature.c | 8 ++++++++
- arch/arm64/tools/cpucaps       | 1 +
- arch/arm64/tools/sysreg        | 6 +++---
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ arch/arm64/tools/gen-sysreg.awk | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index b34044e20128..278294fdc97d 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -548,6 +548,7 @@ static const struct arm64_ftr_bits ftr_id_mmfr0[] = {
- };
+diff --git a/arch/arm64/tools/gen-sysreg.awk b/arch/arm64/tools/gen-sysreg.awk
+index f2a1732cb1f6..fa21a632d9b7 100755
+--- a/arch/arm64/tools/gen-sysreg.awk
++++ b/arch/arm64/tools/gen-sysreg.awk
+@@ -308,6 +308,7 @@ $1 == "Enum" && (block_current() == "Sysreg" || block_current() == "SysregFields
+ 	parse_bitdef(reg, field, $2)
  
- static const struct arm64_ftr_bits ftr_id_aa64dfr0[] = {
-+	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_HPMN0_SHIFT, 4, 0),
- 	S_ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_DoubleLock_SHIFT, 4, 0),
- 	ARM64_FTR_BITS(FTR_HIDDEN, FTR_NONSTRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_PMSVer_SHIFT, 4, 0),
- 	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE, ID_AA64DFR0_EL1_CTX_CMPs_SHIFT, 4, 0),
-@@ -2896,6 +2897,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
- 		.matches = has_cpuid_feature,
- 		ARM64_CPUID_FIELDS(ID_AA64MMFR0_EL1, FGT, FGT2)
- 	},
-+	{
-+		.desc = "Allow MDCR_EL2.HPMN = 0",
-+		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
-+		.capability = ARM64_HAS_HPMN0,
-+		.matches = has_cpuid_feature,
-+		ARM64_CPUID_FIELDS(ID_AA64DFR0_EL1, HPMN0, IMP)
-+	},
- #ifdef CONFIG_ARM64_SME
- 	{
- 		.desc = "Scalable Matrix Extension",
-diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-index 10effd4cff6b..5b196ba21629 100644
---- a/arch/arm64/tools/cpucaps
-+++ b/arch/arm64/tools/cpucaps
-@@ -39,6 +39,7 @@ HAS_GIC_CPUIF_SYSREGS
- HAS_GIC_PRIO_MASKING
- HAS_GIC_PRIO_RELAXED_SYNC
- HAS_HCR_NV1
-+HAS_HPMN0
- HAS_HCX
- HAS_LDAPR
- HAS_LPA2
-diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
-index 8a8cf6874298..d29742481754 100644
---- a/arch/arm64/tools/sysreg
-+++ b/arch/arm64/tools/sysreg
-@@ -1531,9 +1531,9 @@ EndEnum
- EndSysreg
+ 	define_field(reg, field, msb, lsb)
++	define_field_sign(reg, field, "false")
  
- Sysreg	ID_AA64DFR0_EL1	3	0	0	5	0
--Enum	63:60	HPMN0
--	0b0000	UNPREDICTABLE
--	0b0001	DEF
-+UnsignedEnum	63:60	HPMN0
-+	0b0000	NI
-+	0b0001	IMP
- EndEnum
- UnsignedEnum	59:56	ExtTrcBuff
- 	0b0000	NI
+ 	next
+ }
 -- 
 2.50.0.714.g196bf9f422-goog
 
