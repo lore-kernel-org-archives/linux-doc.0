@@ -1,183 +1,173 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CA030E850;
-	Fri, 20 Jun 2025 13:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DC528DEE2;
+	Fri, 20 Jun 2025 13:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750427511; cv=none; b=XWovzK0VTdajfAikk1f5sofqcHpok2mSvtlTDO0d8ykgsynmYaGu2SzVgRx0pEEQQkgdfvP7+vHEY7UH5Md4uuh3Gg1l+Lil8p6bLM9xpypWSoNR0wy0uhuwFotUOH/Wtv9EvzEy+cB5+KgAigq2O6MfoE4XGdLIKVk+sYVhx5k=
+	t=1750427624; cv=none; b=iSsglfokh8g2KmzOQVvBtWuHQRrrQTfnFIvv1EwbPU3SBoxMKwOKPt+5MKhE+yvQ6bM2rAUAN5nTG0MgkEhQyHVeSmTgprcDt1oXNRO3R8OI2ZgvSo4cKp8Jr8WFYk4nDUY1QtSBw3WxaBBHZGS1vOTYBB32kPSzGDzCYdUjgt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750427511; c=relaxed/simple;
-	bh=P3RnPoFVhC5E6iVrRqpm8DhCQwyHFdoAwr5HJvx4Tz0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ul0hL47iWcwh6JdbZGEeJQQH4kq+8xdOyqyVxoMs+bpa4CixZOSaZt70BziO50/Sy9gUEdPQLBlOIoPNgpFnIO2bPkadHrdj1VZOOAd2zaH0jAA3KYpXy4kr3iPhDHl+QY0/5vr3vwMPVDnYB8i+UqSAZ+hlg4mZ+RVsxYX1q98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-adb2e9fd208so376013266b.3;
-        Fri, 20 Jun 2025 06:51:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750427508; x=1751032308;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D63RK48PWQVuxSrd45/3OwZj0o6vwR+6fGj7coNjh7E=;
-        b=mozYafhp3zrAYJQI7gg24Q/vSgSmX5dmhVSsdtcyUb7cKgQs+ti+Pr9kJNRUMwfeOu
-         PpM6ihcWEgb10MfoIPXKnAnao5/56XPUfVl0WlwrJbHl8VunkuH17sCHP96TVaYrBwyc
-         dgvxCEHvaU3p9EOw+34U/2EF25BJHuKFEN/dWeH6v2v9BVoXB7riXDbtet05TwlTdC3J
-         GLdgiH6u++SZr2qia0hMV61GVtdVafMefo/I8cj1T4smzPdbfocbsOV3iCVEJ2MvXhu8
-         CbitruHamHjw164+hnjh6SzZI9L7T+shTTfg9GhLsV5YQ6JVniXCajA/HTeugPz0Kvb6
-         BjyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/9DV9mB3C87oadee/vdvHe2rCKvelh2AxR/9DVlZv9NQhwS9LiYQFvsW0Xmdh840F+JKlbebfGiv8nJY=@vger.kernel.org, AJvYcCWR0pQZzB/xT4jOHMWGoZbtaM5cXzky+vs1I5/EBvXSldJx5KmPVvUnSnQHhm0pcNBd3ZXI7/E+@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPFcOwVIv1l9GbKYJhTJDkFXSEyRl3dg3txCfAnDIpEfOXulVw
-	1QS64xL5aDySscPdGGTCApeaEY0G1rS6UmddgwsbtC09M25frTmoj7or
-X-Gm-Gg: ASbGncty/7U30Mk/65mX5kIn/Dq6uB2pZpNlgI4v9BTdX/2/d5oGDpevivNvLLIa37N
-	uC9tMZNc+I0iQpKvMah4HpaALI99zKDvW2c+FbuWN8CIeleYZ4Cczyxiowi3VB3Ug9wdZD7oCsN
-	bMh2DLrvLH3eP4Qi4szaWekKdEUH4wcWbZUlUIDdJY2Wqx1j2DfIKiO3FXnI6BNLLf2fCf7SQI/
-	95768j6V9ZxPG5GalYT6rE/XFa0NlLpi4dmBmBSDvwrq5ZL6O+R9T2NCIj62j+JfZSDA0zv+WUJ
-	9H2dRW4PwP43wgopGFozOw3ZgoZliw0YJgbmc7ZnvDGN+lx7gXzG
-X-Google-Smtp-Source: AGHT+IH/SFtmln+YJHoGXX1MmoNT4rRheV4oGNwPg3DsX23NPbZmw1xFYo2/+iW7Q3Sv6yR/qDwd0Q==
-X-Received: by 2002:a17:907:3e95:b0:ad5:34cf:d23f with SMTP id a640c23a62f3a-ae0579246eamr257828566b.21.1750427507415;
-        Fri, 20 Jun 2025 06:51:47 -0700 (PDT)
-Received: from localhost ([2a03:2880:30ff:5::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae0541b6e36sm164010466b.120.2025.06.20.06.51.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 06:51:46 -0700 (PDT)
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 20 Jun 2025 06:51:23 -0700
-Subject: [PATCH stable] Revert "x86/bugs: Make spectre user default depend
- on MITIGATION_SPECTRE_V2" on v6.6 and older
+	s=arc-20240116; t=1750427624; c=relaxed/simple;
+	bh=h40PihXpB9iHOwNDiJJbUFtLgaN/sYMLV1i+eEZYFIo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GiIiksG77A+a+fdd1ANyGB1Swzat3Ckzx2zAi/d8U8xYNfJIzTHcxoiGSU18EZHowwQthyd7VirkeORb4Kd+OIDlOodplPuh+0JWsQcWUHu5VZWEr2Emh2yJ+crExcNwJ0bjuyJWZnrvAbfZmlQ8EjTsPgKc9YFpzBDV7QO5iJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ma6T2s/i; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.helo=mgamail.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ma6T2s/i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750427623; x=1781963623;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=h40PihXpB9iHOwNDiJJbUFtLgaN/sYMLV1i+eEZYFIo=;
+  b=ma6T2s/i7SAHriKhPHluT134caMbX7mgQL/yyAYkejzPOd15UezI7v9Z
+   bepSRs30gHWkWR9V3CDws3KbHCev4M2CcFYpF13QUAMbNrRXDnnNn3622
+   JF6MKkZFSlZz+UUgH037nAws5hISDE4wKqLPeWprhhhYz7lEPPdJpPQAA
+   w6kf+jXLTxxm6KI2PDukWRaV7FjZ1wzOsPI5Z68YGMvNz5vBgmBggPO/S
+   +VcWp2JkLa1cb/Q5fstlr47TXZtktr7X4GUZG3QR98vhGEEWYzudcxfmp
+   MO4oK/Lr4w59jY0e+abK5a+Kiq0IkWvMJSUgHkrPQ8SMG2jh8ABnJFtlM
+   g==;
+X-CSE-ConnectionGUID: ovwq3ew3T6S5sd31dfC4Ag==
+X-CSE-MsgGUID: notcJf6rRv+lDL75VpN8SA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="55326036"
+X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
+   d="scan'208";a="55326036"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 06:53:42 -0700
+X-CSE-ConnectionGUID: x0qZTSbeT1yoykLIkNVsYg==
+X-CSE-MsgGUID: Q6PjjxAGR2uAPZDdxXUW/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
+   d="scan'208";a="151227068"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa009.fm.intel.com with ESMTP; 20 Jun 2025 06:53:31 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id 6B31F1F8; Fri, 20 Jun 2025 16:53:28 +0300 (EEST)
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Xiongwei Song <xiongwei.song@windriver.com>,
+	Xin Li <xin3.li@intel.com>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Sohil Mehta <sohil.mehta@intel.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	Kai Huang <kai.huang@intel.com>,
+	Sandipan Das <sandipan.das@amd.com>,
+	Breno Leitao <leitao@debian.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Hou Tao <houtao1@huawei.com>,
+	Juergen Gross <jgross@suse.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Kees Cook <kees@kernel.org>,
+	Eric Biggers <ebiggers@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Yuntao Wang <ytcoode@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Tejun Heo <tj@kernel.org>,
+	Changbin Du <changbin.du@huawei.com>,
+	Huang Shijie <shijie@os.amperecomputing.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-mm@kvack.org,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: [PATCHv6 03/16] x86/alternatives: Disable LASS when patching kernel alternatives
+Date: Fri, 20 Jun 2025 16:53:11 +0300
+Message-ID: <20250620135325.3300848-4-kirill.shutemov@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
+References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250620-stable_revert_66-v1-1-841800dd2c68@debian.org>
-X-B4-Tracking: v=1; b=H4sIAFtnVWgC/22NQQrCMBBFrzLMuoEkNMHmKlJK2kx1QKpO0iCU3
- l2w4srtf4/3N8wkTBkDbChUOfN9wQCmAZyucbmQ4oQB0GrrtLda5RLHGw1ClaQM3ivd2TG25P1
- IEzaAD6GZX5/kGQ8b+2MXeq6cuXzh7yDA/7wyJ92lZPzsXBuqwX7f3we95wmyAAAA
-X-Change-ID: 20250620-stable_revert_66-092ba4e66bec
-To: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, 
- Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>, 
- Josh Poimboeuf <jpoimboe@kernel.org>, 
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, stable@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-team@meta.com, David.Kaplan@amd.com, mingo@kernel.org, 
- brad.spengler@opensrcsec.com, Brad Spengler <brad.spengler@opensrcsec.com>, 
- Salvatore Bonaccorso <carnil@debian.org>, Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.15-dev-dd21f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3564; i=leitao@debian.org;
- h=from:subject:message-id; bh=P3RnPoFVhC5E6iVrRqpm8DhCQwyHFdoAwr5HJvx4Tz0=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBoVWdxDw0PsMZmI+SEZnerwoeHV019dLLjO7mYg
- LGjqq43hX6JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaFVncQAKCRA1o5Of/Hh3
- bf7mEACWZA6ILEvHea6yG8LbpKya1PBDOQ3CctzopUGattlAo4XnJfTeRgjCfp1+nmWeGgZPN46
- JR7m9Duwl/+ovyBPjOrocxoRlJ+DfUwbAQV6ILwVBto2qjIZcoM8R/YToVPUaQuPzxoG4FYdQbi
- URK35IrVQHDLpxW1Q/37YzM8JxQZhgt8zgPQ5T7lgQ2WNKJmJbqWPJQpEJoAmgaJtlB5DshxxrX
- CaMuDXLAzL26WDbrgpbi/5MM3/eb+mGzj+EHCMKkiAIMx7A5cbFBhpm/mI/L044q6abck/G3UtS
- TiT5dijgXRbfE8wEGj5KILm6REPAibBNvA3JDuChP4HdWx3pPc5F1NPrYT7+eRuM9Zg8hAjS6DV
- mTJvx8lsgd2BZfUQbSeCvAESb2llx6ACWod6auywn9xeT924e836bu9ytDzHDHxBnCdZMtNUfH0
- ar1L9Jw/+q3pKuEYbJ/4jB2czdpPAdX5kvTpwfbTMiDRxXxeeGfrz5nW+OFxGt0rcUl8RjT7VSy
- Wj03An8uBp46NYLPqeTStrg7guwybJ4ottj0tUc1DKx31xvS/K+i1WQxSgCqL6xbpRPNzDQJtiV
- plL5BoP7FZp4hiB9GQmjlpdR7uU3LQXl3a7BJQ61DspYvpeaFlnK2rhCr3R0dMiqZC8eX8uAF9x
- aM/8fJp/3gW/Hwg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+Content-Transfer-Encoding: 8bit
 
-This reverts commit 7adb96687ce8819de5c7bb172c4eeb6e45736e06.
+From: Sohil Mehta <sohil.mehta@intel.com>
 
-commit 7adb96687ce8 ("x86/bugs: Make spectre user default depend on
-MITIGATION_SPECTRE_V2") depends on commit 72c70f480a70 ("x86/bugs: Add
-a separate config for Spectre V2"), which introduced
-MITIGATION_SPECTRE_V2.
+For patching, the kernel initializes a temporary mm area in the lower
+half of the address range. See commit 4fc19708b165 ("x86/alternatives:
+Initialize temporary mm for patching").
 
-commit 72c70f480a70 ("x86/bugs: Add a separate config for Spectre V2")
-never landed in stable tree, thus, stable tree doesn't have
-MITIGATION_SPECTRE_V2, that said, commit 7adb96687ce8 ("x86/bugs: Make
-spectre user default depend on MITIGATION_SPECTRE_V2") has no value if
-the dependecy was not applied.
+Disable LASS enforcement during patching using the stac()/clac()
+instructions to avoid triggering a #GP fault.
 
-Revert commit 7adb96687ce8 ("x86/bugs: Make spectre user default
-depend on MITIGATION_SPECTRE_V2")  in stable kernel which landed in in
-5.4.294, 5.10.238, 5.15.185, 6.1.141 and 6.6.93 stable versions.
+The objtool warns due to a call to a non-allowed function that exists
+outside of the stac/clac guard, or references to any function with a
+dynamic function pointer inside the guard. See the Objtool warnings
+section #9 in the document tools/objtool/Documentation/objtool.txt.
 
-Cc: David.Kaplan@amd.com
-Cc: peterz@infradead.org
-Cc: pawan.kumar.gupta@linux.intel.com
-Cc: mingo@kernel.org
-Cc: brad.spengler@opensrcsec.com
-Cc: stable@vger.kernel.org # 6.6 6.1 5.15 5.10 5.4
-Reported-by: Brad Spengler <brad.spengler@opensrcsec.com>
-Reported-by: Salvatore Bonaccorso <carnil@debian.org>
-Signed-off-by: Breno Leitao <leitao@debian.org>
+Considering that patching is usually small, replace the memcpy and
+memset functions in the text poking functions with their inline versions
+respectively.
+
+Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 ---
-PS: This patch is only for stable (6.6 and older).
----
- Documentation/admin-guide/kernel-parameters.txt |  2 --
- arch/x86/kernel/cpu/bugs.c                      | 10 +++-------
- 2 files changed, 3 insertions(+), 9 deletions(-)
+ arch/x86/kernel/alternative.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 315a817e33804..f95734ceb82b8 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5978,8 +5978,6 @@
+diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
+index 9ae80fa904a2..0b9f41ed6af7 100644
+--- a/arch/x86/kernel/alternative.c
++++ b/arch/x86/kernel/alternative.c
+@@ -2447,16 +2447,24 @@ void __init_or_module text_poke_early(void *addr, const void *opcode,
+ __ro_after_init struct mm_struct *text_poke_mm;
+ __ro_after_init unsigned long text_poke_mm_addr;
  
- 			Selecting 'on' will also enable the mitigation
- 			against user space to user space task attacks.
--			Selecting specific mitigation does not force enable
--			user mitigations.
- 
- 			Selecting 'off' will disable both the kernel and
- 			the user space protections.
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index e9c4bcb38f458..07b45bbf6348d 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -1442,13 +1442,9 @@ static __ro_after_init enum spectre_v2_mitigation_cmd spectre_v2_cmd;
- static enum spectre_v2_user_cmd __init
- spectre_v2_parse_user_cmdline(void)
++/*
++ * poking_init() initializes the text poking address from the lower half of the
++ * address space. Relax LASS enforcement when accessing the poking address.
++ */
+ static void text_poke_memcpy(void *dst, const void *src, size_t len)
  {
--	enum spectre_v2_user_cmd mode;
- 	char arg[20];
- 	int ret, i;
- 
--	mode = IS_ENABLED(CONFIG_MITIGATION_SPECTRE_V2) ?
--		SPECTRE_V2_USER_CMD_AUTO : SPECTRE_V2_USER_CMD_NONE;
--
- 	switch (spectre_v2_cmd) {
- 	case SPECTRE_V2_CMD_NONE:
- 		return SPECTRE_V2_USER_CMD_NONE;
-@@ -1461,7 +1457,7 @@ spectre_v2_parse_user_cmdline(void)
- 	ret = cmdline_find_option(boot_command_line, "spectre_v2_user",
- 				  arg, sizeof(arg));
- 	if (ret < 0)
--		return mode;
-+		return SPECTRE_V2_USER_CMD_AUTO;
- 
- 	for (i = 0; i < ARRAY_SIZE(v2_user_options); i++) {
- 		if (match_option(arg, ret, v2_user_options[i].option)) {
-@@ -1471,8 +1467,8 @@ spectre_v2_parse_user_cmdline(void)
- 		}
- 	}
- 
--	pr_err("Unknown user space protection option (%s). Switching to default\n", arg);
--	return mode;
-+	pr_err("Unknown user space protection option (%s). Switching to AUTO select\n", arg);
-+	return SPECTRE_V2_USER_CMD_AUTO;
+-	memcpy(dst, src, len);
++	lass_stac();
++	__inline_memcpy(dst, src, len);
++	lass_clac();
  }
  
- static inline bool spectre_v2_in_ibrs_mode(enum spectre_v2_mitigation mode)
-
----
-base-commit: 6282921b6825fef6a1243e1c80063421d41e2576
-change-id: 20250620-stable_revert_66-092ba4e66bec
-prerequisite-change-id: 20250620-stable_revert-1809dd16f554:v1
-
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
+ static void text_poke_memset(void *dst, const void *src, size_t len)
+ {
+ 	int c = *(const int *)src;
+ 
+-	memset(dst, c, len);
++	lass_stac();
++	__inline_memset(dst, c, len);
++	lass_clac();
+ }
+ 
+ typedef void text_poke_f(void *dst, const void *src, size_t len);
+-- 
+2.47.2
 
