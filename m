@@ -1,71 +1,71 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7BD283CBF
-	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 09:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4516E2868B4
+	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 09:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750412288; cv=none; b=pKR9pkMgwScmnS3+Lp9h7vDs8RaHE0V9jfmtjBjTgUMO7iwcvJkYN7dcD/wG3y4lepTH51GWiNVk4mMe6uZeVREgnWDt0Fj4af4GhhBJ+660uCO2CPELChDsWOnWu8sks1RoIF5sKrBOmqWJgnsDwCNXB+nHQo2EqJ7Kmvg6PXU=
+	t=1750412294; cv=none; b=rVvn/ibsJ0oQqloMVyyAiGaoZEHoviZ4f70f54teBqqr4RnKzIA1Lu3aGe8ugZ+ggBKUQN8aAbzj59KLn63LRJjt+po79mKdam75yGDwbPlqRhXZFnpbk0/DUaPUqfBM50IrYI+u8HnIgqat9KDLe6Q/gUbk/1iydc5qghonaDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750412288; c=relaxed/simple;
-	bh=+YngaeGAxrZBauO94IonA+7635sf6o6d5V9dIzJp7wY=;
+	s=arc-20240116; t=1750412294; c=relaxed/simple;
+	bh=DBiVEKLVOGgfnqUWOehDXxg882kBKkOeALNNz2zbTp4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RK3BkY5LJo5xQogRFdJUuBK+kFhXXa2cxHN9+p7ZiwPIKtNAsm78TC60hVN2yyfKJ5DR9SlSosl23LKfLCqqIqVhwrVaC/QOFuz1xl1B9pET0jVD0cS3STD4M5dVis3ESYVnhH/bOjxLCrMZRUcOgUJiZ8coaOEYxQLpaseRIM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GpmEgI3/; arc=none smtp.client-ip=209.85.222.173
+	 To:Cc:Content-Type; b=jSIoZ+F6dWwChGNpQp1HYcyTr08ge0OhGGKI8JNT3VMT2cA8ZfrRrKBciUucoVrQ8RTdIvQdcnKCS7W/AHaJK7foGwrw6YbYB1D+InJUIfVS3f7+4dJw06mK/Q9ENfHeh1Vg8evfGvCM4cQYKZtMJ6W1zQJo7RR9R36mubzpCuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AM/Ypr9c; arc=none smtp.client-ip=209.85.219.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GpmEgI3/"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7d098f7bd77so168393485a.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 02:38:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AM/Ypr9c"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6facba680a1so19872806d6.3
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 02:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750412285; x=1751017085; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750412291; x=1751017091; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LUf4Nf3PqsufR7bSBj/5IjuwnC0w8Y5IJy3ee3JnUO4=;
-        b=GpmEgI3/DQFxW1ZLzG7/UCFzIbiTu1tza5Baic+FDEIyTCKl2BtfMOG2Qq84zGKk9f
-         /BNCIV65BMHrTv8bUrCdpQFrex4T/uUchxHrrRFYtUzoi5ligdw0gubV50xwkaguos4v
-         tE4A7BdE3XmtiLEsFuFgMMJQXAr2cwiufog6cCSEV36fWFFUXbClf9KMelMQiuvoswGM
-         EEW8hg+VPxR4fUKl7NkDqSmOQcs+V9ACqkmjQ9bvxiCR8gzI5xlYs/bMXhalvRyqI+tp
-         R7rjpJd58fbbNSSk2YdxKaJO16tD6emQKGe05bFr5UKLzrj91nfc56iCUA7Sn62/Oubk
-         lY6A==
+        bh=akZdGqWIiWYtxJbD5deZ+A/XscU2XaZYlirIcVyxq6s=;
+        b=AM/Ypr9ckbQXm7BKt3dN33G83zwWfQ06zVbm8kIUiMRrZtMRGouhpu/DqyPl0sM1HA
+         bYRmzOueDjszJ1OpgW2muLGH2CAH7Ef4Kt7CNEwBRrUhMJyKJyx08FnGRki3JQQMgmru
+         /uArAWy1r1TxXPlbB8QX5D+ayFDUMD7WBaR3aPn/NV5IFNS1dPGBy3FoJesgdZxt72KL
+         rrESB99HoMLZxmqZqxysnxdNMBKCk+jAjdBE2fGf+a47VMm2FQvqiWROYA/10dkhNduk
+         qbO7KHRQy0V6qSNxFAO4b1LwkHJsC/52dNaR8E7rXQbPuNw5ElGWC9LYF5WV+QZJxboG
+         PWBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750412285; x=1751017085;
+        d=1e100.net; s=20230601; t=1750412291; x=1751017091;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LUf4Nf3PqsufR7bSBj/5IjuwnC0w8Y5IJy3ee3JnUO4=;
-        b=SD405XFEvEUJMuXaCT80tbBoYa9FFy6xs1AB9Xsk1RtjZ5yBaAuLTIKbpm1sGBmCQg
-         Grmxg4wKAjmDIdZpL03p+0TC3ApFtVcTK0lzzKQRvQsDVxn0SakNHNbryLp2kAzLEqRq
-         BOKK6kwoaCEUSbN22Z/zifb2ga3/BsZv50vRRkM0P+d1/T7TscNoWR02FO2y9v9PScdT
-         bvrlt1bSDczAaos8uVPbus5WNAc/EmatYlZ9mKX80dNx9RbqACPw3SPvrG2Gs6R5ZMjg
-         zwXWxVTFFxsT8se/xuOTFmePi/l1QfycYlcmiSxalT8bUlueT9ZFeQi0VYTEhq+d5h4l
-         zbjg==
-X-Forwarded-Encrypted: i=1; AJvYcCU1+DKQia68+8tED/FnzPLq4j4+iQDl9pdflMSFMJM6op9o1tY/Ev1jtVF+J3RaQECo5ov//lrPVc4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yycl3ulUhLpfBpBt4iIFzGYTiyonFmqzD8czWh7pbO9OwHU7dTu
-	2ITskDDuDEtH7WUrtgEM6acDLM85d8TXpbVuXALE5swgfcQ+FgOFrIT2yAUXITPYRN4L5taHV53
-	tViur6X5nTWdi6s7Y86S2R/ttqfkauPDGLYA5ew0C
-X-Gm-Gg: ASbGnctRRNpfLM+WmTg1AQInakRNh57XSzP2/5tyRX/l0kyTLhNvqOOVRRCezgLWITg
-	8PU2kPl+ZLVj4yaNVjbdikogd3yktxXzhqMKdwQx3CFrnt0uHNjFFnbK94kXSE8zWYUpLd91hwI
-	qyHw9t75FizJxeDntYKi4Dn3xd60KWEj5+5MqpfEtSM1M/aFXe+1trJduk+BOVdioTaCFjavg2n
-	hRwNA==
-X-Google-Smtp-Source: AGHT+IFIgJtPNCQts/K87Az+Gfj8Ls09sh+yFk1QVyftwxKFWHObPIiGAJ0OO5N6B6kB4hYGw/4/McNKewbriKC2ZJ4=
-X-Received: by 2002:a05:620a:1904:b0:7cb:de0d:ba59 with SMTP id
- af79cd13be357-7d3fc02d722mr188483285a.17.1750412285076; Fri, 20 Jun 2025
- 02:38:05 -0700 (PDT)
+        bh=akZdGqWIiWYtxJbD5deZ+A/XscU2XaZYlirIcVyxq6s=;
+        b=a5zE1fvxPejaqAsdpEm1iX56Kgei3Y/bXyFfEVTrodnvdJ/NhKkSUxll7X4e2KzSdS
+         iibUQ3jWlXOYHOksjpwHQSu3TL5cZVHhDZbpBZ18nrdXGaECiX52egHCnHoOg02icLDN
+         Ur+dHKZY+VDrM0rvSwIV3kf7sKLaJ2Dq3Wt0unBOjFF4xWHr1RzGRPINIPvfew+MJygf
+         kuJ3cLZvwFAT63kcm8Q9Yimm03QUUChG/Gq8QjASgcI3W7+Ka2lGS0eMB3sqYbKOHkBz
+         UcKMYCZD/v+6uqh0EftNCLB6YVvJA6xyYtAfbdoEe6cm6eMDu3XfJid3uVN8ZkGuolkW
+         vK+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWvCYJJAIV5YyVKVFh8khqyl1z9UURvT9jZmMAK6BrTyWQK6FtR+QNqvrv6IxgB7dERMAYLzg4UXLc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz12TxxyHHj0Bu3ud2xO3wFr+dEBCNbCvcScp/jlvo7VBHcmjP4
+	wdBBfffrzHQfpeWJV21AzByxr4KPFVZJsXQm5iQrfOEUo7J/nYT/YTsDcMwEXRstKIklHn4of/S
+	gMKElYaVdcwd8oN1T8dftEAUNj0N2+QPN+pr98W07
+X-Gm-Gg: ASbGncvmgMkqOSN7kNNIFX8H3dMuIvo4j79arSxTvAZld193v8NloHODrXN2UHGgmKH
+	YNr1/DZLq7d6ifRzGZDHNtEgZE5iuq5qigLaQwMnxDIA7mlb1bl98L8rgjXxI7QM8Vv3nrbfGzy
+	ojABXLThBnNXk1oiQDuE+AncP1kR62Idmz7VQ0h5wTkthJkD9B2eTDqzmcRmuOGqp4kaJYHhykf
+	f0Zgw==
+X-Google-Smtp-Source: AGHT+IHQRmOnbKSBIf89VSyNKtPGCMRQ0h0fC5YdqXOzj+9IApycf43fjMllrY7wV8xe0r/PlJS92AO/kHnetzmEzO8=
+X-Received: by 2002:a05:6214:4885:b0:6fa:9f9b:8df0 with SMTP id
+ 6a1803df08f44-6fd0a534772mr34873236d6.20.1750412291053; Fri, 20 Jun 2025
+ 02:38:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de> <20250611-kunit-kselftests-v3-10-55e3d148cbc6@linutronix.de>
-In-Reply-To: <20250611-kunit-kselftests-v3-10-55e3d148cbc6@linutronix.de>
+References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de> <20250611-kunit-kselftests-v3-12-55e3d148cbc6@linutronix.de>
+In-Reply-To: <20250611-kunit-kselftests-v3-12-55e3d148cbc6@linutronix.de>
 From: David Gow <davidgow@google.com>
-Date: Fri, 20 Jun 2025 17:37:51 +0800
-X-Gm-Features: Ac12FXxDSYdzF8nvRo_Y9mOy6b2ne2WSx9Dq24D16a0Q3u4ZDa0s1yox8-Zeodc
-Message-ID: <CABVgOSmRtKnTfCy5SPUiGJpVf_Y_HuAdgihjJ_ZkjeqgZVRnEg@mail.gmail.com>
-Subject: Re: [PATCH v3 10/16] kunit: tool: Parse skipped tests from kselftest.h
+Date: Fri, 20 Jun 2025 17:37:57 +0800
+X-Gm-Features: Ac12FXyFoljdSZ7ABL78oDq9rw_5mltpFUvMzADHo2O_rdx82VoZtEQLIK4MFWw
+Message-ID: <CABVgOSkgOgjiZf56RzmaP0Uc5Q4A3-1FEXCJMYM8wBDs4xv1_A@mail.gmail.com>
+Subject: Re: [PATCH v3 12/16] kunit: qemu_configs: loongarch: Enable LSX/LSAX
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
@@ -80,28 +80,27 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org
 	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
 	workflows@vger.kernel.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000081484e0637fd9ec8"
+	boundary="000000000000d96cd20637fd9e0b"
 
---00000000000081484e0637fd9ec8
+--000000000000d96cd20637fd9e0b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Wed, 11 Jun 2025 at 15:38, Thomas Wei=C3=9Fschuh
 <thomas.weissschuh@linutronix.de> wrote:
 >
-> Skipped tests reported by kselftest.h use a different format than KTAP,
-> there is no explicit test name. Normally the test name is part of the
-> free-form string after the SKIP keyword:
+> The upcoming kunit UAPI framework will run userspace executables as part =
+of
+> kunit. These may use the LSX or LASX instructions.
 >
->         ok 3 # SKIP test: some reason
->
-> Extend the parser to handle those correctly. Use the free-form string as
-> test name instead.
+> Make sure the kunit kernel can handle these instructions.
 >
 > Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
 > ---
 
-Nice: this is a great improvement.
+Looks fine to me. I confess to not knowing much about the details of
+Loongarch CPUs, though, so while it hasn't broken anything here, I
+make no further guarantees.
 
 Reviewed-by: David Gow <davidgow@google.com>
 
@@ -109,79 +108,31 @@ Cheers,
 -- David
 
 
->  tools/testing/kunit/kunit_parser.py                             | 8 ++++=
-+---
->  tools/testing/kunit/test_data/test_is_test_passed-kselftest.log | 3 ++-
->  2 files changed, 7 insertions(+), 4 deletions(-)
+>  tools/testing/kunit/qemu_configs/loongarch.py | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/ku=
-nit_parser.py
-> index 2478beb28fc3db825855ad46200340e884da7df1..4599d23c79b79f0e219d655c7=
-053c8c3b34f8152 100644
-> --- a/tools/testing/kunit/kunit_parser.py
-> +++ b/tools/testing/kunit/kunit_parser.py
-> @@ -352,9 +352,9 @@ def parse_test_plan(lines: LineStream, test: Test) ->=
- bool:
->         lines.pop()
->         return True
->
-> -TEST_RESULT =3D re.compile(r'^\s*(ok|not ok) ([0-9]+) (- )?([^#]*)( # .*=
-)?$')
-> +TEST_RESULT =3D re.compile(r'^\s*(ok|not ok) ([0-9]+)? ?(- )?([^#]*)( # =
-.*)?$')
->
-> -TEST_RESULT_SKIP =3D re.compile(r'^\s*(ok|not ok) ([0-9]+) (- )?(.*) # S=
-KIP(.*)$')
-> +TEST_RESULT_SKIP =3D re.compile(r'^\s*(ok|not ok) ([0-9]+)? ?(- )?(.*) #=
- SKIP ?(.*)$')
->
->  def peek_test_name_match(lines: LineStream, test: Test) -> bool:
->         """
-> @@ -379,6 +379,8 @@ def peek_test_name_match(lines: LineStream, test: Tes=
-t) -> bool:
->         if not match:
->                 return False
->         name =3D match.group(4)
-> +       if not name:
-> +               return False
->         return name =3D=3D test.name
->
->  def parse_test_result(lines: LineStream, test: Test,
-> @@ -416,7 +418,7 @@ def parse_test_result(lines: LineStream, test: Test,
->
->         # Set name of test object
->         if skip_match:
-> -               test.name =3D skip_match.group(4)
-> +               test.name =3D skip_match.group(4) or skip_match.group(5)
->         else:
->                 test.name =3D match.group(4)
->
-> diff --git a/tools/testing/kunit/test_data/test_is_test_passed-kselftest.=
-log b/tools/testing/kunit/test_data/test_is_test_passed-kselftest.log
-> index 65d3f27feaf22a3f47ed831c4c24f6f11c625a92..30d9ef18bcec177067288d524=
-2771236f29b7d56 100644
-> --- a/tools/testing/kunit/test_data/test_is_test_passed-kselftest.log
-> +++ b/tools/testing/kunit/test_data/test_is_test_passed-kselftest.log
-> @@ -1,5 +1,5 @@
->  TAP version 13
-> -1..2
-> +1..3
->  # selftests: membarrier: membarrier_test_single_thread
->  # TAP version 13
->  # 1..2
-> @@ -12,3 +12,4 @@ ok 1 selftests: membarrier: membarrier_test_single_thre=
-ad
->  # ok 1 sys_membarrier available
->  # ok 2 sys membarrier invalid command test: command =3D -1, flags =3D 0,=
- errno =3D 22. Failed as expected
->  ok 2 selftests: membarrier: membarrier_test_multi_thread
-> +ok 3 # SKIP selftests: membarrier: membarrier_test_multi_thread
+> diff --git a/tools/testing/kunit/qemu_configs/loongarch.py b/tools/testin=
+g/kunit/qemu_configs/loongarch.py
+> index a92422967d1da9f1658ef1e80d0d7365ddbae307..1dba755284f11ffc94d894610=
+5b0cfa49cb6f604 100644
+> --- a/tools/testing/kunit/qemu_configs/loongarch.py
+> +++ b/tools/testing/kunit/qemu_configs/loongarch.py
+> @@ -11,6 +11,8 @@ CONFIG_PVPANIC_PCI=3Dy
+>  CONFIG_SERIAL_8250=3Dy
+>  CONFIG_SERIAL_8250_CONSOLE=3Dy
+>  CONFIG_SERIAL_OF_PLATFORM=3Dy
+> +CONFIG_CPU_HAS_LSX=3Dy
+> +CONFIG_CPU_HAS_LASX=3Dy
+>  ''',
+>                            qemu_arch=3D'loongarch64',
+>                            kernel_path=3D'arch/loongarch/boot/vmlinux.elf=
+',
 >
 > --
 > 2.49.0
 >
 
---00000000000081484e0637fd9ec8
+--000000000000d96cd20637fd9e0b
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -271,13 +222,13 @@ Vumvw5QTHe29TYxSiusovM6OD5y0I+4zaIaYDx/AtF0mMOFXb1MDyynf1CDxhtkgnrBUseHSOU2e
 MYs7IqzRap5xsgpJS+t7cp/P8fdlCNvsXss9zZa279tKwaxR0U2IzGxRGsWKGxDysn1HT6pqMDGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAUXA7LnOuRz2DvkWTeMc
-0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgx5hZS2f7vGv71nGipu63Ua0b3BgO
-THDz28XVxigNWs8wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-NjIwMDkzODA1WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgdmRkn+roJnIRM7dOmFoKnCUuDTOA
+BI5IB+0ZaM0EHxswGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+NjIwMDkzODExWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAAzfx4qIaMjwZzUXiVeus6srlL8JBWNHeXjoDyXiaNTbkmKxgEZI1GT//SuPGpG2T
-kWsEuM8XzJY4x34xXnCaj6gzPINI1NOKYoS3AlDjD3IqXTu+ytjVmjXzqpX9+/V407DzlPLsGgx5
-9JfAH22bhVszPegOLEIgzlrGDHQXKRmvRy8OCIwjlVTFLV/FIdS6ktK4hspZ2mid5dieoCb/nd9H
-Le3q5Xyh6XSJ3AAapiXmsqMmlskIbNNQcc+3/Wl28Ux3fwae1HQkrIeR8nSu0ymXTSJ3klCvnI3b
-ORsKEJfutZXACE4xSVNUjBN0eJAlNkxUK4qAC8IY9e1CUt7NgQ==
---00000000000081484e0637fd9ec8--
+AQEBBQAEggEAe2+hv7Z6q94sXBjDeyL5nFRNzuM7CGCciGs8J8Xe6Aid7xz9X+nog1oSN2J553o5
+dKPTqhGxSiaD4a+xQEwEg2jHMCPboHd4eGihQB0XjcQnp5rgpQZZ8qQXFVa2QjSPOyVvM4BVXucO
++1LUJCanqUZUhPrshXj+EKgAM6VKqxv2JXKg3ZgHAJY3OzxI4+f14PNkHkAS8SM5OQVgzBcKoNHc
+2XWRgTf0xF4Qkj3SqFrZj7CuluU3yOJaHJnkFY1CZoLy2hcub0MTfvz7Ylqgt7fygj3d6j9TOdgo
+B/bLq10X0vzGvuQI5McgNMY4YpEs0hXE4U8pBGB5f+THcAzD4g==
+--000000000000d96cd20637fd9e0b--
