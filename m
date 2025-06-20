@@ -1,323 +1,110 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881822E3366
-	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 17:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070432D3A6E;
+	Fri, 20 Jun 2025 17:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750440799; cv=none; b=eOcKmUAeZx24hEhKWXHNslMICz0jPi0/mDAL97eFsJGmjchXpLOHuZLaWcqrRdcR23KLq3LEm2d2ho9AENRlgRMAac6amf3RcFQrJ6LA3eUjah8prhvI4YeDRz3b6EqlRfmiduZeLYNn6JLtgsKFRpCDqBK5pFrG3oe259crKR4=
+	t=1750440830; cv=none; b=eZHZePKkz9OLdZkEZZR2qELQAKjoqb7NB55TomJT3845O05u1umtsxo9hZgfT5lvLEGg2yjNAfpbEect19YCmut2hoBA69BRF3GklekfGFWRhoue57TuVKnU6ERdtqE0qmaqN0utZgSzpfI2zPM9MpAUBeupfKBmyi1Wps2QkyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750440799; c=relaxed/simple;
-	bh=lf3rt/J5Q2TSc3Spn1FYOaKS+rgsq15oINCH4ECAlI8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LcWLLh8zcmAuYXeHs1XuKksOicbLGYHQJnG6PjoHlN3T3O7ja4Rql7ZBYvRKWaEsuVhDT/Ob6QbRPw/Fz8gKxO7mRf2QSoekynMaH8nYsyiIjcAbdZ2lXePdqancbbKCMVM4mv5H8nlBUzHmv/4Zau2gf0vXbqEOBGzB4pZ2Kv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=sbXO9h/h; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1750440830; c=relaxed/simple;
+	bh=C0KIP4y2EaLB9MdRBxwuIaS4kc8jFZZqZaGNo2xtJ/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QG4zEPzURAP/h+vFtyjDN3LBqWKRaQ8V5QndQiWFvNYqlP/s65I873oT+dwlSLuoFit9GoKq8kTpj3bWOj6sKejYyXMKas5SRjApdCbYhV2fqrfslzaoRZbx+whV71IRTzp15BnDE6PykzPmhzPbW/AXsx1WxuuwNi5B3V1Szgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHtXkU6y; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="sbXO9h/h"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e81ec95d944so1847972276.1
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 10:33:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1750440796; x=1751045596; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2abC0SFXgIr7+KzY0H72u6hUC8EwRyPuKIwDFbrFdvA=;
-        b=sbXO9h/hiAXmk4XFcOY2XU0c9Mk7nxYXsgNEvYm2HrVOxYi1Hep7MrDaTsoFHlYr6i
-         Gei/wtQVmpSGm4PAUU/ewYPL9Pnbp/hE1V4druBXDnbJPCS0QqcLbWoPh60yxTEk1dbP
-         gvSOYMgpwy8WRa7oiV72urdSEeaqdMUUcBh4ZUOCQrphSS0aM/+3UO67dcvNPgJloRxj
-         Mth7rJbXdjfxrfXErKDtIQG2xSU7EJ0OvCMnCx8POkB7LOOign5A5KpC7Ks/BLVKxHZI
-         xy7Oe9mkaQRNtXADj0j1pUbjDhRa4Uh9d5Cjt9SmjyO8d+aVygkEMda2Osmka44QxdBF
-         Aimg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750440796; x=1751045596;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2abC0SFXgIr7+KzY0H72u6hUC8EwRyPuKIwDFbrFdvA=;
-        b=q76pBdNeRcqWm9pj7kfXgkwJI3oa8RJ3B+1zxVKSjnjQtDEB8Si+PCs+5ozOTsjovM
-         +JAo9spZnFM6TQHH3kz3MdFKAKIdVuZc36vpdUYjzE8Sug/9Z+B3cwxKRdr2w7x33+OD
-         XGXNSkHrQmcK3Py12/lGTQjUVvBcOZIl5GEFk+BGZSnA0xHeS5PEQx6gpvljjEJZIuT1
-         OHU9cqozdpH9Mnks0mxXbBb1r8rCteR8fTmVF8XTJLfQK49bI0JljQPhg93ATVh0d0nT
-         IQGhVhqagk5TyRcoNxV6WjjjlS8eAoEiImBUny5J1LhW3ts00tCRTAr5u1C2uVYvP9VI
-         2Ocg==
-X-Forwarded-Encrypted: i=1; AJvYcCWkF3+lHzuV+nBSaSurDEIiKST4S4W+k+h5cvr9h2puzyyD4fFeH/R45BkYbQSLV4V5FAB9JvzyWPU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySyrj1rygeSSZ2EH81D4f5coVXnEOpfmQdr+9myBzHa2BiY2MI
-	1ff+EbekvDiAuT/ZS2AwDwNLWuCzKRr1ljLpLhn0KrnCZvVDBlIWXBaiuh2Wst4AEnF7Y7pZoGM
-	RNrP/rBupQEDfWP5511jZF9k9YJVf/PMOZfQzNTuMNg==
-X-Gm-Gg: ASbGncuIDJr+JmY2Wm/WV/i3UcaTA9asukoj91UaDx6uS7SSkaQryueMpuwi/+0mSzi
-	68V3/n4vtFCfHGC26bOurM5w1at+5YXtnf3xxnIn/wsz+IzeNcdG1kXsvpVkHxTE7C2u8gNgmDl
-	21kfKM3msU1mLp89ImQiw5f7YjBh67tINEYRXgljdYbVmT
-X-Google-Smtp-Source: AGHT+IEkgLARqA2KXW+VjQvrt/iHwV+xr0H31M/s+eB4pqd94Voek7Ap4g7bsttqbn0aTqp01MS+cbE/e4BYHevU73o=
-X-Received: by 2002:a05:690c:931c:10b0:712:c5f7:1ee9 with SMTP id
- 00721157ae682-712ca34ede8mr29381827b3.8.1750440796260; Fri, 20 Jun 2025
- 10:33:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHtXkU6y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750440829; x=1781976829;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C0KIP4y2EaLB9MdRBxwuIaS4kc8jFZZqZaGNo2xtJ/k=;
+  b=IHtXkU6yXnvCpzaChjzLh2kAmz9kL82Fn85J2lMzo1SOcIkQVuMsF026
+   ZHz86Fo9zG9y7ozBxtOblEQj4I93jkpSEFByErbsT55ul4h5razzyUMSl
+   nvwOQtqbnMrHIEF62FirtFo4kza1mSKMbwQmJVmvnA7DLWwgcFtRG8JPL
+   3XnRXdrSuRw95nUv56PAE+YeOOjTpFB2i1COGvysMwsIK0j+lOsA06Eh/
+   glSPl2qKOJrDKB4xS5joDeGnsTm7cGmZpcAIZOcG/GOmwhrrE7eyvI2xB
+   lIcwjyWEmTcUw2CGx/dgSsAjO5/V9b8KXhfnuhl8BGm9TQ8V687LXaszm
+   A==;
+X-CSE-ConnectionGUID: VsHAKXjeSGa9yYIQreGd2Q==
+X-CSE-MsgGUID: 2Go1r15nQTma9Nuq+5ssDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="51943391"
+X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
+   d="scan'208";a="51943391"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 10:33:48 -0700
+X-CSE-ConnectionGUID: 5ylaNGQKRJKduxA7PJ9a/g==
+X-CSE-MsgGUID: VgHyEtvcR26bzU3URzErIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
+   d="scan'208";a="155272453"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa005.fm.intel.com with ESMTP; 20 Jun 2025 10:33:37 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id 3A5B1109; Fri, 20 Jun 2025 20:33:36 +0300 (EEST)
+Date: Fri, 20 Jun 2025 20:33:36 +0300
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
+	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
+	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
+	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
+	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
+	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-mm@kvack.org, Yian Chen <yian.chen@intel.com>
+Subject: Re: [PATCHv6 01/16] x86/cpu: Enumerate the LASS feature bits
+Message-ID: <6y2iqv6c2idn7yebaec7tyhzl5zcsrwqq4lcsokumlqeophzaf@ljnmxorblgcj>
+References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
+ <20250620135325.3300848-2-kirill.shutemov@linux.intel.com>
+ <20250620163504.GCaFWNuI-8QFqAM0yI@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250604-v5_user_cfi_series-v17-0-4565c2cf869f@rivosinc.com>
- <20250604-v5_user_cfi_series-v17-15-4565c2cf869f@rivosinc.com>
- <CANXhq0pRXX_OMW2g2ui-k7Z_ZT+5a8Sra8oE28nBh5B9K2L5bQ@mail.gmail.com> <CANXhq0p3MVLMsr_r0RWMti476pT0EMx61PQArjo2fUauTdpXaQ@mail.gmail.com>
-In-Reply-To: <CANXhq0p3MVLMsr_r0RWMti476pT0EMx61PQArjo2fUauTdpXaQ@mail.gmail.com>
-From: Deepak Gupta <debug@rivosinc.com>
-Date: Fri, 20 Jun 2025 10:33:05 -0700
-X-Gm-Features: Ac12FXwTNfjkf9IENg9kQWer4J0SFv3v73bubAYv2TNOJ9tzM24JcaWhs9j55A8
-Message-ID: <CAKC1njRNatM6bj7+bCbMcwv7UoEfKSTQTGOnFSxuGLoephw0+A@mail.gmail.com>
-Subject: Re: [PATCH v17 15/27] riscv/traps: Introduce software check exception
- and uprobe handling
-To: Zong Li <zong.li@sifive.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250620163504.GCaFWNuI-8QFqAM0yI@fat_crate.local>
 
-On Thu, Jun 19, 2025 at 7:16=E2=80=AFPM Zong Li <zong.li@sifive.com> wrote:
->
-> On Mon, Jun 16, 2025 at 3:31=E2=80=AFPM Zong Li <zong.li@sifive.com> wrot=
-e:
-> >
-> > On Thu, Jun 5, 2025 at 1:17=E2=80=AFAM Deepak Gupta <debug@rivosinc.com=
-> wrote:
-> > >
-> > > zicfiss / zicfilp introduces a new exception to priv isa `software ch=
-eck
-> > > exception` with cause code =3D 18. This patch implements software che=
-ck
-> > > exception.
-> > >
-> > > Additionally it implements a cfi violation handler which checks for c=
-ode
-> > > in xtval. If xtval=3D2, it means that sw check exception happened bec=
-ause of
-> > > an indirect branch not landing on 4 byte aligned PC or not landing on
-> > > `lpad` instruction or label value embedded in `lpad` not matching lab=
-el
-> > > value setup in `x7`. If xtval=3D3, it means that sw check exception h=
-appened
-> > > because of mismatch between link register (x1 or x5) and top of shado=
-w
-> > > stack (on execution of `sspopchk`).
-> > >
-> > > In case of cfi violation, SIGSEGV is raised with code=3DSEGV_CPERR.
-> > > SEGV_CPERR was introduced by x86 shadow stack patches.
-> > >
-> > > To keep uprobes working, handle the uprobe event first before reporti=
-ng
-> > > the CFI violation in software-check exception handler. Because when t=
-he
-> > > landing pad is activated, if the uprobe point is set at the lpad
-> > > instruction at the beginning of a function, the system triggers a sof=
-tware
-> > > -check exception instead of an ebreak exception due to the exception
-> > > priority, then uprobe can't work successfully.
-> > >
-> > > Co-developed-by: Zong Li <zong.li@sifive.com>
-> > > Reviewed-by: Zong Li <zong.li@sifive.com>
-> > > Signed-off-by: Zong Li <zong.li@sifive.com>
-> > > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> > > ---
-> > >  arch/riscv/include/asm/asm-prototypes.h |  1 +
-> > >  arch/riscv/include/asm/entry-common.h   |  2 ++
-> > >  arch/riscv/kernel/entry.S               |  3 ++
-> > >  arch/riscv/kernel/traps.c               | 51 +++++++++++++++++++++++=
-++++++++++
-> > >  4 files changed, 57 insertions(+)
-> > >
-> > > diff --git a/arch/riscv/include/asm/asm-prototypes.h b/arch/riscv/inc=
-lude/asm/asm-prototypes.h
-> > > index cd627ec289f1..5a27cefd7805 100644
-> > > --- a/arch/riscv/include/asm/asm-prototypes.h
-> > > +++ b/arch/riscv/include/asm/asm-prototypes.h
-> > > @@ -51,6 +51,7 @@ DECLARE_DO_ERROR_INFO(do_trap_ecall_u);
-> > >  DECLARE_DO_ERROR_INFO(do_trap_ecall_s);
-> > >  DECLARE_DO_ERROR_INFO(do_trap_ecall_m);
-> > >  DECLARE_DO_ERROR_INFO(do_trap_break);
-> > > +DECLARE_DO_ERROR_INFO(do_trap_software_check);
-> > >
-> > >  asmlinkage void handle_bad_stack(struct pt_regs *regs);
-> > >  asmlinkage void do_page_fault(struct pt_regs *regs);
-> > > diff --git a/arch/riscv/include/asm/entry-common.h b/arch/riscv/inclu=
-de/asm/entry-common.h
-> > > index b28ccc6cdeea..34ed149af5d1 100644
-> > > --- a/arch/riscv/include/asm/entry-common.h
-> > > +++ b/arch/riscv/include/asm/entry-common.h
-> > > @@ -40,4 +40,6 @@ static inline int handle_misaligned_store(struct pt=
-_regs *regs)
-> > >  }
-> > >  #endif
-> > >
-> > > +bool handle_user_cfi_violation(struct pt_regs *regs);
-> > > +
-> > >  #endif /* _ASM_RISCV_ENTRY_COMMON_H */
-> > > diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
-> > > index 978115567bca..8d25837a9384 100644
-> > > --- a/arch/riscv/kernel/entry.S
-> > > +++ b/arch/riscv/kernel/entry.S
-> > > @@ -474,6 +474,9 @@ SYM_DATA_START_LOCAL(excp_vect_table)
-> > >         RISCV_PTR do_page_fault   /* load page fault */
-> > >         RISCV_PTR do_trap_unknown
-> > >         RISCV_PTR do_page_fault   /* store page fault */
-> > > +       RISCV_PTR do_trap_unknown /* cause=3D16 */
-> > > +       RISCV_PTR do_trap_unknown /* cause=3D17 */
-> > > +       RISCV_PTR do_trap_software_check /* cause=3D18 is sw check ex=
-ception */
-> > >  SYM_DATA_END_LABEL(excp_vect_table, SYM_L_LOCAL, excp_vect_table_end=
-)
-> > >
-> > >  #ifndef CONFIG_MMU
-> > > diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
-> > > index 8ff8e8b36524..64388370e1ad 100644
-> > > --- a/arch/riscv/kernel/traps.c
-> > > +++ b/arch/riscv/kernel/traps.c
-> > > @@ -354,6 +354,57 @@ void do_trap_ecall_u(struct pt_regs *regs)
-> > >
-> > >  }
-> > >
-> > > +#define CFI_TVAL_FCFI_CODE     2
-> > > +#define CFI_TVAL_BCFI_CODE     3
-> > > +/* handle cfi violations */
-> > > +bool handle_user_cfi_violation(struct pt_regs *regs)
-> > > +{
-> > > +       unsigned long tval =3D csr_read(CSR_TVAL);
-> > > +       bool is_fcfi =3D (tval =3D=3D CFI_TVAL_FCFI_CODE && cpu_suppo=
-rts_indirect_br_lp_instr());
-> > > +       bool is_bcfi =3D (tval =3D=3D CFI_TVAL_BCFI_CODE && cpu_suppo=
-rts_shadow_stack());
-> > > +
-> > > +       /*
-> > > +        * Handle uprobe event first. The probe point can be a valid =
-target
-> > > +        * of indirect jumps or calls, in this case, forward cfi viol=
-ation
-> > > +        * will be triggered instead of breakpoint exception.
-> > > +        */
-> > > +       if (is_fcfi && probe_breakpoint_handler(regs))
-> > > +               return true;
-> >
-> > Hi  Deepak,
-> > Sorry for missing something earlier. I think we would like to clear
-> > sstatus.SPELP in the uprobe handling case. For example:
-> >
-> > diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
-> > index c2ea999c1167..e8492bb57e09 100644
-> > --- a/arch/riscv/kernel/traps.c
-> > +++ b/arch/riscv/kernel/traps.c
-> > @@ -349,8 +349,10 @@ bool handle_user_cfi_violation(struct pt_regs *reg=
-s)
-> >         bool is_fcfi =3D (tval =3D=3D CFI_TVAL_FCFI_CODE &&
-> > cpu_supports_indirect_br_lp_instr());
-> >         bool is_bcfi =3D (tval =3D=3D CFI_TVAL_BCFI_CODE &&
-> > cpu_supports_shadow_stack());
-> >
-> > -       if (is_fcfi && probe_breakpoint_handler(regs))
-> > +       if (is_fcfi && probe_breakpoint_handler(regs)) {
-> > +               regs->status =3D regs->status & ~SR_ELP;
-> >                 return true;
-> > +       }
+On Fri, Jun 20, 2025 at 06:35:04PM +0200, Borislav Petkov wrote:
+> On Fri, Jun 20, 2025 at 04:53:09PM +0300, Kirill A. Shutemov wrote:
+> > diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> > index ee176236c2be..4473a6f7800b 100644
+> > --- a/arch/x86/include/asm/cpufeatures.h
+> > +++ b/arch/x86/include/asm/cpufeatures.h
+> > @@ -313,6 +313,7 @@
+> >  #define X86_FEATURE_SM4			(12*32+ 2) /* SM4 instructions */
+> >  #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* "avx_vnni" AVX VNNI instructions */
+> >  #define X86_FEATURE_AVX512_BF16		(12*32+ 5) /* "avx512_bf16" AVX512 BFLOAT16 instructions */
+> > +#define X86_FEATURE_LASS		(12*32+ 6) /* "lass" Linear Address Space Separation */
+> 
+> This needs to be in /proc/cpuinfo because...?
 
-Make sense. I'll pick it up in the next version. Thanks.
+What is current policy around it ?
 
-> >
-> >         if (is_fcfi || is_bcfi) {
-> >                 do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->epc,
-> >
-> >
-> > When a user mode CFI violation occurs, the ELP state should be 1, and
-> > the system traps into supervisor mode. During this trap, sstatus.SPELP
-> > is set to 1, and the ELP state is reset to 0. If we don=E2=80=99t clear
-> > sstatus.SPELP, the ELP state will become 1 again after executing the
-> > sret instruction. As a result, the system might trigger another
-> > forward CFI violation upon executing the next instruction in the user
-> > program, unless it happens to be a lpad instruction.
-> >
-> > The previous patch was tested on QEMU, but QEMU does not set the
-> > sstatus.SPELP bit to 1 when a forward CFI violation occurs. Therefore,
-> > I suspect that QEMU might also require some fixes.
->
-> Hi Deepak,
-> The issue with QEMU was that the sw-check exception bit in medeleg
-> couldn't be set. This has been fixed in the latest QEMU mainline. I
-> have re-tested the latest QEMU version, and it works.
+I think it is useful to advertise security features in cpuinfo. LASS fits
+next to SMAP/SMEP/UMIP.
 
-Thanks for the fix.
-
->
-> >
-> > Thanks
-> >
-> > > +
-> > > +       if (is_fcfi || is_bcfi) {
-> > > +               do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->epc,
-> > > +                             "Oops - control flow violation");
-> > > +               return true;
-> > > +       }
-> > > +
-> > > +       return false;
-> > > +}
-> > > +
-> > > +/*
-> > > + * software check exception is defined with risc-v cfi spec. Softwar=
-e check
-> > > + * exception is raised when:-
-> > > + * a) An indirect branch doesn't land on 4 byte aligned PC or `lpad`
-> > > + *    instruction or `label` value programmed in `lpad` instr doesn'=
-t
-> > > + *    match with value setup in `x7`. reported code in `xtval` is 2.
-> > > + * b) `sspopchk` instruction finds a mismatch between top of shadow =
-stack (ssp)
-> > > + *    and x1/x5. reported code in `xtval` is 3.
-> > > + */
-> > > +asmlinkage __visible __trap_section void do_trap_software_check(stru=
-ct pt_regs *regs)
-> > > +{
-> > > +       if (user_mode(regs)) {
-> > > +               irqentry_enter_from_user_mode(regs);
-> > > +
-> > > +               /* not a cfi violation, then merge into flow of unkno=
-wn trap handler */
-> > > +               if (!handle_user_cfi_violation(regs))
-> > > +                       do_trap_unknown(regs);
-> > > +
-> > > +               irqentry_exit_to_user_mode(regs);
-> > > +       } else {
-> > > +               /* sw check exception coming from kernel is a bug in =
-kernel */
-> > > +               die(regs, "Kernel BUG");
-> > > +       }
-> > > +}
-> > > +
-> > >  #ifdef CONFIG_MMU
-> > >  asmlinkage __visible noinstr void do_page_fault(struct pt_regs *regs=
-)
-> > >  {
-> > >
-> > > --
-> > > 2.43.0
-> > >
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
