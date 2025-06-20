@@ -1,161 +1,142 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7E72D8DC9;
-	Fri, 20 Jun 2025 15:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389EE2D5410;
+	Fri, 20 Jun 2025 15:31:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750433322; cv=none; b=NRafKBaDYCIsrVV2KyfLBVVUa45NNwuRkg1DQWleYtKokN/bOuTBxuSRCX8e9kwQ3I2Ptvp8zyaCHa510lziPMffnzruk8Mv2JsB97U1jdnZ7U33iX+q4lJg8AdkHiaHvibSoxyideyE0A4/CqNhoIo8+FILXS46WZE7HIkhMfM=
+	t=1750433500; cv=none; b=DyccujuMqfuGuSZ0SjCcN9Xvytue3I4Lhkn4vf6a7jIU1qN9SeOAbDBNpIAcd0P6YsdhCYma8ZOU1YoPpQYXMWVMj1e2C/GlfFDcm1Rs6Bl/eo65+2DmTePXspYIM+ZE6+XMWTzR2+SOXy9+9bzZnOHenvVMSoAwv2HHALwDipg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750433322; c=relaxed/simple;
-	bh=s48sv8cQZxsP+ITyE0jtnLWoulZ7jFl//mGYqYmUOIg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WNSBrJy3X+M7spsJhd6N4LS9jPyxfrOvUfTLcRzvSNy0TqumU0LS1ZXMffqJIlJFZyH4bQT4DQUblqiMeChBYGgo167w+ScXLmhIK/J3vMFBXeAV1vxMQ5VK9JZpVp3F9iomEpC6oidpvT2reyeZX2aRWppyRnVcyOMyUob9QlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T/yh1qX0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750433500; c=relaxed/simple;
+	bh=iEFys1xc86l4xtETpg83SAgsifwnlZH1zuU6toODk5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NpYh5cJIlj5X+E3sxQOTdMVoI7YPdWg4u02hWpauKJgIS2pMx6yXdwC+/tjf0WAqcsTMHWq9pWdQ8w6zLJxBQRR/tTe3FfSH06oYKtXMW6akkaZEiSsFWtTaWE+4MFNe4Hp0u9lP2D6OBWWxO1CTVX/RDWYTiT09HhIojEtlH0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJdOGt/9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T/yh1qX0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C94AC4CEE3;
-	Fri, 20 Jun 2025 15:28:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJdOGt/9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15C8EC4CEF0;
+	Fri, 20 Jun 2025 15:31:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750433321;
-	bh=s48sv8cQZxsP+ITyE0jtnLWoulZ7jFl//mGYqYmUOIg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=T/yh1qX0eOHqOk94aDuQCH2s/qyRkQqpZOboUNJPj1MkPrHAk+mivll/EFLYhzA7f
-	 51EJzq8JQEYwojbFGTMMqW12eR1/0K7+g2HmvP53X7MKTLUHGOAfrHaV8iilcThtc6
-	 sVv0v8ZjR6dqxfG5qCP6CtkkmrWdn9BZmEtYHvEj0z/5M5TmBF07beiIaXyekd/2iE
-	 +KnXqSCm582ZUC5wd1mGmLvlP/Wa3MTNzDL3rka4g6wU4pEz3QQ+oFF3MB1sV03xP7
-	 QeCrWMn1J+rjPifsv0xMED4VVllS/gk9xNPfbErfrnQipu0Ej/NbYCJe5LTZkG9wpg
-	 rz1b+ci1aoT6Q==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Mike Rapoport <rppt@kernel.org>,  Pratyush Yadav <pratyush@kernel.org>,
-  Jason Gunthorpe <jgg@ziepe.ca>,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  dmatlack@google.com,  rientjes@google.com,
-  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
-In-Reply-To: <CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
-References: <mafs0sekfts2i.fsf@kernel.org>
-	<CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
-	<mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
-	<CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
-	<mafs05xgtw5wn.fsf@kernel.org>
-	<CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
-	<aFLr7RDKraQk8Gvt@kernel.org>
-	<CA+CK2bAnCRu+k=Q78eA4kcAebxA9NgOorhwRqu-WxC913YBsBw@mail.gmail.com>
-	<CA+CK2bB3P1vX658ErkP4_-L6WZSOCcenEwUdX1qS=poDjs=i+A@mail.gmail.com>
-	<aFP7wwCviqxujKDg@kernel.org>
-	<CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
-Date: Fri, 20 Jun 2025 17:28:31 +0200
-Message-ID: <mafs0ikkqv3ds.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=k20201202; t=1750433500;
+	bh=iEFys1xc86l4xtETpg83SAgsifwnlZH1zuU6toODk5w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oJdOGt/9sIYB1KkSe+3nyc+LxyaEtycRPXHeperkDCsgcc7fHizbtlLI7BeFyIL2H
+	 AHOsDCzaoIAWCMu+tBwPIGef/r1cfK+3/y6xvdw7Hb9TwcLc+c/HUf7QyRCDAg0Zrn
+	 X/ULCXxIYYpyRQlxDRrC/rpxKboMjsjoehZuxrjZy1EqSnuxmC6i++CTgxY2ie/xk4
+	 7ZvOL9I3WBx1v0GsNEm/hwGR0pIHQ/QhoKwg7GubDihcWQLlB93/bGuXwGdrBal5Pg
+	 /WYDxCcQe0c+PU2Yu/2XxX1trOgvwcYwnsUGub69rGdKzKoDjLAL5S48nM0Ap9Q6lz
+	 AgQzVEqLGia1A==
+Date: Fri, 20 Jun 2025 17:31:29 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Jakub Kicinski <kuba@kernel.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Breno
+ Leitao <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jan Stancek <jstancek@redhat.com>, Marco
+ Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben Wauters
+ <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
+ peterz@infradead.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
+ netlink_yml_parser.py
+Message-ID: <20250620172949.1525075a@sal.lan>
+In-Reply-To: <877c17h4wt.fsf@trenco.lwn.net>
+References: <cover.1749891128.git.mchehab+huawei@kernel.org>
+	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
+	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
+	<20250614173235.7374027a@foz.lan>
+	<20250614103700.0be60115@kernel.org>
+	<20250614205609.50e7c3ad@foz.lan>
+	<20250614124649.2c41407c@kernel.org>
+	<877c17h4wt.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Pasha,
+Em Thu, 19 Jun 2025 14:06:58 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-On Thu, Jun 19 2025, Pasha Tatashin wrote:
+> Jakub Kicinski <kuba@kernel.org> writes:
+>=20
+> > On Sat, 14 Jun 2025 20:56:09 +0200 Mauro Carvalho Chehab wrote: =20
+>=20
+> >> I'm more interested on having a single place where python libraries
+> >> could be placed. =20
+> >
+> > Me too, especially for selftests. But it's not clear to me that
+> > scripts/ is the right location. I thought purely user space code
+> > should live in tools/ and bulk of YNL is for user space. =20
+>=20
+> I've been out wandering the woods and canyons with no connectivity for a
+> bit, so missed this whole discussion, sorry.
 
-[...]
->> And it has to be done before kexec load, at least until we resolve this.
->
-> The before kexec load constrained has been fixed. The only
-> "finalization" constraint we have is it should be before
-> reboot(LINUX_REBOOT_CMD_KEXEC) and only because memory allocations
-> during kernel shutdown are undesirable. Once KHO moves away from a
-> monolithic state machine this constraint disappears. Kernel components
-> could preserve their resources at appropriate times, not necessarily
-> tied to a shutdown-time. For live update scenarios, LUO already
-> orchestrates this timing.
->
->> Currently this is triggered either by KHO debugfs or by LUO ioctls. If we
->> completely drop KHO debugfs and notifiers, we still need something that
->> would trigger the magic.
->
-> An external "magic trigger" for KHO (like the current finalize
-> notifier or debugfs command) is necessary for scenarios like live
-> update, where userspace resources are being preserved in a coordinated
-> fashion just before kexec.
->
-> For kernel-internal resources that are unrelated to such a
-> userspace-driven live update flow, the respective kernel components
-> should directly use KHO's primitive preservation APIs
-> (kho_preserve_folio, etc.) when they need to mark their resources for
-> handover. No separate, state machine or external trigger should be
-> required for these individual, self-contained preservation acts.
+Sounds fun!
 
-For kernel-internal components, I think this makes a lot of sense,
-especially now that we don't need to get everything done by kexec load
-time. I suppose the liveupdate_reboot() call at reboot time to prepare
-final things can be useful, but subsystems can just as well register
-reboot notifiers to get the same notification.
+> Mauro and I had talked about the proper home for Python libraries when
+> he reworked kernel-doc; we ended up with them under scripts/, which I
+> didn't find entirely pleasing.  If you were to ask me today, I'd say
+> they should be under lib/python, but tomorrow I might say something
+> else...
 
->
->> I'm not saying we should keep KHO debugfs and notifiers, I'm saying that if
->> we make LUO the only thing driving KHO, liveupdate is not an appropriate
->> name.
->
-> LUO drives KHO specifically for the purpose of live updates. If a
-> different userspace use-case emerges that needs another distinct
-> purpose (e.g., not to preserve a FD a or a device across kernel reboot
-> (i.e. something for which LUO does not provide uAPI)), then that would
-> probably need a separate from LUO uAPI instead of extending the LUO
-> uAPI.
+Yeah, I guess you proposed lib/python before... I could be wrong though.
+Anyway, at least for me lib/python sounds a better alternative than
+scripts. I won't mind tools/lib/python or some other place.
 
-Outside of hypervisor live update, I have a very clear use case in mind:
-userspace memory handover (on guest side). Say a guest running an
-in-memory cache like memcached with many gigabytes of cache wants to
-reboot. It can just shove the cache into a memfd, give it to LUO, and
-restore it after reboot. Some services that suffer from long reboots are
-looking into using this to reduce downtime. Since it pretty much
-overlaps with the hypervisor work for now, I haven't been talking about
-it as much.
+> In truth, I don't think it matters much, but I *do* think we should have
+> a single location from which to import kernel-specific Python code.
+> Spreading it throughout the tree just isn't going to lead to joy.
 
-Would you also call this use case "live update"? Does it also fit with
-your vision of where LUO should go?
+We're aligned with that regards: IMO, we need a single store within
+the Kernel for classes that might be shared.
 
-If not, why do you think we should have a parallel set of uAPIs that do
-similar work? Why can't we accommodate other use cases under one API,
-especially as long as they don't have conflicting goals? In practice,
-outside of s/luo/khoctl/g, I don't think much would change as of now.
-The state machine and APIs will stay the same.
+As I commented on one of PRs, maybe the series could be merged
+with Donald proposed (tools/net/ynl/pyynl/lib/doc_generator.py),
+while we're still discussing. So, let's focus on get it reviewed
+and merged without needing to wait for a broader discussion
+about its permanent location.
 
-When those use cases start to diverge from the liveupdate, or conflict
-with it, we can then decide to have a separate interface for them, but
-when going the other way round, we won't end up with a somewhat
-confusing name for a more widely applicable technology.
+We can later shift the code once we reach an agreement.
 
-I've been thinking about the naming since the start, but I didn't want
-to bikeshed on it too much. But if we are also talking about the scope
-of LUO, then I think this is a conversation worth having.
+-
 
-PS: I don't have real data, but I have a feeling that after luo/khoctl
-    mature, more use cases will come out of the woodwork to optimize
-    reboots.
+To start the discussions about a permanent location, in the specific=20
+case of YNL, we currently have there:
 
--- 
+	$ tree -d tools/net/ynl/ -I __pycache__
+	tools/net/ynl/
+	=E2=94=9C=E2=94=80=E2=94=80 generated
+	=E2=94=9C=E2=94=80=E2=94=80 lib
+	=E2=94=9C=E2=94=80=E2=94=80 pyynl
+	=E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 lib
+	=E2=94=94=E2=94=80=E2=94=80 samples
+
+where pyynl have executables and pyynl the python libraries.
+
+what I would suggest is to move what it is under "pyynl/lib"
+to "{prefix}/ynl", where "{prefix}" can be "lib/python",
+"tools/lib/python", "scripts/lib" or whatever other location
+we reach an agreement.
+
+For now, I placed the latest version of my doc patch series
+under:
+
+	https://github.com/mchehab/linux/tree/netlink_v8
+
+to have a central place to have them on one of my scratch
+trees.
+
+I sent today for review to linux-doc ML an initial patch series
+with some non-YAML related patches. I have another set of
+patches after it, which I'm planning to send on Monday. At the
+end, there are the YAML parser submission.
+
 Regards,
-Pratyush Yadav
+Mauro
