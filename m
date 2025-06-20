@@ -1,136 +1,126 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB592C0313
-	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 17:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6509017BB21;
+	Fri, 20 Jun 2025 17:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750439125; cv=none; b=STkzwgzIG9S/ZWWiNZISNeHwo3hByh4iaI5ZKBJiSs4+4lp8zTeAwuA3fxlAuUG3HDioL9KTQDMYBcrTxH/Q2uqS/6MHlgKSqwCnupBjXJfA4myHY+dbsbGrccPz2amBMw24X4cLruATajhdyRk9OLpmy7qUV9Eq7xrLyES+3gk=
+	t=1750439951; cv=none; b=mM5kAG+hWZrhb/YvSXyuS9wfXPyHJKTOpsOnE0ncSYHhqQu5ycfnzWBzH1e1+rXyEoO4x+8PaRk1omXSBiIGDTsxjAMkflJHMfs+QVPMmQOxpZsGvilsqaEKvwk7tH1s59HAuX4NTtRtdXw8piI++LyWir6RE84/PzVdFiHdV5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750439125; c=relaxed/simple;
-	bh=qz32WDm8kGqJZkxyvJ3a2TRLVvgFrditQhnsHw8Tesc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=kgxzjQs+iyn/2rzMqGlJHtVa9//sPUBxYHt6XzXoa5HAk/Dl3ALAQAwMxqbqLrt/Ew9cdKc3FUakZAVtxVkcAKQ89GyEcdEFAHUI1PHNEaV4Q0TBxQquMEKy5ySuGwfP9uBmaLtAY7zInYrilptGH0PM1dxrmCPPFuRCpTW9eS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AKRaMwlW; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750439951; c=relaxed/simple;
+	bh=dQDvIe8kEpS/KzWDhduzOi7rUZbsWr72XpJrQFUH1DE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sbGs+cSSOy6TU90uvjCN6EgWHUOhNKwNw3U3bKhVqFdJr8D0R2zAG+X7FponMViE4FPbtytM8GlMsNEeqgAcHAdGY18xBaKVRLPZV8uuicUXbZWaFKuNYCcbJlbmHyaCRj6jUuSshQn7Pl1EAi4IhTMcIKLyFrrL3IT7BhnqAEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O7ZLSe/Q; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AKRaMwlW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750439122;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O0uKaElPF1p9RN7ExopibAGaJCOW8iQTnWa+hoEBRAw=;
-	b=AKRaMwlW+h+tc+aMIrkdHf2SgkBuUhcjwZT68nkWIbZ0bNtiwEADDKFae7pvumGMpUxFGG
-	kXvDmklS+Z7yb7MunSGXF3dJHqp19GpZdaLgzMncZKEFhM249e8C4cSgt9bgaUaaIT6Ink
-	jUxEUpMk9bFHx0Zfi/7Cu4hC1bKiBYc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-690-xQyIip7EMJuj0p5Y9kMOXA-1; Fri, 20 Jun 2025 13:05:21 -0400
-X-MC-Unique: xQyIip7EMJuj0p5Y9kMOXA-1
-X-Mimecast-MFC-AGG-ID: xQyIip7EMJuj0p5Y9kMOXA_1750439120
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-450db029f2aso8510145e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 10:05:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750439120; x=1751043920;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=O0uKaElPF1p9RN7ExopibAGaJCOW8iQTnWa+hoEBRAw=;
-        b=MHezWMcSparf3JKOdgLDJ5xLCUVQjm7cRqAmQVfPcbjPSfqlxu1hnJin1uZXRhsHW3
-         uRyb9sOr1N81MDv4FR6zdPb52XYsZbvjRduwz6fu4VqGVHw7ay9Fkp/AXzsob6yzsJLK
-         DNsdIWwR7QmwFu6hGb9qrtbjBh7nfy22aiRE/fYAFTaP19OxjMnVtfu8oYRDgfupPXjF
-         Qa60HV9tQMLqKwFiYa4vu1N2zTZ0iTXLNdsNgdI848OcOfg9qKBe/kU8e6rNMjkJTJ2q
-         1MSkaT0fG5dVRLRFo5i2W7OQLS988BBZdoQhpgTt1q6sSqwJm3S+AeHAFPZVK4MM9D41
-         YOwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPVM0FhC994rjjLs65hMm0pjN/UwnfW983CmkBZ/y85+QEzp7IXkoOcCpOKT+ZF8+RESL1Lk2BKSE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz0JzUatnj7K0ENdTvQNFf+rVL24TJ+jLo+Tb/D6KtwlGRtaQm
-	P5IagP0O4bANRXYHZo6c6tmfNJoUdJiuWVqjmZCEWpEg6+sPKMsZlcqjULp79Mva9WeqXV4xTm6
-	TCj0P35cLa8RGbLSUcINW++3PfCnfDvBrHNQHOjkrEQmu5C0peTB0UAaqu+3pYA==
-X-Gm-Gg: ASbGncvemsmuMxlr8m91dLlNEGGnJJEJGEEqpmo1HAFakdIsypcwEsn5rkn/pfNP32T
-	570ImbWRFK2RmKhkMByC30ZDDLaRb7OXlVLIuQ0qri2uwwOwMjC6ziNkjsJpq+lIHZSqI/NNPHg
-	AkSkwW6ZdOYoGy5WYtswt4brPqc0Wc4ih0SqloH8wxq2Ilsgsn+ZqmgO00Cp1FVd7rYoyjE1VA6
-	8nBUaySGZYL8JmGjGLxzJPfbKoGCWMsDIxo1a0gkx/Fgq2Px+/cbgi5PIaxr6uZ9SiYexK/yHih
-	m0RJS2BBwPdejJ7d1Sw=
-X-Received: by 2002:a05:600c:c4ac:b0:43c:fd27:a216 with SMTP id 5b1f17b1804b1-453659ba4d5mr32818345e9.23.1750439118375;
-        Fri, 20 Jun 2025 10:05:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IErRRYJ7yHniQTxZlTtcjXynaBaSE5vB7XTQS6ITom5OtykTCmLWDLCyce9A+anV5QdRiHhQg==
-X-Received: by 2002:a05:600c:c4ac:b0:43c:fd27:a216 with SMTP id 5b1f17b1804b1-453659ba4d5mr32817665e9.23.1750439117743;
-        Fri, 20 Jun 2025 10:05:17 -0700 (PDT)
-Received: from [127.0.0.1] ([185.23.110.203])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4535ef6edbesm62743115e9.20.2025.06.20.10.05.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jun 2025 10:05:17 -0700 (PDT)
-Date: Fri, 20 Jun 2025 19:05:14 +0200
-From: Ivan Vecera <ivecera@redhat.com>
-To: Paolo Abeni <pabeni@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
- Shannon Nelson <shannon.nelson@amd.com>, Dave Jiang <dave.jiang@intel.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
- Petr Oros <poros@redhat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_net-next_v11_03/14=5D_dpll=3A?=
- =?US-ASCII?Q?_Add_basic_Microchip_ZL3073x_support?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <15618298-4598-472e-9441-8b1116a34de2@redhat.com>
-References: <20250616201404.1412341-1-ivecera@redhat.com> <20250616201404.1412341-4-ivecera@redhat.com> <20250618095646.00004595@huawei.com> <15618298-4598-472e-9441-8b1116a34de2@redhat.com>
-Message-ID: <DD848DCC-23FE-448D-AA1E-22EE281E34F9@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O7ZLSe/Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750439950; x=1781975950;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dQDvIe8kEpS/KzWDhduzOi7rUZbsWr72XpJrQFUH1DE=;
+  b=O7ZLSe/QPtkgVEPG1YMJwOydAXB/ZmkO9VgyJCYqRFNGMAjrX99pdE+g
+   a9hjWHj5T0usdc2SKf/zhbjZvH7fpEaFduNq06FJRtPFUZsDKm75R5djp
+   MkwXCcPeZMHgoF9+o4JD7gxrx1eMz+ybKad1uW+lEXL+Km4k7U1WbSfmU
+   9Vsw7LO1KljpPF8LugcKrEgZ4CTRaThdeWxiTE893L4PG+afEwEfWy97a
+   cIyVH88YEIirsrEzGEdAqy5WgKnHZTmeKQhLJPhsRgWBhkOyvgx+BfuOP
+   uW6N+y/YglmyhqcKb1jHXXygsnsjPk90Iz7NQURtiZRSuBcNKt1RQc3pm
+   w==;
+X-CSE-ConnectionGUID: d2nSgGS/T5aBGlCSgqVRXg==
+X-CSE-MsgGUID: OAu7kV9sQYSb4+NLZO9DWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="64146989"
+X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
+   d="scan'208";a="64146989"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 10:19:09 -0700
+X-CSE-ConnectionGUID: PEfm1VHzRRCCMeqjwOiyHg==
+X-CSE-MsgGUID: bAJr5kusQtOHInOrgsg17A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
+   d="scan'208";a="151179342"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa007.jf.intel.com with ESMTP; 20 Jun 2025 10:18:59 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id D0767109; Fri, 20 Jun 2025 20:18:56 +0300 (EEST)
+Date: Fri, 20 Jun 2025 20:18:56 +0300
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
+	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
+	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
+	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
+	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
+	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-mm@kvack.org
+Subject: Re: [PATCHv6 03/16] x86/alternatives: Disable LASS when patching
+ kernel alternatives
+Message-ID: <kal5vsl6lpxo4ygli4yj2y5cqrosh2qxm5buxoh6d6ba4dloqe@nkxti3f7vrhj>
+References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
+ <20250620135325.3300848-4-kirill.shutemov@linux.intel.com>
+ <15335559-bbb2-4da1-bbb9-878edf05437c@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <15335559-bbb2-4da1-bbb9-878edf05437c@intel.com>
 
+On Fri, Jun 20, 2025 at 08:33:57AM -0700, Dave Hansen wrote:
+> On 6/20/25 06:53, Kirill A. Shutemov wrote:
+> > +/*
+> > + * poking_init() initializes the text poking address from the lower half of the
+> > + * address space. Relax LASS enforcement when accessing the poking address.
+> > + */
+> 
+> This does not read quite right. I think there's some unnecessary
+> confusiuon about initializing the address versus the contents. But
+> either way, how about:
+> 
+> /*
+>  * Text poking creates and uses a mapping in the lower half of the
+>  * address space. Relax LASS enforcement when accessing the poking
+>  * address.
+>  */
 
+Looks good. Will update, thanks!
+> 
+> >  static void text_poke_memset(void *dst, const void *src, size_t len)
+> >  {
+> >  	int c = *(const int *)src;
+> >  
+> > -	memset(dst, c, len);
+> > +	lass_stac();
+> > +	__inline_memset(dst, c, len);
+> > +	lass_clac();
+> >  }
+> 
+> Yeah, this patch small enough that lass_{stac,clac}() are definitely
+> misplaced in this series. Just move them into this patch.
 
-On June 19, 2025 1:43:38 PM GMT+02:00, Paolo Abeni <pabeni@redhat=2Ecom> w=
-rote:
->On 6/18/25 10:56 AM, Jonathan Cameron wrote:
->> On Mon, 16 Jun 2025 22:13:53 +0200
->>> +static int zl3073x_spi_probe(struct spi_device *spi)
->>> +{
->>> +	struct device *dev =3D &spi->dev;
->>> +	struct zl3073x_dev *zldev;
->>> +
->>> +	zldev =3D zl3073x_devm_alloc(dev);
->>> +	if (IS_ERR(zldev))
->>> +		return PTR_ERR(zldev);
->>> +
->>> +	zldev->regmap =3D devm_regmap_init_spi(spi, &zl3073x_regmap_config);
->>> +	if (IS_ERR(zldev->regmap)) {
->>> +		dev_err_probe(dev, PTR_ERR(zldev->regmap),
->>> +			      "Failed to initialize regmap\n");
->>> +		return PTR_ERR(zldev->regmap);
->>=20
->> return dev_err_probe();
->> One of it's biggest advantages is that dev_err_probe() returns the
->> ret value passed in avoiding duplication like this and saving
->> a few lines of code each time=2E
->
->@Ivan: since patch 13 requires IMHO a fix, please also take care of the
->above in the next revision, thanks!
->
->Paolo
->
-Hi Paolo=20
-I will send the next series after vacation=2E=2E=2E
-I'm now in mountains in Albania=2E
-Will be back on 6/30
+Okay, makes sense.
 
-I=2E
-
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
