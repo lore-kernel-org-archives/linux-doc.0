@@ -1,160 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6053E2882A4;
-	Fri, 20 Jun 2025 15:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7E72D8DC9;
+	Fri, 20 Jun 2025 15:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750433120; cv=none; b=sby7izw4OPL0VR/6J9dTYjP/x+S+syTflzQ3IaWjxyeazmHEBYyqZzwOQUUGHMD9DO1w7YAzEW3nNqJYT4apWUwzde4HME9WJDe6LAgk7iMXGSApsetEFdRpHnO4w6Dv3DAG48P1IbVLL+W3q77+8aMCQ2K53yrVifzFkCDEkIw=
+	t=1750433322; cv=none; b=NRafKBaDYCIsrVV2KyfLBVVUa45NNwuRkg1DQWleYtKokN/bOuTBxuSRCX8e9kwQ3I2Ptvp8zyaCHa510lziPMffnzruk8Mv2JsB97U1jdnZ7U33iX+q4lJg8AdkHiaHvibSoxyideyE0A4/CqNhoIo8+FILXS46WZE7HIkhMfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750433120; c=relaxed/simple;
-	bh=hSYkOFgMMBQX4Ksmmx0g6I81gxGhn8HGOME4Sv7lvPU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ayahg58V3+hQHAtgj+85pesw7Y5Jlk97iq6CZKbPdXt99fqTDKgANWj7ocIuDTySovcvW5YKRWUZFZiRao3Ny4xNKywsNPrAFRZrZ4Hmw/QoFoAdOgnwNxJ8bwLmqVUyiLK9d7J6tL54sVHXrCQ1AzMXmWdwMQuZpR9qJPNMn7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eAiLmuLm; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750433322; c=relaxed/simple;
+	bh=s48sv8cQZxsP+ITyE0jtnLWoulZ7jFl//mGYqYmUOIg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WNSBrJy3X+M7spsJhd6N4LS9jPyxfrOvUfTLcRzvSNy0TqumU0LS1ZXMffqJIlJFZyH4bQT4DQUblqiMeChBYGgo167w+ScXLmhIK/J3vMFBXeAV1vxMQ5VK9JZpVp3F9iomEpC6oidpvT2reyeZX2aRWppyRnVcyOMyUob9QlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T/yh1qX0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eAiLmuLm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750433118; x=1781969118;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=hSYkOFgMMBQX4Ksmmx0g6I81gxGhn8HGOME4Sv7lvPU=;
-  b=eAiLmuLmsL+Tft2fS0yvMd6CooiJ/06WsvvWwzEV5Sau/1xMs0bB5IM8
-   SDWHPXgx/79CLPwPe7IsIA01fFVwqathpapp5W0jExLC79OqlH67W06iT
-   TOy4DW4WcYVclYewEVwWHOwswkwev43IeP/88fqSm+XadqdfbUE78Tlse
-   6ud1B8DQYkhE4GzMfj2t34giT32BHPOwgt7B1P/Y1QP0SpNZ/OTl/ff05
-   6+/1/k7DmobqQkJsEzGzXAdr9+HGCyH/EAwxoI9nebZdlBnCIo6flu1X7
-   ITdcNCv5Hnrg330Xfk5WMl1U2Sl8jhCOIahBOrDN8qTQCXHnsb3CXDDVW
-   Q==;
-X-CSE-ConnectionGUID: NwC6LJUARCKLvEIRquRR6A==
-X-CSE-MsgGUID: sJvPfDQGS0CVQEGFwno+Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="64055181"
-X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="64055181"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 08:25:16 -0700
-X-CSE-ConnectionGUID: nCojvNkKTvOdudpFMiiquw==
-X-CSE-MsgGUID: ih/+UFHfRFSaKnL/SirKHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="155232607"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.108.136]) ([10.125.108.136])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 08:25:14 -0700
-Message-ID: <acce1e90-5742-4d44-8d7f-6aade7e490a1@intel.com>
-Date: Fri, 20 Jun 2025 08:25:13 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T/yh1qX0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C94AC4CEE3;
+	Fri, 20 Jun 2025 15:28:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750433321;
+	bh=s48sv8cQZxsP+ITyE0jtnLWoulZ7jFl//mGYqYmUOIg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=T/yh1qX0eOHqOk94aDuQCH2s/qyRkQqpZOboUNJPj1MkPrHAk+mivll/EFLYhzA7f
+	 51EJzq8JQEYwojbFGTMMqW12eR1/0K7+g2HmvP53X7MKTLUHGOAfrHaV8iilcThtc6
+	 sVv0v8ZjR6dqxfG5qCP6CtkkmrWdn9BZmEtYHvEj0z/5M5TmBF07beiIaXyekd/2iE
+	 +KnXqSCm582ZUC5wd1mGmLvlP/Wa3MTNzDL3rka4g6wU4pEz3QQ+oFF3MB1sV03xP7
+	 QeCrWMn1J+rjPifsv0xMED4VVllS/gk9xNPfbErfrnQipu0Ej/NbYCJe5LTZkG9wpg
+	 rz1b+ci1aoT6Q==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Mike Rapoport <rppt@kernel.org>,  Pratyush Yadav <pratyush@kernel.org>,
+  Jason Gunthorpe <jgg@ziepe.ca>,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
+In-Reply-To: <CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
+References: <mafs0sekfts2i.fsf@kernel.org>
+	<CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
+	<mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
+	<CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
+	<mafs05xgtw5wn.fsf@kernel.org>
+	<CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
+	<aFLr7RDKraQk8Gvt@kernel.org>
+	<CA+CK2bAnCRu+k=Q78eA4kcAebxA9NgOorhwRqu-WxC913YBsBw@mail.gmail.com>
+	<CA+CK2bB3P1vX658ErkP4_-L6WZSOCcenEwUdX1qS=poDjs=i+A@mail.gmail.com>
+	<aFP7wwCviqxujKDg@kernel.org>
+	<CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
+Date: Fri, 20 Jun 2025 17:28:31 +0200
+Message-ID: <mafs0ikkqv3ds.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 01/16] x86/cpu: Enumerate the LASS feature bits
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
- Ard Biesheuvel <ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>,
- Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>,
- "Mike Rapoport (IBM)" <rppt@kernel.org>,
- Brijesh Singh <brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>,
- Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>,
- Ingo Molnar <mingo@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Daniel Sneddon <daniel.sneddon@linux.intel.com>,
- Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>,
- Breno Leitao <leitao@debian.org>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>,
- Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>,
- Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>,
- Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>,
- Changbin Du <changbin.du@huawei.com>,
- Huang Shijie <shijie@os.amperecomputing.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Namhyung Kim <namhyung@kernel.org>,
- Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, linux-mm@kvack.org,
- Yian Chen <yian.chen@intel.com>
-References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
- <20250620135325.3300848-2-kirill.shutemov@linux.intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20250620135325.3300848-2-kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 6/20/25 06:53, Kirill A. Shutemov wrote:
-> +static __always_inline void lass_clac(void)
-> +{
-> +	alternative("", "clac", X86_FEATURE_LASS);
-> +}
-> +
-> +static __always_inline void lass_stac(void)
-> +{
-> +	alternative("", "stac", X86_FEATURE_LASS);
-> +}
+Hi Pasha,
 
-There are differing opinions on how to introduce code. Do you do it up
-front and then use it later in the series? Or do you only introduce
-infrastructure when you use it?
+On Thu, Jun 19 2025, Pasha Tatashin wrote:
 
-Doing what you have here (introduce first, use later) is fine. But it
-does incur an increased burden of explaining things.
+[...]
+>> And it has to be done before kexec load, at least until we resolve this.
+>
+> The before kexec load constrained has been fixed. The only
+> "finalization" constraint we have is it should be before
+> reboot(LINUX_REBOOT_CMD_KEXEC) and only because memory allocations
+> during kernel shutdown are undesirable. Once KHO moves away from a
+> monolithic state machine this constraint disappears. Kernel components
+> could preserve their resources at appropriate times, not necessarily
+> tied to a shutdown-time. For live update scenarios, LUO already
+> orchestrates this timing.
+>
+>> Currently this is triggered either by KHO debugfs or by LUO ioctls. If we
+>> completely drop KHO debugfs and notifiers, we still need something that
+>> would trigger the magic.
+>
+> An external "magic trigger" for KHO (like the current finalize
+> notifier or debugfs command) is necessary for scenarios like live
+> update, where userspace resources are being preserved in a coordinated
+> fashion just before kexec.
+>
+> For kernel-internal resources that are unrelated to such a
+> userspace-driven live update flow, the respective kernel components
+> should directly use KHO's primitive preservation APIs
+> (kho_preserve_folio, etc.) when they need to mark their resources for
+> handover. No separate, state machine or external trigger should be
+> required for these individual, self-contained preservation acts.
 
-These two functions in particular mean that you have to at least allude
-to how these get used later in the series.
+For kernel-internal components, I think this makes a lot of sense,
+especially now that we don't need to get everything done by kexec load
+time. I suppose the liveupdate_reboot() call at reboot time to prepare
+final things can be useful, but subsystems can just as well register
+reboot notifiers to get the same notification.
+
+>
+>> I'm not saying we should keep KHO debugfs and notifiers, I'm saying that if
+>> we make LUO the only thing driving KHO, liveupdate is not an appropriate
+>> name.
+>
+> LUO drives KHO specifically for the purpose of live updates. If a
+> different userspace use-case emerges that needs another distinct
+> purpose (e.g., not to preserve a FD a or a device across kernel reboot
+> (i.e. something for which LUO does not provide uAPI)), then that would
+> probably need a separate from LUO uAPI instead of extending the LUO
+> uAPI.
+
+Outside of hypervisor live update, I have a very clear use case in mind:
+userspace memory handover (on guest side). Say a guest running an
+in-memory cache like memcached with many gigabytes of cache wants to
+reboot. It can just shove the cache into a memfd, give it to LUO, and
+restore it after reboot. Some services that suffer from long reboots are
+looking into using this to reduce downtime. Since it pretty much
+overlaps with the hypervisor work for now, I haven't been talking about
+it as much.
+
+Would you also call this use case "live update"? Does it also fit with
+your vision of where LUO should go?
+
+If not, why do you think we should have a parallel set of uAPIs that do
+similar work? Why can't we accommodate other use cases under one API,
+especially as long as they don't have conflicting goals? In practice,
+outside of s/luo/khoctl/g, I don't think much would change as of now.
+The state machine and APIs will stay the same.
+
+When those use cases start to diverge from the liveupdate, or conflict
+with it, we can then decide to have a separate interface for them, but
+when going the other way round, we won't end up with a somewhat
+confusing name for a more widely applicable technology.
+
+I've been thinking about the naming since the start, but I didn't want
+to bikeshed on it too much. But if we are also talking about the scope
+of LUO, then I think this is a conversation worth having.
+
+PS: I don't have real data, but I have a feeling that after luo/khoctl
+    mature, more use cases will come out of the woodwork to optimize
+    reboots.
+
+-- 
+Regards,
+Pratyush Yadav
