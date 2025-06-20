@@ -1,201 +1,227 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2053.outbound.protection.outlook.com [40.107.94.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034AB30E853;
-	Fri, 20 Jun 2025 20:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750452354; cv=fail; b=lNDHgljZUPqk/rnEdf0M2QbHzWR3ik8Dk3UjOThryCOl2jVhaD8ZpOOgikr62eHIuAMWdS0vVJvytrmCOE/P7borYL+bWAIAUDakhIKdPsdmPD/Tn/qyxGEcRSPm6buA403Wr7kVoNyjIuhzGaOfZVm9ycEnRcnylxN4CzFDTOI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750452354; c=relaxed/simple;
-	bh=uTJiKhLkmTfqhGg8h4AdUbst+/LzyImtsMQq3oNGHns=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hq2q4czDwDJzvW0ldlLZ0UB0NXXO2gZ1UvkKRt/NJVB7Y7Jt9IjozRw0EIy58gK4hrJ03BtUI188NdOBHsH0Cv8hA6Idj6VQ6PYnyfyRHJKI6KBXufI3ZOJ18pgVjY1VeFXjZuqXbBrj3HmcAHvyjsJUk5duduiNkWsXaYKNla0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=pyED8Jdf; arc=fail smtp.client-ip=40.107.94.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CA9233721;
+	Fri, 20 Jun 2025 21:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750456152; cv=none; b=h3nMjLOW+U0hkNaD6LwQJGOmSmCsZYigpNIJv8rFDw5+L7E6x1QHamCvt0fEgW7q7teFdBWDsyCEmEi9qip8ai+akup5z2loDB+DV4UJ2K2mNBKsZXUukFN+WcwA8DK8xP6PNYLPg+t3yGMokEUyIa6MbFi1sP1sqDE0mUgK85M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750456152; c=relaxed/simple;
+	bh=qh/IyVfcuIlM9SBo9aGWenEhO9QLRSKZCKrPJUNw760=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kwRtHqSbtyHaLemNPDSLMheq1DgZ+t3+t/v4QEoEPhGG43qRNRylYv/OYWXbppumjZi5pvP7gmiHsfuxMHVwgHJO6MpcZSrTPrrSZWx0aDd6FEzdAkkUerRdoeWoQWdzxdk8PuXS3+Fmpcq0xyDc9M9txjJufhvXrl/Up7lxGoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iBbmfqwF; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="pyED8Jdf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kEeAOXbBPAFd9LlTBehBN73D8aPstMdA519cB+u8DgijNfG/hRnxYVTkasX8gdurPTCkD1mq81PezbPxI4j/6Be6t5LwYlbVbfNIpFoba5w2Bfg6KunS+8mhTNy9pj6kkC9ZYBzH0cDjVwUg/yDYYtc+fLYZodW3CrVbTFHGx/Ig8NiUdRZ1RhQbPWJDNecd7gBfn8tf8Qymw8+jGbqLfLU4RLF7K4YP34O0t3JJEiJK9einl+GspOpyG7VZgk+LgMmNsZpCtfGhjnpYQqJdmjaeYwLvjWeSY4NNeFi/Q2xiRyRwauXrjkyZ56y7KtUks9Iq/6TU9zJdeYYrAD71sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i8hzGLujZtHl5q+u0tvp7yb73QzNIDj2kyzRuCh/huk=;
- b=Et5VpZV22IoTKChafp+0vM6oJ3XEJVEtz9kNnYO0pDl+Cr9y0obwixxGFcxzTX+gRGiv9jJ6G0AJr4Uq8LL74IaO4oNWv45RYGaTgmlFPONWJZtP+amSNUqcZtA9FUN/MOLNDOYLQiFlf/FK1EKRKm4jUgIhZ30e8VjpqlmK9DiUmuBH15x76agu3nbtrC7fDvOAwYoDxXUiNx0st2H7ghoR1hmJcrVVkWeKSiyVX1y0fDBeQ7lBi/x6wj80xoHfSf4j4cou+cgwEDXfut6xI4E3m8P/elBhIKeQy2wA8C6d06lQXuypZcwiwJHaQiJTCoTJ6wcguVLQtejJraCvdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i8hzGLujZtHl5q+u0tvp7yb73QzNIDj2kyzRuCh/huk=;
- b=pyED8Jdf3TjCL9EkDb8OcZAAQuvqvqPb1NENA+akjrlRESyO/NuG0g4YZ9iB+k8Lf8Vmvl8uWBJDclY4mwxmYjzOblWGJckMQeS9L6vFH0nlLDhSfuNlH8TU9IXEVTpmIaExhX/ESMPyOLSnGg/vt/yanajwmzXoas5kI3pAH8cUniGIkMWkXN6NdlmnJlY8RRhPpoAxkbIEoHotpe/ZxeQcek22iDqvlFosNi7YANZ1HoUyldlx7v4d0bzuRy0MlQ9wmTUmvVSi0tLVna4mH4DprKCn7RGkTT+o91TSwNmCRL0b0kirdhkWMSQDVbAFACnTwJOaCvXNs0BrKEdNbA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8857.23; Fri, 20 Jun 2025 20:45:49 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8835.037; Fri, 20 Jun 2025
- 20:45:49 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Minchan Kim <minchan@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
- Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin <linmiaohe@huawei.com>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
- Shakeel Butt <shakeel.butt@linux.dev>
-Subject: Re: [PATCH RFC 19/29] mm: stop storing migration_ops in page->mapping
-Date: Fri, 20 Jun 2025 16:45:44 -0400
-X-Mailer: MailMate (2.0r6263)
-Message-ID: <7C7C7468-CAE8-4B4C-BADC-2D343FB32426@nvidia.com>
-In-Reply-To: <20250618174014.1168640-20-david@redhat.com>
-References: <20250618174014.1168640-1-david@redhat.com>
- <20250618174014.1168640-20-david@redhat.com>
-Content-Type: text/plain
-X-ClientProxiedBy: BL0PR02CA0134.namprd02.prod.outlook.com
- (2603:10b6:208:35::39) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iBbmfqwF"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-711751e2d9fso2314457b3.0;
+        Fri, 20 Jun 2025 14:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750456149; x=1751060949; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QELowKEXA7R77PUl1OqaRZQ4vmTwB/KNp4b6p3jgc+0=;
+        b=iBbmfqwFJst4Hvzv6ck8hylMWZXIzKe7qd5HKCMwLwF+PiwTw9aDIYYeBX5BXNnQCi
+         kBn2ZMU+f87x5FWCZsxnHHZ0MutPxcEfuFvbo+wFcSlErp5ANzQlZVKZNRxsqR/5WbJ1
+         Vaw6TtvJyr9AsvT97FLicaOmNod9lMSQrtfANfsqTTjzKjZvYdx3cA4NHx9OjTq6cE+Y
+         /QEYipR+SM2KQKPmlu1LDjXHfgAcfcY01dm70+BaOg7sQEOMtngvalrgBWhtY+WpFMxq
+         F4+Cwt6RXUCOJQySHBDRFArmsrSEdmSVX9RlrmYUze4SEtu0Y0fsRLdCIXlV8Xg0tpct
+         Eg5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750456149; x=1751060949;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QELowKEXA7R77PUl1OqaRZQ4vmTwB/KNp4b6p3jgc+0=;
+        b=Y99OzmIqkwwMwL9NTVcdWEyczAkmbjkxCfYKthX2jpPZMyjpNLFMLktm/dDDAIWJf9
+         8YQjOo+b0Wa6gZkZneK7PqSCHF8Gini+SCJ+uMYQf0GsARBxq3E+ONH49eWA+lG/kMkZ
+         wRLJrheKrkSgBirRSwE1tqIzeA4/fxBrS5pHhdezHFFDv5LUfdpBMHkuSl4BrX/Vx/eu
+         HznA0+peoNRaCxavqiHq5riNRngEj3THezKSI04xOtxDojoxAJYtOOqitRXS6A6MAS8m
+         Kw6tJC8JvbF8lNo4JU1tKINjB0KdBhwPQrXpqCu3pKXk4mHt9I6rqvMl7IRBed8uM8nB
+         Ahsw==
+X-Forwarded-Encrypted: i=1; AJvYcCVL89Db9Royj9siLKUZlQe9hFdcpxiOFb64cOqqA/U+E8jehXjdeoq0Kl5FRb0ogqiAMdZDXbKWqnLXgXbM@vger.kernel.org, AJvYcCWPobeh0vY+OuuTwcXktmMQFPVtXl6OFPSl/MfLziU2Ju6MTHOGgVUVqeM5kO7zXIBH4UIcrQda@vger.kernel.org, AJvYcCXkfczUTXzXpka0g/efdDwMxZ3G+vcL/eeY1Q8d491Q1aDXtEa/VgUyQU/NUu5lEXPRPn5iOJdIAss=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmL/nTDFvEIcCU8Y7aBOlPKcOeK8aNL+6X8y79qu/yKnQj/LPV
+	t19SgdV2VEyCePCrS85WtMRdAkIu4ayAg6baEv080T8YA/PJZGHy6O17BoeI9xvfPAkQhaWPejB
+	gp5MFxaN0kGrKUJxvJ0OWl1mogqqnlho=
+X-Gm-Gg: ASbGncsH+DCES2c9BZZiHDROBdJB/4IilGH8uIdguOFDHZCWg9nsH+94+4n9bOSo+dh
+	/QX0BUHmYXN/jDn2EZrOGiymTaWQksFuUxXe4OKIgSgYz7qkr0b668FnX1KFpToOWAvaflWl7kh
+	Z8qN8rnSU+0RUnqw13SfYlXv9zKZRP94MaO0ZYXBZ1KbSJ
+X-Google-Smtp-Source: AGHT+IGFRd+SUbN4k0ULblstnmL1Dz7mO/FJidC5D8wq7DGHLKGZn9t7alLOtBhhKHFNRMftIWOmpxJrPWMpPbFv/5A=
+X-Received: by 2002:a05:690c:3503:b0:712:c55c:4e67 with SMTP id
+ 00721157ae682-712c65261ffmr31332997b3.4.1750456148909; Fri, 20 Jun 2025
+ 14:49:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SJ1PR12MB6075:EE_
-X-MS-Office365-Filtering-Correlation-Id: 63977d0a-2cd0-418b-9d7a-08ddb03b704f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ajgwCJz8nVN+L9z6Bg3+SFzyVYBWCGH7lfB0znXUff3ecbzqItP/cX14JvKB?=
- =?us-ascii?Q?GQpV/+GYcmemk4IRwqOb/bgI6++Kbg/TDD9j+a8UU/OA0EGhKvY2K6rrxr/q?=
- =?us-ascii?Q?+E/ySdG8qmY/LYaZ46RpSuHyvf7wSE/913/mgRzn289LmuLe74Z5FEb8tFbL?=
- =?us-ascii?Q?s+ASQZ8BV3D1nao+1/mi7h18CNIL7KMFHVaz03MBRn9scEs7ldj8nEmmymNc?=
- =?us-ascii?Q?HmTfkQEpPhOZccg/Oh55F5i1sh/EOpZg59vpFy9F4U8ogvo5ZZNsihZeXUhc?=
- =?us-ascii?Q?GxQctli6s87h9Qx6JbP3YVzRXHx5+5hR58Fuh/nyNniNr1AVaQJPig3IbUtT?=
- =?us-ascii?Q?CwLNkZJuup6lFkPe0UASHdR1BXp5h2zgAnuGIhP6fHFQVfgXPS/Qxa3+Z2u1?=
- =?us-ascii?Q?1Yu2pynMuCJ1yBv9CLwxoMxSHtfUOffK9Z1QOo0jUCnqKTdztRH7/sz1Oui4?=
- =?us-ascii?Q?P5muTwG8odwr3fX5s4YO2Xm5BiYL8tpqr8QhkE4IOYikk7HyhyE7bqq2pI/D?=
- =?us-ascii?Q?raovoBy3aJ8ul5fXj7H1Km/xwaP/S6OrNr1PcNJhAQQxk1Qqv01T9sO/ur/L?=
- =?us-ascii?Q?S+4Bs74vSiIjCz6Gv4rcIQ5BnWs7l1zwd6EBs1ltzGMLf4OnOKLl92SRfDYC?=
- =?us-ascii?Q?0lm1sxgz8xyuOwx2XYW7g0cTik0J46fg8gI8MMOHf/vpryYUHxyf95nOjhHv?=
- =?us-ascii?Q?fL0OOLy+MvQlPywnJJu/E20wxiY/g8NXhiGRVhzMeiEzn8gZIPARxXqDMJ0o?=
- =?us-ascii?Q?FIIDZjefIz3QFydwq/yLgxJpEUP2KTInmskGL2+Si1eKSpcHq3aSXu797LK+?=
- =?us-ascii?Q?hJbUOOKD57wfLAIxR0SbSL/JU9XXIw61MMp/LNi6eYCcgSKbs8RiuJFHGLOj?=
- =?us-ascii?Q?3emAnpc1KRbXyZatQFJ7tuuZ2quf806f4cBNf0bWpglRXKgXdeftrJYliNnO?=
- =?us-ascii?Q?UgEnQNeH+83oThUEWQiX1QhQLJJ3HagbnzYDsy7qDalBA2YCXkL7cVKNM/rp?=
- =?us-ascii?Q?rO+Vhrx32bMRapVsmyQlCV4VCI7TXqj+JZ8pApVKZcdvmVIi1nFunCZRdJ6E?=
- =?us-ascii?Q?N6gqKR12U9rOskHUj/LWRjajUzGCVXIK4OYUKmXAfXNqH+HlPOH/KQ7tWoWg?=
- =?us-ascii?Q?byLs+9ioaT/QrxKjxsNQ9+th4KMvie8BSSpae5MQLHzDGnuAe/LzPjs+wThz?=
- =?us-ascii?Q?CMCVBIFotjfJa+Qap+EftyGe+SA/cFSQPsgW4NiueOcsh8gYACteWGMFdJzo?=
- =?us-ascii?Q?0rQwrRgQVF4VJiXtSee7a6a0AdtNaAlVtLYSJkpo/SYODhdq80oddsWKbhOx?=
- =?us-ascii?Q?Kq4nAH1sGiBask14K87DDkW9y/Ht+5qpVgUG78cz2zyin2mQ1wmm0EioDU5n?=
- =?us-ascii?Q?CIuM/lkusYSnyQv9KBI+NokDVQGPHTdkJcf5ytrma24YkguhFdtg/Sr2Uf23?=
- =?us-ascii?Q?sQxRE5AoRGw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?IfEuABRjgA1VAE4yOWB1CNHxBLZ+HPnVYpIRuzidkIryQCaa2DHSVhsbhIGA?=
- =?us-ascii?Q?cbnwLkQUSLnk3faAb8FqnNmL860SEczGj2OcDrnNVXAAOF+6Bl1Sd8dkCSQF?=
- =?us-ascii?Q?ahQwJN08bW7pix9Ri4H5sH18uIFbrfMW5qAxnKtXnkgBBvsHXph6CHfNdNIF?=
- =?us-ascii?Q?WjUEpRqWCREbYXmM7YQnRAW0+971GythVVMbrhvGicbIjDo4BG3aOz5YEvWi?=
- =?us-ascii?Q?yUAognIiQXJTJehYJNr2zLVHgyPfBXYDfpnp0qSrgKBuWLEY5IGkUeMufbCo?=
- =?us-ascii?Q?DfIANfdWYwXKG/uHOHKTOs5pVxNmsiUkxuqrJOiYfZP7Ud8/m4+xzkejayj9?=
- =?us-ascii?Q?c9nhBXWZIKiVPFGbQFzn++Sk2yjPLkZ81m1NxpwlcGgpWIWrlh3Eu2qvaKcP?=
- =?us-ascii?Q?rda0YsneHIA17/mk+k4krTvIVunzKHBcLYDO60XeI2C7qTcGy2Vr83kGJ1pz?=
- =?us-ascii?Q?ACdGp1Bt5xmuhqtAGiHrDEAwTwmWESkyNNBoFFEo8PSmubfgZO9tmTgO3z98?=
- =?us-ascii?Q?bvTP5+ZRiE2r3hdzVlM0C6McFk+0dXhaSg3f90FDmjglYDAw0syJQl/FE3gc?=
- =?us-ascii?Q?c1+72xf3vRHcZ8Q78JDSPqyuUPz6V06EGP7T8MquLsnAqxk7MkNqJBpiQOZ0?=
- =?us-ascii?Q?5W/nM7ZJEf/HzC92/VUeLzMH/Bv3A6sYEAew/zz30rIFEhYeHGHCERFXQPf8?=
- =?us-ascii?Q?xEJxJlocBpYmzFT1qf46Xuf1LW7gomVkRi6pXjLttCRzoSAz5USQIrhCab6q?=
- =?us-ascii?Q?4CvlETJ4RV0zEUcE3Fnh5viwj69auLEv39OMc0vbORIawt6hfKUKD8a1C+Fl?=
- =?us-ascii?Q?CODiwcPm2aTJGwaYg57DQCYoUQYGfhKwuL1Wuj9oIQxJu70sZw9O1OIefpRG?=
- =?us-ascii?Q?SF6t1DjPXjsvKiLK0l/au2zm/NYzZxkpBmxEphJjqG+XIY6cUt1aPasUFDzq?=
- =?us-ascii?Q?08LtthbV5wzrecEXRR1Nc7fBxLFHkLle46+C0FvfB7pJl5ldrCuh2hxBkSm7?=
- =?us-ascii?Q?fKptheoR3H/vFxo5F1s2H0nquAb1fwkGqvOeboUFnUa18gdPJL6C35sjw7K4?=
- =?us-ascii?Q?gGoZS/4YmLl9ICDFJ2xy0bNb3AXm33TY9SbZg4tn49ogbmyQQX4vkPSD6xk+?=
- =?us-ascii?Q?h2P4SHtSx63Yv1YsG0hmZbhVqwLLerydJBKg+OKjoN81rv1SBmRnDIBzYYSe?=
- =?us-ascii?Q?y1jXWnC5YiVurTSs2FR9Lpw+5P5BmH6mnTiSHpNC4dKGmjp9qdP0lJACu8S4?=
- =?us-ascii?Q?CZ42LJ4cEyiJEzFW3BnIQnbWzKccmOMHXCBWdp0Cy5CNXHWDZZQj5HiitfYY?=
- =?us-ascii?Q?Sl7s/ACKoyHZK7jIddlgqRlUvyFqfUZ0PQWuJP8sq4Foeou0BPFoA+fVG3eV?=
- =?us-ascii?Q?6uGYrwFYKzloERCufAP4SYSsF/aZjAz/UFOvGavtpp0CZLruoc0OVMFybs4d?=
- =?us-ascii?Q?D7Q+S7irHsClPZq/yoibw2EQDv0k25efoJ1N8FuAn4gSm/DnWY5kHtaRowaw?=
- =?us-ascii?Q?+6pzisrTJZ2rmQ1R+nChOsrpUt9+h9g3kZ14zVNceamWxKt9ceiJLxiCPUNW?=
- =?us-ascii?Q?2Wch1qmtav/OGwmEBqIrx55MkAzXDHJXG47oHdz9?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63977d0a-2cd0-418b-9d7a-08ddb03b704f
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2025 20:45:49.3159
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W+G4SoU2Px2GYtCcZG89p6JSXt25vn2UWtMpyqWealSy6KQ8QikysQ7Sv5RidJNi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6075
+References: <20250614225324.82810-1-abdelrahmanfekry375@gmail.com>
+ <20250614225324.82810-2-abdelrahmanfekry375@gmail.com> <20250617183124.GC2545@horms.kernel.org>
+In-Reply-To: <20250617183124.GC2545@horms.kernel.org>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Sat, 21 Jun 2025 00:48:57 +0300
+X-Gm-Features: AX0GCFvqmEkkV13jSqvRdKfTQr6HjsP-DYV9223ypVJqavMJc3V_jZXyECyhqS4
+Message-ID: <CAGn2d8MS2PQnosR7AVp=1dRUat_Gu0E9t-P-AQ=k0Ei0ofT_sQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] docs: net: sysctl documentation cleanup
+To: Simon Horman <horms@kernel.org>
+Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, linux-doc@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, skhan@linuxfoundation.com, jacob.e.keller@intel.com, 
+	alok.a.tiwari@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 18 Jun 2025, at 13:40, David Hildenbrand wrote:
+Thanks for the review
 
-> ... instead, look them up statically based on the page type. Maybe in the
-> future we want a registration interface? At least for now, it can be
-> easily handled using the two page types that actually support page
-> migration.
+
+On Tue, Jun 17, 2025 at 9:31=E2=80=AFPM Simon Horman <horms@kernel.org> wro=
+te:
 >
-> The remaining usage of page->mapping is to flag such pages as actually
-> being movable (having movable_ops), which we will change next.
+> On Sun, Jun 15, 2025 at 01:53:23AM +0300, Abdelrahman Fekry wrote:
+> > I noticed that some boolean parameters have missing default values
+> > (enabled/disabled) in the documentation so i checked the initialization
+> > functions to get their default values, also there was some inconsistenc=
+y
+> > in the representation. During the process , i stumbled upon a typo in
+> > cipso_rbm_struct_valid instead of cipso_rbm_struct_valid.
 >
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  include/linux/balloon_compaction.h |  2 +-
->  include/linux/migrate.h            | 14 ++------------
->  include/linux/zsmalloc.h           |  2 ++
->  mm/balloon_compaction.c            |  1 -
->  mm/compaction.c                    |  5 ++---
->  mm/migrate.c                       | 23 +++++++++++++++++++++++
->  mm/zpdesc.h                        |  5 ++---
->  mm/zsmalloc.c                      |  8 +++-----
->  8 files changed, 35 insertions(+), 25 deletions(-)
+> Please consider using the imperative mood in patch discriptions.
+
+Noted , will be used in v3.
+
+> As per [*] please denote the target tree for Networking patches.
+> In this case net-next seems appropriate.
+>
+>   [PATCH net-next v3 1/2] ...
+>
+> [*] https://docs.kernel.org/process/maintainer-netdev.html
+>
+> And please make sure the patches apply cleanly, without fuzz, on
+> top of the target tree: this series seems to apply cleanly neither
+> on net or net-next.
+
+Noted, will make sure to denote the target tree and to test it first.
+
+> The text below, up to (but not including your Signed-off-by line)
+> doesn't belong in the patch description. If you wish to include
+> notes or commentary of this nature then please do so below the
+> scissors ("---"). But I think the brief summary you already
+> have there is sufficient in this case - we can follow
+> the link to v1 for more information.
+>
+> >
+> > Thanks for the review.
+> >
+> > On Thu, 12 Jun 2025, Jacob Keller wrote:
+> > > Would it make sense to use "0 (disabled)" and "1 (enabled)" with
+> > > parenthesis for consistency with the default value?
+> >
+> > Used as suggested.
+> >
+> > On Fri, 13 Jun 2025, ALOK TIWARI wrote:
+> > > for consistency
+> > > remove extra space before colon
+> > > Default: 1 (enabled)
+> >
+> > Fixed.
+> >
+> > On Sat, 14 Jun 2025 10:46:29 -0700, Jakub Kicinski wrote:
+> > > You need to repost the entire series. Make sure you read:
+> > > https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
+> > > before you do.
+> >
+> > Reposted the entire series, Thanks for you patiency.
+> >
+> > Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+> > ---
+
+Noted, Thanks.
+
+> > diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/net=
+working/ip-sysctl.rst
+> > index 0f1251cce314..68778532faa5 100644
+> > --- a/Documentation/networking/ip-sysctl.rst
+> > +++ b/Documentation/networking/ip-sysctl.rst
+> > @@ -8,14 +8,16 @@ IP Sysctl
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> >
+> >  ip_forward - BOOLEAN
+> > -     - 0 - disabled (default)
+> > -     - not 0 - enabled
+> > +     - 0 (disabled)
+> > +     - not 0 (enabled)
+> >
+> >       Forward Packets between interfaces.
+> >
+> >       This variable is special, its change resets all configuration
+> >       parameters to their default state (RFC1122 for hosts, RFC1812
+> >       for routers)
+> > +
+> > +     Default: 0 (disabled)
+> >
+> >  ip_default_ttl - INTEGER
+> >       Default value of TTL field (Time To Live) for outgoing (but not
+> > @@ -75,7 +77,7 @@ fwmark_reflect - BOOLEAN
+> >       If unset, these packets have a fwmark of zero. If set, they have =
+the
+> >       fwmark of the packet they are replying to.
+>
+> Maybe it would be more consistent to describe this in terms
+> of enabled / disabled rather than set / unset.
+
+Will do this  here and in other parameters to ensure consistency.
+
+>
+> >
+> > -     Default: 0
+> > +     Default: 0 (disabled)
+> >
+> >  fib_multipath_use_neigh - BOOLEAN
+> >       Use status of existing neighbor entry when determining nexthop fo=
+r
+> > @@ -368,7 +370,7 @@ tcp_autocorking - BOOLEAN
+> >       queue. Applications can still use TCP_CORK for optimal behavior
+> >       when they know how/when to uncork their sockets.
+> >
+> > -     Default : 1
+> > +     Default: 1 (enabled)
+>
+> For consistency, would it make sense to document the possible values here=
+.
+
+Noted, will document possible values here and in other parameters for
+consistency.
+
+>
+> >
+> >  tcp_available_congestion_control - STRING
+> >       Shows the available congestion control choices that are registere=
+d.
+> > @@ -407,6 +409,12 @@ tcp_congestion_control - STRING
+> >
+> >  tcp_dsack - BOOLEAN
+> >       Allows TCP to send "duplicate" SACKs.
+> > +
+> > +     Possible values:
+> > +             - 0 (disabled)
+> > +             - 1 (enabled)
+>
+> In the case of ip_forward, the possible values are not explicitly named
+> as such and appear at the top of the documentation for the parameter.
+>
+> Here they are explicitly named possible values and appear below the
+> description of the parameter, but before documentation of the Default.
+> Elsewhere, e.g. ip_forward_use_pmtu, they appear after the documentation =
+of
+> the Default. And sometimes, e.g. ip_default_ttl, the possible values are
+> documented at all.
 >
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
-
---
-Best Regards,
-Yan, Zi
+Noted, will make sure that all representation follow the same appearance,
+first the description then possible values then default.
