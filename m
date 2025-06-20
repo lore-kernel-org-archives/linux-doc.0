@@ -1,123 +1,136 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726F6253F16;
-	Fri, 20 Jun 2025 16:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB592C0313
+	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 17:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750437375; cv=none; b=gib8dkCwKtHFmrAgepAc9dN0T3S8MuqnPq6/snxAu/u/o+tuNSKqZPCE9Y/Ov8OsIURdBDqZ5c6iLR9wfjL0vKl68nAbGjUaDVnzPe9vDMQatt2kdhWYEYOiiqR/6Snq/2ybGTDN5CIcbWUeMyH5HDJw6/N6cjc0z9Kfs2PJLek=
+	t=1750439125; cv=none; b=STkzwgzIG9S/ZWWiNZISNeHwo3hByh4iaI5ZKBJiSs4+4lp8zTeAwuA3fxlAuUG3HDioL9KTQDMYBcrTxH/Q2uqS/6MHlgKSqwCnupBjXJfA4myHY+dbsbGrccPz2amBMw24X4cLruATajhdyRk9OLpmy7qUV9Eq7xrLyES+3gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750437375; c=relaxed/simple;
-	bh=0JBK0kjtuXTJbfe/j75WPFJur2USdSDEx+6UkmtIXHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sz6uFLiQyjPfAzCFa1J8RxBhDZhnQTPTXZDaWgMh0eesO1seSYfiTs0MlZmMk881/rL1SZ4LSGuFdFfLfbUF/+q41V/VYKV9raKTiJ/6YV26w51GGWPRt4ILHu2hRJXFnbCTHlLFgLRL2tL6of5s/xgOft8smw05XdpijjW0r0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=HETrpudq; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1750439125; c=relaxed/simple;
+	bh=qz32WDm8kGqJZkxyvJ3a2TRLVvgFrditQhnsHw8Tesc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=kgxzjQs+iyn/2rzMqGlJHtVa9//sPUBxYHt6XzXoa5HAk/Dl3ALAQAwMxqbqLrt/Ew9cdKc3FUakZAVtxVkcAKQ89GyEcdEFAHUI1PHNEaV4Q0TBxQquMEKy5ySuGwfP9uBmaLtAY7zInYrilptGH0PM1dxrmCPPFuRCpTW9eS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AKRaMwlW; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="HETrpudq"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B4B5F40E01A0;
-	Fri, 20 Jun 2025 16:36:07 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id DrXHxtYlXPrM; Fri, 20 Jun 2025 16:36:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1750437362; bh=0gF6sK4Cybkep6s2rCZ6sHaCZMCg5iNoRw7AXjmPKJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HETrpudqyEyQ6xokIZsnaHY2t+ngqKBbk6kjssgaJEns3kaWR4iy3Hqwdrsz0K/Jo
-	 UtdNpfnlNK31eIIUkjiEe/4HPYYSXgmf2qHbHFP2gf9eQ9gtH2XIS9Axwmf9+iCpCk
-	 lUsry8NgLUkZE33UeOSLXg5VXYsqqom4rbKymGbEl5Gwvi65rTKeC+/Y3zBdKbcPMI
-	 Od/OyWAZFxxTNSdE5Z+HgWlimIxbnFc7AQ49gC+/CGjEDtf1qXeYiTFYrM5E6L1wcw
-	 cwTd/8g18ne7eDMKk2jWM2jcxppk2GvIYpikLoGHiqvpsUGnVChUKI9CJpGP1VEZZ/
-	 +eYzFoClsJ/QjNX6TPM3nv5Vsx0hroz/5T/QWOkOEUiAWVoX98F3hiQtsFnZfpNASd
-	 BRB1M0dgBqN+EtuIgkeyBBG6VRHBpegI9FpfjrzMOYDJ+zeqf2HcAZrsxoWqUxDRmC
-	 bFgykmkREk97/VvYpmRXQdHVotDhmWyiB8585U5UWJqk1RIrSRz3TMd4EfCOV7q/P5
-	 chbkmDQ1eJMp+S2IdxwjzLa0V8ng4Xus8Xe/QE4SczEGkCxFOyyByEixZjFO+YHl7m
-	 mB9Vxgt5iIQE4UDNvJifYpPJSYmOrPjsfpayQ1681Vr+rAk7u0Zd0qgkWLMRQAwtKK
-	 fglZQsb/zCyOslnoQDRuaXnM=
-Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 41DB640E0184;
-	Fri, 20 Jun 2025 16:35:10 +0000 (UTC)
-Date: Fri, 20 Jun 2025 18:35:04 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Breno Leitao <leitao@debian.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-	Juergen Gross <jgross@suse.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Yuntao Wang <ytcoode@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-	Huang Shijie <shijie@os.amperecomputing.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-mm@kvack.org,
-	Yian Chen <yian.chen@intel.com>
-Subject: Re: [PATCHv6 01/16] x86/cpu: Enumerate the LASS feature bits
-Message-ID: <20250620163504.GCaFWNuI-8QFqAM0yI@fat_crate.local>
-References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
- <20250620135325.3300848-2-kirill.shutemov@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AKRaMwlW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750439122;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O0uKaElPF1p9RN7ExopibAGaJCOW8iQTnWa+hoEBRAw=;
+	b=AKRaMwlW+h+tc+aMIrkdHf2SgkBuUhcjwZT68nkWIbZ0bNtiwEADDKFae7pvumGMpUxFGG
+	kXvDmklS+Z7yb7MunSGXF3dJHqp19GpZdaLgzMncZKEFhM249e8C4cSgt9bgaUaaIT6Ink
+	jUxEUpMk9bFHx0Zfi/7Cu4hC1bKiBYc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-690-xQyIip7EMJuj0p5Y9kMOXA-1; Fri, 20 Jun 2025 13:05:21 -0400
+X-MC-Unique: xQyIip7EMJuj0p5Y9kMOXA-1
+X-Mimecast-MFC-AGG-ID: xQyIip7EMJuj0p5Y9kMOXA_1750439120
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-450db029f2aso8510145e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 10:05:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750439120; x=1751043920;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=O0uKaElPF1p9RN7ExopibAGaJCOW8iQTnWa+hoEBRAw=;
+        b=MHezWMcSparf3JKOdgLDJ5xLCUVQjm7cRqAmQVfPcbjPSfqlxu1hnJin1uZXRhsHW3
+         uRyb9sOr1N81MDv4FR6zdPb52XYsZbvjRduwz6fu4VqGVHw7ay9Fkp/AXzsob6yzsJLK
+         DNsdIWwR7QmwFu6hGb9qrtbjBh7nfy22aiRE/fYAFTaP19OxjMnVtfu8oYRDgfupPXjF
+         Qa60HV9tQMLqKwFiYa4vu1N2zTZ0iTXLNdsNgdI848OcOfg9qKBe/kU8e6rNMjkJTJ2q
+         1MSkaT0fG5dVRLRFo5i2W7OQLS988BBZdoQhpgTt1q6sSqwJm3S+AeHAFPZVK4MM9D41
+         YOwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVPVM0FhC994rjjLs65hMm0pjN/UwnfW983CmkBZ/y85+QEzp7IXkoOcCpOKT+ZF8+RESL1Lk2BKSE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzz0JzUatnj7K0ENdTvQNFf+rVL24TJ+jLo+Tb/D6KtwlGRtaQm
+	P5IagP0O4bANRXYHZo6c6tmfNJoUdJiuWVqjmZCEWpEg6+sPKMsZlcqjULp79Mva9WeqXV4xTm6
+	TCj0P35cLa8RGbLSUcINW++3PfCnfDvBrHNQHOjkrEQmu5C0peTB0UAaqu+3pYA==
+X-Gm-Gg: ASbGncvemsmuMxlr8m91dLlNEGGnJJEJGEEqpmo1HAFakdIsypcwEsn5rkn/pfNP32T
+	570ImbWRFK2RmKhkMByC30ZDDLaRb7OXlVLIuQ0qri2uwwOwMjC6ziNkjsJpq+lIHZSqI/NNPHg
+	AkSkwW6ZdOYoGy5WYtswt4brPqc0Wc4ih0SqloH8wxq2Ilsgsn+ZqmgO00Cp1FVd7rYoyjE1VA6
+	8nBUaySGZYL8JmGjGLxzJPfbKoGCWMsDIxo1a0gkx/Fgq2Px+/cbgi5PIaxr6uZ9SiYexK/yHih
+	m0RJS2BBwPdejJ7d1Sw=
+X-Received: by 2002:a05:600c:c4ac:b0:43c:fd27:a216 with SMTP id 5b1f17b1804b1-453659ba4d5mr32818345e9.23.1750439118375;
+        Fri, 20 Jun 2025 10:05:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IErRRYJ7yHniQTxZlTtcjXynaBaSE5vB7XTQS6ITom5OtykTCmLWDLCyce9A+anV5QdRiHhQg==
+X-Received: by 2002:a05:600c:c4ac:b0:43c:fd27:a216 with SMTP id 5b1f17b1804b1-453659ba4d5mr32817665e9.23.1750439117743;
+        Fri, 20 Jun 2025 10:05:17 -0700 (PDT)
+Received: from [127.0.0.1] ([185.23.110.203])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4535ef6edbesm62743115e9.20.2025.06.20.10.05.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Jun 2025 10:05:17 -0700 (PDT)
+Date: Fri, 20 Jun 2025 19:05:14 +0200
+From: Ivan Vecera <ivecera@redhat.com>
+To: Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Shannon Nelson <shannon.nelson@amd.com>, Dave Jiang <dave.jiang@intel.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+ Petr Oros <poros@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_net-next_v11_03/14=5D_dpll=3A?=
+ =?US-ASCII?Q?_Add_basic_Microchip_ZL3073x_support?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <15618298-4598-472e-9441-8b1116a34de2@redhat.com>
+References: <20250616201404.1412341-1-ivecera@redhat.com> <20250616201404.1412341-4-ivecera@redhat.com> <20250618095646.00004595@huawei.com> <15618298-4598-472e-9441-8b1116a34de2@redhat.com>
+Message-ID: <DD848DCC-23FE-448D-AA1E-22EE281E34F9@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250620135325.3300848-2-kirill.shutemov@linux.intel.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 20, 2025 at 04:53:09PM +0300, Kirill A. Shutemov wrote:
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index ee176236c2be..4473a6f7800b 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -313,6 +313,7 @@
->  #define X86_FEATURE_SM4			(12*32+ 2) /* SM4 instructions */
->  #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* "avx_vnni" AVX VNNI instructions */
->  #define X86_FEATURE_AVX512_BF16		(12*32+ 5) /* "avx512_bf16" AVX512 BFLOAT16 instructions */
-> +#define X86_FEATURE_LASS		(12*32+ 6) /* "lass" Linear Address Space Separation */
 
-This needs to be in /proc/cpuinfo because...?
 
--- 
-Regards/Gruss,
-    Boris.
+On June 19, 2025 1:43:38 PM GMT+02:00, Paolo Abeni <pabeni@redhat=2Ecom> w=
+rote:
+>On 6/18/25 10:56 AM, Jonathan Cameron wrote:
+>> On Mon, 16 Jun 2025 22:13:53 +0200
+>>> +static int zl3073x_spi_probe(struct spi_device *spi)
+>>> +{
+>>> +	struct device *dev =3D &spi->dev;
+>>> +	struct zl3073x_dev *zldev;
+>>> +
+>>> +	zldev =3D zl3073x_devm_alloc(dev);
+>>> +	if (IS_ERR(zldev))
+>>> +		return PTR_ERR(zldev);
+>>> +
+>>> +	zldev->regmap =3D devm_regmap_init_spi(spi, &zl3073x_regmap_config);
+>>> +	if (IS_ERR(zldev->regmap)) {
+>>> +		dev_err_probe(dev, PTR_ERR(zldev->regmap),
+>>> +			      "Failed to initialize regmap\n");
+>>> +		return PTR_ERR(zldev->regmap);
+>>=20
+>> return dev_err_probe();
+>> One of it's biggest advantages is that dev_err_probe() returns the
+>> ret value passed in avoiding duplication like this and saving
+>> a few lines of code each time=2E
+>
+>@Ivan: since patch 13 requires IMHO a fix, please also take care of the
+>above in the next revision, thanks!
+>
+>Paolo
+>
+Hi Paolo=20
+I will send the next series after vacation=2E=2E=2E
+I'm now in mountains in Albania=2E
+Will be back on 6/30
 
-https://people.kernel.org/tglx/notes-about-netiquette
+I=2E
+
