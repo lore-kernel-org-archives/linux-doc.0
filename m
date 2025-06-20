@@ -1,55 +1,55 @@
 Received: from mail-il1-f201.google.com (mail-il1-f201.google.com [209.85.166.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34402472A6
-	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 22:18:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7E4246BCD
+	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 22:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750457928; cv=none; b=PyK/YwxkKsyvRhf/W9wvqP6JUUHSroBLSnpHFtPoqAoAVGIfE6Y6WI6aJ63t0QWJhpMHhykrxP2pLXqSiMVIpi5kxFkwtH9ONw77BMY8mlgUm2xsUYIzBZEDjMIj88j4WnOdH8mxLMbdCKzb16Z/Phst7lCpmll9wsSCzCVB1ZU=
+	t=1750457928; cv=none; b=uZsyij87wJ3R3daaaVIOnRjnLc61bfYnp/k6HnXEOBOs82ITvu5fEGAg1vUC5dUclJud8SV9P2rMZG6PM70En01Ji1h5Lcx2R+tG8QvbBs73nRrNy4qFNuqDi6CMlshe/PEWdP/o9LreLXt/S4cIwwNv6J+OPkSvINe7trPyquQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750457928; c=relaxed/simple;
 	bh=9GgWD1MN9AupT6yYClwdM+lZgz+6vMs8VB/PG0zJWr8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Hl0RjSNd5Iz+FVYktG0szr5ilcsuTq6IRmLGYusL13O1b2kX5lOXsg3c7LJFeu6aQUE9/GR7IoI0RpZ4DWugoTrBDWdNFbhPjtChlquQN7sK4immVFMRGplUnMulLE3fhzdc2nhrDolmiSbJ7q7K+5o+8cFJlKXkFKqIwwo0b2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=befor7Je; arc=none smtp.client-ip=209.85.166.201
+	 To:Cc:Content-Type; b=FCnvCwA7DXNCt7rnVR6bzkIY2jq5nrYj+4NZ4JEOegHmegFn1QUB9Nfswc0KVQaTAgR/1NBrIGP0BMa+V6pxINUzTXAo0nAN9Dojf5XIkwH4mgLkUM7lgMh+2T7vf7m0jyWHjCoG2P11c9p0QiU81P9aqDDuVIo9ebOL+X9XrLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EJLXt47w; arc=none smtp.client-ip=209.85.166.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="befor7Je"
-Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3ddccc79b55so16310525ab.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 15:18:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EJLXt47w"
+Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3da6fe2a552so49352195ab.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 15:18:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750457924; x=1751062724; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750457923; x=1751062723; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
         bh=CI3k8EjFmwTOYcPqsV3PhQ8+RSg8JDcAcfT+x1n6dsQ=;
-        b=befor7JeIMa03LhxJj8M3qtGKcEusulZiZqdoKphiJPDxhEAAwNa39RA3tTR4wwkRC
-         QqQppu6MhhZZilTvzIuvMvSXNLZ3QOmi7yJlmwTU03eiqDevogq6oteFFybsAGUPPQPO
-         jOsInvQU0T1c/v8uZqKcjztaWP6b+Anhic7Fz/LVxCq5HPROyeAKXABqhSfY4Bey9eVg
-         yQ7X43NuK2ylYGxHxUeLEVHGB+mwNafU+egYxLviQqi2KtsS9H5wrT6Gw+iX9W5aPVLI
-         hX9pLrV7FsbX6jtgLkHQEp4AIWnYn9gZ4WsvkXTkhNRM6aay2q+924HF6yi47F1ZaY0v
-         wK1A==
+        b=EJLXt47wEt1+4WGlzgaPj9RtF6Tq7OxYAK2C6iRid1nVt4wdRUKkamw9CS0tHfaxBX
+         OkRrEZIi9YSPDHpJmU/wvfqgIJwrv5SWqp9yfwn2/tXm6dI17oc3q/e17b+jRnzWlnGN
+         mbNkSpF/h04dkPd2vxExKsmFtl0MCeXgAMdXijBcaXC37kVU0fToj6yEAyU6xhsJ8/gX
+         MPsB0/Z3r7qBflYAQww8LLCj5iKsGDQn/QH/L7fG4bkbsq9e7i0R5vNVEuSuQsrJDIFk
+         V2M0DqnjfS3V5/wFWxX7y0n4i5Nr1XE2IJ31EHeDbjIf3SDfc3bKoP3AG0wDRylpPd/3
+         S2xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750457924; x=1751062724;
+        d=1e100.net; s=20230601; t=1750457923; x=1751062723;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=CI3k8EjFmwTOYcPqsV3PhQ8+RSg8JDcAcfT+x1n6dsQ=;
-        b=ixbKEcBHVPg0vAPNR4UGUVBDxYWk0lwpzcZulQMF/BM/uDa3ZKnyI8gg2MPtiUbrhr
-         Ba1AfgFoSDLtT+zrLLX3+1WNRNAPGmnRVL33++SQKyaQ0+U/TM8j9MKA8c/MgcCNKgq1
-         XAR3uaXQF4AOLP/2aeqtyPSKoZEXhE4ZycRL7ASTaVKFUII1ENaVleuMOahqKiNNf80u
-         OBd9ENp1jaj1NgRkXK12jV9h9JKik4bLk9F2hpiWbxdZSC2AtkjFfeTRHv08F43T6T+P
-         v9rFm7/GoRuoZDHnflnEUcMWvHR43X4nT9+JXu2BzohKDA0gE5bk/LAPyHoO0HbiWEl/
-         P8HA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAkaHuw/uDfnEv+RZIsZ9oHJG8gEr2K5py5pDMY8J+V21Ob1hDDpodUDXIy/EsUycqGr3VjYldEXw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBQ6EV5qS3i9UHmtiXUejBfo6TOdCjddyYzEwp4U9oolFA+Ati
-	m0p11MSAXIKzjNKxKsZ15un+QnNqlOBszb3OOE0PoHSrSAtQ6r9hB8YbokRTjaOgTNKNMtvYa7S
-	+XAEapGk2SIlW0t1jW/rvPz2rqg==
-X-Google-Smtp-Source: AGHT+IGRzFrNkTKRncgvh4xo99Bcu003VZXHoGW3TcBgBpmaK0gzPhj85w0EWM+POhiHIrJPWFM8l3F3ufOL+8v7Xw==
-X-Received: from ilbcp2.prod.google.com ([2002:a05:6e02:3982:b0:3dd:c6fb:13fb])
+        b=a5iynJEPd1wKTFbPTawTMmYGJ2nVeYI2gtV3QWodDGB2uIm8Mkho6h3wxtg16V3R5v
+         p7e3f3YKs1cUZJDsZaGqq/DLuOVLyi/HBHwfNNrr9UsjVMuZn0uE1PNVhpzUL8E/B/Uz
+         Qi18KjnxOuWiYsfyWBwOAmKSnPHeTpiv50RLNsFtnbW05v313axyr7lu/RUMkgQ+rmz5
+         VfN2auLKKAWfv3fQpsm6GrrEb/6KOKd9ChmW0fbfGzvDLLQFZwkqvfi3WgiIvDE3dbdf
+         qGsZPXhqGLy/J6gctNSzPtTM3lMNAHPK93kWHzmRLq0u6Qiu3yOgdsep4sP/A/APq9NP
+         XxEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXczoed1l1XN2k1tQvY7vE4UfXlUsSTfoti8XIoz9SM8KUiC8M/1KieMvyZ543KqaYEXzLIk1qeYEE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXXzY6dKbbEFGFHnO7aHK5DyYnTES47vWsICKxIKPn5QIdAcq0
+	0CozYOqXLJQDpdFQqiAEAsx67K6jwiEqVGObkDfjsfQCwfQQW+cihzF1PMwxbm9zmDCOx7OdRhy
+	9JVR0ezTTAQcneqX7EEVy9pLZjA==
+X-Google-Smtp-Source: AGHT+IGd22a1m3jPCQL2sEo9/Oo70+BIZ/MHoetdJ28KF4pJAvyQp5h1OYPs9GTJxMaOkTXVAbhUtbzBHpnKmlW6oQ==
+X-Received: from ilbeb7.prod.google.com ([2002:a05:6e02:4607:b0:3dd:f56e:32fc])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6e02:351f:b0:3dd:f948:8539 with SMTP id e9e14a558f8ab-3de38c1c186mr52207735ab.2.1750457924241;
- Fri, 20 Jun 2025 15:18:44 -0700 (PDT)
-Date: Fri, 20 Jun 2025 22:13:08 +0000
+ 2002:a92:cda2:0:b0:3da:71c7:5c7f with SMTP id e9e14a558f8ab-3de38cb7688mr49401535ab.15.1750457923037;
+ Fri, 20 Jun 2025 15:18:43 -0700 (PDT)
+Date: Fri, 20 Jun 2025 22:13:07 +0000
 In-Reply-To: <20250620221326.1261128-1-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250620221326.1261128-1-coltonlewis@google.com>
 X-Mailer: git-send-email 2.50.0.714.g196bf9f422-goog
-Message-ID: <20250620221326.1261128-9-coltonlewis@google.com>
-Subject: [PATCH v2 07/23] perf: pmuv3: Introduce method to partition the PMU
+Message-ID: <20250620221326.1261128-8-coltonlewis@google.com>
+Subject: [PATCH v2 07/23] perf: arm_pmuv3: Introduce method to partition the PMU
 From: Colton Lewis <coltonlewis@google.com>
 To: kvm@vger.kernel.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
