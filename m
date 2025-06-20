@@ -1,196 +1,143 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5520E19CC1C
-	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 16:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D6A28A415;
+	Fri, 20 Jun 2025 16:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750435480; cv=none; b=mU6Qi+snlYJ+RonaOpa5ZnRYANHnTeI+kR5Om7MhD0/lLlko0Y9lnmQ2q7au1EKL8BUynGFQuvAEIyL33zan2oXs53kZ0HKffr3EIRfBdpG56+lwKGQ4Qoejn9snRGWQ/hZkOzxIUD2gaWJP8PmuTWA6Fc8rcK1SEs53lJpYmRA=
+	t=1750436055; cv=none; b=FtuUejq/wDhNBUkJfyrF2oiu/9W11M2l4+9ljmZ/2g0rcEbeFfKkFukZyx8SbEZ3nMp76klRBzPiYbPJNB9Yxb43F3h/2iy28+s8/zFSgm+8ep2Ah1bK+VzG7vqs74LrvzZqE7L3eIFF5FiK7b8krk9SGb0NIAn+8iojKSJ2wSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750435480; c=relaxed/simple;
-	bh=KBcGLgy3ZycCDoT7xlJdzPZ1CdI0tHu42dibypRo3EE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GP7cHuBafmBhrZTefLxwEx4UHsnacy1t0l3NU5LxTBXdoM+GhVfrq9lgk+imUjDZxyFXZ0KZLDbm6JPSNTpNCec4v5xYvrSRCtKnWCmdJ2eFKdeUqo1xmFvDkIB0RpFkQPPKaUUMOTOu0TBfFunx46phdgMsXPGuXQGUPSeIRxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=q/4MxPsY; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1750436055; c=relaxed/simple;
+	bh=xl0/m7vCTDCJ0eBO6PHDRHnK1Zkd7aaRC+ojI3/LrNU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GTLoUY5o2HfpDdpbw7kr306v7/a9sFbb9CF3Gc1RmTpsf23erIC6rUMKVwwp0UkNgPn9PJz0pIfXQvSONR2P2Df3o29VyN3hxDhCe5f/YzpFav6IAyDTajX9t17cVNBMiilOWdifUKb7GwdlfMTYvjzRoEUYOffkveMEqhublCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=NoWCCOpi; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="q/4MxPsY"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4a77ffcb795so4564951cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 09:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750435477; x=1751040277; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KBcGLgy3ZycCDoT7xlJdzPZ1CdI0tHu42dibypRo3EE=;
-        b=q/4MxPsY/qDx4YUkyPzL64dH/K0Sw71gttFssB3sh1sASpJk+3HuY3do/Jpomr6oEa
-         sFLBGUzzl2jU52Q/vLKVSTXWSSoxoLpqn0ZbbTef7VsOkA/t2SDhbsHO1REWZqGUWdHJ
-         Ir6FjWW0n5rrs8PTfcY1iz+TmiCQXeG/4d+WSy/W6yMTaPUBv9X0NYam44DhsAOknwvq
-         gyxjhBnJVlB5KQfbhPcT5gAR78nVBHWnH2wtwf4ZVt28T2UYt8ZfjrzfZKh6fzdOm3/7
-         OPKOprwyVl8iFJ2sm1nm4KLLeQcSknMoqIH+MaEovXRobvnrBPFOhLO1j7LyrdQKTAbO
-         nvxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750435477; x=1751040277;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KBcGLgy3ZycCDoT7xlJdzPZ1CdI0tHu42dibypRo3EE=;
-        b=a4kUG3dwO1dxR3Mz8ibkfWMaGkOLQvWfg3mOzX9fBzLFIH8NOjo1T3VvbwwLH965GT
-         Yx1IX7/LENNEKT4ZgvLfFuXKpvbwq75PTOd3WpuuRSGTIJp/4CcicxUOxhqY37PFgFhZ
-         Bx6ctGArsX4B2zR5ApvCF1Fj2wS5p2FO+MfIgEbwaM2gbHcPBtUK60Kg0DWcfEZAzG8+
-         6IqHE/UvaKjbU+sxJaMCN4pIb3yNdyFGzB1J/a97JsLGkjWLzhHPyJUl3obnvsTVrm4O
-         0rr+0SixN6Gru93glw/JTbJAlTxmQ0SYqlcS3tjKJCuG+roOcRHo5xibzYnhfzEyGKB2
-         P1EA==
-X-Forwarded-Encrypted: i=1; AJvYcCVgAj318GPWd0WgXukHpCO1pNeO7VA/YVAn/MTVIfPKVM6o0kEvOMa/xnlYMimlqqMjrLx/t0tSPNQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2fIX3NPITFPNU8EU2biH++vAiDBnFCihNJ/BljatMgCpcvPXC
-	llg+qp9IkJO0/K9J6C8tNMDjI5zxU1D257n0s0eODY47d9yZPXGFGRzLcZ6yRkaUMPhFDwAHAfA
-	5aKYswIUOC9hVv3szZQTGMUvHEC+gdPQs3ZFlAZ+PeA==
-X-Gm-Gg: ASbGncumFysWek8VVE5zvWqNnfQgtNv2vE6NmOPz3GjPb10uMmkZvY16vkku3HuCUBo
-	b/aSOJ2y1fRDX2PYl/yrfEv0hjt80sNMdmHCYPBG80H6yaQ6OKLYJoQFbvmMhEkLewp5twIoJwf
-	ppwbhrRBxlF9j/+k6n/y7xhThvqc6Vo0H47NtYahRM
-X-Google-Smtp-Source: AGHT+IFYMkrIV8rD7Pif2HmczDwpVC2FXm+jHHb0EasflVe0vI4Kty5fEm7Qn6/47uvi0pcg9jQaBOvaY3LbpyffyhQ=
-X-Received: by 2002:ac8:5e4b:0:b0:494:adff:7fe2 with SMTP id
- d75a77b69052e-4a77a24907bmr54563871cf.43.1750435476818; Fri, 20 Jun 2025
- 09:04:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="NoWCCOpi"
+Received: from [192.168.7.202] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 55KGCOU92549536
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Fri, 20 Jun 2025 09:12:25 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 55KGCOU92549536
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025052101; t=1750435949;
+	bh=od7VOU+Vgb8+R5vxfgKCe9w48z7ysNa+RJDKpFTFMrk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NoWCCOpiahyyyMkwLm0Z8Zf5fjEhS5Hexwzxgl/OeAD2fsaCRNRSebZJXp7aF8pIR
+	 6z5p2JPtgfJuYyMZKr66F1fNNROopW381MG2/nqP1od5JrnuECmMtc2EdYRjvPkIGJ
+	 zkpj1CNwWaKgYtJLCxHMsW1pDQW5KU0CoxmJUGwecj8ZBxaFaKN4BzHm1nJBG2cbZa
+	 JioC3k1ZCNTJhAkrk7iulKgyMXFnnNhZWDldmi4elM7CdycWQcOH3fxLSoeg0P8idr
+	 PqoFr5gBQGfXJr5IoEub99KBdsBEgpoVkn/hwV21Eqq38JCJBDaajKjc1XKu+y7xFh
+	 QDRd1MVtZAnpQ==
+Message-ID: <98703493-109a-4795-8abd-6cfe10b941f4@zytor.com>
+Date: Fri, 20 Jun 2025 09:12:23 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <mafs0sekfts2i.fsf@kernel.org> <CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
- <mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
- <CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
- <mafs05xgtw5wn.fsf@kernel.org> <CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
- <aFLr7RDKraQk8Gvt@kernel.org> <CA+CK2bAnCRu+k=Q78eA4kcAebxA9NgOorhwRqu-WxC913YBsBw@mail.gmail.com>
- <CA+CK2bB3P1vX658ErkP4_-L6WZSOCcenEwUdX1qS=poDjs=i+A@mail.gmail.com>
- <aFP7wwCviqxujKDg@kernel.org> <CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
- <mafs0ikkqv3ds.fsf@kernel.org>
-In-Reply-To: <mafs0ikkqv3ds.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 20 Jun 2025 12:03:59 -0400
-X-Gm-Features: AX0GCFsQhPGk-ls7Li1zkHXTCt1at0pTBUhnscC7tj8uZk3G-noKoK_lGxaGFUA
-Message-ID: <CA+CK2bCA_ggpvbY+MQPaAHsN7MOzV7D3=MYvfAP4cFwhThJpPw@mail.gmail.com>
-Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, dmatlack@google.com, rientjes@google.com, 
-	corbet@lwn.net, rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, 
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
-	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
-	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
-	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv6 01/16] x86/cpu: Enumerate the LASS feature bits
+To: Randy Dunlap <rdunlap@infradead.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Xiongwei Song <xiongwei.song@windriver.com>,
+        Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>,
+        Alexey Kardashevskiy <aik@amd.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>,
+        Breno Leitao <leitao@debian.org>,
+        Rick Edgecombe
+ <rick.p.edgecombe@intel.com>,
+        Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
+        Juergen Gross <jgross@suse.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>,
+        Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
+        Huang Shijie <shijie@os.amperecomputing.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-mm@kvack.org, Yian Chen <yian.chen@intel.com>
+References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
+ <20250620135325.3300848-2-kirill.shutemov@linux.intel.com>
+ <25600557-9cd5-406c-9acf-abc163afde2d@infradead.org>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <25600557-9cd5-406c-9acf-abc163afde2d@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 20, 2025 at 11:28=E2=80=AFAM Pratyush Yadav <pratyush@kernel.or=
-g> wrote:
->
-> Hi Pasha,
->
-> On Thu, Jun 19 2025, Pasha Tatashin wrote:
->
-> [...]
-> >> And it has to be done before kexec load, at least until we resolve thi=
-s.
-> >
-> > The before kexec load constrained has been fixed. The only
-> > "finalization" constraint we have is it should be before
-> > reboot(LINUX_REBOOT_CMD_KEXEC) and only because memory allocations
-> > during kernel shutdown are undesirable. Once KHO moves away from a
-> > monolithic state machine this constraint disappears. Kernel components
-> > could preserve their resources at appropriate times, not necessarily
-> > tied to a shutdown-time. For live update scenarios, LUO already
-> > orchestrates this timing.
-> >
-> >> Currently this is triggered either by KHO debugfs or by LUO ioctls. If=
- we
-> >> completely drop KHO debugfs and notifiers, we still need something tha=
-t
-> >> would trigger the magic.
-> >
-> > An external "magic trigger" for KHO (like the current finalize
-> > notifier or debugfs command) is necessary for scenarios like live
-> > update, where userspace resources are being preserved in a coordinated
-> > fashion just before kexec.
-> >
-> > For kernel-internal resources that are unrelated to such a
-> > userspace-driven live update flow, the respective kernel components
-> > should directly use KHO's primitive preservation APIs
-> > (kho_preserve_folio, etc.) when they need to mark their resources for
-> > handover. No separate, state machine or external trigger should be
-> > required for these individual, self-contained preservation acts.
->
+On 6/20/2025 9:02 AM, Randy Dunlap wrote:
+>> +config X86_DISABLED_FEATURE_LASS
+>> +	def_bool y
+>> +	depends on !X86_64
+> Please explain why this is   !X86_64.
 
-Hi Pratyush,
+When NOT on X86_64, the LASS code should not be compiled.
 
-> For kernel-internal components, I think this makes a lot of sense,
-> especially now that we don't need to get everything done by kexec load
-> time. I suppose the liveupdate_reboot() call at reboot time to prepare
-> final things can be useful, but subsystems can just as well register
-> reboot notifiers to get the same notification.
+But first of all, as I replied earlier, X86_DISABLED_FEATURE_LASS is
+completely not needed.
 
-Correct. If subsystems unrelated to the userspace live update flow,
-such as pstore, tracing, telemetry, debugging, or IMA, need to be
-notified about a reboot, they can simply register their own reboot
-notifier.
+Thanks!
+     Xin
 
-> >> I'm not saying we should keep KHO debugfs and notifiers, I'm saying th=
-at if
-> >> we make LUO the only thing driving KHO, liveupdate is not an appropria=
-te
-> >> name.
-> >
-> > LUO drives KHO specifically for the purpose of live updates. If a
-> > different userspace use-case emerges that needs another distinct
-> > purpose (e.g., not to preserve a FD a or a device across kernel reboot
-> > (i.e. something for which LUO does not provide uAPI)), then that would
-> > probably need a separate from LUO uAPI instead of extending the LUO
-> > uAPI.
->
-> Outside of hypervisor live update, I have a very clear use case in mind:
-> userspace memory handover (on guest side). Say a guest running an
-> in-memory cache like memcached with many gigabytes of cache wants to
-> reboot. It can just shove the cache into a memfd, give it to LUO, and
-> restore it after reboot. Some services that suffer from long reboots are
-> looking into using this to reduce downtime. Since it pretty much
-> overlaps with the hypervisor work for now, I haven't been talking about
-> it as much.
->
-> Would you also call this use case "live update"? Does it also fit with
-> your vision of where LUO should go?
 
-Yes, absolutely. The use case you described (preserving a memcached
-instance via memfd) is a perfect fit for LUO's vision.
-
-While the primary use case driving this work is supporting the
-preservation of virtual machines on a hypervisor, the framework itself
-is not restricted to that scenario. We define "live update" as the
-process of updating the kernel from one version to another while
-preserving FD-based resources and keeping selected devices
-operational. The machine itself can be running storage, database,
-networking, containers, or anything else.
-
-A good parallel is Kernel Live Patching: we don't distinguish what
-workload is running on a machine when applying a security patch; we
-simply patch the running kernel. In the same way, Live Update is
-designed to be workload-agnostic. Whether the system is running an
-in-memory database, containers, or VMs, its primary goal is to enable
-a full kernel update while preserving the userspace-requested state.
-
-Thanks,
-Pasha
