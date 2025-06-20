@@ -1,65 +1,50 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68BFA231824
-	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 14:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95272522A7;
+	Fri, 20 Jun 2025 14:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750430202; cv=none; b=pddFGUIUuO2bGIqFrHdTn2Sd6lvfH2gdE456w1QCtWlvrZakqLKXIQFQPB+AX/DfEO0YipyUyt3VMyxSMDZNgCnL6iL1Hq4HXi5PK9Gz8IinnO9rkaMEH/mO39gocCCRBBMCXr3zV7g52KpLu+LpB7ylGxxiJ8OONjeuIoCGay0=
+	t=1750430825; cv=none; b=sAn1CBLqu99m2DewkQBcyXOr/P7vKy+TfCFYTTTYc0q+myS190HDpY6NSwtn4RSs5YRg43XR0qasAYtbLXAmydaRVl1l38+2muEyRx/wgcme12ZJSrgqF0lS759/c39gMVQ5l7DgjfIbu2oXrgO3rqpgSvg18onChSxMEjrVvBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750430202; c=relaxed/simple;
-	bh=lEq7cL6BsT6j/RnRnM44W4XFLaR6CG8CDiQb9BaYVEE=;
+	s=arc-20240116; t=1750430825; c=relaxed/simple;
+	bh=uMrGWGMdwOjXA/gFwRMq0UddnW5BcepqPgO6zhU2dBE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EI32aP6SJp2OfHdy2veZXRi3GJD9KjuboE0XPdpOND0pULpd09if/BChyIKgZEilSZKcmsOe59aE/ey1JadgN3jmp8BySghvldK/Y69jKx0QQ5hL1RSyXk66+ZAt4+mXSDknl+dYh+vpE4rLFt25rO+rlT4qwj1Qjjgnv2Mwlqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YI7gbwTM; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=g6ZCyJBlYCNKiZSjjsFrx0zHdJqALrfoyzI8ZbYe3fn9CW1Fyu90DMGpyN5xf0DbSixJOUgyVIJzDVNcXiibamwBZ3XIglWwg/XUOslYE21JTUL/B93TZraeBs81Q8wMB5jp4B6qtL+49JE38oFN5q+LOaYARAFW8bhZagYGELs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AekTFyVT; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YI7gbwTM"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3137c2021a0so1466654a91.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 07:36:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750430200; x=1751035000; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g20En4v3jYt4kBc3V1HIA6rXAY82KrK6nGXhWwEXANM=;
-        b=YI7gbwTMUbWFGCiSDzbluoT/24nasLe+ghvEYHX4y/pAVcXL5QSh/BjCT/DilPhuve
-         yUWJoKTdHBtJzkBlb0qWVOzcrbgeQsqOV1v6GZjRUcWp67GMzUuXCuN0kvi7s2o6Z4Yg
-         i4opcfa7CvIUjkT7JkrBofvbMNSxWidGwT4YsDaTF+bJwwdzR6sr+Csrwliio5jVBODN
-         Aw6ivQgOnhiCOtr7b32BhUiJJl7hZur3Be+y/oLgAQ4ot0RsHVilhqSE658ClK2rOlLp
-         dljJ+6yzQQ3nKgTZQIpWkRvs+BrdY+6JMRRqQApqGWAF0iaINQ4GUHxI3GdLSVJQWeqb
-         B78w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750430200; x=1751035000;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g20En4v3jYt4kBc3V1HIA6rXAY82KrK6nGXhWwEXANM=;
-        b=aAEZE9/JXxtY52aqDD0ym+6WQraHDJcP8PMGDUuZz174pQhYkXaah9mXMBLpg492zZ
-         O54ZbrewebSHEnAgOpZts8HFAAlXbRzvaVZTZkGp5KJbq/bF4FJ3CqDuEJ+gk76L8kec
-         8wk/UNBHm1MkpMs0sfSWWDrZZMzpEBAC/GzlNrJfF+fhEyK7Jg7d/SjgtttGQI4+e2av
-         jDCQoWbL5um6bDvRYzDpPVYVjPblZSf64/Mm2zwpQXRYCm3EnpiZkqdalX+oL7OFw/2d
-         P+3CmCq8pvCJFl8d+/kpNMxfBf6h/ZczfOWgFwAN3+On5I+wxup5eWQ1YAr3G6tcgwMq
-         Rbqw==
-X-Forwarded-Encrypted: i=1; AJvYcCULuZ1h1TTio8InD0TcDIT6wXzY6cCNdh6CBNkgbXtzhd/rbH5MGP9kvbWV5fbTHkD5+tlxJhM0ovw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwM+fw1A3PjN4TYxLA8diorcd0b0t8OD6JlF0J+2ApCcdbnlT4/
-	Wx5fqrlGXCia6xscawQSbYmdBzNd2dteOu+Ro+Clx4m8lDiwUvkD4hDpcx5bdA==
-X-Gm-Gg: ASbGncssm40IyLtwOBSm3fmvieN4iWfCIQLSTOHb9XiJMVeoDq2Rn4ljlpEkZ6MphUx
-	2nFIabwEPSbQ85TWz8lM1Q0cEIUZvuRALHXiMaix8LvxXpv1mc8Xkx6BMvcA6iMaiJ0I+6RC+Ug
-	KXcEi8GQ8LeE41K6aPbv9XpynrvB+Vz0LawINhpWope0FclmjXUCPnPNn2KBQVw92yFTgSZft3Z
-	F66MLZ6l/g6Yh+CFslNIiNjPXxwHcurYCgDATbAUPGCKYMGyGIRVZwIE648u9Yw2QSf7esVmuAL
-	bdKLmeJ/j7nlBIghzGGg2SiAppiuqmdFHb3uwABmfhXk0hImQbN+ylBD7JTbB+9vf70oUbCamSb
-	MAwJPFA6Vo/zWhohgDbI2YZWXTwX9TdTb
-X-Google-Smtp-Source: AGHT+IH8iJcnci5fNvkMbjLk9TrdNGFbv/rlRmq0SrV7ZzkO/JDG9Nyf/eTmyoFz4OKaxuxAiiej8Q==
-X-Received: by 2002:a17:90b:2d8e:b0:311:c5d9:2c70 with SMTP id 98e67ed59e1d1-3159d67fea5mr5513241a91.15.1750430200487;
-        Fri, 20 Jun 2025 07:36:40 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3158a31d40bsm4810656a91.37.2025.06.20.07.36.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jun 2025 07:36:40 -0700 (PDT)
-Message-ID: <713db067-7aba-48a6-a7e7-779d1c1290e0@gmail.com>
-Date: Fri, 20 Jun 2025 23:36:38 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AekTFyVT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750430824; x=1781966824;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=uMrGWGMdwOjXA/gFwRMq0UddnW5BcepqPgO6zhU2dBE=;
+  b=AekTFyVTjRd80sofMS3wUkZCTV3Xwv/8xcuq1jfcoAIbOYS8G53WuSxe
+   ROuMVdypSF41gajQZIUginuB1dxAsvNB8hiFsDzYUWKADBvMWMbCutil/
+   CD0bbdpHgcvP2ISS+l4k8tDOcRvXjOyTty79IoiUBhuNo+kjKj9f79Cfz
+   RMM5eX1WaJmDKbBaJaRU0YJfp/vABpnHwMm9ja36d7IFknjMT5a/DVIsj
+   AM5shd++lK9km84A+HuPJjXdImUgYHlvMeUWuQCpxvVfKqtCchwFBVkQR
+   wjMfEdsxXw0DMrSP9ibZhU5SNg9GMM+f1UIZDgwU0HmZeYyCZ6gYOscX7
+   g==;
+X-CSE-ConnectionGUID: e2SVBYTOTUO7fyAD11Sy/Q==
+X-CSE-MsgGUID: jLPFeaVMQvanX6tU1OxVZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52578647"
+X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
+   d="scan'208";a="52578647"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 07:47:03 -0700
+X-CSE-ConnectionGUID: gZ+ODNqfRW2YFnRzwlctmA==
+X-CSE-MsgGUID: ubiI9QOCQx+7RNyCe1ijcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
+   d="scan'208";a="155315112"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.108.136]) ([10.125.108.136])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 07:47:01 -0700
+Message-ID: <f66e58b4-beee-4a9e-ba16-07b69fe5599c@intel.com>
+Date: Fri, 20 Jun 2025 07:47:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,36 +52,104 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: docs: sphinx: avoid using the deprecated node.set_class()
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
-References: <87wm97fmn3.fsf@trenco.lwn.net>
- <03285fe4-61f5-429f-9535-5c826536d4b7@gmail.com>
- <87frfufrgy.fsf@trenco.lwn.net>
+Subject: Re: [PATCHv6 08/16] x86/traps: Consolidate user fixups in
+ exc_general_protection()
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ard Biesheuvel <ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>,
+ "Mike Rapoport (IBM)" <rppt@kernel.org>,
+ Brijesh Singh <brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>,
+ Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>,
+ Ingo Molnar <mingo@kernel.org>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>,
+ Breno Leitao <leitao@debian.org>, Rick Edgecombe
+ <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>,
+ Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>,
+ Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>,
+ Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>,
+ Changbin Du <changbin.du@huawei.com>,
+ Huang Shijie <shijie@os.amperecomputing.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Namhyung Kim <namhyung@kernel.org>,
+ Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, linux-mm@kvack.org
+References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
+ <20250620135325.3300848-9-kirill.shutemov@linux.intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87frfufrgy.fsf@trenco.lwn.net>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20250620135325.3300848-9-kirill.shutemov@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 20 Jun 2025 07:54:53 -0600, Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
-> 
->> Hi Jon,
->>
->> On Thu, 19 Jun 2025 15:26:56 -0600, Jonathan Corbet wrote:
->>> Docutils emits a deprecation warning when the set_class() element method is
->>> used; that warning disappears into the ether, but it also causes a crash
->>> with docutils 0.19 when combined with certain versions of Sphinx.
->>
->> To be accurate, I'd rather say:
->>                                                 but it also causes a crash
->>   with docutils 0.19 when combined with any version of Sphinx whose
->>   requirement accepts it.
-> 
-> ...or just "with docutils 0.19" and put the period there, perhaps?
+On 6/20/25 06:53, Kirill A. Shutemov wrote:
+> @@ -819,6 +814,9 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+>  		if (fixup_vdso_exception(regs, X86_TRAP_GP, error_code, 0))
+>  			goto exit;
+>  
+> +		if (cpu_feature_enabled(X86_FEATURE_UMIP) && fixup_umip_exception(regs))
+> +			goto exit;
 
-Ah, that should be good enough.
+I'd move the cpu_feature_enabled() check into fixup_umip_exception()
+just to make the exc_general_protection() code easier to look at. It'll
+force an extra (cheap) CALL, but this is a super cold code path anyway.
 
-        Thanks, Akira
+With that:
 
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
