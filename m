@@ -1,142 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389EE2D5410;
-	Fri, 20 Jun 2025 15:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F90E2980A7;
+	Fri, 20 Jun 2025 15:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750433500; cv=none; b=DyccujuMqfuGuSZ0SjCcN9Xvytue3I4Lhkn4vf6a7jIU1qN9SeOAbDBNpIAcd0P6YsdhCYma8ZOU1YoPpQYXMWVMj1e2C/GlfFDcm1Rs6Bl/eo65+2DmTePXspYIM+ZE6+XMWTzR2+SOXy9+9bzZnOHenvVMSoAwv2HHALwDipg=
+	t=1750433641; cv=none; b=lsBI8ckK4TtML5aUGXoV/HkM0KUDGKJkISgAWaWh2o1BKBdcASpnGJH7XG6B41YqrCT/H8DeZjJjgIo1vSEriK2L4MvajtiO1au/QS7JxUwardu4Ni/YPmQ/XoUkxyECE1swMAG9ZFGdtt0Hs0LPIpKXVaHT74sow/8u0oklOvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750433500; c=relaxed/simple;
-	bh=iEFys1xc86l4xtETpg83SAgsifwnlZH1zuU6toODk5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NpYh5cJIlj5X+E3sxQOTdMVoI7YPdWg4u02hWpauKJgIS2pMx6yXdwC+/tjf0WAqcsTMHWq9pWdQ8w6zLJxBQRR/tTe3FfSH06oYKtXMW6akkaZEiSsFWtTaWE+4MFNe4Hp0u9lP2D6OBWWxO1CTVX/RDWYTiT09HhIojEtlH0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJdOGt/9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750433641; c=relaxed/simple;
+	bh=Bo5R8XrrGgmfF8KfOIvrit9oecdow83nPJ5PYV6L3ik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pWqh2gg1omp22nuXgKV2SPCJ5oJ7tT7dZQOCeZzsZ+ZETni81VbLwxS4++vToC/WW1ZP04E5d/XlZNIjJCXh8Rd8WEjfWb9gjNymupQYnB5KTb+zN4+rblgbfZZC47fcvdCYToUIJEfFzkCnthRZ0T69JAqqzY05yqsd7YiAPfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqyiARFa; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJdOGt/9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15C8EC4CEF0;
-	Fri, 20 Jun 2025 15:31:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750433500;
-	bh=iEFys1xc86l4xtETpg83SAgsifwnlZH1zuU6toODk5w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=oJdOGt/9sIYB1KkSe+3nyc+LxyaEtycRPXHeperkDCsgcc7fHizbtlLI7BeFyIL2H
-	 AHOsDCzaoIAWCMu+tBwPIGef/r1cfK+3/y6xvdw7Hb9TwcLc+c/HUf7QyRCDAg0Zrn
-	 X/ULCXxIYYpyRQlxDRrC/rpxKboMjsjoehZuxrjZy1EqSnuxmC6i++CTgxY2ie/xk4
-	 7ZvOL9I3WBx1v0GsNEm/hwGR0pIHQ/QhoKwg7GubDihcWQLlB93/bGuXwGdrBal5Pg
-	 /WYDxCcQe0c+PU2Yu/2XxX1trOgvwcYwnsUGub69rGdKzKoDjLAL5S48nM0Ap9Q6lz
-	 AgQzVEqLGia1A==
-Date: Fri, 20 Jun 2025 17:31:29 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Jakub Kicinski <kuba@kernel.org>, Donald Hunter
- <donald.hunter@gmail.com>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Breno
- Leitao <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jan Stancek <jstancek@redhat.com>, Marco
- Elver <elver@google.com>, Paolo Abeni <pabeni@redhat.com>, Ruben Wauters
- <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v4 12/14] MAINTAINERS: add maintainers for
- netlink_yml_parser.py
-Message-ID: <20250620172949.1525075a@sal.lan>
-In-Reply-To: <877c17h4wt.fsf@trenco.lwn.net>
-References: <cover.1749891128.git.mchehab+huawei@kernel.org>
-	<ba75692b90bf7aa512772ca775fde4c4688d7e03.1749891128.git.mchehab+huawei@kernel.org>
-	<CAD4GDZzA5Dj84vobSdxqXdPjskBjuFm7imFkZoSmgjidbCtSYQ@mail.gmail.com>
-	<20250614173235.7374027a@foz.lan>
-	<20250614103700.0be60115@kernel.org>
-	<20250614205609.50e7c3ad@foz.lan>
-	<20250614124649.2c41407c@kernel.org>
-	<877c17h4wt.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqyiARFa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750433640; x=1781969640;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Bo5R8XrrGgmfF8KfOIvrit9oecdow83nPJ5PYV6L3ik=;
+  b=nqyiARFaLyNBnoxEe1eIpwae2LK7tnEIT3cRsEPEbmEXZ2w/P+GIIfdr
+   piscVXQtEcaCAg1J9OJ+l47yoH7oXyo6zQwjk9sxC/BWeElT58pZMdNgK
+   sOZub8SGYpta7zI1mT/3iLLpgO+hoNG90cSJUty/uXRrV+y5NHsDT7VJs
+   3VyGnHn0ysVQkaM8rlE6IvrJrvDsn5yGYIkZJxWlIJf8xLHU/zDEmZoz+
+   ZVUXmQbiIBmmv0rYb7ftaLvS1uQ/u1gOlJU8R+cwrV8JVoMOaCKIeuKOg
+   Sbwe6gZ4pcUw0rtqOeSFK593OppWVTZ8EmkiCrc7t0jK+rTrIWQ7N46Fa
+   w==;
+X-CSE-ConnectionGUID: Pqd/usR8QhCPTAuEHOq0Lg==
+X-CSE-MsgGUID: wA1TWYFUQjCZa06/0azYBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="55335346"
+X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
+   d="scan'208";a="55335346"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 08:33:59 -0700
+X-CSE-ConnectionGUID: VxEFVi4JQL6me5azSpTp3Q==
+X-CSE-MsgGUID: cRL62tvsRneZWDk6CFi8xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
+   d="scan'208";a="151155458"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.108.136]) ([10.125.108.136])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 08:33:58 -0700
+Message-ID: <15335559-bbb2-4da1-bbb9-878edf05437c@intel.com>
+Date: Fri, 20 Jun 2025 08:33:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv6 03/16] x86/alternatives: Disable LASS when patching
+ kernel alternatives
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ard Biesheuvel <ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>,
+ Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>,
+ "Mike Rapoport (IBM)" <rppt@kernel.org>,
+ Brijesh Singh <brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>,
+ Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>,
+ Ingo Molnar <mingo@kernel.org>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>,
+ Breno Leitao <leitao@debian.org>, Rick Edgecombe
+ <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>,
+ Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>,
+ Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>,
+ Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>,
+ Changbin Du <changbin.du@huawei.com>,
+ Huang Shijie <shijie@os.amperecomputing.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Namhyung Kim <namhyung@kernel.org>,
+ Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, linux-mm@kvack.org
+References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
+ <20250620135325.3300848-4-kirill.shutemov@linux.intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20250620135325.3300848-4-kirill.shutemov@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Em Thu, 19 Jun 2025 14:06:58 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On 6/20/25 06:53, Kirill A. Shutemov wrote:
+> +/*
+> + * poking_init() initializes the text poking address from the lower half of the
+> + * address space. Relax LASS enforcement when accessing the poking address.
+> + */
 
-> Jakub Kicinski <kuba@kernel.org> writes:
->=20
-> > On Sat, 14 Jun 2025 20:56:09 +0200 Mauro Carvalho Chehab wrote: =20
->=20
-> >> I'm more interested on having a single place where python libraries
-> >> could be placed. =20
-> >
-> > Me too, especially for selftests. But it's not clear to me that
-> > scripts/ is the right location. I thought purely user space code
-> > should live in tools/ and bulk of YNL is for user space. =20
->=20
-> I've been out wandering the woods and canyons with no connectivity for a
-> bit, so missed this whole discussion, sorry.
+This does not read quite right. I think there's some unnecessary
+confusiuon about initializing the address versus the contents. But
+either way, how about:
 
-Sounds fun!
+/*
+ * Text poking creates and uses a mapping in the lower half of the
+ * address space. Relax LASS enforcement when accessing the poking
+ * address.
+ */
 
-> Mauro and I had talked about the proper home for Python libraries when
-> he reworked kernel-doc; we ended up with them under scripts/, which I
-> didn't find entirely pleasing.  If you were to ask me today, I'd say
-> they should be under lib/python, but tomorrow I might say something
-> else...
+>  static void text_poke_memset(void *dst, const void *src, size_t len)
+>  {
+>  	int c = *(const int *)src;
+>  
+> -	memset(dst, c, len);
+> +	lass_stac();
+> +	__inline_memset(dst, c, len);
+> +	lass_clac();
+>  }
 
-Yeah, I guess you proposed lib/python before... I could be wrong though.
-Anyway, at least for me lib/python sounds a better alternative than
-scripts. I won't mind tools/lib/python or some other place.
-
-> In truth, I don't think it matters much, but I *do* think we should have
-> a single location from which to import kernel-specific Python code.
-> Spreading it throughout the tree just isn't going to lead to joy.
-
-We're aligned with that regards: IMO, we need a single store within
-the Kernel for classes that might be shared.
-
-As I commented on one of PRs, maybe the series could be merged
-with Donald proposed (tools/net/ynl/pyynl/lib/doc_generator.py),
-while we're still discussing. So, let's focus on get it reviewed
-and merged without needing to wait for a broader discussion
-about its permanent location.
-
-We can later shift the code once we reach an agreement.
-
--
-
-To start the discussions about a permanent location, in the specific=20
-case of YNL, we currently have there:
-
-	$ tree -d tools/net/ynl/ -I __pycache__
-	tools/net/ynl/
-	=E2=94=9C=E2=94=80=E2=94=80 generated
-	=E2=94=9C=E2=94=80=E2=94=80 lib
-	=E2=94=9C=E2=94=80=E2=94=80 pyynl
-	=E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 lib
-	=E2=94=94=E2=94=80=E2=94=80 samples
-
-where pyynl have executables and pyynl the python libraries.
-
-what I would suggest is to move what it is under "pyynl/lib"
-to "{prefix}/ynl", where "{prefix}" can be "lib/python",
-"tools/lib/python", "scripts/lib" or whatever other location
-we reach an agreement.
-
-For now, I placed the latest version of my doc patch series
-under:
-
-	https://github.com/mchehab/linux/tree/netlink_v8
-
-to have a central place to have them on one of my scratch
-trees.
-
-I sent today for review to linux-doc ML an initial patch series
-with some non-YAML related patches. I have another set of
-patches after it, which I'm planning to send on Monday. At the
-end, there are the YAML parser submission.
-
-Regards,
-Mauro
+Yeah, this patch small enough that lass_{stac,clac}() are definitely
+misplaced in this series. Just move them into this patch.
