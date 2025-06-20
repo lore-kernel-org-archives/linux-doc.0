@@ -1,50 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D49210FB;
-	Fri, 20 Jun 2025 22:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B991E98E3
+	for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 23:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750459578; cv=none; b=fJcdVOTnMoHX4tTDjg1Jta4DA8xrXzvI8juEmes4KHOl8+bb/phtogpeEEf3xXZiMM5i7QHqozaKVd16qtXeCHmOYMJMVfPqIGG+LJ6leNqRkVFOoKbues1Hg8+eyVq0QjPmIhaDCshp4ccgBKz9M+Mln4m4tIidYjksDp6BBLE=
+	t=1750460937; cv=none; b=DjKBFLt0hxZgSWOXmfamy8f2sHB/OHFo471a+xBXE0c3FAVHWToRTZe0EPQ0jp0Sivl0jYpFWSGXOqDtmBpsAT2wrXkbWWAJonYRrKT9APMvwv2O6NRdFydwr8GC3a5YaIiuVib9UebIweCgiEzAZmF8ovLBqpTn6meVhWTC13k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750459578; c=relaxed/simple;
-	bh=3ltDZyrLpr7p5Yw1O4wQRcbJxakPO1ZfhDT2Kf+7TY0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hmfZjUBHQ5rTLr5uJjAFjJjAEXOW0VNkhmCe6ui9OSF3DKeJcCIjZcMK3HgtH1U5DziU35w+801hdAQ9kJiKc9Dii+JT3xGmrHb1bdkP+DDQfA9hYPJwRMphsz+xWBToQ3OmfcrLq38EHSW/g+MboB79WvhM3+2DPJx9zd2MY9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G9M72Xjs; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750460937; c=relaxed/simple;
+	bh=LrIKVw9uceU9PNljM3GXHP0UH4jzYFs66QOU9jwX1gg=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=hOpGjJ4wQ0FaC0xHlyRZqR2H2XANdawWLArYnKGYB8VwdtYF+8SidtwSo3TdJpMYtDopERfsss0MJz6tiIZQbjXoSFs5KDs93dPcM++1wE8L6WMS3/hUfhmwoe1Qqce8GJQB1tpdT3vQj6DYPQ00xqhfVUIGbUO7YIEv4SdcYHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=RfxLm+7n; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G9M72Xjs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750459577; x=1781995577;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=3ltDZyrLpr7p5Yw1O4wQRcbJxakPO1ZfhDT2Kf+7TY0=;
-  b=G9M72Xjsa1+CBguDlnt/s82HZEodmFcxe6JUXRY7xYmds8vw7ZUZ+IvG
-   enOjlfpapEFxLVyzZ0VUloZTZCAxmYo0sVPUdurKVZYPQn5FFiJ/tzfDl
-   oytpzcqfQDnr8N6i8LhpRtZqoxbw6o+S1GkbYvwGsTQNZDJdhYHMrypI5
-   CDwhxwvdLBXeHdTSAU36SoPDzV6IqDIx2XdBOkOPjnrQag4B8OLEQunAx
-   vwSWIK6xe57YVvLyfPEFEiLtxv2CH16sM7P/U0brVwypPmG21UlKuEXUu
-   To6Q7fFQCnBesUv1Vw/BfVT5aCQKq2vKwDKFY4vX2vUhkipTYX9R7VKu1
-   w==;
-X-CSE-ConnectionGUID: khlGXOlkTwKr1U9JjdnP3w==
-X-CSE-MsgGUID: yLxhqetFTP2koLO8avucCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52437980"
-X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
-   d="scan'208";a="52437980"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 15:46:17 -0700
-X-CSE-ConnectionGUID: k7JyIxXjSziBo8N29UjCyA==
-X-CSE-MsgGUID: yrg8bu1wRT23ayQDfi8v0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
-   d="scan'208";a="150463429"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.108.136]) ([10.125.108.136])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 15:46:13 -0700
-Message-ID: <daa73e1b-2d1e-4b0b-a7c6-1f909c9672ba@intel.com>
-Date: Fri, 20 Jun 2025 15:46:11 -0700
+	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="RfxLm+7n"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso1952136f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Jun 2025 16:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=citrix.com; s=google; t=1750460934; x=1751065734; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=8K7VF56cCSHOQmH4rrNXHm6nXu5zATs+oNyo/btQdw8=;
+        b=RfxLm+7nWNiqEc3PgMtBbYTUw/L+T6OKwGYvm504npYhzBkVknFXzJVDY8JkvVhEUF
+         QoK0dq0N+k3NMRe2mDFzZJ6DYCFbpYojE+x2t5fhmoNIrqDPr0CRKSURVARBuYPJzKNC
+         0wVarOTZQKbBS45X6VNvSXDjbyUzFYTHwuGaY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750460934; x=1751065734;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8K7VF56cCSHOQmH4rrNXHm6nXu5zATs+oNyo/btQdw8=;
+        b=QWE+UA80h6KRg//aXn3eXYa6/wyQWR62HIi5R1ll8d8pnwzlgacQ1AebJqRrie7j1x
+         cg7Xk9AO7f8o0nO9nflsGnuDs4WkHHfLMH8E6Eb8o+FATf3/LVXC2HmHoOIEVskCi94Z
+         Dky33CreX1rlpWRKGTpyyiV7WK157xViIagH5pQF26Y9jaPr/YFEv3jeEbwFDR3YCgGC
+         lwex3St4c3JYjwjafEwurPvB+sGwo48fM9mtzojvgQvDnzGJm6aWDubWKBDkCT1HXce8
+         rYpZaIOd6EMkw5l0aqgqZxmidMy7awELKc+eq+VZsu37mZ27GvMviqsaMlfTpxV9z6tV
+         3w4A==
+X-Forwarded-Encrypted: i=1; AJvYcCW79riDo1/0owo/5lPmXyA7mc1lmTVzhuBJiSX5TWgtlu3qN6G8sepu6eFfbCWLkk0UGNAyexx0hKI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyt2S6R5eqy5uzdVkloV82ZHE2vd+vCZyi3jDo4jBKXwWf0lztE
+	CUBqFL+p5ghtVI+xFkHH88JDZgMoUxyIdlSYJT+nvSVFfdbtJI6PNIicb6Cd4n0RB7o=
+X-Gm-Gg: ASbGncupRAWVtOKPJEmPBdsbF9bLu6l1akP7brUuqA8h5/IBgsWkgkkXwAjkpTd1pgW
+	wu8YCXB3jae96alWsgaYjl4IaCIvEUQUxAFqOEH6/RM/bTjsrWNBYQghMzmCH8coZbo66yfCDTB
+	NwAE/RWU8SZdiLmvCd/JWmCjX6J92JQoo2+Gnzd/u9zf4QF655CNzGfbNM7+4Fo4oPiYZLHq5n4
+	Ic7hxDWrSdwLT4oyfxDdX2qI1Tq68x8f9zpmORNhFqmDbaRvLkl1Zw1EuSngaDS++xH0U7QBcg2
+	uYClITGomysj7BHe1CB+UMJgnER1YGZxVkcVxSWqX/kK7d1WRpnqoHjlqCta9O0eGZ0zCCb72eB
+	fPRiYt2kJf679Mg1FsZtRHofjwts=
+X-Google-Smtp-Source: AGHT+IGGVYXzErXFXuqWdpZbidTRzHjqEaCE+CrUvxDikjsokKsYjhP3LOanuYExDelRYdFsSrdp9A==
+X-Received: by 2002:a5d:5846:0:b0:3a5:2ec5:35a9 with SMTP id ffacd0b85a97d-3a6d12c45ccmr4299674f8f.3.1750460933871;
+        Fri, 20 Jun 2025 16:08:53 -0700 (PDT)
+Received: from [192.168.1.183] (host-92-26-98-202.as13285.net. [92.26.98.202])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453647f29bdsm36635735e9.18.2025.06.20.16.08.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Jun 2025 16:08:53 -0700 (PDT)
+Message-ID: <262c0fd2-ac66-4ce7-903f-4062f1fe1d6e@citrix.com>
+Date: Sat, 21 Jun 2025 00:08:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,9 +65,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 00/16] x86: Enable Linear Address Space Separation
- support
-To: Andrew Cooper <andrew.cooper3@citrix.com>
+To: dave.hansen@intel.com
 Cc: acme@redhat.com, aik@amd.com, akpm@linux-foundation.org,
  alexander.shishkin@linux.intel.com, ardb@kernel.org, ast@kernel.org,
  bp@alien8.de, brijesh.singh@amd.com, changbin.du@huawei.com,
@@ -73,78 +84,70 @@ Cc: acme@redhat.com, aik@amd.com, akpm@linux-foundation.org,
  tglx@linutronix.de, tj@kernel.org, tony.luck@intel.com,
  vegard.nossum@oracle.com, x86@kernel.org, xin3.li@intel.com,
  xiongwei.song@windriver.com, ytcoode@gmail.com
-References: <61af62d9-4cd0-485f-8f0c-2da981f52695@intel.com>
- <1aa5fb31-ce23-4c9f-ba1b-d5dc93402209@citrix.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzUVEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
- LmNvbT7CwXgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
- lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
- MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
- IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
- aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
- I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
- E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
- F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
- CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
- P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
- 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lczsFNBFRjzmoBEACyAxbvUEhd
- GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
- MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
- Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
- lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
- 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
- qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
- BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
- 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
- vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
- FCRl0Bvyj1YZUql+ZkptgGjikQARAQABwsFfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
- l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
- yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
- +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
- asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
- WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
- sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
- KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
- MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
- hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
- vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <1aa5fb31-ce23-4c9f-ba1b-d5dc93402209@citrix.com>
+References: <9d351d80-66fe-486f-bdb3-370859dc47cc@intel.com>
+Subject: Re: [PATCHv6 07/16] x86/vsyscall: Reorganize the #PF emulation code
+Content-Language: en-GB
+From: Andrew Cooper <andrew.cooper3@citrix.com>
+Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
+ 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
+ 6+ahAA==
+In-Reply-To: <9d351d80-66fe-486f-bdb3-370859dc47cc@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 6/20/25 15:04, Andrew Cooper wrote:
->> Most of the cover letter here reads like an Intel whitepaper. That's not
->> the worst thing in the world, but I think it glosses over one very
->> important point:
->>
->> 	Had it been available, LASS alone would have mitigated Meltdown.
->>
->> Could we say this up front in a prominent place, please?
-> 
-> I'm going to nitpick. :)
-> 
-> Yes, LASS would have made Meltdown a far less major problem than it was,
-> but I don't think that phrasing is fair.  As I recall, LASS was
-> literally invented as a "what would have been useful?" exercise in the
-> wake of Meltdown.
+> But, the resulting code is wonky. It needs to do something more like this:
+>
+> 	if ((error_code & (X86_PF_WRITE | X86_PF_USER)) != X86_PF_USER)
+> 		return false;
+>
+> 	if (error_code & X86_PF_INSTR))
+> 		return __emulate_vsyscall(regs, address);
 
-While being concise, I was also trying to convey that LASS is pretty
-powerful, rather than it being some uniquely genius move by the CPU
-designers. It was absolutely conceived of in hindsight.
+To do this, LASS needs a proper interlink against NX || SMEP.
 
-Do you feel like the changelog is sufficient as-is? Or do you think we
-can beef the changelog up a bit? I just want to make sure folks reading
-it have a clear understanding that it's not fixing purely theoretical
-issues.
+If neither NX nor SMEP are active, the CPU does not report X86_PF_INSTR,
+meaning that fetches are reported as plain reads.
+
+This leads to some fun corner cases in SMAP and now LASS too for virt.
+
+~Andrew
