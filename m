@@ -1,129 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD6B199BC;
-	Sat, 21 Jun 2025 16:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23E818B464;
+	Sat, 21 Jun 2025 18:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750525115; cv=none; b=qF0Y8DFdem01N5uBKpYZozbPH1DD/nlmTH9RZFArocmwCsazuGvaPa9EKkI1olVZd+vIICRzrfDkzRtG3wZskPiRvvzPwNTCgY5hL4T844bsT7QodnepoWBkegn29NcEwkZ6dFQDrF0oNkWf3EeazLafsWDCYE19B56ruEqH9RU=
+	t=1750529247; cv=none; b=rBB7DlIjlciIxVv0jr7xsijo0+Oi5eW2Q+hx3lXG+nAfAQ/1859L2x0LaD7R7Vhe73XQHHmPbMQ0uwQSCEjfbG/v56ZxDHTBjR/FD5MfsS8fzPM6Dg1JrOWDUA9XGFOCbdUPKESKXcX1pZjVeBtmljdmxFQh4xQ71nIJVfimT4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750525115; c=relaxed/simple;
-	bh=pgvEFoHgM1otb7ZNHD/JiN1YKjs47RtPcLXUKBUPcpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Q17uA6DrZvPuG2HOJPT6RukCcwggZC0M8dlO0iCETFcdmKxuION2m2Xq2kAPiIcBfOUq8eq7hXMtMUZR1bsItXZ41W5L/tWJieEk25eDUO171vysgVS8hAIvlPeudlZh/Xy1DR/U7Ns5g6/FsxJURkMHxEBUPcPs+I2IcNBdUP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7zuMRzv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750529247; c=relaxed/simple;
+	bh=vj1ttaPOW9gPULSl6ptE6HmjBxelIsl9MwVWNPFo/pk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FBNY3yizFxbXMVNSporJNOwpKKXJa9RaGIiMFbaKng0EEQ0BXjxbrpAK03j42kJVMLCPK84gRl70ZDMAofmne3Idy+jt2G1+35rkYm5hirGj64HKbanXU99vNX4/IAHEokWJ/qLCMP1wu0et//jLcOMCNaaZso7zQyuRlIYU++Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/IxeUmN; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7zuMRzv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25C23C4CEE7;
-	Sat, 21 Jun 2025 16:58:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750525114;
-	bh=pgvEFoHgM1otb7ZNHD/JiN1YKjs47RtPcLXUKBUPcpE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=h7zuMRzvanUNmYdOYp370APiNwoSXF/pTcQ6UeF+Ag4AlXaN+4GL0wloPCf/yrPl7
-	 qstTQfOd4QAMpym73sPrMMlRKJhLUO20E/gEMDjj9cWXNcva4VWRb/OoJxi5cjeo7a
-	 WuTqhEC0J40etibBuiUGdZV9Tpgh3BptflnqWA6Z8Th2job7RiYTAlkEppK3Rk7e8S
-	 EAgI1Y/+xlJ/x1SyQeYfmXVnTNXP4TvSjXNKhj4UazJA0gyBcOowsCYp0+54fTAKLA
-	 EcVG8ZfY+Jl/EhHhOfJAbsNkzvYm5FR/bvxbrtOqJq4MrQIapQVLnwwgzwN9BfcArb
-	 nCUdd8I1XwjEg==
-Date: Sat, 21 Jun 2025 17:58:24 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, dlechner@baylibre.com,
- nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, eraretuya@gmail.com
-Subject: Re: [PATCH v9 05/11] iio: accel: adxl345: simplify reading the FIFO
-Message-ID: <20250621175824.57bb9d9c@jic23-huawei>
-In-Reply-To: <CAFXKEHaGk5NZ4dT9xLkAfirn974P9miwjs=5N+PTqJ2x00QOiA@mail.gmail.com>
-References: <20250610215933.84795-1-l.rubusch@gmail.com>
-	<20250610215933.84795-6-l.rubusch@gmail.com>
-	<20250614144750.1f1a7a0f@jic23-huawei>
-	<CAFXKEHaGk5NZ4dT9xLkAfirn974P9miwjs=5N+PTqJ2x00QOiA@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/IxeUmN"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e8187df27f8so397734276.3;
+        Sat, 21 Jun 2025 11:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750529245; x=1751134045; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=r5cq0xega02GRd00js5T35nyhJCJNHDO5vMWlXDnpfU=;
+        b=F/IxeUmNSY72T+VBZd2NuLgkFfxtzZ1zDQpS2eCdDItWjjXmNw8qnRuK64sX4oHmYw
+         3NwKRWDv6Ur6HC5m23VmevVyXLKKz+URlTELO765hVot/P5Xxcv5FY60msUxL6PRs/MV
+         bQi6li3+7sfkdW46AAWSCoJl6VU8rtJCdD5o5e5hYh9iuiq2dbILvC7AE0ANbu8CLN2B
+         hq/bqWBXm1tqgKYH5eApJlIvTtjYFm1nKUGdSU63gs2l2Nq760/OhsSSXT4VkwocaS/8
+         TbWGIVUnxJKs84FRheCTPUNlQN+b9FCRnsmwEojDT4GyvKAhkH4cVBlVb4tAt0OlD0Iq
+         nFAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750529245; x=1751134045;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r5cq0xega02GRd00js5T35nyhJCJNHDO5vMWlXDnpfU=;
+        b=iHYUxuKgSDS7UFMVSarqy6h0OTk8ESxMEWclLquXdJJ7wwnwdRndWhIxzN6ppwykM7
+         VffEOkF3SOopmrMBABtqJXu2Nx8+oORCyG8alnsUFKA5SApLmDpnWDsKKL4Zlb8X0leX
+         DeqaG9VcaGZikELJrLSStdNWPwZZj7IqHoV3n1lNHZEZLYM4qecPr0oZr5BkxuY4FFX6
+         fQQsFYeN8BsRwZDlwmx3BKxv0egeaVoamiHfFNuZTBXDNcn1YenKlSDw9HoKwnEg3cx7
+         JIGNf0c1A88zAJ3xjicTOed96MTnLIH/I3s/BMu/m6UndEX88EWddFdIMt7pRTOHn2dv
+         Xz4g==
+X-Forwarded-Encrypted: i=1; AJvYcCU7YA3p1om6wvehBYuO75ktMnIOxwd8nY3IlBL/yFWmH8+PfSyM01N1XsqdIDOzMEy1ydeFhiAHdFGcwLtC@vger.kernel.org, AJvYcCV4p1IYQM7rjDqd1XoAUb5A938tR6bP7WIw5RNyn9UXZt5tNmulHmjj2+hDbdQEuLPJQq1IB9mrPmE=@vger.kernel.org, AJvYcCWe/c7IrnjslYssvhP6smgsoRPGW1XwfxCbnLDHDfjdyGMsPYVLoBUQiVbUN0AeRCWSMmwu/vvScIzy@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7nuhCiN6umrq+PVv/ZFe46kpDTMDi/PBJL54ahLp1iFoJeIDG
+	bJMGLUNMYCm1im2OY0gO4WCGd/ke1MrRKZzgVnfmrBecT0IYWaL0f28Rr11MwxNi2niOmCRRKbD
+	uFWHQonfZU1arx/+BaGNL+VEUmkwQH5U=
+X-Gm-Gg: ASbGncs+Be8QUMpOVhDzD6Jp7PaDQZPtRZIvJj2HoO4kVR9exCBt7g0YpMbdQF0ers5
+	4w2Kj5OG+X5jyEXLGVsR77LeJP9rb1NYsIOZxyEbRQmKC5DTneJ84GeCLRaa22RADm+5Col2hXa
+	O+v4cJJ87YD5wtnfmO+3SgkRYGc1qGbsKhUt3fcORkSnc=
+X-Google-Smtp-Source: AGHT+IHNNRZC8v6KOJolb/hRsYMhvGI31oPIqwXOwHUeSNduVlWe/1BA5rv5K3f8QMMG9colY8S1KHr6er6ZLLG3QdY=
+X-Received: by 2002:a05:690c:a0a8:10b0:712:c5f7:1ef9 with SMTP id
+ 00721157ae682-712c6767523mr34345407b3.8.1750529244942; Sat, 21 Jun 2025
+ 11:07:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20250610215933.84795-1-l.rubusch@gmail.com> <20250610215933.84795-8-l.rubusch@gmail.com>
+ <aEq_SJMDzPYGSMu6@smile.fi.intel.com>
+In-Reply-To: <aEq_SJMDzPYGSMu6@smile.fi.intel.com>
+From: Lothar Rubusch <l.rubusch@gmail.com>
+Date: Sat, 21 Jun 2025 20:06:49 +0200
+X-Gm-Features: AX0GCFsvJjMw9yKd_0baJrrBmXyMs3ujx1Tb5rt2bS-6bs4zuSqH_fl8jO3Q6Rw
+Message-ID: <CAFXKEHbdeomMfEBwO+Cvkn5dkN4h47CEAMfmEGQC2V82zQ+U8Q@mail.gmail.com>
+Subject: Re: [PATCH v9 07/11] iio: accel: adxl345: add activity event feature
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, eraretuya@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 16 Jun 2025 00:14:47 +0200
-Lothar Rubusch <l.rubusch@gmail.com> wrote:
+Hi Andy,
 
-> Hi Jonathan,
->=20
-> On Sat, Jun 14, 2025 at 3:47=E2=80=AFPM Jonathan Cameron <jic23@kernel.or=
-g> wrote:
-> >
-> > On Tue, 10 Jun 2025 21:59:27 +0000
-> > Lothar Rubusch <l.rubusch@gmail.com> wrote:
-> > =20
-> > > Bulk reading from the FIFO can be simplified. Remove unnecessary
-> > > variables and simplify reading sets of x-, y- and z-axis measurements.
-> > >
-> > > This is a refactoring change and should not impact functionality.
-> > >
-> > > Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
-> > > ---
-> > >  drivers/iio/accel/adxl345_core.c | 6 ++----
-> > >  1 file changed, 2 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/iio/accel/adxl345_core.c b/drivers/iio/accel/adx=
-l345_core.c
-> > > index 18c625d323ba..dcfbfe4cac0f 100644
-> > > --- a/drivers/iio/accel/adxl345_core.c
-> > > +++ b/drivers/iio/accel/adxl345_core.c
-> > > @@ -884,15 +884,13 @@ static int adxl345_get_samples(struct adxl345_s=
-tate *st)
-> > >   */
-> > >  static int adxl345_fifo_transfer(struct adxl345_state *st, int sampl=
-es)
-> > >  {
-> > > -     size_t count;
-> > >       int i, ret =3D 0;
-> > >
-> > > -     /* count is the 3x the fifo_buf element size, hence 6B */
-> > > -     count =3D sizeof(st->fifo_buf[0]) * ADXL345_DIRS;
-> > >       for (i =3D 0; i < samples; i++) {
-> > >               /* read 3x 2 byte elements from base address into next =
-fifo_buf position */
-> > >               ret =3D regmap_bulk_read(st->regmap, ADXL345_REG_XYZ_BA=
-SE,
-> > > -                                    st->fifo_buf + (i * count / 2), =
-count);
-> > > +                                    st->fifo_buf + (i * ADXL345_DIRS=
-),
-> > > +                                    2 * ADXL345_DIRS); =20
-> >                                        sizeof(st->fifo_buf[0]) * ADXL34=
-5_DIRS);
-> >
-> > As it's not locally obvious where that 2 comes from. =20
->=20
-> Hm, I left the comment some lines above: "read 3x 2 byte elements from
-> base address into next fifo_buf position" - so, the 2 comes from the 2
-> bytes. 3x because of the 3-axis sensor, so 3 axis times 2 bytes. How
-> can I improve it? The patch is just a simplification, removing that
-> unnecessary count variable.
+[...]
+> ...
+>
+> > +static int adxl345_is_act_inact_en(struct adxl345_state *st,
+> > +                                enum adxl345_activity_type type)
+> > +{
+> > +     unsigned int regval;
+> > +     u32 axis_ctrl;
+> > +     bool en;
+> > +     int ret;
+> > +
+> > +     ret = regmap_read(st->regmap, ADXL345_REG_ACT_INACT_CTRL, &axis_ctrl);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     switch (type) {
+> > +     case ADXL345_ACTIVITY:
+> > +             en = FIELD_GET(ADXL345_ACT_X_EN, axis_ctrl) |
+> > +                     FIELD_GET(ADXL345_ACT_Y_EN, axis_ctrl) |
+> > +                     FIELD_GET(ADXL345_ACT_Z_EN, axis_ctrl);
+>
+> Something happened to the indentation.
+> Ditto for several places in the code (upper and lower from this).
+>
 
- sizeof(st->fifo_buf[0]) * ADXL345_DIRS);
+What is the matter with the indention here? I'm doing `checkpatch.pl
+--strict --codespell` on that and don't get an issue? Would you expect
+cases like the FIELD_GET() calls on the next line, linked by a binary
+OR, to be indented by yet another TAB?
 
-improves it by making it clear where the 2 comes from.
-Getting rid of count is good, but that remaining 2 *=20
-should be replaced by using sizeof() the buffer element.
+Best,
+L
 
-The comment would then be unnecessary as we are sizing it directly from
-the fifo storage.  Fine to leave it if you like though.
-
-Jonathan
-
-
->=20
-> > =20
-> > >               if (ret)
-> > >                       return ret;
-> > > =20
-> > =20
-
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     if (!en)
+> > +             return en;
+> > +
+> > +     /* Check if corresponding interrupts are enabled */
+> > +     ret = regmap_read(st->regmap, ADXL345_REG_INT_ENABLE, &regval);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     return adxl345_act_int_reg[type] & regval;
+> > +}
+>
+> ...
+>
+> > +     if (type == ADXL345_ACTIVITY) {
+> > +             axis_ctrl = ADXL345_ACT_X_EN | ADXL345_ACT_Y_EN |
+> > +                             ADXL345_ACT_Z_EN;
+> > +     } else {
+> > +             axis_ctrl = 0x00;
+> > +     }
+>
+> Besides an indentation issue, {} are redundant.
+>
+> ...
+>
+> > +     en = false;
+>
+> This line makes no sense. When it will, it should be there, not in this change.
+>
+> > +     switch (type) {
+> > +     case ADXL345_ACTIVITY:
+> > +             en = FIELD_GET(ADXL345_REG_ACT_AXIS_MSK, axis_ctrl) &&
+> > +                     threshold;
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+>
+> ...
+>
+> >       switch (type) {
+> > +     case IIO_EV_TYPE_MAG:
+> > +             switch (info) {
+> > +             case IIO_EV_INFO_VALUE:
+> > +                     switch (dir) {
+> > +                     case IIO_EV_DIR_RISING:
+> > +                             ret = regmap_read(st->regmap,
+> > +                                               adxl345_act_thresh_reg[ADXL345_ACTIVITY],
+> > +                                               &act_threshold);
+> > +                             if (ret)
+> > +                                     return ret;
+> > +                             *val = 62500 * act_threshold;
+> > +                             *val2 = MICRO;
+> > +                             return IIO_VAL_FRACTIONAL;
+> > +                     default:
+> > +                             return -EINVAL;
+> > +                     }
+> > +             default:
+> > +                     return -EINVAL;
+> > +             }
+>
+> As I mentioned before, try to avoid nested switch cases like this. Use helpers
+> to make this gone to 1 level or so.
+>
+> >       case IIO_EV_TYPE_GESTURE:
+> >               switch (info) {
+> >               case IIO_EV_INFO_VALUE:
+>
+> Ditto for other similar cases.
+>
+> ...
+>
+> >  static int adxl345_push_event(struct iio_dev *indio_dev, int int_stat,
+> > -                           enum iio_modifier tap_dir)
+> > +                           enum iio_modifier tap_dir,
+> > +                           enum iio_modifier act_dir)
+>
+> If the order of parameters is not so important, I would squeeze new one to be
+> before the last argument.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
