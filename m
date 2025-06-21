@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63791C75E2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6409259C82;
 	Sat, 21 Jun 2025 19:56:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750535761; cv=none; b=bDYUKTs3cxHVN9d4YCoShukxYPTaNUxhZEJp/UpYS6cH5wHQt2j1aAOmdTdww8fPUZbnkpnL9+hezOZzUsuL/socfCCVXNM4kIEu4rQ69gJVlsNKc3pMfLt0ftIR5C9niOTgERFj7kx9n92KE2rUvZYYp4Jdn/opXsxFEQJclcQ=
+	t=1750535761; cv=none; b=n00k9+EfRMBuVTL1oCEtX94r2VcBpNEPrwTPlSeboO8Cs8NFl5c/GLpvbTDPvx8RNl5fkP6FcW0oBaCur6de0+2cWsJLa51Rj92aPREgV38okWX79RdjNVnDqLBYBnKoefUyFIZEeLHYDXV0R0IO4aoWoA8Icy9rynXFc/hDYw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750535761; c=relaxed/simple;
-	bh=JvTI+DF/1Dszyn4T0n7ZKhi6vNtj6FoC1Ae/TMd5FHM=;
+	bh=XYACLriiJLRgjgNmojKmyTGCkYgpJcwpU+eU2NamY1k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M5VKi29mLBGazWEsLYhCSZksZENLby9gDAE6VBhu8CmOundjXEOxiEjLjVDlDXbk9pqRJ8RczT1qxJuwMhfvqSweVkqZ7axDsuYkhJDtzuADP1d6r1WkofIKdyRp3YxF8MmUf8qTDd958UUBbyn/Mo0YOUOWT7+vva5ILAQsUsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPUaPay3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=X2Ni7NpszKjQYyqM6veerheD52qXmBxBv2/Beu3P+ATvaBu3cWlR3RcklYnR/Y67WG50lKUWk5Mvzc3UT+be582ZH5SQDH3G7P2COd4bsTdc4/FHvBNo9mjnGxrhUBXRTfejD1kU6XHaB+Wb3kzw/4e9jxzllepbpH/B+1x1hBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oTl/F1lw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPUaPay3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ED81C4AF0B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oTl/F1lw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 949C0C4AF09;
 	Sat, 21 Jun 2025 19:56:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1750535760;
-	bh=JvTI+DF/1Dszyn4T0n7ZKhi6vNtj6FoC1Ae/TMd5FHM=;
+	bh=XYACLriiJLRgjgNmojKmyTGCkYgpJcwpU+eU2NamY1k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KPUaPay3ElPI3a6f9isa+EFoHAHoP1yEwqgdktcW2n/wXDZzyG8YwRNSSGe8fBlvv
-	 XnHOBIK1u0Ydpevjia/IGZv3ZROcDjHtDgmpdGOh8dqBgIv/3+es1Otq5d+Ouc2Jfz
-	 NNrwBgLVCaiV/tNJi7+LWdqkiRJLECjQMbYKOT+621h94tA7rXYjgjGd5Y+BfIF+If
-	 UhjLP4hZTu4dEa9Hd8clfwg2J9UJ8bRFR6iJL697xRDE69qATaTruCcxIqvUyVMKJ1
-	 GHT1j3fvku65kjCY+jW53+8LaapoRfe8pKNYUmNpP+eQW3E6HPEbrISs25bN8DiXlc
-	 bPhGu6DQl40Sg==
+	b=oTl/F1lw92gn7j6PvN2MD6wP3QD43u1ljkmRhGc2Tugx7354ISiVB+dL2jTrG+ie0
+	 SVr0MS61LY/Rx6ShNS1aCaMwLJZd1WifeFWdEehuSBttvfGcvIULZL0O5rkEKlkmCK
+	 GMoUxTZndkcFRavc46VgrQCR2Tqx96xN6ANDRqC27Ll6Xu4xPp+/xBQxMCiQdXSKeU
+	 Mo1Qk6ldqLTNjq+blvBBFL/j/fyuMYkkJLWU98mUu/RcuBmoeaHGEsri3r4jMvGobv
+	 GNGhI7IOq7rCmjjrTtWkJQI0otvMW+8fFKvryZQCs7zubKMp0DMHT5vp8mKlMk1kbj
+	 YY/vYIHG2+OBQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uT4Ji-00000000e3c-2NwE;
+	id 1uT4Ji-00000000e3w-2wSV;
 	Sat, 21 Jun 2025 21:55:58 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,11 +36,10 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH v2 01/15] docs: conf.py: properly handle include and exclude patterns
-Date: Sat, 21 Jun 2025 21:55:40 +0200
-Message-ID: <737b08e891765dc10bd944d4d42f8b1e37b80275.1750535171.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 06/15] scripts: test_doc_build.py: better adjust to python version
+Date: Sat, 21 Jun 2025 21:55:45 +0200
+Message-ID: <0d9e86390f0bc443880cafc442466a959c59609f.1750535171.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1750535171.git.mchehab+huawei@kernel.org>
 References: <cover.1750535171.git.mchehab+huawei@kernel.org>
@@ -53,125 +52,63 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-When one does:
-	make SPHINXDIRS="foo" htmldocs
+Very old versions of Sphinx require older versions of python.
+The original script assumes that a python3.9 exec exists,
+but this may not be the case.
 
-All patterns would be relative to Documentation/foo, which
-causes the include/exclude patterns like:
-
-	include_patterns = [
-		...
-		f'foo/*.{ext}',
-	]
-
-to break. This is not what it is expected. Address it by
-adding a logic to dynamically adjust the pattern when
-SPHINXDIRS is used.
-
-That allows adding parsers for other file types.
-
-It should be noticed that include_patterns was added on
-Sphinx 5.1:
-	https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-include_patterns
-
-So, a backward-compatible code is needed when we start
-using it for real.
+Relax python requirements.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
 ---
- Documentation/conf.py | 67 ++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 63 insertions(+), 4 deletions(-)
+ scripts/test_doc_build.py | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 12de52a2b17e..4ba4ee45e599 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -17,6 +17,66 @@ import os
- import sphinx
- import shutil
+diff --git a/scripts/test_doc_build.py b/scripts/test_doc_build.py
+index 5b9eb2c0bf01..129c2862065c 100755
+--- a/scripts/test_doc_build.py
++++ b/scripts/test_doc_build.py
+@@ -12,15 +12,28 @@ and optionally test the build.
+ import argparse
+ import asyncio
+ import os.path
++import shutil
+ import sys
+ import time
+ import subprocess
  
-+# Get Sphinx version
-+major, minor, patch = sphinx.version_info[:3]
-+
-+# Include_patterns were added on Sphinx 5.1
-+if (major < 5) or (major == 5 and minor < 1):
-+    has_include_patterns = False
-+else:
-+    has_include_patterns = True
-+    # Include patterns that don't contain directory names, in glob format
-+    include_patterns = ['**.rst']
-+
-+# Location of Documentation/ directory
-+doctree = os.path.abspath('.')
-+
-+# Exclude of patterns that don't contain directory names, in glob format.
-+exclude_patterns = []
-+
-+# List of patterns that contain directory names in glob format.
-+dyn_include_patterns = []
-+dyn_exclude_patterns = ['output']
-+
-+# Properly handle include/exclude patterns
-+# ----------------------------------------
-+
-+def update_patterns(app):
-+
-+    """
-+    On Sphinx, all directories are relative to what it is passed as
-+    SOURCEDIR parameter for sphinx-build. Due to that, all patterns
-+    that have directory names on it need to be dynamically set, after
-+    converting them to a relative patch.
-+
-+    As Sphinx doesn't include any patterns outside SOURCEDIR, we should
-+    exclude relative patterns that start with "../".
-+    """
-+
-+    sourcedir = app.srcdir  # full path to the source directory
-+    builddir = os.environ.get("BUILDDIR")
-+
-+    # setup include_patterns dynamically
-+    if has_include_patterns:
-+        for p in dyn_include_patterns:
-+            full = os.path.join(doctree, p)
-+
-+            rel_path = os.path.relpath(full, start = app.srcdir)
-+            if rel_path.startswith("../"):
-+                continue
-+
-+            app.config.include_patterns.append(rel_path)
-+
-+    # setup exclude_patterns dynamically
-+    for p in dyn_exclude_patterns:
-+        full = os.path.join(doctree, p)
-+
-+        rel_path = os.path.relpath(full, start = app.srcdir)
-+        if rel_path.startswith("../"):
-+            continue
-+
-+        app.config.exclude_patterns.append(rel_path)
-+
- # helper
- # ------
+-# Minimal python version supported by the building system
+-MINIMAL_PYTHON_VERSION = "python3.9"
++# Minimal python version supported by the building system.
  
-@@ -219,10 +279,6 @@ language = 'en'
- # Else, today_fmt is used as the format for a strftime call.
- #today_fmt = '%B %d, %Y'
- 
--# List of patterns, relative to source directory, that match files and
--# directories to ignore when looking for source files.
--exclude_patterns = ['output']
--
- # The reST default role (used for this markup: `text`) to use for all
- # documents.
- #default_role = None
-@@ -516,3 +572,6 @@ kerneldoc_srctree = '..'
- # the last statement in the conf.py file
- # ------------------------------------------------------------------------------
- loadConfig(globals())
+-# Starting from 8.0.2, Python 3.9 becomes too old
+-PYTHON_VER_CHANGES = {(8, 0, 2): "python3"}
++PYTHON = os.path.basename(sys.executable)
 +
-+def setup(app):
-+	app.connect('builder-inited', update_patterns)
++min_python_bin = None
++
++for i in range(9, 13):
++    p = f"python3.{i}"
++    if shutil.which(p):
++        min_python_bin = p
++        break
++
++if not min_python_bin:
++    min_python_bin = PYTHON
++
++# Starting from 8.0, Python 3.9 is not supported anymore.
++PYTHON_VER_CHANGES = {(8, 0, 2): PYTHON}
+ 
+ # Sphinx versions to be installed and their incremental requirements
+ SPHINX_REQUIREMENTS = {
+@@ -290,7 +303,7 @@ class SphinxVenv:
+                 args.verbose = True
+ 
+         cur_requirements = {}
+-        python_bin = MINIMAL_PYTHON_VERSION
++        python_bin = min_python_bin
+ 
+         for cur_ver, new_reqs in SPHINX_REQUIREMENTS.items():
+             cur_requirements.update(new_reqs)
 -- 
 2.49.0
 
