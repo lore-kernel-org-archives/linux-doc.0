@@ -1,111 +1,126 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4412130E842;
-	Sat, 21 Jun 2025 10:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3C11A2632;
+	Sat, 21 Jun 2025 11:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750501949; cv=none; b=L1o4zwaQFUKgiJuYej+86od1HYkgF3zCdWOyU76qVn86sj1Ki3uM1gw/ssTn9Zh3AdG5LJHzh3Sz87VVtJOfeTLwUBJrVewpXPy1uuFh3s+VYhMq4vB9huRh/QKioyyK3/Y5aQU295MI3w0oF1Jw8e3W1/279rQlhVdxZqulc0c=
+	t=1750504922; cv=none; b=tiCG8LDieJmy/NSVuwCledpZ8VjgZn7wrogN/M6nViXA5DTj2+DffvrLzftSbrfYbSC1xWXaET9U0GtdcjNVzsEPjb7pOUSFEW0ZZo1rqOTrKawXM5yTcHL6jWzEvBIbEtL5c48FDJgPurpBsyLtKE95DfY41pgPncenanWIkIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750501949; c=relaxed/simple;
-	bh=6zdtW4ZsWVEXC+13yFdtzSL8MneybnvekLwrAzlWTow=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=q0zRRg/DHo2yeHFZ1c1GtPSptirxkYPM3nauoY+3Mz32uiP7AX0kz0Lnhv307SH1d1+piFCDgsCR6or1sBG2XFCNCBrne3v1GbPpe2RDQJ4+gb1bQBe3nqojlj0O/ChlOR1fGq/kI0TO+Zz7mReLNTyep2HqjacxxBuf56MzXps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iqBdapiB; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1750504922; c=relaxed/simple;
+	bh=ohRWAiCfbgS/aXA4RVDCNgMCTaTOzaemdQHvS/o3vaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aQKJpq9UE9vuVniZWoAyXS5hstLFgkMhIBBDhNqbsuNIi7jERU4y9M4Hjel+eIo5XTZI0YnHxV5esOdS0i+m6MI+BcoRvZUYrq23ssUzleIJ7xp1gmUpC8SjnAvsHgt6hQOhY5jSLktjk8f3ymAi6TNO3LH4nAqKKtbqAvZG3Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LgspikS3; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iqBdapiB"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b31c978688dso1458258a12.1;
-        Sat, 21 Jun 2025 03:32:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LgspikS3"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7490acf57b9so1226539b3a.2;
+        Sat, 21 Jun 2025 04:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750501947; x=1751106747; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=012KofByWzR1UXs6q6FS6IJCSkgS2EX290wo0slGf5Q=;
-        b=iqBdapiBin18QwTSewE52Lxy1xpCoU2op6OXi4eems7Vc2s3ijH3Ly70rBs4a3EoPO
-         nDngRhW5EQPI/ZLhLeYxfc6+MQCYwsJ8ofVRMmPnkTAHEx0DiT0621VZaT0mJFUDJD44
-         O53VArPrmhqsB5Y4Exxf90Hoi44ibWbkUsL3fZXk69Hjq/wDBagqlOzdTPyAizbCX3l5
-         NGr24DQyu7GfD++IsatZfvaunoTnwWiAeyg817NGwGm3HQWS5XD8/JM1urHt0dZxXz7B
-         mZ7xjQyhmH22jfQ0RhbXD1F4g6Rf2xg95x6pIs8sNg11kVUX4eu2BPcDZSv9NDv1QgxJ
-         aLZQ==
+        d=gmail.com; s=20230601; t=1750504920; x=1751109720; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=woaxyv+j8Y1KBB+MeQ1QihpwoORfG9XIi5cXFKLshHY=;
+        b=LgspikS3QWbS7AEfkDfIyHrBxJXHptEDK4tNt+Fni4VsppADcWd4cpOTbk8gsZJFGn
+         ZzWC5mYPEPJmcU4Y5rArCcoS6i0HI9YvIpkZUnqQJELHVL9fcD/Be43LC9XCHg44duDy
+         qOwv82obbAQyiDpYZUI/x4lSNglNIpWMWSVTd6PpNk9CPe1sBGeruaBqz3hRQVgIvuI9
+         I/gq1BgDpNS39Jx5rW7ZcHALVpkCauGk80ZZ6BlhB3MxiYH0/L2XN/WhtlijHX90OcHp
+         4YARCs9B/jWQW+ROfpwJxoDHxqdo+WdR3+MwwJwiaK/VimspuEcud3t29U8VywpI+XQH
+         1xGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750501947; x=1751106747;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=012KofByWzR1UXs6q6FS6IJCSkgS2EX290wo0slGf5Q=;
-        b=sJjY49keOSbI8qK0Slu97e4jks2t2JdsIRMExiln99DzBxC3krrX/8n61zEsXJShI9
-         yBu6o2K9RmVbzuoRO/Zb7ouhPuAN+eJgAmwGPyUpyQ1b3MXZnzxjRooRBDT5KQPTz3Fp
-         OZRhmRxU28f9NkunVJhhSpexnVFlky95F6MmFPufEY0HVwlJuILv/xpjG3jmTHzxL0R/
-         2h7o6dQLl1cJSanCFMdzKe089kyYM+PTNR+7F5a6pKiRdBl18Lm9rzOmQ683yP2P8IxI
-         qmHRhAEXOzTeyNHrx+lc4SsH/AJJEYUK5CCW1CFL8cpDp5dOKyYO+DsQLm73GYlvgG93
-         W9dA==
-X-Forwarded-Encrypted: i=1; AJvYcCUL7qBXc5LUP0NTzsQW17zik4sRK53FVzGy5LR0Ud2NyCGzwDz7pGftwArGwv+r+k7URSj2FY6+kEo9uC6L@vger.kernel.org, AJvYcCWPFqNAdvwCuKEAE5ZBuitWbzMsiVrC4QEawoj5VWc/ykgv/+x3PpMD/Uht0o/uOBCIJM6ULp2GCoI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCnfyEBaZw2Mx7ftMvhbcLXqwTkb0iCi32JYTNE//5RN9OIYLg
-	gKhXGuwkpK/7I87A+OBEFFLtsOMs9Al+Rjgbkg7zag96AMGZypliznLw16nnq5eN
-X-Gm-Gg: ASbGnctvRdSfk9Paa9R32g2a2nP1N8zHmPcOjMICbJidZ8rgIv83jEblMSfsgyS63wR
-	nMLMiesPiizA344o6VdpEnf7BFbFnC2zBLBi1hrc9eVm28rJUiQG9wPKj69fj9zx49kPYQzvkgy
-	OElFWiH8s51mDFcZloX3KxOo76IK83lD55fszyZ6GarNC8iylEqflsa7jsbrUTIFy9Gr0OK1FBI
-	9MtIzrll1V5XTJ0XES4QAIalJ43EkolQCrgnaoXViErtEi7cnenEOChtdjn17hgdQuFvqp8EUAE
-	4uPgSALP/Q5gnkgqJLX7jDlk41wTlJ3Kml2aSJSQpE3Fds7C24PCIcdE75DkTb8cN72iJcRji/U
-	K42phLXZeBQ==
-X-Google-Smtp-Source: AGHT+IFvir19QObe2nVc1F6Xwx+QcsI5R/E4xY54gUD+iJiKIaJ38TEmYQc1r84maQZfk3j5qrRbZQ==
-X-Received: by 2002:a17:90b:3dd0:b0:313:2768:3f6b with SMTP id 98e67ed59e1d1-3159d8daaecmr9171605a91.27.1750501947373;
-        Sat, 21 Jun 2025 03:32:27 -0700 (PDT)
-Received: from faisal-ThinkPad-T490.. ([49.207.215.194])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3158a24c3fbsm6177890a91.21.2025.06.21.03.32.22
+        d=1e100.net; s=20230601; t=1750504920; x=1751109720;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=woaxyv+j8Y1KBB+MeQ1QihpwoORfG9XIi5cXFKLshHY=;
+        b=cydzBnGzkhkILjKrfTh6nlsJs+YUrBakmoMe/JHJjvGG2UOhoCHEOXJzRf6ODDSCcH
+         GYIzD4+mem1tgQ3Hhkf5T7r2OfRTPGYtyqUxPOgTx7IHtuHt8x0XC2VExpRG4sjtMV2D
+         SiGFE/t0DYBUCyM8qRlDeAlHGkVF6C4V7+hYAic7UpCi2kGQZ3u5sr+OLPg4+U7fZ3mZ
+         nrwg8vqby8TqEdJ9UED7ou7OVw73o93uOEDDRYbS1D/mZ3wz529CPvCbiJRD+mZDrOfU
+         NGIZy/4xRiXNdX7e1A0Rgv/YIpRke3+XJ03s3o8N/IBRG8WVcT5K5DWI9walGwaA++5T
+         Jq+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXRNfaiQoekEDDupNMVEPNIsov8+/46C/B2UM4etV6Jltlgn9RxF8spD2R/myh+9iZxV0IqlBsELrJV/h0+@vger.kernel.org, AJvYcCXjCGgvgdImHP89VL7bJIesQ0oibfNiPJeSi16747o0QL4kVMXp8RonRon1fkOQ5XIBXTW0TjFR@vger.kernel.org, AJvYcCXqE6dv92Wkb9BEaKzHCjMKHVnViAZaKg0wsFjkxZmeMFs2TL1NHkkGUqtIJWDlkyNUvKrryH/pKH8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyG1UkW/qyVmf11Ebb5oyJRGYRtvucyDBO8BIFk3DDOn/UCTLt4
+	DB6BWzJ3NlbY9txf3iCD8tmOVLbRSgZCY8cULxHQJ+Flj+Drd1YGKP52
+X-Gm-Gg: ASbGncty4QxyQxJHcDrGoTJqQNtPTRC17qBpizN+x0LtGk+XDgSrC9i55cxIFCHNMIK
+	WKygWHFb28IZ3StVwHfGE60xkVcJhjvO6Cs7WWES0s4zVrqtt/IGLmpTJmjVP3ZXBxmNr4cg2GH
+	6pS7MKiKg0+2sFqQwZdJnRek6atzakQRF5+DdhU11ojvMrutAwUYFw7skb6q1qwYTk+kn7CCVbm
+	fAHLxvXXCT9wKHlsllS4LJ1Pr1VD/KUY/BCOE8w6aOEQzvBQn2xNs25yv/iW8QXo6jI7l6wAzlo
+	w1xelkGZEUaMj/sYx+fQ19zFU4Eb08Wd2eUe2dJOXfV2adtpKLM6otwOn6OTiw==
+X-Google-Smtp-Source: AGHT+IG/O8T1LnjkmwUuzaEvqwFNIWd0CfKLMGROZs4Ty0QlCl2WpaGZb0qmuhiRZruQg4JzjsVl/Q==
+X-Received: by 2002:a05:6a21:68b:b0:21a:d061:2f84 with SMTP id adf61e73a8af0-22026fa63a8mr9871935637.30.1750504920143;
+        Sat, 21 Jun 2025 04:22:00 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a4ac6b2sm4099007b3a.69.2025.06.21.04.21.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jun 2025 03:32:27 -0700 (PDT)
-From: Faisal Bukhari <faisalbukhari523@gmail.com>
-To: sgoutham@marvell.com,
-	lcherian@marvell.com,
-	gakula@marvell.com,
-	jerinj@marvell.com,
-	hkelam@marvell.com,
-	sbhatta@marvell.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Fix typo in marvell octeontx2 documentation
-Date: Sat, 21 Jun 2025 16:02:04 +0530
-Message-ID: <20250621103204.168461-1-faisalbukhari523@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 21 Jun 2025 04:21:59 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 0A4874207D0B; Sat, 21 Jun 2025 18:21:54 +0700 (WIB)
+Date: Sat, 21 Jun 2025 18:21:54 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+	horms@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	skhan@linuxfoundation.com, jacob.e.keller@intel.com,
+	alok.a.tiwari@oracle.com
+Subject: Re: [PATCH net-next v3] docs: net: sysctl documentation cleanup
+Message-ID: <aFaV0kD6zI6N0Keg@archie.me>
+References: <20250620215542.153440-1-abdelrahmanfekry375@gmail.com>
+ <aFZ5OhP3Ci5KzOff@archie.me>
+ <CAGn2d8OT0SS+wYphKBmM21Lo__N_ZFRyZCQ8pL34c0Z0bqDoag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="LQzEutQpcKFcOvi9"
+Content-Disposition: inline
+In-Reply-To: <CAGn2d8OT0SS+wYphKBmM21Lo__N_ZFRyZCQ8pL34c0Z0bqDoag@mail.gmail.com>
 
-Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-Fixes a spelling mistake: "funcionality" → "functionality".
 
-Signed-off-by: Faisal Bukhari <faisalbukhari523@gmail.com>
----
- .../networking/device_drivers/ethernet/marvell/octeontx2.rst    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--LQzEutQpcKFcOvi9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-index af7db0e91f6b..a52850602cd8 100644
---- a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-+++ b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-@@ -66,7 +66,7 @@ Admin Function driver
- As mentioned above RVU PF0 is called the admin function (AF), this driver
- supports resource provisioning and configuration of functional blocks.
- Doesn't handle any I/O. It sets up few basic stuff but most of the
--funcionality is achieved via configuration requests from PFs and VFs.
-+functionality is achieved via configuration requests from PFs and VFs.
- 
- PF/VFs communicates with AF via a shared memory region (mailbox). Upon
- receiving requests AF does resource provisioning and other HW configuration.
--- 
-2.43.0
+On Sat, Jun 21, 2025 at 12:58:46PM +0300, Abdelrahman Fekry wrote:
+> On Sat, Jun 21, 2025 at 12:20 Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> >
+> > On Sat, Jun 21, 2025 at 12:55:42AM +0300, Abdelrahman Fekry wrote:
+> > > +     Possible values:
+> > > +     - 0 (disabled)
+> > > +     - 1 (enabled)
+> > > +
+> > > +     Default: 0 (disabled)
+> >
+> > I see boolean lists as normal paragraph instead, so I have to separate
+> > them:
+> >
+>=20
+> Thanks for the fix , should I resend it or is your modification enough?
 
+Resend (v4), with the review suggestion applied.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--LQzEutQpcKFcOvi9
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaFaVzgAKCRD2uYlJVVFO
+owp9AQC6yCLXGLrK6u9AU7f1j4MGLkn7iAokGhf3h4Sn5sFUFwD+NWMMTo0awl4Q
+nQikhcvXjjXr+nCOmOTomS1uS3ZQEwU=
+=8KNA
+-----END PGP SIGNATURE-----
+
+--LQzEutQpcKFcOvi9--
