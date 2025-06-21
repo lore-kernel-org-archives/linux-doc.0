@@ -1,46 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634B926A0E3;
-	Sat, 21 Jun 2025 20:15:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144F1211F;
+	Sat, 21 Jun 2025 20:18:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750536903; cv=none; b=I2FaoUU9eQqO+ytG4iC0RhzlhzzsWO55FT10OTmqQ1m341JNMyMxWaU1jBaVx0PGFpR6QypxUkkmmS+WlBDx0gSoXPDwG0lH/K6aqS3umz92nui29/35oKIHF7M+m/6/+bJqo4HbRZYfG+fcnPCgMT7vfRZin4sAXlR7cBcCmSw=
+	t=1750537121; cv=none; b=opNcB6vr+xLPmHIVitqQ6Z9APgYYJxWzWSLpqMfChuN+vecQQ5mMAApDlEVOtWDFdiVehd8urIuEUAwAt2DjVand2wxCrXq3J+VAnOcnhugl0BHqWboMQdlxSLz/1SY8K15XYIo06xG9apzXOlFkozzPlNhGPGMuTpIgX3lTCYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750536903; c=relaxed/simple;
-	bh=u7aylu5TOqIeQOqjZx8nLxreknEl1RVRNdSUyILHyIQ=;
+	s=arc-20240116; t=1750537121; c=relaxed/simple;
+	bh=Z5yBkZPUkTmc6b9q30hhd0CNnywxZLpa/TewjSCJj6Q=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GV5mz3O0RwsPnKZkHh4+g/PPjhtx9UzIYbFGNvXtrX1Ccj+OMgtRnKt/9ijQb6ExFHhqqnyP7CImUO1gysyVl4mMuxT3vzWfz3LsGuKDg/wWQXihnis2WF/7laQSNjHb/JlxBsML/9cP1GcXIW6Ik3yOhOCLttgNDcBNRSIup+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=opPTrMwI; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=DaNVBJYaq010HR4niCduwDvG4h3moaldKvipR6yYWAPyWdFcjCWsvYnP5h6YSxwGCm0LdinjQ9SnGPhUorPpnJelWQz05ZGGZcvZhk75A5o4epEe6DZN6pfcm1QW3UUIYrHor6o1gfcmUc8GoqPuGakhECQRfAAOA9zN6SsbyiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YoGUgVqB; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="opPTrMwI"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9BD0441F2B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YoGUgVqB"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 402E641F2F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1750536901; bh=pZcnjCOPw3KukbrVQFXvtRd4dj2DZVwSivx9jDPCwjI=;
+	t=1750537119; bh=45V+0FDkHCFlBIvDaUXHo+6ddq7ONnjr0UHFpIaEi/s=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=opPTrMwIMhf6VKTImNMe8bm9qiN9PceLV7Le0Rhh1DKt5nQNrhxHU3IyZdKGMgLI0
-	 tmIkgUW7OiZw82PL9IEp+a8W3Ag3JV0VO7mq0oUkndsMio2uGhE0+Sk1lNY0Chczkl
-	 KoCf2HUfHpnnthH4uvI2NQb9N9Mj/wH7IjPVj47XzrP3BVeLQpmshPl1hrT7lesn2E
-	 eZ/mO35MVcpK8dREOY7eNpAgsyt23X6M3AqXFWZFZ5h/qR8CQMg66Q3T1IqBAg8Vx/
-	 4XL8mchPK1fLiG8gA2noQ1aukbwN1e6Zl8c0K6bNvTf9MtlmrKF82xrnjF8zKoArs9
-	 VFd65bkrm2Faw==
+	b=YoGUgVqBN5+cx8jkmfBQ1pSe2HNCjvLRZG7HnRfgUnTmooandGqL//bVa+ZhdlnfV
+	 FuAPRAXIfM+NmG+D9r7o2/KWOkF0LEL1JSktsqruJWmZgVwF9BrFy1lfeN9jLXFU7e
+	 YanT/V/gZtnoxtj09ftRULYEQH8XP+Bsxain6I2GlqDylnJJwHnPEbbLxtPx07FQQd
+	 wpQmUh4bAXEFjCpWFYnZKZP+tQSD1XLsxFdp16zi8GlyZlry3uWP/B+5v9KEV+lSo/
+	 WqTPmmeuj7rXb3n0lnKDH156gR9hx9FdX2QrQ7/N2KH54IA+f4T2P277ClbgY7qEUJ
+	 jzrHdt/P1AWsg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9BD0441F2B;
-	Sat, 21 Jun 2025 20:15:01 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 402E641F2F;
+	Sat, 21 Jun 2025 20:18:39 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH] docs: process: discourage pointless boilerplate kdoc
-In-Reply-To: <20250614204258.61449-1-kuba@kernel.org>
-References: <20250614204258.61449-1-kuba@kernel.org>
-Date: Sat, 21 Jun 2025 14:15:00 -0600
-Message-ID: <8734bsdf7f.fsf@trenco.lwn.net>
+To: Salvatore Bonaccorso <carnil@debian.org>, Christian Brauner
+ <brauner@kernel.org>
+Cc: Luca Boccassi <luca.boccassi@gmail.com>, Oleg Nesterov
+ <oleg@redhat.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Salvatore Bonaccorso <carnil@debian.org>
+Subject: Re: [PATCH] Documentation/sysctl: coredump: add %F for pidfd number
+In-Reply-To: <20250612060204.1159734-1-carnil@debian.org>
+References: <20250612060204.1159734-1-carnil@debian.org>
+Date: Sat, 21 Jun 2025 14:18:38 -0600
+Message-ID: <87y0tkc0gx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,37 +51,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Salvatore Bonaccorso <carnil@debian.org> writes:
 
-> It appears that folks "less versed in kernel coding" think that its
-> good style to document every function, even if they have no useful
-> information to pass to the future readers of the code. This used
-> to be just a waste of space, but with increased kdoc format linting
-> it's also a burden when refactoring the code.
+> In commit b5325b2a270f ("coredump: hand a pidfd to the usermode coredump
+> helper") a new core_pattern specifier, %F, was added to provide a pidfs
+> to the usermode helper process referring to the crashed process.
 >
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: corbet@lwn.net
-> CC: workflows@vger.kernel.org
-> CC: linux-doc@vger.kernel.org
-> ---
->  Documentation/process/coding-style.rst | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> Update the documentation to include the new core_pattern specifier.
 >
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 19d2ed47ff79..d1a8e5465ed9 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -614,7 +614,10 @@ it.
->  
->  When commenting the kernel API functions, please use the kernel-doc format.
->  See the files at :ref:`Documentation/doc-guide/ <doc_guide>` and
-> -``scripts/kernel-doc`` for details.
-> +``scripts/kernel-doc`` for details. Note that the danger of over-commenting
-> +applies to kernel-doc comments all the same. Do not add boilerplate
-> +kernel-doc which simply reiterates what's obvious from the signature
-> +of the function.
+> Link: https://github.com/systemd/systemd/pull/37125
+> Link: https://lwn.net/Articles/1024160/
+> Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst | 1 +
+>  1 file changed, 1 insertion(+)
 
 Applied, thanks.
+
+> FWIW, I was not sure if I should add a 'Fixes: b5325b2a270f
+> ("coredump: hand a pidfd to the usermode coredump helper") to make
+> sure that it get backported as well to the series where a backport of
+> b5325b2a270f landed.
+
+A Fixes tag is not sufficient to ensure that a patch is backported to
+previous kernels - you must CC stable@vger.kernel.org to be sure.  In
+this case, it's a documentation tweak for a 6.16 change, so I don't
+think there is a lot of urgency here.
+
+Thanks,
 
 jon
