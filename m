@@ -1,69 +1,99 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB821F8753;
-	Sat, 21 Jun 2025 19:39:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9EA7E1
+	for <linux-doc@vger.kernel.org>; Sat, 21 Jun 2025 19:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750534752; cv=none; b=YubxYBUYw4Z9GxDIR2kvJYW0sRyKdj2SxhKgvgZg7SZa94Y4yVoR0yd47L2E9aQmSfBaLBhyCZ+ctL+upi9l8VXgj2KZnDdegZf+wAtIz0aLBT2oSC+yarY9UsblU/+zSE1FNiBPAQOR+++48Jwm5hkaxuxjKvSI2B3Pi0mNoII=
+	t=1750535748; cv=none; b=sGCpuCYVbg48mQCsUhz+uugkBJYq3ddY9BnvwT+n13MKi9YdoDj9yGw2BNaIhgBmSafLgZa/rZVmoyZKDpg5dyV0OAYUEiaPB+EDv9hNmFHlc5fgroWZ1hU+ktCQCgJox59v/E8kbDmU7M03Zi6HCWHhwzH0g0gDQWLVXw3XTmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750534752; c=relaxed/simple;
-	bh=3yiVFdTPNAuUz4xvy0quCMpPzcyTEdAaCd8L2MTQ+pw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ek3INxiVfC5kxOZLY8hjLJiWyZwmD3gEW6d9VuWAWF8/S/3Cx+q4iQ+pp7bp/ccC9UgYGcD9NS0zIhz5DXDiXubb5Bho7rc3V9wNkWKB7xha+eAm0Pig79DKXZOwj/FiajqTzKZ3yE9Wy3xqDntRuWcLOn9NtzF6Aic/OwSIIs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rIYECFqc; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rIYECFqc"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8B4AB41AD8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1750534750; bh=3yiVFdTPNAuUz4xvy0quCMpPzcyTEdAaCd8L2MTQ+pw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=rIYECFqcI9E61znUsBSXySGfTlkNf4a90G2leZDRyJG6Tw0PnWxKob+guqA+NoLzo
-	 AErGEMLmEF8OnYqkEmnaiemcTjEFs3nYYJnWVi61v729BPhGXzpObiCWXYDJguO4+A
-	 wZ/AZXSyqhusPsbr10RQC9cUdnAZv86UN51kZvIEeGI0b9vcpmr7sPEN5uikVNMe4h
-	 PF6aJHxCvkI0JvTl2OkjqCwFeR5/LJPoXFrc7M36grz6hQTvftfhpeM4iI7m97xFpz
-	 hjPb8KaENddi/ImFXHKRp5BeaXJBoiXBLZCC9xvMQFQvqFfaYgvtrbhc0oQdx2h2LR
-	 Dzcf3B3WQc/xw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8B4AB41AD8;
-	Sat, 21 Jun 2025 19:39:10 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 0/6] Some improvements for the doc build system
-In-Reply-To: <cover.1750406900.git.mchehab+huawei@kernel.org>
-References: <cover.1750406900.git.mchehab+huawei@kernel.org>
-Date: Sat, 21 Jun 2025 13:39:09 -0600
-Message-ID: <87ldpkdgv6.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1750535748; c=relaxed/simple;
+	bh=XN9dgj8KZxF+ZFA7X5ypPmDNQHGVkzrlJsyw+f1Ohzs=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rEgxKJh+OVaSwGN7slom+eGCMbG+BjeZ4ofGLeD8uflUbUXEWYXV4nnOgbZPagVFJq62cqzt52oYHpohjQe6bE6eUdh5gdRHdTh40AS1v5gI7w4tWkrO8pCs0OxBafpU6InEAZxXwFze2APyyyttXoXHfdaYFn2mtGHQG9z6zlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from localhost (88-113-26-232.elisa-laajakaista.fi [88.113.26.232])
+	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+	id b672fed3-4ed9-11f0-a5a7-005056bdf889;
+	Sat, 21 Jun 2025 22:55:43 +0300 (EEST)
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 21 Jun 2025 22:55:42 +0300
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, lars@metafoo.de,
+	Michael.Hennerich@analog.com, jic23@kernel.org,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	corbet@lwn.net, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	eraretuya@gmail.com
+Subject: Re: [PATCH v9 07/11] iio: accel: adxl345: add activity event feature
+Message-ID: <aFcOPky_EsatfsJu@surfacebook.localdomain>
+References: <20250610215933.84795-1-l.rubusch@gmail.com>
+ <20250610215933.84795-8-l.rubusch@gmail.com>
+ <aEq_SJMDzPYGSMu6@smile.fi.intel.com>
+ <CAFXKEHbdeomMfEBwO+Cvkn5dkN4h47CEAMfmEGQC2V82zQ+U8Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFXKEHbdeomMfEBwO+Cvkn5dkN4h47CEAMfmEGQC2V82zQ+U8Q@mail.gmail.com>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Sat, Jun 21, 2025 at 08:06:49PM +0200, Lothar Rubusch kirjoitti:
 
-> Hi Jon,
->
-> This series contain some patches from my parser-yaml one that
-> aren't directly related to it. It basically addresses some issues
-> at the build system. It also adds a script that I wrote with the
-> purpose of checking backward problems when building against
-> older toolchains.
->
-> IMO, the best is to merge and apply it before the YAML series.
+[...]
 
-OK, I've applied it, but ... someday, I think the test_doc_build tool
-should be properly documented and put somewhere under tools/testing.
+> > > +     ret = regmap_read(st->regmap, ADXL345_REG_ACT_INACT_CTRL, &axis_ctrl);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     switch (type) {
+> > > +     case ADXL345_ACTIVITY:
+> > > +             en = FIELD_GET(ADXL345_ACT_X_EN, axis_ctrl) |
+> > > +                     FIELD_GET(ADXL345_ACT_Y_EN, axis_ctrl) |
+> > > +                     FIELD_GET(ADXL345_ACT_Z_EN, axis_ctrl);
+> >
+> > Something happened to the indentation.
+> > Ditto for several places in the code (upper and lower from this).
+> 
+> What is the matter with the indention here? I'm doing `checkpatch.pl
+> --strict --codespell` on that and don't get an issue? Would you expect
+> cases like the FIELD_GET() calls on the next line, linked by a binary
+> OR, to be indented by yet another TAB?
 
-jon
+All 'F':s should be on the same column (since the email already mangled
+[not by me], here is just an example).
+
+             en = FIELD_GET(ADXL345_ACT_X_EN, axis_ctrl) |
+                  FIELD_GET(ADXL345_ACT_Y_EN, axis_ctrl) |
+                  FIELD_GET(ADXL345_ACT_Z_EN, axis_ctrl);
+
+> > > +             break;
+> > > +     default:
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     if (!en)
+> > > +             return en;
+> > > +
+> > > +     /* Check if corresponding interrupts are enabled */
+> > > +     ret = regmap_read(st->regmap, ADXL345_REG_INT_ENABLE, &regval);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     return adxl345_act_int_reg[type] & regval;
+> > > +}
+
+...
+
+Really, cut the unrelated context in the replies!
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
