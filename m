@@ -1,192 +1,445 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043C319BBC
-	for <linux-doc@vger.kernel.org>; Sat, 21 Jun 2025 01:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D67517BD9;
+	Sat, 21 Jun 2025 03:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750468033; cv=none; b=E9oJVk6h90J8dFGwzh6yDxEdEafU5asEmraV9vF1WPiMRBukkANZs8/lhlr1U3TnaFZZr41nYMDS0qfspefBja2lJr0xkyTTyOzznFwV1rwSlP13olP3Imod5IAhe4ls2D8QRynrBlF2lOU425PHYloGx9/Ckkgpb93RcGvvYgM=
+	t=1750475698; cv=none; b=th1R74YoxvhJ7hopZJUI5MJEPwQr7p5WHVSaD9hYxdDIuC3chphFfw+tJab9QR3WQfqDWhrAUNRK/zz+qYmfVJlDOHT9mbKMXIMunpv8325li+NI6ll7ARAYFA22g8fr43QsLTamX7oeynuH2nsjkRiclNBtX0hVlZEYvd3W/BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750468033; c=relaxed/simple;
-	bh=pzLOXtwqX+R5ZkDJnNjc7FQ6HyDYUogvPcm4PoBIA2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MVFer1sILjLus58raqElskBPBP/7ZhhlpdqknTJW8zA6fY+fTtHJ4k+HHfL/OpIiM6AAK9GKPxlyfl5Sq7EyTGDokR33/m0Rw16i8E6AXOPA/eaCXaekYvGMLU5DhUXa8P+k5rIyverfdzoA+XxdtVEgIXAq39WFbNW2mC/mIJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lcs+3a2Z; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1750475698; c=relaxed/simple;
+	bh=mYPWYKu7cs8sYpUr06SPVxvvd4NaazFsx/56ns0vbUk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i6Euq5EUs3We455+zGeipCrFSPnwR6iiqKsntcI7CRf5OSndfnmrVO+/6UVt9QBo+xxZx4hQeCNLRyU4ZIJvSLuJ7/5Ecqh+zBCDsLOYW+e9VSsVlAHjCFTIF770xAQ3W2wZIpjeAHxwJOLiYuNxdzCq7lFTl/5FsXfzsCy3fdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IFsmBcPE; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lcs+3a2Z"
-Date: Fri, 20 Jun 2025 18:06:50 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1750468018;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x9bGMpSO4WqiAydjTYI1BvmIFHA6ViKMaNDWLEKT1C0=;
-	b=lcs+3a2ZLhflGQHKJ+gTgO7tBN917ZPbJW/VqGm5qDtkba9vGMlVsl2g4UsIib1GPpDr4G
-	Qz0ka4yuqWFfIVF8ZG1dVxusdCKjloC/kN1XPEVs7C6tPFt7GQ6bMeuvijVPunIWZecPoH
-	tkaZ/VVRFsn3eo+FUkZ0KJuGDM0AJ7I=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>, Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 07/23] perf: arm_pmuv3: Introduce method to partition
- the PMU
-Message-ID: <aFYFqrYRsmCi6oii@linux.dev>
-References: <20250620221326.1261128-1-coltonlewis@google.com>
- <20250620221326.1261128-8-coltonlewis@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IFsmBcPE"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-742c3d06de3so2972922b3a.0;
+        Fri, 20 Jun 2025 20:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750475696; x=1751080496; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eJyuOMnKmGrLpCICn3PraIN85lAocywpTvtVDYaMEpc=;
+        b=IFsmBcPEu8nJkwym9T0VSMIRnmI5hHdZN9UCg64rjL5czXAucIcwr541AmEuqEv4rL
+         kfGoZxq4ec3iPi2SUctNIZ1KOfZekdcNqucOvnWv0JfTT2riPSAat0cfhh/+0e5iuCFt
+         /hfFq5IHMGDz6V66hI1trNZV/gtP+4BP7cwQT0bMrbNBZmRUOlvdJJsAhH8Mle+V8BeN
+         FOEbHenIFvqzGWzh+1xmS2VLKnwp2sFqFmp0ho/MsceXz7+mUuoCcfNMP/OhAr7RjC/d
+         DUKWZl1ItA0Bp9b8hzRzyxyqfeVgYjNSY23D4LKC+x3xmJY8oT6+6Cp4QMniWjrbOFOw
+         srlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750475696; x=1751080496;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eJyuOMnKmGrLpCICn3PraIN85lAocywpTvtVDYaMEpc=;
+        b=YMOX+H4/qIKgVuQQG7pb1bCU8dkCGmkktf7q37Pd2UYnBzvYCo3eUaAjI/34pswfgY
+         fKvKskowXfdKTs33pezwzV2yJSYouFiD6VfJMeFxzo7A/bih75m/bpcbgOS8bFIMKnYa
+         qrhPOa9h294hiLZRkMNa1YLE02yketQJVsywuj2JnKvucn1rh6Tv7xTy6x84apQAGN15
+         oUHOVlG4ZNE2bqVWO7BDOQbZn0mWvZL+Y+vMadyCU9Ao27YB+q1ZAAujZ/7TRfjw7tBq
+         zr35qIFTC/b3GameeCGu67+4ne08SR7eqxuOdROXJGAfIGnXMXMqNG0ppWszfTq3xhG7
+         yDnw==
+X-Gm-Message-State: AOJu0YzNN7IAJghnmGkUPIrgno7b/huo2cZLHybMBEI0xQ2Tnulys4+G
+	p41sF1CTfy7xgDY6Rl3xIjuj6prf4e1b0twlerdkB8xEI/QUZy0m4L3fdPQQyb8B
+X-Gm-Gg: ASbGncumpd4apHMPM4plb2oi6GMfqxwbMqUwrnv3Nz76L9Osk1KP5/HtTdkg+9GeZh7
+	LpZKbNqM1etj9ulGG8ZYt8qKT9dYx78r83bkbofY3Ur/tEg4VgzOzRxSRuapZxb97r2S/mz2qJ1
+	ZWglQJr3ytxrpfmgGo5PpPjX4SGjuaXtqhu3QUvuaLJCnh/9twlNftX4slCGdBwe2xUgBeakXdi
+	LQ1cPq+UyWzOzXvUmmFQ0G8FIAF6r2Rm1Au2JFUlFXesI6oye83DcGdzExTbzx+UOwpVHjb35z5
+	Jmj6LKtvKzYK3Qz6v2c0E6RbhpaFrEb6SUBWbA9kiQnvbIdjztaOP3l2NQzPn22UZbtgpiWXJK/
+	++r5lSfk=
+X-Google-Smtp-Source: AGHT+IGIJIkY/sdIu/h7c+3WLsZdw0o2omEtWfacubG59/sbVA52TlUfWwTgFvxLm26hV4ckasiJIA==
+X-Received: by 2002:a05:6a00:2d8c:b0:736:5c8e:baaa with SMTP id d2e1a72fcca58-7490d6635femr7183493b3a.2.1750475696094;
+        Fri, 20 Jun 2025 20:14:56 -0700 (PDT)
+Received: from INBOOKX2PLUS.localdomain ([223.178.82.12])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a66a763sm3252364b3a.141.2025.06.20.20.14.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jun 2025 20:14:55 -0700 (PDT)
+From: Sasikumar C <sasikumar4289@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	Sasikumar C <sasikumar4289@gmail.com>
+Subject: [PATCH] Add Machine Learning Core kernel driver with Kconfig and documentation for future Linux systems
+Date: Sat, 21 Jun 2025 08:44:50 +0530
+Message-ID: <20250621031451.81063-1-sasikumar4289@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250620221326.1261128-8-coltonlewis@google.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 20, 2025 at 10:13:07PM +0000, Colton Lewis wrote:
-> For PMUv3, the register field MDCR_EL2.HPMN partitiones the PMU
-> counters into two ranges where counters 0..HPMN-1 are accessible by
-> EL1 and, if allowed, EL0 while counters HPMN..N are only accessible by
-> EL2.
-> 
-> Create module parameters partition_pmu and reserved_guest_counters to
-> reserve a number of counters for the guest. These numbers are set at
-> boot because the perf subsystem assumes the number of counters will
-> not change after the PMU is probed.
-> 
-> Introduce the function armv8pmu_partition() to modify the PMU driver's
-> cntr_mask of available counters to exclude the counters being reserved
-> for the guest and record reserved_guest_counters as the maximum
-> allowable value for HPMN.
-> 
-> Due to the difficulty this feature would create for the driver running
-> at EL1 on the host, partitioning is only allowed in VHE mode. Working
-> on nVHE mode would require a hypercall for every counter access in the
-> driver because the counters reserved for the host by HPMN are only
-> accessible to EL2.
-> 
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> ---
->  arch/arm/include/asm/arm_pmuv3.h   | 10 ++++
->  arch/arm64/include/asm/arm_pmuv3.h |  5 ++
->  drivers/perf/arm_pmuv3.c           | 95 +++++++++++++++++++++++++++++-
->  include/linux/perf/arm_pmu.h       |  1 +
->  4 files changed, 109 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm/include/asm/arm_pmuv3.h b/arch/arm/include/asm/arm_pmuv3.h
-> index 2ec0e5e83fc9..9dc43242538c 100644
-> --- a/arch/arm/include/asm/arm_pmuv3.h
-> +++ b/arch/arm/include/asm/arm_pmuv3.h
-> @@ -228,6 +228,11 @@ static inline bool kvm_set_pmuserenr(u64 val)
->  
->  static inline void kvm_vcpu_pmu_resync_el0(void) {}
->  
-> +static inline bool has_vhe(void)
-> +{
-> +	return false;
-> +}
-> +
+---
+ Documentation/index.rst                    |   8 +
+ Documentation/misc/mlcore_driver.rst       |  65 ++++++
+ drivers/misc/Kconfig                       |   1 +
+ drivers/misc/Makefile                      |   1 +
+ drivers/misc/mlcore/Kconfig                |   7 +
+ drivers/misc/mlcore/Makefile               |   1 +
+ drivers/misc/mlcore/mlcore_ioctl_proc_ts.c | 221 +++++++++++++++++++++
+ 7 files changed, 304 insertions(+)
+ create mode 100644 Documentation/misc/mlcore_driver.rst
+ create mode 100644 drivers/misc/mlcore/Kconfig
+ create mode 100644 drivers/misc/mlcore/Makefile
+ create mode 100644 drivers/misc/mlcore/mlcore_ioctl_proc_ts.c
 
-This has nothing to do with PMUv3, I'm a bit surprised to see you're
-touching 32-bit ARM. Can you just gate the whole partitioning thing on
-arm64?
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index c0cf79a87c3a..bdf9858b7017 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -127,3 +127,11 @@ Indices and tables
+ ==================
+ 
+ * :ref:`genindex`
++
++Miscellaneous
++=============
++
++.. toctree::
++   :maxdepth: 1
++
++   misc/mlcore_driver
+diff --git a/Documentation/misc/mlcore_driver.rst b/Documentation/misc/mlcore_driver.rst
+new file mode 100644
+index 000000000000..9c274bdb98f5
+--- /dev/null
++++ b/Documentation/misc/mlcore_driver.rst
+@@ -0,0 +1,65 @@
++==============================
++MLCore Kernel ML Driver Guide
++==============================
++
++Overview
++--------
++
++This document describes the MLCore kernel-space machine learning driver,
++which supports:
++
++- Hybrid kernel + user-space ML workflows
++- IOCTL-based communication for inference and retraining
++- /proc interface for result + training data observation
++- History of predictions with timestamps
++- Optional persistent logging to /var/log/mlcore.log
++
++IOCTL Commands
++--------------
++
++The driver supports the following `ioctl()` commands:
++
++- `IOCTL_SEND_INTS`: Send 3 fixed-point input features (int32)
++- `IOCTL_SET_RESULT`: Set prediction result (int)
++- `IOCTL_GET_RESULT`: Retrieve last prediction
++- `IOCTL_ADD_TRAINING`: Add new training entry (features + label)
++- `IOCTL_CLEAR_TRAINING`: Clear all training data
++
++Procfs Interfaces
++-----------------
++
++- `/proc/mlcore_result` – current prediction + timestamped history
++- `/proc/mlcore_train`  – list of all training entries
++
++Device Node
++-----------
++
++The device can be accessed via:
++
++.. code-block:: bash
++
++    /dev/mlcore
++
++Major number used: `104` (or dynamic via devtmpfs + udev rule)
++
++Example Usage
++-------------
++
++From user space:
++
++.. code-block:: python
++
++    import fcntl, struct
++
++    fd = open(\"/dev/mlcore\", \"wb\")
++    features = [123, 456, 789]  # fixed-point (e.g., 1.23, 4.56)
++    packed = struct.pack(\"3i\", *features)
++    fcntl.ioctl(fd, 0x6800, packed)
++
++See `scripts/train_data_sender.py` for more.
++
++License
++-------
++
++This driver is licensed under GPL and authored by Sasikumar C.
++
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index b9ca56930003..73bb67f741a4 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -660,4 +660,5 @@ source "drivers/misc/pvpanic/Kconfig"
+ source "drivers/misc/mchp_pci1xxxx/Kconfig"
+ source "drivers/misc/keba/Kconfig"
+ source "drivers/misc/amd-sbi/Kconfig"
++source "drivers/misc/mlcore/Kconfig"
+ endmenu
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index 917b9a7183aa..8ebd4e08fea7 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -75,3 +75,4 @@ lan966x-pci-objs		+= lan966x_pci.dtbo.o
+ obj-$(CONFIG_MCHP_LAN966X_PCI)	+= lan966x-pci.o
+ obj-y				+= keba/
+ obj-y				+= amd-sbi/
++obj-$(CONFIG_MLCORE_DRIVER)     += mlcore/
+\ No newline at end of file
+diff --git a/drivers/misc/mlcore/Kconfig b/drivers/misc/mlcore/Kconfig
+new file mode 100644
+index 000000000000..005eb73b5d2f
+--- /dev/null
++++ b/drivers/misc/mlcore/Kconfig
+@@ -0,0 +1,7 @@
++config MLCORE_DRIVER
++    tristate "MLCore Machine Learning Kernel Driver"
++    depends on PROC_FS
++    help
++      A kernel-space ML helper driver with /proc and ioctl support.
++      Useful for hybrid kernel/user-space machine learning interaction.
++
+diff --git a/drivers/misc/mlcore/Makefile b/drivers/misc/mlcore/Makefile
+new file mode 100644
+index 000000000000..6fe653e4177c
+--- /dev/null
++++ b/drivers/misc/mlcore/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_MLCORE_DRIVER) += mlcore_ioctl_proc_ts.o
+diff --git a/drivers/misc/mlcore/mlcore_ioctl_proc_ts.c b/drivers/misc/mlcore/mlcore_ioctl_proc_ts.c
+new file mode 100644
+index 000000000000..e53c1aa3835d
+--- /dev/null
++++ b/drivers/misc/mlcore/mlcore_ioctl_proc_ts.c
+@@ -0,0 +1,221 @@
++#include <linux/init.h>
++#include <linux/module.h>
++#include <linux/fs.h>
++#include <linux/uaccess.h>
++#include <linux/ioctl.h>
++#include <linux/proc_fs.h>
++#include <linux/seq_file.h>
++#include <linux/timekeeping.h>
++#include <linux/slab.h>
++#include <linux/fs.h>
++#include <linux/ktime.h>
++#include <linux/err.h>
++
++#define DEVICE_NAME   "mlcore"
++#define PROC_RESULT   "mlcore_result"
++#define PROC_TRAIN    "mlcore_train"
++#define LOG_FILE_PATH "/var/log/mlcore.log"
++#define MAJOR_NUM     104
++
++#define IOCTL_SEND_INTS        _IOW(MAJOR_NUM, 0, int[3])
++#define IOCTL_SET_RESULT       _IOW(MAJOR_NUM, 1, int)
++#define IOCTL_GET_RESULT       _IOR(MAJOR_NUM, 2, int *)
++#define IOCTL_ADD_TRAINING     _IOW(MAJOR_NUM, 3, struct train_entry)
++#define IOCTL_CLEAR_TRAINING   _IO(MAJOR_NUM, 4)
++
++#define HISTORY_SIZE 10
++#define MAX_TRAINING_ENTRIES 50
++
++struct prediction_entry {
++    int result;
++    struct timespec64 timestamp;
++};
++
++struct train_entry {
++    int features[3]; // fixed-point representation: value * 100
++    int label;
++};
++
++static int features[3];
++static struct prediction_entry history[HISTORY_SIZE];
++static int hist_index = 0;
++static int hist_count = 0;
++static int latest_result = -1;
++
++static struct train_entry training_data[MAX_TRAINING_ENTRIES];
++static int train_count = 0;
++
++static void log_to_file(int result) {
++    struct file *filp;
++    struct timespec64 ts;
++    struct tm tm;
++    char log_msg[128];
++    ssize_t written;
++    loff_t pos = 0;
++
++    ktime_get_real_ts64(&ts);
++    time64_to_tm(ts.tv_sec, 0, &tm);
++
++    snprintf(log_msg, sizeof(log_msg),
++             "%04ld-%02d-%02d %02d:%02d:%02d - Prediction: %d\n",
++             tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
++             tm.tm_hour, tm.tm_min, tm.tm_sec,
++             result);
++
++    filp = filp_open(LOG_FILE_PATH, O_WRONLY | O_CREAT | O_APPEND, 0644);
++    if (IS_ERR(filp)) {
++        printk(KERN_ERR "[mlcore] Failed to open log file.\n");
++        return;
++    }
++
++    written = kernel_write(filp, log_msg, strlen(log_msg), &pos);
++    if (written < 0) {
++        printk(KERN_ERR "[mlcore] Failed to write to log file.\n");
++    }
++
++    filp_close(filp, NULL);
++}
++
++static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg) {
++    switch (cmd) {
++        case IOCTL_SEND_INTS:
++            if (copy_from_user(features, (int __user *)arg, sizeof(features)))
++                return -EFAULT;
++            printk(KERN_INFO "[mlcore] Received features: %d.%02d %d.%02d %d.%02d\n",
++                   features[0]/100, abs(features[0]%100),
++                   features[1]/100, abs(features[1]%100),
++                   features[2]/100, abs(features[2]%100));
++            return 0;
++
++        case IOCTL_SET_RESULT: {
++            int result;
++            if (copy_from_user(&result, (int __user *)arg, sizeof(int)))
++                return -EFAULT;
++
++            latest_result = result;
++
++            history[hist_index].result = result;
++            ktime_get_real_ts64(&history[hist_index].timestamp);
++            hist_index = (hist_index + 1) % HISTORY_SIZE;
++            if (hist_count < HISTORY_SIZE) hist_count++;
++
++            log_to_file(result);
++            printk(KERN_INFO "[mlcore] Prediction set: %d\n", result);
++            return 0;
++        }
++
++        case IOCTL_GET_RESULT:
++            if (copy_to_user((int __user *)arg, &latest_result, sizeof(int)))
++                return -EFAULT;
++            return 0;
++
++        case IOCTL_ADD_TRAINING: {
++            struct train_entry entry;
++            if (copy_from_user(&entry, (struct train_entry __user *)arg, sizeof(entry)))
++                return -EFAULT;
++            if (train_count < MAX_TRAINING_ENTRIES) {
++                training_data[train_count++] = entry;
++                printk(KERN_INFO "[mlcore] Training data added: %d.%02d %d.%02d %d.%02d => %d\n",
++                       entry.features[0]/100, abs(entry.features[0]%100),
++                       entry.features[1]/100, abs(entry.features[1]%100),
++                       entry.features[2]/100, abs(entry.features[2]%100),
++                       entry.label);
++            } else {
++                printk(KERN_WARNING "[mlcore] Training buffer full!\n");
++            }
++            return 0;
++        }
++
++        case IOCTL_CLEAR_TRAINING:
++            train_count = 0;
++            printk(KERN_INFO "[mlcore] Training buffer cleared\n");
++            return 0;
++
++        default:
++            return -EINVAL;
++    }
++}
++
++static int proc_result_show(struct seq_file *m, void *v) {
++    int i, idx;
++    struct prediction_entry *entry;
++    struct tm tm;
++
++    seq_printf(m, "Current Prediction: %d\n", latest_result);
++    seq_printf(m, "Prediction History (latest %d):\n", hist_count);
++
++    for (i = 0; i < hist_count; i++) {
++        idx = (hist_index + HISTORY_SIZE - hist_count + i) % HISTORY_SIZE;
++        entry = &history[idx];
++        time64_to_tm(entry->timestamp.tv_sec, 0, &tm);
++        seq_printf(m, "  [%d]: %d at %04ld-%02d-%02d %02d:%02d:%02d\n",
++                   i, entry->result,
++                   tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
++                   tm.tm_hour, tm.tm_min, tm.tm_sec);
++    }
++    return 0;
++}
++
++static int proc_train_show(struct seq_file *m, void *v) {
++    int i;
++    for (i = 0; i < train_count; i++) {
++        seq_printf(m, "[%d]: %d.%02d %d.%02d %d.%02d => %d\n", i,
++                   training_data[i].features[0]/100, abs(training_data[i].features[0]%100),
++                   training_data[i].features[1]/100, abs(training_data[i].features[1]%100),
++                   training_data[i].features[2]/100, abs(training_data[i].features[2]%100),
++                   training_data[i].label);
++    }
++    return 0;
++}
++
++static int proc_result_open(struct inode *inode, struct file *file) {
++    return single_open(file, proc_result_show, NULL);
++}
++
++static int proc_train_open(struct inode *inode, struct file *file) {
++    return single_open(file, proc_train_show, NULL);
++}
++
++static const struct proc_ops proc_result_fops = {
++    .proc_open    = proc_result_open,
++    .proc_read    = seq_read,
++    .proc_lseek   = seq_lseek,
++    .proc_release = single_release,
++};
++
++static const struct proc_ops proc_train_fops = {
++    .proc_open    = proc_train_open,
++    .proc_read    = seq_read,
++    .proc_lseek   = seq_lseek,
++    .proc_release = single_release,
++};
++
++static int dev_open(struct inode *inode, struct file *file) { return 0; }
++static int dev_release(struct inode *inode, struct file *file) { return 0; }
++
++static struct file_operations fops = {
++    .unlocked_ioctl = dev_ioctl,
++    .open = dev_open,
++    .release = dev_release,
++};
++
++static int __init mlcore_init(void) {
++    register_chrdev(MAJOR_NUM, DEVICE_NAME, &fops);
++    proc_create(PROC_RESULT, 0, NULL, &proc_result_fops);
++    proc_create(PROC_TRAIN, 0, NULL, &proc_train_fops);
++    printk(KERN_INFO "[mlcore] Loaded with fixed-point logging.\n");
++    return 0;
++}
++
++static void __exit mlcore_exit(void) {
++    unregister_chrdev(MAJOR_NUM, DEVICE_NAME);
++    remove_proc_entry(PROC_RESULT, NULL);
++    remove_proc_entry(PROC_TRAIN, NULL);
++    printk(KERN_INFO "[mlcore] Unloaded.\n");
++}
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Sasikumar C <sasikumar4289@gmail.com>");
++MODULE_DESCRIPTION("ML driver using fixed-point instead of float");
++module_init(mlcore_init);
++module_exit(mlcore_exit);
+-- 
+2.43.0
 
-> +static bool partition_pmu __read_mostly;
-> +static u8 reserved_guest_counters __read_mostly;
-> +
-> +module_param(partition_pmu, bool, 0);
-> +MODULE_PARM_DESC(partition_pmu,
-> +		 "Partition the PMU into host and guest VM counters [y/n]");
-> +
-> +module_param(reserved_guest_counters, byte, 0);
-> +MODULE_PARM_DESC(reserved_guest_counters,
-> +		 "How many counters to reserve for guest VMs [0-$NR_COUNTERS]");
-> +
-
-This is confusing and not what we discussed offline.
-
-Please use a single parameter that describes the number of counters used
-by the *host*. This affects the *host* PMU driver, KVM can discover (and
-use) the leftovers.
-
-If the single module parameter goes unspecified the user did not ask for
-PMU partitioning.
-
-> +/**
-> + * armv8pmu_reservation_is_valid() - Determine if reservation is allowed
-> + * @guest_counters: Number of host counters to reserve
-> + *
-> + * Determine if the number of host counters in the argument is
-> + * allowed. It is allowed if it will produce a valid value for
-> + * register field MDCR_EL2.HPMN.
-> + *
-> + * Return: True if reservation allowed, false otherwise
-> + */
-> +static bool armv8pmu_reservation_is_valid(u8 guest_counters)
-> +{
-> +	return guest_counters <= armv8pmu_pmcr_n_read();
-> +}
-> +
-> +/**
-> + * armv8pmu_partition_supported() - Determine if partitioning is possible
-> + *
-> + * Partitioning is only supported in VHE mode (with PMUv3, assumed
-> + * since we are in the PMUv3 driver)
-> + *
-> + * Return: True if partitioning is possible, false otherwise
-> + */
-> +static bool armv8pmu_partition_supported(void)
-> +{
-> +	return has_vhe();
-> +}
-> +
-> +/**
-> + * armv8pmu_partition() - Partition the PMU
-> + * @pmu: Pointer to pmu being partitioned
-> + * @guest_counters: Number of host counters to reserve
-> + *
-> + * Partition the given PMU by taking a number of host counters to
-> + * reserve and, if it is a valid reservation, recording the
-> + * corresponding HPMN value in the hpmn field of the PMU and clearing
-> + * the guest-reserved counters from the counter mask.
-> + *
-> + * Passing 0 for @guest_counters has the effect of disabling partitioning.
-> + *
-> + * Return: 0 on success, -ERROR otherwise
-> + */
-> +static int armv8pmu_partition(struct arm_pmu *pmu, u8 guest_counters)
-> +{
-> +	u8 nr_counters;
-> +	u8 hpmn;
-> +
-> +	if (!armv8pmu_reservation_is_valid(guest_counters))
-> +		return -EINVAL;
-> +
-> +	nr_counters = armv8pmu_pmcr_n_read();
-> +	hpmn = guest_counters;
-> +
-> +	pmu->hpmn_max = hpmn;
-
-I'm not sure the host driver needs this for anything, KVM just needs to
-know what's potentially in use by the host.
-
-> +	/* Inform host driver of available counters */
-
-... said the driver to itself :)
-
-Thanks,
-Oliver
