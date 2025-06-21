@@ -1,99 +1,89 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA18D30E85B;
-	Sat, 21 Jun 2025 09:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E0B3595C;
+	Sat, 21 Jun 2025 09:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750498967; cv=none; b=EjLB6PQ4/RC+ZNxzOpDs8+/rGlibJepxh7oOjJhqC+/Ae7dZ9TwvopkiSjA2+GPKviysKKLq1WvV2bX3uUTm+IQblwg3NH1X1WguKYB/RbyEd7IFLN88Xwf7pPmFPwP+9xEsVwFNw7d5h0+zYzFRoEaFswdCeAASE3ayzdpdKxI=
+	t=1750499939; cv=none; b=JRllSj2AAvnk9OEqOUdkL/ywy09aLPIm2HHvNA2A6Y+gb6Cubcnvcjo4WSm8mPesErmwVEHJ13DtHVPMOckO2giGyzhV3zACnKnSWhUiF0EnNjUbV0TxQvmrVnNDS2v+I+Av9brobEsUNDA+jhGcskSUk+478yybS0phHQk8ep0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750498967; c=relaxed/simple;
-	bh=NT0F2kuWnh95YvWs0guj2pG5hfl85ndEjZGTNruras4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=esad70CkFIRhQBtHHsthaVBCs4NDxi97sX50Pu7e/kaHmS8mASYamIYTgCih2DGxrH1Ceg5IUCRf93paBKULFLqDXO90KfnQvl19PAd9f14hJIDftG5mrJilPeHLjGxp3aIZ+3s7lqoW3WgvBVYvxjMm9UopJuDrbonWiDshK4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iRb2qtgV; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1750499939; c=relaxed/simple;
+	bh=+lWQaton8jHYGURu3o/Xz4rmZfTqgU21wSWj8U0z2do=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QfABJNUWCQRaNmuYIG0xZAwGjMV6mSZuVzSdWg5Gky65KJjFNr2SayzhelUtYshQT95p/hwl6Xs/X0XVXHPXrAjdtqZ3QdF5DNynA1920uPEB9VBWQ8flOOSMhqUvYtnDSvfCKu3zzAKAHrDzGjONwTLBG9WDTOEjxdHvumcVOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YyeRGXGa; arc=none smtp.client-ip=209.85.219.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iRb2qtgV"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-742c7a52e97so2166875b3a.3;
-        Sat, 21 Jun 2025 02:42:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YyeRGXGa"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e82278512bfso61873276.2;
+        Sat, 21 Jun 2025 02:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750498965; x=1751103765; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=82F/qIrMwud8Iq3aKIO9cVAcwnGn2gOc9FkvWYWa8Q8=;
-        b=iRb2qtgV2BL6VDzoHevnbvoP4QDkW4rJrwb2YKa26e5svnGwPdneJNX6Srs2Nrm/yy
-         3YhL/ls8HjI8nBhrLOvYK+UAoBRRPcGnli+Bmo6ScyOJnpledSB0OUnvpucFJgquNJmf
-         IKtxcmKkblH4XceUE1/yRNV+43tnk4boHWuQz2Tz7Q9MUA+cmPcyNmzewZdCxKi3X9fv
-         qL4QdkoHuAsP6vFEucvMPs8V0konc5n3IPThsDeZsYFk4mH9HtSDk/spK6lsr5SrVQ21
-         F1a4pJ7HmR82IRKWCl477WukA69HZ36zsuesF5MZNpo1hxBBhc1O3gC5RkeOeoeAYIM1
-         ipaQ==
+        d=gmail.com; s=20230601; t=1750499937; x=1751104737; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NFvZD+u/OKU7mgFfbU+SKlo3LtBUSpTtmgMflnAmtV4=;
+        b=YyeRGXGaECYXZoPpv8WwUzfIJu0oEQ3ASrTWCXqgwxrZ1ttUPbs8Gk83iQwZOiavkd
+         KKc+7P4+fZvtC7siJ6Jd4zDLe2Q39hPbDkvFVGuTAA90VTBKmgiJU+ERwEclgNRsqqiX
+         s0XmDPPJR5E2XNzA72eyWGl/B+eisxUygtTXFJZ+ooHsNuR7+Dqnb2x1ESJGuIsAGt+J
+         H0eIjvVaE3ZsMqQRamAJHfEHB+hyC5lQKhSdVU4sp4aT40PzAA4ZIS2ADo6icCBA++P4
+         UPDIuvNEE2153CPxvRA6zpxDGBKwgX7fb7t765pzOR7q2o5Amy0jsZ/hsCDkduS32K6o
+         nPQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750498965; x=1751103765;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1750499937; x=1751104737;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=82F/qIrMwud8Iq3aKIO9cVAcwnGn2gOc9FkvWYWa8Q8=;
-        b=EQUmhb6308om5+25nO1u9QH13hkJ4ViMV6pZqV7fvUPdrTNlQRpkdoR5rjFNnpBHvq
-         X+Bdd+f0gDbrpYkfxJ7r7/bIo9a+aIqKYbDXm+o6y1OOOkEuEW//aKPH4JLf/OoCfqru
-         FcA02JuFJZN3qDouMw5M2VIxDoeYUJUx1sbbkdO3xe7qdM/ecOdyzrsZQVxgKS7yuLdy
-         JZCx/WGFnWd4Kb1D0oSn+SO0uokpCkK7m/48kw0SlntYPBh/OjA9Spq7q9p954otpleT
-         U0x0htOnVCIO2ZhCFZfHeN1LJiFVMJCRb/nDzNgEZltzHKinzjRk1RVFPnITBQab7ew9
-         2Z9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXFjAvf5w9e2pOp7Wrfrb8oURkycPovpn3ZlKOes+2peQuW8IcMp6Ng0Sf9QdJCVSW1pWHkceC/qMKxv4w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj7ypAefYKBK1DCV5/VCsOZX4+laVHcmK2NkLeEkIRJu5ETcIf
-	Qw+5autPAjo+2yb9cyzMMxYBSezCtidfDsRukFKuKI3gGaC54n9LAbAh
-X-Gm-Gg: ASbGncu0CsroG+FcE+K96A3sLzJQzFnAGjft4soEh9bVZG/gWZqIwilqvbYrMoiS4B3
-	g8jby8DyaykAIfcLssXjV28MBfsB8suvtzrbV29SycORGYIcJXWKDNnBHQnHIb0ryCpETR8oYrf
-	8nkEYEGEVzfISo2cnv9VleWiM+VIUYtaN3c+BnOKZJMisQSa+8msdws0YCQ8cxES6XcbqAASiYH
-	Tp9S3SJEGFmU6y4L2vRi99FRHyVowemxWVAPeyP+0oYpw5hx7tGIM2/JSc0U2dBsTpJ4uIl+PWJ
-	L5z1LwUqz6dHgmKYoCsk608vxdq5jGUqWt1DaqQ5b81+AJtMtKpiKmJ2G7L5migHFrfGEs0uJrP
-	IJrszJiX28befF9TAj/OF
-X-Google-Smtp-Source: AGHT+IGCdtyBmtNboqAeTb8dM4d0OF3DNlAYrpvaG4ezgQSszXwNLgXBZCtm/LihmMUbzARLeGdL6Q==
-X-Received: by 2002:a05:6a00:928c:b0:748:fcfa:8bd5 with SMTP id d2e1a72fcca58-7490d74e2c9mr9889200b3a.3.1750498964922;
-        Sat, 21 Jun 2025 02:42:44 -0700 (PDT)
-Received: from faisal-ThinkPad-T490.. ([49.207.215.194])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a64bde4sm3845704b3a.124.2025.06.21.02.42.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jun 2025 02:42:44 -0700 (PDT)
-From: Faisal Bukhari <faisalbukhari523@gmail.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Fix typo in Documentation/userspace-api/sysfs-platform_profile.rst
-Date: Sat, 21 Jun 2025 15:12:24 +0530
-Message-ID: <20250621094224.164677-1-faisalbukhari523@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=NFvZD+u/OKU7mgFfbU+SKlo3LtBUSpTtmgMflnAmtV4=;
+        b=BR+9x3z1Udy5b4YK7jmnlr+k/enntG6sF2whUM68PpEj/7+TF51IRhvVH89IZ0bB3e
+         jVgNGTIL3v5mY1NqWSffo5YZwi/sLAgdQjGz3v412PMURvwk78kBq5dOkaFSue7JzJqe
+         sa8mNdmyhNxO0mVHtXzfFjFQXwWQvI1C97YVSPQZ9TXSrqrSZeGI9dJy0jDvDTpMTdxa
+         uu28BBS5kgicCipWXlljs/d6Lp1I3wq+I58UiahD8QR/0lA4VIQVU5tt4Sd9sUoZh/pQ
+         5Md57Zuc26ToRO1GcG8+42cEsnju6BdsMI3NCUQqm+4JEAFxbaSqHAnspW67FtzvRMFB
+         jWWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQyIr0NHkD4bj55vgsr91diynD0UfWMBeyfhpU6JGWv9DcxQt4Kx+qGvnuoT+VgqPIXSpsjJiL6eo=@vger.kernel.org, AJvYcCXndonioVBqqIcrcx+9mjlUF6hkCZ/l6wujcauTPnhhgqVyLRnEEli7ub5iOg/rbyRencTPeYd32SA6XAUe@vger.kernel.org, AJvYcCXomh7CZzDy2O/cIsbG9bzjzZvA99pk7/7JO5sGDRuLnBBOPNVWMd6jhu9vrGL1mQ7oGJ804ht5@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTg02lq4t26QHoYbSOnS6BwqAAoNgrpIlS7bh5yHx3ohzj6cpb
+	cfD57cI3svRpdfImRJJEL8pI4lhIWVP1aHrX1w4N+3gVbSPcdTrqh09cPoD5XTH/joub/DcIkNF
+	Zq7tBk/qvMIcY98R1O0U13PYKUAqkq5c=
+X-Gm-Gg: ASbGncsBlVzdqTBSV5DCusbYRzmIR+9V8UI2EPCyCbqYTGE87BWV6NlDbroxJVZ1vhD
+	cGy7yfp5gQsiCpsv7UDjXu9EcHaSUl5d2Du0Mq54kygExpHVlGnisRl4j646g8z2F2uGeswxt54
+	hhrMOFp43ZK/jM0j9LcbxHorbCNQEdD6UdjpBbyKWXtAM=
+X-Google-Smtp-Source: AGHT+IE3jUH9yvUkBqwnWN2W2/DtvMHIbOBVHjaS2/kK3aydl2tVZaeZ5XtQ8+m3Ch04z0IPOyasJl2Pg/J1sR/f0MU=
+X-Received: by 2002:a05:6902:1141:b0:e82:9831:2b4c with SMTP id
+ 3f1490d57ef6-e842bcf8390mr3687988276.6.1750499936944; Sat, 21 Jun 2025
+ 02:58:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250620215542.153440-1-abdelrahmanfekry375@gmail.com> <aFZ5OhP3Ci5KzOff@archie.me>
+In-Reply-To: <aFZ5OhP3Ci5KzOff@archie.me>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Sat, 21 Jun 2025 12:58:46 +0300
+X-Gm-Features: Ac12FXwmUAbCTzej24qH0z0oXWiUTmicey_DtDZEHg4BcYYXxuh3p054DU3NHkw
+Message-ID: <CAGn2d8OT0SS+wYphKBmM21Lo__N_ZFRyZCQ8pL34c0Z0bqDoag@mail.gmail.com>
+Subject: Re: [PATCH net-next v3] docs: net: sysctl documentation cleanup
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com, horms@kernel.org, 
+	kuba@kernel.org, pabeni@redhat.com, linux-doc@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, skhan@linuxfoundation.com, jacob.e.keller@intel.com, 
+	alok.a.tiwari@oracle.com
+Content-Type: text/plain; charset="UTF-8"
 
-Documentation/userspace-api/sysfs-platform_profile.rst
-Fixes a spelling mistake: "setttings" → "settings".
+On Sat, Jun 21, 2025 at 12:20 Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On Sat, Jun 21, 2025 at 12:55:42AM +0300, Abdelrahman Fekry wrote:
+> > +     Possible values:
+> > +     - 0 (disabled)
+> > +     - 1 (enabled)
+> > +
+> > +     Default: 0 (disabled)
+>
+> I see boolean lists as normal paragraph instead, so I have to separate
+> them:
+>
 
-Signed-off-by: Faisal Bukhari <faisalbukhari523@gmail.com>
----
- Documentation/userspace-api/sysfs-platform_profile.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/userspace-api/sysfs-platform_profile.rst b/Documentation/userspace-api/sysfs-platform_profile.rst
-index 7f013356118a..e6878ea82fda 100644
---- a/Documentation/userspace-api/sysfs-platform_profile.rst
-+++ b/Documentation/userspace-api/sysfs-platform_profile.rst
-@@ -44,7 +44,7 @@ added. Drivers which wish to introduce new profile names must:
- "Custom" profile support
- ========================
- The platform_profile class also supports profiles advertising a "custom"
--profile. This is intended to be set by drivers when the setttings in the
-+profile. This is intended to be set by drivers when the settings in the
- driver have been modified in a way that a standard profile doesn't represent
- the current state.
- 
--- 
-2.43.0
-
+Thanks for the fix , should I resend it or is your modification enough?
