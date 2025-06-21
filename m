@@ -1,82 +1,96 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76861211F;
-	Sat, 21 Jun 2025 20:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6514CE08;
+	Sat, 21 Jun 2025 20:35:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750537233; cv=none; b=uhH8U4tzXyxpx6pBu7nlGjQVq558dNyviKyrlZOr1m503jIG76PEBAmcS5hOwKwFti8HjKG5zdfEqKalpey26y8aTt7+/z8benQEZMaQegh3EI11gzq6H3Ct8+IJ65LQYgr5XCYVcXDL2EYDM6jx1ANZTLVleRwC4BzyVb0jsSY=
+	t=1750538129; cv=none; b=LmQ5/kx3Plaus5f9hf5yFKy7WReNRYFzymlb4bDvqa2iKED1m5nakgI8H5cLzd4fQh3lWNmAkbdcnE78IwcyhzvcVmnqPeUFWWcEadxgZfBbksFBFLtHYKgKn5Vykn3sm1/5hBDC9DsEMvfQ3bUKkpxKZYDY1esogeEQEq7n0a8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750537233; c=relaxed/simple;
-	bh=w4e/fCUU/aHzOrTZ+cnX4K1qrjxfJtCzZePU7cxhMoY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Kh3NoSo+pPuvc5scRj3aT2HD6owuUNEQ17TyqxSGXZRL3fAVWAkYV3LHfLLTrf6QAk4Q7rdljCeDyLAdu3N8PmRn2ORrMZmCUCM6x6UnbNHMjE5JxQg7CE5zC2w9n9V+zw7Le0vIrEOxY+Ed8J57ea4ZAv5G8MX6zlrEmlPEB8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=c5nMNP/2; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1750538129; c=relaxed/simple;
+	bh=hB8C7L1PxFJv/CZptLAzrkXYJacSm/2OYegNuolirxs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rqwn8yMJU2RMT6YtwmmSnkJzMk6nS0vo7tuJykJvo9rgxHzWSH6un+WGkvN5qXsQ0MUiA4/Bb9pnVkT3VSjghv6lXb8aUucVBy7z0SnqDjPoCbHdPZta7AabxKTKp9qH2c87wK01d3oaYJj1oyLnKaNqDAkMES7S1NBm6eoAUIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=HuPcuoG2; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="c5nMNP/2"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1BC0B41F2B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="HuPcuoG2"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3373341AD8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1750537231; bh=BgrJoGYd1mlrQAvjw00oAqv1vfs8tpuQ/PQr4mdOjT0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=c5nMNP/2rORiVZKNR5nxxpagZ7Vjk0xZ002qNSm1qRFkPkIBhrJTdHsDXQDggITIG
-	 3XMiaifHQXINW1tov05JaKr1zddotqjSZ8cvZnE59Am2g2dsKT0Wv9rOzCUCz6eaNj
-	 x0PTqBZQL5Ka6vQ5DzYcK5teb46+AX0ozbDiDDiuPobf+bbZJcz8JFAkhGZ1drwH3K
-	 pwZWcsmIXj1HlX32esd6prlWqqweh38Noqn1SaqfQPkiCrurOJYhkoT214F73veU+R
-	 5Sh4LwFtWSWR1LnxLzvll5hK2zl9DMxr5xabw5qsvb/nDSgcoH9FqApaVThMAJBd8Y
-	 WLfGxqBYKyavg==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1BC0B41F2B;
-	Sat, 21 Jun 2025 20:20:31 +0000 (UTC)
+	t=1750538127; bh=6N/xqxEEBR9LSu1nywynu4PPNaFbqIPkg71mxrWCLes=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HuPcuoG2dVfHfFh2pB7BD4VStyJXdbpjkx3x+EkLjyXkgjd33Vt06d04SeudOqp99
+	 06ggcFSlgSgGWKZ1+L2REsD6mY3KEtkmmifM/O2sJ2QO+X3ZHemvWFLHI79QA1rDFz
+	 IzG7p4EOmPDMxEt0+Zk7shTXdnbRiWmMwGTDVpULppB3EtRM3da/e+lUYduT2KGWoV
+	 jVad6matOroMrNW+W3JGR76NU0ty/j2KOy7c9ejnvmtAiaIMnoMHoOS/bCDYVrJQqG
+	 A4s0yg90Ng6gfOezzqmyucqh/XaJH3CpDCAea+xnxj9SiJELpD1C9Woz++bmlbL1w9
+	 vE/475G0YwWFw==
+Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9:67c:16ff:fe81:5f9b])
+	by ms.lwn.net (Postfix) with ESMTPA id 3373341AD8;
+	Sat, 21 Jun 2025 20:35:27 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux GPIO <linux-gpio@vger.kernel.org>,
- Linux MTD <linux-mtd@vger.kernel.org>, Linux Networking
- <netdev@vger.kernel.org>, Linux USB <linux-usb@vger.kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Richard Weinberger <richard@nod.at>, Zhihao Cheng
- <chengzhihao1@huawei.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Andrzej Pietrasiewicz
- <andrzejtp2010@gmail.com>, Felipe Balbi <balbi@kernel.org>, Mauro Carvalho
- Chehab <mchehab+huawei@kernel.org>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH] Documentation: treewide: Replace remaining spinics
- links with lore
-In-Reply-To: <20250611065254.36608-2-bagasdotme@gmail.com>
-References: <20250611065254.36608-2-bagasdotme@gmail.com>
-Date: Sat, 21 Jun 2025 14:20:30 -0600
-Message-ID: <87tt48c0dt.fsf@trenco.lwn.net>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 0/9] docs: kdoc: rework the BODY* processing states
+Date: Sat, 21 Jun 2025 14:35:03 -0600
+Message-ID: <20250621203512.223189-1-corbet@lwn.net>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+This is a continuation of my effort to better understand the new kernel-doc
+script and to clean up some of the legacy cruft brought over from the perl
+version.
 
-> Long before introduction of lore.kernel.org, people would link
-> to LKML threads on third-party archives (here spinics.net), which
-> in some cases can be unreliable (as these were outside of
-> kernel.org control). Replace links to them with lore counterparts
-> (if any).
->
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/driver-api/gpio/driver.rst                    | 2 +-
->  Documentation/filesystems/ubifs-authentication.rst          | 2 +-
->  .../networking/device_drivers/ethernet/ti/cpsw.rst          | 6 +++---
->  Documentation/usb/gadget-testing.rst                        | 2 +-
->  4 files changed, 6 insertions(+), 6 deletions(-)
+There were three states associated with the processing of the body of a
+kerneldoc comment: BODY_MAYBE, BODY_WITH_BLANK_LINE, and BODY.
+Unfortunately, these states did not actually match the state of the parser,
+leading to a lot of deeply nested if-then-else code and special cases.
+I've renamed the states to better reflect their meaning, and changed how
+SPECIAL_SECTION, in particular, is managed.
 
-Applied, thanks.
+  BODY_MAYBE becomes DECLARATION - we have seen the first line of the
+  declaration that starts a kerneldoc comment, and don't know if we have
+  hit the end of it or not.
 
-jon
+  BODY_WITH_BLANK_LINE becomes SPECIAL_SECTION.  This state was used to
+  recognize the sections within a comment with special rules -
+  specifically, that the section ends with a blank line or the beginning of
+  a new special section.  The declaration of parameters and sections like
+  "Context" fit that description.  The old code recognized these sections
+  at the *end*, with a lot of twisty logic; going into the proper state at
+  the beginning simplifies things.  There are a few output changes, but I
+  think they are all more correct.
+
+  BODY remains BODY - a documentation section that does *not* end at a
+  blank line.
+
+To facilitate these changes, I have also begun the task of pulling more of
+KernelEntry state management into the class itself; there is more to be
+done on that front.
+
+Jonathan Corbet (9):
+  docs: kdoc: Make body_with_blank_line parsing more flexible
+  docs: kdoc: consolidate the "begin section" logic
+  docs: kdoc: separate out the handling of the declaration phase
+  docs: kdoc: split out the special-section state
+  docs: kdoc: coalesce the new-section handling
+  docs: kdoc: rework the handling of SPECIAL_SECTION
+  docs: kdoc: coalesce the end-of-comment processing
+  docs: kdoc: Add some comments to process_decl()
+  docs: kdoc: finish disentangling the BODY and SPECIAL_SECTION states
+
+ scripts/lib/kdoc/kdoc_parser.py | 232 +++++++++++++++++++-------------
+ 1 file changed, 138 insertions(+), 94 deletions(-)
+
+-- 
+2.49.0
+
