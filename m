@@ -1,42 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7EB1991C9;
-	Sun, 22 Jun 2025 11:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30CF1DE4E3;
+	Sun, 22 Jun 2025 12:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750593298; cv=none; b=rf5X8zkRJehv9NLeBVt0zqMnh6I3WXeLufL8af0TGgUE9VSts6HISjB+CHtGKGqgThZ48mhPUJ0I6NWK++DC9zci0aiuqKz2O0JFXd1gM1nK40ZArwhuwL055paEAq6ffrH41sPwmCANSqvy3ItNOF+tfCHfZg0fUgIouhNf6EA=
+	t=1750594407; cv=none; b=bp8Gl2aDd+UTVvz/SYSgQZ7p/3iS4W/H8TeaDh9E9KLQmfkSIZQYzkFr5mYlTSZIgGiQL5E3M/XzA7SFmFnjrWeVFKFNjQ3HyDggfsrEx/BpFYjMexa0059ClxjHCjsi6tmgpaUO7tzrGInw+4Jt+RseN3hC7LQnbPi3WG9Dk4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750593298; c=relaxed/simple;
-	bh=RrYA5pGqQTVuG8VEnbomPsLS9eMaSBJfUiFm3MvrSzk=;
+	s=arc-20240116; t=1750594407; c=relaxed/simple;
+	bh=P9DyqpH3WjbrPFVDdJCcU1NRpdBVUBWYSl4bYGLYPUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c0PmZQSdVRDTX3bI0EfFduaXcqv8ujPVaNhPPmRknTw16wTXmosuiw30DCseX0XVSEDOqmu2eknEOBbuqBJWkOetgAvOooBCfljjeqH4kDge3S5PI3piKUkWCcuXhc21qkoM2u5U1TjVubbUrCcgLSvQcP8IQNuUOqxYR+9eFGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BsHgkU5I; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=S0IOKntXcKVjARBduA6leo9o4G8dRjlE6fUXxLbHKdpT/3gaScXGKDNM4+iqQfyxP8Apv6di6zcwHoswAneYIL9falMPcd+rgRAjAi92U9Dwt8g6UpnvZaNr5thULbKA+cxBBIkOYU9AdW48peCJ7D0SuB5N8MsueeltjJQ22XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pvPG5Jwe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BsHgkU5I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B564C4CEE3;
-	Sun, 22 Jun 2025 11:54:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pvPG5Jwe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFC41C4CEE3;
+	Sun, 22 Jun 2025 12:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750593298;
-	bh=RrYA5pGqQTVuG8VEnbomPsLS9eMaSBJfUiFm3MvrSzk=;
+	s=k20201202; t=1750594406;
+	bh=P9DyqpH3WjbrPFVDdJCcU1NRpdBVUBWYSl4bYGLYPUY=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BsHgkU5IpJ2sOb7v5LHTseQ1iBo0oMidsaUCDsiBZ3qvau3sZx4NJAkXKPznpQwou
-	 IfxJfEDDN00q7HZsMQTjoq/133T+ai+TLRMCpe00JhSoPH1RD/zESES19Qvk0pbK4v
-	 uXkFMKwrdUbdagBynUm6mHudFkY4XZcbORYHvVWMjTkT/C7qB8wc93Las7dlzX0UQI
-	 YbHXGn9R/vXJbfPWscaqcxFFrcRTBvDMlod9W08n3QG+so9lZ+wXAzJ0jxqX+kDCGc
-	 w25XtH3yFwzEZPXw64Da1LpMl0mf9yC4O9s8/5BMDELuK+ym0S3TBeiZu8lhA53ysY
-	 mH78kPgHQToLg==
-Date: Sun, 22 Jun 2025 13:54:54 +0200
+	b=pvPG5JwewF3CQsTU4kZ8QF7btO8Q/9s/vZePhrmQpvlscWnoE3YI/cYZ8KsvdF/eT
+	 vUQShfUmBEBTySqODtW9u5QM0dRAgh2D7NJcTpVS4o+9/Ntm6WGKAPHopThxXxZzdT
+	 FIphEatiqVq2jma8GvuMOcJZGXSAt38GeSmvggFlVmAZKLV3XT7VElbcyffW7ok/yq
+	 VTsEe1SKGwwPxo0Vo8OIhCnoclI82E/HJhJ0bqgNQgaSZxQA34VitMva4io6DiWHTG
+	 A/T9qTMVumV4z41ZQzeUgZdmoLBQJn8FLYaivMMxmXxk+G99TB7A+LLQOQjRL5mUJN
+	 QYXdYsjccwn0A==
+Date: Sun, 22 Jun 2025 14:13:19 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 9/9] docs: kdoc: finish disentangling the BODY and
- SPECIAL_SECTION states
-Message-ID: <20250622135454.41fa0c7c@foz.lan>
-In-Reply-To: <20250621203512.223189-10-corbet@lwn.net>
-References: <20250621203512.223189-1-corbet@lwn.net>
-	<20250621203512.223189-10-corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
+ Documentation <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Federico Vaga
+ <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, Carlos
+ Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
+ Mu <dzm91@hust.edu.cn>, Thomas Gleixner <tglx@linutronix.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Stanislav Fomichev
+ <sdf@google.com>, David Vernet <void@manifault.com>, Miguel Ojeda
+ <ojeda@kernel.org>, James Seo <james@equiv.tech>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH RFC] Documentation: typography refresh
+Message-ID: <20250622141311.389abf16@foz.lan>
+In-Reply-To: <20250619042318.17325-2-bagasdotme@gmail.com>
+References: <20250619042318.17325-2-bagasdotme@gmail.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -47,127 +54,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Sat, 21 Jun 2025 14:35:12 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Em Thu, 19 Jun 2025 11:23:19 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
 
-> Move the last SPECIAL_SECTION special case into the proper handler
-> function, getting rid of more if/then/else logic.  The leading-space
-> tracking was tightened up a bit in the move.  Add some comments describing
-> what is going on.
+> At present, kernel documentation uses system serif font for body text.
+> Some people, however, objected to it and instead prefer that the
+> typography choice must be legible, consistent, and accessible (after
+> all, the audience ranges developers peeking into kernel internals to
+> ordinary users that skimmed through Documentation/admin-guide/).
 > 
-> No changes to the generated output.
-
-LGTM.
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> To tackle the problem, follow Wikimedia's typography refresh [1].
+> For the font choices, instead of using web fonts as in previous
+> attempt [2], use:
+> 
+>   * Linux Libertine, Georgia, Times for serif (used in h1 and h2
+>     headings)
+>   * system font for sans-serif and monospace
+> 
+> This allows for more readability and consistency without sacrificing
+> page load times and bandwidth, as the font choices is most likely
+> already available on many platforms.
+> 
+> The reason why serif fonts is used for headings in complement to sans
+> serif in text body is to break up visual monotony of docs page by
+> creating contrast between headings (as entry point to docs information)
+> and text body, which is important considering that kernel docs are
+> quite lengthy with many sections.
+> 
+> For body text (excluding sidebar), it is set to #252525 on top
+> of #FFFFFF background as they have contrast ratio 15.3:1, which
+> is rated as AAA according to WCAG 2.0 section 1.4.6. Having slightly
+> off-black foreground text on white background can reduce eye strain
+> and juxtaposition on dyslexic readers.
+> 
+> This refresh only applies to default Alabaster theme.
+> 
+> [1]: https://www.mediawiki.org/wiki/Typography_refresh
+> [2]: https://lore.kernel.org/linux-doc/20231102123225.32768-1-bagasdotme@gmail.com/
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
->  scripts/lib/kdoc/kdoc_parser.py | 80 ++++++++++++++++++++-------------
->  1 file changed, 48 insertions(+), 32 deletions(-)
+>  Documentation/conf.py                      |  5 +-
+>  Documentation/sphinx-static/typography.css | 62 ++++++++++++++++++++++
+>  2 files changed, 66 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/sphinx-static/typography.css
 > 
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index a6ee8bac378d..3557c512c85a 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -1405,10 +1405,53 @@ class KernelDoc:
->          """
->          STATE_SPECIAL_SECTION: a section ending with a blank line
->          """
-> +        #
-> +        # If we have hit a blank line (only the " * " marker), then this
-> +        # section is done.
-> +        #
->          if KernRe(r"\s*\*\s*$").match(line):
->              self.entry.begin_section(ln, dump = True)
-> +            self.entry.contents += '\n'
->              self.state = state.BODY
-> -        self.process_body(ln, line)
-> +            return
-> +        #
-> +        # Not a blank line, look for the other ways to end the section.
-> +        #
-> +        if self.is_new_section(ln, line) or self.is_comment_end(ln, line):
-> +            return
-> +        #
-> +        # OK, we should have a continuation of the text for this section.
-> +        #
-> +        if doc_content.search(line):
-> +            cont = doc_content.group(1)
-> +            #
-> +            # If the lines of text after the first in a special section have
-> +            # leading white space, we need to trim it out or Sphinx will get
-> +            # confused.  For the second line (the None case), see what we
-> +            # find there and remember it.
-> +            #
-> +            if self.entry.leading_space is None:
-> +                r = KernRe(r'^(\s+)')
-> +                if r.match(cont):
-> +                    self.entry.leading_space = len(r.group(1))
-> +                else:
-> +                    self.entry.leading_space = 0
-> +            #
-> +            # Otherwise, before trimming any leading chars, be *sure*
-> +            # that they are white space.  We should maybe warn if this
-> +            # isn't the case.
-> +            #
-> +            for i in range(0, self.entry.leading_space):
-> +                if cont[i] != " ":
-> +                    self.entry.leading_space = i
-> +                    break
-> +            #
-> +            # Add the trimmed result to the section and we're done.
-> +            #
-> +            self.entry.contents += cont[self.entry.leading_space:] + '\n'
-> +        else:
-> +            # Unknown line, ignore
-> +            self.emit_msg(ln, f"bad line: {line}")
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 12de52a2b17e78..f5713cd70cc17c 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -310,9 +310,12 @@ if  html_theme == 'alabaster':
+>          'sidebar_width': '15em',
+>          'fixed_sidebar': 'true',
+>          'font_size': 'inherit',
+> -        'font_family': 'serif',
+>      }
 >  
->      def process_body(self, ln, line):
->          """
-> @@ -1419,37 +1462,10 @@ class KernelDoc:
->  
->          if doc_content.search(line):
->              cont = doc_content.group(1)
-> -
-> -            if cont == "":
-> -                    self.entry.contents += "\n"
-> -            else:
-> -                if self.state == state.SPECIAL_SECTION:
-> -                    if self.entry.leading_space is None:
-> -                        r = KernRe(r'^(\s+)')
-> -                        if r.match(cont):
-> -                            self.entry.leading_space = len(r.group(1))
-> -                        else:
-> -                            self.entry.leading_space = 0
-> -
-> -                    # Double-check if leading space are realy spaces
-> -                    pos = 0
-> -                    for i in range(0, self.entry.leading_space):
-> -                        if cont[i] != " ":
-> -                            break
-> -                        pos += 1
-> -
-> -                    cont = cont[pos:]
-> -
-> -                    # NEW LOGIC:
-> -                    # In case it is different, update it
-> -                    if self.entry.leading_space != pos:
-> -                        self.entry.leading_space = pos
-> -
-> -                self.entry.contents += cont + "\n"
-> -            return
-> -
-> -        # Unknown line, ignore
-> -        self.emit_msg(ln, f"bad line: {line}")
-> +            self.entry.contents += cont + "\n"
-> +        else:
-> +            # Unknown line, ignore
-> +            self.emit_msg(ln, f"bad line: {line}")
->  
->      def process_inline(self, ln, line):
->          """STATE_INLINE: docbook comments within a prototype."""
+> +    html_css_files  = [
+> +        'typography.css',
+> +    ]
+> +
+>  sys.stderr.write("Using %s theme\n" % html_theme)
 
+I liked this part: having fonts inside a css. However the code is broken,
+as there are already several parts of conf.py which alrease sets
+html_css_files on different ways, depending on two make vars. From
+make help:
 
+	make DOCS_THEME={sphinx-theme} selects a different Sphinx theme.
+	make DOCS_CSS={a .css file} adds a DOCS_CSS override file for html/epub output.
+
+The code on conf.py in question is:
+
+	if html_theme in ["sphinx_rtd_theme", "sphinx_rtd_dark_mode"]:
+		...
+	        html_css_files = [
+	            "theme_overrides.css",
+	        ]
+		...
+		if html_theme == "sphinx_rtd_theme":
+	            # Add color-specific RTD normal mode
+            html_css_files.append("theme_rtd_colors.css")
+	...
+	if "DOCS_CSS" in os.environ:
+	    css = os.environ["DOCS_CSS"].split(" ")
+
+	    for l in css:
+	        html_css_files.append(l)
+
+You can't just replace html_css_files without considering the above,
+specially since one could be doing DOCS_CSS="some_other_typography.css".
+
+IMO, the code should be instead:
+
+	if html_theme == "alabaster":
+	    if not html_css_files:
+	        html_css_files  = [ "typography.css" ]
+
+E.g. only use it if:
+- the theme is the default one;
+- the Kernel docs will be built without DOCS_CSS.
 
 Thanks,
 Mauro
