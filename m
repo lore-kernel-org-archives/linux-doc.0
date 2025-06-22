@@ -1,105 +1,179 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4011A8F60;
-	Sun, 22 Jun 2025 09:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A437418E1A;
+	Sun, 22 Jun 2025 09:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750583348; cv=none; b=ZKLEqUW9kzc90xo5efsgz1rZwK4RQNkF5Xuv2BMfYvAgFnEkWIz0A2wWguhHzPyG2fTxZqKbR9E1PGci0/7DwavvYNFGkiY0r0+bzz9oqYc/C5EbyqIib5YJJnXs2ldHwYkkmc2KB7rGCTM6LfugJbq8cnRC9ld6b6FxgdycwsY=
+	t=1750584814; cv=none; b=N6uK/royVV1Eu1EFXw1Dwz2gWR1ZsWktH3Msr+wXeBQbuhlmngeAtQ1ayNRMadhDPNTNAvrp9QOdchpQ5Ec5+5iP1N8+OJ1AnY2ozK+f+3JbPU0FvxrAD9xezGumH6tzhT+vKUmqoX9lzb1Ofvy3Py/EmnhCuK6ZcAKS0+OD4DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750583348; c=relaxed/simple;
-	bh=SG62WGaCLDI8YObRNSqb0QuUj6a8+t8Yq3aLnKYD40Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sYi6S2yV18EnphqM1eU5Iku5canGnoViDcX85exUBLdiNEpO8SfCMBvUZE0r37S1Y+AuB3hcro2D+e9NA2vhTRlsZ0opwbzxqrRW0zsA5W0hVfJrSjz5kmzlJJ2U1rsROY1zuEXZ70IpApMoGohK1z4I0UQABYOdg6NZ7tyzONI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BGsTeCrC; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750584814; c=relaxed/simple;
+	bh=3Z08jdlIHcA4c+ovnj3MepowoUSoFcvbFQogJV3s/Wk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HH0gh+R/M8PuZhN9voKRzElXHxZVVqgtqi+E71bX0DzYQL1ap8zuYbPxbbGnqLGbNgwjJcXXdKBiHBTCq5EMT35W2ojuB6a+L6ZT9zpySFhlqS/emDf3J/Ye7DBfCcr2IunQZlmGc3fouNOPSGeStq2PNRaWI+Jgg8Cnb7XTDRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AkMnSn8Y; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BGsTeCrC"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e821a5354cdso412460276.1;
-        Sun, 22 Jun 2025 02:09:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750583346; x=1751188146; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ujhMv3dGKnLx3efXHPVpQpjGtSxJ7hWBd9wshMdcgx0=;
-        b=BGsTeCrCmukjBHfY7ifLRuD77d0gw3yAFZGOcXicHdQJBWCTS9Pj51EMWy/640hpzr
-         CG65BenX4zQwCLUzmA50ZaHHjhaD1Bl8qoPHSwy/ik3QbNYMIYrAKQr0EWNX0ipFZORI
-         eUvCVk7yrz49xui1BN+5bJYnlCvpooKCMKpxbG3LWnT2RJEssGUTyIgFMNDfzl4XKakk
-         AC2ZmFR4qYtQF57AleMRsDxBztL7WrFhMhHIgVBq03qv3CBl+E606t00Pb2KHap5U7VP
-         4krdKLzWODrYrvgZ/bW6tMQIA1odsHXb9w7Eh/+PMFuIFcyjKKiLOJSdN9r39rVMOfdY
-         NeGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750583346; x=1751188146;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ujhMv3dGKnLx3efXHPVpQpjGtSxJ7hWBd9wshMdcgx0=;
-        b=hsn10T+aTcePl48dDQ1h3CGsYX2kgmy+Rkjg0IgPvv03qmoXgtmnus2KSO1NSMqmBf
-         UFSazafbOQ0HzutK1eGWD7HzYwVs8NHAkhGInbGL/xim3hz4qJI7FoVvHnD2av7rqTxI
-         f9e6+gOMtqY+QmNFztMbqrg0mHU7cLh0WI/Jvk9fbgiIfQBgPsfiJaDir45Hbtl6+mVe
-         5K7u8n2aA+3FxLomdeNKKj3Z+zHpMOEdInDhxI+E4VNL67s9Vkg9SzS8k6UBHDjajXRe
-         Jtu52jQ8V9GYADPjQkPvl09wbzLNJeusW2k8zsHEhh9K9HF6L4qz82sqsrHJBVtOtn1I
-         2y1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUn6ACgSMkRkcQRz4JqM/5MftvqApuKYa9Cc603L5hk3+AqnaGA9BDEmV0o73jUmF9vborGyYQ3XZA=@vger.kernel.org, AJvYcCWiAXKytXa6gNivaW45vQkQ009dCNLFCGVhHc1juQii1yW+whytgeXA+T6nKUmDF3eVdpNvms3m@vger.kernel.org, AJvYcCWrrVV+srT/EAAWZ6+ekDw+1wuxxg7WyvYfj4c0K8/tyaObz5UYphcGBTBrtmxy2RF/HGrF01x10N4vOi1I@vger.kernel.org
-X-Gm-Message-State: AOJu0YxemrcMkghJFOAzmUC+LE8Tgq5AanxgdqiL0oEKwmW8R7NG7Zz9
-	4WYrxtyzuOwXc1btB6/BEcbMhOGF32V6d0xT5ixJayrOkbYJZI1RvV13+s7Ya/0mkES+9uzOxrH
-	WamuBBEM95udsxnj47alg5B1vk1xURso=
-X-Gm-Gg: ASbGncv+Dzx1a6WBK6SG23/YEIzvr3lcrWFNfwN6DezrklqkJmqlD/ZNOVBQOMwZWzP
-	leGk9opmAq5CKwQTCcwq0CubLl0aHkFy+U0VgwU7KDm+RUvYeNtPY1Ory/V8HRWUWsLGeyU2Cq+
-	n0ipTWNvCHUFRxRG0RnU8GOTm9iYVc3RaibBqvpEaeL2oLHeKEWwedcPah
-X-Google-Smtp-Source: AGHT+IFh7WNJwFrHdEgYCRMpR1lM9TCow1HkjDHvL18GOEccw9ufr1mk8LWJVVZnElFIF2l8GUZ2uMbc1nexIy+kOmE=
-X-Received: by 2002:a05:690c:4b10:b0:712:a286:2ca2 with SMTP id
- 00721157ae682-712c654cc21mr58791337b3.7.1750583345877; Sun, 22 Jun 2025
- 02:09:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AkMnSn8Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750584813; x=1782120813;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3Z08jdlIHcA4c+ovnj3MepowoUSoFcvbFQogJV3s/Wk=;
+  b=AkMnSn8YYV6BJnnydZ5Kehktdf7p2EDUIdEmAy7bmp3E44peM1Sk0j+f
+   ice2/U9gsg4SEiR8z1Wcq0uSLhQPMYiDM/YYbSYlrAhDNZswqYVdeTLIQ
+   AIaDFFY1LzzSZbpXa3E8zVYz334fKlLsnXatNROurSFXxOS6xzKglKpB2
+   gOl/C1xAvj4V9aCJF1Icexf7hlOH8aNsZ1nwSoEaLfHI57MSszg3Fe/oh
+   0jW7uBfN6aTb6xMFs4m+QbExlt8DVEWemAWFmhZYVfr62HkE5exX4WmU2
+   Jyglo3vEODF9FyW6rSsJIB1e9CLc5CZrEl50ZrI4Qok3exGILBrkjdrJ+
+   w==;
+X-CSE-ConnectionGUID: xH2F776jTau6slBwaFy0FA==
+X-CSE-MsgGUID: 4unat7QLTSSx115Utuw7yA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="52671248"
+X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
+   d="scan'208";a="52671248"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 02:33:32 -0700
+X-CSE-ConnectionGUID: 36sjy7DyT/ewbISEKvtofg==
+X-CSE-MsgGUID: MBzS2UecQH6f7owpkj2ZqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
+   d="scan'208";a="156810984"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 22 Jun 2025 02:33:27 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uTH4n-000NBI-0H;
+	Sun, 22 Jun 2025 09:33:25 +0000
+Date: Sun, 22 Jun 2025 17:32:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Colton Lewis <coltonlewis@google.com>
+Subject: Re: [PATCH v2 17/23] KVM: arm64: Account for partitioning in
+ PMCR_EL0 access
+Message-ID: <202506221711.tFNGpzj4-lkp@intel.com>
+References: <20250620221326.1261128-19-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250622062724.180130-1-abdelrahmanfekry375@gmail.com> <aFe62dzYPLktxZrH@archie.me>
-In-Reply-To: <aFe62dzYPLktxZrH@archie.me>
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Date: Sun, 22 Jun 2025 12:08:54 +0300
-X-Gm-Features: Ac12FXy3mdUs4tZkvbrDhBlGnrvP9jUXcybU85gnVa4vnDKPKn7VQarwzDhtloc
-Message-ID: <CAGn2d8MjZ5J1eMCLaYNdJSbL4nbn9npxLedkRCgBXbfwq2i+Lg@mail.gmail.com>
-Subject: Re: [PATCH net-next v4] docs: net: sysctl documentation cleanup
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com, horms@kernel.org, 
-	kuba@kernel.org, pabeni@redhat.com, linux-doc@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, skhan@linuxfoundation.com, jacob.e.keller@intel.com, 
-	alok.a.tiwari@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250620221326.1261128-19-coltonlewis@google.com>
 
-On Sun, Jun 22, 2025 at 11:12=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.co=
-m> wrote:
->
-> On Sun, Jun 22, 2025 at 09:27:24AM +0300, Abdelrahman Fekry wrote:
-> > @@ -1028,13 +1134,15 @@ tcp_shrink_window - BOOLEAN
-> >       window can be offered, and that TCP implementations MUST ensure
-> >       that they handle a shrinking window, as specified in RFC 1122.
-> >
-> > -     - 0 - Disabled. The window is never shrunk.
-> > -     - 1 - Enabled.  The window is shrunk when necessary to remain wit=
-hin
-> > +     Possible values:
-> > +
-> > +     - 0 (disabled)  The window is never shrunk.
-> > +     - 1 (enabled)   The window is shrunk when necessary to remain wit=
-hin
-> >                       the memory limit set by autotuning (sk_rcvbuf).
-> >                       This only occurs if a non-zero receive window
-> >                       scaling factor is also in effect.
->
-> The indentation for enabled option outputted like a definition list,
-> so I fix it up:
->
-Noted , fixed it and checked for other problems like this , thank you
-> Thanks.
->
-> --
-> An old man doll... just what I always wanted! - Clara
+Hi Colton,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 79150772457f4d45e38b842d786240c36bb1f97f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20250621-102220
+base:   79150772457f4d45e38b842d786240c36bb1f97f
+patch link:    https://lore.kernel.org/r/20250620221326.1261128-19-coltonlewis%40google.com
+patch subject: [PATCH v2 17/23] KVM: arm64: Account for partitioning in PMCR_EL0 access
+config: arm64-randconfig-r073-20250622 (https://download.01.org/0day-ci/archive/20250622/202506221711.tFNGpzj4-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506221711.tFNGpzj4-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506221711.tFNGpzj4-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/arm64/include/asm/kvm_host.h:32,
+                    from include/linux/kvm_host.h:45,
+                    from arch/arm64/kvm/sys_regs.c:16:
+   arch/arm64/include/asm/kvm_pmu.h:236:50: warning: 'struct arm_pmu' declared inside parameter list will not be visible outside of this definition or declaration
+    static inline bool kvm_pmu_is_partitioned(struct arm_pmu *pmu)
+                                                     ^~~~~~~
+   arch/arm64/include/asm/kvm_pmu.h:241:52: warning: 'struct arm_pmu' declared inside parameter list will not be visible outside of this definition or declaration
+    static inline u64 kvm_pmu_host_counter_mask(struct arm_pmu *pmu)
+                                                       ^~~~~~~
+   arch/arm64/include/asm/kvm_pmu.h:246:53: warning: 'struct arm_pmu' declared inside parameter list will not be visible outside of this definition or declaration
+    static inline u64 kvm_pmu_guest_counter_mask(struct arm_pmu *pmu)
+                                                        ^~~~~~~
+   arch/arm64/kvm/sys_regs.c:856:6: warning: no previous prototype for 'pmu_access_el0_disabled' [-Wmissing-prototypes]
+    bool pmu_access_el0_disabled(struct kvm_vcpu *vcpu)
+         ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c: In function 'access_pmu_evtyper':
+   arch/arm64/kvm/sys_regs.c:1076:7: error: implicit declaration of function 'kvm_vcpu_pmu_is_partitioned'; did you mean 'kvm_pmu_is_partitioned'? [-Werror=implicit-function-declaration]
+      if (kvm_vcpu_pmu_is_partitioned(vcpu))
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+          kvm_pmu_is_partitioned
+   arch/arm64/kvm/sys_regs.c: In function 'set_pmcr':
+>> arch/arm64/kvm/sys_regs.c:1271:33: error: dereferencing pointer to incomplete type 'struct arm_pmu'
+          new_n <= kvm->arch.arm_pmu->hpmn_max))
+                                    ^~
+   cc1: some warnings being treated as errors
+
+
+vim +1271 arch/arm64/kvm/sys_regs.c
+
+  1253	
+  1254	static int set_pmcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r,
+  1255			    u64 val)
+  1256	{
+  1257		u8 new_n = FIELD_GET(ARMV8_PMU_PMCR_N, val);
+  1258		struct kvm *kvm = vcpu->kvm;
+  1259	
+  1260		mutex_lock(&kvm->arch.config_lock);
+  1261	
+  1262		/*
+  1263		 * The vCPU can't have more counters than the PMU hardware
+  1264		 * implements. Ignore this error to maintain compatibility
+  1265		 * with the existing KVM behavior.
+  1266		 */
+  1267		if (!kvm_vm_has_ran_once(kvm) &&
+  1268		    !vcpu_has_nv(vcpu)	      &&
+  1269		    new_n <= kvm_arm_pmu_get_max_counters(kvm) &&
+  1270		    (!kvm_vcpu_pmu_is_partitioned(vcpu) ||
+> 1271		     new_n <= kvm->arch.arm_pmu->hpmn_max))
+  1272			kvm->arch.nr_pmu_counters = new_n;
+  1273	
+  1274		mutex_unlock(&kvm->arch.config_lock);
+  1275	
+  1276		/*
+  1277		 * Ignore writes to RES0 bits, read only bits that are cleared on
+  1278		 * vCPU reset, and writable bits that KVM doesn't support yet.
+  1279		 * (i.e. only PMCR.N and bits [7:0] are mutable from userspace)
+  1280		 * The LP bit is RES0 when FEAT_PMUv3p5 is not supported on the vCPU.
+  1281		 * But, we leave the bit as it is here, as the vCPU's PMUver might
+  1282		 * be changed later (NOTE: the bit will be cleared on first vCPU run
+  1283		 * if necessary).
+  1284		 */
+  1285		val &= ARMV8_PMU_PMCR_MASK;
+  1286	
+  1287		/* The LC bit is RES1 when AArch32 is not supported */
+  1288		if (!kvm_supports_32bit_el0())
+  1289			val |= ARMV8_PMU_PMCR_LC;
+  1290	
+  1291		__vcpu_assign_sys_reg(vcpu, r->reg, val);
+  1292		kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
+  1293	
+  1294		return 0;
+  1295	}
+  1296	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
