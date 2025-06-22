@@ -1,107 +1,159 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A14B1A7AF7
-	for <linux-doc@vger.kernel.org>; Sun, 22 Jun 2025 17:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5185F3C0C;
+	Sun, 22 Jun 2025 17:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750614016; cv=none; b=PrDhjzyu6q1nEMxnq1tovk+zsf/1B2QAn0d4bFrwSYjQ2SQ4z5C6ZDOCTjAc4pwMqRxDu2t8/SYXCbMW3BOHVf593EddmlkT7ISZh/RB+IPBG0dinE4UNbrlYptfZxDOxKjI9jbYiSr5PE/jF7AXqYelajVJDLXr9mE948bsRfE=
+	t=1750614803; cv=none; b=Of6g7V07stJDCpTp+PYFCcC2fuSBTtpL5l1O1to90h+m2IZucRuN81RSCi3wkoe3lD2QWc1ww4ziRawMAB1hl9TbIAprNvcLRgzMMhcrGVODztuvNkgbkkiGcf9QwfCJzZ35x+iTuQM0Avv6akIiM/tzhCqICntE/h/NDQjJBuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750614016; c=relaxed/simple;
-	bh=JBS6katIuy9abXAwM/EgfQ0vNXuWJoKtGDCgsMvppwk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y29TKvgOW9pgvJnQsG/rgwOQBwPr6OcEapfAU6YUw3Udmh7F1fMhuytEn45o2VLcm9coNrVJ/NQvtTjQ/H/3OxlrQ2L0TSb5OSmS2VrvRnzFzMYVPbzCVVnzzPtoe0MImW5iygXM9ZBLtcnKnjaQgi1FI0xyyeUh5uCIzo1Hsng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=qkUd7OyY; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	s=arc-20240116; t=1750614803; c=relaxed/simple;
+	bh=NEqfhCbHA77ivX87O3SQQe/0s1ft+C0ZxROAW6GszLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=igxQ2e8KoW1ERcwvdpgCh38XPr2qh7Y0In+DvwGSuCT9/JQWGvGlU7C7F42aPPFPWmBqYZ8Iy6jysADIoOGCQRov/pqKymPUqzltN50pgxbKkIPM7OFTv+UvIH8RlvlCi44R3u8eEQuqkj8Nr5oz4plZRmjRlFA6kGWmHtUgiBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdJEUMFk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="qkUd7OyY"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4a58d95ea53so37850731cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 22 Jun 2025 10:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1750614013; x=1751218813; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JBS6katIuy9abXAwM/EgfQ0vNXuWJoKtGDCgsMvppwk=;
-        b=qkUd7OyYEjZA3lCPXBJ2EiCNjnegCHE58l9b9rp5DFzG3W534etSXmVuSkC8fyOX4c
-         2yXHCPoFE9XUeoh2ixdyCTqX7bI9GOse/fsmLV6qJoRGE96GFREHnOSrl+e4eNkhdO/e
-         czNg7xL88rWOvVdDmnkcZTQZYyKdCzp/YSWikP66SQS0kZ9xReRjfOGgQZo1rgXHZX4D
-         mJ/syG00Vo7x1P8mvuc3go99/o9iGFJ5Vu0DgzaT6F+YbQX9l79sDDxhucVD+ydqscaa
-         GNPKD6NQHuoo2Q2R9qwfIH+XxEBc29Snrqnx5KKh3LB9JOBRq/BFyRUoKcQxK5o37gs2
-         v3Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750614013; x=1751218813;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JBS6katIuy9abXAwM/EgfQ0vNXuWJoKtGDCgsMvppwk=;
-        b=kh01SbNpTnXGntr/8d/tK4Mqw103kq5hF4KCVgcD64CliBxsZ929pUmXY4Lqd/5Fj4
-         oEITH2PD9mLAb8Ooqbc9RuXzaCVi8cjUP8nuiHVoElVODRyCa/lL2LKCcexjK39vEiZB
-         ejjUBcEetS6JriYLLcOHt55NMd1hlUIXj0RiDTmjBXDSSbILmaBOQZRsEYbwqHZoT+uN
-         R+bl+uKT2YLIRM23OHHfSr+j05e3mxyig6CigtnEYuiQPqRgnfYB61iB/lC/M2Oacq6u
-         sh8oMk9xs0SGXZhyNCCyW/vhhkYaLPA7O8lZI5gNj/SBwvgZJEzZmezYitQ+Ip3YQPIU
-         Z8Vg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWmviQ1ER4SQP7KZVtmkkz2o76AJKXIgyV3PZjUvU4/gMh0CtATOSyBQYqJm7Krd29ULo15rs0CQo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpqyZ2jHAz0pQ0cynsumj6DYWO+zoKD7NSEKaVWEB0akGi3jR2
-	9LpYhqUiYqkeObUE3byBwvgOMXCfw9tkWWnRT5BylSOJIZ9mImAKo7pX2ePXJUtOjLrM6to+DeD
-	2iObk+4qT1bJ17NUZYUajLENQPVVh09cRWR4mZWdTzw==
-X-Gm-Gg: ASbGncub9iZgO7e4JcWYVpDxTbTWEugSX08dNfh0LJm4i7ridu26gZGhAe/jNqzh0wI
-	nUGhnUEDu00naUTVhsfW/meFv4eV2zfDeaQIJ/CZqQxa4IaNOwQvAGSVNqoHEUZdwX9Wirj0Mac
-	uQIxBV4Vp1Y5WR873M9qVYP3l12jiHLDSbfp0SWjZDLXWuNe0OBbBrojLxho1EEmBp2kc65PnQa
-	V1XKBPGkDYO6QDy
-X-Google-Smtp-Source: AGHT+IGAQVA4j9B6bOXEQavSPQk4pUsTIQfktiOkSDRcEtYWtj2nMKnJm6GAf6TwLLKYEA7597CW46OoVjUcTVc0rKg=
-X-Received: by 2002:ac8:5707:0:b0:494:b247:4ddb with SMTP id
- d75a77b69052e-4a77c2d6173mr135279261cf.4.1750614013493; Sun, 22 Jun 2025
- 10:40:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdJEUMFk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B24A8C4CEE3;
+	Sun, 22 Jun 2025 17:53:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750614802;
+	bh=NEqfhCbHA77ivX87O3SQQe/0s1ft+C0ZxROAW6GszLY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WdJEUMFklOf00eIO/dcuyUvKFnZ0Yy5VMv77/X9JmcKeUytRx+bstS9oF+YEyHjVQ
+	 fYVgcU0hv3p4xWR3Ep1AXe+xKyy2bSfRA3kGai0e1VKq/9+4bLaXDcCOuKmAe8fO6v
+	 AFtn64KoShaDBh+IO7wAQdb0y9HHTxKUKnXPnM5w0NUzLT2VJuWpYwibE+LZdOG7a7
+	 JKsO/mkWgZ8CBlDyHadALLqnTGt7JtlUhZ+isPxtlIhljme5DhJTVw4v1q5btRAqL/
+	 PidMbBhZtY/6omI7mVSnujCm2z+4NmnS0//tad8clvkKpI2awX1ZwIfU/Y0Npkk7Pj
+	 cbH3ydvDo0oOw==
+Date: Sun, 22 Jun 2025 19:53:18 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, Linux
+ Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 15/15] docs: conf.py: Check Sphinx and docutils
+ version
+Message-ID: <20250622195318.1a2a3728@foz.lan>
+In-Reply-To: <c05dd5dc-1e30-4a2c-80dc-70e8b62cc681@gmail.com>
+References: <cover.1750571906.git.mchehab+huawei@kernel.org>
+	<972673b0a5bf5537d47780d6f8e70ae45456e751.1750571906.git.mchehab+huawei@kernel.org>
+	<c05dd5dc-1e30-4a2c-80dc-70e8b62cc681@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250530-rss-v12-0-95d8b348de91@daynix.com> <20250530-rss-v12-1-95d8b348de91@daynix.com>
- <CACGkMEufffSj1GQMqwf598__-JgNtXRpyvsLtjSbr3angLmJXg@mail.gmail.com>
- <95cb2640-570d-4f51-8775-af5248c6bc5a@daynix.com> <CACGkMEu6fZaErFEu7_UFsykXRL7Z+CwmkcxmvJHC+eN_j0pQvg@mail.gmail.com>
- <4eaa7aaa-f677-4a31-bcc2-badcb5e2b9f6@daynix.com> <CACGkMEu3QH+VdHqQEePYz_z+_bNYswpA-KNxzz0edEOSSkJtWw@mail.gmail.com>
- <75ef190e-49fc-48aa-abf2-579ea31e4d15@daynix.com> <CACGkMEu2n-O0UtVEmcPkELcg9gpML=m5W=qYPjeEjp3ba73Eiw@mail.gmail.com>
- <760e9154-3440-464f-9b82-5a0c66f482ee@daynix.com> <CACGkMEtCr65RFB0jeprX3iQ3ke997AWF0FGH6JW_zuJOLqS5uw@mail.gmail.com>
-In-Reply-To: <CACGkMEtCr65RFB0jeprX3iQ3ke997AWF0FGH6JW_zuJOLqS5uw@mail.gmail.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Sun, 22 Jun 2025 20:40:02 +0300
-X-Gm-Features: AX0GCFu7f7UEMKygSwaRuFS-QXgCw4dhQ6kVLLsvANPI-_VjCLQSaQpxwUYjwO8
-Message-ID: <CAOEp5OcybMttzRam+RKQHv4KA-zLnxGrL+UApc5KrAG+op9LKg@mail.gmail.com>
-Subject: Re: [PATCH net-next v12 01/10] virtio_net: Add functions for hashing
-To: Jason Wang <jasowang@redhat.com>
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
-	Andrew Melnychenko <andrew@daynix.com>, Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
-	Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> Yuri, can you help to clarify this?
+Hi Akira,
 
-I see here several questions:
-1. Whether it is ok for the device not to indicate support for XXX_EX hash type?
-- I think, yes (strictly speaking, it was better to test that before
-submitting the patches )
-2. Is it possible that the guest will enable some XXX_EX hash type if
-the device does not indicate that it is supported?
-- No (I think this is part of the spec)
-3. What to do if we migrate between systems with different
-capabilities of hash support/reporting/whatever
-- IMO, at this moment such case should be excluded and only mechanism
-we have for that is the compatible machine version
-- in some future the change of device capabilities can be communicated
-to the driver and _probably_ the driver might be able to communicate
-the change of device capabilities to the OS
-4. Does it make sense to have fine configuration of hash types mask
-via command-line?
-- IMO, no. This would require the user to have too much knowledge
-about RSS internals
+Em Sun, 22 Jun 2025 20:19:52 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-Please let me know if I missed something.
+> On Sun, 22 Jun 2025 08:02:44 +0200, Mauro Carvalho Chehab wrote:
+> > As reported by Akira, there were incompatibility issues with
+> > Sphinx and docutils with docutils 0.19. There's already
+> > a fix for it, but, as there are incompatibility issues with
+> > different versions, better to add a check to verify if the
+> > combination is supported/tested.
+> >   
+> 
+> I've been skeptical of adding such checks in conf.py.
+> 
+> What happened the other day was that Jon used a deprecated (and rarely
+> used) method of docutils which failed to work properly only in
+> docutils 0.19 (there is no mention of related issues in its and 
+> nearby release notes).
+
+True, but the same also happened with me at the parser_yaml code.
+
+> 
+> Your integration of parser_yaml extension will raise the minimum
+> version of docutils to 0.17.1. 
+>
+> I think all you will need is just
+> to check:
+> 
+>     docutils < 0.17.1
+> , and to make a warning regardless of Sphinx versions.
+
+That's not the best solution. 
+
+See, Docutils 0.17 was released in Jun, 2021. and 0.17.1 on
+October, 2021. If we look at the Sphinx releases, we have:
+
+======  ===================
+Sphinx  Release Date
+------  -------------------
+4.1.0	June 10, 2021
+4.1.1	July 25, 2021
+4.1.2	August 1, 2021
+4.1.3	August 15, 2021
+4.2.0	September 28, 2021
+======  ===================
+
+As Sphinx policy is to not even fix bugs when a new release
+happens, it means that, at the best, the minimal version made to be
+compatible with 0.17 is 4.1.x, and the minimal compatible with
+0.17.1 is 4.2.x.
+
+So, if we want not to raise the minimal version to 4.2.x (*), the right 
+fix is this (I'll be sending at the upcoming YAML patch series I'll be
+sending next week):
+
+diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
+index 8288e2ff7c7c..1602b31f448e 100755
+--- a/Documentation/sphinx/parser_yaml.py
++++ b/Documentation/sphinx/parser_yaml.py
+@@ -77,6 +77,10 @@ class YamlParser(Parser):
+ 
+                 result.append(line, document.current_source, lineoffset)
+ 
++            # Fix backward compatibility with docutils < 0.17.1
++            if "tab_width" not in vars(document.settings):
++                document.settings.tab_width = 8
++
+             rst_parser = RSTParser()
+             rst_parser.parse('\n'.join(result), document)
+
+What happens is that Sphinx is a shell case built on the top of
+docutils: the actual ReST parser is inside docutils. 
+
+(*) the exact patch where 0.17.1 support was added/tested on
+    Sphinx needs to be checked
+
+Now, there is another alternative: raise the bar, increasing minimal
+versions for Python and Sphinx. Yet, I would do it only once per year.
+
+> That said, these dependencies should be recognized and taken care of by
+> pip/PyPI (or whatever distro package management system), and already met;
+> unless you have done something strange/dangerous and screwed up your Sphinx
+> installation.
+>
+> My limited imagination prevents me from coming up with any plausible
+> scenario where these checks at every sphinx-build invocation can be helpful.
+> 
+
+Heh, playing with scripts/test_doc_build.py, pip allowed to create
+several environments that are valid for the package management software
+but either:
+
+- cause sphinx-build to crash even before returning Sphinx version;
+- crash in the middle of the compilation.
+
+As I said, Sphinx is a shell on the top of docutils. Some of the code
+there seem to depend on subtile behaviors, like the one with
+the tab_width affecting parser_yaml.py on certain Sphinx/docutils
+combinations or the one fixed by Jon with regards to setup a class
+for the broken references.
+
+The idea of this patch is to warn the one building the docs
+that he might be navigating turbulent waters when it is unknown
+if the combination is supported. It also better defines the
+scope of backward compatibility we want to provide.
+
+Thanks,
+Mauro
