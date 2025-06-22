@@ -1,52 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2908F7D;
-	Sun, 22 Jun 2025 14:28:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436F9199938;
+	Sun, 22 Jun 2025 14:34:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750602511; cv=none; b=j1KxvtTx6XQERDbPKYg0SS19lhlEQzsVT1559e/MXqzcazjeIQuneAHESXFl8vy5v36nLSQDFkvjlFTO5n3bvh171YlEXI05YCNKfmE+zbzSffrZf1VUk0zkG67HFKCKgfkDYXDGj4qIOk1lW41bK7KvqLZUt1GD8a5qynG82pY=
+	t=1750602872; cv=none; b=QZgb848atgro/lFgMkzH/Cm3k1nzNPmJ/CFkwLpQDwoqfzX/fP1R4yXdXTS8TgdVSP7uYhuc6aSrYJCcxI4PMQAcYol4ZA+H7J4AGnXB/dGn3DegygKv9lZUkveYdqHAuFt16So65aE/YhbJvHcGw+tBmrBHg9Oa5zyxMPJOtyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750602511; c=relaxed/simple;
-	bh=SaJ+23WO+7OYLKZg2pBhG5ynSdOJOwyYxgfo0mfMTAU=;
+	s=arc-20240116; t=1750602872; c=relaxed/simple;
+	bh=jG9L5HupSMKFB+jMUp23bNVdUHVrLZlMxb/cQS4aIP8=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FnQhU1/mJNhZGPL4RnGnx+e8zmyJYmGVry9yBjv2R7GnmGJwf1rarmilb3Tr1BJ0m0dFwwASe1x3jMuUxJEUldmhryUoawg6jJP7rR6qsoL1WYPNygPr+rxEIxlwP12aj2ghVWCx01YIbrYf8psn9/7y6H4v3nogJMyxaM/uVUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D10j0628; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=cG2gzl6nePNAw0I9h172AlzsSBaTRVk8pEk2uMf9rO1uUo9YYu2ot6fnwDfdA3lfY/341l5LZsWvue9gB5jLwUSzdn4H7Hr08GvY9vBbO69v/LSAdlMG92P0VsAyS1apRk/0X8WNW9Wm/yOkP2GXRB2SZTk8/M2lr9Fee9slQbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJkISHCU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D10j0628"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1274BC4CEE3;
-	Sun, 22 Jun 2025 14:28:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJkISHCU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70A6DC4CEE3;
+	Sun, 22 Jun 2025 14:34:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750602511;
-	bh=SaJ+23WO+7OYLKZg2pBhG5ynSdOJOwyYxgfo0mfMTAU=;
+	s=k20201202; t=1750602871;
+	bh=jG9L5HupSMKFB+jMUp23bNVdUHVrLZlMxb/cQS4aIP8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D10j0628NEW6t1Yz28rXWveZauB0RAPAaYdmBWO16drJYElLVgXh/dwbAYTk+Eh+a
-	 SUCmKfuvh4hPvKHw5TOXs5BX+W9nGHuCguz+8dOnEk6JHCKkWj36PdV8Blx4Inr6dm
-	 4vVuXkyh2IG7blnaUj+bQ5grtdhiDgKomD7BfHuOPNX+Rr6Uwpdtprjk95X2EaIi23
-	 rCRhMmu2UnWT6pOVcpNH/TUIKHdIbyBsZkPM0yMnc2ydczdlFrOziMMak212iIzGvg
-	 uGbjC9KXvHmbl9TeCAjifUoGl38x+RXdmedo9HQyE+RmTvSJlmviYBLQ1rBILhPziv
-	 iW+rtFFvJ7lBw==
-Date: Sun, 22 Jun 2025 15:28:20 +0100
+	b=GJkISHCUCElw0OUt2CVpnild0Aywib07HFPVD1Kd6+RklgSZKAFDiyGGcKU9Zbz+L
+	 hq+V5r+g6e6gHtbVkqb9sSD6tDN9HHLIQ2m3eAokdnKAkeGtzsYRHUpUBeqquK0KdS
+	 iobZCU/X1EdItALo0pgNuphOCql2X0/ldg2Rv176GdtXtaGp3za7dBYxq+Z/mSkNVD
+	 EkfGwUgTj9HYYhAMOpulYqB7NLujqF5JM40hzpW0lccByfb6+JipM+2y4ieB6K30aY
+	 36BSxreEBcu2t9dnTf7mTXcOIdvWU3ojyX27TLIedcvzfTGzrkwRaJGX92aOuDpL/C
+	 VLBetUlunV1mg==
+Date: Sun, 22 Jun 2025 15:34:23 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jorge Marques <jorge.marques@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v3 4/8] iio: adc: Add support for ad4052
-Message-ID: <20250622152820.7333c88e@jic23-huawei>
-In-Reply-To: <0e8bd9ff-ae2e-486b-8beb-c14d7909cb7c@baylibre.com>
-References: <20250610-iio-driver-ad4052-v3-0-cf1e44c516d4@analog.com>
-	<20250610-iio-driver-ad4052-v3-4-cf1e44c516d4@analog.com>
-	<20250614110812.39af2c41@jic23-huawei>
-	<c89f4b2f-0892-4f63-b9b4-5ae55b477c01@baylibre.com>
-	<20250621170824.249c6b0c@jic23-huawei>
-	<0e8bd9ff-ae2e-486b-8beb-c14d7909cb7c@baylibre.com>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
+ Michael.Hennerich@analog.com, bagasdotme@gmail.com,
+ linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 0/8] iio: accel: adxl313: add power-save on
+ activity/inactivity
+Message-ID: <20250622153423.0d8ddcdb@jic23-huawei>
+In-Reply-To: <20250622122937.156930-1-l.rubusch@gmail.com>
+References: <20250622122937.156930-1-l.rubusch@gmail.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -57,170 +49,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 21 Jun 2025 11:13:58 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+On Sun, 22 Jun 2025 12:29:29 +0000
+Lothar Rubusch <l.rubusch@gmail.com> wrote:
 
-> On 6/21/25 11:08 AM, Jonathan Cameron wrote:
-> > On Mon, 16 Jun 2025 09:54:52 -0500
-> > David Lechner <dlechner@baylibre.com> wrote:
-> >   
-> >> On 6/14/25 5:08 AM, Jonathan Cameron wrote:  
-> >>> On Tue, 10 Jun 2025 09:34:37 +0200
-> >>> Jorge Marques <jorge.marques@analog.com> wrote:
-> >>>     
-> >>>> The AD4052/AD4058/AD4050/AD4056 are versatile, 16-bit/12-bit, successive
-> >>>> approximation register (SAR) analog-to-digital converter (ADC) that
-> >>>> enables low-power, high-density data acquisition solutions without
-> >>>> sacrificing precision. This ADC offers a unique balance of performance
-> >>>> and power efficiency, plus innovative features for seamlessly switching
-> >>>> between high-resolution and low-power modes tailored to the immediate
-> >>>> needs of the system. The AD4052/AD4058/AD4050/AD4056 are ideal for
-> >>>> battery-powered, compact data acquisition and edge sensing applications.
-> >>>>    
-> >>
-> >> ...
-> >>  
-> >>>> +static int ad4052_update_xfer_raw(struct iio_dev *indio_dev,
-> >>>> +				   struct iio_chan_spec const *chan)
-> >>>> +{
-> >>>> +	struct ad4052_state *st = iio_priv(indio_dev);
-> >>>> +	const struct iio_scan_type *scan_type;
-> >>>> +	struct spi_transfer *xfer = &st->xfer;
-> >>>> +
-> >>>> +	scan_type = iio_get_current_scan_type(indio_dev, chan);
-> >>>> +	if (IS_ERR(scan_type))
-> >>>> +		return PTR_ERR(scan_type);
-> >>>> +
-> >>>> +	xfer->rx_buf = st->raw;
-> >>>> +	xfer->bits_per_word = scan_type->realbits;
-> >>>> +	xfer->len = scan_type->realbits == 24 ? 4 : 2;    
-> >>>
-> >>> This is a little odd. I'm not sure what happens with len not dividing
-> >>> into a whole number of bits per word chunks.
-> >>> Maybe a comment?    
-> >>
-> >> Even better, there is now spi_bpw_to_bytes() for this.
-> >>  
-> >>>     
-> >>>> +	xfer->speed_hz = AD4052_SPI_MAX_ADC_XFER_SPEED(st->vio_uv);
-> >>>> +
-> >>>> +	return 0;
-> >>>> +}    
-> >>>
-> >>>     
-> >>
-> >> ...
-> >>  
-> >>>     
-> >>>> +static int __ad4052_read_chan_raw(struct ad4052_state *st, int *val)
-> >>>> +{
-> >>>> +	struct spi_device *spi = st->spi;
-> >>>> +	struct spi_transfer t_cnv = {};
-> >>>> +	int ret;
-> >>>> +
-> >>>> +	reinit_completion(&st->completion);
-> >>>> +
-> >>>> +	if (st->cnv_gp) {
-> >>>> +		gpiod_set_value_cansleep(st->cnv_gp, 1);
-> >>>> +		gpiod_set_value_cansleep(st->cnv_gp, 0);
-> >>>> +	} else {
-> >>>> +		ret = spi_sync_transfer(spi, &t_cnv, 1);    
-> >>>
-> >>> Add a comment for this.   I can't immediately spot documentation on what
-> >>> a content free transfer actually does.  I assume pulses the chip select?
-> >>> is that true for all SPI controllers?    
-> >>
-> >> Should be. Setting .delay in the xfer would also make it more
-> >> clear that this is doing.
-> >>  
-> >>>     
-> >>>> +		if (ret)
-> >>>> +			return ret;
-> >>>> +	}
-> >>>> +	/*
-> >>>> +	 * Single sample read should be used only for oversampling and
-> >>>> +	 * sampling frequency pairs that take less than 1 sec.
-> >>>> +	 */
-> >>>> +	if (st->gp1_irq) {
-> >>>> +		ret = wait_for_completion_timeout(&st->completion,
-> >>>> +						  msecs_to_jiffies(1000));
-> >>>> +		if (!ret)
-> >>>> +			return -ETIMEDOUT;
-> >>>> +	}
-> >>>> +
-> >>>> +	ret = spi_sync_transfer(spi, &st->xfer, 1);
-> >>>> +	if (ret)
-> >>>> +		return ret;
-> >>>> +
-> >>>> +	if (st->xfer.len == 2)
-> >>>> +		*val = sign_extend32(*(u16 *)(st->raw), 15);
-> >>>> +	else
-> >>>> +		*val = sign_extend32(*(u32 *)(st->raw), 23);
-> >>>> +
-> >>>> +	return ret;
-> >>>> +}    
-> >>>     
-> >>
-> >> ...
-> >>  
-> >>>> +
-> >>>> +static int ad4052_debugfs_reg_access(struct iio_dev *indio_dev, unsigned int reg,
-> >>>> +				     unsigned int writeval, unsigned int *readval)
-> >>>> +{
-> >>>> +	struct ad4052_state *st = iio_priv(indio_dev);
-> >>>> +	int ret;
-> >>>> +
-> >>>> +	if (!iio_device_claim_direct(indio_dev))    
-> >>>
-> >>> For these guards in the debugfs callback, please add a comment on why they
-> >>> are needed.   We've had a lot of questions about these recently and I'd
-> >>> like it to be clear to people when they should cut and paste these and when
-> >>> not.    
-> >>
-> >> The reason I started doing this is that running the iio_info command attemps
-> >> to read register 0x00 via the debug attribute of every single iio device. So
-> >> if you run iio_info during a buffered read, and 0x00 is a valid register, it
-> >> would break things without this check.
-> >>
-> >> Ideally, general purpose commands wouldn't be poking debug registers, but
-> >> that isn't the case. But I suppose we could "fix" iio_info instead.
-> >>  
-> > 
-> > Please do fix iio_info.  It absolutely should not be poking the debug interfaces
-> > except on specific debug calls.  The user has to know they may be shooting themselves
-> > in the foot.
-> > 
-> > I'm not sure why a read of that register would break buffered capture though.
-> > Is it a volatile register or is there a sequencing problem with multiple
-> > accesses in this driver?  If it is multiple accesses then that should be
-> > prevented via a local lock, not whether we are in buffer mode or not.  
+> The patch set covers the following topics:
+> - add debug register and regmap cache
+> - prepare iio channel scan_type and scan_index
+> - prepare interrupt handling
+> - implement fifo with watermark
+> - add activity/inactivity together with auto-sleep with link bit
+> - add ac coupled activity/inactivity, integrate with auto-sleep and link bit
+> - documentation
 > 
-> IIRC, this was particularly a problem on chips that have a separate data
-> capture mode and reading a register exits data capture mode.
-
-Those ones I'm fine with just having a comment that hopefully means it
-doesn't get cut and paste somewhere inappropriate!
-
-Jonathan
-
+> Sorry for the fuzz: when I was about to rebase for submitting I
+> noticed Jonathan actually already applied parts of this. I'd recommend
+> to consider v6 rather over v5.
 > 
-> > 
-> > So I'm fine with this defense where it is necessary for all register
-> > accesses, but I would like to see comments on why it is necessary.
-> > 
-> > Jonathan
-> >   
-> >>>     
-> >>>> +		return -EBUSY;
-> >>>> +
-> >>>> +	if (readval)
-> >>>> +		ret = regmap_read(st->regmap, reg, readval);
-> >>>> +	else
-> >>>> +		ret = regmap_write(st->regmap, reg, writeval);
-> >>>> +	iio_device_release_direct(indio_dev);
-> >>>> +	return ret;
-> >>>> +}    
-> >>>     
-> >   
+> Since activity and inactivity here are implemented covering all axis, I
+> assumed x&y&z and x|y|z, respectively. Thus the driver uses a fake
+> channel for activity/inactiviy. AC-coupling is similar to other Analog Device
+> accelerometers, so MAG_ADAPTIVE events are chosen. Combinations are
+> documented and functionality tested and verified working.
 > 
+Given reply to wrong email thread probably meant first few patches of v5 that
+I picked up, I've dropped them for now.
+
+Thanks,
+
+J
+> Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+> ---
+> v5 -> v6:
+> - `adxl313_core_probe()`: change conditional logic for evaluation of
+>   `int_line`
+> - `adxl313_core_probe()`: add helper function `_get_int_type()` to simplify
+>   logic
+> - `adxl313_is_act_inact_en()`: remove blank line; make variable `axis_en` a
+>   bool
+> - `adxl313_is_act_inact_ac()`: removal of ',' in comment
+> - `adxl313_set_act_inact_linkbit()`: regroup logic expressions
+> - `adxl313_set_act_inact_en()`: change comment style, and rephrase
+> - `adxl313_read/write_mag_config()`, `adxl313_read/write_mag_value()` and
+>   `_adxl313_read/write_mag_value()`: avoid nested switch/case statements,
+>   add helper functions from start and populate them incrementallay
+> - `adxl313_set_act_inact_ac()`: move AC-coupling code into a separate
+>   helper
+> - [PATCH v5 1/8], [PATCH v5 2/8], [PATCH v5 6/8] and [PATCH v5 8/8]: set
+>   "Reviewed-by:.."
+> 
+> v4 -> v5:
+> - [v4 01/11]: applied - debug register                                          
+> - [v4 03/11]: applied w/ changed commit message - regmap cache                  
+> - refrase all commit messages                                                   
+> - merge patches [v4 02/11] [v4 05/11] and [v4 06/11]                            
+> - add ADXL313_REG_INT_SOURCE to the initial regmap cache definition             
+> - `adxl313_set_watermark()`: replace plain hex numbers by defined bit masks     
+> - `adxl313_set_watermark()`: replace `regmap_update_bits()` by
+>   `regmap_set_bits()`
+> - `adxl313_get_samples()`: remove initialization of variable `samples`          
+> - `adxl313_buffer_postenable()`: add comment on turning off measurment          
+> - `adxl313_push_event()`: move WATERMARK separate out, focus on pushing events  
+> - `adxl313_irq_handler()`: add comment on draining the FIFO                     
+> - `adxl313_push_event()`: remove missleading comment on return statement        
+> - `adxl313_is_act_inact_en()`: If it's false, it will be false anyway -
+>   simplified now
+> - change order in multiplication with unit: `val * MICRO` which is read
+>   more naturally
+> - `adxl313_is_act_inact_en()`: remove check for ADXL313_ACTIVITY in the
+>   activity patch
+> - `adxl313_write_event_value()`: remove the general turning off measurement mode
+> - `adxl313_set_inact_time_s()`: replace plain number 255 by U8_MAX              
+> - `adxl313_read/write_event_config()`: encapsulate duplicate code into
+>   `adxl313_read/write_mag_config()`
+> - `adxl313_read/write_event_value()`: encapsulate duplicate code into
+>   `adxl313_read/write_mag_value()`
+> - `adxl313_is_act_inact_en()`: apply switch/case rather than if/else for
+>   readability; factor out variable `coupling`; convert all remaining `_en`
+>   variables there to bool, such that a negative error is evaluated from a
+>   `ret`, and     logic operates with `_en` variables
+> - `adxl313_set_act_inact_en()`: major rework due to issues discovered by
+>   automated testing (also affects related functions)
+> - fix kernel-doc issues 
+> 
+> v3 -> v4:
+> - squash patches [v3 02/12 + 03/12]: buffer usage into the patch that adds buffered support
+> - squash patches [v3 07/12 + 08/12]: interrupt handler with watermark implementation
+> - add patch: (in)activity / AC coupled as `MAG_ADAPTIVE` event
+> - `ADXL313_MEASUREMENT_MODE`: adjust commit message on removal of define and adding measurement enable function
+> - remove irq variable from driver data struct, make it a local variable
+> - `adxl313_core_probe()`: flip logic to condition `int_line != ADXL313_INT_NONE`
+> - `adxl313_core_probe()`: change mapping interrupts from 0xff to an explicit local mask
+> - `adxl313_core_probe()`: add comment on FIFO bypass mode
+> - reduce odd selection of headers to add [`adxl313_core.c`]
+> - `adxl313_set_fifo()`: this function was turning measurement off/on before changing `fifo_mode`,
+>    called in postenable and predisable this firstly excluded setting of interrupts, and secondly
+>    still configured watermark where unnecessary, this function was thus removed (covers unhandled
+>    return value, and refactoring of function parameters)
+> - `adxl313_fifo_transfer()`: simplify computation of `sizeof(i*count/2)`
+> - `adxl313_irq_handler()`: make call of `adxl313_reset_fifo()` conditional to OVERRUN one patch earlier
+> - includes: rework adding included headers
+> - activity: change to work with or'd axis and related changes to the fake channel and arrays
+> - `adxl313_set_act_inact_en()`: generally turn off measurement when adjusting config
+>   activity/inactivity related config registers, turn measurement on after
+> - doc: adjust code block highlighting and remove links
+> 
+> v2 -> v3:
+> - verify keeping trailing comma when it's multi-line assignment [v1 02/12]
+> - `adxl313_set_fifo()`: verify have two on one line to make it easier to read [v1 07/12]
+> - `adxl313_fifo_transfer()`: verify removal of useless initialization of ret [v1 07/12]
+> - `adxl313_fifo_transfer()`: verify usage of array_size() from overflow.h [v1 07/12]
+> - `adxl313_fifo_transfer()`: verify return 0 here [v1 07/12]
+> - `adxl313_irq_handler()`: verify "Why do we need the label?" / moving the call under the conditional [v1 07/12]
+> - verify reorganization of half condition for Activity [v1 09/12] and Inactivity [v1 10/12]
+> - verify usage of MICRO instead of 1000000
+> - `adxl313_is_act_inact_en()`: restructure according to return logic value, or negative error
+> - `adxl313_set_act_inact_en()`: restructure function, use regmap_assign_bits()
+> - `adxl313_set_act_inact_en()`: verify makeing it a logical split [v1 11/12]
+> - `adxl313_fifo_transfer()`: change iterator variable type from int to unsigned int [v2 07/12]
+> - `adxl313_fifo_reset()`: add comment on why reset status registers does not do error check ("At least comment...") [v2 07/12]
+> - `adxl313_fifo_push()`: change iterator variable from int to unsigned int [v2 08/12]
+> - `adxl313_fifo_push()`: remove duplicate check for samples being <0 [v2 08/12]
+> - apply `regmap_assign_bits()` in several places to replace regmap_update_bits() depending on bools
+> - `adxl313_set_watermark()`: rename mask variable to make it more comprehensive
+> - removal of duplicate blanks in various places (sry, my keyboard died) [v1 07/12]
+> 
+> v1 -> v2:
+> - usage of units.h
+> - simplify approach for return values
+> ---
+> 
+> Lothar Rubusch (8):
+>   iio: accel: adxl313: make use of regmap cache
+>   iio: accel: adxl313: add function to enable measurement
+>   iio: accel: adxl313: add buffered FIFO watermark with interrupt
+>     handling
+>   iio: accel: adxl313: add activity sensing
+>   iio: accel: adxl313: add inactivity sensing
+>   iio: accel: adxl313: implement power-save on inactivity
+>   iio: accel: adxl313: add AC coupled activity/inactivity events
+>   docs: iio: add ADXL313 accelerometer
+> 
+>  Documentation/iio/adxl313.rst    | 289 ++++++++++
+>  Documentation/iio/index.rst      |   1 +
+>  drivers/iio/accel/adxl313.h      |  33 +-
+>  drivers/iio/accel/adxl313_core.c | 937 ++++++++++++++++++++++++++++++-
+>  drivers/iio/accel/adxl313_i2c.c  |   6 +
+>  drivers/iio/accel/adxl313_spi.c  |   6 +
+>  6 files changed, 1261 insertions(+), 11 deletions(-)
+>  create mode 100644 Documentation/iio/adxl313.rst
+> 
+> 
+> base-commit: d1584d12ec8c35534172882c1713947110564e4c
+> prerequisite-patch-id: 263cdbf28524f1edc96717db1461d7a4be2319c2
 
