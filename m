@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06053C26;
-	Sun, 22 Jun 2025 04:00:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960C9376;
+	Sun, 22 Jun 2025 05:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750564819; cv=none; b=AvaNm4WyWM13Vx0Hs5w2Ge1NEm7hCJ/qToChlMkvCt1g5YOA7FTBKRzkstcFwvCnEft8smS6xVnzyj01k/6anIuWTV9wICAwjXFi1pFXgyZVXLThXjoC+rPRueW7CzHVrw6Dae1eXYfIvfFYCtiYapP1o4aAmQLs5xO6w+9lzeI=
+	t=1750571293; cv=none; b=UnOIWuoZ/+DNwjNSI4PFR7a+EVZqHHkqdQY5tVvmf/jeUaIGSyi8QDKV2NYY6EghAsw9nXvjhx60RFFE45tIXpf4o7bndrhd4vXAL9JJesQyWaCxcSFcuVFgknGMj0Ay4KXqxm/EMrMswsruOzuOgZWG+1jclM2Uzjx0G6tQmT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750564819; c=relaxed/simple;
-	bh=Bj5tCFlLrpYqI7xI3syHC6TdfXakVcWYHZXiRLdax1k=;
+	s=arc-20240116; t=1750571293; c=relaxed/simple;
+	bh=a69uwtI66wsiieA3J3wYEWpnqi5UTVCHTSPGW2T4h7c=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kLSRkL+fnkYO2QhAo8FzymIrvyYBSgKk1vI1XLCXmYdI2pDA/PR5cesN4M9GAStqgFQEJKjwNFoTNOusrc8Rsjm8HFtu3cNVya3aZMsYViKvN0Wnarc3413FZ47Y50Vh845dKAd84qTmlA4KmMUpUmOwJ8+gTAWyKsB4Fnn4/FY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QreCmsV4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Orq6DLsTHpKeVOdtquJaOjnjRruBkV1fssBERt2U+kfyXy2rGzfKm+QWfw66NB/iBfC8tgTDCAIpgkPsdLNhSW8m6WT4p1Lpfg3bAlgFzcx9Yk7SV+5KPFp+GKMR7jQFiMjWeIfN7WB4L4B6gxeTyFeFeOYBpqArKLoVM4lOsnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gmk17hs6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QreCmsV4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67FDFC4CEE3;
-	Sun, 22 Jun 2025 04:00:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gmk17hs6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08459C4CEE3;
+	Sun, 22 Jun 2025 05:48:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750564819;
-	bh=Bj5tCFlLrpYqI7xI3syHC6TdfXakVcWYHZXiRLdax1k=;
+	s=k20201202; t=1750571293;
+	bh=a69uwtI66wsiieA3J3wYEWpnqi5UTVCHTSPGW2T4h7c=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QreCmsV4RpO/7R2mOWg9L7GInDAZVyq7lJ0ZgCqzvs9qHtngJyUtBgRwgr2JhxvaI
-	 8KndVqIGzB4nqjeVN8tLmftpKNjfD0mdGU8nOsbO4iHxbo00Q87K6rm3OFlC1jYJ3A
-	 xZ2Wl5zaGAeA0NT97d/8dKATFkvPe3N5dFrMuLuGMEVgWS8s8SGekEDo7isHyHr5kH
-	 NWYSMuI2uQmi1KzgUxUYkQJMzPfYFHcYmnxJ4xephN+n5s3HHx9Dfsa+7KmX+fC36v
-	 LA+c7PzKtFQ4E7TsA8hb7g4qWgxnLnY7V/4EGsNdfUr6ycTBZH2+pbUQgEczaf3MDM
-	 wv6+uF/Hlj4xA==
-Date: Sun, 22 Jun 2025 06:00:15 +0200
+	b=gmk17hs6EFc7VLdcxnGWZ96itzl1DNtTyTvZESPe05eoTR96D5ZsPOzrueszBCfdz
+	 AV3fEaij27z+N65C1CLU819qH/jRiK9Zkrb+q22/GZ9uwYXktyDayAzEgV2ZUqsTT7
+	 Pg7Olnw050hmD6LYp1KnHYdgVBcfNPY5oxmA/QQKqDKsz/lTHHt013d/ym7p2CNpwn
+	 MF4vsFAnR+t3/ZH0u+Z8UVjp7E2vK70jeRddyndwSqT/Rif5YlCX7gg139BFsaHySI
+	 KHvSfgSVp3Hpt2WgizVvdBaFgJ8b+6pB6amh6ri2926IBEHx3v8bfUMdwisN4x1arT
+	 Q6T+kBlD7j4eA==
+Date: Sun, 22 Jun 2025 07:48:09 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
  linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH 0/6] Some improvements for the doc build system
-Message-ID: <20250622060015.76a0b29a@foz.lan>
-In-Reply-To: <87ldpkdgv6.fsf@trenco.lwn.net>
-References: <cover.1750406900.git.mchehab+huawei@kernel.org>
-	<87ldpkdgv6.fsf@trenco.lwn.net>
+Subject: Re: [PATCH v2 00/15] Some improvements and fixes for the doc build
+ system
+Message-ID: <20250622074809.09fca392@foz.lan>
+In-Reply-To: <87frfsdfgc.fsf@trenco.lwn.net>
+References: <cover.1750535171.git.mchehab+huawei@kernel.org>
+	<87frfsdfgc.fsf@trenco.lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,42 +47,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Sat, 21 Jun 2025 13:39:09 -0600
+Em Sat, 21 Jun 2025 14:09:39 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
 > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
 > > Hi Jon,
 > >
-> > This series contain some patches from my parser-yaml one that
-> > aren't directly related to it. It basically addresses some issues
-> > at the build system. It also adds a script that I wrote with the
-> > purpose of checking backward problems when building against
-> > older toolchains.
-> >
-> > IMO, the best is to merge and apply it before the YAML series.  
+> > This series contain patches I made while working at the parser-yaml.
+> > They aren't directly related to it. Instead, they address some issues
+> > at the build system and provide test tools for building docs.  
 > 
-> OK, I've applied it, but ... someday, I think the test_doc_build tool
-> should be properly documented and put somewhere under tools/testing.
+> So as you saw I'd applied the previous set - but I've undone that.
+> Something in the first patch (the conf.py changes) breaks the dependency
+> detection so that every build turns into a full build.  Just run
+> "make htmldocs" twice in a row to see what happens.  That somehow needs
+> to be fixed...
 
-I added a better documentation for the tool at the v2.
+Tricky. When I originally wrote it, on the top of 8.x, there is no need
+to add a connect event. For older versions, this is a need.
 
-With regards to move to tools, I'm not certain about it as I can see
-advantages and disadvantages. 
+I ended adding a 'builder-inited', but this is too late. Changing the
+event to 'config-inited' address it.
 
-Creating a new directory to have just one tool on it seems overkill
-to me. Also, it is easier to type "scripts/..." than 
-"tools/testing/build/..." :-)
+I'll fold the patch below at patch 01/15.
 
-There is another aspect: while doing conf.py and Documentation/Makefile
-cleanup, I noticed that there are still lots of hacks inside them,
-that are there from the early days when we adopted Sphinx. Perhaps
-it could make sense to move part of the logic there to this new
-build tool, which could, for instance, replace the logic inside
-scripts/sphinx-pre-install and get rid of some magic at the Makefile
-like the one which handles SPHINXDIRS.
+Regards,
+Mauro
 
-So, at least for now, I would prefer to keep it under scripts.
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 4ba4ee45e599..91ce2b1c33cc 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -41,7 +41,7 @@ dyn_exclude_patterns = ['output']
+ # Properly handle include/exclude patterns
+ # ----------------------------------------
+ 
+-def update_patterns(app):
++def update_patterns(app, config):
+ 
+     """
+     On Sphinx, all directories are relative to what it is passed as
+@@ -65,7 +65,7 @@ def update_patterns(app):
+             if rel_path.startswith("../"):
+                 continue
+ 
+-            app.config.include_patterns.append(rel_path)
++            config.include_patterns.append(rel_path)
+ 
+     # setup exclude_patterns dynamically
+     for p in dyn_exclude_patterns:
+@@ -75,7 +75,7 @@ def update_patterns(app):
+         if rel_path.startswith("../"):
+             continue
+ 
+-        app.config.exclude_patterns.append(rel_path)
++        config.exclude_patterns.append(rel_path)
+ 
+ # helper
+ # ------
+@@ -574,4 +574,4 @@ kerneldoc_srctree = '..'
+ loadConfig(globals())
+ 
+ def setup(app):
+-	app.connect('builder-inited', update_patterns)
++    app.connect('config-inited', update_patterns)
+
 
 Thanks,
 Mauro
