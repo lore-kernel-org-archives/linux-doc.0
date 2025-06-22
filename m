@@ -1,89 +1,153 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A6514A62B;
-	Sun, 22 Jun 2025 18:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A299E555;
+	Sun, 22 Jun 2025 18:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750617852; cv=none; b=kv79bsvSOe8qDSg5lB/kL3UT2OYEvf9ZDj9EtU2jtAg4906trQtTXkqzJwDNFWfRTUwrgYp9T4W2s6UaZymRpK9NAkee/8bm+Y/ltSmtJe5mMrn6N4Q6xVWa5TdPXc0ljoWaiX9ZzNr/hYGtk3h+gFx0yojbLH4F5/AtyylTRbM=
+	t=1750618711; cv=none; b=bTt3rZTBk8T7QOE1+WGOXYrSYZCuEWSCxTw7DxU3naWkWnfS0ryU41JUlrdzG8XBNvWgX7O0Uezy8zMv6yXkesMzaTwoGZ6qo7Scj6PIaEhLkra2qNWKy2fu5ufPZqsKOc25ID29C7RgSsqyEtKKnSlQUCHp3L9MG+dWdnv/l1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750617852; c=relaxed/simple;
-	bh=jQPMbjL3fFFGkQL8I+x5O/PvFKVwP7m5RVQT4xh0ld8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bo19sU00zMcgX/iggUNkTFoz/OYla4draN+qDBHEx0JrWGrM65VS1K5ASqkXXz/nEYjEGqqkgypGjJZnZUdGUxHK/ipO68CfQkQhmR0KxssHOGDpzOj4+Xm0Ro9SF2S4JxWrZeN0ZCWcd3D/VW/2GxmnPju5OLuXApaqvgh0w2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FAWSSrtr; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1750618711; c=relaxed/simple;
+	bh=ZzQJ3M8EqiWxxmmNLvTPgJfzj3h9+EYdmRkBn+wuBIc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kA40G5Ztovoje0+0yrOjvePcELuj8Vuwx+WFmLQxIoOmPk3/u6zgxJ8whljPErHm1vv00DWAvA2JTmgyBS2BNCS3M6qjVr0a/7VmNUOOWVPIU+fA4YR77T1ckS/a4uigmIRV4NWj0akVha2CjApPU7dmNyRW3wIAQCedx7mEcr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=XInck6gh; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FAWSSrtr"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 27EFE41AD8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1750617849; bh=xCaxUsriRbQpVDTX0sL0HK9i8FWV8424VECT54piz+4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FAWSSrtrwgcAl0g9Vx65LWJaiJAOoACdTinV4E2tivSqXzpUZUQr8bHqk/UPFicok
-	 2235P+zBbi3u70iJ6KvOhC6j0KXF8ff2rOs9zJD4l6lrgzb8PwZC1ZGnRbTnjjGBwK
-	 hx5l2zKQZA+133b33FXoPEh+OhNdq4Mtpf90CjrOkgcWoP7jkd2RTfTjWnQou6JLEy
-	 4vpF4pZVY8D02qhUAe3irln+/pLh1toxQh/1OI+ZbHzQWmK6RHfBoxalXCddvSfIxp
-	 cDvIYk4N/VAOwy1BrfnmQf4OIcp7LRqQiw8eBFfOrj17cwx27WbSmxhwl+A8eVb2ON
-	 NmFKGJZNIeoOA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 27EFE41AD8;
-	Sun, 22 Jun 2025 18:44:09 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH 0/6] Some improvements for the doc build system
-In-Reply-To: <20250622060015.76a0b29a@foz.lan>
-References: <cover.1750406900.git.mchehab+huawei@kernel.org>
- <87ldpkdgv6.fsf@trenco.lwn.net> <20250622060015.76a0b29a@foz.lan>
-Date: Sun, 22 Jun 2025 12:44:08 -0600
-Message-ID: <874iw7boqv.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="XInck6gh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1750618699; x=1751223499; i=w_armin@gmx.de;
+	bh=ZzQJ3M8EqiWxxmmNLvTPgJfzj3h9+EYdmRkBn+wuBIc=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=XInck6ghvQ34DDzaYVO8aXFQ3lrLGEZBpCaqA9Npfv9Se8k/1WH46pxllRKzy5SA
+	 GN0jh/LyHTsIg8Z8/UxFHo7LhFVuE4DGtveTwIZgli/TQwFp/pKfNHcLLkRWFajJU
+	 Pwe1lq+YeTT7/oWytBk4t3YGVsl3/HkyUE2xIZFrvmAObCimnKGYHgy0Ipo5lQ3C8
+	 CkNXXaVwjY98ODgc/q08S/J/qnMJhfdudZY1KLwWox4UTlQqGixWLP7rcX9TyDvCf
+	 e+ElB5tPtMgOjDkxvrs4yLqjhoZ2cVbxE09bXF6VWZGOcTHxrfp956O3+3FHjjqWj
+	 91aWVM6vjvgGIQhM4g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N95iH-1urQho1ggh-017RDC; Sun, 22
+ Jun 2025 20:58:19 +0200
+Message-ID: <c50c011f-6ad5-4122-a0e7-39880a4740ca@gmx.de>
+Date: Sun, 22 Jun 2025 20:58:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
+To: Werner Sembach <wse@tuxedocomputers.com>, ilpo.jarvinen@linux.intel.com,
+ hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
+ ggo@tuxedocomputers.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org
+References: <20250615175957.9781-1-W_Armin@gmx.de>
+ <20250615175957.9781-3-W_Armin@gmx.de>
+ <1020d244-4d52-4afd-ae98-bfcb2b8e7145@tuxedocomputers.com>
+ <de9d469b-9ea2-4fe3-8a7e-92fdc6d1c980@gmx.de>
+ <45a985fd-5428-4cbb-843a-523ea435a228@tuxedocomputers.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <45a985fd-5428-4cbb-843a-523ea435a228@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-Provags-ID: V03:K1:KraxmP3ugauMr2F7LZA3Uu1+rEskZF4aZC/KWb3ccj3BLI/jZST
+ 6uDuWjKdvhAC02tu9+qnHUPMPYgQSgxmq7Q391laFfDt2EzP/nNH+9DLXzbA3LtwAYdYU9O
+ nD2J9SH/Ef/TpoZoz9je4AuJ5kb3sNCVt93y/9h27nW0q1EHnlJR4LzXdXGgU7Cf84X5Je2
+ 2VV8aNIfYQBjf8/RuKtpA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:mt0q4MjzrLg=;QG94SVr0FBqrpnMtCaF6ch+hvjf
+ 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
+ 2+FRmUo2SEVH1BL2lJUtrWs9xI/9uEq+AlHZjQ==
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-
-> Em Sat, 21 Jun 2025 13:39:09 -0600
-> Jonathan Corbet <corbet@lwn.net> escreveu:
->
->> OK, I've applied it, but ... someday, I think the test_doc_build tool
->> should be properly documented and put somewhere under tools/testing.
->
-> I added a better documentation for the tool at the v2.
->
-> With regards to move to tools, I'm not certain about it as I can see
-> advantages and disadvantages. 
->
-> Creating a new directory to have just one tool on it seems overkill
-> to me. Also, it is easier to type "scripts/..." than 
-> "tools/testing/build/..." :-)
->
-> There is another aspect: while doing conf.py and Documentation/Makefile
-> cleanup, I noticed that there are still lots of hacks inside them,
-> that are there from the early days when we adopted Sphinx. Perhaps
-> it could make sense to move part of the logic there to this new
-> build tool, which could, for instance, replace the logic inside
-> scripts/sphinx-pre-install and get rid of some magic at the Makefile
-> like the one which handles SPHINXDIRS.
->
-> So, at least for now, I would prefer to keep it under scripts.
-
-I pretty strongly disagree ... scripts/ is a dumping ground, nobody
-really knows what all that stuff there is, nobody is responsible for it.
-Something under tools/ would be more evident as to its purpose and
-maintainership.  We could maybe just do tools/docs/ and move things like
-sphinx-pre-install there as well...
-
-Anyway, I won't try to hold up this work based on that, but now you know
-how I feel...:)
-
-jon
+QW0gMTguMDYuMjUgdW0gMTM6MTUgc2NocmllYiBXZXJuZXIgU2VtYmFjaDoNCg0KPiBIaSwNCj4N
+Cj4gQW0gMTcuMDYuMjUgdW0gMjM6NTAgc2NocmllYiBBcm1pbiBXb2xmOg0KPj4gQW0gMTYuMDYu
+MjUgdW0gMTQ6MzIgc2NocmllYiBXZXJuZXIgU2VtYmFjaDoNCj4+DQo+Pj4gSGksDQo+Pj4NCj4+
+PiBBbSAxNS4wNi4yNSB1bSAxOTo1OSBzY2hyaWViIEFybWluIFdvbGY6DQo+IFsuLi5dDQo+Pj4+
+ICtUaGUgRUMgYmVoaW5kIHRoZSBgYEdldFNldFVMb25nYGAgbWV0aG9kIGlzIHVzZWQgYnkgdGhl
+IE9FTSANCj4+Pj4gc29mdHdhcmUgc3VwcGxpZWQgYnkgdGhlIG1hbnVmYWN0dXJlci4NCj4+Pj4g
+K1JldmVyc2UtZW5naW5lZXJpbmcgb2YgdGhpcyBzb2Z0d2FyZSBpcyBkaWZmaWN1bHQgc2luY2Ug
+aXQgdXNlcyBhbiANCj4+Pj4gb2JmdXNjYXRvciwgaG93ZXZlciBzb21lIHBhcnRzDQo+Pj4+ICth
+cmUgbm90IG9iZnVzY2F0ZWQuDQo+Pj4gSWlyYyBDaHJpc3RvZmZlciBzYWlkIHRoZXJlIGlzIGFs
+c28gYW5vdGhlciBub24gd21pLCBidXQgYWNwaSwgDQo+Pj4gZ2V0L3NldCBjbWQgdGhhdCBjYW4g
+d3JpdGUgb25seSBzcGVjaWZpYyByZWdpb25zIGJ1dCBpcyBmYXN0ZXIuIEp1c3QgDQo+Pj4gd2Fu
+dGVkIHRvIGxlYXZlIHRoaXMgaGVyZSBmb3IgcG90ZW50aWFsIGZ1dHVyZSBvcHRpbWl6YXRpb25z
+IGlmIHlvdSANCj4+PiBhcmUgaW50ZXJlc3RlZC4NCj4+DQo+PiBXaGF0IGludGVyZmFjZSBhcmUg
+eW91IHJlZmVycmluZyB0byBleGFjdGx5Pw0KPg0KPiBJIHRoaW5rIGhlIHdhcyByZWZlcnJpbmcg
+dG8gdGhlc2UgMiBtZXRob2RzIGluIHRoZSBkc2R0Og0KPg0KPiDCoMKgwqAgU2NvcGUgKF9TQikN
+Cj4gwqDCoMKgIHsNCj4gwqDCoMKgwqDCoMKgwqAgRGV2aWNlIChJTk9VKQ0KPiDCoMKgwqDCoMKg
+wqDCoCB7DQo+IMKgwqDCoCDCoMKgwqAgwqDCoMKgIFsuLi5dDQo+DQo+IMKgwqDCoCDCoMKgwqAg
+wqDCoMKgIE1ldGhvZCAoRUNSUiwgMSwgTm90U2VyaWFsaXplZCkNCj4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCB7DQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBMb2NhbDAgPSAoMHhG
+RTQxMDAwMCArIEFyZzApDQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBMb2NhbDEg
+PSBNTVJXIChMb2NhbDAsIFplcm8sIFplcm8sIFplcm8pDQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBSZXR1cm4gKExvY2FsMSkNCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9DQo+
+DQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgTWV0aG9kIChFQ1JXLCAyLCBOb3RTZXJpYWxpemVk
+KQ0KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHsNCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIExvY2FsMCA9ICgweEZFNDEwMDAwICsgQXJnMCkNCj4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIE1NUlcgKExvY2FsMCwgT25lLCBaZXJvLCBBcmcxKQ0KPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIH0NCj4NCj4gwqDCoMKgIMKgwqDCoCDCoMKgwqAgWy4uLl0NCj4gwqDCoMKg
+IMKgwqDCoCB9DQo+IMKgwqDCoCB9DQo+DQo+IFRoZXkgY2FuIHJlYWQvd3JpdGUgdGhlIDB4MDR4
+eCBhbmQgMHgwN3h4IGFkZHJlc3NlcyBidXQgbm90IHRoZSAweDE4eHggDQo+IG9uZXMgaWlyYywg
+ZG9uJ3Qga25vdyBhYm91dCB0aGUgMHgwZnh4IG9uZXMuDQo+DQo+IEkgdGhpbmsgMHgxOHh4IHdh
+cyBuZXZlciBpbnRlbmRlZCB0byBiZSB3cml0dGVuIHByb2JhYmx5LCBidXQgd2UgdXNlIA0KPiBp
+dCB0byBpbXBsZW1lbnQgYSBjdXN0b20gZmFuIGN1cnZlIG9wdGlvbiBpbiB0dXhlZG8tZHJpdmVy
+cyBvbiBvbGRlciANCj4gZGV2aWNlcyB0aGF0IG9mZmljaWFsbHkgZG9uJ3Qgc3VwcG9ydCBpdC4N
+Cj4NCj4gQmVzdCByZWdhcmRzLA0KPg0KPiBXZXJuZXINCj4NCkkgc2VlLCBpIHRvbyBub3RpY2Vk
+IHRoZSBJTk9VMDAwMCBkZXZpY2UgZHVyaW5nIHJldmVyc2UgZW5naW5lZXJpbmcuIEkgd2lsbCB1
+cGRhdGUgdGhlIGRvY3VtZW50YXRpb24gdG8gaW5mb3JtIGZ1dHVyZSBkZXZlbG9wZXJzIGFib3V0
+IHRoaXMgcG90ZW50aWFsbHkNCmZlYXN0ZXIgaW50ZXJmYWNlLiBIb3dldmVyIGZvciBub3cgaSBz
+dWdnZXN0IHRoYXQgd2Ugc3RpY2sgdG8gdGhlIFdNSSBpbnRlcmZhY2UuDQoNClRoYW5rcywNCkFy
+bWluIFdvbGYNCg0K
