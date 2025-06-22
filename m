@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CEF7494;
-	Sun, 22 Jun 2025 11:38:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45361DAC92;
+	Sun, 22 Jun 2025 11:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750592281; cv=none; b=bQhanTLT6SnJ8RujiwpNTx8TltSkX9n+7aekDp9HjN7G6fBkR2eUkGd8Ft1V4lZBpJwqaYnfwV7FyJIzs0/uhtAB7vSZ/yxdrXcykxugzC/CvW2Weekex7nHPqcl1czP2/RbIyXXG95sxLqix83r8/75fGHZKjYGfGspnmbHpKE=
+	t=1750592781; cv=none; b=TNwqKnj0WE5u2nzJ+ongk88R0l6qkNJUIS3+XQ5btgOpo8O8gTlFfiVnlg7E92xRZwmZiZRjNMUM3M7ZN907VzwtpNkcTVxyzyhWvgjOOKMjxUvQrBNp33gev4VpeFBmYzoazIdKokE6EMbKUAGeTKXUxV9KG6jtj9tkumkIqFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750592281; c=relaxed/simple;
-	bh=EVhJHT4BylZuiCv4RkBjMQoFT1U+kck/kqVZcxToo4o=;
+	s=arc-20240116; t=1750592781; c=relaxed/simple;
+	bh=Wc1qutNuQd7KPD2md75WNoiJ9w0pQyDi6rihBPlLFwI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lvddCEKJC5jTjcrOYW+3MGp0YPOBoIQZSjJbjNvif1y1kbbifrbHPrh194dzLUgPw/afahJ1Pc3vpnF1n0ZrSE/fR602mfEzuDZXfroNQmBwWUvQsnkntPAk5t78OH6fqR1RBJ6oRF4SL0gnyIVI+G0McVymWLG8qWuVeAvu2Og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZmWfT0C; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=qbyqHPfqLI795dWslXReA35t6rPd4/IE8GdDqBZZJnWFNJyYkYXGweXOw2Iq7rARfmWTOEMxI3GP/glGL6b5LOitlwU8EulI6ifC468VjGYi9IYdIuqV0Zdg03NVftJ1Jv8sg6QKwh4f2BLQxQWxlODjpcz9ebn7B1Q7EJ9bF00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6+Nw9MX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZmWfT0C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC768C4CEE3;
-	Sun, 22 Jun 2025 11:37:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6+Nw9MX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 608CAC4CEE3;
+	Sun, 22 Jun 2025 11:46:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750592280;
-	bh=EVhJHT4BylZuiCv4RkBjMQoFT1U+kck/kqVZcxToo4o=;
+	s=k20201202; t=1750592781;
+	bh=Wc1qutNuQd7KPD2md75WNoiJ9w0pQyDi6rihBPlLFwI=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FZmWfT0Ca9vRcd4BZesfyAfklg8czTZO78M4DSImpOR/ylw7Mr7TXbzDcDe/bhOOG
-	 jB4qcEmKY1WmkH3kE4qtxWGjP3EcIfeh3S70TG+BTc0pN2trECdwksfpcqxxAs1/Y/
-	 zkK+fhbGW4eJ9yRf2zG7pH/a3vvN5LW1IvyovUhBG+mQn+W5sg1mBmZeqxUsrctc4U
-	 KQjtneOiLMaTMDJQ7/woWVh3gAtmPDmFZVv/7lw+5YkNgg8gu0ZJLa7NMHYjrZpuiT
-	 rjlzZTHbhy0UT/Ww3C2jblZLryFpYV/Bqe+eXezJoGb8ddffFycSjbp7beFqBwIst7
-	 XidB66JHfWzpA==
-Date: Sun, 22 Jun 2025 12:37:52 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
- Michael.Hennerich@analog.com, bagasdotme@gmail.com,
- linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 7/8] iio: accel: adxl313: add AC coupled
- activity/inactivity events
-Message-ID: <20250622123752.1834fbe2@jic23-huawei>
-In-Reply-To: <20250615222258.117771-8-l.rubusch@gmail.com>
-References: <20250615222258.117771-1-l.rubusch@gmail.com>
-	<20250615222258.117771-8-l.rubusch@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	b=B6+Nw9MXue634SFTKrqldSJWlR1+aDKiCmWP9px3jGQ2xyzjLDUdSgBTpUTToNcVe
+	 GSsjxd+cq7U0YWeVO8Xc1Tf0JSmbBSiyxX7NNnNdd4SJ2N8iwdNFPMsCWZhAxbQv6G
+	 gSfu64M4sSJ7Gwo6QGMAMx4GJg5PamfJr9ClOT7FITHhjvcL3ZkyzdS9Na4NpY7lCi
+	 avdspCIEWdR6pIY6ZjL50S6mYO4H8hfj4OYDhxhnY3dw+jFQy5Goahzsxtu6z7XH1D
+	 14t1/Vnd1763cwta8XRAH1+FmtZyCmHj+AfgBbWOaV1cjRkxu97g74LLNNTs5vzH9b
+	 lpiWHkOtGBy0A==
+Date: Sun, 22 Jun 2025 13:46:17 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 1/9] docs: kdoc: Make body_with_blank_line parsing more
+ flexible
+Message-ID: <20250622134617.06038722@foz.lan>
+In-Reply-To: <20250621203512.223189-2-corbet@lwn.net>
+References: <20250621203512.223189-1-corbet@lwn.net>
+	<20250621203512.223189-2-corbet@lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,72 +47,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 15 Jun 2025 22:22:57 +0000
-Lothar Rubusch <l.rubusch@gmail.com> wrote:
+Em Sat, 21 Jun 2025 14:35:04 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Introduce AC-coupled activity and inactivity as MAG_ADAPTIVE events.
-> This adds a new set of threshold and duration configuration options,
-> ensures proper handling of event disabling, and extends the use of the
-> link bit to support complementary event configurations.
+> The regex in the BODY_WITH_BLANK_LINE case was looking for lines starting
+> with " * ", where exactly one space was allowed before the following text.
+> There are many kerneldoc comments where the authors have put multiple
+> spaces instead, leading to mis-formatting of the documentation.
+> Specifically, in this case, the description portion is associated with the
+> last of the parameters.
 > 
-> For example, either ACTIVITY or ACTIVITY_AC can be enabled, but only the
-> most recently set configuration will remain active. Disabling ACTIVITY
-> will have no effect if ACTIVITY_AC is currently enabled, as the event
-> types must match (i.e., ACTIVITY_AC must be explicitly disabled). When
-> either INACTIVITY or INACTIVITY_AC is enabled alongside an activity
-> event, the link bit is set.
+> Allow multiple spaces in this context.
 > 
-> With the link bit and auto-sleep enabled, activity and inactivity events
-> represent changes in the sensor's power-saving state and are only
-> triggered upon actual state transitions. Since AC coupling uses separate
-> bits for activity and inactivity, each can be configured independently.
-> For instance, ACTIVITY can be linked with INACTIVITY_AC.
+> See, for example, synchronize_hardirq() and how its documentation is
+> formatted before and after the change.
 > 
-> If one of the linked events is disabled, the link bit is cleared. In
-> that case, the remaining event will no longer reflect a state transition
-> but will instead trigger based on periodic inactivity or whenever the
-> activity threshold is exceeded.
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  scripts/lib/kdoc/kdoc_parser.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
-
-One small suggestion below.
-
+> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> index 42b2e0936b72..c46e1b6a7d4b 100644
+> --- a/scripts/lib/kdoc/kdoc_parser.py
+> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> @@ -1309,7 +1309,7 @@ class KernelDoc:
+>          """
 >  
->  static int adxl313_set_act_inact_linkbit(struct adxl313_data *data, bool en)
->  {
-> -	int act_en, inact_en;
-> +	int act_en, inact_en, act_ac_en, inact_ac_en;
->  
->  	act_en = adxl313_is_act_inact_en(data, ADXL313_ACTIVITY);
->  	if (act_en < 0)
->  		return act_en;
->  
-> +	act_ac_en = adxl313_is_act_inact_en(data, ADXL313_ACTIVITY_AC);
-> +	if (act_ac_en < 0)
-> +		return act_ac_en;
-> +
-> +	act_en = act_en || act_ac_en;
+>          if self.state == state.BODY_WITH_BLANK_LINE:
+> -            r = KernRe(r"\s*\*\s?\S")
+> +            r = KernRe(r"\s*\*\s*\S")
+>              if r.match(line):
+>                  self.dump_section()
+>                  self.entry.section = SECTION_DEFAULT
 
-All ends up a little confusing as act_en changes meaning as it is built
-up.  Maybe better to just have act_dc_en in earlier patch then so
-the boolean complexity all in one place?...
+I was a little bit afraid that this might be causing regressions,
+but after checking the output, it looks ok. 
 
-> +
->  	inact_en = adxl313_is_act_inact_en(data, ADXL313_INACTIVITY);
->  	if (inact_en < 0)
->  		return inact_en;
->  
-> +	inact_ac_en = adxl313_is_act_inact_en(data, ADXL313_INACTIVITY_AC);
-> +	if (inact_ac_en < 0)
-> +		return inact_ac_en;
-> +
-> +	inact_en = inact_en || inact_ac_en;
-> +
->  	en = en && act_en && inact_en;
+So:
 
-	en = en && (act_dc_en || act_ac_en) && (inact_dc_en || inact_ac_en);
-
->  
->  	return regmap_assign_bits(data->regmap, ADXL313_REG_POWER_CTL,
+Acked-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Tested-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 
+Thanks,
+Mauro
