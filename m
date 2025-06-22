@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5185F3C0C;
-	Sun, 22 Jun 2025 17:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A245D3C3C;
+	Sun, 22 Jun 2025 18:06:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750614803; cv=none; b=Of6g7V07stJDCpTp+PYFCcC2fuSBTtpL5l1O1to90h+m2IZucRuN81RSCi3wkoe3lD2QWc1ww4ziRawMAB1hl9TbIAprNvcLRgzMMhcrGVODztuvNkgbkkiGcf9QwfCJzZ35x+iTuQM0Avv6akIiM/tzhCqICntE/h/NDQjJBuk=
+	t=1750615577; cv=none; b=ktzMMI8sOMGDJAHEtjsIG0xPfJhAdtrluLPpPyplDmzeLf5ywRlfkuC5AS0/Rd1+zVULTlyXGzP0o2L0OUS0UB8CjbVVIMWBy1WPE+a7GCeTbf4m4VDvoejkJAtUljtABmzFcyuc1tgt/Xz06Q+exeQKAqBrDZ74lbiAT5DWCLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750614803; c=relaxed/simple;
-	bh=NEqfhCbHA77ivX87O3SQQe/0s1ft+C0ZxROAW6GszLY=;
+	s=arc-20240116; t=1750615577; c=relaxed/simple;
+	bh=G+1VV+8Dv8WE4EtqdZO2Q5kzqJq8urctAMEctkTRWpw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=igxQ2e8KoW1ERcwvdpgCh38XPr2qh7Y0In+DvwGSuCT9/JQWGvGlU7C7F42aPPFPWmBqYZ8Iy6jysADIoOGCQRov/pqKymPUqzltN50pgxbKkIPM7OFTv+UvIH8RlvlCi44R3u8eEQuqkj8Nr5oz4plZRmjRlFA6kGWmHtUgiBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdJEUMFk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=eqg73JmNlTwmGbiVvr+k2ftZqU2QMbCdqUl02s0EaVZ30eUPv1uFDSwPwQfTgsQqVCbXLWn1EC0q6Up/dfCC1Y+Y+2fBgKdz+daHjtXpnPwQ4yYn1RnXe+CdqO2JdBWTqSb+ChdZkCLL0+f01+apnDy4rfDz4cBMrUKrbFvfhr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCFhi6Kq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdJEUMFk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B24A8C4CEE3;
-	Sun, 22 Jun 2025 17:53:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCFhi6Kq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 050E8C4CEE3;
+	Sun, 22 Jun 2025 18:06:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750614802;
-	bh=NEqfhCbHA77ivX87O3SQQe/0s1ft+C0ZxROAW6GszLY=;
+	s=k20201202; t=1750615577;
+	bh=G+1VV+8Dv8WE4EtqdZO2Q5kzqJq8urctAMEctkTRWpw=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WdJEUMFklOf00eIO/dcuyUvKFnZ0Yy5VMv77/X9JmcKeUytRx+bstS9oF+YEyHjVQ
-	 fYVgcU0hv3p4xWR3Ep1AXe+xKyy2bSfRA3kGai0e1VKq/9+4bLaXDcCOuKmAe8fO6v
-	 AFtn64KoShaDBh+IO7wAQdb0y9HHTxKUKnXPnM5w0NUzLT2VJuWpYwibE+LZdOG7a7
-	 JKsO/mkWgZ8CBlDyHadALLqnTGt7JtlUhZ+isPxtlIhljme5DhJTVw4v1q5btRAqL/
-	 PidMbBhZtY/6omI7mVSnujCm2z+4NmnS0//tad8clvkKpI2awX1ZwIfU/Y0Npkk7Pj
-	 cbH3ydvDo0oOw==
-Date: Sun, 22 Jun 2025 19:53:18 +0200
+	b=XCFhi6Kq496aOfHR+0tWDo3R9Ag9+NNYzjTdZDpWhUoYaWlJzTRr4cYTj0AeRcDjY
+	 lUCO3tkB/PqEMtVVHAFk/miBPbM+jUgxmhdqQxGJAkJ+scVhw8x3R0zs6VL3J6e1un
+	 X/YP0lwqL9EznIaPTe33fScZTosK2FppZl9/Z3ds0lfdrByz6O2PPm96Pw70MTiYrw
+	 JTv/78J4nKGCXd8bjnHAP2dPDui2r/JHE55sRajd3IvPBhGMp5/FOm22oXDgzxYaL0
+	 fYgQdW3qBFTF7rlOhyXgIMDb61POye2Bh0I/VYNKqM1tmI+UpcS1NpBdTLMv6WKzF0
+	 1QTj2zMw2kJDA==
+Date: Sun, 22 Jun 2025 20:06:13 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, Linux
  Doc Mailing List <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH v3 15/15] docs: conf.py: Check Sphinx and docutils
  version
-Message-ID: <20250622195318.1a2a3728@foz.lan>
+Message-ID: <20250622200613.5ad18093@foz.lan>
 In-Reply-To: <c05dd5dc-1e30-4a2c-80dc-70e8b62cc681@gmail.com>
 References: <cover.1750571906.git.mchehab+huawei@kernel.org>
 	<972673b0a5bf5537d47780d6f8e70ae45456e751.1750571906.git.mchehab+huawei@kernel.org>
@@ -45,115 +45,70 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-Hi Akira,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
 Em Sun, 22 Jun 2025 20:19:52 +0900
 Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-> On Sun, 22 Jun 2025 08:02:44 +0200, Mauro Carvalho Chehab wrote:
-> > As reported by Akira, there were incompatibility issues with
-> > Sphinx and docutils with docutils 0.19. There's already
-> > a fix for it, but, as there are incompatibility issues with
-> > different versions, better to add a check to verify if the
-> > combination is supported/tested.
-> >   
-> 
-> I've been skeptical of adding such checks in conf.py.
-> 
-> What happened the other day was that Jon used a deprecated (and rarely
-> used) method of docutils which failed to work properly only in
-> docutils 0.19 (there is no mention of related issues in its and 
-> nearby release notes).
+> > After check Sphinx release notes, it seems that the
+> > version compatibility is given by:
+> >=20
+> >         =3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D   =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >         Sphinx   Min Docutils   Max Docutils
+> >         Version  Version        Version
+> >         -------  ------------   ------------
+> >         3.4.3    >=3D 0.12.0      < 0.18.0
+> >         4.0.0    >=3D 0.12.0      < 0.19.0
+> >         6.0.0    >=3D 0.18.0      < 0.20.0
+> >         7.0.0    >=3D 0.18.1      < 0.21.0
+> >         7.2.0    >=3D 0.18.1      < 0.20.0
+> >         7.4.0    >=3D 0.18.1      < 0.21.0
+> >         8.0.0    >=3D 0.20.0      < 0.22.0
+> >         8.2.3    >=3D 0.20.0      < 0.22.0
+> >         =3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D   =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >  =20
+>=20
+> <nitpick>
+> So this is what I see in the changelog (not looked into < 6.0.0):
+>=20
+>          =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>           Sphinx version     docutils version
+>           (since)              min       max
+>          ----------------- ------------ -------
+>          6.0.0             >=3D 0.18      < 0.20
+>          6.2.0             >=3D 0.18.1    < 0.20
+> 	 7.0.1             >=3D 0.18.1    < 0.21
+>          7.3.0             >=3D 0.18.1    < 0.22
+> 	 7.4.0             >=3D 0.20      < 0.22
+> 	 (up to 8.2.3)
+>          =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> This Looks quite different from yours ...
+> </nitpick>
 
-True, but the same also happened with me at the parser_yaml code.
+Thanks for your feedback!
 
-> 
-> Your integration of parser_yaml extension will raise the minimum
-> version of docutils to 0.17.1. 
->
-> I think all you will need is just
-> to check:
-> 
->     docutils < 0.17.1
-> , and to make a warning regardless of Sphinx versions.
+Getting this right is not too easy, specially since not all
+changelog mentions docutil version. Btw, one of the factors I=20
+used when building my table were to check the release dates=20
+of Sphinx and docutils. So, I manually adjusted some entries,
+as changelog usually say something like:
 
-That's not the best solution. 
+	Release 5.0.0 (released May 30, 2022)=C2=B6
+	Dependencies
 
-See, Docutils 0.17 was released in Jun, 2021. and 0.17.1 on
-October, 2021. If we look at the Sphinx releases, we have:
+	5.0.0 b1
 
-======  ===================
-Sphinx  Release Date
-------  -------------------
-4.1.0	June 10, 2021
-4.1.1	July 25, 2021
-4.1.2	August 1, 2021
-4.1.3	August 15, 2021
-4.2.0	September 28, 2021
-======  ===================
+	    #10164: Support Docutils 0.18. Patch by Adam Turner.
 
-As Sphinx policy is to not even fix bugs when a new release
-happens, it means that, at the best, the minimal version made to be
-compatible with 0.17 is 4.1.x, and the minimal compatible with
-0.17.1 is 4.2.x.
+But doesn't mention minimal supported version.
 
-So, if we want not to raise the minimal version to 4.2.x (*), the right 
-fix is this (I'll be sending at the upcoming YAML patch series I'll be
-sending next week):
-
-diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
-index 8288e2ff7c7c..1602b31f448e 100755
---- a/Documentation/sphinx/parser_yaml.py
-+++ b/Documentation/sphinx/parser_yaml.py
-@@ -77,6 +77,10 @@ class YamlParser(Parser):
- 
-                 result.append(line, document.current_source, lineoffset)
- 
-+            # Fix backward compatibility with docutils < 0.17.1
-+            if "tab_width" not in vars(document.settings):
-+                document.settings.tab_width = 8
-+
-             rst_parser = RSTParser()
-             rst_parser.parse('\n'.join(result), document)
-
-What happens is that Sphinx is a shell case built on the top of
-docutils: the actual ReST parser is inside docutils. 
-
-(*) the exact patch where 0.17.1 support was added/tested on
-    Sphinx needs to be checked
-
-Now, there is another alternative: raise the bar, increasing minimal
-versions for Python and Sphinx. Yet, I would do it only once per year.
-
-> That said, these dependencies should be recognized and taken care of by
-> pip/PyPI (or whatever distro package management system), and already met;
-> unless you have done something strange/dangerous and screwed up your Sphinx
-> installation.
->
-> My limited imagination prevents me from coming up with any plausible
-> scenario where these checks at every sphinx-build invocation can be helpful.
-> 
-
-Heh, playing with scripts/test_doc_build.py, pip allowed to create
-several environments that are valid for the package management software
-but either:
-
-- cause sphinx-build to crash even before returning Sphinx version;
-- crash in the middle of the compilation.
-
-As I said, Sphinx is a shell on the top of docutils. Some of the code
-there seem to depend on subtile behaviors, like the one with
-the tab_width affecting parser_yaml.py on certain Sphinx/docutils
-combinations or the one fixed by Jon with regards to setup a class
-for the broken references.
-
-The idea of this patch is to warn the one building the docs
-that he might be navigating turbulent waters when it is unknown
-if the combination is supported. It also better defines the
-scope of backward compatibility we want to provide.
+I'll re-check and adjust it as needed, if Jon decides to pick it.
 
 Thanks,
 Mauro
