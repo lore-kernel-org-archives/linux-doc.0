@@ -1,158 +1,125 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9C81B95B;
-	Sun, 22 Jun 2025 07:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A478C13D;
+	Sun, 22 Jun 2025 08:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750576783; cv=none; b=dCccj5z8ai41cnAOX7ihX/0FY8s6R31gSx0CqYXy/12ozedR3iaoNG8R9Qe94evk2zSlvjUeXOyC5y9HFulvATru+WIe4muQnGleYoSX0CHqOYgdV22WAJB/axBJsaTYywHtoXxfDEeq+6d6K/XQlrWk8nvYkFwcAoqzjo2m4Bc=
+	t=1750579935; cv=none; b=b6sY17tPOeKlyUp6iefU7Pe9atA8SXalYLdFcwExmcifGqDbzWM5GJv7Ld74CxoC5xPQdCo9isgU3QRQMRZtmqHGsHhSmjXYybzO+Hm5Af7ms9am7vzLuEQoZk5wE8oggdmAsC8rkYJo4nSSJcmTJgRaM6zJqCWzQPTeh9d8fvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750576783; c=relaxed/simple;
-	bh=XsZpFFTl/CwMcVUKNuQcK7fwZPhYxxqoMjPXSWGPEFY=;
+	s=arc-20240116; t=1750579935; c=relaxed/simple;
+	bh=1Nyqsom7BzEZrrFbK6mIV6zQVoAU3LFbyT+w96GCjpo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dNREuulEgcI9WAySWhZagZoLjovUeaNVD0SsCwUc8X5YFA8edNqq+zM5jlLFz4JxBQ3BND5C+Lko86r0uD0GSvIJzfpOQu1nV80d6++2FdRfJSkQsNUGdC1HfeWCI3E5okMZ8lUJWtw91o8XnnLiOkWAoyVr3VQPMZgTIMY3u4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=edRWLMKj; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=OM8pd4GBSUQfMzBPyT2XDcXOCy9CScoZ1GnLGlxxUMXfjv3JrZeTYvlRGKY9BeuYrVtnQLHLagmWc3o32t3vXN3d+zcU5QPR+r2BYvLvPIWNlDtdEE3+rQZ2KyX9HCzYp8Gxv5S2eYOmx6TczNMQfUx0FOqBmxfPJF4bWeQrraY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b+qe/QKN; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="edRWLMKj"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7490acf57b9so1499510b3a.2;
-        Sun, 22 Jun 2025 00:19:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+qe/QKN"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-73c17c770a7so3641924b3a.2;
+        Sun, 22 Jun 2025 01:12:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750576781; x=1751181581; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1750579933; x=1751184733; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XsZpFFTl/CwMcVUKNuQcK7fwZPhYxxqoMjPXSWGPEFY=;
-        b=edRWLMKjQKdfGJhisrgspGVBmsf6IGcLjvalJtGUptEDN9bGKwZUwK7ATtJSFRfN1u
-         uKhFYX1osvVJq93UcAPb9FCWsdFfAdRLXbZt9TmxfSy1LFEtmpBMFOv/h/6IAyEm4bfi
-         Ta0KHAKtyfzZV3opjgL4bTT2H2pYHqMRMl+4/qtimKvwGpZqz1Af0UW+HIvDN+dEeA0k
-         Ox4I9f39aNtiYqCQ9hOvg9GgZkA5oY85eSFekc+H4auaSu9OLLGHZngqJjd8oUg7Tx9i
-         eKoCm1SZ43TRde20FUzJQBMtmSDgUq35byzNFIcRoOx1Nk3HY0I8sojXOobYEdw/hkRo
-         UK5A==
+        bh=EBR+XoEZ32orRCDnBc/jEQaZSm0kBODP8RwLrnmBm0s=;
+        b=b+qe/QKNouzJRZ1cT0fi3CxQkPR51qKfrEDJeTfg/qpxEciOjS+oK9pdSp3sJ/zt4n
+         KAO4X1bquxt0xFQ5GNbH82dwmXkjz2OrMq+XB1oT3WrlQ9zyosDfdkDu++ChiLj+BukA
+         PCmPcV/e940zA7fw64afWfv9K2dMMFTbdZViliAgIMiLhCdMK/CE0748KlSMN+mYpUht
+         IKuXhLBJ/nGBf1tzLQ6Sqn2RluRT+yd7Lm7Vz2fU9i2G/vQbPqQHxURLBaiLtKtLYRC1
+         9iv2S3zjzzqvMBaWZnN1NvPEnVtYLpFSGQsXlHocYfY0+KeWLdcTRP9MlPL0EthYHlzJ
+         krpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750576781; x=1751181581;
+        d=1e100.net; s=20230601; t=1750579933; x=1751184733;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XsZpFFTl/CwMcVUKNuQcK7fwZPhYxxqoMjPXSWGPEFY=;
-        b=mCErk0JaPPqvtmWh8ESKxVTlumYinCLeNq+Q8evM8UsZUuXuz7j6wjUviZkV9cYYz2
-         NfulGq4VBHlLVwh1JcLvxUldTMZgwig5mbheT3NC+wWLIitFhWUmLqyGLEdMerS2CSQ6
-         2fX/yYrxsg6cOqsp70HUK2YY1t9gtDPmg63y0bcPZVfNC0fHbdTfFaEp+mDNUUXmFJUd
-         0qvqQi3Kt4xVaEUtCoV3GG/oDt22P+rlgC8P4qzu8Z6iVizdn81fE7dE7K1VsROaUEEM
-         sv2ZbLVCKg8oqwp4eiFuOh/GKtTMGQXtqk0//9yDp598OmcdM6XdUg7q4T+PNN1967VP
-         xE7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXwq+THym0pw332OcuwzIuIABaEn7qK5ZgfofdD96nTXc7AZDfAZ3dD5MbzBO3YrY7XI/AFbxFfo+ZpcNED@vger.kernel.org, AJvYcCXzNLnachgUso8Q9cKKSjujKLM70mxDOhoYOwdWQ338da8tCR+GgmMSbO/pCBfcp8y5pSsDncBCGIA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMXiTArppNdYxuKH6c6idLEzbtP77+Xpr+Ur6u+cUEDqqwZql3
-	z5KeD5gpS3lsamVDnnBpH++W2eAmBv+naDJj+ydoJl/2waEBRViQGVP6HIhBeg==
-X-Gm-Gg: ASbGncv2J3zHsVsCCuTlEI7jOV0nslcrtROZZtFf6axkDn/WjYdEC51Tfph4OJ/KI9X
-	20e9TNakIT8h+nqPE4ehUZYPYIMRB2Fv6TW3IsC+emUq6jxVJWBThqI5F9zdX4sjMpRwfnosPjr
-	8YMDbS3dNJM26RChln8OnRa1V+xp34U4+s0myyRjo72ossZCukUIwHCDngNZYYUGczZOfqXti9z
-	VKFEXW8hFmQl4SrloEjVldCC3T5ALjSWb1PMkzKrbqxgkOYnxV3HiyaHEABIIED+rvcoFu/HJz6
-	M5H6SGU7Z7EIZtcWPk9Ep+ow5yuLpX1Qcdhh1hxdt/OdtCcNjNV9VgJlKevODA==
-X-Google-Smtp-Source: AGHT+IH5957iiVn86LDQ9aR/PfErlpuO6KF+Ksum9DqhMmO3m0DuZkdPNQZZO+tm4antCLdKZS3Q6w==
-X-Received: by 2002:a05:6a00:1396:b0:748:ecdc:ca0d with SMTP id d2e1a72fcca58-7490d6636eamr11954943b3a.2.1750576780855;
-        Sun, 22 Jun 2025 00:19:40 -0700 (PDT)
+        bh=EBR+XoEZ32orRCDnBc/jEQaZSm0kBODP8RwLrnmBm0s=;
+        b=S1kofbz+ESKN0NaK7LWsM2brY8pSmnOygdjAUYlHPryfzYcV+PskuQ/0/CEyJ7tJua
+         Rrse5TUFA4ZzksiC0HmYd8oJK8FCJtJ1PDR01HhPMBsEPO16jn9WllADpmiesiZUQc+O
+         l1jC6scEWahNdRVMCiSe8d3J/ndo8OcvVae6Yp23cPqlmFpCIu3d0XMt8weG22AmmhOJ
+         NnZNY6whL0azKGMipIVeftw7mY/cZyXq5+mYLsSEosTg4hi1YbdO4eZWCp36mrYcaQFX
+         Kv5D5CZmxlnPmDVMTnln6ca9WauZl6v7fGQhtQTYOozmG4iBeqs+QLdSHXqHQ3BHLdoA
+         vR1g==
+X-Forwarded-Encrypted: i=1; AJvYcCUOW9sa0B8ufHQWo9+STNRMxpsQS1sBEktyFa/I0hmX7jSHagcoL2QFqyyHMcHIEx7QRP9agNDJskwhKQE=@vger.kernel.org, AJvYcCVxD/l+szIEqqKURq1WvP3ufSk7gazG6mMpqaZo7RiwI9Nmu92nbjRZ+jv0WfYvqtfgKEuY+HY2@vger.kernel.org
+X-Gm-Message-State: AOJu0YzP3rkCdA+eofclAyqPVD666MdLiEw0bDoCCIIp/ndSsYSNS15n
+	vEx8GLjdP1fCKYc5o+RydqfOTZxlS3+ehFsu7uXTm3cS2gTghAGEcUaj
+X-Gm-Gg: ASbGncuZNFZYsOs/NxEucv7USufTs1bEg6Ms9bv5Aw+pY+x2aNjgYJtvwuyoKDPlFCA
+	qztY8PC+yrQb8dui4V2H0xAeS05/bs5hXuACpOgePya1ib5dpDMlMjkawr+p/HQDFcrE3zVZMzb
+	22dqG1P5sTIr7dYbVX5G/eK7ocUGV+9AQQLO6S1l+jcICxyZvkAeEx+Rc0KkkJMcSUmYY59mYpl
+	1dAFzM8Ri91McC5pe7qG3kA/n/MgkCsTzGJQOD4ReIp9vqdOOY3bs56CFNv++zeyUQC/CRMr0cf
+	TecMqyPMXzvwaALqyEbjcNQ6DdJr0IIW2Y2yO9DLkf8KXpP0TYfsN1zXZtjc1Q==
+X-Google-Smtp-Source: AGHT+IGPw6YyGIuDPSt2iRzF0W7Kh+gQvIPV8hducKJ1Zi5ziOV8ujfgRDVNiq/Vn+KNi9yCX27yVA==
+X-Received: by 2002:a05:6a00:14c3:b0:742:da7c:3f30 with SMTP id d2e1a72fcca58-7490d6793f7mr12661656b3a.19.1750579933256;
+        Sun, 22 Jun 2025 01:12:13 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a62a132sm5816943b3a.96.2025.06.22.00.19.39
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a48a1b6sm5871067b3a.50.2025.06.22.01.12.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jun 2025 00:19:39 -0700 (PDT)
+        Sun, 22 Jun 2025 01:12:12 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id E473C4200200; Sun, 22 Jun 2025 14:19:35 +0700 (WIB)
-Date: Sun, 22 Jun 2025 14:19:35 +0700
+	id 8B4D84208F51; Sun, 22 Jun 2025 15:12:09 +0700 (WIB)
+Date: Sun, 22 Jun 2025 15:12:09 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Carlos Bilbao <carlos.bilbao@kernel.org>,
-	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stanislav Fomichev <sdf@google.com>,
-	David Vernet <void@manifault.com>, Miguel Ojeda <ojeda@kernel.org>,
-	James Seo <james@equiv.tech>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH RFC] Documentation: typography refresh
-Message-ID: <aFeuh_HOH8d2rXL6@archie.me>
-References: <20250619042318.17325-2-bagasdotme@gmail.com>
- <1067bbff-be53-4bec-9cec-8a4d0f531fb7@infradead.org>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, corbet@lwn.net,
+	davem@davemloft.net, edumazet@google.com, horms@kernel.org,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	skhan@linuxfoundation.com, jacob.e.keller@intel.com,
+	alok.a.tiwari@oracle.com
+Subject: Re: [PATCH net-next v4] docs: net: sysctl documentation cleanup
+Message-ID: <aFe62dzYPLktxZrH@archie.me>
+References: <20250622062724.180130-1-abdelrahmanfekry375@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iGGSKdNNVVEwADi7"
-Content-Disposition: inline
-In-Reply-To: <1067bbff-be53-4bec-9cec-8a4d0f531fb7@infradead.org>
-
-
---iGGSKdNNVVEwADi7
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250622062724.180130-1-abdelrahmanfekry375@gmail.com>
 
-On Thu, Jun 19, 2025 at 12:12:38AM -0700, Randy Dunlap wrote:
-> Hi Bagas,
->=20
-> On 6/18/25 9:23 PM, Bagas Sanjaya wrote:
-> > The reason why serif fonts is used for headings in complement to sans
-> > serif in text body is to break up visual monotony of docs page by
-> > creating contrast between headings (as entry point to docs information)
-> > and text body, which is important considering that kernel docs are
-> > quite lengthy with many sections.
->=20
-> It's interesting that mediawiki chose to split the serif and sans serif
-> usage this way. Newspapers essentially do the opposite: use sans serif
-> for headlines (mostly, not consistently) and use serif for body text.
+On Sun, Jun 22, 2025 at 09:27:24AM +0300, Abdelrahman Fekry wrote:
+> @@ -1028,13 +1134,15 @@ tcp_shrink_window - BOOLEAN
+>  	window can be offered, and that TCP implementations MUST ensure
+>  	that they handle a shrinking window, as specified in RFC 1122.
+>  
+> -	- 0 - Disabled.	The window is never shrunk.
+> -	- 1 - Enabled.	The window is shrunk when necessary to remain within
+> +	Possible values:
+> +
+> +	- 0 (disabled)	The window is never shrunk.
+> +	- 1 (enabled)	The window is shrunk when necessary to remain within
+>  			the memory limit set by autotuning (sk_rcvbuf).
+>  			This only occurs if a non-zero receive window
+>  			scaling factor is also in effect.
 
-IMO I found that sans-serif is more pleasant to eye (i.e. lesser strain)
-than Times New Roman on screen. My htmldocs build now uses Google Sans
-Display and Roboto Mono, though (as web fonts).
+The indentation for enabled option outputted like a definition list,
+so I fix it up:
 
->=20
->=20
-> Have you read "The Psychology of Computer Programming"?
-> [https://geraldmweinberg.com/Site/Programming_Psychology.html]
-> The content is very good but (at least in early editions) it was printed
-> completely using a sans serif font (probably Helvetica). It's not a
-> long book and I found the subject very interesting, but it took me
-> forever to read it because it's (or was, don't know about the later
-> editions) in sans serif typeface. I hated that part of it.
+---- >8 ----
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 682428b8f20507..e20cef49adf75c 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1136,11 +1136,10 @@ tcp_shrink_window - BOOLEAN
 
-I didn't read it, unfortunately, due to financial constraints.
-(Oh, and in Indonesia where I live people usually shop things online
-at Shopee, Tokopedia, and Lazada [my go-to marketplace] instead
-of Amazon.)
+ 	Possible values:
 
->=20
-> So I applied this patch and tested it. It works as far as I can tell.
-> I got tons of sans serif font text instead of serif font text that I
-> don't care for. (I don't mind that the sidebar text is sans serif.)
+-	- 0 (disabled)	The window is never shrunk.
+-	- 1 (enabled)	The window is shrunk when necessary to remain within
+-			the memory limit set by autotuning (sk_rcvbuf).
+-			This only occurs if a non-zero receive window
+-			scaling factor is also in effect.
++	- 0 (disabled) - The window is never shrunk.
++	- 1 (enabled) - The window is shrunk when necessary to remain within
++	  the memory limit set by autotuning (sk_rcvbuf). This only occurs if
++	  a non-zero receive window scaling factor is also in effect.
 
-I keep the headings on sidebar in sans-serif. Also, the body text is
-darkened (but not completely black) to give contrast between docs
-body and sidebar.
+ 	Default: 0 (disabled)
 
 Thanks.
 
---=20
+-- 
 An old man doll... just what I always wanted! - Clara
-
---iGGSKdNNVVEwADi7
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaFeuggAKCRD2uYlJVVFO
-o95OAP9yqtCMX798pRtyj4NkP0KfzOeY1aSLjMQxHLwNoDgOMQD+JOkSqAUFurm+
-SXw/VKt/Cq6a4/APpE1D13/4OAV8RgQ=
-=spbx
------END PGP SIGNATURE-----
-
---iGGSKdNNVVEwADi7--
