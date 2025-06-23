@@ -1,111 +1,238 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E7F450FE;
-	Mon, 23 Jun 2025 20:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C932C190;
+	Mon, 23 Jun 2025 20:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750711589; cv=none; b=WodmqSos63PMhhR/7SONYXPVaqUXq7Abt7Q8YPfAlOQXskYJ2fJ9q0sDHomzuYvAZ2u9z/QWM/gfzztucRnGCHivcWkV7FX1BbGgWWziRzN7DtlufGnY/iokW7GLENR2BDKSfc34SahW5tnr9DuZqmK+xy5Sg+TzTZJLhDOjjlU=
+	t=1750712298; cv=none; b=XL7W4Zhw3wecac1Br2WD8nS4tbWVYdvfwaJFbwqK3x1+MtoCZ5THNxv0BRWzYzFET+pRy4tlUPBR3UZtPm0QnfTHdVLS2fcaIegONUMptnmoOBvsYPJKraEsrrEF6AUYhQK5tkkYHNeNsLNDhHiYefXtxUlDi4YrvtXKJYaj+yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750711589; c=relaxed/simple;
-	bh=VdnbWeqI8Ap67iCrQCAySa8md3YMTF7BkfXz/DYRji8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oTOB9NcJ7IJlTS/IM1sVQTkRKqDSeI/ydAd/FG1NHekyjzzHHaNSEPh9b7NLL9RYlmi6Q9NfssyTA7qhapRQZdaeDo17b/XxaW+5TaZ+aUPinQ0NvKFw16YoUihzCrAUKnTV3KfOUMS+P1PI4O+BkE85owzIurHFjr7318ssjYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SZy/nLP/; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1750712298; c=relaxed/simple;
+	bh=776wSncQW1xwOP34kmp9xdM/HLTWzzodZmtjjkoBmgs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CiO57bf2gERLdh5h/zxdgqifscmaS7s2rHElpCCmJKPGqkkD+ESBZv0wv4YPRnNpRwTwj1yFNosM0MWbtRuT55jMQWzgJ/lEeX7t14TNB1Bpm1skfeo6TswlkZdzoHBRsL/rjCwxHOXa1VR7hGbs3/yWPlaFDH8yeQXi9yssjUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GPyYVwdK; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SZy/nLP/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=fqTupFHdWOP7XknPjNhQ1+otLO26YLnn5ZSEsxhj8Do=; b=SZy/nLP/3c+QnF2BTKRl/kNQxj
-	AvTwWK7ITnnOpj9kUWgxUlM079YiCqRv0XrRCWrbvBJD5o+xeJHfeGBxMjmGCMo5Q9PL2GlbGG1Q0
-	tyK3+41KZT/bFOsIW7hZMPLaFHzdHZlEfm8Y/N/APALXsPWLteRNWbKKDXl0KeGw4XRqdyl5hGbhb
-	Uft+5d1Cn7kgwT7dcOiafFVnKG8KIOukX+wiqgbPtU6v6oHcJoRZVn2DNKyRuoei2Tgadhp9YyK1I
-	hz3maER1osGsNiIUlG6+mCtitDdFDjwIH1BvYjrLeIBXOTb10S6jhTuBoag+fnD+HZgOFi1co54Lt
-	0Df6ep5w==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uTo3Y-00000004ZHA-0h2U;
-	Mon, 23 Jun 2025 20:46:20 +0000
-Message-ID: <ff61ff8e-d20c-444e-988f-6d97a197e070@infradead.org>
-Date: Mon, 23 Jun 2025 13:46:17 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GPyYVwdK"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e81e8321f11so554835276.0;
+        Mon, 23 Jun 2025 13:58:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750712296; x=1751317096; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RCvTT8wvpYdg449blLDp6fi3HEHpX9BGcZcH416Lr44=;
+        b=GPyYVwdKWh0nc9airPnZnoA+b82oKRgAgIo34TpU8YJzvIKckZ8DEEZxilh8dmguJJ
+         J/S3Zzuq6Trg4XhdzQflMXCZB/Itb7hvYme8SJebVAlvBCPXUKO+Zx21gMctmDlKazbn
+         YrK2hM4GgUhEpJZku2x5KCxwNZaw+t8zBYtqbfiuWBKVpyw4kEdZkEcUuD5+YvaF1Wdu
+         q6naTNV77jvmqOI9qd+9/+RHPZ6HI5XvAJjtdGPIYEg+IW7K//m5WJQrIDCed4GMlkWQ
+         kx6pEx/6ny1Ao9CvQl1EI4S3uPo9XWG4fPq9FwPQlt28V3kcuUGXQBb/xN4mVYzStzDw
+         LG6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750712296; x=1751317096;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RCvTT8wvpYdg449blLDp6fi3HEHpX9BGcZcH416Lr44=;
+        b=UiowfiPRqOjfTzV0OJIVxlYz6esuLHuYkaZPXRbahTD+NkLUI+ZyNIGOrD1ZdJZ0UO
+         6llm+MK715ptSYbDnAikF5XOUHclsAW1PwtJia9YAPUEJG1yA1VK6/rDHWtalh/7mtYR
+         1QrAp0s9qY86S05CWgxNx/fMhnd05b9yrTo+4p3XKWOZr0vpGTCYA43QyS35RQDdSQJa
+         cNKju/AznyuaoJE56T7gNh+cZH8s9ejyKijg2Qfo7NQSFgtG00bTRbjcwhHPpb/Ayq/k
+         poBKlrWcmKhEh73lM5T6fg0mskE835/CCGFhDZPOWnrm3Wh/rqsSh7FIs2oL2fmb/Gk7
+         Fz5w==
+X-Forwarded-Encrypted: i=1; AJvYcCVFHdkBZ3efaz2skN+fZ35JoGUkjCR5JYJwmW1cd4tOj/Z8LYk/qvn1nlF5Q2MmOHCO8g0sX5pb7oo=@vger.kernel.org, AJvYcCVMvojeJR9Osg6cdgx7WpcOdHSt/RL/qR2/BNY/h6EslCCSyox6tc0zmqddABYA5MPobEI5oOLgmQFz@vger.kernel.org, AJvYcCWlflHDhV/C6QNg8yLC1bbryCQoqmP/rkQUrY20OMBwBwMmO0D8qyGiUe4wg79T94HJ8ALpPspt/44zI0GA@vger.kernel.org
+X-Gm-Message-State: AOJu0Yykm1Cnd5+5f6egS5yEFJdRQYi6JrwxZm2bXrEds3pSElgr+U5+
+	kqXsTZkR2YrpdqdbYpaKjhybajXVMl4K05ZOsLJ1Vtwg3yvraDw3Xtvh0u3tHdiFl9X33Ujk3vI
+	eCO64bKi3Qc4rFZBIa1jNuNhwqmnsVuI=
+X-Gm-Gg: ASbGncuJmkJEJG0lkGVsk6v2igdXsZJUNdm+B1JzIx3REvwK6s/MOYAoZZnn0fnfQY9
+	ZvOPDz1xs8IVWWSa6BjN63MK4BlRoLCVbz9zSHJp1r+WkRaOlie0rWoGl77Mu703wf8IzTdDMYb
+	YkEmNFvTkPhyEVj1gYaw43gducGZjQPBraQ94OO4oa6zw=
+X-Google-Smtp-Source: AGHT+IHLCiITHeFFUwoaBxSNyLK4rYf8WdbLwlQxrGcpm/VoZtCB2g+5XkdMP3yvnFePdMAoH9a2s+LwPMMXJAto858=
+X-Received: by 2002:a05:690c:6ac9:b0:710:eb0c:da33 with SMTP id
+ 00721157ae682-712c654a9e5mr95110387b3.9.1750712295894; Mon, 23 Jun 2025
+ 13:58:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] nvme: Fix typo in status code constant for self-test
- in progress
-To: Alok Tiwari <alok.a.tiwari@oracle.com>, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, nilay@linux.ibm.com, corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250623064036.4187788-2-alok.a.tiwari@oracle.com>
- <20250623064036.4187788-5-alok.a.tiwari@oracle.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250623064036.4187788-5-alok.a.tiwari@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250622155010.164451-1-l.rubusch@gmail.com> <20250622155010.164451-4-l.rubusch@gmail.com>
+ <aFkfjAekGJTU5o71@smile.fi.intel.com>
+In-Reply-To: <aFkfjAekGJTU5o71@smile.fi.intel.com>
+From: Lothar Rubusch <l.rubusch@gmail.com>
+Date: Mon, 23 Jun 2025 22:57:39 +0200
+X-Gm-Features: AX0GCFtB93pXClswuiGY716ZjbH1aG0FWIojnaRDxI8nwCzYrny1LzkihVh3GS8
+Message-ID: <CAFXKEHbGThKzMxg=aZMgVEZ2S2hUoGAOoE5wu_vCuzEPqL0+cA@mail.gmail.com>
+Subject: Re: [PATCH v10 3/7] iio: accel: adxl345: add activity event feature
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, eraretuya@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Andy,
+
+Thank you so much. I really appreciate your quick feedback. I'll try
+to implement
+the changes in another version, as far as needed.
+
+Talking about the 80 characters, let me give an anser inlined down below.
+
+On Mon, Jun 23, 2025 at 11:34=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Sun, Jun 22, 2025 at 03:50:06PM +0000, Lothar Rubusch wrote:
+> > Enable the sensor to detect activity and trigger interrupts accordingly=
+.
+> > Activity events are determined based on a threshold, which is initializ=
+ed
+> > to a sensible default during probe. This default value is adopted from =
+the
+> > legacy ADXL345 input driver to maintain consistent behavior.
+> >
+> > The combination of activity detection, ODR configuration, and range
+> > settings lays the groundwork for the activity/inactivity hysteresis
+> > mechanism, which will be implemented in a subsequent patch. As such,
+> > portions of this patch prepare switch-case structures to support those
+> > upcoming changes.
+>
+> ...
+>
+> > +static int adxl345_set_act_inact_en(struct adxl345_state *st,
+> > +                                 enum adxl345_activity_type type,
+> > +                                 bool cmd_en)
+> > +{
+> > +     unsigned int axis_ctrl;
+> > +     unsigned int threshold;
+> > +     int ret;
+> > +
+> > +     if (cmd_en) {
+> > +             /* When turning on, check if threshold is valid */
+>
+> > +             ret =3D regmap_read(st->regmap,
+> > +                               adxl345_act_thresh_reg[type],
+> > +                               &threshold);
+>
+> Can occupy less LoCs.
+>
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             if (!threshold) /* Just ignore the command if threshold i=
+s 0 */
+> > +                     return 0;
+> > +     }
+> > +
+> > +     /* Start modifying configuration registers */
+> > +     ret =3D adxl345_set_measure_en(st, false);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     /* Enable axis according to the command */
+> > +     switch (type) {
+> > +     case ADXL345_ACTIVITY:
+>
+> > +             axis_ctrl =3D ADXL345_ACT_X_EN | ADXL345_ACT_Y_EN |
+> > +                             ADXL345_ACT_Z_EN;
+>
+> I think
+>
+>                 axis_ctrl =3D
+>                         ADXL345_ACT_X_EN | ADXL345_ACT_Y_EN | ADXL345_ACT=
+_Z_EN;
+>
+> is slightly better to read.
+>
+
+Agree.
+
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     ret =3D regmap_assign_bits(st->regmap, ADXL345_REG_ACT_INACT_CTRL=
+,
+> > +                              axis_ctrl, cmd_en);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     /* Enable the interrupt line, according to the command */
+> > +     ret =3D regmap_assign_bits(st->regmap, ADXL345_REG_INT_ENABLE,
+> > +                              adxl345_act_int_reg[type], cmd_en);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     return adxl345_set_measure_en(st, true);
+> > +}
+>
+> ...
+>
+> > +     case IIO_EV_TYPE_MAG:
+> > +             return adxl345_read_mag_config(st, dir,
+> > +                                            ADXL345_ACTIVITY);
+>
+> It looks like you set the editor to wrap at 72 characters, but here the s=
+ingle
+> line less than 80! Note that the limit is *exactly* 80 character.
+>
+
+I have my setup adjusted to 80 characters. Anyway, the cases here is
+different, it needs
+to be seen in context of the follow up patches. I tried to prepare the
+patches now in a way
+where changes are mostly "added". Is this correct and desired patch prepara=
+tion?
+
+In the particular case, this patch now adds ACTIVITY. A follow up
+patch will add INACTIVITY.
+Since this is still building up, it will add yet another argument to
+those functions, i.e.
+> > +             return adxl345_write_mag_config(st, dir,
+> > +                                             ADXL345_ACTIVITY,
+
+will become, later
+> >               return adxl345_write_mag_config(st, dir,
+> >                                               ADXL345_ACTIVITY,
+> > +                                             ADXL345_INACTIVITY,
+
+To make the change more additive, I did linebreaks earlier than 80
+characters. Is this
+legitimate in this case?
+
+If so, I'll keep all related formatting as is (and will only change
+the other requests).
+Otherwise, I can do it differently and adopt all the formatting
+changes to prioritize 80 characters.
+
+Please let me know, what you think.
+Best,
+L
 
 
-
-On 6/22/25 11:40 PM, Alok Tiwari wrote:
-> Corrected a typo error in the NVMe status code constant from
-> NVME_SC_SELT_TEST_IN_PROGRESS to NVME_SC_SELF_TEST_IN_PROGRESS to
-> accurately reflect its meaning.
-> 
-> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  drivers/nvme/host/constants.c | 4 ++--
->  include/linux/nvme.h          | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
-> index 1a0058be58210..dc90df9e13a21 100644
-> --- a/drivers/nvme/host/constants.c
-> +++ b/drivers/nvme/host/constants.c
-> @@ -133,7 +133,7 @@ static const char * const nvme_statuses[] = {
->  	[NVME_SC_NS_NOT_ATTACHED] = "Namespace Not Attached",
->  	[NVME_SC_THIN_PROV_NOT_SUPP] = "Thin Provisioning Not Supported",
->  	[NVME_SC_CTRL_LIST_INVALID] = "Controller List Invalid",
-> -	[NVME_SC_SELT_TEST_IN_PROGRESS] = "Device Self-test In Progress",
-> +	[NVME_SC_SELF_TEST_IN_PROGRESS] = "Device Self-test In Progress",
->  	[NVME_SC_BP_WRITE_PROHIBITED] = "Boot Partition Write Prohibited",
->  	[NVME_SC_CTRL_ID_INVALID] = "Invalid Controller Identifier",
->  	[NVME_SC_SEC_CTRL_STATE_INVALID] = "Invalid Secondary Controller State",
-> @@ -145,7 +145,7 @@ static const char * const nvme_statuses[] = {
->  	[NVME_SC_BAD_ATTRIBUTES] = "Conflicting Attributes",
->  	[NVME_SC_INVALID_PI] = "Invalid Protection Information",
->  	[NVME_SC_READ_ONLY] = "Attempted Write to Read Only Range",
-> -	[NVME_SC_CMD_SIZE_LIM_EXCEEDED	] = "Command Size Limits Exceeded",
-> +	[NVME_SC_CMD_SIZE_LIM_EXCEEDED] = "Command Size Limits Exceeded",
->  	[NVME_SC_ZONE_BOUNDARY_ERROR] = "Zoned Boundary Error",
->  	[NVME_SC_ZONE_FULL] = "Zone Is Full",
->  	[NVME_SC_ZONE_READ_ONLY] = "Zone Is Read Only",
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index b65a1b9f2116c..655d194f8e722 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -2155,7 +2155,7 @@ enum {
->  	NVME_SC_NS_NOT_ATTACHED		= 0x11a,
->  	NVME_SC_THIN_PROV_NOT_SUPP	= 0x11b,
->  	NVME_SC_CTRL_LIST_INVALID	= 0x11c,
-> -	NVME_SC_SELT_TEST_IN_PROGRESS	= 0x11d,
-> +	NVME_SC_SELF_TEST_IN_PROGRESS	= 0x11d,
->  	NVME_SC_BP_WRITE_PROHIBITED	= 0x11e,
->  	NVME_SC_CTRL_ID_INVALID		= 0x11f,
->  	NVME_SC_SEC_CTRL_STATE_INVALID	= 0x120,
-
--- 
-~Randy
+> ...
+>
+> > +     case IIO_EV_TYPE_MAG:
+> > +             return adxl345_write_mag_config(st, dir,
+> > +                                             ADXL345_ACTIVITY,
+>
+> Ditto.
+>
+> ...
+>
+> > +             return adxl345_read_mag_value(st, dir, info,
+> > +                                           ADXL345_ACTIVITY,
+> > +                                           val, val2);
+>
+> Ditto and so on...
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
