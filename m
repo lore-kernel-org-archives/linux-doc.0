@@ -1,128 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2660A4409;
-	Mon, 23 Jun 2025 08:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E602253EB;
+	Mon, 23 Jun 2025 08:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750666640; cv=none; b=Q7yZ04clbAgOXvRp0tPYv+wiKlygoWY/xdab4JhkYkM43yf1TnNF/s7yeTtWFRC7KX4zBoF/HzPlGPqb3TDwDdm6b+2/n3aVJHvG2uyYOiQ09lFTc3OGjYRjOEHPN3eC0a45BMKey14mfDp8/SrEu6TAGCyRwFFPYKe5QRnZeHc=
+	t=1750667274; cv=none; b=E69dOlczsFZF3RHePSW/8B3UHse5tqYtxwxewkVLp2IYj97mca19aoyLznCgq8J7fgfxtwSBJZWYn1Bym6OSfrkXLfoGhsV5VOPKluAWMgGoOCVkVo4GVFUTNdl70oM9FMyYTuFsGH9ghZGMjKQfUIWFenENh3Yg0cunP1hLvsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750666640; c=relaxed/simple;
-	bh=3C1C5syECeHn+sxB4B/MNopaQHu7zY8lfXLdxTcq1ks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UJU/9abDXQQn1R0Rjnq9Cj/bRUrHGqAMyEiYVogGmSWjtskmEQxjPsFBZIub/G6Jl9PFU8xFddFc8MT/orZKPTkDK8ktvC3nYErte+8kYoOqg75Otiby1YHEa4pmQ1gkclO3rYX6unmvq0IqnVXE/+EXQTMsf/ApZv73fd85pbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ks/h/Npi; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1750667274; c=relaxed/simple;
+	bh=0zLEjCG0VOj06Aau1Hewd6jtAnHMseBvtrc0ZA27foU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WLz1DMDJWlp5dWhekHmN5hEALKDPsNL7NH8LFt2aRRkLVlWLHwfFlKI/G2Qbs4wpSNqf1QnIkdBw5LxfGPph2j/gVmOmlJVkkQ3Gt6B2F3UCQ+7AtXHeRc7Ayw1s1RbPru53QikujY97eDkufsxL06K2Z26HdPU906/0HWkVaLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gqzb4YQI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sPsnNy/Z; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ks/h/Npi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750666638; x=1782202638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3C1C5syECeHn+sxB4B/MNopaQHu7zY8lfXLdxTcq1ks=;
-  b=Ks/h/Npi2/5zOyXe6eTCe6EUpzGoRxtKfN+vqWCUL+/elCbPRP+hCYtx
-   6pv+AhcL+m+OTWk2hvP9kWRe+DByHMSjSPg1mVOi018xVQaIO5jZGqBEO
-   P7tiEPCWFyE50eFX+KRMboE1HeOQaVieX0N9UTiVrpiPkyepvDZkDgjT2
-   QWDXQ5Ic5HM0RIbEthNPd78//YrBhpwVd149tzBgU+lCxdYZvb3zrC8g0
-   HPT+khGIJYkZP4yM9+nF9m91D68eHkoozsZgleP3+Q8RcUqIOP8GsHt35
-   odbb71qZaincMdLNixl5F+42duQVaNzV4uLnvO273vyrwt42JLIXNR4IJ
-   Q==;
-X-CSE-ConnectionGUID: CbKVdD19ToiYt3SSMLnweg==
-X-CSE-MsgGUID: 3lhFvzK+T+6tqpRXOp5Emw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52732704"
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="52732704"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 01:17:17 -0700
-X-CSE-ConnectionGUID: 8g6RJxTKTPCtjzq50ZA/yw==
-X-CSE-MsgGUID: vpuqvzhrQi6SNRUSArfXVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="156074558"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa004.jf.intel.com with ESMTP; 23 Jun 2025 01:17:04 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 6F573108; Mon, 23 Jun 2025 11:17:02 +0300 (EEST)
-Date: Mon, 23 Jun 2025 11:17:02 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
-	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
-	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org, Yian Chen <yian.chen@intel.com>
-Subject: Re: [PATCHv6 01/16] x86/cpu: Enumerate the LASS feature bits
-Message-ID: <tmd5llufitosphzhiik2tlemjuwyi7xkcjlhbqhibrgjjhsqcj@b3xtgub42p45>
-References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
- <20250620135325.3300848-2-kirill.shutemov@linux.intel.com>
- <20250620163504.GCaFWNuI-8QFqAM0yI@fat_crate.local>
- <6y2iqv6c2idn7yebaec7tyhzl5zcsrwqq4lcsokumlqeophzaf@ljnmxorblgcj>
- <20250620182943.GDaFWolxhwogB2tTxb@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gqzb4YQI";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sPsnNy/Z"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1750667271;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n5TpW8PdAh4HBq1Z6euH+u8O8gkNmzgjavPMSX1mvmM=;
+	b=Gqzb4YQIJi/ozNfATPmKOO1s4Cm32jOsinpVrzvIl46Iyv7j7ljxbrDBjgxGN2/7AZbtVh
+	xQILYgDuoY5DQIxxM7rQEAF4nRpa+b6BHGuouppEtAihB4TwgSHucsFz4TccAXITJt9aaX
+	flIX/sGnXB4lLwWg+xxmo3WxaOfdT4VXGht46Nk9JZtlLjsm7P1ErDwOsfNqwx8SbFUhC/
+	1PWsvVrAp/J0oDQf+4qOmcUj+Ot1/yWDEWUC77CNI30fg16SkWO8zDFpmx1xRXxshJdTOL
+	q1lH6a6dKWlwUaQsdyinpLR7L6mr3UOrvDpJdY+2j6OPtmv0KpklSfMSsxacAQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1750667271;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n5TpW8PdAh4HBq1Z6euH+u8O8gkNmzgjavPMSX1mvmM=;
+	b=sPsnNy/ZDFHWTgW+kV16G/ml7lo1BrghL4pg1Nvoj0Q8P/EiEChGX8XepEhMKusdmPL+dV
+	uDepzEC5+UQtH2Bw==
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
+ jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+ gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+In-Reply-To: <9c60326b-f7bd-0b36-3bc5-0ad7d19690f1@loongson.cn>
+References: <20250610114252.21077-1-zhangtianyang@loongson.cn>
+ <20250610114252.21077-3-zhangtianyang@loongson.cn> <87o6uris6p.ffs@tglx>
+ <9c60326b-f7bd-0b36-3bc5-0ad7d19690f1@loongson.cn>
+Date: Mon, 23 Jun 2025 10:27:51 +0200
+Message-ID: <87v7omooag.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250620182943.GDaFWolxhwogB2tTxb@fat_crate.local>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 20, 2025 at 08:29:43PM +0200, Borislav Petkov wrote:
-> On Fri, Jun 20, 2025 at 08:33:36PM +0300, Kirill A. Shutemov wrote:
-> > What is current policy around it ?
-> 
-> Documentation/arch/x86/cpuinfo.rst
-> 
-> > I think it is useful to advertise security features in cpuinfo.
-> 
-> Because who's going to consume them?
-> 
-> Don't get me wrong - I am trying to see whether the whole use case for this is
-> well thought out. Because it becomes an ABI.
-> 
-> But if no one is going to use it, why bother?
-> 
-> Arguably, for this thing the argument would be - as it is put in that file
-> above:
-> 
-> "So, the current use of /proc/cpuinfo is to show features which the
-> kernel has *enabled* and *supports*."
-> 
-> as it has been enabled by machinery.
-> 
-> So that's ok. I'm just making sure we're on the same page and you're not
-> aiming at something completely different with this.
+On Mon, Jun 23 2025 at 10:45, Tianyang Zhang wrote:
+> =E5=9C=A8 2025/6/13 =E4=B8=8B=E5=8D=8811:20, Thomas Gleixner =E5=86=99=E9=
+=81=93:
+>> On Tue, Jun 10 2025 at 19:42, Tianyang Zhang wrote:
+>>
+>>> +	tail =3D (tail + 1) % INVALID_QUEUE_SIZE;
+>> Why is this before the barrier? The barrier does not do anything about
+>> this and you can simplify this. See below.
+>>
+>> And as there is no rmb() counterpart you want to explain that this is
+>> serializing against the hardware.
+>>> +	 */
+>>> +	wmb();
+>>> +
+>>> +	write_queue_tail(rqueue->node, tail);
+>> 	write_queue_tail(rqueue->node, (tail + 1) & INVALID_QUEUE_MASK);
+>>
+>> No?
+>
+> The reason fo coding here is that during testing, it was found that a
+> barrier is needed between the update of temporary variable 'tail' and
+> the operation of register with 'write_queue_tail' , otherwise
+> write_queue_tail will probabilistically fail to obtain the correct
+> value.
 
-What about this:
+How so?
 
-LASS provides protection against a class of speculative attacks, such as
-SLAM[1]. Add the "lass" flag to /proc/cpuinfo to indicate that the feature
-is supported by hardware and enabled by the kernel. This allows userspace
-to determine if the setup is secure against such attacks.
+tail is the software managed part of the ringbuffer which is shared with
+the hardware, right?
 
-[1] https://download.vusec.net/papers/slam_sp24.pdf
+So even if the compiler would be allowed to reevalutate tail after the
+barrier (it is NOT), then tail would still contain the same value as
+before, no?
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+The wmb() is required to ensure that the hardware can observe the full
+write of the command _before_ it can observe the update to the tail
+index.
+
+Anything else is voodoo.
+
+Thanks,
+
+        tglx
