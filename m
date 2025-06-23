@@ -1,139 +1,97 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A3823AE7C
-	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 14:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7956B263F3C
+	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 14:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750688930; cv=none; b=h8dijJeJsQ4UkvXQQ+0VBgW92Jl+dU7aF71PPe+Rp23kmNtXJSQj2lq7rlXudF7xJfOr9jPzOuSagMf4s5U43Y9jMJWm8ep8fLUaFGTr5LUCN5ST+2q33Nt8+tew08fC3lDey23k9fXa4ETD5kpkXPeKzH2GNBWcDiYFhgsQi54=
+	t=1750689499; cv=none; b=Ds5HzgFnekcJPCRunZcFOGORuZTZzHQ5jKRrFoPB3+DVFJNd1TWPYq+hhzm+ZpE/5BtdOFr/dys0z56d578rouuaiM8Y+/yXj+lS2pVEY94qt/w3/g8nE4gd0UlFumTaQFaVAICKj+Pa7Y9u8R81kGnZ8h6HgXF7PRYk3bGV884=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750688930; c=relaxed/simple;
-	bh=/14cwYyKwKubJFvYMHEKWQA22KWCV38zKaWXVdcaG2g=;
+	s=arc-20240116; t=1750689499; c=relaxed/simple;
+	bh=27G5tZxM8xD6Y1gt414e7Js81jz9vu52ASWX9h/SSQM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sYUCRRzuWnIUHjxQibd2XwhLBva8OyVCb0seiruhdO+CK9CRySTKFDCVKdN7uMT6hra6XWIlOni9OLcMu39BxdZ+COYeuhNb/Mw9QjmdZbc7g3Qg8bgSjeyE5Vk1NMGX4qWIMSeVfM/L4dnGx7BlAy/pZPO1pAVrVojVeYBV7Xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=gGG3Pc4H; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	 To:Cc:Content-Type; b=BSaUxs1fpBgplpTWFEwNgIcfM09/1F7Q27CMAorkulpnfzfLX1JLjS6/n7+ImHH4K+Zmd+60JbR0H6pC43exAQCvH0t6J94wv1GzxHgqhbywomQzhvgek/DdFSO922sZtgNWo45OpqsZwnYP/5Acq5Ve+DxTrRPBDeFDwlJ8nr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZRkgYwLi; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="gGG3Pc4H"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4a43afb04a7so29727371cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 07:28:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZRkgYwLi"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4a77ea7ed49so29794771cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 07:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1750688928; x=1751293728; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750689497; x=1751294297; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/14cwYyKwKubJFvYMHEKWQA22KWCV38zKaWXVdcaG2g=;
-        b=gGG3Pc4HaxosWf5dMaa+c/J3BbeyQ3nBdt1Z1bcgahYj/++kkU4K3oOnOzwDHkvgo5
-         /fKJBOBLhmXf1XhwSejoDNSqtrdxIMLwS8bJyccDKvZzwbuyWbPQmKp/ccpNLnj1z+wU
-         r+XcSMoUCpUEQ4N1C8Gobr6CozOBzG7Nebo4doxW6k/3FCl44cX+Dsd/e9EW0nQJz43X
-         iBqk2APQE9NJt1OXz5SiZ3jYdqLizYH7JDip1faAfaMO1Rp3rJPuKBD5lwOcbx2epR4F
-         +5WdhJ9ukYoSNwE0Cr5Mvm6TeunTmawLmGTxsq4L0i5VC92rTOREwNXhH1uLGVzAe1+w
-         t4sg==
+        bh=27G5tZxM8xD6Y1gt414e7Js81jz9vu52ASWX9h/SSQM=;
+        b=ZRkgYwLi0axVXJ1XtuDVu/pZKhwxu1XL8iqireNWT9m7D33s8XHYSYdrVyfsEGXiYg
+         co3kWkwPzyMABwFrnGsTOhKGEsHxQSQu55oSRKU3koTROserxCcbyGynOQG+MmZVl1MN
+         RVCYyKdS8TGPb++b6cdoglTmryljqA5kHCATNbWsTstFXZDKi1nqLcBxrEHL/c44wAgk
+         XjGVYddN43o/dJgX44PPX1twuv7ofs1TDe/WoNJkAnNURRPpONastlq3gE425Y2sbJhm
+         SYGTUKfc8241PcusduMiTMOaG2X77QdjDR2lhOTeC2qNyoP0AsCmvvisT0ZAq+LSEcNE
+         B6WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750688928; x=1751293728;
+        d=1e100.net; s=20230601; t=1750689497; x=1751294297;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/14cwYyKwKubJFvYMHEKWQA22KWCV38zKaWXVdcaG2g=;
-        b=B2XI/XlhBEhNAff278pz925Xnd2zA8bOc19HikJfY59ukH3Xzrd5T2yP2V8VkVOr+k
-         szaruyXPvk/q/C3ziPD4SJLr3Tz18nv3kNqe2Iq9Dg4CmstI0Srm1xBtwEE3+H+gf5bC
-         nYjgYqDmlaA9+hqKxZonmF+fnMhlrOSg/h60Se9Ca4Z5xIsbxC8GedRirz4aR12wF3ZZ
-         gNqp6qTYWO7ZKtND8KNU/VKYdZeqR9h8mzB1uqv+zEEup/cLQeHGW90BDh2UiXxjSRvM
-         pKemP4msUIM4SogOuWD+G2saa3QvCxnrUFQrY0cH9AOrO3WCS/nAMcwB8c/OOJ/FbcZN
-         dZUw==
-X-Forwarded-Encrypted: i=1; AJvYcCVmNQud0vCURBNEzkdh4Yhn1ejgSZ37eAWsmmuc1XxG1VjKePk+pQExUyi3OQfG7oQwv9wasNEvSbs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFzBNEER+ixtJXIewcvlBLe7a5Jm2NSt3fTuTb04T7pFfN4La4
-	HQ9J8JkMO9MeYvCuJ2m3Xuu/v4G5F1794waCvKD9qoCkT66Z2jWOnhQsSfQsbtN5UF4PhwKX3oH
-	YN6cABFxJPbQ6Ydn+rnJ7MfsWaeR3V/E5vuWgACk+dg==
-X-Gm-Gg: ASbGncvArQ5pB/VrofJW8WY3zhKV+26wZ+Tn1zdVO6xpaxmAveNmXk2qFTj5tX72gNy
-	X9alhvM1BNMfnjsDfIVZ9fKBc8ttQj/vwAi8DbcQylVwuucmWgNs0PB34RDPLwbyFxbwvu18c0A
-	78x+FumpOodNx4AQuPf5L1x/JFnPGJkqrtM+0LIJGqvup2uRrEUlAUxDpIGwrIq2ha7iwiOEw7c
-	0wF8Q==
-X-Google-Smtp-Source: AGHT+IGAEU79vWFsEbGN71mgZpuPejwVzDs9CuFGRu/kIPPECPSaBJWX6S8IOXgJzNmRFrQ3GoKYDSjB9QaqmPokmug=
-X-Received: by 2002:a05:622a:50f:b0:4a7:146b:c5e5 with SMTP id
- d75a77b69052e-4a77a20840emr222574351cf.21.1750688927718; Mon, 23 Jun 2025
- 07:28:47 -0700 (PDT)
+        bh=27G5tZxM8xD6Y1gt414e7Js81jz9vu52ASWX9h/SSQM=;
+        b=NCHLEqivNNbLSBQxaCg0Y4Yd6NRtzcnuHn6bQW2KWDIX4HLCF3G3vzrP1i1KAWOWXK
+         XdAV0CNq/0SIJ7U0W/4D9T5Rah3fOwpi55lm96+r4pgDqm0aZcQGNU5dWMstOoPQjclS
+         u1Fe7fRMioSuJno+nZoeJ5FBncqzx5MWwWx+4jOrDBJb8D7QY4CFVRDPqb8CkJLlhWc3
+         BhJnICj738maGPJYXSVXz9AJbOAG3cRbMjrcDiL60ye1xoJnce1TZjSHtwn0lL1jJobk
+         cxoa0L4xr1eNZcx2jO6pwOW5UZD/Ie+P+XUm0bjJ5ZKuB80sZDSll23KBr3tdHWyolww
+         /IKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWb6lRXEC4RCmEJZPTQdJfIRaINddotzi6aLal9QCW0kWlkpvtuRM7Kqwn1w6JE70cs04vJgvstdPc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOYyOkAJtXPSxrsxcM4eQuZRxw/dS52kYC36GSY61r6bKx1DT5
+	nPfmL4lhCVFVZ8BV5o0veXz175x8Q6iYqT/VQ9gX+UgFcozVYamK+GWsPydRQKdWdYAkNWofK+6
+	rkZ/Vlsn2/7A+qa14h5Ukz2EE/J7RfNCE0sG8Oo1P
+X-Gm-Gg: ASbGncupWakqH8yMavo6itTc60AczaQ5INoIulWDoap0LJFbIybm0nKRMYLLZ2EHaYX
+	J9hS6GYIS7f/1tz3JhDmvX20dTwslGcWU4+fNX3Z+RFsZfDGGudP1cy/m5YDPMRFbnRBr/jh8UG
+	d604X6tdsm7rjRuSRm4Q6apjEP7Xivq0tTL1qClZgr5tU=
+X-Google-Smtp-Source: AGHT+IErEx0kDAOqp1ojFcDM9yYCZh+mVleoBFl1AEdwsO+17A/oIA84nB9tL4FUjJhJfRwxa3+3/8JyJJH7G1AK0u0=
+X-Received: by 2002:a05:622a:750a:b0:4a7:7c8e:1d5 with SMTP id
+ d75a77b69052e-4a77c8e083amr154660831cf.17.1750689450031; Mon, 23 Jun 2025
+ 07:37:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250530-rss-v12-0-95d8b348de91@daynix.com> <20250530-rss-v12-1-95d8b348de91@daynix.com>
- <CACGkMEufffSj1GQMqwf598__-JgNtXRpyvsLtjSbr3angLmJXg@mail.gmail.com>
- <95cb2640-570d-4f51-8775-af5248c6bc5a@daynix.com> <CACGkMEu6fZaErFEu7_UFsykXRL7Z+CwmkcxmvJHC+eN_j0pQvg@mail.gmail.com>
- <4eaa7aaa-f677-4a31-bcc2-badcb5e2b9f6@daynix.com> <CACGkMEu3QH+VdHqQEePYz_z+_bNYswpA-KNxzz0edEOSSkJtWw@mail.gmail.com>
- <75ef190e-49fc-48aa-abf2-579ea31e4d15@daynix.com> <CACGkMEu2n-O0UtVEmcPkELcg9gpML=m5W=qYPjeEjp3ba73Eiw@mail.gmail.com>
- <760e9154-3440-464f-9b82-5a0c66f482ee@daynix.com> <CACGkMEtCr65RFB0jeprX3iQ3ke997AWF0FGH6JW_zuJOLqS5uw@mail.gmail.com>
- <CAOEp5OcybMttzRam+RKQHv4KA-zLnxGrL+UApc5KrAG+op9LKg@mail.gmail.com> <CACGkMEsfxXtHce2HeYwYxmhB0e5cOjn17qM6zFEt75bQhbtrDw@mail.gmail.com>
-In-Reply-To: <CACGkMEsfxXtHce2HeYwYxmhB0e5cOjn17qM6zFEt75bQhbtrDw@mail.gmail.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Mon, 23 Jun 2025 17:28:36 +0300
-X-Gm-Features: AX0GCFu3hePJcE8mBSHlKXkSVpPD8N_41tEP_O5fU60lBvVDsaWZNc7CeBwagRc
-Message-ID: <CAOEp5Oet1P2EWTwLJnMYY4CVAzDWgdM8wbvV3+BH6aY0kE+O8g@mail.gmail.com>
-Subject: Re: [PATCH net-next v12 01/10] virtio_net: Add functions for hashing
-To: Jason Wang <jasowang@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
-	Andrew Melnychenko <andrew@daynix.com>, Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
-	Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+References: <20250621193737.16593-1-chia-yu.chang@nokia-bell-labs.com> <20250621193737.16593-4-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <20250621193737.16593-4-chia-yu.chang@nokia-bell-labs.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Mon, 23 Jun 2025 07:37:19 -0700
+X-Gm-Features: AX0GCFuRrhX0LBiCnxAPHQ5MTAVLkaa48kUt8r7GSQvKFHWuAgGT6_YRkQKc9Ek
+Message-ID: <CANn89iKXWH8VLY5W+iM4d7MGYL2dMRep2xG-AGGV7BcbJyMY4g@mail.gmail.com>
+Subject: Re: [PATCH v9 net-next 03/15] tcp: reorganize tcp_sock_write_txrx
+ group for variables later
+To: chia-yu.chang@nokia-bell-labs.com
+Cc: pabeni@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net, 
+	horms@kernel.org, dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org, 
+	netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com, 
+	kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com, 
+	jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch, 
+	donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com, 
+	shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org, 
+	ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com, 
+	g.white@cablelabs.com, ingemar.s.johansson@ericsson.com, 
+	mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at, 
+	Jason_Livingood@comcast.com, vidhi_goel@apple.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 23, 2025 at 11:07=E2=80=AFAM Jason Wang <jasowang@redhat.com> w=
-rote:
+On Sat, Jun 21, 2025 at 12:37=E2=80=AFPM <chia-yu.chang@nokia-bell-labs.com=
+> wrote:
 >
-> On Mon, Jun 23, 2025 at 1:40=E2=80=AFAM Yuri Benditovich
-> <yuri.benditovich@daynix.com> wrote:
-> >
-> > > Yuri, can you help to clarify this?
-> >
-> > I see here several questions:
-> > 1. Whether it is ok for the device not to indicate support for XXX_EX h=
-ash type?
-> > - I think, yes (strictly speaking, it was better to test that before
-> > submitting the patches )
-> > 2. Is it possible that the guest will enable some XXX_EX hash type if
-> > the device does not indicate that it is supported?
-> > - No (I think this is part of the spec)
+> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
 >
-> There's another question, is the device allowed to fallback to
-> VIRTIO_NET_HASH_TYPE_IPv6 if it fails to parse extensions?
-MSFT expectations for that are at
-https://learn.microsoft.com/en-us/windows-hardware/drivers/network/rss-hash=
-ing-types
-If I read them correctly, the answer is "no"
-BTW, my personal opinion is that placing all these things with hash
-calculations into kernel instead of ebpf does not make too much sense.
+> Use the first 3-byte hole at the beginning of the tcp_sock_write_txrx
+> group for 'noneagle'/'rate_app_limited' to fill in the existing hole
+> in later patches. Therefore, the group size of tcp_sock_write_txrx is
+> reduced from 92 + 4 to 91 + 4. In addition, the group size of
+> tcp_sock_write_rx is changed to 96 to fit in the pahole outcome.
+> Below are the trimmed pahole outcomes before and after this patch:
 
->
-> > 3. What to do if we migrate between systems with different
-> > capabilities of hash support/reporting/whatever
-> > - IMO, at this moment such case should be excluded and only mechanism
-> > we have for that is the compatible machine version
-> > - in some future the change of device capabilities can be communicated
-> > to the driver and _probably_ the driver might be able to communicate
-> > the change of device capabilities to the OS
->
-> Are you suggesting implementing all hash types? Note that Akihiko
-> raises the issue that in the actual implementation there should be a
-> limitation of the maximum number of options. If such a limitation is
-> different between src and dst, the difference could be noticed by the
-> guest.
->
-> > 4. Does it make sense to have fine configuration of hash types mask
-> > via command-line?
-> > - IMO, no. This would require the user to have too much knowledge
-> > about RSS internals
-> >
-> > Please let me know if I missed something.
-> >
->
-> Thanks
->
+Reviewed-by: Eric Dumazet <edumazet@google.com>
