@@ -1,111 +1,166 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A9C1F4722;
-	Mon, 23 Jun 2025 20:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E12B2D542B;
+	Mon, 23 Jun 2025 20:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750711167; cv=none; b=uwmOfDVyBaBNGgDE98U9Oko0278w8Yma3wXg6dizEe1ME+VPhHn4W6wrf/O9/podgiBhydSaZfKlh3954I98wbSMx+GjoVBFrF7dFVxPYExB5MEHE2H/lXUm2Rq3Oh2w2Iycs9HJvG5guLk0ANhdtQHybLU8FADBD47qNHxiMzM=
+	t=1750711403; cv=none; b=b2sm+v+eEpQEGMx3FBZoJkrG8P+W0QZQpwm0MpXkxNLQ71WI6Kju0l7Ifar4WWkM1UyHlWDidwq1W6LXQ130/Q/zMMp/ExK4CWm4ge7B3gz1q2Dxxcl2+qULAI7rbl+EDKoLGOVE4dtiHGt8OMVrh9Ka8sJ7ZrWEqdTXaEk/8MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750711167; c=relaxed/simple;
-	bh=jOBHMkhfK17KwiJCLSBMVKuPedcRRXNEGl8b4o/dC1U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BaNqMOZL67a50A4TL/pG/oEzG9NOzFg9Ix/itQ5HX/dRLbRrAruDju5YUnnJBiolkk6y7krrs+/KgQ7EDFHP6i5EgiWmSob761cc8cmxnSTLPoL+aPh36TD/Y+4jcQ593Ll0q2B2Thpul+TCK3X7WMV2GhenScxgyyCsg0bingM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BGNYKeJA; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1750711403; c=relaxed/simple;
+	bh=ZF8iOADmf8w+7qUTaik1sR5sLxxucpt9xz9r6IIBx8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tHd6s64ApfLulcqqX4uQ5KdqDWYBOKiwKCJw5jWHjrjrMGQORFVnV0rUMHA/c450BQGXYqyJrRxnKL8eH1MLXiWUO+QvavVrs8fPkF1BPebChpl2Sn3Bd/pi3GT2DSY/OQ/pf9A6riVYDu6wksJ4/l5ZgGMynD7fawoyz19/ftw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JFjLTigN; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BGNYKeJA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=gu+6pmFreAAsWhh78QzgjCygCkuWla9oYWkSW6ad8RI=; b=BGNYKeJA9cA8ap+f6qIae/xbFg
-	YBSFQwwCvjPd66KdSHhyr3LYnSCAHXk7Z/oyfrD1H8dddkCNgnGEvMANOUtiiQD96rxafOHkHn+Hq
-	CBqkR+U8f9AB+Satn1EwagdcrLmOdk237bhXoD0ULQd30veMz+3jzz08PaY1Z/1PCg7wR8U8QY6w2
-	86zpIZPfZy/jN1jMXjNbbtN9++3bXnQdc3xjDFmmjnVaC8qklrM2EV1k0rVqrISiqWVwn2jqRutce
-	9MhLjMdeHsd+bltLRSWAGo7U4QDWjK/zFYxiORCu+IZpCnRlxq0pfnqlPiJ+GaIDqKvMAWctErQbH
-	j4Ol9uYg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uTnwf-00000004Y38-1yap;
-	Mon, 23 Jun 2025 20:39:13 +0000
-Message-ID: <e2b0e9fc-c1dc-4f2e-9a6d-c92d25f28fed@infradead.org>
-Date: Mon, 23 Jun 2025 13:39:03 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JFjLTigN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750711401; x=1782247401;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZF8iOADmf8w+7qUTaik1sR5sLxxucpt9xz9r6IIBx8E=;
+  b=JFjLTigNx+cO+8ycNfK0fX+kyN4ViHfz+eHbnRNOy6ioT3yud8P6jmgD
+   74/kqmMpgx45E6eFOyA2DD5itGJw989w+CLuld5CmjAzzwUsjSLIavvnY
+   FXp0h/xtz2HiLrqHehr6qktST0VUzcr7yq2HS5IKrayfMY7wKdjpsK0M0
+   PxLubOMs/glkLrZk28zFJnSimk4ij69Igkhpb4IRjLZdKLSLJ9joFr59N
+   6H0OIaJITia2VwBvPKprl8MbsHykMlwhV2sJZ0IVs6fVeFvBZCuG9tPzE
+   H0imYgQyxNoi2B8Aln6Z42wcCl18Eg7DFhNKmwOT6BcuyA9yrWxyFS1P+
+   A==;
+X-CSE-ConnectionGUID: jzCD4RxET7W1EI5zjrRlPA==
+X-CSE-MsgGUID: gpTGF5f1RxaFSRCRnJrJEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="40547183"
+X-IronPort-AV: E=Sophos;i="6.16,259,1744095600"; 
+   d="scan'208";a="40547183"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 13:43:21 -0700
+X-CSE-ConnectionGUID: vhpMNoOJRVyHoigd9p+7Iw==
+X-CSE-MsgGUID: sLayHnBySu6O9o+QgzInsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,259,1744095600"; 
+   d="scan'208";a="151185395"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 23 Jun 2025 13:43:15 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uTo0W-000PJq-2Z;
+	Mon, 23 Jun 2025 20:43:12 +0000
+Date: Tue, 24 Jun 2025 04:43:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Gabriel Fernandez <gabriel.fernandez@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Subject: Re: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
+Message-ID: <202506240401.zlRG1qiO-lkp@intel.com>
+References: <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] docs: nvme: fix grammar in
- nvme-pci-endpoint-target.rst
-To: Alok Tiwari <alok.a.tiwari@oracle.com>, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, nilay@linux.ibm.com, corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250623064036.4187788-2-alok.a.tiwari@oracle.com>
- <20250623064036.4187788-6-alok.a.tiwari@oracle.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250623064036.4187788-6-alok.a.tiwari@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
 
-Hi,
+Hi Clément,
 
-On 6/22/25 11:40 PM, Alok Tiwari wrote:
-> Notable changes:
-> Use "an NVMe" instead of "a NVMe" throughout the document
-> Fix incorrect phrasing such as "will is discoverable" -> "is
-> discoverable"
-> Ensure consistent and proper article usage for clarity.
-> 
-> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> ---
->  Documentation/nvme/nvme-pci-endpoint-target.rst | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/nvme/nvme-pci-endpoint-target.rst b/Documentation/nvme/nvme-pci-endpoint-target.rst
-> index b699595d1762b..48f3b7f685945 100644
-> --- a/Documentation/nvme/nvme-pci-endpoint-target.rst
-> +++ b/Documentation/nvme/nvme-pci-endpoint-target.rst
+kernel test robot noticed the following build errors:
 
-[snip]
+[auto build test ERROR on 86731a2a651e58953fc949573895f2fa6d456841]
 
-> @@ -181,10 +181,10 @@ Creating an NVMe endpoint device is a two step process. First, an NVMe target
->  subsystem and port must be defined. Second, the NVMe PCI endpoint device must
->  be setup and bound to the subsystem and port created.
->  
-> -Creating a NVMe Subsystem and Port
-> +Creating an NVMe Subsystem and Port
->  ----------------------------------
+url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/bus-firewall-move-stm32_firewall-header-file-in-include-folder/20250623-173554
+base:   86731a2a651e58953fc949573895f2fa6d456841
+patch link:    https://lore.kernel.org/r/20250623-ddrperfm-upstream-v1-6-7dffff168090%40foss.st.com
+patch subject: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
+config: i386-buildonly-randconfig-002-20250624 (https://download.01.org/0day-ci/archive/20250624/202506240401.zlRG1qiO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506240401.zlRG1qiO-lkp@intel.com/reproduce)
 
-The underline needs to be extended one more character.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506240401.zlRG1qiO-lkp@intel.com/
 
->  
-> -Details about how to configure a NVMe target subsystem and port are outside the
-> +Details about how to configure an NVMe target subsystem and port are outside the
->  scope of this document. The following only provides a simple example of a port
->  and subsystem with a single namespace backed by a null_blk device.
->  
-> @@ -234,7 +234,7 @@ Finally, create the target port and link it to the subsystem::
->          # ln -s /sys/kernel/config/nvmet/subsystems/nvmepf.0.nqn \
->                  /sys/kernel/config/nvmet/ports/1/subsystems/nvmepf.0.nqn
->  
-> -Creating a NVMe PCI Endpoint Device
-> +Creating an NVMe PCI Endpoint Device
->  -----------------------------------
+All errors (new ones prefixed by >>):
 
-Same here.
+   drivers/perf/stm32_ddr_pmu.c: In function 'stm32_ddr_start_counters':
+>> drivers/perf/stm32_ddr_pmu.c:205:9: error: implicit declaration of function 'writel_relaxed' [-Werror=implicit-function-declaration]
+     205 |         writel_relaxed(r->start.mask, pmu->membase + r->start.reg);
+         |         ^~~~~~~~~~~~~~
+   drivers/perf/stm32_ddr_pmu.c: In function 'stm32_ddr_clear_counter':
+>> drivers/perf/stm32_ddr_pmu.c:232:22: error: implicit declaration of function 'readl_relaxed' [-Werror=implicit-function-declaration]
+     232 |         u32 status = readl_relaxed(pmu->membase + r->status.reg);
+         |                      ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
->  
->  With the NVMe target subsystem and port ready for use, the NVMe PCI endpoint
 
-With those changes made, you can add:
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+vim +/writel_relaxed +205 drivers/perf/stm32_ddr_pmu.c
 
-Thanks.
+   200	
+   201	static void stm32_ddr_start_counters(struct stm32_ddr_pmu *pmu)
+   202	{
+   203		const struct stm32_ddr_pmu_regspec *r = pmu->cfg->regs;
+   204	
+ > 205		writel_relaxed(r->start.mask, pmu->membase + r->start.reg);
+   206	}
+   207	
+   208	static void stm32_ddr_stop_counters(struct stm32_ddr_pmu *pmu)
+   209	{
+   210		const struct stm32_ddr_pmu_regspec *r = pmu->cfg->regs;
+   211	
+   212		writel_relaxed(r->stop.mask, pmu->membase + r->stop.reg);
+   213	}
+   214	
+   215	static void stm32_ddr_clear_time_counter(struct stm32_ddr_pmu *pmu)
+   216	{
+   217		const struct stm32_ddr_pmu_regspec *r = pmu->cfg->regs;
+   218	
+   219		writel_relaxed(r->clear_time.mask, pmu->membase + r->clear_time.reg);
+   220	}
+   221	
+   222	static void stm32_ddr_clear_event_counter(struct stm32_ddr_pmu *pmu, struct stm32_ddr_cnt *counter)
+   223	{
+   224		const struct stm32_ddr_pmu_regspec *r = pmu->cfg->regs;
+   225	
+   226		writel_relaxed(r->clear_cnt.mask & BIT(counter->idx), pmu->membase + r->clear_cnt.reg);
+   227	}
+   228	
+   229	static void stm32_ddr_clear_counter(struct stm32_ddr_pmu *pmu, struct stm32_ddr_cnt *counter)
+   230	{
+   231		const struct stm32_ddr_pmu_regspec *r = pmu->cfg->regs;
+ > 232		u32 status = readl_relaxed(pmu->membase + r->status.reg);
+   233	
+   234		if (counter->idx == pmu->cfg->time_cnt_idx)
+   235			stm32_ddr_clear_time_counter(pmu);
+   236		else
+   237			stm32_ddr_clear_event_counter(pmu, counter);
+   238	
+   239		if (status & r->status.mask)
+   240			dev_err(pmu->dev, "Failed to clear counter %i because the PMU is busy\n",
+   241				counter->idx);
+   242	}
+   243	
+
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
