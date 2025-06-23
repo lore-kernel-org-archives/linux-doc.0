@@ -1,302 +1,124 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3C072624;
-	Mon, 23 Jun 2025 15:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B69728313B
+	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 15:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750691125; cv=none; b=nekQ2cfKj/SamdhfofCRl5iJiiIm8FpyR8e4DYIh9eLOMeHw8itE04cWnrJggAxRhvAtIOmZhClf9P4lBsUcUpPC+BP6y+IepDFQccdLqNYzF6gpEqpYVYsj69QbUK0ELQwlTpjYv5KL7K7MmbN3Dk6983O6UCTPy+YcbUQhqY4=
+	t=1750691647; cv=none; b=GRsZETRJ0ot/3VZRSW4XQevmTOZqfHGnhINV7KMRhmm1qrJv4PNB+t0pC0ZmQxbin99544bj7jvflIJ4incIJ4+Vu32aOpX0hLlEkIOYLe1qmaGBwUGmLWaDoj3NbGpwf+ejE1yqC4ZmK7v1wYfoA10lLPLZA8YPlcBU+81+IdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750691125; c=relaxed/simple;
-	bh=xGs+xuT9ZbXSNcZb6r49Mqj6bJ/rNc5SZFKZhnRHrMI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=jGSyEk68e4JebI6fO8yx014JAKcmC900fRYR8h2/x1H3cm571/nPZL9n+ST0GPLGh6kw4TVGxQe7fBfUqhDCm+p2su7Ko3+sLkgOKG5cMRnKSUOXKoCx6G3tMEt3hFYr8OgQXKYOtANeeho7siSAMBkEKSZ93B9aEin0JqIyMLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=bF9yI8JI; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1750691647; c=relaxed/simple;
+	bh=T97FIRu7KTdXAKAuE2uiR/N85Qp0pQvg5x4paRRjBE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cd/I6XI7MpSnlSmruRxVlWWPkgmMUN9tZLXWj31YCecq4xm3bjaxwCAIzRHaNXn+3PgM/+fyXna4zI7HsKBeqFmy49/agjxnyb2/MBJZAeCDYZRZcR4eq8sfyLnLLEfSkYg9Kf6fMqPfj+4uiAv685Jo64S230MZPxs2ymaTQF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VKkhY7Ta; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="bF9yI8JI"
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55NDdLVH024335;
-	Mon, 23 Jun 2025 17:05:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	6sv5OcOQ4mLQLuHevh2cUvXQ88huIlXGlWQaz3Py6wY=; b=bF9yI8JIFqs7ioUx
-	YDyxrekrSZ47ndzO65fgYVA9fiqdJhb4A1AjRQpK8A6JPvobiX40RBvpbQICsGZy
-	KBEKyV8Nutp2vooUtufi6oc0aFIm3JnPIyEC0r4FpzFHsn9wPHB3mdk4CC3i0ySp
-	dVG+isuNuslqinodqBJo57SAui7QgB1Bu7WUx+AAYYE7Ei9Zr3IYwwyivPnOgD0g
-	NLyaqsS2+nIOxbGUoSJWY3H5t9f/gQnx84a3CpWq1xyJoKFdEOdehH2E7z2ID5QJ
-	ZCF7Imh3wriuEBkharNBQkUpD7+qm/hJwoArih2kgBsZskd63sl/XG1gzuA/EUtb
-	fL7yXQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47e6a6e021-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 23 Jun 2025 17:05:05 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 37F7440044;
-	Mon, 23 Jun 2025 17:03:38 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BAD61B52149;
-	Mon, 23 Jun 2025 17:02:26 +0200 (CEST)
-Received: from [10.252.18.29] (10.252.18.29) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 23 Jun
- 2025 17:02:25 +0200
-Message-ID: <1ff31bd6-08e0-46da-a1b0-c60dbb1e3cb8@foss.st.com>
-Date: Mon, 23 Jun 2025 17:02:22 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VKkhY7Ta"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-235e389599fso345305ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 08:14:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1750691644; x=1751296444; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sQjNcvHYakrNgjIQGLE/wyS2yfZF4798fujbYGUPWpc=;
+        b=VKkhY7Ta928BptYCHJVYvcLh5d5S42bzKA+iRJ+oEn0vaAOt9h0TsdKx0TVjsG5sH4
+         Z4q93H89iMYgYf0aYTsAgCNfxEn9VdxmzIGv5nStyrSyPIKbxJo9juXqmMMNq7ECHFDx
+         B8JomsblSvNpl/fEvJo6R4/YPa9gv3aZKDa1EMjVHvRE+O9+BIZhlH/xK/wIzNWS/YSZ
+         u5O5ucng1O3F0A9odAfGrmPgdSFcRgmoE3vaSf9skQt3uezUoJ5cU1m8WFQM9WRytk3B
+         +hYacxGBwtbMioE5B0mmYlJdkMqV/80MQguGEMxtequZg9ItcVJDvF+AGxR7FFvPz+ij
+         jIZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750691644; x=1751296444;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sQjNcvHYakrNgjIQGLE/wyS2yfZF4798fujbYGUPWpc=;
+        b=NMzXGmKPI7WXu0aWcHjFgV/EJOQc2LxwnrVlIJHLRC3+A+TXp4u82WokeRZOEzDj4r
+         DXxkKXrkxfXIizRhSBBMGPspe+qi14518qFgo5XQN3RFkStsraIJVO5jmfidlaxs7Bwp
+         G7oICaiR/+Ds66EAp9JKYY9dpOfKmbnvoOhhinp6HpU+MAIJ7JIeidftOo73vpiyU3FK
+         My6HaTbzp7qqTNCkCKfFJeesFzvhiS3NM3pnko6m0oj+WeEodLdFkUvxz+Zk9iL2LinZ
+         NQC2kQ3CLED9iV97utVbTqLRUnJ2OGLIqLounBGBktonmNmx1Regd5NYrV1wmRow9mAH
+         eH5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVDqRtYFKrBhtZbb5n8v7B75CmKlRxIGR2X/R32gE7MqPH2HNCKFkz8TXjI4ZPI4c+SrimWgC8pa5E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMKy+sbur1mATC9tUlZZzO8SRhl1fLZc1+Uma2gUImHImYUuQI
+	OfDqw4dJPCKc9Ns2fEzuWQUIYtqF0HcfYpY04PjrPpdKga+hbqouGTm5242cu0b0rw==
+X-Gm-Gg: ASbGncssIlrBr7+2a+hro7PXl1kTMMFYGuJVD67ghE4qVfVZ9U1nmAsOZs8srg+bOfY
+	IndBhWBkQxYYhSm+NKCtqTPq3ks8GUUle4UuYOt8EIH1z5gXSnxrTdZ6hnaQoRcefxk8JdQCxrd
+	IBo52GhaBJidmTP4dntCnfKGW+Vt/Dd59TPHJfxV3x7LDMsoRTA7QPM59FKZnjqoQguZIJpthjg
+	acmWuNa9nhnyD+lZBdokqOlVW8VQRp2azn1EVgVRQ1XcX1A49wNaKhJwmKzFLASAlW6ReW+ymaW
+	4eVXvr4Jo7iHQ13hS13beFfyB46rpf5O9ho/3cTCwKyQ8d5JUFDyOhtzvGrCbe3MZDM1BMVeu8J
+	qjwIH6teT1yp4UyOD/fUcq9dxd/lh7Qg=
+X-Google-Smtp-Source: AGHT+IFjZuHSmjWz3mlyiiORGjulfaekm2TrngIFHZiE0ZqJkNGQDEFi3n1LBmgMIlW05C9z3Da4aQ==
+X-Received: by 2002:a17:902:e951:b0:224:6c8:8d84 with SMTP id d9443c01a7336-237e478a96fmr4808555ad.4.1750691643222;
+        Mon, 23 Jun 2025 08:14:03 -0700 (PDT)
+Received: from google.com (232.98.126.34.bc.googleusercontent.com. [34.126.98.232])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3158a23e6fbsm11004566a91.14.2025.06.23.08.13.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jun 2025 08:14:02 -0700 (PDT)
+Date: Mon, 23 Jun 2025 15:13:51 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, kevin.tian@intel.com, corbet@lwn.net,
+	will@kernel.org, bagasdotme@gmail.com, robin.murphy@arm.com,
+	joro@8bytes.org, thierry.reding@gmail.com, vdumpa@nvidia.com,
+	jonathanh@nvidia.com, shuah@kernel.org, jsnitsel@redhat.com,
+	nathan@kernel.org, peterz@infradead.org, yi.l.liu@intel.com,
+	mshavit@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com,
+	dwmw2@infradead.org, baolu.lu@linux.intel.com
+Subject: Re: [PATCH v6 20/25] iommu/arm-smmu-v3-iommufd: Add hw_info to
+ impl_ops
+Message-ID: <aFlvLw0SHgYiA614@google.com>
+References: <cover.1749884998.git.nicolinc@nvidia.com>
+ <f36b5e42bac83d0cdf5773cad1c3a44c3eaed396.1749884998.git.nicolinc@nvidia.com>
+ <aFP4zHIVT6epJeLb@google.com>
+ <20250619185325.GB17127@nvidia.com>
+ <aFTWQ4v6aZABpzeV@google.com>
+ <aFZE+MhTOCvbkKbH@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
-To: Krzysztof Kozlowski <krzk@kernel.org>, Will Deacon <will@kernel.org>,
-        Mark
- Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime
- Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gatien Chevallier
-	<gatien.chevallier@foss.st.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Gabriel Fernandez
-	<gabriel.fernandez@foss.st.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-perf-users@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>
-References: <20250623-ddrperfm-upstream-v1-0-7dffff168090@foss.st.com>
- <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
- <9cb1575e-ae27-4a78-adb7-8a9e7072375e@kernel.org>
-Content-Language: en-US
-From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
-In-Reply-To: <9cb1575e-ae27-4a78-adb7-8a9e7072375e@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-23_04,2025-06-23_06,2025-03-28_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aFZE+MhTOCvbkKbH@nvidia.com>
 
-On 6/23/25 11:45, Krzysztof Kozlowski wrote:
-> On 23/06/2025 11:27, Clément Le Goffic wrote:
->> +	if (of_property_present(pmu->dev->of_node, "access-controllers")) {
->> +		ret = stm32_firewall_get_firewall(pmu->dev->of_node, &firewall, 1);
->> +		if (ret) {
->> +			dev_err(pmu->dev, "Failed to get firewall\n");
->> +			return ret;
->> +		}
->> +		ret = stm32_firewall_grant_access_by_id(&firewall, firewall.firewall_id);
->> +		if (ret) {
->> +			dev_err(pmu->dev, "Failed to grant access\n");
->> +			return ret;
->> +		}
->> +	}
->> +
->> +	if (of_property_present(pmu->dev->of_node, "clocks")) {
+On Fri, Jun 20, 2025 at 10:36:56PM -0700, Nicolin Chen wrote:
+> On Fri, Jun 20, 2025 at 03:32:19AM +0000, Pranjal Shrivastava wrote:
+> > My point is that in-case someone passed INTEL_VTD type, we would end up
+> > calling impl_ops->hw_info and then the impl_ops->hw_info shall check for
+> > the type to return -EOPNOTSUPP. Either we should clearly mention that
+> > each impl_op implementing hw_info *must* add another type and check for
+> > it
 > 
-> No, don't open-code get clk optional.
+> Let's add this:
+> 
+> @@ -721,6 +721,11 @@ struct arm_smmu_impl_ops {
+>         int (*init_structures)(struct arm_smmu_device *smmu);
+>         struct arm_smmu_cmdq *(*get_secondary_cmdq)(
+>                 struct arm_smmu_device *smmu, struct arm_smmu_cmdq_ent *ent);
+> +       /*
+> +        * An implementation should define its own type other than the default
+> +        * IOMMU_HW_INFO_TYPE_ARM_SMMUV3. And it must validate the input @type
+> +        * to return its own structure.
+> +        */
+>         void *(*hw_info)(struct arm_smmu_device *smmu, u32 *length, u32 *type);
+>         const size_t vsmmu_size;
+>         const enum iommu_viommu_type vsmmu_type;
+> 
+> And I found that we could have another patch changing "u32 *type"
+> to "enum iommufd_hw_info_flags *type" to avoid some duplications
+> in the kdocs.
+> 
 
-Ok
+Yea, that sounds good. Thanks!
 
-> 
->> +		pmu->clk = devm_clk_get_prepared(pmu->dev, NULL);
->> +		if (IS_ERR(pmu->clk)) {
->> +			dev_err(pmu->dev, "Failed to get clock\n");
->> +			return PTR_ERR(pmu->clk);
->> +		}
->> +	}
->> +
->> +	clk_enable(pmu->clk);
->> +
->> +	if (of_property_present(pdev->dev.of_node, "resets")) {
->> +		rst = devm_reset_control_get(&pdev->dev, NULL);
->> +		if (IS_ERR(rst)) {
->> +			dev_err(&pdev->dev, "Failed to get reset\n");
->> +			ret = PTR_ERR(rst);
->> +			goto err_clk;
->> +		}
->> +		reset_control_assert(rst);
->> +		reset_control_deassert(rst);
->> +	}
->> +
->> +	pmu->poll_period = ms_to_ktime(POLL_MS);
->> +	hrtimer_setup(&pmu->hrtimer, stm32_ddr_pmu_poll, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
->> +
->> +	for (int i = 0; i < MP2_CNT_NB; i++)
->> +		INIT_LIST_HEAD(&pmu->counters[i]);
->> +
->> +	pmu->selected_set = -1;
->> +
->> +	pmu->pmu = (struct pmu) {
->> +		.task_ctx_nr = perf_invalid_context,
->> +		.start = stm32_ddr_pmu_event_start,
->> +		.stop = stm32_ddr_pmu_event_stop,
->> +		.add = stm32_ddr_pmu_event_add,
->> +		.del = stm32_ddr_pmu_event_del,
->> +		.read = stm32_ddr_pmu_event_read,
->> +		.event_init = stm32_ddr_pmu_event_init,
->> +		.attr_groups = pmu->cfg->attribute,
->> +		.module = THIS_MODULE,
->> +	};
->> +
->> +	ret = perf_pmu_register(&pmu->pmu, DRIVER_NAME, -1);
->> +	if (ret) {
->> +		dev_err(&pdev->dev, "Couldn't register DDRPERFM driver as a PMU\n");
->> +		goto err_clk;
->> +	}
->> +
->> +	if (pmu->cfg->regs->dram_inf.reg) {
->> +		ret = of_property_read_u32(pdev->dev.of_node, "st,dram-type", &pmu->dram_type);
->> +		if (ret) {
->> +			dev_err(&pdev->dev, "Missing device-tree property 'st,dram-type'\n");
->> +			perf_pmu_unregister(&pmu->pmu);
->> +
->> +			return ret;
->> +		}
->> +
->> +		writel_relaxed(pmu->dram_type, pmu->membase + pmu->cfg->regs->dram_inf.reg);
->> +	}
->> +
->> +	clk_disable(pmu->clk);
-> 
-> Why do you keep clock prepared? This device does not know what sort of
-> clock it gets, so you end up with clock always active for example and
-> this being no-op.
-
-Ok will disable_unprepare
-
->> +
->> +	return 0;
->> +
->> +err_clk:
->> +	clk_disable_unprepare(pmu->clk);
->> +
->> +	return ret;
->> +}
->> +
->> +static void stm32_ddr_pmu_device_remove(struct platform_device *pdev)
->> +{
->> +	struct stm32_ddr_pmu *stm32_ddr_pmu = platform_get_drvdata(pdev);
->> +
->> +	perf_pmu_unregister(&stm32_ddr_pmu->pmu);
->> +}
->> +
->> +static int __maybe_unused stm32_ddr_pmu_device_resume(struct device *dev)
->> +{
->> +	struct stm32_ddr_pmu *pmu = dev_get_drvdata(dev);
->> +
->> +	clk_enable(pmu->clk);
->> +	writel_relaxed(pmu->dram_type, pmu->membase + pmu->cfg->regs->dram_inf.reg);
->> +	clk_disable(pmu->clk);
->> +
->> +	return 0;
->> +}
->> +
->> +static const struct stm32_ddr_pmu_regspec stm32_ddr_pmu_regspec_mp1 = {
->> +	.stop =		{ DDRPERFM_CTRL, CTRL_STOP },
->> +	.start =	{ DDRPERFM_CTRL, CTRL_START },
->> +	.enable =	{ DDRPERFM_CFG },
->> +	.cfg =		{ DDRPERFM_CFG },
->> +	.status =	{ DDRPERFM_STATUS, MP1_STATUS_BUSY },
->> +	.clear_cnt =	{ DDRPERFM_CLR, MP1_CLR_CNT},
->> +	.clear_time =	{ DDRPERFM_CLR, MP1_CLR_TIME},
->> +	.counter_time =	{ DDRPERFM_TCNT },
->> +	.counter_evt =	{
->> +				{ DDRPERFM_EVCNT(0) },
->> +				{ DDRPERFM_EVCNT(1) },
->> +				{ DDRPERFM_EVCNT(2) },
->> +				{ DDRPERFM_EVCNT(3) },
->> +	},
->> +};
->> +
->> +static const struct stm32_ddr_pmu_regspec stm32_ddr_pmu_regspec_mp2 = {
->> +	.stop =		{ DDRPERFM_CTRL, CTRL_STOP },
->> +	.start =	{ DDRPERFM_CTRL, CTRL_START },
->> +	.status =	{ DDRPERFM_MP2_STATUS, MP2_STATUS_BUSY },
->> +	.clear_cnt =	{ DDRPERFM_CLR, MP2_CLR_CNT},
->> +	.clear_time =	{ DDRPERFM_CLR, MP2_CLR_TIME},
->> +	.cfg0 =		{ DDRPERFM_MP2_CFG0 },
->> +	.cfg1 =		{ DDRPERFM_MP2_CFG1 },
->> +	.enable =	{ DDRPERFM_MP2_CFG5 },
->> +	.dram_inf =	{ DDRPERFM_MP2_DRAMINF },
->> +	.counter_time =	{ DDRPERFM_MP2_TCNT },
->> +	.counter_evt =	{
->> +				{ DDRPERFM_MP2_EVCNT(0) },
->> +				{ DDRPERFM_MP2_EVCNT(1) },
->> +				{ DDRPERFM_MP2_EVCNT(2) },
->> +				{ DDRPERFM_MP2_EVCNT(3) },
->> +				{ DDRPERFM_MP2_EVCNT(4) },
->> +				{ DDRPERFM_MP2_EVCNT(5) },
->> +				{ DDRPERFM_MP2_EVCNT(6) },
->> +				{ DDRPERFM_MP2_EVCNT(7) },
->> +	},
->> +};
->> +
->> +static const struct stm32_ddr_pmu_cfg stm32_ddr_pmu_cfg_mp1 = {
->> +	.regs = &stm32_ddr_pmu_regspec_mp1,
->> +	.attribute = stm32_ddr_pmu_attr_groups_mp1,
->> +	.counters_nb = MP1_CNT_NB,
->> +	.evt_counters_nb = MP1_CNT_NB - 1, /* Time counter is not an event counter */
->> +	.time_cnt_idx = MP1_TIME_CNT_IDX,
->> +	.get_counter = stm32_ddr_pmu_get_event_counter_mp1,
->> +};
->> +
->> +static const struct stm32_ddr_pmu_cfg stm32_ddr_pmu_cfg_mp2 = {
->> +	.regs = &stm32_ddr_pmu_regspec_mp2,
->> +	.attribute = stm32_ddr_pmu_attr_groups_mp2,
->> +	.counters_nb = MP2_CNT_NB,
->> +	.evt_counters_nb = MP2_CNT_NB - 1, /* Time counter is an event counter */
->> +	.time_cnt_idx = MP2_TIME_CNT_IDX,
->> +	.get_counter = stm32_ddr_pmu_get_event_counter_mp2,
->> +};
->> +
->> +static const struct dev_pm_ops stm32_ddr_pmu_pm_ops = {
->> +	SET_SYSTEM_SLEEP_PM_OPS(NULL, stm32_ddr_pmu_device_resume)
->> +};
->> +
->> +static const struct of_device_id stm32_ddr_pmu_of_match[] = {
->> +	{
->> +		.compatible = "st,stm32mp131-ddr-pmu",
->> +		.data = &stm32_ddr_pmu_cfg_mp1
->> +	},
->> +	{
->> +		.compatible = "st,stm32mp151-ddr-pmu",
->> +		.data = &stm32_ddr_pmu_cfg_mp1
-> 
-> So devices are compatible, thus express it correctly and drop this.
-> 
->> +	},
->> +	{
->> +		.compatible = "st,stm32mp251-ddr-pmu",
->> +		.data = &stm32_ddr_pmu_cfg_mp2
->> +	},
->> +	{ },
->> +};
->> +MODULE_DEVICE_TABLE(of, stm32_ddr_pmu_of_match);
->> +
->> +static struct platform_driver stm32_ddr_pmu_driver = {
->> +	.driver = {
->> +		.name = DRIVER_NAME,
->> +		.pm = &stm32_ddr_pmu_pm_ops,
->> +		.of_match_table = of_match_ptr(stm32_ddr_pmu_of_match),
-> 
-> Drop of_match_ptr, you have here warnings.
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-
+> Thanks
+> Nicolin
