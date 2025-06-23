@@ -1,237 +1,177 @@
-Received: from mail-oi1-f201.google.com (mail-oi1-f201.google.com [209.85.167.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDB2223328
-	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 18:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CE92727FD;
+	Mon, 23 Jun 2025 19:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750703206; cv=none; b=HKlH7dVuqk05CGx3lKRavgvz8TzhhMvPK6EksXyjZnMnyRI8mz2L8SNZT6no5+P0AolR/jffW8JcMGf83629LIpJsNxLi5GsgVmXlMI28j8kaL+jKmowkQ6OZnJAJFcDTxxF8+rTGlh/lidWGONaeZU+k6LTyf5iwTYHiWS+JrE=
+	t=1750705950; cv=none; b=YkrIibZDRVZKmBl79SY+Y19kAl2fjEyBZU2TLxONR9Zld3q1vFJAT08Txxt7JOSakEKulC3dXrAcaAknOG/e8J+OkbM/fxJ2nFhBsbtcxno7JOxCgh+HgvHedTKfdPYLQzJ4365nPVRHIiWDM8LNzb8DMCQetgt1vmB3FnNAVmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750703206; c=relaxed/simple;
-	bh=TJbyCjpQUTgcNzSy2LbHi3jtU+JgR5DmqnRNp0zwnzU=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=YWT9PTXApun3p7lyPsaNCo/ITa7C0oQqpf8DTNxqFlxE2txXQx2QlkjWGiK3GXZqmuevQRIRh6yWYlRnYdJO8DIe7TD2hW/xV1FgSKKO1vbDdBIs794uMpF/sVawxnUuQqehJjUzRECXjz2Yo55VW40ruDJYe20QE5ZnvOtulfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CzDUp7Zt; arc=none smtp.client-ip=209.85.167.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1750705950; c=relaxed/simple;
+	bh=RdggrAt2yYgHrCd62EHlXKceXTIAXB4Ir7vZpqfo490=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mWfIOEIjHgtGRnPZjd/w6SiEvwC2va08e0r4B8S5Zq159HCEH3+qyD8HVBXPypuLNx4+XV2TSF2O5exVJg5f3GO1x8MVBEOxhj8K6SzTuEtpuP2lO2jo0Xn26YF7Di7NhfEq7Yrj1PqqzwU03POAma7m5eU8v9VP539T6dsjvHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fBWcktR8; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CzDUp7Zt"
-Received: by mail-oi1-f201.google.com with SMTP id 5614622812f47-4067aeea8c0so862226b6e.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 11:26:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750703203; x=1751308003; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iJHuSuwyngESt8WBCKXgeOnblRRUSgRFggwy+8QiK3Q=;
-        b=CzDUp7ZtTacqwgkX/0UBjeDuYjk7hskVNN3cNFfQzty82/IYTxqC3De3ohsi29QpfM
-         +lfvWxSpyVpDBbLHlQoBQt4fXDpAmJ3piYbfoE4G5AdBszsd2vC8LvXESzlNNwvb1voB
-         1F8nF/ND4s8/MwdPDZmLFUsyriSXkSrL5km5JF2CSoLbtXZ16L9tHYr42PFz9eQnm9TX
-         nrmpjdJYMCdzVwnB9zVTBciMbajtQwZf5Lk/rBw8DHiWhRcDMtJWBrmiNpncoSGV2zeC
-         MfjTUnyRbsPtmtAs5l+L2O2j7a2b5tClGPXV/1heKgof45X/wkwVWraG80AeicmKwfwX
-         uxrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750703203; x=1751308003;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJHuSuwyngESt8WBCKXgeOnblRRUSgRFggwy+8QiK3Q=;
-        b=FaUtpJr5Cna+ctsADWezu7eH7SUJmsrpl3R1uO0FsZeBjB5NtUNHJHst0DPwXN9C9F
-         sIJOfKHGQDrwXuGX+ZMV4oQOz1Aa4Pth8nS/mbA6esKdl5U083CvJx0odduUXeWu2zsp
-         xYx7w73VYzkYjim4zH0fX7F+wCaOgqw/Xi+L+xvJVwE+tr2SzSqVxHK1bvsIs72Ie0YA
-         aPoQXVm6/Ood+55VP6Mv1gZBy0+8+4rOhNRomymscjgOHcB0oDCe+hpPa8C2buQdkpCK
-         WrFqB5/O4yIcRbKHvbELpE8y3TKSAGM4yuabhCtiVr6Vw+NMOLdH9mb4iE1VEWQykI+y
-         P2Lg==
-X-Forwarded-Encrypted: i=1; AJvYcCUbE51Lz/I6auULEHOdJPpmxNQaUFKxcSOPKw8sE0COBThe0aRENXmdPJ1lFQcK4k8inP8ovH0kk74=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvVlOWVIxBQ71vSPwX2zQ5BFApw5R5wAyrIUcFgv7DaOZnaF5E
-	a8/B2QaFgEo9qxJ9RoHOU6jEO9UwxWeefijIx1Eee/jcMdlK/pg0Wc5T4zZtf12ZT6p0MomajcZ
-	yxAbD1DudK3nXdECrswtmnlwsPA==
-X-Google-Smtp-Source: AGHT+IGC715JfAZ6bB+MUmt3e2UkqjENUKLIOq46BUMkNYiBZaTpU+l16Sml2Ik55e/lBKhpSWes9ItyhVpKmkS24Q==
-X-Received: from oirr11.prod.google.com ([2002:a05:6808:840b:b0:40a:c991:8f3c])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:1645:b0:401:918a:5b89 with SMTP id 5614622812f47-40ac6ef30e6mr10779472b6e.26.1750703203710;
- Mon, 23 Jun 2025 11:26:43 -0700 (PDT)
-Date: Mon, 23 Jun 2025 18:26:42 +0000
-In-Reply-To: <aFYFqrYRsmCi6oii@linux.dev> (message from Oliver Upton on Fri,
- 20 Jun 2025 18:06:50 -0700)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fBWcktR8"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55NGXxxi001720;
+	Mon, 23 Jun 2025 19:12:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=y98GQGHSKG5hc43qPhCGbhubyGowZ
+	oek17bECxnnf40=; b=fBWcktR88KCuUdEcYAowh6PWNVi1A70oitpF7oz0kERyD
+	s4KZtEe5fS6FroFsdaVdkzh2eMoHWEPKyDoWvrLnVJmNcTGuKF5Z7C+amPsuw2gY
+	8ZSZJliZJj8ILHD27Xnkiuxmf8vN2SqSK4B8rzbMWa5GuXc13xn1rMr0IEOHhXjm
+	4d7ze9jUiZRgNILjUNpb1b7IrltJX1L03ML25m0D2GdoZrxYnqO4x5KOqU7LVz6K
+	dotiH6Bk8X+SlB28B5aehk6Qq1DDd55N54FEA7ufpLbctOQO0bdVJBrB18GEaUxt
+	rzzLKHxTlaM3Rypa6K3jBm2uGcTQFjyijNELPRWNg==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47ds7uugf7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Jun 2025 19:12:24 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55NIjeET038894;
+	Mon, 23 Jun 2025 19:12:22 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47ehr3qwvr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Jun 2025 19:12:22 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55NJBsPM037652;
+	Mon, 23 Jun 2025 19:12:22 GMT
+Received: from ca-dev110.us.oracle.com (ca-dev110.us.oracle.com [10.129.136.45])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47ehr3qwvb-1;
+	Mon, 23 Jun 2025 19:12:22 +0000
+From: Alok Tiwari <alok.a.tiwari@oracle.com>
+To: pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc: alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org
+Subject: [PATCH next] Documentation: KVM: fix reference for kvm_ppc_resize_hpt and various typos
+Date: Mon, 23 Jun 2025 12:11:47 -0700
+Message-ID: <20250623191152.44118-1-alok.a.tiwari@oracle.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsntpleu9uvx.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v2 07/23] perf: arm_pmuv3: Introduce method to partition
- the PMU
-From: Colton Lewis <coltonlewis@google.com>
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
-	maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, 
-	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-23_05,2025-06-23_07,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxscore=0
+ adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2506230123
+X-Proofpoint-GUID: Wb1bCTVf9O-FdttwSNE3QwfcLxufiVJy
+X-Authority-Analysis: v=2.4 cv=CeII5Krl c=1 sm=1 tr=0 ts=6859a718 b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=zi7eKOD_ebcX24jqmWgA:9 cc=ntf awl=host:13206
+X-Proofpoint-ORIG-GUID: Wb1bCTVf9O-FdttwSNE3QwfcLxufiVJy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIzMDEyMyBTYWx0ZWRfX+OYpCfb891dj gmFNOkYZk4Mpntjg6yFrXqwhTmCt9voEZcI9YYkfRqfBJIyyCjEQeQso59aER7hwG03cjYeo1qm oSHXifj2FvSW/yIsvlYuLlsW+Fxdu73x84dE5w/jpCjo+WGAgIuaSzokFaDDkU1HqNxFt1dagU/
+ f/7XOGuCdf9oGg/HE7FY25eTiTBwy8Akdh4FncX4fLb+k46kQ6Ru+WpwDCIEWIJ8u9a22U7ZBkG xbGLYtDwGuZJJQz82wHWnWAksRkMNsf61wgCkObqGfiF7b1OoUukD9rbc4yw/KJWsp8mxBwqCmF A1upSey9zSTpALroxxkuHwJv01Xsx/IhWVtR53EtY1vF7uewbf+xNbn1/XYVYo4APAgjpLXuNTJ
+ 9eIomI9Vx3qRZB2hljzdwBrgpXgFZ3Yeu3TnTBo/lI5kRgLv1DgEmebpIbmJ48iXJ/yUsjDS
 
-Oliver Upton <oliver.upton@linux.dev> writes:
+Fix the incorrect reference to struct kvm_reinject_control and replace
+it with the correct struct kvm_ppc_resize_hpt in the documentation of
+the HPT resize ioctl.
 
-> On Fri, Jun 20, 2025 at 10:13:07PM +0000, Colton Lewis wrote:
->> For PMUv3, the register field MDCR_EL2.HPMN partitiones the PMU
->> counters into two ranges where counters 0..HPMN-1 are accessible by
->> EL1 and, if allowed, EL0 while counters HPMN..N are only accessible by
->> EL2.
+Also correct several minor typos throughout api.rst, including grammar
+issues, capitalization (e.g., "SError"), and punctuation fixes.
 
->> Create module parameters partition_pmu and reserved_guest_counters to
->> reserve a number of counters for the guest. These numbers are set at
->> boot because the perf subsystem assumes the number of counters will
->> not change after the PMU is probed.
+Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+---
+ Documentation/virt/kvm/api.rst | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
->> Introduce the function armv8pmu_partition() to modify the PMU driver's
->> cntr_mask of available counters to exclude the counters being reserved
->> for the guest and record reserved_guest_counters as the maximum
->> allowable value for HPMN.
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index f0d961436d0f..04ac699e7885 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -88,7 +88,7 @@ the VM is shut down.
+ =============
+ 
+ As of Linux 2.6.22, the KVM ABI has been stabilized: no backward
+-incompatible change are allowed.  However, there is an extension
++incompatible changes are allowed.  However, there is an extension
+ facility that allows backward-compatible extensions to the API to be
+ queried and used.
+ 
+@@ -1198,7 +1198,7 @@ pending until the guest takes the exception by unmasking PSTATE.A.
+ 
+ Running the VCPU may cause it to take a pending SError, or make an access that
+ causes an SError to become pending. The event's description is only valid while
+-the VPCU is not running.
++the VCPU is not running.
+ 
+ This API provides a way to read and write the pending 'event' state that is not
+ visible to the guest. To save, restore or migrate a VCPU the struct representing
+@@ -1293,7 +1293,7 @@ ARM64:
+ User space may need to inject several types of events to the guest.
+ 
+ Set the pending SError exception state for this VCPU. It is not possible to
+-'cancel' an Serror that has been made pending.
++'cancel' an SError that has been made pending.
+ 
+ If the guest performed an access to I/O memory which could not be handled by
+ userspace, for example because of missing instruction syndrome decode
+@@ -1832,7 +1832,7 @@ emulate them efficiently. The fields in each entry are defined as follows:
+          the values returned by the cpuid instruction for
+          this function/index combination
+ 
+-x2APIC (CPUID leaf 1, ecx[21) and TSC deadline timer (CPUID leaf 1, ecx[24])
++x2APIC (CPUID leaf 1, ecx[21]) and TSC deadline timer (CPUID leaf 1, ecx[24])
+ may be returned as true, but they depend on KVM_CREATE_IRQCHIP for in-kernel
+ emulation of the local APIC.  TSC deadline timer support is also reported via::
+ 
+@@ -3215,8 +3215,8 @@ default-sized hash table (16 MB).
+ 
+ If this ioctl is called when a hash table has already been allocated,
+ with a different order from the existing hash table, the existing hash
+-table will be freed and a new one allocated.  If this is ioctl is
+-called when a hash table has already been allocated of the same order
++table will be freed and a new one allocated. If this ioctl is called
++when a hash table has already been allocated of the same order
+ as specified, the kernel will clear out the existing hash table (zero
+ all HPTEs).  In either case, if the guest is using the virtualized
+ real-mode area (VRMA) facility, the kernel will re-create the VMRA
+@@ -4427,7 +4427,7 @@ base 2 of the page size in the bottom 6 bits.
+ :Returns: 0 on successful completion,
+ 	 >0 if a new HPT is being prepared, the value is an estimated
+          number of milliseconds until preparation is complete,
+-         -EFAULT if struct kvm_reinject_control cannot be read,
++         -EFAULT if struct kvm_ppc_resize_hpt cannot be read,
+ 	 -EINVAL if the supplied shift or flags are invalid,
+ 	 -ENOMEM if unable to allocate the new HPT,
+ 
+@@ -4481,7 +4481,7 @@ ones will monitor preparation until it completes or fails.
+ :Returns: 0 on successful completion,
+          -EFAULT if struct kvm_reinject_control cannot be read,
+ 	 -EINVAL if the supplied shift or flags are invalid,
+-	 -ENXIO is there is no pending HPT, or the pending HPT doesn't
++	 -ENXIO if there is no pending HPT, or the pending HPT doesn't
+          have the requested size,
+ 	 -EBUSY if the pending HPT is not fully prepared,
+ 	 -ENOSPC if there was a hash collision when moving existing
+@@ -8884,7 +8884,7 @@ This capability indicates that KVM supports steal time accounting.
+ When steal time accounting is supported it may be enabled with
+ architecture-specific interfaces.  This capability and the architecture-
+ specific interfaces must be consistent, i.e. if one says the feature
+-is supported, than the other should as well and vice versa.  For arm64
++is supported, then the other should as well and vice versa.  For arm64
+ see Documentation/virt/kvm/devices/vcpu.rst "KVM_ARM_VCPU_PVTIME_CTRL".
+ For x86 see Documentation/virt/kvm/x86/msr.rst "MSR_KVM_STEAL_TIME".
+ 
+@@ -8924,7 +8924,7 @@ KVM_EXIT_X86_WRMSR exit notifications.
+ 
+ :Architectures: x86
+ 
+-This capability indicates that KVM supports that accesses to user defined MSRs
++This capability indicates that KVM supports accesses to user defined MSRs
+ may be rejected. With this capability exposed, KVM exports new VM ioctl
+ KVM_X86_SET_MSR_FILTER which user space can call to specify bitmaps of MSR
+ ranges that KVM should deny access to.
+-- 
+2.46.0
 
->> Due to the difficulty this feature would create for the driver running
->> at EL1 on the host, partitioning is only allowed in VHE mode. Working
->> on nVHE mode would require a hypercall for every counter access in the
->> driver because the counters reserved for the host by HPMN are only
->> accessible to EL2.
-
->> Signed-off-by: Colton Lewis <coltonlewis@google.com>
->> ---
->>   arch/arm/include/asm/arm_pmuv3.h   | 10 ++++
->>   arch/arm64/include/asm/arm_pmuv3.h |  5 ++
->>   drivers/perf/arm_pmuv3.c           | 95 +++++++++++++++++++++++++++++-
->>   include/linux/perf/arm_pmu.h       |  1 +
->>   4 files changed, 109 insertions(+), 2 deletions(-)
-
->> diff --git a/arch/arm/include/asm/arm_pmuv3.h  
->> b/arch/arm/include/asm/arm_pmuv3.h
->> index 2ec0e5e83fc9..9dc43242538c 100644
->> --- a/arch/arm/include/asm/arm_pmuv3.h
->> +++ b/arch/arm/include/asm/arm_pmuv3.h
->> @@ -228,6 +228,11 @@ static inline bool kvm_set_pmuserenr(u64 val)
-
->>   static inline void kvm_vcpu_pmu_resync_el0(void) {}
-
->> +static inline bool has_vhe(void)
->> +{
->> +	return false;
->> +}
->> +
-
-> This has nothing to do with PMUv3, I'm a bit surprised to see you're
-> touching 32-bit ARM. Can you just gate the whole partitioning thing on
-> arm64?
-
-The PMUv3 driver also has to compile on 32-bit ARM.
-
-My first series had the partitioning code in arch/arm64 but you asked me
-to move it to the PMUv3 driver.
-
-How are you suggesting I square those two requirements?
-
->> +static bool partition_pmu __read_mostly;
->> +static u8 reserved_guest_counters __read_mostly;
->> +
->> +module_param(partition_pmu, bool, 0);
->> +MODULE_PARM_DESC(partition_pmu,
->> +		 "Partition the PMU into host and guest VM counters [y/n]");
->> +
->> +module_param(reserved_guest_counters, byte, 0);
->> +MODULE_PARM_DESC(reserved_guest_counters,
->> +		 "How many counters to reserve for guest VMs [0-$NR_COUNTERS]");
->> +
-
-> This is confusing and not what we discussed offline.
-
-> Please use a single parameter that describes the number of counters used
-> by the *host*. This affects the *host* PMU driver, KVM can discover (and
-> use) the leftovers.
-
-> If the single module parameter goes unspecified the user did not ask for
-> PMU partitioning.
-
-I understand what we discussed offline, but I had a dilemma.
-
-If we do a single module parameter for number of counters used by the
-host, then it defaults to 0 if unset and there is no way to distinguish
-between no partitioning and a request for partitioning reserving 0
-counters to the host which I also thought you requested. Would you be
-happy leaving no way to specify that?
-
-In any case, I think the usage is more self explainatory if
-partitition=[y/n] is a separate bit. The other parameter for guest
-reservation is then based on a consideration of what an unset parameter
-should mean and I decided it's a more sane default if partition=y
-[other-param]=0/unset gives 0 counters to the guest.
-
-It does affect the host, but by default the host owns everything. The
-only people who will be tweaking these parameters are going to be
-concerned with how many counters the guest gets and I think the
-parameters should reflect that intent.
-
->> +/**
->> + * armv8pmu_reservation_is_valid() - Determine if reservation is allowed
->> + * @guest_counters: Number of host counters to reserve
->> + *
->> + * Determine if the number of host counters in the argument is
->> + * allowed. It is allowed if it will produce a valid value for
->> + * register field MDCR_EL2.HPMN.
->> + *
->> + * Return: True if reservation allowed, false otherwise
->> + */
->> +static bool armv8pmu_reservation_is_valid(u8 guest_counters)
->> +{
->> +	return guest_counters <= armv8pmu_pmcr_n_read();
->> +}
->> +
->> +/**
->> + * armv8pmu_partition_supported() - Determine if partitioning is  
->> possible
->> + *
->> + * Partitioning is only supported in VHE mode (with PMUv3, assumed
->> + * since we are in the PMUv3 driver)
->> + *
->> + * Return: True if partitioning is possible, false otherwise
->> + */
->> +static bool armv8pmu_partition_supported(void)
->> +{
->> +	return has_vhe();
->> +}
->> +
->> +/**
->> + * armv8pmu_partition() - Partition the PMU
->> + * @pmu: Pointer to pmu being partitioned
->> + * @guest_counters: Number of host counters to reserve
->> + *
->> + * Partition the given PMU by taking a number of host counters to
->> + * reserve and, if it is a valid reservation, recording the
->> + * corresponding HPMN value in the hpmn field of the PMU and clearing
->> + * the guest-reserved counters from the counter mask.
->> + *
->> + * Passing 0 for @guest_counters has the effect of disabling  
->> partitioning.
->> + *
->> + * Return: 0 on success, -ERROR otherwise
->> + */
->> +static int armv8pmu_partition(struct arm_pmu *pmu, u8 guest_counters)
->> +{
->> +	u8 nr_counters;
->> +	u8 hpmn;
->> +
->> +	if (!armv8pmu_reservation_is_valid(guest_counters))
->> +		return -EINVAL;
->> +
->> +	nr_counters = armv8pmu_pmcr_n_read();
->> +	hpmn = guest_counters;
->> +
->> +	pmu->hpmn_max = hpmn;
-
-> I'm not sure the host driver needs this for anything, KVM just needs to
-> know what's potentially in use by the host.
-
->> +	/* Inform host driver of available counters */
-
-> ... said the driver to itself :)
-
-I can delete that comment now :)
