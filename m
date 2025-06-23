@@ -1,103 +1,79 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B854C7F;
-	Mon, 23 Jun 2025 01:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D70712B93;
+	Mon, 23 Jun 2025 02:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750641276; cv=none; b=qVPsrU8i82UCZE4vInjrNmnTwvxqYFgyjS6Hh9c0cFrJVGbxU2JiaywpaEcm+TYabYKQTQt5b2/LLDk1OVYI1UrV8AWX9neOQk02wn4Lx+W03m0cX/qITJJpF6FydtjI6MDH6TglpCcyrA1dW4BtMYX1o/Gw9ePN4cDP8srl9i0=
+	t=1750644952; cv=none; b=rfbTpac7wZZ8Lp4A33oyjK35K+35/mM8z4hJVORDWPCGwFCbNtkO9ShhoUZZ6vvST5FsYDMy0cXPfcQs0h+oa8YTlYqUKDG/gHMW/PGzkP/6eGu+PMk+a/I2XwDjG9P1IMAG0I4Tbt3F9ofMqhLWF6GJViUsdO4WJi+/QO0GGNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750641276; c=relaxed/simple;
-	bh=7ULXjxBT15KMqSaHyqu0hXJQEiICOMQf/UAcK91OmgA=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=QdSGqlHDJf6wo17WEcXo7qfWdqVSPOvFB7LhV0mJY7jTlqUbc7OKj9acd3WoWtX2BBqO3VEzq6cdou8gzJ2fwg6Qnr6jvgoPkYPe7xID8qDI86rvFltmstvQctY88evhKGr4LuZDjAyP6XvuR+1IipBfizIZ9+SxUEyWsFRvy70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.24])
-	by gateway (Coremail) with SMTP id _____8DxjXJvqlho41gbAQ--.61527S3;
-	Mon, 23 Jun 2025 09:14:23 +0800 (CST)
-Received: from [10.20.42.24] (unknown [10.20.42.24])
-	by front1 (Coremail) with SMTP id qMiowMCxbsVkqlhoqo4mAQ--.54823S3;
-	Mon, 23 Jun 2025 09:14:15 +0800 (CST)
-Subject: Re: [PATCH v4 0/2] Loongarch irq-redirect supprot
-To: Thomas Gleixner <tglx@linutronix.de>, chenhuacai@kernel.org,
- kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
- jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
- lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
- gaosong@loongson.cn, yangtiezhu@loongson.cn
-Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Super User <root@localhost.localdomain>
-References: <20250610114252.21077-1-zhangtianyang@loongson.cn>
- <87qzznivtp.ffs@tglx>
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-Message-ID: <10014657-8756-f31a-c3b4-f175b764346c@loongson.cn>
-Date: Mon, 23 Jun 2025 09:13:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1750644952; c=relaxed/simple;
+	bh=FYlDwP+smyf3rsCxko6A7zYwiH1HKxhsQ2wL5hAyWK4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DUNZlHSNw66y5Omw5pE9fNMPpEpD88nN+6c+ULD3WorSM/FExZb6pb83OKEUE3kfRVPtpyi9Me+mWfTzVbmzndASOQaVtAj9jB6u3Nztx3tVpEuL0Jf5Av+uV3xfNnxv2HQwG5t4LtvTC8eTw/EADMpKU2GI+0RSRQ0GSR/o7ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=129.150.39.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrADHNu2quFhonvaoAQ--.32471S2;
+	Mon, 23 Jun 2025 10:15:06 +0800 (CST)
+Received: from [10.12.169.104] (unknown [10.12.169.104])
+	by gateway (Coremail) with SMTP id _____wC3T1OnuFhoH6uEAA--.41132S2;
+	Mon, 23 Jun 2025 10:15:04 +0800 (CST)
+Message-ID: <1740aa21-7d5f-4d03-b45b-61149dfa475a@hust.edu.cn>
+Date: Mon, 23 Jun 2025 10:15:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <87qzznivtp.ffs@tglx>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:qMiowMCxbsVkqlhoqo4mAQ--.54823S3
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj9xXoWrKryrZr4fAFyxuryrWr4Dtrc_yoWDuFg_ur
-	1xtwn8AF1UZrWxZr4S9F43Grs7Za1xurWUtFWvq34jq34rJa4DCF4q9ryS9an8XF43Jrnx
-	Xr90vr15t3sF9osvyTuYvTs0mTUanT9S1TB71UUUUb7qnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUbqkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-	1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxG
-	rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jTq2NUUU
-	UU=
-
-Hi, Thomas
-
-ÔÚ 2025/6/13 ÏÂÎç10:02, Thomas Gleixner Ð´µÀ:
-> On Tue, Jun 10 2025 at 19:42, Tianyang Zhang wrote:
->> From: Super User <root@localhost.localdomain>
-> That's a valid developer name :)
-Sorry , it's a realy stupid fault.....
->
->> This series of patches introduces support for interrupt-redirect
->> controllers, and this hardware feature will be supported on 3C6000
->> for the first time
->>
->> change log:
->> 	v3->v4
->> 	1.Provide reasonable comments on the modifications made to IRQ_SET_MASK_OK_DONE	
-> That's not really what I asked for:
->
->    "This change really wants to be seperate with a proper explanation and
->     not burried inside of this pile of changes."
->
-> Emphasis on _seperate_, which translates to:
->
->    "Put it into a seperate patch with a proper changelog explaining this
->     modification and why it is correct."
->
-> You still have burried this in the whole pile of unrelated changes.
->
-> Thanks,
->
->          tglx
-
-Okay, I thought it was just a dissatisfaction with the "inclusion" of 
-some changes. I will try to modify it here
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mm/balloon_compaction: update Chinese docs for
+ movable_ops
+To: Nick Huang <sef1548@gmail.com>
+Cc: akpm@linux-foundation.org, alexs@kernel.org, corbet@lwn.net,
+ david@redhat.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, si.yanteng@linux.dev, vishal.moola@gmail.com,
+ wangkefeng.wang@huawei.com
+References: <20250622004249.9083-1-sef1548@gmail.com>
+ <20250622133308.13413-1-sef1548@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20250622133308.13413-1-sef1548@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:HwEQrADHNu2quFhonvaoAQ--.32471S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUOp7k0a2IF6F4UM7kC6x804xWl1xkIjI8I
+	6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
+	x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8
+	Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+	xl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
+	vE74AGY7Cv6cx26r4fZr1UJr1l4c8EcI0En4kS14v26r126r1DMxAqzxv26xkF7I0En4kS
+	14v26r126r1DMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I
+	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+	tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcV
+	CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+	wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj
+	xUsrWFUUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-Tianyang
+On 6/22/25 9:33 PM, Nick Huang wrote:
+> This patch is identical to v1, with the only change being the addition
+> of a missing Signed-off-by line.
+>
+> Sorry for the oversight in the previous submission.
+
+When you have a new patch, you'd better submit it with a full code 
+change other than explanation.
+
+You could check any v2 patch in the LKML for further reference.
+
+Dongliang Mu
+
+>
+> Signed-off-by: Nick Huang <sef1548@gmail.com>
 
