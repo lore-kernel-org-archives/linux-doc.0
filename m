@@ -1,79 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237B119D884;
-	Mon, 23 Jun 2025 10:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84380239E8A;
+	Mon, 23 Jun 2025 10:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750673884; cv=none; b=XkKAtelMxodidyItT/OzAhCiabze59mpCK4oOE6yFJYF++w25KSu+aSMn1Z+yaMVHE56Ohg3oUwqvbTAvkLU4s7XAFEZy45QZyTrZLOHyYkSAVu2atwe1ks5FBftlet8P1ZO5zI6Negt94WqjCX5r6RILv+Hqb9gJLaJ3le5pvI=
+	t=1750674139; cv=none; b=h7GjhgEas2p/Hi+U1a44coAeMcrYeZcCZieT+Zs2caEcx8q9bYO2G2oOpKeAVE/Ptsr14wgFHLi4VYjKQAPyH2ZGsD3x+Hucw61hd2HugYqJR+6PGNpIG5hZPHgOCiVOq0uKP+e669HDaWnpcctjfYQWp8DzbLdgklnUAtNy21Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750673884; c=relaxed/simple;
-	bh=zp7IfPN1N0vhOpRg7yl1/Zx30inaox6U6AKMqGEoWQw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TmaxqzdRLjuLbk+M71BmyY6yMr5PahpnjjoeLo/c6ckibJN+7Cm4mfwurkvIVx7vgWAkMFQajZ5AdXSZ1Jn0q1jdhUNxewSeE4E8Eiy4iLQGrIqhBJ7h9BHzzQTG97G/DSWo8UwoGUOf1ypDfXrHUf3XKkgIIyPcgEW+QLwPKDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FBGATQUz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750674139; c=relaxed/simple;
+	bh=buTQECq2VCKD1ICDi23k4UJqMyJjcgNtn8vEOvOp9lc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aHkltSuOZ4uPNMOZYpeRb+TRzmY8ONmb9XF4Z+dFp7izlXx0ztNGRWOOVYPbLFAGgzmZtYykN7QYnikgXn9vsIWL8R7J/ZodD5zkrCm4uKTzfek5aiuE89z9bCSKVVEvuxYAdjNOOA1UHBo56YBNq0/cJriVLjJ6Nf22fwVMTFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=HbQHWs/l; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FBGATQUz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86CB0C4CEEA;
-	Mon, 23 Jun 2025 10:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750673883;
-	bh=zp7IfPN1N0vhOpRg7yl1/Zx30inaox6U6AKMqGEoWQw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FBGATQUz3iYZ2tb3RWvIcatdkUzD88hOM69gMeSIHaFnZrpK6c6QggZ7NxvMD6lHu
-	 SzfSBX32x3ntiFW1ZV6zB+XKfxyj+/cY2mSCuCDgD85uxASObx5IunmeucBDSbPHph
-	 u1fh5V3cAPN7FKtCTkYtr2pNW6lVSSQK/A8+NHEPJtJb7kAW5boHXM13YD4b4pTiPp
-	 0jx7fK7i2Rl+oT46LP47UeRVr8MN74k7KtHlzlOw2vCcJNOfWrXS0dG36cw6oLiNtt
-	 dnPxeI+8Sq439e2XNvSoJLlVUMAApCXBigzngVirpnEF5kazEJX2tpiwexZVtNmESz
-	 PgHyIuFIQcM9g==
-From: Christian Brauner <brauner@kernel.org>
-To: Junxuan Liao <ljx@cs.wisc.edu>
-Cc: Christian Brauner <brauner@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="HbQHWs/l"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6633040E019C;
+	Mon, 23 Jun 2025 10:22:13 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id X3JkVTcSfEkT; Mon, 23 Jun 2025 10:22:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1750674123; bh=bit8kbTV4D3YTiOYptKHmiW7XfvgF+MCkFLAQajwdzk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HbQHWs/ls8gZcfaGZhZv31VGHo7gwnSdUS6tcGx5ju6fZNZNY7nrxFpxNwZjLu2Oh
+	 XS7v/Ipqm7R5Gt4bJzO3gvfy9+TK/sEn4+UhrNhM2kODyyMDVofQNtyFmoAmi4pUvu
+	 7Bof7QehSI7Qhhp6CaQIgBS2XBwOGZTRQHy9D3jF2xfNhlFkQphtrKTYysOrLuQlcd
+	 5DZW3HGSwtZej+UmB3Q7HkqF9IHfDm5nYLDrrCzgOrASUWqXO4WHmmFy2xLrJ3Y4LB
+	 +J9SiPoSMBzFfPPuo/wXAZzC1UYbclUgVJJV0P+iFAo0GOH9d0cw3TvPC97R/QbMe+
+	 kfoFG7keh2xnoyupNaPcs/pZm2+ZEEFNlcrVOP07MwYrwdVqsTN++R93nArt0KvMOY
+	 ydmbpOUhFb7ypo+ObodoI3r5FfJABlmwGtjNbrPsgjLll9uf+hsXla0XB1hZesRsII
+	 0eAaH/vcQNEBsfbaHJk/dOvuGpSfecQHK5l+IqHnYT4NReLwCFb8yC7BhdFDlja4sv
+	 s4a0Hdz4FbszW8nVDNGvy3o+s+gonkxnzBWmVYIyqizfNXpKKqigDzu+ChQ2Na2PP+
+	 ToXCf8yvBgwWs7vd0+P4AcRe9tvgUAkqSUj/RpcQUgLU50z0XqT5EuTjBVWrshIEVU
+	 ciO9IULS86WrYB8ItxO4v1dc=
+Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D19B440E01A0;
+	Mon, 23 Jun 2025 10:21:10 +0000 (UTC)
+Date: Mon, 23 Jun 2025 12:21:05 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Xiongwei Song <xiongwei.song@windriver.com>,
+	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] docs/vfs: update references to i_mutex to i_rwsem
-Date: Mon, 23 Jun 2025 12:17:49 +0200
-Message-ID: <20250623-wehmut-etappen-939e10d535b9@brauner>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <72223729-5471-474a-af3c-f366691fba82@cs.wisc.edu>
-References: <72223729-5471-474a-af3c-f366691fba82@cs.wisc.edu>
+	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	Kai Huang <kai.huang@intel.com>,
+	Sandipan Das <sandipan.das@amd.com>,
+	Breno Leitao <leitao@debian.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
+	Juergen Gross <jgross@suse.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Yuntao Wang <ytcoode@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
+	Huang Shijie <shijie@os.amperecomputing.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-mm@kvack.org,
+	Yian Chen <yian.chen@intel.com>
+Subject: Re: [PATCHv6 01/16] x86/cpu: Enumerate the LASS feature bits
+Message-ID: <20250623102105.GCaFkqkatFSbyl1YeN@fat_crate.local>
+References: <20250620135325.3300848-1-kirill.shutemov@linux.intel.com>
+ <20250620135325.3300848-2-kirill.shutemov@linux.intel.com>
+ <20250620163504.GCaFWNuI-8QFqAM0yI@fat_crate.local>
+ <6y2iqv6c2idn7yebaec7tyhzl5zcsrwqq4lcsokumlqeophzaf@ljnmxorblgcj>
+ <20250620182943.GDaFWolxhwogB2tTxb@fat_crate.local>
+ <tmd5llufitosphzhiik2tlemjuwyi7xkcjlhbqhibrgjjhsqcj@b3xtgub42p45>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1025; i=brauner@kernel.org; h=from:subject:message-id; bh=zp7IfPN1N0vhOpRg7yl1/Zx30inaox6U6AKMqGEoWQw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWREal45d8ZM89fdEzPckxbaCAX9/lRVcKdlv/GqxIucD d9NtaUbOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbSu4aRoXGl4h+7gAlS0aKX pgQndBqKPvnVlpGm8cEhpWJFU1x2NMP/zCxZnaUGtha1Oz3ulurI787VuLCGJWXyw5dX8z/fq93 OAQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <tmd5llufitosphzhiik2tlemjuwyi7xkcjlhbqhibrgjjhsqcj@b3xtgub42p45>
 
-On Sun, 22 Jun 2025 23:01:32 -0500, Junxuan Liao wrote:
-> VFS has switched to i_rwsem for ten years now (9902af79c01a: parallel
-> lookups actual switch to rwsem), but the VFS documentation and comments
-> still has references to i_mutex.
+On Mon, Jun 23, 2025 at 11:17:02AM +0300, Kirill A. Shutemov wrote:
+> What about this:
 > 
-> 
+> LASS provides protection against a class of speculative attacks, such as
+> SLAM[1]. Add the "lass" flag to /proc/cpuinfo to indicate that the feature
+> is supported by hardware and enabled by the kernel. This allows userspace
+> to determine if the setup is secure against such attacks.
 
-Applied to the vfs-6.17.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-6.17.misc branch should appear in linux-next soon.
+Yeah, thanks.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+I'm still not fully on board with userspace determining whether they're
+mitigated or not but that's a general problem with our mitigations.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+Also, I haven't looked at the patchset yet but I think it should be also
+adding code to bugs.c to make all those vulns which it addresses, report that
+they're mitigated by LASS now in
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+grep -r . /sys/devices/system/cpu/vulnerabilities/
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-6.17.misc
+output.
 
-[1/1] docs/vfs: update references to i_mutex to i_rwsem
-      https://git.kernel.org/vfs/vfs/c/2773d282cd56
+Which makes your cpuinfo flag not really needed as we already have a special
+method for the mitigations reporting.
+
+But ok, it has gotten kernel enablement so stating so in cpuinfo is ok.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
