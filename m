@@ -1,179 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E0019CCEC;
-	Mon, 23 Jun 2025 09:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AC6241122;
+	Mon, 23 Jun 2025 09:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750671252; cv=none; b=ju2v00TLxC/ovctpflFYwGKz7SBene6gQXQrKNbF9oAfzonYSAaP7bPFXFzu+DWcLCRZDbWqhyT8clOS7HQdHsde1OWisHjWyGLun3cDBL06jvTSX3yooTozCon5ixuCocmBwphb96DL36qtC7EYLsI3gS9EiTQyyb2WFR6sdJo=
+	t=1750671379; cv=none; b=P5XYvIN5FtoLVOlQaZdYOMpc60AgiX9Prhs6cZN9CpAu3d4BB+cOe8E/KtBmXAWFw1zdRneAFATWsp53yGmeCDKMKbq9B+4SLRAcqATohsnLHHwj2CYbuBcjECLwvCdQijqHyM/US3AbAxuaHF8BsJYKftHvQAWs6UB/NNAj2ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750671252; c=relaxed/simple;
-	bh=Vz5OSubXfv+7o3fkxilrYlVlKM2SH7uyFsn4jPoJ3YA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lJYPEQCXNYRrJ8Cn8aX2so1Lo+g8ylw4iGIC9UuXMRHNf0iPKThpgiD69QyYvcfPEavK21HTu3mdMSiXkJbJgQUSlx5M+FG9gEllULcc8j/tptJPU8ERrOm4s3wY3C8rdfBEcQX6sERIhpaEqE2wn4GIxt62z37t/fwoWDm37gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQgtWlKD; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750671379; c=relaxed/simple;
+	bh=XY7HqLsJJXFsX1Gp8sB4yUNvrl6iqaqmtL6uxO2bzRo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XWHIJLS44tzQGapz+dtgQSmeCmzKEcTh8EQJTpNETLIpEu7Pqb7bi3ol218eMlB4EWdu68+uq5wshFE2ohthhJ/LQd9eouZhwufkGnImsoL4gU6AlQ325pGHzGMSHekVuVdCd3D1VBx/YtVT1QIuZ6JaVvH/Be8rHbQWjXXsnlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeeFx1jE; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQgtWlKD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750671252; x=1782207252;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Vz5OSubXfv+7o3fkxilrYlVlKM2SH7uyFsn4jPoJ3YA=;
-  b=JQgtWlKDK6Wn36QzGLVD/4/aKLF8b2+hWM4c8UD8kl4Bo3qrDhW3nrNO
-   fdXCrNm4IUWTEZ2E7r6wq5QHy/X6Z1BsUm19ZZk4RY0BN/KVeRRf1bJRV
-   rZZsKPZmdB/tMEflytgoNRYGPnvZxn80usBDZZYORJZznEN2/pHNNJw9z
-   hHsdkOVKlfL4iDOgxRxdaQQ2SGMVP1J8B9UZgk9msTMdpfW//MIv7HAHw
-   fO0B4bs7O85p8zNkrUEkASMPuzQwDhoD3zjYB7PY9dgV4r1i12g4fCKBd
-   6BSiT1tOs20KxE442e03nL+IuwB6ZNJiOXHKEs4yvyevll4hU2j3R+e8J
-   g==;
-X-CSE-ConnectionGUID: mSWOb2l5Tb+O3B/l/EfFNQ==
-X-CSE-MsgGUID: a9bHveN6TQayO22iuvYiXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="56541530"
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="56541530"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 02:34:11 -0700
-X-CSE-ConnectionGUID: IcjhYKI6SPq8ByprE03HEw==
-X-CSE-MsgGUID: 9Wevme+gRvSm3pHsEKbbmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="151834511"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 02:34:07 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uTdYy-000000097hk-3rxN;
-	Mon, 23 Jun 2025 12:34:04 +0300
-Date: Mon, 23 Jun 2025 12:34:04 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
-	corbet@lwn.net, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	eraretuya@gmail.com
-Subject: Re: [PATCH v10 3/7] iio: accel: adxl345: add activity event feature
-Message-ID: <aFkfjAekGJTU5o71@smile.fi.intel.com>
-References: <20250622155010.164451-1-l.rubusch@gmail.com>
- <20250622155010.164451-4-l.rubusch@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeeFx1jE"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-70e40e3f316so30135867b3.0;
+        Mon, 23 Jun 2025 02:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750671376; x=1751276176; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F4Za1BNV8XX88H1slqrdAbMavvWiucCm8pD1Upe5ORM=;
+        b=VeeFx1jEzJftPFVIgXKNyBljYiBdwIaQZkLoODRxjPya9lpTgibvzHHc7cslUD3nz6
+         HXtFRYid7Sr682NdUi20TXOrCM9rB2uQ5OD15HvRtDvNIbZ34vm5Qg4dVmQxxmjK6j1h
+         x7QxqCBHKzYuxGsJSjHGJKz63QQFVGYneNDAlAHl4pYoGCcJ95m23MZL3TV1RUfmGeMr
+         A8qvBV0I+8/ADdusSom7I/0l7eIz3P0vLxEu3iFacC+HOtzhs3gMwR4JDO+9TdLsot8r
+         XzXyzGuJ/kfbYmU67/stL8+zc/t/L8QyufFiJ8VUB1OFxbdqFGeOJzryugcgdtzztrJL
+         KdWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750671376; x=1751276176;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F4Za1BNV8XX88H1slqrdAbMavvWiucCm8pD1Upe5ORM=;
+        b=kxZ6SjhhGD7KfN60IR1y1/HeQpj1oyhXT1iKYLQbg2hV1oP09HybxZJ6xR8eSUR5zk
+         8+z/NKyxoOwmO2tLwDyABhyYHN0Sbkmull51jkqZ1pW+qVXjghHqrO97WTE3nqxFVYsf
+         SkuSPSjxOvYQEyn6HXQOCSKN0Qx6R4lL0tsrYsyEtoQhK6q2tO2m7jGd0ADDo3ldUn2A
+         7fDpJFeWbgxIVpv3k10KAxcw0JeBH1EzJ0v/nOzMJ+Hr9q58mvF3Sl8EOksgvztyLlPb
+         1N1vkv5Pm29rhPpTyc2iLDUVWZRtrQTYcnhwyVkJr/d6xx4OaYbJoRRGf6nuw/sxgXHm
+         Mmyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWh+fX2cZwWoMar4fM2jz2JRmBpbewBa07421DYn8a26J27DwJvJy4Sc1lzgqR42uw+2xO+0BS2lNIB+SGq@vger.kernel.org, AJvYcCXak9/1fyXTXmY1ouhBgGRvhQEm2VUxcpzkWC3w0Jj/Q9Ca/JIpjab+/SXXlFq+xBvIQPYLA3VpwTs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuUf/7agrhTnoC4Xd1PZt3UmuR0j9ELJBq+rGdgNknyS1r/6Iv
+	NUb4cGm3RBJG+PRhgLrxKinhIgm7p0auCEzO4PIR1OYCv+DaujJ7ufY//Ecv5WFj0j3gPkzEpAd
+	lcnTqnu87VWdT9yQ030oMRXR4otUYGSQ=
+X-Gm-Gg: ASbGncsFm21eBHwX8kyNuV7T6ja8Ri4deV8l85iLELAiIoA4bA6W9xqsBfGQ6GOzSa5
+	h3/I/K1scd0JB/xPDxsMu3NJhPAgU+Ya+wXHdxCHOeV9oHfekaUhCIVh7Y9CBKZmPyWPGL+G0sl
+	7D24nBcYMgK0lV+PRWOEmOiL1PPysFvfZkTPR1iRBSfKzJ8Q==
+X-Google-Smtp-Source: AGHT+IEvVMm48GYLrqkAtPw36yMgBzNA/Wq9BF9LgxpO431BIfJpnOAH0eRxD/1ClnEuiMM0+l9ZX9EEY9TD5aH4jwQ=
+X-Received: by 2002:a05:690c:82:b0:70f:83ef:de07 with SMTP id
+ 00721157ae682-712c676eaf4mr172673617b3.33.1750671376384; Mon, 23 Jun 2025
+ 02:36:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250622155010.164451-4-l.rubusch@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20250622004249.9083-1-sef1548@gmail.com> <b16a1df5-0b81-4600-bd68-2d261d2a3780@redhat.com>
+ <CABZAGRGvf9Ge5EvMgFP3FUHt2QOpq6xXe9nB4=it9zb+V1DNwg@mail.gmail.com>
+ <CAD-N9QV5r4YyO6qbL477x0sJar2=WTdHH=x58P9Qatff_HC3Nw@mail.gmail.com> <3c5f4ecf-d71e-4e61-a3d2-b7cdb3043efe@redhat.com>
+In-Reply-To: <3c5f4ecf-d71e-4e61-a3d2-b7cdb3043efe@redhat.com>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Mon, 23 Jun 2025 17:35:50 +0800
+X-Gm-Features: AX0GCFuSxWK_1g_GzSOPBKbDi4_dJxhznzgu_H4kzY4vzrDzTODhYMQmOCC_z5E
+Message-ID: <CAD-N9QVTWRotabnVi9O4GViEGCU+MPE8VRw1ccGiEQRgh7mpQQ@mail.gmail.com>
+Subject: Re: [PATCH] mm/balloon_compaction: update Chinese docs for movable_ops
+To: David Hildenbrand <david@redhat.com>
+Cc: Nick Huang <sef1548@gmail.com>, alexs@kernel.org, si.yanteng@linux.dev, 
+	dzm91@hust.edu.cn, corbet@lwn.net, akpm@linux-foundation.org, 
+	wangkefeng.wang@huawei.com, vishal.moola@gmail.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 22, 2025 at 03:50:06PM +0000, Lothar Rubusch wrote:
-> Enable the sensor to detect activity and trigger interrupts accordingly.
-> Activity events are determined based on a threshold, which is initialized
-> to a sensible default during probe. This default value is adopted from the
-> legacy ADXL345 input driver to maintain consistent behavior.
-> 
-> The combination of activity detection, ODR configuration, and range
-> settings lays the groundwork for the activity/inactivity hysteresis
-> mechanism, which will be implemented in a subsequent patch. As such,
-> portions of this patch prepare switch-case structures to support those
-> upcoming changes.
+On Mon, Jun 23, 2025 at 5:23=E2=80=AFPM David Hildenbrand <david@redhat.com=
+> wrote:
+>
+> On 23.06.25 11:12, Dongliang Mu wrote:
+> > On Mon, Jun 23, 2025 at 4:51=E2=80=AFPM Nick Huang <sef1548@gmail.com> =
+wrote:
+> >>
+> >> David Hildenbrand <david@redhat.com> =E6=96=BC 2025=E5=B9=B46=E6=9C=88=
+23=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=884:08=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> >>>
+> >>> On 22.06.25 02:42, Nick Huang wrote:
+> >>>> Remove Non-LRU Page Migration and Add Movable_ops Page Migration
+> >>>>
+> >>>
+> >>> I'm afraid most people you CC on Chinese doc updates will not be able=
+ to
+> >>> help in any reasonable way.
+> >>>
+> >>> --
+> >>> Cheers,
+> >>>
+> >>> David / dhildenb
+> >>
+> >> How can I fix these things?
+> >
+> >  From my understanding, you can follow this how-to.rst[1] and submit
+> > your patches.
+>
+> Great, a how-to.rst in a language I don't know. So I assume you meant
+> "one can follow", not me in particular. Because I can only parse some
+> git commands etc in there that are in English.
 
-...
+Yes, this is only for Nick.
 
-> +static int adxl345_set_act_inact_en(struct adxl345_state *st,
-> +				    enum adxl345_activity_type type,
-> +				    bool cmd_en)
-> +{
-> +	unsigned int axis_ctrl;
-> +	unsigned int threshold;
-> +	int ret;
-> +
-> +	if (cmd_en) {
-> +		/* When turning on, check if threshold is valid */
+I should mention the name before the massage. Please ignore it.
 
-> +		ret = regmap_read(st->regmap,
-> +				  adxl345_act_thresh_reg[type],
-> +				  &threshold);
+>
+> Which bring us back to the problem: if you CC me (and many others) on
+> something that is Chinese, I will not be able to contribute anything of
+> value.
 
-Can occupy less LoCs.
+Yes. Nick should not cc you in this thread since this is only about
+the Chinese content update in my mind.
 
-> +		if (ret)
-> +			return ret;
-> +
-> +		if (!threshold) /* Just ignore the command if threshold is 0 */
-> +			return 0;
-> +	}
-> +
-> +	/* Start modifying configuration registers */
-> +	ret = adxl345_set_measure_en(st, false);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Enable axis according to the command */
-> +	switch (type) {
-> +	case ADXL345_ACTIVITY:
+>
+> Quite the opposite, I will ramble about how non-sensical these in-tree
+> translations are.
+>
+> So likely, when you perform a Chinese doc update you want to only CC
+> Chinese doc maintainers. Because they can actually provide review I hope.
+>
+> Maybe that should be clarified in the how-to.rst[1] that I'm afraid I
+> cannot read.
 
-> +		axis_ctrl = ADXL345_ACT_X_EN | ADXL345_ACT_Y_EN |
-> +				ADXL345_ACT_Z_EN;
+This document is listed in the translations/zh_CN/ folder. No one
+except the Chinese translators needs to read it.
 
-I think
-
-		axis_ctrl =
-			ADXL345_ACT_X_EN | ADXL345_ACT_Y_EN | ADXL345_ACT_Z_EN;
-
-is slightly better to read.
-
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = regmap_assign_bits(st->regmap, ADXL345_REG_ACT_INACT_CTRL,
-> +				 axis_ctrl, cmd_en);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Enable the interrupt line, according to the command */
-> +	ret = regmap_assign_bits(st->regmap, ADXL345_REG_INT_ENABLE,
-> +				 adxl345_act_int_reg[type], cmd_en);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return adxl345_set_measure_en(st, true);
-> +}
-
-...
-
-> +	case IIO_EV_TYPE_MAG:
-> +		return adxl345_read_mag_config(st, dir,
-> +					       ADXL345_ACTIVITY);
-
-It looks like you set the editor to wrap at 72 characters, but here the single
-line less than 80! Note that the limit is *exactly* 80 character.
-
-...
-
-> +	case IIO_EV_TYPE_MAG:
-> +		return adxl345_write_mag_config(st, dir,
-> +						ADXL345_ACTIVITY,
-
-Ditto.
-
-...
-
-> +		return adxl345_read_mag_value(st, dir, info,
-> +					      ADXL345_ACTIVITY,
-> +					      val, val2);
-
-Ditto and so on...
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>
+> --
+> Cheers,
+>
+> David / dhildenb
+>
