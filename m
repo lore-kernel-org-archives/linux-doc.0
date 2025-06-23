@@ -1,161 +1,193 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5EA21B19D
-	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 11:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE111221D9E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 11:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750676983; cv=none; b=aMtbAdsQ4I+3DB93ElsCkyQK0E4sFs7hW4/qg4VfSnzuourb041sC34H0xSsY1ayIRBewbMgljkjQy5v0fgCCf/WcKfwDHzYrUKJLg2u6p+e2iKKT9511OR6CTHyGzoXFhCxrKNbYlOFsF+h547ObAdD1W7DzJgaurjmFRqgSn4=
+	t=1750678190; cv=none; b=HB5KtiEEJcS6SHOTGV4+MBCT7GjtyOwedShfGrVXEE36N/mF1zIavR85m1RiO7PfP+rlElU08tAZGulevnsuF0dMxcsBgmYpgBdw/Ft87YmzxjJ8uozMDCFezZGT9SrJaEUUqYNYYBhzq1anGJNRsY5EAzzlaC8iEcm8LOsXEpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750676983; c=relaxed/simple;
-	bh=byy6HnLzr4XvDPSgzzx70dttPtAqJtwCULtJrfZmBew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rebLpBJ/Y1DmIM0N37RBTthQOGiHJiD97FIXWcLTHSao5du15k5sTPvqLxKfg9GPUyN/XhkDn5uO0PHeOvHXQ7SIiYF7DVGr2u9pj7UbkzxSem+DU3vPgHDoowyo9S0MIoZFDk5eOs9IGa/tR5+tfWNIW2NwprCJFw4Qjh2Ui/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MkCSdvc7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uay9gry2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MkCSdvc7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uay9gry2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1750678190; c=relaxed/simple;
+	bh=EuF8lurL6p/iA8TKALhZ4lhyb4SopomSm3LRQYZ/X1c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EITRXuns7GmVGypS9WAGGmDQxVzEYFj9+64D/NzUajgCpVSVDuoEm/KK8+wTQ8DQwAMYJCmIO4EFNrLG4hHK9SJzeAB/bQziOqTF/Jyg6rXXC2kUOx4GNbjDFc7jaqExE0w3qbfvewqXSHcOQ5VQeTtef2MSbrF0PM/R+2dX4N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=fwmfs+fX; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MkCSdvc7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uay9gry2";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MkCSdvc7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uay9gry2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3D1551F385;
-	Mon, 23 Jun 2025 11:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750676980; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9U/dY0NffF2ZhRrdLHT5QYYMdU9TDrPPd+rd5Jk1UWM=;
-	b=MkCSdvc7q15FJRiEvoEEZ2UGCiZb3KxDxpQ6euI6GwjVEbA1vGRzfyAsaLUTzUiPpXVLJc
-	qBXQfDHc+oN9ZvlWkC6i2kEdKI4ocX0Db+lCjjk3zrgjQh41o99t0FnOFMMlC3r38CgfnO
-	D3cq82do29o+D2IcQvXgdv5670jPIVY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750676980;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9U/dY0NffF2ZhRrdLHT5QYYMdU9TDrPPd+rd5Jk1UWM=;
-	b=uay9gry24POaaD+iZ24WM5IzdC+GWYiMzhXR5elcuQrXFuWrCiE12UncOaIUsUkoF2InjK
-	xX0PSHEdWvWXAOAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MkCSdvc7;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=uay9gry2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750676980; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9U/dY0NffF2ZhRrdLHT5QYYMdU9TDrPPd+rd5Jk1UWM=;
-	b=MkCSdvc7q15FJRiEvoEEZ2UGCiZb3KxDxpQ6euI6GwjVEbA1vGRzfyAsaLUTzUiPpXVLJc
-	qBXQfDHc+oN9ZvlWkC6i2kEdKI4ocX0Db+lCjjk3zrgjQh41o99t0FnOFMMlC3r38CgfnO
-	D3cq82do29o+D2IcQvXgdv5670jPIVY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750676980;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9U/dY0NffF2ZhRrdLHT5QYYMdU9TDrPPd+rd5Jk1UWM=;
-	b=uay9gry24POaaD+iZ24WM5IzdC+GWYiMzhXR5elcuQrXFuWrCiE12UncOaIUsUkoF2InjK
-	xX0PSHEdWvWXAOAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3023B13A27;
-	Mon, 23 Jun 2025 11:09:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /gy8C/Q1WWhlKgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 23 Jun 2025 11:09:40 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C58B8A2A00; Mon, 23 Jun 2025 13:09:39 +0200 (CEST)
-Date: Mon, 23 Jun 2025 13:09:39 +0200
-From: Jan Kara <jack@suse.cz>
-To: Junxuan Liao <ljx@cs.wisc.edu>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v2] docs/vfs: update references to i_mutex to i_rwsem
-Message-ID: <bi5e6qyg6htcmuocfahgvwxx2djxyeorhlc425y72pggmvw4hi@dzfheotxoz7j>
-References: <72223729-5471-474a-af3c-f366691fba82@cs.wisc.edu>
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="fwmfs+fX"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4a58ba6c945so69600331cf.2
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 04:29:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750678186; x=1751282986; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CId97r6bxGhOkOsNTRpZGo7/FNNKpNsqY9QIA/bl+4Y=;
+        b=fwmfs+fXrDT5GeTfHuVXKHOlb7KfByS6ViIPpsw/93lUsjU3zRFO7hy7fNOCO6xT3L
+         U0kESQ2zpTSShEZTZslLLpKz3PL2NwVZ3kt8jRxaWbJHB9YIlNyp/D/ZCAB04vFp6f9s
+         tgG3c3GgkoJfCxeO/V93m8J2/PUWK3raCIWkt7BGiovvDQneGPE4BvSHT+ZZCD3Fibaf
+         mE3DgfNXk/pt/88r+RBjJ6oFiU1lna/UyXSKeWNhJCs2OGz1kUNTCQrx1sW0hfzN4JdU
+         G1uTsUtMQN30D9sUGfI5ynqLlMHKawWUJ70DBsUqL6bMlbM8ES0/6yoCfGUenJOsI3N8
+         VPpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750678186; x=1751282986;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CId97r6bxGhOkOsNTRpZGo7/FNNKpNsqY9QIA/bl+4Y=;
+        b=OMNBYO1EP8CuRl5otg+esXK8ud8N7pI4k9GF0Lkm44Gy9duwrtZ9V5exqOux0Ke5VO
+         0xdTNtBm1ZoO1QCPGjk4K2nz0YOcVQf3WOrPYx1bO1GQesu0a6fxQBMHC+UYxvuvMT/9
+         T75698Quc6SZJzWRQa5e7ncGLBXQ0mRKAX9vkSPTcU3xqOtPAh5lFDOfSzf+kBRit01e
+         BLaa908NfvIYzvAb0BH+fK94UNHjkYHMY/kultYVhYC9GKFc4DYunUC/hobnfhkBuVRV
+         uWQxAOxY1Iv1CfpdLH4N7xbsYwuUKd8ZNxxjz7AQReyvshtWFVHBJlPoxOxL0iblBmCJ
+         geKg==
+X-Forwarded-Encrypted: i=1; AJvYcCVft9O7ZG8ymLCa+qkziWSkPTu00L90tXTUafY69BEKlD8rWiM76AA7REjcXjMozER/OtChMgECcjE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTsTzXL91nbK0BfHN32gDOdC6P7FXDS/+lid10Dq+Mal9/Hy3D
+	4gmRSEserWW25qoYHPtV18DYeHSo1imeNJxQhwYg+kfIDPzooWh06FvfYcrPCQFGMaQOBLWPChn
+	5+Rr1x9Djx4ILrBqNFTDSbLdwSndHOTv0Mx/MDeqrHQ==
+X-Gm-Gg: ASbGncsCrU1Hn+6RQszbeEG7v9XVn1Rpj4TIEJMStCDbAsMYXSgz0XbCD0sf/BJMe6D
+	7dXASwwYiZ5Sje7K1s+Tn3gIzeqDFy9qOaeY2FxOTghshwsXKBVSKEVLiT5S2LIvX8iqeHbTHz1
+	OHfpFSgWjDkx8boo5Pe+WsUzJ97IErulv5TewhQzdU
+X-Google-Smtp-Source: AGHT+IGPqAUH/RPykVSVaglFJdihJdozlPbvSoTGsXcR0nXvouD9V9X1wSLeh0iQLT+SzQ72tUMBq5c1jJy1W6hZsnA=
+X-Received: by 2002:ac8:7f92:0:b0:4a4:2c46:26a2 with SMTP id
+ d75a77b69052e-4a77a23acd8mr156063601cf.10.1750678186510; Mon, 23 Jun 2025
+ 04:29:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <72223729-5471-474a-af3c-f366691fba82@cs.wisc.edu>
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 3D1551F385
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:email];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Score: -4.01
-X-Spam-Level: 
+References: <mafs0sekfts2i.fsf@kernel.org> <CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
+ <mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
+ <CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
+ <mafs05xgtw5wn.fsf@kernel.org> <CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
+ <aFLr7RDKraQk8Gvt@kernel.org> <CA+CK2bAnCRu+k=Q78eA4kcAebxA9NgOorhwRqu-WxC913YBsBw@mail.gmail.com>
+ <CA+CK2bB3P1vX658ErkP4_-L6WZSOCcenEwUdX1qS=poDjs=i+A@mail.gmail.com> <aFkDBNpzcCNdqjm8@kernel.org>
+In-Reply-To: <aFkDBNpzcCNdqjm8@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 23 Jun 2025 07:29:09 -0400
+X-Gm-Features: AX0GCFsAwZj53l7luv9N2S4aDs-8Fu10IYCHZ0Vuqd0BsrZgbB9cxOtR2gLz2-Y
+Message-ID: <CA+CK2bCWqiQ1375oCZ9DCkjAHccWfhYxx4zHHBkY4tgh8G3arw@mail.gmail.com>
+Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pratyush Yadav <pratyush@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun 22-06-25 23:01:32, Junxuan Liao wrote:
-> VFS has switched to i_rwsem for ten years now (9902af79c01a: parallel
-> lookups actual switch to rwsem), but the VFS documentation and comments
-> still has references to i_mutex.
-> 
-> Signed-off-by: Junxuan Liao <ljx@cs.wisc.edu>
+On Mon, Jun 23, 2025 at 3:32=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
+>
+> On Wed, Jun 18, 2025 at 01:43:18PM -0400, Pasha Tatashin wrote:
+> > On Wed, Jun 18, 2025 at 1:00=E2=80=AFPM Pasha Tatashin
+> >
+> > So currently, KHO provides the following two types of  internal API:
+> >
+> > Preserve memory and metadata
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> > kho_preserve_folio() / kho_preserve_phys()
+> > kho_unpreserve_folio() / kho_unpreserve_phys()
+> > kho_restore_folio()
+> >
+> > kho_add_subtree() kho_retrieve_subtree()
+> >
+> > State machine
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > register_kho_notifier() / unregister_kho_notifier()
+> >
+> > kho_finalize() / kho_abort()
+> >
+> > We should remove the "State machine", and only keep the "Preserve
+> > Memory" API functions. At the time these functions are called, KHO
+> > should do the magic of making sure that the memory gets preserved
+> > across the reboot.
+> >
+> > This way, reserve_mem_init() would call: kho_preserve_folio() and
+> > kho_add_subtree() during boot, and be done with it.
+>
+> I agree that there's no need in notifiers.
+>
+> I even have a half cooked patch for this on top of "kho: allow to drive k=
+ho
+> from within kernel"
+>
+> From 02716e4731480bde997a9c1676b7246aa8e358de Mon Sep 17 00:00:00 2001
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> Date: Sun, 22 Jun 2025 14:37:17 +0300
+> Subject: [PATCH] kho: drop notifiers
+>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+>  include/linux/kexec_handover.h   |  27 +-------
+>  kernel/kexec_handover.c          | 114 ++++++++++++++-----------------
+>  kernel/kexec_handover_debug.c    |   3 +-
+>  kernel/kexec_handover_internal.h |   3 +-
+>  mm/memblock.c                    |  56 +++------------
+>  5 files changed, 65 insertions(+), 138 deletions(-)
+>
+> diff --git a/include/linux/kexec_handover.h b/include/linux/kexec_handove=
+r.h
+> index f98565def593..ac9cb6eae71f 100644
+> --- a/include/linux/kexec_handover.h
+> +++ b/include/linux/kexec_handover.h
+> @@ -10,14 +10,7 @@ struct kho_scratch {
+>         phys_addr_t size;
+>  };
+>
+> -/* KHO Notifier index */
+> -enum kho_event {
+> -       KEXEC_KHO_FINALIZE =3D 0,
+> -       KEXEC_KHO_ABORT =3D 1,
+> -};
+> -
+>  struct folio;
+> -struct notifier_block;
+>
+>  #define DECLARE_KHOSER_PTR(name, type) \
+>         union {                        \
+> @@ -36,20 +29,15 @@ struct notifier_block;
+>                 (typeof((s).ptr))((s).phys ? phys_to_virt((s).phys) : NUL=
+L); \
+>         })
+>
+> -struct kho_serialization;
+> -
+>  #ifdef CONFIG_KEXEC_HANDOVER
+>  bool kho_is_enabled(void);
+>
+>  int kho_preserve_folio(struct folio *folio);
+>  int kho_preserve_phys(phys_addr_t phys, size_t size);
+>  struct folio *kho_restore_folio(phys_addr_t phys);
+> -int kho_add_subtree(struct kho_serialization *ser, const char *name, voi=
+d *fdt);
+> +int kho_add_subtree(const char *name, void *fdt);
 
-One comment below. Christian, can you please fix it up? Otherwise feel free
-to add:
+For completeness, we also need `void kho_remove_substree(const char
+*name);`, currently, all trees are removed during kho_abort(). Let's
+rebase and include this patch on top of the next version of LUO, that
+we are exchanging off list, and send it together later this week.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> index fd32a9a17bfb..dd9da7e04a99 100644
-> --- a/Documentation/filesystems/vfs.rst
-> +++ b/Documentation/filesystems/vfs.rst
-> @@ -758,8 +758,9 @@ process is more complicated and uses write_begin/write_end or
->  dirty_folio to write data into the address_space, and
->  writepages to writeback data to storage.
->  
-> -Adding and removing pages to/from an address_space is protected by the
-> -inode's i_mutex.
-> +Removing pages from an address_space requires holding the inode's i_rwsem
-> +exclusively, while adding pages to the address_space requires holding the
-> +inode's i_mapping->invalidate_lock exclusively.
-
-I wasn't probably precise enough in my previous comment. This paragraph
-should be:
-
-Removing pages from an address_space requires holding the inode's i_rwsem
-exclusively and i_mapping->invalidate_lock exclusively. Adding pages to the
-address_space requires either holding inode's i_rwsem exclusively or
-i_mapping->invalidate_lock in shared mode.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Pasha
