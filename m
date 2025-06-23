@@ -1,76 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90FD023C4EB;
-	Mon, 23 Jun 2025 10:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB59D22D4F1;
+	Mon, 23 Jun 2025 10:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750672841; cv=none; b=d+UWozm8rsU6WXAydhaDQouLyN4kVkB6TNphJTP17LEy0Pzs2OkRDj3x2QMeFjuYQ232K8slPiw3fbW0nPc3FPsuTvodigVaMsvzB4YjjWv6e5x4NCAD1JeVkiHVI/fOmsy/WwP41LSQ2oAZbSRLOfCu82X4SJmEhd0uv5aGi8o=
+	t=1750673488; cv=none; b=CDbvEBdN6RUCoEs0orRis5tFgKqyJDBGgAVboSEysRj+8ruolKwK9oDsAPZw846LtBrhztI3dw+qdr1vT6XBTQeru/9S7sVUMhFHtdSGY6HlyzAXSvSEazLiFK1PbmHIGluLJvdGX3+3fI54NaMWh9r62Px0fSt+vwoI+/dELF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750672841; c=relaxed/simple;
-	bh=mlsBkLPwnwFNOessEiLCY8jBWTi4OVNKvirIMXCCP3s=;
+	s=arc-20240116; t=1750673488; c=relaxed/simple;
+	bh=OFKwZS2f1yjDnUpAHHlzk5SdSS1w7t5kE90KGJKypWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=km87fvftjrsEYXzGnSNszX1PteTqUvSv+bATX9baGQOy1lkc7HHFJFv6VB6c4/51rB04CL1vibcCZEKSKKyj2paqY7jT3sD94MxlBlUR1/9zHoki6NJJDuO3lpbqvhPaZMw+WnS3/C3c1BSLtee5wkTF76CH0xT0S7hSCdrXSMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4+i66bk; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ab3jHqPwZNQZRyniy5pwoQDlYukdmniwfmaYfy4AWOgnD+9GRnXhFpyTdxErQP5zlkBKmIkFztZIw3P00eqyxwnPzRjn8Xt8YXDKrUDlIzz9ypRpnXCvpy9SoHBEkKh/o5BmM7bkWtUzIhLpYfqwPC3fxCIJfiuXjh3VREQ5mtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KvSTr90x; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4+i66bk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KvSTr90x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750672840; x=1782208840;
+  t=1750673487; x=1782209487;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mlsBkLPwnwFNOessEiLCY8jBWTi4OVNKvirIMXCCP3s=;
-  b=O4+i66bk4fulQamcBStdKsgl6cc9YNTTti9HIPSasmoKaKze34MaOZSO
-   Xh5ZdmDa/7pPPE4LMYLqeDsxs999W5/D8uZ8Sq1xRHfFxops5MEOaQzh5
-   f9Os/AAKI4fe1TDbghkzdDZHjJ9CQz0XXVaZ8uHU752g2m9a7Bud5HuIJ
-   Dd0q20ewhaHzgzGiG2tDdRpKeCX60G9lxCrn9oPlt+RyX3XeANbE9ADqM
-   OTdUNT01vT4lYrMzV9hqtLvvslZ9WTHy4EidtdMMgB0aGLVxFsp0BSZQT
-   VqpMwhcF/I77t0N6qRU7r55N4Au9E4gu3mTp1z5/uI3ARxUCGneOfMQw8
+  bh=OFKwZS2f1yjDnUpAHHlzk5SdSS1w7t5kE90KGJKypWk=;
+  b=KvSTr90xiWqTSSWE/pTylGvzjoNYaq+PNJVF0k6E2StjHF7DfXfBW/KK
+   HEXQX+rxtK/F3LIc8V/IpjTplLqVOnXYbfq1eSo/vEoHXup4/xM2BvFB7
+   4HNq+IU5PR9xRNzwXmjNqMeMA2FyfhZpvSLap+Sv/SyOVL1piYv5MWgJw
+   Q+TuVXW7waral5btKxUDBXiPUGDD7pmqY7Y09wPlo94pqV2OB9JAympXs
+   LsxS52oWGiZBxfnd27mDCRIiveU43hBXylar6Te9S1n+jjP2G1hs4Zo9c
+   Iz7zrqXUm47KQv3bPKTwK25BaN/X7pVWfwrcvgh96ShX/Q/ezFvMFIsvQ
    A==;
-X-CSE-ConnectionGUID: 5Iie2SDaRwi8cvuAxUYNZw==
-X-CSE-MsgGUID: a2TDuJ+aRrKPaCXk9Z0p5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="64227984"
+X-CSE-ConnectionGUID: fM//FshUTMC9VQbyeGdWAg==
+X-CSE-MsgGUID: McvQqpOZSPWp3lDQIRks1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="56681978"
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="64227984"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 03:00:38 -0700
-X-CSE-ConnectionGUID: +kTBJ6BUReqF77uTavrz5A==
-X-CSE-MsgGUID: M67+NKF7SYOMzjjsFSwQZw==
+   d="scan'208";a="56681978"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 03:11:26 -0700
+X-CSE-ConnectionGUID: +cWrTyRVSK+2Q/9SQcr93g==
+X-CSE-MsgGUID: oFv+Fkr2QBuXEG3Tnk3/+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="151023876"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Jun 2025 03:00:32 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uTdyX-000NvS-0i;
-	Mon, 23 Jun 2025 10:00:29 +0000
-Date: Mon, 23 Jun 2025 18:00:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Clapinski <mclapinski@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
-	nvdimm@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>,
-	Thomas Huth <thuth@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
-	Michal Clapinski <mclapinski@google.com>
-Subject: Re: [PATCH v3 2/2] libnvdimm: add nd_e820.pmem automatic devdax
- conversion
-Message-ID: <202506231721.IePmiDyz-lkp@intel.com>
-References: <20250612114210.2786075-3-mclapinski@google.com>
+   d="scan'208";a="157051613"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 03:11:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uTe92-000000098LK-1i91;
+	Mon, 23 Jun 2025 13:11:20 +0300
+Date: Mon, 23 Jun 2025 13:11:20 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	corbet@lwn.net, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	eraretuya@gmail.com
+Subject: Re: [PATCH v10 5/7] iio: accel: adxl345: add coupling detection for
+ activity/inactivity
+Message-ID: <aFkoSBXuPOoQj3JI@smile.fi.intel.com>
+References: <20250622155010.164451-1-l.rubusch@gmail.com>
+ <20250622155010.164451-6-l.rubusch@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,85 +68,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250612114210.2786075-3-mclapinski@google.com>
+In-Reply-To: <20250622155010.164451-6-l.rubusch@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Michal,
+On Sun, Jun 22, 2025 at 03:50:08PM +0000, Lothar Rubusch wrote:
+> Enable AC/DC coupling configuration for activity and inactivity detection
+> by setting the AC/DC bit. Extend existing magnitude-based detection with
+> adaptive AC-coupled mode.
+> 
+> Use DC-coupled mode to compare acceleration samples directly against
+> configured thresholds. Use AC-coupled mode to compare samples against a
+> reference taken at the start of activity detection. Implement DC-coupled
+> events using MAG, and AC-coupled events using MAG_ADAPTIVE.
+> 
+> Expose configuration of thresholds and periods via separate sysfs handles.
+> Note that both coupling modes share the same sensor registers, so activity
+> or inactivity detection cannot be configured for both AC and DC
+> simultaneously. Apply the most recently configured mode.
+> 
+> Simplify event handling and support adaptive AC-coupling.
 
-kernel test robot noticed the following build warnings:
+...
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on nvdimm/libnvdimm-for-next v6.16-rc3 next-20250623]
-[cannot apply to nvdimm/dax-misc]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>  static int adxl345_set_act_inact_linkbit(struct adxl345_state *st,
+>  					 enum adxl345_activity_type type,
+>  					 bool en)
+>  {
+> -	int act_en, inact_en;
+> +	int act_en, act_ac_en, inact_en, inact_ac_en;
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Clapinski/libnvdimm-e820-Add-a-new-parameter-to-split-e820-entry-into-many-regions/20250612-194354
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250612114210.2786075-3-mclapinski%40google.com
-patch subject: [PATCH v3 2/2] libnvdimm: add nd_e820.pmem automatic devdax conversion
-config: x86_64-randconfig-r111-20250621 (https://download.01.org/0day-ci/archive/20250623/202506231721.IePmiDyz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506231721.IePmiDyz-lkp@intel.com/reproduce)
+Just make it two,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506231721.IePmiDyz-lkp@intel.com/
+	int act_ac_en, inact_ac_en;
+	int act_en, inact_en;
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvdimm/pfn_devs.c:684:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] align @@     got restricted __le64 [usertype] @@
-   drivers/nvdimm/pfn_devs.c:684:23: sparse:     expected restricted __le32 [usertype] align
-   drivers/nvdimm/pfn_devs.c:684:23: sparse:     got restricted __le64 [usertype]
-
-vim +684 drivers/nvdimm/pfn_devs.c
-
-   646	
-   647	int nd_pfn_set_dax_defaults(struct nd_pfn *nd_pfn)
-   648	{
-   649		struct nd_pfn_sb *pfn_sb = nd_pfn->pfn_sb;
-   650		struct nd_namespace_common *ndns = nd_pfn->ndns;
-   651		struct nd_region *nd_region = to_nd_region(nd_pfn->dev.parent);
-   652		struct nd_namespace_io *nsio;
-   653		struct resource *res;
-   654		unsigned long align;
-   655	
-   656		if (!pfn_sb || !ndns)
-   657			return -ENODEV;
-   658	
-   659		if (!is_memory(nd_pfn->dev.parent))
-   660			return -ENODEV;
-   661	
-   662		if (nd_region->provider_data) {
-   663			align = (unsigned long)nd_region->provider_data;
-   664		} else {
-   665			nsio = to_nd_namespace_io(&ndns->dev);
-   666			res = &nsio->res;
-   667			align = nd_best_supported_alignment(res->start, res->end);
-   668			if (!align) {
-   669				dev_err(&nd_pfn->dev, "init failed, resource misaligned\n");
-   670				return -EOPNOTSUPP;
-   671			}
-   672		}
-   673	
-   674		memset(pfn_sb, 0, sizeof(*pfn_sb));
-   675	
-   676		if (!nd_pfn->uuid) {
-   677			nd_pfn->uuid = kmemdup(pfn_sb->uuid, 16, GFP_KERNEL);
-   678			if (!nd_pfn->uuid)
-   679				return -ENOMEM;
-   680			nd_pfn->align = align;
-   681			nd_pfn->mode = PFN_MODE_RAM;
-   682		}
-   683	
- > 684		pfn_sb->align = cpu_to_le64(nd_pfn->align);
-   685		pfn_sb->mode = cpu_to_le32(nd_pfn->mode);
-   686	
-   687		return nd_pfn_checks(nd_pfn, 0, 0, 0);
-   688	}
-   689	EXPORT_SYMBOL(nd_pfn_set_dax_defaults);
-   690	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
