@@ -1,63 +1,73 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5A928DB59
-	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 15:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66ABD25E82E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 15:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750693506; cv=none; b=AXEf11yEDPq/Yu0d0YI9Nru9yVUHJ0PWB6OF6OB76EZZonMCDYC1CCUyQKHj2/xTtv5uUWH980KtJBWBjzDfrwV/iaidY/oF+lvVP7aCnnx2KuqNIH1YzFcQgpXadg+AiuCL7e6L2htDz26Fs/nymtAMdxHzxdUkRJlIl7FCZog=
+	t=1750693656; cv=none; b=CzVtbQcpArAcJTKYxGpR08scs2PgVEpLuqHdj6H+wd6gqKURb+9xCxW3eA28i0fzYSff6wtxLZl7ye3O6CPfGyP1S2n3WUpdwztkwBGpw92v6lhbEnIfn6ASCNyCg9P4GEp2fmjaKz8C0jfWmUla5OCWI2JTrh0bWLGYy3mW5pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750693506; c=relaxed/simple;
-	bh=5PNEmnbjciG2Xuw+gQQ+guOQSMZOjAoOCyw8eUAileQ=;
+	s=arc-20240116; t=1750693656; c=relaxed/simple;
+	bh=k3ZTWi3pH3yUSCx+tVrpUIR2cMh/m8C2mwW9Bu5f6QQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AtZq0s1XwNgR6MZcak1B/LmOU9U/qkHZs/q9zqG54WZFYsI0knM+2IjSQxloKLSiFSpmowZMwFrmcVSk/70e62ozzJl8mzEXxjhYTYAS7A3NM0ah9hbiiQlfIJywrvYEYw5EzKxUpgHVNfZe3gFWmxP2tkth63fUK1YO6rNI25w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=rSe9u0vO; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
+	 In-Reply-To:Content-Type; b=IeVybS/dygZqPxHpFhE9mzj8vE8O2itQ4ulH4GQmTswaInPYHMQz3L0U9tuqPW8TQLvim/yEsZyzGdEbIlhKz4ylkx8/NOPCvZu7fepoqlH5M4mKfwdjBrKzMutTotm4qck9A/TomtLdv+g8CLCqCWJ9FnCJbIGkn0j6IGivpyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VKx+jyuc; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="rSe9u0vO"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a522224582so2065052f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 08:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1750693503; x=1751298303; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=uL0O45hMlPAbdxle62Dl9Ya0NwjEYAAouOVoiEETw7E=;
-        b=rSe9u0vOUsEzsjbCAkbK7yiaG5+6MtZCUo9e4M9o0RXMU1+Bmqcy0ozQtPBGyF5EtL
-         Qpaajke8WY3twhwYLqLj4GijH1Jkh+EC9pMTbo9cZZ7EBwytAv15NNZ4eTBrNXGCe+ZR
-         mmpBl6rJuw9AWEZfIrSzN3RzUbnERanryuKss=
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VKx+jyuc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750693653;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=GiAjHcBAXD9a3mz8FRd2NO1NhckLiGKv82XFpmw/3HY=;
+	b=VKx+jyucExg7P+DJ1UKWK3Ecf29vwZBlbqYWzwpCuYiQxxBGsRD0e6cCkCs3tVZEHnd210
+	etdrH6gnRbEhQrmvhQ4PzuJ0AYW/7WT7fzPS1yIDSR+mFq0W6s+ldiqHLdt54IcSCa+c34
+	Z6ukWnu/vEYa4MeUjG2w4VktlG0aclI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-570-fNQeJbjHOq6Jec08eZByxw-1; Mon, 23 Jun 2025 11:47:32 -0400
+X-MC-Unique: fNQeJbjHOq6Jec08eZByxw-1
+X-Mimecast-MFC-AGG-ID: fNQeJbjHOq6Jec08eZByxw_1750693651
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3a4eec544c6so2173881f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 08:47:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750693503; x=1751298303;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uL0O45hMlPAbdxle62Dl9Ya0NwjEYAAouOVoiEETw7E=;
-        b=gU3cEbMfif9SCXh4JsZKu8j90m9dcQjDbmhxniDZOOtdVlgs3bwLpgiE9yUFM31u/W
-         PHd5WglQyyeqfzi6Bdq/pVO1RgaQcprjrNI8QmTh29mMSMlAY/MDOB6IIS5pOSEGNufu
-         twwFUWLQ82onkr5veqJ5gPFpW+X1DUx6VBfi0nLrOzG7Vy/+VqTZdHUL57t0I2PG8BlT
-         VNBInrplX38ZcGcvNTUVcXcLKLdnDJWAkOTeMhCTzN3Gc1sa7IieTB1c3VwBBCw8QKym
-         RBnmYalWFbkSAiDJKfdikIoA5vE9MEUr91Pv5fdK141EHwZLOGrIu9CLPZXG1N4J8y+w
-         wT4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUDMCtcl9plPWA8/RnJ6X5paDAjfvEIB+f4K6KkEvL75qbJAvGRSV9EEHU/pkrJivHyFWR9SauNDCI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3Y17fATFpSLJEzRbWQKAhtSDjApnwb6kuzZqqLO4cEN+VlWtq
-	69YiH4Ui9HuDdCajgk1Lg6WPt3pWHIr8ILmGgGyL8vGLJU8D44L4kAKWZA/zLGYQ5oE=
-X-Gm-Gg: ASbGncsiJm5g72zgF5F4j0zKhTnbos3maiPJYGebkRlw+D7p4hT+yerWHl/mgNUcTBW
-	chtOlyXxXblX33tP+V+FM5VViJVgq8S1RAol3B+p000QZQVlVSGWhb8TpksIOpTKzyZHYSXzuio
-	x+Eka1EIVS/7ajAsrp+gFBdorTBYaLYpzKKOA/8q7/YahPF9zu9GARgRk0QnXTMn4aMfIoLW0fg
-	DPC65vDFanq4z2ATUcm4P5hMbWz40z5MYj8pYPQPvF7oCYyYyhilmS375h73TqLrEP4HcHRVGGt
-	NrBhWBU2gM42QiaFvqTqLrBPoNwjlTvNCOaoX1Tt/FNr2bD1fMNK6iBEFa6gQG2pUN0WCFEVl0m
-	YiVpcp2APoVKgPvgjfhixWJPfa8Y=
-X-Google-Smtp-Source: AGHT+IGJ+QVsjcPbF0c+9y4h5WCZmLSbsgH/DWi6LPZOcySwQ1t7xKBejzOH5X1Y8ebzu0LTpXrofA==
-X-Received: by 2002:a05:6000:178a:b0:3a5:2cca:6054 with SMTP id ffacd0b85a97d-3a6d1193e06mr11205314f8f.4.1750693502940;
-        Mon, 23 Jun 2025 08:45:02 -0700 (PDT)
-Received: from [192.168.1.183] (host-92-26-98-202.as13285.net. [92.26.98.202])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6d0f1815dsm9554055f8f.28.2025.06.23.08.45.01
+        d=1e100.net; s=20230601; t=1750693651; x=1751298451;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GiAjHcBAXD9a3mz8FRd2NO1NhckLiGKv82XFpmw/3HY=;
+        b=gEjJVmfsogzy4CDd+aJZEG28rf1BfX7jPcA0ExqC4winZRGirXOcdjLfVl60AxpMOb
+         bhyfNeUKLecnx4SZ+pj6Mo0N+IsgvknwymRVFEJLB3cK7Trdne9ehWqPpghariwHXaIX
+         vOVTonPnBrWcrFSFdua7eD/hxAqFpdr9eQZYrhErG7QUCrStP19xM0dY7dY0G218Llw2
+         9xJx6mI4iaN+Ft2X2BOM9IzJzmEkGRBEq29QzGDx4BKbwUZYgs+7EuVfJ4DbUykHwLBK
+         qhaY2omYyyUXbMD42RU6YXQ8zDDx6N1qqQPNnoY5ZtGKEDWuU15u8oU4p4KOZkavDLLW
+         nctw==
+X-Forwarded-Encrypted: i=1; AJvYcCUrgCeo92Wo9EoECpGW+wyqEZ+wp0pPnJhRGyee/mMas50vMKSNcnUfXUIQlOrdwNoUBCM1kg9KF1A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyi+yvFWG0fhxKc4eAYWmNPWHNCWyb1IRCEseKiul+bU9pFoKsr
+	nJfuihc9+zgVGvbpY4J0zCZWN376dEjWm/+p6BbOgDc/NbQxk//X5ClhsBv0/i8kwcbx47YdEjP
+	cX57DyVVb301V1RGJy47EgARl+FU1TsyMzQR0vDap0vSCOsNCoclq9kpUH041kQ==
+X-Gm-Gg: ASbGncukQ6mwgc1WoTTomjqgq7r3n8m+cbBEsY26biJB3RMDrax1iXJYbRhicC0ZhBm
+	MOeSRpPBxwAbafwqUmLhYcovc/9LXEAL4q3wXclDaYQiiRhBfwtiGfHYZWPOLo7kgxxUmH5xN0Q
+	uM771kyC+YgADK/E1Jm+Gm0w46xRUjVHIO/TcegDFf+gG0apMSNj0npqmYE+7DsbZtcZdMg5JCl
+	YOQqnZULLizewe28Zm1W67rOF/PCKg0i/1zyZPeXitbudOtaw+jOH6GSqMMR+0ecbU6ZTS+DG60
+	kPIXcgLPqmlyAOo+FkK9NlCaMiaFPEkEIgQYAMnDvMRkKojDX6L19PrkaBKbhQp/JZYypAvZPAB
+	gFDqVxG0uU/NbrdEKSgGNXiQDKo6FW+t5505qN/iC3xrgwF5gaw==
+X-Received: by 2002:a05:6000:40da:b0:3a0:b308:8427 with SMTP id ffacd0b85a97d-3a6d13242f0mr9661348f8f.37.1750693650723;
+        Mon, 23 Jun 2025 08:47:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEBbzh6rLRiE5JaILdTM7jhp0Rp9pGuiB9PpXQvKHMRuXqyueW+S30S6ZgK14mTl9LJ6P93/g==
+X-Received: by 2002:a05:6000:40da:b0:3a0:b308:8427 with SMTP id ffacd0b85a97d-3a6d13242f0mr9661316f8f.37.1750693650228;
+        Mon, 23 Jun 2025 08:47:30 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f4e:fd00:8e13:e3b5:90c8:1159? (p200300d82f4efd008e13e3b590c81159.dip0.t-ipconnect.de. [2003:d8:2f4e:fd00:8e13:e3b5:90c8:1159])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6d0f1d91bsm9608094f8f.42.2025.06.23.08.47.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jun 2025 08:45:02 -0700 (PDT)
-Message-ID: <ddbb18e8-fc32-4a41-b23d-4b707890200d@citrix.com>
-Date: Mon, 23 Jun 2025 16:45:00 +0100
+        Mon, 23 Jun 2025 08:47:28 -0700 (PDT)
+Message-ID: <d6208fab-9ab5-485e-9cc3-94256fef2e1b@redhat.com>
+Date: Mon, 23 Jun 2025 17:47:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,110 +75,176 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 07/16] x86/vsyscall: Reorganize the #PF emulation code
-To: Dave Hansen <dave.hansen@intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: acme@redhat.com, aik@amd.com, akpm@linux-foundation.org,
- alexander.shishkin@linux.intel.com, ardb@kernel.org, ast@kernel.org,
- bp@alien8.de, brijesh.singh@amd.com, changbin.du@huawei.com,
- christophe.leroy@csgroup.eu, corbet@lwn.net, daniel.sneddon@linux.intel.com,
- dave.hansen@linux.intel.com, ebiggers@google.com, geert+renesas@glider.be,
- houtao1@huawei.com, hpa@zytor.com, jgg@ziepe.ca, jgross@suse.com,
- jpoimboe@kernel.org, kai.huang@intel.com, kees@kernel.org,
- leitao@debian.org, linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux@rasmusvillemoes.dk,
- luto@kernel.org, mcgrof@kernel.org, mhiramat@kernel.org,
- michael.roth@amd.com, mingo@kernel.org, mingo@redhat.com,
- namhyung@kernel.org, paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com,
- peterz@infradead.org, rick.p.edgecombe@intel.com, rppt@kernel.org,
- sandipan.das@amd.com, shijie@os.amperecomputing.com, sohil.mehta@intel.com,
- tglx@linutronix.de, tj@kernel.org, tony.luck@intel.com,
- vegard.nossum@oracle.com, x86@kernel.org, xin3.li@intel.com,
- xiongwei.song@windriver.com, ytcoode@gmail.com
-References: <9d351d80-66fe-486f-bdb3-370859dc47cc@intel.com>
- <262c0fd2-ac66-4ce7-903f-4062f1fe1d6e@citrix.com>
- <b6f8a90d-4309-45c5-84cd-32e281d076fb@intel.com>
- <kthmv63jrvrr3shhzhhcib7qrjp7sjkah65kogbfphfr6wg6cb@z5zydz6ov7pv>
- <bd81a98b-f8d4-4304-ac55-d4151a1a77ab@intel.com>
-Content-Language: en-GB
-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
- 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
- 6+ahAA==
-In-Reply-To: <bd81a98b-f8d4-4304-ac55-d4151a1a77ab@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH RFC 16/29] mm: rename __PageMovable() to
+ page_has_movable_ops()
+To: Zi Yan <ziy@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Minchan Kim <minchan@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
+ Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin
+ <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>
+References: <20250618174014.1168640-1-david@redhat.com>
+ <20250618174014.1168640-17-david@redhat.com>
+ <DAA0D876-D5A4-4E54-9BD3-363E34D8B3F3@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <DAA0D876-D5A4-4E54-9BD3-363E34D8B3F3@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 23/06/2025 4:32 pm, Dave Hansen wrote:
-> On 6/23/25 05:41, Kirill A. Shutemov wrote:
->> So, IIUC, that's dependency of vsyscall PF on NX. Do we want to disable
->> vsyscall on boot if NX is not available?
-> Well, vsyscall=none can break old userspace, so forcing it on old
-> hardware doesn't seem like a great idea.
->
-> But, either way, this doesn't really appear to be a LASS issue. This code:
->
->>         if (!(error_code & X86_PF_INSTR)) {
->>                 /* Failed vsyscall read */
->>                 if (vsyscall_mode == EMULATE)
->>                         return false;
-> Is really asking the question:
->
-> 	Is this #PF from an instruction fetch in the vsyscall page?
->
-> That _should_ be able to be done by comparing CR2 and regs->rip. In
-> fact, that's done just below anyway:
->
-> 	WARN_ON_ONCE(address != regs->ip);
->
-> So I think we can fix this up with something like the attached patch
-> which just drives the if() from regs->rip and make the warning NX-only.
+On 20.06.25 22:37, Zi Yan wrote:
+> On 18 Jun 2025, at 13:39, David Hildenbrand wrote:
+> 
+>> Let's make it clearer that we are talking about movable_ops pages.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   include/linux/migrate.h    |  2 +-
+>>   include/linux/page-flags.h |  2 +-
+>>   mm/compaction.c            |  7 ++-----
+>>   mm/memory-failure.c        |  4 ++--
+>>   mm/memory_hotplug.c        |  8 +++-----
+>>   mm/migrate.c               |  8 ++++----
+>>   mm/page_alloc.c            |  2 +-
+>>   mm/page_isolation.c        | 10 +++++-----
+>>   8 files changed, 19 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+>> index 204e89eac998f..c575778456f97 100644
+>> --- a/include/linux/migrate.h
+>> +++ b/include/linux/migrate.h
+>> @@ -115,7 +115,7 @@ static inline void __SetPageMovable(struct page *page,
+>>   static inline
+>>   const struct movable_operations *page_movable_ops(struct page *page)
+>>   {
+>> -	VM_BUG_ON(!__PageMovable(page));
+>> +	VM_BUG_ON(!page_has_movable_ops(page));
+>>
+>>   	return (const struct movable_operations *)
+>>   		((unsigned long)page->mapping - PAGE_MAPPING_MOVABLE);
+>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+>> index 4fe5ee67535b2..c67163b73c5ec 100644
+>> --- a/include/linux/page-flags.h
+>> +++ b/include/linux/page-flags.h
+>> @@ -750,7 +750,7 @@ static __always_inline bool __folio_test_movable(const struct folio *folio)
+>>   			PAGE_MAPPING_MOVABLE;
+>>   }
+>>
+>> -static __always_inline bool __PageMovable(const struct page *page)
+>> +static __always_inline bool page_has_movable_ops(const struct page *page)
+>>   {
+>>   	return ((unsigned long)page->mapping & PAGE_MAPPING_FLAGS) ==
+>>   				PAGE_MAPPING_MOVABLE;
+>> diff --git a/mm/compaction.c b/mm/compaction.c
+>> index 5c37373017014..f8b7c09e2e48c 100644
+>> --- a/mm/compaction.c
+>> +++ b/mm/compaction.c
+>> @@ -1056,11 +1056,8 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
+>>   		 * Skip any other type of page
+>>   		 */
+>>   		if (!PageLRU(page)) {
+>> -			/*
+>> -			 * __PageMovable can return false positive so we need
+>> -			 * to verify it under page_lock.
+>> -			 */
+>> -			if (unlikely(__PageMovable(page)) &&
+>> +			/* Isolation will grab the page lock. */
+> 
+> I feel that the removed comment should stay, since the current comment
+> makes no sense when I read it alone.
 
-Yeah, that looks good.  Furthermore, it means that the LASS #GP path
-(patch 9) will be consistent with this path.  (i.e. both doing a
-regs->rip check.)
+Well, talking about the page lock is moot either way. The thing is, 
+anything can change while we don't hold a page reference. So should we 
+change the comment to
 
-Patch Reviewed-by: Andrew Cooper <andrew.cooper3@citrix.com> if that
-counts for anything.
+/* isolation code will deal with any races. */
 
-~Andrew
+... or drop it completely?
+
+> 
+> In addition, why is __PageMovable() is renamed to page_has_movable_ops() but
+> __SetPageMovable() stays the same? page_has_movable_ops() and __SetPageMovable()
+> are functions for checking and setting PAGE_MAPPING_MOVABLE. The naming just
+> does not look symmetric.
+
+See follow-up commits where __SetPageMovable() is cleaned up.
+
+-- 
+Cheers,
+
+David / dhildenb
+
