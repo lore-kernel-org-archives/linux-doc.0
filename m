@@ -1,102 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDD586349;
-	Sun, 22 Jun 2025 22:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B854C7F;
+	Mon, 23 Jun 2025 01:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750632528; cv=none; b=fi6bpvyAs4AGUnwIn4Pp1UgbxdwGmvCBrnnCwTOhO1it7VtTMY9wB/14U2LP8nKF7xhiWRlq3N5n3QOp0Ll02sTj7PFwCDdiyj8MaZalUj9qHJkLgz5guo6LvYcEqx0a7LeoknAi2izeAsooHs7072r8p3h+8H6Adiw+j6EG+Fg=
+	t=1750641276; cv=none; b=qVPsrU8i82UCZE4vInjrNmnTwvxqYFgyjS6Hh9c0cFrJVGbxU2JiaywpaEcm+TYabYKQTQt5b2/LLDk1OVYI1UrV8AWX9neOQk02wn4Lx+W03m0cX/qITJJpF6FydtjI6MDH6TglpCcyrA1dW4BtMYX1o/Gw9ePN4cDP8srl9i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750632528; c=relaxed/simple;
-	bh=T5+Prpht3oUvEsd/DGDLvYFZkGwgGKSbQdhp2/015Qo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=ecTV+nhK18m1dXZ/38qzDwoMSyDNuwBMT7SjBRqhFFl1Po/ryGKR8Rs3A+HNwyQo4r9Fith+/4eAjR+wmZiaL90BQqSlKaPk/DqcRXXWKgTZlLHF/5V/HvVPkta2BUgTBJ7XiTPQP1qLUQ3SAdtZzrOAwRhjncsKZ42ofWfbYYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=v/rlhubF; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="v/rlhubF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C218FC4CEE3;
-	Sun, 22 Jun 2025 22:48:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1750632528;
-	bh=T5+Prpht3oUvEsd/DGDLvYFZkGwgGKSbQdhp2/015Qo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=v/rlhubFFaG3l6cMyZwfDk6KrVEWd4cTEInXO1IL+xCdsCzCNA3mM5gfQ2JuTjAHz
-	 vBdRWrdJkcyLvJIX1z0dR7NoZxeaiKY1/lis5Wm6jGigeDststZSSkgGqSJIdTUlYf
-	 9ykFRgsyhVNIyZYr1arpcza25KWiYSLe+ih6MCyM=
-Date: Sun, 22 Jun 2025 15:48:47 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: <jiang.kun2@zte.com.cn>
-Cc: <bsingharora@gmail.com>, <david@redhat.com>, <yang.yang29@zte.com.cn>,
- <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
- <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
- <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>,
- <ye.xingchen@zte.com.cn>, <xu.xin16@zte.com.cn>
-Subject: Re: [PATCH linux next] tools/accounting/delaytop: add delaytop  to
- record top-n task delay
-Message-Id: <20250622154847.f7ea3c8c5b2c1193bf9bcbcf@linux-foundation.org>
-In-Reply-To: <20250619211843633h05gWrBDMFkEH6xAVm_5y@zte.com.cn>
-References: <20250619211843633h05gWrBDMFkEH6xAVm_5y@zte.com.cn>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1750641276; c=relaxed/simple;
+	bh=7ULXjxBT15KMqSaHyqu0hXJQEiICOMQf/UAcK91OmgA=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=QdSGqlHDJf6wo17WEcXo7qfWdqVSPOvFB7LhV0mJY7jTlqUbc7OKj9acd3WoWtX2BBqO3VEzq6cdou8gzJ2fwg6Qnr6jvgoPkYPe7xID8qDI86rvFltmstvQctY88evhKGr4LuZDjAyP6XvuR+1IipBfizIZ9+SxUEyWsFRvy70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8DxjXJvqlho41gbAQ--.61527S3;
+	Mon, 23 Jun 2025 09:14:23 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by front1 (Coremail) with SMTP id qMiowMCxbsVkqlhoqo4mAQ--.54823S3;
+	Mon, 23 Jun 2025 09:14:15 +0800 (CST)
+Subject: Re: [PATCH v4 0/2] Loongarch irq-redirect supprot
+To: Thomas Gleixner <tglx@linutronix.de>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
+ jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+ gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Super User <root@localhost.localdomain>
+References: <20250610114252.21077-1-zhangtianyang@loongson.cn>
+ <87qzznivtp.ffs@tglx>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <10014657-8756-f31a-c3b4-f175b764346c@loongson.cn>
+Date: Mon, 23 Jun 2025 09:13:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+In-Reply-To: <87qzznivtp.ffs@tglx>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:qMiowMCxbsVkqlhoqo4mAQ--.54823S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrKryrZr4fAFyxuryrWr4Dtrc_yoWDuFg_ur
+	1xtwn8AF1UZrWxZr4S9F43Grs7Za1xurWUtFWvq34jq34rJa4DCF4q9ryS9an8XF43Jrnx
+	Xr90vr15t3sF9osvyTuYvTs0mTUanT9S1TB71UUUUb7qnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbqkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1ln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
+	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+	1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxG
+	rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14
+	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkG
+	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
+	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jTq2NUUU
+	UU=
 
-On Thu, 19 Jun 2025 21:18:43 +0800 (CST) <jiang.kun2@zte.com.cn> wrote:
+Hi, Thomas
 
-> From: Yaxin Wang <wang.yaxin@zte.com.cn>
-> 
-> Problem
-> =======
-> The "getdelays" can only display the latency of a single task
-> by specifying a PID, but it has the following limitations:
-> 1. single-task perspective: only supports querying the
-> latency (CPU, I/O, memory, etc.) of an individual task via
-> PID and cannot provide a global analysis of high-latency
-> processes across the system.
-> 2. lack of High-Latency process awareness: when the overall
-> system latency is high (e.g., a spike in CPU latency), there
-> is no way to quickly identify the top N processes contributing
-> to the highest latency.
-> 3. poor interactivity: It lacks dynamic sorting and refresh
-> capabilities (similar to top), making it difficult to monitor
-> latency changes in real time.
-> 
-> Solution
-> ========
-> To address these limitations, we introduce the "delaytop" with
-> the following capabilities:
-> 1. system view: monitors latency metrics (CPU, I/O, memory, IRQ,
-> etc.) for all system processes
-> 2. supports field-based sorting (e.g., default sort by CPU latency
-> in descending order)
-> 3. dynamic interactive interface:
-> focus on specific processes with --pid;
-> limit displayed entries with --processes 20;
-> control monitoring duration with --iterations;
-> 
-> Use case
-> ========
-> bash# ./delaytop
+ÔÚ 2025/6/13 ÏÂÎç10:02, Thomas Gleixner Ð´µÀ:
+> On Tue, Jun 10 2025 at 19:42, Tianyang Zhang wrote:
+>> From: Super User <root@localhost.localdomain>
+> That's a valid developer name :)
+Sorry , it's a realy stupid fault.....
+>
+>> This series of patches introduces support for interrupt-redirect
+>> controllers, and this hardware feature will be supported on 3C6000
+>> for the first time
+>>
+>> change log:
+>> 	v3->v4
+>> 	1.Provide reasonable comments on the modifications made to IRQ_SET_MASK_OK_DONE	
+> That's not really what I asked for:
+>
+>    "This change really wants to be seperate with a proper explanation and
+>     not burried inside of this pile of changes."
+>
+> Emphasis on _seperate_, which translates to:
+>
+>    "Put it into a seperate patch with a proper changelog explaining this
+>     modification and why it is correct."
+>
+> You still have burried this in the whole pile of unrelated changes.
+>
+> Thanks,
+>
+>          tglx
 
-Looks nice, thanks.
+Okay, I thought it was just a dissatisfaction with the "inclusion" of 
+some changes. I will try to modify it here
 
->  tools/accounting/Makefile   |   2 +-
->  tools/accounting/delaytop.c | 673 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 674 insertions(+), 1 deletion(-)
->  create mode 100644 tools/accounting/delaytop.c
 
-Some documentation would be nicer ;)
-
-hp2:/usr/src/25> grep -rli getdelays Documentation 
-Documentation/translations/zh_CN/accounting/delay-accounting.rst
-Documentation/translations/zh_CN/accounting/taskstats.rst
-Documentation/accounting/delay-accounting.rst
-Documentation/accounting/cgroupstats.rst
-Documentation/accounting/taskstats.rst
+Tianyang
 
