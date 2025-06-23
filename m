@@ -1,177 +1,107 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CE92727FD;
-	Mon, 23 Jun 2025 19:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731AE1C6FF3
+	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 19:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750705950; cv=none; b=YkrIibZDRVZKmBl79SY+Y19kAl2fjEyBZU2TLxONR9Zld3q1vFJAT08Txxt7JOSakEKulC3dXrAcaAknOG/e8J+OkbM/fxJ2nFhBsbtcxno7JOxCgh+HgvHedTKfdPYLQzJ4365nPVRHIiWDM8LNzb8DMCQetgt1vmB3FnNAVmU=
+	t=1750706397; cv=none; b=YVm/c9Jzm0QpJanKYTsaL2nrl5i69EdOMznMiTtFRnjaeAQZvbHVn4/u9O5e46p7Gvd3gRC9bLSNrmH4tc4Ybjd5qrgkMe9x9jd6FRhrlajcqwuscizJ/ofdXxefjjM8ldaGnatGFU8or9eKoEhIzoeAlvCuRnhPU0Y5IbocPG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750705950; c=relaxed/simple;
-	bh=RdggrAt2yYgHrCd62EHlXKceXTIAXB4Ir7vZpqfo490=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mWfIOEIjHgtGRnPZjd/w6SiEvwC2va08e0r4B8S5Zq159HCEH3+qyD8HVBXPypuLNx4+XV2TSF2O5exVJg5f3GO1x8MVBEOxhj8K6SzTuEtpuP2lO2jo0Xn26YF7Di7NhfEq7Yrj1PqqzwU03POAma7m5eU8v9VP539T6dsjvHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fBWcktR8; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1750706397; c=relaxed/simple;
+	bh=/KzjYP4jGRkOL8tv1XYhP6PhsnBHTBQpvSmWP9PLkkc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X4VGZQw+yzuEja0Gy6rWXZ8YO3hXJuPWfI6LIWW+K0MmsGYHe7DFRFAmqBrdnZQpOk80rF8eUx9kL4PWQbr51hQma7fgZxZWO8nNse5ViigJZvZKvFk8rvZFr78ga9qwSDPkv/FRyAa0JbDOvdwL2LvoqFB/1IXk0kuQrVT84Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=bpvhanDW; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fBWcktR8"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55NGXxxi001720;
-	Mon, 23 Jun 2025 19:12:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=y98GQGHSKG5hc43qPhCGbhubyGowZ
-	oek17bECxnnf40=; b=fBWcktR88KCuUdEcYAowh6PWNVi1A70oitpF7oz0kERyD
-	s4KZtEe5fS6FroFsdaVdkzh2eMoHWEPKyDoWvrLnVJmNcTGuKF5Z7C+amPsuw2gY
-	8ZSZJliZJj8ILHD27Xnkiuxmf8vN2SqSK4B8rzbMWa5GuXc13xn1rMr0IEOHhXjm
-	4d7ze9jUiZRgNILjUNpb1b7IrltJX1L03ML25m0D2GdoZrxYnqO4x5KOqU7LVz6K
-	dotiH6Bk8X+SlB28B5aehk6Qq1DDd55N54FEA7ufpLbctOQO0bdVJBrB18GEaUxt
-	rzzLKHxTlaM3Rypa6K3jBm2uGcTQFjyijNELPRWNg==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47ds7uugf7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 23 Jun 2025 19:12:24 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55NIjeET038894;
-	Mon, 23 Jun 2025 19:12:22 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47ehr3qwvr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 23 Jun 2025 19:12:22 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55NJBsPM037652;
-	Mon, 23 Jun 2025 19:12:22 GMT
-Received: from ca-dev110.us.oracle.com (ca-dev110.us.oracle.com [10.129.136.45])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47ehr3qwvb-1;
-	Mon, 23 Jun 2025 19:12:22 +0000
-From: Alok Tiwari <alok.a.tiwari@oracle.com>
-To: pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc: alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org
-Subject: [PATCH next] Documentation: KVM: fix reference for kvm_ppc_resize_hpt and various typos
-Date: Mon, 23 Jun 2025 12:11:47 -0700
-Message-ID: <20250623191152.44118-1-alok.a.tiwari@oracle.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="bpvhanDW"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6ecf99dd567so57531386d6.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 12:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1750706394; x=1751311194; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sc/yka3hfGiPDvvwtGoDtghN7JXKc2MnzeWxQ4J3bkI=;
+        b=bpvhanDWrZRD4KArqodsP1nwH0JPliKlVjUo4dQFo8upKAgTyCVu5/XNHgiAutqk/A
+         b2o+o8XCaA9p8OXqZVeyegeTZ6lULObDALj2vFnr5xsp1e6s5Yen9rt0AzJjCy2sBhPI
+         34NO+MLFxyJplJ/MIP7sR5zAR6EeBq/VAfhEeJUNuB7z45/DWS5CiWtDQKLh2TjM7dxT
+         RhxiX+7tguTY8clfb12xBKogkDhHNZ3cRiAeNUGY8nGg80z7+aH6XDF6ckXyrwkO7n5k
+         SlOuGC6My5KTfOLATK2te1ZDnTixhj0n5r3RHeaoaULFzItObTutXQJdAo2Bi/TN+FvN
+         InWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750706394; x=1751311194;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sc/yka3hfGiPDvvwtGoDtghN7JXKc2MnzeWxQ4J3bkI=;
+        b=BoMl/zP+0+FRbVwIsXv79GANCnpQBIuoSkyDmazVCgp6Azg0PD+ts/NC5kk4aqA8T7
+         XPH9/G/hPsTOAHFYH+Gozb3k8bpzE2lDksCCOwvd1enmxXx4zrMiIHhNBhhhEUqYjTQL
+         VCpdkKeP/1n7lCSwc3Tt4P1RgY6MokBsr8l6YgJpYRbbPtNIdWxKGKfhgyE6heaXTGJh
+         2C5+U4vDPZGe7gUO6+yGliT5EMv6rTzEPpbC+3wX1Xuv26Fz9mIWy/zcViOtJjRRSZ6R
+         ltjU5alsyEfa0chUNMX11Hq27XJ5Hop3Auhx2lQpVKQjJMaUBT9JJJKxZemNMyNHoWYc
+         eGAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSFha90R+Tyrapop7X/IqL58ZSGd3QwOqTtoLPCucOoYkSD0u2OMMtrW13/PKiErn0iA7reaohnP0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5jnVhzsYDc3H9xcv3jpTXNANgSjPR47oa3yW9UGr/MvrTyy09
+	Pe4sS+J7XkjsV2aynECJfiN2ngVoLjPSWTmu3XHCkYx412iTdGq0QsT0Kr/obXwmdok4nlsG1/m
+	JJPeQ
+X-Gm-Gg: ASbGncvt14fZfTw7tgIOCUNfCBrug/6U1Al1zRvMMfE6nnBn9QYSbbmOjuA8w2vhH7x
+	ZnqqeTgoVuwvr1/7d9YBwgwhgCA2ZLWHHj9jgkIRzuEPs3p532RfJBagKrvcsQYs2B/iklFT8wH
+	aqMH69Do7GsEeJTzuVZ5sGZHz5MmV1DHFkpgM987Rgi+Wy8450Chqcfq/Ct9c5hoOz20d802CDL
+	zr/iKLnB+ghdqtoBl013Z2LmN3bfESIxvc3jeky31tH0OeBvudIjmRNIbSXdnC353Tu+WkKrZHZ
+	3lSUMdgcmSeqBhNMoGSoocrUV/v3OLhKty+bFFw61tdiTU6dM8Nswf1c4Q==
+X-Google-Smtp-Source: AGHT+IEJDgRZZ4nVCbDO5jD8bXYatavVeTWpCEC8bT+J/SLimj0HRJIsJlld3v5/Yfo/JKK58W+zjw==
+X-Received: by 2002:a05:6214:268d:b0:6fb:4f9e:957b with SMTP id 6a1803df08f44-6fd0a600403mr207925346d6.43.1750706393967;
+        Mon, 23 Jun 2025 12:19:53 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F ([2620:10d:c091:400::5:e19e])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd1dcf1be2sm28135296d6.71.2025.06.23.12.19.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jun 2025 12:19:53 -0700 (PDT)
+Date: Mon, 23 Jun 2025 14:19:51 -0500
+From: Gregory Price <gourry@gourry.net>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] cxl: docs/driver-api/conventions resolve conflicts
+ btw CFMWS, LMH, ED
+Message-ID: <aFmo18OEZGMA2HU8@gourry-fedora-PF4VCD3F>
+References: <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-23_05,2025-06-23_07,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxscore=0
- adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2506230123
-X-Proofpoint-GUID: Wb1bCTVf9O-FdttwSNE3QwfcLxufiVJy
-X-Authority-Analysis: v=2.4 cv=CeII5Krl c=1 sm=1 tr=0 ts=6859a718 b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=zi7eKOD_ebcX24jqmWgA:9 cc=ntf awl=host:13206
-X-Proofpoint-ORIG-GUID: Wb1bCTVf9O-FdttwSNE3QwfcLxufiVJy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIzMDEyMyBTYWx0ZWRfX+OYpCfb891dj gmFNOkYZk4Mpntjg6yFrXqwhTmCt9voEZcI9YYkfRqfBJIyyCjEQeQso59aER7hwG03cjYeo1qm oSHXifj2FvSW/yIsvlYuLlsW+Fxdu73x84dE5w/jpCjo+WGAgIuaSzokFaDDkU1HqNxFt1dagU/
- f/7XOGuCdf9oGg/HE7FY25eTiTBwy8Akdh4FncX4fLb+k46kQ6Ru+WpwDCIEWIJ8u9a22U7ZBkG xbGLYtDwGuZJJQz82wHWnWAksRkMNsf61wgCkObqGfiF7b1OoUukD9rbc4yw/KJWsp8mxBwqCmF A1upSey9zSTpALroxxkuHwJv01Xsx/IhWVtR53EtY1vF7uewbf+xNbn1/XYVYo4APAgjpLXuNTJ
- 9eIomI9Vx3qRZB2hljzdwBrgpXgFZ3Yeu3TnTBo/lI5kRgLv1DgEmebpIbmJ48iXJ/yUsjDS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
 
-Fix the incorrect reference to struct kvm_reinject_control and replace
-it with the correct struct kvm_ppc_resize_hpt in the documentation of
-the HPT resize ioctl.
+On Mon, Jun 23, 2025 at 05:29:02PM +0200, Fabio M. De Francesco wrote:
+> Add documentation on how to resolve conflicts between CXL Fixed Memory
+> Windows, Platform Memory Holes, and Endpoint Decoders.
+> 
+> Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
 
-Also correct several minor typos throughout api.rst, including grammar
-issues, capitalization (e.g., "SError"), and punctuation fixes.
+I won't block a doc update on a suggestion so
 
-Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
----
- Documentation/virt/kvm/api.rst | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Reviewed-by: Gregory Price <gourry@gourry.net>
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index f0d961436d0f..04ac699e7885 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -88,7 +88,7 @@ the VM is shut down.
- =============
- 
- As of Linux 2.6.22, the KVM ABI has been stabilized: no backward
--incompatible change are allowed.  However, there is an extension
-+incompatible changes are allowed.  However, there is an extension
- facility that allows backward-compatible extensions to the API to be
- queried and used.
- 
-@@ -1198,7 +1198,7 @@ pending until the guest takes the exception by unmasking PSTATE.A.
- 
- Running the VCPU may cause it to take a pending SError, or make an access that
- causes an SError to become pending. The event's description is only valid while
--the VPCU is not running.
-+the VCPU is not running.
- 
- This API provides a way to read and write the pending 'event' state that is not
- visible to the guest. To save, restore or migrate a VCPU the struct representing
-@@ -1293,7 +1293,7 @@ ARM64:
- User space may need to inject several types of events to the guest.
- 
- Set the pending SError exception state for this VCPU. It is not possible to
--'cancel' an Serror that has been made pending.
-+'cancel' an SError that has been made pending.
- 
- If the guest performed an access to I/O memory which could not be handled by
- userspace, for example because of missing instruction syndrome decode
-@@ -1832,7 +1832,7 @@ emulate them efficiently. The fields in each entry are defined as follows:
-          the values returned by the cpuid instruction for
-          this function/index combination
- 
--x2APIC (CPUID leaf 1, ecx[21) and TSC deadline timer (CPUID leaf 1, ecx[24])
-+x2APIC (CPUID leaf 1, ecx[21]) and TSC deadline timer (CPUID leaf 1, ecx[24])
- may be returned as true, but they depend on KVM_CREATE_IRQCHIP for in-kernel
- emulation of the local APIC.  TSC deadline timer support is also reported via::
- 
-@@ -3215,8 +3215,8 @@ default-sized hash table (16 MB).
- 
- If this ioctl is called when a hash table has already been allocated,
- with a different order from the existing hash table, the existing hash
--table will be freed and a new one allocated.  If this is ioctl is
--called when a hash table has already been allocated of the same order
-+table will be freed and a new one allocated. If this ioctl is called
-+when a hash table has already been allocated of the same order
- as specified, the kernel will clear out the existing hash table (zero
- all HPTEs).  In either case, if the guest is using the virtualized
- real-mode area (VRMA) facility, the kernel will re-create the VMRA
-@@ -4427,7 +4427,7 @@ base 2 of the page size in the bottom 6 bits.
- :Returns: 0 on successful completion,
- 	 >0 if a new HPT is being prepared, the value is an estimated
-          number of milliseconds until preparation is complete,
--         -EFAULT if struct kvm_reinject_control cannot be read,
-+         -EFAULT if struct kvm_ppc_resize_hpt cannot be read,
- 	 -EINVAL if the supplied shift or flags are invalid,
- 	 -ENOMEM if unable to allocate the new HPT,
- 
-@@ -4481,7 +4481,7 @@ ones will monitor preparation until it completes or fails.
- :Returns: 0 on successful completion,
-          -EFAULT if struct kvm_reinject_control cannot be read,
- 	 -EINVAL if the supplied shift or flags are invalid,
--	 -ENXIO is there is no pending HPT, or the pending HPT doesn't
-+	 -ENXIO if there is no pending HPT, or the pending HPT doesn't
-          have the requested size,
- 	 -EBUSY if the pending HPT is not fully prepared,
- 	 -ENOSPC if there was a hash collision when moving existing
-@@ -8884,7 +8884,7 @@ This capability indicates that KVM supports steal time accounting.
- When steal time accounting is supported it may be enabled with
- architecture-specific interfaces.  This capability and the architecture-
- specific interfaces must be consistent, i.e. if one says the feature
--is supported, than the other should as well and vice versa.  For arm64
-+is supported, then the other should as well and vice versa.  For arm64
- see Documentation/virt/kvm/devices/vcpu.rst "KVM_ARM_VCPU_PVTIME_CTRL".
- For x86 see Documentation/virt/kvm/x86/msr.rst "MSR_KVM_STEAL_TIME".
- 
-@@ -8924,7 +8924,7 @@ KVM_EXIT_X86_WRMSR exit notifications.
- 
- :Architectures: x86
- 
--This capability indicates that KVM supports that accesses to user defined MSRs
-+This capability indicates that KVM supports accesses to user defined MSRs
- may be rejected. With this capability exposed, KVM exports new VM ioctl
- KVM_X86_SET_MSR_FILTER which user space can call to specify bitmaps of MSR
- ranges that KVM should deny access to.
--- 
-2.46.0
+> +Platform Firmware (BIOS) might reserve part of physical addresses below
+> +4 GB (e.g., the Low Memory Hole that describes PCIe memory space for MMIO
+> +or a requirement for the greater than 8 way interleave CXL regions starting
+> +at address 0). In that case the Window Size value cannot be anymore
+> +constrained to the NIW * 256 MB above-mentioned rule.
 
+It might be nice to have a diagram that explains this visually, as it's
+difficult for me to understand the implications through words alone...
+
+which is likely why the conflict exists in the first place :]
+
+~Gregory
