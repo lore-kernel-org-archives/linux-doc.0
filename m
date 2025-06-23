@@ -1,107 +1,174 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731AE1C6FF3
-	for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 19:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F91A2D3231;
+	Mon, 23 Jun 2025 20:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750706397; cv=none; b=YVm/c9Jzm0QpJanKYTsaL2nrl5i69EdOMznMiTtFRnjaeAQZvbHVn4/u9O5e46p7Gvd3gRC9bLSNrmH4tc4Ybjd5qrgkMe9x9jd6FRhrlajcqwuscizJ/ofdXxefjjM8ldaGnatGFU8or9eKoEhIzoeAlvCuRnhPU0Y5IbocPG0=
+	t=1750709136; cv=none; b=K31O3nWp0D7B5QohKJWnDHInm8zbdz/w9U4SorOHObyzDqkNloshIJUjefDYyEXmPHG3rfBKhgAXe5O2+LzxB8sBpfSSm0oxmtgpbjMEpqHluV/TzDpMztbLigwLRdC4uhqmpmXMmrkMajmsJsmBn+PiAehC6hnr4pJefdqRi9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750706397; c=relaxed/simple;
-	bh=/KzjYP4jGRkOL8tv1XYhP6PhsnBHTBQpvSmWP9PLkkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X4VGZQw+yzuEja0Gy6rWXZ8YO3hXJuPWfI6LIWW+K0MmsGYHe7DFRFAmqBrdnZQpOk80rF8eUx9kL4PWQbr51hQma7fgZxZWO8nNse5ViigJZvZKvFk8rvZFr78ga9qwSDPkv/FRyAa0JbDOvdwL2LvoqFB/1IXk0kuQrVT84Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=bpvhanDW; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1750709136; c=relaxed/simple;
+	bh=D8uHjK24h11d4qSJcEP4C96xsm8K+FoZ8/horBvHnf8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=OHAToZ9YQ8Wys7z9IOLo/NMiGIF0eczXa1KnoWJZZO/04bQMMZuqoPuhxCfGVseeMwwty0nJgEhvLZZQeteU7hGC6JzPQs9CrP6Mtqbh1naf08PxxBPcZ8D8HLSlKn8QUtw7s/PSrsYPm1E3oM5m/UMDMlZqgSrwaN/xZWEgbr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FeK0768e; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mp/3JIaa; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="bpvhanDW"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6ecf99dd567so57531386d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 12:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1750706394; x=1751311194; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sc/yka3hfGiPDvvwtGoDtghN7JXKc2MnzeWxQ4J3bkI=;
-        b=bpvhanDWrZRD4KArqodsP1nwH0JPliKlVjUo4dQFo8upKAgTyCVu5/XNHgiAutqk/A
-         b2o+o8XCaA9p8OXqZVeyegeTZ6lULObDALj2vFnr5xsp1e6s5Yen9rt0AzJjCy2sBhPI
-         34NO+MLFxyJplJ/MIP7sR5zAR6EeBq/VAfhEeJUNuB7z45/DWS5CiWtDQKLh2TjM7dxT
-         RhxiX+7tguTY8clfb12xBKogkDhHNZ3cRiAeNUGY8nGg80z7+aH6XDF6ckXyrwkO7n5k
-         SlOuGC6My5KTfOLATK2te1ZDnTixhj0n5r3RHeaoaULFzItObTutXQJdAo2Bi/TN+FvN
-         InWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750706394; x=1751311194;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Sc/yka3hfGiPDvvwtGoDtghN7JXKc2MnzeWxQ4J3bkI=;
-        b=BoMl/zP+0+FRbVwIsXv79GANCnpQBIuoSkyDmazVCgp6Azg0PD+ts/NC5kk4aqA8T7
-         XPH9/G/hPsTOAHFYH+Gozb3k8bpzE2lDksCCOwvd1enmxXx4zrMiIHhNBhhhEUqYjTQL
-         VCpdkKeP/1n7lCSwc3Tt4P1RgY6MokBsr8l6YgJpYRbbPtNIdWxKGKfhgyE6heaXTGJh
-         2C5+U4vDPZGe7gUO6+yGliT5EMv6rTzEPpbC+3wX1Xuv26Fz9mIWy/zcViOtJjRRSZ6R
-         ltjU5alsyEfa0chUNMX11Hq27XJ5Hop3Auhx2lQpVKQjJMaUBT9JJJKxZemNMyNHoWYc
-         eGAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSFha90R+Tyrapop7X/IqL58ZSGd3QwOqTtoLPCucOoYkSD0u2OMMtrW13/PKiErn0iA7reaohnP0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5jnVhzsYDc3H9xcv3jpTXNANgSjPR47oa3yW9UGr/MvrTyy09
-	Pe4sS+J7XkjsV2aynECJfiN2ngVoLjPSWTmu3XHCkYx412iTdGq0QsT0Kr/obXwmdok4nlsG1/m
-	JJPeQ
-X-Gm-Gg: ASbGncvt14fZfTw7tgIOCUNfCBrug/6U1Al1zRvMMfE6nnBn9QYSbbmOjuA8w2vhH7x
-	ZnqqeTgoVuwvr1/7d9YBwgwhgCA2ZLWHHj9jgkIRzuEPs3p532RfJBagKrvcsQYs2B/iklFT8wH
-	aqMH69Do7GsEeJTzuVZ5sGZHz5MmV1DHFkpgM987Rgi+Wy8450Chqcfq/Ct9c5hoOz20d802CDL
-	zr/iKLnB+ghdqtoBl013Z2LmN3bfESIxvc3jeky31tH0OeBvudIjmRNIbSXdnC353Tu+WkKrZHZ
-	3lSUMdgcmSeqBhNMoGSoocrUV/v3OLhKty+bFFw61tdiTU6dM8Nswf1c4Q==
-X-Google-Smtp-Source: AGHT+IEJDgRZZ4nVCbDO5jD8bXYatavVeTWpCEC8bT+J/SLimj0HRJIsJlld3v5/Yfo/JKK58W+zjw==
-X-Received: by 2002:a05:6214:268d:b0:6fb:4f9e:957b with SMTP id 6a1803df08f44-6fd0a600403mr207925346d6.43.1750706393967;
-        Mon, 23 Jun 2025 12:19:53 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F ([2620:10d:c091:400::5:e19e])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd1dcf1be2sm28135296d6.71.2025.06.23.12.19.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 12:19:53 -0700 (PDT)
-Date: Mon, 23 Jun 2025 14:19:51 -0500
-From: Gregory Price <gourry@gourry.net>
-To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] cxl: docs/driver-api/conventions resolve conflicts
- btw CFMWS, LMH, ED
-Message-ID: <aFmo18OEZGMA2HU8@gourry-fedora-PF4VCD3F>
-References: <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FeK0768e";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mp/3JIaa"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1750709132;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eMM6QwCsCKxnWFFi+r7c6XK6N7v8X1dMyHwbTGK2fn0=;
+	b=FeK0768eH/1WBYabmyCN/mg4CIMYw60exRcAJ3J3y0LuEVW+9pVUf+SpuCWD3AnKUCRN55
+	jeTl5yzGkZanoqeyjxLrSl2dRPPCtuzWnCdw64hpUAsstc2zuqJnr9GjsvC/Jpzu+pHILb
+	45EeFp36YmkC6mGU11yBI3Pjkx7rCxU6iJzd1wiuUVkb1gnN4vfbrOyta/lw2mERRfj3lu
+	JDK/OT+zU5wP2CHXZdAOHQJbfjqnEjG6Eo36uq5KDZypRHpOUPkpD0YXnZHSQGgJE+Orfj
+	IlYZ/4AHOxTCGmOB44GgsZAGDx06bYZXj8S326flTPnZMxXC7VC6z90KLvjdfg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1750709132;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eMM6QwCsCKxnWFFi+r7c6XK6N7v8X1dMyHwbTGK2fn0=;
+	b=mp/3JIaavtG/Tx0bjkqXU3kT7YAWlNr6GVGZjS0cIpIzgrzsyT4hvL4PFc9edpg5JhQL+q
+	dllKV1wj5PlG3fDg==
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
+ jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+ gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+In-Reply-To: <fceb603c-6072-2941-15d5-56c8a4b4c32c@loongson.cn>
+References: <20250610114252.21077-1-zhangtianyang@loongson.cn>
+ <20250610114252.21077-3-zhangtianyang@loongson.cn> <87o6uris6p.ffs@tglx>
+ <9c60326b-f7bd-0b36-3bc5-0ad7d19690f1@loongson.cn> <87v7omooag.ffs@tglx>
+ <fceb603c-6072-2941-15d5-56c8a4b4c32c@loongson.cn>
+Date: Mon, 23 Jun 2025 22:05:31 +0200
+Message-ID: <87jz52nrzo.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 23, 2025 at 05:29:02PM +0200, Fabio M. De Francesco wrote:
-> Add documentation on how to resolve conflicts between CXL Fixed Memory
-> Windows, Platform Memory Holes, and Endpoint Decoders.
-> 
-> Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
+On Mon, Jun 23 2025 at 17:33, Tianyang Zhang wrote:
+> =E5=9C=A8 2025/6/23 =E4=B8=8B=E5=8D=884:27, Thomas Gleixner =E5=86=99=E9=
+=81=93:
+>> tail is the software managed part of the ringbuffer which is shared with
+>> the hardware, right?
+>>
+>> So even if the compiler would be allowed to reevalutate tail after the
+>> barrier (it is NOT), then tail would still contain the same value as
+>> before, no?
+>>
+>> The wmb() is required to ensure that the hardware can observe the full
+>> write of the command _before_ it can observe the update to the tail
+>> index.
+>>
+>> Anything else is voodoo.
+>>
+>> Thanks,
+>>
+>>          tglx
+>
+> In my previous understanding, tail'value is actually a part of 'full=20
+> write of the command '.
 
-I won't block a doc update on a suggestion so
+Of course. The hardware observes the tail value. If it is not updated
+then the command is not executed. But these are two distinct things:
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
+The invalidate command is written to a location in the command buffer
+which is determined by tail:
 
-> +Platform Firmware (BIOS) might reserve part of physical addresses below
-> +4 GB (e.g., the Low Memory Hole that describes PCIe memory space for MMIO
-> +or a requirement for the greater than 8 way interleave CXL regions starting
-> +at address 0). In that case the Window Size value cannot be anymore
-> +constrained to the NIW * 256 MB above-mentioned rule.
+	inv_addr =3D (struct irde_inv_cmd *)(rqueue->base + tail * sizeof(struct i=
+rde_inv_cmd));
+	memcpy(inv_addr, cmd, sizeof(struct irde_inv_cmd));
 
-It might be nice to have a diagram that explains this visually, as it's
-difficult for me to understand the implications through words alone...
+requeue::base points to an array of invalidate commands. The array
+size is INVALID_QUEUE_SIZE. tail is the position in the array to which
+the software writes the next command. tail is software managed and
+written to a completely different location via write_queue_tail(...):
 
-which is likely why the conflict exists in the first place :]
+static phys_addr_t redirect_reg_base =3D 0x1fe00000;
 
-~Gregory
+#define REDIRECT_REG_BASE(reg, node) \
+	(UNCACHE_BASE | redirect_reg_base | (u64)(node) << NODE_ADDRSPACE_SHIFT | =
+(reg))
+#define	redirect_reg_queue_tail(node)	REDIRECT_REG_BASE(LOONGARCH_IOCSR_RED=
+IRECT_CQT, (node))
+#define read_queue_tail(node)		(*((u32 *)(redirect_reg_queue_tail(node))))
+#define write_queue_tail(node, val)	(*((u32 *)(redirect_reg_queue_tail(node=
+))) =3D (val))
+
+The hardware maintains the head index. It's the last command index the
+hardware processed. When the hardware observes that head !=3D tail then it
+processes the next entry and after completion it updates head with the
+next index. This repeats until head =3D=3D tail.
+
+> We must ensure that tail is updated to the correct value first, and
+> then write this value into the register (perhaps by adding wmb in
+> write_queue_tail ).
+
+No. The local variable 'tail' is purely local to the CPU and the
+invalidation hardware does not even know that it exists.
+
+There are two things which are relevant to the hardware:
+
+   1) command is written to the hardware visible array at index of tail
+
+   2) hardware visible tail memory (register) is updated to tail + 1
+
+The memory barrier is required to prevent that #2 is written to the
+hardware _before_ #1 completed and is fully visible to the hardware.
+
+> In other words, this is originally to prevent the write register=20
+> instruction from being executed out of order before updating tail.
+
+No. The barrier is solely for the above #1 vs. #2 ordering.
+
+There is a difference between program flow ordering and memory ordering.
+
+The hardware _CANNOT_ execute the write _before_ the value it writes is
+computed. That's enforced by program flow order.
+
+So it's always guaranteed that the CPU executes
+
+   tail + 1
+
+_before_ executing the write to the register because that's a program
+order dependency.
+
+If that would not be guaranteed, then your CPU would have more serious
+problems than this piece of code. It simply would not even survive the
+first five instructions in the boot loader.
+
+But what's not guaranteed is that consecutive writes become visible to
+other parts of the system (other CPUs, the invalidation hardware, ....)
+in the same consecutive order.
+
+To ensure that ordering you need a WMB(). If you would have CPU to CPU
+communication then you would need a RMB() on the reader side to ensure
+that the command is not read before the tail. In your case the hardware
+side takes care of that.
+
+> The above is just my personal understanding
+
+Which might need some slight adjustments :)
+
+Thanks,
+
+        tglx
+
+
