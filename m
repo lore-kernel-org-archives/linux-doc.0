@@ -1,174 +1,111 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F91A2D3231;
-	Mon, 23 Jun 2025 20:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A9C1F4722;
+	Mon, 23 Jun 2025 20:39:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750709136; cv=none; b=K31O3nWp0D7B5QohKJWnDHInm8zbdz/w9U4SorOHObyzDqkNloshIJUjefDYyEXmPHG3rfBKhgAXe5O2+LzxB8sBpfSSm0oxmtgpbjMEpqHluV/TzDpMztbLigwLRdC4uhqmpmXMmrkMajmsJsmBn+PiAehC6hnr4pJefdqRi9k=
+	t=1750711167; cv=none; b=uwmOfDVyBaBNGgDE98U9Oko0278w8Yma3wXg6dizEe1ME+VPhHn4W6wrf/O9/podgiBhydSaZfKlh3954I98wbSMx+GjoVBFrF7dFVxPYExB5MEHE2H/lXUm2Rq3Oh2w2Iycs9HJvG5guLk0ANhdtQHybLU8FADBD47qNHxiMzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750709136; c=relaxed/simple;
-	bh=D8uHjK24h11d4qSJcEP4C96xsm8K+FoZ8/horBvHnf8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OHAToZ9YQ8Wys7z9IOLo/NMiGIF0eczXa1KnoWJZZO/04bQMMZuqoPuhxCfGVseeMwwty0nJgEhvLZZQeteU7hGC6JzPQs9CrP6Mtqbh1naf08PxxBPcZ8D8HLSlKn8QUtw7s/PSrsYPm1E3oM5m/UMDMlZqgSrwaN/xZWEgbr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FeK0768e; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mp/3JIaa; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1750711167; c=relaxed/simple;
+	bh=jOBHMkhfK17KwiJCLSBMVKuPedcRRXNEGl8b4o/dC1U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BaNqMOZL67a50A4TL/pG/oEzG9NOzFg9Ix/itQ5HX/dRLbRrAruDju5YUnnJBiolkk6y7krrs+/KgQ7EDFHP6i5EgiWmSob761cc8cmxnSTLPoL+aPh36TD/Y+4jcQ593Ll0q2B2Thpul+TCK3X7WMV2GhenScxgyyCsg0bingM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BGNYKeJA; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FeK0768e";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mp/3JIaa"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750709132;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eMM6QwCsCKxnWFFi+r7c6XK6N7v8X1dMyHwbTGK2fn0=;
-	b=FeK0768eH/1WBYabmyCN/mg4CIMYw60exRcAJ3J3y0LuEVW+9pVUf+SpuCWD3AnKUCRN55
-	jeTl5yzGkZanoqeyjxLrSl2dRPPCtuzWnCdw64hpUAsstc2zuqJnr9GjsvC/Jpzu+pHILb
-	45EeFp36YmkC6mGU11yBI3Pjkx7rCxU6iJzd1wiuUVkb1gnN4vfbrOyta/lw2mERRfj3lu
-	JDK/OT+zU5wP2CHXZdAOHQJbfjqnEjG6Eo36uq5KDZypRHpOUPkpD0YXnZHSQGgJE+Orfj
-	IlYZ/4AHOxTCGmOB44GgsZAGDx06bYZXj8S326flTPnZMxXC7VC6z90KLvjdfg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750709132;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eMM6QwCsCKxnWFFi+r7c6XK6N7v8X1dMyHwbTGK2fn0=;
-	b=mp/3JIaavtG/Tx0bjkqXU3kT7YAWlNr6GVGZjS0cIpIzgrzsyT4hvL4PFc9edpg5JhQL+q
-	dllKV1wj5PlG3fDg==
-To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
- kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
- jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
- lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
- gaosong@loongson.cn, yangtiezhu@loongson.cn
-Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
-In-Reply-To: <fceb603c-6072-2941-15d5-56c8a4b4c32c@loongson.cn>
-References: <20250610114252.21077-1-zhangtianyang@loongson.cn>
- <20250610114252.21077-3-zhangtianyang@loongson.cn> <87o6uris6p.ffs@tglx>
- <9c60326b-f7bd-0b36-3bc5-0ad7d19690f1@loongson.cn> <87v7omooag.ffs@tglx>
- <fceb603c-6072-2941-15d5-56c8a4b4c32c@loongson.cn>
-Date: Mon, 23 Jun 2025 22:05:31 +0200
-Message-ID: <87jz52nrzo.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BGNYKeJA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=gu+6pmFreAAsWhh78QzgjCygCkuWla9oYWkSW6ad8RI=; b=BGNYKeJA9cA8ap+f6qIae/xbFg
+	YBSFQwwCvjPd66KdSHhyr3LYnSCAHXk7Z/oyfrD1H8dddkCNgnGEvMANOUtiiQD96rxafOHkHn+Hq
+	CBqkR+U8f9AB+Satn1EwagdcrLmOdk237bhXoD0ULQd30veMz+3jzz08PaY1Z/1PCg7wR8U8QY6w2
+	86zpIZPfZy/jN1jMXjNbbtN9++3bXnQdc3xjDFmmjnVaC8qklrM2EV1k0rVqrISiqWVwn2jqRutce
+	9MhLjMdeHsd+bltLRSWAGo7U4QDWjK/zFYxiORCu+IZpCnRlxq0pfnqlPiJ+GaIDqKvMAWctErQbH
+	j4Ol9uYg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uTnwf-00000004Y38-1yap;
+	Mon, 23 Jun 2025 20:39:13 +0000
+Message-ID: <e2b0e9fc-c1dc-4f2e-9a6d-c92d25f28fed@infradead.org>
+Date: Mon, 23 Jun 2025 13:39:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] docs: nvme: fix grammar in
+ nvme-pci-endpoint-target.rst
+To: Alok Tiwari <alok.a.tiwari@oracle.com>, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, nilay@linux.ibm.com, corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250623064036.4187788-2-alok.a.tiwari@oracle.com>
+ <20250623064036.4187788-6-alok.a.tiwari@oracle.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250623064036.4187788-6-alok.a.tiwari@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 23 2025 at 17:33, Tianyang Zhang wrote:
-> =E5=9C=A8 2025/6/23 =E4=B8=8B=E5=8D=884:27, Thomas Gleixner =E5=86=99=E9=
-=81=93:
->> tail is the software managed part of the ringbuffer which is shared with
->> the hardware, right?
->>
->> So even if the compiler would be allowed to reevalutate tail after the
->> barrier (it is NOT), then tail would still contain the same value as
->> before, no?
->>
->> The wmb() is required to ensure that the hardware can observe the full
->> write of the command _before_ it can observe the update to the tail
->> index.
->>
->> Anything else is voodoo.
->>
->> Thanks,
->>
->>          tglx
->
-> In my previous understanding, tail'value is actually a part of 'full=20
-> write of the command '.
+Hi,
 
-Of course. The hardware observes the tail value. If it is not updated
-then the command is not executed. But these are two distinct things:
+On 6/22/25 11:40 PM, Alok Tiwari wrote:
+> Notable changes:
+> Use "an NVMe" instead of "a NVMe" throughout the document
+> Fix incorrect phrasing such as "will is discoverable" -> "is
+> discoverable"
+> Ensure consistent and proper article usage for clarity.
+> 
+> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+> ---
+>  Documentation/nvme/nvme-pci-endpoint-target.rst | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/nvme/nvme-pci-endpoint-target.rst b/Documentation/nvme/nvme-pci-endpoint-target.rst
+> index b699595d1762b..48f3b7f685945 100644
+> --- a/Documentation/nvme/nvme-pci-endpoint-target.rst
+> +++ b/Documentation/nvme/nvme-pci-endpoint-target.rst
 
-The invalidate command is written to a location in the command buffer
-which is determined by tail:
+[snip]
 
-	inv_addr =3D (struct irde_inv_cmd *)(rqueue->base + tail * sizeof(struct i=
-rde_inv_cmd));
-	memcpy(inv_addr, cmd, sizeof(struct irde_inv_cmd));
+> @@ -181,10 +181,10 @@ Creating an NVMe endpoint device is a two step process. First, an NVMe target
+>  subsystem and port must be defined. Second, the NVMe PCI endpoint device must
+>  be setup and bound to the subsystem and port created.
+>  
+> -Creating a NVMe Subsystem and Port
+> +Creating an NVMe Subsystem and Port
+>  ----------------------------------
 
-requeue::base points to an array of invalidate commands. The array
-size is INVALID_QUEUE_SIZE. tail is the position in the array to which
-the software writes the next command. tail is software managed and
-written to a completely different location via write_queue_tail(...):
+The underline needs to be extended one more character.
 
-static phys_addr_t redirect_reg_base =3D 0x1fe00000;
+>  
+> -Details about how to configure a NVMe target subsystem and port are outside the
+> +Details about how to configure an NVMe target subsystem and port are outside the
+>  scope of this document. The following only provides a simple example of a port
+>  and subsystem with a single namespace backed by a null_blk device.
+>  
+> @@ -234,7 +234,7 @@ Finally, create the target port and link it to the subsystem::
+>          # ln -s /sys/kernel/config/nvmet/subsystems/nvmepf.0.nqn \
+>                  /sys/kernel/config/nvmet/ports/1/subsystems/nvmepf.0.nqn
+>  
+> -Creating a NVMe PCI Endpoint Device
+> +Creating an NVMe PCI Endpoint Device
+>  -----------------------------------
 
-#define REDIRECT_REG_BASE(reg, node) \
-	(UNCACHE_BASE | redirect_reg_base | (u64)(node) << NODE_ADDRSPACE_SHIFT | =
-(reg))
-#define	redirect_reg_queue_tail(node)	REDIRECT_REG_BASE(LOONGARCH_IOCSR_RED=
-IRECT_CQT, (node))
-#define read_queue_tail(node)		(*((u32 *)(redirect_reg_queue_tail(node))))
-#define write_queue_tail(node, val)	(*((u32 *)(redirect_reg_queue_tail(node=
-))) =3D (val))
+Same here.
 
-The hardware maintains the head index. It's the last command index the
-hardware processed. When the hardware observes that head !=3D tail then it
-processes the next entry and after completion it updates head with the
-next index. This repeats until head =3D=3D tail.
+>  
+>  With the NVMe target subsystem and port ready for use, the NVMe PCI endpoint
 
-> We must ensure that tail is updated to the correct value first, and
-> then write this value into the register (perhaps by adding wmb in
-> write_queue_tail ).
+With those changes made, you can add:
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-No. The local variable 'tail' is purely local to the CPU and the
-invalidation hardware does not even know that it exists.
-
-There are two things which are relevant to the hardware:
-
-   1) command is written to the hardware visible array at index of tail
-
-   2) hardware visible tail memory (register) is updated to tail + 1
-
-The memory barrier is required to prevent that #2 is written to the
-hardware _before_ #1 completed and is fully visible to the hardware.
-
-> In other words, this is originally to prevent the write register=20
-> instruction from being executed out of order before updating tail.
-
-No. The barrier is solely for the above #1 vs. #2 ordering.
-
-There is a difference between program flow ordering and memory ordering.
-
-The hardware _CANNOT_ execute the write _before_ the value it writes is
-computed. That's enforced by program flow order.
-
-So it's always guaranteed that the CPU executes
-
-   tail + 1
-
-_before_ executing the write to the register because that's a program
-order dependency.
-
-If that would not be guaranteed, then your CPU would have more serious
-problems than this piece of code. It simply would not even survive the
-first five instructions in the boot loader.
-
-But what's not guaranteed is that consecutive writes become visible to
-other parts of the system (other CPUs, the invalidation hardware, ....)
-in the same consecutive order.
-
-To ensure that ordering you need a WMB(). If you would have CPU to CPU
-communication then you would need a RMB() on the reader side to ensure
-that the command is not read before the tail. In your case the hardware
-side takes care of that.
-
-> The above is just my personal understanding
-
-Which might need some slight adjustments :)
-
-Thanks,
-
-        tglx
-
-
+Thanks.
+-- 
+~Randy
