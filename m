@@ -1,127 +1,343 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83F83074AD;
-	Tue, 24 Jun 2025 16:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B75182BC
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 16:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750781543; cv=none; b=QJFjWrFN7a6a0PszBeP58B10DB0WvhQnWHcnkv+HrIFzjAvLeFDbqFw6UZi8+sDBXHk2yf16SZXAllZudJMCqBeHfrZp3pEc+QFBBeEkQdzmOSKqssNMqmiCvh/fQh+h8YqyoBH7ajgqYItSkExiwrFQ6P5EvevABVZMx+OMWsg=
+	t=1750782441; cv=none; b=lylx/RN43JPBnBfUJIBbL9RXizk1/uV0LsQvwPb3uTvB55e/JOg/ckp4S04crjpktAEPeKMYeAr+te8DsEzgc/rVOstVs+rzpt+p4MvJtnGKGcLSDddzUeJNPJ6x0m+Jh+gLSV8OhwK5zf4/tgZs14FRtsdb78O0x3dC2KA1zbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750781543; c=relaxed/simple;
-	bh=JOL6WKmjohXqSHITngQz/Wj/wlzmJdN8Xapymilc6Y8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eJYblAK4vk48EpYTlORXrMhO/pDZp2KcX35doO50ZH5lFV2MYzHMX+2Bs2cxSkmKETsS77wAShSZbpK2smQZ9p802RKDOWSaYE7elgYuvOoGwZI4Rr7Yw8QQ+IHut1hbsaaOK29442/4+1NIpg7pJNwIJGZ3AKWiDmHLghTYxjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tvC6j7Vj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750782441; c=relaxed/simple;
+	bh=/a7bnevcq/hUsrT2G8I/opotGB7bYgVoeR0Zj6Jliig=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Opx1L4UiA8Y+pfA5ZQSw+6uUbWacsit+j4MtpbOmOCWRgICjVXYVSYiGvRMxrqchE47WS3z7uPolUj49ezLN3BgEvgBxp8yTgtb1rHN9xXOfrULnthADm1YvxcySy+fr27S0G7b5Xj5ZNDGKjXQZTJo7rSuB91fbUm7FGCTmUMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UgYA6gHt; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tvC6j7Vj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C4F1C4CEF0;
-	Tue, 24 Jun 2025 16:12:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750781543;
-	bh=JOL6WKmjohXqSHITngQz/Wj/wlzmJdN8Xapymilc6Y8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=tvC6j7VjREp+BGJeKqV/caHXrqwb4fickgxYpsMh815a0NMBs4DoXS6bY7T759l14
-	 d4pYdByP6Z3FuzrRhGV3WQbAIT/uo5MFTUQCpU0gzaYrM0B1K/DydHhwW/LyybW/Y0
-	 I1fS81yhqfSUTQlvsFShyaqIFi7hr/S6m2KmuK7Cc32Cs0pyXp6Cy/7KmtUsqE++F9
-	 XEcsqlFLfO5CcaHpDNJWJk7dvE/tlgRgZPrmyRP8vFkXZqR8CAMVCZrmmV68TxP8nw
-	 VQaNl7gpgX+WCuAGpB1dWUrF5D400I99Xx5EdS6b5vtqShAl26IVInzPqE+NEWPm2w
-	 pUXslySxKqqVQ==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Mike Rapoport <rppt@kernel.org>,
-  Jason Gunthorpe <jgg@ziepe.ca>,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  dmatlack@google.com,  rientjes@google.com,
-  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
-  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
-  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
-In-Reply-To: <CA+CK2bCA_ggpvbY+MQPaAHsN7MOzV7D3=MYvfAP4cFwhThJpPw@mail.gmail.com>
-References: <mafs0sekfts2i.fsf@kernel.org>
-	<CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
-	<mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
-	<CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
-	<mafs05xgtw5wn.fsf@kernel.org>
-	<CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
-	<aFLr7RDKraQk8Gvt@kernel.org>
-	<CA+CK2bAnCRu+k=Q78eA4kcAebxA9NgOorhwRqu-WxC913YBsBw@mail.gmail.com>
-	<CA+CK2bB3P1vX658ErkP4_-L6WZSOCcenEwUdX1qS=poDjs=i+A@mail.gmail.com>
-	<aFP7wwCviqxujKDg@kernel.org>
-	<CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
-	<mafs0ikkqv3ds.fsf@kernel.org>
-	<CA+CK2bCA_ggpvbY+MQPaAHsN7MOzV7D3=MYvfAP4cFwhThJpPw@mail.gmail.com>
-Date: Tue, 24 Jun 2025 18:12:14 +0200
-Message-ID: <mafs0frfpt8yp.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UgYA6gHt"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-237f8d64263so6384815ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 09:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1750782438; x=1751387238; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3XU9PZOS8h3qM8j/vYtr6Tu7O46DilgXxn9Be95y+uI=;
+        b=UgYA6gHtgJ/5BcJrVh3FNY4ECZ/iX8v3Kcf+cWcGRv0o8F222hlEWS8Kq7vKXtrimM
+         9SIL1RPaDcK4IN+CY218eReV9EcMMKf3hPaQJey90wCj+TUvwkpU/bvC4jn3ntrIeobf
+         DfCkIqz3veKiEote527YdYI9/AhtayYJ55+OsXSJlYahWx0vru+DFcIEu0IB2SGAlNXQ
+         e1FIY5bKXHNS2rerO8KW65dp6ltQ+uYY0LpHDgR5b9yMrxtqjMX/x7JFX8kQM2pmZ6DT
+         oPkK0zOG2yHzO1JKbyVlGiG6YAJarZN6HtzR7qQ/vk76zqxJYRGaJr7h2b3pDz1wATUC
+         bYfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750782438; x=1751387238;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3XU9PZOS8h3qM8j/vYtr6Tu7O46DilgXxn9Be95y+uI=;
+        b=EVmIoGhAZ1hRDNz1mQZY/0Cm98JPiC0jATQaR6gK43uBGnV7WOyRIYy3DhEkos1E5w
+         s7f3KeYmKj5AdvwHCBwgvYjqiXP8XDNKPZSbbYjAGOXQA3MoNtvlABDxMvWNJaNeJBMb
+         /3Jgv5j0fSQx6b5uk8aCNq867FWdnWEQFUcqq7rz8bShUMyxUbrMiNPvgyDRj3nX2fpi
+         r4ZS/6aN5S4hlTJxmoGQQRdRB0KCJvUIgK83LrDLjmOXACqYfGvpQ//7SsPorQHkBLKj
+         nWJsftdeM4/F4g8y8qsAE/zDIjZtIK2HMPw1H3jKWU1Si77wS+sspok1+I5f8QzTv7Z2
+         zOTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWHh/JAL1SX4iQCvHy+lV6HweeOSyeV2ih58x+s2Xb3aqGm9isY57hHR9ax5vN+IGb3848jJKjm+Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGpiHuReaXUFnPFtyGobN28JTpJzCrlW3ggiukLqYlVMoX8Ya6
+	oSisCi5hsUX7EzmSDOP/qYsTDmm8SYBhciLr7mOZCYmpUics1s7FmyhwxOcwplg5ATM98HejBa9
+	E2T2Kzg==
+X-Google-Smtp-Source: AGHT+IFV0P3ZB/DP8ghmvs2Dp/i/ZHiBdp7WzvPKc/jhvZS3BGK8g6s0wf/z7wxYbHC1JNe2QocFSvwlZlk=
+X-Received: from plbg10.prod.google.com ([2002:a17:902:d1ca:b0:235:160a:76e])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:da86:b0:235:e8da:8d1
+ with SMTP id d9443c01a7336-2381ddd1cb6mr4789835ad.8.1750782437942; Tue, 24
+ Jun 2025 09:27:17 -0700 (PDT)
+Date: Tue, 24 Jun 2025 09:27:16 -0700
+In-Reply-To: <20250328171205.2029296-9-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20250328171205.2029296-1-xin@zytor.com> <20250328171205.2029296-9-xin@zytor.com>
+Message-ID: <aFrR5Nk1Ge3_ApWy@google.com>
+Subject: Re: [PATCH v4 08/19] KVM: VMX: Add support for FRED context save/restore
+From: Sean Christopherson <seanjc@google.com>
+To: "Xin Li (Intel)" <xin@zytor.com>
+Cc: pbonzini@redhat.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, corbet@lwn.net, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, andrew.cooper3@citrix.com, luto@kernel.org, 
+	peterz@infradead.org, chao.gao@intel.com, xin3.li@intel.com
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Jun 20 2025, Pasha Tatashin wrote:
+On Fri, Mar 28, 2025, Xin Li (Intel) wrote:
+> From: Xin Li <xin3.li@intel.com>
+> 
+> Handle FRED MSR access requests, allowing FRED context to be set/get
+> from both host and guest.
+> 
+> During VM save/restore and live migration, FRED context needs to be
+> saved/restored, which requires FRED MSRs to be accessed from userspace,
+> e.g., Qemu.
+> 
+> Note, handling of MSR_IA32_FRED_SSP0, i.e., MSR_IA32_PL0_SSP, is not
+> added yet, which is done in the KVM CET patch set.
+> 
+> Signed-off-by: Xin Li <xin3.li@intel.com>
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Tested-by: Shan Kang <shan.kang@intel.com>
+> ---
+> 
+> Changes since v2:
+> * Add a helper to convert FRED MSR index to VMCS field encoding to
+>   make the code more compact (Chao Gao).
+> * Get rid of the "host_initiated" check because userspace has to set
+>   CPUID before MSRs (Chao Gao & Sean Christopherson).
+> * Address a few cleanup comments (Sean Christopherson).
+> 
+> Changes since v1:
+> * Use kvm_cpu_cap_has() instead of cpu_feature_enabled() (Chao Gao).
+> * Fail host requested FRED MSRs access if KVM cannot virtualize FRED
+>   (Chao Gao).
+> * Handle the case FRED MSRs are valid but KVM cannot virtualize FRED
+>   (Chao Gao).
+> * Add sanity checks when writing to FRED MSRs.
+> ---
+>  arch/x86/kvm/vmx/vmx.c | 48 ++++++++++++++++++++++++++++++++++++++++++
+>  arch/x86/kvm/x86.c     | 28 ++++++++++++++++++++++++
+>  2 files changed, 76 insertions(+)
+> 
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index 1fd32aa255f9..ae9712624413 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -1426,6 +1426,24 @@ static void vmx_write_guest_kernel_gs_base(struct vcpu_vmx *vmx, u64 data)
+>  	preempt_enable();
+>  	vmx->msr_guest_kernel_gs_base = data;
+>  }
+> +
+> +static u64 vmx_read_guest_fred_rsp0(struct vcpu_vmx *vmx)
+> +{
+> +	preempt_disable();
+> +	if (vmx->guest_state_loaded)
+> +		vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
+> +	preempt_enable();
+> +	return vmx->msr_guest_fred_rsp0;
+> +}
+> +
+> +static void vmx_write_guest_fred_rsp0(struct vcpu_vmx *vmx, u64 data)
+> +{
+> +	preempt_disable();
+> +	if (vmx->guest_state_loaded)
+> +		wrmsrns(MSR_IA32_FRED_RSP0, data);
+> +	preempt_enable();
+> +	vmx->msr_guest_fred_rsp0 = data;
+> +}
+>  #endif
 
-> On Fri, Jun 20, 2025 at 11:28=E2=80=AFAM Pratyush Yadav <pratyush@kernel.=
-org> wrote:
->> On Thu, Jun 19 2025, Pasha Tatashin wrote:
-[...]
->> Outside of hypervisor live update, I have a very clear use case in mind:
->> userspace memory handover (on guest side). Say a guest running an
->> in-memory cache like memcached with many gigabytes of cache wants to
->> reboot. It can just shove the cache into a memfd, give it to LUO, and
->> restore it after reboot. Some services that suffer from long reboots are
->> looking into using this to reduce downtime. Since it pretty much
->> overlaps with the hypervisor work for now, I haven't been talking about
->> it as much.
->>
->> Would you also call this use case "live update"? Does it also fit with
->> your vision of where LUO should go?
->
-> Yes, absolutely. The use case you described (preserving a memcached
-> instance via memfd) is a perfect fit for LUO's vision.
->
-> While the primary use case driving this work is supporting the
-> preservation of virtual machines on a hypervisor, the framework itself
-> is not restricted to that scenario. We define "live update" as the
-> process of updating the kernel from one version to another while
-> preserving FD-based resources and keeping selected devices
-> operational. The machine itself can be running storage, database,
-> networking, containers, or anything else.
->
-> A good parallel is Kernel Live Patching: we don't distinguish what
-> workload is running on a machine when applying a security patch; we
-> simply patch the running kernel. In the same way, Live Update is
-> designed to be workload-agnostic. Whether the system is running an
-> in-memory database, containers, or VMs, its primary goal is to enable
-> a full kernel update while preserving the userspace-requested state.
+Maybe add helpers to deal with the preemption stuff?  Oh, never mind, FRED
+uses WRMSRNS.  Hmm, actually, can't these all be non-serializing?  KVM is
+progating *guest* values to hardware, so a VM-Enter is guaranteed before the
+CPU value can be consumed.
 
-Okay, then we are on the same page and I can live with whatever name we
-go with :-)
+#ifdef CONFIG_X86_64
+static u64 vmx_read_guest_host_msr(struct vcpu_vmx *vmx, u32 msr, u64 *cache)
+{
+	preempt_disable();
+	if (vmx->guest_state_loaded)
+		*cache = read_msr(msr);
+	preempt_enable();
+	return *cache;
+}
 
-BTW, I think it would be useful to make this clarification on the LUO
-docs as well so the intended use case/audience of the API is clear.
-Currently the doc string in luo_core.c only talks about hypervisors and
-VMs.
+static u64 vmx_write_guest_host_msr(struct vcpu_vmx *vmx, u32 msr, u64 data,
+				    u64 *cache)
+{
+	preempt_disable();
+	if (vmx->guest_state_loaded)
+		wrmsrns(MSR_KERNEL_GS_BASE, data);
+	preempt_enable();
+	*cache = data;
+}
 
---=20
-Regards,
-Pratyush Yadav
+static u64 vmx_read_guest_kernel_gs_base(struct vcpu_vmx *vmx)
+{
+	return vmx_read_guest_host_msr(vmx, MSR_KERNEL_GS_BASE,
+				       &vmx->msr_guest_kernel_gs_base);
+}
+
+static void vmx_write_guest_kernel_gs_base(struct vcpu_vmx *vmx, u64 data)
+{
+	vmx_write_guest_host_msr(vmx, MSR_KERNEL_GS_BASE, data,
+				 &vmx->msr_guest_kernel_gs_base);
+}
+
+static u64 vmx_read_guest_fred_rsp0(struct vcpu_vmx *vmx)
+{
+	return vmx_read_guest_host_msr(vmx, MSR_IA32_FRED_RSP0,
+				       &vmx->msr_guest_fred_rsp0);
+}
+
+static void vmx_write_guest_fred_rsp0(struct vcpu_vmx *vmx, u64 data)
+{
+	return vmx_write_guest_host_msr(vmx, MSR_IA32_FRED_RSP0, data,
+				        &vmx->msr_guest_fred_rsp0);
+}
+#endif
+
+>  static void grow_ple_window(struct kvm_vcpu *vcpu)
+> @@ -2039,6 +2057,24 @@ int vmx_get_feature_msr(u32 msr, u64 *data)
+>  	}
+>  }
+>  
+> +#ifdef CONFIG_X86_64
+> +static u32 fred_msr_vmcs_fields[] = {
+
+This should be const.
+
+> +	GUEST_IA32_FRED_RSP1,
+> +	GUEST_IA32_FRED_RSP2,
+> +	GUEST_IA32_FRED_RSP3,
+> +	GUEST_IA32_FRED_STKLVLS,
+> +	GUEST_IA32_FRED_SSP1,
+> +	GUEST_IA32_FRED_SSP2,
+> +	GUEST_IA32_FRED_SSP3,
+> +	GUEST_IA32_FRED_CONFIG,
+> +};
+
+I think it also makes sense to add a static_assert() here, more so to help
+readers follow along than anything else.
+
+static_assert(MSR_IA32_FRED_CONFIG - MSR_IA32_FRED_RSP1 ==
+	      ARRAY_SIZE(fred_msr_vmcs_fields) - 1);
+
+> +
+> +static u32 fred_msr_to_vmcs(u32 msr)
+> +{
+> +	return fred_msr_vmcs_fields[msr - MSR_IA32_FRED_RSP1];
+> +}
+> +#endif
+> +
+>  /*
+>   * Reads an msr value (of 'msr_info->index') into 'msr_info->data'.
+>   * Returns 0 on success, non-0 otherwise.
+> @@ -2061,6 +2097,12 @@ int vmx_get_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
+>  	case MSR_KERNEL_GS_BASE:
+>  		msr_info->data = vmx_read_guest_kernel_gs_base(vmx);
+>  		break;
+> +	case MSR_IA32_FRED_RSP0:
+> +		msr_info->data = vmx_read_guest_fred_rsp0(vmx);
+> +		break;
+> +	case MSR_IA32_FRED_RSP1 ... MSR_IA32_FRED_CONFIG:
+> +		msr_info->data = vmcs_read64(fred_msr_to_vmcs(msr_info->index));
+> +		break;
+>  #endif
+>  	case MSR_EFER:
+>  		return kvm_get_msr_common(vcpu, msr_info);
+> @@ -2268,6 +2310,12 @@ int vmx_set_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
+>  			vmx_update_exception_bitmap(vcpu);
+>  		}
+>  		break;
+> +	case MSR_IA32_FRED_RSP0:
+> +		vmx_write_guest_fred_rsp0(vmx, data);
+> +		break;
+> +	case MSR_IA32_FRED_RSP1 ... MSR_IA32_FRED_CONFIG:
+> +		vmcs_write64(fred_msr_to_vmcs(msr_index), data);
+> +		break;
+>  #endif
+>  	case MSR_IA32_SYSENTER_CS:
+>  		if (is_guest_mode(vcpu))
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index c841817a914a..007577143337 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -318,6 +318,9 @@ static const u32 msrs_to_save_base[] = {
+>  	MSR_STAR,
+>  #ifdef CONFIG_X86_64
+>  	MSR_CSTAR, MSR_KERNEL_GS_BASE, MSR_SYSCALL_MASK, MSR_LSTAR,
+> +	MSR_IA32_FRED_RSP0, MSR_IA32_FRED_RSP1, MSR_IA32_FRED_RSP2,
+> +	MSR_IA32_FRED_RSP3, MSR_IA32_FRED_STKLVLS, MSR_IA32_FRED_SSP1,
+> +	MSR_IA32_FRED_SSP2, MSR_IA32_FRED_SSP3, MSR_IA32_FRED_CONFIG,
+>  #endif
+>  	MSR_IA32_TSC, MSR_IA32_CR_PAT, MSR_VM_HSAVE_PA,
+>  	MSR_IA32_FEAT_CTL, MSR_IA32_BNDCFGS, MSR_TSC_AUX,
+> @@ -1849,6 +1852,23 @@ static int __kvm_set_msr(struct kvm_vcpu *vcpu, u32 index, u64 data,
+>  
+>  		data = (u32)data;
+>  		break;
+> +	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_CONFIG:
+> +		if (!guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
+> +			return 1;
+
+Yeesh, this is a bit of a no-win situation.  Having to re-check the MSR index is
+no fun, but the amount of overlap between MSRs is significant, i.e. I see why you
+bundled everything together.  Ugh, and MSR_IA32_FRED_STKLVLS is buried smack dab
+in the middle of everything.
+
+> +
+> +		/* Bit 11, bits 5:4, and bit 2 of the IA32_FRED_CONFIG must be zero */
+
+Eh, the comment isn't helping much.  If we want to add more documentation, add
+#defines.  But I think we can documented the reserved behavior while also tidying
+up the code a bit.
+
+After much fiddling, how about this?
+
+	case MSR_IA32_FRED_STKLVLS:
+		if (!guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
+			return 1;
+		break;			
+
+	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_RSP3:
+	case MSR_IA32_FRED_SSP1 ... MSR_IA32_FRED_CONFIG: {
+		u64 reserved_bits;
+
+		if (!guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
+			return 1;
+
+		if (is_noncanonical_msr_address(data, vcpu))
+			return 1;
+
+		switch (index) {
+		case MSR_IA32_FRED_CONFIG:
+			reserved_bits = BIT_ULL(11) | GENMASK_ULL(5, 4) | BIT_ULL(2);
+			break;
+		case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_RSP3:
+			reserved_bits = GENMASK_ULL(5, 0);
+			break;
+		case MSR_IA32_FRED_SSP1 ... MSR_IA32_FRED_SSP3:
+			reserved_bits = GENMASK_ULL(2, 0);
+			break;
+		default:
+			WARN_ON_ONCE(1);
+			return 1;
+		}
+		if (data & reserved_bits)
+			return 1;
+		break;
+	}
+
+> @@ -1893,6 +1913,10 @@ int __kvm_get_msr(struct kvm_vcpu *vcpu, u32 index, u64 *data,
+>  		    !guest_cpu_cap_has(vcpu, X86_FEATURE_RDPID))
+>  			return 1;
+>  		break;
+> +	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_CONFIG:
+> +		if (!guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
+> +			return 1;
+> +		break;
+>  	}
+>  
+>  	msr.index = index;
+> @@ -7455,6 +7479,10 @@ static void kvm_probe_msr_to_save(u32 msr_index)
+>  		if (!(kvm_get_arch_capabilities() & ARCH_CAP_TSX_CTRL_MSR))
+>  			return;
+>  		break;
+> +	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_CONFIG:
+> +		if (!kvm_cpu_cap_has(X86_FEATURE_FRED))
+> +			return;
+> +		break;
+>  	default:
+>  		break;
+>  	}
+> -- 
+> 2.48.1
+> 
