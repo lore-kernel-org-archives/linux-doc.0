@@ -1,66 +1,65 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F92E2E338F
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 15:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA563074A4
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 15:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750778413; cv=none; b=JZJW+zf2xOKr7pwBkMYIyawm7upHVl9B+L6LyzPfJFfkc6n0891H7K4pD5pT3K7dEQQafWWkqTlAbvNkA5l0+QkhUsc9fCCESOrkX1ClHp1ObLfW8lkXCbf4X2c4+5XR8DDMG8NOxtkHpJ1zNNFVIKb4yjQAh2jEBMPJllcuDSA=
+	t=1750778875; cv=none; b=uYu208mrWP82Rzvc2rxntisqqvqnsPfLcNbXB+dF3TCHXKDg0dI7mTafMZMyoJ0fJcGe0IaxqGqRMx05/zjdtVC1YvgtCHCwAP5KU4cTtkNbrKSBnE0maZ0UQxfBNLw8zlSK2AFcNMwt6HrOEdhgvNkNIem10SAq3VGc+u9lOAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750778413; c=relaxed/simple;
-	bh=Vm3A6wHZ/yoyBgE0EAf83UZWXKbrAMUvq94GaHakSHk=;
+	s=arc-20240116; t=1750778875; c=relaxed/simple;
+	bh=MepxRO2ogI5XQ3ZUzw1gcXY64ic46PvTDY+KYhuA9P0=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=o988SCrLW+pHvm4vW1hN5E1WZlTE8CPkGkHwXgM47yk1hYC56rkSNarD+j7mt6g0HiqkmTT7H83nnTvfCKrskkFxpIdvmOANydEdkybt5BmrKVwHy+cHX4A3pEu5DvPuooxBEJzU4t9B+7qHXaL8/Fj/ztNGu0T/CvmjR9SZ26w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GbulfpFz; arc=none smtp.client-ip=209.85.216.74
+	 To:Cc:Content-Type; b=GW1Rx0fGF9uG27iu5s7IgvIATLK/tGwU5XJEyuEZY7Vv3l7gKq+Wy099G815RnCux4eOMkOxZIYmyAU//FoHKiOg/QWytS+mfI9QaLVGTbtNanBpJX+RIxnrMm6EdqGAMRcyFW+iurqoe3h+nFqt4f2mDQPgJZHDGu0L53z7pS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WZK6ZJ3A; arc=none smtp.client-ip=209.85.214.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GbulfpFz"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-3132e7266d3so5361903a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 08:20:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WZK6ZJ3A"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-235f77f86f6so54786195ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 08:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750778409; x=1751383209; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750778874; x=1751383674; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vGRfoH9LdFtGM39WnIuEZlC9+8YFZhcusYM4kwtNz9g=;
-        b=GbulfpFzVniqykzkj1T0Fwd4FIgupk9wVLQnjO1XZ0dHCI4paq6IWRzII0f4ADdtF6
-         Vw5y8dzKjjy5hfkHoHo/Oraknp1ykeYbxZTOebR9g46Lx558voUmyyYhTQbj2WLOagRT
-         2kw4zB5oXCKgahHLvdxVjVIPZhbRXF51t8MJxwARH8QNczaTsF+Hn+ghw03huk1j6mkb
-         eXOyi88F59ApYjVABVDA/HEIUaQ9VN1cm2/UimCsVwwd3p3rnBXXFnjc+ryV0rwA0B1Y
-         xz9nYsxjbeARbmbpa5Tn3xUwG63t0yutOK6hnrqWrpX5BWQNVRGm3P5yUOJH/UmHv5Px
-         JLkw==
+        bh=8ozpzeYt4xTkvHRuQkIJTdoQYtXmcQ7LICuVmYRW9gk=;
+        b=WZK6ZJ3AuiGdvP2b+SBCaWG2/HwwkhXTBNXfMqnckLRQMPj0MJ4iZ14Hmp7ZdULO+X
+         DslGD5rMmwc6tWFnbIFSQzHR16uUTpRLwPi7KaAhdE7EBprCSyzT0Dtx8nI84pDwcqNk
+         zYBrRrQTWp5ZrjAb+2LUgUD3S4ki7FqBl3QGomQ5bOgxJWrFhUAUVvPsQy/eVLZJVPqB
+         uoVml+AG9ETMzACojMoKizPs0JQu64axF4SZJMV6N/QtqESGESuMJ7cwfUI4g0LJ7dvX
+         ssg4lzk41nqtojkamz36RhZVOV9VYnQ9hefZhYPxWTZ/8V8utCGKB1x0/KIL2YSWvnBY
+         Scog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750778409; x=1751383209;
+        d=1e100.net; s=20230601; t=1750778874; x=1751383674;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vGRfoH9LdFtGM39WnIuEZlC9+8YFZhcusYM4kwtNz9g=;
-        b=Wz5shTt0ULT943qpq36FhVDtyXS9WDbeKOmSCRYYnTMOLy8kq96dmQSfn7sFX2AArm
-         vykpFe3sNIFDURGMmrYohNBv48g9xAF6OW6W1HSZ0FJy+n20wWSU6G/HJ+zSG/CLF2dH
-         IJpYfq6W96O8MQLrmPrP6i3Xvp17eJSG26dzYcX1uXd+SV0Dz4OD3jqS7XsZ2hJK2A+n
-         54t0HN8JnY9cyNoqLERIBG5rYHaXu/Sjv9PcucTd7p+qASZjiihCQU3pSPKuNVVTpwAE
-         /ik25xSTeqQfgfBTAC+pgXmJ2IpGKVNv+J/wnBlU7Ui0BBdp5ImcV3bxNHERUoN3mrXi
-         BdiA==
-X-Forwarded-Encrypted: i=1; AJvYcCUk5EvVwOMNF2SQhxIDxTR68OI5AHoBRuVex6cdqNYZCtOsEdQNa8z/cnw1V49grlYHAP+YZUzkLG8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyO/TnfPY6S/IEoEhVrv1htqsePidlJs7JejY8IA+OZiefsOycJ
-	1OfwVyDJRFDyScVUN4U4ddoSQCvybNs6ivbIbh9xFiOj8VQJGdxaWAv1f8LPtlGfooSySXcCygP
-	Ow4c5AA==
-X-Google-Smtp-Source: AGHT+IGY1sNiClwBZTcmK97/eMChbdF+koURDQ4b/nqndAH0Pf6+wiOIfdVBF86RlKu8osKt9rWO6gJhKmc=
-X-Received: from pjn14.prod.google.com ([2002:a17:90b:570e:b0:30a:7da4:f075])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4c11:b0:312:26d9:d5b4
- with SMTP id 98e67ed59e1d1-3159d8c7e55mr28632166a91.17.1750778408771; Tue, 24
- Jun 2025 08:20:08 -0700 (PDT)
-Date: Tue, 24 Jun 2025 08:20:07 -0700
-In-Reply-To: <20250328171205.2029296-4-xin@zytor.com>
+        bh=8ozpzeYt4xTkvHRuQkIJTdoQYtXmcQ7LICuVmYRW9gk=;
+        b=W4qiwNymdM+SqmJN8SjEw3oA8IEMV5f+l/N/FXKQK02yI7oGYgHRUV6cuZF8c8xEBx
+         N38HYBUaA3hxQ38EB/FCCp8qNadgQ8XFvW8P5/h7BHVkvbN3ckVsRG/MgDQA5nZIn6Kj
+         yxNvFVMV30+Izp3jkB8ZtImuVIcXWTbCfmCN3Zg66EAagMQBv5oMorYvP5ucQraBdkXc
+         RvBNOIQaz4dBxU4gsuWmUOvsCb4M4NJJw0h4GeMEOlT1ZLbbS0xYFrf1eU1M8l821cLI
+         CotTdu7vKpaLiTJKFHsWhTyNit9XES9rU7euJpeyD08S04HO1VRSvS+eGBAMpjLpppb4
+         Il2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUn3XcI6NRwd3m7mQK8Pp/qI5HZThoiCLy0cufeU5wKoF/1R2ENk9nwAuqWMEVlylT47cLkQXcVxD0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuavTIvZqZ0+NYXxuGe/mYfkfcAFvzlPOiObAjGJ8BeuqjKtfX
+	vzJuV0mNN3w4/CDAkHGVzzron/I/xUcN2/PnBzWNyH+RHPcf4X724auQT0L3KlvxwWWyS8FqZbO
+	y6OjX7Q==
+X-Google-Smtp-Source: AGHT+IFUejh1pO/KNNRbnpHWhaff//dtVImgTpNy+o6XsUzk8HP9FdRsW+ItyD5wajOAd09IzHcqdYMV9uY=
+X-Received: from plbky5.prod.google.com ([2002:a17:902:f985:b0:223:f7e6:116d])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:dac6:b0:236:7165:6ecf
+ with SMTP id d9443c01a7336-237d9a7c3a9mr312281565ad.38.1750778873740; Tue, 24
+ Jun 2025 08:27:53 -0700 (PDT)
+Date: Tue, 24 Jun 2025 08:27:52 -0700
+In-Reply-To: <20250328171205.2029296-7-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20250328171205.2029296-1-xin@zytor.com> <20250328171205.2029296-4-xin@zytor.com>
-Message-ID: <aFrCJzodXP0sT6Ny@google.com>
-Subject: Re: [PATCH v4 03/19] KVM: VMX: Disable FRED if FRED consistency
- checks fail
+References: <20250328171205.2029296-1-xin@zytor.com> <20250328171205.2029296-7-xin@zytor.com>
+Message-ID: <aFrD-Pn9cmHcVxWs@google.com>
+Subject: Re: [PATCH v4 06/19] KVM: VMX: Set FRED MSR interception
 From: Sean Christopherson <seanjc@google.com>
 To: "Xin Li (Intel)" <xin@zytor.com>
 Cc: pbonzini@redhat.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -71,72 +70,48 @@ Cc: pbonzini@redhat.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
 Content-Type: text/plain; charset="us-ascii"
 
 On Fri, Mar 28, 2025, Xin Li (Intel) wrote:
-> From: Xin Li <xin3.li@intel.com>
-> 
-> Do not virtualize FRED if FRED consistency checks fail.
-> 
-> Either on broken hardware, or when run KVM on top of another hypervisor
-> before the underlying hypervisor implements nested FRED correctly.
-> 
-> Suggested-by: Chao Gao <chao.gao@intel.com>
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-> Tested-by: Shan Kang <shan.kang@intel.com>
-> Reviewed-by: Chao Gao <chao.gao@intel.com>
-> ---
-> 
-> Change in v4:
-> * Call out the reason why not check FRED VM-exit controls in
->   cpu_has_vmx_fred() (Chao Gao).
-> ---
->  arch/x86/kvm/vmx/capabilities.h | 11 +++++++++++
->  arch/x86/kvm/vmx/vmx.c          |  3 +++
->  2 files changed, 14 insertions(+)
-> 
-> diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
-> index b2aefee59395..b4f49a4690ca 100644
-> --- a/arch/x86/kvm/vmx/capabilities.h
-> +++ b/arch/x86/kvm/vmx/capabilities.h
-> @@ -400,6 +400,17 @@ static inline bool vmx_pebs_supported(void)
->  	return boot_cpu_has(X86_FEATURE_PEBS) && kvm_pmu_cap.pebs_ept;
+> @@ -7935,6 +7945,34 @@ static void update_intel_pt_cfg(struct kvm_vcpu *vcpu)
+>  		vmx->pt_desc.ctl_bitmask &= ~(0xfULL << (32 + i * 4));
 >  }
 >  
-> +static inline bool cpu_has_vmx_fred(void)
+> +static void vmx_set_intercept_for_fred_msr(struct kvm_vcpu *vcpu)
 > +{
+
+This function should short-circult on
+
+	if (!kvm_cpu_cap_has(X86_FEATURE_FRED))
+		return;
+
+Functionally, it shouldn't matter.  It's mostly for documentation purposes, and
+to avoid doing unnecessary work.
+
+> +	bool flag = !guest_cpu_cap_has(vcpu, X86_FEATURE_FRED);
+
+"flag" is unnecessarily ambiguous (eww, I see that the exiting PT code does that).
+I like "set", as it has (hopefully) obvious polarity, and aligns with the function
+being called.
+
+> +
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP1, MSR_TYPE_RW, flag);
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP2, MSR_TYPE_RW, flag);
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP3, MSR_TYPE_RW, flag);
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_STKLVLS, MSR_TYPE_RW, flag);
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP1, MSR_TYPE_RW, flag);
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP2, MSR_TYPE_RW, flag);
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP3, MSR_TYPE_RW, flag);
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_CONFIG, MSR_TYPE_RW, flag);
+> +
 > +	/*
-> +	 * setup_vmcs_config() guarantees FRED VM-entry/exit controls
-> +	 * are either all set or none.  So, no need to check FRED VM-exit
-> +	 * controls.
+> +	 * IA32_FRED_RSP0 and IA32_PL0_SSP (a.k.a. IA32_FRED_SSP0) are only used
+> +	 * for delivering events when running userspace, while KVM always runs in
+> +	 * kernel mode (the CPL is always 0 after any VM exit), thus KVM can run
+> +	 * safely with guest IA32_FRED_RSP0 and IA32_PL0_SSP.
+> +	 *
+> +	 * As a result, no need to intercept IA32_FRED_RSP0 and IA32_PL0_SSP.
+> +	 *
+> +	 * Note, save and restore of IA32_PL0_SSP belong to CET supervisor context
+> +	 * management no matter whether FRED is enabled or not.  So leave its
+> +	 * state management to CET code.
 > +	 */
-> +	return cpu_feature_enabled(X86_FEATURE_FRED) &&
-
-Drop the cpu_feature_enabled().  These helpers are all about checking raw CPU
-support; whether or not the kernel is configured to support FRED is irrelevant.
-
-[For these helpers; KVM obviously needs to account for FRED support in other
- paths, but that should be automagically handled by kvm_set_cpu_caps()]
-
-
-> +		(vmcs_config.vmentry_ctrl & VM_ENTRY_LOAD_IA32_FRED);
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP0, MSR_TYPE_RW, flag);
 > +}
-> +
->  static inline bool cpu_has_notify_vmexit(void)
->  {
->  	return vmcs_config.cpu_based_2nd_exec_ctrl &
-> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> index e38545d0dd17..ab84939ace96 100644
-> --- a/arch/x86/kvm/vmx/vmx.c
-> +++ b/arch/x86/kvm/vmx/vmx.c
-> @@ -8052,6 +8052,9 @@ static __init void vmx_set_cpu_caps(void)
->  		kvm_cpu_cap_check_and_set(X86_FEATURE_DTES64);
->  	}
->  
-> +	if (!cpu_has_vmx_fred())
-> +		kvm_cpu_cap_clear(X86_FEATURE_FRED);
-> +
->  	if (!enable_pmu)
->  		kvm_cpu_cap_clear(X86_FEATURE_PDCM);
->  	kvm_caps.supported_perf_cap = vmx_get_perf_capabilities();
-> -- 
-> 2.48.1
-> 
