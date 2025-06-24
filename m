@@ -1,70 +1,237 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C6D182BC;
-	Tue, 24 Jun 2025 13:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37CFB28ECEF;
+	Tue, 24 Jun 2025 13:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750770676; cv=none; b=Rzk65K3GsYhG6x8dsxM+iYFw0XmiUb4U0+NcmLbQZPGbm3jBoqkHxmmdVj+EM9B4MsKtIiqtV932mRMApZ0q93dJ/RNnDmGjSAW1J8xk93+ch/kiXPSF2qvxG0OJQN7TYzeEVYIVXpsUXosXbEcRh/HVVSu84Cp+Oi3rt33v03w=
+	t=1750771686; cv=none; b=FaVfEwVM/OAVHFnvWyz8JtUSkzOdk/TY+MIdXAP/M4zLcR6YCXpuIlasn3bS8hTcMP4UUX1MFuxS3Bk2zDcRMs+mf9Olkvek63y0keWKwbWkprwmd4Majv+WBWcNn467uLZJhnl8AYwc/sEanUSSWFI5kGQ5AAQe+KS5pgmjbn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750770676; c=relaxed/simple;
-	bh=pf7V8ZFHSDFoTFDOVEOJ17/2ksxrzCweglUWuq25TSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VatK7qF6W8a8IPsVSpUh1Kqh4xdin00pso6OcOjUYQG9onojwD0s1U8ah4sgQkpihz23Hz9rGOugeciajVVQ5yA0oylpQGimhBohtt1N2maXtjtYFZPWTCphfwUZ/0fZQRBjsTkUL3Clrms2CM7YtMnjkAvkwDgEH64vcjV7v9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WkBzP0hC; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WkBzP0hC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=BFg+UglFBXSDH09z4reIXqlceEQivXupwjdKDxA9w1s=; b=WkBzP0hCZtOxKo4teppSjK+dzU
-	x3EAIuJi6DcR70CzRnVNPzz+XvfYus7Xy5emq8VwDnaVCN9PYUPF4b3ZJD80h5j+ix6ILv82cH6Jf
-	0t+CcA20J+dn3TGQPiC/DQOcon9+ZSUxc9dN+HO3Q8/x30MHFFM5+oMes6xeINMyfG6gk/p5yWI81
-	RY/Z0XFz2mjuOTHyxtG+r1MgCWj1aj79E4kObBeSUkdWpsHV1DauD4dmBx4OiVX7yauY+3DUpL2BU
-	ALGEAJxfAjMLGJy6SncR4EVJz7L6eVk7KB7YadazhlPKfTtW51LrOdm7SX/uE3n7uTNYzTTXfeaSO
-	GqaSWL3Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uU3Qa-00000006eUv-29ID;
-	Tue, 24 Jun 2025 13:11:08 +0000
-Date: Tue, 24 Jun 2025 14:11:08 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC 1/2] lib/vsprintf: Add support for pte_t
-Message-ID: <aFqj7CYRcEHFAi2e@casper.infradead.org>
-References: <20250618041235.1716143-1-anshuman.khandual@arm.com>
- <20250618041235.1716143-2-anshuman.khandual@arm.com>
- <aFQP8LzVMctf6XH5@casper.infradead.org>
- <d5a86ef8-a58c-4abc-8312-08406c847edc@arm.com>
+	s=arc-20240116; t=1750771686; c=relaxed/simple;
+	bh=p9Y8HlbZozCgsx+nCkc/8qbLEDTDlPNxuRzYxo2IPmo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hlEsudAEF0opWy1q2Z4/pF3k0PN/o5QUTR6ffGgvFnwNUk/NWYtZ2TiET7WpFA1GbBqYMznum9ZeTj92mQnYTpA+QjAGEs+Yribd2C1R12SUTEalgv+uk5Z8hieksYt8IwVgLpjEFjuaHJrVSICcWGrZKMR1k0YvPHkkB9QyAYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A9B7113E;
+	Tue, 24 Jun 2025 06:27:45 -0700 (PDT)
+Received: from [10.57.29.71] (unknown [10.57.29.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C468A3F58B;
+	Tue, 24 Jun 2025 06:27:58 -0700 (PDT)
+Message-ID: <a8c3df16-a460-49bb-ba4e-1a07135d24e5@arm.com>
+Date: Tue, 24 Jun 2025 14:27:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d5a86ef8-a58c-4abc-8312-08406c847edc@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 06/10] dt-bindings: npu: rockchip,rknn: Add bindings
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Daniel Stone <daniel@fooishbar.org>,
+ Da Xue <da@libre.computer>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+ <20250606-6-10-rocket-v7-6-dc16cfe6fe4e@tomeuvizoso.net>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250606-6-10-rocket-v7-6-dc16cfe6fe4e@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 20, 2025 at 01:42:53PM +0530, Anshuman Khandual wrote:
-> On 19/06/25 6:56 PM, Matthew Wilcox wrote:
-> > Unfortunately, the one example you've converted shows why this is a bad
-> > idea.  You're passing a pmd_t pointer to a function which is assuming a
-> > pte_t pointer.  And a pmd_t and a pte_t are sometimes different sizes!
-> > (eg sometimes one is 64 bit and the other 32 bit).
+On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
 > 
-> As discussed on a separate thread, this might be addressed via separate
-> printf formats for each page table level e.g %ppte, %ppmd, and %ppud etc. 
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>    IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>    the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> v4:
+> - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
+> - Remove unneeded items: (Krzysztof Kozlowski)
+> - Fix use of minItems/maxItems (Krzysztof Kozlowski)
+> - Add reg-names to list of required properties (Krzysztof Kozlowski)
+> - Fix example (Krzysztof Kozlowski)
+> 
+> v5:
+> - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
+> - Streamline compatible property (Krzysztof Kozlowski)
+> 
+> v6:
+> - Remove mention to NVDLA, as the hardware is only incidentally related
+>    (Kever Yang)
+> - Mark pclk and npu clocks as required by all clocks (Rob Herring)
+> 
+> v7:
+> - Remove allOf section, not needed now that all nodes require 4 clocks
+>    (Heiko Stübner)
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>   .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 118 +++++++++++++++++++++
+>   1 file changed, 118 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..0588c085a723a34f4fa30a9680ea948d960b092f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
+> @@ -0,0 +1,118 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Neural Processing Unit IP from Rockchip
+> +
+> +maintainers:
+> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> +
+> +description:
+> +  Rockchip IP for accelerating inference of neural networks.
+> +
+> +  There is to be a node per each core in the NPU. In Rockchip's design there
+> +  will be one core that is special because it is able to redistribute work to
+> +  the other cores by forwarding register writes and sharing data. This special
+> +  core is called the top core and should have the compatible string that
+> +  corresponds to top cores.
 
-There's still no typechecking!
+Say a future SoC, for scaling reasons, puts down two or more whole NPUs 
+rather than just increasing the number of sub-cores in one? How is a DT 
+consumer then going to know which "cores" are associated with which "top 
+cores"? I think at the very least they want phandles in one direction or 
+the other, but if there is a real functional hierarchy then I'd be 
+strongly tempted to have the "core" nodes as children of their "top 
+core", particularly since "forwarding register writes" sounds absolutely 
+like something which could justify being represented as a "bus" in the 
+DT sense.
+
+Thanks,
+Robin.
+
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: '^npu@[a-f0-9]+$'
+> +
+> +  compatible:
+> +    enum:
+> +      - rockchip,rk3588-rknn-core-top
+> +      - rockchip,rk3588-rknn-core
+> +
+> +  reg:
+> +    maxItems: 3
+> +
+> +  reg-names:
+> +    items:
+> +      - const: pc
+> +      - const: cna
+> +      - const: core
+> +
+> +  clocks:
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: aclk
+> +      - const: hclk
+> +      - const: npu
+> +      - const: pclk
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  npu-supply: true
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 2
+> +
+> +  reset-names:
+> +    items:
+> +      - const: srst_a
+> +      - const: srst_h
+> +
+> +  sram-supply: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - iommus
+> +  - power-domains
+> +  - resets
+> +  - reset-names
+> +  - npu-supply
+> +  - sram-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/rk3588-power.h>
+> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
+> +
+> +    bus {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      npu@fdab0000 {
+> +        compatible = "rockchip,rk3588-rknn-core-top";
+> +        reg = <0x0 0xfdab0000 0x0 0x1000>,
+> +              <0x0 0xfdab1000 0x0 0x1000>,
+> +              <0x0 0xfdab3000 0x0 0x1000>;
+> +        reg-names = "pc", "cna", "core";
+> +        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
+> +        assigned-clock-rates = <200000000>;
+> +        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
+> +                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
+> +        clock-names = "aclk", "hclk", "npu", "pclk";
+> +        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        iommus = <&rknn_mmu_top>;
+> +        npu-supply = <&vdd_npu_s0>;
+> +        power-domains = <&power RK3588_PD_NPUTOP>;
+> +        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
+> +        reset-names = "srst_a", "srst_h";
+> +        sram-supply = <&vdd_npu_mem_s0>;
+> +      };
+> +    };
+> +...
+> 
+
