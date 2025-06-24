@@ -1,165 +1,178 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4C438DD1
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 00:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3A423FE7;
+	Tue, 24 Jun 2025 01:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750726217; cv=none; b=GoPPVQKsFE9zMVqHehTdTdyC1xXs4aCwFEVJRv5xaNA6DL9/IpYnNLTvab2A3uiutHjPVZCCwoBqCxewO2XwEDx2OOLOYWCd4kJcXwlIpDZmOEyTv7d55ts+lIqLhvjFoDS1Ioek/bYGBtCu0nek7mzwCXGCFvnc26N4dw2THd0=
+	t=1750729210; cv=none; b=S6GGsu4G/6D/Z724xQ4WGZ/RRTuF8IpVKQ7gRfgjVOYyJZsU93K8vWww3Iz0gVA22qGHlb4Sr5U4a2+mc3SabCe9FyFWZJYHpdAhT/9e4tatylvsquEciQXa2r1V2ADVXLLtu5CLWj0PJJgl3WC4cLyyhDLLE5IyGjcZX4AMUcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750726217; c=relaxed/simple;
-	bh=/auqGXR0o1/P/foYc6AgZw0KxuJdncmvKGkmkIKxkSQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q1FaHYAQlH2ihFafmTtr5Bzwx0HtowJxgg0Zi77T8bSJEWvJEfzfHlpvsnmrmQGCN0mqJiv2d9EMueZ1nUBMZVAiI85HKAYisiaB1zv1gzG21DQIegRPMtjMHTVHM1PRZTT3sjoxRylihZMPl4LotRfJLHzHM8c5A6a9/QRAVHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hw2socHm; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hw2socHm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750726214;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/auqGXR0o1/P/foYc6AgZw0KxuJdncmvKGkmkIKxkSQ=;
-	b=Hw2socHmMCLeu7lfybV86LQsaGzvvR0Ih4xSp3uoPzn4YygUou62Q3H+WPoS8vx2MVHZ1P
-	n6Zv7ywMGc+edyA1g+HR+KXvw6kaiwO6zp9qnkp/m3tknJHXZXetY11urVhHOLWAt86HHg
-	VibpRpDiieYUPDMDR1OdK2bkX3zf828=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-407-9zofM5LBPlu6wIOqD3UlVw-1; Mon, 23 Jun 2025 20:50:12 -0400
-X-MC-Unique: 9zofM5LBPlu6wIOqD3UlVw-1
-X-Mimecast-MFC-AGG-ID: 9zofM5LBPlu6wIOqD3UlVw_1750726212
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-313fab41f4bso6563516a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 17:50:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750726211; x=1751331011;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/auqGXR0o1/P/foYc6AgZw0KxuJdncmvKGkmkIKxkSQ=;
-        b=GCCTfkC+hfZY+aCfmrFnLPEKvdHkeHJOKyyZUgCJfu+ke7gltYA5jv7+WGLFi+Mktf
-         apuJvc6nO5mI9qQNxq8RlkCNgQDkjqTl+jNUBn6vUKk5BtwpvOJs8cUdCONf73VUSS75
-         88yRE2uO1svsNt91H8xayF1ex+PtgaLUXiAI7IPsq7unD5JcVVEvQKSiiVqIBE9clI8q
-         XgbXKqIROJ8iKN0u/hxXbAgjtrFMvDlZitgrJjfOGVo46hYvdveMFXZ0pItiFHJfJcfy
-         twClWhF051TkcACL+5l4PvNDbndDKH3XmpOYkAhPks1SSsieDGkwhAEefkevXEAT7vmd
-         ktXw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+UKWg7r0nz99UPirkm1gPcKkjBb36s4L3/5qMv4nzf8b5BRw0lXhaWPeBbSHPdVYI4JeT8bojtUA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuHL+ZVprpnfxkachuAKh4AG6qTvtaSDKzTD1g/FYuQzQy6mgw
-	6wCeJFBjwUvHHalcTdZ6e+xcyt9/+1NRNxG2r3WyGuMVBoHEmXgxhtOS6zBwboQP8+VDoWdYHLO
-	zoHsNP0ZtX36ZlJCHF0q+/WxtvT/QUprSvnnXA3Fi5vuzwYibtotcmTZPsdbYDpcZx7ZcrLRVJa
-	vVVbkXtFC9P+XO4BNSAywu9TbIdF3ZS+d0TfJl
-X-Gm-Gg: ASbGncvSpkY4jAzIvcfS5V1R00ew544UU9ooQ0dCNRhZHg7KoYBBb+MBuyKySmgWJL0
-	7u70ETLc69E//JU2Nvv+Lk7s55+34hyM0VjIjRpsnSNmkXOiYyLQ35wO5eVd5RlnOheYpEuLeje
-	4S244V
-X-Received: by 2002:a17:90a:d888:b0:313:f883:5d36 with SMTP id 98e67ed59e1d1-3159d61b385mr20481157a91.1.1750726211538;
-        Mon, 23 Jun 2025 17:50:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH2mZ6TFzZC61NvgUQr50RK9GKr+Zt2TEe1NWxDOMMJSfnof6RsI9yY3mdeAsIKTHaPT/FkDTx1NOWeRFhiZ3M=
-X-Received: by 2002:a17:90a:d888:b0:313:f883:5d36 with SMTP id
- 98e67ed59e1d1-3159d61b385mr20481119a91.1.1750726211082; Mon, 23 Jun 2025
- 17:50:11 -0700 (PDT)
+	s=arc-20240116; t=1750729210; c=relaxed/simple;
+	bh=pgiPJLvvmTflKzjDY7E5OaH4sV2YGQ0u+axBomTRsOw=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=lsK+X0EQLxxrpMkX9GsxpnkUlfLyInrveG/3no8RFRj+lKh4bty231TN7K7NPvZvZ9HkFWlLySekdaaxL0ElcKuE3wQL7qs0fgQ73NDSyDmnekXjqPVHz2HLiEzrnmMV+DhrzgV7wcX//RIrc7ZACFYYl3ogreCTp8DCdHd56A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8Ax3eLuAVpotfobAQ--.24562S3;
+	Tue, 24 Jun 2025 09:39:58 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by front1 (Coremail) with SMTP id qMiowMAxzxvqAVpoby8oAQ--.3360S3;
+	Tue, 24 Jun 2025 09:39:56 +0800 (CST)
+Subject: Re: [PATCH v4 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+To: Thomas Gleixner <tglx@linutronix.de>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
+ jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+ gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250610114252.21077-1-zhangtianyang@loongson.cn>
+ <20250610114252.21077-3-zhangtianyang@loongson.cn> <87o6uris6p.ffs@tglx>
+ <9c60326b-f7bd-0b36-3bc5-0ad7d19690f1@loongson.cn> <87v7omooag.ffs@tglx>
+ <fceb603c-6072-2941-15d5-56c8a4b4c32c@loongson.cn> <87jz52nrzo.ffs@tglx>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <a8f2ec4d-2616-17dc-320b-b7ac5ca99255@loongson.cn>
+Date: Tue, 24 Jun 2025 09:39:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250530-rss-v12-0-95d8b348de91@daynix.com> <20250530-rss-v12-1-95d8b348de91@daynix.com>
- <CACGkMEufffSj1GQMqwf598__-JgNtXRpyvsLtjSbr3angLmJXg@mail.gmail.com>
- <95cb2640-570d-4f51-8775-af5248c6bc5a@daynix.com> <CACGkMEu6fZaErFEu7_UFsykXRL7Z+CwmkcxmvJHC+eN_j0pQvg@mail.gmail.com>
- <4eaa7aaa-f677-4a31-bcc2-badcb5e2b9f6@daynix.com> <CACGkMEu3QH+VdHqQEePYz_z+_bNYswpA-KNxzz0edEOSSkJtWw@mail.gmail.com>
- <75ef190e-49fc-48aa-abf2-579ea31e4d15@daynix.com> <CACGkMEu2n-O0UtVEmcPkELcg9gpML=m5W=qYPjeEjp3ba73Eiw@mail.gmail.com>
- <760e9154-3440-464f-9b82-5a0c66f482ee@daynix.com> <CACGkMEtCr65RFB0jeprX3iQ3ke997AWF0FGH6JW_zuJOLqS5uw@mail.gmail.com>
- <CAOEp5OcybMttzRam+RKQHv4KA-zLnxGrL+UApc5KrAG+op9LKg@mail.gmail.com>
- <CACGkMEsfxXtHce2HeYwYxmhB0e5cOjn17qM6zFEt75bQhbtrDw@mail.gmail.com> <CAOEp5Oet1P2EWTwLJnMYY4CVAzDWgdM8wbvV3+BH6aY0kE+O8g@mail.gmail.com>
-In-Reply-To: <CAOEp5Oet1P2EWTwLJnMYY4CVAzDWgdM8wbvV3+BH6aY0kE+O8g@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 24 Jun 2025 08:49:58 +0800
-X-Gm-Features: AX0GCFuyvFlQ7RhA5QlpqKcUbeYXfBe9mHMJd9IBrNPZibzgOsK55WFol474x3I
-Message-ID: <CACGkMEuPsCNuNZbPsAj2d-tqz0RrJGAyPQAjt1nFbJdgtiKsGg@mail.gmail.com>
-Subject: Re: [PATCH net-next v12 01/10] virtio_net: Add functions for hashing
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
-	Andrew Melnychenko <andrew@daynix.com>, Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
-	Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87jz52nrzo.ffs@tglx>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:qMiowMAxzxvqAVpoby8oAQ--.3360S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxWFW3ZF1xAF13Ary3XryxZwc_yoWrCw13pF
+	W8K3WxK3ykta1I934Iva1kZa47tw4kKFW5Gr95GFyvy3s0qF1xuF40qFW5Za48Xrs7Zr1j
+	vFZ0vrWq9F98ZabCm3ZEXasCq-sJn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6F4UJVW0owAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
+	Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+	CYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48J
+	MxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+	IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU2txhDUUUU
 
-On Mon, Jun 23, 2025 at 10:28=E2=80=AFPM Yuri Benditovich
-<yuri.benditovich@daynix.com> wrote:
+Hi, Thomas
+
+在 2025/6/24 上午4:05, Thomas Gleixner 写道:
+> On Mon, Jun 23 2025 at 17:33, Tianyang Zhang wrote:
+>> 在 2025/6/23 下午4:27, Thomas Gleixner 写道:
+>>> tail is the software managed part of the ringbuffer which is shared with
+>>> the hardware, right?
+>>>
+>>> So even if the compiler would be allowed to reevalutate tail after the
+>>> barrier (it is NOT), then tail would still contain the same value as
+>>> before, no?
+>>>
+>>> The wmb() is required to ensure that the hardware can observe the full
+>>> write of the command _before_ it can observe the update to the tail
+>>> index.
+>>>
+>>> Anything else is voodoo.
+>>>
+>>> Thanks,
+>>>
+>>>           tglx
+>> In my previous understanding, tail'value is actually a part of 'full
+>> write of the command '.
+> Of course. The hardware observes the tail value. If it is not updated
+> then the command is not executed. But these are two distinct things:
 >
-> On Mon, Jun 23, 2025 at 11:07=E2=80=AFAM Jason Wang <jasowang@redhat.com>=
- wrote:
-> >
-> > On Mon, Jun 23, 2025 at 1:40=E2=80=AFAM Yuri Benditovich
-> > <yuri.benditovich@daynix.com> wrote:
-> > >
-> > > > Yuri, can you help to clarify this?
-> > >
-> > > I see here several questions:
-> > > 1. Whether it is ok for the device not to indicate support for XXX_EX=
- hash type?
-> > > - I think, yes (strictly speaking, it was better to test that before
-> > > submitting the patches )
-> > > 2. Is it possible that the guest will enable some XXX_EX hash type if
-> > > the device does not indicate that it is supported?
-> > > - No (I think this is part of the spec)
-> >
-> > There's another question, is the device allowed to fallback to
-> > VIRTIO_NET_HASH_TYPE_IPv6 if it fails to parse extensions?
-> MSFT expectations for that are at
-> https://learn.microsoft.com/en-us/windows-hardware/drivers/network/rss-ha=
-shing-types
-> If I read them correctly, the answer is "no"
-
-Ok, so I guess it implies the implementation should be ready to deal
-with arbitrary length of ipv6 options.
-
-> BTW, my personal opinion is that placing all these things with hash
-> calculations into kernel instead of ebpf does not make too much sense.
-
-If I remember correctly, we tried to enable it via eBPF, but failed
-due to the rejection of eBPF maintainers.
-
-Maybe we can revisit the idea. But anyhow the hardcoded logic might
-still be useful as eBPF is not guaranteed to work in all cases.
-
-Thanks
-
+> The invalidate command is written to a location in the command buffer
+> which is determined by tail:
 >
-> >
-> > > 3. What to do if we migrate between systems with different
-> > > capabilities of hash support/reporting/whatever
-> > > - IMO, at this moment such case should be excluded and only mechanism
-> > > we have for that is the compatible machine version
-> > > - in some future the change of device capabilities can be communicate=
-d
-> > > to the driver and _probably_ the driver might be able to communicate
-> > > the change of device capabilities to the OS
-> >
-> > Are you suggesting implementing all hash types? Note that Akihiko
-> > raises the issue that in the actual implementation there should be a
-> > limitation of the maximum number of options. If such a limitation is
-> > different between src and dst, the difference could be noticed by the
-> > guest.
-> >
-> > > 4. Does it make sense to have fine configuration of hash types mask
-> > > via command-line?
-> > > - IMO, no. This would require the user to have too much knowledge
-> > > about RSS internals
-> > >
-> > > Please let me know if I missed something.
-> > >
-> >
-> > Thanks
-> >
+> 	inv_addr = (struct irde_inv_cmd *)(rqueue->base + tail * sizeof(struct irde_inv_cmd));
+> 	memcpy(inv_addr, cmd, sizeof(struct irde_inv_cmd));
 >
+> requeue::base points to an array of invalidate commands. The array
+> size is INVALID_QUEUE_SIZE. tail is the position in the array to which
+> the software writes the next command. tail is software managed and
+> written to a completely different location via write_queue_tail(...):
+>
+> static phys_addr_t redirect_reg_base = 0x1fe00000;
+>
+> #define REDIRECT_REG_BASE(reg, node) \
+> 	(UNCACHE_BASE | redirect_reg_base | (u64)(node) << NODE_ADDRSPACE_SHIFT | (reg))
+> #define	redirect_reg_queue_tail(node)	REDIRECT_REG_BASE(LOONGARCH_IOCSR_REDIRECT_CQT, (node))
+> #define read_queue_tail(node)		(*((u32 *)(redirect_reg_queue_tail(node))))
+> #define write_queue_tail(node, val)	(*((u32 *)(redirect_reg_queue_tail(node))) = (val))
+>
+> The hardware maintains the head index. It's the last command index the
+> hardware processed. When the hardware observes that head != tail then it
+> processes the next entry and after completion it updates head with the
+> next index. This repeats until head == tail.
+>
+>> We must ensure that tail is updated to the correct value first, and
+>> then write this value into the register (perhaps by adding wmb in
+>> write_queue_tail ).
+> No. The local variable 'tail' is purely local to the CPU and the
+> invalidation hardware does not even know that it exists.
+>
+> There are two things which are relevant to the hardware:
+>
+>     1) command is written to the hardware visible array at index of tail
+>
+>     2) hardware visible tail memory (register) is updated to tail + 1
+>
+> The memory barrier is required to prevent that #2 is written to the
+> hardware _before_ #1 completed and is fully visible to the hardware.
+>
+>> In other words, this is originally to prevent the write register
+>> instruction from being executed out of order before updating tail.
+> No. The barrier is solely for the above #1 vs. #2 ordering.
+>
+> There is a difference between program flow ordering and memory ordering.
+>
+> The hardware _CANNOT_ execute the write _before_ the value it writes is
+> computed. That's enforced by program flow order.
+>
+> So it's always guaranteed that the CPU executes
+>
+>     tail + 1
+>
+> _before_ executing the write to the register because that's a program
+> order dependency.
+>
+> If that would not be guaranteed, then your CPU would have more serious
+> problems than this piece of code. It simply would not even survive the
+> first five instructions in the boot loader.
+>
+> But what's not guaranteed is that consecutive writes become visible to
+> other parts of the system (other CPUs, the invalidation hardware, ....)
+> in the same consecutive order.
+>
+> To ensure that ordering you need a WMB(). If you would have CPU to CPU
+> communication then you would need a RMB() on the reader side to ensure
+> that the command is not read before the tail. In your case the hardware
+> side takes care of that.
+>
+>> The above is just my personal understanding
+> Which might need some slight adjustments :)
+>
+> Thanks,
+>
+>          tglx
+
+Hmm... it seems I confused program-flow-ordering and memory-ordering .
+
+my understanding of the previous issue may not have been right.
+
+Your reply has taught me a great deal, truly appreciate it
+
+Thank you very much
+
+Tianyang
 
