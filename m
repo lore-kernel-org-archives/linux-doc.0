@@ -1,412 +1,205 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462A728B4E7
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 14:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7013C2D8DB7
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 14:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750775320; cv=none; b=suOiJWOicv6+gxl7aT4TPvqg9OAkQvaVef5nVDF8T/65dAVIVb5YuUW0pWJgQ11IU3lGIeN6wvLibvtNuIwnfgtyw6IkljEPS7/RrPhyO/6tddE5dCsYVzR7Xf0Zcr1F0lqZoKWDEXUAEsFHb77gTAj4V/yW2TPBtE1qv5z/LDg=
+	t=1750776299; cv=none; b=kx0EuxDVrZbZYpp4JiSPHag02MVcF6w8loPMz3EHkHk4MMXR0RCHjVqwVhRLp0CtXNFe0dh3Q12kKPFSkiSzW817kWFnSjG/pi/cGKAxQTz4myphuS5o3TVConwBinrFSLfdGNnlzzlsK79Mz+0tZ3UItU5ggHQ0T19q9ZsUQeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750775320; c=relaxed/simple;
-	bh=mTYvJfN2xuWQsVAHTwNShzkisvw8P0xI6BmLshD2djA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rHz69+txVBjkonR7uQ9udIGGsqjXnI+7CJjYfeVowd3jgv8MFkX8KTAKT+6kQ2/s6eGfZpgHckrum277VRF6SneCQ9eq3eE8wCt7Ovnjx2FAI82C4DVpgO0F43lXlnwbbnilsZhN/dH+jtySsKaL5hg/BIqwzQ2IJGKjud55GxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=YYRQ4ebm; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1750776299; c=relaxed/simple;
+	bh=PMtBkVKWw5Pna9jZlC5WnAmSVHkdhULOnJd14bo0Luc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Z8XjYL36MEntHxocbsfimT/35fT+lmY98Y7pNXOOpSi7jQsHwmDVmpCsOOaciMeB6dcA6c4pMdCx/3SOgqiuPiqTh2bJ5E/L2bfZVBPEGu8JT1mNsAziIEPClS8qVFTQ5HsEdYP75A2EI9x+AvRYhBh1GkA3lm8QlrQxwVNJ9Yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZQHZa6P6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="YYRQ4ebm"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4a44b3526e6so5773891cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 07:28:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750775314; x=1751380114; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uDewiSmD4MwwrX0+a8LW2QGw9oFX/YyFBm3ct0LvRo0=;
-        b=YYRQ4ebmBl9pg0Fuufraid4TmzLnDb+ukaZXvRSLDrP+WKIrxXo7tdqt0y6bgzrkJz
-         iBkRQyawmJneP97BEwgNq8WRF1s1ymPyqGMIZdlCKHQp0LY0tXe7MmmIXIW38DGWrVlP
-         pQdTmM9wArDqnmjL7WPFeUJfSEFM16zgaANIiJ5NnCXGmdoWEK2qDlzobliqBvpI+1g0
-         Ooxjt/SF60vFDwwIUcugRRFS+FHAq0JCrYAGSxe1tz+7UVje2yk8xhe6g+8M4HjY85hv
-         iIeSjN3lBWyKRplmPCv1cTDvwMWbfldYvtYIlESxsfO4oOlVD4iArkgVmtUVOp3vej0z
-         GH2Q==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZQHZa6P6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750776296;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=mLcxxnqRZ5+f05tvB52Bk6zB2CYTD16ghvbgMe9EAr8=;
+	b=ZQHZa6P6xt0ehj8rjdW1iuboq96R6pYNNK4Fj2pwe8TlBnhj2gVHZJCy09XnYpHz6IoBF6
+	UfqDTgCCcmyQFaoWYBwLtV+lpFKY1tkqgREAwl8pXZleVNjcGHcS91aqWZ0dXhRdF4h8fW
+	jbrINC9Xog8PFkrPCeDnN2CbYq465j0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-635-PFPIKXzrMImyzJcYKvHHAQ-1; Tue, 24 Jun 2025 10:44:53 -0400
+X-MC-Unique: PFPIKXzrMImyzJcYKvHHAQ-1
+X-Mimecast-MFC-AGG-ID: PFPIKXzrMImyzJcYKvHHAQ_1750776292
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-450df53d461so40445185e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 07:44:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750775314; x=1751380114;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uDewiSmD4MwwrX0+a8LW2QGw9oFX/YyFBm3ct0LvRo0=;
-        b=UuusAtW2GmsrMDshwRx2AUA522YpG0qRr3+xsZkReYdpd9RO9/g+zwWYmNaH1ivWHu
-         hEiiPMwQB7rmxqTe+6aKKUVz50HBvFa0j2BGginwTgpaG6+pFEVn7IG0Ibe0A/EuC9k+
-         ysFuaySaTYyiyBnvD81lBdQowyCTJTzv1ZtJCUbkEc5PC68TKjCwNOBQ0nsoh4dKolDK
-         f+8AoS16dVZzzK3UFZtfeDetdwc0TUPngvx/F3I/KX+1IoOW5TDnmameY73SVWY3NfbA
-         47QKf4cXYZVBqrCj2SqeaPv5uUBCh+BV93hfPl/YaLzglLglg3dXABb59/isQvr7UI7P
-         EpfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVBeQ0d+BZOxSaEva+ThRRspbfLGDOp3V15M6hfl6ijpppYhOI9MLah7T2GHqkmYDSZBsGl57D/kpM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8N5OWN4+qNU2ExvXFB4VqW0YA5wrq5Es82CDoJ5BLw4ZeeB+Z
-	TU5JO2dfUbQXDcMcfHTm4Q0n/Zkw/qANT6a2iEIJqP4iHT8umXrV9+RMLu18mAvFKpqlX+yUlIg
-	9cmkgwG9Q1pBdoMZZnk5EzPDaEdH4e8H/8Jf09i36MA==
-X-Gm-Gg: ASbGncvC7/PkNjSeZl22x/DmDgcMWeXwEKpOlZgSt+MoITWNTDBAa/YyWp7erODPc/K
-	gmoIezlxX+cJqe6ARobQBvRsNakMO+AXq1GElHLK/EjJnij2hOsXOYZD1HTqVJiClba3Odfp2k1
-	v22DZYMzXbncaw3pp66IOdSGN5II2yFwuLwi3g6lSKhxbJuL+Cq4g=
-X-Google-Smtp-Source: AGHT+IGFEQhzykPbe/44QRJkdNddUzd4cfvP60odxaU1YoPeESZ4f1vixxl/WUpJLfMlzvla3CLnCoyoFqQUs9WlBsk=
-X-Received: by 2002:ac8:5849:0:b0:4a1:3b18:598a with SMTP id
- d75a77b69052e-4a77a1fed3dmr258991591cf.5.1750775313494; Tue, 24 Jun 2025
- 07:28:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750776292; x=1751381092;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mLcxxnqRZ5+f05tvB52Bk6zB2CYTD16ghvbgMe9EAr8=;
+        b=wBMQNd5tf7gGcTzPgSx1W5r88SBpi70+4DeNrWoorEVnbdvvQoVpSrl8kapXOx49fb
+         8I9gqAUD2afTSfJ43DDZvPGmVWd7W8pcMMuVum5n7Phw43J8ajeafv8tzBIfkbs7f8Fu
+         lS0c/1ke/9Rfq/IT8CdE7eXxxxASDhVkMKFNjOMaNAWMxzxknlwoyo09EA1zOj6OI7dS
+         A5zrPlxV5Ey2mOZd0WovunilsXrgA/dGwCeRju7cMUwq0wHoLiWyjD7oz79rBVs1NCLP
+         jyNOLNTqwj4vpIosI8qkPjqdOB3i86kl8bS+EYP2dW8CO+DGqukXIs4Cbz8sW5vbWFy/
+         9phw==
+X-Forwarded-Encrypted: i=1; AJvYcCXcn8P0I9W3HVWmXVTMYtUKNfjs3/RdxHzdgyu3ADxo/XNVVeJg2HFvWIGyjpyvOCI1BnF/djSgSqQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywm0yn101j6JI9yPu379ba2Vb15kHiIvyai1g6Lt1V9LxB5jzQo
+	3HUdDIR903ysegLhrgfo+pIDOdpZdytgVXyNSv2rHjHt47tXd0119cNPbYDUqCfgu4odeDebDkm
+	9AZ5cAPApQQ/Eet8QccH+WwFsXdKkaB8S1xl09ZEAyM4s2HtvgLTE12odAU3nmg==
+X-Gm-Gg: ASbGnctYLeMqacsxxuroR7/bTyqStr/Qe2r7ytUy09ILw7x3jGQweutx9+ykfEuWg4y
+	891IN8G6QcNLeI9bHsv6Hj4S6wlBWfDCzOUXrlttK0JmK72EcsvsllbmT/23rCVTWdCiuyWvSWO
+	0JBnvxYJ3MtnY/VAzmhu6AauEwqThJNptytw7uNvgNs1ABA8/Nw33gCyLCWW+vUcZcw2zdI4y62
+	ZqnCQtiIAE+24IGjW4l685EKAGHJ8jbJIkpm20+4mFnGWi9dJk7jPJhojjj7jV/xjp9JUdRirEp
+	VfxA0PdHfvrSVpxouinhb/fD7Q/a9UE0ZoRRshEMdQ+/Cps4
+X-Received: by 2002:a05:600c:4fc5:b0:453:2066:4a26 with SMTP id 5b1f17b1804b1-453659ee9famr167525165e9.16.1750776292485;
+        Tue, 24 Jun 2025 07:44:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEH+bnvqk5AdSusPNS/x+/GsWWWythv10L4NSLOB5NqoePKQqBx7+VdoIha2cWe8D+LTySvCA==
+X-Received: by 2002:a05:600c:4fc5:b0:453:2066:4a26 with SMTP id 5b1f17b1804b1-453659ee9famr167524865e9.16.1750776292042;
+        Tue, 24 Jun 2025 07:44:52 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646cb57fsm146342375e9.1.2025.06.24.07.44.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 07:44:51 -0700 (PDT)
+Message-ID: <e2b2e78a9c66973d90a9dbeea83b88b97182c36e.camel@redhat.com>
+Subject: Re: [RFC PATCH v2 09/12] rv: Replace tss monitor with more complete
+ sts
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
+ Jonathan Corbet	 <corbet@lwn.net>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Ingo Molnar	
+ <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Tomas Glozar	
+ <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,
+ john.ogness@linutronix.de
+Date: Tue, 24 Jun 2025 16:44:49 +0200
+In-Reply-To: <20250624073609.OA9Q1V4g@linutronix.de>
+References: <20250514084314.57976-1-gmonaco@redhat.com>
+	 <20250514084314.57976-10-gmonaco@redhat.com>
+	 <20250624073609.OA9Q1V4g@linutronix.de>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0ByZWRoYXQuY29tPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmbiuWMCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfJzZgD/TXjnqCyqaZH/Y2w+YVbvm93WX2eqBqiVZ6VEjTuGNs8A/iPrKbzdWC7AicnK
+ xyhmqeUWOzFx5P43S1E1dhsrLWgP
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-11-pasha.tatashin@soleen.com> <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
-In-Reply-To: <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 24 Jun 2025 10:27:56 -0400
-X-Gm-Features: AX0GCFtlnh5qP7763PBCjBm3puXOqOkkcghSRVKRQ0u-_lovPxMsol3pu7S1kPY
-Message-ID: <CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com>
-Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
-To: Christian Brauner <brauner@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 24, 2025 at 5:51=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Thu, May 15, 2025 at 06:23:14PM +0000, Pasha Tatashin wrote:
-> > Introduce the user-space interface for the Live Update Orchestrator
-> > via ioctl commands, enabling external control over the live update
-> > process and management of preserved resources.
-> >
-> > Create a misc character device at /dev/liveupdate. Access
-> > to this device requires the CAP_SYS_ADMIN capability.
-> >
-> > A new UAPI header, <uapi/linux/liveupdate.h>, defines the necessary
-> > structures. The magic number is registered in
-> > Documentation/userspace-api/ioctl/ioctl-number.rst.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
-> >  drivers/misc/liveupdate/Makefile              |   1 +
-> >  drivers/misc/liveupdate/luo_ioctl.c           | 199 ++++++++++++
-> >  include/linux/liveupdate.h                    |  34 +-
-> >  include/uapi/linux/liveupdate.h               | 300 ++++++++++++++++++
-> >  5 files changed, 502 insertions(+), 33 deletions(-)
-> >  create mode 100644 drivers/misc/liveupdate/luo_ioctl.c
-> >  create mode 100644 include/uapi/linux/liveupdate.h
-> >
-> > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Docum=
-entation/userspace-api/ioctl/ioctl-number.rst
-> > index 7a1409ecc238..279c124048f2 100644
-> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > @@ -375,6 +375,7 @@ Code  Seq#    Include File                         =
-                  Comments
-> >  0xB8  01-02  uapi/misc/mrvl_cn10k_dpi.h                              M=
-arvell CN10K DPI driver
-> >  0xB8  all    uapi/linux/mshv.h                                       M=
-icrosoft Hyper-V /dev/mshv driver
-> >                                                                       <=
-mailto:linux-hyperv@vger.kernel.org>
-> > +0xBA  all    uapi/linux/liveupdate.h                                 <=
-mailto:Pasha Tatashin <pasha.tatashin@soleen.com>
-> >  0xC0  00-0F  linux/usb/iowarrior.h
-> >  0xCA  00-0F  uapi/misc/cxl.h                                         D=
-ead since 6.15
-> >  0xCA  10-2F  uapi/misc/ocxl.h
-> > diff --git a/drivers/misc/liveupdate/Makefile b/drivers/misc/liveupdate=
-/Makefile
-> > index b4cdd162574f..7a0cd08919c9 100644
-> > --- a/drivers/misc/liveupdate/Makefile
-> > +++ b/drivers/misc/liveupdate/Makefile
-> > @@ -1,4 +1,5 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> > +obj-y                                        +=3D luo_ioctl.o
-> >  obj-y                                        +=3D luo_core.o
-> >  obj-y                                        +=3D luo_files.o
-> >  obj-y                                        +=3D luo_subsystems.o
-> > diff --git a/drivers/misc/liveupdate/luo_ioctl.c b/drivers/misc/liveupd=
-ate/luo_ioctl.c
-> > new file mode 100644
-> > index 000000000000..76c687ff650b
-> > --- /dev/null
-> > +++ b/drivers/misc/liveupdate/luo_ioctl.c
-> > @@ -0,0 +1,199 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +/*
-> > + * Copyright (c) 2025, Google LLC.
-> > + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> > + */
-> > +
-> > +/**
-> > + * DOC: LUO ioctl Interface
-> > + *
-> > + * The IOCTL user-space control interface for the LUO subsystem.
-> > + * It registers a misc character device, typically found at ``/dev/liv=
-eupdate``,
-> > + * which allows privileged userspace applications (requiring %CAP_SYS_=
-ADMIN) to
-> > + * manage and monitor the LUO state machine and associated resources l=
-ike
-> > + * preservable file descriptors.
-> > + */
-> > +
-> > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> > +
-> > +#include <linux/errno.h>
-> > +#include <linux/file.h>
-> > +#include <linux/fs.h>
-> > +#include <linux/init.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/miscdevice.h>
-> > +#include <linux/module.h>
-> > +#include <linux/uaccess.h>
-> > +#include <uapi/linux/liveupdate.h>
-> > +#include "luo_internal.h"
-> > +
-> > +static int luo_ioctl_fd_preserve(struct liveupdate_fd *luo_fd)
-> > +{
-> > +     struct file *file;
-> > +     int ret;
-> > +
-> > +     file =3D fget(luo_fd->fd);
-> > +     if (!file) {
-> > +             pr_err("Bad file descriptor\n");
-> > +             return -EBADF;
-> > +     }
-> > +
-> > +     ret =3D luo_register_file(&luo_fd->token, file);
-> > +     if (ret)
-> > +             fput(file);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static int luo_ioctl_fd_unpreserve(u64 token)
-> > +{
-> > +     return luo_unregister_file(token);
-> > +}
-> > +
-> > +static int luo_ioctl_fd_restore(struct liveupdate_fd *luo_fd)
-> > +{
-> > +     struct file *file;
-> > +     int ret;
-> > +     int fd;
-> > +
-> > +     fd =3D get_unused_fd_flags(O_CLOEXEC);
-> > +     if (fd < 0) {
-> > +             pr_err("Failed to allocate new fd: %d\n", fd);
-> > +             return fd;
-> > +     }
-> > +
-> > +     ret =3D luo_retrieve_file(luo_fd->token, &file);
-> > +     if (ret < 0) {
-> > +             put_unused_fd(fd);
-> > +
-> > +             return ret;
-> > +     }
-> > +
-> > +     fd_install(fd, file);
-> > +     luo_fd->fd =3D fd;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int luo_open(struct inode *inodep, struct file *filep)
-> > +{
-> > +     if (!capable(CAP_SYS_ADMIN))
-> > +             return -EACCES;
-> > +
-> > +     if (filep->f_flags & O_EXCL)
-> > +             return -EINVAL;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static long luo_ioctl(struct file *filep, unsigned int cmd, unsigned l=
-ong arg)
-> > +{
-> > +     void __user *argp =3D (void __user *)arg;
-> > +     struct liveupdate_fd luo_fd;
-> > +     enum liveupdate_state state;
-> > +     int ret =3D 0;
-> > +     u64 token;
-> > +
-> > +     if (_IOC_TYPE(cmd) !=3D LIVEUPDATE_IOCTL_TYPE)
-> > +             return -ENOTTY;
-> > +
-> > +     switch (cmd) {
-> > +     case LIVEUPDATE_IOCTL_GET_STATE:
-> > +             state =3D READ_ONCE(luo_state);
-> > +             if (copy_to_user(argp, &state, sizeof(luo_state)))
-> > +                     ret =3D -EFAULT;
-> > +             break;
-> > +
-> > +     case LIVEUPDATE_IOCTL_EVENT_PREPARE:
-> > +             ret =3D luo_prepare();
-> > +             break;
-> > +
-> > +     case LIVEUPDATE_IOCTL_EVENT_FREEZE:
-> > +             ret =3D luo_freeze();
-> > +             break;
-> > +
-> > +     case LIVEUPDATE_IOCTL_EVENT_FINISH:
-> > +             ret =3D luo_finish();
-> > +             break;
-> > +
-> > +     case LIVEUPDATE_IOCTL_EVENT_CANCEL:
-> > +             ret =3D luo_cancel();
-> > +             break;
-> > +
-> > +     case LIVEUPDATE_IOCTL_FD_PRESERVE:
-> > +             if (copy_from_user(&luo_fd, argp, sizeof(luo_fd))) {
-> > +                     ret =3D -EFAULT;
-> > +                     break;
-> > +             }
-> > +
-> > +             ret =3D luo_ioctl_fd_preserve(&luo_fd);
-> > +             if (!ret && copy_to_user(argp, &luo_fd, sizeof(luo_fd)))
-> > +                     ret =3D -EFAULT;
-> > +             break;
-> > +
-> > +     case LIVEUPDATE_IOCTL_FD_UNPRESERVE:
-> > +             if (copy_from_user(&token, argp, sizeof(u64))) {
-> > +                     ret =3D -EFAULT;
-> > +                     break;
-> > +             }
-> > +
-> > +             ret =3D luo_ioctl_fd_unpreserve(token);
-> > +             break;
-> > +
-> > +     case LIVEUPDATE_IOCTL_FD_RESTORE:
-> > +             if (copy_from_user(&luo_fd, argp, sizeof(luo_fd))) {
-> > +                     ret =3D -EFAULT;
-> > +                     break;
-> > +             }
-> > +
-> > +             ret =3D luo_ioctl_fd_restore(&luo_fd);
-> > +             if (!ret && copy_to_user(argp, &luo_fd, sizeof(luo_fd)))
-> > +                     ret =3D -EFAULT;
-> > +             break;
-> > +
-> > +     default:
-> > +             pr_warn("ioctl: unknown command nr: 0x%x\n", _IOC_NR(cmd)=
-);
-> > +             ret =3D -ENOTTY;
-> > +             break;
-> > +     }
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static const struct file_operations fops =3D {
-> > +     .owner          =3D THIS_MODULE,
-> > +     .open           =3D luo_open,
-> > +     .unlocked_ioctl =3D luo_ioctl,
-> > +};
-> > +
-> > +static struct miscdevice liveupdate_miscdev =3D {
-> > +     .minor =3D MISC_DYNAMIC_MINOR,
-> > +     .name  =3D "liveupdate",
-> > +     .fops  =3D &fops,
-> > +};
->
-> I'm not sure why people are so in love with character device based apis.
-> It's terrible. It glues everything to devtmpfs which isn't namespacable
-> in any way. It's terrible to delegate and extremely restrictive in terms
-> of extensiblity if you need additional device entries (aka the loop
-> driver folly).
->
-> One stupid question: I probably have asked this before and just swapped
-> out that I a) asked this already and b) received an explanation. But why
-> isn't this a singleton simple in-memory filesystem with a flat
-> hierarchy?
 
-Hi Christian,
 
-Thank you for the detailed feedback and for raising this important
-design question. I appreciate the points you've made about the
-benefits of a filesystem-based API.
+On Tue, 2025-06-24 at 09:36 +0200, Nam Cao wrote:
+> On Wed, May 14, 2025 at 10:43:11AM +0200, Gabriele Monaco wrote:
+> > diff --git a/kernel/trace/rv/monitors/tss/tss_trace.h
+> > b/kernel/trace/rv/monitors/sts/sts_trace.h
+> > similarity index 67%
+> > rename from kernel/trace/rv/monitors/tss/tss_trace.h
+> > rename to kernel/trace/rv/monitors/sts/sts_trace.h
+> > index 4619dbb50cc0..d78beb58d5b3 100644
+> > --- a/kernel/trace/rv/monitors/tss/tss_trace.h
+> > +++ b/kernel/trace/rv/monitors/sts/sts_trace.h
+> > @@ -4,12 +4,12 @@
+> > =C2=A0 * Snippet to be included in rv_trace.h
+> > =C2=A0 */
+> > =C2=A0
+> > -#ifdef CONFIG_RV_MON_TSS
+> > -DEFINE_EVENT(event_da_monitor, event_tss,
+> > +#ifdef CONFIG_RV_MON_STS
+> > +DEFINE_EVENT(event_da_monitor, event_sts,
+> > =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0 TP_PROTO(char *state, char *event, char=
+ *next_state,
+> > bool final_state),
+> > =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0 TP_ARGS(state, event, next_state, final=
+_state));
+> > =C2=A0
+> > -DEFINE_EVENT(error_da_monitor, error_tss,
+> > +DEFINE_EVENT(error_da_monitor, error_sts,
+> > =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0 TP_PROTO(char *state, char *event),
+> > =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0 TP_ARGS(state, event));
+> > -#endif /* CONFIG_RV_MON_TSS */
+> > +#endif /* CONFIG_RV_MON_STS */
+>=20
+> You are changing the tracepoint's name. Should we worry about
+> breaking
+> userspace?
+>=20
 
-I have thought thoroughly about this and explored various alternatives
-before settling on the ioctl-based interface. This design isn't a
-sudden decision but is based on ongoing conversations that have been
-happening for over two years at LPC, as well as incorporating direct
-feedback I received on LUOv1 at LSF/MM.
+Well, to be extremely picky, although that's what git shows, I'm not
+changing tracepoints names, I'm removing tracepoints and adding similar
+ones with different names.
 
-The choice for an ioctl-based character device was ultimately driven
-by the specific lifecycle and dependency management requirements of
-the live update process. While a filesystem API offers great
-advantages in visibility and hierarchy, filesystems are not typically
-designed to be state machines with the complex lifecycle, dependency,
-and ownership tracking that LUO needs to manage.
+That said, you're bringing a very good point, I guess removing/adding
+monitors is going to be something quite common in the near future.
 
-Let me elaborate on the key aspects that led to the current design:
+> It probably doesn't matter at the moment, because I doubt anyone is
+> really
+> relying on this tracepoint. But I think we should have a definite
+> stance on
+> this, for future references.
+>=20
+> I have seen tracepoints being changed (I know of [1][2][3], I was one
+> of
+> them :P), so it seems to be considered okay. But adding userspace
+> tools to
+> the equation and it doesn't make sense to me. For example, lttng is
+> using
+> the page_fault tracepoints [4], which is broken by [3].
+>=20
+> If this should be stable user API, then we should starting thinking
+> about
+> better API which allows changes like this to happen. Otherwise, they
+> should
+> be clearly documented to be unstable.
+>=20
+> (I think I may also need to change my rtapp's tracepoint names at
+> some point
+> in the future, that's why I am asking)
+>=20
 
-1. session based lifecycle management: The preservation of an FD is
-tied to the open instance of /dev/liveupdate. If a userspace agent
-opens /dev/liveupdate, registers several FDs for preservation, and
-then crashes or exits before the prepare phase is triggered, all FDs
-it registered are automatically unregistered. This "session-scoped"
-behavior is crucial to prevent leaking preserved resources into the
-next kernel if the controlling process fails. This is naturally
-handled by the open() and release() file operations on a character
-device. It's not immediately obvious how a similar automatic,
-session-based cleanup would be implemented with a singleton
-filesystem.
+As you mentioned, nobody is likely relying on those tracepoints names
+at the moment, but I would rather be cautious basing userspace tools on
+some monitors to exist at all.
 
-2. state machine: LUO is fundamentally a state machine (NORMAL ->
-PREPARED -> FROZEN -> UPDATED -> NORMAL). As part of this, it provides
-a crucial guarantee: any resource that was successfully preserved but
-not explicitly reclaimed by userspace in the new kernel by the time
-the FINISH event is triggered will be automatically cleaned up and its
-memory released. This prevents leaks of unreclaimed resources and is
-managed by the orchestrator, which is a concept that doesn't map
-cleanly onto standard VFS semantics.
+In my opinion, RV tracepoints are useful as an alternative of
+reactors/rv userspace tool but cannot be used without considering the
+RV interface itself (e.g. available_monitors and friends).
 
-3. dependency tracking: Unlike normal files, preserved resources for
-live update have strong, often complex interdependencies. For example,
-a kvmfd might depend on a guestmemfd; an iommufd can depend on vfiofd,
-eventfd, memfd, and kvmfd. LUO's current design provides explicit
-callback points (prepare, freeze) where these dependencies can be
-validated and tracked by the participating subsystems. If a dependency
-is not met when we are about to freeze, we can fail the entire
-operation and return an error to userspace. The cancel callback
-further allows this complex dependency graph to be unwound safely. A
-filesystem interface based on linkat() or unlink() doesn't inherently
-provide these critical, ordered points for dependency verification and
-rollback.
+We could at least stick to the following assumptions:
+1. monitors can change names, be added or removed
+2. tracepoints are consistent to monitor names (in available_monitors)
+3. the tracepoint structure does not change (i.e. event_/error_, args.)
+   (can change for new monitors types where seen fit)
 
-While I agree that a filesystem offers superior introspection and
-integration with standard tools, building this complex, stateful
-orchestration logic on top of VFS seemed to be forcing a square peg
-into a round hole. The ioctl interface, while more opaque, provides a
-direct and explicit way to command the state machine and manage these
-complex lifecycle and dependency rules.
+If in the future we allow the possibility to build RV monitors as BPF
+programs, we'd probably also allow monitors without tracepoints at all,
+but I'd say for now those assumptions are sensible.
+
+What do you think?
 
 Thanks,
-Pasha
+Gabriele
+
+> Best regards,
+> Nam
+>=20
+> [1] commit dbb6ecb328cb ("btrfs: tracepoints: simplify raid56
+> events")
+> [2] commit 244132c4e577 ("tracing/timers: Rename the hrtimer_init
+> event to hrtimer_setup")
+> [3]
+> https://lore.kernel.org/lkml/2dda8c03-072a-43b2-af0c-bb996d64c388@cs.wisc=
+.edu/#t
+> [4]
+> https://github.com/lttng/lttng-modules/blob/master/include/instrumentatio=
+n/events/arch/x86/exceptions.h#L88C48-L88C63
+
