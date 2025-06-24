@@ -1,133 +1,167 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18362E7629
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 18:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5820C566A
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 18:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750788829; cv=none; b=Iek9E/O5p4eP7drdj9gnCgCple+UpMBdjJI/dbiTsa6bzJMQKS1gTZEVFwe9ZpmefMDfP5UAdmHYasSY+kMcrpR7H7qxULVdGgyb6qin8wFmc0alSS0rECfYO1cj8XCqQsoU98MVkF3L5q4/zP4PfbHucsaECqnJj4u5lSMIPgc=
+	t=1750789923; cv=none; b=Wy8mS/4p1RBDSKAwX6ow1mFNm5wlRH99GhVYRTHUw7TxKA2OfDelT8XHgXnl8sxKqGdqVOte2xleRoS2TFOdfoIjbmUAABtqBofEeTsW1MinRknhOh4L53fL80WACI90sEyTtyUK5ereH6i7HiKKgt8uwyxUaPS7ft0iFEoaDnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750788829; c=relaxed/simple;
-	bh=x7bIFuSH0bmY2kRsFSxdIiraxlTD0X4bjQj1Tx6kolA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Xul2n5yPmCKSQ1MkREOIgUarIw0cq95EFsFdN16O5pcOFhpNiFd7193dc+832zGkVb8abMU4I2IAzHvlHlmyUV6FmbwtkhUQI2C+c+rE4q1nv4D/8Yhgh9oHTUtNHDwb9aApYWqbafEKZACxtxue/c8B7mTUPEY3EItFo+1lIlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VPpnXkIb; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750789923; c=relaxed/simple;
+	bh=twg7uShwjKAF0d/1Baw6xRpptUpYWnudk9Sex3ub+Tk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WnPImiWpWutyelnIyuGVb3jSMgr8hyQNgom9UI4EeChoM8r7nYDltrm4kyobpR+iVdBTskSLxeoozX7k9bHItRqsQax+yCLZ++UL7CKQ8nLRMw+3eiZgdtwaOPn7bwNTVghGxvd2o3bN57JFrvYApI2PGAIzTF+lUmoTVUdjiGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=W9iskX5n; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VPpnXkIb"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7d3f192a64eso74447385a.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 11:13:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="W9iskX5n"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6facacf521eso8259076d6.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 11:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750788826; x=1751393626; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2BDuY3TQuMxlT97CpLHc0HQj9uQaoAWTaiKt1gOmVfg=;
-        b=VPpnXkIbU7r8Bj9WWKL663Mrh9skcapHbkuVomOdhZN2kRy6Ib2LHfgl4sIcd+uYHD
-         IBAdgFTmBo2dhpWscTPpOkVKbqW3p0WjwpFuNyKtAnIvMXKQTWcM6QxYSunQuRJ2A2Fz
-         cTJS1MpO+lPsV3o7ZFmLrlai77NxsJkPZfkg23ES04pTbjTu6gOse2m75mXEc+jNLvjP
-         TObvAGsmkIKhAk/0GJ+g8ZIdmAT88GNlv+DeF/Dlaee/SEiR8mMPB5kpMLcYDrfjxiyH
-         QkSkdBmJXLXwPic6op0v25HLOoRUyvKEKylHUBEsjrtOG99RIFghtgws7cbTpaMISD8o
-         OpDQ==
+        d=ziepe.ca; s=google; t=1750789920; x=1751394720; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=97KaKUWHgkryLWUXFqPgiNV17vft1ADESM26qVDqmoE=;
+        b=W9iskX5nWsFP9iKiJA/Om31WenSekkHe034ZgVbhl0JaS4kyJDkT0Uyx4m8nUMHebC
+         SPflzKzZIijbd86GJVQ5EmEJSRUo2ydJLWJ/pxALxiwm4Q/lg7gvnm3Dg7kAdZBYXRFu
+         8+N1ui03mtwpRKfO3CL2bDpO8P3rPgP7siQlMQbjAF1jM4s3KI8fMT5g3AyP+hzl2JH/
+         putFrkkMCTjQswSVfl3ALZucjQSdGjTeCHfh4VHY8xxMoa2y3bTEF/nfT7GENI0CXNb5
+         A8kmtWtVOI9SHE4oXBtycNTSUj6NA0Z4T6ZlOTWTmNMYIOFRKbGBu2dLxdUCz5DE8YMZ
+         KxtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750788826; x=1751393626;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2BDuY3TQuMxlT97CpLHc0HQj9uQaoAWTaiKt1gOmVfg=;
-        b=HB/QfCVyHUmrQ0aQHUgbqqjGozRZMzXCKHGhEcxPB4ZcNMUAIruzTtqbLTODErhDaY
-         5WpVqTTdH7CsOgzkty6taeX4YVKMCKhgafpjmuWU+fywbBjoJ39hfxYuBp8/rlDUTumT
-         0x99Q8W8xY5Ozm0rM3roiavidT0ndRrWT9mqENg49kwVXeZW5KDgF2mzMt50grCOFhlQ
-         /I2p9+sB6JrZ984jN3oPZWp/vKOHmfGCB4Oj2fO22za7ETN/lOgFdGB+zIBsz5XTH+m9
-         NW5qfoTOpZRM3BY9EtsLeiZiFMzu5gElBQRm1agP9IrC0UHU0i9ab1dQmmxjSKU7EOI8
-         wMdw==
-X-Gm-Message-State: AOJu0YxxJYpiJbTyA0kyfwjGt2Jkr70ft+Bga4tKLkwadQbRhHcLe8Gg
-	Yqhzsx2s9Lt2/lSYCIOSpKLAaZlq019vz0b9zRk4FSIXtJ/u07e5fWLZo322QVrJAtVIaPByp6Z
-	K0L6/
-X-Gm-Gg: ASbGncuvQrKTQiUOet+laxJhjW0H2/uu6p/Or/4EkUlrsHQvvT4I9aTdJd/JXv+gWCh
-	AiEZ7aofa84b/PjgOZ+U/Qgfu8oC2BNQqudcdrzatOLs1z3iPESoCapoKKxhXYBVIgGCa5KruC+
-	N1LJS3HX7mvSZDwxNTpL/fqGDxTczuNh3LZnqi4KvigFuaUb4rroCVigW1HaggQf3+P+GuoCOeh
-	5NzbPhd21kqqvNWBC8tI4K97IO+ef9u4oy8ZjIRIdYQvM15r/AV/FECqD0mUEsQ0lkH+Oe/4pbL
-	KlWYN+ZEOt/NDrfzly8Cp889THJP7FePzn0g9wf14zIygM2Y0WY3J2GyAt1mZ2uixoDxyZbRkdl
-	Qm9/WOJ+nWaDQmhFSI6dVxyOevBv1Ycp1/3aRe7y0RMZkhXs=
-X-Google-Smtp-Source: AGHT+IGEQFq2JZkm7FgnV5H0r5TnpBmsM7o039o22X/+KPEHEtXzg0gc6VA/MUCWCOdeOhY8v66+Jw==
-X-Received: by 2002:a05:620a:3186:b0:7d2:26e8:d186 with SMTP id af79cd13be357-7d42971d918mr5458785a.36.1750788826137;
-        Tue, 24 Jun 2025 11:13:46 -0700 (PDT)
-Received: from ubuntu.localdomain (173-206-114-64.cpe.distributel.net. [173.206.114.64])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d3f999c1b6sm532161885a.6.2025.06.24.11.13.44
+        d=1e100.net; s=20230601; t=1750789920; x=1751394720;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=97KaKUWHgkryLWUXFqPgiNV17vft1ADESM26qVDqmoE=;
+        b=b8YtI/8hXrAD2vSl0J7J8cijJN4C8qfrvlKk8QQe5K6gIpdX/eomOvVUUNOFV/gFAB
+         D0UOovaUnlQZV5k1pMkIWBl/YoTqjVscdoAmE+wIK5CD0MjGvhvNO/rHrMtEpK5OyIz6
+         OcmSVy1Kp5RCioF5fo0MfufqNhcf6XBMl2DToLHr3qqY2eS8A9VUSaxhlEmqeVSZaC4t
+         Z012AmJwb3cT1lvGQ365bbq2WEsLY+FoEqJgLmtm/1A9U/YBWrcQwZyLXOOnM9a+4yns
+         HNKFoR/Mb5GwgbkWwX99vMRCnY5jpsscCZ227RjaT+r3jG2V+k5eclZHbL/dt0HidBf6
+         YUeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXh5NEPU3Mf7niOhDg+znoe0OH6IwvhsPsZAOh1kbJ73aGq91fovx3sqNsgXRNA/tGoEfWmRIm0/vs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbB3gbxaLXD2epQWgSViARXomPL9poNtnwgr10vvPTzIF4Imvg
+	RD1DbRNUjBqksM1YrN9a9LkOjTG7R/FQ2c0tZn46W66J/FYQp4iG/NCdwXOrQ0fNKnA=
+X-Gm-Gg: ASbGnctpZRx3lXDMQgCmwe+AzYSpblyQEAfi/g79HlPkwPx3+jCjG29IpcD6idUJAcq
+	BfV6makJfv7dMVAE3w4oohhF8SQe+b14CopqQWeXJuW4RANBAj+saQOjKDbgP9dIdA2jEqQQGXt
+	fXau6uPDDZ5np4vBB0ApchMWIobFOLEZTNhgCXkuB1Du9fXx5nt9ou1iF2Kb+8BRHPQAjlBMBP9
+	p1Vm4JiM2p8oLYM9AF7ILf92MP1X512xNcMSZvcZ+6vQ9YPQ95XPfDdQnhwcPKRtzOXFO0jmPnf
+	gaNTVbUnmFS3ywC1wu5q5TvHn0Xj6bW5BgUm9dCvmJ0p1g5DaazVi/+HrpYSqPGsWXk0StsX2Lh
+	sggmiISyt4+v3dAIAo1B45GFQgGmCXFGZAaK/4g==
+X-Google-Smtp-Source: AGHT+IG+85yGm34BWTRlYBBLW0w/BlKssPbCsgVI4ZKC/N2owtfICs7gpUhfLe5Godb1E2tNf0/CAQ==
+X-Received: by 2002:a05:6214:1bcd:b0:6fa:bb44:fddf with SMTP id 6a1803df08f44-6fd0a473d36mr275064036d6.16.1750789919997;
+        Tue, 24 Jun 2025 11:31:59 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.56.70])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd09577929sm59926056d6.86.2025.06.24.11.31.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 11:13:45 -0700 (PDT)
-From: Raymond Mao <raymond.mao@linaro.org>
-To: linux-doc@vger.kernel.org
-Cc: Raymond Mao <raymond.mao@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: devicetree: overlay-notes: recommend top-level compatible in DTSO
-Date: Tue, 24 Jun 2025 11:13:20 -0700
-Message-Id: <20250624181320.2810521-1-raymond.mao@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Tue, 24 Jun 2025 11:31:59 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1uU8R4-00000000hJ0-3C5H;
+	Tue, 24 Jun 2025 15:31:58 -0300
+Date: Tue, 24 Jun 2025 15:31:58 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Mike Rapoport <rppt@kernel.org>, jasonmiu@google.com,
+	graf@amazon.com, changyuanl@google.com, dmatlack@google.com,
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
+Message-ID: <20250624183158.GF72557@ziepe.ca>
+References: <mafs05xgtw5wn.fsf@kernel.org>
+ <CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
+ <aFLr7RDKraQk8Gvt@kernel.org>
+ <CA+CK2bAnCRu+k=Q78eA4kcAebxA9NgOorhwRqu-WxC913YBsBw@mail.gmail.com>
+ <CA+CK2bB3P1vX658ErkP4_-L6WZSOCcenEwUdX1qS=poDjs=i+A@mail.gmail.com>
+ <aFP7wwCviqxujKDg@kernel.org>
+ <CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
+ <mafs0ikkqv3ds.fsf@kernel.org>
+ <CA+CK2bCA_ggpvbY+MQPaAHsN7MOzV7D3=MYvfAP4cFwhThJpPw@mail.gmail.com>
+ <mafs0frfpt8yp.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <mafs0frfpt8yp.fsf@kernel.org>
 
-When managing multiple base device trees and overlays in a structured
-way (e.g. bundled in firmware or tools), it is helpful to identify the
-intended target base DT for each overlay, which can be done via a
-top-level compatible string in the overlay.
+On Tue, Jun 24, 2025 at 06:12:14PM +0200, Pratyush Yadav wrote:
+> On Fri, Jun 20 2025, Pasha Tatashin wrote:
+> 
+> > On Fri, Jun 20, 2025 at 11:28 AM Pratyush Yadav <pratyush@kernel.org> wrote:
+> >> On Thu, Jun 19 2025, Pasha Tatashin wrote:
+> [...]
+> >> Outside of hypervisor live update, I have a very clear use case in mind:
+> >> userspace memory handover (on guest side). Say a guest running an
+> >> in-memory cache like memcached with many gigabytes of cache wants to
+> >> reboot. It can just shove the cache into a memfd, give it to LUO, and
+> >> restore it after reboot. Some services that suffer from long reboots are
+> >> looking into using this to reduce downtime. Since it pretty much
+> >> overlaps with the hypervisor work for now, I haven't been talking about
+> >> it as much.
+> >>
+> >> Would you also call this use case "live update"? Does it also fit with
+> >> your vision of where LUO should go?
+> >
+> > Yes, absolutely. The use case you described (preserving a memcached
+> > instance via memfd) is a perfect fit for LUO's vision.
+> >
+> > While the primary use case driving this work is supporting the
+> > preservation of virtual machines on a hypervisor, the framework itself
+> > is not restricted to that scenario. We define "live update" as the
+> > process of updating the kernel from one version to another while
+> > preserving FD-based resources and keeping selected devices
+> > operational. The machine itself can be running storage, database,
+> > networking, containers, or anything else.
+> >
+> > A good parallel is Kernel Live Patching: we don't distinguish what
+> > workload is running on a machine when applying a security patch; we
+> > simply patch the running kernel. In the same way, Live Update is
+> > designed to be workload-agnostic. Whether the system is running an
+> > in-memory database, containers, or VMs, its primary goal is to enable
+> > a full kernel update while preserving the userspace-requested state.
+> 
+> Okay, then we are on the same page and I can live with whatever name we
+> go with :-)
+> 
+> BTW, I think it would be useful to make this clarification on the LUO
+> docs as well so the intended use case/audience of the API is clear.
+> Currently the doc string in luo_core.c only talks about hypervisors and
+> VMs.
 
-This patch updates the document with a note and example for this
-practice.
+Just to be clear though - you used the word "reboot" and here we are
+really only talking about kexec. kexec is not really a reboot, but it
+is sort of close.
 
-Signed-off-by: Raymond Mao <raymond.mao@linaro.org>
----
- Documentation/devicetree/overlay-notes.rst | 28 ++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+LUO is a way to pass lots of different things across a kexec, and if
+you are happy to use kexec then you should be able to use it.
 
-diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
-index 35e79242af9a..30b142d1b2ee 100644
---- a/Documentation/devicetree/overlay-notes.rst
-+++ b/Documentation/devicetree/overlay-notes.rst
-@@ -103,6 +103,34 @@ The above bar.dtso example modified to use target path syntax is::
-     ---- bar.dtso --------------------------------------------------------------
- 
- 
-+Overlay identification
-+----------------------
-+
-+When managing overlays dynamically or bundling multiple base device trees
-+and overlays in a single system (e.g., in firmware, initramfs, or user-space
-+tools), it becomes important to associate each overlay with its intended
-+target base DT.
-+
-+To support this, overlays should include the top-level compatible string
-+from its base DT.
-+This enables higher-level software or firmware to identify which base DT
-+an overlay is compatible with and apply it accordingly.
-+
-+Example usage::
-+
-+    ---- bar.dtso - overlay with top-level compatible string -------------------
-+	/dts-v1/;
-+	/plugin/;
-+	compatible = "corp,foo";
-+
-+	...
-+    ---- bar.dtso --------------------------------------------------------------
-+
-+This top-level compatible string is not required by the kernel overlay
-+mechanism itself, but it is strongly recommended for managing overlays in
-+scalable systems.
-+
-+
- Overlay in-kernel API
- --------------------------------
- 
--- 
-2.25.1
-
+Jason
