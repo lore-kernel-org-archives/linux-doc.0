@@ -1,167 +1,135 @@
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14FB2222AF;
-	Tue, 24 Jun 2025 10:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377C5222581
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 10:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750761982; cv=none; b=uzLW4ZmBhwxZ+hFvOxi8npnETTEXbZ0cdsUV+H/TIFSCA76rmVsRyxN9u58kpV5Z1BzUSEHmHD6sL7kduebL5bQMNN2a3Fecs3kJSWTs/DWDooPS7vnVBDQAyqxQlanNMTpPkdQJgJiVjB2xmTyfHE+6Tb6gV2walcOBz7Mrq2E=
+	t=1750762156; cv=none; b=M5QHG2GE6MDiBwLDx56DFsil4wDYarpwMmrSX2s4FnZRhVrMJn5Ox9QWrrj7Qi+Y2uOX2lUtuf2BWZ06DqwnA/1SrVhI2xRzGsJpZV3CICnSHVQp0vMoljRRF9eWD1X3cHv2NkfHOENX5G+LUQBfIYbpkDDIcVZypiyvr6zikYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750761982; c=relaxed/simple;
-	bh=UqWYnkZxIfBxNvrN3q062W40OjIAoDQnWRibvmyYYHI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=T+2wEurBlASl80nuAwqjQnDIn1C3ZflY+S8FT59TXUEZtEStEophwD6Ed+lsSlHNnJcPU2NLvYcLOfw98yvVeQWxaa+8JRuJAbDBgvI2ksNIPGAKWCe+OU1JS2k47NYQCBPmCFMp8n9rEY8Y1gdQQpSHJVCfsJxRi3TM92/W1yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=NW+9A/iY; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1750762156; c=relaxed/simple;
+	bh=JT2mnPBR+MiYd9IlnNKfJdunlSccq1qxESZTRfH3o7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aIeY7SyaTbzdcEaYK20SDf6m7maU8ulSWgMnKBNSoS0gXbjG8QJL5UG7zRsun4y9AJ8fCbJdi/FtPFSxux7Whl5cjfTPOzOAh23Zov29fiE3DGxVUl/6aTbWPUxdTg8A1iRdswCiSTh0HwFcCHXeRcSaEzpX7dFZzXQlM3OfmRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=SpJ2G2K2; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="NW+9A/iY"
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55O89PlW018562;
-	Tue, 24 Jun 2025 12:45:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	LowxC1XeO1Q3ptnV100NCfbZE/+FCacaRTlFDEZ7nw4=; b=NW+9A/iYDBIYOudx
-	bupDVw7fFsOUiF1POCQhkWRdtrMnA2SQEgn3ffTStQz7psNYYvO1bykZpdgutoWy
-	1WzDPo1HfRDTujMzGceUmoFF9dI3csRqk+OrSjX2U1Q82AHPZk0yuR9GirUQWEuY
-	0uTXBDmqmhreOATOMkPOrAg+HFRtqZZO74LR/Kz8sUH5woYThZWMJktOCzrRuZP5
-	jloxRIqQkKw51725g6fIFcIyiDtijqkG3NSDKgTMgLLmmSM6OD0+OHlCDgC/T3aL
-	OBE2cZ+Obv2dvhAJpM9vhApHeFKzbOlpzSn/muvTc+F8R53Tnl46alaOILvOrx/r
-	WA2Mzw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dkmjm6bk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Jun 2025 12:45:45 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 5B79640046;
-	Tue, 24 Jun 2025 12:44:24 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 974C5B51BAB;
-	Tue, 24 Jun 2025 12:43:10 +0200 (CEST)
-Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 24 Jun
- 2025 12:43:09 +0200
-Message-ID: <5044c733-8836-43bd-85d7-0f552b000fb1@foss.st.com>
-Date: Tue, 24 Jun 2025 12:43:08 +0200
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="SpJ2G2K2"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a4fb9c2436so210445f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 03:49:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1750762152; x=1751366952; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sFshqkaQrvO1s4Gkyifgl/GnVtFojbtYgAGH6b+8BAM=;
+        b=SpJ2G2K2+1xVlPdcGS4HLpKnGpbStb4KwDQ5ngINxPhNqA6Mxiii3ubDtD7lmqH1HV
+         QFsn5JKoi44FSHr2roZ8YgEnZPy60XwMEzhSNerCdN60YYIPF0K1Tn8ssxbRe1Ij/4ZX
+         0NgBUjwY5GaLFmpvKlb78VX3xhSgq2qyYZXHQ2H63yr9BAKOImKHZTIlnuJV3Cw3s9hb
+         DzW8vstdT6yL1iq1J5rmvKzBtJs0ZOmgnBq4jr9dTQ9JU3xsqDg13KyQatz5Ch+Qk51x
+         vnh2ExagbMnUrEobP9TXh4sysMvbVenfyQYDM7WZjXEICB5vAciSRAnDwIej243l7Ef/
+         24sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750762152; x=1751366952;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sFshqkaQrvO1s4Gkyifgl/GnVtFojbtYgAGH6b+8BAM=;
+        b=NtRkxwXJjuxQHkASAvI1UnIGGl69MkO+V33GmCn2braOD2AqDXi793yAPtu4npJnC/
+         Jfg+ScckcrmpvUF3FmAtAhH7M83orONcXZM2/9ADoKX43KOi3brJ2k5Z0SFubSKZV1uI
+         S1Wa2zh2HXfgjqggTpx+BaNHM/llvprmFGBrOLD6wLhps8siM2vgtGACWfsKTCaLJIR3
+         Hm8Ft1j+4t7P3PIwoUOZHL7bynYGi2hON93C8EjYhNlfInwITXJabol5gmhcXqEFQVsL
+         cYcn345oMeSksxtsbyytA0e32HpG3yyrZ75/i3UwaxMFR9xV3fqjRDGM4qgWekDL/6K4
+         2XzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWXGOjdbS5rPALIoGWdJffEBXQ1UXdWHIvQvhEbuowGP2vW8dLqj7F021m+3JOiAoBytP12XY89pG8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzLe/2ixMifkhka4Jx7JnhwD+GitI24h7Hh1rX6h9+Op+muSOv
+	3LA2NTm3lGk3X+xo6aWyAeSwA9EqII2wNIC4K/KdAJ5m3ejH7HIoIMesCeNwAzsc2U8=
+X-Gm-Gg: ASbGncv00RZSl9uBfkA7AH9yIgzXo5toW0VpyxEJ7Dg6KIK+ok5xnMxN0oF6TLdxHn6
+	ZuzyEJhW+9bdpghtPV2FnxipPEXbinkxX1lqfwLNQSDc0waRwoWIrjF+K0yGx1EKzneVXu0X01y
+	iZqfQoa2JNVhNqK9nUq0+afcJSxZNGYulDgW+Tg3EPohzh1inF+vfQluxiNt4yeWAaG9PSaB4TY
+	zgLT8KO8eYsVODi/hpwc2dDG/6zMuB4jp5Kdfvay4L4+8QWrFYINDwfKPWmyt7t7YEDO7JWWpic
+	heU6eYEAEpt9PRw96MsVHXOBwqJ3S5zWWjJvlDfYHKeTQeQPVNsuK7WQz4PwSnb4
+X-Google-Smtp-Source: AGHT+IH/6/c8OvTyyQ7J3ydHQbrXdLtsONkE3vxKT5eL5llu+wMckRhJB/e15VUI27/0UmRMDV76jg==
+X-Received: by 2002:a05:6000:2b05:b0:3a5:34d9:63aa with SMTP id ffacd0b85a97d-3a6d12fa6f9mr8870617f8f.59.1750762152394;
+        Tue, 24 Jun 2025 03:49:12 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d864a9d2sm103805525ad.149.2025.06.24.03.49.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 03:49:11 -0700 (PDT)
+Date: Tue, 24 Jun 2025 12:48:58 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC 1/2] lib/vsprintf: Add support for pte_t
+Message-ID: <aFqCmgT1k8daroNZ@pathway.suse.cz>
+References: <20250618041235.1716143-1-anshuman.khandual@arm.com>
+ <20250618041235.1716143-2-anshuman.khandual@arm.com>
+ <aFQYVPmStsIIFcMW@pathway.suse.cz>
+ <68cdf649-a273-4d83-b862-6b675a793f18@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
-To: Krzysztof Kozlowski <krzk@kernel.org>, Will Deacon <will@kernel.org>,
-        Mark
- Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime
- Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gatien Chevallier
-	<gatien.chevallier@foss.st.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Gabriel Fernandez
-	<gabriel.fernandez@foss.st.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-perf-users@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>
-References: <20250623-ddrperfm-upstream-v1-0-7dffff168090@foss.st.com>
- <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
- <9cb1575e-ae27-4a78-adb7-8a9e7072375e@kernel.org>
-Content-Language: en-US
-From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
-In-Reply-To: <9cb1575e-ae27-4a78-adb7-8a9e7072375e@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-24_04,2025-06-23_07,2025-03-28_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <68cdf649-a273-4d83-b862-6b675a793f18@arm.com>
 
-On 6/23/25 11:45, Krzysztof Kozlowski wrote:
+On Fri 2025-06-20 13:32:31, Anshuman Khandual wrote:
+> On 19/06/25 7:31 PM, Petr Mladek wrote:
+> > On Wed 2025-06-18 09:42:34, Anshuman Khandual wrote:
+> >> Add a new format for printing page table entries.
+> > 
+> > How many users do you explect, please?
+> > 
+> > This patch adds only one caller. It does not justify the added complexity.
+> 
+> Understood.
+> 
+> The idea is to convert all page table entry prints through out the tree
+> both in generic and platform code. Added just a single generic example
+> here for this being a RFC proposal. Will go through similar instances
+> and be back with more comprehensive change set.
+
+You do not need to cover all cases at this stage. For me it is enough
+to know that the printf format will have several (like >= 5) users.
+
+> >> @@ -2542,6 +2545,23 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
 [...]
-
-Hi Krzysztof,
-
-Sorry I forgot to address comments below.
-
->> +
->> +static const struct stm32_ddr_pmu_cfg stm32_ddr_pmu_cfg_mp1 = {
->> +	.regs = &stm32_ddr_pmu_regspec_mp1,
->> +	.attribute = stm32_ddr_pmu_attr_groups_mp1,
->> +	.counters_nb = MP1_CNT_NB,
->> +	.evt_counters_nb = MP1_CNT_NB - 1, /* Time counter is not an event counter */
->> +	.time_cnt_idx = MP1_TIME_CNT_IDX,
->> +	.get_counter = stm32_ddr_pmu_get_event_counter_mp1,
->> +};
->> +
->> +static const struct stm32_ddr_pmu_cfg stm32_ddr_pmu_cfg_mp2 = {
->> +	.regs = &stm32_ddr_pmu_regspec_mp2,
->> +	.attribute = stm32_ddr_pmu_attr_groups_mp2,
->> +	.counters_nb = MP2_CNT_NB,
->> +	.evt_counters_nb = MP2_CNT_NB - 1, /* Time counter is an event counter */
->> +	.time_cnt_idx = MP2_TIME_CNT_IDX,
->> +	.get_counter = stm32_ddr_pmu_get_event_counter_mp2,
->> +};
->> +
->> +static const struct dev_pm_ops stm32_ddr_pmu_pm_ops = {
->> +	SET_SYSTEM_SLEEP_PM_OPS(NULL, stm32_ddr_pmu_device_resume)
->> +};
->> +
->> +static const struct of_device_id stm32_ddr_pmu_of_match[] = {
->> +	{
->> +		.compatible = "st,stm32mp131-ddr-pmu",
->> +		.data = &stm32_ddr_pmu_cfg_mp1
->> +	},
->> +	{
->> +		.compatible = "st,stm32mp151-ddr-pmu",
->> +		.data = &stm32_ddr_pmu_cfg_mp1
+> Agreed. Andy also might have suggested about special_hex_number() helper
+> on the other thread. Will try and use the helper instead.
 > 
-> So devices are compatible, thus express it correctly and drop this.
-
-Ok so I assume this comes with your comment in the bindings and 
-basically don't get you point here.
-Can you please be more precise ?
-
+> > 
+> >> +			spec.base = 16;
+> >> +			spec.flags = SPECIAL | SMALL | ZEROPAD;
+> >> +			if (sizeof(pte_t) == sizeof(u64)) {
+> >> +				u64 val = pte_val(*pte);
+> >> +
+> >> +				return number(buf, end, val, spec);
+> >> +			}
+> >> +			WARN_ONCE(1, "Non standard pte_t\n");
+> > 
+> > This is nasty. It should be a compile-time check. And the code should
 > 
->> +	},
->> +	{
->> +		.compatible = "st,stm32mp251-ddr-pmu",
->> +		.data = &stm32_ddr_pmu_cfg_mp2
->> +	},
->> +	{ },
->> +};
->> +MODULE_DEVICE_TABLE(of, stm32_ddr_pmu_of_match);
->> +
->> +static struct platform_driver stm32_ddr_pmu_driver = {
->> +	.driver = {
->> +		.name = DRIVER_NAME,
->> +		.pm = &stm32_ddr_pmu_pm_ops,
->> +		.of_match_table = of_match_ptr(stm32_ddr_pmu_of_match),
-> 
-> Drop of_match_ptr, you have here warnings.
+> Something like BUILD_BUG_ON() against pte_t as either u64 or u32 aka all
+> the sizes the print format is going to support and it should pass on all
+> platforms ?
 
-Yes Indeed.
-I'll also fix the pm pointer by using "pm_sleep_ptr".
+Yes, I had BUILD_BUG_ON() in mind. It would be nice if you check at
+least the most known architectures. You could do it just by looking
+into the code. We could rely on the bots, monitoring mailing list
+and linux-next, for the less known architectures.
 
-Best regards,
-Clément
+The more you check in advance the less surprises would come
+from the bots.
 
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-
+Best Regards,
+Petr
