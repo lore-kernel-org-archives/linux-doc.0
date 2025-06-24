@@ -1,117 +1,68 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3975B2D3A9B
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 14:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0EF2E7632;
+	Tue, 24 Jun 2025 14:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750774292; cv=none; b=s4drmezny0ykTuLhwzK0kB3bixKNFl0iiJISTKJOdKJ/SKOFJ7sg6FfX4ply6fSy4FA2D2SCwEYy8hxzxduLsoUJ/r97SfcyPPU/YXgt931U5HzsEqClEFLcYl9PxhiTn+J+5gJ8soThsEzgzy2TjqplMaYU4GJhRQRS62SNV0g=
+	t=1750774611; cv=none; b=T85H80RCShjsaTgUBeeDR0ZrGhczjD7/obtQ8dpdHHyYqBwZZ23dk/RC21H2MfENG0bd1CAkxhOiSFRRV/dm97eKRsj+HWeU8M5PPubHcK7Gi5xm6cu1MgxtAA7V1BZTwoKiGzOhWIKRTuloP4svVgsBjhix6OcXNyf2yFE7Kv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750774292; c=relaxed/simple;
-	bh=U2AMmH4dHPz07x6g312pS1lWM4vWlUn6AfhgroEtBZo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=I9+s0MKSvuKli4obF/LizVArwnTJRXg68XyUU1EGik5t/gc6+0oslepB4XkpzIv77WBZ8HP3qZMkbUDjXeuuz2Up01ixCOzNoi6ssFx1qC896oX2GKgtcFPu6r4gSVXJ0DrSzQImzZobRQsG8dll560VXruRHkz8DoeYMBwWBFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KS1aPjdF; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750774611; c=relaxed/simple;
+	bh=17L7ponko88riHevvmIv4qyXvYBhLHE4wx7OmbK6EWE=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ZkLO0v1K9mk+0E068mAvIgAKVgoFaLqgUMrS+YDu1dIcCwKD51XQB9bzfJtbwjHJ4RdGfn74MRdK9WxXZI0/VU6uUdlUTxR4qJrHjjMeuYPwM0dXjGd6GQM/dp7v7yGKPgtGhD4EJkoXs7QRBH1wFC66TzIoF7YvTEwQRjRN62M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rwZ94aLG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KS1aPjdF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750774290;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EmFVGkDZSCXgOKTUYGLw8iU5EekwuYpkDHdca2yu7FE=;
-	b=KS1aPjdFDNxBH/4KW/JhDMUGkwUym+tVIadsmWgGMSHJn85kqssSkFUwWMkqeZrm+ert/K
-	dXotNX2oWcoexRImmx555+NvYuUT0hJO4jmxgBn/Pyj1M5623ZbT2fy7M6YNbVvakB4mOy
-	snwyRGG0Y1pGBfocdfJZRQLYdFAL2mE=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-612-0CVFcSHxPymRtV4syVzi3Q-1; Tue,
- 24 Jun 2025 10:11:25 -0400
-X-MC-Unique: 0CVFcSHxPymRtV4syVzi3Q-1
-X-Mimecast-MFC-AGG-ID: 0CVFcSHxPymRtV4syVzi3Q_1750774278
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9A05C19560A7;
-	Tue, 24 Jun 2025 14:11:18 +0000 (UTC)
-Received: from gerbillo.redhat.com (unknown [10.45.224.193])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B4A24195608F;
-	Tue, 24 Jun 2025 14:11:13 +0000 (UTC)
-From: Paolo Abeni <pabeni@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Yuri Benditovich <yuri.benditovich@daynix.com>,
-	Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v6 net-next 9/9] vhost/net: enable gso over UDP tunnel support.
-Date: Tue, 24 Jun 2025 16:09:51 +0200
-Message-ID: <df8e82aa4d26bdc03a5c6e43f15e52397a1bf85c.1750753211.git.pabeni@redhat.com>
-In-Reply-To: <cover.1750753211.git.pabeni@redhat.com>
-References: <cover.1750753211.git.pabeni@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rwZ94aLG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D975C4CEE3;
+	Tue, 24 Jun 2025 14:16:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750774610;
+	bh=17L7ponko88riHevvmIv4qyXvYBhLHE4wx7OmbK6EWE=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=rwZ94aLG2J34d46JgW0UgzuNCLWzIl4Y9DSwUBVeWF1Hv0EeLF7YKKf2IGQ0OfD3y
+	 VCTTCqu6wSdbLk66Y/kn6YmgTiJp2VQCJ0nEUca78qnlsIRvQasldl8ftDVosrnUmq
+	 W2CAHMSvdQ8nqiW5XKd6ogdFjeVOqkwZiGHaLjMqMk/ZdmfK8oxko+pqsyZ0U+nUtX
+	 Aysu1zT5gozraHT8acwjE1A2m4PwEbQEtqb5Lt1W+2Vfi/HO6InMhDNYbXlqDyDLK0
+	 g5/2k7pZqvZTDAOJ5W+QYnCl+sEncFly2ldAd8c9clIXcayPrF/xaRWVDjCotoj+XW
+	 kwJaycCf1Z/vg==
+Message-ID: <f90d39de-d24b-4006-aa09-71bcce5e4eb4@kernel.org>
+Date: Tue, 24 Jun 2025 22:16:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: chao@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: f2fs: fix typos in f2fs.rst
+To: Yuanye Ma <yuanye.ma20@gmail.com>, jaegeuk@kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net
+References: <20250618225546.104949-1-yuanye.ma20@gmail.com>
+Content-Language: en-US
+From: Chao Yu <chao@kernel.org>
+In-Reply-To: <20250618225546.104949-1-yuanye.ma20@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Vhost net need to know the exact virtio net hdr size to be able
-to copy such header correctly. Teach it about the newly defined
-UDP tunnel-related option and update the hdr size computation
-accordingly.
+On 2025/6/19 06:55, Yuanye Ma wrote:
+> This patch fixes two minor typos in Documentation/filesystems/f2fs.rst:
+> 
+> - "ramdom" → "random"
+> - "reenable" → "re-enable"
+> 
+> The changes improve spelling and consistency in the documentation.
+> 
+> These issues were identified using the 'codespell' tool with the
+> following command:
+> 
+>    $ find Documentation/ -path Documentation/translations -prune -o \
+>      -name '*.rst' -print | xargs codespell
+> 
+> Signed-off-by: Yuanye Ma <yuanye.ma20@gmail.com>
 
-Acked-by: Jason Wang <jasowang@redhat.com>
-Signed-off-by: Paolo Abeni <pabeni@redhat.com>
----
-v3 -> v4:
-  - rebased
----
- drivers/vhost/net.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Reviewed-by: Chao Yu <chao@kernel.org>
 
-diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
-index c8fb7c10fe0b..08914b736a31 100644
---- a/drivers/vhost/net.c
-+++ b/drivers/vhost/net.c
-@@ -75,6 +75,8 @@ static const u64 vhost_net_features[VIRTIO_FEATURES_DWORDS] = {
- 	(1ULL << VIRTIO_NET_F_MRG_RXBUF) |
- 	(1ULL << VIRTIO_F_ACCESS_PLATFORM) |
- 	(1ULL << VIRTIO_F_RING_RESET),
-+	VIRTIO_BIT(VIRTIO_NET_F_GUEST_UDP_TUNNEL_GSO) |
-+	VIRTIO_BIT(VIRTIO_NET_F_HOST_UDP_TUNNEL_GSO),
- };
- 
- enum {
-@@ -1624,6 +1626,12 @@ static int vhost_net_set_features(struct vhost_net *n, const u64 *features)
- 		  sizeof(struct virtio_net_hdr_mrg_rxbuf) :
- 		  sizeof(struct virtio_net_hdr);
- 
-+	if (virtio_features_test_bit(features,
-+				     VIRTIO_NET_F_HOST_UDP_TUNNEL_GSO) ||
-+	    virtio_features_test_bit(features,
-+				     VIRTIO_NET_F_GUEST_UDP_TUNNEL_GSO))
-+		hdr_len = sizeof(struct virtio_net_hdr_v1_hash_tunnel);
-+
- 	if (virtio_features_test_bit(features, VHOST_NET_F_VIRTIO_NET_HDR)) {
- 		/* vhost provides vnet_hdr */
- 		vhost_hlen = hdr_len;
--- 
-2.49.0
-
+Thanks,
