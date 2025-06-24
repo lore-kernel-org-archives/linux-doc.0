@@ -1,164 +1,164 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92B4291C14;
-	Tue, 24 Jun 2025 10:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11595288C18;
+	Tue, 24 Jun 2025 11:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750762483; cv=none; b=hAha4Sf8ejmbu2U2xXq3vwqefSg2ANCh45N42W94Pfr/la60NjbwAwuktHZ4d7tBxlhEHVTuRsnzNlPKBDWk3XZqg6j7hhnz86xx7NLiuiR6+QyogHcTJcQpPvIN9xOHQiBydTwz8DHJMEqMvogy/4RonGJVhWuzeXU4Fx6srHI=
+	t=1750762839; cv=none; b=rPCz6xZblUQtpAwoykEOrEGSI/1+nfaHswGj/S8aqsxxLsQABQeg5giTBC42JSw6XjVNfbuPmaLKoNcK8HPIPHPIHTOu3lveO5u6DSIzXUejrsdoVdX+ZJmKT0U7cQV7vOuVw1nz5lW+2uVy/p8/GW0qasVixa4Jal74FL0wFl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750762483; c=relaxed/simple;
-	bh=RAzj7N+bla1iOo7p7vEicwLOK6iXhYpo48QQ3+tl5vw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J+Nht9QcdbBfyfty/OUHWigefAaFGVhPbhljg4hkYMIupFiASWVtNlIHGdsixk9EPr4tLJEY9GwPP8ZasGv5pkH6ySTrg8Kdo5V5f+plVSRagaskksNBmjmob0IteE1a05nRg18Cj56xBoXiZ4H6/TGp6hdr8DzenlaIy4M0HIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=g6ofmyoi; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=SbnfxT7E reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1750762839; c=relaxed/simple;
+	bh=4lLnp/IXNyE09zyiTjqD67fRc62ECfdr4B1UG0KapV0=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=qVuEx9jijBJa+aqr0meCbfEcYhZxurwn/ezXXbwF4J2nrDICx9dlMN5B67q2Zhcj0DyYQ0LyBgE1uieCAoLXAv5Wl6f70THRl1+cOSyRNdu/4U0lqSbLm5i+N6gSkhbCc+PGY9kbeeVIeC/rA+XJq4LWTaQXPxM3aWdyxkFPgnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTSEWekK; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="g6ofmyoi";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="SbnfxT7E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1750762480; x=1782298480;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2cpStAr6k7XetnbU5fKbj58a2ZRw9CKJ+3G33iwY1+M=;
-  b=g6ofmyoiccMFKm7oN+B/LyzhR95vKvKXwfvcV9KoNZCa3p3+FLJu9Dwk
-   0xyWrHe0aQVC7vTkYhTU7gtzSV3KRhPNat1KbCCanItppR5Yjc5lQcCiC
-   3qOu4SkNYC2I/3vfsRPVN3jTmgdq5g82k4bAcBw0Y5ayGukJmSLZtptQ3
-   trwz1Lc70a255rhon6xjDYC5NmwZDMYWQ16kQMiYlNdN6hAbHgr7x2Y8d
-   4KpltKt5BWUDmC2+zX0uxdpIwxnsmGQLL6YBODc/mqXFvu7uN+XfbNBsL
-   PkoiV8p/XQO+HF6vCcvdIpjf4FlN4Txbh4ByFjXIdy/rUHALeBweMS1rP
-   g==;
-X-CSE-ConnectionGUID: HsnVMn02TZKNlmym4byIaA==
-X-CSE-MsgGUID: JkffxU5oTOOyULapxLFXuQ==
-X-IronPort-AV: E=Sophos;i="6.16,261,1744063200"; 
-   d="scan'208";a="44816899"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 24 Jun 2025 12:54:37 +0200
-X-CheckPoint: {685A83ED-F-ABFC28F4-D6731B76}
-X-MAIL-CPID: A25C1993D7B21E6C5F4D086DADF8A3C0_5
-X-Control-Analysis: str=0001.0A006377.685A83F8.0088,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 84239165D7C;
-	Tue, 24 Jun 2025 12:54:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1750762473;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2cpStAr6k7XetnbU5fKbj58a2ZRw9CKJ+3G33iwY1+M=;
-	b=SbnfxT7Ef893QSiAOwEAj4WRHi9CGMIPVPw0+jarCIUVMDi5tQGggIXLEIA08aQuIChHUn
-	f7mBIWwtuSlkSaW4AhGak1WeASuzESsiZkpb8ARK5vidb+7nHPV0NIv83guJxPyVkWGAXU
-	4e7qCLilOFhbPO/HOEQjE7JTrTF4m2GkqmX+EeVg+VFZn/oPb2gAy2Grym4GpMSWsr25U/
-	DEb0fMTBJqlyrM8IJbnVnJffnoy1zj1OSMDx/04aMhXJo2bjGAD5aBrT15eJFzhjRRBJfu
-	q9eiTdNBTHc1Q+XugRUaj5yjA6AZJbPD2HI1kdhSBxnJplUEji6GjISE7sBRYA==
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andy Whitcroft <apw@canonical.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Joe Perches <joe@perches.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nishanth Menon <nm@ti.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Tero Kristo <kristo@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux@ew.tq-group.com,
-	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: [PATCH net-next v2 3/3] checkpatch: check for comment explaining rgmii(|-rxid|-txid) PHY modes
-Date: Tue, 24 Jun 2025 12:53:34 +0200
-Message-ID: <bc112b8aa510cf9df9ab33178d122f234d0aebf7.1750756583.git.matthias.schiffer@ew.tq-group.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1750756583.git.matthias.schiffer@ew.tq-group.com>
-References: <cover.1750756583.git.matthias.schiffer@ew.tq-group.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTSEWekK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750762838; x=1782298838;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=4lLnp/IXNyE09zyiTjqD67fRc62ECfdr4B1UG0KapV0=;
+  b=TTSEWekKpSjERS23sCmzt7MBy6Kez4253dChH3q7ONCFQqhn+Se1gDVi
+   f1wIYvuU+ZrWQaiWS4eJ8I9dvzYkGvzLS9z92gwDcvKXGZkrA5gu3/e6F
+   tHjFcRDbbY5e9ST2juNY1vwiSNB1aRaLyLLIJ0rIza7wB5kykn0DyJf+l
+   A5uarzLSIRg3IyEKAtpofMn6uxwE5lZVqGFmODYFG1xquHGoi+C34nEoz
+   qnbtvwspnzBkzd3wm1hDSDraegbLDb5gDVCUUasMjbDZsUFtoKlj34UO4
+   Jpj/UVVdcE2wvYmII3QfBbni6ASTSsi59KmXjB5SGy8VSandr/k/9CR0I
+   Q==;
+X-CSE-ConnectionGUID: kE7KyfSzTBiIVCaIl4tpog==
+X-CSE-MsgGUID: jbjD/rvzQd2LQ3UBhyL1CA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52965015"
+X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
+   d="scan'208";a="52965015"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 04:00:37 -0700
+X-CSE-ConnectionGUID: 9I9mPZzEQe6wtCVPsZYBYQ==
+X-CSE-MsgGUID: VR0J+emwQCaAozgzwuhpLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
+   d="scan'208";a="182766271"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.16])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 04:00:34 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 24 Jun 2025 14:00:30 +0300 (EEST)
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    linux-serial <linux-serial@vger.kernel.org>, 
+    LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+    linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 5/5] tty: fix tty_port_tty_*hangup() kernel-doc
+In-Reply-To: <20250624080641.509959-6-jirislaby@kernel.org>
+Message-ID: <1c4b6fc9-bdce-31c0-87eb-b7aa34758877@linux.intel.com>
+References: <20250624080641.509959-1-jirislaby@kernel.org> <20250624080641.509959-6-jirislaby@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="8323328-1387142005-1750762830=:943"
+
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323328-1387142005-1750762830=:943
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Historically, the RGMII PHY modes specified in Device Trees have been
-used inconsistently, often referring to the usage of delays on the PHY
-side rather than describing the board; many drivers still implement this
-incorrectly.
+On Tue, 24 Jun 2025, Jiri Slaby (SUSE) wrote:
 
-Require a comment in Devices Trees using these modes (usually mentioning
-that the delay is realized on the PCB), so we can avoid adding more
-incorrect uses (or will at least notice which drivers still need to be
-fixed).
+> The commit below added a new helper, but omitted to move (and add) the
+> corressponding kernel-doc. Do it now.
 
-Suggested-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
----
- Documentation/dev-tools/checkpatch.rst |  9 +++++++++
- scripts/checkpatch.pl                  | 12 ++++++++++++
- 2 files changed, 21 insertions(+)
+corresponding
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 76bd0ddb00416..d5c47e560324f 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -495,6 +495,15 @@ Comments
- 
-     See: https://lore.kernel.org/lkml/20131006222342.GT19510@leaf/
- 
-+  **UNCOMMENTED_RGMII_MODE**
-+    Historically, the RGMII PHY modes specified in Device Trees have been
-+    used inconsistently, often referring to the usage of delays on the PHY
-+    side rather than describing the board.
-+
-+    PHY modes "rgmii", "rgmii-rxid" and "rgmii-txid" modes require the clock
-+    signal to be delayed on the PCB; this unusual configuration should be
-+    described in a comment. If they are not (meaning that the delay is realized
-+    internally in the MAC or PHY), "rgmii-id" is the correct PHY mode.
- 
- Commit message
- --------------
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 664f7b7a622c2..f597734d83cc0 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3741,6 +3741,18 @@ sub process {
- 			}
- 		}
- 
-+# Check for RGMII phy-mode with delay on PCB
-+		if ($realfile =~ /\.(dts|dtsi|dtso)$/ &&
-+		    $line =~ /^\+\s*(phy-mode|phy-connection-type)\s*=\s*"/ &&
-+		    !ctx_has_comment($first_line, $linenr)) {
-+			my $prop = $1;
-+			my $mode = get_quoted_string($line, $rawline);
-+			if ($mode =~ /^"rgmii(?:|-rxid|-txid)"$/) {
-+				WARN("UNCOMMENTED_RGMII_MODE",
-+				     "$prop $mode without comment -- delays on the PCB should be described, otherwise use \"rgmii-id\"\n" . $herecurr);
-+			}
-+		}
-+
- # check for using SPDX license tag at beginning of files
- 		if ($realline == $checklicenseline) {
- 			if ($rawline =~ /^[ \+]\s*\#\!\s*\//) {
--- 
-TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht München, HRB 105018
-Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
-https://www.tq-group.com/
+With that fixed, Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel=
+=2Ecom>
 
+--=20
+ i.
+
+
+> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> Fixes: 2b5eac0f8c6e ("tty: introduce and use tty_port_tty_vhangup() helpe=
+r")
+> Link: https://lore.kernel.org/all/b23d566c-09dc-7374-cc87-0ad4660e8b2e@li=
+nux.intel.com/
+> Reported-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/driver-api/tty/tty_port.rst | 5 +++--
+>  drivers/tty/tty_port.c                    | 5 -----
+>  include/linux/tty_port.h                  | 9 +++++++++
+>  3 files changed, 12 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/Documentation/driver-api/tty/tty_port.rst b/Documentation/dr=
+iver-api/tty/tty_port.rst
+> index 5cb90e954fcf..504a353f2682 100644
+> --- a/Documentation/driver-api/tty/tty_port.rst
+> +++ b/Documentation/driver-api/tty/tty_port.rst
+> @@ -42,9 +42,10 @@ TTY Refcounting
+>  TTY Helpers
+>  -----------
+> =20
+> +.. kernel-doc::  include/linux/tty_port.h
+> +   :identifiers: tty_port_tty_hangup tty_port_tty_vhangup
+>  .. kernel-doc::  drivers/tty/tty_port.c
+> -   :identifiers: tty_port_tty_hangup tty_port_tty_wakeup
+> -
+> +   :identifiers: tty_port_tty_wakeup
+> =20
+>  Modem Signals
+>  -------------
+> diff --git a/drivers/tty/tty_port.c b/drivers/tty/tty_port.c
+> index 903eebdbe12d..5b4d5fb99a59 100644
+> --- a/drivers/tty/tty_port.c
+> +++ b/drivers/tty/tty_port.c
+> @@ -391,11 +391,6 @@ void tty_port_hangup(struct tty_port *port)
+>  }
+>  EXPORT_SYMBOL(tty_port_hangup);
+> =20
+> -/**
+> - * tty_port_tty_hangup - helper to hang up a tty
+> - * @port: tty port
+> - * @check_clocal: hang only ttys with %CLOCAL unset?
+> - */
+>  void __tty_port_tty_hangup(struct tty_port *port, bool check_clocal, boo=
+l async)
+>  {
+>  =09struct tty_struct *tty =3D tty_port_tty_get(port);
+> diff --git a/include/linux/tty_port.h b/include/linux/tty_port.h
+> index 021f9a8415c0..332ddb93603e 100644
+> --- a/include/linux/tty_port.h
+> +++ b/include/linux/tty_port.h
+> @@ -251,11 +251,20 @@ static inline int tty_port_users(struct tty_port *p=
+ort)
+>  =09return port->count + port->blocked_open;
+>  }
+> =20
+> +/**
+> + * tty_port_tty_hangup - helper to hang up a tty asynchronously
+> + * @port: tty port
+> + * @check_clocal: hang only ttys with %CLOCAL unset?
+> + */
+>  static inline void tty_port_tty_hangup(struct tty_port *port, bool check=
+_clocal)
+>  {
+>  =09__tty_port_tty_hangup(port, check_clocal, true);
+>  }
+> =20
+> +/**
+> + * tty_port_tty_vhangup - helper to hang up a tty synchronously
+> + * @port: tty port
+> + */
+>  static inline void tty_port_tty_vhangup(struct tty_port *port)
+>  {
+>  =09__tty_port_tty_hangup(port, false, false);
+>=20
+
+--8323328-1387142005-1750762830=:943--
