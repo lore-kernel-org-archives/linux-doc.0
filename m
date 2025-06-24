@@ -1,252 +1,162 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2946524468D
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 06:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CCA23B607
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 07:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750747187; cv=none; b=Q/ur1vj7VLXErNHPF93Fn9z4NSktddQ2ElOS8jWOwXFu1lsOaMCCkjIhcv4/c6Rr4L1TNGszcYLfcJzZHd5Ig9Styd6PXJCya5fQJMGtAxQk+LPqFFZxBn53J5nbKvRwHwrpYdPvnostJan5eZvBV8dEU1Khrey/wUojFeBRDFk=
+	t=1750748724; cv=none; b=p0plMoI7vcz33XPlBwTcIvC2eSD2UXAAxA6+434NHptkUkmeCFxT/TsLPguGvbxi/l6Dq7rrNurAOyjw7i3cbI0V1P7ZOnFzImGuJ5brHyz1Php5PoDPx3TZGOl5tbciibWTy3ZVDYrZGq4greEid9RmIgzpz3BJJdQs5VTN3g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750747187; c=relaxed/simple;
-	bh=H3vD1Sbnp47JGxyvSTEQVnImmd+u2eOSUhKKEDWw0QQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=tnv9l1O8vDlxDMKukhJ+klQcbhMfzVq2tI/ku3UdQy5npbyrr6/V66tWVYf5Rb9PymWO2ElUf6/vO/rmiG87F3y8UFQQ/lNbKs1jI15xjaXH+95W5LiPmJNUy2sD6OZTw7QiUA7cNy+rGyvDR8ZuHo4Q1YkpOdA7XnlXFBHjJkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cKzXo5p7; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750748724; c=relaxed/simple;
+	bh=uCj01wXJRSXVsrZB3o811ZhTorLLjK4lSt9J6v1K598=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mr7pfE708T00+ULE5V0kpamYuBD5lqFGEzC8Ve1NwAjtzSuRtX38zNWp+w7CiPXOQrUgJxkHXnTc9WlpWLWAlTJbS/vpeXWLf+0RQgfhtX49JWKO17Iibfm3D2H7E3JsoZAzoNaR+NC66e/qHSYKBUPf+Y+zPd4l7finCFXc1AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YdCNEjXQ; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cKzXo5p7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750747184;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YdCNEjXQ"
+Date: Tue, 24 Jun 2025 00:05:07 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1750748720;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J/0vywc+1kvwMJ/9tqmlAocBgqq2MVsmyNnlstdC9NI=;
-	b=cKzXo5p7UFQK6KZaZf2HH7SpHMdOcwJ146YPZcMNJ4IHYbLFmIXlAZK1NEzihDPdm6nAah
-	r9//WhEu4KdmKY42UFu/BbP9PpSGxjj0dkdoY9pZwynWorg5bqCPBj3ixf3Jb2pu2JGgzn
-	ZMMzfzAOZzYfAcOslIW2XY86u4TT/Cg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-100-mY1xfg1JOJ6opekQ2hDyYQ-1; Tue, 24 Jun 2025 02:39:42 -0400
-X-MC-Unique: mY1xfg1JOJ6opekQ2hDyYQ-1
-X-Mimecast-MFC-AGG-ID: mY1xfg1JOJ6opekQ2hDyYQ_1750747181
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4535f803ec5so34267845e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Jun 2025 23:39:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750747181; x=1751351981;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J/0vywc+1kvwMJ/9tqmlAocBgqq2MVsmyNnlstdC9NI=;
-        b=PphxRgG91x8tLAyKqDhh7rtljpRuPIhzRCAIe/O0aJUlfej3ZqSITBl5qUT4VhYBLC
-         Laq/tfEKG2FYOZj/L1unhwd3R+9ZjyDuGXBctkMWSq37MGQ+8Bjm11NxNYR1sNOxrdjz
-         RItUJ/N3GXttIl+8NMBN73Pczb88cXorVPuWSvi6fwLYeG3+9b0s2insm7pcla/I0aBV
-         3hdP/WvYpzxu0UdbjwlVkhy4dVgKe/fLZLupJhUQmc2tSc1GiBMgJkBC96wZ95MsR+aH
-         NDHnDvuvWwprh8Zc9t0ccTBLjDVP1rU+e/ZffyQZvCu9emQ5DMvb3R6RYE6XEYhwkOb2
-         d69Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUFnJRlyKuv1aXvvL2yYBBu8yn5Gs8EUuRAjd21sIuBsoT86TiAi/bTe2HrMHonhRjI6h27lHp3zwM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmSLLQNbnKBlLB9wccObxiBR7a6f4C0eoJHxGlhb7cDBosiNAt
-	Iw9lC4ti3GdkT9vxS9+nToMegAQsSlVLhcfxo10+TZn9HjpVUYiYg1FPdoAOWObJ4xMR2f1l1ZT
-	R7Iysug8OHVj6n0erNLZ9vFOWc1FUFESIkkn6Z79gIRZED1AkzBgxpFSLIBELJg==
-X-Gm-Gg: ASbGncukI8ox0sOZJWihz85PHyJmnUGwqmAaS5YKaSM113UWH2yvaA9wzJU3VN83htC
-	L+8GOB1v7YOr3En9gw9BJunYs5GJiVzAQUP7iD48d8h0Vrh4jvsFb0xPtFovAhpkyJzfcDbz+Si
-	mLpwUMi6RUqNT1HlDtXt1oevB1Y/C6HDXjh4wrYSYvkr2NTVgzYtZVp/7tKOyS/VGMY0vNr9ItD
-	JSMNmeR4D7Xloc6hhB8UobfIHL+VGB6ObXydx/QLMLQAamKFIDVeiU1e1rnIDMyBDrumROWQ2PZ
-	0Dwrr4O5EYX18hTprOs8XaH0gtZanw==
-X-Received: by 2002:a05:600c:474b:b0:43c:f63c:babb with SMTP id 5b1f17b1804b1-453659b87a8mr127411955e9.1.1750747180804;
-        Mon, 23 Jun 2025 23:39:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEVNxkrcd1Ty7G+K9PjLk2XfFqnUfZzzJS5GBTHEgoGX0ZqSTbQ4aCxdDlvkl26+NOQkuwHAw==
-X-Received: by 2002:a05:600c:474b:b0:43c:f63c:babb with SMTP id 5b1f17b1804b1-453659b87a8mr127411485e9.1.1750747180263;
-        Mon, 23 Jun 2025 23:39:40 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2445:d510::f39? ([2a0d:3344:2445:d510::f39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e80516desm1114668f8f.11.2025.06.23.23.39.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jun 2025 23:39:39 -0700 (PDT)
-Message-ID: <ed5283a7-674b-4c5a-aade-c4f220485ce8@redhat.com>
-Date: Tue, 24 Jun 2025 08:39:36 +0200
+	bh=Rvl+LfkUxz42F+u2AhuU0DC7MpN+KcVkghfyXMKrAJU=;
+	b=YdCNEjXQf9Nhf5KzU5i8ggHBOyIXgK50+X3MqptwbGqKbrP84GlAPmVg79d0ScGVzHNWqI
+	9KAlGO56nfnuIB3W0BcRK3X5GneOcZB9c6cWMPJsMsmV7O7M5uCWupxxC81piynZV/OZ4M
+	jVC45rQOrDmJbnTY2tgEni5IU6Cvt4M=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
+	maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com,
+	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 07/23] perf: arm_pmuv3: Introduce method to partition
+ the PMU
+Message-ID: <aFpOI7cWTOAIjNjV@linux.dev>
+References: <aFYFqrYRsmCi6oii@linux.dev>
+ <gsntpleu9uvx.fsf@coltonlewis-kvm.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 net-next 09/15] tcp: accecn: AccECN option
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>,
- "edumazet@google.com" <edumazet@google.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>,
- "dsahern@kernel.org" <dsahern@kernel.org>,
- "kuniyu@amazon.com" <kuniyu@amazon.com>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "dave.taht@gmail.com" <dave.taht@gmail.com>,
- "jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
- "stephen@networkplumber.org" <stephen@networkplumber.org>,
- "xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>,
- "jiri@resnulli.us" <jiri@resnulli.us>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
- "donald.hunter@gmail.com" <donald.hunter@gmail.com>,
- "ast@fiberby.net" <ast@fiberby.net>,
- "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
- "shuah@kernel.org" <shuah@kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "ij@kernel.org" <ij@kernel.org>, "ncardwell@google.com"
- <ncardwell@google.com>,
- "Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>,
- "g.white@cablelabs.com" <g.white@cablelabs.com>,
- "ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>,
- "mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>,
- "cheshire@apple.com" <cheshire@apple.com>, "rs.ietf@gmx.at"
- <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
- <Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
-References: <20250610125314.18557-1-chia-yu.chang@nokia-bell-labs.com>
- <20250610125314.18557-10-chia-yu.chang@nokia-bell-labs.com>
- <d652445f-3637-44bf-ac92-483e9a323a49@redhat.com>
- <PAXPR07MB7984375C1887F1507F4E4726A37CA@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <PAXPR07MB7984375C1887F1507F4E4726A37CA@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <gsntpleu9uvx.fsf@coltonlewis-kvm.c.googlers.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
-
-I'm sorry for the late reply.
-
-On 6/21/25 1:22 AM, Chia-Yu Chang (Nokia) wrote:
-> From: Paolo Abeni <pabeni@redhat.com Sent: Tuesday, June 17, 2025 11:27 AM
->> CAUTION: This is an external email. Please be very careful when clicking links or opening attachments. See the URL nok.it/ext for additional information.
->> On 6/10/25 2:53 PM, chia-yu.chang@nokia-bell-labs.com wrote:
->>> @@ -294,6 +295,9 @@ struct tcp_sock {
->>>               rate_app_limited:1;  /* rate_{delivered,interval_us} limited? */
->>>       u8      received_ce_pending:4, /* Not yet transmit cnt of received_ce */
->>>               unused2:4;
->>> +     u8      accecn_minlen:2,/* Minimum length of AccECN option sent */
->>> +             est_ecnfield:2,/* ECN field for AccECN delivered 
->>> + estimates */
->>
->> It's unclear to me why you didn't use the 4 bits avail in 'unused2', instead of adding more fragmented bitfields.
->>
-> Hi Paolo,
-> 	
-> 	This is becuase some bits of unused2 will be used in latter patches.
-
-I see. Still it would be more clear to use the avail unused space first.
-The final effect/layout would be the same. Or add an explicit note in
-the commit message.
-
->>> @@ -4236,6 +4375,7 @@ static int tcp_ack(struct sock *sk, const struct sk_buff *skb, int flag)
->>>       if (tcp_ecn_mode_accecn(tp))
->>>               ecn_count = tcp_accecn_process(sk, skb,
->>>                                              tp->delivered - 
->>> delivered,
->>> +                                            
->>> + sack_state.delivered_bytes,
->>>                                              &flag);
->>>
->>>       tcp_in_ack_event(sk, flag);
->>> @@ -4275,6 +4415,7 @@ static int tcp_ack(struct sock *sk, const struct sk_buff *skb, int flag)
->>>       if (tcp_ecn_mode_accecn(tp))
->>>               ecn_count = tcp_accecn_process(sk, skb,
->>>                                              tp->delivered - 
->>> delivered,
->>> +                                            
->>> + sack_state.delivered_bytes,
->>>                                              &flag);
->>
->> The two above chunks suggest you could move more code into
->> tcp_accecn_process()
+On Mon, Jun 23, 2025 at 06:26:42PM +0000, Colton Lewis wrote:
+> Oliver Upton <oliver.upton@linux.dev> writes:
 > 
-> I do not get your point here.
+> > On Fri, Jun 20, 2025 at 10:13:07PM +0000, Colton Lewis wrote:
+> > > For PMUv3, the register field MDCR_EL2.HPMN partitiones the PMU
+> > > counters into two ranges where counters 0..HPMN-1 are accessible by
+> > > EL1 and, if allowed, EL0 while counters HPMN..N are only accessible by
+> > > EL2.
 > 
-> These two chunks reflect a new argument is added to tcp_accecn_process().
+> > > Create module parameters partition_pmu and reserved_guest_counters to
+> > > reserve a number of counters for the guest. These numbers are set at
+> > > boot because the perf subsystem assumes the number of counters will
+> > > not change after the PMU is probed.
 > 
-> But the value of this argument is computed by other fnuctions already, so not sure how to move code into tcp_accecn_process().
+> > > Introduce the function armv8pmu_partition() to modify the PMU driver's
+> > > cntr_mask of available counters to exclude the counters being reserved
+> > > for the guest and record reserved_guest_counters as the maximum
+> > > allowable value for HPMN.
+> 
+> > > Due to the difficulty this feature would create for the driver running
+> > > at EL1 on the host, partitioning is only allowed in VHE mode. Working
+> > > on nVHE mode would require a hypercall for every counter access in the
+> > > driver because the counters reserved for the host by HPMN are only
+> > > accessible to EL2.
+> 
+> > > Signed-off-by: Colton Lewis <coltonlewis@google.com>
+> > > ---
+> > >   arch/arm/include/asm/arm_pmuv3.h   | 10 ++++
+> > >   arch/arm64/include/asm/arm_pmuv3.h |  5 ++
+> > >   drivers/perf/arm_pmuv3.c           | 95 +++++++++++++++++++++++++++++-
+> > >   include/linux/perf/arm_pmu.h       |  1 +
+> > >   4 files changed, 109 insertions(+), 2 deletions(-)
+> 
+> > > diff --git a/arch/arm/include/asm/arm_pmuv3.h
+> > > b/arch/arm/include/asm/arm_pmuv3.h
+> > > index 2ec0e5e83fc9..9dc43242538c 100644
+> > > --- a/arch/arm/include/asm/arm_pmuv3.h
+> > > +++ b/arch/arm/include/asm/arm_pmuv3.h
+> > > @@ -228,6 +228,11 @@ static inline bool kvm_set_pmuserenr(u64 val)
+> 
+> > >   static inline void kvm_vcpu_pmu_resync_el0(void) {}
+> 
+> > > +static inline bool has_vhe(void)
+> > > +{
+> > > +	return false;
+> > > +}
+> > > +
+> 
+> > This has nothing to do with PMUv3, I'm a bit surprised to see you're
+> > touching 32-bit ARM. Can you just gate the whole partitioning thing on
+> > arm64?
+> 
+> The PMUv3 driver also has to compile on 32-bit ARM.
 
-My point is that the 2 above chunks are identical, so you could possibly
-move more (idenical) code into the helper and reduce the code duplication.
+Quite aware.
 
->>> static void tcp_options_write(struct tcphdr *th, struct tcp_sock *tp,
->>>                       tp->duplicate_sack : tp->selective_acks;
->>>               int this_sack;
->>>
->>> -             *ptr++ = htonl((TCPOPT_NOP  << 24) |
->>> -                            (TCPOPT_NOP  << 16) |
->>> +             *ptr++ = htonl((leftover_bytes << 16) |
->>>                              (TCPOPT_SACK <<  8) |
->>>                              (TCPOLEN_SACK_BASE + (opts->num_sack_blocks *
->>>                                                    
->>> TCPOLEN_SACK_PERBLOCK)));
->>
->> Here leftover_size/bytes are consumed and not updated, which should be safe as they will not be used later in this function, but looks inconsistent.
->>
->> The whole options handling looks very fragile to me. I really would prefer something simpler (i.e. just use the avail space if any) if that would work.
+> My first series had the partitioning code in arch/arm64 but you asked me
+> to move it to the PMUv3 driver.
 > 
-> I would still use leftover_size/bytes, but make it more consistent.
-> 
-> As this part of code already pass AccECN packetdrill tests.
-> 
->>
->>> @@ -957,6 +1068,17 @@ static unsigned int tcp_syn_options(struct sock *sk, struct sk_buff *skb,
->>>               }
->>>       }
->>>
->>> +     /* Simultaneous open SYN/ACK needs AccECN option but not SYN */
->>> +     if (unlikely((TCP_SKB_CB(skb)->tcp_flags & TCPHDR_ACK) &&
->>> +                  tcp_ecn_mode_accecn(tp) &&
->>> +                  sock_net(sk)->ipv4.sysctl_tcp_ecn_option &&
->>> +                  remaining >= TCPOLEN_ACCECN_BASE)) {
->>> +             u32 saving = tcp_synack_options_combine_saving(opts);
->>> +
->>> +             opts->ecn_bytes = synack_ecn_bytes;
->>> +             remaining -= tcp_options_fit_accecn(opts, 0, remaining, saving);
->>> +     }
->>> +
->>>       bpf_skops_hdr_opt_len(sk, skb, NULL, NULL, 0, opts, &remaining);
->>>
->>>       return MAX_TCP_OPTION_SPACE - remaining;
->>
->> [...]
->>> @@ -1036,6 +1159,14 @@ static unsigned int tcp_synack_options(const 
->>> struct sock *sk,
->>>
->>>       smc_set_option_cond(tcp_sk(sk), ireq, opts, &remaining);
->>>
->>> +     if (treq->accecn_ok && sock_net(sk)->ipv4.sysctl_tcp_ecn_option &&
->>> +         remaining >= TCPOLEN_ACCECN_BASE) {
->>> +             u32 saving = tcp_synack_options_combine_saving(opts);
->>> +
->>> +             opts->ecn_bytes = synack_ecn_bytes;
->>> +             remaining -= tcp_options_fit_accecn(opts, 0, remaining, saving);
->>> +     }
->>> +
->>>       bpf_skops_hdr_opt_len((struct sock *)sk, skb, req, syn_skb,
->>>                             synack_type, opts, &remaining);
->>>
->>
->> The similarities of the above 2 chuncks hints you could move more code into tcp_options_fit_accecn().
->>
->> /P
-> 
-> I also do not get it, because tcp_options_fit_accecn() will be called with different argument values.
-> 
-> So, I would prefer to keep as it is.
+> How are you suggesting I square those two requirements?
 
-AFAICS the 3 lines inside the if branch are identical. You could create
-an helper for that.
+You should try to structure your predicates in such a way that the
+partitioning stuff all resolves to false for 32 bit arm, generally. That
+way we can avoid stubbing out silly things like has_vhe() which doesn't
+make sense in the context of 32 bit.
 
-Side note: I'm spending quite a bit of time trimming the irrelevant part
-of the reply to make it as straightforward as possible. Please do the
-same: having to navigate hundred of lines of unrelated quoted text to
-find a single line of contents maximize the chances of missing it.
+> > > +static bool partition_pmu __read_mostly;
+> > > +static u8 reserved_guest_counters __read_mostly;
+> > > +
+> > > +module_param(partition_pmu, bool, 0);
+> > > +MODULE_PARM_DESC(partition_pmu,
+> > > +		 "Partition the PMU into host and guest VM counters [y/n]");
+> > > +
+> > > +module_param(reserved_guest_counters, byte, 0);
+> > > +MODULE_PARM_DESC(reserved_guest_counters,
+> > > +		 "How many counters to reserve for guest VMs [0-$NR_COUNTERS]");
+> > > +
+> 
+> > This is confusing and not what we discussed offline.
+> 
+> > Please use a single parameter that describes the number of counters used
+> > by the *host*. This affects the *host* PMU driver, KVM can discover (and
+> > use) the leftovers.
+> 
+> > If the single module parameter goes unspecified the user did not ask for
+> > PMU partitioning.
+> 
+> I understand what we discussed offline, but I had a dilemma.
+> 
+> If we do a single module parameter for number of counters used by the
+> host, then it defaults to 0 if unset and there is no way to distinguish
+> between no partitioning and a request for partitioning reserving 0
+> counters to the host which I also thought you requested. Would you be
+> happy leaving no way to specify that?
+
+You can make the command line use a signed integer for storage and a
+reset value of -1.
+
+-1 would imply default behavior (no partitioning) and a non-negative
+value would imply partitioning.
+
+> In any case, I think the usage is more self explainatory if
+> partitition=[y/n] is a separate bit.
+
+What would be the user's intent of "partition_pmu=n reserved_guest_counters=$X"?
 
 Thanks,
-
-Paolo
-
-/P
-
+Oliver
