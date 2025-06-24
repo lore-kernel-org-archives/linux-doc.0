@@ -1,172 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD9F289E1B;
-	Tue, 24 Jun 2025 12:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A89222571;
+	Tue, 24 Jun 2025 12:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750768286; cv=none; b=CF91aJM9eoAtj7S5DwK8poP9aWiO2G0Jm2Eo1n2OGwAZKgtCaggTejQ5IVRhQRQVrC0CI/bRs/uPlwM45xhdre195LNxAyHYJ1r4zuZcSpPrT8H++5Xg6B0eaNVpt2yFUbz9JJwwM3XLSgtEuo215tDsMwKoYHqKSpRzYGhR990=
+	t=1750768944; cv=none; b=lpjlz/G3QhicjYrq3JG2NZrWGnH3hFw4cBQpuTlpPJH5QLZ7WWS91BQtU+gFl6J5syt7jWt2XrQV8NXN0Pftg/PLAQEuFXxS4uf+qgDBmiG2cm4fH9s5hQlOryBU8GoLy//mPOFm1EhgtJXGKz5H3s1FGW3UyY2YXbPBpFiXdBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750768286; c=relaxed/simple;
-	bh=A1vlO/L1VKH8WOeSv/ouj3ncracjwzpEiurRYiS/ALg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EHpbbJp1/bWy7Kw08U3o1KmEOGioMOByrf7E1WLg1Mnk327tQ2rRBfuuW2Qn7vTzcdO2oFn7NUucwjZdiAtkbsGKy3JgE0OO8lS5l7wLL6zbirQaV3HUYtHxH+MooueTQBBst0HzFOIxujZiYMqvOz8s5zsZXTXx+3e6vEBCCNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eu9htEvB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750768944; c=relaxed/simple;
+	bh=VIVzvuGLxfr6FEARxXBTW3jW4mO77H2gDFFgT8Ut+io=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BcT9ytmcm7pXX8HumYlWO8FBCiPgZShuj6yYaxcKhCsxhSE8jHaaNkfMHg+TyqBX3M2zdPYXws0v3PQYTsRbASSsLHxNLMAklv0NxhV2X9Hk3g8GYExPGJQdDkI09u8xguMgZpkcUcRWxr+Pz0wz8MhxYkTR+nsJnCVlnLeq/eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZnPmYoOl; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eu9htEvB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B39C4CEF3;
-	Tue, 24 Jun 2025 12:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750768286;
-	bh=A1vlO/L1VKH8WOeSv/ouj3ncracjwzpEiurRYiS/ALg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eu9htEvBiVbL44j/hDA/XL5IHMVRkTjREoK+yoJofVs3i2H7zYeWM4nuOEa8lvA1q
-	 draOJBWRmasaODlA4846qtfnrHoWcfrlpN7SdkOAt9CRDuKgz+Jijdfb0hME3v4zjT
-	 vySbdesGJCidQHCf0M229vamBtjKXpnwatmAh49jUKp+nVNq+/QlhEUFGI/3hC6dpM
-	 MBpiZpEieyvMUEHttV5HVCNFcwOz97BYbHpUnESxPT0XUV2ac4VY/kC4HNi3iT2U1C
-	 nndDqpkUc6Rj2nldXF12iLWnmS6e5StbWpsEaS9jarXC/+el4cuLLpnkbs9yytEYsC
-	 jjsFUJ19nZmUg==
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-607ec30df2bso769442a12.1;
-        Tue, 24 Jun 2025 05:31:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUIcBidubsUjr6GvP7f8421F8eC99nNi6qungSKTQM8pINmHk0ZFQw9RZuYj1FBx0HXJrFF3WY3Rotkx7e7@vger.kernel.org, AJvYcCUQZWnOTjCK2ItJvAeXFGpEn1wxgj+j7S3FaXb6FQWYwU4dhdbpvxOzHlLl1i2fpKNkBz0CHKkYXuM=@vger.kernel.org, AJvYcCVSnuJEYLz/GTL/Zt2wX6i8PbgDhcFQMKVvxqYQ9uKexcFTe4i2J5X9OE+QgjnqUXcCZ4Kr6BRLz/+w@vger.kernel.org, AJvYcCWfiTkex+f0MQn2Z3APHWJVp4HQPyHwHt4AGxv8/eCTD/Wh1tFfHarKKtWaIToUdgxBNH2xPZeVU+3DSQ==@vger.kernel.org, AJvYcCWioFj6dnpN+JivFYoas3pOlccQAJKDOtuz5crs2yTlM1t+seJTOz1ZTStM7uqQuJe3SwUJfStDO/trpVnwdOVG@vger.kernel.org, AJvYcCWjTrlomDwlBvZDpD+VWRgwmHhauJOez08kLDWR4/qlguDkO5nrNIV/nfXepGNh0ToK7Hez1v1ORB4YQQ==@vger.kernel.org, AJvYcCWkytK29gf2ZbYEOocH8bXuAPQ/UqBhE3WfKgyHkJCw6Bx1pmxGYIRJmSGiOfFXKWjatwVCMqjN1iruvkoSA2qz@vger.kernel.org, AJvYcCWwjMBDeub9j3awBbNGpJtyGIYzMVCfPwbN2Qb/7+cx5Pr16kamrB+C4ldq33XDCUihDqLrQVsWyCfqWvHQ@vger.kernel.org, AJvYcCXeEP3m9siA10DxTLOpTz8vc5wuJKop878SjR+iKM+WruZTu8Go8JcteBM33w5C6Oj8RMYc8u0iVfd4p07d+JQLfF/WEmsR@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpG8YkBHYF8id6pnhc+2Rp05WERXknvveD5uYetID7V6bxhC+N
-	Ua0WPE2J9qre0HTAgZiSjYgdnmdP8M5x1lTQ9Vh5Rd6razi/cuq/AcCKQfndyTcPCVm7Il4K96q
-	gutnGDt0/tyS+RYnSVUVTaKVcGSIANGE=
-X-Google-Smtp-Source: AGHT+IG78TOJtNBgPo6KUbppTtQyUVPXosqjkC+mjKzFM6GuMzZpIE/4mn6DMDsxVG8gc/mo29CZZDSg4K3moyGLako=
-X-Received: by 2002:a50:9e07:0:b0:607:5987:5ba1 with SMTP id
- 4fb4d7f45d1cf-60a1d1676eamr10402408a12.20.1750768284578; Tue, 24 Jun 2025
- 05:31:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZnPmYoOl"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0164C406FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1750768936; bh=oD11XIAvJqRoGH2EZZgtZLub3E/yceoBzeCcm0HjK9w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ZnPmYoOliNLXAjgiNqpuGzcUHCNR4FJRzfHgzfy8KdeufvTwe2ryg1jpnDR7Vol64
+	 BMwv9G8UpXUKaGWBc9BbpkfIovyuGZU87SwLUyPvo9tE0wO0TvNJZVmAn5EHNtaS/M
+	 wfbWVhykEHi5jevC8x4mwJ0v0dwlqMVCBoaGp8MwlRlYekhrPg3MvDhLv/FF1rfg3u
+	 zbkuVVBX29yYVk6WblsAd/xgA6a0ai6RBQTNAMEfVQpMjkOMsLXoyHoIoYVJc1PQT3
+	 /UVJOJtV8oCb2Knv2OSANKhBH94dQOzBymYx0IuOyumBcDW1pBzZ61H6jPe4UJ2RyZ
+	 bPg5RVIac6WIQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0164C406FC;
+	Tue, 24 Jun 2025 12:42:15 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Alok Tiwari
+ <alok.a.tiwari@oracle.com>, pbonzini@redhat.com, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: Re: [PATCH next] Documentation: KVM: fix reference for
+ kvm_ppc_resize_hpt and various typos
+In-Reply-To: <aFniQYHCyi4BKVcs@archie.me>
+References: <20250623191152.44118-1-alok.a.tiwari@oracle.com>
+ <aFniQYHCyi4BKVcs@archie.me>
+Date: Tue, 24 Jun 2025 06:42:15 -0600
+Message-ID: <87jz5171lk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250523043251.it.550-kees@kernel.org> <20250523043935.2009972-10-kees@kernel.org>
- <CAAhV-H4WxAwXTYVFOnphgHN80-_6jt77YZ_rw-sOBoBjjiN-yQ@mail.gmail.com>
-In-Reply-To: <CAAhV-H4WxAwXTYVFOnphgHN80-_6jt77YZ_rw-sOBoBjjiN-yQ@mail.gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 24 Jun 2025 20:31:12 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5oHPG+etNawAmVwyDtg80iKUrAM_m3Vj57bBO0scHqvQ@mail.gmail.com>
-X-Gm-Features: AX0GCFsgXJm0uAqj4ZcBCmgCp5XFBS8cfA5fjKZVFWrLP2ySZYpAIUKeGDxIJgs
-Message-ID: <CAAhV-H5oHPG+etNawAmVwyDtg80iKUrAM_m3Vj57bBO0scHqvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/14] loongarch: Handle KCOV __init vs inline mismatches
-To: Kees Cook <kees@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Gleixner <tglx@linutronix.de>, Tianyang Zhang <zhangtianyang@loongson.cn>, 
-	Bibo Mao <maobibo@loongson.cn>, Jiaxun Yang <jiaxun.yang@flygoat.com>, loongarch@lists.linux.dev, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi, Kees,
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-On Thu, Jun 19, 2025 at 4:55=E2=80=AFPM Huacai Chen <chenhuacai@kernel.org>=
- wrote:
+> On Mon, Jun 23, 2025 at 12:11:47PM -0700, Alok Tiwari wrote:
+>>  If this ioctl is called when a hash table has already been allocated,
+>>  with a different order from the existing hash table, the existing hash
+>> -table will be freed and a new one allocated.  If this is ioctl is
+>> -called when a hash table has already been allocated of the same order
+>> +table will be freed and a new one allocated. If this ioctl is called
+>> +when a hash table has already been allocated of the same order
 >
-> Hi, Kees,
->
-> On Fri, May 23, 2025 at 12:39=E2=80=AFPM Kees Cook <kees@kernel.org> wrot=
-e:
-> >
-> > When KCOV is enabled all functions get instrumented, unless
-> > the __no_sanitize_coverage attribute is used. To prepare for
-> > __no_sanitize_coverage being applied to __init functions, we have to
-> > handle differences in how GCC's inline optimizations get resolved. For
-> > loongarch this exposed several places where __init annotations were
-> > missing but ended up being "accidentally correct". Fix these cases and
-> > force one function to be inline with __always_inline.
-> >
-> > Signed-off-by: Kees Cook <kees@kernel.org>
-> > ---
-> > Cc: Huacai Chen <chenhuacai@kernel.org>
-> > Cc: WANG Xuerui <kernel@xen0n.name>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Tianyang Zhang <zhangtianyang@loongson.cn>
-> > Cc: Bibo Mao <maobibo@loongson.cn>
-> > Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> > Cc: <loongarch@lists.linux.dev>
-> > ---
-> >  arch/loongarch/include/asm/smp.h | 2 +-
-> >  arch/loongarch/kernel/time.c     | 2 +-
-> >  arch/loongarch/mm/ioremap.c      | 4 ++--
-> >  3 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/arch/loongarch/include/asm/smp.h b/arch/loongarch/include/=
-asm/smp.h
-> > index ad0bd234a0f1..88e19d8a11f4 100644
-> > --- a/arch/loongarch/include/asm/smp.h
-> > +++ b/arch/loongarch/include/asm/smp.h
-> > @@ -39,7 +39,7 @@ int loongson_cpu_disable(void);
-> >  void loongson_cpu_die(unsigned int cpu);
-> >  #endif
-> >
-> > -static inline void plat_smp_setup(void)
-> > +static __always_inline void plat_smp_setup(void)
-> Similar to x86 and arm, I prefer to mark it as __init rather than
-> __always_inline.
-If you have no objections, I will apply this patch with the above modificat=
-ion.
+> Two spaces between sentences (just to be consistent), please.
 
+Spaces after periods are explicitly documented as something we do not
+"correct" or harass our contributors about.  Please, for the Nth time,
+do not add unnecessary friction to the process of improving our
+documentation.
 
-Huacai
-
->
-> Huacai
->
-> >  {
-> >         loongson_smp_setup();
-> >  }
-> > diff --git a/arch/loongarch/kernel/time.c b/arch/loongarch/kernel/time.=
-c
-> > index bc75a3a69fc8..367906b10f81 100644
-> > --- a/arch/loongarch/kernel/time.c
-> > +++ b/arch/loongarch/kernel/time.c
-> > @@ -102,7 +102,7 @@ static int constant_timer_next_event(unsigned long =
-delta, struct clock_event_dev
-> >         return 0;
-> >  }
-> >
-> > -static unsigned long __init get_loops_per_jiffy(void)
-> > +static unsigned long get_loops_per_jiffy(void)
-> >  {
-> >         unsigned long lpj =3D (unsigned long)const_clock_freq;
-> >
-> > diff --git a/arch/loongarch/mm/ioremap.c b/arch/loongarch/mm/ioremap.c
-> > index 70ca73019811..df949a3d0f34 100644
-> > --- a/arch/loongarch/mm/ioremap.c
-> > +++ b/arch/loongarch/mm/ioremap.c
-> > @@ -16,12 +16,12 @@ void __init early_iounmap(void __iomem *addr, unsig=
-ned long size)
-> >
-> >  }
-> >
-> > -void *early_memremap_ro(resource_size_t phys_addr, unsigned long size)
-> > +void * __init early_memremap_ro(resource_size_t phys_addr, unsigned lo=
-ng size)
-> >  {
-> >         return early_memremap(phys_addr, size);
-> >  }
-> >
-> > -void *early_memremap_prot(resource_size_t phys_addr, unsigned long siz=
-e,
-> > +void * __init early_memremap_prot(resource_size_t phys_addr, unsigned =
-long size,
-> >                     unsigned long prot_val)
-> >  {
-> >         return early_memremap(phys_addr, size);
-> > --
-> > 2.34.1
-> >
+jon
