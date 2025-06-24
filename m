@@ -1,102 +1,127 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB45E145355;
-	Tue, 24 Jun 2025 15:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83F83074AD;
+	Tue, 24 Jun 2025 16:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750780265; cv=none; b=tBu/j2HkFnNDO2tUsXlzZIqqwEONRlq9ffYyo7W8zVzsilrAZP+4nFU8RA+0hSWQb/vpTCD1WKiGZXIUX+ZZy9J5Tk3W+SQv1t/tVE6Sveqcf6pUm9AW3dB228Uqdpmin30TZ9xEyldQq8P2/2IYc31uhZKM5UZs/tFDfR0Wn+c=
+	t=1750781543; cv=none; b=QJFjWrFN7a6a0PszBeP58B10DB0WvhQnWHcnkv+HrIFzjAvLeFDbqFw6UZi8+sDBXHk2yf16SZXAllZudJMCqBeHfrZp3pEc+QFBBeEkQdzmOSKqssNMqmiCvh/fQh+h8YqyoBH7ajgqYItSkExiwrFQ6P5EvevABVZMx+OMWsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750780265; c=relaxed/simple;
-	bh=kJvxkJFb2m2TQQBRPn9W6akGT4m5Eh0lljLjb0hb4Dw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uTKQr9FsIItYJgC0WeOUqBKnxoqC1AQ9aZeWgofiW8QwvjDuDoKbqPHhi3ZtpHnwQmF/+sh7EFmCKabv7GRwO7gbqM13pIYageUf7F7GAXbVaGsz61wrJRtR8TpL0/tZfwhbSE0d41eHXKFuuk72XscOCls4of3IQ6qWJgUF6mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LW+SQ19a; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TfGvdKj2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1750781543; c=relaxed/simple;
+	bh=JOL6WKmjohXqSHITngQz/Wj/wlzmJdN8Xapymilc6Y8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eJYblAK4vk48EpYTlORXrMhO/pDZp2KcX35doO50ZH5lFV2MYzHMX+2Bs2cxSkmKETsS77wAShSZbpK2smQZ9p802RKDOWSaYE7elgYuvOoGwZI4Rr7Yw8QQ+IHut1hbsaaOK29442/4+1NIpg7pJNwIJGZ3AKWiDmHLghTYxjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tvC6j7Vj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LW+SQ19a";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TfGvdKj2"
-Date: Tue, 24 Jun 2025 17:50:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750780259;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LjzWaJlszZfB0Iyg0kS6b0Zp49oz/zJ1JIviTq6SFMM=;
-	b=LW+SQ19aZvzIbswT6KS1HbbIIbExEAtnbVuKpkEmmSZYgyqU9mksm7p2MdbUx0tvVjADn4
-	iuIKfTaCEV9OmFvTSxdY8cODysE2FS1Fobcj/bjsR/YfuzqPszIBdFJQHHTs3VvuFmtHo0
-	LNkt06uwElmgpUjE8YTRr0vHzSlvwEC07dDoSq6gZVfG+4O9vG89QxTuBhr1r+y/WzyECS
-	Vg8ll0W5qgi69MUQjo+IJC2Lv6tMUDo+qLsPLz2JpAg5pZpATHkJhfVCI9OUXkBde5x/gZ
-	cQouXMepfMjLS6GYoHtHGKui23XHD4sufcG2I+Te1rtaM2mn7fW2YUBCCCSHWA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750780259;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LjzWaJlszZfB0Iyg0kS6b0Zp49oz/zJ1JIviTq6SFMM=;
-	b=TfGvdKj2ZV13WApOUMTYTHY3M6KXB7O8jJOBJhvfJGrqiTbeLqwobWNUYp0qxIjKACtpI7
-	f+uDVXceqXaBF1Cg==
-From: Nam Cao <namcao@linutronix.de>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,
-	john.ogness@linutronix.de
-Subject: Re: [RFC PATCH v2 09/12] rv: Replace tss monitor with more complete
- sts
-Message-ID: <20250624155053.wOoDw8ff@linutronix.de>
-References: <20250514084314.57976-1-gmonaco@redhat.com>
- <20250514084314.57976-10-gmonaco@redhat.com>
- <20250624073609.OA9Q1V4g@linutronix.de>
- <e2b2e78a9c66973d90a9dbeea83b88b97182c36e.camel@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tvC6j7Vj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C4F1C4CEF0;
+	Tue, 24 Jun 2025 16:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750781543;
+	bh=JOL6WKmjohXqSHITngQz/Wj/wlzmJdN8Xapymilc6Y8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=tvC6j7VjREp+BGJeKqV/caHXrqwb4fickgxYpsMh815a0NMBs4DoXS6bY7T759l14
+	 d4pYdByP6Z3FuzrRhGV3WQbAIT/uo5MFTUQCpU0gzaYrM0B1K/DydHhwW/LyybW/Y0
+	 I1fS81yhqfSUTQlvsFShyaqIFi7hr/S6m2KmuK7Cc32Cs0pyXp6Cy/7KmtUsqE++F9
+	 XEcsqlFLfO5CcaHpDNJWJk7dvE/tlgRgZPrmyRP8vFkXZqR8CAMVCZrmmV68TxP8nw
+	 VQaNl7gpgX+WCuAGpB1dWUrF5D400I99Xx5EdS6b5vtqShAl26IVInzPqE+NEWPm2w
+	 pUXslySxKqqVQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Mike Rapoport <rppt@kernel.org>,
+  Jason Gunthorpe <jgg@ziepe.ca>,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 05/16] luo: luo_core: integrate with KHO
+In-Reply-To: <CA+CK2bCA_ggpvbY+MQPaAHsN7MOzV7D3=MYvfAP4cFwhThJpPw@mail.gmail.com>
+References: <mafs0sekfts2i.fsf@kernel.org>
+	<CA+CK2bA7eAB4PvF0RXtt2DJ+FQ4DVV3x1OZrVo4q3EvgowhvJg@mail.gmail.com>
+	<mafs0sek3n0x8.fsf@kernel.org> <20250617152357.GB1376515@ziepe.ca>
+	<CA+CK2bAtO7BA5iptRfA_oa=5sUz_t-0F3Lu8oae1STnijXrPPQ@mail.gmail.com>
+	<mafs05xgtw5wn.fsf@kernel.org>
+	<CA+CK2bDWAPSmTdnD7vw4G00nPsM8R_Zefs_G+9zvSqTJqPb9Lg@mail.gmail.com>
+	<aFLr7RDKraQk8Gvt@kernel.org>
+	<CA+CK2bAnCRu+k=Q78eA4kcAebxA9NgOorhwRqu-WxC913YBsBw@mail.gmail.com>
+	<CA+CK2bB3P1vX658ErkP4_-L6WZSOCcenEwUdX1qS=poDjs=i+A@mail.gmail.com>
+	<aFP7wwCviqxujKDg@kernel.org>
+	<CA+CK2bDqO4SkUpiFahfUx2MUiE8oae9HmuaghPAnCwaJZpoTwQ@mail.gmail.com>
+	<mafs0ikkqv3ds.fsf@kernel.org>
+	<CA+CK2bCA_ggpvbY+MQPaAHsN7MOzV7D3=MYvfAP4cFwhThJpPw@mail.gmail.com>
+Date: Tue, 24 Jun 2025 18:12:14 +0200
+Message-ID: <mafs0frfpt8yp.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e2b2e78a9c66973d90a9dbeea83b88b97182c36e.camel@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 24, 2025 at 04:44:49PM +0200, Gabriele Monaco wrote:
-> As you mentioned, nobody is likely relying on those tracepoints names
-> at the moment, but I would rather be cautious basing userspace tools on
-> some monitors to exist at all.
-> 
-> In my opinion, RV tracepoints are useful as an alternative of
-> reactors/rv userspace tool but cannot be used without considering the
-> RV interface itself (e.g. available_monitors and friends).
-> 
-> We could at least stick to the following assumptions:
-> 1. monitors can change names, be added or removed
-> 2. tracepoints are consistent to monitor names (in available_monitors)
-> 3. the tracepoint structure does not change (i.e. event_/error_, args.)
->    (can change for new monitors types where seen fit)
-> 
-> If in the future we allow the possibility to build RV monitors as BPF
-> programs, we'd probably also allow monitors without tracepoints at all,
-> but I'd say for now those assumptions are sensible.
-> 
-> What do you think?
+On Fri, Jun 20 2025, Pasha Tatashin wrote:
 
-I would like that. Ideally, the userspace tools only use tracepoints based
-on available_monitors.
+> On Fri, Jun 20, 2025 at 11:28=E2=80=AFAM Pratyush Yadav <pratyush@kernel.=
+org> wrote:
+>> On Thu, Jun 19 2025, Pasha Tatashin wrote:
+[...]
+>> Outside of hypervisor live update, I have a very clear use case in mind:
+>> userspace memory handover (on guest side). Say a guest running an
+>> in-memory cache like memcached with many gigabytes of cache wants to
+>> reboot. It can just shove the cache into a memfd, give it to LUO, and
+>> restore it after reboot. Some services that suffer from long reboots are
+>> looking into using this to reduce downtime. Since it pretty much
+>> overlaps with the hypervisor work for now, I haven't been talking about
+>> it as much.
+>>
+>> Would you also call this use case "live update"? Does it also fit with
+>> your vision of where LUO should go?
+>
+> Yes, absolutely. The use case you described (preserving a memcached
+> instance via memfd) is a perfect fit for LUO's vision.
+>
+> While the primary use case driving this work is supporting the
+> preservation of virtual machines on a hypervisor, the framework itself
+> is not restricted to that scenario. We define "live update" as the
+> process of updating the kernel from one version to another while
+> preserving FD-based resources and keeping selected devices
+> operational. The machine itself can be running storage, database,
+> networking, containers, or anything else.
+>
+> A good parallel is Kernel Live Patching: we don't distinguish what
+> workload is running on a machine when applying a security patch; we
+> simply patch the running kernel. In the same way, Live Update is
+> designed to be workload-agnostic. Whether the system is running an
+> in-memory database, containers, or VMs, its primary goal is to enable
+> a full kernel update while preserving the userspace-requested state.
 
-However, people may not do that, and just use tracepoints directly.
+Okay, then we are on the same page and I can live with whatever name we
+go with :-)
 
-You could argue that those tools are not correctly designed. Therefore it
-is their fault that the tools are broken after updating kernel.
+BTW, I think it would be useful to make this clarification on the LUO
+docs as well so the intended use case/audience of the API is clear.
+Currently the doc string in luo_core.c only talks about hypervisors and
+VMs.
 
-On the other hand, there is this sentiment that we must never break
-userspace.
-
-I don't know enough to judge this. Maybe @Steven has something to add?
-
-Best regards,
-Nam
+--=20
+Regards,
+Pratyush Yadav
