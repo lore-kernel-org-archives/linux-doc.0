@@ -1,65 +1,65 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA563074A4
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 15:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B88487BF
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 15:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750778875; cv=none; b=uYu208mrWP82Rzvc2rxntisqqvqnsPfLcNbXB+dF3TCHXKDg0dI7mTafMZMyoJ0fJcGe0IaxqGqRMx05/zjdtVC1YvgtCHCwAP5KU4cTtkNbrKSBnE0maZ0UQxfBNLw8zlSK2AFcNMwt6HrOEdhgvNkNIem10SAq3VGc+u9lOAE=
+	t=1750779855; cv=none; b=BhJ9fVRrvkCdtE0CDzHY1t+PJHHVdS1OJ7+Sx5P0cAyqf1vVAL5z2LyD2kdv+ZKBEE/1DYIMceHLXd+gvjYVsvpMAMuHoa2BbccoMWq8UrLh7oCW47FsT23QpLPNK2K0k/hTTl3zKohxhjY+KhYfobCZz9uDjOhe6WauBaE42uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750778875; c=relaxed/simple;
-	bh=MepxRO2ogI5XQ3ZUzw1gcXY64ic46PvTDY+KYhuA9P0=;
+	s=arc-20240116; t=1750779855; c=relaxed/simple;
+	bh=GnVRZMcxsfo36v0rXfqthwJ8QHDF3AOpfJy8ji+OFnw=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GW1Rx0fGF9uG27iu5s7IgvIATLK/tGwU5XJEyuEZY7Vv3l7gKq+Wy099G815RnCux4eOMkOxZIYmyAU//FoHKiOg/QWytS+mfI9QaLVGTbtNanBpJX+RIxnrMm6EdqGAMRcyFW+iurqoe3h+nFqt4f2mDQPgJZHDGu0L53z7pS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WZK6ZJ3A; arc=none smtp.client-ip=209.85.214.201
+	 To:Cc:Content-Type; b=mfA5byTzYyWn+aiQ8fYPbX21snna5iFMhx2TWticD+lR1nTsqzzXbtNYYhnl/78aWMotwooUzUc4lBjf+HXOQY6Zr9sr3jdHaCbtmvUq3AaKhj0dqzsfKBMav/+TvuDjpq8bTYrmVQ8tF4LQtpre9n93gWcxJwR+QCn1ehRAi58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GDyvaqSK; arc=none smtp.client-ip=209.85.215.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WZK6ZJ3A"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-235f77f86f6so54786195ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 08:27:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GDyvaqSK"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-b31ca4b6a8eso382647a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 08:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750778874; x=1751383674; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750779853; x=1751384653; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8ozpzeYt4xTkvHRuQkIJTdoQYtXmcQ7LICuVmYRW9gk=;
-        b=WZK6ZJ3AuiGdvP2b+SBCaWG2/HwwkhXTBNXfMqnckLRQMPj0MJ4iZ14Hmp7ZdULO+X
-         DslGD5rMmwc6tWFnbIFSQzHR16uUTpRLwPi7KaAhdE7EBprCSyzT0Dtx8nI84pDwcqNk
-         zYBrRrQTWp5ZrjAb+2LUgUD3S4ki7FqBl3QGomQ5bOgxJWrFhUAUVvPsQy/eVLZJVPqB
-         uoVml+AG9ETMzACojMoKizPs0JQu64axF4SZJMV6N/QtqESGESuMJ7cwfUI4g0LJ7dvX
-         ssg4lzk41nqtojkamz36RhZVOV9VYnQ9hefZhYPxWTZ/8V8utCGKB1x0/KIL2YSWvnBY
-         Scog==
+        bh=M32rdd63dk2gWs5pdkKPTYIbq2vkcSl+gMb+cObpj7E=;
+        b=GDyvaqSK+Phb7Eehch2uZn/mUDF4eZ3Iid67xN19U6bGbPdbKJD2R5G3QgyG/rov8O
+         nW9d8Hro11UuVvV+LZGrPR3ua7mdNgS83i7h7ZtAfEryWVUC6O3gccDWj30vtkUCGsLi
+         z7gmfJ9ysUatKHktbciWkp9nyhbVH/KK442GsloX1iHKMvrnZwtpLT+N5oXu9vVAbSa1
+         D0c3X6QPJ2xF7UoiQY/hDzSGBLV5XQkWHmX+K32sS1Azv1qgpi3a0vpBO5LPpcLpFMMR
+         RGby4WzmDdbaxfZxbvRv9oOTFdMdXa/ZR+qcDF6UO50Ri+u7U8Pn0IQxly00mQcw/smV
+         bumQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750778874; x=1751383674;
+        d=1e100.net; s=20230601; t=1750779853; x=1751384653;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8ozpzeYt4xTkvHRuQkIJTdoQYtXmcQ7LICuVmYRW9gk=;
-        b=W4qiwNymdM+SqmJN8SjEw3oA8IEMV5f+l/N/FXKQK02yI7oGYgHRUV6cuZF8c8xEBx
-         N38HYBUaA3hxQ38EB/FCCp8qNadgQ8XFvW8P5/h7BHVkvbN3ckVsRG/MgDQA5nZIn6Kj
-         yxNvFVMV30+Izp3jkB8ZtImuVIcXWTbCfmCN3Zg66EAagMQBv5oMorYvP5ucQraBdkXc
-         RvBNOIQaz4dBxU4gsuWmUOvsCb4M4NJJw0h4GeMEOlT1ZLbbS0xYFrf1eU1M8l821cLI
-         CotTdu7vKpaLiTJKFHsWhTyNit9XES9rU7euJpeyD08S04HO1VRSvS+eGBAMpjLpppb4
-         Il2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUn3XcI6NRwd3m7mQK8Pp/qI5HZThoiCLy0cufeU5wKoF/1R2ENk9nwAuqWMEVlylT47cLkQXcVxD0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuavTIvZqZ0+NYXxuGe/mYfkfcAFvzlPOiObAjGJ8BeuqjKtfX
-	vzJuV0mNN3w4/CDAkHGVzzron/I/xUcN2/PnBzWNyH+RHPcf4X724auQT0L3KlvxwWWyS8FqZbO
-	y6OjX7Q==
-X-Google-Smtp-Source: AGHT+IFUejh1pO/KNNRbnpHWhaff//dtVImgTpNy+o6XsUzk8HP9FdRsW+ItyD5wajOAd09IzHcqdYMV9uY=
-X-Received: from plbky5.prod.google.com ([2002:a17:902:f985:b0:223:f7e6:116d])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:dac6:b0:236:7165:6ecf
- with SMTP id d9443c01a7336-237d9a7c3a9mr312281565ad.38.1750778873740; Tue, 24
- Jun 2025 08:27:53 -0700 (PDT)
-Date: Tue, 24 Jun 2025 08:27:52 -0700
-In-Reply-To: <20250328171205.2029296-7-xin@zytor.com>
+        bh=M32rdd63dk2gWs5pdkKPTYIbq2vkcSl+gMb+cObpj7E=;
+        b=URqmclGLQFh0RDn1IKH9JE+G7Bj1mLAfOzh2aGKPvdl/gDNAmi6z/YAe8HMKfhbHKG
+         j6hu/WgLfRDueak94ZNDZMIHQe3YHIWMlS7RlaQb9G3JKKCDqT9i8MgJ+YDnP0jMJFI/
+         1T8LscA5fe+AX3trzggC+lsZcJWPycgk6gwHE5v3oKL96Q/hMAqfG1SNeG5TZd3Jw9yq
+         u1JW7E2Y47S3RsF7B8L2xAxG6GV72zQ0TWPH3yUkWmBnby+BGwNwbcDLmdi4LmY/r0+k
+         uuWlqXuPVKITXnKQkFQHH0WE8JHoKmMmDlCxLrsSUmK6Uy/7PNMhec7KxGl6RrwmO6LN
+         Mvag==
+X-Forwarded-Encrypted: i=1; AJvYcCXqrIp0mNW72JVGirm4XNNYVrlg8TQoH1MiPuf9/1K4Eq5bJu6Ax1r9WsjOEPrR5lWw91VwdCHlErs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjLxfzYxYDp+tJ6kLfggK0BIBbIa7/T4zJZy/ypWLb+GnLnZI+
+	ObgsDTPRRIap/BAlhgScRW2H2r1GYu+VpgTMZXvf6r82bo0ZA6km2jCzTNSxScGdGcpARG5xCi8
+	Etkd2YA==
+X-Google-Smtp-Source: AGHT+IGonx/FKvzf78PMDuuLP5ZT7EtOsQDlQhEQGU+CYP7qWJBCuuiOI3BtXUi4gssl10l5hEj/HjvszWA=
+X-Received: from pfblh2.prod.google.com ([2002:a05:6a00:7102:b0:748:e071:298a])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:4325:b0:1f3:2e85:c052
+ with SMTP id adf61e73a8af0-22026fa9d7dmr29631693637.35.1750779853025; Tue, 24
+ Jun 2025 08:44:13 -0700 (PDT)
+Date: Tue, 24 Jun 2025 08:44:11 -0700
+In-Reply-To: <20250328171205.2029296-8-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20250328171205.2029296-1-xin@zytor.com> <20250328171205.2029296-7-xin@zytor.com>
-Message-ID: <aFrD-Pn9cmHcVxWs@google.com>
-Subject: Re: [PATCH v4 06/19] KVM: VMX: Set FRED MSR interception
+References: <20250328171205.2029296-1-xin@zytor.com> <20250328171205.2029296-8-xin@zytor.com>
+Message-ID: <aFrHy09b4x2C95nv@google.com>
+Subject: Re: [PATCH v4 07/19] KVM: VMX: Save/restore guest FRED RSP0
 From: Sean Christopherson <seanjc@google.com>
 To: "Xin Li (Intel)" <xin@zytor.com>
 Cc: pbonzini@redhat.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -70,48 +70,93 @@ Cc: pbonzini@redhat.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
 Content-Type: text/plain; charset="us-ascii"
 
 On Fri, Mar 28, 2025, Xin Li (Intel) wrote:
-> @@ -7935,6 +7945,34 @@ static void update_intel_pt_cfg(struct kvm_vcpu *vcpu)
->  		vmx->pt_desc.ctl_bitmask &= ~(0xfULL << (32 + i * 4));
->  }
+> From: Xin Li <xin3.li@intel.com>
+> 
+> Save guest FRED RSP0 in vmx_prepare_switch_to_host() and restore it
+> in vmx_prepare_switch_to_guest() because MSR_IA32_FRED_RSP0 is passed
+> through to the guest, thus is volatile/unknown.
+> 
+> Note, host FRED RSP0 is restored in arch_exit_to_user_mode_prepare(),
+> regardless of whether it is modified in KVM.
+> 
+> Signed-off-by: Xin Li <xin3.li@intel.com>
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Tested-by: Shan Kang <shan.kang@intel.com>
+> ---
+> 
+> Changes in v3:
+> * KVM only needs to save/restore guest FRED RSP0 now as host FRED RSP0
+>   is restored in arch_exit_to_user_mode_prepare() (Sean Christopherson).
+> 
+> Changes in v2:
+> * Don't use guest_cpuid_has() in vmx_prepare_switch_to_{host,guest}(),
+>   which are called from IRQ-disabled context (Chao Gao).
+> * Reset msr_guest_fred_rsp0 in __vmx_vcpu_reset() (Chao Gao).
+> ---
+>  arch/x86/kvm/vmx/vmx.c | 9 +++++++++
+>  arch/x86/kvm/vmx/vmx.h | 1 +
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index 236fe5428a74..1fd32aa255f9 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -1349,6 +1349,10 @@ void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
+>  	}
 >  
-> +static void vmx_set_intercept_for_fred_msr(struct kvm_vcpu *vcpu)
-> +{
-
-This function should short-circult on
-
-	if (!kvm_cpu_cap_has(X86_FEATURE_FRED))
-		return;
-
-Functionally, it shouldn't matter.  It's mostly for documentation purposes, and
-to avoid doing unnecessary work.
-
-> +	bool flag = !guest_cpu_cap_has(vcpu, X86_FEATURE_FRED);
-
-"flag" is unnecessarily ambiguous (eww, I see that the exiting PT code does that).
-I like "set", as it has (hopefully) obvious polarity, and aligns with the function
-being called.
-
+>  	wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
 > +
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP1, MSR_TYPE_RW, flag);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP2, MSR_TYPE_RW, flag);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP3, MSR_TYPE_RW, flag);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_STKLVLS, MSR_TYPE_RW, flag);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP1, MSR_TYPE_RW, flag);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP2, MSR_TYPE_RW, flag);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP3, MSR_TYPE_RW, flag);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_CONFIG, MSR_TYPE_RW, flag);
+> +	if (cpu_feature_enabled(X86_FEATURE_FRED) && guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
+
+For these paths, I'm leaning towards omitting the cpu_feature_enabled() check.
+The guest_cpu_cap_has() check should suffice, this isn't a super hot path, and
+the cost of the runtime check will likely be a single, well-predicted uop when
+FRED is unsupported (e.g. a fused BT+Jcc).
+
+Unlike the MSR interception toggling, the "extra" work is negligible (and it's
+something confusing to check cpu_feature_enabled() instead of kvm_cpu_cap_has()).
+
+> +		wrmsrns(MSR_IA32_FRED_RSP0, vmx->msr_guest_fred_rsp0);
 > +
-> +	/*
-> +	 * IA32_FRED_RSP0 and IA32_PL0_SSP (a.k.a. IA32_FRED_SSP0) are only used
-> +	 * for delivering events when running userspace, while KVM always runs in
-> +	 * kernel mode (the CPL is always 0 after any VM exit), thus KVM can run
-> +	 * safely with guest IA32_FRED_RSP0 and IA32_PL0_SSP.
-> +	 *
-> +	 * As a result, no need to intercept IA32_FRED_RSP0 and IA32_PL0_SSP.
-> +	 *
-> +	 * Note, save and restore of IA32_PL0_SSP belong to CET supervisor context
-> +	 * management no matter whether FRED is enabled or not.  So leave its
-> +	 * state management to CET code.
-> +	 */
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP0, MSR_TYPE_RW, flag);
-> +}
+>  #else
+>  	savesegment(fs, fs_sel);
+>  	savesegment(gs, gs_sel);
+> @@ -1393,6 +1397,11 @@ static void vmx_prepare_switch_to_host(struct vcpu_vmx *vmx)
+>  	invalidate_tss_limit();
+>  #ifdef CONFIG_X86_64
+>  	wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_host_kernel_gs_base);
+> +
+> +	if (cpu_feature_enabled(X86_FEATURE_FRED) && guest_cpu_cap_has(&vmx->vcpu, X86_FEATURE_FRED)) {
+> +		vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
+> +		fred_sync_rsp0(vmx->msr_guest_fred_rsp0);
+
+Can you add a comment here?  Passing the guest value to fred_sync_rsp0() surprised
+me a bit.  The code and naming makes sense after looking at everything, but it's
+quite different than the surrounding code, e.g. the MSR_KERNEL_GS_BASE, handling.
+Something like this?
+
+		/*
+		 * Synchronize the current value in hardware to the kernel's
+		 * local cache.  The desired host RSP0 will be set if/when the
+		 * CPU exits to userspace (RSP0 is a per-task value).
+		 */
+
+> +	}
+>  #endif
+>  	load_fixmap_gdt(raw_smp_processor_id());
+>  	vmx->guest_state_loaded = false;
+> diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
+> index f48791cf6aa6..8e27b7cc700d 100644
+> --- a/arch/x86/kvm/vmx/vmx.h
+> +++ b/arch/x86/kvm/vmx/vmx.h
+> @@ -276,6 +276,7 @@ struct vcpu_vmx {
+>  #ifdef CONFIG_X86_64
+>  	u64		      msr_host_kernel_gs_base;
+>  	u64		      msr_guest_kernel_gs_base;
+> +	u64		      msr_guest_fred_rsp0;
+>  #endif
+>  
+>  	u64		      spec_ctrl;
+> -- 
+> 2.48.1
+> 
