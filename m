@@ -1,114 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0A5BA49;
-	Tue, 24 Jun 2025 07:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24CA2571BF;
+	Tue, 24 Jun 2025 07:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750750396; cv=none; b=OtpkIJ05bXIK74YmZP7xLp0LkE31tRsUlftGFiP4BL1SJAdfzxOBcNzsRd5ixj/8E4CDwCdHqsRnbt75bTciAS3MSPQevJAzyHhCch7jtEfIzEDhBsh8DGrVyIcSzcJ3toAgYq4OIV3/I2+WnefgEdMqCr/AnArcoayJkp81Ync=
+	t=1750750583; cv=none; b=KH94Ms1S5QED2KwrHg/vV/ESW8t7EU8yKP2ptswwzpNLpY5cy02k+qx6kjyPNC5t8git0/ljI1TOcG3OtP/s+uEYG32NGVu65472rem4nYIbS7vymM9YnERW3KlV63V2zAMSW/Wpu1Q0Dcn+yciROpjLt5jzsw6YlTyiK2kMZK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750750396; c=relaxed/simple;
-	bh=x0tGnbgqwLjk77W9xb8ogsnnZO9WRIj3MP86BXNQhUo=;
+	s=arc-20240116; t=1750750583; c=relaxed/simple;
+	bh=V00eRtkZmW3pS/tIYaNjrH9iQXJJOPTf0MJar/mKIVo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NEDgPsr1Xiur+oq9R/LiXCh0P/yarnXwMBO2VkZvXrBPdZlnj6kVm7NTFTU5QAcwx4xnqcGqwgqRr8BzpQTVVX4vmLWIrlxRK3JXAyL6n6wcBQ2ORnW60rN+qBihAbPFRlrQcpnrhrNzEkKXAjWX7mWQfA6EI+XRxssBQg57Nrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZljYiKK; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HyYDK2Y05SeUnSystEJ3prNLckCArl8M3mIcZVfsIBxk3NCjNGbhMEr0s7CC7NkjRCf7YsHoTm+q4A+2chyW3BLkUSDPscc1z9zEFUYdfoG+8YgEEU8o4qXhIIYxiFzFEDlQKB79cfbZ2Sl8NKAQBLc6EIT7QqiYe/BYijYnnhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=i+Q7ULGT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2cWt1fdr; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZljYiKK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750750396; x=1782286396;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=x0tGnbgqwLjk77W9xb8ogsnnZO9WRIj3MP86BXNQhUo=;
-  b=QZljYiKKT9LrDKxN+u5cHr5G0ueaHjZej8HWXAL9r3tJPmcBduvp+Guu
-   UPRBd4HansUVKUFx7f8TNXT9qSlFjbzHwwmdYHPKjOTIogCka2zi61fB4
-   CUoGsjohOrjz7NEoGtUdrLk+y/K/dknPI8D7IPVojVgDwYlZv8zYnkn83
-   QVMrCPzpnXHAt2HNFaIVFadrDMMScPvxeRIXOHNOHJKb3U/mM5gFP13iA
-   ZlQm9IiqydhIhkKp+ESjvgKAE1u0yHzOB82fJn/9QmemQSvmVOeoyaOAo
-   HSNowjyQjPRz4yK0XLactft2VqB0qujboeIbGIWvIKLN7tJ5oNOSeVrrb
-   Q==;
-X-CSE-ConnectionGUID: VQeSogX0Qf+FbDKEkpyvVQ==
-X-CSE-MsgGUID: qLS8Fh7ZSDGDsYILY+EIVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="64038275"
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="64038275"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 00:33:15 -0700
-X-CSE-ConnectionGUID: BZOgtye7QOuK2mwuUCZeqQ==
-X-CSE-MsgGUID: IoL2Bha0Si6j4SRmvQiPVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="189035968"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 00:33:10 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uTy9S-00000009PEv-3F8X;
-	Tue, 24 Jun 2025 10:33:06 +0300
-Date: Tue, 24 Jun 2025 10:33:06 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
-	corbet@lwn.net, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	eraretuya@gmail.com
-Subject: Re: [PATCH v10 4/7] iio: accel: adxl345: add inactivity feature
-Message-ID: <aFpUsv5fWYJk4vxW@smile.fi.intel.com>
-References: <20250622155010.164451-1-l.rubusch@gmail.com>
- <20250622155010.164451-5-l.rubusch@gmail.com>
- <aFkh-E1dG__p_G4m@smile.fi.intel.com>
- <CAFXKEHan_7+BVshb12JZLH8CJtSPuwv=H_vC2kUWkS411wsqaA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="i+Q7ULGT";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2cWt1fdr"
+Date: Tue, 24 Jun 2025 09:36:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1750750574;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3i1MmWycKIjSa1eRswkqM6h98UB4zkHzxS3AAMMtz+E=;
+	b=i+Q7ULGTa616Iqv0o+NQzdQRe+CNprF6yDmVee8nf5+26nTWuTfbYPR0WUpzk4/EY2iMl2
+	+fb2pom2zzpVlBX9P0s1ICUN0ufE4FTEFZ5+VClq6j1YSuuTD6W6mEBhh4SL0xjcUfPhQQ
+	Q2Sh/1lCJxqiepbp2rvDrPGYveHJTIZZ49DmRyxR71rS5OlKOMu+BIbQSZjNVPCb3GcHQl
+	Z53kdHqu5KdDyxs0mDqIYVtKLKgEimUBaLJtHy4xCwR0jjjxidFCocEv30xnZAX7kk48ka
+	IifuT3wsO3mAbNt554ZvcST+RNRogJE44Yb7+SUEHRI2Lmp+TRlCJJZSXVj0nA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1750750574;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3i1MmWycKIjSa1eRswkqM6h98UB4zkHzxS3AAMMtz+E=;
+	b=2cWt1fdrOBRfhNP+nkf8mfmrpu3POA7VXVHVN8W74rVO0Czrg52m/MlZWBGsjeROgUG92h
+	JFCpNJyuHUbrjmBw==
+From: Nam Cao <namcao@linutronix.de>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,
+	john.ogness@linutronix.de
+Subject: Re: [RFC PATCH v2 09/12] rv: Replace tss monitor with more complete
+ sts
+Message-ID: <20250624073609.OA9Q1V4g@linutronix.de>
+References: <20250514084314.57976-1-gmonaco@redhat.com>
+ <20250514084314.57976-10-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFXKEHan_7+BVshb12JZLH8CJtSPuwv=H_vC2kUWkS411wsqaA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20250514084314.57976-10-gmonaco@redhat.com>
 
-On Mon, Jun 23, 2025 at 11:06:44PM +0200, Lothar Rubusch wrote:
-> On Mon, Jun 23, 2025 at 11:44 AM Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
+On Wed, May 14, 2025 at 10:43:11AM +0200, Gabriele Monaco wrote:
+> diff --git a/kernel/trace/rv/monitors/tss/tss_trace.h b/kernel/trace/rv/monitors/sts/sts_trace.h
+> similarity index 67%
+> rename from kernel/trace/rv/monitors/tss/tss_trace.h
+> rename to kernel/trace/rv/monitors/sts/sts_trace.h
+> index 4619dbb50cc0..d78beb58d5b3 100644
+> --- a/kernel/trace/rv/monitors/tss/tss_trace.h
+> +++ b/kernel/trace/rv/monitors/sts/sts_trace.h
+> @@ -4,12 +4,12 @@
+>   * Snippet to be included in rv_trace.h
+>   */
+>  
+> -#ifdef CONFIG_RV_MON_TSS
+> -DEFINE_EVENT(event_da_monitor, event_tss,
+> +#ifdef CONFIG_RV_MON_STS
+> +DEFINE_EVENT(event_da_monitor, event_sts,
+>  	     TP_PROTO(char *state, char *event, char *next_state, bool final_state),
+>  	     TP_ARGS(state, event, next_state, final_state));
+>  
+> -DEFINE_EVENT(error_da_monitor, error_tss,
+> +DEFINE_EVENT(error_da_monitor, error_sts,
+>  	     TP_PROTO(char *state, char *event),
+>  	     TP_ARGS(state, event));
+> -#endif /* CONFIG_RV_MON_TSS */
+> +#endif /* CONFIG_RV_MON_STS */
 
-...
+You are changing the tracepoint's name. Should we worry about breaking
+userspace?
 
-> > > +     case ADXL345_INACTIVITY:
-> > > +             en = FIELD_GET(ADXL345_INACT_X_EN, axis_ctrl) |
-> > > +                     FIELD_GET(ADXL345_INACT_Y_EN, axis_ctrl) |
-> > > +                     FIELD_GET(ADXL345_INACT_Z_EN, axis_ctrl);
-> >
-> > As I pointed out earlier. the indentation is supposed to be on the same colomn
-> > for 'F' letters.
-> >
-> 
-> Let me allow a stupid question, when you mean on the same column, the
-> above is wrong? Can you give me an example here how to fix it?
+It probably doesn't matter at the moment, because I doubt anyone is really
+relying on this tracepoint. But I think we should have a definite stance on
+this, for future references.
 
-Your mail client mangles the original text (TABs) and it's most likely
-impossible to see on your side what I meant (I already answered once with
-the example).
+I have seen tracepoints being changed (I know of [1][2][3], I was one of
+them :P), so it seems to be considered okay. But adding userspace tools to
+the equation and it doesn't make sense to me. For example, lttng is using
+the page_fault tracepoints [4], which is broken by [3].
 
-Here is the example, use https://lore.kernel.org/linux-iio to see it via Web
+If this should be stable user API, then we should starting thinking about
+better API which allows changes like this to happen. Otherwise, they should
+be clearly documented to be unstable.
 
-		en = FIELD_GET(ADXL345_INACT_X_EN, axis_ctrl) |
-		     FIELD_GET(ADXL345_INACT_Y_EN, axis_ctrl) |
-		     FIELD_GET(ADXL345_INACT_Z_EN, axis_ctrl);
+(I think I may also need to change my rtapp's tracepoint names at some point
+in the future, that's why I am asking)
 
-All 'F' letters occupy the same (by number) column in the sequential lines.
+Best regards,
+Nam
 
-P.S.
-Also you seems ignored my ask to remove the context you are not replying to.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+[1] commit dbb6ecb328cb ("btrfs: tracepoints: simplify raid56 events")
+[2] commit 244132c4e577 ("tracing/timers: Rename the hrtimer_init event to hrtimer_setup")
+[3] https://lore.kernel.org/lkml/2dda8c03-072a-43b2-af0c-bb996d64c388@cs.wisc.edu/#t
+[4] https://github.com/lttng/lttng-modules/blob/master/include/instrumentation/events/arch/x86/exceptions.h#L88C48-L88C63
