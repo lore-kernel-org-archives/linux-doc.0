@@ -1,86 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1101248F64;
-	Tue, 24 Jun 2025 08:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81ECF248F64;
+	Tue, 24 Jun 2025 08:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750754994; cv=none; b=LAaFx24i1TP91IgCD4aj58culE9lSM1cMJZttxsnTcNAM1im96LOkzm7SkVvutOVAxIuPaxHS5li8/djsXNLBSAsPqUjdMNCrXlgYcMPIPx6HrRHk20ozKz0NpQGF4FKr7tzYAHYMy8LIvqA8f1PzMKg6OvTafmVhCTCK1LHNP4=
+	t=1750755059; cv=none; b=Bo+2uwU+Ztmbi3Wcms/0+Ifd0JjKDmB5Yh+010Qsa+H04wQ7Cx6Zr9x9YahHwrILop//+04j97GlUJxHeIrGs760iLTRoyKmDWg+NQECyrm9bHqqa4pitTazHlTRAfXzfLJxAlvWmYjSR+JCu35DiJAAUacgpVpp6uIDi8qiLOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750754994; c=relaxed/simple;
-	bh=YW6HmDpuHGkqkfv8nhM6MCfMIQCl8pDzgCgyTV+Z5sI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lV8iE6/u8IsKixX/cZpA53GEHOPw0NICSfSBZjHLhBnCLtPu0jYIyHUII19rT/5gZGrCrUtzDZqCKdDvTHPj80m+xwmUxowjU0cr/nX1st+1QGHOHJPn18EcDbrfGKqci0S1UyVNydI85JRpLKiKs8aa1ogWMgKuCQu0HbiJSZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=knexF1x0; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="knexF1x0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750754994; x=1782290994;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YW6HmDpuHGkqkfv8nhM6MCfMIQCl8pDzgCgyTV+Z5sI=;
-  b=knexF1x061mUllfCld8EekyqEU9/It3TKasVL3XNoAhctdZ/H1x+f3A/
-   8UF0vOYvwtSGEV/YDQMmQx879Vv8zxjAtJq57xgsKiDY0WR27iXcf8NOh
-   LP2ICtDOkCQMJg5Ldb6ub7QWVZ57kNAu86WPxhok5rlwdm9IAYMg7cFVw
-   oMpkKbWsqd9TjPZks/CorB+DrbSmJ9aA00wG8Q4v9Nj82dZMsW1TUcdcS
-   eSDk385acX7S0FJYraK164kYD/kQ2GG/Fc2WVO93kOAG8f12b2OV4EO8+
-   7NQtW0G3sSGhMk4d0sG4DBMRkTj0jbJ4z20295McjPftfQdhv5medKBWd
-   g==;
-X-CSE-ConnectionGUID: YLOiH5d/RqaUyuvF/fB6GQ==
-X-CSE-MsgGUID: xT71BtvvRN+W+/MnyuhcfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="75524517"
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="75524517"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 01:49:53 -0700
-X-CSE-ConnectionGUID: 5pZhCsH7R2u5jNP7KLc8/w==
-X-CSE-MsgGUID: fmBM3rclSY+nZBFzSDNmCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="156237993"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa003.jf.intel.com with ESMTP; 24 Jun 2025 01:49:48 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 8D246138; Tue, 24 Jun 2025 11:49:45 +0300 (EEST)
-Date: Tue, 24 Jun 2025 11:49:45 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Khalid Ali <khaliidcaliy@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net, luto@kernel.org, 
-	peterz@infradead.org, ardb@kernel.org, jan.kiszka@siemens.com, kbingham@kernel.org, 
-	michael.roth@amd.com, rick.p.edgecombe@intel.com, brijesh.singh@amd.com, 
-	sandipan.das@amd.com, jgross@suse.com, thomas.lendacky@amd.com, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCHv2 0/3] x86: Make 5-level paging support unconditional for
- x86-64
-Message-ID: <m3i4z5ell2lhtpverw5slnxidd32lmtqcdpwcljtr5betki6s5@kiq2bibj5lt2>
-References: <20250516091534.3414310-1-kirill.shutemov@linux.intel.com>
- <20250624081400.2284-1-khaliidcaliy@gmail.com>
+	s=arc-20240116; t=1750755059; c=relaxed/simple;
+	bh=D5fmvCvmkgHX5RFgyUvWCpUbCJCCVl4DHz2CpRk42B4=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=KuTZ2lbp5lF+IdpyRmGPnpi/YmFj1Vgd9CDLya8TVdVLR0AOGrNmNtH3cgOU8oB9JLBjYJJuMPIQwILTEABTDF35VEf5KHasStyK0bLNKGLFpkaEPrtAptlJ0SHlP28+xC8oxxXFhqfwXw4oAYmsqC9qi1VORSmV5YVNAfBYGms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4bRJZK6RV1z51TgT;
+	Tue, 24 Jun 2025 16:50:49 +0800 (CST)
+Received: from njb2app07.zte.com.cn ([10.55.22.95])
+	by mse-fl2.zte.com.cn with SMTP id 55O8obcT078067;
+	Tue, 24 Jun 2025 16:50:37 +0800 (+08)
+	(envelope-from jiang.kun2@zte.com.cn)
+Received: from mapi (njy2app08[null])
+	by mapi (Zmail) with MAPI id mid204;
+	Tue, 24 Jun 2025 16:50:39 +0800 (CST)
+Date: Tue, 24 Jun 2025 16:50:39 +0800 (CST)
+X-Zmail-TransId: 2b00685a66dfffffffff9cf-d1aa2
+X-Mailer: Zmail v1.0
+Message-ID: <20250624165039911FXwVWbH9TM62kBeLnxzXg@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250624081400.2284-1-khaliidcaliy@gmail.com>
+Mime-Version: 1.0
+From: <jiang.kun2@zte.com.cn>
+To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>,
+        <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Cc: <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>, <fan.yu9@zte.com.cn>,
+        <qiu.yutan@zte.com.cn>, <wang.yaxin@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIXSBEb2NzL3poX0NOOiBUcmFuc2xhdGUgYWxpYXMucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 55O8obcT078067
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 685A66E9.000/4bRJZK6RV1z51TgT
 
-On Tue, Jun 24, 2025 at 08:11:15AM +0000, Khalid Ali wrote:
-> This will break x86_64 cpus that doesn't support 5-level paging.
+From: Qiu Yutan <qiu.yutan@zte.com.cn>
 
-No, it won't.
+translate the "alias.rst" into Simplified Chinese
 
-The patchset removes compile-time config option to disable 5-level paging.
-After tha patchset all kernels will be built with 5-level paging *support*.
+Update to commit 735dadf894f0("docs: networking:
+Convert alias.txt to rst")
 
-The actual paging mode is chosen at boot time based on machine
-capabilities and kernel command line. Older HW will boot in 4-level paging
-mode just fine.
+Signed-off-by: Qiu Yutan <qiu.yutan@zte.com.cn>
+Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+---
+ .../translations/zh_CN/networking/alias.rst   | 56 +++++++++++++++++++
+ .../translations/zh_CN/networking/index.rst   |  2 +-
+ 2 files changed, 57 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/networking/alias.rst
 
+diff --git a/Documentation/translations/zh_CN/networking/alias.rst b/Documentation/translations/zh_CN/networking/alias.rst
+new file mode 100644
+index 000000000000..d94fc38a3d2e
+--- /dev/null
++++ b/Documentation/translations/zh_CN/networking/alias.rst
+@@ -0,0 +1,56 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/networking/alias.rst
++
++:翻译:
++
++ 邱禹潭 Qiu Yutan <qiu.yutan@zte.com.cn>
++
++:校译:
++
++===========
++IP别名
++===========
++
++IP别名是管理每个接口存在多个IP地址/子网掩码的一种过时方法。
++虽然更新的工具如iproute2支持每个接口多个地址/前缀，
++但为了向后兼容性，别名仍被支持。
++
++别名通过在使用 ifconfig 时在接口名后添加冒号和一个字符串来创建。
++这个字符串通常是数字，但并非必须。
++
++
++别名创建
++==============
++
++别名的创建是通过“特殊的”接口命名机制完成的：例如，
++要为eth0创建一个 200.1.1.1 的别名...
++::
++
++  # ifconfig eth0:0 200.1.1.1  等等
++	~~ -> 请求为eth0创建别名#0（如果尚不存在）
++
++该命令也会设置相应的路由表项。请注意：路由表项始终指向基础接口。
++
++
++别名删除
++==============
++
++通过关闭别名即可将其删除::
++
++  # ifconfig eth0:0 down
++	~~~~~~~~~~ -> 将删除别名
++
++
++别名（重新）配置
++======================
++
++别名不是真实的设备，但程序应该能够正常配置和引用它们（ifconfig、route等）。
++
++
++与主设备的关系
++=============================
++
++如果基础设备被关闭，则其上添加的所有别名也将被删除。
+diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
+index d07dd69f980b..e0073087735f 100644
+--- a/Documentation/translations/zh_CN/networking/index.rst
++++ b/Documentation/translations/zh_CN/networking/index.rst
+@@ -21,6 +21,7 @@
+    :maxdepth: 1
+
+    msg_zerocopy
++   alias
+
+ Todolist:
+
+@@ -45,7 +46,6 @@ Todolist:
+ *   page_pool
+ *   phy
+ *   sfp-phylink
+-*   alias
+ *   bridge
+ *   snmp_counter
+ *   checksum-offloads
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.27.0
