@@ -1,132 +1,104 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4982D23BD
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 13:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5341A288AD;
+	Tue, 24 Jun 2025 13:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750772382; cv=none; b=gwICvDGZp6kdLd5zrb9Z47RGO3s80b5NiJZIx0+T9GbADqgCpXO3vJF93fLVka3fkP5ugrqTIrCpNKHB6NMohxANljL2MCzjvR3G7eeD4vYspTv2d0976HPlPgPa8rhQjyjIQQPxFwqQmLevsNau3DN+ioROPCwOV5g7D5y2UyY=
+	t=1750772713; cv=none; b=BTWUcWk4EpIWUrnyvCQfVETrYOlytxTHz5x71ySFpYlp38ki2i5jJMiN95FgEegGwylzEw/nzp4JU/RQpXYtOe0c/7yZRV6FZgj1GPn7kLvqfhQ6TLshRVIKUwji+W9SsExhG13xEX9fg7rMnf2AOLh9qxe/TLJPlNnMDVToAlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750772382; c=relaxed/simple;
-	bh=QT9inBggY1If/sJ/J64i0f/T+fZ+JZCkAwwWoVQBbug=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Tp+i655fT4qNYMRjWH5XX5xJeqpofTDsWkrlhC7MV7fXU198U7IkKQEfoBJVwWgWdpay7jBjjuluyfiy3iqqaqnaUpGScuDPwvvdzBsSgX1LXm6rKFOz4BIthqeyfWFhpQbtx8QEmcakiEcYh9tayKQogpxDB3gX62PFth3dZWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=BCWI0PGy; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1750772713; c=relaxed/simple;
+	bh=NbgHzDUBmwnWmkyYM/rM7TxCssTYLxDcNXZpU2MUuaU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UEwhWRU9w27yrv16WvgWfo1mm38GTNyOU3VUquO4i+qLbdbSuu4n8gNWMbvUHtWNy5yYH4/3hqcxHF4v07o7b4gxCF5WHa2q5/PuvWySNhaUfkFYijBdApgVkMSjfrauBpsrs6T7veNe8ZXKL6OU3PiS7Oo0Tw3EMVOZGxc01PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L6qXFziv; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BCWI0PGy"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45306976410so1905805e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 06:39:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L6qXFziv"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2360ff7ac1bso3721255ad.3;
+        Tue, 24 Jun 2025 06:45:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1750772379; x=1751377179; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4sx2Gr9jg00N7+zRyz0IpMFfOiCDQPryj3aB7m6WADE=;
-        b=BCWI0PGyCv0/xS3ddpxHK7jaMwd/iSqoufKjDIul00unT+kyGM51soBla8Ulns7pfZ
-         q/exk4su2PBT2r4To2uKqAxJYhpdVjom9ZPpGEXxCrHBL8C2/OFV20QoRWXcp1CxL02A
-         RJ+1daq3yWKV1wu3XbmZwhnuao9+dRTnKg1puo8om0SRMwTvNCXSvY0SvZjh1KqxsWDK
-         svNIKd2vvExxyqRWS0QoPxXkEMkLZJBuh7DPltGbH32FW3Q5PXM4xVzaumK6hoHemcjo
-         3v7b5kbXlIVm4EeWFwAnEtaF8PYA5TnbJaJiIRtoINCUEiRIT6px4ksTUFKuw01wd0ZC
-         0jtw==
+        d=gmail.com; s=20230601; t=1750772711; x=1751377511; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hPyjYbs2owAVe++gWy+5tVf+VNEm2obRf5tzZhSqcfE=;
+        b=L6qXFzivk3uONwY2T8IPW1UO8465444GeYs9oCtl2bbKExIOePkGXgwsdzkYtacwZb
+         F5otCYpxwsaD51Suvm5XdZh9cLtxTHGjTtDF2gQo1EVsMX4rcPcrclaB52lmtUnHde5c
+         EYN3GGwrnlzI2z0LTPCqnPBxkpO4ksDHGkgzDTlZNjAyX0chGeXsd+zQYVOZoVfZvfwA
+         x7SSuAHP9c4nU+BqqmbFT2owXNZaN0ldTxE7j/iKFueX0q4mMIC6lIzCh6MUjs3ZnVJz
+         1Zh7uNPFvlaIHsNxZbjHAHOFxxsxl7Qo+xqIax2azwG+3BBUSGBvsIj1XB9UQOS6JuMT
+         6opA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750772379; x=1751377179;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4sx2Gr9jg00N7+zRyz0IpMFfOiCDQPryj3aB7m6WADE=;
-        b=G19hOZkmDsIcg45aRaFHPvLZ6W9ZxRIYt2xhKF4bLPfHjeKADeuwJiNq/PFMTZZ0Ji
-         8QrlC2u8nueRScY7V47y16ZXAfMlsjQsMo60QlVeMOmQbBBiors66uhWHjxzvGKMkt/I
-         kSgFgo3rmajCxuZomzo6oGToMUPtRyAO/v8Uvo4YWWZCRtNXUDdtiwq+/QANHukN952z
-         McbpIvt+3ZOO6T2ZGmSyakEHpEJLYLXcDm8WwPDb4TZy+Zb9b0yiytmoZWdE6EDykhcY
-         792D8fDiI+7ZWxNTsksdVaSBUxh2y5hvf3tIJZKUPc7K6OICyDmqd7sDnDyYaTjm08MZ
-         V2mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX4n0mdflKGZZQQ4/X0++IY34QdOP3ExSehoqG1Q6Zw9YemvsmS/ZjT2tFQcRQD521cSg/VnKYWZaM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQYeZ0Mx9vO1GJpUCd4Jt6kxMzEzVn+RuE1yJBSn1AM07zIcuo
-	Z5HybGto6/p3AqXwiFXvzgAjhBUMANuqwukQUTLRqfBIZzsvBxcLh1ZFmPduZ6yQIfs=
-X-Gm-Gg: ASbGnctliAWSU3DbqjM9AzZWjYn3ivBjj+guyqfPz8bQA0S000dgHvDVoMoOxDnUR0+
-	PWfUlOy/7GdDOL9c6rX12fnWB/cAumekYDqf4ZB2upDBBYuuSQiQvGW7qnWn2POfih8wQa6VTJP
-	elVXldNrh7XGcHpwDpHXy1oJnk12H4Btm2cERYx+ZyIacxiB6V6qiw9CrQZNUz525QRufsQeL9/
-	nvXVhz8wxCQbi6wvYtjwxkXl8iT0SSlFxonrQLuTeim+cw4vy6LPoAoU870/6jEHcMutffok0u+
-	DbgHNEcF0oyV/fFbPO+OoIHxVwIYH3abpprSx+cAALuxYYirISAszfi/wXerAslz/+MtbqBD0FH
-	fBoCiX36La1CYWGinsnSYntmFLkSmw08PeG80dMYeh2xW3iDCTx87
-X-Google-Smtp-Source: AGHT+IHjfatN3aA0WosLoWdQDyKydeoZw/uVFREpIVO7tEoIVnSxxs5IGUHXJ6h6lYlWKWIGlOYciQ==
-X-Received: by 2002:a05:600c:4e8a:b0:451:eed7:6d76 with SMTP id 5b1f17b1804b1-453659ca55cmr57962935e9.8.1750772378926;
-        Tue, 24 Jun 2025 06:39:38 -0700 (PDT)
-Received: from localhost (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a6e805100dsm2044971f8f.18.2025.06.24.06.39.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 06:39:38 -0700 (PDT)
-From: Petr Tesarik <ptesarik@suse.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Morton <akpm@linux-foundation.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Keith Busch <kbusch@kernel.org>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Jens Axboe <axboe@kernel.dk>,
-	John Garry <john.g.garry@oracle.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	linux-mm@kvack.org (open list:MEMORY MANAGEMENT),
-	Petr Tesarik <ptesarik@suse.com>
-Subject: [PATCH 8/8] docs: dma-api: clean up documentation of dma_map_sg()
-Date: Tue, 24 Jun 2025 15:39:23 +0200
-Message-ID: <20250624133923.1140421-9-ptesarik@suse.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250624133923.1140421-1-ptesarik@suse.com>
-References: <20250624133923.1140421-1-ptesarik@suse.com>
+        d=1e100.net; s=20230601; t=1750772711; x=1751377511;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hPyjYbs2owAVe++gWy+5tVf+VNEm2obRf5tzZhSqcfE=;
+        b=KL9T7aHQNiiHg1k6/d6keW7zVxQksEDVwTLkQIJRdH36yF7RveOd2rUE1twpI798gG
+         ceFsrpvu7JIZDqeDMrg0usOUX3/VkYnI+nv7ZbAjN3nAWM2j/qOcdygxtPNUUyPe+7km
+         WA3WSSrg8ev2vG3v2g218K4VnGlmCATE+JOnktHQx6TGd4TdVQF2G9taIBkSzLzhfO6M
+         psGr0vC+cEjUWCIAM4pJScJProW408aI3hX8s+VPj/TImrP+/aQkT7rsG/xDrB0Wl1MJ
+         w0fpqW1vg8p2kPzoqV3eZ/wzokJw+RSpqqbiXWwMAT+dlgHeDVyanDLHzFUqGd0tmz7J
+         sJ8g==
+X-Forwarded-Encrypted: i=1; AJvYcCVNsPKgiNgRVGVhreU7CscZ/VAHglrJpPVfRqarQ2wKKYWXo6u/h0sSzLaoCEmhDK/+MC0=@vger.kernel.org, AJvYcCW6OVIFJ7p3QYHXR+jQYjjqg1VUgaOixJADWZfbkr1Us8s9h8h55L9QXhBNhdEjEAQYvHrpowoUvLfd@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyl/dudqiT7+DS2z35E5xHgwAyA0ITCJ7LNV4Cfm8Emg5b3rTqm
+	gN8sm5RirAZUs2pEQQXO8NYkpb4XA+l5XsJ5CsyqJ5wDsuCWpUtrqF11
+X-Gm-Gg: ASbGnctMTHTOkN59IGx9YqIVpXzJHLSTYtz/DlfPCZAzg12MM/YjcUffBd+L+4SFdSy
+	7q853LSz5YAzprROD12QIWHlI+Udz1LvTAgB4CGBo5H0dr3cMiRHdQY5CHUWyNTIlthGn1hhSLn
+	ylJno/PeL7QtYmcXl08MoEpn9TmbL0hkESqj2eqogpMNxCFQncS6+H/a/DwdJBQEHQkeDaJocFk
+	9kmmQv7L3//7J+/0VQq6oDwvISXkJr4GYlbP47wrtFp5Rzx/2t897n973uUOI7hvzDEaj9CVxF3
+	g3lIqJ33C/SMObnO74I0fQI9aEHG5lXaf5dhGhS5Jq0fSr8KdfTWQPQwBXiSF09IIxZsLA==
+X-Google-Smtp-Source: AGHT+IFF6NvmX1J7jxALkG5GWpXs1/Tdp9Xfdc7JJ1p84XCdCSRFWP6KPDIPM/jXOPCrTFxkVi1ZHw==
+X-Received: by 2002:a17:902:f68e:b0:223:65dc:4580 with SMTP id d9443c01a7336-237d9bd103amr239231235ad.52.1750772711364;
+        Tue, 24 Jun 2025 06:45:11 -0700 (PDT)
+Received: from [192.168.0.150] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d875382bsm106956305ad.254.2025.06.24.06.45.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Jun 2025 06:45:10 -0700 (PDT)
+Message-ID: <f833718d-ea25-4e21-a103-4ee0153ca990@gmail.com>
+Date: Tue, 24 Jun 2025 20:45:07 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH next] Documentation: KVM: fix reference for
+ kvm_ppc_resize_hpt and various typos
+To: Jonathan Corbet <corbet@lwn.net>, Alok Tiwari <alok.a.tiwari@oracle.com>,
+ pbonzini@redhat.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <20250623191152.44118-1-alok.a.tiwari@oracle.com>
+ <aFniQYHCyi4BKVcs@archie.me> <87jz5171lk.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87jz5171lk.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Describe in one sentence what the function does.
+On 6/24/25 19:42, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> 
+>> On Mon, Jun 23, 2025 at 12:11:47PM -0700, Alok Tiwari wrote:
+>>>   If this ioctl is called when a hash table has already been allocated,
+>>>   with a different order from the existing hash table, the existing hash
+>>> -table will be freed and a new one allocated.  If this is ioctl is
+>>> -called when a hash table has already been allocated of the same order
+>>> +table will be freed and a new one allocated. If this ioctl is called
+>>> +when a hash table has already been allocated of the same order
+>>
+>> Two spaces between sentences (just to be consistent), please.
+> 
+> Spaces after periods are explicitly documented as something we do not
+> "correct" or harass our contributors about.  Please, for the Nth time,
+> do not add unnecessary friction to the process of improving our
+> documentation.
+> 
 
-Do not repeat example situations when the returned number is lower than
-the number of segments on input.
+OK, thanks!
 
-Signed-off-by: Petr Tesarik <ptesarik@suse.com>
----
- Documentation/core-api/dma-api.rst | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-index 65132ec88104..f5aadb7f8626 100644
---- a/Documentation/core-api/dma-api.rst
-+++ b/Documentation/core-api/dma-api.rst
-@@ -308,10 +308,10 @@ action (e.g. reduce current DMA mapping usage or delay and try again later).
- 	dma_map_sg(struct device *dev, struct scatterlist *sg,
- 		   int nents, enum dma_data_direction direction)
- 
--Returns: the number of DMA address segments mapped (this may be shorter
--than <nents> passed in if some elements of the scatter/gather list are
--physically or virtually adjacent and an IOMMU maps them with a single
--entry).
-+Maps a scatter/gather list for DMA. Returns the number of DMA address segments
-+mapped, which may be smaller than <nents> passed in if several consecutive
-+sglist entries are merged (e.g. with an IOMMU, or if some adjacent segments
-+just happen to be physically contiguous).
- 
- Please note that the sg cannot be mapped again if it has been mapped once.
- The mapping process is allowed to destroy information in the sg.
-@@ -335,9 +335,8 @@ With scatterlists, you use the resulting mapping like this::
- where nents is the number of entries in the sglist.
- 
- The implementation is free to merge several consecutive sglist entries
--into one (e.g. with an IOMMU, or if several pages just happen to be
--physically contiguous) and returns the actual number of sg entries it
--mapped them to. On failure 0, is returned.
-+into one.  The returned number is the actual number of sg entries it
-+mapped them to. On failure, 0 is returned.
- 
- Then you should loop count times (note: this can be less than nents times)
- and use sg_dma_address() and sg_dma_len() macros where you previously
 -- 
-2.49.0
-
+An old man doll... just what I always wanted! - Clara
