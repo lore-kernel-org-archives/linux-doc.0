@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323C02D238F
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 14:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01A82D29DF
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 14:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750774248; cv=none; b=gLQhGyEUcE2CDRThOCtjDENoYMOtzld3sPvrv3NbloV9z/eZXhJt3yyHKVvMZYyl6IS1qcVoCsXoMpNyodrJycm80Urv8S0RBdMdA+ZMDrH4ra3/3LWE9orcRb9PCnhOAo/a5y9u3mlxahvv7GnQxKzLoPArnwEipAewqPc0n84=
+	t=1750774257; cv=none; b=uJhTdv/JOosEzclW750J5BdAncpzzlbyvMf2Cd7+8T29tA19jmOZ235bnuCa06467berWSU6W0rKEkoAwBmev2LuWE3aJZgvEosvIi0XDnWeeYu4mMTTdFloybHkpy7cxEtMRhR1qFMwN6HsTFrvcecSKRE3Azqnrr1B/UEYi7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750774248; c=relaxed/simple;
-	bh=gEUfdJoTiA5Inux9sOwicIzDitBz+Z2BbGCZqo1P4sc=;
+	s=arc-20240116; t=1750774257; c=relaxed/simple;
+	bh=mFPOg9ZwrSNJre31gaLTWPJxWVtkWKiUG6SJR+Gm44U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ikS0E46X925tJ1r2VErDFeqmabl6Y7y2M0cJht0dEX1HLx7dlvIGzoHJ3hUaaH1IMS5xM+ZZx9jQXMXFsY2urooUr3UqP0RaSvDJPDpuN1YvH1N9hyn62cOaUclattC1OmcbA36Ul0R7w1zQbkjTjAJ0QEmToEOwQ0f0Gpi+egg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JeSQOM8b; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=PrUnqXdwZo59E1vuon4p2ch2JxWwJCj1Fkka3q7dA+TckAl2x47Okl/9fQCgCif6Ce7ZJexMz2+YMLd0FjYZmsEUWTKmJvNXEoMAspJsTlyHyN+kSU40g2iNCkQIFyT6JbS6PPVlnRnl0fW+A0Af8gkvnsEDy3/OTZxD1/AIWuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FhopA7bb; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JeSQOM8b"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FhopA7bb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750774245;
+	s=mimecast20190719; t=1750774255;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kWDwDNhRV2BjaqYJ9qNzAQtnKMX/abnzhv3in92MW84=;
-	b=JeSQOM8b91I37ht0j/iyCHXIrsHxyrSR8HfyFMuosnlYDoh5gbjdY9+ukaAztl5EmdZIFE
-	FmTYoIyv+ligkN7zjywEwIZ3sXUKxQHqVd4a0HD4ZZdEVftCdEMlKBAL/vtPjSDfir9tzC
-	/M2TYWh47VDGrtTSx4Wc59tS/MMO4Ms=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=N6V3UQ19Ku8IoPwn+EcQ8Inj0jAHy5Q4OtkFKrvbaPo=;
+	b=FhopA7bbTbwyhMhagBHqWpxm7WNipEZ6C3Oz2Cde/rUGkbmkP1lCrbAZHSpg8JW9zK1W7t
+	eIT0fGcrWWdw7JO+twA/Z/xhAJCnI3gcXcF+VIGBwccY8fkGpVcb5TRKZLZWOg64NDzPuz
+	qaGkT9HrfpQPg07+pa0cm9g5C0ISmSk=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-584-D4rYi5k9OwiTaPk7sHUUuw-1; Tue,
- 24 Jun 2025 10:10:39 -0400
-X-MC-Unique: D4rYi5k9OwiTaPk7sHUUuw-1
-X-Mimecast-MFC-AGG-ID: D4rYi5k9OwiTaPk7sHUUuw_1750774235
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-609-ARTOWgGiMCm6qvp32m9wOw-1; Tue,
+ 24 Jun 2025 10:10:53 -0400
+X-MC-Unique: ARTOWgGiMCm6qvp32m9wOw-1
+X-Mimecast-MFC-AGG-ID: ARTOWgGiMCm6qvp32m9wOw_1750774248
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 975281955F42;
-	Tue, 24 Jun 2025 14:10:35 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 112F81809C81;
+	Tue, 24 Jun 2025 14:10:48 +0000 (UTC)
 Received: from gerbillo.redhat.com (unknown [10.45.224.193])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3C831195608D;
-	Tue, 24 Jun 2025 14:10:29 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 90913195608D;
+	Tue, 24 Jun 2025 14:10:41 +0000 (UTC)
 From: Paolo Abeni <pabeni@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
@@ -58,9 +58,9 @@ Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v6 net-next 2/9] virtio: introduce extended features
-Date: Tue, 24 Jun 2025 16:09:44 +0200
-Message-ID: <db2126933a165361a88ebbe39dd449e72ace09d8.1750753211.git.pabeni@redhat.com>
+Subject: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended features
+Date: Tue, 24 Jun 2025 16:09:46 +0200
+Message-ID: <23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni@redhat.com>
 In-Reply-To: <cover.1750753211.git.pabeni@redhat.com>
 References: <cover.1750753211.git.pabeni@redhat.com>
 Precedence: bulk
@@ -72,455 +72,264 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-The virtio specifications allows for up to 128 bits for the
-device features. Soon we are going to use some of the 'extended'
-bits features (above 64) for the virtio_net driver.
+Use the extended feature type for 'acked_features' and implement
+two new ioctls operation allowing the user-space to set/query an
+unbounded amount of features.
 
-Introduce extended features as a fixed size array of u64. To minimize
-the diffstat allows legacy driver to access the low 64 bits via a
-transparent union.
+The actual number of processed features is limited by VIRTIO_FEATURES_MAX
+and attempts to set features above such limit fail with
+EOPNOTSUPP.
 
-Introduce an extended get_extended_features configuration callback
-that devices supporting the extended features range must implement in
-place of the traditional one.
-
-Note that legacy and transport features don't need any change, as
-they are always in the low 64 bit range.
+Note that: the legacy ioctls implicitly truncate the negotiated
+features to the lower 64 bits range and the 'acked_backend_features'
+field don't need conversion, as the only negotiated feature there
+is in the low 64 bit range.
 
 Acked-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Paolo Abeni <pabeni@redhat.com>
 ---
+v5 -> v6:
+  - deal with overflows with size_mul()
+
 v4 -> v5:
-  - add kdoc for features_array
-  - avoid line longer than 80 chars
+  - simpler VHOST_GET_FEATURES_ARRAY impl && fix
+  - use get_user() when possible
 
 v3 -> v4:
-  - moved bit sanity check in virtio_features_*
-  - replaced BUG_ON with WARN_ON_ONCE
-  - *_and_not -> _andnot
-  - short circuit features comparison
+  - use a single static (lower case) constant instead of enum and old def
+  - simpler VHOST_GET_FEATURES_ARRAY impl
+  - avoid using virtio_features_and_not
 
 v2 -> v3:
-  - uint128_t -> u64[2];
+  - virtio_features_t -> u64[2]
+  - add __counted_by annotation to vhost_features_array
 
 v1 -> v2:
-  - let u64 VIRTIO_BIT() cope with higher bit values
-  - add .get_features128 instead of changing .get_features signature
+  - change the ioctl to use an extensible API
 ---
- drivers/virtio/virtio.c         | 43 +++++++++-------
- drivers/virtio/virtio_debug.c   | 27 +++++-----
- include/linux/virtio.h          |  9 ++--
- include/linux/virtio_config.h   | 43 ++++++++--------
- include/linux/virtio_features.h | 88 +++++++++++++++++++++++++++++++++
- 5 files changed, 156 insertions(+), 54 deletions(-)
- create mode 100644 include/linux/virtio_features.h
+ drivers/vhost/net.c              | 86 ++++++++++++++++++++++++--------
+ drivers/vhost/vhost.c            |  2 +-
+ drivers/vhost/vhost.h            |  4 +-
+ include/uapi/linux/vhost.h       |  7 +++
+ include/uapi/linux/vhost_types.h |  5 ++
+ 5 files changed, 81 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-index 95d5d7993e5b..5c48788cdbec 100644
---- a/drivers/virtio/virtio.c
-+++ b/drivers/virtio/virtio.c
-@@ -53,7 +53,7 @@ static ssize_t features_show(struct device *_d,
+diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
+index 7cbfc7d718b3..c8fb7c10fe0b 100644
+--- a/drivers/vhost/net.c
++++ b/drivers/vhost/net.c
+@@ -69,12 +69,12 @@ MODULE_PARM_DESC(experimental_zcopytx, "Enable Zero Copy TX;"
  
- 	/* We actually represent this as a bitstring, as it could be
- 	 * arbitrary length in future. */
--	for (i = 0; i < sizeof(dev->features)*8; i++)
-+	for (i = 0; i < VIRTIO_FEATURES_MAX; i++)
- 		len += sysfs_emit_at(buf, len, "%c",
- 			       __virtio_test_bit(dev, i) ? '1' : '0');
- 	len += sysfs_emit_at(buf, len, "\n");
-@@ -272,22 +272,22 @@ static int virtio_dev_probe(struct device *_d)
- 	int err, i;
- 	struct virtio_device *dev = dev_to_virtio(_d);
- 	struct virtio_driver *drv = drv_to_virtio(dev->dev.driver);
--	u64 device_features;
--	u64 driver_features;
-+	u64 device_features[VIRTIO_FEATURES_DWORDS];
-+	u64 driver_features[VIRTIO_FEATURES_DWORDS];
- 	u64 driver_features_legacy;
+ #define VHOST_DMA_IS_DONE(len) ((__force u32)(len) >= (__force u32)VHOST_DMA_DONE_LEN)
  
- 	/* We have a driver! */
- 	virtio_add_status(dev, VIRTIO_CONFIG_S_DRIVER);
- 
- 	/* Figure out what features the device supports. */
--	device_features = dev->config->get_features(dev);
-+	virtio_get_features(dev, device_features);
- 
- 	/* Figure out what features the driver supports. */
--	driver_features = 0;
-+	virtio_features_zero(driver_features);
- 	for (i = 0; i < drv->feature_table_size; i++) {
- 		unsigned int f = drv->feature_table[i];
--		BUG_ON(f >= 64);
--		driver_features |= (1ULL << f);
-+		if (!WARN_ON_ONCE(f >= VIRTIO_FEATURES_MAX))
-+			virtio_features_set_bit(driver_features, f);
- 	}
- 
- 	/* Some drivers have a separate feature table for virtio v1.0 */
-@@ -295,24 +295,29 @@ static int virtio_dev_probe(struct device *_d)
- 		driver_features_legacy = 0;
- 		for (i = 0; i < drv->feature_table_size_legacy; i++) {
- 			unsigned int f = drv->feature_table_legacy[i];
--			BUG_ON(f >= 64);
--			driver_features_legacy |= (1ULL << f);
-+			if (!WARN_ON_ONCE(f >= 64))
-+				driver_features_legacy |= (1ULL << f);
- 		}
- 	} else {
--		driver_features_legacy = driver_features;
-+		driver_features_legacy = driver_features[0];
- 	}
- 
--	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
--		dev->features = driver_features & device_features;
--	else
--		dev->features = driver_features_legacy & device_features;
-+	if (virtio_features_test_bit(device_features, VIRTIO_F_VERSION_1)) {
-+		for (i = 0; i < VIRTIO_FEATURES_DWORDS; ++i)
-+			dev->features_array[i] = driver_features[i] &
-+						 device_features[i];
-+	} else {
-+		virtio_features_from_u64(dev->features_array,
-+					 driver_features_legacy &
-+					 device_features[0]);
-+	}
- 
- 	/* When debugging, user may filter some features by hand. */
- 	virtio_debug_device_filter_features(dev);
- 
- 	/* Transport features always preserved to pass to finalize_features. */
- 	for (i = VIRTIO_TRANSPORT_F_START; i < VIRTIO_TRANSPORT_F_END; i++)
--		if (device_features & (1ULL << i))
-+		if (virtio_features_test_bit(device_features, i))
- 			__virtio_set_bit(dev, i);
- 
- 	err = dev->config->finalize_features(dev);
-@@ -320,14 +325,15 @@ static int virtio_dev_probe(struct device *_d)
- 		goto err;
- 
- 	if (drv->validate) {
--		u64 features = dev->features;
-+		u64 features[VIRTIO_FEATURES_DWORDS];
- 
-+		virtio_features_copy(features, dev->features_array);
- 		err = drv->validate(dev);
- 		if (err)
- 			goto err;
- 
- 		/* Did validation change any features? Then write them again. */
--		if (features != dev->features) {
-+		if (!virtio_features_equal(features, dev->features_array)) {
- 			err = dev->config->finalize_features(dev);
- 			if (err)
- 				goto err;
-@@ -701,6 +707,9 @@ EXPORT_SYMBOL_GPL(virtio_device_reset_done);
- 
- static int virtio_init(void)
- {
-+	BUILD_BUG_ON(offsetof(struct virtio_device, features) !=
-+		     offsetof(struct virtio_device, features_array[0]));
-+
- 	if (bus_register(&virtio_bus) != 0)
- 		panic("virtio bus registration failed");
- 	virtio_debug_init();
-diff --git a/drivers/virtio/virtio_debug.c b/drivers/virtio/virtio_debug.c
-index 95c8fc7705bb..d58713ddf2e5 100644
---- a/drivers/virtio/virtio_debug.c
-+++ b/drivers/virtio/virtio_debug.c
-@@ -8,13 +8,13 @@ static struct dentry *virtio_debugfs_dir;
- 
- static int virtio_debug_device_features_show(struct seq_file *s, void *data)
- {
-+	u64 device_features[VIRTIO_FEATURES_DWORDS];
- 	struct virtio_device *dev = s->private;
--	u64 device_features;
- 	unsigned int i;
- 
--	device_features = dev->config->get_features(dev);
--	for (i = 0; i < BITS_PER_LONG_LONG; i++) {
--		if (device_features & (1ULL << i))
-+	virtio_get_features(dev, device_features);
-+	for (i = 0; i < VIRTIO_FEATURES_MAX; i++) {
-+		if (virtio_features_test_bit(device_features, i))
- 			seq_printf(s, "%u\n", i);
- 	}
- 	return 0;
-@@ -26,8 +26,8 @@ static int virtio_debug_filter_features_show(struct seq_file *s, void *data)
- 	struct virtio_device *dev = s->private;
- 	unsigned int i;
- 
--	for (i = 0; i < BITS_PER_LONG_LONG; i++) {
--		if (dev->debugfs_filter_features & (1ULL << i))
-+	for (i = 0; i < VIRTIO_FEATURES_MAX; i++) {
-+		if (virtio_features_test_bit(dev->debugfs_filter_features, i))
- 			seq_printf(s, "%u\n", i);
- 	}
- 	return 0;
-@@ -39,7 +39,7 @@ static int virtio_debug_filter_features_clear(void *data, u64 val)
- 	struct virtio_device *dev = data;
- 
- 	if (val == 1)
--		dev->debugfs_filter_features = 0;
-+		virtio_features_zero(dev->debugfs_filter_features);
- 	return 0;
- }
- 
-@@ -50,9 +50,10 @@ static int virtio_debug_filter_feature_add(void *data, u64 val)
- {
- 	struct virtio_device *dev = data;
- 
--	if (val >= BITS_PER_LONG_LONG)
-+	if (val >= VIRTIO_FEATURES_MAX)
- 		return -EINVAL;
--	dev->debugfs_filter_features |= BIT_ULL_MASK(val);
-+
-+	virtio_features_set_bit(dev->debugfs_filter_features, val);
- 	return 0;
- }
- 
-@@ -63,9 +64,10 @@ static int virtio_debug_filter_feature_del(void *data, u64 val)
- {
- 	struct virtio_device *dev = data;
- 
--	if (val >= BITS_PER_LONG_LONG)
-+	if (val >= VIRTIO_FEATURES_MAX)
- 		return -EINVAL;
--	dev->debugfs_filter_features &= ~BIT_ULL_MASK(val);
-+
-+	virtio_features_clear_bit(dev->debugfs_filter_features, val);
- 	return 0;
- }
- 
-@@ -91,7 +93,8 @@ EXPORT_SYMBOL_GPL(virtio_debug_device_init);
- 
- void virtio_debug_device_filter_features(struct virtio_device *dev)
- {
--	dev->features &= ~dev->debugfs_filter_features;
-+	virtio_features_andnot(dev->features_array, dev->features_array,
-+			       dev->debugfs_filter_features);
- }
- EXPORT_SYMBOL_GPL(virtio_debug_device_filter_features);
- 
-diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-index 64cb4b04be7a..04b90c88d164 100644
---- a/include/linux/virtio.h
-+++ b/include/linux/virtio.h
-@@ -11,6 +11,7 @@
- #include <linux/gfp.h>
- #include <linux/dma-mapping.h>
- #include <linux/completion.h>
-+#include <linux/virtio_features.h>
- 
- /**
-  * struct virtqueue - a queue to register buffers for sending or receiving.
-@@ -141,7 +142,9 @@ struct virtio_admin_cmd {
-  * @config: the configuration ops for this device.
-  * @vringh_config: configuration ops for host vrings.
-  * @vqs: the list of virtqueues for this device.
-- * @features: the features supported by both driver and device.
-+ * @features: the 64 lower features supported by both driver and device.
-+ * @features_array: the full features space supported by both driver and
-+ *		    device.
-  * @priv: private pointer for the driver's use.
-  * @debugfs_dir: debugfs directory entry.
-  * @debugfs_filter_features: features to be filtered set by debugfs.
-@@ -159,11 +162,11 @@ struct virtio_device {
- 	const struct virtio_config_ops *config;
- 	const struct vringh_config_ops *vringh_config;
- 	struct list_head vqs;
--	u64 features;
-+	VIRTIO_DECLARE_FEATURES(features);
- 	void *priv;
- #ifdef CONFIG_VIRTIO_DEBUG
- 	struct dentry *debugfs_dir;
--	u64 debugfs_filter_features;
-+	u64 debugfs_filter_features[VIRTIO_FEATURES_DWORDS];
- #endif
+-enum {
+-	VHOST_NET_FEATURES = VHOST_FEATURES |
+-			 (1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
+-			 (1ULL << VIRTIO_NET_F_MRG_RXBUF) |
+-			 (1ULL << VIRTIO_F_ACCESS_PLATFORM) |
+-			 (1ULL << VIRTIO_F_RING_RESET)
++static const u64 vhost_net_features[VIRTIO_FEATURES_DWORDS] = {
++	VHOST_FEATURES |
++	(1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
++	(1ULL << VIRTIO_NET_F_MRG_RXBUF) |
++	(1ULL << VIRTIO_F_ACCESS_PLATFORM) |
++	(1ULL << VIRTIO_F_RING_RESET),
  };
  
-diff --git a/include/linux/virtio_config.h b/include/linux/virtio_config.h
-index b3e1d30c765b..918cf25cd3c6 100644
---- a/include/linux/virtio_config.h
-+++ b/include/linux/virtio_config.h
-@@ -77,7 +77,11 @@ struct virtqueue_info {
-  *      vdev: the virtio_device
-  * @get_features: get the array of feature bits for this device.
-  *	vdev: the virtio_device
-- *	Returns the first 64 feature bits (all we currently need).
-+ *	Returns the first 64 feature bits.
-+ * @get_extended_features:
-+ *      vdev: the virtio_device
-+ *      Returns the first VIRTIO_FEATURES_MAX feature bits (all we currently
-+ *      need).
-  * @finalize_features: confirm what device features we'll be using.
-  *	vdev: the virtio_device
-  *	This sends the driver feature bits to the device: it can change
-@@ -121,6 +125,8 @@ struct virtio_config_ops {
- 	void (*del_vqs)(struct virtio_device *);
- 	void (*synchronize_cbs)(struct virtio_device *);
- 	u64 (*get_features)(struct virtio_device *vdev);
-+	void (*get_extended_features)(struct virtio_device *vdev,
-+				      u64 *features);
- 	int (*finalize_features)(struct virtio_device *vdev);
- 	const char *(*bus_name)(struct virtio_device *vdev);
- 	int (*set_vq_affinity)(struct virtqueue *vq,
-@@ -147,13 +153,7 @@ void virtio_check_driver_offered_feature(const struct virtio_device *vdev,
- static inline bool __virtio_test_bit(const struct virtio_device *vdev,
- 				     unsigned int fbit)
+ enum {
+@@ -1614,16 +1614,17 @@ static long vhost_net_reset_owner(struct vhost_net *n)
+ 	return err;
+ }
+ 
+-static int vhost_net_set_features(struct vhost_net *n, u64 features)
++static int vhost_net_set_features(struct vhost_net *n, const u64 *features)
  {
--	/* Did you forget to fix assumptions on max features? */
--	if (__builtin_constant_p(fbit))
--		BUILD_BUG_ON(fbit >= 64);
--	else
--		BUG_ON(fbit >= 64);
--
--	return vdev->features & BIT_ULL(fbit);
-+	return virtio_features_test_bit(vdev->features_array, fbit);
- }
+ 	size_t vhost_hlen, sock_hlen, hdr_len;
+ 	int i;
  
- /**
-@@ -164,13 +164,7 @@ static inline bool __virtio_test_bit(const struct virtio_device *vdev,
- static inline void __virtio_set_bit(struct virtio_device *vdev,
- 				    unsigned int fbit)
+-	hdr_len = (features & ((1ULL << VIRTIO_NET_F_MRG_RXBUF) |
+-			       (1ULL << VIRTIO_F_VERSION_1))) ?
+-			sizeof(struct virtio_net_hdr_mrg_rxbuf) :
+-			sizeof(struct virtio_net_hdr);
+-	if (features & (1 << VHOST_NET_F_VIRTIO_NET_HDR)) {
++	hdr_len = virtio_features_test_bit(features, VIRTIO_NET_F_MRG_RXBUF) ||
++		  virtio_features_test_bit(features, VIRTIO_F_VERSION_1) ?
++		  sizeof(struct virtio_net_hdr_mrg_rxbuf) :
++		  sizeof(struct virtio_net_hdr);
++
++	if (virtio_features_test_bit(features, VHOST_NET_F_VIRTIO_NET_HDR)) {
+ 		/* vhost provides vnet_hdr */
+ 		vhost_hlen = hdr_len;
+ 		sock_hlen = 0;
+@@ -1633,18 +1634,19 @@ static int vhost_net_set_features(struct vhost_net *n, u64 features)
+ 		sock_hlen = hdr_len;
+ 	}
+ 	mutex_lock(&n->dev.mutex);
+-	if ((features & (1 << VHOST_F_LOG_ALL)) &&
++	if (virtio_features_test_bit(features, VHOST_F_LOG_ALL) &&
+ 	    !vhost_log_access_ok(&n->dev))
+ 		goto out_unlock;
+ 
+-	if ((features & (1ULL << VIRTIO_F_ACCESS_PLATFORM))) {
++	if (virtio_features_test_bit(features, VIRTIO_F_ACCESS_PLATFORM)) {
+ 		if (vhost_init_device_iotlb(&n->dev))
+ 			goto out_unlock;
+ 	}
+ 
+ 	for (i = 0; i < VHOST_NET_VQ_MAX; ++i) {
+ 		mutex_lock(&n->vqs[i].vq.mutex);
+-		n->vqs[i].vq.acked_features = features;
++		virtio_features_copy(n->vqs[i].vq.acked_features_array,
++				     features);
+ 		n->vqs[i].vhost_hlen = vhost_hlen;
+ 		n->vqs[i].sock_hlen = sock_hlen;
+ 		mutex_unlock(&n->vqs[i].vq.mutex);
+@@ -1681,12 +1683,13 @@ static long vhost_net_set_owner(struct vhost_net *n)
+ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+ 			    unsigned long arg)
  {
--	/* Did you forget to fix assumptions on max features? */
--	if (__builtin_constant_p(fbit))
--		BUILD_BUG_ON(fbit >= 64);
--	else
--		BUG_ON(fbit >= 64);
--
--	vdev->features |= BIT_ULL(fbit);
-+	virtio_features_set_bit(vdev->features_array, fbit);
- }
++	u64 all_features[VIRTIO_FEATURES_DWORDS];
+ 	struct vhost_net *n = f->private_data;
+ 	void __user *argp = (void __user *)arg;
+ 	u64 __user *featurep = argp;
+ 	struct vhost_vring_file backend;
+-	u64 features;
+-	int r;
++	u64 features, count, copied;
++	int r, i;
  
- /**
-@@ -181,13 +175,7 @@ static inline void __virtio_set_bit(struct virtio_device *vdev,
- static inline void __virtio_clear_bit(struct virtio_device *vdev,
- 				      unsigned int fbit)
- {
--	/* Did you forget to fix assumptions on max features? */
--	if (__builtin_constant_p(fbit))
--		BUILD_BUG_ON(fbit >= 64);
--	else
--		BUG_ON(fbit >= 64);
--
--	vdev->features &= ~BIT_ULL(fbit);
-+	virtio_features_clear_bit(vdev->features_array, fbit);
- }
- 
- /**
-@@ -204,6 +192,17 @@ static inline bool virtio_has_feature(const struct virtio_device *vdev,
- 	return __virtio_test_bit(vdev, fbit);
- }
- 
-+static inline void virtio_get_features(struct virtio_device *vdev,
-+				       u64 *features)
-+{
-+	if (vdev->config->get_extended_features) {
-+		vdev->config->get_extended_features(vdev, features);
-+		return;
-+	}
+ 	switch (ioctl) {
+ 	case VHOST_NET_SET_BACKEND:
+@@ -1694,16 +1697,59 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+ 			return -EFAULT;
+ 		return vhost_net_set_backend(n, backend.index, backend.fd);
+ 	case VHOST_GET_FEATURES:
+-		features = VHOST_NET_FEATURES;
++		features = vhost_net_features[0];
+ 		if (copy_to_user(featurep, &features, sizeof features))
+ 			return -EFAULT;
+ 		return 0;
+ 	case VHOST_SET_FEATURES:
+ 		if (copy_from_user(&features, featurep, sizeof features))
+ 			return -EFAULT;
+-		if (features & ~VHOST_NET_FEATURES)
++		if (features & ~vhost_net_features[0])
+ 			return -EOPNOTSUPP;
+-		return vhost_net_set_features(n, features);
 +
-+	virtio_features_from_u64(features, vdev->config->get_features(vdev));
-+}
++		virtio_features_from_u64(all_features, features);
++		return vhost_net_set_features(n, all_features);
++	case VHOST_GET_FEATURES_ARRAY:
++		if (get_user(count, featurep))
++			return -EFAULT;
 +
- /**
-  * virtio_has_dma_quirk - determine whether this device has the DMA quirk
-  * @vdev: the device
-diff --git a/include/linux/virtio_features.h b/include/linux/virtio_features.h
-new file mode 100644
-index 000000000000..f748f2f87de8
---- /dev/null
-+++ b/include/linux/virtio_features.h
-@@ -0,0 +1,88 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_VIRTIO_FEATURES_H
-+#define _LINUX_VIRTIO_FEATURES_H
++		/* Copy the net features, up to the user-provided buffer size */
++		argp += sizeof(u64);
++		copied = min(count, VIRTIO_FEATURES_DWORDS);
++		if (copy_to_user(argp, vhost_net_features,
++				 copied * sizeof(u64)))
++			return -EFAULT;
 +
-+#include <linux/bits.h>
++		/* Zero the trailing space provided by user-space, if any */
++		if (clear_user(argp, size_mul(count - copied, sizeof(u64))))
++			return -EFAULT;
++		return 0;
++	case VHOST_SET_FEATURES_ARRAY:
++		if (get_user(count, featurep))
++			return -EFAULT;
 +
-+#define VIRTIO_FEATURES_DWORDS	2
-+#define VIRTIO_FEATURES_MAX	(VIRTIO_FEATURES_DWORDS * 64)
-+#define VIRTIO_FEATURES_WORDS	(VIRTIO_FEATURES_DWORDS * 2)
-+#define VIRTIO_BIT(b)		BIT_ULL((b) & 0x3f)
-+#define VIRTIO_DWORD(b)		((b) >> 6)
-+#define VIRTIO_DECLARE_FEATURES(name)			\
-+	union {						\
-+		u64 name;				\
-+		u64 name##_array[VIRTIO_FEATURES_DWORDS];\
-+	}
++		virtio_features_zero(all_features);
++		argp += sizeof(u64);
++		copied = min(count, VIRTIO_FEATURES_DWORDS);
++		if (copy_from_user(all_features, argp, copied * sizeof(u64)))
++			return -EFAULT;
 +
-+static inline bool virtio_features_chk_bit(unsigned int bit)
-+{
-+	if (__builtin_constant_p(bit)) {
 +		/*
-+		 * Don't care returning the correct value: the build
-+		 * will fail before any bad features access
++		 * Any feature specified by user-space above
++		 * VIRTIO_FEATURES_MAX is not supported by definition.
 +		 */
-+		BUILD_BUG_ON(bit >= VIRTIO_FEATURES_MAX);
-+	} else {
-+		if (WARN_ON_ONCE(bit >= VIRTIO_FEATURES_MAX))
-+			return false;
-+	}
-+	return true;
-+}
++		for (i = copied; i < count; ++i) {
++			if (get_user(features, featurep + 1 + i))
++				return -EFAULT;
++			if (features)
++				return -EOPNOTSUPP;
++		}
 +
-+static inline bool virtio_features_test_bit(const u64 *features,
-+					    unsigned int bit)
-+{
-+	return virtio_features_chk_bit(bit) &&
-+	       !!(features[VIRTIO_DWORD(bit)] & VIRTIO_BIT(bit));
-+}
++		for (i = 0; i < VIRTIO_FEATURES_DWORDS; i++)
++			if (all_features[i] & ~vhost_net_features[i])
++				return -EOPNOTSUPP;
 +
-+static inline void virtio_features_set_bit(u64 *features,
-+					   unsigned int bit)
-+{
-+	if (virtio_features_chk_bit(bit))
-+		features[VIRTIO_DWORD(bit)] |= VIRTIO_BIT(bit);
-+}
++		return vhost_net_set_features(n, all_features);
+ 	case VHOST_GET_BACKEND_FEATURES:
+ 		features = VHOST_NET_BACKEND_FEATURES;
+ 		if (copy_to_user(featurep, &features, sizeof(features)))
+diff --git a/drivers/vhost/vhost.c b/drivers/vhost/vhost.c
+index 3a5ebb973dba..1094256a943c 100644
+--- a/drivers/vhost/vhost.c
++++ b/drivers/vhost/vhost.c
+@@ -372,7 +372,7 @@ static void vhost_vq_reset(struct vhost_dev *dev,
+ 	vq->log_used = false;
+ 	vq->log_addr = -1ull;
+ 	vq->private_data = NULL;
+-	vq->acked_features = 0;
++	virtio_features_zero(vq->acked_features_array);
+ 	vq->acked_backend_features = 0;
+ 	vq->log_base = NULL;
+ 	vq->error_ctx = NULL;
+diff --git a/drivers/vhost/vhost.h b/drivers/vhost/vhost.h
+index bb75a292d50c..d1aed35c4b07 100644
+--- a/drivers/vhost/vhost.h
++++ b/drivers/vhost/vhost.h
+@@ -133,7 +133,7 @@ struct vhost_virtqueue {
+ 	struct vhost_iotlb *umem;
+ 	struct vhost_iotlb *iotlb;
+ 	void *private_data;
+-	u64 acked_features;
++	VIRTIO_DECLARE_FEATURES(acked_features);
+ 	u64 acked_backend_features;
+ 	/* Log write descriptors */
+ 	void __user *log_base;
+@@ -291,7 +291,7 @@ static inline void *vhost_vq_get_backend(struct vhost_virtqueue *vq)
+ 
+ static inline bool vhost_has_feature(struct vhost_virtqueue *vq, int bit)
+ {
+-	return vq->acked_features & (1ULL << bit);
++	return virtio_features_test_bit(vq->acked_features_array, bit);
+ }
+ 
+ static inline bool vhost_backend_has_feature(struct vhost_virtqueue *vq, int bit)
+diff --git a/include/uapi/linux/vhost.h b/include/uapi/linux/vhost.h
+index d4b3e2ae1314..d6ad01fbb8d2 100644
+--- a/include/uapi/linux/vhost.h
++++ b/include/uapi/linux/vhost.h
+@@ -235,4 +235,11 @@
+  */
+ #define VHOST_VDPA_GET_VRING_SIZE	_IOWR(VHOST_VIRTIO, 0x82,	\
+ 					      struct vhost_vring_state)
 +
-+static inline void virtio_features_clear_bit(u64 *features,
-+					     unsigned int bit)
-+{
-+	if (virtio_features_chk_bit(bit))
-+		features[VIRTIO_DWORD(bit)] &= ~VIRTIO_BIT(bit);
-+}
++/* Extended features manipulation */
++#define VHOST_GET_FEATURES_ARRAY _IOR(VHOST_VIRTIO, 0x83, \
++				       struct vhost_features_array)
++#define VHOST_SET_FEATURES_ARRAY _IOW(VHOST_VIRTIO, 0x83, \
++				       struct vhost_features_array)
 +
-+static inline void virtio_features_zero(u64 *features)
-+{
-+	memset(features, 0, sizeof(features[0]) * VIRTIO_FEATURES_DWORDS);
-+}
+ #endif
+diff --git a/include/uapi/linux/vhost_types.h b/include/uapi/linux/vhost_types.h
+index d7656908f730..1c39cc5f5a31 100644
+--- a/include/uapi/linux/vhost_types.h
++++ b/include/uapi/linux/vhost_types.h
+@@ -110,6 +110,11 @@ struct vhost_msg_v2 {
+ 	};
+ };
+ 
++struct vhost_features_array {
++	__u64 count; /* number of entries present in features array */
++	__u64 features[] __counted_by(count);
++};
 +
-+static inline void virtio_features_from_u64(u64 *features, u64 from)
-+{
-+	virtio_features_zero(features);
-+	features[0] = from;
-+}
-+
-+static inline bool virtio_features_equal(const u64 *f1, const u64 *f2)
-+{
-+	int i;
-+
-+	for (i = 0; i < VIRTIO_FEATURES_DWORDS; ++i)
-+		if (f1[i] != f2[i])
-+			return false;
-+	return true;
-+}
-+
-+static inline void virtio_features_copy(u64 *to, const u64 *from)
-+{
-+	memcpy(to, from, sizeof(to[0]) * VIRTIO_FEATURES_DWORDS);
-+}
-+
-+static inline void virtio_features_andnot(u64 *to, const u64 *f1, const u64 *f2)
-+{
-+	int i;
-+
-+	for (i = 0; i < VIRTIO_FEATURES_DWORDS; i++)
-+		to[i] = f1[i] & ~f2[i];
-+}
-+
-+#endif
+ struct vhost_memory_region {
+ 	__u64 guest_phys_addr;
+ 	__u64 memory_size; /* bytes */
 -- 
 2.49.0
 
