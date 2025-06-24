@@ -1,68 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0EF2E7632;
-	Tue, 24 Jun 2025 14:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9432DA742;
+	Tue, 24 Jun 2025 14:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750774611; cv=none; b=T85H80RCShjsaTgUBeeDR0ZrGhczjD7/obtQ8dpdHHyYqBwZZ23dk/RC21H2MfENG0bd1CAkxhOiSFRRV/dm97eKRsj+HWeU8M5PPubHcK7Gi5xm6cu1MgxtAA7V1BZTwoKiGzOhWIKRTuloP4svVgsBjhix6OcXNyf2yFE7Kv4=
+	t=1750775040; cv=none; b=cYdKoThma+1/fTS4b6zcQkWE9gy9+8X4AAjRDxZbrqJyfcj1fOfwDQnO5nPN/jhbGs60wcsxzS7/nq3hjPxsEfVU7Cf78f2ApRKsAux0oYYWaNEEZhSJ01a8tltY5nuZmBIS8A+6dvb82UnvDUHMIu0Ee/q8kwgeG8PfvQJKsCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750774611; c=relaxed/simple;
-	bh=17L7ponko88riHevvmIv4qyXvYBhLHE4wx7OmbK6EWE=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ZkLO0v1K9mk+0E068mAvIgAKVgoFaLqgUMrS+YDu1dIcCwKD51XQB9bzfJtbwjHJ4RdGfn74MRdK9WxXZI0/VU6uUdlUTxR4qJrHjjMeuYPwM0dXjGd6GQM/dp7v7yGKPgtGhD4EJkoXs7QRBH1wFC66TzIoF7YvTEwQRjRN62M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rwZ94aLG; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rwZ94aLG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D975C4CEE3;
-	Tue, 24 Jun 2025 14:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750774610;
-	bh=17L7ponko88riHevvmIv4qyXvYBhLHE4wx7OmbK6EWE=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=rwZ94aLG2J34d46JgW0UgzuNCLWzIl4Y9DSwUBVeWF1Hv0EeLF7YKKf2IGQ0OfD3y
-	 VCTTCqu6wSdbLk66Y/kn6YmgTiJp2VQCJ0nEUca78qnlsIRvQasldl8ftDVosrnUmq
-	 W2CAHMSvdQ8nqiW5XKd6ogdFjeVOqkwZiGHaLjMqMk/ZdmfK8oxko+pqsyZ0U+nUtX
-	 Aysu1zT5gozraHT8acwjE1A2m4PwEbQEtqb5Lt1W+2Vfi/HO6InMhDNYbXlqDyDLK0
-	 g5/2k7pZqvZTDAOJ5W+QYnCl+sEncFly2ldAd8c9clIXcayPrF/xaRWVDjCotoj+XW
-	 kwJaycCf1Z/vg==
-Message-ID: <f90d39de-d24b-4006-aa09-71bcce5e4eb4@kernel.org>
-Date: Tue, 24 Jun 2025 22:16:47 +0800
+	s=arc-20240116; t=1750775040; c=relaxed/simple;
+	bh=tNRMEI5nf/iadR8D6N7pjAraSpW4joOIs6wUn9W8s9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RA9+Gy9TitIGjYMeNFsdSRSI44eT1KfBsE0s0ighoeiBl2+772L0tgV7whn/dFpPQoqzEJc5srjido7lm8hBmScIaNfayDI96uDm4Sh4ToLXUpQR6v9vviIhVWRRXNwBALc8rwkNGu9QykERElueWhcUYV7lF68SJui8MUpWTZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf11.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 845DD1D71EB;
+	Tue, 24 Jun 2025 14:23:50 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id E66972002D;
+	Tue, 24 Jun 2025 14:23:47 +0000 (UTC)
+Date: Tue, 24 Jun 2025 10:23:46 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Petr Mladek <pmladek@suse.com>, Jonathan Corbet <corbet@lwn.net>, Andrew
+ Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC 1/2] lib/vsprintf: Add support for pte_t
+Message-ID: <20250624102346.4e175914@batman.local.home>
+In-Reply-To: <aFqj7CYRcEHFAi2e@casper.infradead.org>
+References: <20250618041235.1716143-1-anshuman.khandual@arm.com>
+	<20250618041235.1716143-2-anshuman.khandual@arm.com>
+	<aFQP8LzVMctf6XH5@casper.infradead.org>
+	<d5a86ef8-a58c-4abc-8312-08406c847edc@arm.com>
+	<aFqj7CYRcEHFAi2e@casper.infradead.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: chao@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: f2fs: fix typos in f2fs.rst
-To: Yuanye Ma <yuanye.ma20@gmail.com>, jaegeuk@kernel.org,
- linux-f2fs-devel@lists.sourceforge.net
-References: <20250618225546.104949-1-yuanye.ma20@gmail.com>
-Content-Language: en-US
-From: Chao Yu <chao@kernel.org>
-In-Reply-To: <20250618225546.104949-1-yuanye.ma20@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: frj4m14cmjrhgb7eecmi3eiez9m7q7g7
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: E66972002D
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+IrmPdEPDMTQPOYQJLheFaIW5Jwe/VI6I=
+X-HE-Tag: 1750775027-262139
+X-HE-Meta: U2FsdGVkX18ZrWvhIVM6zP5G4nszQvGFvGRorQIfUXNQqKlbCXpYq4P7CUojbbp0ixwYRObH4yt956p5nl1byTSPn6rmNm6mermFvf8IGge05jqBii1cCrollhwtGUVmMMW6lHLsGbWAghzsNCXOsWK5NNqhZ+zyryw5ueiKh+JwG+E/DgXwbFoEi6oD3PgnP0mr7CFUGrmWw8bT66SI5ZZLRoEo1khBGdQKrfty//dfldLIbXacD+hNzpES83s6x83uv276GQNyDXYAkEMOqH4CgBX0KJaRcsoHvM0A3FoBp04QHQr1GqNp6H9ixTiPlZiJMXk7MPFFrfrV7nFxKIQr/29/hhkDzE3I1xqZrGfcyQpCXecjzwn+QEEisL76HtKkQINQrqFL5ybj0CPjAQ==
 
-On 2025/6/19 06:55, Yuanye Ma wrote:
-> This patch fixes two minor typos in Documentation/filesystems/f2fs.rst:
-> 
-> - "ramdom" → "random"
-> - "reenable" → "re-enable"
-> 
-> The changes improve spelling and consistency in the documentation.
-> 
-> These issues were identified using the 'codespell' tool with the
-> following command:
-> 
->    $ find Documentation/ -path Documentation/translations -prune -o \
->      -name '*.rst' -print | xargs codespell
-> 
-> Signed-off-by: Yuanye Ma <yuanye.ma20@gmail.com>
+On Tue, 24 Jun 2025 14:11:08 +0100
+Matthew Wilcox <willy@infradead.org> wrote:
 
-Reviewed-by: Chao Yu <chao@kernel.org>
+> On Fri, Jun 20, 2025 at 01:42:53PM +0530, Anshuman Khandual wrote:
+> > On 19/06/25 6:56 PM, Matthew Wilcox wrote:  
+> > > Unfortunately, the one example you've converted shows why this is a bad
+> > > idea.  You're passing a pmd_t pointer to a function which is assuming a
+> > > pte_t pointer.  And a pmd_t and a pte_t are sometimes different sizes!
+> > > (eg sometimes one is 64 bit and the other 32 bit).  
+> > 
+> > As discussed on a separate thread, this might be addressed via separate
+> > printf formats for each page table level e.g %ppte, %ppmd, and %ppud etc.   
+> 
+> There's still no typechecking!
 
-Thanks,
+There's lots of %pX formats that have no type checking. I think this is
+an issue. Could we have one of the static checkers test these? Smatch,
+sparse, whatever? Or maybe they do and I'm unaware of it?
+
+-- Steve
