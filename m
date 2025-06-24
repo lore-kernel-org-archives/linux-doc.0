@@ -1,237 +1,62 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37CFB28ECEF;
-	Tue, 24 Jun 2025 13:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9134293C48;
+	Tue, 24 Jun 2025 13:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750771686; cv=none; b=FaVfEwVM/OAVHFnvWyz8JtUSkzOdk/TY+MIdXAP/M4zLcR6YCXpuIlasn3bS8hTcMP4UUX1MFuxS3Bk2zDcRMs+mf9Olkvek63y0keWKwbWkprwmd4Majv+WBWcNn467uLZJhnl8AYwc/sEanUSSWFI5kGQ5AAQe+KS5pgmjbn8=
+	t=1750771899; cv=none; b=bcifrydTGDnhhOpRT3WBSYA2CdiXV/k7kSNx2KqxqQ+0YAO+8xQSMaltvVPtTx2KgzH2x+U8uY5wCWZyrJflVG3GKhswSZJID9P12kuF+PeNCLpNqRQozrwtPZtiI3Rbx95XZe92fNLk0mpK8pdPGvEfVg5axzeSqhkYlQgVfTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750771686; c=relaxed/simple;
-	bh=p9Y8HlbZozCgsx+nCkc/8qbLEDTDlPNxuRzYxo2IPmo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hlEsudAEF0opWy1q2Z4/pF3k0PN/o5QUTR6ffGgvFnwNUk/NWYtZ2TiET7WpFA1GbBqYMznum9ZeTj92mQnYTpA+QjAGEs+Yribd2C1R12SUTEalgv+uk5Z8hieksYt8IwVgLpjEFjuaHJrVSICcWGrZKMR1k0YvPHkkB9QyAYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A9B7113E;
-	Tue, 24 Jun 2025 06:27:45 -0700 (PDT)
-Received: from [10.57.29.71] (unknown [10.57.29.71])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C468A3F58B;
-	Tue, 24 Jun 2025 06:27:58 -0700 (PDT)
-Message-ID: <a8c3df16-a460-49bb-ba4e-1a07135d24e5@arm.com>
-Date: Tue, 24 Jun 2025 14:27:57 +0100
+	s=arc-20240116; t=1750771899; c=relaxed/simple;
+	bh=xErK2eH2IevQvw3kG6zcqm8PCAQ4sY1ntdBn3ZAatFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F7WuQHD2Igyafn+X3leffJOD6ZzXgnDi0rW8uIR49JAkaHnwxwKx3ma8j+paxDQ/8NgBTpYh3YaB2nEvdyDZmEDbH9bqkH5xAH09q0ao7gMJemQA824K/hx7ZVMI1OB9iUwSrwz+rW1ByZIz6GBxroLWG/VicuM2eEJY+1mQHLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1CF5368BFE; Tue, 24 Jun 2025 15:31:33 +0200 (CEST)
+Date: Tue, 24 Jun 2025 15:31:32 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, hch@lst.de, miklos@szeredi.hu,
+	brauner@kernel.org, djwong@kernel.org, anuj20.g@samsung.com,
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
+	kernel-team@meta.com
+Subject: Re: [PATCH v3 00/16] fuse: use iomap for buffered writes +
+ writeback
+Message-ID: <20250624133132.GA23173@lst.de>
+References: <20250624022135.832899-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/10] dt-bindings: npu: rockchip,rknn: Add bindings
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Daniel Stone <daniel@fooishbar.org>,
- Da Xue <da@libre.computer>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-6-dc16cfe6fe4e@tomeuvizoso.net>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250606-6-10-rocket-v7-6-dc16cfe6fe4e@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250624022135.832899-1-joannelkoong@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
+On Mon, Jun 23, 2025 at 07:21:19PM -0700, Joanne Koong wrote:
+> This patchset is composed of two parts:
+> a) Christoph's iomap changes (patches 1 to 11) which are taken verbatim
+>    from [1]
+> b) fuse changes to use iomap (patches 12 to 16)
 > 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->    IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->    the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> v4:
-> - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
-> - Remove unneeded items: (Krzysztof Kozlowski)
-> - Fix use of minItems/maxItems (Krzysztof Kozlowski)
-> - Add reg-names to list of required properties (Krzysztof Kozlowski)
-> - Fix example (Krzysztof Kozlowski)
-> 
-> v5:
-> - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
-> - Streamline compatible property (Krzysztof Kozlowski)
-> 
-> v6:
-> - Remove mention to NVDLA, as the hardware is only incidentally related
->    (Kever Yang)
-> - Mark pclk and npu clocks as required by all clocks (Rob Herring)
-> 
-> v7:
-> - Remove allOf section, not needed now that all nodes require 4 clocks
->    (Heiko Stübner)
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->   .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 118 +++++++++++++++++++++
->   1 file changed, 118 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..0588c085a723a34f4fa30a9680ea948d960b092f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
-> @@ -0,0 +1,118 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Neural Processing Unit IP from Rockchip
-> +
-> +maintainers:
-> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> +
-> +description:
-> +  Rockchip IP for accelerating inference of neural networks.
-> +
-> +  There is to be a node per each core in the NPU. In Rockchip's design there
-> +  will be one core that is special because it is able to redistribute work to
-> +  the other cores by forwarding register writes and sharing data. This special
-> +  core is called the top core and should have the compatible string that
-> +  corresponds to top cores.
+> Please note the following:
+> * this patchset version temporarily drops the CONFIG_BLOCK iomap refactoring
+>   patches that will be needed to merge in the series. As of now, this breaks
+>   compilation for environments where CONFIG_BLOCK is not set, but the
+>   CONFIG_BLOCK iomap changes will be re-added back in once the core changes
+>   in this patchset are ready to go.
+> * this patchset does not enable large folios yet. That will be sent out in a
+>   separate future patchset.
 
-Say a future SoC, for scaling reasons, puts down two or more whole NPUs 
-rather than just increasing the number of sub-cores in one? How is a DT 
-consumer then going to know which "cores" are associated with which "top 
-cores"? I think at the very least they want phandles in one direction or 
-the other, but if there is a real functional hierarchy then I'd be 
-strongly tempted to have the "core" nodes as children of their "top 
-core", particularly since "forwarding register writes" sounds absolutely 
-like something which could justify being represented as a "bus" in the 
-DT sense.
-
-Thanks,
-Robin.
-
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^npu@[a-f0-9]+$'
-> +
-> +  compatible:
-> +    enum:
-> +      - rockchip,rk3588-rknn-core-top
-> +      - rockchip,rk3588-rknn-core
-> +
-> +  reg:
-> +    maxItems: 3
-> +
-> +  reg-names:
-> +    items:
-> +      - const: pc
-> +      - const: cna
-> +      - const: core
-> +
-> +  clocks:
-> +    maxItems: 4
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: hclk
-> +      - const: npu
-> +      - const: pclk
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  npu-supply: true
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    items:
-> +      - const: srst_a
-> +      - const: srst_h
-> +
-> +  sram-supply: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - iommus
-> +  - power-domains
-> +  - resets
-> +  - reset-names
-> +  - npu-supply
-> +  - sram-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/rk3588-power.h>
-> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
-> +
-> +    bus {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +
-> +      npu@fdab0000 {
-> +        compatible = "rockchip,rk3588-rknn-core-top";
-> +        reg = <0x0 0xfdab0000 0x0 0x1000>,
-> +              <0x0 0xfdab1000 0x0 0x1000>,
-> +              <0x0 0xfdab3000 0x0 0x1000>;
-> +        reg-names = "pc", "cna", "core";
-> +        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
-> +        assigned-clock-rates = <200000000>;
-> +        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
-> +                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
-> +        clock-names = "aclk", "hclk", "npu", "pclk";
-> +        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
-> +        iommus = <&rknn_mmu_top>;
-> +        npu-supply = <&vdd_npu_s0>;
-> +        power-domains = <&power RK3588_PD_NPUTOP>;
-> +        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
-> +        reset-names = "srst_a", "srst_h";
-> +        sram-supply = <&vdd_npu_mem_s0>;
-> +      };
-> +    };
-> +...
-> 
+Cool, so the previous series works for fuse.  I'll try to find some
+time this week to address the review comments and enable the
+!CONFIG_BLOCK build.  It would be great if we could figure out a way to
+kill of ->launder_folio for fuse in the meantime, but it looks like that
+got stuck a bit.
 
