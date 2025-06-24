@@ -1,63 +1,63 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421682D12ED
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 13:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A64D2D2384
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 13:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750772378; cv=none; b=SCvBTj5XVoV0KkBpsDiNo09RX8HI6QPRCz8kDXNfwv3IiMAtrERLrcTLHNuoAUHrr2Z0gbWR62cg0YwkZVQluCu3NFcYURqUIqE0PBDWKMUo3Bact6bMMMuIDxipMB1pQUr5brof1emkMSMdgx8ltiyuoKxmb5f3bV3SFYMiQGo=
+	t=1750772380; cv=none; b=WOge50SkzWHDacST77tlXN7Ii38FsaGAYNAUW4rOgnoPyTgXPwk+XgeoheJjHQ5qyh7gq1hj3ZV2Mcb1ORAOZgomCQEk1obS1edgU6/QCRWgWznITSzBTVor6GwBhNeCsmHrc/ZGUGmlHS8WEPjn3Vnf7XeUsjyVKn9M00VioWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750772378; c=relaxed/simple;
-	bh=j/lxvBE0W8RtTSwNWKrFB81pW4iq0UIccw1Ghb9PK6Y=;
+	s=arc-20240116; t=1750772380; c=relaxed/simple;
+	bh=E+REAvkImx2ZVSFP5+sd6SOFCvTY9h9klgMb4XpdM7w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=meYbugDG3h2QdYP86HQYA7YLplRwkr4UNYe77eAUR023IS88j2w/12wrkeUe04mAodWv9uPCf0X1hjRrGk0GJUf9bq7azFRNL4gkp+Z/KxUyvJR3nJpxNZLtkzpxljntmuiAfbjvTKX/f0qPzaCGL/7Fz3+brIKbdEFrW3Af1g0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=SLNOunRH; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=HteWg3LleoVAF79/bc+y47bOFYREpo0evC8NKNafPD7Q2K+iUAZFM6qoKMMTzuYb5K9zxDQVH2S8664zHmZ71NcIcDbgSLBLIJgTiLXTOHd0HAozorpBU9Tk0h7H9GOJxKCzqGJWmgfNfRyt+XxXMeyS+4J32qzPsnPF9MgZ92w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UBUU6j6n; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="SLNOunRH"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45360a81885so1931425e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 06:39:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UBUU6j6n"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a577f164c8so733212f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 06:39:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1750772374; x=1751377174; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1750772377; x=1751377177; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SMoobju51S3yheRJ4nJb50lwjewYooD5+oD7p0lsIPI=;
-        b=SLNOunRHP6SCuVgfQ8GbZUpNZiUJWrBqvSIladPPuo2blIty134Qs2A6ARfTcZuv0Q
-         tbDTfBeXYyNeGU2O+8CWtQ+zseQDkpnXBIk8XUkhoUlnfkuA8i1Ze7cE+VDZi2m+ioTO
-         FDYRM6AZh4XO+ZaW175gWY/V6R+EcpOx2C4o39KKcEbslSmJFot5GO0GbzYvl8Wfckhk
-         YNgBW9PTbrFCLiM1m5rc3uxaCiGbIVn8kxq17IF7ASL39M+Bzu8m4p5ChpEZGtE90bUP
-         9YDmYRKWdyYg4Ax7Xzfy2AiYx66KlhKXLUs9/mcoq95Krlx6lCmaDDIMYOqsDoF7peve
-         +RGQ==
+        bh=tmoyTuVu4akx78qVJi6bTRvxekKYdC1/i6FSJLO9Fsw=;
+        b=UBUU6j6nnj0Szuf+M8JmLAdrdrvLDpUMOep51yQcUkVPSSEFhm0wnxXGzFXsCUAufN
+         kC4q9SY56+F7jLweMWjBok2iBzFGAKt1yniQY9YOiaOlJw+ZpWOILfzqlOB6bBks5oJD
+         LdQy6gX6S279rUG6QjjawM/Ptq5fDiRRiw+LYdEBxuORU7EvnNFd4wDBFVEGwimlPZyD
+         YPUB9ItUV9+bYfLEziTsZx5jpfq/tBePGtUUQILJacefOVpjbUV6jOrdRR874ykwUzyO
+         +U0xiJHcA2hAVQ+XWf6enxQsST1o9JhEwverGcuC+IucjoPSNwxUa0uEWASm/FeQn9OI
+         J+wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750772374; x=1751377174;
+        d=1e100.net; s=20230601; t=1750772377; x=1751377177;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SMoobju51S3yheRJ4nJb50lwjewYooD5+oD7p0lsIPI=;
-        b=mLYCxbwByuyLgy8kdVVMkwkXREuiAq6OeYFCQ8ZjSilbuf84bpVlWj4AXDsLlvhHEd
-         elee6Pe41ufE1TH+tvMcJqtZBy9audQ1YlB8QlnLChlHB8vH+lti4wojao+C4jrg41Si
-         pmzfuk7r0tiH0RsmoYjGA2QeSBB1ba0oT2fVZSkuVEOXcEBR2AG1ZQUEzZ9lgXWVAZSn
-         6uVd1HJXdpxrfoa3lqah/7djPJhnlW1IRnxZEsB3Ubk3Cr+Qh+Rh977UbqqBWB7moRYF
-         sN6GZIZx/vj/cy26/VHceF2CTkkGcSLQ1SEAPkJwMsgSJuolDwx3x/o3Olthr45OfSqO
-         q4nA==
-X-Forwarded-Encrypted: i=1; AJvYcCUe2Glslqsll1ElIBJaZ/1zJrEdnoRJIzu5jJCVd1Fq//Q4dc/ycxcpRVL2WJyyl34zhhsej7jS7CU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznwtH8ztStMcDH+2L1BzSycP4kIc7B2hoX1Qjhc91TRytHymzM
-	KfdFG0QPMLx7gY+fsgx+mdW3HFlxKRBvghNIFbR4jSSQSlTbspLEQbN38fSau4ojpkg=
-X-Gm-Gg: ASbGncsA1qDL1gnI/SkXebVFGjr+SoBEWPwE4Eog0u3yMTeSULuJO0msQ9FvicF55hh
-	ajRfjcakiB6xEcmylG4TrQSmYZasomK3i++aSNSavHeyVQOPYLbMOQAZt45meyNQ7WYtEnTPK7F
-	Eq0a25NH3KVd2Tint/NZFrvANqeo1FKTTmu1OYAU0H65fRwzJpO/yD3/umSOrSNKl3zNFHfM3gw
-	RIE1vnzyC/a05ZEObnLYLhodaDoCUzpx0i5ZetvZtSIZiZ8iZumMZ+o4ND8QeSWAtZmsxPpX65D
-	EkFBYAz0hyyXnE4prrun5F0IRRoc3p+ooms7cCz+BFZIoDS4XI3HQx2nuH8vwVBikqaICsxepxJ
-	HFCSgjXhKxdcD8OxXYLQk8kyG4gOAfw1jco903Tb0zTxHtBBIgnk9
-X-Google-Smtp-Source: AGHT+IEJyYo9lnu2Mk5wM3vEKd7mlfp5WCsbwymCeOMIaa9JZYjSHQ3akdWqQqS/IC1aMCHvKzNu3w==
-X-Received: by 2002:a05:600c:4747:b0:441:b397:e324 with SMTP id 5b1f17b1804b1-453659ca904mr62554965e9.9.1750772374485;
-        Tue, 24 Jun 2025 06:39:34 -0700 (PDT)
+        bh=tmoyTuVu4akx78qVJi6bTRvxekKYdC1/i6FSJLO9Fsw=;
+        b=Kecg/RHp1Sw7SqwuuJPMI06tAPfN2bKLf3DCrcqJPjFijfWN1bOgzLPIkgJggQtr8U
+         Q97voAchQj64ytprM2yV8WtTjmarCul0gVXYe5L/bhgnZHuFFdhJjml8T5e5vtHvL6hK
+         ASXBtA+Q4iRzWYVJIDSSEdKFyQeC6pe4gbcWRtiC8v7WHJhzWyTN8qWSq0UONIWYhV/0
+         1NVstpmJ/MFxnaaA+WgQXiDOY9YK4gWxIes+foWKybhAJH1Eh+DVMqCDWDEWbZ5RqzGB
+         79eEePcgEFBbtvRQC5UqLg+LW6L+TSnhlW2/7/s/gLUIuZsl8s8jq05gLJLMc95oqiv/
+         nD4w==
+X-Forwarded-Encrypted: i=1; AJvYcCWZVyeowcrEvD4O5kM/eqcp+NLys31Cf2MmSTfiHaauJiVc4GJvMrIlURIEZH+NWJwrz4aqiX3gKD0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8c0b1LUibk+MkIhz3pyEPvkt6XM/MTtvJ8r775s/vYD65OQWU
+	4j5GaLkwqRQD4VmdgNBnVOgmPnCD5es2QWjxRqE0et7NOBBJCM6SuKjY1KDEcxweyVA=
+X-Gm-Gg: ASbGncuqemhpGIUciwat+4kJZ7/ph9z1c4TqwUxk67XHuNoypkH355DaU/J7aRXzETA
+	oxN6jetx/1HNJWWVLI87PCZzjcQH7l8tg1DQfnJ0gafTaSVNPlSUQ1hJDvvcAy1wWmQwlsukluZ
+	rI6nKG/I02/iifTXR3CfPjBxa898shIYdFufysxF9RwqU0+cY/SN/o/LJ9glUOkrpzWteHh0imo
+	Qyq2NFBEChZPeP4CzmGeUi41NnFQ3pnNKvloavjqptFBNSaq2Agr2L/J9doO7qV5S9ZWlCcr4Om
+	b4FeZzPHapduj8NvU0jvy03cpWe5FIX90PBSrOOEn4+zfAW34nFEW2DGZbCPwJlpN2u9gUNOMQ+
+	lAjQM3IfzH6a5vgH8W/sMA5zyPcSAoejUBy9TqCCU7uQk5f1ov0HB
+X-Google-Smtp-Source: AGHT+IGkZrplpRBlcgMXcjw1DbH2uA7Xgft+a5isw/zKi2IcP2PXv5geqjz1FHC5se+KenSl4WGZcQ==
+X-Received: by 2002:a05:6000:4412:b0:3a5:7895:7f7e with SMTP id ffacd0b85a97d-3a6d12ebe7fmr3683192f8f.15.1750772376600;
+        Tue, 24 Jun 2025 06:39:36 -0700 (PDT)
 Received: from localhost (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4535eac8e19sm175941015e9.21.2025.06.24.06.39.34
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a6e80f2274sm1961890f8f.48.2025.06.24.06.39.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 06:39:34 -0700 (PDT)
+        Tue, 24 Jun 2025 06:39:35 -0700 (PDT)
 From: Petr Tesarik <ptesarik@suse.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Morton <akpm@linux-foundation.org>
@@ -72,9 +72,9 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	linux-kernel@vger.kernel.org (open list),
 	linux-mm@kvack.org (open list:MEMORY MANAGEMENT),
 	Petr Tesarik <ptesarik@suse.com>
-Subject: [PATCH 5/8] docs: dma-api: remove duplicate description of the DMA pool API
-Date: Tue, 24 Jun 2025 15:39:20 +0200
-Message-ID: <20250624133923.1140421-6-ptesarik@suse.com>
+Subject: [PATCH 6/8] docs: dma-api: clarify DMA addressing limitations
+Date: Tue, 24 Jun 2025 15:39:21 +0200
+Message-ID: <20250624133923.1140421-7-ptesarik@suse.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250624133923.1140421-1-ptesarik@suse.com>
 References: <20250624133923.1140421-1-ptesarik@suse.com>
@@ -86,101 +86,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The DMA pool API is documented in Memory Management APIs. Do not duplicate
-it in DMA API documentation.
+Move the description of DMA mask from the documentation of dma_map_single()
+to Part Ic - DMA addressing limitations and improve the wording.
+
+Explain when a mask setting function may fail, and do not repeat this
+explanation for each individual function.
+
+Clarify which device parameters are updated by each mask setting function.
 
 Signed-off-by: Petr Tesarik <ptesarik@suse.com>
 ---
- Documentation/core-api/dma-api.rst | 62 +-----------------------------
- Documentation/core-api/mm-api.rst  |  2 +
- 2 files changed, 4 insertions(+), 60 deletions(-)
+ Documentation/core-api/dma-api.rst | 35 +++++++++++++++---------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
 diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-index 3e89e3b0ecfd..f7fddaf7510c 100644
+index f7fddaf7510c..cd432996949c 100644
 --- a/Documentation/core-api/dma-api.rst
 +++ b/Documentation/core-api/dma-api.rst
-@@ -83,66 +83,8 @@ much like a struct kmem_cache, except that they use the DMA-coherent allocator,
- not __get_free_pages().  Also, they understand common hardware constraints
- for alignment, like queue heads needing to be aligned on N-byte boundaries.
- 
--
--::
--
--	struct dma_pool *
--	dma_pool_create(const char *name, struct device *dev,
--			size_t size, size_t align, size_t alloc);
--
--dma_pool_create() initializes a pool of DMA-coherent buffers
--for use with a given device.  It must be called in a context which
--can sleep.
--
--The "name" is for diagnostics (like a struct kmem_cache name); dev and size
--are like what you'd pass to dma_alloc_coherent().  The device's hardware
--alignment requirement for this type of data is "align" (which is expressed
--in bytes, and must be a power of two).  If your device has no boundary
--crossing restrictions, pass 0 for alloc; passing 4096 says memory allocated
--from this pool must not cross 4KByte boundaries.
--
--::
--
--	void *
--	dma_pool_zalloc(struct dma_pool *pool, gfp_t mem_flags,
--		        dma_addr_t *handle)
--
--Wraps dma_pool_alloc() and also zeroes the returned memory if the
--allocation attempt succeeded.
--
--
--::
--
--	void *
--	dma_pool_alloc(struct dma_pool *pool, gfp_t gfp_flags,
--		       dma_addr_t *dma_handle);
--
--This allocates memory from the pool; the returned memory will meet the
--size and alignment requirements specified at creation time.  Pass
--GFP_ATOMIC to prevent blocking, or if it's permitted (not
--in_interrupt, not holding SMP locks), pass GFP_KERNEL to allow
--blocking.  Like dma_alloc_coherent(), this returns two values:  an
--address usable by the CPU, and the DMA address usable by the pool's
--device.
--
--::
--
--	void
--	dma_pool_free(struct dma_pool *pool, void *vaddr,
--		      dma_addr_t addr);
--
--This puts memory back into the pool.  The pool is what was passed to
--dma_pool_alloc(); the CPU (vaddr) and DMA addresses are what
--were returned when that routine allocated the memory being freed.
--
--::
--
--	void
--	dma_pool_destroy(struct dma_pool *pool);
--
--dma_pool_destroy() frees the resources of the pool.  It must be
--called in a context which can sleep.  Make sure you've freed all allocated
--memory back to the pool before you destroy it.
-+See :ref:`Documentation/core-api/mm-api.rst <dma_pools>` for a detailed
-+description of the DMA pools API.
- 
- 
+@@ -90,13 +90,20 @@ description of the DMA pools API.
  Part Ic - DMA addressing limitations
-diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
-index a61766328ac0..de0bab6e3fdd 100644
---- a/Documentation/core-api/mm-api.rst
-+++ b/Documentation/core-api/mm-api.rst
-@@ -91,6 +91,8 @@ Memory pools
- .. kernel-doc:: mm/mempool.c
-    :export:
+ ------------------------------------
  
-+.. _dma_pools:
++DMA mask is a bit mask of the addressable region for the device. In other words,
++if applying the DMA mask (a bitwise AND operation) to the DMA address of a
++memory region does not clear any bits in the address, then the device can
++perform DMA to that memory region.
 +
- DMA pools
- =========
++All the below functions which set a DMA mask may fail if the requested mask
++cannot be used with the device, or if the device is not capable of doing DMA.
++
+ ::
  
+ 	int
+ 	dma_set_mask_and_coherent(struct device *dev, u64 mask)
+ 
+-Checks to see if the mask is possible and updates the device
+-streaming and coherent DMA mask parameters if it is.
++Updates both streaming and coherent DMA masks.
+ 
+ Returns: 0 if successful and a negative error if not.
+ 
+@@ -105,8 +112,7 @@ Returns: 0 if successful and a negative error if not.
+ 	int
+ 	dma_set_mask(struct device *dev, u64 mask)
+ 
+-Checks to see if the mask is possible and updates the device
+-parameters if it is.
++Updates only the streaming DMA mask.
+ 
+ Returns: 0 if successful and a negative error if not.
+ 
+@@ -115,8 +121,7 @@ Returns: 0 if successful and a negative error if not.
+ 	int
+ 	dma_set_coherent_mask(struct device *dev, u64 mask)
+ 
+-Checks to see if the mask is possible and updates the device
+-parameters if it is.
++Updates only the coherent DMA mask.
+ 
+ Returns: 0 if successful and a negative error if not.
+ 
+@@ -171,7 +176,7 @@ transfer memory ownership.  Returns %false if those calls can be skipped.
+ 	unsigned long
+ 	dma_get_merge_boundary(struct device *dev);
+ 
+-Returns the DMA merge boundary. If the device cannot merge any the DMA address
++Returns the DMA merge boundary. If the device cannot merge any DMA address
+ segments, the function returns 0.
+ 
+ Part Id - Streaming DMA mappings
+@@ -205,16 +210,12 @@ DMA_BIDIRECTIONAL	direction isn't known
+ 	this API should be obtained from sources which guarantee it to be
+ 	physically contiguous (like kmalloc).
+ 
+-	Further, the DMA address of the memory must be within the
+-	dma_mask of the device (the dma_mask is a bit mask of the
+-	addressable region for the device, i.e., if the DMA address of
+-	the memory ANDed with the dma_mask is still equal to the DMA
+-	address, then the device can perform DMA to the memory).  To
+-	ensure that the memory allocated by kmalloc is within the dma_mask,
+-	the driver may specify various platform-dependent flags to restrict
+-	the DMA address range of the allocation (e.g., on x86, GFP_DMA
+-	guarantees to be within the first 16MB of available DMA addresses,
+-	as required by ISA devices).
++	Further, the DMA address of the memory must be within the dma_mask of
++	the device.  To ensure that the memory allocated by kmalloc is within
++	the dma_mask, the driver may specify various platform-dependent flags
++	to restrict the DMA address range of the allocation (e.g., on x86,
++	GFP_DMA guarantees to be within the first 16MB of available DMA
++	addresses, as required by ISA devices).
+ 
+ 	Note also that the above constraints on physical contiguity and
+ 	dma_mask may not apply if the platform has an IOMMU (a device which
 -- 
 2.49.0
 
