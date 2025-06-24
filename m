@@ -1,116 +1,201 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f202.google.com (mail-il1-f202.google.com [209.85.166.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D22529A9C3;
-	Tue, 24 Jun 2025 19:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D3A2E92C1
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 20:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750793493; cv=none; b=WCUeQWZZi9tY18hhV4R4yox6s/Rsrt0fqpDiQSSCBELMhyU0w4mg6v5bKv2BDEzS+8aoB2nqyPNXFnngVRAYqD/t18tBosFyKxCEfn+cIF5dgtHzV69IYerr8eqSOqUKwvM5Fujy7SJ1ltYLv9UoZ2uG0qYXlLXJvBytY87b0ak=
+	t=1750795504; cv=none; b=q4VNavHEgSfL1yTjpLP3l7/ovmlC7T7fLOxODUtjNdZvYp8zlHHBzPzaR1oULkrn1wK1DdE0oykbwb+5Mg35MZega5Ni9KNYzQmfOEeFDagfdELHOrE+9iPLEGQr6vxSD7af3YQYA6hUJoyt8ig4+y4vLlHZuoGwXJ2rjY+SjdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750793493; c=relaxed/simple;
-	bh=gANlxRF2zdP1sktj1/IctJiz1DtjRXxYfySJYboqpfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OrTBLvW/vTOSz7TarSNO/6LJbZXD1Pbk+i1t267D5xwTLTv8B+l/pmBcPxWxKSizXNtaW+Fr69TWFhfzO1HRnoTDB3xrjRpt0ASON32MYds8B0yLDAWNKBJswO0jQ62esltdaPpXhw5FzYlToJ9coQj90UagWmChfWbuC9YrXe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 22750809C3;
-	Tue, 24 Jun 2025 19:31:29 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf06.hostedemail.com (Postfix) with ESMTPA id B26872000E;
-	Tue, 24 Jun 2025 19:31:26 +0000 (UTC)
-Date: Tue, 24 Jun 2025 15:31:25 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Nam Cao <namcao@linutronix.de>
-Cc: Gabriele Monaco <gmonaco@redhat.com>, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Masami Hiramatsu <mhiramat@kernel.org>,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Ingo Molnar
- <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Tomas Glozar
- <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,
- john.ogness@linutronix.de
-Subject: Re: [RFC PATCH v2 09/12] rv: Replace tss monitor with more complete
- sts
-Message-ID: <20250624153125.56eab22a@batman.local.home>
-In-Reply-To: <20250624155053.wOoDw8ff@linutronix.de>
-References: <20250514084314.57976-1-gmonaco@redhat.com>
-	<20250514084314.57976-10-gmonaco@redhat.com>
-	<20250624073609.OA9Q1V4g@linutronix.de>
-	<e2b2e78a9c66973d90a9dbeea83b88b97182c36e.camel@redhat.com>
-	<20250624155053.wOoDw8ff@linutronix.de>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1750795504; c=relaxed/simple;
+	bh=f/D0i2v6lCewKUJtGBKR3xLCM9Mzx3OhGJfQ80nZptI=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=llF/9dWg4t81rcmuga4mTC8IHzmF+nyR8odCDFQ7l/8cJ5UN0euuz4dKJJE/4MQaKPcW0oIsuRVQCyIaoUmlB9wlzxHMBffJRRmXMFSZqmfeZq5UwML48BKKa/8m0KiTWaZQ+/9j6UglHmu6SGohlhoMtz+tmCGn2/KB6qYezw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qwBwZPnV; arc=none smtp.client-ip=209.85.166.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qwBwZPnV"
+Received: by mail-il1-f202.google.com with SMTP id e9e14a558f8ab-3ddb4a92e80so11598145ab.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 13:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1750795502; x=1751400302; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=pP2HWMoMCKbdHfq9EmswNyKqb25oMjrzzlNWwJCxpig=;
+        b=qwBwZPnV/pVt9RrFYHyxpn1NA5Lw0+/+gG8g3YsPVrITY9Mt58BmBToDDhe1pe74Dg
+         f4yGPyQRSQZTj0YTilOY31xw/lvtj8aSmXNMcCdDmHKgDpWVGZqE9e7taoJoJJXtVxoT
+         yEKU+siVkzvkhbtGjow6SNtFckThEaV6qMRvZ/Fpj1WeQEpiLSL7NgZbiZrXwCbGpOA3
+         qMd077lZ9wNaC5xnqkme9/ntTjlIHvrkGjC2gl5u73H8v4EGeYb8mOQrBMN0VWBQHGKE
+         Vl4UFdCuLkTwDPp3W9keDU2yXI/aqrg1RrMaj/lAevmBcs0tS9bwpEmD31HPbbHQ9V/Y
+         3m8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750795502; x=1751400302;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pP2HWMoMCKbdHfq9EmswNyKqb25oMjrzzlNWwJCxpig=;
+        b=SjDFljkG7v9OqWh0jTCTPTGeRHm59/9nnswJTuucojnNogV7JZlKKKzhZPvDbl/WZk
+         WpFC4el+lXVUF27LQ2pCqCqDS6UqaB4FC4rlOdT/PmH8w0AF1EBUQYJXU338lCVKVQ0z
+         /8a/1i38RUjdcmzdqhPR1IDu8bFsHtb7JzUbPrQLN+zxXGsXOS0WEpOvxgu8shFkLvGX
+         0SuK/YEflP3wcfHYp8mOmOEdY9fsU/qA4dG1Lp8oHMkNpO9JTViO1hW6yB5BYxRe5li/
+         WCoBgvpSY0idIh/abhnPOLSmoObIDS2YPTJDUIHAQXOxMM61YLE4ucYh3VeS/ALI8kzK
+         /5Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8/4mPsFdCeh5T/UZ0vL39+3s5csfp8EkuDwvIzRCzw+m8a4Z6Z6oiEnJvnoXJoWG5FPSNDYnb0Q4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/JqXax0qdt10jTc3ZZ/i/CpDRG+UZYfqeLYYr+A/BLEgJ5DkI
+	bmcmR7TY96G10MmnOgLHJvwni7rHydE5CkqfPsMX1ryDStAdFe7kzhDQLzfkoSIFw/+roI72lbW
+	uX9GRTs/N+vUQl9BlpQz6sw6dKg==
+X-Google-Smtp-Source: AGHT+IEpwXEjWcAkbmXUn25NbkOypFqMgOZS4LSaytEWOm4lY0osguKw8gnkLrqXfYVp9g/tkoRSIDkKJowW6gl+SA==
+X-Received: from ilff3.prod.google.com ([2002:a05:6e02:5e03:b0:3dd:a3df:9d57])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6e02:190a:b0:3dd:d90a:af30 with SMTP id e9e14a558f8ab-3df329364f2mr5932045ab.10.1750795501770;
+ Tue, 24 Jun 2025 13:05:01 -0700 (PDT)
+Date: Tue, 24 Jun 2025 20:05:00 +0000
+In-Reply-To: <aFpOI7cWTOAIjNjV@linux.dev> (message from Oliver Upton on Tue,
+ 24 Jun 2025 00:05:07 -0700)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: B26872000E
-X-Rspamd-Server: rspamout08
-X-Stat-Signature: cdk5t6dxj7s4h9hnmwxmiguqxgs4kmkr
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19xx8Qq6pIitKLQlSLGjZW19IMlUGEbQ1g=
-X-HE-Tag: 1750793486-273157
-X-HE-Meta: U2FsdGVkX1+cxL1G8r9Css4NkKaN4UGBNh6NjBEhfGXBFHGvLXob/QbsmCDysyoHkmBOyfFsbsw4dmsD1tR69OVfx+BTlGCNAPrA1Od+cy+oVsTbkUN6TFcFAwuPkl8hkjCJ7YwBRxcjzLkV1U54PJp7OKOFGPFM0ut2VXA2HZqV53DgjzJKn7g5cxgUXzvfKrQX5sWBVFwj3hr/hwCtUAcn8wjVqgcpXLcNgETcmpq5sq0pPhu03GmAp3SRoRTkEDJcw6bSf6Za4uzKBPJTcfAmMWfA5nsJpRkAu3STHGIKwLq+2jut/INlHOI7cLWHMTmbkebrn+vdIheFY/o+SK4Ub5QMp3rsvWKYUkFQmBz/X7srUtpkqTvO4+nQKQOhdJmJcLBSa9+LP54VJNuYqQ==
+Mime-Version: 1.0
+Message-ID: <gsntecv8aosz.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v2 07/23] perf: arm_pmuv3: Introduce method to partition
+ the PMU
+From: Colton Lewis <coltonlewis@google.com>
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
+	maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, 
+	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-On Tue, 24 Jun 2025 17:50:53 +0200
-Nam Cao <namcao@linutronix.de> wrote:
+Oliver Upton <oliver.upton@linux.dev> writes:
 
-> I would like that. Ideally, the userspace tools only use tracepoints based
-> on available_monitors.
-> 
-> However, people may not do that, and just use tracepoints directly.
-> 
-> You could argue that those tools are not correctly designed. Therefore it
-> is their fault that the tools are broken after updating kernel.
-> 
-> On the other hand, there is this sentiment that we must never break
-> userspace.
-> 
-> I don't know enough to judge this. Maybe @Steven has something to add?
+> On Mon, Jun 23, 2025 at 06:26:42PM +0000, Colton Lewis wrote:
+>> Oliver Upton <oliver.upton@linux.dev> writes:
 
-So WRT tracepoints, it's the same as a tree falling in the woods[1].
+>> > On Fri, Jun 20, 2025 at 10:13:07PM +0000, Colton Lewis wrote:
+>> > > For PMUv3, the register field MDCR_EL2.HPMN partitiones the PMU
+>> > > counters into two ranges where counters 0..HPMN-1 are accessible by
+>> > > EL1 and, if allowed, EL0 while counters HPMN..N are only accessible  
+>> by
+>> > > EL2.
 
-If a user space ABI "breaks" but no user space tooling notices, did it
-really break?
+>> > > Create module parameters partition_pmu and reserved_guest_counters to
+>> > > reserve a number of counters for the guest. These numbers are set at
+>> > > boot because the perf subsystem assumes the number of counters will
+>> > > not change after the PMU is probed.
 
-The answer is "No".
+>> > > Introduce the function armv8pmu_partition() to modify the PMU  
+>> driver's
+>> > > cntr_mask of available counters to exclude the counters being  
+>> reserved
+>> > > for the guest and record reserved_guest_counters as the maximum
+>> > > allowable value for HPMN.
 
-As for tracepoints, its fine to change them until it's not ;-)
+>> > > Due to the difficulty this feature would create for the driver  
+>> running
+>> > > at EL1 on the host, partitioning is only allowed in VHE mode. Working
+>> > > on nVHE mode would require a hypercall for every counter access in  
+>> the
+>> > > driver because the counters reserved for the host by HPMN are only
+>> > > accessible to EL2.
 
-We had only one case that a tracepoint change broke user space where
-Linus reverted that change [2]. That was because powertop hard coded
-the addresses to the tracepoint field offsets and didn't use the format
-files (what libtraceevent gives you). And I removed an unused common
-field, which shifted everything and broke powertop.
+>> > > Signed-off-by: Colton Lewis <coltonlewis@google.com>
+>> > > ---
+>> > >   arch/arm/include/asm/arm_pmuv3.h   | 10 ++++
+>> > >   arch/arm64/include/asm/arm_pmuv3.h |  5 ++
+>> > >   drivers/perf/arm_pmuv3.c           | 95  
+>> +++++++++++++++++++++++++++++-
+>> > >   include/linux/perf/arm_pmu.h       |  1 +
+>> > >   4 files changed, 109 insertions(+), 2 deletions(-)
 
-But I converted powertop to use libtraceevent, waited a few year until
-all the major distros provided the new powertop, and then I removed the
-field. Guess what? Nobody noticed. (And old powertop would still break).
+>> > > diff --git a/arch/arm/include/asm/arm_pmuv3.h
+>> > > b/arch/arm/include/asm/arm_pmuv3.h
+>> > > index 2ec0e5e83fc9..9dc43242538c 100644
+>> > > --- a/arch/arm/include/asm/arm_pmuv3.h
+>> > > +++ b/arch/arm/include/asm/arm_pmuv3.h
+>> > > @@ -228,6 +228,11 @@ static inline bool kvm_set_pmuserenr(u64 val)
 
-BPF taps into most tracepoints that change all the time. I'm cleaning
-up unused tracepoints which included a couple that were left around to
-"not break old BPF programs". I replied, if an old BPF program relies on
-that tracepoint, keeping it around (but not used) is *worse* than
-having that BPF program break. That's because that BPF program is
-still broken (it's expecting that unused tracepoint to fire) but now
-it's getting garbage for output (that being no output!). It's worse
-because it's "silently failing" and the user may be relying on
-something they don't know is broken.
+>> > >   static inline void kvm_vcpu_pmu_resync_el0(void) {}
 
-So yeah, change the tracepoint when the code its tracing changes. That
-way any tooling depending on it, knows that it can no longer depend on
-it.
+>> > > +static inline bool has_vhe(void)
+>> > > +{
+>> > > +	return false;
+>> > > +}
+>> > > +
 
-Anything using tracepoints are pretty much tied to the kernel anyway,
-and when the kernel updates, the tooling that is relying on it also
-needs to be updated otherwise it's not getting the information it is
-expecting. That most definitely includes monitors.
+>> > This has nothing to do with PMUv3, I'm a bit surprised to see you're
+>> > touching 32-bit ARM. Can you just gate the whole partitioning thing on
+>> > arm64?
 
+>> The PMUv3 driver also has to compile on 32-bit ARM.
 
--- Steve
+> Quite aware.
 
+>> My first series had the partitioning code in arch/arm64 but you asked me
+>> to move it to the PMUv3 driver.
 
-[1] https://en.wikipedia.org/wiki/If_a_tree_falls_in_a_forest_and_no_one_is_around_to_hear_it,_does_it_make_a_sound%3F
-[2] https://lwn.net/Articles/442113/
+>> How are you suggesting I square those two requirements?
+
+> You should try to structure your predicates in such a way that the
+> partitioning stuff all resolves to false for 32 bit arm, generally. That
+> way we can avoid stubbing out silly things like has_vhe() which doesn't
+> make sense in the context of 32 bit.
+
+Okay. I will do that. When I was reworking it I thought it looked weird
+to have the predicates live in a different location than the main
+partitioning function.
+
+>> > > +static bool partition_pmu __read_mostly;
+>> > > +static u8 reserved_guest_counters __read_mostly;
+>> > > +
+>> > > +module_param(partition_pmu, bool, 0);
+>> > > +MODULE_PARM_DESC(partition_pmu,
+>> > > +		 "Partition the PMU into host and guest VM counters [y/n]");
+>> > > +
+>> > > +module_param(reserved_guest_counters, byte, 0);
+>> > > +MODULE_PARM_DESC(reserved_guest_counters,
+>> > > +		 "How many counters to reserve for guest VMs [0-$NR_COUNTERS]");
+>> > > +
+
+>> > This is confusing and not what we discussed offline.
+
+>> > Please use a single parameter that describes the number of counters  
+>> used
+>> > by the *host*. This affects the *host* PMU driver, KVM can discover  
+>> (and
+>> > use) the leftovers.
+
+>> > If the single module parameter goes unspecified the user did not ask  
+>> for
+>> > PMU partitioning.
+
+>> I understand what we discussed offline, but I had a dilemma.
+
+>> If we do a single module parameter for number of counters used by the
+>> host, then it defaults to 0 if unset and there is no way to distinguish
+>> between no partitioning and a request for partitioning reserving 0
+>> counters to the host which I also thought you requested. Would you be
+>> happy leaving no way to specify that?
+
+> You can make the command line use a signed integer for storage and a
+> reset value of -1.
+
+> -1 would imply default behavior (no partitioning) and a non-negative
+> value would imply partitioning.
+
+Good idea. I thought of that solution myself for the first time after I
+logged off yesterday. Slightly embarrassed I didn't see it sooner :(
+
+>> In any case, I think the usage is more self explainatory if
+>> partitition=[y/n] is a separate bit.
+
+> What would be the user's intent of "partition_pmu=n  
+> reserved_guest_counters=$X"?
+
+That doesn't make sense, which is a decent argument for using just one
+parameter. I'm now fine with going back to just reserved_host_counters.
