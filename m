@@ -1,143 +1,294 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574A62E6131
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 16:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E069226CE2C;
+	Tue, 24 Jun 2025 16:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750783110; cv=none; b=aULR00g9poJL7VU4jnhDniNHroBv5oELPhvp0O5o8FF90+J4v5F7dIYJfrH0nz9VkLRK5l9ZDiJ6ragwDvCKmesjkDDm1+owNsJYN5/oNTSQpIiRP7tmmcOQIRhUUdAUotRMXbyE8pyWOFtNlw94EBe6igDhkJxK5Svguuaachc=
+	t=1750783953; cv=none; b=f/Bzs1n4dPWu54Yhf6JNUQFtGDue201LMJGcqxuPN4vECThL16sz4OqeRwEgGyARrap8cjnkGCkUUvRcsaFyP4gOhKm2oFyZXT3q0SeS0gQ+dIbB8MpwsGSkN79nNDaTLjHPCqGuark8oznXxmmCBbrRn3bwyctbRRcYzZAPZKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750783110; c=relaxed/simple;
-	bh=EebWpedUzCM+qbl6K91Fj9ZaTMQ5QamWCYeabLfGllY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=nndl7ThIiqkeRK4wB90iP4tweivC6ea4vBFDIlXqtEr9gVbuoWb8riqfW4XVLTeONdGfC6mqJxdJsS43GAYSJmqBZ3CLEHnDpHnieKhADoTWr6veFxyHIcbiR/aHhKNZFWde3bUewASljoH/AYP2l+bYtdjVwcyedXWyvA+gH2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YCj1ZcTN; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YCj1ZcTN"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-31332dc2b59so652076a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 09:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750783109; x=1751387909; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B7NW/675HsH3/K7ui/6HuJARKanzqs1doi/k1ds4JNc=;
-        b=YCj1ZcTNzr5tpbVoOAGRbiGtm/tolzAW+ZiHAuzArgaeGcCALEkZ2TZNVyg2eE0TVk
-         70sAFJd8wy5uqPIsAPXhP3pyX4qLtflOcAnTMxULVjNlxVCu3uHgNVVkCuCY3mpI/kzQ
-         rMMC/w4TGM4oWvCBhkrGZ3VLbvD4jUj3n6+v80bBF+8rqRSckf+9ugzG+qxTRcDGJUub
-         2SCihjahxJ8pAlCHcFX4EcYJbGqrcRrdu1z3ckrngYp18vXnToBZuKy6sjjIf5A2xDWj
-         kYvoFml9xz4QP+aiIUeO5zgaSj8YHmHiAFJ1CVF/qHjZCgdeMiMnTloGeDqc0pGv4zlv
-         iyNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750783109; x=1751387909;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=B7NW/675HsH3/K7ui/6HuJARKanzqs1doi/k1ds4JNc=;
-        b=AAaiuImuv2zN5f74VxXXzHFYOEMhdXIw8xQH/1NNlODYonam8MjHD0oWkGgZ2fO5Md
-         J7br4pu+7cC/WI+Slvjm7wQuJ5czKt5fEPCYLj/7gkVy4VdsqiXy0towG6G4EI8sE3en
-         nivMLewqjWIFy5ljQCl8cpR5z49hAujg4PH5z8ITn0077yMN9EUFLxpjEfq8WzO2P0Il
-         uTnnmcKCf3XNIDFii7e4LgWrkc3KReeIHd1JNJGQA871xNA7Mvq6Lf8zi/TsCld8SzOI
-         BYQQeex44CxoK2DBRGkU3Eo6d6Kboz5V8KgmCSO2V8c37qoBHF1FFlI3/q5HIFgTrPwj
-         rAZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXWpe012r+FmzBv6gRwprp3coTxee/PeaDtUCTGw24M7waa4igNvNc2v8koXme/Jf/IKV5s+b3tnmU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlaXOXDzjRM60TZpOR/n0ppPp8kMUZUfliIUVc+oNNgOEoPs4t
-	ZJxGaYnuza7qVDIksgqBJRd4qxKD4lRokM7PNsPOOwlS7WZjnT03gsIquvP9GvZCuAgZV0qT8qr
-	0LtESNQ==
-X-Google-Smtp-Source: AGHT+IFSYTC92+/PTsuDg1Pvm55pwf9x/qmTZ1t5qnv2amAxjN+sFAPaHCtEKUyRAUZ6yqmBHQHbsbxABWc=
-X-Received: from pjqq16.prod.google.com ([2002:a17:90b:5850:b0:313:245:8921])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:bd86:b0:312:e1ec:de44
- with SMTP id 98e67ed59e1d1-3159d8d9c32mr19459176a91.27.1750783108751; Tue, 24
- Jun 2025 09:38:28 -0700 (PDT)
-Date: Tue, 24 Jun 2025 09:38:27 -0700
-In-Reply-To: <20250328171205.2029296-16-xin@zytor.com>
+	s=arc-20240116; t=1750783953; c=relaxed/simple;
+	bh=HhQSeOW+UrAhP4tDtsSkqb3r9mIye1Th9CINKqmP5Dc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YCOxDsDy5mZExPGnONWdQ7hcdQAjch8/eIHH57KrpFPOy/EGUUQFcRsQ+KUDuppRx1XfAikZWEccp+dR9KrgyaOQM28OwgqYmzq1A8mF+jj64K5CuVIFBza7fMEahnlWI5gVr3No2fv1eAWMNdZ+h4QRKMUavEnX54vD9AG/mys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D1D731AC1;
+	Tue, 24 Jun 2025 09:52:11 -0700 (PDT)
+Received: from [10.57.29.113] (unknown [10.57.29.113])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 929923F58B;
+	Tue, 24 Jun 2025 09:52:24 -0700 (PDT)
+Message-ID: <eb5dd1dd-ae08-4ab6-9bdc-c17e99bbacbd@arm.com>
+Date: Tue, 24 Jun 2025 17:52:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250328171205.2029296-1-xin@zytor.com> <20250328171205.2029296-16-xin@zytor.com>
-Message-ID: <aFrUg4BB-MXuYi3L@google.com>
-Subject: Re: [PATCH v4 15/19] KVM: x86: Allow FRED/LKGS to be advertised to guests
-From: Sean Christopherson <seanjc@google.com>
-To: "Xin Li (Intel)" <xin@zytor.com>
-Cc: pbonzini@redhat.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, corbet@lwn.net, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, andrew.cooper3@citrix.com, luto@kernel.org, 
-	peterz@infradead.org, chao.gao@intel.com, xin3.li@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 05/10] accel/rocket: Add IOCTLs for synchronizing
+ memory accesses
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Daniel Stone <daniel@fooishbar.org>,
+ Da Xue <da@libre.computer>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+ <20250606-6-10-rocket-v7-5-dc16cfe6fe4e@tomeuvizoso.net>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250606-6-10-rocket-v7-5-dc16cfe6fe4e@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The shortlog (and changelog intro) are wrong.  KVM isn't allowing FRED/LKGS=
- to
-be advertised to the guest.  Userspace can advertise whatever it wants.  Th=
-e guest
-will break badly without KVM support, but that doesn't stop userspace from
-advertising a bogus vCPU model.
-
-  KVM: x86: Advertise support for FRED/LKGS to userspace
-
-On Fri, Mar 28, 2025, Xin Li (Intel) wrote:
-> From: Xin Li <xin3.li@intel.com>
->=20
-> Allow FRED/LKGS to be advertised to guests after changes required to
-
-Please explain what LKGS is early in the changelog.  I assumed it was a fea=
-ture
-of sorts; turns out it's a new instruction.
-
-Actually, why wait this long to enumerate support for LKGS?  I.e. why not h=
-ave a
-patch at the head of the series to enumerate support for LKGS?  IIUC, LKGS =
-doesn't
-depend on FRED.
-
-> enable FRED in a KVM guest are in place.
->=20
-> LKGS is introduced with FRED to completely eliminate the need to swapgs
-> explicilty, because
->=20
-> 1) FRED transitions ensure that an operating system can always operate
->    with its own GS base address.
->=20
-> 2) LKGS behaves like the MOV to GS instruction except that it loads
->    the base address into the IA32_KERNEL_GS_BASE MSR instead of the
->    GS segment=E2=80=99s descriptor cache, which is exactly what Linux ker=
-nel
->    does to load a user level GS base.  Thus there is no need to SWAPGS
->    away from the kernel GS base and an execution of SWAPGS causes #UD
->    if FRED transitions are enabled.
->=20
-> A FRED CPU must enumerate LKGS.  When LKGS is not available, FRED must
-> not be enabled.
->=20
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-> Tested-by: Shan Kang <shan.kang@intel.com>
+On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
+> The NPU cores have their own access to the memory bus, and this isn't
+> cache coherent with the CPUs.
+> 
+> Add IOCTLs so userspace can mark when the caches need to be flushed, and
+> also when a writer job needs to be waited for before the buffer can be
+> accessed from the CPU.
+> 
+> Initially based on the same IOCTLs from the Etnaviv driver.
+> 
+> v2:
+> - Don't break UABI by reordering the IOCTL IDs (Jeff Hugo)
+> 
+> v3:
+> - Check that padding fields in IOCTLs are zero (Jeff Hugo)
+> 
+> v6:
+> - Fix conversion logic to make sure we use DMA_BIDIRECTIONAL when needed
+>    (Lucas Stach)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 > ---
->  arch/x86/kvm/cpuid.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-> index 5e4d4934c0d3..8f290273aee1 100644
-> --- a/arch/x86/kvm/cpuid.c
-> +++ b/arch/x86/kvm/cpuid.c
-> @@ -992,6 +992,8 @@ void kvm_set_cpu_caps(void)
->  		F(FZRM),
->  		F(FSRS),
->  		F(FSRC),
-> +		F(FRED),
-> +		F(LKGS),
+>   drivers/accel/rocket/rocket_drv.c |  2 +
+>   drivers/accel/rocket/rocket_gem.c | 82 +++++++++++++++++++++++++++++++++++++++
+>   drivers/accel/rocket/rocket_gem.h |  5 +++
+>   include/uapi/drm/rocket_accel.h   | 37 ++++++++++++++++++
+>   4 files changed, 126 insertions(+)
+> 
+> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/rocket_drv.c
+> index 4ab78193c186dfcfc3e323f16c588e85e6a8a334..eb9284ee2511f730afe6a532225c2706ce0e2822 100644
+> --- a/drivers/accel/rocket/rocket_drv.c
+> +++ b/drivers/accel/rocket/rocket_drv.c
+> @@ -62,6 +62,8 @@ static const struct drm_ioctl_desc rocket_drm_driver_ioctls[] = {
+>   
+>   	ROCKET_IOCTL(CREATE_BO, create_bo),
+>   	ROCKET_IOCTL(SUBMIT, submit),
+> +	ROCKET_IOCTL(PREP_BO, prep_bo),
+> +	ROCKET_IOCTL(FINI_BO, fini_bo),
+>   };
+>   
+>   DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
+> diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/rocket_gem.c
+> index 61b7f970a6885aa13784daa1222611a02aa10dee..07024b6e71bf544dc7f00b008b9afb74b0c4e802 100644
+> --- a/drivers/accel/rocket/rocket_gem.c
+> +++ b/drivers/accel/rocket/rocket_gem.c
+> @@ -113,3 +113,85 @@ int rocket_ioctl_create_bo(struct drm_device *dev, void *data, struct drm_file *
+>   
+>   	return ret;
+>   }
+> +
+> +static inline enum dma_data_direction rocket_op_to_dma_dir(u32 op)
+> +{
+> +	op &= ROCKET_PREP_READ | ROCKET_PREP_WRITE;
+> +
+> +	if (op == ROCKET_PREP_READ)
+> +		return DMA_FROM_DEVICE;
+> +	else if (op == ROCKET_PREP_WRITE)
+> +		return DMA_TO_DEVICE;
+> +	else
+> +		return DMA_BIDIRECTIONAL;
+> +}
+> +
+> +int rocket_ioctl_prep_bo(struct drm_device *dev, void *data, struct drm_file *file)
+> +{
+> +	struct drm_rocket_prep_bo *args = data;
+> +	unsigned long timeout = drm_timeout_abs_to_jiffies(args->timeout_ns);
+> +	struct rocket_device *rdev = to_rocket_device(dev);
+> +	struct drm_gem_object *gem_obj;
+> +	struct drm_gem_shmem_object *shmem_obj;
+> +	bool write = !!(args->op & ROCKET_PREP_WRITE);
+> +	long ret = 0;
+> +
+> +	if (args->op & ~(ROCKET_PREP_READ | ROCKET_PREP_WRITE))
+> +		return -EINVAL;
+> +
+> +	gem_obj = drm_gem_object_lookup(file, args->handle);
+> +	if (!gem_obj)
+> +		return -ENOENT;
+> +
+> +	ret = dma_resv_wait_timeout(gem_obj->resv, dma_resv_usage_rw(write),
+> +				    true, timeout);
+> +	if (!ret)
+> +		ret = timeout ? -ETIMEDOUT : -EBUSY;
+> +
+> +	shmem_obj = &to_rocket_bo(gem_obj)->base;
+> +
+> +	for (unsigned int core = 1; core < rdev->num_cores; core++) {
 
-These need to be X86_64_F, no?
+Huh? If you need to sync the BO memory ever, then you need to sync it 
+for the same device it was mapped, and certainly not 0 or 2+ times 
+depending on how may cores happen to be enabled. Please throw 
+CONFIG_DMA_API_DEBUG at this.
 
->  		F(AMX_FP16),
->  		F(AVX_IFMA),
->  		F(LAM),
-> --=20
-> 2.48.1
->=20
+> +		dma_sync_sgtable_for_cpu(rdev->cores[core].dev, shmem_obj->sgt,
+> +					 rocket_op_to_dma_dir(args->op));
+
+Hmm, the intent of the API is really that the direction for sync should 
+match the direction for map and unmap too; if it was mapped 
+DMA_BIDIRECTIONAL then it should be synced DMA_BIDIRECTIONAL. If you 
+have BOs which are really only used for one-directional purposes then 
+they should be mapped as such at creation.
+
+Does anything actually prevent one thread form trying to read from a 
+buffer while another thread is writing it, and thus the read 
+inintuitively destroying newly-written data (and/or the write 
+unwittingly destroying its own data in FINI_BO because last_cpu_prep_op 
+got overwritten)? Unless there's a significant measurable benefit to 
+trying to be clever here (of which I'm somewhjat doubtful), I would be 
+strongly inclined to just keep things simple and straightforward.
+
+Thanks,
+Robin.
+
+> +	}
+> +
+> +	to_rocket_bo(gem_obj)->last_cpu_prep_op = args->op;
+> +
+> +	drm_gem_object_put(gem_obj);
+> +
+> +	return ret;
+> +}
+> +
+> +int rocket_ioctl_fini_bo(struct drm_device *dev, void *data, struct drm_file *file)
+> +{
+> +	struct rocket_device *rdev = to_rocket_device(dev);
+> +	struct drm_rocket_fini_bo *args = data;
+> +	struct drm_gem_shmem_object *shmem_obj;
+> +	struct rocket_gem_object *rkt_obj;
+> +	struct drm_gem_object *gem_obj;
+> +
+> +	if (args->reserved != 0) {
+> +		drm_dbg(dev, "Reserved field in drm_rocket_fini_bo struct should be 0.\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	gem_obj = drm_gem_object_lookup(file, args->handle);
+> +	if (!gem_obj)
+> +		return -ENOENT;
+> +
+> +	rkt_obj = to_rocket_bo(gem_obj);
+> +	shmem_obj = &rkt_obj->base;
+> +
+> +	WARN_ON(rkt_obj->last_cpu_prep_op == 0);
+> +
+> +	for (unsigned int core = 1; core < rdev->num_cores; core++) {
+> +		dma_sync_sgtable_for_device(rdev->cores[core].dev, shmem_obj->sgt,
+> +					    rocket_op_to_dma_dir(rkt_obj->last_cpu_prep_op));
+> +	}
+> +
+> +	rkt_obj->last_cpu_prep_op = 0;
+> +
+> +	drm_gem_object_put(gem_obj);
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/accel/rocket/rocket_gem.h b/drivers/accel/rocket/rocket_gem.h
+> index e8a4d6213fd80419be2ec8af04583a67fb1a4b75..a52a63cd78339a6150b99592ab5f94feeeb51fde 100644
+> --- a/drivers/accel/rocket/rocket_gem.h
+> +++ b/drivers/accel/rocket/rocket_gem.h
+> @@ -12,12 +12,17 @@ struct rocket_gem_object {
+>   	struct iommu_domain *domain;
+>   	size_t size;
+>   	u32 offset;
+> +	u32 last_cpu_prep_op;
+>   };
+>   
+>   struct drm_gem_object *rocket_gem_create_object(struct drm_device *dev, size_t size);
+>   
+>   int rocket_ioctl_create_bo(struct drm_device *dev, void *data, struct drm_file *file);
+>   
+> +int rocket_ioctl_prep_bo(struct drm_device *dev, void *data, struct drm_file *file);
+> +
+> +int rocket_ioctl_fini_bo(struct drm_device *dev, void *data, struct drm_file *file);
+> +
+>   static inline
+>   struct  rocket_gem_object *to_rocket_bo(struct drm_gem_object *obj)
+>   {
+> diff --git a/include/uapi/drm/rocket_accel.h b/include/uapi/drm/rocket_accel.h
+> index cb1b5934c201160e7650aabd1b3a2b1c77b1fd7b..b5c80dd767be56e9720b51e4a82617a425a881a1 100644
+> --- a/include/uapi/drm/rocket_accel.h
+> +++ b/include/uapi/drm/rocket_accel.h
+> @@ -13,9 +13,13 @@ extern "C" {
+>   
+>   #define DRM_ROCKET_CREATE_BO			0x00
+>   #define DRM_ROCKET_SUBMIT			0x01
+> +#define DRM_ROCKET_PREP_BO			0x02
+> +#define DRM_ROCKET_FINI_BO			0x03
+>   
+>   #define DRM_IOCTL_ROCKET_CREATE_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_ROCKET_CREATE_BO, struct drm_rocket_create_bo)
+>   #define DRM_IOCTL_ROCKET_SUBMIT			DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_SUBMIT, struct drm_rocket_submit)
+> +#define DRM_IOCTL_ROCKET_PREP_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_PREP_BO, struct drm_rocket_prep_bo)
+> +#define DRM_IOCTL_ROCKET_FINI_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_ROCKET_FINI_BO, struct drm_rocket_fini_bo)
+>   
+>   /**
+>    * struct drm_rocket_create_bo - ioctl argument for creating Rocket BOs.
+> @@ -39,6 +43,39 @@ struct drm_rocket_create_bo {
+>   	__u64 offset;
+>   };
+>   
+> +#define ROCKET_PREP_READ        0x01
+> +#define ROCKET_PREP_WRITE       0x02
+> +
+> +/**
+> + * struct drm_rocket_prep_bo - ioctl argument for starting CPU ownership of the BO.
+> + *
+> + * Takes care of waiting for any NPU jobs that might still use the NPU and performs cache
+> + * synchronization.
+> + */
+> +struct drm_rocket_prep_bo {
+> +	/** Input: GEM handle of the buffer object. */
+> +	__u32 handle;
+> +
+> +	/** Input: mask of ROCKET_PREP_x, direction of the access. */
+> +	__u32 op;
+> +
+> +	/** Input: Amount of time to wait for NPU jobs. */
+> +	__s64 timeout_ns;
+> +};
+> +
+> +/**
+> + * struct drm_rocket_fini_bo - ioctl argument for finishing CPU ownership of the BO.
+> + *
+> + * Synchronize caches for NPU access.
+> + */
+> +struct drm_rocket_fini_bo {
+> +	/** Input: GEM handle of the buffer object. */
+> +	__u32 handle;
+> +
+> +	/** Reserved, must be zero. */
+> +	__u32 reserved;
+> +};
+> +
+>   /**
+>    * struct drm_rocket_task - A task to be run on the NPU
+>    *
+> 
+
