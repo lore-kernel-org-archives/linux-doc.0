@@ -1,261 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E913B1876;
-	Tue, 24 Jun 2025 07:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464C5190664;
+	Tue, 24 Jun 2025 08:06:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750751307; cv=none; b=jzHIXju4IlxCmcBsAVs4QV/rN9fxRgIHba6PcxEguK2YSXopiJDfTXM0LA+Z7X/lDFtsXU0G3QZntPxxJimylzxD2BDYJt8aYXfTKP31HvD75fH9PTMpJqy3xwcvTnZ43LEz/sqnpATfir3jjiocyppPDIWqJMxv5mra3mNjdEs=
+	t=1750752414; cv=none; b=IqSlN5ICp5ZeyfMz0tpvP2c97qzm13EUa9weiL/ck1yC0hgJ8Ntw0ELl1Lfo+/ozDWPI/AA1u62KV8EgeqVgozyu9wdcwRIT4vKFynGdNfFCZ1gzgy5z5NAnEbEWlhdn7tGId1jdifTszjmQHWn3X98QTIaccFRKNXel1Dd6ES0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750751307; c=relaxed/simple;
-	bh=87IhusWnFHqddKhc+u8V+JDM2N3zSseDLKZaCid1I40=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=maVC0QzgSQ2Ii4p+eyoARxoAqzn4LO4Wwz4Px+C/r0ktRCJfCWii4k8oSMf34dqu7ihRWHP8fGoLfRMUYlud6gpcXFqJzwQlJk2RF7+2r5OCdg0enEJ3SOCEM9DNKBC20mSfqmao21+jzpytljBDjBCMjhxHdSzgo3za+wsYI7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NMUDRSnX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750752414; c=relaxed/simple;
+	bh=rONZBqSu0G336QD6fdEcLUvwhyF4RivARlvQIYQaJu0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LF66IqYHpw0R27vnJmRDyqs+/O2bIJF7AvtXgUgbSiR3QaTLtFLpsg5u3dJZMYc2S8O9dRCk5383zimZGVClb20ksRzDDfAK331fFI06hWb+947XFas26gfMBhu3w8wnrYDlP2AnUGppSfRzICxX/2J5oc9/oOGsjdY4Ms2TG7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G/9oKIGy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NMUDRSnX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA07DC4CEEF;
-	Tue, 24 Jun 2025 07:48:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G/9oKIGy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D05EC4CEEF;
+	Tue, 24 Jun 2025 08:06:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750751306;
-	bh=87IhusWnFHqddKhc+u8V+JDM2N3zSseDLKZaCid1I40=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=NMUDRSnXUpS0q4QJmlAwIads/FCRoiKqHnNK5yRu6FGT5xYQP6Yyy2JTuuvYrjKEF
-	 RTe7bnuTLb/QxEVqPfMPeDrhLqEihckLvvl04TVZX6cCy1T4/IxnCB6vAmDfZB/9n0
-	 LauTe6pP3miPobjsX9ru22b4Ar4ipL9WjEx6PzS6s0oBNpsAj+VAroU8mXeI0ieg/X
-	 zo8VXTdLze62zoSFMpPncIbj8G5Bv7+VLXE/zVaBtMTKn9StAxMiVKpr7Lp3GtsoTt
-	 EeNcsJjhVuz1snW7tVDZpSfyWZc0g1M5APYV8IceaBgdMt3XcMPs+KuNYrC3h+cykC
-	 TkQIIG0jt452g==
-Message-ID: <9bd05709-7702-4b74-85e1-3df25b57c535@kernel.org>
-Date: Tue, 24 Jun 2025 09:48:18 +0200
+	s=k20201202; t=1750752413;
+	bh=rONZBqSu0G336QD6fdEcLUvwhyF4RivARlvQIYQaJu0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=G/9oKIGypl9sgF5wi0bI6DQWCsjBJW4+FlBDMK61TRiZyAz92va9RLWsu4sdbpB9X
+	 b7/PNne8bE4qUL/cpttYo16r+fGTPKNYruANTu+nXoAd9p8+Wkdk+uy7zr6KMvY1oh
+	 0PyTGm3+jhHFz6gEZOFMmVAQHRgS2CbLmS98RBy2wULZThNEXkVe4R2gZ3OSOhP5X7
+	 Hw7EQc0F4iFxPWEic/GOvMuvRFHk/SYeZ5jax1PQczZqgT1sk4XwDx19xc6gTN9J2+
+	 FmR1FaM5gjjQ/cGBzZVq3ItGp6DXEqvVhiSdlIWfRn3npU8KIT+j0SR+902vy1tLSc
+	 xNnluErWJ81Cg==
+From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: gregkh@linuxfoundation.org
+Cc: linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 5/5] tty: fix tty_port_tty_*hangup() kernel-doc
+Date: Tue, 24 Jun 2025 10:06:41 +0200
+Message-ID: <20250624080641.509959-6-jirislaby@kernel.org>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250624080641.509959-1-jirislaby@kernel.org>
+References: <20250624080641.509959-1-jirislaby@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] hwmon: (pmbus) Add support for MPS multi-phase
- mp2869a/mp29612a controllers
-To: tzuhao.wtmh@gmail.com, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Naresh Solanki <naresh.solanki@9elements.com>,
- Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>,
- Michal Simek <michal.simek@amd.com>, Fabio Estevam <festevam@gmail.com>,
- Henry Wu <Henry_Wu@quantatw.com>, Grant Peltier <grantpeltier93@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
- Kim Seer Paller <kimseer.paller@analog.com>,
- Leo Yang <leo.yang.sy0@gmail.com>, Ninad Palsule <ninad@linux.ibm.com>,
- Alex Vdovydchenko <xzeol@yahoo.com>,
- John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>,
- Nuno Sa <nuno.sa@analog.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Noah Wang <noahwang.wang@outlook.com>,
- Mariel Tinaco <Mariel.Tinaco@analog.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250624074156.291176-1-Henry_Wu@quantatw.tw>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250624074156.291176-1-Henry_Wu@quantatw.tw>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 24/06/2025 09:41, tzuhao.wtmh@gmail.com wrote:
-> +static int
-> +MP2869A_read_byte_data(struct i2c_client *client, int page, int reg)
-> +{
-> +	switch (reg) {
-> +	case PMBUS_VOUT_MODE:
-> +		/* Enforce VOUT direct format. */
-> +		return PB_VOUT_MODE_DIRECT;
-> +	default:
-> +		return -ENODATA;
-> +	}
-> +}
-> +
-> +static int
-> +MP2869A_identify_vout_format(struct i2c_client *client,
+The commit below added a new helper, but omitted to move (and add) the
+corressponding kernel-doc. Do it now.
 
-Use Linux coding style, so lowercase for variables, types and functions.
-Everywhere (except when coding style tells you different, so please read
-it).
+Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+Fixes: 2b5eac0f8c6e ("tty: introduce and use tty_port_tty_vhangup() helper")
+Link: https://lore.kernel.org/all/b23d566c-09dc-7374-cc87-0ad4660e8b2e@linux.intel.com/
+Reported-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/driver-api/tty/tty_port.rst | 5 +++--
+ drivers/tty/tty_port.c                    | 5 -----
+ include/linux/tty_port.h                  | 9 +++++++++
+ 3 files changed, 12 insertions(+), 7 deletions(-)
 
-> +			    struct MP2869A_data *data)
-> +{
-> +	int i, ret;
-> +
-> +	for (i = 0; i < data->info.pages; i++) {
-> +		ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, i);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		ret = i2c_smbus_read_word_data(client, MP2869A_VOUT_MODE);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		switch (ret & MP2869A_VOUT_MODE_MASK) {
-> +		case MP2869A_VOUT_MODE_VID:
-> +			data->vout_format[i] = vid;
-> +			break;
-> +		default:
-> +		return -EINVAL;
-> +		}
-> +		}
+diff --git a/Documentation/driver-api/tty/tty_port.rst b/Documentation/driver-api/tty/tty_port.rst
+index 5cb90e954fcf..504a353f2682 100644
+--- a/Documentation/driver-api/tty/tty_port.rst
++++ b/Documentation/driver-api/tty/tty_port.rst
+@@ -42,9 +42,10 @@ TTY Refcounting
+ TTY Helpers
+ -----------
+ 
++.. kernel-doc::  include/linux/tty_port.h
++   :identifiers: tty_port_tty_hangup tty_port_tty_vhangup
+ .. kernel-doc::  drivers/tty/tty_port.c
+-   :identifiers: tty_port_tty_hangup tty_port_tty_wakeup
+-
++   :identifiers: tty_port_tty_wakeup
+ 
+ Modem Signals
+ -------------
+diff --git a/drivers/tty/tty_port.c b/drivers/tty/tty_port.c
+index 903eebdbe12d..5b4d5fb99a59 100644
+--- a/drivers/tty/tty_port.c
++++ b/drivers/tty/tty_port.c
+@@ -391,11 +391,6 @@ void tty_port_hangup(struct tty_port *port)
+ }
+ EXPORT_SYMBOL(tty_port_hangup);
+ 
+-/**
+- * tty_port_tty_hangup - helper to hang up a tty
+- * @port: tty port
+- * @check_clocal: hang only ttys with %CLOCAL unset?
+- */
+ void __tty_port_tty_hangup(struct tty_port *port, bool check_clocal, bool async)
+ {
+ 	struct tty_struct *tty = tty_port_tty_get(port);
+diff --git a/include/linux/tty_port.h b/include/linux/tty_port.h
+index 021f9a8415c0..332ddb93603e 100644
+--- a/include/linux/tty_port.h
++++ b/include/linux/tty_port.h
+@@ -251,11 +251,20 @@ static inline int tty_port_users(struct tty_port *port)
+ 	return port->count + port->blocked_open;
+ }
+ 
++/**
++ * tty_port_tty_hangup - helper to hang up a tty asynchronously
++ * @port: tty port
++ * @check_clocal: hang only ttys with %CLOCAL unset?
++ */
+ static inline void tty_port_tty_hangup(struct tty_port *port, bool check_clocal)
+ {
+ 	__tty_port_tty_hangup(port, check_clocal, true);
+ }
+ 
++/**
++ * tty_port_tty_vhangup - helper to hang up a tty synchronously
++ * @port: tty port
++ */
+ static inline void tty_port_tty_vhangup(struct tty_port *port)
+ {
+ 	__tty_port_tty_hangup(port, false, false);
+-- 
+2.50.0
 
-Messed indentation in multiple places.
-
-> +	return 0;
-> +}
-> +
-> +static struct pmbus_driver_info MP2869A_info = {
-
-This is const.
-
-> +	.pages = MP2869A_PAGE_NUM,
-> +	.format[PSC_VOLTAGE_IN] = linear,
-> +	.format[PSC_VOLTAGE_OUT] = direct,
-> +	.format[PSC_TEMPERATURE] = linear,
-> +	.format[PSC_CURRENT_IN] = linear,
-> +	.format[PSC_CURRENT_OUT] = linear,
-> +	.format[PSC_POWER] = linear,
-> +	.m[PSC_VOLTAGE_OUT] = 1,
-> +	.b[PSC_VOLTAGE_OUT] = 0,
-> +	.R[PSC_VOLTAGE_OUT] = -3,
-> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
-> +		PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-> +		PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_POUT |
-> +		PMBUS_HAVE_PIN | PMBUS_HAVE_STATUS_INPUT,
-> +	.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_IOUT |
-> +		PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_POUT | PMBUS_HAVE_TEMP,
-> +	.read_byte_data = MP2869A_read_byte_data,
-> +	.read_word_data = MP2869A_read_word_data,
-> +};
-> +
-> +static int mp2869a_probe(struct i2c_client *client)
-> +{
-> +	struct pmbus_driver_info *info;
-> +	struct MP2869A_data *data;
-> +	int ret;
-> +
-> +	data = devm_kzalloc(&client->dev, sizeof(struct MP2869A_data),
-
-sizeof(*)
-
-> +		GFP_KERNEL);
-
-Misaligned. Run checkpatch --srtict
-
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->chip_id = (enum chips)(uintptr_t)i2c_get_match_data(client);
-
-These are just wrong or redundant casts. You need only one cast -
-kernel_ulong_t
-
-> +
-> +	memcpy(data->max_phases, mp2869a_max_phases[data->chip_id],
-> +		sizeof(data->max_phases));
-
-Why you cannot just store the pointer?
-
-> +
-> +	memcpy(&data->info, &MP2869A_info, sizeof(*info));
-
-Why you cannot just store the pointer?
-
-> +	info = &data->info;
-> +
-> +
-
-One blank line, not two
-
-> +	/* Identify vout format. */
-> +	ret = MP2869A_identify_vout_format(client, data);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* set the device to page 0 */
-> +	i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-> +
-> +	return pmbus_do_probe(client, info);
-> +}
-> +
-> +static const struct of_device_id __maybe_unused mp2869a_of_match[] = {
-> +	{ .compatible = "mps,mp2869a", .data = (void *)mp2869a },
-> +	{ .compatible = "mps,mp29612a", .data = (void *)mp29612a},
-> +	{}
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, mp2869a_of_match);
-> +
-> +static struct i2c_driver mp2869a_driver = {
-> +	.driver = {
-> +		.name = "mp2869a",
-> +		.of_match_table = mp2869a_of_match,
-> +	},
-> +	.probe = mp2869a_probe,
-> +	.id_table = mp2869a_id,
-> +};
-> +
-> +module_i2c_driver(mp2869a_driver);
-> +
-> +
-
-One blank line, not two. This applies everywhere.
-
-> +MODULE_AUTHOR("Henry Wu <Henry_WU@quantatw.com>");
-> +MODULE_DESCRIPTION("PMBus driver for MPS MP2869A/MP29612A device");
-> +MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS(PMBUS);
-
-
-Best regards,
-Krzysztof
