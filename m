@@ -1,72 +1,100 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A89222571;
-	Tue, 24 Jun 2025 12:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC5329551B;
+	Tue, 24 Jun 2025 12:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750768944; cv=none; b=lpjlz/G3QhicjYrq3JG2NZrWGnH3hFw4cBQpuTlpPJH5QLZ7WWS91BQtU+gFl6J5syt7jWt2XrQV8NXN0Pftg/PLAQEuFXxS4uf+qgDBmiG2cm4fH9s5hQlOryBU8GoLy//mPOFm1EhgtJXGKz5H3s1FGW3UyY2YXbPBpFiXdBg=
+	t=1750769521; cv=none; b=JRu/AJv6X/86YjQL2iZeup5d4LpGm1pnrkymVyUpG55U8VjgE0TP4kQkDh8jKSsX/jMGVOP3F2sEjwboAxqlGPVG20nlClfk7MmrrB0k54KoCdw8ta+J7Zcgkal7zA23is1RtF6qF+PDSYZpDklmIw96/J0Mpp7MJUusRnopPNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750768944; c=relaxed/simple;
-	bh=VIVzvuGLxfr6FEARxXBTW3jW4mO77H2gDFFgT8Ut+io=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BcT9ytmcm7pXX8HumYlWO8FBCiPgZShuj6yYaxcKhCsxhSE8jHaaNkfMHg+TyqBX3M2zdPYXws0v3PQYTsRbASSsLHxNLMAklv0NxhV2X9Hk3g8GYExPGJQdDkI09u8xguMgZpkcUcRWxr+Pz0wz8MhxYkTR+nsJnCVlnLeq/eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZnPmYoOl; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1750769521; c=relaxed/simple;
+	bh=6H/6DkhwBEk6xZXj6xYuHV8A9YsL6O4OURI3iBlHbWI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mCtUVDsQSSjwS1Oth8iwCrUXDeXNiUxqf3O1cAY7RKDnkH5XZ2f6VnFpAOGlTotTEoYalrAei5/uDOzgp+JSiLvaQSA+SGyxu00K3pkEsqVK/phaLxc5waiNTDs4YFxNY0tADgGBqZXhO2eozCzgin7e2daSNExgjb21qdm6m/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=O0ORMoVA; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZnPmYoOl"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0164C406FC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1750768936; bh=oD11XIAvJqRoGH2EZZgtZLub3E/yceoBzeCcm0HjK9w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ZnPmYoOliNLXAjgiNqpuGzcUHCNR4FJRzfHgzfy8KdeufvTwe2ryg1jpnDR7Vol64
-	 BMwv9G8UpXUKaGWBc9BbpkfIovyuGZU87SwLUyPvo9tE0wO0TvNJZVmAn5EHNtaS/M
-	 wfbWVhykEHi5jevC8x4mwJ0v0dwlqMVCBoaGp8MwlRlYekhrPg3MvDhLv/FF1rfg3u
-	 zbkuVVBX29yYVk6WblsAd/xgA6a0ai6RBQTNAMEfVQpMjkOMsLXoyHoIoYVJc1PQT3
-	 /UVJOJtV8oCb2Knv2OSANKhBH94dQOzBymYx0IuOyumBcDW1pBzZ61H6jPe4UJ2RyZ
-	 bPg5RVIac6WIQ==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0164C406FC;
-	Tue, 24 Jun 2025 12:42:15 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Alok Tiwari
- <alok.a.tiwari@oracle.com>, pbonzini@redhat.com, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: Re: [PATCH next] Documentation: KVM: fix reference for
- kvm_ppc_resize_hpt and various typos
-In-Reply-To: <aFniQYHCyi4BKVcs@archie.me>
-References: <20250623191152.44118-1-alok.a.tiwari@oracle.com>
- <aFniQYHCyi4BKVcs@archie.me>
-Date: Tue, 24 Jun 2025 06:42:15 -0600
-Message-ID: <87jz5171lk.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O0ORMoVA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=YOojs8ETOh0nTkI9FVoRaG17pTblKI2h/qJphUDsFTg=; b=O0ORMoVA2HBFIa95a4tYoOnfak
+	MlNH1yfUbdVu/C/pxQlWEsaEhdAx3u7SfeayvsOe9NUYSILkqFBRqkm4yIBf1E8pvaYTgHU8nzzvY
+	y9JJ10OQ6HASMGlWlOnmVsnklPeMvsR+pzbKqhpAlJa+iKEYdPU8j+FtVvU+WBWkAqRtHAbbtF8t5
+	eudvW7VJjfuSDpm7I/N24ZvaqCI5U+9SFvyDByBHQRUA97w0vqSV8Uv9Q4aWCqg4RF3hVL5G4FTxB
+	yxwniFZbWrdvugPLzzqFJ9gn1vfOSJd+Vr5DzpRRDd0fnpYhXAZqoPh4iXN99K8hUZRhmK4+AG+Vl
+	uuV/Unfw==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uU37w-00000006bv4-0Kku;
+	Tue, 24 Jun 2025 12:51:52 +0000
+Date: Tue, 24 Jun 2025 13:51:51 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: =?utf-8?B?6ZmI5rab5rab?= Taotao Chen <chentaotao@didiglobal.com>
+Cc: "tytso@mit.edu" <tytso@mit.edu>,
+	"hch@infradead.org" <hch@infradead.org>,
+	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+	"rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+	"tursulin@ursulin.net" <tursulin@ursulin.net>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"chentao325@qq.com" <chentao325@qq.com>
+Subject: Re: [PATCH v2 3/5] fs: change write_begin/write_end interface to
+ take struct kiocb *
+Message-ID: <aFqfZ9hiiW4qnYtO@casper.infradead.org>
+References: <20250624121149.2927-1-chentaotao@didiglobal.com>
+ <20250624121149.2927-4-chentaotao@didiglobal.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250624121149.2927-4-chentaotao@didiglobal.com>
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Tue, Jun 24, 2025 at 12:12:08PM +0000, 陈涛涛 Taotao Chen wrote:
+> -static int blkdev_write_end(struct file *file, struct address_space *mapping,
+> +static int blkdev_write_end(struct kiocb *iocb, struct address_space *mapping,
+>  		loff_t pos, unsigned len, unsigned copied, struct folio *folio,
+>  		void *fsdata)
+>  {
+>  	int ret;
+> -	ret = block_write_end(file, mapping, pos, len, copied, folio, fsdata);
+> +	ret = block_write_end(iocb->ki_filp, mapping, pos, len, copied, folio, fsdata);
 
-> On Mon, Jun 23, 2025 at 12:11:47PM -0700, Alok Tiwari wrote:
->>  If this ioctl is called when a hash table has already been allocated,
->>  with a different order from the existing hash table, the existing hash
->> -table will be freed and a new one allocated.  If this is ioctl is
->> -called when a hash table has already been allocated of the same order
->> +table will be freed and a new one allocated. If this ioctl is called
->> +when a hash table has already been allocated of the same order
->
-> Two spaces between sentences (just to be consistent), please.
+... huh.  I thought block_write_end() had to have the same prototype as
+->write_end because it was used by some filesystems as the ->write_end.
+I see that's not true (any more?).  Maybe I was confused with
+generic_write_end().  Anyway, block_write_end() doesn't use it's file
+argument, and never will, so we can just remove it.
 
-Spaces after periods are explicitly documented as something we do not
-"correct" or harass our contributors about.  Please, for the Nth time,
-do not add unnecessary friction to the process of improving our
-documentation.
+> +++ b/include/linux/fs.h
+> @@ -446,10 +446,10 @@ struct address_space_operations {
+>  
+>  	void (*readahead)(struct readahead_control *);
+>  
+> -	int (*write_begin)(struct file *, struct address_space *mapping,
+> +	int (*write_begin)(struct kiocb *, struct address_space *mapping,
+>  				loff_t pos, unsigned len,
+>  				struct folio **foliop, void **fsdata);
+> -	int (*write_end)(struct file *, struct address_space *mapping,
+> +	int (*write_end)(struct kiocb *, struct address_space *mapping,
+>  				loff_t pos, unsigned len, unsigned copied,
+>  				struct folio *folio, void *fsdata);
 
-jon
+Should we make this a 'const struct kiocb *'?  I don't see a need for
+filesystems to be allowed to modify the kiocb in future, but perhaps
+other people have different opinions.
