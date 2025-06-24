@@ -1,162 +1,142 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CCA23B607
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 07:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D856253B47;
+	Tue, 24 Jun 2025 07:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750748724; cv=none; b=p0plMoI7vcz33XPlBwTcIvC2eSD2UXAAxA6+434NHptkUkmeCFxT/TsLPguGvbxi/l6Dq7rrNurAOyjw7i3cbI0V1P7ZOnFzImGuJ5brHyz1Php5PoDPx3TZGOl5tbciibWTy3ZVDYrZGq4greEid9RmIgzpz3BJJdQs5VTN3g4=
+	t=1750750092; cv=none; b=Km+UVoTT/eK9QAOabAQAbl4TV/MPC/QklqAaxYwL8e6ptTtoWgSbGcifjsG8tHUBlEjIUraE1HwNXQOnxoPj5f/aaflSwGnLWLiEqokxibyzhXfGy1URTa9BIJB32j/ea6kueD3ZR4LBVhFed90iX0oDJbS9Oxrt1VFuNoSr+r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750748724; c=relaxed/simple;
-	bh=uCj01wXJRSXVsrZB3o811ZhTorLLjK4lSt9J6v1K598=;
+	s=arc-20240116; t=1750750092; c=relaxed/simple;
+	bh=UpuqpA1vESFJrEGfO1lC4nqQldZ8FEUumluvqyaDbBk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mr7pfE708T00+ULE5V0kpamYuBD5lqFGEzC8Ve1NwAjtzSuRtX38zNWp+w7CiPXOQrUgJxkHXnTc9WlpWLWAlTJbS/vpeXWLf+0RQgfhtX49JWKO17Iibfm3D2H7E3JsoZAzoNaR+NC66e/qHSYKBUPf+Y+zPd4l7finCFXc1AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YdCNEjXQ; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=hrVITrr7jg7EIf1FKNK1nRNvtn1yEWeiiITTBLO+SpE90YXzd2WjcGtPLd5WCOayBEMc1vs/JvwfRqbdhvN5wk5bx6pjtCHT60DnPy/YJzFyplkaKTf7YH14wwCLWB1X7+IVABQuBTfnKPAKywbFRw2ZqaBHxU6PnB52PjpYRmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQoBOm1u; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YdCNEjXQ"
-Date: Tue, 24 Jun 2025 00:05:07 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1750748720;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Rvl+LfkUxz42F+u2AhuU0DC7MpN+KcVkghfyXMKrAJU=;
-	b=YdCNEjXQf9Nhf5KzU5i8ggHBOyIXgK50+X3MqptwbGqKbrP84GlAPmVg79d0ScGVzHNWqI
-	9KAlGO56nfnuIB3W0BcRK3X5GneOcZB9c6cWMPJsMsmV7O7M5uCWupxxC81piynZV/OZ4M
-	jVC45rQOrDmJbnTY2tgEni5IU6Cvt4M=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
-	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
-	maz@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com,
-	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 07/23] perf: arm_pmuv3: Introduce method to partition
- the PMU
-Message-ID: <aFpOI7cWTOAIjNjV@linux.dev>
-References: <aFYFqrYRsmCi6oii@linux.dev>
- <gsntpleu9uvx.fsf@coltonlewis-kvm.c.googlers.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQoBOm1u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750750091; x=1782286091;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=UpuqpA1vESFJrEGfO1lC4nqQldZ8FEUumluvqyaDbBk=;
+  b=VQoBOm1uPuTdsZ3ADKs6GM/2mj4roeU+5cwnLuzrAZTdQ4iMYZf1mIHD
+   D593yxPbQtkN4NyQX/u2qj8/fvKZI4Gj+7vIesExR3ioUszkiX0QVUPLR
+   cMxM8OpLn3c/pmVZNkMQNtFjnQeVosSzWizgrQr1Dbsxr+BEXqmB8wYli
+   dsf+Q7l5BcqVXc3z3P2pQ+ls2h2Mn1x9kFgW2N4io0quocmHYNfNL8ZJH
+   xkHOnpxXJW5aBFaveXyQJ2fKDK50b4HthwTLsjvAauCZ4rCO91QrwsyFH
+   T0WjDjHO+vM5uwkKT9qvHd1L51edOTRZeNv1w6K+47JfOiFeZwv2fheXM
+   w==;
+X-CSE-ConnectionGUID: A+DgpJoERG2qzfuIz2IkpA==
+X-CSE-MsgGUID: 71ZKqBfeT02lAJHoIcgxjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="64037746"
+X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
+   d="scan'208";a="64037746"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 00:28:10 -0700
+X-CSE-ConnectionGUID: Z71nk8nYRuilM5ZhEUrI1g==
+X-CSE-MsgGUID: 9J55saeBROyC+lAS1DxVoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
+   d="scan'208";a="189035512"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 00:28:07 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uTy4Y-00000009PAK-47rV;
+	Tue, 24 Jun 2025 10:28:02 +0300
+Date: Tue, 24 Jun 2025 10:28:02 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	corbet@lwn.net, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	eraretuya@gmail.com
+Subject: Re: [PATCH v10 3/7] iio: accel: adxl345: add activity event feature
+Message-ID: <aFpTgoEIkWorp_pQ@smile.fi.intel.com>
+References: <20250622155010.164451-1-l.rubusch@gmail.com>
+ <20250622155010.164451-4-l.rubusch@gmail.com>
+ <aFkfjAekGJTU5o71@smile.fi.intel.com>
+ <CAFXKEHbGThKzMxg=aZMgVEZ2S2hUoGAOoE5wu_vCuzEPqL0+cA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <gsntpleu9uvx.fsf@coltonlewis-kvm.c.googlers.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFXKEHbGThKzMxg=aZMgVEZ2S2hUoGAOoE5wu_vCuzEPqL0+cA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Jun 23, 2025 at 06:26:42PM +0000, Colton Lewis wrote:
-> Oliver Upton <oliver.upton@linux.dev> writes:
-> 
-> > On Fri, Jun 20, 2025 at 10:13:07PM +0000, Colton Lewis wrote:
-> > > For PMUv3, the register field MDCR_EL2.HPMN partitiones the PMU
-> > > counters into two ranges where counters 0..HPMN-1 are accessible by
-> > > EL1 and, if allowed, EL0 while counters HPMN..N are only accessible by
-> > > EL2.
-> 
-> > > Create module parameters partition_pmu and reserved_guest_counters to
-> > > reserve a number of counters for the guest. These numbers are set at
-> > > boot because the perf subsystem assumes the number of counters will
-> > > not change after the PMU is probed.
-> 
-> > > Introduce the function armv8pmu_partition() to modify the PMU driver's
-> > > cntr_mask of available counters to exclude the counters being reserved
-> > > for the guest and record reserved_guest_counters as the maximum
-> > > allowable value for HPMN.
-> 
-> > > Due to the difficulty this feature would create for the driver running
-> > > at EL1 on the host, partitioning is only allowed in VHE mode. Working
-> > > on nVHE mode would require a hypercall for every counter access in the
-> > > driver because the counters reserved for the host by HPMN are only
-> > > accessible to EL2.
-> 
-> > > Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> > > ---
-> > >   arch/arm/include/asm/arm_pmuv3.h   | 10 ++++
-> > >   arch/arm64/include/asm/arm_pmuv3.h |  5 ++
-> > >   drivers/perf/arm_pmuv3.c           | 95 +++++++++++++++++++++++++++++-
-> > >   include/linux/perf/arm_pmu.h       |  1 +
-> > >   4 files changed, 109 insertions(+), 2 deletions(-)
-> 
-> > > diff --git a/arch/arm/include/asm/arm_pmuv3.h
-> > > b/arch/arm/include/asm/arm_pmuv3.h
-> > > index 2ec0e5e83fc9..9dc43242538c 100644
-> > > --- a/arch/arm/include/asm/arm_pmuv3.h
-> > > +++ b/arch/arm/include/asm/arm_pmuv3.h
-> > > @@ -228,6 +228,11 @@ static inline bool kvm_set_pmuserenr(u64 val)
-> 
-> > >   static inline void kvm_vcpu_pmu_resync_el0(void) {}
-> 
-> > > +static inline bool has_vhe(void)
-> > > +{
-> > > +	return false;
-> > > +}
-> > > +
-> 
-> > This has nothing to do with PMUv3, I'm a bit surprised to see you're
-> > touching 32-bit ARM. Can you just gate the whole partitioning thing on
-> > arm64?
-> 
-> The PMUv3 driver also has to compile on 32-bit ARM.
+On Mon, Jun 23, 2025 at 10:57:39PM +0200, Lothar Rubusch wrote:
+> On Mon, Jun 23, 2025 at 11:34 AM Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+> > On Sun, Jun 22, 2025 at 03:50:06PM +0000, Lothar Rubusch wrote:
 
-Quite aware.
+...
 
-> My first series had the partitioning code in arch/arm64 but you asked me
-> to move it to the PMUv3 driver.
+> > > +     case IIO_EV_TYPE_MAG:
+> > > +             return adxl345_read_mag_config(st, dir,
+> > > +                                            ADXL345_ACTIVITY);
+> >
+> > It looks like you set the editor to wrap at 72 characters, but here the single
+> > line less than 80! Note that the limit is *exactly* 80 character.
+> >
 > 
-> How are you suggesting I square those two requirements?
-
-You should try to structure your predicates in such a way that the
-partitioning stuff all resolves to false for 32 bit arm, generally. That
-way we can avoid stubbing out silly things like has_vhe() which doesn't
-make sense in the context of 32 bit.
-
-> > > +static bool partition_pmu __read_mostly;
-> > > +static u8 reserved_guest_counters __read_mostly;
-> > > +
-> > > +module_param(partition_pmu, bool, 0);
-> > > +MODULE_PARM_DESC(partition_pmu,
-> > > +		 "Partition the PMU into host and guest VM counters [y/n]");
-> > > +
-> > > +module_param(reserved_guest_counters, byte, 0);
-> > > +MODULE_PARM_DESC(reserved_guest_counters,
-> > > +		 "How many counters to reserve for guest VMs [0-$NR_COUNTERS]");
-> > > +
+> I have my setup adjusted to 80 characters. Anyway, the cases here is
+> different, it needs
+> to be seen in context of the follow up patches. I tried to prepare the
+> patches now in a way
+> where changes are mostly "added". Is this correct and desired patch preparation?
 > 
-> > This is confusing and not what we discussed offline.
+> In the particular case, this patch now adds ACTIVITY. A follow up
+> patch will add INACTIVITY.
+> Since this is still building up, it will add yet another argument to
+> those functions, i.e.
+> > > +             return adxl345_write_mag_config(st, dir,
+> > > +                                             ADXL345_ACTIVITY,
 > 
-> > Please use a single parameter that describes the number of counters used
-> > by the *host*. This affects the *host* PMU driver, KVM can discover (and
-> > use) the leftovers.
-> 
-> > If the single module parameter goes unspecified the user did not ask for
-> > PMU partitioning.
-> 
-> I understand what we discussed offline, but I had a dilemma.
-> 
-> If we do a single module parameter for number of counters used by the
-> host, then it defaults to 0 if unset and there is no way to distinguish
-> between no partitioning and a request for partitioning reserving 0
-> counters to the host which I also thought you requested. Would you be
-> happy leaving no way to specify that?
+> will become, later
+> > >               return adxl345_write_mag_config(st, dir,
+> > >                                               ADXL345_ACTIVITY,
+> > > +                                             ADXL345_INACTIVITY,
 
-You can make the command line use a signed integer for storage and a
-reset value of -1.
+Yeah, but with the difference that you still remove the added line in the case
+above (as this example is not the same as what we are talking about).
 
--1 would imply default behavior (no partitioning) and a non-negative
-value would imply partitioning.
+I think you wanted more something like
 
-> In any case, I think the usage is more self explainatory if
-> partitition=[y/n] is a separate bit.
+		return adxl345_read_mag_config(st, dir,
+					       ADXL345_ACTIVITY);
 
-What would be the user's intent of "partition_pmu=n reserved_guest_counters=$X"?
+ito become
 
-Thanks,
-Oliver
+		return adxl345_read_mag_config(st, dir,
+					       ADXL345_INACTIVITY,
+					       ADXL345_ACTIVITY);
+
+> To make the change more additive, I did linebreaks earlier than 80
+> characters. Is this
+> legitimate in this case?
+
+I think so.
+
+> If so, I'll keep all related formatting as is (and will only change
+> the other requests).
+
+Sure.
+
+> Otherwise, I can do it differently and adopt all the formatting
+> changes to prioritize 80 characters.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
