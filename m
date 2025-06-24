@@ -1,117 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC0F280CC8;
-	Tue, 24 Jun 2025 11:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 98FF722CBC6;
+	Tue, 24 Jun 2025 12:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750765057; cv=none; b=V6kl55lao8zZTGtYau3yju/BWZpzy09Hhk+U0Dan11gk37IjyIPlWpZqfZsitSWXG8OxliqHP9pR4pjx1o1XyRvNLN5XLLXYF2nYpT+ZDy8K+are8oSSqqtv5Dp7Ix2j6uk/ePc4Eudk8M+ZY8zxNmgKf6td24OefEs6YVMLVrM=
+	t=1750767160; cv=none; b=bMmM5M30Oe1O3t98mpUyMn1b8GjYYYWALKWYmhCUbnSz1NgJ+gltLXl9GxxsVHgi17azK5YnTKH/gQm9xoH3xCLMrWBqnqrj5JAALRJFC3rUpbFaRpWqO0lmEdWRZVMSgbTntWO+cdGV2jzoRQpt2dsrpXsd6pXs6RV79awsruw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750765057; c=relaxed/simple;
-	bh=1zp6mhXvmMH8trlbOZRktJXmdXnam+2EnOgo74XACPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FwrW7f6gN1ohXj/bFNL9fgEoSsvepY8ntrdWlvnJH6W/jh8uWoSH7nU1kz9GrPmrCSd83S98Lyqu6ZUNSRmzz8mRwS4Ie8Gq23ic9wJPMBNI5x9jQafV8KyXpzyqe8yuXfuYB7kc/gH6rCUH80Zo/PYWLKsYaWwL6YC3WWOZo30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpzFJi7d; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1750767160; c=relaxed/simple;
+	bh=iuF1ZOur63OjUvd6ybvJnLgKwbJ3U/NzwPXRo3n32rY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:Content-Type:
+	 MIME-Version; b=SS5AkFix8Cyu8iw9MmoHgPV5VY3hTtic3ey1Sd1GVebT1DRRDf2sLSbW8qYq8qQ6iNxPV8a4Qa8vibkbCb39VDXSBqIB/4n1+29JA6Rm6SelDIIsrWlNjCZPuV3SVmiPK7YEmUBXiSZojjbZKPzOw/Q3hy9Y6gZ/wsx058BE+Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b=jG1fTpFZ; arc=none smtp.client-ip=111.202.70.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpzFJi7d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750765056; x=1782301056;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1zp6mhXvmMH8trlbOZRktJXmdXnam+2EnOgo74XACPI=;
-  b=hpzFJi7dCpnBfKkbNFt0OJW/O3V81Ud/NtMbZRPqg/huS9KxDTqNYMm/
-   t8uyfMi2nhVYxi8kZtV/2nWgsI0gLxkCX6ZNTYnRgL2uFTQPTChxv3I69
-   rqn4iOWkrvOLo6BivplTEaO5C+1DvhlicXOBvhiejGcR7x2Z1GgrewcVy
-   PwbDkudyaTb2R0ePKDdgJD6vtjt8CdsfVC4neZcdTEwPhfSe5YppXlq88
-   nuVGzpEpG3zEZ5895A6wzyhG/bjWICgw1CmaZ9pLBysQYrLLItqDO/Mrc
-   b7bOR7Md/i12PlarKqTUI0yNzkBd++PTY6DvbFku4Q90iEogy1hK7WLON
-   A==;
-X-CSE-ConnectionGUID: l05Dgq+fSs+S/i68jyQTug==
-X-CSE-MsgGUID: rEKdUBuISDmAyKjGMf+Gqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="63693221"
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="63693221"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 04:37:34 -0700
-X-CSE-ConnectionGUID: E4+6VBWNT/KVds9ubA8IBg==
-X-CSE-MsgGUID: Xdm3O+jyTXuRhe76Z3qzAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="152399988"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa008.jf.intel.com with ESMTP; 24 Jun 2025 04:37:22 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 48839224; Tue, 24 Jun 2025 14:37:21 +0300 (EEST)
-Date: Tue, 24 Jun 2025 14:37:21 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>, acme@redhat.com, 
-	aik@amd.com, akpm@linux-foundation.org, alexander.shishkin@linux.intel.com, 
-	ardb@kernel.org, ast@kernel.org, bp@alien8.de, brijesh.singh@amd.com, 
-	changbin.du@huawei.com, christophe.leroy@csgroup.eu, corbet@lwn.net, 
-	daniel.sneddon@linux.intel.com, dave.hansen@linux.intel.com, ebiggers@google.com, 
-	geert+renesas@glider.be, houtao1@huawei.com, hpa@zytor.com, jgg@ziepe.ca, jgross@suse.com, 
-	jpoimboe@kernel.org, kai.huang@intel.com, kees@kernel.org, leitao@debian.org, 
-	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux@rasmusvillemoes.dk, luto@kernel.org, mcgrof@kernel.org, 
-	mhiramat@kernel.org, michael.roth@amd.com, mingo@kernel.org, mingo@redhat.com, 
-	namhyung@kernel.org, paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com, 
-	peterz@infradead.org, rick.p.edgecombe@intel.com, rppt@kernel.org, 
-	sandipan.das@amd.com, shijie@os.amperecomputing.com, sohil.mehta@intel.com, 
-	tglx@linutronix.de, tj@kernel.org, tony.luck@intel.com, vegard.nossum@oracle.com, 
-	x86@kernel.org, xin3.li@intel.com, xiongwei.song@windriver.com, 
-	ytcoode@gmail.com
-Subject: Re: [PATCHv6 07/16] x86/vsyscall: Reorganize the #PF emulation code
-Message-ID: <hhbqjpkpdi5oe77lfosjpgyvvhvxgwolb45ll5rmwbzsdt27h5@hgv57r543ryl>
-References: <9d351d80-66fe-486f-bdb3-370859dc47cc@intel.com>
- <262c0fd2-ac66-4ce7-903f-4062f1fe1d6e@citrix.com>
- <b6f8a90d-4309-45c5-84cd-32e281d076fb@intel.com>
- <kthmv63jrvrr3shhzhhcib7qrjp7sjkah65kogbfphfr6wg6cb@z5zydz6ov7pv>
- <bd81a98b-f8d4-4304-ac55-d4151a1a77ab@intel.com>
+	dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b="jG1fTpFZ"
+Received: from mail.didiglobal.com (unknown [10.79.65.20])
+	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id 3B0B71808ACADD;
+	Tue, 24 Jun 2025 20:11:29 +0800 (CST)
+Received: from BJ02-ACTMBX-08.didichuxing.com (10.79.65.15) by
+ BJ02-ACTMBX-02.didichuxing.com (10.79.65.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Tue, 24 Jun 2025 20:12:11 +0800
+Received: from BJ03-ACTMBX-07.didichuxing.com (10.79.71.34) by
+ BJ02-ACTMBX-08.didichuxing.com (10.79.65.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Tue, 24 Jun 2025 20:12:11 +0800
+Received: from BJ03-ACTMBX-07.didichuxing.com ([fe80::b00b:de35:2067:9787]) by
+ BJ03-ACTMBX-07.didichuxing.com ([fe80::b00b:de35:2067:9787%7]) with mapi id
+ 15.02.1748.010; Tue, 24 Jun 2025 20:12:11 +0800
+X-MD-Sfrom: chentaotao@didiglobal.com
+X-MD-SrcIP: 10.79.65.20
+From: =?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
+To: "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>,
+	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>, "willy@infradead.org"
+	<willy@infradead.org>, "brauner@kernel.org" <brauner@kernel.org>,
+	"jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+	"rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>, "tursulin@ursulin.net"
+	<tursulin@ursulin.net>, "airlied@gmail.com" <airlied@gmail.com>
+CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "chentao325@qq.com" <chentao325@qq.com>,
+	=?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
+Subject: [PATCH v2 5/5] ext4: declare support for FOP_DONTCACHE
+Thread-Topic: [PATCH v2 5/5] ext4: declare support for FOP_DONTCACHE
+Thread-Index: AQHb5QE2ZjIKcQrU5kGPOqcDpxUbGg==
+Date: Tue, 24 Jun 2025 12:12:10 +0000
+Message-ID: <20250624121149.2927-6-chentaotao@didiglobal.com>
+In-Reply-To: <20250624121149.2927-1-chentaotao@didiglobal.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bd81a98b-f8d4-4304-ac55-d4151a1a77ab@intel.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
+	s=2025; t=1750767111;
+	bh=iuF1ZOur63OjUvd6ybvJnLgKwbJ3U/NzwPXRo3n32rY=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
+	b=jG1fTpFZ5DZ3tvJBBpHiw+NcCQv4XiH7nagDsfHKhol3W/U+kb7vKldOhO7jBL3pp
+	 RxJTpSe2q3R/f5c6cru5v8cqEeQmrQEfxebUH3R6/qe2L9xn1IfGNMxKbvlG0CMej/
+	 MWF3ZmON8QiK9ShSKWFSJqmAkMqCtXz1mbNVHfOg=
 
-On Mon, Jun 23, 2025 at 08:32:53AM -0700, Dave Hansen wrote:
-> On 6/23/25 05:41, Kirill A. Shutemov wrote:
-> > So, IIUC, that's dependency of vsyscall PF on NX. Do we want to disable
-> > vsyscall on boot if NX is not available?
-> 
-> Well, vsyscall=none can break old userspace, so forcing it on old
-> hardware doesn't seem like a great idea.
-> 
-> But, either way, this doesn't really appear to be a LASS issue. This code:
-> 
-> >         if (!(error_code & X86_PF_INSTR)) {
-> >                 /* Failed vsyscall read */
-> >                 if (vsyscall_mode == EMULATE)
-> >                         return false;
-> 
-> Is really asking the question:
-> 
-> 	Is this #PF from an instruction fetch in the vsyscall page?
-> 
-> That _should_ be able to be done by comparing CR2 and regs->rip. In
-> fact, that's done just below anyway:
-> 
-> 	WARN_ON_ONCE(address != regs->ip);
-> 
-> So I think we can fix this up with something like the attached patch
-> which just drives the if() from regs->rip and make the warning NX-only.
-
-Looks good to me.
-
-Do you want me to include it into this patchset or will you apply it
-separately?
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+RnJvbTogVGFvdGFvIENoZW4gPGNoZW50YW90YW9AZGlkaWdsb2JhbC5jb20+DQoNClNldCB0aGUg
+Rk9QX0RPTlRDQUNIRSBmbGFnIGluIGV4dDRfZmlsZV9vcGVyYXRpb25zIHRvIGluZGljYXRlIHRo
+YXQNCmV4dDQgc3VwcG9ydHMgSU9DQl9ET05UQ0FDSEUgaGFuZGxpbmcgaW4gYnVmZmVyZWQgd3Jp
+dGUgcGF0aHMuDQoNClBhcnQgb2YgYSBzZXJpZXMgcmVmYWN0b3JpbmcgYWRkcmVzc19zcGFjZV9v
+cGVyYXRpb25zIHdyaXRlX2JlZ2luIGFuZA0Kd3JpdGVfZW5kIGNhbGxiYWNrcyB0byB1c2Ugc3Ry
+dWN0IGtpb2NiIGZvciBwYXNzaW5nIHdyaXRlIGNvbnRleHQgYW5kDQpmbGFncy4NCg0KU2lnbmVk
+LW9mZi1ieTogVGFvdGFvIENoZW4gPGNoZW50YW90YW9AZGlkaWdsb2JhbC5jb20+DQotLS0NCiBm
+cy9leHQ0L2ZpbGUuYyB8IDMgKystDQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
+MSBkZWxldGlvbigtKQ0KDQpkaWZmIC0tZ2l0IGEvZnMvZXh0NC9maWxlLmMgYi9mcy9leHQ0L2Zp
+bGUuYw0KaW5kZXggMjFkZjgxMzQ3MTQ3Li4yNzRiNDFhNDc2YzggMTAwNjQ0DQotLS0gYS9mcy9l
+eHQ0L2ZpbGUuYw0KKysrIGIvZnMvZXh0NC9maWxlLmMNCkBAIC05NzcsNyArOTc3LDggQEAgY29u
+c3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBleHQ0X2ZpbGVfb3BlcmF0aW9ucyA9IHsNCiAJLnNw
+bGljZV93cml0ZQk9IGl0ZXJfZmlsZV9zcGxpY2Vfd3JpdGUsDQogCS5mYWxsb2NhdGUJPSBleHQ0
+X2ZhbGxvY2F0ZSwNCiAJLmZvcF9mbGFncwk9IEZPUF9NTUFQX1NZTkMgfCBGT1BfQlVGRkVSX1JB
+U1lOQyB8DQotCQkJICBGT1BfRElPX1BBUkFMTEVMX1dSSVRFLA0KKwkJCSAgRk9QX0RJT19QQVJB
+TExFTF9XUklURSB8DQorCQkJICBGT1BfRE9OVENBQ0hFLA0KIH07DQogDQogY29uc3Qgc3RydWN0
+IGlub2RlX29wZXJhdGlvbnMgZXh0NF9maWxlX2lub2RlX29wZXJhdGlvbnMgPSB7DQotLSANCjIu
+MzQuMQ0K
