@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008F82D5C89
-	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 14:10:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90D32D5C9A
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 14:11:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750774258; cv=none; b=r3sOy6gMNsTz2QiDJQiP6Ey4L1jYHG69y9lpp1hdu/KW0FWwBXRdRWcg+Q5Hn4mhtcHwNippBkuE67Xd16JfqTAghMX9XLVre14NxTr3E2Npok7au8Oeaek2Auqy7+SSyhgt/DOfSRViV+n/j/ygtyvss/LwZjUcTxadEvHhqoA=
+	t=1750774263; cv=none; b=iKOmULTvnCZsS+4ZqBpAF3cBGbA6rbsuMyhIMkPn9TEBLF2DQ9QywYpf+deczc8PbVeGQKuZjDXKRD7QogY+BmoLqvdcORBqm3lx8N8s2onvHibXzMDAm5HclnEndd7Dwbc5Z1I5r6f0aXusZxvR4JT5bA/1kTADOEAKMrJ1mtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750774258; c=relaxed/simple;
-	bh=UJHi09MPL3kIZKOseAwotCZyseJCyzbsUABYX0rCz9k=;
+	s=arc-20240116; t=1750774263; c=relaxed/simple;
+	bh=YCNJ+z+ni7T9i5/PDxBYW+kpkiPpzWbbdHUYmgSRMa0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iv8S2OsYFtYQ5/bGXQRrPN9jIzGkdG8llv4/vRCXMrpEF4j/52weRrp2HAk607nkyoCqdTe/0HIcCDnCf0ed+dl15ysflxt7nmS1TP6D0U1QbgePx7EodlCYVFnr02BFZLrQYN2YpioNRRMR7Mb9CLAv3GUQSVxzkkAIS+7hKrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OWyjZ21Y; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=TeSoCziWeYQLbwkmCfx0sCd1l60RelMIBPzNNYlFvHSxGlH+gqy3Kw6LcWcXyRg3oUi2xN/yB944BHgVrb6Oe8spQPSXHLtSauli9iZWYqlot+IKNp2IINcknPQXOxJxzQRccJdTiEiWLKpaz0BHSLMxB1EfWe/Tqxa7JUoizlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KYjMdocG; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OWyjZ21Y"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KYjMdocG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750774256;
+	s=mimecast20190719; t=1750774260;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kNRM/ceMqfAIhZa/7YlKPMiXxg4kVTH+tlmxEWddQvU=;
-	b=OWyjZ21Ys6Dxj1QdMu2Hld8KTsFIZ4MMe5EHX/11jvq40g9cQnuxf57P760MpawZCUfIpV
-	KyhcLuySKVKPAxlLmTLqNUxIsslM6Ca703LUIOEgje4GPxKMZDizUJw95PWhZ6GLN8lWDl
-	cJD+ZMMKU++qDUZr5o7nmD4nu/ZOSCY=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+	bh=A/zQttmcnExROycHPtcExuAs5MgShwE2WW9I76fIuPY=;
+	b=KYjMdocGk0NldQdnJF1OVK+q2HkzsBwQREl4cKdZdQ4reO+uLXUG5eoeEsjsMKidkJjcnA
+	DUREVMF8diZOl6kURBhTJW7e6II/5J1ZSH5MOJ/77j1oZRdgBP+9Ntv80CTe+7Ovxju2Ev
+	NN8gvLLqiH8fMQxvsn0lnFJBEVCulBI=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-541-Xz1la0OgOOqXv0KbKc4aqQ-1; Tue,
- 24 Jun 2025 10:10:51 -0400
-X-MC-Unique: Xz1la0OgOOqXv0KbKc4aqQ-1
-X-Mimecast-MFC-AGG-ID: Xz1la0OgOOqXv0KbKc4aqQ_1750774241
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-451-EQMhH3rkOOKX1EdQclrdYQ-1; Tue,
+ 24 Jun 2025 10:10:57 -0400
+X-MC-Unique: EQMhH3rkOOKX1EdQclrdYQ-1
+X-Mimecast-MFC-AGG-ID: EQMhH3rkOOKX1EdQclrdYQ_1750774255
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 92C8F1956086;
-	Tue, 24 Jun 2025 14:10:41 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6DE3A1956095;
+	Tue, 24 Jun 2025 14:10:55 +0000 (UTC)
 Received: from gerbillo.redhat.com (unknown [10.45.224.193])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 26FAE195608D;
-	Tue, 24 Jun 2025 14:10:35 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 92397195608F;
+	Tue, 24 Jun 2025 14:10:48 +0000 (UTC)
 From: Paolo Abeni <pabeni@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
@@ -58,9 +58,9 @@ Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v6 net-next 3/9] virtio_pci_modern: allow configuring extended features
-Date: Tue, 24 Jun 2025 16:09:45 +0200
-Message-ID: <1bd289016fa735ee94a6bde672190cadc8a60c95.1750753211.git.pabeni@redhat.com>
+Subject: [PATCH v6 net-next 5/9] virtio_net: add supports for extended offloads
+Date: Tue, 24 Jun 2025 16:09:47 +0200
+Message-ID: <09cfc4bb359ade9d5f432362a18e773e88a24b94.1750753211.git.pabeni@redhat.com>
 In-Reply-To: <cover.1750753211.git.pabeni@redhat.com>
 References: <cover.1750753211.git.pabeni@redhat.com>
 Precedence: bulk
@@ -72,250 +72,72 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-The virtio specifications allows for up to 128 bits for the
-device features. Soon we are going to use some of the 'extended'
-bits features (above 64) for the virtio_net driver.
+The virtio_net driver needs it to implement GSO over UDP tunnel
+offload.
 
-Extend the virtio pci modern driver to support configuring the full
-virtio features range, replacing the unrolled loops reading and
-writing the features space with explicit one bounded to the actual
-features space size in word and implementing the get_extended_features
-callback.
-
-Note that in vp_finalize_features() we only need to cache the lower
-64 features bits, to process the transport features.
+The only missing piece is mapping them to/from the extended
+features.
 
 Acked-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Paolo Abeni <pabeni@redhat.com>
 ---
-v3 -> v4:
-  - dropped unneeded check in vp_modern_get_features()
+v4 -> v5:
+ - avoid lines longer than 80 chars
 
 v2 -> v3:
-  - virtio_features_t -> u64 *
+ - offload to feature conversion is now an inline function
 
 v1 -> v2:
-  - use get_extended_features
+ - drop unused macro
+ - restrict the offload remap range as per latest spec update
 ---
- drivers/virtio/virtio_pci_modern.c     | 10 ++--
- drivers/virtio/virtio_pci_modern_dev.c | 69 +++++++++++++++-----------
- include/linux/virtio_pci_modern.h      | 43 ++++++++++++++--
- 3 files changed, 84 insertions(+), 38 deletions(-)
+ drivers/net/virtio_net.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/virtio/virtio_pci_modern.c b/drivers/virtio/virtio_pci_modern.c
-index 7182f43ed055..dd0e65f71d41 100644
---- a/drivers/virtio/virtio_pci_modern.c
-+++ b/drivers/virtio/virtio_pci_modern.c
-@@ -22,11 +22,11 @@
+diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
+index 07e41dce4203..ad73863324e8 100644
+--- a/drivers/net/virtio_net.c
++++ b/drivers/net/virtio_net.c
+@@ -35,6 +35,23 @@ module_param(csum, bool, 0444);
+ module_param(gso, bool, 0444);
+ module_param(napi_tx, bool, 0644);
  
- #define VIRTIO_AVQ_SGS_MAX	4
- 
--static u64 vp_get_features(struct virtio_device *vdev)
-+static void vp_get_features(struct virtio_device *vdev, u64 *features)
- {
- 	struct virtio_pci_device *vp_dev = to_vp_device(vdev);
- 
--	return vp_modern_get_features(&vp_dev->mdev);
-+	vp_modern_get_extended_features(&vp_dev->mdev, features);
- }
- 
- static int vp_avq_index(struct virtio_device *vdev, u16 *index, u16 *num)
-@@ -437,7 +437,7 @@ static int vp_finalize_features(struct virtio_device *vdev)
- 	if (vp_check_common_size(vdev))
- 		return -EINVAL;
- 
--	vp_modern_set_features(&vp_dev->mdev, vdev->features);
-+	vp_modern_set_extended_features(&vp_dev->mdev, vdev->features_array);
- 
- 	return 0;
- }
-@@ -1234,7 +1234,7 @@ static const struct virtio_config_ops virtio_pci_config_nodev_ops = {
- 	.find_vqs	= vp_modern_find_vqs,
- 	.del_vqs	= vp_del_vqs,
- 	.synchronize_cbs = vp_synchronize_vectors,
--	.get_features	= vp_get_features,
-+	.get_extended_features = vp_get_features,
- 	.finalize_features = vp_finalize_features,
- 	.bus_name	= vp_bus_name,
- 	.set_vq_affinity = vp_set_vq_affinity,
-@@ -1254,7 +1254,7 @@ static const struct virtio_config_ops virtio_pci_config_ops = {
- 	.find_vqs	= vp_modern_find_vqs,
- 	.del_vqs	= vp_del_vqs,
- 	.synchronize_cbs = vp_synchronize_vectors,
--	.get_features	= vp_get_features,
-+	.get_extended_features = vp_get_features,
- 	.finalize_features = vp_finalize_features,
- 	.bus_name	= vp_bus_name,
- 	.set_vq_affinity = vp_set_vq_affinity,
-diff --git a/drivers/virtio/virtio_pci_modern_dev.c b/drivers/virtio/virtio_pci_modern_dev.c
-index 0d3dbfaf4b23..d665f8f73ea8 100644
---- a/drivers/virtio/virtio_pci_modern_dev.c
-+++ b/drivers/virtio/virtio_pci_modern_dev.c
-@@ -388,63 +388,74 @@ void vp_modern_remove(struct virtio_pci_modern_device *mdev)
- EXPORT_SYMBOL_GPL(vp_modern_remove);
- 
- /*
-- * vp_modern_get_features - get features from device
-+ * vp_modern_get_extended_features - get features from device
-  * @mdev: the modern virtio-pci device
-+ * @features: the features array to be filled
-  *
-- * Returns the features read from the device
-+ * Fill the specified features array with the features read from the device
-  */
--u64 vp_modern_get_features(struct virtio_pci_modern_device *mdev)
-+void vp_modern_get_extended_features(struct virtio_pci_modern_device *mdev,
-+				     u64 *features)
- {
- 	struct virtio_pci_common_cfg __iomem *cfg = mdev->common;
-+	int i;
- 
--	u64 features;
-+	virtio_features_zero(features);
-+	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
-+		u64 cur;
- 
--	vp_iowrite32(0, &cfg->device_feature_select);
--	features = vp_ioread32(&cfg->device_feature);
--	vp_iowrite32(1, &cfg->device_feature_select);
--	features |= ((u64)vp_ioread32(&cfg->device_feature) << 32);
--
--	return features;
-+		vp_iowrite32(i, &cfg->device_feature_select);
-+		cur = vp_ioread32(&cfg->device_feature);
-+		features[i >> 1] |= cur << (32 * (i & 1));
-+	}
- }
--EXPORT_SYMBOL_GPL(vp_modern_get_features);
-+EXPORT_SYMBOL_GPL(vp_modern_get_extended_features);
- 
- /*
-  * vp_modern_get_driver_features - get driver features from device
-  * @mdev: the modern virtio-pci device
-+ * @features: the features array to be filled
-  *
-- * Returns the driver features read from the device
-+ * Fill the specified features array with the driver features read from the
-+ * device
-  */
--u64 vp_modern_get_driver_features(struct virtio_pci_modern_device *mdev)
-+void
-+vp_modern_get_driver_extended_features(struct virtio_pci_modern_device *mdev,
-+				       u64 *features)
- {
- 	struct virtio_pci_common_cfg __iomem *cfg = mdev->common;
-+	int i;
- 
--	u64 features;
--
--	vp_iowrite32(0, &cfg->guest_feature_select);
--	features = vp_ioread32(&cfg->guest_feature);
--	vp_iowrite32(1, &cfg->guest_feature_select);
--	features |= ((u64)vp_ioread32(&cfg->guest_feature) << 32);
-+	virtio_features_zero(features);
-+	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
-+		u64 cur;
- 
--	return features;
-+		vp_iowrite32(i, &cfg->guest_feature_select);
-+		cur = vp_ioread32(&cfg->guest_feature);
-+		features[i >> 1] |= cur << (32 * (i & 1));
-+	}
- }
--EXPORT_SYMBOL_GPL(vp_modern_get_driver_features);
-+EXPORT_SYMBOL_GPL(vp_modern_get_driver_extended_features);
- 
- /*
-- * vp_modern_set_features - set features to device
-+ * vp_modern_set_extended_features - set features to device
-  * @mdev: the modern virtio-pci device
-  * @features: the features set to device
-  */
--void vp_modern_set_features(struct virtio_pci_modern_device *mdev,
--			    u64 features)
-+void vp_modern_set_extended_features(struct virtio_pci_modern_device *mdev,
-+				     const u64 *features)
- {
- 	struct virtio_pci_common_cfg __iomem *cfg = mdev->common;
-+	int i;
++#define VIRTIO_OFFLOAD_MAP_MIN	46
++#define VIRTIO_OFFLOAD_MAP_MAX	47
++#define VIRTIO_FEATURES_MAP_MIN	65
++#define VIRTIO_O2F_DELTA	(VIRTIO_FEATURES_MAP_MIN - \
++				 VIRTIO_OFFLOAD_MAP_MIN)
 +
-+	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
-+		u32 cur = features[i >> 1] >> (32 * (i & 1));
- 
--	vp_iowrite32(0, &cfg->guest_feature_select);
--	vp_iowrite32((u32)features, &cfg->guest_feature);
--	vp_iowrite32(1, &cfg->guest_feature_select);
--	vp_iowrite32(features >> 32, &cfg->guest_feature);
-+		vp_iowrite32(i, &cfg->guest_feature_select);
-+		vp_iowrite32(cur, &cfg->guest_feature);
-+	}
- }
--EXPORT_SYMBOL_GPL(vp_modern_set_features);
-+EXPORT_SYMBOL_GPL(vp_modern_set_extended_features);
- 
- /*
-  * vp_modern_generation - get the device genreation
-diff --git a/include/linux/virtio_pci_modern.h b/include/linux/virtio_pci_modern.h
-index c0b1b1ca1163..48bc12d1045b 100644
---- a/include/linux/virtio_pci_modern.h
-+++ b/include/linux/virtio_pci_modern.h
-@@ -3,6 +3,7 @@
- #define _LINUX_VIRTIO_PCI_MODERN_H
- 
- #include <linux/pci.h>
-+#include <linux/virtio_config.h>
- #include <linux/virtio_pci.h>
- 
- /**
-@@ -95,10 +96,44 @@ static inline void vp_iowrite64_twopart(u64 val,
- 	vp_iowrite32(val >> 32, hi);
- }
- 
--u64 vp_modern_get_features(struct virtio_pci_modern_device *mdev);
--u64 vp_modern_get_driver_features(struct virtio_pci_modern_device *mdev);
--void vp_modern_set_features(struct virtio_pci_modern_device *mdev,
--		     u64 features);
-+void
-+vp_modern_get_driver_extended_features(struct virtio_pci_modern_device *mdev,
-+				       u64 *features);
-+void vp_modern_get_extended_features(struct virtio_pci_modern_device *mdev,
-+				     u64 *features);
-+void vp_modern_set_extended_features(struct virtio_pci_modern_device *mdev,
-+				     const u64 *features);
-+
-+static inline u64
-+vp_modern_get_features(struct virtio_pci_modern_device *mdev)
++static bool virtio_is_mapped_offload(unsigned int obit)
 +{
-+	u64 features_array[VIRTIO_FEATURES_DWORDS];
-+
-+	vp_modern_get_extended_features(mdev, features_array);
-+	return features_array[0];
++	return obit >= VIRTIO_OFFLOAD_MAP_MIN &&
++	       obit <= VIRTIO_OFFLOAD_MAP_MAX;
 +}
 +
-+static inline u64
-+vp_modern_get_driver_features(struct virtio_pci_modern_device *mdev)
++static unsigned int virtio_offload_to_feature(unsigned int obit)
 +{
-+	u64 features_array[VIRTIO_FEATURES_DWORDS];
-+	int i;
-+
-+	vp_modern_get_driver_extended_features(mdev, features_array);
-+	for (i = 1; i < VIRTIO_FEATURES_DWORDS; ++i)
-+		WARN_ON_ONCE(features_array[i]);
-+	return features_array[0];
++	return virtio_is_mapped_offload(obit) ? obit + VIRTIO_O2F_DELTA : obit;
 +}
 +
-+static inline void
-+vp_modern_set_features(struct virtio_pci_modern_device *mdev, u64 features)
-+{
-+	u64 features_array[VIRTIO_FEATURES_DWORDS];
+ /* FIXME: MTU in config. */
+ #define GOOD_PACKET_LEN (ETH_HLEN + VLAN_HLEN + ETH_DATA_LEN)
+ #define GOOD_COPY_LEN	128
+@@ -7026,9 +7043,13 @@ static int virtnet_probe(struct virtio_device *vdev)
+ 		netif_carrier_on(dev);
+ 	}
+ 
+-	for (i = 0; i < ARRAY_SIZE(guest_offloads); i++)
+-		if (virtio_has_feature(vi->vdev, guest_offloads[i]))
++	for (i = 0; i < ARRAY_SIZE(guest_offloads); i++) {
++		unsigned int fbit;
 +
-+	virtio_features_from_u64(features_array, features);
-+	vp_modern_set_extended_features(mdev, features_array);
-+}
-+
- u32 vp_modern_generation(struct virtio_pci_modern_device *mdev);
- u8 vp_modern_get_status(struct virtio_pci_modern_device *mdev);
- void vp_modern_set_status(struct virtio_pci_modern_device *mdev,
++		fbit = virtio_offload_to_feature(guest_offloads[i]);
++		if (virtio_has_feature(vi->vdev, fbit))
+ 			set_bit(guest_offloads[i], &vi->guest_offloads);
++	}
+ 	vi->guest_offloads_capable = vi->guest_offloads;
+ 
+ 	rtnl_unlock();
 -- 
 2.49.0
 
