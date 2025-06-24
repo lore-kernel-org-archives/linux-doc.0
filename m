@@ -1,202 +1,154 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C5230E84D;
-	Tue, 24 Jun 2025 08:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDEE86347;
+	Tue, 24 Jun 2025 08:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750753154; cv=none; b=jmoEIRglcZG9MX1W+ozl8G14YZsJB0aw3ge8lG893fdFfJnBCtC8R7Eix9cuQ3cMHfjmUhS8xYSP1cFCGH72JmL1cZbpuDPVvpfvx5X9O3IaQArb6wKDzWDGOEtZSa7D7+2dmvDpA0dSqu+SHH1d+8f3tkQnF6BJgl2YkXkMg4E=
+	t=1750753436; cv=none; b=kuv7NYz3LvwUX1HcXLEMt8QnJ9vRxuZyHiYVl1oMhP+WwBh2UMQ1dnqmWIOEAqNUFo15OHbUMi7tXcNGDhCy6wkLUyXgQ0m1auYJZb2H1CyoNM/lGXJXBeF754Cu8iAcWmx1CiDwg8WhpQS7yYZEh/ZW39nnJwHqAUuVoQZTLNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750753154; c=relaxed/simple;
-	bh=5a9phdz7D6n6ePqfkDs1A4rTHLxpcrtrt0JxKFR2lYM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AJ083PGw0hnvRZqKlOaouXVovfX1QkXAaoyFdle4rT5Wn5VZvrk72dOhMXoghOCYZuYfEPhthY3Rx33mD9QO6EfjhY9dGbwZmG4fqlZNQ4Uou2cKauVkHmv0oR0I7PsCnliH4XpZfa8DkZ8fjkwb1FwWJ1qkxn5kdPu6hQE+s2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XDs9HEBs; arc=none smtp.client-ip=209.85.128.182
+	s=arc-20240116; t=1750753436; c=relaxed/simple;
+	bh=0DRoBk7a+ONA+bOlmOa0vOv2EeXtSy0ZwgcOZn/WSpk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AtABd4X42IgFTnfJrQvMlPaxpyNn9bHMV2NEMZ5kP/Iv19oLD8CrhfUUjkCSiH4wQHisXSTeDYM1O0VDFMRyCu3Rpvv8h6xy75KX9JYhj/t8uOdVrZt14Yb9C29H7NQNi16hC9fzCIKRc5UpB8f82+Hs+xDRK3GMMnQORDVbIco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1a64fpg; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XDs9HEBs"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-706e7babc4eso2061507b3.2;
-        Tue, 24 Jun 2025 01:19:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1a64fpg"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6077dea37easo9602970a12.3;
+        Tue, 24 Jun 2025 01:23:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750753151; x=1751357951; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1750753433; x=1751358233; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VHgEsigv797toVCzAe7I/zuMfsGR9eA4wJiGN0BxYF0=;
-        b=XDs9HEBsARdDPgmEx6c0O6kp7IqywRFfgRgO2mjimrzbQGz4h9mOi5ofuCQUaLmyWF
-         mBH9Xc3UqM3ZBSWFSEa0OgK80l6jb+JCuHY2tN2HB0mMvRwigDSQv9gOLufKO3WNQAVi
-         HFKnLZg4/drRtARPvO4Z+i1ISecCtbX619e5jnolKi0tGE29glx8uFStbfK1vPrhFIdH
-         RhVwNPNEsxaaaxW+gBTFf198OqVeRIQFZ1ggN9c2x/Efe7ZRrvYACaMPM2HOpcOHHfQw
-         PHdz2fo84zsOyKKmqzuwRlUoatxIE+rSbyE/pO30dYxLXXfg7Qwkc77L3yAD72ZNY4u8
-         zUrA==
+        bh=2H7FVeT03BXWcr+Xp7XmzKQpCwCD96qmn55NwEfYCg4=;
+        b=Q1a64fpgVglQwckG0B0D31EwaQG/F5hrRItQ6rKNSLUIKLtJZl2s4L+w/9vQI2c4qc
+         cGVmv2aMfv3ktx4nddCGSH0O7JpZ9DOxr5epv75jIqiRsRD4KBLOeAAJNrzLlRfLU5S5
+         ymz2vSGkuvCR0UEca32U1LC02BvmAeOszLoSjpc2RLVQ4HRB38b2oNZSkyiH9sy8XC8E
+         KsTdZC/KxlLZ+tFL2/5rn4HCuP5eltw4Fg00qMciCStbc3TOhZci2UXwycXjz1ZWuK5r
+         nMh7IfYl8mHpYbzY+qUPckQbbxfuuqvzwfJm8ybvZHdDG5GCHnk3JrpHy3w3fqGgTlnd
+         NGgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750753151; x=1751357951;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1750753433; x=1751358233;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VHgEsigv797toVCzAe7I/zuMfsGR9eA4wJiGN0BxYF0=;
-        b=VZgYEHTvCqKg0/hviVe0M23mnSmaGqWAL+/vM9Ra1e1txj+7EYrd3cASNq26YVaXXM
-         wmRAudNbKkBEq/rT20mmV81NzI7m+MauDknnMTpSUXI0RwIqc6iwEZf83c3Pl40YvmCy
-         lgS/6TlvZYJhNKKML0yeWYAqGbGTsRKYqLJ11myuGvn1kzWMOYmgqiIAmpRCbmAtk93q
-         5Al9vc2S8OeqneQjq5nC7Y4RMj81lA31Cfh+o2rxiEDnSwDEOfYlfhoLpNED4eu8xdq3
-         WpdbGu5tSc8lvP7mNCtlwWfmoqDsFHN9f204Nj96xOAdrIb6Dcag7nl6r7autGDowzwB
-         HKpw==
-X-Forwarded-Encrypted: i=1; AJvYcCUsQB27rwFCLPGWihNP9MhGctIunuNcrI+XaT//byq9B+NRAzTCiGRk4KuxZQCufsFFMqoVFOes/IdQ@vger.kernel.org, AJvYcCUwgIf2sC/khVBqnRw/ZWnpvWihHnNvv+iF7NuQEqREiTbO+FOHU3dCxE9+NlvEE6ymSNy/uSTyCPU=@vger.kernel.org, AJvYcCVkanBSb7nMMDBq+QIu+LFWsdRTb6MVsv06CzNyxxixrD6Hjs5lLJJAsYutl5kJPxkVP+wfDi4sVO3ytfup@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtEuO6EIDLAJgh0NWAR3C8E/oCAbDZcKBAaroAI+sEVQiDrQt4
-	M8yegOWpxKi/ZRGx1+M+juyXIzxqsmPRJPwMFckUU2N83XyB4/E+ygAWU3LrnrOd7uY7sYxJjPx
-	MOKWbJQkvPvfWS2hZ82EYWns8nz5lpXc=
-X-Gm-Gg: ASbGncudaN6Zr8EkP62TTZiAUQxO0py6Jze3X1Y6778WGhStGBeE+jOzcC/KssDce35
-	CKPVN+YcJodDCtIqEr8vg/ntInq77IURKEG9nHiX8zP+tJx73JTwvmMK/FKKmS0xXZhqRa/dUez
-	nxa+tWYflj4rvqC1SMF3qAyp1ZHmjvTsdWXX7Nue80ac1dW+hYbgNVpw==
-X-Google-Smtp-Source: AGHT+IEobZ95YPFh7gSnrVYpj1c1HgaveoCeuvwSoyJpoS0Z6TFC3YdT/2xXv5PXGSxYfKmeryT51rEuyJZlHWDM/K8=
-X-Received: by 2002:a05:690c:c14:b0:70e:7613:e31b with SMTP id
- 00721157ae682-712c639043emr99303287b3.2.1750753151474; Tue, 24 Jun 2025
- 01:19:11 -0700 (PDT)
+        bh=2H7FVeT03BXWcr+Xp7XmzKQpCwCD96qmn55NwEfYCg4=;
+        b=lbNKEiK5azPfZNkABwm+LMj9PBV5QgZcXnsblE6MVYmXGgNSZfYZ2bbLUp72ZuQ9s2
+         S1W+slVf2zmCn7tqXf7bq8X1yZbmVgcpZRbSyCw1afAhPTKiQvKEcHM4UL/YEhXW5H4L
+         l84Da5P9QO4Qwmjb1JbjG5kKGyTm+4e/+W6KbFUdTAbi4VOs3kwz4VS5WINZby9pdGE7
+         FdN2T4In0hSj2YIcGIyP9JiK0fqZyzsdtCFfhWYV4j38/1lee4UJfJhIYWQRHxCp2iTx
+         9fPiyh4lhZGolOL5IQrOMpoyEyQva6gcrfU0oDHQ38CloqeaTbq4rthlw80Pmw/CGqq3
+         jjpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV6TS4SZOBFmTKDoPIn5FkhrDQKmi4jFzRbdkKhmz5P1K14cbRGcK8nzse07R2MlEm3jq1h3t7mUvs=@vger.kernel.org, AJvYcCVrM4NQK9XEH6ZGRubmCongv856PUSQY91BzF5v7st0al4p5JnCUpU/D+x3BZ3jMU86LaKpW9Az8ENS@vger.kernel.org, AJvYcCX8Fs/IcWD8IuYBG4iH5V4mXfxaKSspFD/iYgu/EdKikyA3AtHcAzYjWsNc+AtixHnw4AZGg8T7iRLrSGT+@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcJwebTMdMrbhl6+f0gqvGsNFahbLcejHG7z8fOENUm1jMz+S6
+	fJ5IF8Cl9sLWeq0FuEFRxqiao1UJwuZalg7J2NMC/02mVvOlND3hK5q2
+X-Gm-Gg: ASbGnctGUYoxtfXi3Lm9Tetm5ZqAfRlXtFhqZDU8cKqvYE89p2BThTcuHDEZTdwCmae
+	Fk894vEzhOhAfhsLj3bUvqgzdE2VOodPZU5LtGDNGkC9LgAc/8vg8QJ8abMee2c3Ysf4yrEXqAL
+	dR4iZhfJZIhPOYjBZ4KmrgQruaBQgOHIu8szBIybH+v3g9/d0XgO9pFFnyn4YSpS2Id9JtFkbBH
+	sKsOvAroKyh7EmQ3oxlYKFvhLnqvvmpAy9t0o6aXJEZa4V0VOrOw2yJTLoRqcwCg/XjMghpx0Rj
+	hA5yJnQHaKDXcTuq8fMgqJ9gd6W9kBRLdhPrUfZi3P9QcC/N+e92f9ERqDvYvpzYknF4dKDywLZ
+	s
+X-Google-Smtp-Source: AGHT+IE6uFBShvRtJlJrHnQfSTfKaDchryVCXm3Xlc5jSRa7ZBWQ78xrOHfYewZsoH8M4NZdRafhDg==
+X-Received: by 2002:a17:907:9816:b0:ad8:9b24:9d16 with SMTP id a640c23a62f3a-ae0579cd970mr1424596366b.6.1750753432204;
+        Tue, 24 Jun 2025 01:23:52 -0700 (PDT)
+Received: from localhost.localdomain ([41.79.198.24])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae053e7c6fdsm829165466b.3.2025.06.24.01.23.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 01:23:52 -0700 (PDT)
+From: Khalid Ali <khaliidcaliy@gmail.com>
+X-Google-Original-From: Khalid Ali <khaliidcaliy@gmail.com
+To: tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	corbet@lwn.net
+Cc: luto@kernel.org,
+	peterz@infradead.org,
+	ardb@kernel.org,
+	jan.kiszka@siemens.com,
+	kbingham@kernel.org,
+	kirill.shutemov@linux.intel.com,
+	michael.roth@amd.com,
+	rick.p.edgecombe@intel.com,
+	brijesh.singh@amd.com,
+	sandipan.das@amd.com,
+	jgross@suse.com,
+	thomas.lendacky@amd.com,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCHv2 0/3] x86: Make 5-level paging support unconditional for x86-64
+Date: Tue, 24 Jun 2025 08:23:03 +0000
+Message-ID: <20250624082305.2351-1-khaliidcaliy@gmail.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250516123306.3812286-1-kirill.shutemov@linux.intel.com>
+References: <20250516123306.3812286-1-kirill.shutemov@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250622155010.164451-1-l.rubusch@gmail.com> <20250622155010.164451-7-l.rubusch@gmail.com>
- <aFkpv0CUkateel8q@smile.fi.intel.com> <CAFXKEHb9Fbd_UOF90EumEtns82VPhYBrLZ=JtmhVJ4pJsT=q-g@mail.gmail.com>
- <aFpV1f1qapCQunVO@smile.fi.intel.com>
-In-Reply-To: <aFpV1f1qapCQunVO@smile.fi.intel.com>
-From: Lothar Rubusch <l.rubusch@gmail.com>
-Date: Tue, 24 Jun 2025 10:18:35 +0200
-X-Gm-Features: AX0GCFu3oFpqSYvU-4eggzmfabKFBuG-nKLi0LF1UG8mCx-7osic9bYVrJ7mkcw
-Message-ID: <CAFXKEHYhXekE29Ljfv=c7oRuzo0irWtJNM7fjW516xQ-ydsm=Q@mail.gmail.com>
-Subject: Re: [PATCH v10 6/7] iio: accel: adxl345: extend inactivity time for
- less than 1s
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, eraretuya@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 24, 2025 at 9:38=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@intel.com> wrote:
+>Both Intel and AMD CPUs support 5-level paging, which is expected to
+>become more widely adopted in the future.
 >
-> On Mon, Jun 23, 2025 at 11:21:01PM +0200, Lothar Rubusch wrote:
-> > On Mon, Jun 23, 2025 at 12:17=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@intel.com> wrote:
-> > > On Sun, Jun 22, 2025 at 03:50:09PM +0000, Lothar Rubusch wrote:
+>Remove CONFIG_X86_5LEVEL.
 >
-> ...
+>In preparation to that remove CONFIG_DYNAMIC_MEMORY_LAYOUT and make
+>SPARSEMEM_VMEMMAP the only memory model.
 >
-> > > > -static int adxl345_set_inact_time(struct adxl345_state *st, u32 va=
-l_s)
-> > > > +static int adxl345_set_inact_time(struct adxl345_state *st, u32 va=
-l_int,
-> > > > +                               u32 val_fract)
-> > > >  {
-> > > >       int max_boundary =3D U8_MAX;
-> > > >       int min_boundary =3D 10;
-> > > > -     unsigned int val =3D min(val_s, U8_MAX);
-> > > > +     unsigned int val;
-> > >
-> > > You see, I even suggested splitting this assignment to begin with.
-> > > The change will be clearer with that done.
-> > >
-> > > >       enum adxl345_odr odr;
-> > > >       unsigned int regval;
-> > > >       int ret;
-> > > >
-> > > > -     if (val =3D=3D 0) {
-> > > > +     if (val_int =3D=3D 0 && val_fract =3D=3D 0) {
-> >
-> > The case for 0sec, 0.0 or setting "0" and fract will consequently be
-> > "0". 0 is an invalid input for this period and sensor, so it will
-> > default to an optimized period based on given ODR.
-> >
-> > > > +             /* Generated inactivity time based on ODR */
-> > > >               ret =3D regmap_read(st->regmap, ADXL345_REG_BW_RATE, =
-&regval);
-> > > >               if (ret)
-> > > >                       return ret;
-> > >
-> > > >               odr =3D FIELD_GET(ADXL345_BW_RATE_MSK, regval);
-> > > >               val =3D clamp(max_boundary - adxl345_odr_tbl[odr][0],
-> > > >                           min_boundary, max_boundary);
-> > > > +             st->inact_time_ms =3D MILLI * val;
-> > > > +
-> > > > +             /* Inactivity time in s */
-> > > > +             return regmap_write(st->regmap, ADXL345_REG_TIME_INAC=
-T, val);
-> > > > +     } else if (val_int =3D=3D 0 && val_fract > 0) {
-> > >
-> > > val_fract check is not needed here.
-> >
-> > Case for e.g. 0.123, numbers under 1s. This goes into the free-fall reg=
-ister.
+>v3:
+> - Drop few "#if CONFIG_PGTABLE_LEVELS >= 5";
+> - Make PARAVIRT_XXL 64-bit explicitly and drop ifdefs
+>   to support PGTABLE_LEVELS < 5;
+> - Add Reviewed-by tags from Ard;
+>v2:
+> - Fix 32-bit build by wrapping p4d_set_huge() and p4d_clear_huge() in
+>   #if CONFIG_PGTABLE_LEVELS > 4;
+> - Rebased onto current tip/master;
 >
-> 0.0 is already checked above, and since the val_fract is unsigned this is=
- check
-> is redundant.
+>Kirill A. Shutemov (4):
+>  x86/64/mm: Always use dynamic memory layout
+>  x86/64/mm: Make SPARSEMEM_VMEMMAP the only memory model
+>  x86/64/mm: Make 5-level paging support unconditional
+>  x86/paravirt: Restrict PARAVIRT_XXL to 64-bit only
 >
-> > > > +             /* time < 1s, free-fall */
-> > > > +
-> > > > +             /*
-> > > > +              * Datasheet max. value is 255 * 5000 us =3D 1.275000=
- seconds.
-> > > > +              *
-> > > > +              * Recommended values between 100ms and 350ms (0x14 t=
-o 0x46)
-> > > > +              */
-> > > > +             st->inact_time_ms =3D DIV_ROUND_UP(val_fract, MILLI);
-> > > > +
-> > > > +             return regmap_write(st->regmap, ADXL345_REG_TIME_FF,
-> > > > +                                 DIV_ROUND_CLOSEST(val_fract, 5));
-> > > > +     } else if (val_int > 0) {
-> > >
-> > > if now is redundant here, right?
-> >
-> > So, this will be 1s through 255s. Periods above 1sec. This goes into
-> > the inactivity register.
->
-> See above,
->
+> Documentation/arch/x86/cpuinfo.rst            |  8 ++---
+> .../arch/x86/x86_64/5level-paging.rst         |  9 -----
+> arch/x86/Kconfig                              | 33 ++-----------------
+> arch/x86/Kconfig.cpufeatures                  |  4 ---
+> arch/x86/boot/compressed/pgtable_64.c         | 11 ++-----
+> arch/x86/boot/header.S                        |  4 ---
+> arch/x86/boot/startup/map_kernel.c            |  5 +--
+> arch/x86/entry/vsyscall/vsyscall_64.c         |  2 --
+> arch/x86/include/asm/page_64.h                |  2 --
+> arch/x86/include/asm/page_64_types.h          | 11 -------
+> arch/x86/include/asm/paravirt.h               |  4 ---
+> arch/x86/include/asm/paravirt_types.h         |  2 --
+> arch/x86/include/asm/pgtable_64.h             |  2 --
+> arch/x86/include/asm/pgtable_64_types.h       | 24 --------------
+> arch/x86/kernel/alternative.c                 |  2 +-
+> arch/x86/kernel/head64.c                      |  4 ---
+> arch/x86/kernel/head_64.S                     |  2 --
+> arch/x86/kernel/paravirt.c                    |  2 --
+> arch/x86/mm/init.c                            |  4 ---
+> arch/x86/mm/init_64.c                         |  9 +----
+> arch/x86/mm/pgtable.c                         |  2 +-
+> arch/x86/xen/mmu_pv.c                         |  4 ---
+> drivers/firmware/efi/libstub/x86-5lvl.c       |  2 +-
+> scripts/gdb/linux/pgtable.py                  |  4 +--
+> 24 files changed, 14 insertions(+), 142 deletions(-)
 
-I agree, that checking for val_fract is actually done as a sub case of
-val_int, and only if val_int was 0. So, would the following make it
-clearer?
+I think i am too late, however this is completely wrong. There are still processors that doesn't support
+5-level paging which is mordern. We may call those processors old, however they are still common and used.
 
-if (val_int  =3D=3D 0) {
-    if (val_fract =3D=3D 0) {
-        // 0 provided, default values
-    } else {
-        // >0s, e.g. 0.123s, use free-fall register
-} else {
-    // 1s - 255s, use inactivity register
-}
+So this patch seem too early for that. Some intel core-i5 and core-i7 doesn't support 5-level paging at all.
 
-Actually - I did not touch that - I saw some places where I'm already
-using nested if/else in the third level. I guess, by the style advice
-according to switch/case, this also applies to if/else, right?
-
-If yes, when the according parts go into another round, I might give
-it a try to separate as well using helper functions.
-
-Best,
-L
-
-> > > > +             /* Time >=3D 1s, inactivity */
-> > > > +             st->inact_time_ms =3D MILLI * val_int;
-> > > > +
-> > > > +             return regmap_write(st->regmap, ADXL345_REG_TIME_INAC=
-T, val_int);
-> > > >       }
-> > > >
-> > > > -     return regmap_write(st->regmap, ADXL345_REG_TIME_INACT, val);
-> > > > +     /* Do not support negative or wrong input. */
-> > > > +     return -EINVAL;
-> > > >  }
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+This will break x86_64 cpus that doesn't support 5-level paging.
