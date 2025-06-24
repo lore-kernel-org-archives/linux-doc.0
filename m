@@ -1,164 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11595288C18;
-	Tue, 24 Jun 2025 11:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC0F280CC8;
+	Tue, 24 Jun 2025 11:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750762839; cv=none; b=rPCz6xZblUQtpAwoykEOrEGSI/1+nfaHswGj/S8aqsxxLsQABQeg5giTBC42JSw6XjVNfbuPmaLKoNcK8HPIPHPIHTOu3lveO5u6DSIzXUejrsdoVdX+ZJmKT0U7cQV7vOuVw1nz5lW+2uVy/p8/GW0qasVixa4Jal74FL0wFl4=
+	t=1750765057; cv=none; b=V6kl55lao8zZTGtYau3yju/BWZpzy09Hhk+U0Dan11gk37IjyIPlWpZqfZsitSWXG8OxliqHP9pR4pjx1o1XyRvNLN5XLLXYF2nYpT+ZDy8K+are8oSSqqtv5Dp7Ix2j6uk/ePc4Eudk8M+ZY8zxNmgKf6td24OefEs6YVMLVrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750762839; c=relaxed/simple;
-	bh=4lLnp/IXNyE09zyiTjqD67fRc62ECfdr4B1UG0KapV0=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=qVuEx9jijBJa+aqr0meCbfEcYhZxurwn/ezXXbwF4J2nrDICx9dlMN5B67q2Zhcj0DyYQ0LyBgE1uieCAoLXAv5Wl6f70THRl1+cOSyRNdu/4U0lqSbLm5i+N6gSkhbCc+PGY9kbeeVIeC/rA+XJq4LWTaQXPxM3aWdyxkFPgnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTSEWekK; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1750765057; c=relaxed/simple;
+	bh=1zp6mhXvmMH8trlbOZRktJXmdXnam+2EnOgo74XACPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FwrW7f6gN1ohXj/bFNL9fgEoSsvepY8ntrdWlvnJH6W/jh8uWoSH7nU1kz9GrPmrCSd83S98Lyqu6ZUNSRmzz8mRwS4Ie8Gq23ic9wJPMBNI5x9jQafV8KyXpzyqe8yuXfuYB7kc/gH6rCUH80Zo/PYWLKsYaWwL6YC3WWOZo30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpzFJi7d; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTSEWekK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpzFJi7d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750762838; x=1782298838;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=4lLnp/IXNyE09zyiTjqD67fRc62ECfdr4B1UG0KapV0=;
-  b=TTSEWekKpSjERS23sCmzt7MBy6Kez4253dChH3q7ONCFQqhn+Se1gDVi
-   f1wIYvuU+ZrWQaiWS4eJ8I9dvzYkGvzLS9z92gwDcvKXGZkrA5gu3/e6F
-   tHjFcRDbbY5e9ST2juNY1vwiSNB1aRaLyLLIJ0rIza7wB5kykn0DyJf+l
-   A5uarzLSIRg3IyEKAtpofMn6uxwE5lZVqGFmODYFG1xquHGoi+C34nEoz
-   qnbtvwspnzBkzd3wm1hDSDraegbLDb5gDVCUUasMjbDZsUFtoKlj34UO4
-   Jpj/UVVdcE2wvYmII3QfBbni6ASTSsi59KmXjB5SGy8VSandr/k/9CR0I
-   Q==;
-X-CSE-ConnectionGUID: kE7KyfSzTBiIVCaIl4tpog==
-X-CSE-MsgGUID: jbjD/rvzQd2LQ3UBhyL1CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52965015"
+  t=1750765056; x=1782301056;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1zp6mhXvmMH8trlbOZRktJXmdXnam+2EnOgo74XACPI=;
+  b=hpzFJi7dCpnBfKkbNFt0OJW/O3V81Ud/NtMbZRPqg/huS9KxDTqNYMm/
+   t8uyfMi2nhVYxi8kZtV/2nWgsI0gLxkCX6ZNTYnRgL2uFTQPTChxv3I69
+   rqn4iOWkrvOLo6BivplTEaO5C+1DvhlicXOBvhiejGcR7x2Z1GgrewcVy
+   PwbDkudyaTb2R0ePKDdgJD6vtjt8CdsfVC4neZcdTEwPhfSe5YppXlq88
+   nuVGzpEpG3zEZ5895A6wzyhG/bjWICgw1CmaZ9pLBysQYrLLItqDO/Mrc
+   b7bOR7Md/i12PlarKqTUI0yNzkBd++PTY6DvbFku4Q90iEogy1hK7WLON
+   A==;
+X-CSE-ConnectionGUID: l05Dgq+fSs+S/i68jyQTug==
+X-CSE-MsgGUID: rEKdUBuISDmAyKjGMf+Gqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="63693221"
 X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="52965015"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 04:00:37 -0700
-X-CSE-ConnectionGUID: 9I9mPZzEQe6wtCVPsZYBYQ==
-X-CSE-MsgGUID: VR0J+emwQCaAozgzwuhpLg==
+   d="scan'208";a="63693221"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 04:37:34 -0700
+X-CSE-ConnectionGUID: E4+6VBWNT/KVds9ubA8IBg==
+X-CSE-MsgGUID: Xdm3O+jyTXuRhe76Z3qzAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="182766271"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.16])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 04:00:34 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 24 Jun 2025 14:00:30 +0300 (EEST)
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-serial <linux-serial@vger.kernel.org>, 
-    LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] tty: fix tty_port_tty_*hangup() kernel-doc
-In-Reply-To: <20250624080641.509959-6-jirislaby@kernel.org>
-Message-ID: <1c4b6fc9-bdce-31c0-87eb-b7aa34758877@linux.intel.com>
-References: <20250624080641.509959-1-jirislaby@kernel.org> <20250624080641.509959-6-jirislaby@kernel.org>
+   d="scan'208";a="152399988"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa008.jf.intel.com with ESMTP; 24 Jun 2025 04:37:22 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id 48839224; Tue, 24 Jun 2025 14:37:21 +0300 (EEST)
+Date: Tue, 24 Jun 2025 14:37:21 +0300
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>, acme@redhat.com, 
+	aik@amd.com, akpm@linux-foundation.org, alexander.shishkin@linux.intel.com, 
+	ardb@kernel.org, ast@kernel.org, bp@alien8.de, brijesh.singh@amd.com, 
+	changbin.du@huawei.com, christophe.leroy@csgroup.eu, corbet@lwn.net, 
+	daniel.sneddon@linux.intel.com, dave.hansen@linux.intel.com, ebiggers@google.com, 
+	geert+renesas@glider.be, houtao1@huawei.com, hpa@zytor.com, jgg@ziepe.ca, jgross@suse.com, 
+	jpoimboe@kernel.org, kai.huang@intel.com, kees@kernel.org, leitao@debian.org, 
+	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux@rasmusvillemoes.dk, luto@kernel.org, mcgrof@kernel.org, 
+	mhiramat@kernel.org, michael.roth@amd.com, mingo@kernel.org, mingo@redhat.com, 
+	namhyung@kernel.org, paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com, 
+	peterz@infradead.org, rick.p.edgecombe@intel.com, rppt@kernel.org, 
+	sandipan.das@amd.com, shijie@os.amperecomputing.com, sohil.mehta@intel.com, 
+	tglx@linutronix.de, tj@kernel.org, tony.luck@intel.com, vegard.nossum@oracle.com, 
+	x86@kernel.org, xin3.li@intel.com, xiongwei.song@windriver.com, 
+	ytcoode@gmail.com
+Subject: Re: [PATCHv6 07/16] x86/vsyscall: Reorganize the #PF emulation code
+Message-ID: <hhbqjpkpdi5oe77lfosjpgyvvhvxgwolb45ll5rmwbzsdt27h5@hgv57r543ryl>
+References: <9d351d80-66fe-486f-bdb3-370859dc47cc@intel.com>
+ <262c0fd2-ac66-4ce7-903f-4062f1fe1d6e@citrix.com>
+ <b6f8a90d-4309-45c5-84cd-32e281d076fb@intel.com>
+ <kthmv63jrvrr3shhzhhcib7qrjp7sjkah65kogbfphfr6wg6cb@z5zydz6ov7pv>
+ <bd81a98b-f8d4-4304-ac55-d4151a1a77ab@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1387142005-1750762830=:943"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bd81a98b-f8d4-4304-ac55-d4151a1a77ab@intel.com>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Mon, Jun 23, 2025 at 08:32:53AM -0700, Dave Hansen wrote:
+> On 6/23/25 05:41, Kirill A. Shutemov wrote:
+> > So, IIUC, that's dependency of vsyscall PF on NX. Do we want to disable
+> > vsyscall on boot if NX is not available?
+> 
+> Well, vsyscall=none can break old userspace, so forcing it on old
+> hardware doesn't seem like a great idea.
+> 
+> But, either way, this doesn't really appear to be a LASS issue. This code:
+> 
+> >         if (!(error_code & X86_PF_INSTR)) {
+> >                 /* Failed vsyscall read */
+> >                 if (vsyscall_mode == EMULATE)
+> >                         return false;
+> 
+> Is really asking the question:
+> 
+> 	Is this #PF from an instruction fetch in the vsyscall page?
+> 
+> That _should_ be able to be done by comparing CR2 and regs->rip. In
+> fact, that's done just below anyway:
+> 
+> 	WARN_ON_ONCE(address != regs->ip);
+> 
+> So I think we can fix this up with something like the attached patch
+> which just drives the if() from regs->rip and make the warning NX-only.
 
---8323328-1387142005-1750762830=:943
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Looks good to me.
 
-On Tue, 24 Jun 2025, Jiri Slaby (SUSE) wrote:
+Do you want me to include it into this patchset or will you apply it
+separately?
 
-> The commit below added a new helper, but omitted to move (and add) the
-> corressponding kernel-doc. Do it now.
-
-corresponding
-
-With that fixed, Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel=
-=2Ecom>
-
---=20
- i.
-
-
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-> Fixes: 2b5eac0f8c6e ("tty: introduce and use tty_port_tty_vhangup() helpe=
-r")
-> Link: https://lore.kernel.org/all/b23d566c-09dc-7374-cc87-0ad4660e8b2e@li=
-nux.intel.com/
-> Reported-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/driver-api/tty/tty_port.rst | 5 +++--
->  drivers/tty/tty_port.c                    | 5 -----
->  include/linux/tty_port.h                  | 9 +++++++++
->  3 files changed, 12 insertions(+), 7 deletions(-)
->=20
-> diff --git a/Documentation/driver-api/tty/tty_port.rst b/Documentation/dr=
-iver-api/tty/tty_port.rst
-> index 5cb90e954fcf..504a353f2682 100644
-> --- a/Documentation/driver-api/tty/tty_port.rst
-> +++ b/Documentation/driver-api/tty/tty_port.rst
-> @@ -42,9 +42,10 @@ TTY Refcounting
->  TTY Helpers
->  -----------
-> =20
-> +.. kernel-doc::  include/linux/tty_port.h
-> +   :identifiers: tty_port_tty_hangup tty_port_tty_vhangup
->  .. kernel-doc::  drivers/tty/tty_port.c
-> -   :identifiers: tty_port_tty_hangup tty_port_tty_wakeup
-> -
-> +   :identifiers: tty_port_tty_wakeup
-> =20
->  Modem Signals
->  -------------
-> diff --git a/drivers/tty/tty_port.c b/drivers/tty/tty_port.c
-> index 903eebdbe12d..5b4d5fb99a59 100644
-> --- a/drivers/tty/tty_port.c
-> +++ b/drivers/tty/tty_port.c
-> @@ -391,11 +391,6 @@ void tty_port_hangup(struct tty_port *port)
->  }
->  EXPORT_SYMBOL(tty_port_hangup);
-> =20
-> -/**
-> - * tty_port_tty_hangup - helper to hang up a tty
-> - * @port: tty port
-> - * @check_clocal: hang only ttys with %CLOCAL unset?
-> - */
->  void __tty_port_tty_hangup(struct tty_port *port, bool check_clocal, boo=
-l async)
->  {
->  =09struct tty_struct *tty =3D tty_port_tty_get(port);
-> diff --git a/include/linux/tty_port.h b/include/linux/tty_port.h
-> index 021f9a8415c0..332ddb93603e 100644
-> --- a/include/linux/tty_port.h
-> +++ b/include/linux/tty_port.h
-> @@ -251,11 +251,20 @@ static inline int tty_port_users(struct tty_port *p=
-ort)
->  =09return port->count + port->blocked_open;
->  }
-> =20
-> +/**
-> + * tty_port_tty_hangup - helper to hang up a tty asynchronously
-> + * @port: tty port
-> + * @check_clocal: hang only ttys with %CLOCAL unset?
-> + */
->  static inline void tty_port_tty_hangup(struct tty_port *port, bool check=
-_clocal)
->  {
->  =09__tty_port_tty_hangup(port, check_clocal, true);
->  }
-> =20
-> +/**
-> + * tty_port_tty_vhangup - helper to hang up a tty synchronously
-> + * @port: tty port
-> + */
->  static inline void tty_port_tty_vhangup(struct tty_port *port)
->  {
->  =09__tty_port_tty_hangup(port, false, false);
->=20
-
---8323328-1387142005-1750762830=:943--
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
