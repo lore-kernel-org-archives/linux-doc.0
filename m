@@ -1,64 +1,25 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5341A288AD;
-	Tue, 24 Jun 2025 13:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 636AB29ACC0;
+	Tue, 24 Jun 2025 13:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750772713; cv=none; b=BTWUcWk4EpIWUrnyvCQfVETrYOlytxTHz5x71ySFpYlp38ki2i5jJMiN95FgEegGwylzEw/nzp4JU/RQpXYtOe0c/7yZRV6FZgj1GPn7kLvqfhQ6TLshRVIKUwji+W9SsExhG13xEX9fg7rMnf2AOLh9qxe/TLJPlNnMDVToAlw=
+	t=1750773042; cv=none; b=V1ohxVbfHqwjfIxWOZPNxRCdlAjVPL4q8z+yCKlD6bf1VqAS8teobEK8thNaCam4ctx490/oUJt2C8BuV2oMLETX/6DZjgyF8/GyIsj6YZkWSLAmmGphzYxRW1/FqXi1TvaygKzLbwhgBP+NncPsFBqutDCDWjYxiUjiBchMcFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750772713; c=relaxed/simple;
-	bh=NbgHzDUBmwnWmkyYM/rM7TxCssTYLxDcNXZpU2MUuaU=;
+	s=arc-20240116; t=1750773042; c=relaxed/simple;
+	bh=7z/2XkKOQxn7onUHA1hoKUhYEUgGMvx7/GtGZsQs3ZI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UEwhWRU9w27yrv16WvgWfo1mm38GTNyOU3VUquO4i+qLbdbSuu4n8gNWMbvUHtWNy5yYH4/3hqcxHF4v07o7b4gxCF5WHa2q5/PuvWySNhaUfkFYijBdApgVkMSjfrauBpsrs6T7veNe8ZXKL6OU3PiS7Oo0Tw3EMVOZGxc01PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L6qXFziv; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L6qXFziv"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2360ff7ac1bso3721255ad.3;
-        Tue, 24 Jun 2025 06:45:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750772711; x=1751377511; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hPyjYbs2owAVe++gWy+5tVf+VNEm2obRf5tzZhSqcfE=;
-        b=L6qXFzivk3uONwY2T8IPW1UO8465444GeYs9oCtl2bbKExIOePkGXgwsdzkYtacwZb
-         F5otCYpxwsaD51Suvm5XdZh9cLtxTHGjTtDF2gQo1EVsMX4rcPcrclaB52lmtUnHde5c
-         EYN3GGwrnlzI2z0LTPCqnPBxkpO4ksDHGkgzDTlZNjAyX0chGeXsd+zQYVOZoVfZvfwA
-         x7SSuAHP9c4nU+BqqmbFT2owXNZaN0ldTxE7j/iKFueX0q4mMIC6lIzCh6MUjs3ZnVJz
-         1Zh7uNPFvlaIHsNxZbjHAHOFxxsxl7Qo+xqIax2azwG+3BBUSGBvsIj1XB9UQOS6JuMT
-         6opA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750772711; x=1751377511;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hPyjYbs2owAVe++gWy+5tVf+VNEm2obRf5tzZhSqcfE=;
-        b=KL9T7aHQNiiHg1k6/d6keW7zVxQksEDVwTLkQIJRdH36yF7RveOd2rUE1twpI798gG
-         ceFsrpvu7JIZDqeDMrg0usOUX3/VkYnI+nv7ZbAjN3nAWM2j/qOcdygxtPNUUyPe+7km
-         WA3WSSrg8ev2vG3v2g218K4VnGlmCATE+JOnktHQx6TGd4TdVQF2G9taIBkSzLzhfO6M
-         psGr0vC+cEjUWCIAM4pJScJProW408aI3hX8s+VPj/TImrP+/aQkT7rsG/xDrB0Wl1MJ
-         w0fpqW1vg8p2kPzoqV3eZ/wzokJw+RSpqqbiXWwMAT+dlgHeDVyanDLHzFUqGd0tmz7J
-         sJ8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVNsPKgiNgRVGVhreU7CscZ/VAHglrJpPVfRqarQ2wKKYWXo6u/h0sSzLaoCEmhDK/+MC0=@vger.kernel.org, AJvYcCW6OVIFJ7p3QYHXR+jQYjjqg1VUgaOixJADWZfbkr1Us8s9h8h55L9QXhBNhdEjEAQYvHrpowoUvLfd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl/dudqiT7+DS2z35E5xHgwAyA0ITCJ7LNV4Cfm8Emg5b3rTqm
-	gN8sm5RirAZUs2pEQQXO8NYkpb4XA+l5XsJ5CsyqJ5wDsuCWpUtrqF11
-X-Gm-Gg: ASbGnctMTHTOkN59IGx9YqIVpXzJHLSTYtz/DlfPCZAzg12MM/YjcUffBd+L+4SFdSy
-	7q853LSz5YAzprROD12QIWHlI+Udz1LvTAgB4CGBo5H0dr3cMiRHdQY5CHUWyNTIlthGn1hhSLn
-	ylJno/PeL7QtYmcXl08MoEpn9TmbL0hkESqj2eqogpMNxCFQncS6+H/a/DwdJBQEHQkeDaJocFk
-	9kmmQv7L3//7J+/0VQq6oDwvISXkJr4GYlbP47wrtFp5Rzx/2t897n973uUOI7hvzDEaj9CVxF3
-	g3lIqJ33C/SMObnO74I0fQI9aEHG5lXaf5dhGhS5Jq0fSr8KdfTWQPQwBXiSF09IIxZsLA==
-X-Google-Smtp-Source: AGHT+IFF6NvmX1J7jxALkG5GWpXs1/Tdp9Xfdc7JJ1p84XCdCSRFWP6KPDIPM/jXOPCrTFxkVi1ZHw==
-X-Received: by 2002:a17:902:f68e:b0:223:65dc:4580 with SMTP id d9443c01a7336-237d9bd103amr239231235ad.52.1750772711364;
-        Tue, 24 Jun 2025 06:45:11 -0700 (PDT)
-Received: from [192.168.0.150] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d875382bsm106956305ad.254.2025.06.24.06.45.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jun 2025 06:45:10 -0700 (PDT)
-Message-ID: <f833718d-ea25-4e21-a103-4ee0153ca990@gmail.com>
-Date: Tue, 24 Jun 2025 20:45:07 +0700
+	 In-Reply-To:Content-Type; b=Ie2jHyqUN/5h1jA4bBRay+h7xEIdVoEzh0U9uzwUAPE+V3XIYZ/dtxEUQTyTDzL0ZpMl5DVEDwjVmMjZWFD1CCMgdPpfEzaYgcznGdMfSbz3h4vNED7pcRczYDznEdMHBoga69jv3WVPGFhFTcfxF+Ufs7PXHZavHvxx7o5UZkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E123113E;
+	Tue, 24 Jun 2025 06:50:21 -0700 (PDT)
+Received: from [10.57.29.71] (unknown [10.57.29.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99E523F58B;
+	Tue, 24 Jun 2025 06:50:32 -0700 (PDT)
+Message-ID: <fcb3ca23-7ebd-4f48-92d2-969b24936b9b@arm.com>
+Date: Tue, 24 Jun 2025 14:50:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,39 +27,405 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH next] Documentation: KVM: fix reference for
- kvm_ppc_resize_hpt and various typos
-To: Jonathan Corbet <corbet@lwn.net>, Alok Tiwari <alok.a.tiwari@oracle.com>,
- pbonzini@redhat.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-References: <20250623191152.44118-1-alok.a.tiwari@oracle.com>
- <aFniQYHCyi4BKVcs@archie.me> <87jz5171lk.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87jz5171lk.fsf@trenco.lwn.net>
+Subject: Re: [PATCH v7 04/10] accel/rocket: Add job submission IOCTL
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Daniel Stone <daniel@fooishbar.org>,
+ Da Xue <da@libre.computer>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+ <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/24/25 19:42, Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
-> 
->> On Mon, Jun 23, 2025 at 12:11:47PM -0700, Alok Tiwari wrote:
->>>   If this ioctl is called when a hash table has already been allocated,
->>>   with a different order from the existing hash table, the existing hash
->>> -table will be freed and a new one allocated.  If this is ioctl is
->>> -called when a hash table has already been allocated of the same order
->>> +table will be freed and a new one allocated. If this ioctl is called
->>> +when a hash table has already been allocated of the same order
->>
->> Two spaces between sentences (just to be consistent), please.
-> 
-> Spaces after periods are explicitly documented as something we do not
-> "correct" or harass our contributors about.  Please, for the Nth time,
-> do not add unnecessary friction to the process of improving our
-> documentation.
-> 
+On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
+[...]
+> diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/rocket/rocket_device.h
+> index 10acfe8534f00a7985d40a93f4b2f7f69d43caee..50e46f0516bd1615b5f826c5002a6c0ecbf9aed4 100644
+> --- a/drivers/accel/rocket/rocket_device.h
+> +++ b/drivers/accel/rocket/rocket_device.h
+> @@ -13,6 +13,8 @@
+>   struct rocket_device {
+>   	struct drm_device ddev;
+>   
+> +	struct mutex sched_lock;
+> +
+>   	struct mutex iommu_lock;
 
-OK, thanks!
+Just realised I missed this in the last patch, but iommu_lock appears to 
+be completely unnecessary now.
 
--- 
-An old man doll... just what I always wanted! - Clara
+>   	struct rocket_core *cores;
+[...]
+> +static void rocket_job_hw_submit(struct rocket_core *core, struct rocket_job *job)
+> +{
+> +	struct rocket_task *task;
+> +	bool task_pp_en = 1;
+> +	bool task_count = 1;
+> +
+> +	/* GO ! */
+> +
+> +	/* Don't queue the job if a reset is in progress */
+> +	if (atomic_read(&core->reset.pending))
+> +		return;
+> +
+> +	task = &job->tasks[job->next_task_idx];
+> +	job->next_task_idx++;
+> +
+> +	rocket_pc_writel(core, BASE_ADDRESS, 0x1);
+> +
+> +	rocket_cna_writel(core, S_POINTER, 0xe + 0x10000000 * core->index);
+> +	rocket_core_writel(core, S_POINTER, 0xe + 0x10000000 * core->index);
+
+Those really look like bitfield operations rather than actual arithmetic 
+to me.
+
+> +
+> +	rocket_pc_writel(core, BASE_ADDRESS, task->regcmd);
+
+I don't see how regcmd is created (I guess that's in userspace?), but 
+given that it's explicitly u64 all the way through - and especially 
+since you claim to support 40-bit DMA addresses - it definitely seems 
+suspicious that the upper 32 bits never seem to be consumed anywhere :/
+
+> +	rocket_pc_writel(core, REGISTER_AMOUNTS, (task->regcmd_count + 1) / 2 - 1);
+> +
+> +	rocket_pc_writel(core, INTERRUPT_MASK, PC_INTERRUPT_MASK_DPU_0 | PC_INTERRUPT_MASK_DPU_1);
+> +	rocket_pc_writel(core, INTERRUPT_CLEAR, PC_INTERRUPT_CLEAR_DPU_0 | PC_INTERRUPT_CLEAR_DPU_1);
+> +
+> +	rocket_pc_writel(core, TASK_CON, ((0x6 | task_pp_en) << 12) | task_count);
+> +
+> +	rocket_pc_writel(core, TASK_DMA_BASE_ADDR, 0x0);
+> +
+> +	rocket_pc_writel(core, OPERATION_ENABLE, 0x1);
+> +
+> +	dev_dbg(core->dev, "Submitted regcmd at 0x%llx to core %d", task->regcmd, core->index);
+> +}
+[...]
+> +static struct dma_fence *rocket_job_run(struct drm_sched_job *sched_job)
+> +{
+> +	struct rocket_job *job = to_rocket_job(sched_job);
+> +	struct rocket_device *rdev = job->rdev;
+> +	struct rocket_core *core = sched_to_core(rdev, sched_job->sched);
+> +	struct dma_fence *fence = NULL;
+> +	int ret;
+> +
+> +	if (unlikely(job->base.s_fence->finished.error))
+> +		return NULL;
+> +
+> +	/*
+> +	 * Nothing to execute: can happen if the job has finished while
+> +	 * we were resetting the GPU.
+
+GPU? (Similarly in various other comments/prints)
+
+> +	 */
+> +	if (job->next_task_idx == job->task_count)
+> +		return NULL;
+> +
+> +	fence = rocket_fence_create(core);
+> +	if (IS_ERR(fence))
+> +		return fence;
+> +
+> +	if (job->done_fence)
+> +		dma_fence_put(job->done_fence);
+> +	job->done_fence = dma_fence_get(fence);
+> +
+> +	ret = pm_runtime_get_sync(core->dev);
+> +	if (ret < 0)
+> +		return fence;
+> +
+> +	ret = iommu_attach_group(job->domain, iommu_group_get(core->dev));
+
+I don't see iommu_group_put() anywhere, so you're leaking refcounts all 
+over.
+
+> +	if (ret < 0)
+> +		return fence;
+> +
+> +	scoped_guard(spinlock, &core->job_lock) {
+> +		core->in_flight_job = job;
+> +		rocket_job_hw_submit(core, job);
+> +	}
+> +
+> +	return fence;
+> +}
+[...]
+> +static void rocket_job_handle_irq(struct rocket_core *core)
+> +{
+> +	u32 status, raw_status;
+> +
+> +	pm_runtime_mark_last_busy(core->dev);
+> +
+> +	status = rocket_pc_readl(core, INTERRUPT_STATUS);
+> +	raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
+> +
+> +	rocket_pc_writel(core, OPERATION_ENABLE, 0x0);
+> +	rocket_pc_writel(core, INTERRUPT_CLEAR, 0x1ffff);
+
+What was the point of reading the status registers if we're just going 
+to blindly clear every possible condition anyway?
+
+> +	scoped_guard(spinlock, &core->job_lock)
+> +		if (core->in_flight_job)
+> +			rocket_job_handle_done(core, core->in_flight_job);
+
+But then is it really OK to just start the next task regardless of 
+whether the current task was reporting successful completion or an error?
+
+> +}
+> +
+> +static void
+> +rocket_reset(struct rocket_core *core, struct drm_sched_job *bad)
+> +{
+> +	bool cookie;
+> +
+> +	if (!atomic_read(&core->reset.pending))
+> +		return;
+> +
+> +	/*
+> +	 * Stop the scheduler.
+> +	 *
+> +	 * FIXME: We temporarily get out of the dma_fence_signalling section
+> +	 * because the cleanup path generate lockdep splats when taking locks
+> +	 * to release job resources. We should rework the code to follow this
+> +	 * pattern:
+> +	 *
+> +	 *	try_lock
+> +	 *	if (locked)
+> +	 *		release
+> +	 *	else
+> +	 *		schedule_work_to_release_later
+> +	 */
+> +	drm_sched_stop(&core->sched, bad);
+> +
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	if (bad)
+> +		drm_sched_increase_karma(bad);
+> +
+> +	/*
+> +	 * Mask job interrupts and synchronize to make sure we won't be
+> +	 * interrupted during our reset.
+> +	 */
+> +	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
+> +	synchronize_irq(core->irq);
+
+...except it's a shared IRQ, so it can still merrily fire at any time.
+
+> +
+> +	/* Handle the remaining interrupts before we reset. */
+> +	rocket_job_handle_irq(core);
+> +
+> +	/*
+> +	 * Remaining interrupts have been handled, but we might still have
+> +	 * stuck jobs. Let's make sure the PM counters stay balanced by
+> +	 * manually calling pm_runtime_put_noidle() and
+> +	 * rocket_devfreq_record_idle() for each stuck job.
+> +	 * Let's also make sure the cycle counting register's refcnt is
+> +	 * kept balanced to prevent it from running forever
+
+Comments that don't match the code are more confusing than helpful :/
+
+> +	 */
+> +	scoped_guard(spinlock, &core->job_lock) {
+> +		if (core->in_flight_job)
+> +			pm_runtime_put_noidle(core->dev);
+> +
+> +		core->in_flight_job = NULL;
+> +	}
+> +
+> +	/* Proceed with reset now. */
+> +	pm_runtime_force_suspend(core->dev);
+> +	pm_runtime_force_resume(core->dev);
+
+Can you guarantee that actually resets the hardware if something else is 
+holding the power domain open or RPM is disabled? I'm not familiar with 
+the details of drm_sched, but if there are other jobs queued behind the 
+stuck one would it even pass the rocket_job_is_idle() check for suspend 
+to succeed anyway?
+
+Not to mention that you have an actual reset control in the DT binding, 
+which isn't even optional... :/
+
+> +	/* GPU has been reset, we can clear the reset pending bit. */
+> +	atomic_set(&core->reset.pending, 0);
+> +
+> +	/*
+> +	 * Now resubmit jobs that were previously queued but didn't have a
+> +	 * chance to finish.
+> +	 * FIXME: We temporarily get out of the DMA fence signalling section
+> +	 * while resubmitting jobs because the job submission logic will
+> +	 * allocate memory with the GFP_KERNEL flag which can trigger memory
+> +	 * reclaim and exposes a lock ordering issue.
+> +	 */
+> +	dma_fence_end_signalling(cookie);
+> +	drm_sched_resubmit_jobs(&core->sched);
+
+Since I happened to look, this says it's deprecated?
+
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	/* Restart the scheduler */
+> +	drm_sched_start(&core->sched, 0);
+> +
+> +	dma_fence_end_signalling(cookie);
+> +}
+> +
+> +static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_job *sched_job)
+> +{
+> +	struct rocket_job *job = to_rocket_job(sched_job);
+> +	struct rocket_device *rdev = job->rdev;
+> +	struct rocket_core *core = sched_to_core(rdev, sched_job->sched);
+> +
+> +	/*
+> +	 * If the GPU managed to complete this jobs fence, the timeout is
+> +	 * spurious. Bail out.
+> +	 */
+> +	if (dma_fence_is_signaled(job->done_fence))
+> +		return DRM_GPU_SCHED_STAT_NOMINAL;
+
+Do we really need the same return condition twice? What if the IRQ fires 
+immediately after we've made this check, and is handled without delay 
+such that sychronize_irq() effectively still does nothing? Either way 
+we've taken longer than the timeout value to observe the job completing 
+successfully, and either that's significant and worth warning about or 
+it's not - I don't see any point in trying to (inaccurately) nitpick 
+*why* it might have happened.
+
+> +	/*
+> +	 * Rocket IRQ handler may take a long time to process an interrupt
+> +	 * if there is another IRQ handler hogging the processing.
+> +	 * For example, the HDMI encoder driver might be stuck in the IRQ
+> +	 * handler for a significant time in a case of bad cable connection.
+
+What have HDMI cables got to do with anything here? Yes, in general IRQ 
+latency can be high, since CPUs can have IRQs masked and/or be taking 
+higher-priority interrupts for any number of reasons. I don't see how an 
+oddly-specific example (of apparently poor driver design, to boot) is 
+useful.
+
+> +	 * In order to catch such cases and not report spurious rocket
+> +	 * job timeouts, synchronize the IRQ handler and re-check the fence
+> +	 * status.
+> +	 */
+> +	synchronize_irq(core->irq);
+> +
+> +	if (dma_fence_is_signaled(job->done_fence)) {
+> +		dev_warn(core->dev, "unexpectedly high interrupt latency\n");
+> +		return DRM_GPU_SCHED_STAT_NOMINAL;
+> +	}
+> +
+> +	dev_err(core->dev, "gpu sched timeout");
+> +
+> +	atomic_set(&core->reset.pending, 1);
+> +	rocket_reset(core, sched_job);
+> +	iommu_detach_group(NULL, iommu_group_get(core->dev));
+> +
+> +	return DRM_GPU_SCHED_STAT_NOMINAL;
+> +}
+> +
+> +static void rocket_reset_work(struct work_struct *work)
+> +{
+> +	struct rocket_core *core;
+> +
+> +	core = container_of(work, struct rocket_core, reset.work);
+> +	rocket_reset(core, NULL);
+> +}
+> +
+> +static const struct drm_sched_backend_ops rocket_sched_ops = {
+> +	.run_job = rocket_job_run,
+> +	.timedout_job = rocket_job_timedout,
+> +	.free_job = rocket_job_free
+> +};
+> +
+> +static irqreturn_t rocket_job_irq_handler_thread(int irq, void *data)
+> +{
+> +	struct rocket_core *core = data;
+> +
+> +	rocket_job_handle_irq(core);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t rocket_job_irq_handler(int irq, void *data)
+> +{
+> +	struct rocket_core *core = data;
+> +	u32 raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
+
+Given that this can be a shared IRQ as above, it would be a good idea to 
+take care to avoid register accesses while suspended. Especially if 
+you're trying to utilise suspend to reset a failing job that may well be 
+throwing IOMMU faults.
+
+> +
+> +	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
+> +	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
+> +
+> +	if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
+> +	      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
+> +		return IRQ_NONE;
+> +
+> +	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
+> +
+> +	return IRQ_WAKE_THREAD;
+> +}
+> +
+> +int rocket_job_init(struct rocket_core *core)
+> +{
+> +	struct drm_sched_init_args args = {
+> +		.ops = &rocket_sched_ops,
+> +		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+> +		.credit_limit = 1,
+
+Ah, does this mean that all the stuff about queued jobs was in fact all 
+nonsense anyway?
+
+> +		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+> +		.name = dev_name(core->dev),
+> +		.dev = core->dev,
+> +	};
+> +	int ret;
+> +
+> +	INIT_WORK(&core->reset.work, rocket_reset_work);
+> +	spin_lock_init(&core->job_lock);
+> +
+> +	core->irq = platform_get_irq(to_platform_device(core->dev), 0);
+> +	if (core->irq < 0)
+> +		return core->irq;
+> +
+> +	ret = devm_request_threaded_irq(core->dev, core->irq,
+> +					rocket_job_irq_handler,
+> +					rocket_job_irq_handler_thread,
+> +					IRQF_SHARED, KBUILD_MODNAME "-job",
+
+Is it really a "job" interrupt though? The binding and the register 
+definitions suggest it's just a general status interrupt for the core. 
+Furthermore since we expect to have multiple cores, being able to more 
+easily identify and attribute per-core IRQ activity seems more useful 
+for debugging than copy-pasting from something really rather different 
+which also expects to be the only one of its kind on the system.
+
+Thanks,
+Robin.
+
+> +					core);
+> +	if (ret) {
+> +		dev_err(core->dev, "failed to request job irq");
+> +		return ret;
+> +	}
