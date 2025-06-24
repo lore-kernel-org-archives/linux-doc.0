@@ -1,431 +1,180 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 636AB29ACC0;
-	Tue, 24 Jun 2025 13:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3352D29AA
+	for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 14:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750773042; cv=none; b=V1ohxVbfHqwjfIxWOZPNxRCdlAjVPL4q8z+yCKlD6bf1VqAS8teobEK8thNaCam4ctx490/oUJt2C8BuV2oMLETX/6DZjgyF8/GyIsj6YZkWSLAmmGphzYxRW1/FqXi1TvaygKzLbwhgBP+NncPsFBqutDCDWjYxiUjiBchMcFs=
+	t=1750774238; cv=none; b=esdUoM8/CvEpBKKmW0LhN28wyy5EBTKHTx9lAM80OTHM9CGkLECbyDjz4QFHXLSyWUCLs2h4HWUIsxoubrVUlebvyIHC9EPvRKg6vneNRbEKAgCIUwWkH7uB94mX1UiwBe6IQk+sf0eoVQ+1L4h0IWmLeKBKuD6J230BXL80hbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750773042; c=relaxed/simple;
-	bh=7z/2XkKOQxn7onUHA1hoKUhYEUgGMvx7/GtGZsQs3ZI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ie2jHyqUN/5h1jA4bBRay+h7xEIdVoEzh0U9uzwUAPE+V3XIYZ/dtxEUQTyTDzL0ZpMl5DVEDwjVmMjZWFD1CCMgdPpfEzaYgcznGdMfSbz3h4vNED7pcRczYDznEdMHBoga69jv3WVPGFhFTcfxF+Ufs7PXHZavHvxx7o5UZkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E123113E;
-	Tue, 24 Jun 2025 06:50:21 -0700 (PDT)
-Received: from [10.57.29.71] (unknown [10.57.29.71])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99E523F58B;
-	Tue, 24 Jun 2025 06:50:32 -0700 (PDT)
-Message-ID: <fcb3ca23-7ebd-4f48-92d2-969b24936b9b@arm.com>
-Date: Tue, 24 Jun 2025 14:50:30 +0100
+	s=arc-20240116; t=1750774238; c=relaxed/simple;
+	bh=e9lmbNQK3C1HkIo4Ahvps55ge8P3UH/OL2RAKl0ANUw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PyDFz3JpZ08pF8R0guI2R0Jr6N0EWc3RIxKCPvMHUlqvSzbfuEUjWWhMqnj8ScA2610up4ZpZZOQjMtdTohrMKaRqhvRRwlmCO2ctWfbWUiqHgIrhnikFT8pJpImKWOjG8CDTriXevjtU6IP7jPQlcngatyKqFTaOfkOmmMdUew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ETstsCNK; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ETstsCNK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750774235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=B7Z6sY4ZxL8aVeGIsb8UnJNnmgB0tpqcDSGJRa5WaZU=;
+	b=ETstsCNKpTQGSkPpAM0sNb6AjDWhN1TgEhLNGoi4Wp8ds2VG3h7bwaEWxZW55K01A+eanw
+	O7MkuVbEsJM6wn92EsNJDT7DuWZNLXX3yK6bY96AjSmZzzMMvzQdTCIpFGKbUtUtSvDa+Q
+	R+MevJ6kXPMngsbJExel15EZXfopmX4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-621-JtdChmz1MICl8gApYtx0qg-1; Tue,
+ 24 Jun 2025 10:10:31 -0400
+X-MC-Unique: JtdChmz1MICl8gApYtx0qg-1
+X-Mimecast-MFC-AGG-ID: JtdChmz1MICl8gApYtx0qg_1750774224
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4FBD8180029E;
+	Tue, 24 Jun 2025 14:10:24 +0000 (UTC)
+Received: from gerbillo.redhat.com (unknown [10.45.224.193])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C998B195608F;
+	Tue, 24 Jun 2025 14:10:18 +0000 (UTC)
+From: Paolo Abeni <pabeni@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Yuri Benditovich <yuri.benditovich@daynix.com>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v6 net-next 0/9] virtio: introduce GSO over UDP tunnel
+Date: Tue, 24 Jun 2025 16:09:42 +0200
+Message-ID: <cover.1750753211.git.pabeni@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 04/10] accel/rocket: Add job submission IOCTL
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Daniel Stone <daniel@fooishbar.org>,
- Da Xue <da@libre.computer>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
-[...]
-> diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/rocket/rocket_device.h
-> index 10acfe8534f00a7985d40a93f4b2f7f69d43caee..50e46f0516bd1615b5f826c5002a6c0ecbf9aed4 100644
-> --- a/drivers/accel/rocket/rocket_device.h
-> +++ b/drivers/accel/rocket/rocket_device.h
-> @@ -13,6 +13,8 @@
->   struct rocket_device {
->   	struct drm_device ddev;
->   
-> +	struct mutex sched_lock;
-> +
->   	struct mutex iommu_lock;
+Some virtualized deployments use UDP tunnel pervasively and are impacted
+negatively by the lack of GSO support for such kind of traffic in the
+virtual NIC driver.
 
-Just realised I missed this in the last patch, but iommu_lock appears to 
-be completely unnecessary now.
+The virtio_net specification recently introduced support for GSO over
+UDP tunnel, this series updates the virtio implementation to support
+such a feature.
 
->   	struct rocket_core *cores;
-[...]
-> +static void rocket_job_hw_submit(struct rocket_core *core, struct rocket_job *job)
-> +{
-> +	struct rocket_task *task;
-> +	bool task_pp_en = 1;
-> +	bool task_count = 1;
-> +
-> +	/* GO ! */
-> +
-> +	/* Don't queue the job if a reset is in progress */
-> +	if (atomic_read(&core->reset.pending))
-> +		return;
-> +
-> +	task = &job->tasks[job->next_task_idx];
-> +	job->next_task_idx++;
-> +
-> +	rocket_pc_writel(core, BASE_ADDRESS, 0x1);
-> +
-> +	rocket_cna_writel(core, S_POINTER, 0xe + 0x10000000 * core->index);
-> +	rocket_core_writel(core, S_POINTER, 0xe + 0x10000000 * core->index);
+Currently the kernel virtio support limits the feature space to 64,
+while the virtio specification allows for a larger number of features.
+Specifically the GSO-over-UDP-tunnel-related virtio features use bits
+65-69.
 
-Those really look like bitfield operations rather than actual arithmetic 
-to me.
+The first four patches in this series rework the virtio and vhost
+feature support to cope with up to 128 bits. The limit is set by
+a define and could be easily raised in future, as needed.
 
-> +
-> +	rocket_pc_writel(core, BASE_ADDRESS, task->regcmd);
+This implementation choice is aimed at keeping the code churn as
+limited as possible. For the same reason, only the virtio_net driver is
+reworked to leverage the extended feature space; all other
+virtio/vhost drivers are unaffected, but could be upgraded to support
+the extended features space in a later time.
 
-I don't see how regcmd is created (I guess that's in userspace?), but 
-given that it's explicitly u64 all the way through - and especially 
-since you claim to support 40-bit DMA addresses - it definitely seems 
-suspicious that the upper 32 bits never seem to be consumed anywhere :/
+The last four patches bring in the actual GSO over UDP tunnel support.
+As per specification, some additional fields are introduced into the
+virtio net header to support the new offload. The presence of such
+fields depends on the negotiated features.
 
-> +	rocket_pc_writel(core, REGISTER_AMOUNTS, (task->regcmd_count + 1) / 2 - 1);
-> +
-> +	rocket_pc_writel(core, INTERRUPT_MASK, PC_INTERRUPT_MASK_DPU_0 | PC_INTERRUPT_MASK_DPU_1);
-> +	rocket_pc_writel(core, INTERRUPT_CLEAR, PC_INTERRUPT_CLEAR_DPU_0 | PC_INTERRUPT_CLEAR_DPU_1);
-> +
-> +	rocket_pc_writel(core, TASK_CON, ((0x6 | task_pp_en) << 12) | task_count);
-> +
-> +	rocket_pc_writel(core, TASK_DMA_BASE_ADDR, 0x0);
-> +
-> +	rocket_pc_writel(core, OPERATION_ENABLE, 0x1);
-> +
-> +	dev_dbg(core->dev, "Submitted regcmd at 0x%llx to core %d", task->regcmd, core->index);
-> +}
-[...]
-> +static struct dma_fence *rocket_job_run(struct drm_sched_job *sched_job)
-> +{
-> +	struct rocket_job *job = to_rocket_job(sched_job);
-> +	struct rocket_device *rdev = job->rdev;
-> +	struct rocket_core *core = sched_to_core(rdev, sched_job->sched);
-> +	struct dma_fence *fence = NULL;
-> +	int ret;
-> +
-> +	if (unlikely(job->base.s_fence->finished.error))
-> +		return NULL;
-> +
-> +	/*
-> +	 * Nothing to execute: can happen if the job has finished while
-> +	 * we were resetting the GPU.
+New helpers are introduced to convert the UDP-tunneled skb metadata to
+an extended virtio net header and vice versa. Such helpers are used by
+the tun and virtio_net driver to cope with the newly supported offloads.
 
-GPU? (Similarly in various other comments/prints)
+Tested with basic stream transfer with all the possible permutations of
+host kernel/qemu/guest kernel with/without GSO over UDP tunnel support.
 
-> +	 */
-> +	if (job->next_task_idx == job->task_count)
-> +		return NULL;
-> +
-> +	fence = rocket_fence_create(core);
-> +	if (IS_ERR(fence))
-> +		return fence;
-> +
-> +	if (job->done_fence)
-> +		dma_fence_put(job->done_fence);
-> +	job->done_fence = dma_fence_get(fence);
-> +
-> +	ret = pm_runtime_get_sync(core->dev);
-> +	if (ret < 0)
-> +		return fence;
-> +
-> +	ret = iommu_attach_group(job->domain, iommu_group_get(core->dev));
+This is also are available in the Git repository at:
 
-I don't see iommu_group_put() anywhere, so you're leaking refcounts all 
-over.
+git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_24_06_2025
 
-> +	if (ret < 0)
-> +		return fence;
-> +
-> +	scoped_guard(spinlock, &core->job_lock) {
-> +		core->in_flight_job = job;
-> +		rocket_job_hw_submit(core, job);
-> +	}
-> +
-> +	return fence;
-> +}
-[...]
-> +static void rocket_job_handle_irq(struct rocket_core *core)
-> +{
-> +	u32 status, raw_status;
-> +
-> +	pm_runtime_mark_last_busy(core->dev);
-> +
-> +	status = rocket_pc_readl(core, INTERRUPT_STATUS);
-> +	raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
-> +
-> +	rocket_pc_writel(core, OPERATION_ENABLE, 0x0);
-> +	rocket_pc_writel(core, INTERRUPT_CLEAR, 0x1ffff);
+Ideally both the net-next tree and the vhost tree could pull from the
+above.
 
-What was the point of reading the status registers if we're just going 
-to blindly clear every possible condition anyway?
+---
+v5 -> v6:
+  - fix integer overflow in patch 4/9
+v5: https://lore.kernel.org/netdev/cover.1750436464.git.pabeni@redhat.com/
 
-> +	scoped_guard(spinlock, &core->job_lock)
-> +		if (core->in_flight_job)
-> +			rocket_job_handle_done(core, core->in_flight_job);
+v4 -> v5:
+  - added new patch 1/9 to avoid kdoc issues
+  - encapsulate guest features guessing in new tap helper
+  - cleaned-up SET_FEATURES_ARRAY
+  - a few checkpatch fixes
+v4: https://lore.kernel.org/netdev/cover.1750176076.git.pabeni@redhat.com/
 
-But then is it really OK to just start the next task regardless of 
-whether the current task was reporting successful completion or an error?
+v3 -> v4:
+  - vnet sockopt cleanup
+  - fixed offset for UDP-tunnel related field
+  - use dev->features instead of flags
+v3: https://lore.kernel.org/netdev/cover.1749210083.git.pabeni@redhat.com/
 
-> +}
-> +
-> +static void
-> +rocket_reset(struct rocket_core *core, struct drm_sched_job *bad)
-> +{
-> +	bool cookie;
-> +
-> +	if (!atomic_read(&core->reset.pending))
-> +		return;
-> +
-> +	/*
-> +	 * Stop the scheduler.
-> +	 *
-> +	 * FIXME: We temporarily get out of the dma_fence_signalling section
-> +	 * because the cleanup path generate lockdep splats when taking locks
-> +	 * to release job resources. We should rework the code to follow this
-> +	 * pattern:
-> +	 *
-> +	 *	try_lock
-> +	 *	if (locked)
-> +	 *		release
-> +	 *	else
-> +	 *		schedule_work_to_release_later
-> +	 */
-> +	drm_sched_stop(&core->sched, bad);
-> +
-> +	cookie = dma_fence_begin_signalling();
-> +
-> +	if (bad)
-> +		drm_sched_increase_karma(bad);
-> +
-> +	/*
-> +	 * Mask job interrupts and synchronize to make sure we won't be
-> +	 * interrupted during our reset.
-> +	 */
-> +	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
-> +	synchronize_irq(core->irq);
+v2 -> v3:
+  - uint128_t -> u64[2]
+  - dropped related ifdef
+  - define and use vnet_hdr with tunnel layouts
+v2: https://lore.kernel.org/netdev/cover.1748614223.git.pabeni@redhat.com/
 
-...except it's a shared IRQ, so it can still merrily fire at any time.
+v1 -> v2:
+  - fix build failures
+  - many comment clarification
+  - changed the vhost_net ioctl API
+  - fixed some hdr <> skb helper bugs
+v1: https://lore.kernel.org/netdev/cover.1747822866.git.pabeni@redhat.com/
 
-> +
-> +	/* Handle the remaining interrupts before we reset. */
-> +	rocket_job_handle_irq(core);
-> +
-> +	/*
-> +	 * Remaining interrupts have been handled, but we might still have
-> +	 * stuck jobs. Let's make sure the PM counters stay balanced by
-> +	 * manually calling pm_runtime_put_noidle() and
-> +	 * rocket_devfreq_record_idle() for each stuck job.
-> +	 * Let's also make sure the cycle counting register's refcnt is
-> +	 * kept balanced to prevent it from running forever
+Paolo Abeni (9):
+  scripts/kernel_doc.py: properly handle VIRTIO_DECLARE_FEATURES
+  virtio: introduce extended features
+  virtio_pci_modern: allow configuring extended features
+  vhost-net: allow configuring extended features
+  virtio_net: add supports for extended offloads
+  net: implement virtio helpers to handle UDP GSO tunneling.
+  virtio_net: enable gso over UDP tunnel support.
+  tun: enable gso over UDP tunnel support.
+  vhost/net: enable gso over UDP tunnel support.
 
-Comments that don't match the code are more confusing than helpful :/
+ drivers/net/tun.c                      |  58 ++++++--
+ drivers/net/tun_vnet.h                 | 101 +++++++++++--
+ drivers/net/virtio_net.c               | 110 +++++++++++---
+ drivers/vhost/net.c                    |  94 +++++++++---
+ drivers/vhost/vhost.c                  |   2 +-
+ drivers/vhost/vhost.h                  |   4 +-
+ drivers/virtio/virtio.c                |  43 +++---
+ drivers/virtio/virtio_debug.c          |  27 ++--
+ drivers/virtio/virtio_pci_modern.c     |  10 +-
+ drivers/virtio/virtio_pci_modern_dev.c |  69 +++++----
+ include/linux/virtio.h                 |   9 +-
+ include/linux/virtio_config.h          |  43 +++---
+ include/linux/virtio_features.h        |  88 +++++++++++
+ include/linux/virtio_net.h             | 197 ++++++++++++++++++++++++-
+ include/linux/virtio_pci_modern.h      |  43 +++++-
+ include/uapi/linux/if_tun.h            |   9 ++
+ include/uapi/linux/vhost.h             |   7 +
+ include/uapi/linux/vhost_types.h       |   5 +
+ include/uapi/linux/virtio_net.h        |  33 +++++
+ scripts/lib/kdoc/kdoc_parser.py        |   1 +
+ 20 files changed, 789 insertions(+), 164 deletions(-)
+ create mode 100644 include/linux/virtio_features.h
 
-> +	 */
-> +	scoped_guard(spinlock, &core->job_lock) {
-> +		if (core->in_flight_job)
-> +			pm_runtime_put_noidle(core->dev);
-> +
-> +		core->in_flight_job = NULL;
-> +	}
-> +
-> +	/* Proceed with reset now. */
-> +	pm_runtime_force_suspend(core->dev);
-> +	pm_runtime_force_resume(core->dev);
+-- 
+2.49.0
 
-Can you guarantee that actually resets the hardware if something else is 
-holding the power domain open or RPM is disabled? I'm not familiar with 
-the details of drm_sched, but if there are other jobs queued behind the 
-stuck one would it even pass the rocket_job_is_idle() check for suspend 
-to succeed anyway?
-
-Not to mention that you have an actual reset control in the DT binding, 
-which isn't even optional... :/
-
-> +	/* GPU has been reset, we can clear the reset pending bit. */
-> +	atomic_set(&core->reset.pending, 0);
-> +
-> +	/*
-> +	 * Now resubmit jobs that were previously queued but didn't have a
-> +	 * chance to finish.
-> +	 * FIXME: We temporarily get out of the DMA fence signalling section
-> +	 * while resubmitting jobs because the job submission logic will
-> +	 * allocate memory with the GFP_KERNEL flag which can trigger memory
-> +	 * reclaim and exposes a lock ordering issue.
-> +	 */
-> +	dma_fence_end_signalling(cookie);
-> +	drm_sched_resubmit_jobs(&core->sched);
-
-Since I happened to look, this says it's deprecated?
-
-> +	cookie = dma_fence_begin_signalling();
-> +
-> +	/* Restart the scheduler */
-> +	drm_sched_start(&core->sched, 0);
-> +
-> +	dma_fence_end_signalling(cookie);
-> +}
-> +
-> +static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_job *sched_job)
-> +{
-> +	struct rocket_job *job = to_rocket_job(sched_job);
-> +	struct rocket_device *rdev = job->rdev;
-> +	struct rocket_core *core = sched_to_core(rdev, sched_job->sched);
-> +
-> +	/*
-> +	 * If the GPU managed to complete this jobs fence, the timeout is
-> +	 * spurious. Bail out.
-> +	 */
-> +	if (dma_fence_is_signaled(job->done_fence))
-> +		return DRM_GPU_SCHED_STAT_NOMINAL;
-
-Do we really need the same return condition twice? What if the IRQ fires 
-immediately after we've made this check, and is handled without delay 
-such that sychronize_irq() effectively still does nothing? Either way 
-we've taken longer than the timeout value to observe the job completing 
-successfully, and either that's significant and worth warning about or 
-it's not - I don't see any point in trying to (inaccurately) nitpick 
-*why* it might have happened.
-
-> +	/*
-> +	 * Rocket IRQ handler may take a long time to process an interrupt
-> +	 * if there is another IRQ handler hogging the processing.
-> +	 * For example, the HDMI encoder driver might be stuck in the IRQ
-> +	 * handler for a significant time in a case of bad cable connection.
-
-What have HDMI cables got to do with anything here? Yes, in general IRQ 
-latency can be high, since CPUs can have IRQs masked and/or be taking 
-higher-priority interrupts for any number of reasons. I don't see how an 
-oddly-specific example (of apparently poor driver design, to boot) is 
-useful.
-
-> +	 * In order to catch such cases and not report spurious rocket
-> +	 * job timeouts, synchronize the IRQ handler and re-check the fence
-> +	 * status.
-> +	 */
-> +	synchronize_irq(core->irq);
-> +
-> +	if (dma_fence_is_signaled(job->done_fence)) {
-> +		dev_warn(core->dev, "unexpectedly high interrupt latency\n");
-> +		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +	}
-> +
-> +	dev_err(core->dev, "gpu sched timeout");
-> +
-> +	atomic_set(&core->reset.pending, 1);
-> +	rocket_reset(core, sched_job);
-> +	iommu_detach_group(NULL, iommu_group_get(core->dev));
-> +
-> +	return DRM_GPU_SCHED_STAT_NOMINAL;
-> +}
-> +
-> +static void rocket_reset_work(struct work_struct *work)
-> +{
-> +	struct rocket_core *core;
-> +
-> +	core = container_of(work, struct rocket_core, reset.work);
-> +	rocket_reset(core, NULL);
-> +}
-> +
-> +static const struct drm_sched_backend_ops rocket_sched_ops = {
-> +	.run_job = rocket_job_run,
-> +	.timedout_job = rocket_job_timedout,
-> +	.free_job = rocket_job_free
-> +};
-> +
-> +static irqreturn_t rocket_job_irq_handler_thread(int irq, void *data)
-> +{
-> +	struct rocket_core *core = data;
-> +
-> +	rocket_job_handle_irq(core);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static irqreturn_t rocket_job_irq_handler(int irq, void *data)
-> +{
-> +	struct rocket_core *core = data;
-> +	u32 raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
-
-Given that this can be a shared IRQ as above, it would be a good idea to 
-take care to avoid register accesses while suspended. Especially if 
-you're trying to utilise suspend to reset a failing job that may well be 
-throwing IOMMU faults.
-
-> +
-> +	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
-> +	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
-> +
-> +	if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
-> +	      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
-> +		return IRQ_NONE;
-> +
-> +	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
-> +
-> +	return IRQ_WAKE_THREAD;
-> +}
-> +
-> +int rocket_job_init(struct rocket_core *core)
-> +{
-> +	struct drm_sched_init_args args = {
-> +		.ops = &rocket_sched_ops,
-> +		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
-> +		.credit_limit = 1,
-
-Ah, does this mean that all the stuff about queued jobs was in fact all 
-nonsense anyway?
-
-> +		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
-> +		.name = dev_name(core->dev),
-> +		.dev = core->dev,
-> +	};
-> +	int ret;
-> +
-> +	INIT_WORK(&core->reset.work, rocket_reset_work);
-> +	spin_lock_init(&core->job_lock);
-> +
-> +	core->irq = platform_get_irq(to_platform_device(core->dev), 0);
-> +	if (core->irq < 0)
-> +		return core->irq;
-> +
-> +	ret = devm_request_threaded_irq(core->dev, core->irq,
-> +					rocket_job_irq_handler,
-> +					rocket_job_irq_handler_thread,
-> +					IRQF_SHARED, KBUILD_MODNAME "-job",
-
-Is it really a "job" interrupt though? The binding and the register 
-definitions suggest it's just a general status interrupt for the core. 
-Furthermore since we expect to have multiple cores, being able to more 
-easily identify and attribute per-core IRQ activity seems more useful 
-for debugging than copy-pasting from something really rather different 
-which also expects to be the only one of its kind on the system.
-
-Thanks,
-Robin.
-
-> +					core);
-> +	if (ret) {
-> +		dev_err(core->dev, "failed to request job irq");
-> +		return ret;
-> +	}
