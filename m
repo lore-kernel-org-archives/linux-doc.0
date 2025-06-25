@@ -1,117 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8CD28D8FE;
-	Wed, 25 Jun 2025 17:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3861D63F8;
+	Wed, 25 Jun 2025 17:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750870989; cv=none; b=MdNjlUINSSPjhQC24zbLqAaoVlSpZrMLHIpZoEfPcaOGCcf6iSHyvoPRCfmErDm1DAmJJ3lRPhc765MvXxKfAnl1v+UGxlyctVwPBJ1CVka+Peu6j3sani4AvQuLJdwaqTaQXyY5kTinbntlzthI2JVT8nJmG2sPnzbRTm6Ao2s=
+	t=1750871253; cv=none; b=b8Xisqfmct336G9qirH33L/lKHaLgFvOPoC09Pq0AOakYpA+gvneqwg2OeqKvbwKaeGOv/PGl25vRZojIlJDiIxHYWOmr+NdNQ9EIdVXdr9b0xG60yyYQC5tP1+fPoHi7Gr139xwGGrGdBugUwdGdO5LqvbxQT0xd/lPenMNHgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750870989; c=relaxed/simple;
-	bh=0+ImX5Z5+yST+Npw31q/8a7InEoeRMTLz6Y4D6JHFtI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JxU3e9j/0PZSAwl7LUBgyG1gcPJg44tY6emQ84Aa7q60jl1NvoGgUjtcLn03+R9Dxu1wU1cxDmGPZ0PwRVnaqOJIGfqE0WghSlLVeRY/UsRIrBYichap8wstFvWUOxTegIAGPE4mXYyQddZK7Fvae5JLG8y2KWTlA3BoCoVn1Y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLLPqjHW; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750871253; c=relaxed/simple;
+	bh=Mxqg4kXqnNQg5s9JUM/6GtYVGscoPomDaISw/HKfdbs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fvomcxe4XFs970A3LE6aaP2d5J2le/1MnZ+rWsEdcQBAwOgxwEt786JmomZQ6Jyz7c3nA3wqUPJLq7zwj9QDLEbZyGDuGVR8QTlktolDpzlLd1tOyXCzvgcVwtJiwTETr63nLSOGL+LMN0enisn+ud5MxnMsZk60G2G5hwY+/eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bHq12Igw; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLLPqjHW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750870988; x=1782406988;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0+ImX5Z5+yST+Npw31q/8a7InEoeRMTLz6Y4D6JHFtI=;
-  b=dLLPqjHWXaGqeSnjkuEa1a7bz8sbdqIX/773yiy+IXxJsinUJ/Jr3VqB
-   6VhcSuC6lSW8TeAjvBobWFu/At+rE/fNKhwhQdjfe0FNbHohs/D/WxMz+
-   a7GRfgLjqLjdwi3KKIT5M/biLWNss/AY0YA5giqTf7i+HOLuIdMDJKpIy
-   TPbNdudHtcOCiRqK5L4sqDl1tRqv/hZnMsK5rQ1UvEe/O3kER5asOx5Kk
-   l17++GzDo60pbDprtFPIV8uhdT1hCnM4rwkFY2iB5eQsSl9z7I06NL/bq
-   xgCQgA/nqeD1W7Vg+ISanyJm4zO9MGyauy4wOMTLN1nckR38ryqrNb8+Q
-   g==;
-X-CSE-ConnectionGUID: 4vIlUPlDQDmI4VsvWzq/1g==
-X-CSE-MsgGUID: 7FsA+Na/RLWpQ5EGg90yow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="78581520"
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="78581520"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 10:03:07 -0700
-X-CSE-ConnectionGUID: gy67ZgwNTDKWcXsuBplZwg==
-X-CSE-MsgGUID: e9r7QM1LQyqQI9aTuVfkMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="157767066"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Jun 2025 10:03:04 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uUTWY-000TLm-0J;
-	Wed, 25 Jun 2025 17:03:02 +0000
-Date: Thu, 26 Jun 2025 01:02:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hch@lst.de, miklos@szeredi.hu,
-	brauner@kernel.org, djwong@kernel.org, anuj20.g@samsung.com,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
-	kernel-team@meta.com
-Subject: Re: [PATCH v3 14/16] fuse: use iomap for folio laundering
-Message-ID: <202506260003.qJL8KxcS-lkp@intel.com>
-References: <20250624022135.832899-15-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bHq12Igw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=Fcpks4qnS1BCFQD1OcDIlxe5MsQGaGaghviwmhLptrQ=; b=bHq12Igw2xKD8hmdjH0DyAYFAv
+	V+JnrldyXqgZGfX+irZdncWxda2NLLuw9UtXvrmlZr+p4f2DkTaoKUocBQYj0wEp5za4XEz2uX0RZ
+	k4tXgKa77Ale41osjmFSPRgnyV7P0Z3gTvBL9n2rffzoZX6m100wAIVbbIar4J5KYJwD1zTNP9yMP
+	5MgcVzoh35KGAtIOR4JTPLVyAX1f12gu7oz/GgByJYKSTdkBRHFPKDW8a+58/+hbo9sfIJdejLPzJ
+	mS76GmzvgTtQkRFTlbK4+Iak1TOQzuxRcaIgXCmAfUxnU+IiwO+g6xdoXYjndk0OLWx6oqLV/NtQO
+	deaSy4Bw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uUTao-00000005tmx-0MXP;
+	Wed, 25 Jun 2025 17:07:26 +0000
+Message-ID: <0f006fbf-c930-40aa-b08a-8e1b7275ea43@infradead.org>
+Date: Wed, 25 Jun 2025 10:07:21 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250624022135.832899-15-joannelkoong@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: kbuild: note CONFIG_DEBUG_EFI in
+ reproducible builds
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: Ard Biesheuvel <ardb@kernel.org>, Ben Hutchings <ben@decadent.org.uk>,
+ Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250625125809.2504963-1-masahiroy@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250625125809.2504963-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Joanne,
+Hi,
 
-kernel test robot noticed the following build errors:
+On 6/25/25 5:57 AM, Masahiro Yamada wrote:
+> CONFIG_EFI_DEBUG embeds absolute file paths into object files, which
+> makes the resulting vmlinux specific to the build environment.
+> 
+> Add a note about this in reproducible-builds.rst
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  Documentation/kbuild/reproducible-builds.rst | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
+> index f2dcc39044e6..7a16dbc275ca 100644
+> --- a/Documentation/kbuild/reproducible-builds.rst
+> +++ b/Documentation/kbuild/reproducible-builds.rst
+> @@ -61,6 +61,9 @@ supported.
+>  The Reproducible Builds web site has more information about these
+>  `prefix-map options`_.
+>  
+> +Some CONFIG options such as `CONFIG_DEBUG_EFI` embeds absolute paths in
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on xfs-linux/for-next linus/master v6.16-rc3 next-20250625]
-[cannot apply to gfs2/for-next mszeredi-fuse/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+               options                            embed
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/iomap-pass-more-arguments-using-struct-iomap_writepage_ctx/20250624-102709
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250624022135.832899-15-joannelkoong%40gmail.com
-patch subject: [PATCH v3 14/16] fuse: use iomap for folio laundering
-config: arm64-randconfig-003-20250625 (https://download.01.org/0day-ci/archive/20250626/202506260003.qJL8KxcS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506260003.qJL8KxcS-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506260003.qJL8KxcS-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepages':
-   file.c:(.text+0xbf0): undefined reference to `iomap_writepages'
-   file.c:(.text+0xbf0): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_writepages'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepage_finish':
-   file.c:(.text+0x1fd8): undefined reference to `iomap_finish_folio_write'
-   file.c:(.text+0x1fd8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_finish_folio_write'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_cache_write_iter':
-   file.c:(.text+0x888c): undefined reference to `iomap_file_buffered_write'
-   file.c:(.text+0x888c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_file_buffered_write'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_launder_folio':
->> file.c:(.text+0x8f74): undefined reference to `iomap_writeback_folio'
->> file.c:(.text+0x8f74): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_writeback_folio'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_iomap_writeback_range':
-   file.c:(.text+0x90d8): undefined reference to `iomap_start_folio_write'
-   file.c:(.text+0x90d8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_start_folio_write'
-   aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x370): undefined reference to `iomap_dirty_folio'
-   aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x3a0): undefined reference to `iomap_release_folio'
+> +object files. Such options should be disabled.
+> +
+>  Generated files in source packages
+>  ----------------------------------
+>  
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
+
