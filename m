@@ -1,93 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FBF26158D;
-	Wed, 25 Jun 2025 12:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5BD261593;
+	Wed, 25 Jun 2025 12:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750856148; cv=none; b=fpPxRb1rkw8LEMkDlMYwXfkeGdInon+x/e2t3bGaLL2HaPa2o+AOcnQf8guWTX+qW8HmsOK9BNJWN49SIY4Cro+ZiTKAjCb0EkLtirGxVsB5fNBgy0pn+mAVY0WwD1wRwXYeC/5veos0MfHpQZdG7pHx3sySh8ew1+e5aCOgpaE=
+	t=1750856320; cv=none; b=uhBjoNFOU1o60xnzgK5j7bhZ31hV6sFac5utc9lV6YBvaL4S4R3y1R6K7syhThbNrs0NAQR2nd3gmYPrrChvJqECnM3nrkt2bZZH8WpZIR2olRBXiPPd3rol3awazSR3rU1PfQOrVKK1xT22yghOuLGZrCgB5HQg7Tjmp29LWTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750856148; c=relaxed/simple;
-	bh=JXLoTAc7ALhyjeGRQiJU1KcXwfT2CND0hfmI1qetiYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N/xDDPaXKUCpZHtoFWOOTC69Q9yykM9qVMJJ9ZS2MxqZemt+WmmJihaHYh6hofr0DCciNQmdkFWTbN0Hz3v5x/11uq8UjzvkQLaw9fvwqEC2CCyktIrhYLSon9FXMCaWpP8xW4E1BLRFDGBFp788QG1VLR7BN1ElsoXQ141x98A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EiYFioox; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1750856320; c=relaxed/simple;
+	bh=/6MNs104AgtGDaHLg8LouTRM0HNdmAkvMqIT1gJdYpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yd+OMzo1ZNd59o1t2Isurif8YWFe6jsl8/V0EXEB2e/qpM2DqPzaowuWwGI7INzTKIah/kpTMSVDu6kU+8kzVcGifUh+30CxrFIZSzjv1OlED5xBL7zztUwT3MJtxvfpgJ59ZC3W7Zg/uIv1txEpqFfBOIBGOqlAEkDS90X8ee8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hn5MkkLQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EiYFioox"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750856147; x=1782392147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JXLoTAc7ALhyjeGRQiJU1KcXwfT2CND0hfmI1qetiYE=;
-  b=EiYFiooxWZGeIy55qCQV5QVqdjnK7pYIECFV75kU3asp1ZVbLchsXjdC
-   dnHIRimyDQN3O/bRqqJiCsE+8/NNxjJUMABsDHwyVJ83+dqVjcJHZUEZ/
-   0pTVAG61o/dhjcZpMQvk1tUP/ME2Jofs7jjiYn0y00wN5KVO9+j9c6fdd
-   xVSaoXKGfQjyXZ9XndEiBN5Z8DIVP9UvMQKwt1dJrKUSOjrbCl2Ovrvm9
-   8xldtyD0yA5abEAGQ6hkv+32c5cM14ySZ7dyknIEGjsYRdlyhSaW85pH5
-   RkE0bq+2qdMnoACnMG4NxTC8L4fJyiT87Bnxmw1aB0RJjNKTN6iLwFUDV
-   Q==;
-X-CSE-ConnectionGUID: ZFurLcwGQoiTa8B4AArYkQ==
-X-CSE-MsgGUID: sLo93ohzT4y8U4r1vaDpuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="55752963"
-X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="55752963"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 05:55:46 -0700
-X-CSE-ConnectionGUID: 18evZZsoR4Kd5vv5zfMgmw==
-X-CSE-MsgGUID: i2Sdz5NYT8qFlryDPXfl1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="157708959"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Jun 2025 05:55:35 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id B7C9A207; Wed, 25 Jun 2025 15:55:33 +0300 (EEST)
-Date: Wed, 25 Jun 2025 15:55:33 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
-	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
-	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH] x86/vsyscall: Do not require X86_PF_INSTR to emulate
- vsyscall
-Message-ID: <tlls63g3pslsdnegrahl7ayha6um6skpve5k2gotcqrnw4mub4@fkas3h7nd4gc>
-References: <20250625125112.3943745-1-kirill.shutemov@linux.intel.com>
- <20250625125112.3943745-3-kirill.shutemov@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hn5MkkLQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B8AC4CEEE;
+	Wed, 25 Jun 2025 12:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750856318;
+	bh=/6MNs104AgtGDaHLg8LouTRM0HNdmAkvMqIT1gJdYpg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Hn5MkkLQ7YdwotYFW50AFPaDkbXC/h4AXX84vqEktN/Uku61SANGNFj4Wi2qF+SSV
+	 igW8Un7qsng0jWK2l/GTvATboMbUKlAMELY16vTuf87FkDgcR4KUjHup57sqwo6WjE
+	 ZjDio91HmH4pnPXXhyUiEOQ0M3QcxOiLeaOjg2mbnHXfFfXRI2CRdQGYCcBDSMMm7B
+	 GtEdWCf6veHSAygxmUzRc4bYRXP2b01+NTlfUiFCrpxdvOSJ7PelbZXV8xOGH8p6vy
+	 QVYZ6PFCrHYzeD8uxLgjBrTZoPiszB0So6zdSRpdg/lBs57ZzF2yeqRcgzMgTSRQOb
+	 iGo/RsyQS0IIA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Ben Hutchings <ben@decadent.org.uk>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: kbuild: note CONFIG_DEBUG_EFI in reproducible builds
+Date: Wed, 25 Jun 2025 21:57:40 +0900
+Message-ID: <20250625125809.2504963-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250625125112.3943745-3-kirill.shutemov@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Please ignore this patch. It was sent by mistake. The same patch included
-in the patchset in the right spot.
+CONFIG_EFI_DEBUG embeds absolute file paths into object files, which
+makes the resulting vmlinux specific to the build environment.
 
+Add a note about this in reproducible-builds.rst
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Documentation/kbuild/reproducible-builds.rst | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
+index f2dcc39044e6..7a16dbc275ca 100644
+--- a/Documentation/kbuild/reproducible-builds.rst
++++ b/Documentation/kbuild/reproducible-builds.rst
+@@ -61,6 +61,9 @@ supported.
+ The Reproducible Builds web site has more information about these
+ `prefix-map options`_.
+ 
++Some CONFIG options such as `CONFIG_DEBUG_EFI` embeds absolute paths in
++object files. Such options should be disabled.
++
+ Generated files in source packages
+ ----------------------------------
+ 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.43.0
+
