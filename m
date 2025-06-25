@@ -1,281 +1,240 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2041.outbound.protection.outlook.com [40.107.94.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6341329B768
-	for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 15:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750866719; cv=none; b=NSFV1bR8kNmvTD8tFBR9TSbNOSyMhRu7hi+PoW4+g8rfGwfxa5yHZUY5jhT2F2OX50GoaZy2kfTVGP6udYjSK2obva8P13OoBS2hbTbeW1eJIlTJ9+31SYA0OsVLsnuv/6VoybUydf1SlLypyCenizrD2qbuWXaL57hivJBb/b8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750866719; c=relaxed/simple;
-	bh=t8USNlJXF4U9plUczuyiMuPRiapOt9YbAVBerRDdDM8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZV0Rwdxj6nJUTH0aKsfqDtqybd5i6FuKUnM9OE53Nm07Oe76nREnsAv8YCFWtNGTdvpg/92KYv7SIsuRokjf2XGQJlCrptrs2A9K92hWHdCUmVP0ewnindl29pUmNXp7uwLXqjJlW+yfqMFCPKZNTNRtfAX2am2HSJfELo8A33U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bslke0Kx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=piMT3Cft; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bslke0Kx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=piMT3Cft; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCCE1A7264;
+	Wed, 25 Jun 2025 15:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750867037; cv=fail; b=I49KBleuAkwygyu5Fj4bnQBbhv3V2nMxTVjOHXTrBk4v3eR0qRFlgHnol5p+1OYqkxCzbYIe0l+5ycByAcRTXFES78zwkAhkr0tREoGTo5pm2WLuY6Mahu1HWN3DDnKx4JQ68/WD+9DIDqr6terQXxWxeEwkI9dpgakRbCkDoOE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750867037; c=relaxed/simple;
+	bh=TlYJcDIRcy8Vg5FELaGS8i878O638qAZzrtXM7E7UeE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=b3zOXe9zNW5UIWFTGiotCwHGJSI8n9f1RypMduQ0zbpk5MF6PdBx29NsjuIdhhyAzr3vOHvuugm5YKfF+HB32kJ9HBd0BvtsZjcpzoKkNCZc0pXIuTstVpcJsub7aTOqO7wt5hGBi+AgldHRXC3MBAb0ua34sKOmVPMykw8NHLE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=kNyLOp1U; arc=fail smtp.client-ip=40.107.94.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bslke0Kx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="piMT3Cft";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bslke0Kx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="piMT3Cft"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 62E922118D;
-	Wed, 25 Jun 2025 15:51:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750866715; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=v8nQknDS6pmpLWfs+ArFdioX0s6CDoohu6KF7xdiMMw=;
-	b=Bslke0KxoWYmAwuQsgr63B43hSdaD6vOJUqVFX8B6iMS7j0MCm/poCtLli6H8FlQ1qpd1n
-	rpRpzywhC9BM6JUtsEK3To3T8m91bAcCzd4k83zImiQJn8DmpBdNBL+jjGmHLUuvzt/mRk
-	jeRZWfP/AIDBBDRwYrgrWpZbvsTvs4U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750866715;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=v8nQknDS6pmpLWfs+ArFdioX0s6CDoohu6KF7xdiMMw=;
-	b=piMT3Cfty2+bthrCf+5fvhIuDbq1swXPjGZrZYfe3/autzx76SM2iJ+L3aREPnnT64cBFC
-	gcCQTR7GCuhLL7Bg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Bslke0Kx;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=piMT3Cft
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1750866715; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=v8nQknDS6pmpLWfs+ArFdioX0s6CDoohu6KF7xdiMMw=;
-	b=Bslke0KxoWYmAwuQsgr63B43hSdaD6vOJUqVFX8B6iMS7j0MCm/poCtLli6H8FlQ1qpd1n
-	rpRpzywhC9BM6JUtsEK3To3T8m91bAcCzd4k83zImiQJn8DmpBdNBL+jjGmHLUuvzt/mRk
-	jeRZWfP/AIDBBDRwYrgrWpZbvsTvs4U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1750866715;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=v8nQknDS6pmpLWfs+ArFdioX0s6CDoohu6KF7xdiMMw=;
-	b=piMT3Cfty2+bthrCf+5fvhIuDbq1swXPjGZrZYfe3/autzx76SM2iJ+L3aREPnnT64cBFC
-	gcCQTR7GCuhLL7Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36BC813301;
-	Wed, 25 Jun 2025 15:51:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id i2AJDRsbXGjnMAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 25 Jun 2025 15:51:55 +0000
-From: Vlastimil Babka <vbabka@suse.cz>
-Date: Wed, 25 Jun 2025 17:51:52 +0200
-Subject: [PATCH] mm, vmstat: remove the NR_WRITEBACK_TEMP node_stat_item
- counter
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="kNyLOp1U"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YOmz5aW9FKbYOCcl6Wfya1qVkoAVJJbUSMqCLEFy7CdMtBvTxhDrH6mJ8b9NzEkUoE4tCMeQQcJxA/Z/OYD/wXHHR6sy0Dev+eZHjEF/WeEgq8jkrdx72ZzUnyPPPPHy/fi5oEOvS4Xg8+bZECfwEB/f+8PFAbJm6pNINnsSKeHP4LBI4ci+7gHJYdh0PKulv6W5XQ5jmLXzVzawgMLyqj9B+wmggy9vfuEYbe01T30+QOwvNcVIk+p6BEsvkkD+ejR5N5g4Uzghemt64GmIAIGPlZ+OcEkF9Q7FoFqIlAqPnWbsh9V7x26S3ZGMXpKr4LPDwoaBqt6RiM18rH5wLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HXv1j5NkAIGkFnlNMpnIgzS7qqgZV8xX+ZqLBhqUo3Y=;
+ b=K1r9qmOZXNmdbjrmzF37+2nawL46hGJsI7SWDWYFrBRSCv12XcUKhH2sDjygPXAL4qLypUHUUeQ6UVABjgGxU9CoSIljzcPIim0OluywkiL6tVY72WvIQozCWfBEbdM0WgPXw8B0vTZxQF6B/mylFpXGxLYGBWtvB8gmv4jjleO9zQp15fWYIKyRJ6VF/5i9DhcXaF/Kclr8h9zWz5clkSNTPj8W4CbuQkwE5khW5/4v1tyoDP4gtGCHW5WbDmses8iegi+hbhJjRZulG8N1Y96ewzXUOlvrr8dPZJMRMpXeKdUgvML7SG7T7COI2yRCk/GDgoNOUoZvNMRb5QTruA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HXv1j5NkAIGkFnlNMpnIgzS7qqgZV8xX+ZqLBhqUo3Y=;
+ b=kNyLOp1U9ZPk0cPBwigvX8Zyd5EKFkekIA+ZCelDERsvum2ZfVuzGE/Oe2SW0lSeKZ1NEqgjeeHScAy0234nUqnD2PNXOXBjLxA4xlIr4sbY126osjxtb5zanKEuMcQpAt7KRmDAL10LPE1H9SDmgmCs/LurkruhgS27hmNN6vI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SJ0PR12MB7068.namprd12.prod.outlook.com (2603:10b6:a03:4ae::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.16; Wed, 25 Jun
+ 2025 15:57:12 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%7]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
+ 15:57:12 +0000
+Message-ID: <09c1aa33-08f7-456e-9c15-323a29877302@amd.com>
+Date: Wed, 25 Jun 2025 10:57:06 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v14 02/32] x86,fs/resctrl: Consolidate monitor event
+ descriptions
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ rostedt@goodmis.org, paulmck@kernel.org, thuth@redhat.com, ardb@kernel.org,
+ gregkh@linuxfoundation.org, seanjc@google.com, thomas.lendacky@amd.com,
+ pawan.kumar.gupta@linux.intel.com, manali.shukla@amd.com,
+ perry.yuan@amd.com, kai.huang@intel.com, peterz@infradead.org,
+ xiaoyao.li@intel.com, kan.liang@linux.intel.com, mario.limonciello@amd.com,
+ xin3.li@intel.com, gautham.shenoy@amd.com, xin@zytor.com,
+ chang.seok.bae@intel.com, fenghuay@nvidia.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, eranian@google.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1749848714.git.babu.moger@amd.com>
+ <80689a762e59137f0d0297ee4ce0d31f070a3655.1749848714.git.babu.moger@amd.com>
+ <e9eb906f-d463-4c1e-9e15-5ed795fe5366@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <e9eb906f-d463-4c1e-9e15-5ed795fe5366@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0196.namprd11.prod.outlook.com
+ (2603:10b6:806:1bc::21) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-nr_writeback_removal-v1-1-7f2a0df70faa@suse.cz>
-X-B4-Tracking: v=1; b=H4sIABcbXGgC/x3M3QpAQBBA4VfRXNta66d4FUljDSYszQol725z+
- V2c84AnYfJQRQ8Inex5cwFJHIGd0I2kuA8Go02uC5MrJ+0lfFCHdm6F1u3ERWVkMUlLO+gSIaS
- 70MD3v62b9/0A+LRK2GYAAAA=
-X-Change-ID: 20250625-nr_writeback_removal-4eca139cf09a
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Tejun Heo <tj@kernel.org>, Maxim Patlasov <mpatlasov@parallels.com>, 
- Jan Kara <jack@suse.cz>, Zach O'Keefe <zokeefe@google.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, 
- Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Zi Yan <ziy@nvidia.com>, Joanne Koong <joannelkoong@gmail.com>, 
- Jingbo Xu <jefflexu@linux.alibaba.com>, Jeff Layton <jlayton@kernel.org>, 
- Miklos Szeredi <mszeredi@redhat.com>, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-mm@kvack.org, Jens Axboe <axboe@kernel.dk>, 
- Vlastimil Babka <vbabka@suse.cz>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5950; i=vbabka@suse.cz;
- h=from:subject:message-id; bh=t8USNlJXF4U9plUczuyiMuPRiapOt9YbAVBerRDdDM8=;
- b=owEBbQGS/pANAwAIAbvgsHXSRYiaAcsmYgBoXBsY1YOFpjfas7/tInAngabuIgbw3W2JzIjSC
- zsedRZJ2lGJATMEAAEIAB0WIQR7u8hBFZkjSJZITfG74LB10kWImgUCaFwbGAAKCRC74LB10kWI
- mu70CACIdu4YQxdhrRCyDP5/xfNaJ5Tlelej6t1lOpU7kQsvm3MChRKj+FItRPDsMpDfKNdUtoU
- 1WE7Yutm8ytFuaH1gfu2uyhn9hP5tXfcyo8Ge8hvySG3Jsy2D+dBP3dSUWh6LrCOl+l+vWCyT8o
- 03dEWe0GRRnJA2HOJISipZf87tAKT9rYOBtWzEFh8zvKo4PhzTRQpI3tQS5dIhHGALTw/iBkN0S
- dCOU48Pc53/5Hq3e42mtth6cFbFBiukMGDlxuYiMej6iV6ThK8zC2kt7f3mMeMIswxQ0IYlykvJ
- xK9rvuRHkTSKmaXZJOL0xCfKyrHb2Q1+MJSntcUD4l/cDynW
-X-Developer-Key: i=vbabka@suse.cz; a=openpgp;
- fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,parallels.com,suse.cz,google.com,lwn.net,linuxfoundation.org,suse.com,linux.intel.com,cmpxchg.org,nvidia.com,gmail.com,linux.alibaba.com,redhat.com,vger.kernel.org,kvack.org,kernel.dk];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLduzbn1medsdpg3i8igc4rk67)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 62E922118D
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -4.51
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ0PR12MB7068:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80dfa0ef-829d-49d6-f239-08ddb400f272
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?U0puZGxPUnJ5K05vcmZrZXhKNkFiamt3YmhuNlNMeUw0OEFBbDk3SGxUWFpX?=
+ =?utf-8?B?RjlOWDFSWmR2RUYybXUxNDJPcTlVWWx6NzZCaDRNQnNZaWJldGRFVmFCa212?=
+ =?utf-8?B?d0grYUdBYVg3bk9zbmt4RmtIeXpWQ2pFUmZrTTByTElmTDI5TGIxRWZVMXNk?=
+ =?utf-8?B?aHVIRTg5azduWTBSallEeDIzdDBaNGlSS0lMQ0IyOW1CdU84Z2RxSEM4MjV0?=
+ =?utf-8?B?SFpEUTNWNmhIOEx2UXpmTlpzZkNzczFyRzVMcENHRzM0RWNiaFRGcXUrNE9M?=
+ =?utf-8?B?eUZzLzg0TUFSUWlrUkVqQjVBQm5PQ0Q0Y29LbVhWc0tKR21GNy9adjNyaWVn?=
+ =?utf-8?B?TGtObGh2WFhyR0t1TVJUaUF3QzEwSnhjQW1jTzIvVUl6amxoMEVmcjlqOVoy?=
+ =?utf-8?B?SWNMWXRIbWtaejZxVWhSTVVpRFloMW9JRUFGdWhuU09yU1FYYkxvcGc0dWNj?=
+ =?utf-8?B?TTRVa2lYSWQ2b0NNY0V1cGE0UCtKRGdleTY1ZFlBdVhkaWc2b3hmaTAxZjJq?=
+ =?utf-8?B?cGxXVUJHOStUT3NNSkk2U3J0SDJaeitCRkV3djdRYVFGaEJlMDJmQ3VqMlB6?=
+ =?utf-8?B?TmY5MUtKSU00S1FXWlJpWGlvMFY4MXJvT2Z4am5Lc25pVlJ3dG9PNHkxT0J2?=
+ =?utf-8?B?V2gzb292Kzl6TkNlT1ZWY3haRU5DSWxXbmpYZWlRajR2aEczbkpsWVg0TmlF?=
+ =?utf-8?B?MFFCeTQxSjl5dnNoZFZmeGc5VDFZZ1YyMGt2dVZ1cDh6NVVKVTVldENvOWMx?=
+ =?utf-8?B?TzhJbmg0TWFEMU5uVUlaeWg1K2RnclVrUHFKN0JxWWRDYW5jTnJ4SnpQYlN5?=
+ =?utf-8?B?ZFA0RTF0dnFUbU5UaUVmQ2JvRmMwaTBQNlJteUxFNEpUb3Roa2JiTHV0MzN5?=
+ =?utf-8?B?dGg2RWllUHlVWCtGTFgxRExnWDVkRitTUklqZTZZd2hEMC9uUE9Jd3BOWUdr?=
+ =?utf-8?B?ekphcWJCdlhrR08xL0dvYmZBeFJHaU8vVVpRaENYYWxsRFBCWit4UUlaNmFI?=
+ =?utf-8?B?elpUUUtXMGVDOGc0UjZtSXVxeW5WQTdUbU9CaDczMVphMGEvd0FvcTljRm5x?=
+ =?utf-8?B?TjlMNnpWZ3FNa1F1by9uUUd0ckV3RmhFQWpWY3dWSVZCa3N4aVlDdEwvNDY3?=
+ =?utf-8?B?bm9RRkFmL2dielJxblZFUHlpaXp5MXN0b2srN1M1K0ZXTExMZmhLdkx1dzhR?=
+ =?utf-8?B?WnVXNzljOXNCYUI2aFRxNXhLOGVxWDlFeVNodW1Ic2tyUTdaQjBzZ2NPdkFo?=
+ =?utf-8?B?WGx3Y05pZVNsY1FDb21PS3RVdG1MNFJmdGxuMVlrbktUeTJRRXJkM1VmMkhi?=
+ =?utf-8?B?VjBZY1VDSjhuOTY0U1RldGJpdjU4R2lkeWJaa2JCa1QwUDdBcndmS1FNWTY2?=
+ =?utf-8?B?bEdCNFp2emk5Q3huMmYxSXBqbUpzNzlBR2VKZ0VWWE1DcEttdDVyRHErQVFQ?=
+ =?utf-8?B?bGZKY3RrWDZEOEgxaDZ6eDVZY0xJVUR6cGhrNVdPUUIweWZXRVJrb0ZrSklH?=
+ =?utf-8?B?eCsrNk45bEhHOWFNNnowNW1uUEFNUFZXT2ZSVmZDWXF0MitRM21uY05FVnJh?=
+ =?utf-8?B?TmVYUDFySXNNekZ1bXkvcHJYOUNWdy9ZdW9XOGUxSk9TUWx1Ym9wckRUVG4x?=
+ =?utf-8?B?V3ZQU2FyYkxJRGkyVHF0RlVuK1ZtU1ltejZDZlpQcFA0NW14bVNOaFRLZFU0?=
+ =?utf-8?B?d09DaUQyYkZJMVgrVzljRm9STkM1RTgxK2hpZ00xYU9MNEt6K3hGOU1CRHU2?=
+ =?utf-8?B?ODAyelVSVWJEY1N2U213ZFBTdXo2djZPNHAyQU0zQ3dWZU1PeXI1SldXaTJn?=
+ =?utf-8?B?eldrb2N4VjFQL0lxQlRyUFdlZUFmZXlSaXRnZ3pxZkhHQ28reVZPVXhibmdQ?=
+ =?utf-8?B?TVZIci9KcjVmTDRwYmlOUEs5TWVka3ptblZMWVNuNWVrb2tDS0tiTWhrVGE0?=
+ =?utf-8?Q?eqfMXSRzKKo=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZkgrMGkwQ1lkTDJIU0daSERoL0VmMGtNdGpZTGZSVFJSYnpLOE9DRGp3d3dk?=
+ =?utf-8?B?anVpeGwwT1IvdklobU84YUZGekJDSk5SYk5TLytNb3ZtNXY4WkhseXB2S24w?=
+ =?utf-8?B?K1F5Rk9Xc3F0VVlOVXpaTWROVm02VkhrTzJMRVhIN09mSnU4VWlpb09kNmVK?=
+ =?utf-8?B?OU1KSVdnR1hFaURMTmFDa0tIajF0aVBYWnhmKzU4NVdtZW5JRWJxenFKNDBU?=
+ =?utf-8?B?ZnBvQTJLeE1TYlBmS3crTkhiNzRIaHZjZDBGVFJxeGJ6ZXRyMEhJcjJtM2Vw?=
+ =?utf-8?B?ZUJmdEpWZHE4Zi9GN0ovaDNxQ0ptUndNVDFseEEzZFNUZHdyVExENFY0bVQ5?=
+ =?utf-8?B?SXhNZ1Nrb2ZHWUErSEpPY1pHOXdNOGh4blZZbnAyc2ZzQjUrdkh3ZTZ3N0dz?=
+ =?utf-8?B?R2Zya1lKVHhUdUZqU2ZVMzVvVWxITldFVFJNQVJLaTUyc1Z6aW8wbytmdGxD?=
+ =?utf-8?B?SlJtSENLR3N4ZC9XOWJGV0FzVTkzWTUvWDdmZkVHYzE5UmZxa05WVGd2U1N6?=
+ =?utf-8?B?a1BGcGYrTUhJcFRVT21CeEVDRzZpYjNueEJqNEsyMjNCSUYyY2M5bTJPWWty?=
+ =?utf-8?B?ckJvcjhNdiswaXlhcFE4QnlIR242Wjk2dFJNenNuY2FWT0YvS3h1L2VkZWx1?=
+ =?utf-8?B?VUN3NmdJRFVwd0hxbFE0V3BkdWFnSzRtRmJ1amMySG5VUG1EbitkNUVRRFdS?=
+ =?utf-8?B?TkV4NE92cVV4K2hMTGJzWWxzU1pzcUx2TCtpTDRXZnVxcWZCaWFadWhhMDhK?=
+ =?utf-8?B?a05ISHhVK0p4VnhVT1NZakFXczVER1BVZUNUWE8xcWlPZ0dXeCtteGc5Z0FZ?=
+ =?utf-8?B?MVhPY3Q4SnFQelNPWUNzemF0a0xManN3SlVjRXIvQnBray92bWxEY1R5aGpY?=
+ =?utf-8?B?R0N4ZEhnMjRnWlAvbndDa1g4aFZ6Ukkzc0h5VUV0VW8xaUZVcU5jT1BVV0tY?=
+ =?utf-8?B?akorK3lXbm95YzZKQm50QUVMamJibW5NOEZ3dVJOSFNNNTc1aEkwRExxSklt?=
+ =?utf-8?B?cHh3bHEwSDNmQ2w0SzhRQ1pFNStTNDd0Y0k4SG5ZOHBGMWhDSVM3SnRnN3hJ?=
+ =?utf-8?B?blVlY3FkU3N0Smd3ZktFaDY1Y1A5QVhyM0h4ME9SeXVyamlidmV6a1hFd0dG?=
+ =?utf-8?B?VGVQVU9XdEJLYmZXNmhBNHB6TUxCbGpKeVJyemthdFpKSlN0ZytxVU80WHZB?=
+ =?utf-8?B?anRvVGNMcTZtM1JOUmQ1dDRSRUwycWtBTWpZRzRjaXkrVURjNFNoQTFFZG1t?=
+ =?utf-8?B?ZWpHWXFWLyttMm1lRFd5amtrVEl4UktrTmdoblEzamR0YmRia2FBSkxKSnhs?=
+ =?utf-8?B?TU5KcUN1NnBTRFhCdGcyZVFzUkN6Rk5iaGRmVzJBZmlmNHlKUWRubnlrVXBG?=
+ =?utf-8?B?bDQzM24zY0gxUTVMaVJHTGZwZ3FrMStJbUJONkh6akVDMUdlZDdJWHNSU0pk?=
+ =?utf-8?B?Z0p5dlhDWVRxa1d1bjRIUzdyNFhDMHErcExVa3c0WlU2OXV5aldOOWk1dEpL?=
+ =?utf-8?B?ei9iNVhkb01MZlJVcEoyWHBVMkRvY0tBdWtzMmJRSUovNHlidExYM0JZRWNY?=
+ =?utf-8?B?VzR0OGtpejMrQVc3cXhSMloyMGkwTTMvTnhrNGRVNEt6VGJYRFBiK3l4cHBN?=
+ =?utf-8?B?R0h0WGFveVVDNVRTSDhSdmQ2SnU3VXBrdzIreHVXSnQ1ZTNRSVlGbUF0UHVP?=
+ =?utf-8?B?N0JkTVVUQUoyZ2pLemtWTmF3cXoxNEZxYklKZTF4WTVBb0J1TE1sMlBzMzlq?=
+ =?utf-8?B?T1dodVZiUHFMcmJsaURTalVvNGhWZk9rWHdLNFhIQkFLSWxvYXM0d1BUZnlC?=
+ =?utf-8?B?UjkyMU03TzRqUnBzcmg1MzluZ2JQNU1tY2JFLzlHWHZpUEVtSkcwbEs3aGMy?=
+ =?utf-8?B?OEJIVjU3cE9FZ0F4TzlMNTJaSDFRSlIrSlEwSitVYTgvcU12b3hYdG42M3Ur?=
+ =?utf-8?B?ZWtoTDVnNFNRSmVtMmwwQ0ZreW94NmIwWWxYd0xQT2hyYU40UVE5Y2N4NWVM?=
+ =?utf-8?B?RE5NUVh4cUlCeTd6SHFpRTdFSE5KV1hsbDJ2REFROVBRclA1RHpkSzFkbGE0?=
+ =?utf-8?B?d0VpdkJsN1krNEFxQTZGdWxjNXZGaGxtQldsY1ovRVE3VllOaVo3TXdMdFRH?=
+ =?utf-8?Q?rrBI=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80dfa0ef-829d-49d6-f239-08ddb400f272
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 15:57:11.9805
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HSUbWOsFF/+GtOKOOls2I3XOvMzrytUBi5fK+9MZQcmwEqleZhCACUzzJmkx/gsg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7068
 
-The only user of the counter (FUSE) was removed in commit 0c58a97f919c
-("fuse: remove tmp folio for writebacks and internal rb tree") so follow
-the established pattern of removing the counter and hardcoding 0 in
-meminfo output, as done recently with NR_BOUNCE. Update documentation
-for procfs, including for the value for Bounce that was missed when
-removing its counter.
+Hi Reinette,
 
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
----
-The removal of the counter is straightforward. The reason for the large
-Cc list is that there is a comment in mm/page-writeback.c function
-wb_position_ratio() that mentions NR_WRITEBACK_TEMP, and just deleting
-the sentence feels to me it could be the wrong thing to do - maybe the
-strictlimit feature itself is now obsolete? It sure does mention FUSE
-as the main reason to exist, but commit 5a53748568f79 that introduced it
-also mentions slow USB sticks as a possibile scenario. Has that
-happened? I'm not familiar enough with this so I'd rather highlight this
-and ask for input here than make "git grep NR_WRITEBACK_TEMP" return
-nothing.
----
- Documentation/filesystems/proc.rst | 8 +++++---
- drivers/base/node.c                | 2 +-
- fs/proc/meminfo.c                  | 3 +--
- include/linux/mmzone.h             | 1 -
- mm/show_mem.c                      | 2 --
- mm/vmstat.c                        | 1 -
- 6 files changed, 7 insertions(+), 10 deletions(-)
+On 6/24/25 16:28, Reinette Chatre wrote:
+> Hi Babu/Tony,
+> 
+> On 6/13/25 2:04 PM, Babu Moger wrote:
+>> diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
+>> index 0a1eedba2b03..20e2c45cea64 100644
+>> --- a/fs/resctrl/internal.h
+>> +++ b/fs/resctrl/internal.h
+>> @@ -52,19 +52,26 @@ static inline struct rdt_fs_context *rdt_fc2context(struct fs_context *fc)
+>>  }
+>>  
+>>  /**
+>> - * struct mon_evt - Entry in the event list of a resource
+>> + * struct mon_evt - Description of a monitor event
+> 
+> nit: I still think "Properties" is more appropriate.
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 5236cb52e357dcd00496b26be8578e1dec0a345e..2971551b7235345c9a7ec3c84a87a16adcda5901 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1196,12 +1196,14 @@ SecPageTables
-               Memory consumed by secondary page tables, this currently includes
-               KVM mmu and IOMMU allocations on x86 and arm64.
- NFS_Unstable
--              Always zero. Previous counted pages which had been written to
-+              Always zero. Previously counted pages which had been written to
-               the server, but has not been committed to stable storage.
- Bounce
--              Memory used for block device "bounce buffers"
-+              Always zero. Previously memory used for block device
-+              "bounce buffers".
- WritebackTmp
--              Memory used by FUSE for temporary writeback buffers
-+              Always zero. Previously memory used by FUSE for temporary
-+              writeback buffers.
- CommitLimit
-               Based on the overcommit ratio ('vm.overcommit_ratio'),
-               this is the total amount of  memory currently available to
-diff --git a/drivers/base/node.c b/drivers/base/node.c
-index 6d66382dae6533a0c8481f72ad67c35021e331d3..e434cb260e6182468e0d617b559134c6fbe128f4 100644
---- a/drivers/base/node.c
-+++ b/drivers/base/node.c
-@@ -500,7 +500,7 @@ static ssize_t node_read_meminfo(struct device *dev,
- 			     nid, K(node_page_state(pgdat, NR_SECONDARY_PAGETABLE)),
- 			     nid, 0UL,
- 			     nid, 0UL,
--			     nid, K(node_page_state(pgdat, NR_WRITEBACK_TEMP)),
-+			     nid, 0UL,
- 			     nid, K(sreclaimable +
- 				    node_page_state(pgdat, NR_KERNEL_MISC_RECLAIMABLE)),
- 			     nid, K(sreclaimable + sunreclaimable),
-diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-index bc2bc60c36ccc1dab8913913056f5ff20b448490..a458f1e112fdbc63019239a79ce39c5576b5f963 100644
---- a/fs/proc/meminfo.c
-+++ b/fs/proc/meminfo.c
-@@ -121,8 +121,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 
- 	show_val_kb(m, "NFS_Unstable:   ", 0);
- 	show_val_kb(m, "Bounce:         ", 0);
--	show_val_kb(m, "WritebackTmp:   ",
--		    global_node_page_state(NR_WRITEBACK_TEMP));
-+	show_val_kb(m, "WritebackTmp:   ", 0);
- 	show_val_kb(m, "CommitLimit:    ", vm_commit_limit());
- 	show_val_kb(m, "Committed_AS:   ", committed);
- 	seq_printf(m, "VmallocTotal:   %8lu kB\n",
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 1d1bb2b7f40d25b430932c9ef9096d97bf1c29de..0c5da9141983b795018c0aa2457b065507416564 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -206,7 +206,6 @@ enum node_stat_item {
- 	NR_FILE_PAGES,
- 	NR_FILE_DIRTY,
- 	NR_WRITEBACK,
--	NR_WRITEBACK_TEMP,	/* Writeback using temporary buffers */
- 	NR_SHMEM,		/* shmem pages (included tmpfs/GEM pages) */
- 	NR_SHMEM_THPS,
- 	NR_SHMEM_PMDMAPPED,
-diff --git a/mm/show_mem.c b/mm/show_mem.c
-index 0cf8bf5d832d6b339b4c9a6c7b8b3ab41683bcfe..41999e94a56d623726ea92f3f38785e8b218afe5 100644
---- a/mm/show_mem.c
-+++ b/mm/show_mem.c
-@@ -246,7 +246,6 @@ static void show_free_areas(unsigned int filter, nodemask_t *nodemask, int max_z
- 			" shmem_pmdmapped:%lukB"
- 			" anon_thp:%lukB"
- #endif
--			" writeback_tmp:%lukB"
- 			" kernel_stack:%lukB"
- #ifdef CONFIG_SHADOW_CALL_STACK
- 			" shadow_call_stack:%lukB"
-@@ -273,7 +272,6 @@ static void show_free_areas(unsigned int filter, nodemask_t *nodemask, int max_z
- 			K(node_page_state(pgdat, NR_SHMEM_PMDMAPPED)),
- 			K(node_page_state(pgdat, NR_ANON_THPS)),
- #endif
--			K(node_page_state(pgdat, NR_WRITEBACK_TEMP)),
- 			node_page_state(pgdat, NR_KERNEL_STACK_KB),
- #ifdef CONFIG_SHADOW_CALL_STACK
- 			node_page_state(pgdat, NR_KERNEL_SCS_KB),
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index c3114b8826e4c3b6969fd4af4b0cd32173c42d7b..e0fcd9057f344170b2dc5c82beafea4ec18359bb 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1251,7 +1251,6 @@ const char * const vmstat_text[] = {
- 	[I(NR_FILE_PAGES)]			= "nr_file_pages",
- 	[I(NR_FILE_DIRTY)]			= "nr_dirty",
- 	[I(NR_WRITEBACK)]			= "nr_writeback",
--	[I(NR_WRITEBACK_TEMP)]			= "nr_writeback_temp",
- 	[I(NR_SHMEM)]				= "nr_shmem",
- 	[I(NR_SHMEM_THPS)]			= "nr_shmem_hugepages",
- 	[I(NR_SHMEM_PMDMAPPED)]			= "nr_shmem_pmdmapped",
+I will let Tony take care of this.
+Also, there is another comment
+https://lore.kernel.org/lkml/b761e6ec-a874-4d06-8437-a3a717a91abb@intel.com/
 
----
-base-commit: 4216fd45fc9156da0ee33fcb25cc0a5265049e32
-change-id: 20250625-nr_writeback_removal-4eca139cf09a
+I can pick up from your "aegl" tree. Let me know otherwise.
+I am not in a hurry. I will plan to post the series next week.
 
-Best regards,
--- 
-Vlastimil Babka <vbabka@suse.cz>
+> 
+>>   * @evtid:		event id
+>> + * @rid:		index of the resource for this event
+>>   * @name:		name of the event
+>>   * @configurable:	true if the event is configurable
+>> - * @list:		entry in &rdt_resource->evt_list
+>> + * @enabled:		true if the event is enabled
+>>   */
+>>  struct mon_evt {
+>>  	enum resctrl_event_id	evtid;
+>> +	enum resctrl_res_level	rid;
+>>  	char			*name;
+>>  	bool			configurable;
+>> -	struct list_head	list;
+>> +	bool			enabled;
+>>  };
+>>  
+>> +extern struct mon_evt mon_event_all[QOS_NUM_EVENTS];
+>> +
+>> +#define for_each_mon_event(mevt) for (mevt = &mon_event_all[QOS_FIRST_EVENT];	\
+>> +				      mevt < &mon_event_all[QOS_NUM_EVENTS]; mevt++)
+>> +
+> 
+>>From what I can tell this series does not build on some core changes
+> made by this patch:
+> - note that resource ID is added to struct mon_evt and the events
+>   are *removed* from the evt_list associated with the resource. I'll try to point
+>   out where I see it but this series still behaves as though it is traversing
+>   evt_list associated with the resource. Take for example
+>   patch #24 "fs/resctrl: Add event configuration directory under info/L3_MON/":
+>   resctrl_mkdir_counter_configs() traverses mon_event_all[] that, after this
+>   patch, contains all events for *all* resources, yet resctrl_mkdir_counter_configs(),
+>   even though it has a struct rdt_resource as parameter, assumes that all events are
+>   associated its resource but there is no checking to enforce this. 
+> - note the new for_each_mon_event() above. This should be used throughout
+>   instead of open-coding the loop because the array starts at index 0 but
+>   the first valid entry is at index 1. The above macro makes this easier to
+>   get right.
 
+Yes. Make sense. Will take of this in patch #24, #28 and #29.--
+Thanks
+Babu Moger
