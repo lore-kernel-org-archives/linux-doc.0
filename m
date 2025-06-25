@@ -1,240 +1,419 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2041.outbound.protection.outlook.com [40.107.94.41])
+Received: from mail-10630.protonmail.ch (mail-10630.protonmail.ch [79.135.106.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCCE1A7264;
-	Wed, 25 Jun 2025 15:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750867037; cv=fail; b=I49KBleuAkwygyu5Fj4bnQBbhv3V2nMxTVjOHXTrBk4v3eR0qRFlgHnol5p+1OYqkxCzbYIe0l+5ycByAcRTXFES78zwkAhkr0tREoGTo5pm2WLuY6Mahu1HWN3DDnKx4JQ68/WD+9DIDqr6terQXxWxeEwkI9dpgakRbCkDoOE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750867037; c=relaxed/simple;
-	bh=TlYJcDIRcy8Vg5FELaGS8i878O638qAZzrtXM7E7UeE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=b3zOXe9zNW5UIWFTGiotCwHGJSI8n9f1RypMduQ0zbpk5MF6PdBx29NsjuIdhhyAzr3vOHvuugm5YKfF+HB32kJ9HBd0BvtsZjcpzoKkNCZc0pXIuTstVpcJsub7aTOqO7wt5hGBi+AgldHRXC3MBAb0ua34sKOmVPMykw8NHLE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=kNyLOp1U; arc=fail smtp.client-ip=40.107.94.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D05D2BF00A;
+	Wed, 25 Jun 2025 16:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.30
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750867208; cv=none; b=jUdn/VVrNv1WdjClfRUw4QKxvO2wLlhHVj2Tn9ttpLb6OyIAZ8JQ7S8qjZUw59+D5zMuN16YoXd6R9aa3kIJslsqs8s5kf43iQhjy1uQmKetJIDbPziPXUobtotBmuaahlUSWGQP/OSbvhmvCpAhhhabxKyZmrBDM74ClOtDgSw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750867208; c=relaxed/simple;
+	bh=su17sUPbTTihtoANSksi5gs2STqWqgFLZmEBIWrX+M0=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DkgHshptvzls2J7cP+mdH8NNqAWK9QDGrNSQ3ZSkf1ta+Q/+bgKv+qwG/pbDOX8x0fZLSm2HgX4eoXVKlryECc6ZvjUO08Gu/rd+U1eWbHuoucN5NiIylx0mQYbACE6mzinn+zVfMvKWoMVoPzL+30PCDNUS0o+End9naeRGcl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=mdHQ3UiX; arc=none smtp.client-ip=79.135.106.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="kNyLOp1U"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YOmz5aW9FKbYOCcl6Wfya1qVkoAVJJbUSMqCLEFy7CdMtBvTxhDrH6mJ8b9NzEkUoE4tCMeQQcJxA/Z/OYD/wXHHR6sy0Dev+eZHjEF/WeEgq8jkrdx72ZzUnyPPPPHy/fi5oEOvS4Xg8+bZECfwEB/f+8PFAbJm6pNINnsSKeHP4LBI4ci+7gHJYdh0PKulv6W5XQ5jmLXzVzawgMLyqj9B+wmggy9vfuEYbe01T30+QOwvNcVIk+p6BEsvkkD+ejR5N5g4Uzghemt64GmIAIGPlZ+OcEkF9Q7FoFqIlAqPnWbsh9V7x26S3ZGMXpKr4LPDwoaBqt6RiM18rH5wLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HXv1j5NkAIGkFnlNMpnIgzS7qqgZV8xX+ZqLBhqUo3Y=;
- b=K1r9qmOZXNmdbjrmzF37+2nawL46hGJsI7SWDWYFrBRSCv12XcUKhH2sDjygPXAL4qLypUHUUeQ6UVABjgGxU9CoSIljzcPIim0OluywkiL6tVY72WvIQozCWfBEbdM0WgPXw8B0vTZxQF6B/mylFpXGxLYGBWtvB8gmv4jjleO9zQp15fWYIKyRJ6VF/5i9DhcXaF/Kclr8h9zWz5clkSNTPj8W4CbuQkwE5khW5/4v1tyoDP4gtGCHW5WbDmses8iegi+hbhJjRZulG8N1Y96ewzXUOlvrr8dPZJMRMpXeKdUgvML7SG7T7COI2yRCk/GDgoNOUoZvNMRb5QTruA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HXv1j5NkAIGkFnlNMpnIgzS7qqgZV8xX+ZqLBhqUo3Y=;
- b=kNyLOp1U9ZPk0cPBwigvX8Zyd5EKFkekIA+ZCelDERsvum2ZfVuzGE/Oe2SW0lSeKZ1NEqgjeeHScAy0234nUqnD2PNXOXBjLxA4xlIr4sbY126osjxtb5zanKEuMcQpAt7KRmDAL10LPE1H9SDmgmCs/LurkruhgS27hmNN6vI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SJ0PR12MB7068.namprd12.prod.outlook.com (2603:10b6:a03:4ae::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.16; Wed, 25 Jun
- 2025 15:57:12 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%7]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
- 15:57:12 +0000
-Message-ID: <09c1aa33-08f7-456e-9c15-323a29877302@amd.com>
-Date: Wed, 25 Jun 2025 10:57:06 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v14 02/32] x86,fs/resctrl: Consolidate monitor event
- descriptions
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
- rostedt@goodmis.org, paulmck@kernel.org, thuth@redhat.com, ardb@kernel.org,
- gregkh@linuxfoundation.org, seanjc@google.com, thomas.lendacky@amd.com,
- pawan.kumar.gupta@linux.intel.com, manali.shukla@amd.com,
- perry.yuan@amd.com, kai.huang@intel.com, peterz@infradead.org,
- xiaoyao.li@intel.com, kan.liang@linux.intel.com, mario.limonciello@amd.com,
- xin3.li@intel.com, gautham.shenoy@amd.com, xin@zytor.com,
- chang.seok.bae@intel.com, fenghuay@nvidia.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, eranian@google.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1749848714.git.babu.moger@amd.com>
- <80689a762e59137f0d0297ee4ce0d31f070a3655.1749848714.git.babu.moger@amd.com>
- <e9eb906f-d463-4c1e-9e15-5ed795fe5366@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <e9eb906f-d463-4c1e-9e15-5ed795fe5366@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0196.namprd11.prod.outlook.com
- (2603:10b6:806:1bc::21) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="mdHQ3UiX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1750867198; x=1751126398;
+	bh=shNZn9CXmtdijSV5B2iTzGkyqE9PqryKjvvVU2SZBJ0=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=mdHQ3UiXY6BBi7o7lhPhdQmYS1xVa7BKUue0t3kQx83eso4VAJem0MGLcTvlcy+kT
+	 zZYTopNtwQC3vzUL3nGGi3h6wqNCv38VohFQf7WA34eV5H8WVIbjEG8iZGhPLe6ASP
+	 o7wivKGO/ViKyvX64RkIMTZLyoVcvO0SibsMnREMGdYuIfri7Bs+g0BE07RP1nxduc
+	 p+V0Py6yS4LVCARlZqvVL3uH+vSMC74maH5n6JxkjRIlVxTrtMAV36bqWtyA1skn6H
+	 piurlqgf6FpdK6diJjfWgym2SkI6HakqFVQunSlSxor95rZY8MGHcJkpWXOgK1D2m3
+	 S42mD3avKxy2g==
+Date: Wed, 25 Jun 2025 15:59:52 +0000
+To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com
+From: =?utf-8?Q?P=C5=91cze_Barnab=C3=A1s?= <pobrn@protonmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
+Message-ID: <7a58972f-5256-4598-b729-224f20f3ecd2@protonmail.com>
+In-Reply-To: <7b0243fd-15c6-42da-8570-9ad9cd5163af@gmx.de>
+References: <20250615175957.9781-1-W_Armin@gmx.de> <20250615175957.9781-3-W_Armin@gmx.de> <1b79a3c3-c493-471b-aa37-92458b356e8d@protonmail.com> <7b0243fd-15c6-42da-8570-9ad9cd5163af@gmx.de>
+Feedback-ID: 20568564:user:proton
+X-Pm-Message-ID: 08a42992ce2590e2577a89a797fe321dddbfa117
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ0PR12MB7068:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80dfa0ef-829d-49d6-f239-08ddb400f272
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?U0puZGxPUnJ5K05vcmZrZXhKNkFiamt3YmhuNlNMeUw0OEFBbDk3SGxUWFpX?=
- =?utf-8?B?RjlOWDFSWmR2RUYybXUxNDJPcTlVWWx6NzZCaDRNQnNZaWJldGRFVmFCa212?=
- =?utf-8?B?d0grYUdBYVg3bk9zbmt4RmtIeXpWQ2pFUmZrTTByTElmTDI5TGIxRWZVMXNk?=
- =?utf-8?B?aHVIRTg5azduWTBSallEeDIzdDBaNGlSS0lMQ0IyOW1CdU84Z2RxSEM4MjV0?=
- =?utf-8?B?SFpEUTNWNmhIOEx2UXpmTlpzZkNzczFyRzVMcENHRzM0RWNiaFRGcXUrNE9M?=
- =?utf-8?B?eUZzLzg0TUFSUWlrUkVqQjVBQm5PQ0Q0Y29LbVhWc0tKR21GNy9adjNyaWVn?=
- =?utf-8?B?TGtObGh2WFhyR0t1TVJUaUF3QzEwSnhjQW1jTzIvVUl6amxoMEVmcjlqOVoy?=
- =?utf-8?B?SWNMWXRIbWtaejZxVWhSTVVpRFloMW9JRUFGdWhuU09yU1FYYkxvcGc0dWNj?=
- =?utf-8?B?TTRVa2lYSWQ2b0NNY0V1cGE0UCtKRGdleTY1ZFlBdVhkaWc2b3hmaTAxZjJq?=
- =?utf-8?B?cGxXVUJHOStUT3NNSkk2U3J0SDJaeitCRkV3djdRYVFGaEJlMDJmQ3VqMlB6?=
- =?utf-8?B?TmY5MUtKSU00S1FXWlJpWGlvMFY4MXJvT2Z4am5Lc25pVlJ3dG9PNHkxT0J2?=
- =?utf-8?B?V2gzb292Kzl6TkNlT1ZWY3haRU5DSWxXbmpYZWlRajR2aEczbkpsWVg0TmlF?=
- =?utf-8?B?MFFCeTQxSjl5dnNoZFZmeGc5VDFZZ1YyMGt2dVZ1cDh6NVVKVTVldENvOWMx?=
- =?utf-8?B?TzhJbmg0TWFEMU5uVUlaeWg1K2RnclVrUHFKN0JxWWRDYW5jTnJ4SnpQYlN5?=
- =?utf-8?B?ZFA0RTF0dnFUbU5UaUVmQ2JvRmMwaTBQNlJteUxFNEpUb3Roa2JiTHV0MzN5?=
- =?utf-8?B?dGg2RWllUHlVWCtGTFgxRExnWDVkRitTUklqZTZZd2hEMC9uUE9Jd3BOWUdr?=
- =?utf-8?B?ekphcWJCdlhrR08xL0dvYmZBeFJHaU8vVVpRaENYYWxsRFBCWit4UUlaNmFI?=
- =?utf-8?B?elpUUUtXMGVDOGc0UjZtSXVxeW5WQTdUbU9CaDczMVphMGEvd0FvcTljRm5x?=
- =?utf-8?B?TjlMNnpWZ3FNa1F1by9uUUd0ckV3RmhFQWpWY3dWSVZCa3N4aVlDdEwvNDY3?=
- =?utf-8?B?bm9RRkFmL2dielJxblZFUHlpaXp5MXN0b2srN1M1K0ZXTExMZmhLdkx1dzhR?=
- =?utf-8?B?WnVXNzljOXNCYUI2aFRxNXhLOGVxWDlFeVNodW1Ic2tyUTdaQjBzZ2NPdkFo?=
- =?utf-8?B?WGx3Y05pZVNsY1FDb21PS3RVdG1MNFJmdGxuMVlrbktUeTJRRXJkM1VmMkhi?=
- =?utf-8?B?VjBZY1VDSjhuOTY0U1RldGJpdjU4R2lkeWJaa2JCa1QwUDdBcndmS1FNWTY2?=
- =?utf-8?B?bEdCNFp2emk5Q3huMmYxSXBqbUpzNzlBR2VKZ0VWWE1DcEttdDVyRHErQVFQ?=
- =?utf-8?B?bGZKY3RrWDZEOEgxaDZ6eDVZY0xJVUR6cGhrNVdPUUIweWZXRVJrb0ZrSklH?=
- =?utf-8?B?eCsrNk45bEhHOWFNNnowNW1uUEFNUFZXT2ZSVmZDWXF0MitRM21uY05FVnJh?=
- =?utf-8?B?TmVYUDFySXNNekZ1bXkvcHJYOUNWdy9ZdW9XOGUxSk9TUWx1Ym9wckRUVG4x?=
- =?utf-8?B?V3ZQU2FyYkxJRGkyVHF0RlVuK1ZtU1ltejZDZlpQcFA0NW14bVNOaFRLZFU0?=
- =?utf-8?B?d09DaUQyYkZJMVgrVzljRm9STkM1RTgxK2hpZ00xYU9MNEt6K3hGOU1CRHU2?=
- =?utf-8?B?ODAyelVSVWJEY1N2U213ZFBTdXo2djZPNHAyQU0zQ3dWZU1PeXI1SldXaTJn?=
- =?utf-8?B?eldrb2N4VjFQL0lxQlRyUFdlZUFmZXlSaXRnZ3pxZkhHQ28reVZPVXhibmdQ?=
- =?utf-8?B?TVZIci9KcjVmTDRwYmlOUEs5TWVka3ptblZMWVNuNWVrb2tDS0tiTWhrVGE0?=
- =?utf-8?Q?eqfMXSRzKKo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZkgrMGkwQ1lkTDJIU0daSERoL0VmMGtNdGpZTGZSVFJSYnpLOE9DRGp3d3dk?=
- =?utf-8?B?anVpeGwwT1IvdklobU84YUZGekJDSk5SYk5TLytNb3ZtNXY4WkhseXB2S24w?=
- =?utf-8?B?K1F5Rk9Xc3F0VVlOVXpaTWROVm02VkhrTzJMRVhIN09mSnU4VWlpb09kNmVK?=
- =?utf-8?B?OU1KSVdnR1hFaURMTmFDa0tIajF0aVBYWnhmKzU4NVdtZW5JRWJxenFKNDBU?=
- =?utf-8?B?ZnBvQTJLeE1TYlBmS3crTkhiNzRIaHZjZDBGVFJxeGJ6ZXRyMEhJcjJtM2Vw?=
- =?utf-8?B?ZUJmdEpWZHE4Zi9GN0ovaDNxQ0ptUndNVDFseEEzZFNUZHdyVExENFY0bVQ5?=
- =?utf-8?B?SXhNZ1Nrb2ZHWUErSEpPY1pHOXdNOGh4blZZbnAyc2ZzQjUrdkh3ZTZ3N0dz?=
- =?utf-8?B?R2Zya1lKVHhUdUZqU2ZVMzVvVWxITldFVFJNQVJLaTUyc1Z6aW8wbytmdGxD?=
- =?utf-8?B?SlJtSENLR3N4ZC9XOWJGV0FzVTkzWTUvWDdmZkVHYzE5UmZxa05WVGd2U1N6?=
- =?utf-8?B?a1BGcGYrTUhJcFRVT21CeEVDRzZpYjNueEJqNEsyMjNCSUYyY2M5bTJPWWty?=
- =?utf-8?B?ckJvcjhNdiswaXlhcFE4QnlIR242Wjk2dFJNenNuY2FWT0YvS3h1L2VkZWx1?=
- =?utf-8?B?VUN3NmdJRFVwd0hxbFE0V3BkdWFnSzRtRmJ1amMySG5VUG1EbitkNUVRRFdS?=
- =?utf-8?B?TkV4NE92cVV4K2hMTGJzWWxzU1pzcUx2TCtpTDRXZnVxcWZCaWFadWhhMDhK?=
- =?utf-8?B?a05ISHhVK0p4VnhVT1NZakFXczVER1BVZUNUWE8xcWlPZ0dXeCtteGc5Z0FZ?=
- =?utf-8?B?MVhPY3Q4SnFQelNPWUNzemF0a0xManN3SlVjRXIvQnBray92bWxEY1R5aGpY?=
- =?utf-8?B?R0N4ZEhnMjRnWlAvbndDa1g4aFZ6Ukkzc0h5VUV0VW8xaUZVcU5jT1BVV0tY?=
- =?utf-8?B?akorK3lXbm95YzZKQm50QUVMamJibW5NOEZ3dVJOSFNNNTc1aEkwRExxSklt?=
- =?utf-8?B?cHh3bHEwSDNmQ2w0SzhRQ1pFNStTNDd0Y0k4SG5ZOHBGMWhDSVM3SnRnN3hJ?=
- =?utf-8?B?blVlY3FkU3N0Smd3ZktFaDY1Y1A5QVhyM0h4ME9SeXVyamlidmV6a1hFd0dG?=
- =?utf-8?B?VGVQVU9XdEJLYmZXNmhBNHB6TUxCbGpKeVJyemthdFpKSlN0ZytxVU80WHZB?=
- =?utf-8?B?anRvVGNMcTZtM1JOUmQ1dDRSRUwycWtBTWpZRzRjaXkrVURjNFNoQTFFZG1t?=
- =?utf-8?B?ZWpHWXFWLyttMm1lRFd5amtrVEl4UktrTmdoblEzamR0YmRia2FBSkxKSnhs?=
- =?utf-8?B?TU5KcUN1NnBTRFhCdGcyZVFzUkN6Rk5iaGRmVzJBZmlmNHlKUWRubnlrVXBG?=
- =?utf-8?B?bDQzM24zY0gxUTVMaVJHTGZwZ3FrMStJbUJONkh6akVDMUdlZDdJWHNSU0pk?=
- =?utf-8?B?Z0p5dlhDWVRxa1d1bjRIUzdyNFhDMHErcExVa3c0WlU2OXV5aldOOWk1dEpL?=
- =?utf-8?B?ei9iNVhkb01MZlJVcEoyWHBVMkRvY0tBdWtzMmJRSUovNHlidExYM0JZRWNY?=
- =?utf-8?B?VzR0OGtpejMrQVc3cXhSMloyMGkwTTMvTnhrNGRVNEt6VGJYRFBiK3l4cHBN?=
- =?utf-8?B?R0h0WGFveVVDNVRTSDhSdmQ2SnU3VXBrdzIreHVXSnQ1ZTNRSVlGbUF0UHVP?=
- =?utf-8?B?N0JkTVVUQUoyZ2pLemtWTmF3cXoxNEZxYklKZTF4WTVBb0J1TE1sMlBzMzlq?=
- =?utf-8?B?T1dodVZiUHFMcmJsaURTalVvNGhWZk9rWHdLNFhIQkFLSWxvYXM0d1BUZnlC?=
- =?utf-8?B?UjkyMU03TzRqUnBzcmg1MzluZ2JQNU1tY2JFLzlHWHZpUEVtSkcwbEs3aGMy?=
- =?utf-8?B?OEJIVjU3cE9FZ0F4TzlMNTJaSDFRSlIrSlEwSitVYTgvcU12b3hYdG42M3Ur?=
- =?utf-8?B?ZWtoTDVnNFNRSmVtMmwwQ0ZreW94NmIwWWxYd0xQT2hyYU40UVE5Y2N4NWVM?=
- =?utf-8?B?RE5NUVh4cUlCeTd6SHFpRTdFSE5KV1hsbDJ2REFROVBRclA1RHpkSzFkbGE0?=
- =?utf-8?B?d0VpdkJsN1krNEFxQTZGdWxjNXZGaGxtQldsY1ovRVE3VllOaVo3TXdMdFRH?=
- =?utf-8?Q?rrBI=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80dfa0ef-829d-49d6-f239-08ddb400f272
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 15:57:11.9805
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HSUbWOsFF/+GtOKOOls2I3XOvMzrytUBi5fK+9MZQcmwEqleZhCACUzzJmkx/gsg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7068
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+Hi
 
-On 6/24/25 16:28, Reinette Chatre wrote:
-> Hi Babu/Tony,
-> 
-> On 6/13/25 2:04 PM, Babu Moger wrote:
->> diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
->> index 0a1eedba2b03..20e2c45cea64 100644
->> --- a/fs/resctrl/internal.h
->> +++ b/fs/resctrl/internal.h
->> @@ -52,19 +52,26 @@ static inline struct rdt_fs_context *rdt_fc2context(struct fs_context *fc)
->>  }
->>  
->>  /**
->> - * struct mon_evt - Entry in the event list of a resource
->> + * struct mon_evt - Description of a monitor event
-> 
-> nit: I still think "Properties" is more appropriate.
+2025. 06. 23. 0:36 keltez=C3=A9ssel, Armin Wolf =C3=ADrta:
+> Am 22.06.25 um 23:37 schrieb P=C5=91cze Barnab=C3=A1s:
+>=20
+>> Hi
+>>
+>>
+>> 2025. 06. 15. 19:59 keltez=C3=A9ssel, Armin Wolf =C3=ADrta:
+>>> Add a new driver for Uniwill laptops. The driver uses a ACPI WMI
+>>> interface to talk with the embedded controller, but relies on a
+>>> DMI whitelist for autoloading since Uniwill just copied the WMI
+>>> GUID from the Windows driver example.
+>>>
+>>> The driver is reverse-engineered based on the following information:
+>>> - OEM software from intel
+>>> - https://github.com/pobrn/qc71_laptop
+>> Oh... I suppose an end of an era for me...
+>=20
+> I now remember that we interacted on the mailing lists before, sorry for =
+not CCing
+> you on this patch series.
+>=20
+> Do you want a Co-developed-by tag on those patches?
 
-I will let Tony take care of this.
-Also, there is another comment
-https://lore.kernel.org/lkml/b761e6ec-a874-4d06-8437-a3a717a91abb@intel.com/
+I'll leave it up to you.
 
-I can pick up from your "aegl" tree. Let me know otherwise.
-I am not in a hurry. I will plan to post the series next week.
 
-> 
->>   * @evtid:		event id
->> + * @rid:		index of the resource for this event
->>   * @name:		name of the event
->>   * @configurable:	true if the event is configurable
->> - * @list:		entry in &rdt_resource->evt_list
->> + * @enabled:		true if the event is enabled
->>   */
->>  struct mon_evt {
->>  	enum resctrl_event_id	evtid;
->> +	enum resctrl_res_level	rid;
->>  	char			*name;
->>  	bool			configurable;
->> -	struct list_head	list;
->> +	bool			enabled;
->>  };
->>  
->> +extern struct mon_evt mon_event_all[QOS_NUM_EVENTS];
->> +
->> +#define for_each_mon_event(mevt) for (mevt = &mon_event_all[QOS_FIRST_EVENT];	\
->> +				      mevt < &mon_event_all[QOS_NUM_EVENTS]; mevt++)
->> +
-> 
->>From what I can tell this series does not build on some core changes
-> made by this patch:
-> - note that resource ID is added to struct mon_evt and the events
->   are *removed* from the evt_list associated with the resource. I'll try to point
->   out where I see it but this series still behaves as though it is traversing
->   evt_list associated with the resource. Take for example
->   patch #24 "fs/resctrl: Add event configuration directory under info/L3_MON/":
->   resctrl_mkdir_counter_configs() traverses mon_event_all[] that, after this
->   patch, contains all events for *all* resources, yet resctrl_mkdir_counter_configs(),
->   even though it has a struct rdt_resource as parameter, assumes that all events are
->   associated its resource but there is no checking to enforce this. 
-> - note the new for_each_mon_event() above. This should be used throughout
->   instead of open-coding the loop because the array starts at index 0 but
->   the first valid entry is at index 1. The above macro makes this easier to
->   get right.
+>=20
+>>> - https://github.com/tuxedocomputers/tuxedo-drivers
+>>> - https://github.com/tuxedocomputers/tuxedo-control-center
+>>>
+>>> The underlying EC supports various features, including hwmon sensors,
+>>> battery charge limiting, a RGB lightbar and keyboard-related controls.
+>>>
+>>> Reported-by: cyear <chumuzero@gmail.com>
+>>> Closes: https://github.com/lm-sensors/lm-sensors/issues/508
+>>> Closes: https://github.com/Wer-Wolf/uniwill-laptop/issues/3
+>>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+>>> ---
+>>>     .../ABI/testing/sysfs-driver-uniwill-laptop   |   53 +
+>>>     Documentation/wmi/devices/uniwill-laptop.rst  |  109 ++
+>>>     MAINTAINERS                                   |    8 +
+>>>     drivers/platform/x86/uniwill/Kconfig          |   17 +
+>>>     drivers/platform/x86/uniwill/Makefile         |    1 +
+>>>     drivers/platform/x86/uniwill/uniwill-laptop.c | 1477 ++++++++++++++=
++++
+>>>     drivers/platform/x86/uniwill/uniwill-wmi.c    |    3 +-
+>>>     7 files changed, 1667 insertions(+), 1 deletion(-)
+>>>     create mode 100644 Documentation/ABI/testing/sysfs-driver-uniwill-l=
+aptop
+>>>     create mode 100644 Documentation/wmi/devices/uniwill-laptop.rst
+>>>     create mode 100644 drivers/platform/x86/uniwill/uniwill-laptop.c
+>>>
+> [...]
+>>> +
+>>> +static const unsigned int uniwill_led_channel_to_bat_reg[LED_CHANNELS]=
+ =3D {
+>>> +=09EC_ADDR_LIGHTBAR_BAT_RED,
+>>> +=09EC_ADDR_LIGHTBAR_BAT_GREEN,
+>>> +=09EC_ADDR_LIGHTBAR_BAT_BLUE,
+>>> +};
+>>> +
+>>> +static const unsigned int uniwill_led_channel_to_ac_reg[LED_CHANNELS] =
+=3D {
+>>> +=09EC_ADDR_LIGHTBAR_AC_RED,
+>>> +=09EC_ADDR_LIGHTBAR_AC_GREEN,
+>>> +=09EC_ADDR_LIGHTBAR_AC_BLUE,
+>>> +};
+>>> +
+>>> +static int uniwill_led_brightness_set(struct led_classdev *led_cdev, e=
+num led_brightness brightness)
+>>> +{
+>>> +=09struct led_classdev_mc *led_mc_cdev =3D lcdev_to_mccdev(led_cdev);
+>>> +=09struct uniwill_data *data =3D container_of(led_mc_cdev, struct uniw=
+ill_data, led_mc_cdev);
+>>> +=09unsigned int value;
+>>> +=09int ret;
+>>> +
+>>> +=09ret =3D led_mc_calc_color_components(led_mc_cdev, brightness);
+>>> +=09if (ret < 0)
+>>> +=09=09return ret;
+>>> +
+>>> +=09for (int i =3D 0; i < LED_CHANNELS; i++) {
+>>> +=09=09/* Prevent the brightness values from overflowing */
+>>> +=09=09value =3D min(LED_MAX_BRIGHTNESS, data->led_mc_subled_info[i].br=
+ightness);
+>>> +=09=09ret =3D regmap_write(data->regmap, uniwill_led_channel_to_ac_reg=
+[i], value);
+>> This is interesting. I am not sure which "control center" application yo=
+u have looked at,
+>> but I found many lookup tables based on the exact model, etc. For exampl=
+e, on my laptop
+>> any value larger than 36 will simply turn that color component off. Have=
+ you seen
+>> anything like that?
+>=20
+> I was using the Intel NUC studio software application during reverse-engi=
+neering and had a user
+> test the resulting code on a Intel NUC notebook. AFAIK the OEM software d=
+id not use a lookup table.
+>=20
+> If we extend this driver in the future then we might indeed use the quirk=
+ system to change the max.
+> LED brightness depending on the model.
 
-Yes. Make sense. Will take of this in patch #24, #28 and #29.--
-Thanks
-Babu Moger
+I see. So everything up to 200 works. And after that do you know if it turn=
+s off or what happens?
+
+
+
+>=20
+>>> +=09=09if (ret < 0)
+>>> +=09=09=09return ret;
+>>> +
+>>> +=09=09ret =3D regmap_write(data->regmap, uniwill_led_channel_to_bat_re=
+g[i], value);
+>>> +=09=09if (ret < 0)
+>>> +=09=09=09return ret;
+>>> +=09}
+>>> +
+>>> +=09if (brightness)
+>>> +=09=09value =3D 0;
+>>> +=09else
+>>> +=09=09value =3D LIGHTBAR_S0_OFF;
+>>> +
+>>> +=09ret =3D regmap_update_bits(data->regmap, EC_ADDR_LIGHTBAR_AC_CTRL, =
+LIGHTBAR_S0_OFF, value);
+>>> +=09if (ret < 0)
+>>> +=09=09return ret;
+>>> +
+>>> +=09return regmap_update_bits(data->regmap, EC_ADDR_LIGHTBAR_BAT_CTRL, =
+LIGHTBAR_S0_OFF, value);
+>>> +}
+>>> +
+>>> +#define LIGHTBAR_MASK=09(LIGHTBAR_APP_EXISTS | LIGHTBAR_S0_OFF | LIGHT=
+BAR_S3_OFF | LIGHTBAR_WELCOME)
+>>> +
+>>> +static int uniwill_led_init(struct uniwill_data *data)
+>>> +{
+>>> +=09struct led_init_data init_data =3D {
+>>> +=09=09.devicename =3D DRIVER_NAME,
+>>> +=09=09.default_label =3D "multicolor:" LED_FUNCTION_STATUS,
+>>> +=09=09.devname_mandatory =3D true,
+>>> +=09};
+>>> +=09unsigned int color_indices[3] =3D {
+>>> +=09=09LED_COLOR_ID_RED,
+>>> +=09=09LED_COLOR_ID_GREEN,
+>>> +=09=09LED_COLOR_ID_BLUE,
+>>> +=09};
+>>> +=09unsigned int value;
+>>> +=09int ret;
+>>> +
+>>> +=09if (!(supported_features & UNIWILL_FEATURE_LIGHTBAR))
+>>> +=09=09return 0;
+>>> +
+>>> +=09/*
+>>> +=09 * The EC has separate lightbar settings for AC and battery mode,
+>>> +=09 * so we have to ensure that both settings are the same.
+>>> +=09 */
+>>> +=09ret =3D regmap_read(data->regmap, EC_ADDR_LIGHTBAR_AC_CTRL, &value)=
+;
+>>> +=09if (ret < 0)
+>>> +=09=09return ret;
+>>> +
+>>> +=09value |=3D LIGHTBAR_APP_EXISTS;
+>>> +=09ret =3D regmap_write(data->regmap, EC_ADDR_LIGHTBAR_AC_CTRL, value)=
+;
+>>> +=09if (ret < 0)
+>>> +=09=09return ret;
+>>> +
+>>> +=09/*
+>>> +=09 * The breathing animation during suspend is not supported when
+>>> +=09 * running on battery power.
+>>> +=09 */
+>>> +=09value |=3D LIGHTBAR_S3_OFF;
+>>> +=09ret =3D regmap_update_bits(data->regmap, EC_ADDR_LIGHTBAR_BAT_CTRL,=
+ LIGHTBAR_MASK, value);
+>>> +=09if (ret < 0)
+>>> +=09=09return ret;
+>>> +
+>>> +=09data->led_mc_cdev.led_cdev.color =3D LED_COLOR_ID_MULTI;
+>>> +=09data->led_mc_cdev.led_cdev.max_brightness =3D LED_MAX_BRIGHTNESS;
+>>> +=09data->led_mc_cdev.led_cdev.flags =3D LED_REJECT_NAME_CONFLICT;
+>>> +=09data->led_mc_cdev.led_cdev.brightness_set_blocking =3D uniwill_led_=
+brightness_set;
+>>> +
+>>> +=09if (value & LIGHTBAR_S0_OFF)
+>>> +=09=09data->led_mc_cdev.led_cdev.brightness =3D 0;
+>>> +=09else
+>>> +=09=09data->led_mc_cdev.led_cdev.brightness =3D LED_MAX_BRIGHTNESS;
+>>> +
+>>> +=09for (int i =3D 0; i < LED_CHANNELS; i++) {
+>>> +=09=09data->led_mc_subled_info[i].color_index =3D color_indices[i];
+>>> +
+>>> +=09=09ret =3D regmap_read(data->regmap, uniwill_led_channel_to_ac_reg[=
+i], &value);
+>>> +=09=09if (ret < 0)
+>>> +=09=09=09return ret;
+>>> +
+>>> +=09=09/*
+>>> +=09=09 * Make sure that the initial intensity value is not greater tha=
+n
+>>> +=09=09 * the maximum brightness.
+>>> +=09=09 */
+>>> +=09=09value =3D min(LED_MAX_BRIGHTNESS, value);
+>>> +=09=09ret =3D regmap_write(data->regmap, uniwill_led_channel_to_ac_reg=
+[i], value);
+>>> +=09=09if (ret < 0)
+>>> +=09=09=09return ret;
+>>> +
+>>> +=09=09ret =3D regmap_write(data->regmap, uniwill_led_channel_to_bat_re=
+g[i], value);
+>>> +=09=09if (ret < 0)
+>>> +=09=09=09return ret;
+>>> +
+>>> +=09=09data->led_mc_subled_info[i].intensity =3D value;
+>>> +=09=09data->led_mc_subled_info[i].channel =3D i;
+>>> +=09}
+>>> +
+>>> +=09data->led_mc_cdev.subled_info =3D data->led_mc_subled_info;
+>>> +=09data->led_mc_cdev.num_colors =3D LED_CHANNELS;
+>>> +
+>>> +=09return devm_led_classdev_multicolor_register_ext(&data->wdev->dev, =
+&data->led_mc_cdev,
+>>> +=09=09=09=09=09=09=09 &init_data);
+>>> +}
+>>> [...]
+>>> +static const enum power_supply_property uniwill_properties[] =3D {
+>>> +=09POWER_SUPPLY_PROP_HEALTH,
+>>> +=09POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD,
+>>> +};
+>>> +
+>>> +static const struct power_supply_ext uniwill_extension =3D {
+>>> +=09.name =3D DRIVER_NAME,
+>>> +=09.properties =3D uniwill_properties,
+>>> +=09.num_properties =3D ARRAY_SIZE(uniwill_properties),
+>>> +=09.get_property =3D uniwill_get_property,
+>>> +=09.set_property =3D uniwill_set_property,
+>>> +=09.property_is_writeable =3D uniwill_property_is_writeable,
+>>> +};
+>>> +
+>>> +static int uniwill_add_battery(struct power_supply *battery, struct ac=
+pi_battery_hook *hook)
+>> What is the motivation for supporting multiple batteries?
+>> There is still just a single parameter in the EC/etc.
+>=20
+> I simply assume that devices using this EC interface will only ever suppo=
+rt a single battery anyway,
+> as the EC will be unable to handle more than that.
+
+I see, I was just wondering if all this code is needed. But I suppose
+you can't remove much more.
+
+
+>=20
+>>> +{
+>>> +=09struct uniwill_data *data =3D container_of(hook, struct uniwill_dat=
+a, hook);
+>>> +=09struct uniwill_battery_entry *entry;
+>>> +=09int ret;
+>>> +
+>>> +=09entry =3D kzalloc(sizeof(*entry), GFP_KERNEL);
+>>> +=09if (!entry)
+>>> +=09=09return -ENOMEM;
+>>> +
+>>> +=09ret =3D power_supply_register_extension(battery, &uniwill_extension=
+, &data->wdev->dev, data);
+>>> +=09if (ret < 0) {
+>>> +=09=09kfree(entry);
+>>> +=09=09return ret;
+>>> +=09}
+>>> +
+>>> +=09scoped_guard(mutex, &data->battery_lock) {
+>>> +=09=09entry->battery =3D battery;
+>>> +=09=09list_add(&entry->head, &data->batteries);
+>>> +=09}
+>>> +
+>>> +=09return 0;
+>>> +}
+>>> [...]
+>>> +static int uniwill_ec_init(struct uniwill_data *data)
+>>> +{
+>>> +=09unsigned int value;
+>>> +=09int ret;
+>>> +
+>>> +=09ret =3D regmap_read(data->regmap, EC_ADDR_PROJECT_ID, &value);
+>>> +=09if (ret < 0)
+>>> +=09=09return ret;
+>>> +
+>>> +=09dev_dbg(&data->wdev->dev, "Project ID: %u\n", value);
+>>> +
+>>> +=09ret =3D regmap_set_bits(data->regmap, EC_ADDR_AP_OEM, ENABLE_MANUAL=
+_CTRL);
+>> I think this might turn out to be problematic. If this is enabled, then =
+multiple
+>> things are not handled automatically. For example, keyboard backlight is=
+ not handled
+>> and as far as I can see, no `KEY_KBDILLUM{DOWN,UP}` are sent (events 0xb=
+1, 0xb2). The
+>> other thing is the "performance mode" button (event 0xb0). I don't see t=
+hat these two
+>> things would be handled in the driver.
+>=20
+> On the intel NUC notebooks the keyboard backlight is controlled by a sepa=
+rate USB device,
+> so the driver only has to forward the KEY_KBDILLUMTOGGLE event to userspa=
+ce (the
+> KEY_KBDILLUM{DOWN,UP} events are not supported on those devices). This ha=
+ppens inside the
+> uniwill-wmi driver.
+
+An USB HID device controls the keyboard backlight on my laptop as well, but=
+ the brightness
+up/down requests arrive via this WMI mechanism.
+
+
+>=20
+> Once we add support for devices where the EC also controls the keyboard b=
+acklight i will
+> add support for those events. I am also planning to add support for the p=
+erformance mode
+> event later. Currently the EC does not change the performance mode itself=
+ even when in
+> automatic mode (at least on intel NUC notebooks).
+
+Interesting, it does on mine...
+
+
+>=20
+> Since this driver relies on a DMI whitelist i think that we can safely ad=
+d support for those
+> feature later when new devices are added to those list.
+>=20
+>>> +=09if (ret < 0)
+>>> +=09=09return ret;
+>>> +
+>>> +=09return devm_add_action_or_reset(&data->wdev->dev, uniwill_disable_m=
+anual_control, data);
+>>> +}
+>>> +
+> [...]
+>>> +static int uniwill_suspend_battery(struct uniwill_data *data)
+>>> +{
+>>> +=09if (!(supported_features & UNIWILL_FEATURE_BATTERY))
+>>> +=09=09return 0;
+>>> +
+>>> +=09/*
+>>> +=09 * Save the current charge limit in order to restore it during resu=
+me.
+>>> +=09 * We cannot use the regmap code for that since this register needs=
+ to
+>>> +=09 * be declared as volatile due to CHARGE_CTRL_REACHED.
+>>> +=09 */
+>> What is the motivation for this? I found that this is not needed, I foun=
+d that
+>> the value is persistent.
+>=20
+> The OEM application i reverse-engineered did restore this value after a r=
+esume, so
+> i decided to replicate this behavior.
+
+I suppose it can't hurt.
+
+
+> [...]
+
+Regards,
+Barnab=C3=A1s P=C5=91cze
+
