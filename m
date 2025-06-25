@@ -1,164 +1,225 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2064.outbound.protection.outlook.com [40.107.93.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304F428ECE0;
-	Wed, 25 Jun 2025 16:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750870109; cv=none; b=BomGuaQPF4LKMz1xN1mKcxG4ILYxo9LUEZWJOl7hCBoXEDqp12uypBSXCOIqZnQwQ4XjzMJsKpn7zPfwNZwHCsB6gkfFS+/VPH31wOA/Bz1Dp4uyl4aUdlE0OndcXwjKAonzdSY+nf0ph3V+ETGxRPNL+Ehg1fRDplP2VF5fULg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750870109; c=relaxed/simple;
-	bh=cag+c+glbVM6ZrhblGmUpscg8NGo2h1Nshc6TntvkuA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S2oVeVuQNDlaX0nW+kVJ/OEi8+ipCn5FKajVMU+8wF0JIgXKVcrdvz9zRhAVJcpir/O/ryvIiRVdI5wxkE6GjRcIwPWsx7ge9FEOs3SehYiKGsYfQlQFxy8399JvNdA1MIHA6a3uXejCgkHuQXNcid+DR50NvaxYNOJ69zllFak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dSEG5L3d; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F53528466D;
+	Wed, 25 Jun 2025 16:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750870413; cv=fail; b=lo1/De9mYUgPNklLAeTfPMZMERgYcRI0HBNQb8IsRrSQDP3BwFYu2HGotl+pYKCp0mhnP1GX9fkBSInm2tI1Ge37lYi7cmvhLJSijmCbS6SXSD0eGkXH7NX8LrDm+WC/uYccbLI1PU7PJ8ULdeR6CUw4py0LHCjYesNO5zvpqWw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750870413; c=relaxed/simple;
+	bh=Kotv7tupl9MJ5SEhqxAXhbncz/FVlPGkt6TiZ61AP6M=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=l6hJpzD7Cx3A4NJbhCbY8CPUhnJK5JjqW+3Lwpl9IF2NdpAkVe4N1GjcLcHiGW0PtNNcuFZmqnHtKxSDSJG5feIjxIwVCIfSiDBEkFPaqXxvsAMRVmfuz87J2QzX+yvz5I9cS6rNyARfpvN1/DuvoxFctIdnAoPqJYCt2t+DduQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=suQEa2lq; arc=fail smtp.client-ip=40.107.93.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dSEG5L3d"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4a58e0b26c4so2164161cf.3;
-        Wed, 25 Jun 2025 09:48:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750870107; x=1751474907; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BfZQtxZ5A/V3eeXnba2r1tOxiy9yY9dau/NzMZf1604=;
-        b=dSEG5L3diaToXs047BX4IMUYwNwcfabydR/i6Q3THKhaVd2UV9959TUO/EmVcnlOt9
-         xp6U7r9naGPRg7MJ5UCCOI2KDroEYOKgiGtEyLjiWml05Khc4zYBqB2hQVQXN0NgV8QR
-         jWzRSMC5qYczEd4oVr8WVUME+Q+xdqGwAHqz0C2j8BM7N6I8zJs6olk3jDZP8RL86b3j
-         s46E2rNAMgFzPq940E5igq1k9weGxcnKnNOIHT7I/hxrGR3sT+PjAN1sP1627K+OLRRd
-         MOQGGpAJAmzOGicRAc7siXws+PuEl6fdpdBCfsR9emP9ODzgktQu2IxGcp9QyfmN89ih
-         4b7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750870107; x=1751474907;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BfZQtxZ5A/V3eeXnba2r1tOxiy9yY9dau/NzMZf1604=;
-        b=Bf1AwYmrWhVEsbqvrfz66L8MQU8pS7HYkT3Fj8Una0oi7ICwHVRHB+ZzGuvyg7I/EY
-         vsngKzM4N1F3jpr/zvyY72yBdGOc95+xtmIXSAi/0EXT4RkDqZYUDxV/wp6OVpWuA45h
-         1/hxZTWtudR7EeYR13WQwNQmDL/bFg1No8qTAE8DGnKtRVBzDhg2ByGmXxybPGWWVI+l
-         Sgu+mLNaSTk2Qi2YjACY2pFyk6KOEIirTt2FP+qK2dSagDRujR9MKc4EHYcHbkWXXLkw
-         IMhRRdpabFaVlCq4lTsejVKUtAbX+effV8O/PDRfuAij+FGB93wcFsMcIdM10TFOMmly
-         fAIg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/2Rtd8UEH/EryEU71Hu1Ehwz0k1idaPic/Bw6icwqQ02+sKxr8gSD/DE1q+q5v2V+fIybsA6MaCmi@vger.kernel.org, AJvYcCXGpIvikLUkSPF2BtXaVHXt/rHbejACqYie9I7XTou9uqiKeiZAxSrgIKNRJhFs89CljejSol7znhfr@vger.kernel.org, AJvYcCXOY5coz4mtRgRF9OTMGVyJ535epedFHLXUWCV3RklImrjfUTOlICvbpkGTScXSZ9cAPZg7XWDVulRuXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyd1+zZXW/An7vpTtSo8Mj4sdMO+2iI/axnsYZbs3P5DyDWlVDI
-	KBZU1eTGhEZyI+Q67RfcwvbqWkUmC7LjhmS8jViZES3IT9QFwnVkdCHEH0Npgzblt/OLrB94rkm
-	1+nV5kRbqXSlnSOhf7pQ3Uf6s1q03zMtccbx1P3A=
-X-Gm-Gg: ASbGncvTs4kVEcGhn7S4QPMBQAfmMSx+vFIk8MheNOa5R2Lvd81IGWbTvZhRn0jeNod
-	gl3gTms5HsrPX8GHouDzbbimZM09+5z5jnq4gCiiolv3Ud5C/IeVNhQ7cFPHEZoBnb3Sd9VFoFu
-	tagwShbE1lmqZagJr/TMZMmVF7ZEENbpHH3sqglvkq7H0QQSs8Hk2NvDAQNMs=
-X-Google-Smtp-Source: AGHT+IHnGZf+fu9SeiyuF9kQmAOEZke0m2LllwCuXdhfFxesY+uAABRJJM6WKD41IneEOxIBlU5CuC7+Lj6KgvDsH4g=
-X-Received: by 2002:ac8:5fce:0:b0:476:74de:81e2 with SMTP id
- d75a77b69052e-4a7c08b05f0mr65981621cf.43.1750870106629; Wed, 25 Jun 2025
- 09:48:26 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="suQEa2lq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Onix4myR9R/akMvSz36TJKOt5ANw8iD97X0u8bYPYV40ZRaTwwxEJ/xVjeimwnf+FM5HJ6CMBE/PBnUN40Y1GQKhqgikP6KWrOGHGl8UmGjBo2Ld/Krza8AZHXGqU3y+5Ktl2lLPWjsQoy0fs/b0YcaYFciK1Og0DiFHSJgzzqnb5IE+BT+YZVOeOdjJV/O1fhXy+eZpOfuLK5rwIdIETlqopxFsvMoZGiFnk12Epjdnt1moeSE9ynUg5/BarTlqWpPkGtEGMhftmLPubMg42yl9FzsRsdogELa7Cka82TRsuXjqvDRYj6m6gQiLOHTnvN5au8ISI7upOfyN47gG8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iQVkiG6g3dQ5QhtlDrNSpHJWgxf57sxNcRL/R9POUds=;
+ b=U+uOKyWQkYHlXjSXwpWX7FgvT7eSNOQphihnDwJj8GGwajf9jJL9FLY8t1AIU7KbYFYryd+xEFsHeEMW1WvA+Lx5jjxBmXuHavda+xxw5WwpHOvJo53v/P1khJk6i1OPhMWNnba7seWGJ5H6tl2WT2c61eVVyuAY86BMsRbDQyp0Aj7wS8c+DCzgfC8LrBA58Mziy+Jk+WrpZUjEjmPLQtTscCh0iddwwmJaUeIjEoPSmV3ygulEvYdtn2Nje7y01N+IqCa9Kd05wCnDdaeW1BPz2JYI1gmCc6+G0wslkubxZ0AM3i+izhLhEkut5K3lHVt4+90owDNtl7RKwkTsQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iQVkiG6g3dQ5QhtlDrNSpHJWgxf57sxNcRL/R9POUds=;
+ b=suQEa2lqzOOpM4WJaAxBHbykVLQrcSjT6OBYHPEd8jU0BK5sBbHlrXOXCLtrlzHRvWD4vEDadnsaiCf1eXzBJYFd6ik08lGsS/AuWZoeMe9IPWbfOs16dBPs/zCwLKqGijsDoXbLaTY6OnezW8KLQeix8TqSI4NTE8BQ9fEq8xc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DS7PR12MB9527.namprd12.prod.outlook.com (2603:10b6:8:251::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Wed, 25 Jun
+ 2025 16:53:28 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%7]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
+ 16:53:28 +0000
+Message-ID: <6484f9c4-894d-40f3-937c-ccbd6adef61b@amd.com>
+Date: Wed, 25 Jun 2025 11:53:24 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v14 08/32] x86,fs/resctrl: Consolidate monitoring related
+ data from rdt_resource
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ rostedt@goodmis.org, paulmck@kernel.org, thuth@redhat.com, ardb@kernel.org,
+ gregkh@linuxfoundation.org, seanjc@google.com, thomas.lendacky@amd.com,
+ pawan.kumar.gupta@linux.intel.com, manali.shukla@amd.com,
+ perry.yuan@amd.com, kai.huang@intel.com, peterz@infradead.org,
+ xiaoyao.li@intel.com, kan.liang@linux.intel.com, mario.limonciello@amd.com,
+ xin3.li@intel.com, gautham.shenoy@amd.com, xin@zytor.com,
+ chang.seok.bae@intel.com, fenghuay@nvidia.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, eranian@google.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1749848714.git.babu.moger@amd.com>
+ <f6d15921bff2d698d0cc0b2a35d2361c846203e6.1749848715.git.babu.moger@amd.com>
+ <356a213e-d8a4-420c-adc1-1f58b4feef1d@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <356a213e-d8a4-420c-adc1-1f58b4feef1d@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR08CA0027.namprd08.prod.outlook.com
+ (2603:10b6:805:66::40) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250624022135.832899-14-joannelkoong@gmail.com> <202506252117.9V3HTO0i-lkp@intel.com>
-In-Reply-To: <202506252117.9V3HTO0i-lkp@intel.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 25 Jun 2025 09:48:15 -0700
-X-Gm-Features: AX0GCFu4lcNCxXc2Rv_TbdgF3DX477vRtHysoV5-7omwd5WacfSbp3GjvkDuyaU
-Message-ID: <CAJnrk1Z5NZ0_f=OMMam9hf0xJwM=SsmgFpyfbnKE7MT_i_kZMQ@mail.gmail.com>
-Subject: Re: [PATCH v3 13/16] fuse: use iomap for writeback
-To: kernel test robot <lkp@intel.com>
-Cc: linux-fsdevel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, hch@lst.de, 
-	miklos@szeredi.hu, brauner@kernel.org, djwong@kernel.org, 
-	anuj20.g@samsung.com, linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB9527:EE_
+X-MS-Office365-Filtering-Correlation-Id: f4b6fa5c-ad12-49c3-7f4e-08ddb408cf11
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?b3VlWnhtY1RxK0QvTktXRlpYWFlBRTZya1U3TlU0N09XRmdBdnY0UGNBZ1lv?=
+ =?utf-8?B?VDFBVGw1eDRLbklCbm9Yd3Nick81enZSR0E4L1A2NTZHdjdvdW44R0N1aW5T?=
+ =?utf-8?B?YUpnLyswZ25GMC9iczZlSlJXTmJzdFJtcE9OSWhFNlNLZVZFNTZxV0htUjFj?=
+ =?utf-8?B?TUNIcE5JeXYrUUhTTzU1WFIwYzlTQkVuRjdJeFNHTkJjWmRwL3A5TlJRaVpp?=
+ =?utf-8?B?OEkzU2RvV2xhNEM3QXAzS3FJZmMzbUNaSFlpTFViQ2ZTbHk4TFJCWVFmY0Z4?=
+ =?utf-8?B?MmlCenhaMWloZGJjNEtHQTNBMTVCYTdBVUFrMlN4Q2xQVGRsN1U4enE0dEcw?=
+ =?utf-8?B?NkVOTDhpQ1NIUUllUEo5N05kRXZ3cnFlWnBaL1NudUM4b0pyZDlpbFI3dmZI?=
+ =?utf-8?B?UVppZEIyVThlOVBBd2I2UzUzRk5aa0I0WE5sZjgyRm1Cd3ZYbWE3RU9RYnRD?=
+ =?utf-8?B?cGx4c1NFZG9qTmtZRk13NVhEaUVGYkkvNW1tZ2FRc0Z5ZHZwWFBtSTY5czBC?=
+ =?utf-8?B?b1FwNHJZcDR2bmZMbHc4U2FQVk1YbGVEc0NPenFxUG9VVithUnQyeVBMcWdt?=
+ =?utf-8?B?ZlpsbE5zaFdSZmpNMW1IamhjcGxsZS84QnkxNFRlWm92b0tXdlVKZzhaSzU5?=
+ =?utf-8?B?R20zU2dFUlpyWTk1T2phSDNxdTdDRHd4bWFMeStxZTZQUHRTQVhUeUhrL0Rq?=
+ =?utf-8?B?eUVQNVh5UHdVSnVmOHlIZUErK3dDaSsyWW9obVVNc2xmeGNmUFYyK01mc3N1?=
+ =?utf-8?B?MGJqbVUvaEpOU25ybWhvazRNam9rUjBjZHNNZk04SllmQlhPZXVjL0E1bTd2?=
+ =?utf-8?B?QmtrdWpRckxRM3NWdm0wZmo3NTd5RCs3RWJmc3EvdDgvTzRrSjVxY3VRMGVQ?=
+ =?utf-8?B?N2p6MU91R015a3RZcnVQVGpOMU1sb3FrRDJOS0ZCUFdjVFpmbjh5TnpHUkVw?=
+ =?utf-8?B?UzczN2t5djl3NEs4TnptUVlJcEI5V2NQTElMT3FOYXloWmNyUlB4ZDl0ZnhB?=
+ =?utf-8?B?VEQzSnMyZXZ2dUZaM05RYUR4M1FoU2JSN3NZWUlwMWR3NGJMYkdWUkN3Y1R0?=
+ =?utf-8?B?SVg0aFBDRmIxVDlhUVV1aWUyTFBFNmkrdy93SURSN0JnQ3lqUnJ3aTJUSEpG?=
+ =?utf-8?B?bFpEbTMxeGlnQ1N0RTVjeVJ0cFpJMTZWTlpYVEZHY3EzT3NCcTdhbXJvd2Q0?=
+ =?utf-8?B?QWZJODhQSjh4dGx3NFpjN2N2bkQ3bWtaWHdERXJ3UzYrSHZjZElHUG9WZzJz?=
+ =?utf-8?B?djNUZTRqZkJNNllUQXpidXVhWElFbE9CL0taWEFjMFpJSTVXZDNyTXUvREta?=
+ =?utf-8?B?TXgxNUYzWVhyTEJ5REZhaEozTUFGNDVFSmMwQ3JXZGhEVDhIR3kxU1FUdHUv?=
+ =?utf-8?B?aUFrK0dCeDdRSHpKQTgrUjM1M01SRFJ4N0dza2djUzE4RDJ5RllndE1UclFS?=
+ =?utf-8?B?OFpOSENDUmhZVGIzSzd6bUM4NzlQSDBhV2xNSVo3VHRGNFNHZDdLeDhmQXM2?=
+ =?utf-8?B?VjFERDlwZUtEdG9xcEVFOXJmRVVrVzhmdmt1VVhrQml6WWNCZHZ3UHU2VzBq?=
+ =?utf-8?B?QUVPRXcvRzB5ZS9TazVYVERmYmt4YTJRZ1RJTkpWN1FPZkIrUHk1Qk90dS84?=
+ =?utf-8?B?L3hVbVJJN1B6U21mRUNydVpHSmFkMlFtUjBnQlE0M3Qvb2gxZ1RVL1NRSU00?=
+ =?utf-8?B?c25MNVoremh6amtPUzVtalFFUmxpUXk1eDlnWVNFa0c3RW53TWZRS2huanVT?=
+ =?utf-8?B?MWtwR2JlUkN4anNFVHJpWVRTUzRreDNUZUdseHZvdm02ckY4N21kZDdJOVlX?=
+ =?utf-8?B?RmxvSUcrVUhJTmFjSTJSSVZVemZHRVRrU0JBVEJ5L0RkK2lBeXpxZzhsUDJH?=
+ =?utf-8?B?NytqTU0reXBMUHVwWS9lNFJMa1pwbUkrd3pWM1ljTlZwc0xvSGhjVzR0Wk53?=
+ =?utf-8?Q?BWDqCJWobSY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QVJENFhiMWxZM0o1b090cDRTYnozZTB3WWtoTVRzbmZUM2lOSkxObmRkUU5x?=
+ =?utf-8?B?Sml5OU1rV1NoM2ErRlBUeGowTzM0QXlBd1psR0tEb28zSVlqQXNGdGU5a3lp?=
+ =?utf-8?B?dEVhaFlONkxiaCtOcXFRUzFLZkpUWjRrYytPcUxLQ2x2aXhFMlY3RFRXWjFa?=
+ =?utf-8?B?OU1qRHlvWGQ5TWplQWhHRUVrMmxIRnBvVVdHdklXVEdvQXBlVHYzMFZiWjJz?=
+ =?utf-8?B?dGVWeEd1UGVONW1uYVpWbzNFMTNSanRXQ3hINTBkK1N1WDlsU1NyUk5UT09D?=
+ =?utf-8?B?ZXlscFVXdEdVSHBvQXdZNTd6Ykh6TmVVc0RaUk13NlRvK0VaaEdLK2x1YjIz?=
+ =?utf-8?B?VlhOQlNiTWNId0ZsYzMrdkdTMXJkVUwrTXJTdy9adXFjSGFyaTE4TFlmeWhC?=
+ =?utf-8?B?UWJIaGFBanFnQkJqWkRwdkNRTFE5WWprUVRiVnBFWkgwZUwzcTJIcjhDNFVv?=
+ =?utf-8?B?Q3BaUWt4dGJUNmhqckhJeGlyQnRRRVpVblhHN3R0d1FCcWwyRjNSdmZ2eG9k?=
+ =?utf-8?B?UC9UVHNxcHJEVEFOeVZIWEJNMjFXL3dYb3JQLzU0K21pNVJsVzVBT0RlTVdK?=
+ =?utf-8?B?V3ptcVd3ZVRrb2dmY2VwVlBiQW9QRTN0dkV0RHN6OGxoS3lYbXFCTko4d1ZB?=
+ =?utf-8?B?aHFLVUlhcVN6VFBYWExUYWRzbWo3dFNNdUJYajk0RXVuSjVTNU1WeGtGSjd4?=
+ =?utf-8?B?NkM4czhnbGhNb1dxQlVpclk4NVc2SXROdEhBSkRNWWRZQzZOaXB5dHFPek0z?=
+ =?utf-8?B?ZHZpUGl4R0NZbG9nSUo0RG9rOGZxcGFqTGlkaDgyV2NJdlFxeWdlYVduTVlI?=
+ =?utf-8?B?RFd6bUJwZmRqL210RFIxWCtjV2IrcTNXRk5ZcVRCUEVEd20rMzcvT0o0dnky?=
+ =?utf-8?B?YXBvNFZxSXozc3g4RDVCa0VrbWNpbzRrWnFuYm9iczU4UFlMWGFXOWswUkxT?=
+ =?utf-8?B?QkwwS0V1NEhHNzNVSU5RVncwWFVyb3hkUm9IQ2dUKy9aMDYxSk1lNDc5UEVj?=
+ =?utf-8?B?dUFjRTliU3N5bUJ0Sk5TMUJjeWszTm5hMVE2dHpvdEQzUkI5VEcwaVJZUGor?=
+ =?utf-8?B?RFhFTXh1VERjOUtFdHhvU0UwTkV3SlpZU0pJOC81Rm1HQkdyV1lJb1hQd0Vl?=
+ =?utf-8?B?WnFZOGJxNEhiV1F6ME5ERFlXTWRQUVVScDJFKzVnN09JN1JicyswNVl3bHBO?=
+ =?utf-8?B?Zy83OSs4b0kxUUxLenU1cVN0SUh1MGI2Tzg3YTVQbTFJcS9pclpaN1hUc3cy?=
+ =?utf-8?B?Rm9YMHNoam42S0Q1V2Jvb1A2K2NKOEdyeFJBaTRldFRPLzYrTG1oRmJYUWlT?=
+ =?utf-8?B?RjVtYThieWhLSlIxaXpvRzM1b3c4NFl1dUVUV3BXczNKdEFEdjREQnlvT0pX?=
+ =?utf-8?B?Qjd5YXYrbmxmMjJKY2tsTmRTelNWM2UvWkxMemZPczdqMzBHWEVxOFNyZ0cx?=
+ =?utf-8?B?NWxHVnhwanBnanlVamxnRFNRbnBneDlSbnl2VzJxdW9jOUF1a0twTUE5SzA4?=
+ =?utf-8?B?bjkwNXdvVTBCczVNeHBTZXlvaTVPTUlQWFJLUjBsRTBUekdTY2ZHS2VleEpP?=
+ =?utf-8?B?VmxiS3lLRzljQ2tuMnhKaEF2TlFrUUV3TmVyNjRFRjNhdFB3TEJYRU1nZWpH?=
+ =?utf-8?B?UlhIREZnTmhzaUhUVW11cy9KVnhPWFZYeU1xMkcrcGlJd1h5RXZzOCtnTlVG?=
+ =?utf-8?B?VXhzTk04ZVdHaGpvZWp4SHhydEZPc21EcXB1MXpjRmg2YlEwSU81MWlOalA0?=
+ =?utf-8?B?V2xjSFJnY2NoSENmM0h2NzgzZnRaYUc0WGNDNFNsdGkwT3JBcHdLdlEvbTNk?=
+ =?utf-8?B?OGZGQkZnSVZMNVhSa2VaaGwvOUM0bnJUK0Z5ZU5Hejl2Ny8vTFNWS2wyaTJx?=
+ =?utf-8?B?MEdaa2dTOEJYTTFwSVlTdi8rODE3cFdqb1FqOFppbmI3YXc0R3ZwdzcxRnB0?=
+ =?utf-8?B?SFR4ZUN5YnN2TXNsQ2h6bHE5S3NsQ1RQMitTaDVHdHZmOGdPd3JTOXg0MHZV?=
+ =?utf-8?B?UUtFSVRMaS9YdjNQcXVaVTkyMWVONnJlSkpoZHRER1g5cXQ2RGhFd3BPZG9R?=
+ =?utf-8?B?eGdjcjluNkxEVVRhMGNZWGI0WVFNQlFuYmZHYnRTY3pUOUJUTjJHakw2anJN?=
+ =?utf-8?Q?ZY5w=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4b6fa5c-ad12-49c3-7f4e-08ddb408cf11
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 16:53:28.5639
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x4LDLKrigsGeaEwChrih5JY3NnvVDtLdMJiELYWlJKb390E3lB+4ae8C/5+hxoxM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9527
 
-On Wed, Jun 25, 2025 at 7:18=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Joanne,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on brauner-vfs/vfs.all]
-> [also build test ERROR on xfs-linux/for-next linus/master v6.16-rc3 next-=
-20250625]
-> [cannot apply to gfs2/for-next mszeredi-fuse/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/iomap=
--pass-more-arguments-using-struct-iomap_writepage_ctx/20250624-102709
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.a=
-ll
-> patch link:    https://lore.kernel.org/r/20250624022135.832899-14-joannel=
-koong%40gmail.com
-> patch subject: [PATCH v3 13/16] fuse: use iomap for writeback
-> config: arm64-randconfig-003-20250625 (https://download.01.org/0day-ci/ar=
-chive/20250625/202506252117.9V3HTO0i-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 12.3.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250625/202506252117.9V3HTO0i-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506252117.9V3HTO0i-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepages':
-> >> file.c:(.text+0xa30): undefined reference to `iomap_writepages'
-> >> file.c:(.text+0xa30): relocation truncated to fit: R_AARCH64_CALL26 ag=
-ainst undefined symbol `iomap_writepages'
->    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepage_finish':
-> >> file.c:(.text+0x1fd8): undefined reference to `iomap_finish_folio_writ=
-e'
-> >> file.c:(.text+0x1fd8): relocation truncated to fit: R_AARCH64_CALL26 a=
-gainst undefined symbol `iomap_finish_folio_write'
->    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_cache_write_iter':
->    file.c:(.text+0x888c): undefined reference to `iomap_file_buffered_wri=
-te'
->    file.c:(.text+0x888c): relocation truncated to fit: R_AARCH64_CALL26 a=
-gainst undefined symbol `iomap_file_buffered_write'
->    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_iomap_writeback_ra=
-nge':
-> >> file.c:(.text+0x9258): undefined reference to `iomap_start_folio_write=
-'
-> >> file.c:(.text+0x9258): relocation truncated to fit: R_AARCH64_CALL26 a=
-gainst undefined symbol `iomap_start_folio_write'
-> >> aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x370): undefined reference =
-to `iomap_dirty_folio'
->    aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x3a0): undefined reference =
-to `iomap_release_folio'
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Hi Reinette,
 
-As noted in the cover letter [1]
+On 6/24/25 16:32, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 6/13/25 2:04 PM, Babu Moger wrote:
+> 
+> ...
+> 
+>> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+>> index bbe57eff962b..22766b8b670b 100644
+>> --- a/include/linux/resctrl.h
+>> +++ b/include/linux/resctrl.h
+>> @@ -255,38 +255,46 @@ enum resctrl_schema_fmt {
+>>  	RESCTRL_SCHEMA_RANGE,
+>>  };
+>>  
+>> +/**
+>> + * struct resctrl_mon - Monitoring related data of a resctrl resource.
+>> + * @num_rmid:		Number of RMIDs available.
+>> + * @mbm_cfg_mask:	Memory transactions that can be tracked when bandwidth
+>> + *			monitoring events are configured.
+> 
+> "are configured" -> "can be configured" (like it was before). This is a property
+> that is discovered from hardware. The feature need not be in use for the property
+> to be valid.
 
-   Please note the following:
-   * this patchset version temporarily drops the CONFIG_BLOCK iomap refacto=
-ring
-     patches that will be needed to merge in the series. As of now, this br=
-eaks
-     compilation for environments where CONFIG_BLOCK is not set, but the
-     CONFIG_BLOCK iomap changes will be re-added back in once the core chan=
-ges
-     in this patchset are ready to go.
+Sure.
 
 
-These errors will be fixed in later versions when the CONFIG_BLOCK
-patches get added in.
+> Also, this version switches "Bandwidth sources" -> "Memory transactions". I think this
+> is a good change but it may be unexpected. Perhaps a snippet in changelog to
+> point out the motivation for this change: "Also switch "bandwidth sources" term
+> to "memory transactions" to use consistent term within resctrl for related monitoring
+> features". Please feel free to improve.
+> 
 
+Sure. This is how it looks now.
 
-Thanks,
-Joanne
+"The cache allocation and memory bandwidth allocation feature properties
+are consolidated into struct resctrl_cache and struct resctrl_membw
+respectively.
 
-[1] https://lore.kernel.org/linux-fsdevel/20250624022135.832899-1-joannelko=
-ong@gmail.com/
+In preparation for more monitoring properties that will clobber the
+existing resource struct more, re-organize the monitoring specific
+properties to also be in a separate structure.
+
+Also switch "bandwidth sources" term to "memory transactions" to use
+consistent term within resctrl for related monitoring features."
+
+-- 
+Thanks
+Babu Moger
