@@ -1,133 +1,157 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8032BF3DB
-	for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 16:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A403A2C08A5
+	for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 16:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750868000; cv=none; b=XoN6KCt9/o043ZRtVtVXx9MRM0nJpaZievOeeQERc7AkocE053ptETLs91PGMlg6BwhGk/KfHTHqe1l0ExUhPlPHUyYuGZk1z5UffoK/Lc95ugTC0Kbzepe+TQoI8nGqy2yrWS1qbzKB38d33UcblyFl/IZbiw4hdQsp88Ntm7g=
+	t=1750868251; cv=none; b=piJeh6Jc2xA0vyS+benePgoBJsiGH31NZKVQu3G7yZKceFcVgoYynEPOPyBFfp/yy0BFk178OUr2f8UTyT3WDH3hX2F0GIov2nAPtdIZBn+p8zfFGrAnGhLVE3x8oYsbYxy8Yf9PI3njB820utjWLEtKNNas+cNOxF3HHclnOpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750868000; c=relaxed/simple;
-	bh=NWTU9KjLztibLwJOI0I2c5PwZ/pOAGxqqconYH3Cu6w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SR/8dWu3hjsNSA7lSQQMv5K4IOoB/wNR2sFUrT9dj8tn62Na4XgxujhXYYnNaVnhfKzMAmK5jJNFJ2z77Jl8InFO6s+/9wYIvvD5P7dpgkakFSbkcC6hx/OVxgkjzbknu/ZmnuD48s8LeDJJj+K2aDSzcj0tiXq+/wM+dT1qI6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=d18ef1gJ; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1750868251; c=relaxed/simple;
+	bh=rWGPByoC/hnHkqwleO+GR+oyAAnuvdMd1IK36Oo/n1o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LyQH7VXHqkQcTpmN4F29g1andfXyEOUQZFuITP2IuqNWcdDd/tg3/DH9OrHuCX2loaBJcSw6lLhKP/3VxSZQQtTh3o2ft8BMuDe513TqNnRR06321G+VKwWQmXVmzEdY0Ji/svGKyT+CQ7J9MLxvKmAHQODxBiUu7CZsrbLdTqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=fUlQEqhI; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="d18ef1gJ"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-553b51f5218so47840e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 09:13:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="fUlQEqhI"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-749068b9b63so130108b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 09:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750867997; x=1751472797; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NWTU9KjLztibLwJOI0I2c5PwZ/pOAGxqqconYH3Cu6w=;
-        b=d18ef1gJJayIhzCC0CNsLd/2Qze/q+j7hLkQfhBdhiTcZxM4uT4NNZdj0Girdi1acT
-         VJZcaWyHkcpcF/kntSP2kOG6J4Tp/0sXDN1fNfFYjqZJnC72A8HRShyPval3ElEYtkuP
-         5vlTmAI7zxhkcXNG8YYfB23poAKIYZEmTK91f75wv0pLI6i6v6UNjpMUof6HjQTBvuOO
-         SEceLBeWkkxksXbuMxm33yC2raH+GsGPpWqAoPvnIAdysjh/3aZ/X4ad+qO/JKvoaxDW
-         31Et4fd25h+fzq23RJ1WKxGWlxxiRTgQVfSu3WN3rFqkCUSkYS0WVvWGd4+G1qUeXe91
-         hFuw==
+        d=ventanamicro.com; s=google; t=1750868249; x=1751473049; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3ucgASzDHlxpA/1R6gfwSR+grfWmp0YH8y7SE+A0JJg=;
+        b=fUlQEqhIAik8xphtfPAkV6sMQMohGGTMfRlMfGmR2STCXFq3wLCXu7CpmObbkJmqqH
+         amcrkSxbKexR3znOkf+E/ZecAN0n0rsxjvUpKwbT5m7Ye49b0IK0EIPKYleX39ZxTEcC
+         sKy/n407HJGIy1y8PSuoFCWtzvV4gLZMNpYeTPleUDNcuNDBqWgpHRiRPGumQYHMPEzQ
+         5RutZtC3nhNiLb4CxhHDtGh06mgicFFzO7AH5J5x5kLDueU6d/5+XGf24M8qNdS1cx7e
+         C618flvENfjjiEc5ac1dSsNtCr8LOfhXiDR4m6KnRxiPDeQthdY8iDbIYHMltz4L0+4R
+         d1Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750867997; x=1751472797;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NWTU9KjLztibLwJOI0I2c5PwZ/pOAGxqqconYH3Cu6w=;
-        b=vaN17OXX6elytJqtxXRSVAsjr0NlNR3SLPnDxidfsvOU/LL7+n1/7Cv7kafpAGYLZ5
-         Twzpj3WThMLI1BGoYC73EnWrOYDJC2KH9yYQqq185vTkkJ4TtwwVfpxR3098mMe3U62j
-         qzjgZOdOcMMAB8Lgb37VCfomBH/J9RgcdiFikkmrE5f4ohCcTAk3Aig+7EWakHS2HT1h
-         DbNEMRpBtny7G65LgRUxm2TTJcfl5qKu3Z8NLa+kubGjQRHzD21InSMRmvWCmj+rMDIH
-         0dEy03e1kA8yp3ImApAEnrMlOOWKqICBzYUJFaBtXaUPy2i4xF7h4R8Hh3l7Dpjc4WWS
-         bHvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUl0mItxdk0wRsa3yf2wxDxxcYCHHEKkvZmJ7c8sZI39OnJP+U9zRGTPKm62bi+Y7zVbssd8yRHEWo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxtkx/CD4Yo7/5tbMk7B0i/9VgD7FivSh2ngHnmvFvDH0M0hYVY
-	b69lJBqbHDyinILGWUI6abYvO+G2lNwIfAacUpqGve2hl2nKnexIcPdqHLdRpIV2SI3liMbVq04
-	eXoRlD7XoTtPc/22+IK7/3Hpttt495+vIc8/NAf7j
-X-Gm-Gg: ASbGncswaRZ9CD0lL/OLdMH51mYCFVu39sOsOe60+7xaNseIpjP5oDbEh9VZaHfCpGa
-	P29OSJ6b/HPFkXcNY+F7W+SPGOWv93+IEMOUkSfPhfQ2RTsngsr5k1lSQLS+n0iHquamNdTQlgj
-	DQLjo/EOiodq17NunmWHoCUonjDLWu4G3dm7lsEpoW8AA=
-X-Google-Smtp-Source: AGHT+IEmyNKuINV9suiw750iH+/qWaKx6g6apKTMylHrEHA2ab9ubUUotR8hKdCWlG9C6/ymBT3mjUvzDbJ2PDC7/J0=
-X-Received: by 2002:a05:6512:132a:b0:553:ac33:ff24 with SMTP id
- 2adb3069b0e04-554fdfbcef6mr1162599e87.55.1750867996478; Wed, 25 Jun 2025
- 09:13:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750868249; x=1751473049;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3ucgASzDHlxpA/1R6gfwSR+grfWmp0YH8y7SE+A0JJg=;
+        b=FWkqkalc2x1CMOEOIe6tl78nYP6j8zYouhxZUjTBBdjC7AhD4B4ahacEBPC+9rb+9u
+         f6RSxrL/DyYFYc9Sv9j2s6C8P+mqOB892Yd193pT1FnUb/axFyALCj1v61Cwx2lQVc2a
+         tMqm1jrXisYQft69ksz7k2SgQ6aE6wEg6XCzemev3qgEGvhkRE/SCwhRzl4DHOp6HkIm
+         mqZK0hJgtGUteg6n6Zb13teslhxlZAhv2uj7+JwuRoLiDUdt7GUVDVQTAPxo1mc5DBuh
+         lXVUcnN9i+jZvTICu/Y+0jFg5JLLgsYDBCXxy3+xCFdbVV2dPA1q3mk9VD+JBpuF4aoK
+         xyJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHZyqHEl7TrYOpDYAcOaf/8ipHT4/+0BYOzKYFVI5VDO28HvAJDK2cIZbDjVVu2fzstTufIeWmy2c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRQeQvDtqvnuKMoIiW7K4s2JN4YBRhitd2f+ajkm3Ij3nqMuSX
+	cS3ylmggskcg/KmTuqSJG+6dXpz+JBnIwkvKUDQF5+O5kbz12K9l71KruBMai5xIFxE=
+X-Gm-Gg: ASbGnctN2VXQVVKrJ6IrqLmwim329CyLhKjHkoXw68tAqH4qyCZd0eTafckPwEFTKqK
+	/dJSxOweOmQSsmETDDxINDMuWeBZzqOyEyuE7/qMi5sNPZAnI1gtcVAdNDSIjIjJiR4tEItv8kK
+	+c78OMqbLIhv6nKDUL1R1i17A706lyfWK3/aG2A5whsK2nBKxANotYhFeQbw9ssEnDn3YUR1wO4
+	mAx8Vn81xivRe1h1NWpt5bloPG65EXrJnidI38N6oOojGLc/FSVxXT+oOt4+oH0NOBjbPFd85p4
+	0+N1Xe9dWGzPC4Z8+d1T9/Nfvdb0J/1+Qx5aWHwDwc12qdzziEo4RmIIsmstakv2EynGBcA5E7u
+	PLHfc6erIXb/S+cN3mlwyR3quGAAPNxs3+nYN
+X-Google-Smtp-Source: AGHT+IFpDcqx44HzncJdJNVAkQLG5gSRrOhDC4JGf2UMPexno4tsLpTKKz23ZIhlWN8/zRHxl5MEaw==
+X-Received: by 2002:a05:6a21:e96:b0:21f:4ecc:11ab with SMTP id adf61e73a8af0-2208c08a340mr673741637.9.1750868247253;
+        Wed, 25 Jun 2025 09:17:27 -0700 (PDT)
+Received: from anup-ubuntu-vm.localdomain ([103.97.166.196])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-749b5e217afsm5024436b3a.55.2025.06.25.09.17.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jun 2025 09:17:26 -0700 (PDT)
+From: Anup Patel <apatel@ventanamicro.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: Anup Patel <anup@brainfault.org>,
+	Atish Patra <atish.patra@linux.dev>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Anup Patel <apatel@ventanamicro.com>
+Subject: [PATCH] irqchip: riscv-imsic: Add kernel parameter to disable IPIs
+Date: Wed, 25 Jun 2025 21:47:15 +0530
+Message-ID: <20250625161715.1003948-1-apatel@ventanamicro.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-11-pasha.tatashin@soleen.com> <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
- <CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com> <20250625-akrobatisch-libellen-352997eb08ef@brauner>
-In-Reply-To: <20250625-akrobatisch-libellen-352997eb08ef@brauner>
-From: David Matlack <dmatlack@google.com>
-Date: Wed, 25 Jun 2025 09:12:48 -0700
-X-Gm-Features: Ac12FXzsaTglwRDvyxmqrDF18P44C8borysbshJSxnL6KDEw4fT_csftD9wd1t8
-Message-ID: <CALzav=d+XgS1bUs-v7+ws5nYU9y=4uc1c8oVLHrJ16qLpnUi9Q@mail.gmail.com>
-Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
-To: Christian Brauner <brauner@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, rientjes@google.com, 
-	corbet@lwn.net, rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, 
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
-	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
-	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
-	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 25, 2025 at 2:36=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> >
-> > While I agree that a filesystem offers superior introspection and
-> > integration with standard tools, building this complex, stateful
-> > orchestration logic on top of VFS seemed to be forcing a square peg
-> > into a round hole. The ioctl interface, while more opaque, provides a
-> > direct and explicit way to command the state machine and manage these
-> > complex lifecycle and dependency rules.
->
-> I'm not going to argue that you have to switch to this kexecfs idea
-> but...
->
-> You're using a character device that's tied to devmptfs. In other words,
-> you're already using a filesystem interface. Literally the whole code
-> here is built on top of filesystem APIs. So this argument is just very
-> wrong imho. If you can built it on top of a character device using VFS
-> interfaces you can do it as a minimal filesystem.
->
-> You're free to define the filesystem interface any way you like it. We
-> have a ton of examples there. All your ioctls would just be tied to the
-> fileystem instance instead of the /dev/somethingsomething character
-> device. The state machine could just be implemented the same way.
->
-> One of my points is that with an fs interface you can have easy state
-> seralization on a per-service level. IOW, you have a bunch of virtual
-> machines running as services or some networking services or whatever.
-> You could just bind-mount an instance of kexecfs into the service and
-> the service can persist state into the instance and easily recover it
-> after kexec.
+When injecting IPIs to a set of harts, the IMSIC IPI support will
+do a separate MMIO write to SETIPNUM_LE register of each target
+hart. This means on a platform where IMSIC is trap-n-emulated,
+there will be N MMIO traps when injecting IPI to N target harts
+hence IPIs based on IMSIC software injected MSI is slow compared
+to the SBI IPI extension.
 
-This approach sounds worth exploring more. It would avoid the need for
-a centralized daemon to mediate the preservation and restoration of
-all file descriptors.
+Add a kernel parameter to disable IPIs in IMSIC driver for platforms
+with trap-n-emulated IMSIC.
 
-I'm not sure that we can get rid of the machine-wide state machine
-though, as there is some kernel state that will necessarily cross
-these kexecfs domains (e.g. IOMMU driver state). So we still might
-need /dev/liveupdate for that.
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
+ drivers/irqchip/irq-riscv-imsic-early.c         | 12 ++++++++++++
+ 2 files changed, 19 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index f1f2c0874da9..7f0e12d0d260 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2538,6 +2538,13 @@
+ 			requires the kernel to be built with
+ 			CONFIG_ARM64_PSEUDO_NMI.
+ 
++	irqchip.riscv_imsic_noipi
++			[RISC-V,EARLY]
++			Force the kernel to not use IMSIC software injected MSIs
++			as IPIs. Intended for system where IMSIC is trap-n-emulated,
++			and thus want to reduce MMIO traps when triggering IPIs
++			to multiple harts.
++
+ 	irqfixup	[HW]
+ 			When an interrupt is not handled search all handlers
+ 			for it. Intended to get systems with badly broken
+diff --git a/drivers/irqchip/irq-riscv-imsic-early.c b/drivers/irqchip/irq-riscv-imsic-early.c
+index 1dbc41d7fe80..c6fba92dd5a9 100644
+--- a/drivers/irqchip/irq-riscv-imsic-early.c
++++ b/drivers/irqchip/irq-riscv-imsic-early.c
+@@ -9,6 +9,7 @@
+ #include <linux/cpu.h>
+ #include <linux/export.h>
+ #include <linux/interrupt.h>
++#include <linux/init.h>
+ #include <linux/io.h>
+ #include <linux/irq.h>
+ #include <linux/irqchip.h>
+@@ -22,6 +23,14 @@
+ #include "irq-riscv-imsic-state.h"
+ 
+ static int imsic_parent_irq;
++static bool imsic_noipi;
++
++static int __init imsic_noipi_cfg(char *buf)
++{
++	imsic_noipi = true;
++	return 0;
++}
++early_param("irqchip.riscv_imsic_noipi", imsic_noipi_cfg);
+ 
+ #ifdef CONFIG_SMP
+ static void imsic_ipi_send(unsigned int cpu)
+@@ -47,6 +56,9 @@ static int __init imsic_ipi_domain_init(void)
+ {
+ 	int virq;
+ 
++	if (imsic_noipi)
++		return 0;
++
+ 	/* Create IMSIC IPI multiplexing */
+ 	virq = ipi_mux_create(IMSIC_NR_IPI, imsic_ipi_send);
+ 	if (virq <= 0)
+-- 
+2.43.0
+
