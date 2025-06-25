@@ -1,55 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8B03C17;
-	Wed, 25 Jun 2025 18:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958E7285C9E;
+	Wed, 25 Jun 2025 18:49:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750877180; cv=none; b=byX1+2A/SYqwgUoFL5/UzxsiiuC6hBnI33Ng5BuQzL4bzwPaLf0NIZZ0L5gt+pyZDZ8AmmB8ULE7oieQx0SQXGcjYa91P1ybYE/BFsCuRiMNUaeazRRNCdWx1DVbiUJq83/GwtTlaig6lSC0SET6Si+a1EWBA0FjvlK9bWBwT9Y=
+	t=1750877381; cv=none; b=QTo0tD45d+GiAlptESUgnVMoR1za8TItxYZ4VvCsRDA4s76PJ1old5aQzg5aFyp6INKLcal3ZNojE2/swq4B0TbvqKOsNi9U5KbR9QsW/SXphhNZnh1nUfDlKF5q3Nb7LkiSLQ8Vjie1bXDQGSrYEslilG6OuYY/CzVgZHImQ00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750877180; c=relaxed/simple;
-	bh=uVviAtRfpdR06P23FEonTnJRlmAhLFO/9/W9bEAnrIE=;
+	s=arc-20240116; t=1750877381; c=relaxed/simple;
+	bh=wGGX0Wtt6xHjoEp1aAerSxDzMmzRx9XKKRo91rlrK8o=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IqHzQqHll81eKjynajBP6VPMME2iAFxqxaPYWRxO6Owuupw8y965kMzcIieBMQEORifeftg5ICKvWOl0tgEiIsU4MOKXouMWbW9DEsWNCe4l62Qlw5nmEeEmA/fbg0bW4V1HM2SbeMy2pG3bzqtZG22Tr5wAjB6jNvkamAyheek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YdVYBgY0; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=lH1BElEcgpQKREY1BvMtrNkRqDh7rUT51u6syqfzvioLT4cTw+0OhsvUfWAPBNWy/I3XPxtaZVXrVbPfgtpaBxEyfdJK/Qz1O6NzmZyGmh4GLfij3lvzWeXNzncogCEg2zDC6beYReqp4HlpKVnucjtdwGv6YF34bWtWNkPHSVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lKb8EEkq; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YdVYBgY0"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F1A0040AB1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lKb8EEkq"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A938740AB1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1750877177; bh=XzNsCL2q22eTD4gHfpyQb3neIRXObn5xId6yyyIKSUk=;
+	t=1750877379; bh=Iave0JOHPwJ3frtHUomiJjK2jeAoC8mkonY8YfjRL6w=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=YdVYBgY0loiFSXPjyumv9wa52PptPDIlnBm/b63X73CsX4IO+0+YuYcjwhfACppGv
-	 o0qHM/t4trIk57cZK5FBxI1QerdF9OZ/X46wpH2rB2vP9f5NXXIwvHXnpxTncTPbQe
-	 JvmoI4h2dxXSSTCTJlkKxgtH63RIRKOz0mr+FTcDDnQiqEkNJnUAAY9wAGUCuwIK6E
-	 kWH0PaZzt106WRHX6dOSc7e5+ZpOFDB0cSGTdpxo6cQXnwQliEXz/BPfC5+iNboW/r
-	 MYs3uGJTUejAFQv9wh8j9WJOYVo4fvP25hRHpU04hFb7xeOPCUr9YpMRS7ef6pONnc
-	 jzSubKJt0olTw==
+	b=lKb8EEkq2q6G0cw0SSB+c5bn7pE6fdogjqHYiCe8li40nx6dDRWewP3HcKh+yhYIb
+	 Ngw2zO5sU779jaRNQ3AO/Ob98+RuhiDYtEr4iK6VwpxlqnCmnHkYckzpIMUMZmV2x5
+	 MYPbz5KqCOftPScZ3NHEi4zscyVnU6QU0yv1InYPrI8sEdBdipm79eEXslK2XNBvpq
+	 akRIskwwSiy7smqB5Zs7KFEGTJo879EFAEnu0j9l3BnfOjHFR6UwgPm+9AMD3GoW85
+	 uT/bU74iFlAWI7vgpNLl07H0hHHXPfXprQEMlm27+dkC7mvKZmll68LIYmHYxkM51u
+	 Ra/NRaeOK287g==
 Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id F1A0040AB1;
-	Wed, 25 Jun 2025 18:46:16 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id A938740AB1;
+	Wed, 25 Jun 2025 18:49:39 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Federico Vaga
- <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, Carlos
- Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
- Mu <dzm91@hust.edu.cn>, Thomas Gleixner <tglx@linutronix.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Stanislav Fomichev
- <sdf@google.com>, David Vernet <void@manifault.com>, Miguel Ojeda
- <ojeda@kernel.org>, James Seo <james@equiv.tech>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH RFC] Documentation: typography refresh
-In-Reply-To: <20250619042318.17325-2-bagasdotme@gmail.com>
-References: <20250619042318.17325-2-bagasdotme@gmail.com>
-Date: Wed, 25 Jun 2025 12:46:16 -0600
-Message-ID: <87wm8z8xs7.fsf@trenco.lwn.net>
+To: Daniel Palmer via B4 Relay <devnull+daniel.palmer.sony.com@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Daniel Palmer
+ <daniel.palmer@sony.com>
+Subject: Re: [PATCH] doc: Remove misleading reference to brd in dax.rst
+In-Reply-To: <20250610-fixdasrstbrd20250610-v1-1-4abe3b7f381a@sony.com>
+References: <20250610-fixdasrstbrd20250610-v1-1-4abe3b7f381a@sony.com>
+Date: Wed, 25 Jun 2025 12:49:38 -0600
+Message-ID: <87sejn8xml.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,33 +50,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Daniel Palmer via B4 Relay <devnull+daniel.palmer.sony.com@kernel.org>
+writes:
 
-> At present, kernel documentation uses system serif font for body text.
-> Some people, however, objected to it and instead prefer that the
-> typography choice must be legible, consistent, and accessible (after
-> all, the audience ranges developers peeking into kernel internals to
-> ordinary users that skimmed through Documentation/admin-guide/).
-
-So I have not seen the objections from "some people"; can you point to
-them, please?
-
-> To tackle the problem, follow Wikimedia's typography refresh [1].
-> For the font choices, instead of using web fonts as in previous
-> attempt [2], use:
+> From: Daniel Palmer <daniel.palmer@sony.com>
 >
->   * Linux Libertine, Georgia, Times for serif (used in h1 and h2
->     headings)
->   * system font for sans-serif and monospace
+> brd hasn't supported DAX for a long time but dax.rst
+> still suggests it as an example of how to write a DAX
+> supporting block driver.
 >
-> This allows for more readability and consistency without sacrificing
-> page load times and bandwidth, as the font choices is most likely
-> already available on many platforms.
+> Remove the reference, confuse less people.
+>
+> Fixes: 7a862fbbdec6 ("brd: remove dax support")
+> Signed-off-by: Daniel Palmer <daniel.palmer@sony.com>
+> ---
+>  Documentation/filesystems/dax.rst | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/Documentation/filesystems/dax.rst b/Documentation/filesystems/dax.rst
+> index 08dd5e254cc5..5b283f3d1eb1 100644
+> --- a/Documentation/filesystems/dax.rst
+> +++ b/Documentation/filesystems/dax.rst
+> @@ -206,7 +206,6 @@ stall the CPU for an extended period, you should also not attempt to
+>  implement direct_access.
+>  
+>  These block devices may be used for inspiration:
+> -- brd: RAM backed block device driver
+>  - pmem: NVDIMM persistent memory driver
 
-I am open to style changes to make the docs more readable, but I am far
-from convinced that this is it.  Mixing font styles in that way will not
-be universally popular, the claim of "more readability" is
-unsubstantiated, and "consistency" seems out of place when you're making
-the fonts deliberately inconsistent...?
+Applied, thanks.
 
 jon
