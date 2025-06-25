@@ -1,225 +1,266 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2064.outbound.protection.outlook.com [40.107.93.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F53528466D;
-	Wed, 25 Jun 2025 16:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750870413; cv=fail; b=lo1/De9mYUgPNklLAeTfPMZMERgYcRI0HBNQb8IsRrSQDP3BwFYu2HGotl+pYKCp0mhnP1GX9fkBSInm2tI1Ge37lYi7cmvhLJSijmCbS6SXSD0eGkXH7NX8LrDm+WC/uYccbLI1PU7PJ8ULdeR6CUw4py0LHCjYesNO5zvpqWw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750870413; c=relaxed/simple;
-	bh=Kotv7tupl9MJ5SEhqxAXhbncz/FVlPGkt6TiZ61AP6M=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=l6hJpzD7Cx3A4NJbhCbY8CPUhnJK5JjqW+3Lwpl9IF2NdpAkVe4N1GjcLcHiGW0PtNNcuFZmqnHtKxSDSJG5feIjxIwVCIfSiDBEkFPaqXxvsAMRVmfuz87J2QzX+yvz5I9cS6rNyARfpvN1/DuvoxFctIdnAoPqJYCt2t+DduQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=suQEa2lq; arc=fail smtp.client-ip=40.107.93.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36070269B01
+	for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 16:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750870771; cv=none; b=fkvh3YS933TslR8Pen2lgJu2csxP3pIYXQMHcyT3wMIofNbQIBMAtcU5bPjNHzf0oARBRqFSwTNi7Wv3TfUH3S7N1nf8jZ7W6XlwK07ozuWkYv/yqWzeMSKnRhd0IZFyDVly1wUlkCRVtCfoWMvPxlLKv5uY40htk/J3+8OzX/g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750870771; c=relaxed/simple;
+	bh=l8zxxJzF4mpV5WqO4/+d5XFWeNBNWQegpuXNxie2RGo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=snggWj0SuyKkXEGv8izGvAaP6jBdMhPR55UdpcPXwZql5N25I2p5m1jaiFXSxR8wdG8Jx187Ka63zWHsjdhqtIWPhUnIGraoTACTOqZU8opUWQoOdvM+bowlPkY2LgO/ANygjWqzWYaC/si7En9KG6wVT8mQeDGTQYRF+wU7SBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=qKJchqF2; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="suQEa2lq"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Onix4myR9R/akMvSz36TJKOt5ANw8iD97X0u8bYPYV40ZRaTwwxEJ/xVjeimwnf+FM5HJ6CMBE/PBnUN40Y1GQKhqgikP6KWrOGHGl8UmGjBo2Ld/Krza8AZHXGqU3y+5Ktl2lLPWjsQoy0fs/b0YcaYFciK1Og0DiFHSJgzzqnb5IE+BT+YZVOeOdjJV/O1fhXy+eZpOfuLK5rwIdIETlqopxFsvMoZGiFnk12Epjdnt1moeSE9ynUg5/BarTlqWpPkGtEGMhftmLPubMg42yl9FzsRsdogELa7Cka82TRsuXjqvDRYj6m6gQiLOHTnvN5au8ISI7upOfyN47gG8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iQVkiG6g3dQ5QhtlDrNSpHJWgxf57sxNcRL/R9POUds=;
- b=U+uOKyWQkYHlXjSXwpWX7FgvT7eSNOQphihnDwJj8GGwajf9jJL9FLY8t1AIU7KbYFYryd+xEFsHeEMW1WvA+Lx5jjxBmXuHavda+xxw5WwpHOvJo53v/P1khJk6i1OPhMWNnba7seWGJ5H6tl2WT2c61eVVyuAY86BMsRbDQyp0Aj7wS8c+DCzgfC8LrBA58Mziy+Jk+WrpZUjEjmPLQtTscCh0iddwwmJaUeIjEoPSmV3ygulEvYdtn2Nje7y01N+IqCa9Kd05wCnDdaeW1BPz2JYI1gmCc6+G0wslkubxZ0AM3i+izhLhEkut5K3lHVt4+90owDNtl7RKwkTsQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iQVkiG6g3dQ5QhtlDrNSpHJWgxf57sxNcRL/R9POUds=;
- b=suQEa2lqzOOpM4WJaAxBHbykVLQrcSjT6OBYHPEd8jU0BK5sBbHlrXOXCLtrlzHRvWD4vEDadnsaiCf1eXzBJYFd6ik08lGsS/AuWZoeMe9IPWbfOs16dBPs/zCwLKqGijsDoXbLaTY6OnezW8KLQeix8TqSI4NTE8BQ9fEq8xc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DS7PR12MB9527.namprd12.prod.outlook.com (2603:10b6:8:251::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Wed, 25 Jun
- 2025 16:53:28 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%7]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
- 16:53:28 +0000
-Message-ID: <6484f9c4-894d-40f3-937c-ccbd6adef61b@amd.com>
-Date: Wed, 25 Jun 2025 11:53:24 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v14 08/32] x86,fs/resctrl: Consolidate monitoring related
- data from rdt_resource
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
- rostedt@goodmis.org, paulmck@kernel.org, thuth@redhat.com, ardb@kernel.org,
- gregkh@linuxfoundation.org, seanjc@google.com, thomas.lendacky@amd.com,
- pawan.kumar.gupta@linux.intel.com, manali.shukla@amd.com,
- perry.yuan@amd.com, kai.huang@intel.com, peterz@infradead.org,
- xiaoyao.li@intel.com, kan.liang@linux.intel.com, mario.limonciello@amd.com,
- xin3.li@intel.com, gautham.shenoy@amd.com, xin@zytor.com,
- chang.seok.bae@intel.com, fenghuay@nvidia.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, eranian@google.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1749848714.git.babu.moger@amd.com>
- <f6d15921bff2d698d0cc0b2a35d2361c846203e6.1749848715.git.babu.moger@amd.com>
- <356a213e-d8a4-420c-adc1-1f58b4feef1d@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <356a213e-d8a4-420c-adc1-1f58b4feef1d@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR08CA0027.namprd08.prod.outlook.com
- (2603:10b6:805:66::40) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="qKJchqF2"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4a5840ec53dso1952391cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 09:59:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750870768; x=1751475568; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l8zxxJzF4mpV5WqO4/+d5XFWeNBNWQegpuXNxie2RGo=;
+        b=qKJchqF2rNZ9ab2VcMAD4UiPiXprb+Z5wbCRNSJNj3IVMGtPAVxcm+CdbkH9tsjHvs
+         rbLyg0aHUCGaeKuNvb/RejU5H/6nucD/Lx3GhUbR9ifwRPqUnAxIlekx4d51uKkYkSNW
+         9rTKix4uCPAJ8RO1TzUoAZvHfz4lcQcCzMH7tnY/ui+BK8BazLzRyLOguuyx3wfro4KJ
+         IgiTTYUHOEImV7PosZjSH/PZocsRrpVCDeX4K9G42ExD4L+97d/mWI5AzCWLcxRGXkM0
+         AE2I/VASIMjs6vSRhTNFcjeVMZdtWNzHufxfnLmynHdZHWJB9Drjjn4R7GMI8nuhaQv0
+         i1CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750870768; x=1751475568;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l8zxxJzF4mpV5WqO4/+d5XFWeNBNWQegpuXNxie2RGo=;
+        b=FI1uLa54HbhbqzM4TGbFlIjeXBdTlndgXDoJOIrLMnCc9UawMe6EZfH+quv2726nlj
+         QJULZkypSuZ/ypTyLEAiVNdkUdxi09x4Gd7V2YEFaARUhcaQcRCM8uHVascHuhPQTk//
+         PUbWxS+cJ0mSzFCMt2tc2BEy1UXXzHH2vlbLQaU5BEEKfX1mKf9fxZ2TJiIMCTclbgth
+         ZHAerRTf6xySKOD6gDdIUZDo6EsSp3BGXEKJRG1rA3ioONJZt7enZyWS8anURJnFv/H3
+         EV9A1vJUcPfnBGdQ5FgHqSXoNADBoBHWGNTwofJUD5hLw+e7GeeyuWU6kttUBip7ti4t
+         tgoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmViDUufyTLJAUHjymG/NKdNH6mFr7o2nAMLiMXqyB5YlWyqDwXqq+ez6wRaN46yDYdK7yKPMP4ZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXJb5oAdDBVryGseUjT8/UxpaBIuOfAd3ismU3qQL001wJ26gW
+	SdP5spLZngH/twa9Y142bnbijf/1w9GMg1J5hW5n0ipTlZQTyAose5tMuSHY09TAg5SaXCLX66e
+	r3YDB4RkpILLXDJu/NjM17P/i9cTvDh2/afrC8p0FMw==
+X-Gm-Gg: ASbGncsMngmen1Lxi0wKbMhUXp3MDVmStwv3kkqY0DiDqf9q4rsrfxdg/jHtdyJoBfy
+	HZvh0Psmt0CeewxnOG7LoPofK0zct+kkQx0AVB7+iQZdESo4OGdEpz8P42x7bOvqYtcaTIqumR3
+	SMcATRB0A9bYnDS24+O5Wwr9Xv+s7Ga5LqwqnFYevPnA==
+X-Google-Smtp-Source: AGHT+IHsVqa+gD29cjONjxJZbEgMlY0i24+ipstgNhfx5gKN7pnidM0AFKSkfQYHWJPURtGJ3aMJM/UHyOfnXlJo/Q4=
+X-Received: by 2002:a05:622a:1ccd:b0:494:a4bc:3b4d with SMTP id
+ d75a77b69052e-4a7c068da06mr59991101cf.18.1750870767738; Wed, 25 Jun 2025
+ 09:59:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB9527:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4b6fa5c-ad12-49c3-7f4e-08ddb408cf11
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?b3VlWnhtY1RxK0QvTktXRlpYWFlBRTZya1U3TlU0N09XRmdBdnY0UGNBZ1lv?=
- =?utf-8?B?VDFBVGw1eDRLbklCbm9Yd3Nick81enZSR0E4L1A2NTZHdjdvdW44R0N1aW5T?=
- =?utf-8?B?YUpnLyswZ25GMC9iczZlSlJXTmJzdFJtcE9OSWhFNlNLZVZFNTZxV0htUjFj?=
- =?utf-8?B?TUNIcE5JeXYrUUhTTzU1WFIwYzlTQkVuRjdJeFNHTkJjWmRwL3A5TlJRaVpp?=
- =?utf-8?B?OEkzU2RvV2xhNEM3QXAzS3FJZmMzbUNaSFlpTFViQ2ZTbHk4TFJCWVFmY0Z4?=
- =?utf-8?B?MmlCenhaMWloZGJjNEtHQTNBMTVCYTdBVUFrMlN4Q2xQVGRsN1U4enE0dEcw?=
- =?utf-8?B?NkVOTDhpQ1NIUUllUEo5N05kRXZ3cnFlWnBaL1NudUM4b0pyZDlpbFI3dmZI?=
- =?utf-8?B?UVppZEIyVThlOVBBd2I2UzUzRk5aa0I0WE5sZjgyRm1Cd3ZYbWE3RU9RYnRD?=
- =?utf-8?B?cGx4c1NFZG9qTmtZRk13NVhEaUVGYkkvNW1tZ2FRc0Z5ZHZwWFBtSTY5czBC?=
- =?utf-8?B?b1FwNHJZcDR2bmZMbHc4U2FQVk1YbGVEc0NPenFxUG9VVithUnQyeVBMcWdt?=
- =?utf-8?B?ZlpsbE5zaFdSZmpNMW1IamhjcGxsZS84QnkxNFRlWm92b0tXdlVKZzhaSzU5?=
- =?utf-8?B?R20zU2dFUlpyWTk1T2phSDNxdTdDRHd4bWFMeStxZTZQUHRTQVhUeUhrL0Rq?=
- =?utf-8?B?eUVQNVh5UHdVSnVmOHlIZUErK3dDaSsyWW9obVVNc2xmeGNmUFYyK01mc3N1?=
- =?utf-8?B?MGJqbVUvaEpOU25ybWhvazRNam9rUjBjZHNNZk04SllmQlhPZXVjL0E1bTd2?=
- =?utf-8?B?QmtrdWpRckxRM3NWdm0wZmo3NTd5RCs3RWJmc3EvdDgvTzRrSjVxY3VRMGVQ?=
- =?utf-8?B?N2p6MU91R015a3RZcnVQVGpOMU1sb3FrRDJOS0ZCUFdjVFpmbjh5TnpHUkVw?=
- =?utf-8?B?UzczN2t5djl3NEs4TnptUVlJcEI5V2NQTElMT3FOYXloWmNyUlB4ZDl0ZnhB?=
- =?utf-8?B?VEQzSnMyZXZ2dUZaM05RYUR4M1FoU2JSN3NZWUlwMWR3NGJMYkdWUkN3Y1R0?=
- =?utf-8?B?SVg0aFBDRmIxVDlhUVV1aWUyTFBFNmkrdy93SURSN0JnQ3lqUnJ3aTJUSEpG?=
- =?utf-8?B?bFpEbTMxeGlnQ1N0RTVjeVJ0cFpJMTZWTlpYVEZHY3EzT3NCcTdhbXJvd2Q0?=
- =?utf-8?B?QWZJODhQSjh4dGx3NFpjN2N2bkQ3bWtaWHdERXJ3UzYrSHZjZElHUG9WZzJz?=
- =?utf-8?B?djNUZTRqZkJNNllUQXpidXVhWElFbE9CL0taWEFjMFpJSTVXZDNyTXUvREta?=
- =?utf-8?B?TXgxNUYzWVhyTEJ5REZhaEozTUFGNDVFSmMwQ3JXZGhEVDhIR3kxU1FUdHUv?=
- =?utf-8?B?aUFrK0dCeDdRSHpKQTgrUjM1M01SRFJ4N0dza2djUzE4RDJ5RllndE1UclFS?=
- =?utf-8?B?OFpOSENDUmhZVGIzSzd6bUM4NzlQSDBhV2xNSVo3VHRGNFNHZDdLeDhmQXM2?=
- =?utf-8?B?VjFERDlwZUtEdG9xcEVFOXJmRVVrVzhmdmt1VVhrQml6WWNCZHZ3UHU2VzBq?=
- =?utf-8?B?QUVPRXcvRzB5ZS9TazVYVERmYmt4YTJRZ1RJTkpWN1FPZkIrUHk1Qk90dS84?=
- =?utf-8?B?L3hVbVJJN1B6U21mRUNydVpHSmFkMlFtUjBnQlE0M3Qvb2gxZ1RVL1NRSU00?=
- =?utf-8?B?c25MNVoremh6amtPUzVtalFFUmxpUXk1eDlnWVNFa0c3RW53TWZRS2huanVT?=
- =?utf-8?B?MWtwR2JlUkN4anNFVHJpWVRTUzRreDNUZUdseHZvdm02ckY4N21kZDdJOVlX?=
- =?utf-8?B?RmxvSUcrVUhJTmFjSTJSSVZVemZHRVRrU0JBVEJ5L0RkK2lBeXpxZzhsUDJH?=
- =?utf-8?B?NytqTU0reXBMUHVwWS9lNFJMa1pwbUkrd3pWM1ljTlZwc0xvSGhjVzR0Wk53?=
- =?utf-8?Q?BWDqCJWobSY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QVJENFhiMWxZM0o1b090cDRTYnozZTB3WWtoTVRzbmZUM2lOSkxObmRkUU5x?=
- =?utf-8?B?Sml5OU1rV1NoM2ErRlBUeGowTzM0QXlBd1psR0tEb28zSVlqQXNGdGU5a3lp?=
- =?utf-8?B?dEVhaFlONkxiaCtOcXFRUzFLZkpUWjRrYytPcUxLQ2x2aXhFMlY3RFRXWjFa?=
- =?utf-8?B?OU1qRHlvWGQ5TWplQWhHRUVrMmxIRnBvVVdHdklXVEdvQXBlVHYzMFZiWjJz?=
- =?utf-8?B?dGVWeEd1UGVONW1uYVpWbzNFMTNSanRXQ3hINTBkK1N1WDlsU1NyUk5UT09D?=
- =?utf-8?B?ZXlscFVXdEdVSHBvQXdZNTd6Ykh6TmVVc0RaUk13NlRvK0VaaEdLK2x1YjIz?=
- =?utf-8?B?VlhOQlNiTWNId0ZsYzMrdkdTMXJkVUwrTXJTdy9adXFjSGFyaTE4TFlmeWhC?=
- =?utf-8?B?UWJIaGFBanFnQkJqWkRwdkNRTFE5WWprUVRiVnBFWkgwZUwzcTJIcjhDNFVv?=
- =?utf-8?B?Q3BaUWt4dGJUNmhqckhJeGlyQnRRRVpVblhHN3R0d1FCcWwyRjNSdmZ2eG9k?=
- =?utf-8?B?UC9UVHNxcHJEVEFOeVZIWEJNMjFXL3dYb3JQLzU0K21pNVJsVzVBT0RlTVdK?=
- =?utf-8?B?V3ptcVd3ZVRrb2dmY2VwVlBiQW9QRTN0dkV0RHN6OGxoS3lYbXFCTko4d1ZB?=
- =?utf-8?B?aHFLVUlhcVN6VFBYWExUYWRzbWo3dFNNdUJYajk0RXVuSjVTNU1WeGtGSjd4?=
- =?utf-8?B?NkM4czhnbGhNb1dxQlVpclk4NVc2SXROdEhBSkRNWWRZQzZOaXB5dHFPek0z?=
- =?utf-8?B?ZHZpUGl4R0NZbG9nSUo0RG9rOGZxcGFqTGlkaDgyV2NJdlFxeWdlYVduTVlI?=
- =?utf-8?B?RFd6bUJwZmRqL210RFIxWCtjV2IrcTNXRk5ZcVRCUEVEd20rMzcvT0o0dnky?=
- =?utf-8?B?YXBvNFZxSXozc3g4RDVCa0VrbWNpbzRrWnFuYm9iczU4UFlMWGFXOWswUkxT?=
- =?utf-8?B?QkwwS0V1NEhHNzNVSU5RVncwWFVyb3hkUm9IQ2dUKy9aMDYxSk1lNDc5UEVj?=
- =?utf-8?B?dUFjRTliU3N5bUJ0Sk5TMUJjeWszTm5hMVE2dHpvdEQzUkI5VEcwaVJZUGor?=
- =?utf-8?B?RFhFTXh1VERjOUtFdHhvU0UwTkV3SlpZU0pJOC81Rm1HQkdyV1lJb1hQd0Vl?=
- =?utf-8?B?WnFZOGJxNEhiV1F6ME5ERFlXTWRQUVVScDJFKzVnN09JN1JicyswNVl3bHBO?=
- =?utf-8?B?Zy83OSs4b0kxUUxLenU1cVN0SUh1MGI2Tzg3YTVQbTFJcS9pclpaN1hUc3cy?=
- =?utf-8?B?Rm9YMHNoam42S0Q1V2Jvb1A2K2NKOEdyeFJBaTRldFRPLzYrTG1oRmJYUWlT?=
- =?utf-8?B?RjVtYThieWhLSlIxaXpvRzM1b3c4NFl1dUVUV3BXczNKdEFEdjREQnlvT0pX?=
- =?utf-8?B?Qjd5YXYrbmxmMjJKY2tsTmRTelNWM2UvWkxMemZPczdqMzBHWEVxOFNyZ0cx?=
- =?utf-8?B?NWxHVnhwanBnanlVamxnRFNRbnBneDlSbnl2VzJxdW9jOUF1a0twTUE5SzA4?=
- =?utf-8?B?bjkwNXdvVTBCczVNeHBTZXlvaTVPTUlQWFJLUjBsRTBUekdTY2ZHS2VleEpP?=
- =?utf-8?B?VmxiS3lLRzljQ2tuMnhKaEF2TlFrUUV3TmVyNjRFRjNhdFB3TEJYRU1nZWpH?=
- =?utf-8?B?UlhIREZnTmhzaUhUVW11cy9KVnhPWFZYeU1xMkcrcGlJd1h5RXZzOCtnTlVG?=
- =?utf-8?B?VXhzTk04ZVdHaGpvZWp4SHhydEZPc21EcXB1MXpjRmg2YlEwSU81MWlOalA0?=
- =?utf-8?B?V2xjSFJnY2NoSENmM0h2NzgzZnRaYUc0WGNDNFNsdGkwT3JBcHdLdlEvbTNk?=
- =?utf-8?B?OGZGQkZnSVZMNVhSa2VaaGwvOUM0bnJUK0Z5ZU5Hejl2Ny8vTFNWS2wyaTJx?=
- =?utf-8?B?MEdaa2dTOEJYTTFwSVlTdi8rODE3cFdqb1FqOFppbmI3YXc0R3ZwdzcxRnB0?=
- =?utf-8?B?SFR4ZUN5YnN2TXNsQ2h6bHE5S3NsQ1RQMitTaDVHdHZmOGdPd3JTOXg0MHZV?=
- =?utf-8?B?UUtFSVRMaS9YdjNQcXVaVTkyMWVONnJlSkpoZHRER1g5cXQ2RGhFd3BPZG9R?=
- =?utf-8?B?eGdjcjluNkxEVVRhMGNZWGI0WVFNQlFuYmZHYnRTY3pUOUJUTjJHakw2anJN?=
- =?utf-8?Q?ZY5w=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4b6fa5c-ad12-49c3-7f4e-08ddb408cf11
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 16:53:28.5639
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x4LDLKrigsGeaEwChrih5JY3NnvVDtLdMJiELYWlJKb390E3lB+4ae8C/5+hxoxM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9527
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+ <20250515182322.117840-11-pasha.tatashin@soleen.com> <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
+ <CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com> <20250625-akrobatisch-libellen-352997eb08ef@brauner>
+In-Reply-To: <20250625-akrobatisch-libellen-352997eb08ef@brauner>
+From: "pasha.tatashin" <pasha.tatashin@soleen.com>
+Date: Wed, 25 Jun 2025 12:58:49 -0400
+X-Gm-Features: AX0GCFsLcQtAKsHQ7E9lthzKpTuYGc0t6y7agESjh9XPOaqb2LPofBMKpqHUGyg
+Message-ID: <CA+CK2bA+iEZgs+NjNyzUT2LW5mmP7jOWLPM-=+HyyW8MGKOrtw@mail.gmail.com>
+Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
+To: Christian Brauner <brauner@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On Wed, Jun 25, 2025 at 5:36=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> > > I'm not sure why people are so in love with character device based ap=
+is.
+> > > It's terrible. It glues everything to devtmpfs which isn't namespacab=
+le
+> > > in any way. It's terrible to delegate and extremely restrictive in te=
+rms
+> > > of extensiblity if you need additional device entries (aka the loop
+> > > driver folly).
+> > >
+> > > One stupid question: I probably have asked this before and just swapp=
+ed
+> > > out that I a) asked this already and b) received an explanation. But =
+why
+> > > isn't this a singleton simple in-memory filesystem with a flat
+> > > hierarchy?
+> >
+> > Hi Christian,
+> >
+> > Thank you for the detailed feedback and for raising this important
+>
+> I don't know about detailed but no problem.
+>
+> > design question. I appreciate the points you've made about the
+> > benefits of a filesystem-based API.
+> >
+> > I have thought thoroughly about this and explored various alternatives
+> > before settling on the ioctl-based interface. This design isn't a
+> > sudden decision but is based on ongoing conversations that have been
+> > happening for over two years at LPC, as well as incorporating direct
+> > feedback I received on LUOv1 at LSF/MM.
+>
+> Well, Mike mentioned that ultimately you want to interface this with
+> systemd? And we certainly have never been privy to any of these
+> uapi design conversations. Which is usually not a good sign...
+>
+> >
+> > The choice for an ioctl-based character device was ultimately driven
+> > by the specific lifecycle and dependency management requirements of
+> > the live update process. While a filesystem API offers great
+> > advantages in visibility and hierarchy, filesystems are not typically
+> > designed to be state machines with the complex lifecycle, dependency,
+> > and ownership tracking that LUO needs to manage.
+> >
+> > Let me elaborate on the key aspects that led to the current design:
+> >
+> > 1. session based lifecycle management: The preservation of an FD is
+> > tied to the open instance of /dev/liveupdate. If a userspace agent
+> > opens /dev/liveupdate, registers several FDs for preservation, and
+> > then crashes or exits before the prepare phase is triggered, all FDs
+> > it registered are automatically unregistered. This "session-scoped"
+> > behavior is crucial to prevent leaking preserved resources into the
+> > next kernel if the controlling process fails. This is naturally
+> > handled by the open() and release() file operations on a character
+> > device. It's not immediately obvious how a similar automatic,
+> > session-based cleanup would be implemented with a singleton
+> > filesystem.
+>
+> fwiw
+>
+> fd_context =3D fsopen("kexecfs")
+> fd_context =3D fsconfig(FSCONFIG_CMD_CREATE, ...)
+> fd_mnt =3D fsmount(fd_context, ...)
 
-On 6/24/25 16:32, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 6/13/25 2:04 PM, Babu Moger wrote:
-> 
-> ...
-> 
->> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
->> index bbe57eff962b..22766b8b670b 100644
->> --- a/include/linux/resctrl.h
->> +++ b/include/linux/resctrl.h
->> @@ -255,38 +255,46 @@ enum resctrl_schema_fmt {
->>  	RESCTRL_SCHEMA_RANGE,
->>  };
->>  
->> +/**
->> + * struct resctrl_mon - Monitoring related data of a resctrl resource.
->> + * @num_rmid:		Number of RMIDs available.
->> + * @mbm_cfg_mask:	Memory transactions that can be tracked when bandwidth
->> + *			monitoring events are configured.
-> 
-> "are configured" -> "can be configured" (like it was before). This is a property
-> that is discovered from hardware. The feature need not be in use for the property
-> to be valid.
+How is this kexecfs mount going to be restored into the container
+view? Will we need to preserve fd_context in some global(?)
+preservation way, i.e. in a root. Or is there a different way to
+recreate fd_context upon reboot?
 
-Sure.
+> This gets you a private kexecfs instances that's never visible anywhere
+> in the filesystem hierarchy. When the fd is closed everything gets auto
+> cleaned up by the kernel. No need to umount or anything.
 
+Yes, this is a very good property of using a file system.
 
-> Also, this version switches "Bandwidth sources" -> "Memory transactions". I think this
-> is a good change but it may be unexpected. Perhaps a snippet in changelog to
-> point out the motivation for this change: "Also switch "bandwidth sources" term
-> to "memory transactions" to use consistent term within resctrl for related monitoring
-> features". Please feel free to improve.
-> 
+> > 2. state machine: LUO is fundamentally a state machine (NORMAL ->
+> > PREPARED -> FROZEN -> UPDATED -> NORMAL). As part of this, it provides
+> > a crucial guarantee: any resource that was successfully preserved but
+> > not explicitly reclaimed by userspace in the new kernel by the time
+> > the FINISH event is triggered will be automatically cleaned up and its
+> > memory released. This prevents leaks of unreclaimed resources and is
+> > managed by the orchestrator, which is a concept that doesn't map
+> > cleanly onto standard VFS semantics.
+>
+> I'm not following this. See above. And also any umount can trivially
+> just destroy whatever resource is still left in the filesystem.
 
-Sure. This is how it looks now.
+LUO provides more than just resource preservation; it orchestrates the
+serialization. While LUO can support various scenarios, let's use
+virtual machines as an example.
 
-"The cache allocation and memory bandwidth allocation feature properties
-are consolidated into struct resctrl_cache and struct resctrl_membw
-respectively.
+The process involves distinct phases:
 
-In preparation for more monitoring properties that will clobber the
-existing resource struct more, re-organize the monitoring specific
-properties to also be in a separate structure.
+Before suspending a VM, the Virtual Machine Monitor may take actions
+to quiesce the guest's activity. For example, it might temporarily
+prevent guest reboots to avoid new DMA mappings or PCI device resets.
+We refer to this preparatory, limited-functionality period as the
+"brownout."
 
-Also switch "bandwidth sources" term to "memory transactions" to use
-consistent term within resctrl for related monitoring features."
+Following the brownout, LUO is transitioned into the PREPARED state.
+This allows device states and other resources that require significant
+time to serialize to be processed while the VMs are still running. For
+most guests, this preparation period is unnoticeable.
 
--- 
-Thanks
-Babu Moger
+Blackout: Once preparation is complete, the VMs are fully suspended in
+memory, and the "blackout" period begins. The goal is to perform the
+minimal required shutdown sequence and execute
+reboot(LINUX_REBOOT_CMD_KEXEC) as quickly as possible. During this
+shutdown, the VMM process itself might or might not be terminated.
+With FS approach it will have to stay alive in order to be preserved,
+with liveupdated it can be terminated and the session in liveupdated
+would carry the state into the kernel shutdown.
+
+Restoration and Finish: After the new kernel boots, a userspace agent
+like liveupdated would manage the preserved resources. It restores and
+returns these resources to their respective VMMs or containers upon
+request. Once all workloads have resumed, LUO is notified via the
+FINISH event. LUO then cleans up any post live update state and
+transitions the system back to the NORMAL state.
+
+> >
+> > 3. dependency tracking: Unlike normal files, preserved resources for
+> > live update have strong, often complex interdependencies. For example,
+> > a kvmfd might depend on a guestmemfd; an iommufd can depend on vfiofd,
+> > eventfd, memfd, and kvmfd. LUO's current design provides explicit
+> > callback points (prepare, freeze) where these dependencies can be
+> > validated and tracked by the participating subsystems. If a dependency
+> > is not met when we are about to freeze, we can fail the entire
+> > operation and return an error to userspace. The cancel callback
+> > further allows this complex dependency graph to be unwound safely. A
+> > filesystem interface based on linkat() or unlink() doesn't inherently
+> > provide these critical, ordered points for dependency verification and
+> > rollback.
+> >
+> > While I agree that a filesystem offers superior introspection and
+> > integration with standard tools, building this complex, stateful
+> > orchestration logic on top of VFS seemed to be forcing a square peg
+> > into a round hole. The ioctl interface, while more opaque, provides a
+> > direct and explicit way to command the state machine and manage these
+> > complex lifecycle and dependency rules.
+>
+> I'm not going to argue that you have to switch to this kexecfs idea
+> but...
+>
+> You're using a character device that's tied to devmptfs. In other words,
+> you're already using a filesystem interface. Literally the whole code
+> here is built on top of filesystem APIs. So this argument is just very
+> wrong imho. If you can built it on top of a character device using VFS
+> interfaces you can do it as a minimal filesystem.
+>
+> You're free to define the filesystem interface any way you like it. We
+> have a ton of examples there. All your ioctls would just be tied to the
+> fileystem instance instead of the /dev/somethingsomething character
+> device. The state machine could just be implemented the same way.
+>
+> One of my points is that with an fs interface you can have easy state
+> seralization on a per-service level. IOW, you have a bunch of virtual
+> machines running as services or some networking services or whatever.
+> You could just bind-mount an instance of kexecfs into the service and
+> the service can persist state into the instance and easily recover it
+> after kexec.
+>
+> But anyway, you seem to be set on the ioctl() interface, fine.
+
+I am not against your proposal, it should be discussed, perhaps at the
+hypervisor live update bi-weekly meeting.
+
+[1] https://lore.kernel.org/all/ee353d62-2e4c-b69c-39e6-1d273bfb01a0@google=
+.com/
