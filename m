@@ -1,967 +1,460 @@
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [220.197.32.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2F01F9F51;
-	Wed, 25 Jun 2025 07:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743A720C00D
+	for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 07:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750835363; cv=none; b=C8Y9QaNDyIfiEHfR2UCQRKy601YHkM4QCiYhELnDhDKhjLZR9hw200zpYFe05JsIRpoxhtx8GOENbHl4Dj3u5NYm2PMyEjpKwPvQZ40F24Cvl+MT9MsLN0QUUp5VBR6svaqr+5MjY7Hj/Qh8oyUpGWbgDzG9LJ79oVC2jse+AeU=
+	t=1750838280; cv=none; b=fJEaDVKrIrKvMteduhUyxvoV6CCGzkJpW4bH36+r5D2cYZveBpPgyvBNyiHjQCXE3ui4yam+Eweihb2LZecm2f9nD07xAs5U7l93dDZPTZKT03WgebhERiV98rrSNLYz7p3e4lTglMgS7Jlccko51nLRRGftli8C70SDyH6wsgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750835363; c=relaxed/simple;
-	bh=gIYfVw1q3vq+QM3sU/fBJQ2zFf/LvKkQnonEaEIRgRM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uTnGwzPw+TlwwkBoPcEeb1Z/dIA01QZYyhPcwM6O8abAw1Q5WXrgkruEQXdLWDyIQTZUouqQyMbEyX9rSVnJwRBqh2AS7uDmREOoRqpm7igU45pTF2mHpnALNS2zYEJrU2SAPZPqP7tLfLy6uUnQ/vr8LjrQQTxMfuzqA1CjNvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=R+I9Ha5U; arc=none smtp.client-ip=220.197.32.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+	s=arc-20240116; t=1750838280; c=relaxed/simple;
+	bh=/mtwWfsWiStrRt9xzFNufdbjs4sUAxH4mtS0ijFv/9o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qtZj8sCjY+1wDAMpdqLQSsxpfRj7ZhaQ0dKODVj//MPJsIVatu6GZO8U86H6ELQuO+Q6cibujALRkStNsrTeWLgekRZlozkSCJFAZODxa6E95ZeUxH0F2W7L6XAn7T5HxSQ8R62MRxRYmUV0htBmtJlGZfObf/txV8ZoI0iuL9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ujNnfFsB; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="R+I9Ha5U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version:
-	Content-Type; bh=y4xREOkV8qTXv1rNTO1rrmboLIo3xYvYnzrqBYQQ5c8=;
-	b=R+I9Ha5UaV2nuhbU0W4y6TkkzWomf463gucE8FmwUUncMcPa5KSsfsWT3iBefk
-	oowwcuTBaxEIZxL8Ej/qXJBUlN8G8I6R6poCZKfYhFlGvGA1exQ/z+G6u+bG74ft
-	peEHC8DAVaYOlXAcGTwCE1I5xl2vvTGhhzl5W8jL+r8xc=
-Received: from mps-HP-EliteBook-840-G3.monolithicpower.com (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id Mc8vCgD3F3w8oFtoI3SCAQ--.44888S3;
-	Wed, 25 Jun 2025 15:07:48 +0800 (CST)
-From: wenswang@yeah.net
-To: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	corbet@lwn.net
-Cc: Jonathan.Cameron@huawei.com,
-	michal.simek@amd.com,
-	naresh.solanki@9elements.com,
-	festevam@gmail.com,
-	rodrigo.gobbi.7@gmail.com,
-	grantpeltier93@gmail.com,
-	laurent.pinchart@ideasonboard.com,
-	cedricjustine.encarnacion@analog.com,
-	nuno.sa@analog.com,
-	ninad@linux.ibm.com,
-	jbrunet@baylibre.com,
-	kimseer.paller@analog.com,
-	xzeol@yahoo.com,
-	leo.yang.sy0@gmail.com,
-	Mariel.Tinaco@analog.com,
-	johnerasmusmari.geronimo@analog.com,
-	linux@weissschuh.net,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Wensheng Wang <wenswang@yeah.net>
-Subject: [PATCH 4/4] hwmon: add MP29502 driver
-Date: Wed, 25 Jun 2025 15:07:33 +0800
-Message-Id: <20250625070733.965469-2-wenswang@yeah.net>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250625070733.965469-1-wenswang@yeah.net>
-References: <20250625065956.964759-1-wenswang@yeah.net>
- <20250625070733.965469-1-wenswang@yeah.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ujNnfFsB"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7d20451c016so401881985a.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 00:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1750838277; x=1751443077; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pqnipp14Bd62N/nYS3BesVJTfKC3tAwdpA7j5blhz7U=;
+        b=ujNnfFsBhFzeEIIJvTBKfQYg9FYJspB9Rsmqdu268VrcpZaBm8T9zASNWiyuMshf7f
+         t+Xg3zLOBFdJ4mex26M1tTMK2RcVXZdGeLjeNH+yesItP7Fg/frFY9mD2ngOeEFrL7Ju
+         fyZetp7hV8iz73qxCc96w+I5Dr0kdtdDKe1X6BEeyr5UuZ81tc/DOyIhaAbPni+Ps4e6
+         kqJgd0WracOd5Y55BRuE8PqL67CbcRV6QjC9KVqeiHhTIDeSZKWjKi44rljUKzq15TdB
+         Cr7yyVcJO2c3VvYRTh7GncXpwat0DA1Imu58fXcC37+P3sbfnBJeN026zIffdzGmLQfD
+         MRrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750838277; x=1751443077;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Pqnipp14Bd62N/nYS3BesVJTfKC3tAwdpA7j5blhz7U=;
+        b=J8aHYL9y9alr9/R0bSPyC7G35Ak+YR6wqx7LYEhjG3VSOWsDLIQbf31AiFMiQKnqVp
+         V+j9738h9fVLro9XyagAsSl1+BgaO0AdJk5d36Cw9mXpkaO2NNUBghP+rD9IYqwSx2IZ
+         A8hXiwa8t0+MuJtp3YIZ1I2RQp81jd/FmGhfCUWU3S69xyD/sZ5x3euFE3Lm8cpo1FqH
+         ArQAVhoEQXmPOLGx836ddyym8KVjWuAsbyYYSrGWYruz97/QsVPmJ9rHg6FJlGNZn/91
+         gT/QkD+CGxQEqKYcVmYRtUiXOCG9PXTXRKEp9Flu13GLrL3KQtX3AqPpIIaRzKCUtWlJ
+         0s0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVO9qHiAVoDCR3eR91vGeMVo+Y3lAktmKJ8ZdjhLhPpbgkPVOyNC6WnEVyL0TEZRfD64uUgWP54NMA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIGcRTAQHwzRazF30pTuBbuk/9KlPma2uCc0MI5yHM0ExbXikT
+	l9rWS6hUzXMmuE9hp78Yxi7wB4lcRdBGZj+QMAiWeTQMBb1UsHjTKaJr3cJTu76F1orwCAtiZsz
+	7YudqoCILF5Zw0LNop8VlshIZHeIgf0tbM01LrmcD
+X-Gm-Gg: ASbGnctC2fWef9A+haOhBdgO/27vUj9D+G1OyY+hs7hKuxpXc9fD8XujAfE4YitOk8A
+	K9G18vB3Zke5+Hn/vPcgnYm4YMCyz9WD+17TWLxR4WF6iYGVsYi+lTFrticdoAZgAuCpDMdJe4l
+	quXHTPzOzycTqLPkMgZSHfb0xf1c9MSqGjuBLIfNGKZg==
+X-Google-Smtp-Source: AGHT+IHmt36K6t91zSOfSfHY9NhWEzM7Rgt9ta0rw5KX2OezjAz30ArIJ4ZE8pWg4uNbejGWcfNHEjaFqMmPxCb7ng8=
+X-Received: by 2002:ac8:5f4d:0:b0:4a7:62da:d0fc with SMTP id
+ d75a77b69052e-4a7c0664497mr29969351cf.12.1750838276864; Wed, 25 Jun 2025
+ 00:57:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:Mc8vCgD3F3w8oFtoI3SCAQ--.44888S3
-X-Coremail-Antispam: 1Uf129KBjvAXoWfZFWkXF1xXr4UWw48AFy5Arb_yoW8tF15Xo
-	Z3WFWruw1UJr1UuFWkKF4IqF17Xr1UAr9Yy3WayanrWa47Ar4Fva93Cw4aqa4aya1rXws5
-	ua4vk34fta17AF17n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUT2QDUUUUU
-X-CM-SenderInfo: 5zhq24xdqjq5hhdkh0dhw/1tbiAQ13pGhbhgVhngAAsQ
+References: <20250621193737.16593-1-chia-yu.chang@nokia-bell-labs.com> <20250621193737.16593-6-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <20250621193737.16593-6-chia-yu.chang@nokia-bell-labs.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Wed, 25 Jun 2025 00:57:45 -0700
+X-Gm-Features: AX0GCFtf7GCks5J-HlhhQGr4ZwW298o8fPjdDZse_TKWqlzTgWMoiTCCMVMD99M
+Message-ID: <CANn89iKX+DxvcM6t8KjanRofdz8ksMkcHj_V0w_LAoredq2gZw@mail.gmail.com>
+Subject: Re: [PATCH v9 net-next 05/15] tcp: accecn: AccECN negotiation
+To: chia-yu.chang@nokia-bell-labs.com
+Cc: pabeni@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net, 
+	horms@kernel.org, dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org, 
+	netdev@vger.kernel.org, jhs@mojatatu.com, kuba@kernel.org, 
+	stephen@networkplumber.org, xiyou.wangcong@gmail.com, jiri@resnulli.us, 
+	davem@davemloft.net, andrew+netdev@lunn.ch, donald.hunter@gmail.com, 
+	ast@fiberby.net, liuhangbin@gmail.com, shuah@kernel.org, 
+	linux-kselftest@vger.kernel.org, ij@kernel.org, ncardwell@google.com, 
+	koen.de_schepper@nokia-bell-labs.com, g.white@cablelabs.com, 
+	ingemar.s.johansson@ericsson.com, mirja.kuehlewind@ericsson.com, 
+	cheshire@apple.com, rs.ietf@gmx.at, Jason_Livingood@comcast.com, 
+	vidhi_goel@apple.com, Olivier Tilmans <olivier.tilmans@nokia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Wensheng Wang <wenswang@yeah.net>
+On Sat, Jun 21, 2025 at 12:37=E2=80=AFPM <chia-yu.chang@nokia-bell-labs.com=
+> wrote:
+>
+> From: Ilpo J=C3=A4rvinen <ij@kernel.org>
+>
+> Accurate ECN negotiation parts based on the specification:
+>   https://tools.ietf.org/id/draft-ietf-tcpm-accurate-ecn-28.txt
+>
+> Accurate ECN is negotiated using ECE, CWR and AE flags in the
+> TCP header. TCP falls back into using RFC3168 ECN if one of the
+> ends supports only RFC3168-style ECN.
+>
+> The AccECN negotiation includes reflecting IP ECN field value
+> seen in SYN and SYNACK back using the same bits as negotiation
+> to allow responding to SYN CE marks and to detect ECN field
+> mangling. CE marks should not occur currently because SYN=3D1
+> segments are sent with Non-ECT in IP ECN field (but proposal
+> exists to remove this restriction).
+>
+> Reflecting SYN IP ECN field in SYNACK is relatively simple.
+> Reflecting SYNACK IP ECN field in the final/third ACK of
+> the handshake is more challenging. Linux TCP code is not well
+> prepared for using the final/third ACK a signalling channel
+> which makes things somewhat complicated here.
+>
+> tcp_ecn sysctl can be used to select the highest ECN variant
+> (Accurate ECN, ECN, No ECN) that is attemped to be negotiated and
+> requested for incoming connection and outgoing connection:
+> TCP_ECN_IN_NOECN_OUT_NOECN, TCP_ECN_IN_ECN_OUT_ECN,
+> TCP_ECN_IN_ECN_OUT_NOECN, TCP_ECN_IN_ACCECN_OUT_ACCECN,
+> TCP_ECN_IN_ACCECN_OUT_ECN, and TCP_ECN_IN_ACCECN_OUT_NOECN.
+>
+> After this patch, the size of tcp_request_sock remains unchanged
+> and no new holes are added. Below are the pahole outcomes before
+> and after this patch:
+>
+>
+> }
+>
+> Signed-off-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
+> Co-developed-by: Olivier Tilmans <olivier.tilmans@nokia.com>
+> Signed-off-by: Olivier Tilmans <olivier.tilmans@nokia.com>
+> Co-developed-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+> ---
+>  .../networking/net_cachelines/tcp_sock.rst    |   4 +
+>  include/linux/tcp.h                           |   9 +-
+>  include/net/tcp.h                             |  93 ++++++++-
+>  net/ipv4/syncookies.c                         |   3 +
+>  net/ipv4/sysctl_net_ipv4.c                    |   3 +-
+>  net/ipv4/tcp.c                                |   2 +
+>  net/ipv4/tcp_input.c                          | 178 ++++++++++++++++--
+>  net/ipv4/tcp_ipv4.c                           |   5 +-
+>  net/ipv4/tcp_minisocks.c                      |  51 ++++-
+>  net/ipv4/tcp_output.c                         |  78 ++++++--
+>  net/ipv6/syncookies.c                         |   1 +
+>  net/ipv6/tcp_ipv6.c                           |   1 +
+>  12 files changed, 384 insertions(+), 44 deletions(-)
+>
+> diff --git a/Documentation/networking/net_cachelines/tcp_sock.rst b/Docum=
+entation/networking/net_cachelines/tcp_sock.rst
+> index 31313a9adccc..22ac668fe6c7 100644
+> --- a/Documentation/networking/net_cachelines/tcp_sock.rst
+> +++ b/Documentation/networking/net_cachelines/tcp_sock.rst
+> @@ -103,6 +103,10 @@ u32                           delivered             =
+  read_mostly         read_w
+>  u32                           delivered_ce            read_mostly       =
+  read_write          tcp_rate_skb_sent(tx);tcp_rate_gen(rx)
+>  u32                           received_ce             read_mostly       =
+  read_write
+>  u8:4                          received_ce_pending     read_mostly       =
+  read_write
+> +u8:2                          syn_ect_snt             write_mostly      =
+  read_write
+> +u8:2                          syn_ect_rcv             read_mostly       =
+  read_write
+> +u8:1                          wait_third_ack                            =
+  read_write
+> +u8:4                          accecn_fail_mode
+>  u32                           lost                                      =
+  read_mostly         tcp_ack
+>  u32                           app_limited             read_write        =
+  read_mostly         tcp_rate_check_app_limited,tcp_rate_skb_sent(tx);tcp_=
+rate_gen(rx)
+>  u64                           first_tx_mstamp         read_write        =
+                      tcp_rate_skb_sent
+> diff --git a/include/linux/tcp.h b/include/linux/tcp.h
+> index 874e0e45dfad..1d8301f2883c 100644
+> --- a/include/linux/tcp.h
+> +++ b/include/linux/tcp.h
+> @@ -168,6 +168,10 @@ struct tcp_request_sock {
+>                                                   * after data-in-SYN.
+>                                                   */
+>         u8                              syn_tos;
+> +       bool                            accecn_ok;
+> +       u8                              syn_ect_snt: 2,
+> +                                       syn_ect_rcv: 2,
+> +                                       accecn_fail_mode:4;
+>  #ifdef CONFIG_TCP_AO
+>         u8                              ao_keyid;
+>         u8                              ao_rcv_next;
+> @@ -375,7 +379,9 @@ struct tcp_sock {
+>         u8      compressed_ack;
+>         u8      dup_ack_counter:2,
+>                 tlp_retrans:1,  /* TLP is a retransmission */
+> -               unused:5;
+> +               syn_ect_snt:2,  /* AccECN ECT memory, only */
+> +               syn_ect_rcv:2,  /* ... needed durign 3WHS + first seqno *=
+/
+> +               wait_third_ack:1; /* Wait 3rd ACK in simultaneous open */
+>         u8      thin_lto    : 1,/* Use linear timeouts for thin streams *=
+/
+>                 fastopen_connect:1, /* FASTOPEN_CONNECT sockopt */
+>                 fastopen_no_cookie:1, /* Allow send/recv SYN+data without=
+ a cookie */
+> @@ -391,6 +397,7 @@ struct tcp_sock {
+>                 syn_fastopen_child:1; /* created TFO passive child socket=
+ */
+>
+>         u8      keepalive_probes; /* num of allowed keep alive probes   *=
+/
+> +       u8      accecn_fail_mode:4;     /* AccECN failure handling */
+>         u32     tcp_tx_delay;   /* delay (in usec) added to TX packets */
+>
+>  /* RTT measurement */
+> diff --git a/include/net/tcp.h b/include/net/tcp.h
+> index 6cf5cea992e3..4d6325fa3f67 100644
+> --- a/include/net/tcp.h
+> +++ b/include/net/tcp.h
+> @@ -27,6 +27,7 @@
+>  #include <linux/ktime.h>
+>  #include <linux/indirect_call_wrapper.h>
+>  #include <linux/bits.h>
+> +#include <linux/bitfield.h>
+>
+>  #include <net/inet_connection_sock.h>
+>  #include <net/inet_timewait_sock.h>
+> @@ -234,6 +235,37 @@ static_assert((1 << ATO_BITS) > TCP_DELACK_MAX);
+>  #define TCPOLEN_MSS_ALIGNED            4
+>  #define TCPOLEN_EXP_SMC_BASE_ALIGNED   8
+>
+> +/* tp->accecn_fail_mode */
+> +#define TCP_ACCECN_ACE_FAIL_SEND       BIT(0)
+> +#define TCP_ACCECN_ACE_FAIL_RECV       BIT(1)
+> +#define TCP_ACCECN_OPT_FAIL_SEND       BIT(2)
+> +#define TCP_ACCECN_OPT_FAIL_RECV       BIT(3)
+> +
+> +static inline bool tcp_accecn_ace_fail_send(const struct tcp_sock *tp)
+> +{
+> +       return tp->accecn_fail_mode & TCP_ACCECN_ACE_FAIL_SEND;
+> +}
+> +
+> +static inline bool tcp_accecn_ace_fail_recv(const struct tcp_sock *tp)
+> +{
+> +       return tp->accecn_fail_mode & TCP_ACCECN_ACE_FAIL_RECV;
+> +}
+> +
+> +static inline bool tcp_accecn_opt_fail_send(const struct tcp_sock *tp)
+> +{
+> +       return tp->accecn_fail_mode & TCP_ACCECN_OPT_FAIL_SEND;
+> +}
+> +
+> +static inline bool tcp_accecn_opt_fail_recv(const struct tcp_sock *tp)
+> +{
+> +       return tp->accecn_fail_mode & TCP_ACCECN_OPT_FAIL_RECV;
+> +}
+> +
+> +static inline void tcp_accecn_fail_mode_set(struct tcp_sock *tp, u8 mode=
+)
+> +{
+> +       tp->accecn_fail_mode |=3D mode;
+> +}
+> +
+>  /* Flags in tp->nonagle */
+>  #define TCP_NAGLE_OFF          1       /* Nagle's algo is disabled */
+>  #define TCP_NAGLE_CORK         2       /* Socket is corked         */
+> @@ -420,6 +452,23 @@ static inline u8 tcp_accecn_ace(const struct tcphdr =
+*th)
+>         return (th->ae << 2) | (th->cwr << 1) | th->ece;
+>  }
+>
+> +/* Infer the ECT value our SYN arrived with from the echoed ACE field */
+> +static inline int tcp_accecn_extract_syn_ect(u8 ace)
+> +{
+> +       if (ace & 0x1)
+> +               return INET_ECN_ECT_1;
+> +       if (!(ace & 0x2))
+> +               return INET_ECN_ECT_0;
+> +       if (ace & 0x4)
+> +               return INET_ECN_CE;
+> +       return INET_ECN_NOT_ECT;
+> +}
+> +
+> +bool tcp_accecn_validate_syn_feedback(struct sock *sk, u8 ace, u8 sent_e=
+ct);
+> +void tcp_accecn_third_ack(struct sock *sk, const struct sk_buff *skb,
+> +                         u8 syn_ect_snt);
+> +void tcp_ecn_received_counters(struct sock *sk, const struct sk_buff *sk=
+b);
+> +
+>  enum tcp_tw_status {
+>         TCP_TW_SUCCESS =3D 0,
+>         TCP_TW_RST =3D 1,
+> @@ -657,6 +706,15 @@ static inline bool cookie_ecn_ok(const struct net *n=
+et, const struct dst_entry *
+>                 dst_feature(dst, RTAX_FEATURE_ECN);
+>  }
+>
+> +/* AccECN specification, 5.1: [...] a server can determine that it
+> + * negotiated AccECN as [...] if the ACK contains an ACE field with
+> + * the value 0b010 to 0b111 (decimal 2 to 7).
+> + */
+> +static inline bool cookie_accecn_ok(const struct tcphdr *th)
+> +{
+> +       return tcp_accecn_ace(th) > 0x1;
+> +}
+> +
+>  #if IS_ENABLED(CONFIG_BPF)
+>  static inline bool cookie_bpf_ok(struct sk_buff *skb)
+>  {
+> @@ -968,6 +1026,7 @@ static inline u32 tcp_rsk_tsval(const struct tcp_req=
+uest_sock *treq)
+>
+>  #define TCPHDR_ACE (TCPHDR_ECE | TCPHDR_CWR | TCPHDR_AE)
+>  #define TCPHDR_SYN_ECN (TCPHDR_SYN | TCPHDR_ECE | TCPHDR_CWR)
+> +#define TCPHDR_SYNACK_ACCECN (TCPHDR_SYN | TCPHDR_ACK | TCPHDR_CWR)
+>
+>  #define TCP_ACCECN_CEP_ACE_MASK 0x7
+>  #define TCP_ACCECN_ACE_MAX_DELTA 6
+> @@ -977,6 +1036,19 @@ static inline u32 tcp_rsk_tsval(const struct tcp_re=
+quest_sock *treq)
+>   */
+>  #define TCP_ACCECN_CEP_INIT_OFFSET 5
+>
+> +/* The highest ECN variant (Accurate ECN, ECN, or no ECN) that is
+> + * attemped to be negotiated and requested for incoming connection
+> + * and outgoing connection, respectively.
+> + */
+> +enum tcp_ecn_mode {
+> +       TCP_ECN_IN_NOECN_OUT_NOECN =3D 0,
+> +       TCP_ECN_IN_ECN_OUT_ECN =3D 1,
+> +       TCP_ECN_IN_ECN_OUT_NOECN =3D 2,
+> +       TCP_ECN_IN_ACCECN_OUT_ACCECN =3D 3,
+> +       TCP_ECN_IN_ACCECN_OUT_ECN =3D 4,
+> +       TCP_ECN_IN_ACCECN_OUT_NOECN =3D 5,
+> +};
+> +
+>  static inline void tcp_accecn_init_counters(struct tcp_sock *tp)
+>  {
+>         tp->received_ce =3D 0;
+> @@ -1051,6 +1123,15 @@ struct tcp_skb_cb {
+>
+>  #define TCP_SKB_CB(__skb)      ((struct tcp_skb_cb *)&((__skb)->cb[0]))
+>
+> +static inline u16 tcp_accecn_reflector_flags(u8 ect)
+> +{
+> +       u32 flags =3D ect + 2;
+> +
+> +       if (ect =3D=3D 3)
+> +               flags++;
 
-Add support for MPS VR controller mp29502. This driver exposes
-telemetry and limits value readings and writtings.
+A comment might help, I have no idea of what is going on here.
 
-Signed-off-by: Wensheng Wang <wenswang@yeah.net>
----
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/mp29502.rst | 104 +++++
- MAINTAINERS                     |   7 +
- drivers/hwmon/pmbus/Kconfig     |   9 +
- drivers/hwmon/pmbus/Makefile    |   1 +
- drivers/hwmon/pmbus/mp29502.c   | 691 ++++++++++++++++++++++++++++++++
- 6 files changed, 813 insertions(+)
- create mode 100644 Documentation/hwmon/mp29502.rst
- create mode 100644 drivers/hwmon/pmbus/mp29502.c
+> +       return FIELD_PREP(TCPHDR_ACE, flags);
+> +}
+> +
+>  extern const struct inet_connection_sock_af_ops ipv4_specific;
+>
+>  #if IS_ENABLED(CONFIG_IPV6)
+> @@ -1173,7 +1254,10 @@ enum tcp_ca_ack_event_flags {
+>  #define TCP_CONG_NON_RESTRICTED                BIT(0)
+>  /* Requires ECN/ECT set on all packets */
+>  #define TCP_CONG_NEEDS_ECN             BIT(1)
+> -#define TCP_CONG_MASK  (TCP_CONG_NON_RESTRICTED | TCP_CONG_NEEDS_ECN)
+> +/* Require successfully negotiated AccECN capability */
+> +#define TCP_CONG_NEEDS_ACCECN          BIT(2)
+> +#define TCP_CONG_MASK  (TCP_CONG_NON_RESTRICTED | TCP_CONG_NEEDS_ECN | \
+> +                       TCP_CONG_NEEDS_ACCECN)
+>
+>  union tcp_cc_info;
+>
+> @@ -1305,6 +1389,13 @@ static inline bool tcp_ca_needs_ecn(const struct s=
+ock *sk)
+>         return icsk->icsk_ca_ops->flags & TCP_CONG_NEEDS_ECN;
+>  }
+>
+> +static inline bool tcp_ca_needs_accecn(const struct sock *sk)
+> +{
+> +       const struct inet_connection_sock *icsk =3D inet_csk(sk);
+> +
+> +       return icsk->icsk_ca_ops->flags & TCP_CONG_NEEDS_ACCECN;
+> +}
+> +
+>  static inline void tcp_ca_event(struct sock *sk, const enum tcp_ca_event=
+ event)
+>  {
+>         const struct inet_connection_sock *icsk =3D inet_csk(sk);
+> diff --git a/net/ipv4/syncookies.c b/net/ipv4/syncookies.c
+> index 5459a78b9809..3a44eb9c1d1a 100644
+> --- a/net/ipv4/syncookies.c
+> +++ b/net/ipv4/syncookies.c
+> @@ -403,6 +403,7 @@ struct sock *cookie_v4_check(struct sock *sk, struct =
+sk_buff *skb)
+>         struct tcp_sock *tp =3D tcp_sk(sk);
+>         struct inet_request_sock *ireq;
+>         struct net *net =3D sock_net(sk);
+> +       struct tcp_request_sock *treq;
+>         struct request_sock *req;
+>         struct sock *ret =3D sk;
+>         struct flowi4 fl4;
+> @@ -428,6 +429,7 @@ struct sock *cookie_v4_check(struct sock *sk, struct =
+sk_buff *skb)
+>         }
+>
+>         ireq =3D inet_rsk(req);
+> +       treq =3D tcp_rsk(req);
+>
+>         sk_rcv_saddr_set(req_to_sk(req), ip_hdr(skb)->daddr);
+>         sk_daddr_set(req_to_sk(req), ip_hdr(skb)->saddr);
+> @@ -482,6 +484,7 @@ struct sock *cookie_v4_check(struct sock *sk, struct =
+sk_buff *skb)
+>         if (!req->syncookie)
+>                 ireq->rcv_wscale =3D rcv_wscale;
+>         ireq->ecn_ok &=3D cookie_ecn_ok(net, &rt->dst);
+> +       treq->accecn_ok =3D ireq->ecn_ok && cookie_accecn_ok(th);
+>
+>         ret =3D tcp_get_cookie_sock(sk, skb, req, &rt->dst);
+>         /* ip_queue_xmit() depends on our flow being setup
+> diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+> index 3a43010d726f..75ec1a599b52 100644
+> --- a/net/ipv4/sysctl_net_ipv4.c
+> +++ b/net/ipv4/sysctl_net_ipv4.c
+> @@ -47,6 +47,7 @@ static unsigned int udp_child_hash_entries_max =3D UDP_=
+HTABLE_SIZE_MAX;
+>  static int tcp_plb_max_rounds =3D 31;
+>  static int tcp_plb_max_cong_thresh =3D 256;
+>  static unsigned int tcp_tw_reuse_delay_max =3D TCP_PAWS_MSL * MSEC_PER_S=
+EC;
+> +static int tcp_ecn_mode_max =3D 5;
+>
+>  /* obsolete */
+>  static int sysctl_tcp_low_latency __read_mostly;
+> @@ -728,7 +729,7 @@ static struct ctl_table ipv4_net_table[] =3D {
+>                 .mode           =3D 0644,
+>                 .proc_handler   =3D proc_dou8vec_minmax,
+>                 .extra1         =3D SYSCTL_ZERO,
+> -               .extra2         =3D SYSCTL_TWO,
+> +               .extra2         =3D &tcp_ecn_mode_max,
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 7e278aa0aac3..ebc5c92e50b0 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -175,6 +175,7 @@ Hardware Monitoring Kernel Drivers
-    mp2869
-    mp2888
-    mp2891
-+   mp29502
-    mp2975
-    mp2993
-    mp5023
-diff --git a/Documentation/hwmon/mp29502.rst b/Documentation/hwmon/mp29502.rst
-new file mode 100644
-index 000000000000..89c8109abde2
---- /dev/null
-+++ b/Documentation/hwmon/mp29502.rst
-@@ -0,0 +1,104 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver mp29502
-+====================
-+
-+Supported chips:
-+
-+  * MPS mp29502
-+
-+    Prefix: 'mp29502'
-+
-+  * Datasheet
-+    https://scnbwymvp-my.sharepoint.com/personal/admin_scnbwy_com/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fadmin%5Fscnbwy%5Fcom%2FDocuments%2FMPSFiles%2FMP29502%2Epdf&parent=%2Fpersonal%2Fadmin%5Fscnbwy%5Fcom%2FDocuments%2FMPSFiles
-+
-+Author:
-+
-+	Wensheng Wang <wenswang@yeah.net>
-+
-+Description
-+-----------
-+
-+This driver implements support for Monolithic Power Systems, Inc. (MPS)
-+MP29502 Digital Multi-phase Controller.
-+
-+Device compliant with:
-+
-+- PMBus rev 1.3 interface.
-+
-+The driver exports the following attributes via the 'sysfs' files
-+for input voltage:
-+
-+**in1_input**
-+
-+**in1_label**
-+
-+**in1_crit**
-+
-+**in1_crit_alarm**
-+
-+The driver provides the following attributes for output voltage:
-+
-+**in2_input**
-+
-+**in2_label**
-+
-+**in2_crit**
-+
-+**in2_crit_alarm**
-+
-+**in2_lcrit**
-+
-+**in2_lcrit_alarm**
-+
-+The driver provides the following attributes for input current:
-+
-+**curr1_input**
-+
-+**curr1_label**
-+
-+The driver provides the following attributes for output current:
-+
-+**curr2_input**
-+
-+**curr2_label**
-+
-+**curr2_crit**
-+
-+**curr2_crit_alarm**
-+
-+**curr2_max**
-+
-+**curr2_max_alarm**
-+
-+The driver provides the following attributes for input power:
-+
-+**power1_input**
-+
-+**power1_label**
-+
-+**power1_max**
-+
-+**power1_alarm**
-+
-+The driver provides the following attributes for output power:
-+
-+**power2_input**
-+
-+**power2_label**
-+
-+**power2_max**
-+
-+**power2_max_alarm**
-+
-+The driver provides the following attributes for temperature:
-+
-+**temp1_input**
-+
-+**temp1_crit**
-+
-+**temp1_crit_alarm**
-+
-+**temp1_max**
-+
-+**temp1_max_alarm**
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee8117355902..1ee03e0b1e12 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16859,6 +16859,13 @@ S:	Maintained
- F:	Documentation/hwmon/mp2891.rst
- F:	drivers/hwmon/pmbus/mp2891.c
- 
-+MPS MP29502 DRIVER
-+M:	Wensheng Wang <wenswang@yeah.net>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/mp29502.rst
-+F:	drivers/hwmon/pmbus/mp29502.c
-+
- MPS MP2993 DRIVER
- M:	Noah Wang <noahwang.wang@outlook.com>
- L:	linux-hwmon@vger.kernel.org
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index f3bf7b7fb76d..d0bdd1b5feb6 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -391,6 +391,15 @@ config SENSORS_MP2891
-       This driver can also be built as a module. If so, the module will
-       be called mp2891.
- 
-+config SENSORS_MP29502
-+	tristate "MPS MP29502"
-+	help
-+	  If you say yes here you get hardware monitoring support for MPS
-+	  MP29502 Dual Loop Digital Multi-Phase Controller.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called mp29502.
-+
- config SENSORS_MP2975
- 	tristate "MPS MP2975"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 6177047414ee..4c5ff3f32c5e 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -40,6 +40,7 @@ obj-$(CONFIG_SENSORS_MP2856)	+= mp2856.o
- obj-$(CONFIG_SENSORS_MP2869)	+= mp2869.o
- obj-$(CONFIG_SENSORS_MP2888)	+= mp2888.o
- obj-$(CONFIG_SENSORS_MP2891)	+= mp2891.o
-+obj-$(CONFIG_SENSORS_MP29502)	+= mp29502.o
- obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
- obj-$(CONFIG_SENSORS_MP2993)	+= mp2993.o
- obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
-diff --git a/drivers/hwmon/pmbus/mp29502.c b/drivers/hwmon/pmbus/mp29502.c
-new file mode 100644
-index 000000000000..15290e37bae9
---- /dev/null
-+++ b/drivers/hwmon/pmbus/mp29502.c
-@@ -0,0 +1,691 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Hardware monitoring driver for MPS Multi-phase Digital VR Controllers(MP29502)
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include "pmbus.h"
-+
-+#define MFR_VOUT_SCALE_LOOP	0x29
-+#define MFR_SVI3_IOUT_PRT	0x67
-+#define MFR_READ_PIN_EST	0x94
-+#define MFR_READ_IIN_EST	0x95
-+#define MFR_VOUT_PROT1	0x3D
-+#define MFR_VOUT_PROT2	0x51
-+#define MFR_SLOPE_CNT_SET	0xA8
-+#define MFR_TSNS_FLT_SET	0xBB
-+
-+#define MP29502_VIN_OV_GAIN	4
-+#define MP29502_TEMP_LIMIT_OFFSET	40
-+#define MP29502_READ_VOUT_DIV	1024
-+#define MP29502_READ_IOUT_DIV	32
-+#define MP29502_IOUT_LIMIT_UINT	8
-+#define MP29502_OVUV_LIMIT_SCALE	10
-+#define MP29502_OVUV_DELTA_SCALE	50
-+#define MP29502_POUT_OP_GAIN	2
-+#define MP28502_VOUT_OV_GAIN	512
-+#define MP28502_VOUT_OV_SCALE	40
-+#define MP29502_VOUT_UV_OFFSET	36
-+
-+#define MP29502_PAGE_NUM	1
-+
-+#define MP29502_RAIL_FUNC	(PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | \
-+							PMBUS_HAVE_IOUT | PMBUS_HAVE_POUT | \
-+							PMBUS_HAVE_TEMP | PMBUS_HAVE_PIN | \
-+							PMBUS_HAVE_IIN | \
-+							PMBUS_HAVE_STATUS_VOUT | \
-+							PMBUS_HAVE_STATUS_IOUT | \
-+							PMBUS_HAVE_STATUS_TEMP | \
-+							PMBUS_HAVE_STATUS_INPUT)
-+
-+struct mp29502_data {
-+	struct pmbus_driver_info info;
-+	int vout_scale;
-+	int vout_bottom_div;
-+	int	vout_top_div;
-+	int ovp_div;
-+	int iout_scale;
-+};
-+
-+#define to_mp29502_data(x)	container_of(x, struct mp29502_data, info)
-+
-+static u16 mp29502_reg2data_linear11(u16 word)
-+{
-+	s16 exponent;
-+	s32 mantissa;
-+	s64 val;
-+
-+	exponent = ((s16)word) >> 11;
-+	mantissa = ((s16)((word & 0x7ff) << 5)) >> 5;
-+	val = mantissa;
-+
-+	if (exponent >= 0)
-+		val <<= exponent;
-+	else
-+		val >>= -exponent;
-+
-+	return val;
-+}
-+
-+static int
-+mp29502_identify_vout_scale(struct i2c_client *client, struct pmbus_driver_info *info,
-+			    int page)
-+{
-+	struct mp29502_data *data = to_mp29502_data(info);
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, page);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = i2c_smbus_read_word_data(client, MFR_VOUT_SCALE_LOOP);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (FIELD_GET(GENMASK(12, 10), ret)) {
-+	case 0:
-+		data->vout_scale = 6400;
-+		break;
-+	case 1:
-+		data->vout_scale = 5120;
-+		break;
-+	case 2:
-+		data->vout_scale = 2560;
-+		break;
-+	case 3:
-+		data->vout_scale = 2048;
-+		break;
-+	case 4:
-+		data->vout_scale = 1024;
-+		break;
-+	case 5:
-+		data->vout_scale = 4;
-+		break;
-+	case 6:
-+		data->vout_scale = 2;
-+		break;
-+	case 7:
-+		data->vout_scale = 1;
-+		break;
-+	default:
-+		data->vout_scale = 1;
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+mp29502_identify_vout_divider(struct i2c_client *client, struct pmbus_driver_info *info,
-+			      int page)
-+{
-+	struct mp29502_data *data = to_mp29502_data(info);
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, page);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = i2c_smbus_read_word_data(client, MFR_VOUT_PROT1);
-+	if (ret < 0)
-+		return ret;
-+
-+	data->vout_bottom_div = FIELD_GET(GENMASK(11, 0), ret);
-+
-+	ret = i2c_smbus_read_word_data(client, MFR_VOUT_PROT2);
-+	if (ret < 0)
-+		return ret;
-+
-+	data->vout_top_div = FIELD_GET(GENMASK(14, 0), ret);
-+
-+	return 0;
-+}
-+
-+static int
-+mp29502_identify_ovp_divider(struct i2c_client *client, struct pmbus_driver_info *info,
-+			     int page)
-+{
-+	struct mp29502_data *data = to_mp29502_data(info);
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, page);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = i2c_smbus_read_word_data(client, MFR_SLOPE_CNT_SET);
-+	if (ret < 0)
-+		return ret;
-+
-+	data->ovp_div = FIELD_GET(GENMASK(9, 0), ret);
-+
-+	return 0;
-+}
-+
-+static int
-+mp29502_identify_iout_scale(struct i2c_client *client, struct pmbus_driver_info *info,
-+			    int page)
-+{
-+	struct mp29502_data *data = to_mp29502_data(info);
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, page);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = i2c_smbus_read_word_data(client, MFR_SVI3_IOUT_PRT);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (ret & GENMASK(2, 0)) {
-+	case 0:
-+	case 6:
-+		data->iout_scale = 32;
-+		break;
-+	case 1:
-+		data->iout_scale = 1;
-+		break;
-+	case 2:
-+		data->iout_scale = 2;
-+		break;
-+	case 3:
-+		data->iout_scale = 4;
-+		break;
-+	case 4:
-+		data->iout_scale = 8;
-+		break;
-+	case 5:
-+		data->iout_scale = 16;
-+		break;
-+	default:
-+		data->iout_scale = 64;
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mp29502_read_vout_ov_limit(struct i2c_client *client, struct mp29502_data *data)
-+{
-+	int ret;
-+	int ov_value;
-+
-+	/*
-+	 * This is because the vout ov fault limit value comes from
-+	 * page1 MFR_TSNS_FLT_SET reg, and other telemetry and limit
-+	 * value comes from page0 reg. So the page should be set to
-+	 * 0 after the reading of vout ov limit.
-+	 */
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 1);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = i2c_smbus_read_word_data(client, MFR_TSNS_FLT_SET);
-+	if (ret < 0)
-+		return ret;
-+
-+	ov_value = DIV_ROUND_CLOSEST(FIELD_GET(GENMASK(12, 7), ret) *
-+						   MP28502_VOUT_OV_GAIN * MP28502_VOUT_OV_SCALE,
-+						   data->ovp_div);
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	return ov_value;
-+}
-+
-+static int mp29502_write_vout_ov_limit(struct i2c_client *client, u16 word,
-+				       struct mp29502_data *data)
-+{
-+	int ret;
-+
-+	/*
-+	 * This is because the vout ov fault limit value comes from
-+	 * page1 MFR_TSNS_FLT_SET reg, and other telemetry and limit
-+	 * value comes from page0 reg. So the page should be set to
-+	 * 0 after the writing of vout ov limit.
-+	 */
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 1);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = i2c_smbus_read_word_data(client, MFR_TSNS_FLT_SET);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = i2c_smbus_write_word_data(client, MFR_TSNS_FLT_SET,
-+					(ret & ~GENMASK(12, 7)) |
-+		FIELD_PREP(GENMASK(12, 7),
-+			   DIV_ROUND_CLOSEST(word * data->ovp_div,
-+					     MP28502_VOUT_OV_GAIN * MP28502_VOUT_OV_SCALE)));
-+
-+	return i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-+}
-+
-+static int mp29502_read_byte_data(struct i2c_client *client, int page, int reg)
-+{
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (reg) {
-+	case PMBUS_VOUT_MODE:
-+		ret = PB_VOUT_MODE_DIRECT;
-+		break;
-+	default:
-+		ret = -ENODATA;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int mp29502_read_word_data(struct i2c_client *client, int page,
-+				  int phase, int reg)
-+{
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct mp29502_data *data = to_mp29502_data(info);
-+	int ret;
-+
-+	switch (reg) {
-+	case PMBUS_STATUS_WORD:
-+		ret = -ENODATA;
-+		break;
-+	case PMBUS_READ_VIN:
-+		/*
-+		 * The MP29502 PMBUS_READ_VIN[10:0] is the vin value, the vin scale is
-+		 * 125mV/LSB. And the vin scale is set to 125mV/Lsb(using r/m/b scale)
-+		 * in MP29502 pmbus_driver_info struct, so the word data bit0-bit10 can
-+		 * be returned to pmbus core directly.
-+		 */
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = FIELD_GET(GENMASK(10, 0), ret);
-+		break;
-+	case PMBUS_READ_VOUT:
-+		/*
-+		 * The MP29502 PMBUS_READ_VOUT[11:0] is the vout value, and vout
-+		 * value is calculated based on vout scale and vout divider.
-+		 */
-+
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = DIV_ROUND_CLOSEST((ret &  GENMASK(11, 0)) *
-+								data->vout_scale *
-+								(data->vout_bottom_div +
-+								4 * data->vout_top_div),
-+								MP29502_READ_VOUT_DIV *
-+								data->vout_bottom_div);
-+		break;
-+	case PMBUS_READ_IIN:
-+		ret = pmbus_read_word_data(client, page, phase, MFR_READ_IIN_EST);
-+		if (ret < 0)
-+			return ret;
-+
-+		break;
-+	case PMBUS_READ_PIN:
-+		/*
-+		 * The MP29502 MFR_READ_PIN_EST register is linear11 format, and the
-+		 * exponent is not a constant value. But the pin scale is set to
-+		 * 1W/Lsb(using r/m/b scale). As a result, the pout read from MP29502
-+		 * should be calculated to W, then return the result to pmbus core.
-+		 */
-+
-+		ret = pmbus_read_word_data(client, page, phase, MFR_READ_PIN_EST);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = mp29502_reg2data_linear11(ret);
-+		break;
-+	case PMBUS_READ_POUT:
-+		/*
-+		 * The MP29502 PMBUS_READ_POUT register is linear11 format, and the
-+		 * exponent is not a constant value. But the pout scale is set to
-+		 * 1W/Lsb(using r/m/b scale). As a result, the pout read from MP29502
-+		 * should be calculated to W, then return the result to pmbus core.
-+		 */
-+
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = mp29502_reg2data_linear11(ret);
-+		break;
-+	case PMBUS_READ_IOUT:
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = DIV_ROUND_CLOSEST((ret & GENMASK(10, 0)) * data->iout_scale,
-+					MP29502_READ_IOUT_DIV);
-+		break;
-+	case PMBUS_READ_TEMPERATURE_1:
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = FIELD_GET(GENMASK(10, 0), ret);
-+		break;
-+	case PMBUS_VIN_OV_FAULT_LIMIT:
-+		/*
-+		 * The MP29502 PMBUS_VIN_OV_FAULT_LIMIT is 500mV/Lsb, but
-+		 * the vin  scale is set to 125mV/Lsb(using r/m/b scale),
-+		 * so the word data should multiply by 4.
-+		 */
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = FIELD_GET(GENMASK(7, 0), ret) * MP29502_VIN_OV_GAIN;
-+		break;
-+	case PMBUS_VIN_UV_WARN_LIMIT:
-+	case PMBUS_VIN_UV_FAULT_LIMIT:
-+		/*
-+		 * The MP29502 PMBUS_VIN_UV_WARN_LIMIT and PMBUS_VIN_UV_FAULT_LIMIT
-+		 * scale is 125mV/Lsb, but the vin scale is set to 125mV/Lsb(using
-+		 * r/m/b scale), so the word data bit0-bit9 can be returned to pmbus
-+		 * core directly.
-+		 */
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = FIELD_GET(GENMASK(9, 0), ret);
-+		break;
-+	case PMBUS_VOUT_OV_FAULT_LIMIT:
-+		/*
-+		 * The MP29502 vout ov fault limit value comes from
-+		 * page1 MFR_TSNS_FLT_SET[12:7].
-+		 */
-+		ret = mp29502_read_vout_ov_limit(client, data);
-+		if (ret < 0)
-+			return ret;
-+
-+		break;
-+	case PMBUS_VOUT_UV_FAULT_LIMIT:
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = DIV_ROUND_CLOSEST((FIELD_GET(GENMASK(8, 0), ret) *
-+								MP29502_OVUV_LIMIT_SCALE -
-+								MP29502_VOUT_UV_OFFSET) *
-+								(data->vout_bottom_div +
-+								4 * data->vout_top_div),
-+								data->vout_bottom_div);
-+		break;
-+	case PMBUS_IOUT_OC_FAULT_LIMIT:
-+	case PMBUS_IOUT_OC_WARN_LIMIT:
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = DIV_ROUND_CLOSEST((ret & GENMASK(7, 0)) *
-+								data->iout_scale *
-+								MP29502_IOUT_LIMIT_UINT,
-+								MP29502_READ_IOUT_DIV);
-+		break;
-+	case PMBUS_OT_FAULT_LIMIT:
-+	case PMBUS_OT_WARN_LIMIT:
-+		/*
-+		 * The scale of MP29502 PMBUS_OT_FAULT_LIMIT and PMBUS_OT_WARN_LIMIT
-+		 * is 1°C/LSB and they have 40°C offset.
-+		 */
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = (ret & GENMASK(7, 0)) - MP29502_TEMP_LIMIT_OFFSET;
-+		break;
-+	case PMBUS_POUT_OP_WARN_LIMIT:
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = (ret & GENMASK(11, 0)) * MP29502_POUT_OP_GAIN;
-+		break;
-+	case PMBUS_PIN_OP_WARN_LIMIT:
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = (ret & GENMASK(11, 0)) * MP29502_POUT_OP_GAIN;
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int mp29502_write_word_data(struct i2c_client *client, int page, int reg,
-+				   u16 word)
-+{
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct mp29502_data *data = to_mp29502_data(info);
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (reg) {
-+	case PMBUS_VIN_OV_FAULT_LIMIT:
-+		/*
-+		 * The PMBUS_VIN_OV_FAULT_LIMIT[7:0] is the limit value,
-+		 * and bit8-bit15 should not be changed. The scale of
-+		 * PMBUS_VIN_OV_FAULT_LIMIT is 500mV/Lsb, but the vin
-+		 * scale is set to 125mV/Lsb(using r/m/b scale), so
-+		 * the word data should divide by 4.
-+		 */
-+		ret = pmbus_read_word_data(client, page, 0xff, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = pmbus_write_word_data(client, page, reg,
-+					    (ret & ~GENMASK(7, 0)) |
-+				FIELD_PREP(GENMASK(7, 0),
-+					   DIV_ROUND_CLOSEST(word,
-+							     MP29502_VIN_OV_GAIN)));
-+		break;
-+	case PMBUS_VIN_UV_WARN_LIMIT:
-+	case PMBUS_VIN_UV_FAULT_LIMIT:
-+		/*
-+		 * The PMBUS_VIN_UV_WARN_LIMIT[9:0] and PMBUS_VIN_UV_FAULT_LIMIT[9:0]
-+		 * are the limit value, and bit10-bit15 should not be changed.
-+		 */
-+		ret = pmbus_read_word_data(client, page, 0xff, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = pmbus_write_word_data(client, page, reg,
-+					    (ret & ~GENMASK(9, 0)) |
-+							FIELD_PREP(GENMASK(9, 0),
-+								   word));
-+		break;
-+	case PMBUS_VOUT_OV_FAULT_LIMIT:
-+		ret = mp29502_write_vout_ov_limit(client, word, data);
-+		if (ret < 0)
-+			return ret;
-+
-+		break;
-+	case PMBUS_VOUT_UV_FAULT_LIMIT:
-+		ret = pmbus_read_word_data(client, page, 0xff, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = pmbus_write_word_data(client, page, reg,
-+					    (ret & ~GENMASK(8, 0)) |
-+						FIELD_PREP(GENMASK(8, 0),
-+							   DIV_ROUND_CLOSEST(word *
-+									data->vout_bottom_div +
-+									MP29502_VOUT_UV_OFFSET *
-+									(data->vout_bottom_div +
-+									4 * data->vout_top_div),
-+									MP29502_OVUV_LIMIT_SCALE *
-+									(data->vout_bottom_div +
-+									4 * data->vout_top_div))));
-+		break;
-+	case PMBUS_IOUT_OC_FAULT_LIMIT:
-+	case PMBUS_IOUT_OC_WARN_LIMIT:
-+		ret = pmbus_write_word_data(client, page, reg,
-+					    DIV_ROUND_CLOSEST(word *
-+							MP29502_READ_IOUT_DIV,
-+							MP29502_IOUT_LIMIT_UINT *
-+							data->iout_scale));
-+		break;
-+	case PMBUS_OT_FAULT_LIMIT:
-+	case PMBUS_OT_WARN_LIMIT:
-+		/*
-+		 * The PMBUS_OT_FAULT_LIMIT[7:0] and PMBUS_OT_WARN_LIMIT[7:0]
-+		 * are the limit value, and bit8-bit15 should not be changed.
-+		 */
-+		ret = pmbus_read_word_data(client, page, 0xff, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = pmbus_write_word_data(client, page, reg,
-+					    (ret & ~GENMASK(7, 0)) |
-+					FIELD_PREP(GENMASK(7, 0),
-+						   word + MP29502_TEMP_LIMIT_OFFSET));
-+		break;
-+	case PMBUS_POUT_OP_WARN_LIMIT:
-+		/*
-+		 * The PMBUS_POUT_OP_WARN_LIMIT[11:0] and bit12-bit15 should not be
-+		 * changed.
-+		 */
-+		ret = pmbus_read_word_data(client, page, 0xff, reg);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = pmbus_write_word_data(client, page, reg,
-+					    (ret & ~GENMASK(11, 0)) |
-+				FIELD_PREP(GENMASK(11, 0),
-+					   DIV_ROUND_CLOSEST(word,
-+							     MP29502_POUT_OP_GAIN)));
-+		break;
-+	case PMBUS_PIN_OP_WARN_LIMIT:
-+		ret = pmbus_write_word_data(client, page, reg,
-+					    DIV_ROUND_CLOSEST(word,
-+							      MP29502_POUT_OP_GAIN));
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int mp29502_identify(struct i2c_client *client, struct pmbus_driver_info *info)
-+{
-+	int ret;
-+
-+	/* Identify vout scale */
-+	ret = mp29502_identify_vout_scale(client, info, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Identify vout divider. */
-+	ret = mp29502_identify_vout_divider(client, info, 1);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Identify ovp divider. */
-+	ret = mp29502_identify_ovp_divider(client, info, 1);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Identify iout scale */
-+	return mp29502_identify_iout_scale(client, info, 0);
-+}
-+
-+static const struct pmbus_driver_info mp29502_info = {
-+	.pages = MP29502_PAGE_NUM,
-+	.format[PSC_VOLTAGE_IN] = direct,
-+	.format[PSC_TEMPERATURE] = direct,
-+	.format[PSC_CURRENT_OUT] = direct,
-+	.format[PSC_VOLTAGE_OUT] = direct,
-+	.format[PSC_POWER] = direct,
-+	.format[PSC_CURRENT_IN] = linear,
-+
-+	.m[PSC_VOLTAGE_IN] = 8,
-+	.R[PSC_VOLTAGE_IN] = 0,
-+	.b[PSC_VOLTAGE_IN] = 0,
-+
-+	.m[PSC_VOLTAGE_OUT] = 1,
-+	.R[PSC_VOLTAGE_OUT] = 3,
-+	.b[PSC_VOLTAGE_OUT] = 0,
-+
-+	.m[PSC_TEMPERATURE] = 1,
-+	.R[PSC_TEMPERATURE] = 0,
-+	.b[PSC_TEMPERATURE] = 0,
-+
-+	.m[PSC_CURRENT_OUT] = 1,
-+	.R[PSC_CURRENT_OUT] = 0,
-+	.b[PSC_CURRENT_OUT] = 0,
-+
-+	.m[PSC_POWER] = 1,
-+	.R[PSC_POWER] = 0,
-+	.b[PSC_POWER] = 0,
-+
-+	.func[0] = MP29502_RAIL_FUNC,
-+	.read_word_data = mp29502_read_word_data,
-+	.read_byte_data = mp29502_read_byte_data,
-+	.write_word_data = mp29502_write_word_data,
-+	.identify = mp29502_identify,
-+};
-+
-+static int mp29502_probe(struct i2c_client *client)
-+{
-+	struct pmbus_driver_info *info;
-+	struct mp29502_data *data;
-+
-+	data = devm_kzalloc(&client->dev, sizeof(struct mp29502_data),
-+			    GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	memcpy(&data->info, &mp29502_info, sizeof(*info));
-+	info = &data->info;
-+
-+	return pmbus_do_probe(client, info);
-+}
-+
-+static const struct i2c_device_id mp29502_id[] = {
-+	{"mp29502", 0},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, mp29502_id);
-+
-+static const struct of_device_id __maybe_unused mp29502_of_match[] = {
-+	{.compatible = "mps,mp29502"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mp29502_of_match);
-+
-+static struct i2c_driver mp29502_driver = {
-+	.driver = {
-+		.name = "mp29502",
-+		.of_match_table = mp29502_of_match,
-+	},
-+	.probe = mp29502_probe,
-+	.id_table = mp29502_id,
-+};
-+
-+module_i2c_driver(mp29502_driver);
-+
-+MODULE_AUTHOR("Wensheng Wang <wenswang@yeah.net");
-+MODULE_DESCRIPTION("PMBus driver for MPS MP29502");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("PMBUS");
--- 
-2.25.1
+Please change Documentation/networking/ip-sysctl.rst tcp_ecn accordingly ?
 
+>         },
+>         {
+>                 .procname       =3D "tcp_ecn_fallback",
+> diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+> index 8e0e8d784b1c..e6d7b5420c88 100644
+> --- a/net/ipv4/tcp.c
+> +++ b/net/ipv4/tcp.c
+> @@ -3392,6 +3392,8 @@ int tcp_disconnect(struct sock *sk, int flags)
+>         tp->window_clamp =3D 0;
+>         tp->delivered =3D 0;
+>         tp->delivered_ce =3D 0;
+> +       tp->wait_third_ack =3D 0;
+> +       tp->accecn_fail_mode =3D 0;
+>         tcp_accecn_init_counters(tp);
+>         if (icsk->icsk_ca_initialized && icsk->icsk_ca_ops->release)
+>                 icsk->icsk_ca_ops->release(sk);
+> diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+> index 0fa3803b353d..c986452302cb 100644
+> --- a/net/ipv4/tcp_input.c
+> +++ b/net/ipv4/tcp_input.c
+> @@ -411,14 +411,114 @@ static void tcp_data_ecn_check(struct sock *sk, co=
+nst struct sk_buff *skb)
+>         }
+>  }
+
+I do think this patch is too big and should be split.
