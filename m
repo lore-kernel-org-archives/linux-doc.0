@@ -1,198 +1,281 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6686319D07E;
-	Wed, 25 Jun 2025 15:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6341329B768
+	for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 15:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750863759; cv=none; b=aosMqpvhIIoiHZM3nNk4HausR+S5r63TBEu3Vnekxd0VopRw75/fuyawbz/FLZRUThpEF9nuP66XtAKtNwCVpwhyf92+8OfKqrpwlShPXoXsi1+N+S11n/jp8J8GYwe5ps23iJxBSIrvegDRUg9iHaUebiUmXIQKN2JcVTGJ2UA=
+	t=1750866719; cv=none; b=NSFV1bR8kNmvTD8tFBR9TSbNOSyMhRu7hi+PoW4+g8rfGwfxa5yHZUY5jhT2F2OX50GoaZy2kfTVGP6udYjSK2obva8P13OoBS2hbTbeW1eJIlTJ9+31SYA0OsVLsnuv/6VoybUydf1SlLypyCenizrD2qbuWXaL57hivJBb/b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750863759; c=relaxed/simple;
-	bh=WSAs/XlrvMWOmX/zE5KdDXxcjmxX0zhDxhinjFuFuC4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O2EKisAkVaWO9J9I5oJOIAmRpY2N5lJNf5uMVL+Cl8Z4DlunGQBqR50rocH0qammSEG68qIkm7eWkQnreT3cW1F/iL6r5PGwaDYZPKEBLAyIXTCXHgsgiZ0dlUMaueoKQ0WppiKu1N/oF39ZTNuFtQtFrpHEu/7kzFVxiQNvAUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HEAheYkO; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750866719; c=relaxed/simple;
+	bh=t8USNlJXF4U9plUczuyiMuPRiapOt9YbAVBerRDdDM8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZV0Rwdxj6nJUTH0aKsfqDtqybd5i6FuKUnM9OE53Nm07Oe76nREnsAv8YCFWtNGTdvpg/92KYv7SIsuRokjf2XGQJlCrptrs2A9K92hWHdCUmVP0ewnindl29pUmNXp7uwLXqjJlW+yfqMFCPKZNTNRtfAX2am2HSJfELo8A33U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bslke0Kx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=piMT3Cft; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bslke0Kx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=piMT3Cft; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HEAheYkO"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a577ab8c34so932798f8f.3;
-        Wed, 25 Jun 2025 08:02:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750863755; x=1751468555; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QamFA6yvN7ODtshGR3J6pQWh2DuwAqjt13u4C6QWdt4=;
-        b=HEAheYkOqSbtghpew83T8rnjmZVFkK4bvNjkJHzfmUGHDfNDsuRVU/s4t14qnTEFNb
-         p5IGwBBlF8C7hyEayA73EBGjyM97sXHe9/uFlYkwqiHkFV+XHeji4BvxKaIGKUdiZZC4
-         ax/ckE4E/2zuVyOIKj7PSTjfmxt1nuAY22Z0ZvbYsNkFRnf01rgQ4Y/DpRq36hRUEl8O
-         HROBOkc0OqelMD0uTjPyl6KI5bIYz3K8tRoFQbybjfIVMr1TI7YxaDJuoYLTooJ/rfRN
-         ju7laAWARREZou/4OL0ivgNEB0HpPLymhKw8S/bf1KyjCXN3za4sCEeoUS1AQ5xbDgLq
-         AZ7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750863755; x=1751468555;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QamFA6yvN7ODtshGR3J6pQWh2DuwAqjt13u4C6QWdt4=;
-        b=FhbTjbBpmzHrd1rRqCHC9wWI5R/9tiQErRk25541CAgr/UQLdzlefUW1Y0Ubum6Rmt
-         RB9SEHfD81RhLHB8wFiDULphdNEbbR0LBydLskvihjyJCS1uhL+Lvea73g7v6kvN09Dl
-         XMMyUaCYW0qGti7rpCQtg3nnBb6nkEvIJRqXBKEYnCukprzQiIma9gAdIIsRYZwK2gvq
-         7nLSzYZiskqTcuGne+MbKUYhPDArLNdXzDdN974vwHENw9N8qf7/IzRr4walj8Elz4XA
-         Gv2eVURVW/v2toui39moRrsrJsry8lfAx4HtqN+ZxDytXBmWVZsctZEZ9RlaznSR787Q
-         Rvaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUII6VZC6cj8wpsd+O6wu6Fa+42C8r3FO34+R7Tayyq9fWF/UfB7abQ2hmt+HV344DhLxZNe8pnSE0=@vger.kernel.org, AJvYcCVayjjb3xwfpwzc0O+SYq2TFffo70pgVNhbWlR0uuDPe/mXYLcowtxc7tX0MMUsThJvBdbV230bc34gvJsW@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXpk1AN+4VIEOLUnj61KWZkgbKmmHvodjvWbPEd9DMe3778nuN
-	uu+jcXASYLP0zEis8S3zaJxOBCDsVTat+TBxnj31vj7MPAcy37WIxsA=
-X-Gm-Gg: ASbGncvjr97ELB/c1BINSJu6iEq9xTrNwKWh4OaFf6R3Sd8PaKJ8woZMHLo1RpRWmDc
-	lZ6vFND3h+MMp57QZTWifAcCalrRscz+hhbjqRYIXrTJzN1yseZnWE/4Etyw3SwK5bQ/8QtfaVd
-	VI3H3ZhZat02CAKF7NBSmuvqj+H5DEunBrw75zkXNlCdnIzkXWnZP5GtpkNMsR22lzqJnuY/Tym
-	A4MLV9aFcgD3m+UXJuMdutsAu595UPUllKNaUb3V90c/eSdTLf6r9GMg6uLC5nsY1RvLdTfwWny
-	THvNCXV22YKSuXqlPC00vZ1MtRBMGSScI31hGGJA14o5J2oRbPwmM98XnVd7WnG/JDtKFKuvKqi
-	6+k/s2tEVnStkNEKhJFGDy1PpjFnReQ==
-X-Google-Smtp-Source: AGHT+IGEBBqo8CTkqEBEYNyvmiu/os9UVuTbwz2AcxEeNVTUJsIKircUofrp4w17i/bjIq2dnNMIQQ==
-X-Received: by 2002:a05:6000:230d:b0:3a5:324a:9bd with SMTP id ffacd0b85a97d-3a6ed608ffdmr1076168f8f.2.1750863753744;
-        Wed, 25 Jun 2025 08:02:33 -0700 (PDT)
-Received: from localhost (238.red-80-39-144.dynamicip.rima-tde.net. [80.39.144.238])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233c749sm23165795e9.4.2025.06.25.08.02.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 08:02:32 -0700 (PDT)
-From: Xose Vazquez Perez <xose.vazquez@gmail.com>
-To: 
-Cc: Xose Vazquez Perez <xose.vazquez@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	DOC ML <linux-doc@vger.kernel.org>,
-	KERNEL ML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] MAINTAINERS: replace git protocol for github
-Date: Wed, 25 Jun 2025 17:02:31 +0200
-Message-ID: <20250625150231.241687-1-xose.vazquez@gmail.com>
-X-Mailer: git-send-email 2.50.0
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bslke0Kx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="piMT3Cft";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bslke0Kx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="piMT3Cft"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 62E922118D;
+	Wed, 25 Jun 2025 15:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1750866715; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v8nQknDS6pmpLWfs+ArFdioX0s6CDoohu6KF7xdiMMw=;
+	b=Bslke0KxoWYmAwuQsgr63B43hSdaD6vOJUqVFX8B6iMS7j0MCm/poCtLli6H8FlQ1qpd1n
+	rpRpzywhC9BM6JUtsEK3To3T8m91bAcCzd4k83zImiQJn8DmpBdNBL+jjGmHLUuvzt/mRk
+	jeRZWfP/AIDBBDRwYrgrWpZbvsTvs4U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1750866715;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v8nQknDS6pmpLWfs+ArFdioX0s6CDoohu6KF7xdiMMw=;
+	b=piMT3Cfty2+bthrCf+5fvhIuDbq1swXPjGZrZYfe3/autzx76SM2iJ+L3aREPnnT64cBFC
+	gcCQTR7GCuhLL7Bg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Bslke0Kx;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=piMT3Cft
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1750866715; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v8nQknDS6pmpLWfs+ArFdioX0s6CDoohu6KF7xdiMMw=;
+	b=Bslke0KxoWYmAwuQsgr63B43hSdaD6vOJUqVFX8B6iMS7j0MCm/poCtLli6H8FlQ1qpd1n
+	rpRpzywhC9BM6JUtsEK3To3T8m91bAcCzd4k83zImiQJn8DmpBdNBL+jjGmHLUuvzt/mRk
+	jeRZWfP/AIDBBDRwYrgrWpZbvsTvs4U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1750866715;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v8nQknDS6pmpLWfs+ArFdioX0s6CDoohu6KF7xdiMMw=;
+	b=piMT3Cfty2+bthrCf+5fvhIuDbq1swXPjGZrZYfe3/autzx76SM2iJ+L3aREPnnT64cBFC
+	gcCQTR7GCuhLL7Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36BC813301;
+	Wed, 25 Jun 2025 15:51:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id i2AJDRsbXGjnMAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 25 Jun 2025 15:51:55 +0000
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Wed, 25 Jun 2025 17:51:52 +0200
+Subject: [PATCH] mm, vmstat: remove the NR_WRITEBACK_TEMP node_stat_item
+ counter
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250625-nr_writeback_removal-v1-1-7f2a0df70faa@suse.cz>
+X-B4-Tracking: v=1; b=H4sIABcbXGgC/x3M3QpAQBBA4VfRXNta66d4FUljDSYszQol725z+
+ V2c84AnYfJQRQ8Inex5cwFJHIGd0I2kuA8Go02uC5MrJ+0lfFCHdm6F1u3ERWVkMUlLO+gSIaS
+ 70MD3v62b9/0A+LRK2GYAAAA=
+X-Change-ID: 20250625-nr_writeback_removal-4eca139cf09a
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Tejun Heo <tj@kernel.org>, Maxim Patlasov <mpatlasov@parallels.com>, 
+ Jan Kara <jack@suse.cz>, Zach O'Keefe <zokeefe@google.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, 
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Zi Yan <ziy@nvidia.com>, Joanne Koong <joannelkoong@gmail.com>, 
+ Jingbo Xu <jefflexu@linux.alibaba.com>, Jeff Layton <jlayton@kernel.org>, 
+ Miklos Szeredi <mszeredi@redhat.com>, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-mm@kvack.org, Jens Axboe <axboe@kernel.dk>, 
+ Vlastimil Babka <vbabka@suse.cz>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5950; i=vbabka@suse.cz;
+ h=from:subject:message-id; bh=t8USNlJXF4U9plUczuyiMuPRiapOt9YbAVBerRDdDM8=;
+ b=owEBbQGS/pANAwAIAbvgsHXSRYiaAcsmYgBoXBsY1YOFpjfas7/tInAngabuIgbw3W2JzIjSC
+ zsedRZJ2lGJATMEAAEIAB0WIQR7u8hBFZkjSJZITfG74LB10kWImgUCaFwbGAAKCRC74LB10kWI
+ mu70CACIdu4YQxdhrRCyDP5/xfNaJ5Tlelej6t1lOpU7kQsvm3MChRKj+FItRPDsMpDfKNdUtoU
+ 1WE7Yutm8ytFuaH1gfu2uyhn9hP5tXfcyo8Ge8hvySG3Jsy2D+dBP3dSUWh6LrCOl+l+vWCyT8o
+ 03dEWe0GRRnJA2HOJISipZf87tAKT9rYOBtWzEFh8zvKo4PhzTRQpI3tQS5dIhHGALTw/iBkN0S
+ dCOU48Pc53/5Hq3e42mtth6cFbFBiukMGDlxuYiMej6iV6ThK8zC2kt7f3mMeMIswxQ0IYlykvJ
+ xK9rvuRHkTSKmaXZJOL0xCfKyrHb2Q1+MJSntcUD4l/cDynW
+X-Developer-Key: i=vbabka@suse.cz; a=openpgp;
+ fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,parallels.com,suse.cz,google.com,lwn.net,linuxfoundation.org,suse.com,linux.intel.com,cmpxchg.org,nvidia.com,gmail.com,linux.alibaba.com,redhat.com,vger.kernel.org,kvack.org,kernel.dk];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLduzbn1medsdpg3i8igc4rk67)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 62E922118D
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -4.51
 
-It was removed time ago:
-https://github.blog/changelog/2022-03-15-removed-unencrypted-git-protocol-and-certain-ssh-keys/
+The only user of the counter (FUSE) was removed in commit 0c58a97f919c
+("fuse: remove tmp folio for writebacks and internal rb tree") so follow
+the established pattern of removing the counter and hardcoding 0 in
+meminfo output, as done recently with NR_BOUNCE. Update documentation
+for procfs, including for the value for Bounce that was missed when
+removing its counter.
 
-Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: DOC ML <linux-doc@vger.kernel.org> (open list:DOCUMENTATION)
-Cc: KERNEL ML <linux-kernel@vger.kernel.org> (open list)
-Signed-off-by: Xose Vazquez Perez <xose.vazquez@gmail.com>
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- MAINTAINERS | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+The removal of the counter is straightforward. The reason for the large
+Cc list is that there is a comment in mm/page-writeback.c function
+wb_position_ratio() that mentions NR_WRITEBACK_TEMP, and just deleting
+the sentence feels to me it could be the wrong thing to do - maybe the
+strictlimit feature itself is now obsolete? It sure does mention FUSE
+as the main reason to exist, but commit 5a53748568f79 that introduced it
+also mentions slow USB sticks as a possibile scenario. Has that
+happened? I'm not familiar enough with this so I'd rather highlight this
+and ask for input here than make "git grep NR_WRITEBACK_TEMP" return
+nothing.
+---
+ Documentation/filesystems/proc.rst | 8 +++++---
+ drivers/base/node.c                | 2 +-
+ fs/proc/meminfo.c                  | 3 +--
+ include/linux/mmzone.h             | 1 -
+ mm/show_mem.c                      | 2 --
+ mm/vmstat.c                        | 1 -
+ 6 files changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 23840fc19199..c4672371609c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -158,7 +158,7 @@ S:	Maintained
- W:	http://github.com/v9fs
- Q:	http://patchwork.kernel.org/project/v9fs-devel/list/
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/ericvh/v9fs.git
--T:	git git://github.com/martinetd/linux.git
-+T:	git https://github.com/martinetd/linux.git
- F:	Documentation/filesystems/9p.rst
- F:	fs/9p/
- F:	include/net/9p/
-@@ -2521,7 +2521,7 @@ M:	Hans Ulli Kroll <ulli.kroll@googlemail.com>
- M:	Linus Walleij <linus.walleij@linaro.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
--T:	git git://github.com/ulli-kroll/linux.git
-+T:	git https://github.com/ulli-kroll/linux.git
- F:	Documentation/devicetree/bindings/arm/gemini.yaml
- F:	Documentation/devicetree/bindings/net/cortina,gemini-ethernet.yaml
- F:	Documentation/devicetree/bindings/pinctrl/cortina,gemini-pinctrl.txt
-@@ -2727,7 +2727,7 @@ M:	Vladimir Zapolskiy <vz@mleia.com>
- M:	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
--T:	git git://github.com/vzapolskiy/linux-lpc32xx.git
-+T:	git https://github.com/vzapolskiy/linux-lpc32xx.git
- F:	Documentation/devicetree/bindings/i2c/nxp,pnx-i2c.yaml
- F:	arch/arm/boot/dts/nxp/lpc/lpc32*
- F:	arch/arm/mach-lpc32xx/
-@@ -2893,7 +2893,7 @@ M:	Romain Perier <romain.perier@gmail.com>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- W:	http://linux-chenxing.org/
--T:	git git://github.com/linux-chenxing/linux.git
-+T:	git https://github.com/linux-chenxing/linux.git
- F:	Documentation/devicetree/bindings/arm/mstar/*
- F:	Documentation/devicetree/bindings/clock/mstar,msc313-mpll.yaml
- F:	Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml
-@@ -3813,7 +3813,7 @@ ATHEROS 71XX/9XXX GPIO DRIVER
- M:	Alban Bedel <albeu@free.fr>
- S:	Maintained
- W:	https://github.com/AlbanBedel/linux
--T:	git git://github.com/AlbanBedel/linux
-+T:	git https://github.com/AlbanBedel/linux.git
- F:	Documentation/devicetree/bindings/gpio/gpio-ath79.txt
- F:	drivers/gpio/gpio-ath79.c
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 5236cb52e357dcd00496b26be8578e1dec0a345e..2971551b7235345c9a7ec3c84a87a16adcda5901 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1196,12 +1196,14 @@ SecPageTables
+               Memory consumed by secondary page tables, this currently includes
+               KVM mmu and IOMMU allocations on x86 and arm64.
+ NFS_Unstable
+-              Always zero. Previous counted pages which had been written to
++              Always zero. Previously counted pages which had been written to
+               the server, but has not been committed to stable storage.
+ Bounce
+-              Memory used for block device "bounce buffers"
++              Always zero. Previously memory used for block device
++              "bounce buffers".
+ WritebackTmp
+-              Memory used by FUSE for temporary writeback buffers
++              Always zero. Previously memory used by FUSE for temporary
++              writeback buffers.
+ CommitLimit
+               Based on the overcommit ratio ('vm.overcommit_ratio'),
+               this is the total amount of  memory currently available to
+diff --git a/drivers/base/node.c b/drivers/base/node.c
+index 6d66382dae6533a0c8481f72ad67c35021e331d3..e434cb260e6182468e0d617b559134c6fbe128f4 100644
+--- a/drivers/base/node.c
++++ b/drivers/base/node.c
+@@ -500,7 +500,7 @@ static ssize_t node_read_meminfo(struct device *dev,
+ 			     nid, K(node_page_state(pgdat, NR_SECONDARY_PAGETABLE)),
+ 			     nid, 0UL,
+ 			     nid, 0UL,
+-			     nid, K(node_page_state(pgdat, NR_WRITEBACK_TEMP)),
++			     nid, 0UL,
+ 			     nid, K(sreclaimable +
+ 				    node_page_state(pgdat, NR_KERNEL_MISC_RECLAIMABLE)),
+ 			     nid, K(sreclaimable + sunreclaimable),
+diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+index bc2bc60c36ccc1dab8913913056f5ff20b448490..a458f1e112fdbc63019239a79ce39c5576b5f963 100644
+--- a/fs/proc/meminfo.c
++++ b/fs/proc/meminfo.c
+@@ -121,8 +121,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
  
-@@ -3821,7 +3821,7 @@ ATHEROS 71XX/9XXX USB PHY DRIVER
- M:	Alban Bedel <albeu@free.fr>
- S:	Maintained
- W:	https://github.com/AlbanBedel/linux
--T:	git git://github.com/AlbanBedel/linux
-+T:	git https://github.com/AlbanBedel/linux.git
- F:	Documentation/devicetree/bindings/phy/phy-ath79-usb.txt
- F:	drivers/phy/qualcomm/phy-ath79-usb.c
- 
-@@ -3886,7 +3886,7 @@ F:	drivers/net/ethernet/cadence/
- ATMEL MAXTOUCH DRIVER
- M:	Nick Dyer <nick@shmanahar.org>
- S:	Maintained
--T:	git git://github.com/ndyer/linux.git
-+T:	git https://github.com/ndyer/linux.git
- F:	Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
- F:	drivers/input/touchscreen/atmel_mxt_ts.c
- 
-@@ -19713,7 +19713,7 @@ L:	linux-pm@vger.kernel.org
- S:	Supported
- W:	https://01.org/pm-graph
- B:	https://bugzilla.kernel.org/buglist.cgi?component=pm-graph&product=Tools
--T:	git git://github.com/intel/pm-graph
-+T:	git https://github.com/intel/pm-graph.git
- F:	tools/power/pm-graph
- 
- PM6764TR DRIVER
-@@ -20104,8 +20104,8 @@ M:	Haojian Zhuang <haojian.zhuang@gmail.com>
- M:	Robert Jarzmik <robert.jarzmik@free.fr>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
--T:	git git://github.com/hzhuang1/linux.git
--T:	git git://github.com/rjarzmik/linux.git
-+T:	git https://github.com/hzhuang1/linux.git
-+T:	git https://github.com/rjarzmik/linux.git
- F:	arch/arm/boot/dts/intel/pxa/
- F:	arch/arm/mach-pxa/
- F:	drivers/dma/pxa*
-@@ -22867,7 +22867,7 @@ M:	Casey Schaufler <casey@schaufler-ca.com>
- L:	linux-security-module@vger.kernel.org
- S:	Maintained
- W:	http://schaufler-ca.com
--T:	git git://github.com/cschaufler/smack-next
-+T:	git https://github.com/cschaufler/smack-next.git
- F:	Documentation/admin-guide/LSM/Smack.rst
- F:	security/smack/
- 
-@@ -25209,7 +25209,7 @@ TRADITIONAL CHINESE DOCUMENTATION
- M:	Hu Haowen <2023002089@link.tyut.edu.cn>
- S:	Maintained
- W:	https://github.com/srcres258/linux-doc
--T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
-+T:	git https://github.com/srcres258/linux-doc.git doc-zh-tw
- F:	Documentation/translations/zh_TW/
- 
- TRIGGER SOURCE - PWM
+ 	show_val_kb(m, "NFS_Unstable:   ", 0);
+ 	show_val_kb(m, "Bounce:         ", 0);
+-	show_val_kb(m, "WritebackTmp:   ",
+-		    global_node_page_state(NR_WRITEBACK_TEMP));
++	show_val_kb(m, "WritebackTmp:   ", 0);
+ 	show_val_kb(m, "CommitLimit:    ", vm_commit_limit());
+ 	show_val_kb(m, "Committed_AS:   ", committed);
+ 	seq_printf(m, "VmallocTotal:   %8lu kB\n",
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 1d1bb2b7f40d25b430932c9ef9096d97bf1c29de..0c5da9141983b795018c0aa2457b065507416564 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -206,7 +206,6 @@ enum node_stat_item {
+ 	NR_FILE_PAGES,
+ 	NR_FILE_DIRTY,
+ 	NR_WRITEBACK,
+-	NR_WRITEBACK_TEMP,	/* Writeback using temporary buffers */
+ 	NR_SHMEM,		/* shmem pages (included tmpfs/GEM pages) */
+ 	NR_SHMEM_THPS,
+ 	NR_SHMEM_PMDMAPPED,
+diff --git a/mm/show_mem.c b/mm/show_mem.c
+index 0cf8bf5d832d6b339b4c9a6c7b8b3ab41683bcfe..41999e94a56d623726ea92f3f38785e8b218afe5 100644
+--- a/mm/show_mem.c
++++ b/mm/show_mem.c
+@@ -246,7 +246,6 @@ static void show_free_areas(unsigned int filter, nodemask_t *nodemask, int max_z
+ 			" shmem_pmdmapped:%lukB"
+ 			" anon_thp:%lukB"
+ #endif
+-			" writeback_tmp:%lukB"
+ 			" kernel_stack:%lukB"
+ #ifdef CONFIG_SHADOW_CALL_STACK
+ 			" shadow_call_stack:%lukB"
+@@ -273,7 +272,6 @@ static void show_free_areas(unsigned int filter, nodemask_t *nodemask, int max_z
+ 			K(node_page_state(pgdat, NR_SHMEM_PMDMAPPED)),
+ 			K(node_page_state(pgdat, NR_ANON_THPS)),
+ #endif
+-			K(node_page_state(pgdat, NR_WRITEBACK_TEMP)),
+ 			node_page_state(pgdat, NR_KERNEL_STACK_KB),
+ #ifdef CONFIG_SHADOW_CALL_STACK
+ 			node_page_state(pgdat, NR_KERNEL_SCS_KB),
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index c3114b8826e4c3b6969fd4af4b0cd32173c42d7b..e0fcd9057f344170b2dc5c82beafea4ec18359bb 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1251,7 +1251,6 @@ const char * const vmstat_text[] = {
+ 	[I(NR_FILE_PAGES)]			= "nr_file_pages",
+ 	[I(NR_FILE_DIRTY)]			= "nr_dirty",
+ 	[I(NR_WRITEBACK)]			= "nr_writeback",
+-	[I(NR_WRITEBACK_TEMP)]			= "nr_writeback_temp",
+ 	[I(NR_SHMEM)]				= "nr_shmem",
+ 	[I(NR_SHMEM_THPS)]			= "nr_shmem_hugepages",
+ 	[I(NR_SHMEM_PMDMAPPED)]			= "nr_shmem_pmdmapped",
+
+---
+base-commit: 4216fd45fc9156da0ee33fcb25cc0a5265049e32
+change-id: 20250625-nr_writeback_removal-4eca139cf09a
+
+Best regards,
 -- 
-2.50.0
+Vlastimil Babka <vbabka@suse.cz>
 
