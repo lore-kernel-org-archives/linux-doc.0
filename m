@@ -1,111 +1,73 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131D4189B8C
-	for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 06:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CD01DE4D2;
+	Wed, 25 Jun 2025 06:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750833701; cv=none; b=pLQxxiqLeSOqG9/XGCJpKzMoKhmNoM4ThMMBMSLdF18ciDRGNOSz8AVdOhUYmN/w7TBRNLGF8dqpX7KjdTH27ZEnYY+hVQh7kMA6Aa2uVtzmSnPi6NgC/xsHxCv7q37ZoLprJjZDCnpKDvNmxXGk4OqqIubhPGB+xM/E8KvDuEc=
+	t=1750834592; cv=none; b=qxdf7AW3Yy9CSMOpS5bkx179P3MGbkbWnNaF67mMDFPWYnBwnyPiLQmLk2J1X/v4qb5U7xFeYnSKOHu9mQ7qGM/feRPvT85Nj2eDEsOVVJxbC1bIiYL47p9/lsOj4GLaDL33k4c944CpwNQwHeyPrbcToDyfnqmpykD7wgb4hAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750833701; c=relaxed/simple;
-	bh=VjQgB4d2oSebEr2mIns82XhjpF5sZibBpb/xXzXzJR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BpMEcnnt7BctoFGw5FOFcKEb8Yycovv5SD4kTXcKW0rT/AS8lA0rVf37Uzfc+uyGNhoXWZiMlIMmbi8CO2/70dT5us7UM67in/oHshF/mXdhoG4jbzidK8RGUO2AFtvQnC5r/Ly61LlW8coEWEGB298Shyx+PzSJXRAcQyJpGzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gCzSYMhb; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1750834592; c=relaxed/simple;
+	bh=Uh1WwnNvimTsWyoQ0hTnqc/W/jE8I7xFNWmTFet+yG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qz6lH2Mz0JT88inTB/aLTH33Y0bjN3D3ZdsMcrjvZplbDxecshBQx5QewMyUUvoW+rCK7s740W0R0PZK4KoGXJWzyKJ3MyvHK5Y9/mAmSa0eEKQK/qLgbLuxaM+kc0Ga5LgI06o2chs6AxYODBhBI9UKm9oc7zFbvg6UH9senwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CgIypNKh; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gCzSYMhb"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a5828d26e4so911384f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Jun 2025 23:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1750833698; x=1751438498; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nv4j46Gn/Kvr0K34agGb6tcrNF0OwBTrFfOvFYIVMos=;
-        b=gCzSYMhbvO1YxUuqxWbIzQijy7lZFL1v0S1jHa1Abt40+32aD6vNfxY9Rnu7ac+vhZ
-         jxspAAsIdo1t03uN7vg1/qHfFNAcrJd2K5olYbuajh8T/w/ejv6tS7U3Gy1j0QWNy85D
-         9n+st+be8Y3MvB8Vl4+3SSxHjDCJpRpJZWRvuMMUM4XoZilZS2vmRt1DZzWK8iRU2+Jq
-         65KDkidny+SHskUKQchcUyrNx8EAAXBoijcnwQeM58rn3u3I7tbsqThVc+ibOJaVl1Vs
-         p0WQ7CnbiJF9lzsn/xe9/p0FRHm9UI9qWEMuVBHXObkov+LeBCsuDkabpYuNdWwxq+bs
-         DvUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750833698; x=1751438498;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nv4j46Gn/Kvr0K34agGb6tcrNF0OwBTrFfOvFYIVMos=;
-        b=FPnspzYNVIqdzjQNIMvFco7ww0wpWYpflYpG4VDTtyol4+MaOrfYeHroC4JLiJuR06
-         FHRBBpngEWHkcv9b9q4c9uSZPwuRVFwYaXmmkLwu0VAvmOSlweyT7LhrFIlwmBu/q80K
-         LwyezrUBx1tXcRgrr4Gd6obeEWqsNXZ5y+P0PyPB9bTHpbdsps9l1jIRNOv/i/hCmIwI
-         unMKWsFIXG9W4uNLeLvFf156P3JkDGvb78ZSdXQ4qNaCH48EH/MLchkmtEXDS6+BlZF5
-         R0cp/s6vp7ZjEOO08aeiSJ5Rz3T1xZCcYgzhxPTDfzOsJkTWaLZIMqi5r0C2NUBq9N5C
-         /WFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTYuKs9qsJxZUEB/NFgWHp+O3QxBViSmc8cP6qDyW5xBNLcMcHuOZJ0rcd4yPOJVt32I9jCkhB+9Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwF2Iq1bj4TdlmHTiLzhWk5h+RYil0wEmjCeS/TEwrteOEI1x9z
-	/CRdMcsFJMHXWedkPCLqnzvnkW3LI9No1/oqAGgJd/oG6AqHmZaGTX4heD852su3AhY=
-X-Gm-Gg: ASbGncu165Q2YxZgjXsBatACbOkOgT9NFxB32nU3gzSntkJrs8cZTfQSa/Zhx3JfZBJ
-	6BJT2oZBBIv72mOsgePqdIZQvm4Tl9WnVGz2MAR8diZpFKHt5xnBI+ICR5iUfOaSa2FKgPXSB32
-	5g77wWUQzfbrjt5WPOrERIIPqst5OvuNcRf2B+/GPlb38pZz7igvPkP2ulUU3Na7ESn29jRwLIY
-	XQJLzUGvKzjj4VnjBRxEhcZ9xXfwYAq2L0SlQRFsfcP55iqQ12WXqJgqpPOjuDYo+HVkQyCRCDB
-	veOxIfGK+l3NnHH/Gnw/b7mMsdMcDd514TvHMRoGftnQftWHXbAZK+vU14YJTS4+SoA5uk3FCo0
-	/pFi51Tf+6/ndCjxKG68lsCf6GnGTVCXWJoDiR90XbESnUVbaEeKswbmMwRqsGaXBuXM=
-X-Google-Smtp-Source: AGHT+IE7FEwxOxfhEE+iSFV9n5lEc4KGhMLsGRyFhWyAeSVP2PCDplXp/ktSglgcn/Fs2s3oXQVjvw==
-X-Received: by 2002:a05:600c:524d:b0:442:fff5:5185 with SMTP id 5b1f17b1804b1-453821a8633mr4333875e9.6.1750833698266;
-        Tue, 24 Jun 2025 23:41:38 -0700 (PDT)
-Received: from mordecai.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e8069467sm3646226f8f.42.2025.06.24.23.41.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 23:41:37 -0700 (PDT)
-Date: Wed, 25 Jun 2025 08:41:35 +0200
-From: Petr Tesarik <ptesarik@suse.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Morton <akpm@linux-foundation.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Leon Romanovsky
- <leon@kernel.org>, Keith Busch <kbusch@kernel.org>, Caleb Sander Mateos
- <csander@purestorage.com>, Sagi Grimberg <sagi@grimberg.me>, Jens Axboe
- <axboe@kernel.dk>, John Garry <john.g.garry@oracle.com>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:MEMORY MANAGEMENT"
- <linux-mm@kvack.org>
-Subject: Re: [PATCH 5/8] docs: dma-api: remove duplicate description of the
- DMA pool API
-Message-ID: <20250625084135.02a1ab09@mordecai.tesarici.cz>
-In-Reply-To: <5ea93880-72fa-46c7-b69b-82e2021aa567@infradead.org>
-References: <20250624133923.1140421-1-ptesarik@suse.com>
-	<20250624133923.1140421-6-ptesarik@suse.com>
-	<5ea93880-72fa-46c7-b69b-82e2021aa567@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CgIypNKh"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Uh1WwnNvimTsWyoQ0hTnqc/W/jE8I7xFNWmTFet+yG8=; b=CgIypNKhmQ3029o1RKULsD2Xwj
+	vR4Dylx++/bDN9hEqSwPvw/3ZAfijYzkWi80sgOWXNcBE7uDwW/nADhc3mj691cB+/aauczS0ueB1
+	W1+4ny5XmQr4weZuy0cERCCzvlxXH7Ezo683DTg3ESOh87r42tGjM354mfQfI5d41GxF4fgoRQ4Pm
+	LyUNeB4Hq7HT2iCqF9DYpXYKF2aS9MwtV0XMecqbBn51oEpybU8HvkCxJ+dp4WtUnA8iYlsJySN+Q
+	YaRTV1EMoqBPLzBiT044IAGB6t7McuLAwZUq0PHXYqREJiEZmCJoBFR4uydwPbtL5TsQvkp98FRm9
+	Jjlg8naA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uUK3X-00000007k2q-0N1j;
+	Wed, 25 Jun 2025 06:56:27 +0000
+Date: Tue, 24 Jun 2025 23:56:27 -0700
+From: "hch@infradead.org" <hch@infradead.org>
+To: =?utf-8?B?6ZmI5rab5rab?= Taotao Chen <chentaotao@didiglobal.com>
+Cc: "tytso@mit.edu" <tytso@mit.edu>,
+	"hch@infradead.org" <hch@infradead.org>,
+	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+	"willy@infradead.org" <willy@infradead.org>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+	"rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+	"tursulin@ursulin.net" <tursulin@ursulin.net>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"chentao325@qq.com" <chentao325@qq.com>
+Subject: Re: [PATCH v2 0/5] fs: refactor write_begin/write_end and add ext4
+ IOCB_DONTCACHE support
+Message-ID: <aFudm1ndfN-kTSOx@infradead.org>
+References: <20250624121149.2927-1-chentaotao@didiglobal.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250624121149.2927-1-chentaotao@didiglobal.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, 24 Jun 2025 19:40:37 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Thanks, I really like the i915 work to stop the shmem abuse.
 
-> Hi,
-> 
-> On 6/24/25 6:39 AM, Petr Tesarik wrote:
-> > The DMA pool API is documented in Memory Management APIs. Do not duplicate
-> > it in DMA API documentation.
-> >   
-> 
-> This looks like it works (from just visual inspection), but I'm wondering
-> why not just move all DMA API interfaces to dma-api.rst and don't have any
-> in mm-api.rst... ?
+I still hate it that we just change the write_begin/end ops while still
+in the address_space ops vs passing explicit callbacks, because that
+means we'll some other version of that abuse back sooner or later :(
 
-That's also an option. As long as documentation is not repeated in more
-than one place, I'm happy with the result. Now, seeing that it was you
-who originally moved DMA pools from Drivers under Memory Management in
-commit a80a438bd088 ("docbook: dmapool: fix fatal changed filename"), I
-expect no complaints when I move it to dma-api.rst in v2.
-
-Thanks for the idea!
-
-Petr T
