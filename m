@@ -1,48 +1,55 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3995F2E06CE;
-	Wed, 25 Jun 2025 18:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8B03C17;
+	Wed, 25 Jun 2025 18:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750876864; cv=none; b=sw7oHT2kMSQIH2/xXz9swaDKYL38bcqQ5Ain9F/HiBnZmmOWMjDoYNMArNNsSz3qJcvgpflaUsH3wC21GNho1HH5vNInK15mwywq7vnNboOc7pmuBmgJTjcb9ApYT5H/aHPzJ0W0Kf3B+jo0DVXlyAP3ZcFVtxn+LdwRl4eNuAs=
+	t=1750877180; cv=none; b=byX1+2A/SYqwgUoFL5/UzxsiiuC6hBnI33Ng5BuQzL4bzwPaLf0NIZZ0L5gt+pyZDZ8AmmB8ULE7oieQx0SQXGcjYa91P1ybYE/BFsCuRiMNUaeazRRNCdWx1DVbiUJq83/GwtTlaig6lSC0SET6Si+a1EWBA0FjvlK9bWBwT9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750876864; c=relaxed/simple;
-	bh=N8KAbfRi0RddkxyTLunLtcuV4EjHcAqtD9UrYd82kek=;
+	s=arc-20240116; t=1750877180; c=relaxed/simple;
+	bh=uVviAtRfpdR06P23FEonTnJRlmAhLFO/9/W9bEAnrIE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Q73HbrDSZzpm0+I21llTgpz61T9UMPKc53LAtTGcMf/Sew5CmeDSewG11A28sMzB2HLhagmsjk+p6YsMLiNcFaFsTG/txhauXhnID2GvTsTSa5845Bein5xeBEEm7rFEXqIWUx4EuTqheIQcaQec0WFLitdGk/RxP/gp958xm78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OhhgXNji; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=IqHzQqHll81eKjynajBP6VPMME2iAFxqxaPYWRxO6Owuupw8y965kMzcIieBMQEORifeftg5ICKvWOl0tgEiIsU4MOKXouMWbW9DEsWNCe4l62Qlw5nmEeEmA/fbg0bW4V1HM2SbeMy2pG3bzqtZG22Tr5wAjB6jNvkamAyheek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YdVYBgY0; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OhhgXNji"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 612AA40AB1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YdVYBgY0"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F1A0040AB1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1750876862; bh=x6s2YijYDaBMGstr0IWTtlUcKWkfuU6d/pRw+UB67B4=;
+	t=1750877177; bh=XzNsCL2q22eTD4gHfpyQb3neIRXObn5xId6yyyIKSUk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OhhgXNjiOqKwgTPfRtK54tO6ou/mdMU9uvW3ky0bHXuSdyjigrtGObpW2hvDfk1xX
-	 gICjrDf3maIfS+dembgrgZqHhOkXN42nzaQP8hFuCg3QVALYQhXefMMPbnIJ0ujMyX
-	 mJNWv5v1O9uTci6IlnT9bn55Gm+VDvzGkQks9hq46rpK3fx0kExHWI737+5GLfPD27
-	 vIxIvUXVvBMmoF4WtyHjzfp9eWYrur05TS/MsKpcuKmj5ASuLzINxy6f/bUeuUc+9K
-	 iGwkelpRc5AsxlQangtdNZk4B2n9MDyFGKqgpQ6FHpVS4W/fKATsuk3L4xY3nycURT
-	 qdr540HZMxs2Q==
+	b=YdVYBgY0loiFSXPjyumv9wa52PptPDIlnBm/b63X73CsX4IO+0+YuYcjwhfACppGv
+	 o0qHM/t4trIk57cZK5FBxI1QerdF9OZ/X46wpH2rB2vP9f5NXXIwvHXnpxTncTPbQe
+	 JvmoI4h2dxXSSTCTJlkKxgtH63RIRKOz0mr+FTcDDnQiqEkNJnUAAY9wAGUCuwIK6E
+	 kWH0PaZzt106WRHX6dOSc7e5+ZpOFDB0cSGTdpxo6cQXnwQliEXz/BPfC5+iNboW/r
+	 MYs3uGJTUejAFQv9wh8j9WJOYVo4fvP25hRHpU04hFb7xeOPCUr9YpMRS7ef6pONnc
+	 jzSubKJt0olTw==
 Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 612AA40AB1;
-	Wed, 25 Jun 2025 18:41:02 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id F1A0040AB1;
+	Wed, 25 Jun 2025 18:46:16 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Kees Cook
- <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: sphinx: add missing SPDX tags
-In-Reply-To: <1a62226c5fe524eb87bdb80b33bc7ec880a68880.1750585188.git.mchehab+huawei@kernel.org>
-References: <1a62226c5fe524eb87bdb80b33bc7ec880a68880.1750585188.git.mchehab+huawei@kernel.org>
-Date: Wed, 25 Jun 2025 12:41:01 -0600
-Message-ID: <871pr7acle.fsf@trenco.lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Federico Vaga
+ <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, Carlos
+ Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
+ Mu <dzm91@hust.edu.cn>, Thomas Gleixner <tglx@linutronix.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Stanislav Fomichev
+ <sdf@google.com>, David Vernet <void@manifault.com>, Miguel Ojeda
+ <ojeda@kernel.org>, James Seo <james@equiv.tech>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH RFC] Documentation: typography refresh
+In-Reply-To: <20250619042318.17325-2-bagasdotme@gmail.com>
+References: <20250619042318.17325-2-bagasdotme@gmail.com>
+Date: Wed, 25 Jun 2025 12:46:16 -0600
+Message-ID: <87wm8z8xs7.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,37 +58,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> Several Sphinx extensions and tools are missing SPDX tags.
-> Add them.
+> At present, kernel documentation uses system serif font for body text.
+> Some people, however, objected to it and instead prefer that the
+> typography choice must be legible, consistent, and accessible (after
+> all, the audience ranges developers peeking into kernel internals to
+> ordinary users that skimmed through Documentation/admin-guide/).
+
+So I have not seen the objections from "some people"; can you point to
+them, please?
+
+> To tackle the problem, follow Wikimedia's typography refresh [1].
+> For the font choices, instead of using web fonts as in previous
+> attempt [2], use:
 >
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/sphinx/cdomain.py           | 1 +
->  Documentation/sphinx/kernel_include.py    | 1 +
->  Documentation/sphinx/kerneldoc.py         | 1 +
->  Documentation/sphinx/kfigure.py           | 1 +
->  Documentation/sphinx/load_config.py       | 1 +
->  Documentation/sphinx/min_requirements.txt | 1 +
->  Documentation/sphinx/parse-headers.pl     | 5 ++++-
->  Documentation/sphinx/requirements.txt     | 1 +
->  Documentation/sphinx/rstFlatTable.py      | 1 +
->  9 files changed, 12 insertions(+), 1 deletion(-)
+>   * Linux Libertine, Georgia, Times for serif (used in h1 and h2
+>     headings)
+>   * system font for sans-serif and monospace
+>
+> This allows for more readability and consistency without sacrificing
+> page load times and bandwidth, as the font choices is most likely
+> already available on many platforms.
 
-I've applied this, but the patch led me to wonder...
-
-> diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
-> index e8ea80d4324c..3dc285dc70f5 100644
-> --- a/Documentation/sphinx/cdomain.py
-> +++ b/Documentation/sphinx/cdomain.py
-> @@ -1,4 +1,5 @@
->  # -*- coding: utf-8; mode: python -*-
-
-Do we really need these lines?  UTF8 should be the default almost
-anywhere, and Emacs understands that a .py file will require Python
-mode...
-
-Thanks,
+I am open to style changes to make the docs more readable, but I am far
+from convinced that this is it.  Mixing font styles in that way will not
+be universally popular, the claim of "more readability" is
+unsubstantiated, and "consistency" seems out of place when you're making
+the fonts deliberately inconsistent...?
 
 jon
