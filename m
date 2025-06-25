@@ -1,115 +1,184 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA99520E023;
-	Wed, 25 Jun 2025 08:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACF8275B05;
+	Wed, 25 Jun 2025 08:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750839360; cv=none; b=Z5CjNxzXaSuNlrH/AzjA5WToAEDlHxNNTx6EztdF1POTL3JnSk+jw324/wag4Ws0Huzh7uzR58midDcLAQeS3D51XEtrUqa+Jo8CyK4QuwtIO1Wqltd/OeoAWz5oCqZbE6mOx6VoQtnkwT2XV4mjYb9Lr2Po8c73CjPrX0BjRDU=
+	t=1750840608; cv=none; b=spKLMAwMQkVsyzXeVHut6OBwLIkYRoAc8kX6Gi0Wj+MPfhbPZlTkivwqJFXTzPh+LKFt3VCSHr28RomHohMsKDDbLuUyzb0hmonJVigvBMgLgG/i4G3zWtXD/kXc2YCdiWNJT1mOXlINy2Mrg9DeBce6v+bYISFnCuHFnNVzm28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750839360; c=relaxed/simple;
-	bh=B9FQ/xDTdaPFjALjUp4dGIQ/na1i4R5MHemjyoJtJVw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=taXzEPL5XcnhlY2U059LjRQACH0k66byaOP6r29AnDRfJy9dCgeaPVRW0qdcmBXV2LxqWiChMCBILxtIV/tnfrnSo5sxsRTKA9Ws3TRtuLNCAvk7nVmArZaVLWKUByiq9tVvBFsswiwc5paRc+LEDopPTLbJVr77GS78a5ocZ1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OjAjNowm; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750840608; c=relaxed/simple;
+	bh=EbK0U+OP5CIqfg71sOAF4oAM+5LmkeILjjLQ3geqK5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=EChmczUceWR1raU8nR5IZ0qXJdPftEdCibO9qbERnSwR6k4SC7aou3g7N0uWtN+RTuK3f3CeXIDm/0bkBFmpVrO2rVGUM6Zw6n5jSilw2jkrWVLjl9y3ZO1ILbNa41GVmRjkrLqPI2YH0moHxlRdS+kxIaVOBtumfsKFvG1y+v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=SqHnV/Gq; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OjAjNowm"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-70834f92aaeso4462537b3.3;
-        Wed, 25 Jun 2025 01:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750839358; x=1751444158; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B9FQ/xDTdaPFjALjUp4dGIQ/na1i4R5MHemjyoJtJVw=;
-        b=OjAjNowm7EI8tLuGe/AvOhuTVpO4QPXaz/Xat3mG7KIEF7MCyhRnfEyJhuHC58O1ih
-         PzkuaVTu2SsMMZRcIQwHdRL+wFrAsS4kZ7g+J9UZl+xmc25cbuqzr0Uw3/hh2JFurxyY
-         wgTa2zj9x33OJaAoBVrDGiiqzZRCwbWDfBblVDA+e6FjS6H360IvY6EV+/Nj5pyTxucZ
-         afuwiaowF+9+CdmEiWiAAL4s30vQ8oE912rRb1zlo9PcDAqwUr/63fF1iddidnJPbOP1
-         RIbWxPdyMaD985+KQOtoBxj58XUKk9uO275utoehg9IvkofABtPxuUtDHXgxlDHjbuHU
-         w8/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750839358; x=1751444158;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B9FQ/xDTdaPFjALjUp4dGIQ/na1i4R5MHemjyoJtJVw=;
-        b=ccaPnN3sFCpOoqPJ5QXQPiZARzwJCYUUcpBb8dtNoZ7mi5i16iLUNtbb9zhF4DldWc
-         k3m0x8YlkxQyXiypA1ZYO8cLeE1ZbQvvLzB76z5W4P20L1+ffA+b+rvP8RPGyPIpGHdh
-         4jjj0vZuBkFJmHfK4G1GOTjrfbtrFGj3UtA0ugHybmeJa/OWxbk5wshTIE/Nd5lnodMp
-         kKzRkRdA+1EPlt47Nmu7JfOPGdkowwe51SP40Pqfv6zCZIytGFu6JVcXbTcSmMTu57td
-         ULBrsWyM4OkcnC5v6GzfttqhkutCAKi7LFU7MgGy79QDVtAo54nEoszop5BdovN8celm
-         PCug==
-X-Forwarded-Encrypted: i=1; AJvYcCUrohKJl3Hod0lTojJkuovjSxoAGZIp0gydAx+TM0f6teFTx8kST1VXbd7QAxsvLe0MhHeSOoIjuMEg@vger.kernel.org, AJvYcCXWLnrgCdw40h9HiWwJaviVPi5oZBTOTKoooi/fxV0lDjev0ytqHhRSSIPPQmcvMZnXjmheQR7A9wo=@vger.kernel.org, AJvYcCXZZ2H5gjgy0egYi2cDF7XWf9KIwC1SOOTmuJx/4N/Ds3jcGn10iq4BVjpb28IdWiyPWJ+XXp34YKDCrxdC@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgTy1xMkSBMc/jjgbEAi0fxFDiJ27uft9N9IF1SZt9B6TxeGsq
-	dSA9/uLi260xXRJUWsQOBQ+M6gkAmS/S5TX8MODEbz5Ffvaos0H3Wj81jsgwziWIjyHxPYvXkPt
-	RUL2qYyiloeBGGIJgQ24JXcT30vFdBqM=
-X-Gm-Gg: ASbGncuuDWqSqq4jTxn5NuGW7pkoVsaEFV5qGC0BQr7KFSsNlU3DZgjrTGh5ril9LDD
-	xo75jEe2iwOHF0RnlmC2u6E814k8wcpC28LznviYjMbRYg5T3HPgp8xHCN0bAOQRA3SSFDvCuDa
-	vIXARxFGBnu/xLK+xSE5J+Z8qLEH+zrvk4SoY2uI/XpyE=
-X-Google-Smtp-Source: AGHT+IErRBRd4ZEkZGGTpdiXkJHmurXTIOpZXK+xDiiziUhNlaNMwGpOR9VoKLkPFm/JlC7M4GtcD6m2pcR3WADrueM=
-X-Received: by 2002:a05:690c:7483:b0:712:c5f7:1f02 with SMTP id
- 00721157ae682-71406c84c64mr12648157b3.1.1750839357660; Wed, 25 Jun 2025
- 01:15:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="SqHnV/Gq"
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55P6nksJ008379;
+	Wed, 25 Jun 2025 10:36:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	5iWKPTMFpX+lonpPcbekR/V8/MBsHrjUivVDN79opdU=; b=SqHnV/GqxnozxlFn
+	ObEanHvfEI2F+FZtdB/7rtcovax1mQOyY1mVLlQ1BSYzN3yIdeS4b9QiEoUlf22n
+	cTk3tMwbAYEgr0NzY+C6Hu4ePlqFtc4ohf3c5cI1MVAtveM2SqSkuPOgaXVJl9t2
+	lNCnLxNPGVWfXjSSFjGP4wGMV2SqlxyIdFceC6pGRDWYwmmr/huHgqdJtS0AtyK8
+	zzxhKbVp4Gp7CwnIsip3EpIf8VWMfTaCJeNLMvIY5aPom3oUeQlg0pEMpwG3qDpL
+	WCHhLTWw5LXNeUKngpRNl/Swhe1B9upvwpikOj5INAqO+91z2RN6R3qE/iQ39qUX
+	HZIp/w==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dkmjrekf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Jun 2025 10:36:23 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A845540047;
+	Wed, 25 Jun 2025 10:35:03 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 36FE8B0C401;
+	Wed, 25 Jun 2025 10:33:50 +0200 (CEST)
+Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 25 Jun
+ 2025 10:33:49 +0200
+Message-ID: <e2400615-f21e-40bf-84f8-384242632193@foss.st.com>
+Date: Wed, 25 Jun 2025 10:33:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250615222258.117771-1-l.rubusch@gmail.com> <aFDBWztZT67hUF6I@archie.me>
-In-Reply-To: <aFDBWztZT67hUF6I@archie.me>
-From: Lothar Rubusch <l.rubusch@gmail.com>
-Date: Wed, 25 Jun 2025 10:15:21 +0200
-X-Gm-Features: AX0GCFsCKhxXsO9vDHgBQ6201WxKb_UPKCWTu4wT49puBY3PnYFj9m7uKV-mBTY
-Message-ID: <CAFXKEHaZ8aGw=WZiSDZhsrviATTNK5omRBOhNLd1xAsjxDAPmQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/8] iio: accel: adxl313: add power-save on activity/inactivity
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de, 
-	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
+To: Krzysztof Kozlowski <krzk@kernel.org>, Will Deacon <will@kernel.org>,
+        Mark
+ Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue
+	<alexandre.torgue@foss.st.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gatien Chevallier
+	<gatien.chevallier@foss.st.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Gabriel Fernandez
+	<gabriel.fernandez@foss.st.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-perf-users@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>
+References: <20250623-ddrperfm-upstream-v1-0-7dffff168090@foss.st.com>
+ <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
+ <9cb1575e-ae27-4a78-adb7-8a9e7072375e@kernel.org>
+ <5044c733-8836-43bd-85d7-0f552b000fb1@foss.st.com>
+ <49483568-b287-45ca-a66c-1e0ad0490225@kernel.org>
+Content-Language: en-US
+From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
+In-Reply-To: <49483568-b287-45ca-a66c-1e0ad0490225@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-25_01,2025-06-23_07,2025-03-28_01
 
-Hi Bagas Sanjaya
+On 6/25/25 08:35, Krzysztof Kozlowski wrote:
+> On 24/06/2025 12:43, Clement LE GOFFIC wrote:
+>> On 6/23/25 11:45, Krzysztof Kozlowski wrote:
+>> [...]
+>>
+>> Hi Krzysztof,
+>>
+>> Sorry I forgot to address comments below.
+>>
+>>>> +
+>>>> +static const struct stm32_ddr_pmu_cfg stm32_ddr_pmu_cfg_mp1 = {
+>>>> +	.regs = &stm32_ddr_pmu_regspec_mp1,
+>>>> +	.attribute = stm32_ddr_pmu_attr_groups_mp1,
+>>>> +	.counters_nb = MP1_CNT_NB,
+>>>> +	.evt_counters_nb = MP1_CNT_NB - 1, /* Time counter is not an event counter */
+>>>> +	.time_cnt_idx = MP1_TIME_CNT_IDX,
+>>>> +	.get_counter = stm32_ddr_pmu_get_event_counter_mp1,
+>>>> +};
+>>>> +
+>>>> +static const struct stm32_ddr_pmu_cfg stm32_ddr_pmu_cfg_mp2 = {
+>>>> +	.regs = &stm32_ddr_pmu_regspec_mp2,
+>>>> +	.attribute = stm32_ddr_pmu_attr_groups_mp2,
+>>>> +	.counters_nb = MP2_CNT_NB,
+>>>> +	.evt_counters_nb = MP2_CNT_NB - 1, /* Time counter is an event counter */
+>>>> +	.time_cnt_idx = MP2_TIME_CNT_IDX,
+>>>> +	.get_counter = stm32_ddr_pmu_get_event_counter_mp2,
+>>>> +};
+>>>> +
+>>>> +static const struct dev_pm_ops stm32_ddr_pmu_pm_ops = {
+>>>> +	SET_SYSTEM_SLEEP_PM_OPS(NULL, stm32_ddr_pmu_device_resume)
+>>>> +};
+>>>> +
+>>>> +static const struct of_device_id stm32_ddr_pmu_of_match[] = {
+>>>> +	{
+>>>> +		.compatible = "st,stm32mp131-ddr-pmu",
+>>>> +		.data = &stm32_ddr_pmu_cfg_mp1
+>>>> +	},
+>>>> +	{
+>>>> +		.compatible = "st,stm32mp151-ddr-pmu",
+>>>> +		.data = &stm32_ddr_pmu_cfg_mp1
+>>>
+>>> So devices are compatible, thus express it correctly and drop this.
+>>
+>> Ok so I assume this comes with your comment in the bindings and
+>> basically don't get you point here.
+>> Can you please be more precise ?
+> 
+> Express compatibility in the bindings, like 90% of SoCs are doing, so
+> with proper fallback and drop this entry in the table. My comment was
+> pretty precise, because this is completely standard pattern, also used
+> already in stm32.
+> 
 
-Sry, for the late reply.
+Ok I remember your discussion with Alex in my V1 of pinctrl-hdp :
+https://lore.kernel.org/all/1de58672-5355-4b75-99f4-c48687017d2f@kernel.org/
 
-On Tue, Jun 17, 2025 at 3:14=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
-> On Sun, Jun 15, 2025 at 10:22:50PM +0000, Lothar Rubusch wrote:
-> > base-commit: 7461179e080df770240850a126cc7dbffad195c8
-> > prerequisite-patch-id: 263cdbf28524f1edc96717db1461d7a4be2319c2
->
-> What prerequisite patch?
->
-> Confused...
->
+Does it suits you :
+In the SoC DT:
+MP13: compatible = "st,stm32mp131-ddr-pmu", "st,stm32mp1-ddr-pmu";
+MP15: compatible = "st,stm32mp151-ddr-pmu", "st,stm32mp1-ddr-pmu";
+MP25: compatible = "st,stm32mp251-ddr-pmu";
 
-Interesting, tbh I'm not sure about the "prerequisite-patch-id",
-either. AFAIK there is some git command to verify and use it as rather
-an ID of the patch (series), as far as I can see in the documentation
-for format-patch:
-https://git-scm.com/docs/git-format-patch#_base_tree_information
+In the bindings:
+properties:
+   compatible:
+     enum:
+       - st,stm32mp1-ddr-pmu
+       - st,stm32mp131-ddr-pmu
+       - st,stm32mp151-ddr-pmu
+       - st,stm32mp251-ddr-pmu
 
-As mentioned the series is based on this fork and branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/log/?h=3Dtest=
-ing
-
-Actually, the base commit should be possible to identify (at least I
-could identify it in tig). AFAIK - or, as I needed to learn myself in
-the past - usually they check the series automatically first to rule
-out such things. E.g. they execute checkpatch, smatch, in case DT
-check,... on it. If anything fails here, I guess I would have received
-feedback within about 24h. Since there was no feedback, I assume there
-should not be an issue.
+In the driver:
+static const struct of_device_id stm32_ddr_pmu_of_match[] = {
+	{
+		.compatible = "st,stm32mp1-ddr-pmu",
+		.data = &stm32_ddr_pmu_cfg_mp1
+	},
+	{
+		.compatible = "st,stm32mp251-ddr-pmu",
+		.data = &stm32_ddr_pmu_cfg_mp2
+	},
+	{ },
+};
 
 Best regards,
-Lothar
+Clément
 
-> --
-> An old man doll... just what I always wanted! - Clara
+> Best regards,
+> Krzysztof
+
