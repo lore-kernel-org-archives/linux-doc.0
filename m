@@ -1,1108 +1,472 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E2D309DDF
-	for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 23:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750893584; cv=none; b=fcT0eVwVnGb3GabHBwbuVUfiz8CnHU3dii6leMqHa4YWUGe3JlzeFK2PzPlwg+GtNcZUJzBC9sYWwUdL4WVG3LEjNYLNMndGUUjptrwy1azRYL2v4EmDFJptZMdxzwu+tX0/WgqlUu7NbTGfpHFkYd/gkwaadywKJieb5ne2h80=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750893584; c=relaxed/simple;
-	bh=8l0K6QJ4RkWllZcpyZGwgZlU9m1P2gnk5TToNIUeT/Q=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qmMxGNiQZhLASCVxczhL8FzcNciEdMXirF6ehe/T+5UM5VIe/APuwhoVwaX57NwktGvsFA64Whz4TJd+ftDZW+t5Jzn4jxI8+EbYX3Jn68AN0SCTv+N4j/ZJZ8DDyGWBdGMqixx77ejWVT4kuk9eD90hBIcdZEdi/46E88u3ijk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=t1U6E5zd; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DBE2F4A0D;
+	Wed, 25 Jun 2025 23:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750893771; cv=fail; b=TcLXuVFd6ev2ZE1zkCAxEnoobRUZIDGgWjc97ovAWcJFGqh4Jk0NxrW0gkqAMA6zzF71AAXzDaHfEfdW9ioFDLuAYJj6+xu/bxEvyI395r3jAgfa4OdR1R8Ra7RGFR5BHHBY60bXzZgWgonHOfINWciHal6yKz0VHSfeemzqoFg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750893771; c=relaxed/simple;
+	bh=Db80GiOIzrkPXj2LMq8oMKlCWSEByn8pLfu9IyRNp0Q=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XKUgMKw8Z2+z6d1FqW0nLE5xRv1Dqj3HIRlsdl+qizA5qCJHyssmd4EevE1KhK1hpG0uIOAkm8CEyMH7fpvZ4ag6Rvt53QbwEwqwMMefcjZ3VrMSqS7smoh64FOHvxYe9ZxAnmKh0uk/mK3V2SEGWQaY3qGBCpJES57Q6+U78JA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3yC1YDV; arc=fail smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="t1U6E5zd"
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e75668006b9so335915276.3
-        for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 16:19:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1750893580; x=1751498380; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=60o0+pILn7oYpaQU4GzfpCaIJI/wVLOztDCQbTE/8Fw=;
-        b=t1U6E5zd7n4RDB1Q3z5zU4DqXcrvp+PPKVVlu77s/frc2wqrUNSkkAI218tRB30EFE
-         qJ/Vd4zkTz96nagnCxTk/alKLL976lwsBCwuDmJ8cKbPYyFtaxWBYrFaoSBO1tWeMvzv
-         59UjCELAnCENBcgTNf9XWZzjJ3/mUfmZIG+Ee4tvndYbVfq/mzow05R5uImnKnmTyvcr
-         IVgQGSsXAA+30VKFN6VSxaSuen26ZM0A5R50j/us+Fy8t+qg5t2SWr69AeZx7Vr1vvlx
-         F6UnKDAV7gI63Td5TCm/oeU858iThERqz6TXiauhP2NJTxaOFb02QAtZCSoeMVwvDel4
-         Ac4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750893580; x=1751498380;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=60o0+pILn7oYpaQU4GzfpCaIJI/wVLOztDCQbTE/8Fw=;
-        b=XXL1eGV0BdAKAw/4E3K/n8RA1/FXQcaQV+naP8q/1gkACuRFfqLFH9FjjoiQsalVEj
-         NJbXsXhUItzRNdxFrjNZzH7fw5FJOSTxgIaw9fafhOKdoR8lOPPxRJjHb6j+wcUcvXAy
-         oJXXUW+s5erW0gd0Mhb008NfbJtC0EzaxjLMxQW1sEL52CvkcKyATSn89/JuF1/1Lhvf
-         nj9U2vs8vtWNZmok2mJx9b3k+8YprlHvKnufHlB+QvNFkL7FDNUxVYfZxNMOQqm7Hlzm
-         e0k2IOnPbGO99XcYSn1OelaZTM/ZrAkZSwZ/2h3uelp+0AZtL8uoOw4iEsLWXnzbFVbx
-         t5IA==
-X-Forwarded-Encrypted: i=1; AJvYcCW4JJuHXZCkvyuJr1yN2jDGvTUVpLcUllX67U4W7tlpGDkts/HdqJ9z4O1Cjm5eOZ5JJjtiY3fplbs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNJhLQaw/QXs1ztIr8XktRE9ucIrpvJ1ahCt2Tw03k4lzwFEO9
-	w0k8nCb1NuAHlmohu5dcIuEpTj8NYRCImk+jlg/+TatQ4dHL8ar7agfCJsUXgTIQ7RY=
-X-Gm-Gg: ASbGncsJhH4U6tA3iELFUWNZFDNoFY/2T4ma5DqSYRYJ/kBKLzkPFUUu4qm3VmjVacc
-	ajjDXTY+SFG2ecU1vjRcpo+RxeqmJHj1XLucqr3DDlbBkyuTNBb5+hHYZxXgx6YqOrnXuMCzKI9
-	GVaENZ+8UaLBHoE1ndiMuwpJYEQlPQQ+nK1XfpduXpH0m8GVBIb05kRIa5tR8KhJIdW4ZxVkZdz
-	RaYduOOw7rlE/e45rv2d51XjMirSIlYC04AICusyk8kXEeTxuvT2JausUf/zFasJVY9yLj4G0e3
-	gVidwxcZZtYbiuKezMRdgiv12QNm4eHrn71ZPzVqcLyuTPPyhM0luKwGg71Q6cqe0oZ9RrDsV5L
-	XILmV4PAllePnMxlgEYQmKIxYEbKGTrA9Mx+RRyvj46QX64Kdr1V8
-X-Google-Smtp-Source: AGHT+IGMtC4mqGRTCqwsD7zQuJKELdqefWUDOU17sadjrHFNIDwPtfJBpjKQ/cUFNH+/Umt7SFD3zg==
-X-Received: by 2002:a05:6902:90d:b0:e84:43bd:e9b6 with SMTP id 3f1490d57ef6-e86016f89damr6516568276.13.1750893580131;
-        Wed, 25 Jun 2025 16:19:40 -0700 (PDT)
-Received: from soleen.c.googlers.com.com (64.167.245.35.bc.googleusercontent.com. [35.245.167.64])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e842ac5c538sm3942684276.33.2025.06.25.16.19.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 16:19:39 -0700 (PDT)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: pratyush@kernel.org,
-	jasonmiu@google.com,
-	graf@amazon.com,
-	changyuanl@google.com,
-	pasha.tatashin@soleen.com,
-	rppt@kernel.org,
-	dmatlack@google.com,
-	rientjes@google.com,
-	corbet@lwn.net,
-	rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com,
-	ojeda@kernel.org,
-	aliceryhl@google.com,
-	masahiroy@kernel.org,
-	akpm@linux-foundation.org,
-	tj@kernel.org,
-	yoann.congal@smile.fr,
-	mmaurer@google.com,
-	roman.gushchin@linux.dev,
-	chenridong@huawei.com,
-	axboe@kernel.dk,
-	mark.rutland@arm.com,
-	jannh@google.com,
-	vincent.guittot@linaro.org,
-	hannes@cmpxchg.org,
-	dan.j.williams@intel.com,
-	david@redhat.com,
-	joel.granados@kernel.org,
-	rostedt@goodmis.org,
-	anna.schumaker@oracle.com,
-	song@kernel.org,
-	zhangguopeng@kylinos.cn,
-	linux@weissschuh.net,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	gregkh@linuxfoundation.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	bartosz.golaszewski@linaro.org,
-	cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com,
-	yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com,
-	quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com,
-	ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com,
-	leon@kernel.org,
-	lukas@wunner.de,
-	bhelgaas@google.com,
-	wagi@kernel.org,
-	djeffery@redhat.com,
-	stuart.w.hayes@gmail.com,
-	ptyadav@amazon.de,
-	lennart@poettering.net,
-	brauner@kernel.org,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [RFC v1 32/32] libluo: add tests
-Date: Wed, 25 Jun 2025 23:18:19 +0000
-Message-ID: <20250625231838.1897085-33-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-In-Reply-To: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
-References: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3yC1YDV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750893769; x=1782429769;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Db80GiOIzrkPXj2LMq8oMKlCWSEByn8pLfu9IyRNp0Q=;
+  b=T3yC1YDVq6xmrKppHhruNT+2c//ihQ2WSckJmQ2rH/ChK8iK5a0zms6s
+   YpVnuB0UXsREFpiPt92+xlyVJvoxpYGVe1Iyx7FdRo8HGFsuy7eV/+CJl
+   5YBLDTrs/lgSmGmOoCLhiA3twJXa94/5j+KWSk/rVllSUVxaq02+gH694
+   MEhSSXCLCt0IpBKHUVj+EXsux3cH3ujmoFlkYEYZEgvtw/AAxX/5MtBRC
+   NorSh9wFk+LNd7jQID7lB/fJP/4Laqa9SBMPDVu2chOmoCX7Y8R1hsQu6
+   dHtQA7KpbW4aeehwwfoYg89KycifWjU8S+B/m4Nql0pdP/Mu525Zej/id
+   g==;
+X-CSE-ConnectionGUID: ly3ducfOQiyyGZ/A2hvHdA==
+X-CSE-MsgGUID: PS66kp+nTsW4g0Rhk1+2pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53248382"
+X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
+   d="scan'208";a="53248382"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 16:22:20 -0700
+X-CSE-ConnectionGUID: DOl6RbA6SeSvWxSt84JONg==
+X-CSE-MsgGUID: zkQQgjKuSzq34yc8eePxdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
+   d="scan'208";a="151874018"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 16:22:19 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 25 Jun 2025 16:22:18 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Wed, 25 Jun 2025 16:22:18 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.61) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 25 Jun 2025 16:22:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TPPxkP24XdB+bw7dcmOqlUl8G/qhSZcZJ3rMREq4V2D12eEHI+5Y8vSNvwyjUcln4xOrKvp3jHMMUjs38iqLhTu28YxDaAl6zotX7EZQtaaAUpQXloGBq1Q/w5kogii0o5ENfcj+cWOs3VYU+7HnqX+LC8KW4FsZMIDauLZtjYo5khqp6REj+28HyRIK3Cln9gnBvgRjLsm7qAisqT1X+JkhIoRRYXX+3xwAZF5D+Yf1TQBxnKW5AyRH0uuro+fHstEykgM8oOOUgwhZvjCS/z3o7w0VULKYn5rdAYo+15gaqzJl4s68PiVHdgQmH8XUfPTER0LjeqX8pI+FJBaapQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PCrMPy8FTaFyzQ+RpVi8aSeHJqDNcEkC+SaRxqJhQHU=;
+ b=QYOmEiEJ8BEsBqSOvZG7/7jdXawqy1Bba/wpD8vHqFZBycCMSiwnSLjB3iJI6RgaWuihY+HXxli2H4EW/Ik4tYCDkhH7mjpNFmHX/cuEGYzbWXWdOFNa+CSZkZH19QscFlNq850CH8NIr06zulFs7u6cfUj0sNtz6Ngb3uRQgAEkGKU+k74wxg3Q6Sk8KAF6rHaaBPz4mEjzkF8l3yHPwK56iSR48ImUZXoIZGIL/yzr0yn42VvsJYgE6fbU6DlliZ3ChVRBpbVtEjkDpnbuP9GwAdeO05ds2Y/qbyufPKHAu93oPO9exHJ1WIaEXYk7H4/VMYvrYIlmCs1l6JgJYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SA1PR11MB8858.namprd11.prod.outlook.com (2603:10b6:806:46a::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Wed, 25 Jun
+ 2025 23:22:01 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%6]) with mapi id 15.20.8792.034; Wed, 25 Jun 2025
+ 23:22:00 +0000
+Message-ID: <de1e1946-15d2-401e-a974-cbc86d08a78c@intel.com>
+Date: Wed, 25 Jun 2025 16:21:57 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 25/32] fs/resctrl: Provide interface to update the
+ event configurations
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
+	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<rostedt@goodmis.org>, <paulmck@kernel.org>, <thuth@redhat.com>,
+	<ardb@kernel.org>, <gregkh@linuxfoundation.org>, <seanjc@google.com>,
+	<thomas.lendacky@amd.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<manali.shukla@amd.com>, <perry.yuan@amd.com>, <kai.huang@intel.com>,
+	<peterz@infradead.org>, <xiaoyao.li@intel.com>, <kan.liang@linux.intel.com>,
+	<mario.limonciello@amd.com>, <xin3.li@intel.com>, <gautham.shenoy@amd.com>,
+	<xin@zytor.com>, <chang.seok.bae@intel.com>, <fenghuay@nvidia.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<eranian@google.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <cover.1749848714.git.babu.moger@amd.com>
+ <dc097e5caa1c7df42c211fffb67f8d860a6b39da.1749848715.git.babu.moger@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <dc097e5caa1c7df42c211fffb67f8d860a6b39da.1749848715.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW2PR16CA0067.namprd16.prod.outlook.com
+ (2603:10b6:907:1::44) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA1PR11MB8858:EE_
+X-MS-Office365-Filtering-Correlation-Id: a902fdd3-cc34-4fce-d3b2-08ddb43f164e
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SVdUY2tON3RacWpUWHNYaVBHbG9xY1RKM2plQkpsMzlwSEdmdktLeThvdUYx?=
+ =?utf-8?B?eW82bkJndW5ncEpWeTArdTVSc3M5b1c0M0Z3emEyYVUyT0NVb0ZXSWRSeUgx?=
+ =?utf-8?B?Tkx3WXptTTRqdkIzemZlYmNFbXpJbWlNbjVmNy9HbWRVN2RyaWRLSXhQT01J?=
+ =?utf-8?B?all3MFViYWxaM3VoQXBFU2dQSmJta2tJU3hPTkJKWDF4b1BwYUxSbFgxOXVw?=
+ =?utf-8?B?Z2NaOUpKZ1BYdHpReUFUaDJzTlAybjNoN20rQmhxa3U3Q3FtbEVJQjNjaEZ5?=
+ =?utf-8?B?RXJtV3hvdjBYdjczeHZkR3N3RVBrVGNMemM5Z01SVGJFMU9VTmpOakxkb25n?=
+ =?utf-8?B?bGhwOXUwZVhYb1c3WjlxcDNBR09zRkRJYUtEYnZmTmp5bEpYRUkzVE54ZUNv?=
+ =?utf-8?B?eHBkWFdXQ3RPZ3NNa3MwS2w3VE1FZEl4Sk9GZm5ETnFadlNWRXN5RzVIZlp6?=
+ =?utf-8?B?cGpGUkE4OXBMcFZ0WTlOczE2RExac3p6TVhCcTNqT0lVdWRmalFYT1VsSURS?=
+ =?utf-8?B?NmNqNVp2YVcwazRkZy84U3BuYlY4em81NHJ3N0FWdmlFR2xVZ05mSlMzMnVi?=
+ =?utf-8?B?SUNmMElucFN0YTJiamxPZTZYRy9waUtFNS83ZEpRbm9kRW0ybWZHb1M5bFBO?=
+ =?utf-8?B?bGo3RnpGRU5aOTZsQks2OEgvUG5GQSt3UjZMbldLVVZ2OWZYVEEzYnpGR3cy?=
+ =?utf-8?B?YlpVRHhTcEJOVlpxUEZlQzJ1bG8rR2ZLWVlma2pGb0pQRGVlUXB4aGJyYlVN?=
+ =?utf-8?B?L3gvc0hYaWNxamZncThNZnlXb0FseUFCN0JZK2xQUStIb1QzQm43d3BrM05z?=
+ =?utf-8?B?d2NMZHhCR09QYTlpaG1XcEhEUU5qTEV3clhHTmw1OGtWcjVJWEh0elBNMm1n?=
+ =?utf-8?B?bDZaRVNrTlhIKzhoLzM3OU0rT0VVRmdSTzhkckZkZUJaa0tBNDFpeXBVUkNU?=
+ =?utf-8?B?R0pobEFiL1ZZdUE5bVVERVFpQUc2RWp5ZTVBSDNBUXROeG9NV0J4dW5FaGRj?=
+ =?utf-8?B?Q3VPdVl3Y1FDUk5PRFNGaW1qUmZOaGhraUJNUi9xbEdQRWVzL2kxNSt4eml1?=
+ =?utf-8?B?cWFORjJjdlhMSm02Z242NmlnNzN3bXpQM3JmalRDUkdreEp4S1duOUhJTmp1?=
+ =?utf-8?B?YXFIbFVYemF6eDBnN2NKQ2liWUg0ZGdMVXo5Z29UNTQzODRUZ2cyNlJHNkJX?=
+ =?utf-8?B?allDN1B3RkU0RjhtMTRkNUt5M0dra01aNzRVcjUvYklqYUorUUVkNEFFeno2?=
+ =?utf-8?B?MTU3UDBFVDlSd1dYVnV1N054QUJoeDVmQTRXYmlYTm14aktRNkZrQnM2eFNY?=
+ =?utf-8?B?L2kvYlJVMVZiTFNGRDZpUDk3NUdYNGoxVW42VFo3UFd6M21HNGVqaGhuTU13?=
+ =?utf-8?B?MHhZK2RrampUUitDd2pFa0RVZTNuWmQzdjNtZnpOZnlMQ3gxQnZPUlZHcnYx?=
+ =?utf-8?B?OXVNbG1zN2kzQzVkYkRQdEZtM2piYWRxNWxsUDY3NU9qYVRodHdoRWs5aXdn?=
+ =?utf-8?B?Rjk2NkZsYnRqS0NqSFlaMG5BMXdYa3dVMnZabFJ1RFVYR0luMTlLMXVXRUE4?=
+ =?utf-8?B?RFhKRGk5TG8wUkZrWXhxQUQwRUN0Vld3SVY1MjFEbzR6K1lWSkZqM1Q4VXA5?=
+ =?utf-8?B?VlIxcVcxZEdjRTZGUWhDZ3R0ci9zeVdCQ3c1ZmxmWk55U0tIdmJ5RHVaeTFG?=
+ =?utf-8?B?L3E2bzd4c3ZWV0VGTkM4aVgzOUxlb3huckhzV0VjUUJaNWxKOXFYQnZuSm94?=
+ =?utf-8?B?NndLMVVZeEQzbnRBMnpEb2ZWbFhIcFhML2RTdWRISXUrZkNQVFhKVkV2SlVp?=
+ =?utf-8?B?dXdkVThRamVHbFh2K1hSVmo2a2o4a0d5L0pRWVhFTlhxaWdaYXBKQXZFZEhU?=
+ =?utf-8?B?MG1Ya1loQ2dJS1VMUTM4cUNYeGpIRHlBOWVvOUFET1VrWlZPVFJaaFZ4dlJM?=
+ =?utf-8?Q?so/CXX0jDgE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bk1ZM0lkUW5Lc2x1VzFBbjdoTjNOZHgvQVhzZnIySm5JYlRJUU9WMGt5Q09T?=
+ =?utf-8?B?NzZSUXpPSFV1bmcxTjFuMzJTcDJ2WnF5WTJNdEJocjNWOVZ6QVBrcWZEc0xy?=
+ =?utf-8?B?VlFOdzNqY25GNHp2U2lSYkd4d095SGQ3dk9qamZUUDVYMzBnbW9VZ1V0YzRW?=
+ =?utf-8?B?OFF5aHE2eW11bkNZU1BGdHJIWlFLTGZyamhsaTU1TnRvSVpPcERXVW9VdmJW?=
+ =?utf-8?B?cmh1d2xiZnYrTTFLamMwczJZd2VyUU8wV25YamdXMVFmRlRqVzJmVk9EZEtv?=
+ =?utf-8?B?SjVTWDFMTURwVTNCRWVyVmFLaThTQkcrRG5aTVJ5OGIwN2wwWWoxb0lXSUNH?=
+ =?utf-8?B?NVFIR0Y4T0U4eGZjTmt5cGQ4dHlzdFQxZXhMN3ZHOU44TzY1d1BYcFIweVI2?=
+ =?utf-8?B?aW4rdXZZcGtEbUJybEVqNURnTHpVU2RXd3V3ZFJvY2NmaUFmSGwwWnhKYXhR?=
+ =?utf-8?B?dFoxNHlzdW5CWmxUYktrZTJzdTNrcmR5emgzd0tDajRRb3RTNkw3b3pBZFVR?=
+ =?utf-8?B?V1M5ZERma0lHTE9oemxvajB3ei9tZ0FDV29nN3YwUThFS2lGK2RKWHRuOTN4?=
+ =?utf-8?B?ekoyS09sRElOUlZFVWcvSWFqWkR1REZiQndENWxUWUErNndJazlQT1IxclhE?=
+ =?utf-8?B?TkRiWEFIT1I1KzZrT01kSDlIS0VtcUNFUFkxek1PeGhlZVFjSnUwN0dDQk4y?=
+ =?utf-8?B?Ymw4cWRHRFpOcG9uelIxdW1qTXlQaEpLSTNqUUhZRWFoSmg0UXY1aXZUWlZL?=
+ =?utf-8?B?OEhSM0MvV2huUndWZEJ6azlVTG9sdUozMERoQU8yWFZnQ01oZHJaTC9zamJq?=
+ =?utf-8?B?cXRETnZDVXNXSUx0Nm1oZkJYR0JyNSt4T21JVFZzQ21RYnFBODU0Z3hIUXF0?=
+ =?utf-8?B?aDZKV29CZG15SjFZcmRGcXRxUlRKbWJNYnY0UmgzNGI3N2VxTktZc2xIK3k2?=
+ =?utf-8?B?SWh3ZDB3Sm4zNlFwVXllczIyT2NGR2VBMmhISjE2MHJjVFN0bFBEcjNTdklJ?=
+ =?utf-8?B?b2tkR1JML09zUi9aNDQ3L2RFQ1UxaExEZDVJaUIrZWNLL1g0cCtrWmg3VEtW?=
+ =?utf-8?B?ZEQxb1ZNNmRNbUpwd096eis0UDBJSDkzZ01QU0d1dS9yNUcxUFN6U2w3MExl?=
+ =?utf-8?B?b3M3QmI5MktVeEczVWpVWFdJV2RzNHl3cjV6TWFpWjFXWkdDcE5CQ1FHQzNq?=
+ =?utf-8?B?ejF5WXJBZm1OMDdqbUpqanVKVVdsQWN2Mnk0R0s1c0tScTFjYzlGS0dYellx?=
+ =?utf-8?B?Kzh1bnBsUzB5M3o1dXNrenkydHg1SU1EQ3BkTmZpUFczSmpGV2VhVFNRaTdu?=
+ =?utf-8?B?TUZTWld2VEtVaWV6NVJydHo1aXRXN21HQ1RVdmRFWkZNRzNNY0tnbkpNL1Nm?=
+ =?utf-8?B?dUdoTFVWc2RhN21GYjlyWktaaUU0aVJlcHIxRHlXclZRaGthcERvT3ZKd3Y2?=
+ =?utf-8?B?NTI4Z2JFTXpKeDJ1ZDFyNzl0aGhrVVZ5UlA0K3JhdjlQZFBwK3JHSE95OTRT?=
+ =?utf-8?B?S1NuVTBmd2VyZmk4M1plajcySmtyV0gva3NLckpOYUJrelROR1luR2ZXYjBL?=
+ =?utf-8?B?RnBZT2htK2JtckVuWDk5bSt2M1dnRFBmWVl0anJiZjNJWkZ1cURBa3h2Qk9H?=
+ =?utf-8?B?UktkM3lIcGVvenZJTHpRaC9DS0ZUMTc1SG5scnRpRzVJUFg3Zi9wK2NPQ1pN?=
+ =?utf-8?B?L2lMYk5QTmpLdlgyYWFXRUtPYzcrdTAzaE9NeXhKVkV4VUZQc2Z4bVNQRTI2?=
+ =?utf-8?B?SVFCdGFnM2JURmRRSGNHZWQ3NEg5YzBwd0JadTEzdXI4R3hMKzBnT05LbXZK?=
+ =?utf-8?B?a3lGU3lKeWpRMjQzUi93NTRiYTdrdnA0ME5EUU9pbGpXeVhaZVZYRnVPZVJF?=
+ =?utf-8?B?cjQxaUNqRW9HdlBFZityYnR6aUZWNWZjSWsrSmlqcXFnWWVSdEk5ZjlpTXNp?=
+ =?utf-8?B?SkQ5RDlBWWFTR2M0V1VORStRR01CNU4rQWhZa3g5eXdraEpjRER6WS9haEx2?=
+ =?utf-8?B?aW84NWI3Q3k0c0Z5b0NGT2p5bDZiWHFuZ3hvOG9nU0NuT0J0dWpqeW52YUdh?=
+ =?utf-8?B?YlQ5bDJJdk9CeUd1UGxFT3RwNmxWcnYxY3l3aFBiQWo2ZFluVnY1eTJjbUpJ?=
+ =?utf-8?B?M2tFcWNMcnhLNWlCK1drT0p3T1Y4cUlwZld5ZFN3MFY0VkRRSjFuc29tQVdM?=
+ =?utf-8?B?N0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a902fdd3-cc34-4fce-d3b2-08ddb43f164e
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 23:22:00.8290
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TUW1TMKvdq7cm22o49MMonvOQzRoJqCW0aotXpHC4BZ8+SoEvlRbkhrEK2s22QtsgkVTUY6BeBWDq6uR22bWVqxHJa90eG0ArUYuAGFBxNA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8858
+X-OriginatorOrg: intel.com
 
-From: Pratyush Yadav <ptyadav@amazon.de>
+Hi Babu,
 
-Add a test suite for libluo itself, and for the kernel LUO interface.
-The below tests are added:
+On 6/13/25 2:05 PM, Babu Moger wrote:
+> When assignable counters are supported the users can modify the event
 
-1. init - Tests the initialization and cleanup functions of libluo.
+"the users" -> "the user" or "users"?
 
-2. state - Tests the luo_get_state() API, which in turn tests the
-LIVEUPDATE_IOCTL_GET_STATE ioctl
+> configuration by writing to the 'event_filter' interface file. The event
 
-3. preserve - Creates a memfd, preserves it, puts LUO in prepared state,
-   cancels liveupdate, and makes sure memfd is functional.
+nit: "interface file" -> "resctrl file"
 
-4. prepared - Puts a memfd in LUO enters prepared state. Then it
-   makes sure the memfd stays functional but remains in restricted mode. It
-   makes sure the memfd can't grow or shrink, but can be read from or
-   written to.
+> configurations for mbm_event mode are located in
+> /sys/fs/resctrl/info/L3_MON/event_configs/.
+> 
+> Update the assignments of all groups when the event configuration is
 
-5. transitions - Tests transitions from normal to prepared to cancel
-   state work.
+(just to help be specific) "all groups" -> "all CTRL_MON and MON resource groups"
 
-6. error - Tests error handling of the library on invalid inputs.
+> modified.
+> 
+> Example:
+> $ mount -t resctrl resctrl /sys/fs/resctrl
+> 
+> $ cd /sys/fs/resctrl/
+> 
+> $ cat info/L3_MON/event_configs/mbm_local_bytes/event_filter
+>   local_reads,local_non_temporal_writes,local_reads_slow_memory
+> 
+> $ echo "local_reads,local_non_temporal_writes" >
+>   info/L3_MON/event_configs/mbm_total_bytes/event_filter
+> 
+> $ cat info/L3_MON/event_configs/mbm_total_bytes/event_filter
+>   local_reads,local_non_temporal_writes
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
 
-7. kexec - Tests the main functionality of LUO -- preserving a FD over
-   kexec. It creates a memfd with random data, saves the data to a file on
-   disk, and then preserves the FD and goes into prepared state. Now the
-   test runner must perform a kexec. Once rebooted, running the test again
-   resumes the test. It fetches the memfd back, nd compares its content
-   with the saved data on disk.
+...
 
-A specific test can be selected or excluded uring the -t or -e arguments.
+> ---
+>  Documentation/filesystems/resctrl.rst |  12 +++
+>  fs/resctrl/rdtgroup.c                 | 120 +++++++++++++++++++++++++-
+>  2 files changed, 131 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+> index b1db1a53db2a..2cd6107ca452 100644
+> --- a/Documentation/filesystems/resctrl.rst
+> +++ b/Documentation/filesystems/resctrl.rst
+> @@ -342,6 +342,18 @@ with the following files:
+>  	  # cat /sys/fs/resctrl/info/L3_MON/event_configs/mbm_local_bytes/event_filter
+>  	  local_reads, local_non_temporal_writes, local_reads_slow_memory
+>  
+> +	Modify the event configuration by writing to the "event_filter" file within the
+> +	configuration directory. The read/write event_filter file contains the configuration
 
-Sample run:
+(to help be specific)
+"within the configuration directory" -> "within the "event_configs" directory"
 
-    $ ./test
-    LibLUO Test Suite
-    =================
+Note that "event_filter" is not consistently in quotes.
 
-    Testing initialization and cleanup... PASSED
-    Testing get_state... PASSED (current state: normal)
-    Testing state transitions... PASSED
-    Testing fd_preserve with freeze and cancel... PASSED
-    Testing operations on prepared memfd... PASSED
-    Testing error handling... PASSED
-    Testing fd preserve for kexec... READY FOR KEXEC (token: 3)
-    Run kexec now and then run this test again to complete.
+> +	of the event that reflects which memory transactions are counted by it.
+> +
+> +	For example::
+> +
+> +	  # echo "local_reads, local_non_temporal_writes" >
+> +	    /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes/event_filter
 
-    All requested tests completed.
+counter_configs -> event_configs
 
-Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- tools/lib/luo/Makefile         |   4 +
- tools/lib/luo/tests/.gitignore |   1 +
- tools/lib/luo/tests/Makefile   |  18 +
- tools/lib/luo/tests/test.c     | 848 +++++++++++++++++++++++++++++++++
- 4 files changed, 871 insertions(+)
- create mode 100644 tools/lib/luo/tests/.gitignore
- create mode 100644 tools/lib/luo/tests/Makefile
- create mode 100644 tools/lib/luo/tests/test.c
+> +
+> +	  # cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes/event_filter
 
-diff --git a/tools/lib/luo/Makefile b/tools/lib/luo/Makefile
-index e8f6bd3b9e85..ef4c489efcc5 100644
---- a/tools/lib/luo/Makefile
-+++ b/tools/lib/luo/Makefile
-@@ -29,9 +29,13 @@ $(SHARED_LIB): $(OBJS)
- cli: $(STATIC_LIB)
- 	$(MAKE) -C cli
- 
-+tests: $(STATIC_LIB)
-+	$(MAKE) -C tests
-+
- clean:
- 	rm -f $(OBJS) $(STATIC_LIB) $(SHARED_LIB)
- 	$(MAKE) -C cli clean
-+	$(MAKE) -C tests clean
- 
- install: all
- 	install -d $(DESTDIR)/usr/local/lib
-diff --git a/tools/lib/luo/tests/.gitignore b/tools/lib/luo/tests/.gitignore
-new file mode 100644
-index 000000000000..ee4c92682341
---- /dev/null
-+++ b/tools/lib/luo/tests/.gitignore
-@@ -0,0 +1 @@
-+/test
-diff --git a/tools/lib/luo/tests/Makefile b/tools/lib/luo/tests/Makefile
-new file mode 100644
-index 000000000000..7f4689722ff6
---- /dev/null
-+++ b/tools/lib/luo/tests/Makefile
-@@ -0,0 +1,18 @@
-+# SPDX-License-Identifier: LGPL-3.0-or-later
-+TESTS = test
-+INCLUDE_DIR = ../include
-+HEADERS = $(wildcard $(INCLUDE_DIR)/*.h)
-+
-+CC = gcc
-+CFLAGS = -Wall -Wextra -O2 -g -I$(INCLUDE_DIR)
-+LDFLAGS = -L.. -l:libluo.a
-+
-+.PHONY: all clean
-+
-+all: $(TESTS)
-+
-+test: test.c ../libluo.a $(HEADERS)
-+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
-+
-+clean:
-+	rm -f $(TESTS)
-diff --git a/tools/lib/luo/tests/test.c b/tools/lib/luo/tests/test.c
-new file mode 100644
-index 000000000000..7963ae8ebadf
---- /dev/null
-+++ b/tools/lib/luo/tests/test.c
-@@ -0,0 +1,848 @@
-+// SPDX-License-Identifier: LGPL-3.0-or-later
-+#define _GNU_SOURCE
-+/**
-+ * @file test.c
-+ * @brief Test program for the LibLUO library
-+ *
-+ * This program tests the basic functionality of the LibLUO library.
-+ *
-+ * Copyright (C) 2025 Amazon.com Inc. or its affiliates.
-+ * Author: Pratyush Yadav <ptyadav@amazon.de>
-+ */
-+
-+#include <libluo.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <errno.h>
-+#include <sys/mman.h>
-+#include <getopt.h>
-+
-+/* Path to store token for kexec test */
-+#define TOKEN_FILE		"libluo_test_token"
-+#define TEST_DATA_FILE		"libluo_test_data"
-+#define MEMFD_NAME		"libluo_test_memfd"
-+
-+/* Size of the random data buffer (1 MiB) */
-+#define RANDOM_BUFFER_SIZE	(1 << 20)
-+static char random_buffer[RANDOM_BUFFER_SIZE];
-+
-+/* Test IDs */
-+#define TEST_INIT_CLEANUP	(1 << 0)
-+#define TEST_GET_STATE		(1 << 1)
-+#define TEST_FD_PRESERVE	(1 << 2)
-+#define TEST_ERROR_HANDLING	(1 << 3)
-+#define TEST_FD_KEXEC		(1 << 4)
-+#define TEST_FD_PREPARED	(1 << 5)
-+#define TEST_STATE_TRANSITIONS	(1 << 6)
-+#define TEST_ALL		(TEST_INIT_CLEANUP | TEST_GET_STATE | \
-+				 TEST_FD_PRESERVE | TEST_ERROR_HANDLING | \
-+				 TEST_FD_KEXEC | TEST_FD_PREPARED | \
-+				 TEST_STATE_TRANSITIONS)
-+
-+/*
-+ * luo_fd_preserve() needs a unique token. Generate a monotonically increasing
-+ * token.
-+ */
-+static uint64_t next_token()
-+{
-+	static uint64_t token = 0;
-+
-+	return token++;
-+}
-+
-+/* Read exactly specified size from fd. Any less results in error. */
-+static int read_size(int fd, char *buffer, size_t size)
-+{
-+	size_t remain = size;
-+	ssize_t bytes_read;
-+
-+	while (remain) {
-+		bytes_read = read(fd, buffer, remain);
-+		if (bytes_read == 0)
-+			return -ENODATA;
-+		if (bytes_read < 0)
-+			return -errno;
-+
-+		remain -= bytes_read;
-+	}
-+
-+	return 0;
-+}
-+
-+/* Write exactly specified size from fd. Any less results in error. */
-+static int write_size(int fd, const char *buffer, size_t size)
-+{
-+	size_t remain = size;
-+	ssize_t written;
-+
-+	while (remain) {
-+		written = write(fd, buffer, remain);
-+		if (written == 0)
-+			return -EIO;
-+		if (written < 0)
-+			return -errno;
-+
-+		remain -= written;
-+	}
-+
-+	return 0;
-+}
-+
-+static int generate_random_data(char *buffer, size_t size)
-+{
-+	int fd, ret;
-+
-+	fd = open("/dev/urandom", O_RDONLY);
-+	if (fd < 0)
-+		return -errno;
-+
-+	ret = read_size(fd, buffer, size);
-+	close(fd);
-+	return ret;
-+}
-+
-+static int save_test_data(const char *buffer, size_t size)
-+{
-+	int fd, ret;
-+
-+	fd = open(TEST_DATA_FILE, O_RDWR);
-+	if (fd < 0)
-+		return -errno;
-+
-+	ret = write_size(fd, buffer, size);
-+	close(fd);
-+	return ret;
-+}
-+
-+static int load_test_data(char *buffer, size_t size)
-+{
-+	int fd, ret;
-+
-+	fd = open(TEST_DATA_FILE, O_RDONLY);
-+	if (fd < 0)
-+		return -errno;
-+
-+	ret = read_size(fd, buffer, size);
-+	close(fd);
-+	return ret;
-+}
-+
-+/* Create and initialize a memfd with random data. */
-+static int create_test_fd(const char *memfd_name, char *buffer, size_t size)
-+{
-+	int fd;
-+	int ret;
-+
-+	fd = memfd_create(memfd_name, 0);
-+	if (fd < 0)
-+		return -errno;
-+
-+	ret = generate_random_data(buffer, size);
-+	if (ret < 0) {
-+		close(fd);
-+		return ret;
-+	}
-+
-+	if (write_size(fd, buffer, size) < 0) {
-+		close(fd);
-+		return -errno;
-+	}
-+
-+	/* Reset file position to beginning */
-+	if (lseek(fd, 0, SEEK_SET) < 0) {
-+		close(fd);
-+		return -errno;
-+	}
-+
-+	return fd;
-+}
-+
-+/*
-+ * Make sure fd contains expected data up to size. Returns 0 on success, 1 on
-+ * data mismatch, -errno on error.
-+ */
-+static int verify_fd_content(int fd, const char *expected_data, size_t size)
-+{
-+	char buffer[size];
-+	int ret;
-+
-+	/* Reset file position to beginning */
-+	if (lseek(fd, 0, SEEK_SET) < 0)
-+		return -errno;
-+
-+	ret = read_size(fd, buffer, size);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (memcmp(buffer, expected_data, size) != 0)
-+		return 1;
-+
-+	return 0;
-+}
-+
-+/* Save token to file for kexec test. */
-+static int save_token(uint64_t token)
-+{
-+	FILE *file = fopen(TOKEN_FILE, "w");
-+
-+	if (!file)
-+		return -errno;
-+
-+	if (fprintf(file, "%lu", token) < 0) {
-+		fclose(file);
-+		return -errno;
-+	}
-+
-+	fclose(file);
-+	return 0;
-+}
-+
-+/* Load token from file for kexec test. */
-+static int load_token(uint64_t *token)
-+{
-+	FILE *file = fopen(TOKEN_FILE, "r");
-+
-+	if (!file)
-+		return -errno;
-+
-+	if (fscanf(file, "%lu", token) != 1) {
-+		fclose(file);
-+		return -EINVAL;
-+	}
-+
-+	fclose(file);
-+	return 0;
-+}
-+
-+/* Test initialization and cleanup */
-+static void test_init_cleanup(void)
-+{
-+	int ret;
-+
-+	printf("Testing initialization and cleanup... ");
-+
-+	ret = luo_init();
-+	if (ret < 0) {
-+		printf("FAILED (init: %s)\n", strerror(-ret));
-+		return;
-+	}
-+
-+	luo_cleanup();
-+	printf("PASSED\n");
-+}
-+
-+/* Test getting LUO state */
-+static void test_get_state(void)
-+{
-+	int ret;
-+	enum liveupdate_state state;
-+
-+	printf("Testing get_state... ");
-+
-+	ret = luo_init();
-+	if (ret < 0) {
-+		printf("FAILED (init: %s)\n", strerror(-ret));
-+		return;
-+	}
-+
-+	ret = luo_get_state(&state);
-+	if (ret < 0) {
-+		printf("FAILED (get_state: %s)\n", strerror(-ret));
-+		luo_cleanup();
-+		return;
-+	}
-+
-+	printf("PASSED (current state: %s)\n", luo_state_to_string(state));
-+	luo_cleanup();
-+}
-+
-+/* Test preserving and unpreserving a file descriptor with prepare and cancel */
-+static void test_fd_preserve_unpreserve(void)
-+{
-+	uint64_t token = next_token();
-+	int ret, fd = -1;
-+
-+	printf("Testing fd_preserve with freeze and cancel... ");
-+
-+	ret = luo_init();
-+	if (ret < 0) {
-+		printf("FAILED (init: %s)\n", strerror(-ret));
-+		return;
-+	}
-+
-+	fd = create_test_fd(MEMFD_NAME, random_buffer, sizeof(random_buffer));
-+	if (fd < 0) {
-+		ret = fd;
-+		printf("FAILED (create_test_fd: %s)\n", strerror(-ret));
-+		goto out_cleanup;
-+	}
-+
-+	ret = luo_fd_preserve(fd, token);
-+	if (ret < 0) {
-+		printf("FAILED (preserve: %s)\n", strerror(-ret));
-+		goto out_close_fd;
-+	}
-+
-+	ret = luo_prepare();
-+	if (ret < 0) {
-+		printf("FAILED (prepare: %s)\n", strerror(-ret));
-+		goto out_unpreserve;
-+	}
-+
-+	ret = luo_cancel();
-+	if (ret < 0) {
-+		printf("FAILED (cancel: %s)\n", strerror(-ret));
-+		goto out_unpreserve;
-+	}
-+
-+	ret = luo_fd_unpreserve(token);
-+	if (ret < 0) {
-+		printf("FAILED (unpreserve: %s)\n", strerror(-ret));
-+		goto out_close_fd;
-+	}
-+
-+	ret = verify_fd_content(fd, random_buffer, sizeof(random_buffer));
-+	if (ret < 0) {
-+		printf("FAILED (verify_fd_content: %s)\n",
-+		       ret == 1 ? "data mismatch" : strerror(-ret));
-+		goto out_close_fd;
-+	}
-+
-+	printf("PASSED\n");
-+	goto out_close_fd;
-+
-+out_unpreserve:
-+	luo_fd_unpreserve(token);
-+out_close_fd:
-+	close(fd);
-+out_cleanup:
-+	luo_cleanup();
-+}
-+
-+/* Test error handling with invalid inputs. */
-+static void test_error_handling(void)
-+{
-+	int ret;
-+
-+	printf("Testing error handling... ");
-+
-+	ret = luo_init();
-+	if (ret < 0) {
-+		printf("FAILED (init: %s)\n", strerror(-ret));
-+		return;
-+	}
-+
-+	/* Test with invalid file descriptor */
-+	ret = luo_fd_preserve(-1, next_token());
-+	if (ret != -EINVAL) {
-+		printf("FAILED (expected EINVAL for invalid fd, got %d)\n", ret);
-+		luo_cleanup();
-+		return;
-+	}
-+
-+	/* Test with NULL state pointer */
-+	ret = luo_get_state(NULL);
-+	if (ret != -EINVAL) {
-+		printf("FAILED (expected EINVAL for NULL state, got %d)\n", ret);
-+		luo_cleanup();
-+		return;
-+	}
-+
-+	luo_cleanup();
-+	printf("PASSED\n");
-+}
-+
-+/* Test preserving a file descriptor for kexec reboot */
-+static void test_fd_preserve_for_kexec(void)
-+{
-+	enum liveupdate_state state;
-+	int fd = -1, ret;
-+	uint64_t token;
-+
-+	ret = luo_init();
-+	if (ret < 0) {
-+		printf("FAILED (init: %s)\n", strerror(-ret));
-+		return;
-+	}
-+
-+	/* Check if we're in post-kexec state */
-+	ret = luo_get_state(&state);
-+	if (ret < 0) {
-+		printf("FAILED (get_state: %s)\n", strerror(-ret));
-+		goto out_cleanup;
-+	}
-+
-+	if (state == LIVEUPDATE_STATE_UPDATED) {
-+		/* Post-kexec: restore the file descriptor */
-+		printf("Testing memfd restore after kexec... ");
-+
-+		ret = load_token(&token);
-+		if (ret < 0) {
-+			printf("FAILED (load_token: %s)\n", strerror(-ret));
-+			goto out_cleanup;
-+		}
-+
-+		ret = load_test_data(random_buffer, RANDOM_BUFFER_SIZE);
-+		if (ret < 0) {
-+			printf("FAILED (load_test_data: %s)\n", strerror(-ret));
-+			goto out_cleanup;
-+		}
-+
-+		ret = luo_fd_restore(token, &fd);
-+		if (ret < 0) {
-+			printf("FAILED (restore: %s)\n", strerror(-ret));
-+			goto out_cleanup;
-+		}
-+
-+		/* Verify the file descriptor content with stored data. */
-+		ret = verify_fd_content(fd, random_buffer, RANDOM_BUFFER_SIZE);
-+		if (ret) {
-+			printf("FAILED (verify_fd_content: %s)\n",
-+			       ret == 1 ? "data mismatch" : strerror(-ret));
-+			goto out_close_fd;
-+		}
-+
-+		ret = luo_finish();
-+		if (ret < 0) {
-+			printf("FAILED (finish: %s)\n", strerror(-ret));
-+			goto out_close_fd;
-+		}
-+
-+		printf("PASSED\n");
-+		goto out_close_fd;
-+	} else {
-+		/* Pre-kexec: preserve the file descriptor */
-+		printf("Testing fd preserve for kexec... ");
-+
-+		fd = create_test_fd(MEMFD_NAME, random_buffer, RANDOM_BUFFER_SIZE);
-+		if (fd < 0) {
-+			ret = fd;
-+			printf("FAILED (create_test_fd: %s)\n", strerror(-ret));
-+			goto out_cleanup;
-+		}
-+
-+		/* Save random data to file for post-kexec verification */
-+		ret = save_test_data(random_buffer, RANDOM_BUFFER_SIZE);
-+		if (ret < 0) {
-+			printf("FAILED (save_test_data: %s)\n", strerror(-ret));
-+			goto out_close_fd;
-+		}
-+
-+		token = next_token();
-+		ret = luo_fd_preserve(fd, token);
-+		if (ret < 0) {
-+			printf("FAILED (preserve: %s)\n", strerror(-ret));
-+			goto out_close_fd;
-+		}
-+
-+		/* Save token to file for post-kexec restoration */
-+		ret = save_token(token);
-+		if (ret < 0) {
-+			printf("FAILED (save_token: %s)\n", strerror(-ret));
-+			goto out_unpreserve;
-+		}
-+
-+		ret = luo_prepare();
-+		if (ret < 0) {
-+			printf("FAILED (prepare: %s)\n", strerror(-ret));
-+			goto out_unpreserve;
-+		}
-+
-+		printf("READY FOR KEXEC (token: %lu)\n", token);
-+		printf("Run kexec now and then run this test again to complete.\n");
-+
-+		/* Note: At this point, the system should perform kexec reboot.
-+		 * The test will continue in the new kernel with the
-+		 * LIVEUPDATE_STATE_UPDATED state.
-+		 *
-+		 * Since the FD is now preserved, we can close it.
-+		 */
-+		goto out_close_fd;
-+	}
-+
-+out_unpreserve:
-+	luo_fd_unpreserve(token);
-+out_close_fd:
-+	close(fd);
-+out_cleanup:
-+	luo_cleanup();
-+}
-+
-+/*
-+ * Test that prepared memfd can't grow or shrink, but reads and writes still
-+ * work.
-+ */
-+static void test_fd_prepared_operations(void)
-+{
-+	char write_buffer[128] = {'A'};
-+	size_t initial_size, file_size;
-+	int ret, fd = -1;
-+	uint64_t token;
-+
-+	printf("Testing operations on prepared memfd... ");
-+
-+	ret = luo_init();
-+	if (ret < 0) {
-+		printf("FAILED (init: %s)\n", strerror(-ret));
-+		return;
-+	}
-+
-+	/* Create and initialize test file descriptor */
-+	fd = create_test_fd(MEMFD_NAME, random_buffer, sizeof(random_buffer));
-+	if (fd < 0) {
-+		ret = fd;
-+		printf("FAILED (create_test_fd: %s)\n", strerror(-ret));
-+		goto out_cleanup;
-+	}
-+
-+	/* Get initial file size */
-+	ret = lseek(fd, 0, SEEK_END);
-+	if (ret < 0) {
-+		printf("FAILED (lseek to end: %s)\n", strerror(errno));
-+		goto out_close_fd;
-+	}
-+	initial_size = (size_t)ret;
-+
-+	token = next_token();
-+	ret = luo_fd_preserve(fd, token);
-+	if (ret < 0) {
-+		printf("FAILED (preserve: %s)\n", strerror(-ret));
-+		goto out_close_fd;
-+	}
-+
-+	ret = luo_prepare();
-+	if (ret < 0) {
-+		printf("FAILED (prepare: %s)\n", strerror(-ret));
-+		goto out_unpreserve;
-+	}
-+
-+	/* Test 1: Write to the prepared file descriptor (within existing size) */
-+	if (lseek(fd, 0, SEEK_SET) < 0) {
-+		printf("FAILED (lseek before write: %s)\n", strerror(errno));
-+		goto out_cancel;
-+	}
-+
-+	/* Write buffer is smaller than total file size. */
-+	ret = write_size(fd, write_buffer, sizeof(write_buffer));
-+	if (ret < 0) {
-+		printf("FAILED (write to prepared fd: %s)\n", strerror(errno));
-+		goto out_cancel;
-+	}
-+
-+	ret = verify_fd_content(fd, write_buffer, sizeof(write_buffer));
-+	if (ret) {
-+		printf("FAILED (verify_fd_content after write: %s)\n",
-+		       ret == 1 ? "data mismatch" : strerror(-ret));
-+		goto out_cancel;
-+	}
-+
-+	/* Test 2: Try to grow the file using write(). */
-+
-+	/* First, seek to one byte behind initial size. */
-+	ret = lseek(fd, initial_size - 1, SEEK_SET);
-+	if (ret < 0) {
-+		printf("FAILED: (lseek after write verification: %s)\n",
-+		       strerror(errno));
-+	}
-+
-+	/*
-+	 * Then, write some data that should increase the file size. This should
-+	 * fail.
-+	 */
-+	ret = write_size(fd, write_buffer, sizeof(write_buffer));
-+	if (ret == 0) {
-+		printf("FAILED: (write beyond initial size succeeded)\n");
-+		goto out_cancel;
-+	}
-+
-+	ret = lseek(fd, 0, SEEK_END);
-+	if (ret < 0) {
-+		printf("FAILED (lseek after larger write: %s)\n", strerror(errno));
-+		goto out_cancel;
-+	}
-+	file_size = (size_t)ret;
-+
-+	if (file_size != initial_size) {
-+		printf("FAILED (file grew beyond initial size: %zu != %zu)\n",
-+		       (size_t)file_size, initial_size);
-+		goto out_cancel;
-+	}
-+
-+	/* Test 3: Try to shrink the file using truncate */
-+	ret = ftruncate(fd, initial_size / 2);
-+	if (ret == 0) {
-+		printf("FAILED (file was truncated)\n");
-+		goto out_cancel;
-+	}
-+
-+	ret = lseek(fd, 0, SEEK_END);
-+	if (ret < 0) {
-+		printf("FAILED (lseek after shrink attempt: %s)\n", strerror(errno));
-+		goto out_cancel;
-+	}
-+	file_size = (size_t)ret;
-+
-+	if (file_size != initial_size) {
-+		printf("FAILED (file shrunk from initial size: %zu != %zu)\n",
-+		       (size_t)file_size, initial_size);
-+		goto out_cancel;
-+	}
-+
-+	ret = luo_cancel();
-+	if (ret < 0) {
-+		printf("FAILED (cancel: %s)\n", strerror(-ret));
-+		goto out_unpreserve;
-+	}
-+
-+	ret = luo_fd_unpreserve(token);
-+	if (ret < 0) {
-+		printf("FAILED (unpreserve: %s)\n", strerror(-ret));
-+		goto out_close_fd;
-+	}
-+
-+	printf("PASSED\n");
-+	goto out_close_fd;
-+
-+out_cancel:
-+	luo_cancel();
-+out_unpreserve:
-+	luo_fd_unpreserve(token);
-+out_close_fd:
-+	close(fd);
-+out_cleanup:
-+	luo_cleanup();
-+}
-+
-+static int test_prepare_cancel_sequence(const char *sequence_name)
-+{
-+	int ret;
-+	enum liveupdate_state state;
-+
-+	/* Initial state should be NORMAL */
-+	ret = luo_get_state(&state);
-+	if (ret < 0) {
-+		printf("FAILED (%s get initial state failed: %s)\n",
-+		       sequence_name, strerror(-ret));
-+		return ret;
-+	}
-+
-+	if (state != LIVEUPDATE_STATE_NORMAL) {
-+		printf("FAILED (%s unexpected initial state: %s)\n",
-+		       sequence_name, luo_state_to_string(state));
-+		return -EINVAL;
-+	}
-+
-+	/* Test NORMAL -> PREPARED transition */
-+	ret = luo_prepare();
-+	if (ret < 0) {
-+		printf("FAILED (%s prepare failed: %s)\n",
-+		       sequence_name, strerror(-ret));
-+		return ret;
-+	}
-+
-+	ret = luo_get_state(&state);
-+	if (ret < 0) {
-+		printf("FAILED (%s get state after prepare failed: %s)\n",
-+		       sequence_name, strerror(-ret));
-+		goto out_cancel;
-+	}
-+
-+	if (state != LIVEUPDATE_STATE_PREPARED) {
-+		printf("FAILED (%s expected PREPARED state, got %s)\n",
-+		       sequence_name, luo_state_to_string(state));
-+		ret = -EINVAL;
-+		goto out_cancel;
-+	}
-+
-+	/* Test PREPARED -> NORMAL transition via cancel */
-+	ret = luo_cancel();
-+	if (ret < 0) {
-+		printf("FAILED (%s cancel failed: %s)\n",
-+		       sequence_name, strerror(-ret));
-+		return ret;
-+	}
-+
-+	ret = luo_get_state(&state);
-+	if (ret < 0) {
-+		printf("FAILED (%s get state after cancel failed: %s)\n",
-+		       sequence_name, strerror(-ret));
-+		return ret;
-+	}
-+
-+	if (state != LIVEUPDATE_STATE_NORMAL) {
-+		printf("FAILED (%s expected NORMAL state after cancel, got %s)\n",
-+		       sequence_name, luo_state_to_string(state));
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+
-+out_cancel:
-+	luo_cancel();
-+	return ret;
-+}
-+
-+/* Test all state transitions */
-+static void test_state_transitions(void)
-+{
-+	int ret;
-+
-+	printf("Testing state transitions... ");
-+
-+	ret = luo_init();
-+	if (ret < 0) {
-+		printf("FAILED (init failed: %s)\n", strerror(-ret));
-+		return;
-+	}
-+
-+	/* Test first prepare -> cancel sequence */
-+	ret = test_prepare_cancel_sequence("first");
-+	if (ret < 0)
-+		goto out;
-+
-+	/*
-+	 * Test second prepare -> freeze -> cancel sequence in case the
-+	 * previous cancellation left some side effects.
-+	 */
-+	ret = test_prepare_cancel_sequence("second");
-+	if (ret < 0)
-+		goto out;
-+
-+	printf("PASSED\n");
-+
-+out:
-+	luo_cleanup();
-+}
-+
-+/* Test name to flag mapping */
-+struct test {
-+	const char *name;
-+	void (*fn)(void);
-+	unsigned int flag;
-+};
-+
-+/* Array of test names and their corresponding flags */
-+static struct test tests[] = {
-+	{"init", test_init_cleanup, TEST_INIT_CLEANUP},
-+	{"state", test_get_state, TEST_GET_STATE},
-+	{"transitions", test_state_transitions, TEST_STATE_TRANSITIONS},
-+	{"preserve", test_fd_preserve_unpreserve, TEST_FD_PRESERVE},
-+	{"prepared", test_fd_prepared_operations, TEST_FD_PREPARED},
-+	{"error", test_error_handling, TEST_ERROR_HANDLING},
-+	{"kexec", test_fd_preserve_for_kexec, TEST_FD_KEXEC},
-+	{NULL, NULL, 0}
-+};
-+
-+static int parse_test_names(char *arg, unsigned int *flags)
-+{
-+	char *name;
-+	struct test *test;
-+
-+	*flags = 0;
-+	name = strtok(arg, ",");
-+
-+	while (name != NULL) {
-+		test = tests;
-+		while (test->name) {
-+			if (strcmp(name, test->name) == 0) {
-+				*flags |= test->flag;
-+				break;
-+			}
-+			test++;
-+		}
-+
-+		/* Check if we found a match */
-+		if (!test->name) {
-+			printf("Unknown test: %s\n", name);
-+			return 1;
-+		}
-+
-+		name = strtok(NULL, ",");
-+	}
-+
-+	return 0;
-+}
-+
-+static void usage(const char *program_name)
-+{
-+	printf("Usage: %s [options]\n", program_name);
-+	printf("Options:\n");
-+	printf("  -h, --help                 Show this help message\n");
-+	printf("  -t, --test=TEST_ID         Run specific test(s)\n");
-+	printf("  -e, --exclude=TEST_ID      Exclude specific test(s)\n");
-+	printf("\n");
-+	printf("Test IDs:\n");
-+	printf("  init        - Test initialization and cleanup\n");
-+	printf("  state       - Test getting LUO state\n");
-+	printf("  preserve    - Test memfd preserve/unpreserve with freeze/cancel\n");
-+	printf("  prepared    - Test memfd functions can read/write but not grow after prepare\n");
-+	printf("  transitions - Test all state transitions (NORMAL->PREPARED->FROZEN->NORMAL)\n");
-+	printf("  error       - Test error handling\n");
-+	printf("  kexec       - Test memfd preserve for kexec\n");
-+	printf("\n");
-+	printf("Multiple tests can be specified with comma separation.\n");
-+	printf("Example: %s --test=init,state --exclude=kexec\n", program_name);
-+	printf("By default, all tests are run.\n");
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	unsigned int tests_to_run = TEST_ALL;
-+	unsigned int tests_to_exclude = 0;
-+	struct option long_options[] = {
-+		{"help", no_argument, 0, 'h'},
-+		{"test", required_argument, 0, 't'},
-+		{"exclude", required_argument, 0, 'e'},
-+		{0, 0, 0, 0}
-+	};
-+	struct test *test;
-+	int opt;
-+
-+	printf("LibLUO Test Suite\n");
-+	printf("=================\n\n");
-+
-+	if (!luo_is_available()) {
-+		printf("LUO is not available on this system. Skipping tests.\n");
-+		return 0;
-+	}
-+
-+	while ((opt = getopt_long(argc, argv, "ht:e:", long_options, NULL)) != -1) {
-+		switch (opt) {
-+		case 'h':
-+			usage(argv[0]);
-+			return 0;
-+		case 't':
-+			if (parse_test_names(optarg, &tests_to_run))
-+				return 1;
-+			break;
-+		case 'e':
-+			if (parse_test_names(optarg, &tests_to_exclude))
-+				return 1;
-+			break;
-+		default:
-+			printf("Try '%s --help' for more information.\n", argv[0]);
-+			return 1;
-+		}
-+	}
-+
-+	/* Apply exclusions to the tests to run */
-+	tests_to_run &= ~tests_to_exclude;
-+	if (!tests_to_run) {
-+		printf("ERROR: all tests excluded\n");
-+		return 1;
-+	}
-+
-+	/* Run selected tests */
-+	test = tests;
-+	while (test->name) {
-+		if (tests_to_run & test->flag)
-+			test->fn();
-+		test++;
-+	}
-+
-+	printf("\nAll requested tests completed.\n");
-+	return 0;
-+}
--- 
-2.50.0.727.gbf7dc18ff4-goog
+counter_configs -> event_configs
 
+> +	   local_reads, local_non_temporal_writes
+
+Please let example match what code does wrt spacing.
+
+> +
+>  "max_threshold_occupancy":
+>  		Read/write file provides the largest value (in
+>  		bytes) at which a previously used LLC_occupancy
+> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+> index e2fa5e10c2dd..fdea608e0796 100644
+> --- a/fs/resctrl/rdtgroup.c
+> +++ b/fs/resctrl/rdtgroup.c
+> @@ -1928,6 +1928,123 @@ static int event_filter_show(struct kernfs_open_file *of, struct seq_file *seq,
+>  	return 0;
+>  }
+>  
+> +/**
+> + * rdtgroup_assign_cntr - Update the counter assignments for the event in
+
+Could this please be renamed to rdtgroup_update_cntr()? Actually, how about
+rdtgroup_update_cntr_event() to pair with a rdtgroup_assign_cntr_event()?
+
+After staring at this code it becomes confusing when the term "assign" is used
+for both allocating and just updating. 
+
+Compare for example: rdtgroup_assign_cntrs() with this function ... the
+only difference is "cntr" vs "cntrs" in the name but instead of both functions
+doing the same just on single vs multiple counters as the name implies they do
+significantly different things. I find this very confusing.
+
+> + *			  a group.
+> + * @r:		Resource to which update needs to be done.
+> + * @rdtgrp:	Resctrl group.
+> + * @mevt:	MBM monitor event.
+> + */
+> +static int rdtgroup_assign_cntr(struct rdt_resource *r, struct rdtgroup *rdtgrp,
+> +				struct mon_evt *mevt)
+> +{
+> +	struct rdt_mon_domain *d;
+> +	int cntr_id;
+> +
+> +	list_for_each_entry(d, &r->mon_domains, hdr.list) {
+> +		cntr_id = mbm_cntr_get(r, d, rdtgrp, mevt->evtid);
+> +		if (cntr_id >= 0 && d->cntr_cfg[cntr_id].evt_cfg != mevt->evt_cfg) {
+> +			d->cntr_cfg[cntr_id].evt_cfg = mevt->evt_cfg;
+
+I referred to this snippet in earlier comment 
+https://lore.kernel.org/lkml/887bad33-7f4a-4b6d-95a7-fdfe0451f42b@intel.com/
+
+> +			resctrl_arch_config_cntr(r, d, mevt->evtid, rdtgrp->mon.rmid,
+> +						 rdtgrp->closid, cntr_id, true);
+> +		}
+> +	}
+> +
+> +	return 0;
+
+Looks like this can be a void function.
+
+> +}
+> +
+> +/**
+> + * resctrl_assign_cntr_allrdtgrp - Update the counter assignments for the event
+> + *				   for all the groups.
+> + * @r:		Resource to which update needs to be done.
+> + * @mevt	MBM Monitor event.
+> + */
+> +static void resctrl_assign_cntr_allrdtgrp(struct rdt_resource *r, struct mon_evt *mevt)
+
+resctrl_assign_cntr_allrdtgrp() -> resctrl_update_cntr_allrdtgrp()/resctrl_update_cntr_event_allrdtgrp()
+
+> +{
+> +	struct rdtgroup *prgrp, *crgrp;
+> +
+> +	/*
+> +	 * Check all the groups where the event tyoe is assigned and update
+
+I am not sure what is meant with "Check" here. Maybe "Find"?
+
+tyoe -> type?
+
+> +	 * the assignment
+> +	 */
+> +	list_for_each_entry(prgrp, &rdt_all_groups, rdtgroup_list) {
+> +		rdtgroup_assign_cntr(r, prgrp, mevt);
+> +
+> +		list_for_each_entry(crgrp, &prgrp->mon.crdtgrp_list, mon.crdtgrp_list)
+> +			rdtgroup_assign_cntr(r, crgrp, mevt);
+> +	}
+> +}
+> +
+> +static int resctrl_process_configs(char *tok, u32 *val)
+> +{
+> +	char *evt_str;
+> +	u32 temp_val;
+> +	bool found;
+> +	int i;
+> +
+> +next_config:
+> +	if (!tok || tok[0] == '\0')
+> +		return 0;
+> +
+> +	/* Start processing the strings for each memory transaction type */
+> +	evt_str = strim(strsep(&tok, ","));
+> +	found = false;
+> +	for (i = 0; i < NUM_MBM_EVT_VALUES; i++) {
+> +		if (!strcmp(mbm_config_values[i].name, evt_str)) {
+> +			temp_val = mbm_config_values[i].val;
+> +			found = true;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!found) {
+> +		rdt_last_cmd_printf("Invalid memory transaction type %s\n", evt_str);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*val |= temp_val;
+
+This still returns a partially initialized value on failure. Please only set
+provided parameter on success.
+
+> +
+> +	goto next_config;
+> +}
+> +
+> +static ssize_t event_filter_write(struct kernfs_open_file *of, char *buf,
+> +				  size_t nbytes, loff_t off)
+> +{
+> +	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
+> +	struct mon_evt *mevt = rdt_kn_parent_priv(of->kn);
+
+With mon_evt::rid available it should not be necessary to hardcode the resource?
+Do any of these new functions need a struct rdt_resource parameter in addition
+to struct mon_evt?
+
+> +	u32 evt_cfg = 0;
+> +	int ret = 0;
+> +
+> +	/* Valid input requires a trailing newline */
+> +	if (nbytes == 0 || buf[nbytes - 1] != '\n')
+> +		return -EINVAL;
+> +
+> +	buf[nbytes - 1] = '\0';
+> +
+> +	cpus_read_lock();
+> +	mutex_lock(&rdtgroup_mutex);
+> +
+> +	rdt_last_cmd_clear();
+> +
+> +	if (!resctrl_arch_mbm_cntr_assign_enabled(r)) {
+> +		rdt_last_cmd_puts("mbm_cntr_assign mode is not enabled\n");
+
+Needs update to new names.
+
+> +		ret = -EINVAL;
+> +		goto out_unlock;
+> +	}
+> +
+> +	ret = resctrl_process_configs(buf, &evt_cfg);
+> +	if (!ret && mevt->evt_cfg != evt_cfg) {
+> +		mevt->evt_cfg = evt_cfg;
+> +		resctrl_assign_cntr_allrdtgrp(r, mevt);
+
+Could only event_filter_write() be in fs/resctrl/rdtgroup.c with the rest
+of the functions introduced here located with rest of monitoring code
+in fs/resctrl/monitor.c?
+
+> +	}
+> +
+> +out_unlock:
+> +	mutex_unlock(&rdtgroup_mutex);
+> +	cpus_read_unlock();
+> +
+> +	return ret ?: nbytes;
+> +}
+> +
+>  /* rdtgroup information files for one cache resource. */
+>  static struct rftype res_common_files[] = {
+>  	{
+> @@ -2054,9 +2171,10 @@ static struct rftype res_common_files[] = {
+>  	},
+>  	{
+>  		.name		= "event_filter",
+> -		.mode		= 0444,
+> +		.mode		= 0644,
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.seq_show	= event_filter_show,
+> +		.write		= event_filter_write,
+>  	},
+>  	{
+>  		.name		= "mbm_assign_mode",
+
+Reinette
