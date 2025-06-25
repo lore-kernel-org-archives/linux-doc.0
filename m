@@ -1,419 +1,194 @@
-Received: from mail-10630.protonmail.ch (mail-10630.protonmail.ch [79.135.106.30])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2056.outbound.protection.outlook.com [40.107.101.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D05D2BF00A;
-	Wed, 25 Jun 2025 16:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.30
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750867208; cv=none; b=jUdn/VVrNv1WdjClfRUw4QKxvO2wLlhHVj2Tn9ttpLb6OyIAZ8JQ7S8qjZUw59+D5zMuN16YoXd6R9aa3kIJslsqs8s5kf43iQhjy1uQmKetJIDbPziPXUobtotBmuaahlUSWGQP/OSbvhmvCpAhhhabxKyZmrBDM74ClOtDgSw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750867208; c=relaxed/simple;
-	bh=su17sUPbTTihtoANSksi5gs2STqWqgFLZmEBIWrX+M0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DkgHshptvzls2J7cP+mdH8NNqAWK9QDGrNSQ3ZSkf1ta+Q/+bgKv+qwG/pbDOX8x0fZLSm2HgX4eoXVKlryECc6ZvjUO08Gu/rd+U1eWbHuoucN5NiIylx0mQYbACE6mzinn+zVfMvKWoMVoPzL+30PCDNUS0o+End9naeRGcl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=mdHQ3UiX; arc=none smtp.client-ip=79.135.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518F629E0FA;
+	Wed, 25 Jun 2025 16:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750867636; cv=fail; b=fI+U63HdgzMnEPtZOUJaMDflklIP6892hWVZIQ+xMD8J48PNvIxWeRLoGkaNKMpbF3YbCikbqBOs9TkLqwFJaopjkf6j3hMde6cSl2ybAMpcjUCCegLnRpTCz/BC9Q52HNn+VXtGBLiKHU1SVGV/ymelIToaNq7xo8MzL3zYZlQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750867636; c=relaxed/simple;
+	bh=DUd8Y4ShlMgeYweIoWv7SUeLUNS90GPtR14QBNvHxOU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aZ2mp/ePo9jQojiBQeLRJeF2jBzWc5OOjNVKvyyxjtsoXRfO4o2zELGxp9nWoQrj3RI5zJJM+WegLA1+q/kROIZf03obYSdWC2rtVkikI+lAk8LG7PIOGjxP7MPgtsu5EZG8HALJlWYM3/2TORgP+q4w36OrwDK/GAzqNjrCjJ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=OkFQk0Ue; arc=fail smtp.client-ip=40.107.101.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="mdHQ3UiX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1750867198; x=1751126398;
-	bh=shNZn9CXmtdijSV5B2iTzGkyqE9PqryKjvvVU2SZBJ0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=mdHQ3UiXY6BBi7o7lhPhdQmYS1xVa7BKUue0t3kQx83eso4VAJem0MGLcTvlcy+kT
-	 zZYTopNtwQC3vzUL3nGGi3h6wqNCv38VohFQf7WA34eV5H8WVIbjEG8iZGhPLe6ASP
-	 o7wivKGO/ViKyvX64RkIMTZLyoVcvO0SibsMnREMGdYuIfri7Bs+g0BE07RP1nxduc
-	 p+V0Py6yS4LVCARlZqvVL3uH+vSMC74maH5n6JxkjRIlVxTrtMAV36bqWtyA1skn6H
-	 piurlqgf6FpdK6diJjfWgym2SkI6HakqFVQunSlSxor95rZY8MGHcJkpWXOgK1D2m3
-	 S42mD3avKxy2g==
-Date: Wed, 25 Jun 2025 15:59:52 +0000
-To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com
-From: =?utf-8?Q?P=C5=91cze_Barnab=C3=A1s?= <pobrn@protonmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
-Message-ID: <7a58972f-5256-4598-b729-224f20f3ecd2@protonmail.com>
-In-Reply-To: <7b0243fd-15c6-42da-8570-9ad9cd5163af@gmx.de>
-References: <20250615175957.9781-1-W_Armin@gmx.de> <20250615175957.9781-3-W_Armin@gmx.de> <1b79a3c3-c493-471b-aa37-92458b356e8d@protonmail.com> <7b0243fd-15c6-42da-8570-9ad9cd5163af@gmx.de>
-Feedback-ID: 20568564:user:proton
-X-Pm-Message-ID: 08a42992ce2590e2577a89a797fe321dddbfa117
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="OkFQk0Ue"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k2S7SPSOAYVF51EePsbEeaPHfIOOuoPgpRs7FBQ6hcI45kuxLc2SGks2tkEyUMNGmDlVmNW2kSIbuBwiIEWqGdX/Sd8JvX21+ktfheLGCE9z9t9jBhS52mzaJPmfFN5geUpCqjgRsHJ1TUNe20wNyWPoe5KH5khE965JTb3DDyCNlXa6bJIzTiJ/HJkzAMyDWxzuJZEmugTF5vD6Nr4534L/iK9ff4KR9A8mr8neMWoCQU5/EaTlCQIbOR6nOjx8fEYhy7i7//Mupuiqfh4WJItWKbsnCFLAPhE22Q3Zw95sJxoNRneCgh5Zsc29FeWu7YgwArq71vQEEI+xbv2DJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UC2mbc7JZe7O60f/VwMDCqefneEOePUwQNU7lAytoyk=;
+ b=A8YRD3HnkR32EBNlUCkXN3cJi/DB7FilfEZ4NoelD9X6lJcIFiS8DyHUXEg+n5mLnp4LQD+aOw6BSu7EgOrxgaUCqlxzgI0BSAtL+5oauPDftmxi64CwOZSTGRu5ZMN056IZDqLEM7hffC6INfTL0oBaUtu/JYVcKRSDgrt9aZNKCbD3/ePoS4RZnqvkFfwKgimgQij0JuNiU5+mVA9zlMYNSLmjAu9GR1ajQviUIvuFrPA7I8C9bjQTdhAe5zctp1MEZNHTQR/sSWmTv4/+/yjnGms6XscwsH+2tkqLpj1m3I1+k5Q+RhhKl/UjIYrb1Wd2x9CrLUNBkpaxUGqxjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UC2mbc7JZe7O60f/VwMDCqefneEOePUwQNU7lAytoyk=;
+ b=OkFQk0UehXHR9wvG/7Bomxne3gqmvQ+bulEGT/gLAJlzEBWFRqkKEZBQqPTUeoE7wcn+d93/2G6zjVNnKkSRx1TY2em5d40HTGW3se2jru99WX2pd+zv58sif4GWp7M00LabjHoL26T4gj1gyQ/ZaEOzFfiMsq8c/JcdeLgka+Ht7EsSMmJiKHmgxxoX3OPgaeJVPCVSgFu+MxGsWFaxvq28y2JJ4eDTFyk6FbXzi4yZ5ksYDsSN7pfYQECkhzMxJ6n9OKO4rceLHJnKmBm3AGqEOqPQU4Q1ir8175B09rt2dGOQfLDqD6nn2rvIQ/WSiPfzv9XYWm+hCAYcedWNGg==
+Received: from CH0PR03CA0033.namprd03.prod.outlook.com (2603:10b6:610:b3::8)
+ by PH7PR12MB8108.namprd12.prod.outlook.com (2603:10b6:510:2bc::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.25; Wed, 25 Jun
+ 2025 16:07:11 +0000
+Received: from CH3PEPF0000000B.namprd04.prod.outlook.com
+ (2603:10b6:610:b3:cafe::e3) by CH0PR03CA0033.outlook.office365.com
+ (2603:10b6:610:b3::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8857.30 via Frontend Transport; Wed,
+ 25 Jun 2025 16:07:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CH3PEPF0000000B.mail.protection.outlook.com (10.167.244.38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8880.14 via Frontend Transport; Wed, 25 Jun 2025 16:07:11 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 25 Jun
+ 2025 09:06:57 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 25 Jun 2025 09:06:56 -0700
+Received: from Asurada-Nvidia (10.127.8.13) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Wed, 25 Jun 2025 09:06:54 -0700
+Date: Wed, 25 Jun 2025 09:06:53 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+CC: Baolu Lu <baolu.lu@linux.intel.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "will@kernel.org" <will@kernel.org>,
+	"bagasdotme@gmail.com" <bagasdotme@gmail.com>, "robin.murphy@arm.com"
+	<robin.murphy@arm.com>, "joro@8bytes.org" <joro@8bytes.org>,
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>, "vdumpa@nvidia.com"
+	<vdumpa@nvidia.com>, "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+	"shuah@kernel.org" <shuah@kernel.org>, "jsnitsel@redhat.com"
+	<jsnitsel@redhat.com>, "nathan@kernel.org" <nathan@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>, "Liu, Yi L"
+	<yi.l.liu@intel.com>, "mshavit@google.com" <mshavit@google.com>,
+	"praan@google.com" <praan@google.com>, "zhangzekun11@huawei.com"
+	<zhangzekun11@huawei.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
+	<patches@lists.linux.dev>, "mochs@nvidia.com" <mochs@nvidia.com>,
+	"alok.a.tiwari@oracle.com" <alok.a.tiwari@oracle.com>, "vasant.hegde@amd.com"
+	<vasant.hegde@amd.com>, "dwmw2@infradead.org" <dwmw2@infradead.org>
+Subject: Re: [PATCH v6 10/25] iommufd/viommu: Add IOMMUFD_CMD_HW_QUEUE_ALLOC
+ ioctl
+Message-ID: <aFwenQwrKz8rHY9T@Asurada-Nvidia>
+References: <cover.1749884998.git.nicolinc@nvidia.com>
+ <7dfb002613f224f57a069d27e7bf2b306b0a5ba0.1749884998.git.nicolinc@nvidia.com>
+ <1ab8030b-8d2f-4ebe-a280-6d0e4e1d17c7@linux.intel.com>
+ <aE+976F9zPsjtfry@nvidia.com>
+ <BN9PR11MB5276002043AF3D0970C7AEF58C7BA@BN9PR11MB5276.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BN9PR11MB5276002043AF3D0970C7AEF58C7BA@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF0000000B:EE_|PH7PR12MB8108:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56e2b7c5-ecc8-4e75-6152-08ddb40257e0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|36860700013|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?YmhwRWJ4QjZENXRUQ0M5NE5FY2N4OElSbmtLVithaEc5MXVkLzdQS3kzQ1pn?=
+ =?utf-8?B?WUcvVnZHNGtsVU5ZblY2SHk3NjIzRnptVnhRTlUrVFdXR3lRL0tkNmlxUDFu?=
+ =?utf-8?B?SEZ0SEhsTXR5c01GSWtKS29rVHBpU29wNVJ4ckFmTEpldGs2QzZWUFJzNHlm?=
+ =?utf-8?B?eGFXNDM1eEZ2aTJwMi90QTNNcHpLY01wOFBHZmhHTTltV2IyYTZHZ3M0RmpF?=
+ =?utf-8?B?R21ZNlZHZGYyQUx4ZmNMLzhxNjRvdUhKSzRJeG51RGpuQjJtaVAxVmJmZlJN?=
+ =?utf-8?B?TngrZGRMWWRpUlNrRmw5SE1UN05Wa1JmWnBwMG5VNVYvR04rNy9pcTFhdGVT?=
+ =?utf-8?B?andJdStPamdPWWgwMWJ0SlNoWG45NWdheGw4NU5zYnV2NUxrcmRSWGhra0NU?=
+ =?utf-8?B?YXM1WlBoSlBVV1hRazE5RXh1M1l6Z1pMVW93b2Vmd3JIOEJSL010S01XaFNS?=
+ =?utf-8?B?TG92eUdhOXFFcUV0cEkxZHFLSUltUnJ0bDNXK2JYK0Z1MjFVdkZ1ZjF2OFNP?=
+ =?utf-8?B?MWlLaDQ5YVQyTThmbjF2L1U4WFBJb0piVWVPOG96dENiUTY3aDAvTklsb0l2?=
+ =?utf-8?B?eEpBSTVoQUt4STVoS3ZDWXdyS0NwQU5vei80NXJJZmZvZ3ZYUXJpaG9oV2FS?=
+ =?utf-8?B?T2RhWUNqVm8rd2pTcWtPaG5NVCtFV2YxbWxsVVpNZDNmMGpoNkhCOUNjS1hP?=
+ =?utf-8?B?c0ZUZWM2S2krSEJ1N2pEVUZwd0MxZHZ3bUpxVTRPR0NNdmxpeTlxU3krSklY?=
+ =?utf-8?B?SSszY1JtbTBEalF6OTFldEI3dGxScHcxUVRxRFZoMjJhZEtLQUNVTFpKRkF3?=
+ =?utf-8?B?N3ViblFtZUNVQVQzbVFObkRBeEpkSW52ejh5d1ZLZ2FHNkVZSWlaSFhuazM0?=
+ =?utf-8?B?V0Z6WEVUck9UQm44VktMd0xyUjBicUJUL1hWQjlmVnFGTWc5cDZsNXJqVHIx?=
+ =?utf-8?B?dUNpR2FUeWZqS2hBNkJlRWhMOHcveHFKYjdYNkFHQzBXc1luTDNaYzdyU3Zw?=
+ =?utf-8?B?V255RzFWZ0U5em9iOHNTK255ano3VHlFQkR6NWV2TVhQWGluQXFSUk9WNklJ?=
+ =?utf-8?B?YTQ5YnFsUmZLcUJQVlc4c1lUZnlKVFM3VGV0ZXVBQWVnSDFwWVlmQVl5WXZq?=
+ =?utf-8?B?SmRMcllId3AwMlFQSzdiUW9OUmtuSmNxbFVvZzV6UVR3QjZ4RjZNaHJDSTlz?=
+ =?utf-8?B?VUNZdVc4ZVE5RFU2TTZDbTJhU3BGRWk3T1ovbkJYZzlmaG9NanRYZ3FrRDJD?=
+ =?utf-8?B?T2hWQzh1WjhqaDAvVG5pa0dHYzkyWTBDb3dnZ0JKVk52ZkFPM0gxQklGZW5v?=
+ =?utf-8?B?SHRRRmtJbFIwRWhQQVduRmMxVnRkaE5CNmpZSkFpV3lYSE5NV3VKWTVUQ01y?=
+ =?utf-8?B?bVR0aHpyR3BoS2RPbVpORkRNcGt1VkJYUGRIL2NMUWZUTko0V3cwbmhlekdG?=
+ =?utf-8?B?WEZmaXo2YU03Z0J1V2ZXbUlrVyt0bEt5eDRMUkxmMXpjWXdWRXN5ZlI5M05P?=
+ =?utf-8?B?NjlIdmVTU1U5cjZVZnZiYUU5LzFCRlRWZkMreHRVckRkcWRxcTljOEx0alJE?=
+ =?utf-8?B?eEhqclZxT2tzOUI2Mk1OYXVkM050STZxanhPQUgwOGF4Q0R4NWJUMFZmMEJ1?=
+ =?utf-8?B?S29lYzIrblAyQWlSNEVVeE1oWmRIb2w4dk41Q1RuYmFmQnNtS3V6VHZiZUEz?=
+ =?utf-8?B?RThiYlJrejBWejBFczJMWUY1azJCTlBGQi9NZm50QW16SGt6d2ZoTU5GRFFs?=
+ =?utf-8?B?YWJ2ekpQU0J1Qlp3Y2E4L0JnZUtkeFZQSVZURk8vVmhObmxHcnljbEVZRnhG?=
+ =?utf-8?B?OWlMaUJPa3hkVXN1aDNqeHliTHFSVDdRdTd4ZGc3eFQ2VXdodEN2MGxwZFB6?=
+ =?utf-8?B?a0FZK3poMjVIeDE1bzV6Umk5RG5zWkZUOEViRjQ3aG9SamYxNVQ5Yks2eE53?=
+ =?utf-8?B?V1EzV254WHRhMEhqR0ZmVE9rby90UE1MUk1TdkhVeWN3WCs5Mkxqa1V4TWx3?=
+ =?utf-8?B?V0VJNDIxV2d0NlpWYmNEeVBUZDhNSEl1TERTQ0w2MFVHQWp2SzRod2YrOVda?=
+ =?utf-8?Q?P5FBcu?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(36860700013)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 16:07:11.2153
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56e2b7c5-ecc8-4e75-6152-08ddb40257e0
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH3PEPF0000000B.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8108
 
-Hi
+On Wed, Jun 25, 2025 at 03:43:08AM +0000, Tian, Kevin wrote:
+> > From: Nicolin Chen <nicolinc@nvidia.com>
+> > Sent: Monday, June 16, 2025 2:47 PM
+> > > Leave other logics to the patches that introduce
+> > > ops->hw_queue_init? I guess that would make this patch more readible.
+> > 
+> > The patch is doing in the way to support the hw_queue_init_phys
+> > case only. It is just adding some extra FIXMEs as the guideline
+> > for the future patch adding hw_queue_init op.
+> > 
+> > I personally don't feel these are confusing. Maybe you can help
+> > point out what specific wording feels odd here? Maybe "FIXME"s
+> > should be "TODO"s?
+> > 
+> > I could also drop all of these guideline if they are considered
+> > very unnecessary.
+> > 
+> 
+> Probably you can put some info in the function comment instead
+> of being scattered in the code? anyway when the 2nd method
+> is added in future we'll review and make sure it aligned with the
+> caveat here. 😊
 
-2025. 06. 23. 0:36 keltez=C3=A9ssel, Armin Wolf =C3=ADrta:
-> Am 22.06.25 um 23:37 schrieb P=C5=91cze Barnab=C3=A1s:
->=20
->> Hi
->>
->>
->> 2025. 06. 15. 19:59 keltez=C3=A9ssel, Armin Wolf =C3=ADrta:
->>> Add a new driver for Uniwill laptops. The driver uses a ACPI WMI
->>> interface to talk with the embedded controller, but relies on a
->>> DMI whitelist for autoloading since Uniwill just copied the WMI
->>> GUID from the Windows driver example.
->>>
->>> The driver is reverse-engineered based on the following information:
->>> - OEM software from intel
->>> - https://github.com/pobrn/qc71_laptop
->> Oh... I suppose an end of an era for me...
->=20
-> I now remember that we interacted on the mailing lists before, sorry for =
-not CCing
-> you on this patch series.
->=20
-> Do you want a Co-developed-by tag on those patches?
+Yea, probably can drop them. I think AMD will figure it out easily :)
 
-I'll leave it up to you.
-
-
->=20
->>> - https://github.com/tuxedocomputers/tuxedo-drivers
->>> - https://github.com/tuxedocomputers/tuxedo-control-center
->>>
->>> The underlying EC supports various features, including hwmon sensors,
->>> battery charge limiting, a RGB lightbar and keyboard-related controls.
->>>
->>> Reported-by: cyear <chumuzero@gmail.com>
->>> Closes: https://github.com/lm-sensors/lm-sensors/issues/508
->>> Closes: https://github.com/Wer-Wolf/uniwill-laptop/issues/3
->>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->>> ---
->>>     .../ABI/testing/sysfs-driver-uniwill-laptop   |   53 +
->>>     Documentation/wmi/devices/uniwill-laptop.rst  |  109 ++
->>>     MAINTAINERS                                   |    8 +
->>>     drivers/platform/x86/uniwill/Kconfig          |   17 +
->>>     drivers/platform/x86/uniwill/Makefile         |    1 +
->>>     drivers/platform/x86/uniwill/uniwill-laptop.c | 1477 ++++++++++++++=
-+++
->>>     drivers/platform/x86/uniwill/uniwill-wmi.c    |    3 +-
->>>     7 files changed, 1667 insertions(+), 1 deletion(-)
->>>     create mode 100644 Documentation/ABI/testing/sysfs-driver-uniwill-l=
-aptop
->>>     create mode 100644 Documentation/wmi/devices/uniwill-laptop.rst
->>>     create mode 100644 drivers/platform/x86/uniwill/uniwill-laptop.c
->>>
-> [...]
->>> +
->>> +static const unsigned int uniwill_led_channel_to_bat_reg[LED_CHANNELS]=
- =3D {
->>> +=09EC_ADDR_LIGHTBAR_BAT_RED,
->>> +=09EC_ADDR_LIGHTBAR_BAT_GREEN,
->>> +=09EC_ADDR_LIGHTBAR_BAT_BLUE,
->>> +};
->>> +
->>> +static const unsigned int uniwill_led_channel_to_ac_reg[LED_CHANNELS] =
-=3D {
->>> +=09EC_ADDR_LIGHTBAR_AC_RED,
->>> +=09EC_ADDR_LIGHTBAR_AC_GREEN,
->>> +=09EC_ADDR_LIGHTBAR_AC_BLUE,
->>> +};
->>> +
->>> +static int uniwill_led_brightness_set(struct led_classdev *led_cdev, e=
-num led_brightness brightness)
->>> +{
->>> +=09struct led_classdev_mc *led_mc_cdev =3D lcdev_to_mccdev(led_cdev);
->>> +=09struct uniwill_data *data =3D container_of(led_mc_cdev, struct uniw=
-ill_data, led_mc_cdev);
->>> +=09unsigned int value;
->>> +=09int ret;
->>> +
->>> +=09ret =3D led_mc_calc_color_components(led_mc_cdev, brightness);
->>> +=09if (ret < 0)
->>> +=09=09return ret;
->>> +
->>> +=09for (int i =3D 0; i < LED_CHANNELS; i++) {
->>> +=09=09/* Prevent the brightness values from overflowing */
->>> +=09=09value =3D min(LED_MAX_BRIGHTNESS, data->led_mc_subled_info[i].br=
-ightness);
->>> +=09=09ret =3D regmap_write(data->regmap, uniwill_led_channel_to_ac_reg=
-[i], value);
->> This is interesting. I am not sure which "control center" application yo=
-u have looked at,
->> but I found many lookup tables based on the exact model, etc. For exampl=
-e, on my laptop
->> any value larger than 36 will simply turn that color component off. Have=
- you seen
->> anything like that?
->=20
-> I was using the Intel NUC studio software application during reverse-engi=
-neering and had a user
-> test the resulting code on a Intel NUC notebook. AFAIK the OEM software d=
-id not use a lookup table.
->=20
-> If we extend this driver in the future then we might indeed use the quirk=
- system to change the max.
-> LED brightness depending on the model.
-
-I see. So everything up to 200 works. And after that do you know if it turn=
-s off or what happens?
-
-
-
->=20
->>> +=09=09if (ret < 0)
->>> +=09=09=09return ret;
->>> +
->>> +=09=09ret =3D regmap_write(data->regmap, uniwill_led_channel_to_bat_re=
-g[i], value);
->>> +=09=09if (ret < 0)
->>> +=09=09=09return ret;
->>> +=09}
->>> +
->>> +=09if (brightness)
->>> +=09=09value =3D 0;
->>> +=09else
->>> +=09=09value =3D LIGHTBAR_S0_OFF;
->>> +
->>> +=09ret =3D regmap_update_bits(data->regmap, EC_ADDR_LIGHTBAR_AC_CTRL, =
-LIGHTBAR_S0_OFF, value);
->>> +=09if (ret < 0)
->>> +=09=09return ret;
->>> +
->>> +=09return regmap_update_bits(data->regmap, EC_ADDR_LIGHTBAR_BAT_CTRL, =
-LIGHTBAR_S0_OFF, value);
->>> +}
->>> +
->>> +#define LIGHTBAR_MASK=09(LIGHTBAR_APP_EXISTS | LIGHTBAR_S0_OFF | LIGHT=
-BAR_S3_OFF | LIGHTBAR_WELCOME)
->>> +
->>> +static int uniwill_led_init(struct uniwill_data *data)
->>> +{
->>> +=09struct led_init_data init_data =3D {
->>> +=09=09.devicename =3D DRIVER_NAME,
->>> +=09=09.default_label =3D "multicolor:" LED_FUNCTION_STATUS,
->>> +=09=09.devname_mandatory =3D true,
->>> +=09};
->>> +=09unsigned int color_indices[3] =3D {
->>> +=09=09LED_COLOR_ID_RED,
->>> +=09=09LED_COLOR_ID_GREEN,
->>> +=09=09LED_COLOR_ID_BLUE,
->>> +=09};
->>> +=09unsigned int value;
->>> +=09int ret;
->>> +
->>> +=09if (!(supported_features & UNIWILL_FEATURE_LIGHTBAR))
->>> +=09=09return 0;
->>> +
->>> +=09/*
->>> +=09 * The EC has separate lightbar settings for AC and battery mode,
->>> +=09 * so we have to ensure that both settings are the same.
->>> +=09 */
->>> +=09ret =3D regmap_read(data->regmap, EC_ADDR_LIGHTBAR_AC_CTRL, &value)=
-;
->>> +=09if (ret < 0)
->>> +=09=09return ret;
->>> +
->>> +=09value |=3D LIGHTBAR_APP_EXISTS;
->>> +=09ret =3D regmap_write(data->regmap, EC_ADDR_LIGHTBAR_AC_CTRL, value)=
-;
->>> +=09if (ret < 0)
->>> +=09=09return ret;
->>> +
->>> +=09/*
->>> +=09 * The breathing animation during suspend is not supported when
->>> +=09 * running on battery power.
->>> +=09 */
->>> +=09value |=3D LIGHTBAR_S3_OFF;
->>> +=09ret =3D regmap_update_bits(data->regmap, EC_ADDR_LIGHTBAR_BAT_CTRL,=
- LIGHTBAR_MASK, value);
->>> +=09if (ret < 0)
->>> +=09=09return ret;
->>> +
->>> +=09data->led_mc_cdev.led_cdev.color =3D LED_COLOR_ID_MULTI;
->>> +=09data->led_mc_cdev.led_cdev.max_brightness =3D LED_MAX_BRIGHTNESS;
->>> +=09data->led_mc_cdev.led_cdev.flags =3D LED_REJECT_NAME_CONFLICT;
->>> +=09data->led_mc_cdev.led_cdev.brightness_set_blocking =3D uniwill_led_=
-brightness_set;
->>> +
->>> +=09if (value & LIGHTBAR_S0_OFF)
->>> +=09=09data->led_mc_cdev.led_cdev.brightness =3D 0;
->>> +=09else
->>> +=09=09data->led_mc_cdev.led_cdev.brightness =3D LED_MAX_BRIGHTNESS;
->>> +
->>> +=09for (int i =3D 0; i < LED_CHANNELS; i++) {
->>> +=09=09data->led_mc_subled_info[i].color_index =3D color_indices[i];
->>> +
->>> +=09=09ret =3D regmap_read(data->regmap, uniwill_led_channel_to_ac_reg[=
-i], &value);
->>> +=09=09if (ret < 0)
->>> +=09=09=09return ret;
->>> +
->>> +=09=09/*
->>> +=09=09 * Make sure that the initial intensity value is not greater tha=
-n
->>> +=09=09 * the maximum brightness.
->>> +=09=09 */
->>> +=09=09value =3D min(LED_MAX_BRIGHTNESS, value);
->>> +=09=09ret =3D regmap_write(data->regmap, uniwill_led_channel_to_ac_reg=
-[i], value);
->>> +=09=09if (ret < 0)
->>> +=09=09=09return ret;
->>> +
->>> +=09=09ret =3D regmap_write(data->regmap, uniwill_led_channel_to_bat_re=
-g[i], value);
->>> +=09=09if (ret < 0)
->>> +=09=09=09return ret;
->>> +
->>> +=09=09data->led_mc_subled_info[i].intensity =3D value;
->>> +=09=09data->led_mc_subled_info[i].channel =3D i;
->>> +=09}
->>> +
->>> +=09data->led_mc_cdev.subled_info =3D data->led_mc_subled_info;
->>> +=09data->led_mc_cdev.num_colors =3D LED_CHANNELS;
->>> +
->>> +=09return devm_led_classdev_multicolor_register_ext(&data->wdev->dev, =
-&data->led_mc_cdev,
->>> +=09=09=09=09=09=09=09 &init_data);
->>> +}
->>> [...]
->>> +static const enum power_supply_property uniwill_properties[] =3D {
->>> +=09POWER_SUPPLY_PROP_HEALTH,
->>> +=09POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD,
->>> +};
->>> +
->>> +static const struct power_supply_ext uniwill_extension =3D {
->>> +=09.name =3D DRIVER_NAME,
->>> +=09.properties =3D uniwill_properties,
->>> +=09.num_properties =3D ARRAY_SIZE(uniwill_properties),
->>> +=09.get_property =3D uniwill_get_property,
->>> +=09.set_property =3D uniwill_set_property,
->>> +=09.property_is_writeable =3D uniwill_property_is_writeable,
->>> +};
->>> +
->>> +static int uniwill_add_battery(struct power_supply *battery, struct ac=
-pi_battery_hook *hook)
->> What is the motivation for supporting multiple batteries?
->> There is still just a single parameter in the EC/etc.
->=20
-> I simply assume that devices using this EC interface will only ever suppo=
-rt a single battery anyway,
-> as the EC will be unable to handle more than that.
-
-I see, I was just wondering if all this code is needed. But I suppose
-you can't remove much more.
-
-
->=20
->>> +{
->>> +=09struct uniwill_data *data =3D container_of(hook, struct uniwill_dat=
-a, hook);
->>> +=09struct uniwill_battery_entry *entry;
->>> +=09int ret;
->>> +
->>> +=09entry =3D kzalloc(sizeof(*entry), GFP_KERNEL);
->>> +=09if (!entry)
->>> +=09=09return -ENOMEM;
->>> +
->>> +=09ret =3D power_supply_register_extension(battery, &uniwill_extension=
-, &data->wdev->dev, data);
->>> +=09if (ret < 0) {
->>> +=09=09kfree(entry);
->>> +=09=09return ret;
->>> +=09}
->>> +
->>> +=09scoped_guard(mutex, &data->battery_lock) {
->>> +=09=09entry->battery =3D battery;
->>> +=09=09list_add(&entry->head, &data->batteries);
->>> +=09}
->>> +
->>> +=09return 0;
->>> +}
->>> [...]
->>> +static int uniwill_ec_init(struct uniwill_data *data)
->>> +{
->>> +=09unsigned int value;
->>> +=09int ret;
->>> +
->>> +=09ret =3D regmap_read(data->regmap, EC_ADDR_PROJECT_ID, &value);
->>> +=09if (ret < 0)
->>> +=09=09return ret;
->>> +
->>> +=09dev_dbg(&data->wdev->dev, "Project ID: %u\n", value);
->>> +
->>> +=09ret =3D regmap_set_bits(data->regmap, EC_ADDR_AP_OEM, ENABLE_MANUAL=
-_CTRL);
->> I think this might turn out to be problematic. If this is enabled, then =
-multiple
->> things are not handled automatically. For example, keyboard backlight is=
- not handled
->> and as far as I can see, no `KEY_KBDILLUM{DOWN,UP}` are sent (events 0xb=
-1, 0xb2). The
->> other thing is the "performance mode" button (event 0xb0). I don't see t=
-hat these two
->> things would be handled in the driver.
->=20
-> On the intel NUC notebooks the keyboard backlight is controlled by a sepa=
-rate USB device,
-> so the driver only has to forward the KEY_KBDILLUMTOGGLE event to userspa=
-ce (the
-> KEY_KBDILLUM{DOWN,UP} events are not supported on those devices). This ha=
-ppens inside the
-> uniwill-wmi driver.
-
-An USB HID device controls the keyboard backlight on my laptop as well, but=
- the brightness
-up/down requests arrive via this WMI mechanism.
-
-
->=20
-> Once we add support for devices where the EC also controls the keyboard b=
-acklight i will
-> add support for those events. I am also planning to add support for the p=
-erformance mode
-> event later. Currently the EC does not change the performance mode itself=
- even when in
-> automatic mode (at least on intel NUC notebooks).
-
-Interesting, it does on mine...
-
-
->=20
-> Since this driver relies on a DMI whitelist i think that we can safely ad=
-d support for those
-> feature later when new devices are added to those list.
->=20
->>> +=09if (ret < 0)
->>> +=09=09return ret;
->>> +
->>> +=09return devm_add_action_or_reset(&data->wdev->dev, uniwill_disable_m=
-anual_control, data);
->>> +}
->>> +
-> [...]
->>> +static int uniwill_suspend_battery(struct uniwill_data *data)
->>> +{
->>> +=09if (!(supported_features & UNIWILL_FEATURE_BATTERY))
->>> +=09=09return 0;
->>> +
->>> +=09/*
->>> +=09 * Save the current charge limit in order to restore it during resu=
-me.
->>> +=09 * We cannot use the regmap code for that since this register needs=
- to
->>> +=09 * be declared as volatile due to CHARGE_CTRL_REACHED.
->>> +=09 */
->> What is the motivation for this? I found that this is not needed, I foun=
-d that
->> the value is persistent.
->=20
-> The OEM application i reverse-engineered did restore this value after a r=
-esume, so
-> i decided to replicate this behavior.
-
-I suppose it can't hurt.
-
-
-> [...]
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
-
+Thanks
+Nicolin
