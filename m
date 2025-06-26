@@ -1,55 +1,55 @@
-Received: from mail-oi1-f202.google.com (mail-oi1-f202.google.com [209.85.167.202])
+Received: from mail-il1-f201.google.com (mail-il1-f201.google.com [209.85.166.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABCF2F3C19
-	for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 20:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1B2F5317
+	for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 20:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750968369; cv=none; b=IPkvW7bttDRbOtPOwKiLakRBvMtCHCDVPJfgRFMYBcP6sJOaU7mRz8XkE7iLk57cEHD35m1Kuy0zAXOkV1Zlwb97PNrVtcGbBFw7UQx1M7AalZhyDLWame5Hu8wmZ0tlprXKIzRBn0L+2VP1p4z1VXpgF0a5dmjGJQEireX8x/k=
+	t=1750968369; cv=none; b=OXgY8XDwVRcdDoHMRnNaeKo7vzAC4fR6VFS/iEb73qGs+cLE2s0Na4DzBWHmmVv5N5rpb2pQyEQd7YBlT7wcb7+IGpJCCmb0ejR1A95t6ogszlf6EMj9AazXOfVePBd4Jlz5VCvz3w3zT2OFoXrsEYFewIOKaBb1Gz/+ZJxWy8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750968369; c=relaxed/simple;
-	bh=Sugt0ZAWw0whdfnB19zyTKRQsY2Z9PQHTBS1EdvqwWo=;
+	bh=h+qqtPmhoOk7XPMw7Qzu6UvFYPyXxhuY/D/zWZQbWDs=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Xy1xs8k1xOfr7Kr6q9qKsaT2Stq4OymBPhCEzrm0pnNJtglwNk79jNll1ZRgGqPrJ2/ihRRcuAN4HoDRmzr2Pqr2Bb/flURH0Ud4aiAEkZPzIHkSCzA0vaOFntbEfzdLEFzyC6sf8c+BEOgcyVQnjB2WOj27jDxJTxkQKTFBnnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZDq5WsJZ; arc=none smtp.client-ip=209.85.167.202
+	 To:Cc:Content-Type; b=Io/KpV3f8LEH4/i5K+np/180cw8O2yjOCeisZihasF5Omecx5jrwg2TOvuFVOg5RNrnt5jfFj4LhcDAQhJt5kTkh5j1/06CQ0IKfoth68qi3rGgKp4BsPcXmeEp7tLQCeHenC/+nmchKBndxn1yNXcu/2zwCCPygK8T5yptjX70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jtMRCbTY; arc=none smtp.client-ip=209.85.166.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZDq5WsJZ"
-Received: by mail-oi1-f202.google.com with SMTP id 5614622812f47-40ab5c5028bso1513609b6e.3
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 13:06:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jtMRCbTY"
+Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3df2e89fd03so14616365ab.0
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 13:06:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750968365; x=1751573165; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1750968363; x=1751573163; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oR9vFP5SFauEza8dTMYPljjE6wfKaScNOs3wNYF4UAU=;
-        b=ZDq5WsJZWvybAKocwRUs5ZbWjrgywIYuGhkevDJ53sqrPvHt8e9wjCyfUl+sol6ALT
-         u2udCPI9GynRzK2OKdQuLZxnglExgG2mNdLYGgHLzRWYByzpQvQOVVwAQYDqP92C5VJt
-         pJ+tgfRSSsYCJLs8NbuZCotuHKB/AfbpnS7WAhMmlu7fM/2ZI33r+Vv2uf0GrtBgjGGv
-         8irjKoL5QtfjPnMfHKRfw/w/Q+SHx1aavhphlJc+rsX2hTK1P7O3XzW+b/WQbrLZnuxP
-         6a7AKv/H19wt6tAeEHofSZPVA3x92OwWTh+wM9KsTCVuSUIwWtXJ5zmWkzgkYZsxdbrZ
-         MTUg==
+        bh=RE7YbU/rytuy8zxs8P9SeXUwLNfz8JPOxqvhnV3EEjQ=;
+        b=jtMRCbTYlr5EtYPJjov6lcOaBMWO2hMWSGIGp818TY4GVcJHBrzOOdYeY3k9J2ScqU
+         kfew1GjC93GBXpazvNiRM35EjNqEAax/p1QUnalH7Tsu5MWW/XAiCznTY9t559R5TdOW
+         NvJo3vrNgfpEzphSOUTmAKeHPhirIXW03I8hml9wh/ztpQNhiai++RIsC3L6A0TKAtka
+         WE3UHszbh2s0FUDBvx9zAxvoh0mafCF9HFqe7pMKE4K3WjSOL8GfySBUh3I30hviP1n5
+         n/6S4FwiKlSr7h0EuCWgqabu3GeUfnPS6uwt7VCMnP2llFL2DeoZQthXGbqIGDxW5+kI
+         TdCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750968365; x=1751573165;
+        d=1e100.net; s=20230601; t=1750968363; x=1751573163;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oR9vFP5SFauEza8dTMYPljjE6wfKaScNOs3wNYF4UAU=;
-        b=YD8TCp7pcBGS7TAyboE/1qikg5FiMWbrAcnIFzisGEV+KxWirM2LLnFz0j7N+GGh7X
-         H/hlzsPMfFR7dp0kxMdXhFJFXtRPt6YUQY6/pAL94YCVQ6KD76CSICTlajPBhK+SLxGf
-         QM8X6WPDcEHPCPOqNNhvf2ZnnF3tXXY1J6n/FqPloKKW0YXJAkNLIcgTw/aoKIH1+49f
-         WKWRNhb/xJQyxFbVKMzIKv9oNerum0ZQ2n3R3NndMYKSZ0s1CD3lzBd/iTXdTDzqUieu
-         OKZ1q+AWWnFxzmc18Oa1o23EdA02q8Tf+4KjmIefyaAOIAHq96pt6XqKqNSgl6l4p0XU
-         1qmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUe4LdEzeOUIQhh5u6k6GzzJPdGSzIgwJoGDEzBoxuiP/yF3ZtA0Nl2ogNO46mlHWN7V48619XYz5A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzA1tlK3kGkQqMxlW9RMg0ucM7hMOvtRYC91VcWm+lvY0BEbLgG
-	+AkBi1+0QX/WUoOEAdJ26kI8kjV/0NgSbL9cnuYYqg06OFQQ7m7KXgxpHQTbsRD54RqL9Pkvk6P
-	axoZMqvta4gRgJGHFrUynmH1/jw==
-X-Google-Smtp-Source: AGHT+IHKPzqyXuHjLhNaVF48d4dlM1ddP8qVK1Z3JzzP3RzzSVDOilpZen/JKG4nnFQT/I6NY42YIxRN76XnpGTzTw==
-X-Received: from oobbq3.prod.google.com ([2002:a05:6820:1a03:b0:60e:fcff:daa1])
+        bh=RE7YbU/rytuy8zxs8P9SeXUwLNfz8JPOxqvhnV3EEjQ=;
+        b=eMoBvQWrk9m1kpL2asw6HF7uQqgx6FDnP5bTFENHEo3XR1HqrjeeLu2TVl2sByExDT
+         YaM2xRcJnkQFx2eP4ut/Zv+vyiofow645knpxenoRSuFHlPqYuqvxAYGe2u39VF0MRaQ
+         BwT90hCv7atVwX5sT5DD19tg7+wbrtW7Ur8z0YoTng59BCYiTseiqq/zSZ/KClA3hiBK
+         Y+ond0Lhv8fLFl9avxxQCp1QV+0fq/bU5UHvh4+LK8LHR4pG4cUmsR7wdmDyLbdQEqOT
+         1TWN5u+rFLeUZDGzNfQ4VY8J/5QOgNsQl9IlKJKsVEoiWQG5lgHBMsbBs9J2hVS3+uk+
+         BNdw==
+X-Forwarded-Encrypted: i=1; AJvYcCVcpZ2VEPLcXceo/bmxOqoNyFaQLRCCJAev4QZr781+NWyoc0s8XJO+Hk+L4SN+kw7mXMSkAVyM3rY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzogIxcxLalbYVYMZ//SbOn/694sSc4duoSAoVJjPgk/gnk7du0
+	vdkNVlnqc6JExJLKIcDG9cdKZgg4DmRBLkvZ1UwP0ReeKwhJ5FJFehdQapmoT67rvmvzkkNpVGE
+	nUrXrJmlrbilS5abFBA2/T/Kp0Q==
+X-Google-Smtp-Source: AGHT+IFVSmW/JlkCptcGzCVO362c3Cn87QaRlSz6D4Ns1ZpQiarZzlH5o54K21jyXUKriqhtonfUrINv6bCNPdpvpA==
+X-Received: from ilbee28.prod.google.com ([2002:a05:6e02:491c:b0:3df:31be:c2e5])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:3196:b0:401:e721:8b48 with SMTP id 5614622812f47-40b33c31cf5mr524973b6e.8.1750968364756;
- Thu, 26 Jun 2025 13:06:04 -0700 (PDT)
-Date: Thu, 26 Jun 2025 20:04:49 +0000
+ 2002:a05:6e02:248e:b0:3df:29c5:2976 with SMTP id e9e14a558f8ab-3df4ab85a5amr11374775ab.14.1750968363583;
+ Thu, 26 Jun 2025 13:06:03 -0700 (PDT)
+Date: Thu, 26 Jun 2025 20:04:48 +0000
 In-Reply-To: <20250626200459.1153955-1-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250626200459.1153955-1-coltonlewis@google.com>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-Message-ID: <20250626200459.1153955-14-coltonlewis@google.com>
-Subject: [PATCH v3 13/22] KVM: arm64: Writethrough trapped PMOVS register
+Message-ID: <20250626200459.1153955-13-coltonlewis@google.com>
+Subject: [PATCH v3 12/22] KVM: arm64: Use physical PMSELR for PMXEVTYPER if partitioned
 From: Colton Lewis <coltonlewis@google.com>
 To: kvm@vger.kernel.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -74,72 +74,64 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
 	linux-kselftest@vger.kernel.org, Colton Lewis <coltonlewis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-With FGT in place, the remaining trapped registers need to be written
-through to the underlying physical registers as well as the virtual
-ones. Failing to do this means delaying when guest writes take effect.
+Because PMXEVTYPER is trapped and PMSELR is not, it is not appropriate
+to use the virtual PMSELR register when it could be outdated and lead
+to an invalid write. Use the physical register.
 
 Signed-off-by: Colton Lewis <coltonlewis@google.com>
 ---
- arch/arm64/include/asm/arm_pmuv3.h | 10 ++++++++++
- arch/arm64/kvm/sys_regs.c          | 17 ++++++++++++++++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
+ arch/arm64/include/asm/arm_pmuv3.h | 7 ++++++-
+ arch/arm64/kvm/sys_regs.c          | 9 +++++++--
+ 2 files changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/arch/arm64/include/asm/arm_pmuv3.h b/arch/arm64/include/asm/arm_pmuv3.h
-index 1880e426a559..3bddde5f4ebb 100644
+index e2057365ba73..1880e426a559 100644
 --- a/arch/arm64/include/asm/arm_pmuv3.h
 +++ b/arch/arm64/include/asm/arm_pmuv3.h
-@@ -142,6 +142,16 @@ static inline u64 read_pmicfiltr(void)
- 	return read_sysreg_s(SYS_PMICFILTR_EL0);
+@@ -72,11 +72,16 @@ static inline u64 read_pmcr(void)
+ 	return read_sysreg(pmcr_el0);
  }
  
-+static inline void write_pmovsset(u64 val)
-+{
-+	write_sysreg(val, pmovsset_el0);
-+}
-+
-+static inline u64 read_pmovsset(void)
-+{
-+	return read_sysreg(pmovsset_el0);
-+}
-+
- static inline void write_pmovsclr(u64 val)
+-static inline void write_pmselr(u32 val)
++static inline void write_pmselr(u64 val)
  {
- 	write_sysreg(val, pmovsclr_el0);
+ 	write_sysreg(val, pmselr_el0);
+ }
+ 
++static inline u64 read_pmselr(void)
++{
++	return read_sysreg(pmselr_el0);
++}
++
+ static inline void write_pmccntr(u64 val)
+ {
+ 	write_sysreg(val, pmccntr_el0);
 diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index 771d73451b9a..cfbce4537b4c 100644
+index 49e8e3dcd306..771d73451b9a 100644
 --- a/arch/arm64/kvm/sys_regs.c
 +++ b/arch/arm64/kvm/sys_regs.c
-@@ -1173,6 +1173,19 @@ static bool access_pminten(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
- 	return true;
- }
- 
-+static void writethrough_pmovs(struct kvm_vcpu *vcpu, struct sys_reg_params *p, bool set)
-+{
-+	u64 mask = kvm_pmu_accessible_counter_mask(vcpu);
-+
-+	if (set) {
-+		__vcpu_rmw_sys_reg(vcpu, PMOVSSET_EL0, |=, (p->regval & mask));
-+		write_pmovsset(p->regval & mask);
-+	} else {
-+		__vcpu_rmw_sys_reg(vcpu, PMOVSSET_EL0, &=, ~(p->regval & mask));
-+		write_pmovsclr(p->regval & mask);
-+	}
-+}
-+
- static bool access_pmovs(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
- 			 const struct sys_reg_desc *r)
+@@ -1065,14 +1065,19 @@ static bool writethrough_pmevtyper(struct kvm_vcpu *vcpu, struct sys_reg_params
+ static bool access_pmu_evtyper(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+ 			       const struct sys_reg_desc *r)
  {
-@@ -1181,7 +1194,9 @@ static bool access_pmovs(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+-	u64 idx, reg;
++	u64 idx, reg, pmselr;
+ 
  	if (pmu_access_el0_disabled(vcpu))
  		return false;
  
--	if (p->is_write) {
-+	if (kvm_vcpu_pmu_is_partitioned(vcpu) && p->is_write) {
-+		writethrough_pmovs(vcpu, p, r->CRm & 0x2);
-+	} else if (p->is_write) {
- 		if (r->CRm & 0x2)
- 			/* accessing PMOVSSET_EL0 */
- 			__vcpu_rmw_sys_reg(vcpu, PMOVSSET_EL0, |=, (p->regval & mask));
+ 	if (r->CRn == 9 && r->CRm == 13 && r->Op2 == 1) {
+ 		/* PMXEVTYPER_EL0 */
+-		idx = SYS_FIELD_GET(PMSELR_EL0, SEL, __vcpu_sys_reg(vcpu, PMSELR_EL0));
++		if (kvm_vcpu_pmu_is_partitioned(vcpu))
++			pmselr = read_pmselr();
++		else
++			pmselr = __vcpu_sys_reg(vcpu, PMSELR_EL0);
++
++		idx = SYS_FIELD_GET(PMSELR_EL0, SEL, pmselr);
+ 		reg = PMEVTYPER0_EL0 + idx;
+ 	} else if (r->CRn == 14 && (r->CRm & 12) == 12) {
+ 		idx = ((r->CRm & 3) << 3) | (r->Op2 & 7);
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 
