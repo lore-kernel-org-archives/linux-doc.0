@@ -1,97 +1,68 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89B52EBDD9;
-	Thu, 26 Jun 2025 15:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7832EB5B4;
+	Thu, 26 Jun 2025 15:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750951398; cv=none; b=fLdPk4PKv9ZRRhJL+5qHr00DjfZy+/1lSCC9CmMSYzwHfF7NRLiaYecPNEQERQXJm81fLLkh42EyVaOuMVA8bRUHhZsqU4VlBRULxOUZlqvz1sPUhXJ1JNf64b9DP3qvU6J1uVtQ0a3tvyxdQm91ePOB4uVyE2Tp7jTjzmQte80=
+	t=1750952558; cv=none; b=NbzyCUmDyio1V1NXYViOqStyoEdwcKXw1D2q7+OIUfpvpy2gUmvRHLc7CUmqa/vN/MXHaHb79+mANAlA2rRBpfB7ls9Mz8eDPYOpm4sJRFWq9+MEZoiC4SbPpcKdWK6zbRPi5nRoiG7Thl4DGuLuQbF6Rrwz2UptJpHMXVaudng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750951398; c=relaxed/simple;
-	bh=1meFbmguIrrQcXTuIPMPgEl7aNZYw1TFw2buecn9sg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KssYi0NTKpS8NKs9lndWhW9ol+KwHCtbjKshwAqxk5ZKJm4RSEsE38oCTbCcQM0+18bD8u+HDCaU5UIjmZRltP3tRZCv7s8NEzMnHcD59UJYKTbG1cdaOGURKRo58K+k1tb3nGcxBUkslRihLdXlJDw9EjMHNlIM+D+QI8Hqjyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=BKoLX4+/; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1750952558; c=relaxed/simple;
+	bh=3TAh0qJGYwqeLbV+COJZVeEiUfRjOi8apLCamoQYQHs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cnjIPTxoE/NFQTjnA6WqDazSEKcPx06KlOSlekf6UXdX9CpfU8SizVrTVJD8iB2LC8YQdnMbxDx4Kxxow79q5sKqatO8L9pamRkGvmscwj/nwnfhdbZAjqXEwWyCDSJrhBGRfFHc4vyM0DkMrLV4zjeJk0BbZdHtQj4QtW4Ej40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OnoLLPmw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="BKoLX4+/"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E637840E00CE;
-	Thu, 26 Jun 2025 15:23:12 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 3T_HP8Mpcpq7; Thu, 26 Jun 2025 15:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1750951386; bh=A7hao13YYOHGpLHDV+xaJPrzcOSgKVbDGnSsEtxU0hA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BKoLX4+/fxMkEUVDSfj5OUUjdINqhyteEYa5Os8ve0ZB3p8J+l7hJ1Ws/zoLLJkiN
-	 rYA/ARGVja21Kkv37IzLbx4h60cQaOUwbtJZyjMHSl87kyPhbvwKd03qQSFD4tois7
-	 oqy4bRxbP3qpXNkFhC+ZepnFDZid0d2U9LS0DCiG2MvYqzq+i3ybzQ89WYNMd/sm7E
-	 7Y5rJYgCm5rqLufKCfaNThotZWNbAzII+HZc1FeAUL/Ifc71h4kaTEYG8tKHeJMQ4o
-	 Lce4z9I6lFNAquQWddl3pcX0nwc1L8oRUrs9L88LdaENKemne/ZCUY+6g43KBVWIE3
-	 6XyIDj3ur19YNByGBUx4JjtLODwjdYybJZaNYNsbGCltX5yN5CEM8lgLnQx2svvkUx
-	 cxCrxFY18jAXDX2UFUelN5gtWiH5+Rds8tR5boM1eaLIhx9aY82oF4ftwnq7Fc5eAQ
-	 hlDlxwe7fMmuNOmSxU/Pt8ZV+poTMbeZGldBPB7NVenlXGSj5VyfqZ9+66V1gKwyfL
-	 pKJKim6Cdu4x+47daJTsWMGhx19pqyfyDBpjVZCgOt1ULwde/7Czi+bnYR5AFrlrEy
-	 PMxTIvt3zN/xrn8Uyp4r6CL/65ELuZWaHoq3pVb0967dC4Q2bINRoeZ1xCiffyzp2E
-	 SxKNnDTGBGD5mkT9i9hpKQSw=
-Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 95EA440E015E;
-	Thu, 26 Jun 2025 15:22:14 +0000 (UTC)
-Date: Thu, 26 Jun 2025 17:22:13 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Breno Leitao <leitao@debian.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-	Juergen Gross <jgross@suse.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Yuntao Wang <ytcoode@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-	Huang Shijie <shijie@os.amperecomputing.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCHv7 01/16] x86/cpu: Enumerate the LASS feature bits
-Message-ID: <20250626152213.GCaF1lpfzIcrKsOwRr@fat_crate.local>
-References: <20250625125112.3943745-1-kirill.shutemov@linux.intel.com>
- <20250625125112.3943745-2-kirill.shutemov@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OnoLLPmw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F0B2C4CEEB;
+	Thu, 26 Jun 2025 15:42:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750952557;
+	bh=3TAh0qJGYwqeLbV+COJZVeEiUfRjOi8apLCamoQYQHs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OnoLLPmwA7gpqaMXkgi3zAZfib7OyqHmJb05vPN8Ptid/fbUfprknp/7TnNzXIB5s
+	 BbcScnAExjrEM+M3kmF3ecdDfCuqeTUXcUOBnOXrD6zcs4VRes6p1P2WDZO2VwH4ez
+	 JL8QD94C7orAmEofd8XlCFDqyIv25fPepmiXJEDq3JJL4iTTnuYGU1LhgJGYtI7yk9
+	 7EhAOOuS/V6lvH3EbnGrRLc/XmdEyRlkz/5XFthhmxty9bhS4tp8MbkTsi73OkmCxn
+	 decWvyl7JdC1NkNkLfRys7WCo1VPP7XcM+TCD0KmV6Mmzl8vDhTuM0n1BIN0OdzArQ
+	 wHW2hjze+yAPA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: Christian Brauner <brauner@kernel.org>,  Pasha Tatashin
+ <pasha.tatashin@soleen.com>,  pratyush@kernel.org,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  rppt@kernel.org,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
+In-Reply-To: <CALzav=d+XgS1bUs-v7+ws5nYU9y=4uc1c8oVLHrJ16qLpnUi9Q@mail.gmail.com>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+	<20250515182322.117840-11-pasha.tatashin@soleen.com>
+	<20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
+	<CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com>
+	<20250625-akrobatisch-libellen-352997eb08ef@brauner>
+	<CALzav=d+XgS1bUs-v7+ws5nYU9y=4uc1c8oVLHrJ16qLpnUi9Q@mail.gmail.com>
+Date: Thu, 26 Jun 2025 17:42:28 +0200
+Message-ID: <mafs0sejmse57.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -99,69 +70,81 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250625125112.3943745-2-kirill.shutemov@linux.intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 25, 2025 at 03:50:53PM +0300, Kirill A. Shutemov wrote:
-> From: Sohil Mehta <sohil.mehta@intel.com>
-> 
-> Linear Address Space Separation (LASS) is a security feature that
-> intends to prevent malicious virtual address space accesses across
-> user/kernel mode.
-> 
-> Such mode based access protection already exists today with paging and
-> features such as SMEP and SMAP. However, to enforce these protections,
-> the processor must traverse the paging structures in memory.  Malicious
-> software can use timing information resulting from this traversal to
-> determine details about the paging structures, and these details may
-> also be used to determine the layout of the kernel memory.
-> 
-> The LASS mechanism provides the same mode-based protections as paging
-> but without traversing the paging structures. Because the protections
-> enforced by LASS are applied before paging, software will not be able to
-> derive paging-based timing information from the various caching
-> structures such as the TLBs, mid-level caches, page walker, data caches,
-> etc.
-> 
-> LASS enforcement relies on the typical kernel implementation to divide
-> the 64-bit virtual address space into two halves:
->   Addr[63]=0 -> User address space
->   Addr[63]=1 -> Kernel address space
-> 
-> Any data access or code execution across address spaces typically
-> results in a #GP fault.
-> 
-> The LASS enforcement for kernel data access is dependent on CR4.SMAP
-> being set. The enforcement can be disabled by toggling the RFLAGS.AC bit
-> similar to SMAP.
-> 
-> Define the CPU feature bits to enumerate this feature and include
-> feature dependencies to reflect the same.
-> 
-> LASS provides protection against a class of speculative attacks, such as
-> SLAM[1]. Add the "lass" flag to /proc/cpuinfo to indicate that the feature
-> is supported by hardware and enabled by the kernel. This allows userspace
-> to determine if the setup is secure against such attacks.
-> 
-> [1] https://download.vusec.net/papers/slam_sp24.pdf
-> 
-> Co-developed-by: Yian Chen <yian.chen@intel.com>
-> Signed-off-by: Yian Chen <yian.chen@intel.com>
-> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-> Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> ---
->  arch/x86/Kconfig.cpufeatures                | 4 ++++
->  arch/x86/include/asm/cpufeatures.h          | 1 +
->  arch/x86/include/uapi/asm/processor-flags.h | 2 ++
->  arch/x86/kernel/cpu/cpuid-deps.c            | 1 +
->  tools/arch/x86/include/asm/cpufeatures.h    | 1 +
->  5 files changed, 9 insertions(+)
+On Wed, Jun 25 2025, David Matlack wrote:
 
-Reviewed-by: Borislav Petkov (AMD) <bp@alien8.de>
+> On Wed, Jun 25, 2025 at 2:36=E2=80=AFAM Christian Brauner <brauner@kernel=
+.org> wrote:
+>> >
+>> > While I agree that a filesystem offers superior introspection and
+>> > integration with standard tools, building this complex, stateful
+>> > orchestration logic on top of VFS seemed to be forcing a square peg
+>> > into a round hole. The ioctl interface, while more opaque, provides a
+>> > direct and explicit way to command the state machine and manage these
+>> > complex lifecycle and dependency rules.
+>>
+>> I'm not going to argue that you have to switch to this kexecfs idea
+>> but...
+>>
+>> You're using a character device that's tied to devmptfs. In other words,
+>> you're already using a filesystem interface. Literally the whole code
+>> here is built on top of filesystem APIs. So this argument is just very
+>> wrong imho. If you can built it on top of a character device using VFS
+>> interfaces you can do it as a minimal filesystem.
+>>
+>> You're free to define the filesystem interface any way you like it. We
+>> have a ton of examples there. All your ioctls would just be tied to the
+>> fileystem instance instead of the /dev/somethingsomething character
+>> device. The state machine could just be implemented the same way.
+>>
+>> One of my points is that with an fs interface you can have easy state
+>> seralization on a per-service level. IOW, you have a bunch of virtual
+>> machines running as services or some networking services or whatever.
+>> You could just bind-mount an instance of kexecfs into the service and
+>> the service can persist state into the instance and easily recover it
+>> after kexec.
+>
+> This approach sounds worth exploring more. It would avoid the need for
+> a centralized daemon to mediate the preservation and restoration of
+> all file descriptors.
 
--- 
-Regards/Gruss,
-    Boris.
+One of the jobs of the centralized daemon is to decide the _policy_ of
+who gets to preserve things and more importantly, make sure the right
+party unpreserves the right FDs after a kexec. I don't see how this
+interface fixes this problem. You would still need a way to identify
+which kexecfs instance belongs to who and enforce that. The kernel
+probably shouldn't be the one doing this kind of policy so you still
+need some userspace component to make those decisions.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+>
+> I'm not sure that we can get rid of the machine-wide state machine
+> though, as there is some kernel state that will necessarily cross
+> these kexecfs domains (e.g. IOMMU driver state). So we still might
+> need /dev/liveupdate for that.
+
+Generally speaking, I think both VFS-based and IOCTL-based interfaces
+are more or less equally expressive/powerful. Most of the ioctl
+operations can be translated to a VFS operation and vice versa.
+
+For example, the fsopen() call is similar to open("/dev/liveupdate") --
+both would create a live update session which auto closes when the FD is
+closed or FS unmounted. Similarly, each ioctl can be replaced with a
+file in the FS. For example, LIVEUPDATE_IOCTL_FD_PRESERVE can be
+replaced with a fd_preserve file where you write() the FD number.
+LIVEUPDATE_IOCTL_GET_STATE or LIVEUPDATE_IOCTL_PREPARE, etc. can be
+replaced by a "state" file where you can read() or write() the state.
+
+I think the main benefit of the VFS-based interface is ease of use.
+There already exist a bunch of utilites and libraries that we can use to
+interact with files. When we have ioctls, we would need to write
+everything ourselves. For example, instead of
+LIVEUPDATE_IOCTL_GET_STATE, you can do "cat state", which is a bit
+easier to do.
+
+As for downsides, I think we might end up with a bit more boilerplate
+code, but beyond that I am not sure.
+
+--=20
+Regards,
+Pratyush Yadav
