@@ -1,97 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E31224F6
-	for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 02:41:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1510918C332;
+	Thu, 26 Jun 2025 02:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750905667; cv=none; b=Sj59gX884A1W6na7lSHFrhroig+L9VeOkfdBuok7SKvPpBImAS7zsBceahYkOQi9SuhEBq1laC2RHO7qPWeI5asdU6npiM9vtkyDsVrfBpxvvp6h87D/BGk9cqvMgycDAaBiuacGVDK876ywcyhs/f1hLIZDcA0at2x8zWYAWv4=
+	t=1750905784; cv=none; b=XfEg5/Tuz6sT5gLcxq0m8E/F7FkGQcOks954+Tzq6FcPiJG9nH3U8hm1fovyrJ0hEj1KtYnAkj4eODFrDifc9REZX2ZR4Rf+uZYB0pK/Y2q+54j0VztJ7K4Vdoc6SKWao6edJHdX9dzXC5Td5Qz5tJm0+3GyvZe8YJyDprJ7ju4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750905667; c=relaxed/simple;
-	bh=mcNW4oFIr8rukoMKkDVgsRO0bfejc+RBMBJm5AZw4So=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tb2HU9PxN47ytJPKarnRqw9o6aIWl4Di+fCZBuIx/d3IxuMVyjr0tA9Y8j9FZ4i0tgb8FueFO5qZ+xU1EXTJYEk3CKYvwRb8nB7mWSryh2ZpAxcUNBO48ETpxiv6p+wYm8D/hDyMF9051buHH/miitlrDjhwVAtX4RnuWWiRfK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bsQsCs8w; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750905784; c=relaxed/simple;
+	bh=JBpdw75QCGr81iwmekoGx8INzICXSF22MAqQ7zgFJ2Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=F+dhke4beDRbPrqIPgnThgxyP/h5dOMQOV7iU9I/LOktqMgVfXWhoBd0zGBq2q9JtaEtu+8scUXvEr2zf2qH5YlUw9TKJP4MZNs0MNaTSZw8GzS6YfHuZx1TjKXbb+Iak3ntevbm0S2gKQDQUW6tLW+pNXc6heMMDxQ5a8Hjmm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BlvhXbm5; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bsQsCs8w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750905665; x=1782441665;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mcNW4oFIr8rukoMKkDVgsRO0bfejc+RBMBJm5AZw4So=;
-  b=bsQsCs8wEVL1001mhEZkzwMuCEOwgU9IrGcopWWOPhtKD79l9N1egMSu
-   wzsuDEnpR/TMum6GI+7KSjqaaFz8bglS9GQq6hQCbouqacNw46mvYk+eA
-   V9jS96g9dR7FsQKfGYVTibT2HaO4XuqVwxRcrpwIUg9MbhOZsPKfPIpUC
-   W41qvKBoVcUP1eLwgU3TKOHF8odItN6gAKfNO5hxHwdb4Ia0am1hjO+34
-   Es7NWw1Fe2tm+Bjqrqxtu+84WkYVDlHDsOaCJ05Ez3KntHjrK3Eb4yBVI
-   UvizgDACgTK+JOmKvyVMtEGPhC9Zc2M678gWdfGDP/Gov8YSOHt2YaVwD
-   Q==;
-X-CSE-ConnectionGUID: SJ/gpjwtTbqIP6JzI+le4g==
-X-CSE-MsgGUID: HH6uhtwfT+2pJATryeXPrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="40808075"
-X-IronPort-AV: E=Sophos;i="6.16,266,1744095600"; 
-   d="scan'208";a="40808075"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 19:41:05 -0700
-X-CSE-ConnectionGUID: +6t4ge88SGq0Lp1tIHxrmA==
-X-CSE-MsgGUID: W+SAwypvTWehGd+0hK+lNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,266,1744095600"; 
-   d="scan'208";a="152882258"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO localhost) ([10.124.223.253])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 19:41:04 -0700
-From: alison.schofield@intel.com
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: Alison Schofield <alison.schofield@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: [PATCH] docs: ABI: make the KernelVersion field optional
-Date: Wed, 25 Jun 2025 19:40:58 -0700
-Message-ID: <20250626024101.792073-1-alison.schofield@intel.com>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BlvhXbm5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+	Reply-To:Cc:Content-ID:Content-Description;
+	bh=24+mUdtrCzI4Op7D58pQppiwPVluWWu23vHUqIu9MSA=; b=BlvhXbm5dSfUVXaU4o2nKEHlOP
+	/OZ1h5AtCfQReWwNK32UTQm/nbB5948isLYLinOiIeQaR5d4qLeiq6BY2P/R+PlVuWKiM240AFTe+
+	TYMq7XLpj/feFD+y9NIACgZa6f6oRCna93ugt2fVtp8oLq3nBsPgMt1B6Iu8fCjTR4S/JhWmhp01o
+	Rl8lJ1mpKOUAXI5/DH0ahDc0ogHF0EpU64NZkHj+ta47eRnvj3dFTu1eM6iKH1iEllPelFx+QLR0t
+	6/pMHT+TCDqBR37MjaBxcorzic0CROyJ093A/469TMPmW0ionInk5EmBxIdUPb9rbNHgGWBfHWWCA
+	nLm3aJcg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uUcZE-000000061UF-3fko;
+	Thu, 26 Jun 2025 02:42:26 +0000
+Message-ID: <5f7b85d3-5c72-482a-9f80-55578c786800@infradead.org>
+Date: Wed, 25 Jun 2025 19:42:07 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 29/32] docs: add documentation for memfd preservation
+ via LUO
+To: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
+ jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
+ rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+ ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org,
+ aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org,
+ tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com,
+ roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk,
+ mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org,
+ hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com,
+ joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com,
+ song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org,
+ cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+ Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+ aleksander.lobakin@intel.com, ira.weiny@intel.com,
+ andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+ bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+ stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+ brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
+ <20250625231838.1897085-30-pasha.tatashin@soleen.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250625231838.1897085-30-pasha.tatashin@soleen.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Alison Schofield <alison.schofield@intel.com>
-
-The KernelVersion field has limited practical value. Git history
-provides more accurate tracking of when features were introduced
-and target kernel versions often change during development and
-merge.
-
-Label it optional.
-
-Signed-off-by: Alison Schofield <alison.schofield@intel.com>
----
-
-Plan B is to remove the field entirely. 
 
 
- Documentation/ABI/README | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On 6/25/25 4:18 PM, Pasha Tatashin wrote:
+> +Cancellation
+> +  If the liveupdate is canceled after going into prepared phase, the memfd
+> +  functions like in normal phase.
 
-diff --git a/Documentation/ABI/README b/Documentation/ABI/README
-index ef0e6d11e919..315fffe1f831 100644
---- a/Documentation/ABI/README
-+++ b/Documentation/ABI/README
-@@ -46,7 +46,9 @@ Every file in these directories will contain the following information:
- 
- What:		Short description of the interface
- Date:		Date created
--KernelVersion:	Kernel version this feature first showed up in.
-+KernelVersion:	(Optional) Kernel version this feature first showed up in.
-+		Note: git history often provides more accurate version
-+		info, so this field may be omitted.
- Contact:	Primary contact for this interface (may be a mailing list)
- Description:	Long description of the interface and how to use it.
- Users:		All users of this interface who wish to be notified when
+We accept one 'l' or two 'l's in cancel[l]ing words, but it would be nice to be
+consistent here.
+
 -- 
-2.37.3
+~Randy
 
