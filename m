@@ -1,120 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0962CCC0;
-	Thu, 26 Jun 2025 16:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68E1A1D9A70;
+	Thu, 26 Jun 2025 16:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750955740; cv=none; b=LVfc6XujxdrBjoMI26baCbTDL6wH3V87oF/yuljnzXSVSqC6iDiWcOzy0seUuzWCRZoPdkkMpkNE9noI+UvrcFju7AXh3vkyS5gHKyhcQ0MLMjHIUfeVJs2zaLV+FcvHpR09SwZNpEzcjbxfHG2tvnFC3yO1zDm8Cybtxtrh9qE=
+	t=1750956329; cv=none; b=Z9XrLP/MHT2wL5cgZ3e43MFbPaBmw5FBMkvjNJyY1yC4yeX6xdyO/k9AfdzWEmaXDH5vFF2igqtBxHJZ6X2mLclFk0QlTSSBhjJ/8vX6Vk4rz1710tWJYpv8Gvuxb0gPHSKOqQQwiUKM2tZTQxTP9oexXB/sPQGVcbtQlQIXwyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750955740; c=relaxed/simple;
-	bh=wCbmMUfYuBUun3CeeJIDrLKEeED82fEYjdia+QOR/Ng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rdlxf5aX8gOMmwuWaQ1AwKXj9FZxrDTXKj2GI+mUYEDIp+PlEUVpMGJUYMob1aX+opiFY3snsSntensr7hQnN3PaXSm0wtRv2N5mQWBH14qHstrMknbNvCSw1YoEpkAkUo2XlcHh9nVnP2qb1g4/hajZGbn19dlHh2C/sOn2HTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UpRnWyUs; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UpRnWyUs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA350C4CEEB;
-	Thu, 26 Jun 2025 16:35:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750955739;
-	bh=wCbmMUfYuBUun3CeeJIDrLKEeED82fEYjdia+QOR/Ng=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UpRnWyUsDt/6Bm1WS2q7jSb3hxiZostCdoFgPSZc4/EejwiOrpdxVQojHspcOM1pA
-	 LMBJibUqxJz/eRwGVXF7Cbr/KPrUiQjrjqNlikXa6haTBS/QtEKkxIqztTDpoTMgka
-	 OUTJ/eT2qKgSSUXSsb25uSqpAWTA2Cknp30256T8I9ByJykqWMW6EjoKBkkhEsrznd
-	 d6UeWtxnL4wx+mCxsjCj4oywjbaX3ESm2W3sW0w8UKWUoy8hQ3sq/CPfjcI5O+OjCm
-	 CrSK3FH7cjFL82QPtZvSc1pBWVdluOwz+gHbfhq4244dC912uIa5xx+xFahfFrnVAz
-	 ZQXfLD2oLW8XQ==
-Date: Thu, 26 Jun 2025 17:35:34 +0100
-From: Conor Dooley <conor@kernel.org>
-To: aleksa.paunovic@htecgroup.com
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Palmer Dabbelt <palmer@sifive.com>, devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/7] dt-bindings: riscv: Add xmipsexectl ISA extension
- description
-Message-ID: <20250626-scratch-numbness-cbf36f77d296@spud>
-References: <20250625-p8700-pause-v4-0-6c7dd7f85756@htecgroup.com>
- <20250625-p8700-pause-v4-1-6c7dd7f85756@htecgroup.com>
+	s=arc-20240116; t=1750956329; c=relaxed/simple;
+	bh=Pxdh9QV5lAVnaM2iXn6GFDZxOod8efY6UTUkN/h/bT4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LUokY8RwhFVs8BhSSnTrjwTjeVA3e9rhtOupGihltzJ1PIaZA60rYC0UA07yHkUG1ZK9CFygVMBBqTJXtnQjTqyO4uHokORMzy+QoDDpTTUCcHafc01Z9U7+wUHR6yKwwXWSBiQ4gLsJMk1m9NIHU2Eq+ww/V5/Yyp4I1RSOmT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 466FC1758;
+	Thu, 26 Jun 2025 09:45:09 -0700 (PDT)
+Received: from [10.1.196.50] (e121345-lin.cambridge.arm.com [10.1.196.50])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 924AB3F66E;
+	Thu, 26 Jun 2025 09:45:24 -0700 (PDT)
+Message-ID: <0f95be6d-2e13-4281-98b5-6d4311a3b98f@arm.com>
+Date: Thu, 26 Jun 2025 17:45:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5ZI8rYN+BJWGMnAI"
-Content-Disposition: inline
-In-Reply-To: <20250625-p8700-pause-v4-1-6c7dd7f85756@htecgroup.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/8] docs: dma-api: update streaming DMA API physical
+ address constraints
+To: Petr Tesarik <ptesarik@suse.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, Leon Romanovsky
+ <leon@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Caleb Sander Mateos <csander@purestorage.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
+ John Garry <john.g.garry@oracle.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>, iommu@lists.linux.dev
+References: <20250624133923.1140421-1-ptesarik@suse.com>
+ <20250624133923.1140421-8-ptesarik@suse.com> <aFynHWAYtKPFT55P@archie.me>
+ <20250626070602.3d42b607@mordecai.tesarici.cz>
+ <bdb3a37a-a9d3-44c1-8eb7-41912c976ad1@arm.com>
+ <20250626154818.46b0cfb1@mordecai.tesarici.cz>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250626154818.46b0cfb1@mordecai.tesarici.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 26/06/2025 2:48 pm, Petr Tesarik wrote:
+> On Thu, 26 Jun 2025 10:58:00 +0100
+> Robin Murphy <robin.murphy@arm.com> wrote:
+> 
+>> On 2025-06-26 6:06 am, Petr Tesarik wrote:
+>>> On Thu, 26 Jun 2025 08:49:17 +0700
+>>> Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>>>    
+>>>> On Tue, Jun 24, 2025 at 03:39:22PM +0200, Petr Tesarik wrote:
+>>>>> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+>>>>> index cd432996949c..65132ec88104 100644
+>>>>> --- a/Documentation/core-api/dma-api.rst
+>>>>> +++ b/Documentation/core-api/dma-api.rst
+>>>>> @@ -210,18 +210,12 @@ DMA_BIDIRECTIONAL	direction isn't known
+>>>>>    	this API should be obtained from sources which guarantee it to be
+>>>>>    	physically contiguous (like kmalloc).
+>>>>>    
+>>>>> -	Further, the DMA address of the memory must be within the dma_mask of
+>>>>> -	the device.  To ensure that the memory allocated by kmalloc is within
+>>>>> -	the dma_mask, the driver may specify various platform-dependent flags
+>>>>> -	to restrict the DMA address range of the allocation (e.g., on x86,
+>>>>> -	GFP_DMA guarantees to be within the first 16MB of available DMA
+>>>>> -	addresses, as required by ISA devices).
+>>>>> -
+>>>>> -	Note also that the above constraints on physical contiguity and
+>>>>> -	dma_mask may not apply if the platform has an IOMMU (a device which
+>>>>> -	maps an I/O DMA address to a physical memory address).  However, to be
+>>>>> -	portable, device driver writers may *not* assume that such an IOMMU
+>>>>> -	exists.
+>>>>> +	Mapping may also fail if the memory is not within the DMA mask of the
+>>>>> +	device.  However, this constraint does not apply if the platform has
+>>>>> +	an IOMMU (a device which maps an I/O DMA address to a physical memory
+>>>>> +	address), or the kernel is configured with SWIOTLB (bounce buffers).
+>>>>> +	It is reasonable to assume that at least one of these mechanisms
+>>>>> +	allows streaming DMA to any physical address.
+>>>
+>>> Now I realize this last sentence may be contentious...
+>>
+>> The whole paragraph is wrong as written, not least because it is
+>> conflating two separate things: "any physical address" is objectively
+>> untrue, since SWIOTLB can only bounce from buffers within by the
+>> kernel's linear/direct map, i.e. not highmem, not random memory
+>> carveouts, and and definitely not PAs which are not RAM at all.
+> 
+> I see, saying "any" was indeed too strong.
+> 
+>> Secondly, even if the source buffer *is* bounceable/mappable, there is
+>> still no guarantee at all that it can actually be made to appear at a
+>> DMA address within an arbitrary DMA mask. We aim for a general
+>> expectation that 32-bit DMA masks should be well-supported (but still
+>> not 100% guaranteed), but anything smaller can absolutely still have a
+>> high chance of failing, e.g. due to the SWIOTLB buffer being allocated
+>> too high or limited IOVA space.
+> 
+> Of course this cannot be guaranteed. The function may always fail and
+> return DMA_MAPPING_ERROR. No doubts about it.
+> 
+>>> @Marek, @Robin Do you agree that device drivers should not be concerned
+>>> about the physical address of a buffer passed to the streaming DMA API?
+>>>
+>>> I mean, are there any real-world systems with:
+>>>     * some RAM that is not DMA-addressable,
+>>>     * no IOMMU,
+>>>     * CONFIG_SWIOTLB is not set?
+>>
+>> Yes, almost certainly, because "DMA-addressable" depends on individual
+>> devices. You can't stop a user from sticking, say, a Broadcom 43xx WiFi
+>> card into a PCI slot on an i.MX6 board with 2GB of RAM that *starts*
+>> just above its 31-bit DMA capability. People are still using AMD Seattle
+>> machines, where even though arm64 does have SWIOTLB it's essentially
+>> useless since RAM starts up around 40 bits IIRC (and although they do
+>> also have SMMUs for PCI, older firmware didn't advertise them).
+> 
+> Some of these scenarios can never work properly because of hardware
+> limitations. There's nothing software can do about a bus master which
+> cannot address any RAM in the machine. I'm not trying to claim that an
+> operating system kernel can do magic and square the circle. If that's
+> how it sounded, then my wording needs to be improved.
+> 
+> IIUC the expected audience of this document are device driver authors.
+> They want a clear guidance on how they should allocate buffers for the
+> streaming DMA API. Now, it is my understanding that device drivers
+> should *not* have to care about the physical location of a buffer
+> passed to the streaming DMA API.
+> 
+> Even if a bus master implements less than 32 address bits in hardware,
+> I'm convinced that device drivers should not have to examine the system
+> to check if an IOMMU is available and try to guess whether a buffer
+> must be bounced, and how exactly the bounce buffer should be allocated.
 
---5ZI8rYN+BJWGMnAI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It's never been suggested that drivers should do that; indeed trying to 
+poke into and second-guess the DMA API implementation is generally even 
+less OK than making blind assumptions about what it might do. The 
+overall message here is essentially "if you want to do streaming DMA 
+then you may need to be wary of where your memory comes from." We can't 
+just throw that out and say "Yeah it's fine now, whatever you do the API 
+will deal with it" because that simply isn't true as a general 
+statement; drivers dealing with limited DMA masks *do* still need to be 
+concerned with GFP_DMA (or even GFP_DMA32 might still be advisable in 
+certain cases) if they want to have an appreciable chance of success. 
+All that's different these days is that notion of "limited" generally 
+meaning "32 bits or smaller".
 
-On Wed, Jun 25, 2025 at 04:20:56PM +0200, Aleksa Paunovic via B4 Relay wrot=
-e:
-> From: Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
->=20
-> The xmipsexectl extension is described in the MIPS RV64 P8700/P8700-F
-> Multiprocessing System Programmer=E2=80=99s Guide linked at [1].
->=20
-> Link: https://mips.com/wp-content/uploads/2025/06/P8700_Programmers_Refer=
-ence_Manual_Rev1.84_5-31-2025.pdf
->=20
-> Signed-off-by: Aleksa Paunovic <aleksa.paunovic@htecgroup.com>
-> ---
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index ede6a58ccf5347d92785dc085a011052c1aade14..de41a6f074d3af2ceaf5293df=
-e75d16f43d416d6 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -662,6 +662,12 @@ properties:
->              Registers in the AX45MP datasheet.
->              https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-=
-5.0.0-Datasheet.pdf
-> =20
-> +        # MIPS
-> +        - const: xmipsexectl
-> +          description:
-> +            The MIPS extension for execution control as documented in
-> +            https://mips.com/wp-content/uploads/2025/06/P8700_Programmer=
-s_Reference_Manual_Rev1.84_5-31-2025.pdf
+> If we can agree on this, I can iron out the details for a v2 of this
+> patch series.
+> 
+>>> FWIW if _I_ received a bug report that a device driver fails to submit
+>>> I/O on such a system, I would politely explain the reporter that their
+>>> kernel is misconfigured, and they should enable CONFIG_SWIOTLB.
+>>
+>> It's not really that simple. SWIOTLB, ZONE_DMA, etc. require platform
+>> support, which end users can't just turn on if it's not there to begin with.
+> 
+> I know this very well. As you may not be aware, my ultimate goal is to
+> get rid of ZONE_DMA and instead enhance the buddy allocator to allow
+> allocations within an arbitrary physical address range, which will not
+> rely on platform support. But that's another story; for now, let's just
+> agree on how the DMA API is supposed to work.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Indeed that might actually end up pushing things in the opposite 
+direction, at least in some cases. Right now, a driver with, say, a 
+40-bit DMA mask is usually better off not special-casing DMA buffers, 
+and just making plain GFP_KERNEL allocations for everything (on the 
+assumption that 64-bit systems with masses of memory *should* have 
+SWIOTLB to cover things in the worst case), vs. artificially 
+constraining its DMA buffers to GFP_DMA32 and having to deal with 
+allocation failure more often. However with a more precise and flexible 
+allocator, there's then a much stronger incentive for such drivers to 
+explicitly mark *every* allocation that may be used for DMA, in order to 
+get the optimal behaviour.
 
-> +
->          # SiFive
->          - const: xsfvqmaccdod
->            description:
->=20
-> --=20
-> 2.34.1
->=20
->=20
->=20
-
---5ZI8rYN+BJWGMnAI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaF121gAKCRB4tDGHoIJi
-0qDXAP9lFJBJpCas9VE4K4zGjowGNe7GTpkhDOuvy/r+gT3FdwEAtdQbwRROiODf
-HVzgWtWY4uzVByx9neOWS/Wu2utllAI=
-=8x/c
------END PGP SIGNATURE-----
-
---5ZI8rYN+BJWGMnAI--
+Thanks,
+Robin.
