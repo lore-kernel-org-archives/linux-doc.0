@@ -1,120 +1,303 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DC943159
-	for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 03:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B26B1A5BB7
+	for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 04:51:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750910025; cv=none; b=Fvf/bRAGOhTO460cp1Zyf99sYk25MTmVi/uzwP/p/7BlMvvISfqzJmc7euKol1lo/yd2fIoxu+nu7rvkRVfivLY5VrZXDII0Jyx+VH3xfVS81UTTCzY0AUpkRIBtznG21TUDAX/vdysuJAXchk2xwMN8jSt/Eg96DHDtCXaqZyY=
+	t=1750913491; cv=none; b=ffQ+v/UwNYg5kJmZYdSgHVlhNJf7Q+sD5ooAG67YDNrHFw0pWFkQ943/m5C5nZzqTOEX8kJyBNWXMpet2l5xPCBYvIzdt6GGnbrHploUdz4HwQe/QaPS7Q10UUY6D3/nqjt53wTOPfzq9bqsPHHMvY3Bc2fERn4+OQU52TeClAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750910025; c=relaxed/simple;
-	bh=ut8EIQxlm1pQ8/hGsUBupebkMfvnUeHH/WZnol2j4l8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MvrIj5IkHUR7BaaVGg3meqNzVbhbExVYlOlD05ZxENQBxt7XmQWCfH93Umq6CzLpb9umj1ly6JjyWyTtQZgjIxZp11wgLL3e4qTEpkUkUYNFuYAK7ik2Se+1DHxcUWFvDtG3LktOrQdVdInckzB5Xk7/Rq3p8pFgNZHT724Amyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fdygE7cl; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1750913491; c=relaxed/simple;
+	bh=tzGZXdlM7XBeLEyjHJLQEm3F7vF1lwayGadaMQBgs20=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nDCnSOJNSHg8O8GG2R1HOORYV1CNrScoxeyURNXjrpxtTXonHckOP4Th9LAsAUIJSysDpBeiqYJmRuaKeRSgyt95TPrnwQvkSe2/QjPKszEJPXcBoxRUBjpRZVjenTd2leoJ2IWhEZAMtB0p8BLpq76nHekVsx0SJKCdAR/kcoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=F0Rvq2Qm; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fdygE7cl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=7a3smiZyWRzsmmBypjPQ7YNIm/v4QYUa3XfrwW0dEtg=; b=fdygE7clMAgWeRO65PF48IuFJ8
-	fQI7czHJL/9bIYH6mHDJGKaKeWBFe1lCb3xNVLRKzp/p7fM5jcFfat7ISWlFeZCy7fGh9V+vkMRwx
-	ARFh6mOZQoybo65hnVGpZ2btOVb/ep3jB942KEFC9rX6ZHDyXds+8GK5c9RJVI9qHJum27G7Dz6+G
-	NuFclSHavavkc/GHhl9Ok2hWjKS4wYydFVV2OWAyiohcP5xnJJkXc2LL9GRVUB4wvZi9toubrOIcq
-	vaeE/Io66vqkFHEelYnSFgaGuW56/8eHTsyVfG5/w4mOCGDESC8rVwJ2C4L0WF3uNVN11O1lVBY0I
-	BKGvTQdg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUdgB-000000061qq-0Ybm;
-	Thu, 26 Jun 2025 03:53:40 +0000
-Message-ID: <47a54d96-b38a-4f9c-aed7-437050c7f56d@infradead.org>
-Date: Wed, 25 Jun 2025 20:53:36 -0700
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="F0Rvq2Qm"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-608964359f9so126841a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 21:51:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1750913488; x=1751518288; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fWC7HBqSFUGlEPGH7aS8ihpBdyH7ak4aV8RQ6csJ+OY=;
+        b=F0Rvq2Qmvi55ocJItwzUbVK+RlMm5WW0XNpZ9bPBU+fQ0BP3FDEciEtv/GskgTuWfF
+         QmzZpg50wkTFBzKXQnzcwXuxr3M2BvmmyEBgqlRjKXOdX2z93Ke6nSNfEEBHNLcSGLAh
+         JHee0GcFr0eVDKfJ6edW6PcYw7ZA9BKqEWJVY0o3xo3FnOtbxJiKBiFg5NSH4bhEw5+r
+         Vk3FSyXmHXGw8LQbCybUhcu48zJs07WoXEQR1fgMUdF0449BHfOZIhl+vxNZ4IDfbQ4l
+         D8ojUxIlEeObsCRRYt4ZNdb0nQEXsqCM6X5iy2XDHArYGCOwxiIV3FdRueZQbANFfq9O
+         5alw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750913488; x=1751518288;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fWC7HBqSFUGlEPGH7aS8ihpBdyH7ak4aV8RQ6csJ+OY=;
+        b=C8Cy0kLBvJh3j23rj3cXrx2mSZLzjqcoN96YaTLVhmStdtKSnJJ6jdSFK1HEw1iYuM
+         Hzn6stdpPT6LaqjQXKbcDjSoPZQqc9Lxwp3nwQItIU0o5MPQpDsHtZfUubVj/n8+Qyt0
+         tV34dHC2idimzd7dxeoxX9CtTHlAWjviVRLokTd1yzBnq3pFreXc3BScL87dgg8LNKWo
+         0toy4iqPTp2sUuw15CyLNn68C20X/V+3S4UAf8YUN/sigMhVnTnDGEIPpp0cTutZ1bbY
+         JSNYbB+GmZFWkub20yKFlEaUrfuw6HdBFu2pGuzuf9VckdlXv0ZyQzis6N0EtRyGBOPw
+         rY2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWLQtofsRbb5s8X9zVphS8lVTkC1hNJn4/O7n/zjRBlu3dXXRpjYGs1/ijZLXMSFfSFVXcAU0xpUH4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywKQI3XULzi/IPmLjDfcr2tYDZcQP+fBFuqsOkLz+LZeR5chFH
+	9HB+sz2Nl7mKOhj8tjfZKS0+j+lJ0HBxHtMzEd6ngaIy+DCgRmhZyZ26M+QWqYCLcnA=
+X-Gm-Gg: ASbGncsaEKKrEF4EWSF2NCUN5Mua/d07R4xxcPlh3Z692V03I+qB4ic+MB87ZqX0n++
+	8iBdu4HoGljWh4PrCmK1jwnYroyNHowkfwRlmb8lbpaveDE8a5fZib9oFqOH9DeTcT2i1a85br+
+	N8/JLT+peY705THUwva2hlZNKQVvXxJE2a2TE7vGATQrLNH8VM33PilxwdeHhFQHalki9+Q8mWu
+	H4TGXE+G5dlKdMxEFH8nxRmt77f9TYT9lhvO4pYO927OSFuKkCxbosCk/ClAT240d/LmTagmD/B
+	ia1Aj6xSObLSj3ixTf7E03RBP1h0mQDJ0iX0P5Nl2jgPrA==
+X-Google-Smtp-Source: AGHT+IEZlq6eUrM1lQ3SGemnqkMSipc938+0VRxHvwMg1lalNKduhac6t/8hXwjkIGMnsXPZ7dnJlw==
+X-Received: by 2002:a17:907:9691:b0:ae0:d83c:bcc3 with SMTP id a640c23a62f3a-ae0d83cc2f6mr28824866b.7.1750913487561;
+        Wed, 25 Jun 2025 21:51:27 -0700 (PDT)
+Received: from mordecai.tesarici.cz ([213.235.133.108])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae054080e8esm1149691466b.82.2025.06.25.21.51.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jun 2025 21:51:27 -0700 (PDT)
+Date: Thu, 26 Jun 2025 06:51:23 +0200
+From: Petr Tesarik <ptesarik@suse.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy
+ <robin.murphy@arm.com, Christoph Hellwig <hch@lst.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton
+ <akpm@linux-foundation.org>, Leon Romanovsky <leon@kernel.org>, Keith Busch
+ <kbusch@kernel.org>, Caleb Sander Mateos <csander@purestorage.com>, Sagi
+ Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>, John Garry
+ <john.g.garry@oracle.com>, linux-doc@vger.kernel.org (open
+ list:DOCUMENTATION), linux-kernel@vger.kernel.org (open list),
+ linux-mm@kvack.org (open list:MEMORY MANAGEMENT), iommu@lists.linux.dev
+Subject: Re: [PATCH 2/8] docs: dma-api: replace consistent with coherent
+Message-ID: <20250626065123.646bd954@mordecai.tesarici.cz>
+In-Reply-To: <20250624133923.1140421-3-ptesarik@suse.com>
+References: <20250624133923.1140421-1-ptesarik@suse.com>
+	<20250624133923.1140421-3-ptesarik@suse.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: ABI: make the KernelVersion field optional
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>
-References: <20250626024101.792073-1-alison.schofield@intel.com>
- <d45396b1-2579-477b-890e-830d52ac2581@infradead.org>
- <aFy_MoUTFVmNWC4C@aschofie-mobl2.lan>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aFy_MoUTFVmNWC4C@aschofie-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Tue, 24 Jun 2025 15:39:17 +0200
+Petr Tesarik <ptesarik@suse.com> wrote:
 
+> For consistency, always use the term "coherent" when talking about memory
+> that is not subject to CPU caching effects. The term "consistent" is a
+> relic of a long-removed pci_alloc_consistent() function.
 
-On 6/25/25 8:32 PM, Alison Schofield wrote:
-> On Wed, Jun 25, 2025 at 07:52:58PM -0700, Randy Dunlap wrote:
->> Hi,
->>
->> On 6/25/25 7:40 PM, alison.schofield@intel.com wrote:
->>> From: Alison Schofield <alison.schofield@intel.com>
->>>
->>> The KernelVersion field has limited practical value. Git history
->>> provides more accurate tracking of when features were introduced
->>> and target kernel versions often change during development and
->>> merge.
->>>
->>> Label it optional.
->>>
->>> Signed-off-by: Alison Schofield <alison.schofield@intel.com>
->>> ---
->>>
->>> Plan B is to remove the field entirely. 
->>>
->>>
->>>  Documentation/ABI/README | 4 +++-
->>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/ABI/README b/Documentation/ABI/README
->>> index ef0e6d11e919..315fffe1f831 100644
->>> --- a/Documentation/ABI/README
->>> +++ b/Documentation/ABI/README
->>> @@ -46,7 +46,9 @@ Every file in these directories will contain the following information:
->>>  
->>>  What:		Short description of the interface
->>>  Date:		Date created
->>> -KernelVersion:	Kernel version this feature first showed up in.
->>> +KernelVersion:	(Optional) Kernel version this feature first showed up in.
->>> +		Note: git history often provides more accurate version
->>> +		info, so this field may be omitted.
->>
->> ISTM that ABI files and git history have different users/audiences.
->> Sure, KernelVersion may be incorrect (but close?), but telling a "user"
->> that they should install git and clone linux.git to determine the kernel
->> version is a lot to ask -- and then they need git instructions for how to
->> look up the kernel version.
+I realize that I'm not an authoritative source for this, but I forgot
+to add more trusted maintainers to the recipient list.
+
+Now, all you DMA experts, do you agree that the word "consistent"
+should be finally eradicated from DMA API documentation?
+
+Petr T
+
+> Signed-off-by: Petr Tesarik <ptesarik@suse.com>
+> ---
+>  Documentation/core-api/dma-api-howto.rst | 36 ++++++++++++------------
+>  Documentation/core-api/dma-api.rst       | 14 ++++-----
+>  mm/dmapool.c                             |  6 ++--
+>  3 files changed, 28 insertions(+), 28 deletions(-)
 > 
-> Hi Randy,
-> 
-> Thanks for the user viewpoint.
-> 
-> As Dan mentioned, it was his feedback on my use of the field that
-> inspired this. I poked around a bit to see if omitting was becoming
-> common practice and found that in ABI/testing, 41% of the entries
-> omit the KernelVersion field (1423 out of 3431), and it's the same
-> 41% for all of ABI/.  That led me to believe this field is already
-> being treated as optional by kernel developers.
-> 
-> I guess this is just shedding light on current practice. I have no
-> insight into whether users are hollering about the missing KernelVersion
-> fields. 
-
-I see. Please continue with your patch then.
-
-Thanks.
-
--- 
-~Randy
+> diff --git a/Documentation/core-api/dma-api-howto.rst b/Documentation/core-api/dma-api-howto.rst
+> index 0bf31b6c4383..96fce2a9aa90 100644
+> --- a/Documentation/core-api/dma-api-howto.rst
+> +++ b/Documentation/core-api/dma-api-howto.rst
+> @@ -155,7 +155,7 @@ a device with limitations, it needs to be decreased.
+>  
+>  Special note about PCI: PCI-X specification requires PCI-X devices to support
+>  64-bit addressing (DAC) for all transactions.  And at least one platform (SGI
+> -SN2) requires 64-bit consistent allocations to operate correctly when the IO
+> +SN2) requires 64-bit coherent allocations to operate correctly when the IO
+>  bus is in PCI-X mode.
+>  
+>  For correct operation, you must set the DMA mask to inform the kernel about
+> @@ -174,7 +174,7 @@ used instead:
+>  
+>  		int dma_set_mask(struct device *dev, u64 mask);
+>  
+> -	The setup for consistent allocations is performed via a call
+> +	The setup for coherent allocations is performed via a call
+>  	to dma_set_coherent_mask()::
+>  
+>  		int dma_set_coherent_mask(struct device *dev, u64 mask);
+> @@ -241,7 +241,7 @@ it would look like this::
+>  
+>  The coherent mask will always be able to set the same or a smaller mask as
+>  the streaming mask. However for the rare case that a device driver only
+> -uses consistent allocations, one would have to check the return value from
+> +uses coherent allocations, one would have to check the return value from
+>  dma_set_coherent_mask().
+>  
+>  Finally, if your device can only drive the low 24-bits of
+> @@ -298,20 +298,20 @@ Types of DMA mappings
+>  
+>  There are two types of DMA mappings:
+>  
+> -- Consistent DMA mappings which are usually mapped at driver
+> +- Coherent DMA mappings which are usually mapped at driver
+>    initialization, unmapped at the end and for which the hardware should
+>    guarantee that the device and the CPU can access the data
+>    in parallel and will see updates made by each other without any
+>    explicit software flushing.
+>  
+> -  Think of "consistent" as "synchronous" or "coherent".
+> +  Think of "coherent" as "synchronous".
+>  
+> -  The current default is to return consistent memory in the low 32
+> +  The current default is to return coherent memory in the low 32
+>    bits of the DMA space.  However, for future compatibility you should
+> -  set the consistent mask even if this default is fine for your
+> +  set the coherent mask even if this default is fine for your
+>    driver.
+>  
+> -  Good examples of what to use consistent mappings for are:
+> +  Good examples of what to use coherent mappings for are:
+>  
+>  	- Network card DMA ring descriptors.
+>  	- SCSI adapter mailbox command data structures.
+> @@ -320,13 +320,13 @@ There are two types of DMA mappings:
+>  
+>    The invariant these examples all require is that any CPU store
+>    to memory is immediately visible to the device, and vice
+> -  versa.  Consistent mappings guarantee this.
+> +  versa.  Coherent mappings guarantee this.
+>  
+>    .. important::
+>  
+> -	     Consistent DMA memory does not preclude the usage of
+> +	     Coherent DMA memory does not preclude the usage of
+>  	     proper memory barriers.  The CPU may reorder stores to
+> -	     consistent memory just as it may normal memory.  Example:
+> +	     coherent memory just as it may normal memory.  Example:
+>  	     if it is important for the device to see the first word
+>  	     of a descriptor updated before the second, you must do
+>  	     something like::
+> @@ -365,10 +365,10 @@ Also, systems with caches that aren't DMA-coherent will work better
+>  when the underlying buffers don't share cache lines with other data.
+>  
+>  
+> -Using Consistent DMA mappings
+> -=============================
+> +Using Coherent DMA mappings
+> +===========================
+>  
+> -To allocate and map large (PAGE_SIZE or so) consistent DMA regions,
+> +To allocate and map large (PAGE_SIZE or so) coherent DMA regions,
+>  you should do::
+>  
+>  	dma_addr_t dma_handle;
+> @@ -385,10 +385,10 @@ __get_free_pages() (but takes size instead of a page order).  If your
+>  driver needs regions sized smaller than a page, you may prefer using
+>  the dma_pool interface, described below.
+>  
+> -The consistent DMA mapping interfaces, will by default return a DMA address
+> +The coherent DMA mapping interfaces, will by default return a DMA address
+>  which is 32-bit addressable.  Even if the device indicates (via the DMA mask)
+> -that it may address the upper 32-bits, consistent allocation will only
+> -return > 32-bit addresses for DMA if the consistent DMA mask has been
+> +that it may address the upper 32-bits, coherent allocation will only
+> +return > 32-bit addresses for DMA if the coherent DMA mask has been
+>  explicitly changed via dma_set_coherent_mask().  This is true of the
+>  dma_pool interface as well.
+>  
+> @@ -497,7 +497,7 @@ program address space.  Such platforms can and do report errors in the
+>  kernel logs when the DMA controller hardware detects violation of the
+>  permission setting.
+>  
+> -Only streaming mappings specify a direction, consistent mappings
+> +Only streaming mappings specify a direction, coherent mappings
+>  implicitly have a direction attribute setting of
+>  DMA_BIDIRECTIONAL.
+>  
+> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+> index 97f42c15f5e4..c0a2cc7d0b95 100644
+> --- a/Documentation/core-api/dma-api.rst
+> +++ b/Documentation/core-api/dma-api.rst
+> @@ -8,9 +8,9 @@ This document describes the DMA API.  For a more gentle introduction
+>  of the API (and actual examples), see Documentation/core-api/dma-api-howto.rst.
+>  
+>  This API is split into two pieces.  Part I describes the basic API.
+> -Part II describes extensions for supporting non-consistent memory
+> +Part II describes extensions for supporting non-coherent memory
+>  machines.  Unless you know that your driver absolutely has to support
+> -non-consistent platforms (this is usually only legacy platforms) you
+> +non-coherent platforms (this is usually only legacy platforms) you
+>  should only use the API described in part I.
+>  
+>  Part I - DMA API
+> @@ -33,13 +33,13 @@ Part Ia - Using large DMA-coherent buffers
+>  	dma_alloc_coherent(struct device *dev, size_t size,
+>  			   dma_addr_t *dma_handle, gfp_t flag)
+>  
+> -Consistent memory is memory for which a write by either the device or
+> +Coherent memory is memory for which a write by either the device or
+>  the processor can immediately be read by the processor or device
+>  without having to worry about caching effects.  (You may however need
+>  to make sure to flush the processor's write buffers before telling
+>  devices to read that memory.)
+>  
+> -This routine allocates a region of <size> bytes of consistent memory.
+> +This routine allocates a region of <size> bytes of coherent memory.
+>  
+>  It returns a pointer to the allocated region (in the processor's virtual
+>  address space) or NULL if the allocation failed.
+> @@ -48,9 +48,9 @@ It also returns a <dma_handle> which may be cast to an unsigned integer the
+>  same width as the bus and given to the device as the DMA address base of
+>  the region.
+>  
+> -Note: consistent memory can be expensive on some platforms, and the
+> +Note: coherent memory can be expensive on some platforms, and the
+>  minimum allocation length may be as big as a page, so you should
+> -consolidate your requests for consistent memory as much as possible.
+> +consolidate your requests for coherent memory as much as possible.
+>  The simplest way to do that is to use the dma_pool calls (see below).
+>  
+>  The flag parameter (dma_alloc_coherent() only) allows the caller to
+> @@ -64,7 +64,7 @@ the returned memory, like GFP_DMA).
+>  	dma_free_coherent(struct device *dev, size_t size, void *cpu_addr,
+>  			  dma_addr_t dma_handle)
+>  
+> -Free a region of consistent memory you previously allocated.  dev,
+> +Free a region of coherent memory you previously allocated.  dev,
+>  size and dma_handle must all be the same as those passed into
+>  dma_alloc_coherent().  cpu_addr must be the virtual address returned by
+>  the dma_alloc_coherent().
+> diff --git a/mm/dmapool.c b/mm/dmapool.c
+> index 5be8cc1c6529..5d8af6e29127 100644
+> --- a/mm/dmapool.c
+> +++ b/mm/dmapool.c
+> @@ -200,7 +200,7 @@ static void pool_block_push(struct dma_pool *pool, struct dma_block *block,
+>  
+>  
+>  /**
+> - * dma_pool_create_node - Creates a pool of consistent memory blocks, for dma.
+> + * dma_pool_create_node - Creates a pool of coherent DMA memory blocks.
+>   * @name: name of pool, for diagnostics
+>   * @dev: device that will be doing the DMA
+>   * @size: size of the blocks in this pool.
+> @@ -210,7 +210,7 @@ static void pool_block_push(struct dma_pool *pool, struct dma_block *block,
+>   * Context: not in_interrupt()
+>   *
+>   * Given one of these pools, dma_pool_alloc()
+> - * may be used to allocate memory.  Such memory will all have "consistent"
+> + * may be used to allocate memory.  Such memory will all have coherent
+>   * DMA mappings, accessible by the device and its driver without using
+>   * cache flushing primitives.  The actual size of blocks allocated may be
+>   * larger than requested because of alignment.
+> @@ -395,7 +395,7 @@ void dma_pool_destroy(struct dma_pool *pool)
+>  EXPORT_SYMBOL(dma_pool_destroy);
+>  
+>  /**
+> - * dma_pool_alloc - get a block of consistent memory
+> + * dma_pool_alloc - get a block of coherent memory
+>   * @pool: dma pool that will produce the block
+>   * @mem_flags: GFP_* bitmask
+>   * @handle: pointer to dma address of block
 
