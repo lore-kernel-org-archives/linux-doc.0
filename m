@@ -1,151 +1,130 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CE32F0E53;
-	Thu, 26 Jun 2025 14:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22A22EAD18;
+	Thu, 26 Jun 2025 14:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750948370; cv=none; b=fZ+OHJoB1j+zAyTR2dgEjWxqKHWckABf2SV7wuETgA1KFUIAFoWQa6e1tY0a2o0gLTpxz1050NPRTfaGIm6npurXHsy8kMbbFxBcw901uDdyUg65GGXC4UuZVlmRq4KDyzX2LWDLh6U37TvRzif3R2wvwelN4aifNk8EH+k+uUU=
+	t=1750948654; cv=none; b=HeR0LG6qx48Gg+aCvTk4EfAE42JBcMrELiLPOSHjiPkG5QJvRnfryo2hr+cnvv0uR9p32gFRFXBMKUgDN7uCmSxuc4hS7K3PRegc4cox1T2VsmXyAnuR/5UPGTJoaR3/3lv39HnrnP5zZKG6rbsXa1MrHhVE4Iz19CpOmyc/r5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750948370; c=relaxed/simple;
-	bh=ONPWX20WA6qg25+gxiS1uLXoDdNaK1ZJN5gPDyCRy0w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=iMbD5iAQDwSSYDbYAdCOIGhWdeFpRRVyyw46kJli/TNiT/SXXjuGPabDpn0B4IGi9lVHBcR7+XnCGfUdYCmx98hmzVuYq/CI+xKIzD1Tjk0gdlZ8T0PSkTo4ZD3SJKqQVg6dFaWwRzJdWZ8TpXQ/BsAUARTFWRnHA1S0Sp8EDlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=g9A3ZDMb; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1750948654; c=relaxed/simple;
+	bh=L8JBl46tQj2GAsdJIOnR0bzEZNqtdKwqi3HPNOgESs0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J3n1jO1aWRpVXuEUaky6RzC0yK0BvabSm1x6wmNMr8dBVggL5WBJU7/tptmZ0uX3htkdlpqkZ5VD5mHXLy5zan/5fPmmfvkS9KvSduMRHEOyUQFvUVTnd9jnRo/I2t8aBu5gBb9FR4rY9Uyf9MPHTiRvsfpBzQm8W7XYB+AuYqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=VPdNPhVb; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="g9A3ZDMb"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55QA3nm7013542;
-	Thu, 26 Jun 2025 14:32:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	m4+dSjQjm1WnKHruCfwC33TXgveKpDKLK/3NL0lhC/E=; b=g9A3ZDMbG5qmXP/P
-	4UDmBJtfhmZFlfrE1YIGRa12kqpc2MCMRK3HOwrWR0HkYlRKjw3FQ82bTrDKPk2Y
-	sWiVixvSSwBBF61O5yCwYlqyt9n5wfbcO6eqoGMUY9idoSIuOLPEYQ4YLbKlmkw3
-	17I8gWp0JKNfrlpIlFCy9ERtLzvX/ZcLM93Vq50Eh1EitGznBTDvgU9L6BKzAYd2
-	fp9KoEEjoPcEpzpK36yyU7++hUvFTdAW7qQY1auDbbe78532iCCD2ye5DBDwURn2
-	VmV+5FZmN6a5+pqHlkcKFBkScm2rTPhhUHTyqrLB1nJxYLLVO1JVJG5B4I7IBd7s
-	DWIp8A==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47f3bgkm4d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 26 Jun 2025 14:32:35 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55QEWYjS006413
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 26 Jun 2025 14:32:34 GMT
-Received: from nsssdc-sh01-lnx.ap.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 26 Jun 2025 07:32:29 -0700
-From: Luo Jie <quic_luoj@quicinc.com>
-Date: Thu, 26 Jun 2025 22:31:13 +0800
-Subject: [PATCH net-next v5 14/14] MAINTAINERS: Add maintainer for Qualcomm
- PPE driver
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VPdNPhVb"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55QCaX8Z021634;
+	Thu, 26 Jun 2025 14:37:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=corp-2025-04-25; bh=oM5QN1bTA2ARqyZQ
+	7oZ4Jl0G6EnqLHk+PBXlHsrYz0Y=; b=VPdNPhVbizq0PbKPOE9IK6OwQvtCtMSN
+	5TkHomMS2CrP5ZHzxc/O0NRwyvUx3K0ewAH8jwIiJ5qinnHgb1VkxWVoXKOcEBgd
+	wgYhkENVI1nmOsnmHjx1XYwhNn38QS2gcCkRQIbeaa3lYUwTFrSRYuhcAg9Px/Fn
+	kUjs2b8JF/Yza8ucjUH3aQauV8CpJArZpLfMzpxqIQ7DsBrlFUjxAAq8ufLUwXBk
+	uifU1LumqVHWigJyGSA+rF9sHRVjMpeYOBebkTh/ypG31TrbYx35AuaXsuVX9ntW
+	wlZpgUrkUi4+HFpE7Ck2o6N4QQXMNBekai277Jvde5ywL492DXvGZA==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47egt5rvka-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 26 Jun 2025 14:37:12 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55QEKIcT019345;
+	Thu, 26 Jun 2025 14:37:11 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47ehktk6wb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 26 Jun 2025 14:37:11 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55QEbABw013428;
+	Thu, 26 Jun 2025 14:37:10 GMT
+Received: from lab61.no.oracle.com (lab61.no.oracle.com [10.172.144.82])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47ehktk6tv-1;
+	Thu, 26 Jun 2025 14:37:10 +0000
+From: =?UTF-8?q?H=C3=A5kon=20Bugge?= <haakon.bugge@oracle.com>
+To: Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>, Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>, Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>, Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joelagnelf@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc: =?UTF-8?q?H=C3=A5kon=20Bugge?= <haakon.bugge@oracle.com>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        lkmm@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [PATCH 1/1] docs/memory-barriers.txt: Add wait_event_cmd() and wait_event_exclusive_cmd()
+Date: Thu, 26 Jun 2025 16:37:05 +0200
+Message-ID: <20250626143707.1533808-1-haakon.bugge@oracle.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250626-qcom_ipq_ppe-v5-14-95bdc6b8f6ff@quicinc.com>
-References: <20250626-qcom_ipq_ppe-v5-0-95bdc6b8f6ff@quicinc.com>
-In-Reply-To: <20250626-qcom_ipq_ppe-v5-0-95bdc6b8f6ff@quicinc.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
-        Suruchi Agarwal
-	<quic_suruchia@quicinc.com>,
-        Pavithra R <quic_pavir@quicinc.com>,
-        "Simon
- Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook
-	<kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        "Philipp
- Zabel" <p.zabel@pengutronix.de>
-CC: <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
-        Luo Jie
-	<quic_luoj@quicinc.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750948277; l=880;
- i=quic_luoj@quicinc.com; s=20250209; h=from:subject:message-id;
- bh=ONPWX20WA6qg25+gxiS1uLXoDdNaK1ZJN5gPDyCRy0w=;
- b=PLjLC6sQFruHl8j/3TntePCRC7EQJQScnEWxZ+aCmcSaCtqC+g9PFt6J5GAm750eIW5dZrg33
- FBnwpywC+lfCxEKJF0TvieRquNiIRtDPCyUCbKsqmLb8MvzlA3Um+bq
-X-Developer-Key: i=quic_luoj@quicinc.com; a=ed25519;
- pk=pzwy8bU5tJZ5UKGTv28n+QOuktaWuriznGmriA9Qkfc=
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: fTR6SmECYJPksb_WsP5iDm2hT-ftFmmK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI2MDEyMyBTYWx0ZWRfX8lcFdAsZM/cM
- X4s/zIQtsYMinr0AXVd1VPfdem6WeWgUN9ZHsRcqiVkY1MHBWtyRG0rzzgfs0NG1OmdKG3P9ihR
- sY1j9Hb4/118mplOKF5oUROBnoSC1Q9VufFHzxLMIphdCJj0p7z2dtrjPYg4A5hn9kMy2oGWvV0
- TfXnXQQME0rcZcwTA/FSPXP32wbFAw1e3/cQAMUATgtEsLSbJx2gczDVCi3e6CoxNYz6eYS6AE8
- nInLljof0X+hk9aPnR9ZvrJeCX/tOGOx7gi4bUW9s4ZVdkpCrNpmEBuZXWr3N0lgXWn9EpKa3JZ
- 0XGmsFrvFqiWjx3np5OC36uM+JfIYFUbmtUWUcxTKLUflg1OHjGdSi2v+0cfMs6mxepMyOCBD5z
- 2npzP4rkAWXg+286ETvly/jw8EAzBUrItInKNN2C6RiNORJQbZqQIoFA+SfCmf9cxwdoCQri
-X-Authority-Analysis: v=2.4 cv=L4kdQ/T8 c=1 sm=1 tr=0 ts=685d5a03 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=COk6AnOGAAAA:8
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=-_PooAnB-Ua2z9syxaEA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: fTR6SmECYJPksb_WsP5iDm2hT-ftFmmK
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-06-26_06,2025-06-26_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0
- adultscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
- spamscore=0 phishscore=0 mlxlogscore=683 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506260123
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 adultscore=0 malwarescore=0 mlxscore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505160000 definitions=main-2506260123
+X-Proofpoint-GUID: MkfSKuscW80Kz-Pb6bfVHXOzuccO-oZS
+X-Authority-Analysis: v=2.4 cv=PMYP+eqC c=1 sm=1 tr=0 ts=685d5b18 b=1 cx=c_pps a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=M51BFTxLslgA:10 a=yPCof4ZbAAAA:8 a=eATuiTakoFPP2dfb7UwA:9
+ a=+jEqtf1s3R9VXZ0wqowq2kgwd+I=:19 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 cc=ntf awl=host:13216
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI2MDEyNCBTYWx0ZWRfX2ix7oC6O+eik t0j65SIQuWXNKtWTth/IOos87DdxESTlbfNN3Qii/Rq98+NWhWePLiyjpwqcP0VfcNZl/4nH/dz BQelwjLvn0JoGMV1JZgCnqWL3i16pvbLwmhM6IFgqfRYDZBl6FL0fj7m8ZCVPCV9fqdVr5+uTQD
+ 6D3LgbG8988uJDU43NfgkZ2HBpCrnWksEaEGRkDmenVVlW3op7hpdne5y8ThVOn07qQaJ9nRGdM OzdasAiNnBOxX+g2eUtYABdLABV0hn55Aw7X4OpjoZIjIjeQqvqMGACjBAg3/k1fSHKtEh5QX5z 6qmC+CtmWEN24+P+Yhd7Oqp4Z97ClPGDxGUud1bCRR6nUcPhTYxDqQc71vlHfhbUFc1mhL7SDop
+ zMHzaak8nViouAcEApHY/GHsG0D9jQ5/N2mxbhlpTgE+KWAf9qE2gD/NJBxU/F9EKp+Usa9m
+X-Proofpoint-ORIG-GUID: MkfSKuscW80Kz-Pb6bfVHXOzuccO-oZS
 
-Add maintainer entry for PPE (Packet Process Engine) driver supported
-for Qualcomm IPQ SoCs.
+Add said functions to the documentation and relate them to userspace's
+pthread_cond_wait(). The latter because when searching for
+functionality comparable to pthread_cond_wait(), it is very hard to
+find wait_event_cmd().
 
-Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+Signed-off-by: Håkon Bugge <haakon.bugge@oracle.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ Documentation/memory-barriers.txt | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b9e58aa296e0..3a4b58352c28 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20523,6 +20523,14 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/mtd/qcom,nandc.yaml
- F:	drivers/mtd/nand/raw/qcom_nandc.c
+diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+index 93d58d9a428b8..d721e9be5a4f5 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -2192,6 +2192,8 @@ interpolate the memory barrier in the right place:
+ 	wait_event_timeout();
+ 	wait_on_bit();
+ 	wait_on_bit_lock();
++	wait_event_cmd();
++	wait_event_exclusive_cmd();
  
-+QUALCOMM PPE DRIVER
-+M:	Luo Jie <quic_luoj@quicinc.com>
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
-+F:	Documentation/networking/device_drivers/ethernet/qualcomm/ppe/ppe.rst
-+F:	drivers/net/ethernet/qualcomm/ppe/
+ 
+ Secondly, code that performs a wake up normally follows something like this:
+@@ -2296,6 +2298,15 @@ and the waker should do:
+ 	event_indicated = 1;
+ 	wake_up(&event_wait_queue);
+ 
++Note that the wait_event_cmd() and wait_event_exclusive_cmd() are the
++kernel's polymorphic implementation of userspace's
++pthread_cond_wait().
 +
- QUALCOMM QSEECOM DRIVER
- M:	Maximilian Luz <luzmaximilian@gmail.com>
- L:	linux-arm-msm@vger.kernel.org
-
++Using wait_event_cmd() or wait_event_exclusive_cmd(), cmd1 is
++typically a lock-release call and cmd2 a lock-acquire call. The
++locking primitive can be chosen, contrary to pthread_cond_wait(),
++where the locking type is cast in stone and is a pthread_mutex_t.
++
+ 
+ MISCELLANEOUS FUNCTIONS
+ -----------------------
 -- 
-2.34.1
+2.43.5
 
