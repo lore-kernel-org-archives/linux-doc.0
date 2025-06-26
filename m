@@ -1,97 +1,122 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F0522ACF3
-	for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 07:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F941A8F94;
+	Thu, 26 Jun 2025 07:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750922465; cv=none; b=TGP64pK8KQUbVMn1PC/JRZxhyf40ABLkmg95lgZmVWB0pYjZsfl6HwCV+9JjwcXVJwz2+vmZGFFOYHsC+8acHt1hxKnHlBKjbQ9McbPeWtRb6Mh6VqFusImeFG/x3tbURiBQOIXYAnDQD592XX/wKGCX7CyY4cBmy4LPq9xO97s=
+	t=1750922818; cv=none; b=Ow5eSJTP1wgS6h5j9QZsXdQ9oKsivcEeiTKw+G4zU6ME6kTJXuOxC3uJCBqWUoER71A0QuYCbDH1XMNpsJjq39DWpHxp3TXUqv7mbTF9i+mqOFvBeXyi08y6f0Qlp16v9xTrLw29TCI0nzgM/+kNGmjK04XrBeEbOwMQdkQSLiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750922465; c=relaxed/simple;
-	bh=8BEqZFGNNPYAx8EANxy+tw8P/Y+o0527pa2JR+l2NpA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=BeILjc14sY0ar1RbVjStVylm2qW5WWhv25Ecg+zkEP5wtU5KDdHJlpf+PcSmJtqxEQMIt4pu7XlH2TsTuimo2R+nv06hL1Km+hKOAJbwkrP0RVXpQC9lm8TiKwX7IaJ/dACQ6RBg0FjNPzr3QpMLf9rESAWVRCINAZzya8i4F48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=UmJM2otD; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1750922818; c=relaxed/simple;
+	bh=kh8PTnqwdXVM33XrWSHg6xtxFJcL8XC9586i9CBGYu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JeGlRv2z3fjCGB2rkkmJ4jGe9GX18VRNdzLqnS/6dxSEnfGZ1umCBd6/Z0PuHiGwcJSykKsThyhVBCPUjjTKmSDDuZxobSN4w1lvKr0hwlHkYwzNumltUNd/la5IeCpmduE8k8/20NeXaP8q8cik3lRBGRRhLRf+35oTPPDJ140=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OFJcrwcH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="UmJM2otD"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250626072102euoutp01b5e298017a8ef0934b55c11234809090~MhrP0STXy2354123541euoutp01e
-	for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 07:21:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250626072102euoutp01b5e298017a8ef0934b55c11234809090~MhrP0STXy2354123541euoutp01e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1750922462;
-	bh=LPimFjjxe7jfdwBjYJXhsorVGtUpD3BI2ZbS3ELJhYk=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=UmJM2otDrqRpBzvO2qj99Ds4/cZ0bS9VDuqkdaaSi1UUfpRMRFQlRdRF0rircsutJ
-	 p5YlojDXfZA2+rw9jdxegvh60GGV1UhpS0IrZN1g2GhQWjlqt9GAcAhXmQPLU2x4vq
-	 fpJ1B/WFbK3MxgwHzhZ8F3/ROYC1+69fnBMm5Ft4=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250626072102eucas1p1be8a47bb942ca25436f9985c45a01c95~MhrPYoBcn1644116441eucas1p14;
-	Thu, 26 Jun 2025 07:21:02 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250626072101eusmtip17c426e105c6e0e527e20a4ad58cc97a1~MhrOgUKZ22676026760eusmtip1X;
-	Thu, 26 Jun 2025 07:21:01 +0000 (GMT)
-Message-ID: <3acea31c-054c-43a8-a6f7-ab4b5b6a7dca@samsung.com>
-Date: Thu, 26 Jun 2025 09:21:00 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OFJcrwcH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4ADC4CEEB;
+	Thu, 26 Jun 2025 07:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750922818;
+	bh=kh8PTnqwdXVM33XrWSHg6xtxFJcL8XC9586i9CBGYu0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OFJcrwcHsR3vRlPb5zeQb0wmJV97Y0VzvDRKVWvGRvXqemb3qwG7lgO65EHa9dnWv
+	 Yd6PSiLKll8Tg2LCOQQmUvbHZwMrMGSstGEBcnUi5aa6LvoA/cBB4y+5snQNwG7+O4
+	 U/uyxpH7T7wkvkLjULDufr8wdCnRmHdbIja+TflMrNrU4+dkHX5O4PGWNC0Yn1ZAQu
+	 clVmgL1xPgPi6M4EAgPP6+TWiEVYz8Vbb/PIQJUMyAId/LItwXUKLgmj8MqZcTwpcs
+	 SvoHM9Dl/9nZLau8ArZdCRdouyZaNMiBAP8Hwd430OOUvkh5blvSsCPz3+VJ+waSVv
+	 J5PtZ7MWVsM7A==
+Date: Thu, 26 Jun 2025 10:26:53 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Abhijit Gangurde <abhijit.gangurde@amd.com>
+Cc: shannon.nelson@amd.com, brett.creeley@amd.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	corbet@lwn.net, jgg@ziepe.ca, andrew+netdev@lunn.ch,
+	allen.hubbe@amd.com, nikhil.agarwal@amd.com,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Boyer <andrew.boyer@amd.com>
+Subject: Re: [PATCH v3 08/14] RDMA/ionic: Register auxiliary module for ionic
+ ethernet adapter
+Message-ID: <20250626072653.GI17401@unreal>
+References: <20250624121315.739049-1-abhijit.gangurde@amd.com>
+ <20250624121315.739049-9-abhijit.gangurde@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] docs: dma-api: replace consistent with coherent
-To: Petr Tesarik <ptesarik@suse.com>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton
-	<akpm@linux-foundation.org>, Leon Romanovsky <leon@kernel.org>, Keith Busch
-	<kbusch@kernel.org>, Caleb Sander Mateos <csander@purestorage.com>, Sagi
-	Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>, John Garry
-	<john.g.garry@oracle.com>, "open list:DOCUMENTATION"
-	<linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, "open
- list:MEMORY MANAGEMENT" <linux-mm@kvack.org>, iommu@lists.linux.dev
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20250626065123.646bd954@mordecai.tesarici.cz>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250626072102eucas1p1be8a47bb942ca25436f9985c45a01c95
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250626045133eucas1p1d5070046a3303f6b2fe7f9ec75d08f02
-X-EPHeader: CA
-X-CMS-RootMailID: 20250626045133eucas1p1d5070046a3303f6b2fe7f9ec75d08f02
-References: <20250624133923.1140421-1-ptesarik@suse.com>
-	<20250624133923.1140421-3-ptesarik@suse.com>
-	<CGME20250626045133eucas1p1d5070046a3303f6b2fe7f9ec75d08f02@eucas1p1.samsung.com>
-	<20250626065123.646bd954@mordecai.tesarici.cz>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250624121315.739049-9-abhijit.gangurde@amd.com>
 
-On 26.06.2025 06:51, Petr Tesarik wrote:
-> On Tue, 24 Jun 2025 15:39:17 +0200
-> Petr Tesarik <ptesarik@suse.com> wrote:
->
->> For consistency, always use the term "coherent" when talking about memory
->> that is not subject to CPU caching effects. The term "consistent" is a
->> relic of a long-removed pci_alloc_consistent() function.
-> I realize that I'm not an authoritative source for this, but I forgot
-> to add more trusted maintainers to the recipient list.
->
-> Now, all you DMA experts, do you agree that the word "consistent"
-> should be finally eradicated from DMA API documentation?
+On Tue, Jun 24, 2025 at 05:43:09PM +0530, Abhijit Gangurde wrote:
+> Register auxiliary module to create ibdevice for ionic
+> ethernet adapter.
+> 
+> Co-developed-by: Andrew Boyer <andrew.boyer@amd.com>
+> Signed-off-by: Andrew Boyer <andrew.boyer@amd.com>
+> Co-developed-by: Allen Hubbe <allen.hubbe@amd.com>
+> Signed-off-by: Allen Hubbe <allen.hubbe@amd.com>
+> Signed-off-by: Abhijit Gangurde <abhijit.gangurde@amd.com>
+> ---
+> v1->v2
+>   - Removed netdev references from ionic RDMA driver
+>   - Moved to ionic_lif* instead of void* to convey information between
+>     aux devices and drivers.
+> 
+>  drivers/infiniband/hw/ionic/ionic_ibdev.c   | 133 ++++++++++++++++++++
+>  drivers/infiniband/hw/ionic/ionic_ibdev.h   |  21 ++++
+>  drivers/infiniband/hw/ionic/ionic_lif_cfg.c | 118 +++++++++++++++++
+>  drivers/infiniband/hw/ionic/ionic_lif_cfg.h |  65 ++++++++++
+>  4 files changed, 337 insertions(+)
+>  create mode 100644 drivers/infiniband/hw/ionic/ionic_ibdev.c
+>  create mode 100644 drivers/infiniband/hw/ionic/ionic_ibdev.h
+>  create mode 100644 drivers/infiniband/hw/ionic/ionic_lif_cfg.c
+>  create mode 100644 drivers/infiniband/hw/ionic/ionic_lif_cfg.h
 
-Well, this was always puzzling for me, why there are those 2 names used 
-(especially in case of dma_alloc_coherent() vs. 
-dma_alloc_nonconsistent()). I'm for unifying them to "coherent" as this 
-is the term use more often.
+<...>
 
+> +	rc = ionic_version_check(&ionic_adev->adev.dev, ionic_adev->lif);
+> +	if (rc)
+> +		return ERR_PTR(rc);
 
-> > ...
+<...>
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+> +struct net_device *ionic_lif_netdev(struct ionic_lif *lif)
+> +{
+> +	return lif->netdev;
+> +}
 
+Why do you need to store netdev pointer?
+Why can't you use existing ib_device_get_netdev/ib_device_set_netdev?
+
+> +
+> +int ionic_version_check(const struct device *dev, struct ionic_lif *lif)
+> +{
+> +	union ionic_lif_identity *ident = &lif->ionic->ident.lif;
+> +
+> +	if (ident->rdma.version < IONIC_MIN_RDMA_VERSION ||
+> +	    ident->rdma.version > IONIC_MAX_RDMA_VERSION) {
+> +		dev_err_probe(dev, -EINVAL,
+> +			      "ionic_rdma: incompatible version, fw ver %u\n",
+> +			      ident->rdma.version);
+> +		dev_err_probe(dev, -EINVAL,
+> +			      "ionic_rdma: Driver Min Version %u\n",
+> +			      IONIC_MIN_RDMA_VERSION);
+> +		dev_err_probe(dev, -EINVAL,
+> +			      "ionic_rdma: Driver Max Version %u\n",
+> +			      IONIC_MAX_RDMA_VERSION);
+> +	}
+> +
+> +	return 0;
+> +}
+
+Upstream code has all subsystems in sync, and RDMA driver is always
+compatible with its netdev counterpart. Please remove this part.
+
+This is not full review yet, please wait till next week, so we will
+review more deeply.
+
+Thanks
