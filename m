@@ -1,96 +1,144 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5861DEFE9;
-	Thu, 26 Jun 2025 22:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172C82264C7;
+	Thu, 26 Jun 2025 23:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750975389; cv=none; b=ZE6X4V4CM2C2ruP2Xjc59OfCdm1su1s8lK23xSEz+NiAtfDLjv/pk/gI7AZk/ORDFHf062X4A5xTD/UAsRRI6AT73pFPekJqWMMJv4af1mQBo1XLJDZqs22G2iZCU8HKXWt/J/UeVy68QWSHS7NMfEt1HOszpw+4vHAw4fTCkZY=
+	t=1750981999; cv=none; b=ooaK+NDUaXt58XqwwWEXTJ74m7e2pJLZ/l1zjKaFxSv8b6cNa6BtMNpA7kA4djIThRwFBO3JVebPsBUN3dTkp1seQ6LDkbjStHB8p3+nLM5DYc6QXFVMx0cwEJKBEuHT6UJX1KEZu+WJ1cX7/VochKAVAUH34iDnkONwooULjIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750975389; c=relaxed/simple;
-	bh=Zz3TomaGnvO04qN3clsGVUtRn6+iXAtAnZgaeVNMRbE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ol+ex3+NP/CqJcXVUzIhMv4hY6+qjt9GPfA7tEmayEvqC/Qpi12Jvzc+uTrbdulD+N2skResv7TrJwBMmzEdt5peiRYdwOaDOhwCmNnURLfGv3OBe6SCUy4FIK6jez16PyYv0kOkxw5em3jlevK9dxR+pSc/HVTSP1h1JIpndFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=X6Rh22Wo; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1750981999; c=relaxed/simple;
+	bh=SN/NGzVIJgralBcDDuVPGj29WH5pdAz4U3HXHsEVx8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OkFwihT1r94JbSzREZ6lr2NZCBUYuLW0AE4GHLd8dNJMiJv2XmSEi2M7gRwq2Wi1zVg+k5LxcH9pG3xr2vIpMhI0C17/o7xbLeZp4ypyr8JEiflg37bOWcgKYy+fJGaljwnomR2EPlo+Xso/ImgOSnct5h/MyCE38tI+oy5cJwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=goqhwdc/; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="X6Rh22Wo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=WFlQDU+VohmHIo9h8FaKE3p3VB4fZz3wWW+SCs2CefQ=; b=X6Rh22WouTtz+wX0RaCmLzXTK9
-	EhvrrSmKL4GG8o1zLrSR7zhwz9q2Ow4J1XPCgE8DYP4vggAtbAqIPFlaKG0sY/Aj6oDU+9mPregrb
-	AXwQipEcAnBpKDHotH9U911o1JMYFJv6RhVYA/hq+Uh+dGj2Z01MsohdKgW9JxYSywXG9h5XKeIIM
-	B2KAGxSu2EhTOGaykyOO/J3TIp0doK7iD6fjcgJICT3cYmT+6DCuDpsBU9F+Il1RjTwa39w0fwFpk
-	lSogVLqxPZiUriVCHZHOCCCJ3FIoTCnGP7hj/uZ5GMw7yeJUG9+E7H9tA3e5e33HxVtD08jr3Qu/j
-	wHUR3jWg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUugG-0000000Cbf7-4Bro;
-	Thu, 26 Jun 2025 22:02:53 +0000
-Message-ID: <7553d675-622a-4eb6-a216-2eff2f5fe3b0@infradead.org>
-Date: Thu, 26 Jun 2025 15:02:46 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="goqhwdc/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750981997; x=1782517997;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=SN/NGzVIJgralBcDDuVPGj29WH5pdAz4U3HXHsEVx8s=;
+  b=goqhwdc/OE4m1I8qlZ+tPCclsafXQERmNjmNYcO11CDqJHucbUJ4u2XQ
+   wMf6V31267SYO8b2biaoH20bmb96cl6AR9eP9xqO8U1IwMh1oX9c7pw/X
+   50NlDz6mJuDNQKXq/JNECcXpaEHfkSMl/UfWQhxsq96eEh2KdshAozLYV
+   mH2NnG1a26jrmijjDp9WPNQsMQgA5lSiTVumEnjjVbGQV91FePKr1lfFR
+   oeh2U9bkwIjV2ACh0PK9PPRjKUBwNuyia4MewbIbgnIIdO/WMUQTf6mdv
+   C3tFyBSquZZDD/zS8J5wTozIU2zUyXMcO+j0HNQNjIL0VvhmEESm1K63d
+   A==;
+X-CSE-ConnectionGUID: GE0qJEBHS5a2P+LEY4ec5w==
+X-CSE-MsgGUID: doB5kI2kT4SnsErfn5ok0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53236093"
+X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
+   d="scan'208";a="53236093"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 16:53:16 -0700
+X-CSE-ConnectionGUID: gp+S1qc3Qt+VQ3YEWjmHMQ==
+X-CSE-MsgGUID: FWOuogMYQS6kHK1SwV6JTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
+   d="scan'208";a="183554204"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 26 Jun 2025 16:53:12 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uUwOz-000VeA-2T;
+	Thu, 26 Jun 2025 23:53:09 +0000
+Date: Fri, 27 Jun 2025 07:52:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Gabriel Fernandez <gabriel.fernandez@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Subject: Re: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
+Message-ID: <202506270708.6w6phhmi-lkp@intel.com>
+References: <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 02/14] docs: networking: Add PPE driver
- documentation for Qualcomm IPQ9574 SoC
-To: Luo Jie <quic_luoj@quicinc.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
- Suruchi Agarwal <quic_suruchia@quicinc.com>,
- Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
- quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com
-References: <20250626-qcom_ipq_ppe-v5-0-95bdc6b8f6ff@quicinc.com>
- <20250626-qcom_ipq_ppe-v5-2-95bdc6b8f6ff@quicinc.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250626-qcom_ipq_ppe-v5-2-95bdc6b8f6ff@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
 
-Hi--
+Hi Clément,
 
-On 6/26/25 7:31 AM, Luo Jie wrote:
-> +Below is a simplified hardware diagram of IPQ9574 SoC which includes the PPE engine and
-> +other blocks which are in the SoC but outside the PPE engine. These blocks work together
-> +to enable the Ethernet for the IPQ SoC::
-> +
+kernel test robot noticed the following build warnings:
 
-[snip]
+[auto build test WARNING on 86731a2a651e58953fc949573895f2fa6d456841]
 
-> + | |              +-------------------------+ +---------+ +---------+         | |
-> + | |125/312.5M clk|       (PCS0)            | | (PCS1)  | | (PCS2)  | pcs ops | |
-> + | +--------------+       UNIPHY0           | | UNIPHY1 | | UNIPHY2 |<--------+ |
-> + +--------------->|                         | |         | |         |           |
-> + | 31.25M ref clk +-------------------------+ +---------+ +---------+           |
-> + |                   |     |      |      |          |          |                |
-> + |              +-----------------------------------------------------+         |
-> + |25/50M ref clk| +-------------------------+    +------+   +------+  | link    |
-> + +------------->| |      QUAD PHY           |    | PHY4 |   | PHY5 |  |---------+
-> +                | +-------------------------+    +------+   +------+  | change
-> +                |                                                     |
-> +                |                       MDIO bus                      |
-> +                +-----------------------------------------------------+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/bus-firewall-move-stm32_firewall-header-file-in-include-folder/20250623-173554
+base:   86731a2a651e58953fc949573895f2fa6d456841
+patch link:    https://lore.kernel.org/r/20250623-ddrperfm-upstream-v1-6-7dffff168090%40foss.st.com
+patch subject: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
+config: i386-buildonly-randconfig-004-20250627 (https://download.01.org/0day-ci/archive/20250627/202506270708.6w6phhmi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270708.6w6phhmi-lkp@intel.com/reproduce)
 
-Does the 'M' on the clk signals on the left side mean megahertz (MHz)?
-I guess that it does, but it was a little confusing when I first saw it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506270708.6w6phhmi-lkp@intel.com/
 
-Thanks.
+All warnings (new ones prefixed by >>):
+
+   drivers/perf/stm32_ddr_pmu.c: In function 'stm32_ddr_start_counters':
+   drivers/perf/stm32_ddr_pmu.c:205:9: error: implicit declaration of function 'writel_relaxed' [-Werror=implicit-function-declaration]
+     205 |         writel_relaxed(r->start.mask, pmu->membase + r->start.reg);
+         |         ^~~~~~~~~~~~~~
+   drivers/perf/stm32_ddr_pmu.c: In function 'stm32_ddr_clear_counter':
+   drivers/perf/stm32_ddr_pmu.c:232:22: error: implicit declaration of function 'readl_relaxed' [-Werror=implicit-function-declaration]
+     232 |         u32 status = readl_relaxed(pmu->membase + r->status.reg);
+         |                      ^~~~~~~~~~~~~
+   drivers/perf/stm32_ddr_pmu.c: At top level:
+>> drivers/perf/stm32_ddr_pmu.c:862:34: warning: 'stm32_ddr_pmu_of_match' defined but not used [-Wunused-const-variable=]
+     862 | static const struct of_device_id stm32_ddr_pmu_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/stm32_ddr_pmu_of_match +862 drivers/perf/stm32_ddr_pmu.c
+
+   861	
+ > 862	static const struct of_device_id stm32_ddr_pmu_of_match[] = {
+   863		{
+   864			.compatible = "st,stm32mp131-ddr-pmu",
+   865			.data = &stm32_ddr_pmu_cfg_mp1
+   866		},
+   867		{
+   868			.compatible = "st,stm32mp151-ddr-pmu",
+   869			.data = &stm32_ddr_pmu_cfg_mp1
+   870		},
+   871		{
+   872			.compatible = "st,stm32mp251-ddr-pmu",
+   873			.data = &stm32_ddr_pmu_cfg_mp2
+   874		},
+   875		{ },
+   876	};
+   877	MODULE_DEVICE_TABLE(of, stm32_ddr_pmu_of_match);
+   878	
+
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
