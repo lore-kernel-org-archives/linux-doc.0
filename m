@@ -1,175 +1,142 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5999617BA5;
-	Thu, 26 Jun 2025 11:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C6527587F;
+	Thu, 26 Jun 2025 11:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750937988; cv=none; b=jRZtpQjcZHpeVT2QXOn1IHIcA/Hzh1zSvWnuW73CrSFPc5BrjpgcgT0UQQwrZWalog0hSQvtKaTqUc6vCNhQxOUac7Zs8KiQid3foYKNRIUUjVV+PAVDiZYa2fYm67q2aUoj7YXVlr06+C24QWzaY472YQGuUhCRM9yVIHZsRHY=
+	t=1750939109; cv=none; b=OWJ74MWKmkMu5wnuExKuVrJiHTVktYTr8ru6y3C2leJWa5pagWfCx7z+8FKmJxh0MvJml4flkNRq5h6adcEnbjBVGLdSla89Bsg/77vo5bDBLOEi1IogyBMz139Cebkys69LTk70mUe3OCTHAtJYM6nHXm3RcBnS0r9kdyDI/A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750937988; c=relaxed/simple;
-	bh=Poy1nnAOHo0cXy/0wBVRI/5Q/n7pNkJI7q/7YkOADp8=;
-	h=CC:Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=TV3vZTV8JIdU0wJrHMFtSxghARqldiLWvygKnZmnFIZjhy92RePadiBnO3KAqMEnGGkx4zscu+VicezinwVo+9VhI9cTL0DVtbHf3s5uYYPkx2hCY43ZLFK4jE9wgPiMXAtyB6ezRT9ZXUAL6OaxYuAdn5pgjwYvj7U9xTlJcQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4bSc7j1trPzdbk3;
-	Thu, 26 Jun 2025 19:35:45 +0800 (CST)
-Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8703D180450;
-	Thu, 26 Jun 2025 19:39:43 +0800 (CST)
-Received: from kwepemq200018.china.huawei.com (7.202.195.108) by
- dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 26 Jun 2025 19:39:43 +0800
-Received: from [10.67.121.177] (10.67.121.177) by
- kwepemq200018.china.huawei.com (7.202.195.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 26 Jun 2025 19:39:42 +0800
-CC: <yangyicong@hisilicon.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<corbet@lwn.net>, <linux-arm-kernel@lists.infradead.org>,
-	<kvmarm@lists.linux.dev>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <joey.gouly@arm.com>, <suzuki.poulose@arm.com>,
-	<yuzenghui@huawei.com>, <shuah@kernel.org>, <jonathan.cameron@huawei.com>,
-	<shameerali.kolothum.thodi@huawei.com>, <linuxarm@huawei.com>,
-	<prime.zeng@hisilicon.com>, <xuwei5@huawei.com>, <tangchengchang@huawei.com>,
-	<wangzhou1@hisilicon.com>
-Subject: Re: [PATCH v3 3/7] KVM: arm64: Handle DABT caused by LS64*
- instructions on unsupported memory
-To: Marc Zyngier <maz@kernel.org>, <oliver.upton@linux.dev>
-References: <20250626080906.64230-1-yangyicong@huawei.com>
- <20250626080906.64230-4-yangyicong@huawei.com> <86zfduc2ca.wl-maz@kernel.org>
-From: Yicong Yang <yangyicong@huawei.com>
-Message-ID: <44993060-7eb1-400c-9887-3d438aeb8ee9@huawei.com>
-Date: Thu, 26 Jun 2025 19:39:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+	s=arc-20240116; t=1750939109; c=relaxed/simple;
+	bh=Qx5wfOItoi1+VQTwbp4aWjc7EP/neC9kgAUf1miAZdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A+eWQuoVCmM/HDE9tyhUkjhXTu6JoA+BtHv3H0Z8q9Yt5kFOLLGrFFqjSRacQv3d86jnbkF6HY6AuHi7jJ6czlWD0V0n/vXEd096gGBJd4nGV+bLkSGoJe8gQkxT342onvVb0GXhUQYLEMTmbyHHVy31rHeJWsXPuWCQSIsmRTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=bLnAdtiI; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="bLnAdtiI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=E7sAEgdd707TI8toifhEogagOBUn3n5FZn7TngN4ra8=; b=bLnAdtiIn4wQsxsNQ9E4g1vdj+
+	dzmL9IPFWW/ZMhnrr9WlYwj7N1V3Yk8elPHBYwDwSADNFMfaYKdAY8OL9xcwQft8P5YXlebsKs71F
+	IV52ILHh2KP0GqomfNcwhnB/a3I3oFOSaiXvVaiKOjsrjflriRqGVpKMnt6yVzJq4VBw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uUlF1-00H2Xz-3Z; Thu, 26 Jun 2025 13:58:07 +0200
+Date: Thu, 26 Jun 2025 13:58:07 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Siddharth Vadapalli <s-vadapalli@ti.com>
+Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Whitcroft <apw@canonical.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Roger Quadros <rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v2 2/3] net: ethernet: ti: am65-cpsw: fixup PHY
+ mode for fixed RGMII TX delay
+Message-ID: <8a99444a-a4e4-4c4f-8cec-225a10d5d418@lunn.ch>
+References: <cover.1750756583.git.matthias.schiffer@ew.tq-group.com>
+ <9b3fb1fbf719bef30702192155c6413cd5de5dcf.1750756583.git.matthias.schiffer@ew.tq-group.com>
+ <54d6cd05-65ef-4e1d-8041-3e4a2c50b443@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <86zfduc2ca.wl-maz@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemq200018.china.huawei.com (7.202.195.108)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54d6cd05-65ef-4e1d-8041-3e4a2c50b443@ti.com>
 
-On 2025/6/26 16:51, Marc Zyngier wrote:
-> On Thu, 26 Jun 2025 09:09:02 +0100,
-> Yicong Yang <yangyicong@huawei.com> wrote:
->>
->> From: Yicong Yang <yangyicong@hisilicon.com>
->>
->> If FEAT_LS64WB not supported, FEAT_LS64* instructions only support
->> to access Device/Uncacheable memory, otherwise a data abort for
->> unsupported Exclusive or atomic access (0x35) is generated per spec.
->> It's implementation defined whether the target exception level is
->> routed and is possible to implemented as route to EL2 on a VHE VM
->> according to DDI0487K.a Section C3.2.12.2 Single-copy atomic 64-byte
->> load/store.
+On Thu, Jun 26, 2025 at 03:10:50PM +0530, Siddharth Vadapalli wrote:
+> On Tue, Jun 24, 2025 at 12:53:33PM +0200, Matthias Schiffer wrote:
 > 
-> Nit: in DDI0487L.b (the latest as I write), this is in C3.2.6.
+> Hello Matthias,
 > 
+> > All am65-cpsw controllers have a fixed TX delay, so the PHY interface
+> > mode must be fixed up to account for this.
+> > 
+> > Modes that claim to a delay on the PCB can't actually work. Warn people
+> > to update their Device Trees if one of the unsupported modes is specified.
+> > 
+> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+> > Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> > ---
+> >  drivers/net/ethernet/ti/am65-cpsw-nuss.c | 27 ++++++++++++++++++++++--
+> >  1 file changed, 25 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/net/ethernet/ti/am65-cpsw-nuss.c b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
+> > index f20d1ff192efe..519757e618ad0 100644
+> > --- a/drivers/net/ethernet/ti/am65-cpsw-nuss.c
+> > +++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
+> > @@ -2602,6 +2602,7 @@ static int am65_cpsw_nuss_init_slave_ports(struct am65_cpsw_common *common)
+> >  		return -ENOENT;
+> >  
+> >  	for_each_child_of_node(node, port_np) {
+> > +		phy_interface_t phy_if;
+> >  		struct am65_cpsw_port *port;
+> >  		u32 port_id;
+> >  
+> > @@ -2667,14 +2668,36 @@ static int am65_cpsw_nuss_init_slave_ports(struct am65_cpsw_common *common)
+> >  
+> >  		/* get phy/link info */
+> >  		port->slave.port_np = of_node_get(port_np);
+> > -		ret = of_get_phy_mode(port_np, &port->slave.phy_if);
+> > +		ret = of_get_phy_mode(port_np, &phy_if);
+> >  		if (ret) {
+> >  			dev_err(dev, "%pOF read phy-mode err %d\n",
+> >  				port_np, ret);
+> >  			goto of_node_put;
+> >  		}
+> >  
+> > -		ret = phy_set_mode_ext(port->slave.ifphy, PHY_MODE_ETHERNET, port->slave.phy_if);
+> > +		/* CPSW controllers supported by this driver have a fixed
+> > +		 * internal TX delay in RGMII mode. Fix up PHY mode to account
+> > +		 * for this and warn about Device Trees that claim to have a TX
+> > +		 * delay on the PCB.
+> > +		 */
+> > +		switch (phy_if) {
+> > +		case PHY_INTERFACE_MODE_RGMII_ID:
+> > +			phy_if = PHY_INTERFACE_MODE_RGMII_RXID;
+> > +			break;
+> > +		case PHY_INTERFACE_MODE_RGMII_TXID:
+> > +			phy_if = PHY_INTERFACE_MODE_RGMII;
+> > +			break;
+> > +		case PHY_INTERFACE_MODE_RGMII:
+> > +		case PHY_INTERFACE_MODE_RGMII_RXID:
+> > +			dev_warn(dev,
+> > +				 "RGMII mode without internal TX delay unsupported; please fix your Device Tree\n");
+> 
+> Existing users designed boards and enabled Ethernet functionality using
+> "rgmii-rxid" in the device-tree and implementing the PCB traces in a
+> way that they interpret "rgmii-rxid". So their (mis)interpretation of
+> it is being challenged by the series. While it is true that we are updating
+> the bindings and driver to move towards the correct definition, I believe that
+> the above message would cause confusion. Would it be alright to update it to
+> something similar to:
+> 
+> "Interpretation of RGMII delays has been corrected; no functional impact; please fix your Device Tree"
 
-will update the reference.
+It is dev_warn() not dev_err(), so it should be read as a warning. And
+the device will continue to probe and work. So I think the message is
+O.K. What we don't want is DT developers thinking they can just ignore
+it. So i would keep it reasonably strongly worded.
 
->>
->> If it's implemented as generate the DABT to the final enabled stage
->> (stage-2), since no valid ISV indicated in the ESR, it's better for
->> the userspace to decide how to handle it. Reuse the
->> NISV_IO_ABORT_TO_USER path with exit reason KVM_EXIT_ARM_LDST64B.
->>
->> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
->> ---
->>  arch/arm64/include/asm/esr.h |  8 ++++++++
->>  arch/arm64/kvm/mmu.c         | 21 ++++++++++++++++++++-
->>  2 files changed, 28 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
->> index e1deed824464..63cd17f830da 100644
->> --- a/arch/arm64/include/asm/esr.h
->> +++ b/arch/arm64/include/asm/esr.h
->> @@ -124,6 +124,7 @@
->>  #define ESR_ELx_FSC_SEA_TTW(n)	(0x14 + (n))
->>  #define ESR_ELx_FSC_SECC	(0x18)
->>  #define ESR_ELx_FSC_SECC_TTW(n)	(0x1c + (n))
->> +#define ESR_ELx_FSC_EXCL_ATOMIC	(0x35)
->>  #define ESR_ELx_FSC_ADDRSZ	(0x00)
->>  
->>  /*
->> @@ -488,6 +489,13 @@ static inline bool esr_fsc_is_access_flag_fault(unsigned long esr)
->>  	       (esr == ESR_ELx_FSC_ACCESS_L(0));
->>  }
->>  
->> +static inline bool esr_fsc_is_excl_atomic_fault(unsigned long esr)
->> +{
->> +	esr = esr & ESR_ELx_FSC;
->> +
->> +	return esr == ESR_ELx_FSC_EXCL_ATOMIC;
->> +}
->> +
->>  static inline bool esr_fsc_is_addr_sz_fault(unsigned long esr)
->>  {
->>  	esr &= ESR_ELx_FSC;
->> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
->> index 2942ec92c5a4..5f05d1c4b5a2 100644
->> --- a/arch/arm64/kvm/mmu.c
->> +++ b/arch/arm64/kvm/mmu.c
->> @@ -1665,6 +1665,24 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
->>  	if (exec_fault && device)
->>  		return -ENOEXEC;
->>  
->> +	/*
->> +	 * Target address is normal memory on the Host. We come here
->> +	 * because:
->> +	 * 1) Guest map it as device memory and perform LS64 operations
->> +	 * 2) VMM report it as device memory mistakenly
->> +	 * Hand it to the userspace.
->> +	 */
->> +	if (esr_fsc_is_excl_atomic_fault(kvm_vcpu_get_esr(vcpu))) {
->> +		struct kvm_run *run = vcpu->run;
->> +
->> +		run->exit_reason = KVM_EXIT_ARM_LDST64B;
->> +		run->arm_nisv.esr_iss = kvm_vcpu_dabt_iss_nisv_sanitized(vcpu);
->> +		run->arm_nisv.fault_ipa = fault_ipa |
->> +			(kvm_vcpu_get_hfar(vcpu) & (vma_pagesize - 1));
->> +
->> +		return -EAGAIN;
->> +	}
-> 
-> I'm not sure that's the right thing to do.
-> 
-> If:
-> 
-> - the guest was told it doesn't have LS64WB,
-> 
-> - it was told that some range is memory,
-> 
-> - it uses that range as device,
-> 
-> - thanks to FWB the resulting memory type is "Normal-Cacheable"
-> 
-> - which results in an Unsupported Atomic exception
-> 
-> why would we involve the VMM at all? The VMM clearly said it didn't
-> want to be involved in this (we have a memslot).
-> 
-
-ok I thought we should make VMM do the decision in all the cases(both
-here and emulated MMIO) based on the last discussion[*], I may
-misunderstand it. If this is the case...
-
-> I think we should simply inject the corresponding S1 fault back into
-> the guest.
-> 
-
-let's simply inject a corresponding DABT back here and only make the VMM
-handle the emulated MMIO case. will update if no further comment.
-
-thanks.
-
-[*] https://lore.kernel.org/linux-arm-kernel/Z_NkHWStDJLo0cmY@linux.dev/
+	Andrew
