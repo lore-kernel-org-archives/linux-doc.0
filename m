@@ -1,36 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77A733993;
-	Thu, 26 Jun 2025 07:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B618623314B;
+	Thu, 26 Jun 2025 08:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750923524; cv=none; b=ipRcoYabKM65/0sUmysv+odN63JssBNy8yw/Q6bNi6xgdgjcMvBfUB8QUlBOfSrQyNVchyrV9ZVn5ov8gHjw/qv0YGn9RNb+c/LdoLIt30JKC35hvlVv9RW9i+EKMqDy7va84QIRnswZdM8wCeTpx6P60kA0BWjvYK3kqTZL4HQ=
+	t=1750924951; cv=none; b=HyN87RT/UwF3MxFktd4STAKk2dWxb3fclkIvtddsqG2bOzOCF7XGhKVfaUPLCGtnUgSp5hUa+PE9AVbiAvMlcWwqJb7/sT3DdXN3k3RD+ie9kdyFVqboIFCc7yGy3bWVp6+P/cGRvFVM9DqXhs7uRDy90BrW7fuTDnM1N201qiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750923524; c=relaxed/simple;
-	bh=TOpL6H/87EI87dKMGLobTUBASAQa1bUJB3Mb5uPJb7M=;
+	s=arc-20240116; t=1750924951; c=relaxed/simple;
+	bh=cEaC6+G/sN4jozSX9BP1ZCCBNnJkl7knaZmfoplO16E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t/+yK7C+uU4g6Lod6Q/PiQ33Uv1P8ON7ORrOH2y2yKZURsXACAFjwmkTXmc0YkJ0GH+cwnNLhK6M/wQMwt6SH4UHeTq2+671Ng/O5nscxjHZNlyncB7Ud2MmHRQ0O+fpn4Q21Jd2fZoqj8jLiMK+hB49L3VPuWg6tVry8drtfdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=N7ryhn9p; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=R4aY97ELNW6CDkDzWet3kTDSDYyKdC/+9AZZ1kjTqDdBXhZNrRBGGL6Pubzh9jmZpK3ZcvnGutIn/SVgLhPsJukTZltuKQBvYLNU8Ex3sOB4zXz3gkZbdJ1M1jaVZoGON30KCbPkZV0f7dBV7ds99r+CFOzvLbSgRJ7qCWjuwnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=oFv1FQMD; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="N7ryhn9p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17B72C4CEEB;
-	Thu, 26 Jun 2025 07:38:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1750923523;
-	bh=TOpL6H/87EI87dKMGLobTUBASAQa1bUJB3Mb5uPJb7M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N7ryhn9pmwFbP/Oqya45YtSP7Yc1TsolK6GkerSlGAHzWEfU5UyhSZ1LA5M5pAkpZ
-	 tmdZ1o2my14cmAWySlBWRfSxzaYnDjiJODgXOvo9etT3HkcanZB+0q1NIFmAl8BuI7
-	 1+yqofa+USGwnI7xZ5WGVazzzhPdSe6JHD9NiK3U=
-Date: Thu, 26 Jun 2025 08:38:41 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Xose Vazquez Perez <xose.vazquez@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, DOC ML <linux-doc@vger.kernel.org>,
-	KERNEL ML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] MAINTAINERS: standardize git.kernel.org URLs
-Message-ID: <2025062654-lubricant-lettuce-3405@gregkh>
-References: <20250625142017.237949-1-xose.vazquez@gmail.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="oFv1FQMD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=3dQ8YaRlPH8leheSk/R4RK1kv8p6nuXuYIhHCLiJSfw=; b=oFv1FQMDH/Tz+OBC5qChk1l6P8
+	395y1OId5p42efMwHjjuhLS+fTIwrfsZr0q3lel7P1LDJmcOCanUL/7OwfMOVOpCxnc7PUy/SV1WZ
+	GVa9D42034UJKVeUwuZ95YySR+iURF5IkFwxbumR7mplKUSOGgV5mhDIHk3LsGoCiNg0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uUhYg-00H10f-Vs; Thu, 26 Jun 2025 10:02:10 +0200
+Date: Thu, 26 Jun 2025 10:02:10 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Whitcroft <apw@canonical.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Roger Quadros <rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
+Subject: Re: [PATCH net-next v2 3/3] checkpatch: check for comment explaining
+ rgmii(|-rxid|-txid) PHY modes
+Message-ID: <c954eabf-aa75-4373-8144-19ef88e1e696@lunn.ch>
+References: <cover.1750756583.git.matthias.schiffer@ew.tq-group.com>
+ <bc112b8aa510cf9df9ab33178d122f234d0aebf7.1750756583.git.matthias.schiffer@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,19 +60,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250625142017.237949-1-xose.vazquez@gmail.com>
+In-Reply-To: <bc112b8aa510cf9df9ab33178d122f234d0aebf7.1750756583.git.matthias.schiffer@ew.tq-group.com>
 
-On Wed, Jun 25, 2025 at 04:20:16PM +0200, Xose Vazquez Perez wrote:
-> replace https: with git:, delete trailing /, and identify repos as "git"
+On Tue, Jun 24, 2025 at 12:53:34PM +0200, Matthias Schiffer wrote:
+> Historically, the RGMII PHY modes specified in Device Trees have been
+> used inconsistently, often referring to the usage of delays on the PHY
+> side rather than describing the board; many drivers still implement this
+> incorrectly.
+> 
+> Require a comment in Devices Trees using these modes (usually mentioning
+> that the delay is realized on the PCB), so we can avoid adding more
+> incorrect uses (or will at least notice which drivers still need to be
+> fixed).
+> 
+> Suggested-by: Andrew Lunn <andrew@lunn.ch>
+> Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 
-This bypasses the mirror systems in place with the https: protocol,
-please do not do this without a lot of justification and agreement of
-the hosting providers involved as they will have a large increase in
-resources if this were to change.
+One question, how should this be merged? The two DT patches might want
+to go via the TI DT Maintainer. And this patch via the checkpatch
+Maintainer? Or do you plan to merge it some other way?
 
-Have you asked them if this is ok to change?  What is wrong with the
-current urls listed here?
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-thanks,
-
-greg k-h
+    Andrew
