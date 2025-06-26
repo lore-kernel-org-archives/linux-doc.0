@@ -1,269 +1,155 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-il1-f201.google.com (mail-il1-f201.google.com [209.85.166.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E222F0E2B
-	for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 19:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1E52F002E
+	for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 20:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750966848; cv=none; b=c1Q9OZGplDXpQtWb0Y5bxfN9hkQ3nPn1TE5FGMFYl/tyxpLjotE4rt1tIVXF9nfc2l+J8tgJd3nXxAS8aUD4tb3nnP0sz/MlhqU79t5kS2GzNi7WzzoDVf6haSc+0TCRTD+0ax399Bz7nH0wjtUFxYhV7LkBE4TKGJdT9Jb7izc=
+	t=1750968355; cv=none; b=lsK457gwlCqDMm2JZeQYc9t/X5NPP4NZcmBR064dluIH91eIuAsQHFTkVg3WVUo1ncThczuhmXjn9Ut0Hm34XIxJmmI5G7daebcaf6WMYhUlfxJtkAAcrlSYfbS9IInV7mwncwmWrvoI6Mto0BTS6hKVFMyRjtQG30WDfG4plqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750966848; c=relaxed/simple;
-	bh=dM9I99bqjM9rdGoo0uOuC6Ud0JHcGJfH4Mjr85h64Pw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pkDacWp3X8Qvf76sIlpL8R/b6a4vsHIKj0lP8KhDkZc2vpVW1EdyEe/32lP4IacWTLGwy0iJRLRuSNdzs6M73B7f4OF9Gq0/aGDw/U6ZA53oTMu+SS9APaBh8R8KOrOaPXp7hCPj3X35s9LJHdvfJNcs4Ho+2pWZSuo7gDo3InY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=RggdGqiA; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1750968355; c=relaxed/simple;
+	bh=Eks9aCTcXYvbdNVmdIGtwvOLNkf6fFcYgMML3qNUFtA=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=SnIsdIB4Xy9bFPAoUDWSkNMJodalqxmBm3u9xdbDibI7F7EvERw9CZvY6zkGuOSv7L5OhMnJOMoC+H4yF6/XSrg57j1Bp1IcVHPl9htZKQ5WJgSG1lwlaVAmjPPBy869cpSmnXOFOhx7DrDg2vukTxT6iw0R3NjKPep6Xma7VEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S8cucvsS; arc=none smtp.client-ip=209.85.166.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="RggdGqiA"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-606aadc1433so172298a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 12:40:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S8cucvsS"
+Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3df40226ab7so24751895ab.0
+        for <linux-doc@vger.kernel.org>; Thu, 26 Jun 2025 13:05:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1750966844; x=1751571644; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yi0zyP0lhLzXRnA/JuxxkK7pzdS3ZWCjFq9wZFiffhA=;
-        b=RggdGqiAFpmJtIZk8VbeI8gJQQHyGnnrqmfPduLsBx3KshgWmD/haCBqPp/j6NWURB
-         tz1V39tfhpYNjkMPBtOuJl195hn7Qn7Ijjt/Qg62W9D5ZCtxVg20H/kbj1cXhGQgEncx
-         vDw/vYO1gkkrtt5JUeCJ/SlEvSWaVdgRxrGyqPkb6w+OAtWO25OT6xeoiStx7/AKFGpO
-         yI1kSXWbvsQs2ydwWJl74RxTKpEqaTQ5dzEsCrjhI0fYMIPyayeZVg7/yeQuJjHamTaC
-         g8YTXhAYq60ARsN0a4UseYL1iaooWYRiV1QDh8VGyU85oZx5zlwIaPHPS8yDY5B30exb
-         z2Vg==
+        d=google.com; s=20230601; t=1750968351; x=1751573151; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bfd4g4oyzgO9BbMd8TfR5LoagbwDLdjqmGt8yskowpw=;
+        b=S8cucvsS3+f+hdarDt4e8iTKmvhG8uwqWxETV75PJOzvNl4fziOLhk+wbXKyxcu7Nm
+         chz1bOmO8W3m3/yIsCpH/WFftVfeKA3PNXuvnF/sz17RCN7w6uaYShCodcfSw51GP1j2
+         RChTfVQ+XQ3QdPGlIDtYyadUMIZuFmt3bjMN2ZelGuhJIDq59oC6jwVfk4nTGPvhahpD
+         aYV+iuLCKGcZm+dDVqzNNLPThvwbt6BffyRjnlDrefNexHopXrYhZxH9mB9fh8EEeMmw
+         UDpywvj+oh+7rbIo2rldRv7cEYI8OQNwDH/61JLuuY6j8TUlJoPcTo25p34/gXzq0jtG
+         Efmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750966844; x=1751571644;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yi0zyP0lhLzXRnA/JuxxkK7pzdS3ZWCjFq9wZFiffhA=;
-        b=qj8kRj9Zs2yanXvpXs8oJXv3sUpRB9U3j8S9yOaIIDwjpFxXb2cBWzYJrCar0NGVdt
-         wBUoNTzGh2TT0FtEw2Vfp1TWJ0GBLgZX9bAB8LXAY3RX7J3c05MSG6ohi0t2Umb5OT/z
-         YBHpzl0webTQIV1ty38KASxXg7r+brhFbnUBqt7ECurQm7uxsUBrruPlIhWGpGkKJUxp
-         C9Z5IJooTyRvs9+jqy7nhtn7H9OdSnNlr/cRBgpFtaVMgFbxiIizrnHIDstSTkdB2ea8
-         zsN7khh/nFBp9b1IR2LA7AkT0KiCcydP/2ursSrWT7I+TCRAnm0eb1HG9xd/udYULvPi
-         JTyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXvaSuoP2IAO6oR7SAYChM0LGwelrklopw+FWF/bWhtKbxTttl8He4moqywuU6UR3kq5fKadaDQJGY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzO+vPryiNKCakwWKLlwU0VTlJqNVVQbHjvZImejDnghtGkNQZ1
-	Rgdp6hq7WVlL/qW5RZst5oxWihH5fJ/Q+0P7rQ+fm2Em3niQziczQEaz+p4AwWgXmdE=
-X-Gm-Gg: ASbGncsD3D7W6v0QxqBEx8grl2sojaIzhopFl4I8zNJo3uhnQ1DBvwyXYhE1hDk09bd
-	G6U60RlMr2sFdOOhZgD+QliaCb7xZnHhKqxAIY5pecsCrnAlLbk/2Bd31o3AQYmg4vYEc+Fr0Ue
-	kJhPx+J5zSeGi8R8a5gmNCH4uBQlcGWmayqZu4cW0NXhkqrPwuM/LdxVY40YfxQ5Z+j3NN1PLhS
-	3mqsYkKVG831BwP/Cmr3r2Zm8CNB5XKGPoqQHTpYA0HFKgeL0i1q46+e5+381CQYLMtD1Y2rISd
-	JleNnKI88xcyR837aLvyzrkTsI3P5NTAqCnLE8u5ai/R0Q==
-X-Google-Smtp-Source: AGHT+IEsYVBfqLRZXizUOunREMSsJk6JMVGmiEF90edDyS4wLX4c3Ncf8ou/Y+kyS4pvWL6h/0lOPQ==
-X-Received: by 2002:a05:6402:3585:b0:60c:3c9b:4862 with SMTP id 4fb4d7f45d1cf-60c88e394b2mr90760a12.7.1750966843715;
-        Thu, 26 Jun 2025 12:40:43 -0700 (PDT)
-Received: from mordecai.tesarici.cz ([213.235.133.102])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60c83208aa2sm400637a12.74.2025.06.26.12.40.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 12:40:43 -0700 (PDT)
-Date: Thu, 26 Jun 2025 21:40:38 +0200
-From: Petr Tesarik <ptesarik@suse.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Leon Romanovsky <leon@kernel.org>, Keith Busch
- <kbusch@kernel.org>, Caleb Sander Mateos <csander@purestorage.com>, Sagi
- Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>, John Garry
- <john.g.garry@oracle.com>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>, iommu@lists.linux.dev
-Subject: Re: [PATCH 7/8] docs: dma-api: update streaming DMA API physical
- address constraints
-Message-ID: <20250626214038.2d005bb5@mordecai.tesarici.cz>
-In-Reply-To: <0f95be6d-2e13-4281-98b5-6d4311a3b98f@arm.com>
-References: <20250624133923.1140421-1-ptesarik@suse.com>
-	<20250624133923.1140421-8-ptesarik@suse.com>
-	<aFynHWAYtKPFT55P@archie.me>
-	<20250626070602.3d42b607@mordecai.tesarici.cz>
-	<bdb3a37a-a9d3-44c1-8eb7-41912c976ad1@arm.com>
-	<20250626154818.46b0cfb1@mordecai.tesarici.cz>
-	<0f95be6d-2e13-4281-98b5-6d4311a3b98f@arm.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-suse-linux-gnu)
+        d=1e100.net; s=20230601; t=1750968351; x=1751573151;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bfd4g4oyzgO9BbMd8TfR5LoagbwDLdjqmGt8yskowpw=;
+        b=csqg2uUvAW43Gi7HsokT+16neXDC/K/n14dZxAcw/tMrxjGLgtDkRowco8JtgZgdhb
+         fdFjYAQAi01/MG+2rIgdUNjYFMDekEWAEDrm/skKtCapjA9YkSIR1qWwBg0m8wD5O++j
+         7Jirx9GAmSIyuoG1Kz2xTkFMVHQ6VoaFOSGsIapkzhRLIrRJmR9jP8msm5U7yCXinbMU
+         v/oJotsYlaBymWK831SpZr+b3T7zKLZB4pYWEvq0D3nJr8/0f9ozdFcn8T8gBzcV29kS
+         Du7Uf+GVzF2ez4TNiwrOQCH+58LUGIRHvMlNQmD2MI0PR/GIVwvBYe9HQlY2bJApyo+7
+         C0ng==
+X-Forwarded-Encrypted: i=1; AJvYcCWl/U5vdJDY9r62d/HMt/fkZpb71dsF9fR1KBkhMMFnwgNmAKOPSCS24H3c5e1kgYkKY+QvgSX13PQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQs3e7dTDUpuf6aR9t/R9GtT+YCvx/nt9vvftSUJ46BdgVlxAV
+	g74/mFnCI6UzU9nLlNAIW217K9af3fPioGKYJLQosY5dPx8qLBcjdUPZM2pue2a/mFqnxmOSYOu
+	rX8ys5tWnoH6Frt0D1HAOYQqYoQ==
+X-Google-Smtp-Source: AGHT+IG6G2rFRPWkpOW41Pi9fBc/Fkgk+vgjVkKLSP9f2QAlLB5ktW9y9VyZ03BDZAOiaFnbG271ZNfhQM9Y4i+b9Q==
+X-Received: from ilbed13.prod.google.com ([2002:a05:6e02:480d:b0:3dd:a3df:9d57])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6e02:174f:b0:3dd:c04e:49af with SMTP id e9e14a558f8ab-3df4ab4eec8mr12720745ab.3.1750968351198;
+ Thu, 26 Jun 2025 13:05:51 -0700 (PDT)
+Date: Thu, 26 Jun 2025 20:04:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
+Message-ID: <20250626200459.1153955-1-coltonlewis@google.com>
+Subject: [PATCH v3 00/22] ARM64 PMU Partitioning
+From: Colton Lewis <coltonlewis@google.com>
+To: kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Colton Lewis <coltonlewis@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 26 Jun 2025 17:45:18 +0100
-Robin Murphy <robin.murphy@arm.com> wrote:
+This series creates a new PMU scheme on ARM, a partitioned PMU that
+allows reserving a subset of counters for more direct guest access,
+significantly reducing overhead. More details, including performance
+benchmarks, can be read in the v1 cover letter linked below.
 
-> On 26/06/2025 2:48 pm, Petr Tesarik wrote:
-> > On Thu, 26 Jun 2025 10:58:00 +0100
-> > Robin Murphy <robin.murphy@arm.com> wrote:
-> >   
-> >> On 2025-06-26 6:06 am, Petr Tesarik wrote:  
-> >>> On Thu, 26 Jun 2025 08:49:17 +0700
-> >>> Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> >>>      
-> >>>> On Tue, Jun 24, 2025 at 03:39:22PM +0200, Petr Tesarik wrote:  
-> >>>>> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-> >>>>> index cd432996949c..65132ec88104 100644
-> >>>>> --- a/Documentation/core-api/dma-api.rst
-> >>>>> +++ b/Documentation/core-api/dma-api.rst
-> >>>>> @@ -210,18 +210,12 @@ DMA_BIDIRECTIONAL	direction isn't known
-> >>>>>    	this API should be obtained from sources which guarantee it to be
-> >>>>>    	physically contiguous (like kmalloc).
-> >>>>>    
-> >>>>> -	Further, the DMA address of the memory must be within the dma_mask of
-> >>>>> -	the device.  To ensure that the memory allocated by kmalloc is within
-> >>>>> -	the dma_mask, the driver may specify various platform-dependent flags
-> >>>>> -	to restrict the DMA address range of the allocation (e.g., on x86,
-> >>>>> -	GFP_DMA guarantees to be within the first 16MB of available DMA
-> >>>>> -	addresses, as required by ISA devices).
-> >>>>> -
-> >>>>> -	Note also that the above constraints on physical contiguity and
-> >>>>> -	dma_mask may not apply if the platform has an IOMMU (a device which
-> >>>>> -	maps an I/O DMA address to a physical memory address).  However, to be
-> >>>>> -	portable, device driver writers may *not* assume that such an IOMMU
-> >>>>> -	exists.
-> >>>>> +	Mapping may also fail if the memory is not within the DMA mask of the
-> >>>>> +	device.  However, this constraint does not apply if the platform has
-> >>>>> +	an IOMMU (a device which maps an I/O DMA address to a physical memory
-> >>>>> +	address), or the kernel is configured with SWIOTLB (bounce buffers).
-> >>>>> +	It is reasonable to assume that at least one of these mechanisms
-> >>>>> +	allows streaming DMA to any physical address.  
-> >>>
-> >>> Now I realize this last sentence may be contentious...  
-> >>
-> >> The whole paragraph is wrong as written, not least because it is
-> >> conflating two separate things: "any physical address" is objectively
-> >> untrue, since SWIOTLB can only bounce from buffers within by the
-> >> kernel's linear/direct map, i.e. not highmem, not random memory
-> >> carveouts, and and definitely not PAs which are not RAM at all.  
-> > 
-> > I see, saying "any" was indeed too strong.
-> >   
-> >> Secondly, even if the source buffer *is* bounceable/mappable, there is
-> >> still no guarantee at all that it can actually be made to appear at a
-> >> DMA address within an arbitrary DMA mask. We aim for a general
-> >> expectation that 32-bit DMA masks should be well-supported (but still
-> >> not 100% guaranteed), but anything smaller can absolutely still have a
-> >> high chance of failing, e.g. due to the SWIOTLB buffer being allocated
-> >> too high or limited IOVA space.  
-> > 
-> > Of course this cannot be guaranteed. The function may always fail and
-> > return DMA_MAPPING_ERROR. No doubts about it.
-> >   
-> >>> @Marek, @Robin Do you agree that device drivers should not be concerned
-> >>> about the physical address of a buffer passed to the streaming DMA API?
-> >>>
-> >>> I mean, are there any real-world systems with:
-> >>>     * some RAM that is not DMA-addressable,
-> >>>     * no IOMMU,
-> >>>     * CONFIG_SWIOTLB is not set?  
-> >>
-> >> Yes, almost certainly, because "DMA-addressable" depends on individual
-> >> devices. You can't stop a user from sticking, say, a Broadcom 43xx WiFi
-> >> card into a PCI slot on an i.MX6 board with 2GB of RAM that *starts*
-> >> just above its 31-bit DMA capability. People are still using AMD Seattle
-> >> machines, where even though arm64 does have SWIOTLB it's essentially
-> >> useless since RAM starts up around 40 bits IIRC (and although they do
-> >> also have SMMUs for PCI, older firmware didn't advertise them).  
-> > 
-> > Some of these scenarios can never work properly because of hardware
-> > limitations. There's nothing software can do about a bus master which
-> > cannot address any RAM in the machine. I'm not trying to claim that an
-> > operating system kernel can do magic and square the circle. If that's
-> > how it sounded, then my wording needs to be improved.
-> > 
-> > IIUC the expected audience of this document are device driver authors.
-> > They want a clear guidance on how they should allocate buffers for the
-> > streaming DMA API. Now, it is my understanding that device drivers
-> > should *not* have to care about the physical location of a buffer
-> > passed to the streaming DMA API.
-> > 
-> > Even if a bus master implements less than 32 address bits in hardware,
-> > I'm convinced that device drivers should not have to examine the system
-> > to check if an IOMMU is available and try to guess whether a buffer
-> > must be bounced, and how exactly the bounce buffer should be allocated.  
-> 
-> It's never been suggested that drivers should do that; indeed trying to 
-> poke into and second-guess the DMA API implementation is generally even 
-> less OK than making blind assumptions about what it might do. The 
-> overall message here is essentially "if you want to do streaming DMA 
-> then you may need to be wary of where your memory comes from." We can't 
-> just throw that out and say "Yeah it's fine now, whatever you do the API 
-> will deal with it" because that simply isn't true as a general 
-> statement; drivers dealing with limited DMA masks *do* still need to be 
-> concerned with GFP_DMA (or even GFP_DMA32 might still be advisable in 
-> certain cases) if they want to have an appreciable chance of success. 
-> All that's different these days is that notion of "limited" generally 
-> meaning "32 bits or smaller".
+v3:
 
-We're on the same page then. I'm going to make a better explanation of
-how things work and what is expected from DMA API users.
+* Return to using one kernel command line parameter for reserved host
+  counters, but set the default value meaning no partitioning to -1 so
+  0 isn't ambiguous. Adjust checks for partitioning accordingly.
 
-Thank you very much for your feedback! I'm sure it will be greatly
-appreciated by future generations of device driver authors.
+* Move the function kvm_pmu_partition_supported() back out of the
+  driver to avoid subbing has_vhe in 32-bit ARM code.
 
-> > If we can agree on this, I can iron out the details for a v2 of this
-> > patch series.
-> >   
-> >>> FWIW if _I_ received a bug report that a device driver fails to submit
-> >>> I/O on such a system, I would politely explain the reporter that their
-> >>> kernel is misconfigured, and they should enable CONFIG_SWIOTLB.  
-> >>
-> >> It's not really that simple. SWIOTLB, ZONE_DMA, etc. require platform
-> >> support, which end users can't just turn on if it's not there to begin with.  
-> > 
-> > I know this very well. As you may not be aware, my ultimate goal is to
-> > get rid of ZONE_DMA and instead enhance the buddy allocator to allow
-> > allocations within an arbitrary physical address range, which will not
-> > rely on platform support. But that's another story; for now, let's just
-> > agree on how the DMA API is supposed to work.  
-> 
-> Indeed that might actually end up pushing things in the opposite 
-> direction, at least in some cases. Right now, a driver with, say, a 
-> 40-bit DMA mask is usually better off not special-casing DMA buffers, 
-> and just making plain GFP_KERNEL allocations for everything (on the 
-> assumption that 64-bit systems with masses of memory *should* have 
-> SWIOTLB to cover things in the worst case), vs. artificially 
-> constraining its DMA buffers to GFP_DMA32 and having to deal with 
-> allocation failure more often. However with a more precise and flexible 
-> allocator, there's then a much stronger incentive for such drivers to 
-> explicitly mark *every* allocation that may be used for DMA, in order to 
-> get the optimal behaviour.
+* Fix the kernel test robot build failures, one with KVM and no PMU,
+  and one with PMU and no KVM.
 
-I have a different opinion. Most buffers that are passed to the
-streaming DMA API are I/O data (data read from/written to disk, or
-received from/sent to network). For the write/send case, these pages
-were previously allocated by user space, and at that point the kernel
-had no clue that they would be later used for device I/O.
+* Scan entire series to remove vestigial changes and update comments.
 
-For example, consider this user-space sequence:
+v2:
+https://lore.kernel.org/kvm/20250620221326.1261128-1-coltonlewis@google.com/
 
-	buffer = malloc(BUFFER_SIZE);
-	fill_in_data(buffer);
-	res = write(fd, buffer, BUFFER_SIZE);
+v1:
+https://lore.kernel.org/kvm/20250602192702.2125115-1-coltonlewis@google.com/
 
-The write(2) syscall will try to do zero copy, and that's how the
-buffer address is passed down to a device driver. If the buffer is not
-directly accessible by the device, its content must be copied to a
-different physical location. That should be done by SWIOTLB, not the
-device driver. Last chance to chose a better placement for the buffer
-was at malloc(3) time, but at that time the device driver was not
-involved at all. Er, yes, we may want to provide an ioctl to allocate
-a suitable buffer for a target device. I think DRM even had such an
-ioctl once and then removed it, because it was not used in any released
-userspace code...
+Colton Lewis (21):
+  arm64: cpufeature: Add cpucap for HPMN0
+  arm64: Generate sign macro for sysreg Enums
+  KVM: arm64: Define PMI{CNTR,FILTR}_EL0 as undef_access
+  KVM: arm64: Reorganize PMU functions
+  perf: arm_pmuv3: Introduce method to partition the PMU
+  perf: arm_pmuv3: Generalize counter bitmasks
+  perf: arm_pmuv3: Keep out of guest counter partition
+  KVM: arm64: Correct kvm_arm_pmu_get_max_counters()
+  KVM: arm64: Set up FGT for Partitioned PMU
+  KVM: arm64: Writethrough trapped PMEVTYPER register
+  KVM: arm64: Use physical PMSELR for PMXEVTYPER if partitioned
+  KVM: arm64: Writethrough trapped PMOVS register
+  KVM: arm64: Write fast path PMU register handlers
+  KVM: arm64: Setup MDCR_EL2 to handle a partitioned PMU
+  KVM: arm64: Account for partitioning in PMCR_EL0 access
+  KVM: arm64: Context swap Partitioned PMU guest registers
+  KVM: arm64: Enforce PMU event filter at vcpu_load()
+  perf: arm_pmuv3: Handle IRQs for Partitioned PMU guest counters
+  KVM: arm64: Inject recorded guest interrupts
+  KVM: arm64: Add ioctl to partition the PMU when supported
+  KVM: arm64: selftests: Add test case for partitioned PMU
 
-In short, the device driver has no control of how these buffers were
-allocated, and it's not fair to expect anything from the driver.
+Marc Zyngier (1):
+  KVM: arm64: Cleanup PMU includes
 
-Sure, there are also control data structures, e.g. Tx/Rx rings, but
-they are typically allocated during device initialization (or ndo_open)
-using the coherent DMA API and reused for all subsequent I/O.
+ Documentation/virt/kvm/api.rst                |  21 +
+ arch/arm/include/asm/arm_pmuv3.h              |  38 +
+ arch/arm64/include/asm/arm_pmuv3.h            |  61 +-
+ arch/arm64/include/asm/kvm_host.h             |  18 +-
+ arch/arm64/include/asm/kvm_pmu.h              | 100 +++
+ arch/arm64/kernel/cpufeature.c                |   8 +
+ arch/arm64/kvm/Makefile                       |   2 +-
+ arch/arm64/kvm/arm.c                          |  22 +
+ arch/arm64/kvm/debug.c                        |  24 +-
+ arch/arm64/kvm/hyp/include/hyp/switch.h       | 233 ++++++
+ arch/arm64/kvm/pmu-emul.c                     | 674 +----------------
+ arch/arm64/kvm/pmu-part.c                     | 378 ++++++++++
+ arch/arm64/kvm/pmu.c                          | 702 ++++++++++++++++++
+ arch/arm64/kvm/sys_regs.c                     |  79 +-
+ arch/arm64/tools/cpucaps                      |   1 +
+ arch/arm64/tools/gen-sysreg.awk               |   1 +
+ arch/arm64/tools/sysreg                       |   6 +-
+ drivers/perf/arm_pmuv3.c                      | 123 ++-
+ include/linux/perf/arm_pmu.h                  |   6 +
+ include/linux/perf/arm_pmuv3.h                |  14 +-
+ include/uapi/linux/kvm.h                      |   4 +
+ tools/include/uapi/linux/kvm.h                |   2 +
+ .../selftests/kvm/arm64/vpmu_counter_access.c |  62 +-
+ virt/kvm/kvm_main.c                           |   1 +
+ 24 files changed, 1828 insertions(+), 752 deletions(-)
+ create mode 100644 arch/arm64/kvm/pmu-part.c
 
-In summary, yes, it would be great if we could reduce bouncing, but
-most of that work has already been done, and there's little left for
-improvement. So, why am I working on a PAR (Physical Address Range)
-Allocator? Certainly not to help users of the streaming DMA API. No,
-but it should help dynamic SWIOTLB when the primary SWIOTLB is
-allocated in an unsuitable physical location.
 
-Petr T
+base-commit: 79150772457f4d45e38b842d786240c36bb1f97f
+--
+2.50.0.727.gbf7dc18ff4-goog
