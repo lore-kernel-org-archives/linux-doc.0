@@ -1,144 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172C82264C7;
-	Thu, 26 Jun 2025 23:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C237227563;
+	Thu, 26 Jun 2025 23:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750981999; cv=none; b=ooaK+NDUaXt58XqwwWEXTJ74m7e2pJLZ/l1zjKaFxSv8b6cNa6BtMNpA7kA4djIThRwFBO3JVebPsBUN3dTkp1seQ6LDkbjStHB8p3+nLM5DYc6QXFVMx0cwEJKBEuHT6UJX1KEZu+WJ1cX7/VochKAVAUH34iDnkONwooULjIE=
+	t=1750982364; cv=none; b=MObQOrde6qk5wlSFcl12W3G9oji5qHqq6V+dpeVHURDHpbJronr7PTPAeakMGdpj3Q/7AfoBYqPj5MrnsqD9ERxeGNaUbxD921sKyKkkLNLhDxa/JSaXIci6p7Q+mdCB2uJ2mIuJ9NOz5gyovBlVVT2S5kg6V9PEZ3ARe9ahkvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750981999; c=relaxed/simple;
-	bh=SN/NGzVIJgralBcDDuVPGj29WH5pdAz4U3HXHsEVx8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OkFwihT1r94JbSzREZ6lr2NZCBUYuLW0AE4GHLd8dNJMiJv2XmSEi2M7gRwq2Wi1zVg+k5LxcH9pG3xr2vIpMhI0C17/o7xbLeZp4ypyr8JEiflg37bOWcgKYy+fJGaljwnomR2EPlo+Xso/ImgOSnct5h/MyCE38tI+oy5cJwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=goqhwdc/; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750982364; c=relaxed/simple;
+	bh=s3rbMWUAfYhIRKU2aYRNEwpl6k00a31yw5xuU8prP3c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sd4oOTUNL55jAxBhEQaO6WWW8PHXEQ3/Rr1sUjksq9/JZ7mqtP5mK93iFljZBYjuR+uN0sSuluFiA2q6VB7oyQeiQogNrduCMnZCZE9xj83408zlaMvVWnTx3Z6O9Uj+URKAfI1N2bGv96qYoBn0rMvvSu0uaOjKeSQ3MFF1Bgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X0kavkYh; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="goqhwdc/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750981997; x=1782517997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=SN/NGzVIJgralBcDDuVPGj29WH5pdAz4U3HXHsEVx8s=;
-  b=goqhwdc/OE4m1I8qlZ+tPCclsafXQERmNjmNYcO11CDqJHucbUJ4u2XQ
-   wMf6V31267SYO8b2biaoH20bmb96cl6AR9eP9xqO8U1IwMh1oX9c7pw/X
-   50NlDz6mJuDNQKXq/JNECcXpaEHfkSMl/UfWQhxsq96eEh2KdshAozLYV
-   mH2NnG1a26jrmijjDp9WPNQsMQgA5lSiTVumEnjjVbGQV91FePKr1lfFR
-   oeh2U9bkwIjV2ACh0PK9PPRjKUBwNuyia4MewbIbgnIIdO/WMUQTf6mdv
-   C3tFyBSquZZDD/zS8J5wTozIU2zUyXMcO+j0HNQNjIL0VvhmEESm1K63d
-   A==;
-X-CSE-ConnectionGUID: GE0qJEBHS5a2P+LEY4ec5w==
-X-CSE-MsgGUID: doB5kI2kT4SnsErfn5ok0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53236093"
-X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="53236093"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 16:53:16 -0700
-X-CSE-ConnectionGUID: gp+S1qc3Qt+VQ3YEWjmHMQ==
-X-CSE-MsgGUID: FWOuogMYQS6kHK1SwV6JTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="183554204"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Jun 2025 16:53:12 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uUwOz-000VeA-2T;
-	Thu, 26 Jun 2025 23:53:09 +0000
-Date: Fri, 27 Jun 2025 07:52:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Gabriel Fernandez <gabriel.fernandez@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
-Subject: Re: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
-Message-ID: <202506270708.6w6phhmi-lkp@intel.com>
-References: <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X0kavkYh"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so2091445b3a.0;
+        Thu, 26 Jun 2025 16:59:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750982362; x=1751587162; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MU802fHFDsWEcG5O/JQOLJRXUp/Mx/sjo2Oncuu4jl0=;
+        b=X0kavkYhkbmso2A2chS+QbB0Dq6ubpze6PY/+Mq1lIHZNHGbbsfLm6PnZY/DDkoS9m
+         dVE0yT/CKaNljMsNgSpABC61/VEcs0bKgaQBn0UAYfRZDe1Bw0Fg65oDaD2VeRKQ8CGr
+         1b+EC6QSFTWn/pXJVv3bDYki3SUCrjYwjWr7EoaFNGE2sTPpvXpVxBAoxdrJMWjz1JpE
+         TihmJoHkFAI33v607i0U77rNOHrpeUmSWqGiJ5EzZ7ge6DLlhpB20uZLEVdEJrDGwOPv
+         E6lDgV80hLtHY6CXU6MPDoorShEM66vCKw98/7p4pe4ZNY2WISZKidPeHegpXskUg+K6
+         8ozQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750982362; x=1751587162;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MU802fHFDsWEcG5O/JQOLJRXUp/Mx/sjo2Oncuu4jl0=;
+        b=cP8aCKTwUTJE5Loo1gnL1tNi2UwLmAzfuctHBptJrSa2rK1KIH0Detw1g/9ri7zu+n
+         qdYtzZL/69zFeMgnGzppX4zSF7OtFk9gpXueRJTyp7uxGpa4hpQ+2kLHooDuK80E0P6C
+         scJ6si6K3fGuqIQw6/BT1tbGkqrEhn42n8BFXS9ej0DXPa1NE6AUgbJwk9DIT1OYjPdz
+         Q5zY9TDOrkVsq0EF+7iAVHVE3RQj4mdGfTiM5L2ehctfT9xIWf8MWG6HbtS7BnjRGVb3
+         Ftgzsur5X+3WQUniYfYHERk3rLWDgj0qYPMfA1/bPbl9Rky/JkpfYaOpcGFY0eetIfWV
+         7ynA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnup2SapD7Ut6nLnxNlgy2O/lBJ5s5FzISI5gn9qHw/+tf2Klf346MKIqmHu8983WH0IC17fFW@vger.kernel.org, AJvYcCW18wuw8S9AmNxBSRS+33bn0pu2ebOWDCIkm4yJmKjf8jRgB3b5DWtejk+ru/MTHrITZr/DNRAish4=@vger.kernel.org, AJvYcCXOIQLXTm45qx9nThLxtfHXqBwJjlZ1kBOB1UIZrqcUCk6uIoSaJpTbOu5uwzb6DXag7gn3VkoCt9xyLAnV@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuB7uZjSFTt/jFzMgFLJPjBE+agTGCPic2Rff9svsEDmsxAZG8
+	w5QghO+JhLTOcsYQvbCEJ3tPMYqOFYRZFBVKegWjPqiapTGB2eze2JaM
+X-Gm-Gg: ASbGncu0QpGVucmDWUYc0ZpOWhB7T4jjsCJRuQ/r1RNc0GS8YbkjBtIvUIncpN7Iy/a
+	cunJ2D2gl023ax5WxUki+BHrpRFrtYubATHHGPc76k2D0w3J8EfBLLoiMKBdrV2BvpPku5/ScA7
+	rYoap9it5nr2coC5mCbwhhDA0n0dxOxsyg1VHvI/I1N6gMrxFUUpLKKUSnVYRynwfQs+inl4Mop
+	4EjjNHrPyrStsntc3Hn18WNfHZ+cRGUfX+WvAuUrbs/dNAWhmuYZ8beWxe9rbPnQzeB22KECt/s
+	n9ZBQ/ytkeAgKqS7PF+K9aWJTdwsnbiUbAkUcgm5xvZ8EeSlMpOpClBUXev/L+i+noSDNmHUr3z
+	UAoG/tWY6vrCkqiw1r7tCN7UA5vN8C85C
+X-Google-Smtp-Source: AGHT+IH2QEv1EXX1AwW0bplm/IMyDMqzMeclzHruNi6dErZJ0S6a5ZLa64wP13/R2bF/xVlDw1ddCA==
+X-Received: by 2002:a05:6a21:1fc3:b0:1f3:3547:f21b with SMTP id adf61e73a8af0-220a08dc64amr1126298637.5.1750982362495;
+        Thu, 26 Jun 2025 16:59:22 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af56cffccsm799591b3a.130.2025.06.26.16.59.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jun 2025 16:59:22 -0700 (PDT)
+Message-ID: <ebdb0f12-0573-4023-bb7f-c51a94dedb27@gmail.com>
+Date: Fri, 27 Jun 2025 08:59:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 13/13] docs: parser_yaml.py: fix backward compatibility
+ with old docutils
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Breno Leitao <leitao@debian.org>, "David S. Miller"
+ <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Ignacio Encinas Rubio <ignacio@iencinas.com>,
+ Jan Stancek <jstancek@redhat.com>, Marco Elver <elver@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Ruben Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
+ peterz@infradead.org, stern@rowland.harvard.edu,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1750925410.git.mchehab+huawei@kernel.org>
+ <d00a73776167e486a1804cf87746fa342294c943.1750925410.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <d00a73776167e486a1804cf87746fa342294c943.1750925410.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Clément,
+Hi Mauro,
 
-kernel test robot noticed the following build warnings:
+On Thu, 26 Jun 2025 10:13:09 +0200, Mauro Carvalho Chehab wrote:
+> As reported by Akira, older docutils versions are not compatible
+> with the way some Sphinx versions send tab_width. Add a code to
+> address it.
+> 
 
-[auto build test WARNING on 86731a2a651e58953fc949573895f2fa6d456841]
+Tested OK against debian:11's and almalinux:9's Sphinx 3.4.3, both of
+which have docutils 0.16 bundled.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/bus-firewall-move-stm32_firewall-header-file-in-include-folder/20250623-173554
-base:   86731a2a651e58953fc949573895f2fa6d456841
-patch link:    https://lore.kernel.org/r/20250623-ddrperfm-upstream-v1-6-7dffff168090%40foss.st.com
-patch subject: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
-config: i386-buildonly-randconfig-004-20250627 (https://download.01.org/0day-ci/archive/20250627/202506270708.6w6phhmi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270708.6w6phhmi-lkp@intel.com/reproduce)
+opensuse/leap:15.6's Sphinx 4.2.0 has docutils 0.16 with it, but it is
+python 3.6 base and it does't work with the ynl integration.
+As opensuse/leap:15.6 provides Sphinx 7.2.6 (on top of python 3.11) as
+an alternative, obsoleting it should be acceptable.  
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506270708.6w6phhmi-lkp@intel.com/
+Reported-by: Akira Yokosawa <akiyks@gmail.com>
+> Closes: https://lore.kernel.org/linux-doc/598b2cb7-2fd7-4388-96ba-2ddf0ab55d2a@gmail.com/
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Tested-by: Akira Yokosawa <akiyks@gmail.com>
 
-All warnings (new ones prefixed by >>):
+        Thanks, Akira
 
-   drivers/perf/stm32_ddr_pmu.c: In function 'stm32_ddr_start_counters':
-   drivers/perf/stm32_ddr_pmu.c:205:9: error: implicit declaration of function 'writel_relaxed' [-Werror=implicit-function-declaration]
-     205 |         writel_relaxed(r->start.mask, pmu->membase + r->start.reg);
-         |         ^~~~~~~~~~~~~~
-   drivers/perf/stm32_ddr_pmu.c: In function 'stm32_ddr_clear_counter':
-   drivers/perf/stm32_ddr_pmu.c:232:22: error: implicit declaration of function 'readl_relaxed' [-Werror=implicit-function-declaration]
-     232 |         u32 status = readl_relaxed(pmu->membase + r->status.reg);
-         |                      ^~~~~~~~~~~~~
-   drivers/perf/stm32_ddr_pmu.c: At top level:
->> drivers/perf/stm32_ddr_pmu.c:862:34: warning: 'stm32_ddr_pmu_of_match' defined but not used [-Wunused-const-variable=]
-     862 | static const struct of_device_id stm32_ddr_pmu_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+> ---
+>  Documentation/sphinx/parser_yaml.py | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
+> index 8288e2ff7c7c..1602b31f448e 100755
+> --- a/Documentation/sphinx/parser_yaml.py
+> +++ b/Documentation/sphinx/parser_yaml.py
+> @@ -77,6 +77,10 @@ class YamlParser(Parser):
+>  
+>                  result.append(line, document.current_source, lineoffset)
+>  
+> +            # Fix backward compatibility with docutils < 0.17.1
+> +            if "tab_width" not in vars(document.settings):
+> +                document.settings.tab_width = 8
+> +
+>              rst_parser = RSTParser()
+>              rst_parser.parse('\n'.join(result), document)
+>  
 
-
-vim +/stm32_ddr_pmu_of_match +862 drivers/perf/stm32_ddr_pmu.c
-
-   861	
- > 862	static const struct of_device_id stm32_ddr_pmu_of_match[] = {
-   863		{
-   864			.compatible = "st,stm32mp131-ddr-pmu",
-   865			.data = &stm32_ddr_pmu_cfg_mp1
-   866		},
-   867		{
-   868			.compatible = "st,stm32mp151-ddr-pmu",
-   869			.data = &stm32_ddr_pmu_cfg_mp1
-   870		},
-   871		{
-   872			.compatible = "st,stm32mp251-ddr-pmu",
-   873			.data = &stm32_ddr_pmu_cfg_mp2
-   874		},
-   875		{ },
-   876	};
-   877	MODULE_DEVICE_TABLE(of, stm32_ddr_pmu_of_match);
-   878	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
