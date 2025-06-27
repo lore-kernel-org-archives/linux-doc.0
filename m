@@ -1,205 +1,245 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B130CA6F
-	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 01:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706A22F1FE1
+	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 01:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750988392; cv=none; b=uqrXtAtRd8WCqTx/AjhyhIfnXtKAxY8YIQHZYMgJ+Eft3GK6wAwSTbSzMdGz4VtbzUxDWw0f4MkO0sNjq6nEjfdFmKreTEbxEh8ggIVXJVTcONJgrvpoDQUJJt8KvxYNRJh6jqHzK4CXJ4TDU0HZ5h7cPlYSWe9HQt3bHS8JIL4=
+	t=1750989000; cv=none; b=AAg7Goe2E7Op4Cirf6/h+RRXbJLPx7MRHZVB4ZR7trPsdrmRWUttjdwTxI0YW401nvJKtZjHOZDgX1x2Ci7VGgA1xK44vt698zfTAY6alwH4EmyM7lnMeQBLvlEZ2wFmpJ3M4iu/DGXtuP2ANtrNdVDHNtGlESnKal7vJpNFRw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750988392; c=relaxed/simple;
-	bh=6TThhaEFXKt7oMDwWiPmowjM0iOmKad84XYhgMs5R2A=;
+	s=arc-20240116; t=1750989000; c=relaxed/simple;
+	bh=3nPHcBr9VPxqIpcA5OSSsKd7izPqeuu7C8zkzNyw5UA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jH/60ougZp+MFjNJgBWd5MmcmOCJfjCImpozhDZb9jA1n87AaIGXU4VCeHBktIVGufvVvHhB5JAij+JGbuQvGQ8VmsylhSG0GzdLwVGH4AazuUm5Y0Pun3oPS4j4pM5pcj0QGz9yv3omiat1AQBHv7TKWLOrJU2HikwgMK78aZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cJY89QDA; arc=none smtp.client-ip=91.218.175.174
+	 In-Reply-To:Content-Type; b=Lq6WeZdNGQOEsaF0cfD/dDFhFqktaZLye4FNOT3h36wgXwFXaKfAo1ns0cgduKZGaKL+lbG4JpP5FToePzy3DCLkrNLVWZ4SsbIKT+7n7Y5zf4SdirxglwBpnCam07EWW02pCkHlIjutXRZ2oLq0j0KiMyTQK8ZQpLOtBaMFhb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=v46bSIZp; arc=none smtp.client-ip=95.215.58.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cJY89QDA"
-Message-ID: <df0cd2fd-8b87-4550-ad53-a728ec4d7e15@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="v46bSIZp"
+Message-ID: <cf9c5301-653c-47cb-96c5-7de6eb669090@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1750988378;
+	t=1750988986;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eIZEEgEPk3np9VoOFW1WtCMsTGLsXyTGUuivGuTdKNU=;
-	b=cJY89QDANRzvv6Iv/gXxCPNavnII62WkncIGK8X4n0KNzCokx58EIlBaVLSw1BGCXqbRdf
-	b3cTXDQIR7FbZZlsB387+VOE2AejxTtrvfJIbB1SXsyp81MLtH+6fS/G0wShkATcU+nvMm
-	PlfbadlbI6Kp8l8x4BiTL0tkJoCTxuo=
-Date: Fri, 27 Jun 2025 09:39:31 +0800
+	bh=c7R0jZJ+khVxxiVMQBXEsj1yZh29i/rPO3nka5fu5RU=;
+	b=v46bSIZpNT4SJQo/SQ3QWC0jnr1EdLG/eOsKxb6HEepdkAlhC0dsUKCOEunSJt2cJExpRQ
+	wKrSSeeSkKmMEash898IHL7VwmGSPz9mQMb60Vz3/rmlmO9vHRyTPOvZHAVrqGwYoBABWX
+	TujgQGZ6SyuZM5DdhfFArin2PDGUiwg=
+Date: Fri, 27 Jun 2025 09:49:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3 linux next v2] Docs/zh_CN: Translate netif-msg.rst to
+Subject: Re: [PATCH 2/3 linux next v2] Docs/zh_CN: Translate xfrm_proc.rst to
  Simplified Chinese
 To: jiang.kun2@zte.com.cn, alexs@kernel.org, corbet@lwn.net,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc: xu.xin16@zte.com.cn, yang.yang29@zte.com.cn, wang.yaxin@zte.com.cn,
  fan.yu9@zte.com.cn, he.peilin@zte.com.cn, tu.qiang35@zte.com.cn,
  qiu.yutan@zte.com.cn, zhang.yunkai@zte.com.cn, ye.xingchen@zte.com.cn
-References: <20250626185224281uob0b6opNV8WcLja16SOg@zte.com.cn>
+References: <20250626185408990ARtWWLD64lqhDx30GJlZz@zte.com.cn>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250626185224281uob0b6opNV8WcLja16SOg@zte.com.cn>
+In-Reply-To: <20250626185408990ARtWWLD64lqhDx30GJlZz@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
-在 6/26/25 6:52 PM, jiang.kun2@zte.com.cn 写道:
+在 6/26/25 6:54 PM, jiang.kun2@zte.com.cn 写道:
 > From: Wang Yaxin <wang.yaxin@zte.com.cn>
 >
-> translate the "netif-msg.rst" into Simplified Chinese.
+> translate the "xfrm_proc.rst" into Simplified Chinese.
 >
-> Update to commit c4d5dff60f0a("docs: networking: convert
->  netif-msg.txt to ReST")
->
-> Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
-> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-> ---
-> v1->v2:
-> 1. adjust table format.
-> 2. correct some Chinese expressions.
->
->  .../translations/zh_CN/networking/index.rst  |  2 +-
->  .../zh_CN/networking/netif-msg.rst           | 93 +++++++++++++++++++
->  2 files changed, 94 insertions(+), 1 deletion(-)
->  create mode 100644 
-> Documentation/translations/zh_CN/networking/netif-msg.rst
->
-> diff --git a/Documentation/translations/zh_CN/networking/index.rst 
-> b/Documentation/translations/zh_CN/networking/index.rst
-> index 07a3933afe92..4dd75ec27dec 100644
-> --- a/Documentation/translations/zh_CN/networking/index.rst
-> +++ b/Documentation/translations/zh_CN/networking/index.rst
-> @@ -22,6 +22,7 @@
->     msg_zerocopy
->     napi.rst
-> +   netif-msg
->  Todolist:
-> @@ -100,7 +101,6 @@ Todolist:
->  *   netdev-features
->  *   netdevices
->  *   netfilter-sysctl
-> -*   netif-msg
->  *   netmem
->  *   nexthop-group-resilient
->  *   nf_conntrack-sysctl
-> diff --git a/Documentation/translations/zh_CN/networking/netif-msg.rst 
-> b/Documentation/translations/zh_CN/networking/netif-msg.rst
-> new file mode 100644
-> index 000000000000..4810a3f8fc7c
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/networking/netif-msg.rst
-> @@ -0,0 +1,93 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/networking/netif-msg.rst
-> +
-> +:翻译:
-> +
-> +   王亚鑫 Wang Yaxin <wang.yaxin@zte.com.cn>
-> +
-> +================
-> +网络接口消息级别
-> +================
-> +
-> +网络接口消息级别设置的设计方案。
-> +
-> +历史背景
-> +--------
-> +
-> +调试消息接口的设计遵循并受制于向后兼容性及历史实践。理解其发展历史有助于把握
-> +当前实践，并将其与旧版驱动代码相关联。
-> +
-> +自Linux诞生之初，每个网络设备驱动均包含一个本地整型变量以控制调试消息级别。
-> +消息级别范围为0至7，数值越大表示输出越详细。
-> +
-> +消息级别的定义在3级之后未明确细化，但实际实现通常与指定级别相差±1。驱动程序
-> +成熟后，冗余的详细级别消息常被移除。
-> +
-> +  - 0  最简消息，仅显示致命错误的关键信息。
-> +  - 1  标准消息，初始化状态。无运行时消息。
-> +  - 2  特殊介质选择消息，通常由定时器驱动。
-> +  - 3  接口开启和停止消息，包括正常状态信息。
-> +  - 4  Tx/Rx帧错误消息及异常驱动操作。
-> +  - 5  Tx数据包队列信息、中断事件。
-> +  - 6  每个完成的Tx数据包和接收的Rx数据包状态。
-> +  - 7  Tx/Rx数据包初始内容。
-> +
-> +最初，该消息级别变量在各驱动中具有唯一名称（如"lance_debug"），便于通过
-> +内核符号调试器定位和修改其设置。模块化内核出现后，变量统一重命名为"debug"，
-> +并作为模块参数设置。
-> +
-> +这种方法效果良好。然而，人们始终对附加功能存在需求。多年来，以下功能逐渐
-> +成为合理且易于实现的增强方案：
-> +
-> +  - 通过ioctl()调用修改消息级别。
-> +  - 按接口而非驱动设置消息级别。
-> +  - 对发出的消息类型进行更具选择性的控制。
-> +
-> +netif_msg 建议添加了这些功能，仅带来了轻微的复杂性增加和代码规模增长。
-> +
-> +推荐方案如下：
-> +
-> +  - 保留驱动级整型变量"debug"作为模块参数，默认值为'1'。
-> +
-> +  - 添加一个名为 "msg_enable" 的接口私有变量。该变量是位图而非级别，
-> +    并按如下方式初始化::
-> +
-> +       1 << debug
-> +
-> +     或更精确地说::
-> +
-> +debug < 0 ? 0 : 1 << min(sizeof(int)-1, debug)
-> +
-> +    消息应从以下形式更改::
-> +
-> +      if (debug > 1)
-> + printk(MSG_DEBUG "%s: ...
-> +
-> +    改为::
-> +
-> +      if (np->msg_enable & NETIF_MSG_LINK)
-> + printk(MSG_DEBUG "%s: ...
-> +
-> +消息级别命名对应关系
-> +
-> +
+> Update to commit 304b44f0d5a4("xfrm: Add dir validation to
+>  "in" data path lookup")
 
-> +  =========  ===============================
-> +  旧级别       名称            位位置
-> +  =========  ===============================
-> +    0         NETIF_MSG_DRV0x0001
-> +    1         NETIF_MSG_PROBE0x0002
-> +    2         NETIF_MSG_LINK0x0004
-> +    2         NETIF_MSG_TIMER0x0004
-> +    3         NETIF_MSG_IFDOWN0x0008
-> +    3         NETIF_MSG_IFUP0x0008
-> +    4         NETIF_MSG_RX_ERR0x0010
-> +    4         NETIF_MSG_TX_ERR0x0010
-> +    5  NETIF_MSG_TX_QUEUED0x0020
-> +    5         NETIF_MSG_INTR0x0020
-> +    6         NETIF_MSG_TX_DONE0x0040
-> +    6  NETIF_MSG_RX_STATUS0x0040
-> +    7         NETIF_MSG_PKTDATA0x0080
-> +  =========  ===============================
+Update the translation through commit 304b44...
 
-Can this table be polished? Improve the readability of Vim
 
-while ensuring the readability of HTML.
+See linux-next/Documentation/translations/zh_CN/how-to.rst
+
+
+On the premise:
+
+
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+
 
 Thanks,
 
 Yanteng
 
+>
+> Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+> ---
+> v1->v2:
+> 1. resend this PATCH
+>
+>  .../translations/zh_CN/networking/index.rst  |   2 +-
+>  .../zh_CN/networking/xfrm_proc.rst           | 126 ++++++++++++++++++
+>  2 files changed, 127 insertions(+), 1 deletion(-)
+>  create mode 100644 
+> Documentation/translations/zh_CN/networking/xfrm_proc.rst
+>
+> diff --git a/Documentation/translations/zh_CN/networking/index.rst 
+> b/Documentation/translations/zh_CN/networking/index.rst
+> index 4dd75ec27dec..4cf09b60b3f0 100644
+> --- a/Documentation/translations/zh_CN/networking/index.rst
+> +++ b/Documentation/translations/zh_CN/networking/index.rst
+> @@ -23,6 +23,7 @@
+>     msg_zerocopy
+>     napi.rst
+>     netif-msg
+> +   xfrm_proc
+>  Todolist:
+> @@ -146,7 +147,6 @@ Todolist:
+>  *   x25
+>  *   x25-iface
+>  *   xfrm_device
+> -*   xfrm_proc
+>  *   xfrm_sync
+>  *   xfrm_sysctl
+>  *   xdp-rx-metadata
+> diff --git a/Documentation/translations/zh_CN/networking/xfrm_proc.rst 
+> b/Documentation/translations/zh_CN/networking/xfrm_proc.rst
+> new file mode 100644
+> index 000000000000..a2ae86c44707
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/networking/xfrm_proc.rst
+> @@ -0,0 +1,126 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/networking/xfrm_proc.rst
+> +
+> +:翻译:
+> +
+> +   王亚鑫 Wang Yaxin <wang.yaxin@zte.com.cn>
+> +
+> +=================================
+> +XFRM proc - /proc/net/xfrm_* 文件
+> +=================================
+> +
+> +作者：Masahide NAKAMURA <nakam@linux-ipv6.org>
+> +
+> +
+> +转换统计信息
+> +------------
+> +
+> +`xfrm_proc` 提供一组统计计数器，显示转换过程中丢弃的数据包及其原因。
+> +这些计数器属于Linux私有MIB的一部分，可通过 `/proc/net/xfrm_stat`
+> +查看。
+> +
+> +入站错误
+> +~~~~~~~~
+> +
+> +XfrmInError:
+> +未匹配其他类别的所有错误
+> +
+> +XfrmInBufferError:
+> +缓冲区不足
+> +
+> +XfrmInHdrError:
+> +头部错误
+> +
+> +XfrmInNoStates:
+> +未找到状态
+> +（入站SPI、地址或SA的IPsec协议不匹配）
+> +
+> +XfrmInStateProtoError:
+> +转换协议相关的错误
+> +（如SA密钥错误）
+> +
+> +XfrmInStateModeError:
+> +转换模式相关的错误
+> +
+> +XfrmInStateSeqError:
+> +    序列号错误
+> +序列号超出窗口范围
+> +
+> +XfrmInStateExpired:
+> +状态已过期
+> +
+> +XfrmInStateMismatch:
+> +状态选项不匹配
+> +（如UDP封装类型不匹配）
+> +
+> +XfrmInStateInvalid:
+> +无效状态
+> +
+> +XfrmInTmplMismatch:
+> +状态模板不匹配
+> +（如入站SA正确但SP规则错误）
+> +
+> +XfrmInNoPols:
+> +未找到状态的对应策略
+> +（如入站SA正确但无SP规则）
+> +
+> +XfrmInPolBlock:
+> +丢弃的策略
+> +
+> +XfrmInPolError:
+> +错误的策略
+> +
+> +XfrmAcquireError:
+> +状态未完全获取即被使用
+> +
+> +XfrmFwdHdrError:
+> +转发路由禁止
+> +
+> +XfrmInStateDirError:
+> +状态方向不匹配
+> +（输入路径查找到输出状态，预期是输入状态或者无方向）
+> +
+> +出站错误
+> +~~~~~~~~
+> +XfrmOutError:
+> +未匹配其他类别的所有错误
+> +
+> +XfrmOutBundleGenError:
+> +捆绑包生成错误
+> +
+> +XfrmOutBundleCheckError:
+> +捆绑包校验错误
+> +
+> +XfrmOutNoStates:
+> +未找到状态
+> +
+> +XfrmOutStateProtoError:
+> +转换协议特定错误
+> +
+> +XfrmOutStateModeError:
+> +转换模式特定错误
+> +
+> +XfrmOutStateSeqError:
+> +序列号错误
+> +（序列号溢出）
+> +
+> +XfrmOutStateExpired:
+> +状态已过期
+> +
+> +XfrmOutPolBlock:
+> +丢弃策略
+> +
+> +XfrmOutPolDead:
+> +失效策略
+> +
+> +XfrmOutPolError:
+> +错误策略
+> +
+> +XfrmOutStateInvalid:
+> +无效状态（可能已过期）
+> +
+> +XfrmOutStateDirError:
+> +状态方向不匹配（输出路径查找到输入状态，预期为输出状态或无方向）
 > -- 
 > 2.25.1
 >
