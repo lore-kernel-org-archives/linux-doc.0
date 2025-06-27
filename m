@@ -1,123 +1,248 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E8F2DD612;
-	Fri, 27 Jun 2025 11:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B299B29CB4D;
+	Fri, 27 Jun 2025 11:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751022308; cv=none; b=cScC9beggc2Gkdf6ijHj1rqx5ATeUKtOoHDhkmcDTloQ60ao93r7sa9IEeuZyVI1uF8eDwKU2WE80z+RsM9Xbf/xB3V038G3z2oGbUqAkZaKXald02P6Mn+5K/vVx30EaoFu+b5CeYvpLdD5R7lCdqA3zTlMjSVmUE/8hvNX/RM=
+	t=1751022483; cv=none; b=HtNLcuYyT7H+WGp7Tl1Y0ycJOEZpgPJgHs/I0GN7NU7CE9pVK2m/UURMsVV4APo4FHYJYHQ5mWUX/4IjcYUsLP45r+LWuvm5nV5l7H//L4IybcxOs5rj5OOwRvHoaiSy/btrHEgWa6J5zE5AMaHukRYPOIkciY1n/rt9+z7YKXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751022308; c=relaxed/simple;
-	bh=ppQn+qQ90LPpJSTEWumnr97tAFSmfMRRb9BDUUMwjN8=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=lb8gVALNZ8fg+vcgJ2vnXtadUe3tHuo/l3mSZyEC0+u3cr3tcqfO2DqQIwnmGg9/0pP5wvvSGN2ZuDgjrHSTDzIMHXSEOrvbZG4aZzkHaKUDgDvmO7D1i+tsHtUWfGVUsRpEdUWfIcxOLhJvM/41XtJwBH000lFJkCC9zjuz7Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tcdyu3sY; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tcdyu3sY"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-453643020bdso17888495e9.1;
-        Fri, 27 Jun 2025 04:05:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751022305; x=1751627105; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SNpoYqb/6Tu0KuIF/3Z4TcTfvMcxACyRbx3GldGRXxM=;
-        b=Tcdyu3sYkDCcUp8Zw9d6jK6QNLM4tbHQQ905gfHNCylUL3b6/q9UKjfE6SxzWq8vKv
-         7hZizKaGO+VawtHGYXYaevv0AG1cthkmli81vSHqSbgAg5oe9x3F901Z+WeYSNZ/dIwn
-         j7Y28IZVgdwsxezjiGqvQ3bIURdZVu+3p7i9pIatiAq3dRcCC52vPrvmOJEA7hmCy5RG
-         t8q5H6gOuuLiFWalDS9nIFa+SKRc9q0QiZDgfUnyeAojAjTv7f2DI67+P3PxVE9bzDW4
-         2IFBRPBfZAyd3a6zqllNELfcGeZup9uOQFmyEO7AX/sHjB5wEYorM7YQlWUMWrYWjZSL
-         Uvdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751022305; x=1751627105;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SNpoYqb/6Tu0KuIF/3Z4TcTfvMcxACyRbx3GldGRXxM=;
-        b=kpDOK6JKKWSNl261WJ24471sMYz5dAMgLMaUzeF3IF52dlriMPGSeHml9QdBl/hiha
-         dMY59CRiylDKgTxtcVJKMtFjbX9STyDsWV2/bCTkLZzpwmK70n9ul3vVd0hFYFgrY0lg
-         Pjv5VeWI/8NEj5a/kHDQxLK4GBdP9TQZlR8h7Cy4yqu7nWyITARG0MOkYkNP+bneaCBT
-         +ubDMlIvxtZCqEjuqg0OQJJ3PS/PF5t+5jEgJF01rBFRGtMyx2eXi3yXwioYymYxx8G0
-         C79b2TmJCeCCfVZ8Fm61jrSfE083HyY3o5aDEuHwfBiaBsywUBcYPrENuUK9k9ICpBgv
-         Kp7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXMAErUxQ1SfKEdcy7BtCbKTOnosK+d/s7pmn1poAb3WQNsC19ZB7OjXAK8eSm/Xj7wNhwDNu6383hey0c=@vger.kernel.org, AJvYcCXypXv2WiXYvo81edRrLaPZQ//W6a+F1qqjnLDresEmkCY3y/3gagzEiALANw6UMh6ldneuuF8B@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNKwojzVBGy+Gpes2rONAlypo3gJb4SgxmBHA9IOUqbcWtd6VK
-	/YYPqboxXkLjC3HWu/oDxmjydkxJWKiYWFn4hOWc4SuQUABHnmC8avMy
-X-Gm-Gg: ASbGnctCUC3MniWQhU+/kjEG+Z1BWxmLjYmNcS/AyCu5YbXYgTmeFBnkxFWZWsqQX+Z
-	IXKkMHDWy7gjibH1uZkMiBENFC8Zbyuuuyd9F3IoVd5YT2LGF1g4VXvulxQy+bFshMv2KqT0z89
-	uONVh3UG+YrJZxe2oa0Zl4W06KAjL5sSMJ9G9ZoTNWmaVe0ghDPJ5luVUZmdVSmosURe02BTF3N
-	buFljujiRH2PidTGkPMBDv8AQ8qsoIbCdfEcHB8LagYLFwBFxqipyaVIKidw1ci3EOrocBHTQn2
-	vPr/3yIUvzaKuBMqS/UB6dbYHie+SIQwKTpzDnrwBuOMZIuomHrTVwJYaQrs7+jcVdRyYIKbnw=
-	=
-X-Google-Smtp-Source: AGHT+IEW+VyfbzB5QN/NRNUa99sM0LvI8L4cDy6ynoPn7Q4Ru6gR/EqZ673FUOrLyastEjFoWeHGDw==
-X-Received: by 2002:adf:9ccf:0:b0:3a5:67d5:a400 with SMTP id ffacd0b85a97d-3a8ffcc9da8mr1892347f8f.33.1751022304411;
-        Fri, 27 Jun 2025 04:05:04 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:40b8:18e0:8ac6:da0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e52b9esm2405966f8f.61.2025.06.27.04.05.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 04:05:04 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,  Jonathan Corbet
- <corbet@lwn.net>,  "Akira Yokosawa" <akiyks@gmail.com>,  "Breno Leitao"
- <leitao@debian.org>,  "David S. Miller" <davem@davemloft.net>,  "Eric
- Dumazet" <edumazet@google.com>,  "Ignacio Encinas Rubio"
- <ignacio@iencinas.com>,  "Jan Stancek" <jstancek@redhat.com>,  "Marco
- Elver" <elver@google.com>,  "Paolo Abeni" <pabeni@redhat.com>,  "Randy
- Dunlap" <rdunlap@infradead.org>,  "Ruben Wauters" <rubenru09@aol.com>,
-  "Shuah Khan" <skhan@linuxfoundation.org>,  joel@joelfernandes.org,
-  linux-kernel-mentees@lists.linux.dev,  linux-kernel@vger.kernel.org,
-  lkmm@lists.linux.dev,  netdev@vger.kernel.org,  peterz@infradead.org,
-  stern@rowland.harvard.edu
-Subject: Re: [PATCH v8 11/13] tools: netlink_yml_parser.py: add line numbers
- to parsed data
-In-Reply-To: <549be41405b5ddb6b78ead71f26c33fd6ce8e190.1750925410.git.mchehab+huawei@kernel.org>
-Date: Fri, 27 Jun 2025 12:03:07 +0100
-Message-ID: <m2bjq98n10.fsf@gmail.com>
-References: <cover.1750925410.git.mchehab+huawei@kernel.org>
-	<549be41405b5ddb6b78ead71f26c33fd6ce8e190.1750925410.git.mchehab+huawei@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1751022483; c=relaxed/simple;
+	bh=vEJ0SNYzIuiaPdHCwmeGsa2q7tEZtHeKUIRkUu+FC3E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mYMQR6s7sYrJuM2MX1ohyXoorvMbWiHlNz7tVu3AziaOKu7KyWI2WLPvOMX9SonJZRAnpfSnibLgk2lS34qwJ2TL4R6pK1B8E95AylpLHsCwFEp1BtahwTwjS0FZ3yIobzHycPPI5IVLaWU0dXsdLuHqyZwf76HthbVdJJvYD8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7B651A00;
+	Fri, 27 Jun 2025 04:07:43 -0700 (PDT)
+Received: from [10.57.30.59] (unknown [10.57.30.59])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 758323F762;
+	Fri, 27 Jun 2025 04:07:58 -0700 (PDT)
+Message-ID: <f3164113-a834-4b22-adb4-9da1e7ca2c73@arm.com>
+Date: Fri, 27 Jun 2025 12:07:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/8] docs: dma-api: update streaming DMA API physical
+ address constraints
+To: Petr Tesarik <ptesarik@suse.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, Leon Romanovsky
+ <leon@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Caleb Sander Mateos <csander@purestorage.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
+ John Garry <john.g.garry@oracle.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>, iommu@lists.linux.dev
+References: <20250624133923.1140421-1-ptesarik@suse.com>
+ <20250624133923.1140421-8-ptesarik@suse.com> <aFynHWAYtKPFT55P@archie.me>
+ <20250626070602.3d42b607@mordecai.tesarici.cz>
+ <bdb3a37a-a9d3-44c1-8eb7-41912c976ad1@arm.com>
+ <20250626154818.46b0cfb1@mordecai.tesarici.cz>
+ <0f95be6d-2e13-4281-98b5-6d4311a3b98f@arm.com>
+ <20250626214038.2d005bb5@mordecai.tesarici.cz>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250626214038.2d005bb5@mordecai.tesarici.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On 2025-06-26 8:40 pm, Petr Tesarik wrote:
+> On Thu, 26 Jun 2025 17:45:18 +0100
+> Robin Murphy <robin.murphy@arm.com> wrote:
+> 
+>> On 26/06/2025 2:48 pm, Petr Tesarik wrote:
+>>> On Thu, 26 Jun 2025 10:58:00 +0100
+>>> Robin Murphy <robin.murphy@arm.com> wrote:
+>>>    
+>>>> On 2025-06-26 6:06 am, Petr Tesarik wrote:
+>>>>> On Thu, 26 Jun 2025 08:49:17 +0700
+>>>>> Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>>>>>       
+>>>>>> On Tue, Jun 24, 2025 at 03:39:22PM +0200, Petr Tesarik wrote:
+>>>>>>> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+>>>>>>> index cd432996949c..65132ec88104 100644
+>>>>>>> --- a/Documentation/core-api/dma-api.rst
+>>>>>>> +++ b/Documentation/core-api/dma-api.rst
+>>>>>>> @@ -210,18 +210,12 @@ DMA_BIDIRECTIONAL	direction isn't known
+>>>>>>>     	this API should be obtained from sources which guarantee it to be
+>>>>>>>     	physically contiguous (like kmalloc).
+>>>>>>>     
+>>>>>>> -	Further, the DMA address of the memory must be within the dma_mask of
+>>>>>>> -	the device.  To ensure that the memory allocated by kmalloc is within
+>>>>>>> -	the dma_mask, the driver may specify various platform-dependent flags
+>>>>>>> -	to restrict the DMA address range of the allocation (e.g., on x86,
+>>>>>>> -	GFP_DMA guarantees to be within the first 16MB of available DMA
+>>>>>>> -	addresses, as required by ISA devices).
+>>>>>>> -
+>>>>>>> -	Note also that the above constraints on physical contiguity and
+>>>>>>> -	dma_mask may not apply if the platform has an IOMMU (a device which
+>>>>>>> -	maps an I/O DMA address to a physical memory address).  However, to be
+>>>>>>> -	portable, device driver writers may *not* assume that such an IOMMU
+>>>>>>> -	exists.
+>>>>>>> +	Mapping may also fail if the memory is not within the DMA mask of the
+>>>>>>> +	device.  However, this constraint does not apply if the platform has
+>>>>>>> +	an IOMMU (a device which maps an I/O DMA address to a physical memory
+>>>>>>> +	address), or the kernel is configured with SWIOTLB (bounce buffers).
+>>>>>>> +	It is reasonable to assume that at least one of these mechanisms
+>>>>>>> +	allows streaming DMA to any physical address.
+>>>>>
+>>>>> Now I realize this last sentence may be contentious...
+>>>>
+>>>> The whole paragraph is wrong as written, not least because it is
+>>>> conflating two separate things: "any physical address" is objectively
+>>>> untrue, since SWIOTLB can only bounce from buffers within by the
+>>>> kernel's linear/direct map, i.e. not highmem, not random memory
+>>>> carveouts, and and definitely not PAs which are not RAM at all.
+>>>
+>>> I see, saying "any" was indeed too strong.
+>>>    
+>>>> Secondly, even if the source buffer *is* bounceable/mappable, there is
+>>>> still no guarantee at all that it can actually be made to appear at a
+>>>> DMA address within an arbitrary DMA mask. We aim for a general
+>>>> expectation that 32-bit DMA masks should be well-supported (but still
+>>>> not 100% guaranteed), but anything smaller can absolutely still have a
+>>>> high chance of failing, e.g. due to the SWIOTLB buffer being allocated
+>>>> too high or limited IOVA space.
+>>>
+>>> Of course this cannot be guaranteed. The function may always fail and
+>>> return DMA_MAPPING_ERROR. No doubts about it.
+>>>    
+>>>>> @Marek, @Robin Do you agree that device drivers should not be concerned
+>>>>> about the physical address of a buffer passed to the streaming DMA API?
+>>>>>
+>>>>> I mean, are there any real-world systems with:
+>>>>>      * some RAM that is not DMA-addressable,
+>>>>>      * no IOMMU,
+>>>>>      * CONFIG_SWIOTLB is not set?
+>>>>
+>>>> Yes, almost certainly, because "DMA-addressable" depends on individual
+>>>> devices. You can't stop a user from sticking, say, a Broadcom 43xx WiFi
+>>>> card into a PCI slot on an i.MX6 board with 2GB of RAM that *starts*
+>>>> just above its 31-bit DMA capability. People are still using AMD Seattle
+>>>> machines, where even though arm64 does have SWIOTLB it's essentially
+>>>> useless since RAM starts up around 40 bits IIRC (and although they do
+>>>> also have SMMUs for PCI, older firmware didn't advertise them).
+>>>
+>>> Some of these scenarios can never work properly because of hardware
+>>> limitations. There's nothing software can do about a bus master which
+>>> cannot address any RAM in the machine. I'm not trying to claim that an
+>>> operating system kernel can do magic and square the circle. If that's
+>>> how it sounded, then my wording needs to be improved.
+>>>
+>>> IIUC the expected audience of this document are device driver authors.
+>>> They want a clear guidance on how they should allocate buffers for the
+>>> streaming DMA API. Now, it is my understanding that device drivers
+>>> should *not* have to care about the physical location of a buffer
+>>> passed to the streaming DMA API.
+>>>
+>>> Even if a bus master implements less than 32 address bits in hardware,
+>>> I'm convinced that device drivers should not have to examine the system
+>>> to check if an IOMMU is available and try to guess whether a buffer
+>>> must be bounced, and how exactly the bounce buffer should be allocated.
+>>
+>> It's never been suggested that drivers should do that; indeed trying to
+>> poke into and second-guess the DMA API implementation is generally even
+>> less OK than making blind assumptions about what it might do. The
+>> overall message here is essentially "if you want to do streaming DMA
+>> then you may need to be wary of where your memory comes from." We can't
+>> just throw that out and say "Yeah it's fine now, whatever you do the API
+>> will deal with it" because that simply isn't true as a general
+>> statement; drivers dealing with limited DMA masks *do* still need to be
+>> concerned with GFP_DMA (or even GFP_DMA32 might still be advisable in
+>> certain cases) if they want to have an appreciable chance of success.
+>> All that's different these days is that notion of "limited" generally
+>> meaning "32 bits or smaller".
+> 
+> We're on the same page then. I'm going to make a better explanation of
+> how things work and what is expected from DMA API users.
+> 
+> Thank you very much for your feedback! I'm sure it will be greatly
+> appreciated by future generations of device driver authors.
+> 
+>>> If we can agree on this, I can iron out the details for a v2 of this
+>>> patch series.
+>>>    
+>>>>> FWIW if _I_ received a bug report that a device driver fails to submit
+>>>>> I/O on such a system, I would politely explain the reporter that their
+>>>>> kernel is misconfigured, and they should enable CONFIG_SWIOTLB.
+>>>>
+>>>> It's not really that simple. SWIOTLB, ZONE_DMA, etc. require platform
+>>>> support, which end users can't just turn on if it's not there to begin with.
+>>>
+>>> I know this very well. As you may not be aware, my ultimate goal is to
+>>> get rid of ZONE_DMA and instead enhance the buddy allocator to allow
+>>> allocations within an arbitrary physical address range, which will not
+>>> rely on platform support. But that's another story; for now, let's just
+>>> agree on how the DMA API is supposed to work.
+>>
+>> Indeed that might actually end up pushing things in the opposite
+>> direction, at least in some cases. Right now, a driver with, say, a
+>> 40-bit DMA mask is usually better off not special-casing DMA buffers,
+>> and just making plain GFP_KERNEL allocations for everything (on the
+>> assumption that 64-bit systems with masses of memory *should* have
+>> SWIOTLB to cover things in the worst case), vs. artificially
+>> constraining its DMA buffers to GFP_DMA32 and having to deal with
+>> allocation failure more often. However with a more precise and flexible
+>> allocator, there's then a much stronger incentive for such drivers to
+>> explicitly mark *every* allocation that may be used for DMA, in order to
+>> get the optimal behaviour.
+> 
+> I have a different opinion. Most buffers that are passed to the
+> streaming DMA API are I/O data (data read from/written to disk, or
+> received from/sent to network). For the write/send case, these pages
+> were previously allocated by user space, and at that point the kernel
+> had no clue that they would be later used for device I/O.
+> 
+> For example, consider this user-space sequence:
+> 
+> 	buffer = malloc(BUFFER_SIZE);
+> 	fill_in_data(buffer);
+> 	res = write(fd, buffer, BUFFER_SIZE);
+> 
+> The write(2) syscall will try to do zero copy, and that's how the
+> buffer address is passed down to a device driver. If the buffer is not
+> directly accessible by the device, its content must be copied to a
+> different physical location. That should be done by SWIOTLB, not the
+> device driver. Last chance to chose a better placement for the buffer
+> was at malloc(3) time, but at that time the device driver was not
+> involved at all. Er, yes, we may want to provide an ioctl to allocate
+> a suitable buffer for a target device. I think DRM even had such an
+> ioctl once and then removed it, because it was not used in any released
+> userspace code...
+> 
+> In short, the device driver has no control of how these buffers were
+> allocated, and it's not fair to expect anything from the driver.
 
-> When something goes wrong, we want Sphinx error to point to the
-> right line number from the original source, not from the
-> processed ReST data.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  tools/net/ynl/pyynl/lib/doc_generator.py | 34 ++++++++++++++++++++++--
->  1 file changed, 32 insertions(+), 2 deletions(-)
->
-> diff --git a/tools/net/ynl/pyynl/lib/doc_generator.py b/tools/net/ynl/pyynl/lib/doc_generator.py
-> index 866551726723..a9d8ab6f2639 100644
-> --- a/tools/net/ynl/pyynl/lib/doc_generator.py
-> +++ b/tools/net/ynl/pyynl/lib/doc_generator.py
-> @@ -20,6 +20,16 @@
->  from typing import Any, Dict, List
->  import yaml
->  
-> +LINE_STR = '__lineno__'
-> +
-> +class NumberedSafeLoader(yaml.SafeLoader):
-> +    """Override the SafeLoader class to add line number to parsed data"""
-> +
-> +    def construct_mapping(self, node):
-> +        mapping = super().construct_mapping(node)
-> +        mapping[LINE_STR] = node.start_mark.line
-> +
-> +        return mapping
+Indeed, for true zero-copy to existing userspace memory then there's not 
+much anyone can change, hence "at least in some cases". However, there 
+are an awful lot of drivers/subsystems which use streaming DMA on their 
+own relatively short-lived kmalloc() allocations - the first example 
+which always comes to mind is all the interfaces like SPI, I2C, UART, 
+etc. which are either dmaengine clients or have their own DMA (and 
+indeed some of which were historically trying to do it from temporary 
+buffers on the stack). Heck, even alloc_skb() might end up being 
+commonly used if this "ethernet" thing ever catches on...
 
-pylint gives these 2 warnings:
+Thanks,
+Robin.
 
-tools/net/ynl/pyynl/lib/doc_generator.py:25:0: R0901: Too many ancestors (9/7) (too-many-ancestors)
-tools/net/ynl/pyynl/lib/doc_generator.py:28:4: W0221: Number of parameters was 3 in 'SafeConstructor.construct_mapping' and is now 2 in overriding 'NumberedSafeLoader.construct_mapping' method (arguments-differ)
+> Sure, there are also control data structures, e.g. Tx/Rx rings, but
+> they are typically allocated during device initialization (or ndo_open)
+> using the coherent DMA API and reused for all subsequent I/O.
+> 
+> In summary, yes, it would be great if we could reduce bouncing, but
+> most of that work has already been done, and there's little left for
+> improvement. So, why am I working on a PAR (Physical Address Range)
+> Allocator? Certainly not to help users of the streaming DMA API. No,
+> but it should help dynamic SWIOTLB when the primary SWIOTLB is
+> allocated in an unsuitable physical location.
+> 
+> Petr T
 
