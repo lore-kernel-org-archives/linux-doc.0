@@ -1,99 +1,107 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7292EA162;
-	Fri, 27 Jun 2025 17:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6C12ECEB9
+	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 17:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751043801; cv=none; b=NeqikWzcwaAqID9vqqUSCMRl7hPYdJID+S+8F+fTJHY5/vXJ/AxdxBMhle2uMcTtWIUbNNIxnlKTUVEpeP3rQwSmPsIbg+tDp6UjIq+LRCZYQem1wzZOac9IKSBretYgLdt97LvVAgcgyi/9YQefIrCTqxTFVrokp2ixzVSkHJw=
+	t=1751043819; cv=none; b=QfPLZGxm8AiAYeGS1RtVA7OKgNWBsBEWnRIjNXeOgkXzAdGK12zMgZeWitZ1Exm4fvbq2EIi+Uncewa4HjaHhnObWH9NMFDFKbFgf6VUt26/ofBPjc8zYsP5P+agHIVuiT/UpcvdEBNmmuWPsARpyt/a5oN2pn4q98V4NDpJv5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751043801; c=relaxed/simple;
-	bh=6iU4sKtqulwtJbHdtTjfBW2WtHCU3a8mQLkMyO716dQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uAj1DxKr/1aSg59b6nOevskiOwY1cu23NU98E51YUyvIaKZgR619ChKkPRPzefBUi/4rNWo05ZhUO9kuvJDPwiB7QDxFXMsStTBCjl6giP/E4Bui+Cw3GdHXXmTbQQfeA1rLFFMHi6cQaym583rk7tF1DO8VrKSbZlG8Ldg/Gxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lLKFhWE7; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1751043819; c=relaxed/simple;
+	bh=Bl17nU32PYY0mfnqBUXkZugRBtosIRGebig5NgEArq8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=onrV1uulkw52agCoZyVaPd+sa9WYwPH8lvRPwzNEl5W5CV6MuifFb1OuTGWf+4OKI8Wr9Xa9a1UJBUeytPGczkpN5Tt/TksNEm9Pha0f7TqtV5GPubM0c1EivKMfMdzyOvdr+WLUZEdyhtfK2EqKYSRHjtrGGlYLPW6p+je6TPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=NzBeJhBt; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lLKFhWE7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=BX8yP699mQd1hqQWYrl2/cTWYSKTaQhOnRx2XR4O0nI=; b=lLKFhWE7lu96o6X4WT3tH4Sf1O
-	oFn+aopDUWdGLcdZZzN4QfYf4S6XDwKRYHArQn5ap3m58Et87mT4Ayt6ydcfEgKSJk9PEFzYHQGW/
-	JMPMcvwErhnhXiakaH6uPHmYcq+T3F3YwECBJHYqoUiNPo9ymCBd1Ib/d9+WGAmCO0GI/fl3FtOmv
-	+toLcyd8ZL6SW5pWju0H9RRNwMPb2ngciRiSRQuHslvf32Vy10QFJC1mkVGwPE+K86H2nT+LgoeKL
-	1nQzjkHMiGrUvnzfn32qPmJoVD+pIIBdxrgVJB1unlnK8fQDHJ9XR/SU0LsqA909wugZbwr1k3AbM
-	5BCG5tNw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uVCTl-0000000EZN4-26cY;
-	Fri, 27 Jun 2025 17:03:09 +0000
-Date: Fri, 27 Jun 2025 18:03:09 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: =?utf-8?B?6ZmI5rab5rab?= Taotao Chen <chentaotao@didiglobal.com>
-Cc: "tytso@mit.edu" <tytso@mit.edu>,
-	"hch@infradead.org" <hch@infradead.org>,
-	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-	"rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
-	"tursulin@ursulin.net" <tursulin@ursulin.net>,
-	"airlied@gmail.com" <airlied@gmail.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"chentao325@qq.com" <chentao325@qq.com>,
-	"frank.li@vivo.com" <frank.li@vivo.com>
-Subject: Re: [PATCH v3 4/4] ext4: support uncached buffered I/O
-Message-ID: <aF7OzbVwXqbJaLQA@casper.infradead.org>
-References: <20250627110257.1870826-1-chentaotao@didiglobal.com>
- <20250627110257.1870826-5-chentaotao@didiglobal.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="NzBeJhBt"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250627170335euoutp024a5ff6e4f852e16406bde3e00c61e8c9~M9RKpR-8G1063210632euoutp02B
+	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 17:03:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250627170335euoutp024a5ff6e4f852e16406bde3e00c61e8c9~M9RKpR-8G1063210632euoutp02B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1751043815;
+	bh=EcYKeQ90MrmdmAbxLfcsOIQdKUS+o3TqNJwZyexyxds=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=NzBeJhBt90+oThbD66LNBOdMHMwJVILJx5QZ9HxsqzJiT3XPUy2rjYX9nfSVPW7bY
+	 VnT9neIXW++YwH8dJvs7h9hriBNhSmowlZDHHGHzNCNgqcjEiIjPLyGXES4wbsJD8d
+	 vX6VFpu54MmWKyWEHIJGU1lGhb8WdsA/wihkGUfo=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250627170335eucas1p2247120d3944e0632e15355f8440fc863~M9RKUtXit0185901859eucas1p20;
+	Fri, 27 Jun 2025 17:03:35 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250627170334eusmtip2a88872059a6556eab5b71c9b57828f79~M9RJq11mQ3273132731eusmtip2D;
+	Fri, 27 Jun 2025 17:03:34 +0000 (GMT)
+Message-ID: <6de6c314-15a3-40df-ab67-95af7d4378c6@samsung.com>
+Date: Fri, 27 Jun 2025 19:03:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250627110257.1870826-5-chentaotao@didiglobal.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] update DMA API documentation
+To: Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Keith Busch
+	<kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Bagas Sanjaya
+	<bagasdotme@gmail.com>, "open list:DOCUMENTATION"
+	<linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, "open
+ list:MEMORY MANAGEMENT" <linux-mm@kvack.org>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20250627101015.1600042-1-ptesarik@suse.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250627170335eucas1p2247120d3944e0632e15355f8440fc863
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250627101022eucas1p2f3715c9c9439ca986217e380d4d3e254
+X-EPHeader: CA
+X-CMS-RootMailID: 20250627101022eucas1p2f3715c9c9439ca986217e380d4d3e254
+References: <CGME20250627101022eucas1p2f3715c9c9439ca986217e380d4d3e254@eucas1p2.samsung.com>
+	<20250627101015.1600042-1-ptesarik@suse.com>
 
-On Fri, Jun 27, 2025 at 11:03:13AM +0000, 陈涛涛 Taotao Chen wrote:
-> +++ b/fs/ext4/inode.c
-> @@ -1270,6 +1270,9 @@ static int ext4_write_begin(const struct kiocb *iocb,
->  	if (unlikely(ret))
->  		return ret;
->  
-> +	if (iocb->ki_flags & IOCB_DONTCACHE)
-> +		fgp |= FGP_DONTCACHE;
+On 27.06.2025 12:10, Petr Tesarik wrote:
+> A few documentation updates:
+>
+> * remove outdated and confusing parts
+> * reduce duplicates
+> * update streaming DMA API expectations
 
-I think this needs to be:
+Thanks for this cleanup and documentation clarification! Feel free to 
+add for the whole patchset:
 
-	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
+Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-because it's legit to call write_begin with a NULL argument.  The
-'file' was always an optional argument, and we should preserve that
-optionality with this transformation.
 
-I wonder if it's worth abstracting some of this boilerplate.  Something
-like:
-
-struct folio *write_begin_get_folio(iocb, mapping, index, len)
-{
-	fgf_t fgflags = FGP_WRITEBEGIN;
-
-	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
-		fgflags |= FGP_DONTCACHE;
-	fgflags |= fgf_set_order(len);
-
-	return __filemap_get_folio(mapping, index, fgflags,
-			mapping_gfp_mask(mapping));
-}
+> Changes from v1:
+>
+> * move DMA Pools to dma-api.rst
+> * improve streaming DMA addressing constraints
+>
+> Petr Tesarik (8):
+>    docs: dma-api: use "DMA API" consistently throughout the document
+>    docs: dma-api: replace consistent with coherent
+>    docs: dma-api: remove remnants of PCI DMA API
+>    docs: dma-api: add a kernel-doc comment for dma_pool_zalloc()
+>    docs: dma-api: remove duplicate description of the DMA pool API
+>    docs: dma-api: clarify DMA addressing limitations
+>    docs: dma-api: update streaming DMA physical address constraints
+>    docs: dma-api: clean up documentation of dma_map_sg()
+>
+>   Documentation/core-api/dma-api-howto.rst |  36 ++---
+>   Documentation/core-api/dma-api.rst       | 191 ++++++++---------------
+>   Documentation/core-api/mm-api.rst        |   6 -
+>   include/linux/dmapool.h                  |   8 +
+>   mm/dmapool.c                             |   6 +-
+>   5 files changed, 97 insertions(+), 150 deletions(-)
+>
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
