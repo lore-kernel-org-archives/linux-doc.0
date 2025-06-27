@@ -1,125 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FD417A306;
-	Fri, 27 Jun 2025 17:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7292EA162;
+	Fri, 27 Jun 2025 17:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751043738; cv=none; b=tpSf4EI36esC1BvzaA6VfNvyjgXbY3c6bdLwUYb2wMzhRNnFrJGvM0U/gWtfBjXYesvvN5/nRb45jxKl7c3jt/AAjVU+0QTPUadRi6MS0JMpUOAvKPNAgePE5TOI6pO0QYN0WwEdJfeaKXXada1O1PgHdZkIJTM1zfzk4LWIagU=
+	t=1751043801; cv=none; b=NeqikWzcwaAqID9vqqUSCMRl7hPYdJID+S+8F+fTJHY5/vXJ/AxdxBMhle2uMcTtWIUbNNIxnlKTUVEpeP3rQwSmPsIbg+tDp6UjIq+LRCZYQem1wzZOac9IKSBretYgLdt97LvVAgcgyi/9YQefIrCTqxTFVrokp2ixzVSkHJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751043738; c=relaxed/simple;
-	bh=tYzCzCM3VZZF7WSTA7gi5cm/krCk6YzEM9VmpLpknjY=;
+	s=arc-20240116; t=1751043801; c=relaxed/simple;
+	bh=6iU4sKtqulwtJbHdtTjfBW2WtHCU3a8mQLkMyO716dQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Np1DbNcBKornihZGTPKcpXcU2WRWOcUisLnnQMHgL7Ro45H2ndseGKNTTusR5L3i5hR3YCIv5/FKfH6StYlDdV7rCQn923C+nWILTBdJwA3Bfp0ptpImHKDLV6OS4WlXYwjJIpLWbuKdLzPQPqBuM+58XpvSBRuGOMaGEoiiih8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tvSgedwL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uAj1DxKr/1aSg59b6nOevskiOwY1cu23NU98E51YUyvIaKZgR619ChKkPRPzefBUi/4rNWo05ZhUO9kuvJDPwiB7QDxFXMsStTBCjl6giP/E4Bui+Cw3GdHXXmTbQQfeA1rLFFMHi6cQaym583rk7tF1DO8VrKSbZlG8Ldg/Gxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lLKFhWE7; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tvSgedwL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55EE2C4CEE3;
-	Fri, 27 Jun 2025 17:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751043738;
-	bh=tYzCzCM3VZZF7WSTA7gi5cm/krCk6YzEM9VmpLpknjY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tvSgedwLkGNl0rMmzrS3+y77Cdl6mvdnS/K1+GmEohvH0tjCCcyHtHpGONE48PbuE
-	 klXY+q4z8M1Sr6BMdy5xKLE+7d0yKqmUTsHjPtcmxh4vJJtZd+k3yW/hyDz3WRQrN7
-	 9wzjcEy3jjvepJtDybVtHKrX2dD+yzLWynuamatcAKtm3zUP2H46mTYvoCARqj66Pz
-	 6UkaSbTPpQWjV9eejBMr9V3CGDdGIUzKXNzrhwjf9KcP57JXzI9oiJZKCpv4d77ArY
-	 EG95TYcKm5S2WkFdvbxGcvfwd6s5pEsCWXf4aKpX4Whf3v+9N/L6udSPyAT+368SB1
-	 8wWh+cVapuQEw==
-Date: Fri, 27 Jun 2025 20:02:13 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
-	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
-Message-ID: <20250627170213.GL17401@unreal>
-References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
- <cover.1750854543.git.leon@kernel.org>
- <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lLKFhWE7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=BX8yP699mQd1hqQWYrl2/cTWYSKTaQhOnRx2XR4O0nI=; b=lLKFhWE7lu96o6X4WT3tH4Sf1O
+	oFn+aopDUWdGLcdZZzN4QfYf4S6XDwKRYHArQn5ap3m58Et87mT4Ayt6ydcfEgKSJk9PEFzYHQGW/
+	JMPMcvwErhnhXiakaH6uPHmYcq+T3F3YwECBJHYqoUiNPo9ymCBd1Ib/d9+WGAmCO0GI/fl3FtOmv
+	+toLcyd8ZL6SW5pWju0H9RRNwMPb2ngciRiSRQuHslvf32Vy10QFJC1mkVGwPE+K86H2nT+LgoeKL
+	1nQzjkHMiGrUvnzfn32qPmJoVD+pIIBdxrgVJB1unlnK8fQDHJ9XR/SU0LsqA909wugZbwr1k3AbM
+	5BCG5tNw==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uVCTl-0000000EZN4-26cY;
+	Fri, 27 Jun 2025 17:03:09 +0000
+Date: Fri, 27 Jun 2025 18:03:09 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: =?utf-8?B?6ZmI5rab5rab?= Taotao Chen <chentaotao@didiglobal.com>
+Cc: "tytso@mit.edu" <tytso@mit.edu>,
+	"hch@infradead.org" <hch@infradead.org>,
+	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+	"rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+	"tursulin@ursulin.net" <tursulin@ursulin.net>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"chentao325@qq.com" <chentao325@qq.com>,
+	"frank.li@vivo.com" <frank.li@vivo.com>
+Subject: Re: [PATCH v3 4/4] ext4: support uncached buffered I/O
+Message-ID: <aF7OzbVwXqbJaLQA@casper.infradead.org>
+References: <20250627110257.1870826-1-chentaotao@didiglobal.com>
+ <20250627110257.1870826-5-chentaotao@didiglobal.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250627110257.1870826-5-chentaotao@didiglobal.com>
 
-On Fri, Jun 27, 2025 at 03:44:10PM +0200, Marek Szyprowski wrote:
-> On 25.06.2025 15:18, Leon Romanovsky wrote:
-> > This series refactors the DMA mapping to use physical addresses
-> > as the primary interface instead of page+offset parameters. This
-> > change aligns the DMA API with the underlying hardware reality where
-> > DMA operations work with physical addresses, not page structures.
-> >
-> > The series consists of 8 patches that progressively convert the DMA
-> > mapping infrastructure from page-based to physical address-based APIs:
-> >
-> > The series maintains backward compatibility by keeping the old
-> > page-based API as wrapper functions around the new physical
-> > address-based implementations.
-> 
-> Thanks for this rework! I assume that the next step is to add map_phys 
-> callback also to the dma_map_ops and teach various dma-mapping providers 
-> to use it to avoid more phys-to-page-to-phys conversions.
+On Fri, Jun 27, 2025 at 11:03:13AM +0000, 陈涛涛 Taotao Chen wrote:
+> +++ b/fs/ext4/inode.c
+> @@ -1270,6 +1270,9 @@ static int ext4_write_begin(const struct kiocb *iocb,
+>  	if (unlikely(ret))
+>  		return ret;
+>  
+> +	if (iocb->ki_flags & IOCB_DONTCACHE)
+> +		fgp |= FGP_DONTCACHE;
 
-Probably Christoph will say yes, however I personally don't see any
-benefit in this. Maybe I wrong here, but all existing .map_page()
-implementation platforms don't support p2p anyway. They won't benefit
-from this such conversion.
+I think this needs to be:
 
-> 
-> I only wonder if this newly introduced dma_map_phys()/dma_unmap_phys() 
-> API is also suitable for the recently discussed PCI P2P DMA? While 
-> adding a new API maybe we should take this into account?
+	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
 
-First, immediate user (not related to p2p) is blk layer:
-https://lore.kernel.org/linux-nvme/bcdcb5eb-17ed-412f-bf5c-303079798fe2@nvidia.com/T/#m7e715697d4b2e3997622a3400243477c75cab406
+because it's legit to call write_begin with a NULL argument.  The
+'file' was always an optional argument, and we should preserve that
+optionality with this transformation.
 
-+static bool blk_dma_map_direct(struct request *req, struct device *dma_dev,
-+		struct blk_dma_iter *iter, struct phys_vec *vec)
-+{
-+	iter->addr = dma_map_page(dma_dev, phys_to_page(vec->paddr),
-+			offset_in_page(vec->paddr), vec->len, rq_dma_dir(req));
-+	if (dma_mapping_error(dma_dev, iter->addr)) {
-+		iter->status = BLK_STS_RESOURCE;
-+		return false;
-+	}
-+	iter->len = vec->len;
-+	return true;
-+}
+I wonder if it's worth abstracting some of this boilerplate.  Something
+like:
 
-Block layer started to store phys addresses instead of struct pages and
-this phys_to_page() conversion in data-path will be avoided.
+struct folio *write_begin_get_folio(iocb, mapping, index, len)
+{
+	fgf_t fgflags = FGP_WRITEBEGIN;
 
-> My main concern is the lack of the source phys addr passed to the dma_unmap_phys() 
-> function and I'm aware that this might complicate a bit code conversion 
-> from old dma_map/unmap_page() API.
-> 
-> Best regards
-> -- 
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
-> 
-> 
+	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
+		fgflags |= FGP_DONTCACHE;
+	fgflags |= fgf_set_order(len);
+
+	return __filemap_get_folio(mapping, index, fgflags,
+			mapping_gfp_mask(mapping));
+}
+
