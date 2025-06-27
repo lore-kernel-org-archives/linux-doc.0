@@ -1,107 +1,93 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6C12ECEB9
-	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 17:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3EE12E5D;
+	Fri, 27 Jun 2025 17:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751043819; cv=none; b=QfPLZGxm8AiAYeGS1RtVA7OKgNWBsBEWnRIjNXeOgkXzAdGK12zMgZeWitZ1Exm4fvbq2EIi+Uncewa4HjaHhnObWH9NMFDFKbFgf6VUt26/ofBPjc8zYsP5P+agHIVuiT/UpcvdEBNmmuWPsARpyt/a5oN2pn4q98V4NDpJv5s=
+	t=1751045108; cv=none; b=f1ULHMsD+ZGTZi7o6unqWw1HDhL1mIt0xUG5VkX189MjdfhVHS9x0/7DTTF4/ETIs6L/BTw+R/zy+VJcHWLNfJZx5I/8WGwR/TNR29Y4+KF/80YKZXnmI/7N/s+HP8xiagheI+L0n8sa4BDC2W5PKJ2wdKuXcyRtbfppCZC1cEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751043819; c=relaxed/simple;
-	bh=Bl17nU32PYY0mfnqBUXkZugRBtosIRGebig5NgEArq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=onrV1uulkw52agCoZyVaPd+sa9WYwPH8lvRPwzNEl5W5CV6MuifFb1OuTGWf+4OKI8Wr9Xa9a1UJBUeytPGczkpN5Tt/TksNEm9Pha0f7TqtV5GPubM0c1EivKMfMdzyOvdr+WLUZEdyhtfK2EqKYSRHjtrGGlYLPW6p+je6TPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=NzBeJhBt; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1751045108; c=relaxed/simple;
+	bh=TjGWey8FcBbGmqOInU155Db/0s5SY/hzFhuW5NLF6cI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YRUJnsyjUt76M0vW3zMJFLSogMKxbJhztT5o+vJ1UMVk0K5SLlER+D/Op5IW8ahfLjFuws0NrYVOUgQQjE5guCfg+5Ui0l1JDkHXxpszcrDc1berRUvSAYoOptNJvUA2+7A+sf+m010Vs1FPiQhD2idodd446QrnlD0aadWmHJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kMTMx71v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="NzBeJhBt"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250627170335euoutp024a5ff6e4f852e16406bde3e00c61e8c9~M9RKpR-8G1063210632euoutp02B
-	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 17:03:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250627170335euoutp024a5ff6e4f852e16406bde3e00c61e8c9~M9RKpR-8G1063210632euoutp02B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1751043815;
-	bh=EcYKeQ90MrmdmAbxLfcsOIQdKUS+o3TqNJwZyexyxds=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=NzBeJhBt90+oThbD66LNBOdMHMwJVILJx5QZ9HxsqzJiT3XPUy2rjYX9nfSVPW7bY
-	 VnT9neIXW++YwH8dJvs7h9hriBNhSmowlZDHHGHzNCNgqcjEiIjPLyGXES4wbsJD8d
-	 vX6VFpu54MmWKyWEHIJGU1lGhb8WdsA/wihkGUfo=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250627170335eucas1p2247120d3944e0632e15355f8440fc863~M9RKUtXit0185901859eucas1p20;
-	Fri, 27 Jun 2025 17:03:35 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250627170334eusmtip2a88872059a6556eab5b71c9b57828f79~M9RJq11mQ3273132731eusmtip2D;
-	Fri, 27 Jun 2025 17:03:34 +0000 (GMT)
-Message-ID: <6de6c314-15a3-40df-ab67-95af7d4378c6@samsung.com>
-Date: Fri, 27 Jun 2025 19:03:34 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kMTMx71v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB940C4CEE3;
+	Fri, 27 Jun 2025 17:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751045107;
+	bh=TjGWey8FcBbGmqOInU155Db/0s5SY/hzFhuW5NLF6cI=;
+	h=From:Subject:Date:To:Cc:From;
+	b=kMTMx71v6QM/OXAP+Y0vfh2Ir0lcOSak7ALprCXKwUgIF0uKebxCPcQU3Vf13aR0z
+	 iWz+WSzDHeQLfrNGqlER6Rf4D3Bovf/AJuGCl9acOgWDuA77RUScEDfaZbxwwq14qs
+	 lTqZ86zTd+r68HGYzkYHlGSqa5tCYH9qZU2FMMbjKq0O4JryKCEtChOERdVS6BKhOX
+	 ramNyYWQ+rKpWs0nL511bBvEVdCI6R8bEyEAt/ptDzqk999Rzbr/2gy9YuVDmUy0Wk
+	 Ke78hj90sRZRzfBm8Uiho/4VvA7tQx7kI0kG5lNDMAstg+qLC9PhZpzUJuxhLnr7zz
+	 CjJbpZqTNijXg==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH 0/3] arm64: Support FEAT_LSFE (Large System Float
+ Extension)
+Date: Fri, 27 Jun 2025 18:20:43 +0100
+Message-Id: <20250627-arm64-lsfe-v1-0-68351c4bf741@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] update DMA API documentation
-To: Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>, Robin Murphy <robin.murphy@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Keith Busch
-	<kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Bagas Sanjaya
-	<bagasdotme@gmail.com>, "open list:DOCUMENTATION"
-	<linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, "open
- list:MEMORY MANAGEMENT" <linux-mm@kvack.org>
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20250627101015.1600042-1-ptesarik@suse.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250627170335eucas1p2247120d3944e0632e15355f8440fc863
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250627101022eucas1p2f3715c9c9439ca986217e380d4d3e254
-X-EPHeader: CA
-X-CMS-RootMailID: 20250627101022eucas1p2f3715c9c9439ca986217e380d4d3e254
-References: <CGME20250627101022eucas1p2f3715c9c9439ca986217e380d4d3e254@eucas1p2.samsung.com>
-	<20250627101015.1600042-1-ptesarik@suse.com>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOvSXmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDMyNT3cSiXDMT3ZzitFRdAwtDg+Q0S4vElGQjJaCGgqLUtMwKsGHRsbW
+ 1AFdTkTtcAAAA
+X-Change-ID: 20250625-arm64-lsfe-0810cf98adc2
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-cff91
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1081; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=TjGWey8FcBbGmqOInU155Db/0s5SY/hzFhuW5NLF6cI=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBoXtPt0FftV/nPMAp/n+4AWdmZOj6LgUFaBlaA+
+ 4ex33utcbSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaF7T7QAKCRAk1otyXVSH
+ 0MOSB/9s8wuMp+MQz7BhZa2kE2BZucnu98xD581nSGlh0NygznHU5GiBt16nWyR/96xsxh7X6Pt
+ 4GqJqm3TQyyYBj0V8GK9ZeBDgyW64FmjYSzvn3WcCt0rdcyzWPTBUPfGXx4YPu5I4o3HL3fz5uH
+ 2W+Mkl10sFSBiJGJzoWlagqg/Z392OpdPSXq7ZK8BlLER1n5zicMpw50tXZK8g3aVZaa8Ozt7E8
+ F4PUCjnn4hk/WchuQi3P+ohPmnHYzEWIrdxC+61y0Gop+0m1esJufi4ZQxUk3QSf5EEZgxbL1dp
+ JoIe4+SkFWRhJtRFXoKtJKFQTN6WKUWtZahW7oABwkMAPHfZ
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 27.06.2025 12:10, Petr Tesarik wrote:
-> A few documentation updates:
->
-> * remove outdated and confusing parts
-> * reduce duplicates
-> * update streaming DMA API expectations
+FEAT_LSFE is optional from v9.5, it adds new instructions for atomic
+memory operations with floating point values.  We have no immediate use
+for it in kernel, provide a hwcap so userspace can discover it and allow
+the ID register field to be exposed to KVM guests.
 
-Thanks for this cleanup and documentation clarification! Feel free to 
-add for the whole patchset:
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Mark Brown (3):
+      arm64/hwcap: Add hwcap for FEAT_LSFE
+      KVM: arm64: Expose FEAT_LSFE to guests
+      kselftest/arm64: Add lsfe to the hwcaps test
 
-Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+ Documentation/arch/arm64/elf_hwcaps.rst   |  4 ++++
+ arch/arm64/include/asm/hwcap.h            |  1 +
+ arch/arm64/include/uapi/asm/hwcap.h       |  1 +
+ arch/arm64/kernel/cpufeature.c            |  2 ++
+ arch/arm64/kernel/cpuinfo.c               |  1 +
+ arch/arm64/kvm/sys_regs.c                 |  4 +++-
+ tools/testing/selftests/arm64/abi/hwcap.c | 21 +++++++++++++++++++++
+ 7 files changed, 33 insertions(+), 1 deletion(-)
+---
+base-commit: 86731a2a651e58953fc949573895f2fa6d456841
+change-id: 20250625-arm64-lsfe-0810cf98adc2
 
-
-> Changes from v1:
->
-> * move DMA Pools to dma-api.rst
-> * improve streaming DMA addressing constraints
->
-> Petr Tesarik (8):
->    docs: dma-api: use "DMA API" consistently throughout the document
->    docs: dma-api: replace consistent with coherent
->    docs: dma-api: remove remnants of PCI DMA API
->    docs: dma-api: add a kernel-doc comment for dma_pool_zalloc()
->    docs: dma-api: remove duplicate description of the DMA pool API
->    docs: dma-api: clarify DMA addressing limitations
->    docs: dma-api: update streaming DMA physical address constraints
->    docs: dma-api: clean up documentation of dma_map_sg()
->
->   Documentation/core-api/dma-api-howto.rst |  36 ++---
->   Documentation/core-api/dma-api.rst       | 191 ++++++++---------------
->   Documentation/core-api/mm-api.rst        |   6 -
->   include/linux/dmapool.h                  |   8 +
->   mm/dmapool.c                             |   6 +-
->   5 files changed, 97 insertions(+), 150 deletions(-)
->
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
 
