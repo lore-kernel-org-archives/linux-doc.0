@@ -1,117 +1,147 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4BB29615D;
-	Fri, 27 Jun 2025 10:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id B1C922980B4;
+	Fri, 27 Jun 2025 11:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751021460; cv=none; b=mcLJdd/J5iSe8OKNe2qu/4DAt3ERpD4Hukx1H+qZjY6JDqLYugw2g2OGMsTfzPIERMNlxtnBYq8qZCXa50Yp5HHZj+D7VVbkHHQYDyfrowM6oij+FbGb/HBu+4yXr5wr556dTaBIzX5nTrRDjU8entjouuJRpa1QSk6DKPJFtnY=
+	t=1751022214; cv=none; b=PkcBiXR8QjMgt/ROrZoVBS9g8FD1eYiCz4sZaMspNgUsUpcGFXNzNVILJ9kIwUW8ipCR6PwqWpdwghUMi4uE9KLAidQzJOKQOSKBYb1DCio7Jtfbivo3oe4ich0fM2bBpF4WwMz7d2YrfvBTrjsq4pvYHOBC/PoEqf5lsSwEAv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751021460; c=relaxed/simple;
-	bh=iyRgdZz62kfHtWgProqZ9GBCRWbW6BTlAC0PWj8nzus=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JVMfqqYRygVy3RZ33xS/3fJNUuNMTPl2QoNC2WcfCS7mdDq4+kZ5QWZ+jTukg6/K4SaRdKFx6LTn4bTBeonqQRYK5tuzF2SCILRypEqAhA40byr0tTu0RDYYrehVqOSqK+DBOJ/JIm620dG7zjEmoUogt4TFpoDp5pDcf2fWG58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=pksJWTHU; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1751022214; c=relaxed/simple;
+	bh=3eEkTzd48aJijwJie0PYgb5WApqXlFvlW7CzY8x/BWg=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=oxH7WIPPKQ9Td15bOiV+bfspxRmFpM47eVvbj3m+3oXjfj4WyLhYFu/pltqoxSjDhT3NmG2p2zLtGKPhQJFgkzzriJkyj9vC5O3ggbFAiq/3n6s6XY9hihessMM/2gr0dC8SNTv2QoR5UfgOGkG+Fga5Ie0XnG9hbDI1i6YZX6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b=KApNmOW0; arc=none smtp.client-ip=111.202.70.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="pksJWTHU"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55RAbJZv012822;
-	Fri, 27 Jun 2025 10:50:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2025-04-25; bh=Xo6dHGRpyyJ5stGO
-	yGIAPRrHVhhNbeVBOkIc5fi1KhM=; b=pksJWTHUSjb1dR7FEIdM6KMxYRIOI+WW
-	OWJshPa5FOP3b+zC6FyF5w76syHRip+H0+RZFl4lvo80+5g+mHz4bwPjyHq2haRC
-	YEJhRlS9J6knjrrngizAyI8rn/wtCcMvpBBnbEQ4W9X1H59E3WnygtfYreB+5X91
-	MGCHo95FGbdrdi9Lg6kUu4ISk7KTgrQ+UFP0C8p/S0wqF7Fe4/SLL2nCluK7UPUE
-	RF99i5HZd6vAmcI2kDZpj6tV/4A1pCwgLduMjuflS6XKEu3xNpbm+D2Bpmw3axuu
-	b5SflnJd6B/0zWZxcOMGbtbGzgn44pkvLMLAwV9D/frI+N8nRPghjg==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47egt5tmqc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 27 Jun 2025 10:50:39 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55RAWS7B018085;
-	Fri, 27 Jun 2025 10:50:39 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47ehw16w1e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 27 Jun 2025 10:50:39 +0000
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55RAocV9011478;
-	Fri, 27 Jun 2025 10:50:38 GMT
-Received: from lab61.no.oracle.com (lab61.no.oracle.com [10.172.144.82])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47ehw16vyg-1;
-	Fri, 27 Jun 2025 10:50:38 +0000
-From: =?UTF-8?q?H=C3=A5kon=20Bugge?= <haakon.bugge@oracle.com>
-To: Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>, Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>, Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>, Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joelagnelf@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc: =?UTF-8?q?H=C3=A5kon=20Bugge?= <haakon.bugge@oracle.com>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        lkmm@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [PATCH v2 1/1] docs/memory-barriers.txt: Add wait_event_cmd() and wait_event_exclusive_cmd()
-Date: Fri, 27 Jun 2025 12:50:33 +0200
-Message-ID: <20250627105034.1612947-1-haakon.bugge@oracle.com>
-X-Mailer: git-send-email 2.43.5
+	dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b="KApNmOW0"
+Received: from mail.didiglobal.com (unknown [10.79.71.38])
+	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id C7EB5180FFD583;
+	Fri, 27 Jun 2025 19:02:17 +0800 (CST)
+Received: from BJ01-ACTMBX-09.didichuxing.com (10.79.64.19) by
+ BJ03-ACTMBX-02.didichuxing.com (10.79.71.38) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Fri, 27 Jun 2025 19:03:00 +0800
+Received: from BJ03-ACTMBX-07.didichuxing.com (10.79.71.34) by
+ BJ01-ACTMBX-09.didichuxing.com (10.79.64.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Fri, 27 Jun 2025 19:02:59 +0800
+Received: from BJ03-ACTMBX-07.didichuxing.com ([fe80::2e1a:dd47:6d25:287e]) by
+ BJ03-ACTMBX-07.didichuxing.com ([fe80::2e1a:dd47:6d25:287e%7]) with mapi id
+ 15.02.1748.010; Fri, 27 Jun 2025 19:02:59 +0800
+X-MD-Sfrom: chentaotao@didiglobal.com
+X-MD-SrcIP: 10.79.71.38
+From: =?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
+To: "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>,
+	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>, "willy@infradead.org"
+	<willy@infradead.org>, "brauner@kernel.org" <brauner@kernel.org>,
+	"jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+	"rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>, "tursulin@ursulin.net"
+	<tursulin@ursulin.net>, "airlied@gmail.com" <airlied@gmail.com>
+CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "chentao325@qq.com" <chentao325@qq.com>,
+	"frank.li@vivo.com" <frank.li@vivo.com>,
+	=?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
+Subject: [PATCH v3 0/4] fs: refactor write_begin/write_end and add ext4
+ IOCB_DONTCACHE support
+Thread-Topic: [PATCH v3 0/4] fs: refactor write_begin/write_end and add ext4
+ IOCB_DONTCACHE support
+Thread-Index: AQHb51MLW2LGYmXE/k20eq/l5Jv3Yw==
+Date: Fri, 27 Jun 2025 11:02:59 +0000
+Message-ID: <20250627110257.1870826-1-chentaotao@didiglobal.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-27_04,2025-06-26_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 spamscore=0
- phishscore=0 adultscore=0 malwarescore=0 suspectscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2506270088
-X-Proofpoint-GUID: 8FpXteLgEXlpSTDqPX7G2_fm-vPer4yz
-X-Authority-Analysis: v=2.4 cv=PMYP+eqC c=1 sm=1 tr=0 ts=685e777f b=1 cx=c_pps a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=M51BFTxLslgA:10 a=yPCof4ZbAAAA:8 a=lPgn3NRR9fYW2pfQ3SIA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 cc=ntf awl=host:14723
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI3MDA4OCBTYWx0ZWRfX7ohwrFESJfrD aINzfDGzLbT2VX4HNPF8gP01tA+7rr/zKLEyGoQi08RLkZGhQW44I3CymIPuKuxiDrUYX8frqve PAxlV6Sso+UsiWg1xZX0CyeL+yixnYz8UWDscdHIGA6TyfTVDbod3dUFlQpqe45gyXTPTjTE2Vt
- wi16bsrfgVbyZ2MjzEshAXY4QkbQ7vAqr2FKOSU1ieKj2B83FCEPBMSwH8c2IARROMxan8HC959 JmfKFo4dSn7YHBtTPpCSEiFbgZszJlUhVzMa17JOEFtlt6ip/blReRtz8Q9WV/PM44cjVHDP0kY pkYMqCaP5j4Y4PUvBuH55WRKgGiLh+9/5+MvOzcWcHoOz7j03zsnxa0H7tQyLljRFqMtfn5KxNS
- ujvnYemC+DXFE8nmUgGWz7PQ/bS/Abf2PY6438eP+Ot31NXSkg5bmQyyV2jCViZ8TybLxWkL
-X-Proofpoint-ORIG-GUID: 8FpXteLgEXlpSTDqPX7G2_fm-vPer4yz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
+	s=2025; t=1751022159;
+	bh=3eEkTzd48aJijwJie0PYgb5WApqXlFvlW7CzY8x/BWg=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
+	b=KApNmOW02CTDBt28PJqDWHYfl7sdBXb/8lUclD2mNMCrpsIKV4nLmUO35t6pdRNpr
+	 fHTI/liJvGeoRIHIWhVG48ygm49UNeXjpF4/KLb8hkowd6dGVcIWOIDxcsU0dg3fYw
+	 F+JorA/cq5QG40DYy9NfKAWXD/O5aZUoe6XuWCyY=
 
-Add said functions to Documentation/memory-barriers.txt.
-
-Signed-off-by: Håkon Bugge <haakon.bugge@oracle.com>
-
---
-
-v1 -> v2:
-      * Changed the prosaic part to kernel-doc style and moved it to
-        include/linux/wait.h in another commit
----
- Documentation/memory-barriers.txt | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index 93d58d9a428b8..1d164e0057769 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -2192,6 +2192,8 @@ interpolate the memory barrier in the right place:
- 	wait_event_timeout();
- 	wait_on_bit();
- 	wait_on_bit_lock();
-+	wait_event_cmd();
-+	wait_event_exclusive_cmd();
- 
- 
- Secondly, code that performs a wake up normally follows something like this:
--- 
-2.43.5
-
+RnJvbTogVGFvdGFvIENoZW4gPGNoZW50YW90YW9AZGlkaWdsb2JhbC5jb20+DQoNClRoaXMgcGF0
+Y2ggc2VyaWVzIHJlZmFjdG9ycyB0aGUgYWRkcmVzc19zcGFjZV9vcGVyYXRpb25zIHdyaXRlX2Jl
+Z2luKCkNCmFuZCB3cml0ZV9lbmQoKSBjYWxsYmFja3MgdG8gdGFrZSBjb25zdCBzdHJ1Y3Qga2lv
+Y2IgKiBhcyB0aGVpciBmaXJzdA0KYXJndW1lbnQsIGFsbG93aW5nIElPQ0IgZmxhZ3Mgc3VjaCBh
+cyBJT0NCX0RPTlRDQUNIRSB0byBwcm9wYWdhdGUgdG8gdGhlDQpmaWxlc3lzdGVtJ3MgYnVmZmVy
+ZWQgSS9PIHBhdGguDQoNCkV4dDQgaXMgdXBkYXRlZCB0byBpbXBsZW1lbnQgaGFuZGxpbmcgb2Yg
+dGhlIElPQ0JfRE9OVENBQ0hFIGZsYWcgYW5kDQphZHZlcnRpc2VzIHN1cHBvcnQgdmlhIHRoZSBG
+T1BfRE9OVENBQ0hFIGZpbGUgb3BlcmF0aW9uIGZsYWcuDQoNCkFkZGl0aW9uYWxseSwgdGhlIGk5
+MTUgZHJpdmVyJ3Mgc2htZW0gd3JpdGUgcGF0aHMgYXJlIHVwZGF0ZWQgdG8gYnlwYXNzDQp0aGUg
+bGVnYWN5IHdyaXRlX2JlZ2luL3dyaXRlX2VuZCBpbnRlcmZhY2UgaW4gZmF2b3Igb2YgZGlyZWN0
+bHkNCmNhbGxpbmcgd3JpdGVfaXRlcigpIHdpdGggYSBjb25zdHJ1Y3RlZCBzeW5jaHJvbm91cyBr
+aW9jYi4gQW5vdGhlciBpOTE1DQpjaGFuZ2UgcmVwbGFjZXMgYSBtYW51YWwgd3JpdGUgbG9vcCB3
+aXRoIGtlcm5lbF93cml0ZSgpIGR1cmluZyBHRU0gc2htZW0NCm9iamVjdCBjcmVhdGlvbi4NCg0K
+VGVzdGVkIHdpdGggZXh0NCBhbmQgaTkxNSBHRU0gd29ya2xvYWRzLg0KDQpUaGlzIHBhdGNoIHNl
+cmllcyBpcyBiYXNlZCBvbiB0aGUgdmZzLTYuMTcubWlzYyBicmFuY2guDQoNCkNoYW5nZXMgc2lu
+Y2UgdjI6DQotIENoYW5nZWQgYWxsIHdyaXRlX2JlZ2luL3dyaXRlX2VuZCBmdW5jdGlvbiBzaWdu
+YXR1cmVzIHRvIHRha2UNCiAgY29uc3Qgc3RydWN0IGtpb2NiICogaW5zdGVhZCBvZiBzdHJ1Y3Qg
+a2lvY2IgKi4NCi0gTWVyZ2VkIHRoZSB0d28gZXh0NCBwYXRjaGVzIGludG8gb25lIGZvciBjbGFy
+aXR5Lg0KLSBVcGRhdGVkIHJldHVybiB0eXBlIGZyb20gaW50IHRvIHNzaXplX3QgZm9yIGtlcm5l
+bF93cml0ZS4NCi0gTWlub3IgZm9ybWF0dGluZyBhbmQgY29tbWVudCBpbXByb3ZlbWVudHMuDQoN
+Cg0KVGhhbmtzIHRvIE1hdHRoZXcgV2lsY294IGZvciBlYXJseSBmZWVkYmFjaywgYW5kIHRvIGFs
+bCByZXZpZXdlcnMgZm9yDQpkZXRhaWxlZCBjb21tZW50cy4NCg0KVGFvdGFvIENoZW4gKDQpOg0K
+ICBkcm0vaTkxNTogVXNlIGtlcm5lbF93cml0ZSgpIGluIHNobWVtIG9iamVjdCBjcmVhdGUNCiAg
+ZHJtL2k5MTU6IFJlZmFjdG9yIHNobWVtX3B3cml0ZSgpIHRvIHVzZSBraW9jYiBhbmQgd3JpdGVf
+aXRlcg0KICBmczogY2hhbmdlIHdyaXRlX2JlZ2luL3dyaXRlX2VuZCBpbnRlcmZhY2UgdG8gdGFr
+ZSBzdHJ1Y3Qga2lvY2IgKg0KICBleHQ0OiBzdXBwb3J0IHVuY2FjaGVkIGJ1ZmZlcmVkIEkvTw0K
+DQogRG9jdW1lbnRhdGlvbi9maWxlc3lzdGVtcy9sb2NraW5nLnJzdCAgICAgfCAgIDQgKy0NCiBE
+b2N1bWVudGF0aW9uL2ZpbGVzeXN0ZW1zL3Zmcy5yc3QgICAgICAgICB8ICAgNiArLQ0KIGJsb2Nr
+L2ZvcHMuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDEzICsrLQ0KIGRyaXZlcnMv
+Z3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zaG1lbS5jIHwgMTE0ICsrKysrKy0tLS0tLS0tLS0t
+LS0tLS0NCiBmcy9hZGZzL2lub2RlLmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgOSAr
+LQ0KIGZzL2FmZnMvZmlsZS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDI2ICsrLS0t
+DQogZnMvYmNhY2hlZnMvZnMtaW8tYnVmZmVyZWQuYyAgICAgICAgICAgICAgfCAgIDQgKy0NCiBm
+cy9iY2FjaGVmcy9mcy1pby1idWZmZXJlZC5oICAgICAgICAgICAgICB8ICAgNCArLQ0KIGZzL2Jm
+cy9maWxlLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA3ICstDQogZnMvYnVmZmVy
+LmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMjYgKystLS0NCiBmcy9jZXBoL2Fk
+ZHIuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxMCArLQ0KIGZzL2VjcnlwdGZzL21t
+YXAuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgIDEwICstDQogZnMvZXhmYXQvZmlsZS5jICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMTUgKystDQogZnMvZXhmYXQvaW5vZGUuYyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgfCAgMTYgKy0tDQogZnMvZXh0Mi9pbm9kZS5jICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgfCAgMTEgKystDQogZnMvZXh0NC9maWxlLmMgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgfCAgIDMgKy0NCiBmcy9leHQ0L2lub2RlLmMgICAgICAgICAgICAgICAg
+ICAgICAgICAgICB8ICAyNSArKystLQ0KIGZzL2YyZnMvZGF0YS5jICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHwgICA4ICstDQogZnMvZmF0L2lub2RlLmMgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgMTggKystLQ0KIGZzL2Z1c2UvZmlsZS5jICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgIDE0ICsrLQ0KIGZzL2hmcy9oZnNfZnMuaCAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgICAyICstDQogZnMvaGZzL2lub2RlLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAg
+IDQgKy0NCiBmcy9oZnNwbHVzL2hmc3BsdXNfZnMuaCAgICAgICAgICAgICAgICAgICB8ICAgNiAr
+LQ0KIGZzL2hmc3BsdXMvaW5vZGUuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgICA4ICstDQog
+ZnMvaG9zdGZzL2hvc3Rmc19rZXJuLmMgICAgICAgICAgICAgICAgICAgfCAgIDggKy0NCiBmcy9o
+cGZzL2ZpbGUuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxOCArKy0tDQogZnMvaHVn
+ZXRsYmZzL2lub2RlLmMgICAgICAgICAgICAgICAgICAgICAgfCAgIDkgKy0NCiBmcy9qZmZzMi9m
+aWxlLmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyOCArKystLS0NCiBmcy9qZnMvaW5v
+ZGUuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxNiArLS0NCiBmcy9saWJmcy5jICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxMSArKy0NCiBmcy9taW5peC9pbm9kZS5j
+ICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgNyArLQ0KIGZzL25mcy9maWxlLmMgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgICA4ICstDQogZnMvbmlsZnMyL2lub2RlLmMgICAgICAg
+ICAgICAgICAgICAgICAgICAgfCAgIDggKy0NCiBmcy9udGZzMy9maWxlLmMgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB8ICAgNyArLQ0KIGZzL250ZnMzL2lub2RlLmMgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHwgICA3ICstDQogZnMvbnRmczMvbnRmc19mcy5oICAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgMTAgKy0NCiBmcy9vY2ZzMi9hb3BzLmMgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB8ICAgNiArLQ0KIGZzL29tZnMvZmlsZS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
+ICA3ICstDQogZnMvb3JhbmdlZnMvaW5vZGUuYyAgICAgICAgICAgICAgICAgICAgICAgfCAgMTYg
+Ky0tDQogZnMvdWJpZnMvZmlsZS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDUgKy0N
+CiBmcy91ZGYvaW5vZGUuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxMSArKy0NCiBm
+cy91ZnMvaW5vZGUuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxNiArLS0NCiBmcy92
+Ym94c2YvZmlsZS5jICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgNSArLQ0KIGluY2x1ZGUv
+bGludXgvYnVmZmVyX2hlYWQuaCAgICAgICAgICAgICAgIHwgICA0ICstDQogaW5jbHVkZS9saW51
+eC9mcy5oICAgICAgICAgICAgICAgICAgICAgICAgfCAgMTEgKystDQogbW0vZmlsZW1hcC5jICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDQgKy0NCiBtbS9zaG1lbS5jICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB8ICAxMiArLS0NCiA0NyBmaWxlcyBjaGFuZ2VkLCAzMTAg
+aW5zZXJ0aW9ucygrKSwgMjg3IGRlbGV0aW9ucygtKQ0KDQotLSANCjIuMzQuMQ0K
