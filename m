@@ -1,138 +1,140 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DCD27A10D
-	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 08:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30E727F010;
+	Fri, 27 Jun 2025 09:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751014037; cv=none; b=L1GlG/InPrA3e+K1NFJ+hgkk+/DO0iriz3b/eEB8vTNRR0xKmz93Qtfty8iqw/usvKKcTwbCKjrAyKfLuixtm07iJ+Oku24R3WavcramAGjCctEXXXWqi1HPKnD7gfoY2u95+CbcZMK62cLx2/QqGBT7eUCrdmArLD6A6ANQ7nU=
+	t=1751014819; cv=none; b=thFQgE4NUODYOsEZs9OUHLa+7UjKQp+KCPOk2G+6BaBAYu+O47kcPE5rjbkqUyHCDP96dPl0mmKg4yX4qN3t1v0LjV8XWA40vhlIZLjPA6iVQeHVRb3+QTHldKENU7QM/+TijN3qq5Rb5BH9CTyEzL6caCFV7wwS6Uwq49uGkjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751014037; c=relaxed/simple;
-	bh=S9R1daGF0xfRUHuD8kFU/fIW4cXvRKaYSgRGFQpd0/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eW1WCz4zZujV7ry6NJDKYgLdIpFOVmr6lmjIYc2cAxiujXsDJBbsazs5CJAxOSd8UnCikxLtQRdpi2/wmmf2MXWXkWaBTy5FZW5Ov/4lzSl/VAkvJtGKptXIdXbCesJh1UrqF0ouSgVbvQX+57EVbWDu1nkN7yakofBUImSvXEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1uV4ja-0003zL-Vq; Fri, 27 Jun 2025 10:46:58 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1uV4jW-005aNg-0W;
-	Fri, 27 Jun 2025 10:46:54 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1uV4jW-003X1G-02;
-	Fri, 27 Jun 2025 10:46:54 +0200
-Date: Fri, 27 Jun 2025 10:46:53 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Frank Li <frank.li@nxp.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v18 3/7] firmware: imx: add driver for NXP
- EdgeLock Enclave
-Message-ID: <20250627084653.6vgwnm3llf3zknlp@pengutronix.de>
-References: <20250619-imx-se-if-v18-0-c98391ba446d@nxp.com>
- <20250619-imx-se-if-v18-3-c98391ba446d@nxp.com>
- <20250625105546.pxuatcnfpe7mssgs@pengutronix.de>
- <AM9PR04MB8604611B8D91B5526C9704E69545A@AM9PR04MB8604.eurprd04.prod.outlook.com>
+	s=arc-20240116; t=1751014819; c=relaxed/simple;
+	bh=OFGGtjh9lLAJpazPZciAUtiSAFEWyX3zAFFdP5TVjw0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ofH4DBCcHK0eoSR1aEQPHPUqCPy/H7pQ+cmSQ8fnlYlHJIalEoC3HOCEnb7R8mADHW0deAbsmf5tLLV4/ZghtixA2Rjw5O/O1glbD/X44szZ54OedTszqwdtyTFFtQHbV7jUByftFwRriYCYxMWXl7COmgScbmuYP3413+eEUEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=USx4WGd6; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USx4WGd6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751014817; x=1782550817;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=OFGGtjh9lLAJpazPZciAUtiSAFEWyX3zAFFdP5TVjw0=;
+  b=USx4WGd6Dnh6DjAt53BvJrgNiRpOGlQpvdaHSnwaQfEouOX/d8hYke4Z
+   lrwrpXouO5mp5qKDs8OGzURvrDF6WlDj2DiMaqnXbRlmJg1FUPmkLDMic
+   D9AjaT54WSo2NH5R+QYKb/RuRXbJ6hFyHSChRrZNCi7XXsfXIqE2sGj1o
+   vCF9ZLe9sLqGrX8u0NBWWEaJAB0caphhxX8osnmSTRcEz+pTE8FG3eMGx
+   mFXq5gGzAs1l1HUScHLqY5kG8zLvQjTPz3CLLe3SRzcd0Bbzr6TvkuvIv
+   BA384VMmy3N57GzT8ig7Q9tI3sJmZazS4ULLuTr07SOD8Ym4mlxDXuglT
+   g==;
+X-CSE-ConnectionGUID: Vqhc97DRTrq7JhGcQB601g==
+X-CSE-MsgGUID: aCneS0ZKSU+FI49aQHM/Xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="40944766"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="40944766"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 02:00:15 -0700
+X-CSE-ConnectionGUID: JqUZiAKiR46VDN/gPt4Vyg==
+X-CSE-MsgGUID: emlWJGyaSl2vPUpGyYcGrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="183790537"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.146])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 02:00:10 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, corbet@lwn.net
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kevinpaul468@gmail.com, Mauro Carvalho
+ Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] workaround for Sphinx false positive preventing index
+In-Reply-To: <20250627071628.30258-1-kevinpaul468@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250627071628.30258-1-kevinpaul468@gmail.com>
+Date: Fri, 27 Jun 2025 12:00:07 +0300
+Message-ID: <462a34d3027f22a65c129e2305c7aa4d4fda0e43@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM9PR04MB8604611B8D91B5526C9704E69545A@AM9PR04MB8604.eurprd04.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 
-Hi,
+On Fri, 27 Jun 2025, Kevin Paul Reddy Janagari <kevinpaul468@gmail.com> wrote:
+> Functions drm_format_info, drm_modeset_lock, drm_ioctl_flags are not being
+> indexed in the documentation because there are structs with the same name 
+> and sphinx is only indexing one of them, Added them to namespaces as a
+> workaround for suppressing the warnings and indexing the functions
 
-your e-mail configuration mixed my e-mail with your answer, which makes
-it hard to read. Can you please check the quoting next time :)
+I think there's a Sphinx bug about this that should be referenced.
 
-On 25-06-27, Pankaj Gupta wrote:
-> >> Add driver for enabling MU based communication interface to
-> secure-enclave.
-> >>
-> >> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE), are 
-> >> embedded in the SoC to support the features like HSM, SHE & V2X, using 
-> >> message based communication interface.
-> >>
-> >> The secure enclave FW communicates with Linux over single or multiple 
-> >> dedicated messaging unit(MU) based interface(s).
-> >> Exists on i.MX SoC(s) like i.MX8ULP, i.MX93, i.MX95 etc.
-> 
-> > You write single or multiple MUs are possible. I'm aware that the i.MX93
-> > has two MUs one for the secure and one for the non-secure world. But I'm
-> > really concerned about the fact that both MUs can't be used at the same time
-> > from both world:
+Cc: Mauro
+
+> Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
+> ---
+>  Documentation/gpu/drm-kms.rst  | 2 ++
+>  Documentation/gpu/drm-uapi.rst | 1 +
+>  2 files changed, 3 insertions(+)
 >
-> Yes, you are correct.
-> 
-> Fix is still work in progress.
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index abfe220764e1..da865ba1c014 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -357,6 +357,7 @@ Format Functions Reference
+>  .. kernel-doc:: include/drm/drm_fourcc.h
+>     :internal:
+>  
+> +.. c:namespace:: gpu_drm_fourcc
 
-So after ~6 months no fix is available :(
+I think using c:namespace-push and c:namespace-pop is the better
+option. Otherwise c:namespace will be in effect until the end of the rst
+file or next c:namespace.
 
-> > Also how is the secure and non-secure world talking to the ELE if there is
-> > only one MU as you have written?
-> 
-> Till the fix is WIP, either Linux or OPTEE can use the ELE, at one point in
-> time.
+I'm not quite sure what the namespace names should be, but for
+referencing anything the names here are pretty bad
+e.g. gpu_drm_fourcc.drm_format_info.
 
-That has nothing to do with the fix. The fix is for platforms/SoCs which
-do have 2-MUs, but you also have written that there are platforms with
-only 1-MU.
+As a workaround this does hide the worst fallout, but it's not even
+generic enough to handle structs and functions with the same name in the
+same file. I'm not sure if there are such cases, but I wouldn't be
+surprised if there were.
 
-This MU can't be shared between secure and non-secure world.
+A more generic (but also invasive) alternative would be to have
+kernel-doc always put structs/unions in a namespace, say "type", so
+they'd never conflict with functions. The automagic referencing in
+kernel-doc could produce those references. The downside is that manual
+references should include type.foo, and the produced html also contains
+type.foo.
 
-> > IMHO it makes much more sense to put the complete ELE communication into
-> > (OP-)TEE and let the secure OS taking care of it. All non-secure world
-> > requests are passed via (OP-)TEE to the ELE. This involves:
-> > - eFuse access (done via OP-TEE i.MX specific PTA)
-> > - ELE 23h59m ping (kernel SMC WDG driver, requires OP-TEE watchdog driver)
-> > - HW-RNG (kernel OP-TEE HWRNG driver + OP-TEE HWRNG PTA)
-> 
-> There is a dedicated MU "trusted-MU" for OPTEE-OS. The idea to converge to a
+BR,
+Jani.
 
-Yes for systems with 2-MUs there is a "trusted-MU" and a
-"non-trusted-MU". As of now, there is no fix available for using both
-MUs at the same time. Furhtermore there are platforms/SoCs with only
-1-MU, as you have written in your commit message. This 1-MU system can
-have the MU either trusted or non-trusted.
 
-> single path via OPTEE-OS, is good. But it will impact the performance of the
-> features at Linux side.
+>  .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c :export:
+>  
+> @@ -473,6 +474,7 @@ KMS Locking
+>  .. kernel-doc:: include/drm/drm_modeset_lock.h
+>     :internal:
+>  
+> +.. c:namespace:: gpu_drm_modeset_lock
+>  .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
+>     :export:
+>  
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 69f72e71a96e..37a2bc461326 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -554,6 +554,7 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
+>  .. kernel-doc:: include/drm/drm_ioctl.h
+>     :internal:
+>  
+> +.. c:namespace:: gpu_drm
+>  .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
+>     :export:
 
-Performance? We are talking about a ping every 23h59m (I still don't
-know if this is a feature or bug), eFuse write/read, and the HW-RNG
-which can seed the Linux PRNG.
-
-> Since the fix is still WIP. Let's wait till then.
-
-The fix is for the 2-MUs SoCs but not the 1-MU case.
-
-I would like to have a system design which doesn't differ too much
-between SoCs which are equipped with the ELE engine.
-
-Regards,
-  Marco
+-- 
+Jani Nikula, Intel
