@@ -1,84 +1,73 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86182F4A;
-	Fri, 27 Jun 2025 00:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B608219E8;
+	Fri, 27 Jun 2025 00:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750983609; cv=none; b=u7EYoorNHJc4p+C5X3S0XLDOhtuLskN83YK1lKUpbOgTplkY7aUebpwhTMniUSqcq5DSNL1JuQuT8fMC07G2CpnumVaxfaRgTu2buiAoYux4O0RKeeD3m5WPmTV8Vi9OjpqlI+TH5SfRZ8lVInGaT2gOqqM/IXjvnD8uxKtWwr4=
+	t=1750985343; cv=none; b=AuA/z002yBwsnKj6Vhm1DTM7rbKDla/aW19Aa0xs7Xzpu4scYAXur6hyK8x9d2xJ2N5E9RTWKWAllhxrgbqZEfQA67CXwgcS2YgNJzyre/hWja3UgvU/2MsrrDVkumTV5QLzQW1z//fbAsOscM4gOThOUuPVLVnYQ4k15tYOKes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750983609; c=relaxed/simple;
-	bh=PKky7IbbIFiq2DgbdU65Z9zZBJsDd8cpZP8lF8C1OOs=;
+	s=arc-20240116; t=1750985343; c=relaxed/simple;
+	bh=5oLOQYAMuarWeQyZW0I633F/GlCg3p2uhMcx+ReqRcw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E+V522+dIJCiHb2LSjCfhvDkkpu4/dikSVTc5gpV1Gqo9S/GwC00ma2g5WzWSfp15vQBmicUbatDe8lk3FKNJ2YrDB09q3O3+EqcIkbFbDGFXoFpitueN4EwLQuJzyapwOfJbzNOwoDWkkY47FGIpJTdTIyOWe9bji8NysFco7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i+gO6oNl; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jz2s0NTqksHLiSAkTYUKyCURi9+QsFUkaZyyWJcbpyhGfMwbKeh9uPWQNGicdjv4pjQOCeHGCXaPrOpQ9UoOyvdfUQXsrStViIWW5i35FdWlesYK34qjWDwKiR5JPujt+B9ywMBF+bG4bYc5fV8q+8qHaesODh7hdIMvUJNGxog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DPEIW/r3; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+gO6oNl"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7490702fc7cso1145579b3a.1;
-        Thu, 26 Jun 2025 17:20:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DPEIW/r3"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-236470b2dceso18121885ad.0;
+        Thu, 26 Jun 2025 17:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750983607; x=1751588407; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1750985342; x=1751590142; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gZQojmcQydldQjb4UI2zP2jf0B6n8+rV1pAko5QeeAY=;
-        b=i+gO6oNl6MGR42MtVEUD3IsC91U6SAm0S2nB55nlCW6Zo0L+N9fJmgjTMmPGPrdHs9
-         B0uxM1BR1EKEAL7e8M1eJy5NCb2/g2Yym3D0sWO3pqG1mOys/ToxkC75NN6rapcU2Hmd
-         jUMc6jQHpO2LnYM1z2MWjU4RdwFsfZpjyXaUPRXu8MXGxq6lg8UV8DLuA+8Z4ZFIYZU3
-         lcCg6AvyR4LgqXpPlH8FpyAnK9ef4h+w7KgZjhlM82DfiSuhzHGQdr6koMq5JHe/QYs+
-         c2l2Ucja5JsXNXbTj1Ehh0CoZiZbIq3/5NcUtZIuDUzcDEnm5NI0yA4Uilc2Htbke1EE
-         Yo3w==
+        bh=BUh54we8qQgEjajINTYGgfwX0bLCQRW15F1qeTz390A=;
+        b=DPEIW/r3jNaCxAJGoG/7IeAXdAdyPsz8p9exzNNckKn63Sur/EYzSWVhcjzSdLAAQl
+         0bdM2tWgGsKUW7F/zcgcq6jERYXFpKrwSU5sxAbphZCpEArvJ9YJ9RbCdYSsN0X1ItJQ
+         ZfFTVPTXBlfrTwjG6OkJYmz7eEUullUPJlDbD13OU5Ld0+QeCHURQwl8Iqv26Hs5cE92
+         EhF/AKTJVODKT2SKXV6Xk5DhqhZGnTFzPF8g00hCe9kzVLL4Senwgz/c3U2oATnddGih
+         vAZn6Fg3ffS0/7FSaiLlw55/91+OhoojDZ2p6ftxLAeSHBjPRn27ORuAg54XnGTtX0T9
+         XY7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750983607; x=1751588407;
+        d=1e100.net; s=20230601; t=1750985342; x=1751590142;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gZQojmcQydldQjb4UI2zP2jf0B6n8+rV1pAko5QeeAY=;
-        b=UjoYXXyZM1lhfn2f/kVM703SNl7YlbarzxmLS+gv9vmfX0fXExJNo8/t344swO/kqP
-         3gua9cq1VpvUHRwfFx1l5S5rcOj4FPNVb+dohf8i1SPZFoVDCEiYIoVFRHiWCOLTqeUR
-         Rskf1pH+tuvRpk1J0NhrC7eaYbq2OFWGFnAVb9NHDieBEP7mZXcYvNIWs0pFFtaOqJCv
-         MlX4xPLlZikMIX9Ms4/yn2AwYCIHT9UKR/f8HB2ugzGDHwBMPfQi7qP6QGVlSAeka/zQ
-         Qg/jzT4Otf+g8vOX69PTLt3NA3cIPtKPjPlbtN+X4TPzNaBj8RPSjMFzMogDphLDS3Z8
-         TeHw==
-X-Forwarded-Encrypted: i=1; AJvYcCUNB7R61cyFWVIb9nRu9tg5y2+qgIJsvzImzzUjvX42IjlKkQs83IaKmDd7PJSu3MTB3+MtTvjR34VDRZXW@vger.kernel.org, AJvYcCWX21qCY45xCH+eJeS14B6VMHrNLCcwN+qBXn/ETsy8GAr+bu+mK4f00rko0SsdIOrpPvwNXHeW6Pw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuPnE9OSvB8vdwxthrGuxwhNSLPUnIhKh63SVgtAibBy6TscKh
-	W/Btg4a4heIaCTgDhu0sd5vckYUxw74+NQdjw90LcCG3hzu+mo71d9Ge
-X-Gm-Gg: ASbGnct42I0o9kT//TTsvrvpGwGhMUd1tmA6PUsd/8NOcmqzN2DMyd8R8ReY6I7aXmI
-	BQaA70HxTaXKpw41rRvTQn+bguXo2QXWk2mwObgIhteQUrKZw8/L+To9vVn7pZXHPNqvuE2THAH
-	+w9Ha+JIMQzfOnDpEfFtgY5b4KzQiSG+C0CQ89KbBXsklCNnDe241TklwJ2vL5M6wIv9B71FpmT
-	GQpe0hKA1/hgcjZxP6rKhJ90Bhu6R06opz9uVjcycPo6Jj1D5eIieBiMABrN7zjRLbJstt9t1QV
-	W1U+r+jF7nVSZiJNJrqiB6bVxzferE9T9NSNJDvm77jvwS4kox2oFQsnh+Lu5g==
-X-Google-Smtp-Source: AGHT+IFfcKOr44kTaqlIcQVea5gmzizTb5lvMRwigGECKk10wnTLCRW9K8fkWSfPBmdHhXrjm+JdEw==
-X-Received: by 2002:a05:6a20:1586:b0:215:e43a:29b9 with SMTP id adf61e73a8af0-220a16db22amr1204311637.33.1750983606796;
-        Thu, 26 Jun 2025 17:20:06 -0700 (PDT)
+        bh=BUh54we8qQgEjajINTYGgfwX0bLCQRW15F1qeTz390A=;
+        b=es0UcWFKo4AkgjRrEenddMrOVBge2YLrTYZK+abGoWCCkbrcp6P0abU0pGiLsJa/Tw
+         w3q9miCDd3nUmYvs/QzzjAgNwZ44twJT2IqIjRDKoTP7RK9rkkX6ptRwNRxWf/QBP4Tg
+         4OJuvys4Gn4BU+yAoLq6hnMXSGeFcsMAyofZfgkozdo7TjHASv4OesBCL0YpAyhyjJo6
+         srMhKHkFFHB4NH7m+hSFWHH19QFxi3pUJUA5GWm+RMHl+aYU83w6wDfeFVE+VjouSrKJ
+         ewRU7hN/gLShO3ZLsXKPXHe85Uu56iK7BgbN3/GaH5upRriWRx3HohMzyE2DY+UxZY6u
+         Yz9w==
+X-Forwarded-Encrypted: i=1; AJvYcCXLIgLG0XrQk7yiVjVQB+CmWlK/Gidjr+3GScVEnArysnDHT1bpWqBlweDRZSMhVng0ZSow1N3Z0ZI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+hcqMw7b7/HmzENBlm5tL5wfn5QkZ7Y1fj4lbJuT5cscCt6YO
+	EwnOzun1O2t8O5Pyn5UJeS3j9q3SaCFiouZKT5IlThRTiobr3dZ16xGeFyvxeQ==
+X-Gm-Gg: ASbGncsmEz4WrIeq8Js+Jyo5Dan/CKLnLn8Cch3uaCrgG5h2pGuuijhJgT83N36tKAu
+	UPtTNfChqDV9MaiN9YXcqTIYLK5uRnFslX7NBbsNyEr2T9Au6NO/iIJAYcXka7vwjfHql9o0rmw
+	2OLwqtXuce/F5jICBNt7CmJs4k13w2ppPLeOw0Vis4m1RI9kAG86b3ak00rYDzJdK2zPiFhKttN
+	ydv4GmFkq9xRcM4QOO+Pa47O13biO/WX8GKEijQLGd5cJk3iJ6cnNsGZFAWtqiv+lPuxfqtYpPI
+	FYI6b/X310jsT3ER7WBzlFZM3EgfsBipJDsIwiW29mSuDcRui0p9sHtRsCE0qQ==
+X-Google-Smtp-Source: AGHT+IH3XP6ZqYnskGg62bI6GoHr+BwRDgXeQARNuU/0NSTvvfDYYB8vFqg406aoZFsCGadYV3kyMw==
+X-Received: by 2002:a17:902:fc8d:b0:234:c5c1:9b5f with SMTP id d9443c01a7336-23ac3afd437mr21438655ad.16.1750985341546;
+        Thu, 26 Jun 2025 17:49:01 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b34e31bea22sm230934a12.38.2025.06.26.17.20.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3c8d99sm2564815ad.248.2025.06.26.17.49.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 17:20:05 -0700 (PDT)
+        Thu, 26 Jun 2025 17:49:00 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id EF60C4207D0B; Fri, 27 Jun 2025 07:20:01 +0700 (WIB)
-Date: Fri, 27 Jun 2025 07:20:01 +0700
+	id 839F14207D0B; Fri, 27 Jun 2025 07:48:58 +0700 (WIB)
+Date: Fri, 27 Jun 2025 07:48:58 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Carlos Bilbao <carlos.bilbao@kernel.org>,
-	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stanislav Fomichev <sdf@google.com>,
-	David Vernet <void@manifault.com>, Miguel Ojeda <ojeda@kernel.org>,
-	James Seo <james@equiv.tech>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH RFC] Documentation: typography refresh
-Message-ID: <aF3jsR6d2gC_CvoE@archie.me>
-References: <20250619042318.17325-2-bagasdotme@gmail.com>
- <87wm8z8xs7.fsf@trenco.lwn.net>
+To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+	andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: correct the heading level for
+ co-posting selftests
+Message-ID: <aF3qeuJupkykvtpV@archie.me>
+References: <20250626182055.4161905-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,67 +75,61 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="n2Nz9B8Ft9sZeJJ8"
+	protocol="application/pgp-signature"; boundary="074WrdyqrDJ/fiQe"
 Content-Disposition: inline
-In-Reply-To: <87wm8z8xs7.fsf@trenco.lwn.net>
+In-Reply-To: <20250626182055.4161905-1-kuba@kernel.org>
 
 
---n2Nz9B8Ft9sZeJJ8
+--074WrdyqrDJ/fiQe
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 25, 2025 at 12:46:16PM -0600, Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Thu, Jun 26, 2025 at 11:20:55AM -0700, Jakub Kicinski wrote:
+> "Co-posting selftests" belongs in the "netdev patch review" section,
+> same as "co-posting changes to user space components". It was
+> erroneously added as its own section.
 >=20
-> > At present, kernel documentation uses system serif font for body text.
-> > Some people, however, objected to it and instead prefer that the
-> > typography choice must be legible, consistent, and accessible (after
-> > all, the audience ranges developers peeking into kernel internals to
-> > ordinary users that skimmed through Documentation/admin-guide/).
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> CC: corbet@lwn.net
+> CC: linux-doc@vger.kernel.org
+> ---
+>  Documentation/process/maintainer-netdev.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> So I have not seen the objections from "some people"; can you point to
-> them, please?
+> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/=
+process/maintainer-netdev.rst
+> index 1ac62dc3a66f..e1755610b4bc 100644
+> --- a/Documentation/process/maintainer-netdev.rst
+> +++ b/Documentation/process/maintainer-netdev.rst
+> @@ -312,7 +312,7 @@ Posting as one thread is discouraged because it confu=
+ses patchwork
+>  (as of patchwork 2.2.2).
+> =20
+>  Co-posting selftests
+> ---------------------
+> +~~~~~~~~~~~~~~~~~~~~
+> =20
+>  Selftests should be part of the same series as the code changes.
+>  Specifically for fixes both code change and related test should go into
 
-None really but I feel that sans-serif looks aesthetically more pleasant
-(to my eyes) on screen than bare Times New Roman.
+Looks good, thanks!
 
->=20
-> > To tackle the problem, follow Wikimedia's typography refresh [1].
-> > For the font choices, instead of using web fonts as in previous
-> > attempt [2], use:
-> >
-> >   * Linux Libertine, Georgia, Times for serif (used in h1 and h2
-> >     headings)
-> >   * system font for sans-serif and monospace
-> >
-> > This allows for more readability and consistency without sacrificing
-> > page load times and bandwidth, as the font choices is most likely
-> > already available on many platforms.
->=20
-> I am open to style changes to make the docs more readable, but I am far
-> from convinced that this is it.  Mixing font styles in that way will not
-> be universally popular, the claim of "more readability" is
-> unsubstantiated, and "consistency" seems out of place when you're making
-> the fonts deliberately inconsistent...?
-
-Because I don't have anything else to say in my mind as ideas when writing
-this RFC.
-
-Thanks.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---n2Nz9B8Ft9sZeJJ8
+--074WrdyqrDJ/fiQe
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaF3jrQAKCRD2uYlJVVFO
-o7dOAQCtMP/tRlf6i5sdRHW7Dg8T3Xw1LbXap5cyGYX4DiiMGQD+PcHawpD1JGxQ
-a4ISmyWG33/Yrnfg+8pxT4t9CZg1kgM=
-=iqx/
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaF3qdgAKCRD2uYlJVVFO
+o9hDAPwPVHtvsPDRbE2pyJh8XRAmEwXedr+Ri4+mIiK0rrspAQEAxaWKGa3c/YCA
+S1RooAMM981amEykpAy6wyaiHu/fdwc=
+=bpfR
 -----END PGP SIGNATURE-----
 
---n2Nz9B8Ft9sZeJJ8--
+--074WrdyqrDJ/fiQe--
