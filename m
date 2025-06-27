@@ -1,87 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f202.google.com (mail-oi1-f202.google.com [209.85.167.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D5722B8A4;
-	Fri, 27 Jun 2025 20:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3729134AC
+	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 20:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751056775; cv=none; b=l9DJcQOrM/VIBFz60J8Y01MT61f/bcNiotr0uHWB8QIsvDW1tUXW0LXNPVgWSV/qa0KPHLtZE1wPuvuCiQnOSHTANH1vnAUOwD4Nk5E6IQFg5faspbBxVrq2Aly3bA+11cWqE1dR89ED+E2GbqzTM7BjG6hu6suj7Lj3TxAhiB8=
+	t=1751057143; cv=none; b=mXfWoimcCziQ++xInN0ESMe2UZ/zOL7BTeRcUWH0FY/ZaN1R9JN4EuiVKEEfIjS4uwi5N6NSte5vZPwE8uH1yM7AJzx4725jO98Q7EF3xsc/gHdvCW1taLP3SKllVWJF1eL4w54kudh6hp8N3OmnyGev911o0hcmZrlqwckJsWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751056775; c=relaxed/simple;
-	bh=xMIC34Yma/hoOGQGXI6PG8KF2iqrWt1g1NKLa2vytxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FFYLMb5DxpjZOwNHzIWfotJ3fv5sYh2Jih5vQ9lASXuERtavohR637LBPrQLG/B8n51Bdda7gi5AqydYYSHBtHGGY+NJ8gTvzBVEShKm7XwxCCyOJJtxJLMqJriVNEKnZzBBnG3WhtoUFf1ypIOzhcQG4q21jEmV14ujIDgFIY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=heyaC5DY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751057143; c=relaxed/simple;
+	bh=tdvLWFsh/wI9WWSqIsGVNp6UW8sVmmyQUHoavqrwGBE=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=TjccE6jSQwrYvqGhK2XediTk6kfYmCA2ct5bEeRPRv+9rGWp4PrIYmj1XVSNnvkXFLnGEk4qs8aXV+0oIYbF+QOrqLd1z+CrGDUZcgmbhzpo+Y9tE6/0CTFV7jkqS/osMBhlytp5nMmR9jrQib0dvgtuHqbQXX1JB9j9jUWOWoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ko+fs5wv; arc=none smtp.client-ip=209.85.167.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="heyaC5DY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41A67C4CEE3;
-	Fri, 27 Jun 2025 20:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751056775;
-	bh=xMIC34Yma/hoOGQGXI6PG8KF2iqrWt1g1NKLa2vytxE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=heyaC5DYoKO4mA4UI5zOdxp0wscwLigmLkJO/K25li/YpkWupM//orRUHUuog6JYs
-	 b+g/BhkDk5FuXIYx6qTxE1nyUII5q1afdHRyOVR/tdTOxgNmEiwvKrtPptuSU+FYGQ
-	 5pcKboNIZKvP+1TMHMHGJpgC+7K1V3et97Tr/WlsCSpu/qYU/JLu6Th9GyX2YnEKZC
-	 X0UwvAHliA1mGwrjCi3eLtHXFwNQYjzMQ0kKL/0IUITHiIFbRhTSBzgHE1xc8ol5R2
-	 4S55aOwz8GbZoUQCt1XnaVg1ebaxyiTWxnM2YBGGp7pW7x61f7kFll+2A/L3FzL5da
-	 tOhMssofYsXMQ==
-Date: Fri, 27 Jun 2025 15:39:34 -0500
-From: Rob Herring <robh@kernel.org>
-To: wenswang@yeah.net
-Cc: krzk+dt@kernel.org, conor+dt@kernel.org, jdelvare@suse.com,
-	linux@roeck-us.net, corbet@lwn.net, Jonathan.Cameron@huawei.com,
-	michal.simek@amd.com, naresh.solanki@9elements.com,
-	festevam@gmail.com, rodrigo.gobbi.7@gmail.com,
-	grantpeltier93@gmail.com, laurent.pinchart@ideasonboard.com,
-	cedricjustine.encarnacion@analog.com, nuno.sa@analog.com,
-	ninad@linux.ibm.com, jbrunet@baylibre.com,
-	kimseer.paller@analog.com, xzeol@yahoo.com, leo.yang.sy0@gmail.com,
-	Mariel.Tinaco@analog.com, johnerasmusmari.geronimo@analog.com,
-	linux@weissschuh.net, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/4] dt-bindings: hwmon: Add MPS mp29502
-Message-ID: <20250627203934.GA42694-robh@kernel.org>
-References: <20250625065956.964759-1-wenswang@yeah.net>
- <20250625080425.966014-1-wenswang@yeah.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ko+fs5wv"
+Received: by mail-oi1-f202.google.com with SMTP id 5614622812f47-40b4aec861fso85189b6e.0
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 13:45:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1751057140; x=1751661940; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=RtzxPj829hxx6a8LNGtfeNdfTNyEQAZxil+yeQpRBG4=;
+        b=Ko+fs5wv4uMytKM8pW0AJLOBZnoXOsG09Q+tt0pCgXuY627EtTamIQ3WkgNwSZ3dPO
+         yxSAsf0dw6WGFu8v1DZEjztVsW2L4lK0S4v0G6m1qrMdyXV3HMw4nA02AF1FZamFKlHv
+         oOpz1fiG2vQdXOGrEcGoXxgyjuiMt5Z697uKKtgyE7J6x/M9N7bykXR0FZ7KRcEcXsdx
+         bgYEk5AKAYWV3MaDJObI1Yq9U/opK9BqFeMn1iCHm7p0STdvW4AxCepFMhs+u9LnCGX7
+         UCsww4YibYqoRs0g/ncy7ypLAzM0phrJQRabBRvO+tiE1+EM6eMvOsBK6RSD5LNbhETp
+         kDjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751057140; x=1751661940;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RtzxPj829hxx6a8LNGtfeNdfTNyEQAZxil+yeQpRBG4=;
+        b=GJ0zlUGZM52fUhwXvX6qF2xW0kHZnjBFTgLCo0fZvqtEq7ZI3hyaGYhXwt6HueQVkf
+         bOvWX9AmoHBTcuvEA98EVdlEGCwiVHDY1E4lSP62LYqutkwyTKYBzxvSRHKrQquBK6xD
+         CmTWK33ih51CcBPWZRJv2JfGqUTgBF1CRyWvaZbinyg3OCH7KTLJtntuQ195soPso7c2
+         q/Srl1fMl8G+b6uztoIKyVq/Z6q+9Kod3gKg+cqhXdxavnv4ux9mYK3L6CDI7uatbWCr
+         BUTqOFp1FW2lRkYaX2IDbY1CPO7HH3VtLZaBtoxQmGuS/jMJevk03UdjM5fwzxcSy0nZ
+         mB0w==
+X-Forwarded-Encrypted: i=1; AJvYcCU3QITAJnmVq/RiFJ5GVGUaLp+1YV4J7mivQPU3ETUDpW4EEndwsV5xkxQ+sCiYKHcSHRkorU4hUhk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwraAkwwGOa/NMh2Vy8oAbZFXogGg6AVL/wtUf426sFMJfzvqgN
+	gt0ug9LP3OoaTWCMTwaNIaNmDclPnKPv8X7CfQRO0coLNF9/hyMqacj5LnMVljIiP8uSAe2kAfe
+	Kt7E5/rfBinV3dHcoTma+4FZjog==
+X-Google-Smtp-Source: AGHT+IEVJG2F41QRpFsQcHOZM3LLETHwJl5cQHVqdrJwuBS7mGDCrIIEijxTBzEQVHHKwtJ80l+vFT15a5JN0DRDMA==
+X-Received: from oiu5.prod.google.com ([2002:a05:6808:80a5:b0:3f9:9583:af9b])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6808:21a7:b0:406:6e4b:bd91 with SMTP id 5614622812f47-40b33c489d6mr3625383b6e.7.1751057140014;
+ Fri, 27 Jun 2025 13:45:40 -0700 (PDT)
+Date: Fri, 27 Jun 2025 20:45:38 +0000
+In-Reply-To: <603eb4c7-5570-438c-b747-cdcc67b09ea6@arm.com> (message from Ben
+ Horgan on Fri, 27 Jun 2025 10:04:21 +0100)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250625080425.966014-1-wenswang@yeah.net>
+Mime-Version: 1.0
+Message-ID: <gsntecv49aml.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v3 02/22] arm64: Generate sign macro for sysreg Enums
+From: Colton Lewis <coltonlewis@google.com>
+To: Ben Horgan <ben.horgan@arm.com>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
+	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	mark.rutland@arm.com, shuah@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-On Wed, Jun 25, 2025 at 04:04:25PM +0800, wenswang@yeah.net wrote:
-> From: Wensheng Wang <wenswang@yeah.net>
+Hi Ben. Thanks for the review.
 
-Your threading is weird and patch 4 is missing. This patch can be 
-squashed with the 1st binding patch.
+Ben Horgan <ben.horgan@arm.com> writes:
 
-> 
-> Add support for MPS mp29502 controller
-> 
-> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
-> ---
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-> index 493e7232f09f..2066696ecff4 100644
-> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> @@ -291,6 +291,8 @@ properties:
->            - mps,mp2888
->              # Monolithic Power Systems Inc. multi-phase controller mp2891
->            - mps,mp2891
-> +            # Monolithic Power Systems Inc. multi-phase controller mp29502
-> +          - mps,mp29502
->              # Monolithic Power Systems Inc. multi-phase controller mp29608
->            - mps,mp29608
->              # Monolithic Power Systems Inc. multi-phase controller mp29612
-> -- 
-> 2.25.1
-> 
+> Hi Colton,
+
+> On 6/26/25 21:04, Colton Lewis wrote:
+>> There's no reason Enums shouldn't be equivalent to UnsignedEnums and
+>> explicitly specify they are unsigned. This will avoid the annoyance I
+>> had with HPMN0.
+> An Enum can be annotated with the field's sign by updating it to
+> UnsignedEnum or SignedEnum. This is explained in [1].
+
+> With this change ID_AA64PFR1_EL1.MTE_frac would be marked as unsigned
+> when it should really be considered signed.
+
+> Enum	43:40	MTE_frac
+> 	0b0000	ASYNC
+> 	0b1111	NI
+> EndEnum
+
+Thanks for the explanation. I made this a separate commit because I
+considered people might object and HPMN0 is already an UnsignedEnum in
+my previous commit.
+
+Do you think it would be a good idea to make plain Enums signed by
+default or should I just remove this commit from the series?
+
+
+>> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+>> ---
+>>    arch/arm64/tools/gen-sysreg.awk | 1 +
+>>    1 file changed, 1 insertion(+)
+
+>> diff --git a/arch/arm64/tools/gen-sysreg.awk  
+>> b/arch/arm64/tools/gen-sysreg.awk
+>> index f2a1732cb1f6..fa21a632d9b7 100755
+>> --- a/arch/arm64/tools/gen-sysreg.awk
+>> +++ b/arch/arm64/tools/gen-sysreg.awk
+>> @@ -308,6 +308,7 @@ $1 == "Enum" && (block_current() == "Sysreg" ||  
+>> block_current() == "SysregFields
+>>    	parse_bitdef(reg, field, $2)
+
+>>    	define_field(reg, field, msb, lsb)
+>> +	define_field_sign(reg, field, "false")
+
+>>    	next
+>>    }
+
+> Thanks,
+
+> Ben
+
+> [1]
+> https://lore.kernel.org/all/20221207-arm64-sysreg-helpers-v4-1-25b6b3fb9d18@kernel.org/
