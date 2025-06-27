@@ -1,98 +1,234 @@
-Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E63B27FB31;
-	Fri, 27 Jun 2025 14:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.136.29.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4866E1B78F3;
+	Fri, 27 Jun 2025 15:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751035657; cv=none; b=YcWAIwP6O+fIF6FJzOCZ6FhvtNwxE2BA1Cj5C/tYyr68jizijE9L5Nd1pZk6rhLpIF55FXSBd8uTUDXZSftbC+0eIMiH4xV0EU9TbAJM3120Upky4YH+ukeB7/GvovK+GKPTWA9q222EEBwb9fDLPvig9Lq2LMByOuGrwuVf6Og=
+	t=1751036499; cv=none; b=BjW5QoASlRnFhUkAr5BR1/y2dcek1K+j2+A02FeH1PETdggnqZxlfH4QJZwZs6f7CfvIE0BrlO0OX+1qBJkXL1WmwjWpn8H9dbMH1RZ89T9pbYIyooS/+B9qN1P6jWv5W5nR+Iy4mHE7jDJevk/a5gWRnfVDg8IOPQgCmVt69As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751035657; c=relaxed/simple;
-	bh=F1W/DiN3Su/MEYlLYa53aHYIKiU6GRCUMsTepHB/HAc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rXPwppg3JZ5v8zr+Pjhd6u/XV7eF0XK5TuIxM339fp7/0of+TwjLSsG+t9IWp15MqTloDxWunxwGMBvTBJxW/0Yg86D2pgqUbhj1YtdwkHDZ3VSC87GVBIBarOUOOKlcPgC1M4/qtatfH5xZmdagQyehTBFQr5KRMyiT4jATcjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com; spf=pass smtp.mailfrom=proxmox.com; arc=none smtp.client-ip=94.136.29.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
-	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 15011468A6;
-	Fri, 27 Jun 2025 16:47:27 +0200 (CEST)
-Date: Fri, 27 Jun 2025 16:47:26 +0200
-From: Gabriel Goller <g.goller@proxmox.com>
-To: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ipv6: add `do_forwarding` sysctl to enable per-interface
- forwarding
-Message-ID: <hx3lbafvwebj7u7eqh4zz72gu6r7y6dn2il7vepylecvvrkeeh@hybyi2oizwuj>
-Mail-Followup-To: Nicolas Dichtel <nicolas.dichtel@6wind.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250625142607.828873-1-g.goller@proxmox.com>
- <f674f8ac-8c4a-4c1c-9704-31a3116b56d6@6wind.com>
+	s=arc-20240116; t=1751036499; c=relaxed/simple;
+	bh=G83basSwJmom/UjEsv3A4K0YpUbhyHGDHOVGor+sYC8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rc9xHsOraq7u5c9eFYhQDfulGzgP3dcYYKa+KIWESZjwymlELHkrFeBFjjTMZt9AHL08P9IDXpnvNcqGVL4UqBN0nU36JOXEFKEqpynPdfaAyFyg3CnWtap1u9Jo+9FIAB7qMzu0/TxUFmZ9ojDvBkXUieDoxZd121px0wmoU6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GC8BTwZ5; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GC8BTwZ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 225C5C4CEE3;
+	Fri, 27 Jun 2025 15:01:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751036499;
+	bh=G83basSwJmom/UjEsv3A4K0YpUbhyHGDHOVGor+sYC8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GC8BTwZ5Zhns9//KZQl3at71K9DS6LTMDhoYTzHFzghg48sXazqO+X3knNNUE/Wkd
+	 DW0jneRafgrniYuJvtTSzpDyk/bUWDGVIoCikzZ9Tu664NlEwFbvFz6euiYSBRgTSG
+	 Wh5oJA3UEjrvGkaWL7cWhOianNhSnzRwMeYBknMl6D6ptHkOVH6VJHebxSbEMkKaG2
+	 8qPtskrpQbe4f8P0x5IV1Rt2MkEc0p0hfWa4k3KM7AJxj5sg8KQzl05iarRY+VVxJx
+	 d9ol4offvylbZFfhsdQFJzcZJQfPi/vB2ZXAhdCfnIch4/3oYUSO1h1A9/Eg/8uvSm
+	 cOo30SqgmoG9A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1uVAa8-00Ab1s-Ur;
+	Fri, 27 Jun 2025 16:01:37 +0100
+Date: Fri, 27 Jun 2025 16:01:36 +0100
+Message-ID: <86plepb54f.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Mingwei Zhang <mizhang@google.com>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 10/22] KVM: arm64: Set up FGT for Partitioned PMU
+In-Reply-To: <20250626200459.1153955-11-coltonlewis@google.com>
+References: <20250626200459.1153955-1-coltonlewis@google.com>
+	<20250626200459.1153955-11-coltonlewis@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f674f8ac-8c4a-4c1c-9704-31a3116b56d6@6wind.com>
-User-Agent: NeoMutt/20241002-35-39f9a6
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: coltonlewis@google.com, kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, mizhang@google.com, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 26.06.2025 16:51, Nicolas Dichtel wrote:
->Le 25/06/2025 à 16:26, Gabriel Goller a écrit :
->> It is currently impossible to enable ipv6 forwarding on a per-interface
->> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
->> enable it on all interfaces and disable it on the other interfaces using
->> a netfilter rule. This is especially cumbersome if you have lots of
->> interface and only want to enable forwarding on a few. According to the
->> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
->> for all interfaces, while the interface-specific
->> `net.ipv6.conf.<interface>.forwarding` configures the interface
->> Host/Router configuration.
->>
->> Introduce a new sysctl flag `do_forwarding`, which can be set on every
->> interface. The ip6_forwarding function will then check if the global
->> forwarding flag OR the do_forwarding flag is active and forward the
->> packet. To preserver backwards-compatibility also reset the flag on all
->> interfaces when setting the global forwarding flag to 0.
->>
->> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
->>
->> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
->Please, export this sysctl via a NETCONFA_DO_FORWARDING attribute also.
+On Thu, 26 Jun 2025 21:04:46 +0100,
+Colton Lewis <coltonlewis@google.com> wrote:
+> 
+> In order to gain the best performance benefit from partitioning the
+> PMU, utilize fine grain traps (FEAT_FGT and FEAT_FGT2) to avoid
+> trapping common PMU register accesses by the guest to remove that
+> overhead.
+> 
+> There should be no information leaks between guests as all these
+> registers are context swapped by a later patch in this series.
+> 
+> Untrapped:
+> * PMCR_EL0
+> * PMUSERENR_EL0
+> * PMSELR_EL0
+> * PMCCNTR_EL0
+> * PMINTEN_EL0
+> * PMEVCNTRn_EL0
+> 
+> Trapped:
+> * PMOVS_EL0
+> * PMEVTYPERn_EL0
+> * PMCCFILTR_EL0
+> * PMICNTR_EL0
+> * PMICFILTR_EL0
+> 
+> PMOVS remains trapped so KVM can track overflow IRQs that will need to
+> be injected into the guest.
+> 
+> PMICNTR remains trapped because KVM is not handling that yet.
+> 
+> PMEVTYPERn remains trapped so KVM can limit which events guests can
+> count, such as disallowing counting at EL2. PMCCFILTR and PMCIFILTR
+> are the same.
 
-Yep, will do.
+I'd rather you explain why it is safe not to trap the rest.
 
->> ---
->>
->> * I don't have any hard feelings about the naming, Nicolas Dichtel
->>   proposed `fwd_per_iface` but I think `do_forwarding` is a better fit.
->What about force_forwarding?
+> 
+> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+> ---
+>  arch/arm64/include/asm/kvm_pmu.h        | 23 ++++++++++
+>  arch/arm64/kvm/hyp/include/hyp/switch.h | 58 +++++++++++++++++++++++++
+>  arch/arm64/kvm/pmu-part.c               | 32 ++++++++++++++
+>  3 files changed, 113 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_pmu.h b/arch/arm64/include/asm/kvm_pmu.h
+> index 6328e90952ba..73b7161e3f4e 100644
+> --- a/arch/arm64/include/asm/kvm_pmu.h
+> +++ b/arch/arm64/include/asm/kvm_pmu.h
+> @@ -94,6 +94,21 @@ u64 kvm_pmu_guest_counter_mask(struct arm_pmu *pmu);
+>  void kvm_pmu_host_counters_enable(void);
+>  void kvm_pmu_host_counters_disable(void);
+>  
+> +#if !defined(__KVM_NVHE_HYPERVISOR__)
+> +bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu);
+> +bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu);
+> +#else
+> +static inline bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
+> +{
+> +	return false;
+> +}
+> +
+> +static inline bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+>  /*
+>   * Updates the vcpu's view of the pmu events for this cpu.
+>   * Must be called before every vcpu run after disabling interrupts, to ensure
+> @@ -133,6 +148,14 @@ static inline u64 kvm_pmu_get_counter_value(struct kvm_vcpu *vcpu,
+>  {
+>  	return 0;
+>  }
+> +static inline bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
+> +{
+> +	return false;
+> +}
+> +static inline bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu)
+> +{
+> +	return false;
+> +}
+>  static inline void kvm_pmu_set_counter_value(struct kvm_vcpu *vcpu,
+>  					     u64 select_idx, u64 val) {}
+>  static inline void kvm_pmu_set_counter_value_user(struct kvm_vcpu *vcpu,
+> diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
+> index 825b81749972..47d2db8446df 100644
+> --- a/arch/arm64/kvm/hyp/include/hyp/switch.h
+> +++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
+> @@ -191,6 +191,61 @@ static inline bool cpu_has_amu(void)
+>                 ID_AA64PFR0_EL1_AMU_SHIFT);
+>  }
+>  
+> +/**
+> + * __activate_pmu_fgt() - Activate fine grain traps for partitioned PMU
+> + * @vcpu: Pointer to struct kvm_vcpu
+> + *
+> + * Clear the most commonly accessed registers for a partitioned
+> + * PMU. Trap the rest.
+> + */
+> +static inline void __activate_pmu_fgt(struct kvm_vcpu *vcpu)
+> +{
+> +	struct kvm_cpu_context *hctxt = host_data_ptr(host_ctxt);
+> +	struct kvm *kvm = kern_hyp_va(vcpu->kvm);
+> +	u64 set;
+> +	u64 clr;
+> +
+> +	set = HDFGRTR_EL2_PMOVS
+> +		| HDFGRTR_EL2_PMCCFILTR_EL0
+> +		| HDFGRTR_EL2_PMEVTYPERn_EL0;
+> +	clr = HDFGRTR_EL2_PMUSERENR_EL0
+> +		| HDFGRTR_EL2_PMSELR_EL0
+> +		| HDFGRTR_EL2_PMINTEN
+> +		| HDFGRTR_EL2_PMCNTEN
+> +		| HDFGRTR_EL2_PMCCNTR_EL0
+> +		| HDFGRTR_EL2_PMEVCNTRn_EL0;
+> +
+> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGRTR_EL2, clr, set);
+> +
+> +	set = HDFGWTR_EL2_PMOVS
+> +		| HDFGWTR_EL2_PMCCFILTR_EL0
+> +		| HDFGWTR_EL2_PMEVTYPERn_EL0;
+> +	clr = HDFGWTR_EL2_PMUSERENR_EL0
+> +		| HDFGWTR_EL2_PMCR_EL0
+> +		| HDFGWTR_EL2_PMSELR_EL0
+> +		| HDFGWTR_EL2_PMINTEN
+> +		| HDFGWTR_EL2_PMCNTEN
+> +		| HDFGWTR_EL2_PMCCNTR_EL0
+> +		| HDFGWTR_EL2_PMEVCNTRn_EL0;
+> +
+> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGWTR_EL2, clr, set);
+> +
+> +	if (!cpus_have_final_cap(ARM64_HAS_FGT2))
+> +		return;
+> +
+> +	set = HDFGRTR2_EL2_nPMICFILTR_EL0
+> +		| HDFGRTR2_EL2_nPMICNTR_EL0;
+> +	clr = 0;
+> +
+> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGRTR2_EL2, clr, set);
+> +
+> +	set = HDFGWTR2_EL2_nPMICFILTR_EL0
+> +		| HDFGWTR2_EL2_nPMICNTR_EL0;
+> +	clr = 0;
+> +
+> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGWTR2_EL2, clr, set);
 
-I Agree!
+This feels wrong. There should be one place to populate the FGTs that
+apply to a guest as set from the host, not two or more.
 
->> * I'm also not sure about the reset when setting the global forwarding
->>   flag; don't know if I did that right. Feedback is welcome!
->It seems correct to me.
->
->> * Thanks for the help!
->Maybe you could align ipv6.all.do_forwarding on ipv4.all.forwarding, ie setting
->all existing ipv6.*.do_forwarding.
->https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/ipv4/devinet.c#n2423
+There is such a construct in the SME series, and maybe you could have
+a look at it, specially if the trap configuration is this static.
 
-Also done!
+	M.
 
->Regards,
->Nicolas
-
-Sent a new patch just now, thanks for reviewing!
-
+-- 
+Without deviation from the norm, progress is not possible.
