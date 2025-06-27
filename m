@@ -1,150 +1,141 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D871D5CD1;
-	Fri, 27 Jun 2025 04:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8A32F1FC7;
+	Fri, 27 Jun 2025 06:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750998011; cv=none; b=mR3cFzOXc+22HHQdAgQkRsR4RFvkVquVVd0UbE4KLP/kPcrG4Qo4pUOjuNpulV57lSlA0tRfWOHK/CJjW6Ej08YG8UpDwjUvGkKCc+lrmp1P4gocIdDAdGmJlMH6ieXSHh3P0wrrenABHLOihaqGkqY0AOMe/XT9r7PNVe0NOCU=
+	t=1751004792; cv=none; b=Z/MhX7lf8iDkOWcUm1I38A7dD/Oa8lkXbBAHEdj0RT3+fPJBNWdLSM7gL8+aMSmOogeayG8yLeh9xJ86I0cIx69U0H++cfbSYpg/E0tXKILy4/CiMFAiozau8yulPu1HSan2H3ERbkySTvxX2cgZx/aXgsTkolj54x60jhBI4Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750998011; c=relaxed/simple;
-	bh=X2RNTFBcE5pFgCTIGNIa+ZUV72ZQZno5e4FS+xPjWBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jzoPAHVA25rZUMQZ6QUzPrfWYudrOkycDv9cIyNad1hTkbQw7l/HgOPzy/msI5ZIaZmQXR6MSa2/Azkvb+sHN7GyvqWAzGrH9XZXC/A3K+/T/5SaQ4vboPPgY+11Qvf04mGloMRNBFCHxYfY8NlX00+rUZ9507noes8mQxauvRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=01tfxppe; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+Vj0yGzk; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="01tfxppe";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+Vj0yGzk"
-Date: Fri, 27 Jun 2025 06:20:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750998007;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GwUcgevfKNTLblfy7PqHrCF2Fjb7b409d5rtxcTmjxU=;
-	b=01tfxppe/vlWzhIQ9PBxgV4F7dFyiqCfNqdmOrgfYRi3Eu9iVCocPyE2tu5gd8tJvdOHBV
-	8a9Z9bE9Grw/PCRriaOyl76ic2oJvB+7M2YA8sqQFMrlsPgq+BawvIaKqcRoKsgp1xpd3w
-	mwlkznL3U08XYX2GdoHm0I4DqjJCvD0J7ahQBRVtY93JXICdDUImzPRN72f2m7/kEmNuCE
-	hDPzsXa19VpFlwjaK/3ytWGUwN3+GsLBv5jcxnMclIDjOSlEd4pC/9ZNPVw9H7QGO/OGe5
-	rCUD/e0r/+wzohDK7LvRe82yL4sW/DMfchqF2vFm0MG9tHve62PKy5MpCTjnwg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750998007;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GwUcgevfKNTLblfy7PqHrCF2Fjb7b409d5rtxcTmjxU=;
-	b=+Vj0yGzknQek4tIHi46J5NKXSB8IWruQaSEQ7axtDLPVKaotRa8p+q9w35/H/QrourZMgR
-	e72p5m+NNkUs6eAA==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Benjamin Berg <benjamin@sipsolutions.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, workflows@vger.kernel.org, 
-	Kees Cook <kees@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4 12/15] kunit: Introduce UAPI testing framework
-Message-ID: <20250627060129-4fe09191-4714-4856-9de5-c8e5cf5ed0d6@linutronix.de>
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
- <20250626-kunit-kselftests-v4-12-48760534fef5@linutronix.de>
- <66deaafe1974c989e949975bafe3ab0b2ae3f5ff.camel@sipsolutions.net>
+	s=arc-20240116; t=1751004792; c=relaxed/simple;
+	bh=KsR750DluTn54BOTBnqK0ISBsoAFYfrL8v8sFvJ4y7o=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dIUP3b+V6pNj5YSTQTpwgA33Hpl8ZoevuyiE1o2GjOfff5q34YcoT8kc6A1bN7uKj5R0nn4384VPVdjJwIN3lRy3Oolkr51YCIX2nY9+Et+vLzjkz1zKV0KZHyikxr8QX0B4kT6vCISQYs8Ae3laN8ssby3/yn7kyHYpNkiIlFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4bT4y10F5zz27j0T;
+	Fri, 27 Jun 2025 14:14:01 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 829C61402CA;
+	Fri, 27 Jun 2025 14:13:05 +0800 (CST)
+Received: from DESKTOP-F6Q6J7K.china.huawei.com (10.174.175.220) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 27 Jun 2025 14:13:03 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
+	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi
+	<gur.stavi@huawei.com>, Lee Trager <lee@trager.us>, Michael Ellerman
+	<mpe@ellerman.id.au>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Suman
+ Ghosh <sumang@marvell.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Joe Damato <jdamato@fastly.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>
+Subject: [PATCH net-next v06 0/8] net: hinic3: Add a driver for Huawei 3rd gen NIC - management interfaces
+Date: Fri, 27 Jun 2025 14:12:48 +0800
+Message-ID: <cover.1750937080.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <66deaafe1974c989e949975bafe3ab0b2ae3f5ff.camel@sipsolutions.net>
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-Hi Benjamin,
+This is the 2/3 patch of the patch-set described below.
 
-On Thu, Jun 26, 2025 at 08:11:17PM +0200, Benjamin Berg wrote:
-> I ran into two minor issues trying out the patches, see inline.
+The patch-set contains driver for Huawei's 3rd generation HiNIC
+Ethernet device that will be available in the future.
 
-Thanks for testing the series.
+This is an SRIOV device, designed for data centers.
+Initially, the driver only supports VFs.
 
-> On Thu, 2025-06-26 at 08:10 +0200, Thomas Weiﬂschuh wrote:
-> > Enable running UAPI tests as part of kunit.
-> > The selftests are embedded into the kernel image and their output is
-> > forwarded to kunit for unified reporting.
-> > 
-> > The implementation reuses parts of usermode drivers and usermode
-> > helpers. However these frameworks are not used directly as they make it
-> > impossible to retrieve a thread's exit code.
-> > 
-> > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> > 
-> > [SNIP]
-> > +/**
-> > + * KUNIT_UAPI_EMBED_BLOB() - Embed another build artifact into the kernel
-> > + * @_name: The name of symbol under which the artifact is embedded.
-> > + * @_path: Path to the artifact on disk.
-> > + *
-> > + * Embeds a build artifact like a userspace executable into the kernel or current module.
-> > + * The build artifact is read from disk and needs to be already built.
-> > + */
-> > +#define KUNIT_UAPI_EMBED_BLOB(_name, _path)					\
-> > +	asm (									\
-> > +	"	.pushsection .rodata, \"a\"				\n"	\
-> > +	"	.global " __stringify(CONCATENATE(_name, _data)) "	\n"	\
-> > +	__stringify(CONCATENATE(_name, _data)) ":			\n"	\
-> > +	"	.incbin " __stringify(_path) "				\n"	\
-> > +	"	.size " __stringify(CONCATENATE(_name, _data)) ", "		\
-> > +			". - " __stringify(CONCATENATE(_name, _data)) "	\n"	\
-> > +	"	.global " __stringify(CONCATENATE(_name, _end)) "	\n"	\
-> > +	__stringify(CONCATENATE(_name, _end)) ":			\n"	\
-> > +	"	.popsection						\n"	\
-> > +	);									\
-> > +										\
-> > +	extern const char CONCATENATE(_name, _data)[];				\
-> > +	extern const char CONCATENATE(_name, _end)[];				\
-> > +										\
-> > +	static const struct kunit_uapi_blob _name = {				\
-> > +		.path	= _path,						\
-> > +		.data	= CONCATENATE(_name, _data),				\
-> > +		.end	= CONCATENATE(_name, _end),				\
-> > +	}									\
-> 
-> For me, the compiler could not find the files for the ".incbin" unless
-> I added an include path. i.e. adding
->   ccflags-y := -I$(obj)
-> to lib/kunit/Makefile fixed the problem for me.
+Following the discussion over RFC01, the code will be submitted in
+separate smaller patches where until the last patch the driver is
+non-functional. The RFC02 submission contains overall view of the entire
+driver but every patch will be posted as a standalone submission.
 
-Can you share some more details on your build setup?
-This worked for me as-is and also passed 0day build testing.
+Changes:
 
-> > [SNIP]
-> > +static int kunit_uapi_run_executable_in_mount(struct kunit *test, const char *executable,
-> > +						†† struct vfsmount *mnt)
-> > +{
-> > +	struct kunit_uapi_user_mode_thread_ctx ctx = {
-> > +		.setup_done	= COMPLETION_INITIALIZER_ONSTACK(ctx.setup_done),
-> > +		.executable	= executable,
-> > +		.pwd		= {
-> > +			.mnt	= mnt,
-> > +			.dentry	= mnt->mnt_root,
-> > +		},
-> > +	};
-> > +	int forward_err, wait_err, ret;
-> 
-> ret needs to be initialized to zero here as the kernel_wait function
-> will only set "ret" if wo.wo_stat is non-zero.
+PATCH 02 V01: https://lore.kernel.org/netdev/cover.1749561390.git.root@localhost.localdomain
 
-Ack.
+PATCH 02 V02: https://lore.kernel.org/netdev/cover.1749718348.git.zhuyikai1@h-partners.com
+* Fix build allmodconfig warning (patchwork)
+* Update cover-letter changes information.
 
-> > [SNIP]
+PATCH 02 V03: https://lore.kernel.org/netdev/cover.1750054732.git.zhuyikai1@h-partners.com
+* Use refcount_*() instead of atomic_*() (Jakub Kicinski)
+* Consistency fixes : HIG->HIGH, BAR45->BAR4/5 , etc (ALOK TIWARI)
+* Code format fixes : use \n before return, remove extra spaces (ALOK TIWARI)
+* Remove hinic3_request_irq redundant error print (ALOK TIWARI)
+* Modify hinic3_wq_create error print (ALOK TIWARI)
+
+PATCH 02 V04: https://lore.kernel.org/netdev/cover.1750665915.git.zhuyikai1@h-partners.com
+* Break it up into smaller patches (Jakub Kicinski)
+
+PATCH 02 V05: https://lore.kernel.org/netdev/cover.1750821322.git.zhuyikai1@h-partners.com
+* Fix build clang warning (Jakub Kicinski)
+
+PATCH 02 V06:
+* Use kmalloc instead of kzalloc for cmd_buf allocation (Vadim Fedorenko)
+* Use usleep_range() for avoid CPU busy waiting (Vadim Fedorenko)
+* Use kcalloc for intr_coalesce initialization (Vadim Fedorenko)
+* Code format fixes: use reverse x-mas tree (Vadim Fedorenko)
+* Simplify hinic3_mbox_pre_init logic (Vadim Fedorenko)
+
+Fan Gong (8):
+  hinic3: Async Event Queue interfaces
+  hinic3: Complete Event Queue interfaces
+  hinic3: Command Queue framework
+  hinic3: Command Queue interfaces
+  hinic3: TX & RX Queue coalesce interfaces
+  hinic3: Mailbox framework
+  hinic3: Mailbox management interfaces
+  hinic3: Interrupt request configuration
+
+ drivers/net/ethernet/huawei/hinic3/Makefile   |   4 +-
+ .../net/ethernet/huawei/hinic3/hinic3_cmdq.c  | 914 ++++++++++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_cmdq.h  | 156 +++
+ .../ethernet/huawei/hinic3/hinic3_common.c    |  31 +
+ .../ethernet/huawei/hinic3/hinic3_common.h    |  27 +
+ .../net/ethernet/huawei/hinic3/hinic3_csr.h   |  79 ++
+ .../net/ethernet/huawei/hinic3/hinic3_eqs.c   | 806 +++++++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_eqs.h   | 130 +++
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    |  43 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.c   |  31 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  13 +
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  36 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  | 153 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  16 +
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   | 137 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |  61 +-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.c  | 843 +++++++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.h  | 127 +++
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  14 +-
+ .../huawei/hinic3/hinic3_queue_common.h       |   1 +
+ .../net/ethernet/huawei/hinic3/hinic3_wq.c    | 109 +++
+ .../net/ethernet/huawei/hinic3/hinic3_wq.h    |  11 +
+ 22 files changed, 3727 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_csr.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_eqs.h
 
 
-Thomas
+base-commit: 5e95c0a3a55aea490420bd6994805edb050cc86b
+-- 
+2.43.0
+
