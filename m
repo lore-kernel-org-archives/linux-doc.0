@@ -1,133 +1,240 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2042.outbound.protection.outlook.com [40.107.94.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75E42D3EDC
-	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 10:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751019042; cv=none; b=VDEyJfc0nUVYzh8mYTm10+YU59t6Iwn4S3o9SyvcNeZIOCxqIQeo3aPb9/7mOHzffUkWX8TNXcGQDcDUVDMMlMdc1raN6zYJwEHvgtl4cJK7PlLiwNOJLxY4u8MvpoOms56otemyaM6fq/1YRhGWHpsT409sqKVDcbV9xTUI1+I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751019042; c=relaxed/simple;
-	bh=PY7MCM4FXuwFMl63xmFYQRu/KWGisjazEhN6tbWGbm4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tyVaG5KruINwL6qCgFYVD5KdPU+SAwvTZm4Lka4xx/EBz1tJxDzbtRB/NK7F8uFsltuGsZvGVqQN4G8aBwV348Si2qwY3BnydrkId34GC4742BE8zlfe4vCc92HUp9CNTJwHPqF3FnsjFTtpaGzXVtBO7g8cxGgJMQAVapNwe+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=GTkBwrvX; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F90429DB8F;
+	Fri, 27 Jun 2025 10:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751019514; cv=fail; b=pApuWzZFIsYWSbv+XpolLZneCUK8Lb71Dgg368iRo0iwzE9rpKxa/+VHhse40NiV0E4rp1buRIzVjQ13DTIQxcqIlO8KZHaYFEmuTb/Lcphga2bD3hj/My0MHWyJU89DsPCwwPBYLTzvdvG7U5h4mDudOlAZSMizXE35twOF3G0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751019514; c=relaxed/simple;
+	bh=dW+s99R2Pu04Y8Cpm7EpFsRn9/pAgqeKuxmpY0t+Td4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Jx+j4V89bzCIsGVoaLf3L8y94gU5KPLhPIXxsSs+ubNjwtJCXALIVA1nSa2ychYVZgy1L0c7cy4jdblvI8xQIi6Y5Ul4LoxjJ9GbziDeW/gaD/6hT8+Kj+jbormoROKqRdcK9hbCsfz3FECl7GGyymJXadv333il3P8JdSsWEw0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2epT9zVq; arc=fail smtp.client-ip=40.107.94.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="GTkBwrvX"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4535fc0485dso2759745e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 03:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1751019039; x=1751623839; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q4D/AiHSkh+69Es8gMfweA+RJzsnoZRpe3Ttw4Zd1mI=;
-        b=GTkBwrvXOARO/FKqqBUgWxCtGjIIoFE2vfqAt+pmKhYlk6e0plTyzEqonnPv+yljVC
-         lyuTNQhXS/idjKrgB/NqTJ1fEOsDoEicThZdoHtSjDjPTlWX6jzao7iXChqdk2w0R6NE
-         n74qxZvqLxB1r4f7U0gx0IN8xKsn/g95Jjx5aX6WUyWsVK7P1wJr4x/HjvRfxMjqaqQb
-         We7frVBa213i30v7ArbhI7vC+kjOiSePD2Hg6UipPV8IWA3rvUQShtrWVTMyl/1Aya0j
-         n076V/mHVAMnS64LXaG8FvRmzGJGcuyf+LumuZq6skjBhmd0zFKEqZhDi5tBRUjggNrw
-         L1RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751019039; x=1751623839;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q4D/AiHSkh+69Es8gMfweA+RJzsnoZRpe3Ttw4Zd1mI=;
-        b=cgY2oDlYzGUxay8/hRPcU7nX0KdyI08kQ0kbvebg9HQesPlTKDa+WyBpWOT01Ef/9z
-         xBZwskI1oMVXw75SVrN2jfvya1ZQXfNhOiIMlddHxSLnLeiuMNJjXKzVg1fGBzubERG8
-         f/mG4asAklL76ePD3BPy2iPIFRx7qX8u6Y/0jT3zeYy84pA4Ok7c1HYTevdS2vCZTT95
-         p3bYhXVe92m7HYyAe/Ixvs8sHkrdowgfqm5t/Z+Orj2AXhVtkZ0Ao4uaCqZN7+0Nux9q
-         cSfMJbO0cSA2k42XVeY0jM3wA3/eOBlPHBumlmxJASPfvwG40+Jkj1vjAtchdgmMdfFB
-         3Dsw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1cJh4BVPgPblsvgrO27+GLGkF9sB37bFcTxlRBbcZveHVyj4ty28c9FXjE8yPr54HxLWvVaPMUrY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRrRML1BK4dduf3jBuWoGBj/xo91dH/lZ7KjNwS8sYpk8mTr/1
-	DRroKCFOPIWLB9/dCZKvYbRjoxTT8BLTfxmvVNV1Yl8jx9o+fFnun4Oy19RfQHRqfKMg/dQMIPV
-	dmBue
-X-Gm-Gg: ASbGncsbA+65NcT8L4zrA5LUlc79jZBb/BOodO5wRM9EAVJyhO4lOkPcYCPivoN55Nu
-	6ydjsGPtZgF5qrod1CVC27YMbwBqYCI174eeWEJXesrXu4P5YHFoEmQQzM/r54b4UF4c4Ml/FCi
-	BQn/pOKNZA6m2f6ZmwZ8poPIpupYjwpbYJmF4GlSWGizgbpTFb1IKvKQBLFjFU4GCtRvY1WuY+O
-	3vdzoLU7vo4y+GaPsdP6GIkW3+Njq6nXblcLCLDuTx6ZilDTbplTagYmusZTH3QUyJX6Q86jqyg
-	JvcQNT8lhpNnxBVHrR1ul0Fp+w3G2HlHiLPmu7ASVQMNbiTr62NC7gB8svFR21tXZcLAFSjZGzt
-	gINML+PS9nGflKc1SaTuZ+03/zzevfnWhWMh0z7PG0ZT9i/a00PWz
-X-Google-Smtp-Source: AGHT+IFhGjN5+1VG4TKQb30R0Dc6Kgtf1mHBD0dtlQDL49I+8wxvgFwjsJemxuxfEbYHyeyL9tfPrA==
-X-Received: by 2002:a05:600c:a08b:b0:450:d5ed:3c20 with SMTP id 5b1f17b1804b1-4538ee7446fmr10977035e9.6.1751019038988;
-        Fri, 27 Jun 2025 03:10:38 -0700 (PDT)
-Received: from localhost (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4538327fed8sm37178605e9.1.2025.06.27.03.10.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 03:10:38 -0700 (PDT)
-From: Petr Tesarik <ptesarik@suse.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	linux-mm@kvack.org (open list:MEMORY MANAGEMENT),
-	Petr Tesarik <ptesarik@suse.com>
-Subject: [PATCH v2 8/8] docs: dma-api: clean up documentation of dma_map_sg()
-Date: Fri, 27 Jun 2025 12:10:15 +0200
-Message-ID: <20250627101015.1600042-9-ptesarik@suse.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250627101015.1600042-1-ptesarik@suse.com>
-References: <20250627101015.1600042-1-ptesarik@suse.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2epT9zVq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kBYLPweJLslVjQ1vsUxAhgo6Njd2g5Y6gxYL/mF2oYP7lcdfGdzsewcwR+koyEayIyIwbPbVLn2yyryuYs/n0+OiomRmLk05XukfiowhmHZIAJNeU0dr7oqm1iiJguWfiC6rTBORO/Eq9S61gmBtFIcMJU89IPYKO5ZJhH2TILzf7mf2Z4CcgdouVPxvqiw3T0SX09wVdMwXx4xhJ/ILXC50s6TGeWaPgxjwKi/TlNRKFGHqOHJMN7X6h/5DGOelHTNGaqnC2x42lenXmbrCI+Xyz+StD3eunoLNPohnKqOYkggSNLsiRR3v50s/pd3u+ijt7+Oz0+C9L2mesiePFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8seV4XEqi80Yf5Gg3IMajAutQT1j1h1IGQEQ+RsRicE=;
+ b=sn6skCDdMHEe275cOVI5EyUCGc4Dv6LT/yiF5xmsuSYnHPr61CO9e9QdzmVrzs4solJ8lolqd1Lb+pBd0drRQv0sIs16I79pFj+qvNs437UrBKn5mdkIzMQv4lmaa09R1BG03+s49r4mvnzOox7rw0+HQRHaVj3ryAp8ZJUopZOQAdHIKfJ+A4yL0qwGruLXU0Ro0iuyuFVbByrgvoUJT1pMCBhCa0mDRfpt5YIuC4Fie8uuQhSH7p2/pPWKym7/6rqeKUD/3nmy88GA6X3uOqh/SszIYrvgZWaZYq/1aLgI6ABsDL/1JkAGSulq5JlQTXkSyZiihgHcJ1KjIiMdPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8seV4XEqi80Yf5Gg3IMajAutQT1j1h1IGQEQ+RsRicE=;
+ b=2epT9zVqGQKjNdKjtnAPoRBYRSIex8GxyYXH4qSkpsflVAYN4Pk7ghWOg95wfEHUIxvdefmcS52PXbhjXHn930W/L86xyA3xLTsPMJ2eiOpJMnXgNlY7dQ68rXhjMD1Sa/TkDS9lm/QxmyhH9aLbNVGU3XgZ+pnkQxSIlsq+Fvw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB9066.namprd12.prod.outlook.com (2603:10b6:510:1f6::5)
+ by DM4PR12MB9733.namprd12.prod.outlook.com (2603:10b6:8:225::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.20; Fri, 27 Jun
+ 2025 10:18:29 +0000
+Received: from PH7PR12MB9066.namprd12.prod.outlook.com
+ ([fe80::954d:ca3a:4eac:213f]) by PH7PR12MB9066.namprd12.prod.outlook.com
+ ([fe80::954d:ca3a:4eac:213f%7]) with mapi id 15.20.8880.015; Fri, 27 Jun 2025
+ 10:18:29 +0000
+Message-ID: <f0050f1b-67f9-8a72-9365-2451a6f360ff@amd.com>
+Date: Fri, 27 Jun 2025 15:48:18 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v3 08/14] RDMA/ionic: Register auxiliary module for ionic
+ ethernet adapter
+Content-Language: en-US
+To: Leon Romanovsky <leon@kernel.org>
+Cc: shannon.nelson@amd.com, brett.creeley@amd.com, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+ jgg@ziepe.ca, andrew+netdev@lunn.ch, allen.hubbe@amd.com,
+ nikhil.agarwal@amd.com, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Boyer <andrew.boyer@amd.com>
+References: <20250624121315.739049-1-abhijit.gangurde@amd.com>
+ <20250624121315.739049-9-abhijit.gangurde@amd.com>
+ <20250626072653.GI17401@unreal>
+From: Abhijit Gangurde <abhijit.gangurde@amd.com>
+In-Reply-To: <20250626072653.GI17401@unreal>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4P287CA0128.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:2b1::6) To PH7PR12MB9066.namprd12.prod.outlook.com
+ (2603:10b6:510:1f6::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB9066:EE_|DM4PR12MB9733:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8721eca9-4c92-4649-3f31-08ddb563f5d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VHNxRTVZRlpDZk1TbnlrQ2lFOUd2aVk5cWljWThQcklsT1NTYmdaSm5kNGxl?=
+ =?utf-8?B?eW8yT2szVDgrZS9yd09raG5jMUt5cG12bEhKK1o4K1ZaSmFDd0wwQnZnaG1t?=
+ =?utf-8?B?THlBMDJYb0ZJT2pTR0NUTjBjTXFiWDQrZEJYOTBhL1laS1c2NUdhWlc1ZEdV?=
+ =?utf-8?B?eWFXc0wvc3YrZHpISlhvU21GcndiaWdTZ2xBeEExOVhsd1VhRy9Icm0rZmpr?=
+ =?utf-8?B?NDZDaEE5VDZ4ckVLcjR2eVI5MGhRYWNjbkhteFUvUmVkTVRjNkdFTWo0Zy9n?=
+ =?utf-8?B?ckZtbUc2YnYyY3I1MW85QitVMEltSnJOYTNqRVlXQXpFRlNaZkUwcStrWDVI?=
+ =?utf-8?B?TEdEVE5DMlBNQzVmd2hwVDBpdXNwdWllWVVNRVBpNmMyTEUxTUVPZ3ROZTdi?=
+ =?utf-8?B?SHMwTUdVdmxKM05WZ2NIWXJ6Z1lJVGQ2cXRXYzNLS3ZFZHR6dkpBOWNNdTBp?=
+ =?utf-8?B?eU00cXUwb3dkd1hUQUxnTVBKNU1aYnFXbVdtUlZ2blY1dnVCeXZzRHZFQXhW?=
+ =?utf-8?B?NW8wM1lrSlhsR29hWnVESzVVbDhFRzVIVWZ3bzJFbHQ5RkRLeWJzbVVRY0ta?=
+ =?utf-8?B?dkI2Z3BDTDFJVSt6emtHM0QrNUhYMVI3UHV4c21lbkFZK1l0YmlXNzdGa0ty?=
+ =?utf-8?B?OXdhZWJnYWNWYlpTeDBJb1ZMZzlHVVE2S1hDMTRzNnlmWDc0OEVob1VDNmda?=
+ =?utf-8?B?dEV4YWMwbE01eE5TMnN3UjdOUnh5WGpFT2JNS3lzVG5oM25GaXN0ZXhjVjBC?=
+ =?utf-8?B?N3BnallJS1JRb0FKQUEra0t1dTVlT3U1b3l6TE9oaE1BbUI1SmhFemZLbmdq?=
+ =?utf-8?B?dUxMbTJGMXphUlFLS0VFZmNZTmdyYTYxa0dhNll1U3lwNWROZDNPZXRlSmk5?=
+ =?utf-8?B?WngrUUQwdktQb1NnbDd5VFRHeC9RUEVkVG4yRjNqSHdJeElQSmdVcmhIeWZR?=
+ =?utf-8?B?OUZkczQyNVZ3dHpqWFBCcCt4OUJZcGh0WUNuRmdFeWVDS094YTFZVDd0c0o2?=
+ =?utf-8?B?R0QyZEJ3ZEJCZ0NTZCt5RTVZTnlNMkZVREpPM2hDL0xHRnVzMFhjNnBVbEpt?=
+ =?utf-8?B?aUpzMkVjU3pYY3BCVjZNSTBYL0Vwek8vWENyY1ZIZCtNdVJZNWw2bUJjSitW?=
+ =?utf-8?B?SjJpaHU3VkhwRTU5QytxKzkzYzVTY2NERVF4OEt6V2I5SnZjbXJQbnQ3d2w4?=
+ =?utf-8?B?eWVsVW84WnVxdCtNaEJ2cU1GYXBzVG92dThYZGZxOUxaeHBleG9WeFNJcmQ0?=
+ =?utf-8?B?NmhFVExwSDVsb01xSUZzZnR3d01NQjUvZ2lZdkkyR1JTeTZteWJFWndsSXRN?=
+ =?utf-8?B?dzcxa01NZEdFMW9YS3JDSTB2dzJmdWtxK2ZjZm1wUWEva25pWmozb0IwV05j?=
+ =?utf-8?B?STMwSFN3N3pqUEt6NkZkZ1B2aGxXaGs5UVZDUGlxdmlacldhU2dqREhZWElK?=
+ =?utf-8?B?WFNUeEd0Zng5UW9nenYwYTlteEZQUjZvOTZ1NFg0RGNnNitYRW9hQSsyNG5s?=
+ =?utf-8?B?Z0tRRTBGdGExcGhXMmdsc0FJeDJwdUdvc2dsUHA2N01GQ0R3V3A4bGhsVVp6?=
+ =?utf-8?B?VHIyTXNxYTlIdy84QzQrd1lhb2o2MHFnNlNJOGlrZ1ZCeno0SGFDUDQwd29h?=
+ =?utf-8?B?N2xzRERKd0FDb3VHRFZlczhWSFNPTmtUMHRtSVFzSFA4a2E0WmdFRU9xQjhn?=
+ =?utf-8?B?M05KVytYRlpLeDI5T3FTRHpRcUc5aEJJRnovck1FcUJCK0RVTjlDS21HN0I1?=
+ =?utf-8?B?VTVlRU94R1RQOXRZRHhHMkltR3NVak5lSFdnaElXRmNkSjh1Wk41akc1VXFy?=
+ =?utf-8?B?bWVoMkFsbHhCcGxmclp6eHdFVlF4OUthaXVjRkJCcWdNNENNSnVTckRhdzdo?=
+ =?utf-8?B?K3Y0VHBQWjlnd0VJaWVkVTRGTjQ4cjNlaG42VXViOENSa3I2RC9oKzNHK3pB?=
+ =?utf-8?Q?FcsxpQODVQ4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB9066.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NmdJSEVjNk5QOVNtWjVGcEpZc1RQdzkvTDFoS1B3eHdNMjkzQW9JbWZIU01D?=
+ =?utf-8?B?K0hJRzhrQjh5NTVBeTJDVVZCbis4SS9qSTZPaEd0aEVrUnFLMmRhYkdiRUc4?=
+ =?utf-8?B?L0tLcFVLK3hVWU95cHNaVEZ2SXh1SFZEc3hzRnVDdFBoOG40Q3c0aUNiSmh2?=
+ =?utf-8?B?cGhYZ25NSGJ5cXRUR0NTbHRRQlJzSm5ZbGFCTEJ6K3ZUTjc0cGpRS2lpR21v?=
+ =?utf-8?B?eEk1NXlIY2tKV0p0N2tRSTU2UWp1aXpDT2lIdGJzSzlrTis5WFNQQ2xZT0to?=
+ =?utf-8?B?U1BVeHZGZ1Q3dlgxS3RjakZ4TEdnR21ITjNsUFVKZDZLU2duU1hwaG9qYi9z?=
+ =?utf-8?B?UHQxTVVUb2NBamN3Q3hyRWVoTThNZzAzYTNNbzhVWlgvTGIyRVRCeDhUTnk1?=
+ =?utf-8?B?NWpIUjBSS29hOFBlRWRYODUwdGkzSTlVWURUZ1VEcjE4OC8wdWNwSkVZTDIz?=
+ =?utf-8?B?RVNHTFM5azNML2lMMWhjbXdsMVhiekxXVk5UeSs4dWNEWTZHTjFBN0h4ekJT?=
+ =?utf-8?B?Z1lxNXdiNlRURk4wU3AvemFVZStkbTkwa1dnVnc2Wm5kZURGeW1DNUVHWmpK?=
+ =?utf-8?B?S2F4eHBzTHB4Uy9yRlEwV2IvRDF1a282TS9ueVNOeUF4UFh5RDRIdTVOT1RO?=
+ =?utf-8?B?OHkvRHhDcVNzOFZlcTUzUXpXQkl1cHc3MGhLNWNBaE9HWis2VGFRVElTK2FE?=
+ =?utf-8?B?SVV2K1Z1ZjlIQUF4WFZ5NW13VjViVTg1N1luRVhmL1kvdmpmZ3JSdi9pMjNU?=
+ =?utf-8?B?MFpNbzZNa0YxQXJ2Qm1DZWk4SlhlZmxkRGlSUXZSbjNNZkE2V3E0YjFwK2ZI?=
+ =?utf-8?B?aThPU2JpZVBsUTc3UWFwSDVyV1Y4MXhKcmpzSU5iM0lkR2tCOXpHY1ZDTXJY?=
+ =?utf-8?B?QzlIK2NCWUlPVDg5cldPSTljbzlCay9zUlNMdys0UDN4aHp0OVlCVFo1ZUxk?=
+ =?utf-8?B?Q3pyYUw5TTlSRW1TUjlHaW1pVElhQTZEVjkzVHN5NzlKU1pXVmR0Nm83a29K?=
+ =?utf-8?B?TTVFZFBvU0ZHTFJyQkRtVWxHWTN2T29BbVNKNDJ1YStRTm8vUnRLY1dtWEZ2?=
+ =?utf-8?B?a29LblRyRHBEMDdiWDBZdGJucjdaMmUxc1J2Q1BCTTVsYTlUSWZWTmh0blZ2?=
+ =?utf-8?B?cnV1NFBUbXBPUTZpUFdWb1ZUaExEZkIxTDg4eDIwUW85SUE0M0FQUG9KTEVz?=
+ =?utf-8?B?WDdZdSt1ZjlLRDVibEFDQktFZndRcHl4Z1o0MlNzYkluYXpHUXNPVXVpS0Zo?=
+ =?utf-8?B?NlFZMW51UFFvWTVaekpGa1JqNVI4ZXlvdFFjQ0hkUXUrZHZOMmptMTVKb1NW?=
+ =?utf-8?B?ekszZnVwQ3NDT1Mrc2dLVkZJbWVKM08ybnhEcHBzK3pkVE9tc0piRTc3dSsx?=
+ =?utf-8?B?TkdiQ3FLU281ZUQ1Z3liNEtxRjFWbm1iUUtOMENvcEhWNlpSWGhESlhjODRM?=
+ =?utf-8?B?bDNVSUdWMGR6TVNoelFjYmF0U1FxU3RSVHUwLzVVamhUcFBybiszdWN3R3do?=
+ =?utf-8?B?ckVQQjhyem8wUS9hRm5mZHZ5d25jMGI5QkxMOTdRV05BQXFyRXJjZ3V3ejVL?=
+ =?utf-8?B?bHQ1TUtQckN5aXBER2phSmVMTWlvZ3ZGTlVxdlFHczZtSVVNaHlUdy82UEho?=
+ =?utf-8?B?TVBCL0MvMWpRdGp4c3FYcmtZZDdkR3JYdDIyMGZySHhtNFY4eWpqMDU5em5Y?=
+ =?utf-8?B?bGY4eDEyUlZUQVRFWnYxSUtLbjIvb1B1WTgyUnYwaC9QbEFVMzFDQ3kyM25w?=
+ =?utf-8?B?Wnh3VC93Q3l2SjhScTVub2FyZmpqbW9yekxZaThtY0dUWlJ2THZMa1VWMSsz?=
+ =?utf-8?B?WWxNNmxDdDBkemJYL2x2VmEwWGM2WjJTY1N2T3pWMFFXTGRpcjA3SGJlZjlV?=
+ =?utf-8?B?WFFpcEZJQ3RJZHZzTFdqVVZPV0ViQW9HUFBtcFJkZUdEcGhnc0NRV1BJNERJ?=
+ =?utf-8?B?MUV5eXlYVW43M3ZzdFRoOW1OMS9pTUI5a0pOYlpRQXRTZ0REYm9PSWlsbUdy?=
+ =?utf-8?B?YUJpb2FWOVpmRnMvN0lKbzJNeXArN3M2Y3BuclpGZzdwUm9DK0dIVVFLU1Zu?=
+ =?utf-8?B?V3R0RUt0ZCtzUkdhbG9pWlNSbzFKVHl6RzgzckxHd2dHTS9jMFE1aWoxc2FD?=
+ =?utf-8?Q?tXb21Lwx2yJirBAbLdxgyEaQt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8721eca9-4c92-4649-3f31-08ddb563f5d2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB9066.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 10:18:29.0187
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gXxY4ywlNzgwXJmwc5TaklLl27pQ0q19mBuaw83q3sUVMZefiy5b7XKDusT60VLyb15uHGLicWkgqj2wM47CPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB9733
 
-Describe in one sentence what the function does.
+On 6/26/25 12:56, Leon Romanovsky wrote:
+> On Tue, Jun 24, 2025 at 05:43:09PM +0530, Abhijit Gangurde wrote:
+>> Register auxiliary module to create ibdevice for ionic
+>> ethernet adapter.
+>>
+>> Co-developed-by: Andrew Boyer <andrew.boyer@amd.com>
+>> Signed-off-by: Andrew Boyer <andrew.boyer@amd.com>
+>> Co-developed-by: Allen Hubbe <allen.hubbe@amd.com>
+>> Signed-off-by: Allen Hubbe <allen.hubbe@amd.com>
+>> Signed-off-by: Abhijit Gangurde <abhijit.gangurde@amd.com>
+>> ---
+>> v1->v2
+>>    - Removed netdev references from ionic RDMA driver
+>>    - Moved to ionic_lif* instead of void* to convey information between
+>>      aux devices and drivers.
+>>
+>>   drivers/infiniband/hw/ionic/ionic_ibdev.c   | 133 ++++++++++++++++++++
+>>   drivers/infiniband/hw/ionic/ionic_ibdev.h   |  21 ++++
+>>   drivers/infiniband/hw/ionic/ionic_lif_cfg.c | 118 +++++++++++++++++
+>>   drivers/infiniband/hw/ionic/ionic_lif_cfg.h |  65 ++++++++++
+>>   4 files changed, 337 insertions(+)
+>>   create mode 100644 drivers/infiniband/hw/ionic/ionic_ibdev.c
+>>   create mode 100644 drivers/infiniband/hw/ionic/ionic_ibdev.h
+>>   create mode 100644 drivers/infiniband/hw/ionic/ionic_lif_cfg.c
+>>   create mode 100644 drivers/infiniband/hw/ionic/ionic_lif_cfg.h
+> <...>
+>
+>> +	rc = ionic_version_check(&ionic_adev->adev.dev, ionic_adev->lif);
+>> +	if (rc)
+>> +		return ERR_PTR(rc);
+> <...>
+>
+>> +struct net_device *ionic_lif_netdev(struct ionic_lif *lif)
+>> +{
+>> +	return lif->netdev;
+>> +}
+> Why do you need to store netdev pointer?
+> Why can't you use existing ib_device_get_netdev/ib_device_set_netdev?
 
-Do not repeat example situations when the returned number is lower than
-the number of segments on input.
+We are not storing the netdev in RDMA driver. This function is accessing
+the ethernet copy to set netdev and guid. I can add dev_hold() here
+till netdev is registered with ib device.
 
-Signed-off-by: Petr Tesarik <ptesarik@suse.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/core-api/dma-api.rst | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+>
+>> +
+>> +int ionic_version_check(const struct device *dev, struct ionic_lif *lif)
+>> +{
+>> +	union ionic_lif_identity *ident = &lif->ionic->ident.lif;
+>> +
+>> +	if (ident->rdma.version < IONIC_MIN_RDMA_VERSION ||
+>> +	    ident->rdma.version > IONIC_MAX_RDMA_VERSION) {
+>> +		dev_err_probe(dev, -EINVAL,
+>> +			      "ionic_rdma: incompatible version, fw ver %u\n",
+>> +			      ident->rdma.version);
+>> +		dev_err_probe(dev, -EINVAL,
+>> +			      "ionic_rdma: Driver Min Version %u\n",
+>> +			      IONIC_MIN_RDMA_VERSION);
+>> +		dev_err_probe(dev, -EINVAL,
+>> +			      "ionic_rdma: Driver Max Version %u\n",
+>> +			      IONIC_MAX_RDMA_VERSION);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+> Upstream code has all subsystems in sync, and RDMA driver is always
+> compatible with its netdev counterpart. Please remove this part.
+>
+> This is not full review yet, please wait till next week, so we will
+> review more deeply.
+>
+> Thanks
+I will remove this.
 
-diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-index a075550ebbb54..6a57618118fd4 100644
---- a/Documentation/core-api/dma-api.rst
-+++ b/Documentation/core-api/dma-api.rst
-@@ -322,10 +322,10 @@ action (e.g. reduce current DMA mapping usage or delay and try again later).
- 	dma_map_sg(struct device *dev, struct scatterlist *sg,
- 		   int nents, enum dma_data_direction direction)
- 
--Returns: the number of DMA address segments mapped (this may be shorter
--than <nents> passed in if some elements of the scatter/gather list are
--physically or virtually adjacent and an IOMMU maps them with a single
--entry).
-+Maps a scatter/gather list for DMA. Returns the number of DMA address segments
-+mapped, which may be smaller than <nents> passed in if several consecutive
-+sglist entries are merged (e.g. with an IOMMU, or if some adjacent segments
-+just happen to be physically contiguous).
- 
- Please note that the sg cannot be mapped again if it has been mapped once.
- The mapping process is allowed to destroy information in the sg.
-@@ -349,9 +349,8 @@ With scatterlists, you use the resulting mapping like this::
- where nents is the number of entries in the sglist.
- 
- The implementation is free to merge several consecutive sglist entries
--into one (e.g. with an IOMMU, or if several pages just happen to be
--physically contiguous) and returns the actual number of sg entries it
--mapped them to. On failure 0, is returned.
-+into one.  The returned number is the actual number of sg entries it
-+mapped them to. On failure, 0 is returned.
- 
- Then you should loop count times (note: this can be less than nents times)
- and use sg_dma_address() and sg_dma_len() macros where you previously
--- 
-2.49.0
-
+Thanks,
+Abhijit
