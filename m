@@ -1,130 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF9F2F1FDF;
-	Fri, 27 Jun 2025 13:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3132DCBEE
+	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 13:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751031373; cv=none; b=Ux+pjzNsvCCG6qobpvgUcpfd8/AKksmUCw8p9z8N9bz3q0zZ4a0xHnZ39h+/I6q1LdVhYOq5Y1rlqHKhqX3dhpHuc+cRyXDsNL5RD3Kh9a1JJ/P7i+M/sWqvB2pKE7/N7hJ4Hf8bW6mUCJ8p/j8xbXjp6bztH0g2iRn7mjkpH3w=
+	t=1751031862; cv=none; b=sKZLpn07YR23FI1kv4jvN/h6oUMCIahjA3D1CwpRFEZSGMvtxfBYPLWa5OFncem4m356JNEFfbFTYIFVV0ilS4S8jOdekUW4D7tS9PkF7EKn+TsS2KFqRNxYb5+iqwCuNfbS/NgVkAlEUa7M++7QYHv4ec+jiJ2aes6vDOT52Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751031373; c=relaxed/simple;
-	bh=b+AqKL/t2Y57F7SFIeF2uOilMxYgh+4DSlllHo4mbfo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mV83OEHy2NTsaAwbWwOtNlk3bwZkl6iyEL1aMCa5ugbbyOKAKDH8hUUv2ZjS/TBaRH9Bi2Hxt0kvVNs477lnNcW7GYXYP38ZhiyCVMfKKi9E8F6hCD4PWhG6PlfIub7ce0C0QKTNjLCcipahkA0YzUa2GCWI0TTvMIXuRHHrTHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AJDDw55M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751031862; c=relaxed/simple;
+	bh=5rws0OIbeHe2CRb1G1qFVEHOO3Qznulp1JmZYPqVS5A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=l85OdHVO1N5dAsCt4COXMXOL4U+wlM+FeiC+5GzPYKmHZHNOdw+CLFLc/esi0UMSEKEjeWJI9659kFse2MzQMcz0YHS4vsd7gIt/V646J/4BQQ1/ncMata3/cOKG6QAMHEAd52OxmR66h5cPruOsKBW2SK2Db54BCJqZLgWXbJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=WhvmDKIT; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AJDDw55M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2F3C4CEE3;
-	Fri, 27 Jun 2025 13:36:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751031373;
-	bh=b+AqKL/t2Y57F7SFIeF2uOilMxYgh+4DSlllHo4mbfo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AJDDw55MJlOCVvTFjNTI1frKXCVh8blcEuVXrNyCokvJAG1kOtlsiSCic2uxm/G58
-	 BrO+Bxxc3pu2lbtt/kDFxhoI3I/Jayc9I8UXOt/zVMasJmI7ZSMEvccLpRS3W2ftKz
-	 vMjX5+nOFC+dlKksOVew1jaDQGTANoYxW54i4uqYAtJAOpT/QPU8bkfmFRKyvO5Z82
-	 OBVExL/AQvGJPwrZmOfv/uLSLHjfEP9SnTogY6JSz7a6Mof3pQ1ypdnBiFhJl5xYqZ
-	 K5yUAUals6BoMVo6oBjiZj6o8Fd79QHkP4M1Nsw6w8w00SrbjZM77B1tghvy3iPl3S
-	 QddlGxg2/VoWg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uV9FS-00AZpT-Nm;
-	Fri, 27 Jun 2025 14:36:11 +0100
-Date: Fri, 27 Jun 2025 14:36:10 +0100
-Message-ID: <86qzz5b92t.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Mingwei Zhang <mizhang@google.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-perf-users@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 09/22] KVM: arm64: Correct kvm_arm_pmu_get_max_counters()
-In-Reply-To: <20250626200459.1153955-10-coltonlewis@google.com>
-References: <20250626200459.1153955-1-coltonlewis@google.com>
-	<20250626200459.1153955-10-coltonlewis@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="WhvmDKIT"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250627134412euoutp02f7d21139e68893e38512c530d9be2f39~M6jFcKLKA2275722757euoutp024
+	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 13:44:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250627134412euoutp02f7d21139e68893e38512c530d9be2f39~M6jFcKLKA2275722757euoutp024
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1751031852;
+	bh=XkLT3H6zpZxdqKr2mL/WBFZuhTWHNBcRcJJv1Mo/N0Y=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=WhvmDKITyLEkhw3MRTwTgoaWKOjFTMjKnV8wJOos+T/cXs8qV0a45KyYKjjHHphNR
+	 ejlC6A7c/3G9ZGM0g5x9rtRdfSUOXwvaNPvqe2cEjseVkiFdxFjJMEeYZdJBH545i+
+	 hY7QPcy7sQUOkaipwLKySn5wWBeenoGfWxQTqISc=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250627134412eucas1p153bc3e4a1c0897bca604e6864667b66d~M6jEutC8v1155611556eucas1p1O;
+	Fri, 27 Jun 2025 13:44:12 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250627134410eusmtip109d5d74275daabf2f21b42eb7440b88b~M6jDFXzcn2675526755eusmtip1I;
+	Fri, 27 Jun 2025 13:44:10 +0000 (GMT)
+Message-ID: <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+Date: Fri, 27 Jun 2025 15:44:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: coltonlewis@google.com, kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, mizhang@google.com, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman
+	<mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
+	<christophe.leroy@csgroup.eu>, Robin Murphy <robin.murphy@arm.com>, Joerg
+	Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, "Michael S.
+	Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alexander Potapenko <glider@google.com>, Marco Elver
+ <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, Andrew Morton
+ <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ iommu@lists.linux.dev, virtualization@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <cover.1750854543.git.leon@kernel.org>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250627134412eucas1p153bc3e4a1c0897bca604e6864667b66d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf
+X-EPHeader: CA
+X-CMS-RootMailID: 20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf
+References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
+	<cover.1750854543.git.leon@kernel.org>
 
-On Thu, 26 Jun 2025 21:04:45 +0100,
-Colton Lewis <coltonlewis@google.com> wrote:
-> 
-> Since cntr_mask is modified when the PMU is partitioned to remove some
-> bits, make sure the missing counters are added back to get the right
-> total.
+On 25.06.2025 15:18, Leon Romanovsky wrote:
+> This series refactors the DMA mapping to use physical addresses
+> as the primary interface instead of page+offset parameters. This
+> change aligns the DMA API with the underlying hardware reality where
+> DMA operations work with physical addresses, not page structures.
+>
+> The series consists of 8 patches that progressively convert the DMA
+> mapping infrastructure from page-based to physical address-based APIs:
+>
+> The series maintains backward compatibility by keeping the old
+> page-based API as wrapper functions around the new physical
+> address-based implementations.
 
-Please fix the subject of the patch to be more descriptive. It is
-worded like a bug fix, while it really is only a step in the patch
-series.
+Thanks for this rework! I assume that the next step is to add map_phys 
+callback also to the dma_map_ops and teach various dma-mapping providers 
+to use it to avoid more phys-to-page-to-phys conversions.
 
-Something like "Take partitioning into account for max number of
-counters" would go a long way.
+I only wonder if this newly introduced dma_map_phys()/dma_unmap_phys() 
+API is also suitable for the recently discussed PCI P2P DMA? While 
+adding a new API maybe we should take this into account? My main concern 
+is the lack of the source phys addr passed to the dma_unmap_phys() 
+function and I'm aware that this might complicate a bit code conversion 
+from old dma_map/unmap_page() API.
 
-> 
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> ---
->  arch/arm64/kvm/pmu.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/kvm/pmu.c b/arch/arm64/kvm/pmu.c
-> index 79b7ea037153..67216451b8ce 100644
-> --- a/arch/arm64/kvm/pmu.c
-> +++ b/arch/arm64/kvm/pmu.c
-> @@ -533,6 +533,8 @@ static bool pmu_irq_is_valid(struct kvm *kvm, int irq)
->  u8 kvm_arm_pmu_get_max_counters(struct kvm *kvm)
->  {
->  	struct arm_pmu *arm_pmu = kvm->arch.arm_pmu;
-> +	u8 counters;
-> +
-
-nit: superfluous blank line.
->  
->  	/*
->  	 * PMUv3 requires that all event counters are capable of counting any
-> @@ -545,7 +547,12 @@ u8 kvm_arm_pmu_get_max_counters(struct kvm *kvm)
->  	 * The arm_pmu->cntr_mask considers the fixed counter(s) as well.
->  	 * Ignore those and return only the general-purpose counters.
->  	 */
-> -	return bitmap_weight(arm_pmu->cntr_mask, ARMV8_PMU_MAX_GENERAL_COUNTERS);
-> +	counters = bitmap_weight(arm_pmu->cntr_mask, ARMV8_PMU_MAX_GENERAL_COUNTERS);
-> +
-> +	if (kvm_pmu_is_partitioned(arm_pmu))
-> +		counters += arm_pmu->hpmn_max;
-
-Why the check? Why can't we rely on hpmn_max to always give us the
-correct value?
-
-Thanks,
-
-	M.
-
+Best regards
 -- 
-Without deviation from the norm, progress is not possible.
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
