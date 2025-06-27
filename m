@@ -1,59 +1,50 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BC320C005
-	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 19:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084CD171092;
+	Fri, 27 Jun 2025 20:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751051710; cv=none; b=Tjm/inxIdQKWjHFI7XPjKTc46TU+ytHSTetMFuIsPC0/uPxQLa0+c/WfNDryolHcTzs9Ly935q/3g2dlq6X2WRj2BXtHaoS/ddkTPl24WZWa8Z99sWgZYXrVY3VBc6a0goO4r/2x0Dda8ErFf7oHVPoLOhfM2lbbyer5On5/mzI=
+	t=1751056617; cv=none; b=E7vEB2CViaUGG008OJPd7DVEtvmfBs+cVms/2LqHqQ2yAIMNXWW4sYIuEGomXnN7guXG6miqrKxBHNybrBShYckzPQjXa++iRCI5ZFCYJEUkAMqi/KVmopvNp3H99lpK5p1FlwO1hQaTf+aUPiFXuxlL8K6Gzsgsjm4Z3goohgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751051710; c=relaxed/simple;
-	bh=SY70xkPa6mJlmsfKBvrjeQYhdfFQN5MBR1J/QFlBzTA=;
+	s=arc-20240116; t=1751056617; c=relaxed/simple;
+	bh=qxYr4GkNyEMz/Smdf4p2vqNgb00Iz+tup5dPkYdZ95Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lt7NqPBR4NhKvSzb9ROcXu9JQ+E7fFITfd3TcyMkjmZYA/czLclckwbKLk4hqrrqCFDTG+krayteYRKIDqqN7HmQ3zzlPz4Z12UrK9Hw7RpaWRUK9VyKd46C6SYXJRGKJjJUldRPNGtIQ6q1OIPM4hjayGQbNSFLPgF3Fd3pDS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A4ku7dH6; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VdNZpP+s7n/UoOcKLdz34ECQR452xaazRmwopKG61CKOPGIRslKLH6uWwct4KPmir8KliIU40SFggIzcno6E2R7g/XRh5Rtc9EBzImCJZsHs5/WASeDjUaRg+rcET1Q8h6hBx+rYzLWJ20hRY8OB4mMLFf65wu/ZuHF/NiIUiD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oQRo5Qdn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A4ku7dH6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751051706;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CYSrLAo09ExIjtjKGHrLSh/0TiMV2cB4z2DIrI0u/xE=;
-	b=A4ku7dH6wECQEO9DpkF3hiWB+ugLDHpEM+Rwv7i7aEXRPKX2bp9lxQETn1tODc/H4Di/b7
-	va8gFg72kQ2WwSERUot+ZjSzKeQy7aVorxWJ/Fd/C5JuqHoYFfWaQjlIjVvgWZP117uOtk
-	ZviCEXQbCjdvfXLvsb9mAEL7xkCt05Y=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-663-CMyhJzmuMdSDIRomBQcwvA-1; Fri,
- 27 Jun 2025 15:15:03 -0400
-X-MC-Unique: CMyhJzmuMdSDIRomBQcwvA-1
-X-Mimecast-MFC-AGG-ID: CMyhJzmuMdSDIRomBQcwvA_1751051701
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C9D851809C8A;
-	Fri, 27 Jun 2025 19:15:00 +0000 (UTC)
-Received: from bfoster (unknown [10.22.64.142])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2DBA1180045C;
-	Fri, 27 Jun 2025 19:14:58 +0000 (UTC)
-Date: Fri, 27 Jun 2025 15:18:36 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Joanne Koong <joannelkoong@gmail.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev
-Subject: Re: [PATCH 11/12] iomap: add read_folio_range() handler for buffered
- writes
-Message-ID: <aF7ujFij4GmYuYPu@bfoster>
-References: <20250627070328.975394-1-hch@lst.de>
- <20250627070328.975394-12-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oQRo5Qdn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C2C8C4CEE3;
+	Fri, 27 Jun 2025 20:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751056616;
+	bh=qxYr4GkNyEMz/Smdf4p2vqNgb00Iz+tup5dPkYdZ95Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oQRo5QdnBY2LfNw9m8t4c7E2pOB2VALFmeeE2/SBnAW4thoTdzwmuSVIfOPXSceiQ
+	 PfX6LwXLORBNJkv2d0lB2vGOHVvvx+f91KU8dipL2lyWUBqtCie+UCgLVsLoGp+B+n
+	 u4Wp1O9rhMoK7iG/JC/X4aL8Ui8pUOoAXyTMccJHDqmiuzV7lOGS/JnpivCYN/Cgvb
+	 7y4my/H+7D98BzKqa6Fer3BsSq87Q9kY8RghRVdwFMrqrZUY0cJjqdTFbEHkPtZc+f
+	 Z4G+nkaSQMZ/VPvKP0adoBetL5feHcynIP5eQ7dHOVr9Rs22S6K4zd6zt6ICHfIrDx
+	 zgFkLy1A+lJWg==
+Date: Fri, 27 Jun 2025 15:36:55 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: wenswang@yeah.net
+Cc: corbet@lwn.net, cedricjustine.encarnacion@analog.com,
+	johnerasmusmari.geronimo@analog.com, leo.yang.sy0@gmail.com,
+	linux@weissschuh.net, naresh.solanki@9elements.com,
+	festevam@gmail.com, rodrigo.gobbi.7@gmail.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	xzeol@yahoo.com, jbrunet@baylibre.com,
+	laurent.pinchart@ideasonboard.com, linux-hwmon@vger.kernel.org,
+	Mariel.Tinaco@analog.com, grantpeltier93@gmail.com,
+	ninad@linux.ibm.com, michal.simek@amd.com, conor+dt@kernel.org,
+	kimseer.paller@analog.com, nuno.sa@analog.com,
+	Jonathan.Cameron@huawei.com, devicetree@vger.kernel.org,
+	krzk+dt@kernel.org, linux@roeck-us.net, jdelvare@suse.com
+Subject: Re: [PATCH 1/4] dt-bindings: hwmon: Add MPS mp2869 series
+Message-ID: <175105661522.41086.17889038565748312846.robh@kernel.org>
+References: <20250625065956.964759-1-wenswang@yeah.net>
+ <20250625070338.965168-1-wenswang@yeah.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,137 +53,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627070328.975394-12-hch@lst.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+In-Reply-To: <20250625070338.965168-1-wenswang@yeah.net>
 
-On Fri, Jun 27, 2025 at 09:02:44AM +0200, Christoph Hellwig wrote:
-> From: Joanne Koong <joannelkoong@gmail.com>
+
+On Wed, 25 Jun 2025 15:03:35 +0800, wenswang@yeah.net wrote:
+> From: Wensheng Wang <wenswang@yeah.net>
 > 
-> Add a read_folio_range() handler for buffered writes that filesystems
-> may pass in if they wish to provide a custom handler for synchronously
-> reading in the contents of a folio.
+> Add support for MPS mp2869 series controller
 > 
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> [hch: renamed to read_folio_range, pass less arguments]
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
 > ---
->  .../filesystems/iomap/operations.rst          |  6 +++++
->  fs/iomap/buffered-io.c                        | 25 +++++++++++--------
->  include/linux/iomap.h                         | 10 ++++++++
->  3 files changed, 31 insertions(+), 10 deletions(-)
+>  Documentation/devicetree/bindings/trivial-devices.yaml | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> diff --git a/Documentation/filesystems/iomap/operations.rst b/Documentation/filesystems/iomap/operations.rst
-> index 167d3ca7819c..04432f40e7a2 100644
-> --- a/Documentation/filesystems/iomap/operations.rst
-> +++ b/Documentation/filesystems/iomap/operations.rst
-> @@ -68,6 +68,8 @@ The following address space operations can be wrapped easily:
->       void (*put_folio)(struct inode *inode, loff_t pos, unsigned copied,
->                         struct folio *folio);
->       bool (*iomap_valid)(struct inode *inode, const struct iomap *iomap);
-> +     int (*read_folio_range)(const struct iomap_iter *iter,
-> +     			struct folio *folio, loff_t pos, size_t len);
 
-Whitespace ^
-
->   };
->  
->  iomap calls these functions:
-...
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index a77686977a2e..1a9ade77aeeb 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -667,22 +667,23 @@ iomap_write_failed(struct inode *inode, loff_t pos, unsigned len)
->  					 pos + len - 1);
->  }
->  
-> -static int iomap_read_folio_sync(loff_t block_start, struct folio *folio,
-> -		size_t poff, size_t plen, const struct iomap *iomap)
-> +static int iomap_read_folio_range(const struct iomap_iter *iter,
-> +		struct folio *folio, loff_t pos, size_t len)
->  {
-> +	const struct iomap *srcmap = iomap_iter_srcmap(iter);
->  	struct bio_vec bvec;
->  	struct bio bio;
->  
-> -	bio_init(&bio, iomap->bdev, &bvec, 1, REQ_OP_READ);
-> -	bio.bi_iter.bi_sector = iomap_sector(iomap, block_start);
-> -	bio_add_folio_nofail(&bio, folio, plen, poff);
-> +	bio_init(&bio, srcmap->bdev, &bvec, 1, REQ_OP_READ);
-> +	bio.bi_iter.bi_sector = iomap_sector(srcmap, pos);
-> +	bio_add_folio_nofail(&bio, folio, len, offset_in_folio(folio, pos));
->  	return submit_bio_wait(&bio);
->  }
-
-Hmm, so this kind of makes my brain hurt... pos here is now the old
-block_start and len is the old plen. We used to pass poff to the
-add_folio_nofail() call, and now that is dropped and instead we use
-offset_in_folio(..., pos). The old poff is an output of the previous
-iomap_adjust_read_range() call, which is initially set to
-offset_in_folio(folio, *pos), of which *pos is block_start and is bumped
-in that function in the same places that poff is. Therefore old poff and
-new offset_in_folio(folio, pos) are logically equivalent. Am I following
-that correctly?
-
-Brian
-
->  
-> -static int __iomap_write_begin(const struct iomap_iter *iter, size_t len,
-> +static int __iomap_write_begin(const struct iomap_iter *iter,
-> +		const struct iomap_write_ops *write_ops, size_t len,
->  		struct folio *folio)
->  {
-> -	const struct iomap *srcmap = iomap_iter_srcmap(iter);
->  	struct iomap_folio_state *ifs;
->  	loff_t pos = iter->pos;
->  	loff_t block_size = i_blocksize(iter->inode);
-> @@ -731,8 +732,12 @@ static int __iomap_write_begin(const struct iomap_iter *iter, size_t len,
->  			if (iter->flags & IOMAP_NOWAIT)
->  				return -EAGAIN;
->  
-> -			status = iomap_read_folio_sync(block_start, folio,
-> -					poff, plen, srcmap);
-> +			if (write_ops && write_ops->read_folio_range)
-> +				status = write_ops->read_folio_range(iter,
-> +						folio, block_start, plen);
-> +			else
-> +				status = iomap_read_folio_range(iter,
-> +						folio, block_start, plen);
->  			if (status)
->  				return status;
->  		}
-> @@ -848,7 +853,7 @@ static int iomap_write_begin(struct iomap_iter *iter,
->  	else if (srcmap->flags & IOMAP_F_BUFFER_HEAD)
->  		status = __block_write_begin_int(folio, pos, len, NULL, srcmap);
->  	else
-> -		status = __iomap_write_begin(iter, len, folio);
-> +		status = __iomap_write_begin(iter, write_ops, len, folio);
->  
->  	if (unlikely(status))
->  		goto out_unlock;
-> diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-> index 482787013ff7..b3588dd43105 100644
-> --- a/include/linux/iomap.h
-> +++ b/include/linux/iomap.h
-> @@ -166,6 +166,16 @@ struct iomap_write_ops {
->  	 * locked by the iomap code.
->  	 */
->  	bool (*iomap_valid)(struct inode *inode, const struct iomap *iomap);
-> +
-> +	/*
-> +	 * Optional if the filesystem wishes to provide a custom handler for
-> +	 * reading in the contents of a folio, otherwise iomap will default to
-> +	 * submitting a bio read request.
-> +	 *
-> +	 * The read must be done synchronously.
-> +	 */
-> +	int (*read_folio_range)(const struct iomap_iter *iter,
-> +			struct folio *folio, loff_t pos, size_t len);
->  };
->  
->  /*
-> -- 
-> 2.47.2
-> 
-> 
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
