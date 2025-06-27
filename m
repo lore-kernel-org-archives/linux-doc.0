@@ -1,129 +1,258 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059EE2EE5E6;
-	Fri, 27 Jun 2025 18:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D31A20A5F3
+	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 19:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751049620; cv=none; b=d4MNXmSeKBMXBBq0oot9aBFmOutRuD11aaCv2Box4h+klsJsoXgTiIXV9QSNsr+hyBamzvvjZVhLczFHB4KOz4BRE3hDO1LEDny1a3A4t6WQn09pMRKlLGmW6T50kZkL3EXTyarcI0ApVjmWL99KOkh7xKxa5MKCsB9CDWme6pg=
+	t=1751051699; cv=none; b=kJc4y4nwY4rJoEFU7G29qS6EZAxGhnIWG+JTrlm3RMnD2TU3GUUZeNGNzpLY/owekVwRjtgOlyyOsgmDBq6KuwNuDpFJ11vI6TH6AtmH/NhV0PuCQ7tICYhP8TbyCF4VrRTMSqG5cuau2+lZeShW2Lqe1oQ6ooRjN4mX3Zmjw3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751049620; c=relaxed/simple;
-	bh=OG3Vi3/fNl/c04UvhGfqGhF0Tv6V5jD1gvt/Ro3R3vk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XToX0qZSC9mfzgP94fGFMcpwoInjvEfvEUEn+k8U0DKdS7F4/8/PJwzibiB8w+16/VZMm2bFDXl+pfB4UyxME5UUcSbpxfFj/KzNTKwrascVUPmG4EFRcAMH24cpfOyu2FGH6gc5MkiboTliyAJEKGlibBbx0MI85Z85fMKx5/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=epbttpUh; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1751051699; c=relaxed/simple;
+	bh=rJBy5eogMaWK1Inha+r6cqvoOuomE1H2/3avaV6ZghA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nnxX86HpMdiAud36FhGFdwBCLKrdTuXPw5ux2trzSuSoDzdxqHjEuub08Bk/TgYDfKtNmMdV+/I6e5Yrviplpb9k9eZpigB+EPZudDx/M7f1WbVbGKZg/or/KFqA4eO5fx6jFnvm1K9Hn9z3RCd521gupe58gmRuyQy3gwI6ufM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LQfMO9Eu; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="epbttpUh"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0ED7E40AD2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1751049618; bh=+iEYvlkxgBTH8QTIpp2nezk4u73s3MZGF2/w6ybXQoQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=epbttpUhMhLNmuPyKN6n7RmlJhrpM8hw/XXdJ1NFCj6s1S0zOxPEVxi/m80+ErKpf
-	 jjeD1Hx4TmacvVb4jSy86nFKe/SAgfemjPVwRKRpM8Z97fLQEsxQu4h5a/NBNQUvei
-	 pW2MidsrTMiu+f1Tke0tTdVTWTtw71BQb7Edlk06ov99GEbokEJZunDyPJ+N2rg8ZA
-	 avFgyIEqzDAqFwSCK9T2NzRCSEJLO0fw7Vy4+CSjaGkp8TGH0jkz9eg1BJcu2aX+Eg
-	 0+1vsBHqXSOnZBs52U+ZnZISL8t6KN/h4aIQeB4MUyy/GJdwR/HzxfJ1UmsZOzYumz
-	 jq7139oGWxdzQ==
-Received: from trenco.lwn.net (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
-	by ms.lwn.net (Postfix) with ESMTPA id 0ED7E40AD2;
-	Fri, 27 Jun 2025 18:40:18 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 8/8] docs: kdoc: split the processing of the two remaining inline states
-Date: Fri, 27 Jun 2025 12:40:00 -0600
-Message-ID: <20250627184000.132291-9-corbet@lwn.net>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250627184000.132291-1-corbet@lwn.net>
-References: <20250627184000.132291-1-corbet@lwn.net>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LQfMO9Eu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751051696;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xUYZjKekMRgOsttarHYMXC+RSYbEKSH+B8I++22Ehro=;
+	b=LQfMO9EuzbiQcACGdlScVu0BFml0uMZJLlcQ36Ogkp4GRdH5KPlezyQz6REKyLjY6cwnrS
+	6dvZWZt0zlMNzJyjEd6qGuF3XRK6HyDdp53y+YaA4bmNC81EviSr7PU/dYdMs1zsJ3H76T
+	4xfgn0FgYc2ISQsLaSEAd7rOV2BYZRY=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-207-bpnFFZK1OeSol0EdJXJIRQ-1; Fri,
+ 27 Jun 2025 15:14:51 -0400
+X-MC-Unique: bpnFFZK1OeSol0EdJXJIRQ-1
+X-Mimecast-MFC-AGG-ID: bpnFFZK1OeSol0EdJXJIRQ_1751051690
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E648319560A1;
+	Fri, 27 Jun 2025 19:14:49 +0000 (UTC)
+Received: from bfoster (unknown [10.22.64.142])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2D77130001B1;
+	Fri, 27 Jun 2025 19:14:47 +0000 (UTC)
+Date: Fri, 27 Jun 2025 15:18:25 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev
+Subject: Re: [PATCH 10/12] iomap: replace iomap_folio_ops with iomap_write_ops
+Message-ID: <aF7ugUxtYQrjRl1D@bfoster>
+References: <20250627070328.975394-1-hch@lst.de>
+ <20250627070328.975394-11-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250627070328.975394-11-hch@lst.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Now that "inline_*" are just ordinary parser states, split them into two
-separate functions, getting rid of some nested conditional logic.
+On Fri, Jun 27, 2025 at 09:02:43AM +0200, Christoph Hellwig wrote:
+> The iomap_folio_ops are only used for buffered writes, including
+> the zero and unshare variants.  Rename them to iomap_write_ops
+> to better describe the usage, and pass them through the callchain
+> like the other operation specific methods instead of through the
+> iomap.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  Documentation/filesystems/iomap/design.rst    |  3 -
+>  .../filesystems/iomap/operations.rst          |  8 +-
+>  block/fops.c                                  |  3 +-
+>  fs/gfs2/bmap.c                                | 21 ++---
+>  fs/gfs2/bmap.h                                |  1 +
+>  fs/gfs2/file.c                                |  3 +-
+>  fs/iomap/buffered-io.c                        | 79 +++++++++++--------
+>  fs/xfs/xfs_file.c                             |  6 +-
+>  fs/xfs/xfs_iomap.c                            | 12 ++-
+>  fs/xfs/xfs_iomap.h                            |  1 +
+>  fs/xfs/xfs_reflink.c                          |  3 +-
+>  fs/zonefs/file.c                              |  3 +-
+>  include/linux/iomap.h                         | 22 +++---
+>  13 files changed, 89 insertions(+), 76 deletions(-)
+> 
+...
+> diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+> index ff05e6b1b0bb..2e94a9435002 100644
+> --- a/fs/xfs/xfs_iomap.c
+> +++ b/fs/xfs/xfs_iomap.c
+> @@ -79,6 +79,9 @@ xfs_iomap_valid(
+>  {
+>  	struct xfs_inode	*ip = XFS_I(inode);
+>  
+> +	if (iomap->type == IOMAP_HOLE)
+> +		return true;
+> +
 
-The original process_inline() would simply ignore lines that didn't match
-any of the regexes (those lacking the initial " * " marker).  I have
-preserved that behavior, but we should perhaps emit a warning instead.
+Is this to handle the xfs_hole_to_iomap() case? I.e., no validity cookie
+and no folio_ops set..? If so, I think a small comment would be helpful.
+Otherwise LGTM:
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- scripts/lib/kdoc/kdoc_parser.py | 37 ++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 19 deletions(-)
+Reviewed-by: Brian Foster <bfoster@redhat.com>
 
-diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index a931c1471fa8..93938155fce2 100644
---- a/scripts/lib/kdoc/kdoc_parser.py
-+++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -1448,31 +1448,30 @@ class KernelDoc:
-             # Unknown line, ignore
-             self.emit_msg(ln, f"bad line: {line}")
- 
--    def process_inline(self, ln, line):
--        """STATE_INLINE: docbook comments within a prototype."""
-+    def process_inline_name(self, ln, line):
-+        """STATE_INLINE_NAME: beginning of docbook comments within a prototype."""
- 
--        if self.state == state.INLINE_NAME and \
--           doc_inline_sect.search(line):
-+        if doc_inline_sect.search(line):
-             self.entry.begin_section(ln, doc_inline_sect.group(1))
--
-             self.entry.add_text(doc_inline_sect.group(2).lstrip())
-             self.state = state.INLINE_TEXT
--            # Documentation block end */
--            return
--
--        if doc_inline_end.search(line):
-+        elif doc_inline_end.search(line):
-             self.dump_section()
-             self.state = state.PROTO
--            return
-+        elif doc_content.search(line):
-+            self.emit_msg(ln, f"Incorrect use of kernel-doc format: {line}")
-+            self.state = state.PROTO
-+        # else ... ??
- 
--        if doc_content.search(line):
--            if self.state == state.INLINE_TEXT:
--                self.entry.add_text(doc_content.group(1))
-+    def process_inline_text(self, ln, line):
-+        """STATE_INLINE_TEXT: docbook comments within a prototype."""
- 
--            elif self.state == state.INLINE_NAME:
--                self.emit_msg(ln,
--                              f"Incorrect use of kernel-doc format: {line}")
--                self.state = state.PROTO
-+        if doc_inline_end.search(line):
-+            self.dump_section()
-+            self.state = state.PROTO
-+        elif doc_content.search(line):
-+            self.entry.add_text(doc_content.group(1))
-+        # else ... ??
- 
-     def syscall_munge(self, ln, proto):         # pylint: disable=W0613
-         """
-@@ -1699,8 +1698,8 @@ class KernelDoc:
-         state.BODY:			process_body,
-         state.DECLARATION:		process_decl,
-         state.SPECIAL_SECTION:		process_special,
--        state.INLINE_NAME:		process_inline,
--        state.INLINE_TEXT:		process_inline,
-+        state.INLINE_NAME:		process_inline_name,
-+        state.INLINE_TEXT:		process_inline_text,
-         state.PROTO:			process_proto,
-         state.DOCBLOCK:			process_docblock,
-         }
--- 
-2.49.0
+>  	if (iomap->validity_cookie !=
+>  			xfs_iomap_inode_sequence(ip, iomap->flags)) {
+>  		trace_xfs_iomap_invalid(ip, iomap);
+> @@ -89,7 +92,7 @@ xfs_iomap_valid(
+>  	return true;
+>  }
+>  
+> -static const struct iomap_folio_ops xfs_iomap_folio_ops = {
+> +const struct iomap_write_ops xfs_iomap_write_ops = {
+>  	.iomap_valid		= xfs_iomap_valid,
+>  };
+>  
+> @@ -151,7 +154,6 @@ xfs_bmbt_to_iomap(
+>  		iomap->flags |= IOMAP_F_DIRTY;
+>  
+>  	iomap->validity_cookie = sequence_cookie;
+> -	iomap->folio_ops = &xfs_iomap_folio_ops;
+>  	return 0;
+>  }
+>  
+> @@ -2198,7 +2200,8 @@ xfs_zero_range(
+>  		return dax_zero_range(inode, pos, len, did_zero,
+>  				      &xfs_dax_write_iomap_ops);
+>  	return iomap_zero_range(inode, pos, len, did_zero,
+> -				&xfs_buffered_write_iomap_ops, ac);
+> +			&xfs_buffered_write_iomap_ops, &xfs_iomap_write_ops,
+> +			ac);
+>  }
+>  
+>  int
+> @@ -2214,5 +2217,6 @@ xfs_truncate_page(
+>  		return dax_truncate_page(inode, pos, did_zero,
+>  					&xfs_dax_write_iomap_ops);
+>  	return iomap_truncate_page(inode, pos, did_zero,
+> -				   &xfs_buffered_write_iomap_ops, ac);
+> +			&xfs_buffered_write_iomap_ops, &xfs_iomap_write_ops,
+> +			ac);
+>  }
+> diff --git a/fs/xfs/xfs_iomap.h b/fs/xfs/xfs_iomap.h
+> index 674f8ac1b9bd..ebcce7d49446 100644
+> --- a/fs/xfs/xfs_iomap.h
+> +++ b/fs/xfs/xfs_iomap.h
+> @@ -57,5 +57,6 @@ extern const struct iomap_ops xfs_seek_iomap_ops;
+>  extern const struct iomap_ops xfs_xattr_iomap_ops;
+>  extern const struct iomap_ops xfs_dax_write_iomap_ops;
+>  extern const struct iomap_ops xfs_atomic_write_cow_iomap_ops;
+> +extern const struct iomap_write_ops xfs_iomap_write_ops;
+>  
+>  #endif /* __XFS_IOMAP_H__*/
+> diff --git a/fs/xfs/xfs_reflink.c b/fs/xfs/xfs_reflink.c
+> index ad3bcb76d805..3f177b4ec131 100644
+> --- a/fs/xfs/xfs_reflink.c
+> +++ b/fs/xfs/xfs_reflink.c
+> @@ -1881,7 +1881,8 @@ xfs_reflink_unshare(
+>  				&xfs_dax_write_iomap_ops);
+>  	else
+>  		error = iomap_file_unshare(inode, offset, len,
+> -				&xfs_buffered_write_iomap_ops);
+> +				&xfs_buffered_write_iomap_ops,
+> +				&xfs_iomap_write_ops);
+>  	if (error)
+>  		goto out;
+>  
+> diff --git a/fs/zonefs/file.c b/fs/zonefs/file.c
+> index a0ce6c97b9e5..88cb7df2709f 100644
+> --- a/fs/zonefs/file.c
+> +++ b/fs/zonefs/file.c
+> @@ -572,7 +572,8 @@ static ssize_t zonefs_file_buffered_write(struct kiocb *iocb,
+>  	if (ret <= 0)
+>  		goto inode_unlock;
+>  
+> -	ret = iomap_file_buffered_write(iocb, from, &zonefs_write_iomap_ops, NULL);
+> +	ret = iomap_file_buffered_write(iocb, from, &zonefs_write_iomap_ops,
+> +			NULL, NULL);
+>  	if (ret == -EIO)
+>  		zonefs_io_error(inode, true);
+>  
+> diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+> index 568a246f949b..482787013ff7 100644
+> --- a/include/linux/iomap.h
+> +++ b/include/linux/iomap.h
+> @@ -101,8 +101,6 @@ struct vm_fault;
+>   */
+>  #define IOMAP_NULL_ADDR -1ULL	/* addr is not valid */
+>  
+> -struct iomap_folio_ops;
+> -
+>  struct iomap {
+>  	u64			addr; /* disk offset of mapping, bytes */
+>  	loff_t			offset;	/* file offset of mapping, bytes */
+> @@ -113,7 +111,6 @@ struct iomap {
+>  	struct dax_device	*dax_dev; /* dax_dev for dax operations */
+>  	void			*inline_data;
+>  	void			*private; /* filesystem private */
+> -	const struct iomap_folio_ops *folio_ops;
+>  	u64			validity_cookie; /* used with .iomap_valid() */
+>  };
+>  
+> @@ -143,16 +140,11 @@ static inline bool iomap_inline_data_valid(const struct iomap *iomap)
+>  }
+>  
+>  /*
+> - * When a filesystem sets folio_ops in an iomap mapping it returns, get_folio
+> - * and put_folio will be called for each folio written to.  This only applies
+> - * to buffered writes as unbuffered writes will not typically have folios
+> - * associated with them.
+> - *
+>   * When get_folio succeeds, put_folio will always be called to do any
+>   * cleanup work necessary.  put_folio is responsible for unlocking and putting
+>   * @folio.
+>   */
+> -struct iomap_folio_ops {
+> +struct iomap_write_ops {
+>  	struct folio *(*get_folio)(struct iomap_iter *iter, loff_t pos,
+>  			unsigned len);
+>  	void (*put_folio)(struct inode *inode, loff_t pos, unsigned copied,
+> @@ -335,7 +327,8 @@ static inline bool iomap_want_unshare_iter(const struct iomap_iter *iter)
+>  }
+>  
+>  ssize_t iomap_file_buffered_write(struct kiocb *iocb, struct iov_iter *from,
+> -		const struct iomap_ops *ops, void *private);
+> +		const struct iomap_ops *ops,
+> +		const struct iomap_write_ops *write_ops, void *private);
+>  int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops);
+>  void iomap_readahead(struct readahead_control *, const struct iomap_ops *ops);
+>  bool iomap_is_partially_uptodate(struct folio *, size_t from, size_t count);
+> @@ -344,11 +337,14 @@ bool iomap_release_folio(struct folio *folio, gfp_t gfp_flags);
+>  void iomap_invalidate_folio(struct folio *folio, size_t offset, size_t len);
+>  bool iomap_dirty_folio(struct address_space *mapping, struct folio *folio);
+>  int iomap_file_unshare(struct inode *inode, loff_t pos, loff_t len,
+> -		const struct iomap_ops *ops);
+> +		const struct iomap_ops *ops,
+> +		const struct iomap_write_ops *write_ops);
+>  int iomap_zero_range(struct inode *inode, loff_t pos, loff_t len,
+> -		bool *did_zero, const struct iomap_ops *ops, void *private);
+> +		bool *did_zero, const struct iomap_ops *ops,
+> +		const struct iomap_write_ops *write_ops, void *private);
+>  int iomap_truncate_page(struct inode *inode, loff_t pos, bool *did_zero,
+> -		const struct iomap_ops *ops, void *private);
+> +		const struct iomap_ops *ops,
+> +		const struct iomap_write_ops *write_ops, void *private);
+>  vm_fault_t iomap_page_mkwrite(struct vm_fault *vmf, const struct iomap_ops *ops,
+>  		void *private);
+>  typedef void (*iomap_punch_t)(struct inode *inode, loff_t offset, loff_t length,
+> -- 
+> 2.47.2
+> 
+> 
 
