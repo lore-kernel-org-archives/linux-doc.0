@@ -1,136 +1,152 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C237227563;
-	Thu, 26 Jun 2025 23:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86182F4A;
+	Fri, 27 Jun 2025 00:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750982364; cv=none; b=MObQOrde6qk5wlSFcl12W3G9oji5qHqq6V+dpeVHURDHpbJronr7PTPAeakMGdpj3Q/7AfoBYqPj5MrnsqD9ERxeGNaUbxD921sKyKkkLNLhDxa/JSaXIci6p7Q+mdCB2uJ2mIuJ9NOz5gyovBlVVT2S5kg6V9PEZ3ARe9ahkvg=
+	t=1750983609; cv=none; b=u7EYoorNHJc4p+C5X3S0XLDOhtuLskN83YK1lKUpbOgTplkY7aUebpwhTMniUSqcq5DSNL1JuQuT8fMC07G2CpnumVaxfaRgTu2buiAoYux4O0RKeeD3m5WPmTV8Vi9OjpqlI+TH5SfRZ8lVInGaT2gOqqM/IXjvnD8uxKtWwr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750982364; c=relaxed/simple;
-	bh=s3rbMWUAfYhIRKU2aYRNEwpl6k00a31yw5xuU8prP3c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sd4oOTUNL55jAxBhEQaO6WWW8PHXEQ3/Rr1sUjksq9/JZ7mqtP5mK93iFljZBYjuR+uN0sSuluFiA2q6VB7oyQeiQogNrduCMnZCZE9xj83408zlaMvVWnTx3Z6O9Uj+URKAfI1N2bGv96qYoBn0rMvvSu0uaOjKeSQ3MFF1Bgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X0kavkYh; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1750983609; c=relaxed/simple;
+	bh=PKky7IbbIFiq2DgbdU65Z9zZBJsDd8cpZP8lF8C1OOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E+V522+dIJCiHb2LSjCfhvDkkpu4/dikSVTc5gpV1Gqo9S/GwC00ma2g5WzWSfp15vQBmicUbatDe8lk3FKNJ2YrDB09q3O3+EqcIkbFbDGFXoFpitueN4EwLQuJzyapwOfJbzNOwoDWkkY47FGIpJTdTIyOWe9bji8NysFco7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i+gO6oNl; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X0kavkYh"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so2091445b3a.0;
-        Thu, 26 Jun 2025 16:59:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+gO6oNl"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7490702fc7cso1145579b3a.1;
+        Thu, 26 Jun 2025 17:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750982362; x=1751587162; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MU802fHFDsWEcG5O/JQOLJRXUp/Mx/sjo2Oncuu4jl0=;
-        b=X0kavkYhkbmso2A2chS+QbB0Dq6ubpze6PY/+Mq1lIHZNHGbbsfLm6PnZY/DDkoS9m
-         dVE0yT/CKaNljMsNgSpABC61/VEcs0bKgaQBn0UAYfRZDe1Bw0Fg65oDaD2VeRKQ8CGr
-         1b+EC6QSFTWn/pXJVv3bDYki3SUCrjYwjWr7EoaFNGE2sTPpvXpVxBAoxdrJMWjz1JpE
-         TihmJoHkFAI33v607i0U77rNOHrpeUmSWqGiJ5EzZ7ge6DLlhpB20uZLEVdEJrDGwOPv
-         E6lDgV80hLtHY6CXU6MPDoorShEM66vCKw98/7p4pe4ZNY2WISZKidPeHegpXskUg+K6
-         8ozQ==
+        d=gmail.com; s=20230601; t=1750983607; x=1751588407; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gZQojmcQydldQjb4UI2zP2jf0B6n8+rV1pAko5QeeAY=;
+        b=i+gO6oNl6MGR42MtVEUD3IsC91U6SAm0S2nB55nlCW6Zo0L+N9fJmgjTMmPGPrdHs9
+         B0uxM1BR1EKEAL7e8M1eJy5NCb2/g2Yym3D0sWO3pqG1mOys/ToxkC75NN6rapcU2Hmd
+         jUMc6jQHpO2LnYM1z2MWjU4RdwFsfZpjyXaUPRXu8MXGxq6lg8UV8DLuA+8Z4ZFIYZU3
+         lcCg6AvyR4LgqXpPlH8FpyAnK9ef4h+w7KgZjhlM82DfiSuhzHGQdr6koMq5JHe/QYs+
+         c2l2Ucja5JsXNXbTj1Ehh0CoZiZbIq3/5NcUtZIuDUzcDEnm5NI0yA4Uilc2Htbke1EE
+         Yo3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750982362; x=1751587162;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MU802fHFDsWEcG5O/JQOLJRXUp/Mx/sjo2Oncuu4jl0=;
-        b=cP8aCKTwUTJE5Loo1gnL1tNi2UwLmAzfuctHBptJrSa2rK1KIH0Detw1g/9ri7zu+n
-         qdYtzZL/69zFeMgnGzppX4zSF7OtFk9gpXueRJTyp7uxGpa4hpQ+2kLHooDuK80E0P6C
-         scJ6si6K3fGuqIQw6/BT1tbGkqrEhn42n8BFXS9ej0DXPa1NE6AUgbJwk9DIT1OYjPdz
-         Q5zY9TDOrkVsq0EF+7iAVHVE3RQj4mdGfTiM5L2ehctfT9xIWf8MWG6HbtS7BnjRGVb3
-         Ftgzsur5X+3WQUniYfYHERk3rLWDgj0qYPMfA1/bPbl9Rky/JkpfYaOpcGFY0eetIfWV
-         7ynA==
-X-Forwarded-Encrypted: i=1; AJvYcCUnup2SapD7Ut6nLnxNlgy2O/lBJ5s5FzISI5gn9qHw/+tf2Klf346MKIqmHu8983WH0IC17fFW@vger.kernel.org, AJvYcCW18wuw8S9AmNxBSRS+33bn0pu2ebOWDCIkm4yJmKjf8jRgB3b5DWtejk+ru/MTHrITZr/DNRAish4=@vger.kernel.org, AJvYcCXOIQLXTm45qx9nThLxtfHXqBwJjlZ1kBOB1UIZrqcUCk6uIoSaJpTbOu5uwzb6DXag7gn3VkoCt9xyLAnV@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuB7uZjSFTt/jFzMgFLJPjBE+agTGCPic2Rff9svsEDmsxAZG8
-	w5QghO+JhLTOcsYQvbCEJ3tPMYqOFYRZFBVKegWjPqiapTGB2eze2JaM
-X-Gm-Gg: ASbGncu0QpGVucmDWUYc0ZpOWhB7T4jjsCJRuQ/r1RNc0GS8YbkjBtIvUIncpN7Iy/a
-	cunJ2D2gl023ax5WxUki+BHrpRFrtYubATHHGPc76k2D0w3J8EfBLLoiMKBdrV2BvpPku5/ScA7
-	rYoap9it5nr2coC5mCbwhhDA0n0dxOxsyg1VHvI/I1N6gMrxFUUpLKKUSnVYRynwfQs+inl4Mop
-	4EjjNHrPyrStsntc3Hn18WNfHZ+cRGUfX+WvAuUrbs/dNAWhmuYZ8beWxe9rbPnQzeB22KECt/s
-	n9ZBQ/ytkeAgKqS7PF+K9aWJTdwsnbiUbAkUcgm5xvZ8EeSlMpOpClBUXev/L+i+noSDNmHUr3z
-	UAoG/tWY6vrCkqiw1r7tCN7UA5vN8C85C
-X-Google-Smtp-Source: AGHT+IH2QEv1EXX1AwW0bplm/IMyDMqzMeclzHruNi6dErZJ0S6a5ZLa64wP13/R2bF/xVlDw1ddCA==
-X-Received: by 2002:a05:6a21:1fc3:b0:1f3:3547:f21b with SMTP id adf61e73a8af0-220a08dc64amr1126298637.5.1750982362495;
-        Thu, 26 Jun 2025 16:59:22 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af56cffccsm799591b3a.130.2025.06.26.16.59.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 16:59:22 -0700 (PDT)
-Message-ID: <ebdb0f12-0573-4023-bb7f-c51a94dedb27@gmail.com>
-Date: Fri, 27 Jun 2025 08:59:16 +0900
+        d=1e100.net; s=20230601; t=1750983607; x=1751588407;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gZQojmcQydldQjb4UI2zP2jf0B6n8+rV1pAko5QeeAY=;
+        b=UjoYXXyZM1lhfn2f/kVM703SNl7YlbarzxmLS+gv9vmfX0fXExJNo8/t344swO/kqP
+         3gua9cq1VpvUHRwfFx1l5S5rcOj4FPNVb+dohf8i1SPZFoVDCEiYIoVFRHiWCOLTqeUR
+         Rskf1pH+tuvRpk1J0NhrC7eaYbq2OFWGFnAVb9NHDieBEP7mZXcYvNIWs0pFFtaOqJCv
+         MlX4xPLlZikMIX9Ms4/yn2AwYCIHT9UKR/f8HB2ugzGDHwBMPfQi7qP6QGVlSAeka/zQ
+         Qg/jzT4Otf+g8vOX69PTLt3NA3cIPtKPjPlbtN+X4TPzNaBj8RPSjMFzMogDphLDS3Z8
+         TeHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNB7R61cyFWVIb9nRu9tg5y2+qgIJsvzImzzUjvX42IjlKkQs83IaKmDd7PJSu3MTB3+MtTvjR34VDRZXW@vger.kernel.org, AJvYcCWX21qCY45xCH+eJeS14B6VMHrNLCcwN+qBXn/ETsy8GAr+bu+mK4f00rko0SsdIOrpPvwNXHeW6Pw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuPnE9OSvB8vdwxthrGuxwhNSLPUnIhKh63SVgtAibBy6TscKh
+	W/Btg4a4heIaCTgDhu0sd5vckYUxw74+NQdjw90LcCG3hzu+mo71d9Ge
+X-Gm-Gg: ASbGnct42I0o9kT//TTsvrvpGwGhMUd1tmA6PUsd/8NOcmqzN2DMyd8R8ReY6I7aXmI
+	BQaA70HxTaXKpw41rRvTQn+bguXo2QXWk2mwObgIhteQUrKZw8/L+To9vVn7pZXHPNqvuE2THAH
+	+w9Ha+JIMQzfOnDpEfFtgY5b4KzQiSG+C0CQ89KbBXsklCNnDe241TklwJ2vL5M6wIv9B71FpmT
+	GQpe0hKA1/hgcjZxP6rKhJ90Bhu6R06opz9uVjcycPo6Jj1D5eIieBiMABrN7zjRLbJstt9t1QV
+	W1U+r+jF7nVSZiJNJrqiB6bVxzferE9T9NSNJDvm77jvwS4kox2oFQsnh+Lu5g==
+X-Google-Smtp-Source: AGHT+IFfcKOr44kTaqlIcQVea5gmzizTb5lvMRwigGECKk10wnTLCRW9K8fkWSfPBmdHhXrjm+JdEw==
+X-Received: by 2002:a05:6a20:1586:b0:215:e43a:29b9 with SMTP id adf61e73a8af0-220a16db22amr1204311637.33.1750983606796;
+        Thu, 26 Jun 2025 17:20:06 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b34e31bea22sm230934a12.38.2025.06.26.17.20.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 17:20:05 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id EF60C4207D0B; Fri, 27 Jun 2025 07:20:01 +0700 (WIB)
+Date: Fri, 27 Jun 2025 07:20:01 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Carlos Bilbao <carlos.bilbao@kernel.org>,
+	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stanislav Fomichev <sdf@google.com>,
+	David Vernet <void@manifault.com>, Miguel Ojeda <ojeda@kernel.org>,
+	James Seo <james@equiv.tech>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH RFC] Documentation: typography refresh
+Message-ID: <aF3jsR6d2gC_CvoE@archie.me>
+References: <20250619042318.17325-2-bagasdotme@gmail.com>
+ <87wm8z8xs7.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 13/13] docs: parser_yaml.py: fix backward compatibility
- with old docutils
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Breno Leitao <leitao@debian.org>, "David S. Miller"
- <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>,
- Eric Dumazet <edumazet@google.com>,
- Ignacio Encinas Rubio <ignacio@iencinas.com>,
- Jan Stancek <jstancek@redhat.com>, Marco Elver <elver@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
- Ruben Wauters <rubenru09@aol.com>, Shuah Khan <skhan@linuxfoundation.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu,
- Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1750925410.git.mchehab+huawei@kernel.org>
- <d00a73776167e486a1804cf87746fa342294c943.1750925410.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <d00a73776167e486a1804cf87746fa342294c943.1750925410.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="n2Nz9B8Ft9sZeJJ8"
+Content-Disposition: inline
+In-Reply-To: <87wm8z8xs7.fsf@trenco.lwn.net>
 
-Hi Mauro,
 
-On Thu, 26 Jun 2025 10:13:09 +0200, Mauro Carvalho Chehab wrote:
-> As reported by Akira, older docutils versions are not compatible
-> with the way some Sphinx versions send tab_width. Add a code to
-> address it.
-> 
+--n2Nz9B8Ft9sZeJJ8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Tested OK against debian:11's and almalinux:9's Sphinx 3.4.3, both of
-which have docutils 0.16 bundled.
+On Wed, Jun 25, 2025 at 12:46:16PM -0600, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+>=20
+> > At present, kernel documentation uses system serif font for body text.
+> > Some people, however, objected to it and instead prefer that the
+> > typography choice must be legible, consistent, and accessible (after
+> > all, the audience ranges developers peeking into kernel internals to
+> > ordinary users that skimmed through Documentation/admin-guide/).
+>=20
+> So I have not seen the objections from "some people"; can you point to
+> them, please?
 
-opensuse/leap:15.6's Sphinx 4.2.0 has docutils 0.16 with it, but it is
-python 3.6 base and it does't work with the ynl integration.
-As opensuse/leap:15.6 provides Sphinx 7.2.6 (on top of python 3.11) as
-an alternative, obsoleting it should be acceptable.  
+None really but I feel that sans-serif looks aesthetically more pleasant
+(to my eyes) on screen than bare Times New Roman.
 
-Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Closes: https://lore.kernel.org/linux-doc/598b2cb7-2fd7-4388-96ba-2ddf0ab55d2a@gmail.com/
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Tested-by: Akira Yokosawa <akiyks@gmail.com>
+>=20
+> > To tackle the problem, follow Wikimedia's typography refresh [1].
+> > For the font choices, instead of using web fonts as in previous
+> > attempt [2], use:
+> >
+> >   * Linux Libertine, Georgia, Times for serif (used in h1 and h2
+> >     headings)
+> >   * system font for sans-serif and monospace
+> >
+> > This allows for more readability and consistency without sacrificing
+> > page load times and bandwidth, as the font choices is most likely
+> > already available on many platforms.
+>=20
+> I am open to style changes to make the docs more readable, but I am far
+> from convinced that this is it.  Mixing font styles in that way will not
+> be universally popular, the claim of "more readability" is
+> unsubstantiated, and "consistency" seems out of place when you're making
+> the fonts deliberately inconsistent...?
 
-        Thanks, Akira
+Because I don't have anything else to say in my mind as ideas when writing
+this RFC.
 
-> ---
->  Documentation/sphinx/parser_yaml.py | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/sphinx/parser_yaml.py b/Documentation/sphinx/parser_yaml.py
-> index 8288e2ff7c7c..1602b31f448e 100755
-> --- a/Documentation/sphinx/parser_yaml.py
-> +++ b/Documentation/sphinx/parser_yaml.py
-> @@ -77,6 +77,10 @@ class YamlParser(Parser):
->  
->                  result.append(line, document.current_source, lineoffset)
->  
-> +            # Fix backward compatibility with docutils < 0.17.1
-> +            if "tab_width" not in vars(document.settings):
-> +                document.settings.tab_width = 8
-> +
->              rst_parser = RSTParser()
->              rst_parser.parse('\n'.join(result), document)
->  
+Thanks.
 
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--n2Nz9B8Ft9sZeJJ8
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaF3jrQAKCRD2uYlJVVFO
+o7dOAQCtMP/tRlf6i5sdRHW7Dg8T3Xw1LbXap5cyGYX4DiiMGQD+PcHawpD1JGxQ
+a4ISmyWG33/Yrnfg+8pxT4t9CZg1kgM=
+=iqx/
+-----END PGP SIGNATURE-----
+
+--n2Nz9B8Ft9sZeJJ8--
