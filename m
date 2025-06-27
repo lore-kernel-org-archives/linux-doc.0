@@ -1,176 +1,114 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2050.outbound.protection.outlook.com [40.107.92.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D225A14A82;
-	Fri, 27 Jun 2025 10:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751018789; cv=fail; b=T4Lydbimnx9MR2i5muDm+3WErybG/KCMpbabYpYHcDvdlMlbYgKzmrLzV4L7cc6WEeh9m+PX3/DVSPpDn28N7X1JxNYKO/yPN4HTJQg2+9YlnVRn9YeHw1gbnh3EX4QE/I8DqQ+yENiA2Qwk89qB5nd6T9ZQ3evjuh4nY9jUTcs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751018789; c=relaxed/simple;
-	bh=UJ/Oqmx3Go3wWshC+lfG6XNZsX7NHVCHncmtrS2gmj4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jeRa38GSluJRXgRQpkoQZa6ua1Jqp6fouTp551Clmjval8adPvlYIpEtZ2bkZ/DElXyf2uzplDUzpnvA2N0/RXMPL6mmfyjade1/mv7lbb7d3+lTxDWg+Py4zrBSQWXs83RlFoHwrQ3b5zmI/qJ9eeZUpTxDNQd1Pk9YFkyEBOo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=O84Zivax; arc=fail smtp.client-ip=40.107.92.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C97298996
+	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 10:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751019022; cv=none; b=FPuONvUgLOij+pItJ4jfH2KULsCqvC8sAEz2Qr/QVwP5dFrBWRRAGfkIkY72HtnJELXljkalVKlfIHCSFV5kZTU2dvMHfLE07kDHiSEOvGhFNKDjpXmCsRUitQclBYTk9cV6ZRVvhxJwHEJEhvNPq42luaxPwhFcHz04AsOa2HA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751019022; c=relaxed/simple;
+	bh=0giSBgmaCphIbxYHr4WmnoLIDsn5RIpi8emWrzo8fZ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H+KfIBe4IniNnNo+DgDdPGB+5HcTJHgCtSxOi1yyGB3I23N0DLErxqRFBSFS3DI2aBgbn1A3dg3JNbiMU2It6/2mu0+DXrwCGOpSmcsi7NRmi1/cuWsp4ijvz/7xc+j9jV/jHvvsQp3tGat1sJmk7Q/XC+ZhjkCuIBkV/MIXP8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=U9Owwn7t; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="O84Zivax"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cnZTxHF+ARWOjgx7fgDuUUlDZalmyEQaBFUdPPtb32/9dnZsyuNZ3YRzV0tqLBt86bkdjkokrXI2WtmJK/+4IEPdy9uIkHoUtJPSwmCUPu+w+pj/lu+Cg94/redTVtPnMw7kTE4pWT13CtnNMArrzn4MMgRiRvUO7HRUO10Y2J2y2d98YtKpIAAtoBtJ5YG0iP88xjsiZ5fPVw68+suZJomn9DswCwaT70G/xlaOo2x49J26GUPCJzyCaYkDucz9577t3bvNs8Iqk00QgLkoC5SPbpzcC6xa5J27JIGTre1P5VznA26q9nWIUGi2o/tBY3NjjPZau0hVaRBmqwhzIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UJ/Oqmx3Go3wWshC+lfG6XNZsX7NHVCHncmtrS2gmj4=;
- b=BgZs9rRHmQYM5xP9WV3iMAHn3CEK2PZ80BEiTL2l2DWQHPE5ip24UnLyjDP3d5+oFWOSQIxBbPqbDBSE3Kv5e0MppCEgTd9lnSaJwpyhtMjxPAKtR4VUBCLWCxA87ehK7wzvCI7ncuydLYDf8pMXIcBtszL43V79LTNgZnkcfi46lWPR1vC93NDCwguh2BV8t7645BYSq8xci52HdUnNDbvoy4ypMckeRT6nX/E83a4n3S53Ir/UufBCzJccRVhijE0BkXk7gwbS+27CurHU5IgFTG1BuCQ9Uw8DLYfuejwVoRGNzj5S+pMmlldJHtbNTELNIQb8msrfCfoyJ5rpIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UJ/Oqmx3Go3wWshC+lfG6XNZsX7NHVCHncmtrS2gmj4=;
- b=O84Zivax6IE/L6dB9QcREg0k8CKSQlAOemRPIWLAo6e9fu+Jdb1/J5AIRKetz/UMhEP1FmdrhHEVK5slVEvh3BAK6w6COckIcMu80UaEmmOd0e2EjHNZE/gauplVYwEYJ6+aAdJVcgVRvAce+044Jl2n6ZDZgc9cLMMf+vOWR78=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB9066.namprd12.prod.outlook.com (2603:10b6:510:1f6::5)
- by MW6PR12MB9019.namprd12.prod.outlook.com (2603:10b6:303:23f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.21; Fri, 27 Jun
- 2025 10:06:24 +0000
-Received: from PH7PR12MB9066.namprd12.prod.outlook.com
- ([fe80::954d:ca3a:4eac:213f]) by PH7PR12MB9066.namprd12.prod.outlook.com
- ([fe80::954d:ca3a:4eac:213f%7]) with mapi id 15.20.8880.015; Fri, 27 Jun 2025
- 10:06:24 +0000
-Message-ID: <68b70504-b9dc-4997-96fe-0ae0e6b7a205@amd.com>
-Date: Fri, 27 Jun 2025 15:36:13 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v3 00/14] Introduce AMD Pensando RDMA driver
-Content-Language: en-US
-To: Leon Romanovsky <leon@kernel.org>
-Cc: shannon.nelson@amd.com, brett.creeley@amd.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
- jgg@ziepe.ca, andrew+netdev@lunn.ch, allen.hubbe@amd.com,
- nikhil.agarwal@amd.com, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250624121315.739049-1-abhijit.gangurde@amd.com>
- <20250626070748.GH17401@unreal>
-From: Abhijit Gangurde <abhijit.gangurde@amd.com>
-In-Reply-To: <20250626070748.GH17401@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4P287CA0077.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:26b::13) To PH7PR12MB9066.namprd12.prod.outlook.com
- (2603:10b6:510:1f6::5)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="U9Owwn7t"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a4eb4dfd8eso282900f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 03:10:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1751019018; x=1751623818; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p2kHSsv+wfo3DML4q3PqZ9JAPNtZ/a1cxK7CHbHK+a0=;
+        b=U9Owwn7tVIWvS9K1cwt1R6vWZhuaAnV93SOQYHl07R6DNEp5JRcNez8L/JmwUUEItM
+         8dCvUc4AxrwZsRbj7XEbsMLpRHzE96Zqh7PfpYlgBW6klCMfMmrU6ReOEyxhZRVqH79J
+         P/30hvK3aEUuKzfmE+dmA+ekwiokOReJP/YMpcydY6etryTRIlpgzZwAOE1VTu0NtAK4
+         dHc/HR71+IWYrCxpK1Bl2QLqXFkfKoZvxyhycLqKNY1bMKj54cHHYsf+XChI9Er3ki9j
+         qsQFfXjdhp/PLk/wP9U3nXQMpRG9o1RdQrzP7DZvMXZ2rE+d66ULR44J2nHwU2TCRBYl
+         HCUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751019018; x=1751623818;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p2kHSsv+wfo3DML4q3PqZ9JAPNtZ/a1cxK7CHbHK+a0=;
+        b=Eyxpmw1mV6TjwlHFO12PDYiTCQSZMzf9yyLXtAwjLvhLhwUyUvLb2YrOW/I8eMIIrz
+         zXs6AX4j4yjLoSUoEDAIHWHjEzGV8IRaxBLumTSRo8LZHr+IvCxyl4uptRBPPquZecYF
+         b5r1b5UAg7IJx5dPb5CFoUqSWAXLSrJRZLRuoPDTZ8iRlMZVfAQuUN3NWK2BxXFSRsdN
+         jQCKHrp88MJHdDjZGieOl8KJ8RbLaKVt7dLfSARptd9cXqroWVyfJ5zKx7Ih4gvSyC+3
+         sxg6FCdoMQ/AT23mMRqh/wVZywM2X+6JKiTV6/XKODFYvWdG9ThakTQzNON5vLwT/Rz1
+         uwig==
+X-Forwarded-Encrypted: i=1; AJvYcCWjfdsxvlPQjxQkNpOc3Nd1kDH3fqFaq4N79jczq4uAwld0uGRtgRTXpQw5+SB+GH4t/z7vgXv0paA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoOhS3aJBXkD5GLT2s33JjvZ6RArg165h80oHSIu5aXWzO0B8G
+	S6bYnjJUiSMq5+nm2+f46zFGwfOMz6d6ZUc/6zJkrJ+8Qs2vKAcGY9AJA3KFUkZkeo8=
+X-Gm-Gg: ASbGncvQkng5yUkGwCKKj3dcPDXuq3C6Uo5pPAsD8rJVMBVjCSuLKOKo2RAY+xTUIGl
+	bVznV90u7zCekFss98MZy3NLm5M6RQT8HKWtHguh/TfzWssejMUvPOzvIyAr+Hm1FIsl0A1U0KH
+	lzVJalpVgCyXpLiRwbQWN0c1y5xIUBVdzdR93yhjCNVoXxFPKFsovM5mE+WnObjmI9l2JOheJME
+	c6TQ+zRUcexIuUY3Y5lRPt4WHBqotq3KBdHUEYLltW96iEx5QrQ4TjPloZPCM61WtHehoNnWfSF
+	x5assqm8KWwElJLhRL811WJVKrwSvZc4ZJ/lZLgg8b9EiADoaG3nwUzeG89Mpp8DU3i1jq/OOBc
+	rFGRPqOq7bBNUrPsJqJRvMNgIHt8Pg5Znyej2U8gd1A2xyADzTMVLPVW2CABytno=
+X-Google-Smtp-Source: AGHT+IFVCTjSV+KDkAU40t12c+V1148+Xj9ejWeKM8rjPyQmHH2LgkyELVwiB8ZSxhmDLQhtUn+Ojg==
+X-Received: by 2002:adf:9ccb:0:b0:3a4:f7ae:7801 with SMTP id ffacd0b85a97d-3a8fe79bb3cmr805658f8f.8.1751019017581;
+        Fri, 27 Jun 2025 03:10:17 -0700 (PDT)
+Received: from localhost (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a892e5f8absm2300301f8f.95.2025.06.27.03.10.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 03:10:17 -0700 (PDT)
+From: Petr Tesarik <ptesarik@suse.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	linux-mm@kvack.org (open list:MEMORY MANAGEMENT),
+	Petr Tesarik <ptesarik@suse.com>
+Subject: [PATCH v2 0/8] update DMA API documentation
+Date: Fri, 27 Jun 2025 12:10:07 +0200
+Message-ID: <20250627101015.1600042-1-ptesarik@suse.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB9066:EE_|MW6PR12MB9019:EE_
-X-MS-Office365-Filtering-Correlation-Id: 400ff8c1-da41-47dc-074f-08ddb56245e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VkxCM2FsNnUrdGtuMU1CMUdqeSsxaGRoS0syc2EzUmpVTGpzZkJCa0dUbzlR?=
- =?utf-8?B?QkZ4bmlsdTZZZzRKN0VFYnRVZS9vQUNDVUpBWjdmUjFLdnRyeWVFQStIb21O?=
- =?utf-8?B?bURPVDFZM3dnWmNJL0F3VDE0UVdVYVAwQkRJUWQ5REtFTlNoalk1QXFzYmZ5?=
- =?utf-8?B?REVwTWh2OUlBT0FsM0hGSlMyVk94QU9kZXpWMkF3QmllZmRPa0xLcURZWHNF?=
- =?utf-8?B?ekpPYlNSbUhQbjlUbnFLSjY1bTI0cDZnZGhsVERWaklPc25MTldVYkR4dHgr?=
- =?utf-8?B?eThTSXB1cmJVMmlZZmdVZm4wTGttK0cxVFc3QnJjUzBqdW1aZWIvVDZTcmRj?=
- =?utf-8?B?RFFNYU9rQk5CK2JuZ00vKzNmRm5TZnFvbGtaU1Rza3FLeE8vT0NZNDBvQW8w?=
- =?utf-8?B?cnJqVGcwMk1qVUdTejlNN21CZkhzLzJ3cXpVekpqU1NGaTdaV3hZTSt3cXZq?=
- =?utf-8?B?QjZCY0JtTXh1cEJiUi94OUxyOXVrUkYrYi9BdTl2Zy9GYzhlU0VETWxjNHRU?=
- =?utf-8?B?QWY5bmVyQ295QlZ2NG1jVFJMWVUyNlhEWHpVVSs2WlNZckl4bi84eStDQmFj?=
- =?utf-8?B?Z0J4M3IxYjV3U0ZLZW1uMi9mTVIrUmJWbDVqMHFuaW11MTIxOVZTWG4rOEox?=
- =?utf-8?B?RzM5ckFUMmk0aTN1OXVEdVQyY283RE9hWkcrMnNMSmVQbG84UjZpb2ZjSkVT?=
- =?utf-8?B?MFVkd0p5VE01M0lxeDBBM1Y3V21MR2dIc1pDUnVFdHJBeWJQRHVrTmwxbHFP?=
- =?utf-8?B?MzZ4aWlEL3ZiYmZKMW1mQnQvUktmaEdhdEJCQzZTOUJqeDRPUDVYOHJ0cWlM?=
- =?utf-8?B?a0V2MVJxeTVma2VxSisxcXppRGkvZ2ppQlZUL3VHVzA3RmNjVzFRb2tzSWE2?=
- =?utf-8?B?NnplNUljT09kVmJOTFNlc1QxbENLS0N5eTVHUjNWSjlCOGhTNmZLTUNqQzhy?=
- =?utf-8?B?WnMrY3h5N2VhNUFaK2MwZW8wbmplVzBuUlc3a2FSeFJ3bUN0ZGNiaTZkV29E?=
- =?utf-8?B?cnVrRlo5YStXQnA1RE5vaDFSYy8xaC9IaG53T2FKR3l5Q3BjR1hLUWlkR1dj?=
- =?utf-8?B?dWtuNnE5ZlJ1N3ZJM2tvZjN4b0J0cjZmRDYrOTdleEQvSExXUy8vdGw3d2Rk?=
- =?utf-8?B?aUJhK0l6enVBWHUzMEM5SmpIamM4L1BQdHB1a3BxRHNnMG9abnR0ZFl0YjVm?=
- =?utf-8?B?Q0JyRmY1UElONnRUMTNqVCtLTkRWeWJSMDE0TEMvMW5yYVhBdS9RSTA5aGw1?=
- =?utf-8?B?RGUzWmFwOERDTG9EVXl5NTlaNXpZM2QwMENEVmZkY2lmTXNBTndwZnpkOWts?=
- =?utf-8?B?SUZRZlRCZE40NzlGcStlZmpCbHJhQ0lwSjRVUmd6bjFwVVFRZUsvR3c4UWg0?=
- =?utf-8?B?L3I1b1kyQzNYMG5mQUc0Q0hOTldKS0JPU0syRlcwSDVhSTlJeVFPazZhNkhQ?=
- =?utf-8?B?U3JDUGgweStkeXVpM21Hd3FSV1FLTUdIYXQvcnJXSXhOSE5lZWJxVUpwQ3JH?=
- =?utf-8?B?bE5uMk1Tei9NUTk4QjNJTko4TnBGQitTcnBmRXFNVWJnVTl0aVErNzlaWmVS?=
- =?utf-8?B?d0lGemJjckp2M3htdzNNb2U2dGxiRlBMSEc4emVkUUtrM1hEUXFiV0NPT1pp?=
- =?utf-8?B?Njl0T01KUUlCbmY1Z2VBcS90eTNFU2FyQWJ3QjJuYVFkeVNOK1ljNXlyaFNs?=
- =?utf-8?B?REUrbTRPTytyQ0pLR3ZWWlAvKzdxQ202dXRpVTJFU3d0cmx2Nnh4Ym1sUjZB?=
- =?utf-8?B?MytsZ1M0UlJkODJsNTl5NEJGcTlkaTVmdVZTaS9mNXg5SS9JY3hJZWZwREtk?=
- =?utf-8?B?VGk5WXZwTk83eGVFMkNXdkVTcHk2T29waEFLeXNqLzRUcm5VY2Q0NXF0aXBD?=
- =?utf-8?B?ODF3N1FpYkZWTGg1NnhhMGY5VHdjOVhVdzNWcHBBQ1MzS2ZmeFVCUVdoamtJ?=
- =?utf-8?Q?YfOlgu2JJD0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB9066.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aERhN2xNWEc2YUtsTmZzemJtWU9VVFJoWGVBUElqMUIxSm15eHBQUWpJbnll?=
- =?utf-8?B?OXFPYnlQdmcyZzF3bWdPanBwNEdwTDRmS1ZQT0dhdHoybml6SU9URFYrc2oy?=
- =?utf-8?B?MHhRWUl2YkpGekFjVGFORjlJZndVVEtldksxUldPUktNR3FDTnJwQ05zVUk1?=
- =?utf-8?B?QnNXU2pkYVJBODd5Rk5VU2ZGeEVOQ3o1WFNHMUZnVWIxSFdjck1NbG9pWHl6?=
- =?utf-8?B?QWp6Uk8wc2JFZ083M21QYjdZRnlZS2JqeVdWRGZiczQrTlliV0dHRGQ4c05i?=
- =?utf-8?B?UE1xOTVudGwrM0VZZzBaa25UQW5OaDlDSFQ2ZEU5UjI0RmlidDgyLzBYdmFO?=
- =?utf-8?B?OGNyNTdZaGc2dnR6OVlTakZXRGZVN2xoa2pCM3VDdmxGMVJldXdVUjFjeWV2?=
- =?utf-8?B?NmZvdUcvRjJiTHZXYXBicDNLUGFHQ0s3RGcybTBPb2pQNWJXbUg5OHo0MytP?=
- =?utf-8?B?NnhxcGJZUzh3N0prdGZVcXJFYzBUVkFDcm5qQmwxVVllOVpzL3ZLSjk0dzdl?=
- =?utf-8?B?NHhwUm13enB5VzVvd2dReVN3N2U2SEZLa0xZN0xkak1Ba2k1dStOdGVzUm9n?=
- =?utf-8?B?OFRxN2wvVjR3NG9NSk5OdTlwaTE2M2pIbDBOTlJQbTZ6VWhHVzhod213UGVZ?=
- =?utf-8?B?Y25TUk4rYlRlalJmMExycitmeFFMZ2lNeEsrcGxOYXFuUXBaNnpZQXM3NEI3?=
- =?utf-8?B?R2FrY0FPRjRRRGJ0L1haZEVjZlVhY21ITEQyMFRId2tqV1lQWWszZWpVZU5P?=
- =?utf-8?B?WnBTZnFEU1ZubFBFMDI0SXV6RUFLOGV1Rk5jSFlKWklaQ2xXSGxTWXA4c0Mw?=
- =?utf-8?B?dFEzWFZZOCtwbDNVNEthdzFhdDN4b1FoNHY0UXV6b2tUbWt0REMzT1hBSDRI?=
- =?utf-8?B?OWFzODMwbkk4ODlYbGRJRzVTUkxYQm9zeW9WMTJWRlhPNWZ6bmd1cUxUQU9C?=
- =?utf-8?B?ZGtsQUt4TDlzYVNHZU9jTy84VVBna2h4bmNLcmFSMnBjRERWaHI0bi91SWoy?=
- =?utf-8?B?Ky9Qd3hBUGsvTHJpRDRqaXgzRkVRT1dTV2kxYUNKeVQ3YzBnZTZDdk9wcmda?=
- =?utf-8?B?KzBCVUw4YndvNjAyRjRYaWVyektrUTZLOVJGdDU5WldySEx5RHN2ZXVxbkRt?=
- =?utf-8?B?YUdPdG9wRWsyeGFneVhtTTdqY2Q3KzVUR2s3ckZ3WDkxQjI1SnE2TFBYdjk5?=
- =?utf-8?B?YVlLRkJ6RmNnQXlsam41OTM0UVZYeloyN1F5d3FWa0xZUjVTQUZVb1ZDcnZZ?=
- =?utf-8?B?b2taU21pODhhSGVDOHFJc2hra3VZcTl1N3NVSUpHckdqYWtHbmZiNzMzV01Y?=
- =?utf-8?B?Q3J4TDc4WjQwY2V5Z1ZUU25CcElVbzc4elJKaWtMZGJ0bWNnZFlzRmhtM3Rr?=
- =?utf-8?B?QTd2ZmRkS1U5YVp1aThwL1NId2JEaUhzNWQ0bUoveEpmTVA1ckx6WFZoQmJi?=
- =?utf-8?B?YlpoUFJZeDVHWHhmblArVGNpRlkzaUo5d2E3UjVJcXltall1ajFYVmhDYm1Z?=
- =?utf-8?B?aCtrOGEvOFNjdnRVWm5YQ2pQdXoveEsyQlZvSnpUMTR6RU11TTAyNmtmNk4y?=
- =?utf-8?B?QjhxNnFoWDdMWFkvM1NDQzhwYjZJeGlqbTNvUE95OFUvU01pcTU3UmZsRmRk?=
- =?utf-8?B?TjNpcnIwZXhZZGM1MkFSUk5YcUJZT2xhZjJkeWZnbWpCTE5ERU5QRkIyYWNm?=
- =?utf-8?B?L003d2Q4RUpVdVFSWmhpaEczUzhkeSswdzhXMjl1K1pYQVdubnFrekNBbUJs?=
- =?utf-8?B?YkZmR0hqTmdTd21uYmc2VDA3S3Z2bGF0dkR5MTlzQ3oyUkdVMDVaamRFUk9i?=
- =?utf-8?B?VDhGUTYxZk8vdmZpSGI5cDNzWHZYL3BqNDA3aEZhd2JEVGx5SEs3NjZDUlMz?=
- =?utf-8?B?cW8xSU1oK3YwT2k1NFVUd1FreUJOdk9QeE5Lc0xYeWZFM0JxbElrcXpsd1Jq?=
- =?utf-8?B?SHZOZkZpNVdaM1FWN3pQd1BkNElNTFBJdTlGUUJvcTc5UnFTNEpzN1kxeGM3?=
- =?utf-8?B?VVM1OXRXSHJMVU9CME5NU3JSMVdvWFJveUw2eUlOaUxqOXFkK0tNOHdTK2RV?=
- =?utf-8?B?YXZRdm42SkRBdlovV2diWmpCV2lCMnNGdmtUdTVtMldoMU1mU3dsOEVBdnl1?=
- =?utf-8?Q?dCaQAEucbmOsPi2iwRQIhFZ26?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 400ff8c1-da41-47dc-074f-08ddb56245e8
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB9066.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 10:06:24.7090
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QJo+OWxoxG8RulJMn9QARZvkCJHRAr2vWgVh7e81y6wZzZ/aDBq0o05uZ7sbAr+C2aZe/qTallVXWUCcKzqAUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB9019
+Content-Transfer-Encoding: 8bit
 
+A few documentation updates:
 
-On 6/26/25 12:37, Leon Romanovsky wrote:
-> On Tue, Jun 24, 2025 at 05:43:01PM +0530, Abhijit Gangurde wrote:
->> This patchset introduces an RDMA driver for the AMD Pensando adapter.
-> Please send PR with user-space part for this driver.
-> https://github.com/linux-rdma/rdma-core/pulls
->
-> Thanks
+* remove outdated and confusing parts
+* reduce duplicates
+* update streaming DMA API expectations
 
-I have raised a PR https://github.com/linux-rdma/rdma-core/pull/1620
+Changes from v1:
 
-Thanks,
-Abhijit
+* move DMA Pools to dma-api.rst
+* improve streaming DMA addressing constraints
+
+Petr Tesarik (8):
+  docs: dma-api: use "DMA API" consistently throughout the document
+  docs: dma-api: replace consistent with coherent
+  docs: dma-api: remove remnants of PCI DMA API
+  docs: dma-api: add a kernel-doc comment for dma_pool_zalloc()
+  docs: dma-api: remove duplicate description of the DMA pool API
+  docs: dma-api: clarify DMA addressing limitations
+  docs: dma-api: update streaming DMA physical address constraints
+  docs: dma-api: clean up documentation of dma_map_sg()
+
+ Documentation/core-api/dma-api-howto.rst |  36 ++---
+ Documentation/core-api/dma-api.rst       | 191 ++++++++---------------
+ Documentation/core-api/mm-api.rst        |   6 -
+ include/linux/dmapool.h                  |   8 +
+ mm/dmapool.c                             |   6 +-
+ 5 files changed, 97 insertions(+), 150 deletions(-)
+
+-- 
+2.49.0
 
