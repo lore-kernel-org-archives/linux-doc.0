@@ -1,85 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031982F1FCB;
-	Fri, 27 Jun 2025 23:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5113321ABCB
+	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 23:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751068185; cv=none; b=VnbmGti5dA9Pnl1UF7JswaUdfCFu5JC4fSeYvHi9Th3NQiPjLS/OCC3zKDIgQYHLRAOuzv/eGtFv4bpxYFvCU4XISeEzjg5hcPtjEwZk7tZdpTsYZfg+Mc3A2aKJR7y4lGH/Tx27kPZB/NOi7MmYIzebAh3QcXjUiRUF4ZuF74Q=
+	t=1751068620; cv=none; b=b0Lk/F/jd/2gS0HfU/vt7ogy2SumTqfa1yw/Bd8cgtj9OlCUKUgIscsaNMuwPjen63B2bTuVNrxdPmIAQKYMPrTj+7vUWhEJQIhLmps859ICEHsFO3zb88vK+0wkWmAohRp8CAFqRK10Tim7yfpkKZ5ChNn7I1dMejlK5RmA2os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751068185; c=relaxed/simple;
-	bh=mlmZEjXG7JbeCyDnmaOEUzGlG9f+Aalt/BuH5agK3xQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=AeQF+hs0mdyewIA71cG8leO0guP4ENcg1p6ctwLPIxEEP3HWn2c50/FOQxw99U1hyGmRMrZfCmXk7t7b2PF2d/pwZ5t3ctdysSC23VlcJjLTe1sdqWJ9RF9dpiBPanh1cAveaGSLocNH5i0G3eireXW0PNgYGh6DbE8DT3T95Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yh1yIhKf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751068620; c=relaxed/simple;
+	bh=SnT7XRpBDCr4qRT+FJlvdtt7laR2c4Hchl84ZiDMVrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rKNlro7Dcfejcyh/cABLupWj5ow6FJvsRmZ/SgzkBI6NVV4yorc9ypDhYKQ79uyou5D6RlQApKg7SH66sUTemwuhR7ZtQhFhwEpIYr9tn1v6Gxb1wdLzmN6cRhOvtkhXyK2772aQBOrNzTopnAo/e4dZVBv9PCBXhJ67UgJ0DFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TB0eoh+M; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yh1yIhKf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47CCCC4CEE3;
-	Fri, 27 Jun 2025 23:49:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751068184;
-	bh=mlmZEjXG7JbeCyDnmaOEUzGlG9f+Aalt/BuH5agK3xQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Yh1yIhKfhuWBncSI/r9zubrT7sZsms2KKYD0++g4aSKqVLr4cb6akeoC7FSShF+/u
-	 pz/bmqgsZt4hjyClp0S4ysIstnMCgxmJXc49gcN9RAjJN1AgRSt+lxLcxNEi+ravfo
-	 PpvWVyTUI/QfpLZtFTCk2JAQOyx2GcRPdz9DTY6Y7LKx9JGlK/nQz9IRM7jjQYKECy
-	 ol0e0ByVk6SjtvTKVPLEGUn/KPFskSCRg9cuDVNzJQ/yuQHiW2fXNSI5mx4l7hWbXn
-	 eTmutLw4H3DmPxHeCmWhWgUvWQBrDmdM0tplcgtbRjlyhnxYcSBAd+/2r+ZjmZ8Ah+
-	 RLVF4Fb3h1j+A==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70E9938111CE;
-	Fri, 27 Jun 2025 23:50:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TB0eoh+M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751068619; x=1782604619;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SnT7XRpBDCr4qRT+FJlvdtt7laR2c4Hchl84ZiDMVrE=;
+  b=TB0eoh+M6901Y7hdAxh5gc0Yuj4Oiy+pqb/1XLqWQn6XK0CkzJMkv8s8
+   1k7K0IgRA1FJspfWL4pZyGfxtmXBBY1Fc77lmoeMf3tJXmdbhu4sx33jn
+   M8V8lf2yA2tOXCRVPZK6WnEAulCBDg+qOyRHRW9W3A+6+N84qSy4Dg0CD
+   Va2K0ZmJLR8+3068X10xnuqMDdIL/RcIJ1sGSvV5+Ci7Pu2p3NGaHjoxc
+   OidrYHgbuEdzYh5Is8VmJfgK7abKSIeHbOl5AwTvIJwvAH0Qsw5Ad9F1K
+   S2a4uyRf34c65N455E6/g1WThrjZL0dNMPZ7S4BVylt35Zn+kjaRPBSl9
+   g==;
+X-CSE-ConnectionGUID: tliQLEW7TXqPDl6VBV1t/w==
+X-CSE-MsgGUID: 6DUfjLcSQ52YYq5qWN/JmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="57194617"
+X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
+   d="scan'208";a="57194617"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 16:56:59 -0700
+X-CSE-ConnectionGUID: TBglQy9vR2WSH9tnH1u8VQ==
+X-CSE-MsgGUID: wU3CGPn/S7q+5j9bSvuTXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
+   d="scan'208";a="152443539"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 27 Jun 2025 16:56:58 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uVIwB-000WcU-1W;
+	Fri, 27 Jun 2025 23:56:55 +0000
+Date: Sat, 28 Jun 2025 07:56:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	linux-doc@vger.kernel.org
+Subject: [cornelisnetworks:for-upstream-20250627-1 6/23] htmldocs: Warning:
+ Documentation/translations/zh_CN/infiniband/opa_vnic.rst references a file
+ that doesn't exist: Documentation/infiniband/opa_vnic.rst
+Message-ID: <202506280733.9tLdqUwk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v7 0/3] dpll: add Reference SYNC feature
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175106821026.2091805.3166945763972558199.git-patchwork-notify@kernel.org>
-Date: Fri, 27 Jun 2025 23:50:10 +0000
-References: <20250626135219.1769350-1-arkadiusz.kubalewski@intel.com>
-In-Reply-To: <20250626135219.1769350-1-arkadiusz.kubalewski@intel.com>
-To: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc: donald.hunter@gmail.com, kuba@kernel.org, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
- vadim.fedorenko@linux.dev, jiri@resnulli.us, anthony.l.nguyen@intel.com,
- przemyslaw.kitszel@intel.com, andrew+netdev@lunn.ch,
- aleksandr.loktionov@intel.com, corbet@lwn.net, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello:
+tree:   https://github.com/cornelisnetworks/linux.git for-upstream-20250627-1
+head:   3e6c24446168bfdf606dce163a7f0f8693a12c5d
+commit: bce4b75564c769741d87d441093328ee3463694e [6/23] RDMA/hfi1: Remove opa_vnic
+reproduce: (https://download.01.org/0day-ci/archive/20250628/202506280733.9tLdqUwk-lkp@intel.com/reproduce)
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506280733.9tLdqUwk-lkp@intel.com/
 
-On Thu, 26 Jun 2025 15:52:16 +0200 you wrote:
-> The device may support the Reference SYNC feature, which allows the
-> combination of two inputs into a input pair. In this configuration,
-> clock signals from both inputs are used to synchronize the DPLL device.
-> The higher frequency signal is utilized for the loop bandwidth of the DPLL,
-> while the lower frequency signal is used to syntonize the output signal of
-> the DPLL device. This feature enables the provision of a high-quality loop
-> bandwidth signal from an external source.
-> 
-> [...]
+All warnings (new ones prefixed by >>):
 
-Here is the summary with links:
-  - [net-next,v7,1/3] dpll: add reference-sync netlink attribute
-    https://git.kernel.org/netdev/net-next/c/7f15ee35972d
-  - [net-next,v7,2/3] dpll: add reference sync get/set
-    https://git.kernel.org/netdev/net-next/c/58256a26bfb3
-  - [net-next,v7,3/3] ice: add ref-sync dpll pins
-    https://git.kernel.org/netdev/net-next/c/5bcea241335b
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: Documentation/translations/zh_CN/infiniband/opa_vnic.rst references a file that doesn't exist: Documentation/infiniband/opa_vnic.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Using alabaster theme
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
