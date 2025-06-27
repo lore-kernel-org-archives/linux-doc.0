@@ -1,170 +1,192 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB48229A307
-	for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 10:28:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA7229898C;
+	Fri, 27 Jun 2025 10:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751020089; cv=none; b=LdEVfX+SesFIiU6aena+V/a0q+jJmicI+9MB5sXL89votC038w2FRGFl2IcIdfe0AibwMWhHLNKNnUwwaNZoBfDDOFA1pAGrMOx8olEAGQCIm1+A/0pY57y2P1GL9SvnCrJZAR/j1Zq7Wtz/3RFOzoqBqsjk9ewmUuFUKBjPTBo=
+	t=1751020319; cv=none; b=DYngL48tXCRkYxZemVyrkNgkSfVop4UyspkWamz5qE5ZBDa9VV8qHzrsLA8OlCAQjiZf9JFL4WBg4GGyfD1JIDaVOFKWBvkphbFs8Uga+61kC6w9dqafm/dfEI97n8C2zMSY4RnLIppb37UfJAemXRbcdb0+01Bz4Te+vutuyVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751020089; c=relaxed/simple;
-	bh=L+QrdPiV6RVKjdNxIalHS5LAvUl5JKrsnqMr9MWkF+w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DtHwudtPddmihFKComKkfXUKZMJwF9lZ1V8jDmLa1Q69yjPWssJWOGD//cdem3oodOWwL4cfmiHs3rPP3rE0l4KDKoVjyHn9mD1j6+W/4JopvWDFQVBiB8EdRxNrKwsSAeBW6oMdicJcdl8QGAy3Gsj7mb71GM53o8ogU6ccXVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BJKIDDKl; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751020319; c=relaxed/simple;
+	bh=W2Bg30qV1ZfFbZr7Wq/g5PCtFv368PERSSRJrjS6UTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fJOVQyNPMyA3tCzTlmOelOkrqEIGEiPX//6o8o+cjr60U5P3syfaZXv9sAnV7LrlDuKY59JMvHA97VD0kI4POy4uNVatE5n2yeWTmrKcLkEfg13Ok3BbVfjh2DEVqvXgDxHgZxITs0pIb5Pycda7i6DuHuoY8zG/OlGeg7ZFbvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBn6+XQ0; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BJKIDDKl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751020086;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iJdsZHiVVLuKwLXH4KCxaDOcm8lE5bSikqTqeRxiKOY=;
-	b=BJKIDDKlxqVgG0CBYGsq2nqvXlwkAsb9Qlb5Jt6zlLQHAwsAnQy/tUIlPD4nu0JpSjBXOh
-	opWs0yj59upxeqt2iViwRkrj1vwmW5QMRPxoXxmJs+Xcjne6GN0j/VrxZd8CLwUNAtPETL
-	oySCYsU4/yVnczu+wOJbd+PLt6+lE8s=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-534-hK49v29fOl6FDvJX3Jq4UA-1; Fri, 27 Jun 2025 06:28:05 -0400
-X-MC-Unique: hK49v29fOl6FDvJX3Jq4UA-1
-X-Mimecast-MFC-AGG-ID: hK49v29fOl6FDvJX3Jq4UA_1751020084
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-451dda846a0so14784695e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 27 Jun 2025 03:28:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751020084; x=1751624884;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJdsZHiVVLuKwLXH4KCxaDOcm8lE5bSikqTqeRxiKOY=;
-        b=mflciDQSOwQfLMzfowpybbJ8dZ2JHTvZRFB2JqxQVsLCppasdqnXoDjzg28rE4JpEb
-         q2SbeKWHR7zX7fJZWpHxn4lhiPlg1ReUSKpHSBNDWcr95bkzMuWSmmj4iiMW089y6/iw
-         9zAEz02Lp/EGlZMvAqPDEznGvr50RLUZv1W6q50KYYZCQuToBm+iZ9NV6NboKGfB+MN9
-         UiW3O1KO4PKkC/KvyzXIC/ChtmUy/AqZDIqS/TLEGfuITXkYjNxgBkNV9sjnPmt7bCEb
-         DeXZJkwSNSjN1y9WOEFquRLqNcSWN0RYv1kox8EiGC28Zfd3mL/fAqQsYska9NsqkPdW
-         BE9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVBuGZB+w1HJ8ZgdY6pRQ3VQl4vn2JnhLKIx2B6ow4Neq/Xc/6hR5cjuP2Qxh+d8sIDHz+zfnhbQ5w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9QwmNQ6nBDa6yWr2M++xdtou53kDk62mnwgs78SMjpKbGl/6M
-	GllZn4A4zvGP7sFxWj9GY0X0j8cap7c/iWDgwazD7Y/it8q5+lutf3UI4mEp7wl0QOJK+eXJEw5
-	dDsiKHuloaMng1Dx57H0mKRICG0MDGE7est+l79Y4IxEuLTPsM68x9V3NGzNw7Q==
-X-Gm-Gg: ASbGnculivzxeP4/app6JLokmxbMqaoLiNoOTNptlI+RQ5IwcdK/qR0Z+FUoZI7fCn+
-	T33s5g5GRly1Tv15PpyB/7BrdKDUkNEknObemmja3NjTLcV3qpglRSlXUrrpF0JLSF3EbFfZ5+e
-	PUmv8v3VoYKM/BgJ01zzs1ktuOE5r/D8Ls/XJOuo8lJeobmss2i4okFHeNrnVEIwlP2paxDvvj8
-	J8Yuv/c3T8Td74bDsR2rBPW3WoQJVnvgWDyk78wnaLPlANho0VZlMXwz0rFBeQM3drqvPYi+ZUH
-	yrBUStqOQFG6XHZVm7r05KaZjAlijKk2hw5UnuwK1dBuG4dDhynS+Ql2DT51W91d6XewNw==
-X-Received: by 2002:a05:600c:674f:b0:43c:e70d:44f0 with SMTP id 5b1f17b1804b1-4538ee8384emr26594105e9.19.1751020083755;
-        Fri, 27 Jun 2025 03:28:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG9k4IjA2+y/oHun89HaX7Ynjd/DsFZcqDREnTUjAINHGGZ0PW4fhojEDavNVYzeGalZ02RXQ==
-X-Received: by 2002:a05:600c:674f:b0:43c:e70d:44f0 with SMTP id 5b1f17b1804b1-4538ee8384emr26593745e9.19.1751020083235;
-        Fri, 27 Jun 2025 03:28:03 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:244f:bd10:2bd0:124a:622c:badb? ([2a0d:3344:244f:bd10:2bd0:124a:622c:badb])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453835798acsm73314445e9.10.2025.06.27.03.28.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jun 2025 03:28:02 -0700 (PDT)
-Message-ID: <d172caa9-6d31-45a3-929c-d3927ba6702e@redhat.com>
-Date: Fri, 27 Jun 2025 12:28:00 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBn6+XQ0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751020318; x=1782556318;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W2Bg30qV1ZfFbZr7Wq/g5PCtFv368PERSSRJrjS6UTk=;
+  b=XBn6+XQ0we69PWQLYggoBPGIO1Ag0H3WPj0ge3oMoSb0lzJxI1iHgrvj
+   4K4Xt7dkENbAanSJNIwIFJolGqk3u6J7SDchxy51+G62l0S6YYveigFO5
+   itOXZGlpJz5jYAg1QaQBdEKWNeZ5tj+Pgsp3Z/RTKwpa0/CNThAHLnJEG
+   OuboCkRArHZkeX1NlCxP2weoVmV2dCZPnMKDSUfnxZ685U+EgB3IrQ7x4
+   5GDn6ZlLf25LynS40IjRX+J2eVHwDR1i8PVNza6vsj/w0EM47gAJWu4lo
+   fFIZjpLSvqHjxBk73wr/tKTd0cMYxMFYJOIVkCXHEO+zUi5muvGAo32eN
+   A==;
+X-CSE-ConnectionGUID: 7pX/i8XGRnqSTNQKMf5a3Q==
+X-CSE-MsgGUID: 0/hFG1OnT7yo2QCEgERjxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53273433"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="53273433"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 03:31:57 -0700
+X-CSE-ConnectionGUID: mSOf9phKQ8mXRoDpmTh3ng==
+X-CSE-MsgGUID: j0xk4bnTShW880YXbbD4CA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="156817812"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa003.fm.intel.com with ESMTP; 27 Jun 2025 03:31:46 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id A0FEA6A; Fri, 27 Jun 2025 13:31:44 +0300 (EEST)
+Date: Fri, 27 Jun 2025 13:31:44 +0300
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Xin Li <xin@zytor.com>
+Cc: Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
+	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
+	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
+	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
+	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
+	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-mm@kvack.org
+Subject: Re: [PATCHv7 13/16] x86/traps: Handle LASS thrown #SS
+Message-ID: <lvutnc4et6r4a5eayoweb5butpspvop2m2pjioiudjwa3mkpo7@drcsdchj66w5>
+References: <20250625125112.3943745-1-kirill.shutemov@linux.intel.com>
+ <20250625125112.3943745-15-kirill.shutemov@linux.intel.com>
+ <c704ea9a-8c73-46c2-80d1-f7b93a221908@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended
- features
-To: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet <corbet@lwn.net>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni@redhat.com>
- <202506271443.G9cAx8PS-lkp@intel.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <202506271443.G9cAx8PS-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c704ea9a-8c73-46c2-80d1-f7b93a221908@zytor.com>
 
-On 6/27/25 8:41 AM, kernel test robot wrote:
-> kernel test robot noticed the following build warnings:
+On Thu, Jun 26, 2025 at 10:57:47AM -0700, Xin Li wrote:
+> On 6/25/2025 5:51 AM, Kirill A. Shutemov wrote:
+> > LASS throws a #GP for any violations except for stack register accesses,
+> > in which case it throws a #SS instead. Handle this similarly to how other
+> > LASS violations are handled.
+> > 
+> > In case of FRED, before handling #SS as LASS violation, kernel has to
+> > check if there's a fixup for the exception. It can address #SS due to
+> > invalid user context on ERETU[1]. See 5105e7687ad3 ("x86/fred: Fixup
 > 
-> [auto build test WARNING on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/scripts-kernel_doc-py-properly-handle-VIRTIO_DECLARE_FEATURES/20250624-221751
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni%40redhat.com
-> patch subject: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended features
-> config: csky-randconfig-001-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506271443.G9cAx8PS-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/uaccess.h:12,
->                     from include/linux/sched/task.h:13,
->                     from include/linux/sched/signal.h:9,
->                     from include/linux/rcuwait.h:6,
->                     from include/linux/percpu-rwsem.h:7,
->                     from include/linux/fs.h:34,
->                     from include/linux/compat.h:17,
->                     from drivers/vhost/net.c:8:
->    arch/csky/include/asm/uaccess.h: In function '__get_user_fn.constprop':
->>> arch/csky/include/asm/uaccess.h:147:9: warning: 'retval' is used uninitialized [-Wuninitialized]
->      147 |         __asm__ __volatile__(                           \
->          |         ^~~~~~~
->    arch/csky/include/asm/uaccess.h:187:17: note: in expansion of macro '__get_user_asm_64'
->      187 |                 __get_user_asm_64(x, ptr, retval);
->          |                 ^~~~~~~~~~~~~~~~~
->    arch/csky/include/asm/uaccess.h:170:13: note: 'retval' was declared here
->      170 |         int retval;
->          |             ^~~~~~
-> 
-> 
-> vim +/retval +147 arch/csky/include/asm/uaccess.h
-> 
-> da551281947cb2c Guo Ren 2018-09-05  141  
-> e58a41c2226847f Guo Ren 2021-04-21  142  #define __get_user_asm_64(x, ptr, err)			\
-> da551281947cb2c Guo Ren 2018-09-05  143  do {							\
-> da551281947cb2c Guo Ren 2018-09-05  144  	int tmp;					\
-> e58a41c2226847f Guo Ren 2021-04-21  145  	int errcode;					\
-> e58a41c2226847f Guo Ren 2021-04-21  146  							\
-> e58a41c2226847f Guo Ren 2021-04-21 @147  	__asm__ __volatile__(				\
-> e58a41c2226847f Guo Ren 2021-04-21  148  	"1:   ldw     %3, (%2, 0)     \n"		\
-> da551281947cb2c Guo Ren 2018-09-05  149  	"     stw     %3, (%1, 0)     \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  150  	"2:   ldw     %3, (%2, 4)     \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  151  	"     stw     %3, (%1, 4)     \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  152  	"     br      4f              \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  153  	"3:   mov     %0, %4          \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  154  	"     br      4f              \n"		\
-> da551281947cb2c Guo Ren 2018-09-05  155  	".section __ex_table, \"a\"   \n"		\
-> da551281947cb2c Guo Ren 2018-09-05  156  	".align   2                   \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  157  	".long    1b, 3b              \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  158  	".long    2b, 3b              \n"		\
-> da551281947cb2c Guo Ren 2018-09-05  159  	".previous                    \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  160  	"4:                           \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  161  	: "=r"(err), "=r"(x), "=r"(ptr),		\
-> e58a41c2226847f Guo Ren 2021-04-21  162  	  "=r"(tmp), "=r"(errcode)			\
-> e58a41c2226847f Guo Ren 2021-04-21  163  	: "0"(err), "1"(x), "2"(ptr), "3"(0),		\
-> e58a41c2226847f Guo Ren 2021-04-21  164  	  "4"(-EFAULT)					\
-> da551281947cb2c Guo Ren 2018-09-05  165  	: "memory");					\
-> da551281947cb2c Guo Ren 2018-09-05  166  } while (0)
-> da551281947cb2c Guo Ren 2018-09-05  167  
+> Forgot to put the link to [1]?  Maybe just remove "[1]"?
 
-AFAICS the issue reported here is in the arch-specific uaccess helpers
-and not related to this series.
+I will add the link. It is important context.
 
-/P
+> > fault on ERETU by jumping to fred_entrypoint_user") for more details.
+> > 
+> > Co-developed-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+> > Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > ---
+> >   arch/x86/kernel/traps.c | 39 +++++++++++++++++++++++++++++++++------
+> >   1 file changed, 33 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> > index e2ad760b17ea..f1f92e1ba524 100644
+> > --- a/arch/x86/kernel/traps.c
+> > +++ b/arch/x86/kernel/traps.c
+> > @@ -418,12 +418,6 @@ DEFINE_IDTENTRY_ERRORCODE(exc_segment_not_present)
+> >   		      SIGBUS, 0, NULL);
+> >   }
+> > -DEFINE_IDTENTRY_ERRORCODE(exc_stack_segment)
+> > -{
+> > -	do_error_trap(regs, error_code, "stack segment", X86_TRAP_SS, SIGBUS,
+> > -		      0, NULL);
+> > -}
+> > -
+> >   DEFINE_IDTENTRY_ERRORCODE(exc_alignment_check)
+> >   {
+> >   	char *str = "alignment check";
+> > @@ -866,6 +860,39 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+> >   	cond_local_irq_disable(regs);
+> >   }
+> > +#define SSFSTR "stack segment fault"
+> > +
+> > +DEFINE_IDTENTRY_ERRORCODE(exc_stack_segment)
+> > +{
+> > +	if (user_mode(regs))
+> > +		goto error_trap;
+> > +
+> > +	if (cpu_feature_enabled(X86_FEATURE_FRED) &&
+> > +	    fixup_exception(regs, X86_TRAP_SS, error_code, 0))
+> > +		return;
+> > +
+> 
+> Thanks for making the change for FRED.
+> 
+> > +	if (cpu_feature_enabled(X86_FEATURE_LASS)) {
+> > +		enum kernel_gp_hint hint;
+> > +		unsigned long gp_addr;
+> > +
+> > +		hint = get_kernel_gp_address(regs, &gp_addr);
+> > +		if (hint != GP_NO_HINT) {
+> > +			printk(SSFSTR ", %s 0x%lx", kernel_gp_hint_help[hint],
+> > +			       gp_addr);
+> > +		}
+> > +
+> > +		if (hint != GP_NON_CANONICAL)
+> > +			gp_addr = 0;
+> 
+> Nit: GP/gp don't seem fit here, maybe we need a more generic name?
+> 
+> Sorry I don't have a recommendation.
 
+Naming is hard.
+
+Maybe get_kernel_exc_address()/kernel_exc_hint_help/EXC_NO_HINT/... ?
+
+> > +
+> > +		die_addr(SSFSTR, regs, error_code, gp_addr);
+> > +		return;
+> > +	}
+> > +
+> > +error_trap:
+> > +	do_error_trap(regs, error_code, "stack segment", X86_TRAP_SS, SIGBUS,
+> > +		0, NULL);
+> 
+> The indentation has changed; I believe the original formatting is
+> preferable.
+> 
+> > +}
+> > +
+> >   static bool do_int3(struct pt_regs *regs)
+> >   {
+> >   	int res;
+> 
+> Just minor comments, so
+> 
+> Reviewed-by: Xin Li (Intel) <xin@zytor.com>
+
+Thanks.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
