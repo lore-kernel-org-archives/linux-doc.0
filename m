@@ -1,234 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4866E1B78F3;
-	Fri, 27 Jun 2025 15:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062201C6FE8;
+	Fri, 27 Jun 2025 15:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751036499; cv=none; b=BjW5QoASlRnFhUkAr5BR1/y2dcek1K+j2+A02FeH1PETdggnqZxlfH4QJZwZs6f7CfvIE0BrlO0OX+1qBJkXL1WmwjWpn8H9dbMH1RZ89T9pbYIyooS/+B9qN1P6jWv5W5nR+Iy4mHE7jDJevk/a5gWRnfVDg8IOPQgCmVt69As=
+	t=1751036533; cv=none; b=ncFLeWzl8ZQic1IpLvtt//ZJDNsHL07g2rdFBXAv5jD1drSpMEx5fextISIGHlMNZqdqKCJgV65eZckU3mTe0vqWmNjtPF5H+qy57yKMNk7yUzxFbVnLwherih4C3B+oVIZWO2lXX2RpyuDxohyGBsxPgMVar6GR8JFbdO8bPjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751036499; c=relaxed/simple;
-	bh=G83basSwJmom/UjEsv3A4K0YpUbhyHGDHOVGor+sYC8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rc9xHsOraq7u5c9eFYhQDfulGzgP3dcYYKa+KIWESZjwymlELHkrFeBFjjTMZt9AHL08P9IDXpnvNcqGVL4UqBN0nU36JOXEFKEqpynPdfaAyFyg3CnWtap1u9Jo+9FIAB7qMzu0/TxUFmZ9ojDvBkXUieDoxZd121px0wmoU6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GC8BTwZ5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751036533; c=relaxed/simple;
+	bh=tfA2QwKxRkMhYuRZ4z56nNCSRBWnKU7G/mMuN72yeQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LYHdIcwFk/poZhev65TyKkH8nhuITty5jUDlla88t8ZS03TP+MBofozB3+wOh5ayZ4Nvu7XmFZPjxnE6c9ZKsc1HW5htTfw5Bh4vs/xyDsxf+qDLKaUQpae72I6VDK7GA8/RryAtGxRO4kHmnvUioU8qkWE953ecg0zY6jB9ees=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=uimzMe/l; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZtmcqdM7; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GC8BTwZ5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 225C5C4CEE3;
-	Fri, 27 Jun 2025 15:01:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751036499;
-	bh=G83basSwJmom/UjEsv3A4K0YpUbhyHGDHOVGor+sYC8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GC8BTwZ5Zhns9//KZQl3at71K9DS6LTMDhoYTzHFzghg48sXazqO+X3knNNUE/Wkd
-	 DW0jneRafgrniYuJvtTSzpDyk/bUWDGVIoCikzZ9Tu664NlEwFbvFz6euiYSBRgTSG
-	 Wh5oJA3UEjrvGkaWL7cWhOianNhSnzRwMeYBknMl6D6ptHkOVH6VJHebxSbEMkKaG2
-	 8qPtskrpQbe4f8P0x5IV1Rt2MkEc0p0hfWa4k3KM7AJxj5sg8KQzl05iarRY+VVxJx
-	 d9ol4offvylbZFfhsdQFJzcZJQfPi/vB2ZXAhdCfnIch4/3oYUSO1h1A9/Eg/8uvSm
-	 cOo30SqgmoG9A==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uVAa8-00Ab1s-Ur;
-	Fri, 27 Jun 2025 16:01:37 +0100
-Date: Fri, 27 Jun 2025 16:01:36 +0100
-Message-ID: <86plepb54f.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uimzMe/l";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZtmcqdM7"
+Date: Fri, 27 Jun 2025 17:02:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1751036530;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RvgCwM0cdIwDopQL4iWKyespTMSawwFYARJ4z6iapCs=;
+	b=uimzMe/lNCg5DwWLgcstXiuhS9ZGjYA29YnnyZVA0C0NdTl5X4YQjW2/yGE14g8AfpGg2R
+	8R1itLoVHpsM1lpMn/UB2IqikBGegRkbEcx3kzFO/KgI/6oROZb+RoGQ1JLakXBKvOaUGJ
+	DXMWMj/K+OlGd8mZN3tZ8BbidcvF/QiqAXoGqwKyC1XBKUSX6CkxmdvVMxuV1wsknySZpW
+	cduhYJjtQNo975BdapCOehvH9MO61ne2ijBt2gNxt3b/6N5h+BkZ777mstshOGIYk29rFL
+	8+yah6JCukYpCD9T+gVftr6PJur3j8fM+Lz/Cp+AZH/SIZjjueAil96ehTp/QQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1751036530;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RvgCwM0cdIwDopQL4iWKyespTMSawwFYARJ4z6iapCs=;
+	b=ZtmcqdM7kqIh7pogk432eZI1DM41Uo0AyWFrVZGpTocwuSlDNYlTZavN+dRvCnnVYtpNWB
+	e5KbLBfm3XvsnSCQ==
+From: Nam Cao <namcao@linutronix.de>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Gabriele Monaco <gmonaco@redhat.com>, linux-kernel@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Mingwei Zhang <mizhang@google.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-perf-users@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 10/22] KVM: arm64: Set up FGT for Partitioned PMU
-In-Reply-To: <20250626200459.1153955-11-coltonlewis@google.com>
-References: <20250626200459.1153955-1-coltonlewis@google.com>
-	<20250626200459.1153955-11-coltonlewis@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>,
+	john.ogness@linutronix.de
+Subject: Re: [RFC PATCH v2 09/12] rv: Replace tss monitor with more complete
+ sts
+Message-ID: <20250627150208.xrOGCPrw@linutronix.de>
+References: <20250514084314.57976-1-gmonaco@redhat.com>
+ <20250514084314.57976-10-gmonaco@redhat.com>
+ <20250624073609.OA9Q1V4g@linutronix.de>
+ <e2b2e78a9c66973d90a9dbeea83b88b97182c36e.camel@redhat.com>
+ <20250624155053.wOoDw8ff@linutronix.de>
+ <20250624153125.56eab22a@batman.local.home>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: coltonlewis@google.com, kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, mizhang@google.com, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250624153125.56eab22a@batman.local.home>
 
-On Thu, 26 Jun 2025 21:04:46 +0100,
-Colton Lewis <coltonlewis@google.com> wrote:
+On Tue, Jun 24, 2025 at 03:31:25PM -0400, Steven Rostedt wrote:
+> So WRT tracepoints, it's the same as a tree falling in the woods[1].
 > 
-> In order to gain the best performance benefit from partitioning the
-> PMU, utilize fine grain traps (FEAT_FGT and FEAT_FGT2) to avoid
-> trapping common PMU register accesses by the guest to remove that
-> overhead.
+> If a user space ABI "breaks" but no user space tooling notices, did it
+> really break?
 > 
-> There should be no information leaks between guests as all these
-> registers are context swapped by a later patch in this series.
+> The answer is "No".
 > 
-> Untrapped:
-> * PMCR_EL0
-> * PMUSERENR_EL0
-> * PMSELR_EL0
-> * PMCCNTR_EL0
-> * PMINTEN_EL0
-> * PMEVCNTRn_EL0
+> As for tracepoints, its fine to change them until it's not ;-)
 > 
-> Trapped:
-> * PMOVS_EL0
-> * PMEVTYPERn_EL0
-> * PMCCFILTR_EL0
-> * PMICNTR_EL0
-> * PMICFILTR_EL0
+> We had only one case that a tracepoint change broke user space where
+> Linus reverted that change [2]. That was because powertop hard coded
+> the addresses to the tracepoint field offsets and didn't use the format
+> files (what libtraceevent gives you). And I removed an unused common
+> field, which shifted everything and broke powertop.
 > 
-> PMOVS remains trapped so KVM can track overflow IRQs that will need to
-> be injected into the guest.
+> But I converted powertop to use libtraceevent, waited a few year until
+> all the major distros provided the new powertop, and then I removed the
+> field. Guess what? Nobody noticed. (And old powertop would still break).
 > 
-> PMICNTR remains trapped because KVM is not handling that yet.
+> BPF taps into most tracepoints that change all the time. I'm cleaning
+> up unused tracepoints which included a couple that were left around to
+> "not break old BPF programs". I replied, if an old BPF program relies on
+> that tracepoint, keeping it around (but not used) is *worse* than
+> having that BPF program break. That's because that BPF program is
+> still broken (it's expecting that unused tracepoint to fire) but now
+> it's getting garbage for output (that being no output!). It's worse
+> because it's "silently failing" and the user may be relying on
+> something they don't know is broken.
 > 
-> PMEVTYPERn remains trapped so KVM can limit which events guests can
-> count, such as disallowing counting at EL2. PMCCFILTR and PMCIFILTR
-> are the same.
+> So yeah, change the tracepoint when the code its tracing changes. That
+> way any tooling depending on it, knows that it can no longer depend on
+> it.
+> 
+> Anything using tracepoints are pretty much tied to the kernel anyway,
+> and when the kernel updates, the tooling that is relying on it also
+> needs to be updated otherwise it's not getting the information it is
+> expecting. That most definitely includes monitors.
 
-I'd rather you explain why it is safe not to trap the rest.
+Alright, thanks for sharing. That was an interesting discussion you had
+back then.
 
-> 
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> ---
->  arch/arm64/include/asm/kvm_pmu.h        | 23 ++++++++++
->  arch/arm64/kvm/hyp/include/hyp/switch.h | 58 +++++++++++++++++++++++++
->  arch/arm64/kvm/pmu-part.c               | 32 ++++++++++++++
->  3 files changed, 113 insertions(+)
-> 
-> diff --git a/arch/arm64/include/asm/kvm_pmu.h b/arch/arm64/include/asm/kvm_pmu.h
-> index 6328e90952ba..73b7161e3f4e 100644
-> --- a/arch/arm64/include/asm/kvm_pmu.h
-> +++ b/arch/arm64/include/asm/kvm_pmu.h
-> @@ -94,6 +94,21 @@ u64 kvm_pmu_guest_counter_mask(struct arm_pmu *pmu);
->  void kvm_pmu_host_counters_enable(void);
->  void kvm_pmu_host_counters_disable(void);
->  
-> +#if !defined(__KVM_NVHE_HYPERVISOR__)
-> +bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu);
-> +bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu);
-> +#else
-> +static inline bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
-> +{
-> +	return false;
-> +}
-> +
-> +static inline bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu)
-> +{
-> +	return false;
-> +}
-> +#endif
-> +
->  /*
->   * Updates the vcpu's view of the pmu events for this cpu.
->   * Must be called before every vcpu run after disabling interrupts, to ensure
-> @@ -133,6 +148,14 @@ static inline u64 kvm_pmu_get_counter_value(struct kvm_vcpu *vcpu,
->  {
->  	return 0;
->  }
-> +static inline bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
-> +{
-> +	return false;
-> +}
-> +static inline bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu)
-> +{
-> +	return false;
-> +}
->  static inline void kvm_pmu_set_counter_value(struct kvm_vcpu *vcpu,
->  					     u64 select_idx, u64 val) {}
->  static inline void kvm_pmu_set_counter_value_user(struct kvm_vcpu *vcpu,
-> diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
-> index 825b81749972..47d2db8446df 100644
-> --- a/arch/arm64/kvm/hyp/include/hyp/switch.h
-> +++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
-> @@ -191,6 +191,61 @@ static inline bool cpu_has_amu(void)
->                 ID_AA64PFR0_EL1_AMU_SHIFT);
->  }
->  
-> +/**
-> + * __activate_pmu_fgt() - Activate fine grain traps for partitioned PMU
-> + * @vcpu: Pointer to struct kvm_vcpu
-> + *
-> + * Clear the most commonly accessed registers for a partitioned
-> + * PMU. Trap the rest.
-> + */
-> +static inline void __activate_pmu_fgt(struct kvm_vcpu *vcpu)
-> +{
-> +	struct kvm_cpu_context *hctxt = host_data_ptr(host_ctxt);
-> +	struct kvm *kvm = kern_hyp_va(vcpu->kvm);
-> +	u64 set;
-> +	u64 clr;
-> +
-> +	set = HDFGRTR_EL2_PMOVS
-> +		| HDFGRTR_EL2_PMCCFILTR_EL0
-> +		| HDFGRTR_EL2_PMEVTYPERn_EL0;
-> +	clr = HDFGRTR_EL2_PMUSERENR_EL0
-> +		| HDFGRTR_EL2_PMSELR_EL0
-> +		| HDFGRTR_EL2_PMINTEN
-> +		| HDFGRTR_EL2_PMCNTEN
-> +		| HDFGRTR_EL2_PMCCNTR_EL0
-> +		| HDFGRTR_EL2_PMEVCNTRn_EL0;
-> +
-> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGRTR_EL2, clr, set);
-> +
-> +	set = HDFGWTR_EL2_PMOVS
-> +		| HDFGWTR_EL2_PMCCFILTR_EL0
-> +		| HDFGWTR_EL2_PMEVTYPERn_EL0;
-> +	clr = HDFGWTR_EL2_PMUSERENR_EL0
-> +		| HDFGWTR_EL2_PMCR_EL0
-> +		| HDFGWTR_EL2_PMSELR_EL0
-> +		| HDFGWTR_EL2_PMINTEN
-> +		| HDFGWTR_EL2_PMCNTEN
-> +		| HDFGWTR_EL2_PMCCNTR_EL0
-> +		| HDFGWTR_EL2_PMEVCNTRn_EL0;
-> +
-> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGWTR_EL2, clr, set);
-> +
-> +	if (!cpus_have_final_cap(ARM64_HAS_FGT2))
-> +		return;
-> +
-> +	set = HDFGRTR2_EL2_nPMICFILTR_EL0
-> +		| HDFGRTR2_EL2_nPMICNTR_EL0;
-> +	clr = 0;
-> +
-> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGRTR2_EL2, clr, set);
-> +
-> +	set = HDFGWTR2_EL2_nPMICFILTR_EL0
-> +		| HDFGWTR2_EL2_nPMICNTR_EL0;
-> +	clr = 0;
-> +
-> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGWTR2_EL2, clr, set);
+Let me keep an eye out for any user tools based on RV, making sure they use
+our API properly.
 
-This feels wrong. There should be one place to populate the FGTs that
-apply to a guest as set from the host, not two or more.
-
-There is such a construct in the SME series, and maybe you could have
-a look at it, specially if the trap configuration is this static.
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Best regards,
+Nam
