@@ -1,65 +1,169 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BE51DA5F;
-	Sat, 28 Jun 2025 04:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D387A7DA9C;
+	Sat, 28 Jun 2025 08:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751084374; cv=none; b=akjAZsT4TtaIaTT/O6Euw+73Xpw3iWUCj6Vpx2+RhWs4oXPZQitOvhp3EsvGopfGU4DkMPFwKmwZB52gh5cKMgZ+qI2/9WIgjggm5BRgiLw8iTSakCkqsBDtWf9T0zGS4jzJyymVNTHXKcH7UgUXB6k6gpOrrJ/YsOeFQ7uF1/Y=
+	t=1751099140; cv=none; b=tklz3EeAZky6ZqhzWlMp1tGnGbnTiJnxGklCk0maqGqq3bAB1i7w28+xCeslL6/1RGld7K2dFkxmSLxNz/9rS9+QHXasKOIb+p8t0Qs+zcUhuysDH8A3eIAuMI8+Z0YhKhN6IgANaBx7SIzsEzbeDvCEipdpeFl1r8BRqhFbVXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751084374; c=relaxed/simple;
-	bh=3BIxLq5dxWnt6gQBjzbn0MlG0+6WOdN/H7GQfM8g6mw=;
-	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=g5kBMY9E38cxyq85Il9d9wnA1nTi0K1/7jSdvA/cqSK8ruioCQSEkXtShQQd1L8stNvcgafj0shAo7KKwPxZ/ajXtsbeEU5mvTgF/4otOEqzBe2QriafEpSQn/8TaBj7WK3aNFXEz8ebhqEzpG2mpmPQE3DeUjQ8IST6lLOqEi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4bTfMJ4Q4xz4xPSZ;
-	Sat, 28 Jun 2025 12:19:24 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl2.zte.com.cn with SMTP id 55S4JHwC009320;
-	Sat, 28 Jun 2025 12:19:17 +0800 (+08)
-	(envelope-from xu.xin16@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Sat, 28 Jun 2025 12:19:17 +0800 (CST)
-Date: Sat, 28 Jun 2025 12:19:17 +0800 (CST)
-X-Zmail-TransId: 2af9685f6d45ffffffffeb0-7fabc
-X-Mailer: Zmail v1.0
-Message-ID: <20250628121917249q9r3rXmnBmRqbgFtJuDHW@zte.com.cn>
-In-Reply-To: <20250627143212435mZ2WRnqC77Y-XxvFKrGsy@zte.com.cn>
-References: 20250627143212435mZ2WRnqC77Y-XxvFKrGsy@zte.com.cn
+	s=arc-20240116; t=1751099140; c=relaxed/simple;
+	bh=JRuHujpJLvDuTGnDYQujAWUeF9qBt6etY3etowHwHMc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NJD/mGqi0SUMd9qVrwsFVyKG2EI1egPUX2+oXIm7FRocjAKEARfMEnX8qZP2eTEFMBTYCJE/bCIqH2lS4PtQnmpNfbl1Y3EI/ychFmUc4WWR05PjVd1yKhC+DmF6fvx1LRnA3Lk1dkro8nezAQMjzVSyih72U49Srj366DaOVos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4YjI3ky; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4YjI3ky"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D8C1C4CEEA;
+	Sat, 28 Jun 2025 08:25:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751099139;
+	bh=JRuHujpJLvDuTGnDYQujAWUeF9qBt6etY3etowHwHMc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=J4YjI3kyUvlGF9kiMiy8R2ZDlQlatNjRbS42jx+86DYS257jOgHRY8G5owUKHxt9U
+	 +PuUO1dBHZFg3lFyYcDmVgQD9xSmf/HDlcPjUmXtEjwUf+dKlJH34jLr31dGt4UQdU
+	 SICiNwyZpDxoqgasAugQuU9d07H61itg8DuAfeAQ51EQCnBs90roYqy8AD1Kv9S31n
+	 rYuI3Qrgv2inRLDWKDnLUdWXIhDMlA2W7hvouy4B/gpTCr/EaxpPkAF9lgthxP1yAb
+	 xrF3h9Yd68bT+oLgTSruyR6aUzZFGB609KKXzKQnHHG9WCjPaVePbiNgWMPb1ORStK
+	 WGm2LXTyutCyw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1uVQsS-00AlqC-Iu;
+	Sat, 28 Jun 2025 09:25:36 +0100
+Date: Sat, 28 Jun 2025 09:25:35 +0100
+Message-ID: <871pr4ff28.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org,
+	pbonzini@redhat.com,
+	corbet@lwn.net,
+	linux@armlinux.org.uk,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	oliver.upton@linux.dev,
+	mizhang@google.com,
+	joey.gouly@arm.com,
+	suzuki.poulose@arm.com,
+	yuzenghui@huawei.com,
+	mark.rutland@arm.com,
+	shuah@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 10/22] KVM: arm64: Set up FGT for Partitioned PMU
+In-Reply-To: <gsntbjq89am2.fsf@coltonlewis-kvm.c.googlers.com>
+References: <86plepb54f.wl-maz@kernel.org>
+	<gsntbjq89am2.fsf@coltonlewis-kvm.c.googlers.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <xu.xin16@zte.com.cn>
-To: <jiang.kun2@zte.com.cn>
-Cc: <alexs@kernel.org>, <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>,
-        <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <yang.yang29@zte.com.cn>,
-        <fan.yu9@zte.com.cn>, <qiu.yutan@zte.com.cn>, <wang.yaxin@zte.com.cn>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2Ml0gRG9jcy96aF9DTjogVHJhbnNsYXRlIGFsaWFzLnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2U=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 55S4JHwC009320
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 685F6D4C.000/4bTfMJ4Q4xz4xPSZ
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: coltonlewis@google.com, kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, mizhang@google.com, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-> From: Qiu Yutan <qiu.yutan@zte.com.cn>
+On Fri, 27 Jun 2025 21:45:57 +0100,
+Colton Lewis <coltonlewis@google.com> wrote:
 > 
-> translate the "alias.rst" into Simplified Chinese
+> Marc Zyngier <maz@kernel.org> writes:
 > 
-> Update to commit 735dadf894f0("docs: networking:
-> Convert alias.txt to rst")
+> > On Thu, 26 Jun 2025 21:04:46 +0100,
+> > Colton Lewis <coltonlewis@google.com> wrote:
 > 
-> Signed-off-by: Qiu Yutan <qiu.yutan@zte.com.cn>
-> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-> ---
+> >> +static inline void __activate_pmu_fgt(struct kvm_vcpu *vcpu)
+> >> +{
+> >> +	struct kvm_cpu_context *hctxt = host_data_ptr(host_ctxt);
+> >> +	struct kvm *kvm = kern_hyp_va(vcpu->kvm);
+> >> +	u64 set;
+> >> +	u64 clr;
+> >> +
+> >> +	set = HDFGRTR_EL2_PMOVS
+> >> +		| HDFGRTR_EL2_PMCCFILTR_EL0
+> >> +		| HDFGRTR_EL2_PMEVTYPERn_EL0;
+> >> +	clr = HDFGRTR_EL2_PMUSERENR_EL0
+> >> +		| HDFGRTR_EL2_PMSELR_EL0
+> >> +		| HDFGRTR_EL2_PMINTEN
+> >> +		| HDFGRTR_EL2_PMCNTEN
+> >> +		| HDFGRTR_EL2_PMCCNTR_EL0
+> >> +		| HDFGRTR_EL2_PMEVCNTRn_EL0;
+> >> +
+> >> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGRTR_EL2, clr, set);
+> >> +
+> >> +	set = HDFGWTR_EL2_PMOVS
+> >> +		| HDFGWTR_EL2_PMCCFILTR_EL0
+> >> +		| HDFGWTR_EL2_PMEVTYPERn_EL0;
+> >> +	clr = HDFGWTR_EL2_PMUSERENR_EL0
+> >> +		| HDFGWTR_EL2_PMCR_EL0
+> >> +		| HDFGWTR_EL2_PMSELR_EL0
+> >> +		| HDFGWTR_EL2_PMINTEN
+> >> +		| HDFGWTR_EL2_PMCNTEN
+> >> +		| HDFGWTR_EL2_PMCCNTR_EL0
+> >> +		| HDFGWTR_EL2_PMEVCNTRn_EL0;
+> >> +
+> >> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGWTR_EL2, clr, set);
+> >> +
+> >> +	if (!cpus_have_final_cap(ARM64_HAS_FGT2))
+> >> +		return;
+> >> +
+> >> +	set = HDFGRTR2_EL2_nPMICFILTR_EL0
+> >> +		| HDFGRTR2_EL2_nPMICNTR_EL0;
+> >> +	clr = 0;
+> >> +
+> >> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGRTR2_EL2, clr, set);
+> >> +
+> >> +	set = HDFGWTR2_EL2_nPMICFILTR_EL0
+> >> +		| HDFGWTR2_EL2_nPMICNTR_EL0;
+> >> +	clr = 0;
+> >> +
+> >> +	update_fgt_traps_cs(hctxt, vcpu, kvm, HDFGWTR2_EL2, clr, set);
+> 
+> > This feels wrong. There should be one place to populate the FGTs that
+> > apply to a guest as set from the host, not two or more.
+> 
+> > There is such a construct in the SME series, and maybe you could have
+> > a look at it, specially if the trap configuration is this static.
+> 
+> > 	M.
+> 
+> > --
+> > Without deviation from the norm, progress is not possible.
+> 
+> I'm assuming you are referring to Mark Brown's series [1], specifically
+> patches 5 and 18 and I see what you mean.
+> 
+> You are probably thinking configuration should happen from
+> sys_regs.c:kvm_calculate_traps or thereabout and should be setting bits
+> in the existing kvm->arch.fgt array.
+> 
+> Correct me if I'm mistaken.
 
-Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+I'm saying there should be exactly one place where we write to the
+individual trap registers, and that the source of these settings
+should be equally unique when they are immutable in the lifetime of
+the guest.
+
+That's the existing pattern for most trap configuration, including
+HCR_EL2, ICH_HCR_EL2, HCRX_EL2, and the FGU configuration that
+trickles into the actual trap registers, and I want to stick with it
+if at all possible.
+
+The way it is done in the SME series may be reasonable, but I haven't
+reviewed this series at all. I'm merely pointing out that similar
+constructs exist for other features.
+
+	M.
+
+-- 
+Jazz isn't dead. It just smells funny.
