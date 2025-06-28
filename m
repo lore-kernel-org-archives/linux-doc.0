@@ -1,88 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A6D22B594;
-	Sat, 28 Jun 2025 17:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2682312EBE7;
+	Sat, 28 Jun 2025 18:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751131806; cv=none; b=YzLixBTfaZuGhwA3JZ4vBG/lfG1l0aoLEIJuWfUjB2eLVmJDP5Z63lThZak6WHFviGQL/C3gHFI0K79JyRsDxEt5u8iMNR0+OO4FPKm89DytNn/PfviDedm2345EjUtQrVpABIAMD8Nls7sGhz1cXXSkss0VuqELqNbTbA4DGzo=
+	t=1751137039; cv=none; b=FYS6RESWg8tDoB9Rt8pK2w5gqry+QQ+ZaZ/NYgebBF7I5vDM31eActw2aojWDtBI8sAwkMdnMuVghL5axrOKFr0l+M4VO+0vxkTtuvCaoH8VSKDCN3WRMfF8MN/06uvIzt8MlGP2Vz/4zhHgYfls2wBUSjhlegRGUSXQyjM6yXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751131806; c=relaxed/simple;
-	bh=lJSsq3cKeP0H9TEkQ5kU1v6+iu6VQAqH/CtrVASdrM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a9JSyzoZ1+G0buNdpj1o8c3hAdiLKPoDFpcf8bOFS5di4MmiT5x11OBPcTVg8LvgXERDObbK810vX0VjKYbar7Q0PGgcaONIozUPu/uZS5dnqdBCV8G0uoWFHiGM/8BEh40794YMWgIqSEDNG6v9IQjlDkJqalJjWIBuK1o8qbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PYL+WD7w; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751137039; c=relaxed/simple;
+	bh=orw7uYePXqNFzeqTqAHs8lqewbYqpFHGgIIJgS7y4o0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h/N9INDrjPVWiZTnmob+o+RpUne07/jgqivbCyNAOsXGl9Fn4IqPiPa0CIS7Gw/d/maKmy+W0knQp6topkOHK2pqvop103NSNJc0KppUleU0aHr6Zm6JZpkZQ6lAuRE3QNupepu1VX6ufOoQurXfFfelE1iR7MGxvJ1+3X0duq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FaXUHel8; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PYL+WD7w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46868C4CEEA;
-	Sat, 28 Jun 2025 17:30:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751131805;
-	bh=lJSsq3cKeP0H9TEkQ5kU1v6+iu6VQAqH/CtrVASdrM4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PYL+WD7w3GZy4QK6crHNAwtMKMJ+yWs/QmpzlcyGq3bSvr89/v41UIDYXpYJzcpmT
-	 7rnxwe64SHFztw8y/i9JnMewRNO0UjUjBPDOqahef1VzhZmzPHDRo0OoKCIRzpRjjx
-	 RDMhWFMkNcSPcNXOevemIJ/rJrDRUm4bV+8UPv6b85LI7x7dGIAY4LED4dm14uWL4J
-	 yHI8lngTFCDVF2q5m1JqUMRC2wSeYYGevVBwW0bhU7eGM0vWaY+Dewy/fWF7x3wAC/
-	 BW94CFtQ6iKiWUDaY/Jl/TkLCO/uPm7XoJdn+vHBUk+QeYzjgow7s2gEGw9i4rPtX4
-	 mdbbsS9WH3gNg==
-Date: Sat, 28 Jun 2025 18:29:58 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
- Michael.Hennerich@analog.com, bagasdotme@gmail.com,
- linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 0/8] iio: accel: adxl313: add power-save on
- activity/inactivity
-Message-ID: <20250628182958.6a813bc8@jic23-huawei>
-In-Reply-To: <20250622153423.0d8ddcdb@jic23-huawei>
-References: <20250622122937.156930-1-l.rubusch@gmail.com>
-	<20250622153423.0d8ddcdb@jic23-huawei>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FaXUHel8"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=zZX0bC2DH2MvwuCPp2V/35NYunLcp9WEdDEtiUrQQ2Q=; b=FaXUHel8LbjMXRL7eKzc1etxNG
+	+333bBg+DS2JjqWZfCbmhQIoqQjxjrxolxlFh8XBalD5h7voTbCBIhrWOYqtEsZjNpbwEFiNqntsA
+	RjjEGgqUpYjYorMYEPXQI0O62PpTQWRnOBwOAMA7P1LJv0muFGqkqShFTAg5xL0hS7o/0nm/hgHoz
+	Iv52D+gWNRhlSG9sT1FF0wdOfZLsWJA3sTTtvHo2b/KsRR8Zg8pa/2EzdPCBDDYjw/SuaNqXhF3sJ
+	nk19C32irF3tqayHSZtpcqBs4L/+YD8V6nuYRCjY3GeYJ/KuKiZBen3ZU7lpkw5FJMLDIFmihMLuQ
+	VBarSLPQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uVajS-0000000H7cC-1dJJ;
+	Sat, 28 Jun 2025 18:56:58 +0000
+Message-ID: <bac0deae-ce00-4b19-9a34-69ac827f251d@infradead.org>
+Date: Sat, 28 Jun 2025 11:56:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/8] docs: dma-api: use "DMA API" consistently
+ throughout the document
+To: Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Keith Busch
+ <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>
+References: <20250627101015.1600042-1-ptesarik@suse.com>
+ <20250627101015.1600042-2-ptesarik@suse.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250627101015.1600042-2-ptesarik@suse.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Sun, 22 Jun 2025 15:34:23 +0100
-Jonathan Cameron <jic23@kernel.org> wrote:
 
-> On Sun, 22 Jun 2025 12:29:29 +0000
-> Lothar Rubusch <l.rubusch@gmail.com> wrote:
+
+On 6/27/25 3:10 AM, Petr Tesarik wrote:
+> Make sure that all occurrences are spelled "DMA API" (all uppercase, no
+> hyphen, no underscore).
 > 
-> > The patch set covers the following topics:
-> > - add debug register and regmap cache
-> > - prepare iio channel scan_type and scan_index
-> > - prepare interrupt handling
-> > - implement fifo with watermark
-> > - add activity/inactivity together with auto-sleep with link bit
-> > - add ac coupled activity/inactivity, integrate with auto-sleep and link bit
-> > - documentation
-> > 
-> > Sorry for the fuzz: when I was about to rebase for submitting I
-> > noticed Jonathan actually already applied parts of this. I'd recommend
-> > to consider v6 rather over v5.
-> > 
-> > Since activity and inactivity here are implemented covering all axis, I
-> > assumed x&y&z and x|y|z, respectively. Thus the driver uses a fake
-> > channel for activity/inactiviy. AC-coupling is similar to other Analog Device
-> > accelerometers, so MAG_ADAPTIVE events are chosen. Combinations are
-> > documented and functionality tested and verified working.
-> >   
-> Given reply to wrong email thread probably meant first few patches of v5 that
-> I picked up, I've dropped them for now.
-> 
-The series looks mostly good to me, just those couple of function naming things
-need tidying up + I guess there might be something else from the adxl345 series
-review that applies here that I've not noticed. So maybe have a last read through
-with those changes in mind.
+> Signed-off-by: Petr Tesarik <ptesarik@suse.com>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-Thanks,
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-Jonathan
+Thanks.
+
+> ---
+>  Documentation/core-api/dma-api.rst | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+
+
+-- 
+~Randy
