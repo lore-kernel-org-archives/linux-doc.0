@@ -1,171 +1,144 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC26EEA8;
-	Sat, 28 Jun 2025 01:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BB02B9BF;
+	Sat, 28 Jun 2025 03:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751074227; cv=none; b=QpFRFPnJXs/18kLFJzy0IqG9KPw7lUEZsuV+YRFSlNCtKXA3gEuZ+SxgKB+hEaRdYiXwILIfwNa5OZ61YxpiLQJPlq/PgN274W+EZk4NLllRaqZ/SIIXo8h4eSMRn5QBvMGuZyCTKcJgYX7GWjmqTtyBOG4EoAyCct66aZZmkKs=
+	t=1751080207; cv=none; b=suXx4kJnPT6eLdB9pWHK4idsz9A+U/jOS9xhtJMRXWCVYkA7Y5MGZ7RCqLslknJoTBHh8/PukxV/msDNjB5pirixgsgPgXeN8m71PwvHoJ45p/u7IIadd/qD8Us/jKNzRFVnCBspXSUzT+BwddvZXhpmemvGerOq2jQIjiARPiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751074227; c=relaxed/simple;
-	bh=4Qqib250C3wp/3ZPlTZ2Y0hOef25YveIWChH8p0ROng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NXlJr42D4iswOaX2Q9Hz0C5QiAaOp16JU8fqhmVqDim+A7Vm2eSvgWSXMbs0FMso32ZYgOe/M7rRELSNF6C5U0ko39MlO8HmhJzhJ6Rfh2JAWBQhebUvwbwW80sQLzIefVCCIHXSp1mDAWB0WtICdOJyXPOH6+h2vwVyXffoAtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RaAcVVAq; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751080207; c=relaxed/simple;
+	bh=b8+mJwRFpF5IfFwWI/Tw+nTCKCMhnZyvQe3VieW9Gao=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dT0j5W24GDqPCmsUsk2JFoXker6/ZF4JjZIdLLmc5czsaTypBMyTuP5hM74ue0czrgnOsEdBKde8iPDmDJoYYS33P6Ex9z1wtLRkSCkgnnTl9DXH80edgYdsrOurRSBBJTH1fDb0wkvQQuNyRYc42xv5ZZtTSIS19Wt8o1f448A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OEGU7Qfw; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RaAcVVAq"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-235f9ea8d08so23379825ad.1;
-        Fri, 27 Jun 2025 18:30:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751074226; x=1751679026; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y8AXPmpG2VMuBb/O9YnQP2cAp0A39EaY7EJfwm1hV+c=;
-        b=RaAcVVAqnux7vagv3HarICFaaclQ8DeyOM+42A/t/YZrKlO/bjY3Zt22h1QrjaHnAK
-         hVDqbx0BgsimJmncYWO4x0pHbzoHg/j2HiCAtQBAYSbcVIeR6QiedB2WAL6XkfUZOKb5
-         /ylU2KR77E/94xCww2+ROfW0VR4RD3nxsXSaU3fM6Bp3uG6bwEPwXI4fV4XjyV3TqlBy
-         ERuDcZRXsNKwp91n1xjoBRvJltqfm+MG5RWQiARLzMkPU2S2+RyWGVhj7Z0CUMzs3eyG
-         uDGpgrGyTEEpkuEByZ8lr9wkHcWloPtQQDCHwTQxygGzek1wwiL5R3SAk5AgKm2vHAxO
-         ckxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751074226; x=1751679026;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y8AXPmpG2VMuBb/O9YnQP2cAp0A39EaY7EJfwm1hV+c=;
-        b=R5xXmA9Qy/vKZYmEHew7yxdA4HmiYmoD/ncMuHA9VlhNOR5s0bjem4Wr3aGPZWuexj
-         aowk0XgJy5WwZfXG7s8mwlQ8RFZLAMbEMNYR83Rs9Gk1N+7FBprNAlu8YgD+GvEoJKyl
-         b9uVjr+cQPNiPUqpRsGEiDVy2XeZVXkK0CJShcJJBl0VioZyWx7kRJgBDE9ZRSKChZ8D
-         8yKM6XkvIax+riJGmSG0/gbtPKnPYzTgytm8nGLEtPxwdHjmo1N3hd791QsE5beLfZtX
-         3FxxekVZ3LKX40RFYTpfvaGDHPMZNLSzIikQvP3qLHZGNQo+DqAwjOITIkjuVtR0Nw+E
-         sZiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUpKD4qKDH+QqznXKYJvMYecCMsdt/HDUr1ImQKJvLx0+M2bW20dKRWtL8JDU/aBBkQAnf887rqa8pL4aOM@vger.kernel.org, AJvYcCW6/8to1WAzP8KzCdndgZFhBOZYBN+Ap1tALFiAQVhf2uCgn7X1nuyf4rLxSLB3uZLYdrQY3Gm+Zuo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLjrswcnxmd5OEdILnZZdKwD6ex3g2/VsNWMsmiEL6/39P5Ywc
-	6/WxonbSngSLBZaVGHSjMX+gB+cmQEft4Q64WrltwCmdbFR79+Tetsuj
-X-Gm-Gg: ASbGncsNTpq+AQLi+owZSEwJXiLJsZqI1x5aqA9yRm7fOgfSGgU8mF1WuIjvQRcl8GV
-	YNH9oNZG4VJyqdXI5OX4yysvOCqrktLjSJqVHt/+PCIG/XllkM4yuliW3JwCylOZdgl3DYyxmXs
-	0jfxp8aKGdDY3ujTQEPSAfhZzTFrZgOV4RjP8pJyJHDzpXyYYC0+15v+rTLkNbQC2uVkM5hkhah
-	HrZj6Sh1TATAdtAOKNzjnPD0oOvj5CmLc3xKyyLzQd+Esbw8sTxWiNMcxtzAu7/qAhXUhvErG/V
-	Kxe5RuOcfb0zKaNCRZ9Xfl29ieGSepec3/lJbR2eE+vRl/9aBRJslVv8uno80A==
-X-Google-Smtp-Source: AGHT+IEhpBuJ3GjJ2GV96K93NPQPaz+CSELR+iF2uzhaORXUXQQfB5dul2kwwnAmFKMrTiXr3jo19Q==
-X-Received: by 2002:a17:902:c401:b0:235:f4f7:a62b with SMTP id d9443c01a7336-23ac4665179mr88553105ad.41.1751074225506;
-        Fri, 27 Jun 2025 18:30:25 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3c90d5sm26854075ad.247.2025.06.27.18.30.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 18:30:24 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7A3DF423BF27; Sat, 28 Jun 2025 08:30:21 +0700 (WIB)
-Date: Sat, 28 Jun 2025 08:30:21 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>, airlied@gmail.com,
-	simona@ffwll.ch
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, corbet@lwn.net,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH v2] workaround for Sphinx false positive preventing
- indexing
-Message-ID: <aF9FrVzkZHrIRKEa@archie.me>
-References: <20250627115718.17673-1-kevinpaul468@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OEGU7Qfw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=229+pb3c1kGk60BjjntDQ84g1jSuhYq7vWg2i21vlZg=; b=OEGU7Qfwp6pr7Q/MLT/iINjvn9
+	r9wDB8tQGs2iDEFZdYx/++rPO99UXRjmACqfAUX1J5+K4Htn09lmteRsf2ES8N/PdvKpcGf8S8St3
+	gv7vKQEbKMLVFtr7BHMBzvUwjwoTG2uFZmKcNl/ra/ZDYVc17Gz6Vu0aGG5tTsjf6aN3n2i0gx22K
+	z1pkwpk3AV93GXamQBrmugHmCaaXYiWHbLkuKu1xMFkJs+bK1JOhLy0gsFXte+TX/2aJPfdqXOmsA
+	lR2e74fZFQSdm9lUQ64oJihy8SpLG6yp1jjv4+zrtcC8koqf5CW2GOUzVb+TrjiNdGCR9SUJGJqG0
+	FKwHwZ/Q==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uVLx0-0000000FaFQ-2Jy1;
+	Sat, 28 Jun 2025 03:09:58 +0000
+Message-ID: <4edd9243-38f5-4522-b168-c7c71916d297@infradead.org>
+Date: Fri, 27 Jun 2025 20:09:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jygN2+v8Ef8hw9M2"
-Content-Disposition: inline
-In-Reply-To: <20250627115718.17673-1-kevinpaul468@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/12] iomap: hide ioends from the generic writeback code
+To: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>,
+ Joanne Koong <joannelkoong@gmail.com>, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-block@vger.kernel.org, gfs2@lists.linux.dev
+References: <20250627070328.975394-1-hch@lst.de>
+ <20250627070328.975394-5-hch@lst.de>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250627070328.975394-5-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---jygN2+v8Ef8hw9M2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-[also Cc'ing Mauro]
-
-On Fri, Jun 27, 2025 at 05:27:18PM +0530, Kevin Paul Reddy Janagari wrote:
-> Functions drm_format_info, drm_modeset_lock, drm_ioctl_flags are not being
-> indexed in the documentation because there are structs with the same name=
-=20
-> and sphinx is only indexing one of them, Added them to namespaces as a
-> workaround for suppressing the warnings and indexing the functions
->=20
-> This is a bug of Sphinx >=3D3.1, first reported by Mauro in September 2020
-> Link: https://github.com/sphinx-doc/sphinx/issues/8241
->=20
-> Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
+On 6/27/25 12:02 AM, Christoph Hellwig wrote:
+> Replace the ioend pointer in iomap_writeback_ctx with a void *wb_ctx
+> one to facilitate non-block, non-ioend writeback for use.  Rename
+> the submit_ioend method to writeback_submit and make it mandatory so
+> that the generic writeback code stops seeing ioends and bios.
+> 
+> Co-developed-by: Joanne Koong <joannelkoong@gmail.com>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  Documentation/gpu/drm-kms.rst  | 4 ++++
->  Documentation/gpu/drm-uapi.rst | 2 ++
->  2 files changed, 6 insertions(+)
->=20
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index abfe220764e1..b18a99869b6d 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -357,8 +357,10 @@ Format Functions Reference
->  .. kernel-doc:: include/drm/drm_fourcc.h
->     :internal:
-> =20
-> +.. c:namespace-push:: gpu_drm
->  .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
->     :export:
-> +.. c:namespace-pop::
-> =20
->  .. _kms_dumb_buffer_objects:
-> =20
-> @@ -473,8 +475,10 @@ KMS Locking
->  .. kernel-doc:: include/drm/drm_modeset_lock.h
->     :internal:
-> =20
-> +.. c:namespace:: gpu_drm
->  .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
->     :export:
-> +.. c:namespace-pop::
-> =20
->  KMS Properties
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
-rst
-> index 69f72e71a96e..e9d7b7282a19 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -554,8 +554,10 @@ DRM specific patterns. Note that ENOTTY has the slig=
-htly unintuitive meaning of
->  .. kernel-doc:: include/drm/drm_ioctl.h
->     :internal:
-> =20
-> +.. c:namespace-push:: gpu_drm
->  .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
->     :export:
-> +.. c:namespace-pop::
-> =20
->  .. kernel-doc:: drivers/gpu/drm/drm_ioc32.c
->     :export:
+>  .../filesystems/iomap/operations.rst          | 16 +---
+>  block/fops.c                                  |  1 +
+>  fs/gfs2/bmap.c                                |  1 +
+>  fs/iomap/buffered-io.c                        | 91 ++++++++++---------
+>  fs/xfs/xfs_aops.c                             | 60 ++++++------
+>  fs/zonefs/file.c                              |  1 +
+>  include/linux/iomap.h                         | 19 ++--
+>  7 files changed, 93 insertions(+), 96 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/iomap/operations.rst b/Documentation/filesystems/iomap/operations.rst
+> index 3c7989ee84ff..7073c1a3ede3 100644
+> --- a/Documentation/filesystems/iomap/operations.rst
+> +++ b/Documentation/filesystems/iomap/operations.rst
+> @@ -285,7 +285,7 @@ The ``ops`` structure must be specified and is as follows:
+>   struct iomap_writeback_ops {
+>      int (*writeback_range)(struct iomap_writeback_ctx *wpc,
+>      		struct folio *folio, u64 pos, unsigned int len, u64 end_pos);
+> -    int (*submit_ioend)(struct iomap_writeback_ctx *wpc, int status);
+> +    int (*writeback_submit)(struct iomap_writeback_ctx *wpc, int error);
+>   };
+>  
+>  The fields are as follows:
+> @@ -307,13 +307,7 @@ The fields are as follows:
+>      purpose.
+>      This function must be supplied by the filesystem.
+>  
+> -  - ``submit_ioend``: Allows the file systems to hook into writeback bio
+> -    submission.
+> -    This might include pre-write space accounting updates, or installing
+> -    a custom ``->bi_end_io`` function for internal purposes, such as
+> -    deferring the ioend completion to a workqueue to run metadata update
+> -    transactions from process context before submitting the bio.
+> -    This function is optional.
+> +  - ``writeback_submit``: Submit the previous built writeback context.
 
-Works as expected, thanks!
+                                        previously
 
-Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>  
+>  Pagecache Writeback Completion
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
---=20
-An old man doll... just what I always wanted! - Clara
 
---jygN2+v8Ef8hw9M2
-Content-Type: application/pgp-signature; name=signature.asc
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index a54b14817cd0..a72ab487c8ab 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaF9FpQAKCRD2uYlJVVFO
-o30+AQD0JcVjSsCcFjAd4jMRB1T4R+PpgE/ka0f8n3tq9MD4NwEA+FwOlvSfVA/C
-MuG6SuSMSTogXWQx14VDQqzEGzhx6wQ=
-=PST+
------END PGP SIGNATURE-----
 
---jygN2+v8Ef8hw9M2--
+> @@ -1956,6 +1947,18 @@ iomap_writepages(struct iomap_writeback_ctx *wpc)
+>  
+>  	while ((folio = writeback_iter(mapping, wpc->wbc, folio, &error)))
+>  		error = iomap_writepage_map(wpc, folio);
+> -	return iomap_submit_ioend(wpc, error);
+> +
+> +	/*
+> +	 * If @error is non-zero, it means that we have a situation where some
+> +	 * part of the submission process has failed after we've marked pages
+> +	 * for writeback.
+> +	 *
+> +	 * We cannot cancel the writeback directly in that case, so always call
+> +	 * ->writeback_submit to run the I/O completion handler to clear the
+> +	 * writeback bit and let the file system proess the errors.
+
+	                                         process
+
+> +	 */
+> +	if (wpc->wb_ctx)
+> +		return wpc->ops->writeback_submit(wpc, error);
+> +	return error;
+>  }
+>  EXPORT_SYMBOL_GPL(iomap_writepages);
+
+
+-- 
+~Randy
+
