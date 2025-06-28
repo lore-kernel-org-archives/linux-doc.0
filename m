@@ -1,87 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB6A71747;
-	Sat, 28 Jun 2025 14:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E6A13B5AE;
+	Sat, 28 Jun 2025 14:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751120534; cv=none; b=Sn9De1Pqz7FUA/pRi6Z44yV4wuRqUyUFaLm7MCwHimKL5OsU2njluGRFIMfK9Zht/tJBItYwlCF5n6GpXXOsnubWSpjvRuHMv4R2AhbmdRgSEwxt5UqJOqUEdTamtpOE6Mwd2uhXcdYsixnUlRfM0uXPP6QflXDWCO5WipR8uVQ=
+	t=1751121813; cv=none; b=FYovGvOd39t87WJoXPvfI8TmVZs4HUQlQdrofYIWi6oT2NZ8OwH2bHjhilGRQhJ1InUtZmT+R9yb18kraIRi0U4jfeeRY+BtEPCxqDw8Cj+fV0peVbW34cP498GrrLbwK6IDR+86N2LOPfGOMGjej3ScpvZY6/ayLDXHN0lqino=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751120534; c=relaxed/simple;
-	bh=EBTOgKbMa7ugSS3wz5rgebhS88Gdc0XadFDzXKOAAf0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lxy/MRr2lemdgAUYZIRpCYZtmhI7G0Zjdy1ksC09glGxXXQgdo+OpyG1Nqi3nz3AuAAA3dWRGUBIicJz18lyOXJyBEinQSjuSj8ufQo6qSOtTayHGnZbBlJrwgAehQhUVbGwZo/RRlwv2lPR6hlTGuBYc7UWwG/Hnj0Z/uj4M4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M8edb7ct; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751121813; c=relaxed/simple;
+	bh=dQ47HoRLF+6X8CtMhDXpv9EgI5dxjY7My+7toAcFBco=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=aSciOvP9nKp2ss8R26Tb7Hak3f9wW/1TCRQOCh2GNv+PGqrikOsXGn1JV1wPnDuWI9gQwSEI7+3N13Y8qIoks//VcR/6dtr3I2QdDibz0JzAYDxfcEwiNDKA7bAtfKXkIVf1F+C30iBfZFNndkBjF3eb2segtropVJo+IRHdVko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AU4cLhih; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M8edb7ct"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B0DC4CEEA;
-	Sat, 28 Jun 2025 14:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751120533;
-	bh=EBTOgKbMa7ugSS3wz5rgebhS88Gdc0XadFDzXKOAAf0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=M8edb7ct4Ccwo8OtG7mZh6FCrpCzgUB2S4vXyzEmYL/wZ0F9JQJ+aOekarXGsDCvv
-	 uMjrgMYuzDX6aa23j4/8Z7eVJ85GWFX53wqkuc6ceAQHMbY2Zpnzj+8JL5m5Jqlc3C
-	 F3Sv+I8rXwJfz0Es7zipTdChZyauE9jp/RLftu39K2M0ZLUJGCTiJdPoacUiX19kGo
-	 ErJBXdbjkDTAI8BN4I7+Z5BnToQCc9Fntsr/HC8t4TDENy1FpC3QYLgQM4cDDGawJ5
-	 xNv8iWn/JBvu+5uDqV13Kx1cLaUyvnPdOlFGdDpK6FmjiGohI8+NZJpDY1nal+wlif
-	 Ydm+jr3m+1vMg==
-Date: Sat, 28 Jun 2025 16:22:09 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 0/8] Yet another set of kerneldoc simplifications
-Message-ID: <20250628162209.0ba297b5@foz.lan>
-In-Reply-To: <20250627184000.132291-1-corbet@lwn.net>
-References: <20250627184000.132291-1-corbet@lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AU4cLhih"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B2515406FF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751121810; bh=dQ47HoRLF+6X8CtMhDXpv9EgI5dxjY7My+7toAcFBco=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=AU4cLhihukfdLdYDKOTPOcIro/emdB8IFmnCzoD2tIIFYjY9HcPwVtQzZCQDIZhWN
+	 ibzkYuMc0R3uGaOIAUor3EWSWjhVIP+9L/gyEDdSw5ODcRC/eX+SOSeJalmp96S96s
+	 0tIFeVWyF4iMKdEntTvS0oXCaeaABO1YOSZcpDr7/Y+OtS96wk+iDk2YKNLleFklGR
+	 +OUh/kzsBkk3Ue/4L5fOPBmJWUDA+B18Y4wZkcqtAroE92KQwDen4rtpq6aejmUt0o
+	 IZo98Nxgs3t/6tI4gUU28CTJ/4CBXcZB61e9IiHJhXsX6IRCZFqQhXN9yN9o9owkI+
+	 uWL3wkWZLpDVg==
+Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B2515406FF;
+	Sat, 28 Jun 2025 14:43:30 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Amir Goldstein <amir73il@gmail.com>, Richard Weinberger <richard@nod.at>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, miklos@szeredi.hu
+Subject: Re: [PATCH] overlayfs.rst: Fix inode table
+In-Reply-To: <CAOQ4uxg=CUmr+6EBPG0MSwDezx3jTxtWaGVLazA3krp7PUU13w@mail.gmail.com>
+References: <20250628083205.1066472-1-richard@nod.at>
+ <CAOQ4uxg=CUmr+6EBPG0MSwDezx3jTxtWaGVLazA3krp7PUU13w@mail.gmail.com>
+Date: Sat, 28 Jun 2025 08:43:29 -0600
+Message-ID: <87bjq8exke.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Em Fri, 27 Jun 2025 12:39:52 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Amir Goldstein <amir73il@gmail.com> writes:
 
-> As I continue to work through our shiny new kerneldoc, I keep finding ways
-> to make it (IMO) shinier.  This set covers these basic areas:
-> 
-> - Remove some unused fields from the KernelEntry class, and encapsulate the
->   handling of the section contentions therein.
-> 
-> - Clean up and optimize the EXPORT_SYMBOL processing slightly.
-> 
-> - Rework the handling of inline comments by getting rid of the substate
->   design and separating out the processing of the states that remain.
-> 
-> The series results in no changes in the generated output.
+> On Sat, Jun 28, 2025 at 10:32=E2=80=AFAM Richard Weinberger <richard@nod.=
+at> wrote:
+>>
+>> The HTML output seems to be correct, but when reading the raw rst file
+>> it's annoying.
+>> So use "|" for table the border.
+>>
+>> Signed-off-by: Richard Weinberger <richard@nod.at>
+> Acked-by: Amir Goldstein <amir73il@gmail.com>
+>
+> John,
+>
+> Would you mind picking this patch to your tree?
 
-I looked the entire series, although I didn't test. On a visual
-inspection, all changes look good to me.
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-> 
-> Jonathan Corbet (8):
->   docs: kdoc: remove KernelEntry::in_doc_sect
->   docs: kdoc: Move content handling into KernelEntry
->   docs: kdoc: remove a bit of dead code
->   docs: kdoc: remove KernelEntry::function
->   docs: kdoc: rework process_export() slightly
->   docs: kdoc: remove the INLINE_END state
->   docs: kdoc: remove the inline states-within-a-state
->   docs: kdoc: split the processing of the two remaining inline states
-> 
->  scripts/lib/kdoc/kdoc_parser.py | 170 +++++++++++++-------------------
->  1 file changed, 67 insertions(+), 103 deletions(-)
-> 
-
-
+Will do.
 
 Thanks,
-Mauro
+
+jon
