@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7320925771;
-	Sat, 28 Jun 2025 16:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D512580E7;
+	Sat, 28 Jun 2025 16:51:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751129508; cv=none; b=DKjUV03/gO8gYb77vKjB7ioUVeb2SOXXofzg5kpFD+VmLWGYdKSIYhFvuVXuqxfbToakc++CvoVC0QsxOMO/ZB+DVo31vgxaYD1lf0t9zc/oUfzggWogApDj8F5Zc7D1B6gsCUi5Gl3mMQvktAg0oKyW1GQVwqmU9NzbxJHenKw=
+	t=1751129511; cv=none; b=dEVpgpW55Kk2c1EW5yJmVGvJYlive1HFQ33hIS2EdS6Kuf7UYFtAv7vz+fm7IN5u+HXW/jH1a0kBQGsruwzFNmM9hSwn8VKb7upaubrfl2HTF1P6WzakPk2Phl3YT7qzOXhdzPFpWaGjNXxIzKB3vr8Mtc8i28LBnAQk7+K9/B8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751129508; c=relaxed/simple;
-	bh=olJKO0kLyWz1TOYHSyUA5GZthC3GQPte6dBjhm22SWU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S1aZkpZpFXiwzrfXSPVbMtLKL1IBz8JeDcJNXLm4tDQaRhqS8EY5jq20oHMMwkxZ6ijjcA203pUilfwdqM02alclrV2uN5sWcnMsrv4A73/ItEWc79WzMwAMBhib1a1nmzVlfsJl2a8n8bqerhyDD3doB1uhyQCzbcbxQIysS/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xb6oWWRp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751129511; c=relaxed/simple;
+	bh=/0dCUe11qKby9u3vEyXqRJSVAYTCVRTpv2OM8A5msCk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=g2RzXrY/Wd2yDWQaWxSpasbNUyJ1kfvN7lM5l/YKAY4RPxeJlJdI8gJmzGd6bkWH1Qi5j4nVWCIwamuu8zifREszF/LjNezHpzgUUSqvX/WA3EZo/VlWMQWCRUaYZ18bdPTbGi/dUhDJJRoYk9HSExD31qAY7BwuA0gJUFun/Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVqv/iAQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xb6oWWRp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD19DC4CEED;
-	Sat, 28 Jun 2025 16:51:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVqv/iAQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD940C4CEED;
+	Sat, 28 Jun 2025 16:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751129508;
-	bh=olJKO0kLyWz1TOYHSyUA5GZthC3GQPte6dBjhm22SWU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Xb6oWWRpKsdA7r+GNbKMOHLJp2HY7ouxnBxplbcOiuX93qrNvKSeugvkZLq61Ehbq
-	 OaaVhwPmtjyEMhFCwrnw31k2htx2hnzSoCXjsMsK4fcY9kXqIHV2XdjDaBarxbvXYb
-	 et4ueSlxlPzLxoOEyjTyhMf1XG2efmlcFkSrPOqwhIkYXPH7RVdOnsaSXw7jxP9jWX
-	 gculrRZJipGsAqvZHTvj0iR7mEWnDVnwCa2uvGDqafMimsU21vYHDN2g51r9zC/V5a
-	 EqgWwXY4yKn+qiICiFQNV02990I0KMCBvjDw+PCoVgXACZUHUJaYC7mFCKcdcAjUdA
-	 ELusYkCHqrgtA==
+	s=k20201202; t=1751129511;
+	bh=/0dCUe11qKby9u3vEyXqRJSVAYTCVRTpv2OM8A5msCk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WVqv/iAQmQTec0pT+CG3bWPgayEsJbxNNvvNWTv00bptdssc2b3QQZ0PIBIQpEVJ0
+	 H6ThLDoMqHS692LBCUYhCmwTFYsIVy9fx7CmBrFLH9FtRraA9F8zXeGQdEl/VFYwGb
+	 A+HQku7tbqCP5plBmEYd29zMc642+5IzsKOLxxlg0qv/2uuBG1zfDEZNO5IfgEDeUu
+	 9+Lcq/PcAxgtj1zwnB7ZhmeKuQ8Y7+2i06UuSJiOKjWPaunRBUEr/zhLTLRSl7PKe+
+	 w0COfErWZ3iGjunEfYJyJxeNySCHLGfyWIh1fJFfCX1wnpZOdirhobUNBfy+7oSN+O
+	 ho+fjeh8KGXlw==
 From: SeongJae Park <sj@kernel.org>
 To: 
 Cc: SeongJae Park <sj@kernel.org>,
@@ -35,10 +36,12 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [RFC PATCH 00/11] mm/damon: advance DAMOS-based LRU sorting
-Date: Sat, 28 Jun 2025 09:51:33 -0700
-Message-Id: <20250628165144.55528-1-sj@kernel.org>
+Subject: [RFC PATCH 03/11] Docs/mm/damon/design: document DAMOS_QUOTA_[IN]ACTIVE_MEM_BP
+Date: Sat, 28 Jun 2025 09:51:36 -0700
+Message-Id: <20250628165144.55528-4-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250628165144.55528-1-sj@kernel.org>
+References: <20250628165144.55528-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,85 +50,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DAMOS_LRU_[DE]PRIO actions were added to DAMOS for more access-aware LRU
-lists sorting.  For simple usage, a specialized kernel module, namely
-DAMON_LRU_SORT, has also introduced.  After the introduction of
-DAMON_LRU_SORT, DAMON got a few important new features, including the
-aim-based quota auto-tuning, young page filter, and monitoring intervals
-auto-tuning.  But DAMOS-based LRU sorting had no many updates.  Now we
-show some rooms to advance for DAMOS-based LRU sorting.
+Update design document for newly added DAMOS_QUOTA_[IN]ACTIVE_MEM_BP
+metrics.  Note that API document is automatically updated by kernel-doc
+comment, and the usage document points to the design document which uses
+keywords same to that for sysfs inputs.  Hence updating only design
+document is sufficient.
 
-DAMON sysfs interface users can utilize all the features, but
-DAMON_LRU_SORT is not updated for such modern features.  Also, even in
-case of DAMON sysfs interface usage, there is no good quota auto-tuning
-goal metric for LRU sorting.  Since it is a sort of balancing of active
-and inactive pages, a metric that represents the size ratio between the
-active and the inactive pages could be useful.  Also, internal behaviors
-of DAMOS_LRU_[DE]PRIO are not very symmetric.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/mm/damon/design.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Advance DAMOS-based LRU sorting by introducing a new DAMOS quota
-auto-tuning target metric for [in]active memory size ratio, making
-DAMOS_LRU_[DE]PRIO behavior more intuitive and symmetric.  Also update
-DAMON_LRU_SORT module to be able to fully utilize the modern features
-including the [in]active memory size ratio, young page filter, and
-monitoring intervals auto-tuning.
-
-With these changes, for example, users can now ask DAMON to "find
-hot/cold memory regions with auto-tuned monitoring intervals, do one
-more page level access check for found hot/cold memory, and move pages
-of those to active or inactive LRU lists accordingly, aiming 50:50
-active to inactive memory ratio."
-
-Plan for none-RFC Version
--------------------------
-
-I'm planning to do more tests and add the results by the final version.
-
-Patches Sequence
-----------------
-
-First four patches extend DAMOS quota auto-tuning to support [in]active
-memory ratio target metric type.  The patches introduce new metrics
-(patch 1), DAMON sysfs support
-(patch 2), and add the document (patch 3).
-
-Following patch (patch 4) makes DAMOS_LRU_PRIO action to directly move
-target pages to active LRU list, instead of marking accessed and
-incrementally be moved to active lists.
-
-Following seven patches (patches 5-11) updates DAMON_LRU_SORT to support
-modern DAMON features.  Patch 5 makes it to use not only access
-frequency but also age at under-quota regions prioritization.  Patch
-6-11 add the support and document it for young page filtering,
-active:inactive memory ratio based quota auto-tuning, and monitoring
-intervals auto-tuning, respectively.
-
-SeongJae Park (11):
-  mm/damon/core: introduce [in]active memory ratio damos quota goal
-    metric
-  mm/damon/sysfs-schemes: support DAMOS_QUOTA_[IN]ACTIVE_MEM_BP
-  Docs/mm/damon/design: document DAMOS_QUOTA_[IN]ACTIVE_MEM_BP
-  mm/damon/paddr: activate DAMOS_LRU_PRIO targets instead of marking
-    accessed
-  mm/damon/lru_sort: consider age for quota prioritization
-  mm/damon/lru_sort: support young page filters
-  Docs/admin-guide/mm/damon/lru_sort: document filter_young_pages
-  mm/damon/lru_sort: support active:inactive memory ratio based
-    auto-tuning
-  Docs/admin-guide/mm/damon/lru_sort: document active_mem_bp parameter
-  mm/damon/lru_sort: add monitoring intervals auto-tuning parameter
-  Docs/admin-guide/mm/damon/lru_sort: document intervals autotuning
-
- .../admin-guide/mm/damon/lru_sort.rst         |  37 ++++++
- Documentation/mm/damon/design.rst             |   4 +
- include/linux/damon.h                         |   4 +
- mm/damon/core.c                               |  22 ++++
- mm/damon/lru_sort.c                           | 110 +++++++++++++++++-
- mm/damon/paddr.c                              |  18 ++-
- mm/damon/sysfs-schemes.c                      |   8 ++
- 7 files changed, 189 insertions(+), 14 deletions(-)
-
-
-base-commit: cd5e995caa32062e89e340acb4acbcbe09ad709e
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 2290ebefc648..ce8c389f0c68 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -570,6 +570,10 @@ tries to make ``current_value`` of ``target_metric`` be same to
+   set by users at the initial time.  In other words, DAMOS does self-feedback.
+ - ``node_mem_used_bp``: Specific NUMA node's used memory ratio in bp (1/10,000).
+ - ``node_mem_free_bp``: Specific NUMA node's free memory ratio in bp (1/10,000).
++- ``active_mem_bp``: Active to active + inactive (LRU) memory size ratio in bp
++  (1/10,000).
++- ``inactive_mem_bp``: Inactive to active + inactive (LRU) memory size ratio in
++  bp (1/10,000).
+ 
+ ``nid`` is optionally required for only ``node_mem_used_bp`` and
+ ``node_mem_free_bp`` to point the specific NUMA node.
 -- 
 2.39.5
