@@ -1,196 +1,123 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09991494A3
-	for <linux-doc@vger.kernel.org>; Sun, 29 Jun 2025 06:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFAE64A8F;
+	Sun, 29 Jun 2025 07:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751179965; cv=none; b=XZy3eQVjCdVYhMKrNXhV7UToE5SbpNAagNL3A/e5f27eQeUinocVkTcknQpqzgWT0E9zh0QYqRn10OyfyUipozN0+LB/1VuN1ta1/5y2BdH3ei406n3i2lSyJeP9Cj4M9QoTRIebNxszLTkNF0naanFyJp3Ys3/nR/nAaH/yMgQ=
+	t=1751182256; cv=none; b=a5H9+p/gG7HI5g27JqOPoacWIxuipw6guVKDDBMNI+Kx/f0E67HJ2k29/5+hLntHHdWzMeHrl3mYfKIE/BF4b4+krKutmSdsU/FugDclQKO6CdZF+Lq+lIoJ0qJ6zuNdzlppE0g36UR/qRxO7PKJ0Qsd2IW/QdLXsVsDHK4MQ0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751179965; c=relaxed/simple;
-	bh=aG+3sDnTFlWtzx02Sf74IFYNroVWYH1wkRdG5vsGHrM=;
+	s=arc-20240116; t=1751182256; c=relaxed/simple;
+	bh=lzAdXeWzS7UHunGV9sC2feZ0Lyi6sv0tG38eI9AAZxI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=SUgkWgrUGdeTHDppHECupjxm35u50p+xXl1Z4qbfm8oxZnMsYz5m9XXrft/3Dk6dhxfzr0nCmMBmfqq4tnUZmkaHVB0qy5Z7GtMYZZlSxBEwhrSpiM+iWfKMv8SHJgZwsEXFU2mg7SRS99vIO+Fb6be05VdJUOZgGKfF9JPU9d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XK0TxYKi; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=NYOh4LKe9MVY719SlNZ/0vNWncn0Sww3AWKQMhhZwwiTpKwx7Jy627j86vK+tje9nlwtrZyY2tQEB2gT0FCcw963txPUtlDZLCHasJptHkPVuI9n9VbcvMPjxkyeQ+8T7XTijDgt7KKbEz7cWiOc6HQ+ZRfYdYfhygim+oYoWvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YJtUVNeE; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XK0TxYKi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751179962;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dYKXeabm4uMs6XSfO74X92NI0bG52d5ihWZ68rikNBA=;
-	b=XK0TxYKizIQKzLYXJeHDy5RPODjm/L5WQ0gt9M0JQX0bGDDkOxV3YiwD0Bf+aCIrgF8XXD
-	vs4ysWxeI+9HT4kOm5OxlO/neQYh6IKcGJvD24VaRWQSIcB5+CTEuNnAQbAD3pMCa6pthk
-	yXGE3gwhXHHfu739uR8/3OBhqpcAr8E=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-499-c-1f_pSfPMiTcmMqnnNxsQ-1; Sun, 29 Jun 2025 02:52:41 -0400
-X-MC-Unique: c-1f_pSfPMiTcmMqnnNxsQ-1
-X-Mimecast-MFC-AGG-ID: c-1f_pSfPMiTcmMqnnNxsQ_1751179960
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-71111a7c31cso18735897b3.3
-        for <linux-doc@vger.kernel.org>; Sat, 28 Jun 2025 23:52:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YJtUVNeE"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-60c4521ae2cso6309064a12.0;
+        Sun, 29 Jun 2025 00:30:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751182252; x=1751787052; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gouqz/P0ZHGMXYfLBgSpafQwUrps1XiVFKY5YDRAgcA=;
+        b=YJtUVNeEtqaGYCZ4Ajs3BxUQjQeHW4z4D1SJ8mhu+FgjwrO2eGGapmw8isM8Atxu7K
+         c6nJ10o60C8foxLP+NkzXqzcibu2Wuve/6zrDtpmZrPe++Hhh58ePRNd5Uxx8QRH7boZ
+         SpnOzjG2iE7OcL0GdO/HJm83EC+Dhr7hAcCIJDBuPa0r7k5rux2FfOTB+B8nbLKHiioD
+         HYa0BXHu4CPAs0vSCyw4RT93fdoNsU1Iaz7stnn4+UsFGjYai+BBgNDD3+DEAH9WzWoW
+         z1yhI1ko9N8U/5yIVl97bY9AU5IESIxlOCRCfjus0yX7MGPtahE0VLdXdKNhZKXJ3ouY
+         g8qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751179960; x=1751784760;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1751182252; x=1751787052;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dYKXeabm4uMs6XSfO74X92NI0bG52d5ihWZ68rikNBA=;
-        b=HJpNtWEVMdC7651pHsjsWeL6WdjI8s/A06TMLOuRHGvz4nCClMPtCYCHVSUGYMSJOm
-         yW+S2wwcb7KYwFz/k4dSqYlHge+a/vDVODYb4xVylv3Tq96bHuNH4Z1e64ly8604I3Ig
-         39fp9uY8AUK03PUuEeZ/8gGP6/0HbC5wP2m8/HCjU7vTW6EHVFe+/2ERZsDMlFRujbV7
-         jJSLAqpKDmj6mR++v2ChCEKJUU65gVoKX5kXYo7vfdozY+ZWltjpeTV6uXorYO3edL1f
-         YHm7oKwULvvi5VIDZb3GtplzsSUoYwqZXhV8KgNY+xTg6GmVcDPxlgoaLioiIp8iUV8a
-         5iqA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8UnyeYKq3HIv0bAthN6GSZ6mVh0ouT9Gceq99UqzqHOUrta/5ePwFDA0z2/t9pZw8BgY0RicItcI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWLzcYmXJlK9+tVxzi4kA0ipGc+Y6FQoA0WwlTLLqx1SkoDSv+
-	d+RxxQCZCSaYLOp0kBGHkNsGjH3VC74fWz6g0YdYAGzBB4eqw+rYTmFKZvHveGZ0y0tMx0B3e/O
-	dG2nJzUHD9oObH107cl+k3V8Iu5Ys/t8/ALzOQ8I7SRzaioUlPMikFAC7DtQhf3gxCirOUoAJ6Q
-	rwCEhHWdEaanTCeRGOtCNBrwL07IZNQZALKFH/
-X-Gm-Gg: ASbGncv2nBM1jVkBEit/fANowYJKwhjAAmQfpMU65S2/+SzewB7u7ZidS7awk3FvG5K
-	fA8kdUVdsNWEQGKEQ4Js5y/eopKTffB8l5PvDiZAU77mQyr+ZZdQhk97goLJ/YaxJZgpfWcBDqD
-	va/kN/5Q==
-X-Received: by 2002:a05:690c:d8c:b0:70e:73ae:766d with SMTP id 00721157ae682-71517145944mr139960177b3.3.1751179960166;
-        Sat, 28 Jun 2025 23:52:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFV9tulolTDqeKx817OlO2V38cTNra+CLch7PoUZFn5KyoTzJyoZroREGy4iSbC8tLkIvc7uSniKycYnD1iKQ4=
-X-Received: by 2002:a05:690c:d8c:b0:70e:73ae:766d with SMTP id
- 00721157ae682-71517145944mr139960027b3.3.1751179959775; Sat, 28 Jun 2025
- 23:52:39 -0700 (PDT)
+        bh=Gouqz/P0ZHGMXYfLBgSpafQwUrps1XiVFKY5YDRAgcA=;
+        b=XLOSL9DoCsKFq+I6g7WzFSOnMrFryLuNjXDyVw7VbSUN+y4WvUPtipIKjXTFq51cOc
+         iroj2UCdw38xGOfr5ZzW7lfZTAA/NghiKr20nUv6IGOJkOCd4ZI7LE27Lcvg5T9kBwBa
+         aw/oOd6iusqnIZwTcjPRheo7cUndRtwrNXLFRA0uyaKoX3zpnFmre2q/aOphpYaaXaOQ
+         3eSsEi/+s1nMuGVdtoc/TtFcRumg2nlnwbJ2EOvCaalE4N79VszV8OMnz6MhpwSFeS3I
+         f49iaVHh88Z8beAlIt3sh0xxTilTMJacOc1h3fCXleZRevDEOQQFMSOjJct7ffDSHjFo
+         rW5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUM8dfrXZmlOH7tZgXXZ2dRjyH+3E/L128gl5xNjaR9aHxZ0xcxCQiDDr8w/73mfNtkcobg7d4cuf5f@vger.kernel.org, AJvYcCV+HKiUVqgB/oPESXFy6oTPSE77kN34P5dfNPFSqpU0Ih2m1pF/c/xFy9TAv0nbQAYaVw8I/acMvbYKOyls@vger.kernel.org, AJvYcCXPdVWteK6vIGZijuG9bjb2Kl2y4iCXRXfcdELNPzEnh6gV0oAvnNZqXYv8jrK69m9ngVYHnwsnMgs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUfE+1TU6wCjOd4RaieWMAVDCHBsEGd9eI9JgW5bXeG+p9Hwrp
+	Kv4zkkmybQvKcGbiSTAeSiyo8ZlRwML0KOrVTmAzb4DWTm5TFoQgkvVOQYEgG0j1hZ3+nEVXEi7
+	U0JxOanby+IBlzau1IC5k7b/EyP6ZG9Kp2lLc9eQ=
+X-Gm-Gg: ASbGncvz1wT4dOWGT3eyUbrFQ3HADvVGPcXTboCFoThfGVAwfEfFxNPqiG+DRQwr9Si
+	oj7LkVOPf4OG0fnTN68A6+mlA6OMULU2LsqmqIG6o1o2k9BcxE7jvYDl7WOsNn1Fg1pRYJWftOI
+	Ni6sP2vYO94Uu6R9JynudDDQ3IbaDqaKoFMylMWzjTLHghRfPZ3LbL5Q==
+X-Google-Smtp-Source: AGHT+IHib53xCZKrc2Ivoz5WYTDlq3yiyFEunZ6CtvFcHDULZm8fYw4k/pC+f9O6IXUlgNpWdWxPoYtQtm7kxngZato=
+X-Received: by 2002:a17:907:d29:b0:ad4:f517:ca3 with SMTP id
+ a640c23a62f3a-ae34fddcf01mr818564166b.20.1751182251367; Sun, 29 Jun 2025
+ 00:30:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515032226.128900-1-npache@redhat.com> <20250515032226.128900-4-npache@redhat.com>
- <5u5ealsawrsaybblcfqorwljb4delzlmcjhdd274333daxb4p2@m47iodmem2fg>
-In-Reply-To: <5u5ealsawrsaybblcfqorwljb4delzlmcjhdd274333daxb4p2@m47iodmem2fg>
-From: Nico Pache <npache@redhat.com>
-Date: Sun, 29 Jun 2025 00:52:13 -0600
-X-Gm-Features: Ac12FXwM1imoTwD6Lo2Sv9yym4xtJfMvJUshpuuhNpF_67zHIVGOwugkX3PYNkw
-Message-ID: <CAA1CXcBQzgTeKcDN+p9fF14SmMJSzkRcKwdUB0jr_72etc+Rdw@mail.gmail.com>
-Subject: Re: [PATCH v7 03/12] khugepaged: generalize hugepage_vma_revalidate
- for mTHP support
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, david@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
-	akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org, 
-	peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com, 
-	sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
-	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
-	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
+References: <20250622155010.164451-1-l.rubusch@gmail.com> <20250622155010.164451-5-l.rubusch@gmail.com>
+ <aFkh-E1dG__p_G4m@smile.fi.intel.com> <20250628170839.482a3d63@jic23-huawei> <CAFXKEHZ7bNuy+6X4NgPPMOsT3AkSXhacH=3HS33bLTNgYa3PWg@mail.gmail.com>
+In-Reply-To: <CAFXKEHZ7bNuy+6X4NgPPMOsT3AkSXhacH=3HS33bLTNgYa3PWg@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 29 Jun 2025 10:30:15 +0300
+X-Gm-Features: Ac12FXz8D5AKOwJ4AnJFbp2W7wkTqO3f4X7--2CD-9oLu4-ogHgVvmgjftMqIDE
+Message-ID: <CAHp75VfOKDZRoVWLQoPQPzpN2MceTeN_4OoU0RvxG7_J8OAoMw@mail.gmail.com>
+Subject: Re: [PATCH v10 4/7] iio: accel: adxl345: add inactivity feature
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, lars@metafoo.de, 
+	Michael.Hennerich@analog.com, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, corbet@lwn.net, linux-iio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, eraretuya@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 16, 2025 at 11:15=E2=80=AFAM Liam R. Howlett
-<Liam.Howlett@oracle.com> wrote:
+On Sun, Jun 29, 2025 at 12:11=E2=80=AFAM Lothar Rubusch <l.rubusch@gmail.co=
+m> wrote:
+> On Sat, Jun 28, 2025 at 6:08=E2=80=AFPM Jonathan Cameron <jic23@kernel.or=
+g> wrote:
+
+...
+
+> > > > +           axis_ctrl =3D ADXL345_INACT_X_EN | ADXL345_INACT_Y_EN |
+> > > > +                           ADXL345_INACT_Z_EN;
+> > >
+> > > Consider
+> > >               axis_ctrl =3D
+> > >                       ADXL345_INACT_X_EN | ADXL345_INACT_Y_EN | ADXL3=
+45_INACT_Z_EN;
+> > >
+> > > (yes, I see that it's longer than 80, but it might worth doing it for=
+ the sake of
+> > >  consistency with the previous suggestion).
+> > Hmm. I'd go longer rather than do that just because it looks really ugl=
+y.
+> >
+> >                 axis_ctrl =3D ADXL345_INACT_X_EN | ADXL345_INACT_Y_EN |=
+ ADXL345_INACT_Z_EN;
+> >
+> > I don't care that much as long as long lines are justified by readabili=
+ty. Here
+> > I think either Andy's suggestion or the all on one line are justified.
+> >
+> > Tomorrow I may have a different view :(
+> >
 >
-> * Nico Pache <npache@redhat.com> [250514 23:23]:
-> > For khugepaged to support different mTHP orders, we must generalize thi=
+> As I=E2=80=99ve seen quite a bit of discussion around this. In fact, usin=
+g
+> binary OR here might not even be necessary, since I can define
+> ADXL345_ACT_XYZ_EN and ADXL345_INACT_XYZ_EN directly and OR the fields
+> in the header. If you have no objections, I=E2=80=99ll likely prepare thi=
 s
-> > to check if the PMD is not shared by another VMA and the order is
-> > enabled.
-> >
-> > No functional change in this patch.
->
-> This patch needs to be with the functional change for git blame and
-> reviewing the changes.
-I don't think that is the case. I've seen many series' that piecemeal
-their changes including separating out nonfunctional changes before
-the actual functional change. A lot of small changes were required to
-generalize this for mTHP collapse. Doing it all in one patch would
-have made the mTHP support patch huge and noisy. I tried to make that
-patch cleaner (for review purposes) by separating out some of the
-noise.
+> change for the next version.
+
+Actually I like your idea. This will be sustainable over style
+preference changes.
 
 
--- Nico
->
-> >
-> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> > Co-developed-by: Dev Jain <dev.jain@arm.com>
-> > Signed-off-by: Dev Jain <dev.jain@arm.com>
-> > Signed-off-by: Nico Pache <npache@redhat.com>
-> > ---
-> >  mm/khugepaged.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index 5457571d505a..0c4d6a02d59c 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -920,7 +920,7 @@ static int khugepaged_find_target_node(struct colla=
-pse_control *cc)
-> >  static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long=
- address,
-> >                                  bool expect_anon,
-> >                                  struct vm_area_struct **vmap,
-> > -                                struct collapse_control *cc)
-> > +                                struct collapse_control *cc, int order=
-)
-> >  {
-> >       struct vm_area_struct *vma;
-> >       unsigned long tva_flags =3D cc->is_khugepaged ? TVA_ENFORCE_SYSFS=
- : 0;
-> > @@ -934,7 +934,7 @@ static int hugepage_vma_revalidate(struct mm_struct=
- *mm, unsigned long address,
-> >
-> >       if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
-> >               return SCAN_ADDRESS_RANGE;
-> > -     if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_flags, PMD_O=
-RDER))
-> > +     if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_flags, order=
-))
-> >               return SCAN_VMA_CHECK;
-> >       /*
-> >        * Anon VMA expected, the address may be unmapped then
-> > @@ -1130,7 +1130,7 @@ static int collapse_huge_page(struct mm_struct *m=
-m, unsigned long address,
-> >               goto out_nolock;
-> >
-> >       mmap_read_lock(mm);
-> > -     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc);
-> > +     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc, H=
-PAGE_PMD_ORDER);
-> >       if (result !=3D SCAN_SUCCEED) {
-> >               mmap_read_unlock(mm);
-> >               goto out_nolock;
-> > @@ -1164,7 +1164,7 @@ static int collapse_huge_page(struct mm_struct *m=
-m, unsigned long address,
-> >        * mmap_lock.
-> >        */
-> >       mmap_write_lock(mm);
-> > -     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc);
-> > +     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc, H=
-PAGE_PMD_ORDER);
-> >       if (result !=3D SCAN_SUCCEED)
-> >               goto out_up_write;
-> >       /* check if the pmd is still valid */
-> > @@ -2782,7 +2782,7 @@ int madvise_collapse(struct vm_area_struct *vma, =
-struct vm_area_struct **prev,
-> >                       mmap_read_lock(mm);
-> >                       mmap_locked =3D true;
-> >                       result =3D hugepage_vma_revalidate(mm, addr, fals=
-e, &vma,
-> > -                                                      cc);
-> > +                                                      cc, HPAGE_PMD_OR=
-DER);
-> >                       if (result  !=3D SCAN_SUCCEED) {
-> >                               last_fail =3D result;
-> >                               goto out_nolock;
-> > --
-> > 2.49.0
-> >
->
-
+--=20
+With Best Regards,
+Andy Shevchenko
