@@ -1,126 +1,172 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08B710A1F;
-	Sun, 29 Jun 2025 11:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062181D5CDE;
+	Sun, 29 Jun 2025 11:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751196564; cv=none; b=CEIscjRPYA7glpfHGxHOuemXNXMZTKVxX4mKkwJkVPPkjZJvY3zunCGAfJaH3qZ751C4LmIIv+Qnl7ezrYIbuf6nfjK8j3c0vgF1GxTanR5sbJABYxGcqJwpeIeVGLv30jfHktbI243awvY1yM7qUPn5wTxd74o505mbtoWQU04=
+	t=1751197247; cv=none; b=r1AxLmraC9sDFDui6I6D57CvUEPSwtQ+wMxIFtyehcWI4Jm54S6yue9qFKyXxA5snjLointQZ0Iuv+TJag7msWWkVenEzp0udzXHTe5o0FhVwk6r8ANtKjprPyGByB2hArHNhTgKIwUdwoQNFSLUusuWXyjiZLo3WY0EwmorZD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751196564; c=relaxed/simple;
-	bh=Mp0ZQrvSfkXHIaP5jgz7YayUIfi2aH+uu2FQFAw4D1I=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JK/fsBZx+BOkwawRIm9s2L21TShJtUzSigeRgj+hGvZN9jIkrSBFzvLD9s2YwpoZL/PL30fWbsM7SENMMWCd4H3OE3n7jmdpxsGpWIq6cmEVWW/waDn2vwPGUNrnScmlkgeIQy83tk7CMsKtncjkweU0VSLc6lLMbRNDqv4iaVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=FFkV0alo; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1751197247; c=relaxed/simple;
+	bh=SuGAcFPJ8fDZpq64lXMcRG2awU6YZOcrXavdp36eUsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CtOC0wXmq3HTQXpRwvwf0E7mktFF/WWnjZy6+T9RayW7GDWqQZhPB1YrSZ/C6ZHrVdUpjDCcIYEwZ80532QW72+gBt2eR/rhzeJR0obQPm7240tPVNBQVB7jgFIJ9eFdf59ViLiLQYqbzLjPelkOcMcnn/7KVWH6Tc7Mpt9VglE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mdxw6OG1; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="FFkV0alo"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1751196550; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	bh=Td91IaRHPLMg0S4S34rjLSxSTe+KTe00bq2/ozJgwkc=;
-	b=FFkV0aloih2gxDgBc+OBf/Fp49oPe6mgV9Pth16liNXVindwkrzBZMcE0duoQNJQC+e9nzycIfqvtl17WXkQsWyR6CZHd5RMqSN8WQXNgyJ/Ppn5k1driigB59e/WyASTGXWlMG0UR+qzD9PJ0uUSKIY0hszhM116B6ROqyz7P4=
-Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com fp:SMTPD_---0WfwyPTY_1751196530 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Sun, 29 Jun 2025 19:29:05 +0800
-From: "Huang, Ying" <ying.huang@linux.alibaba.com>
-To: David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>
-Cc: Matthew Wilcox <willy@infradead.org>,  linux-kernel@vger.kernel.org,
-  linux-mm@kvack.org,  linux-doc@vger.kernel.org,
-  linuxppc-dev@lists.ozlabs.org,  virtualization@lists.linux.dev,
-  linux-fsdevel@vger.kernel.org,  Andrew Morton
- <akpm@linux-foundation.org>,  Jonathan Corbet <corbet@lwn.net>,  Madhavan
- Srinivasan <maddy@linux.ibm.com>,  Michael Ellerman <mpe@ellerman.id.au>,
-  Nicholas Piggin <npiggin@gmail.com>,  Christophe Leroy
- <christophe.leroy@csgroup.eu>,  Jerrin Shaji George
- <jerrin.shaji-george@broadcom.com>,  Arnd Bergmann <arnd@arndb.de>,  Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,  "Michael S. Tsirkin"
- <mst@redhat.com>,  Jason Wang <jasowang@redhat.com>,  Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?=
- <eperezma@redhat.com>,
-  Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
- <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,  Matthew Brost
- <matthew.brost@intel.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>,  Rakie
- Kim <rakie.kim@sk.com>,  Byungchul Park <byungchul@sk.com>,  Gregory Price
- <gourry@gourry.net>,  Alistair Popple <apopple@nvidia.com>,  Lorenzo
- Stoakes <lorenzo.stoakes@oracle.com>,  "Liam R. Howlett"
- <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,  Mike
- Rapoport <rppt@kernel.org>,  Suren Baghdasaryan <surenb@google.com>,
-  Michal Hocko <mhocko@suse.com>,  Minchan Kim <minchan@kernel.org>,
-  Sergey Senozhatsky <senozhatsky@chromium.org>,  Brendan Jackman
- <jackmanb@google.com>,  Johannes Weiner <hannes@cmpxchg.org>,  Jason
- Gunthorpe <jgg@ziepe.ca>,  John Hubbard <jhubbard@nvidia.com>,  Peter Xu
- <peterx@redhat.com>,  Xu Xin <xu.xin16@zte.com.cn>,  Chengming Zhou
- <chengming.zhou@linux.dev>,  Miaohe Lin <linmiaohe@huawei.com>,  Naoya
- Horiguchi <nao.horiguchi@gmail.com>,  Oscar Salvador <osalvador@suse.de>,
-  Rik van Riel <riel@surriel.com>,  Harry Yoo <harry.yoo@oracle.com>,  Qi
- Zheng <zhengqi.arch@bytedance.com>,  Shakeel Butt <shakeel.butt@linux.dev>
-Subject: Re: [PATCH RFC 07/29] mm/migrate: rename isolate_movable_page() to
- isolate_movable_ops_page()
-In-Reply-To: <bef13481-5218-4732-831d-fe22d95184c1@redhat.com> (David
-	Hildenbrand's message of "Mon, 23 Jun 2025 17:33:15 +0200")
-References: <20250618174014.1168640-1-david@redhat.com>
-	<20250618174014.1168640-8-david@redhat.com>
-	<9F76592E-BB0E-4136-BDBA-195CC6FF3B03@nvidia.com>
-	<aFMH0TmoPylhkSjZ@casper.infradead.org>
-	<4D6D7321-CAEC-4D82-9354-4B9786C4D05E@nvidia.com>
-	<bef13481-5218-4732-831d-fe22d95184c1@redhat.com>
-Date: Sun, 29 Jun 2025 19:28:50 +0800
-Message-ID: <87h5zyrdl9.fsf@DESKTOP-5N7EMDA>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mdxw6OG1"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-453647147c6so38539315e9.2;
+        Sun, 29 Jun 2025 04:40:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751197244; x=1751802044; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/WM9wI+ftSuqEkYEs3zU3TH9PeO5T6PPzLJahZfyDzY=;
+        b=Mdxw6OG1p0/SMH0GN6nfsaJc1BABKDOrkozrRWcCdZne6Xw9vTRwzQ+Y2Gj4KWzTb6
+         8iRnci/g12EEvdtw2KTGncHNp8y37i4ypNkXX9SO5Q1VyABdiNWKVquMTPHiz/A5xjaU
+         CW8c593SSNnTVngexUQQU0dnB1LhF8mbUiVk0dkodj7y4Gb8mAfvkatfi1ZzEe1IL6wH
+         BECYlM/+OHus84UvHtyLqiL3KNfCLtnOf2t+LK/SH4Tc6Nf65f1GW0L4/UIDUfWlTHLf
+         X6uG5w0/8Qrp1LXyj/zQL6IgxcS3cnCoTvUI1cEypTw9H73PXI1K1BjN/Yz47vTD8pgI
+         DTrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751197244; x=1751802044;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/WM9wI+ftSuqEkYEs3zU3TH9PeO5T6PPzLJahZfyDzY=;
+        b=jqHcCHpLo7uiuUFZgCkYBtEwpjy9BIqm8XP1Cu31OchreUlHhYGDV3hRT7Odj7kVk0
+         1EuY+LV8HYzt6xmsMZ0iD2MeQHf6yCsHnK0dWyIp90nyQPK41zRs0EcJNQiJ9CjG0Anx
+         qVgBiZ3em2ptpYRIVffCFKb14wttYBhR9JENjkzq9TqLC5OxpK8M98NIe9vvH2MtV4u8
+         NEvDsJFhcVWe/ko/P9XmLYTsWRFxiPO9ADvHr9xqfwTyafOr3zpdkBl/1QC/9yTf8Sl/
+         rSdUkj0qCgXKGqSKXsSXmCsU2nohemO2GgWyqwH5yZAhJuKqjBCIK9pJa9Uy1cRblGDQ
+         Y+wA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4Bz3s5v7KgsscbpAnwBHITmGo3QLsgvs/GuG8E5Fdgn8OfFObjj22pCPW3drqvJk3rPzDNgSA09Y=@vger.kernel.org, AJvYcCWvd4TsM+KfMUkJ3o7HOC7zoCSW2KcvohrBU2ssmCCadg5q6kgUrmbxBoOiH5QN/xFPecCifjpN5BY3UMS+@vger.kernel.org, AJvYcCXEaDXDE9mE8XQC6uNUpWPBXrf0G7JcxAcRrfDP1PoCkfqGavLswvDOxgQ/HWjSX/TFc4qo0EsaU3yb@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzhyxz3nv+w7h8ntFEd8VJDlDrS6QI8zyVwaXuKxpMLqwGZksfj
+	N7qOofn6vmwKTZO6LfbVgiApnji7U+//j4Q4mhCl9kVGeog4D9ck/2Zf
+X-Gm-Gg: ASbGnctkXNwF6wmoGjQh8cPJH9zJG0tmzQ801G3IBZ72muC1Nw+S6OGDXhEYvlOCGgp
+	Ah0g95A58PLhaEgDrGdZXa7eI/yY8gsxeWERbnKBRqJS2yDXUYSgzrKc/L6ESzZuf4PG+tnNlIV
+	AR04/mFTGetqyg2Y3vMKeWVu4gPzxR6Bq+KG9dbCu7W0gMi4GTg2Lw0FuhknS5XFCo8QHe6GDiB
+	v/jLUYWcnyPVpVD5mkkdeKTnE0RROThaVcUbPMmyyoxWni5oy+R34gePdyqi5DjCLGP/X4I5kDC
+	Ioc1dY2W6BMqOelEDX0vxCpWqsCLogRnVtqlbWpw3jH0M9T2+ezoug+iUJ071lGCSxf3lPR0R6J
+	2XjUTPbVzhKNzpTBeOssnA8diXalj
+X-Google-Smtp-Source: AGHT+IGG36v57mIHx9b8wattPhP5PhbXduaoeVXbueE5hKYc+gE5hVGbh4KVH7GNd0aydHy8k2cc9w==
+X-Received: by 2002:a05:600c:a48:b0:453:58e8:a445 with SMTP id 5b1f17b1804b1-45396a94e32mr40584365e9.11.1751197244036;
+        Sun, 29 Jun 2025 04:40:44 -0700 (PDT)
+Received: from pumpkin (host-92-21-58-28.as13285.net. [92.21.58.28])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a390d05sm105209375e9.2.2025.06.29.04.40.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Jun 2025 04:40:43 -0700 (PDT)
+Date: Sun, 29 Jun 2025 12:40:41 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Vegard Nossum <vegard.nossum@oracle.com>, Andy Lutomirski
+ <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel
+ <ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf
+ <jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>, Xin Li
+ <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh
+ <brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>, Tony Luck
+ <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>, Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet
+ <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar
+ <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Daniel
+ Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>,
+ Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, Rick
+ Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov
+ <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross
+ <jgross@suse.com>, Kees Cook <kees@kernel.org>, Eric Biggers
+ <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu
+ (Google)" <mhiramat@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du
+ <changbin.du@huawei.com>, Huang Shijie <shijie@os.amperecomputing.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Namhyung Kim
+ <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCHv7 00/16] x86: Enable Linear Address Space Separation
+ support
+Message-ID: <20250629124041.04a30869@pumpkin>
+In-Reply-To: <ky4an2a4ks55phzuzdvb5py4psvgintt4u2rmthhx44zsx3gqn@uxw3sebzpbch>
+References: <20250625125112.3943745-1-kirill.shutemov@linux.intel.com>
+	<9b1c5e43-ff48-4af8-9ec8-1c1dc2b902ae@oracle.com>
+	<1b96b0ca-5c14-4271-86c1-c305bf052b16@oracle.com>
+	<ky4an2a4ks55phzuzdvb5py4psvgintt4u2rmthhx44zsx3gqn@uxw3sebzpbch>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-David Hildenbrand <david@redhat.com> writes:
+On Thu, 26 Jun 2025 15:47:36 +0300
+"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com> wrote:
 
-> On 18.06.25 20:48, Zi Yan wrote:
->> On 18 Jun 2025, at 14:39, Matthew Wilcox wrote:
->> 
->>> On Wed, Jun 18, 2025 at 02:14:15PM -0400, Zi Yan wrote:
->>>> On 18 Jun 2025, at 13:39, David Hildenbrand wrote:
->>>>
->>>>> ... and start moving back to per-page things that will absolutely not be
->>>>> folio things in the future. Add documentation and a comment that the
->>>>> remaining folio stuff (lock, refcount) will have to be reworked as well.
->>>>>
->>>>> While at it, convert the VM_BUG_ON() into a WARN_ON_ONCE() and handle
->>>>> it gracefully (relevant with further changes), and convert a
->>>>> WARN_ON_ONCE() into a VM_WARN_ON_ONCE_PAGE().
->>>>
->>>> The reason is that there is no upstream code, which use movable_ops for
->>>> folios? Is there any fundamental reason preventing movable_ops from
->>>> being used on folios?
->>>
->>> folios either belong to a filesystem or they are anonymous memory, and
->>> so either the filesystem knows how to migrate them (through its a_ops)
->>> or the migration code knows how to handle anon folios directly.
->
-> Right, migration of folios will be handled by migration core.
->
->> for device private pages, to support migrating >0 order anon or fs
->> folios
->> to device, how should we represent them for devices? if you think folio is
->> only for anon and fs.
->
-> I assume they are proper folios, so yes. Just like they are handled
-> today (-> folios)
->
-> I was asking a related question at LSF/MM in Alistair's session: are
-> we sure these things will be folios even before they are assigned to a
-> filesystem? I recall the answer was "yes".
->
-> So we don't (and will not) support movable_ops for folios.
+> On Thu, Jun 26, 2025 at 11:35:21AM +0200, Vegard Nossum wrote:
+> >=20
+> > On 26/06/2025 11:22, Vegard Nossum wrote: =20
+> > >=20
+> > > On 25/06/2025 14:50, Kirill A. Shutemov wrote: =20
+> > > > Linear Address Space Separation (LASS) is a security feature that
+> > > > intends to
+> > > > prevent malicious virtual address space accesses across user/kernel=
+ mode. =20
+> > >=20
+> > > I applied these patches on top of tip/master and when I try to boot it
+> > > fails with errno 12 (ENOMEM - Cannot allocate memory):
+> > >=20
+> > > [=C2=A0=C2=A0=C2=A0 1.517526] Kernel panic - not syncing: Requested i=
+nit /bin/bash
+> > > failed (error -12). =20
+>=20
+> For some reason, I failed to reproduce it. What is your toolchain?
+>=20
+> > > Just using standard defconfig and booting in qemu/KVM with 2G RAM.
+> > >=20
+> > > Bisect lands on "x86/asm: Introduce inline memcpy and memset". =20
+> >=20
+> > I think the newly added mulq to rep_stos_alternative clobbers %rdx, =20
+>=20
+> Yes, it makes sense.
+>=20
+> > at
+> > least this patch fixed it for me:
+> >=20
+> > diff --git a/arch/x86/include/asm/string.h b/arch/x86/include/asm/strin=
+g.h
+> > index 5cd0f18a431fe..bc096526432a1 100644
+> > --- a/arch/x86/include/asm/string.h
+> > +++ b/arch/x86/include/asm/string.h
+> > @@ -28,7 +28,7 @@ static __always_inline void *__inline_memcpy(void *to,
+> > const void *from, size_t
+> >                      "2:\n\t"
+> >                      _ASM_EXTABLE_UA(1b, 2b)
+> >                      :"+c" (len), "+D" (to), "+S" (from),
+> > ASM_CALL_CONSTRAINT
+> > -                    : : "memory", _ASM_AX);
+> > +                    : : "memory", _ASM_AX, _ASM_DX);
+> >=20
+> >         return ret + len;
+> >  } =20
+>=20
+> This part is not needed. rep_movs_alternative() doesn't touch RDX.
+>=20
+> I will fold the patch below.
+>=20
+> Or maybe some asm guru can suggest a better way to fix it without
+> clobbering RDX?
 
-Is it possible to use some device specific callbacks (DMA?) to copy
-from/to the device private folios (or pages) to/from the normal
-file/anon folios in the future?
+Or separate out the code where the value is a compile-time zero.
+That is pretty much 99% of the calls.
 
----
-Best Regards,
-Huang, Ying
+	David
+
+
