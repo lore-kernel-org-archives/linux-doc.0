@@ -1,239 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF15A93D;
-	Sun, 29 Jun 2025 10:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08B710A1F;
+	Sun, 29 Jun 2025 11:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751191736; cv=none; b=jmZEiW2+ZIE3gRlClPUyx8yE2TcCqOSnxOL8EeSx9AzsRgOgBeeqi6GzkkMIjDqHkdworWij1wpAeedokFsXVy7Kem6B7TmptKg/wc0SozELMaU4uuexvQreqYYqRS61PXr9Iag58FwBibSmF+xgB16kCDEGj/nGAeL7uYw/8Ls=
+	t=1751196564; cv=none; b=CEIscjRPYA7glpfHGxHOuemXNXMZTKVxX4mKkwJkVPPkjZJvY3zunCGAfJaH3qZ751C4LmIIv+Qnl7ezrYIbuf6nfjK8j3c0vgF1GxTanR5sbJABYxGcqJwpeIeVGLv30jfHktbI243awvY1yM7qUPn5wTxd74o505mbtoWQU04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751191736; c=relaxed/simple;
-	bh=vm4qV0M7H2voC4CWdcN984fSwF6guPsCtLrP/3QyGI8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rHbIWGQsbGsFlTFplmswS4uwxbXOSHoailKm6jOrVJD4o1x+374CCq+GmxNm+NWmUn+3MS8wbulUBLS4ZUeS+AbMmC5p8JJqWiXoeszjuMc216dti4WjKGLB91P6s0iDi9gTtqqPViPf0k1JeWM2S+ebE/lXcAJ3XwjcWfQLncw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ligpxu/h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751196564; c=relaxed/simple;
+	bh=Mp0ZQrvSfkXHIaP5jgz7YayUIfi2aH+uu2FQFAw4D1I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JK/fsBZx+BOkwawRIm9s2L21TShJtUzSigeRgj+hGvZN9jIkrSBFzvLD9s2YwpoZL/PL30fWbsM7SENMMWCd4H3OE3n7jmdpxsGpWIq6cmEVWW/waDn2vwPGUNrnScmlkgeIQy83tk7CMsKtncjkweU0VSLc6lLMbRNDqv4iaVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=FFkV0alo; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ligpxu/h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FA25C4CEEB;
-	Sun, 29 Jun 2025 10:08:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751191734;
-	bh=vm4qV0M7H2voC4CWdcN984fSwF6guPsCtLrP/3QyGI8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ligpxu/hSWPh6oMlawsQ/UdhUxEzYO7Axx5CWrt5vFRYGwCz+DRmobVslogGFjyXa
-	 eOYKwzJHsCxmF5e6XM6V3x4nAvFIFCH6HY9HusCqVY3EQaYhh84l6K485zZGSWO2hy
-	 2RTq94SqjQs9pOPRWOmJA1MUQd0zTGHcJD33Q3ToMCix3DipFtUEo3wyx3mGgwvdfZ
-	 kCcQY1Ff0l+e/EgoAO/KhoOXSrmk/8sdF4yKKpWiwGcU/d92vPpq7/HA4s27Ex/jPH
-	 K3PbBGO08muJTARgwNEhSN86yFPrjqtQm6bUVk33Glg/ErQaQns3sKmLx7TiUrVDcV
-	 wrGoNJhN5berA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uVoxv-00AvwK-Ju;
-	Sun, 29 Jun 2025 11:08:51 +0100
-Date: Sun, 29 Jun 2025 11:08:51 +0100
-Message-ID: <86ms9qc11o.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 17/28] KVM: arm64: Support SME identification registers for guests
-In-Reply-To: <20250625-kvm-arm64-sme-v6-17-114cff4ffe04@kernel.org>
-References: <20250625-kvm-arm64-sme-v6-0-114cff4ffe04@kernel.org>
-	<20250625-kvm-arm64-sme-v6-17-114cff4ffe04@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="FFkV0alo"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1751196550; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=Td91IaRHPLMg0S4S34rjLSxSTe+KTe00bq2/ozJgwkc=;
+	b=FFkV0aloih2gxDgBc+OBf/Fp49oPe6mgV9Pth16liNXVindwkrzBZMcE0duoQNJQC+e9nzycIfqvtl17WXkQsWyR6CZHd5RMqSN8WQXNgyJ/Ppn5k1driigB59e/WyASTGXWlMG0UR+qzD9PJ0uUSKIY0hszhM116B6ROqyz7P4=
+Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com fp:SMTPD_---0WfwyPTY_1751196530 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sun, 29 Jun 2025 19:29:05 +0800
+From: "Huang, Ying" <ying.huang@linux.alibaba.com>
+To: David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>
+Cc: Matthew Wilcox <willy@infradead.org>,  linux-kernel@vger.kernel.org,
+  linux-mm@kvack.org,  linux-doc@vger.kernel.org,
+  linuxppc-dev@lists.ozlabs.org,  virtualization@lists.linux.dev,
+  linux-fsdevel@vger.kernel.org,  Andrew Morton
+ <akpm@linux-foundation.org>,  Jonathan Corbet <corbet@lwn.net>,  Madhavan
+ Srinivasan <maddy@linux.ibm.com>,  Michael Ellerman <mpe@ellerman.id.au>,
+  Nicholas Piggin <npiggin@gmail.com>,  Christophe Leroy
+ <christophe.leroy@csgroup.eu>,  Jerrin Shaji George
+ <jerrin.shaji-george@broadcom.com>,  Arnd Bergmann <arnd@arndb.de>,  Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,  "Michael S. Tsirkin"
+ <mst@redhat.com>,  Jason Wang <jasowang@redhat.com>,  Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?=
+ <eperezma@redhat.com>,
+  Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
+ <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,  Matthew Brost
+ <matthew.brost@intel.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>,  Rakie
+ Kim <rakie.kim@sk.com>,  Byungchul Park <byungchul@sk.com>,  Gregory Price
+ <gourry@gourry.net>,  Alistair Popple <apopple@nvidia.com>,  Lorenzo
+ Stoakes <lorenzo.stoakes@oracle.com>,  "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,  Mike
+ Rapoport <rppt@kernel.org>,  Suren Baghdasaryan <surenb@google.com>,
+  Michal Hocko <mhocko@suse.com>,  Minchan Kim <minchan@kernel.org>,
+  Sergey Senozhatsky <senozhatsky@chromium.org>,  Brendan Jackman
+ <jackmanb@google.com>,  Johannes Weiner <hannes@cmpxchg.org>,  Jason
+ Gunthorpe <jgg@ziepe.ca>,  John Hubbard <jhubbard@nvidia.com>,  Peter Xu
+ <peterx@redhat.com>,  Xu Xin <xu.xin16@zte.com.cn>,  Chengming Zhou
+ <chengming.zhou@linux.dev>,  Miaohe Lin <linmiaohe@huawei.com>,  Naoya
+ Horiguchi <nao.horiguchi@gmail.com>,  Oscar Salvador <osalvador@suse.de>,
+  Rik van Riel <riel@surriel.com>,  Harry Yoo <harry.yoo@oracle.com>,  Qi
+ Zheng <zhengqi.arch@bytedance.com>,  Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH RFC 07/29] mm/migrate: rename isolate_movable_page() to
+ isolate_movable_ops_page()
+In-Reply-To: <bef13481-5218-4732-831d-fe22d95184c1@redhat.com> (David
+	Hildenbrand's message of "Mon, 23 Jun 2025 17:33:15 +0200")
+References: <20250618174014.1168640-1-david@redhat.com>
+	<20250618174014.1168640-8-david@redhat.com>
+	<9F76592E-BB0E-4136-BDBA-195CC6FF3B03@nvidia.com>
+	<aFMH0TmoPylhkSjZ@casper.infradead.org>
+	<4D6D7321-CAEC-4D82-9354-4B9786C4D05E@nvidia.com>
+	<bef13481-5218-4732-831d-fe22d95184c1@redhat.com>
+Date: Sun, 29 Jun 2025 19:28:50 +0800
+Message-ID: <87h5zyrdl9.fsf@DESKTOP-5N7EMDA>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: broonie@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, catalin.marinas@arm.com, suzuki.poulose@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, Dave.Martin@arm.com, tabba@google.com, mark.rutland@arm.com, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=ascii
 
-On Wed, 25 Jun 2025 11:48:08 +0100,
-Mark Brown <broonie@kernel.org> wrote:
-> 
-> The primary register for identifying SME is ID_AA64PFR1_EL1.SME.  This
-> is hidden from guests unless SME is enabled by the VMM.
-> When it is visible it is writable and can be used to control the
-> availability of SME2.
-> 
-> There is also a new register ID_AA64SMFR0_EL1 which we make writable,
-> forcing it to all bits 0 if SME is disabled.  This includes the field
-> SMEver giving the SME version, userspace is responsible for ensuring
-> the value is consistent with ID_AA64PFR1_EL1.SME.  It also includes
-> FA64, a separately enableable extension which provides the full FPSIMD
-> and SVE instruction set including FFR in streaming mode.  Userspace can
-> control the availability of FA64 by writing to this field.  The other
-> features enumerated there only add new instructions, there are no
-> architectural controls for these.
-> 
-> There is a further identification register SMIDR_EL1 which provides a
-> basic description of the SME microarchitecture, in a manner similar to
-> MIDR_EL1 for the PE.  It also describes support for priority management
-> and a basic affinity description for shared SME units, plus some RES0
-> space.  We do not support priority management and affinity is not
-> meaningful for guests so we mask out everything except for the
-> microarchitecture description.
+David Hildenbrand <david@redhat.com> writes:
 
-Both are extremely useful and meaningful to guests. You just have made
-the choice not to expose this.
+> On 18.06.25 20:48, Zi Yan wrote:
+>> On 18 Jun 2025, at 14:39, Matthew Wilcox wrote:
+>> 
+>>> On Wed, Jun 18, 2025 at 02:14:15PM -0400, Zi Yan wrote:
+>>>> On 18 Jun 2025, at 13:39, David Hildenbrand wrote:
+>>>>
+>>>>> ... and start moving back to per-page things that will absolutely not be
+>>>>> folio things in the future. Add documentation and a comment that the
+>>>>> remaining folio stuff (lock, refcount) will have to be reworked as well.
+>>>>>
+>>>>> While at it, convert the VM_BUG_ON() into a WARN_ON_ONCE() and handle
+>>>>> it gracefully (relevant with further changes), and convert a
+>>>>> WARN_ON_ONCE() into a VM_WARN_ON_ONCE_PAGE().
+>>>>
+>>>> The reason is that there is no upstream code, which use movable_ops for
+>>>> folios? Is there any fundamental reason preventing movable_ops from
+>>>> being used on folios?
+>>>
+>>> folios either belong to a filesystem or they are anonymous memory, and
+>>> so either the filesystem knows how to migrate them (through its a_ops)
+>>> or the migration code knows how to handle anon folios directly.
+>
+> Right, migration of folios will be handled by migration core.
+>
+>> for device private pages, to support migrating >0 order anon or fs
+>> folios
+>> to device, how should we represent them for devices? if you think folio is
+>> only for anon and fs.
+>
+> I assume they are proper folios, so yes. Just like they are handled
+> today (-> folios)
+>
+> I was asking a related question at LSF/MM in Alistair's session: are
+> we sure these things will be folios even before they are assigned to a
+> filesystem? I recall the answer was "yes".
+>
+> So we don't (and will not) support movable_ops for folios.
 
-> 
-> As for MIDR_EL1 and REVIDR_EL1 we expose the implementer and revision
-> information to guests with the raw value from the CPU we are running on,
-> this may present issues for asymmetric systems or for migration as it
-> does for the existing registers.
+Is it possible to use some device specific callbacks (DMA?) to copy
+from/to the device private folios (or pages) to/from the normal
+file/anon folios in the future?
 
-MIDR/REVIDR are writable from userspace in order to alleviate this
-problem. So should be SMIDR.
-
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/asm/kvm_host.h |  1 +
->  arch/arm64/kvm/sys_regs.c         | 46 +++++++++++++++++++++++++++++++++++----
->  2 files changed, 43 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index c26099f74648..29b8697c8144 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -494,6 +494,7 @@ enum vcpu_sysreg {
->  	/* FP/SIMD/SVE */
->  	SVCR,
->  	FPMR,
-> +	SMIDR_EL1,	/* Streaming Mode Identification Register */
-
-No. We have long made ID registers to be per-VM, not per-vcpu.
-SMIDR_EL1 must have the same behaviour.
-
->  
->  	/* 32bit specific registers. */
->  	DACR32_EL2,	/* Domain Access Control Register */
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index caa90dae8184..b11bb95e9e35 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -774,6 +774,38 @@ static u64 reset_mpidr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r)
->  	return mpidr;
->  }
->  
-> +static u64 reset_smidr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r)
-> +{
-> +	u64 smidr = 0;
-> +
-> +	if (!system_supports_sme())
-> +		return smidr;
-> +
-> +	smidr = read_sysreg_s(SYS_SMIDR_EL1);
-> +
-> +	/*
-> +	 * Mask out everything except for the implementer and revison,
-> +	 * in particular priority management is not implemented.
-> +	 */
-> +	smidr &= SMIDR_EL1_IMPLEMENTER_MASK | SMIDR_EL1_REVISION_MASK;
-> +
-> +	vcpu_write_sys_reg(vcpu, smidr, SMIDR_EL1);
-> +
-> +	return smidr;
-> +}
-> +
-> +static bool access_smidr(struct kvm_vcpu *vcpu,
-> +			 struct sys_reg_params *p,
-> +			 const struct sys_reg_desc *r)
-> +{
-> +	if (p->is_write)
-> +		return write_to_read_only(vcpu, p, r);
-> +
-> +	p->regval = vcpu_read_sys_reg(vcpu, r->reg);
-> +
-> +	return true;
-> +}
-
-We already have 2 similar copies of this function. We're not adding a
-third one.
-
-> +
->  static unsigned int pmu_visibility(const struct kvm_vcpu *vcpu,
->  				   const struct sys_reg_desc *r)
->  {
-> @@ -1607,7 +1639,9 @@ static u64 __kvm_read_sanitised_id_reg(const struct kvm_vcpu *vcpu,
->  			val &= ~ARM64_FEATURE_MASK(ID_AA64PFR1_EL1_MTE_frac);
->  		}
->  
-> -		val &= ~ARM64_FEATURE_MASK(ID_AA64PFR1_EL1_SME);
-> +		if (!vcpu_has_sme(vcpu))
-> +			val &= ~ARM64_FEATURE_MASK(ID_AA64PFR1_EL1_SME);
-> +
->  		val &= ~ARM64_FEATURE_MASK(ID_AA64PFR1_EL1_RNDR_trap);
->  		val &= ~ARM64_FEATURE_MASK(ID_AA64PFR1_EL1_NMI);
->  		val &= ~ARM64_FEATURE_MASK(ID_AA64PFR1_EL1_GCS);
-> @@ -1723,6 +1757,10 @@ static unsigned int id_visibility(const struct kvm_vcpu *vcpu,
->  		if (!vcpu_has_sve(vcpu))
->  			return REG_RAZ;
->  		break;
-> +	case SYS_ID_AA64SMFR0_EL1:
-> +		if (!vcpu_has_sme(vcpu))
-> +			return REG_RAZ;
-> +		break;
->  	}
->  
->  	return 0;
-> @@ -2905,7 +2943,6 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->  				       ID_AA64PFR1_EL1_MTE_frac |
->  				       ID_AA64PFR1_EL1_NMI |
->  				       ID_AA64PFR1_EL1_RNDR_trap |
-> -				       ID_AA64PFR1_EL1_SME |
->  				       ID_AA64PFR1_EL1_RES0 |
->  				       ID_AA64PFR1_EL1_MPAM_frac |
->  				       ID_AA64PFR1_EL1_RAS_frac |
-> @@ -2913,7 +2950,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->  	ID_WRITABLE(ID_AA64PFR2_EL1, ID_AA64PFR2_EL1_FPMR),
->  	ID_UNALLOCATED(4,3),
->  	ID_WRITABLE(ID_AA64ZFR0_EL1, ~ID_AA64ZFR0_EL1_RES0),
-> -	ID_HIDDEN(ID_AA64SMFR0_EL1),
-> +	ID_WRITABLE(ID_AA64SMFR0_EL1, ~ID_AA64SMFR0_EL1_RES0),
->  	ID_UNALLOCATED(4,6),
->  	ID_WRITABLE(ID_AA64FPFR0_EL1, ~ID_AA64FPFR0_EL1_RES0),
->  
-> @@ -3112,7 +3149,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->  	{ SYS_DESC(SYS_CLIDR_EL1), access_clidr, reset_clidr, CLIDR_EL1,
->  	  .set_user = set_clidr, .val = ~CLIDR_EL1_RES0 },
->  	{ SYS_DESC(SYS_CCSIDR2_EL1), undef_access },
-> -	{ SYS_DESC(SYS_SMIDR_EL1), undef_access },
-> +	{ SYS_DESC(SYS_SMIDR_EL1), .access = access_smidr, .reset = reset_smidr,
-> +	  .reg = SMIDR_EL1, .visibility = sme_visibility },
->  	IMPLEMENTATION_ID(AIDR_EL1, GENMASK_ULL(63, 0)),
->  	{ SYS_DESC(SYS_CSSELR_EL1), access_csselr, reset_unknown, CSSELR_EL1 },
->  	ID_FILTERED(CTR_EL0, ctr_el0,
-> 
-
-Please also handle the comment about FEAT_SME_SMPS in config.c.
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+---
+Best Regards,
+Huang, Ying
