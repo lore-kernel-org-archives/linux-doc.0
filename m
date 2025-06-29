@@ -1,123 +1,198 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFAE64A8F;
-	Sun, 29 Jun 2025 07:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6317E1CA84;
+	Sun, 29 Jun 2025 09:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751182256; cv=none; b=a5H9+p/gG7HI5g27JqOPoacWIxuipw6guVKDDBMNI+Kx/f0E67HJ2k29/5+hLntHHdWzMeHrl3mYfKIE/BF4b4+krKutmSdsU/FugDclQKO6CdZF+Lq+lIoJ0qJ6zuNdzlppE0g36UR/qRxO7PKJ0Qsd2IW/QdLXsVsDHK4MQ0M=
+	t=1751189546; cv=none; b=lqsmFGHppFJeGjs4KW7AMEs6588m8JXDfnNDrPlfcZ/hw7Y4QenhoKL1o4EBgZDdjZxhAPZdcO20w+IiJepi78cM0VdG9e63tJh98ssvK+Ne2rGV/Z38QZQN9ZF+H/uqHczawU1Ho3l99ZjOUkgDBwmvpbDRbE1tkWTAVlrmR/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751182256; c=relaxed/simple;
-	bh=lzAdXeWzS7UHunGV9sC2feZ0Lyi6sv0tG38eI9AAZxI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NYOh4LKe9MVY719SlNZ/0vNWncn0Sww3AWKQMhhZwwiTpKwx7Jy627j86vK+tje9nlwtrZyY2tQEB2gT0FCcw963txPUtlDZLCHasJptHkPVuI9n9VbcvMPjxkyeQ+8T7XTijDgt7KKbEz7cWiOc6HQ+ZRfYdYfhygim+oYoWvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YJtUVNeE; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751189546; c=relaxed/simple;
+	bh=yNCv9zbwFgntqHfSMp5v8KPVRVjWxvT/Aql76n6YouY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rPTEgwpiQ3Jejb8HzlHl/Tspq9/zNjyglmcOhtFWTQGEVWkR7dQNAPkrp9yAZEbSif1FG4f7568YcvK3QD9OB4tV3CldRKIfwh4Yam33qscgVeInHEclZIRPzD9gL9KDVmxxZq7vvRcVRSymp/wRL6o/I8TFMryHA5sCEavyRck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vc0iiiu2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YJtUVNeE"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-60c4521ae2cso6309064a12.0;
-        Sun, 29 Jun 2025 00:30:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751182252; x=1751787052; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gouqz/P0ZHGMXYfLBgSpafQwUrps1XiVFKY5YDRAgcA=;
-        b=YJtUVNeEtqaGYCZ4Ajs3BxUQjQeHW4z4D1SJ8mhu+FgjwrO2eGGapmw8isM8Atxu7K
-         c6nJ10o60C8foxLP+NkzXqzcibu2Wuve/6zrDtpmZrPe++Hhh58ePRNd5Uxx8QRH7boZ
-         SpnOzjG2iE7OcL0GdO/HJm83EC+Dhr7hAcCIJDBuPa0r7k5rux2FfOTB+B8nbLKHiioD
-         HYa0BXHu4CPAs0vSCyw4RT93fdoNsU1Iaz7stnn4+UsFGjYai+BBgNDD3+DEAH9WzWoW
-         z1yhI1ko9N8U/5yIVl97bY9AU5IESIxlOCRCfjus0yX7MGPtahE0VLdXdKNhZKXJ3ouY
-         g8qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751182252; x=1751787052;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Gouqz/P0ZHGMXYfLBgSpafQwUrps1XiVFKY5YDRAgcA=;
-        b=XLOSL9DoCsKFq+I6g7WzFSOnMrFryLuNjXDyVw7VbSUN+y4WvUPtipIKjXTFq51cOc
-         iroj2UCdw38xGOfr5ZzW7lfZTAA/NghiKr20nUv6IGOJkOCd4ZI7LE27Lcvg5T9kBwBa
-         aw/oOd6iusqnIZwTcjPRheo7cUndRtwrNXLFRA0uyaKoX3zpnFmre2q/aOphpYaaXaOQ
-         3eSsEi/+s1nMuGVdtoc/TtFcRumg2nlnwbJ2EOvCaalE4N79VszV8OMnz6MhpwSFeS3I
-         f49iaVHh88Z8beAlIt3sh0xxTilTMJacOc1h3fCXleZRevDEOQQFMSOjJct7ffDSHjFo
-         rW5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUM8dfrXZmlOH7tZgXXZ2dRjyH+3E/L128gl5xNjaR9aHxZ0xcxCQiDDr8w/73mfNtkcobg7d4cuf5f@vger.kernel.org, AJvYcCV+HKiUVqgB/oPESXFy6oTPSE77kN34P5dfNPFSqpU0Ih2m1pF/c/xFy9TAv0nbQAYaVw8I/acMvbYKOyls@vger.kernel.org, AJvYcCXPdVWteK6vIGZijuG9bjb2Kl2y4iCXRXfcdELNPzEnh6gV0oAvnNZqXYv8jrK69m9ngVYHnwsnMgs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUfE+1TU6wCjOd4RaieWMAVDCHBsEGd9eI9JgW5bXeG+p9Hwrp
-	Kv4zkkmybQvKcGbiSTAeSiyo8ZlRwML0KOrVTmAzb4DWTm5TFoQgkvVOQYEgG0j1hZ3+nEVXEi7
-	U0JxOanby+IBlzau1IC5k7b/EyP6ZG9Kp2lLc9eQ=
-X-Gm-Gg: ASbGncvz1wT4dOWGT3eyUbrFQ3HADvVGPcXTboCFoThfGVAwfEfFxNPqiG+DRQwr9Si
-	oj7LkVOPf4OG0fnTN68A6+mlA6OMULU2LsqmqIG6o1o2k9BcxE7jvYDl7WOsNn1Fg1pRYJWftOI
-	Ni6sP2vYO94Uu6R9JynudDDQ3IbaDqaKoFMylMWzjTLHghRfPZ3LbL5Q==
-X-Google-Smtp-Source: AGHT+IHib53xCZKrc2Ivoz5WYTDlq3yiyFEunZ6CtvFcHDULZm8fYw4k/pC+f9O6IXUlgNpWdWxPoYtQtm7kxngZato=
-X-Received: by 2002:a17:907:d29:b0:ad4:f517:ca3 with SMTP id
- a640c23a62f3a-ae34fddcf01mr818564166b.20.1751182251367; Sun, 29 Jun 2025
- 00:30:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vc0iiiu2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1580C4CEEB;
+	Sun, 29 Jun 2025 09:32:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751189545;
+	bh=yNCv9zbwFgntqHfSMp5v8KPVRVjWxvT/Aql76n6YouY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Vc0iiiu2h2TjlcBxYYznq8GU4Lf0uabMlQwcjb8ML7Va38x4dP8IfFB71L1mFSmyY
+	 DylAJPSoUOMe6TqVNxbfZ1neiEd2tZ1gQ+EYZcjBvGvD8fvcR85Hm8bFFee+Vz10MW
+	 ZQ6I+XKUHZKj7WlEzEJ0TXy5gr1VdlyiPHFZHY6UhyBgdE78bwezedsnF3huoE6Ata
+	 qCUO3UoMt0lkynr5VVMnG6EnIPk2C83LeWIteuElyYYIZVuABEMc/sH2budXIO5Kh9
+	 hC7HMXOiNTQAminzCBRWknUInQEJgeKp7IKNEoswv3DoSz/FfIt+N3SNXuuEuWatrv
+	 EeKapCAaqIigA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1uVoOd-00Avhg-Dw;
+	Sun, 29 Jun 2025 10:32:23 +0100
+Date: Sun, 29 Jun 2025 10:32:23 +0100
+Message-ID: <86o6u6c2qg.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 18/28] KVM: arm64: Support SME priority registers
+In-Reply-To: <20250625-kvm-arm64-sme-v6-18-114cff4ffe04@kernel.org>
+References: <20250625-kvm-arm64-sme-v6-0-114cff4ffe04@kernel.org>
+	<20250625-kvm-arm64-sme-v6-18-114cff4ffe04@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250622155010.164451-1-l.rubusch@gmail.com> <20250622155010.164451-5-l.rubusch@gmail.com>
- <aFkh-E1dG__p_G4m@smile.fi.intel.com> <20250628170839.482a3d63@jic23-huawei> <CAFXKEHZ7bNuy+6X4NgPPMOsT3AkSXhacH=3HS33bLTNgYa3PWg@mail.gmail.com>
-In-Reply-To: <CAFXKEHZ7bNuy+6X4NgPPMOsT3AkSXhacH=3HS33bLTNgYa3PWg@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 29 Jun 2025 10:30:15 +0300
-X-Gm-Features: Ac12FXz8D5AKOwJ4AnJFbp2W7wkTqO3f4X7--2CD-9oLu4-ogHgVvmgjftMqIDE
-Message-ID: <CAHp75VfOKDZRoVWLQoPQPzpN2MceTeN_4OoU0RvxG7_J8OAoMw@mail.gmail.com>
-Subject: Re: [PATCH v10 4/7] iio: accel: adxl345: add inactivity feature
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, lars@metafoo.de, 
-	Michael.Hennerich@analog.com, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, corbet@lwn.net, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, eraretuya@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: broonie@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, catalin.marinas@arm.com, suzuki.poulose@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, Dave.Martin@arm.com, tabba@google.com, mark.rutland@arm.com, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Sun, Jun 29, 2025 at 12:11=E2=80=AFAM Lothar Rubusch <l.rubusch@gmail.co=
-m> wrote:
-> On Sat, Jun 28, 2025 at 6:08=E2=80=AFPM Jonathan Cameron <jic23@kernel.or=
-g> wrote:
-
-...
-
-> > > > +           axis_ctrl =3D ADXL345_INACT_X_EN | ADXL345_INACT_Y_EN |
-> > > > +                           ADXL345_INACT_Z_EN;
-> > >
-> > > Consider
-> > >               axis_ctrl =3D
-> > >                       ADXL345_INACT_X_EN | ADXL345_INACT_Y_EN | ADXL3=
-45_INACT_Z_EN;
-> > >
-> > > (yes, I see that it's longer than 80, but it might worth doing it for=
- the sake of
-> > >  consistency with the previous suggestion).
-> > Hmm. I'd go longer rather than do that just because it looks really ugl=
-y.
-> >
-> >                 axis_ctrl =3D ADXL345_INACT_X_EN | ADXL345_INACT_Y_EN |=
- ADXL345_INACT_Z_EN;
-> >
-> > I don't care that much as long as long lines are justified by readabili=
-ty. Here
-> > I think either Andy's suggestion or the all on one line are justified.
-> >
-> > Tomorrow I may have a different view :(
-> >
+On Wed, 25 Jun 2025 11:48:09 +0100,
+Mark Brown <broonie@kernel.org> wrote:
+> 
+> SME has optional support for configuring the relative priorities of PEs
+> in systems where they share a single SME hardware block, known as a
+> SMCU. Currently we do not have any support for this in Linux and will
+> also hide it from KVM guests, pending experience with practical
+> implementations. The interface for configuring priority support is via
+> two new system registers, these registers are always defined when SME is
+> available.
+> 
+> The register SMPRI_EL1 allows control of SME execution priorities. Since
+> we disable SME priority support for guests this register is RES0, define
+> it as such and enable fine grained traps for SMPRI_EL1 to ensure that
+> guests can't write to it even if the hardware supports priorites.  Since
+> the register should be readable with fixed contents we only trap writes,
+> not reads.
+> 
+> There is also an EL2 register SMPRIMAP_EL2 for virtualisation of
+> priorities, this is RES0 when priority configuration is not supported
+> but has no specific traps available.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/kvm_host.h     |  2 ++
+>  arch/arm64/include/asm/vncr_mapping.h |  1 +
+>  arch/arm64/kvm/sys_regs.c             | 23 ++++++++++++++++++++++-
+>  3 files changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 29b8697c8144..5ce9e06324b5 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -495,6 +495,7 @@ enum vcpu_sysreg {
+>  	SVCR,
+>  	FPMR,
+>  	SMIDR_EL1,	/* Streaming Mode Identification Register */
+> +	SMPRI_EL1,	/* Streaming Mode Priority Register */
 >
-> As I=E2=80=99ve seen quite a bit of discussion around this. In fact, usin=
-g
-> binary OR here might not even be necessary, since I can define
-> ADXL345_ACT_XYZ_EN and ADXL345_INACT_XYZ_EN directly and OR the fields
-> in the header. If you have no objections, I=E2=80=99ll likely prepare thi=
-s
-> change for the next version.
 
-Actually I like your idea. This will be sustainable over style
-preference changes.
+What is the point of making the sysreg file larger for the sole
+purpose of returning a value that is firmly always 0? Can't that be
+synthesised on the fly whenever needed?
 
+>  	/* 32bit specific registers. */
+>  	DACR32_EL2,	/* Domain Access Control Register */
+> @@ -547,6 +548,7 @@ enum vcpu_sysreg {
+>  	VNCR(CPACR_EL1),/* Coprocessor Access Control */
+>  	VNCR(ZCR_EL1),	/* SVE Control */
+>  	VNCR(SMCR_EL1),	/* SME Control */
+> +	VNCR(SMPRIMAP_EL2),	/* Streaming Mode Priority Mapping Register */
 
---=20
-With Best Regards,
-Andy Shevchenko
+This is slightly different, as there is no trap for this, and we rely
+on sanitisation.
+
+>  	VNCR(TTBR0_EL1),/* Translation Table Base Register 0 */
+>  	VNCR(TTBR1_EL1),/* Translation Table Base Register 1 */
+>  	VNCR(TCR_EL1),	/* Translation Control Register */
+> diff --git a/arch/arm64/include/asm/vncr_mapping.h b/arch/arm64/include/asm/vncr_mapping.h
+> index aede5d6efad3..454e076b77cb 100644
+> --- a/arch/arm64/include/asm/vncr_mapping.h
+> +++ b/arch/arm64/include/asm/vncr_mapping.h
+> @@ -45,6 +45,7 @@
+>  #define VNCR_ZCR_EL1            0x1E0
+>  #define VNCR_HAFGRTR_EL2	0x1E8
+>  #define VNCR_SMCR_EL1		0x1F0
+> +#define VNCR_SMPRIMAP_EL2	0x1F0
+>  #define VNCR_TTBR0_EL1          0x200
+>  #define VNCR_TTBR1_EL1          0x210
+>  #define VNCR_FAR_EL1            0x220
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index b11bb95e9e35..1fee8e534615 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1828,6 +1828,15 @@ static unsigned int fp8_visibility(const struct kvm_vcpu *vcpu,
+>  	return REG_HIDDEN;
+>  }
+>  
+> +static unsigned int sme_raz_visibility(const struct kvm_vcpu *vcpu,
+> +				       const struct sys_reg_desc *rd)
+> +{
+> +	if (vcpu_has_sme(vcpu))
+> +		return REG_RAZ;
+> +
+> +	return REG_HIDDEN;
+> +}
+> +
+>  static u64 sanitise_id_aa64pfr0_el1(const struct kvm_vcpu *vcpu, u64 val)
+>  {
+>  	if (!vcpu_has_sve(vcpu))
+> @@ -3030,7 +3039,14 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  
+>  	{ SYS_DESC(SYS_ZCR_EL1), NULL, reset_val, ZCR_EL1, 0, .visibility = sve_visibility },
+>  	{ SYS_DESC(SYS_TRFCR_EL1), undef_access },
+> -	{ SYS_DESC(SYS_SMPRI_EL1), undef_access },
+> +
+> +	/*
+> +	 * SMPRI_EL1 is UNDEF when SME is disabled, the UNDEF is
+> +	 * handled via FGU which is handled without consulting this
+> +	 * table.
+> +	 */
+> +	{ SYS_DESC(SYS_SMPRI_EL1), trap_raz_wi, .visibility = sme_raz_visibility },
+> +
+>  	{ SYS_DESC(SYS_SMCR_EL1), NULL, reset_val, SMCR_EL1, 0, .visibility = sme_visibility },
+>  	{ SYS_DESC(SYS_TTBR0_EL1), access_vm_reg, reset_unknown, TTBR0_EL1 },
+>  	{ SYS_DESC(SYS_TTBR1_EL1), access_vm_reg, reset_unknown, TTBR1_EL1 },
+> @@ -3387,6 +3403,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  
+>  	EL2_REG_VNCR(HCRX_EL2, reset_val, 0),
+>  
+> +	EL2_REG_FILTERED(SMPRIMAP_EL2, trap_raz_wi, reset_val, 0,
+> +			 sme_el2_visibility),
+
+Wut??? You clearly said it yourself: this register "has no specific
+traps available". If you end-up here from a guest access, this is a
+bug. So this "trap_raz_wi" makes no sense.
+
+I also cannot see where this register is properly configured to be
+fully RES0, as it should.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
