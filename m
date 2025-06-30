@@ -1,119 +1,146 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292C82F3E;
-	Mon, 30 Jun 2025 00:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F0A8479;
+	Mon, 30 Jun 2025 01:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751244831; cv=none; b=ZkQCUuseiR/184RGsshTJc8QZqncsE0oy08HhsyCjav5Kiayg2makvOvYBQJzIEYDAVU9q8wVzWqXlriaC4vD7AufFL/UXcF3J68fKjxsjb5nFUtsG2OhwVHSgVDdDv9TprSmhAzDckbYBlravNq43LHEY0ku3g/rOIFLRW2qTA=
+	t=1751245419; cv=none; b=AqZ/6X8efQWGqnAEWBoVs0n8glZOAYYy3OJdYWO1a4EmyUoAgrTopr64RYQCvjuGSHlpleeIdm85nW+iZ4xIgNP39UGbqVbuS4m/MvzTBxUy3Sp4hujAggyKAcgiYBf5Eo5yaEKyz7n3NCrm3My2BrhHi2N9sTmRMJNgNJ046eM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751244831; c=relaxed/simple;
-	bh=FKthKZ5AGBI1LPO2Rof+WridS24SjCZIkPO3nQZVzBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KrUACadZEvMwBIyJJnWPaxS9MmUFOoms1f3cAxktXF5GmtAKN+7VKVk9heqDNpg4wYsYmozpvAeryuG6iWazg1GVln6FulM62dPzF9rvZExAMwGhjByDG8S0tl5O4SUkUux7riz8Ea9F0H+rygm6Ecu1OMclxf+FhX7Bs8ZnyrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X/CPutkz; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751245419; c=relaxed/simple;
+	bh=D24S1QGo63Mvn+RPZq3ItemdRDY0yJs6VmQvMVfkjw8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=mF9QqCy3O7c4JhI8jD7VZkV9i3Z1iQnfzxu2KzFVCBLHC3FbTcu6GqCSx/60G70r4o+e598xhx57kEMxiYzh6aSJre6JWSKN43qB2n63LQdU+3FppDouiAg0Fpozch5dd94k+SP3Il3fJkmfccQdSYKKo0+kR2utiGORcZm0200=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=A229tJ1I; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/CPutkz"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2363e973db1so36721155ad.0;
-        Sun, 29 Jun 2025 17:53:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751244829; x=1751849629; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FKthKZ5AGBI1LPO2Rof+WridS24SjCZIkPO3nQZVzBE=;
-        b=X/CPutkzZO+3DYbnD0re3eWQ7KFEww1oThoIUJbyN3StUvbvl44cN+dUJzDiROom6x
-         dibYdqIMlwU49oCx3IZnqVUKs7dTMuhJ5yFko6U41gnI2u0tHkCJM4l7wTpN9EZrZpk6
-         jq2HqmZt1ObhTkyR1/NwnFSXRKBEVLQkGGQ0a4H8xPbrbpiO2BZc9MRRFbk64nAEgt9x
-         Y+4xLImDTSHNER/3vzEiWBjeJ9S7KWgGuCcKtEpRFDkqd5fwQkwkWhGhN2ei8yE3majI
-         pyxqjFqBB94cu/pI/YVZj/s6Y6sldYFzqjwcK+FFHQBr1zKo2g5+9NM0LYTeZBrNAywB
-         ji2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751244829; x=1751849629;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FKthKZ5AGBI1LPO2Rof+WridS24SjCZIkPO3nQZVzBE=;
-        b=qT9B8xpS2oB63ZGhgHhJGKb21MYIzEbAu3vtbyuj2o6tXP9HFGChglPKYmxYWwjpbx
-         QPTGIsWNlQl667Y1YcPFA8qo1KTilJgZgWSbTce/0f+esco4/+moyRt5nztfA89g89zi
-         hp0UnO6EOjO/LIu0gteJZw/aIk+J78VniTvQJHWwjsc/gUiVHFG8t71CbulmHBmuw8EI
-         IS6CuVkuTMvtbC01iT99GdvKyQNLbCCTUGVP2IZsWRwLS7Pks/LlIH62aiT7HgLLQeLh
-         b0o7bJB+WDSqhivjrVk9Hy9V+gFZdbQSR85q6143neFiTn7EC85LdKUfkrtxmzkYw3mt
-         +tKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV4HMmmjRy0SopXP4hFtHlfnzoSIutVBznRbwrf2iIIMBMSWTb9g136wzibI87pNiomk3DGe5f54hMEMw==@vger.kernel.org, AJvYcCX02GU7goo3iTXGePAzegJrxYnBkNKrBw/XKNTGeEButpG/farcwqQeYTUSkLeeo/+oLUmfNr7GZaY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfId+hfws0zuHK6u8UX3wNzioHSSvUiPrNlviAkmXWEMt6+vqR
-	I6Ja8x43yJiV2BGH+rDgTeWhfBjX3Lc5hnQsAREYEcPZh05TB/MUqgOA
-X-Gm-Gg: ASbGncsg4lL+W3T+xjkzg41vBXHC0ukrN8s5+GlgauSMrV5JNn7N4grU2zu4qJAuF/S
-	XlNmyckUU8L8q4tZps2SZfQhg0bRmbYXQjVdS1iMPaVNfvF8mtjWbG4xdnKH9FDiStsSWLyx5Iu
-	0/TOXpuUrGgHWCYSR1FN0/Mf7LzIbp/x3got6cH4EKyQPDCuT4+QFqHcDQDGpg36EwedDZ1UaSf
-	zN+h1kigONyDaSeRdn5nCWIEdNqx0vHnd3R2zDPWXSgNNowByoo3PtdfW4JbKaOzUsrYWVDOAei
-	ygv6RFb1K9LSPAPZyrblOUF2Kf7V3Oif4ylp2Nz4tTJQmWjKvZltIzWHLH/OCQ==
-X-Google-Smtp-Source: AGHT+IEQbWodGX0rf2OvvWXvNIJP82dLnAuWdeDKxG9HiLhYS/lYFZEU21+vks6d+QYinYUbznlLGg==
-X-Received: by 2002:a17:903:f8d:b0:221:1497:7b08 with SMTP id d9443c01a7336-2390a54c778mr261738635ad.23.1751244829186;
-        Sun, 29 Jun 2025 17:53:49 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb2e1a8asm69663575ad.47.2025.06.29.17.53.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jun 2025 17:53:47 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id E4817420A813; Mon, 30 Jun 2025 07:53:43 +0700 (WIB)
-Date: Mon, 30 Jun 2025 07:53:43 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux ext4 <linux-ext4@vger.kernel.org>
-Cc: Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: Re: [PATCH 0/5] ext4 docs toctree reorganization
-Message-ID: <aGHgF0Aa8NlTw6Eh@archie.me>
-References: <20250620105643.25141-2-bagasdotme@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="A229tJ1I"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1751245409; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=KE5Ke26crJ20g62CV0eTsdMDqmR58zlWRKiqOi/7eNA=;
+	b=A229tJ1I9ClWjaUj2mVAGYIsqG/1dWVSyjCT5ywnSgnvNcQv4qO/ysMvD8Q6qcbSwAoWCVvm46UhZ0vBagIZ1spumsIzfM+naijTKEG6jfk0QlqfUxANdEBtP7jnUaqjHfPANkkeV3/dE5Gh1FgLa/rSRKPGZXL0MwuZ6pJWnq0=
+Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com fp:SMTPD_---0Wg25R9f_1751245082 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 30 Jun 2025 08:58:04 +0800
+From: "Huang, Ying" <ying.huang@linux.alibaba.com>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: David Hildenbrand <david@redhat.com>,  Zi Yan <ziy@nvidia.com>,  Matthew
+ Wilcox <willy@infradead.org>,  linux-kernel@vger.kernel.org,
+  linux-mm@kvack.org,  linux-doc@vger.kernel.org,
+  linuxppc-dev@lists.ozlabs.org,  virtualization@lists.linux.dev,
+  linux-fsdevel@vger.kernel.org,  Andrew Morton
+ <akpm@linux-foundation.org>,  Jonathan Corbet <corbet@lwn.net>,  Madhavan
+ Srinivasan <maddy@linux.ibm.com>,  Michael Ellerman <mpe@ellerman.id.au>,
+  Nicholas Piggin <npiggin@gmail.com>,  Christophe Leroy
+ <christophe.leroy@csgroup.eu>,  Jerrin Shaji George
+ <jerrin.shaji-george@broadcom.com>,  Arnd Bergmann <arnd@arndb.de>,  Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,  "Michael S. Tsirkin"
+ <mst@redhat.com>,  Jason Wang <jasowang@redhat.com>,  Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?=
+ <eperezma@redhat.com>,
+  Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
+ <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,  Matthew Brost
+ <matthew.brost@intel.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>,  Rakie
+ Kim <rakie.kim@sk.com>,  Byungchul Park <byungchul@sk.com>,  Gregory Price
+ <gourry@gourry.net>,  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  "Liam
+ R. Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
+  Mike Rapoport <rppt@kernel.org>,  Suren Baghdasaryan <surenb@google.com>,
+  Michal Hocko <mhocko@suse.com>,  Minchan Kim <minchan@kernel.org>,
+  Sergey Senozhatsky <senozhatsky@chromium.org>,  Brendan Jackman
+ <jackmanb@google.com>,  Johannes Weiner <hannes@cmpxchg.org>,  Jason
+ Gunthorpe <jgg@ziepe.ca>,  John Hubbard <jhubbard@nvidia.com>,  Peter Xu
+ <peterx@redhat.com>,  Xu Xin <xu.xin16@zte.com.cn>,  Chengming Zhou
+ <chengming.zhou@linux.dev>,  Miaohe Lin <linmiaohe@huawei.com>,  Naoya
+ Horiguchi <nao.horiguchi@gmail.com>,  Oscar Salvador <osalvador@suse.de>,
+  Rik van Riel <riel@surriel.com>,  Harry Yoo <harry.yoo@oracle.com>,  Qi
+ Zheng <zhengqi.arch@bytedance.com>,  Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH RFC 07/29] mm/migrate: rename isolate_movable_page() to
+ isolate_movable_ops_page()
+In-Reply-To: <nr4e7unt2dtfav5y5ckmsrehu37xejqonarlulzcn6mnhnnvxl@o3ppo34wqyyj>
+	(Alistair Popple's message of "Mon, 30 Jun 2025 10:20:56 +1000")
+References: <20250618174014.1168640-1-david@redhat.com>
+	<20250618174014.1168640-8-david@redhat.com>
+	<9F76592E-BB0E-4136-BDBA-195CC6FF3B03@nvidia.com>
+	<aFMH0TmoPylhkSjZ@casper.infradead.org>
+	<4D6D7321-CAEC-4D82-9354-4B9786C4D05E@nvidia.com>
+	<bef13481-5218-4732-831d-fe22d95184c1@redhat.com>
+	<87h5zyrdl9.fsf@DESKTOP-5N7EMDA>
+	<nr4e7unt2dtfav5y5ckmsrehu37xejqonarlulzcn6mnhnnvxl@o3ppo34wqyyj>
+Date: Mon, 30 Jun 2025 08:58:03 +0800
+Message-ID: <878qlaqc4k.fsf@DESKTOP-5N7EMDA>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="c9RWCR0bh8lBIBaX"
-Content-Disposition: inline
-In-Reply-To: <20250620105643.25141-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=ascii
 
+Alistair Popple <apopple@nvidia.com> writes:
 
---c9RWCR0bh8lBIBaX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Sun, Jun 29, 2025 at 07:28:50PM +0800, Huang, Ying wrote:
+>> David Hildenbrand <david@redhat.com> writes:
+>> 
+>> > On 18.06.25 20:48, Zi Yan wrote:
+>> >> On 18 Jun 2025, at 14:39, Matthew Wilcox wrote:
+>> >> 
+>> >>> On Wed, Jun 18, 2025 at 02:14:15PM -0400, Zi Yan wrote:
+>> >>>> On 18 Jun 2025, at 13:39, David Hildenbrand wrote:
+>> >>>>
+>> >>>>> ... and start moving back to per-page things that will absolutely not be
+>> >>>>> folio things in the future. Add documentation and a comment that the
+>> >>>>> remaining folio stuff (lock, refcount) will have to be reworked as well.
+>> >>>>>
+>> >>>>> While at it, convert the VM_BUG_ON() into a WARN_ON_ONCE() and handle
+>> >>>>> it gracefully (relevant with further changes), and convert a
+>> >>>>> WARN_ON_ONCE() into a VM_WARN_ON_ONCE_PAGE().
+>> >>>>
+>> >>>> The reason is that there is no upstream code, which use movable_ops for
+>> >>>> folios? Is there any fundamental reason preventing movable_ops from
+>> >>>> being used on folios?
+>> >>>
+>> >>> folios either belong to a filesystem or they are anonymous memory, and
+>> >>> so either the filesystem knows how to migrate them (through its a_ops)
+>> >>> or the migration code knows how to handle anon folios directly.
+>> >
+>> > Right, migration of folios will be handled by migration core.
+>> >
+>> >> for device private pages, to support migrating >0 order anon or fs
+>> >> folios
+>> >> to device, how should we represent them for devices? if you think folio is
+>> >> only for anon and fs.
+>> >
+>> > I assume they are proper folios, so yes. Just like they are handled
+>> > today (-> folios)
+>
+> Yes, they should be proper folios.
 
-On Fri, Jun 20, 2025 at 05:56:39PM +0700, Bagas Sanjaya wrote:
-> Hi Jon, hi Ted,
->=20
-> While discussing on my previous ext4 docs reorganization attempt
-> by merging contents [1], Jon suggested that considering current docs
-> file structure, a proper toctree would be ideal [2]. So, here's
-> the patchset that does exactly that.
->=20
-> Actual conversion to toctree structure is in [1/5], while the rest
-> is cleanups to make the resulting toctree nicer.
->=20
+So, folios include file cache, anonymous, and some device private.
 
-review ping
+>> > I was asking a related question at LSF/MM in Alistair's session: are
+>> > we sure these things will be folios even before they are assigned to a
+>> > filesystem? I recall the answer was "yes".
+>> >
+>> > So we don't (and will not) support movable_ops for folios.
+>> 
+>> Is it possible to use some device specific callbacks (DMA?) to copy
+>> from/to the device private folios (or pages) to/from the normal
+>> file/anon folios in the future?
+>
+> I guess we could put such callbacks on the folio->pgmap, but I'm not sure why
+> we would want to. Currently all migration to/from device private (or coherent)
+> folios is managed by the device, which is one of the features of ZONE_DEVICE.
 
---=20
-An old man doll... just what I always wanted! - Clara
+Yes.  The is the current behavior per my understanding too.
 
---c9RWCR0bh8lBIBaX
-Content-Type: application/pgp-signature; name=signature.asc
+> Did you have some particular reason/idea for why we might want to do this?
 
------BEGIN PGP SIGNATURE-----
+No.  Just want to check whether there are some requirements for that.  I
+think that it's just another way to organize code.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaGHgEwAKCRD2uYlJVVFO
-o+u2AQD1g2L9ChBvGW4LNkYeldjFp7I7eZw2ZLpoGkN24tpp8wD+P3409BFqlD9K
-fWnBHJJv/Du+6seEQQhFtqrf+auW4Q8=
-=KWON
------END PGP SIGNATURE-----
-
---c9RWCR0bh8lBIBaX--
+---
+Best Regards,
+Huang, Ying
