@@ -1,70 +1,70 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1285F28CF7A
-	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 13:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D1128D8C3
+	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 13:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751288461; cv=none; b=IHu9PeEj3qiQ6LZUI6MyVqeIvqm5mYpxVT0OJPxYOiqzFY0YBxO+f0I1fx07rFOzbaFChBx8QTffLEhqxDbcEhxvTj604xAxlUFKgULVxgXLdZJoAG1xMYwp5LzgcLp1kzjLM3CJdUGnF14WELiFmH2YMiilxRjOPbAMyd28pno=
+	t=1751288463; cv=none; b=NWL88ZAX8C9uQt8zdejcSK9ROD5lCV6G+T7HZ58sEl2N71gyCrIAtItyDGVHQXDAy13ezEs91iwNtWemOfC4B7Z2pGRipZNjxc7LMz+GcNqZAQYQnZFkZRoXyk/cSTTNnFMCtAwNDbIsWa/CczxouCyINmWBOF3CAtVxbzRIAOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751288461; c=relaxed/simple;
-	bh=h679pTWyf5chDo0jTdgc5eTOddfWMzqMz/6J3iuD7Gs=;
+	s=arc-20240116; t=1751288463; c=relaxed/simple;
+	bh=UHifpKu5ufl8QF9rCxhzhbIhhsXhSiIoRV9644qN9BA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hRZO5ntOuHKSt9fNiPa96TgJPkyS/gvBO4apntkcPrnGJ6hRp76iOL/vXiEqz1mxrcM2v9AWqUiIV79rfAw5V0Vcx9G0WB58w3lWYpsTvaQQQf5eDd80mSK5yUjIpG6MDeLc5kWr7QJPyZAbEib5pPJJijPCk6HOQPH21x9bERA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F72IRsZh; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=DQiD1WKNfqzpEfWIBSc/akhyxEUQwGMhk/zdY2wpZ7r1eR/gTIDWCxgjEMW7WW4+upMIN99I4lhefnISGYPXuC1qNCgFNNs8aoHDuQ4xJmP/9sRdBnRWeRTif1bHQtaFgPgNNzUrvyAfAI185oZFD2Ngj38tNJ9z0jToebj+PSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G5rurdzV; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F72IRsZh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G5rurdzV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751288456;
+	s=mimecast20190719; t=1751288457;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rZbSryMy27xk/lWuJyIeQilPAEeTxdVw8qHGMwbITkw=;
-	b=F72IRsZhgUaNCQ9KWEm2+NjuXmOBC0FC77Abp0mvaTwo3LAynBC0Kr7G3lNezokosgTQe7
-	DdH9SBclnBNmF9hc/y58rbrJAUNMlP7J1hIkNL79EZD360c+S2QvrQwjm7Fnlwyeib87QH
-	MdPl1hME2rHM2+wOJWTKkiFjLXMjjq0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=JRChIqxUOgPOieQj0YeNNw03RDlWoIXMOrbpFO40kH0=;
+	b=G5rurdzVGwhZHQ87CgluX65vvis+FjieN3xLHL7aqgzbMicHY8tcckwLVIkrvklWYRaRzJ
+	K2Svd7duSYvn9EGRlWq/alAC1VBAe1E+hkEMO2Gds+YBE5PTUAHWBhe8rh3h3h5jodVQUa
+	ceGOBc0Kz5znT7Up4kFE/VTPfD40IOk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-416-vkQFNDUyMjWhBFtd6VL0Cw-1; Mon, 30 Jun 2025 09:00:53 -0400
-X-MC-Unique: vkQFNDUyMjWhBFtd6VL0Cw-1
-X-Mimecast-MFC-AGG-ID: vkQFNDUyMjWhBFtd6VL0Cw_1751288452
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3a4eee2398bso1690602f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 06:00:53 -0700 (PDT)
+ us-mta-263-hPuju0B5MyehHEzpWb0Lkw-1; Mon, 30 Jun 2025 09:00:55 -0400
+X-MC-Unique: hPuju0B5MyehHEzpWb0Lkw-1
+X-Mimecast-MFC-AGG-ID: hPuju0B5MyehHEzpWb0Lkw_1751288455
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-450d6768d4dso13580645e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 06:00:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751288452; x=1751893252;
+        d=1e100.net; s=20230601; t=1751288454; x=1751893254;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rZbSryMy27xk/lWuJyIeQilPAEeTxdVw8qHGMwbITkw=;
-        b=upoc+HPu99XgxHZKRNu6Hhru6HtAfepEaJTxVgdN3kZjZJI1z4Ri15FMd5REB989+s
-         kckQP2YP41tYeX7KQJkP2ZuL1Zvpvugfx6sPVlC2PzNvfXORORhRhqJoBfk9KsTLHHmV
-         hwhuYOWvU0ngIgZ9ZWNsDf5/URGrHiwE3fkpHv8LvFydcDVdxsu8DL70YaYJuk22pYrt
-         a9Sb/IMh0ZYhcMW1aKcf9ewK9VJAAH/EvY0pJyTUqMmreb3aRAUMWJ+HPy/JEQUkdP+i
-         rSIifFbfgY9Us+plktlk+9q4QHEm9MJm96FVB/W6C4uMptR/ODr/hnSGvbjblaH6pgej
-         M+Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCViPt9tgoDyfwWTgYr8K20N3oz6297MrDmboySQcxJCiVqF4ZF9ffr6z9/Rl6MkExlMbsdxfQIhR7g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywsu3ylqiBA0k2X8nWgpgXGNjvONKmc7pzI3UaA77m+X21jNFXG
-	6OrEzP5TfRejia3BcsRJPs5FjLJWt3hkwjhKtZqr6qVa+2+jiOLfkHWMYapurA7McJSDzKbo3tB
-	mxWJEUJn0NjO35OYmSTqgkd1wcS1dFjJzlZuSAc0RFeBmze9an5E17uUtaM1e/g==
-X-Gm-Gg: ASbGncuZh1U5a9UUM2fHCzQcm5E/BzPKuacL3mmz7MhpN2g9Qv8LjSmnagQu0UanZ0k
-	cOG/KO4hIPas86okuY/uAWSiZnGuohTz93Kkt24hV42EU7v0j8SbiFjsXuxvHMcF5G8wrQheypd
-	paAHzpVzEQS7DXfjU36b9LMgy4PjxYdoJmQ3LM+87T3p24hylVJM1/75H5XDXP+uZc+yMg/NHCD
-	Hr8zQoArDfKsGQuaLsruT/ZC7Vs6TtUXfvZ8fBjEttzrv2Vc3Mu3+BepsfJ98RDKf7hr50cgi4l
-	mYLbscis+4GmuZ+BqbTJI13RxV0vOmdvNu5Z7TquWfX14hbWv3IkRK0jDKQK64YLhqESe0IrsTa
-	hREca/GE=
-X-Received: by 2002:adf:a143:0:b0:3a5:8565:44d1 with SMTP id ffacd0b85a97d-3a8fe8917d5mr8134441f8f.25.1751288451625;
-        Mon, 30 Jun 2025 06:00:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEcHR74Vg3fOLDK1bhOkeMb0O7J5iWXrvKqq6qclu6yGGjB1xdv/xPEmRceAckepewzfNXHQQ==
-X-Received: by 2002:adf:a143:0:b0:3a5:8565:44d1 with SMTP id ffacd0b85a97d-3a8fe8917d5mr8134296f8f.25.1751288450453;
-        Mon, 30 Jun 2025 06:00:50 -0700 (PDT)
+        bh=JRChIqxUOgPOieQj0YeNNw03RDlWoIXMOrbpFO40kH0=;
+        b=dYS1mBUy21lLpnNZjwYh0xkEgkJedlMUEhg22z153qwQjH/E2avkETcobPfEnsjO7q
+         lWg3cMTKyBmwg90HecIV4vkVZIAO8Bz9PcNJ8hemdUnhi5i/tGCiQ+BaeCYBOgREbFyZ
+         KAP4J9YWSJkxKT73tUKX8ii1z87JSQbbX11RoM+dOOgB7cgDmK+LYuom1/+dFuENCTj7
+         kUH0qgH4VxGZrG9RZ6VaprxAoOHAcMJXPiFwUT+BFkDveFJszlCl6VAC5ASNZ49aH26I
+         PMajS7MCgpbKpgZMj42TL/QLU85RTzTtRroQJshcFAbFffD4QgdmrNiVQjug00z+r7kX
+         4EMw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkkIGoR8jaEA5Lj/wUsp/6xo+tG6dZ8yg/zfeUnVFp2mR9lvag4L4DIImxT+WltuGJze4/OluuXj4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOvA3YLvs1QklAY/+dU62Nqse0gVrRxtlr2r5Bum6R05ZGzL35
+	UZGpp9w3klOox84drfrE492cN4HHkV+PLM9FgB/j2DYO8mDV0QHuNgewgRojIPJ1CQNsgA5Iyph
+	2xOhdLF/PEdwxE+IIUO7L2x+7jX2ExOpgxyLWQF/397GK3U4n0mtRlyE8K6IwqrcuiJQff52v
+X-Gm-Gg: ASbGnct6HQC54jJxGTvzJpO1aTuvvindy0S3nPq2zoVQ6TCmpIxWmBFc8N9B1uoJSVS
+	P0QbiN9rqmWrEU3QIZjDqSEKCmwtGz9JO8fvkJau2VfW9XhgXX5oESCypFNs8sKj3S0Mj8pWeuS
+	mnHOOgvaxiMZEkF749W+UBOQunvvqLWuwcJ1LgVy0FIm6Yt+RvH0njEAyV6x8RKtDkJWOjRztzV
+	l7oIlMObI2ENY5UEhFmxU/248yusu2Q9kO4XpJLZQNIM9bYxnkuKB6KdrwUGcl/XfyN+rDI68ar
+	YdYoGh/Y+YZvlgTlL1xzRAcr1ncv8gHJUUufIIQQxHEmWmtuuByx9QvxyRy5hwguAVi+Rj7Kukj
+	BVcQ5W28=
+X-Received: by 2002:a05:600c:3b8e:b0:43c:f513:9591 with SMTP id 5b1f17b1804b1-453913c5a63mr120798315e9.14.1751288454042;
+        Mon, 30 Jun 2025 06:00:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHZHtsc7XNjhOjxkvKCZ2uHLxZSkMRI4G1PqHHBjrp6rzXGUbjSQmg1iO1pCKPy78A7k9Rgqw==
+X-Received: by 2002:a05:600c:3b8e:b0:43c:f513:9591 with SMTP id 5b1f17b1804b1-453913c5a63mr120797265e9.14.1751288453316;
+        Mon, 30 Jun 2025 06:00:53 -0700 (PDT)
 Received: from localhost (p200300d82f40b30053f7d260aff47256.dip0.t-ipconnect.de. [2003:d8:2f40:b300:53f7:d260:aff4:7256])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-453823b6d50sm167133055e9.30.2025.06.30.06.00.48
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a892e59ab5sm10144896f8f.82.2025.06.30.06.00.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jun 2025 06:00:49 -0700 (PDT)
+        Mon, 30 Jun 2025 06:00:52 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -120,9 +120,9 @@ Cc: linux-mm@kvack.org,
 	Harry Yoo <harry.yoo@oracle.com>,
 	Qi Zheng <zhengqi.arch@bytedance.com>,
 	Shakeel Butt <shakeel.butt@linux.dev>
-Subject: [PATCH v1 13/29] mm/balloon_compaction: stop using __ClearPageMovable()
-Date: Mon, 30 Jun 2025 14:59:54 +0200
-Message-ID: <20250630130011.330477-14-david@redhat.com>
+Subject: [PATCH v1 14/29] mm/migrate: remove __ClearPageMovable()
+Date: Mon, 30 Jun 2025 14:59:55 +0200
+Message-ID: <20250630130011.330477-15-david@redhat.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250630130011.330477-1-david@redhat.com>
 References: <20250630130011.330477-1-david@redhat.com>
@@ -134,70 +134,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We can just look at the balloon device (stored in page->private), to see
-if the page is still part of the balloon.
+Unused, let's remove it.
 
-As isolated balloon pages cannot get released (they are taken off the
-balloon list while isolated), we don't have to worry about this case in
-the putback and migration callback. Add a WARN_ON_ONCE for now.
+The Chinese docs in Documentation/translations/zh_CN/mm/page_migration.rst
+still mention it, but that whole docs is destined to get outdated and
+updated by somebody that actually speaks that language.
 
+Reviewed-by: Zi Yan <ziy@nvidia.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/balloon_compaction.h |  4 +---
- mm/balloon_compaction.c            | 11 +++++++++++
- 2 files changed, 12 insertions(+), 3 deletions(-)
+ include/linux/migrate.h |  8 ++------
+ mm/compaction.c         | 11 -----------
+ 2 files changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/balloon_compaction.h b/include/linux/balloon_compaction.h
-index bfc6e50bd004b..9bce8e9f5018c 100644
---- a/include/linux/balloon_compaction.h
-+++ b/include/linux/balloon_compaction.h
-@@ -136,10 +136,8 @@ static inline gfp_t balloon_mapping_gfp_mask(void)
-  */
- static inline void balloon_page_finalize(struct page *page)
+diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+index c99a00d4ca27d..6eeda8eb1e0d8 100644
+--- a/include/linux/migrate.h
++++ b/include/linux/migrate.h
+@@ -35,8 +35,8 @@ struct migration_target_control;
+  * @src page.  The driver should copy the contents of the
+  * @src page to the @dst page and set up the fields of @dst page.
+  * Both pages are locked.
+- * If page migration is successful, the driver should call
+- * __ClearPageMovable(@src) and return MIGRATEPAGE_SUCCESS.
++ * If page migration is successful, the driver should
++ * return MIGRATEPAGE_SUCCESS.
+  * If the driver cannot migrate the page at the moment, it can return
+  * -EAGAIN.  The VM interprets this as a temporary migration failure and
+  * will retry it later.  Any other error value is a permanent migration
+@@ -106,16 +106,12 @@ static inline int migrate_huge_page_move_mapping(struct address_space *mapping,
+ #ifdef CONFIG_COMPACTION
+ bool PageMovable(struct page *page);
+ void __SetPageMovable(struct page *page, const struct movable_operations *ops);
+-void __ClearPageMovable(struct page *page);
+ #else
+ static inline bool PageMovable(struct page *page) { return false; }
+ static inline void __SetPageMovable(struct page *page,
+ 		const struct movable_operations *ops)
  {
--	if (IS_ENABLED(CONFIG_BALLOON_COMPACTION)) {
--		__ClearPageMovable(page);
-+	if (IS_ENABLED(CONFIG_BALLOON_COMPACTION))
- 		set_page_private(page, 0);
--	}
- 	/* PageOffline is sticky until the page is freed to the buddy. */
  }
+-static inline void __ClearPageMovable(struct page *page)
+-{
+-}
+ #endif
  
-diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
-index ec176bdb8a78b..e4f1a122d786b 100644
---- a/mm/balloon_compaction.c
-+++ b/mm/balloon_compaction.c
-@@ -206,6 +206,9 @@ static bool balloon_page_isolate(struct page *page, isolate_mode_t mode)
- 	struct balloon_dev_info *b_dev_info = balloon_page_device(page);
- 	unsigned long flags;
- 
-+	if (!b_dev_info)
-+		return false;
-+
- 	spin_lock_irqsave(&b_dev_info->pages_lock, flags);
- 	list_del(&page->lru);
- 	b_dev_info->isolated_pages++;
-@@ -219,6 +222,10 @@ static void balloon_page_putback(struct page *page)
- 	struct balloon_dev_info *b_dev_info = balloon_page_device(page);
- 	unsigned long flags;
- 
-+	/* Isolated balloon pages cannot get deflated. */
-+	if (WARN_ON_ONCE(!b_dev_info))
-+		return;
-+
- 	spin_lock_irqsave(&b_dev_info->pages_lock, flags);
- 	list_add(&page->lru, &b_dev_info->pages);
- 	b_dev_info->isolated_pages--;
-@@ -234,6 +241,10 @@ static int balloon_page_migrate(struct page *newpage, struct page *page,
- 	VM_BUG_ON_PAGE(!PageLocked(page), page);
- 	VM_BUG_ON_PAGE(!PageLocked(newpage), newpage);
- 
-+	/* Isolated balloon pages cannot get deflated. */
-+	if (WARN_ON_ONCE(!balloon))
-+		return -EAGAIN;
-+
- 	return balloon->migratepage(balloon, newpage, page, mode);
+ static inline
+diff --git a/mm/compaction.c b/mm/compaction.c
+index 17455c5a4be05..889ec696ba96a 100644
+--- a/mm/compaction.c
++++ b/mm/compaction.c
+@@ -137,17 +137,6 @@ void __SetPageMovable(struct page *page, const struct movable_operations *mops)
  }
+ EXPORT_SYMBOL(__SetPageMovable);
+ 
+-void __ClearPageMovable(struct page *page)
+-{
+-	VM_BUG_ON_PAGE(!PageMovable(page), page);
+-	/*
+-	 * This page still has the type of a movable page, but it's
+-	 * actually not movable any more.
+-	 */
+-	page->mapping = (void *)PAGE_MAPPING_MOVABLE;
+-}
+-EXPORT_SYMBOL(__ClearPageMovable);
+-
+ /* Do not skip compaction more than 64 times */
+ #define COMPACT_MAX_DEFER_SHIFT 6
  
 -- 
 2.49.0
