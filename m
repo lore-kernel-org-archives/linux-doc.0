@@ -1,119 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC2C23AB8D;
-	Mon, 30 Jun 2025 09:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18E38221726;
+	Mon, 30 Jun 2025 10:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751277017; cv=none; b=B56a89g46dW+rgbuGHiLdNMCwsF8oS5vAtBv+/FUi69TpcqqwniPC8m8vVziruFG0GDman83Bo9dCO2pnXCEFYJPde9oppNQvn12Bb/ROLF0AS0TyqKUX5wkly3atdAAMKCUFXMuO+8xaCS2v2a9aOWJT3hqPYbHo4uHS8FSK4g=
+	t=1751277924; cv=none; b=PM0pBbnMlS+QNEzQzDlbLZMTGbY/D9PHz31qd50cOBOXUc7Fr8Ux3SI7ibzwTNU1ANaL7jsb2ZOv8re5fQHlLPWJSd3qOOwF+RiVlb9ZnjdMN4EJoC+6XtCUlStpzGGwTCFvwf1W0tpMNSIzxslmNBDMm5Fr2YlTtjjR7s9mI9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751277017; c=relaxed/simple;
-	bh=fn460stx93A77T5TqdGbNur4jkXpBAZ87mWiNl6p0wI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VPRXBseUN6gL0VJyE4RPQl+7Ybxd/ooXI8qiSWDFhPY1p6Mp2sFHYMTxvZQi63mLO9ZHqpv6WoKkSJXdO43d4PzXlI6zvUFDwOJE2NoxOkKAp7UUinqNYtYp/FUzIxg0mTJkogbSpwThtUtKfFbaAQ4NlyZiXuyvMrLxs7aj43w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXhXt573; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXhXt573"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751277016; x=1782813016;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fn460stx93A77T5TqdGbNur4jkXpBAZ87mWiNl6p0wI=;
-  b=LXhXt573ZtM7ZUGScnT+rPT47bBBaOZjxob5lAgZYoKnvvy38cEwWmiM
-   RpVSX0D6k+aUeyrTrjh/hjqif8c1bSqaSaIK/0zbZbhZfPDwr1NbGfU9y
-   AGRHBj8fX7e7GlX1t9JT4mRsKCUMjY9qsmm9wKEy4Neu+fODxm1dk6wlh
-   jJTXvlnoFosgGCqse0x942amneLL0VEnXNhExlvPv3dZ8owIq4/2FE3n0
-   biO/hKFI8+ohzAuKYw76Pb0F6HrfeJfWeb4m5U47LWEpELU8AMYWrBIxf
-   Ah5yyqV2JFGX2SBDBK/fFlrtWZ0K6Nyy7QYDLbvYCD8y03q3iZRcI7lBw
-   Q==;
-X-CSE-ConnectionGUID: UP1kSkM0RBemUfoxf5H00A==
-X-CSE-MsgGUID: px5sdeohT2qhlKx03nxi9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="57176093"
-X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="57176093"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 02:50:15 -0700
-X-CSE-ConnectionGUID: gVyBjp6QTu+7QkD3gRl1qQ==
-X-CSE-MsgGUID: 5n68rlX2S2GVeR4e7LSPsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="158922500"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Jun 2025 02:50:04 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 1AC2D1FE; Mon, 30 Jun 2025 12:50:03 +0300 (EEST)
-Date: Mon, 30 Jun 2025 12:50:02 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
-	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
-	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCHv7 13/16] x86/traps: Handle LASS thrown #SS
-Message-ID: <rzexbyswvsulo75edyffqgigtckiutwcx4jxbnwhynhm6nwc6l@tocxnm74fshi>
-References: <20250625125112.3943745-1-kirill.shutemov@linux.intel.com>
- <20250625125112.3943745-15-kirill.shutemov@linux.intel.com>
- <c704ea9a-8c73-46c2-80d1-f7b93a221908@zytor.com>
- <lvutnc4et6r4a5eayoweb5butpspvop2m2pjioiudjwa3mkpo7@drcsdchj66w5>
- <20250630093027.38cd1ebc@pumpkin>
+	s=arc-20240116; t=1751277924; c=relaxed/simple;
+	bh=QQGT174PX3/LjslGR9uakewdT3W7VpHe5+lxPz565X8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mA52p1yLmBL66fawq7c0KWpEd2ywiqNfhfiLHonWCXR6pKP/10W2pgD3Nz4oNR5nAjFQe04lph4yeDQQ2Qb7GAmDjB1R5iKhP2u6maS0klSOMIAN2QkAFp54RWmEkGyUG7ilyqPYSMTD3cU/J1QugO30FZ2s58Oz1vov8/EkwSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6CA581D34;
+	Mon, 30 Jun 2025 03:05:06 -0700 (PDT)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 14EF53F58B;
+	Mon, 30 Jun 2025 03:05:19 -0700 (PDT)
+Message-ID: <77dd46da-85ea-442a-a05e-d54c56b51786@arm.com>
+Date: Mon, 30 Jun 2025 11:05:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250630093027.38cd1ebc@pumpkin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] arm64/hwcap: Add hwcap for FEAT_LSFE
+To: Mark Brown <broonie@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
+ linux-kselftest@vger.kernel.org
+References: <20250627-arm64-lsfe-v1-0-68351c4bf741@kernel.org>
+ <20250627-arm64-lsfe-v1-1-68351c4bf741@kernel.org>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <20250627-arm64-lsfe-v1-1-68351c4bf741@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 30, 2025 at 09:30:27AM +0100, David Laight wrote:
-> On Fri, 27 Jun 2025 13:31:44 +0300
-> "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com> wrote:
-> 
-> > On Thu, Jun 26, 2025 at 10:57:47AM -0700, Xin Li wrote:
-> > > On 6/25/2025 5:51 AM, Kirill A. Shutemov wrote:  
-> > > > LASS throws a #GP for any violations except for stack register accesses,
-> > > > in which case it throws a #SS instead. Handle this similarly to how other
-> > > > LASS violations are handled.
-> > > > 
-> > > > In case of FRED, before handling #SS as LASS violation, kernel has to
-> > > > check if there's a fixup for the exception. It can address #SS due to
-> > > > invalid user context on ERETU[1]. See 5105e7687ad3 ("x86/fred: Fixup  
-> > > 
-> > > Forgot to put the link to [1]?  Maybe just remove "[1]"?  
-> > 
-> > I will add the link. It is important context.
-> 
-> Will the link still be valid in 5 years time when someone
-> is looking back at the changes?
 
-Re-reading the commit message I wrote, it is obvious that I reconsidered
-putting the link and referenced commit instead.
 
-I will drop [1];
+On 6/27/25 18:20, Mark Brown wrote:
+> FEAT_LSFE (Large System Float Extension), providing atomic floating point
+> memory operations, is optional from v9.5. This feature adds no new
+> architectural stare and we have no immediate use for it in the kernel so
+> simply provide a hwcap for it to support discovery by userspace.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+nit: s/stare/state/
+
+Thanks,
+
+Ben
+
