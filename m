@@ -1,72 +1,72 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F249E28DF44
-	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 15:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A1028B509
+	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 15:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751297806; cv=none; b=nXmxZlatpctCN9EjvcgkfDJ+m5+mpTyaReCCD4MCyZLzlUbS5X4BSKs1aU0AWQrDgbHc9yIh38Lxp6OoB9VWU0ghdcsR5K02hw8Y7SO5F0uOUKpthli2sMz/rnFkhoBk4ggGHGDvF3Vg7T1TA0kHpSHRbj45i9FKLZnWT0uaNp0=
+	t=1751297929; cv=none; b=YCU7fk3GsrCHMZA6EdQJFWkJNGrVG6o2Pfi5rZBv3dbBRDeGZzWEArYjUwxldFp3teAckHZCbI3LO0eWFPCk0NyzbdqveiGFBQzzXBLw/gHtmysK1AU7gZSCfMX17Mn4fep6IN1yVbaPaz9Nf3lZ3hx/htdY+POE/pFJHZm0Zd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751297806; c=relaxed/simple;
-	bh=ltzjsZ3Y13JqtrnFJO+zsCen5wBONE4sgDpdbeqPl3o=;
+	s=arc-20240116; t=1751297929; c=relaxed/simple;
+	bh=YJtneUSRYE/YcZtnrONC52bBke/mflK3Z7IJ4jYkVv0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HceR8qFy7s2JuuP1m/D7/IrEKAKtKkkGxBXEefecW3t57/I20sGEaUM8G44Hqw45ELI1vI66HZvT/e+xw4wr6o6FfTgrQI5QObBgoltFqyV08H4/5WgK7z1+2HBwIldJ4rx6HNC+gW13/1bShCouRsS1gPz/XPRHb3AFO7FOPrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CSgBgtvv; arc=none smtp.client-ip=209.85.166.176
+	 To:Cc:Content-Type; b=DXAmipf3YnFOt4vK7TlIBzLSN4frW8cAx30KuG8Q7FpD4rf7HdAbbJpf79MRpzcZQISjybtMG3Ol1wLvGEoLk9FJrxzaqrC8NzS2dfI+ZvdM2VQy3moVRdwe0RWzEkKjRRVh8A+SGdxRchiciFfsvJK58d3CFt0IbLpLKq64c2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G6wjQM31; arc=none smtp.client-ip=209.85.166.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CSgBgtvv"
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3df2fa612c4so530675ab.1
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 08:36:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G6wjQM31"
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3ddc99e0b77so489325ab.0
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 08:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751297804; x=1751902604; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1751297926; x=1751902726; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o3GKh4o61b7jyIv0Cvm8DV094/Zex2HvCho/VCSf17U=;
-        b=CSgBgtvv5G7sGqntkhJ9oOUS0AnPDmno3TFJMDNfDAAb1Iyv/sHk8Z0fDcUkwwh2/b
-         6EiTkjt1Ef/SCyM8sY6swH6AaMdOjz/JmTYjmawTKNAcObWMKishY3JA5ojEJqnfvcZw
-         Pva7RJdNZj87JvJMzfYzo/B6BN3hjwl+t4VzuI7Sa2KEsib4lCJUdHZXTBKwx5u8vFcA
-         HYz1FWuVPOWTAAbxVla5xDVIABfmhfOABd/2Bx1/ibtbovp8ji5givztVJ8Qoy5i9gwO
-         SgWPCLfZzHeD5ieMj064hhlhS5OmG38X1I8Gp5ZMe2Qz4eenLdYNxITXeIHsGKEmIAHT
-         fTyA==
+        bh=o8pHTrUEcGe6WdpAUlyhQvIpo4p8iXNvnGE/h+atsss=;
+        b=G6wjQM31cYpVaTanzjuKK4S2BXOH9q9mYkZfBZ90/VjT1zoVxyWjTDy/ItN5XTM7sS
+         2QQp/kdAk87elI+RHDbpDjXqde/ENtaqBwYyJ+uCna0SQB6DV5tQUErRPGj6Qpg/Bvk1
+         XvdERTpK6yliAMKX9ZQsff+gGzkjrA34XJ/pPli6Os5GAzxQ75l7TZiMZ1TSrxl3yaqg
+         71zwTT4uGI3s3AEhD+JSGo8MyACUTiNxZZ9eU4wGh+b36IEVCe+wQki+dvl1670OYtTg
+         k+uTV9j6M+bB9YNiHRBPyLw2iY2YF/4St9FAvTwjVUDT21bJF5Jgh0DgMw+bJm+SZY1g
+         bybw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751297804; x=1751902604;
+        d=1e100.net; s=20230601; t=1751297926; x=1751902726;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o3GKh4o61b7jyIv0Cvm8DV094/Zex2HvCho/VCSf17U=;
-        b=mWtGCBS9KoG1tBYUkakc+ODsbwd00anrHGBeXw3fXefoVsoBmog9XhD1nIgbxl/jKa
-         PJF4oBnP0W3eBbJon28JnYHHpwYNm9ZVsvYxBl/Zr2yadtig0CxvLxCfvl8eYn7KmYgY
-         JVr5apiMPyBh3kgTSBb6a1A2ANIvbRSYWaaIbLF3MHr9aDR+FM75Uw7pM4wWylrZFB+X
-         GyFNXcHlEPRUSONTfj/jXVPoOFSRS9AeKjHRv9Au48eS0fBYZDd1SsXha6laLfoyNEo1
-         myesPbirud9F7lk0BGMXqnAo6E2DIaQbpbs6g2rbWhVb0chMXijxF795qHA0u8QnLq31
-         x+Ig==
-X-Forwarded-Encrypted: i=1; AJvYcCV9BzZQRheBvwTG0krB5f9wOJKTIy7dJcHokGrHJho37UDNIuox9fzhy54Q4fhv4w8YgTgG4Mi9qs0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+SxvEnPTUoiwielJA3ml9MQp1JzUNJDx0Ek77vsPhkZghbx2M
-	U27G7rh2L5SmQv1/Nve8neQnfogmRhWTko7sCjQGjiKdC10z0FKoyK/rO505oLQu5YmxMfBWeBl
-	f7iARQ1pyU9XWDIWjQf6vlmVWYlOW6dUpR8/knwiw
-X-Gm-Gg: ASbGncuTmbtFFUK7tyg+kCesJZtpBonPov688PSzd5/4Nz8UwpbjHti7TP8KD229ocZ
-	96ZfBkD2Oe/zAO/XOhCpK5Z+bHC5Mz8aDJyxhsJBnsQlFG3xNbw/X1rYmZSmklSeNEdk2j3e5vi
-	rfIQNvs2fUbCVdgHWoLHykt1edmqe2sppz3TIijyUdT7eoNubRRk2DWSPb98dhTzPe9Racrv8=
-X-Google-Smtp-Source: AGHT+IHCeL7uDDU5JOMczoHemzrfltO8zFE7mNOcumLGxZUSHGclDw+KN2fxow6X8OtdYvZ/ZfmsVer2qBLOgVRnCKc=
-X-Received: by 2002:a05:6e02:11:b0:3dd:b59b:8da5 with SMTP id
- e9e14a558f8ab-3df55381c7amr8226995ab.0.1751297803769; Mon, 30 Jun 2025
- 08:36:43 -0700 (PDT)
+        bh=o8pHTrUEcGe6WdpAUlyhQvIpo4p8iXNvnGE/h+atsss=;
+        b=mHSwOVGkQSrHKtqwpthECbdblq+0l4u5sOgaBFuDPVrWC0OlaTDb3CZBAPYYFIpQsB
+         2gl5IBvT7J9y781Fwf/QkzW6IpLoNhdZeCqhipA8krCyzRDbmt8njtNtGf7D9TkEGdf2
+         rjo4n5BUxkLMQGafVNGfjBzSJMtKX32DqOCU2oGTi/OETEKzKgZDCGDJVwhjG/cUlZzE
+         wuYwehOJQcszeoKnRa0hklduTfU4C/A7UvEZrtvVbSONKMVlsFDNn7s+TSjvfNBo7WBK
+         ozcY/VFl6cU1KNf1jOqxa9eJ2ign/9qyBQNBwU5ee7Rs9TSj14i+GOllNwMV28QM/wN+
+         T8Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMo8sR/ruTkaXhNSL+ecJXNWV1hJsXDEMVmea+0Ct3q3qh5N0PttotJNHgaudwgVYJhTHVhPXffRU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK5oBcYtASfYswVmjRISLp6Q5gMQTZ6KNzkUXbNEei42cpKR+a
+	cDR6Jc01yWyxsqTL3x3z7LnkGA2SiCBa7OHGeP/wI5IY3PjGo5saSCKLGXjlV9dv2tM74uGceTB
+	xfAcb8R+6F+NGH6e2OktsVgcakSoJTbUwy0Af55pV
+X-Gm-Gg: ASbGncvIU15rqGgrMBORHQJkZVa2fvXjAEhrgRlA8nzRxxaWfmTzP2D0BXbvpZO5OwA
+	cb3rZ0VWprmRLvlQp2555LgLLd8E/sDGkKo/+g+41B0bmiJEuIKRblSneAX6+G/9I92wYR5DSxX
+	2+OPwkBpwCvPLcvQjQNcEmClL+M3Nt17BLwIo56d3BY6pofq9BSeuQbu1tmtWPLCuPxX1CP14WL
+	eBLHEdmCw==
+X-Google-Smtp-Source: AGHT+IHWAVAMI8QT9eGJcy1Dz/MUqM4kKkgHbIFGRnRbpDP3mlZrGKmhK69cnZjnige15KSJimxL8+8uvBWPiDVJgMM=
+X-Received: by 2002:a92:c265:0:b0:3dd:d288:eead with SMTP id
+ e9e14a558f8ab-3df5587f1f2mr7193765ab.18.1751297925487; Mon, 30 Jun 2025
+ 08:38:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org> <20250605-james-perf-feat_spe_eft-v3-8-71b0c9f98093@linaro.org>
-In-Reply-To: <20250605-james-perf-feat_spe_eft-v3-8-71b0c9f98093@linaro.org>
+References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org> <20250605-james-perf-feat_spe_eft-v3-10-71b0c9f98093@linaro.org>
+In-Reply-To: <20250605-james-perf-feat_spe_eft-v3-10-71b0c9f98093@linaro.org>
 From: Ian Rogers <irogers@google.com>
-Date: Mon, 30 Jun 2025 08:36:31 -0700
-X-Gm-Features: Ac12FXzGjtf9e7aPdAU9e9fczw6vLUTz8vKdx9vV288aJS8GZ_7quQwpeJqa1_Q
-Message-ID: <CAP-5=fWuKrtRy5NdPFivjSKx-fbw6P49QFepg1-1qUB=0guu_Q@mail.gmail.com>
-Subject: Re: [PATCH v3 08/10] tools headers UAPI: Sync linux/perf_event.h with
- the kernel sources
+Date: Mon, 30 Jun 2025 08:38:33 -0700
+X-Gm-Features: Ac12FXz-XNRDh5SWs9KqIAss_dxekSdRnzTpiZe4QDr_HQFGVYwsbdMlOQVPWnw
+Message-ID: <CAP-5=fU24cknDdD8Lxfshqei7Twf9zRA6uOrQNJqvAVyrzgi-g@mail.gmail.com>
+Subject: Re: [PATCH v3 10/10] perf docs: arm-spe: Document new SPE filtering features
 To: James Clark <james.clark@linaro.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
 	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
@@ -85,8 +85,12 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Jun 5, 2025 at 3:50=E2=80=AFAM James Clark <james.clark@linaro.org>=
  wrote:
 >
-> To pickup config4 changes.
+> FEAT_SPE_EFT and FEAT_SPE_FDS etc have new user facing format attributes
+> so document them. Also document existing 'event_filter' bits that were
+> missing from the doc and the fact that latency values are stored in the
+> weight field.
 >
+> Reviewed-by: Leo Yan <leo.yan@arm.com>
 > Tested-by: Leo Yan <leo.yan@arm.com>
 > Signed-off-by: James Clark <james.clark@linaro.org>
 
@@ -96,34 +100,203 @@ Thanks,
 Ian
 
 > ---
->  tools/include/uapi/linux/perf_event.h | 2 ++
->  1 file changed, 2 insertions(+)
+>  tools/perf/Documentation/perf-arm-spe.txt | 97 +++++++++++++++++++++++++=
++++---
+>  1 file changed, 88 insertions(+), 9 deletions(-)
 >
-> diff --git a/tools/include/uapi/linux/perf_event.h b/tools/include/uapi/l=
-inux/perf_event.h
-> index 78a362b80027..0d0ed85ad8cb 100644
-> --- a/tools/include/uapi/linux/perf_event.h
-> +++ b/tools/include/uapi/linux/perf_event.h
-> @@ -382,6 +382,7 @@ enum perf_event_read_format {
->  #define PERF_ATTR_SIZE_VER6                    120     /* Add: aux_sampl=
-e_size */
->  #define PERF_ATTR_SIZE_VER7                    128     /* Add: sig_data =
-*/
->  #define PERF_ATTR_SIZE_VER8                    136     /* Add: config3 *=
-/
-> +#define PERF_ATTR_SIZE_VER9                    144     /* add: config4 *=
-/
+> diff --git a/tools/perf/Documentation/perf-arm-spe.txt b/tools/perf/Docum=
+entation/perf-arm-spe.txt
+> index 37afade4f1b2..4092b53b58d2 100644
+> --- a/tools/perf/Documentation/perf-arm-spe.txt
+> +++ b/tools/perf/Documentation/perf-arm-spe.txt
+> @@ -141,27 +141,65 @@ Config parameters
+>  These are placed between the // in the event and comma separated. For ex=
+ample '-e
+>  arm_spe/load_filter=3D1,min_latency=3D10/'
 >
->  /*
->   * 'struct perf_event_attr' contains various attributes that define
-> @@ -543,6 +544,7 @@ struct perf_event_attr {
->         __u64   sig_data;
+> -  branch_filter=3D1     - collect branches only (PMSFCR.B)
+> -  event_filter=3D<mask> - filter on specific events (PMSEVFR) - see bitf=
+ield description below
+> +  event_filter=3D<mask> - logical AND filter on specific events (PMSEVFR=
+) - see bitfield description below
+> +  inv_event_filter=3D<mask> - logical OR to filter out specific events (=
+PMSNEVFR, FEAT_SPEv1p2) - see bitfield description below
+>    jitter=3D1            - use jitter to avoid resonance when sampling (P=
+MSIRR.RND)
+> -  load_filter=3D1       - collect loads only (PMSFCR.LD)
+>    min_latency=3D<n>     - collect only samples with this latency or high=
+er* (PMSLATFR)
+>    pa_enable=3D1         - collect physical address (as well as VA) of lo=
+ads/stores (PMSCR.PA) - requires privilege
+>    pct_enable=3D1        - collect physical timestamp instead of virtual =
+timestamp (PMSCR.PCT) - requires privilege
+> -  store_filter=3D1      - collect stores only (PMSFCR.ST)
+>    ts_enable=3D1         - enable timestamping with value of generic time=
+r (PMSCR.TS)
+>    discard=3D1           - enable SPE PMU events but don't collect sample=
+ data - see 'Discard mode' (PMBLIMITR.FM =3D DISCARD)
+> +  data_src_filter=3D<mask> - mask to filter from 0-63 possible data sour=
+ces (PMSDSFR, FEAT_SPE_FDS) - See 'Data source filtering'
 >
->         __u64   config3; /* extension of config2 */
-> +       __u64   config4; /* extension of config3 */
->  };
+>  +++*+++ Latency is the total latency from the point at which sampling st=
+arted on that instruction, rather
+>  than only the execution latency.
 >
->  /*
+> -Only some events can be filtered on; these include:
+> -
+> -  bit 1     - instruction retired (i.e. omit speculative instructions)
+> +Only some events can be filtered on using 'event_filter' bits. The overa=
+ll
+> +filter is the logical AND of these bits, for example if bits 3 and 5 are=
+ set
+> +only samples that have both 'L1D cache refill' AND 'TLB walk' are record=
+ed. When
+> +FEAT_SPEv1p2 is implemented 'inv_event_filter' can also be used to exclu=
+de
+> +events that have any (OR) of the filter's bits set. For example setting =
+bits 3
+> +and 5 in 'inv_event_filter' will exclude any events that are either L1D =
+cache
+> +refill OR TLB walk. If the same bit is set in both filters it's UNPREDIC=
+TABLE
+> +whether the sample is included or excluded. Filter bits for both event_f=
+ilter
+> +and inv_event_filter are:
+> +
+> +  bit 1     - Instruction retired (i.e. omit speculative instructions)
+> +  bit 2     - L1D access (FEAT_SPEv1p4)
+>    bit 3     - L1D refill
+> +  bit 4     - TLB access (FEAT_SPEv1p4)
+>    bit 5     - TLB refill
+> -  bit 7     - mispredict
+> -  bit 11    - misaligned access
+> +  bit 6     - Not taken event (FEAT_SPEv1p2)
+> +  bit 7     - Mispredict
+> +  bit 8     - Last level cache access (FEAT_SPEv1p4)
+> +  bit 9     - Last level cache miss (FEAT_SPEv1p4)
+> +  bit 10    - Remote access (FEAT_SPEv1p4)
+> +  bit 11    - Misaligned access (FEAT_SPEv1p1)
+> +  bit 12-15 - IMPLEMENTATION DEFINED events (when implemented)
+> +  bit 16    - Transaction (FEAT_TME)
+> +  bit 17    - Partial or empty SME or SVE predicate (FEAT_SPEv1p1)
+> +  bit 18    - Empty SME or SVE predicate (FEAT_SPEv1p1)
+> +  bit 19    - L2D access (FEAT_SPEv1p4)
+> +  bit 20    - L2D miss (FEAT_SPEv1p4)
+> +  bit 21    - Cache data modified (FEAT_SPEv1p4)
+> +  bit 22    - Recently fetched (FEAT_SPEv1p4)
+> +  bit 23    - Data snooped (FEAT_SPEv1p4)
+> +  bit 24    - Streaming SVE mode event (when FEAT_SPE_SME is implemented=
+), or
+> +              IMPLEMENTATION DEFINED event 24 (when implemented, only ve=
+rsions
+> +              less than FEAT_SPEv1p4)
+> +  bit 25    - SMCU or external coprocessor operation event when FEAT_SPE=
+_SME is
+> +              implemented, or IMPLEMENTATION DEFINED event 25 (when impl=
+emented,
+> +              only versions less than FEAT_SPEv1p4)
+> +  bit 26-31 - IMPLEMENTATION DEFINED events (only versions less than FEA=
+T_SPEv1p4)
+> +  bit 48-63 - IMPLEMENTATION DEFINED events (when implemented)
+> +
+> +For IMPLEMENTATION DEFINED bits, refer to the CPU TRM if these bits are
+> +implemented.
+> +
+> +The driver will reject events if requested filter bits require unimpleme=
+nted SPE
+> +versions, but will not reject filter bits for unimplemented IMPDEF bits =
+or when
+> +their related feature is not present (e.g. SME). For example, if FEAT_SP=
+Ev1p2 is
+> +not implemented, filtering on "Not taken event" (bit 6) will be rejected=
+.
+>
+>  So to sample just retired instructions:
+>
+> @@ -171,6 +209,31 @@ or just mispredicted branches:
+>
+>    perf record -e arm_spe/event_filter=3D0x80/ -- ./mybench
+>
+> +When set, the following filters can be used to select samples that match=
+ any of
+> +the operation types (OR filtering). If only one is set then only samples=
+ of that
+> +type are collected:
+> +
+> +  branch_filter=3D1     - Collect branches (PMSFCR.B)
+> +  load_filter=3D1       - Collect loads (PMSFCR.LD)
+> +  store_filter=3D1      - Collect stores (PMSFCR.ST)
+> +
+> +When extended filtering is supported (FEAT_SPE_EFT), SIMD and float
+> +pointer operations can also be selected:
+> +
+> +  simd_filter=3D1         - Collect SIMD loads, stores and operations (P=
+MSFCR.SIMD)
+> +  float_filter=3D1        - Collect floating point loads, stores and ope=
+rations (PMSFCR.FP)
+> +
+> +When extended filtering is supported (FEAT_SPE_EFT), operation type filt=
+ers can
+> +be changed to AND using _mask fields. For example samples could be selec=
+ted if
+> +they are store AND SIMD by setting 'store_filter=3D1,simd_filter=3D1,
+> +store_filter_mask=3D1,simd_filter_mask=3D1'. The new masks are as follow=
+s:
+> +
+> +  branch_filter_mask=3D1  - Change branch filter behavior from OR to AND=
+ (PMSFCR.Bm)
+> +  load_filter_mask=3D1    - Change load filter behavior from OR to AND (=
+PMSFCR.LDm)
+> +  store_filter_mask=3D1   - Change store filter behavior from OR to AND =
+(PMSFCR.STm)
+> +  simd_filter_mask=3D1    - Change SIMD filter behavior from OR to AND (=
+PMSFCR.SIMDm)
+> +  float_filter_mask=3D1   - Change floating point filter behavior from O=
+R to AND (PMSFCR.FPm)
+> +
+>  Viewing the data
+>  ~~~~~~~~~~~~~~~~~
+>
+> @@ -204,6 +267,10 @@ Memory access details are also stored on the samples=
+ and this can be viewed with
+>
+>    perf report --mem-mode
+>
+> +The latency value from the SPE sample is stored in the 'weight' field of=
+ the
+> +Perf samples and can be displayed in Perf script and report outputs by e=
+nabling
+> +its display from the command line.
+> +
+>  Common errors
+>  ~~~~~~~~~~~~~
+>
+> @@ -247,6 +314,18 @@ to minimize output. Then run perf stat:
+>    perf record -e arm_spe/discard/ -a -N -B --no-bpf-event -o - > /dev/nu=
+ll &
+>    perf stat -e SAMPLE_FEED_LD
+>
+> +Data source filtering
+> +~~~~~~~~~~~~~~~~~~~~~
+> +
+> +When FEAT_SPE_FDS is present, 'data_src_filter' can be used as a mask to=
+ filter
+> +on a subset (0 - 63) of possible data source IDs. The full range of data=
+ sources
+> +is 0 - 65535 although these are unlikely to be used in practice. Data so=
+urces
+> +are IMPDEF so refer to the TRM for the mappings. Each bit N of the filte=
+r maps
+> +to data source N. The filter is an OR of all the bits, so for example se=
+tting
+> +bits 0 and 3 includes only packets from data sources 0 OR 3. When
+> +'data_src_filter' is set to 0 data source filtering is disabled and all =
+data
+> +sources are included.
+> +
+>  SEE ALSO
+>  --------
+>
 >
 > --
 > 2.34.1
