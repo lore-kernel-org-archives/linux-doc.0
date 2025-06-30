@@ -1,201 +1,180 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7114223ABB4
-	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 12:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C1E285053;
+	Mon, 30 Jun 2025 12:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751285861; cv=none; b=c5pQL1O+pVeoSCJGH8BHvVBpoaQTEUZwi7Q67TFsJBrDDAT4vj+j8vNR6Skg7jJiebs2nIydJdwkZzQHvRbGqoBuy+QL1Jgy7eJKk7uvVXDEfbKopZZXezKZazg9D+LkgCrcJWRGnMxWyZmUwDuEImQLfXfLSBeqM9WM/hjWk9M=
+	t=1751286767; cv=none; b=fYYtlMXsoOp+wHZ+spjNICsRiJuqLEm/FpZhIu8VRcwBswAEXXlJxO0XRRRDD+5fahzXxRjUQE7N59Bqn7b8Gjik4KgbsVfoC6v2+a6ZmtcDTALPoaoRXgPFF8LjQzH9ltvVuZY9xvDTV+yemwYNa2eiev1SBStUxCte3UpCeVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751285861; c=relaxed/simple;
-	bh=5dhNh3sdSUsVirKXK90ehWyFI9ZhRpVh6xrGa+wtpeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UD3N2m0yb+zNPQmEGzCRSn/o8Avty/GzQbqA4ZyRO1d90SXlppX9B4U96HoAeesdEk6fe7glR1iUHV8PlX4LuGZoUgLsjoZgJV/MeoUZ18nr2VgPqnGr0bwLDlUBErDLoR6p+UZ7qpk/zJlq0uJs7Fpmi/Eacmo3cZi1nyIeqbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1uWDRr-0004km-3r; Mon, 30 Jun 2025 14:17:23 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1uWDRq-0066DT-2U;
-	Mon, 30 Jun 2025 14:17:22 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1uWDRq-009ggO-1c;
-	Mon, 30 Jun 2025 14:17:22 +0200
-Date: Mon, 30 Jun 2025 14:17:22 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Frieder Schrempf <frieder.schrempf@kontron.de>
-Cc: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Frank Li <frank.li@nxp.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v18 3/7] firmware: imx: add driver for NXP
- EdgeLock Enclave
-Message-ID: <20250630121722.wviidlggt7hguyt7@pengutronix.de>
-References: <20250619-imx-se-if-v18-0-c98391ba446d@nxp.com>
- <20250619-imx-se-if-v18-3-c98391ba446d@nxp.com>
- <20250625105546.pxuatcnfpe7mssgs@pengutronix.de>
- <AM9PR04MB8604611B8D91B5526C9704E69545A@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20250627084653.6vgwnm3llf3zknlp@pengutronix.de>
- <b02055bb-0995-4fd8-99f3-4ca5146eedd4@kontron.de>
+	s=arc-20240116; t=1751286767; c=relaxed/simple;
+	bh=FeNoAyq3jHM1qlXEr+ML3rMIo5zE1+yRsauys3cNdX4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bP6kQmzG3LXtOVgg6Rzm51JjlU8JyxpmNd55z8ty7NxiE1UR89q5CYM1QZArc5h2MAQ2qJ2U34qq+FNg+S8TmfomnaKb25UBPC1NUGJYEYcaAk9+ZLQVt/MkMeHs7dUXjPBNQjuopODC8hje/GWfcMREc93bEgyQkkj2VQAerDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=O+DuHUGU; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="O+DuHUGU"
+Received: from [192.168.42.116] (pd9e59880.dip0.t-ipconnect.de [217.229.152.128])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 92C972FC0063;
+	Mon, 30 Jun 2025 14:32:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1751286755;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yhGvoqdOe7yh094iGUBaDkhOeEpKHo5Q7tP3mz6Y7TY=;
+	b=O+DuHUGU8tARnh31Jhg3jTbQ7yNEHDPavXA2Vx/rA6SbSiKs6BIpehVConpn1rDs0hMnWa
+	Riixjy7R1yRhFStDw6097B4a7hDob7ZRdIT9Zz3Ud5XDEnWepcFx+7unAkmGKTHR+HYd12
+	d7kWx11IBF2/9nYXGfuv7+hpIKq7r4Y=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <c689db31-60cc-4494-b700-88744376f589@tuxedocomputers.com>
+Date: Mon, 30 Jun 2025 14:32:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b02055bb-0995-4fd8-99f3-4ca5146eedd4@kontron.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
+To: Armin Wolf <W_Armin@gmx.de>, =?UTF-8?Q?P=C5=91cze_Barnab=C3=A1s?=
+ <pobrn@protonmail.com>, ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com,
+ chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de, ggo@tuxedocomputers.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org
+References: <20250615175957.9781-1-W_Armin@gmx.de>
+ <20250615175957.9781-3-W_Armin@gmx.de>
+ <1b79a3c3-c493-471b-aa37-92458b356e8d@protonmail.com>
+ <7b0243fd-15c6-42da-8570-9ad9cd5163af@gmx.de>
+ <7a58972f-5256-4598-b729-224f20f3ecd2@protonmail.com>
+ <7b29df39-8146-4913-83ff-d71db26983c8@gmx.de>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <7b29df39-8146-4913-83ff-d71db26983c8@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Frieder,
+Hi,
 
-On 25-06-30, Frieder Schrempf wrote:
-> Hi Marco,
-> 
-> Am 27.06.25 um 10:46 schrieb Marco Felsch:
-> > Hi,
-> > 
-> > your e-mail configuration mixed my e-mail with your answer, which makes
-> > it hard to read. Can you please check the quoting next time :)
-> > 
-> > On 25-06-27, Pankaj Gupta wrote:
-> >>>> Add driver for enabling MU based communication interface to
-> >> secure-enclave.
-> >>>>
-> >>>> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE), are 
-> >>>> embedded in the SoC to support the features like HSM, SHE & V2X, using 
-> >>>> message based communication interface.
-> >>>>
-> >>>> The secure enclave FW communicates with Linux over single or multiple 
-> >>>> dedicated messaging unit(MU) based interface(s).
-> >>>> Exists on i.MX SoC(s) like i.MX8ULP, i.MX93, i.MX95 etc.
-> >>
-> >>> You write single or multiple MUs are possible. I'm aware that the i.MX93
-> >>> has two MUs one for the secure and one for the non-secure world. But I'm
-> >>> really concerned about the fact that both MUs can't be used at the same time
-> >>> from both world:
-> >>
-> >> Yes, you are correct.
-> >>
-> >> Fix is still work in progress.
-> > 
-> > So after ~6 months no fix is available :(
-> > 
-> >>> Also how is the secure and non-secure world talking to the ELE if there is
-> >>> only one MU as you have written?
-> >>
-> >> Till the fix is WIP, either Linux or OPTEE can use the ELE, at one point in
-> >> time.
-> > 
-> > That has nothing to do with the fix. The fix is for platforms/SoCs which
-> > do have 2-MUs, but you also have written that there are platforms with
-> > only 1-MU.
-> > 
-> > This MU can't be shared between secure and non-secure world.
-> > 
-> >>> IMHO it makes much more sense to put the complete ELE communication into
-> >>> (OP-)TEE and let the secure OS taking care of it. All non-secure world
-> >>> requests are passed via (OP-)TEE to the ELE. This involves:
-> >>> - eFuse access (done via OP-TEE i.MX specific PTA)
-> >>> - ELE 23h59m ping (kernel SMC WDG driver, requires OP-TEE watchdog driver)
-> >>> - HW-RNG (kernel OP-TEE HWRNG driver + OP-TEE HWRNG PTA)
-> >>
-> >> There is a dedicated MU "trusted-MU" for OPTEE-OS. The idea to converge to a
-> > 
-> > Yes for systems with 2-MUs there is a "trusted-MU" and a
-> > "non-trusted-MU". As of now, there is no fix available for using both
-> > MUs at the same time. Furhtermore there are platforms/SoCs with only
-> > 1-MU, as you have written in your commit message. This 1-MU system can
-> > have the MU either trusted or non-trusted.
-> > 
-> >> single path via OPTEE-OS, is good. But it will impact the performance of the
-> >> features at Linux side.
-> > 
-> > Performance? We are talking about a ping every 23h59m (I still don't
-> > know if this is a feature or bug), eFuse write/read, and the HW-RNG
-> > which can seed the Linux PRNG.
-> > 
-> >> Since the fix is still WIP. Let's wait till then.
-> > 
-> > The fix is for the 2-MUs SoCs but not the 1-MU case.
-> > 
-> > I would like to have a system design which doesn't differ too much
-> > between SoCs which are equipped with the ELE engine.
-> 
-> Do we really want to depend on OP-TEE to be available for having things
-> like OTP fuse access and HWRNG? Personally I'd like to be able to build
-> systems with OTP access and HWRNG but without OP-TEE. Requiring OP-TEE
-> only to make the ELE available to the kernel in cases where the secure
-> world isn't used for anything else seems to be unnecessarily complex.
+Am 28.06.25 um 01:09 schrieb Armin Wolf:
+> Am 25.06.25 um 17:59 schrieb Pőcze Barnabás:
+>
+>> Hi
+>>
+>> 2025. 06. 23. 0:36 keltezéssel, Armin Wolf írta:
+>>> Am 22.06.25 um 23:37 schrieb Pőcze Barnabás:
+>>>
+>>>> Hi
+>>>>
+>>>>
+>>>> 2025. 06. 15. 19:59 keltezéssel, Armin Wolf írta:
+>>>>> Add a new driver for Uniwill laptops. The driver uses a ACPI WMI
+>>>>> interface to talk with the embedded controller, but relies on a
+>>>>> DMI whitelist for autoloading since Uniwill just copied the WMI
+>>>>> GUID from the Windows driver example.
+>>>>>
+>>>>> The driver is reverse-engineered based on the following information:
+>>>>> - OEM software from intel
+>>>>> - https://github.com/pobrn/qc71_laptop
+>>>> Oh... I suppose an end of an era for me...
+>>> I now remember that we interacted on the mailing lists before, sorry for not 
+>>> CCing
+>>> you on this patch series.
+>>>
+>>> Do you want a Co-developed-by tag on those patches?
+>> I'll leave it up to you.
+>>
+>>
+>>>>> - https://github.com/tuxedocomputers/tuxedo-drivers
+>>>>> - https://github.com/tuxedocomputers/tuxedo-control-center
+>>>>>
+>>>>> The underlying EC supports various features, including hwmon sensors,
+>>>>> battery charge limiting, a RGB lightbar and keyboard-related controls.
+>>>>>
+>>>>> Reported-by: cyear <chumuzero@gmail.com>
+>>>>> Closes: https://github.com/lm-sensors/lm-sensors/issues/508
+>>>>> Closes: https://github.com/Wer-Wolf/uniwill-laptop/issues/3
+>>>>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+>>>>> ---
+>>>>>      .../ABI/testing/sysfs-driver-uniwill-laptop   |   53 +
+>>>>>      Documentation/wmi/devices/uniwill-laptop.rst  |  109 ++
+>>>>>      MAINTAINERS                                   |    8 +
+>>>>>      drivers/platform/x86/uniwill/Kconfig          |   17 +
+>>>>>      drivers/platform/x86/uniwill/Makefile         |    1 +
+>>>>>      drivers/platform/x86/uniwill/uniwill-laptop.c | 1477 +++++++++++++++++
+>>>>>      drivers/platform/x86/uniwill/uniwill-wmi.c    |    3 +-
+>>>>>      7 files changed, 1667 insertions(+), 1 deletion(-)
+>>>>>      create mode 100644 Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+>>>>>      create mode 100644 Documentation/wmi/devices/uniwill-laptop.rst
+>>>>>      create mode 100644 drivers/platform/x86/uniwill/uniwill-laptop.c
+>>>>>
+>>> [...]
+>>>>> +
+>>>>> +static const unsigned int uniwill_led_channel_to_bat_reg[LED_CHANNELS] = {
+>>>>> +    EC_ADDR_LIGHTBAR_BAT_RED,
+>>>>> +    EC_ADDR_LIGHTBAR_BAT_GREEN,
+>>>>> +    EC_ADDR_LIGHTBAR_BAT_BLUE,
+>>>>> +};
+>>>>> +
+>>>>> +static const unsigned int uniwill_led_channel_to_ac_reg[LED_CHANNELS] = {
+>>>>> +    EC_ADDR_LIGHTBAR_AC_RED,
+>>>>> +    EC_ADDR_LIGHTBAR_AC_GREEN,
+>>>>> +    EC_ADDR_LIGHTBAR_AC_BLUE,
+>>>>> +};
+>>>>> +
+>>>>> +static int uniwill_led_brightness_set(struct led_classdev *led_cdev, enum 
+>>>>> led_brightness brightness)
+>>>>> +{
+>>>>> +    struct led_classdev_mc *led_mc_cdev = lcdev_to_mccdev(led_cdev);
+>>>>> +    struct uniwill_data *data = container_of(led_mc_cdev, struct 
+>>>>> uniwill_data, led_mc_cdev);
+>>>>> +    unsigned int value;
+>>>>> +    int ret;
+>>>>> +
+>>>>> +    ret = led_mc_calc_color_components(led_mc_cdev, brightness);
+>>>>> +    if (ret < 0)
+>>>>> +        return ret;
+>>>>> +
+>>>>> +    for (int i = 0; i < LED_CHANNELS; i++) {
+>>>>> +        /* Prevent the brightness values from overflowing */
+>>>>> +        value = min(LED_MAX_BRIGHTNESS, 
+>>>>> data->led_mc_subled_info[i].brightness);
+>>>>> +        ret = regmap_write(data->regmap, 
+>>>>> uniwill_led_channel_to_ac_reg[i], value);
+>>>> This is interesting. I am not sure which "control center" application you 
+>>>> have looked at,
+>>>> but I found many lookup tables based on the exact model, etc. For example, 
+>>>> on my laptop
+>>>> any value larger than 36 will simply turn that color component off. Have 
+>>>> you seen
+>>>> anything like that?
+>>> I was using the Intel NUC studio software application during 
+>>> reverse-engineering and had a user
+>>> test the resulting code on a Intel NUC notebook. AFAIK the OEM software did 
+>>> not use a lookup table.
+>>>
+>>> If we extend this driver in the future then we might indeed use the quirk 
+>>> system to change the max.
+>>> LED brightness depending on the model.
+>> I see. So everything up to 200 works. And after that do you know if it turns 
+>> off or what happens?
+>
+> The user who tested the driver reported that "the brightest lightbar setting 
+> is 200", so i assume
+> that the lightbar simply clamps the values. However i would not trust the EC 
+> firmware in the slightest,
+> i can definitely imagine that other models react differently.
 
-I understand your point. I don't like pulling in more FW neither but we
-need to the face the following facts:
+Iirc at least for keyboard backlight on tf devices there was a value that could 
+be overwritten to make the values 0-255 instead of 0-200, maybe this is also 
+true for the lightbar, but i don't know if this affects the livespan of the leds.
 
- - OTP eFuse R/W access after doing the LOCK_DOWN fuse is no longer
-   possible without OP-TEE. This involves general purpose (GP) eFuses
-   too. We faced this limitation in a current project.
+Best regards,
 
- - With new regulations like the EU CRA I think we need some sort of
-   secure-enclave anyway.
+Werner
 
- - Making it optional cause more paths of potential errors e.g. by not
-   including the correct "secure.dtsi". Multiple paths also require more
-   maintain- and testing effort. IMHO I do think that one of the paths
-   get unmaintened at some point but we would need to keep it for
-   backward compatibility.
-
-   Having one implementation eliminates this since.
-
- - All above points assume that the ELE-FW and -HW is capable of talking
-   to both world, which is not the case. As we learned NXP doesn't have
-   a fix for the 2-MUs ELE yet and even more important there are 1-MU
-   ELE-IPs.
-
-I do see the (minimal) drawback of having +1 FW but I think this is more
-an integration problem.
-Speaking of FW files, for the new i.MX9* you already have plenty fo
-them: bootloader, TF-A, ele-fw, scu-fw (i.MX95). So your integation
-needs to handle multiple firmware files already.
-
-> Anyway, I see your point of having a single implementation for the ELE
-> API in the "right" place. But as far as I know other platforms like
-> STM32MP1 also implement both ways for the HWRNG, secure access via OPTEE
-> and non-secure access via kernel directly.
-
-I'm not a STM32MP1 expert but here you have this setup with the
-*-scmi.dtsi. So you have two code paths which needs to be maintained and
-tested. Also if one customer of yours want to use OP-TEE you need the
-integration anyway, so you (Kontron) needs to maintain multiple
-configuration as well. I don't see the added value.
-
-I think for STM32MP1 the *-scmi.dtsi support was added later because it
-required a lot effort to support it. This is not the case for the i.MX9*
-series.
-
-Regards,
-  Marco
-
-> Thanks
-> Frieder
-> 
