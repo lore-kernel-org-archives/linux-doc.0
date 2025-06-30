@@ -1,70 +1,70 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C1828C851
-	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 13:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2649928CF5D
+	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 13:00:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751288459; cv=none; b=KDEzbHieLO1Dr0cMjoZygsZQiNfUGB7jXe/l5v2nN1M3ua/hBTfm3ijKBH/hLqPZT74bVDkpQ2KKCE5Wmq/xZt+cxEQgOSogD/S1CJm+aS8fF1Eqjbq4/GmiLos2sQHU7xwwqJOE+14U8KSbhwsIFy+D0Yy4d7cs9xkzjM78Uek=
+	t=1751288460; cv=none; b=GarrTArCs4jrYvt9YNzk5Oq0Q4F1QCH2Xmjfk2aRuiH6zok3D3Jym8iuU81h7Vw+TkzkBAhfi8HuTDV5aEWRXBjm3DTSnxn2enoMfdR0QNfty21+rvV8ayHrrDw2qWfQMhM8Z6dxCKK5LVTRU55U3UB22wAewqPGYWrt7XuTgWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751288459; c=relaxed/simple;
-	bh=bzT3f8SbOSFmP0mAT3t54D4YW+inx1tEVm83+OWEEC4=;
+	s=arc-20240116; t=1751288460; c=relaxed/simple;
+	bh=B4KdnntE/37K79ZPh7jyK3I0hRR/1p6A2DVmbrYflX0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JT+eccBIv04TIxZAA54UAIdwlydwzjNhMlRqURhOoNdIj8Lszdd14P+h4U+yCq4pK6WGskMY0fIQDRskL+IKXZf4i35Wd2x32mRMb2XjX3uaj8R/136NpBWm3FOd0MJ0nZ61FZb0uXSl4yisOVDWcOwT8jmyFvq+X7zT6sPll7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ScEP0tK8; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=D0ZbOX1p0QB1lANY8AZTlCpkd/e4MqrShg8NwoZOKg/5QHJnukBlSPLykpZRN8bNV4eCKsdKV86/LiPwiPT86clXIwcx+hujRAV9ug4ZCRX2y9gBqmxXve1Wgyb6sinCBCacTeN+o9YZFflWH3IvnvSJz6toZxhiiarOZhb91UE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N9Lvo2ED; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ScEP0tK8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N9Lvo2ED"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751288452;
+	s=mimecast20190719; t=1751288455;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rLSy27pHIWSaumHdHZbZB7d4Xse7WARvWeqJ4bM0kJg=;
-	b=ScEP0tK8+alAQQbzS6vmVOTrwQllssxXt+spIt+xagHmuUnhptC/BEMatnEWPRdqgAV6D3
-	b8tKRttsXrP7jlhp1ILP7cl8JDxxNr5iO4F58v+CxVrWPNdJw7DjYveUDshLfjBD1zDRCq
-	aRFl+snbokgQCFOKusdy1FXNEtc6e/I=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=HE4ZFr/3yO/kcvQGBFxRWJWFhigh7sWDavgkH8Q96v8=;
+	b=N9Lvo2EDW0DlVkb6NYXC/ecPvSHZEmRw0oy2bjE/uQn9PO/2fvWJqo0mWIRd3SqjIvztfU
+	3JW1dWT4gTo0vr7+ZG6KxWTQTNu07vSSlrfbM70oRbRMTZFn5LI8SrqgwDNJuWaBn6bXfW
+	gjkoWoA1BppFxxBNP02JevTMjObrE+w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-17c6WeyRMDuFN2XI19Fx3Q-1; Mon, 30 Jun 2025 09:00:49 -0400
-X-MC-Unique: 17c6WeyRMDuFN2XI19Fx3Q-1
-X-Mimecast-MFC-AGG-ID: 17c6WeyRMDuFN2XI19Fx3Q_1751288448
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3a523ce0bb2so1134422f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 06:00:49 -0700 (PDT)
+ us-mta-679-Jzet8qJaMtqjpMqYRHwGCA-1; Mon, 30 Jun 2025 09:00:52 -0400
+X-MC-Unique: Jzet8qJaMtqjpMqYRHwGCA-1
+X-Mimecast-MFC-AGG-ID: Jzet8qJaMtqjpMqYRHwGCA_1751288451
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3a4ff581df3so2195044f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 06:00:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751288448; x=1751893248;
+        d=1e100.net; s=20230601; t=1751288451; x=1751893251;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rLSy27pHIWSaumHdHZbZB7d4Xse7WARvWeqJ4bM0kJg=;
-        b=F85BG6YnB5RxTKYFVcrrOkuqif0FmN8nxKnWmHH+Tve3MhALDy1NIXycMxY3qdt6Uq
-         Pjrnvy7pGyQZgv+Cp1SQZop4v29qydW8GUt1L6UvFXIcAwuQ5tS3lOtAUNOU0I5x7lcb
-         DRt0ZlSXPdHNXtZLibhcuiVM0DSg0izKgfH67QgQJg+U+Xg+LkX7uITge9rz5EYXBFaw
-         dDncZP337DJIjqYaR7I4yIS9SjOmFLnhnZ4aO/CkjI58KYcw3SWDuTUczS2tBgsEC6tQ
-         tCb/OCg8SLpQ/Nxw15YjrFomKL6cwkGxotkr0R8yv+EELqF19pm8UGu8BTMagf2rblm8
-         MpCA==
-X-Forwarded-Encrypted: i=1; AJvYcCWLBqpu4OhvsD9mnLWnbqaU7LIwjDjcgqU7DUiwsgesoxIvgVsK3a+2u/kLQVvdvb4W4rWR600Lul4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrgTgDXMpNuLmy6v/2Wn9xSEcNEW9ppj54EOgbILH5dE+dOKBF
-	uz/faEYe0fvXFB5XL50RwPmXjUhD81LgL1D9ek/V3h7nlRZISi/tCndrpoAVyH3F8QOdwN/iNHh
-	7x7aGWcYSmcdQVnmmb4W4gCH2qqGgWFYeiBwe0cUxZcNKelKGaUbDobAg1mMTuQ==
-X-Gm-Gg: ASbGncuMcErtw4PNBMIO+knHhEa2toqwpwuR/z4C8kklbHnI4J9aGNS1TuFET+8SrpZ
-	CGoWFpDx/ki607plo33qOI/buSYwgL5tyzAbL+uCL1s98v5sQQB/3wm49w8l1CL/UuSPJswaDK5
-	7h9r1jDjukkL9oOz592FtgS27EvKFOccgr72pw1dtAIq/tEXUs10JlTc3Dxn1LDhKlT1bjV6mx1
-	70uqnz1VDrBkbi1zRhWO8ItIJusXivpXbzkB56PMVAMZxLUucC3VKSl7vngOKNdX9adTdMVYyzB
-	1/SaaYHAqYUOl8MehPeZsffz8w6ODcWHxFpO94F1lnrHXmVNydUub/fRO4QivP5Cq/KEYGZP1d8
-	WPaxatSY=
-X-Received: by 2002:a05:6000:440b:b0:3a5:287b:da02 with SMTP id ffacd0b85a97d-3a8fe4bd16fmr7883326f8f.40.1751288447619;
+        bh=HE4ZFr/3yO/kcvQGBFxRWJWFhigh7sWDavgkH8Q96v8=;
+        b=Jzh80kWXaGbuZ3ahEFck1bwejP1HKwJYUtFluBTGTaUIwQT0Cg9ei/+yCWu+IVUlfq
+         ExJ6qgg4lSh7uEHXlS8P0B83F29p0YjXSZabVkOKmOhb5YhS4UUmAfuvYWw4O1zDXmCD
+         ep+42bxz2cJW4nt+LhTAU3NLwbmsjumJ/Tl0q+cxj7jujUeQToPb5izMcDxbWf4/WIA4
+         cMLXR3qaixUM8/twCULX0cuUsL0in0sk7MXJU2cCl0TSaN8AhCBJ/jLOdjbpl0T/7qF5
+         Wec/gGmaGCTyc9Z+bmUCOJtB8opaC9rEgUcQ26+ya9ZXjQsuAgcfLYlrcs3UxKFSj/rU
+         W5rg==
+X-Forwarded-Encrypted: i=1; AJvYcCWnKCmFP6N1KCAuZWfinrQ3ngUUB0NB4pKo3bgstCn4I9V+pJTCowXQ9kBlyhgyPsJnMoWPP8/9BDI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxvu5Kr5HDKO3Qp845U35MTeWBvoV9gzDFZdDLdYu4W1Mk39/VV
+	IK+CGAHkAiW0wZAY8faPa1T2SXZ+NKq+3oeiCz7Aae/kWrBVTCONVeFzurLnvPYrCH2ujCxtj4U
+	j3K+8+i7LRIplUXdto4Mh06FM00FNekI+qfbgHuuDCEfo6zIRBiUrXhr5YiiooQ==
+X-Gm-Gg: ASbGnctXf5gMsSsT2sZCZ32sux6oLevX6A2iMJRaw+ZhBJNvYwQRuYobjHyzQuXbrg9
+	XByXb0xaMNrzL8vevfiJgWDmKWDlmonh3qGqvjqOAjRqL1+0x4FkAfk057X+ONlehP6F6qNlkCh
+	GmaTJYnSOhBvBfcel6f3REGlO4t0BaTMIqq0dDeP973Cy89btA5dcvA7/1OWB1Sl+3NyXJHSJQv
+	tN6j3XUSSbMpzpVqAXcZ01UmLCX5jQJrRUZdVOZwaE6swO+CDFmTNqxuttz0r/tYHJu+qG2+xu4
+	KI4QO+/cl0ruW20PpXIh1v1kW5IGFEChGRNXwJQJpCnbGqEfGgQIUQI8aJ/4Lco4q6f3ORw4Whb
+	GbLaG+e0=
+X-Received: by 2002:a05:6000:2186:b0:3aa:ac7b:705a with SMTP id ffacd0b85a97d-3aaac7b761amr5970037f8f.11.1751288448882;
+        Mon, 30 Jun 2025 06:00:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHB1TGCDIUZET9zX0pBSLAtGHjOK3AMuobCCTliN5r8xMP/2a92mQUobTb4bSUGBJMrG9p6Jg==
+X-Received: by 2002:a05:6000:2186:b0:3aa:ac7b:705a with SMTP id ffacd0b85a97d-3aaac7b761amr5969952f8f.11.1751288447748;
         Mon, 30 Jun 2025 06:00:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEZT4aB5+IKBjQnh+yncb7ZFTxj1NuN2dDZeVwVJqvRnlRrWkNRGfP/el4NU32fGgywSRoLtA==
-X-Received: by 2002:a05:6000:440b:b0:3a5:287b:da02 with SMTP id ffacd0b85a97d-3a8fe4bd16fmr7883079f8f.40.1751288445063;
-        Mon, 30 Jun 2025 06:00:45 -0700 (PDT)
 Received: from localhost (p200300d82f40b30053f7d260aff47256.dip0.t-ipconnect.de. [2003:d8:2f40:b300:53f7:d260:aff4:7256])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a88c7e72c1sm10293032f8f.1.2025.06.30.06.00.43
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a88c80b5aesm10252042f8f.44.2025.06.30.06.00.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jun 2025 06:00:44 -0700 (PDT)
+        Mon, 30 Jun 2025 06:00:47 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -120,9 +120,9 @@ Cc: linux-mm@kvack.org,
 	Harry Yoo <harry.yoo@oracle.com>,
 	Qi Zheng <zhengqi.arch@bytedance.com>,
 	Shakeel Butt <shakeel.butt@linux.dev>
-Subject: [PATCH v1 11/29] mm/migrate: move movable_ops page handling out of move_to_new_folio()
-Date: Mon, 30 Jun 2025 14:59:52 +0200
-Message-ID: <20250630130011.330477-12-david@redhat.com>
+Subject: [PATCH v1 12/29] mm/zsmalloc: stop using __ClearPageMovable()
+Date: Mon, 30 Jun 2025 14:59:53 +0200
+Message-ID: <20250630130011.330477-13-david@redhat.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250630130011.330477-1-david@redhat.com>
 References: <20250630130011.330477-1-david@redhat.com>
@@ -134,133 +134,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Let's move that handling directly into migrate_folio_move(), so we can
-simplify move_to_new_folio(). While at it, fixup the documentation a
-bit.
+Instead, let's check in the callbacks if the page was already destroyed,
+which can be checked by looking at zpdesc->zspage (see reset_zpdesc()).
 
-Note that unmap_and_move_huge_page() does not care, because it only
-deals with actual folios. (we only support migration of
-individual movable_ops pages)
+If we detect that the page was destroyed:
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+(1) Fail isolation, just like the migration core would
+
+(2) Fake migration success just like the migration core would
+
+In the putback case there is nothing to do, as we don't do anything just
+like the migration core would do.
+
+In the future, we should look into not letting these pages get destroyed
+while they are isolated -- and instead delaying that to the
+putback/migration call. Add a TODO for that.
+
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/migrate.c | 63 +++++++++++++++++++++++++---------------------------
- 1 file changed, 30 insertions(+), 33 deletions(-)
+ mm/zsmalloc.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 0898ddd2f661f..22c115710d0e2 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -1024,11 +1024,12 @@ static int fallback_migrate_folio(struct address_space *mapping,
- }
- 
- /*
-- * Move a page to a newly allocated page
-- * The page is locked and all ptes have been successfully removed.
-+ * Move a src folio to a newly allocated dst folio.
-  *
-- * The new page will have replaced the old page if this function
-- * is successful.
-+ * The src and dst folios are locked and the src folios was unmapped from
-+ * the page tables.
-+ *
-+ * On success, the src folio was replaced by the dst folio.
-  *
-  * Return value:
-  *   < 0 - error code
-@@ -1037,34 +1038,30 @@ static int fallback_migrate_folio(struct address_space *mapping,
- static int move_to_new_folio(struct folio *dst, struct folio *src,
- 				enum migrate_mode mode)
+diff --git a/mm/zsmalloc.c b/mm/zsmalloc.c
+index f98747aed4330..72c2b7562c511 100644
+--- a/mm/zsmalloc.c
++++ b/mm/zsmalloc.c
+@@ -876,7 +876,6 @@ static void reset_zpdesc(struct zpdesc *zpdesc)
  {
-+	struct address_space *mapping = folio_mapping(src);
- 	int rc = -EAGAIN;
--	bool is_lru = !__folio_test_movable(src);
+ 	struct page *page = zpdesc_page(zpdesc);
  
- 	VM_BUG_ON_FOLIO(!folio_test_locked(src), src);
- 	VM_BUG_ON_FOLIO(!folio_test_locked(dst), dst);
- 
--	if (likely(is_lru)) {
--		struct address_space *mapping = folio_mapping(src);
--
--		if (!mapping)
--			rc = migrate_folio(mapping, dst, src, mode);
--		else if (mapping_inaccessible(mapping))
--			rc = -EOPNOTSUPP;
--		else if (mapping->a_ops->migrate_folio)
--			/*
--			 * Most folios have a mapping and most filesystems
--			 * provide a migrate_folio callback. Anonymous folios
--			 * are part of swap space which also has its own
--			 * migrate_folio callback. This is the most common path
--			 * for page migration.
--			 */
--			rc = mapping->a_ops->migrate_folio(mapping, dst, src,
--								mode);
--		else
--			rc = fallback_migrate_folio(mapping, dst, src, mode);
-+	if (!mapping)
-+		rc = migrate_folio(mapping, dst, src, mode);
-+	else if (mapping_inaccessible(mapping))
-+		rc = -EOPNOTSUPP;
-+	else if (mapping->a_ops->migrate_folio)
-+		/*
-+		 * Most folios have a mapping and most filesystems
-+		 * provide a migrate_folio callback. Anonymous folios
-+		 * are part of swap space which also has its own
-+		 * migrate_folio callback. This is the most common path
-+		 * for page migration.
-+		 */
-+		rc = mapping->a_ops->migrate_folio(mapping, dst, src,
-+							mode);
-+	else
-+		rc = fallback_migrate_folio(mapping, dst, src, mode);
- 
--		if (rc != MIGRATEPAGE_SUCCESS)
--			goto out;
-+	if (rc == MIGRATEPAGE_SUCCESS) {
- 		/*
- 		 * For pagecache folios, src->mapping must be cleared before src
- 		 * is freed. Anonymous folios must stay anonymous until freed.
-@@ -1074,10 +1071,7 @@ static int move_to_new_folio(struct folio *dst, struct folio *src,
- 
- 		if (likely(!folio_is_zone_device(dst)))
- 			flush_dcache_folio(dst);
--	} else {
--		rc = migrate_movable_ops_page(&dst->page, &src->page, mode);
- 	}
--out:
- 	return rc;
+-	__ClearPageMovable(page);
+ 	ClearPagePrivate(page);
+ 	zpdesc->zspage = NULL;
+ 	zpdesc->next = NULL;
+@@ -1715,10 +1714,11 @@ static void replace_sub_page(struct size_class *class, struct zspage *zspage,
+ static bool zs_page_isolate(struct page *page, isolate_mode_t mode)
+ {
+ 	/*
+-	 * Page is locked so zspage couldn't be destroyed. For detail, look at
+-	 * lock_zspage in free_zspage.
++	 * Page is locked so zspage can't be destroyed concurrently
++	 * (see free_zspage()). But if the page was already destroyed
++	 * (see reset_zpdesc()), refuse isolation here.
+ 	 */
+-	return true;
++	return page_zpdesc(page)->zspage;
  }
  
-@@ -1328,20 +1322,23 @@ static int migrate_folio_move(free_folio_t put_new_folio, unsigned long private,
- 	int rc;
- 	int old_page_state = 0;
- 	struct anon_vma *anon_vma = NULL;
--	bool is_lru = !__folio_test_movable(src);
- 	struct list_head *prev;
+ static int zs_page_migrate(struct page *newpage, struct page *page,
+@@ -1736,6 +1736,13 @@ static int zs_page_migrate(struct page *newpage, struct page *page,
+ 	unsigned long old_obj, new_obj;
+ 	unsigned int obj_idx;
  
- 	__migrate_folio_extract(dst, &old_page_state, &anon_vma);
- 	prev = dst->lru.prev;
- 	list_del(&dst->lru);
- 
-+	if (unlikely(__folio_test_movable(src))) {
-+		rc = migrate_movable_ops_page(&dst->page, &src->page, mode);
-+		if (rc)
-+			goto out;
-+		goto out_unlock_both;
-+	}
++	/*
++	 * TODO: nothing prevents a zspage from getting destroyed while
++	 * isolated: we should disallow that and defer it.
++	 */
++	if (!zpdesc->zspage)
++		return MIGRATEPAGE_SUCCESS;
 +
- 	rc = move_to_new_folio(dst, src, mode);
- 	if (rc)
- 		goto out;
- 
--	if (unlikely(!is_lru))
--		goto out_unlock_both;
--
- 	/*
- 	 * When successful, push dst to LRU immediately: so that if it
- 	 * turns out to be an mlocked page, remove_migration_ptes() will
+ 	/* The page is locked, so this pointer must remain valid */
+ 	zspage = get_zspage(zpdesc);
+ 	pool = zspage->pool;
 -- 
 2.49.0
 
