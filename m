@@ -1,1131 +1,233 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3824B246762;
-	Mon, 30 Jun 2025 21:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751320365; cv=none; b=em2uR4vyaNjsc5Mn1gW+y6u55301x3Ye/1eKfhQWPVgT3s60ac3D0M9AorlqXjzcZPR2drLVvXMUJxGh9VpdBHvmQDY7IbhGkxeN2PDPGsn6MX7b5Ri0Whn3FZLmamU9kP4OTTuwYOZxwX3Gu2e913EoX+bOgMyCEYnSxP6yNkU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751320365; c=relaxed/simple;
-	bh=ip+nnSbMIGXLovZLXwh6F+qN07UsgWOqp8skAdjuWso=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WW5znvC80Pi3fKV/s6mGkU3QiN7+Y5o4uY8EU0gE/uK+FC9ecxZRCibu4bkPwYUODr8aJcBF3XCywdliIHaLqA+tClLO9YoO+rMvMdeZhfoibthMqFePwdiAzfZfvmYHM+jjPk/XNrvTXr9IwjoloAOJNVO4+JI9omVUIQviPYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MIKyqPU3; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A630B78F4A;
+	Mon, 30 Jun 2025 21:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751320720; cv=fail; b=Kb53GvT3c5tB3s0mDZw4Y30X3SbWtOddrUIjoMtsy+iz/pMOUZtzOtdXL1l9eCSbxSFM7p2P50ZW/KuDv4gXMwMRiExRxW+EWC2IIxrZxRbOxq/nSs/qKddm/CQ6FLSQSfFfF/iReaO3ufHreeUCHmsCxLizm9tCMdLFcSFsnVI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751320720; c=relaxed/simple;
+	bh=ryG6O+hywxBHLhwOlUOGXqP7WwqJfAxg/kIPwhB+7CI=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UOpnfGPDf1CELdKUCXXwsYqLIzh6PMZqKwER6pi7mmvP01Nqcdqy641LawoIYOjUiLzHp+m62aB217u/g4uXlLFSiYdKUxvk9a3ZLLPrRbatH/3KVINp4JKiEJJCKGO7ccsfMeFpWzFH5wQpsxh4JPNBq4L9q7/q9UpJCV9aYKk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PLKNJke+; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MIKyqPU3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78E79C116C6;
-	Mon, 30 Jun 2025 21:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751320364;
-	bh=ip+nnSbMIGXLovZLXwh6F+qN07UsgWOqp8skAdjuWso=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MIKyqPU3omeLBbq9kYIxlrvi/Rs3VU/vL88aorPvfwDkyDxfzqVk0oleLdz8w60O5
-	 EfDwGU8OF1IlrZ2eO97gPWuZnacGO7FI6bLt0nUHOr1sRR46BVK9fdQPRlOVDeLK22
-	 LzX9FMEse5xQEpZXksD2XJYA4JekCtW7/1DgMAposAuhodmWwkC9Sg9+cGOESd70XF
-	 AjzmkyNYz1kjPgtKNjOpmcLLU3HYwWu/BGmhvhe+GaXynSbaKwx7qwO45LumTK9504
-	 PAuhDjBJM9Td21qVqLJqjj+LzhHSFwUs2VU7A60oooP9CyrlpTI8gEYyVbrYRmoHpM
-	 XAtP5SfLLONyw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uWMQc-00000003QXD-38Wa;
-	Mon, 30 Jun 2025 23:52:42 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Akira Yokosawa" <akiyks@gmail.com>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	"Sai Vishnu M" <saivishnu725@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 15/15] scripts: sphinx-pre-install.pl: get rid of the old script
-Date: Mon, 30 Jun 2025 23:35:03 +0200
-Message-ID: <8c720e26060f89128346c810a1061bc341cd56ce.1751318230.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <cover.1751318230.git.mchehab+huawei@kernel.org>
-References: <cover.1751318230.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PLKNJke+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751320719; x=1782856719;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ryG6O+hywxBHLhwOlUOGXqP7WwqJfAxg/kIPwhB+7CI=;
+  b=PLKNJke+OZGO0PeTzKGrgQFzxIzWJaLz6O5FwOAVM1RAQgP+584GwLfC
+   pwlvQhu/58Q6OAhWLe2Pf/pRfapOL19Z50nJCpSmQ73EmnlxF9NWwweB9
+   2caEx/+M5IGR4q66xv7HnC73daclfGFhkiR5mjlCbi3R0wr9bjxYWAnBp
+   Fa0VyuLv8LRxpl1i8fwFiGlOmHjqgFGbDOoRef92SSts/rl0WKspPu5Uy
+   hF5ArhBp+u2whIp4wEXKHgw0RLBqWoM/c8NoUYJH8uPWAJJ68Vx8jyi5U
+   YfgMRJb+dtSXC+mhUs6h4GC4CuLaGFGmcnZNoH6OdOLOGnP1poJnoTxii
+   Q==;
+X-CSE-ConnectionGUID: f2eU9zEOQ+mARRoFnHVdKA==
+X-CSE-MsgGUID: ti79T9ItRy+7XsCKlPIXsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64916169"
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="64916169"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 14:58:36 -0700
+X-CSE-ConnectionGUID: 3++YVH0gR0uWL1jmRwTCgw==
+X-CSE-MsgGUID: FKtKkJQHTpOx7OsGNL3ewA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="159087097"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 14:58:35 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 30 Jun 2025 14:58:18 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Mon, 30 Jun 2025 14:58:18 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (40.107.95.72) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 30 Jun 2025 14:58:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y08IMBrrL5Xq20bRKh8u/115GZLpJxJ4eLdvbpEJZkoXsTjHm5vVSpZwjpBw83gi6TRk9NontRi4rvCPRIWRRMO7LFA7k6xiEpFtEPbBZnao0SBg/bnghJeg8b+oUKfhRVllTqAY6lWlPW4PVwONMDC2WTAoq+Wns4e8kWbNdRG23UO+8Lgi00Ut1ZcPL62xwly4DXtKuA0c0DrSpJLjpOAej6osmw89hMv4mVghSHmplxrWaj1pm0ix7W1+4cyDFAEQCls673ckmnBeAUWcH2CPUUin1CnbQ5bPMfpVQK2w/k02Y7z68wIyuAvW0dRzWsfEKYjTkI1SdMkmDafH5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aqrK7oh+/znpaVPtQq/2hjghneTJ4XCyIpmE6nSYtZU=;
+ b=dY5SySq6YTkKuS+66d9ok4lU+pNpFyNpQGADEY8jLsHNS7iiV7jXnl3QqaRESdYRTg/htcL0nQKLhx5Rdcx3P0k/FArZj1IS4ADT3EsRzP7C31H3jygUZ5lBEWdJr/SHyU4Mzdlj8Osqxn1gPJ/6qjuJ+91w4mvevV8nYcDuE1P33MRLWscAdbCOs/7nU+N67nZ5DivdkdXJB3g9jio8Y8ID/tbrzv0Uv0boQ7x6uJjo7GYe2Xf6xt3yNwayXuisSWgaJNGXbZSccoRu8RSuZcssbTauJ6gCNzDc8Xzamu0gqOqoTeKXAd+2X4QBFCGdb8RDiR2S98f4VP30DtAlaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by PH8PR11MB8288.namprd11.prod.outlook.com (2603:10b6:510:1c8::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Mon, 30 Jun
+ 2025 21:58:15 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%6]) with mapi id 15.20.8792.034; Mon, 30 Jun 2025
+ 21:58:15 +0000
+Message-ID: <689867b7-f3cc-4389-898c-53c4dc321447@intel.com>
+Date: Mon, 30 Jun 2025 14:58:11 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 23/32] fs/resctrl: Add definitions for MBM event
+ configuration
+To: <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
+	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<rostedt@goodmis.org>, <paulmck@kernel.org>, <thuth@redhat.com>,
+	<ardb@kernel.org>, <gregkh@linuxfoundation.org>, <seanjc@google.com>,
+	<thomas.lendacky@amd.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<manali.shukla@amd.com>, <perry.yuan@amd.com>, <kai.huang@intel.com>,
+	<peterz@infradead.org>, <xiaoyao.li@intel.com>, <kan.liang@linux.intel.com>,
+	<mario.limonciello@amd.com>, <xin3.li@intel.com>, <gautham.shenoy@amd.com>,
+	<xin@zytor.com>, <chang.seok.bae@intel.com>, <fenghuay@nvidia.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<eranian@google.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <cover.1749848714.git.babu.moger@amd.com>
+ <dbd02fa64c22ec933ba27e69ded8288d4d4ae9a1.1749848715.git.babu.moger@amd.com>
+ <fd9c7ca0-1d16-49b8-b3f7-4f37cbd9060a@intel.com>
+ <1ecc2e54-f62a-4937-be9d-5a275dae0634@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <1ecc2e54-f62a-4937-be9d-5a275dae0634@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0079.namprd03.prod.outlook.com
+ (2603:10b6:303:b6::24) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH8PR11MB8288:EE_
+X-MS-Office365-Filtering-Correlation-Id: e04dc557-658d-4dcf-25d8-08ddb8213679
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MisvWm1WSXk3K0drODczRnFwRC8yanUvZEZSQkR2REZnMnpYY05kRXFpWkVF?=
+ =?utf-8?B?RlBkdjdYSTloVEhMUG1XT2h5RzFmNmtoaGk3OEVCdXlSY3ZtUG90eHJpN1ZS?=
+ =?utf-8?B?bENHSHMveWRoOGt0MGdBWDN4R1RmZkZWVlVPZ1ZWNTRkUEQ0eVhiQjA5QndT?=
+ =?utf-8?B?M1Jvd1JvdFBYVkhub1AxS1gyZmtHeXZ3TUVVeEFVcVNzTU5INWdvaWY2RXlL?=
+ =?utf-8?B?ajVPenRPVzl2c2dTV0VvcDNKOUVDWDc4cFdFSTI5cWFIS3lqRG5EOU5mMks4?=
+ =?utf-8?B?VEJyN2RBMzZUZlk5VXFtenR0Tk1vSjVTeVZ4RTVZbGE4SGRMaU9ENlhRanJS?=
+ =?utf-8?B?R2pDSW9TVk1MVmNxc2xGaGdyQWNNWHpkOHhZc3V5ZGd3V1ExaXNuL2ZUbEMr?=
+ =?utf-8?B?KzFaazBGYnNZcUE4K25IbmIycVhMbUtiWGZaTzl6M0RxZWNya3hSUU1LcENO?=
+ =?utf-8?B?MFErWENoOEhWY1lPdFpGczZ6c0R6ZnVraTJNVlpHeGdGbUcrMDZsR2srWnMz?=
+ =?utf-8?B?RTdpcUI1NmpkemRrSnRxYnJob1M0M3hEYzVzaWkxa2RpSE5FTGdnRE80dG1p?=
+ =?utf-8?B?V3IxNDdGQ3UyYTFmTU01RVpFaEZDQ2NBMjRUS0krc3hmUGJyai9peGcwb2p6?=
+ =?utf-8?B?QSttSUp1L1p2TGN1d2E3b3BXRkdhWC9MT1VqQ2Erd0tVcFVrVmpkeW8zRG56?=
+ =?utf-8?B?Nno1S2J6a2pOYUg3ajM2MmVESWdrQUxyOTBMWmtVMVVScXlPcWpkYWNuNXp4?=
+ =?utf-8?B?NUpiaSs4UTJsMzBrQm1UakRodzVuNFZjdDQzcHFIc2FZKzF2QkJKbG5OeFRZ?=
+ =?utf-8?B?T1k0MjhScFNJU0k4NFB1SSt4N29rcDRPZ0FoU2UxSzBWZVhxcTI5ekZsQ1ZG?=
+ =?utf-8?B?N3JRUzg5V3BuUzluN2hZa3cwTER5M2tmR0FNck9JcmNpOVRPRXpZWE9QY0JQ?=
+ =?utf-8?B?SURGcGEzVDI5enRadWZJQlNTa2haclJtUEI3QUJwWC9MT3Z6cm5uTTBDMy93?=
+ =?utf-8?B?MTVkQU00ZDJpeGo4bVI2NVI1TXZMcmI0Um8vRWV2dks2Vm9CNkFhMTBhNm1B?=
+ =?utf-8?B?OHBsU1JzR1hBK2FhTWp5eUtaQmEyV1BWOUxod1J1ZFRQYnZrTzFXWkZGRjRF?=
+ =?utf-8?B?cUZtRVVHZkU4OVREZVZ2cEVaTXkycVpSVHpwMDRiZmRacURXK3RoT1A5c0pp?=
+ =?utf-8?B?Si9qbm1HbmZlb01wdG1UeVZUazZjUHk0NTFkRG5LeVhzcTdpbUtmSlBzQUNU?=
+ =?utf-8?B?RWE2bGEvdDBuWmVQR2xjazFQeUIxOVR1MEZiTkwrYU01TXlzNnpvR3hsTXU4?=
+ =?utf-8?B?RGRwelBjVDlsL0JTTDVPU0FPU0JUMHRQeUJsUHZ1dDdvR1lOMjBnTjY0aXhC?=
+ =?utf-8?B?NW9PbkZ3R0lEaWVWR0hoeko3MUo4Tmh4dDRlUFN1eDN4a2ZCaXNFcUsydStj?=
+ =?utf-8?B?TkJUYW5QNGRHZ25OL3B4VmJnZHVCcytiMjhvVGJDdkIvNkZWT1J5eGVpejlt?=
+ =?utf-8?B?ejUrVWNPdlNJcFZ0enpHQm5DNmZ6QmdoZDc5VEMvbTZFcjhaZEkwZ200aWZ1?=
+ =?utf-8?B?SXliYnJrWU9VT1h0YWx6cFdoTUZnNTZUMU0rY3VORUUxRVNuM3dsNGxHeWhC?=
+ =?utf-8?B?Z3NZS0JCelNMSzlWQWV1MktvelhkbmlMTnlvQVZ1dy9lWWdmUSt1c1NIWWc5?=
+ =?utf-8?B?b1ZqOXJJU3k4K0FCYW12dHVBRlFLcnA5Qy82bXVyNVVzSW80UHBrQ2g2MzNs?=
+ =?utf-8?B?LzJ6UXFKMmh2OU1tRVc3OTR2QmVYWXN3eEtZSENmSFk4VzB0Vlg1ODcxU3d3?=
+ =?utf-8?B?WThGR3gwU3loUTNkN0ZnUE5UbndMRGR4eEtQVmdpZXZRUUozcThkL2owd1dy?=
+ =?utf-8?B?ZVFwaTdicWw2SmhzVGs0MUQvMmcwT0RQWTBLR3N2OCt2V2QxYkhkMlF6UG1C?=
+ =?utf-8?Q?UNjV9QQ3RoQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y1BoWWVXVEM0NUVhZ2o0WnJBTGNoanJZQ0hlR1BvemowS2VQTUZVNmR2bzky?=
+ =?utf-8?B?a0VFdHViV0RzU1ROOWRWVm81R3Rna0hXaXQ3TkpNNys1MFJSSExDQUV5Zk5y?=
+ =?utf-8?B?WGNGeEh0b1RLcjlIZEh6R3ZRWEdtcEdoQkUvVXNtaktnd0ZzcnFXTGJYU0Zy?=
+ =?utf-8?B?TmtMclRmbEx5M2VYZXFMaC95SlRnN1dNTFliRE9vaE9yMk9HdGVUekI0N0N1?=
+ =?utf-8?B?YmpWbXBoWk5NQ1dZUUF1TGEyZThHYlVnWkxFZ1VzMDZUZWNtbXNxZ0V5M2E4?=
+ =?utf-8?B?bUloQk9zcGJjanduSWI0ZlFGSVdneEs0Um1TalF4RGxBaDY4cG5iYVhPWW11?=
+ =?utf-8?B?bGsrVGtHRGNuOVJ4ZlpTSDg1eVZFc3FDa2RlaUdhRmdZRzRDZW9zVGFhYlZL?=
+ =?utf-8?B?aVp6Z3hUaFJ2ZkR4Z0FKUUlPNzdaKzhwNVk5dGg1d3dzNURSeHZjL3BWenhJ?=
+ =?utf-8?B?WFBvNDZwWEFpbEtzOEFkRlJxUGpaSHZNRC9oRlVmR24zOTZKZEo0S3RKcUNm?=
+ =?utf-8?B?MlR1YXJoWGdRZUtFMCtQeDVpVUI3OGIxOVIxSkZ6djYvanQyUmphNDZyWXYz?=
+ =?utf-8?B?Wk5DSzZ3TitLckNKNU5CbVFTRlc3OURoeFJqb3JpdmlVMGgwSFNJWEN0dyt5?=
+ =?utf-8?B?dmJ4NGhwNFI3a2tTRlJTaUYzMmhGUG5rOTVRNE9zSUpUSU9OVHhlTjd5YmI3?=
+ =?utf-8?B?SGFZUnk2VEFFbDcrSTFMMGJySEVtZlJwL1k3NHl5STNnaXQ5dTdaYWtZTzRp?=
+ =?utf-8?B?Ti9ySXM2bGxDMmZiZnNabjdOeGJxTDJNT1EwTmoycU5NRmVJcHZQSVdQZG5N?=
+ =?utf-8?B?eTVrZXpBYXVXLy9aeEhtMjZkOEFtMW9mOUNUMm9Sazd3ZEQ5enRwVlJZQjhP?=
+ =?utf-8?B?eGpJbUozdUJDZy8vblFqK3hNeDk2MFZyMlpITm5kZGhiZVl5OXZWMytTRWJw?=
+ =?utf-8?B?WHprOU9XemJweUorSFA3N2IvZ3BsTFl0TG5vUm5CazhQa2ZMNm9YcDlGRzQ4?=
+ =?utf-8?B?QlJGcmt2bXdWVkJiU3U4dHptSzJJb0tMSmlmR284SmYzYml5Q3d6NmxkSG1R?=
+ =?utf-8?B?MUpESjZ6ZVQvaE5GbGdmMmtUNWFxSGZNdGt3dGIxUFRGN0dNaDZPaDlQMSti?=
+ =?utf-8?B?ZDh5TjkrbHRqUy9YVEZjd0p0WFVTWGk5alUvRHZyZ1gvaFh1WERBelM5cXFw?=
+ =?utf-8?B?anJYdlQvQWJZWVc0ZE5vRFVDR2NwVnlsN0hSL1Bla3dZcTBxR2VjSitrN1Mr?=
+ =?utf-8?B?VXFYcEJFL2JJWWhJV3UzbG5MUUZNd1lEclIxeW5GbE55ckxiVlB5d3hzR2ww?=
+ =?utf-8?B?VDJ6RG4vcWdnSWJuaG00c0IzemdPS2tsSVcxblNweDV4cTQvZUJLazhmY25Q?=
+ =?utf-8?B?U2R4U1RrODA2RzFzSmhFb2ROQTBNMVJsSkJBSWxqTkhTalNzYkRWeFNOMkVG?=
+ =?utf-8?B?R09RZEdTclo1dmpKY1dOY2x5LzNka3RQM1c4TytvVS9vdXY2bDdHdWIwSFJo?=
+ =?utf-8?B?RVg3dXV3MXJUV3lLTmpJUVBtZHpHUS9VT3VuQVRFQUJ6WHJMbThndzhPNW44?=
+ =?utf-8?B?c3JhcjVDcXZyNU1hMTNCanNKTjgvTkw1ZUQxdk5TYzM3cnlydUlRQ1VTSy94?=
+ =?utf-8?B?NGNaTEZzZ21xcDlBSkRTNFEzNWptdkJmYzZlbkJYMUJNcmVJTkl5MndRZGVG?=
+ =?utf-8?B?R3FmdkdlcmhBVk9OTXpNc0lTVkdtNGMwbmhLb2JkM2pXWmxKOWZ5aytmTnpr?=
+ =?utf-8?B?bGw0ZzBVcUVQVnh6WDhkTVhDMmZsaWZnRklpM2t2V00vNmhlaVRCRHorZFNY?=
+ =?utf-8?B?MzU1WG5UUlF6K01mcklUWG1Bd3RzeDZXaEhBZHRWTk51MDJzL1pXb2JVc1pJ?=
+ =?utf-8?B?NnJnVmQwMTMxTitxZVpIUERxVkRLYkROWTcwQnM2ZmtnajZTVkFvQmF0UlBr?=
+ =?utf-8?B?MVh1a0VudkpWdDJpUFN1b21OVXlpRnA1R0FXM3huZ2JFaGM5L2Z1YTY3Uk9E?=
+ =?utf-8?B?SXFnb2xyUTlxRlFNbUgvQ1JKNjVVS1dWc0F6UXRNNVV0ODN0Unh1MkVDbnEr?=
+ =?utf-8?B?cytLUVlWdzZXbzhjR3k3UVc4YmNFOW5aRlNnM1JuT2twQUtrSHBtdjVWNkU2?=
+ =?utf-8?B?clA4K1BKYWRhSlcrS01oRkFyNHhQTjdhMlh4VzJ0ZUYyNzJvVDU4QkdCcE05?=
+ =?utf-8?B?YlE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e04dc557-658d-4dcf-25d8-08ddb8213679
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 21:58:14.6297
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DLbnl9xK1G1wPjIogJUHz82vHxFZDnTfghyBCHpiefjJHJvFzxaK9eXCLzBWP2Vh4B+wA7YjWRGHz6PS0oI6ROAwDIPsq/khcG8aqeiZpYQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8288
+X-OriginatorOrg: intel.com
 
-All features were ported to the Python version. Plus, it
-supports more variants and contain fixes.
+Hi Babu,
 
-So, drop the old version.
+On 6/30/25 10:20 AM, Moger, Babu wrote:
+> On 6/24/25 23:32, Reinette Chatre wrote:
+>> On 6/13/25 2:05 PM, Babu Moger wrote:
+> 
+> Changed the whole changelog.
+> 
+> fs/resctrl: Add definitions for MBM event configuration
+> 
+> The "mbm_event" counter assignment mode allows the user to assign a
+> hardware counter to an RMID, event pair and monitor the bandwidth as long
+> as it is assigned. The user can specify a particular type of memory
+> transaction for the counter to track.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/sphinx-pre-install.pl | 1056 ---------------------------------
- 1 file changed, 1056 deletions(-)
- delete mode 100755 scripts/sphinx-pre-install.pl
+Since an event can be configured with multiple memory transactions I think the
+last sentence can be something like:
+	The user can specify the memory transaction(s) for the counter to
+	track.
 
-diff --git a/scripts/sphinx-pre-install.pl b/scripts/sphinx-pre-install.pl
-deleted file mode 100755
-index 07234d482fa8..000000000000
---- a/scripts/sphinx-pre-install.pl
-+++ /dev/null
-@@ -1,1056 +0,0 @@
--#!/usr/bin/env perl
--# SPDX-License-Identifier: GPL-2.0-or-later
--use strict;
--
--# Copyright (c) 2017-2020 Mauro Carvalho Chehab <mchehab@kernel.org>
--#
--
--my $prefix = "./";
--$prefix = "$ENV{'srctree'}/" if ($ENV{'srctree'});
--
--my $conf = $prefix . "Documentation/conf.py";
--my $requirement_file = $prefix . "Documentation/sphinx/requirements.txt";
--my $virtenv_prefix = "sphinx_";
--
--#
--# Static vars
--#
--
--my %missing;
--my $system_release;
--my $need = 0;
--my $optional = 0;
--my $need_symlink = 0;
--my $need_sphinx = 0;
--my $need_pip = 0;
--my $need_virtualenv = 0;
--my $rec_sphinx_upgrade = 0;
--my $verbose_warn_install = 1;
--my $install = "";
--my $virtenv_dir = "";
--my $python_cmd = "";
--my $activate_cmd;
--my $min_version;
--my $cur_version;
--my $rec_version = "3.4.3";
--my $latest_avail_ver;
--
--#
--# Command line arguments
--#
--
--my $pdf = 1;
--my $virtualenv = 1;
--my $version_check = 0;
--
--#
--# List of required texlive packages on Fedora and OpenSuse
--#
--
--my %texlive = (
--	'amsfonts.sty'       => 'texlive-amsfonts',
--	'amsmath.sty'        => 'texlive-amsmath',
--	'amssymb.sty'        => 'texlive-amsfonts',
--	'amsthm.sty'         => 'texlive-amscls',
--	'anyfontsize.sty'    => 'texlive-anyfontsize',
--	'atbegshi.sty'       => 'texlive-oberdiek',
--	'bm.sty'             => 'texlive-tools',
--	'capt-of.sty'        => 'texlive-capt-of',
--	'cmap.sty'           => 'texlive-cmap',
--	'ecrm1000.tfm'       => 'texlive-ec',
--	'eqparbox.sty'       => 'texlive-eqparbox',
--	'eu1enc.def'         => 'texlive-euenc',
--	'fancybox.sty'       => 'texlive-fancybox',
--	'fancyvrb.sty'       => 'texlive-fancyvrb',
--	'float.sty'          => 'texlive-float',
--	'fncychap.sty'       => 'texlive-fncychap',
--	'footnote.sty'       => 'texlive-mdwtools',
--	'framed.sty'         => 'texlive-framed',
--	'luatex85.sty'       => 'texlive-luatex85',
--	'multirow.sty'       => 'texlive-multirow',
--	'needspace.sty'      => 'texlive-needspace',
--	'palatino.sty'       => 'texlive-psnfss',
--	'parskip.sty'        => 'texlive-parskip',
--	'polyglossia.sty'    => 'texlive-polyglossia',
--	'tabulary.sty'       => 'texlive-tabulary',
--	'threeparttable.sty' => 'texlive-threeparttable',
--	'titlesec.sty'       => 'texlive-titlesec',
--	'ucs.sty'            => 'texlive-ucs',
--	'upquote.sty'        => 'texlive-upquote',
--	'wrapfig.sty'        => 'texlive-wrapfig',
--	'ctexhook.sty'       => 'texlive-ctex',
--);
--
--#
--# Subroutines that checks if a feature exists
--#
--
--sub check_missing(%)
--{
--	my %map = %{$_[0]};
--
--	foreach my $prog (sort keys %missing) {
--		my $is_optional = $missing{$prog};
--
--		# At least on some LTS distros like CentOS 7, texlive doesn't
--		# provide all packages we need. When such distros are
--		# detected, we have to disable PDF output.
--		#
--		# So, we need to ignore the packages that distros would
--		# need for LaTeX to work
--		if ($is_optional == 2 && !$pdf) {
--			$optional--;
--			next;
--		}
--
--		if ($verbose_warn_install) {
--			if ($is_optional) {
--				print "Warning: better to also install \"$prog\".\n";
--			} else {
--				print "ERROR: please install \"$prog\", otherwise, build won't work.\n";
--			}
--		}
--		if (defined($map{$prog})) {
--			$install .= " " . $map{$prog};
--		} else {
--			$install .= " " . $prog;
--		}
--	}
--
--	$install =~ s/^\s//;
--}
--
--sub add_package($$)
--{
--	my $package = shift;
--	my $is_optional = shift;
--
--	$missing{$package} = $is_optional;
--	if ($is_optional) {
--		$optional++;
--	} else {
--		$need++;
--	}
--}
--
--sub check_missing_file($$$)
--{
--	my $files = shift;
--	my $package = shift;
--	my $is_optional = shift;
--
--	for (@$files) {
--		return if(-e $_);
--	}
--
--	add_package($package, $is_optional);
--}
--
--sub findprog($)
--{
--	foreach(split(/:/, $ENV{PATH})) {
--		return "$_/$_[0]" if(-x "$_/$_[0]");
--	}
--}
--
--sub find_python_no_venv()
--{
--	my $prog = shift;
--
--	my $cur_dir = qx(pwd);
--	$cur_dir =~ s/\s+$//;
--
--	foreach my $dir (split(/:/, $ENV{PATH})) {
--		next if ($dir =~ m,($cur_dir)/sphinx,);
--		return "$dir/python3" if(-x "$dir/python3");
--	}
--	foreach my $dir (split(/:/, $ENV{PATH})) {
--		next if ($dir =~ m,($cur_dir)/sphinx,);
--		return "$dir/python" if(-x "$dir/python");
--	}
--	return "python";
--}
--
--sub check_program($$)
--{
--	my $prog = shift;
--	my $is_optional = shift;
--
--	return $prog if findprog($prog);
--
--	add_package($prog, $is_optional);
--}
--
--sub check_perl_module($$)
--{
--	my $prog = shift;
--	my $is_optional = shift;
--
--	my $err = system("perl -M$prog -e 1 2>/dev/null /dev/null");
--	return if ($err == 0);
--
--	add_package($prog, $is_optional);
--}
--
--sub check_python_module($$)
--{
--	my $prog = shift;
--	my $is_optional = shift;
--
--	return if (!$python_cmd);
--
--	my $err = system("$python_cmd -c 'import $prog' 2>/dev/null /dev/null");
--	return if ($err == 0);
--
--	add_package($prog, $is_optional);
--}
--
--sub check_rpm_missing($$)
--{
--	my @pkgs = @{$_[0]};
--	my $is_optional = $_[1];
--
--	foreach my $prog(@pkgs) {
--		my $err = system("rpm -q '$prog' 2>/dev/null >/dev/null");
--		add_package($prog, $is_optional) if ($err);
--	}
--}
--
--sub check_pacman_missing($$)
--{
--	my @pkgs = @{$_[0]};
--	my $is_optional = $_[1];
--
--	foreach my $prog(@pkgs) {
--		my $err = system("pacman -Q '$prog' 2>/dev/null >/dev/null");
--		add_package($prog, $is_optional) if ($err);
--	}
--}
--
--sub check_missing_tex($)
--{
--	my $is_optional = shift;
--	my $kpsewhich = findprog("kpsewhich");
--
--	foreach my $prog(keys %texlive) {
--		my $package = $texlive{$prog};
--		if (!$kpsewhich) {
--			add_package($package, $is_optional);
--			next;
--		}
--		my $file = qx($kpsewhich $prog);
--		add_package($package, $is_optional) if ($file =~ /^\s*$/);
--	}
--}
--
--sub get_sphinx_fname()
--{
--	if ($ENV{'SPHINXBUILD'}) {
--	    return $ENV{'SPHINXBUILD'};
--	}
--
--	my $fname = "sphinx-build";
--	return $fname if findprog($fname);
--
--	$fname = "sphinx-build-3";
--	if (findprog($fname)) {
--		$need_symlink = 1;
--		return $fname;
--	}
--
--	return "";
--}
--
--sub get_sphinx_version($)
--{
--	my $cmd = shift;
--	my $ver;
--
--	open IN, "$cmd --version 2>&1 |";
--	while (<IN>) {
--		if (m/^\s*sphinx-build\s+([\d\.]+)((\+\/[\da-f]+)|(b\d+))?$/) {
--			$ver=$1;
--			last;
--		}
--		# Sphinx 1.2.x uses a different format
--		if (m/^\s*Sphinx.*\s+([\d\.]+)$/) {
--			$ver=$1;
--			last;
--		}
--	}
--	close IN;
--	return $ver;
--}
--
--sub check_sphinx()
--{
--	open IN, $conf or die "Can't open $conf";
--	while (<IN>) {
--		if (m/^\s*needs_sphinx\s*=\s*[\'\"]([\d\.]+)[\'\"]/) {
--			$min_version=$1;
--			last;
--		}
--	}
--	close IN;
--
--	die "Can't get needs_sphinx version from $conf" if (!$min_version);
--
--	$virtenv_dir = $virtenv_prefix . "latest";
--
--	my $sphinx = get_sphinx_fname();
--	if ($sphinx eq "") {
--		$need_sphinx = 1;
--		return;
--	}
--
--	$cur_version = get_sphinx_version($sphinx);
--	die "$sphinx didn't return its version" if (!$cur_version);
--
--	if ($cur_version lt $min_version) {
--		printf "ERROR: Sphinx version is %s. It should be >= %s\n",
--		       $cur_version, $min_version;
--		$need_sphinx = 1;
--		return;
--	}
--
--	return if ($cur_version lt $rec_version);
--
--	# On version check mode, just assume Sphinx has all mandatory deps
--	exit (0) if ($version_check);
--}
--
--#
--# Ancillary subroutines
--#
--
--sub catcheck($)
--{
--  my $res = "";
--  $res = qx(cat $_[0]) if (-r $_[0]);
--  return $res;
--}
--
--sub which($)
--{
--	my $file = shift;
--	my @path = split ":", $ENV{PATH};
--
--	foreach my $dir(@path) {
--		my $name = $dir.'/'.$file;
--		return $name if (-x $name );
--	}
--	return undef;
--}
--
--#
--# Subroutines that check distro-specific hints
--#
--
--sub give_debian_hints()
--{
--	my %map = (
--		"python-sphinx"		=> "python3-sphinx",
--		"yaml"			=> "python3-yaml",
--		"ensurepip"		=> "python3-venv",
--		"virtualenv"		=> "virtualenv",
--		"dot"			=> "graphviz",
--		"convert"		=> "imagemagick",
--		"Pod::Usage"		=> "perl-modules",
--		"xelatex"		=> "texlive-xetex",
--		"rsvg-convert"		=> "librsvg2-bin",
--	);
--
--	if ($pdf) {
--		check_missing_file(["/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexhook.sty"],
--				   "texlive-lang-chinese", 2);
--
--		check_missing_file(["/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
--				   "fonts-dejavu", 2);
--
--		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc",
--				    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
--				    "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc"],
--				   "fonts-noto-cjk", 2);
--	}
--
--	check_program("dvipng", 2) if ($pdf);
--	check_missing(\%map);
--
--	return if (!$need && !$optional);
--	printf("You should run:\n") if ($verbose_warn_install);
--	printf("\n\tsudo apt-get install $install\n");
--}
--
--sub give_redhat_hints()
--{
--	my %map = (
--		"python-sphinx"		=> "python3-sphinx",
--		"yaml"			=> "python3-pyyaml",
--		"virtualenv"		=> "python3-virtualenv",
--		"dot"			=> "graphviz",
--		"convert"		=> "ImageMagick",
--		"Pod::Usage"		=> "perl-Pod-Usage",
--		"xelatex"		=> "texlive-xetex-bin",
--		"rsvg-convert"		=> "librsvg2-tools",
--	);
--
--	my @fedora26_opt_pkgs = (
--		"graphviz-gd",		# Fedora 26: needed for PDF support
--	);
--
--	my @fedora_tex_pkgs = (
--		"texlive-collection-fontsrecommended",
--		"texlive-collection-latex",
--		"texlive-xecjk",
--		"dejavu-sans-fonts",
--		"dejavu-serif-fonts",
--		"dejavu-sans-mono-fonts",
--	);
--
--	#
--	# Checks valid for RHEL/CentOS version 7.x.
--	#
--	my $old = 0;
--	my $rel;
--	my $noto_sans_redhat = "google-noto-sans-cjk-ttc-fonts";
--	$rel = $2 if ($system_release =~ /(release|Linux)\s+(\d+)/);
--
--	if (!($system_release =~ /Fedora/)) {
--		$map{"virtualenv"} = "python-virtualenv";
--
--		if ($rel && $rel < 8) {
--			$old = 1;
--			$pdf = 0;
--
--			printf("Note: texlive packages on RHEL/CENTOS <= 7 are incomplete. Can't support PDF output\n");
--			printf("If you want to build PDF, please read:\n");
--			printf("\thttps://www.systutorials.com/241660/how-to-install-tex-live-on-centos-7-linux/\n");
--		}
--	} else {
--		if ($rel && $rel < 26) {
--			$old = 1;
--		}
--		if ($rel && $rel >= 38) {
--			$noto_sans_redhat = "google-noto-sans-cjk-fonts";
--		}
--	}
--	if (!$rel) {
--		printf("Couldn't identify release number\n");
--		$old = 1;
--		$pdf = 0;
--	}
--
--	if ($pdf) {
--		check_missing_file(["/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc",
--				    "/usr/share/fonts/google-noto-sans-cjk-fonts/NotoSansCJK-Regular.ttc"],
--				   $noto_sans_redhat, 2);
--	}
--
--	check_rpm_missing(\@fedora26_opt_pkgs, 2) if ($pdf && !$old);
--	check_rpm_missing(\@fedora_tex_pkgs, 2) if ($pdf);
--	check_missing_tex(2) if ($pdf);
--	check_missing(\%map);
--
--	return if (!$need && !$optional);
--
--	if (!$old) {
--		# dnf, for Fedora 18+
--		printf("You should run:\n") if ($verbose_warn_install);
--		printf("\n\tsudo dnf install -y $install\n");
--	} else {
--		# yum, for RHEL (and clones) or Fedora version < 18
--		printf("You should run:\n") if ($verbose_warn_install);
--		printf("\n\tsudo yum install -y $install\n");
--	}
--}
--
--sub give_opensuse_hints()
--{
--	my %map = (
--		"python-sphinx"		=> "python3-sphinx",
--		"yaml"			=> "python3-pyyaml",
--		"virtualenv"		=> "python3-virtualenv",
--		"dot"			=> "graphviz",
--		"convert"		=> "ImageMagick",
--		"Pod::Usage"		=> "perl-Pod-Usage",
--		"xelatex"		=> "texlive-xetex-bin",
--	);
--
--	# On Tumbleweed, this package is also named rsvg-convert
--	$map{"rsvg-convert"} = "rsvg-view" if (!($system_release =~ /Tumbleweed/));
--
--	my @suse_tex_pkgs = (
--		"texlive-babel-english",
--		"texlive-caption",
--		"texlive-colortbl",
--		"texlive-courier",
--		"texlive-dvips",
--		"texlive-helvetic",
--		"texlive-makeindex",
--		"texlive-metafont",
--		"texlive-metapost",
--		"texlive-palatino",
--		"texlive-preview",
--		"texlive-times",
--		"texlive-zapfchan",
--		"texlive-zapfding",
--	);
--
--	$map{"latexmk"} = "texlive-latexmk-bin";
--
--	# FIXME: add support for installing CJK fonts
--	#
--	# I tried hard, but was unable to find a way to install
--	# "Noto Sans CJK SC" on openSUSE
--
--	check_rpm_missing(\@suse_tex_pkgs, 2) if ($pdf);
--	check_missing_tex(2) if ($pdf);
--	check_missing(\%map);
--
--	return if (!$need && !$optional);
--	printf("You should run:\n") if ($verbose_warn_install);
--	printf("\n\tsudo zypper install --no-recommends $install\n");
--}
--
--sub give_mageia_hints()
--{
--	my %map = (
--		"python-sphinx"		=> "python3-sphinx",
--		"yaml"			=> "python3-yaml",
--		"virtualenv"		=> "python3-virtualenv",
--		"dot"			=> "graphviz",
--		"convert"		=> "ImageMagick",
--		"Pod::Usage"		=> "perl-Pod-Usage",
--		"xelatex"		=> "texlive",
--		"rsvg-convert"		=> "librsvg2",
--	);
--
--	my @tex_pkgs = (
--		"texlive-fontsextra",
--	);
--
--	$map{"latexmk"} = "texlive-collection-basic";
--
--	my $packager_cmd;
--	my $noto_sans;
--	if ($system_release =~ /OpenMandriva/) {
--		$packager_cmd = "dnf install";
--		$noto_sans = "noto-sans-cjk-fonts";
--		@tex_pkgs = ( "texlive-collection-fontsextra" );
--	} else {
--		$packager_cmd = "urpmi";
--		$noto_sans = "google-noto-sans-cjk-ttc-fonts";
--	}
--
--
--	if ($pdf) {
--		check_missing_file(["/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc",
--				    "/usr/share/fonts/TTF/NotoSans-Regular.ttf"],
--				   $noto_sans, 2);
--	}
--
--	check_rpm_missing(\@tex_pkgs, 2) if ($pdf);
--	check_missing(\%map);
--
--	return if (!$need && !$optional);
--	printf("You should run:\n") if ($verbose_warn_install);
--	printf("\n\tsudo $packager_cmd $install\n");
--}
--
--sub give_arch_linux_hints()
--{
--	my %map = (
--		"yaml"			=> "python-yaml",
--		"virtualenv"		=> "python-virtualenv",
--		"dot"			=> "graphviz",
--		"convert"		=> "imagemagick",
--		"xelatex"		=> "texlive-xetex",
--		"latexmk"		=> "texlive-core",
--		"rsvg-convert"		=> "extra/librsvg",
--	);
--
--	my @archlinux_tex_pkgs = (
--		"texlive-core",
--		"texlive-latexextra",
--		"ttf-dejavu",
--	);
--	check_pacman_missing(\@archlinux_tex_pkgs, 2) if ($pdf);
--
--	if ($pdf) {
--		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc"],
--				   "noto-fonts-cjk", 2);
--	}
--
--	check_missing(\%map);
--
--	return if (!$need && !$optional);
--	printf("You should run:\n") if ($verbose_warn_install);
--	printf("\n\tsudo pacman -S $install\n");
--}
--
--sub give_gentoo_hints()
--{
--	my %map = (
--		"yaml"			=> "dev-python/pyyaml",
--		"virtualenv"		=> "dev-python/virtualenv",
--		"dot"			=> "media-gfx/graphviz",
--		"convert"		=> "media-gfx/imagemagick",
--		"xelatex"		=> "dev-texlive/texlive-xetex media-fonts/dejavu",
--		"rsvg-convert"		=> "gnome-base/librsvg",
--	);
--
--	check_missing_file(["/usr/share/fonts/dejavu/DejaVuSans.ttf"],
--			   "media-fonts/dejavu", 2) if ($pdf);
--
--	if ($pdf) {
--		check_missing_file(["/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf",
--				    "/usr/share/fonts/noto-cjk/NotoSerifCJK-Regular.ttc"],
--				   "media-fonts/noto-cjk", 2);
--	}
--
--	check_missing(\%map);
--
--	return if (!$need && !$optional);
--
--	printf("You should run:\n") if ($verbose_warn_install);
--	printf("\n");
--
--	my $imagemagick = "media-gfx/imagemagick svg png";
--	my $cairo = "media-gfx/graphviz cairo pdf";
--	my $portage_imagemagick = "/etc/portage/package.use/imagemagick";
--	my $portage_cairo = "/etc/portage/package.use/graphviz";
--
--	if (qx(grep imagemagick $portage_imagemagick 2>/dev/null) eq "") {
--		printf("\tsudo su -c 'echo \"$imagemagick\" > $portage_imagemagick'\n")
--	}
--	if (qx(grep graphviz $portage_cairo 2>/dev/null) eq  "") {
--		printf("\tsudo su -c 'echo \"$cairo\" > $portage_cairo'\n");
--	}
--
--	printf("\tsudo emerge --ask $install\n");
--
--}
--
--sub check_distros()
--{
--	# Distro-specific hints
--	if ($system_release =~ /Red Hat Enterprise Linux/) {
--		give_redhat_hints;
--		return;
--	}
--	if ($system_release =~ /CentOS/) {
--		give_redhat_hints;
--		return;
--	}
--	if ($system_release =~ /Scientific Linux/) {
--		give_redhat_hints;
--		return;
--	}
--	if ($system_release =~ /Oracle Linux Server/) {
--		give_redhat_hints;
--		return;
--	}
--	if ($system_release =~ /Fedora/) {
--		give_redhat_hints;
--		return;
--	}
--	if ($system_release =~ /Ubuntu/) {
--		give_debian_hints;
--		return;
--	}
--	if ($system_release =~ /Debian/) {
--		give_debian_hints;
--		return;
--	}
--	if ($system_release =~ /openSUSE/) {
--		give_opensuse_hints;
--		return;
--	}
--	if ($system_release =~ /Mageia/) {
--		give_mageia_hints;
--		return;
--	}
--	if ($system_release =~ /OpenMandriva/) {
--		give_mageia_hints;
--		return;
--	}
--	if ($system_release =~ /Arch Linux/) {
--		give_arch_linux_hints;
--		return;
--	}
--	if ($system_release =~ /Gentoo/) {
--		give_gentoo_hints;
--		return;
--	}
--
--	#
--	# Fall-back to generic hint code for other distros
--	# That's far from ideal, specially for LaTeX dependencies.
--	#
--	my %map = (
--		"sphinx-build" => "sphinx"
--	);
--	check_missing_tex(2) if ($pdf);
--	check_missing(\%map);
--	print "I don't know distro $system_release.\n";
--	print "So, I can't provide you a hint with the install procedure.\n";
--	print "There are likely missing dependencies.\n";
--}
--
--#
--# Common dependencies
--#
--
--sub deactivate_help()
--{
--	printf "\n    If you want to exit the virtualenv, you can use:\n";
--	printf "\tdeactivate\n";
--}
--
--sub get_virtenv()
--{
--	my $ver;
--	my $min_activate = "$ENV{'PWD'}/${virtenv_prefix}${min_version}/bin/activate";
--	my @activates = glob "$ENV{'PWD'}/${virtenv_prefix}*/bin/activate";
--
--	@activates = sort {$b cmp $a} @activates;
--
--	foreach my $f (@activates) {
--		next if ($f lt $min_activate);
--
--		my $sphinx_cmd = $f;
--		$sphinx_cmd =~ s/activate/sphinx-build/;
--		next if (! -f $sphinx_cmd);
--
--		my $ver = get_sphinx_version($sphinx_cmd);
--
--		if (!$ver) {
--			$f =~ s#/bin/activate##;
--			print("Warning: virtual environment $f is not working.\nPython version upgrade? Remove it with:\n\n\trm -rf $f\n\n");
--		}
--
--		if ($need_sphinx && ($ver ge $min_version)) {
--			return ($f, $ver);
--		} elsif ($ver gt $cur_version) {
--			return ($f, $ver);
--		}
--	}
--	return ("", "");
--}
--
--sub recommend_sphinx_upgrade()
--{
--	my $venv_ver;
--
--	# Avoid running sphinx-builds from venv if $cur_version is good
--	if ($cur_version && ($cur_version ge $rec_version)) {
--		$latest_avail_ver = $cur_version;
--		return;
--	}
--
--	# Get the highest version from sphinx_*/bin/sphinx-build and the
--	# corresponding command to activate the venv/virtenv
--	($activate_cmd, $venv_ver) = get_virtenv();
--
--	# Store the highest version from Sphinx existing virtualenvs
--	if (($activate_cmd ne "") && ($venv_ver gt $cur_version)) {
--		$latest_avail_ver = $venv_ver;
--	} else {
--		$latest_avail_ver = $cur_version if ($cur_version);
--	}
--
--	# As we don't know package version of Sphinx, and there's no
--	# virtual environments, don't check if upgrades are needed
--	if (!$virtualenv) {
--		return if (!$latest_avail_ver);
--	}
--
--	# Either there are already a virtual env or a new one should be created
--	$need_pip = 1;
--
--	return if (!$latest_avail_ver);
--
--	# Return if the reason is due to an upgrade or not
--	if ($latest_avail_ver lt $rec_version) {
--		$rec_sphinx_upgrade = 1;
--	}
--
--	return $latest_avail_ver;
--}
--
--#
--# The logic here is complex, as it have to deal with different versions:
--#	- minimal supported version;
--#	- minimal PDF version;
--#	- recommended version.
--# It also needs to work fine with both distro's package and venv/virtualenv
--sub recommend_sphinx_version($)
--{
--	my $virtualenv_cmd = shift;
--
--	# Version is OK. Nothing to do.
--	if ($cur_version && ($cur_version ge $rec_version)) {
--		return;
--	};
--
--	if (!$need_sphinx) {
--		# sphinx-build is present and its version is >= $min_version
--
--		#only recommend enabling a newer virtenv version if makes sense.
--		if ($latest_avail_ver gt $cur_version) {
--			printf "\nYou may also use the newer Sphinx version $latest_avail_ver with:\n";
--			printf "\tdeactivate\n"  if ($ENV{'PWD'} =~ /${virtenv_prefix}/);
--			printf "\t. $activate_cmd\n";
--			deactivate_help();
--
--			return;
--		}
--		return if ($latest_avail_ver ge $rec_version);
--	}
--
--	if (!$virtualenv) {
--		# No sphinx either via package or via virtenv. As we can't
--		# Compare the versions here, just return, recommending the
--		# user to install it from the package distro.
--		return if (!$latest_avail_ver);
--
--		# User doesn't want a virtenv recommendation, but he already
--		# installed one via virtenv with a newer version.
--		# So, print commands to enable it
--		if ($latest_avail_ver gt $cur_version) {
--			printf "\nYou may also use the Sphinx virtualenv version $latest_avail_ver with:\n";
--			printf "\tdeactivate\n"  if ($ENV{'PWD'} =~ /${virtenv_prefix}/);
--			printf "\t. $activate_cmd\n";
--			deactivate_help();
--
--			return;
--		}
--		print "\n";
--	} else {
--		$need++ if ($need_sphinx);
--	}
--
--	# Suggest newer versions if current ones are too old
--	if ($latest_avail_ver && $latest_avail_ver ge $min_version) {
--		# If there's a good enough version, ask the user to enable it
--		if ($latest_avail_ver ge $rec_version) {
--			printf "\nNeed to activate Sphinx (version $latest_avail_ver) on virtualenv with:\n";
--			printf "\t. $activate_cmd\n";
--			deactivate_help();
--
--			return;
--		}
--
--		# Version is above the minimal required one, but may be
--		# below the recommended one. So, print warnings/notes
--
--		if ($latest_avail_ver lt $rec_version) {
--			print "Warning: It is recommended at least Sphinx version $rec_version.\n";
--		}
--	}
--
--	# At this point, either it needs Sphinx or upgrade is recommended,
--	# both via pip
--
--	if ($rec_sphinx_upgrade) {
--		if (!$virtualenv) {
--			print "Instead of install/upgrade Python Sphinx pkg, you could use pip/pypi with:\n\n";
--		} else {
--			print "To upgrade Sphinx, use:\n\n";
--		}
--	} else {
--		print "\nSphinx needs to be installed either:\n1) via pip/pypi with:\n\n";
--	}
--
--	$python_cmd = find_python_no_venv();
--
--	printf "\t$virtualenv_cmd $virtenv_dir\n";
--
--	printf "\t. $virtenv_dir/bin/activate\n";
--	printf "\tpip install -r $requirement_file\n";
--	deactivate_help();
--
--	printf "\n2) As a package with:\n";
--
--	my $old_need = $need;
--	my $old_optional = $optional;
--	%missing = ();
--	$pdf = 0;
--	$optional = 0;
--	$install = "";
--	$verbose_warn_install = 0;
--
--	add_package("python-sphinx", 0);
--
--	check_distros();
--
--	$need = $old_need;
--	$optional = $old_optional;
--
--	printf "\n    Please note that Sphinx >= 3.0 will currently produce false-positive\n";
--	printf "   warning when the same name is used for more than one type (functions,\n";
--	printf "   structs, enums,...). This is known Sphinx bug. For more details, see:\n";
--	printf "\thttps://github.com/sphinx-doc/sphinx/pull/8313\n";
--}
--
--sub check_needs()
--{
--	# Check if Sphinx is already accessible from current environment
--	check_sphinx();
--
--	if ($system_release) {
--		print "Detected OS: $system_release.\n";
--	} else {
--		print "Unknown OS\n";
--	}
--	printf "Sphinx version: %s\n\n", $cur_version if ($cur_version);
--
--	# Check python command line, trying first python3
--	$python_cmd = findprog("python3");
--	$python_cmd = check_program("python", 0) if (!$python_cmd);
--
--	# Check the type of virtual env, depending on Python version
--	if ($python_cmd) {
--		if ($virtualenv) {
--			my $tmp = qx($python_cmd --version 2>&1);
--			if ($tmp =~ m/(\d+\.)(\d+\.)/) {
--				if ($1 < 3) {
--					# Fail if it finds python2 (or worse)
--					die "Python 3 is required to build the kernel docs\n";
--				}
--				if ($1 == 3 && $2 < 3) {
--					# Need Python 3.3 or upper for venv
--					$need_virtualenv = 1;
--				}
--			} else {
--				die "Warning: couldn't identify $python_cmd version!";
--			}
--		} else {
--			add_package("python-sphinx", 0);
--		}
--	}
--
--	my $venv_ver = recommend_sphinx_upgrade();
--
--	my $virtualenv_cmd;
--
--	if ($need_pip) {
--		# Set virtualenv command line, if python < 3.3
--		if ($need_virtualenv) {
--			$virtualenv_cmd = findprog("virtualenv-3");
--			$virtualenv_cmd = findprog("virtualenv-3.5") if (!$virtualenv_cmd);
--			if (!$virtualenv_cmd) {
--				check_program("virtualenv", 0);
--				$virtualenv_cmd = "virtualenv";
--			}
--		} else {
--			$virtualenv_cmd = "$python_cmd -m venv";
--			check_python_module("ensurepip", 0);
--		}
--	}
--
--	# Check for needed programs/tools
--	check_perl_module("Pod::Usage", 0);
--	check_python_module("yaml", 0);
--	check_program("make", 0);
--	check_program("gcc", 0);
--	check_program("dot", 1);
--	check_program("convert", 1);
--
--	# Extra PDF files - should use 2 for is_optional
--	check_program("xelatex", 2) if ($pdf);
--	check_program("rsvg-convert", 2) if ($pdf);
--	check_program("latexmk", 2) if ($pdf);
--
--	# Do distro-specific checks and output distro-install commands
--	check_distros();
--
--	if (!$python_cmd) {
--		if ($need == 1) {
--			die "Can't build as $need mandatory dependency is missing";
--		} elsif ($need) {
--			die "Can't build as $need mandatory dependencies are missing";
--		}
--	}
--
--	# Check if sphinx-build is called sphinx-build-3
--	if ($need_symlink) {
--		printf "\tsudo ln -sf %s /usr/bin/sphinx-build\n\n",
--		       which("sphinx-build-3");
--	}
--
--	recommend_sphinx_version($virtualenv_cmd);
--	printf "\n";
--
--	print "All optional dependencies are met.\n" if (!$optional);
--
--	if ($need == 1) {
--		die "Can't build as $need mandatory dependency is missing";
--	} elsif ($need) {
--		die "Can't build as $need mandatory dependencies are missing";
--	}
--
--	print "Needed package dependencies are met.\n";
--}
--
--#
--# Main
--#
--
--while (@ARGV) {
--	my $arg = shift(@ARGV);
--
--	if ($arg eq "--no-virtualenv") {
--		$virtualenv = 0;
--	} elsif ($arg eq "--no-pdf"){
--		$pdf = 0;
--	} elsif ($arg eq "--version-check"){
--		$version_check = 1;
--	} else {
--		print "Usage:\n\t$0 <--no-virtualenv> <--no-pdf> <--version-check>\n\n";
--		print "Where:\n";
--		print "\t--no-virtualenv\t- Recommend installing Sphinx instead of using a virtualenv\n";
--		print "\t--version-check\t- if version is compatible, don't check for missing dependencies\n";
--		print "\t--no-pdf\t- don't check for dependencies required to build PDF docs\n\n";
--		exit -1;
--	}
--}
--
--#
--# Determine the system type. There's no standard unique way that would
--# work with all distros with a minimal package install. So, several
--# methods are used here.
--#
--# By default, it will use lsb_release function. If not available, it will
--# fail back to reading the known different places where the distro name
--# is stored
--#
--
--$system_release = qx(lsb_release -d) if which("lsb_release");
--$system_release =~ s/Description:\s*// if ($system_release);
--$system_release = catcheck("/etc/system-release") if !$system_release;
--$system_release = catcheck("/etc/redhat-release") if !$system_release;
--$system_release = catcheck("/etc/lsb-release") if !$system_release;
--$system_release = catcheck("/etc/gentoo-release") if !$system_release;
--
--# This seems more common than LSB these days
--if (!$system_release) {
--	my %os_var;
--	if (open IN, "cat /etc/os-release|") {
--		while (<IN>) {
--			if (m/^([\w\d\_]+)=\"?([^\"]*)\"?\n/) {
--				$os_var{$1}=$2;
--			}
--		}
--		$system_release = $os_var{"NAME"};
--		if (defined($os_var{"VERSION_ID"})) {
--			$system_release .= " " . $os_var{"VERSION_ID"} if (defined($os_var{"VERSION_ID"}));
--		} else {
--			$system_release .= " " . $os_var{"VERSION"};
--		}
--	}
--}
--$system_release = catcheck("/etc/issue") if !$system_release;
--$system_release =~ s/\s+$//;
--
--check_needs;
--- 
-2.50.0
+> 
+> Add the definitions for supported memory transactions (e.g., read, write,
+> etc.) the counter can be configured with.
 
+Looks good. Thank you.
+
+Reinette
