@@ -1,56 +1,203 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC8D4A32;
-	Mon, 30 Jun 2025 05:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F874A01
+	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 05:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751262347; cv=none; b=GK83T4m8RxdRMwnpwIa3L2Q7p6A3TyvTBwKZeAQW2Arkr3H3jZhWvi5wlwYwAmKZ+lyGSs3m06Vy4/XwZFmyP3GmHcsmt7X8w1iG8b3y9quCS62Dk2m8VJcGSRHgPPc2MG2l6383ciYNGYs+Bl8b/TQNGQNClqI8ckROvUeUy7U=
+	t=1751262388; cv=none; b=j0YXa6cBacbjjEZPwFxWeZTP8VMKzT2B4q+cSlNKSvcRizthKoqZOnzDJ44lUlsNZLVaOQzsGb35Wjs0et4M9swv5FhG6ozFgEeMPX8QXWFZxfoOUFLOCgEGy5aPsfm5624/pkZ0ewzxxinxSJBQiR+T6fTyeK5PoMJULaMU86I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751262347; c=relaxed/simple;
-	bh=yjwZRf19G9gpDwKJ0bdAop7S1tJsQHrFLh3YwyZqFKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rJfUjZq0KR1tPteNIQ9KUe++Ryo8Ub4nVqnvIoh6Rxik9kCz7ZSiwp4WbT3R3IVNQ3beU0yxsXHgWpOmGxSY+didzDepzk7ysV7WlYnHg178hzGAjUdDKGaV8SCL7iMClKXra+PUFBmcs1VFJczNU72hWwtuISVVa4qWxQSrFyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0EBCE68AA6; Mon, 30 Jun 2025 07:45:43 +0200 (CEST)
-Date: Mon, 30 Jun 2025 07:45:42 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Brian Foster <bfoster@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Joanne Koong <joannelkoong@gmail.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev
-Subject: Re: [PATCH 08/12] iomap: move folio_unlock out of
- iomap_writeback_folio
-Message-ID: <20250630054542.GE28532@lst.de>
-References: <20250627070328.975394-1-hch@lst.de> <20250627070328.975394-9-hch@lst.de> <aF7JHFdLCi89sFpn@bfoster>
+	s=arc-20240116; t=1751262388; c=relaxed/simple;
+	bh=vSOzRne14JlU94xeMdnMdVZdut1+dfhDJWu8jSNU4co=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T6/a7jCMo2dbH3QyTj1ZDdaUdISFHmGfeTZc849ijpwJWl3zMPD46wtLjR9akzqlWLm5RRIgRdg9Le1v/HvkZ6tPkfSrFtiSqseft71IcVOQ8qXUTQSHLEk6YukcwODzTwCcfp53tL30E6iWBp85NosZdgc0D7QY6VaJnJEvfFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ciBi5XLv; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ciBi5XLv"
+Message-ID: <2070d1d5-d1d3-4653-83c0-ec13e4a9b0de@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1751262379;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1SFI+2RTNSLf2HFfmb12EMAYVqKRoDz3A5tt6oW5UUE=;
+	b=ciBi5XLveZFqQ3Q09ThtON/lNT87QyUn/CkRoB1bilzs9ElHMhe246n/skcV7NDQefzc/V
+	9RJJY/2Db95dqmNF+r2JpzJYI9fIcZ6AIiuCPyuSwC+s/+JCFmo0BjdbvHzVDO8sP7M1S5
+	Q/Av30SDbb3C3GkqRHlxZYsWtbdutrI=
+Date: Mon, 30 Jun 2025 13:46:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aF7JHFdLCi89sFpn@bfoster>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Subject: Re: [PATCH v3 1/3] Docs/zh_CN: Translate netif-msg.rst to Simplified
+ Chinese
+To: jiang.kun2@zte.com.cn, alexs@kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: xu.xin16@zte.com.cn, yang.yang29@zte.com.cn, wang.yaxin@zte.com.cn,
+ fan.yu9@zte.com.cn, he.peilin@zte.com.cn, tu.qiang35@zte.com.cn,
+ qiu.yutan@zte.com.cn, zhang.yunkai@zte.com.cn, ye.xingchen@zte.com.cn
+References: <20250627141707799nmybVYALZSRANqHIwCTCi@zte.com.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20250627141707799nmybVYALZSRANqHIwCTCi@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jun 27, 2025 at 12:38:52PM -0400, Brian Foster wrote:
-> > Move unlocking the folio out of iomap_writeback_folio into the caller.
-> > This means the end writeback machinery is now run with the folio locked
-> > when no writeback happend, or writeback completed extremely fast.
-> > 
-> 
-> I notice that folio_end_dropbehind_write() (via folio_end_writeback())
-> wants to trylock the folio in order to do its thing. Is this going to
-> cause issues with that (i.e. prevent invalidations)?
 
-Good point.  It renders the filemap_end_dropbehind_write call (the
-function got renamed in 6.16-rc) essentially useless.  OTOH this is
-the case where no writeback happened due to a race, so it isn't needed
-to start with.  But it might be worth documenting that fact.
+在 6/27/25 2:17 PM, jiang.kun2@zte.com.cn 写道:
+> From: Wang Yaxin <wang.yaxin@zte.com.cn>
+>
+> translate the "netif-msg.rst" into Simplified Chinese.
+>
+> Update the translation through commit c4d5dff60f0a
+> ("docs: networking: convert netif-msg.txt to ReST")
+>
+> Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
 
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+
+
+Thanks,
+
+Yanteng
+
+> ---
+> v2->v3:
+> 1. adjust table format.
+> 2. update commit id in commit message.
+>
+>  .../translations/zh_CN/networking/index.rst  |  2 +-
+>  .../zh_CN/networking/netif-msg.rst           | 92 +++++++++++++++++++
+>  2 files changed, 93 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/networking/netif-msg.rst
+>
+> diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
+> index 07a3933afe92..4dd75ec27dec 100644
+> --- a/Documentation/translations/zh_CN/networking/index.rst
+> +++ b/Documentation/translations/zh_CN/networking/index.rst
+> @@ -22,6 +22,7 @@
+>     msg_zerocopy
+>     napi.rst
+> +   netif-msg
+>  Todolist:
+> @@ -100,7 +101,6 @@ Todolist:
+>  *   netdev-features
+>  *   netdevices
+>  *   netfilter-sysctl
+> -*   netif-msg
+>  *   netmem
+>  *   nexthop-group-resilient
+>  *   nf_conntrack-sysctl
+> diff --git a/Documentation/translations/zh_CN/networking/netif-msg.rst b/Documentation/translations/zh_CN/networking/netif-msg.rst
+> new file mode 100644
+> index 000000000000..877399b169fe
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/networking/netif-msg.rst
+> @@ -0,0 +1,92 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/networking/netif-msg.rst
+> +
+> +:翻译:
+> +
+> +   王亚鑫 Wang Yaxin <wang.yaxin@zte.com.cn>
+> +
+> +================
+> +网络接口消息级别
+> +================
+> +
+> +网络接口消息级别设置的设计方案。
+> +
+> +历史背景
+> +--------
+> +
+> +调试消息接口的设计遵循并受制于向后兼容性及历史实践。理解其发展历史有助于把握
+> +当前实践，并将其与旧版驱动代码相关联。
+> +
+> +自Linux诞生之初，每个网络设备驱动均包含一个本地整型变量以控制调试消息级别。
+> +消息级别范围为0至7，数值越大表示输出越详细。
+> +
+> +消息级别的定义在3级之后未明确细化，但实际实现通常与指定级别相差±1。驱动程序
+> +成熟后，冗余的详细级别消息常被移除。
+> +
+> +  - 0  最简消息，仅显示致命错误的关键信息。
+> +  - 1  标准消息，初始化状态。无运行时消息。
+> +  - 2  特殊介质选择消息，通常由定时器驱动。
+> +  - 3  接口开启和停止消息，包括正常状态信息。
+> +  - 4  Tx/Rx帧错误消息及异常驱动操作。
+> +  - 5  Tx数据包队列信息、中断事件。
+> +  - 6  每个完成的Tx数据包和接收的Rx数据包状态。
+> +  - 7  Tx/Rx数据包初始内容。
+> +
+> +最初，该消息级别变量在各驱动中具有唯一名称（如"lance_debug"），便于通过
+> +内核符号调试器定位和修改其设置。模块化内核出现后，变量统一重命名为"debug"，
+> +并作为模块参数设置。
+> +
+> +这种方法效果良好。然而，人们始终对附加功能存在需求。多年来，以下功能逐渐
+> +成为合理且易于实现的增强方案：
+> +
+> +  - 通过ioctl()调用修改消息级别。
+> +  - 按接口而非驱动设置消息级别。
+> +  - 对发出的消息类型进行更具选择性的控制。
+> +
+> +netif_msg 建议添加了这些功能，仅带来了轻微的复杂性增加和代码规模增长。
+> +
+> +推荐方案如下：
+> +
+> +  - 保留驱动级整型变量"debug"作为模块参数，默认值为'1'。
+> +
+> +  - 添加一个名为 "msg_enable" 的接口私有变量。该变量是位图而非级别，
+> +    并按如下方式初始化::
+> +
+> +       1 << debug
+> +
+> +     或更精确地说::
+> +
+> +debug < 0 ? 0 : 1 << min(sizeof(int)-1, debug)
+> +
+> +    消息应从以下形式更改::
+> +
+> +      if (debug > 1)
+> + printk(MSG_DEBUG "%s: ...
+> +
+> +    改为::
+> +
+> +      if (np->msg_enable & NETIF_MSG_LINK)
+> + printk(MSG_DEBUG "%s: ...
+> +
+> +消息级别命名对应关系
+> +
+> +
+> +  =========  =================== ============
+> +  旧级别       名称 位位置
+> +  =========  =================== ============
+> +    1         NETIF_MSG_PROBE    0x0002
+> +    2         NETIF_MSG_LINK     0x0004
+> +    2         NETIF_MSG_TIMER    0x0004
+> +    3         NETIF_MSG_IFDOWN     0x0008
+> +    3         NETIF_MSG_IFUP     0x0008
+> +    4         NETIF_MSG_RX_ERR     0x0010
+> +    4         NETIF_MSG_TX_ERR     0x0010
+> +    5  NETIF_MSG_TX_QUEUED   0x0020
+> +    5         NETIF_MSG_INTR     0x0020
+> +    6         NETIF_MSG_TX_DONE    0x0040
+> +    6  NETIF_MSG_RX_STATUS   0x0040
+> +    7         NETIF_MSG_PKTDATA    0x0080
+> +  =========  =================== ============
+> -- 
+> 2.25.1
+>
+>
+>
+>
+>
