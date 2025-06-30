@@ -1,260 +1,195 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11021114.outbound.protection.outlook.com [52.101.65.114])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7182878C91;
-	Mon, 30 Jun 2025 10:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.114
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751279557; cv=fail; b=sW0X08BihpDQrjoLuWB42k6GW1uAPJC02mhBnOWg6fYRXqkH20jM+2u3jUcrzZcXOctDP68/53bVMYQuMMdJ5SOOGzKC0j6q317GL3SN0L4fZKLD14IWW/zrsxVgTA/ge8bq5J3CQAsKQA8qM38BKtmCfDJDUh/WBWjYlkYsqmc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751279557; c=relaxed/simple;
-	bh=qkG4EgSjkQ7S8t9UdFR9mo//a4zZnMD6G2hzt5agBKI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=B5cRysncvIpr5j48XEOuhqez20TzcyGnuGf36g9w4LXEpMG7sgaFV2IKDYA8OlPs7d9ZDdaKeTjtCIdbE8FtdOYmmWy9U+AINHnBZX/8FqM5bMM0Y/pf9U4FuV2zYiU4CWD7J7v8+XGgE0lRq+4/SNWzpIHYFRwZ4ECrNcC5gtE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de; spf=pass smtp.mailfrom=kontron.de; dkim=pass (1024-bit key) header.d=mysnt.onmicrosoft.com header.i=@mysnt.onmicrosoft.com header.b=Bo9AEzAj; arc=fail smtp.client-ip=52.101.65.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kontron.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAA9244688
+	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 10:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751279928; cv=none; b=RNQ0l5NzzIqUmUX3coY3dUlBp71SMamrKFuNS/7zUS++nwRYchJoAKrLHfET47y5oP9ugkEhOaaWF3pojV5ray/IHQ+AoXgXVFfJiZ94AMtJru5SNVD2rJ/s3b4u4Jz5ioQQ5HIwLC8IaDU1QDGrzod+v/cG8aYI+/C+fd0SOhE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751279928; c=relaxed/simple;
+	bh=KI5H1B3obLGclGzIVYoqT657wg5uoacHX0Rz1Qbk5U4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rRPQOsL3btRE8iPXh5BgTgzQr94wKNMswyWmdBumuTQv6/BJ4+N3bTkeYSblAlDCzUDyfx/B3+aPXP2NLxOdOgcMBLWQxcsoTdQ5BWVeEksogW3C5YNH+xbBDS2cWybFcyq2/H1Q2X5XMW3TPzbiQi/FRysBcpLFLCHuF9HtRYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q0VsK1hv; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mysnt.onmicrosoft.com header.i=@mysnt.onmicrosoft.com header.b="Bo9AEzAj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mh6s+gbvZ+WHYi956xpuGVVMWF46zzTrMYMJX8ztGgfwIZVnqYGFDHbH/lfKCBAtpGBu6pXrJ/ylxtVRA6cNeUP1OJPe1kF/3OsrflM4JKKqpm9G4MIuA/PNtRY0JB9H8ScN0Ec3xYWoN212tf/ovOwsaHIU2MoCWLHWo3ntO+eAbm7VuVsH7XMu/Ab6ss9AUPNs4uAuUbkaN4tX61aES0SbMtKYqADCEdn/1C5rF9OLg+yGZP0Q55ew3ylQ4mUO6kHk4LDZgJvXD/7R55Zxtw2D7sM+VFtOqwMdsGlffUl67/44gu7CbEEb7i/evp+LNFbUMRVbYc9S7uk9nqprgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mSuDmVicfzD/tG1JesxgmwwoKBosm6yu7gRk4wBoGvU=;
- b=BO0Vzdp//SIIBk4Ym/sKh9Jq1ieczkqt9Uc7BhNtV+lvt8GLqWqeW4n5d+j0d0NC+5S/fRT11tXhmUu3UrV3qnWLCoHzNdsNx/j0fItkiXwV74LsZvoXOicG614O84a4gaOX6WASu8Z/33DmoWB+aBHYv6m9Er+crs+TnSFgBhMPoGnzRy4v7wqYCt+8xA2/4d8OdMm6BGipVA83J5e4SY80F60KesV+6t69nRQ9xA4GcWgsEvVqdRg9JHa9JeAkA5xu7muH4hSa0LPycLNM/YuRkg1CN4WmCCi7+fZ2Iyf8FK2S0VwjE6L/cF0vnT2Ey6MJRS5E/yTey8a/JMV6hQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
- s=selector2-mysnt-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mSuDmVicfzD/tG1JesxgmwwoKBosm6yu7gRk4wBoGvU=;
- b=Bo9AEzAjRN8bP/aqPskGo7HR5fBxXai8ozVqaqBDghoC+cptotECnoJeezLEcbrFa/npGn7mQAffIJ8jGcs/LuPdiAnO9XMPKgBoQZYidNv7O7wejvhcr1Vh2ZmUPVeJJZVfdUmHsN0uRK/wR0/iQtrvdruInSUiKvdtSQ97WRQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by AS5PR10MB8204.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:678::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.30; Mon, 30 Jun
- 2025 10:32:32 +0000
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b854:7611:1533:2a19]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::b854:7611:1533:2a19%7]) with mapi id 15.20.8880.027; Mon, 30 Jun 2025
- 10:32:32 +0000
-Message-ID: <b02055bb-0995-4fd8-99f3-4ca5146eedd4@kontron.de>
-Date: Mon, 30 Jun 2025 12:32:30 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] Re: [PATCH v18 3/7] firmware: imx: add driver for NXP
- EdgeLock Enclave
-To: Marco Felsch <m.felsch@pengutronix.de>,
- Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Frank Li <frank.li@nxp.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20250619-imx-se-if-v18-0-c98391ba446d@nxp.com>
- <20250619-imx-se-if-v18-3-c98391ba446d@nxp.com>
- <20250625105546.pxuatcnfpe7mssgs@pengutronix.de>
- <AM9PR04MB8604611B8D91B5526C9704E69545A@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20250627084653.6vgwnm3llf3zknlp@pengutronix.de>
-Content-Language: en-US, de-DE
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <20250627084653.6vgwnm3llf3zknlp@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0349.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f4::9) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:263::10)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q0VsK1hv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751279925;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=67aFXQrWHbpI4Fyl5DLESwSzgu+5w69Ws3Jiartc4Ao=;
+	b=Q0VsK1hvvSJkjpUc1Nvlx+8/uSxI0xPJCV/jfkiOJs1Lz+uzn99T85qJT3+HmqOam42DMQ
+	rdsYNnC52JcPeT66haR2V1l+3YzPFNHJAUXF/pMEUmG28jo0+v5aRxDYdNc1nWVkpQhVMN
+	Jz8Fe77Mb1SDnn+d/WwLMeBjvTD0nXc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-686-OwYaru0UPcq88gfIyukDQA-1; Mon, 30 Jun 2025 06:38:44 -0400
+X-MC-Unique: OwYaru0UPcq88gfIyukDQA-1
+X-Mimecast-MFC-AGG-ID: OwYaru0UPcq88gfIyukDQA_1751279923
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45311704d1fso11803825e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 03:38:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751279923; x=1751884723;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=67aFXQrWHbpI4Fyl5DLESwSzgu+5w69Ws3Jiartc4Ao=;
+        b=Nk2auHA5orzp9l7RfYnyIdnqfpe7/J3rFZwLtjROLgpoub9a6L4tLA9H/rwWwp7OG6
+         fO9iplXcuLYdg5f4t3/AEwiIMKz/Rx7FkVk7jGk4883fdLcQucZTRf2A9do4MNRnv+QC
+         PpSjDk3ja4RY3VeVXg4pqWw5Vxs6uKzNKsBigx3PWsagTBPcra0Qctes0sKLsCghz5F7
+         Bq0KWrgB6HSmiNRygH9AIO887f0DCh9PrftRc3hKfJGtOfsckJhRBorq2m4EGCuAGO4A
+         LJbvDYCehXNlwNbyUF1CylxoZunTdh3OAAb4pK+hAxQ+xTqBafZLt5BvYbONb7zH4vfq
+         CaFg==
+X-Forwarded-Encrypted: i=1; AJvYcCXFmWajzMK20tzyNRSpRV+0yxBhkXobSf8iBxVNf8X/+A2wyTbffSSlwi+OhDiuPJRTn5Ukksos6pI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5TkIK39kg2Rwrr0MCIvsCs8EqkQZbVEz2RN+gBYIOlXcuyLgv
+	bVnXAcR+zQ4Vy6Rd3IvZaho114RCgv/pxR63vLBIJQ9XEV7UrUfuR0XFE+plOaQMDTxWomMx5Fm
+	P1WQ2ttAT5i+PfjR6UquvC0vGU0qDAJpaKxCUOc7vrQjZd8wm2hKAH0Qit/1ZXw==
+X-Gm-Gg: ASbGnctgjJn7obaeiyDH2syIv2l/5d76dTS209bTjvhbmE4I8WbDFmy/1Ed3C8PzqvP
+	q3tCREEUJSj7EgHkDfncBfCgfr1L8ku7Ow95BWKHuNlqv27FSfAiuNnIWroCZsitYaWhDYL6c3F
+	kPdCEj+SsBmcG7I7Gh5ITqETZ83oTD9l0xbAsxHGUq05aPuBMRU6iXVoGr4eNdSNA4Dkz37+l4r
+	tBivpCFeeX5LvAKNfuZwauZ08TLW5dm4PKpHxw5e0CWjsVYcGHfKlcfYmayT3YpgYRpY/VmnFX4
+	Y5eUEb3tlYjZa+lD6ThGz5yQoAhRn2hvqlVoIZGeEyXcbkhg6YFGSH+Bo+m/YoBPdmQDqps0leo
+	hWZFwjubx4CMxBAacrovsI3U8rux69eMKwzprbqwfaKywJ7Of+Q==
+X-Received: by 2002:a05:600c:1d18:b0:450:d07e:ee14 with SMTP id 5b1f17b1804b1-4538ee60815mr148032385e9.17.1751279922810;
+        Mon, 30 Jun 2025 03:38:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFbR0EXwYLOIn4B0J77nh6IYL3kQZ2rdcN1jUT78ZTpALrM9RwX6OgAGv5YOD7axO14le8E/Q==
+X-Received: by 2002:a05:600c:1d18:b0:450:d07e:ee14 with SMTP id 5b1f17b1804b1-4538ee60815mr148031685e9.17.1751279922315;
+        Mon, 30 Jun 2025 03:38:42 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f40:b300:53f7:d260:aff4:7256? (p200300d82f40b30053f7d260aff47256.dip0.t-ipconnect.de. [2003:d8:2f40:b300:53f7:d260:aff4:7256])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a406ab6sm132793025e9.30.2025.06.30.03.38.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jun 2025 03:38:41 -0700 (PDT)
+Message-ID: <d2a304a0-767f-41b9-b040-a43ce58bdff7@redhat.com>
+Date: Mon, 30 Jun 2025 12:38:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|AS5PR10MB8204:EE_
-X-MS-Office365-Filtering-Correlation-Id: 77c887b3-76af-4719-abf5-08ddb7c16b99
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QlBhZzErZ3M0Q1NnYVk5cFR5QUtGT3NUbjJyeFRLT0h5RFozeDFMQlNWbGNz?=
- =?utf-8?B?VmNLMVJZRFh4NGF6TlhML3FKa3VqanVodm9xeDFwb0t4eVZGT0xaN2FLd2lT?=
- =?utf-8?B?aXN4MFdwa0RHOXR1a0R4SmZ1a052T2xONVp0bFlrVHJwRTJtT2lkbml5MlRG?=
- =?utf-8?B?ck1ia0I2MWtxNlNSRkZlcDNEOEJ1RStkejg0bmpaS1lGMlF1UjNOVkUyckhV?=
- =?utf-8?B?QnBsbnVvWmY1S1NQTHNtMERJaG9JN3pmK0dQcUIyRGhmOGd1V3dqd0hmZ244?=
- =?utf-8?B?MitDWVMzR2MvN2h4VDdIeG5rdFF0Q3FJNHRyWFcwL09XeUt6T0ZBbkRudGNv?=
- =?utf-8?B?SnZNSTJyNnlPZHMwbzhqS2c5OXZ3cEt2anViZ0p5cldnVzE5bnQxdHhRS3Ju?=
- =?utf-8?B?OFZEdEV4K1F3dXQ5cGVSTlorMFV5dklya0VHYk5wamFXT2JpRzRQQnpiWVFu?=
- =?utf-8?B?aFV5c1R6Q3k4anVBMlVWN05OKzZ4NklKWDJyQWVSRGNRL1hGVk1wSllLNDRm?=
- =?utf-8?B?V0xCMFd1bWZqbVYzd1FMWnpYVXB3MXlPSHRvdWJZVnU2UTk0N3YzNENaMzJE?=
- =?utf-8?B?OGxVRVZBeUs1OHJYZXNaUThOS05FS2p3QldidnZKZmczWXdqZ3Z0NWNzNVJD?=
- =?utf-8?B?OXp1aE8ySlkrQ21kUENjMUZmMjhhUlRyaHBSVzl6b3JWbXBNbTljWDNBbHJq?=
- =?utf-8?B?a1JGTlZZZ20zazRIQmpMZnMrcWNpRmk5allZL0piUkR2TmJBNVJGNkxhRkM2?=
- =?utf-8?B?Vlc2aHZMZWRQSGswWXBDQ0RVMldpWXFOWSt6MFFnZ0I1bE10OEdZalpEUXpN?=
- =?utf-8?B?SXFudVZaUGUwTS8wMEpSVEhMb0ZSU0txQmxuOXpqdzVoaUdpYndRWTUyVW85?=
- =?utf-8?B?VWNoZ0dwTmFJZFB0Q0pRUUFWUFc4N291aXVNUW5FanRXcDYrQ1NCN3lwZG85?=
- =?utf-8?B?VzYrdndNUWZpK2ZOVTdrbFQ0ckNPUzVzallnUWZsbUtyTzJZTTYyUlUyRG9j?=
- =?utf-8?B?VHlHY1BBWHdyeWVHV0FyYTFVb1duWDhCZzFlQTBjZU5keCs4czVJTGFsNUs4?=
- =?utf-8?B?a3FUTFBuenJsWHpHQTl1OWUwNUs1ZXlsMFEwMU1lcEFZdCtOVzRDOVlsU3NO?=
- =?utf-8?B?NFNJMmhuaUFCWldkemorTXVyUUxCOTNxR2E1MWpCME1ZcmhZUkRodzZqd2Ry?=
- =?utf-8?B?NHpkaFEyb2VhbzNFTWRCK0ZKYktHakpIM0RoYTI4WlA4N3hjdEdqUVZCb1Q1?=
- =?utf-8?B?a0R2MGQ3M1g0QmNRbk1KZ0ZGOWpVMVhoQjdvSkhEUXR2YllkL3BQMzVEY05z?=
- =?utf-8?B?VnBZQWxDVDdiME1jOWFxN3BuVnRmbzFjZlVyN01ERjhIR1B0VHhpdTJDN2JY?=
- =?utf-8?B?MEVJMTVaQ2ZIcXI3M0pFcmFid2RPOEpXOVdEQmlWdGpsQS9hMmlHRnIrS2E3?=
- =?utf-8?B?TUJYV3JlREhhSDc4UHVHdXJodUJaOExTajBJOEhHcGViMjV0ZXVnZXU3Q1Rw?=
- =?utf-8?B?dGhHangyZGNndC9tRkRwY2NpbWxwQml1QzZ3TmpuWUUra3o3VkZYblBMS21l?=
- =?utf-8?B?bzlPeXh6NXgvR1A4UGlFMVQ1dEFieGhnVDgzeUdiTHV6M2VyamwxUDhpS21D?=
- =?utf-8?B?L2U3WjVXemVYeWQ3SjBpRzBmM3BxZmJ1bjdlekpueWhFeTJ0WWphZm1Hc2Y5?=
- =?utf-8?B?eW5XZXlXNWZYSmNORk83bkdIVUJKTWZzNzlsSllwMmNyNlBlSld1d1B5RVN5?=
- =?utf-8?B?cnNaT004ZjNINS9WbVpoaUdPczJnTjFnR2t5SkNoN0R3elFHN2Jid0QwbFhy?=
- =?utf-8?B?WWNtblM2RnoxUWNtVFpoM3RoVXR3clNjZTBXUGNMVXB4TmJPemd5MU43MG4v?=
- =?utf-8?B?aHR5MVl3THFCenFTcDZBaWZZZjAzR0VyeE9pMy9zdmRiQVVUUzdJSm9FTTIv?=
- =?utf-8?Q?/+nQId8P26I=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?c3NSbHROV0xZcjJ4UnUzSTdaeEFZT2U5dnVpTGJIeUNJdG1OL0RIb1Y4TTFy?=
- =?utf-8?B?a3JFa1M4K2JhQkYrb0UyN0lxMkdTSWJOWlBGM3EydHJRN1NDV2xCQmtzU0lr?=
- =?utf-8?B?UFVwVDZlZG9YdEhOa0ZaOU1EaVRNaHJ1aU1sbUx5T0FEWmlwWWhqaUNQb2tG?=
- =?utf-8?B?OUJ2YXFub1haOHRoQVFKcjRXR2d5eGRaSlFIRjZGaHlURExwdVYwb2R2RkRY?=
- =?utf-8?B?NCt3YlhrbnllUjRjVFcyOVY3YXZBVEJnbXBXeVhCM3RycS9Odm9aR25FT3JC?=
- =?utf-8?B?d0JPTGtjL2RYUGtPVkhXV0U1MWhzUzdyOGZLbkVxTk5MRjNkT2JTTjJLYzcr?=
- =?utf-8?B?VWdMdmJsUnZqRUJRR1JkK3FCcWRQL0FQTW8xRlZSSDYvM3NzWVdKNXIzeDYx?=
- =?utf-8?B?cE95UmxjWjVReCsxKzVZWXR3d0hEc0lkaXVxNlJ5WUY5eXVHZkcvazhhN0tD?=
- =?utf-8?B?ZU9HU2RGNVlKSmhkbFduSGhaRjVzRWFiNy9nSWtWZ241cHN1U0RqcERXRjRW?=
- =?utf-8?B?U3pxTkJNbVJnL2M1aFpVTWxxbXdzYTk2ZFpxck5qWGt1cHZrVEdnTmhRK3A2?=
- =?utf-8?B?Z2R2WkJzRng1RzlObnUyNE82QjExZlVScW8zTzRHQ3N1VExQaGVDWm1la2NE?=
- =?utf-8?B?MU0rOFJwWjFVKzRhb3NWYkJ6N3JxWEVld0V1azRCUzVoUzJpVXlNZ0tGdGVN?=
- =?utf-8?B?T2J1V0RhU2cyYnlTWHJhVmYxVzRDUlREaTg1TkRtbStHOTA3dWZDREY2ZTUr?=
- =?utf-8?B?U1VUdUNxMTZ3M1RSZWdRdEF5NldCSFh3bDZRRWNXUis2VDVReW4rb052Ykcz?=
- =?utf-8?B?anZVVTdIVDNUYWRoa1V4UWY4NEhuVy9OQVR0eno0MmZuMG9DVWxQeHVJVWpQ?=
- =?utf-8?B?Ly9YS1pNb3R1RzkyNm9qcUVmTDJUOCt3OUs4czBXOXZZaHdiZDRVZXovYmR1?=
- =?utf-8?B?TlRNbHZScUFpNFdhWjhKdzVPc3dXS01mSW9COUNDYmZNYlVDREk2a293am5i?=
- =?utf-8?B?eGNzL1VhbWRFb1RkN3NjL0RrU0JUT29Ieml0MFhOWkJUODNGaGlicnlaZ2RR?=
- =?utf-8?B?TnU0QmlVQldQYlRDS29uZExjOWVFZWZqZGVPVC9nS2VkZHI3eldrZUhvZFdm?=
- =?utf-8?B?dmQvSDVYUmJ2alZydCtIOU1Fb2xVbllzQnp6cjNYRUs3MTBzd0ptS1NVbUQ1?=
- =?utf-8?B?M2VhUEN5MkRQMlYzUjZsQllDT21qWkd0cGJveDVucnJNS1Z3MlJtN0VSWUJZ?=
- =?utf-8?B?WVJhNzhRT01GdkxqYkZqcDNIeVBSQ3FOWGw2NjkwWUhXUU94M3FtZS85Q3pm?=
- =?utf-8?B?ek8yVU01VW9tU1RrdllmZ3RtYW9qMnp5anoxYmZJSmxNc0RvQTNTbWlRc3BJ?=
- =?utf-8?B?SWQzMVRZckZOSUR2UmNicUIrS3FrTmlxNzFTbTJrVkhBRW9sMkM1L2tmWTA5?=
- =?utf-8?B?MnQvYjdrY01Sc0ZtbTg5ckdoOURNOVY5c0VyeXRoWk1RVVlVd1RSckh3Y2Jz?=
- =?utf-8?B?bktJb0lxTjFCRmdPWmRQYURsUUVDYkJPSHB0d3IvWmx0a3hxSzFlVXBEeXVl?=
- =?utf-8?B?bmc4TG1wUDNaZVZCMTZEOEpnSWczTjVpK3hvNTQyamVLZUV6Mlc4dndlR0N4?=
- =?utf-8?B?czc5ZFpvZEVUeWJBUTBxaHJwc0F2dWVoajBJY2NIM2pTYmg4OGdjNmt0S0k0?=
- =?utf-8?B?Y2JRSURuOU84Z1NQU2hEMlNmL0NKakFjL1NFOTdNazM3ZXNwYTdCMkpzUmhW?=
- =?utf-8?B?cDZDZkRsWFBSaDZUUERZdHJxMkhFeHg2NkdNTTlxU2ZRWnlBek56dEIrSXB6?=
- =?utf-8?B?MXlpeTZvSjhZek1qcG03b2dMRGxsR1hFSzZzU1BtQWZubldyYmsvdnliLzNo?=
- =?utf-8?B?Tk44SXc3Z3RORk5zMnRYMm5KTG5JNjVjUVBxQTE0UnM3MXJKdFBONzVCa3lT?=
- =?utf-8?B?dkF3QmFGaUg1Vlc4cTdUS2dCandHWmVYTk1IakVMSFdmN1NhY1RrRml4N0xQ?=
- =?utf-8?B?aVJJenYzNmwxcW5mQTJvbU5EcDBodjRCakdnOFVNaG1SaEFaQTJJS1I0TFJv?=
- =?utf-8?B?c2lybDd1NllWMFRrZmYzSnFSUGRqRVo3L3hSdkJSU1F6cDBFa0J2VGpZQ1o0?=
- =?utf-8?B?MGZ4NzZFSitVWXJPR0cvSGRYNDlVb3k5MTVtNHZqT1RjSVdjWWVvT1ZORjVv?=
- =?utf-8?B?YXc9PQ==?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77c887b3-76af-4719-abf5-08ddb7c16b99
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 10:32:31.9471
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tlEZlF/Ybax/f4bC65iWK1I9XDpfQbrhIPZUEvh2scfe7h28Fq54ipSqjEaaOHezBbtDcy6N9/FJ/jF24qF5AGr14FOT1HN3wgzl+sJTDRM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR10MB8204
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 18/29] mm: remove __folio_test_movable()
+To: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, virtualization@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Minchan Kim <minchan@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
+ Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin
+ <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>
+References: <20250618174014.1168640-1-david@redhat.com>
+ <20250618174014.1168640-19-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20250618174014.1168640-19-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Marco,
+> @@ -1164,7 +1148,6 @@ static int migrate_folio_unmap(new_folio_t get_new_folio,
+>   	int rc = -EAGAIN;
+>   	int old_page_state = 0;
+>   	struct anon_vma *anon_vma = NULL;
+> -	bool is_lru = data_race(!__folio_test_movable(src));
+>   	bool locked = false;
+>   	bool dst_locked = false;
+>   
+> @@ -1265,7 +1248,7 @@ static int migrate_folio_unmap(new_folio_t get_new_folio,
+>   		goto out;
+>   	dst_locked = true;
+>   
+> -	if (unlikely(!is_lru)) {
+> +	if (unlikely(page_has_movable_ops(&dst->page))) {
 
-Am 27.06.25 um 10:46 schrieb Marco Felsch:
-> Hi,
-> 
-> your e-mail configuration mixed my e-mail with your answer, which makes
-> it hard to read. Can you please check the quoting next time :)
-> 
-> On 25-06-27, Pankaj Gupta wrote:
->>>> Add driver for enabling MU based communication interface to
->> secure-enclave.
->>>>
->>>> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE), are 
->>>> embedded in the SoC to support the features like HSM, SHE & V2X, using 
->>>> message based communication interface.
->>>>
->>>> The secure enclave FW communicates with Linux over single or multiple 
->>>> dedicated messaging unit(MU) based interface(s).
->>>> Exists on i.MX SoC(s) like i.MX8ULP, i.MX93, i.MX95 etc.
->>
->>> You write single or multiple MUs are possible. I'm aware that the i.MX93
->>> has two MUs one for the secure and one for the non-secure world. But I'm
->>> really concerned about the fact that both MUs can't be used at the same time
->>> from both world:
->>
->> Yes, you are correct.
->>
->> Fix is still work in progress.
-> 
-> So after ~6 months no fix is available :(
-> 
->>> Also how is the secure and non-secure world talking to the ELE if there is
->>> only one MU as you have written?
->>
->> Till the fix is WIP, either Linux or OPTEE can use the ELE, at one point in
->> time.
-> 
-> That has nothing to do with the fix. The fix is for platforms/SoCs which
-> do have 2-MUs, but you also have written that there are platforms with
-> only 1-MU.
-> 
-> This MU can't be shared between secure and non-secure world.
-> 
->>> IMHO it makes much more sense to put the complete ELE communication into
->>> (OP-)TEE and let the secure OS taking care of it. All non-secure world
->>> requests are passed via (OP-)TEE to the ELE. This involves:
->>> - eFuse access (done via OP-TEE i.MX specific PTA)
->>> - ELE 23h59m ping (kernel SMC WDG driver, requires OP-TEE watchdog driver)
->>> - HW-RNG (kernel OP-TEE HWRNG driver + OP-TEE HWRNG PTA)
->>
->> There is a dedicated MU "trusted-MU" for OPTEE-OS. The idea to converge to a
-> 
-> Yes for systems with 2-MUs there is a "trusted-MU" and a
-> "non-trusted-MU". As of now, there is no fix available for using both
-> MUs at the same time. Furhtermore there are platforms/SoCs with only
-> 1-MU, as you have written in your commit message. This 1-MU system can
-> have the MU either trusted or non-trusted.
-> 
->> single path via OPTEE-OS, is good. But it will impact the performance of the
->> features at Linux side.
-> 
-> Performance? We are talking about a ping every 23h59m (I still don't
-> know if this is a feature or bug), eFuse write/read, and the HW-RNG
-> which can seed the Linux PRNG.
-> 
->> Since the fix is still WIP. Let's wait till then.
-> 
-> The fix is for the 2-MUs SoCs but not the 1-MU case.
-> 
-> I would like to have a system design which doesn't differ too much
-> between SoCs which are equipped with the ELE engine.
+While doing more testing, I found a weird bug where we end up having 
+balloon pages isolated forever, and never putback/migrated. So neither 
+the balloon can deflate them nor the migration migrate them.
 
-Do we really want to depend on OP-TEE to be available for having things
-like OTP fuse access and HWRNG? Personally I'd like to be able to build
-systems with OTP access and HWRNG but without OP-TEE. Requiring OP-TEE
-only to make the ELE available to the kernel in cases where the secure
-world isn't used for anything else seems to be unnecessarily complex.
+This line here must be
 
-Anyway, I see your point of having a single implementation for the ELE
-API in the "right" place. But as far as I know other platforms like
-STM32MP1 also implement both ways for the HWRNG, secure access via OPTEE
-and non-secure access via kernel directly.
+if (unlikely(page_has_movable_ops(&src->page))) {
 
-Thanks
-Frieder
+But I am not sure yet if that's the issue I am chasing :)
+
+-- 
+Cheers,
+
+David / dhildenb
+
