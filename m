@@ -1,177 +1,346 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A093D69;
-	Mon, 30 Jun 2025 01:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F068C0B
+	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 02:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751247146; cv=none; b=Y6dWhGeCYP7LcYvjGvaXV6TjTvFCnQvsP3spBrgd7yD2JuWibz1oCtJ0sdCH95k88juxJGN9HR21Wf36ytI/1Uz5Q03BbBdKQBhOme3NFOCXC9Ak5V0sSMmlkOriinosNf6yAIRpDKOSASZRS2gCqj+Q8LM6LdYl5zOB2+kmUcI=
+	t=1751248809; cv=none; b=LJMxtqzjBVlK6GJPP+j1AbJWaeqiDjZuJDLcf9w+FTNWOmTr+piK61rweSd4OwcsqVdiiHgRE9sQGni3g+gaoSltUV9DG73ECI6XdcWdoMVO4wgcZQvt+uqVizxA4t1cGRymbngppEV/LW2Ce6DtdguP7EUqePbgpihBNb4XhQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751247146; c=relaxed/simple;
-	bh=PdbmSrnBaljKSjVuz2OmgriJvaxALYThsxW+O8GzZqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HMw0p+B3fc5hf80w1W27BMsFrcUEOiE/T7bP49A+2u23qwJf8SzrcatzoEqhm4Sz4BtHbOierwC6HNq7vahIXCphqPQJhI0cAYg4SietWFtfiabmaYnSoOTfik7kIVsa9zoTV0QE7Dl4llQMbkblAkPBY6bNc4XbS2QE1Uyjiyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KnozMG6E; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751248809; c=relaxed/simple;
+	bh=UNHE+6OmTUAdY1GAYnIm/XNBA/bkwsSKiT4aVe8Y0iY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CeksJaNV/AZLz3KWWPKPhFe+8Kix+eWbcrlDGo98W+l26A/shZrrMUHIhaluy3wejhUU9hfjdLh4vV9GGj37URh5If/jyWoeJ680Ze6lCK/YV/9Et8IRFkkYbmz5wUqB30J9aro465HelXA5eA7b97JZstO4kJhuLiYvxP6YsWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dWcOB6CS; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KnozMG6E"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3139027b825so892696a91.0;
-        Sun, 29 Jun 2025 18:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751247145; x=1751851945; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gwxo+Mz3IvrzaosTpE+nrtogxa++aPCEgx5JYVoi1DE=;
-        b=KnozMG6Egt8WY3dIL0wXRy/MwwpoKYAwBMYqhs8N9iyGKee8JXHOZjJbrgO5+ataf9
-         nhSGF1oMSKxdTrpKNxOG0PCgqtOmx/r2wurLg2jFwMz22Ds03J34rToaTJVYhvpWjrOQ
-         h69akDLK6bgCEAfj5Hx4ESzsHSMMMEH82fFwiozOKLyx8c/oRzgQZkVwqgnPy+wyesIE
-         dZOL0fmGB2Azsh1zDUNBp8Ay4OZruvZxtf8Qcl3yfIoGrfjGcKfIixiXxgvrtGW2nY8L
-         o7YpkpTpT5R9gyyrktXfFtL98fZQ+0cm+LRdlWViS0Rs32cyYOlDs641cEb1szvcT3k7
-         AC0w==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dWcOB6CS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751248805;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7qx5v0KdW7INh0Q41668KL1wEYoR/92sOlCIFjPaGro=;
+	b=dWcOB6CSvQXfef9+1NWF9WhSKOVL6StfgoTbcpB5Cr3ceVOKLTscRU7vX3VrWn6rm+5JXx
+	2voEitGyTr7SP376KEdfdgaVE0xX/bbvd16FNwGABEXQUTbK1MoN141vppROoUGk7SsV3y
+	KF4573cIyAS/o/d4dqdXIJNYS2yzl2o=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-74-SJC_YRraO0qqlbludw43zw-1; Sun, 29 Jun 2025 22:00:03 -0400
+X-MC-Unique: SJC_YRraO0qqlbludw43zw-1
+X-Mimecast-MFC-AGG-ID: SJC_YRraO0qqlbludw43zw_1751248802
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-23689228a7fso50940025ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 29 Jun 2025 19:00:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751247145; x=1751851945;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gwxo+Mz3IvrzaosTpE+nrtogxa++aPCEgx5JYVoi1DE=;
-        b=OhQv9442suVhdn/YS+dLCdKufPo/4rfj5sgDWhgcBQuYBZfnGtbdSlgLwPYP80BwjQ
-         GQHGkaSgyHZk3PaKrLpCHenEZabEJU90E7XRH4xWmNJPDdfmLU8k8mViO9v0LrwarRVD
-         ONfdkWVpKAdG01AsRjqLsHIFwvZ98YJl25N1l2BOaeGmt3QGnfmnZHsT9dGe4g/EukZe
-         M5WjoOwcqPQZYK0YF0T25j8n0hjeZElDJ8E9F3EnxEYFscG8P9z8khI5lgqwarRYqQK0
-         cryGOehj3WxjVXm2cMk2fNKtA1taTem5VVbQfAFPasX4JhQLwkw1A5adESIbCN65koSY
-         fFNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUGtncTGdRjeT2Pow3eJjAlYsJ3w7aITng2P8476b8pFmZ0W/58pbbFXMOb2ZnKmJ7LAfo6N4Pk4rmzPcUc@vger.kernel.org, AJvYcCVmUpI1E2Bnz0kF2Ol2i9jXk5AWTUTLFU2uVPBCeVB6XpbLNMDGm8/Cwf4Mmxygu4H//uNajfmLmtw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz44YJ+OxdTGgPLuNhvbrD/I9OKkK+w75WRRjWuntnxibrDUExB
-	Q8+u2URPWkvGj506Jim0011OnrHrZT0yEDfW6yAGr77SQb+6JC0nSWY9
-X-Gm-Gg: ASbGnctjXWcfmsEOoeqlun0zvIEVa27ID9Rxp9cQ64dg3A8ALuhQvbKy1nRWt/HpBxQ
-	zVefv3T7ElVdNiiY/7lg83UnoHwkC8u75/10aNsfmIr4Mh+RXzz/DlG//uN6yyk7GroqGMPOpp7
-	i1MAsS1D+u2J1WCjPRZABcK22kx3CRUCDdPj9qkmjk2nYYGLavDwvmvxus+WAxQkZNLm9Ze6rTG
-	pVjyZGeHYrFkdu5BaNRyhEJzXh4uZcI7LhP0I2idXuKH0CmpzPLIH+qf5lo7KtL2rVM+EjrhaN4
-	+K4PuJtjiMoq3F7bXxnwNvgjCDy5ojUF8PnRKMj1aptmM8fprWFDLEdkk7GsF9fYw7pycg6O
-X-Google-Smtp-Source: AGHT+IFZCO9JUwt3uc3yB0stvOczNjE1Z46dM+SWxPKuf+S1ol8ZiAtkuzHavPc/X4mafB35eylK+Q==
-X-Received: by 2002:a17:90b:1dd2:b0:311:b0ec:1360 with SMTP id 98e67ed59e1d1-318c92f26abmr15843348a91.29.1751247144552;
-        Sun, 29 Jun 2025 18:32:24 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-315edcfd75dsm3332769a91.1.2025.06.29.18.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jun 2025 18:32:23 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 951B5420A813; Mon, 30 Jun 2025 08:32:18 +0700 (WIB)
-Date: Mon, 30 Jun 2025 08:32:18 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
-	iommu@lists.linux.dev
-Subject: Re: [PATCH v2 7/8] docs: dma-api: update streaming DMA physical
- address constraints
-Message-ID: <aGHpIiKWDr0T-FLN@archie.me>
-References: <20250627101015.1600042-1-ptesarik@suse.com>
- <20250627101015.1600042-8-ptesarik@suse.com>
+        d=1e100.net; s=20230601; t=1751248802; x=1751853602;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7qx5v0KdW7INh0Q41668KL1wEYoR/92sOlCIFjPaGro=;
+        b=fUK9bzjZf7LC6T/F31DiwoAZ1xI/gpyrgvTJtHfDHASG3TyWV2NDAK7ES0ckV3WvEO
+         fzTG2VLVF5Hdzz2pn+0hKPcPBk5lzfLlnOtidt/tvDntHBmtvsYgzSYawbrz3rO8kNLP
+         LMR/VirsBlMDWArqoWxq6nMbQqA1ERmwOHRFrZjvMZZYSYCZ4L4aXAHj1xdm+Y1DInAQ
+         cjHmOE+6fO0NJScX9X8NX03PEltEUPWXI1hgicv59Wm59QPt7bd8uM5rXrSPeeO7raTq
+         hqRKbzdzGvpeUA0zrFUp2YbwoXL7mLaV9hej7Rm76OhYU9esCFww+UNzFkS/op9JiAfB
+         ihuA==
+X-Gm-Message-State: AOJu0Yx/ZGlrpNSDiioeBntSmXVPc5MZ0YrkD+Mo/pRdIvZDxAvJ9of8
+	sHV0gjH7+xJZ7l9dRzNB7V84IFBZrTt+QtM9jElONcuqzntZ9UyGqsq9Ea83BRYTwhRA8lL4spZ
+	SLKeEF8o82mNHBfLVAemvmAyDMqQNKfOEiGXeQ7aq/pPphU8esvfH+QEgEwmkVQ==
+X-Gm-Gg: ASbGncunnSrtKjVgpPeOHlO30ODjTGBwrpk5vJtmBt9jRazF0tKSWEke5kQ0A2NyfPA
+	egGbWZnNJssjNt0ccquQ9L6RlnC7vqgOqup7tUeUBRS1230h78/em3JogRWITgHp8eZWL+XHHOe
+	PygnrFmWQ4WG5jI6DZ+PKfUG2GE9E6c6+L2fsW8u8fKH8zWUpElVbjnr80epQWTvhTHw0QoJOap
+	M5UhrYhEDyzMqEo1L1ZKDAR4DZzEDAA4WQUSM6Or8SHn60CLgaZwAPL25YEnHKXLLZ3FQe/5yHL
+	1sb6vJdNuWKPNEKUERD6br3qCMD7ww==
+X-Received: by 2002:a17:902:e746:b0:234:d292:be7a with SMTP id d9443c01a7336-23ac3bffdbdmr173363025ad.1.1751248802030;
+        Sun, 29 Jun 2025 19:00:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHVZrn7fj6vlaQGWQVjXpJslGdR1oXvka4Z0dq0YNVxgM6nQviBBBE+oFzuva0u5BXG1Z6PqA==
+X-Received: by 2002:a17:902:e746:b0:234:d292:be7a with SMTP id d9443c01a7336-23ac3bffdbdmr173362695ad.1.1751248801520;
+        Sun, 29 Jun 2025 19:00:01 -0700 (PDT)
+Received: from [10.72.120.15] ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39f4c0sm67788415ad.103.2025.06.29.18.59.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Jun 2025 19:00:00 -0700 (PDT)
+Message-ID: <808d3fb3-92a9-4a25-a70c-7408f20fb554@redhat.com>
+Date: Mon, 30 Jun 2025 09:59:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HrIK/LW9hGVtLpKi"
-Content-Disposition: inline
-In-Reply-To: <20250627101015.1600042-8-ptesarik@suse.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/23] md/llbitmap: md/md-llbitmap: introduce a new
+ lockless bitmap
+To: Yu Kuai <yukuai1@huaweicloud.com>, hch@lst.de, colyli@kernel.org,
+ song@kernel.org, yukuai3@huawei.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com
+References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
+From: Xiao Ni <xni@redhat.com>
+In-Reply-To: <20250524061320.370630-1-yukuai1@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---HrIK/LW9hGVtLpKi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+在 2025/5/24 下午2:12, Yu Kuai 写道:
+> From: Yu Kuai <yukuai3@huawei.com>
+>
+> This is the formal version after previous RFC version:
+>
+> https://lore.kernel.org/all/20250512011927.2809400-1-yukuai1@huaweicloud.com/
+>
+> #### Background
+>
+> Redundant data is used to enhance data fault tolerance, and the storage
+> method for redundant data vary depending on the RAID levels. And it's
+> important to maintain the consistency of redundant data.
+>
+> Bitmap is used to record which data blocks have been synchronized and which
+> ones need to be resynchronized or recovered. Each bit in the bitmap
+> represents a segment of data in the array. When a bit is set, it indicates
+> that the multiple redundant copies of that data segment may not be
+> consistent. Data synchronization can be performed based on the bitmap after
+> power failure or readding a disk. If there is no bitmap, a full disk
+> synchronization is required.
 
-On Fri, Jun 27, 2025 at 12:10:14PM +0200, Petr Tesarik wrote:
-> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/=
-dma-api.rst
-> index 9fcdb160638e0..a075550ebbb54 100644
-> --- a/Documentation/core-api/dma-api.rst
-> +++ b/Documentation/core-api/dma-api.rst
-> @@ -184,6 +184,26 @@ segments, the function returns 0.
->  Part Id - Streaming DMA mappings
->  --------------------------------
-> =20
-> +Streaming DMA allows to map an existing buffer for DMA transfers and then
-> +unmap it when finished.  Map functions are not guaranteed to succeed, so=
- the
-> +return value must be checked.
-> +
-> +.. note::
-> +
-> +	In particular, mapping may fail for memory not addressable by the
-> +	device, e.g. if it is not within the DMA mask of the device and/or a
-> +	connecting bus bridge.  Streaming DMA functions try to overcome such
-> +	addressing constraints, either by using an IOMMU (a device which maps
-> +	I/O DMA addresses to physical memory addresses), or by copying the
-> +	data to/from a bounce buffer if the kernel is configured with a
-> +	:doc:`SWIOTLB <swiotlb>`.  However, these methods are not always
-> +	available, and even if they are, they may still fail for a number of
-> +	reasons.
-> +
-> +	In short, a device driver may need to be wary of where buffers are
-> +	located in physical memory, especially if the DMA mask is less than 32
-> +	bits.
-> +
->  ::
-> =20
->  	dma_addr_t
-> @@ -204,27 +224,13 @@ DMA_BIDIRECTIONAL	direction isn't known
-> =20
->  .. note::
-> =20
-> -	Not all memory regions in a machine can be mapped by this API.
-> -	Further, contiguous kernel virtual space may not be contiguous as
-> +	Contiguous kernel virtual space may not be contiguous as
->  	physical memory.  Since this API does not provide any scatter/gather
->  	capability, it will fail if the user tries to map a non-physically
->  	contiguous piece of memory.  For this reason, memory to be mapped by
->  	this API should be obtained from sources which guarantee it to be
->  	physically contiguous (like kmalloc).
-> =20
-> -	Further, the DMA address of the memory must be within the dma_mask of
-> -	the device.  To ensure that the memory allocated by kmalloc is within
-> -	the dma_mask, the driver may specify various platform-dependent flags
-> -	to restrict the DMA address range of the allocation (e.g., on x86,
-> -	GFP_DMA guarantees to be within the first 16MB of available DMA
-> -	addresses, as required by ISA devices).
-> -
-> -	Note also that the above constraints on physical contiguity and
-> -	dma_mask may not apply if the platform has an IOMMU (a device which
-> -	maps an I/O DMA address to a physical memory address).  However, to be
-> -	portable, device driver writers may *not* assume that such an IOMMU
-> -	exists.
-> -
->  .. warning::
-> =20
->  	Memory coherency operates at a granularity called the cache
 
-The wording looks good, thanks!
+Hi Kuai
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>
+> #### Key Features
+>
+>   - IO fastpath is lockless, if user issues lots of write IO to the same
+>   bitmap bit in a short time, only the first write have additional overhead
+>   to update bitmap bit, no additional overhead for the following writes;
 
---=20
-An old man doll... just what I always wanted! - Clara
+After reading other patches, I want to check if I understand right.
 
---HrIK/LW9hGVtLpKi
-Content-Type: application/pgp-signature; name=signature.asc
+The first write sets the bitmap bit. The second write which hits the 
+same block (one sector, 512 bits) will call llbitmap_infect_dirty_bits 
+to set all other bits. Then the third write doesn't need to set bitmap 
+bits. If I'm right, the comments above should say only the first two 
+writes have additional overhead?
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaGHpHQAKCRD2uYlJVVFO
-o7BTAQD2guhFoVk0F3IFsbTS/6Ol/17jQ8zJ8Y1DrFSsn2CrUgD8ChTz5+jY2xNj
-g3nM93NHjiM4P2S06XM2BOx7i7nPXgc=
-=aOWE
------END PGP SIGNATURE-----
+>   - support only resync or recover written data, means in the case creating
+>   new array or replacing with a new disk, there is no need to do a full disk
+>   resync/recovery;
+>
+> #### Key Concept
+>
+> ##### State Machine
+>
+> Each bit is one byte, contain 6 difference state, see llbitmap_state. And
+> there are total 8 differenct actions, see llbitmap_action, can change state:
+>
+> llbitmap state machine: transitions between states
+>
+> |           | Startwrite | Startsync | Endsync | Abortsync|
+> | --------- | ---------- | --------- | ------- | -------  |
+> | Unwritten | Dirty      | x         | x       | x        |
+> | Clean     | Dirty      | x         | x       | x        |
+> | Dirty     | x          | x         | x       | x        |
+> | NeedSync  | x          | Syncing   | x       | x        |
+> | Syncing   | x          | Syncing   | Dirty   | NeedSync |
+>
+> |           | Reload   | Daemon | Discard   | Stale     |
+> | --------- | -------- | ------ | --------- | --------- |
+> | Unwritten | x        | x      | x         | x         |
+> | Clean     | x        | x      | Unwritten | NeedSync  |
+> | Dirty     | NeedSync | Clean  | Unwritten | NeedSync  |
+> | NeedSync  | x        | x      | Unwritten | x         |
+> | Syncing   | NeedSync | x      | Unwritten | NeedSync  |
 
---HrIK/LW9hGVtLpKi--
+
+For Reload action, if the bitmap bit is NeedSync, the changed status 
+will be x. It can't trigger resync/recovery.
+
+For example:
+
+cat /sys/block/md127/md/llbitmap/bits
+unwritten 3480
+clean 2
+dirty 0
+need sync 510
+
+It doesn't do resync after aseembling the array. Does it need to modify 
+the changed status from x to NeedSync?
+
+
+Best Regards
+
+Xiao
+
+>
+> Typical scenarios:
+>
+> 1) Create new array
+> All bits will be set to Unwritten by default, if --assume-clean is set,
+> all bits will be set to Clean instead.
+>
+> 2) write data, raid1/raid10 have full copy of data, while raid456 doesn't and
+> rely on xor data
+>
+> 2.1) write new data to raid1/raid10:
+> Unwritten --StartWrite--> Dirty
+>
+> 2.2) write new data to raid456:
+> Unwritten --StartWrite--> NeedSync
+>
+> Because the initial recover for raid456 is skipped, the xor data is not build
+> yet, the bit must set to NeedSync first and after lazy initial recover is
+> finished, the bit will finially set to Dirty(see 5.1 and 5.4);
+>
+> 2.3) cover write
+> Clean --StartWrite--> Dirty
+>
+> 3) daemon, if the array is not degraded:
+> Dirty --Daemon--> Clean
+>
+> For degraded array, the Dirty bit will never be cleared, prevent full disk
+> recovery while readding a removed disk.
+>
+> 4) discard
+> {Clean, Dirty, NeedSync, Syncing} --Discard--> Unwritten
+>
+> 5) resync and recover
+>
+> 5.1) common process
+> NeedSync --Startsync--> Syncing --Endsync--> Dirty --Daemon--> Clean
+>
+> 5.2) resync after power failure
+> Dirty --Reload--> NeedSync
+>
+> 5.3) recover while replacing with a new disk
+> By default, the old bitmap framework will recover all data, and llbitmap
+> implement this by a new helper, see llbitmap_skip_sync_blocks:
+>
+> skip recover for bits other than dirty or clean;
+>
+> 5.4) lazy initial recover for raid5:
+> By default, the old bitmap framework will only allow new recover when there
+> are spares(new disk), a new recovery flag MD_RECOVERY_LAZY_RECOVER is add
+> to perform raid456 lazy recover for set bits(from 2.2).
+>
+> ##### Bitmap IO
+>
+> ##### Chunksize
+>
+> The default bitmap size is 128k, incluing 1k bitmap super block, and
+> the default size of segment of data in the array each bit(chunksize) is 64k,
+> and chunksize will adjust to twice the old size each time if the total number
+> bits is not less than 127k.(see llbitmap_init)
+>
+> ##### READ
+>
+> While creating bitmap, all pages will be allocated and read for llbitmap,
+> there won't be read afterwards
+>
+> ##### WRITE
+>
+> WRITE IO is divided into logical_block_size of the array, the dirty state
+> of each block is tracked independently, for example:
+>
+> each page is 4k, contain 8 blocks; each block is 512 bytes contain 512 bit;
+>
+> | page0 | page1 | ... | page 31 |
+> |       |
+> |        \-----------------------\
+> |                                |
+> | block0 | block1 | ... | block 8|
+> |        |
+> |         \-----------------\
+> |                            |
+> | bit0 | bit1 | ... | bit511 |
+>
+>  From IO path, if one bit is changed to Dirty or NeedSync, the corresponding
+> subpage will be marked dirty, such block must write first before the IO is
+> issued. This behaviour will affect IO performance, to reduce the impact, if
+> multiple bits are changed in the same block in a short time, all bits in this
+> block will be changed to Dirty/NeedSync, so that there won't be any overhead
+> until daemon clears dirty bits.
+>
+> ##### Dirty Bits syncronization
+>
+> IO fast path will set bits to dirty, and those dirty bits will be cleared
+> by daemon after IO is done. llbitmap_page_ctl is used to synchronize between
+> IO path and daemon;
+>
+> IO path:
+>   1) try to grab a reference, if succeed, set expire time after 5s and return;
+>   2) if failed to grab a reference, wait for daemon to finish clearing dirty
+>   bits;
+>
+> Daemon(Daemon will be waken up every daemon_sleep seconds):
+> For each page:
+>   1) check if page expired, if not skip this page; for expired page:
+>   2) suspend the page and wait for inflight write IO to be done;
+>   3) change dirty page to clean;
+>   4) resume the page;
+>
+> Performance Test:
+> Simple fio randwrite test to build array with 20GB ramdisk in my VM:
+>
+> |                      | none      | bitmap    | llbitmap  |
+> | -------------------- | --------- | --------- | --------- |
+> | raid1                | 13.7MiB/s | 9696KiB/s | 19.5MiB/s |
+> | raid1(assume clean)  | 19.5MiB/s | 11.9MiB/s | 19.5MiB/s |
+> | raid10               | 21.9MiB/s | 11.6MiB/s | 27.8MiB/s |
+> | raid10(assume clean) | 27.8MiB/s | 15.4MiB/s | 27.8MiB/s |
+> | raid5                | 14.0MiB/s | 11.6MiB/s | 12.9MiB/s |
+> | raid5(assume clean)  | 17.8MiB/s | 13.4MiB/s | 13.9MiB/s |
+>
+> For raid1/raid10 llbitmap can be better than none bitmap with background
+> initial resync, and it's the same as none bitmap without it.
+>
+> Noted that llbitmap performance improvement for raid5 is not obvious,
+> this is due to raid5 has many other performance bottleneck, perf
+> results still shows that bitmap overhead will be much less.
+>
+> following branch for review or test:
+> https://git.kernel.org/pub/scm/linux/kernel/git/yukuai/linux.git/log/?h=yukuai/md-llbitmap
+>
+> Yu Kuai (23):
+>    md: add a new parameter 'offset' to md_super_write()
+>    md: factor out a helper raid_is_456()
+>    md/md-bitmap: cleanup bitmap_ops->startwrite()
+>    md/md-bitmap: support discard for bitmap ops
+>    md/md-bitmap: remove parameter slot from bitmap_create()
+>    md/md-bitmap: add a new sysfs api bitmap_type
+>    md/md-bitmap: delay registration of bitmap_ops until creating bitmap
+>    md/md-bitmap: add a new method skip_sync_blocks() in bitmap_operations
+>    md/md-bitmap: add a new method blocks_synced() in bitmap_operations
+>    md: add a new recovery_flag MD_RECOVERY_LAZY_RECOVER
+>    md/md-bitmap: make method bitmap_ops->daemon_work optional
+>    md/md-bitmap: add macros for lockless bitmap
+>    md/md-bitmap: fix dm-raid max_write_behind setting
+>    md/dm-raid: remove max_write_behind setting limit
+>    md/md-llbitmap: implement llbitmap IO
+>    md/md-llbitmap: implement bit state machine
+>    md/md-llbitmap: implement APIs for page level dirty bits
+>      synchronization
+>    md/md-llbitmap: implement APIs to mange bitmap lifetime
+>    md/md-llbitmap: implement APIs to dirty bits and clear bits
+>    md/md-llbitmap: implement APIs for sync_thread
+>    md/md-llbitmap: implement all bitmap operations
+>    md/md-llbitmap: implement sysfs APIs
+>    md/md-llbitmap: add Kconfig
+>
+>   Documentation/admin-guide/md.rst |   80 +-
+>   drivers/md/Kconfig               |   11 +
+>   drivers/md/Makefile              |    2 +-
+>   drivers/md/dm-raid.c             |    6 +-
+>   drivers/md/md-bitmap.c           |   50 +-
+>   drivers/md/md-bitmap.h           |   55 +-
+>   drivers/md/md-llbitmap.c         | 1556 ++++++++++++++++++++++++++++++
+>   drivers/md/md.c                  |  247 +++--
+>   drivers/md/md.h                  |   20 +-
+>   drivers/md/raid5.c               |    6 +
+>   10 files changed, 1901 insertions(+), 132 deletions(-)
+>   create mode 100644 drivers/md/md-llbitmap.c
+>
+
