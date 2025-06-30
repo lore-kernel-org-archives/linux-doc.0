@@ -1,200 +1,168 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FD823ABB4;
-	Mon, 30 Jun 2025 12:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BB0CA4E
+	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 13:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751288120; cv=none; b=ok9q1PVAzcOnPwV/fnuwrIel0Sq4kAHGgotCu79IqmG74Zv0Vy5FaKx5GFJMOc7LvYcTq+B6xrvj9YI8YXpr4glOW4HUNvfogpeDtD9a2Q1SP19Y/gTYF5noZTpE6mUpf0DHH/aIOta4fggG9qFDm23jk2NvkKprY48R2YzAPB8=
+	t=1751288423; cv=none; b=ojlIgrrGDmTtGyT6itvl03i51bIN8qehPEXfuWBErOvRsIorSrjwrInXC/xwFQ+qf67i6cgMkfE+LIrmyJZexpEukrhvcoRHvtIWXPa3j6WKRcPIAtxcgVn3jegBc+OsLBJ3J3uaMrU8hU2Ybq/Hsr8Ei5mTAFyJyt6Jh7OvYak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751288120; c=relaxed/simple;
-	bh=E9j17VFj1xs2U0yxrbs57TdXUZaC0qMUp0dCf1Imlis=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kglCuIxV/dM2eB/FPJJa/Da+z2moGoo0vMg2UQokokqTnGavuCdX/75URdiHxZkYW5jtDVa3pIXE180IQbxxh8LAXHW0oZr4XgUlWqyK2Ef3b0GHg3CxRxeQAdEmyNOLqbb7omWw6Fx8LbSB7BJR5rZvUHLx+rglqWniU7BUUEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=WF5QiUtZ; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1751288423; c=relaxed/simple;
+	bh=RPaleElAAsDd8ZXcp7V7mHwwcGHXNcadS42UzjFFaPQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tcxWAb6CGdl2LUWD/1D68mqWyVcey9Z8Ddi3F+wpC+yD+FQo8TJ6hpMB2ufUKAuUW8qUWcsRk5AfmpgrQNc/4cMi0PvQ2fksuGtbAYGrJRb1b328hQ9ocKrRv5eXR8IolT9+K0AAMl3tgokvZ4AbwxExPewc3fMNhEUQ8nqrz74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JrmFOfTH; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="WF5QiUtZ"
-Received: from [192.168.42.116] (pd9e59880.dip0.t-ipconnect.de [217.229.152.128])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 581BA2FC0064;
-	Mon, 30 Jun 2025 14:55:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1751288113;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JrmFOfTH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751288420;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Go3Ch64gcEiLFwM4fS4cZghHzD+7ZCcLijDp/oxzqbM=;
-	b=WF5QiUtZHQsg4zBTSSssFFVqMdJFbEox1bFjfcU2jF/gR+3gCr2qDJUbIiNibrhzFnDmWj
-	LnLEp16ydy+0Tj3s5p7F/FiluyyxUx88y4/ezajQ3Qq/5DlPb8ZTHZPECCrhc2z17ihTTt
-	hZWBagAtpBaDtyctfO2QAIcA/qRHdhU=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <13ae680f-7384-4261-8555-d77ba94ecd3c@tuxedocomputers.com>
-Date: Mon, 30 Jun 2025 14:55:13 +0200
+	bh=iLYHGg19bG0clXk7rQPjR4hvYWmeZvg7QKQ5c0snrQE=;
+	b=JrmFOfTHghFiuGqmXbEXS8q03samMMV1Ch9jP4dUL4yVTh3GGuQFxo0IkQgZSUlpo3ns1B
+	qhSvNduH8mp5OHu6BZ9M0V/+s1+vv0XlGzjFQeokdTGY6gOl+lX2CG3psnk0tQVnFIDH/n
+	ADen8uVYJMMif6yfkzvGfXon6yYhr/U=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-295-W9hPiEfeON-V-IYFpf_X8w-1; Mon, 30 Jun 2025 09:00:19 -0400
+X-MC-Unique: W9hPiEfeON-V-IYFpf_X8w-1
+X-Mimecast-MFC-AGG-ID: W9hPiEfeON-V-IYFpf_X8w_1751288418
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4538f375e86so21118185e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 06:00:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751288418; x=1751893218;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iLYHGg19bG0clXk7rQPjR4hvYWmeZvg7QKQ5c0snrQE=;
+        b=OcQY8n/C0n9M5yzT2izXoGxmD396LeuSbSLK9CshLqWFNLhItSsstjOPPhq4LPOgoF
+         rd73vG9oC2QAlvvvxGI2nF1gnYCzSADo40z98L7iCIVYTyT9H5Ms4gPnQbJlDaye1/1M
+         h7APFzl+ez3dnj1WLI2RQk9eOOm5EnFT74PpeoYUkP41B6DfMOmvAiaI+NYXgpo30wNR
+         o+LDWXJwFRUAlyfmhg2VXo9D0oN4fR6i0lWoSQIP0IVZ4lBuLat1gw5+I8xkh2WEvDpR
+         qmHXbeNaKGXCRFCpLFFaN4zzH+YduIMjx84d5ioVDfJf8EpkrLoFAYfUAmxyfSLP3fHK
+         Xoig==
+X-Forwarded-Encrypted: i=1; AJvYcCXzMVlsE7vsfbJUH8SriH6LUws+vMhf3EkAbTvxCWL94YV07KqjR6wvqq4QUpaXQRtq/FpAI97G0zA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRE8DSD8qL/9PaxqPQqwhxa5cpvz0HhWH/d09iTrVEhrmnmWQT
+	Ylk3Mxom8dpd0FTQTPrTAOI1mF04lm5KD+pOHO/1rSTS5CZq+DF3LSNBqUo69OmFiVTBpp5qXAn
+	ITfSOvaD0z7mHYfx4IKRB3hdjclq4WGEehN/zBwdudBkKR1LBrtaJ3V1XkUBpdQ==
+X-Gm-Gg: ASbGncv4ZEGC4/3sdZjGlaT8fIlQFTZ1Av5HZrsGyJ2t6V1rgwO+1tcuheulWIW14ay
+	BpYRKPqDuh6dH+TJ8A9M9DNy8uyac7ToTUy8BAkTF/bCTlqSWeJCtSJOa0IJGWs9SDtSbA4W9am
+	smWhIDEUxhrDnwBwjs77HQGWLkx0JXK9HBGruIw6J4g3COe+2FsiwOUyAvH6mYw9/oepY/jJkma
+	ZiK95D8UhKYIc0Y40AjPQ8L3Yf74FX7cDDq53KB/Ho6SKoqYQT1xXFu5XA21Be1L8f+RTvb+y8I
+	+grgIUBSLFEcpW9PwjNyIjunPWtaauvGX05nUn7FzJWUGRt7kRTBZ/4eVtxx6EiIQwAmMtjfKON
+	uNDLayGs=
+X-Received: by 2002:a05:600c:35c9:b0:453:608:a18b with SMTP id 5b1f17b1804b1-453947d8ff2mr103853275e9.9.1751288417724;
+        Mon, 30 Jun 2025 06:00:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGb/NAxjgNou29rgmmNKmV3zZO0Mb6cYoPiX5R9Zf8/khrmrYWUc/XyFqJpcvry+rGAxO8smA==
+X-Received: by 2002:a05:600c:35c9:b0:453:608:a18b with SMTP id 5b1f17b1804b1-453947d8ff2mr103852575e9.9.1751288417169;
+        Mon, 30 Jun 2025 06:00:17 -0700 (PDT)
+Received: from localhost (p200300d82f40b30053f7d260aff47256.dip0.t-ipconnect.de. [2003:d8:2f40:b300:53f7:d260:aff4:7256])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a892e59659sm10376420f8f.77.2025.06.30.06.00.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jun 2025 06:00:16 -0700 (PDT)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	virtualization@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Zi Yan <ziy@nvidia.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Minchan Kim <minchan@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Peter Xu <peterx@redhat.com>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Rik van Riel <riel@surriel.com>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	Qi Zheng <zhengqi.arch@bytedance.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: [PATCH v1 01/29] mm/balloon_compaction: we cannot have isolated pages in the balloon list
+Date: Mon, 30 Jun 2025 14:59:42 +0200
+Message-ID: <20250630130011.330477-2-david@redhat.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250630130011.330477-1-david@redhat.com>
+References: <20250630130011.330477-1-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/3] platform/x86: Add Uniwill laptop driver
-To: Armin Wolf <W_Armin@gmx.de>, =?UTF-8?Q?P=C5=91cze_Barnab=C3=A1s?=
- <pobrn@protonmail.com>, ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com,
- chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de, ggo@tuxedocomputers.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org
-References: <20250615175957.9781-1-W_Armin@gmx.de>
- <20250615175957.9781-3-W_Armin@gmx.de>
- <1b79a3c3-c493-471b-aa37-92458b356e8d@protonmail.com>
- <7b0243fd-15c6-42da-8570-9ad9cd5163af@gmx.de>
- <7a58972f-5256-4598-b729-224f20f3ecd2@protonmail.com>
- <7b29df39-8146-4913-83ff-d71db26983c8@gmx.de>
- <c689db31-60cc-4494-b700-88744376f589@tuxedocomputers.com>
- <e167ed33-010d-4cdb-ae53-4afeb3efdea7@gmx.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <e167ed33-010d-4cdb-ae53-4afeb3efdea7@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+The core will set PG_isolated only after mops->isolate_page() was
+called. In case of the balloon, that is where we will remove it from
+the balloon list. So we cannot have isolated pages in the balloon list.
 
-Am 30.06.25 um 14:40 schrieb Armin Wolf:
-> Am 30.06.25 um 14:32 schrieb Werner Sembach:
->
->> Hi,
->>
->> Am 28.06.25 um 01:09 schrieb Armin Wolf:
->>> Am 25.06.25 um 17:59 schrieb Pőcze Barnabás:
->>>
->>>> Hi
->>>>
->>>> 2025. 06. 23. 0:36 keltezéssel, Armin Wolf írta:
->>>>> Am 22.06.25 um 23:37 schrieb Pőcze Barnabás:
->>>>>
->>>>>> Hi
->>>>>>
->>>>>>
->>>>>> 2025. 06. 15. 19:59 keltezéssel, Armin Wolf írta:
->>>>>>> Add a new driver for Uniwill laptops. The driver uses a ACPI WMI
->>>>>>> interface to talk with the embedded controller, but relies on a
->>>>>>> DMI whitelist for autoloading since Uniwill just copied the WMI
->>>>>>> GUID from the Windows driver example.
->>>>>>>
->>>>>>> The driver is reverse-engineered based on the following information:
->>>>>>> - OEM software from intel
->>>>>>> - https://github.com/pobrn/qc71_laptop
->>>>>> Oh... I suppose an end of an era for me...
->>>>> I now remember that we interacted on the mailing lists before, sorry for 
->>>>> not CCing
->>>>> you on this patch series.
->>>>>
->>>>> Do you want a Co-developed-by tag on those patches?
->>>> I'll leave it up to you.
->>>>
->>>>
->>>>>>> - https://github.com/tuxedocomputers/tuxedo-drivers
->>>>>>> - https://github.com/tuxedocomputers/tuxedo-control-center
->>>>>>>
->>>>>>> The underlying EC supports various features, including hwmon sensors,
->>>>>>> battery charge limiting, a RGB lightbar and keyboard-related controls.
->>>>>>>
->>>>>>> Reported-by: cyear <chumuzero@gmail.com>
->>>>>>> Closes: https://github.com/lm-sensors/lm-sensors/issues/508
->>>>>>> Closes: https://github.com/Wer-Wolf/uniwill-laptop/issues/3
->>>>>>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->>>>>>> ---
->>>>>>>      .../ABI/testing/sysfs-driver-uniwill-laptop   | 53 +
->>>>>>>      Documentation/wmi/devices/uniwill-laptop.rst  | 109 ++
->>>>>>>      MAINTAINERS                                   | 8 +
->>>>>>>      drivers/platform/x86/uniwill/Kconfig          | 17 +
->>>>>>>      drivers/platform/x86/uniwill/Makefile         | 1 +
->>>>>>>      drivers/platform/x86/uniwill/uniwill-laptop.c | 1477 +++++++++++++++++
->>>>>>>      drivers/platform/x86/uniwill/uniwill-wmi.c    | 3 +-
->>>>>>>      7 files changed, 1667 insertions(+), 1 deletion(-)
->>>>>>>      create mode 100644 
->>>>>>> Documentation/ABI/testing/sysfs-driver-uniwill-laptop
->>>>>>>      create mode 100644 Documentation/wmi/devices/uniwill-laptop.rst
->>>>>>>      create mode 100644 drivers/platform/x86/uniwill/uniwill-laptop.c
->>>>>>>
->>>>> [...]
->>>>>>> +
->>>>>>> +static const unsigned int uniwill_led_channel_to_bat_reg[LED_CHANNELS] = {
->>>>>>> +    EC_ADDR_LIGHTBAR_BAT_RED,
->>>>>>> +    EC_ADDR_LIGHTBAR_BAT_GREEN,
->>>>>>> +    EC_ADDR_LIGHTBAR_BAT_BLUE,
->>>>>>> +};
->>>>>>> +
->>>>>>> +static const unsigned int uniwill_led_channel_to_ac_reg[LED_CHANNELS] = {
->>>>>>> +    EC_ADDR_LIGHTBAR_AC_RED,
->>>>>>> +    EC_ADDR_LIGHTBAR_AC_GREEN,
->>>>>>> +    EC_ADDR_LIGHTBAR_AC_BLUE,
->>>>>>> +};
->>>>>>> +
->>>>>>> +static int uniwill_led_brightness_set(struct led_classdev *led_cdev, 
->>>>>>> enum led_brightness brightness)
->>>>>>> +{
->>>>>>> +    struct led_classdev_mc *led_mc_cdev = lcdev_to_mccdev(led_cdev);
->>>>>>> +    struct uniwill_data *data = container_of(led_mc_cdev, struct 
->>>>>>> uniwill_data, led_mc_cdev);
->>>>>>> +    unsigned int value;
->>>>>>> +    int ret;
->>>>>>> +
->>>>>>> +    ret = led_mc_calc_color_components(led_mc_cdev, brightness);
->>>>>>> +    if (ret < 0)
->>>>>>> +        return ret;
->>>>>>> +
->>>>>>> +    for (int i = 0; i < LED_CHANNELS; i++) {
->>>>>>> +        /* Prevent the brightness values from overflowing */
->>>>>>> +        value = min(LED_MAX_BRIGHTNESS, 
->>>>>>> data->led_mc_subled_info[i].brightness);
->>>>>>> +        ret = regmap_write(data->regmap, 
->>>>>>> uniwill_led_channel_to_ac_reg[i], value);
->>>>>> This is interesting. I am not sure which "control center" application you 
->>>>>> have looked at,
->>>>>> but I found many lookup tables based on the exact model, etc. For 
->>>>>> example, on my laptop
->>>>>> any value larger than 36 will simply turn that color component off. Have 
->>>>>> you seen
->>>>>> anything like that?
->>>>> I was using the Intel NUC studio software application during 
->>>>> reverse-engineering and had a user
->>>>> test the resulting code on a Intel NUC notebook. AFAIK the OEM software 
->>>>> did not use a lookup table.
->>>>>
->>>>> If we extend this driver in the future then we might indeed use the quirk 
->>>>> system to change the max.
->>>>> LED brightness depending on the model.
->>>> I see. So everything up to 200 works. And after that do you know if it 
->>>> turns off or what happens?
->>>
->>> The user who tested the driver reported that "the brightest lightbar setting 
->>> is 200", so i assume
->>> that the lightbar simply clamps the values. However i would not trust the EC 
->>> firmware in the slightest,
->>> i can definitely imagine that other models react differently.
->>
->> Iirc at least for keyboard backlight on tf devices there was a value that 
->> could be overwritten to make the values 0-255 instead of 0-200, maybe this is 
->> also true for the lightbar, but i don't know if this affects the livespan of 
->> the leds.
->>
->> Best regards,
->>
->> Werner
->>
-> Interesting, do you know the register offset of this value?
+Let's drop this unnecessary check.
 
-Not out of my head, would have to dig for it again or even re reverse engineer 
-it again as I'm not sure if I wrote it down ...
+Acked-by: Zi Yan <ziy@nvidia.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ mm/balloon_compaction.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-So if it is not required I would like to leave it at that and only do the work 
-if it turns out to be needed.
+diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
+index d3e00731e2628..fcb60233aa35d 100644
+--- a/mm/balloon_compaction.c
++++ b/mm/balloon_compaction.c
+@@ -94,12 +94,6 @@ size_t balloon_page_list_dequeue(struct balloon_dev_info *b_dev_info,
+ 		if (!trylock_page(page))
+ 			continue;
+ 
+-		if (IS_ENABLED(CONFIG_BALLOON_COMPACTION) &&
+-		    PageIsolated(page)) {
+-			/* raced with isolation */
+-			unlock_page(page);
+-			continue;
+-		}
+ 		balloon_page_delete(page);
+ 		__count_vm_event(BALLOON_DEFLATE);
+ 		list_add(&page->lru, pages);
+-- 
+2.49.0
 
->
-> Thanks,
-> Armin Wolf
->
