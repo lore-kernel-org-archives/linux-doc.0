@@ -1,131 +1,72 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5AF2BEFFF
-	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 13:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751D82857C4
+	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 13:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751288509; cv=none; b=THqDy+JWvrmB582IZCMshhj5j36wI/Q/y0XdXFGeQJrytIObm/biQ+0RD58gZexwlzt1Lnw96oZ8ZlJ8UXnNLN7hr4wCNooBdggZHVm39Hu4yF4+WcoXW6k6Rq706nbA6/pNlpcv9n7dEWD7ZFHxxSzZPQcA1uH5lcFTfeVfgMU=
+	t=1751288665; cv=none; b=BTb8UJXKGL00r08EOYo97RbyNA0VUyG3OlndFygFng1KDhGTRaw96A3tYata/ItsAOYDvUx1f5lJDQo6QqYh1VopTXz44BXFQWa5/1gmzRzlsYD37rI7n/ebSwI3hhyanfKV2VUbQAUTfjrf1jKOxpcITFHN5HuelonN0PNIDEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751288509; c=relaxed/simple;
-	bh=bX2O32zo3eRkpyjOPjcPSMjPx5jynwq3pH5hPVFisUg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z0XUz3M43lOZRkdHSnfa0TPpB+vQGun4nJV1nPqkiMzMp3W+SajuJF3dEFU60GcPACHNEpAq6kvnJhWhavKxOEY2wO4qXnuZd6Fnne/FKvfqqfloz0C+owel3B5PaVJBWhI73ki4S3IzvXc3W7vlHbCDsbXDyi//wS6aoQmmRUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ELNw3OB5; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751288665; c=relaxed/simple;
+	bh=8ma29XIVyrlocB2TwxvieiVhXjMJz8cDSr2I0wEXjA0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W0Ht0r7rwS2fBW7Cz4xl5OwpECPoy19UH02s9fWWxolRLpDliIU6YQ9fZbv3XibV2p8dvbZFOIf8oBQE2HYOwJeHi0tLIrsQuovQzQD8HPuiyy9Ma4gSaike8oidxgmpWcZtoKam5Vedbq/RIJ/zrmWQ/FwqGWYgTA8XfcVmu6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=OvP4la4T; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ELNw3OB5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751288503;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lqdlPSrzqUfx0/Anfl8VFepfeUNo5Gqwl7mCFswBHro=;
-	b=ELNw3OB5CYpoY3mgwPM+2HjEeQiEW0UPqHO2TNjmLtDgZ+cqZM/sQ0rxJ2oFxdQ8UPzLoD
-	omSyX4mx/ngv5QGnKJoyYnlR+pyBxwGj96NnNlDl3s21l6nE+3fo/SKV/9luiUf1aU8h90
-	wGMoQJyMpYDfk/1STc+BM6O5n+Se5uU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-135-zWBkpEukNxK12WEju7q8-g-1; Mon, 30 Jun 2025 09:01:21 -0400
-X-MC-Unique: zWBkpEukNxK12WEju7q8-g-1
-X-Mimecast-MFC-AGG-ID: zWBkpEukNxK12WEju7q8-g_1751288480
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-453a5d50b81so1644145e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 06:01:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="OvP4la4T"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a6e2d85705so2460664f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 06:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1751288662; x=1751893462; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jtRCoaZRuy3SHZyDIOBlh8AQRBZoYHsrOyl5I3M3Usg=;
+        b=OvP4la4Ts2imD7kHl11x6TSySGOLVGHb5zDHKhB69o7ZV22ItVIVbriWPX0MKk8L8F
+         lwcfw2hItq9Ju0XCvwx4rxVh2EjMybs4C0L3WeIN6fcgpMAsr9qrvVIF7mX6tgg1p6FR
+         /mDNMM7k81px30WZPQoA9ds986DYq4ON6hRoJK9EoN6ZqrkXRngBpiQ64MKmdzRFVul2
+         F/smPVSrHgWQwroWqHWv8sfOZ9lzNQB87EL8w8OMH00oCuf7vcANK0mMKUhDAR+L9hte
+         wUqzaYGOc34hOBfOd67ZJA+vPodAG1eAGSz4OwIrR+rhOhS5TuHBn/7TaCoknExSl523
+         zuNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751288480; x=1751893280;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lqdlPSrzqUfx0/Anfl8VFepfeUNo5Gqwl7mCFswBHro=;
-        b=XFzpe5x4PY+NcSpS2+/IjyYeY5TD/RYOc2ZUwzmDKVPE1NtUm0Zl0MIbkyJcZHIDyy
-         GIyHA1h9y1F5dl51DaQDyLOaydpQKQN4HoVa2PS28KpAv0HPzlGT5IRtUlKbX/rlTCpv
-         z+5hJDDh01I5odJkdPsaJE8P1ep2Lq4vlycRTM5cXg2OnQsxPyig+n2CcrkgdXP7VdrO
-         nhugIwnASo8LAZLU04+bQyYX/AC++D0TzpG9DU8xht83is8qH2XGGalXRWEPTjcADdX6
-         vqBthrvznEWec8COX68xuCpBa1y9lQkXvdG3kyoX7wyUUR2c9NhyIj++A9gcUM4lyoH/
-         b1YA==
-X-Forwarded-Encrypted: i=1; AJvYcCXV/ln5vNXaIrt2bNf8I9AEQuv/IWX4ubL5R7UTcWHWwy2UiL5yPHJCNe1rIjufvlhn9fJ6tjiTTCw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBYWPSaSixUczTLrDglT0FK3nhshsSjdclz6zstP6nnli1zBr0
-	Jf3BrsGSuVqJbjHTkpWrfkLcI2jGzTVsnKEAtQOZeemuhtMoSJj4B5sgDE7S5Xlt0eoy3l361a0
-	a1qWRq7U6j/9P7ZI8a2QV5rL1M3+8chVccBOiGg8Nt3VMMf+POALDm5dd5Tuy49bDWqMQZY7K
-X-Gm-Gg: ASbGncsldh9cgyRg/YyqQDmXoApV99Q5WiYgBN4fTBQzxKHHNAoZYluIl3GdvRHM6ye
-	FljkuN0c4svarR9wJavuzJQNQGFhZxbEegNqwIgh3bxVyLmBAE5tn1V6xjWyjOIrQdcigVxWGrt
-	Hv+lquehzh8ZoIVQBWU/UzsfF3MN8psVwAT4SCJ5EqYCVUHKXFneiccHChyLeuhvgoJfSrrove7
-	d6nQXyI0l5KguMag5MGNaDSefTacEyvx6YR2QT6gZjWZqs1vLEUrQfH6nzYTbQCHWJfCBEZj38p
-	nQugUbeJVhsl8FE+Fb7YIEzsG/UjuDawhKsOgGjFZdOU4/2NaVoPDpW8YowY7dFNDmLGweIOR8C
-	9abZW52w=
-X-Received: by 2002:a05:600c:190b:b0:440:6a1a:d89f with SMTP id 5b1f17b1804b1-4538ee4fd6cmr142842375e9.4.1751288478998;
-        Mon, 30 Jun 2025 06:01:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGIe1HafHWQMdBGxTE/8gmXCwDECQtvb4nkW8MYtHAgLmX5UxDUSKKTFebF7rirr8hhXGCxDA==
-X-Received: by 2002:a05:600c:190b:b0:440:6a1a:d89f with SMTP id 5b1f17b1804b1-4538ee4fd6cmr142840675e9.4.1751288477814;
-        Mon, 30 Jun 2025 06:01:17 -0700 (PDT)
-Received: from localhost (p200300d82f40b30053f7d260aff47256.dip0.t-ipconnect.de. [2003:d8:2f40:b300:53f7:d260:aff4:7256])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a892e528a9sm10541491f8f.60.2025.06.30.06.01.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jun 2025 06:01:17 -0700 (PDT)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org,
+        d=1e100.net; s=20230601; t=1751288662; x=1751893462;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jtRCoaZRuy3SHZyDIOBlh8AQRBZoYHsrOyl5I3M3Usg=;
+        b=fCy0ICg88dXDpPCaJnhApWzW5Mas553XUh+f7s2HALRRfQ3UxjrNPK/LwVbGglne9I
+         oiZB2hCipfUfUDk3BPa2ae7AEHYILl27JA/JEpt40JzPFj+AO5QkZQ5Lw3s2atFu+VqO
+         GhEg1UPU27DntzTpU+JYmbhbxmbgAOE0mypRs+CAYCcSz1veRaQ5oaa2ZiVz3Xz8ke1f
+         Z1eE6wyPWAlmVqXMq79zNzFDY9b0OOgCmeKCOllTRxZ9Db5EESBmNZRjj4MCkSa6WUlx
+         4pjaLorD6o1PqPlOnoEKIP/7HIZF1esvxsGh7biY/iVWdavfa58a8JkzRUx6g7FdOl/a
+         MNmg==
+X-Forwarded-Encrypted: i=1; AJvYcCV2W8VBR5tpYLKmdKKJmaWWghUIIAQqFZ5rzleD4vrHzXegsI1H/uC33oVmOTH35eKrIT6qi2+ngq8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAasZxV5QvTyPlJUYbQiVzqayxrsV0JTBqY6WoudGjYcTge3cE
+	DLzsPpZX2oL6JKlwYnb0N4BAssMI5vun3bZxIISsRnxjg37nRQTGPQwgaZEnof62584=
+X-Gm-Gg: ASbGncs5zhiGSjr+ubZFiCxDeGCIDcXFaEC/3pHQ0GAm91dn6Y4UbP53KXkFh+XpDM7
+	fwIQASHCggzSEBqHhwn5dVACnV0Z3vFDLEMI71fmDH/WNM7yR6Q/UbHj2cfSf0pS658mJRY79Td
+	5fJFOjJnjt0ITrZ8ocFZyvpRFcVtpr+WN6fxSdSDvwT4MXd/reKgP/SYXRfk7Kx9dU+dO1ktCmH
+	/ST3uRNbmikKNw5xbyLTRMgkh0UoPP2PqQPTXwWnh2pOD6PMuWlwojhkO2Jzzep/sCd2bOlEa2p
+	xMEa0gXb3kl/76jlYam/jz1ASqGjOM1zO/KekVUkEy7yMRD8+cVq0pMNjKGLX4w=
+X-Google-Smtp-Source: AGHT+IG+KISEPRT59mnSmUbFYKshwUKdJDSOtcgpmTFgZsp3fC/pg+et65cMv5g4qUkmZujHStqtzA==
+X-Received: by 2002:adf:b649:0:b0:3a0:7d27:f076 with SMTP id ffacd0b85a97d-3a8fdb29f1emr11225299f8f.2.1751288660266;
+        Mon, 30 Jun 2025 06:04:20 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:19e3:6e9c:f7cd:ff6a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7facb3sm10447413f8f.30.2025.06.30.06.04.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jun 2025 06:04:17 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Kent Gibson <warthog618@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-gpio@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	virtualization@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Zi Yan <ziy@nvidia.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Minchan Kim <minchan@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>,
-	Xu Xin <xu.xin16@zte.com.cn>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Rik van Riel <riel@surriel.com>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	Qi Zheng <zhengqi.arch@bytedance.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>
-Subject: [PATCH v1 22/29] mm/page-flags: rename PAGE_MAPPING_MOVABLE to PAGE_MAPPING_ANON_KSM
-Date: Mon, 30 Jun 2025 15:00:03 +0200
-Message-ID: <20250630130011.330477-23-david@redhat.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250630130011.330477-1-david@redhat.com>
-References: <20250630130011.330477-1-david@redhat.com>
+	linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: [PATCH] gpio: sim: allow to mark simulated lines as invalid
+Date: Mon, 30 Jun 2025 15:03:57 +0200
+Message-ID: <20250630130358.40352-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -134,46 +75,178 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-KSM is the only remaining user, let's rename the flag. While at it,
-adjust to remaining page -> folio in the doc.
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+Add a new line-level, boolean property to the gpio-sim configfs
+interface called 'valid'. It's set by default and the user can unset it
+to make the line be included in the standard `gpio-reserved-ranges`
+property when the chip is registered with GPIO core. This allows users
+to specify which lines should not be available for requesting as GPIOs.
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- include/linux/page-flags.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ Documentation/admin-guide/gpio/gpio-sim.rst |  7 +-
+ drivers/gpio/gpio-sim.c                     | 83 ++++++++++++++++++++-
+ 2 files changed, 86 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index aa48b05536bca..abed972e902e1 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -697,10 +697,10 @@ PAGEFLAG_FALSE(VmemmapSelfHosted, vmemmap_self_hosted)
-  * folio->mapping points to its anon_vma, not to a struct address_space;
-  * with the PAGE_MAPPING_ANON bit set to distinguish it.  See rmap.h.
-  *
-- * On an anonymous page in a VM_MERGEABLE area, if CONFIG_KSM is enabled,
-- * the PAGE_MAPPING_MOVABLE bit may be set along with the PAGE_MAPPING_ANON
-+ * On an anonymous folio in a VM_MERGEABLE area, if CONFIG_KSM is enabled,
-+ * the PAGE_MAPPING_ANON_KSM bit may be set along with the PAGE_MAPPING_ANON
-  * bit; and then folio->mapping points, not to an anon_vma, but to a private
-- * structure which KSM associates with that merged page.  See ksm.h.
-+ * structure which KSM associates with that merged folio.  See ksm.h.
-  *
-  * Please note that, confusingly, "folio_mapping" refers to the inode
-  * address_space which maps the folio from disk; whereas "folio_mapped"
-@@ -714,9 +714,9 @@ PAGEFLAG_FALSE(VmemmapSelfHosted, vmemmap_self_hosted)
-  * See mm/slab.h.
-  */
- #define PAGE_MAPPING_ANON	0x1
--#define PAGE_MAPPING_MOVABLE	0x2
--#define PAGE_MAPPING_KSM	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE)
--#define PAGE_MAPPING_FLAGS	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE)
-+#define PAGE_MAPPING_ANON_KSM	0x2
-+#define PAGE_MAPPING_KSM	(PAGE_MAPPING_ANON | PAGE_MAPPING_ANON_KSM)
-+#define PAGE_MAPPING_FLAGS	(PAGE_MAPPING_ANON | PAGE_MAPPING_ANON_KSM)
+diff --git a/Documentation/admin-guide/gpio/gpio-sim.rst b/Documentation/admin-guide/gpio/gpio-sim.rst
+index 35d49ccd49e0..f5135a14ef2e 100644
+--- a/Documentation/admin-guide/gpio/gpio-sim.rst
++++ b/Documentation/admin-guide/gpio/gpio-sim.rst
+@@ -50,8 +50,11 @@ the number of lines exposed by this bank.
  
- static __always_inline bool folio_mapping_flags(const struct folio *folio)
+ **Attribute:** ``/config/gpio-sim/gpio-device/gpio-bankX/lineY/name``
+ 
+-This group represents a single line at the offset Y. The 'name' attribute
+-allows to set the line name as represented by the 'gpio-line-names' property.
++**Attribute:** ``/config/gpio-sim/gpio-device/gpio-bankX/lineY/valid``
++
++This group represents a single line at the offset Y. The ``valid`` attribute
++indicates whether the line can be used as GPIO. The ``name`` attribute allows
++to set the line name as represented by the 'gpio-line-names' property.
+ 
+ **Item:** ``/config/gpio-sim/gpio-device/gpio-bankX/lineY/hog``
+ 
+diff --git a/drivers/gpio/gpio-sim.c b/drivers/gpio/gpio-sim.c
+index f638219a7c4f..9503296422fd 100644
+--- a/drivers/gpio/gpio-sim.c
++++ b/drivers/gpio/gpio-sim.c
+@@ -39,7 +39,7 @@
+ #include "dev-sync-probe.h"
+ 
+ #define GPIO_SIM_NGPIO_MAX	1024
+-#define GPIO_SIM_PROP_MAX	4 /* Max 3 properties + sentinel. */
++#define GPIO_SIM_PROP_MAX	5 /* Max 4 properties + sentinel. */
+ #define GPIO_SIM_NUM_ATTRS	3 /* value, pull and sentinel */
+ 
+ static DEFINE_IDA(gpio_sim_ida);
+@@ -629,6 +629,7 @@ struct gpio_sim_line {
+ 
+ 	unsigned int offset;
+ 	char *name;
++	bool valid;
+ 
+ 	/* There can only be one hog per line. */
+ 	struct gpio_sim_hog *hog;
+@@ -744,6 +745,36 @@ gpio_sim_set_line_names(struct gpio_sim_bank *bank, char **line_names)
+ 	}
+ }
+ 
++static unsigned int gpio_sim_get_reserved_ranges_size(struct gpio_sim_bank *bank)
++{
++	struct gpio_sim_line *line;
++	unsigned int size = 0;
++
++	list_for_each_entry(line, &bank->line_list, siblings) {
++		if (line->valid)
++			continue;
++
++		size += 2;
++	}
++
++	return size;
++}
++
++static void gpio_sim_set_reserved_ranges(struct gpio_sim_bank *bank,
++					 u32 *ranges)
++{
++	struct gpio_sim_line *line;
++	int i = 0;
++
++	list_for_each_entry(line, &bank->line_list, siblings) {
++		if (line->valid)
++			continue;
++
++		ranges[i++] = line->offset;
++		ranges[i++] = 1;
++	}
++}
++
+ static void gpio_sim_remove_hogs(struct gpio_sim_device *dev)
  {
+ 	struct gpiod_hog *hog;
+@@ -844,9 +875,10 @@ static struct fwnode_handle *
+ gpio_sim_make_bank_swnode(struct gpio_sim_bank *bank,
+ 			  struct fwnode_handle *parent)
+ {
++	unsigned int prop_idx = 0, line_names_size, ranges_size;
+ 	struct property_entry properties[GPIO_SIM_PROP_MAX];
+-	unsigned int prop_idx = 0, line_names_size;
+ 	char **line_names __free(kfree) = NULL;
++	u32 *ranges __free(kfree) = NULL;
+ 
+ 	memset(properties, 0, sizeof(properties));
+ 
+@@ -870,6 +902,19 @@ gpio_sim_make_bank_swnode(struct gpio_sim_bank *bank,
+ 						line_names, line_names_size);
+ 	}
+ 
++	ranges_size = gpio_sim_get_reserved_ranges_size(bank);
++	if (ranges_size) {
++		ranges = kcalloc(ranges_size, sizeof(u32), GFP_KERNEL);
++		if (!ranges)
++			return ERR_PTR(-ENOMEM);
++
++		gpio_sim_set_reserved_ranges(bank, ranges);
++
++		properties[prop_idx++] = PROPERTY_ENTRY_U32_ARRAY_LEN(
++						"gpio-reserved-ranges",
++						ranges, ranges_size);
++	}
++
+ 	return fwnode_create_software_node(properties, parent);
+ }
+ 
+@@ -1189,8 +1234,41 @@ static ssize_t gpio_sim_line_config_name_store(struct config_item *item,
+ 
+ CONFIGFS_ATTR(gpio_sim_line_config_, name);
+ 
++static ssize_t
++gpio_sim_line_config_valid_show(struct config_item *item, char *page)
++{
++	struct gpio_sim_line *line = to_gpio_sim_line(item);
++	struct gpio_sim_device *dev = gpio_sim_line_get_device(line);
++
++	guard(mutex)(&dev->lock);
++
++	return sprintf(page, "%c\n", line->valid ? '1' : '0');
++}
++
++static ssize_t gpio_sim_line_config_valid_store(struct config_item *item,
++						const char *page, size_t count)
++{
++	struct gpio_sim_line *line = to_gpio_sim_line(item);
++	struct gpio_sim_device *dev = gpio_sim_line_get_device(line);
++	bool valid;
++	int ret;
++
++	ret = kstrtobool(page, &valid);
++	if (ret)
++		return ret;
++
++	guard(mutex)(&dev->lock);
++
++	line->valid = valid;
++
++	return count;
++}
++
++CONFIGFS_ATTR(gpio_sim_line_config_, valid);
++
+ static struct configfs_attribute *gpio_sim_line_config_attrs[] = {
+ 	&gpio_sim_line_config_attr_name,
++	&gpio_sim_line_config_attr_valid,
+ 	NULL
+ };
+ 
+@@ -1399,6 +1477,7 @@ gpio_sim_bank_config_make_line_group(struct config_group *group,
+ 
+ 	line->parent = bank;
+ 	line->offset = offset;
++	line->valid = true;
+ 	list_add_tail(&line->siblings, &bank->line_list);
+ 
+ 	return &line->group;
 -- 
-2.49.0
+2.48.1
 
