@@ -1,303 +1,293 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A1028B509
-	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 15:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751297929; cv=none; b=YCU7fk3GsrCHMZA6EdQJFWkJNGrVG6o2Pfi5rZBv3dbBRDeGZzWEArYjUwxldFp3teAckHZCbI3LO0eWFPCk0NyzbdqveiGFBQzzXBLw/gHtmysK1AU7gZSCfMX17Mn4fep6IN1yVbaPaz9Nf3lZ3hx/htdY+POE/pFJHZm0Zd0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751297929; c=relaxed/simple;
-	bh=YJtneUSRYE/YcZtnrONC52bBke/mflK3Z7IJ4jYkVv0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DXAmipf3YnFOt4vK7TlIBzLSN4frW8cAx30KuG8Q7FpD4rf7HdAbbJpf79MRpzcZQISjybtMG3Ol1wLvGEoLk9FJrxzaqrC8NzS2dfI+ZvdM2VQy3moVRdwe0RWzEkKjRRVh8A+SGdxRchiciFfsvJK58d3CFt0IbLpLKq64c2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G6wjQM31; arc=none smtp.client-ip=209.85.166.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F333290BCC;
+	Mon, 30 Jun 2025 15:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751298308; cv=fail; b=aFMhlp1+nLvVZj0hP+kkq8mUSj0ANwv3IaYKeYTr/Q5RM56QNItlI3hl65Y9WOoDnW7NzBCnmjXMMOxayHiEFkidGNWnFBoU6vtg/vuFR1sYTXuyA4dvy3MdEVrTRes3GlhMdbun1n+bZgXvup3crTbC2O5Yyh6R9J2ld/0JPZI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751298308; c=relaxed/simple;
+	bh=Ma34+g+lKVq/iCoStpfl2m4jMtSkoKXSH/4JfkO2l80=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=bx2CePUmjIAFm0Wm1+4Hsa4+O/EakcVkZhcJxy1/WoAP6lFUAyYPhptusNys7CXG+EOhbE+Lf3tgax5S7bOr6yiH6FRhRQj7l8mMpLzwDxr21O/7T/EwQt04LxXlxiVzpqJvQBSd8GYitpiQOkFCdJxNus9AxBZWlEL2mjL5H4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czvQvOyH; arc=fail smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G6wjQM31"
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3ddc99e0b77so489325ab.0
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 08:38:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751297926; x=1751902726; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o8pHTrUEcGe6WdpAUlyhQvIpo4p8iXNvnGE/h+atsss=;
-        b=G6wjQM31cYpVaTanzjuKK4S2BXOH9q9mYkZfBZ90/VjT1zoVxyWjTDy/ItN5XTM7sS
-         2QQp/kdAk87elI+RHDbpDjXqde/ENtaqBwYyJ+uCna0SQB6DV5tQUErRPGj6Qpg/Bvk1
-         XvdERTpK6yliAMKX9ZQsff+gGzkjrA34XJ/pPli6Os5GAzxQ75l7TZiMZ1TSrxl3yaqg
-         71zwTT4uGI3s3AEhD+JSGo8MyACUTiNxZZ9eU4wGh+b36IEVCe+wQki+dvl1670OYtTg
-         k+uTV9j6M+bB9YNiHRBPyLw2iY2YF/4St9FAvTwjVUDT21bJF5Jgh0DgMw+bJm+SZY1g
-         bybw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751297926; x=1751902726;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o8pHTrUEcGe6WdpAUlyhQvIpo4p8iXNvnGE/h+atsss=;
-        b=mHSwOVGkQSrHKtqwpthECbdblq+0l4u5sOgaBFuDPVrWC0OlaTDb3CZBAPYYFIpQsB
-         2gl5IBvT7J9y781Fwf/QkzW6IpLoNhdZeCqhipA8krCyzRDbmt8njtNtGf7D9TkEGdf2
-         rjo4n5BUxkLMQGafVNGfjBzSJMtKX32DqOCU2oGTi/OETEKzKgZDCGDJVwhjG/cUlZzE
-         wuYwehOJQcszeoKnRa0hklduTfU4C/A7UvEZrtvVbSONKMVlsFDNn7s+TSjvfNBo7WBK
-         ozcY/VFl6cU1KNf1jOqxa9eJ2ign/9qyBQNBwU5ee7Rs9TSj14i+GOllNwMV28QM/wN+
-         T8Lg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMo8sR/ruTkaXhNSL+ecJXNWV1hJsXDEMVmea+0Ct3q3qh5N0PttotJNHgaudwgVYJhTHVhPXffRU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxK5oBcYtASfYswVmjRISLp6Q5gMQTZ6KNzkUXbNEei42cpKR+a
-	cDR6Jc01yWyxsqTL3x3z7LnkGA2SiCBa7OHGeP/wI5IY3PjGo5saSCKLGXjlV9dv2tM74uGceTB
-	xfAcb8R+6F+NGH6e2OktsVgcakSoJTbUwy0Af55pV
-X-Gm-Gg: ASbGncvIU15rqGgrMBORHQJkZVa2fvXjAEhrgRlA8nzRxxaWfmTzP2D0BXbvpZO5OwA
-	cb3rZ0VWprmRLvlQp2555LgLLd8E/sDGkKo/+g+41B0bmiJEuIKRblSneAX6+G/9I92wYR5DSxX
-	2+OPwkBpwCvPLcvQjQNcEmClL+M3Nt17BLwIo56d3BY6pofq9BSeuQbu1tmtWPLCuPxX1CP14WL
-	eBLHEdmCw==
-X-Google-Smtp-Source: AGHT+IHWAVAMI8QT9eGJcy1Dz/MUqM4kKkgHbIFGRnRbpDP3mlZrGKmhK69cnZjnige15KSJimxL8+8uvBWPiDVJgMM=
-X-Received: by 2002:a92:c265:0:b0:3dd:d288:eead with SMTP id
- e9e14a558f8ab-3df5587f1f2mr7193765ab.18.1751297925487; Mon, 30 Jun 2025
- 08:38:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czvQvOyH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751298306; x=1782834306;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Ma34+g+lKVq/iCoStpfl2m4jMtSkoKXSH/4JfkO2l80=;
+  b=czvQvOyHnba35U4LUlprP3wYCr4EbyOdg3Aa0li6KztHXmD80r5BjK0E
+   0v52W2Km/6H1zM2V2YAx/ciGtrmxt31JLSFTmWtYev2+8edboEJXDsqje
+   EG17wWEYC/1xpNPjWGLAP3PGL8N1Nh4sLCoVan10T+y9t0kid2wC2ns20
+   6U/InqMH16PTMaeHKV1t6ASbLoMslv1py7jXGQsYQ6tPRgFab/bwTzFV2
+   9EF+bqka4NjszrlCC4c6TfGviaQfvDRq5+Sp5XvWZVopjN4d7nTugpgfT
+   Ht5n40Zvg6LvAMlwg2SaDRzAC7swAMccPWPegQlxU23ukIl5LmLuoZa90
+   Q==;
+X-CSE-ConnectionGUID: 1f0+GtziTk+ARDA7RfWQ2Q==
+X-CSE-MsgGUID: 9r5PfWVdTvmUNM/JgEE3SQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64976914"
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="64976914"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 08:45:05 -0700
+X-CSE-ConnectionGUID: nRjftAa/ScuScA/TcoOk1Q==
+X-CSE-MsgGUID: 3iXIVy6STQi2Kv5Jeg13+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="158044180"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 08:45:06 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 30 Jun 2025 08:45:04 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Mon, 30 Jun 2025 08:45:04 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.85)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 30 Jun 2025 08:45:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=apBCluiUVWXBI/zA+vtCCyf3submPVS5ymgUxpr6pQSIuyDlA2tmJVRUPG3yXbbKJpC5Cjjzwb8LV5OLecPgcfPzhrG3o0fHX6TyfPk9oM2Z7qdH0yvt4q/ZB2AZPUhhCHPBai7M7qbdKJJFF36yPhsfNV7SoGGDUcM2DiiRvOgRV5tnbbglvYxDe02K4GocNcN0Di2qHlE4Mh97Va/6du8sBek3ov39JANqUnUnA5q/BZUcNHWkzr3LtvzqABlJk0BpkjehtJg5NdbyDyR1HYEB6rvEZJ++LPVRbrlK1wbUaJfeU54jjb8Q4C/B6Q4RzLKrGjO1VKXODwhEbH8fpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4IOTn8XLgfriM7rUNNtuOhwDAHP4q9Xq78Gkaybq+CY=;
+ b=FpKfGGw7fv87MmCCgAb20C9PpYDP6axDlaAoGICWB3B2Wged8EKC2OZ2RLlpGjj0o/if696g9GWXJtZf5Tfe1Bkf+voGGmUOUBdSdl3AQBnO7dSV3kNyk6XXkKWKDRn5pLYiJoWd0bq/8GpgRgepw0dleFLdgScHDOTXjwEP3z4Im94ZQ5ArTwEHyt4C2KXw8tEfUxnna2XLPt6G+Zc4LhYB8KjhyCqLqu36QiSYstpeDSqe8Kz/g9MTRFOkasdgld/ncuw+7n/amlpi0MtWODWKocqujeADcO1F+doRdDbvTNHU+wxOd1oKdBbm/69Q0XjMkUNoqaU+y8Rc9ncWUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SN7PR11MB7019.namprd11.prod.outlook.com (2603:10b6:806:2ae::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.30; Mon, 30 Jun
+ 2025 15:45:01 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%6]) with mapi id 15.20.8792.034; Mon, 30 Jun 2025
+ 15:45:01 +0000
+Message-ID: <f8e15067-401c-4644-89a3-fd00cd59d58d@intel.com>
+Date: Mon, 30 Jun 2025 08:44:57 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 21/32] fs/resctrl: Pass entire struct rdtgroup rather
+ than passing individual members
+To: "Moger, Babu" <babu.moger@amd.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"tony.luck@intel.com" <tony.luck@intel.com>, "Dave.Martin@arm.com"
+	<Dave.Martin@arm.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
+	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
+CC: "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, "paulmck@kernel.org"
+	<paulmck@kernel.org>, "thuth@redhat.com" <thuth@redhat.com>,
+	"ardb@kernel.org" <ardb@kernel.org>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>, "seanjc@google.com" <seanjc@google.com>,
+	"Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"Shukla, Manali" <Manali.Shukla@amd.com>, "Yuan, Perry" <Perry.Yuan@amd.com>,
+	"kai.huang@intel.com" <kai.huang@intel.com>, "peterz@infradead.org"
+	<peterz@infradead.org>, "xiaoyao.li@intel.com" <xiaoyao.li@intel.com>,
+	"kan.liang@linux.intel.com" <kan.liang@linux.intel.com>, "Limonciello, Mario"
+	<Mario.Limonciello@amd.com>, "xin3.li@intel.com" <xin3.li@intel.com>,
+	"Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>, "xin@zytor.com"
+	<xin@zytor.com>, "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+	"fenghuay@nvidia.com" <fenghuay@nvidia.com>, "peternewman@google.com"
+	<peternewman@google.com>, "maciej.wieczor-retman@intel.com"
+	<maciej.wieczor-retman@intel.com>, "eranian@google.com" <eranian@google.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <cover.1749848714.git.babu.moger@amd.com>
+ <84e5cffb2b3f8088f77781babe89b0cab513ed79.1749848715.git.babu.moger@amd.com>
+ <918e2679-9778-44ea-9755-270658578f76@intel.com>
+ <ac378dff-3eb1-498c-8b01-b7c5146c96bd@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <ac378dff-3eb1-498c-8b01-b7c5146c96bd@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0123.namprd04.prod.outlook.com
+ (2603:10b6:303:84::8) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org> <20250605-james-perf-feat_spe_eft-v3-10-71b0c9f98093@linaro.org>
-In-Reply-To: <20250605-james-perf-feat_spe_eft-v3-10-71b0c9f98093@linaro.org>
-From: Ian Rogers <irogers@google.com>
-Date: Mon, 30 Jun 2025 08:38:33 -0700
-X-Gm-Features: Ac12FXz-XNRDh5SWs9KqIAss_dxekSdRnzTpiZe4QDr_HQFGVYwsbdMlOQVPWnw
-Message-ID: <CAP-5=fU24cknDdD8Lxfshqei7Twf9zRA6uOrQNJqvAVyrzgi-g@mail.gmail.com>
-Subject: Re: [PATCH v3 10/10] perf docs: arm-spe: Document new SPE filtering features
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Adrian Hunter <adrian.hunter@intel.com>, leo.yan@arm.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SN7PR11MB7019:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20fa64eb-4f75-4c30-75c1-08ddb7ed1324
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cHpvazdhWDJKMUVKU1BNNEVpUnRSQzhSdFpxSkZKbFBXdmlzVGRmbW1TOUIz?=
+ =?utf-8?B?elNUTUZvMjJEZ2JRU0xDUFBzM0xZWjJkT1dmNHZLcnA4cUNtUTJJT2tnWWUy?=
+ =?utf-8?B?Tmw4dVJwOUVIM3B1RGtRSzNDOW9nVUhrbXIxZ0EzcE5GQkpXeFh6L0VPbGNs?=
+ =?utf-8?B?N3FPVFdCem5EU1FBUjBscENoTlVtbTRIRTFUbVBLck9DZlkzNi9ZVWhaTEtn?=
+ =?utf-8?B?dGwrZXdRUlVBZXY0OGZFZnJVc0pHeVBTS1JobU1FTElmK0hqRzdtTHBQQzVU?=
+ =?utf-8?B?cTg4UVdtcXJFZGgrUVhpZzQvbENhSTFtRTE3R0w1ZXNTK2JLU3JXZlpvSUJj?=
+ =?utf-8?B?ZkFMYktMd1ViRFNCYVhUbnQyclZXSnozSEFHWXFwRldvOUFySzk3SThNQW1S?=
+ =?utf-8?B?K29jd01OTEY4QlVMUDNVdi9oVXpZUkxYT0M5U0tZQ3ZVRDl5emw4YjFteUV1?=
+ =?utf-8?B?eFFwWGk3N0JYY1phbWcyUVVxVnJXandFc2JBcjB6UTdsZzVQdkpJQ1NFTE1u?=
+ =?utf-8?B?NU55dHQyZWNpOEVwS3pwZGlCOGxDRFVrUlhhckJlNE1JbzdWRHlNdDNPcDhT?=
+ =?utf-8?B?YUVYZWlLV0NiQk9VZXYyamJnUGs3MlhMRnhPRWQ5QTl6Y2dZVXFoTytKNHhD?=
+ =?utf-8?B?ZXNyeFVuZURvRXlpNTl0NitzbVlVWHg5MHRqTC92NW5OQTg4QlhLczRvQzJY?=
+ =?utf-8?B?TzZxWWkxbDg0YjBqSUhPNy8zODdMaVhkZW8zdE9GaEg3UnRyamdTbk1zbnF1?=
+ =?utf-8?B?bE9ndDlqT3doL2J3SWsxb3pIMkloRmxzODI0WjVyNDVjd3I3L2pGRWNzU3or?=
+ =?utf-8?B?YVJSYnE1NUliQWdQUUVtSitjbzNyaHlIWXc1K1F5MUpaSVpHK1JMa1oyb2Z6?=
+ =?utf-8?B?VXlzNHZZOFR5Rm4zYTBCWFlBRW9LMXhnbVlsc1IvdUM4Q09VUXlTc1V2Tnp3?=
+ =?utf-8?B?b0YyZHZiQ1J2RkZqUmlkaXhubllDY2tFQ0dQUGhzNWVWeWx6dXhPWitpMHBv?=
+ =?utf-8?B?Z0NLNGFoOVZPVHQyQXNUQVRaRmxWM0xxYVNqNy96ejZpUzRQY2k3UklJNlhX?=
+ =?utf-8?B?cUJxR3JXT2k0RWxVR2NvTVorcmtvT0NpRmJVVFhxNnJ4QXJBb1RBbjMyak90?=
+ =?utf-8?B?Z3dOd1NwVjlaRWtRbHQrbFZ5Z29kUnlWUjU2cVZnWi9nVEljN09WQWY2clRS?=
+ =?utf-8?B?dDNVdzVIK01INTF3SHg1T3FnNXFESitxbFg2a1VBMEdIbk02aTBOT1k2L3Yv?=
+ =?utf-8?B?cTNyUlB4MVRiSitnU1NIb2ZzeEVsSVo3TU1ocEZselJQSWI4dXBzeVQ3WFBx?=
+ =?utf-8?B?Qy84VnRSUUhpRkNrVmY5dVdpZWxvZWFhTEVzVU0yR09wdnBWQWJXR3AxNENy?=
+ =?utf-8?B?QlU3N1owNXZOdGx5RW1PVjRVR1hiVUFSeFhhUE80N0tLQzU4M1E1WktBU08r?=
+ =?utf-8?B?M1JLejhpS2FlWjVoY0xaMGNkUEJBb0xGUE01dERFVzlRTUJObFovNUkwb2U1?=
+ =?utf-8?B?N3ZvZGlZMkNlYkRNbVlmVnBXQ2M1MTlQZkRrMVBUYTFHVkpLdmlTSkh2Sit3?=
+ =?utf-8?B?Ni9iU3ovM0hHV29OQ0d0MlFJbjd3dEZLcUE3RkdLVWFKYmtxcGJFU2k0QlRR?=
+ =?utf-8?B?VFhTMWdTUEdzczBsZC90aTlFU3FWNGoyYlRDVE83cjdySktMdHY0TnZnTHA4?=
+ =?utf-8?B?MXlXd1RUcU5keGdFbDFEcitmeTE3eVRZTlUrUDFDQXJiWWlZYXg1M0ZTM0VO?=
+ =?utf-8?B?OVlUejlFTmhxVTJ4MENWRlNDU0pJbE4raEVGZWRyYzF5djdZVldYVXBPQ1Uy?=
+ =?utf-8?B?SXlpT0VSY1loWjJFbTkraXAvYXlrMytUdjhuWmhMYXRwTXA0NzNXQ2xhT0Iz?=
+ =?utf-8?B?MUxQSG5QKy9WMEsvTjR0N0dXdE9HaXg5STlFbnFiWnM3Z1FRRXJWQk1rVVht?=
+ =?utf-8?B?SGNSajlObEFFbWJiSXc1UEdZYkhJSnp3REJIZ3VxUkNyTzJ2dFpmVVpZVmlX?=
+ =?utf-8?B?VUxxajN3eDlBPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVVRc2ZaZElmZVdEcDJKcHNQTFJtNHlJMm13QUhHQ3ROMVZWcEZEdEpNcXYw?=
+ =?utf-8?B?VFZzODQ4UTVVaWRxRUJWMUplVlhEd0ZSY0wxWFhDUlpqcVB3cFNmUXE0VllS?=
+ =?utf-8?B?WTBQSUk3Z2Q1a3BrTlFJY0pzZ3U5QlBIbnZDMW1BbkdNMEh6N2tCd281SFVn?=
+ =?utf-8?B?VHZ3TzFoakpSZ2dpeW9pYzdWUVhEOTBkUXVzaElKY2dBT2lDQzNmempPOXJx?=
+ =?utf-8?B?OEJickdtQ2lZZjdVT2hSdHk0QW4zc1pKMUhaMHhlR042Q0FNVWFYaGd0Znhm?=
+ =?utf-8?B?S3Erdm5FZlBjRDhtbkptK2JMaURpbE43ZWlUMWw2em9ubmllbW51MWtWNDhG?=
+ =?utf-8?B?NHFCWGxiZTZqSDNTV3daSGh0UGo5OTYzeW5yR0tGbW5qU0dTaVFmNHpYdm1G?=
+ =?utf-8?B?cjlZYUFBVkZwRlE3OXVXSGtlRFBWazJzVTJBT0pELzh5M3k3dmFnQ3BJRHR0?=
+ =?utf-8?B?SndMZXpxZThISFVUSlp0cVdscklyQTV5VkFZK2RxY3hlWXgzYVJsV0d3cWRm?=
+ =?utf-8?B?RERJSUdQSjcxR2MxUDZHdlB1OGRob1lubDZQdHAyWmpxdGxMMkhEc1dwU3pw?=
+ =?utf-8?B?SGZpVGR1K1ZMa04yQlREQjhQT2lEYlFKS2hDWUNxTUM4QStXejE5V1h4VUl0?=
+ =?utf-8?B?Ui9vTXI2YTJOb2xZMjFpK1JMY0NWYlJhN0FDdWF6VENWckNxL2hQU3VQK2tB?=
+ =?utf-8?B?bVJuWk9wblUyZnMvcytxeUxtcFRmUlJZWkVhTWdGQzBMamtibHNYZHQxUi85?=
+ =?utf-8?B?TWJuZ1dMckFCT3Q1LzRudUNkbVhjbDlKSnRXZFNzcS8wSUJrc0tyejJxdUdy?=
+ =?utf-8?B?ZExaQTRNYjNVM3U5TW1HWjhNTTFtbUM3NHdlMkNmSGpGQjJuQmo3c0N4ZFZI?=
+ =?utf-8?B?dzBVTjF3WTNvQWQrTEp1a3BlWjdrQ0JHT2NyaXNxMVpLMzhkSWtUdFFPRjZW?=
+ =?utf-8?B?SHpiT2svbW9lYWF2VTk1N0VuR2NkeUw5ZlpvT1JiNWdZSGsrdGp1LzlMSzgw?=
+ =?utf-8?B?SXpNQUZYNEc4bVNXa0U2VHY1UDh1QU1NSmJ6ZDBEbjRWckowY2FobzMwM0dn?=
+ =?utf-8?B?LzZwR2pFMlg2dmJ4VWVSVUcrbjdmS2JZMnYvQW1XM1NCbExDOWVSUmdKN2pu?=
+ =?utf-8?B?eTJFcEZLb2U1dDFVU1RZTm1ONU1zNTVlb25rYnhlMVRkbXBDd24wVnBOaGRy?=
+ =?utf-8?B?K0pPK0p6OXkwWmNtR1pySVRHMGM5WGRzc1ovVGl1RUROdFNyL0ZNTEFXN1Ew?=
+ =?utf-8?B?dVFhL0lGUjJhaHVRd1FVeHlja2RBWWhGOWVYNnVZeERqM25zS1lrNkNhS0JE?=
+ =?utf-8?B?ck5FMHAxeXNlWHpsL1huZzJsTENFR0JoYkRBb2Qxclk5M2h3OUwxNkZtYWlm?=
+ =?utf-8?B?Y0ZkdEJod2pMT1l3M0xCdXY4SlkxVDRKTk9KSzNGRHNpM3p5OW82SlNUbHk3?=
+ =?utf-8?B?ZGVNd3UwUEMySXFNR2FVZmJSNnZ0SDdWSG9ndXI3c2pyME5VMTFKTkJWMnA1?=
+ =?utf-8?B?NWVjR0pHY0FLd0Y3NGRvYW1VQTQwNFdmcmxCdnN6VCtzYzFhV2JvNUtHMDZQ?=
+ =?utf-8?B?RWltTGJwS2FCN1FabkpkVjhyazV1d3QyNGtnNk9uNFlBcCtCNUN6dXM4NXNi?=
+ =?utf-8?B?UEd4Z1Y0NGE5S3pVcGlhTm1hM2g3UC9CWUNLMi9ZRjh0R1A5SXRCS0E0dytY?=
+ =?utf-8?B?Q1l5a3luQm9TUkROREtnVS95Mm04bnREaDBlR3ZldnFSRzNNRy9vYk81dUVE?=
+ =?utf-8?B?VGtQbVFCTE1ncHd3K3pJUlVrdlBnQ0ZHSTErREhiR3h1eWZ5eFk0eGJWWXJS?=
+ =?utf-8?B?SzBzYUpiRVRJZUxEcjk0TmprdHBtTzd6RW96RnpJZDViZmNXWFBRVGlkckhR?=
+ =?utf-8?B?SGJXNmtLTWs3NUg3Y0lFcFZSOStMTlBodU5PNFp3cG51RHRneXlwMFBmTDdE?=
+ =?utf-8?B?VHZtc1R1MktTcHJLcGJpNVRuY1VWaEtNdFEzL0QwYXhJeVBNN3ZlSDJBbE1n?=
+ =?utf-8?B?bVFjclhMQlBUZC90WTYxRXVQY1dBTzJXdU12OVRWRlNJSE9TMEVieHUxaHRL?=
+ =?utf-8?B?RUt6MHhIVWpOZ3V0aXR2VEdCNWl4NTh1N1RESXh0Wlpmcm9nclVuc1hVM2la?=
+ =?utf-8?B?KzNPdCtsRWcvNlZZcFd1MFZNMXM2Sy9HTm45QTVHeHVqRDJiR251TVQ2c0dH?=
+ =?utf-8?B?TkE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20fa64eb-4f75-4c30-75c1-08ddb7ed1324
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 15:45:01.5155
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ecu00SPY89KL9eHJ3wg/0l9J2DAGksLZWJhPqySrYKoGC3qcGDDyfwm9MBeda/rE5YroCcs1sjCtsMZw/kFLqepZDOGXkWse98GkuMA/Ujc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7019
+X-OriginatorOrg: intel.com
 
-On Thu, Jun 5, 2025 at 3:50=E2=80=AFAM James Clark <james.clark@linaro.org>=
- wrote:
->
-> FEAT_SPE_EFT and FEAT_SPE_FDS etc have new user facing format attributes
-> so document them. Also document existing 'event_filter' bits that were
-> missing from the doc and the fact that latency values are stored in the
-> weight field.
->
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
-> Tested-by: Leo Yan <leo.yan@arm.com>
-> Signed-off-by: James Clark <james.clark@linaro.org>
+Hi Babu,
 
-Reviewed-by: Ian Rogers <irogers@google.com>
+On 6/30/25 6:57 AM, Moger, Babu wrote:
+> Hi Reinette,
+> 
+> On 6/24/2025 11:18 PM, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 6/13/25 2:05 PM, Babu Moger wrote:
+>>> Reading the monitoring data requires RMID, CLOSID, and event ID, among
+>>> other parameters. These are passed individually, resulting in architecture
+>>
+>> It is not clear how "event ID" and "other parameters" are relevant to this
+>> change since (in this context) it is only RMID and CLOSID that can be
+>> found in rdtgroup.
+>>
+>>> specific function calls.
+>>
+>> Could you please elaborate what you meant with: "These are passed individually,
+>> resulting in architecture specific function calls."?
+> 
+> Rephrased the whole changelog.
+> 
+> "fs/resctrl: Pass the full rdtgroup structure instead of individual RMID
+> and CLOSID
 
-Thanks,
-Ian
+nit, can be simplified to:
+	fs/resctrl: Pass struct rdtgroup instead of individual members
 
-> ---
->  tools/perf/Documentation/perf-arm-spe.txt | 97 +++++++++++++++++++++++++=
-+++---
->  1 file changed, 88 insertions(+), 9 deletions(-)
->
-> diff --git a/tools/perf/Documentation/perf-arm-spe.txt b/tools/perf/Docum=
-entation/perf-arm-spe.txt
-> index 37afade4f1b2..4092b53b58d2 100644
-> --- a/tools/perf/Documentation/perf-arm-spe.txt
-> +++ b/tools/perf/Documentation/perf-arm-spe.txt
-> @@ -141,27 +141,65 @@ Config parameters
->  These are placed between the // in the event and comma separated. For ex=
-ample '-e
->  arm_spe/load_filter=3D1,min_latency=3D10/'
->
-> -  branch_filter=3D1     - collect branches only (PMSFCR.B)
-> -  event_filter=3D<mask> - filter on specific events (PMSEVFR) - see bitf=
-ield description below
-> +  event_filter=3D<mask> - logical AND filter on specific events (PMSEVFR=
-) - see bitfield description below
-> +  inv_event_filter=3D<mask> - logical OR to filter out specific events (=
-PMSNEVFR, FEAT_SPEv1p2) - see bitfield description below
->    jitter=3D1            - use jitter to avoid resonance when sampling (P=
-MSIRR.RND)
-> -  load_filter=3D1       - collect loads only (PMSFCR.LD)
->    min_latency=3D<n>     - collect only samples with this latency or high=
-er* (PMSLATFR)
->    pa_enable=3D1         - collect physical address (as well as VA) of lo=
-ads/stores (PMSCR.PA) - requires privilege
->    pct_enable=3D1        - collect physical timestamp instead of virtual =
-timestamp (PMSCR.PCT) - requires privilege
-> -  store_filter=3D1      - collect stores only (PMSFCR.ST)
->    ts_enable=3D1         - enable timestamping with value of generic time=
-r (PMSCR.TS)
->    discard=3D1           - enable SPE PMU events but don't collect sample=
- data - see 'Discard mode' (PMBLIMITR.FM =3D DISCARD)
-> +  data_src_filter=3D<mask> - mask to filter from 0-63 possible data sour=
-ces (PMSDSFR, FEAT_SPE_FDS) - See 'Data source filtering'
->
->  +++*+++ Latency is the total latency from the point at which sampling st=
-arted on that instruction, rather
->  than only the execution latency.
->
-> -Only some events can be filtered on; these include:
-> -
-> -  bit 1     - instruction retired (i.e. omit speculative instructions)
-> +Only some events can be filtered on using 'event_filter' bits. The overa=
-ll
-> +filter is the logical AND of these bits, for example if bits 3 and 5 are=
- set
-> +only samples that have both 'L1D cache refill' AND 'TLB walk' are record=
-ed. When
-> +FEAT_SPEv1p2 is implemented 'inv_event_filter' can also be used to exclu=
-de
-> +events that have any (OR) of the filter's bits set. For example setting =
-bits 3
-> +and 5 in 'inv_event_filter' will exclude any events that are either L1D =
-cache
-> +refill OR TLB walk. If the same bit is set in both filters it's UNPREDIC=
-TABLE
-> +whether the sample is included or excluded. Filter bits for both event_f=
-ilter
-> +and inv_event_filter are:
-> +
-> +  bit 1     - Instruction retired (i.e. omit speculative instructions)
-> +  bit 2     - L1D access (FEAT_SPEv1p4)
->    bit 3     - L1D refill
-> +  bit 4     - TLB access (FEAT_SPEv1p4)
->    bit 5     - TLB refill
-> -  bit 7     - mispredict
-> -  bit 11    - misaligned access
-> +  bit 6     - Not taken event (FEAT_SPEv1p2)
-> +  bit 7     - Mispredict
-> +  bit 8     - Last level cache access (FEAT_SPEv1p4)
-> +  bit 9     - Last level cache miss (FEAT_SPEv1p4)
-> +  bit 10    - Remote access (FEAT_SPEv1p4)
-> +  bit 11    - Misaligned access (FEAT_SPEv1p1)
-> +  bit 12-15 - IMPLEMENTATION DEFINED events (when implemented)
-> +  bit 16    - Transaction (FEAT_TME)
-> +  bit 17    - Partial or empty SME or SVE predicate (FEAT_SPEv1p1)
-> +  bit 18    - Empty SME or SVE predicate (FEAT_SPEv1p1)
-> +  bit 19    - L2D access (FEAT_SPEv1p4)
-> +  bit 20    - L2D miss (FEAT_SPEv1p4)
-> +  bit 21    - Cache data modified (FEAT_SPEv1p4)
-> +  bit 22    - Recently fetched (FEAT_SPEv1p4)
-> +  bit 23    - Data snooped (FEAT_SPEv1p4)
-> +  bit 24    - Streaming SVE mode event (when FEAT_SPE_SME is implemented=
-), or
-> +              IMPLEMENTATION DEFINED event 24 (when implemented, only ve=
-rsions
-> +              less than FEAT_SPEv1p4)
-> +  bit 25    - SMCU or external coprocessor operation event when FEAT_SPE=
-_SME is
-> +              implemented, or IMPLEMENTATION DEFINED event 25 (when impl=
-emented,
-> +              only versions less than FEAT_SPEv1p4)
-> +  bit 26-31 - IMPLEMENTATION DEFINED events (only versions less than FEA=
-T_SPEv1p4)
-> +  bit 48-63 - IMPLEMENTATION DEFINED events (when implemented)
-> +
-> +For IMPLEMENTATION DEFINED bits, refer to the CPU TRM if these bits are
-> +implemented.
-> +
-> +The driver will reject events if requested filter bits require unimpleme=
-nted SPE
-> +versions, but will not reject filter bits for unimplemented IMPDEF bits =
-or when
-> +their related feature is not present (e.g. SME). For example, if FEAT_SP=
-Ev1p2 is
-> +not implemented, filtering on "Not taken event" (bit 6) will be rejected=
-.
->
->  So to sample just retired instructions:
->
-> @@ -171,6 +209,31 @@ or just mispredicted branches:
->
->    perf record -e arm_spe/event_filter=3D0x80/ -- ./mybench
->
-> +When set, the following filters can be used to select samples that match=
- any of
-> +the operation types (OR filtering). If only one is set then only samples=
- of that
-> +type are collected:
-> +
-> +  branch_filter=3D1     - Collect branches (PMSFCR.B)
-> +  load_filter=3D1       - Collect loads (PMSFCR.LD)
-> +  store_filter=3D1      - Collect stores (PMSFCR.ST)
-> +
-> +When extended filtering is supported (FEAT_SPE_EFT), SIMD and float
-> +pointer operations can also be selected:
-> +
-> +  simd_filter=3D1         - Collect SIMD loads, stores and operations (P=
-MSFCR.SIMD)
-> +  float_filter=3D1        - Collect floating point loads, stores and ope=
-rations (PMSFCR.FP)
-> +
-> +When extended filtering is supported (FEAT_SPE_EFT), operation type filt=
-ers can
-> +be changed to AND using _mask fields. For example samples could be selec=
-ted if
-> +they are store AND SIMD by setting 'store_filter=3D1,simd_filter=3D1,
-> +store_filter_mask=3D1,simd_filter_mask=3D1'. The new masks are as follow=
-s:
-> +
-> +  branch_filter_mask=3D1  - Change branch filter behavior from OR to AND=
- (PMSFCR.Bm)
-> +  load_filter_mask=3D1    - Change load filter behavior from OR to AND (=
-PMSFCR.LDm)
-> +  store_filter_mask=3D1   - Change store filter behavior from OR to AND =
-(PMSFCR.STm)
-> +  simd_filter_mask=3D1    - Change SIMD filter behavior from OR to AND (=
-PMSFCR.SIMDm)
-> +  float_filter_mask=3D1   - Change floating point filter behavior from O=
-R to AND (PMSFCR.FPm)
-> +
->  Viewing the data
->  ~~~~~~~~~~~~~~~~~
->
-> @@ -204,6 +267,10 @@ Memory access details are also stored on the samples=
- and this can be viewed with
->
->    perf report --mem-mode
->
-> +The latency value from the SPE sample is stored in the 'weight' field of=
- the
-> +Perf samples and can be displayed in Perf script and report outputs by e=
-nabling
-> +its display from the command line.
-> +
->  Common errors
->  ~~~~~~~~~~~~~
->
-> @@ -247,6 +314,18 @@ to minimize output. Then run perf stat:
->    perf record -e arm_spe/discard/ -a -N -B --no-bpf-event -o - > /dev/nu=
-ll &
->    perf stat -e SAMPLE_FEED_LD
->
-> +Data source filtering
-> +~~~~~~~~~~~~~~~~~~~~~
-> +
-> +When FEAT_SPE_FDS is present, 'data_src_filter' can be used as a mask to=
- filter
-> +on a subset (0 - 63) of possible data source IDs. The full range of data=
- sources
-> +is 0 - 65535 although these are unlikely to be used in practice. Data so=
-urces
-> +are IMPDEF so refer to the TRM for the mappings. Each bit N of the filte=
-r maps
-> +to data source N. The filter is an OR of all the bits, so for example se=
-tting
-> +bits 0 and 3 includes only packets from data sources 0 OR 3. When
-> +'data_src_filter' is set to 0 data source filtering is disabled and all =
-data
-> +sources are included.
-> +
->  SEE ALSO
->  --------
->
->
-> --
-> 2.34.1
->
+> 
+> The functions resctrl_arch_reset_rmid() and resctrl_arch_rmid_read()
+
+(No need to say "function" when using ().)
+
+But wait ... this now changes to different functions from what the original
+patch touched and even more so it changes _arch_ functions that should not
+have access to struct rdtgroup. This new changelog does not seem to document
+the original patch but something new that has not yet been posted.
+
+> require several parameters, including RMID and CLOSID. Currently, RMID and
+> CLOSID are passed individually, even though they are available within the
+> rdtgroup structure.
+> 
+> Refactor the code to pass a pointer to struct rdtgroup instead of
+> individual members in preparation for this requirement.
+
+"this requirement" .. what requirement are you referring to?
+There is no requirement that individual members of a struct cannot be passed
+as separate parameters and there is no problem doing so.
+
+From "Changelog" in Documentation/process/maintainer-tip.rst:
+"A good structure is to explain the context, the problem and the solution in
+ separate paragraphs and this order."
+
+This new changelog has structure of "context, solution, problem".
+
+> 
+> Additionally, when "mbm_event" counter assignment mode is enabled, a
+
+This seems to be primary motivation since passing struct rdtgroup will
+simplify the code (when I consider the original patch, not what this new
+changelog implies) ... but if this change is indeed to the arch API as the
+context suggest then passing the individual members is the right thing to
+do because arch code should not access struct rdtgroup.
+
+> counter ID is required to read the event. The counter ID is obtained
+> through mbm_cntr_get(), which expects a struct rdtgroup pointer."
+
+This is even stranger. mbm_cntr_get() is private to resctrl fs while
+the new changelog describes how the arch functions resctrl_arch_reset_rmid()
+and resctrl_arch_rmid_read() need struct rdtgroup to call mbm_cntr_get()?
+
+Reinette
+
