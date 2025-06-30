@@ -1,97 +1,177 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DA31BC2A;
-	Mon, 30 Jun 2025 01:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A093D69;
+	Mon, 30 Jun 2025 01:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751246339; cv=none; b=a4rvERifr1t796ahYjSwoMTmTCksw7aqLFrcWhylNZNRBwx+rX9XUL3qhgiZYxbIq5Qfk3/R0LfSD/3N1Jtu3/XOgGJ7AWD6+xBY8l6uzDq74nGAkkXzcaT5oCZWRZgtiobSkd6O5xV7S9WBo4i0VSZ9KgBR03k/kBY9Y5gm3GQ=
+	t=1751247146; cv=none; b=Y6dWhGeCYP7LcYvjGvaXV6TjTvFCnQvsP3spBrgd7yD2JuWibz1oCtJ0sdCH95k88juxJGN9HR21Wf36ytI/1Uz5Q03BbBdKQBhOme3NFOCXC9Ak5V0sSMmlkOriinosNf6yAIRpDKOSASZRS2gCqj+Q8LM6LdYl5zOB2+kmUcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751246339; c=relaxed/simple;
-	bh=RbZOpy8J0k5RuQe6TfwdpEBKFEQv7E87hUnTEjHxunw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=celMWC0KYi64lJ1p5pmDGNrtABiQ9SNb9PwPNxO7WyCaoVq71/wbIMYjEWu/HPFNDiteEOqJ+zzKK22AiGp0KE+psz3lcUtMYazS9DAgDOb1OoJAoMTJ6uOMRFD3iHUAFVGMQZ7M9FUNeuepo/vAvDqbPnGlOlAexMMjRNsuElI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=t/LHqihr; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1751247146; c=relaxed/simple;
+	bh=PdbmSrnBaljKSjVuz2OmgriJvaxALYThsxW+O8GzZqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HMw0p+B3fc5hf80w1W27BMsFrcUEOiE/T7bP49A+2u23qwJf8SzrcatzoEqhm4Sz4BtHbOierwC6HNq7vahIXCphqPQJhI0cAYg4SietWFtfiabmaYnSoOTfik7kIVsa9zoTV0QE7Dl4llQMbkblAkPBY6bNc4XbS2QE1Uyjiyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KnozMG6E; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="t/LHqihr"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1751246328; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	bh=RbZOpy8J0k5RuQe6TfwdpEBKFEQv7E87hUnTEjHxunw=;
-	b=t/LHqihrskVy6VS5sWIGW/gbybXBOmjMXIaxNd7ZtpYz4VC3rK21Z+L5ZjoCuR6NcqpHyQ7kTSRR6/W7f3V60tKKzxyPF5PY0A1B0GWVmon8i96GvJDacQJPCIjqP5wPVcpnAqvsWpWqbJzG1RvSz6/hcMjmRUVaZHAEQlJwy8U=
-Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com fp:SMTPD_---0Wg2L3YV_1751246322 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 30 Jun 2025 09:18:43 +0800
-From: "Huang, Ying" <ying.huang@linux.alibaba.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
-  linux-doc@vger.kernel.org,  linuxppc-dev@lists.ozlabs.org,
-  virtualization@lists.linux.dev,  linux-fsdevel@vger.kernel.org,  Andrew
- Morton <akpm@linux-foundation.org>,  Jonathan Corbet <corbet@lwn.net>,
-  Madhavan Srinivasan <maddy@linux.ibm.com>,  Michael Ellerman
- <mpe@ellerman.id.au>,  Nicholas Piggin <npiggin@gmail.com>,  Christophe
- Leroy <christophe.leroy@csgroup.eu>,  Jerrin Shaji George
- <jerrin.shaji-george@broadcom.com>,  Arnd Bergmann <arnd@arndb.de>,  Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,  "Michael S. Tsirkin"
- <mst@redhat.com>,  Jason Wang <jasowang@redhat.com>,  Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?=
- <eperezma@redhat.com>,
-  Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
- <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,  Zi Yan <ziy@nvidia.com>,
-  Matthew Brost <matthew.brost@intel.com>,  Joshua Hahn
- <joshua.hahnjy@gmail.com>,  Rakie Kim <rakie.kim@sk.com>,  Byungchul Park
- <byungchul@sk.com>,  Gregory Price <gourry@gourry.net>,  Alistair Popple
- <apopple@nvidia.com>,  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-  "Liam R. Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka
- <vbabka@suse.cz>,  Mike Rapoport <rppt@kernel.org>,  Suren Baghdasaryan
- <surenb@google.com>,  Michal Hocko <mhocko@suse.com>,  "Matthew Wilcox
- (Oracle)" <willy@infradead.org>,  Minchan Kim <minchan@kernel.org>,
-  Sergey Senozhatsky <senozhatsky@chromium.org>,  Brendan Jackman
- <jackmanb@google.com>,  Johannes Weiner <hannes@cmpxchg.org>,  Jason
- Gunthorpe <jgg@ziepe.ca>,  John Hubbard <jhubbard@nvidia.com>,  Peter Xu
- <peterx@redhat.com>,  Xu Xin <xu.xin16@zte.com.cn>,  Chengming Zhou
- <chengming.zhou@linux.dev>,  Miaohe Lin <linmiaohe@huawei.com>,  Naoya
- Horiguchi <nao.horiguchi@gmail.com>,  Oscar Salvador <osalvador@suse.de>,
-  Rik van Riel <riel@surriel.com>,  Harry Yoo <harry.yoo@oracle.com>,  Qi
- Zheng <zhengqi.arch@bytedance.com>,  Shakeel Butt <shakeel.butt@linux.dev>
-Subject: Re: [PATCH RFC 13/29] mm/balloon_compaction: stop using
- __ClearPageMovable()
-In-Reply-To: <20250618174014.1168640-14-david@redhat.com> (David Hildenbrand's
-	message of "Wed, 18 Jun 2025 19:39:56 +0200")
-References: <20250618174014.1168640-1-david@redhat.com>
-	<20250618174014.1168640-14-david@redhat.com>
-Date: Mon, 30 Jun 2025 09:18:42 +0800
-Message-ID: <87ldpaowlp.fsf@DESKTOP-5N7EMDA>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KnozMG6E"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3139027b825so892696a91.0;
+        Sun, 29 Jun 2025 18:32:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751247145; x=1751851945; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gwxo+Mz3IvrzaosTpE+nrtogxa++aPCEgx5JYVoi1DE=;
+        b=KnozMG6Egt8WY3dIL0wXRy/MwwpoKYAwBMYqhs8N9iyGKee8JXHOZjJbrgO5+ataf9
+         nhSGF1oMSKxdTrpKNxOG0PCgqtOmx/r2wurLg2jFwMz22Ds03J34rToaTJVYhvpWjrOQ
+         h69akDLK6bgCEAfj5Hx4ESzsHSMMMEH82fFwiozOKLyx8c/oRzgQZkVwqgnPy+wyesIE
+         dZOL0fmGB2Azsh1zDUNBp8Ay4OZruvZxtf8Qcl3yfIoGrfjGcKfIixiXxgvrtGW2nY8L
+         o7YpkpTpT5R9gyyrktXfFtL98fZQ+0cm+LRdlWViS0Rs32cyYOlDs641cEb1szvcT3k7
+         AC0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751247145; x=1751851945;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gwxo+Mz3IvrzaosTpE+nrtogxa++aPCEgx5JYVoi1DE=;
+        b=OhQv9442suVhdn/YS+dLCdKufPo/4rfj5sgDWhgcBQuYBZfnGtbdSlgLwPYP80BwjQ
+         GQHGkaSgyHZk3PaKrLpCHenEZabEJU90E7XRH4xWmNJPDdfmLU8k8mViO9v0LrwarRVD
+         ONfdkWVpKAdG01AsRjqLsHIFwvZ98YJl25N1l2BOaeGmt3QGnfmnZHsT9dGe4g/EukZe
+         M5WjoOwcqPQZYK0YF0T25j8n0hjeZElDJ8E9F3EnxEYFscG8P9z8khI5lgqwarRYqQK0
+         cryGOehj3WxjVXm2cMk2fNKtA1taTem5VVbQfAFPasX4JhQLwkw1A5adESIbCN65koSY
+         fFNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUGtncTGdRjeT2Pow3eJjAlYsJ3w7aITng2P8476b8pFmZ0W/58pbbFXMOb2ZnKmJ7LAfo6N4Pk4rmzPcUc@vger.kernel.org, AJvYcCVmUpI1E2Bnz0kF2Ol2i9jXk5AWTUTLFU2uVPBCeVB6XpbLNMDGm8/Cwf4Mmxygu4H//uNajfmLmtw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz44YJ+OxdTGgPLuNhvbrD/I9OKkK+w75WRRjWuntnxibrDUExB
+	Q8+u2URPWkvGj506Jim0011OnrHrZT0yEDfW6yAGr77SQb+6JC0nSWY9
+X-Gm-Gg: ASbGnctjXWcfmsEOoeqlun0zvIEVa27ID9Rxp9cQ64dg3A8ALuhQvbKy1nRWt/HpBxQ
+	zVefv3T7ElVdNiiY/7lg83UnoHwkC8u75/10aNsfmIr4Mh+RXzz/DlG//uN6yyk7GroqGMPOpp7
+	i1MAsS1D+u2J1WCjPRZABcK22kx3CRUCDdPj9qkmjk2nYYGLavDwvmvxus+WAxQkZNLm9Ze6rTG
+	pVjyZGeHYrFkdu5BaNRyhEJzXh4uZcI7LhP0I2idXuKH0CmpzPLIH+qf5lo7KtL2rVM+EjrhaN4
+	+K4PuJtjiMoq3F7bXxnwNvgjCDy5ojUF8PnRKMj1aptmM8fprWFDLEdkk7GsF9fYw7pycg6O
+X-Google-Smtp-Source: AGHT+IFZCO9JUwt3uc3yB0stvOczNjE1Z46dM+SWxPKuf+S1ol8ZiAtkuzHavPc/X4mafB35eylK+Q==
+X-Received: by 2002:a17:90b:1dd2:b0:311:b0ec:1360 with SMTP id 98e67ed59e1d1-318c92f26abmr15843348a91.29.1751247144552;
+        Sun, 29 Jun 2025 18:32:24 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-315edcfd75dsm3332769a91.1.2025.06.29.18.32.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Jun 2025 18:32:23 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 951B5420A813; Mon, 30 Jun 2025 08:32:18 +0700 (WIB)
+Date: Mon, 30 Jun 2025 08:32:18 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH v2 7/8] docs: dma-api: update streaming DMA physical
+ address constraints
+Message-ID: <aGHpIiKWDr0T-FLN@archie.me>
+References: <20250627101015.1600042-1-ptesarik@suse.com>
+ <20250627101015.1600042-8-ptesarik@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HrIK/LW9hGVtLpKi"
+Content-Disposition: inline
+In-Reply-To: <20250627101015.1600042-8-ptesarik@suse.com>
 
-David Hildenbrand <david@redhat.com> writes:
 
-> We can just look at the balloon device (stored in page->private), to see
-> of the page is still part of the balloon.
+--HrIK/LW9hGVtLpKi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-s/of/if/
+On Fri, Jun 27, 2025 at 12:10:14PM +0200, Petr Tesarik wrote:
+> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/=
+dma-api.rst
+> index 9fcdb160638e0..a075550ebbb54 100644
+> --- a/Documentation/core-api/dma-api.rst
+> +++ b/Documentation/core-api/dma-api.rst
+> @@ -184,6 +184,26 @@ segments, the function returns 0.
+>  Part Id - Streaming DMA mappings
+>  --------------------------------
+> =20
+> +Streaming DMA allows to map an existing buffer for DMA transfers and then
+> +unmap it when finished.  Map functions are not guaranteed to succeed, so=
+ the
+> +return value must be checked.
+> +
+> +.. note::
+> +
+> +	In particular, mapping may fail for memory not addressable by the
+> +	device, e.g. if it is not within the DMA mask of the device and/or a
+> +	connecting bus bridge.  Streaming DMA functions try to overcome such
+> +	addressing constraints, either by using an IOMMU (a device which maps
+> +	I/O DMA addresses to physical memory addresses), or by copying the
+> +	data to/from a bounce buffer if the kernel is configured with a
+> +	:doc:`SWIOTLB <swiotlb>`.  However, these methods are not always
+> +	available, and even if they are, they may still fail for a number of
+> +	reasons.
+> +
+> +	In short, a device driver may need to be wary of where buffers are
+> +	located in physical memory, especially if the DMA mask is less than 32
+> +	bits.
+> +
+>  ::
+> =20
+>  	dma_addr_t
+> @@ -204,27 +224,13 @@ DMA_BIDIRECTIONAL	direction isn't known
+> =20
+>  .. note::
+> =20
+> -	Not all memory regions in a machine can be mapped by this API.
+> -	Further, contiguous kernel virtual space may not be contiguous as
+> +	Contiguous kernel virtual space may not be contiguous as
+>  	physical memory.  Since this API does not provide any scatter/gather
+>  	capability, it will fail if the user tries to map a non-physically
+>  	contiguous piece of memory.  For this reason, memory to be mapped by
+>  	this API should be obtained from sources which guarantee it to be
+>  	physically contiguous (like kmalloc).
+> =20
+> -	Further, the DMA address of the memory must be within the dma_mask of
+> -	the device.  To ensure that the memory allocated by kmalloc is within
+> -	the dma_mask, the driver may specify various platform-dependent flags
+> -	to restrict the DMA address range of the allocation (e.g., on x86,
+> -	GFP_DMA guarantees to be within the first 16MB of available DMA
+> -	addresses, as required by ISA devices).
+> -
+> -	Note also that the above constraints on physical contiguity and
+> -	dma_mask may not apply if the platform has an IOMMU (a device which
+> -	maps an I/O DMA address to a physical memory address).  However, to be
+> -	portable, device driver writers may *not* assume that such an IOMMU
+> -	exists.
+> -
+>  .. warning::
+> =20
+>  	Memory coherency operates at a granularity called the cache
 
-?
+The wording looks good, thanks!
 
-just a trivial issue if I'm not wrong.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-> As isolated balloon pages cannot get released (they are taken off the
-> balloon list while isolated), we don't have to worry about this case in
-> the putback and migration callback. Add a WARN_ON_ONCE for now.
->
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+--=20
+An old man doll... just what I always wanted! - Clara
 
-[snip]
+--HrIK/LW9hGVtLpKi
+Content-Type: application/pgp-signature; name=signature.asc
 
----
-Best Regards,
-Huang, Ying
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaGHpHQAKCRD2uYlJVVFO
+o7BTAQD2guhFoVk0F3IFsbTS/6Ol/17jQ8zJ8Y1DrFSsn2CrUgD8ChTz5+jY2xNj
+g3nM93NHjiM4P2S06XM2BOx7i7nPXgc=
+=aOWE
+-----END PGP SIGNATURE-----
+
+--HrIK/LW9hGVtLpKi--
