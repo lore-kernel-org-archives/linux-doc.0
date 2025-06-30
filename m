@@ -1,89 +1,209 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56D02E62A8;
-	Mon, 30 Jun 2025 19:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155B91E32D6;
+	Mon, 30 Jun 2025 20:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751313244; cv=none; b=ZpkiJff8d0BghtPPTKUF1xKtpTHUSzi/QO/lxWTSyq+JgHFtaWP+AnPImYBKgXApgwQg453RlMcAnROq9vXujpk6RmSKl8EuE/9QwDJrA8MdXQRLsvcVXA3TsKd0Aj3dBbI0TObEzlTuMWrTou2869hM7s7bZ4aLxgwXxoIfx/o=
+	t=1751316977; cv=none; b=I1C9M5K6REYKz0LQpRzEUnpNy4uyTP6LMXkkAy+97pJ4I/F8uDD3UsD7FYttxEv14cALT/ymJ49FT1Q0hVvPx3tEIQ+6RrAX7TWEnJkG4lBRfiV/uZCa0ulKmxO73Hdo+NBlEmNbfGwF+maBp1sdiM+02eOlrICmb75JVjMHIu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751313244; c=relaxed/simple;
-	bh=uwD4EB7qeLbNQseoCWLzTOg8p8VXSbBg87IayVw7GZg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=oAhc/VJj2YTEEeNmrGHbRBrBN8qudVmv3WDt9tmAJNKH/YaLfn33oYFf/YTepIXOBkDB/estAkBpIy/AmCy76L/SaUY1aJGF2M/401TdzCArTp5WypIfQpRihNWrb5vMz6z47hqd/UUBuLsndC+B2ayCtxfP6atKT9S3PyVks/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XM1ypRQA; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1751316977; c=relaxed/simple;
+	bh=PO44svPAYFFi6GiqbWS4Fm1Ty0ssVHLymeJlTxwzafk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CVVNtiwdewpZkMn6DLggeld9XDg7QSwDSIQeqe/VJW1/vqLmp3cPTLPXjE1S7JzZcFd9eykaLN0fO+d1lhfKJzveJnBJdMETd1w0VqJRzIhp/CqYDgZ+knAccEWZcjx5nWYdw7QtoPyljwGcznmQzvx92tEt23bqWL7ZJ8fG6pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HhKs9WPS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XM1ypRQA"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F38E840AB5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1751313236; bh=GMvN0AXDkYgDCFr8PgBdrQXd3tKnGTsHMEO1Qblze+s=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XM1ypRQAgYusaeH3a8VPd5JgRYaKI2j5aRCJ4ouDYpn283Sbj844CuZzL0zVShkSq
-	 UH/BLbjwL1depkV7WJrbq5y73QIVz5ZlYww+ynyAzTyJPhMdF2K4/keCehVnvmoE/n
-	 7l3LXU7A/gccuzallOIPE+7xzJvQZRvSUICAAjG2pMm0xBGvtuuqsM/6rSknyJ43wH
-	 RVO9XumqTJKQ1Idc1DA5OhtFrAZcE8WiaZ4oA3y0GxANjUmv+BftBwR3D2NZJ+2be0
-	 hxn1Q8KV2es9GM8bH5fZLrQvW9gw3s3U7QNx+l+nyAi4o2Iy2UiLnx7tKozUKh21tU
-	 kHrpDBXuZ0oGQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id F38E840AB5;
-	Mon, 30 Jun 2025 19:53:55 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
- workflows@vger.kernel.org, tools@kernel.org, Sasha Levin
- <sashal@kernel.org>
-Subject: Re: [RFC v2 01/22] kernel/api: introduce kernel API specification
- framework
-In-Reply-To: <20250624180742.5795-2-sashal@kernel.org>
-References: <20250624180742.5795-1-sashal@kernel.org>
- <20250624180742.5795-2-sashal@kernel.org>
-Date: Mon, 30 Jun 2025 13:53:55 -0600
-Message-ID: <874ivxuht8.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HhKs9WPS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8247EC4CEF7;
+	Mon, 30 Jun 2025 20:56:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751316975;
+	bh=PO44svPAYFFi6GiqbWS4Fm1Ty0ssVHLymeJlTxwzafk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=HhKs9WPSntjrnVGvwtUXKtRXfRp7ZFQTMeoh2xdI+oPDKiaU8VWwMUVyewuWLutRg
+	 thNMMLiVjeUeK8jrFPHKkQyxzP2F2NksS+Un0A8qTqqrV8pBLyPcDk6KCv22zCVQYV
+	 qZ4FU2CVCJSancybT61fdQYX+fdRJEBBnLKiCvNU1+Q4l7zPtuANNbD94XMmClnpQc
+	 fl1gtL8ERG1fIzjVoe5OuU8vLVx1bKu7M3+zBmUIMmzC0EA6hJf/Xnu2pCN/sSbiII
+	 ck22XgFecXDsY2l7lnuGZhGrb+5aQiMIxfvnxQbH95E1q4CaoZnFLDAqHjLiwO3N5f
+	 WnRbpWKBx5XlA==
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ae36e88a5daso506961166b.1;
+        Mon, 30 Jun 2025 13:56:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUUkTJI/PPbxVrF73M3wqeC4KnBHg+bHY11A6mqOVP9b/rnnN76FTSkHTbW4AuYWDSv9sC6G7lg1dU/@vger.kernel.org, AJvYcCUYpIkAspNNTX9YxUvTjjHBOM2kGb8kYzA1vDqA3gMAbL5jk+Y1BYW5+obo9adTtSzjH+bqdn8K7WiKLJMA@vger.kernel.org, AJvYcCWFWSsIhdjidSvU/ZIU0PLMphtQd73qVz9KAU7f8bOZL+AYjWaxkHiKkPhhONgVUMZDWfidRUsL8u92@vger.kernel.org, AJvYcCWxp1pMinJYeeqyQmrNdOLp279XfvTM6xo9F7YuVlmVF0gjakPccYVf7KYJ4kdbE/Pp2k0wTvdXXJ4SUy8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzp29YOz7PUDYlegOsFDuBGMXD3n5cJuUS3vWgyoaDBzWFp1uYE
+	wsTx8brXt4+/bNdJO8EnUXCVx22m2netZ1FDjSm/5xQwedKWmpKuo9wJwAfdroE47NpvI3ffLvp
+	05LIzowuU1sfpkQPB+GIIxH2O6HE0yw==
+X-Google-Smtp-Source: AGHT+IHN6KYVrLpEyM//LpRHGQ3ciilHAEEns6c2p0uRqrws7WdVXCCQfCRU6orJIR5QnGKwW7fUExXvkMdYX3eTq8k=
+X-Received: by 2002:a17:907:868b:b0:ad9:db54:ba47 with SMTP id
+ a640c23a62f3a-ae350190c99mr1589912566b.43.1751316973962; Mon, 30 Jun 2025
+ 13:56:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net> <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
+In-Reply-To: <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 30 Jun 2025 15:56:02 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJtKCXE0MLaBN5-r+w+2jVwt8UMwHtr-nP0PoBmfNodpg@mail.gmail.com>
+X-Gm-Features: Ac12FXy8hWxpEFoW3ELH4IZXVQDuQYuBeJxvmHd6gayxY_Y6diMDIDxJ1A0GBAM
+Message-ID: <CAL_JsqJtKCXE0MLaBN5-r+w+2jVwt8UMwHtr-nP0PoBmfNodpg@mail.gmail.com>
+Subject: Re: [PATCH v7 04/10] accel/rocket: Add job submission IOCTL
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, 
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Kever Yang <kever.yang@rock-chips.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sasha Levin <sashal@kernel.org> writes:
-
-> Add a comprehensive framework for formally documenting kernel APIs with
-> inline specifications. This framework provides:
+On Fri, Jun 6, 2025 at 1:29=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.net>=
+ wrote:
 >
-> - Structured API documentation with parameter specifications, return
->   values, error conditions, and execution context requirements
-> - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
-> - Export of specifications via debugfs for tooling integration
-> - Support for both internal kernel APIs and system calls
+> Using the DRM GPU scheduler infrastructure, with a scheduler for each
+> core.
 >
-> The framework stores specifications in a dedicated ELF section and
-> provides infrastructure for:
-> - Compile-time validation of specifications
-> - Runtime querying of API documentation
-> - Machine-readable export formats
-> - Integration with existing SYSCALL_DEFINE macros
+> Userspace can decide for a series of tasks to be executed sequentially
+> in the same core, so SRAM locality can be taken advantage of.
 >
-> This commit introduces the core infrastructure without modifying any
-> existing APIs. Subsequent patches will add specifications to individual
-> subsystems.
+> The job submission code was initially based on Panfrost.
 >
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> v2:
+> - Remove hardcoded number of cores
+> - Misc. style fixes (Jeffrey Hugo)
+> - Repack IOCTL struct (Jeffrey Hugo)
+>
+> v3:
+> - Adapt to a split of the register block in the DT bindings (Nicolas
+>   Frattaroli)
+> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
+> - Use drm_* logging functions (Thomas Zimmermann)
+> - Rename reg i/o macros (Thomas Zimmermann)
+> - Add padding to ioctls and check for zero (Jeff Hugo)
+> - Improve error handling (Nicolas Frattaroli)
+>
+> v6:
+> - Use mutexes guard (Markus Elfring)
+> - Use u64_to_user_ptr (Jeff Hugo)
+> - Drop rocket_fence (Rob Herring)
+>
+> v7:
+> - Assign its own IOMMU domain to each client, for isolation (Daniel
+>   Stone and Robin Murphy)
+>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 > ---
->  Documentation/admin-guide/kernel-api-spec.rst |  507 ++++++
 
-You need to add that file to index.rst in that directory or it won't be
-pulled into the docs build.
+[...]
 
-Wouldn't it be nice to integrate all this stuff with out existing
-kerneldoc mechanism...? :)
+> --- a/include/uapi/drm/rocket_accel.h
+> +++ b/include/uapi/drm/rocket_accel.h
+> @@ -12,8 +12,10 @@ extern "C" {
+>  #endif
+>
+>  #define DRM_ROCKET_CREATE_BO                   0x00
+> +#define DRM_ROCKET_SUBMIT                      0x01
+>
+>  #define DRM_IOCTL_ROCKET_CREATE_BO             DRM_IOWR(DRM_COMMAND_BASE=
+ + DRM_ROCKET_CREATE_BO, struct drm_rocket_create_bo)
+> +#define DRM_IOCTL_ROCKET_SUBMIT                        DRM_IOW(DRM_COMMA=
+ND_BASE + DRM_ROCKET_SUBMIT, struct drm_rocket_submit)
+>
+>  /**
+>   * struct drm_rocket_create_bo - ioctl argument for creating Rocket BOs.
+> @@ -37,6 +39,68 @@ struct drm_rocket_create_bo {
+>         __u64 offset;
+>  };
+>
+> +/**
+> + * struct drm_rocket_task - A task to be run on the NPU
+> + *
+> + * A task is the smallest unit of work that can be run on the NPU.
+> + */
+> +struct drm_rocket_task {
+> +       /** Input: DMA address to NPU mapping of register command buffer =
+*/
+> +       __u64 regcmd;
+> +
+> +       /** Input: Number of commands in the register command buffer */
+> +       __u32 regcmd_count;
+> +
+> +       /** Reserved, must be zero. */
+> +       __u32 reserved;
+> +};
+> +
+> +/**
+> + * struct drm_rocket_job - A job to be run on the NPU
+> + *
+> + * The kernel will schedule the execution of this job taking into accoun=
+t its
+> + * dependencies with other jobs. All tasks in the same job will be execu=
+ted
+> + * sequentially on the same core, to benefit from memory residency in SR=
+AM.
+> + */
+> +struct drm_rocket_job {
+> +       /** Input: Pointer to an array of struct drm_rocket_task. */
+> +       __u64 tasks;
+> +
+> +       /** Input: Pointer to a u32 array of the BOs that are read by the=
+ job. */
+> +       __u64 in_bo_handles;
+> +
+> +       /** Input: Pointer to a u32 array of the BOs that are written to =
+by the job. */
+> +       __u64 out_bo_handles;
+> +
+> +       /** Input: Number of tasks passed in. */
+> +       __u32 task_count;
+> +
+> +       /** Input: Number of input BO handles passed in (size is that tim=
+es 4). */
+> +       __u32 in_bo_handle_count;
+> +
+> +       /** Input: Number of output BO handles passed in (size is that ti=
+mes 4). */
+> +       __u32 out_bo_handle_count;
+> +
+> +       /** Reserved, must be zero. */
+> +       __u32 reserved;
+> +};
+> +
+> +/**
+> + * struct drm_rocket_submit - ioctl argument for submitting commands to =
+the NPU.
+> + *
+> + * The kernel will schedule the execution of these jobs in dependency or=
+der.
+> + */
+> +struct drm_rocket_submit {
+> +       /** Input: Pointer to an array of struct drm_rocket_job. */
+> +       __u64 jobs;
+> +
+> +       /** Input: Number of jobs passed in. */
+> +       __u32 job_count;
 
-Thanks,
+Isn't there a problem if you need to expand drm_rocket_job beyond
+using the 1 reserved field? You can't add to the struct because then
+you don't know the size here. So you have to modify drm_rocket_submit
+to modify drm_rocket_job. Maybe better if you plan for that now rather
+than later by making the size explicit.
 
-jon
+Though etnaviv at least has similar issues.
+
+Rob
+
+> +
+> +       /** Reserved, must be zero. */
+> +       __u32 reserved;
+> +};
