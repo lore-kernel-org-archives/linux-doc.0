@@ -1,153 +1,124 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D07923E34D;
-	Mon, 30 Jun 2025 10:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB812126BF7;
+	Mon, 30 Jun 2025 11:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751281005; cv=none; b=jyrE/fiM3JR4r788nKfZNT5MBUW1RUdW/2Wy5IsyCQroFgD1D/JZapnzgPEC9TmF7B/ZA/ouL8PUXmQV5TZ5ME+TeanXhEPZYe3k8sXDUTiNqOIvyo3zNqnKUeg8gcVuQqPQ0nOhoZR9ZYKbrxUBARSNlXvh4PfrfXfr0awXaPc=
+	t=1751281527; cv=none; b=eoEEYUgOVUBEREfelrBqopZpuuWKaHJprNtgJfFpWvfFOVKg87GAqRzIzR8oi/PZxgL3DzE83cwMHeWhAx3J1zkDU5WgIVG5M5/1Jn3VgoU9aLElqVQ7Es6SAeJm+E1WDhpoAPkFXxeg0LbdnBFPziMzWVBXsLuHWvh3f7Y5vS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751281005; c=relaxed/simple;
-	bh=2aecDWoj7rxVTizGkUEIiXj76Ti0ZfTcY1V1cAjM+cs=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=tuWCr5Tl1kmeSbOla7o7sziHtKAh874hNZidveDaRzdVBNBXR7DpNM6UNWHEJ07BNaqNPcSMgdkvxLY3HSPfnwCTazvnOUz4DNoGeFddFKlxKtfeQCTJVCgpESfvvUt+YGiD13Q+Fb6xUB0p92k30nOJFCVQ4ZpV4l7DU/RyqPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bW34m0f29z5F2lr;
-	Mon, 30 Jun 2025 18:56:40 +0800 (CST)
-Received: from njy2app08.zte.com.cn ([10.40.13.206])
-	by mse-fl1.zte.com.cn with SMTP id 55UAuR9h024743;
-	Mon, 30 Jun 2025 18:56:27 +0800 (+08)
-	(envelope-from jiang.kun2@zte.com.cn)
-Received: from mapi (njy2app08[null])
-	by mapi (Zmail) with MAPI id mid204;
-	Mon, 30 Jun 2025 18:56:30 +0800 (CST)
-Date: Mon, 30 Jun 2025 18:56:30 +0800 (CST)
-X-Zmail-TransId: 2b0068626d5effffffffc1d-351f2
-X-Mailer: Zmail v1.0
-Message-ID: <20250630185630910BT_3WfN1DPPZ5M1L2duP0@zte.com.cn>
+	s=arc-20240116; t=1751281527; c=relaxed/simple;
+	bh=rqtWrchJn6Yk5Gv69Nqyhj2CFwd/ohXdspg7m8OSAd4=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=ZOE21JHAwxD/A5WbnzNvxnTV3JDQ3tLyQOotWo0ahG/ZztaQF8llCiKAnpATbs0b8UHXQUFPFF/hYK/WvFOdptQby8387RjN8yDFGihD4DpTKUJbs5AVw/F6SgI7U4NDuv3skHLvlXzsrCPV7fqEGcOFd/md6RPMEEThlGLJKlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bW3Gq6mnMzKHNcN;
+	Mon, 30 Jun 2025 19:05:23 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id 564B01A0838;
+	Mon, 30 Jun 2025 19:05:22 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP3 (Coremail) with SMTP id _Ch0CgB32SZwb2JoMDTRAA--.58247S3;
+	Mon, 30 Jun 2025 19:05:22 +0800 (CST)
+Subject: Re: [PATCH 16/23] md/md-llbitmap: implement bit state machine
+To: Xiao Ni <xni@redhat.com>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: hch@lst.de, colyli@kernel.org, song@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
+References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
+ <20250524061320.370630-17-yukuai1@huaweicloud.com>
+ <c76f44c0-fc61-41da-a16b-5a3510141487@redhat.com>
+ <cf6d7be1-af73-216c-b2ab-b34a8890450d@huaweicloud.com>
+ <CALTww2-RT64+twHo3=Djpuj81jArmePQShGynDrRtYab3c1i2w@mail.gmail.com>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <93166d88-710f-c416-b009-5d57f870b152@huaweicloud.com>
+Date: Mon, 30 Jun 2025 19:05:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <jiang.kun2@zte.com.cn>
-To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>,
-        <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Cc: <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>, <fan.yu9@zte.com.cn>,
-        <qiu.yutan@zte.com.cn>, <wang.yaxin@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHYzXSBEb2NzL3poX0NOOiBUcmFuc2xhdGUgYWxpYXMucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 55UAuR9h024743
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68626D68.000/4bW34m0f29z5F2lr
+MIME-Version: 1.0
+In-Reply-To: <CALTww2-RT64+twHo3=Djpuj81jArmePQShGynDrRtYab3c1i2w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_Ch0CgB32SZwb2JoMDTRAA--.58247S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr43Xw18Ww4xKFWkJFWfGrg_yoW8XrWkpa
+	yjkF4qkr4DAa47K3s2v3W0gryFkrn2q3y5AFyrtwsxCas8Gr1F93yFg3yYka17Cr93G3ZI
+	vFW8t34UZa17AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
+	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
-From: Qiu Yutan <qiu.yutan@zte.com.cn>
+Hi,
 
-translate the "alias.rst" into Simplified Chinese
+在 2025/06/30 16:25, Xiao Ni 写道:
+> On Mon, Jun 30, 2025 at 10:25 AM Yu Kuai <yukuai1@huaweicloud.com> wrote:
+>>
+>> Hi,
+>>
+>> 在 2025/06/30 10:14, Xiao Ni 写道:
+>>> For reload action, it runs continue here.
+>>
+>> No one can concurent with reload.
+>>
+>>>
+>>> And doesn't it need a lock when reading the state?
+>>
+>> Notice that from IO path, all concurrent context are doing the same
+>> thing, it doesn't matter if old state or new state are read. If old
+>> state is read, it will write new state in memory again; if new state is
+>> read, it just do nothing.
+> 
+> Hi Kuai
+> 
+> This is the last place that I don't understand well. Is it the reason
+> that it only changes one byte at a time and the system can guarantee
+> the atomic when updating one byte?
+> 
+> If so, it only needs to concern the old and new data you mentioned
+> above. For example:
+> raid1 is created without --assume-clean, so all bits are BitUnwritten.
+> And a write bio comes, the bit changes to dirty. Then a discard is
+> submitted in another cpu context and it reads the old status
+> unwritten. From the status change table, the discard doesn't do
+> anything. In fact, discard should update dirty to unwritten. Can such
+> a case happen?
 
-Update to commit 735dadf894f0("docs: networking:
-Convert alias.txt to rst")
+This can happen for raw disk, however, if there are filesystem, discard
+and write can never race. And for raw disk, if user really issue write
+and discard concurrently, the result really is uncertain, and it's fine
+the bit result in dirty or unwritten.
 
-Signed-off-by: Qiu Yutan <qiu.yutan@zte.com.cn>
-Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
----
-v2->v3
-1. Add reviewer tag.
+Thanks,
+Kuai
 
- .../translations/zh_CN/networking/alias.rst   | 56 +++++++++++++++++++
- .../translations/zh_CN/networking/index.rst   |  2 +-
- 2 files changed, 57 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/networking/alias.rst
+> 
+> Regards
+> Xiao
+>>
+>> Thanks,
+>> Kuai
+>>
+> 
+> 
+> .
+> 
 
-diff --git a/Documentation/translations/zh_CN/networking/alias.rst b/Documentation/translations/zh_CN/networking/alias.rst
-new file mode 100644
-index 000000000000..d94fc38a3d2e
---- /dev/null
-+++ b/Documentation/translations/zh_CN/networking/alias.rst
-@@ -0,0 +1,56 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/networking/alias.rst
-+
-+:翻译:
-+
-+ 邱禹潭 Qiu Yutan <qiu.yutan@zte.com.cn>
-+
-+:校译:
-+
-+======
-+IP别名
-+======
-+
-+IP别名是管理每个接口存在多个IP地址/子网掩码的一种过时方法。
-+虽然更新的工具如iproute2支持每个接口多个地址/前缀，
-+但为了向后兼容性，别名仍被支持。
-+
-+别名通过在使用 ifconfig 时在接口名后添加冒号和一个字符串来创建。
-+这个字符串通常是数字，但并非必须。
-+
-+
-+别名创建
-+========
-+
-+别名的创建是通过“特殊的”接口命名机制完成的：例如，
-+要为eth0创建一个 200.1.1.1 的别名...
-+::
-+
-+  # ifconfig eth0:0 200.1.1.1  等等
-+	~~ -> 请求为eth0创建别名#0（如果尚不存在）
-+
-+该命令也会设置相应的路由表项。请注意：路由表项始终指向基础接口。
-+
-+
-+别名删除
-+========
-+
-+通过关闭别名即可将其删除::
-+
-+  # ifconfig eth0:0 down
-+	~~~~~~~~~~ -> 将删除别名
-+
-+
-+别名（重新）配置
-+================
-+
-+别名不是真实的设备，但程序应该能够正常配置和引用它们（ifconfig、route等）。
-+
-+
-+与主设备的关系
-+==============
-+
-+如果基础设备被关闭，则其上添加的所有别名也将被删除。
-diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
-index d07dd69f980b..e0073087735f 100644
---- a/Documentation/translations/zh_CN/networking/index.rst
-+++ b/Documentation/translations/zh_CN/networking/index.rst
-@@ -21,6 +21,7 @@
-    :maxdepth: 1
-
-    msg_zerocopy
-+   alias
-
- Todolist:
-
-@@ -45,7 +46,6 @@ Todolist:
- *   page_pool
- *   phy
- *   sfp-phylink
--*   alias
- *   bridge
- *   snmp_counter
- *   checksum-offloads
--- 
-2.27.0
