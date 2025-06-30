@@ -1,70 +1,70 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9317B28AAE3
-	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 13:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FD328C020
+	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 13:00:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751288432; cv=none; b=ftXK3P+09iaJPuHjCVL2On1uY6vkYv6fzKdMLOuibunbgE04mSuI9HkdtRLwgf/2TZNazrGsyikbiu8YykoEIJ2Xj58hxc+K0WR+e9Mj9bsHbIB4D1DDCdM6z1Jx61xWiSINx/RxjNKaaRAN3AhLWG+rK1jXMrjQ4gfS3vRDFYY=
+	t=1751288439; cv=none; b=d/WxCV8CI3nk2mxceclrw20RixToN7DADMhGU/oxv+YMcsXDudboGSwDwuZFEFl/tXiavacxIbWxNhYRxtbopOf0GFf2pOB6THrnFpq3Rb/JZ/9DIMSZ70TpZobpuP2CuRG6hY5m3hjz8qxmasDg2HFAc92YKVCDzXrzRojexgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751288432; c=relaxed/simple;
-	bh=S3zLBPDhBdMrO+ksqFydENk2LB8FvPckKtc18Wgtb7I=;
+	s=arc-20240116; t=1751288439; c=relaxed/simple;
+	bh=19X4bQvLwR3+OfNQbpdo9I8RjESqqjGAQVBNJ6TpCho=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JbpqEfakrPh7byDQuRVpzr15SxDJkEaeqYpgbcQM/7leMe+xo51Ju2p0PSKRY7uDM9ZUr+0lrsRnDPISDPQCMiCHdvS6bpedeMH9NuekxpHWYfwXspmc40vWs1NUZRwPt0FzzxPSXYmInAE5OmKt1jyoDlAGIcc6rtmnpfdcQ0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d8uz3zHL; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=ua5u/H+CNBjICoZqJtWfhcdcU+1GGW6ND8QHJ7vY1IWMrOilECwojboHl1IAz9p75ADro2ZRCF2MtHCYY7oVQUNSz3zaYDy7DIp37eGZhN8ER9l/Y5RwSKh1rcDqT/+aKqHAQllWhF5ruStIduC9LaKncxESF23fXbxfdb64lhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZZtiPm4C; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d8uz3zHL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZZtiPm4C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751288429;
+	s=mimecast20190719; t=1751288434;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p0pHDGHZALCRdBpqrQ9hLtuju8zJ3QwGWTV045A4FRg=;
-	b=d8uz3zHLLpgFvrb6RkYLTtB+YcBaO9A+wqCQpkBTiRRsz0xye3u5istyLRAt2F+oOJIocd
-	0fwGkVGxlDZZ3qFLWViVLjz+BYxo0EVEftv6yGE0MxyTIfvGeJ7RkyVH6JLLs2glaiQhwt
-	qWgNdkjBx6wrnuROIGw3AkXAEzfmxT0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=nJlezl1jqk1KHM/JmX+CbcKO2aiRBLF0rBMpUlNHwJA=;
+	b=ZZtiPm4CRBEJXRO+ZdNFie79VtmD+a2dEM4gwhi+A4Egp8saFYdPIz5D0SJDMbY/GtxLOt
+	dOYFAz8OjWo3etSx3Eao4doNb+1uu3RAQ9v3czBysn3PMhgH86vUbE9kkG2G8vU18/kaTH
+	HC/wbAE8D9RPR6C30OWKvd2iYA3iNsc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-472-2t-YPpEcMs66dK8E833ZMA-1; Mon, 30 Jun 2025 09:00:27 -0400
-X-MC-Unique: 2t-YPpEcMs66dK8E833ZMA-1
-X-Mimecast-MFC-AGG-ID: 2t-YPpEcMs66dK8E833ZMA_1751288426
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4536962204aso8328565e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 06:00:27 -0700 (PDT)
+ us-mta-454-bizGEmLLOdCKnOLusOLTPw-1; Mon, 30 Jun 2025 09:00:33 -0400
+X-MC-Unique: bizGEmLLOdCKnOLusOLTPw-1
+X-Mimecast-MFC-AGG-ID: bizGEmLLOdCKnOLusOLTPw_1751288432
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-453a5d50b81so1634635e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 06:00:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751288426; x=1751893226;
+        d=1e100.net; s=20230601; t=1751288432; x=1751893232;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p0pHDGHZALCRdBpqrQ9hLtuju8zJ3QwGWTV045A4FRg=;
-        b=Ei3IU3T1TTtJ2Esz+UU7RUMsroEhBs2qcuC40Qe+yI7pI8NQfJqV0NX22U1Mnhu2s6
-         GGCJjzFwufOF8b9z0Dc5GeCyXXg9pBgWDEuPa6TpWvRrOnrcv61uoX3zQ+kkYpl7auIc
-         OGD9XGicQyfPrIghHcjeR0gX9dE8gHOc+ULOPmE61/aho0R5No3851AuQ8lEGgkkoL6P
-         v/P/I4z8oJM4WG3q3ZHzgP5pSQER9Me8At0rMleGudsyUYbckcZTo325RJRvxXSe16kn
-         5NzM4gKh2+5THvS+swg9fkXT2a4GfeEuBHv7ikzDnc7+0eJfV+ThHCM0ZdwPZFRIe7kS
-         nNFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWD3p8NDKqKN9qCPTxdAg+H21ZD7ExQCtyjQAlxgxzHT3A4+dWscYdugBE5hOg9dv+hn2twbas5oMk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzJFcePBwg4JgZC+7Z/GGOUi6yL/zP0ECVGRyY/IctKsEuCu8A
-	jT/762VAg1IRjZkGIWo5dIwP8MwmHlpCWWIP0KYpOHktDTWJ4LhGBQZMzXsz2PdDNCZ85KnvNeJ
-	bOAm6ie4m8nJtRbOEwZs6nrPfubLlRMGi++m1H7bD9j7YMXnmx1Jmza2NO5GI+Q==
-X-Gm-Gg: ASbGncug1N87GVdXFXjPnsUbXR6+T3WD4hm3KP0XpQg2lW4BSOPDNrexsqJr6NkktzD
-	10krxW+aABsOSKXoIImxAyYxp0h7UHroQ+8/unjeC9vSPxmOFtx8hHTRDSCz1lTbE+C0EiRQwI6
-	7/3XFBAn0YQYkTW8ra2erfNhpQE8FbjJmJzXZ3VQo5UNYEtTv5L07brq9O6RhtHqpHmebg6MjDj
-	N7+W4MnLNyLSYZGEKbviAHWoqlX67qU5Mo6tofig2mbe49Fdu9l7IDTear4y3zAHQcgrOVdeQNa
-	UdVf6HhoBptpX1yUHfvjF/5Jr9kL9EjElmPJGYCoJhZMa4KYMDwsuUzUzD0yienwQ4F8F0I0uTK
-	Un0rcpT8=
-X-Received: by 2002:a5d:64e1:0:b0:3a6:d579:ec21 with SMTP id ffacd0b85a97d-3a8f577fd35mr10177753f8f.12.1751288426266;
-        Mon, 30 Jun 2025 06:00:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGwLhkxvJD2R8UoqRuajbGlVqpEQolWc/VBvsc1ZeiLSR5gPzKHixn/vDhyoe1JVlLg6TEErg==
-X-Received: by 2002:a5d:64e1:0:b0:3a6:d579:ec21 with SMTP id ffacd0b85a97d-3a8f577fd35mr10177695f8f.12.1751288425713;
-        Mon, 30 Jun 2025 06:00:25 -0700 (PDT)
+        bh=nJlezl1jqk1KHM/JmX+CbcKO2aiRBLF0rBMpUlNHwJA=;
+        b=HBB2JWG9e/zKZL1hUp7k2x+sMKqRrUigel9KLcE+jXEHaSUQZMbcVT9safhtXO66wQ
+         lhdZh7WBv97QVhrtCd49zxImouwHjLE4KbI6G0h26gaHdScGwGHTeoNVwrcEYLhFvTlp
+         x4by762svlELeW805s46EnxeKgJy9kfL/WdwnmFgjI/JZJfo5A/g5jX0sjG3+lrEU/Ru
+         dS/28x/HCxHnuiu+l+VNQM4YWUB5d30HwHddmPMK5v2EZEi6NK/pBJZauVyAUbLnDlN+
+         It/uV14Mgb23D84waOQiVD8yVNep61x6sBy4tnoXsPUP4W+ngiw9m5v3v4QaUIiKu8Zi
+         yhdA==
+X-Forwarded-Encrypted: i=1; AJvYcCV4nyo8omSltttuYKwhTyf0SPcVc14mvwId9Tr/vPOtCc51BAqEdaWtAnW8CUSTZ6USzUZuR8btafw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzivquUz1taZMgJ9qUQlye17BCKArZCpCFX0ZC08PaKGnH6dp/
+	OqhIPi447Kyi3sz21N51QHxrKnzn1OOGklw47bpSxB6XUKhohaenhGkBotv6jU2BqbvhV7rY2RM
+	T0mI3bLMjkD22mZH74BcI+BiGE1AvDJhf+r80W5VS94oVCHvGePB8QM8qBhISeQ==
+X-Gm-Gg: ASbGncslrpteS2YRhJOgUnNfmOM+j34nLuXHzY1XKg9xJOz+EjpUFfSpxHLGgi1A1Sx
+	SIMXKGT8sSrGVQL13lwGvahq78lZO/0lzCBmm6LLCTPyh3K1m+9N3oXJ+3ZufPUEEdUZ0q1bNVE
+	SBDWp1f7A03+416+2xKsyn8gqSTQ/j4dxleqHWewqvXZusIWAFjJTJB/E54GEKYuE3Yf7mUiiWX
+	tyZ5IWfroIEr7dOhAkMZca4DuVZtgCYCziCP+mnHydiKw9fUnNj6t9kPfAlDUMd+wc0l3mQuNq7
+	D8+No3QFNsuJj8RA29Qo3V3LlrHGuocT7fH9vHQWsSOBO4EAqfAYEGceJjkmXGUJBlm8H/6BYNR
+	x77bwpqE=
+X-Received: by 2002:adf:e181:0:b0:3a4:f038:af76 with SMTP id ffacd0b85a97d-3a8feb844cemr10501253f8f.53.1751288431534;
+        Mon, 30 Jun 2025 06:00:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFGEarPHGaA16flG07pTm8Y+2ZoBRaEqSqyGzIU15EPr/yTHmV5lKxwKCSS//XnEer0oKPVNw==
+X-Received: by 2002:adf:e181:0:b0:3a4:f038:af76 with SMTP id ffacd0b85a97d-3a8feb844cemr10501216f8f.53.1751288430998;
+        Mon, 30 Jun 2025 06:00:30 -0700 (PDT)
 Received: from localhost (p200300d82f40b30053f7d260aff47256.dip0.t-ipconnect.de. [2003:d8:2f40:b300:53f7:d260:aff4:7256])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a88c7e76e1sm10574554f8f.16.2025.06.30.06.00.23
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a88c7fadf3sm10557609f8f.34.2025.06.30.06.00.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jun 2025 06:00:25 -0700 (PDT)
+        Mon, 30 Jun 2025 06:00:30 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -120,9 +120,9 @@ Cc: linux-mm@kvack.org,
 	Harry Yoo <harry.yoo@oracle.com>,
 	Qi Zheng <zhengqi.arch@bytedance.com>,
 	Shakeel Butt <shakeel.butt@linux.dev>
-Subject: [PATCH v1 04/29] mm/page_alloc: let page freeing clear any set page type
-Date: Mon, 30 Jun 2025 14:59:45 +0200
-Message-ID: <20250630130011.330477-5-david@redhat.com>
+Subject: [PATCH v1 06/29] mm/zsmalloc: make PageZsmalloc() sticky until the page is freed
+Date: Mon, 30 Jun 2025 14:59:47 +0200
+Message-ID: <20250630130011.330477-7-david@redhat.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250630130011.330477-1-david@redhat.com>
 References: <20250630130011.330477-1-david@redhat.com>
@@ -134,46 +134,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, any user of page types must clear that type before freeing
-a page back to the buddy, otherwise we'll run into mapcount related
-sanity checks (because the page type currently overlays the page
-mapcount).
+Let the page freeing code handle clearing the page type.
 
-Let's allow for not clearing the page type by page type users by letting
-the buddy handle it instead.
-
-We'll focus on having a page type set on the first page of a larger
-allocation only.
-
-With this change, we can reliably identify typed folios even though
-they might be in the process of getting freed, which will come in handy
-in migration code (at least in the transition phase).
-
-In the future we might want to warn on some page types. Instead of
-having an "allow list", let's rather wait until we know about once that
-should go on such a "disallow list".
-
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+Acked-by: Zi Yan <ziy@nvidia.com>
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 Acked-by: Harry Yoo <harry.yoo@oracle.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/page_alloc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ mm/zpdesc.h   | 5 -----
+ mm/zsmalloc.c | 3 +--
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 858bc17653af9..44e56d31cfeb1 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1380,6 +1380,9 @@ __always_inline bool free_pages_prepare(struct page *page,
- 			mod_mthp_stat(order, MTHP_STAT_NR_ANON, -1);
- 		page->mapping = NULL;
- 	}
-+	if (unlikely(page_has_type(page)))
-+		page->page_type = UINT_MAX;
-+
- 	if (is_check_pages_enabled()) {
- 		if (free_page_is_bad(page))
- 			bad++;
+diff --git a/mm/zpdesc.h b/mm/zpdesc.h
+index 5cb7e3de43952..5763f36039736 100644
+--- a/mm/zpdesc.h
++++ b/mm/zpdesc.h
+@@ -163,11 +163,6 @@ static inline void __zpdesc_set_zsmalloc(struct zpdesc *zpdesc)
+ 	__SetPageZsmalloc(zpdesc_page(zpdesc));
+ }
+ 
+-static inline void __zpdesc_clear_zsmalloc(struct zpdesc *zpdesc)
+-{
+-	__ClearPageZsmalloc(zpdesc_page(zpdesc));
+-}
+-
+ static inline struct zone *zpdesc_zone(struct zpdesc *zpdesc)
+ {
+ 	return page_zone(zpdesc_page(zpdesc));
+diff --git a/mm/zsmalloc.c b/mm/zsmalloc.c
+index 7f1431f2be98f..f98747aed4330 100644
+--- a/mm/zsmalloc.c
++++ b/mm/zsmalloc.c
+@@ -880,7 +880,7 @@ static void reset_zpdesc(struct zpdesc *zpdesc)
+ 	ClearPagePrivate(page);
+ 	zpdesc->zspage = NULL;
+ 	zpdesc->next = NULL;
+-	__ClearPageZsmalloc(page);
++	/* PageZsmalloc is sticky until the page is freed to the buddy. */
+ }
+ 
+ static int trylock_zspage(struct zspage *zspage)
+@@ -1055,7 +1055,6 @@ static struct zspage *alloc_zspage(struct zs_pool *pool,
+ 		if (!zpdesc) {
+ 			while (--i >= 0) {
+ 				zpdesc_dec_zone_page_state(zpdescs[i]);
+-				__zpdesc_clear_zsmalloc(zpdescs[i]);
+ 				free_zpdesc(zpdescs[i]);
+ 			}
+ 			cache_free_zspage(pool, zspage);
 -- 
 2.49.0
 
