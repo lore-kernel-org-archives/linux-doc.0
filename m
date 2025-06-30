@@ -1,123 +1,119 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CAD32459C8
-	for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 08:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC2C23AB8D;
+	Mon, 30 Jun 2025 09:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751272729; cv=none; b=qCJhb9bfo75pZAeLLCm6bsBj/+M3PvQnP1ap4aH+FiHW3iPQCAZ1FD4GzWzbNrkPOEzqJRHKZ9uqtdiCYMd3iX1gxCP3FFAkGphVHTpVtBcrAphTXNq6lesrrTUyPLwg3KMHoW5l2LqBpB6x9bC2vw/dPXCMqZnyvnXMx5Jbpuc=
+	t=1751277017; cv=none; b=B56a89g46dW+rgbuGHiLdNMCwsF8oS5vAtBv+/FUi69TpcqqwniPC8m8vVziruFG0GDman83Bo9dCO2pnXCEFYJPde9oppNQvn12Bb/ROLF0AS0TyqKUX5wkly3atdAAMKCUFXMuO+8xaCS2v2a9aOWJT3hqPYbHo4uHS8FSK4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751272729; c=relaxed/simple;
-	bh=GWGc5XkXW057UkUoas7KcMmCELtNfEXEicrspHRhoKc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CwKahUw6zvf0ab23SERdqT316q3j9KO3hlTpAPmUuxScz6ovvABg+PItJpkTj7/ryKl0CzQXIYnOrqbKKFZygfZuub5oQVu1cXFZ6MJ0xnGy7PPktaAprfNXut1FB2UNrgPfF3tz+3ZOyY8aqeOt2KyWYiyiGe5+69j9mkmDqMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uWA1w-00011j-R3; Mon, 30 Jun 2025 10:38:24 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uWA1t-0064Zw-1S;
-	Mon, 30 Jun 2025 10:38:21 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uWA1t-0007Gn-14;
-	Mon, 30 Jun 2025 10:38:21 +0200
-Message-ID: <5d4cf5bff7733421c8a031493742ba6a21e98583.camel@pengutronix.de>
-Subject: Re: [PATCH 06/13] perf: stm32: introduce DDRPERFM driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: =?ISO-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rob
- Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,  Jonathan Corbet
- <corbet@lwn.net>, Gatien Chevallier <gatien.chevallier@foss.st.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-clk@vger.kernel.org
-Date: Mon, 30 Jun 2025 10:38:21 +0200
-In-Reply-To: <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
-References: <20250623-ddrperfm-upstream-v1-0-7dffff168090@foss.st.com>
-	 <20250623-ddrperfm-upstream-v1-6-7dffff168090@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1751277017; c=relaxed/simple;
+	bh=fn460stx93A77T5TqdGbNur4jkXpBAZ87mWiNl6p0wI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VPRXBseUN6gL0VJyE4RPQl+7Ybxd/ooXI8qiSWDFhPY1p6Mp2sFHYMTxvZQi63mLO9ZHqpv6WoKkSJXdO43d4PzXlI6zvUFDwOJE2NoxOkKAp7UUinqNYtYp/FUzIxg0mTJkogbSpwThtUtKfFbaAQ4NlyZiXuyvMrLxs7aj43w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXhXt573; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXhXt573"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751277016; x=1782813016;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fn460stx93A77T5TqdGbNur4jkXpBAZ87mWiNl6p0wI=;
+  b=LXhXt573ZtM7ZUGScnT+rPT47bBBaOZjxob5lAgZYoKnvvy38cEwWmiM
+   RpVSX0D6k+aUeyrTrjh/hjqif8c1bSqaSaIK/0zbZbhZfPDwr1NbGfU9y
+   AGRHBj8fX7e7GlX1t9JT4mRsKCUMjY9qsmm9wKEy4Neu+fODxm1dk6wlh
+   jJTXvlnoFosgGCqse0x942amneLL0VEnXNhExlvPv3dZ8owIq4/2FE3n0
+   biO/hKFI8+ohzAuKYw76Pb0F6HrfeJfWeb4m5U47LWEpELU8AMYWrBIxf
+   Ah5yyqV2JFGX2SBDBK/fFlrtWZ0K6Nyy7QYDLbvYCD8y03q3iZRcI7lBw
+   Q==;
+X-CSE-ConnectionGUID: UP1kSkM0RBemUfoxf5H00A==
+X-CSE-MsgGUID: px5sdeohT2qhlKx03nxi9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="57176093"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="57176093"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 02:50:15 -0700
+X-CSE-ConnectionGUID: gVyBjp6QTu+7QkD3gRl1qQ==
+X-CSE-MsgGUID: 5n68rlX2S2GVeR4e7LSPsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="158922500"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa004.fm.intel.com with ESMTP; 30 Jun 2025 02:50:04 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id 1AC2D1FE; Mon, 30 Jun 2025 12:50:03 +0300 (EEST)
+Date: Mon, 30 Jun 2025 12:50:02 +0300
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
+	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
+	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
+	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
+	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
+	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-mm@kvack.org
+Subject: Re: [PATCHv7 13/16] x86/traps: Handle LASS thrown #SS
+Message-ID: <rzexbyswvsulo75edyffqgigtckiutwcx4jxbnwhynhm6nwc6l@tocxnm74fshi>
+References: <20250625125112.3943745-1-kirill.shutemov@linux.intel.com>
+ <20250625125112.3943745-15-kirill.shutemov@linux.intel.com>
+ <c704ea9a-8c73-46c2-80d1-f7b93a221908@zytor.com>
+ <lvutnc4et6r4a5eayoweb5butpspvop2m2pjioiudjwa3mkpo7@drcsdchj66w5>
+ <20250630093027.38cd1ebc@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250630093027.38cd1ebc@pumpkin>
 
-On Mo, 2025-06-23 at 11:27 +0200, Cl=C3=A9ment Le Goffic wrote:
-> Introduce the driver for the DDR Performance Monitor available on
-> STM32MPU SoC.
->=20
-> On STM32MP2 platforms, the DDRPERFM allows to monitor up to 8 DDR events
-> that come from the DDR Controller such as read or write events.
->=20
-> On STM32MP1 platforms, the DDRPERFM cannot monitor any event on any
-> counter, there is a notion of set of events.
-> Events from different sets cannot be monitored at the same time.
-> The first chosen event selects the set.
-> The set is coded in the first two bytes of the config value which is on 4
-> bytes.
->=20
-> On STM32MP25x series, the DDRPERFM clock is shared with the DDR controlle=
-r
-> and may be secured by bootloaders.
-> Access controllers allow to check access to a resource. Use the access
-> controller defined in the devicetree to know about the access to the
-> DDRPERFM clock.
->=20
-> Signed-off-by: Cl=C3=A9ment Le Goffic <clement.legoffic@foss.st.com>
-> ---
->  drivers/perf/Kconfig         |  11 +
->  drivers/perf/Makefile        |   1 +
->  drivers/perf/stm32_ddr_pmu.c | 893 +++++++++++++++++++++++++++++++++++++=
-++++++
->  3 files changed, 905 insertions(+)
->=20
-[...]
-> diff --git a/drivers/perf/stm32_ddr_pmu.c b/drivers/perf/stm32_ddr_pmu.c
-> new file mode 100644
-> index 000000000000..c0bce1f446a0
-> --- /dev/null
-> +++ b/drivers/perf/stm32_ddr_pmu.c
-> @@ -0,0 +1,893 @@
-[...]
-> +	if (of_property_present(pdev->dev.of_node, "resets")) {
-> +		rst =3D devm_reset_control_get(&pdev->dev, NULL);
+On Mon, Jun 30, 2025 at 09:30:27AM +0100, David Laight wrote:
+> On Fri, 27 Jun 2025 13:31:44 +0300
+> "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com> wrote:
+> 
+> > On Thu, Jun 26, 2025 at 10:57:47AM -0700, Xin Li wrote:
+> > > On 6/25/2025 5:51 AM, Kirill A. Shutemov wrote:  
+> > > > LASS throws a #GP for any violations except for stack register accesses,
+> > > > in which case it throws a #SS instead. Handle this similarly to how other
+> > > > LASS violations are handled.
+> > > > 
+> > > > In case of FRED, before handling #SS as LASS violation, kernel has to
+> > > > check if there's a fixup for the exception. It can address #SS due to
+> > > > invalid user context on ERETU[1]. See 5105e7687ad3 ("x86/fred: Fixup  
+> > > 
+> > > Forgot to put the link to [1]?  Maybe just remove "[1]"?  
+> > 
+> > I will add the link. It is important context.
+> 
+> Will the link still be valid in 5 years time when someone
+> is looking back at the changes?
 
-Use devm_reset_control_get_optional_exclusive() instead. It returns
-NULL if the device tree doesn't contain a resets property.
+Re-reading the commit message I wrote, it is obvious that I reconsidered
+putting the link and referenced commit instead.
 
-> +		if (IS_ERR(rst)) {
-> +			dev_err(&pdev->dev, "Failed to get reset\n");
+I will drop [1];
 
-Please consider using dev_err_probe() instead.
-
-> +			ret =3D PTR_ERR(rst);
-> +			goto err_clk;
-> +		}
-> +		reset_control_assert(rst);
-> +		reset_control_deassert(rst);
-
-These can be done unconditionally, as they are no-ops for rst =3D=3D NULL.=
-=20
-
-regards
-Philipp
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
