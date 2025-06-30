@@ -1,91 +1,109 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FFC6BFC0;
-	Mon, 30 Jun 2025 06:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F55C1D79A5;
+	Mon, 30 Jun 2025 06:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751263778; cv=none; b=tIli6f5jT9+ofw7bnce4PjOtzUtRgSsfHvRNhF8epRXhNoDu/5CSXLAzuZCCqwKikxiTw3gfmBz6WVUZLEpqujKriaHpDrhc1LJJw3JAXQvy1Nvo1f85s3kp6NevNyy34ketZa4slj7abMrOzh/H2/OqG7HTQiyHZyNBeJvhVho=
+	t=1751265678; cv=none; b=dWP4UlfIrkP1IOBdTHtJApq2Vr3JmF+1dLDPy248+F5uyqmaYE57ZdnMSO51BXsVbM7+h9xzrUQHotzD83UqpXr4pnlXV/6SXx8wN9hDkYUu5gSSB+ABTmKycAsIGfbpZ/1wlfHupXI57M25N4co5diuqMNJgAXWeWUAkg8tJvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751263778; c=relaxed/simple;
-	bh=TnK1WWG76ls+5mFQW9ETSEMY1f2TUQl0680rqrPC2s8=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=C5LCX3Bn8DDQrkmvjA8O1sHOjvHJIU5SKndqKVR6fn5aSxJDdmqQUaGMtc8e2lfcavXUhR0692TjmvoIjkk9wG/AyhW/aVfW9sv67LgDHldTU7lH6LH/3cCqQxwbakEKt5FbXfDvwrfJEW9x8h6sx0Ott4kZXh2U1LX0KHAhh5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4bVwjT43wBzYQtG8;
-	Mon, 30 Jun 2025 14:09:33 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id 70E061A13F8;
-	Mon, 30 Jun 2025 14:09:32 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP3 (Coremail) with SMTP id _Ch0CgA3mSYaKmJolXe7AA--.51861S3;
-	Mon, 30 Jun 2025 14:09:32 +0800 (CST)
-Subject: Re: [PATCH 00/23] md/llbitmap: md/md-llbitmap: introduce a new
- lockless bitmap
-To: Xiao Ni <xni@redhat.com>, Yu Kuai <yukuai1@huaweicloud.com>
-Cc: hch@lst.de, colyli@kernel.org, song@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
- <808d3fb3-92a9-4a25-a70c-7408f20fb554@redhat.com>
- <288be678-990b-86f9-1ffd-858cee18eef3@huaweicloud.com>
- <CALTww28grnb=2tpJOG1o+rKG4rD7chjtV3Nmx9D1GJjQtVqWhA@mail.gmail.com>
- <3836a568-20c0-c034-7d7f-42a22fe77b4e@huaweicloud.com>
- <CALTww281F6VhwfR+WRwSs0BYDdJai8aA0i9wg-gdu4emvhjFng@mail.gmail.com>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <5d61b6cc-43a8-fe2f-0d5a-17b167c136f2@huaweicloud.com>
-Date: Mon, 30 Jun 2025 14:09:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	s=arc-20240116; t=1751265678; c=relaxed/simple;
+	bh=/p835mRdk+vulunfvCv3tNpVgYqkgcusJR9pB6KII+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BKnFyK6qqg+MsrOimbIgcWGhx/DS1dlUEseUZeh8GcZxfSaPbJjpGT+j+bZfMTbi+pOJ7ypTBp9Pf+4N6kfM4v9ITTns6DKN2HwUqBcu5NkcaWUMB+3M8gv0z0KMtmQdwwRkBiJ6ZpAV+FcivXF7eJ+kRxGWRtEzuu0lo/LYV/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZejtL3sm; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZejtL3sm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=EGTTLrFnUeqEt2LkPOIc08Ji7tLkFOls0h+QkE/PVjc=; b=ZejtL3sm8QRhn8xcCFFNMRUL5+
+	0p7qJLSYpjYurp0fqdmTke9LZp+wa5u/DPr2M2a4rWyOnqixEjMud8JtVP9k/ud3+EzI567qwEmKl
+	2mNIqLQPd4psFOKCKguyQ/Em0h9PQKYZNBoWsnq7ml1C9HrGmd8yap79ONNpYS5/CxtR90oliYys5
+	S0NpLfICJfIyRoYslKnSAh47MCq1iELTLHWXmbbfwyfLY/UyKQiB2AReAz55sg3bfb0JTKFF7mU6Y
+	LhVeWFX7hDzkKSoHGg2nslJ9BLS5KGSoJWZdNRQka+3RT+Y//LfBZlQzUxjZ1EDkVNgRUv4GWaBPM
+	bptOJZKg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uW8CX-00000001MDX-03Ey;
+	Mon, 30 Jun 2025 06:41:13 +0000
+Date: Sun, 29 Jun 2025 23:41:12 -0700
+From: "hch@infradead.org" <hch@infradead.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: =?utf-8?B?6ZmI5rab5rab?= Taotao Chen <chentaotao@didiglobal.com>,
+	"tytso@mit.edu" <tytso@mit.edu>,
+	"hch@infradead.org" <hch@infradead.org>,
+	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+	"rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+	"tursulin@ursulin.net" <tursulin@ursulin.net>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"chentao325@qq.com" <chentao325@qq.com>,
+	"frank.li@vivo.com" <frank.li@vivo.com>
+Subject: Re: [PATCH v3 4/4] ext4: support uncached buffered I/O
+Message-ID: <aGIxiOeJ_-lmRmiT@infradead.org>
+References: <20250627110257.1870826-1-chentaotao@didiglobal.com>
+ <20250627110257.1870826-5-chentaotao@didiglobal.com>
+ <aF7OzbVwXqbJaLQA@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CALTww281F6VhwfR+WRwSs0BYDdJai8aA0i9wg-gdu4emvhjFng@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgA3mSYaKmJolXe7AA--.51861S3
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYK7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87
-	Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
-	6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72
-	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4II
-	rI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr4
-	1l4c8EcI0Ec7CjxVAaw2AFwI0_Jw0_GFyl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAq
-	x4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r
-	43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF
-	7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
-	WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU
-	oOJ5UUUUU
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+In-Reply-To: <aF7OzbVwXqbJaLQA@casper.infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi,
+On Fri, Jun 27, 2025 at 06:03:09PM +0100, Matthew Wilcox wrote:
+> On Fri, Jun 27, 2025 at 11:03:13AM +0000, 陈涛涛 Taotao Chen wrote:
+> > +++ b/fs/ext4/inode.c
+> > @@ -1270,6 +1270,9 @@ static int ext4_write_begin(const struct kiocb *iocb,
+> >  	if (unlikely(ret))
+> >  		return ret;
+> >  
+> > +	if (iocb->ki_flags & IOCB_DONTCACHE)
+> > +		fgp |= FGP_DONTCACHE;
+> 
+> I think this needs to be:
+> 
+> 	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
+> 
+> because it's legit to call write_begin with a NULL argument.  The
+> 'file' was always an optional argument, and we should preserve that
+> optionality with this transformation.
 
-在 2025/06/30 13:38, Xiao Ni 写道:
->> I don't quite understand, in my case, mdadm -As works fine.
-> Sorry for this, I forgot I removed the codes in function llbitmap_state_machine
->          //if (c == BitNeedSync)
->          //  need_resync = true;
-Ok.
+write_begin and write_end are only callbacks through helpers called
+by the file system.  So if the file system never passes a NULL
+file/kiocb it doesn't need to check for it.
 
-> The reason I do this: I find if the status table changes like this, it
-> doesn't need to check the original status anymore
-> -               [BitmapActionReload]            = BitNone,
-> +               [BitmapActionReload]            = BitNeedSync,//?
+> I wonder if it's worth abstracting some of this boilerplate.  Something
+> like:
+> 
+> struct folio *write_begin_get_folio(iocb, mapping, index, len)
+> {
+> 	fgf_t fgflags = FGP_WRITEBEGIN;
+> 
+> 	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
+> 		fgflags |= FGP_DONTCACHE;
+> 	fgflags |= fgf_set_order(len);
+> 
+> 	return __filemap_get_folio(mapping, index, fgflags,
+> 			mapping_gfp_mask(mapping));
+> }
 
-However, we don't want do dirty the bitmap page in this case, as nothing
-chagned in the bitmap. And because of this, we have to check the old
-value anyway...
-
-Thanks,
-Kuai
+But this helper still seems useful.
 
