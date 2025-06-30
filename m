@@ -1,136 +1,71 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C9825C807;
-	Mon, 30 Jun 2025 11:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC0A235056;
+	Mon, 30 Jun 2025 11:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751282507; cv=none; b=LtlYlGP4snkc9ghsy+5ChEq0WGV54DlCNSEjlznpsR2uK8UTJjHgdFitTxSvOyzzT3a4O78h09bh6tJG9tyQVDBpK6tvkWLlDpirnvjvs20qVuMtvhiS/IU4qHrK5aa22DaBBwC/J8QBGGn+B9u6t+ADUCEkWsYA/ra7XPTN1Z4=
+	t=1751282692; cv=none; b=TdpFoG9PoMXsmqk9Iouw1vS7O3URAkaa8nJzVy+17ymBjOuzoafKTAbuiHgIDPjNkVB/qH5HfJddCsbylIfl48xkeLuv04+GCD7u0pHkLVKYrAVENY4jCndGsFRmlcwD190DTmNVXQ162rdlqtY8u2d7x+yq2uiSH/IzCLC/PdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751282507; c=relaxed/simple;
-	bh=pvXD6KeDURX4UpmQi/NlGLO9mceU4Q0W2vgwOpEK1Fg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RD1plsdz5/Km951YCDuF6Sxh1xY478oDBJ9g5ceZ2sLwrOrlUI2ninDsQ2kx7Xpa1WZKGnLStmVV1jbhzZ6gEqrZzLffs5bw5BkD7U/7CxviJqA1kk1jWbbCxOs4B45zrQn4SYxQ02fPLsOut+i9344mHJZV1xGhuVCTaVVxSlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z0HiAD4U; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z0HiAD4U"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-236470b2dceso13811685ad.0;
-        Mon, 30 Jun 2025 04:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751282503; x=1751887303; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2WYtjpN0wIOV07YHe+0X8eRhjynp8w7rK9GL5xUtRUI=;
-        b=Z0HiAD4U3t+MNATZrfylytUOeeFvY1OtlaF31zDcWsPfh7z1bZ2RZ/WhZeroR1P6QM
-         WkKhbfpO50AbkSk1nzAMAbkOCRLmhYWNsSY78IkG42uZHgH/hMGY7SoNh7RlfZadKlcm
-         OTVwHjzB8j6w7f8/+l6FidRb5Q1tKBJmD4UTx5JAtqCOVtt3Vgyhjws/h1tWpbLlCatc
-         5wgoWsvGz+2GVfY3bHQJYedXNpPlpefVx/k4W/2/nDzSpQsp+8zRs3e0PPs1VdLG3CU/
-         jtT+ci2wIRimMoFv2r9+UdwG0rddhq78V4k/PbLKFrKUhm2xzdHRbHC7th5WKYs6hBqD
-         GKjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751282503; x=1751887303;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2WYtjpN0wIOV07YHe+0X8eRhjynp8w7rK9GL5xUtRUI=;
-        b=nnOr2zqf5wGi0np20MvM4Yh0VW1xNbpxarGbQ81s1P5BZcBqyVXLp49677XzpXvqrR
-         Oa4rMmviA5vkYl7vbjzQXA5u8JP+wNWxvehnc+S1F57rezzm7QVtR283iflzWm6HTuJR
-         +nqxDW8sPnBdOlM27HWxI0OAxZLqSbkYsSrvMd6cvGOb1PgQdafsYvK7tS6uLLsY+IUY
-         oAj2dHD9elzS9tzY6GV+0uMEBKbNVoISaWyeuqbkamWGiNJH5hmhmBtIP2Y7OowkjOzo
-         JPJ9q6Hf5Hqs5zqgLOY5fvq28Avh5JCmGwS/zA2ArhZykGW5U/Qv4BKdpIYT9ZTPPnW/
-         FAfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9wlpXhQJvmSHwNEErbMrY0jwFF4Fn/eocPdz/1y0Owr2CrQricOR9kFFNCFezIld2pKHFHzLZV/p/@vger.kernel.org, AJvYcCW+IOpDs2CD6EmMBg1E5UddjvhsPjexK+2EouMJ/JEf7OvQHNN1+D/DlZtTLaQmKmgA0L8MaJSqQ2ApZvx4@vger.kernel.org, AJvYcCW/WxG+9vWEgEpEhST0CWl+KxgFjRVkxRUNPHQJFuUA0h+tGXd7xGE/njobzGOMguxm186gV9FZZnsvHuM=@vger.kernel.org, AJvYcCXITAz2JrxAo0cXhtzfRFvzB100QHhNoKZSxG+SlkYa1Q4Wuf4Bz86h3y1omYQDiUlrGMSNNxvgrepu@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCL8Gg95fAHl348J8QPNLI5cgaq+CNckbVCw3UHrewl8e5ZMSX
-	RtmPmip0L7+rUmKgwB22RSri6gCWoJZlUF+C8cWW4vHVeCTLc6PGK6jS
-X-Gm-Gg: ASbGnculCwk5pfgOy0PWs7L1yzazQt7LWFr78vPh/qt3vNJpL0De2Pn+jwNgytvWnBx
-	juEQcbWPNqCjUS0FflcMjZQEBAmycd7smV63ipPaJV+DAgPXdHbtdFNYHo8RRp23DZXfgv+TPDC
-	OtWnrtqiy5bp/kDtAV5xRChjVc3Vi2PuqpG4319wuwnZR7dcjcx+zDGGVR2e0OzQ0PHquq0jz+S
-	ZA/ZHC34ouSLhM0QziWflLpQR0O0L/i61FG6yPByt5Jln1Ffg6djmx39iEyYwtfcU4zfnkSAUVO
-	sYp68XEdFUNAZS+WcLvlbt64a+q1Mvwda56GEebcPHh8KHfakkRTTiE9lk+s+i/Lf3y4XqChpNR
-	MMH6RukpkaK9gcYuzHmtb
-X-Google-Smtp-Source: AGHT+IGkCueCr+E0S2CN2ENK3mfpdLQX62pD7/25UN7OWo5koATblrs3JQleJcXe85kMNXbX+JOzmw==
-X-Received: by 2002:a17:902:e551:b0:234:9375:e081 with SMTP id d9443c01a7336-23ac460719bmr192857675ad.42.1751282502763;
-        Mon, 30 Jun 2025 04:21:42 -0700 (PDT)
-Received: from localhost (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3b7f5dsm76812315ad.179.2025.06.30.04.21.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 04:21:42 -0700 (PDT)
-From: tzuhao.wtmh@gmail.com
-X-Google-Original-From: Henry_Wu@quantatw.com
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Naresh Solanki <naresh.solanki@9elements.com>,
-	Henry Wu <Henry_Wu@quantatw.com>,
-	Grant Peltier <grantpeltier93@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	Mariel Tinaco <Mariel.Tinaco@analog.com>,
-	Alex Vdovydchenko <xzeol@yahoo.com>,
-	John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>,
-	Leo Yang <leo.yang.sy0@gmail.com>,
-	Ninad Palsule <ninad@linux.ibm.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,
-	Nuno Sa <nuno.sa@analog.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: peteryin.openbmc@gmail.com
-Subject: [PATCH v2 2/2] dt-bindings: trivial-devices: Add mp2869a/mp29612a device entry
-Date: Mon, 30 Jun 2025 19:20:51 +0800
-Message-ID: <20250630112120.588246-3-Henry_Wu@quantatw.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250630112120.588246-1-Henry_Wu@quantatw.com>
-References: <20250630112120.588246-1-Henry_Wu@quantatw.com>
+	s=arc-20240116; t=1751282692; c=relaxed/simple;
+	bh=vDmXOaFg61Wb877I3fCvD/03Zl6rNBUVdNz0g55bENs=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=LjenZ+E4dwd8g7qqz7rUO6v+LUChXYyFYRYtQHYQJj98j/ggpKPNVygLQ6G9DoHesZ8sIl61opinOw40ZcGK+AvZSiz1GaTs6m/m1MWqEbhPP65rWncbrhNyf+89+qx/x5wVUYlRb27MjT+0ESziGNHSVQ52yNSegHDRjjnKHSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bW3jC1byDz5DXWj;
+	Mon, 30 Jun 2025 19:24:47 +0800 (CST)
+Received: from njy2app01.zte.com.cn ([10.40.12.136])
+	by mse-fl1.zte.com.cn with SMTP id 55UBOdmB051251;
+	Mon, 30 Jun 2025 19:24:39 +0800 (+08)
+	(envelope-from jiang.kun2@zte.com.cn)
+Received: from mapi (njb2app07[null])
+	by mapi (Zmail) with MAPI id mid204;
+	Mon, 30 Jun 2025 19:24:43 +0800 (CST)
+Date: Mon, 30 Jun 2025 19:24:43 +0800 (CST)
+X-Zmail-TransId: 2aff686273fb32a-5b8d8
+X-Mailer: Zmail v1.0
+Message-ID: <20250630192443193j2wDCmmnHGLns9ki1GXcv@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+From: <jiang.kun2@zte.com.cn>
+To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Cc: <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>, <wang.yaxin@zte.com.cn>,
+        <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
+        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>,
+        <ye.xingchen@zte.com.cn>, <jiang.kun2@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHY0IDAvMyBsaW51eCBuZXh0XSBEb2NzL3poX0NOOiBUcmFuc2xhdGUKIG5ldHdvcmtpbmcgZG9jcyB0byBTaW1wbGlmaWVkIENoaW5lc2U=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 55UBOdmB051251
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 686273FF.000/4bW3jC1byDz5DXWj
 
-From: Henry Wu <Henry_Wu@quantatw.com>
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-Add trivial-devices binding for mp2869a/mp29612a to enable automatic matching
-in device tree.
+translate networking docs to Simplified Chinese
 
-Signed-off-by: Henry Wu <Henry_Wu@quantatw.com>
----
- Documentation/devicetree/bindings/trivial-devices.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+Wang Yaxin (3):
+  Docs/zh_CN: Translate netif-msg.rst to Simplified Chinese
+  Docs/zh_CN: Translate xfrm_proc.rst to Simplified Chinese
+  Docs/zh_CN: Translate netmem.rst to Simplified Chinese
 
-diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-index 27930708ccd5..5657fdcabb45 100644
---- a/Documentation/devicetree/bindings/trivial-devices.yaml
-+++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-@@ -285,10 +285,14 @@ properties:
-           - mps,mp2856
-             # Monolithic Power Systems Inc. multi-phase controller mp2857
-           - mps,mp2857
-+            # Monolithic Power Systems Inc. multi-phase controller mp2869a
-+          - mps,mp2869a
-             # Monolithic Power Systems Inc. multi-phase controller mp2888
-           - mps,mp2888
-             # Monolithic Power Systems Inc. multi-phase controller mp2891
-           - mps,mp2891
-+            # Monolithic Power Systems Inc. multi-phase controller mp29612a
-+          - mps,mp29612a
-             # Monolithic Power Systems Inc. multi-phase controller mp2993
-           - mps,mp2993
-             # Monolithic Power Systems Inc. multi-phase hot-swap controller mp5920
+ .../translations/zh_CN/networking/index.rst   |   6 +-
+ .../zh_CN/networking/netif-msg.rst            |  92 +++++++++++++
+ .../translations/zh_CN/networking/netmem.rst  |  92 +++++++++++++
+ .../zh_CN/networking/xfrm_proc.rst            | 126 ++++++++++++++++++
+ 4 files changed, 313 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/networking/netif-msg.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/netmem.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/xfrm_proc.rst
+
 -- 
-2.43.0
-
+2.25.1
