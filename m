@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236D3246784;
-	Tue,  1 Jul 2025 08:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBDF260590;
+	Tue,  1 Jul 2025 08:57:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751360238; cv=none; b=YZ3xh4X6m0LrpHRRmM/pZrH/goVoXCubu/9KiyrIc4cLc7SNgU9RbIxh34oECjxUWQsxG06OOrFBpwLJVM1rFfAO0XJgJV6/IcokSsR/06drNkBSxisjdmHYNSd1AuTrEsUKp7aoYmWzi6zs/z0GeorDSDHgMEzAYeFB29HU40o=
+	t=1751360238; cv=none; b=C/YY+dJ6DVvPrIY4YItllJC2E4iOADqS0s/5WNF9Gfc3Yn30C4M+pAmD6//1lrcMSgX59XIbHJx8L9uA52zxAd4a6vavIDq+idvTuqq7OH5tlUMLSbPID+YqeGMgFGWH8wpjJX5BcrarU0eIAdhFONGmVPBXejrbcrQsS1U1Ic4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1751360238; c=relaxed/simple;
-	bh=JVXQ/8IYf8XnXtTQdEVwyxaiGUvK4wO6JQSfGjOdsb8=;
+	bh=dEWKHLfVWADiu1QnYIwVkFpHz0JRRQExXjCQUaLKIu4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UQ3ZxuQ+z35Hm28sQKXPzpm2lVB394lRBeZoYXrSHUmzxz4lGiB32f0b8mG4ya9ywakyiCSSCBxMxVAdUiapP0kPSJo5R4/GREWjXp6BGzX19csUXXPphlSLuQJc2xwGM7F+dr/BhEVhAL8lMWgpGw4Kr8ZoadXaa3YhA4XQ+sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bhh46ATT; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=pSY2c1zH7cnplNjy4O8M6izJCiDF3tFcAMm6IxuVr1s6+PLbBR2JFU0DdwL2uW1xTeoPzkQj062or0/778A2Ev2f6y39W4jj8FejQKl8F+VoWCA7Zr/uoa5OWuitT2Jt1y53mYaxFOaDF07aZp7SozWi42LgbGQ75D0OglrXUhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ReaEsB3E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bhh46ATT"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C505DC4CEEF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ReaEsB3E"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DD135C4AF09;
 	Tue,  1 Jul 2025 08:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1751360237;
-	bh=JVXQ/8IYf8XnXtTQdEVwyxaiGUvK4wO6JQSfGjOdsb8=;
+	bh=dEWKHLfVWADiu1QnYIwVkFpHz0JRRQExXjCQUaLKIu4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Bhh46ATTFHrOd+dIK3J5Xs6zGbIxEe7gp/qQk4eB+4fpy6WrEYEjulhJ0daQHb0Bq
-	 twxIG/sXzV4+7jiuNKoA7YclwAmZ9VU9f0/KnUTtG4inNeq4V6OMnwLpdRAET4JByb
-	 XDdEkugi7b31K0vsUQdVP0AP6vdmXidMjOsCissOzmbMZRH3vLWYfsgDZexy2LoMrI
-	 4vppeF1Ky8I8tpNryZidhWTkAeFqtnJDhnF7R7gKYDqJqoAcXvLELdSKPHoiWXGZ6g
-	 o3ZqRNoZCdck/DBYZT28OMhr2Or+n1fQYqNbmmiSvusL/6m599D5v+z10kkbgUjBWe
-	 bwozHaDczCZ/A==
+	b=ReaEsB3EaPR8rmbNzY8yX+QZaDj8KFP9YwWt92J1LaIkjgdPF2joJJ0QeLHWp9uP5
+	 v+H+0DEBvxu3K2lonwCt/eYovGH0SrCgpRLdZIrnfthA3CT0KneF4Wq8FBsfKj7Y25
+	 8NVZqQ/IaNXs/DDDXECVu2UYSJEk1lioARIzJfnYN3csGsd43ZcNP5LjJ3AU7yf4th
+	 1JN7A9Cu4RDHqsfz1NQs7+juNduFCA2rLlJqFpgZyrkDosJyJo372su50rMvGoXUZs
+	 bO/70xbzatLXMYAvtx4rN7pyobwzuivuhqDs5naqeANKdDXTGEBye3yRAkdsW1jt2v
+	 amJG+//KqUXMw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7245C8302F;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D29A4C7EE30;
 	Tue,  1 Jul 2025 08:57:17 +0000 (UTC)
 From: Joel Granados <joel.granados@kernel.org>
-Date: Tue, 01 Jul 2025 10:56:42 +0200
-Subject: [PATCH 1/6] docs: nixify check-sysctl-docs
+Date: Tue, 01 Jul 2025 10:56:44 +0200
+Subject: [PATCH 3/6] docs: Add awk section for ucount sysctl entries
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250701-jag-sysctldoc-v1-1-936912553f58@kernel.org>
+Message-Id: <20250701-jag-sysctldoc-v1-3-936912553f58@kernel.org>
 References: <20250701-jag-sysctldoc-v1-0-936912553f58@kernel.org>
 In-Reply-To: <20250701-jag-sysctldoc-v1-0-936912553f58@kernel.org>
 To: Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
@@ -51,43 +51,52 @@ Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
  Joel Granados <joel.granados@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=723;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1085;
  i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=JVXQ/8IYf8XnXtTQdEVwyxaiGUvK4wO6JQSfGjOdsb8=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGhjoukEx+FI2E8vSQQRccHuWoI9V1GcM0R7d
- fKbDkKzE3co9okBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJoY6LpAAoJELqXzVK3
- lkFPbHMMAI06sGLAcctT2iDoYoE/iAsxas2+g68NDcMNxpeiUDzAlcKHcqy19oUW60QUNafaHbw
- XhZBaJFUFsXTtDn7IOAEtmosQ/kIHVMmkDdzvhzzOAEBxgIWTKygd7/0t5wQ+AVlJaREhqw5M4k
- ejm9QMffJ6cxlQvwlZ/B50nBTPQVPnH/LNHpP/Hc/LjZ59SrTcoOq55h5ni+/Z9hzCunhpDaV2b
- mUb44PwZRk8xanfhibjwR1CUk/EBTRNgcIPgCL66a/+AwGbEhr+TcoXVWKr+sL1tcbKxm9UNk+C
- 56u4lIMZNouNy3oiDq4qx0OvjtIbRxKlCjPW+tVvi2IAqFRwTDTYCLReBxc1vQzzpRhdzFxkbF+
- eOHc4TiPgzxYqgy8WZw9Xlmd7sUlsEbgHE0miDath+JJ2jj/dCL7uwnFAW4BsupMwMZLTgFqg5X
- inKmhL/NfdUjCpkf3EPkAPpGVrqsm0pawB6v1HzsAjdY2eJTtc64AkZv4GZzNc6nmBEVpC7UuY3
- 30=
+ bh=dEWKHLfVWADiu1QnYIwVkFpHz0JRRQExXjCQUaLKIu4=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGhjoup1BoiQAVRdV9XfCUFoG/uF/frNFIkXC
+ i+CR4U02T0/dYkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJoY6LqAAoJELqXzVK3
+ lkFPVIAL/0vcTuIFspDtPyHHqoflZX6qS//pVY7/KpYONXZz54qbFsOYcvHsalOcGGRbEyeFThS
+ KJkmT1iH2UU8KpuV8wdyHxS7BuJkSGBSCI06dqU1E7NuggI1xdSqJzpj3aj65vbrlVSF/Fw4ysg
+ m+ooQgPBmxB2EjAFIL5ymNSvmEeLOtXCj8tpZf992bh3HlVjEWT0I76FstxyqDEDuKAZoeB32vC
+ sre7GB8OXb8ePKNLeiICC7ntminZexu5r6dm1FWu2RRfiwx172eK9+/mKSKGfIqXJDe96/zEgC/
+ Ml3+i5C5zmoqqfjW8lgE/2Ey7ipB0efkUsUJvJNg40jcITxfeIhDSs8Tj3fzqPpCSdttwqc9DPk
+ E8ScOJWN71+ny43P1VI7brgjJbjWztK8I/IPYJfuqATg7tOoDH6lEP5wH/V2xM3pNIRWQMMb3NY
+ Hqs/UfkRALjcAXdH/gnssypUCpgQYVLzUM89LnLP3wx67tTwqi2o1ENGRLrQaVG7hk5Cjg37hS6
+ Yc=
 X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
  auth_id=239
 
-Use "#!/usr/bin/env -S gawk -f" instead of "#!/bin/gawk". Needed for
-testing in nix environments as they only provide /usr/bin/env at the
-standard location.
+Adjust the sysctl table detection to include the macro pattern used for
+the ucount ctl_tables. This prevents falsly assigning them as
+non-documented ctl_tables
 
 Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
- scripts/check-sysctl-docs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/check-sysctl-docs | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/scripts/check-sysctl-docs b/scripts/check-sysctl-docs
-index 20274c63e7451a8722137e7077f4456f293f4e54..178dcf2888ffd21845e8464fc2595052c02ff4a3 100755
+index 568197cb1c0a84147785f05aabbbc6ab9dd896bc..3166012b9c6ea4435dc77afaadcff3a4944b1ca8 100755
 --- a/scripts/check-sysctl-docs
 +++ b/scripts/check-sysctl-docs
-@@ -1,4 +1,4 @@
--#!/usr/bin/gawk -f
-+#!/usr/bin/env -S gawk -f
- # SPDX-License-Identifier: GPL-2.0
+@@ -130,6 +130,14 @@ curtable && /\.procname[\t ]*=[\t ]*".+"/ {
+     file[curentry] = FILENAME
+ }
  
- # Script to check sysctl documentation against source files
++curtable && /UCOUNT_ENTRY.*/ {
++    match($0, /UCOUNT_ENTRY\("([^"]+)"\)/, names)
++    curentry = names[1]
++    if (debug) print "Adding entry " curentry " to table " curtable
++    entries[curtable][curentry]++
++    file[curentry] = FILENAME
++}
++
+ /register_sysctl.*/ {
+     match($0, /register_sysctl(|_init|_sz)\("([^"]+)" *, *([^,)]+)/, tables)
+     if (debug) print "Registering table " tables[3] " at " tables[2]
 
 -- 
 2.47.2
