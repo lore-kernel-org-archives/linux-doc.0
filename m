@@ -1,113 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50AD8821;
-	Tue,  1 Jul 2025 11:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3888B271476
+	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 11:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751369694; cv=none; b=JDcX40NMtMHPgFgT7cvukmiGznVQzHWX8PlEDPTCqHM7OQysqfql/z+uNKSnieIGiOwWbmptTX76FRKcdwJtBlS/JOtf6jmy6YT9hwcCctNYrQq983RisfAz3T7eaz0e80fT2Nuv8QiotM5zhPtGa+iDjKoAXNfBUoRjPrdPA9Q=
+	t=1751369922; cv=none; b=lXraxTGOPMUOBAKv1x4lLACzVy05inQUtsEw9n5xlEeSyETbuftxsjYyE3ILsuBpqQkSzAcRXthlrddRz9XuEA3ukFBwoTD6ILZrvIyHUKqEToNcHqPuFOYR5XjOOc2jvERA9ScnGstLmFnvs2MXp9v7Ww5eWfDyCpWoX6gNcng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751369694; c=relaxed/simple;
-	bh=ivvvymmSfinokPA9qi1LGV8jWib2h8DV4cJuLS0xY2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f6poiBbmtdfzI0Hfb2P89bH+e94a6Ccts5EYpD4MpDUPfsCEz+urJQUVjo7I1DRLcOfegHt9pbq7N9XAuzSSecB0sOXLz2+O1VT3XgK5Wu0rb2zIUdOPrLsORvVOcvaIqb+uGLqrB25QRdq+RqeXkfl/hutwCAwUANtYnlwwUq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=on5fa/N7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751369922; c=relaxed/simple;
+	bh=MRGed7xw7bDMGfGfErP80rD1qdpqu6iPV4GvAe87kSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=susYIl2mhoStGptfHDkh5dQvVkCFf1Q9x5DBDoy7aRCqL8J30tgpQULvUEEEnh8oauUqbSjgxhPnIoXHhkd9XMV3Uv/c81qjavPY86r+Jsbj/15xMWYSAxAf6cazjr9i2Oky0u2YW6NJOPcORpYQ+B+KEnnwfjCshyw6LA5pmPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Z8CM+gFj; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="on5fa/N7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25244C4CEEB;
-	Tue,  1 Jul 2025 11:34:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751369693;
-	bh=ivvvymmSfinokPA9qi1LGV8jWib2h8DV4cJuLS0xY2E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=on5fa/N7993Xiu8R8CmxLBfvJ25rLsGHcos0mtPx5h7O+Uf8PnRwRziavn1ZNk3qD
-	 dTlslotJxMgwQgJdXVemlWpk547OoKF09nmdwOK8mjg9Dw3s1arKSEV7tTpFEdh6CL
-	 NPKTxPzuKGG96E1Io5mCVhQJcuVdbIQr7g2WAtZWHqBLqFkVGUgpLGBnnyKZqHp0Vb
-	 SyfLuqjRiNIcavAZo9eM7r4tSbw+tiGx6AdcIMvQ+ypA9/f+T8O/0PhvLXdKbUnh9n
-	 wRC++Hv0QndQB4NIsjh8/mPRVtWo7RD9dV/TsgFK2FYIkOWjAQtc3iDsqfTq8TepTW
-	 55NYlUn9KniJQ==
-Date: Tue, 1 Jul 2025 13:34:47 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, linux-fsdevel@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, hch@lst.de, miklos@szeredi.hu, djwong@kernel.org, 
-	anuj20.g@samsung.com, linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v3 13/16] fuse: use iomap for writeback
-Message-ID: <20250701-duktus-weitverbreitet-fb6b177ba0d8@brauner>
-References: <20250624022135.832899-14-joannelkoong@gmail.com>
- <202506252117.9V3HTO0i-lkp@intel.com>
- <CAJnrk1Z5NZ0_f=OMMam9hf0xJwM=SsmgFpyfbnKE7MT_i_kZMQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Z8CM+gFj"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a4e57d018cso693352f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 04:38:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1751369917; x=1751974717; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ymO1MfwHnBBBPyU7fd6QnoMDVNEmvub8Pdh59UQCgKc=;
+        b=Z8CM+gFj1ToZmBJpk+EE2nR5Nbl1Tlx+KXy1ipifHkxsZLgYVE0/PKIt6T0PYV5bs2
+         9yHpUuRxKhtw3h6WEH7jt2Y+FixPYK8oxRZMDw9kd6Cww2WnSsdxnUnJEx+asusyRMA5
+         taz8cyuughRS/dXBXoviOHSKPSE6TilRCCZloHdFWyvbuKYdYaEYTUR5JB8NN3rJ9muI
+         z0FnRZTpyVEaEF2OEsWlsi95Lpd3UqtsgVNFO/QmRX1Mz8jQJs+dFc/SiftHKa7Usv1g
+         7+NUBnWaAKfCvvXE6LMxzTytl6ILMadhRKhCb1pFtQiN7svH9me1SoXdy9/j17z24YER
+         7Z2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751369917; x=1751974717;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ymO1MfwHnBBBPyU7fd6QnoMDVNEmvub8Pdh59UQCgKc=;
+        b=LKvzWYrb3XUBL86S3H0L1jSUHxGfcxo44Z35hJIndS8+pzDdx4FnfIv4cU6quxcGNm
+         JKi2q6680CUe3m1toYxx0vx6kR/Rxu6V3cacWGjFtdyfKJQYPm0+prE3BqTvJ1ZoPXSX
+         Wrl/G8J1ULMwvIqXNC5fhic/EwDEx5tk9VgqN5jLEFoVh2yd+eSUoH8JXityaAfmkMv9
+         3zeYeq422zuzjCGD8jmTpgEIUIH13rH/UlPh/i+3jCbmWBZAKo1jDlSiddoG65MwDMwd
+         EJXs96+HinNYwWYobEwKXFEQJ4kytk+DRQBu+i+B3HgcDEOpeHUImMzV4DkwGg7VI+ij
+         RrsA==
+X-Forwarded-Encrypted: i=1; AJvYcCWNdJknZqumj7PHbtTzjeYFGSCPB8YJrs1f30vLS/K2Ukr7ZUzp5sxrNXHBVYLyPP5npKNDLAKitGk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJB1+nyrQouLxgnNrG7T2zEGSy9a008GAdVmqV9zF9q6a9bfIS
+	bVaTjn0PGSidSA8ktg7tjtY8JxxCg9DAhxCJ8CLBPGczbkQbVrQOVN7gFxwUu2w1ckY=
+X-Gm-Gg: ASbGncvCzLJ3zI7I0t5pOe6gkhZEiXRhN6WELhL/L3Qwawrl1hd9HNlkGZfWiCDMII6
+	xzjmnEdIU9LpR4LP3YdFJH+fY4U13v0z+V00PjpsQoaFRLq63wJhc+GprqtOBRQBQlkhS0kPLOU
+	s7C1oyftrX1NpP8Kh4cAh8fX/L5G3zwJ7rGVgFgBhHIO6IgM6Pxx42P6xrI9mRlWeGWRAi9iF81
+	SEgGiBKZgSWiif8UCgIKwoz8UAd2oUo8VK9tvN5ZYkL0JLRUnhohn5Rb9kAlQSSr/VabMvdoKK2
+	AcLcnJhJPhr2OPTDKlodhxdDvfU6wKyW2aOy+Z857oQ0dE/4B0YWCjjKJnrgbRS6RJRUBg==
+X-Google-Smtp-Source: AGHT+IG9vsd/nXjpNbwtU/s2aJdhnIjVad8L+eqckZnv61f/xwU4i88827dTG+UKpEi8bSgHnVlcLw==
+X-Received: by 2002:a05:6000:230f:b0:3a4:dc42:a09e with SMTP id ffacd0b85a97d-3af240989edmr889233f8f.5.1751369917429;
+        Tue, 01 Jul 2025 04:38:37 -0700 (PDT)
+Received: from mordecai.tesarici.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7e78e8sm13346823f8f.19.2025.07.01.04.38.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jul 2025 04:38:37 -0700 (PDT)
+Date: Tue, 1 Jul 2025 13:38:33 +0200
+From: Petr Tesarik <ptesarik@suse.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Robin Murphy <robin.murphy@arm.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe
+ <axboe@kernel.dk>, Bagas Sanjaya <bagasdotme@gmail.com>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:MEMORY MANAGEMENT"
+ <linux-mm@kvack.org>
+Subject: Re: [PATCH v2 4/8] docs: dma-api: add a kernel-doc comment for
+ dma_pool_zalloc()
+Message-ID: <20250701133833.4060f406@mordecai.tesarici.cz>
+In-Reply-To: <5a997777-fd14-40e1-919b-2e61a6e8d570@infradead.org>
+References: <20250627101015.1600042-1-ptesarik@suse.com>
+	<20250627101015.1600042-5-ptesarik@suse.com>
+	<5a997777-fd14-40e1-919b-2e61a6e8d570@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1Z5NZ0_f=OMMam9hf0xJwM=SsmgFpyfbnKE7MT_i_kZMQ@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 25, 2025 at 09:48:15AM -0700, Joanne Koong wrote:
-> On Wed, Jun 25, 2025 at 7:18 AM kernel test robot <lkp@intel.com> wrote:
-> >
-> > Hi Joanne,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on brauner-vfs/vfs.all]
-> > [also build test ERROR on xfs-linux/for-next linus/master v6.16-rc3 next-20250625]
-> > [cannot apply to gfs2/for-next mszeredi-fuse/for-next]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/iomap-pass-more-arguments-using-struct-iomap_writepage_ctx/20250624-102709
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-> > patch link:    https://lore.kernel.org/r/20250624022135.832899-14-joannelkoong%40gmail.com
-> > patch subject: [PATCH v3 13/16] fuse: use iomap for writeback
-> > config: arm64-randconfig-003-20250625 (https://download.01.org/0day-ci/archive/20250625/202506252117.9V3HTO0i-lkp@intel.com/config)
-> > compiler: aarch64-linux-gcc (GCC) 12.3.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506252117.9V3HTO0i-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202506252117.9V3HTO0i-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepages':
-> > >> file.c:(.text+0xa30): undefined reference to `iomap_writepages'
-> > >> file.c:(.text+0xa30): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_writepages'
-> >    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepage_finish':
-> > >> file.c:(.text+0x1fd8): undefined reference to `iomap_finish_folio_write'
-> > >> file.c:(.text+0x1fd8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_finish_folio_write'
-> >    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_cache_write_iter':
-> >    file.c:(.text+0x888c): undefined reference to `iomap_file_buffered_write'
-> >    file.c:(.text+0x888c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_file_buffered_write'
-> >    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_iomap_writeback_range':
-> > >> file.c:(.text+0x9258): undefined reference to `iomap_start_folio_write'
-> > >> file.c:(.text+0x9258): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_start_folio_write'
-> > >> aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x370): undefined reference to `iomap_dirty_folio'
-> >    aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x3a0): undefined reference to `iomap_release_folio'
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
-> As noted in the cover letter [1]
-> 
->    Please note the following:
->    * this patchset version temporarily drops the CONFIG_BLOCK iomap refactoring
->      patches that will be needed to merge in the series. As of now, this breaks
->      compilation for environments where CONFIG_BLOCK is not set, but the
->      CONFIG_BLOCK iomap changes will be re-added back in once the core changes
->      in this patchset are ready to go.
-> 
-> 
-> These errors will be fixed in later versions when the CONFIG_BLOCK
-> patches get added in.
+On Sat, 28 Jun 2025 12:04:04 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Ok, sounds good. Main thing is I can merge it all in one go.
+> On 6/27/25 3:10 AM, Petr Tesarik wrote:
+> > Document the dma_pool_zalloc() wrapper.
+> > 
+> > Signed-off-by: Petr Tesarik <ptesarik@suse.com>
+> > ---
+> >  Documentation/core-api/mm-api.rst | 2 ++
+> >  include/linux/dmapool.h           | 8 ++++++++
+> >  2 files changed, 10 insertions(+)
+> > 
+> > diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
+> > index af8151db88b28..a61766328ac06 100644
+> > --- a/Documentation/core-api/mm-api.rst
+> > +++ b/Documentation/core-api/mm-api.rst
+> > @@ -97,6 +97,8 @@ DMA pools
+> >  .. kernel-doc:: mm/dmapool.c
+> >     :export:
+> >  
+> > +.. kernel-doc:: include/linux/dmapool.h
+> > +
+> >  More Memory Management Functions
+> >  ================================
+> >  
+> > diff --git a/include/linux/dmapool.h b/include/linux/dmapool.h
+> > index 06c4de602b2f3..c0c7717d3ae7b 100644
+> > --- a/include/linux/dmapool.h
+> > +++ b/include/linux/dmapool.h
+> > @@ -60,6 +60,14 @@ static inline struct dma_pool *dma_pool_create(const char *name,
+> >  				    NUMA_NO_NODE);
+> >  }
+> >  
+> > +/**
+> > + * dma_pool_zalloc - Get a zero-initialized block of DMA coherent memory.
+> > + * @pool: dma pool that will produce the block
+> > + * @mem_flags: GFP_* bitmask
+> > + * @handle: pointer to dma address of block
+> > + *
+> > + * Same as @dma_pool_alloc, but the returned memory is zeroed.  
+> 
+>     * Same as dma_pool_alloc(), but ...
+> 
+> '@' is for function arguments.
+
+Oops. Somehow sneaked in...
+
+> With that change:
+> 
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Do I have to submit a v3 then?
+
+Petr T
