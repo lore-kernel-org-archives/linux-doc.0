@@ -1,278 +1,232 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2082.outbound.protection.outlook.com [40.107.101.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C961260590
-	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 20:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751400229; cv=none; b=bKiAIsD10WXeMZZTxM57DqXA9j7qQxY4IEe5J4X3CjeIuBvCBQ5QIr6mIFS46D2KLtWQlFWwcKsPDbhG8Y2286MGxZ3HJwCeL7YO2PuntK8afilK3HSWPpsEF5KbfjyVMk6TyL6HjgT8ilWPQ7pJlXIrb5U6B9v46SdCrYsU/+4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751400229; c=relaxed/simple;
-	bh=58rJfG6CwvkRx2KRC7Bb3Gpy0xeB+CUY4kcxFJRCUYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GRWXKJ6kSSZnwh5KlH+SXiFTwcqwIE22hb7j0WZ5vpgrr1LuMbWh+4zkOZgtYIO+UabFwyQAdIEN5HGx0PqQYblPO6rk3SetGfILAI6lBTC6yYp/Ywyn0b8z0v1aLYWIC87xfKcw6TGaRGksycNDolRjlRgrNZVdtEOJVmqZO3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VWxZZ2sm; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B77823B60B;
+	Tue,  1 Jul 2025 20:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.82
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751400888; cv=fail; b=MeJdiiX2DCL1skYTZCnhgUEoDj9tueddw9ZyQJGYdSOuqpJor1Z81fI3UEh1rycTTUBlSveVSPm59QFPJI+gu9AlytqCsyDFJLEiu73b8h9hU4GKRvsvgZrjDTbcIBPQsSW1cKLUyyhhAlqrTYd5mD68Kh2n0j+jWSsNVKdFT5s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751400888; c=relaxed/simple;
+	bh=yCEw89DFwh3GyOrT4icPgJ1Y/1MpNaCEoB2ZiEtshRw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FKZoTwjZPABlg5uFcV268/pal9mALqrzkbT0eF6X0s/3AR2pMRHV5WGRsdT69jwG5b5cVcGE8mkMdbyTMmj217kGM3CEc9KViyEce5HG6f3OYUQNyKgu/N4Ceruml/VgC68M3UUmI9ymkRHMX0wNtpx9WFpGWb85fAsj0nmpmR0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=kkvu88fu; arc=fail smtp.client-ip=40.107.101.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VWxZZ2sm"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-235e389599fso317275ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 13:03:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751400226; x=1752005026; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bktMfbMPWDOoqz4tBJCnWTjUNN8jSJQyh7h6qa9T1Cs=;
-        b=VWxZZ2smbJup4TKCuT5YnV8iiDV24Ni3CKAxCo87z4Dp2oJy9Vx1NL1MHZs1xgcvrF
-         XLoahWiVdlwepNu3eNOcwu0Chia0pPuVqXpLQknqewO/3AIBtFU6lWe7DXDPwBW/GN3j
-         W9622Eid9kn9kztEQcX+mS1Ake3GUa06i3gqjeGTGcZnoJsC4Kzpj+SZI0czHSC9BjWa
-         g7kafS2tZIKS/4oFNuBmpOsABl8LJxD7snb+1YnrZm1o87qvGMfgfvLPZSxx00DGJfht
-         qVCEQ0mdPvMQBZRSRHDxbwOVXaGA4pj3/lC2Bgu4poYKjApXlSjPYK85uZgB3WBq23F/
-         m7Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751400226; x=1752005026;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bktMfbMPWDOoqz4tBJCnWTjUNN8jSJQyh7h6qa9T1Cs=;
-        b=rHIGm9m0nV4yELE2E09HBe9zR/WmxqVdIFxof7hKCRQS0qdYSZsEcH6f9AU0RAZhHN
-         wjs9YHdqkTdkxKqFo+LsnU7J88T2itZ0vO2AlpQt7VfLQUvA1b5Xo0m4j9YQolVorh1u
-         8l/h2YsZg7+35lTyl6NcDhSvYvmmav9P8geEb3shAVcqy79Q09dajN/4oHcn9ogvpr2r
-         VJeWaBjWwkI5zoTkITYgBFOs4Y6qMXJz/GB5VgqBEoNmUSDkhCLeINleZddli6Lko2oV
-         wygyWCNrnoO9U1qRrscIR9FhnDaG2KMgUce4ronSpTO/oLw7onsefGxIjjfN+GVVoTo9
-         zbiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSqrrikcEaLRbP/AlV9zFrAPZWy/bwaO7rbq1cChPUbduI5bzp4W4VEWxoR9VmzUqPFURVPIWB04I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YybMtdVUZvy/XC74rwlu5pWU/3VkBtnD4TUg079OHxMWScQ0fDg
-	q69ud280xvrNorejjYJCvxtJbSoEgg68CvIKQzkyZu4isX0tN4Jjnpe4412I4mGBLw==
-X-Gm-Gg: ASbGncv48ZvPyfJQX2uwU0zgUhSj6lLQmYEsShU5rRJJGKPDDEG960GcgUwp16GpUPY
-	SGF+M+BXAviN0mCS/WC8Lqx/JZeQ7yOOOcF5DEqdYRrGDasEjFVBbEFzB+bkited8bwUxsRjj1U
-	hr+Va8wkVAx2h1jAkKw65F8m8F7xnBE9A9cobZcwNI63Z1mnQJ0yGKNeQwWVm8ZQJvNdYCDQGPZ
-	WaYcJqR0vBiKOEuoT2aN7Jmto3NcPkZJ/QR4q9M+CG8TiduGo/XhDKiQpD3zJdEBXe3xbE2ZIzA
-	LUYolu3aAmgWO85LguM3lKdTby6ZTd5svZBPv+sWonHrObLKssX+0/5HncSkADfMbIYuHzMNdQH
-	/3ozRPOc5B/t3RwM3deKf
-X-Google-Smtp-Source: AGHT+IH8wLGT2ZcmFXbUpUVEBUVQ8i42Tf/vT9/rYGPbC+3uemlbkYYLsI4PH85g9JH5U3HDbnRtDg==
-X-Received: by 2002:a17:903:46cf:b0:234:afcf:d9e2 with SMTP id d9443c01a7336-23c6010bde4mr3665345ad.17.1751400225511;
-        Tue, 01 Jul 2025 13:03:45 -0700 (PDT)
-Received: from google.com (232.98.126.34.bc.googleusercontent.com. [34.126.98.232])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39bb7dsm112415425ad.90.2025.07.01.13.03.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 13:03:44 -0700 (PDT)
-Date: Tue, 1 Jul 2025 20:03:35 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
-	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
-	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
-	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
-	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
-	zhangzekun11@huawei.com, iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
-	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com
-Subject: Re: [PATCH v7 27/28] iommu/tegra241-cmdqv: Add user-space use support
-Message-ID: <aGQ_F7Qx3scbbA-J@google.com>
-References: <cover.1750966133.git.nicolinc@nvidia.com>
- <539ee2ec112162abdba511574e2205a77b425059.1750966133.git.nicolinc@nvidia.com>
- <aGQGm1-i4M75b9Qp@google.com>
- <aGQ6KCI9OZEwHdxS@Asurada-Nvidia>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="kkvu88fu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XmzzOokgfxIh+bVPNUGEMElHBcZIsgVhXa4EdaaXmBTnUT5F0IneN9IOZHRQOOeHPGo/6ncaQkCvSUVJEcyqtp5g4+426OXlejp9swkTkh5CCltjDJdlJ469lk9NxXVgUpAkjyhudbl9tWiYb5mcTrBgisx4tXR/HdEmrM+/1R2y8W7XJ71vA44K8UBRQ8kla8y2lBlkqHYnDI1OKKn+DnpWw8xcA77DJeF1I3kn6CUpsIv3H+vAGOcp7wlxx9bWxh+wvMjl2cuM1n08uu116719AwPf91jw4gMxw8I3bxMyfPO1duGFyFQV2LilNfuhowTig/DR6/FAka9E5eoKzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7dD2hRDA6Jz2yUi0F1VuTG9ingGTJo0Kq3jKl+pEb5c=;
+ b=lNdMohPquhRepWSTtaO3lkT+ZN+AbvOSWOPQko7lncCn/Y0jfppUFparQ1wV6t5NjReKxdlVJm6/PL4Rnb1KA1uWBw6emmI4Pr3YNbehObiFjvg+tqM/BUu3X4djJbhndTbLsWwZJ8Hns18EMmHHoflRLCMoWh41mEFZK9EBQZe3ZgIKt1TMkwcbe/L7SMr9IJgCvN0wGOJVzQ6O9gUCyen6W2h3qv/X3Gd25W9K5tuScp54BwwdgqlNQ6F6QwcEQcUS/CT5a8zt+MLgfSYSia7zBGdlp+1rzoSWeXsvYNa8O7WPxBLMbh+F0mXMORXxmAAe/77m+G59/zyiTB/Ueg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7dD2hRDA6Jz2yUi0F1VuTG9ingGTJo0Kq3jKl+pEb5c=;
+ b=kkvu88fuH19rHrTPEVSVe2ZIDe1LVbWQVdEliKvzwlTk54gn0asYdtasf+UXt18qfFFFOfcI/Yeknouf4+CxQKKjkcHjHa6fJSSKp5J62IYC+xsROlwU1oeQUfuqYfvHzc8GKYiXfcVR1xl0pdzIwxeT60KNfuJABzNUpxcOaaM=
+Received: from MW4PR03CA0177.namprd03.prod.outlook.com (2603:10b6:303:8d::32)
+ by DS7PR12MB6143.namprd12.prod.outlook.com (2603:10b6:8:99::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.32; Tue, 1 Jul
+ 2025 20:14:42 +0000
+Received: from BY1PEPF0001AE16.namprd04.prod.outlook.com
+ (2603:10b6:303:8d:cafe::e0) by MW4PR03CA0177.outlook.office365.com
+ (2603:10b6:303:8d::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.32 via Frontend Transport; Tue,
+ 1 Jul 2025 20:14:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BY1PEPF0001AE16.mail.protection.outlook.com (10.167.242.104) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8901.15 via Frontend Transport; Tue, 1 Jul 2025 20:14:41 +0000
+Received: from purico-ed09host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 1 Jul
+ 2025 15:14:38 -0500
+From: Ashish Kalra <Ashish.Kalra@amd.com>
+To: <corbet@lwn.net>, <seanjc@google.com>, <pbonzini@redhat.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<thomas.lendacky@amd.com>, <john.allen@amd.com>,
+	<herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+	<akpm@linux-foundation.org>, <rostedt@goodmis.org>, <paulmck@kernel.org>
+CC: <nikunj@amd.com>, <Neeraj.Upadhyay@amd.com>, <aik@amd.com>,
+	<ardb@kernel.org>, <michael.roth@amd.com>, <arnd@arndb.de>,
+	<linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
+Subject: [PATCH v5 0/7] Add SEV-SNP CipherTextHiding feature support
+Date: Tue, 1 Jul 2025 20:14:28 +0000
+Message-ID: <cover.1751397223.git.ashish.kalra@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aGQ6KCI9OZEwHdxS@Asurada-Nvidia>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE16:EE_|DS7PR12MB6143:EE_
+X-MS-Office365-Filtering-Correlation-Id: bfba663a-ff65-4a8a-547c-08ddb8dbe9d6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?8X5FdhsfWysR84ZmOMEnauOUkDeD3OwP+XIq0QqYXu6TFXSpY14N/6LPVOlu?=
+ =?us-ascii?Q?ehlfabkFhzIr6v84hFOF9CvGMPwrOmYMc4suIU06HpZXnQmlPT4vQTsHnR5a?=
+ =?us-ascii?Q?WlurwT5QXe6crcX/qBxV/y9GDVU+qPieGpIjtFbKGZYyjWlfxwiik5lkFXyB?=
+ =?us-ascii?Q?DkL6Aku0XwbCRcErLC6loExWaZ/EB3W6t9TEUw3QrwYIdq2k0uNsK+SPIgU8?=
+ =?us-ascii?Q?O0QbHwyUFx1Q8T3YHgRiK5FsGyjLlBsfvHhwT74nt8YSbK6+b9/ISKdktEqd?=
+ =?us-ascii?Q?XBvZnK/iE0D2r2pOs3yiXBRLT/Al0QBUMRAnGHq7SrueLGE1F6wY+xWcIgTI?=
+ =?us-ascii?Q?iswGp23bXjurk5aZHzU0c55fVWJQjXkrpLv0tQniH4VQE98mSI42iirCCx7C?=
+ =?us-ascii?Q?VqG+mXxX2Td9sMlrjaQpBNR8LJv05B8/g9f3DNyRhq4nPHpJnIfzc1GJ5ltN?=
+ =?us-ascii?Q?Tm66XdiT1U/Zaqiqm5mbM1CNsAAPLYBovZ/Bhfv1NJABM764YX0oV1q9sK0b?=
+ =?us-ascii?Q?F6y0PTiWcj0tjQxhH4e2pWU7meNSOSuMcXiUC48Z5MwPXB5rEYL4l/0/Olj7?=
+ =?us-ascii?Q?mhxSUjahpdWK8S8QmGoUa2+PtV3GGueaRL8kcuUDjvCYs1/1aABalZvlS8Gh?=
+ =?us-ascii?Q?d6VszkowSbc4ye3To2auyb47YI1KHTU25DTecx8AJb5ICkuK77A0OWg+adrK?=
+ =?us-ascii?Q?YHVtW3KwZAo4qqoYgBQG2jQjNk8K/BKCtcoPgWkplr7DWbxXRt/W8ZqifkYe?=
+ =?us-ascii?Q?SH/QEDWHlPZuXdy6bjZ0nHlZ1Qkarrp3jpmSV9pwYvKsBM1O0BgQsdf1g7bi?=
+ =?us-ascii?Q?LhOgsCnuF8e2CQxTnbnHpysSZlKPzWkHk1U+NZygmuf5wxeSXy5F+/kvZu6e?=
+ =?us-ascii?Q?BxJJla6PRKpkxQgW9bz3XrF70s4QwC213mb80QqtI2w3GocHu/xFoY0gYurw?=
+ =?us-ascii?Q?/hx83UWDVgt8h5qSCYFnI+JFvZH0khpkrLI/9lY87EP+NfTHvkJ6xH4WoVwV?=
+ =?us-ascii?Q?QS4n4xQ8kR3TytlfXOSDQ9c4KTT7XF5sFKlDSXNZtiQmIkD2pLzmRDTHCWx2?=
+ =?us-ascii?Q?QKDFuYB0/3k/1yz2FcEvzgz8EcJMPEo431Ly6p3LcHY6esHaj+RYjuaHBLJu?=
+ =?us-ascii?Q?kadf3OH4gubrQc0Ad9z9wkF1mq06x97FtxGwCNCxGd7SWAcXNuKIduNwmIiB?=
+ =?us-ascii?Q?tznURMxv2pF+11h89uX+VQNhjVfJhJFl56yN7emfE3cpyXjpeDrWbjTq5mtn?=
+ =?us-ascii?Q?+X+zLFzGoiQftAUy4QIYdHpVhNPBBmZbx6Tv0pfCzKhkXDBuRiBJZnAHkgbc?=
+ =?us-ascii?Q?5Z5sXj+4UTgF6+XsttB0KdU717XEjuDH9Zgh2ocwCcKnr/7vAFhbg3iYSP+h?=
+ =?us-ascii?Q?oNsv/SkURUZTjZEE9v2DQfeurBlvQ+mYI8CJiO7uUpZ+L6ICH8Jixd69bO9B?=
+ =?us-ascii?Q?ltc6wJlQNojuNZxEcB7QQGUZ1yMypmKLSZOCmodpAK8hQWVOcfFVa0+VflVJ?=
+ =?us-ascii?Q?tf3wSxuU827ggjAqJtT2/yyEDC/Zcsw19rPBXfFqR8QY+njKVVgQ0qoZwA?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 20:14:41.5621
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfba663a-ff65-4a8a-547c-08ddb8dbe9d6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BY1PEPF0001AE16.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6143
 
-On Tue, Jul 01, 2025 at 12:42:32PM -0700, Nicolin Chen wrote:
-> On Tue, Jul 01, 2025 at 04:02:35PM +0000, Pranjal Shrivastava wrote:
-> > On Thu, Jun 26, 2025 at 12:34:58PM -0700, Nicolin Chen wrote:
-> > >  /**
-> > >   * enum iommu_hw_info_type - IOMMU Hardware Info Types
-> > >   * @IOMMU_HW_INFO_TYPE_NONE: Output by the drivers that do not report hardware
-> > > @@ -598,12 +619,15 @@ struct iommu_hw_info_arm_smmuv3 {
-> > >   * @IOMMU_HW_INFO_TYPE_DEFAULT: Input to request for a default type
-> > >   * @IOMMU_HW_INFO_TYPE_INTEL_VTD: Intel VT-d iommu info type
-> > >   * @IOMMU_HW_INFO_TYPE_ARM_SMMUV3: ARM SMMUv3 iommu info type
-> > > + * @IOMMU_HW_INFO_TYPE_TEGRA241_CMDQV: NVIDIA Tegra241 CMDQV (extension for ARM
-> > > + *                                     SMMUv3) info type
-> > 
-> > I know that the goal here is to mention that Tegra241 CMDQV is an
-> > extension for Arm SMMUv3, but this comment could be misunderstood as the
-> > "type" being an extension to IOMMU_HW_INFO_TYPE_ARM_SMMUV3. How about we
-> 
-> IOMMU_HW_INFO_TYPE_TEGRA241_CMDQV only reports CMDQV structure.
-> VMM still needs to poll the IOMMU_HW_INFO_TYPE_ARM_SMMUV3. It's
-> basically working as "type being an extension".
-> 
+From: Ashish Kalra <ashish.kalra@amd.com>
 
-Ohh okay, I see.. I thought we were describing the HW.
+Ciphertext hiding prevents host accesses from reading the ciphertext
+of SNP guest private memory. Instead of reading ciphertext, the host
+will see constant default values (0xff).
 
-> > Sorry to be nit-picky here, I know that the code is clear, but I've seen
-> > people don't care to read more than the uapi descriptions. Maybe we
-> > could re-write this comment, here and everywhere else?
-> 
-> I can change this thought:
-> 
-> + * @IOMMU_VIOMMU_TYPE_TEGRA241_CMDQV: NVIDIA Tegra241 CMDQV (extension for ARM
-> + *                                    SMMUv3) enabled ARM SMMUv3 type
-> 
+The SEV ASID space is basically split into legacy SEV and SEV-ES+.
+CipherTextHiding further partitions the SEV-ES+ ASID space into SEV-ES
+and SEV-SNP.
 
-Yes, that helps, thanks!
+Add new module parameter to the KVM module to enable CipherTextHiding
+support and a user configurable system-wide maximum SNP ASID value. If
+the module parameter value is "max" then the complete SEV-ES+ ASID
+space is allocated to SEV-SNP guests.
 
-> > > +/**
-> > > + * struct tegra241_vintf_sid - Virtual Interface Stream ID Replacement
-> > > + * @core: Embedded iommufd_vdevice structure, holding virtual Stream ID
-> > > + * @vintf: Parent VINTF pointer
-> > > + * @sid: Physical Stream ID
-> > > + * @idx: Replacement index in the VINTF
-> > > + */
-> > > +struct tegra241_vintf_sid {
-> > > +	struct iommufd_vdevice core;
-> > > +	struct tegra241_vintf *vintf;
-> > > +	u32 sid;
-> > > +	u8 idx;
-> > >  };
-> > 
-> > AFAIU, This seems to be a handle for sid -> vintf mapping.. it yes, then
-> > I'm not sure if "Virtual Interface Stream ID Replacement" clarifies that?
-> 
-> No. It's for vSID to pSID mappings. I had it explained in commit log:
-> 
+v5:
+- Add pre-patch to cache SEV platform status and use this cached
+information to set api_major/api_minor/build.
+- Since the SEV platform status and SNP platform status differ, 
+remove the state field from sev_device structure and instead track
+SEV platform state from cached SEV platform status.
+- If SNP is enabled then cached SNP platform status is used for 
+api_major/api_minor/build.
+- Fix using sev_do_cmd() instead of __sev_do_cmd_locked().
+- Fix commit logs.
+- Fix kernel-parameters documentation. 
+- Modify KVM module parameter to enable CipherTextHiding to support
+"max" option to allow complete SEV-ES+ ASID space to be allocated
+to SEV-SNP guests.
+- Do not enable ciphertext hiding if module parameter to specify
+maximum SNP ASID is invalid.
 
-I get that, it's for vSID -> pSID mapping which also "happens to" point
-to the vintf.. all I wanted to say was that the description is unclear..
-We could've described it as "Vintf SID map" or something, but I guess
-it's fine the way it is too.. your call.
+v4:
+- Fix buffer allocation for SNP_FEATURE_INFO command to correctly
+handle page boundary check requirements.
+- Return correct length for SNP_FEATURE_INFO command from
+sev_cmd_buffer_len().
+- Switch to using SNP platform status instead of SEV platform status if
+SNP is enabled and cache SNP platform status and feature information.
+Modify sev_get_api_version() accordingly.
+- Fix commit logs.
+- Expand the comments on why both the feature info and the platform
+status fields have to be checked for CipherTextHiding feature 
+detection and enablement.
+- Add new preperation patch for CipherTextHiding feature which
+introduces new {min,max}_{sev_es,snp}_asid variables along with
+existing {min,max}_sev_asid variable to simplify partitioning of the
+SEV and SEV-ES+ ASID space.
+- Switch to single KVM module parameter to enable CipherTextHiding
+feature and the maximum SNP ASID usable for SNP guests when 
+CipherTextHiding feature is enabled.
 
-> For ATC invalidation commands that hold an SID, it requires all devices to
-> register their virtual SIDs to the SID_MATCH registers and their physical
-> SIDs to the pairing SID_REPLACE registers, so that HW can use those as a
-> lookup table to replace those virtual SIDs with the correct physical SIDs.
-> Thus, implement the driver-allocated vDEVICE op with a tegra241_vintf_sid
-> structure to allocate SID_REPLACE and to program the SIDs accordingly.
-> 
-> > > @@ -351,6 +394,29 @@ tegra241_cmdqv_get_cmdq(struct arm_smmu_device *smmu,
-> > >  
-> > >  /* HW Reset Functions */
-> > >  
-> > > +/*
-> > > + * When a guest-owned VCMDQ is disabled, if the guest did not enqueue a CMD_SYNC
-> > > + * following an ATC_INV command at the end of the guest queue while this ATC_INV
-> > > + * is timed out, the TIMEOUT will not be reported until this VCMDQ gets assigned
-> > > + * to the next VM, which will be a false alarm potentially causing some unwanted
-> > > + * behavior in the new VM. Thus, a guest-owned VCMDQ must flush the TIMEOUT when
-> > > + * it gets disabled. This can be done by just issuing a CMD_SYNC to SMMU CMDQ.
-> > > + */
-> > > +static void tegra241_vcmdq_hw_flush_timeout(struct tegra241_vcmdq *vcmdq)
-> > > +{
-> > > +	struct arm_smmu_device *smmu = &vcmdq->cmdqv->smmu;
-> > > +	u64 cmd_sync[CMDQ_ENT_DWORDS] = {};
-> > > +
-> > > +	cmd_sync[0] = FIELD_PREP(CMDQ_0_OP, CMDQ_OP_CMD_SYNC) |
-> > > +		      FIELD_PREP(CMDQ_SYNC_0_CS, CMDQ_SYNC_0_CS_NONE);
-> > > +
-> > > +	/*
-> > > +	 * It does not hurt to insert another CMD_SYNC, taking advantage of the
-> > > +	 * arm_smmu_cmdq_issue_cmdlist() that waits for the CMD_SYNC completion.
-> > > +	 */
-> > > +	arm_smmu_cmdq_issue_cmdlist(smmu, &smmu->cmdq, cmd_sync, 1, true);
-> > > +}
-> > 
-> > If I'm getting this right, it issues a CMD_SYNC to the Host's CMDQ i.e.
-> > the non-CMDQV CMDQ, the main CMDQ of the SMMUv3? (i.e. the CMDQ present
-> > without the Tegra241 CMDQV extension?)
-> >
-> > so.. basically on every VM switch, there would be an additional CMD_SYNC
-> > issued to the non-CMDQV CMDQ to flush the TIMEOUT and we'll poll for
-> > it's completion?
-> 
-> The main CMDQ exists regardless whether CMDQV extension is there or
-> not. The CMD_SYNC can be issued to any (v)CMDQ. The smmu->cmdq is
-> just the easiest one to use here.
-> 
+v3:
+- rebase to linux-next.
+- rebase on top of support to move SEV-SNP initialization to
+KVM module from CCP driver.
+- Split CipherTextHiding support between CCP driver and KVM module
+with KVM module calling into CCP driver to initialize SNP with
+CipherTextHiding enabled and MAX ASID usable for SNP guest if
+KVM is enabling CipherTextHiding feature.
+- Move module parameters to enable CipherTextHiding feature and
+MAX ASID usable for SNP guests from CCP driver to KVM module
+which allows KVM to be responsible for enabling CipherTextHiding
+feature if end-user requests it.
 
-I see. Thanks!
+v2:
+- Fix and add more description to commit logs.
+- Rename sev_cache_snp_platform_status_and_discover_features() to 
+snp_get_platform_data().
+- Add check in snp_get_platform_data to guard against being called
+after SNP_INIT_EX.
+- Fix comments for new structure field definitions being added.
+- Fix naming for new structure being added.
+- Add new vm-type parameter to sev_asid_new().
+- Fix identation.
+- Rename CCP module parameters psp_cth_enabled to cipher_text_hiding and 
+psp_max_snp_asid to max_snp_asid.
+- Rename max_snp_asid to snp_max_snp_asid. 
 
-> > > @@ -380,6 +448,12 @@ static void tegra241_vcmdq_hw_deinit(struct tegra241_vcmdq *vcmdq)
-> > >  	dev_dbg(vcmdq->cmdqv->dev, "%sdeinited\n", h);
-> > >  }
-> > >  
-> > > +/* This function is for LVCMDQ, so @vcmdq must be mapped prior */
-> > > +static void _tegra241_vcmdq_hw_init(struct tegra241_vcmdq *vcmdq)
-> > > +{
-> > > +	writeq_relaxed(vcmdq->cmdq.q.q_base, REG_VCMDQ_PAGE1(vcmdq, BASE));
-> > > +}
-> > > +
-> > 
-> > Not sure why we broke this off to a function, will there be more stuff
-> > here or is this just to use it in tegra241_vcmdq_hw_init_user as well?
-> 
-> I can take it off.
-> 
+Ashish Kalra (7):
+  crypto: ccp - New bit-field definitions for SNP_PLATFORM_STATUS
+    command
+  crypto: ccp - Cache SEV platform status and platform state
+  crypto: ccp - Add support for SNP_FEATURE_INFO command
+  crypto: ccp - Introduce new API interface to indicate SEV-SNP
+    Ciphertext hiding feature
+  crypto: ccp - Add support to enable CipherTextHiding on SNP_INIT_EX
+  KVM: SEV: Introduce new min,max sev_es and sev_snp asid variables
+  KVM: SEV: Add SEV-SNP CipherTextHiding support
 
-Nah, that's okay, I was just curious.
+ .../admin-guide/kernel-parameters.txt         |  19 +++
+ arch/x86/kvm/svm/sev.c                        |  94 +++++++++++--
+ drivers/crypto/ccp/sev-dev.c                  | 127 ++++++++++++++++--
+ drivers/crypto/ccp/sev-dev.h                  |   6 +-
+ include/linux/psp-sev.h                       |  44 +++++-
+ include/uapi/linux/psp-sev.h                  |  10 +-
+ 6 files changed, 273 insertions(+), 27 deletions(-)
 
-> > > @@ -429,6 +504,10 @@ static void tegra241_vintf_hw_deinit(struct tegra241_vintf *vintf)
-> > >  		}
-> > >  	}
-> > >  	vintf_write_config(vintf, 0);
-> > > +	for (sidx = 0; sidx < vintf->cmdqv->num_sids_per_vintf; sidx++) {
-> > > +		writel(0, REG_VINTF(vintf, SID_MATCH(sidx)));
-> > > +		writel(0, REG_VINTF(vintf, SID_REPLACE(sidx)));
-> > > +	}
-> > >  }
-> > 
-> > I'm assuming we call the de-init while switching VMs and hence we need
-> > to clear these to avoid spurious SID replacements in the new VM? Or do
-> > they not reset to 0 when the HW is reset?
-> 
-> The driver does not reset HW when tearing down a VM, but only sets
-> VINTF's enable bit to 0. So, it should just set other configuration
-> bits to 0 as well.
-> 
-> > > +static struct iommufd_viommu_ops tegra241_cmdqv_viommu_ops = {
-> > > +	.destroy = tegra241_cmdqv_destroy_vintf_user,
-> > > +	.alloc_domain_nested = arm_vsmmu_alloc_domain_nested,
-> > > +	.cache_invalidate = arm_vsmmu_cache_invalidate,
-> > 
-> > I see that we currently use the main cmdq to issue these cache
-> > invalidations (there's a FIXME in arm_vsmmu_cache_invalidate). I was
-> > hoping for this series to change that but I'm assuming there's another
-> > series coming for that?
-> > 
-> > Meanwhile, I guess it'd be good to call that out for folks who have
-> > Grace and start trying out this feature.. I'm assuming they won't see
-> > as much perf improvement with this series alone since we're still using
-> > the main CMDQ in the upstream code?
-> 
-> VCMDQ only accelerates invalidation commands.
-> 
+-- 
+2.34.1
 
-I get that.. but I see we're using `arm_vsmmu_cache_invalidate` here
-from arm-smmu-v3-iommufd.c which seems to issue all commands to
-smmu->cmdq as of now (the code has a FIXME as well), per the code:
-
-	/* FIXME always uses the main cmdq rather than trying to group by type */
-        ret = arm_smmu_cmdq_issue_cmdlist(smmu, &smmu->cmdq, last->cmd,
-					  cur - last, true);
-
-I was hoping this FIXME to be addressed in this series..
-
-> That is for non-invalidation commands that VCMDQ doesn't support,
-> so they still have to go in the standard nesting pathway.
-> 
-> Let's add a line:
-> 	/* for non-invalidation commands use */
-
-Umm.. I was talking about the cache_invalidate op? I think there's some
-misunderstanding here? What am I missing?
-
-> 
-> Nicolin
-
-Thanks
-Praan
