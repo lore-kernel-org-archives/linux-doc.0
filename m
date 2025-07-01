@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E45819ADBF
-	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 08:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33B626C395
+	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 08:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751358605; cv=none; b=fbPGRrOVc5DDv3RPDh+jVJzAgDYa4LQvr5KxpMWtvzYybhsgvIFpB2AK6xtr54NdW2zXru1eUwtJmL7FWVyPkc5u3JZaT57bEHOfOX4fJH42FmLv7TaHzrtQlT+IDxv3lxRDFnC2gXgj8OiJG7dQfLRFvEgj4iDX2VO+PE7xX28=
+	t=1751358892; cv=none; b=j/1U1lABIt8tZ3LSVQ4Lfmd6cc31iwUl+recL+RcoM6vTg8jNBkQLkLk1p0Bkx9kjXBw+AyHnR0nFq3pNZhAyE11NIYNhDgYOWA6ok0C90P9CkvMVkipILVaYCDU5jlYJicYOcPm15EgsW5cwDCA6vnlC6xDnNDUuZ/HH0lKj9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751358605; c=relaxed/simple;
-	bh=fBnxDlxBfs5ee3e1zyZlfO2WcPezlbBGR3D5/rM+XzY=;
+	s=arc-20240116; t=1751358892; c=relaxed/simple;
+	bh=lbS24cMJ3Oc3OQhNt/DSzGyRJOx2dd6GD9LmhgcNCIw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I8vm2ur7WWway5vbyFh37R4+65eRtTOo3IzAhbKYrQoa9R6XfPjYTo5+qeYD5S18KWTT0W2lUju+MMfXHFlv4IcVr2MDe7Q69BbGiuquPW6o8zm+kE/l97jVhu5oATh0db5ONBkgzVWmBp0ok+8ZK4FbqF2rqL405A5eWmy7c3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LRgi+AO+; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=TaoMoWUrQF1wv9gHSeXlqkCtJ4Bf7bQIT8177dz8Pw+v4OqaqkvtXq+3n/4zug2ULVPKWc4QtkfCtIaguqw1IygXLqrF3Vso2R5ze8B0Sk5L1f6TYmoQ+vrFV8RxB41qnbtk3kLvk+0RYr0R4YjWh/ElxSqbYvAAFPKLVfe/vxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hrfdj+Ub; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LRgi+AO+"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hrfdj+Ub"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751358601;
+	s=mimecast20190719; t=1751358885;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Dly7kLJXAODD4HRHbtgbrL2VqDcoupb5huNWDKMA8X0=;
-	b=LRgi+AO+UD+pqUiGYKRwH23G6m9rYMLZs8Wgkq/8X7JTomACY61p2AsPWJ0QBGRbgdys+X
-	9KPwUkEWC8e3X3EBbshRSDWKm0sO5kbAWaIR2GAFF1BYIGvEFiaxqjoV1zEzpCUvs5oW3S
-	LK2AFIeCyyAP6vvjBjsj9J2Jw4PGV7o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=XqmCuun4O9S0uzldpDEz2Hy5OKYqaKQE+fhycCpdDZQ=;
+	b=Hrfdj+Ub00VKlUtpVhdS1hxZuP6tdJP/O7dDD4MR7vzOw3eOSc4GQusmDSRTf9GJ/tihTc
+	01nGcbLBzCnb9PMC+S8o63YZyffM0VGDNuHH5BcuConY+SgNOnSIobzFMwAYRj5lYjYRmk
+	j77OUh0NFIpOEVccVid4g4GMr1lrxGk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-516-5VtB0_CZPfa3-tRJ_I2iOQ-1; Tue, 01 Jul 2025 04:30:00 -0400
-X-MC-Unique: 5VtB0_CZPfa3-tRJ_I2iOQ-1
-X-Mimecast-MFC-AGG-ID: 5VtB0_CZPfa3-tRJ_I2iOQ_1751358599
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-451ac1b43c4so26454225e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 01:30:00 -0700 (PDT)
+ us-mta-688-F4p_TrrJMvmV7v-vZrH0Fw-1; Tue, 01 Jul 2025 04:34:39 -0400
+X-MC-Unique: F4p_TrrJMvmV7v-vZrH0Fw-1
+X-Mimecast-MFC-AGG-ID: F4p_TrrJMvmV7v-vZrH0Fw_1751358878
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-453a190819bso12173185e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 01:34:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751358599; x=1751963399;
+        d=1e100.net; s=20230601; t=1751358877; x=1751963677;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Dly7kLJXAODD4HRHbtgbrL2VqDcoupb5huNWDKMA8X0=;
-        b=bdnCWejF5Ojg+IpSxG0a3OzXvYWuzQNgUU0biSMzOzNYVb3FfErtNla22rOp6tYQg1
-         XO7le+/iBRwVDyFS9XB6TBgP+0rE0+ubMzjaSWUo9ASEKXu+/6C4YqNM/1VrIvjzXAPL
-         sEyhPWSX17c4D0pyTuDfhOsiMOBsGZZ+xV86D+MiXBBcTD5o5BP6loO8Nt4TvO7iHrWq
-         N5Yyi4vi8sp3qLSp2aFD1+s7VVO2EtfIfRMvGVyEvXBbpibQ51+MB1a3v1vMaoa/DjZq
-         7KTpsE1lygmjGkTyUqZ+m8d/oMBqcVoheLqR3YJPKPEqsVnUImQclp17R0RsUvUBmE8w
-         ixDA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6cNuWE2HZqXwFSCoJ5peOnHHn2Fnrp7KUXtBNN1NOrB+gjAG7UgavmOFCDV0h/DrPGStnE0gtYuU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBvcrohJY9Ib7wmjRZYs4lXT8z/bGLVZpuIZu9sr0scPNxdG01
-	vTbbsnOfk0v5Q+1RFSCtbU80Qo+1ZFh9zlEA99x0quTvwIhIM6SiU4yne4aa70SoN0FulsG1bUR
-	R7VxiSYY6fN9RzkY4MTZ59/lbjohKivWMZ1CtqFbAvIffTN5Wyd/8zP9NUUflqA==
-X-Gm-Gg: ASbGncv1JOeu6yGKJNzFHg6l5lrHMlkYj/Xc3Qk461LY31gplfFGy3GIL8fyrQnAXTY
-	zogLnh10rS8AWKsooBSE9zeZ/wegxPz5zOpRSWhguwuzikKAVkjAjSJSDMeFaxOseuvIgSkVA4z
-	2vS+la8V9/rN5ES75lwFZx5sSnnUQr4Bj7D3XiH9l8QPVRkIUXnizSIfwl97z5bTxmaMvvJ5r+H
-	V2z8xVUaBG5dNhqvPXbsLTy/+V/OrAiP2OKOOr6FIT+Cu0kWMww/smM5rZLRb91SZdbYTa0FGMB
-	1/yxQj9Di1e6gpiedkXGpzOJlFcii3JGtylo+FaN7mWNtlis/OkgSmLC5MAYsaHJ/2KCL2HQQ1T
-	LjX6DZAo5oQDVsFz96B7NlBetO6CX/KEdaUtJXypxwgxHWt9aHA==
-X-Received: by 2002:a05:600c:458b:b0:450:b9c0:c7d2 with SMTP id 5b1f17b1804b1-45391b6b96dmr133227045e9.11.1751358599025;
-        Tue, 01 Jul 2025 01:29:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEWpMztTlH2ZF2ZQcI5K0kw/h7norGjoB/XuG0q+YJAXvrKR/hZBsXnJltourxu7zIahXchVg==
-X-Received: by 2002:a05:600c:458b:b0:450:b9c0:c7d2 with SMTP id 5b1f17b1804b1-45391b6b96dmr133226535e9.11.1751358598437;
-        Tue, 01 Jul 2025 01:29:58 -0700 (PDT)
+        bh=XqmCuun4O9S0uzldpDEz2Hy5OKYqaKQE+fhycCpdDZQ=;
+        b=A54Y+NqxtnU625xmQM2WxBN/9LUnNIcE+i915wVTmUR9BvYneC3aopTwN2R/x8iSwS
+         S8qtlYhDodnUDm6hRkSxQmowG/WQMUO7O7/qyiayS2z9HW6VtmBRwaLMhIRsf6+cfPFv
+         fv4p72vvBsfktxQyUiB4H0b18CF0zXRAMfr+fBH8Xpdy2EhPIhCoFtJ+OfrgH04h2MOK
+         IyxAQMTxhdx2T7ulLhJrcO9ioPmNh637CbvEzDIwU7cafagReEqlzE48Zjc38zjSr/18
+         qcjCUN26yk5Ll4VJ/a80dwTvv8vZB0JycBATE9HsqCX/1asjGovwC608kQAVBsQOk6jX
+         aY5g==
+X-Forwarded-Encrypted: i=1; AJvYcCXCl+cltnhDNWvcmLdxalRptsegTVlkHzyDqyHVlW8lS/PUGz5j1kvAbt/CkNMQM/MFsMvLcJ0rMdo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2qZL4c2KcBS7FrTd4SGNIV7MFKfv08es63s7gyEEkAIBlFgXM
+	69UcR1bMmnUzInVo2yfQgnWy+Jt3rwylSEJYXlC7HerjMXkFTssvfM7d/IuJthTDt5MjQGIsfLU
+	xrakrO8/c7IaARtVC3ZvIR7b72Wif5PYDeUUUvfpXTeIF1rGLfqqZNhkHfTkYvA==
+X-Gm-Gg: ASbGncs5P+CnEveBWajZEjVkxic2IBqkW66EIGqU+ftlhr8iy0AITCRi3Vx3oVWQQ9B
+	3IjIhhxMZZKhOuhRXlRd4SJk67+d804n03m5GkDUQCbEUjWtVnZFIiwQEca1zu1ZgFt4HuYCGQq
+	WldOGKtYDqQAj5lFN4UlwxWH5Foir089lB/Oiv3BBN/u1cEgXRN7CIiELY5N0uJnuHzDVYtwaf+
+	2vS6kwyZJRVB2FN6YeJE8xyqWV653Mq98xp0w5zKXAHpKMNTrQ6dVqAYqXlHPrgqCd1oGWvvG6F
+	IGnG/2ivx6hK/7A71U8Hdf4stDlTmgPQfXJYYmnWlYJA61wRBiacL+O5qZbIvvJAkbTW1hg8dxS
+	lRtCa495tJLWaCNdcAPhjFd79uMXK7+dZX8iTSfbwf2ADMs97IA==
+X-Received: by 2002:a5d:60c4:0:b0:3a4:d898:3e2d with SMTP id ffacd0b85a97d-3a90d69c269mr11346924f8f.24.1751358877365;
+        Tue, 01 Jul 2025 01:34:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEF8cObrwLhR7FvJoCAh0zan/cCbAjnhUquLcc9ptC1Omlee0lmAh8jtPfZiWWwygYZe4cdqg==
+X-Received: by 2002:a5d:60c4:0:b0:3a4:d898:3e2d with SMTP id ffacd0b85a97d-3a90d69c269mr11346880f8f.24.1751358876846;
+        Tue, 01 Jul 2025 01:34:36 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f18:7500:202e:b0f1:76d6:f9af? (p200300d82f187500202eb0f176d6f9af.dip0.t-ipconnect.de. [2003:d8:2f18:7500:202e:b0f1:76d6:f9af])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a3a5fd2sm157378465e9.15.2025.07.01.01.29.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e5f943sm12511942f8f.101.2025.07.01.01.34.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 01:29:57 -0700 (PDT)
-Message-ID: <872810e0-3570-47ff-8f91-3cc97a8870a1@redhat.com>
-Date: Tue, 1 Jul 2025 10:29:54 +0200
+        Tue, 01 Jul 2025 01:34:35 -0700 (PDT)
+Message-ID: <84e1eeeb-c78f-4735-a6d2-4bb15ea1fbce@redhat.com>
+Date: Tue, 1 Jul 2025 10:34:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 07/29] mm/migrate: rename isolate_movable_page() to
- isolate_movable_ops_page()
+Subject: Re: [PATCH v1 04/29] mm/page_alloc: let page freeing clear any set
+ page type
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
@@ -112,8 +112,10 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
  Shakeel Butt <shakeel.butt@linux.dev>
 References: <20250630130011.330477-1-david@redhat.com>
- <20250630130011.330477-8-david@redhat.com>
- <a014bf06-f544-4d24-8850-052f7ead738b@lucifer.local>
+ <20250630130011.330477-5-david@redhat.com>
+ <8c5392d6-372c-4d5d-8446-6af48fba4548@lucifer.local>
+ <d4d8b891-008d-4cbc-950f-2e44c4445904@redhat.com>
+ <06e260cf-9b63-4d7c-809c-a9f2cda58939@lucifer.local>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -161,130 +163,91 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <a014bf06-f544-4d24-8850-052f7ead738b@lucifer.local>
+In-Reply-To: <06e260cf-9b63-4d7c-809c-a9f2cda58939@lucifer.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 30.06.25 18:24, Lorenzo Stoakes wrote:
-> On Mon, Jun 30, 2025 at 02:59:48PM +0200, David Hildenbrand wrote:
->> ... and start moving back to per-page things that will absolutely not be
->> folio things in the future. Add documentation and a comment that the
->> remaining folio stuff (lock, refcount) will have to be reworked as well.
+On 01.07.25 10:27, Lorenzo Stoakes wrote:
+> On Tue, Jul 01, 2025 at 10:17:13AM +0200, David Hildenbrand wrote:
+>> On 30.06.25 17:27, Lorenzo Stoakes wrote:
+>>> On Mon, Jun 30, 2025 at 02:59:45PM +0200, David Hildenbrand wrote:
+>>>> Currently, any user of page types must clear that type before freeing
+>>>> a page back to the buddy, otherwise we'll run into mapcount related
+>>>> sanity checks (because the page type currently overlays the page
+>>>> mapcount).
+>>>>
+>>>> Let's allow for not clearing the page type by page type users by letting
+>>>> the buddy handle it instead.
+>>>>
+>>>> We'll focus on having a page type set on the first page of a larger
+>>>> allocation only.
+>>>>
+>>>> With this change, we can reliably identify typed folios even though
+>>>> they might be in the process of getting freed, which will come in handy
+>>>> in migration code (at least in the transition phase).
+>>>>
+>>>> In the future we might want to warn on some page types. Instead of
+>>>> having an "allow list", let's rather wait until we know about once that
+>>>> should go on such a "disallow list".
+>>>
+>>> Is the idea here to get this to show up on folio dumps or?
 >>
->> While at it, convert the VM_BUG_ON() into a WARN_ON_ONCE() and handle
->> it gracefully (relevant with further changes), and convert a
->> WARN_ON_ONCE() into a VM_WARN_ON_ONCE_PAGE().
+>> As part of the netmem_desc series, there was a discussion about removing the
+>> mystical PP checks -- page_pool_page_is_pp() in page_alloc.c and replacing
+>> them by a proper page type check.
 >>
->> Note that we will leave anything that needs a rework (lock, refcount,
->> ->lru) to be using folios for now: that perfectly highlights the
->> problematic bits.
+>> In that case, we would probably want to warn in case we get such a netmem
+>> page unexpectedly freed.
 >>
->> Reviewed-by: Zi Yan <ziy@nvidia.com>
->> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> But, that page type does not exist yet in code, so the sanity check must be
+>> added once introduced.
 > 
-> Seesm reasonable to me so:
+> OK, and I realise that the UINT_MAX thing is a convention for how a reset
+> page_type looks anyway now.
 > 
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>>
+>>>
+>>>>
+>>>> Reviewed-by: Zi Yan <ziy@nvidia.com>
+>>>> Acked-by: Harry Yoo <harry.yoo@oracle.com>
+>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>> ---
+>>>>    mm/page_alloc.c | 3 +++
+>>>>    1 file changed, 3 insertions(+)
+>>>>
+>>>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+>>>> index 858bc17653af9..44e56d31cfeb1 100644
+>>>> --- a/mm/page_alloc.c
+>>>> +++ b/mm/page_alloc.c
+>>>> @@ -1380,6 +1380,9 @@ __always_inline bool free_pages_prepare(struct page *page,
+>>>>    			mod_mthp_stat(order, MTHP_STAT_NR_ANON, -1);
+>>>>    		page->mapping = NULL;
+>>>>    	}
+>>>> +	if (unlikely(page_has_type(page)))
+>>>> +		page->page_type = UINT_MAX;
+>>>
+>>> Feels like this could do with a comment!
+>>
+>> /* Reset the page_type -> _mapcount to -1 */
 > 
->> ---
->>   include/linux/migrate.h |  4 ++--
->>   mm/compaction.c         |  2 +-
->>   mm/migrate.c            | 39 +++++++++++++++++++++++++++++----------
->>   3 files changed, 32 insertions(+), 13 deletions(-)
->>
->> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
->> index aaa2114498d6d..c0ec7422837bd 100644
->> --- a/include/linux/migrate.h
->> +++ b/include/linux/migrate.h
->> @@ -69,7 +69,7 @@ int migrate_pages(struct list_head *l, new_folio_t new, free_folio_t free,
->>   		  unsigned long private, enum migrate_mode mode, int reason,
->>   		  unsigned int *ret_succeeded);
->>   struct folio *alloc_migration_target(struct folio *src, unsigned long private);
->> -bool isolate_movable_page(struct page *page, isolate_mode_t mode);
->> +bool isolate_movable_ops_page(struct page *page, isolate_mode_t mode);
->>   bool isolate_folio_to_list(struct folio *folio, struct list_head *list);
->>
->>   int migrate_huge_page_move_mapping(struct address_space *mapping,
->> @@ -90,7 +90,7 @@ static inline int migrate_pages(struct list_head *l, new_folio_t new,
->>   static inline struct folio *alloc_migration_target(struct folio *src,
->>   		unsigned long private)
->>   	{ return NULL; }
->> -static inline bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->> +static inline bool isolate_movable_ops_page(struct page *page, isolate_mode_t mode)
->>   	{ return false; }
->>   static inline bool isolate_folio_to_list(struct folio *folio, struct list_head *list)
->>   	{ return false; }
->> diff --git a/mm/compaction.c b/mm/compaction.c
->> index 3925cb61dbb8f..17455c5a4be05 100644
->> --- a/mm/compaction.c
->> +++ b/mm/compaction.c
->> @@ -1093,7 +1093,7 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
->>   					locked = NULL;
->>   				}
->>
->> -				if (isolate_movable_page(page, mode)) {
->> +				if (isolate_movable_ops_page(page, mode)) {
->>   					folio = page_folio(page);
->>   					goto isolate_success;
->>   				}
->> diff --git a/mm/migrate.c b/mm/migrate.c
->> index 767f503f08758..d4b4a7eefb6bd 100644
->> --- a/mm/migrate.c
->> +++ b/mm/migrate.c
->> @@ -51,8 +51,26 @@
->>   #include "internal.h"
->>   #include "swap.h"
->>
->> -bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->> +/**
->> + * isolate_movable_ops_page - isolate a movable_ops page for migration
->> + * @page: The page.
->> + * @mode: The isolation mode.
->> + *
->> + * Try to isolate a movable_ops page for migration. Will fail if the page is
->> + * not a movable_ops page, if the page is already isolated for migration
->> + * or if the page was just was released by its owner.
->> + *
->> + * Once isolated, the page cannot get freed until it is either putback
->> + * or migrated.
->> + *
->> + * Returns true if isolation succeeded, otherwise false.
->> + */
->> +bool isolate_movable_ops_page(struct page *page, isolate_mode_t mode)
->>   {
->> +	/*
->> +	 * TODO: these pages will not be folios in the future. All
->> +	 * folio dependencies will have to be removed.
->> +	 */
->>   	struct folio *folio = folio_get_nontail_page(page);
->>   	const struct movable_operations *mops;
->>
->> @@ -73,7 +91,7 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->>   	 * we use non-atomic bitops on newly allocated page flags so
->>   	 * unconditionally grabbing the lock ruins page's owner side.
->>   	 */
->> -	if (unlikely(!__folio_test_movable(folio)))
->> +	if (unlikely(!__PageMovable(page)))
->>   		goto out_putfolio;
->>
->>   	/*
->> @@ -90,18 +108,19 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->>   	if (unlikely(!folio_trylock(folio)))
->>   		goto out_putfolio;
->>
->> -	if (!folio_test_movable(folio) || folio_test_isolated(folio))
->> +	if (!PageMovable(page) || PageIsolated(page))
-> 
-> I wonder, in the wonderful future where PageXXX() always refers to a page, can
-> we use something less horrible than these macros?
+> Hm this feels like saying 'the reason we set it to -1 is to set it to -1' :P
 
-Good question. It all interacts with how we believe compound pages will 
-work / look like in the future.
+Bingo! Guess why I didn't add a comment in the first place :P
 
-Doing a change from PageXXX() to page_test_XXX() might be reasonable 
-change in the future. But, I mean, there are more important things to 
-clean up that that :)
+> 
+> I'd be fine with something simple like
+> 
+> /* Set page_type to reset value */
+
+"Reset the page_type (which overlays _mapcount)"
+
+?
+
+ > > But... Can't we just put a #define somewhere here to make life 
+easy? Like:
+
+Given that Willy will change all that soon, I'm not in favor of doing 
+that in this series.
 
 -- 
 Cheers,
