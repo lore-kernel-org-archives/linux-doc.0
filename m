@@ -1,177 +1,121 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FCE275AFF;
-	Tue,  1 Jul 2025 11:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57948272806
+	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 12:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751370487; cv=none; b=q58iSdYDDbyIMD8fNXblHV9uEp+N7xJzijQ50TR81rcTqtqsXv4ZJmEYa+rLgl2/fu7bw7nshh44uNhvW/PoKSpW84+ebaxoYjxOj5/tutfxIgV1akuWokW7XcWq8zmsjsJbWtXhCO8T4KwnP654BSp3fuwDFzmabpEa7WCvOUA=
+	t=1751371593; cv=none; b=G59DkzbpjpB94R7NYp8NyJ5+u74v6vACPkU8lnbhqpwwjzRe3Rf5PTkUv6ODk1A6avoBM32H7t1MGZv6PAM+o+DGVybd5+lClmUu1BqMS0e5Dm+0WnULxvC+bvgOh3gKA4tb6oUBsAD/1BaDrKsDvSO9EUmOgpKv7tBQVE1iFUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751370487; c=relaxed/simple;
-	bh=mSARHChrsSkZqv4FL5ywNNlM+mfq9RkAadWkjMMswZY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=eaFXdoRa9RxudpZLK6Az5uOsrvowsqD5Enak/E6SBF5YTOO0Cu3BCPeM3UtNTVFS9ETAedsPP7zkgU5KzgMWrT1UAouwToZxTO31bisvnykUXit3l7zJHukww2C0lmowSpBAi+G+QznIXEyrr5XyRjsBPWmfabAb3ieUXCCINuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MPBgrhp7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1751371593; c=relaxed/simple;
+	bh=fwZQhFulCtk6W9St9reCgVe3JkeISDZLWskJCaogHtY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gdwFi9eQLXtLKOkb1/sHxyKpihA86/2ybrvMLQhTR0Ziv7hQfmfrURbYQqNgfve6SwPNpgOIBuyizsGm8p+mQUQgt6kU1Ry0uS4y75gZ0wFkmF9S0wi0aByxMB8xTIeSEOA/neRIV7NjG9ffLEZ9Aoiv7p6ZLnXb+TaaFPC+B54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zImGM2RB; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MPBgrhp7"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5618lCvZ026544;
-	Tue, 1 Jul 2025 11:47:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	rCGpL5WtLCGHD7lGDK/ISop6wOAMqbvqcoNsJwiihW0=; b=MPBgrhp7EkFMuk/i
-	WvA1LuBdxuKhUs5pH0lkPCj+KvzspP8lCVgVeCn0zUo4mgxPfhWYjB9a3U7PAd56
-	Bo1VuKvFgqBOIFWnInNfxIg9/YFOrK8a8V1iiW/dpwciJPdpf6EoiuFPCsNQUZOn
-	/DogWUZySNf+K7FVN0tz7KuTX0fauaLt2fi12l5J7gDWa4hnxeDHTxqjliJ+lBK6
-	gIWHrLPmxm7N762zm9lPUDEOhBf920q8jRjVqHcsNhmyA584VA8+cbuEy+O2idMw
-	Fp7Urk6tyqY+yb+lkX5ZvVWM0qTfgYy6pPfqSzvDt7yT3Ss2LEKMi7BSBiQHBpsT
-	p1HHtw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j9pcrm2p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Jul 2025 11:47:54 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 561BlrvZ020980
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 1 Jul 2025 11:47:53 GMT
-Received: from [10.217.222.28] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 1 Jul
- 2025 04:47:47 -0700
-Message-ID: <2455f20c-130c-4f27-9cf4-6411e485b845@quicinc.com>
-Date: Tue, 1 Jul 2025 17:17:44 +0530
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zImGM2RB"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2357c61cda7so114205ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 05:06:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1751371591; x=1751976391; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fwZQhFulCtk6W9St9reCgVe3JkeISDZLWskJCaogHtY=;
+        b=zImGM2RBPz/vycaCoiTRNCq8beO5NLj9NhJOdtCsbGN2Uo/hek01RNagPWqBF8n5Q+
+         yQQvrc9SIah4ux88gPrZB1aTmVfU/QK9Z2ECanZj6NaxdKoPlgTJbDSDme5a3rZHqttc
+         AyMdOzbKiS18foFSLC6LSvJE68bTcdji7XWE+PC9Iq6FLzCtIIi8bMrYtyPczcDpnmmA
+         B9pjKze72+a+BxozEMccX+rnSm0Zp1VefdK+wyjjKPTaCSMy8UGYD1fFgQ+2HeUChC9A
+         yGZjjZPdHKvz9MWMyLoIWXdeu9rMv84YBHg2pBPbapZk//eQntFjHByln6xs2TsjqSXf
+         z7kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751371591; x=1751976391;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fwZQhFulCtk6W9St9reCgVe3JkeISDZLWskJCaogHtY=;
+        b=d6bQifSSThp4J+IZkpUfvgWafcdT+70AcjqTOOOk2MA7mqJ8XjquRlk4ykDx31B7CY
+         2PZhT5AQVs8rCohJuS1u59s3hjGZfYOBXZEGk3HqT3egyjRlO6XrXpRy4g3EM/Goo/gO
+         9PK4PGCGH41UzqJSXlkxmwQIabud7IwVlYypymX4X/eB/XQEs/HJKFLTEC/VRgGtULkW
+         T58f219WW5TXaPhbDd/J5pXICf34w0Vv3LR2iS8ESZ9j0Laudql7jtUJljOd1auavaDj
+         GrlArpU5SKRUCj4RtJqW3wykqoQtKuv1VcruyKPVl+XcNCz64rrKvdksuZf0owevW7ri
+         6+Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCUVjVeGTcCwCM8P4wE++UOKVSAo3835O0D5qEffn4hRe8Rr6nv40PXmjl5BGuShKfiZVjiUk6WL8zM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEk4iHo2B89sWgpZXtgQeY752maXsJGZcu0hfLXZS9nL0SW2Cg
+	0hObfqHullDSxyqfpww0UZKP0drB+CGhN8GcqUsmmBMz9N8t3/pwTTwnMIWpTBxqWxhph3c6WF6
+	7DQaKNn+kygUhVg8C87w+tF6YtSbrPwcJn8xwO4KH
+X-Gm-Gg: ASbGncuPfvIP3gwSBkZuJ+G0Mdn2CX88bYqga7W7EjmBc2hn6BQAhM7tk8OnZ6DZO9o
+	kmaE5KABt1YXhy9/1c82Ns/ya/DcKqz7m0v7tL8xbaXVbHu7sW0TT3iE6WY6tg63CusK+Awz/ol
+	wAPv0R0tGGjpD1fIvDEw0+tTv333ZBeyZSUqSFcFB3yg==
+X-Google-Smtp-Source: AGHT+IGFAwjulo/i4stzSeDZyvangI+UZ0rJXA7wz0l2gf+G3c7FdoUDkNvfVQlKGJ7tNf7XQG97q/uJgkbiheh/1nA=
+X-Received: by 2002:a17:903:110d:b0:23c:5f63:b67 with SMTP id
+ d9443c01a7336-23c5fef26b2mr2103895ad.4.1751371591226; Tue, 01 Jul 2025
+ 05:06:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/12] firmware: qcom: tzmem: export shm_bridge
- create/delete
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-        Jens Wiklander
-	<jens.wiklander@linaro.org>,
-        Sumit Garg <sumit.garg@kernel.org>,
-        "Bjorn
- Andersson" <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Apurupa Pattapu
-	<quic_apurupa@quicinc.com>,
-        Kees Cook <kees@kernel.org>,
-        "Gustavo A. R.
- Silva" <gustavoars@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-CC: Harshal Dev <quic_hdev@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
-        <op-tee@lists.trustedfirmware.org>, <linux-kernel@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>,
-        Neil Armstrong
-	<neil.armstrong@linaro.org>
-References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com>
- <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-8-024e3221b0b9@oss.qualcomm.com>
-Content-Language: en-US
-From: Kuldeep Singh <quic_kuldsing@quicinc.com>
-In-Reply-To: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-8-024e3221b0b9@oss.qualcomm.com>
+References: <20250612114210.2786075-1-mclapinski@google.com> <685c67525ba79_2c35442945@iweiny-mobl.notmuch>
+In-Reply-To: <685c67525ba79_2c35442945@iweiny-mobl.notmuch>
+From: =?UTF-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>
+Date: Tue, 1 Jul 2025 14:05:59 +0200
+X-Gm-Features: Ac12FXxGIEan-Q08VvikT9LVQKRxgvs42efMWiz53YaKommHJZr1vh6fiZw9HYE
+Message-ID: <CAAi7L5cq9OqRGdyZ07rHhsA8GRh2xVXYGh7n20UoTCRfQK03WA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] libnvdimm/e820: Add a new parameter to configure
+ many regions per e820 entry
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Dan Williams <dan.j.williams@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, nvdimm@lists.linux.dev, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Thomas Huth <thuth@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Ard Biesheuvel <ardb@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-cxl@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ztKxMaTHEsgXeingGXCKylzfZjaG2-ty
-X-Proofpoint-ORIG-GUID: ztKxMaTHEsgXeingGXCKylzfZjaG2-ty
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDA3MyBTYWx0ZWRfX74DO11z9dMYF
- 62b2TucWlwr7aP2wLjZ5GJ8VxyRAYqmoReJedk6CNfnGBZJatEM1OJrxmydL4DRvLfDVKk0HSaA
- glGZa43wXvVkw2RNorrrDsT4ohoJw23givoio+J4JT9e/Hl2q/3PXbKXE+zYKGWyQ4nIZf/gX/x
- 0ygEgUAUl4FzOcg4AoT3/bKo4Ebv9c//GZKuU6wOBpOmIJ8xM3KNdFtLFJeJVYgtJ/wQHRhXx5t
- 8smIEsHc/qD5i5mML4oYknS7mIIQko5H7+L0qHY+ISOyaPPxqcBIb2UT8LymslIwxMEQzt9YzTg
- n4t9AjjbkwFN7EiF6/75yhn9k5v8CoFMGTOfN3Gk1JPh9kXi6WPxG7qRXFFayej7yueJMXnlc23
- +VdTOVUtCt62g4uAKYeR/hiM109i/duCv/ogYnnAOajxoeL8VSKAQRXcAvhJEhkPTRXvgCNO
-X-Authority-Analysis: v=2.4 cv=QMFoRhLL c=1 sm=1 tr=0 ts=6863caea cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=T2KzT_qPCcxtbzpLTyEA:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 bulkscore=0 spamscore=0 adultscore=0
- mlxlogscore=999 mlxscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
- clxscore=1011 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507010073
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jun 25, 2025 at 11:16=E2=80=AFPM Ira Weiny <ira.weiny@intel.com> wr=
+ote:
+>
+> Michal Clapinski wrote:
+> > This includes:
+> > 1. Splitting one e820 entry into many regions.
+> > 2. Conversion to devdax during boot.
+> >
+> > This change is needed for the hypervisor live update. VMs' memory will
+> > be backed by those emulated pmem devices. To support various VM shapes
+> > I want to create devdax devices at 1GB granularity similar to hugetlb.
+> > Also detecting those devices as devdax during boot speeds up the whole
+> > process. Conversion in userspace would be much slower which is
+> > unacceptable while trying to minimize
+>
+> Did you explore the NFIT injection strategy which Dan suggested?[1]
+>
+> [1] https://lore.kernel.org/all/6807f0bfbe589_71fe2944d@dwillia2-xfh.jf.i=
+ntel.com.notmuch/
+>
+> If so why did it not work?
 
-On 5/27/2025 12:26 PM, Amirreza Zarrabi wrote:
-> Anyone with access to contiguous physical memory should be able to
-> share memory with QTEE using shm_bridge.
-> 
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> ---
->  drivers/firmware/qcom/qcom_tzmem.c       | 57 +++++++++++++++++++++++++-------
->  include/linux/firmware/qcom/qcom_tzmem.h | 15 +++++++++
->  2 files changed, 60 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/firmware/qcom/qcom_tzmem.c b/drivers/firmware/qcom/qcom_tzmem.c
-> index 4fe333fd2f07..e9e4f06924ae 100644
-> --- a/drivers/firmware/qcom/qcom_tzmem.c
-> +++ b/drivers/firmware/qcom/qcom_tzmem.c
-> @@ -108,25 +108,61 @@ static int qcom_tzmem_init(void)
->  	return 0;
->  }
->  
-> -static int qcom_tzmem_init_area(struct qcom_tzmem_area *area)
-> +/**
-> + * qcom_tzmem_shm_bridge_create() - Create a SHM bridge.
-> + * @paddr: Physical address of the memory to share.
-> + * @size: Size of the memory to share.
-> + * @handle: Handle to the SHM bridge.
-> + *
-> + * On platforms that support SHM bridge, this function creates a SHM bridge
-> + * for the given memory region with QTEE. The handle returned by this function
-> + * must be passed to qcom_tzmem_shm_bridge_delete() to free the SHM bridge.
-> + *
-> + * Return: On success, returns 0; on failure, returns < 0.
-> + */
-> +int qcom_tzmem_shm_bridge_create(phys_addr_t paddr, size_t size, u64 *handle)
->  {
->  	u64 pfn_and_ns_perm, ipfn_and_s_perm, size_and_flags;
-> -	int ret;
->  
->  	if (!qcom_tzmem_using_shm_bridge)
->  		return 0;
->  
-> -	pfn_and_ns_perm = (u64)area->paddr | QCOM_SCM_PERM_RW;
-> -	ipfn_and_s_perm = (u64)area->paddr | QCOM_SCM_PERM_RW;
-> -	size_and_flags = area->size | (1 << QCOM_SHM_BRIDGE_NUM_VM_SHIFT);
-> +	pfn_and_ns_perm = paddr | QCOM_SCM_PERM_RW;
-> +	ipfn_and_s_perm = paddr | QCOM_SCM_PERM_RW;
-> +	size_and_flags = size | (1 << QCOM_SHM_BRIDGE_NUM_VM_SHIFT);
-> +	if (qcom_scm_shm_bridge_create(pfn_and_ns_perm, ipfn_and_s_perm,
-> +				       size_and_flags, QCOM_SCM_VMID_HLOS,
-> +				       handle))
+I'm new to all this so I might be off on some/all of the things.
 
-Can we add a debug log here to ease debugging in future?
-Something like this can also work.
+My issues with NFIT:
+1. I can either go with custom bios or acpi nfit injection. Custom
+bios sounds rather aggressive to me and I'd prefer to avoid this. The
+NFIT injection is done via initramfs, right? If a system doesn't use
+initramfs at the moment, that would introduce another step in the boot
+process. One of the requirements of the hypervisor live update project
+is that the boot process has to be blazing fast and I'm worried
+introducing initramfs would go against this requirement.
+2. If I were to create an NFIT, it would have to contain thousands of
+entries. That would have to be parsed on every boot. Again, I'm
+worried about the performance.
 
-pr_err("Shm bridge creation failed, ret: %d, NS PA|Perm: 0x%llx,
-size|flags: 0x%llx\n", ret, pfn_and_ns_perm_flags, size_and_flags);
+Do you think an NFIT solution could be as fast as the simple command
+line solution?
 
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_tzmem_shm_bridge_create);
-
--- 
-Regards
-Kuldeep
-
+[snip]
