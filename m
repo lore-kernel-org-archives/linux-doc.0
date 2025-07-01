@@ -1,164 +1,176 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A378525F793
-	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 21:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A262222A6;
+	Tue,  1 Jul 2025 21:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751405229; cv=none; b=HrPKGt7O2eilqrSkCpslMCthDAJuJqF8fs0j+RamdNtFDzHBvRyJnFZMNSiJfpr/sXJJdsr+GMjQSOUUMR+/X5HL3x1u93InU/nO2Vx2aBvBCSoglV76vvKvYZVMVhfJhfh6n4KBvbYnQV/GOZj4zj3/xUKWAHv5I/gzorpHeVg=
+	t=1751406215; cv=none; b=dPahywrQCQU5g9unOfIYGB5Yx9eoi23kPGrFzXrLd6yAMtQrtgEXFI6I9IspRYFq5FAF0e2ys66u9EEiUtsnmP0Y8PP22thzi56Zb28C7Y2ZeBEzTieJ41bJkJn4dg1BNn4OI7SNbKLlJVlN+jbRd5wQQcXn5Ad6HRpQC2q5CJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751405229; c=relaxed/simple;
-	bh=DzHFQiPQddZhawDVWcu2zeji/HBrjV6FWP4sfK+uAb8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Em1Vf03wluIHA5RuUYbQfk2OhH7XjMbdIETRrP36MGtYNGhxQBBHQiF2aj2lmJGbBBlUAdE17T95rpmOBssgnbd//sxNOvCWjBGcxbX+l1F2cGOstBu2dnz2OO261v0/OjNHtJlq8qg8BNhOF8ygx8NX86n+cV75+qG89263o4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jbbWtmaa; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1751406215; c=relaxed/simple;
+	bh=aeOh9xtWgA7oa3iTsan3O3K18WkBC72uMcLaKz0UIlI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Cw5Gw6Iq40QHRiMEXbGFPsYqhRA/p/AGfxFBMsSVYxmaRhe9br1heBM4AsV6R8gQb9SGhTgvoblCH7aLtIYc/LVUmYF9KG2SGjFWg7TaAAq9vX1mHd+sWCkV8hwsHGLEfjvbqMthduNqfGiAhamqV2ZhE45Yl05/8iiH013DnrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cTLDmv+s; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jbbWtmaa"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6fafaa60889so20186986d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 14:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751405226; x=1752010026; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EAN/JX9tNQneTS1/E3rAZ4/N5hA30DPl50YRPjyH77Q=;
-        b=jbbWtmaaxDd9mQN/PxhcFTzvDn7DKdLjnzIMt8F0kQ+EfdxQhZ6DgvEn4EhV0Vge1S
-         /JYUFLoG5juJIOt9Y6qLizF8DpyOj4xwj7D1pjTcvTudut0NoTHhELUFOKwQ5V6TOO0/
-         oZuqaQ+bRPSxHC6TROatcOlD50nAfiAiMcuJDmW5mmGHSgCmJTFMLOGsUNQE5zIijT5I
-         hla+1Hj7j1wj+3ICnUa2A6lssz7Fqyrp7Ov3UKeBgRdINZPnr4LntIGjFm7y6vtUOkJx
-         l1eg8TINbS5ppK8xmiRc3iDO+pIDGsI7lPmEu5GOd+5eQGzSZ2mWrB2ukX0zvFwUJKv5
-         B79g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751405226; x=1752010026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EAN/JX9tNQneTS1/E3rAZ4/N5hA30DPl50YRPjyH77Q=;
-        b=wilWvd4Gba5V55ThiACF9Kgeg4/IcvXvWEWvgai1gtSP0ZfQ8n7yKeCzeT4XA6LkTA
-         M7OkYb31dpgmhiix0L5IwDoi2XGlXVkIjblLks1EP5DSMj3PfB4dF1ltye+eqyxmmgJK
-         cqvQfj/QFJKZduuuX2rOG9QuXPZIm6DBbXIe3UZ8X+re5Dz+AhSpp/VORzzt91951Ch1
-         qP5lPRXFr22Rtnd+6tMpMqbIom+87WzZqtR83wZv4LD5KI5bOf5KHmWD2EZkNHbvZp9/
-         mtE5MbQ+7sbwGa4GV72LnG6Y7Z2udgm5YWohiTO6Brc8g5/PbZXVl54WhIl1cm2nYD0S
-         OfJw==
-X-Forwarded-Encrypted: i=1; AJvYcCUTNxjj63xsNgq/8/X5NJI9mJgK8zJfllDsdZStUXxawUDefPZP5c59pYp+wLq84uqFqMusKuVJiS4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPgCbHtypkUE5tx5nz6ZQ6NLUUpT95PLt9TMYSX+cRA23EX4+x
-	xyyXMEjz4G0/0OFYWdoH4tqLJwjibGvfVptiTJ1I/eRkXHhzv+Y9mqwzSPHhQ+l6b78EW1EYf7r
-	MzS4oFq01jMFXHAcSOvDo7QS3X36NfX2rGUCCHSgl
-X-Gm-Gg: ASbGncvmiv81AblddC8kW6Qt4udo44pSM4i/Ab8O6zgpkWOsmAgl9l2gpV4p2p8lvf8
-	kw63K4MiLz2PZbBDRThS72tX6eM0sqL6X/fm5ZwF5j7aUkZJ4Cpnl5eWROaMWgKLzGMsa8bD8nR
-	3o5J2DYaroZzhC9IdFz+5k/6CMiSGJarrherRbKiKPDelb/Tqq5TWldz1ftjmXl+qNqm3lP7LnX
-	w==
-X-Google-Smtp-Source: AGHT+IGA7WQ+e3XksnB6m51usyyvNfN+MXcxbddeJ/9KeHNUIOLXzuYXqSKDJLS8QQzczdjQx/nSEiEiD6ZJ/P7pVhw=
-X-Received: by 2002:a05:6214:c22:b0:6fa:cb9b:a793 with SMTP id
- 6a1803df08f44-702b1aef861mr2025266d6.26.1751405226231; Tue, 01 Jul 2025
- 14:27:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cTLDmv+s"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 81304406FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751406213; bh=JuLF2FYQoeAzXVgQja1F0ZGiLduFD0LBY43clBEjRbc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=cTLDmv+skNxIurMqg41YyPIIdm5zpJ7xw7y+53SlXPWHAM5XSQB/9qLLNa0OdUklk
+	 jWqAKZLJc0sy/aVbOasPy4HDbwRKBrKPviqfHuWfkbx8no+DpknUBJGb3pqPNlV3gL
+	 NEB0snr/hu9tLSVcNGlmSoB7mavkAvf1y93ALKpNivfTJCIrFisgZGKtsfUfW0j8AJ
+	 pj8t/kzXzGQf/ArCB/I9ajV+AUCFXRrWY74Alsi0XEFFPEv45ApOm8Yxc0wKwqndlG
+	 DqOEjWTf6nD3xqhRflX8ostg0rTiGg9meAH7B0s+rgYaqPfMDVwnu8VySSE3pKziF2
+	 PEksMpUUJsuEg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 81304406FC;
+	Tue,  1 Jul 2025 21:43:33 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-api@vger.kernel.org, workflows@vger.kernel.org, tools@kernel.org,
+ Kate Stewart <kstewart@linuxfoundation.org>, Gabriele Paoloni
+ <gpaoloni@redhat.com>, Chuck Wolber <chuckwolber@gmail.com>
+Subject: Re: [RFC v2 01/22] kernel/api: introduce kernel API specification
+ framework
+In-Reply-To: <aGRKIuR6hgW0YLc_@lappy>
+References: <20250624180742.5795-1-sashal@kernel.org>
+ <20250624180742.5795-2-sashal@kernel.org> <874ivxuht8.fsf@trenco.lwn.net>
+ <20250701002058.1cae5a7e@foz.lan> <aGPvR-Mj6aR4Y8B5@lappy>
+ <8734bfspko.fsf@trenco.lwn.net> <aGRKIuR6hgW0YLc_@lappy>
+Date: Tue, 01 Jul 2025 15:43:32 -0600
+Message-ID: <87v7obpoxn.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de> <20250626-kunit-kselftests-v4-7-48760534fef5@linutronix.de>
-In-Reply-To: <20250626-kunit-kselftests-v4-7-48760534fef5@linutronix.de>
-From: Rae Moar <rmoar@google.com>
-Date: Tue, 1 Jul 2025 17:26:55 -0400
-X-Gm-Features: Ac12FXwG0XmNtlAv7hUPU9jHLcT8Tyd4GL9zm8DXnJELkX1C01cyvv9A2Y6Bosg
-Message-ID: <CA+GJov6boJrF25-3RXJHzSUvdX49J-UtmMaLTzeV8uLB3LY8og@mail.gmail.com>
-Subject: Re: [PATCH v4 07/15] kunit: tool: Add test for nested test result reporting
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Thu, Jun 26, 2025 at 2:10=E2=80=AFAM Thomas Wei=C3=9Fschuh
-<thomas.weissschuh@linutronix.de> wrote:
->
-> Currently there is no test validating the result reporting from nested
-> tests. Add one, it will also be used to validate upcoming changes to the
-> nested test parsing.
+Sasha Levin <sashal@kernel.org> writes:
 
-Hello!
+> So I have a proof of concept which during the build process creates
+> .apispec.h which are generated from kerneldoc and contain macros
+> identical to the ones in my RFC.
+>
+> Here's an example of sys_mlock() spec:
 
-This patch looks good to me! However, most of the tests in
-kunit-tool-test do check nested test output but we do lack checks for
-failing tests. Could we change this commit description to be something
-like: "Currently there is a lack of tests validating failed results
-reporting from nested tests."?
+So I'm getting ahead of the game, but I have to ask some questions...
 
-Reviewed-by: Rae Moar <rmoar@google.com>
+> /**
+>   * sys_mlock - Lock pages in memory
+>   * @start: Starting address of memory range to lock
+>   * @len: Length of memory range to lock in bytes
+>   *
+>   * Locks pages in the specified address range into RAM, preventing them from
+>   * being paged to swap. Requires CAP_IPC_LOCK capability or RLIMIT_MEMLOCK
+>   * resource limit.
+>   *
+>   * long-desc: Locks pages in the specified address range into RAM, preventing
+>   *   them from being paged to swap. Requires CAP_IPC_LOCK capability
+>   *   or RLIMIT_MEMLOCK resource limit.
 
-Thanks!
--Rae
+Why duplicate the long description?
 
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
-> Reviewed-by: David Gow <davidgow@google.com>
-> ---
->  tools/testing/kunit/kunit_tool_test.py                         | 10 ++++=
-++++++
->  .../kunit/test_data/test_is_test_passed-failure-nested.log     |  7 ++++=
-+++
->  2 files changed, 17 insertions(+)
->
-> diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit=
-/kunit_tool_test.py
-> index bbba921e0eacb18663abfcabb2bccf330d8666f5..b74dc05fc2fe5b3ff629172fc=
-7aafeb5c3d29fb3 100755
-> --- a/tools/testing/kunit/kunit_tool_test.py
-> +++ b/tools/testing/kunit/kunit_tool_test.py
-> @@ -165,6 +165,16 @@ class KUnitParserTest(unittest.TestCase):
->                 self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
-status)
->                 self.assertEqual(result.counts.errors, 0)
->
-> +       def test_parse_failed_nested_tests_log(self):
-> +               nested_log =3D test_data_path('test_is_test_passed-failur=
-e-nested.log')
-> +               with open(nested_log) as file:
-> +                       result =3D kunit_parser.parse_run_tests(file.read=
-lines(), stdout)
-> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
-status)
-> +               self.assertEqual(result.counts.failed, 2)
-> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
-subtests[0].status)
-> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
-subtests[1].status)
-> +               self.assertEqual(kunit_parser.TestStatus.FAILURE, result.=
-subtests[1].subtests[0].status)
-> +
->         def test_no_header(self):
->                 empty_log =3D test_data_path('test_is_test_passed-no_test=
-s_run_no_header.log')
->                 with open(empty_log) as file:
-> diff --git a/tools/testing/kunit/test_data/test_is_test_passed-failure-ne=
-sted.log b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested=
-.log
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..2e528da39ab5b2be0fca6cf91=
-60c10929fba3c9e
-> --- /dev/null
-> +++ b/tools/testing/kunit/test_data/test_is_test_passed-failure-nested.lo=
-g
-> @@ -0,0 +1,7 @@
-> +KTAP version 1
-> +1..2
-> +not ok 1 subtest 1
-> +    KTAP version 1
-> +    1..1
-> +        not ok 1 subsubtest 1
-> +not ok 2 subtest 2
->
-> --
-> 2.50.0
->
+>   * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE
+>   * param-type: start, KAPI_TYPE_UINT
+
+This is something I wondered before; rather than a bunch of lengthy
+KAPI_* symbols, why not just say __u64 (or some other familiar type)
+here?
+
+>   * param-flags: start, KAPI_PARAM_IN
+>   * param-constraint-type: start, KAPI_CONSTRAINT_NONE
+>   * param-constraint: start, Rounded down to page boundary
+>   * param-type: len, KAPI_TYPE_UINT
+>   * param-flags: len, KAPI_PARAM_IN
+>   * param-constraint-type: len, KAPI_CONSTRAINT_RANGE
+>   * param-range: len, 0, LONG_MAX
+>   * param-constraint: len, Rounded up to page boundary
+>   * return-type: KAPI_TYPE_INT
+>   * return-check-type: KAPI_RETURN_ERROR_CHECK
+>   * return-success: 0
+>   * error-code: -ENOMEM, ENOMEM, Address range issue,
+>   *   Some of the specified range is not mapped, has unmapped gaps,
+>   *   or the lock would cause the number of mapped regions to exceed the limit.
+>   * error-code: -EPERM, EPERM, Insufficient privileges,
+>   *   The caller is not privileged (no CAP_IPC_LOCK) and RLIMIT_MEMLOCK is 0.
+>   * error-code: -EINVAL, EINVAL, Address overflow,
+>   *   The result of the addition start+len was less than start (arithmetic overflow).
+>   * error-code: -EAGAIN, EAGAIN, Some or all memory could not be locked,
+>   *   Some or all of the specified address range could not be locked.
+>   * error-code: -EINTR, EINTR, Interrupted by signal,
+>   *   The operation was interrupted by a fatal signal before completion.
+>   * error-code: -EFAULT, EFAULT, Bad address,
+>   *   The specified address range contains invalid addresses that cannot be accessed.
+>   * since-version: 2.0
+>   * lock: mmap_lock, KAPI_LOCK_RWLOCK
+>   * lock-acquired: true
+>   * lock-released: true
+>   * lock-desc: Process memory map write lock
+>   * signal: FATAL
+>   * signal-direction: KAPI_SIGNAL_RECEIVE
+>   * signal-action: KAPI_SIGNAL_ACTION_RETURN
+>   * signal-condition: Fatal signal pending
+>   * signal-desc: Fatal signals (SIGKILL) can interrupt the operation at two points:
+>   *   when acquiring mmap_write_lock_killable() and during page population
+>   *   in __mm_populate(). Returns -EINTR. Non-fatal signals do NOT interrupt
+>   *   mlock - the operation continues even if SIGINT/SIGTERM are received.
+>   * signal-error: -EINTR
+>   * signal-timing: KAPI_SIGNAL_TIME_DURING
+>   * signal-priority: 0
+>   * signal-interruptible: yes
+>   * signal-state-req: KAPI_SIGNAL_STATE_RUNNING
+>   * examples: mlock(addr, 4096);  // Lock one page
+>   *   mlock(addr, len);   // Lock range of pages
+>   * notes: Memory locks do not stack - multiple calls on the same range can be
+>   *   undone by a single munlock. Locks are not inherited by child processes.
+>   *   Pages are locked on whole page boundaries. Commonly used by real-time
+>   *   applications to prevent page faults during time-critical operations.
+>   *   Also used for security to prevent sensitive data (e.g., cryptographic keys)
+>   *   from being written to swap. Note: locked pages may still be saved to
+>   *   swap during system suspend/hibernate.
+>   *
+>   *   Tagged addresses are automatically handled via untagged_addr(). The operation
+>   *   occurs in two phases: first VMAs are marked with VM_LOCKED, then pages are
+>   *   populated into memory. When checking RLIMIT_MEMLOCK, the kernel optimizes
+>   *   by recounting locked memory to avoid double-counting overlapping regions.
+>   * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_ALLOC_MEMORY, process memory, Locks pages into physical memory, preventing swapping, reversible=yes
+
+I hope the really long lines starting here aren't the intended way to go...:)
+
+>   * side-effect: KAPI_EFFECT_MODIFY_STATE, mm->locked_vm, Increases process locked memory counter, reversible=yes
+>   * side-effect: KAPI_EFFECT_ALLOC_MEMORY, physical pages, May allocate and populate page table entries, condition=Pages not already present, reversible=yes
+>   * side-effect: KAPI_EFFECT_MODIFY_STATE | KAPI_EFFECT_ALLOC_MEMORY, page faults, Triggers page faults to bring pages into memory, condition=Pages not already resident
+>   * side-effect: KAPI_EFFECT_MODIFY_STATE, VMA splitting, May split existing VMAs at lock boundaries, condition=Lock range partially overlaps existing VMA
+>   * state-trans: memory pages, swappable, locked in RAM, Pages become non-swappable and pinned in physical memory
+>   * state-trans: VMA flags, unlocked, VM_LOCKED set, Virtual memory area marked as locked
+>   * capability: CAP_IPC_LOCK, KAPI_CAP_BYPASS_CHECK, CAP_IPC_LOCK capability
+>   * capability-allows: Lock unlimited amount of memory (no RLIMIT_MEMLOCK enforcement)
+>   * capability-without: Must respect RLIMIT_MEMLOCK resource limit
+>   * capability-condition: Checked when RLIMIT_MEMLOCK is 0 or locking would exceed limit
+>   * capability-priority: 0
+>   * constraint: RLIMIT_MEMLOCK Resource Limit, The RLIMIT_MEMLOCK soft resource limit specifies the maximum bytes of memory that may be locked into RAM. Unprivileged processes are restricted to this limit. CAP_IPC_LOCK capability allows bypassing this limit entirely. The limit is enforced per-process, not per-user.
+>   * constraint-expr: RLIMIT_MEMLOCK Resource Limit, locked_memory + request_size <= RLIMIT_MEMLOCK || CAP_IPC_LOCK
+>   * constraint: Memory Pressure and OOM, Locking large amounts of memory can cause system-wide memory pressure and potentially trigger the OOM killer. The kernel does not prevent locking memory that would destabilize the system.
+>   * constraint: Special Memory Areas, Some memory types cannot be locked or are silently skipped: VM_IO/VM_PFNMAP areas (device mappings) are skipped; Hugetlb pages are inherently pinned and skipped; DAX mappings are always present in memory and skipped; Secret memory (memfd_secret) mappings are skipped; VM_DROPPABLE memory cannot be locked and is skipped; Gate VMA (kernel entry point) is skipped; VM_LOCKED areas are already locked. These special areas are silently excluded without error.
+>   *
+>   * Context: Process context. May sleep. Takes mmap_lock for write.
+>   *
+>   * Return: 0 on success, negative error code on failure
+
+Both of these, of course, are much less informative versions of the data
+you have put up above; it would be nice to unify them somehow.
+
+Thanks,
+
+jon
