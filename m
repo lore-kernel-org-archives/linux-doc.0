@@ -1,64 +1,63 @@
-Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BC6279794;
-	Tue,  1 Jul 2025 14:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.136.29.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DFF27AC43;
+	Tue,  1 Jul 2025 14:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751378718; cv=none; b=jhIEtOy6OoAbwRbohZZO1018wQjmLEqM4yXsyjCONSdQPi7nQS3OYOEI3aAKJnfUYiNMAYvDP8LBMh+mUSv4nuI1MNB0U4jRtuadEHZimOGLnDnylOsOX07EDlkSaGRC2zEZY3ijdtF4/f44HT/3/sqopcYqfxyGGiUEYHTh2EQ=
+	t=1751379392; cv=none; b=ie+GdfD+1U2s9MuVtHMJZJkEmtedXm/rz3uH4p5h0LyorpVHAJLsqWtZ8riHG3s8D28Kmxo8r3EnKfJbcEx97pWj6ZjGfntp0f2Fp4/Oth2NLpX/s0jDua7+ELQzdykT1wA2CAmBfk5CFA1ARklBm1cdo8M8oy9ez4XCh4rK6z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751378718; c=relaxed/simple;
-	bh=Y9pAIOixd6orCBEIX66d20TJ1MUVJfSdbmAuxAB3020=;
+	s=arc-20240116; t=1751379392; c=relaxed/simple;
+	bh=2guxo8yVnyEDpE0m1UzULnlkK4lBR3Z5IjndknPvoz8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aXro3W8eUmlXof7i+GURCJR2x8NzcyGdWdumXtAdMcucmUw7SbKSY99PVfqs2R2+31o+UBB/pvuf924jGtqDsfQbR7F5CXtdpOXV8RHzqeI1jaBUQTNueey3IhpoZDEbteVsrU3JGH4XrhYSmhM/qhLv1UWKMD0NAhV8xEsSN9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com; spf=pass smtp.mailfrom=proxmox.com; arc=none smtp.client-ip=94.136.29.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
-	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id AA73546ECA;
-	Tue,  1 Jul 2025 16:05:14 +0200 (CEST)
-Date: Tue, 1 Jul 2025 16:05:14 +0200
-From: Gabriel Goller <g.goller@proxmox.com>
-To: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ipv6: add `do_forwarding` sysctl to enable per-interface
- forwarding
-Message-ID: <26eakfopegf7medtwme5gecxoxfgttp5ed2eqahqmnzc54ffwf@po2minrxkxka>
-Mail-Followup-To: Nicolas Dichtel <nicolas.dichtel@6wind.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250625142607.828873-1-g.goller@proxmox.com>
- <f674f8ac-8c4a-4c1c-9704-31a3116b56d6@6wind.com>
- <hx3lbafvwebj7u7eqh4zz72gu6r7y6dn2il7vepylecvvrkeeh@hybyi2oizwuj>
- <99780599-91e8-4fc7-98be-1afa849e7db2@6wind.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QYuqO9zPmNbAb3XVNczJbe17nWrQcIzoHT+N3m8AwQc5BtoiepJ/qb1XzV+e41sOnhlc1i8lxvrUUi2k2NR+4Otm5yMk9+lotFneNLSQMWXTZmuzr7oAqNHSnpVWYmXpIRVfdKksXz8+xNnOl/09KEvp5fFeMuEu36FPfoxPgVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sm1wrkqx; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sm1wrkqx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9A7AC4CEED;
+	Tue,  1 Jul 2025 14:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751379391;
+	bh=2guxo8yVnyEDpE0m1UzULnlkK4lBR3Z5IjndknPvoz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Sm1wrkqx5rNkA3XRfkLZJvSev5ddgrk4HflgyyUSgF3nZf5TYu/BL/KQcxZz1toiX
+	 LUW/I/V21KqB9Ou7GujHhvmAtFDKt6yGHln520He3Wkd65PwFrTPvXrPqdKST6+YY+
+	 DIw9g1D7pdSOe41nPNb5r1boeMTBPf3gfuns6byYog86xNXL4PXHzgC9l6cgb6so2H
+	 +98nARt2xWssuuEpQNYTc/JjraC9L9VA4vfrAodtIm5OY38UnywHKDsse0a7Ddm0Zj
+	 ggaOM073sf84ZJQFvukS/gk4snUeU56NpFWEOe5cxCRBILSfYXWp9T+NN5IrjjEXiP
+	 MKSVVKxOHnZww==
+Date: Tue, 1 Jul 2025 15:16:28 +0100
+From: Simon Horman <horms@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: Re: [PATCH net-next 1/5] net: ip-sysctl: Format Private VLAN proxy
+ arp aliases as bullet list
+Message-ID: <20250701141628.GT41770@horms.kernel.org>
+References: <20250701031300.19088-1-bagasdotme@gmail.com>
+ <20250701031300.19088-2-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <99780599-91e8-4fc7-98be-1afa849e7db2@6wind.com>
-User-Agent: NeoMutt/20241002-35-39f9a6
+In-Reply-To: <20250701031300.19088-2-bagasdotme@gmail.com>
 
-On 30.06.2025 16:53, Nicolas Dichtel wrote:
->Le 27/06/2025 à 16:47, Gabriel Goller a écrit :
->[snip]
->>
->> Sent a new patch just now, thanks for reviewing!
->>
->FWIW, I didn't see any new patch from you.
+On Tue, Jul 01, 2025 at 10:12:56AM +0700, Bagas Sanjaya wrote:
+> Alias names list for private VLAN proxy arp technology is formatted as
+> indented paragraph instead. Make it bullet list as it is better fit for
+> this purpose.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-It's out now, forgot to actually send it -_-
-
->Regards,
->Nicolas
+Reviewed-by: Simon Horman <horms@kernel.org>
 
