@@ -1,215 +1,157 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EDD245022
-	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 12:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD3C245022
+	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 12:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751372987; cv=none; b=bQEv0CxvR4zbuewRBdXc5S2xyXocVCfpAIC2reHuM+G+xZJruZsWuIXqT1q4Ty9SYIVZBYla+kmp/4AkC0t/hJH3qXvYrFAtKjzkIyX/pjmEAS9wx7A59txKSdrhm5BOYuqhpwXW7wAo/0gtpVmr+pT2MoMNYlj2Br4evqZBw8k=
+	t=1751373055; cv=none; b=eKORSbWHPqLagnr1s6OnTidDJIFcsanOTVZ9Tik4qwc1pJrzzlIkvzWsVzAlmqcrGF61mMZI9tSJ4RZgz7+dkYahOHGlVQ+pvGwo3a/kQHzNYYqxFPZoho02Wn9CfVz/FeGmMaRFPJ8luAE1TwaYBoPsvTe3rbfjpoNG4neg6hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751372987; c=relaxed/simple;
-	bh=HA/IaYAtviTzbiEGMrzWF/n5gDTxFeZ2JLbcBiPxXXw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tlYEi4wTAvu2KMnYcCvPo1Hw9E/KR5i23jVUHKT4JMokz/5b1mDlAmby/2FGq8txhSsztaqKQAm/UfRoyGBKKzybgAio1meoYq/vMBfGyDfgOJR/ZHa4bUeU62NgznBUevKdcJH7mh/xfY1kGlKuPlmuIUAyu+rAadCZ9ynxCsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SNKS3zgr; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751373055; c=relaxed/simple;
+	bh=oNWtBTfARcQCwaHYGLs5aIj0PBvFVGGFyKJg1UjJTYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pkpQos/j2UrX1NucFysQsINeQvRB6+lkNZOyAM+8O5YuO7AkCJ5aaQbjdSZHfchMzXYPFUeulpEe063pj4dQUWXSCRQEG22wdxTbENQsXHvkWUL7VKCM1+MEChSYapqUGxg4b3bTRzsxF2iPjp+HRyn2anVgkAFGi5Y/ybBy0cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WKbn0Nnm; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SNKS3zgr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751372984;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TrbuVM+ppzwgXrUIdBEtP31BskfLOvpW3vqC5pXRcG0=;
-	b=SNKS3zgrUzusj3ybA6nB6YclNJLP9PT7mfgjn+xMKPsHKRcQqaYxb2mvaPV7TbMfL+Q2pm
-	hrMEkQ9I7bawO1RdZIxJuLIh7FurnJ52PBbqHAEhsFpFm+CNg0wECMhX/cPm/wDOvdNdfI
-	Txj12u8dasK6rPugsNCAquCgCOfvc7I=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-3-ADOlVCotP7ewSN96DDIOhQ-1; Tue, 01 Jul 2025 08:29:43 -0400
-X-MC-Unique: ADOlVCotP7ewSN96DDIOhQ-1
-X-Mimecast-MFC-AGG-ID: ADOlVCotP7ewSN96DDIOhQ_1751372982
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-45311704cdbso22018575e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 05:29:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WKbn0Nnm"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-237f270513bso137285ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 05:30:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1751373052; x=1751977852; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5G5J3LAQCME/FJ/aVZc/0ZWGlfQeuCDS4lOhsOKRFGs=;
+        b=WKbn0NnmgkzxUsdcaqhQqraPMyrURXHKnri5ElSn1Vkd6BoqcdJ+BpbWZHRjOlYZzm
+         NbP4xOICMR07Egga4/fajji1H5YeNz8LkRGRQVi97jr8gxwK03VAeI/v76ao5vcEth2/
+         I7qCPu1lO+z90lkSnZD9P1Bq2LYvwRcu+Jt8/iNmhfKNQf4oQTo7RZ3Ppc0QvlX3n31u
+         zd5zLWVizh5Ixst6JzcJxBp8j0nExn9Cnhgd9KuYQIpBsfjHvJF50X+gLlRo7wpe4x+B
+         iuwMl6EycXVvvzBFEXVjcmCHNaGj/of7MPz3Bvvxz7M7DeNs0ch+lolEIsPjbZaLjtJl
+         YtUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751372982; x=1751977782;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=TrbuVM+ppzwgXrUIdBEtP31BskfLOvpW3vqC5pXRcG0=;
-        b=K0cToTMxcyTflVEt6dB6LMiA9lSirCn2HD//jhKbiMuwao0QvF7uRlmNvrF72kCfkl
-         7gm8JYnMFTBFeRhMIs/Hg3ra/d3H0EPOI5v/IUqUHNBYGl96d5vr99Xv2dAcJm1G7WmO
-         4U9VHaXPXCpGHOzLB0imbtj/Gies/vkWyM9SqYG0FAjVB3I0F5/sZc0fHc+GiE0BAu1D
-         fkb5662CkFF6ENfhqMX7uQiy/kBCGRz1zlSGA7MDDBzjw3GLn+ttHUhr4Cl0fiI54gas
-         sovJ3K1PIuh/YbhcFsExZwftvPxc6i5sYZ2EOOx6dy+r0ALLDEwvaOmsE6MtOKvqnBI1
-         1Rog==
-X-Forwarded-Encrypted: i=1; AJvYcCVXz34qcDbfzBUPQbdDqPcm/VQeTcgKIuhd6l/YYKp212hQuQ6Yelyq73yWB/8pcH8cX3dNN/s8/lY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzky+9cfL80CRca+8ERSCXEpzmam4bHyeloaw3LAKztYiFsSh9P
-	/dVSd+PH1OK494j4aJ2WBZz1d5A0IuCtns6i7O+VDI9kkG0wqGuiqOlrWDv5XRfmpscaYDbZm1G
-	+bFiJPCBdFH5pv3fmo4HbkWzspOuuQmoCpdHxqYmGdzyjS1YOOtMNbo1KstIFIQ==
-X-Gm-Gg: ASbGncus7bNcLt0LVimzmhlrITrRNKAGpDKyoN5A0Ul38vn2Bbq3XISY7b/EsLKqFaz
-	WvSJwvrtc+2bAOmEa4GQaNI7LhBHuS/o/W+e6mKb8FuQ3VoyYxE/fRlaGLWxjqxA/KGneIx/Sy8
-	TaUakhUxntGyvn4tPcrO6Dk3B9HybF9nkhSQJyX+7dx75TzDhlp6CzjAfiarLZqOVn6fUn4kyLa
-	2KorJPWrGg/zSvarrcPXN2QYDRsgaxkWL777RNxerrFyXecQCAxNh2LYIKynPCbQnPv2ey56LLA
-	hKFcDBfmUc5kuV++o+U6sUxynQxo/+XQ4hYo1D7isorq2svYoX2EQpKzGJlBHqdJdyRv7SZgROa
-	S0XM6f8KeHYkkyBxzsgqjTrRHJMfSktIfTuA8ejKjxF4cmLG1oA==
-X-Received: by 2002:a05:600c:470a:b0:43d:878c:7c40 with SMTP id 5b1f17b1804b1-4538ee5d02dmr227232525e9.10.1751372981718;
-        Tue, 01 Jul 2025 05:29:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEWGLUM6qAW2QhCkuZ0jAVZEDYU8qdTgiLFCHykWjvjhd9I7XaZDJCAwUz6gENIyzN0qXG81w==
-X-Received: by 2002:a05:600c:470a:b0:43d:878c:7c40 with SMTP id 5b1f17b1804b1-4538ee5d02dmr227232065e9.10.1751372981213;
-        Tue, 01 Jul 2025 05:29:41 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f18:7500:202e:b0f1:76d6:f9af? (p200300d82f187500202eb0f176d6f9af.dip0.t-ipconnect.de. [2003:d8:2f18:7500:202e:b0f1:76d6:f9af])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453823c42e1sm193198075e9.37.2025.07.01.05.29.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 05:29:40 -0700 (PDT)
-Message-ID: <c476d5e6-8b4a-44ab-91aa-c4cb95a46d62@redhat.com>
-Date: Tue, 1 Jul 2025 14:29:38 +0200
+        d=1e100.net; s=20230601; t=1751373052; x=1751977852;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5G5J3LAQCME/FJ/aVZc/0ZWGlfQeuCDS4lOhsOKRFGs=;
+        b=O8M+6jj5SpeyNWYI8pOwi0s3iszULOLL5vA3f3E0E1FTuTroDOtdWRBqn/2Up8Xsw3
+         3rdEpZmVz8jEDlQsM3rs1JS4ovh1P3/iXQjjIUJ/Z1faCMgSzSQWA9foQAJc6dqBkj+p
+         XJzoezcbVSDBvdBQp2pyFg0YjDb6PMJBJMnYfHwUZJEYVD7qWVi02ZGcH3s3TNNbq73R
+         q9kgVzZCcKTaeta4w7GeUPj4WSG70g0f6YhfGIu90PRQKvAIN0uj1PJV/JZXuUu4FDwq
+         vb/B9PsgQsuFU80E352KiiZvI4e+bt2/3/EArhQdD5//vj8nIYrCZCsX8N5ZBS37d0Ne
+         Xi1w==
+X-Forwarded-Encrypted: i=1; AJvYcCWTTfhFx9VaC7xo9RSgTGiC66+yvP2qEsQTr+2Y64O4lsiEBFvHOpaGy33ofd9sFYt+dXtdkT/n91g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YydoTyIMMWpu9J8bstXycpZoiuE3Els4qWJO6EFv6RJRTtPJ3VR
+	K/naXIsvF8tZm61zjycoL0hSU7jjtoIVXBi3EIh73kgQVkgl9ykL0ueFwwpVEX0U1Q==
+X-Gm-Gg: ASbGnctki7tKD3JBBRMk0D9tHOTIuyD7P3MDEV7A1d8kpFNomC8IBi4Sgqv7mOhNgBA
+	LzQyU5eQguSNS91uT5px7jbGRkwRvcDekYqvM1HIOj2KAkM+pOgRjJ+jNIeBpkYxuqi3T9jmPSz
+	s4C0QIH8fRWGtLdLl8c4I328Jpf/KFAOBFPBx3sBGgvQ9cIzzHgX31ZDubzm9j38YEUJ1xIDmiD
+	/j9HDmGnw0kgooAe+8YN+IC+IEhmrPBkSpWTDzkrfmqc2v5t88HT2ZxQQj8s5EFuUKDRsnVkQGP
+	SiZcaXdFTSIa5h+KFB1Q0rUMNA1yKBK7XKpvR8iAKVevYjQli0KWdq46adI6IgszhO3OFkPS+03
+	XspOOXN8za+NQ6LIX8Pow
+X-Google-Smtp-Source: AGHT+IGYS+ky70yGGbfgecWTu3WMn+4HvkqtKADO91HI0LqScQKuEGTHZn38lZjYqivfuwsxMW7HzQ==
+X-Received: by 2002:a17:902:ce89:b0:235:f10a:ad0 with SMTP id d9443c01a7336-23c601a7645mr2227915ad.28.1751373051941;
+        Tue, 01 Jul 2025 05:30:51 -0700 (PDT)
+Received: from google.com (232.98.126.34.bc.googleusercontent.com. [34.126.98.232])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b34e31da818sm9319671a12.61.2025.07.01.05.30.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jul 2025 05:30:51 -0700 (PDT)
+Date: Tue, 1 Jul 2025 12:30:42 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+	zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com,
+	dwmw2@infradead.org, baolu.lu@linux.intel.com
+Subject: Re: [PATCH v7 02/28] iommufd/viommu: Explicitly define vdev->virt_id
+Message-ID: <aGPU8qgfsa816eQ1@google.com>
+References: <cover.1750966133.git.nicolinc@nvidia.com>
+ <cc7a558bfcdce5c2ea0d53b0c9c382f944df33ce.1750966133.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 16/29] mm: rename __PageMovable() to
- page_has_movable_ops()
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Minchan Kim <minchan@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
- Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin
- <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
- Shakeel Butt <shakeel.butt@linux.dev>
-References: <20250630130011.330477-1-david@redhat.com>
- <20250630130011.330477-17-david@redhat.com>
- <9a6b403e-ac92-4e4a-8d72-86dade5b9653@lucifer.local>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <9a6b403e-ac92-4e4a-8d72-86dade5b9653@lucifer.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cc7a558bfcdce5c2ea0d53b0c9c382f944df33ce.1750966133.git.nicolinc@nvidia.com>
 
-On 01.07.25 12:59, Lorenzo Stoakes wrote:
-> On Mon, Jun 30, 2025 at 02:59:57PM +0200, David Hildenbrand wrote:
->> Let's make it clearer that we are talking about movable_ops pages.
->>
->> While at it, convert a VM_BUG_ON to a VM_WARN_ON_ONCE_PAGE.
+On Thu, Jun 26, 2025 at 12:34:33PM -0700, Nicolin Chen wrote:
+> The "id" is too genernal to get its meaning easily. Rename it explicitly to
+> "virt_id" and update the kdocs for readability. No functional changes.
 > 
-> <3
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
+>  drivers/iommu/iommufd/iommufd_private.h | 7 ++++++-
+>  drivers/iommu/iommufd/driver.c          | 2 +-
+>  drivers/iommu/iommufd/viommu.c          | 4 ++--
+>  3 files changed, 9 insertions(+), 4 deletions(-)
 > 
->>
->> Reviewed-by: Zi Yan <ziy@nvidia.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
-> 
-> Great, love it.
-> 
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> 
-> I noticed that the Simplified Chinese documentation has references for this, but
-> again we have to defer to somebody fluent in this of course!
-> 
-> but also in mm/memory_hotplug.c in scan_movable_pages():
-> 
-> 		/*
-> 		 * PageOffline() pages that are not marked __PageMovable() and
-> 
-> Trivial one but might be worth fixing that up also?
+> diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iommufd/iommufd_private.h
+> index 4f5e8cd99c96..09f895638f68 100644
+> --- a/drivers/iommu/iommufd/iommufd_private.h
+> +++ b/drivers/iommu/iommufd/iommufd_private.h
+> @@ -634,7 +634,12 @@ struct iommufd_vdevice {
+>  	struct iommufd_object obj;
+>  	struct iommufd_viommu *viommu;
+>  	struct device *dev;
+> -	u64 id; /* per-vIOMMU virtual ID */
+> +
+> +	/*
+> +	 * Virtual device ID per vIOMMU, e.g. vSID of ARM SMMUv3, vDeviceID of
+> +	 * AMD IOMMU, and vRID of a nested Intel VT-d to a Context Table
+> +	 */
+> +	u64 virt_id;
+>  };
+>  
+>  #ifdef CONFIG_IOMMUFD_TEST
+> diff --git a/drivers/iommu/iommufd/driver.c b/drivers/iommu/iommufd/driver.c
+> index 2fee399a148e..887719016804 100644
+> --- a/drivers/iommu/iommufd/driver.c
+> +++ b/drivers/iommu/iommufd/driver.c
+> @@ -30,7 +30,7 @@ int iommufd_viommu_get_vdev_id(struct iommufd_viommu *viommu,
+>  	xa_lock(&viommu->vdevs);
+>  	xa_for_each(&viommu->vdevs, index, vdev) {
+>  		if (vdev->dev == dev) {
+> -			*vdev_id = vdev->id;
+> +			*vdev_id = vdev->virt_id;
+>  			rc = 0;
+>  			break;
+>  		}
+> diff --git a/drivers/iommu/iommufd/viommu.c b/drivers/iommu/iommufd/viommu.c
+> index 25ac08fbb52a..bc8796e6684e 100644
+> --- a/drivers/iommu/iommufd/viommu.c
+> +++ b/drivers/iommu/iommufd/viommu.c
+> @@ -111,7 +111,7 @@ void iommufd_vdevice_destroy(struct iommufd_object *obj)
+>  	struct iommufd_viommu *viommu = vdev->viommu;
+>  
+>  	/* xa_cmpxchg is okay to fail if alloc failed xa_cmpxchg previously */
+> -	xa_cmpxchg(&viommu->vdevs, vdev->id, vdev, NULL, GFP_KERNEL);
+> +	xa_cmpxchg(&viommu->vdevs, vdev->virt_id, vdev, NULL, GFP_KERNEL);
+>  	refcount_dec(&viommu->obj.users);
+>  	put_device(vdev->dev);
+>  }
+> @@ -150,7 +150,7 @@ int iommufd_vdevice_alloc_ioctl(struct iommufd_ucmd *ucmd)
+>  		goto out_put_idev;
+>  	}
+>  
+> -	vdev->id = virt_id;
+> +	vdev->virt_id = virt_id;
+>  	vdev->dev = idev->dev;
+>  	get_device(idev->dev);
+>  	vdev->viommu = viommu;
 
-Ah, yes, missed that, burried under the the Chinese doc occurrences.
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
 
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 5fad126949d08..69a636e20f7bb 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1763,7 +1763,7 @@ static int scan_movable_pages(unsigned long start, unsigned long end,
-                         goto found;
-  
-                 /*
--                * PageOffline() pages that are not marked __PageMovable() and
-+                * PageOffline() pages that do not have movable_ops and
-                  * have a reference count > 0 (after MEM_GOING_OFFLINE) are
-                  * definitely unmovable. If their reference count would be 0,
-                  * they could at least be skipped when offlining memory.
-
-
--- 
-Cheers,
-
-David / dhildenb
-
+> -- 
+> 2.43.0
+> 
