@@ -1,106 +1,154 @@
 Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D011121FF35
-	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 15:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701EB27A925
+	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 15:58:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751384791; cv=none; b=lCiybdTPLp25gLCHEjDFPECGKq3GufGaCAOQj6WsDYV94gwOdCz2f44FwhU6Li05VnfdTDfymfgugAxTn6hynH41mdISpg/G72SV2OHWYnbi78R7UD7485Nw4h5r3L14t8gEHmt+gUhzguRDNqGbITUON8EGn7eQUbi2pyuyCsY=
+	t=1751385530; cv=none; b=NrML2eNtboqKuwscVxbxE8EPE2T/WJVJBQ43mH9sq1wpvw1/MaAzp5oMeYX01i+d/kuM0cGjfTev+wBiCUkmOA0KeqHhvKc+wZMUldHynQrpm+1A3wKSJDov8JvpG4hzwTPrPkwDn/y7J4OyMPFspahvdtl8rmqw1hyBLQOVg3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751384791; c=relaxed/simple;
-	bh=pAglDTOhrF8Zvgb1AFD+OxJd1JCWicRRyJSMm11OT0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aMTu74EwjhjO8K26fspAK42ED4Y8Zwm/9kPQUzgunZD+YfsMjzMXwHQZwl57eHdmNkr1fjqUhJBUZphyXixJbMpAPzEUC2N2zDs+6J0LvPeZk+trTJIvQvVuGV9XTvMrqD1R9viV+qeC7wLAoSKOvYyH5+l/G6lFXOByQq/lw4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=H3deQlJL; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1751385530; c=relaxed/simple;
+	bh=QSAY2cavr+hAtXa06F5WuFx/c09q1MQ9F8YFB1GGlxA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NRiyHZMg9FXPKof2T/5UynUSHaMl0600u6ChnpnOTOuPrd+tTXW8/lf/2JTyuN2VbQN5fQwDeJdVq3+Tv8KAyUNWsOwr+keS/iLUOCjv8a8NwHqT/2uY+eLxtYZKHQToJyFEn0VjgubhkWSRbQ9e2xWT+KXjFW/EsWEnklzBSaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com; spf=pass smtp.mailfrom=6wind.com; dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b=NyELBZvB; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=6wind.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="H3deQlJL"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a577f164c8so798741f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 08:46:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b="NyELBZvB"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a4f64cdc2dso909732f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 08:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1751384788; x=1751989588; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aOFZz6F2G83zxV/3z8yTT2gDImG/Fh4Mhj3FLnYmKOQ=;
-        b=H3deQlJLRphrt4rWcA25M4YoONr5eYM9aw9yOf+DHWm3TuVRF8Bnr33zw+Zzs3/ko+
-         ObIOOB2spCDHhUgYlZ4pSuB5gdND+8lFQQvGO2HOUXkzMJ5H1kwJDos5CejiQPfVlluK
-         VKLrGHFaNJ/Py+tFwgywoCZGt1dy2K8RCwKxKPx8DqRwMsloskj0bf7Jch26xLPqdZKS
-         9n5I97w0mqKIRoO7cyJjg2y6ZVUPI7T/EUE7KDn7fWXRfaHqz5IL2LvIao+g/eBRxeg+
-         0lBFaW0NEEQRP+DhAtznrc7pu83p72ELNIK75mBqA6oqDZpXCMLtSjw4qTYHCGVpUu3V
-         7BLw==
+        d=6wind.com; s=google; t=1751385527; x=1751990327; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=YhrekkuV81u85I0nCYoyFYWO/iQISbDoWTniOveqI+w=;
+        b=NyELBZvBrHycyMWM1vTcTDddjbbJVdm+b9HYHFBktbGVHdgTePCtzZDjdWdV0Ah/vP
+         Q8fesE9oqpdkA7Ji74z/t90QaVhzuWwBGuSIlckEazZAcDawlnZ8nC0LZh/g9PClw9tp
+         RwQzM4D0qJc4X9jXzBDRTPdqjhcG/2u6YqrIDJjDTLqoUWRT3uyIMHZaVw+D1ZCdH698
+         loQPti7htEhOEY+VlDX23yS0LPjzApS110pi5jw/PYUkCcYoQLF4NDwaX8BI3jFQg0uq
+         u4n4rQ5XyXSJb+foXeXFBZEUNVQcIC6yLUlitTaQExoahg2msvRohSdiUkxrT59GeSMt
+         iMwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751384788; x=1751989588;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aOFZz6F2G83zxV/3z8yTT2gDImG/Fh4Mhj3FLnYmKOQ=;
-        b=U5wX55lC7/trAkTkJIKxcuxNR/Gtc31UgHJtGtQiInNm+X2BL+1sgALWbEHcKrb8k6
-         uxKDMcyS/auJzL82ULvtqgJhVL6pRYTOlYq91kpnXJNGL8jNJWTxWrPnACtMklVnTeKK
-         Uz7eDMEqBqv54Ay4ytv8CtG6plw0E1k6sqnKbqoI5myIWp8/OpSUsCcWh+TB1eDqeCJC
-         8QXvt7DGratjGb4SYKSiRmW3XUXeBNAGi7zKy2HdTSGdCzuBRZxrhmA5W+byoupPEXPu
-         Qd0SG0PiA5K8PFCGwaDKbFmTFcELkCS+My7IL/5WYuPORdLI9czcukvTf9Y5nwuARoiO
-         im1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXvoPAMhf7ln2SJj2OQpcnnQ7/5ZEThPULWizxq5qlh6ThYccLw1JCB/GO6r7/OkC1loiTQzCae90s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTgcR+a+n3Wtwr8Rglzsq82WhcdgrkPxToPY5Kj9m6B/aIwXUZ
-	kC0P46svEgKIaOIVxAeI3/5K7u3w9K4sZyt2IcBgCF8FURL8ERpeVwsJmkcAkMZnaPk=
-X-Gm-Gg: ASbGncvBZLwT/hEP2pHMV5Y/MjOPMsOhPePTb4c4f/GOTWOp54nVRhgtcWJnspgIYux
-	4c37Pv4kxgmih9jO50evQ1b4doJXU9NZ/nLPFONuamw3pxObs+ub6+FL/Li4cGFl3ksu+tpsMBv
-	aqPMuuBDwHYf+Q0YiIDC6XQq8imDShwQhSOgHfWCrAdD+MBLCuImBjtX+zUNz9/BW4ENYuZSiPr
-	vW5QtLpkj/xHBEYaJjSnvFA58VHVcjxJh/BITolmAX2tDl9/BcBbnNc21qaiF/tEgwH42w/pJ2f
-	/PhRodk0SIgNQXgPB2XOJfRVCoz5yfhMaR7HbS8td07ZhX8WFVa//Qs=
-X-Google-Smtp-Source: AGHT+IHoPM3nOnG6zXq1wPZop0nFfQhTrUhv7Mx3b1Sj2NYhuzTU7PMm4Jn+4jvjv+oZm9TEot6V1Q==
-X-Received: by 2002:a05:6000:1885:b0:3a4:dc42:a0c2 with SMTP id ffacd0b85a97d-3af485b1fb4mr1179705f8f.1.1751384787986;
-        Tue, 01 Jul 2025 08:46:27 -0700 (PDT)
-Received: from mordecai.tesarici.cz ([213.235.133.43])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a3a6716sm170405635e9.11.2025.07.01.08.46.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 08:46:26 -0700 (PDT)
-Date: Tue, 1 Jul 2025 17:46:21 +0200
-From: Petr Tesarik <ptesarik@suse.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Robin Murphy
- <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Andrew
- Morton <akpm@linux-foundation.org>, Keith Busch <kbusch@kernel.org>, Jens
- Axboe <axboe@kernel.dk>, Bagas Sanjaya <bagasdotme@gmail.com>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:MEMORY MANAGEMENT"
- <linux-mm@kvack.org>
-Subject: Re: [PATCH v2 4/8] docs: dma-api: add a kernel-doc comment for
- dma_pool_zalloc()
-Message-ID: <20250701174621.5e8812ce@mordecai.tesarici.cz>
-In-Reply-To: <875xgct6js.fsf@trenco.lwn.net>
-References: <20250627101015.1600042-1-ptesarik@suse.com>
-	<20250627101015.1600042-5-ptesarik@suse.com>
-	<5a997777-fd14-40e1-919b-2e61a6e8d570@infradead.org>
-	<20250701133833.4060f406@mordecai.tesarici.cz>
-	<875xgct6js.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-suse-linux-gnu)
+        d=1e100.net; s=20230601; t=1751385527; x=1751990327;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YhrekkuV81u85I0nCYoyFYWO/iQISbDoWTniOveqI+w=;
+        b=A+fMIfL//PPNV9kWTQBDxL0x0qT6FlVccA9hvhZcGMyGh4VsluvaEg2Z2kGBCARKif
+         8xmwaxfm+lY5dzUSiWPxobWESFZwsL/Sgek745ll9RePMgxsJ+JwIXOFfii7L1JlCWCB
+         ScLhqJgt2YftQ9RRYwJo1lWfn59vDzgau8U+ya86CK7TcVQZHKe1N8B0j/9LoDKpJfef
+         VSn/xyVW1fkARoLBSBM380A9L6GMkeWpsagqB/JcZhBg3RkFV94rsB8VuQGFEur483ye
+         YBcLdythL39LcM5AzeqRA2sNZ2wOTE9uAlAisORTbgc7sQ8LPHapeyxMsHTIQ6SivX/P
+         jUlg==
+X-Forwarded-Encrypted: i=1; AJvYcCU6pNt/u1sThEaEbJWxPgUxmj97cj7OpEcrsMJHCal1bHNbKD/+8jQohDmdwgGa5gCgOC61b0AKebg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyaXXbKcn+0tTA1gaL+DGksVHrnvNyu9huwrkcL80yqqpdUeYu
+	TbR8xDXOgxu0V1bK/pE+4IJniihLZHKNP0BbToHpABvvYDa6NoCNStBpOxhuuxx9zUg=
+X-Gm-Gg: ASbGnctiMjY0s3KsfPSFodpc96NoX1HHpGPhnpBrzzE6kR69YErYQUHuWt2yePlbYk+
+	Rp4bdWPJaEAGrwXJBZSONGU/ii8xINlodNP6YpRb5FXJoIUlKpXizgEVPNEESloIhfdQFz/uYvf
+	AaSC7tiz1Pxx6fx9/R0ZsjnZUTAEQyXo2DNaz4gbn8clx2bSQd5n+91mVOPmzKXzE+kL2EHfWH2
+	IH13Hofm3vjyENzu9PWpayXnNKZiyLqmFBcSxyMzXVA8QLYClbBebmPDkJKVyRAD9PrLzpLpWKz
+	2qwhlMExWcUVwYUBAKWqC1uM/P5zwPJOaU0Xi1SwHw/LvaLYiyTzdUFKEHCgzERXyp8nl0J3T+o
+	7emDLUwgIlCIxJnDfw61/tIQUL16YbIktAhYq
+X-Google-Smtp-Source: AGHT+IEgqW2tesitKhmnUcBygNXVUscrvykBlr5WbS8x1oTHDseSXjU/Z8mwQaDABjFVm8GOa4CGSA==
+X-Received: by 2002:a05:6000:18a9:b0:3a4:f912:86af with SMTP id ffacd0b85a97d-3af23ad08d1mr1306061f8f.2.1751385526598;
+        Tue, 01 Jul 2025 08:58:46 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:b41:c160:3c4c:7e68:5ff:ce49? ([2a01:e0a:b41:c160:3c4c:7e68:5ff:ce49])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233c523sm198939125e9.6.2025.07.01.08.58.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jul 2025 08:58:45 -0700 (PDT)
+Message-ID: <40dffba2-6dbd-442d-ba02-3803f305acb3@6wind.com>
+Date: Tue, 1 Jul 2025 17:58:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Reply-To: nicolas.dichtel@6wind.com
+Subject: Re: [PATCH v2] ipv6: add `force_forwarding` sysctl to enable
+ per-interface forwarding
+To: Gabriel Goller <g.goller@proxmox.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Ahern <dsahern@kernel.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250701140423.487411-1-g.goller@proxmox.com>
+From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Content-Language: en-US
+Organization: 6WIND
+In-Reply-To: <20250701140423.487411-1-g.goller@proxmox.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 01 Jul 2025 06:54:47 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
-
-> Petr Tesarik <ptesarik@suse.com> writes:
+Le 01/07/2025 à 16:04, Gabriel Goller a écrit :
+> It is currently impossible to enable ipv6 forwarding on a per-interface
+> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
+> enable it on all interfaces and disable it on the other interfaces using
+> a netfilter rule. This is especially cumbersome if you have lots of
+> interface and only want to enable forwarding on a few. According to the
+> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
+> for all interfaces, while the interface-specific
+> `net.ipv6.conf.<interface>.forwarding` configures the interface
+> Host/Router configuration.
 > 
-> > Do I have to submit a v3 then?  
+> Introduce a new sysctl flag `force_forwarding`, which can be set on every
+> interface. The ip6_forwarding function will then check if the global
+> forwarding flag OR the force_forwarding flag is active and forward the
+> packet.
 > 
-> What path were you planning for this to go upstream?  If it goes through
-> docs, I can apply that tweak on the way in.
+> To preserver backwards-compatibility reset the flag (global and on all
+> interfaces) to 0 if the net.ipv6.conf.all.forwarding flag is set to 0.
+> 
+> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+> 
+> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
+> ---
 
-There's a reason I put docs: in the Subject prefix. ;-)
+[snip]
 
-This specific patch touches an include file outside Documentation/, but
-since it merely adds a kernel-doc comment, I believe it's still good to
-go through docs.
+> @@ -896,6 +907,16 @@ static int addrconf_fixup_forwarding(const struct ctl_table *table, int *p, int
+>  						     NETCONFA_IFINDEX_DEFAULT,
+>  						     net->ipv6.devconf_dflt);
+>  
+> +		/*
+> +		 * With the introduction of force_forwarding, we need to be backwards
+> +		 * compatible, so that means we need to set the force_forwarding global
+> +		 * flag to 0 if the global forwarding flag is set to 0. Below in
+> +		 * addrconf_forward_change(), we also set the force_forwarding flag on every
+> +		 * interface to 0 if the global forwarding flag is set to 0.
+> +		 */
+> +		if (newf == 0)
+> +			WRITE_ONCE(net->ipv6.devconf_all->force_forwarding, newf);
+Hmm, is this true? Configuring the default value only impacts new interfaces.
+And before your patch, only the 'all' entry is took into account. In other
+words, configuring the default entry today doesn't change the current behavior,
+so I don't see the backward compat point.
 
-Thanks
-Petr T
+> +
+>  		addrconf_forward_change(net, newf);
+>  		if ((!newf) ^ (!old))
+>  			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
+
+[snip]
+
+> +static int addrconf_sysctl_force_forwarding(const struct ctl_table *ctl, int write,
+> +					    void *buffer, size_t *lenp, loff_t *ppos)
+> +{
+> +	int *valp = ctl->data;
+> +	int ret;
+> +	int old, new;
+> +
+> +	old = *valp;
+> +	ret = proc_douintvec(ctl, write, buffer, lenp, ppos);
+> +	new = *valp;
+Maybe you can limit values to 0 and 1, like it was done in the v1.
+
+
+Regards,
+Nicolas
