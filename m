@@ -1,161 +1,101 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAEB2741DC
-	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 15:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F3D277C9F;
+	Tue,  1 Jul 2025 15:24:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751382964; cv=none; b=Jiwsz2EnJWHvvM5ihIQP8xxPiZY9U4G/n0NWvNc5TwiQKpNV9ECg8897n07zZlrJdNSkrdmEHdcuW1a2dtYYzWxjzSwqhygNUo3GEsY95ZhHSb1gI6SH693SQGttyixMa0QIvRoX2m6q90W35VxDK6d/2pundgDqNQYQZmIVbd8=
+	t=1751383441; cv=none; b=gwbSIHqOkWM3/raxKny8x0kESCzlB4soM5XN39MHfxNzzgHSLF6iJjhs7F9RRABs1wqF2Fx8eOTpP05ta12Mk0VyFJwxgHu7PWyWeASlzMiIkH8q9/AaRoYv/RiBd3305tjqyRoudA63x5Qvw82660g6eJThme9lKC/NHt0MpZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751382964; c=relaxed/simple;
-	bh=z8oQ/Qy5X99Vz/00GxMthGnaJqgHyWqeMhz2LAS6JsQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=XwaGm+1D5UDwOudMQXoaVFF4lDMwtd/Ju+wBDpZI/Hk1M2biHDymAh+rpaYUE0bsOzpLQwOWq0Z9FoGD0f7m5j+wTeyC18wN2qfvkEk7o66WW51C2I6pMF/Mt4+urKTYGoqjNLAE4DebEs26ngELiTexrvogIdEdKKTjSds5NLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=azF4OEEG; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1751383441; c=relaxed/simple;
+	bh=avG9QVTiB19t8sqVOmhJl0sjhGbCmDbse4lCvvoUBsM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Puzt+vyCC83nAww4X2pbtH6wB/pYA6oQo3mCnuuzXL+2Oy1ApOQm+1Frgih8FECFQkfU7t2Sz5HIlrmn6H+wnY0hnw7Ygw4Cwmttpfe0sZbuA+7OWAnhSKOeSfnbSmiMQzQOLlIGe2HZQ3NshfyInIMQgXWuoPHnDBYZEJ0z4BY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IjmXd+HI; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="azF4OEEG"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-60c4521ae2cso10374356a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 08:16:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751382961; x=1751987761; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LmBKSATmHIQjY6DYREp8ocZ1PWaVredog5Vim00fHOg=;
-        b=azF4OEEGsHJxwfz18vHY7eOqjsBJ/cbRgYSUFBxOe2jTg80SMEVo54MlunEGI8Tjhf
-         gocq7v2NW5ZP04jb2Hy/16gMAgtDxmNg5fGxjzRbHDmso/B78uv8mG78JgVVoHZytX+T
-         YZBSpqyr6N8VBoEoetB+DPQMrWHBID3qyGhqCtA5Ae8mcYpBsg/sy9KNvGnf3kK2YANu
-         qg8fRcBjU4XG/iMjgV5RcvASYf9O4eyI7j0BBureql0/LxQWtQPeNaSOxCsJoUhTy8vl
-         3sNHH27ACki5xh2MpeRNfZqpFBcNxtxfUrT8qgoZ+PzsXM7UYcq7kc8YxOBnmFyCYAb+
-         Njkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751382961; x=1751987761;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LmBKSATmHIQjY6DYREp8ocZ1PWaVredog5Vim00fHOg=;
-        b=T2DQ1IPbuPmnmJ7XOjpYGiPRH5iTawAo3KNqYU8R5yDm3I3NP04OBaD59EvOxN5BWz
-         pN1e4YMDYBuH3pyt8/0JTT8n/OQpLdVlwx93sqAk3gXsFk+q63R1veyCq7B2wo4dbUwf
-         eBlG//BxeCFvGod5SbMCMlkxdlCBBg26I7jrNOV40OjgO7+eIgeOcttUjp1jjpphXBrr
-         N2UTmLAdlppJXlIh23PmVCH4hVD0P7EHYx+ceKKKboKKyjaxVLl5wMsnUqsTeNSMKgjA
-         JRrUDCB6R40965CDUshCsK3kocRV8tJzNwSLMyFuL7HPcwo/GAhLZyjzOgCFRcg5U8G8
-         MqAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWqTJ4wMHjqdV2As0yzpQHW6MumCVfkWXEkef2Qo/T5A6AthglzWD7JnDSxwn7RIvKaipz43PpGaTk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9NhjJKpRWJiquIuJxoLfjwUCtYJvCuznXAAK59MpEISKO6rNm
-	gohk/oef3erKpWTLR0Vg+GcmTN9L0jCIxfVcXktbyCe4fiIRiY16oNbGTBoy5PIKOGw=
-X-Gm-Gg: ASbGncs4msHMgoNGbFkD35lSdkuSuNEQcoJtjHzCpyKZIYVYO46xKUdWXUgqNM0VxLK
-	d5bGgQRSccPF6MS9x/IAPPX0ngciqF3m0eZZ5hp2a0bbX4cJnAFshyJxSGBwZzx25AqNPr3dwZk
-	jYJLMV7Va9ju9NI2xvxVzMRpTkvN4DPHDjNISHItAybGUrCLC/wDepeenxLRBfXpGTUGpw43fS6
-	nW0bK3AT8vclWlGFAiFH3GKwqLFsJH+s/1DqvCTk87pRLezsQP0UIXZHtAlLfW6K9f/hpR3R9k3
-	4Lj90zsw/ODmORU655+15eQrrqlout8Rll55WhLBl9tnpEUue+AXFwFnr07OtqFBxSRV7ubhuQh
-	trOBJrTkqDa5lY9zxuPxCFX86
-X-Google-Smtp-Source: AGHT+IHL1iIhwrXApah4rYbKaIE+inzvLNC8tyiskTzjDNA+vRNLW36MNlQTR2zyMbL0FHm03im1Ig==
-X-Received: by 2002:a05:6402:4412:b0:60b:fb2c:b789 with SMTP id 4fb4d7f45d1cf-60c88ddd1fcmr14069289a12.21.1751382960619;
-        Tue, 01 Jul 2025 08:16:00 -0700 (PDT)
-Received: from localhost (ppp089210105145.access.hol.gr. [89.210.105.145])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60c8320226fsm7535009a12.71.2025.07.01.08.15.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 08:16:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjmXd+HI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751383440; x=1782919440;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=avG9QVTiB19t8sqVOmhJl0sjhGbCmDbse4lCvvoUBsM=;
+  b=IjmXd+HIDxYk6TPFKPJmDER7Ti09SvfgRwyEdCDI1TBzcExX9ky0wz8h
+   YzEqwtll61bmvCS/gyFqet7f4+cifTiQ/rwU53vhPXtf0ihXWMuPiN96x
+   42nOycQbxcTpFM5eyufuBKR4RIwyV/B5i3GPqTYa3YcodAYoNwDBw/61Y
+   hUI1+Ryy65DO3Yl85/dMaMlmOTcExRrolWJfKV0gxIbfKw6tBE8LQ7Ltn
+   H4ktdPkU70z52cdyG8mtzTF7DBS4NCAxCYAgItGVS//bLTI+9sN9swB/7
+   8iuWUvTrbrj7d3L5dcarOOM1KVCwiGNDGzDslSC3skYL3EDoLpefCEyXn
+   Q==;
+X-CSE-ConnectionGUID: ot1Lo+pUQFOhZBWrXNKc/w==
+X-CSE-MsgGUID: QMuJ6/3xTDqoTOvIq6lW3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53745116"
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
+   d="scan'208";a="53745116"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 08:24:00 -0700
+X-CSE-ConnectionGUID: sRSJ18lpTMa0Ez+mYznlJQ==
+X-CSE-MsgGUID: FUiUsIDUSlqts1S8bb9p7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
+   d="scan'208";a="153884442"
+Received: from puneetse-mobl.amr.corp.intel.com (HELO [10.125.109.179]) ([10.125.109.179])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 08:23:58 -0700
+Message-ID: <c32cede0-643c-47bb-bfde-93adbcf16155@intel.com>
+Date: Tue, 1 Jul 2025 08:23:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] cxl: docs/driver-api/conventions resolve conflicts btw
+ CFMWS, LMH, ED
+To: Gregory Price <gourry@gourry.net>,
+ "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
+ <aFmo18OEZGMA2HU8@gourry-fedora-PF4VCD3F>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <aFmo18OEZGMA2HU8@gourry-fedora-PF4VCD3F>
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 01 Jul 2025 18:15:58 +0300
-Message-Id: <DB0TFZWLD0HE.3I2409138M8B1@linaro.org>
-Subject: Re: [PATCH] docs: devicetree: overlay-notes: recommend top-level
- compatible in DTSO
-From: "Ilias Apalodimas" <ilias.apalodimas@linaro.org>
-To: "Raymond Mao" <raymond.mao@linaro.org>, <linux-doc@vger.kernel.org>
-Cc: "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20250624181320.2810521-1-raymond.mao@linaro.org>
-In-Reply-To: <20250624181320.2810521-1-raymond.mao@linaro.org>
+Content-Transfer-Encoding: 7bit
 
-Hi Raymond,
 
-On Tue Jun 24, 2025 at 9:13 PM EEST, Raymond Mao wrote:
-> When managing multiple base device trees and overlays in a structured
-> way (e.g. bundled in firmware or tools), it is helpful to identify the
-> intended target base DT for each overlay, which can be done via a
-> top-level compatible string in the overlay.
->
-> This patch updates the document with a note and example for this
-> practice.
 
-I think it would make sense to describe the firmware handoff stuff shortly
-here [0] and explain why we need it. I.e it's possible for devices have a c=
-ommon
-firmware binary which only differs on the DT and the applied overlays so we=
- need
-a way to identify which overlays should be applied once the DT is selected.
+On 6/23/25 12:19 PM, Gregory Price wrote:
+> On Mon, Jun 23, 2025 at 05:29:02PM +0200, Fabio M. De Francesco wrote:
+>> Add documentation on how to resolve conflicts between CXL Fixed Memory
+>> Windows, Platform Memory Holes, and Endpoint Decoders.
+>>
+>> Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
+> 
+> I won't block a doc update on a suggestion so
+> 
+> Reviewed-by: Gregory Price <gourry@gourry.net>
+> 
+>> +Platform Firmware (BIOS) might reserve part of physical addresses below
+>> +4 GB (e.g., the Low Memory Hole that describes PCIe memory space for MMIO
+>> +or a requirement for the greater than 8 way interleave CXL regions starting
+>> +at address 0). In that case the Window Size value cannot be anymore
+>> +constrained to the NIW * 256 MB above-mentioned rule.
+> 
+> It might be nice to have a diagram that explains this visually, as it's
+> difficult for me to understand the implications through words alone...
 
-[0] https://github.com/FirmwareHandoff/firmware_handoff
++1 on request for diagram to explain. We should try to document this issue as clearly as possible. Thank you.
 
-Also please add
-Suggested-by: Ilias Apalodimas <ilias.apalodimas@linaro.org> if you send
-another version.
-
-Thanks
-/Ilias
->
-> Signed-off-by: Raymond Mao <raymond.mao@linaro.org>
-> ---
->  Documentation/devicetree/overlay-notes.rst | 28 ++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
->
-> diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/d=
-evicetree/overlay-notes.rst
-> index 35e79242af9a..30b142d1b2ee 100644
-> --- a/Documentation/devicetree/overlay-notes.rst
-> +++ b/Documentation/devicetree/overlay-notes.rst
-> @@ -103,6 +103,34 @@ The above bar.dtso example modified to use target pa=
-th syntax is::
->      ---- bar.dtso ------------------------------------------------------=
---------
->
->
-> +Overlay identification
-> +----------------------
-> +
-> +When managing overlays dynamically or bundling multiple base device tree=
-s
-> +and overlays in a single system (e.g., in firmware, initramfs, or user-s=
-pace
-> +tools), it becomes important to associate each overlay with its intended
-> +target base DT.
-> +
-> +To support this, overlays should include the top-level compatible string
-> +from its base DT.
-> +This enables higher-level software or firmware to identify which base DT
-> +an overlay is compatible with and apply it accordingly.
-> +
-> +Example usage::
-> +
-> +    ---- bar.dtso - overlay with top-level compatible string -----------=
---------
-> +	/dts-v1/;
-> +	/plugin/;
-> +	compatible =3D "corp,foo";
-> +
-> +	...
-> +    ---- bar.dtso ------------------------------------------------------=
---------
-> +
-> +This top-level compatible string is not required by the kernel overlay
-> +mechanism itself, but it is strongly recommended for managing overlays i=
-n
-> +scalable systems.
-> +
-> +
->  Overlay in-kernel API
->  --------------------------------
->
+> 
+> which is likely why the conflict exists in the first place :]
+> 
+> ~Gregory
 
