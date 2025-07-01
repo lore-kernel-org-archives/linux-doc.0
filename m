@@ -1,110 +1,79 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E1E13AD26
-	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 02:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADBC1E522;
+	Tue,  1 Jul 2025 02:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751337136; cv=none; b=oRxIuPZkN6BIhF3FM1hx3tIVrvF+iE48cEMRD2YH619Nfb3yk+eSpqHJJhMgZB6icBD3gadQMlyL5oqrQzA7z72FpgJjyGGH4mOjSi6pW1CLFGSl5XvroySzuZb5BwtvN4Iev8IPznSmJMUechBNOpMm4KPKJygn1bVfmnbLC1c=
+	t=1751337827; cv=none; b=p8vM/mnMqFcQh8GxBxni7tu44nHGQ2dONC/8FHnOEwONF2l5GFJI3sWXwV+goE4lmvDFVFJib0yNw1Pq3YtygGzT8CPEalfI1niq7HhAetvOS9ryNW0mC4O/+KPE6SxWtWHSKbwHGXHRBFEggYjt67nCCVg3Tc1KmPg4zAMFkXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751337136; c=relaxed/simple;
-	bh=rRVdG5V5THof2kVFbuGpoPO6Ew/jSkC8Uar+R290sas=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GmYvqIC34R5NKla6v2yHIEd/lklwV5lKalHKIa4C+crLkOTBtHXbBslZdalSxjc0zHgPwDpYUz73uXHdjgBKmBpEz8KqGNVfTYqmOuG82A4JwqrfIsThGwplRuXMMuYCpZQhrtyuVAkSxWgS5CaPbzsbNUq+8YdXc0c6uLAZj+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hsQjokHb; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751337827; c=relaxed/simple;
+	bh=65U5dEGmfX2mApXDVeyXjr8YGGs/V15/sn4CLFT0eDg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eIkzDpDINv3gNMnGkAxhOtqbnZXY96YSzu/zcxXvAwqd+++bBzvrIsvAW7w46dZvV4ITu5NqTcCPJVIZd3v2TfTdzv5bHIDK9dIhqkcwvy11HKKX/V62qqOLEo0FfnobVjDGY616C0JiizrWup1dkGoxShE1rbQhuQwyO005dZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Aht7CT7O; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hsQjokHb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751337134;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rRVdG5V5THof2kVFbuGpoPO6Ew/jSkC8Uar+R290sas=;
-	b=hsQjokHb7oONY4dnBLXNEtlI5qZ++9RL6QqW4YbI/Fhd5VUdfLTDVCrheEPwov6Rhp20Vn
-	CiuRk+Gb4v+4RvPVUvG4w9I2fF6Y1xMukyu7ztl5qaFGaq5BCpg6QlP+I6clKkzUGmpClk
-	L8RuLNroLjFz/PvEHPf9BplgC5bigrE=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-674-ZG0i4hPkNqOsIv6F8Ny2HQ-1; Mon, 30 Jun 2025 22:32:12 -0400
-X-MC-Unique: ZG0i4hPkNqOsIv6F8Ny2HQ-1
-X-Mimecast-MFC-AGG-ID: ZG0i4hPkNqOsIv6F8Ny2HQ_1751337131
-Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-553b902b3cdso2985706e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 30 Jun 2025 19:32:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751337130; x=1751941930;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rRVdG5V5THof2kVFbuGpoPO6Ew/jSkC8Uar+R290sas=;
-        b=TqXpZxLhRcSWLGAjVwjDgSAkPGa5Zf7sWWLIr8GFwArs5MCmvlbRspQkkmFjCDv2Mj
-         cy36xivf9WOaBSw0GJuJDN3cisWLrtypWliKLgDOaW1UMQXzniQW+ZL6C/MafckTlxo/
-         OhcxuTDK2ERCPYX6kcws3QM5OsfTniqAjnL9AlPtbFUVDXxShlchTcjYE+jiQ0xedGCg
-         TbrfMPknqUM5l2FNBDo77CgSeezgtSoC2+yjo7ce0wG8sKPCI5PSSEnSUhOTR784vXYs
-         wgqDxV0dnwBx3RzdvKa6DpKjG7EOEJ3Xkl75+r1whnGC35NzuLT9hVXyyfoI9+dwd9kM
-         Ww6w==
-X-Forwarded-Encrypted: i=1; AJvYcCU1C1gOcGlYhc7D2HJFjXkDYA30RMhAX0xBqIb2nPTiTamx7qjN+jBUqYIY8GFqY0PQjK8auODxjWA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrWYu81OmO3+R2KkSQCSqVOeZPQJcEOTv+C7wPU6NSlBg7m3j0
-	dTvj9kpyhhJhyvBDKfMyw/4J39/kKXlsg0GO2HJY9EDailwwXF612+F3NEM5WHFZKPLA+jn20uQ
-	Rlyxq1glbgzKB6cVvDJFy38l+ZpwoaXm0kQOFoiPrDaHLNUjoPzMzQWJ13FuhA9+S6uagPSm2T5
-	0d7rGUBJpbEq2J0PV/wStmH+JZnnfB3qAPipbtmutV5SPQ
-X-Gm-Gg: ASbGncvjUJVbQ5twHi7AlkLQA2uJqSTKsRfTU+eyzOfGzIUB7+J2TnKd9Zq+AcwCz9n
-	kqST3GAqpDLe3Hs05+sfqLb029F7BvgRFdxK50/fxUagFD4bT0Y4rsSq7zYRhZN+bIJMKtrbq6J
-	6bbb9v
-X-Received: by 2002:a05:6512:3f14:b0:553:33d5:8463 with SMTP id 2adb3069b0e04-5550b85a6aemr5124499e87.24.1751337130027;
-        Mon, 30 Jun 2025 19:32:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHYxhicPvjsrYMTzNnBgN66EEIC9O090pHpKX6MSHN6FdUCZQawP5ktZNml7ohAaKF8rzbjcIZejG5Mnsuzl5U=
-X-Received: by 2002:a05:6512:3f14:b0:553:33d5:8463 with SMTP id
- 2adb3069b0e04-5550b85a6aemr5124492e87.24.1751337129620; Mon, 30 Jun 2025
- 19:32:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Aht7CT7O"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D2791406FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751337823; bh=xeHNwLOewM8sWl5+rQguP1bjnm0CgxWiz2pC1ZhoPU4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Aht7CT7OmmeMhBFEQHG/E8gKFVpjWz02sC6135CoC0Mvd+7hA4RXwUF4usNYGwXL8
+	 70Qt8b7oDql4PGHR5xNtCn4zpQwMpdGDz73ka/VfFi6ObZFqO2qzaJUSizLoW655Sr
+	 7wwaShFwSvvsxV69aDxaiT/ljIQQMb8aG3166lpcT1QnHzbNasTtAnzs5mwrF1Bcn8
+	 SmGHztDOoFq1LO/TVFAc+/eX7Bi/edT0THfLSvW9D8lKoRgAAdpb0Anwl0ujSOBQ3p
+	 eTavpXVrFx5/H+oIW4ahoBqnlkMgbTk3pZJ7Rq3xo83IKaGQYuChqn1XMI2855iW3h
+	 PWg7qBSh90nVA==
+Received: from pelicano.lwn.net (unknown [IPv6:2605:59c8:3258:6a10:f9:f236:69ec:d90e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D2791406FA;
+	Tue,  1 Jul 2025 02:43:42 +0000 (UTC)
+From: Jake Edge <jake@lwn.net>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-api@vger.kernel.org,  workflows@vger.kernel.org,  tools@kernel.org
+Subject: Re: [RFC v2 00/22] Kernel API specification framework
+In-Reply-To: <20250624180742.5795-1-sashal@kernel.org> (Sasha Levin's message
+	of "Tue, 24 Jun 2025 14:07:20 -0400")
+References: <20250624180742.5795-1-sashal@kernel.org>
+Date: Mon, 30 Jun 2025 19:43:42 -0700
+Message-ID: <87qzz0aaw1.fsf@pelicano.edge2.net>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250524061320.370630-1-yukuai1@huaweicloud.com>
- <20250524061320.370630-17-yukuai1@huaweicloud.com> <c76f44c0-fc61-41da-a16b-5a3510141487@redhat.com>
- <cf6d7be1-af73-216c-b2ab-b34a8890450d@huaweicloud.com> <CALTww2-RT64+twHo3=Djpuj81jArmePQShGynDrRtYab3c1i2w@mail.gmail.com>
- <93166d88-710f-c416-b009-5d57f870b152@huaweicloud.com> <CALTww2820X=HU3Zuu+z19oCaPL+oQ4bMNostoAgfDk1-3nB3aQ@mail.gmail.com>
- <ede16ca4-96ef-e8e6-45fd-1c88cddc7f4a@huaweicloud.com>
-In-Reply-To: <ede16ca4-96ef-e8e6-45fd-1c88cddc7f4a@huaweicloud.com>
-From: Xiao Ni <xni@redhat.com>
-Date: Tue, 1 Jul 2025 10:31:56 +0800
-X-Gm-Features: Ac12FXzhMQGjHMGlqGWC7dqp0aHNgDpMVdT7Q6bEMzZcdixQ6dP5r4Yqwzr1sd4
-Message-ID: <CALTww29r76X9C2-AEVGLqQ=BaWba8yrCCLcwkwVdO9ZhpkvWvA@mail.gmail.com>
-Subject: Re: [PATCH 16/23] md/md-llbitmap: implement bit state machine
-To: Yu Kuai <yukuai1@huaweicloud.com>
-Cc: hch@lst.de, colyli@kernel.org, song@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, yi.zhang@huawei.com, 
-	yangerkun@huawei.com, johnny.chenyi@huawei.com, 
-	"yukuai (C)" <yukuai3@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Jul 1, 2025 at 10:03=E2=80=AFAM Yu Kuai <yukuai1@huaweicloud.com> w=
-rote:
->
-> Hi,
->
-> =E5=9C=A8 2025/07/01 9:55, Xiao Ni =E5=86=99=E9=81=93:
-> > If there is a filesystem and the write io returns. The discard must
-> > see the memory changes without any memory barrier apis?
->
-> It's the filesystem itself should manage free blocks, and gurantee
-> discard can only be issued to free blocks that is not used at all.
 
-Hi Kuai
+Hi Sasha,
 
-Thanks for all the explanations and your patience.
+On Tue, Jun 24 2025 14:07 -0400, Sasha Levin <sashal@kernel.org> wrote:
 
-Regards
-Xiao
+> Hey folks,
 >
-> Thanks,
-> Kuai
->
+> This is a second attempt at a "Kernel API Specification" framework,
+> addressing the feedback from the initial RFC and expanding the scope
+> to include sysfs attribute specifications.
 
+In light of your talk at OSS last week [1] (for non-subscribers [2]), I
+am wondering if any of this code has been written by coding LLMs.  It
+seems like the kind of unpleasant boilerplate that they are said to be
+good at generating, but also seems like an enormous blob of "code" to
+review. What is the status of this specification in that regard?
+
+thanks!
+
+jake
+
+[1] https://lwn.net/Articles/1026558/
+[2] https://lwn.net/SubscriberLink/1026558/914fa4ec5964b0c5/
+
+-- 
+Jake Edge - LWN - jake@lwn.net - https://lwn.net
