@@ -1,207 +1,169 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2053.outbound.protection.outlook.com [40.107.237.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7C3270EA4;
-	Tue,  1 Jul 2025 16:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751387002; cv=fail; b=geweGyrFbf3DOyu+7DnCM31I6VDRlg9PCjnorgQ08nEyYr+JKavFJi7yfJb9jBHlXo7pTHEwG50mf71ZdZKnf7jPru/4hSsFNj36hTt0aoTVBi97OZySe4lLcx3kopHeKue+TdDeGG93IzlZc11ajY7MYRIZvP+CNi2U5gABxH4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751387002; c=relaxed/simple;
-	bh=tV3MdMMtMsEy8WL2uXPyzjClNaZgTOejaitlyGiXj18=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ql3/W5c/7ifcnDiYLlUnGF9GUarc2ZmXeq+BPsLrZoVMTLfpurqd1xWmZCDEU5EcVk723R2kBxiGuyn/IlzD78/qEx6F8IffP6l7TWYWgpiFl+kMiX/mjycXfeM8FmLHLpPJedMJXBGstVzUSMYI9N5HCd4dIsOGqevm29rfGzo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vzHYWI8Z; arc=fail smtp.client-ip=40.107.237.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554931F428F;
+	Tue,  1 Jul 2025 16:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751387490; cv=none; b=XDfnDY7RAKN5jSs2+ZtCnHpfM+Renn9TyesYf8nE0N/z+X7dTOO7WJrvwxgBjQJN9lF7mbKBt3oFEWy5nbn8HBtWbxvBoqzyQ2j9c5GL/gEuI6DZfcOil0ahUs5ThV2zJruVgEzSsCgRLUTJ7lC7bobGK9jCiEO858F3JBLDYjs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751387490; c=relaxed/simple;
+	bh=CcoZ+jyWrjgQXqI90PfN7uvuJcq1zdmr0lpBisf7mWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WGnb1oJXgcbNxBZa1SPYwovBtT7pHS0XlN38k5e8XizXg4q1hJht+uabA1AxISmUrlbtqolttx1FzhPYWLE7m0iu6M4uMGC2pv4bsf/oG6CyLYR5S7b0snUMcT2d+qXzm25w30eiqtj6bP0ERSpCJ/btXc8yY/QSHMGVBA1gD/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fKtlXMSc; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vzHYWI8Z"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RcKPRpw3JtVxc4Wfq8OpBwr7hHjU7EHZ1NQuCyc/Pw8MfopxeNl/btQPYf/4e+8CpXyBOIT6m/B6kACWbnOBpx9rYWPyJ1hoYIhI43HKx+gAgh1aQoOa0PtaYs+wmSolxYHi81jG9NriW/b4wkTYUcos9Jzsl1p62ak82gBfc2PLqlzcSObd1dOxt8dwbA1cHP3ItWruDOMwok3nkKcSg98ZeXjUbaH/2ZEDk/zUR7P/nU+PDndchl4gFitteTiU0YL9a9hFWR3YZWpd5YbNzQjSnH+HhFiGDufnmeqCNDe+DBWhKTkwYsgPLoj89WEOOeRLoCkJughJQbFu3STOAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XrSPAnvG1aIKaDuCvTwgJ7V6X8mgnxegJ0O6umgrTpg=;
- b=nn9CAbkPZ21HxTDIG21jedM7Igro8OZlwxGp8m+c9S+aCoCX4V98LtFug9kIyAnu4/83NVY8xWIrJ6M6BOcVHYQRwbPe9bH9vId2q16IMiAvO+cSuT9rWb+2zzDMHaTvTj+odOA6UMEticDHhEQkFINqLtkgR4EN7hvP1zYOacHcrQ6NlEw1+3B87uf+qQeTn2C5PXI9gpFHBr1r4cTJlp55hXZjwrRzMd65otwFsF+TIz5ltKPPhJdtLdCyxn7Tqhw9OcIL/Y+8cS59j9t0Bg9m10rf0bvW+Z9WYabdnFOMyzQ5CEJQqR+DbY7nPWPcs5/4kJsibjFwweyDx53ORQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XrSPAnvG1aIKaDuCvTwgJ7V6X8mgnxegJ0O6umgrTpg=;
- b=vzHYWI8Zn399Cu0ZGQQmyVjxPgA71W76jHQlkxRjG4eFeqQ79gViAWpP7p7y7YGam6HHDEYRkJtZySvflABGKj5VJBsQwR3/PLStorhWvHnFk9oYFejwWdVDlRmkWXTkTsYsigaBH3J0JmOp7AyDdbudZBJNHN9d1jmHRVgifnI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MN0PR12MB6294.namprd12.prod.outlook.com (2603:10b6:208:3c1::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.29; Tue, 1 Jul
- 2025 16:23:16 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%7]) with mapi id 15.20.8880.021; Tue, 1 Jul 2025
- 16:23:16 +0000
-Message-ID: <2cb7cba2-616d-407d-a9e6-82d738a4c029@amd.com>
-Date: Tue, 1 Jul 2025 11:23:12 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v14 26/32] fs/resctrl: Introduce mbm_assign_on_mkdir to
- enable assignments on mkdir
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
- rostedt@goodmis.org, paulmck@kernel.org, thuth@redhat.com, ardb@kernel.org,
- gregkh@linuxfoundation.org, seanjc@google.com, thomas.lendacky@amd.com,
- pawan.kumar.gupta@linux.intel.com, manali.shukla@amd.com,
- perry.yuan@amd.com, kai.huang@intel.com, peterz@infradead.org,
- xiaoyao.li@intel.com, kan.liang@linux.intel.com, mario.limonciello@amd.com,
- xin3.li@intel.com, gautham.shenoy@amd.com, xin@zytor.com,
- chang.seok.bae@intel.com, fenghuay@nvidia.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, eranian@google.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1749848714.git.babu.moger@amd.com>
- <a44e9063c26c2c33701816d09f488cec522f2530.1749848715.git.babu.moger@amd.com>
- <dd4a1021-b996-438e-941c-69dfcea5f22a@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <dd4a1021-b996-438e-941c-69dfcea5f22a@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0160.namprd11.prod.outlook.com
- (2603:10b6:806:1bb::15) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fKtlXMSc"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-235ef62066eso72450465ad.3;
+        Tue, 01 Jul 2025 09:31:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751387488; x=1751992288; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KGjQHDXTl52XkzXC5aSP4R+Ng9QPOvHno+hnhDfXbCI=;
+        b=fKtlXMScBm/nqHVW99CVzt5otrDA3zUBKuH+TZYIzEvMY6AsFgOjiy6jnm/k6HQTMT
+         NvlPa2U6wdvqErJ3GGfyUQ0JFM44izJ9peLkTE4DCOI7HHKQsqBSHYHdewHP27Xejalp
+         PbebwUFaREgXPxYHF71IIR2EYoWKZMQi80nMJWIl78941LSeT6VTV2/wcTTKxZ7uhTZ2
+         Ild1NEcE+tq1+CUk/+t7v5e7yiiyMFLLav5eit6NV8F6ck/Gyzez6p59frP8IAH5LMqg
+         ZFWtnI4mdyHqsjMe90C7IFgOHus1U9JcrJFWxJTukxJHn9zu8uZAf6468RW118pK0gSL
+         l1rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751387488; x=1751992288;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KGjQHDXTl52XkzXC5aSP4R+Ng9QPOvHno+hnhDfXbCI=;
+        b=IMFTVpgsMCldNthJVQJOAm/cyRkC2Jij5f5xR3H+1wohvi4u2n40fGOMUOH+A/GFQf
+         awHpupOZuv+A5CBnAXksd3PpKSZr7X5YYB3WB6oqPlQN6bH8vG/6hR8Wq+oNlOUwZs4s
+         z6VS87EmjkTR8EEaDOdau7JI87k8jLyLr/3hfNJI4qsAmOJmQT5pzAnyTHz27xh+UkAD
+         6nG/aITc+1lB9nx2LE9OEYNekTOwtnyN5297/jqG26j4Ts5vaRQtBWJq/mCq2AEE6PXA
+         zdKCBC7hVsfReOnL8MuJajiPiCtaJPeZ4+9v2YsWeYYvUWtkHjCMVyP6xW10cHUl/wZO
+         udtw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBxmHBHdUa2bs0InKSzWaKBeVm21vWrl2mYfdMpZUzwiLeyBsqEeG1uiDZZmJggjxUni6pnj8/UtzlLJZF@vger.kernel.org, AJvYcCV2YOGz3WU67ffw4VZl/qS+iS77ghB4FixaxKEdU3I1aUpkn+vGsFoIhlR0G4huHF78+aufXlYUIonw@vger.kernel.org, AJvYcCWuF+v1rNEt/XLQ89q6rO8dcIjV+9vh3ESpGvMEJ+ScMKurS727NMmv6k+u/7MhxbCw9GHEsphH@vger.kernel.org, AJvYcCX740mU+OKASh/wtjtEIEvP44yOyHyT/k3ftfoTlYq12eof9Ax7sU3/2KxAzINonNSGaYQuURTn2hVC7AR+UIco@vger.kernel.org, AJvYcCXdxQdabllHEznDwTNFtHIWMJpR6Lu+j+rNvqJzRnyL/zojfqlTHG0T34wzNS+EGuVxXDI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzP+Ns4t6QdJVt1IYypqMGQmnyjpS6jmCXHxY0VkHF/BXNjUwxh
+	YHhIPhGYIjSru1FRzmxE5BQ/nov8+1+0xy0paM7xj/2SafjmoZ6MBx8=
+X-Gm-Gg: ASbGncss0ZQ6VrT8CR+iN8yRLbsGMhojlR79W0uCYJgnGmQvhXpk0WbMHIOjrruTJbu
+	iheXZfKnLdL9ihy2UnxJiTop4SEG5GdI+KyqrALTG+mgiqYtdKA8yd2+0p8rfvKqoNBfN9usyhv
+	j9OpBjGA1ievMVG89acIsUO8AkuON26PogRFEMYrt8zknTC3XQ6x6wk9nIhVzmGP38FxffyZeg2
+	h/QHwN688oTOhevj+Foy8HMa+R4C8GPhCsqFoNIWFDeiC2TUCubJR/Xdi8qFCpFS8QdKZnXj7pO
+	Eod36sTSCdtOhPfHJJ4W2afnceMuLp7pkPDR9DgF6i2g85jQ0DqRrA86s/fYLe4GQv1OnK7YsYU
+	1YS9BVnI66s7C0zftbpwD/SY=
+X-Google-Smtp-Source: AGHT+IE42p+bvXcIC/EYegYCnbHHAI3uzv2WW7ETzX20cqGvD5/lHwRMjETv8b5lYWoWaTAuYCqLHg==
+X-Received: by 2002:a17:903:7cb:b0:236:15b7:62e8 with SMTP id d9443c01a7336-23ac46244b8mr180664355ad.25.1751387488444;
+        Tue, 01 Jul 2025 09:31:28 -0700 (PDT)
+Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-23acb3c54b8sm115331295ad.217.2025.07.01.09.31.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jul 2025 09:31:27 -0700 (PDT)
+Date: Tue, 1 Jul 2025 09:31:21 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Song Yoong Siang <yoong.siang.song@intel.com>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>, Mykola Lysenko <mykolal@fb.com>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH bpf-next 2/2] selftests/bpf: Enhance XDP Rx Metadata
+ Handling
+Message-ID: <aGQNWXe6FBks8D3U@mini-arch>
+References: <20250701042940.3272325-1-yoong.siang.song@intel.com>
+ <20250701042940.3272325-3-yoong.siang.song@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MN0PR12MB6294:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e92b47d-06a9-45ec-9500-08ddb8bb957a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dUdvbWRPRC9aR0xUakxtVm1WZmtQVFJvRFRXNE1FT2dVd21ocVBVMElJZUlY?=
- =?utf-8?B?dUJUYmJURjBWRkZUV1hxdGFvL3pTbTBBSXhXMjA4SmpWclBPUUlaVDRMeml4?=
- =?utf-8?B?L1N2MkJ5TVhpQUw0Zk5HblRCQlBMU0hUM0R1TWN3SDlSSVNacjNSem11elU3?=
- =?utf-8?B?Q094dURWVWpLcUJIcEwwYW5MSkI4M3Z3ZXdSZUlkclFkK25mL2YzNjNXaEZq?=
- =?utf-8?B?YlZMMHdVZ0NXaDhkcSsxS0FVSTNvamFJNzA2ZXdqUHN5MzZWWFdKRWkyMzBD?=
- =?utf-8?B?WmtFRnNzbXI4cWtTODBaNDZvblRXM1ZsZEN0YmFvMExLNXVjajdBRzBVVnpu?=
- =?utf-8?B?K3lLTVlPN2VIWXRSZVZZZjlzRURmL1FvUm9jOEpHWlEvSUN3cnZ5U0lkSmlX?=
- =?utf-8?B?a3JNdGRPZEdqK3U3UGFOamVNYVpjWVd3VUUxcFcrb1k4dFZCeThIZG1HQU96?=
- =?utf-8?B?WUdMUVV1bDlFRE1iQ21oRC9TYzdRQnh2K2RTK1AvYnRIRGJHS0xoT2hjWEdR?=
- =?utf-8?B?aWJKUEFUS3lFUWhJakR3aEVtY2t1UVhjdUJuRWdGeFFWYmk2K0N2YW15OEl6?=
- =?utf-8?B?YjhZNUJEUWEveUlYTTdoWWc1ZlcyczVxUEhSeUZrUG5NbS9JelJWK2NzR0Vj?=
- =?utf-8?B?SGJjbGpDTHJEVHZLdHllZzhLN0lsSEp0WElZdHpvWDNmbTNuYWdOaFhFV2JX?=
- =?utf-8?B?bXpEejlxOVlPRFZGYjZ4M2FNQWpGYXVUdFRiQ0JJZXVlOXNMdDF6UTQ0eS9h?=
- =?utf-8?B?eGN3dTkzbjVDbkNaUE1VeGhpRVVUK3hwQnc5UWRKbUlVMmkvenZIVmdJelVy?=
- =?utf-8?B?ektkcGZWT2Q5SDlWZmdkSThsaGdnUE8rdTJCZG1vUm9NdDgvNFN3czBieER4?=
- =?utf-8?B?a2JLYmNINXZZRFl1eGhQaURram42UkRmSE9DbXF2TVRmbjBHeU55SXREZnZK?=
- =?utf-8?B?OEc0VG5NaDgrdnJVMlIzV2xnaWVlSFFpRkNWYkphNytpclRNVmZHa3N3QkhC?=
- =?utf-8?B?T1RYS0xrL2tLUkF1WE5wVzd0blBEMFppUllXUVFIbUlNOVcwVzlPMmUyaTZx?=
- =?utf-8?B?TXFtOEVlL1h1d2JDSWRrWkF1bTN3VmZjTTU5aVpFZk1DcUo5MWdtQVJDZ21r?=
- =?utf-8?B?UFNrQ2RxbHFRekxWNHhCcmJjRVd1TnkxcHJOZFpiWHRIVmJMR0crZjBnMyt3?=
- =?utf-8?B?LzQvdWZ5RHAyTmZTTTlYL05BN2ZhSjgxb2VnUEVSMWptWEVVa1hhTEVQbS9z?=
- =?utf-8?B?UjBQZGRSbUpMVzdSQjdKNDJTeEhBWVVEdkdNSXQ2V0ZEa3Fpdmh6cmllenVl?=
- =?utf-8?B?STV0cnNFdGhPemRLemRPMzdjY1AyMFZWa05PUC9RR0E0UHBSd1o2Y2dnMXh3?=
- =?utf-8?B?QjVzQ0MrTlZUSVlaYjQ3U3I2bnZVRnltNmxINFg1eWVzdCtWbHNWZGRmWXU2?=
- =?utf-8?B?SjJFWkFUTGJqT2krZWk1VGxNS1NnbVlIUm96a2JlaHN4ODA2MlJEczlwZStP?=
- =?utf-8?B?cFhrRHlzNjVxelpxVitTYkpsbzIxbzd5Vy9hV3Fvc01DZU95THZ2R29NOU9Z?=
- =?utf-8?B?SURWMWwyRk9KTEhwcXozanhvMmdXWHVhWlc0TUlOWDVScHhhTDZ6cXFKV0Zh?=
- =?utf-8?B?ODRsSnNzNFpRKzNHbEhwQnNjYjlmNUVTbVRkMEpELzVHMGFsQlRRbWhlYm93?=
- =?utf-8?B?V3BnNXNpSWZmbmpnQWgxNmc4dDVMNWlFMlpBR2ozcWlGemJMVFJKZ1FOaW1D?=
- =?utf-8?B?TXhYVWNoYWczUml6Z2RvL2w1YzdmYW5nc0o1akZ5YW5CUEdqcGJYR045TVo2?=
- =?utf-8?B?RWRZcGNiTmdJUFY0bmVWRzcxK29QcVh5TVFsblhNVlRSdkpvRWpEK1JQMVdu?=
- =?utf-8?B?bkN5NlJ0YXhoRFI4eEVDMS8vaUFzMWt0aU9kSmxUWnBlbXc9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dTBiUG13S1orV00zN2JRcWxuVDROTnByQmZKSXZ6dldza3JibGZZc1oyZGp1?=
- =?utf-8?B?REoxelp5dUJibUFydHV6ZHJHSWRkUFY2MDJZYWJQODAxbW8zMEl5diswZXVj?=
- =?utf-8?B?anJhM3EvcXYxY2l5R0FISC9xSUMyb1lrN1VkY1FIR2VpRXNQOExVbnJ0NDNh?=
- =?utf-8?B?U1NoUkw3alM5WFdEOEJVZG5GOU5zUTdDTU9WNzhKRS8rOVBON1lRYTArd3pS?=
- =?utf-8?B?ZjNBWG1lRUFjSlN5QUtSdXBQWjQwYzRpbHBZK01EZ25NdThVdFQwVUxQWFVn?=
- =?utf-8?B?OHdQSlVybkZxS29HUDlMQ0E5K0Y2UmF3WFlKT2xMNEN1Qis3UUtIaGRSNUtS?=
- =?utf-8?B?TTY1VEZ6eWN3QUs3U2t1RGlYTzFoWjBuRHBqeVFZT2dtcFo4bjlmVHJ0eXJH?=
- =?utf-8?B?VlpIZFNhQUlwdTlZdFlTenJDTUdRbUtjZGVGZmFmRi9EKzRsY1NpN2R3UEFE?=
- =?utf-8?B?OUhJS1ZzOGR5UE9rYW1tK1R2b3U1RGR5NXQwZGc5aEtPNDZOWWtySkxnUVZu?=
- =?utf-8?B?VjBvUW1WNzR2TThFQzBPUE9zcTlPeUtUajBQZm5sSE96K09lWFNpUzNmNG9Y?=
- =?utf-8?B?NkttT1pmSmRLRy9Db1FtcktPUUlDUStPLzU0dkozVHBvKzJYN3ZyMGdZeEVE?=
- =?utf-8?B?bk1FUmRFd3VNL0dVelZrdkNXMW5pY3Z6MDdEZ1lZVUhJbVBCUDg2UlJFMzQ2?=
- =?utf-8?B?YmM2SDZyTEV5VE5vVElYNjBFWkFYTVJwb0NBYzE5UisyR3YvdGVzQUF2ekxX?=
- =?utf-8?B?RFNSaVphaXdnNnl4eXRrOFRENVNaODRISkhtQnBZcmZ4VGdlNU5aYnNEWll5?=
- =?utf-8?B?UlYvcUp1RnNRTW5XSEthNTBKUm1QZ1hiM0NGRjN2b3YzcEhXeEVPSnRjcUxa?=
- =?utf-8?B?VHI1Y000cDRrZVJsVXBGZzRZb1F1emtYMWpXTWM3NkluUGNkaUVuSXVyQURk?=
- =?utf-8?B?NEY3aUUzTy85UTZjYzBvU0o3b2lKUWpZUFpEaTlHa000RVZRdTE4NCtaRXRq?=
- =?utf-8?B?U3J2Ni9nWkkwbFZUNEFYaVdrMFlLamRsNE10MUZRM2ZEdEluWW9HdTM3QkZO?=
- =?utf-8?B?S0RvRmczcGdsMVl4a1FUN203K3hJdzMzeTF0TFJSeHRVTzVqM3BES2dPVVJG?=
- =?utf-8?B?Z1ZtZS8yV3o1bWI4KzR3WUk2eDNrbkNOSTdUUW52STlybVhhdUhiNi95U08z?=
- =?utf-8?B?dGliY1I4NnVMYTc2UnVhWUJLRjI0VFMzVCsyeDRiU1M1NkRqVnlKSmJrRkxR?=
- =?utf-8?B?eFdMNWUvSWF1bm82MHBTN3lvdTJYMkZPVCtkK3NIOS91aHBFZkxBVDRlcHZF?=
- =?utf-8?B?cnh4eDE2UjRjR3VZZ2VhNjJmV0swZERzWFR3K05aanhTanVSRE1rdXlkbVA5?=
- =?utf-8?B?S1pTZnNNOVV1d080dlJTM093eG9DMXlKTnl4SmxvSlR4SmdNQWF2SCt1bkxo?=
- =?utf-8?B?MXJvcGh0bzhud1hJdkVmTVk0UGJpSDdZc1RVd0tYeVB1ZFEvR1ZNUHRQSDhV?=
- =?utf-8?B?Z2U3THlIdk5FS3RJWlBQZFhoSGpaaWFZLzlUaUxEd1VsQit0OFYyanQwOHVv?=
- =?utf-8?B?djJiNWpEcjRYRkRjT2Jkd2dRV1lqTTg5R3hWTElOQTVGZlIzNHhWaVdqekpQ?=
- =?utf-8?B?SytocVVqUmdiQ3MwdHVGWEVFTWxjR2J5NzNkY2J4NnRPRVhnV0dnaU1CODlk?=
- =?utf-8?B?cGE2MTZHV2NvMzc5Y2FsMVpKd3NpL2cvUDFEWlpyclVwNEFxVHVsL1pJS29l?=
- =?utf-8?B?UGdobXVDWFBKMkR6Y2JEcFdqcDN2QXhiM2p0L3JMZVZqUkpabG1UNlRFcGZ6?=
- =?utf-8?B?TTNDVUo4YXdtcGNVczNHRWJtL1h1OGVwclNSeC9DQ3kxMDZiTDlraTNUZXBy?=
- =?utf-8?B?ajA2Vm54UEFNbXJRRXFHTUFrdFhJTEdCUWFQaFlTaTdKWVBYdnYyWDVUM20r?=
- =?utf-8?B?S21mb2Z6eTJXd1Flemx3eXpnMkdTaVo1eTJ4akVOMzRvbmpNNytwY2lOWk5U?=
- =?utf-8?B?cS80bEhJNmNuNVI4cGdIUm1aeUhqamNJWThBZUxDcDFDdEZwUVNiNWR0TStX?=
- =?utf-8?B?bzhZU1FHaUhTWG1IcGwwaE5aYUVJYmJyN2xzMEtjbkZOZUkwRmpqcU9YVE4x?=
- =?utf-8?Q?jpKs=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e92b47d-06a9-45ec-9500-08ddb8bb957a
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 16:23:16.5062
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: syQf7lbUtWJwGiG3TNzV/wdmx4cUObToCK8drPHoIMqSXl5dcv81qzp5D1M2awdW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6294
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250701042940.3272325-3-yoong.siang.song@intel.com>
 
-Hi Reinette,
-
-On 6/25/25 18:24, Reinette Chatre wrote:
-> Hi Babu,
+On 07/01, Song Yoong Siang wrote:
+> Introduce the XDP_METADATA_SIZE macro to ensure that user applications can
+> consistently retrieve the correct location of struct xdp_meta.
 > 
-> On 6/13/25 2:05 PM, Babu Moger wrote:
->> +static ssize_t resctrl_mbm_assign_on_mkdir_write(struct kernfs_open_file *of,
->> +						 char *buf, size_t nbytes, loff_t off)
->> +{
->> +	struct rdt_resource *r = rdt_kn_parent_priv(of->kn);
->> +	bool value;
->> +	int ret;
->> +
->> +	ret = kstrtobool(buf, &value);
->> +	if (ret)
->> +		return ret;
->> +
->> +	mutex_lock(&rdtgroup_mutex);
->> +	rdt_last_cmd_clear();
->> +
->> +	r->mon.mbm_assign_on_mkdir = value;
->> +
->> +	mutex_unlock(&rdtgroup_mutex);
->> +
->> +	return ret ?: nbytes;
+> Prior to this commit, the XDP program adjusted the data_meta backward by
+> the size of struct xdp_meta, while the user application retrieved the data
+> by calculating backward from the data pointer. This approach only worked if
+> xdp_buff->data_meta was equal to xdp_buff->data before calling
+> bpf_xdp_adjust_meta.
 > 
-> The static checker I tried complained here that ret can only be zero here.
+> With the introduction of XDP_METADATA_SIZE, both the XDP program and user
+> application now calculate and identify the location of struct xdp_meta from
+> the data pointer. This ensures the implementation remains functional even
+> when there is device-reserved metadata, making the tests more portable
+> across different NICs.
 > 
+> Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
+> ---
+>  tools/testing/selftests/bpf/prog_tests/xdp_metadata.c |  2 +-
+>  tools/testing/selftests/bpf/progs/xdp_hw_metadata.c   | 10 +++++++++-
+>  tools/testing/selftests/bpf/progs/xdp_metadata.c      |  8 +++++++-
+>  tools/testing/selftests/bpf/xdp_hw_metadata.c         |  2 +-
+>  tools/testing/selftests/bpf/xdp_metadata.h            |  7 +++++++
+>  5 files changed, 25 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/bpf/prog_tests/xdp_metadata.c b/tools/testing/selftests/bpf/prog_tests/xdp_metadata.c
+> index 19f92affc2da..8d6c2633698b 100644
+> --- a/tools/testing/selftests/bpf/prog_tests/xdp_metadata.c
+> +++ b/tools/testing/selftests/bpf/prog_tests/xdp_metadata.c
+> @@ -302,7 +302,7 @@ static int verify_xsk_metadata(struct xsk *xsk, bool sent_from_af_xdp)
+>  
+>  	/* custom metadata */
+>  
+> -	meta = data - sizeof(struct xdp_meta);
+> +	meta = data - XDP_METADATA_SIZE;
+>  
+>  	if (!ASSERT_NEQ(meta->rx_timestamp, 0, "rx_timestamp"))
+>  		return -1;
+> diff --git a/tools/testing/selftests/bpf/progs/xdp_hw_metadata.c b/tools/testing/selftests/bpf/progs/xdp_hw_metadata.c
+> index 330ece2eabdb..72242ac1cdcd 100644
+> --- a/tools/testing/selftests/bpf/progs/xdp_hw_metadata.c
+> +++ b/tools/testing/selftests/bpf/progs/xdp_hw_metadata.c
+> @@ -27,6 +27,7 @@ extern int bpf_xdp_metadata_rx_vlan_tag(const struct xdp_md *ctx,
+>  SEC("xdp.frags")
+>  int rx(struct xdp_md *ctx)
+>  {
+> +	int metalen_used, metalen_to_adjust;
+>  	void *data, *data_meta, *data_end;
+>  	struct ipv6hdr *ip6h = NULL;
+>  	struct udphdr *udp = NULL;
+> @@ -72,7 +73,14 @@ int rx(struct xdp_md *ctx)
+>  		return XDP_PASS;
+>  	}
+>  
+> -	err = bpf_xdp_adjust_meta(ctx, -(int)sizeof(struct xdp_meta));
 
-It should be
+[..]
 
-  return 0;
+> +	metalen_used = ctx->data - ctx->data_meta;
 
--- 
-Thanks
-Babu Moger
+Is the intent here to query how much metadata has been consumed/reserved
+by the driver? Looking at IGC it has the following code/comment:
+
+	bi->xdp->data += IGC_TS_HDR_LEN;
+
+	/* HW timestamp has been copied into local variable. Metadata
+	 * length when XDP program is called should be 0.
+	 */
+	bi->xdp->data_meta += IGC_TS_HDR_LEN;
+
+Are you sure that metadata size is correctly exposed to the bpf program?
+
+My assumptions was that we should just unconditionally do bpf_xdp_adjust_meta
+with -XDP_METADATA_SIZE and that should be good enough.
