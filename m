@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2188425B1FC
-	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 19:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F09283155
+	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 19:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751398490; cv=none; b=ki7rPmkFUbbmBJ9W9+ArLejjIDeyT3JbJqT+0bDI0oj4M8r2S0dDCdbHzp3s1N94NimpaGvgywEfteIwLDI1xh6Pw7Cq9kEZmJkiQTWSGDaUMqbgLglZOZytHOMLHG5WVe6sruSTxzFTOAMf8hmYv86gwaY+88Q77xbZppEAkSg=
+	t=1751398728; cv=none; b=Lo89MhN9XC1y0dYCEYGfYcCZP70hGmjBQASFMbWwCcWteKODM1eHBBzf3QD8zD+jYzzarzG0CcV+jZP++kzgttY+VlCU2N9r7yF4iJZdClwQEWr7L+GgW6vbIoCjl0HtTx9e/tu3x8KcSZ/6S3AvlmJU8MvFNDtWFC9nV9/fW00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751398490; c=relaxed/simple;
-	bh=IfIn2pV/T5GS2KsTCh7WHgYSdR9NjRHjEuLtW5Bc96A=;
+	s=arc-20240116; t=1751398728; c=relaxed/simple;
+	bh=/gDBtxT109hf9ai3868bZtZVWwsPmd555OsHp/op8gU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FEx/KiRiGlwZNdqKxOqSL4dHfy88nta1mi8Td0ssYF6/riQ8pl30QcQ6GGZa1XWTet1D/KCoJyeYpPuYY8ZesNAUgvSZYTlFKdDCIttsPK+H+Edp4cRbo/9R1o8GLdKnwk4hrfTan23g75BkClUqfHBX47Xyd1aLqXGYcWWI8Sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fMMs7P47; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=gR/jpTuhRo7iPE/5EX5ZTxUHWEBFj7X4iZU70RxwI7/rR5GiYPJrYluF6sMtPyi2L72TJyjhb0U51P7tirSSHOJOEGzkZbZ5CknLLpV8Lvw73XXGpOaGVU1eP4EUvE+ODExNX79Yxw21C98nrlGDnfdWm88Jn9oWGntXTBEIIc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hieRbl9Q; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fMMs7P47"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hieRbl9Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751398488;
+	s=mimecast20190719; t=1751398725;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gw1ZFU7fseKrRoTgl7UAAoDGCdFd91K7Vdf4y+yHx50=;
-	b=fMMs7P47Kf+15xnAbaFPRW79Dkjfiz/TqMXDJqJ+oD1qitaega8a81aiotapjiEF6HN+0B
-	s4i7JcQ777y65VOoj2xGz58bM40fsx3zNtUhDpW4pcgPWiCdzBxZew8dOD2g6gWxksiyN3
-	E/5b4IvNXtyGtjRibx3o9Spr8aqH9BY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=lElXDuIbz+447o51stvN3qhEUqBMiy6QYykeUTYpuzk=;
+	b=hieRbl9QDhXIj0s2xnTl+QHLnpT7Xt+2/IoptbAqn/LXbMTUGorpmXdcgtiHEHSyukD9MN
+	aCL3o0Bgwnis7g5wlludX1AOvjmt5YD39LNBQuJfqK3QmpazNz7warF+mScLXzFU+G7naE
+	r6A6K9cpGz8k7lORWN2IpRUIG3g9bws=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-138-KWLcpl4KOI2vnI7lMJKtLg-1; Tue, 01 Jul 2025 15:34:47 -0400
-X-MC-Unique: KWLcpl4KOI2vnI7lMJKtLg-1
-X-Mimecast-MFC-AGG-ID: KWLcpl4KOI2vnI7lMJKtLg_1751398486
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-451d30992bcso23280495e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 12:34:46 -0700 (PDT)
+ us-mta-671-rAnmhpkNPCGb8UdExKF3Kg-1; Tue, 01 Jul 2025 15:38:43 -0400
+X-MC-Unique: rAnmhpkNPCGb8UdExKF3Kg-1
+X-Mimecast-MFC-AGG-ID: rAnmhpkNPCGb8UdExKF3Kg_1751398719
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3a58939191eso1319193f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 12:38:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751398486; x=1752003286;
+        d=1e100.net; s=20230601; t=1751398719; x=1752003519;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=gw1ZFU7fseKrRoTgl7UAAoDGCdFd91K7Vdf4y+yHx50=;
-        b=sneydvlfJ7rJkCPSe1G8GKUIzkqDePAyda+faFSRDw17rCsHQ+redUe5pEUEC3D4na
-         d/wLiPy9Ibs/g+uAs35hKmydUzT+lpOTrorOjCYINzDLhBbq2X8Dx0i9h1pIqUoCd7Ui
-         nbx/tOQ+cGDfIXRirQaBDhp8l9TxDGvZQymKOv4CCc3V3HOwdTPaHr3BvS2Rr4xPbk3Q
-         nBNxZmT1+MK4aw/7w0TCR2HcgT1PEtXlAndnpgf2Nrq74s8WJlpBeneGcpPew9eSOByP
-         JH7P5F3YOAYVfNZ3BYceJGScNKuqGhcAS35fDsLtB9AEDMjxiRQUOqz1P+4V+Pg09uqz
-         CAew==
-X-Forwarded-Encrypted: i=1; AJvYcCVCnygKAHTCQU8IYj497lPnNT80gpuvd9sh7a3Oh1N0pIuwFTWGmuttUkpYnR+yvpRcSnpfQ3ULgAw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJdDXxn/cfdazx6JC4rPADaImApA4Tuw2lsmWn6rqJxuWbnfZo
-	aYG7vg0hVSodjeMOr/cE0qW8pdfaYvh1SjO/BQLJXdf3pdSv+T7y1XaoJKTHIaCtr/OYeITK8cM
-	HZylT+GH8fo3ypoy/lSad85fqLdzlr9ai2gacJlWTvP3PIqFavIFrXD9Izcq6uQ==
-X-Gm-Gg: ASbGncvECMDAJceuB/6mcMoOaCXk9gWavH51a0nTDfklnV2wmstgc7CAtEL4UftFTEU
-	j3L/YFGx+PeaotXW5VSCeWIFb3av1HMoaIR+6MdH2X/qErVfKAHZFmDC9zT8zTw7BeE/r3eOFXh
-	/8k9khE+Jg5jSYiRwCn4JmLhZ9XSO23U0fCBbIpsH6hyGVPOzw+Yr1At8nXW58kFbRpL90yIemY
-	wEWz07sh2yg4800mU8Q7xNx5wXZAKUaceWpM+mslUK5jVFuyNXc4Axsj9qahsWbM3cmB4DnKAwf
-	olNq8Bzy9W44GlfH1IpG5Kf1qSg1N3UwX2gcFywnq24JmS6FZLyK4kyspRVY+mKj/qGT9xOAP8G
-	safWGtUPqmNxLcQvxSWOAne8u11sfqcc6LEd2PJ+lr+bMtRAQzw==
-X-Received: by 2002:a05:600c:1549:b0:453:6146:1172 with SMTP id 5b1f17b1804b1-454a36d8d1amr4351445e9.3.1751398485598;
-        Tue, 01 Jul 2025 12:34:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGhEuTg4M0PQbefUA1jZ0F5TAuHLHbTJ/BFBL6Gk20G74uE8iX4U0pj6is7luyXAnqTfNAkbQ==
-X-Received: by 2002:a05:600c:1549:b0:453:6146:1172 with SMTP id 5b1f17b1804b1-454a36d8d1amr4351025e9.3.1751398485099;
-        Tue, 01 Jul 2025 12:34:45 -0700 (PDT)
+        bh=lElXDuIbz+447o51stvN3qhEUqBMiy6QYykeUTYpuzk=;
+        b=FhCOI3nJ+FaK/M/OceGR2QNIT1wCmg6gLGUFeBy+q9a3dh9bjL31fEMUWPcq8zYzp5
+         1tAhWv8lTeABDftbPyc1UtHr02gt1mL7xNZ0/1xwLjkKolUWCHURq+z0VlbBhID6XOqC
+         ZYR8MQfyQYapx21xS0Wf1c1xfRFI5LoszRqyuFwNm7GEc8ABm3yV/Def01J9VZex4dPv
+         3dyZ/Sqoqsnsjf1lzIobPjFDanj44qVSOh4KEugRoG5xeOjGwmxgn9qdS3kCU+SBZHp9
+         awMdgyx6vFIztzH1W7pmCbq6oOKL3O5ozTfUoqb0XcZOR8LJcmxkSp/TFomIqLRqnmty
+         g9MQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXTcsSRvz68IkrX0SGZtbDg9SY0BQvQRapaahX5y7MGpHx0jAHUfXPSp8rwAUQaKwPRIIJsKWgXRDI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLBo/r4bhfif7ixWVtKYUpYgppOVo/IdZZ4Q1fVcKZuyrZ2DqR
+	V3d2/Jc5hGaT2X9NJh2pEYTLaI8eoyikhr2SluT0CIwqSU+vbhG2ybZBKZ5dINx1gfbZC3DuZrF
+	G7LezX1W53SpzBKS1NoQME7IRiG9RCM7ioS6Tf4fIA2Dm36JO/7TganDLCfVC+w==
+X-Gm-Gg: ASbGncsVXj1O3xlgbNnmNXgj8OHG6isR6WI4qW1RvDlYFC7xmE1r6yZUb20e92Zo7w2
+	n5H1FskR5GMlX0Qcg/FJ2XDvma4SxXYh8CDQ8MtY0ngBisuENR3s8IWFXlLBRGv4NV973pvKieq
+	mNEd9O0uzSCYmDHTxedltICcKj32w0JyyFJ7BSpBy+dxzg4pOJCrKZtS5Yz5BSsFXDMA6u1oWk6
+	KE5r27+yaemyhL0DR0D+3A5D8AGIyHqivqby0k8N2qIjiSaSvOUO2r/7bwPE9nl22PZGSpY30YN
+	ShUt7jYQ4uBbXY1ZAWJNZH37CdJhqpCiS7kNpV+JiioXbkCItkiW59bGrw7kAGC6NQk2gc03t/Q
+	5WtbFr96OD6vITZhhSeZlB3DxNygaB5MiZV3/IQQNBfJNMFZGlg==
+X-Received: by 2002:adf:9d87:0:b0:3a4:f7af:b41 with SMTP id ffacd0b85a97d-3a8f4a15c99mr14175416f8f.15.1751398718895;
+        Tue, 01 Jul 2025 12:38:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGLFyo8RcgMuSgcAM1cNXXfDuXZjnZVKPC4QmHAvknSOXyWUZGyTCuS2ZP2Izn55tZDj/Vv7w==
+X-Received: by 2002:adf:9d87:0:b0:3a4:f7af:b41 with SMTP id ffacd0b85a97d-3a8f4a15c99mr14175369f8f.15.1751398718397;
+        Tue, 01 Jul 2025 12:38:38 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f18:7500:202e:b0f1:76d6:f9af? (p200300d82f187500202eb0f176d6f9af.dip0.t-ipconnect.de. [2003:d8:2f18:7500:202e:b0f1:76d6:f9af])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453823c57d7sm215278035e9.40.2025.07.01.12.34.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e52a5asm14214194f8f.54.2025.07.01.12.38.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 12:34:44 -0700 (PDT)
-Message-ID: <ac8f80bb-3aec-491c-a39c-3aecb6e219b2@redhat.com>
-Date: Tue, 1 Jul 2025 21:34:41 +0200
+        Tue, 01 Jul 2025 12:38:37 -0700 (PDT)
+Message-ID: <bf300002-7020-44c2-bda8-e4fa718832bf@redhat.com>
+Date: Tue, 1 Jul 2025 21:38:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,13 +75,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 23/29] mm/page-alloc: remove PageMappingFlags()
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
+Subject: Re: [PATCH v1 00/29] mm/migration: rework movable_ops page migration
+ (part 1)
+To: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, virtualization@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
  Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
  Christophe Leroy <christophe.leroy@csgroup.eu>,
  Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
@@ -96,6 +96,7 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
  Ying Huang <ying.huang@linux.alibaba.com>,
  Alistair Popple <apopple@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
  <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
  Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
@@ -111,8 +112,6 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
  Shakeel Butt <shakeel.butt@linux.dev>
 References: <20250630130011.330477-1-david@redhat.com>
- <20250630130011.330477-24-david@redhat.com>
- <8ff24777-988a-4d1d-be97-e7184abfa998@lucifer.local>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -160,45 +159,39 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <8ff24777-988a-4d1d-be97-e7184abfa998@lucifer.local>
+In-Reply-To: <20250630130011.330477-1-david@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01.07.25 15:02, Lorenzo Stoakes wrote:
-> On Mon, Jun 30, 2025 at 03:00:04PM +0200, David Hildenbrand wrote:
->> We can now simply check for PageAnon() and remove PageMappingFlags().
->>
->> ... and while at it, use the folio instead and operate on
->> folio->mapping.
+On 30.06.25 14:59, David Hildenbrand wrote:
+> Based on mm/mm-new.
 > 
-> Probably worth mentioning to be super crystal clear that this is because
-> now it's either an anon folio or a KSM folio, both of which set the
-> FOLIO_MAPPING_ANON flag.
-
-"As PageMappingFlags() now only indicates anon (incl. ksm) folios, we 
-can now simply check for PageAnon() and remove PageMappingFlags()."
-
-
+> In the future, as we decouple "struct page" from "struct folio", pages
+> that support "non-lru page migration" -- movable_ops page migration
+> such as memory balloons and zsmalloc -- will no longer be folios. They
+> will not have ->mapping, ->lru, and likely no refcount and no
+> page lock. But they will have a type and flags :)
 > 
-> I wonder if there's other places that could be fixed up similarly that do
-> folio_test_anon() || folio_test_ksm() or equivalent?
-
-I think you spotted the one in patch #25 :)
-
-I looked for others while crafting this patch, but there might be more 
-hiding that I didn't catch.
-
+> This is the first part (other parts not written yet) of decoupling
+> movable_ops page migration from folio migration.
 > 
->>
->> Reviewed-by: Zi Yan <ziy@nvidia.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
+> In this series, we get rid of the ->mapping usage, and start cleaning up
+> the code + separating it from folio migration.
 > 
-> LGTM, so:
+> Migration core will have to be further reworked to not treat movable_ops
+> pages like folios. This is the first step into that direction.
 > 
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> 
+> Heavily tested with virtio-balloon and lightly tested with zsmalloc
+> on x86-64. Cross-compile-tested.
 
-Thanks!
+Thanks everybody for the review!
+
+I'm planning on sending v2 probably later tomorrow, so we can get it 
+into mm-new.
+
+So if someone wants to review parts of this series either (a) do it 
+until tomorrow; or (b) scream STOP and I'll wait with v2 a bit longer; 
+or (c) wait until v2.
 
 -- 
 Cheers,
