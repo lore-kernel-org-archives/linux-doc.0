@@ -1,212 +1,355 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010065.outbound.protection.outlook.com [52.101.69.65])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B432620E8;
-	Tue,  1 Jul 2025 07:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751356241; cv=fail; b=dGP7Jfj4GzXpaA2wLm/80mI38StMjkPbd6bywtEO+FGtV9zcLLn3iFfS8S/iipncWfX8EMNg8oHaxDLGaTdyRcaWvj+22JjFI0APjEAUvythjuDMX7pLkhxvzSaA8Io8GtCQu/6eJ856WJ2CDN4Q5I5lmFD9qwCS6jlcJD5YPPs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751356241; c=relaxed/simple;
-	bh=wiavBSsHVxnjxiyFsBISmOdlNkKRY2jBRLJ2F21RWX4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=brMQfdYquovg/ebFzJ2L9K0RSBGIglMA+qsncdJFTXJbxh0V99dj2sxUQ0oO0AIs/o+ucebFucwgzYkpfq8IlD/vUdMWYPoKaOpWG7Cj+eLymr50+LHXo6K+GX+CArGGTesstZeCsSX5ND45n9tVFBqH6ZnOOY3NAqCixiPZsF0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=2n.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=aSGQNoza; arc=fail smtp.client-ip=52.101.69.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=2n.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF38825A631
+	for <linux-doc@vger.kernel.org>; Tue,  1 Jul 2025 07:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751356699; cv=none; b=fVSXHCPZ/Tyyj1t2Xc1juHKPL76y3+08Burb7oGYkrdfFUrTuBBixUIWayC/NpEjTqsWfCLLzj0hexF1gl6pnPHYm+/GfCOus4Lsf1BDCvCz97sqAMFHxVg70mRmxntBCsyFt0wFXNiW747wQE5uN/c4Ifrp1sC6IxXbiKPtLvU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751356699; c=relaxed/simple;
+	bh=EkxLnWK+KNQPvO+XPa/qISs0wqev8VlQsQoVXc69XRA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uWSCXwRQdXiycuL2F57QM6ZVQ+9IknlAtL2PLOtHE6/5jYC4nH9IoFozM28ffUXhD//LiHXFzWuzDEWO6wy1EVsxtdrKNkaEfGL4XysQ1i64uOC2hHlqVpy4DY/eUa/5l45DCgIDjJloon+D9JDUi99l4qdQINsRpMU9WSq0QbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Tvp18pRn; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="aSGQNoza"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QSz7cK0RPJjIS8Lnd9l0S4oK3sQwc+T9VR4/HDmkbGCvuE+zSBRypHxDG+63FndCvSyEsKZSufBWCVGZidMyufyHscFytn9RsIVJPtEvDeilnHufUynsfwmdjDlRZCJoueLgM5+Fm1pQ6DzXZRCkPSsJTFIddAxUQpsTXxUDfiCl7Mq7rYT4sBlbZjTF7kRhsD6Gtw52mVq4ID0/dRrtTUVMvLkfkU9p3+i4638dV2fST7HxBhtWgYuS5SQNQBByi4X3OS8iR1SQ6za24GCxOSRDdXO7Zch5+FSFTeE9fGt6e6fcyF9tn34e/V7v3KDVfnN/3aCBL9ZNaSpffc12jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jqqJKLVK+iRN2eOJCTeewjp8WvXT6DArcDg7nGgvr2U=;
- b=D9v86bs8jWNvhI9Gg+ZqzslKfk+hyBuTkO167fcz4WsjYgRU7t0FFkKFmwJG/dLYBBuC71ZhVNsAUKRx82qG5Tysyv0AbZ8zZc5Y+Hnsp712MlUOSSuww4V+GrfSkqXl90Zd8YVw4kWOyEbNl4ieV1HR4aElC+YiQy4uL9+eUa4IPRmwgvknm1L+TrQFB63f1U7IX7bWiEw13cvsDPyNG19AngPWcMqUZIJkerQP+TFy/lkqIFYSO3hHZ3quWCuu0g4+Q7K/ImUFkIIaII6iD4r3lqswyLQVOcdTN5MgdhF8mP/WTaKu7FDpCIdBbgt5Fx30Qyz4SQwNBoFGN2l4Tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=broadcom.com smtp.mailfrom=2n.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=axis.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jqqJKLVK+iRN2eOJCTeewjp8WvXT6DArcDg7nGgvr2U=;
- b=aSGQNozasI5YR4mdszzA50IVvCSPTkLpaO9FJomX/uhAMg552rhac5tGVCIS4abaDyoboFFN3S8p4TC+NbCjbE/E6opfg+kwuJU75w8z6FFm114NqPRkXjYjmhGAofnXy2qjzqcHEyy1Ef5/HqT/OhafoS7EtkAUDOSePsQoPvk=
-Received: from AM4PR07CA0030.eurprd07.prod.outlook.com (2603:10a6:205:1::43)
- by PAXPR02MB8224.eurprd02.prod.outlook.com (2603:10a6:102:243::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.32; Tue, 1 Jul
- 2025 07:50:33 +0000
-Received: from AM3PEPF00009BA2.eurprd04.prod.outlook.com
- (2603:10a6:205:1:cafe::ec) by AM4PR07CA0030.outlook.office365.com
- (2603:10a6:205:1::43) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.13 via Frontend Transport; Tue,
- 1 Jul 2025 07:50:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=2n.com; dkim=none (message not signed) header.d=none;dmarc=fail
- action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of 2n.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AM3PEPF00009BA2.mail.protection.outlook.com (10.167.16.27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8901.15 via Frontend Transport; Tue, 1 Jul 2025 07:50:33 +0000
-Received: from pcczc3457tyd.2n.cz.axis.com (10.4.0.13) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 1 Jul
- 2025 09:50:31 +0200
-From: =?UTF-8?q?Kamil=20Hor=C3=A1k=20-=202N?= <kamilh@axis.com>
-To: <florian.fainelli@broadcom.com>, <bcm-kernel-feedback-list@broadcom.com>,
-	<andrew@lunn.ch>, <hkallweit1@gmail.com>, <linux@armlinux.org.uk>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
-CC: <kamilh@axis.com>, <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <f.fainelli@gmail.com>, <robh@kernel.org>,
-	<andrew+netdev@lunn.ch>, <horms@kernel.org>, <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>
-Subject: [PATCH net v5 3/4] net: phy: bcm5481x: MII-Lite activation
-Date: Tue, 1 Jul 2025 09:50:14 +0200
-Message-ID: <20250701075015.2601518-4-kamilh@axis.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250701075015.2601518-1-kamilh@axis.com>
-References: <20250701075015.2601518-1-kamilh@axis.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Tvp18pRn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751356695;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=/Feq4JYZa9imSCNgZMBn1vPhrRu0fqByvVFyCsbFbfo=;
+	b=Tvp18pRnrfrSiRzNfZY2JgzOhWD4f4I9MS20zJ0FzVOOPWoXG1aDk7mkWfgg2qiDJ5KZkv
+	yaSHQQCvo5Nx7z7z9t8Cc28R++wH974c7XRTXd8/g3NyOwp8GrkSScA2nTKD7h/YhIGnER
+	12kccKaHYw1oFGhJYghMXwfltuRymAw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-479-9BV7TNUrP-yhTxiP7vl27Q-1; Tue, 01 Jul 2025 03:58:14 -0400
+X-MC-Unique: 9BV7TNUrP-yhTxiP7vl27Q-1
+X-Mimecast-MFC-AGG-ID: 9BV7TNUrP-yhTxiP7vl27Q_1751356693
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3a4eb6fcd88so2235827f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 00:58:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751356693; x=1751961493;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/Feq4JYZa9imSCNgZMBn1vPhrRu0fqByvVFyCsbFbfo=;
+        b=J4bZAbeu8PGKKFhkc8yPv2oQWtXSByL9SIcAnlciIEUutiJEulr6IFIYkxiVW21Np5
+         8EK6ywB5o4fd6nCgCyLNqxvGdVkUrSR287MXFVXxys1br5AxV7f0GCDkoGqRwIUwKzqF
+         YaRXnQ+gA4QzFuSN6h4pMiM+lMfh8bi1yMQr899XH3nLkDcjPKqKSSPchNu8XprIMO0Q
+         JbyscwRDjnhSewEdc5pQqiAsrzTq+vL/CiRGairWIzaUhvG3LclpwSwyYscv/38olIBz
+         bkir+UsWz+Cd4y9x4BmMZmuPAmUhbN6WfkoxRig0+NpxL5I6aQdd3SaZ3JfPd8r64+3Q
+         frcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWc1eVIXLNalrPKRYRHOr1aEu0eki+zBe4ttnZbIjhHd1slpPVC0KptSDh9krjD6K1qId+3DnE9lJM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRZHz9+mDSSF8jWLkCVS0j4dxj0/wvxHXlVYM3ejtzqa0y3V+Q
+	Cj7wKKsoAbrIpIdIG+7NRXrLD582YgzsIOBFScoJluNCA4EI3k8IX3KErnmRTRSPchNyzsDLshf
+	PVQutSekzZhniHXiA2QcAauLjfFZv/9OPxmNJs0UWhkTY3qlU9I0MaJrkWGqVaA==
+X-Gm-Gg: ASbGncuV06mmqIgJdytWN8rH5ShN4fv3lb4aEmQUFiuSt6ecgCplbACc9J4rvsSLvA8
+	6/pKFSDKDHtMgTbkQuMhzOF596LZVRUEEPNXPiMUT3lHLr6gZnAs2hIR4edNNmQWPB3vOx17bJs
+	XQ6RRGq5gxVbXIIED3VdF/MyAs7yEucJN3EWk2amyOjBVA8MdOMdcRlQIzYV5SecFA+454fn+YP
+	hTCSftd319WsdbPzbu1eapP5X2dRF+7GDzda20vwBsyb1Czz7AacRLqEEHx9UnXMdtujRnEbIQu
+	jaR7X7XRY4py5bEc/C1/cXoucB8a/iVCqGcXb16ESQJsgivSNccZFMZx9LnQXgfTn6nR4Je78FR
+	Cq5ZOBNHgZ1VH94M4D1rFdzzIsuhXptLKifG38PDonb0PYO0mrg==
+X-Received: by 2002:a05:6000:64b:b0:3a6:d5fd:4687 with SMTP id ffacd0b85a97d-3a8f482bd31mr13154737f8f.18.1751356693308;
+        Tue, 01 Jul 2025 00:58:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGjMbemhkIZeoSup+OwONMSvz50yZg2K0dN6tNDQHYUqndeAp7nP+ltTQxgNLFcEg/amFhAAA==
+X-Received: by 2002:a05:6000:64b:b0:3a6:d5fd:4687 with SMTP id ffacd0b85a97d-3a8f482bd31mr13154650f8f.18.1751356692689;
+        Tue, 01 Jul 2025 00:58:12 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f18:7500:202e:b0f1:76d6:f9af? (p200300d82f187500202eb0f176d6f9af.dip0.t-ipconnect.de. [2003:d8:2f18:7500:202e:b0f1:76d6:f9af])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7e72c1sm12366971f8f.1.2025.07.01.00.58.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jul 2025 00:58:11 -0700 (PDT)
+Message-ID: <277e094d-b159-411f-940d-13b62493f6c5@redhat.com>
+Date: Tue, 1 Jul 2025 09:58:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: se-mail02w.axis.com (10.20.40.8) To se-mail01w.axis.com
- (10.20.40.7)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF00009BA2:EE_|PAXPR02MB8224:EE_
-X-MS-Office365-Filtering-Correlation-Id: 541412d5-1d08-446f-4855-08ddb873f550
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|19092799006|7416014|376014|7053199007|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?L2hBVCtLTWMwZjhUUk5hNElmcng3UnQxRUVZRnJqYitKb25JMXB4eVVQSGQ1?=
- =?utf-8?B?WDQ5MGtHU1grWURMa0NJUVRBY2NCRy9hNmFPbGk1UnNPdENKL1NuRWxuZlZr?=
- =?utf-8?B?bnR0UkJEaS90TWxUMkt4bGI4aldGTFBtRTBoejVKR0ZKc2daR05ZUVllcVRH?=
- =?utf-8?B?MDRldUtJdWdrakpjTHlaRGg0R0JWVlU4RDNZT05hMzF3MWJ6Sm9id0ltSVF0?=
- =?utf-8?B?UDV3b0Yzd0drWmc3NnJKaHJVWG5yaWdnckNxQk50RXUxWTN4ZEgwMEZob3Ro?=
- =?utf-8?B?TW1hdXFHTlFGZzFIMFNzSkxyUFhsK203SjdDNnE4bVhrQmcxS016Vi8rQjUr?=
- =?utf-8?B?MjcrSnY4TVFqZkZXRC9waDJudXpLQWFVVm00cXkveW8rbTRaTk80T2l3Q0lu?=
- =?utf-8?B?NUkvUlVlZVlVd1lTRWZBRmpzT2w3Y0U5dS9LQ1JWeER6U2NCUTVKNG4zaUw5?=
- =?utf-8?B?VkpQVEI2UDNhSTF6SnBKdlZRZEF0VzRwRU9FaXBLWStKTmQyOTlid1hMeFpJ?=
- =?utf-8?B?MElUTDlXaVorZnRTR1NWT0JMdHA4YVZudjJJTnlPZ2FDcXVxVU9MeWRYQTFK?=
- =?utf-8?B?VTBhUmNVZ2MrUVgxRFVNdkxuZmxOY1RKYVNEQmcxNHAxU0EzQW53V1dHM053?=
- =?utf-8?B?OEp5TDV1OUNwOUMrRkF2WjJYdTZKZWdBNXF5OSswdXRxNmlzd0FmcElTVXlt?=
- =?utf-8?B?cDNGQmFYL3dqNXd0QzF2MExSZ21tQUFJbmRObStpVEJudmt1emFMcW9zUUZG?=
- =?utf-8?B?WG1DQjkvRjVtblNUMzlJN2JJS1dWT1FCYWhVbGFkdUFvempjeFA1c1FhNjhD?=
- =?utf-8?B?Q3g5cldNSnh5MWN0L1YxNTNhYXZvZWFyeXo1QTFDN29wVldFSGt0cElPTFg2?=
- =?utf-8?B?TGMwSXd0OHlrb2VMZ1JkZXg2OXN1MFJTc2daQnVPVzlqYzc1TFFhVzZ3WE84?=
- =?utf-8?B?a05UUitZRmRuY1JQc1hWMlZFYzkvYkYxWDRsY3lYMFo0Vnd4MkJnUXdWZ2xD?=
- =?utf-8?B?L0oxREtVR3hINDJXN1pLRlR3U0tzSzRVNmZTRTlkYVg3S0JqOUFrVDJEdHFD?=
- =?utf-8?B?cjlMSTREMjhnL2tuT2FpSHFDdDQ4UU9uWXFpSFB2M3E5emVYek9PY1dGYmE1?=
- =?utf-8?B?a0s5cFF5RVNtRzV0M0UzbkhtOUxZOWFET2FwcEF2eFpwVFdLaForZi9FY0d4?=
- =?utf-8?B?S1RHdVNJeUw1TU53dmsrUGFXeEZJUjJZM05NR3hqN1FVUzg1R3VxY3ZmWXV6?=
- =?utf-8?B?MmJSUEtVUFduYXY2SmZZS20xbjZpclVPcEt5clY5MFRPallMZHQwSVpoVng5?=
- =?utf-8?B?QVFTNVhVejVXU1JHWTlFUDBVbllnNHY2MFJKSVozbTNaTFFxYWIvYUZVMFNB?=
- =?utf-8?B?d0JoYkt3Z1NrQWhwU1lBcFhMRVJhamwvVkVZOWV2dEhJcTRTM0ZkVHMyS0cy?=
- =?utf-8?B?T0RSdWFuVWloM0x3MmxHNUd2d09TZ3djME8rTStKU1FVbGJZWFNXNCtZb00w?=
- =?utf-8?B?bHpQbForeG5CK01WemY5MnhXVEtGbWtydHJxYmU5R3lUOFVsNUlKVXU1WDZH?=
- =?utf-8?B?N0U4UlpzQktyYzJtNjEzdm5weE1rSHJpYXVrRklQeVorRWxvQVprNVYyaFZQ?=
- =?utf-8?B?OVZYQnljU0d6WGJ6VEYvcWZYUHpLMU93Nks1UnJ1S0xPb2dJbG04c3N2UGh3?=
- =?utf-8?B?VFAvMmQwbVdDQ010Y2lPRWpLYnE0bzhDQlc3ZnY0eGZ3SGFnTW5yREpXcmxC?=
- =?utf-8?B?TVcyV0puTFEyVG1Ma1lqYmxwSUxZb0FtWThuK05tcE9walZCdW1PdzlaR2hn?=
- =?utf-8?B?MVl2MHhuTVBPMzR2djRWREF5QnBKbXFtRm1JUnZKZWo1STR3eHkwRjBaT2lW?=
- =?utf-8?B?bVZQMk9VcndMUTJFOFBPT3Y4Q0ZFSFJQVjRWOW43VHA0SCtvRTlkMklKY3ZC?=
- =?utf-8?B?SFViM1U5MStUOXFsWjJoMk1oSW80RVRrUldORUo2ZVIyeWNaZ3FCOVEzZGVD?=
- =?utf-8?B?c1E1VFdYUUxobGlpUWFlQm5wWGRPdVErTHhrSnZuUnJISE5lblF0SjFKNlZw?=
- =?utf-8?B?YlJDV0ZwNno3eVdNRlZiQlpHUlpWNFlGT0NjQT09?=
-X-Forefront-Antispam-Report:
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(19092799006)(7416014)(376014)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 07:50:33.2497
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 541412d5-1d08-446f-4855-08ddb873f550
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM3PEPF00009BA2.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR02MB8224
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 02/29] mm/balloon_compaction: convert
+ balloon_page_delete() to balloon_page_finalize()
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Minchan Kim <minchan@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
+ Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin
+ <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
+ Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>
+References: <20250630130011.330477-1-david@redhat.com>
+ <20250630130011.330477-3-david@redhat.com>
+ <f9cb1865-aa9d-409f-bce5-7051480c1a71@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <f9cb1865-aa9d-409f-bce5-7051480c1a71@lucifer.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Broadcom PHYs featuring the BroadR-Reach two-wire link mode are usually
-capable to operate in simplified MII mode, without TXER, RXER, CRS and
-COL signals as defined for the MII. The absence of COL signal makes
-half-duplex link modes impossible, however, the BroadR-Reach modes are
-all full-duplex only.
-Depending on the IC encapsulation, there exist MII-Lite-only PHYs such
-as bcm54811 in MLP. The PHY itself is hardware-strapped to select among
-multiple RGMII and MII-Lite modes, but the MII-Lite mode must be also
-activated by software.
+On 30.06.25 17:15, Lorenzo Stoakes wrote:
+> On Mon, Jun 30, 2025 at 02:59:43PM +0200, David Hildenbrand wrote:
+>> Let's move the removal of the page from the balloon list into the single
+>> caller, to remove the dependency on the PG_isolated flag and clarify
+>> locking requirements.
+>>
+>> We'll shuffle the operations a bit such that they logically make more sense
+>> (e.g., remove from the list before clearing flags).
+>>
+>> In balloon migration functions we can now move the balloon_page_finalize()
+>> out of the balloon lock and perform the finalization just before dropping
+>> the balloon reference.
+>>
+>> Document that the page lock is currently required when modifying the
+>> movability aspects of a page; hopefully we can soon decouple this from the
+>> page lock.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   arch/powerpc/platforms/pseries/cmm.c |  2 +-
+>>   drivers/misc/vmw_balloon.c           |  3 +-
+>>   drivers/virtio/virtio_balloon.c      |  4 +--
+>>   include/linux/balloon_compaction.h   | 43 +++++++++++-----------------
+>>   mm/balloon_compaction.c              |  3 +-
+>>   5 files changed, 21 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/arch/powerpc/platforms/pseries/cmm.c b/arch/powerpc/platforms/pseries/cmm.c
+>> index 5f4037c1d7fe8..5e0a718d1be7b 100644
+>> --- a/arch/powerpc/platforms/pseries/cmm.c
+>> +++ b/arch/powerpc/platforms/pseries/cmm.c
+>> @@ -532,7 +532,6 @@ static int cmm_migratepage(struct balloon_dev_info *b_dev_info,
+>>
+>>   	spin_lock_irqsave(&b_dev_info->pages_lock, flags);
+>>   	balloon_page_insert(b_dev_info, newpage);
+>> -	balloon_page_delete(page);
+> 
 
-Add MII-Lite activation for bcm5481x PHYs.
+Hi Lorenzo,
 
-Fixes: 03ab6c244bb0 ("net: phy: bcm-phy-lib: Implement BroadR-Reach link modes")
-Signed-off-by: Kamil Horák - 2N <kamilh@axis.com>
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
----
- drivers/net/phy/broadcom.c | 14 +++++++++++++-
- include/linux/brcmphy.h    |  6 ++++++
- 2 files changed, 19 insertions(+), 1 deletion(-)
+as always, thanks for the detailed review!
 
-diff --git a/drivers/net/phy/broadcom.c b/drivers/net/phy/broadcom.c
-index 9b1de54fd483..8547983bd72f 100644
---- a/drivers/net/phy/broadcom.c
-+++ b/drivers/net/phy/broadcom.c
-@@ -407,7 +407,7 @@ static int bcm5481x_set_brrmode(struct phy_device *phydev, bool on)
- static int bcm54811_config_init(struct phy_device *phydev)
- {
- 	struct bcm54xx_phy_priv *priv = phydev->priv;
--	int err, reg;
-+	int err, reg, exp_sync_ethernet;
- 
- 	/* Enable CLK125 MUX on LED4 if ref clock is enabled. */
- 	if (!(phydev->dev_flags & PHY_BRCM_RX_REFCLK_UNUSED)) {
-@@ -424,6 +424,18 @@ static int bcm54811_config_init(struct phy_device *phydev)
- 	if (priv->brr_mode)
- 		phydev->autoneg = 0;
- 
-+	/* Enable MII Lite (No TXER, RXER, CRS, COL) if configured */
-+	if (phydev->interface == PHY_INTERFACE_MODE_MIILITE)
-+		exp_sync_ethernet = BCM_EXP_SYNC_ETHERNET_MII_LITE;
-+	else
-+		exp_sync_ethernet = 0;
-+
-+	err = bcm_phy_modify_exp(phydev, BCM_EXP_SYNC_ETHERNET,
-+				 BCM_EXP_SYNC_ETHERNET_MII_LITE,
-+				 exp_sync_ethernet);
-+	if (err < 0)
-+		return err;
-+
- 	return bcm5481x_set_brrmode(phydev, priv->brr_mode);
- }
- 
-diff --git a/include/linux/brcmphy.h b/include/linux/brcmphy.h
-index 028b3e00378e..15c35655f482 100644
---- a/include/linux/brcmphy.h
-+++ b/include/linux/brcmphy.h
-@@ -182,6 +182,12 @@
- #define BCM_LED_MULTICOLOR_ACT		0x9
- #define BCM_LED_MULTICOLOR_PROGRAM	0xa
- 
-+/*
-+ * Broadcom Synchronous Ethernet Controls (expansion register 0x0E)
-+ */
-+#define BCM_EXP_SYNC_ETHERNET		(MII_BCM54XX_EXP_SEL_ER + 0x0E)
-+#define BCM_EXP_SYNC_ETHERNET_MII_LITE	BIT(11)
-+
- /*
-  * BCM5482: Shadow registers
-  * Shadow values go into bits [14:10] of register 0x1c to select a shadow
+> We seem to just be removing this and not replacing with finalize, is this right?
+
+See below.
+
+> 
+>>   	b_dev_info->isolated_pages--;
+>>   	spin_unlock_irqrestore(&b_dev_info->pages_lock, flags);
+>>
+>> @@ -542,6 +541,7 @@ static int cmm_migratepage(struct balloon_dev_info *b_dev_info,
+>>   	 */
+>>   	plpar_page_set_active(page);
+>>
+>> +	balloon_page_finalize(page);
+
+^ here it is, next to the put_page() just like for the other cases.
+
+Or did you mean something else?
+
+>>   	/* balloon page list reference */
+>>   	put_page(page);
+>>
+>> diff --git a/drivers/misc/vmw_balloon.c b/drivers/misc/vmw_balloon.c
+>> index c817d8c216413..6653fc53c951c 100644
+>> --- a/drivers/misc/vmw_balloon.c
+>> +++ b/drivers/misc/vmw_balloon.c
+>> @@ -1778,8 +1778,7 @@ static int vmballoon_migratepage(struct balloon_dev_info *b_dev_info,
+>>   	 * @pages_lock . We keep holding @comm_lock since we will need it in a
+>>   	 * second.
+>>   	 */
+>> -	balloon_page_delete(page);
+>> -
+>> +	balloon_page_finalize(page);
+>>   	put_page(page);
+>>
+
+
+[...]
+
+>> -/*
+>> - * balloon_page_delete - delete a page from balloon's page list and clear
+>> - *			 the page->private assignement accordingly.
+>> - * @page    : page to be released from balloon's page list
+>> - *
+>> - * Caller must ensure the page is locked and the spin_lock protecting balloon
+>> - * pages list is held before deleting a page from the balloon device.
+>> - */
+>> -static inline void balloon_page_delete(struct page *page)
+>> -{
+>> -	__ClearPageOffline(page);
+>> -	__ClearPageMovable(page);
+>> -	set_page_private(page, 0);
+>> -	/*
+>> -	 * No touch page.lru field once @page has been isolated
+>> -	 * because VM is using the field.
+>> -	 */
+>> -	if (!PageIsolated(page))
+>> -		list_del(&page->lru);
+> 
+> I don't see this check elsewhere, is it because, as per the 1/xx of this series,
+> because by the time we do the finalize
+
+balloon_page_delete() was used on two paths
+
+1) Removing a page from the balloon for deflation through 
+balloon_page_list_dequeue()
+
+2) Removing an isolated page from the balloon for migration in the 
+per-driver migration handlers. Isolated pages were already removed from 
+the balloon list during ... isolation.
+
+With this change, 1) does the list_del(&page->lru) manually and 2) only 
+calls balloon_page_finalize().
+
+During 1) the same reasoning as in 1/xx applies: isolated pages cannot 
+be in the balloon list.
+
+> 
+>> -}
+>> -
+>>   /*
+>>    * balloon_page_device - get the b_dev_info descriptor for the balloon device
+>>    *			 that enqueues the given page.
+>> @@ -141,12 +120,6 @@ static inline void balloon_page_insert(struct balloon_dev_info *balloon,
+>>   	list_add(&page->lru, &balloon->pages);
+>>   }
+>>
+>> -static inline void balloon_page_delete(struct page *page)
+>> -{
+>> -	__ClearPageOffline(page);
+>> -	list_del(&page->lru);
+>> -}
+>> -
+>>   static inline gfp_t balloon_mapping_gfp_mask(void)
+>>   {
+>>   	return GFP_HIGHUSER;
+>> @@ -154,6 +127,22 @@ static inline gfp_t balloon_mapping_gfp_mask(void)
+>>
+>>   #endif /* CONFIG_BALLOON_COMPACTION */
+>>
+>> +/*
+>> + * balloon_page_finalize - prepare a balloon page that was removed from the
+>> + *			   balloon list for release to the page allocator
+>> + * @page: page to be released to the page allocator
+>> + *
+>> + * Caller must ensure that the page is locked.
+> 
+> Can we assert this?
+
+We could, but I'm planning on removing the page lock next (see patch 
+description), so not too keen to create more code around that.
+
+Maybe mention that the balloon lock should not be held?
+
+Not a limitation. It could be called with it, just not a requirement today.
+
+I suspect that once we remove the page lock, that we might use the 
+balloon lock and rework balloon_page_migrate() to take the lock. TBD.
+
+ > >> + */
+>> +static inline void balloon_page_finalize(struct page *page)
+>> +{
+>> +	if (IS_ENABLED(CONFIG_BALLOON_COMPACTION)) {
+>> +		__ClearPageMovable(page);
+>> +		set_page_private(page, 0);
+>> +	}
+> 
+> Why do we check this? Is this function called from anywhere where that config won't be set?
+
+Sure. balloon_page_list_dequeue() is called from balloon_page_dequeue(), 
+which resides outside the CONFIG_BALLOON_COMPACTION ifdef in 
+mm/balloon_compaction.c.
+
+At some point (not in this series) we should probably rename
+
+balloon_compaction.c -> balloon.c
+
+To match CONFIG_MEMORY_BALLOON.
+
+Because the compaction part is just one extra bit in there. (an 
+important one, but still, you can use the balloon infrastructure without 
+compaction/page migration)
+
 -- 
-2.39.5
+Cheers,
+
+David / dhildenb
 
