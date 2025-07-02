@@ -1,239 +1,155 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50842DBF48
-	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 15:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A282FD58F;
+	Wed,  2 Jul 2025 15:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751469947; cv=none; b=tsdkyPYRu6XhPPbE87wS4RWz39ffCmTYHNC/uj2ow0A6AIWKoiczEPaMaO02RJiEaCGXbmWOycItaUE0nX+exOz8P3AsNnKWe5AcsIId+TJKdtIBTFRvB7IgdEkthpq3u8rC083Y+17iAXr7EshhuVIst2QLLgIRjQWM82ArDDA=
+	t=1751470380; cv=none; b=I9MzhQKGMnzBO+2ziJHknBSnjJjA+xDlbfbR+Ki49M8sh+3nKQbBkxkTZH41xXOyjE3SPSwTKtvIpsd7r0Tdd61F7FyMdc+hYJXpNN0e7m/VWNV+WWw0Rwv1uZtvk6e81rsLKvv/Te1/NrmbK2/JRDV+vsCq+1xcyY3TsgwiwWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751469947; c=relaxed/simple;
-	bh=ozAq4H7NKMi99W0DR+dgxSwDGggAfgQwOjbIsAOjbpo=;
+	s=arc-20240116; t=1751470380; c=relaxed/simple;
+	bh=LDn2AqJEY5N2KJ57SfDAnTYINdlraVlvv2jEUoRc1DE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CU769YsfJrBoXOYm3LeoIRQxTN2cUvBa1nqkXDZWDAmJbM2vHhZiXcnWhMEKfUcYWQw5ZqGKOVyNufgL83DyrS61rLkl7miHFL5MLBdJ1tP9MbQVqD0LDsQ4FrLLL9/XyV/apgqa+IHb5VwBpbv5NlYsp8SR4g3L8GqqIm9bGfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Bn1K/m0P; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=tWZl8TrCykbbgrxBmmlMF0pivweAY/W1dCiUN8zHDlXsK1nJR5YCFkGpSVX9Zfqm0dYkvp0swNs4E6tQaQXFcewSoPWIAQ6BtdMH3dYQNryR/ebyAhiTlXIIvmRIrzQEUtf/6dOnrOsiEixRu3/1DKuCfuxA1UnNS8UaF0OTfFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l34c7DPZ; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Bn1K/m0P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751469944;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=1zZV1K34K5vsU5bBEYqLthbNyfG8BgJV/i5Welf7t/g=;
-	b=Bn1K/m0PU2U3QSPaMiHDZ9IEss70sP4dyQo4AqGCa2DIdZPw/BydGbJ10nCodpn103KH03
-	L5f6F+VWaJ2ilXVktUADQx9RXOuakOluJM7WppwrFEQnYdTwVstNENYyw+ylX4uDPjvTsx
-	IhcWTw6S1PxNjCZwOVRx+RrtgmOkm4g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-695-ZfMyvK0uP22u8EQMncs_gg-1; Wed, 02 Jul 2025 11:25:43 -0400
-X-MC-Unique: ZfMyvK0uP22u8EQMncs_gg-1
-X-Mimecast-MFC-AGG-ID: ZfMyvK0uP22u8EQMncs_gg_1751469942
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4530c186394so20560325e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 08:25:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l34c7DPZ"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-450828af36aso2551925e9.1;
+        Wed, 02 Jul 2025 08:32:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751470377; x=1752075177; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jZleJRf5RL+v6aSyfU03OLzhGc/iTMC1s/D6/TYQvV8=;
+        b=l34c7DPZza8g/H5kGSjna/chlKlTcPU+8s+FipFXCQ7yqsWhFgHUuEm65TF0nGpSoC
+         ck6DTxCVAG9ADMR+cPWsNeR8OMPt24u7n7ic31vIRB+VDpkUdhZSqUVw+odigMy/u+PQ
+         /z87tL9wRt0OsX+EDhgHonHX03UmJckmdAr8OSSA0H3X8Rm1lPhQjVIZaNJ0MwWcQnBF
+         8BbMSmJ8cKeCESw9NYfVM3M4FWLRF6OyZjUh5iZ/rsUo1thJpGIbW9E42tvxgmXeJ5hM
+         zBh/ZS0bDn/H9qlc9lEAOzspDJxdS8M+4Z7r65A6j2J4jPooIYledtiwaVQ+mphk8ZdX
+         tboQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751469942; x=1752074742;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1zZV1K34K5vsU5bBEYqLthbNyfG8BgJV/i5Welf7t/g=;
-        b=DyxO9UdOJzCg3JuCnzO7gFktmxVfWE20G2yynblr+p+gJ7D1guPuaW8VEbw+cnYS4b
-         Oaoq6wLKRQgC7vSL5+H9cuvq/utk1G3y8/U06dbEkSg0QB5wIKi/fRmPxOYoL9BzNb7+
-         0/Y7RRsWcO2TrX3Vd87uYexPUDRTSDD04DfCxq1vUR7mM3CBKTUPPojt19gkCzpzjn5e
-         YxmrXfgv1AUoEDcwvyY+vWrd1e6mU+QuUBs6UboXBum31d+AGL8CIep3qHwscUFGDaKw
-         0jst1WEjhQF6bxrGwg86DfHwHY4MmR5U7dXvWfdsu/DBFpr1wmWUpI3uyyr8gnTV0g4a
-         UBgw==
-X-Forwarded-Encrypted: i=1; AJvYcCWw3y5eR6ZFWHeWQ0K391L/ZZAlCj+sbeqNGHz7dpAErYup7u1y2IbPj6eBlJBwCkn3n97/URi0flM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhS/55oFH+wAu6RBIqJXxjc7UsioqSPNAVnmkrZBiEkQgo5wqv
-	Oauof+pCfjMnncEckuBktPb15QbVZwi0zjCNAFNKtZLH/o3l88Nv/Uf4hBVuPdQSDuTgyfh8k1a
-	heHYQgGI6KzeaWlqCsfUM+AaKhGCVaY+VtxHoIt1IPLmeDCcrV8jry2sjdP9hNg==
-X-Gm-Gg: ASbGncsdSk1u509amSQrp3Yj5iNTfFyg36/qInR7Zw+S+yA8K+d0BLaZi71pYKueJp9
-	/Fa5q1rcz6jigVcqFEC4AVMwy5XuxvQXAwH8u3ekdcsFN8ftl1sPGkki7EBRv3jjFwKvUeg3NZi
-	R8Gzo6iFJFyCmKqMUWtoJSCO/y6HfOSbJxIaO2AMFIo0gFiXKRkJqxtlKXxyr/eHQSLE1a3c5ng
-	HmBu9GWjZZEac1/9TpoTtGu19mF+QJxkCgd+8kexdHQmyyPmb0SkONoHDuGNM+9OIJnw9TN2K0Z
-	79HaqMKR4/qYg4C7bs4w12nZ5xqipOWp3+0L2s2uATnQK/1q+lSfxqY=
-X-Received: by 2002:a05:6000:40cc:b0:3a5:2f23:3780 with SMTP id ffacd0b85a97d-3b1ffcd6a02mr2834557f8f.18.1751469942132;
-        Wed, 02 Jul 2025 08:25:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFsUNCCRvW2G8ERz1v+CzxV36sRx/sOGiOA5hGIRC55Fq8/UJikBoj+bsw3If92RbCTbdxtOA==
-X-Received: by 2002:a05:6000:40cc:b0:3a5:2f23:3780 with SMTP id ffacd0b85a97d-3b1ffcd6a02mr2834527f8f.18.1751469941626;
-        Wed, 02 Jul 2025 08:25:41 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e52ad2sm16118859f8f.48.2025.07.02.08.25.39
+        d=1e100.net; s=20230601; t=1751470377; x=1752075177;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jZleJRf5RL+v6aSyfU03OLzhGc/iTMC1s/D6/TYQvV8=;
+        b=mVGh/CIRoNruutuK873dE1PtajwKOV3FznJ8ApI3McU1UmA4Zs5n9hY5v0ZNOdze1I
+         RhhArzfxX3LRluCmCJZCx0zNjGl4Uzd2ElIkCq/CKRJJtJz7TVmZO6peBkaPl2aWFCdA
+         otdNIVD0eNRfgXWv8PyL2dHTw8q6wF3K7I4o8yUCinu4FJF+gDkOelhiJpmIkwZwGpMK
+         7du8ko4CldTknbRbfMIQX+zZnVaeVYsYRiR87GRKT5bSGAE/MdDNJm3RoyP49p7Lb5Uh
+         LR7ctdwBC1PxCPj5reW1+UQwf17l31XvrmMsvfkIzBOKB03TGbDnbdbbkI03fAtrkwvE
+         8UuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0HHtnYtefu+ov4s/IaegdprJwTjUKZlK95ktuymV5rkV1yONF0zvkqUstYiwnn7FAOaTsVb0kTdo=@vger.kernel.org, AJvYcCWHQxamImwFeywcIYS/6h86q6V/ZdRYVjoQTOna5N2v57J3xVwCntC7T5FsbkhdfIt93ljV7yMwy/UjRzG+@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAdkSCDb+fw/UMu8QkphIiK1Ozl1VC+E7/64uSKzYuQ4o2lFRS
+	VItPez21xgpidSnHkBv6QO/Eo+aLmMgT6lmq5RmkOA3Po9epLX2rlvI=
+X-Gm-Gg: ASbGncvBlmNUoiq093Ytme/omdr8gKcPyACyh3JVJd4WR8ZSDx0itZr8LKcqysou2h1
+	Cepd0BUf1TenCLIQV2vYQzL1hFKWmcKB43pNiEFDhJtKxb3VT7vvTfviVNptC+uvonmpE7XMTuS
+	pAxuWRIMcBO87oZWElNOrwIGGjKs8tL5sJQsRLo4CfcATMCp06NR3cMTqS6hCmA7Kpg2gb2uRIW
+	flKxT/HzHsVVkh6IM9vNGd2xpCMs5FHqu75G/c6VtPqkP87mGgo4YIo3r9G/LuH0L2FizuCR4An
+	gaw1WWIKy2PuExODsoTHTMfwe/Hg0Yi/DBd6g6hffB8Wlke6wX43RDZcbbF+Xv39MKL8KhBQC83
+	vug1cHTnjrgbInsvMQsGpW/JGiQ==
+X-Google-Smtp-Source: AGHT+IHaQbogFU3g7rZ9zyrbww17cgDVv+9tBrm91hDtbaYKc8Y9ausCHDwiYbYKoFeazI9fs8cMFQ==
+X-Received: by 2002:a05:600c:1c1f:b0:453:7011:fce3 with SMTP id 5b1f17b1804b1-454a370cdacmr15831705e9.5.1751470376728;
+        Wed, 02 Jul 2025 08:32:56 -0700 (PDT)
+Received: from localhost (148.red-80-39-52.staticip.rima-tde.net. [80.39.52.148])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7fadf3sm16634440f8f.34.2025.07.02.08.32.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 08:25:41 -0700 (PDT)
-Message-ID: <e76b6a9d-b887-4790-a2fd-032648be99ff@redhat.com>
-Date: Wed, 2 Jul 2025 17:25:38 +0200
+        Wed, 02 Jul 2025 08:32:56 -0700 (PDT)
+Message-ID: <02ffd0a2-3036-475c-9e23-55d706eec7ea@gmail.com>
+Date: Wed, 2 Jul 2025 17:32:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 20/29] mm: convert "movable" flag in page->mapping to a
- page flag
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Minchan Kim <minchan@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
- Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin
- <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
- Qi Zheng <zhengqi.arch@bytedance.com>, Shakeel Butt <shakeel.butt@linux.dev>
-References: <20250630130011.330477-1-david@redhat.com>
- <20250630130011.330477-21-david@redhat.com> <aGUd34v-4S7eXojo@hyeyoo>
- <a533ae7e-f993-4673-bb00-ec9d10c11c83@redhat.com> <aGUtxakO8p_94rTl@hyeyoo>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <aGUtxakO8p_94rTl@hyeyoo>
+Subject: Re: [PATCH] MAINTAINERS: standardize git.kernel.org URLs
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ DOC ML <linux-doc@vger.kernel.org>, KERNEL ML <linux-kernel@vger.kernel.org>
+References: <20250625142017.237949-1-xose.vazquez@gmail.com>
+ <87a55vag0l.fsf@trenco.lwn.net>
+Content-Language: en-US, en-GB, es-ES
+From: Xose Vazquez Perez <xose.vazquez@gmail.com>
+In-Reply-To: <87a55vag0l.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02.07.25 15:01, Harry Yoo wrote:
-> On Wed, Jul 02, 2025 at 02:01:33PM +0200, David Hildenbrand wrote:
->> On 02.07.25 13:54, Harry Yoo wrote:
->>> On Mon, Jun 30, 2025 at 03:00:01PM +0200, David Hildenbrand wrote:
->>>> Instead, let's use a page flag. As the page flag can result in
->>>> false-positives, glue it to the page types for which we
->>>> support/implement movable_ops page migration.
->>>>
->>>> The flag reused by PageMovableOps() might be sued by other pages, so
->>>> warning in case it is set in page_has_movable_ops() might result in
->>>> false-positive warnings.
->>>>
->>>> Reviewed-by: Zi Yan <ziy@nvidia.com>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>
->>> LGTM,
->>> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
->>>
->>> With a question: is there any reason to change the page flag
->>> operations to use atomic bit ops?
+On 6/25/25 7:27 PM, Jonathan Corbet wrote:
+
+> Xose Vazquez Perez <xose.vazquez@gmail.com> writes:
+> 
+>> replace https: with git:, delete trailing /, and identify repos as "git"
 >>
->> As we have the page lock in there, it's complicated. I thought about this
->> when writing that code, and was not able to convince myself that it is safe.
->>
->> But that was when I was prototyping and reshuffling patches, and we would
->> still have code that would clear the flag.
->   
->> Given that we only allow setting the flag, it might be okay to use the
->> non-atomic variant as long as there can be nobody racing with us when
->> modifying flags. Especially trying to lock the folio concurrently is the big
->> problem.
->>
->> In isolate_movable_ops_page(), there is a comment about checking the flag
->> before grabbing the page lock, so that should be handled.
+>> Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: DOC ML <linux-doc@vger.kernel.org> (open list:DOCUMENTATION)
+>> Cc: KERNEL ML <linux-kernel@vger.kernel.org> (open list)
+>> Signed-off-by: Xose Vazquez Perez <xose.vazquez@gmail.com>
+>> ---
+>>   MAINTAINERS | 50 +++++++++++++++++++++++++-------------------------
+>>   1 file changed, 25 insertions(+), 25 deletions(-)
+
+> So ... we're changing GitHub URLs from git: to https:, and Gitlab URLs
+> from https: to git:?
 > 
-> Right.
-> 
->> I'll have to check some other cases in balloon/zsmalloc code.
-> 
-> Okay, it's totally fine to go with atomic version and then
-> switching back to non atomic ops when we're sure it's safe.
-> 
+> Certainly we want to fix URLs that are broken, but is there any real
+> reason to churn up the MAINTAINERS file to "fix" URLs that work?
 
-I'll definitely do the following:
+The reason was to be *consistent* with the rest of the entries.
+Because most of them(380) are using git:, vs 22 for https:
 
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 8b23a74963feb..5f2b570735852 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -1145,9 +1145,11 @@ PAGEFLAG(Isolated, isolated, PF_ANY);
-   * the flag might be used in other context for other pages. Always use
-   * page_has_movable_ops() instead.
-   */
--PAGEFLAG(MovableOps, movable_ops, PF_NO_TAIL);
-+TESTPAGEFLAG(MovableOps, movable_ops, PF_NO_TAIL);
-+SETPAGEFLAG(MovableOps, movable_ops, PF_NO_TAIL);
-  #else /* !CONFIG_MIGRATION */
--PAGEFLAG_FALSE(MovableOps, movable_ops);
-+TESTPAGEFLAG_FALSE(MovableOps, movable_ops);
-+SETPAGEFLAG_NOOP(MovableOps, movable_ops);
-  #endif /* CONFIG_MIGRATION */
-  
-  /**
+$ grep git.kernel.org MAINTAINERS | sed 's#://#:// #' | awk '{print $3}' | sort | uniq -c | sort -n
+       1 git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git
+      22 https://
+     380 git://
 
-Because the flag must not get cleared.
+But Greg has some concerns about this protocol:
+https://lore.kernel.org/lkml/2025062654-lubricant-lettuce-3405@gregkh/
+"This bypasses the mirror systems in place with the https: protocol,
+please do not do this without a lot of justification and agreement of
+the hosting providers involved as they will have a large increase in
+resources if this were to change."
 
-There is no __SETPAGEFLAG_NOOP yet, unfortunately.
--- 
-Cheers,
-
-David / dhildenb
-
+So, the right patch should replace git://git.kernel.org with https://git.kernel.org in all the tree.
+$ git grep -l "git://git.kernel.org"
+Documentation/admin-guide/LSM/apparmor.rst
+Documentation/admin-guide/kdump/kdump.rst
+Documentation/admin-guide/reporting-issues.rst
+Documentation/admin-guide/workload-tracing.rst
+Documentation/arch/arm/keystone/knav-qmss.rst
+Documentation/dev-tools/sparse.rst
+Documentation/filesystems/bcachefs/SubmittingPatches.rst
+Documentation/filesystems/erofs.rst
+Documentation/filesystems/f2fs.rst
+Documentation/maintainer/pull-requests.rst
+Documentation/mm/hwpoison.rst
+Documentation/process/adding-syscalls.rst
+Documentation/process/maintainer-kvm-x86.rst
+Documentation/process/submitting-patches.rst
+Documentation/sound/hd-audio/notes.rst
+Documentation/timers/no_hz.rst
+Documentation/translations/it_IT/process/adding-syscalls.rst
+Documentation/translations/it_IT/process/submitting-patches.rst
+Documentation/translations/sp_SP/process/adding-syscalls.rst
+Documentation/translations/sp_SP/process/maintainer-kvm-x86.rst
+Documentation/translations/sp_SP/process/submitting-patches.rst
+Documentation/translations/zh_CN/admin-guide/reporting-issues.rst
+Documentation/translations/zh_CN/dev-tools/sparse.rst
+Documentation/translations/zh_CN/how-to.rst
+Documentation/translations/zh_CN/maintainer/pull-requests.rst
+Documentation/translations/zh_CN/mm/hwpoison.rst
+Documentation/translations/zh_CN/process/submitting-patches.rst
+Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
+Documentation/translations/zh_TW/dev-tools/sparse.rst
+Documentation/translations/zh_TW/process/submitting-patches.rst
+MAINTAINERS
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c
+scripts/get_maintainer.pl
+scripts/package/debian/copyright
+tools/tracing/rtla/README.txt
+tools/usb/usbip/src/usbip.c
+tools/verification/rv/README.txt
