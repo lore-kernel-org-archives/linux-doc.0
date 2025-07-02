@@ -1,141 +1,111 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8EE2F365B;
-	Wed,  2 Jul 2025 16:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598FB2DFF28
+	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 16:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751472848; cv=none; b=d5yRT+5NNa8ORWK7faTym/oI9bb1H2CzTEpT8Z+HaTy48JfHoXhjhwyClysQ29OQJ/6u/e6E8NgSoOPjlIjGkQQ7x9CazkUzxgYq6Pu65rSE2YXZNkg/vf/NTL8Z+50biRTxv1zMHTYPehzNZqEpuhiiZ46HVcgrAAFJbBw9i5M=
+	t=1751473070; cv=none; b=G4yMWGNPjWMdKddY25OzK0XYkTXmRhVkW+UqibJbmr0EKTjtX0EHUw+/cROhGjOwjsgaEG+vBK0AaveCcw8gDxaKHGMBrm1bW9St4U7Q9bh5xBS9ulY/9f6nXPxwRY9pg8RSRu/mNGa5HVtRLzUsTeL6kvEmAZby5VH0hvRHgP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751472848; c=relaxed/simple;
-	bh=9P/Pp8H05sTTonSNOeiD8PXpPn6itkrTXxZVOJmVe80=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RXT4zBNe90lSRYt9l+5NzVc/5AUF1zB2Lq0DH1d2Y2ntrCrzXT94qS6CYKS3rgIIT4ITYWHcKOt9eT3MMdNfPeiR4FJgmSXKrT4US8E7UIjxS2SVSBvPSvfCs635h3n3jk6zdovJ+jnDhULfw6jchDt7WTyzXoQyE20mE/wbayM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NRDsjv9c; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751473070; c=relaxed/simple;
+	bh=65WluV3BvvXKhljAjH+/Or49/aYcpF02/db+XF1Iy/k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E0vzRiqitMdChx6S5HKyF6b6KDJTx6wTopdSr0GdyRZfK2MMdkoq+lRqDi95DeMWXxBd6AhkgGWDydy8LqAdXPoJvJwzjjZ+SIS66NXSnZ3kxjif5r/38DQXfpDLCNUmOPQBPlAny9cqCvfdeqSu6VyN94c65argyFjDUSMuuVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com; spf=pass smtp.mailfrom=6wind.com; dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b=YfxY0NsL; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=6wind.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NRDsjv9c"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-74b50c71b0aso642705b3a.0;
-        Wed, 02 Jul 2025 09:14:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b="YfxY0NsL"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45306976410so2869625e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 09:17:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751472846; x=1752077646; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0c/84mBXTtb1I5DJ3f//CNcOZAIu4pgnp07Yr6FAASE=;
-        b=NRDsjv9cKERfSlwXrrDW2QOY8hcAvPzsw2z0ZLgwhsT4J0mlmj8Sr0YoFTQ7ykFKXq
-         CF1nRQHrd1SlpdBqXYXxkLNhezm5OLbkNnR0yZFtITrDX/FwVZnYyjageXi0tF3tu1Sj
-         /2pzIa+AX1jcs+pAzvE2Fh3gKwS5zbOASimBfGtvaxdhNjmPACxOyoin44ZPqjOoMNBs
-         EiPCfe66TiKFRAOUdKJDuWdVf8VaiVXCJlBhk4gt6dCkWYscyVEu4Xknr84c0WM7JTRY
-         IQGzYqpkfzRSRsJOdOIbXmd8IlobJwwP/MRMsBXimo/xAnQrPr5CD5E5JfDqcZ4qOfxt
-         +evQ==
+        d=6wind.com; s=google; t=1751473067; x=1752077867; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=+DRtnG3/5fhrw2/e04xUvMWhA80ygiUHCaMrGaRsIHA=;
+        b=YfxY0NsLV1mAMRBl/86xKM2VPXaewCQG/0XeJd8Q6XoSxm3wEvSBMcIowynsmPLJur
+         pp7gCyASoI8ZpkY01JRdTtBL3QYBYZqgEqMyJ854lpkDeR46kS4skemu2a1/I5l7Vjq3
+         65psKvUq0U11YambA0Wk0toSVlaV6xkMC+veYCqlw5X8DDGZa2HQl9Ula8oc9eKfqMHu
+         qGL+ogzL7mGTTeTQqJ8AL/Ln5qc2TlfR0YJC/zcQVhiGSe+fwPGQcMi7B1Hk54uKgHqo
+         a3A1MDd67X9vY0ALqKLsd63tKPU0CG+a7IqWyNXUGT1wYDYKf+4bFA6y0bPAXHhGZbZh
+         dynQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751472846; x=1752077646;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1751473067; x=1752077867;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0c/84mBXTtb1I5DJ3f//CNcOZAIu4pgnp07Yr6FAASE=;
-        b=Ot5bNaT9um3WmcVxFTu2rkN8Jw5VvWlaJLwQttSjSIcERM1yBclRmwuMIutTQjyYV/
-         XtTkk8SI+BZs80BRbOgojJrj2lYMFuHLbfHIWQvh/AHuofeflcF0chuAYL21uo9F85pA
-         EYZhzz/lJISWJXJdmvDsoBlrcK/wcDvF1FxV2LBHhQB96qbLMDDvwK/miwnf0S2bHmhG
-         o3JMyEZZCM848AFcWrAx6kDeP+54czCtzZScd8m3VAC1A64TW0p+x+69/HObBIwWPP0c
-         bhcGJuVakshzbX30FaNvFJRBqA0FIAj4g7cH54tSrKm2/EyDXZxM8GXelWm+2gGjVJq+
-         koWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWjozXAB+8HMk2ToaBLhHrEAn35fLTswpajCDrZiMQ8cM+6xQpuaQ6P3VKpeLvPTwbbsHwsC3DLrFI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQpbp1dWa/zK3hqdy2ZeCGtEBxBk7iINgymuFETj4FzURTx35D
-	D5o3yBq4hO/S/LlUXNddgBccVBIBgbzClEmrR5zRrkqas1Ht65upWxsP
-X-Gm-Gg: ASbGncveCuVX8ErahJkGDcKuX8cKMT6BcNWSWylqhMlZY/Vu9sGXFcQO/xJzY5cxeX8
-	rEOIfdL1CRCEw5n3AEImD7lHg3nmvQXNJVcLMSZCMOs6kUOFl/oUcVnEwbJHtwa4enQnKRcV34w
-	2ROCCvnO05kNmgTXvYdpsaMWahEBnR0WEnh2YPa0Enw1Jc+mOjhDPcGOy6kt8cyaDNp9ysxE6py
-	X5RrZgaD45gjJ3gNhq73+k9b09oSgNOpLoUYWF07+1QMRFyAs/g1n8Qvo6PPjEv6ILsRVejBZkX
-	ev8Vz7uyBu9SA9loKbA4jICEFdxjWH5mEoUQXp+FDdNeGUcXePVCiX7BJTXay00ZJEbJ+pHgQVz
-	wkIZYD3k=
-X-Google-Smtp-Source: AGHT+IEVOoy1Wg3zr/ivZW5QJMDsut3/0p00VNy9N/gGgSjttY9YOrjPlh1fZzMAA62oF74U2z1nzQ==
-X-Received: by 2002:a05:6a21:62c6:b0:220:82c7:309c with SMTP id adf61e73a8af0-222d7db195bmr6344370637.7.1751472845622;
-        Wed, 02 Jul 2025 09:14:05 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c408:a02c:2fc6:2cad:e985:b61d])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b35016ee1e0sm9385740a12.54.2025.07.02.09.14.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 09:14:05 -0700 (PDT)
-From: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
-To: airlied@gmail.com,
-	simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	corbet@lwn.net,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	kevinpaul468@gmail.com
-Subject: [PATCH v3] workaround for Sphinx false positive preventing indexing
-Date: Wed,  2 Jul 2025 21:43:37 +0530
-Message-Id: <20250702161337.69943-1-kevinpaul468@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        bh=+DRtnG3/5fhrw2/e04xUvMWhA80ygiUHCaMrGaRsIHA=;
+        b=r9Kl8mLnlvGsllXsJbK+04IQX195LtjsGfVjSnS4QByDrHqyf9xzTYhPNWHCcKGjx7
+         NRMnPKa6xAnJ7R+5r7DS/emjfE2RIjTG3lynfri37EZ7sx5Ci6QjACbWDgGQFT1zcJMn
+         aylJheJBGVMCGI4Z/7ne+E13Ql8Czjmpzzpa/gAHWlX3ZkUoS10pSZMwW3jyIuQFei/i
+         /8Cq4oNnC6TfznN7lrcoibcs3HdjjK2plLGqWvkYIFcjVTqBgouJq/ql15BsCm8udKsD
+         J3DnLx4m69cT0hUdCVrPTMLCNEOIG81J9CrpfB/KGLD8AqU1vLteyudNQOHxTlxDMEJw
+         Ci7A==
+X-Forwarded-Encrypted: i=1; AJvYcCX2PGY7UvKEMGth5g8rqQ/FAiwKKJF0fuQtLobsy4fXjRNCskqxnQ7MelfayyNH07jkoV034iI/XOY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzG5YVXe2+isO75eTN44jn4xM1SAfrjJJHvteq9LyGQKHvExvmP
+	zeufs956Xb+libM0woVK8EFq3uoZlG30k77DXyNAH85WZpUlFYdXKubrRDKuDoIGBR4=
+X-Gm-Gg: ASbGnctQ8pTla2rTDz2etR8pqeZq6IwcfDuEJ/k/JEwretIYBpiQFfY+cDzWHhRQvOm
+	SaUa/zUod2plSuFDeVi6UMffPMnZ4dqiy3w0nNsVzrQVd9jkk+ji+3tKba6cPtdT3ato+mAQMeu
+	QcHeD0wv2c8aPTRSjjqNuntWtajRaOSJGkUTofrre6vHafs1jSPSnQ/sriSB1UofF0PCczxHc6a
+	1dQrUlBs/vEh6dSWeAtqqBlMby6+OqmXvloSmvuEkSA5N1mbVb9oOHLhYltqfvx/74B70fTqkPb
+	E2MjC0c+B28gcXCRWq4EoTfPesXDrCRlBc2hnCY9L44NcxLYIAKyQD9dDxrqZRTGL6Yux70Wa9O
+	2I30woVGToN9IHraZ2fJqR7zFaEZqeoz6q0LJ6hk=
+X-Google-Smtp-Source: AGHT+IGmgT1DZZNaOfq26TUVuwOD6QhF7YzlfyrujVZ7SN1RUi3cre88qvNTmXSTqyDFUkfv1BFcUg==
+X-Received: by 2002:a05:600c:4751:b0:453:c08:a1fa with SMTP id 5b1f17b1804b1-454a3674ea1mr14677105e9.0.1751473066499;
+        Wed, 02 Jul 2025 09:17:46 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:b41:c160:5568:c43d:79bc:c2ec? ([2a01:e0a:b41:c160:5568:c43d:79bc:c2ec])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454a997e24bsm2310945e9.16.2025.07.02.09.17.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jul 2025 09:17:45 -0700 (PDT)
+Message-ID: <6a42127f-77bd-4a25-af61-8bb8adb666c1@6wind.com>
+Date: Wed, 2 Jul 2025 18:17:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Reply-To: nicolas.dichtel@6wind.com
+Subject: Re: [PATCH v3] ipv6: add `force_forwarding` sysctl to enable
+ per-interface forwarding
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Gabriel Goller <g.goller@proxmox.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250702074619.139031-1-g.goller@proxmox.com>
+ <20250702073458.3294b431@kernel.org>
+ <7c47cfb6-c1f1-42a1-8137-37f8f03fa970@6wind.com>
+ <20250702091055.3d70a5ee@kernel.org>
+From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Content-Language: en-US
+Organization: 6WIND
+In-Reply-To: <20250702091055.3d70a5ee@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Functions drm_format_info, drm_modeset_lock, drm_ioctl_flags are not being
-indexed in the documentation because there are structs with the same name
-and sphinx is only indexing one of them, Added them to namespaces as a
-workaround for suppressing the warnings and indexing the functions
-
-This is a bug of Sphinx >=3.1, first reported by Mauro in September 2020
-Link: https://github.com/sphinx-doc/sphinx/issues/8241
-Open Pull Request
-Link: https://github.com/sphinx-doc/sphinx/pull/8313
-
-Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
----
- Documentation/gpu/drm-kms.rst  | 4 ++++
- Documentation/gpu/drm-uapi.rst | 2 ++
- 2 files changed, 6 insertions(+)
-
-diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index abfe220764e1..b18a99869b6d 100644
---- a/Documentation/gpu/drm-kms.rst
-+++ b/Documentation/gpu/drm-kms.rst
-@@ -357,8 +357,10 @@ Format Functions Reference
- .. kernel-doc:: include/drm/drm_fourcc.h
-    :internal:
- 
-+.. c:namespace-push:: gpu_drm
- .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
-    :export:
-+.. c:namespace-pop::
- 
- .. _kms_dumb_buffer_objects:
- 
-@@ -473,8 +475,10 @@ KMS Locking
- .. kernel-doc:: include/drm/drm_modeset_lock.h
-    :internal:
- 
-+.. c:namespace:: gpu_drm
- .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
-    :export:
-+.. c:namespace-pop::
- 
- KMS Properties
- ==============
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 69f72e71a96e..e9d7b7282a19 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -554,8 +554,10 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
- .. kernel-doc:: include/drm/drm_ioctl.h
-    :internal:
- 
-+.. c:namespace-push:: gpu_drm
- .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
-    :export:
-+.. c:namespace-pop::
- 
- .. kernel-doc:: drivers/gpu/drm/drm_ioc32.c
-    :export:
--- 
-2.39.5
-
+Le 02/07/2025 à 18:10, Jakub Kicinski a écrit :
+> On Wed, 2 Jul 2025 17:14:42 +0200 Nicolas Dichtel wrote:
+>>> Should we invert the polarity? It appears that the condition below only
+>>> let's this setting _disable_ forwarding. IMO calling it "force" suggests
+>>> to the user that it will force it to be enabled.  
+>> Not sure to follow you. When force_forwarding is set to 1 the forwarding is
+>> always enabled.
+>>
+>> sysctl | all.forwarding | iface.force_forwarding | packet processing from iface
+>>        |      0         |           0            |        no forward
+>>        |      0         |           1            |         forward
+>>        |      1         |           0            |         forward
+>>        |      1         |           1            |         forward
+> 
+> Ugh, I can't read comparisons to zero.
+> Let's switch to more sane logic:
+> 
+> 	if (idev && !READ_ONCE(idev->cnf.force_forwarding) &&
+> 	    !READ_ONCE(net->ipv6.devconf_all->forwarding))
++1
