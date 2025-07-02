@@ -1,102 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ED515624B;
-	Wed,  2 Jul 2025 22:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21592DE710;
+	Wed,  2 Jul 2025 22:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751496601; cv=none; b=CHe4ieK5MskB12CiqQnwRgUImdR5AosrQVXpyff/TdwbB9//qLZ3ce4zNsxlCVOp0hxy7JblRsegr1t/MaeRy/wsmcr4f/7Ml9wuvhuZflE2r4EUQcKfNu0QISE4rmPp8XRCuhfieRiW3v0XXqh1aOq5RESGRoKrNUT4nGWhFKQ=
+	t=1751497045; cv=none; b=enzGUcKIh4fvWAOFYGPDrKskITCI3h69DIg069/cUxFlR/5CgV6eC2czusdQPS1N0xG3HPUFG0dTIUoB9TnDh6Yq2irfkxUrAa7jWGd3gp0J1Ov/V+ylb3YEZU3uLonPoPh91AzTy5zyhZHUT9zZfeTgszZv0jl7uHk6Zoovj/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751496601; c=relaxed/simple;
-	bh=wU8Zhraeh1yNzCGp2EgiAgwWtGMVkPgxeEnPDkPMUmQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=FtbGFh1pWWnY/3TXC57UB0MQpn/j9+tOUigkzE7C/pTKEddKeFCMRQm259Y1Fup9VqzFCJ3lXMFD8gCco9GoPrGXhzp2HbvNXItYJZQZ22expYU4pgNV32CQEv71Kwqr1q71fyZfN2dhnEIRAHLhJagOynq3fWu/3iISWnjLVtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jVrQyKke; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751497045; c=relaxed/simple;
+	bh=8EW0hGGxBNPaepJB/kat+o+7PivqzOmIdnFN/RapTEk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JfP4E/p12yiZmKk2+exAAsF8bHjID6xv/NDe9qcxesZWmqaJ72sFnmmVi9F8GS6iApVLuXavt2rabACqVEVGoplPdepk3hRe1SK48WFsx+FvXp3+5FnKxLtaUjKl/fHYbYNPN/d9oYH7QfrcZjAWEdoXYj9/DpnFfuWKS8ItytY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y47i09IZ; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jVrQyKke"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A7A4C4CEE7;
-	Wed,  2 Jul 2025 22:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751496601;
-	bh=wU8Zhraeh1yNzCGp2EgiAgwWtGMVkPgxeEnPDkPMUmQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=jVrQyKke7z/XJrrGX4841VHebRnBXnTnWdXEQ/R+A7DGSSWvUUOgZWC3bSto1/8Tm
-	 K/1NV62e4vEE5Tc86WqGxfGaqm+ngndIi19aVgFJhoIXiX9qXu35xeg47vqYB2O3tb
-	 NzICAZPxprMVXUQuH/lURQmVCFJ/URxLk02DJsoHh78u+aqt28RUivbvUVTQlNsWJd
-	 gp+E2rLhc0xW5StqAKPyOO3tDGfOYS9YEuE4o/mog+IwwfUHBDGj2eXYZoX4eZ+qEp
-	 1vB8e4kTExtVgqEKPsizDwSRhPevYRwJjGoqm1TrhkdA+P1ibgZnCgfKqPch+COtAu
-	 riLWeU4TbXHkg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB06A383B273;
-	Wed,  2 Jul 2025 22:50:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y47i09IZ"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4a5840ec53dso89973261cf.0;
+        Wed, 02 Jul 2025 15:57:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751497043; x=1752101843; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L+sj4DzOPih53SQUVn5/WouvC+G14JrQj6it97lI9Kg=;
+        b=Y47i09IZk5Et4ftvV1FxOZmTsZ4EWF/yIKUxArsHWI8s9/7v3cPW2VHOxJIUZNZydx
+         HybZ9We+llzhu6swD1Wk6yf6WDOEVdPUMjKSdvTI7UTHkb5N4QPSqDCZFR5TDDIVrcob
+         IF6N6da3AsvPLkSJpTNsCSznssP2bMKAS9FOAXPnh2P4HSsdD6helG1QFPXWbNBzTSs4
+         /XTjZYec4Ip3phcorCNliRRSSKyZubVJTQc/NzvU8GhzrsLMzexaJYAT9caD1NGzzQx7
+         wKA8+oivWFUKAY4wj/Q8E2hS8QVleUxoJ91ptjblZeQaQu3n3+wp2aWQYNMAk63XWz9H
+         TPFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751497043; x=1752101843;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L+sj4DzOPih53SQUVn5/WouvC+G14JrQj6it97lI9Kg=;
+        b=da9yHRZ16laDkJkaxmizfbcVNlKIs0Uog6HbrLYMXrOa8iq5H+FLmOlWq2Q99RdHaK
+         ZPA6JerCgP7j5I09fYJL/fmWFs90zKLNmxL07i8UBXMOKI5N//Sj9PTYhIPH0rZM6H5g
+         tKG7cDGIUhALFpSS48cs43wwwAdL8DX0xM3JpLxUW4tmIDQWQDiQi6cIjghOGiit2FIq
+         AS3MkNVO7GynAvqKZh5eqjs3TFdmxZQi9KVc+hf8FkplQuNxvu2607XTkyox6mFuL/yC
+         H6YomETs+F1LZYOAw7I/0J5cVhDNv6M8Izu3+/r5YSyihfAOWUs/5562efQAMsuJxuq2
+         ZPIw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+XLmNaCzygWE0qQ3mpN+OP6YFD2m/dgZJ1YuDVNjhZMKn/MSa1UPTPpvuVAaDGA1EvBD2A7Y5QM7v@vger.kernel.org, AJvYcCUr3nPNIPEcNAZ+tO9tBmR3MX9WI6NqJaG3L+LUAU7S1fxJUS92gI1FMQXwRQbGjBCvMx13AFZO69kSVg==@vger.kernel.org, AJvYcCXuVWmhuvWHED6uDRXwiP4HY7Mt36HfavKqa3sWv7ITrWRw21t2qSDl2QbHdKzG5SVDtTMzmDrDNWRI@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxtk5rNqDDAFC+QCrKsrESUv6MDF9H3yLtvVhpMnayhMylW+vDv
+	aM01pxSFQysowEkB2hA+JdB5bJ6bhLKGzwQTT10MIpU3mptopJuUCdw3INU0FTtrU0Oze/aJp7A
+	bpVfJV2O+7Ei8iObCTHSoyw904dLr3+k=
+X-Gm-Gg: ASbGncvrEzdPb8KL7crHyAS8Swy5R1btdo+HHJZ43ghJY0umYV32mlWjW1IUzKB+ZIH
+	vXVtWxoArXxqMpRo1tYTxjCRIeZjQ/Xd0aAwWspWpB+ttni541cAUYKLox9rEGX5fh2UBebWqAq
+	FmDlKbhqZUPF1XarnxQlbD5Xk7ue/Bv1QaMGNQ5TaeSdxXBwI2f2TfbNl9UZo=
+X-Google-Smtp-Source: AGHT+IGh+uw6/WknPh/VOBOhELlnb2ckIXgQMw+Dl8Agj8uw+6O+8N23tvom7rsshXm0+/bXl2b6LhX8aRmfe9JENnM=
+X-Received: by 2002:a05:622a:1343:b0:494:9455:5731 with SMTP id
+ d75a77b69052e-4a9768dc925mr69623251cf.7.1751497042623; Wed, 02 Jul 2025
+ 15:57:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v12 0/8] Support rate management on traffic
- classes
- in devlink and mlx5
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175149662576.890932.9074896205205825131.git-patchwork-notify@kernel.org>
-Date: Wed, 02 Jul 2025 22:50:25 +0000
-References: <20250629142138.361537-1-mbloch@nvidia.com>
-In-Reply-To: <20250629142138.361537-1-mbloch@nvidia.com>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
- edumazet@google.com, andrew+netdev@lunn.ch, horms@kernel.org,
- saeedm@nvidia.com, gal@nvidia.com, leonro@nvidia.com, tariqt@nvidia.com,
- donald.hunter@gmail.com, jiri@resnulli.us, corbet@lwn.net, leon@kernel.org,
- chuck.lever@oracle.com, jlayton@kernel.org, neil@brown.name,
- okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, shuah@kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20250624022135.832899-1-joannelkoong@gmail.com>
+ <20250624022135.832899-13-joannelkoong@gmail.com> <20250702175509.GF10009@frogsfrogsfrogs>
+ <20250702175743.GG10009@frogsfrogsfrogs>
+In-Reply-To: <20250702175743.GG10009@frogsfrogsfrogs>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 2 Jul 2025 15:57:10 -0700
+X-Gm-Features: Ac12FXz7lG-Jak0UpEVy1wDinr93eTqUtI8IoSMS4xFeGJDW7InC6JSRScIU8tA
+Message-ID: <CAJnrk1ZhFropUE-qoXcfa4VB740quF7nkQ3cs+NNbwPTFgpLsw@mail.gmail.com>
+Subject: Re: [PATCH v3 12/16] fuse: use iomap for buffered writes
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, hch@lst.de, miklos@szeredi.hu, 
+	brauner@kernel.org, anuj20.g@samsung.com, linux-xfs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-block@vger.kernel.org, gfs2@lists.linux.dev, 
+	kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Wed, Jul 2, 2025 at 10:57=E2=80=AFAM Darrick J. Wong <djwong@kernel.org>=
+ wrote:
+>
+> On Wed, Jul 02, 2025 at 10:55:09AM -0700, Darrick J. Wong wrote:
+> > On Mon, Jun 23, 2025 at 07:21:31PM -0700, Joanne Koong wrote:
+> > > Have buffered writes go through iomap. This has two advantages:
+> > > * granular large folio synchronous reads
+> > > * granular large folio dirty tracking
+> > >
+> > > If for example there is a 1 MB large folio and a write issued at pos =
+1
+> > > to pos 1 MB - 2, only the head and tail pages will need to be read in
+> > > and marked uptodate instead of the entire folio needing to be read in=
+.
+> > > Non-relevant trailing pages are also skipped (eg if for a 1 MB large
+> > > folio a write is issued at pos 1 to 4099, only the first two pages ar=
+e
+> > > read in and the ones after that are skipped).
+> > >
+> > > iomap also has granular dirty tracking. This is useful in that when i=
+t
+> > > comes to writeback time, only the dirty portions of the large folio w=
+ill
+> > > be written instead of having to write out the entire folio. For examp=
+le
+> > > if there is a 1 MB large folio and only 2 bytes in it are dirty, only
+> > > the page for those dirty bytes get written out. Please note that
+> > > granular writeback is only done once fuse also uses iomap in writebac=
+k
+> > > (separate commit).
+> > >
+> > > .release_folio needs to be set to iomap_release_folio so that any
+> > > allocated iomap ifs structs get freed.
+> >
+> > What happens in the !iomap case, which can still happen for
+> > !writeback_cache filesystems?  I don't think you can call
+> > iomap_release_folio, because iomap doesn't own folio->private in that
+> > case.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+AFAICS, there's otherwise no private data attached to the folio for
+fuse for the non-writeback paths, so I don't think this is an issue.
+ifs_free() would be a no-op.
 
-On Sun, 29 Jun 2025 17:21:30 +0300 you wrote:
-> V12:
-> - Fixed YAML indentation in devlink.yaml.
-> - Removed unused total variable from devlink_nl_rate_tc_bw_set().
-> - Quoted shell variables in devlink.sh and split declarations to fix
->   shellcheck warnings.
-> - Added missing DevlinkFamily imports in selftests to fix pylint
->   warnings.
-> - Pulled changes from net-next to enable these adjustments:
->    Inclusion of DevlinkFamily in YNL test libs.
->    Introduction of nlmsg_for_each_attr_type() macro and its use in nfsd.
-> 
-> [...]
+>
+> ...and I think the answer to that is that the !writeback_cache case
+> passes all file IO directly to the fuse server and never touches the
+> page cache at all?
 
-Here is the summary with links:
-  - [net-next,v12,1/8] netlink: introduce type-checking attribute iteration for nlmsg
-    https://git.kernel.org/netdev/net-next/c/42401c423896
-  - [net-next,v12,2/8] devlink: Extend devlink rate API with traffic classes bandwidth management
-    https://git.kernel.org/netdev/net-next/c/566e8f108fc7
-  - [net-next,v12,3/8] selftest: netdevsim: Add devlink rate tc-bw test
-    https://git.kernel.org/netdev/net-next/c/236156d80d5e
-  - [net-next,v12,4/8] net/mlx5: Add no-op implementation for setting tc-bw on rate objects
-    https://git.kernel.org/netdev/net-next/c/71092821244a
-  - [net-next,v12,5/8] net/mlx5: Add support for setting tc-bw on nodes
-    https://git.kernel.org/netdev/net-next/c/96619c485fa6
-  - [net-next,v12,6/8] net/mlx5: Add traffic class scheduling support for vport QoS
-    https://git.kernel.org/netdev/net-next/c/97733d1e00a0
-  - [net-next,v12,7/8] net/mlx5: Manage TC arbiter nodes and implement full support for tc-bw
-    https://git.kernel.org/netdev/net-next/c/cf7e73770d1b
-  - [net-next,v12,8/8] selftests: drv-net: Add test for devlink-rate traffic class bandwidth distribution
-    https://git.kernel.org/netdev/net-next/c/23ca32e4ead4
+There's two !writeback_cache cases, direct io and writethrough.
+For writethrough, the file IO gets passed to the fuse server and it
+also gets written to the page cache.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+>
+> --D
+>
