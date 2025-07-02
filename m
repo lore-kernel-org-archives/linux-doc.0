@@ -1,62 +1,63 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBAA254AF5
-	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 10:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2F1238C0C
+	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 10:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751451973; cv=none; b=ZTQQMrtXKSSKqb0DqZaip9koOuGXGbWJL+1gMbKZbW0qJmP+E/Z8k9tyfoJ492qAVstAm+hJXTi3Yd8eWdCnNQGdOFkUHjTrM0H41d7zkC235lpNLk3GV7++pPWC5byMhprwDvE851NReIL00unk1dCfC4lFfx4wLjsLe+zo1VI=
+	t=1751452327; cv=none; b=WEmX1vlxWfSKaB17sJrdim4a1bxzQTb5JLTUMcp2QYBpKYid1YaQNFwm2UZLTuAi5OJbQyI4Tvjr0GJot7eF+/Hg46SV6sJP6blTGEId/QaRBSxf4rChCI4MbJf6S/sUADPw8tnMaaJUQcNl+/tBaPrneTUA29cGPhODNKlXrKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751451973; c=relaxed/simple;
-	bh=A7Ag2M/xCPgnbM81/Ed1DfzL0YgWiPbRTDK/kNWLRz4=;
+	s=arc-20240116; t=1751452327; c=relaxed/simple;
+	bh=ZIPepwL1zAjT3/W18tkz2vKEYlRwn57a6PC+KSBfoZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pMzonNnZK+zc/QPvrqzsfMoBMRNowdiosQuiA7Xmfn+3xMYW7k0ZJZMqgHBXppnoAd+rq/hpZRQf6mkKmbDLJ0W27xd7VKDJN14xYqKaUG0J2s0H2+84eJRJRdVXjLtyL2bg0Ln2kvIn0HWGDBlNWXdhk1XjSLvmWZHV2MA/OAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=mGb7Bmlz; arc=none smtp.client-ip=209.85.128.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=S6EzNDW+Xw21KdhMjinyAHIlB7o8UAR48aYJHp7qCa/Es847/dGMaSfefjNUoXB6J88nEEarbPJ42nzXUWbxPhJiWEnBDSUajPg3B7sA0PIypU9UHP6EEfN0GdNchO8GomlTFBnoKDvlDeZcaWUL8ByJkqFXmqfTsB46J1bscvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=J3d/vSYk; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="mGb7Bmlz"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-453066fad06so44949045e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 03:26:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="J3d/vSYk"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-453608ed113so42789805e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 03:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1751451970; x=1752056770; darn=vger.kernel.org;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1751452322; x=1752057122; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yN3/Rce9O/Hh8jlflcA/tOl9nLaEQorrzHfucHxWn78=;
-        b=mGb7Bmlz5/GUSD+zaFlQiXe4qbRmr+J7MCz76Kw6ja5yYPuwSBnB/0kEVLxM9abifM
-         ZvwkBIcyzD5eaygzZdztn/QN0ZOkXhetgxNo3mn40WWpAEMsuj5Gx4pum/JA69pCOP2k
-         +GBT5oJkj0Ga8rXxr1/6mpaGntuhSjAScFxktzwC0ZlhPeZbBNEQrwINQ62lKqXNTPjz
-         ZMn3Uj664DcLFuZihjd3bZudbJTDgUAI8yYMrKTzIfsR3y3nyLzxygYfuFHlkUWGNT1e
-         UTUuo4MtxoJg4rPu5IwfiMVDw8EOW1mbTyfXRUOAl78sp2DQ8m7MXAANO6C+MM6D3SIv
-         NFLg==
+        bh=zXDzDU4TR6t6LCGPz2CtkRVWsYIWYd3/8o1AXqP8JIQ=;
+        b=J3d/vSYk8opocU0piDvqaKzjBrnanMQ1d0D5zxbXmNs04jPctePD1aatvNvRd6O4zI
+         VoZWvUe2VeYJ3UtEyo99293Di9gZX16zX3VZRD6FVxPCA2nzl2MU4K8vU4GdbdiLbPXi
+         wTG165FZqZkQhkZhuPMKoGbYrmwmFcujddWf0maC00rn6B3npN/9VT+xU0icuZbFm74w
+         1SS2cfvo0h6sSqyJJgENf8ORLRL1HK8MWdri5Tza1zUjF5UyaO/WEKys+Zq89GFu0iWT
+         Mvrtr3/QdBb1YA4x2pLZURJuvIMeKDH+h7rd++X6Da7FANh5KxhvNvP5B7L97eNfnAoP
+         53Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751451970; x=1752056770;
+        d=1e100.net; s=20230601; t=1751452322; x=1752057122;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yN3/Rce9O/Hh8jlflcA/tOl9nLaEQorrzHfucHxWn78=;
-        b=QTTUyq0wOi8FrPuf4hkeX/bYVtyMYYOvATYHxhe5RJ4Kt5khtxfMdRN1xzzup6u7j0
-         hpHZl3MSnhRMFbXXjX7bIK0ImPqbG8FlZj8QMceAkfpusJ4e5vKSg67JbHAOu9YXm6Mk
-         gUrTp6l/100xjMKUVxNNCJS6dSoROOnU+3Gezxn7ypk5cGt9k9nmoXah1pSdxYDF/TYw
-         CfJDynXKKBoZDbVqGOK4ugp+hL1aGRLv2bDG1/PPdKvyV8dGWfVV8KYzTJ802407t1gK
-         86QUM/v7UmRBgd88TtWENdDw2Pj/4dya/lWNSb7yZj/s0byuBt89o9Zyc/AWZDaiQsn5
-         js2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWEueIyWxLoVxLHUm76jzH0iGQZmfp1V9OEkbhdX67Q0rw6/REpaR89TF3dYw5n/ZDNJePTuzN76sQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9eeUYNmNlZC6EEqbQHH2vPiPk3/FawgN2DY+h/qt40btRU2An
-	pTOxTAixRTqXi3tQqFERyguc3Yk4anQN0INFJx7hXlCMXYUmtYOAv5rodM93wsO0V38=
-X-Gm-Gg: ASbGncszY+B+2CCO1F90qjOc8Wh/nZBgXXu2AHXgycRHsVQOjdhqzXT7JEN9Nm+FW/d
-	/qH4o3htL4ZvRTHsHxFyANLONBnH/FjBOmL5QzY5AAqr1ZyROo0GUncP9m6pYUQLqxbAzHlOEWJ
-	ZS0N7alcP9MCGRnLC6pabYvlwQiu+SvY0YVoIzJTjq0ku16/KH7cXU41q1DAIHXPQhJY8QOohlQ
-	NWn5z3Q5D10YqEtGCgzg+OHjPcubO5IH3SZd9wCr/EpfRxz7JLa5IrOU+iXKpPvDjGoIwSkRVRg
-	pAW2IpfxNpp/XIUMBejBgtvCkUnjEbpMP0Y/zxHIYA7vPV7RQcUP7W7tPznsuQpfyo9CyA==
-X-Google-Smtp-Source: AGHT+IE3Ue/jFuqGKk2j82UXQrlkpofLQZxfY4sZQlx7+9veKW80qJCzF944xSFEweUYweW+L+RcHQ==
-X-Received: by 2002:a05:600c:698e:b0:43b:cc42:c54f with SMTP id 5b1f17b1804b1-454a36ec56amr26467775e9.14.1751451969448;
-        Wed, 02 Jul 2025 03:26:09 -0700 (PDT)
+        bh=zXDzDU4TR6t6LCGPz2CtkRVWsYIWYd3/8o1AXqP8JIQ=;
+        b=fXxKD/d73sBSbWAdidVWuQIoZ/eSUgzCTeAwZLPNOJgiEyB+LoG6pStDGHSjn3eoJD
+         RbyHeLLmGKj0xENx2DoVzp08QKx+eY/KTAoNnHUnroxZgTPYXEhHqT6pOcyBg3ruaju2
+         HN/1ry+EwlweJWUJuG1+owKrbz3uoqgQgJtL+h/nXXaLC5pfA36PH797YOvYvvf5t/KK
+         w82ziiS6vEIbovF5XMeX7bpWk4biY9RsZwgTvx9O9G8npdZFMMRRitxC1RMcVwBQ0xoi
+         YdLZyCQIb6PAOV151APOtj6DmSywLmiaBMZyayzyx3+tJewAiJeLCx9Cm6QYJUgrySuP
+         PXvA==
+X-Forwarded-Encrypted: i=1; AJvYcCWc7J7WSSgYPZoNBy+Iu7zAje8gyrRgrU7o7n4nWeB4C5DoTsdKIhqG03Klk3FAg12zNBa7Ab/a+yk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWYBo18tNQ98/yFUlYc79RsO3SZ1vmst2L+kNP9TLGRAO0HZLa
+	yC8Ijb38DPrcuskjptg2R6G2XPl9Q4rJgkfO1eUqf8zixhwljTCfePBvK3EXq0omcIo=
+X-Gm-Gg: ASbGncvxt3YuPB0us1VJFzg6GTI0PhGTZxqKOlruwJN2sgetITT3ybilfygDkdgGg27
+	dgnuJtaX0XBhYtfndJTe8HcmJfP+VhzBupOeg7e9WmH4/O9fHwOYQvDOhGIUZZUJ2qaP4+kjpYm
+	XtV+c4ddvYT6TmzEtPrzmE4zUNC2HHy5l/YigCWbbuCgevFY1oabu/THjlKtE6FaHBnV/gDS5vk
+	c0Lzx3rK7vgUyzGvrY5KOoT32/iiCQU5F1KkWwMTZlk4KNgCDuLeHVpvWykV9TsrCoDPQvzsFde
+	z0MoWNCtCaKoymASaFLO0p01cMfDJpkWstsQzwmueIMTUNuZEKpml1F6nTiaqC1j2yhSVEnq/29
+	SzsUz
+X-Google-Smtp-Source: AGHT+IGsTcnn79M2AkJYx6VwIu5Aao26W0bXZaJfZo1nGUhdH+xTH9BKoW+BRHywWzGq0ruyEcPoQw==
+X-Received: by 2002:adf:e196:0:b0:3a8:38b3:6e32 with SMTP id ffacd0b85a97d-3b1fdf02726mr1536066f8f.8.1751452322382;
+        Wed, 02 Jul 2025 03:32:02 -0700 (PDT)
 Received: from jiri-mlt ([193.47.165.251])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7e6f8bsm16191924f8f.17.2025.07.02.03.26.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a3fe28dsm195088325e9.20.2025.07.02.03.31.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 03:26:08 -0700 (PDT)
-Date: Wed, 2 Jul 2025 12:25:57 +0200
+        Wed, 02 Jul 2025 03:32:02 -0700 (PDT)
+Date: Wed, 2 Jul 2025 12:31:52 +0200
 From: Jiri Pirko <jiri@resnulli.us>
 To: Ivan Vecera <ivecera@redhat.com>
 Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
@@ -70,11 +71,10 @@ Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>, 
 	Petr Oros <poros@redhat.com>
-Subject: Re: [PATCH net-next v12 04/14] dpll: zl3073x: Add support for
- devlink device info
-Message-ID: <x23jvoo4eycl5whishhsy2qpb5qajsqcx36amltwkqwu5xuj7s@ghg47je4hbjt>
+Subject: Re: [PATCH net-next v12 07/14] dpll: zl3073x: Add clock_id field
+Message-ID: <amsh2xeltgadepx22kvcq4cfyhb3psnxafqhr33ra6nznswsaq@hfq6yrb4zvo7>
 References: <20250629191049.64398-1-ivecera@redhat.com>
- <20250629191049.64398-5-ivecera@redhat.com>
+ <20250629191049.64398-8-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,23 +83,123 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250629191049.64398-5-ivecera@redhat.com>
+In-Reply-To: <20250629191049.64398-8-ivecera@redhat.com>
 
-Sun, Jun 29, 2025 at 09:10:39PM +0200, ivecera@redhat.com wrote:
+Sun, Jun 29, 2025 at 09:10:42PM +0200, ivecera@redhat.com wrote:
+>Add .clock_id to zl3073x_dev structure that will be used by later
+>commits introducing DPLL feature. The clock ID is required for DPLL
+>device registration.
+>
+>To generate this ID, use chip ID read during device initialization.
+>In case where multiple zl3073x based chips are present, the chip ID
+>is shifted and lower bits are filled by an unique value - using
+>the I2C device address for I2C connections and the chip-select value
+>for SPI connections.
 
-[...]
+You say that multiple chips may have the same chip ID? How is that
+possible? Isn't it supposed to be unique?
+I understand clock ID to be invariant regardless where you plug your
+device. When you construct it from i2c address, sounds wrong.
 
->+	snprintf(buf, sizeof(buf), "%lu.%lu.%lu.%lu",
->+		 FIELD_GET(GENMASK(31, 24), cfg_ver),
->+		 FIELD_GET(GENMASK(23, 16), cfg_ver),
->+		 FIELD_GET(GENMASK(15, 8), cfg_ver),
->+		 FIELD_GET(GENMASK(7, 0), cfg_ver));
+
+>
+>Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+>---
+> drivers/dpll/zl3073x/core.c | 6 +++++-
+> drivers/dpll/zl3073x/core.h | 4 +++-
+> drivers/dpll/zl3073x/i2c.c  | 4 +++-
+> drivers/dpll/zl3073x/spi.c  | 4 +++-
+> 4 files changed, 14 insertions(+), 4 deletions(-)
+>
+>diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
+>index b99dd81077d56..94c78a36d9158 100644
+>--- a/drivers/dpll/zl3073x/core.c
+>+++ b/drivers/dpll/zl3073x/core.c
+>@@ -743,13 +743,14 @@ static void zl3073x_devlink_unregister(void *ptr)
+>  * zl3073x_dev_probe - initialize zl3073x device
+>  * @zldev: pointer to zl3073x device
+>  * @chip_info: chip info based on compatible
+>+ * @dev_id: device ID to be used as part of clock ID
+>  *
+>  * Common initialization of zl3073x device structure.
+>  *
+>  * Returns: 0 on success, <0 on error
+>  */
+> int zl3073x_dev_probe(struct zl3073x_dev *zldev,
+>-		      const struct zl3073x_chip_info *chip_info)
+>+		      const struct zl3073x_chip_info *chip_info, u8 dev_id)
+> {
+> 	u16 id, revision, fw_ver;
+> 	struct devlink *devlink;
+>@@ -793,6 +794,9 @@ int zl3073x_dev_probe(struct zl3073x_dev *zldev,
+> 		FIELD_GET(GENMASK(15, 8), cfg_ver),
+> 		FIELD_GET(GENMASK(7, 0), cfg_ver));
+> 
+>+	/* Use chip ID and given dev ID as clock ID */
+>+	zldev->clock_id = ((u64)id << 8) | dev_id;
 >+
->+	return devlink_info_version_running_put(req, "cfg.custom_ver", buf);
-
-Nit:
-
-It's redundant to put "ver" string into version name. Also, isn't it
-rather "custom_config" or "custom_cfg"?
-
-
+> 	/* Initialize mutex for operations where multiple reads, writes
+> 	 * and/or polls are required to be done atomically.
+> 	 */
+>diff --git a/drivers/dpll/zl3073x/core.h b/drivers/dpll/zl3073x/core.h
+>index 2c831f1a4a5d1..1df2dc194980d 100644
+>--- a/drivers/dpll/zl3073x/core.h
+>+++ b/drivers/dpll/zl3073x/core.h
+>@@ -57,6 +57,7 @@ struct zl3073x_synth {
+>  * @dev: pointer to device
+>  * @regmap: regmap to access device registers
+>  * @multiop_lock: to serialize multiple register operations
+>+ * @clock_id: clock id of the device
+>  * @ref: array of input references' invariants
+>  * @out: array of outs' invariants
+>  * @synth: array of synths' invariants
+>@@ -65,6 +66,7 @@ struct zl3073x_dev {
+> 	struct device		*dev;
+> 	struct regmap		*regmap;
+> 	struct mutex		multiop_lock;
+>+	u64			clock_id;
+> 
+> 	/* Invariants */
+> 	struct zl3073x_ref	ref[ZL3073X_NUM_REFS];
+>@@ -87,7 +89,7 @@ extern const struct regmap_config zl3073x_regmap_config;
+> 
+> struct zl3073x_dev *zl3073x_devm_alloc(struct device *dev);
+> int zl3073x_dev_probe(struct zl3073x_dev *zldev,
+>-		      const struct zl3073x_chip_info *chip_info);
+>+		      const struct zl3073x_chip_info *chip_info, u8 dev_id);
+> 
+> /**********************
+>  * Registers operations
+>diff --git a/drivers/dpll/zl3073x/i2c.c b/drivers/dpll/zl3073x/i2c.c
+>index 7bbfdd4ed8671..13942ee43b9e5 100644
+>--- a/drivers/dpll/zl3073x/i2c.c
+>+++ b/drivers/dpll/zl3073x/i2c.c
+>@@ -22,7 +22,9 @@ static int zl3073x_i2c_probe(struct i2c_client *client)
+> 		return dev_err_probe(dev, PTR_ERR(zldev->regmap),
+> 				     "Failed to initialize regmap\n");
+> 
+>-	return zl3073x_dev_probe(zldev, i2c_get_match_data(client));
+>+	/* Initialize device and use I2C address as dev ID */
+>+	return zl3073x_dev_probe(zldev, i2c_get_match_data(client),
+>+				 client->addr);
+> }
+> 
+> static const struct i2c_device_id zl3073x_i2c_id[] = {
+>diff --git a/drivers/dpll/zl3073x/spi.c b/drivers/dpll/zl3073x/spi.c
+>index af901b4d6dda0..670b44a7b270f 100644
+>--- a/drivers/dpll/zl3073x/spi.c
+>+++ b/drivers/dpll/zl3073x/spi.c
+>@@ -22,7 +22,9 @@ static int zl3073x_spi_probe(struct spi_device *spi)
+> 		return dev_err_probe(dev, PTR_ERR(zldev->regmap),
+> 				     "Failed to initialize regmap\n");
+> 
+>-	return zl3073x_dev_probe(zldev, spi_get_device_match_data(spi));
+>+	/* Initialize device and use SPI chip select value as dev ID */
+>+	return zl3073x_dev_probe(zldev, spi_get_device_match_data(spi),
+>+				 spi_get_chipselect(spi, 0));
+> }
+> 
+> static const struct spi_device_id zl3073x_spi_id[] = {
+>-- 
+>2.49.0
+>
