@@ -1,217 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E070267B01
-	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 11:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA1022F772
+	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 11:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751454253; cv=none; b=TZkmkqFzBb1HLuDfX1Z1DVwMwUXoBba5LeMUZl5YOfwcmpg2ZyQWw39b+wRjkq6I9EGo4S4iUPnPFHY0yySejXwrQPSxV7saC1NMYkMI8PTcJ9WRad59Hk9ghQEIG21Q+jOgBoC/6HvmmccelTuXAu7op2B2pPSZOxX/ss56u+k=
+	t=1751454286; cv=none; b=tA+p3TK6i+FCAbBm61i1HPIikS8YV/F9YTAqmnN7QvMcaqVXIFwHQ0niXhJCQOQ4mIVRUKvlhKMj1jjj1jXFzo5fASskwLC6ijpanI7omrbsEPirydiBHQ+YgvwZ673s7HqUDWDGvepz+O7crq3kOynniU4/MZGgtHTqWVOxfdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751454253; c=relaxed/simple;
-	bh=d8G1yolRdxXqc9ogkL/VOw8lB8sVwSzbF3ORDXjZyUE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nZKBV2Ups+sA/vXDSLlRWjHWRJvy1zwGjtgkdgLf+do49L0jwjYyc3e1IB2vzSYgZ1Q8i+m+PDqeF42pkrh7GBhuRYzVehS84szvRHiwJZKDzGH/catKeLGmyfXRB1tBR9JyufdHD7tIPvYg80U3antlmahRSXtLr4ZInWytJbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z37fdF7B; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751454286; c=relaxed/simple;
+	bh=kIO4kRErh11jy7TmCP0YkdztWKE/kaiytblz1fDz4a0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lcQeHVM0RoAXCqgJnQW3OY0PvbLG7Cnp4TKib5QBViHtgy/L1bEGo1ZaxIThGInWXpEJ6jT6SeC1/pI+zt0GRgIMJgxpr8rea9Am5XVY9CBEAJvgG24Lav0fEbJGmZX8jUFD5UCzTOwAatR85bFaNvIdjiF5WB9Dw6TzTzlPQ3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=oPK3CLK3; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z37fdF7B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751454251;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Zw0KvQ+k4rubnSzWXk9d6NL2jyCuYlOPMDEvtfYHEhw=;
-	b=Z37fdF7Bm8q9r3FTzreVgbR7gOIsKHTts7CJPgn9T2wjQN4fLR6HAyBe+6aqQ3h9cMSvJh
-	gBAKn6aIIvtXXhmVFx1aMj/iNh+wkpARSsnUnaeqfbD/fkk+xIRTqAvGB/lkaz45X3Qrch
-	EcNp5VeSXMahM3dTUyXnt5UJP0u4/JI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-393-KOVx_0hTPbO5r1yIc2MUCQ-1; Wed, 02 Jul 2025 07:04:10 -0400
-X-MC-Unique: KOVx_0hTPbO5r1yIc2MUCQ-1
-X-Mimecast-MFC-AGG-ID: KOVx_0hTPbO5r1yIc2MUCQ_1751454249
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3a5281ba3a4so3117703f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 04:04:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="oPK3CLK3"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-553dceb342aso3935085e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 04:04:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1751454282; x=1752059082; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kIO4kRErh11jy7TmCP0YkdztWKE/kaiytblz1fDz4a0=;
+        b=oPK3CLK3RDQCKYt/TK1SwrNYLnJNgMN2/XBuAYx2DVxT3nqZjg2UYXhDYw7H0Tga+p
+         SvBraC/NM46Cn5SPF4xsx1kkUH7RmVSsyqvOvNU5/QbPbzBwDObf4754LWVDjd7gKt8l
+         B770v6aBKuPpA3fUm/l9IYRAgYTn2AOqNrOX4cOG8x760hdeqWiW9jTUWYoqirfZZ6H9
+         3HxCHTRYTgBI/CVREtIfuqT8eUl+yQRtRV+tUPzdDt6jVwmYX1Ev8pqkwax3UqjfnIaa
+         GNDjCi2sMWfKyXJSPcey4PhZ5UUXmmvvvhqM/pGmzQOH9bMaQvGFByxJQLdftqje+oFu
+         gQDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751454249; x=1752059049;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Zw0KvQ+k4rubnSzWXk9d6NL2jyCuYlOPMDEvtfYHEhw=;
-        b=TRLQBps3xN5DwKaYGgnJ3uuU+jpHQ+jfsPLL9MoXb9MUiaLArCZCnEJ7o1Qy/zQ5ev
-         umGcJz450ZAgCgAVRumxKd0MLbT7XS37egmVm5lO6ISLOIo7k9PPlNOwTi15sUkprXxa
-         vdVJhIok+vVR4B3OXBLp3ceuqVhXYsOz+JBBiZjQ9GpWCb12Cme/HcvcquAaZ0TL2g+y
-         1vj88ZG8y+moRaX4Y7qs30SKXhrI+XJrtCdeWPy9bLm8oh3Ty/sP+RiPmbAz0WLT2bgB
-         gGjzTlwOmL/LhyX8XO/qrVwcbwY7teJhwRz+Ze3WHqIK/AvbSWZv8/ApnWyaS1Y+ub5V
-         dvGA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFzviimzjFK6tjcAtuZOBVgIet+t6wk/wsCEdXyC0xtZqkawrco/mPsnmjJJLjqWlAmm4DV+FxWBg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4gDVDVmjROQbjubGp1hh66Lcy3tsfHP0h4xbbuFzuvgrnDO7I
-	D2Ret1ylIyiEjfaeU3L7f1d+p0jqhiwfzBjdY/indwnH77Hmap5k3FC0RcVjwpOcwJdidVlo3in
-	txxC3nHjEQqDmTm0d9d67cs4XtRiQo272VadWceepCgwNQ45rQnYMEMcNI/bwHw==
-X-Gm-Gg: ASbGncuZ46EidQzlH2Pu4YT9heGyKPsFCeb+LMBbYEBm2qRGsGCUKHukSzuLVYciHYF
-	ZIdVaJEize6Qcg3aJI56Ng8RjkyC8X1jlAET1SMzzHGGvR53Gk89mzlnFchLE9b0CH0shYLKBYc
-	8wVyCxYT/ov+XUPE8n/V1/6C7gpqePcjHaPdXymBmrzhDhiwD+uZzwok7KhY321V7RRS9GfVOh/
-	xiiMupkZGhrQk9/LQ3L7nc7HvL5igChge+j0M2pUjsuIxQfXbVhfQKZihiOtZTpCTcJ+G6TKl4L
-	LITkzotaBjNsJD7zUY0Ey7ccPx8MoCtRKVFeSWqRuknl2/Y6bzkTl+k=
-X-Received: by 2002:a05:6000:2082:b0:3a4:f63b:4bfc with SMTP id ffacd0b85a97d-3b2000b024emr1814732f8f.34.1751454248645;
-        Wed, 02 Jul 2025 04:04:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFOT/aw8XAmzCSK/ne3sEgcVpZYgHkoY1cnPnlo+cO4h4gm0Yl02x2OdxUmHov75EY70Jiegg==
-X-Received: by 2002:a05:6000:2082:b0:3a4:f63b:4bfc with SMTP id ffacd0b85a97d-3b2000b024emr1814693f8f.34.1751454248105;
-        Wed, 02 Jul 2025 04:04:08 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7e72c1sm15617141f8f.1.2025.07.02.04.04.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 04:04:07 -0700 (PDT)
-Message-ID: <819b61fb-ebb0-4ded-a104-01ab133b6a41@redhat.com>
-Date: Wed, 2 Jul 2025 13:04:05 +0200
+        d=1e100.net; s=20230601; t=1751454282; x=1752059082;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kIO4kRErh11jy7TmCP0YkdztWKE/kaiytblz1fDz4a0=;
+        b=q/pOSqbKhZwA6hasEzWRDFAETeASorXVo591ex8npJ9Pz2okoN3xZsEGGvy2VKXKdj
+         16M1vnYdaigji7lmH9AhROmeJReDcchxl0wdVarDztjZsVxumZW0JrHHwWZfoqk3G0uk
+         g7gA8gmJ4lCHT9W4vO6f+PvEhEtc37Sp86lf/ab9w/mwJH0gFcO61nmbOsiC4xceNmBv
+         iBhSQM5aEQXODHP6rWA2on1VwNKJ588pISNVk47me2ARWgQMecWLilSe6B2QQOnFekIJ
+         LUXHNtFgam9mPNIj4htmDMXsMBYYwPRIe28qaEDQgSkFu6ZnSXZxkEQmHujaIkS2a0As
+         F2cQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/NytNRjptrrixmYMiIdykcsEOGUBD9gVoD9W4v8lCCJqVuoNa08drZ1L6tfvvArENaf0Adepft+E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgV9GDwH4e+mftCun4zeYKRj6jKooUW6GC7e9r6NA7/itrznIB
+	GlC1oGLIiS+Zzt/NjJZxavEiBSJiTXFEjsZmye7hK1iw96X4jnGven6fMsWcGqe5AKZG++X7haa
+	sYkn6t13QzA7JH2vI00pmGKesE1MGa/AIoM7+22HxsA==
+X-Gm-Gg: ASbGncuNWSL1UwWywnBKOIdiEUpCNIqct3xjNauUwaMJomyzgtRtFP7gWQhVGBJaZYE
+	Y+plDeB95QuvTD7VTwwabxfaQ5hftG/3EVvuc6rW8A6MLuTdbyu0hE/67lxqj/0v5toIdrrVpa0
+	27KzJaqNn/2BfffLSLbPQV01d53NohdIEKqT2584yGTDE3
+X-Google-Smtp-Source: AGHT+IGSDJNqIbDFzqak4r2BGWXjw343zIhJGh0HVunBXOW/GFwnNwsW8KCXGLfWRyUIYjnvV9Y3uHTO0FTpSpd8arQ=
+X-Received: by 2002:a05:6512:33c3:b0:553:3621:efee with SMTP id
+ 2adb3069b0e04-55628376b73mr910658e87.50.1751454282296; Wed, 02 Jul 2025
+ 04:04:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 19/29] mm: stop storing migration_ops in page->mapping
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Minchan Kim <minchan@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>,
- Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin
- <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
- Qi Zheng <zhengqi.arch@bytedance.com>, Shakeel Butt <shakeel.butt@linux.dev>
-References: <20250630130011.330477-1-david@redhat.com>
- <20250630130011.330477-20-david@redhat.com> <aGULHOwAfVItRNr6@hyeyoo>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
- 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
- rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
- wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
- 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
- pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
- KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
- BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
- 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
- 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
- M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
- AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
- boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
- 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
- XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
- a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
- Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
- 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
- kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
- th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
- jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <aGULHOwAfVItRNr6@hyeyoo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250625161715.1003948-1-apatel@ventanamicro.com>
+ <87wm8tmcsr.ffs@tglx> <CAK9=C2Ue36iF8X17n-D70BkMk69bGKb+8dSmro6SEo5i2d+OSg@mail.gmail.com>
+ <87ikkcmkje.ffs@tglx>
+In-Reply-To: <87ikkcmkje.ffs@tglx>
+From: Anup Patel <apatel@ventanamicro.com>
+Date: Wed, 2 Jul 2025 16:34:29 +0530
+X-Gm-Features: Ac12FXxlQtBoP2wnUwftAZfKRl4x57RrJbhO7WA0tbv3mASPe9I66ZZKjnYy204
+Message-ID: <CAK9=C2U7Ze=q12N+_MM5c+nsJEBkuCoHs-GUsM0qdfVSyR2QVQ@mail.gmail.com>
+Subject: Re: [PATCH] irqchip: riscv-imsic: Add kernel parameter to disable IPIs
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atish.patra@linux.dev>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Andrew Jones <ajones@ventanamicro.com>, linux-doc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 02.07.25 12:34, Harry Yoo wrote:
-> On Mon, Jun 30, 2025 at 03:00:00PM +0200, David Hildenbrand wrote:
->> ... instead, look them up statically based on the page type. Maybe in the
->> future we want a registration interface? At least for now, it can be
->> easily handled using the two page types that actually support page
->> migration.
->>
->> The remaining usage of page->mapping is to flag such pages as actually
->> being movable (having movable_ops), which we will change next.
->>
->> Reviewed-by: Zi Yan <ziy@nvidia.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
-> 
->> +static const struct movable_operations *page_movable_ops(struct page *page)
->> +{
->> +	VM_WARN_ON_ONCE_PAGE(!page_has_movable_ops(page), page);
->> +
->> +	/*
->> +	 * If we enable page migration for a page of a certain type by marking
->> +	 * it as movable, the page type must be sticky until the page gets freed
->> +	 * back to the buddy.
->> +	 */
->> +#ifdef CONFIG_BALLOON_COMPACTION
->> +	if (PageOffline(page))
->> +		/* Only balloon compaction sets PageOffline pages movable. */
->> +		return &balloon_mops;
->> +#endif /* CONFIG_BALLOON_COMPACTION */
->> +#if defined(CONFIG_ZSMALLOC) && defined(CONFIG_COMPACTION)
->> +	if (PageZsmalloc(page))
->> +		return &zsmalloc_mops;
->> +#endif /* defined(CONFIG_ZSMALLOC) && defined(CONFIG_COMPACTION) */
-> 
-> What happens if:
->    CONFIG_ZSMALLOC=y
->    CONFIG_TRANSPARENT_HUGEPAGE=n
->    CONFIG_COMPACTION=n
->    CONFIG_MIGRATION=y
+On Tue, Jul 1, 2025 at 1:04=E2=80=AFPM Thomas Gleixner <tglx@linutronix.de>=
+ wrote:
+>
+> On Tue, Jul 01 2025 at 12:00, Anup Patel wrote:
+> > On Mon, Jun 30, 2025 at 9:39=E2=80=AFPM Thomas Gleixner <tglx@linutroni=
+x.de> wrote:
+> >> > When injecting IPIs to a set of harts, the IMSIC IPI support will
+> >> > do a separate MMIO write to SETIPNUM_LE register of each target
+> >> > hart. This means on a platform where IMSIC is trap-n-emulated,
+> >> > there will be N MMIO traps when injecting IPI to N target harts
+> >> > hence IPIs based on IMSIC software injected MSI is slow compared
+> >> > to the SBI IPI extension.
+> >> >
+> >> > Add a kernel parameter to disable IPIs in IMSIC driver for platforms
+> >> > with trap-n-emulated IMSIC.
+> >>
+> >> Why do you need a kernel parameter for that. If the platform uses trap=
+-n
+> >> emulation, then disable the IPI muck automatically, no?
+> >>
+> > Unfortunately, we don't have DT, ACPI, or any other way of discovering
+> > whether underlying IMSIC is trap-n-emulated. In fact, the DT or ACPI
+> > passed to a KVM Guest is the same irrespective of whether underlying
+> > IMSIC is trap-n-emulated or backed by hardware IMSIC VS-file.
+>
+> Sigh.
+>
+> > Using software injected MSIs as IPIs is purely a software choice in the
+> > IMSIC driver so this new kernel parameter allows users to override it.
+>
+> Please add that information to the change log.
+>
 
-Pages are never allocated from ZONE_MOVABLE/CMA and are not marked as 
-having movable_ops, so we never end up in this function. See how 
-zsmalloc.c deals with CONFIG_COMPACTION, especially how 
-SetZsPageMovable() is a NOP without it.
+Okay, I will add these details to the patch description.
 
-As a side note, both should probably be moved from COMPACTION to 
-MIGRATION. Although probably in practice, anybody enabling 
-CONFIG_MIGRATION likely also enables CONFIG_COMPACTION.
-
--- 
-Cheers,
-
-David / dhildenb
-
+Regards,
+Anup
