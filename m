@@ -1,119 +1,111 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28E51EC014;
-	Wed,  2 Jul 2025 22:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84647E0E4;
+	Wed,  2 Jul 2025 22:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751495198; cv=none; b=NXmeSBjqlCg/bBSM6wn26Erxd/unKRFbE6yg84GPUmLYERBmZNxbDKZYq+OoODVDpYjXIAOXzdyDyH5zzIuwt/FHzx/h2KgSX1GqFxuzgrAtGCkZkJvlcgUa5luoac3b/eOx87znwufpw5GJFKtDUNmvxsOy9he7awaMeZleyf0=
+	t=1751495767; cv=none; b=ns87/ly8XaRBpOmTjJ4GNmMPOGtk4IXHTbjOvC2QV27FIccNuLUBYQsjzNEl1aNKZwE2lsJZbSbMY5sDGpmY2suo8LgB9Ii/1apjCEnYRy0L9dqVF//PLFnwW6pBdwe14CgNAfZ4PYfhVFc7QKJNUp/zKUqojdm6UhAYgKYUaK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751495198; c=relaxed/simple;
-	bh=iEvqm8LEvOCppfJrHBWs4+zrkKzc5Z3mo3B9Tg6QiUc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rvPXPzXJcTubQ9lb/pmvzkmyelcV0gXNMzIHvqA/axGu5jSjedBIWOVA1NVRNQhnqa9a9AngsGkbPZNp9uDh7JYprkNDFzCA2saqURhcdd3W/1AfauPO2hAbqs4yCqIaCw/MFSVInmODZeD2YmpsZaQTfNA14UqhlYGQtXUbnpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lhZVTHxm; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1751495767; c=relaxed/simple;
+	bh=FwhImwbafGh/zSIx/tFbbpugx28qhWcgTkn8+5R/NgI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=itOXmXqSPeyyYnnQyKgCr80yxeGQ+ZAvjWqUXgo4A2e62fhAk1TK/joJYz+osPfMRDa/zHn8BnDbWdFZkgJvPmfEvqXM8B3awkVXZglTxRIyEnszt3WkShlkm6kx89dpUCIsdR6rfHmZ/AJv+la8reN3tlenCFIgUXH0n/+YMO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JgeSRHRT; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lhZVTHxm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=pZYnQS6oVZM60NmqDWbhfi/8XUrw9dxSRfxYkTiS2dM=; b=lhZVTHxmoM5qQqnKr6jA8q6pR9
-	lD9/f9R1LPlFjyCwVqFaswdrJAIYPoGOqQmoiBm0cCOjGijNE6r5f6gb6PoaNdAqkAIP8S6hSfcoW
-	031uORY+ncpR13FdyCKdV6RKqYEWFQNhVPB1wQ8vElXFQ0Kag2bvyW554JcBG5tc/L+5uH7xOm70P
-	ErHv31QuybfbBvlszA+wwbNWhdPrBP173b/bvXxtqMLairsgAzFTspM1vowTETrWp/uCEZLIJjpcf
-	mhWHZkgocCZnVi3wtMaUnrbYVFkaC5GNqnkqJhAVeHA+Nx5Vw0Id3cCk4pXdkGcXUdsjLnkMQVzTX
-	HjRPxtMQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX5uI-00000007a1D-2iyp;
-	Wed, 02 Jul 2025 22:26:23 +0000
-Message-ID: <53d8eaa7-6684-4596-ae98-69688068b84c@infradead.org>
-Date: Wed, 2 Jul 2025 15:26:14 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JgeSRHRT"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EF6F040AD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751495762; bh=DTvXcrbBitRgXHw7xikNWkgt0Dd2ojvGet8pYn6xCbI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JgeSRHRTh7KmdIczkY+8jBtbz2xFOEH7ldbEQ0Y3jVA3k5r28AnX5OL9rGH4Hu4MP
+	 QKeQPhjetk2ylXHZGc63iCApJp57z5MAD0b3CR34jrdl3C94PAKJIIL721opT9Wj5/
+	 8V73PGGD8RnNllEAlWJI3tzk97+9i8YG8ZxiAvRkd6f89nl2wCzBNV95VkIuJGY0LO
+	 3uZxQyZ4t8oFayLvtdxG4B5a5I08MPjmQamrfXSXzRZtBs9/rlH676/Abjovz8d6Hv
+	 4Y2aYeCleYvhZj9Cc4aAf/w3Z35Ol9Zqh2TxMbSqRSVInkNFS5yTrPbJmdY6VqPIO0
+	 szkrUKslj9nmA==
+Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
+	by ms.lwn.net (Postfix) with ESMTPA id EF6F040AD8;
+	Wed,  2 Jul 2025 22:36:01 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 06/12] docs: kdoc: use self.entry.parameterlist directly in check_sections()
+Date: Wed,  2 Jul 2025 16:35:18 -0600
+Message-ID: <20250702223524.231794-7-corbet@lwn.net>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250702223524.231794-1-corbet@lwn.net>
+References: <20250702223524.231794-1-corbet@lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ipv6: add `force_forwarding` sysctl to enable
- per-interface forwarding
-To: nicolas.dichtel@6wind.com, Gabriel Goller <g.goller@proxmox.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- David Ahern <dsahern@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250702074619.139031-1-g.goller@proxmox.com>
- <c39c99a7-73c2-4fc6-a1f2-bc18c0b6301f@6wind.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <c39c99a7-73c2-4fc6-a1f2-bc18c0b6301f@6wind.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Callers of check_sections() join parameterlist into a single string, which
+is then immediately split back into the original list.  Rather than do all
+that, just use parameterlist directly in check_sections().
 
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ scripts/lib/kdoc/kdoc_parser.py | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-On 7/2/25 3:05 AM, Nicolas Dichtel wrote:
-> Le 02/07/2025 à 09:46, Gabriel Goller a écrit :
->> It is currently impossible to enable ipv6 forwarding on a per-interface
->> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
->> enable it on all interfaces and disable it on the other interfaces using
->> a netfilter rule. This is especially cumbersome if you have lots of
->> interface and only want to enable forwarding on a few. According to the
->> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
->> for all interfaces, while the interface-specific
->> `net.ipv6.conf.<interface>.forwarding` configures the interface
->> Host/Router configuration.
->>
->> Introduce a new sysctl flag `force_forwarding`, which can be set on every
->> interface. The ip6_forwarding function will then check if the global
->> forwarding flag OR the force_forwarding flag is active and forward the
->> packet.
->>
->> To preserver backwards-compatibility reset the flag (on all interfaces)
->> to 0 if the net.ipv6.conf.all.forwarding flag is set to 0.
->>
->> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
->>
->> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
->> ---
-
-
-[snip]
-
->> +static int addrconf_sysctl_force_forwarding(const struct ctl_table *ctl, int write,
->> +					    void *buffer, size_t *lenp, loff_t *ppos)
->> +{
->> +	int *valp = ctl->data;
->> +	int ret;
->> +	int old, new;
->> +
->> +	// get extra params from table
-> /* */ for comment
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst#n598
-
-Hm, lots there from the BK to git transfer in 2005, with a few updates by Mauro, Jakub, and myself.
-
-
-More recently (2016!), Linus said this:
-  https://lore.kernel.org/lkml/CA+55aFyQYJerovMsSoSKS7PessZBr4vNp-3QUUwhqk4A4_jcbg@mail.gmail.com/
-
-which seems to allow for "//" style commenting. But yeah, it hasn't been added to
-coding-style.rst.
-
->> +	struct inet6_dev *idev = ctl->extra1;
->> +	struct net *net = ctl->extra2;
-> Reverse x-mas tree for the variables declaration
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/maintainer-netdev.rst#n368
-
-Shouldn't maintainer-netdev.rst contain something about netdev-style comment blocks?
-(not that I'm offering since I think it's ugly)
-
+diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+index b28f056365cb..ffd49f9395ae 100644
+--- a/scripts/lib/kdoc/kdoc_parser.py
++++ b/scripts/lib/kdoc/kdoc_parser.py
+@@ -476,19 +476,18 @@ class KernelDoc:
+                         self.push_parameter(ln, decl_type, param, dtype,
+                                             arg, declaration_name)
+ 
+-    def check_sections(self, ln, decl_name, decl_type, sectcheck, prmscheck):
++    def check_sections(self, ln, decl_name, decl_type, sectcheck):
+         """
+         Check for errors inside sections, emitting warnings if not found
+         parameters are described.
+         """
+ 
+         sects = sectcheck.split()
+-        prms = prmscheck.split()
+ 
+         for sx in range(len(sects)):                  # pylint: disable=C0200
+             err = True
+-            for px in range(len(prms)):               # pylint: disable=C0200
+-                if prms[px] == sects[sx]:
++            for param in self.entry.parameterlist:
++                if param == sects[sx]:
+                     err = False
+                     break
+ 
+@@ -753,8 +752,7 @@ class KernelDoc:
+ 
+         self.create_parameter_list(ln, decl_type, members, ';',
+                                    declaration_name)
+-        self.check_sections(ln, declaration_name, decl_type,
+-                            self.entry.sectcheck, ' '.join(self.entry.parameterlist))
++        self.check_sections(ln, declaration_name, decl_type, self.entry.sectcheck)
+ 
+         # Adjust declaration for better display
+         declaration = KernRe(r'([\{;])').sub(r'\1\n', declaration)
+@@ -1032,9 +1030,7 @@ class KernelDoc:
+                           f"expecting prototype for {self.entry.identifier}(). Prototype was for {declaration_name}() instead")
+             return
+ 
+-        prms = " ".join(self.entry.parameterlist)
+-        self.check_sections(ln, declaration_name, "function",
+-                            self.entry.sectcheck, prms)
++        self.check_sections(ln, declaration_name, "function", self.entry.sectcheck)
+ 
+         self.check_return_section(ln, declaration_name, return_type)
+ 
 -- 
-~Randy
+2.49.0
 
