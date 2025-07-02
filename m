@@ -1,46 +1,35 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8BF21770B;
-	Wed,  2 Jul 2025 22:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ED515624B;
+	Wed,  2 Jul 2025 22:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751496361; cv=none; b=KP4gN7s87XhQ5bgrKsjqdJqkjAXYLeZ+9Q7J+amRHumIa6728e+QRjwoDGURDFfXzZDhTF7YQExlRd7BIV1FspMsAmgjGS83HBebtro46/MqnEbj3amtOhtQnsRVIqgHhKCTHuDOD4mZd7/5MTK1BRHS+X8bz9YXNSoMQt7AyG8=
+	t=1751496601; cv=none; b=CHe4ieK5MskB12CiqQnwRgUImdR5AosrQVXpyff/TdwbB9//qLZ3ce4zNsxlCVOp0hxy7JblRsegr1t/MaeRy/wsmcr4f/7Ml9wuvhuZflE2r4EUQcKfNu0QISE4rmPp8XRCuhfieRiW3v0XXqh1aOq5RESGRoKrNUT4nGWhFKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751496361; c=relaxed/simple;
-	bh=UPS3jRecEgBaQrFDvJUIey28qto38FfAohZ6dAgaey8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iDBV2CFVIOqXvNC0rbWysm/Posjaiex6liktgvshC4pforpbY+/8X1Ey3FVYdIg0uaeSKcPFPhl+ogRIOaFpEhkFOgbCIRIvnAHLubb1s2XA8z9/ATzd6/wjF0xNkqwtzBkQyMKpY/v1v9O8yM9/ey69ZePfct3WfbCVbboPxzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KvS4CyeV; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1751496601; c=relaxed/simple;
+	bh=wU8Zhraeh1yNzCGp2EgiAgwWtGMVkPgxeEnPDkPMUmQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=FtbGFh1pWWnY/3TXC57UB0MQpn/j9+tOUigkzE7C/pTKEddKeFCMRQm259Y1Fup9VqzFCJ3lXMFD8gCco9GoPrGXhzp2HbvNXItYJZQZ22expYU4pgNV32CQEv71Kwqr1q71fyZfN2dhnEIRAHLhJagOynq3fWu/3iISWnjLVtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jVrQyKke; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KvS4CyeV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D13E440AD6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1751495761; bh=/IXkiFnHxKywSEBZcmAZNPVT8JLzPS8dyYGnsbT50ws=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KvS4CyeVaC8a0sxpwR43rOHRMW3jcor+9DSHtk5uzdQDG6xTjocJpgloDaT9W6vJF
-	 knUAKp9elkA6NreE+rup+gXKwpJieNqPotvRY1JrP4KZQzN2X/yYHXXm5MPzJ8h9aY
-	 vZnaiOxyJ+2Gofiofppjk9jG2As7tg0kbju3nuJ1a6qm9nnempNvi6F7tlBa1UgzMi
-	 esnPLlJ+/2ZTOW5qRu7Zy+DEXOPw+VRCgYNwlM0XJoOFstDoox9lxNfkZYKG0lh9de
-	 TMDsNawsVv6YK10Ohf4lfu63jAuzIU0K+6YyWiG8vBcMCzU/DznQ3GZ5tAQeb6FxYz
-	 oHWhc8ottBSvA==
-Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:2da9::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id D13E440AD6;
-	Wed,  2 Jul 2025 22:36:00 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 04/12] docs: kdoc: Centralize handling of the item section list
-Date: Wed,  2 Jul 2025 16:35:16 -0600
-Message-ID: <20250702223524.231794-5-corbet@lwn.net>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250702223524.231794-1-corbet@lwn.net>
-References: <20250702223524.231794-1-corbet@lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jVrQyKke"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A7A4C4CEE7;
+	Wed,  2 Jul 2025 22:50:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751496601;
+	bh=wU8Zhraeh1yNzCGp2EgiAgwWtGMVkPgxeEnPDkPMUmQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=jVrQyKke7z/XJrrGX4841VHebRnBXnTnWdXEQ/R+A7DGSSWvUUOgZWC3bSto1/8Tm
+	 K/1NV62e4vEE5Tc86WqGxfGaqm+ngndIi19aVgFJhoIXiX9qXu35xeg47vqYB2O3tb
+	 NzICAZPxprMVXUQuH/lURQmVCFJ/URxLk02DJsoHh78u+aqt28RUivbvUVTQlNsWJd
+	 gp+E2rLhc0xW5StqAKPyOO3tDGfOYS9YEuE4o/mog+IwwfUHBDGj2eXYZoX4eZ+qEp
+	 1vB8e4kTExtVgqEKPsizDwSRhPevYRwJjGoqm1TrhkdA+P1ibgZnCgfKqPch+COtAu
+	 riLWeU4TbXHkg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB06A383B273;
+	Wed,  2 Jul 2025 22:50:26 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,245 +37,66 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v12 0/8] Support rate management on traffic
+ classes
+ in devlink and mlx5
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175149662576.890932.9074896205205825131.git-patchwork-notify@kernel.org>
+Date: Wed, 02 Jul 2025 22:50:25 +0000
+References: <20250629142138.361537-1-mbloch@nvidia.com>
+In-Reply-To: <20250629142138.361537-1-mbloch@nvidia.com>
+To: Mark Bloch <mbloch@nvidia.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+ edumazet@google.com, andrew+netdev@lunn.ch, horms@kernel.org,
+ saeedm@nvidia.com, gal@nvidia.com, leonro@nvidia.com, tariqt@nvidia.com,
+ donald.hunter@gmail.com, jiri@resnulli.us, corbet@lwn.net, leon@kernel.org,
+ chuck.lever@oracle.com, jlayton@kernel.org, neil@brown.name,
+ okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, shuah@kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-kselftest@vger.kernel.org
 
-The section list always comes directly from the under-construction entry
-and is used uniformly.  Formalize section handling in the KdocItem class,
-and have output_declaration() load the sections directly from the entry,
-eliminating a lot of duplicated, verbose parameters.
+Hello:
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- scripts/lib/kdoc/kdoc_item.py   |  8 ++++++++
- scripts/lib/kdoc/kdoc_output.py | 36 ++++++++++++---------------------
- scripts/lib/kdoc/kdoc_parser.py | 20 +++---------------
- 3 files changed, 24 insertions(+), 40 deletions(-)
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-diff --git a/scripts/lib/kdoc/kdoc_item.py b/scripts/lib/kdoc/kdoc_item.py
-index add2cc772fec..c8329019a219 100644
---- a/scripts/lib/kdoc/kdoc_item.py
-+++ b/scripts/lib/kdoc/kdoc_item.py
-@@ -9,6 +9,7 @@ class KdocItem:
-         self.name = name
-         self.type = type
-         self.declaration_start_line = start_line
-+        self.sections = self.sections_start_lines = { }
-         #
-         # Just save everything else into our own dict so that the output
-         # side can grab it directly as before.  As we move things into more
-@@ -24,3 +25,10 @@ class KdocItem:
- 
-     def __getitem__(self, key):
-         return self.get(key)
-+
-+    #
-+    # Tracking of section information.
-+    #
-+    def set_sections(self, sections, start_lines):
-+        self.sections = sections
-+        self.section_start_lines = start_lines
-diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-index 4895c80e4b81..15cb89f91987 100644
---- a/scripts/lib/kdoc/kdoc_output.py
-+++ b/scripts/lib/kdoc/kdoc_output.py
-@@ -338,11 +338,7 @@ class RestFormat(OutputFormat):
-         starts by putting out the name of the doc section itself, but that
-         tends to duplicate a header already in the template file.
-         """
--
--        sections = args.get('sections', {})
--        section_start_lines = args.get('section_start_lines', {})
--
--        for section in sections:
-+        for section, text in args.sections.items():
-             # Skip sections that are in the nosymbol_table
-             if section in self.nosymbol:
-                 continue
-@@ -354,8 +350,8 @@ class RestFormat(OutputFormat):
-             else:
-                 self.data += f'{self.lineprefix}**{section}**\n\n'
- 
--            self.print_lineno(section_start_lines.get(section, 0))
--            self.output_highlight(sections[section])
-+            self.print_lineno(args.section_start_lines.get(section, 0))
-+            self.output_highlight(text)
-             self.data += "\n"
-         self.data += "\n"
- 
-@@ -635,23 +631,20 @@ class ManFormat(OutputFormat):
-                 self.data += line + "\n"
- 
-     def out_doc(self, fname, name, args):
--        sections = args.get('sections', {})
--
-         if not self.check_doc(name, args):
-             return
- 
-         self.data += f'.TH "{self.modulename}" 9 "{self.modulename}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
--        for section in sections:
-+        for section, text in args.sections.items():
-             self.data += f'.SH "{section}"' + "\n"
--            self.output_highlight(sections.get(section))
-+            self.output_highlight(text)
- 
-     def out_function(self, fname, name, args):
-         """output function in man"""
- 
-         parameterlist = args.get('parameterlist', [])
-         parameterdescs = args.get('parameterdescs', {})
--        sections = args.get('sections', {})
- 
-         self.data += f'.TH "{args["function"]}" 9 "{args["function"]}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
- 
-@@ -692,15 +685,14 @@ class ManFormat(OutputFormat):
-             self.data += f'.IP "{parameter}" 12' + "\n"
-             self.output_highlight(parameterdescs.get(parameter_name, ""))
- 
--        for section in sections:
-+        for section, text in args.sections.items():
-             self.data += f'.SH "{section.upper()}"' + "\n"
--            self.output_highlight(sections[section])
-+            self.output_highlight(text)
- 
-     def out_enum(self, fname, name, args):
- 
-         name = args.get('enum', '')
-         parameterlist = args.get('parameterlist', [])
--        sections = args.get('sections', {})
- 
-         self.data += f'.TH "{self.modulename}" 9 "enum {args["enum"]}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-@@ -727,24 +719,23 @@ class ManFormat(OutputFormat):
-             self.data += f'.IP "{parameter}" 12' + "\n"
-             self.output_highlight(args['parameterdescs'].get(parameter_name, ""))
- 
--        for section in sections:
-+        for section, text in args.sections.items():
-             self.data += f'.SH "{section}"' + "\n"
--            self.output_highlight(sections[section])
-+            self.output_highlight(text)
- 
-     def out_typedef(self, fname, name, args):
-         module = self.modulename
-         typedef = args.get('typedef')
-         purpose = args.get('purpose')
--        sections = args.get('sections', {})
- 
-         self.data += f'.TH "{module}" 9 "{typedef}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"typedef {typedef} \\- {purpose}\n"
- 
--        for section in sections:
-+        for section, text in args.sections.items():
-             self.data += f'.SH "{section}"' + "\n"
--            self.output_highlight(sections.get(section))
-+            self.output_highlight(text)
- 
-     def out_struct(self, fname, name, args):
-         module = self.modulename
-@@ -753,7 +744,6 @@ class ManFormat(OutputFormat):
-         purpose = args.get('purpose')
-         definition = args.get('definition')
-         parameterlist = args.get('parameterlist', [])
--        sections = args.get('sections', {})
-         parameterdescs = args.get('parameterdescs', {})
- 
-         self.data += f'.TH "{module}" 9 "{struct_type} {struct_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-@@ -782,6 +772,6 @@ class ManFormat(OutputFormat):
-             self.data += f'.IP "{parameter}" 12' + "\n"
-             self.output_highlight(parameterdescs.get(parameter_name))
- 
--        for section in sections:
-+        for section, text in args.sections.items():
-             self.data += f'.SH "{section}"' + "\n"
--            self.output_highlight(sections.get(section))
-+            self.output_highlight(text)
-diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index 2e00c8b3a5f2..608f3a1045dc 100644
---- a/scripts/lib/kdoc/kdoc_parser.py
-+++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -272,13 +272,13 @@ class KernelDoc:
-         item = KdocItem(name, dtype, self.entry.declaration_start_line, **args)
-         item.warnings = self.entry.warnings
- 
--        sections = item.get('sections', {})
--
-         # Drop empty sections
-         # TODO: improve empty sections logic to emit warnings
-+        sections = self.entry.sections
-         for section in ["Description", "Return"]:
-             if section in sections and not sections[section].rstrip():
-                 del sections[section]
-+        item.set_sections(sections, self.entry.section_start_lines)
- 
-         self.entries.append(item)
- 
-@@ -824,8 +824,6 @@ class KernelDoc:
-                                 parameterdescs=self.entry.parameterdescs,
-                                 parametertypes=self.entry.parametertypes,
-                                 parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
--                                sections=self.entry.sections,
--                                section_start_lines=self.entry.section_start_lines,
-                                 purpose=self.entry.declaration_purpose)
- 
-     def dump_enum(self, ln, proto):
-@@ -908,8 +906,6 @@ class KernelDoc:
-                                 parameterlist=self.entry.parameterlist,
-                                 parameterdescs=self.entry.parameterdescs,
-                                 parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
--                                sections=self.entry.sections,
--                                section_start_lines=self.entry.section_start_lines,
-                                 purpose=self.entry.declaration_purpose)
- 
-     def dump_declaration(self, ln, prototype):
-@@ -1079,8 +1075,6 @@ class KernelDoc:
-                                     parameterdescs=self.entry.parameterdescs,
-                                     parametertypes=self.entry.parametertypes,
-                                     parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
--                                    sections=self.entry.sections,
--                                    section_start_lines=self.entry.section_start_lines,
-                                     purpose=self.entry.declaration_purpose,
-                                     func_macro=func_macro)
-         else:
-@@ -1092,8 +1086,6 @@ class KernelDoc:
-                                     parameterdescs=self.entry.parameterdescs,
-                                     parametertypes=self.entry.parametertypes,
-                                     parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
--                                    sections=self.entry.sections,
--                                    section_start_lines=self.entry.section_start_lines,
-                                     purpose=self.entry.declaration_purpose,
-                                     func_macro=func_macro)
- 
-@@ -1137,8 +1129,6 @@ class KernelDoc:
-                                     parameterdescs=self.entry.parameterdescs,
-                                     parametertypes=self.entry.parametertypes,
-                                     parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
--                                    sections=self.entry.sections,
--                                    section_start_lines=self.entry.section_start_lines,
-                                     purpose=self.entry.declaration_purpose)
-             return
- 
-@@ -1159,8 +1149,6 @@ class KernelDoc:
- 
-             self.output_declaration('typedef', declaration_name,
-                                     typedef=declaration_name,
--                                    sections=self.entry.sections,
--                                    section_start_lines=self.entry.section_start_lines,
-                                     purpose=self.entry.declaration_purpose)
-             return
- 
-@@ -1642,9 +1630,7 @@ class KernelDoc:
- 
-         if doc_end.search(line):
-             self.dump_section()
--            self.output_declaration("doc", self.entry.identifier,
--                                    sections=self.entry.sections,
--                                    section_start_lines=self.entry.section_start_lines)
-+            self.output_declaration("doc", self.entry.identifier)
-             self.reset_state(ln)
- 
-         elif doc_content.search(line):
+On Sun, 29 Jun 2025 17:21:30 +0300 you wrote:
+> V12:
+> - Fixed YAML indentation in devlink.yaml.
+> - Removed unused total variable from devlink_nl_rate_tc_bw_set().
+> - Quoted shell variables in devlink.sh and split declarations to fix
+>   shellcheck warnings.
+> - Added missing DevlinkFamily imports in selftests to fix pylint
+>   warnings.
+> - Pulled changes from net-next to enable these adjustments:
+>    Inclusion of DevlinkFamily in YNL test libs.
+>    Introduction of nlmsg_for_each_attr_type() macro and its use in nfsd.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v12,1/8] netlink: introduce type-checking attribute iteration for nlmsg
+    https://git.kernel.org/netdev/net-next/c/42401c423896
+  - [net-next,v12,2/8] devlink: Extend devlink rate API with traffic classes bandwidth management
+    https://git.kernel.org/netdev/net-next/c/566e8f108fc7
+  - [net-next,v12,3/8] selftest: netdevsim: Add devlink rate tc-bw test
+    https://git.kernel.org/netdev/net-next/c/236156d80d5e
+  - [net-next,v12,4/8] net/mlx5: Add no-op implementation for setting tc-bw on rate objects
+    https://git.kernel.org/netdev/net-next/c/71092821244a
+  - [net-next,v12,5/8] net/mlx5: Add support for setting tc-bw on nodes
+    https://git.kernel.org/netdev/net-next/c/96619c485fa6
+  - [net-next,v12,6/8] net/mlx5: Add traffic class scheduling support for vport QoS
+    https://git.kernel.org/netdev/net-next/c/97733d1e00a0
+  - [net-next,v12,7/8] net/mlx5: Manage TC arbiter nodes and implement full support for tc-bw
+    https://git.kernel.org/netdev/net-next/c/cf7e73770d1b
+  - [net-next,v12,8/8] selftests: drv-net: Add test for devlink-rate traffic class bandwidth distribution
+    https://git.kernel.org/netdev/net-next/c/23ca32e4ead4
+
+You are awesome, thank you!
 -- 
-2.49.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
