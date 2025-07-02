@@ -1,255 +1,211 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF9B1DC9BB;
-	Wed,  2 Jul 2025 09:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751450182; cv=fail; b=SR4kCA8LgKMz2OEiUkzVAGhUHxfrNWVCj4UPmBfh1TeZaiRZPhFAetBZ5yWuAUeU1bWDNP8QkodXrLblMFLCS+hX+YOhgC40AKHoFsvi7qglzoRRqG3eUUzNDvZ2hZawVbhnqBiOwty9rpW3lEm/2jAPo9Y3OIhhyMN3pPAV6t4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751450182; c=relaxed/simple;
-	bh=/MC4Nfm+j5ds3vujJhc3Y4bXOvsFnVzN0wQbqyhLCJU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=PzamG8YU1Npd7HnCD60Noc6/YuEN1jGK4sJfauAvJBD0BxR9ARVVaBcOk4jd90P/11xoBiirLw1w+XrYkmYrV8OAEScc7zu86o0pejWCgojIZYzn2ESjEKICCgWYMpssJxR4lNv1EALivWaylDcDv/dtj5eOOO31LPxEzDPK/+M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=SzBX0pJf; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=lWJgI+A8; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29AE23D2B8
+	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 10:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751450735; cv=none; b=P1SB6tZHeEmeXgkOvbD8D9HYxxShVtV7hAm7iO8TdygnL4fuonLUkODkzPFvNNTc5t8q4EEjyMhFgTE53C2Z9fHXUdgvLkAV6XxiM9sedKXu+hfY4TW27nJKyGuNEuGFQWwBIxHw+5N1nqvy/V7P26mkHC7MseikLzIRqMTUxBY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751450735; c=relaxed/simple;
+	bh=/odDKUbMEXHb8YPMgH2eLGCrRUFAWoeTkGz9mBkC5Z8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W8gpfrrKKGcv+PSSTu31lFVmPmuunw68mofKKEbPSTpLTZsfsfIu4tC5Ic2ceUzXshJ7DebbHEqW4Y8g1+KV1tkg31N3K3+Mk8d1p0WrdGeqW99mGlxA5sde5xIR+cQnn/UiBCsoMsMCw8mtAfQavN5gejLimxurAAd/0Nv17RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com; spf=pass smtp.mailfrom=6wind.com; dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b=BGxsK39q; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=6wind.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="SzBX0pJf";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="lWJgI+A8"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5627Mbht022080;
-	Wed, 2 Jul 2025 09:54:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=VQgaLQb4ydW5WhxRZx
-	87oRCBZVVIj+WtbQ0ei+ErDBE=; b=SzBX0pJfXiD9dDD/IoQMs2/KI0+4XLcNZc
-	8dI8j65/wN5c3d4H9iV7jZQo/DklaXkaZ7eHB3mNcSW0nSYkvc+CTNIW1FOl7OcG
-	kGRtvwPDEt8QgTJ5Q0mFMyQUVGVxyT+JS8OgEzlMDX5Rk0S134//DTaeiLc+4IR6
-	AIh/9dhhXzbIgPqn30zBie08zlEIDesv1BGvCaXc/6SPDmYTaxK0Dl2JbyTsILrt
-	eGN9lDS1N4Y8trpMyv8M7NLpW5/Oh8TdPB3b7L7wcv+kXw6EYNUQxBL98p9dNZt/
-	up/EcysWuXoaD98fpt0P1taLLb6UADjA9OmSTI62C7LI2rDajl7g==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47j8xx6huk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 02 Jul 2025 09:54:35 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5629nMn2024950;
-	Wed, 2 Jul 2025 09:54:33 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12on2048.outbound.protection.outlook.com [40.107.244.48])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47j6uj8fqd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 02 Jul 2025 09:54:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZOQAe5DEW5gCk/z8kAycfDwx7fv6XRIG4Ib4YtdCEn/Iw0sTCOp1hTGN1zLF3t+/f4wHm6OgdFdViylu84bQTY6YIvbSQZ0T8Hiib4RPcrg91TCzJ+xEYnuUMvGJh/JbL/HvNxbCOQ3MnTo9lgiukr9hlqaYFtbC4f14+Z2QGiOZXDBQ4vm+jrqb8KI1qVl3xxSXne2oRuXYgNQUZcH9mmOIPugTdU67R9L1J/XYE42/GNJrEfEatGy5sKy2kcy1uH2arS2A8WK4DIlgRsElcK0KCw0DBtUvRvzP4FsopZbxSIbrU9PoCMVQISkcZtDJK2Nx0WJke7JSuYxgiwyYDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VQgaLQb4ydW5WhxRZx87oRCBZVVIj+WtbQ0ei+ErDBE=;
- b=X+2yb8sNSlSnLD4olICdmB1jeA+3KlLq6HWJL3ct16+WSDPZgC2ifvpK6eGWw3YNmakYKnLHkBL2dDAoK5pyA+KVQBkhBx7HhHFQaCcAL1TaFlYgnYN+Dmt3yVVTr/Ki/D2iaqwGgr1r9XjMrUpKV2zzBwpZX7JIjxQg3XqqmfTkdFYJr8cFQpoVbhsaZsVPW3impKaM5Av6o7W4EdYM/yYeCj4FxJ54/M03L1Zmy3uUZT3NX1c6qlEm74v2rPx4tFsM3EN3bsCzHAkZgyZ4dCbqE0w/KuX7+v3o4w1HWGa9RIRt8uJ4YOpNgjGGDtML4w33kMCR6ioCuNfVFGo9vQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b="BGxsK39q"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4535fc0485dso8569475e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 03:05:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VQgaLQb4ydW5WhxRZx87oRCBZVVIj+WtbQ0ei+ErDBE=;
- b=lWJgI+A8SyW/O0+6Ddyf2FxS17Ee4lDl3zQfToQnkyCu9/XNDY8sDMjRZ5K9GLz1vFMM4DzXRWLHEee0A9NhrzNKI1ZckqSyVlx2+3caI0J2TIvKnjVVXKurymyB9k0GtPnNvbjdYkC7q8Rw0/OEmcZHlqM8LXSz/X9fjOKOnIo=
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
- by MN2PR10MB4240.namprd10.prod.outlook.com (2603:10b6:208:1d9::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.23; Wed, 2 Jul
- 2025 09:54:30 +0000
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71%6]) with mapi id 15.20.8880.029; Wed, 2 Jul 2025
- 09:54:29 +0000
-Date: Wed, 2 Jul 2025 18:54:15 +0900
-From: Harry Yoo <harry.yoo@oracle.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, virtualization@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
-        Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
-        Ying Huang <ying.huang@linux.alibaba.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Brendan Jackman <jackmanb@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
-        Xu Xin <xu.xin16@zte.com.cn>,
-        Chengming Zhou <chengming.zhou@linux.dev>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Naoya Horiguchi <nao.horiguchi@gmail.com>,
-        Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>,
-        Qi Zheng <zhengqi.arch@bytedance.com>,
-        Shakeel Butt <shakeel.butt@linux.dev>,
-        Tangquan Zheng <zhengtangquan@oppo.com>,
-        Barry Song <v-songbaohua@oppo.com>, Barry Song <21cnbao@gmail.com>
-Subject: Re: [PATCH v1 17/29] mm/page_isolation: drop __folio_test_movable()
- check for large folios
-Message-ID: <aGUBx9PUkSMm3pTf@hyeyoo>
-References: <20250630130011.330477-1-david@redhat.com>
- <20250630130011.330477-18-david@redhat.com>
- <58b36226-59ff-4d8b-a1f3-71170b42b795@lucifer.local>
- <d9761308-8a8d-438a-b4c7-7ca3295fa0a4@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d9761308-8a8d-438a-b4c7-7ca3295fa0a4@redhat.com>
-X-ClientProxiedBy: SL2P216CA0221.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:18::15) To CH3PR10MB7329.namprd10.prod.outlook.com
- (2603:10b6:610:12c::16)
+        d=6wind.com; s=google; t=1751450732; x=1752055532; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jge/315nZmEr34QaqRg13k9ENVxZ/tBr+eglZFNGido=;
+        b=BGxsK39q6HlSq5lD/xVCPlwrLgbplvcfaNL9uBz6yF8r8zbqGQhlfUA5DXLXtL0Snx
+         046iUZncJRrVFYyBZYucf5Fx4cFJh1m2ZhMqYVpZQCHX2PImREFO312YUFMy8pMnkg5u
+         +qw02de1oQGX/Od2FJOuTb9148j2awPyxgSsB9encjnwLpqRydIRUvP6wBcgZ9ZQex3Z
+         zGDoa4tvj1NRdBWCtae9+I4JDlPRriN56OimNMgXAwrgLGwPLHs8DDQ0MHXr+tNqT/sd
+         wE5Wd4MeoWNJaXtQy85ltwnQfFbiK70ynox3wh4MjvzJs7MZ6hMzMnqQ6aa3T5Dcp8nV
+         UlVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751450732; x=1752055532;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jge/315nZmEr34QaqRg13k9ENVxZ/tBr+eglZFNGido=;
+        b=cJaBMVOzUzZw0vyPubhwxPYE4JTJLm2791gehki+NiJVMbx88jmX+xhJ4rKEVdISDQ
+         Qc0J67hMo+ue0+OfmUWd1hA/qVxbRkbJttgnufMgI8o9EmscnxGiiBVbcg/yBEZ5Q7rB
+         yT9i42/hHLRxmaJl7N19jkBeRgZHyJ1RWimw1YxmD5x1NrJaTDb9I+fwuKvm/NzfB8Nq
+         2IOXI57g7WSMSSZS9u38FBdHGrpqDdhxzO6u60RBeI0z8chheMu2BVGjlVShvqXAiJOy
+         NKYojiL2jnc0tG8qXhw6aLKpMATVo48sqUumN0CHlugu0qzwqqcYvDLxR4lOwGNRWmrY
+         hF2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUlZpNnvA67PhGVpKCIwnZ8FVWjqYAYn5zKwZPHvwBSap7MRuaSy6fMnrXkRkGUWhkXGOVd1H5F8Iw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+AzUuHBMt/o46gr5i64Per1YgiOMgRcYzYIAg+zxqtcUpwVSj
+	5xiANna+V5OG+lYBhzbIS4ERHJj4y892UNmstJATbfndtXiNczcvoL+5/EpznGm4j28=
+X-Gm-Gg: ASbGnctqX1PL1L4CyAC5glJw0W81OSFHOcolgyJluVUfGS12y6nxXRUzDOVOeAVd+uN
+	V1cAhK38lXvsfpBMpkkr+/fD9LlJS06ecWQ5l6DwLVFk+d3l3vBzrNQDXb4Sm0oONi1NcVNKHWL
+	3MQnPlvmnH4nQYkE1FIJGP3sA3rYn/J3h5cvozjWDttbtO3KDjruPwTeFY6WhcsNJ4OeA5vNnHL
+	FJj0NkkfM6aMBm3mpY6WupxZyfHH+r/vsxeggxqm3v6zkWgWmMm7XS7k7LlwLGbJ9S8XVN5q2+z
+	o4G0oZXxsEqA+sGhpKrsU6cgFdKHtl/jiIHoAEAYPciM/Q2ZHMC5NwQYKFaPoRkx1FDg8gXjNd0
+	ojvHo/xF8gZprxhGEeDNzXo6TQbhb3ijQ/ny9vuQ=
+X-Google-Smtp-Source: AGHT+IHl6GEGttPh0i4rVP4SmhL82lbxdawS1oN4zDLT3XLS5VSAgR8qS48eCoKhOKWSCmnAPDEk0g==
+X-Received: by 2002:a05:600c:46d1:b0:439:88bb:d00b with SMTP id 5b1f17b1804b1-454a3706e3amr8521565e9.5.1751450732227;
+        Wed, 02 Jul 2025 03:05:32 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:b41:c160:5568:c43d:79bc:c2ec? ([2a01:e0a:b41:c160:5568:c43d:79bc:c2ec])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a3a72dasm192919735e9.16.2025.07.02.03.05.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jul 2025 03:05:31 -0700 (PDT)
+Message-ID: <c39c99a7-73c2-4fc6-a1f2-bc18c0b6301f@6wind.com>
+Date: Wed, 2 Jul 2025 12:05:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|MN2PR10MB4240:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8b3fa1c-d64f-45c4-2b38-08ddb94e6ffc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?HfSv8VCwMBPxCj1MwTRFIE/uULn87lkHSzyjNuxy1VVcZTmfmq/021mEaJ+Q?=
- =?us-ascii?Q?VLAh7GJB2mIOmnGV6uadzSFsB6qegYxHU962PR7XpVVVk6KKBIczwGgF/2VJ?=
- =?us-ascii?Q?qDnCUjrynDeIMjZ75c9dVV8wBvLmRCxijuW49J9uOyiYRYogQgWtxIuuiKjx?=
- =?us-ascii?Q?yLa7Z+PnL9x1NhYNFDOZaZ9Off6VovSQ8mUa62pP/NmoGUV8A/YrqOeK6N+4?=
- =?us-ascii?Q?kBl8qJUsiEGEbVNs3I6TLsIyQcEwepQZV8Gjc6n09WyXCkPREMEwaSgUqocc?=
- =?us-ascii?Q?4nqToAbIwriv9L8ulPE3vZ05wMMYJoCyoUPQ/ONUhYsXrWk6Kf0zWFr0luA+?=
- =?us-ascii?Q?TitvjyYRw08VDhnlx8JCK60jlxkZi6g8xFdopMUgJhQckIe6AD7KaGlfsUuX?=
- =?us-ascii?Q?yvVcocfzSZ9rlZNpwGN3yMgeY184pW7wectv+1o+zAR2ExgHTAlvlZDKM+Jn?=
- =?us-ascii?Q?UCav12f0mD7BfM6TSDCEZK6cuuIYVXVIHVvCBSrSL8OtrgyjJfcAU+BXQuGY?=
- =?us-ascii?Q?kkb/C9RzmaZUfrq3xGw9KZYLywAAq+wEWKkDZlj/AnTcjnbk5cZR+w6G+h9y?=
- =?us-ascii?Q?UeQ5o2cI+8L8D1dkuXu0FTeuBaN4FHbXzJOakqJgr/l06nzvf6US7m2kC1Gl?=
- =?us-ascii?Q?wPDzJctVVU0ob2rsyoyb/Smkb/2BJl7cuCrxsvGjO5LGBwwxT1s6RHSBUqHI?=
- =?us-ascii?Q?6YVhBGwqkybw14k93+ULO3F8zsvOYUDkMnAqrSvTmE16ZGg+zHPul4+7LHWJ?=
- =?us-ascii?Q?kSnyIsd+U33GYxZy3gaAvgvnjFnMKVzJNwlim8/Y52SI6nOc2nTguO3K+3gv?=
- =?us-ascii?Q?xMFhY5+nokuzulHhD6rov+qzwQhglQtfGsaWqVAPOgkRA9hZ5H9eD/e2vZfQ?=
- =?us-ascii?Q?A4chyf0+L+3K6+kVo8EnQ3ZlHd3jhefJelCqjHWf/a+cuwhqNcpIFyPFoVsg?=
- =?us-ascii?Q?HUp9ymSuuZ0j22Wm3xcgIR1/KyGtQ3+OCj2PyoGeXENQRnx0NJIO1z0kR35e?=
- =?us-ascii?Q?02uwJhY8Ts+PRYC2Ol/e6pCSpTJzKCz6N746g2uqbu9BzE5vB4X6b9fp/Ml7?=
- =?us-ascii?Q?4QPREuz56LrXLc67fthNRvHBDWJYIZIrUJp2Sms9gDg7Dt8xitbeV66rnXQN?=
- =?us-ascii?Q?guyOl3WUxJ6LfSZXFleRg64JS2/gYDnV9jd96/dRpBACJe/v60/VWhI3FLqh?=
- =?us-ascii?Q?y86XQkA0SxqzyAUsgvnfzfwa7ZMFOa6TQ/p4mtjeakl6YmVPl7aW/PiAS9fz?=
- =?us-ascii?Q?0HTBPgXfxtq9PatcSAYWSIuTvD0g8Q1DHGZkH/JSxoFbjcL+VKO38jPfZdRP?=
- =?us-ascii?Q?qbo/sjopkORu0byMElv7d4ywWxm6wvAKJ5zyzBWcS7qfmBgGK1XrP5JZhDrY?=
- =?us-ascii?Q?YR2cieYGkwb+qvqZ7FsCicsNvQm4y7R7ZduXwM6EwhWyMF40QKNRfaCeKdgK?=
- =?us-ascii?Q?Yh4Ahqp50CI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?StrODyI0wayeWqNflWeLgoc1eWnzpsfVfWpF00b2nFKFUY8Hlx3efhnbagFZ?=
- =?us-ascii?Q?y0i6qdoeuuQe9U/diCK9/MYAX1uorG8HV1DSlcbALSNImHHPzP/rdAe9g1l4?=
- =?us-ascii?Q?4hduZClea9rbfj1uzdEnKK1w193RMClEcMqhlAF8zC12R2yAOuIvv7SdqtKj?=
- =?us-ascii?Q?kU3puIsHzi4271MhHDaKddvXpyNleKWBTO0cmf9Zk+/y6EBp1z2QWzMoQUdM?=
- =?us-ascii?Q?fFzeQ+M3y8dMuDp8LhI+sbbTEt0p/do2OhmIcm0K1kBoANrRzTdrfT+K6B8d?=
- =?us-ascii?Q?E/NYxVEF6wetEHuFHb3vwTZt55HhT5ZtOGp6Vsfsgl5/ltDtG0EUF9nhqsNk?=
- =?us-ascii?Q?HPP5AxDD/3k9LVjJlZfi7sRHwn18Ksj7QsM+m8Wtoz0zWReY8PYeaIQMDt+6?=
- =?us-ascii?Q?4cuYVk7lj+bHTzeA3SgzABbnQ9yrV4n0zn/6x4IoqP6BvAAohC+JX4E1PHeP?=
- =?us-ascii?Q?vhILjBiEmuXF1AskVuIv0HcPyIN8SLebeUkl6CHPIexvGzd+N9lMYRET4oax?=
- =?us-ascii?Q?0XEzSFQqc+Ht8DQM0gMn0cW98LmIfOlk0zzzB0kRWWgWFPuGMU/mC3b8nRDs?=
- =?us-ascii?Q?D0cWpep95wh6y37je0Wz5ZqkWBDOjvLbK+tmAE6fOV0ppUaPFMnjVypAm85T?=
- =?us-ascii?Q?OG+TCxtjSRNthse43xKbhlUpaSsOmky2PlMUEwpzuzzfhsfyHVAcpq3U2I1l?=
- =?us-ascii?Q?N7baNjXh9mShEoQSqQaV/Mrye2x3BniQkk/HvfnWw4IujdZEe8EMfsd73/Cx?=
- =?us-ascii?Q?LEt6YOfQCJidB9W9TT9algZwR31bJdHOdVbmIsxDWcFhA58j89le6HgBfUJX?=
- =?us-ascii?Q?SFWQ8ONpBGi500loHJrtK8PXZ+nJtEyPfJoq3Mk2j3vkTnpDyvvzh6nvz8sW?=
- =?us-ascii?Q?bKNoAil6VpYO9Gm38eyftvvKE5dJvy8VKcJjz3C69OovabMJzfkn15uQZLkr?=
- =?us-ascii?Q?VPm3XVVqA9v8y/01EG1pgwXLBdwI9/TN19+vuIDyuKQJHB5CFH5MsfOP6bxU?=
- =?us-ascii?Q?QZl8X/LXNyWFtP7mdxViTyuuqmRzciM0IyhxvlKk2eoQ79jycBzuiqyepCW2?=
- =?us-ascii?Q?K6PBW7UDK1AE4t0WzQFew2Zv+aNCoe5EOzNas4PGilXQwqrrfxyGQtMX4do/?=
- =?us-ascii?Q?clf8Kb3qI2Owp17fkJDlpXDu/APHiUZKk4fkeVhgfYp/gpKRTKeHQglSkR30?=
- =?us-ascii?Q?qhoFU/r8k6/XUFmXP2phSHiwoz0ENrWy0GWgK7IruZeX3DGNUHGrg/yte0lw?=
- =?us-ascii?Q?OSMpYawxbROGhjL3AO9X+IC93+oq8YCDPtBiWesjdPGAcDbkTjX53+N8kvDh?=
- =?us-ascii?Q?lOKSGc76iVu/n52qUB7yDCnZtF5z7IdBMt1l2NIKw8r8LAhBL9R3wOMbtBG2?=
- =?us-ascii?Q?Pk22wz0zVc7Lcur2ZU6F0/a4wiCDymapPcruA5snkhQwQVvrgR7ZmQl94Ex5?=
- =?us-ascii?Q?03una6YfOQ5S06bmPe/NuyAOlHEFXwHKFJH4Pv+xDo5QpoTEYCQTPTLao3vl?=
- =?us-ascii?Q?Y+0ACJzV8BDDe6ITAafgTUErPIbEYxNSVVdIV265HMHVp10jx9v7UuMNy+la?=
- =?us-ascii?Q?ZB2U3tMAcVd2Y0P8Dw/DElFbZwAuUO1RLp4JOreY?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	eI49mZITpYA2nrtTEhf2xvHPTdcLzVOOmkmLQaZSNLrZX51aRyKDbMLuxJvfnG3eMnsSOCGngGyZwVLd87VdoGV/nEo/6r0TMkzjuAt+V4VANqvC9bhpydSwPbN/q8eoHDCnA27Jv2+T/NNIyq2bXoHJrV7o1PY3EO3YusxAOWUdstWapvJQYM5f0fICv9o4E3JENoE7YuA97ymQ67aCBRel2h/5InTz30Gm7ZbU8LK6n0BV0PcWFeU28dBhQxwFExo703DsJs+lDtwwTaXgg0ptx/pUjQZz0c3JxZRnr9L55tFKgzagBHULcjo0nrvPqsUUcqAYbu+dEe+SKzVuB1TEEwrydUBADRjoAyIy0J/kqTmxx11DjsJFSvwWrztnAe6iqT/FmRWCXamLMfHwv03vgwI5hktNOuYZRDMmMuYjmF6BN85ObqzNSM0S2YLxorhu9BQvwkUI/hPduSIGtPeRKuCPTmvavrHgJF62T0ixTBA7zofRV+dhUcNEOfusQ+ozVR95tNZ0RPM+ldqlkGy6mlNaXbkC7kkpKTxP6AVNHcnI+MImx0JMFxtgZejnX4J48dhg+kAKnMCSMum3W65qesV7iN9KbTM1x0W2+rU=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8b3fa1c-d64f-45c4-2b38-08ddb94e6ffc
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 09:54:29.7283
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q1jMRPVB1Woli8aTWiZsIvERLRYJWp1ycDihN8ZfxN2G2/jfFgul/1j7RnX/CTA7tCoQ/jg/JS4TF0xYa1YnTA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4240
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-02_01,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- bulkscore=0 malwarescore=0 spamscore=0 phishscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2507020080
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAyMDA4MCBTYWx0ZWRfX+QTtiFdOfu9Z B1U3mHCFYGqL6wClXYpVjpy8VWOItJ7FId54NN9t5ySnhq1ypR0gsI/z7R9RwafDRuJEwQawXT9 f6SClMNan2c3Hl1f5SyXq8fLYOyrFlHWHPVkyUCJ37d2qY/q4XEPiPSonspN/gGx5BKc85yz5PX
- U+e4CMqbOdzCNGXEtDvJeTGb+0FR6IfawTQuV0xqw7lttFY/7XvFCgHX3A2Udsgd1v4LIQQK3Tz d+IaidU4d4XZwISjvtHvtTD7KMlX4fQ98M5zyZJOum5kQBIMsHbc0DCjGw7c9SiyfyGRhbXF7cH ajuGSzVRiuWQVoiaUgimBGpoX+DKkL423E8Oa/vXnuKpkKDQ7PG6zWGM8asvtApUtwJKfVXNu1s
- aKeNn9gtooQA9aP0u5aE1VTfDkB8pY1yyAD/YOuxOT0oB85zQ8NXGIqQRDC7RcBLuMqtIjnt
-X-Proofpoint-ORIG-GUID: kP10ferlss7Ac_3QNqE8b4euWEycmdtc
-X-Proofpoint-GUID: kP10ferlss7Ac_3QNqE8b4euWEycmdtc
-X-Authority-Analysis: v=2.4 cv=QfRmvtbv c=1 sm=1 tr=0 ts=686501db b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=Ikd4Dj_1AAAA:8 a=20KFwNOVAAAA:8 a=yPCof4ZbAAAA:8 a=m7dAX-iqkMTnI9mmn_UA:9 a=CjuIK1q_8ugA:10 cc=ntf
- awl=host:13215
+User-Agent: Mozilla Thunderbird
+Reply-To: nicolas.dichtel@6wind.com
+Subject: Re: [PATCH v3] ipv6: add `force_forwarding` sysctl to enable
+ per-interface forwarding
+To: Gabriel Goller <g.goller@proxmox.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Ahern <dsahern@kernel.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250702074619.139031-1-g.goller@proxmox.com>
+From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Content-Language: en-US
+Organization: 6WIND
+In-Reply-To: <20250702074619.139031-1-g.goller@proxmox.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 01, 2025 at 02:32:54PM +0200, David Hildenbrand wrote:
-> On 01.07.25 13:03, Lorenzo Stoakes wrote:
-> > On Mon, Jun 30, 2025 at 02:59:58PM +0200, David Hildenbrand wrote:
-> > > Currently, we only support migration of individual movable_ops pages, so
-> > > we can not run into that.
-> > > 
-> > > Reviewed-by: Zi Yan <ziy@nvidia.com>
-> > > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > 
-> > Seems sensible, so:
-> > 
-> > Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > 
-> > Maybe worth adding a VM_WARN_ON_ONCE() just in case? Or do you think not worth it?
+Le 02/07/2025 à 09:46, Gabriel Goller a écrit :
+> It is currently impossible to enable ipv6 forwarding on a per-interface
+> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
+> enable it on all interfaces and disable it on the other interfaces using
+> a netfilter rule. This is especially cumbersome if you have lots of
+> interface and only want to enable forwarding on a few. According to the
+> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
+> for all interfaces, while the interface-specific
+> `net.ipv6.conf.<interface>.forwarding` configures the interface
+> Host/Router configuration.
 > 
-> Not for now I think. Whoever wants to support compound pages has to fixup a
-> bunch of other stuff first, before running into that one here.
+> Introduce a new sysctl flag `force_forwarding`, which can be set on every
+> interface. The ip6_forwarding function will then check if the global
+> forwarding flag OR the force_forwarding flag is active and forward the
+> packet.
 > 
-> So a full audit of all paths that handle page_has_movable_ops() is required
-> either way.
+> To preserver backwards-compatibility reset the flag (on all interfaces)
+> to 0 if the net.ipv6.conf.all.forwarding flag is set to 0.
+> 
+> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+> 
+> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
+> ---
+> 
+Please, wait 24 hours before reposting.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/maintainer-netdev.rst#n419
 
-IIRC there was an RFC series last year [1] that adds support for
-order > 0 pages in zsmalloc.
 
-Cc'ing Barry and Tangquan in case it's still on their TODO list... 
+[snip]
 
-[1] https://lore.kernel.org/linux-mm/20241121222521.83458-2-21cnbao@gmail.com
+> @@ -6747,6 +6759,77 @@ static int addrconf_sysctl_disable_policy(const struct ctl_table *ctl, int write
+>  	return ret;
+>  }
+>  
+> +/* called with RTNL locked */
+Instead of a comment ...
 
--- 
-Cheers,
-Harry / Hyeonggon
+> +static void addrconf_force_forward_change(struct net *net, __s32 newf)
+> +{
+> +	struct net_device *dev;
+> +	struct inet6_dev *idev;
+> +
+... put
+
+	ASSERT_RTNL();
+
+> +	for_each_netdev(net, dev) {
+> +		idev = __in6_dev_get_rtnl_net(dev);
+> +		if (idev) {
+> +			int changed = (!idev->cnf.force_forwarding) ^ (!newf);
+> +
+> +			WRITE_ONCE(idev->cnf.force_forwarding, newf);
+> +			if (changed) {
+> +				inet6_netconf_notify_devconf(dev_net(dev), RTM_NEWNETCONF,
+> +							     NETCONFA_FORCE_FORWARDING,
+> +							     dev->ifindex, &idev->cnf);
+> +			}
+> +		}
+> +	}
+> +}
+> +
+> +static int addrconf_sysctl_force_forwarding(const struct ctl_table *ctl, int write,
+> +					    void *buffer, size_t *lenp, loff_t *ppos)
+> +{
+> +	int *valp = ctl->data;
+> +	int ret;
+> +	int old, new;
+> +
+> +	// get extra params from table
+/* */ for comment
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst#n598
+
+> +	struct inet6_dev *idev = ctl->extra1;
+> +	struct net *net = ctl->extra2;
+Reverse x-mas tree for the variables declaration
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/maintainer-netdev.rst#n368
+
+> +
+> +	// copy table and change extra params to min/max so we can use proc_douintvec_minmax
+> +	struct ctl_table lctl;
+> +
+> +	lctl = *ctl;
+> +	lctl.extra1 = SYSCTL_ZERO;
+> +	lctl.extra2 = SYSCTL_ONE;
+> +
+> +	old = *valp;
+> +	ret = proc_douintvec_minmax(&lctl, write, buffer, lenp, ppos);
+> +	new = *valp;
+I probably missed something. The new value is written in lctl. When is it
+written in ctl?
+
+> +
+> +	if (write && old != new) {
+> +		if (!rtnl_net_trylock(net))
+> +			return restart_syscall();
+> +
+> +		if (valp == &net->ipv6.devconf_dflt->force_forwarding) {
+> +			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
+> +						     NETCONFA_FORCE_FORWARDING,
+> +						     NETCONFA_IFINDEX_DEFAULT,
+> +						     net->ipv6.devconf_dflt);
+> +		} else if (valp == &net->ipv6.devconf_all->force_forwarding) {
+> +			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
+> +						     NETCONFA_FORCE_FORWARDING,
+> +						     NETCONFA_IFINDEX_ALL,
+> +						     net->ipv6.devconf_all);
+> +
+> +			addrconf_force_forward_change(net, new);
+> +		} else {
+> +			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
+> +						     NETCONFA_FORCE_FORWARDING,
+> +						     idev->dev->ifindex,
+> +						     &idev->cnf);
+> +		}
+> +		rtnl_net_unlock(net);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static int minus_one = -1;
+>  static const int two_five_five = 255;
+>  static u32 ioam6_if_id_max = U16_MAX;
