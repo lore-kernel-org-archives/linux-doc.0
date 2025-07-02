@@ -1,72 +1,33 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458DE1D63F0
-	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 08:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9B2111BF;
+	Wed,  2 Jul 2025 08:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751444732; cv=none; b=Nylzls0x2p/ScLLjcKN9cSag+RryzswYAKY/H9muccP9QJgXCk7xQ15dTWNuQ1nzyeKQuGyCd5pyEVHvsEkVJ+M/kUie+N5YwKHgCkKFlL8KUcIsWDEuce2lW0HS8MfPjgdM1G69s/ipcZahEhYXMh4nF4j9ynBy0N8A5EcE9ww=
+	t=1751445330; cv=none; b=tG5lVXdU/Ed2LvK9yerWAKzYxAeH5KwuhXFVcAxbttbegV7T9RpIow1shEheQVvZJPLPmUqvFIdQ5Mro8rIRKN3VcblfyY27hL/G67wv3tIdtxTdal4feKd3WSMH1zgBsxVW0hGJKEX50fYWEAPiHsfbT62vAmYDBjvN4rv+Dgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751444732; c=relaxed/simple;
-	bh=Xk4+2auyH0AEtyXCiBJCzUGc6hCh0l3qcvQYN4X0PbQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TbArIkY73JhRonitHFVuCER6gfdTw0h+xRTbiIKGX/sIIaK4Irz8ThLhB1mM8EVConCvULaC00Pfwdy4SvTl3t86LMJtzDz+W8E7mo7EtNnxCumwhvx2HV4C/SIkOIchRhpbR0FJERwrLzNB/LtI6VHse6dw8QinTx/b6Q23afk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MJFbRQbK; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751445330; c=relaxed/simple;
+	bh=+tEN468+Pz0ZLeoxMngBSW2D7LstgZ1Ov8e/gnQ7aHI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=AsBP2uFbRAnd/VNNl699Cb6dmikii0vROOkjWgtYGDYddf7YrFcT9sK3PQhM87nxPCWAb1pSEK3EBF31naSwhIk8QNFwMFzzGzLtOpVSs28fLoRVk4lIsuAcvkwn++6AKdOUUeIlkVA+AQnqP7/pUqMGVg72r67IwRhCS9TO4Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5Q96JCa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MJFbRQbK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751444730;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OvDgMJR7If16brpfVPQ8a4d5ZRO1JM0Tn+iRiJR4jHY=;
-	b=MJFbRQbKIx9O2sjHcyZ4lxUkQW7Xtn/+L8fPBd9h2YlTOUgxLAOousxPkK4Nvch16LukYu
-	9u07ZY3rvtHKxvsVL0hi58oGD/sKYrT8xFajMLZftTm6Y3oRGlAVgGlo1s5r+9E9i7I2nr
-	f0wkpLUQkMCHP/eB662Ui7jJd77zmGo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-624-31Psw7sRPJ2fPp0Q7j_GdA-1; Wed, 02 Jul 2025 04:25:27 -0400
-X-MC-Unique: 31Psw7sRPJ2fPp0Q7j_GdA-1
-X-Mimecast-MFC-AGG-ID: 31Psw7sRPJ2fPp0Q7j_GdA_1751444726
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45320bfc18dso32795155e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 01:25:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751444726; x=1752049526;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=OvDgMJR7If16brpfVPQ8a4d5ZRO1JM0Tn+iRiJR4jHY=;
-        b=Jq/ZgLgQuMGjv8mDxXRTmlXvbCBl9G0ZxFOfxHX5+SjUJ5S/F8hi/DvO4a8rhi1+vU
-         GEyTNTr+ApugmnsDGrqsNN7OhuuC5a9eFQPWgxr/la17eRQgtFaT9D53aQUUI1yXAJq/
-         KYexxUmB/YtRFpHLhCVPkfMrKbudJyCwMzJV0uTtbxIG5XYuTZav4zPHXM5igONyJs/9
-         yMMtnzzoZa3lV2mL5NaxWnJ43/JJKUe0Vx/QtNy9Zug9Y8GbdxeQy+Wpe5xuHM3pVH5y
-         /PAt5Hy1f3w6NpFiZyuoW5RRiY51ZNWSp6BnDuT0LhfyfghogiSAiTBxwdKrRf7kUKx3
-         fwDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVRViRAwcOO0R5hEVYSzCUQL7CNtumrcqopHeNnu4ePW1rsEmuOoutC91+D+P6zh7RsNZLELYZuvPU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVFRO5BoqsMdhExF50kCG2bYon4a3uHd+2A3KcKGLiRHHrnUW6
-	vfdfWqrMEnprTnvzeTImTFWwNczjiI1JcF7gCAFgtCsiLHfYYDhP14nT8g37Gy56lqCfe9JxVB5
-	s6Ap33uQMMYm/56SPI+p+TwvpcnJcmhNfcUm/i54E4vncfOyz2tRPwFFpAFK1bQ==
-X-Gm-Gg: ASbGncvVFgvJoB44k+ygopmQcjBHeZlwWZkF9H+tcO8lzW4+fmg/KbQbKldKUmNKN/9
-	8VB4qlivw52yjOE4kF6+xb12j8iZxDIA9+13gfcXFDc/wcMPgLV7+gbjH6F5YhP5XyZ1/3KCqyF
-	W8hzKndHTAO8CmRWhBM79K1onUfBVppyXEiAp9J8RRSQ+U2clLL4Jj+BxhAYGX2Iyb0SOzHMJW4
-	Pk9MiEQXQ3vi8RjINk+MfK1+A+CiDqFPIFVfBO8z3KMD7/jFB2THJuv5Tv6l+L82qBrWaquudCh
-	3EwPVWsE0oQlU8QXmi8CZ7RDmvhFkOv6kHLfKxvKocEGQl4Z9k0oj1I=
-X-Received: by 2002:a05:600c:c0dc:b0:453:45f1:9c96 with SMTP id 5b1f17b1804b1-454a3c610camr13188415e9.14.1751444725680;
-        Wed, 02 Jul 2025 01:25:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHOJzOQgdPny8RvF9/NZMstcP4GmeGcDGHKxjBeQFmtTXoydP6Z6ks24gXdPezTJYYrWauOEA==
-X-Received: by 2002:a05:600c:c0dc:b0:453:45f1:9c96 with SMTP id 5b1f17b1804b1-454a3c610camr13187545e9.14.1751444725107;
-        Wed, 02 Jul 2025 01:25:25 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a406489sm194158805e9.27.2025.07.02.01.25.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 01:25:24 -0700 (PDT)
-Message-ID: <757cf6b9-730b-4b12-9a3d-27699e20e3ac@redhat.com>
-Date: Wed, 2 Jul 2025 10:25:22 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5Q96JCa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 675D4C4CEED;
+	Wed,  2 Jul 2025 08:35:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751445330;
+	bh=+tEN468+Pz0ZLeoxMngBSW2D7LstgZ1Ov8e/gnQ7aHI=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=W5Q96JCazLbjPRQ1yZYpUUjo3fnPBjViKKVntg/YCa+TP6dD51z5dpvqkMmaPkr8N
+	 duRDh8y2USHpWkINvsCECpWmHaZ62xQq+s2U0wgWprrbCQMG+owuBUAq4QiqMddt7l
+	 3xx4QByZI3nwAw4JeleNNroZJl7DBIdCraEaVRB/klLx+NG8/SdOD0/0CwoMR2ayk2
+	 WXTXzsJaNTPgg4qIqli5f2W4krEEcgPseppPWCpsGMIKxZHThYuazruRIJkaKXVqAX
+	 XDYxEjTVJwd1Ao3YX9QbTNJNaNumLVwIl5HFJ4KUaf76mKZCYpE1s9zfkrO8+CTCLv
+	 TGtdmKs76qWNA==
+Message-ID: <c893384d-4134-4510-be87-11a2c9ba6cc7@kernel.org>
+Date: Wed, 2 Jul 2025 10:35:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,131 +35,424 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 12/29] mm/zsmalloc: stop using __ClearPageMovable()
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Minchan Kim <minchan@kernel.org>, Brendan Jackman <jackmanb@google.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
- <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry.yoo@oracle.com>,
- Qi Zheng <zhengqi.arch@bytedance.com>, Shakeel Butt <shakeel.butt@linux.dev>
-References: <20250630130011.330477-1-david@redhat.com>
- <20250630130011.330477-13-david@redhat.com>
- <zmsay3nrpmjec5n7v44svfa7iwl6vklqan4dgjn4wpvsr5hqt7@cqfwdvhncgrg>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH] drivers: hwmon: add EMC2101 driver
+To: =?UTF-8?Q?=C3=81lvaro_Fern=C3=A1ndez_Rojas?= <noltari@gmail.com>,
+ jdelvare@suse.com, linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250701181228.1196102-1-noltari@gmail.com>
+ <20250701181228.1196102-4-noltari@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <zmsay3nrpmjec5n7v44svfa7iwl6vklqan4dgjn4wpvsr5hqt7@cqfwdvhncgrg>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250701181228.1196102-4-noltari@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 02.07.25 10:11, Sergey Senozhatsky wrote:
-> On (25/06/30 14:59), David Hildenbrand wrote:
-> [..]
->>   static int zs_page_migrate(struct page *newpage, struct page *page,
->> @@ -1736,6 +1736,13 @@ static int zs_page_migrate(struct page *newpage, struct page *page,
->>   	unsigned long old_obj, new_obj;
->>   	unsigned int obj_idx;
->>   
->> +	/*
->> +	 * TODO: nothing prevents a zspage from getting destroyed while
->> +	 * isolated: we should disallow that and defer it.
->> +	 */
+On 01/07/2025 20:12, Álvaro Fernández Rojas wrote:
+> The Microchip EMC2101 is a SMBus 2.0 fan controller with temperature
+> monitoring.
+> It supports up to 1 fan, 1 internal temperature sensor, 1 external
+> temperature sensor and an 8 entry look up table to create a
+> programmable temperature response.
 > 
-> Can you elaborate?
+> Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+> ---
+>  drivers/hwmon/Kconfig   |   10 +
+>  drivers/hwmon/Makefile  |    1 +
+>  drivers/hwmon/emc2101.c | 2175 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 2186 insertions(+)
+>  create mode 100644 drivers/hwmon/emc2101.c
+> 
+>  v2: multiple improvements:
+>   - Remove FAN_RPM_MIN definition.
+>   - Rename FAN_FALSE_READ to FAN_MIN_READ.
+>   - pwm_auto_point_temp_hyst_store(): simplify function.
+>   - emc2101_fan_min_read(): add missing FAN_MIN_READ condition.
+>   - emc2101_fan_min_write(): fix tach_count calculation.
+>   - emc2101_init(): fix REG_TACH_MIN value.
+> 
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 079620dd4286..360b9f66275c 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -2002,6 +2002,16 @@ config SENSORS_EMC1403
+>  	  Threshold values can be configured using sysfs.
+>  	  Data from the different diodes are accessible via sysfs.
+>  
+> +config SENSORS_EMC2101
+> +	tristate "SMSC EMC2101"
+> +	depends on I2C
+> +	help
+> +	  If you say yes here you get support for the SMSC EMC2101
+> +	  fan controller chips.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called emc2101.
+> +
+>  config SENSORS_EMC2103
+>  	tristate "SMSC EMC2103"
+>  	depends on I2C
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index 48e5866c0c9a..70e95096c6f2 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -73,6 +73,7 @@ obj-$(CONFIG_SENSORS_DRIVETEMP)	+= drivetemp.o
+>  obj-$(CONFIG_SENSORS_DS620)	+= ds620.o
+>  obj-$(CONFIG_SENSORS_DS1621)	+= ds1621.o
+>  obj-$(CONFIG_SENSORS_EMC1403)	+= emc1403.o
+> +obj-$(CONFIG_SENSORS_EMC2101)	+= emc2101.o
+>  obj-$(CONFIG_SENSORS_EMC2103)	+= emc2103.o
+>  obj-$(CONFIG_SENSORS_EMC2305)	+= emc2305.o
+>  obj-$(CONFIG_SENSORS_EMC6W201)	+= emc6w201.o
+> diff --git a/drivers/hwmon/emc2101.c b/drivers/hwmon/emc2101.c
+> new file mode 100644
+> index 000000000000..65f2eff27aaf
+> --- /dev/null
+> +++ b/drivers/hwmon/emc2101.c
+> @@ -0,0 +1,2176 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Driver for Microchip EMC2101 fan controller.
+> + *
+> + * Copyright 2025 Álvaro Fernández Rojas <noltari@gmail.com>
+> + */
+> +
+> +#include <linux/err.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/hwmon-sysfs.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/slab.h>
+> +#include <linux/util_macros.h>
+> +
+> +#define REG_TEMP_INT			0x00
+> +#define REG_TEMP_EXT_HI			0x01
+> +#define REG_STATUS			0x02
+> +#define  ADC_BUSY			BIT(7)
+> +#define  TEMP_INT_HIGH			BIT(6)
+> +#define  EEPROM_ERROR			BIT(5)
+> +#define  TEMP_EXT_HIGH			BIT(4)
+> +#define  TEMP_EXT_LOW			BIT(3)
+> +#define  TEMP_EXT_FAULT			BIT(2)
+> +#define  TEMP_EXT_CRIT			BIT(1)
+> +#define  TACH_LOW			BIT(0)
+> +#define REG_CONFIG			0x03
+> +#define  ALERT_IRQ_ACK			BIT(7)
+> +#define  FAN_STANDBY_ENABLE		BIT(6)
+> +#define  FAN_STANDBY_MODE		BIT(5)
+> +#define  FAN_MODE_DAC			BIT(4)
+> +#define  SMBUS_TOUT_DISABLE		BIT(3)
+> +#define  PIN_FUNC_TACH			BIT(2)
+> +#define  TEMP_EXT_CRIT_UNLOCK		BIT(1)
+> +#define  PIN_ASSERT_3_EXC		BIT(0)
+> +#define REG_CONV_RATE			0x04
+> +#define  CONV_RATE_MASK			0xf
+> +#define REG_TEMP_INT_MAX		0x05
+> +#define REG_TEMP_EXT_MAX_HI		0x07
+> +#define REG_TEMP_EXT_MIN_HI		0x08
+> +#define REG_TEMP_EXT_FORCE		0x0c
+> +#define REG_ONE_SHOT			0x0f
+> +#define REG_TEMP_EXT_LO			0x10
+> +#define REG_SCRATCHPAD_1		0x11
+> +#define REG_SCRATCHPAD_2		0x12
+> +#define REG_TEMP_EXT_MAX_LO		0x13
+> +#define REG_TEMP_EXT_MIN_LO		0x14
+> +#define REG_ALERT_MASK			0x16
+> +#define  IRQ_TEMP_INT_MAX_DISABLE	BIT(6)
+> +#define  IRQ_TEMP_EXT_MAX_DISABLE	BIT(4)
+> +#define  IRQ_TEMP_EXT_MIN_DISABLE	BIT(3)
+> +#define  IRQ_TEMP_EXT_CRIT_DISABLE	BIT(1)
+> +#define  IRQ_TACH_MIN_DISABLE		BIT(0)
+> +#define REG_EXT_IDEALITY		0x17
+> +#define  EXT_IDEALITY_START		9846
+> +#define  EXT_IDEALITY_STEP		13
+> +#define  EXT_IDEALITY_VAL(x)		(EXT_IDEALITY_START + \
+> +					 ((x) * EXT_IDEALITY_STEP))
+> +#define  EXT_IDEALITY_MASK		0x3f
+> +#define REG_BETA_COMP			0x18
+> +#define  BETA_COMP_AUTO			BIT(3)
+> +#define  BETA_COMP_DISABLE		7
+> +#define  BETA_COMP_2_33			6
+> +#define  BETA_COMP_1_00			5
+> +#define  BETA_COMP_0_43			4
+> +#define  BETA_COMP_0_33			3
+> +#define  BETA_COMP_0_25			2
+> +#define  BETA_COMP_0_18			1
+> +#define  BETA_COMP_0_11			0
+> +#define  BETA_COMP_MASK			0x7
+> +#define REG_TEMP_EXT_CRIT		0x19
+> +#define REG_TEMP_EXT_CRIT_HYST		0x21
+> +#define REG_TACH_LO			0x46
+> +#define REG_TACH_HI			0x47
+> +#define REG_TACH_MIN_LO			0x48
+> +#define REG_TACH_MIN_HI			0x49
+> +#define REG_FAN_CONFIG			0x4a
+> +#define  FAN_EXT_TEMP_FORCE		BIT(6)
+> +#define  FAN_LUT_DISABLE		BIT(5)
+> +#define  FAN_POL_INV			BIT(4)
+> +#define  FAN_CLK_SEL			BIT(3)
+> +#define  FAN_CLK_OVR			BIT(2)
+> +#define  TACH_FALSE_READ_DISABLE	BIT(0)
+> +#define  TACH_FALSE_READ_MASK		0x3
+> +#define REG_FAN_SPIN			0x4b
+> +#define  FAN_SPIN_UP_ABORT		BIT(5)
+> +#define  FAN_SPIN_UP_POWER_SHIFT	3
+> +#define  FAN_SPIN_UP_POWER_100		(3 << FAN_SPIN_UP_POWER_SHIFT)
+> +#define  FAN_SPIN_UP_POWER_75		(2 << FAN_SPIN_UP_POWER_SHIFT)
+> +#define  FAN_SPIN_UP_POWER_50		(1 << FAN_SPIN_UP_POWER_SHIFT)
+> +#define  FAN_SPIN_UP_POWER_0		(0 << FAN_SPIN_UP_POWER_SHIFT)
+> +#define  FAN_SPIN_UP_POWER_MASK		(0x3 << FAN_SPIN_UP_POWER_SHIFT)
+> +#define  FAN_SPIN_UP_TIME_3200		7
+> +#define  FAN_SPIN_UP_TIME_1600		6
+> +#define  FAN_SPIN_UP_TIME_800		5
+> +#define  FAN_SPIN_UP_TIME_400		4
+> +#define  FAN_SPIN_UP_TIME_200		3
+> +#define  FAN_SPIN_UP_TIME_100		2
+> +#define  FAN_SPIN_UP_TIME_50		1
+> +#define  FAN_SPIN_UP_TIME_0		0
+> +#define  FAN_SPIN_UP_TIME_MASK		0x7
+> +#define REG_FAN_SET			0x4c
+> +#define  FAN_SET_MASK			0x3f
+> +#define REG_PWM_FREQ			0x4d
+> +#define  PWM_FREQ_MASK			0x1f
+> +#define REG_PWM_FREQ_DIV		0x4e
+> +#define REG_FAN_LUT_HYST		0x4f
+> +#define  FAN_LUT_HYST_MASK		0x1f
+> +#define REG_FAN_LUT_TEMP(x)		(0x50 + (0x2 * (x)))
+> +/* Write only with FAN_LUT_DISABLE */
+> +#define  FAN_LUT_TEMP_MASK		0x7f
+> +#define REG_FAN_LUT_SPEED(x)		(0x51 + (0x2 * (x)))
+> +/* Write only with FAN_LUT_DISABLE */
+> +#define  FAN_LUT_SPEED_MASK		0x3f
+> +#define REG_AVG_FILTER			0xbf
+> +#define  FILTER_SHIFT			1
+> +#define  FILTER_L2			(3 << FILTER_SHIFT)
+> +#define  FILTER_L1			(1 << FILTER_SHIFT)
+> +#define  FILTER_NONE			(0 << FILTER_SHIFT)
+> +#define  FILTER_MASK			(0x3 << FILTER_SHIFT)
+> +#define  ALERT_PIN_TEMP_COMP		BIT(0)
+> +#define REG_PRODUCT_ID			0xfd
+> +#define REG_MANUFACTURER_ID		0xfe
+> +#define REG_REVISION			0xff
+> +
+> +#define CLK_FREQ_ALT			1400
+> +#define CLK_FREQ_BASE			360000
+> +
+> +#define FAN_LUT_COUNT			8
+> +#define FAN_LUT_HYST_DEF		4
+> +#define FAN_LUT_HYST_MIN		0
+> +#define FAN_LUT_HYST_MAX		31
+> +#define FAN_MIN_READ			0xffff
+> +#define FAN_RPM_FACTOR			5400000
+> +
+> +#define MANUFACTURER_ID			0x5d
+> +
+> +#define TEMP_EXT_HI_FAULT		0x7f
+> +#define TEMP_EXT_LO_FAULT_OPEN		0x00
+> +#define TEMP_EXT_LO_FAULT_SHORT		0xe0
+> +
+> +#define TEMP_LO_FRAC			125
+> +#define TEMP_LO_SHIFT			5
+> +#define TEMP_LO_MASK			(0x3 << TEMP_LO_SHIFT)
+> +
+> +#define TEMP_MIN			-64
+> +#define TEMP_MAX			127
+> +#define TEMP_MAX_FRAC			750
+> +
+> +enum emc2101_fan_spin_up_abort {
+> +	EMC2101_FAN_SPIN_ABORT_DISABLE = 0,
+> +	EMC2101_FAN_SPIN_ABORT_ENABLE
+> +};
+> +
+> +enum emc2101_fan_standby {
+> +	EMC2101_FAN_STBY_DISABLE = 0,
+> +	EMC2101_FAN_STBY_ENABLE
+> +};
+> +
+> +enum emc2101_mode {
+> +	EMC2101_MODE_PWM = 0,
+> +	EMC2101_MODE_DAC
+> +};
+> +
+> +enum ecm2101_product_id {
+> +	EMC2101 = 0x16,
+> +	EMC2101_R = 0x28
+> +};
+> +
+> +enum emc2101_pwm_enable {
+> +	EMC2101_PWM_MANUAL = 1,
+> +	EMC2101_PWM_LUT = 2
+> +};
+> +
+> +enum emc2101_pwm_polarity {
+> +	EMC2101_POL_NORMAL = 0,
+> +	EMC2101_POL_INVERTED
+> +};
+> +
+> +enum emc2101_temp_channels {
+> +	EMC2101_TC_INT = 0,
+> +	EMC2101_TC_EXT,
+> +	EMC2101_TC_FORCE,
+> +	EMC2101_TC_NUM
+> +};
+> +
+> +enum emc2101_temp_diode {
+> +	EMC2101_TD_CPU = 1,
+> +	EMC2101_TD_2N3904 = 2
+> +};
+> +
+> +struct emc2101_data {
+> +	struct i2c_client *client;
+> +	struct device *dev;
+> +	struct mutex mutex;
 
-We can only free a zspage in free_zspage() while the page is locked.
+Add a comment describing what you are protecting here. It looks so far
+like you could just use regmap and drop the mutex, but I didn't check
+thoroughly.
 
-After we isolated a zspage page for migration (under page lock!), we 
-drop the lock again, to retake the lock when trying to migrate it.
+> +};
 
-That means, there is a window where a zspage can be freed although the 
-page is isolated for migration.
 
-While we currently keep that working (as far as I can see), in the 
-future we want to remove that support from the core.
 
-So what probably needs to be done is, checking in free_zspage(), whether 
-the page is isolated. If isolated, defer freeing to the 
-putback/migration call.
+...
 
-That way, it will be clear who the current owner of an object is 
-(isolation makes mm core the owner, while putback returns ownership), 
-and prepare for some pages to be migrated to have a permanently frozen 
-refcount (esp PageOffline pages without any refcount).
+> +
+> +static int emc2101_probe(struct i2c_client *client)
+> +{
+> +	struct i2c_adapter *adapter = client->adapter;
+> +	struct device *dev = &client->dev;
+> +	struct emc2101_data *data;
+> +	struct device *hwmon_dev;
+> +
+> +	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+> +		return -EIO;
+> +
+> +	data = devm_kzalloc(dev, sizeof(struct emc2101_data), GFP_KERNEL);
 
--- 
-Cheers,
+sizeof(*)
 
-David / dhildenb
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->client = client;
+> +	data->dev = dev;
+> +	mutex_init(&data->mutex);
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, data,
+> +							 &emc2101_chip_info,
+> +							 emc2101_hwmon_groups);
+> +	if (IS_ERR(hwmon_dev))
+> +		return PTR_ERR(hwmon_dev);
+> +
+> +	dev_info(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev), client->name);
 
+Drivers should be silent oon success. We already know that this probed
+based on sysfs.
+
+> +
+> +	return emc2101_init(data);
+> +}
+> +
+> +static int emc2101_detect(struct i2c_client *client, struct i2c_board_info *info)
+> +{
+> +	struct i2c_adapter *adapter = client->adapter;
+> +	s32 manufacturer, product, revision;
+> +	struct device *dev = &adapter->dev;
+> +
+> +	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+> +		return -ENODEV;
+> +
+> +	manufacturer = i2c_smbus_read_byte_data(client, REG_MANUFACTURER_ID);
+> +	if (manufacturer != MANUFACTURER_ID)
+> +		return -ENODEV;
+> +
+> +	product = i2c_smbus_read_byte_data(client, REG_PRODUCT_ID);
+> +	switch (product) {
+> +	case EMC2101:
+> +		strscpy(info->type, "emc2101", I2C_NAME_SIZE);
+> +		break;
+> +	case EMC2101_R:
+> +		strscpy(info->type, "emc2101-r", I2C_NAME_SIZE);
+> +		break;
+> +	default:
+> +		return -ENODEV;
+> +	}
+> +
+> +	revision = i2c_smbus_read_byte_data(client, REG_REVISION);
+> +
+> +	dev_info(dev, "Found %s at 0x%02x (rev 0x%02x).\n",
+> +		 info->type, client->addr, revision);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct i2c_device_id emc2101_ids[] = {
+> +	{ "emc2101" },
+> +	{ "emc2101-r" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, emc2101_ids);
+> +
+> +static const struct of_device_id emc2101_of_match_table[] = {
+> +	{ .compatible = "microchip,emc2101", },
+> +	{ .compatible = "microchip,emc2101-r", },
+
+Devices are compatible then? Express it in the bindings and drop this entry.
+
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, emc2101_of_match_table);
+> +
+> +static const unsigned short emc2101_address_list[] = {
+> +	0x4c, I2C_CLIENT_END
+> +};
+> +
+Best regards,
+Krzysztof
