@@ -1,111 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C689970805;
-	Wed,  2 Jul 2025 22:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28E51EC014;
+	Wed,  2 Jul 2025 22:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751494995; cv=none; b=FtUfNUE6GUHOdV/urvKqUuJS1MlIlO8vbzETVcbVOTJiaSSQC1k/kibC0IHAZzzefS2zXBBg5zMKgR1nhdjAf+ukb8kMWHvN2fe8nSEJon9jXsiTIAFusx4ePud50ZlJhB7iGUXT7+1/HCNO07G5UZcxeaK8J23EjQFHms0iQuI=
+	t=1751495198; cv=none; b=NXmeSBjqlCg/bBSM6wn26Erxd/unKRFbE6yg84GPUmLYERBmZNxbDKZYq+OoODVDpYjXIAOXzdyDyH5zzIuwt/FHzx/h2KgSX1GqFxuzgrAtGCkZkJvlcgUa5luoac3b/eOx87znwufpw5GJFKtDUNmvxsOy9he7awaMeZleyf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751494995; c=relaxed/simple;
-	bh=LVmaI22NMWk9nHFNJ/A528jljikC5KaEan2NqadkjSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XYWBgu4ZK42PifNFdb0ZDhqJo/Dt9bs7b5dgYbIOrQ+Axy+SdziqCU6NU/SvS/6vVcfsUUjQLFneQ3ofogHZSW2R2ZUflum76yKOl3u2pmeyrRTu/lI4nkmxLlwYdmv90qh4DD8zSs6c0ONo4CHLl9A5I/BzdEThSBZGpKPwqLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mx8C1zUs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751495198; c=relaxed/simple;
+	bh=iEvqm8LEvOCppfJrHBWs4+zrkKzc5Z3mo3B9Tg6QiUc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rvPXPzXJcTubQ9lb/pmvzkmyelcV0gXNMzIHvqA/axGu5jSjedBIWOVA1NVRNQhnqa9a9AngsGkbPZNp9uDh7JYprkNDFzCA2saqURhcdd3W/1AfauPO2hAbqs4yCqIaCw/MFSVInmODZeD2YmpsZaQTfNA14UqhlYGQtXUbnpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lhZVTHxm; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mx8C1zUs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BB73C4CEE7;
-	Wed,  2 Jul 2025 22:23:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751494995;
-	bh=LVmaI22NMWk9nHFNJ/A528jljikC5KaEan2NqadkjSg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mx8C1zUsS1ZWyO8ZpwurYk+HZEZ9ouQ4ugxjMEb0F+Us68GPGF7iqMHer3boyd3Sw
-	 a1nvIjNgDsnJR4QIxn5sWTqoJxAhpn39/QF7rAI49MSNPkVq1OYP/VfuoXZKMoffXi
-	 2ihvbZ1s4M6IFD06t+ToXPFa1oX3ywC8PjkNbrESbYa03ZKRQHfNi3LFwqdy1FAEsY
-	 SUlgei1ECb2vYcCMSecVu+KnyhH+wvu/iKvyYw2Xg94Vqex3aYRZ6cl51j++QCBSX+
-	 viKdCeHEydawfI4Eq3MsBw+S+0wPdNYxP6shPmrnVpUz3qMtANooHFH6lqAZrtTXa/
-	 +monDaqm4OKCQ==
-Date: Wed, 2 Jul 2025 15:23:14 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@lst.de>,
-	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH 01/12] iomap: pass more arguments using the iomap
- writeback context
-Message-ID: <20250702222314.GE9991@frogsfrogsfrogs>
-References: <20250627070328.975394-1-hch@lst.de>
- <20250627070328.975394-2-hch@lst.de>
- <aF601H1HVkw-g_Gk@bfoster>
- <20250630054407.GC28532@lst.de>
- <aGKF6Tfg4M94U3iA@bfoster>
- <20250702181847.GL10009@frogsfrogsfrogs>
- <CAJnrk1YWjSO-FmnzHGRerBP6r6rPSAAm3MgUKfkr_AYjDJjUxA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lhZVTHxm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=pZYnQS6oVZM60NmqDWbhfi/8XUrw9dxSRfxYkTiS2dM=; b=lhZVTHxmoM5qQqnKr6jA8q6pR9
+	lD9/f9R1LPlFjyCwVqFaswdrJAIYPoGOqQmoiBm0cCOjGijNE6r5f6gb6PoaNdAqkAIP8S6hSfcoW
+	031uORY+ncpR13FdyCKdV6RKqYEWFQNhVPB1wQ8vElXFQ0Kag2bvyW554JcBG5tc/L+5uH7xOm70P
+	ErHv31QuybfbBvlszA+wwbNWhdPrBP173b/bvXxtqMLairsgAzFTspM1vowTETrWp/uCEZLIJjpcf
+	mhWHZkgocCZnVi3wtMaUnrbYVFkaC5GNqnkqJhAVeHA+Nx5Vw0Id3cCk4pXdkGcXUdsjLnkMQVzTX
+	HjRPxtMQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uX5uI-00000007a1D-2iyp;
+	Wed, 02 Jul 2025 22:26:23 +0000
+Message-ID: <53d8eaa7-6684-4596-ae98-69688068b84c@infradead.org>
+Date: Wed, 2 Jul 2025 15:26:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] ipv6: add `force_forwarding` sysctl to enable
+ per-interface forwarding
+To: nicolas.dichtel@6wind.com, Gabriel Goller <g.goller@proxmox.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Ahern <dsahern@kernel.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250702074619.139031-1-g.goller@proxmox.com>
+ <c39c99a7-73c2-4fc6-a1f2-bc18c0b6301f@6wind.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <c39c99a7-73c2-4fc6-a1f2-bc18c0b6301f@6wind.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1YWjSO-FmnzHGRerBP6r6rPSAAm3MgUKfkr_AYjDJjUxA@mail.gmail.com>
 
-On Wed, Jul 02, 2025 at 03:00:42PM -0700, Joanne Koong wrote:
-> On Wed, Jul 2, 2025 at 11:18 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > On Mon, Jun 30, 2025 at 08:41:13AM -0400, Brian Foster wrote:
-> > > On Mon, Jun 30, 2025 at 07:44:07AM +0200, Christoph Hellwig wrote:
-> > > > On Fri, Jun 27, 2025 at 11:12:20AM -0400, Brian Foster wrote:
-> > > > > I find it slightly annoying that the struct name now implies 'wbc,'
-> > > > > which is obviously used by the writeback_control inside it. It would be
-> > > > > nice to eventually rename wpc to something more useful, but that's for
-> > > > > another patch:
-> > > >
-> > > > True, but wbc is already taken by the writeback_control structure.
-> > > > Maybe I should just drop the renaming for now?
-> > > >
-> > >
-> > > Yeah, that's what makes it confusing IMO. writeback_ctx looks like it
-> > > would be wbc, but it's actually wpc and wbc is something internal. But I
-> > > dunno.. it's not like the original struct name is great either.
-> > >
-> > > I was thinking maybe rename the wpc variable name to something like
-> > > wbctx (or maybe wbctx and wbctl? *shrug*). Not to say that is elegant by
-> > > any stretch, but just to better differentiate from wbc/wpc and make the
-> > > code a little easier to read going forward. I don't really have a strong
-> > > opinion wrt this series so I don't want to bikeshed too much. Whatever
-> > > you want to go with is fine by me.
-> >
-> > I'd have gone with iwc or iwbc, but I don't really care that much. :)
-> >
-> > Now I'm confused because I've now seen the same patch from joanne and
-> > hch and don't know which one is going forward.  Maybe I should just wait
-> > for a combined megaseries...
-> 
-> Christoph's is the main source of truth and mine is just pulling his
-> patches and putting the fuse changes on top of that :) For the v3 fuse
-> iomap patchset [1], the iomap patches in that were taken verbatim from
-> his "refactor the iomap writeback code v2" patchset [2].
-> 
-> 
-> [1] https://lore.kernel.org/linux-fsdevel/20250624022135.832899-1-joannelkoong@gmail.com/
-> [2] https://lore.kernel.org/linux-fsdevel/20250617105514.3393938-1-hch@lst.de/
 
-<nod> Well I migrated all my replies to hch's "refactor the iomap
-writeback code v3" patchset so I guess I'll... wait for whoever makes
-the next move. ;)
 
---D
+On 7/2/25 3:05 AM, Nicolas Dichtel wrote:
+> Le 02/07/2025 à 09:46, Gabriel Goller a écrit :
+>> It is currently impossible to enable ipv6 forwarding on a per-interface
+>> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
+>> enable it on all interfaces and disable it on the other interfaces using
+>> a netfilter rule. This is especially cumbersome if you have lots of
+>> interface and only want to enable forwarding on a few. According to the
+>> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
+>> for all interfaces, while the interface-specific
+>> `net.ipv6.conf.<interface>.forwarding` configures the interface
+>> Host/Router configuration.
+>>
+>> Introduce a new sysctl flag `force_forwarding`, which can be set on every
+>> interface. The ip6_forwarding function will then check if the global
+>> forwarding flag OR the force_forwarding flag is active and forward the
+>> packet.
+>>
+>> To preserver backwards-compatibility reset the flag (on all interfaces)
+>> to 0 if the net.ipv6.conf.all.forwarding flag is set to 0.
+>>
+>> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+>>
+>> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
+>> ---
 
-> >
-> > --D
-> >
-> > > Brian
-> > >
-> > >
-> 
+
+[snip]
+
+>> +static int addrconf_sysctl_force_forwarding(const struct ctl_table *ctl, int write,
+>> +					    void *buffer, size_t *lenp, loff_t *ppos)
+>> +{
+>> +	int *valp = ctl->data;
+>> +	int ret;
+>> +	int old, new;
+>> +
+>> +	// get extra params from table
+> /* */ for comment
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst#n598
+
+Hm, lots there from the BK to git transfer in 2005, with a few updates by Mauro, Jakub, and myself.
+
+
+More recently (2016!), Linus said this:
+  https://lore.kernel.org/lkml/CA+55aFyQYJerovMsSoSKS7PessZBr4vNp-3QUUwhqk4A4_jcbg@mail.gmail.com/
+
+which seems to allow for "//" style commenting. But yeah, it hasn't been added to
+coding-style.rst.
+
+>> +	struct inet6_dev *idev = ctl->extra1;
+>> +	struct net *net = ctl->extra2;
+> Reverse x-mas tree for the variables declaration
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/maintainer-netdev.rst#n368
+
+Shouldn't maintainer-netdev.rst contain something about netdev-style comment blocks?
+(not that I'm offering since I think it's ugly)
+
+-- 
+~Randy
+
