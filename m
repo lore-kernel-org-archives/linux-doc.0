@@ -1,283 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE6430114D;
-	Wed,  2 Jul 2025 17:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751476435; cv=none; b=ZMJowb9Ch+0WUvHalhTCA1kWnBIE7i3/imUbHBWDjTxKW8J0GazZ/QIPRla8Mdfl+DcGXNfaj8U+D8J3mHvtVfm+LYUBFCCYd5S+E6bFyGza6xCrvgnFXH0yq6PRGt8YxMhaC54Ro+gRh/23LmOtIIzt5ZiRMpqz8MedNxVYEao=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751476435; c=relaxed/simple;
-	bh=VMHkRZ7gpU0AfX2qLMxrAX33XER5hP8dZXdzdJxemCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lx9AdgjLWpWe25U+4tamKiwJneToLeuW3kgCwVDBbixYxKEiC2U6oIa5eEGqRcgRK4yGgg34RK0Y6yAsIIHBsg2fh08fSUyT5AiEaOQNwqZsKlHOSifQKeb7hsEw6pW1Eez3llpqOnBhrDCTzpzqpp5wISWdx1Exm4E50yOzyDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rqWjSAls; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224C12F50A2;
+	Wed,  2 Jul 2025 17:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751476942; cv=fail; b=PritZNgUI6jMrmJTONnyeoI650PeVsHPs7mviVJNlZxgHYgvmN1WPpzHzvFm0uoLpCmhEg8p3+EnwVlZbYjhkoiscPgFSZYc8cbWh8yL6LEpnLQW/t8Yzg2Rt9lLUfT12SjhBO8HSdSQsJy8bDxzbYzYFbQJH8UmD4/vpZ7QBfA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751476942; c=relaxed/simple;
+	bh=0c1p1W/x7ia+o6LCVOdLGVy6uNaVc0vnsesBOsWVd4Y=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=QGsRU26pxb9klUi6vM2gmoAPqHakr5CBBLKnCfgM1WDvbCUN3bg838/ZU7BV9sGq9HZS5im6yg0i9fLP1sbtx89LGNPmLxJHOTW39z7JMl5n7PKYcjZbn/qXozDM2KTypzoeH1PYSCyQszHVuzmOgijAD0L5/L/Jya0L3b3I8Ms=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l4cqK3dw; arc=fail smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rqWjSAls"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CA9EC4CEE7;
-	Wed,  2 Jul 2025 17:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751476434;
-	bh=VMHkRZ7gpU0AfX2qLMxrAX33XER5hP8dZXdzdJxemCo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rqWjSAls/3I2/qkJF0lrCmHbcllM12X/+UYhj6ojzX5bE8opr/61vzbGpkq6q802R
-	 cbrbuqdrjyjfsTc5N/e41ZRYAA9zD5BpdFMj9tJz7Q6RXbFvaw/TdWh+WTMmaKlLLn
-	 kOymSvz5USKrCSlrcoleDIyjr/sC7yq9syye7FfD111b4x7KGZMF1q5s6fKILu/Dqe
-	 uQMnkBGGyVXgcI9UqnxJIw1+GuF9LtbvRgf/5zfaUrX3UsutG3Sfxv0oAsTKwyKvIO
-	 89Bg7Xn5cJ+t2VeofBOEOeJf89g7b8LbmDJZ7tr6QYxoqE7vsBX2NmLDHO1rEhDrFx
-	 SHsoS6yLQexYg==
-Date: Wed, 2 Jul 2025 10:13:53 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, hch@lst.de, miklos@szeredi.hu,
-	brauner@kernel.org, anuj20.g@samsung.com, linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-	gfs2@lists.linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v3 03/16] iomap: refactor the writeback interface
-Message-ID: <20250702171353.GW10009@frogsfrogsfrogs>
-References: <20250624022135.832899-1-joannelkoong@gmail.com>
- <20250624022135.832899-4-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l4cqK3dw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751476941; x=1783012941;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=0c1p1W/x7ia+o6LCVOdLGVy6uNaVc0vnsesBOsWVd4Y=;
+  b=l4cqK3dwH7nf+4FPCHQ2lF80c3tVHG9/V/f0k53mzaEAV/nC32oZ/yy8
+   Y0JGKwpQpAakLFbeJ4HFCauJVyGlPceC2YU5v6oGvitQKSLdO+Y2jpc0x
+   xhCg4ePMzYz+7vT9jhP+Jz2qsjlaeAThRHRkcNkDD4Ssw89TQlTnJRzZt
+   1erO0wProQODwpoW0ZXL6tlhhV/P3XK+jinFHga9PMtym13GpkR/c6mFK
+   QFpADwGVPFee92fiiQLJJpNgca/l3wXync91ooyYvEMVBFLoGjeq0KeXY
+   Y0lVa57mf0Cu00BKi4FVvhARhZnNiL+cuQxnMnu9UhpBOVFKxz4t7AUIp
+   A==;
+X-CSE-ConnectionGUID: CsryvwXPQKO3KC+Ce8r3uw==
+X-CSE-MsgGUID: xyy+4VcZTQi4B5+uCWBlCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="56409511"
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
+   d="scan'208";a="56409511"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 10:22:20 -0700
+X-CSE-ConnectionGUID: Eu+FKoggRTqTMCkc2+4F1w==
+X-CSE-MsgGUID: vln7ZvJBRZauSN0IymOORQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
+   d="scan'208";a="159828027"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 10:22:20 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 2 Jul 2025 10:22:19 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Wed, 2 Jul 2025 10:22:19 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.74)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 2 Jul 2025 10:22:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q2PpTs6Mn+ijtCXqDHn7rQVgpmI5JbmTT0UnJz+QbeYklxVEcijtcQpm1FLliTmH5K4rYWJW/hecAI/vxxKGsAXyGrDlEBUKPywiODMUfyXUXdnHBhvSdFmbrSGMAqCjNkF6MIrxzTsT0KFS+QDyOL2DVC2n8DoXfZCYz3JdN9PICYg3fvwryBbKsBDKo27V6uHihGO/MN23s6VOEzTJhFbUa4qYKG4tY9rFTt3GCh+5kjTyql3kAwIWm1Qr3P7iGahnmUItFY9s1d7Soy/ncsyshPby4tgVMt2mF0ppCiPS7DJ84AK9GN1cVvebjEY4El0qwMMUNUs1EQpvyelshA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=es/46ducV5RKRGGBV4m3sRozHv0udi4qxglXOiGIXs4=;
+ b=aJ467OmDPWEXR82/qwNKTm2132X23PWvyact7X7X0jxDS1DLW1ok3IjcQ3KkzJlHzLfCRh5/SI/Vz54B/3raV3779xpL5E7GUrsZDcWbsHqgfuu28MrlwOp651nAMW7eV+X7uHPpwXiS+1odWClIAFCCanvB3TLZrGPMvwhHlVSp0g/nkDwxF1ryEe1uPstA7oNgqpqNJQXWfQBNlOwAXLOZ4RLAS2A8Rq7qKjPB1xvCkmD1XMflZY23q49JEMoKh5MCrPr8UwZxOXFWNj8YETDdrkAdRaDthj8JDVLo7VQPzTDtLYG0rJsdD15xxYsHXQESjUgwgOoOhpH0XsElaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SA2PR11MB4876.namprd11.prod.outlook.com (2603:10b6:806:119::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Wed, 2 Jul
+ 2025 17:22:01 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%6]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
+ 17:22:01 +0000
+Message-ID: <ff314427-1c03-4e26-be19-c5f5090f3d8a@intel.com>
+Date: Wed, 2 Jul 2025 10:21:57 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 30/32] fs/resctrl: Hide the BMEC related files when
+ mbm_event mode is enabled
+To: <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
+	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<rostedt@goodmis.org>, <paulmck@kernel.org>, <thuth@redhat.com>,
+	<ardb@kernel.org>, <gregkh@linuxfoundation.org>, <seanjc@google.com>,
+	<thomas.lendacky@amd.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<manali.shukla@amd.com>, <perry.yuan@amd.com>, <kai.huang@intel.com>,
+	<peterz@infradead.org>, <xiaoyao.li@intel.com>, <kan.liang@linux.intel.com>,
+	<mario.limonciello@amd.com>, <xin3.li@intel.com>, <gautham.shenoy@amd.com>,
+	<xin@zytor.com>, <chang.seok.bae@intel.com>, <fenghuay@nvidia.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<eranian@google.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <cover.1749848714.git.babu.moger@amd.com>
+ <4769751d1de7c4f66b1c7f3c5ea7eeeb49951363.1749848715.git.babu.moger@amd.com>
+ <3c753f3c-e91b-4cfe-983d-efe8ff07b750@intel.com>
+ <f85e467a-1d17-4f34-98e3-512679baad47@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <f85e467a-1d17-4f34-98e3-512679baad47@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0054.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::29) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250624022135.832899-4-joannelkoong@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA2PR11MB4876:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9242715-d2ed-463c-3fee-08ddb98cf4d3
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aXNjZ0xkMXJFQTNPcGRWTlFkdFhyUm45YlgzekFubkwvRXR2bWRHdXI3VjRu?=
+ =?utf-8?B?MkJ5K0hvNUtGK1F5RjB6TllHTFk3RzZBNjZETU1ydW05ZHpaUXBBSUtMcUo4?=
+ =?utf-8?B?dzRtMytDb2xUczdHL1dGbWRwRFJxMTNHcCtmdEFyTExIcE1QempvbE1ieVB1?=
+ =?utf-8?B?Ym4wL2xBNEg1NnVjd3I4WlQxRnlZaW9jQVdtWVd4YnR4dzdMMTRma2pwZFpr?=
+ =?utf-8?B?V01yWGhwMlZFcXZXdFJOR3Y3c1NBYjl3b1R5NHZXeFdHTU1iYlhvaXR1Lzg2?=
+ =?utf-8?B?eHJIUkVldk9rRlpIb1JFSFdUWFE0YUVZcFh6U3dlbnQ5TnlCcXBZc2N1TUp3?=
+ =?utf-8?B?aHovd3FYYUF2WWpOUm44blpXMVV5RGVLempmdFNRK3FtTkhKVXZRandWN3Ir?=
+ =?utf-8?B?RmRHOGV2aU9GOSthMzZzWWxTZDN1MkVaRk0xUGpGbWtNRzhadmpPU2dPNTh3?=
+ =?utf-8?B?RFVRRWhzVkRMSlNBRUZzUFdJOUQrSE1BOTFXTFVCZDBqNitxNklRTThYRVJE?=
+ =?utf-8?B?ZVZUSHNCMEtvbGhoOTNLcnQyckRZbXBhdTYwaG02TW4yc2o3MDJZbGhvZ2VX?=
+ =?utf-8?B?VDBEQk9CTkhOTVVuTnpMb2pWNlhxWWdCVGZMY0dTYnhaUXJvRytZMGJyMldi?=
+ =?utf-8?B?aXFKMklKSVlmNUltcUZ1aVVTSkZOeXMxUmF5TFRDSnVMQUxJVEE1Sjk3ZDdo?=
+ =?utf-8?B?eDBTNXpRUHUwNXYvWThGNGdPRGtMUjFmcmcyalFYRDFCUFZpRjZveUhJWSsz?=
+ =?utf-8?B?TEJaVWxxOFMyenJ4SzYwRzIxbXlyb3lWZzRMTWJqbGpUSTYyZmJtUzdEanpO?=
+ =?utf-8?B?dHZsTjNiblRZMmFHVEt5MDFkOWdNMVNzVEUyeXV1QzlSUzYxOGd4VzAwMjRT?=
+ =?utf-8?B?dWFIUXIxWjAycGMwcmxMejJ5UjNNVnlYcXFSaU9mckJIREZONnhMa0E4eXcr?=
+ =?utf-8?B?dW9FditqU2E0Mm5ZTk5HQmZ2ZzgrSFdxcDdDVllESTRQTythWmFYYmRIUWhn?=
+ =?utf-8?B?NEVSZTZsbWgreCsrLzQyajByam9ubVFKNDkvdHl2a2VxSUdkeDVDK0xzckxU?=
+ =?utf-8?B?N2xGQm8rc1UybDJwdk5Id0EvR1JkcjJjZ05MM29jQTF0dWRWTVI1Zjh3dDJK?=
+ =?utf-8?B?UWdJVmlUOEw4eVp4Mm4xVzFIU0ZRbURPNW8rRk9VU2tEMjMrZXVOQjhKUDNJ?=
+ =?utf-8?B?Y2JRRUIxZk9XQmVSSjN5RUFPOXB3TFhtNk42WDQ1NEo5c0lPNksrakV5WFhR?=
+ =?utf-8?B?a3RsQUNqZUp5cHFNQ2Z1WUdBNXBDbzdqTUhjeFFYRVlvWnhXSTQwR09MSHNO?=
+ =?utf-8?B?WUF0clkxVnA2K0NCODJWQ0VhL000a1lBRmx0VFA3Si80OUFEaVhONjFIelFi?=
+ =?utf-8?B?Vzhkdkh5OWZUWFB4MXo1SVQrb3p5OCtaem5zeE9oNHk3d3VkWTJ3Y281NXNY?=
+ =?utf-8?B?N3F1YmNrczdLdnRKZVZXTjVpaVNjMVVNTnNKSjl0aWF6QmdjdUxZN0RpemZW?=
+ =?utf-8?B?NDF2VjBCcEtHWE1wSHVnWkJ2akpKN1MyeHQxWU9LL25xbzVSNWZhOU5KSjhl?=
+ =?utf-8?B?QUR1aEwzdVJWQTR5Q21pbkJUVlhLY3dpRFczaUVpbEdqazF5U0dJVG1DK1VL?=
+ =?utf-8?B?OFQxcThoUkNLblRSUWJWS1BRb3hiYVA2Z2twakI2cmVJSmxpbXpHQ0l6eU1M?=
+ =?utf-8?B?V0NaODl5eXdPcVVIRk13eWN0VmJxRTczV3ZHaEtxMVgybzhUNkJteWhxL2Ry?=
+ =?utf-8?B?b21OWWhMSm84T2IzZk90YnV2dGFOYk1tamlleENiM1pqUzlVK0dydG1Xc2VT?=
+ =?utf-8?B?bXJtTTFQRWFFL2ZpU2YrcTdvNE9mT0RkU1AzaWxiWGFQY29GYnZDcStiYnVh?=
+ =?utf-8?B?djdFNDB0UGZBaTIzcTRTNVhydGMxS1MwQlh4MGNscTdZSHNMMVNaSkkrKzh0?=
+ =?utf-8?Q?8RJxgyOh9BE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U25vZ1VuOEhxdWtmUjA3cEVmWVhGdlVGS2o5blE4SjdSZXEyWkZIajlpOGhP?=
+ =?utf-8?B?bVYreTdwcjlnMmlPRTVHSjd3ZENkSW1qbDdUY0k0TER2eGpBRUVyeDFWZ1VG?=
+ =?utf-8?B?cmQyL3NOQzFRREN6anh6VFhpNEZlRlgzWldNcUVyUVNnMlhIbElMQ0tNamI2?=
+ =?utf-8?B?bzZDTFVaQm5EYldVMjdSNnE0Z1h5djZrQU9RV3pYNUhPVFE0NWhQM1RFWmpR?=
+ =?utf-8?B?d0Fac1Fqci9lYy9PSU1mS00xZUlMc1ptRkFIUnpqYnFwNkxDbDluSWNlRUky?=
+ =?utf-8?B?bjFEaDhlcmd0S09TQXR5TVl4U0luM3Z0T0ZCa0dTTmhLV3pSNHR2dFFXME8v?=
+ =?utf-8?B?MklmeUV1SUdtaFBoYStDTjlBdzI0MG5nbHZPQ1BCUnczdHBzeExHUWVrQ05y?=
+ =?utf-8?B?dFVJUVN4ajcxeHk2NWRTRUUrM3RWR3BZVW9iMWJZTG02R0pXKzM2T3dCaFd4?=
+ =?utf-8?B?M0l3NDZLWk0zVWJUNGYrc3RLQXpRM3JzLzZ5bkZ1blNNb2dqNVoyUzVtbFJx?=
+ =?utf-8?B?b3h1dDVDbDc2d2FzeEtReFZpazAwZU9UYTFNei83QTlFQ1hKdWcyTThJaXR3?=
+ =?utf-8?B?eXBpLzJaUGJVRVFYSHFUM2FhQThaQXVxQnNWdm5hWVRBb1BCKzN3V0FlZEli?=
+ =?utf-8?B?SGdmYVlIbkZXN3U0QnlvU2RNSDV5dDVXOEIyeWVwL3hsVFEwZWNxbEdWQXRB?=
+ =?utf-8?B?WlZ4QzZjbkJpYW4rMnhmdDdUb05nRFNmdlMyYUg3YjBPczZHY0tsVDB6TkNy?=
+ =?utf-8?B?N2F2a0pua0hQOHhMdGJFSFN1UDZ0dXMxNktrRTk1a1BHK2JMY2pPalJBYVlX?=
+ =?utf-8?B?ZzBIVXBjY2NEM1ExbUFSbjdKdThmalJnVFMvYlJyMWhrRUtJWElRTTNHMDVC?=
+ =?utf-8?B?eVNaTkExbmY1ZEI1WmkyNUhGTHdnUWk4SC93S2xYV0E1Q2xLZ2RSOXpCSDcw?=
+ =?utf-8?B?aVZWc3VDS28zOG8ralRPZis5MnZZY2RTdWwyRzlNVjZSc1RiYXppV05FR3ln?=
+ =?utf-8?B?bk1ZSEJ2NHR5RWQ2MjVQTzNoUzdKOURKeXBSd1ZxZWVPK0NRTVRpYXNYN1Jq?=
+ =?utf-8?B?S1pzOFpaUi9XNWg3bHNvbjlCYXI3Z25GclpFc3RIbjNWUkZJY29Md3NlYzI4?=
+ =?utf-8?B?dFYwQlNsc04rTGR2Q2U4OGdSY3hYYXA2UWpUUmpueWJoTzh6UnlWeCtuaUY0?=
+ =?utf-8?B?M0E3ZnFmdjV3KzZLWExaVFpMWjFwY0ZZY2ZVZEUyaHJVWWpMYlBmTW5Tejgw?=
+ =?utf-8?B?OU9lSTlLc1B5Vm5nejI1WUJreThVUlIySFVpTjVSNGNNUFdrb29MOVdBM1dQ?=
+ =?utf-8?B?T3U1ZUF5QUhCcGx4N2JkbERtRlFwZGZDQjNsaXZRa1djZ2thUWtkMnlOazhj?=
+ =?utf-8?B?ZklBK0RYcHFDNTFPTUxFdUlOTTlTdXRldkY4bFpvaUo3dnlpZ0ZKOUdBemxw?=
+ =?utf-8?B?aUh6ZVlyUGpzZk0weURkbDZYa1lNekkrK2lmMlhrNFV6SmFZMWY4WFVOSHJp?=
+ =?utf-8?B?SFpxSEptTTBSOWM5SGlRcG00VTk1ZlgyUHRtMmt4RjBrNlpBZ01OMkNmWm9k?=
+ =?utf-8?B?aEVIcXVzQXRQYkVTNHR0ZVFtR2pvTHdQdjJjYXMyU3IwbjJPM2ZqMHRjYk5p?=
+ =?utf-8?B?ZTY2YjIvK0xSc0VON3FpOFEwRDVEV01zMVFLdnZKd0lFQzhLTE9xWU4zZDZ2?=
+ =?utf-8?B?QnYrTCtpa0R1UENIMmFmcElsTlhUaTBJZjNmQUtXVUZtelJsbGN6VHZFSkZ0?=
+ =?utf-8?B?NFZwWE5mVngvNTRHL3I2YnVKWC9lLzJ4ckNFVEZJZkY0SXdMNUlIS0hiZVFX?=
+ =?utf-8?B?RUxqbWtTaWIyQkxvTFM5aVZ0TGo5MjdXV1IyU3h1STFRS3V2RDA5dkpwRjlN?=
+ =?utf-8?B?MWx1UmhwQ3VqZExaZjI5RWZwTHFvandjRVZ1UmorcTF2clJBTUtOOE5WNzJ4?=
+ =?utf-8?B?SUkyNk1tZ2E3bUVRaHRYYmp6bm5WYk1rT1A4Ni8vOTk1bDVWNUxBekZrT2xD?=
+ =?utf-8?B?K21ibEpGY2podXZDbUJKZFo1QXdMVnV0V0ZtaUNnd0JQRk1UdEx1dk5kY2ZR?=
+ =?utf-8?B?Qm05RUN3SzZqaFZlcHltSXJ4L1BtTkJtc1J1WlcxazlkdGY5b3FWZDBaVDBs?=
+ =?utf-8?B?aCtnVlpDQlRuOEJkMGFuc2t1QjZvWDB1M1FYUmoyNmZ4ckZCZm9GZ2xzOTA5?=
+ =?utf-8?B?K1E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9242715-d2ed-463c-3fee-08ddb98cf4d3
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 17:22:01.3958
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EoLULN2qxi2kYs2VJ26JzcdrhhwIASr4D5NZSiHRQ9+hIZnnmxxWHu3VfR0qiJtp6Nf+8Pk5bQSrTq5QHYz+CqzFOQSn9pCDe2Pf42ya1BM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4876
+X-OriginatorOrg: intel.com
 
-On Mon, Jun 23, 2025 at 07:21:22PM -0700, Joanne Koong wrote:
-> From: Christoph Hellwig <hch@lst.de>
+Hi Babu,
+
+On 7/2/25 9:42 AM, Moger, Babu wrote:
+> On 6/25/25 18:39, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 6/13/25 2:05 PM, Babu Moger wrote:
+>>> BMEC (Bandwidth Monitoring Event Configuration) and mbm_event mode do not
+>>> work simultaneously.
+>>
+>> Could you please elaborate why they do not work simultaneously?
 > 
-> Replace ->map_blocks with a new ->writeback_range, which differs in the
-> following ways:
+> Changed the changelog.
 > 
->  - it must also queue up the I/O for writeback, that is called into the
->    slightly refactored and extended in scope iomap_add_to_ioend for
->    each region
->  - can handle only a part of the requested region, that is the retry
->    loop for partial mappings moves to the caller
->  - handles cleanup on failures as well, and thus also replaces the
->    discard_folio method only implemented by XFS.
+> When mbm_event counter assignment mode is enabled, events are configured
+> through the "event_filter" files under
+> /sys/fs/resctrl/info/L3_MON/event_configs/.
 > 
-> This will allow to use the iomap writeback code also for file systems
-> that are not block based like fuse.
+> The default monitoring mode and with BMEC (Bandwidth Monitoring Event
+> Configuration) support, events are configured using the files
+> mbm_total_bytes_config or mbm_local_bytes_config in
+> /sys/fs/resctrl/info/L3_MON/.
 
-Sounds like a good goal. ;)
+A reasonable question here may be why not just keep using the existing
+(BMEC supporting) event configuration files for event configuration? Why
+are new event configuration files needed?
 
-> Co-developed-by: Joanne Koong <joannelkoong@gmail.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  .../filesystems/iomap/operations.rst          |  23 +--
->  block/fops.c                                  |  25 ++-
->  fs/gfs2/bmap.c                                |  26 +--
->  fs/iomap/buffered-io.c                        |  93 +++++------
->  fs/iomap/trace.h                              |   2 +-
->  fs/xfs/xfs_aops.c                             | 154 ++++++++++--------
->  fs/zonefs/file.c                              |  28 ++--
->  include/linux/iomap.h                         |  20 +--
->  8 files changed, 187 insertions(+), 184 deletions(-)
 > 
-> diff --git a/Documentation/filesystems/iomap/operations.rst b/Documentation/filesystems/iomap/operations.rst
-> index 3b628e370d88..b28f215db6e5 100644
-> --- a/Documentation/filesystems/iomap/operations.rst
-> +++ b/Documentation/filesystems/iomap/operations.rst
+> To avoid the confusion, hide BMEC-related files when mbm_event counter
+> assignment mode is enabled and update the mon_features display accordingly.
+> 
 
-<snip>
+Reinette
 
-> @@ -283,15 +283,14 @@ The ``ops`` structure must be specified and is as follows:
->  .. code-block:: c
->  
->   struct iomap_writeback_ops {
-> -     int (*map_blocks)(struct iomap_writepage_ctx *wpc, struct inode *inode,
-> -                       loff_t offset, unsigned len);
-> -     int (*submit_ioend)(struct iomap_writepage_ctx *wpc, int status);
-> -     void (*discard_folio)(struct folio *folio, loff_t pos);
-> +    int (*writeback_range)(struct iomap_writepage_ctx *wpc,
-> +    		struct folio *folio, u64 pos, unsigned int len, u64 end_pos);
-
-Why does @pos change from loff_t to u64 here?  Are we expecting
-filesystems that set FOP_UNSIGNED_OFFSET?
-
-> +    int (*submit_ioend)(struct iomap_writepage_ctx *wpc, int status);
-
-Nit:   ^^ indenting change here.
-
->   };
->  
->  The fields are as follows:
->  
-> -  - ``map_blocks``: Sets ``wpc->iomap`` to the space mapping of the file
-> +  - ``writeback_range``: Sets ``wpc->iomap`` to the space mapping of the file
->      range (in bytes) given by ``offset`` and ``len``.
->      iomap calls this function for each dirty fs block in each dirty folio,
->      though it will `reuse mappings
-
-<snip>
-
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 11a55da26a6f..80d8acfaa068 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -1748,63 +1764,34 @@ static int iomap_add_to_ioend(struct iomap_writepage_ctx *wpc,
->  	 * Note that this defeats the ability to chain the ioends of
->  	 * appending writes.
->  	 */
-> -	wpc->ioend->io_size += len;
-> +	wpc->ioend->io_size += map_len;
->  	if (wpc->ioend->io_offset + wpc->ioend->io_size > end_pos)
->  		wpc->ioend->io_size = end_pos - wpc->ioend->io_offset;
->  
-> -	wbc_account_cgroup_owner(wpc->wbc, folio, len);
-> -	return 0;
-> +	wbc_account_cgroup_owner(wpc->wbc, folio, map_len);
-> +	return map_len;
->  }
-> +EXPORT_SYMBOL_GPL(iomap_add_to_ioend);
->  
-> -static int iomap_writepage_map_blocks(struct iomap_writepage_ctx *wpc,
-> -		struct folio *folio, u64 pos, u64 end_pos, unsigned dirty_len,
-> +static int iomap_writeback_range(struct iomap_writepage_ctx *wpc,
-> +		struct folio *folio, u64 pos, u32 rlen, u64 end_pos,
->  		bool *wb_pending)
->  {
-> -	int error;
-> -
->  	do {
-> -		unsigned map_len;
-> -
-> -		error = wpc->ops->map_blocks(wpc, wpc->inode, pos, dirty_len);
-> -		if (error)
-> -			break;
-> -		trace_iomap_writepage_map(wpc->inode, pos, dirty_len,
-> -				&wpc->iomap);
-> -
-> -		map_len = min_t(u64, dirty_len,
-> -			wpc->iomap.offset + wpc->iomap.length - pos);
-> -		WARN_ON_ONCE(!folio->private && map_len < dirty_len);
-> +		ssize_t ret;
->  
-> -		switch (wpc->iomap.type) {
-> -		case IOMAP_INLINE:
-> -			WARN_ON_ONCE(1);
-> -			error = -EIO;
-> -			break;
-> -		case IOMAP_HOLE:
-> -			break;
-> -		default:
-> -			error = iomap_add_to_ioend(wpc, folio, pos, end_pos,
-> -					map_len);
-> -			if (!error)
-> -				*wb_pending = true;
-> -			break;
-> -		}
-> -		dirty_len -= map_len;
-> -		pos += map_len;
-> -	} while (dirty_len && !error);
-> +		ret = wpc->ops->writeback_range(wpc, folio, pos, rlen, end_pos);
-> +		if (WARN_ON_ONCE(ret == 0 || ret > rlen))
-> +			return -EIO;
-> +		if (ret < 0)
-> +			return ret;
-> +		rlen -= ret;
-> +		pos += ret;
-> +		if (wpc->iomap.type != IOMAP_HOLE)
-> +			*wb_pending = true;
-
-/me wonders if this should be an outparam of ->writeback_range to signal
-that it actually added the folio to the writeback ioend chain?  Or maybe
-just a boolean in iomap_writepage_ctx that we clear before calling
-->writeback_range and iomap_add_to_ioend can set it as appropriate?
-
-> +	} while (rlen);
->  
-> -	/*
-> -	 * We cannot cancel the ioend directly here on error.  We may have
-> -	 * already set other pages under writeback and hence we have to run I/O
-> -	 * completion to mark the error state of the pages under writeback
-> -	 * appropriately.
-> -	 *
-> -	 * Just let the file system know what portion of the folio failed to
-> -	 * map.
-> -	 */
-> -	if (error && wpc->ops->discard_folio)
-> -		wpc->ops->discard_folio(folio, pos);
-> -	return error;
-> +	return 0;
->  }
->  
->  /*
-
-<snip>
-
-> diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-> index 65485a52df3b..8157b6d92c8e 100644
-> --- a/fs/xfs/xfs_aops.c
-> +++ b/fs/xfs/xfs_aops.c
-> @@ -233,6 +233,47 @@ xfs_end_bio(
->  	spin_unlock_irqrestore(&ip->i_ioend_lock, flags);
->  }
->  
-> +/*
-> + * We cannot cancel the ioend directly on error.  We may have already set other
-> + * pages under writeback and hence we have to run I/O completion to mark the
-> + * error state of the pages under writeback appropriately.
-> + *
-> + * If the folio has delalloc blocks on it, the caller is asking us to punch them
-> + * out. If we don't, we can leave a stale delalloc mapping covered by a clean
-> + * page that needs to be dirtied again before the delalloc mapping can be
-> + * converted. This stale delalloc mapping can trip up a later direct I/O read
-> + * operation on the same region.
-> + *
-> + * We prevent this by truncating away the delalloc regions on the folio. Because
-> + * they are delalloc, we can do this without needing a transaction. Indeed - if
-> + * we get ENOSPC errors, we have to be able to do this truncation without a
-> + * transaction as there is no space left for block reservation (typically why
-> + * we see a ENOSPC in writeback).
-> + */
-> +static void
-> +xfs_discard_folio(
-
-Nice, one less indirect call. :)
-
-> +	struct folio		*folio,
-> +	loff_t			pos)
-> +{
-> +	struct xfs_inode	*ip = XFS_I(folio->mapping->host);
-> +	struct xfs_mount	*mp = ip->i_mount;
-> +
-> +	if (xfs_is_shutdown(mp))
-> +		return;
-> +
-> +	xfs_alert_ratelimited(mp,
-> +		"page discard on page "PTR_FMT", inode 0x%llx, pos %llu.",
-> +			folio, ip->i_ino, pos);
-> +
-> +	/*
-> +	 * The end of the punch range is always the offset of the first
-> +	 * byte of the next folio. Hence the end offset is only dependent on the
-> +	 * folio itself and not the start offset that is passed in.
-> +	 */
-> +	xfs_bmap_punch_delalloc_range(ip, XFS_DATA_FORK, pos,
-> +				folio_pos(folio) + folio_size(folio), NULL);
-> +}
-> +
->  /*
->   * Fast revalidation of the cached writeback mapping. Return true if the current
->   * mapping is valid, false otherwise.
-
-<snip>
-
-> @@ -389,7 +431,12 @@ xfs_map_blocks(
->  
->  	xfs_bmbt_to_iomap(ip, &wpc->iomap, &imap, 0, 0, XFS_WPC(wpc)->data_seq);
->  	trace_xfs_map_blocks_found(ip, offset, count, whichfork, &imap);
-> -	return 0;
-> +map_blocks:
-
-Should this jump label should be named add_to_ioend or something?  We
-already mapped the blocks.  The same applies to the zoned version of
-this function.
-
---D
