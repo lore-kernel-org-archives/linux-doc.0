@@ -1,158 +1,137 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F2E20298C
-	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 06:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1091B14A60C;
+	Wed,  2 Jul 2025 07:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751436153; cv=none; b=AHc2BOiya8JMwzdXFFfsYb+aIv1ySk27ekHGK91ywPFId+ARoqyXol87eNVoEN5rg9w7uj/laERCul4WYJ4KiJBYcO7FoffUx+Eb8rW1QzaewotqXNrnesL7QwmDXYvFucu20l6MXCWACHj69JrGokcpJMf6sGGSpEwwS9vaBg4=
+	t=1751440567; cv=none; b=OL8AfuYJXWgZCB8kKRJnw0YUCJJF/O4UywNr0vTFfxiPQrGjpQra2P4yoXgrt6TYkNhjU2453frtT3oAviJ+9PJmmmwgT8udVAl9IjrfzgQ/x2OcVCaOmcKv/Ns4SqsladUEUrzB+9wTi+ch1I2hOAOS5VeGq/YD3oFYOGr8Fss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751436153; c=relaxed/simple;
-	bh=KsDa0dapENPz5lMBPiueXxkXVedRNjXG9mMzmcErq9k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SweMWAq7E5hvyjy7/AU1PKrtt2H2iUH3X84Grp+uCssTWrEUe7JzEwSqBPYzhTyxHXmwQsubETYnyLt1iMEoNQ+Mwe+U5RY/LO0kiugvaSN1lD+5dpz3aXSsJHp/SihreCf8THm7k5wAY3bhvJpwQAirquFP6sSqdd4n8MBAnSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FD7z3bhe; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751440567; c=relaxed/simple;
+	bh=uuuPtNcVey8RE2kFPOXint0yiPIHAawaHehEcmz1wBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mYa2hTOjX1hXaSBk776Drsp1UDHMZsGXQvcZZWYGDBU7i/0iI5T0Wbz8IiOTGxiFQHM3V6PZOD+lsoHY8efAL6IQzYb8PuOl9lj1ctBximXS/35Hz/5uQQ7c4F0qq+O8rQHHOS4BqT708jdIp1RNxxvGONaC8mDX5k0Bw4BSBhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fni0EvRW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FD7z3bhe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751436151;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nIGpPqgNzgq47EY5ZTEnTs1FneYRqT/zHlE7fmslHU8=;
-	b=FD7z3bheKXstA02upl/Nf0HYPfH9CgVuE3NKHv8JqTWiAlNHBhJbqc/lk082vN2hfbr47E
-	/r7wCVu7rW57kcUlmGZj91eRVf0JEqqXXhBOWoRNIkxuy8gNgelbnmJxIDGteuh/T+tOD7
-	s3dbRJkPSSHeL45HbFip3PRLqtwVkwE=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-636-exMEV-qmP7mWzW_W7wlbDA-1; Wed,
- 02 Jul 2025 02:02:25 -0400
-X-MC-Unique: exMEV-qmP7mWzW_W7wlbDA-1
-X-Mimecast-MFC-AGG-ID: exMEV-qmP7mWzW_W7wlbDA_1751436141
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3F2E51955ECA;
-	Wed,  2 Jul 2025 06:02:21 +0000 (UTC)
-Received: from h1.redhat.com (unknown [10.22.88.112])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1B00618003FC;
-	Wed,  2 Jul 2025 06:02:05 +0000 (UTC)
-From: Nico Pache <npache@redhat.com>
-To: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: david@redhat.com,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	corbet@lwn.net,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	akpm@linux-foundation.org,
-	baohua@kernel.org,
-	willy@infradead.org,
-	peterx@redhat.com,
-	wangkefeng.wang@huawei.com,
-	usamaarif642@gmail.com,
-	sunnanyong@huawei.com,
-	vishal.moola@gmail.com,
-	thomas.hellstrom@linux.intel.com,
-	yang@os.amperecomputing.com,
-	kirill.shutemov@linux.intel.com,
-	aarcange@redhat.com,
-	raquini@redhat.com,
-	anshuman.khandual@arm.com,
-	catalin.marinas@arm.com,
-	tiwai@suse.de,
-	will@kernel.org,
-	dave.hansen@linux.intel.com,
-	jack@suse.cz,
-	cl@gentwo.org,
-	jglisse@google.com,
-	surenb@google.com,
-	zokeefe@google.com,
-	hannes@cmpxchg.org,
-	rientjes@google.com,
-	mhocko@suse.com,
-	rdunlap@infradead.org,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v8 15/15] Documentation: mm: update the admin guide for mTHP collapse
-Date: Tue,  1 Jul 2025 23:57:42 -0600
-Message-ID: <20250702055742.102808-16-npache@redhat.com>
-In-Reply-To: <20250702055742.102808-1-npache@redhat.com>
-References: <20250702055742.102808-1-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fni0EvRW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED44FC4CEEF;
+	Wed,  2 Jul 2025 07:16:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751440565;
+	bh=uuuPtNcVey8RE2kFPOXint0yiPIHAawaHehEcmz1wBE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Fni0EvRWJdQyx6IRNG6gmmCoz2nj+h9CK/XrmFqrwAbCiUNsvBaKEj6RwsKCKJ7FR
+	 0+PElKm1/A1DDcYWHQ72WuOvyauOTPRE5KBa5Y85py1psG/sud4sr0Gda6TJyjHdRT
+	 /oPBdwoy9jbMwpyY/18GTSnwGigJSWSBmB7mNCCHcAJkcFY3yFhASAjoDwCz+cjd2r
+	 hRMxKCDsJuyzlXO8ML4moqyR/SwpMUdcIjMUiSaoLVP8VyHN6sJ0orfHVIgYB+6iFM
+	 NJpnEd7UUbV7QHbHi7KULoe5f8KhrVPQ33ZFyay3O4zDlSIiHbziKDFkQVTq4LDRj9
+	 R728Nw4TYrnWg==
+Date: Wed, 2 Jul 2025 09:16:02 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: =?utf-8?B?w4FsdmFybyBGZXJuw6FuZGV6?= Rojas <noltari@gmail.com>
+Cc: jdelvare@suse.com, linux@roeck-us.net, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] dt-bindings: hwmon: Add Microchip EMC2101 support
+Message-ID: <20250702-silent-capable-ferret-397cf8@krzk-bin>
+References: <20250701181228.1196102-1-noltari@gmail.com>
+ <20250701181228.1196102-3-noltari@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250701181228.1196102-3-noltari@gmail.com>
 
-Now that we can collapse to mTHPs lets update the admin guide to
-reflect these changes and provide proper guidence on how to utilize it.
+On Tue, Jul 01, 2025 at 08:12:27PM +0200, =C3=81lvaro Fern=C3=A1ndez Rojas =
+wrote:
+> Introduce yaml schema for Microchip emc2101 pwm fan controller with
+> temperature monitoring.
+>=20
+> Signed-off-by: =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com>
+> ---
+>  .../bindings/hwmon/microchip,emc2101.yaml     | 79 +++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/microchip,emc=
+2101.yaml
+>=20
+>  v2: add missing properties.
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/microchip,emc2101.ya=
+ml b/Documentation/devicetree/bindings/hwmon/microchip,emc2101.yaml
+> new file mode 100644
+> index 000000000000..0966559d373e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/microchip,emc2101.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/microchip,emc2101.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Microchip EMC2101 SMBus compliant PWM fan controller
+> +
+> +maintainers:
+> +  - =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com>
+> +
+> +description:
+> +  Microchip EMC2101 pwm controller which supports up to 1 fan, 1 internal
+> +  temperature sensor, 1 external temperature sensor and an 8 entry look
+> +  up table to create a programmable temperature response.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - microchip,emc2101
+> +      - microchip,emc2101-r
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Nico Pache <npache@redhat.com>
----
- Documentation/admin-guide/mm/transhuge.rst | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+Nothing in description explains what 'r' is.
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index dff8d5985f0f..878796b4d7d3 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -63,7 +63,7 @@ often.
- THP can be enabled system wide or restricted to certain tasks or even
- memory ranges inside task's address space. Unless THP is completely
- disabled, there is ``khugepaged`` daemon that scans memory and
--collapses sequences of basic pages into PMD-sized huge pages.
-+collapses sequences of basic pages into huge pages.
- 
- The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
- interface and using madvise(2) and prctl(2) system calls.
-@@ -144,6 +144,18 @@ hugepage sizes have enabled="never". If enabling multiple hugepage
- sizes, the kernel will select the most appropriate enabled size for a
- given allocation.
- 
-+khugepaged uses max_ptes_none scaled to the order of the enabled mTHP size
-+to determine collapses. When using mTHPs it's recommended to set
-+max_ptes_none low-- ideally less than HPAGE_PMD_NR / 2 (255 on 4k page
-+size). This will prevent undesired "creep" behavior that leads to
-+continuously collapsing to the largest mTHP size; when we collapse, we are
-+bringing in new non-zero pages that will, on a subsequent scan, cause the
-+max_ptes_none check of the +1 order to always be satisfied. By limiting
-+this to less than half the current order, we make sure we don't cause this
-+feedback loop. max_ptes_shared and max_ptes_swap have no effect when
-+collapsing to a mTHP, and mTHP collapse will fail on shared or swapped out
-+pages.
-+
- It's also possible to limit defrag efforts in the VM to generate
- anonymous hugepages in case they're not immediately free to madvise
- regions or to never try to defrag memory and simply fallback to regular
-@@ -221,11 +233,6 @@ top-level control are "never")
- Khugepaged controls
- -------------------
- 
--.. note::
--   khugepaged currently only searches for opportunities to collapse to
--   PMD-sized THP and no attempt is made to collapse to other THP
--   sizes.
--
- khugepaged runs usually at low frequency so while one may not want to
- invoke defrag algorithms synchronously during the page faults, it
- should be worth invoking defrag at least in khugepaged. However it's
--- 
-2.49.0
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  '#pwm-cells':
+> +    const: 2
+> +    description: |
+> +      Number of cells in a PWM specifier.
+> +      - cell 0: The PWM frequency
+> +      - cell 1: The PWM polarity: 0 or PWM_POLARITY_INVERTED
+> +
+> +patternProperties:
+> +  '^fan@0$':
+
+This is just 'fan', not a pattern. See other bidnings.
+
+> +    $ref: fan-common.yaml#
+> +    unevaluatedProperties: false
+> +    properties:
+> +      reg:
+> +        description:
+> +          The fan number used to determine the associated PWM channel.
+
+I can tell you: 0. Cannot be any other PWM channel.
+
+> +        maxItems: 1
+> +
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +  - reg
+
+Best regards,
+Krzysztof
 
