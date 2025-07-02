@@ -1,146 +1,237 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75C834CF9
-	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 23:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5925236A9F;
+	Wed,  2 Jul 2025 23:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751499978; cv=none; b=Ez8/6TijIgLsnlNqEvJMMiatpirCgIzzSqvLjtZbXNuTqcAcje9ErHbfQOQy8p9yvrt43gXjudiyo5vPdA9CmnMXDJFStqyH0q7sfKeEcaLAkEP0+MDVrrfGuVK8U+mhQzTKT433LEif+kWSllsLZm/E5F8icufyHBrhgPUkLno=
+	t=1751500301; cv=none; b=FWmWunhh3BFsHak+Q5f5Vl1/7gNe6U6W2GQ3lObC9v9jv81Pi8ELrzpWGmTrrhqylHkCmM8S+2Iun4Ds12czG8H8V8HC9GRqFA41F6zCamqfE530UcXNch58cQuMVwG4HcPbKJbWmhFDkUBA044SRQ5X6VLEUbDZ5sVN1fzAfzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751499978; c=relaxed/simple;
-	bh=lFZnER1Vm9wautJa0uy43bzsbxJsHX1JsZvXcSTRQek=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sPRQWlJUE8LXZIUsvT0DRXr6+WAOOorUAi/K/VDvZSDSn1a8bQTU8/h2gQVsFiTP72i6wYTfZr6C1y6aWmNLPpS8U5MzAU/sx6kZCeLtjpnQAAAod1cu18n1vrju5K1SohPL+wlGPP03XbgkDpF68cJIVOoQrmERgyb79SEI/q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=LplORr8l; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1751500301; c=relaxed/simple;
+	bh=phXhRif4QEx6/qVW8NoYnau8fG9rcxcu4dhrIomKfiw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=PF4eBI5flIj1AU3qPqlzRoUzKLRCOOdk1lLShoZJ4FhKsQ+5mgfNCxH7RVhwSrMavyio7pWUoKxF5In6fTHFlqzwwqffv8rOhsTkBIlIwqG+jMpbqCLvp32ITHB0kLuw2ezPcgMEGkjp0mvuz+vpuXwU+r9STAokJbVQzIr1Kd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OmRc81Fz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LplORr8l"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7424ccbef4eso4539013b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 16:46:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1751499976; x=1752104776; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ViVAtpVE4VcSDimsjTVY9mf2hp2g98u/R7DQs9HH3k8=;
-        b=LplORr8lDwrGj1sTZUYtwEd/VXxfAe5D9DMBI6/bF4SlIuom/w4wB1v5Xi8UXQhBNH
-         GOxTe53v4gALsi0QMp3ga4QR5lMVz8Ss/BJF2tIQyA+3cqWZkVAZK1gxxw2S+z97Gp7C
-         S31Pg1WIMXpPNKayEBCmzXxRYnpDVV3UjhF7I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751499976; x=1752104776;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ViVAtpVE4VcSDimsjTVY9mf2hp2g98u/R7DQs9HH3k8=;
-        b=JnxCF/XCOhbsBxB2Dx+A5htT70A3cd7uU6sJStHH5Z0onz9Zq6WgQfWvZ1NDhmyWRg
-         BiAkkF+MxxYSI/Y0Yl/ALbYBDdyc8MVA/t55/BhSFLtffc1OT04YPH3g1MELWYz7wxqd
-         R8WhlxhjjJVF7B3gbvgn6FidO1i7u8yT0WXDtrZTPP2KORintcpi9kZ6RMA0aIMeWAee
-         XDtTAD+iuWCeFZejl0BL/0E7snQ5MgcDAsOJbMU2X2P8z659MV/CAf8otEGVZDMRNLZK
-         fDnxWagtbelYU942GupQgi7xuPEIk05tDmUscb3AJu2r6FVTDfaAeH+MYWtWlrCoTUmF
-         QMbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVAHl/xZ71Q2uB2YrPbjyLtSTuXAsF7cYLkwquhL/vsKuPHJyrrtGcs4wayt5kkes3qBRLfVk3xvz0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwstxBcnBV8CfK5c45gLyP23OCPbe+3Roz2A5si4Wcz4v3gkoVK
-	0zFAaI0cuZGlwQ4B2ZstrjqijuuZeXX6BaauLEwd/Z7SP2xrln/jsc/e7VSwxg0oRg==
-X-Gm-Gg: ASbGnctfar/MIsgIWwLkxt3Rq0E7r99FqNbmsX992ntMMKblX8A5/ubd8BGpDkiF0Mp
-	buWaF8GmOGlWDvfiMq3VnJQ5lbGYyM2Ez1Ml2mi5ZDgMzpf8UDg/EtkIAKMuKDRv70xi6YqACRw
-	saD9gXhTSPEYPKAoZMt2OEj56yZb7yJNYXFAPu965gQK4/NEfByVKKRfXUnUsL7LkssRzJYMrOH
-	GXkOtDhki3JD19lisjwZ+RRHAn+m9xYqJK7JxGLzwMXn7H9nBhi70jfuI0Sdtom+iBai8oP0ZoR
-	mA5gLiYsIBXw0ZksY0gspYFmqlklzCfkiOOaHTNWRRFAUEhxtVCmDEBeuB4nPys8NM4JqGBOwvi
-	Lr90vt2Y0SfKwGhwxqvb5vxUKSA==
-X-Google-Smtp-Source: AGHT+IFkUvmMZIS6AbfTX8UKjfSYNxAO54bpehBn2hbDwdGBFpbaUT9Igp1/olZCeelBx57rXIfgTQ==
-X-Received: by 2002:a05:6a00:1488:b0:748:f854:b765 with SMTP id d2e1a72fcca58-74b50db5d76mr7542014b3a.4.1751499976000;
-        Wed, 02 Jul 2025 16:46:16 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af57ee760sm14609644b3a.155.2025.07.02.16.46.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 16:46:15 -0700 (PDT)
-Message-ID: <da323894-7256-493d-a601-fe0b0e623b00@broadcom.com>
-Date: Wed, 2 Jul 2025 16:46:12 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OmRc81Fz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20B92C4CEE7;
+	Wed,  2 Jul 2025 23:51:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751500300;
+	bh=phXhRif4QEx6/qVW8NoYnau8fG9rcxcu4dhrIomKfiw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OmRc81FzvYLXerzuw68/k+ABrjneyRG/WsseBhXMWJhEDHyHQw+IKVDOjr+DX9BJb
+	 lyMAIFg4uFGrmEthFp/rur4P5M9TG0RQI833SezpOkbFCQ/FF5Bk+J1vhPKgpyzKNj
+	 ajaHWw0eJlbbWcxR81fbnBZdq2WbgEHKP5/ekdSsY9Aje5hS6J0RpieeCq8G89lU/i
+	 /uncvHSJVB0N33IIJNJNUQojeBCMC58ffRg+HQzNMlm1YjsDk4uF5DYpNSnbbCLYOi
+	 zQRb+JFbNViTjD57YQZYCnH4ael3xCcp2Hl9fytDNJKaqg2NqDKis6W6ydUU4ZAqAx
+	 uMG912n8ySdpA==
+From: SeongJae Park <sj@kernel.org>
+To: Bijan Tabatabai <bijan311@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	joshua.hahnjy@gmail.com,
+	bijantabatab@micron.com,
+	venkataravis@micron.com,
+	emirakhur@micron.com,
+	ajayjoshi@micron.com,
+	vtavarespetr@micron.com,
+	Ravi Shankar Jonnalagadda <ravis.opensrc@micron.com>
+Subject: Re: [RFC PATCH v3 09/13] mm/damon/vaddr: Add vaddr versions of migrate_{hot,cold}
+Date: Wed,  2 Jul 2025 16:51:38 -0700
+Message-Id: <20250702235138.56720-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250702201337.5780-10-bijan311@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v5 0/4] net: phy: bcm54811: Fix the PHY initialization
-To: Jakub Kicinski <kuba@kernel.org>, =?UTF-8?Q?Kamil_Hor=C3=A1k_-_2N?=
- <kamilh@axis.com>, florian.fainelli@broadcom.com
-Cc: bcm-kernel-feedback-list@broadcom.com, andrew@lunn.ch,
- hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, krzk+dt@kernel.org,
- conor+dt@kernel.org, netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, robh@kernel.org, andrew+netdev@lunn.ch,
- horms@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20250701075015.2601518-1-kamilh@axis.com>
- <20250702150216.2a5410b3@kernel.org>
-Content-Language: en-US
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20250702150216.2a5410b3@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 7/2/25 15:02, Jakub Kicinski wrote:
-> On Tue, 1 Jul 2025 09:50:11 +0200 Kamil Horák - 2N wrote:
->> PATCH 1 - Add MII-Lite PHY interface mode as defined by Broadcom for
->>     their two-wire PHYs. It can be used with most Ethernet controllers
->>     under certain limitations (no half-duplex link modes etc.).
->>
->> PATCH 2 - Add MII-Lite PHY interface type
->>
->> PATCH 3 - Activation of MII-Lite interface mode on Broadcom bcm5481x
->>     PHYs
->>
->> PATCH 4 - Fix the BCM54811 PHY initialization so that it conforms
->>     to the datasheet regarding a reserved bit in the LRE Control
->>     register, which must be written to zero after every device reset.
->>     Also fix the LRE Status register reading, there is another bit to
->>     be ignored on bcm54811.
+On Wed,  2 Jul 2025 15:13:32 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
+
+> From: Bijan Tabatabai <bijantabatab@micron.com>
 > 
-> I'm a bit lost why the first 3 patches are included in a series for net.
-> My naive reading is we didn't support this extra mode, now we do,
-> which sounds like a new feature.. Patch 4, sure, but the dependency
-> is not obvious.
+> migrate_{hot,cold} are paddr schemes that are used to migrate hot/cold
+> data to a specified node. However, these schemes are only available when
+> doing physical address monitoring. This patch adds an implementation for
+> them virtual address monitoring as well.
+> 
+> Co-developed-by: Ravi Shankar Jonnalagadda <ravis.opensrc@micron.com>
+> Signed-off-by: Ravi Shankar Jonnalagadda <ravis.opensrc@micron.com>
+> Signed-off-by: Bijan Tabatabai <bijantabatab@micron.com>
+> ---
+>  mm/damon/vaddr.c | 102 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 102 insertions(+)
+> 
+> diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
+> index 46554e49a478..5cdfdc47c5ff 100644
+> --- a/mm/damon/vaddr.c
+> +++ b/mm/damon/vaddr.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/pagewalk.h>
+>  #include <linux/sched/mm.h>
+>  
+> +#include "../internal.h"
+>  #include "ops-common.h"
+>  
+>  #ifdef CONFIG_DAMON_VADDR_KUNIT_TEST
+> @@ -610,6 +611,65 @@ static unsigned int damon_va_check_accesses(struct damon_ctx *ctx)
+>  	return max_nr_accesses;
+>  }
+>  
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +static int damos_va_migrate_pmd_entry(pmd_t *pmd, unsigned long addr,
+> +		unsigned long next, struct mm_walk *walk)
 
-I don't see the dependency either, at least not in an explicit way. 
-Kamil, could patch #4 stand on its own and routed through "net" while 
-patches 1-3 are routed through "net-next"?
+I'd suggest to put CONFIG_TRANSPARENT_HUGEPAGE check into the body of this
+function and handle both pmd and pte here, consistent to
+damon_young_pmd_entry().
 
-Thanks
--- 
-Florian
+> +{
+> +	struct list_head *migration_list = walk->private;
+> +	struct folio *folio;
+> +	spinlock_t *ptl;
+> +	pmd_t pmde;
+> +
+> +	ptl = pmd_lock(walk->mm, pmd);
+> +	pmde = pmdp_get(pmd);
+> +
+> +	if (!pmd_present(pmde) || !pmd_trans_huge(pmde))
+> +		goto unlock;
+> +
+> +	folio = damon_get_folio(pmd_pfn(pmde));
+> +	if (!folio)
+> +		goto unlock;
+> +
+> +	if (!folio_isolate_lru(folio))
+> +		goto put_folio;
+> +
+> +	list_add(&folio->lru, migration_list);
+> +
+> +put_folio:
+> +	folio_put(folio);
+> +unlock:
+> +	spin_unlock(ptl);
+> +	return 0;
+> +}
+> +#else
+> +#define damos_va_migrate_pmd_entry NULL
+> +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+> +
+> +static int damos_va_migrate_pte_entry(pte_t *pte, unsigned long addr,
+> +		unsigned long enxt, struct mm_walk *walk)
 
+Nit.  s/enxt/next/ ?
+
+> +{
+> +	struct list_head *migration_list = walk->private;
+> +	struct folio *folio;
+> +	pte_t ptent;
+> +
+> +	ptent = ptep_get(pte);
+> +	if (pte_none(*pte) || !pte_present(*pte))
+> +		return 0;
+
+Shouldn't we use cached pte value (ptent) instad of *pte?  I'd suggest merging
+this into damos_va_migrate_pmd_entry() consistent to damon_young_pmd_entry().
+
+> +
+> +	folio = damon_get_folio(pte_pfn(ptent));
+> +	if (!folio)
+> +		return 0;
+> +
+> +	if (!folio_isolate_lru(folio))
+> +		goto out;
+> +
+> +	list_add(&folio->lru, migration_list);
+> +
+> +out:
+> +	folio_put(folio);
+> +	return 0;
+> +}
+> +
+>  /*
+>   * Functions for the target validity check and cleanup
+>   */
+> @@ -653,6 +713,41 @@ static unsigned long damos_madvise(struct damon_target *target,
+>  }
+>  #endif	/* CONFIG_ADVISE_SYSCALLS */
+>  
+> +static unsigned long damos_va_migrate(struct damon_target *target,
+> +		struct damon_region *r, struct damos *s,
+> +		unsigned long *sz_filter_passed)
+> +{
+> +	LIST_HEAD(folio_list);
+> +	struct task_struct *task;
+> +	struct mm_struct *mm;
+> +	unsigned long applied = 0;
+> +	struct mm_walk_ops walk_ops = {
+> +		.pmd_entry = damos_va_migrate_pmd_entry,
+> +		.pte_entry = damos_va_migrate_pte_entry,
+> +		.walk_lock = PGWALK_RDLOCK,
+> +	};
+> +
+> +	task = damon_get_task_struct(target);
+> +	if (!task)
+> +		return 0;
+> +
+> +	mm = damon_get_mm(target);
+> +	if (!mm)
+> +		goto put_task;
+> +
+> +	mmap_read_lock(mm);
+> +	walk_page_range(mm, r->ar.start, r->ar.end, &walk_ops, &folio_list);
+> +	mmap_read_unlock(mm);
+> +	mmput(mm);
+> +
+> +	applied = damon_migrate_pages(&folio_list, s->target_nid);
+> +	cond_resched();
+> +
+> +put_task:
+> +	put_task_struct(task);
+
+Seems task is not being used in real, so this variable and the related code in
+this function can be removed?  Or, am I missing something?
+
+> +	return applied * PAGE_SIZE;
+> +}
+> +
+>  static unsigned long damon_va_apply_scheme(struct damon_ctx *ctx,
+>  		struct damon_target *t, struct damon_region *r,
+>  		struct damos *scheme, unsigned long *sz_filter_passed)
+> @@ -675,6 +770,9 @@ static unsigned long damon_va_apply_scheme(struct damon_ctx *ctx,
+>  	case DAMOS_NOHUGEPAGE:
+>  		madv_action = MADV_NOHUGEPAGE;
+>  		break;
+> +	case DAMOS_MIGRATE_HOT:
+> +	case DAMOS_MIGRATE_COLD:
+> +		return damos_va_migrate(t, r, scheme, sz_filter_passed);
+>  	case DAMOS_STAT:
+>  		return 0;
+>  	default:
+> @@ -695,6 +793,10 @@ static int damon_va_scheme_score(struct damon_ctx *context,
+>  	switch (scheme->action) {
+>  	case DAMOS_PAGEOUT:
+>  		return damon_cold_score(context, r, scheme);
+> +	case DAMOS_MIGRATE_HOT:
+> +		return damon_hot_score(context, r, scheme);
+> +	case DAMOS_MIGRATE_COLD:
+> +		return damon_cold_score(context, r, scheme);
+>  	default:
+>  		break;
+>  	}
+> -- 
+> 2.43.5
+
+
+Thanks,
+SJ
