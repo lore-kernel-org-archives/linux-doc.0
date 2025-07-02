@@ -1,131 +1,218 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D8E2571AC
-	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 10:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A9E2571DF
+	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 10:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751452913; cv=none; b=lteKnskR79A2cnudURMXDaIwoHhgtketJcqYe07Wy7G0qfsAdoEacH3Us3ckpCt+HNskWULCPH3gGvHUFcUTO6GmD/A51an2UpT1TNwcYFw8e7Qtvdar/doOWgqz1Qb50APDsTKZlGJbm4xjUpGAp5uazykC6E0mt/qDdqPYtm8=
+	t=1751453711; cv=none; b=ES5nOitSBJo6qdh3wl+608T1jXHkSTjPHyygdqELFej23FdbuCaj/3PPR9EzcLoT/L2SU2CkHsBBunz6q0qUlmy5mRfG+hWDRRFGPcy7Qi8RpCcqUN30z2poP8YIQt2xanl+oeNShhGs71LItHySoMz9m06/Wd6nd4WLoN8Us4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751452913; c=relaxed/simple;
-	bh=opI8kZ94jXxc3W+bhK8KIvd92l7nPa8l691dPsRb30U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iihmRsqKYE+8ZZsyDdVFNlq/7k1WvPOSvDKrENZTfe0ceo6J3qC4ntus/M1UIrfpzWaU204ao/66IkyY/ylWcIHWSTh5P+YnODlS07Fbse2eXOnv0T4hIL1Z6MXDtqD5VIH2dA5k0v2iEVzn1keR+tOpr+E6ou95Wg8c9ax0UY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=PZIKXDfH; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1751453711; c=relaxed/simple;
+	bh=DzR5+bRB5psLtK2E0dNTjdVUmZbUhzSCXQ7Rq5dh0oU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r0e6/CmuM4NHVihAJk0DKI/kS0NVjiktS0dQMtefhszFEU4TkVWcY4Z4vh+QgEH+f//M4rvFz1s4jNo0PmG8CEkZgtzfnVS8Z2PJRj7LOY+VJdnkLYjbWna4ElfFY7YIQI44LU6z5LONuWKwM4hxrPcCa/7WwY3SHOnbhCG3T5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VAw/gNsS; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="PZIKXDfH"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-453634d8609so47311675e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 03:41:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1751452910; x=1752057710; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vKybssvnFprModTIZAiiqhMc9ohtbZTXrEhnTtnvSDI=;
-        b=PZIKXDfHzzrMWMb8wWmm9ujwZ6GGJl5NC9cuOftFYEVlr1vNngMTVjw3ej7F+Fk8dx
-         TjCGtHInRC2muFv9YuywxxvhjzO5GLv0h/yc7mA3gOUO93vT7ZtyKvIoBPF2jYQaX4JN
-         9n78uqtXP2gQAVaYlX8v9GOjbHH3AzUdyj14Ad+O1YKEbPRX9cX4kb9TGCCuIeQ0OL/5
-         XY/lOhBhTNf8kPWTL5HdXMu/YWyazpAcnqTQGZkvBT1E0WqJOIN/xOI95VpOgiWM8DFm
-         KguCe0C02dOXPoxsweSjAqvybOeiFUeHtqp8yfnV6TLSQYERoUWSpiq5TVq3pOs+dtM/
-         qZtQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VAw/gNsS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751453708;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=3jS+uD1Oc4zGOBUHZNuowE6e3b/KrfwZtLCHN7KeS3E=;
+	b=VAw/gNsSgbnu/x9zgtUxgaMbXg78LeT9hseDdw9wnsxkKGFB7FI9ogwN1SXqBsCDn9jcWT
+	yi5kgkjE/7DohA5pGrhiM0ZU6KIGSpVEfEK5UBnYw0kyZB1K5uUAL/gwIbHwUCbLUI4ajh
+	oLwcCEvy/TJSNyoExDOpvBS2b4a0ddw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-497-q9oMf9t8PVW69gcdswm-Cg-1; Wed, 02 Jul 2025 06:55:06 -0400
+X-MC-Unique: q9oMf9t8PVW69gcdswm-Cg-1
+X-Mimecast-MFC-AGG-ID: q9oMf9t8PVW69gcdswm-Cg_1751453706
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3a503f28b09so3450279f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 03:55:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751452910; x=1752057710;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vKybssvnFprModTIZAiiqhMc9ohtbZTXrEhnTtnvSDI=;
-        b=QJo8+En3WscILfpuEsGEckVZ7OKrgx74Di7Kbnk3b+Hh318FKL8xF9+J36px2loZOj
-         klNcaKxRDzmXnwVSXj5+RZG/7ws0ClfuFOYRI4vIhjgHu8rTerPZGVh6DEwa7HQ+3kVk
-         jOEOPoUoOEjOydyf/WPsT4j1+esYs6qT5gfV7JGTDEERpoDiaqepdIjSMPe1kfzhfZki
-         gig0iGqNG4fKv37g8IO66YU50fQ5X4cVjpeEpM3sO6auIxCYg5ja1Zzfs8dbMpDHYqiH
-         7MiRUibL/I0FHIcRX9hTF2szHx8XKEU30WsTF+rf55Wp6ipDYmCHgb7ineZsY4ocuE0t
-         /oDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWqgrAraHKjJL9+AYd1OSOuQghnGh9HtqMOIG7OpePOKIsxWCIj5g8ON65RLztBs53YEGXeGjqrjsQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuqvuStmkJSNDOzcPqxKwWoNteJDH86ptDs/Q5+y62diBYRxCb
-	AClvkoQGxeBwFBZqwLyce1TO9pUQhO0jglEiBo1ny1CyzQIlIXF0829WVQz6YEBBtX8=
-X-Gm-Gg: ASbGncs/f+fiG8JToAyCcjaOGvZwaDWTrxko22DPDGgJPsStcYBwRiqz3mRiVJUO6KV
-	CQFvyuRow0h91tOad+jc3ELZgcgGTLtOap8VhKlT6mzujIICqgdJjCZsbdLhBMWLkIun4HsmBJy
-	RDuZC36fLgeLNOK7P17yPL7p+33LOmxWEZKon4X3jWzjRCAr3M19MrcrJYAg7EJyHn8eLKzMjeC
-	IiH67O2wGO5dnfHsoKJGOsG8Gt+i8rrEBJNN0NtCrgDc01J21dMhspFMbJ8oYbc28u+814qdlqi
-	PSsiTaJKYAYiRpjgkah/I+dfet0dMPAyy1DHYXa2/6rgmms5vv69+TGyPnmRZZcw02Fa/w==
-X-Google-Smtp-Source: AGHT+IHp+NonL/psql4ZWWlHXVavL55jVvlBbLDx9BjCEnFRZEGhViNaWfW5qLGhu87010kP2/wTbw==
-X-Received: by 2002:a05:600c:538e:b0:453:697:6f08 with SMTP id 5b1f17b1804b1-454a3728b85mr23020135e9.26.1751452910342;
-        Wed, 02 Jul 2025 03:41:50 -0700 (PDT)
-Received: from jiri-mlt ([193.47.165.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453a85b3d44sm33167695e9.0.2025.07.02.03.41.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 03:41:49 -0700 (PDT)
-Date: Wed, 2 Jul 2025 12:41:40 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Prathosh Satish <Prathosh.Satish@microchip.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Shannon Nelson <shannon.nelson@amd.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>, 
-	Petr Oros <poros@redhat.com>
-Subject: Re: [PATCH net-next v12 08/14] dpll: zl3073x: Read DPLL types and
- pin properties from system firmware
-Message-ID: <vpzjeh5kc6s4cpah5wagdy6sm3rzt6vlfyfcdbenppwnzftzow@u4xu7mhzg77u>
-References: <20250629191049.64398-1-ivecera@redhat.com>
- <20250629191049.64398-9-ivecera@redhat.com>
+        d=1e100.net; s=20230601; t=1751453705; x=1752058505;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3jS+uD1Oc4zGOBUHZNuowE6e3b/KrfwZtLCHN7KeS3E=;
+        b=cz7MQOC6cju/94rEy4uLci+GVH/jCNx6yLrhQqcl3fwu4fN5BaOGPAnDcz3iOXFknD
+         mFiqudjY6W2NKqztsuijyXArZto/qOgX5Idhk4MpMdXKi8YmjSjv1DVr7Qkb3cMlGPFQ
+         yNrNbXvRA0HE5Ind0fr3ab1LPUBQPAbsXhkG7lyg85BDRFU7A6Zrte9CXkzSx6RdwBO6
+         QDo09KmlZch0zzPZoysgyrnarrP9+tymV7VDDs85fC7vp4gv6WeEocopcQH5D6EtZl70
+         lSuCgZVV9Sj7QzDu2joOH0kOnwXkFa5QOECBhNvAlJ0d4toN6pPPx3EMGAvFBeRwiJqw
+         BdDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXTABedLfwn7fXkC8vJj7mWi5sP8oYMPqDCBhOFmL3PZGX8wzQn2lBaViU5zMauHvKGjZNrrR4wRys=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy12e/0uLC55rmFKhiskrDcACY/r0ghirqXh0HBSzPxwQz/Xyxf
+	kSN00+4V6eB/cDMmGrspx8iDEy0odkdmAOIBcrNqOhxcw2erNvmw3d098J4xaduLHXQiYfM120V
+	8YQeIwWfRtxn68JTKfJSRa6gP3dBL/ZoLGWfZHNS73XRlWwrsQL+LXhuCYnxq3Q==
+X-Gm-Gg: ASbGncuKdd4RKjIPUbd+fRx4Nm9V6YWZdy1CKjBg1kDZg26D+f1HpmcxRhjqipH6Ydw
+	250wWHJ6DBm5p/qgRVhSy0Yu7POhPKFL5b3nVM2qHiZOeXXzbp0rwiOXVARe2vp1yEoMMMvTasL
+	Ug8xuc8IGVMJe+im9yoHZWamBXVWcBAGGOtl8uTjqgxzoqP7G2/b9mWA4KCf3ZtaKSBytK+cE8f
+	G4vRyZB706BZlT3KzQ1tR1OTeNvrMKkTUbg+jpQ1ElOkutswcAztbehJV7qnrqJnPLerxxV21UF
+	Q4RfhqnVUpEYtsv9MhtofJTBWgcxJVv4M0vCweh+JRDaaD1UxbPNmHg=
+X-Received: by 2002:a05:6000:25f0:b0:3a4:eb7a:2ccb with SMTP id ffacd0b85a97d-3b1f7ae6ef8mr1644477f8f.16.1751453705467;
+        Wed, 02 Jul 2025 03:55:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGq26TSMyBQAlDrNyJ4gRIcosC2SckUR8wvmxMD9/SEPekoJbfcXvmF8Q5kjpg2FJd2gcKeiQ==
+X-Received: by 2002:a05:6000:25f0:b0:3a4:eb7a:2ccb with SMTP id ffacd0b85a97d-3b1f7ae6ef8mr1644442f8f.16.1751453704899;
+        Wed, 02 Jul 2025 03:55:04 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c80b74csm15710562f8f.45.2025.07.02.03.55.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jul 2025 03:55:04 -0700 (PDT)
+Message-ID: <11de6ae0-d4ec-43d5-a82e-146d82f17fff@redhat.com>
+Date: Wed, 2 Jul 2025 12:55:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250629191049.64398-9-ivecera@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 12/29] mm/zsmalloc: stop using __ClearPageMovable()
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Minchan Kim <minchan@kernel.org>, Brendan Jackman <jackmanb@google.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
+ <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry.yoo@oracle.com>,
+ Qi Zheng <zhengqi.arch@bytedance.com>, Shakeel Butt <shakeel.butt@linux.dev>
+References: <20250630130011.330477-1-david@redhat.com>
+ <20250630130011.330477-13-david@redhat.com>
+ <zmsay3nrpmjec5n7v44svfa7iwl6vklqan4dgjn4wpvsr5hqt7@cqfwdvhncgrg>
+ <757cf6b9-730b-4b12-9a3d-27699e20e3ac@redhat.com>
+ <ugm7j66msq2w2hd3jg3thsxd2mv7vudozal3nblnfemclvut64@yp7d6vgesath>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <ugm7j66msq2w2hd3jg3thsxd2mv7vudozal3nblnfemclvut64@yp7d6vgesath>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Sun, Jun 29, 2025 at 09:10:43PM +0200, ivecera@redhat.com wrote:
+On 02.07.25 12:10, Sergey Senozhatsky wrote:
+> On (25/07/02 10:25), David Hildenbrand wrote:
+>> On 02.07.25 10:11, Sergey Senozhatsky wrote:
+>>> On (25/06/30 14:59), David Hildenbrand wrote:
+>>> [..]
+>>>>    static int zs_page_migrate(struct page *newpage, struct page *page,
+>>>> @@ -1736,6 +1736,13 @@ static int zs_page_migrate(struct page *newpage, struct page *page,
+>>>>    	unsigned long old_obj, new_obj;
+>>>>    	unsigned int obj_idx;
+>>>> +	/*
+>>>> +	 * TODO: nothing prevents a zspage from getting destroyed while
+>>>> +	 * isolated: we should disallow that and defer it.
+>>>> +	 */
+>>>
+>>> Can you elaborate?
+>>
+>> We can only free a zspage in free_zspage() while the page is locked.
+>>
+>> After we isolated a zspage page for migration (under page lock!), we drop
+>                        ^^ a physical page? (IOW zspage chain page?)
+> 
+>> the lock again, to retake the lock when trying to migrate it.
+>>
+>> That means, there is a window where a zspage can be freed although the page
+>> is isolated for migration.
+> 
+> I see, thanks.  Looks somewhat fragile.  Is this a new thing?
 
-[...]
+No, it's been like that forever. And I was surprised that only zsmalloc 
+behaves that way -- balloon implements isolation as one would expect it 
+(disallow freeing while isolated).
 
+> 
+>> While we currently keep that working (as far as I can see), in the future we
+>> want to remove that support from the core.
+> 
+> Maybe comment can more explicitly distinguish zspage isolation and
+> physical page (zspage chain) isolation?  zspages can get isolated
+> for compaction (defragmentation), for instance, which is a different
+> form of isolation.
 
->+/**
->+ * zl3073x_prop_dpll_type_get - get DPLL channel type
->+ * @zldev: pointer to zl3073x device
->+ * @index: DPLL channel index
->+ *
->+ * Return: DPLL type for given DPLL channel
->+ */
->+enum dpll_type
->+zl3073x_prop_dpll_type_get(struct zl3073x_dev *zldev, u8 index)
->+{
->+	const char *types[ZL3073X_MAX_CHANNELS];
->+	int count;
->+
->+	/* Read dpll types property from firmware */
->+	count = device_property_read_string_array(zldev->dev, "dpll-types",
->+						  types, ARRAY_SIZE(types));
->+
->+	/* Return default if property or entry for given channel is missing */
->+	if (index >= count)
->+		return DPLL_TYPE_PPS;
+Well, it's confusing, as we have MM compaction (-> migration) and 
+apparently zs_compact.
 
-Not sure how this embedded stuff works, but isn't better to just bail
-out in case this is not present/unknown_value? Why assuming PPS is
-correct?
+I'll try to clarify that we are talking about isolation for page 
+migration purposes.
 
+-- 
+Cheers,
 
->+
->+	if (!strcmp(types[index], "pps"))
->+		return DPLL_TYPE_PPS;
->+	else if (!strcmp(types[index], "eec"))
->+		return DPLL_TYPE_EEC;
->+
->+	dev_info(zldev->dev, "Unknown DPLL type '%s', using default\n",
->+		 types[index]);
->+
->+	return DPLL_TYPE_PPS; /* Default */
->+}
+David / dhildenb
 
-[...]
