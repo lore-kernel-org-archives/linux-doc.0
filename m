@@ -1,101 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025D628468C;
-	Wed,  2 Jul 2025 14:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4063093A3;
+	Wed,  2 Jul 2025 14:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751467665; cv=none; b=QyxA+hK/EXkMJ3XCsXjcrnFUk6EMcmbV6Ueh/QZkFFra8dXLrH0We7zL4yhF3H5qzmS5nslaQWjW7AMA/3yFk7fBZ5OXL91RCyMGt/S4fVESNwGbommg/4ry5o/JUsXwTNtaqxFdBKtJaA+UJ9ZMFaeKoOtm7/FBVQHXPY/edNM=
+	t=1751467906; cv=none; b=eAQhzZ7jaGUoGhMdC1KAelbPy70dSHpC3LaFlkNGphfYVCQQzHzSCJzxZ2TIt+f169GdWQ0xbythSCNav8H4mMIVjMLlp+3DHmVtPUVjOH6lXwsnQWneN+bWuq7RWc2GpTH3htJu7IoWZvHWWHOhRd9WS4TcWVLNSlEBknoexmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751467665; c=relaxed/simple;
-	bh=Mp0evPB7WFJwTnK3WQTNV5HRsXFh08Qp2Kyd16xCUJo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nk+zc7QJC440ZnJQtx+djoYa4DSIbfIK9LSHGLpXFilw4QXBSn5rXURh7IhcZ35vAhOkhbajEQwCy5kcMsjBrgn+ZImU20xGKnFfNHQBZPVtWclZinM2piyfUuKstApx2Ld98JXpnI1dSdoXwHfVf4jvlmHuoFHHGbxiShps2ME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I+eVHH2A; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1751467906; c=relaxed/simple;
+	bh=QaJ6oz0GkwKizYXM3ML6bUNDwcopvdmWHVZn466HqjI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AaGa8lipY7J522s5/NAIOIbbuMylt9caDWWZkYUWztWb2dsTHBgNioS7Hyqp1m5yZevjzxM6CFMI0uRXaicg8KMC7kaoffI0fFa+oPLHCPh1RNw5Qr1aeArRbhdAOrnJiOPz7YXyK43/qRiIjEcfA1DUOqB1t5vUyZuGN+JgWFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ai9SII01; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+eVHH2A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751467665; x=1783003665;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Mp0evPB7WFJwTnK3WQTNV5HRsXFh08Qp2Kyd16xCUJo=;
-  b=I+eVHH2ARyKUyMHhKOHzMc67L/eusOAzR/O2tZLmglOiuUK4BlgHBmd7
-   2fC7Nr3WylhpQXedyCnjW0QiGX0RHKaBzmtpgC8dnyYmMknaECVukwy0x
-   Nq9jTk0BqCgxnREAGr0wAIcvuCxDeviAGICy5T8BfDMKAsPfljmJoCCXS
-   o8BQ3Ky1Npwp2cZfjwAMpetOrWzrKgK34UjTrjx0DiFyfgTtHWb3GvVVZ
-   gRxvzFVB+NdaTn8AXMUNLgbRmxitr+vf0MXHkZoVRV7MYT/3YOseZQzgK
-   Hjg6xwr6OowfmNigw1773ASaI4tuF8YJ2p5w9BueUfwHqxHMIg9Mbvzak
-   Q==;
-X-CSE-ConnectionGUID: Wh8A882lTByPgD6GHzpI1Q==
-X-CSE-MsgGUID: i2dabJcsSOuNXWsxE24u9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="53632172"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="53632172"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 07:47:44 -0700
-X-CSE-ConnectionGUID: xxUdef3KRTuj/C+rFkHWQA==
-X-CSE-MsgGUID: w/pjUIgCSYq2rdNW/mYlAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="158365268"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Jul 2025 07:47:32 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id E8CB21E0; Wed, 02 Jul 2025 17:47:30 +0300 (EEST)
-Date: Wed, 2 Jul 2025 17:47:30 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Sohil Mehta <sohil.mehta@intel.com>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Peter Zijlstra <peterz@infradead.org>, 
-	Ard Biesheuvel <ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>, 
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Brijesh Singh <brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>, 
-	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon <daniel.sneddon@linux.intel.com>, 
-	Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>, 
-	Breno Leitao <leitao@debian.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCHv8 14/17] x86/traps: Handle LASS thrown #SS
-Message-ID: <6vihhfk5z33nrpy53ck2c6tkscjas4fhi6hqorenknbnjo4k3j@ywybd4obx76m>
-References: <20250701095849.2360685-1-kirill.shutemov@linux.intel.com>
- <20250701095849.2360685-15-kirill.shutemov@linux.intel.com>
- <95dc18fd-73b0-4019-92d2-c0e6aaf22c96@intel.com>
- <4DE45AFD-C1E0-4FB8-BE01-44A72C5C6E1E@zytor.com>
- <5q2zbkzyjknusd3feqolycqialetqfe52yfyzasnr6zp24pmej@4cg2r2hi4pf2>
- <DF2E7B41-46C9-4DAC-A671-EC8D6F53F496@zytor.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ai9SII01"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-235f9ea8d08so63894075ad.1;
+        Wed, 02 Jul 2025 07:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751467904; x=1752072704; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qBca6/tX4UaiNS88cVzn9ejTz7Ui0nOCiCDYDy5kH/4=;
+        b=Ai9SII01BEx6xE4H8rRwHxto+4km2j5rQKKxHGB4eoph25WOpcQjohdag1yOd+b5ik
+         RKhC3ss1B1Qw+aiayfZEmwwbg96r4Nr1s7A+5uUtlxEEYwr7uHIYHZCfr1KE1wiWWnA3
+         bxAxjapWIxIBxNT4IbHokXvwTK9PLA6MVFe21jyiqsoshMDXy9Dp8DK7dlXnXAHZOSWk
+         lKNrdkhJGCFJarzt12jzFrBufZb5QlR1xx9g/bEGv2XFtQ/GzTa+fjf8rao+GORClHWh
+         dNOiHoAHWm4btaMAS8V8njThyl03/fQTtf5Bh5PlEPNG8LCnkDkLGGdNPZ/37f9/j1y/
+         84Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751467904; x=1752072704;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qBca6/tX4UaiNS88cVzn9ejTz7Ui0nOCiCDYDy5kH/4=;
+        b=YvlwhyKldXONsVpeXd1dz+kUrVcw43AnWA6u6Ly74yVjk9rqms1SNljEf/z50lfqxI
+         +LPaC2wEVnfXKHGeFDCSf0NnY1Z4PGBKEDtQS41LzhxRB09DskioZxbnOc+FwyY8mfT6
+         o52hYJpaaoWf4cUxQuFBvgC8iBFYDvQCED4YD+FiCjTRZioFLnLhGoL8GHMhYYu+yBKF
+         d6g++HbeR2wvGKvfUSQ0pWvxMbL1hErRCQufFdK63e72m7egNLuIi9WBKqocpXvRHaIK
+         SxWfA/6WAB+p8p4n9FO8+P7VSyPzs6BO7/8K8UNsv0r8tdYoMaaMBpuI3EINjjYJDMam
+         iiwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUSCQgrA1OOASehGNHtp0uxGHSY1CJmllheUDwe+GDutNAXPZufzERU/yQ1jMjCGfpdx1pE+0Sf2J2vqg==@vger.kernel.org, AJvYcCUmXya3in2/B/11OjmWxkalxIhFJzynhIXZDD1fV1XWVhUf5WsioaiPs3tJwSF7DxrpFK/Il7BUtDpnegWprQ==@vger.kernel.org, AJvYcCUzVxbePPCUEGxjOFnZjGgw08on9hX58kqITwBMcI7pASven2JwzrENYVsHL43rHtvVlEXLAdOUW8/UAX/i@vger.kernel.org, AJvYcCVNnxZt+XgJZMyKyFA2x7GL94OJwEHJoZl1h4zkUPpaRZKj90PFie1pYB/U7zH6BGiUhpmhXpP4wM1ZRw==@vger.kernel.org, AJvYcCWnQG7MuftVijR4WwwzOUjibb/Xr3SZMwifgF9bA6q//j0uJcV2dxiJTM7Su85O2XwjHwPWxRQ8RcU1@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYO4GOOcLA5L3AFEVoQsPaoGvFYa7USxSmFvBfCLYbFS2vJj6W
+	cPLkfWwnKu1WcbleA5s8KmHMWLNqhYX8eRnOn+94TmlaUj0mxtdcZ1Wd
+X-Gm-Gg: ASbGnctGYf6BY2iRl3l7sBL3Zu3bI10jxGywEPtFrdG4/dVblgZNmxyEdZfyVvPJFJY
+	2DLmp0IT3gX7Wbr3Y2Y9hHQDZIGsbNx0qIDdEoochQuvO1yuFiVknoBprjTwjWjKqUyrLn3Zo+6
+	3Wm5v3rXbEvWbyZtnYlNke4z9MjFJqhX3Pe+QVjFGX8vZW9VqL0N9XX37n2Ub45k1rFuOkJmIOR
+	vbPdjyVX+ebNQfynLFe51f5nPDAAscLL7Tqt+Y8bu+qv8OWQx0iOF5AA9xqG7uWsIaYAUJZK7Du
+	W0N7W1TANkywbpi922bYKxF/YcLTvjFuC9WdssBkYwrOfBbEhKvzn8Iow4aRN2ETFiy78XC/TD9
+	A5vOWQvhXbqn0mSzcb7pXnLjmQ+TrU/5IvSg/ZIE=
+X-Google-Smtp-Source: AGHT+IHGXFFKwi9KhnB1akNKraPfzeJ2zmSUqQqb7SzFIxYzfjGRA13Y+veDJQIEsP0m/DU4C4O2oA==
+X-Received: by 2002:a17:902:c94a:b0:232:1daf:6f06 with SMTP id d9443c01a7336-23c6e5d3a53mr39666775ad.47.1751467903710;
+        Wed, 02 Jul 2025 07:51:43 -0700 (PDT)
+Received: from ?IPV6:240e:305:798e:6800:81a5:8e22:d9f1:ac68? ([240e:305:798e:6800:81a5:8e22:d9f1:ac68])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3afc94sm138573955ad.155.2025.07.02.07.51.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jul 2025 07:51:43 -0700 (PDT)
+Message-ID: <34b3f8f1-5adf-4f82-8d06-b906cdf0552d@gmail.com>
+Date: Wed, 2 Jul 2025 22:51:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DF2E7B41-46C9-4DAC-A671-EC8D6F53F496@zytor.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] fs: change write_begin/write_end interface to take
+ struct kiocb *
+To: Matthew Wilcox <willy@infradead.org>
+Cc: "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>,
+ "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+ "brauner@kernel.org" <brauner@kernel.org>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "tursulin@ursulin.net" <tursulin@ursulin.net>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "chentao325@qq.com" <chentao325@qq.com>,
+ "frank.li@vivo.com" <frank.li@vivo.com>
+References: <20250627110257.1870826-1-chentaotao@didiglobal.com>
+ <20250627110257.1870826-4-chentaotao@didiglobal.com>
+ <aF6-L5Eu7XieS8aM@casper.infradead.org>
+From: Taotao Chen <chentt325@gmail.com>
+In-Reply-To: <aF6-L5Eu7XieS8aM@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 02, 2025 at 07:37:12AM -0700, H. Peter Anvin wrote:
-> A LASS violation of any kind in the kernel (unless handled by fixup,
-> including user access fixup) ought to be fatal, correct?
 
-Yes, LASS violation is fatal for !user_mode(regs), unless addressed by
-fixups.
 
-For user_mode(regs), emulate_vsyscall_gp() is the notable exception.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+在 2025/6/27 23:52, Matthew Wilcox 写道:
+> On Fri, Jun 27, 2025 at 11:03:11AM +0000, 陈涛涛 Taotao Chen wrote:
+>> @@ -1399,13 +1400,10 @@ static int write_end_fn(handle_t *handle, struct inode *inode,
+>>   }
+>>   
+>>   /*
+>> - * We need to pick up the new inode size which generic_commit_write gave us
+>> - * `file' can be NULL - eg, when called from page_symlink().
+>> - *
+> Why delete this?  It seems still true to me, other than s/file/iocb/
+Sorry, that was my mistake...
