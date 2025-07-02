@@ -1,152 +1,191 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30B33FFD
-	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 01:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFEFA933;
+	Wed,  2 Jul 2025 02:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751420325; cv=none; b=oIZTmucN7pm26yBANBgUZw30phF872GbNfK4nJDQc0K/1ZGv8DZnGuEZJEBIoftWF7bl832fyMikEJk9gILru2pN16ZuyH8OFNiCX1DRBl7EBVxueOIfTWN2ZeNktWkDBQUKxDcLP9HyTkVSE/OGVIC3c15u72b/lQzT56t5YyU=
+	t=1751421741; cv=none; b=f5hLCheFoicNcxRhOpD7/MOepNiCYPnzpVV0D8gtaicSELF+HT94v5bmI51XiXzzC5z9NrXyzmQ5e9G7zUUZdqefXigCfcKrfUzhYYqGXZjubtLf8rwAVkSBmNWEvHINLc+wgUvKkZx+gSQ6ti/HWC0SBDk49uu2BOFdIcq604k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751420325; c=relaxed/simple;
-	bh=vPktWFba1CaphVOiurjNVMsrvjbgo6h4NsplM3lBGxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XWVjqfq6M/Z9B7KmulWowmYPRSWrh2Jc8HAeTshiMRcWcBGCHIyLEE5WzLLll9W58NnNRGVjPWYAoUJyc+mzufoXWSAtGuqifQ/Wdu6fB/6Nawf+XQkByP+6LbIMX56ducH3dsNyT0U7fgVH5pqY6KeeevAKc00puB2Jsah2zMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=t8IqLnjY; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1751421741; c=relaxed/simple;
+	bh=hzNyt4OsXsTplu2/gsTkh57eENzJE8o2yhf0YMOWyxY=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Si7Ngaa35qUe0+F0IpZMIEyMAlRAXfi/sANby6W5UTUD/lWX/o3EZZlCHGMboze0aAR7XI0EKwLFTxHQyShVtQfCseDF7c8s9sbEeFG1XX8ebSCnO7e8XBWGw7CqpUkiytMZXpiniHiyfDfR6+1HKDGOohbuVAIoE0xRirDH9+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=E9tdaCIl; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t8IqLnjY"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-237f18108d2so319215ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Jul 2025 18:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751420323; x=1752025123; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kp2cPDX2Gx1yqqbKf91cIrL6zATVqvS/PN2+ecRrrmc=;
-        b=t8IqLnjYPzVIKJvLqEcu5L4RelzvpZlXd5WVV1p0NW72QL3BDNku6DZAAQndt51A5R
-         R8E1uck1wsiTur+DaeswyeSy9Km91e/QwM5r6kZZDGD1Pmq2pE2mMiq5DvirzfwaziMi
-         OxgVlvj7VLisQdOAUMlv8jF9kBu7qVTvKhPdbAFdOlZhEI9vvGeeVdIlmMbWUSsyu5C6
-         fci+24DChMbsS4ptDZu6qy4BZ0XWcQ6om44Cp5knQ6hf18TkAQF4uifLwFKEX5oLhwDD
-         TVb2GU8dNxtpbFG8ouYw/NrGgMUIpKVyn8I6oDNLXVJ3qg9aAi04Oi67FPx6Bzs2X4W+
-         NYJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751420323; x=1752025123;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kp2cPDX2Gx1yqqbKf91cIrL6zATVqvS/PN2+ecRrrmc=;
-        b=c+pXHOpxGKkQib6NFLGnzWFodwU1dxnaF+9cA5WzFJWXETko3rqnR3CW4GN7QYpSQU
-         WlL+dEFzwZOLJUNwTnYwO6jpSCooXHwbakgDo9Y6xj6q2ituxscP9hLaRTA2lbRH31t3
-         BG8laQVxczAa6J6YUP9I9mH85IPlwvw9IM65YXeJMqxh8HFiAN272wQoub/o+kctrJIG
-         6Oxl506fqWhutsRar7vQnXn1rBDLICM7w33uG8eQFCZrllsG7V0o4j91GB1v8aHfnaBn
-         38pyypGEtR9SQymVNth6XSmcCxW1JQkzxa1WypgaaB5vmArKZdlJuIOsRRvc0dbGlZh+
-         Omhw==
-X-Forwarded-Encrypted: i=1; AJvYcCXzRwLBwuPfyaKI2/D4nT3rIZPldZAxKAdqurfYpXW3zrhrYniWCK+qWudQw8bJ6tzBhyDkWugTOLk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBxsyhjHO+PyFtWN1MKPIOVjsxnLxYf2hidPibM02UaiMd7aS5
-	SQ5ct8SvVx5R91gE+2QMz5O+s3HBq6VzO45fX9mh9zBVR7LvHBdLt+BOPJFGpUasVQ==
-X-Gm-Gg: ASbGnctzAyK6aljUmnTRt0x0pSORZ17BSbiX6HEplb7UQsYfN04MykAqrmCxx0HtwWM
-	5zRU7f8kPbJeaPcpFHLFdlLiPkCyVb3pB99HU/3vz+RJPDgJrV0KzhkvfCg2PdGGFjoBXYUvFLT
-	0l+RmNvZIlzcQmRTR/iWEXyo7o8enZxMtViHMwmtDgLzm5mYpVS/sb3pasP5Y8CG+DaGgDp9cEI
-	mx/MeO2rdDUXTe3OlEqoruuACcsFKtD/wBqu2usUb+d4OmhrCEZy8d1WltlOQkPdGrVX3g6o7sI
-	ik6yLRAgnaWkQGep1iwqWpFRaGWfQ8khKNx+qCY7/FKGGRBGLaW94WwrctC8yIpQXAjtrc+3wPs
-	8UVm0P/0shm//AL83/sBE
-X-Google-Smtp-Source: AGHT+IGlz2Z9E445R3idcc5ZRjEaWuytfr7E4KLC8vSsZvwO+Dw22SVfjYoD7L1quVzpUqXy09mcbA==
-X-Received: by 2002:a17:902:c401:b0:235:e1fa:1fbc with SMTP id d9443c01a7336-23c5fd70ee8mr4718365ad.0.1751420322911;
-        Tue, 01 Jul 2025 18:38:42 -0700 (PDT)
-Received: from google.com (232.98.126.34.bc.googleusercontent.com. [34.126.98.232])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af540b394sm13073470b3a.36.2025.07.01.18.38.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 18:38:42 -0700 (PDT)
-Date: Wed, 2 Jul 2025 01:38:33 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
-	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
-	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
-	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
-	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
-	zhangzekun11@huawei.com, iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
-	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com
-Subject: Re: [PATCH v7 27/28] iommu/tegra241-cmdqv: Add user-space use support
-Message-ID: <aGSNmf5Q82xEbDpX@google.com>
-References: <aGQGm1-i4M75b9Qp@google.com>
- <aGQ6KCI9OZEwHdxS@Asurada-Nvidia>
- <aGQ_F7Qx3scbbA-J@google.com>
- <aGRDtYRXFLoT+PrI@Asurada-Nvidia>
- <aGRIctg4T6cQECx4@google.com>
- <aGRcPSwaJkTeUrMx@Asurada-Nvidia>
- <aGRmaOORg-YDfncY@google.com>
- <aGRozoIDIlgl9H9x@Asurada-Nvidia>
- <aGR55PUBnwb8qT8U@google.com>
- <aGSBTpY0nkdp2TTL@Asurada-Nvidia>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="E9tdaCIl"
+Received: from [127.0.0.1] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 56220cdX457483
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 1 Jul 2025 19:00:39 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 56220cdX457483
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025062101; t=1751421644;
+	bh=xsBLzF3UyZbaFPKi2ZS9R/n92G41U6FG3scZwTR38ro=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=E9tdaCIlWT+jCmX/+CfRzVCcIpysnoePPDS0qBRG+lh62cVFQRL0dxVWZRJ3LnScw
+	 Tsashqy1y3xJZSpEXwiZ9Qu00tOwNawGjNZE+YNOgxYveInrBPbuugBo1Uc6hSKIdh
+	 dwii7pNyjYiH65+CHzJw7yze/mhjXafHpTqB1NLmmTuwBJDMuR6TQqD8gMkGdYg2Fe
+	 Hd1DsC8LD9MtNVn6u2hbb1tv6engmhSynp0QaC9W2InnY4Bs1dgNMJeSh8bBEGujaz
+	 l7TIiwlZdLySQWzRmZ31mFWxuqtlh4bJvgcXrWFWKSzjO5tly2wZIJOrQ7zynooele
+	 fPnwxEZaa89/w==
+Date: Tue, 01 Jul 2025 19:00:38 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Sohil Mehta <sohil.mehta@intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Xiongwei Song <xiongwei.song@windriver.com>,
+        Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>,
+        Alexey Kardashevskiy <aik@amd.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>,
+        Breno Leitao <leitao@debian.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
+        Juergen Gross <jgross@suse.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>,
+        Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
+        Huang Shijie <shijie@os.amperecomputing.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCHv8 14/17] x86/traps: Handle LASS thrown #SS
+User-Agent: K-9 Mail for Android
+In-Reply-To: <95dc18fd-73b0-4019-92d2-c0e6aaf22c96@intel.com>
+References: <20250701095849.2360685-1-kirill.shutemov@linux.intel.com> <20250701095849.2360685-15-kirill.shutemov@linux.intel.com> <95dc18fd-73b0-4019-92d2-c0e6aaf22c96@intel.com>
+Message-ID: <3D770C94-8BB8-4D71-BF48-6FA78C1DA967@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aGSBTpY0nkdp2TTL@Asurada-Nvidia>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 01, 2025 at 05:46:06PM -0700, Nicolin Chen wrote:
-> On Wed, Jul 02, 2025 at 12:14:28AM +0000, Pranjal Shrivastava wrote:
-> > Thus, coming back to the two initial points:
-> > 
-> > 1) Issuing "non-invalidation" commands through .cache_invalidate could
-> >    be confusing, I'm not asking to change the op name here, but if we
-> >    plan to label it, let's label them as "Trapped commands" OR
-> >    "non-accelerated" commands as you suggested.
-> 
-> VCMDQ only accelerates limited invalidation commands, not all of
-> them: STE cache invalidation and CD cache invalidation commands
-> still go down to that op.
-> 
+On July 1, 2025 6:35:40 PM PDT, Sohil Mehta <sohil=2Emehta@intel=2Ecom> wro=
+te:
+>On 7/1/2025 2:58 AM, Kirill A=2E Shutemov wrote:
+>> LASS throws a #GP for any violations except for stack register accesses=
+,
+>> in which case it throws a #SS instead=2E Handle this similarly to how o=
+ther
+>> LASS violations are handled=2E
+>>=20
+>
+>Maybe I've misunderstood something:
+>
+>Is the underlying assumption here that #SS were previously only
+>generated by userspace, but now they can also be generated by the
+>kernel? And we want the kernel generated #SS to behave the same as the #G=
+P?
+>
+>> In case of FRED, before handling #SS as LASS violation, kernel has to
+>> check if there's a fixup for the exception=2E It can address #SS due to
+>> invalid user context on ERETU=2E See 5105e7687ad3 ("x86/fred: Fixup
+>> fault on ERETU by jumping to fred_entrypoint_user") for more details=2E
+>>=20
+>> Co-developed-by: Alexander Shishkin <alexander=2Eshishkin@linux=2Eintel=
+=2Ecom>
+>> Signed-off-by: Alexander Shishkin <alexander=2Eshishkin@linux=2Eintel=
+=2Ecom>
+>> Signed-off-by: Kirill A=2E Shutemov <kirill=2Eshutemov@linux=2Eintel=2E=
+com>
+>> ---
+>>  arch/x86/kernel/traps=2Ec | 39 +++++++++++++++++++++++++++++++++------
+>>  1 file changed, 33 insertions(+), 6 deletions(-)
+>>=20
+>> diff --git a/arch/x86/kernel/traps=2Ec b/arch/x86/kernel/traps=2Ec
+>> index ceb091f17a5b=2E=2Ef9ca5b911141 100644
+>> --- a/arch/x86/kernel/traps=2Ec
+>> +++ b/arch/x86/kernel/traps=2Ec
+>> @@ -418,12 +418,6 @@ DEFINE_IDTENTRY_ERRORCODE(exc_segment_not_present)
+>>  		      SIGBUS, 0, NULL);
+>>  }
+>> =20
+>> -DEFINE_IDTENTRY_ERRORCODE(exc_stack_segment)
+>> -{
+>> -	do_error_trap(regs, error_code, "stack segment", X86_TRAP_SS, SIGBUS,
+>> -		      0, NULL);
+>> -}
+>> -
+>>  DEFINE_IDTENTRY_ERRORCODE(exc_alignment_check)
+>>  {
+>>  	char *str =3D "alignment check";
+>> @@ -866,6 +860,39 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+>>  	cond_local_irq_disable(regs);
+>>  }
+>> =20
+>> +#define SSFSTR "stack segment fault"
+>> +
+>> +DEFINE_IDTENTRY_ERRORCODE(exc_stack_segment)
+>> +{
+>> +	if (user_mode(regs))
+>> +		goto error_trap;
+>> +
+>> +	if (cpu_feature_enabled(X86_FEATURE_FRED) &&
+>> +	    fixup_exception(regs, X86_TRAP_SS, error_code, 0))
+>> +		return;
+>> +
+>> +	if (cpu_feature_enabled(X86_FEATURE_LASS)) {
+>> +		enum kernel_exc_hint hint;
+>> +		unsigned long exc_addr;
+>> +
+>> +		hint =3D get_kernel_exc_address(regs, &exc_addr);
+>> +		if (hint !=3D EXC_NO_HINT) {
+>
+>The brackets are not needed for singular statements=2E Also the max line
+>length is longer now=2E You can fit this all in a single line=2E
+>
+>> +			printk(SSFSTR ", %s 0x%lx", kernel_exc_hint_help[hint],
+>> +			       exc_addr);
+>> +		}
+>> +
+>
+>> +		if (hint !=3D EXC_NON_CANONICAL)
+>> +			exc_addr =3D 0;
+>> +
+>> +		die_addr(SSFSTR, regs, error_code, exc_addr);
+>
+>The variable names in die_addr() should be generalized as well=2E They
+>seem to assume the caller to be a #GP handler=2E
+>
+>> +		return;
+>> +	}
+>> +
+>> +error_trap:
+>> +	do_error_trap(regs, error_code, "stack segment", X86_TRAP_SS, SIGBUS,
+>> +		      0, NULL);
+>> +}
+>> +
+>>  static bool do_int3(struct pt_regs *regs)
+>>  {
+>>  	int res;
+>
 
-Right, I'm just saying the "other" non-accelerated commands that are
-NOT invalidations also go down that op. So, if we add a comment, let's 
-not call them "non-invalidation" commands.
-
-> > 2) The "FIXME" confusion: The comment in arm_vsmmu_cache_invalidate
-> >    mentions we'd like to "fix" the issuing of commands through the main
-> >    cmdq and instead like to group by "type", if that "type" is the queue
-> >    type (which I assume it is because IOMMU_TYPE has to be arm-smmu-v3),
-> 
-> I recall that FIXME is noted by Jason at that time. And it should
-> be interpreted as "group by opcode", IIUIC.
-
-I see.. I misunderstood that..
-
-> 
-> The thing is that for a host kernel that enabled in-kernel VCMDQs,
-> those trapped user commands can be just issued to the smmu->cmdq
-> or a vcmdq (picked via the get_secondary_cmdq impl_op).
-> 
-
-Ohh.. so maybe some sort of a load balancing thing?
-
-> >    what do we plan to do differently there, given that the op is only
-> >    for trapped commands *have* to go through the main CMDQ?
-> 
-> If we do something differently there, it could just do a one-time
-> get_secondary_cmdq call to pick a in-kernel vcmdq over smmu->cmdq
-> to fill in all the trapped commands.
-> 
-
-Alright.
-
-> And this is not related to this series at all.
-
-Agreed, sorry for the confusion then.. I thought that the "type" meant
-the queue type.. I guess it's all done then. I have no further questions
-
-Thanks for the clarification!
-
-> 
-> Nicolin
-
-Praan
+An #SS can be generated by the kernel if RSP is corrupted=2E This is fatal=
+, but as always we want to get a message out=2E
