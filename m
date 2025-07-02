@@ -1,133 +1,72 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21592DE710;
-	Wed,  2 Jul 2025 22:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6821D7989;
+	Wed,  2 Jul 2025 22:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751497045; cv=none; b=enzGUcKIh4fvWAOFYGPDrKskITCI3h69DIg069/cUxFlR/5CgV6eC2czusdQPS1N0xG3HPUFG0dTIUoB9TnDh6Yq2irfkxUrAa7jWGd3gp0J1Ov/V+ylb3YEZU3uLonPoPh91AzTy5zyhZHUT9zZfeTgszZv0jl7uHk6Zoovj/A=
+	t=1751497165; cv=none; b=o7/V9TKJPYD99m+ug4mWND8e1d1U+vH9n5fKzG5laKOJ1lNOzG2+p0ayC+eZhRMrsV/wHjfCQXQrZ6AI+b8+grcSQtT8tdczJHAWfEQpLfI3ZVd03pzMFnnzjGJoyKbOKtNL6qffVOyuunMUyFtR8N34NDw6DWGM44waaJrArhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751497045; c=relaxed/simple;
-	bh=8EW0hGGxBNPaepJB/kat+o+7PivqzOmIdnFN/RapTEk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JfP4E/p12yiZmKk2+exAAsF8bHjID6xv/NDe9qcxesZWmqaJ72sFnmmVi9F8GS6iApVLuXavt2rabACqVEVGoplPdepk3hRe1SK48WFsx+FvXp3+5FnKxLtaUjKl/fHYbYNPN/d9oYH7QfrcZjAWEdoXYj9/DpnFfuWKS8ItytY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y47i09IZ; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751497165; c=relaxed/simple;
+	bh=h/5ux6cDiu4o+OyiOw2UsteSU+KlOgS9Vn5nFxjAIFU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PBKlbXXMAIt3+q9VzlX63oY5QebQFJOZv1nJs71vEQmfDDmCuN0o/n/YB15u1OiohH3oX0oKe645A0xHiYEFK/3jjEsRd8kTRqbzCCohFhYkC6PXdaqgqufL/SUZeXPQKjxKuKFo4inMNa93GHKQ+qoeChLCjkOmG4bkLtElxG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=J3dHg68m; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y47i09IZ"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4a5840ec53dso89973261cf.0;
-        Wed, 02 Jul 2025 15:57:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751497043; x=1752101843; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L+sj4DzOPih53SQUVn5/WouvC+G14JrQj6it97lI9Kg=;
-        b=Y47i09IZk5Et4ftvV1FxOZmTsZ4EWF/yIKUxArsHWI8s9/7v3cPW2VHOxJIUZNZydx
-         HybZ9We+llzhu6swD1Wk6yf6WDOEVdPUMjKSdvTI7UTHkb5N4QPSqDCZFR5TDDIVrcob
-         IF6N6da3AsvPLkSJpTNsCSznssP2bMKAS9FOAXPnh2P4HSsdD6helG1QFPXWbNBzTSs4
-         /XTjZYec4Ip3phcorCNliRRSSKyZubVJTQc/NzvU8GhzrsLMzexaJYAT9caD1NGzzQx7
-         wKA8+oivWFUKAY4wj/Q8E2hS8QVleUxoJ91ptjblZeQaQu3n3+wp2aWQYNMAk63XWz9H
-         TPFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751497043; x=1752101843;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L+sj4DzOPih53SQUVn5/WouvC+G14JrQj6it97lI9Kg=;
-        b=da9yHRZ16laDkJkaxmizfbcVNlKIs0Uog6HbrLYMXrOa8iq5H+FLmOlWq2Q99RdHaK
-         ZPA6JerCgP7j5I09fYJL/fmWFs90zKLNmxL07i8UBXMOKI5N//Sj9PTYhIPH0rZM6H5g
-         tKG7cDGIUhALFpSS48cs43wwwAdL8DX0xM3JpLxUW4tmIDQWQDiQi6cIjghOGiit2FIq
-         AS3MkNVO7GynAvqKZh5eqjs3TFdmxZQi9KVc+hf8FkplQuNxvu2607XTkyox6mFuL/yC
-         H6YomETs+F1LZYOAw7I/0J5cVhDNv6M8Izu3+/r5YSyihfAOWUs/5562efQAMsuJxuq2
-         ZPIw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+XLmNaCzygWE0qQ3mpN+OP6YFD2m/dgZJ1YuDVNjhZMKn/MSa1UPTPpvuVAaDGA1EvBD2A7Y5QM7v@vger.kernel.org, AJvYcCUr3nPNIPEcNAZ+tO9tBmR3MX9WI6NqJaG3L+LUAU7S1fxJUS92gI1FMQXwRQbGjBCvMx13AFZO69kSVg==@vger.kernel.org, AJvYcCXuVWmhuvWHED6uDRXwiP4HY7Mt36HfavKqa3sWv7ITrWRw21t2qSDl2QbHdKzG5SVDtTMzmDrDNWRI@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxtk5rNqDDAFC+QCrKsrESUv6MDF9H3yLtvVhpMnayhMylW+vDv
-	aM01pxSFQysowEkB2hA+JdB5bJ6bhLKGzwQTT10MIpU3mptopJuUCdw3INU0FTtrU0Oze/aJp7A
-	bpVfJV2O+7Ei8iObCTHSoyw904dLr3+k=
-X-Gm-Gg: ASbGncvrEzdPb8KL7crHyAS8Swy5R1btdo+HHJZ43ghJY0umYV32mlWjW1IUzKB+ZIH
-	vXVtWxoArXxqMpRo1tYTxjCRIeZjQ/Xd0aAwWspWpB+ttni541cAUYKLox9rEGX5fh2UBebWqAq
-	FmDlKbhqZUPF1XarnxQlbD5Xk7ue/Bv1QaMGNQ5TaeSdxXBwI2f2TfbNl9UZo=
-X-Google-Smtp-Source: AGHT+IGh+uw6/WknPh/VOBOhELlnb2ckIXgQMw+Dl8Agj8uw+6O+8N23tvom7rsshXm0+/bXl2b6LhX8aRmfe9JENnM=
-X-Received: by 2002:a05:622a:1343:b0:494:9455:5731 with SMTP id
- d75a77b69052e-4a9768dc925mr69623251cf.7.1751497042623; Wed, 02 Jul 2025
- 15:57:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="J3dHg68m"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EDBF3406FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751497163; bh=h/5ux6cDiu4o+OyiOw2UsteSU+KlOgS9Vn5nFxjAIFU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=J3dHg68mGFe6mKKbDxYm6dJpD7/bRb7hZY0ok/6ZNb65BCTrcBiS0wLpQZjQXfT34
+	 snN55Gb7Z7HK0oJU18glzjtlu97O183T/lgpCTvWXkGNy+Mu8kMnYYkJw/mTziYhGQ
+	 gv8vPlptg9aEohY9nmfpLT/zm3gMpITFOZoYARYa0TW6a9Qcxeqe1tywHMH4nqv8tH
+	 x4eTpgtNgYXbGoX2GsHWdqdcxVL9cOStc+MhqliIVa4w1IVhLhdGx05k8XB1vwfgvW
+	 VGnQkE9EFlqNLIFp0TdTDcuaicNDugZ/D+ZvMHJOHloRF76TlMLOjP+W6K7amnAEJY
+	 iUyBKgPENxrQQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id EDBF3406FC;
+	Wed,  2 Jul 2025 22:59:22 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux ext4 <linux-ext4@vger.kernel.org>
+Cc: Theodore Ts'o <tytso@mit.edu>, Andreas Dilger
+ <adilger.kernel@dilger.ca>, "Ritesh Harjani (IBM)"
+ <ritesh.list@gmail.com>, "Darrick J. Wong" <djwong@kernel.org>, Bagas
+ Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH 0/5] ext4 docs toctree reorganization
+In-Reply-To: <20250620105643.25141-2-bagasdotme@gmail.com>
+References: <20250620105643.25141-2-bagasdotme@gmail.com>
+Date: Wed, 02 Jul 2025 16:59:22 -0600
+Message-ID: <874ivunqr9.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250624022135.832899-1-joannelkoong@gmail.com>
- <20250624022135.832899-13-joannelkoong@gmail.com> <20250702175509.GF10009@frogsfrogsfrogs>
- <20250702175743.GG10009@frogsfrogsfrogs>
-In-Reply-To: <20250702175743.GG10009@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 2 Jul 2025 15:57:10 -0700
-X-Gm-Features: Ac12FXz7lG-Jak0UpEVy1wDinr93eTqUtI8IoSMS4xFeGJDW7InC6JSRScIU8tA
-Message-ID: <CAJnrk1ZhFropUE-qoXcfa4VB740quF7nkQ3cs+NNbwPTFgpLsw@mail.gmail.com>
-Subject: Re: [PATCH v3 12/16] fuse: use iomap for buffered writes
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, hch@lst.de, miklos@szeredi.hu, 
-	brauner@kernel.org, anuj20.g@samsung.com, linux-xfs@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-block@vger.kernel.org, gfs2@lists.linux.dev, 
-	kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Jul 2, 2025 at 10:57=E2=80=AFAM Darrick J. Wong <djwong@kernel.org>=
- wrote:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
+
+> Hi Jon, hi Ted,
 >
-> On Wed, Jul 02, 2025 at 10:55:09AM -0700, Darrick J. Wong wrote:
-> > On Mon, Jun 23, 2025 at 07:21:31PM -0700, Joanne Koong wrote:
-> > > Have buffered writes go through iomap. This has two advantages:
-> > > * granular large folio synchronous reads
-> > > * granular large folio dirty tracking
-> > >
-> > > If for example there is a 1 MB large folio and a write issued at pos =
-1
-> > > to pos 1 MB - 2, only the head and tail pages will need to be read in
-> > > and marked uptodate instead of the entire folio needing to be read in=
-.
-> > > Non-relevant trailing pages are also skipped (eg if for a 1 MB large
-> > > folio a write is issued at pos 1 to 4099, only the first two pages ar=
-e
-> > > read in and the ones after that are skipped).
-> > >
-> > > iomap also has granular dirty tracking. This is useful in that when i=
-t
-> > > comes to writeback time, only the dirty portions of the large folio w=
-ill
-> > > be written instead of having to write out the entire folio. For examp=
-le
-> > > if there is a 1 MB large folio and only 2 bytes in it are dirty, only
-> > > the page for those dirty bytes get written out. Please note that
-> > > granular writeback is only done once fuse also uses iomap in writebac=
-k
-> > > (separate commit).
-> > >
-> > > .release_folio needs to be set to iomap_release_folio so that any
-> > > allocated iomap ifs structs get freed.
-> >
-> > What happens in the !iomap case, which can still happen for
-> > !writeback_cache filesystems?  I don't think you can call
-> > iomap_release_folio, because iomap doesn't own folio->private in that
-> > case.
-
-AFAICS, there's otherwise no private data attached to the folio for
-fuse for the non-writeback paths, so I don't think this is an issue.
-ifs_free() would be a no-op.
-
+> While discussing on my previous ext4 docs reorganization attempt
+> by merging contents [1], Jon suggested that considering current docs
+> file structure, a proper toctree would be ideal [2]. So, here's
+> the patchset that does exactly that.
 >
-> ...and I think the answer to that is that the !writeback_cache case
-> passes all file IO directly to the fuse server and never touches the
-> page cache at all?
-
-There's two !writeback_cache cases, direct io and writethrough.
-For writethrough, the file IO gets passed to the fuse server and it
-also gets written to the page cache.
-
+> Actual conversion to toctree structure is in [1/5], while the rest
+> is cleanups to make the resulting toctree nicer.
 >
-> --D
->
+> This patchset is based on docs-next tree.
+
+Applied, thanks.
+
+jon
