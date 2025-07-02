@@ -1,159 +1,129 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0899623A994
-	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 11:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C9923A994
+	for <linux-doc@vger.kernel.org>; Wed,  2 Jul 2025 11:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751456806; cv=none; b=REKWE2+tpJ5ibiPlHtXdmzoGEF7R4sjFM4GbNf1L/NPfjsZQXyvlGy+okGrIerglVFxJo+ehC7Hmwwkdk8tBM/ij8l3ETobDufEZOdyRsugrNlkPdW5MT97+W54lloV0gOWpwzUGiSquEmux1jFJURctJfqFyQPhLFxH0hmjwxo=
+	t=1751456848; cv=none; b=YLlofhj1muHs1eoARHeg7/mXVQwEe0Bh1eu0AsOhXKURfjPe7ICo0Q/hI1k6G4LSlaHlflzzwQ8k+/TPhsL8tgrEA/DTz41mKulNrskLvr1c0oPxD5UTtHWHkb6mKhYqELfSNXUTvkb+N+hlYDqJQ783GtyrucgAYOdib6i4FcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751456806; c=relaxed/simple;
-	bh=w73s5wwmHyDmazvgbqmdpnOAO0VFNbxIsAs4Unf+SZo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fqe+jUZE5TWtDbanSRiochNuYVQohgJm3iKIq7I9WS7eOWYqmWUKxTIie2o7dI7KpLuHUQQbSuPrfD7ra0eZl/0EQQy9K5U/xu2IVAFTNHlDRlynahRG3Ttfb19DW+STFC4XHyQKp0ContViQGYACOShVaM6vELm5hdNtE0QbQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=JiSVtPjd; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1751456848; c=relaxed/simple;
+	bh=EdrNrz0J5/F40ltBEuQ5eTDBQM8WpBm8Wgb12vkPL4g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HXkdTDnAuLwXbZx1Ez6TfWyYEoH9uD9NOAlcFhG/v6932rSPk126+an0v+8z2aW863LX+htFjaa23Rnw+gTJr/ygEKXNkvDLH19lyW30q+yeTBHqVttvMZRDWKdhB9qFDT7CbxGMaqlkUYWWkp9l1lMFs3FJW5xRjoXpwdMGUeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hg27Hb5y; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="JiSVtPjd"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so6618920b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 04:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1751456804; x=1752061604; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yk2XrB5jQ5gWfcg8j5KkpuXSbfKXmb2HHqWVHfhl1GI=;
-        b=JiSVtPjdojxxTKi4BAsEegCr/yyDaqh88cV0gfY3+2iXGzoF7gBD8JzvdBRHdtKobV
-         p3xTo5Wc0u5e+9YIVEiVFt4Y0xaAraE6ag+L+VkCREdUOCT11gQRjxk236em766g03p6
-         vTEGQA+4UUtTQuBw0oL+67AOcQN+r5Trz4g3wShpqrmxpbbIJojC8HC8M4SUu/00iaTY
-         lUKALL9T6hqVEog6KNwkCvji7h50dOJj8MYA4ovJxP+mDIxcBjKZUOmuNGWVThZdjCN3
-         l/Uak9QxKuXndUNmQ9DJiIrDhWBWOU41C47fb0MBMi612z6TxHMmI5Jgs5iMKHQk/ikH
-         NNhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751456804; x=1752061604;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yk2XrB5jQ5gWfcg8j5KkpuXSbfKXmb2HHqWVHfhl1GI=;
-        b=fKSziXZqRZ4xgrgeh8vpnERfOAK3aXAMqWlyrSnJ1V2ekD+TJtaEkbaqkey2bmO7DT
-         yOFG1WYfOC5pkzvJLK43o6SI93q0FjWhRQSUsVdzwJLO5AqE9FVo99VQVfx5eAh3Q7Ha
-         30YZNjpjlQOLNFodabxYg9kzLLiC0T+4t/+Y9bH9TbS8WThrKF/P1XXwBXpt69BpKf9C
-         YqyF1eF8DnWM/AXSBkaMv18EORRez9WDP9wRiHEMu2Lgkbmhds++f8Nv8iP9lPALVMZv
-         Ncr2P3hEI7TsKBKHJG1eY5YInDBXg87c1USWSlJZEhzaO1bf7hRpR39qnOWp6SIf2x9E
-         GLpw==
-X-Forwarded-Encrypted: i=1; AJvYcCX+m8P4T0JIdRf5puF92AVUp1Nn9J+HFDvW/bVKB/lodR618uV9+16NV1nwCbUZfSm/EzbTklCynZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwA/cFZr1VpibItXv9dYISMQLLDZdqSoHVO5jFogfIjIUepDVLe
-	YgxBv/TEr7gkER6U3HVRAMll6vcdX4fqIVFcIkLCH71rFjjT85+MJUrNe2zc8Eb6kdE=
-X-Gm-Gg: ASbGncumD1T8Nxd1spdfUWISDSBCh+Gud2CnQfuT0djJ7XG2EtNwDQS3cmAMCpAp4ZF
-	nQ/0q3tTzwXi2RV35w5utsYyJF+cp0SWSXPw1uhwAGKUOY9wzAM+vNnXcTAFfRLsIjbqxyG6TZE
-	/kHJDFslcwH1B38xcbEf2CBlkoKappSPTolutKDd8B+RMHN02Fpa9AvpcLjMwIULnFhzVDhNVHV
-	qlp0MJ4LFXvb243gA8cJryUcTVyhn4W51CC3jX9KIqyEgQhSZ+pqzrKhXZygq+wRx5PgVz4Tnqd
-	VtDSLiv48b5PsME+as91e89zDQElve5BB2HOsvBUv+OtbjxA9HFcQ1c11AlYMZAkKMbboZerOnE
-	B2gbRp5uh7r+1zhMOZ6U=
-X-Google-Smtp-Source: AGHT+IFCWxOZ8rl0VoQzyP66lbRbXpHM77edYEAEhKu5qS8o5WzfskN91xaYVQWAyRdHNQm0i8dLEg==
-X-Received: by 2002:a17:90b:2dd2:b0:2fa:17e4:b1cf with SMTP id 98e67ed59e1d1-31a917837f9mr3736824a91.2.1751456804171;
-        Wed, 02 Jul 2025 04:46:44 -0700 (PDT)
-Received: from localhost.localdomain ([122.171.22.240])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-315f542661asm18150271a91.26.2025.07.02.04.46.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 04:46:43 -0700 (PDT)
-From: Anup Patel <apatel@ventanamicro.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: Anup Patel <anup@brainfault.org>,
-	Atish Patra <atish.patra@linux.dev>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Anup Patel <apatel@ventanamicro.com>
-Subject: [PATCH v2] irqchip/riscv-imsic: Add kernel parameter to disable IPIs
-Date: Wed,  2 Jul 2025 17:16:33 +0530
-Message-ID: <20250702114633.1490974-1-apatel@ventanamicro.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hg27Hb5y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751456846;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vpjls0kbN64i2dWrj9KDXg1RVSJyJ1rvA/dpxJi7NRE=;
+	b=hg27Hb5yGLoSjmqhsSbIIRtxlFHzjydmRfLkhQtD3X9SVMOWZG/Wbmjj4ob4Xw5/euTLq1
+	v3tdjAKJNFp7VHlUMvRRyAFaXt413dbXrLb85f0cXABApyqbnP3goVo62O9s0LtNA/7KLJ
+	4weSAx2Ae8zfjYlqFWw6gNKtHV+qLxY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-569-U-JgH6XrNR2I76D7Zs9FDQ-1; Wed,
+ 02 Jul 2025 07:47:22 -0400
+X-MC-Unique: U-JgH6XrNR2I76D7Zs9FDQ-1
+X-Mimecast-MFC-AGG-ID: U-JgH6XrNR2I76D7Zs9FDQ_1751456839
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D996B180028A;
+	Wed,  2 Jul 2025 11:47:18 +0000 (UTC)
+Received: from [10.45.226.95] (unknown [10.45.226.95])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8BCBA30001B9;
+	Wed,  2 Jul 2025 11:47:12 +0000 (UTC)
+Message-ID: <18e5cef5-7907-4c65-a255-56af0cfa67b8@redhat.com>
+Date: Wed, 2 Jul 2025 13:47:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 08/14] dpll: zl3073x: Read DPLL types and pin
+ properties from system firmware
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Shannon Nelson <shannon.nelson@amd.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
+References: <20250629191049.64398-1-ivecera@redhat.com>
+ <20250629191049.64398-9-ivecera@redhat.com>
+ <vpzjeh5kc6s4cpah5wagdy6sm3rzt6vlfyfcdbenppwnzftzow@u4xu7mhzg77u>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <vpzjeh5kc6s4cpah5wagdy6sm3rzt6vlfyfcdbenppwnzftzow@u4xu7mhzg77u>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-When injecting IPIs to a set of harts, the IMSIC IPI support will do
-a separate MMIO write to the SETIPNUM_LE register of each target hart.
-This means on a platform where IMSIC is trap-n-emulated, there will be
-N MMIO traps when injecting IPI to N target harts hence IMSIC IPIs will
-be slow on such platform compared to the SBI IPI extension.
+On 02. 07. 25 12:41 odp., Jiri Pirko wrote:
+> Sun, Jun 29, 2025 at 09:10:43PM +0200, ivecera@redhat.com wrote:
+> 
+> [...]
+> 
+> 
+>> +/**
+>> + * zl3073x_prop_dpll_type_get - get DPLL channel type
+>> + * @zldev: pointer to zl3073x device
+>> + * @index: DPLL channel index
+>> + *
+>> + * Return: DPLL type for given DPLL channel
+>> + */
+>> +enum dpll_type
+>> +zl3073x_prop_dpll_type_get(struct zl3073x_dev *zldev, u8 index)
+>> +{
+>> +	const char *types[ZL3073X_MAX_CHANNELS];
+>> +	int count;
+>> +
+>> +	/* Read dpll types property from firmware */
+>> +	count = device_property_read_string_array(zldev->dev, "dpll-types",
+>> +						  types, ARRAY_SIZE(types));
+>> +
+>> +	/* Return default if property or entry for given channel is missing */
+>> +	if (index >= count)
+>> +		return DPLL_TYPE_PPS;
+> 
+> Not sure how this embedded stuff works, but isn't better to just bail
+> out in case this is not present/unknown_value? Why assuming PPS is
+> correct?
 
-Unfortunately, there is no DT, ACPI, or any other way of discovering
-whether the underlying IMSIC is trap-n-emulated. Using MMIO write to
-the SETIPNUM_LE register for injecting IPI is purely a software choice
-in the IMSIC driver hence add a kernel parameter to allow users disable
-IMSIC IPIs on platforms with trap-n-emulated IMSIC.
+Per discussion with Microchip, the PPS should be reported as default.
+The platform can define either via DT or APCI or software_node the
+values for the DPLLs. Anyway this attribute is informational.
 
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
- drivers/irqchip/irq-riscv-imsic-early.c         | 12 ++++++++++++
- 2 files changed, 19 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f1f2c0874da9..7f0e12d0d260 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2538,6 +2538,13 @@
- 			requires the kernel to be built with
- 			CONFIG_ARM64_PSEUDO_NMI.
- 
-+	irqchip.riscv_imsic_noipi
-+			[RISC-V,EARLY]
-+			Force the kernel to not use IMSIC software injected MSIs
-+			as IPIs. Intended for system where IMSIC is trap-n-emulated,
-+			and thus want to reduce MMIO traps when triggering IPIs
-+			to multiple harts.
-+
- 	irqfixup	[HW]
- 			When an interrupt is not handled search all handlers
- 			for it. Intended to get systems with badly broken
-diff --git a/drivers/irqchip/irq-riscv-imsic-early.c b/drivers/irqchip/irq-riscv-imsic-early.c
-index 1dbc41d7fe80..c6fba92dd5a9 100644
---- a/drivers/irqchip/irq-riscv-imsic-early.c
-+++ b/drivers/irqchip/irq-riscv-imsic-early.c
-@@ -9,6 +9,7 @@
- #include <linux/cpu.h>
- #include <linux/export.h>
- #include <linux/interrupt.h>
-+#include <linux/init.h>
- #include <linux/io.h>
- #include <linux/irq.h>
- #include <linux/irqchip.h>
-@@ -22,6 +23,14 @@
- #include "irq-riscv-imsic-state.h"
- 
- static int imsic_parent_irq;
-+static bool imsic_noipi;
-+
-+static int __init imsic_noipi_cfg(char *buf)
-+{
-+	imsic_noipi = true;
-+	return 0;
-+}
-+early_param("irqchip.riscv_imsic_noipi", imsic_noipi_cfg);
- 
- #ifdef CONFIG_SMP
- static void imsic_ipi_send(unsigned int cpu)
-@@ -47,6 +56,9 @@ static int __init imsic_ipi_domain_init(void)
- {
- 	int virq;
- 
-+	if (imsic_noipi)
-+		return 0;
-+
- 	/* Create IMSIC IPI multiplexing */
- 	virq = ipi_mux_create(IMSIC_NR_IPI, imsic_ipi_send);
- 	if (virq <= 0)
--- 
-2.43.0
+>> +
+>> +	if (!strcmp(types[index], "pps"))
+>> +		return DPLL_TYPE_PPS;
+>> +	else if (!strcmp(types[index], "eec"))
+>> +		return DPLL_TYPE_EEC;
+>> +
+>> +	dev_info(zldev->dev, "Unknown DPLL type '%s', using default\n",
+>> +		 types[index]);
+>> +
+>> +	return DPLL_TYPE_PPS; /* Default */
+>> +}
+> 
+> [...]
+> 
 
