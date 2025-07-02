@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D79322D4F6;
-	Wed,  2 Jul 2025 05:16:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1662367D0;
+	Wed,  2 Jul 2025 05:16:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751433366; cv=none; b=mUV49XmFzNTVw+yy5SGsYC0LFU0dGP8gMqiF+izVuxY14v8gKD8JeRiRX/PWhJqI7jsZHMZzzUBSj2JQJlJAK4RVPz6FUyyfCffZJvMbdrnBP57ZZagJjSbYcIhnY1NYIC6BOsmlfDicV8E9vv8CEhNtF4vq5nH5KuFKYHTXtvs=
+	t=1751433373; cv=none; b=quiN9/GkbmrdBLiG5HxfVoZLvKMZ25J6LkCO+DBwthlAEnfzPI4xijQQrtWC0kq1Zdv36lKhjBWt1gR4cBLN1mQa30smRatgcTH21suWYTtfavqk2dbA9At6O1IWYKuGZl8gfzl/Q7XPxj5NrmPga5pSCqzNGAPaHaderPxF4rI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751433366; c=relaxed/simple;
-	bh=GOT+hMMc2cAgxhFzxN3QZQCNYo95TBfs4Wp4R9OGGQM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Zi/rpATPoQoE64kEShMjblq+xk7PSFqaFoweNi5tRdLAArccgUg2rL0Bq6oYPz07bGzAEDu2Bw/WQjHOzgQw6x3MLuEnfJ5M3o1pZCZrGK3z3cC12sd/hychT5+GIr0EPRUOHbdkDwF7qv4GbVEOZgkA9flLZXkOmUfp59H9x3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h0N4UPpQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751433373; c=relaxed/simple;
+	bh=4kBKgmAO4np7zdvd9JkbBqwwr9+oQ8UOuTjsr0PkuTc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U+2yNVbRb9eLM+1XaGQsHMV9cjrTgGazOvaZLR/PgrBfZHeiGqi4SPmRL2y/fxKUvuXpyMcwHh1JDUX0n1T80uPUO1kANFZXD5XCSGyRUDW2Z8jfe7pSHlSy/XPfPhZNCv3fWv4HzuCtGjbnn9bKiseWm4gKCIivYTCeKyEmw34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oVPJBL6H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h0N4UPpQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C3A9C4CEEE;
-	Wed,  2 Jul 2025 05:16:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oVPJBL6H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17ED5C4CEEF;
+	Wed,  2 Jul 2025 05:16:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751433365;
-	bh=GOT+hMMc2cAgxhFzxN3QZQCNYo95TBfs4Wp4R9OGGQM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=h0N4UPpQ6fmKhHxfZ2f7CkES6W5lrR0kMo8MADzDdSRgafV4fQ8wbar1D8Zh9fLMC
-	 E8FdaBgTFQY4AOK5hxMimyC9ExjGGKeKqceFHpHra1YkBMYgvUF7XAJIM22oXpO95u
-	 Ezc/mOLbZgELP0LP+yYWsdQiHzSSNH+lGuXVs4hrzYfM7Oobsf0KCPZhjGyVs/dtc+
-	 zNsVePw9LcM8zdHgKtiqYfOGetMOjtkOU0c0Y6atpAi2qAp45v/pebHGjEc4l3dbx+
-	 cF9QNnZPsZ+PkNjFFEi1VnZpb2+tuoErvBvDHcwj+ddHndm4rxgL43MEAuMvzZMifD
-	 x3IzZCgDtwAmQ==
+	s=k20201202; t=1751433373;
+	bh=4kBKgmAO4np7zdvd9JkbBqwwr9+oQ8UOuTjsr0PkuTc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oVPJBL6H2dNgRxmRll33awS9kIJXspDmEAxzkNfDreiYt4TeHAsJVn72hjGbDePNK
+	 SV4p3RN231tMEmgmYqZ0HbCTfxn2XmkmwjoqQSv9qpctWq4jIJ7UKgGILJmLFslw5n
+	 2Ysw1kYabYPvMt0UjL3Ps86Tb6WG9yFJo2vrNvhwQ11u3IBA9GVWRaXsmpKddQipSV
+	 sz23UEo0yKVAnfNUtTsj0hk1cb/Wxe4z0qrFoQDCR8SVk26tJhmOxNL2p1QAi4N9Fu
+	 iEQA2UlFiVTadpVXLNzLt72yKp//XUTtNOt4GWw6Ibm76FsYahQYL3Ad9Wgm2Sidlq
+	 bajLNmlx3F7aQ==
 From: SeongJae Park <sj@kernel.org>
 To: 
 Cc: SeongJae Park <sj@kernel.org>,
@@ -36,57 +37,86 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [RFC PATCH v2 0/6] mm/damon: add DAMOS_MIGRATE_{HOT,COLD} destination nodes and weights
-Date: Tue,  1 Jul 2025 22:15:52 -0700
-Message-Id: <20250702051558.54138-1-sj@kernel.org>
+Subject: [RFC PATCH v2 6/6] Docs/admin-guide/mm/damon/usage: document dests directory
+Date: Tue,  1 Jul 2025 22:15:58 -0700
+Message-Id: <20250702051558.54138-7-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250702051558.54138-1-sj@kernel.org>
+References: <20250702051558.54138-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-DAMOS_MIGRATE_{HOT,COLD} action can migrate pages to only single node.
-It could be useful to allow it migrates pages to multiple nodes with
-different weights.  A work for dynamic interleaving[1], which is in
-progress, is an expected case.  We also discussed this could be useful
-for memory tiering, e.g., when we want to move pages to multiple noes of
-same tier.
+Document the newly added DAMOS action destination directory of the DAMON
+sysfs interface on the usage document.
 
-Extend the API and ABI for specifying the multiple destination nodes and
-their weights.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/admin-guide/mm/damon/usage.rst | 33 +++++++++++++++++---
+ 1 file changed, 29 insertions(+), 4 deletions(-)
 
-Note that this RFC is a prototype of the interface change for Bijan's
-interleaving work[1].  Hence this patch series is only implementing the
-interface part, not the real implementation of the migration behavior.
-
-[1] https://lore.kernel.org/20250620180458.5041-1-bijan311@gmail.com
-[2] https://lore.kernel.org/20240408175228.91414-1-sj@kernel.org
-
-Changes from RFC
-(https://lore.kernel.org/20250621173131.23917-1-sj@kernel.org)
-- Add documentation patches
-- Wordsmith commit messages
-- Rebase on latest mm-new
-
-SeongJae Park (6):
-  mm/damon: add struct damos_migrate_dest
-  mm/damon/core: add damos->migrate_dest field
-  mm/damon/sysfs-schemes: implement DAMOS action destinations directory
-  mm/damon/sysfs-schemes: set damos->migrate_dest
-  Docs/ABI/damon: document schemes dests directory
-  Docs/admin-guide/mm/damon/usage: document dests directory
-
- .../ABI/testing/sysfs-kernel-mm-damon         |  22 ++
- Documentation/admin-guide/mm/damon/usage.rst  |  33 ++-
- include/linux/damon.h                         |  29 +-
- mm/damon/core.c                               |   4 +
- mm/damon/sysfs-schemes.c                      | 253 +++++++++++++++++-
- 5 files changed, 333 insertions(+), 8 deletions(-)
-
-
-base-commit: 8a6d44984fa3076b444a6ddd8a8898b6ba254d25
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index d960aba72b82..fc5c962353ed 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -85,6 +85,8 @@ comma (",").
+     │ │ │ │ │ │ │ :ref:`watermarks <sysfs_watermarks>`/metric,interval_us,high,mid,low
+     │ │ │ │ │ │ │ :ref:`{core_,ops_,}filters <sysfs_filters>`/nr_filters
+     │ │ │ │ │ │ │ │ 0/type,matching,allow,memcg_path,addr_start,addr_end,target_idx,min,max
++    │ │ │ │ │ │ │ :ref:`dests <damon_sysfs_dests>`/nr_dests
++    │ │ │ │ │ │ │ │ 0/id,weight
+     │ │ │ │ │ │ │ :ref:`stats <sysfs_schemes_stats>`/nr_tried,sz_tried,nr_applied,sz_applied,sz_ops_filter_passed,qt_exceeds
+     │ │ │ │ │ │ │ :ref:`tried_regions <sysfs_schemes_tried_regions>`/total_bytes
+     │ │ │ │ │ │ │ │ 0/start,end,nr_accesses,age,sz_filter_passed
+@@ -307,10 +309,10 @@ to ``N-1``.  Each directory represents each DAMON-based operation scheme.
+ schemes/<N>/
+ ------------
+ 
+-In each scheme directory, seven directories (``access_pattern``, ``quotas``,
+-``watermarks``, ``core_filters``, ``ops_filters``, ``filters``, ``stats``, and
+-``tried_regions``) and three files (``action``, ``target_nid`` and
+-``apply_interval``) exist.
++In each scheme directory, eight directories (``access_pattern``, ``quotas``,
++``watermarks``, ``core_filters``, ``ops_filters``, ``filters``, ``dests``,
++``stats``, and ``tried_regions``) and three files (``action``, ``target_nid``
++and ``apply_interval``) exist.
+ 
+ The ``action`` file is for setting and getting the scheme's :ref:`action
+ <damon_design_damos_action>`.  The keywords that can be written to and read
+@@ -484,6 +486,29 @@ Refer to the :ref:`DAMOS filters design documentation
+ of different ``allow`` works, when each of the filters are supported, and
+ differences on stats.
+ 
++.. _damon_sysfs_dests:
++
++schemes/<N>/dests/
++------------------
++
++Directory for specifying the destinations of given DAMON-based operation
++scheme's action.  This directory is ignored if the action of the given scheme
++is not supporting multiple destinations.  Only ``DAMOS_MIGRATE_{HOT,COLD}``
++actions are supporting multiple destinations.
++
++In the beginning, the directory has only one file, ``nr_dests``.  Writing a
++number (``N``) to the file creates the number of child directories named ``0``
++to ``N-1``.  Each directory represents each action destination.
++
++Each destination directory contains two files, namely ``id`` and ``weight``.
++Users can write and read the identifier of the destination to ``id`` file.
++For ``DAMOS_MIGRATE_{HOT,COLD}`` actions, the migrate destination node's node
++id should be written to ``id`` file.  Users can write and read the weight of
++the destination among the given destinations to the ``weight`` file.  The
++weight can be an arbitrary integer.  When DAMOS apply the action to each entity
++of the memory region, it will select the destination of the action based on the
++relative weights of the destinations.
++
+ .. _sysfs_schemes_stats:
+ 
+ schemes/<N>/stats/
 -- 
 2.39.5
