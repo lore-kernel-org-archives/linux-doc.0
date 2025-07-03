@@ -1,121 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A145A2E266F;
-	Thu,  3 Jul 2025 15:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0485819DF61;
+	Thu,  3 Jul 2025 15:45:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751557414; cv=none; b=ntK4mjdM4hfrEZsY2snknG8+iQq0pkLExRi8ARoICf9eo3xXZzAitRbSfaPVvmwKFGv7lB7nctYeeseqaoZifl76Dqz6e2lHm1sXPArVrU7BiWO6EyNvdrA/exttYNvZ5+6aZR4YcFElQI7ODbV47Vc44ocb13VM7BZaqhY3ChE=
+	t=1751557531; cv=none; b=ZlNmjydKfykuz9xrICelXYeadXg08eVCAjDK18UGSjJE4d9outIIQWsKd7qz/B6etEFrDbi/NBSaqsheHNHkHSJ7KYnT8CmaPLQiyL73txDnMnWCb36Uz4UYpaHInUesV04sDAwV6IyijglSqQneXZ5dwgW6erd9Hs9Emeb3Fd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751557414; c=relaxed/simple;
-	bh=az2rIwGdl6t842Nu7l3Tkn+KoW+i7GU7/1TZe7tvuQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DbCjCLXzJTZXmX1V0cAL6pIA1DBpjFLZM9ORh2HyolNVwLElW1i/7S27RmQb5OybB0SPKKjy8RVnQVcaIcjnSUpUvCZgbtzJPoNr+MyF7vxe2lmgxo+Urf0CbmVjl+EHDqAg6MQWh/4/RNQXQ9dL9MtFSeGL9anGs5Brx0GIkSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jed8d0Gl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751557531; c=relaxed/simple;
+	bh=8qLi44poKRoblhr2C3ruUsFr604c9UYKBm11l8n99CM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iZOhUN/hXGak/p2J8g13A8rCmAQwLWlL5lnur5qhJHYUW8H4NhzDA5A/PS/sOc4+QGw9rEScsr7aUiWROiba79rQOKXCiUrjmAxCAu2a26W7gbd+Elx/TE7gYqA7y3dRZCFDvzdgCTgEegcJ4eCsB9/MnT19dY6bbMN/s4n0m6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b5xt1+MA; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jed8d0Gl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73AE0C4CEED;
-	Thu,  3 Jul 2025 15:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751557414;
-	bh=az2rIwGdl6t842Nu7l3Tkn+KoW+i7GU7/1TZe7tvuQk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Jed8d0GlNEXmgn8XDlCflgldR1i5dqrgK08WHMLk/6mCz+k+tbdm72zxrZPXpBkvz
-	 NPcqvMcSz+uyHJOwYJKjW3+UzpqcCxLyYWOf3ogcU0UvljclM1UN0z6FnIM+H7/5TL
-	 nLYE/vQVVcicHV+fSl5QzCgB6u3WPxvfnCp+jZC05ySvwVFZqJVIoXjPAJSLjTG6uF
-	 /z/TMZYnUVDJniKvwEBsf63O3WLrKg/rK8uNC/t6kcx9Ws928m3SpnCB4vgCWtoPmg
-	 pXhP5XAXp2ejLAK5uJVFCaDIAnLOOD/SRLyWEsyefrM3eXnYqIe4qumBlHqPVaq4Aw
-	 XKy6AuNxtafvw==
-Date: Thu, 3 Jul 2025 17:43:28 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 1/7] docs: kdoc: don't reinvent string.strip()
-Message-ID: <20250703174328.059685e7@sal.lan>
-In-Reply-To: <20250701205730.146687-2-corbet@lwn.net>
-References: <20250701205730.146687-1-corbet@lwn.net>
-	<20250701205730.146687-2-corbet@lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b5xt1+MA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751557529; x=1783093529;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8qLi44poKRoblhr2C3ruUsFr604c9UYKBm11l8n99CM=;
+  b=b5xt1+MANymvQWDUabx/u38XVcXAgAWSFwSQvo2wLUT4f5hE5N3aq+nR
+   TP41wBiv33dzXLXkSDTk7uTqfE9JDu7J8dbJ3W+n+aFcEp6JX/b/heDuH
+   MLhbnq8tBq3tj0z1C+q5VKVEChN9ayUuQWxlZCc6107FqO43RfHW0pedd
+   +gPJSJ4l59kPWZxzHzpFy7FBWTF7CLwkq/sJd8WImtIMeyfNf2s19vkal
+   r89xA6M8K8MgbCFxwgvPBEZh1ZtmjUmU1loGxGSbN4gSy2xx6VJ9Um2bu
+   UL7q1RDaC7SJEdALbXVDsZV21Lquqa0kGBovBirmHda74A1UQXcQy1yjI
+   Q==;
+X-CSE-ConnectionGUID: ryuPhG5RThi41PpMzAG2Vw==
+X-CSE-MsgGUID: P5ItKD/bQM+2EFzo4KGMHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="71329432"
+X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
+   d="scan'208";a="71329432"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 08:45:29 -0700
+X-CSE-ConnectionGUID: NnComOITQdK4pQxSKP4Mgw==
+X-CSE-MsgGUID: qu82479pRqauvpL6VVdZ8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
+   d="scan'208";a="154172233"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 08:45:25 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uXM7m-0000000CFHy-0sN8;
+	Thu, 03 Jul 2025 18:45:22 +0300
+Date: Thu, 3 Jul 2025 18:45:21 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	corbet@lwn.net, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	eraretuya@gmail.com
+Subject: Re: [PATCH v11 4/8] iio: accel: adxl345: add inactivity feature
+Message-ID: <aGalkb42uRQ12Wr0@smile.fi.intel.com>
+References: <20250702230315.19297-1-l.rubusch@gmail.com>
+ <20250702230315.19297-5-l.rubusch@gmail.com>
+ <aGaTH6gVqHxn9Xct@smile.fi.intel.com>
+ <CAFXKEHb4MQk=6hyh-02Fq_XmkQmMiwc-WT4ZSviP6x4XA463mQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFXKEHb4MQk=6hyh-02Fq_XmkQmMiwc-WT4ZSviP6x4XA463mQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Em Tue,  1 Jul 2025 14:57:24 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Thu, Jul 03, 2025 at 04:59:50PM +0200, Lothar Rubusch wrote:
+> On Thu, Jul 3, 2025 at 4:26 PM Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+> > On Wed, Jul 02, 2025 at 11:03:11PM +0000, Lothar Rubusch wrote:
 
-> process_proto_type() and process_proto_function() reinventing the strip()
-> string method with a whole series of separate regexes; take all that out
-> and just use strip().
+...
+
+> > >  #define ADXL345_REG_TAP_SUPPRESS_MSK BIT(3)
+> > >  #define ADXL345_REG_TAP_SUPPRESS     BIT(3)
+> > >  #define ADXL345_REG_ACT_AXIS_MSK     GENMASK(6, 4)
+> > > +#define ADXL345_REG_INACT_AXIS_MSK   GENMASK(2, 0)
+> > > +#define ADXL345_POWER_CTL_INACT_MSK  (ADXL345_POWER_CTL_AUTO_SLEEP | ADXL345_POWER_CTL_LINK)
+> > >
+> > >  #define ADXL345_TAP_Z_EN             BIT(0)
+> > >  #define ADXL345_TAP_Y_EN             BIT(1)
+> > >  #define ADXL345_TAP_X_EN             BIT(2)
+> > >
+> > > +#define ADXL345_INACT_Z_EN           BIT(0)
+> > > +#define ADXL345_INACT_Y_EN           BIT(1)
+> > > +#define ADXL345_INACT_X_EN           BIT(2)
+> > > +#define ADXL345_INACT_XYZ_EN         (ADXL345_INACT_Z_EN | ADXL345_INACT_Y_EN | ADXL345_INACT_X_EN)
+> > > +
+> > >  #define ADXL345_ACT_Z_EN             BIT(4)
+> > >  #define ADXL345_ACT_Y_EN             BIT(5)
+> > >  #define ADXL345_ACT_X_EN             BIT(6)
+> >
+> > Now it's even more mess. I am lost in understanding which bits/masks are from
+> > the same offset and which are not.
+> >
 > 
-> The previous implementation also (in process_proto_type()) removed C++
-> comments *after* the above dance, leaving trailing whitespace in that case;
-> now we do the stripping afterward.  This results in exactly one output
-> change: the removal of a spurious space in the definition of
-> BACKLIGHT_POWER_REDUCED - see
-> https://docs.kernel.org/gpu/backlight.html#c.backlight_properties.
+> I'm sorry for that. I mean, while the above is supposed to make it
+> clear where the "values" are coming from, I also could setup something
+> like the following which is shorter.
+> +#define ADXL345_INACT_XYZ_EN        GENMASK(2,0)
+> +#define ADXL345_ACT_XYZ_EN        GENMASK(6,4)
 > 
-> I note that we are putting semicolons after #define lines that really
-> shouldn't be there - a task for another day.
+> As I understand you, you'd rather prefer to see the latter one in the kernel?
 
-Perhaps add a FIXME note for us to not forget again about this.
+My personal preference can be found, for example, in
+drivers/pinctrl/intel/pinctrl-intel.c. But I'm not insisting to use
+_my_ schema. Just find a way how to group them semantically.
 
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> ---
->  scripts/lib/kdoc/kdoc_parser.py | 27 +++++----------------------
->  1 file changed, 5 insertions(+), 22 deletions(-)
-> 
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 93938155fce2..d9ff2d066160 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -1567,17 +1567,9 @@ class KernelDoc:
->                  self.entry.prototype += r.group(1) + " "
->  
->          if '{' in line or ';' in line or KernRe(r'\s*#\s*define').match(line):
-> -            # strip comments
-> -            r = KernRe(r'/\*.*?\*/')
-> -            self.entry.prototype = r.sub('', self.entry.prototype)
-> -
-> -            # strip newlines/cr's
-> -            r = KernRe(r'[\r\n]+')
-> -            self.entry.prototype = r.sub(' ', self.entry.prototype)
-> -
-> -            # strip leading spaces
-> -            r = KernRe(r'^\s+')
-> -            self.entry.prototype = r.sub('', self.entry.prototype)
-> +            # strip comments and surrounding spaces
-> +            r = KernRe(r'/\*.*\*/')
-> +            self.entry.prototype = r.sub('', self.entry.prototype).strip()
->  
->              # Handle self.entry.prototypes for function pointers like:
->              #       int (*pcs_config)(struct foo)
-> @@ -1600,17 +1592,8 @@ class KernelDoc:
->      def process_proto_type(self, ln, line):
->          """Ancillary routine to process a type"""
->  
-> -        # Strip newlines/cr's.
-> -        line = KernRe(r'[\r\n]+', re.S).sub(' ', line)
-> -
-> -        # Strip leading spaces
-> -        line = KernRe(r'^\s+', re.S).sub('', line)
-> -
-> -        # Strip trailing spaces
-> -        line = KernRe(r'\s+$', re.S).sub('', line)
-> -
-> -        # Strip C99-style comments to the end of the line
-> -        line = KernRe(r"\/\/.*$", re.S).sub('', line)
-> +        # Strip C99-style comments and surrounding whitespace
-> +        line = KernRe(r"//.*$", re.S).sub('', line).strip()
->  
->          # To distinguish preprocessor directive from regular declaration later.
->          if line.startswith('#'):
