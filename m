@@ -1,173 +1,139 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2CC2E9EC9;
-	Thu,  3 Jul 2025 18:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994D21C5F08
+	for <linux-doc@vger.kernel.org>; Thu,  3 Jul 2025 18:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751568433; cv=none; b=Uf7+qb94UCUUX5ZiaXCHtihd+nHY6p3fV/rwZNse/hJ9QqdyP7HAf5tukirCexfz0boXl02BKn0o5bD6sGQKixS3obUdppkDQX6WiWO+N1ECDLeUObCrsg/pzYO8WbBzFgh6nZHdTpJ/p9gL+sDYayRa78UkeG/9MNIDe3Cn+5E=
+	t=1751568534; cv=none; b=WgqHXhHjsADMmzHtQOajqx4pitXzMNrjfNHIVP57j1OpgXI8tX/5qwcn9cHVuF5dasmq6HPO8OB8Advgttorau5n/FEB+vL5OPbYpX0dCCJCl430J1RRUsjZ29ImEEstfA2tZEnvgk+qrHkd9uq74kt4eOCdjIce8u2De4++5GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751568433; c=relaxed/simple;
-	bh=Uqx2K8iqj8C9J2fe3pyivDhLY31N5WS3GpKgVecfeqw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=auLqR4vX2lqU0xPMT6v2Gooe0vcz82g5C5NZT6wFBodqkXZA1jGN0EM+Ocfo0MRKs+sPREqST/gNL3VcZks0WzefRdVCBK5uhSvzZ64TCZGckQpQchUsrkkkgknTTNlEJnb5Cr9iFSXnk/wfQfiCbVJS2KqCKQrTehCOfCG6VQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2bn4N/r; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751568534; c=relaxed/simple;
+	bh=5O1P4Qi5Ly7Yl1j45j9wqhnY5nin4eGqfmQLo0FqHpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mBbEWUvqzxbF8F4JDs2u6n45qG3dznPIDGgkQVM2rAbYYHlkas5zt0TuxkF7s3k3GmTaLA+T68TRhTC2O7c9U4UAczeVpOrnfplg90hDpfh2ESn7qohPOTT+YG2qfyL8OjB/VZc3zUJvLdiNlODNm5w3+rq5gjWBGPaVX+4uDoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ayEMxE00; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2bn4N/r"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-73972a54919so356425b3a.3;
-        Thu, 03 Jul 2025 11:47:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ayEMxE00"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2357c61cda7so192985ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 03 Jul 2025 11:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751568430; x=1752173230; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9OzOvhq3GmbvaBtGUgAaXSZiV6ZbsCylTW2ygbBRF/o=;
-        b=c2bn4N/rMo9bFuwgs3PdlVMrV79i+cs62MNBQNTsg41YBFCutQ4MMLgC5KVsVkjuTG
-         A74jeKWehQetmYBrPrsLhrQolI+/W2CnuTzQOqRMciI92yB2VsoQcwrhruVULyJfmjhG
-         d+z43gD8gToZN2GeF/HhuhU0bLX7q3ycW+xD895QJ0YDXWO57KVk3/yJmkAj8o4nJSQr
-         KwDvoWMqK8Db0r2vVCsCZj8zZNDEGj7IEfO4W7X3/lkyCTqElHwypcEiaUcA87zqZ2Vo
-         l+PmhqO+E/nl6vKF3DA7/mKCAZv8KRXS9WSjDUjwJOR7l1cIwLhbxcUhIH91ltO52WZV
-         vKcQ==
+        d=google.com; s=20230601; t=1751568532; x=1752173332; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qvzyiHvZKWRtHA7KGz4JH1KLn6i77WWlalz4Eq7c2XY=;
+        b=ayEMxE00vHtlx5/OrDVm0I9wTbBmIyM4hSyj1WHu6OZB60Mg/U679XY53rId7PnXEb
+         //CHUg1aAPsyrOU/9Z37xR/I832VNuQRWzXUAZVziJDKumh5JD9gIOLtitd4+lYUiGQ0
+         FIlFPDIGSeQ/O/ia+rfVBdW685JVd/Z3nIyP1WdOwIcalCWCnJwJMQ46KBymOsQzHe8J
+         XWN2X2G1j2+SFikLLFu7bbH9PxZ+XTXIqzoNAL18QlndgqE+/XoA8xa+WC5GkJE+zjQs
+         ocvKQ1brGP1DasB2GISOA1JOMa/pDG0vKPFTug/JjTYfnNUxGjQAd3El01aOx6rH6eJ9
+         zJyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751568430; x=1752173230;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9OzOvhq3GmbvaBtGUgAaXSZiV6ZbsCylTW2ygbBRF/o=;
-        b=vQoqQMNRVJ8lXCowLHjLI2ZlAT3hll8Po+firPukoxxDKG4IVBZHJy/Bd0pGbTTLxh
-         Rc/QCTxYCE9y3kHHu3PlTuFNHFldhLeXxcdZglWIxdo8k2xmzyAyRDVbtnN93OjpIBqi
-         NQedMLDdpKiUnFb1cAn4O70ZYJGcjEf3lhXzyk8/ZnOcnX7XjFOX9Fg7pmEsp9uDszgF
-         6ZcaiGaDJcKAJT+WWI6yj0lRvqQgIhMoMyYq34DcLYO9Q1EuSIC2vsqbcJ/+WEHPC2eu
-         31pdMMF3egvS8AgoBS6tsp+ZWYbOEW8OyVFNxUXqmefaQDkG2jbd3Rh/wJj+ek8F2n5A
-         djjg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPyCzZMrBcKbWR/CAzFcR5xNYi8/4Khvr8mF9bIe4ZTE3MCI6YRHBGDUrpsCaweLWeYuVLkBkCIdJzrAg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMmollY613lg8M+sSYDTd7GapYQxbqVqB5Vr4HBkPcZ3c6Y/wt
-	KiLhgOIDjwamClqzCZDOEUorAuA2VaCucQKDnjBLfYNOJjBtrbrSl6+o
-X-Gm-Gg: ASbGncut4Uv/MGbTOO/MlcwJy9RhW7SiI7+dQQzYJILVhPd6KsSkxELfhtVi41OtXGl
-	Dz4QDf5WJMv/qCb2dSk/uscozhM64JVZ5iBeFAC/0cXpbJgWUKzfmxf5Z2MgKY/drqfH7fSsdtw
-	6mIm11oX7bCARVsLUvzinVbOfJULmW9ruzlezQjH+vFnDxKaw296iTgiIFETnP0usMCsJqQuzz6
-	TrztwHp+402W4+KdWZXM/u4Di/gyiNvwuo6ebxOQi/tCNjIZQ8MoYO9eysdrBPVIOVu8CNE6Cvo
-	vED5+vlwyPv0RrEq4Q3KQ0MUythxSA/G8LFrbcFdzAu++oUTGHAG7EYPGvFZFJhXyvcbqnRMdSK
-	aQ04yCl//WMl86t3SYw==
-X-Google-Smtp-Source: AGHT+IGGdSrO72xn9qTSPHgCp+n9DyMAPuvEbKUXrsvqwInd/blTS202ynaZjuZx54FTS1JJgB0QIg==
-X-Received: by 2002:a05:6a21:7a47:b0:21f:4ecc:11a9 with SMTP id adf61e73a8af0-222d7f08449mr14018200637.32.1751568430070;
-        Thu, 03 Jul 2025 11:47:10 -0700 (PDT)
-Received: from ak-workspace.tail730999.ts.net ([2406:7400:63:5144:cefd:59bd:c444:e2b1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42cefccsm193739b3a.156.2025.07.03.11.47.06
+        d=1e100.net; s=20230601; t=1751568532; x=1752173332;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qvzyiHvZKWRtHA7KGz4JH1KLn6i77WWlalz4Eq7c2XY=;
+        b=hxVJLJwmuD5ezbPPrx9XUNpF7DDqf9Ls1r+DTGNJ3gpADGK0xZcYERWBXdVuh7xz86
+         ATe96XSyRTX0ZJABe3J8MsaXFV0nyVjC1rDqB8phLnYQLy3yzRDLDBbRo6NhNMbinWJv
+         65kqKxuxbSq4HRH0Nlhul081KSDyL044dlSdbnLn1Vz65WMTXjtnofYJ3xxg6ZYP0LWI
+         JsT7IpbzZwfSk0OLTSN2vkT7oNtAkiovrlHRdGNDVUDw7cqo+i9gcBUt2NKtTvIozJW7
+         uZqs4lmf2S9g9ovtP6nNZAtjdKlxLKg/hOBXMqYFRjMiZiG6u7Zs09V9M9ZSlGrojuSC
+         Fd9w==
+X-Forwarded-Encrypted: i=1; AJvYcCVZGsHLTjYUV5ui85G6dUgvZ/S2ozBzefJVg9300FefsI5o8oxW0BY0mNBe260fL73iUpgayYls1/Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysbkBQ2DGWJCz9lMLkzvSCuKohf3LWihB1pabuREl1euseqS0a
+	3hfftAtnyFMPN665ymtwiuZors0CqW+EP+udxHWZav1c2TcXVSXUPwntq2cgqWAwrA==
+X-Gm-Gg: ASbGnctQ04fDypPC5N9/KKtbNyc8/5c0SPTVDFO2JpRBEQfMVKIQQkkdU4qBqYr/rDu
+	RIO3qmH/5C1/7v99b/Fr5pmzMx/e3FAxtMOX/e8I141nQ5N4iKRc36nwML5BZcNbvp8F9NqbV+M
+	PZVVBMzQsOoK8eMCAT+EfCDpb4iAzlw8pQ5AdWLEZ0x8SJ3vtNaJGABaEJH++a0jjfMhELuVbA/
+	Mm/kdTCKBo3F2fYuGGZt7Peqtsz5e9Iikb2dycQhIBxNuVe480WP9jOhxRJWDL+B93odMqFjD3l
+	KqO/YttEML9512C8NFlrjh3mnyu6XkTeCgznG4TYikYeKV6562FelISZwYb5Slh9oMlIlSf04Ux
+	iyvVjriu/qFjmGPovRVYs
+X-Google-Smtp-Source: AGHT+IFuOFQYDWLy9dMFwm2BVYD/G6HSHUIkq7TbiXmhTvbZxzCpO4493oWkzZnsDCA2OiWThdj2eQ==
+X-Received: by 2002:a17:902:d582:b0:215:65f3:27ef with SMTP id d9443c01a7336-23c79ada924mr4107505ad.12.1751568531582;
+        Thu, 03 Jul 2025 11:48:51 -0700 (PDT)
+Received: from google.com (232.98.126.34.bc.googleusercontent.com. [34.126.98.232])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8431a381sm1926105ad.20.2025.07.03.11.48.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 11:47:09 -0700 (PDT)
-From: Akshaykumar Gunari <akshaygunari@gmail.com>
-To: corbet@lwn.net,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com
-Cc: linux-doc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Akshaykumar Gunari <akshaygunari@gmail.com>
-Subject: [PATCH] docs: arm: stm32: fix typo "busses" -> "buses"
-Date: Fri,  4 Jul 2025 00:16:59 +0530
-Message-ID: <20250703184659.3110-1-akshaygunari@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 03 Jul 2025 11:48:51 -0700 (PDT)
+Date: Thu, 3 Jul 2025 18:48:42 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Nicolin Chen <nicolinc@nvidia.com>, kevin.tian@intel.com,
+	corbet@lwn.net, will@kernel.org, bagasdotme@gmail.com,
+	robin.murphy@arm.com, joro@8bytes.org, thierry.reding@gmail.com,
+	vdumpa@nvidia.com, jonathanh@nvidia.com, shuah@kernel.org,
+	jsnitsel@redhat.com, nathan@kernel.org, peterz@infradead.org,
+	yi.l.liu@intel.com, mshavit@google.com, zhangzekun11@huawei.com,
+	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	patches@lists.linux.dev, mochs@nvidia.com, alok.a.tiwari@oracle.com,
+	vasant.hegde@amd.com, dwmw2@infradead.org, baolu.lu@linux.intel.com
+Subject: Re: [PATCH v7 27/28] iommu/tegra241-cmdqv: Add user-space use support
+Message-ID: <aGbQipeSn0aZnwZU@google.com>
+References: <aGRIctg4T6cQECx4@google.com>
+ <aGRcPSwaJkTeUrMx@Asurada-Nvidia>
+ <aGRmaOORg-YDfncY@google.com>
+ <aGRozoIDIlgl9H9x@Asurada-Nvidia>
+ <aGR55PUBnwb8qT8U@google.com>
+ <aGSBTpY0nkdp2TTL@Asurada-Nvidia>
+ <aGSNmf5Q82xEbDpX@google.com>
+ <20250702180541.GD1139770@nvidia.com>
+ <aGaXqwzfLwsgCH6n@google.com>
+ <20250703175532.GF1209783@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250703175532.GF1209783@nvidia.com>
 
-Fix the spelling of "busses" to the preferred form "buses" in STM32 ARM
-architecture documentation.
+On Thu, Jul 03, 2025 at 02:55:32PM -0300, Jason Gunthorpe wrote:
+> On Thu, Jul 03, 2025 at 02:46:03PM +0000, Pranjal Shrivastava wrote:
+> 
+> > Right.. I was however hoping we'd also trap commands like CMD_PRI_RESP
+> > and CMD_RESUME...I'm not sure if they should be accelerated via CMDQV..
+> > I guess I'll need to look and understand a little more if they are..
+> 
+> Right now these commands are not supported by vSMMUv3 in Linux.
+> 
+> They probably should be trapped, but completing a PRI (or resuming a
+> stall which we will treat the same) will go through the PRI/page fault
+> logic in iommufd not the cache invalidate.
+> 
 
-Signed-off-by: Akshaykumar Gunari <akshaygunari@gmail.com>
----
- Documentation/arch/arm/stm32/stm32f746-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32f769-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32h743-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32h750-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32mp13-overview.rst  | 2 +-
- Documentation/arch/arm/stm32/stm32mp151-overview.rst | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+Ahh, thanks for this, that saved a lot of my time! And yes, I see some
+functions in eventq.c calling the iopf_group_response which settles the
+CMD_RESUME. So.. I assume these resume commands would be trapped and
+*actually* executed through this or a similar path for vPRI. 
 
-diff --git a/Documentation/arch/arm/stm32/stm32f746-overview.rst b/Documentation/arch/arm/stm32/stm32f746-overview.rst
-index 78befddc7740..335f0855a858 100644
---- a/Documentation/arch/arm/stm32/stm32f746-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32f746-overview.rst
-@@ -15,7 +15,7 @@ It features:
- - SD/MMC/SDIO support
- - Ethernet controller
- - USB OTFG FS & HS controllers
--- I2C, SPI, CAN busses support
-+- I2C, SPI, CAN buses support
- - Several 16 & 32 bits general purpose timers
- - Serial Audio interface
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32f769-overview.rst b/Documentation/arch/arm/stm32/stm32f769-overview.rst
-index e482980ddf21..ef31aadee68f 100644
---- a/Documentation/arch/arm/stm32/stm32f769-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32f769-overview.rst
-@@ -15,7 +15,7 @@ It features:
- - SD/MMC/SDIO support*2
- - Ethernet controller
- - USB OTFG FS & HS controllers
--- I2C*4, SPI*6, CAN*3 busses support
-+- I2C*4, SPI*6, CAN*3 buses support
- - Several 16 & 32 bits general purpose timers
- - Serial Audio interface*2
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32h743-overview.rst b/Documentation/arch/arm/stm32/stm32h743-overview.rst
-index 4e15f1a42730..7659df24d362 100644
---- a/Documentation/arch/arm/stm32/stm32h743-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32h743-overview.rst
-@@ -15,7 +15,7 @@ It features:
- - SD/MMC/SDIO support
- - Ethernet controller
- - USB OTFG FS & HS controllers
--- I2C, SPI, CAN busses support
-+- I2C, SPI, CAN buses support
- - Several 16 & 32 bits general purpose timers
- - Serial Audio interface
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32h750-overview.rst b/Documentation/arch/arm/stm32/stm32h750-overview.rst
-index 0e51235c9547..be032b77d1f1 100644
---- a/Documentation/arch/arm/stm32/stm32h750-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32h750-overview.rst
-@@ -15,7 +15,7 @@ It features:
- - SD/MMC/SDIO support
- - Ethernet controller
- - USB OTFG FS & HS controllers
--- I2C, SPI, CAN busses support
-+- I2C, SPI, CAN buses support
- - Several 16 & 32 bits general purpose timers
- - Serial Audio interface
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32mp13-overview.rst b/Documentation/arch/arm/stm32/stm32mp13-overview.rst
-index 3bb9492dad49..b5e9589fb06f 100644
---- a/Documentation/arch/arm/stm32/stm32mp13-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32mp13-overview.rst
-@@ -24,7 +24,7 @@ More details:
- - ADC/DAC
- - USB EHCI/OHCI controllers
- - USB OTG
--- I2C, SPI, CAN busses support
-+- I2C, SPI, CAN buses support
- - Several general purpose timers
- - Serial Audio interface
- - LCD controller
-diff --git a/Documentation/arch/arm/stm32/stm32mp151-overview.rst b/Documentation/arch/arm/stm32/stm32mp151-overview.rst
-index f42a2ac309c0..b58c256ede9a 100644
---- a/Documentation/arch/arm/stm32/stm32mp151-overview.rst
-+++ b/Documentation/arch/arm/stm32/stm32mp151-overview.rst
-@@ -23,7 +23,7 @@ More details:
- - ADC/DAC
- - USB EHCI/OHCI controllers
- - USB OTG
--- I2C, SPI busses support
-+- I2C, SPI buses support
- - Several general purpose timers
- - Serial Audio interface
- - LCD-TFT controller
--- 
-2.43.0
+Meh, I had been putting off reading up the fault parts of iommufd, 
+I guess I'll go through that too, now :) 
 
+> > > The goal of the SMMU driver when it detects CMDQV support is to route
+> > > all supported invalidations to CMDQV queues and then balance those
+> > > queues across CPUs to reduce lock contention.
+> > 
+> > I see.. that makes sense.. so it's a relatively small gain (but a nice
+> > one). Thanks for clarifying!
+> 
+> On bare metal the gain is small (due to locking and balancing), while
+> on virtualization the gain is huge (due to no trapping).
+> 
+
+Ohh yes, I meant the bare metal gains here.. for virtualization, it's
+definitely huge (as reported too).
+
+> Regardless the SMMU driver uses cmdqv support if the HW says it is
+> there.
+>
+> Jason
+>
+
+Thanks!
+Praan
