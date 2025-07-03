@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE891E9B3D;
-	Thu,  3 Jul 2025 18:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C9025A2C0;
+	Thu,  3 Jul 2025 18:17:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751566500; cv=none; b=AEYE0KbibutSgu2rHu2DrQYqw8o0NSbxa4CgThu62b4gEsL0GChUwrrZBlLruXOb/VSGlGU1jNpJhlRAzmJc0UOVsn3JguEhXx2GsuYFzZxPFSM4EzB8kK/AP+gWqkGv2lU6vNbj94uNdYDB3PSiB7bcD2fKjiYMZ5q527xCqW4=
+	t=1751566665; cv=none; b=lz4do2xhmspXkkmgBZdMa7UO7uI8w/2iSDkosLPoWEjs4xZmRkoOVunKHiKzL0mEYQxLBBXEGozpZ9iSS1yrLw7lIzxeLgXrBOE+UXE9QUw+R2Oot1gxTd10s9zE3pdXxcKBAt+Ua3kA6tIQqJI96sb8bFssFOidMWb7f4OheXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751566500; c=relaxed/simple;
-	bh=4tmv4kBhtr//pdreZeFS5MzU2BVhzzxT++y88Tq80fw=;
+	s=arc-20240116; t=1751566665; c=relaxed/simple;
+	bh=7oS/5aSh6m5V1wzynK5AZkydMax405IFDZMPHMVAlu0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Tqb4gHlIzK5PxNCqKiZJ1IGPyZsrbHraLS4QcQqOEVEKEQl/VyJD7jbiIHWXfZ+lNy4r/aSrSsyRozKuQxMHg9fip1SgDmPtTtIfM3bOp40NnE+6opk87I/T/v69a8WGKj1tGPtgtx1PVygUbrW8Fak1uaAW/LCHB+4X37MRWlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NO7CnyWU; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ooi+vKsCsI+cK8pULlUjz8cke9Ve5ElLTEMim8gas8lMfZW8hoxmhfr1VTcS53uhqEhcEOp4A5ICPDyFZCw0Z9za6LI49vIJR2togQ6hgJqtGXLYjfyLcNTMELfOUFhDy/+MHVyJPxi3xCUjIF7rYkLtPuENUGyynxUNtRPcqAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=e7W74O7Y; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NO7CnyWU"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 22B6E406FA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="e7W74O7Y"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2E1E6406FA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1751566498; bh=HrGX+LEQVqk6CWb6KR0i5FrRu1VS4HPsCcy3YOJM2cA=;
+	t=1751566663; bh=KNrNFFjvmsGcrL3H7Tifc5ZRglia5fsVJUZcYmQ27fo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=NO7CnyWU6xy3TvhPy5iJM4OV5ta7cOwBh0I4nIpb6W6nTdTRo3WSZ2RgKGAOYDbiz
-	 0IdFPMfiQHw0GSRfIIdQ6icXonndvG8i1tAX9rjSyPOBHkd7pjOzZGCtBDQo86PnNZ
-	 5mnsHo9RGfycxJu6gwTuFNYqIHSGH4AAGbN7YuCcFNokA53kDB0qUTiT4mOuCTNoP9
-	 emdfDhdHZbtnO9+vEG+vVaG6Q0K+jk3QIX3rrtUnTr7k+roBVgKZ1iBdQ3okonZXKk
-	 hNon+Taph9jblawIVJG05DjH3dplbejrAJpDc+hHjnskzRNpqwyAtjyIOUhJ6ff+XK
-	 o4p6i0WFwnc5g==
+	b=e7W74O7YqCAdg6lWX6bHPoS6kGsOCxn9s7bumPuLApDU2Trykm33xNaBVoMCWrqq2
+	 gGqZKTPvlMpvo/xjuOGKlh3hYU3TZkU7TQx467G8fG0ubJd4Wp3VM3z/blWCo+CbCb
+	 M8h30nUnJAYJ5RU9TGsH3jDlEWBdHgwpLryKH7vTtCjBLVF5MSjERm7KC0A3OAbT2H
+	 RrUa/3FqZBN7dRpgFa7TELmYScQ3L+bdX2z41JKQ3owe8xbAaG+GdxOrnT5VCD+ow6
+	 yEgkW8T3LEF9f8jiy/BYoz42cR/SAXo/F4I4XRQRX889QMiPQLlqv91SQOWJk30wlH
+	 JQAuJDM7uFqJA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 22B6E406FA;
-	Thu,  3 Jul 2025 18:14:58 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2E1E6406FA;
+	Thu,  3 Jul 2025 18:17:43 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>
-Subject: Re: [PATCH 2/7] docs: kdoc: micro-optimize KernRe
-In-Reply-To: <20250703173848.721de72c@sal.lan>
+Subject: Re: [PATCH 7/7] docs: kdoc: pretty up dump_enum()
+In-Reply-To: <20250703175731.1a4871e3@sal.lan>
 References: <20250701205730.146687-1-corbet@lwn.net>
- <20250701205730.146687-3-corbet@lwn.net> <20250703173848.721de72c@sal.lan>
-Date: Thu, 03 Jul 2025 12:14:57 -0600
-Message-ID: <878ql5kuou.fsf@trenco.lwn.net>
+ <20250701205730.146687-8-corbet@lwn.net> <20250703175731.1a4871e3@sal.lan>
+Date: Thu, 03 Jul 2025 12:17:42 -0600
+Message-ID: <874ivtkuk9.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,50 +52,22 @@ Content-Type: text/plain
 
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Hmm... I opted for this particular way of checking is that I
-> expect that check inside a hash at dict would be faster than
-> letting it crash then raise an exception. 
+> Em Tue,  1 Jul 2025 14:57:30 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+>
+>>                  self.emit_msg(ln,
+>> -                              f"expecting prototype for enum {self.entry.identifier}. Prototype was for enum {declaration_name} instead")
+>> +                              f"expecting prototype for enum {self.entry.identifier}. "
+>> +                              f"Prototype was for enum {declaration_name} instead")
+>
+> Even being a big one, my personal preference would be to break the long
+> string here, as keeping together is easier for grep, but yeah, I also
+> considered breaking it ;-)
 
-Raising an exception is not quite a "crash" and, if the caching is doing
-any good, it should be ... exceptional.  That pattern is often shown as
-a better way to do conditional dict lookups, so I've tended to follow
-it, even though I'm not a big fan of exceptions in general.
+Did you mean your preference would be to *not* break it?
 
-> Btw, one easy way to check how much it affects performance
-> (if any) would be to run it in "rogue" mode with:
->
-> 	$ time ./scripts/kernel-doc.py -N .
->
-> This will run kernel-doc.py for all files at the entire Kernel
-> tree, only reporting problems. If you want to do changes like
-> this that might introduce performance regressions, I suggest
-> running it once, just to fill disk caches, and then run it
-> again before/after such changes.
->
-> Anyway, I did such measurements before/after your patch.
-> the difference was not relevant: just one second of difference:
->
-> original code:
->
-> real	1m20,839s
-> user	1m19,594s
-> sys	0m0,998s
->
-> after your change:
->
-> real	1m21,805s
-> user	1m20,612s
-> sys	0m0,929s
->
-> I don't mind myself to be one second slower, but this is hardly
-> a micro-optimization ;-)
-
-Docs builds generally went slightly faster for me, but that is always a
-noisy signal.
-
-Anyway, I am not tied to this patch and can drop it.  Or I suppose I
-could just redo it with .get(), which avoids both the double lookup and
-the exception.
+There's a non-greppable piece at the break point anyway, so I wasn't
+anticipating making life harder for anybody there.
 
 Thanks,
 
