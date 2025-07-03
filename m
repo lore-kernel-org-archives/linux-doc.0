@@ -1,100 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE462E174A;
-	Thu,  3 Jul 2025 10:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958942DE70E
+	for <linux-doc@vger.kernel.org>; Thu,  3 Jul 2025 10:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751539260; cv=none; b=BAoPMROYtSc05/AomKt/kReVG8q6kFMFwaZEyybPYrm42ATbtt2Sk2IUmdnz/xXa+02uauT0OVLufnAJJv1IUu2y0k8PWYUagkOKj7jOMolLCOcWUn+omQq49GoWVS5mrnyUT5Cevf8VREQpWij2VRDtT+Uqf0+WCR6Z/3llkNo=
+	t=1751539549; cv=none; b=mnDBS1C28MUcykavAqH1E5dyoVWNvK2wHBC89ahQ1U/mzG/WxrfDBh7JOUESEhnbk80/HqWgcumtzxKFOiXzQrH2+4FSmHwf6vcdP2pcE85fl9QlLZcGpOAH3zbgjPd+c+6MKYzZokBuEg3EaNtKSnlANd42S8sTfJZMlwCFDg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751539260; c=relaxed/simple;
-	bh=3hiYT/iGDiCcUZwUQoir5vPfs6nuIGwpzTssOMbN8k8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dgi7I6ON2HkhoWvP4CsSv83fNE2LYpy0bDpjq2JGDAhMTv1+E9iScEwbPdv/g8/GMUniX7z3Sm0SWf9xaw7LUr1vrPF5HGqvQbKQaakcgqWnzijzF4zLVzJTA0R9PnLDCbH+DDc+kwAXb/EiX50Gcvd7UmB2sECchhwYfusqJls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E06vlraX; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1751539549; c=relaxed/simple;
+	bh=fQE+5wsG11YS+T16ysk2VHcVH59OjcsASzwX63bw1bQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tG8DdnBqiyJhWINa7zC1IOaYL8OqQKFhk47WXPftf16L/zJSZjJvFaEOcxtmzg9keS7p8VA3P5iGTqHtkpML0YohR6iuBXBUcJNVVsJjliZLaM36HtV151QuRbihUsze4MrpFZsD7J8QiK7W9kDn6FjAfUGRiCM1h2eDJzb9RBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VMI2+4y/; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E06vlraX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751539259; x=1783075259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3hiYT/iGDiCcUZwUQoir5vPfs6nuIGwpzTssOMbN8k8=;
-  b=E06vlraXqV10TzltLoPWdGKhM5oiXuGVXOtl+y8OqPJtPM+Y8GpnqdjA
-   gJ6JofulAX8Oh0NZENV3aiKmMs/ZX3OGSICk3LyF0ujH3ImJtGLVTSawA
-   5QA3B9m6RM7IZdT5H3CNSbMsG6v7o4T64rUxL9nUOn8Vu3TeIHkvuxygi
-   vMTxMDdVawvlU1eYgITyVdvtg9p1ATwPr6kNJWSdxeHruKtmcDfcSi8ms
-   jQaYAo2RT9KmjUflELaXU2lr81HiS7MLp/yrtVqMX3CG0NGO6f+O1+bEZ
-   IYSOHeMS2tuNzs19nJym133H1jQCTuhKqnRk6/8bIvIiBPsAnGQRZZkDn
-   w==;
-X-CSE-ConnectionGUID: 4PA4c7v5Qbu946GBG/JN4Q==
-X-CSE-MsgGUID: /dl5Z27ZTqykMqwSBbnQ+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="65314767"
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="65314767"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 03:40:54 -0700
-X-CSE-ConnectionGUID: ptx9byJbQgyveCXUOqKc1g==
-X-CSE-MsgGUID: QETQ3Pt4RLCmHymkubPTJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="154106791"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa009.jf.intel.com with ESMTP; 03 Jul 2025 03:40:41 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 0CCEE1FE; Thu, 03 Jul 2025 13:40:39 +0300 (EEST)
-Date: Thu, 3 Jul 2025 13:40:39 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon <daniel.sneddon@linux.intel.com>, 
-	Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>, 
-	Breno Leitao <leitao@debian.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCHv8 14/17] x86/traps: Handle LASS thrown #SS
-Message-ID: <o5q5d3bttzrmlpuzk2ce6vh5mb2xvkvdnzmudsyg2pazo3lz6e@ogovp35gdpk4>
-References: <20250701095849.2360685-1-kirill.shutemov@linux.intel.com>
- <20250701095849.2360685-15-kirill.shutemov@linux.intel.com>
- <95dc18fd-73b0-4019-92d2-c0e6aaf22c96@intel.com>
- <mgo3qfjekobe6qflwkpey3p7tzsp3b2mrirama4w2rxyckce7g@3gce3fn5emvu>
- <19868e42-5f00-4127-a48c-ed48c0297a87@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VMI2+4y/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751539546;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GUAC4unCPdf21xFptJklILQwlIlcc2Ln7uhZkroI42M=;
+	b=VMI2+4y/9mh1EVaYKqieMb6lDFN45ydcuMrUaqmu4Yw+lBzucuCjG2l+9zeA0QMKu5ozhL
+	TJdOREbfSnqHYjfci9SR42iajOB/Kxzhn0Kz76GKlOKNciQ+W82abo4Weya0WC27i2i1QR
+	dvFW5EQDbLJCSMJTre5vpYH9z3bp3jc=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-615-hYeNvljEMjiFajHn7MFhSA-1; Thu,
+ 03 Jul 2025 06:45:43 -0400
+X-MC-Unique: hYeNvljEMjiFajHn7MFhSA-1
+X-Mimecast-MFC-AGG-ID: hYeNvljEMjiFajHn7MFhSA_1751539541
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B9D5E190FBCC;
+	Thu,  3 Jul 2025 10:45:39 +0000 (UTC)
+Received: from [10.45.226.37] (unknown [10.45.226.37])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CE83D18FFC66;
+	Thu,  3 Jul 2025 10:45:32 +0000 (UTC)
+Message-ID: <bacab4b5-5c7f-4ece-9ca9-08723ec91aec@redhat.com>
+Date: Thu, 3 Jul 2025 12:45:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19868e42-5f00-4127-a48c-ed48c0297a87@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 07/14] dpll: zl3073x: Add clock_id field
+To: Jiri Pirko <jiri@resnulli.us>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Shannon Nelson <shannon.nelson@amd.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
+References: <20250629191049.64398-1-ivecera@redhat.com>
+ <20250629191049.64398-8-ivecera@redhat.com>
+ <amsh2xeltgadepx22kvcq4cfyhb3psnxafqhr33ra6nznswsaq@hfq6yrb4zvo7>
+ <e5e3409e-b6a8-4a63-97ac-33e6b1215979@redhat.com>
+ <cpgoccukn5tuespqse5fep4gzzaeggth2dkzqh6l5jjchumfyc@5kjorwx57med>
+ <4f2e040b-3761-441c-b8b1-3d6aa90c77fc@redhat.com>
+ <pfkr62fp4jr2bts3ektfwn4or36lqdsdqfsntryubr5oawx7kv@adqwk2qoflhu>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <pfkr62fp4jr2bts3ektfwn4or36lqdsdqfsntryubr5oawx7kv@adqwk2qoflhu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Wed, Jul 02, 2025 at 10:56:25AM -0700, Sohil Mehta wrote:
-> To reduce indentation, you could also do:
+
+
+On 03. 07. 25 12:09 odp., Jiri Pirko wrote:
+> Wed, Jul 02, 2025 at 04:51:47PM +0200, ivecera@redhat.com wrote:
+>> On 02. 07. 25 2:01 odp., Jiri Pirko wrote:
+>>> Wed, Jul 02, 2025 at 01:43:38PM +0200, ivecera@redhat.com wrote:
+>>>>
+>>>> On 02. 07. 25 12:31 odp., Jiri Pirko wrote:
+>>>>> Sun, Jun 29, 2025 at 09:10:42PM +0200, ivecera@redhat.com wrote:
+>>>>>> Add .clock_id to zl3073x_dev structure that will be used by later
+>>>>>> commits introducing DPLL feature. The clock ID is required for DPLL
+>>>>>> device registration.
+>>>>>>
+>>>>>> To generate this ID, use chip ID read during device initialization.
+>>>>>> In case where multiple zl3073x based chips are present, the chip ID
+>>>>>> is shifted and lower bits are filled by an unique value - using
+>>>>>> the I2C device address for I2C connections and the chip-select value
+>>>>>> for SPI connections.
+>>>>>
+>>>>> You say that multiple chips may have the same chip ID? How is that
+>>>>> possible? Isn't it supposed to be unique?
+>>>>> I understand clock ID to be invariant regardless where you plug your
+>>>>> device. When you construct it from i2c address, sounds wrong.
+>>>>
+>>>> The chip id is not like serial number but it is like device id under
+>>>> PCI. So if you will have multiple chips with this chip id you have to
+>>>> distinguish somehow between them, this is the reason why I2C address
+>>>> is added into the final value.
+>>>>
+>>>> Anyway this device does not have any attribute that corresponds to
+>>>> clock id (as per our previous discussion) and it will be better to NOT
+>>>> require clock id from DPLL core side.
+>>>
+>>> Yes, better not to require it comparing to having it wrong.
+>>
+>> It looks that using clock_id==0 is safe from DPLL API point of view.
+>> The problem is if you will have multiple zl3073x based chips because
+>> the driver would call dpll_device_get(0 /* clock_id */, channel, module)
+>>
+>> For 1st chip (e.g. 2 channel) the driver will call:
+>> dpll_device_get(0, 0, module);
+>> dpll_device_get(0, 1, module);
+>>
+>> and for the second the same that is wrong. The clock_id would help to
+>> distinguish between them.
+>>
+>> Wouldn't it be better to use a random number for clock_id from the
+>> driver?
 > 
-> 	if (!cpu_feature_enabled(X86_FEATURE_LASS))
-> 		goto error_trap;
+> I take my suggestion to not require it back, does not make sense.
+> 
+> Clock id actually has a reason to exist from UAPI perspective. Checkout
+> dpll_device_find_from_nlattr(). The user passes CLOCK_ID attr (among
+> others) to obtain device by DPLL_CMD_DEVICE_ID_GET command. He expects
+> to get a result back from kernel regardless where the device is plugged
+> and across the reboots/rebinds.
+> 
+> Clock id should be properly filled with static and device specific
+> value. If your chip can't be queried for it, I'm sure the embedded world
+> has a solution for such cases. It's similar to MAC of a NIC device.
 
-Okay, will do this.
+Yes, there are such cases and for such devices 'mac-address' property
+can be specified in the device tree.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+For our case I could extend the dpll device schema to include 'clock-id'
+or 'dpll-clock-id' 64bit property to allow specify clock ID for the
+devices that are unable to query this information from the hardware.
+
+Krzysztof, WDYT about it?
+
+Thanks,
+Ivan
+
