@@ -1,472 +1,216 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2101.outbound.protection.outlook.com [40.107.94.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3048323BCF1;
-	Thu,  3 Jul 2025 09:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751535420; cv=none; b=hXilwU4yzWVQhc6GXho8yX10zOQr5jvV8++ibLwZ8G4ZJJH+BTLgkRGxvIXEJZlrPY21lJhVVzrQf++/OKvQqZZYPu6/tFLQ2rArJafthc924NMGLhK1Z5hwrnjFh6OiLvSp7UVfQBtLsl4iEJudPieUeHAPujpnWUTjKwgJv4w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751535420; c=relaxed/simple;
-	bh=hQIHEuqeokZqHMrXMdMOy10SxuZNFEjF/nKwhEfgynE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=bC7MbdOlnEalcNOCfWDw6/fB3CsD1Xh2UWRCRTLHdkNeYoSYpQgNiocaREnZtrmCjDqQNCh/pWQzz0QelhSyTHg2xWdyrVpiVJiHW92Sex8azemjhUXu5yVeMI8xnX5bfPT33D1eXt/B+FZXcFfgolIhi8bhRNZIjnZ8y38YDVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=d/2U4O7M; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1E8226CF8;
+	Thu,  3 Jul 2025 09:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.101
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751535800; cv=fail; b=N0q7x1ocYSAja+Xw6yMd2qdPb1U12PGL2I2mHMn1y67zs904/YAgnOFXZn5Bkf8SYSzWILo0IoR2fNWl8mvGDlOaiEv7FiFMzf1PBiN7hGNeQkDWBxCIyKvDc2zrQYomG00K8dauqE+LmxvPTrCUOIB02MMSRMdpSGoMzWDq/sE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751535800; c=relaxed/simple;
+	bh=u+P12595LtoSpHcAdngy29FNyi76dHN4zNlA+8WituE=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=rn/K1U8kHMF0cEKAoEQfgnVPk74etfk3H0S/m7K2h+nSE5tH9htM5xoLTMaelOL6zqC8DtZeO2G+BmhG6KZo1sEJ5qoSU/sf+NGlXU9hL3Yti2c/1/szGuPvgtzqFhkLx7dwF4SwNRQ2KDP6cBVBxt+HPYVTjOf4Z+DflEy2DK4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=ZfnaDYBJ; arc=fail smtp.client-ip=40.107.94.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="d/2U4O7M"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56314BTM025364;
-	Thu, 3 Jul 2025 09:36:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3Bx/D3f8npc4SVgVlVyBMLFb5KwIBdvI3Ykpbm7JiFg=; b=d/2U4O7MmgI2E25/
-	XyI77OUZU2WdhYAdQLuIqyTA8j5kPLGbz2tR3FyoZ8U8U3/gKrvFnUpc70DqkRTH
-	oN9OnZC/U+1paA5j1skHfguT/BaU8DxeLfvYZpL6bp44uGsR/H1uLKXV5cjjhx81
-	REC+oV2WZHHUiXkQQZ4CnxRcGpfasz3TRQ9cLAaRE6kGXwGx3LInOIW063RX/p79
-	nfOXRP7H1tlR6moY9id3ZdCPlpLjNOdRSUy26J1wSbvjYfWKhZke2ySSvdndSaZw
-	Q6SlML1wqvwgzB8CsxSt0E9aVfbDjHW3qlri4rN1ZfcFI7gv5WclW/kZGrVKxqGp
-	FEdgwg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47kd64vyyx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 03 Jul 2025 09:36:44 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5639agrH028261
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 3 Jul 2025 09:36:42 GMT
-Received: from [10.253.36.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 3 Jul
- 2025 02:36:36 -0700
-Message-ID: <e6185a22-8e32-417e-a2d5-a7526ff91bc6@quicinc.com>
-Date: Thu, 3 Jul 2025 17:36:33 +0800
+	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="ZfnaDYBJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jYbAal3/uvykSQE101Zx76fndhbAw371LTiSbwqUDiDRGeqH9kOOGclSCLKr8OA8Zi6YKnpOJWodNkFpZVSW549mTUq8T5VJ+UhBBa4EPbVr73HkUmZMxshs7tMqjoAEztSURIhfsjYf+Dyc5fatr3dcK9TOIYLw1btWmKm+ureS76rXhaWvVULyks+ijyT6oIrPFsKB47Ic7myY1H60O+4zQHSBEkTdvv22PjcqaP2C7pYW1rHsn1KgL4ZPQMFWXB+tSMsMqOD2CGRLyscQPJ0jjCMtK6C8TF65Qd91NwOHYYRCqCIEM4cPAdN28xBiYiquuTF+bHsa77hhDgXdgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qWLQc5Mrwb0OR3LFvzLPFao73kDkHN5L2lcn0F3eak0=;
+ b=tElogUOiek7MdRDg3HP5XcQp0hlOqwqi9xm1ecs8rVnIk7GoHIMDtmyZGFjSSRlMBAPLOJ48/XLxZivH7wmTrWKoF8WFeAKTA9affjNGSbNVLIKc1X+MlpeIk5LoFcgIMk1c6XilKS5P9IyJDXUhs5DQWfoi0zZ9Dru5j+JzpNG0p8Md35cKiUT2GzzMWUpBYHBAoPuEQZJoYmiJFeDJr/F4p8WHIREJ44IZOYS/tb1NiruZ1jq+CMrHLc7gteH+PwY3SV0HEtrHWJxvZ9Y2niqDU+RDr7NyxP5G3vAhNfGNAhPp4LQhlccrcldQqXU2iIhY2wsMmN42xo/CrBAiEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qWLQc5Mrwb0OR3LFvzLPFao73kDkHN5L2lcn0F3eak0=;
+ b=ZfnaDYBJU6dViO06cYjkN8D5oVl+hwO3DyjrUh+4u7ljpH1syMRpwOzVCtturR6ccMx0+QPs64JROSR51RGn2GDwTFYs5VTM4fzEiMzd93L/ZW1HPvMc42vGLpIMtC/V4paKE6F9MIK0OygHNyrfg75U4nhfffcfuvXfNaYaBq4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from PH0PR01MB7975.prod.exchangelabs.com (2603:10b6:510:26d::15) by
+ SJ0PR01MB6399.prod.exchangelabs.com (2603:10b6:a03:298::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8901.20; Thu, 3 Jul 2025 09:43:14 +0000
+Received: from PH0PR01MB7975.prod.exchangelabs.com
+ ([fe80::6926:a627:118e:8050]) by PH0PR01MB7975.prod.exchangelabs.com
+ ([fe80::6926:a627:118e:8050%6]) with mapi id 15.20.8857.026; Thu, 3 Jul 2025
+ 09:43:14 +0000
+From: Huang Shijie <shijie@os.amperecomputing.com>
+To: catalin.marinas@arm.com,
+	will@kernel.org,
+	corbet@lwn.net
+Cc: patches@amperecomputing.com,
+	cl@linux.com,
+	yang@os.amperecomputing.com,
+	akpm@linux-foundation.org,
+	paulmck@kernel.org,
+	rostedt@goodmis.org,
+	Neeraj.Upadhyay@amd.com,
+	bp@alien8.de,
+	ardb@kernel.org,
+	anshuman.khandual@arm.com,
+	suzuki.poulose@arm.com,
+	gshan@redhat.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rdunlap@infradead.org,
+	Huang Shijie <shijie@os.amperecomputing.com>
+Subject: [PATCH V6 0/2] arm64: refactor the rodata=xxx
+Date: Thu,  3 Jul 2025 17:42:10 +0800
+Message-Id: <20250703094212.20294-1-shijie@os.amperecomputing.com>
+X-Mailer: git-send-email 2.40.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0014.apcprd02.prod.outlook.com
+ (2603:1096:4:194::19) To PH0PR01MB7975.prod.exchangelabs.com
+ (2603:10b6:510:26d::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 01/14] dt-bindings: net: Add PPE for Qualcomm
- IPQ9574 SoC
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
-        Suruchi Agarwal
-	<quic_suruchia@quicinc.com>,
-        Pavithra R <quic_pavir@quicinc.com>,
-        "Simon
- Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook
-	<kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        "Philipp
- Zabel" <p.zabel@pengutronix.de>,
-        <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>
-References: <20250626-qcom_ipq_ppe-v5-0-95bdc6b8f6ff@quicinc.com>
- <20250626-qcom_ipq_ppe-v5-1-95bdc6b8f6ff@quicinc.com>
- <20250701-mottled-clever-walrus-f7dcd3@krzk-bin>
-Content-Language: en-US
-From: Luo Jie <quic_luoj@quicinc.com>
-In-Reply-To: <20250701-mottled-clever-walrus-f7dcd3@krzk-bin>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=Z+PsHGRA c=1 sm=1 tr=0 ts=68664f2c cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=z97pFrWBJukyg1BkY94A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDA3OCBTYWx0ZWRfX8UQw/MA7PL37
- gbOYW7JuoqHEOBxy8x0mHsSZtGIBk+voLShXu6J6WGNO0FUX2h9TGs1AKWl57erHEaMLe9ZQgnm
- R+Zd5ReqTfa6Hl6nKR2Dznc3opNkUYn2E5sRhX0L/cLkYLkK7Fj6G5Y4OFkr6upvQPuAe3VBou/
- 9ftvi33yD6AdQRatBDEh5aW5hyNehqkiiIeF8lKXb7cSrfgaaeiawTEO2DEFIXPskXGuwqGcYvy
- U7oX2JNuWV3TA5NdIodajiLNh9vZ5SfjMWdpE2krEze95WPeV2GB+YRPfKuklCwuBqSkbKu3sQ1
- whyAG3m09I9ItYVMPkrLTO8nYv2+NIKMlzLfrfaATDT0GilE+ynfoL06eQlrRyCnzB24D3M55dL
- 7g6e9AOQZh45iS777CVKEQYOdI8RjNcLGe9VX+KQ4nUAkdQA1j/KfVc4SaDUDGMJSqbCywla
-X-Proofpoint-GUID: Ipww-gDeKaUXzGkcJvTRDz5XUSrPL6D8
-X-Proofpoint-ORIG-GUID: Ipww-gDeKaUXzGkcJvTRDz5XUSrPL6D8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-03_03,2025-07-02_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 mlxlogscore=999
- spamscore=0 adultscore=0 mlxscore=0 priorityscore=1501 bulkscore=0
- impostorscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507030078
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR01MB7975:EE_|SJ0PR01MB6399:EE_
+X-MS-Office365-Filtering-Correlation-Id: abe94ddd-a441-489f-25da-08ddba1607af
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?nj+otaVQYRY5DoNaySOqr6v6vfFHoqqzysAbJPju4w+ihKAZhLkbKd+gBPou?=
+ =?us-ascii?Q?KWabTZZtrFiso8jn+q047XREwvbPdZXhjHHNdugwukurQoG+cylB5jyXx1xh?=
+ =?us-ascii?Q?JViAnn5+ACowuDhcDI81jteeq+cV2tWTTSf4WhBzwMs7GpDk3c6Aue0fNuRP?=
+ =?us-ascii?Q?EeerkIU34x/U7H0/hTNSEkJczglkZUZyvfLq5jkCm4YYFcfMMWmopFgrH05V?=
+ =?us-ascii?Q?eVKi3LEo2S0RqVHogDHEOCtgTELfS3IJjoW5IivPQ/bviUpBFmOm0nK6U4sH?=
+ =?us-ascii?Q?Epu3C0xtPRiJys69vs7pUXVTK2N9LOQMZmPtXWeh7FYHRvwdfaqAMuhndpBF?=
+ =?us-ascii?Q?ihY7EA3uTmRvFaw0qgLSusvkTGCOMF25BzXw7bXSmnzXdP9KS3kfPWh+zNOS?=
+ =?us-ascii?Q?FBOTNVQ/BKMutBkRbxchfgxwMzzD5X4V+MFrT8iBgqP+QqU9JVom/t2OMvRe?=
+ =?us-ascii?Q?C/qia5vujJN+61Bo1EUkBd7jhpu3hMpavFP5tsl6RZfzGo9DOyBzW8eBw/oC?=
+ =?us-ascii?Q?Ftj7hNSFhIyn5AQD60CXgztdEDhw975qatbHb9mrhXyqLdf3+imP3c095rJz?=
+ =?us-ascii?Q?r2/s3Fsif+2weyAOaoWNKn/WxyPZ6MtQqHO7ny/5yKhv25pP88LKeFpGZIrr?=
+ =?us-ascii?Q?Hq81a1cOYz+d6/SlZzWI0vaGYWjsPqJrEfvy3Szfv4k3T1oJeq6yUYHnxJyb?=
+ =?us-ascii?Q?yPS/85lpgy28wAr26s5EZq6t8PoU+plH4zXHpJ7eD1pgUA08BiIlI3pI0xnk?=
+ =?us-ascii?Q?cKHzpqJ671XkUEBOe+s15UVpRQecm/AzXM9iE2RoOGo1f4gjf9irZZuX4ER+?=
+ =?us-ascii?Q?5yWSvGBQ/nqfVJLUGMCJTPQ1ul8xIO5sUjwX7XKOyP0laWPrb8JSe7byNdCh?=
+ =?us-ascii?Q?jXCFCf54lemRa6CAXRZ+03U7qUF8N+Pc6JKGam0PGNXDhyYAZcocofBYHItL?=
+ =?us-ascii?Q?MjvNFvq0tNZkEnUjPppRV9uYEkjLtC1VJQWCq4YXwdAVot4qK9Dv5wfvU2DM?=
+ =?us-ascii?Q?xMkoQYhP3by/FM/5pgfRggIRb8zSf8su6tSjdb4oxeBOT+HN99II0I0kyPXY?=
+ =?us-ascii?Q?Lev2Id5NHNGAypsvtntI/Cft8Q3HaAnk0zuAFuk2y9DY4iYnzy9+Swn/01eY?=
+ =?us-ascii?Q?BjTIbT9QoiBGJA06S532X5LBqD6twVkzeabGaIz/sboMev8TXrcvzyeZOvHb?=
+ =?us-ascii?Q?C6cV48gflNXv2ZyMQi22Cawir+/WlGyOM9Ya4V3NEs8+sqLqy3O2qHAq3vK+?=
+ =?us-ascii?Q?XBc04PaMpHTT2Xe0+4YVCxcU+HGdIuVvohhwu01sS8YmtnuxZhpRndy+r6/1?=
+ =?us-ascii?Q?PDjG4sWAYTmND5cD+FmesL+zo2IjDVckmDPx02qyWRwg7opYdTfS4mVdj5Wm?=
+ =?us-ascii?Q?tIG3LyPLznjdLQRv9aHUUK0S8NcUJSF35nReJAkOQXJsgfYVYvaFF5mqgTzz?=
+ =?us-ascii?Q?gbmQHJ+LlAtXevCQ2yaKWgzsgjGxasDuZwvsYSy49hqvcChQmvBGGjwPgt0g?=
+ =?us-ascii?Q?38hGN7fYuwBPFAY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR01MB7975.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(52116014)(376014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?zLE56qW3D1/T5mmPzeAPo3ySu5C76/HEjltGJCXTBFeLOCZPXk9uQyfjuxfp?=
+ =?us-ascii?Q?KzCKKaY/cOsSHklG42atg2FPlIyhWfPjWXSp4r7jmYO66R+SO66Auq0YYeqg?=
+ =?us-ascii?Q?kSooI3JOmJVACooeahjb+3d8M5anjPgrnQWrjEeGoZCg5pQbH5TlGvCoK2xx?=
+ =?us-ascii?Q?EGNa3SSC63vNnLkCQN81N4BxdECQTghWk0OubV9BgsfdgdjzUUic8JyEkCkC?=
+ =?us-ascii?Q?MzgK96N16khgevEr2C0DMu/gsIeL68+bbGrDP5CocoMvDTN2a4GM6aIHTyXs?=
+ =?us-ascii?Q?KEGQFSFiV3IsUnJhcg5YgO6eAsyrwbymfcDVvfVwNgnJoQNOYpUSsVp3kwLR?=
+ =?us-ascii?Q?z7idx1VY9S413LuPW5o4+WOoJFTkv6++vHABwS1ZmVibnxpTGsIUzKP4v6gH?=
+ =?us-ascii?Q?u5131+Dpz+iRLetxRnrMlolXbGv0vvq3a93UksHjYA0NcyJpe75vGJCvIYaJ?=
+ =?us-ascii?Q?PjVfzl0dGfeMmJL29WknZ8L7k77QOehEmNhZGP2VZqnDiszFI+w18e+6PxnK?=
+ =?us-ascii?Q?n/ooDh0OLjblAcS/lnfWM6RnmbXAhp4NQ29UBe15M6vMLryhpoYQHTW6r9bm?=
+ =?us-ascii?Q?78j1ueXoBAiHux+mDt3NIN4QOdAF3kY8MGu6MfnqAFAF5rD0WY9o3pS66dRY?=
+ =?us-ascii?Q?5P6sL1jVWzGAV4dx4Ut149Ita5E5VSW5xBQH8oasN+k8526Wu10UjbT8C+Hm?=
+ =?us-ascii?Q?P0KXUd/IC/SgyOMT5cOhQhfssjLWzcZ5TmQ5nduedwKfPLVClP4g0Q016AnS?=
+ =?us-ascii?Q?mN60WTEoAmVwCHCFvh0vU0ea9mA31kkSFGa/tElnnJD8Cp9CniU4amOv+t9S?=
+ =?us-ascii?Q?qQKWg/MZenTnvXpOpjCFAzNjmkMMMd7cG4jB2lAQAh6Fa7GOlA7HzObXZe/5?=
+ =?us-ascii?Q?4FHG/KDgqe6jJz+MNHCcp6eh1TD2qRxmZLopvmUQSAI2/wReNVpCWepiv71k?=
+ =?us-ascii?Q?rP5RWja2+0cbl1BHnMLDg7wFVgBHrbe5VdeQNhgwaXKRsCPlJqq6j9CwGknd?=
+ =?us-ascii?Q?VSADqwLN1vc3Z6eWOJ2PjtdGPUx3zApAPIXCmYBmPzg8GWCLYqKGPIORFisr?=
+ =?us-ascii?Q?LmVMktWqgCnHtvGMhoeNdCBaO5iv483r+L+TYGYJ2Bjdqnywj98ITnX2+DIr?=
+ =?us-ascii?Q?Qv5gbbiWqS+lbu8rxcSXJ2qQKlYVRPoYLrBiZowSEAFd6iMyEFA6pcxFH90H?=
+ =?us-ascii?Q?vAlerJNs0nFU9Eq0xAwHZBG/H5zHQqT3g0xVCayGHaomgf9uJWWk7qfE4tS/?=
+ =?us-ascii?Q?Mkv0WLk8t9u4PEY+/rcL26gpQcqso8s6iFSgJnZpotBYHsgL3wHv99/FBg83?=
+ =?us-ascii?Q?qKk3XC6yjzHhnS0ByXAHQCJKHxcDbeyoPpM7r3LawyUTaMqivJRXNAQIP7gr?=
+ =?us-ascii?Q?UAc4SsYKtB7uA4B5dy3tZ/rMCAD+RXS+MqS0Ao8oxpz5vnfXJ2LR4ZiS36cv?=
+ =?us-ascii?Q?52axaxMbe6wi+lHSuOpSORZQx1UVousvK1+CYPcQWdldXoftEt/9F7uYdVXj?=
+ =?us-ascii?Q?px36tb9Tbq+WgkPpgrERlHJf7eqlVZ2U10eySnb5rxNkO6+dTewJnwlfFxr5?=
+ =?us-ascii?Q?78ZKQmdPjgaWq7Ri9FNoriGl8jPMMBWzb/0vbtnU2s1/oqnXIK9fgd95quYy?=
+ =?us-ascii?Q?M0TmZGJU0/qLGaas8hK7o14=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: abe94ddd-a441-489f-25da-08ddba1607af
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR01MB7975.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 09:43:14.1683
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5go613+isnX1meKoZpJBqMY/rRMjBKLYgQNYMItz/VdXxuHzrUtNZr1YN+3uXAcLsiylcoFpVdej6nmxNmmX/54qpMWMEHwAdHSrMueraFbsL8bQnB5PuiOS7d+LpiWT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR01MB6399
+
+From Documentation/admin-guide/kernel-parameters.txt, we know that:
+ rodata=	[KNL,EARLY]
+	on	Mark read-only kernel memory as read-only (default).
+	off	Leave read-only kernel memory writable for debugging.
+	full	Mark read-only kernel memory and aliases as read-only
+		[arm64]
+
+So the "rodata=on" is the default.
+
+But the current code does not follow the document, it makes "rodata=full"
+as the default.
+
+This patch set follows Anshuman Khandual's suggetions.
+It makes the "rodata=on" as the default, and removes
+the CONFIG_RODATA_FULL_DEFAULT_ENABLED.
+
+v6:
+  Fix a small issue pointed by Randy Dunlap.
+
+v5:
+  Rebase this patch set with linux-next20250627
+  https://lists.infradead.org/pipermail/linux-arm-kernel/2025-June/1040297.html
+
+v4:
+  Follows Anshuman Khandual/Ard Biesheuvel's suggetions:
+  - Change commit message format.
+  - Change the titile name.
+  - others
+  https://lists.infradead.org/pipermail/linux-arm-kernel/2024-December/985629.html
+
+v3:
+  Follows Anshuman Khandual's suggetions:
+  - Merge patch 1 and patch 3 into one patch.
+  - Remove patch 4
+  - update comments and document.
+   https://lists.infradead.org/pipermail/linux-arm-kernel/2024-December/984344.html
+
+v2:
+  Follows Will's suggetions.
+  Add a new file fine-tuning-tips.rst for the expert users.
+   https://lists.infradead.org/pipermail/linux-arm-kernel/2024-November/981190.html
+
+v1:
+   https://lists.infradead.org/pipermail/linux-arm-kernel/2024-October/971415.html
 
 
+Huang Shijie (2):
+  arm64: refactor the rodata=xxx
+  arm64/Kconfig: Remove CONFIG_RODATA_FULL_DEFAULT_ENABLED
 
-On 7/1/2025 3:11 PM, Krzysztof Kozlowski wrote:
-> On Thu, Jun 26, 2025 at 10:31:00PM +0800, Luo Jie wrote:
->> +      resets:
->> +        maxItems: 1
->> +        description: EDMA reset from NSS clock controller
->> +
->> +      interrupts:
->> +        minItems: 65
->> +        maxItems: 65
->> +
->> +      interrupt-names:
->> +        minItems: 65
->> +        maxItems: 65
->> +        description:
->> +          Interrupts "txcmpl_[0-31]" are the Ethernet DMA TX completion ring interrupts.
->> +          Interrupts "rxfill_[0-7]" are the Ethernet DMA RX fill ring interrupts.
->> +          Interrupts "rxdesc_[0-23]" are the Ethernet DMA RX Descriptor ring interrupts.
->> +          Interrupt "misc" is the Ethernet DMA miscellaneous error interrupt.
->> +
->> +    required:
->> +      - clocks
->> +      - clock-names
->> +      - resets
->> +      - interrupts
->> +      - interrupt-names
->> +
->> +patternProperties:
->> +  "^(ethernet-)?port@[0-9a-f]+$":
-> 
-> Only one port? What are you switching here?
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ arch/arm64/Kconfig                            | 14 ----------
+ arch/arm64/include/asm/setup.h                | 28 +++++++++++++++++--
+ arch/arm64/mm/pageattr.c                      |  2 +-
+ 4 files changed, 28 insertions(+), 18 deletions(-)
 
-Sorry that this was missed in the update. We wanted to
-add the ethernet-port' property to ensure we document
-the per-port clocks/resets for completeness, but missed
-adding the 'ethernet-ports' property. I will add the
-'ethernet-ports' node in the updated version of the patch
-to accurately reflect the schema and hardware hierarchy.
-
-There are six physical ports in the PPE that can be part of
-the switch function.
-
-> 
-> Anyway, ^ethernet-port..... is preferred over port.
-
-OK, I will update to use '^ethernet-port' instead.
-
-> 
-> But other problem is that it does not match referenced schema at all and
-> nothing in commit msg explains why this appered. 1.5 years of
-> development of this and some significant, unexpected and not correct
-> changes.
-> 
-
-I understand your concern. This change was described briefly in the V5
-cover letter, but I will improve this description in cover letter and
-update the commit message as well, to explicitly document this change.
-The motivation for adding the ethernet-port node in bindings was to
-document the required per-port clocks and resets as well, as these
-are essential for enabling Ethernet functionality on this hardware.
-
-Could you please review the following proposed changes and let me know
-if this approach is acceptable?
-
-patternProperties:
-   "^(ethernet-)?ports$":
-     additionalProperties: true
-     patternProperties:
-       "^ethernet-port@[1-6]+$":
-         type: object
-         unevaluatedProperties: false
-         $ref: ethernet-controller.yaml#
-		
-         properties:
-           reg:
-             minimum: 1
-             maximum: 6
-             description: PPE Ethernet port ID
-			
-           clocks:
-             items:
-               - description: Port MAC clock from NSS clock controller
-               - description: Port RX clock from NSS clock controller
-               - description: Port TX clock from NSS clock controller
-			
-           clock-names:
-             items:
-               - const: mac
-               - const: rx
-               - const: tx
-			
-           resets:
-             items:
-               - description: Port MAC reset from NSS clock controller
-               - description: Port RX reset from NSS clock controller
-               - description: Port TX reset from NSS clock controller
-			
-           reset-names:
-             items:
-               - const: mac
-               - const: rx
-               - const: tx
-			
-         required:
-           - reg
-           - clocks
-           - clock-names
-           - resets
-           - reset-names
-		
-...
-
-allOf:
-   - $ref: ethernet-switch.yaml
-...
-
->> +    unevaluatedProperties: false
->> +    $ref: ethernet-switch-port.yaml#
->> +
->> +    properties:
->> +      clocks:
->> +        items:
->> +          - description: Port MAC clock from NSS clock controller
->> +          - description: Port RX clock from NSS clock controller
->> +          - description: Port TX clock from NSS clock controller
->> +
->> +      clock-names:
->> +        items:
->> +          - const: mac
->> +          - const: rx
->> +          - const: tx
->> +
->> +      resets:
->> +        items:
->> +          - description: Port MAC reset from NSS clock controller
->> +          - description: Port RX reset from NSS clock controller
->> +          - description: Port TX reset from NSS clock controller
->> +
->> +      reset-names:
->> +        items:
->> +          - const: mac
->> +          - const: rx
->> +          - const: tx
->> +
->> +    required:
->> +      - reg
->> +      - clocks
->> +      - clock-names
->> +      - resets
->> +      - reset-names
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - clock-names
->> +  - resets
->> +  - interconnects
->> +  - interconnect-names
->> +  - ethernet-dma
->> +
->> +allOf:
->> +  - $ref: ethernet-switch.yaml
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/qcom,ipq9574-gcc.h>
->> +    #include <dt-bindings/clock/qcom,ipq9574-nsscc.h>
->> +    #include <dt-bindings/interconnect/qcom,ipq9574.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/reset/qcom,ipq9574-nsscc.h>
->> +
->> +    ethernet-switch@3a000000 {
->> +        compatible = "qcom,ipq9574-ppe";
->> +        reg = <0x3a000000 0xbef800>;
->> +        clocks = <&nsscc NSS_CC_PPE_SWITCH_CLK>,
->> +                 <&nsscc NSS_CC_PPE_SWITCH_CFG_CLK>,
->> +                 <&nsscc NSS_CC_PPE_SWITCH_IPE_CLK>,
->> +                 <&nsscc NSS_CC_PPE_SWITCH_BTQ_CLK>;
->> +        clock-names = "ppe",
->> +                      "apb",
->> +                      "ipe",
->> +                      "btq";
->> +        resets = <&nsscc PPE_FULL_RESET>;
->> +        interrupts = <GIC_SPI 498 IRQ_TYPE_LEVEL_HIGH>;
->> +        interconnects = <&nsscc MASTER_NSSNOC_PPE &nsscc SLAVE_NSSNOC_PPE>,
->> +                        <&nsscc MASTER_NSSNOC_PPE_CFG &nsscc SLAVE_NSSNOC_PPE_CFG>,
->> +                        <&gcc MASTER_NSSNOC_QOSGEN_REF &gcc SLAVE_NSSNOC_QOSGEN_REF>,
->> +                        <&gcc MASTER_NSSNOC_TIMEOUT_REF &gcc SLAVE_NSSNOC_TIMEOUT_REF>,
->> +                        <&gcc MASTER_MEM_NOC_NSSNOC &gcc SLAVE_MEM_NOC_NSSNOC>,
->> +                        <&gcc MASTER_NSSNOC_MEMNOC &gcc SLAVE_NSSNOC_MEMNOC>,
->> +                        <&gcc MASTER_NSSNOC_MEM_NOC_1 &gcc SLAVE_NSSNOC_MEM_NOC_1>;
->> +        interconnect-names = "ppe",
->> +                             "ppe_cfg",
->> +                             "qos_gen",
->> +                             "timeout_ref",
->> +                             "nssnoc_memnoc",
->> +                             "memnoc_nssnoc",
->> +                             "memnoc_nssnoc_1";
->> +
->> +        ethernet-dma {
->> +            clocks = <&nsscc NSS_CC_PPE_EDMA_CLK>,
->> +                     <&nsscc NSS_CC_PPE_EDMA_CFG_CLK>;
->> +            clock-names = "sys",
->> +                          "apb";
->> +            resets = <&nsscc EDMA_HW_RESET>;
->> +            interrupts = <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 364 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 365 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 366 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 367 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 368 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 369 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 370 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 371 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 372 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 373 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 381 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 382 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 383 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 509 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 508 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 505 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 504 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 503 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 502 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 501 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 500 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 356 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 357 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 359 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 361 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 362 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 332 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 333 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 336 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 337 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 338 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 339 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 340 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 342 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 343 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 344 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 345 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 346 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 347 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 348 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 349 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 350 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 352 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 353 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 499 IRQ_TYPE_LEVEL_HIGH>;
->> +            interrupt-names = "txcmpl_0",
->> +                              "txcmpl_1",
->> +                              "txcmpl_2",
->> +                              "txcmpl_3",
->> +                              "txcmpl_4",
->> +                              "txcmpl_5",
->> +                              "txcmpl_6",
->> +                              "txcmpl_7",
->> +                              "txcmpl_8",
->> +                              "txcmpl_9",
->> +                              "txcmpl_10",
->> +                              "txcmpl_11",
->> +                              "txcmpl_12",
->> +                              "txcmpl_13",
->> +                              "txcmpl_14",
->> +                              "txcmpl_15",
->> +                              "txcmpl_16",
->> +                              "txcmpl_17",
->> +                              "txcmpl_18",
->> +                              "txcmpl_19",
->> +                              "txcmpl_20",
->> +                              "txcmpl_21",
->> +                              "txcmpl_22",
->> +                              "txcmpl_23",
->> +                              "txcmpl_24",
->> +                              "txcmpl_25",
->> +                              "txcmpl_26",
->> +                              "txcmpl_27",
->> +                              "txcmpl_28",
->> +                              "txcmpl_29",
->> +                              "txcmpl_30",
->> +                              "txcmpl_31",
->> +                              "rxfill_0",
->> +                              "rxfill_1",
->> +                              "rxfill_2",
->> +                              "rxfill_3",
->> +                              "rxfill_4",
->> +                              "rxfill_5",
->> +                              "rxfill_6",
->> +                              "rxfill_7",
->> +                              "rxdesc_0",
->> +                              "rxdesc_1",
->> +                              "rxdesc_2",
->> +                              "rxdesc_3",
->> +                              "rxdesc_4",
->> +                              "rxdesc_5",
->> +                              "rxdesc_6",
->> +                              "rxdesc_7",
->> +                              "rxdesc_8",
->> +                              "rxdesc_9",
->> +                              "rxdesc_10",
->> +                              "rxdesc_11",
->> +                              "rxdesc_12",
->> +                              "rxdesc_13",
->> +                              "rxdesc_14",
->> +                              "rxdesc_15",
->> +                              "rxdesc_16",
->> +                              "rxdesc_17",
->> +                              "rxdesc_18",
->> +                              "rxdesc_19",
->> +                              "rxdesc_20",
->> +                              "rxdesc_21",
->> +                              "rxdesc_22",
->> +                              "rxdesc_23",
->> +                              "misc";
->> +        };
->> +
->> +        ethernet-ports {
-> 
-> Look at your binding, not what it said...
-
-I will fix this to add the ethernet-ports node in the next version.
-
-> 
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
->> +            port@1 {
-> 
-> Best regards,
-> Krzysztof
-> 
-> 
+-- 
+2.40.1
 
