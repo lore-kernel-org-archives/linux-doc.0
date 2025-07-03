@@ -1,118 +1,135 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8C523BE;
-	Thu,  3 Jul 2025 02:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D67182D2
+	for <linux-doc@vger.kernel.org>; Thu,  3 Jul 2025 03:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751511255; cv=none; b=frNbiavJ1ZTxOWsiHOZsnJQhWgXCxcIc8yT6B8WCehxOl7lBHl13SfmQDnk3K/RpmLcWVVeFuTxe9fvQMj9dwwVUarR9YvlUXDiZdllGMh+dvEFXSEy8IcIUQFmRirvnTs6bPBmM/auAcERFz7kt3ifiCn4LvnuI0eba2rqvz0A=
+	t=1751512958; cv=none; b=dH5fjR23QoGQleu/aTxvEg6Xfj4cT2cTCgQfeDAW1auRTW1buwLZABXZFdmibn3bvGMEDZVmw8kLO/Vyj9g3e1aYbk1Fs+TrOeTxWdnZe0ZGD0N7ErniCHyO4M71STmKJ7RU5fQ5HCr45ThLrVppXDcRvUsn8fuzIXIhwjD7uaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751511255; c=relaxed/simple;
-	bh=VOBKR54EE5jCrpZGqJFlz8nauwn08Z16YfzFexX5IzY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qyeu/lya69oJVChmAxkOJYhxSWQbzMgJPWaf3mJT1zWa6aYsjPZ5njnFpMtZXgpsVk8VYZ0nuD5OAcvdaJSiMgkGZF2k3bVmffcDej75mNQ5BFoHHj14j/cbI7jHpmrjC2EGSNo82TMqonPiTZal4Lr56MZQKxmXJJwQAByx9pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ET8WjewA; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751512958; c=relaxed/simple;
+	bh=jRAp1AVjN+o0z0U9utUV1cQ17XRWoHhVViGsl36T9Fs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F0Sz5qRM8qg9VBKF6h+L3ODuEu5j0q2TiNVBUrE4RF34ZXWRpdVk2V699ihxWWLEIaUSLKXjzX32DAH/izt8EyLFgbUA3OqM84o8M1HXfxxT9KwXQXY+DDSJG5/bKsuBAoGnaD+/LfX/C5kffSJOjTKWiG7zs6WhO3fzpsJqz2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SxMv53Xx; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ET8WjewA"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-235ef62066eso96619725ad.3;
-        Wed, 02 Jul 2025 19:54:13 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SxMv53Xx"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b34a78bb6e7so3866574a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 02 Jul 2025 20:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751511253; x=1752116053; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AtdBQdeRqVsi7ZLQSvKypf+nVKVbYCrdNH/yCetNeKg=;
-        b=ET8WjewATZWEAWvLD4A0yxbfdo5qmoBAkWDu1Rtgg7Yi2jjOh6UK3XwcSZ0qW74rw2
-         gTyCusz/kUBBr/FTLxt1kEQRX2lqiw16JanOCRSAkyCRBPjNWqSgRQvcaQ4mxNJ+drkL
-         Y4PcLti6Mujs2HAvst3HiVEQ8t3YTUcSf9ExnFh/vS+9p04gGAWsFlS3U2+YSuPvm1VM
-         XZRainYNyeaidMT28HGj1dhK7D/AsWKtwNHxgzcCXgdbvPadnyMgu+VdbEaJZmgk2Vnh
-         bSUVzIIsE6CHFkTIYTOjNxAFXQc+T2WiSxRJCr61/xQW/l6UUN2qp7CO7MMhQsH6BTEF
-         GcRQ==
+        d=chromium.org; s=google; t=1751512956; x=1752117756; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u3/FURbw0Qjice8ym2SrrqkCxrOCjqZwE+s45rYEO0E=;
+        b=SxMv53Xx6Degcdj47VTRozTEgcj9lqtxUGfqgW+mN15Ck/uN+S80/jxpVUbrPGDAse
+         Tf3uQ0wMhzwJgoc1+99tdez86AOQV4WPinPUdktvYk37Dlv8Wfh0IDvP91+59DOAPC8M
+         1yYMHzssFyQve7RxVvVq6GTiEh3Tntv1JfOiI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751511253; x=1752116053;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AtdBQdeRqVsi7ZLQSvKypf+nVKVbYCrdNH/yCetNeKg=;
-        b=lM6TLGV7P3hjftzpaAI9ifc8qONaPqn9Ebw0nDEDRR11NzT2ZfEjoQWYAx4uJE55bL
-         4gAr1BactbSb5yeCSJrMdbJYFCU6HnEfwFONaLdvA4Gz6BD1kY/sPhzhUw3KkewJrIOR
-         gxWoLfY0D1Gsq6J3m/3JAVgqjcwTMDTzk9mhlTzaA3GKCF7s8xk861kjNKyRJfx+JhEA
-         pJmyFT/+2Sgsq+lgfBqiHGsNaNjSsVa8G0pIzZGeZJMYvqpJfi6zLlNvnxcozVA6TluU
-         qqTvZE4/PK3Ehczb9sy15MhU2CBRe9JysKQiej4jklcMLjwBOMTb7IkdyMrup8Qj0ie6
-         Jsxg==
-X-Forwarded-Encrypted: i=1; AJvYcCU8LyKY4XcIlTBZbf7gkwM7BGxwPJlkEo5YRFUiwiXF+3tdEmdVgKQ605d0btE9ViEUxxYSdO3+LeU=@vger.kernel.org, AJvYcCWU1suU+mnhDpuoGokdglkSr/zwOV8WD9q/jkJq+F5YL9FQ7jIXpbaSsFjml7b3qpLqhvNHGAue0YL0eTU6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzn0o1ilZzwwbjcee/++97Z9JDl+PIXJzwfI2jqwsytcf0thXpH
-	vbXzvLRaNZHpSsDinfifxa3mEJ09ls9o3666atHYpedMDrBDVmIUhx1w
-X-Gm-Gg: ASbGncv9dqsfpksurDzzg6PbWP5ZkICRQT0D3oQE05hCK1wt0y6xmZb0gEwjKiyy6B+
-	YeKAC5yNFmL+t+0BvAVyCM6MgijKjKQZZzs9wuK9/ZWofkl81K+VG12N2l5KtTHrjsnwPEV+sOI
-	/4XIw4c9Yx+OcvvvpD9HSSLvKIbS+ywVSQ0sipiVUzwQB3ojHcvXiadG2RbOJt5irtLPxI1hSJr
-	6rlX+e1yKaOoJH3ay79stgdkeKTIjAZYh7TySSNs28ZBPVyUCUz9Zb2odZp3TWvNVLKjszbjupR
-	o3EMw76jlKTbCoKll0ymhviSn5B9qUL7xLB2VUC7bH2xexf2LUf/YbLoOxuw5L6cFCuGFQ==
-X-Google-Smtp-Source: AGHT+IFRJ49YIpr/b2Gv0vtGiodyLEBH8/c5aD1zMNAf5dwWMsJ5LYPcKAUmVV/H+VKfYucretlwpA==
-X-Received: by 2002:a17:902:e5c2:b0:231:c792:205 with SMTP id d9443c01a7336-23c6e4e2a2fmr79267915ad.4.1751511252914;
-        Wed, 02 Jul 2025 19:54:12 -0700 (PDT)
-Received: from [192.168.0.150] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb2e21b2sm153163325ad.43.2025.07.02.19.54.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 19:54:12 -0700 (PDT)
-Message-ID: <e5c2ead0-7f8e-44e6-9af7-8addf7b7d016@gmail.com>
-Date: Thu, 3 Jul 2025 09:54:02 +0700
+        d=1e100.net; s=20230601; t=1751512956; x=1752117756;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u3/FURbw0Qjice8ym2SrrqkCxrOCjqZwE+s45rYEO0E=;
+        b=ZP18bwuLw0KEX/rBbeTXDCJmvAzg9chUr9JuQbupoTjjeWKyaiwLVb+ku7KlONIQgN
+         JtOfLoRIWrrqLYT/hxlGqUnQc4hgVI0IFJxyAQRiqsRZla6lP8saH2Xf8ODx0jlAB+XL
+         at0AlvWFMC+iSbgMFHgNgNBstGdgn6RnDD5FSfrH1nAgT0WyYFurX/VqG0p9TfLJjkhn
+         GAEPN9ovkRhjriOERchdh0j1ouazL9m79L8yDzzsLml0HOZWr9K1XteBjZDLHtA6l+lD
+         CKDHYf87NRkoFB9vyvRMXD8uiHQs0ccVssHUuK7M4lwTrgv+AkuHzC9M+BLbpioo70ZX
+         TUiw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyM7IzLCRIovXFWccuAr9yZaUu718hPd6Bs5UzzJfhCG3ItfVj1NDfmXDpku2HvCOiMXErLm5MQlw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxf2svFKgCcVgPtoRR2d79XsDT+JcRinrrujYpV97gxKsEgMnuA
+	8AmY3tG/Bs2HY8xpcS8khbFrg+KlHwh302p/3QrF1fPIKW58cvh23D7isLoxF8wI9w==
+X-Gm-Gg: ASbGncuOlxEqEnwGr8XurgzqjCSkghfsEl0p7N8VWEAvUi+GwbmBQ2BXt43dVkaUSLB
+	238xVwaOGH92nmhc48ze9+pXzD6asvTAHCLMeMzkGXyX+Jdjqap0KzdrYEO4NFN+4MiD1/750vH
+	hUXNMWpyDz8geHwBQsKSi/iV/SuWiSNYflQ8L5MgaCNiApihX5oiEFE6oe6+AENtrE4C4HnVGSN
+	PcU+nvQ0nvfb6ZQ6IZ2uzPLFSAHniq3c2iHZiLHoi3IDahAUBjDTYQGtlzXsktHH/Z7Xbf5z6S7
+	8ULC4eYBKj9gJSI/dg2HuHlN+V6bxzkXsiEm3UrRtBSCKwIc2elUxlIXGh3P47bezUkrd/ksvM+
+	I
+X-Google-Smtp-Source: AGHT+IEAy0Xvd7q1RC5hmp7SawamH/oI/muiFAFExRx9I64wiUZ1PQhrNgi3qS6Dq4f35q/YwfITMQ==
+X-Received: by 2002:a17:90b:3946:b0:311:e8cc:4264 with SMTP id 98e67ed59e1d1-31a9d545d21mr2763491a91.12.1751512955991;
+        Wed, 02 Jul 2025 20:22:35 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:8e3f:7c33:158f:349b])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31a9cc5204bsm1117959a91.8.2025.07.02.20.22.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jul 2025 20:22:35 -0700 (PDT)
+Date: Thu, 3 Jul 2025 12:22:23 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, virtualization@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Jerrin Shaji George <jerrin.shaji-george@broadcom.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Minchan Kim <minchan@kernel.org>, Brendan Jackman <jackmanb@google.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin <xu.xin16@zte.com.cn>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry.yoo@oracle.com>, 
+	Qi Zheng <zhengqi.arch@bytedance.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v1 12/29] mm/zsmalloc: stop using __ClearPageMovable()
+Message-ID: <vscedd6m3cq73c5ggjjz6ndordivgeh4dmvzeok222bnderr5c@dujm4ndthtxb>
+References: <20250630130011.330477-1-david@redhat.com>
+ <20250630130011.330477-13-david@redhat.com>
+ <zmsay3nrpmjec5n7v44svfa7iwl6vklqan4dgjn4wpvsr5hqt7@cqfwdvhncgrg>
+ <757cf6b9-730b-4b12-9a3d-27699e20e3ac@redhat.com>
+ <ugm7j66msq2w2hd3jg3thsxd2mv7vudozal3nblnfemclvut64@yp7d6vgesath>
+ <11de6ae0-d4ec-43d5-a82e-146d82f17fff@redhat.com>
+ <5thkl2h5qan5gm7putqd4o6yn5ht2c5zeei5qbjoni677xr7po@kbfokuekiubj>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: document linked lists
-To: Jonathan Corbet <corbet@lwn.net>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, kernel@collabora.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250702-linked-list-docs-v2-1-e36532f4b638@collabora.com>
- <aGXeyqygzKi2P-kP@archie.me> <87h5zum1ei.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87h5zum1ei.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5thkl2h5qan5gm7putqd4o6yn5ht2c5zeei5qbjoni677xr7po@kbfokuekiubj>
 
-On 7/3/25 09:52, Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On (25/07/03 11:28), Sergey Senozhatsky wrote:
+> > > > > >    static int zs_page_migrate(struct page *newpage, struct page *page,
+> > > > > > @@ -1736,6 +1736,13 @@ static int zs_page_migrate(struct page *newpage, struct page *page,
+> > > > > >    	unsigned long old_obj, new_obj;
+> > > > > >    	unsigned int obj_idx;
+> > > > > > +	/*
+> > > > > > +	 * TODO: nothing prevents a zspage from getting destroyed while
+> > > > > > +	 * isolated: we should disallow that and defer it.
+> > > > > > +	 */
+> > > > > 
+> > > > > Can you elaborate?
+> > > > 
+> > > > We can only free a zspage in free_zspage() while the page is locked.
+> > > > 
+> > > > After we isolated a zspage page for migration (under page lock!), we drop
+> > >                        ^^ a physical page? (IOW zspage chain page?)
+> > > 
+> > > > the lock again, to retake the lock when trying to migrate it.
+> > > > 
+> > > > That means, there is a window where a zspage can be freed although the page
+> > > > is isolated for migration.
+> > > 
+> > > I see, thanks.  Looks somewhat fragile.  Is this a new thing?
+> > 
+> > No, it's been like that forever. And I was surprised that only zsmalloc
+> > behaves that way
 > 
->> On Wed, Jul 02, 2025 at 10:24:47PM +0200, Nicolas Frattaroli wrote:
->>> +In State 2, we've added Grock after the list head::
->>> +
->>> +         .--------------------.
->>> +         v                    |
->>> +    .--------.     .-------.  |
->>> +    | clowns |---->| Grock |--'
->>> +    '--------'     '-------'
->>
->> Looks like the corners are a bit imbalanced (single quotes are taller than
->> dots). What about using plus instead? Like:
->>
->> ---- >8 ----
->> diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
->> index b0586056abb04d..bf92f44d7b2d06 100644
->> --- a/Documentation/core-api/list.rst
->> +++ b/Documentation/core-api/list.rst
->> @@ -148,11 +148,11 @@ clarity.
->>   
->>   In State 2, we've added Grock after the list head::
->>   
->> -         .--------------------.
->> +         +--------------------+
->>            v                    |
-> 
-> One might argue that it looks like a nice curve and should stay as-is.
-> 
-> This work is welcome and deserves a serious review, this wasn't it.
-> 
+> Oh, that makes two of us.
 
-OK, thanks!
-
--- 
-An old man doll... just what I always wanted! - Clara
+I sort of wonder if zs_page_migrate() VM_BUG_ON_PAGE() removal and
+zspage check addition need to be landed outside of this series, as
+a zsmalloc fixup.
