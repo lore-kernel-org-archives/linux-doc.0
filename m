@@ -1,126 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB102DE6F9;
-	Thu,  3 Jul 2025 01:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCC42DE6F3;
+	Thu,  3 Jul 2025 01:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751504625; cv=none; b=HB70KE/oGTIP8w0aSR8nKXG+3SKZR06ayvWyk4Op3UYDJbQiOI2L9brS2++98usl/4LCa3rnDWpFhb69kdszQmXa3wR3+nBjUk/19TLHlCHuQBlttxSzZrjxts3pW+w/c87Ruj5SwALkF4Y1RzzJUv+3GfuYu3ZzeQqHRt98VLM=
+	t=1751506641; cv=none; b=TNY3Kw/aQwCHt6wNfJmSkGbcLNSPTB9PYrm0mXJXSFmOTFUu3XqJlSJxTcoAXE1pB1+KSOYnY5BFgmJxIl+3xbwID4RTSvAhRBIgp4fH5IzbfDsHUyWO1rpQrrdYhbS1WlwmP+fOApz+38hAVosR2aQv6lfcC5xI0Df4K5mcAyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751504625; c=relaxed/simple;
-	bh=5rU3ZMle3o8BvcmdUmfcJuB41QNksv+U1CSu20i78KA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Me6i50C3Be4sdQIY58qai1dUBmGBtm3wRcWhEQmGprYHUbGBizQrgrKjcpzzfRo652Y5DNi6JG223YT39arCBPicakgFn/RQuQjdsyW8VFZCZ8c6Gf/uUP4wKxKKoFzEkQ0efunsADkLDym7yMvaY96h42aqRjLX2whfIqZsk+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sUIzwvC4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751506641; c=relaxed/simple;
+	bh=kNtpBg68NV1m6BIhW0MMPbHacSAZyPBh+LVLIKosOMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Up4mB6/vCn522hj8xxxJ+M24Pl+JVy8VVPd7wxwxp+Q6SFdF5Mr5lPGDfcObnXVAcFfRnIcZeZUsGT2iTKuZ2+RXdhAhfUn+PLDpE0BERirWycMSDoNKREKxQHNE7aKFsUCZvnHI+8bdeqHV9p/ntVjlfwJNARp7KV85qvB+oHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lpWnPBU8; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sUIzwvC4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95039C4CEE7;
-	Thu,  3 Jul 2025 01:03:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751504623;
-	bh=5rU3ZMle3o8BvcmdUmfcJuB41QNksv+U1CSu20i78KA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sUIzwvC4gx+fSgmEfLApRTxN3V6+d2kPBXfKR/fQt6r3WjKHYXlMuJ33+IpsMYJrt
-	 odB01vO2nU9BJKam8prfEWyedW8tt73z0AffeRl8UypwEisYqLsLmTUGsFvy5jq7RS
-	 6hlpAfQBekNpaZNd0FHrBpr+j+R2h4grIb9bHgbCtcVcsTYhyeCjH/3ILabwBjmRVO
-	 hXCAqnsDKcKOJXTRLcjQ609OLlPxeTHz9NDu0ig+OqnMxQkZEn91j617FS5GOkUV1k
-	 wVG/zsMdLfmN2VYpGEUvcvoYGsXItsISFgGpvjZre/l8SxdE9halHZonVgN6pUrmQj
-	 eoFN4PqbuZ6cQ==
-From: SeongJae Park <sj@kernel.org>
-To: Bijan Tabatabai <bijan311@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	joshua.hahnjy@gmail.com,
-	bijantabatab@micron.com,
-	venkataravis@micron.com,
-	emirakhur@micron.com,
-	ajayjoshi@micron.com,
-	vtavarespetr@micron.com
-Subject: Re: [RFC PATCH v3 00/13] mm/damon/vaddr: Allow interleaving in migrate_{hot,cold} actions
-Date: Wed,  2 Jul 2025 18:03:41 -0700
-Message-Id: <20250703010341.58007-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250702201337.5780-1-bijan311@gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lpWnPBU8"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-237e6963f63so33200965ad.2;
+        Wed, 02 Jul 2025 18:37:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751506639; x=1752111439; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZvCDWMLln/ahrHGmmbRxEQ1RAY121IXr+QwbBNoid08=;
+        b=lpWnPBU881+aFebuBmXYE8sI5Yf6pUZrf6rm7Lyl1AdqXaNPuBtqcDiLQ7DCbSVTNo
+         /tJYZP5LSc+4PAyoAqNWomB7UltWCNyRDAkHG9Z1LlOung0u1C/5VUmctf3700gbon7u
+         wwgoo8L45D31uyL0RZixCTDX7envsnSpx/0vdvUfB9wRzS/icitXbY1Me5USs4LT7lk5
+         TOLOjeSPWEW18cuXDk8lhXcwVglHdcr5mlh8isc2LBW2UXAiYbpmc3WEiBVgjtRhAGr2
+         zhn93tkUP45e3/pgpTdBRcU+i4J8Sc5APH/Yf7cUxChPZKgGlA7POVqZJovN6YxjJjYH
+         3lUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751506639; x=1752111439;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZvCDWMLln/ahrHGmmbRxEQ1RAY121IXr+QwbBNoid08=;
+        b=UlT66vQ9hhMUo/fHj6ZFeeuoXPN7mNJRW63qeftyGQrf7MXMVv6vMqfARlm7vC3QKX
+         Y+1NnXJIgBQaH2TmOc5UckqQwDuDhKeU66x4SQpH8NllxKrjsElLZ/4ZIM/EmjfxioJ0
+         kMj9FNId9ySFsZQdotGRhLDnwxMH+BS+j9F5UkDX/fj4A7WJaJ2viQqfzkkhewV0oHFw
+         uLkYtzRyGzIOojh5b6uph8wtbFbmZogHtWWtvubp+4Uz4rxOXjWiUJvWv+3Fy4J1cSzI
+         0qj4+2vlQDxmBoWGh2E0Dx0BT2hTTjpa5oW+PSJcowlUZRmX0agByWj0sJ0M0sJmWGGd
+         nkEg==
+X-Forwarded-Encrypted: i=1; AJvYcCWsuatO57Q0eQyREaixFo1b0MFf7gHUj1rSf/+pCM+igdTxG1xLXcEizU/R5cE7mdBkx3CWwLexfmY=@vger.kernel.org, AJvYcCXm1795a8F+6B4iEC0iAA7H1KGqRgP+/bRmJbe7Sv2QxNoZA2ssStv7STLAruiIEv2gXcai20IkFji5HwGz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj0y0hpATouDa3JqQ4acVHGHimzu4T4uLo79qIvmvDCKpcYanH
+	VkMp4T+2IKNEr8po+Q3eh/O5wbs3R+XeK3U4wZJmCced5aSA4vHVU0tb
+X-Gm-Gg: ASbGncuKN/7R7Z740vY9XQio1XNBj6SjWpZSzkDn3oNbHyRuD58oRidfOMqPL/lKbH/
+	fj9NaP4pd4hVEu+jkZPQTafdl0V4KohUgOJbSU9a4v13S+vTrQeZliKrVqtVWDjwNFSxu08Avui
+	8LCEXPnW9YgoD3mFHRHFuXqy1QBh2s37kp5zAq3ed5WwfnM1LpPWBc+r6DgkYHFAYrodDXWi+Y4
+	HF57Nb5dEiURBo1VNxSrItXGNi6uVBiPluV4AGomeI1NVYH/B2UuMggdhfHSh2Q52WPJ/dDczZW
+	CJUAU7vDwbSTDzcSLVJVYu5IxH0YEOKRFSK/rP/e2cPzr+Wl238mackdnaTgUA==
+X-Google-Smtp-Source: AGHT+IHquFt8RTXHvnm/riz/E91A3Nb+/8uDvmvkBoAtH6A8BtDLlsRrZA0Xa3exivhl3R7PCsmLGw==
+X-Received: by 2002:a17:903:17c3:b0:234:ed31:fc96 with SMTP id d9443c01a7336-23c6e54ff82mr54833455ad.26.1751506638888;
+        Wed, 02 Jul 2025 18:37:18 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39bcbcsm138536385ad.134.2025.07.02.18.37.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jul 2025 18:37:18 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 869E84206887; Thu, 03 Jul 2025 08:37:14 +0700 (WIB)
+Date: Thu, 3 Jul 2025 08:37:14 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, kernel@collabora.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: document linked lists
+Message-ID: <aGXeyqygzKi2P-kP@archie.me>
+References: <20250702-linked-list-docs-v2-1-e36532f4b638@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-Hello Bijan,
-
-On Wed,  2 Jul 2025 15:13:23 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
-
-> From: Bijan Tabatabai <bijantabatab@micron.com>
-> 
-> A recent patch set automatically sets the interleave weight for each node
-> according to the node's maximum bandwidth [1]. In another thread, the patch
-> set's author, Joshua Hahn, wondered if/how thes weights should be changed
-> if the bandwidth utilization of the system changes [2].
-> 
-> This patch set adds the mechanism for dynamically changing how application
-> data is interleaved across nodes while leaving the policy of what the
-> interleave weights should be to userspace. It does this by having the
-> migrate_{hot,cold} operating schemes interleave application data according
-> to the list of migration nodes and weights passed in via the DAMON sysfs
-> interface. This functionality can be used to dynamically adjust how folios
-> are interleaved by having a userspace process adjust those weights. If no
-> specific destination nodes or weights are provided, the migrate_{hot,cold}
-> actions will only migrate folios to damos->target_nid as before.
-[...]
-> Functionality Test
-> ==================
-> Below is an example of this new functionality in use to confirm that these
-> patches behave as intended.
-> In this example, the user starts an application, alloc_data, which
-> allocates 1GB using the default memory policy (i.e. allocate to local
-> memory) then sleeps. Afterwards, we start DAMON to interleave the data at a
-> 1:1 ratio. Using numastat, we show that DAMON has migrated the
-> application's data to match the new interleave ratio.
-> For this example, I modified the userspace damo tool [8] to write to the
-> migration_dest sysfs files. I plan to upstream these changes when these
-> patches are merged.
-
-Looking forward to!
-
-[...]
-> Performance Test
-> ================
-[...]
-> Updating the interleave weights and having DAMON migrate the workload data
-> according to the weights resulted in an approximarely 25% speedup.
-
-Nice!
-
-[...]
-> Revision History
-> ================
-> Changes from v2 [9]:
-> - Implement interleaving using vaddr instead of paddr
-> - Add vaddr implementation of migrate_{hot,cold}
-> - Use DAMON specific interleave weights instead of mempolicy weights
-
-Appreciate your efforts on revisioning!
-
-I left a few comments including simple change requests and questions as replies
-to each patch.  In high level, looks good to me.
-
-[...]
-> P.S., I will be out of office Thursday until next week Tuesday, so please
-> forgive any delayed responses.
-
-No worry, please take your time and fun! :)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6rDAoiH4BJjp6Kfi"
+Content-Disposition: inline
+In-Reply-To: <20250702-linked-list-docs-v2-1-e36532f4b638@collabora.com>
 
 
-Thanks,
-SJ
+--6rDAoiH4BJjp6Kfi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[...]
+On Wed, Jul 02, 2025 at 10:24:47PM +0200, Nicolas Frattaroli wrote:
+> +In State 2, we've added Grock after the list head::
+> +
+> +         .--------------------.
+> +         v                    |
+> +    .--------.     .-------.  |
+> +    | clowns |---->| Grock |--'
+> +    '--------'     '-------'
+
+Looks like the corners are a bit imbalanced (single quotes are taller than
+dots). What about using plus instead? Like:
+
+---- >8 ----
+diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.=
+rst
+index b0586056abb04d..bf92f44d7b2d06 100644
+--- a/Documentation/core-api/list.rst
++++ b/Documentation/core-api/list.rst
+@@ -148,11 +148,11 @@ clarity.
+=20
+ In State 2, we've added Grock after the list head::
+=20
+-         .--------------------.
++         +--------------------+
+          v                    |
+-    .--------.     .-------.  |
+-    | clowns |---->| Grock |--'
+-    '--------'     '-------'
++    +--------+     +-------+  |
++    | clowns |---->| Grock |--+
++    +--------+     +-------+
+=20
+ This diagram shows the "clowns" node pointing at a new node labeled "Grock=
+".
+ The Grock node is pointing back at the "clowns" node.
+
+The docs wording looks good, though.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--6rDAoiH4BJjp6Kfi
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaGXexgAKCRD2uYlJVVFO
+o4eVAP9pUgG8hSCkeS6YHXeqicCzRKmO7X1mcMvMgCanzdJBDgEA1gyL/7ua/B1t
+t4yCErU51op1KfAXfGAkAP8OLU3c2g8=
+=bUkw
+-----END PGP SIGNATURE-----
+
+--6rDAoiH4BJjp6Kfi--
