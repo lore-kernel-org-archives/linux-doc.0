@@ -1,116 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57B625A2C6;
-	Thu,  3 Jul 2025 18:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE891E9B3D;
+	Thu,  3 Jul 2025 18:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751565802; cv=none; b=WhESsL2mQipfxrIGXq8VEDt9/Mu/i6l2x7CJUHjpBhSvMza/GqCV0/LPTmRBz2TZkgcG6D0yXa1dtY/smtZXOBlp9Gjitg3SNWRxSW/Q2j1m8pgBIeixTfilfveOrVr/zXA3F8fzOtW6WmMoKmy5njaseejeAVDr+pzGEYSr9ZU=
+	t=1751566500; cv=none; b=AEYE0KbibutSgu2rHu2DrQYqw8o0NSbxa4CgThu62b4gEsL0GChUwrrZBlLruXOb/VSGlGU1jNpJhlRAzmJc0UOVsn3JguEhXx2GsuYFzZxPFSM4EzB8kK/AP+gWqkGv2lU6vNbj94uNdYDB3PSiB7bcD2fKjiYMZ5q527xCqW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751565802; c=relaxed/simple;
-	bh=DAlQxIcteaDn8QOHRzwZvy79winbFs5xEUAf0FyF0aw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QRxQfJSQHpMW4VMPfeNfr2q6qe7u74qqBNAx4xUoZnOwkjghPCUeyFsrgNylt7Pef7mzPTWHJNmrHUDXuwwX+KXWRLfdkPeCPWQ1zHydwzqxgP2/skGI/+NA2l81XxTl+slpAs+Flo/RlqVbDsMm2AsWjgrDTR3kOqn2MQ/5ess=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WDbd9qqu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751566500; c=relaxed/simple;
+	bh=4tmv4kBhtr//pdreZeFS5MzU2BVhzzxT++y88Tq80fw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Tqb4gHlIzK5PxNCqKiZJ1IGPyZsrbHraLS4QcQqOEVEKEQl/VyJD7jbiIHWXfZ+lNy4r/aSrSsyRozKuQxMHg9fip1SgDmPtTtIfM3bOp40NnE+6opk87I/T/v69a8WGKj1tGPtgtx1PVygUbrW8Fak1uaAW/LCHB+4X37MRWlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NO7CnyWU; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WDbd9qqu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C95AAC4CEE3;
-	Thu,  3 Jul 2025 18:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751565802;
-	bh=DAlQxIcteaDn8QOHRzwZvy79winbFs5xEUAf0FyF0aw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WDbd9qquuPLQ/EAUpln2smNPbxdrJ3tuUba8ONxsrbhMpdG/wrPKE29RjfbT84y8W
-	 wuQXP9hwff4X73xRuO6IWbzDVYI3hX/GTvsNJl5BXvlvPTMJwIppkiNib7uF8EdAgD
-	 jyDBtCmfRFvLyQxgSl0t1Z0Ze5UQyQqpSLMZjn+eebnyZuVEKbeXjNqZAH/FQG5vGm
-	 48aJVBD62eB0H8PxRK9DoGOXEPCOCUv36abG/uZwkawxyCR5IwFlOJzSwvn+n0t3Mh
-	 VFU0RO4QYYAK0ajkKCt556ks2Yf6OUH3hnT2L+cFTTJikcJajjFcAVUiExcd+YMRj+
-	 B9IeeM2LItFqw==
-Date: Thu, 3 Jul 2025 19:03:12 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 18/28] KVM: arm64: Support SME priority registers
-Message-ID: <3ada3079-6f01-41d5-927f-afbbd57d934b@sirena.org.uk>
-References: <20250625-kvm-arm64-sme-v6-0-114cff4ffe04@kernel.org>
- <20250625-kvm-arm64-sme-v6-18-114cff4ffe04@kernel.org>
- <86o6u6c2qg.wl-maz@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NO7CnyWU"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 22B6E406FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751566498; bh=HrGX+LEQVqk6CWb6KR0i5FrRu1VS4HPsCcy3YOJM2cA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=NO7CnyWU6xy3TvhPy5iJM4OV5ta7cOwBh0I4nIpb6W6nTdTRo3WSZ2RgKGAOYDbiz
+	 0IdFPMfiQHw0GSRfIIdQ6icXonndvG8i1tAX9rjSyPOBHkd7pjOzZGCtBDQo86PnNZ
+	 5mnsHo9RGfycxJu6gwTuFNYqIHSGH4AAGbN7YuCcFNokA53kDB0qUTiT4mOuCTNoP9
+	 emdfDhdHZbtnO9+vEG+vVaG6Q0K+jk3QIX3rrtUnTr7k+roBVgKZ1iBdQ3okonZXKk
+	 hNon+Taph9jblawIVJG05DjH3dplbejrAJpDc+hHjnskzRNpqwyAtjyIOUhJ6ff+XK
+	 o4p6i0WFwnc5g==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 22B6E406FA;
+	Thu,  3 Jul 2025 18:14:58 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 2/7] docs: kdoc: micro-optimize KernRe
+In-Reply-To: <20250703173848.721de72c@sal.lan>
+References: <20250701205730.146687-1-corbet@lwn.net>
+ <20250701205730.146687-3-corbet@lwn.net> <20250703173848.721de72c@sal.lan>
+Date: Thu, 03 Jul 2025 12:14:57 -0600
+Message-ID: <878ql5kuou.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pjNON9hcckQNbems"
-Content-Disposition: inline
-In-Reply-To: <86o6u6c2qg.wl-maz@kernel.org>
-X-Cookie: Uh-oh!!  I'm having TOO MUCH FUN!!
+Content-Type: text/plain
 
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
---pjNON9hcckQNbems
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Hmm... I opted for this particular way of checking is that I
+> expect that check inside a hash at dict would be faster than
+> letting it crash then raise an exception. 
 
-On Sun, Jun 29, 2025 at 10:32:23AM +0100, Marc Zyngier wrote:
-> Mark Brown <broonie@kernel.org> wrote:
+Raising an exception is not quite a "crash" and, if the caching is doing
+any good, it should be ... exceptional.  That pattern is often shown as
+a better way to do conditional dict lookups, so I've tended to follow
+it, even though I'm not a big fan of exceptions in general.
 
-> > +++ b/arch/arm64/include/asm/kvm_host.h
-> > @@ -495,6 +495,7 @@ enum vcpu_sysreg {
-> >  	SVCR,
-> >  	FPMR,
-> >  	SMIDR_EL1,	/* Streaming Mode Identification Register */
-> > +	SMPRI_EL1,	/* Streaming Mode Priority Register */
+> Btw, one easy way to check how much it affects performance
+> (if any) would be to run it in "rogue" mode with:
+>
+> 	$ time ./scripts/kernel-doc.py -N .
+>
+> This will run kernel-doc.py for all files at the entire Kernel
+> tree, only reporting problems. If you want to do changes like
+> this that might introduce performance regressions, I suggest
+> running it once, just to fill disk caches, and then run it
+> again before/after such changes.
+>
+> Anyway, I did such measurements before/after your patch.
+> the difference was not relevant: just one second of difference:
+>
+> original code:
+>
+> real	1m20,839s
+> user	1m19,594s
+> sys	0m0,998s
+>
+> after your change:
+>
+> real	1m21,805s
+> user	1m20,612s
+> sys	0m0,929s
+>
+> I don't mind myself to be one second slower, but this is hardly
+> a micro-optimization ;-)
 
-> What is the point of making the sysreg file larger for the sole
-> purpose of returning a value that is firmly always 0? Can't that be
-> synthesised on the fly whenever needed?
+Docs builds generally went slightly faster for me, but that is always a
+noisy signal.
 
-This was patterned of what you'd done with SVCR, I'd formed the
-impression that the idea was that for registers that really exist like
-this one it was more robust and less code to set them up in the sysreg
-file and have everything look standard than do custom handling.  That
-case was a bit different as the arch FP code needs a variable to point
-at, I'll remove this and synthesise instead.
+Anyway, I am not tied to this patch and can drop it.  Or I suppose I
+could just redo it with .get(), which avoids both the double lookup and
+the exception.
 
-> > +	EL2_REG_FILTERED(SMPRIMAP_EL2, trap_raz_wi, reset_val, 0,
-> > +			 sme_el2_visibility),
+Thanks,
 
-> Wut??? You clearly said it yourself: this register "has no specific
-> traps available". If you end-up here from a guest access, this is a
-> bug. So this "trap_raz_wi" makes no sense.
-
-I see, so the callback should be NULL?  Access to the register will get
-trapped as part of the general trapping of EL2 access by a NV hypervisor
-so it wasn't clear to me that that we shouldn't have the handling.
-
-> I also cannot see where this register is properly configured to be
-> fully RES0, as it should.
-
-Me either now that you point it out, thanks.
-
---pjNON9hcckQNbems
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhmxd8ACgkQJNaLcl1U
-h9Cnigf9FOTIvLzH7nW4Ne5KezFk5Oy7PnPYWnqdug2uCPZ/c0vKArSLFLGgbaQC
-LNFKKt/Ki9NPakD73zenb2iRfQHst2Z/XNgHqvDVczgNsuJx4BVX5hsObCeIKdrj
-RCTmY9X9Jb4b6lHsM/BH6pEIysEYRA8zj5+KbHhi5vm9EgAoq6um6H1kW2kCEUXb
-10We2nKb5cHNobBonc54HhAgxOpEM52E+dE9MdDa9SoUWwKBzzaJHTv6FRIHomJN
-EhsF7DLO6ovjqOaXBLj9tGalSO4xXR+EPQdJSmhExqjSywYoQP0S6ncSlwwS0PdG
-W7906Lv0olpdyCLF/Cav9KCU4YU9AA==
-=/1vV
------END PGP SIGNATURE-----
-
---pjNON9hcckQNbems--
+jon
