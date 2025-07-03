@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5426F29C351;
-	Thu,  3 Jul 2025 22:29:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B910212CDAE;
+	Thu,  3 Jul 2025 22:31:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751581757; cv=none; b=ggEhS2HtDNdcqhFTnCLqY1iagsBtWtoZ1RTC4SVuLX3bC1Ch7GqW+VWhTKcsRmsKiHWT1cFkgNp4pq5Jy6v9Tgn5BeemZEqLYzBcEPGql4H17kmShP/L5AuBRBEjUNCJT1A+9crHF/UbIeQOAvvMhSsX7jfxpcjQQ+e0dVqJ5dU=
+	t=1751581910; cv=none; b=GFLFom7sW/ZAbqek+zEmMYb9FMNvL52uKlKuafoCoJzEJpHm+4tHSzxe3kBJs535q9PBBM1ilrwDvaeIvQjovFVBqeVG8S+jRW+oeI7O89QjjbtwlzE08mxTs1rQsCkDZo9cmr3RP3sOBYpbu/bL4OF3bf7EM4wfOvjNTia1f2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751581757; c=relaxed/simple;
-	bh=KG/xX9bya8lwgakjA1rYvT7ciNyxTZH4eiJUApOm8og=;
+	s=arc-20240116; t=1751581910; c=relaxed/simple;
+	bh=RT7t295FlKOrPNoH6LQ75vKX31pjU2YkRqlCReUBDfM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aicw3mOpt653fk1xXQpbYP+d+kRJH3m2G0adMoMZBjNp6a+yQT78ajczkqmOgAlgn3SQm2f1A+NHy2OwcyJ4c/rPH4G3do/EspYbOABuUG/FgTI1UoV6mYiM21E1ZYo3eXXnjsdoh9tFNH9+vniejA37FxZCPUt65S/w8/1RbAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LUIY1Ghs; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=YcarfUCMjRZjNgc5CIMqrYL5PXnF7qa5a/ouJY3HP4ma3MoVnnyA1donNMq+0GIsnurvLPXtUZLI2SGo5sxE9hFHuYhI+d8EcQst7M+hf/PbOrd13E0ZZqOd0hnKzuLioAz+n4+92/ZUKLoIbOIclJ5fEuXwpxMSF2taT/yxTOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bDkIHD1I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LUIY1Ghs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E633EC4CEE3;
-	Thu,  3 Jul 2025 22:29:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bDkIHD1I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FA77C4CEE3;
+	Thu,  3 Jul 2025 22:31:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751581757;
-	bh=KG/xX9bya8lwgakjA1rYvT7ciNyxTZH4eiJUApOm8og=;
+	s=k20201202; t=1751581910;
+	bh=RT7t295FlKOrPNoH6LQ75vKX31pjU2YkRqlCReUBDfM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LUIY1GhsLqdNfhyUnSs5yrzXMitmiCeabCJ4CLM2w7s14SNOwQDOEXWtx/TjrUymg
-	 WqabMDemAtfZ3WaGwraTU1rwsIwGjXUegXzmudqvgQVK7dhM+JjizJr1OUrlpauos3
-	 5NFPyvZ2+riCVRubpduvKIJ3MesQrvPP5EAbswqqt2oFGKbUb4CYWKy4iEPJhImXM6
-	 UYUmneR/f9pZf3KI5n7vnnHwVk0pGzBssQHMmfJUTT+95qsQSxAUGoblR+UgtkROpL
-	 ns1mqM7DZeMQFLfMt6bN3bGFQL/guX2UPBdhKDnAt3nzkpUaUlVuXsCElGNej2nJwM
-	 aXtIcyKrVg55w==
-Date: Fri, 4 Jul 2025 00:29:13 +0200
+	b=bDkIHD1IIyLMDLoAgJI9M3qGj3x6UY+sxxU/xwRlARberCdlmGD/gpa2LxfvmS0V8
+	 S1I3T+PMCgc3hRcy2jyjzbnkw0pY/m5IPuuyYhlhqlvJ8TM0pkIEIEgip3VLtVf2wm
+	 ZAw7KUt/NEqGyOesQka9baIR6c7EO5c7g9XbYVniech/9Qqc26bkS+07upFcK0WFAq
+	 jfmYWw4Fb3ySIXlZcQzHW01I6w7XuXhHzva4tYdPo1zpuxMmoF3QJd7ZqIcVAz9OWT
+	 x3KHSDTkctTd9ZS73Bk1CwEpZMZNGmasjT+ecf7qufecD9CskPBQQmUVt9pPT/dma9
+	 NsMNFnIgttYzg==
+Date: Fri, 4 Jul 2025 00:31:46 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
  <akiyks@gmail.com>
-Subject: Re: [PATCH 7/7] docs: kdoc: pretty up dump_enum()
-Message-ID: <20250704002913.13ce8fcf@foz.lan>
-In-Reply-To: <874ivtkuk9.fsf@trenco.lwn.net>
-References: <20250701205730.146687-1-corbet@lwn.net>
-	<20250701205730.146687-8-corbet@lwn.net>
-	<20250703175731.1a4871e3@sal.lan>
-	<874ivtkuk9.fsf@trenco.lwn.net>
+Subject: Re: [PATCH v2 2/7] docs: kdoc: micro-optimize KernRe
+Message-ID: <20250704003146.118f5799@foz.lan>
+In-Reply-To: <20250703184403.274408-3-corbet@lwn.net>
+References: <20250703184403.274408-1-corbet@lwn.net>
+	<20250703184403.274408-3-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -48,36 +46,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 03 Jul 2025 12:17:42 -0600
+Em Thu,  3 Jul 2025 12:43:58 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> Rework _add_regex() to avoid doing the lookup twice for the (hopefully
+> common) cache-hit case.
 > 
-> > Em Tue,  1 Jul 2025 14:57:30 -0600
-> > Jonathan Corbet <corbet@lwn.net> escreveu:
-> >  
-> >>                  self.emit_msg(ln,
-> >> -                              f"expecting prototype for enum {self.entry.identifier}. Prototype was for enum {declaration_name} instead")
-> >> +                              f"expecting prototype for enum {self.entry.identifier}. "
-> >> +                              f"Prototype was for enum {declaration_name} instead")  
-> >
-> > Even being a big one, my personal preference would be to break the long
-> > string here, as keeping together is easier for grep, but yeah, I also
-> > considered breaking it ;-)  
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  scripts/lib/kdoc/kdoc_re.py | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 > 
-> Did you mean your preference would be to *not* break it?
+> diff --git a/scripts/lib/kdoc/kdoc_re.py b/scripts/lib/kdoc/kdoc_re.py
+> index e81695b273bf..612223e1e723 100644
+> --- a/scripts/lib/kdoc/kdoc_re.py
+> +++ b/scripts/lib/kdoc/kdoc_re.py
+> @@ -29,12 +29,9 @@ class KernRe:
+>          """
+>          Adds a new regex or re-use it from the cache.
+>          """
+> -
+> -        if string in re_cache:
+> -            self.regex = re_cache[string]
+> -        else:
+> +        self.regex = re_cache.get(string, None)
 
-What I meant is that I was in doubt myself of breaking long lines or
-not... I opted to not break.
+With get, None is default...
 
-Yet, if you feel it looks better breaking it, go for it ;-)
+> +        if not self.regex:
+>              self.regex = re.compile(string, flags=flags)
 
-> There's a non-greppable piece at the break point anyway, so I wasn't
-> anticipating making life harder for anybody there.
-> 
-> Thanks,
-> 
-> jon
+... yet, as you're using get, better to code it as:
+
+	self.regex = re_cache.get(string, re.compile(string, flags=flags))
+
+> -
+>              if self.cache:
+>                  re_cache[string] = self.regex
+>  
 
 
 
