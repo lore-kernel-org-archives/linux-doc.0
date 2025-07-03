@@ -1,83 +1,82 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628BA2E1743
-	for <linux-doc@vger.kernel.org>; Thu,  3 Jul 2025 10:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38712E1744;
+	Thu,  3 Jul 2025 10:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751537408; cv=none; b=QV18XMuPVIjyYd8S+6O7P7Pl6V/lxqqQ80F3O3SlE1LpdeVCdBH8QXD76/INIll1Y64/N3ZvKLDIHZTplb2SphK0umJruyYvb8oD9U7J5vzO2DGH+GNzPPhiIQhuJNpK5XGF+W3xaTm/SkryWgVhhMwASHqUk/6L5rSASFbS/fU=
+	t=1751539215; cv=none; b=mRdj+YzPBUD5V7Ch+eRj2snZRT7XySkVfRqAdlFVifQPl7zeJ1IYEsdT4d81MTPKAo9beU73PiZss0yaTMtOIZozVvYKg+NiskvJMuubDYbxcNqzu3UILqldqN3wkMUJBPTbhibwtmU0JeP91qEO4jyBoYOzqfjgstp7HL3nW6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751537408; c=relaxed/simple;
-	bh=2URzPKeWwOWlfZr3VMU/R70qtUMAmLZrCaO6QOVU9A4=;
+	s=arc-20240116; t=1751539215; c=relaxed/simple;
+	bh=/QFzSYlDk96wJWtvoJqxVFlqu43W4FEzZE0XzT6dz6U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qy5BWxsxRtwAXHbiQPpfJsjadRI73kIsHYUcQzKctYhUS1Y9YX744BakBwSIn+QK91Lao5EZkzUcWKh3gYpsP8W9ht3N9zlp/YKs7PzxgPkGoywKJGtimJWpWlHYUvlSe2TSYV+R892M87tdKH/RcrE7pehagsWP77udK88kPTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=cSpZCwJ8; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	 Content-Type:Content-Disposition:In-Reply-To; b=cO+RLyyxqLj4sCOpKxwe+iEQPdP2EtX0CYcDqNDSRm8Oe6uuuszd9UpkHGS4DhRf0A0PHcE/3+E2YhyMgzmGjgIGCjo06bkGbG5zaBB62Q4MXCuY0hWy/poTds0tqr8ObbH/BydqvYJUTBWxvVoksRFwBTs/3Gzgtq0tFGfRF2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NVTiF0B0; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="cSpZCwJ8"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso4288972f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Jul 2025 03:10:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1751537405; x=1752142205; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4hFA4oh4QUQdOxuaA9SVG8ATJhstNeNbsNX9+qVlE1g=;
-        b=cSpZCwJ8EPQEGj92CQZ/ZWw+yF7rLqbrdcjuFEdf4Y652bVBXhqNYK+ICQdPhG6UdM
-         owHTylNd4rfnKmPr8lKRATHqlljA2qmGlRlSgDEECbxMa6kyrnvRqyIozmxt1pKOSRXa
-         BUvMAmUtUxdYdtsouIjrQfIjlFRccIOT6pRIxr7HZom5sKNWDw+4np1Okbp1Q5YiNAsD
-         +w3lZnRhVkKiAHKcwh3CbGAZk1GRfEF0RZjtoIfnWnitXe+FU7FzoV1U9fwQF+zXL2R2
-         RsFd/EiMOvIsTgZQP+V/+RVPD5/NEGIzmz47jGh6tMRn+ma9iJOgVukk9b3rV8fopbUb
-         Vy0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751537405; x=1752142205;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4hFA4oh4QUQdOxuaA9SVG8ATJhstNeNbsNX9+qVlE1g=;
-        b=bPeitQERdL49vWOWay3fg6+va8rQT6gXmdap9gy8DyFibCax56V3Gi61JwvvBtWBKC
-         07eM+TDn0E+qaS9x3AXIQN/KABVhnesP8FLZ4g1NZFn78XD9vw62D6H2d2hWELqthmL3
-         iEbk8AdRSzMT3UGWYd1rmXmGrDKtU+5g9Z0jRJ3usaUf9tJVbkGEHik4WkUv4Bp4IBGZ
-         NCGheDmEJkFauohMQ2PgNninQ9kw43RGFnsNmChqasfoLRwS94apd0S9uPxdp53VCYHb
-         9o/dX96ALmU2CsyE9r2NOsY0oUa2igsRFkQkOBV0/jT5qdQnVe/wV9jRHxSzLmlu0BWE
-         DYvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXUgfqDKL/Dp9JWJm/jT6MMmMFVEjjQMBuXfIeT0jMnOcz+x9/h8gHrmAXR3UBUt8h0n/BtfocKGbc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4QOxrivRpzR+2nCNn8RKgg6GirfMBDWv98skfFFt5eDMDcU6e
-	+CoPsh+B1xsqfD5mLpJiDC1qReaPm55ZuNeFiTRX97kYUskVEJJMuK0nne8iuXAl7f0=
-X-Gm-Gg: ASbGncvjCPL1lFQIjtnmyh9lamcMJeGwn3Bkdd9g9qcXr+R/AwkGRa21l3PmhIqpPOa
-	PyL6KHmX+vaiIB3Y6iZfgXw4Fj/1zKXS1pJ9Wt2LZZDPdNRzfapYBMvEb3t84q7eZgFi5F4476X
-	ccBMzJEeJRDtI+P7abhXd7TzB45jgiSjKelrblswgxJ1uGBYtUyT++VgezEckQ4rI5lY66nEI5d
-	kBebTEwgIEyzRPnwiwYktcfnqeNW3twe8if1f4EkpfM2LajCD1QslkYMgNkRKcQomAsgqTv2cZv
-	nRnuk78ZCuCIgdepY6VZAKsGGrSv/QbD+CrJRZxrnNTMTohv+72d9HzQKDEHuFWhTMMsTw==
-X-Google-Smtp-Source: AGHT+IHfNjDl88KLIzBBak/j4QsOeoXaT11cx/c0F4gN8GQS6D2qXXuoCo04NSmd3GiJG1PcpnF/0A==
-X-Received: by 2002:a05:6000:4011:b0:3b2:e07f:757 with SMTP id ffacd0b85a97d-3b32b145539mr2068694f8f.1.1751537404431;
-        Thu, 03 Jul 2025 03:10:04 -0700 (PDT)
-Received: from jiri-mlt ([193.47.165.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454a99878acsm22244925e9.17.2025.07.03.03.09.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 03:10:04 -0700 (PDT)
-Date: Thu, 3 Jul 2025 12:09:53 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Prathosh Satish <Prathosh.Satish@microchip.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Shannon Nelson <shannon.nelson@amd.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>, 
-	Petr Oros <poros@redhat.com>
-Subject: Re: [PATCH net-next v12 07/14] dpll: zl3073x: Add clock_id field
-Message-ID: <pfkr62fp4jr2bts3ektfwn4or36lqdsdqfsntryubr5oawx7kv@adqwk2qoflhu>
-References: <20250629191049.64398-1-ivecera@redhat.com>
- <20250629191049.64398-8-ivecera@redhat.com>
- <amsh2xeltgadepx22kvcq4cfyhb3psnxafqhr33ra6nznswsaq@hfq6yrb4zvo7>
- <e5e3409e-b6a8-4a63-97ac-33e6b1215979@redhat.com>
- <cpgoccukn5tuespqse5fep4gzzaeggth2dkzqh6l5jjchumfyc@5kjorwx57med>
- <4f2e040b-3761-441c-b8b1-3d6aa90c77fc@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NVTiF0B0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751539213; x=1783075213;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/QFzSYlDk96wJWtvoJqxVFlqu43W4FEzZE0XzT6dz6U=;
+  b=NVTiF0B0hub3F7sdYKImHEB621KKwD3vmIEBlBx2XzlfKqPlNzGa8T96
+   lq6PDsDOF1j7FYfODEDpllHKtnrBFMhujWNbfI5F75FAqdcYFPxsTpcix
+   OXO7UVpSX/wYFwh7pjQ88zX3K3eECWGPJXzOdHXDOVvR887bx2uq/uair
+   hDfgv5KjB6ojVV37HQraCt+NxELic7q6MOuJhBGypEx9jsBxG5kSfBZd3
+   gXDVh4a6AtDrD9ULIz1Uasfbfet6M0GFuZaZPPJwWTDlOgUbIT81os+r1
+   uehla3edEFF107EEG9EMeD1BmQU7+ScGePj9oxtYw+DlRrj8Z4yOjiLr3
+   Q==;
+X-CSE-ConnectionGUID: 7nfcG5bIQ0qkcaNH3iuecA==
+X-CSE-MsgGUID: MzHCH2PvRmq7YdQf6PKodQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="71296928"
+X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
+   d="scan'208";a="71296928"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 03:40:11 -0700
+X-CSE-ConnectionGUID: JMsPgBN7SpybGEfPT/WDlA==
+X-CSE-MsgGUID: SDEzVWdjTVKsq90XD7Ugbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
+   d="scan'208";a="160030340"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa005.jf.intel.com with ESMTP; 03 Jul 2025 03:39:59 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id 0D7D41FE; Thu, 03 Jul 2025 13:39:58 +0300 (EEST)
+Date: Thu, 3 Jul 2025 13:39:57 +0300
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
+	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
+	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
+	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
+	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
+	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-mm@kvack.org
+Subject: Re: [PATCHv8 02/17] x86/asm: Introduce inline memcpy and memset
+Message-ID: <uvvh6qfpan6f56fdvuch67nss2h5nqxbmocztf6v2lfbvnihbg@vtzbr6anzqnl>
+References: <20250701095849.2360685-1-kirill.shutemov@linux.intel.com>
+ <20250701095849.2360685-3-kirill.shutemov@linux.intel.com>
+ <20250703094417.165e5893@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,62 +85,204 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4f2e040b-3761-441c-b8b1-3d6aa90c77fc@redhat.com>
+In-Reply-To: <20250703094417.165e5893@pumpkin>
 
-Wed, Jul 02, 2025 at 04:51:47PM +0200, ivecera@redhat.com wrote:
->On 02. 07. 25 2:01 odp., Jiri Pirko wrote:
->> Wed, Jul 02, 2025 at 01:43:38PM +0200, ivecera@redhat.com wrote:
->> > 
->> > On 02. 07. 25 12:31 odp., Jiri Pirko wrote:
->> > > Sun, Jun 29, 2025 at 09:10:42PM +0200, ivecera@redhat.com wrote:
->> > > > Add .clock_id to zl3073x_dev structure that will be used by later
->> > > > commits introducing DPLL feature. The clock ID is required for DPLL
->> > > > device registration.
->> > > > 
->> > > > To generate this ID, use chip ID read during device initialization.
->> > > > In case where multiple zl3073x based chips are present, the chip ID
->> > > > is shifted and lower bits are filled by an unique value - using
->> > > > the I2C device address for I2C connections and the chip-select value
->> > > > for SPI connections.
->> > > 
->> > > You say that multiple chips may have the same chip ID? How is that
->> > > possible? Isn't it supposed to be unique?
->> > > I understand clock ID to be invariant regardless where you plug your
->> > > device. When you construct it from i2c address, sounds wrong.
->> > 
->> > The chip id is not like serial number but it is like device id under
->> > PCI. So if you will have multiple chips with this chip id you have to
->> > distinguish somehow between them, this is the reason why I2C address
->> > is added into the final value.
->> > 
->> > Anyway this device does not have any attribute that corresponds to
->> > clock id (as per our previous discussion) and it will be better to NOT
->> > require clock id from DPLL core side.
->> 
->> Yes, better not to require it comparing to having it wrong.
->
->It looks that using clock_id==0 is safe from DPLL API point of view.
->The problem is if you will have multiple zl3073x based chips because
->the driver would call dpll_device_get(0 /* clock_id */, channel, module)
->
->For 1st chip (e.g. 2 channel) the driver will call:
->dpll_device_get(0, 0, module);
->dpll_device_get(0, 1, module);
->
->and for the second the same that is wrong. The clock_id would help to
->distinguish between them.
->
->Wouldn't it be better to use a random number for clock_id from the
->driver?
+On Thu, Jul 03, 2025 at 09:44:17AM +0100, David Laight wrote:
+> On Tue,  1 Jul 2025 12:58:31 +0300
+> "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com> wrote:
+> 
+> > Extract memcpy and memset functions from copy_user_generic() and
+> > __clear_user().
+> > 
+> > They can be used as inline memcpy and memset instead of the GCC builtins
+> > whenever necessary. LASS requires them to handle text_poke.
+> 
+> Except they contain the fault handlers so aren't generic calls.
 
-I take my suggestion to not require it back, does not make sense.
+That's true. I will add a comment to clarify it.
 
-Clock id actually has a reason to exist from UAPI perspective. Checkout
-dpll_device_find_from_nlattr(). The user passes CLOCK_ID attr (among
-others) to obtain device by DPLL_CMD_DEVICE_ID_GET command. He expects
-to get a result back from kernel regardless where the device is plugged
-and across the reboots/rebinds.
+> > Originally-by: Peter Zijlstra <peterz@infradead.org>
+> > Link: https://lore.kernel.org/all/20241029184840.GJ14555@noisy.programming.kicks-ass.net/
+> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > ---
+> >  arch/x86/include/asm/string.h     | 46 +++++++++++++++++++++++++++++++
+> >  arch/x86/include/asm/uaccess_64.h | 38 +++++++------------------
+> >  arch/x86/lib/clear_page_64.S      | 13 +++++++--
+> >  3 files changed, 67 insertions(+), 30 deletions(-)
+> > 
+> > diff --git a/arch/x86/include/asm/string.h b/arch/x86/include/asm/string.h
+> > index c3c2c1914d65..17f6b5bfa8c1 100644
+> > --- a/arch/x86/include/asm/string.h
+> > +++ b/arch/x86/include/asm/string.h
+> > @@ -1,6 +1,52 @@
+> >  /* SPDX-License-Identifier: GPL-2.0 */
+> > +#ifndef _ASM_X86_STRING_H
+> > +#define _ASM_X86_STRING_H
+> > +
+> > +#include <asm/asm.h>
+> > +#include <asm/alternative.h>
+> > +#include <asm/cpufeatures.h>
+> > +
+> >  #ifdef CONFIG_X86_32
+> >  # include <asm/string_32.h>
+> >  #else
+> >  # include <asm/string_64.h>
+> >  #endif
+> > +
+> > +#ifdef CONFIG_X86_64
+> > +#define ALT_64(orig, alt, feat) ALTERNATIVE(orig, alt, feat)
+> > +#else
+> > +#define ALT_64(orig, alt, feat) orig "\n"
+> > +#endif
+> > +
+> > +static __always_inline void *__inline_memcpy(void *to, const void *from, size_t len)
+> > +{
+> > +	void *ret = to;
+> > +
+> > +	asm volatile("1:\n\t"
+> > +		     ALT_64("rep movsb",
+> > +			    "call rep_movs_alternative", ALT_NOT(X86_FEATURE_FSRM))
+> > +		     "2:\n\t"
+> > +		     _ASM_EXTABLE_UA(1b, 2b)
+> > +		     : "+c" (len), "+D" (to), "+S" (from), ASM_CALL_CONSTRAINT
+> > +		     : : "memory", _ASM_AX);
+> > +
+> > +	return ret + len;
+> > +}
+> > +
+> > +static __always_inline void *__inline_memset(void *addr, int v, size_t len)
+> > +{
+> > +	void *ret = addr;
+> > +
+> > +	asm volatile("1:\n\t"
+> > +		     ALT_64("rep stosb",
+> > +			    "call rep_stos_alternative", ALT_NOT(X86_FEATURE_FSRM))
+> > +		     "2:\n\t"
+> > +		     _ASM_EXTABLE_UA(1b, 2b)
+> > +		     : "+c" (len), "+D" (addr), ASM_CALL_CONSTRAINT
+> > +		     : "a" ((uint8_t)v)
+> 
+> You shouldn't need the (uint8_t) cast (should that be (u8) anyway).
+> At best it doesn't matter, at worst it will add code to mask with 0xff.
 
-Clock id should be properly filled with static and device specific
-value. If your chip can't be queried for it, I'm sure the embedded world
-has a solution for such cases. It's similar to MAC of a NIC device.
+Right, will drop.
+
+> > +		     : "memory", _ASM_SI, _ASM_DX);
+> > +
+> > +	return ret + len;
+> > +}
+> > +
+> > +#endif /* _ASM_X86_STRING_H */
+> > diff --git a/arch/x86/include/asm/uaccess_64.h b/arch/x86/include/asm/uaccess_64.h
+> > index c8a5ae35c871..eb531e13e659 100644
+> > --- a/arch/x86/include/asm/uaccess_64.h
+> > +++ b/arch/x86/include/asm/uaccess_64.h
+> > @@ -13,6 +13,7 @@
+> >  #include <asm/page.h>
+> >  #include <asm/percpu.h>
+> >  #include <asm/runtime-const.h>
+> > +#include <asm/string.h>
+> >  
+> >  /*
+> >   * Virtual variable: there's no actual backing store for this,
+> > @@ -118,21 +119,12 @@ rep_movs_alternative(void *to, const void *from, unsigned len);
+> >  static __always_inline __must_check unsigned long
+> >  copy_user_generic(void *to, const void *from, unsigned long len)
+> >  {
+> > +	void *ret;
+> > +
+> >  	stac();
+> > -	/*
+> > -	 * If CPU has FSRM feature, use 'rep movs'.
+> > -	 * Otherwise, use rep_movs_alternative.
+> > -	 */
+> > -	asm volatile(
+> > -		"1:\n\t"
+> > -		ALTERNATIVE("rep movsb",
+> > -			    "call rep_movs_alternative", ALT_NOT(X86_FEATURE_FSRM))
+> > -		"2:\n"
+> > -		_ASM_EXTABLE_UA(1b, 2b)
+> > -		:"+c" (len), "+D" (to), "+S" (from), ASM_CALL_CONSTRAINT
+> > -		: : "memory", "rax");
+> > +	ret = __inline_memcpy(to, from, len);
+> >  	clac();
+> > -	return len;
+> > +	return ret - to;
+> >  }
+> >  
+> >  static __always_inline __must_check unsigned long
+> > @@ -178,25 +170,15 @@ rep_stos_alternative(void __user *addr, unsigned long len);
+> >  
+> >  static __always_inline __must_check unsigned long __clear_user(void __user *addr, unsigned long size)
+> >  {
+> > +	void *ptr = (__force void *)addr;
+> > +	void *ret;
+> > +
+> >  	might_fault();
+> >  	stac();
+> > -
+> > -	/*
+> > -	 * No memory constraint because it doesn't change any memory gcc
+> > -	 * knows about.
+> > -	 */
+> > -	asm volatile(
+> > -		"1:\n\t"
+> > -		ALTERNATIVE("rep stosb",
+> > -			    "call rep_stos_alternative", ALT_NOT(X86_FEATURE_FSRS))
+> > -		"2:\n"
+> > -	       _ASM_EXTABLE_UA(1b, 2b)
+> > -	       : "+c" (size), "+D" (addr), ASM_CALL_CONSTRAINT
+> > -	       : "a" (0));
+> > -
+> > +	ret = __inline_memset(ptr, 0, size);
+> >  	clac();
+> >  
+> > -	return size;
+> > +	return ret - ptr;
+> >  }
+> >  
+> >  static __always_inline unsigned long clear_user(void __user *to, unsigned long n)
+> > diff --git a/arch/x86/lib/clear_page_64.S b/arch/x86/lib/clear_page_64.S
+> > index a508e4a8c66a..47b613690f84 100644
+> > --- a/arch/x86/lib/clear_page_64.S
+> > +++ b/arch/x86/lib/clear_page_64.S
+> > @@ -55,17 +55,26 @@ SYM_FUNC_END(clear_page_erms)
+> >  EXPORT_SYMBOL_GPL(clear_page_erms)
+> >  
+> >  /*
+> > - * Default clear user-space.
+> > + * Default memset.
+> >   * Input:
+> >   * rdi destination
+> > + * rsi scratch
+> >   * rcx count
+> > - * rax is zero
+> > + * al is value
+> >   *
+> >   * Output:
+> >   * rcx: uncleared bytes or 0 if successful.
+> > + * rdx: clobbered
+> >   */
+> >  SYM_FUNC_START(rep_stos_alternative)
+> >  	ANNOTATE_NOENDBR
+> > +
+> > +	movzbq %al, %rsi
+> > +	movabs $0x0101010101010101, %rax
+> > +
+> > +	/* RDX:RAX = RAX * RSI */
+> > +	mulq %rsi
+> 
+> NAK - you can't do that here.
+> Neither %rsi nor %rdx can be trashed.
+> The function has a very explicit calling convention.
+
+What calling convention? We change the only caller to confirm to this.
+
+> It is also almost certainly a waste of time.
+> Pretty much all the calls will be for a constant 0x00.
+> Rename it all memzero() ...
+
+text_poke_memset() is not limited to zeroing.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
