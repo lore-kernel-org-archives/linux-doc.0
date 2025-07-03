@@ -1,108 +1,107 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF6619CC02
-	for <linux-doc@vger.kernel.org>; Thu,  3 Jul 2025 14:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB0C19CC02;
+	Thu,  3 Jul 2025 14:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751551460; cv=none; b=tsMABi5GUyqWMKLVa8sfj4D/tNcHRFl1Ky8XUhuShwrvvw5XOHQWFY5jgw6VR2DbkqiWZpphM4cE7pyVVDkjObkDbNY/SRMlqfyYKAd0d1u+SLDg0lJThxgA20bUJbhI52/RmJXZ7syfOaXu2Xx7JHFY+xAvfQTOIMcFKs8Ro+g=
+	t=1751551521; cv=none; b=rHSgG2C26Foi2ujjcgjmynZD7QOTpLPu8tWXiTMJMeo7ozsjF9q1xMdiOfrkqHPd8QxUHMwJXwguuRrUV8rFRsOGeSOegf4jd3FR82PjydjAglrTq3YHntQb+uj3np4nhakPv0hB7q2revxwOVIsX8vTSx/pB0oOAdqxjEpiNvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751551460; c=relaxed/simple;
-	bh=2Ja0DRql3lathYbsnh14IuivZQ4FJiihEMyCBFg1y6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=I9jtjY6W23lSnw1d3T1JykCq8K2trNFiNXLgsaGd1WS41yE010m2Q+KvhoUeXdeNddD6FtITvxGKBMuGzvxfqeHjCtk7/uqaL25ps96Lw3w1r/LmzJK7SQksa3gN1qqSI0BVp+uqRl9Q0Nxb6nNXaOJ7in1evR2pcuqbdcMU+DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com; spf=pass smtp.mailfrom=6wind.com; dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b=TtSV7JHA; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=6wind.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b="TtSV7JHA"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a4e57d018cso1050021f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Jul 2025 07:04:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=6wind.com; s=google; t=1751551457; x=1752156257; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :from:references:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=dDrJgI2UVALwAFMMfVSy2p69AmBm6S+zzAfjuuFd4NM=;
-        b=TtSV7JHA98z6F4GHH35zpp4gDOAvs7W87NmDHqfSW96LSgYzE2ROJfELFFr+YWQLwZ
-         t+ApmACziJ8WHArk3KjRI7peWUyiXamCAm0KTW0Rxngxz02dBm8L+euTcdeugX8tIyMC
-         2dxFv3s9SJ+czqY1sFB42Ciyw2JENoadUcJlZZkAJTjk5w0cFesvYGin7PQVZWIvlDU6
-         swCyJ27phZ0eGOUZt7nVNq3bXV4Bw1gyD872B886oIkPmtnK7xVi8gIU7D8GwicNJ7/U
-         +/SANI61epMP3IuIEFIS3QISo4DwPMZxImRtfN6NiVFSNkC80xHGjDuiCc08mHxVaOBw
-         H7LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751551457; x=1752156257;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :from:references:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dDrJgI2UVALwAFMMfVSy2p69AmBm6S+zzAfjuuFd4NM=;
-        b=kU3tHfOe4jJBYEATdwLviXWRU5ILLJY7q4wLwkBLwIBma6VkR+R7/e69TQeVHd/3Wo
-         Be2C+Z7KLD4nKLOlTQ7dfHEI7I3pVLFZmK6cGb0u9nH/Qh0wuz4mhbx3cRy263EkWfZU
-         Nt2GQtoYpwiD6lQhZbutE5m/IsjERvXUG7d7GgycHOzE9wJ5Tk+F7CX8hcMSwfuuZP94
-         M9cvrDHETBkOcr8i38BMck4A5k1OibS4vUzQNDdAsgoD+sxOSV/arP2NO/e2LygOKX75
-         s5rH3/BWRvLbeRwRKq+TSkR+0r3Z7UCPHNwAYBK3tfKTXcrGmtjYYEWR+VidTyG77mtc
-         uftQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJSWbMz76++rt1JdXHVi5CHblJkKHdQ718vohMp2lC7+RoSCDKLixTYJIvD1+OyUGJl7h/qSD2224=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsbxGlFCZeRniXpo4cv8/VhlAOvYfLL60EC6spSDD1WWPWKvlq
-	t4uFUs+Yzc8QHyEsGKtD+RZVdyEuHFB35yFb2/rg3Qmv5HDx2yoSN7W3ppTZMLil9ps=
-X-Gm-Gg: ASbGncuPq2zrn5yITSyTnO5QHWSIm1XdageW0KCzAdO+T6RhCQz+1W8WpKANNiAcxq0
-	0dStaI+ariI90D1tkbvpBwcnhR/5b2cGWyRIhPdSBaPCHBN4g8+NITZWubMSumHZzcDhC/YahNa
-	Id3TaBF3+wHKtjEN9KiGGfg8cyAGYcDuoBtY4V9D8bf/OTB44N8wLReksGJ9yTs/LFKiwwIPn+M
-	9TXaSY6oRBydkepDEmutlYH4MtOoOwwSNjob9J5HS8VPAWgm82j4VExhlkt9YbwNnYq0RmDqVL+
-	sLGXzAkLLApbObGz2l7RsooHW9YJtCX0qAwpMkktMPVTjpRPOvml/eZz5BD6qN3mxJlB6R1L86u
-	nmsWK+tPqRlSfRuFjHbmbzCMy4soRVvJe/dpueKo=
-X-Google-Smtp-Source: AGHT+IF5rCFDzUmRIqGfxH4DlbOtx7wQkmAk4Z9+J1BmQz88TZ603h5r95CnF2l2Jg+U+vKV4H4iEg==
-X-Received: by 2002:a5d:64c8:0:b0:3a4:e740:cd6e with SMTP id ffacd0b85a97d-3b37b7687c6mr698382f8f.8.1751551457041;
-        Thu, 03 Jul 2025 07:04:17 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:b41:c160:61e4:bb55:bb2c:ae50? ([2a01:e0a:b41:c160:61e4:bb55:bb2c:ae50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454a99c07fcsm27185885e9.35.2025.07.03.07.04.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Jul 2025 07:04:14 -0700 (PDT)
-Message-ID: <1e896215-5f3a-40f9-9ab5-121109c48b3c@6wind.com>
-Date: Thu, 3 Jul 2025 16:04:14 +0200
+	s=arc-20240116; t=1751551521; c=relaxed/simple;
+	bh=U4ubF4srjWWEZmfciFKdSrN8FMIJ8HJdc+JOZAcLcv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JfCTSlsp4xEWOtjCo0kRFqZOyTtSfPKpZnPCjw+W+1WZdsbW9n/GRgz9wDicrfNcs12BmhYId9uJ00DGh/eC+ZC6BRTF8lSh7+h977+5vgfsDL4hE2B5C/gXrAaVy+oX4soPoRYAsK9OpYJdRCTsQ/Oe91bhv01EFcrdhgnnAws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from [212.42.244.71] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.53.4)
+	(envelope-from <n.schier@avm.de>)
+	id 68668cdb-bb09-7f0000032729-7f00000184c0-1
+	for <multiple-recipients>; Thu, 03 Jul 2025 15:59:55 +0200
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Thu,  3 Jul 2025 15:59:55 +0200 (CEST)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id F25BE808E1;
+	Thu,  3 Jul 2025 15:59:54 +0200 (CEST)
+Received: from l-nschier-aarch64.ads.avm.de (unknown [IPv6:fde4:4c1b:acd5:6472::1])
+	by buildd.core.avm.de (Postfix) with ESMTPS id C8614189F02;
+	Thu,  3 Jul 2025 15:59:54 +0200 (CEST)
+Date: Thu, 3 Jul 2025 15:59:52 +0200
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v4 01/15] kbuild: userprogs: avoid duplication of flags
+ inherited from kernel
+Message-ID: <20250703-fanatic-funky-jerboa-d8d82c@l-nschier-aarch64>
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+ <20250626-kunit-kselftests-v4-1-48760534fef5@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: nicolas.dichtel@6wind.com
-Subject: Re: [PATCH v3] ipv6: add `force_forwarding` sysctl to enable
- per-interface forwarding
-To: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250702074619.139031-1-g.goller@proxmox.com>
- <c39c99a7-73c2-4fc6-a1f2-bc18c0b6301f@6wind.com>
- <jsfa7qvqpspyau47xrqz5gxpzdxfyeyszbhcyuwx7ermzjahaf@jrznbsy3f722>
-From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Content-Language: en-US
-Organization: 6WIND
-In-Reply-To: <jsfa7qvqpspyau47xrqz5gxpzdxfyeyszbhcyuwx7ermzjahaf@jrznbsy3f722>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Le 03/07/2025 à 13:04, Gabriel Goller a écrit :
-[snip]
->>> +    // get extra params from table
->> /* */ for comment
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/
->> Documentation/process/coding-style.rst#n598
-> 
-> NAK
-> (https://lore.kernel.org/lkml/
-> CA+55aFyQYJerovMsSoSKS7PessZBr4vNp-3QUUwhqk4A4_jcbg@mail.gmail.com/#r)
-
-I will follow the netdev maintainers' guidelines.
-
-If the doc I pointed to is wrong, please update it. It will be easier to find
-than a 9-year-old email.
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="t5abbrXTdUbzxWZq"
+Content-Disposition: inline
+In-Reply-To: <20250626-kunit-kselftests-v4-1-48760534fef5@linutronix.de>
+Organization: AVM GmbH
+X-purgate-ID: 149429::1751551195-9E521740-0589DA78/0/0
+X-purgate-type: clean
+X-purgate-size: 1552
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
 
 
-Regards,
-Nicolas
+--t5abbrXTdUbzxWZq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jun 26, 2025 at 08:10:09AM +0200, Thomas Wei=C3=9Fschuh wrote:
+> The duplication makes maintenance harder. Changes need to be done in two
+> places and the lines will grow overly long.
+>=20
+> Use an intermediary variable instead.
+>=20
+> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+> ---
+>  Makefile | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
+
+--t5abbrXTdUbzxWZq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmhmjNAACgkQiMa8nIia
+bbgZmw//bcwO/HfGc1WRkxirOFpym6UM5OMeFwy2HNnMeuYwMLndwLpxQj2aBTXw
+1WRml22MebaAASoxoZ6riV3r4Kag9NkMPvulsmQJzB03Kchn/xb8Y10jihgIcNDV
+LH9lmTS8bf70MArpID3Gv/aZIP987WoY5hqRU5SKzDG1YDHM3maYHahVlkqwWEg0
+0HN686vS/WFmju0DgtN8tE/lDFM7ZpSNT7OsdN9j209Z7vQOhEl5SND5YJB0pNJO
+X5uULV2EKBiWp1HYnwrxkL+nj8K0Tn57J7Wj5uTB+W+aoWhTEjZh8NszYkyxZ0aR
+hwboouhODGk9gvaYPzMXaUpigYgB9m72zz+HqabFWPjHMO1xFFUapoLfR02eOzjv
+6qeL8XI9ZA25RAYbkbv9NzbyJdlViDcAZuj0oszDolRsr51udM6Tf2qPlWYzm876
+usYVeOTcQI8y6lvR8q5u7BVV0XXZb9iRdSB9pkWo8VqRcL5x50Dtkx1b9FghzlKv
+JL0wm1h9yVUKhNROLaVpy7F1MO5+Nv7w/hlbIRCFGLbNO1FXqWiKlGiGYo6T31Z7
+sqAUYKz9fNgLzauk5U5L1QhjJ6sen6TYmFLousvkSV5ITrxyuoJftuRSEfcpNTB+
+0iQqp7a0kZ95r6+lexC72J3BRcl++lgfwKresIQ9tXDV5673MQE=
+=4nvN
+-----END PGP SIGNATURE-----
+
+--t5abbrXTdUbzxWZq--
