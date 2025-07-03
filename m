@@ -1,89 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FFF42A9E;
-	Thu,  3 Jul 2025 05:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246C2A2D;
+	Thu,  3 Jul 2025 05:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751520923; cv=none; b=U4G9NFjVj0bCHwG+V6eZ7K3ltG7l/3g5DIlucvQeiLmtE2co0gearCw+KfxqrVR4AGBCGCp8VM655X/6JBXc2Giw/Y0D5f6UmjGpUJS2HOMG5CGgnOf92JAc8PtYW3D86Ti0U/zCypvxv+KB3dFmvWDlUc5kgTPh0gq4FfjonPk=
+	t=1751521686; cv=none; b=WgmYJ0j6QVnZA5lMlhqpQBSa2xLWevpr4ZyaMW1zi/0WCxy7MMxDdPMcJDI2eeikRMPDht2bMRiqrhAd+AtsUfQX2B5nrLFqEDynrkT01nagIU0oTAQjNgsvgIE5sJEhV1x6OGxw6c2kBT0cWd9AuY69ab/RGRz5fJ1/BlScF94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751520923; c=relaxed/simple;
-	bh=yeYg6l7jpX2wUFOOLFtqLbrA40KVIjwHufhNi0OeZVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XN40ci4VV2/wYqZ0unnD+ffa38+/lZiK7G0makGzYINyrgNsoGUlbE7VNjmesuXJ4xEm84pgdKE8fgziBpqIubdZ+tGTaQQdlBPFo8AbTS5AqHPyDIU8mV9cl0SkjqZrXPtX2R/N1AUBxDdXpNkq/rs6ly48u366sdzSuEabv98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HfCg6gJE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751521686; c=relaxed/simple;
+	bh=0pOHzoDUKBgLqmzty3nLoi9W1UERKjcUaGWTlW6CliA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ItYHyP3PlTxDafJSYZ7WFkwxewaw6kGobK9Dhns9sj/krCyPTuXtj3lLfq77HiQhRXLjVur8LB293WKmecB4OErETT0uMyExYQ2garR4P+qHv7eDqqCAB5AUaCoQlpqMUc1VJwwfMgLPN1Gz9f2mQzPNLdnAXyx+932xmhpngPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U9kxmaMf; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HfCg6gJE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71EE4C4CEE3;
-	Thu,  3 Jul 2025 05:35:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1751520922;
-	bh=yeYg6l7jpX2wUFOOLFtqLbrA40KVIjwHufhNi0OeZVw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HfCg6gJEBBc2fdKMY/VjDjPSARvBed6UCnQS+loRwZyyd4AMNSAZydmhWRmqLuks7
-	 LhfMbj52p6Q5Hw5ouwXsPMac14p6bu0ENd67wqa9yAWpFj340XhQ3vVUj/6ljx3wJd
-	 o8ZRw+ge1GE33MF4wUQMaWgxZZB83olM/EydLA/w=
-Date: Thu, 3 Jul 2025 07:35:19 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Chas Williams <3chas3@gmail.com>, Coly Li <colyli@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Don Brace <don.brace@microchip.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Jiri Slaby <jirislaby@kernel.org>, Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-sh@vger.kernel.org, netdev@vger.kernel.org,
-	linux-bcache@vger.kernel.org, storagedev@microchip.com,
-	linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev, linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-kselftest@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net
-Subject: Re: [PATCH] global: fix misapplications of "awhile"
-Message-ID: <2025070300-return-removable-7277@gregkh>
-References: <h2ieddqja5jfrnuh3mvlxt6njrvp352t5rfzp2cvnrufop6tch@tarta.nabijaczleweli.xyz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U9kxmaMf"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-74af4af04fdso470647b3a.1;
+        Wed, 02 Jul 2025 22:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751521684; x=1752126484; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YeYruVMYK/XmcCRF6hjaAR6fjVlqTY1aOB89sVe6CxM=;
+        b=U9kxmaMf66YpDqvq7p8tkmL1p3b24Wn88I5oEYCFkiocQk2SpQ6D9jwf1TSCMOQScK
+         n56ooNLNPzqhRuAbj3x1UTQAOEmOv6aV4cUKVFJq9G71y9YqirdKDt6CAMKowbOWEpdU
+         v4AZBNPE3Mk3Wv/9lotkscp/cMB8cTnXrImPT4wib6tDfcieogYogPoanQW1IFYfEHnT
+         6vmJathyVKuXdtBg3PdX8TxQjuoLN3kxA5+vSMueQYmWhIHD3pvWcD3iV4Y8IkPmwrnd
+         Pz8XAPuuJAvwkfSTVFIiDlwzLgvVIuy/uCsk4VdD0XZt8eBju02HgTgXISV5bdSVaxSI
+         3bIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751521684; x=1752126484;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YeYruVMYK/XmcCRF6hjaAR6fjVlqTY1aOB89sVe6CxM=;
+        b=PE0MsNbLHo6NZMRn7qm/cjXYROloQRvAirTRfZqiZ8aIQ+wIa5XoljpC6JT3kJo2aM
+         bUYf08kP0L7XUw9zNZbbjdvWLHkvdgAbf/GIr0nH+yaexXufwBgmJG9GStqQnGasVvXL
+         9x5rb69jbk0/JEaeLqdxBigdHG0/sFM5jZEZZWF89UiP10YqcHO7HkBohIAJxnzU0UDL
+         wSvhmft6iTrWIj8qAItG/yIZdMIVxftSLCl69T1ody68RqRFXa4lbzrGxzqGfu/110so
+         oEB373dgRP9mNnscxaOfHyaTsD9xgFDivmHlCvLlixVZ3xKgT2YNAJndyQJsE+5ZLwoH
+         pvtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVieiFVpUjAdVcakxZVrWdtomUzBSXjsls1C9Cv13pBptXMZC6PhdqXUD6598zGcD47Zi6v9mN1dq2MqgRQ@vger.kernel.org, AJvYcCXFqEtJ17fIJQkCQVGpI1T8Ng8vLUYPu3fy/Rl3gyDZtBD7t1bQkC+bwJORlvxFFDKZUUxq91GlKnE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynmWcK7ZKTaFfnrB4V0BsmHnE4lxWMr2mkcS5o3FSX3rr/nhsc
+	Vn9YKG4o/Pfyw37hNaWL998VqrhuL+/5t5hK1vo6CXEv6DOFNf6kYry3
+X-Gm-Gg: ASbGncsrbrL2YGYkGHPxiVxP+om713k46RpZ2bjAeIguNmyN1XG/iKhViihbm6JlQQB
+	4TzmhBD/53kbmPvp52Ve/qD1qSlsXo3RQZyl4Zxt0yA4r6ALp693rLflHvfNTVI5rb4iz9lDRhU
+	vUkSHVTSafkJ9rZYzyf2rRzno0vZ3fXMU7iA2iZp946gEX6sF0geijwrceleC5B3ZvCnFioUgRR
+	tCRt/Na8JGtgL1kCPztaOznq467oOUB66N6KOBkkqMD1Bn4pQnC0J/HFoP3tbWB8SxKWHRbYBwy
+	ZCPw1UcIr0QmpmogEW77jbkKEs0O8oeVQuP5ZPrmGzvzF+QOPz3NjUlbbEg6Kggd4kt40v6B41v
+	VgHJh
+X-Google-Smtp-Source: AGHT+IGzWujgKVoWjBlqYZ+0zI92gP39/OA1qVCrrwqiRKtehsjAWU5JM71YcI8aFSEMGap/pfP2Ow==
+X-Received: by 2002:a05:6a20:3ca3:b0:215:dacf:5746 with SMTP id adf61e73a8af0-22488c4e600mr1349805637.19.1751521684222;
+        Wed, 02 Jul 2025 22:48:04 -0700 (PDT)
+Received: from [192.168.0.150] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b34e301cd38sm14574169a12.17.2025.07.02.22.48.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jul 2025 22:48:03 -0700 (PDT)
+Message-ID: <70ef2227-55ac-482b-9bcc-df1fd847abd9@gmail.com>
+Date: Thu, 3 Jul 2025 12:48:00 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <h2ieddqja5jfrnuh3mvlxt6njrvp352t5rfzp2cvnrufop6tch@tarta.nabijaczleweli.xyz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: document linked lists
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250702-linked-list-docs-v2-1-e36532f4b638@collabora.com>
+ <aGX30ATQaD2EjWwW@archie.me>
+ <194f16f5-4e26-460f-ae4c-8a5f93088fae@infradead.org>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <194f16f5-4e26-460f-ae4c-8a5f93088fae@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 02, 2025 at 09:32:45PM +0200, Ahelenia Ziemiańska wrote:
-> Of these:
->   7 "for a while" typos
->   5 "take a while" typos
->   1 misreading of "once in a while"?
+On 7/3/25 11:16, Randy Dunlap wrote:
 > 
-> 3 awhiles used correctly remain in the tree
 > 
-> Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
+> On 7/2/25 8:24 PM, Bagas Sanjaya wrote:
+>> On Wed, Jul 02, 2025 at 10:24:47PM +0200, Nicolas Frattaroli wrote:
+>>> diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
+>>> new file mode 100644
+>>> index 0000000000000000000000000000000000000000..b0586056abb04d2bcc4518f7238ff9a94d3dd774
+>>> --- /dev/null
+>>> +++ b/Documentation/core-api/list.rst
+>>> @@ -0,0 +1,847 @@
+> 
+> [snip]
+> 
+>>
+>> The text LGTM, thanks!
+>>
+>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>
+> 
+> Please see https://people.kernel.org/tglx/notes-about-netiquette,
+> especially "Trim replies".
+> 
 
-Please properly break your patch up into one-per-subsystem and submit it
-that way.
+I did quote the whole diff to provide review context...
 
-thanks,
-
-greg k-h
+-- 
+An old man doll... just what I always wanted! - Clara
