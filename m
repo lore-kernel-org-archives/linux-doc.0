@@ -1,83 +1,80 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6B12F94B5;
-	Thu,  3 Jul 2025 18:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9870429992A
+	for <linux-doc@vger.kernel.org>; Thu,  3 Jul 2025 19:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751568999; cv=none; b=tkGxcR9Dgn23hIxHohepVlk74hKGciF4n2s20do5DhmE00i2aDjKIcTSt90YUpseEY3CxZRY/VnYBN4w5EmPBIEQtvbBUKSxJckC+/fLuKHPPVYt9eyhGna+HnM8GyFwZqFBHm/3i3nfl0qUkDO+EsOE4Hn6ceQH6V+tV161uko=
+	t=1751571627; cv=none; b=iPgFYyytjYcz+j1reBvIZHPPC8j1klIDQpgSCqC/u07SUJ0G2bkxosbFFuN0VOGm2BoTYQ5ZJv1WlV3oDwgb1GfCHd2BYvUQ+Nj3gAnTjG8zO04aB6LLFt5Nm8InTEGzK+7PRmGBIHSb4EHond+mn5MEiwtihoBxkiF4tFfzSdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751568999; c=relaxed/simple;
-	bh=UQAZ8zLttUZ8DRuWxXbltVWRlFbP9bIAenJaMLe7WlU=;
+	s=arc-20240116; t=1751571627; c=relaxed/simple;
+	bh=wjAihhlgIFoKBph/30BdSuaRV45zLLu2FTAyTGC63U0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sgx2fVobCgCVgEPIlDWC2L6U3wtdAh35HHBhb7FcKGtqcdFSYtZkISf1K1HxyUYJ6z8IihWclkXk7xVhjfWJeHRZfCeEd5xd5t1uR+PH7o3SGBKnQCxwpSzc7qxHZa+J9qeNxsgKH5+V0JACb/K479K4qDKgx6oqMBWhvzew0Ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dIcuSayS; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=oKcuyT7CGaWB7clSocJmXXX+mCzdn9FFDmsNkDYyQ0nU15YCsN3y3HWl8O7YvpAHj/y52EofspU+gz07lLFLCFBP1uTLpapa6o5IzKMKMn/cJWJ60NNBdhaMOrXnJQ+7gXY1fiEkYG4LG7O4mAT+p+EhK86Y9BbcAh1QO6M1WI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=tIwK+dhj; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dIcuSayS"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-40a6692b75cso223555b6e.1;
-        Thu, 03 Jul 2025 11:56:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="tIwK+dhj"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6fae04a3795so3024566d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 03 Jul 2025 12:40:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751568997; x=1752173797; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1751571624; x=1752176424; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I0B3UqBqQulOzfupGyjVu5okNK2LnOMOlDR/fz/GO0Y=;
-        b=dIcuSaySro3aEjboinSBxWCrSnyUIHbde9AFxbI0z1yB5PpdV3bE9sCbyT6iaAZ5St
-         BkCelWTbZ2V47eXAORmHvNAIa0cdVpzUXT5Fv0Hzp39ljnNDUml7s712Qs2KqFVvCQWG
-         e8jKLgurs0jHrOogYHBMFz36Y/S43XPWUylyYQHMfxTPDh0EcKlym4JTJZcHrO3LOKgW
-         UK6Op8+H6F6DtxmyHq9ptPowdjEvQWTS7OC/DBQy84G6QvbFloYVLYdXBS42m+1cANeJ
-         dFcFU4Qw0Cg2lu5YNakWeL9rCsuewmC56d1nq8w/PMhqfKsIOp2/p+O791hjXA/Zpn0r
-         XBeQ==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z5JiRVjpCDIQ2FImaZDAlexoOFjZvW0CINutA6RTJCI=;
+        b=tIwK+dhjNysjyhsEaEO+QTBWm9yc/pmUIcdB5wWstIq0vtM6QzFiINXLWi5BD2ZsjY
+         PuYwFGL/Rg7b38rDWLx1dTyX4fiPz4OLv7lZ5pnTcKG+aLjnjhcwvtCnyi/51ES7/7KK
+         KT6ol/9XNPXtm1Ue6nk1zb82RiQxknwW9eSYFEk0vHxTKTaMD1AEBYTtir+5kEyrieCm
+         SRdo+gPGK5hNQzI5PPrsncNDUNoH9uIc3s/9vUhOYk1wku/dQ3i9yobIeiCwab8kvPIp
+         TeGeHYt3uiG9MhSHFpl+QYEhP4Wb1TbvC8NahY5AAvwvos/oQPzam1kTrsvEzbQMPwLn
+         oUpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751568997; x=1752173797;
+        d=1e100.net; s=20230601; t=1751571624; x=1752176424;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I0B3UqBqQulOzfupGyjVu5okNK2LnOMOlDR/fz/GO0Y=;
-        b=oqz0786f995mFk/uMbdu/XCtW2H4iypllFla1aVe7scAhwVK8+yYCzLme0HwHGEvtk
-         2OJ/IY/sNjRR2nRQ1o9VMbfsqRai6FBfBeux9ujoEhECeYOOQcv4ldSeN8UjlCuIyosJ
-         HZVYVxTuKdx8hyObylpPrUJBOILACMT83MU2zbsmjme+Y8AGVv+fBjrQsi5uNxKVpbNK
-         Qqx7VKCHVYoAX5VfucR4HOxi7O/EFtHBNI2HjBLl7LuE6kXp+f5irQNJH2y6UPWqTFEF
-         OBukXXs9reR7f5hxzmikzr0qFSpbeEkt0bmb/lL1b52z/0bqt0EuEDQnbx1gTbpKX9fN
-         cI1g==
-X-Forwarded-Encrypted: i=1; AJvYcCU7gG9YYacxNrzetlpUt8oLVgwci4rHh9F+339mwy1pra2EbOZ/S06r/EdK2+Mb7ffv19RUUDXF9kVbXDG0@vger.kernel.org, AJvYcCUZh/VTFeIpdpxrgkP4YExgAvtYI8ELc0Ipm9hoNGW3Tpm7WmLCN27wq2aYBTd1GcrRxxTEEXapmbhE@vger.kernel.org, AJvYcCUuHyZazzggcZAtAl+tfLUhsncyfRs593J7nEzGdF4EiARXdJjND0lUMnkulQel/AmwYXjOE6TaTcP+vJFQSg==@vger.kernel.org, AJvYcCXu44EkV9FUFwo+I7QH8KGjOoaW7FmuFHTAubxuWMkCfSajGoczUP+lG7gvJ9hZSKPZmCCd8E4e54M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUpnQdjQgdgufXlmr4Wz1Tjt3zeE+sruFBU0ghif8jyAS5J8io
-	E2rJoIreV1fvjMMQ76J/WTUgR4Xvpzm8pfw2+Le7F2gZIMy0wuaf1vl8
-X-Gm-Gg: ASbGnctZoCR3G3X9waukB42t1Q/lrmlFdnBUeCjER1a6p7XrOPOGJFQKos5OqHbfQ9k
-	4poZvKgxKZ861x57UdV7cJ780BFUnjr7U3jsQEdYSivVrjb4gn/7JVq3YfXMN0aVVLqnFc32ch0
-	Aq8DJD19ptN/NuI9BBFdX6wZDRVRhwEt7tpzp6FG3yuT9xViMzAGz1oIsKbCUDlKh7rq8TKhJHm
-	pqsLxA7pOApyot7iLaMnfnTuCp1PEuqGH2N/WLA83OnqHtd1H2saRZrMZcnWk/q80Ros1vYZkHj
-	A/em0rH3yYoXTWhw9QP69Tgmp1spXYVW2NrlqN7M8D2O2tZh23/+naNfFvCyXwqC7Fl1adHw+Uj
-	N2Ab4o1ksTg==
-X-Google-Smtp-Source: AGHT+IGASt9BPy2PeX5NaYh3/reWzvowDb/acQvtLTw6FIrvDHn+1U14JqW0DXZlujFkHDKYOQyFWA==
-X-Received: by 2002:a05:6808:1919:b0:40a:a3a6:9179 with SMTP id 5614622812f47-40b8932fcc8mr7044822b6e.39.1751568997047;
-        Thu, 03 Jul 2025 11:56:37 -0700 (PDT)
-Received: from groves.net ([2603:8080:1500:3d89:cd4:2776:8c4a:3597])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40d02ae4172sm29988b6e.45.2025.07.03.11.56.35
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z5JiRVjpCDIQ2FImaZDAlexoOFjZvW0CINutA6RTJCI=;
+        b=k0loQbVFwQDIh/mFkkxC3L/R8IhqTY84K36abOsFkxaxtYHKKzasPICVECIeqvy+RI
+         SYj0HMwADDfYqxireUG2pOcM+LC6hUIgk5HFLSM8ePPUetmSHkhuNNgUDwJMkrYKLE3b
+         PLgZycSur9na12A5V4lhq3a/wI2rb9m2TcKo5mxv2gEE+etgni+9fGQY6Saotldd1Uqo
+         mxRGj83G/vddqdaVjjwIhJBq1o1fg+lz7duIRefj9ipewHZHQJuyMuAV44OxdFLyEYqK
+         QCJQ4ir2i3v0Ofmph6Bod/tDRedYtuFBwhQO72WLx0Be/07QOTu/ml8428EHhf2tDfWE
+         3M5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVmAzHCmA0+OAXUhnVyadHIxMs0d4IutNUySYNdWNaKViU0TJ5SEZYxKyNUujRBsioKqjSld+4+l1E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHB/M1mjEdV+b+CA180yppoaOb75DLwY80ksYFSs6h+sxeQcii
+	Snu3nNX030JWIFKGUgw1pXaxcAYIWUF+jDlALJo7APIhncDbL6mcINwt7t4WvhN7Fqs=
+X-Gm-Gg: ASbGnctj+jXTyqP+httvmQGmOdO7V66iL4f5N7QiRE+KuEtQhayR3BXf9HuURRHL4OA
+	oiYRua5PJ7uSuXfWvTcql0TNKWUTrnA9ykS4HsT2zQ3PnC8LH/hBVeyXqZRxIdNTC618n0Fsj6a
+	xHeSs2xJGAYN9Z8AXDmkz0pWoHl+5dEVBcDBII9GNBz5GELwwuiuT/UBU39vmiQ/OlMw3Xz60Hf
+	A1CTRLVV+M2JdXf+Qnc7Qet7vnFch5lSk2LlcRMvdfDVvb4LJty/o8tzUbdZMBXhe7cdlGlpdjr
+	eOsPKP6arQi0VQcZitsLTdyKpEYUCyCx6GmZREU/rcz7LIqw2GF+Zm3vTtECA5aIwtjRTFW4jV1
+	X1P/t91CHyp2tzHA0qIOQNItm+LP0j7GtQnrytW89bA==
+X-Google-Smtp-Source: AGHT+IHtokJzW6Y7SnAkO7fHIQj00qi7TbnLaOfijw/VLKAWWQHbBebWsqlSHWpM0Ffk/Tm8g67+Iw==
+X-Received: by 2002:a05:6214:dcd:b0:6f5:3cae:920f with SMTP id 6a1803df08f44-702b1b376ffmr133762066d6.27.1751571624342;
+        Thu, 03 Jul 2025 12:40:24 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-42.washdc.ftas.verizon.net. [96.255.20.42])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-702c4d5ad73sm2155396d6.92.2025.07.03.12.40.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 11:56:36 -0700 (PDT)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Thu, 3 Jul 2025 13:56:34 -0500
-From: John Groves <John@groves.net>
-To: Dan Williams <dan.j.williams@intel.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 00/18] famfs: port into fuse
-Message-ID: <os4kk3dq6pyntqgcm4kmzb2tvzpywooim2qi5esvsyvn5mjkmt@zpzxxbzuw3lq>
-References: <20250703185032.46568-1-john@groves.net>
+        Thu, 03 Jul 2025 12:40:23 -0700 (PDT)
+Date: Thu, 3 Jul 2025 15:40:21 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] cxl: docs/driver-api/conventions resolve conflicts
+ btw CFMWS, LMH, ED
+Message-ID: <aGbcpac1pma1od40@gourry-fedora-PF4VCD3F>
+References: <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
+ <aFmo18OEZGMA2HU8@gourry-fedora-PF4VCD3F>
+ <c32cede0-643c-47bb-bfde-93adbcf16155@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,10 +83,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250703185032.46568-1-john@groves.net>
+In-Reply-To: <c32cede0-643c-47bb-bfde-93adbcf16155@intel.com>
 
-DERP: I did it again; Miklos' email is wrong in this series. 
-Forwarding to him...
+On Tue, Jul 01, 2025 at 08:23:57AM -0700, Dave Jiang wrote:
+> 
+> 
+> On 6/23/25 12:19 PM, Gregory Price wrote:
+> > On Mon, Jun 23, 2025 at 05:29:02PM +0200, Fabio M. De Francesco wrote:
+> >> Add documentation on how to resolve conflicts between CXL Fixed Memory
+> >> Windows, Platform Memory Holes, and Endpoint Decoders.
+> >>
+> >> Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
+> > 
+> > I won't block a doc update on a suggestion so
+> > 
+> > Reviewed-by: Gregory Price <gourry@gourry.net>
+> > 
+> >> +Platform Firmware (BIOS) might reserve part of physical addresses below
+> >> +4 GB (e.g., the Low Memory Hole that describes PCIe memory space for MMIO
+> >> +or a requirement for the greater than 8 way interleave CXL regions starting
+> >> +at address 0). In that case the Window Size value cannot be anymore
+> >> +constrained to the NIW * 256 MB above-mentioned rule.
+> > 
+> > It might be nice to have a diagram that explains this visually, as it's
+> > difficult for me to understand the implications through words alone...
+> 
+> +1 on request for diagram to explain. We should try to document this issue as clearly as possible. Thank you.
+>
 
-John
+At the very least, it would be nice to have an explicitly example that
+explains the expected cfmws/decoder configurations that are valid but
+"technically" violate the spec
 
+I *think* this basically boils down to "CFMWS size is not aligned, but
+all the decoders it targets are"?  If I understand this correctly?
+
+> > 
+> > which is likely why the conflict exists in the first place :]
+> > 
+> > ~Gregory
+> 
