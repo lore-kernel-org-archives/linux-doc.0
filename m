@@ -1,98 +1,102 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from tarta.nabijaczleweli.xyz (tarta.nabijaczleweli.xyz [139.28.40.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BD01D5CE5;
-	Thu,  3 Jul 2025 18:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBB32F4327;
+	Thu,  3 Jul 2025 18:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.28.40.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751566829; cv=none; b=O4Tc1U7iAavXGU0Mqp7oIoxuk7izsxkyGx4VCOJ5Xp20gYJs7/vqA1JB8Ei++XGDLDV+gK7VNF+SjgYQ1b8WgK7D4ApvWBxGKG4xdozfKhKplFvFnqNFQ+/HNsXGQWEw8MDE72KhYQ1TUZkHfZ1TrdgHgVZGmMNIaxKnUF3clQs=
+	t=1751566877; cv=none; b=ApY6tHJKp4Fz5VbNTFIKdLndJ8bUUfHqD4TmLAwt4uueQR2jpfDkrntTZBn05QFoIadEZX4os7mqC4pI/vj71rhQT3JSwZXyInmBFuYUg7bebk94UsgUQKMo29Bdnmepnyn/qLc6u5VFiyHYDLDp3ooOokXTf2eEJQT10rfqjqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751566829; c=relaxed/simple;
-	bh=Ua+1AeFdIFCOxgZeS7TcKUgTo2Qefe/L0zIXwQpMVlg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Wjmp2TNV051hAtS2Y6HgMNDblVAEm0iaHqItJX+6j33GSwZinLPb0Gre7ZsnE3mUn2jKzZ5nw5ax+TE3TP6QafdY7zsdHlSXPZlamW503pAgqIMxFLqSb0TOUwwaR6kxt+putCLaiZCa9LiDhqAZxZ/Zl+OIEOGYWuo6JEOnV78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=N6UTUuBT; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1751566877; c=relaxed/simple;
+	bh=aK5BGIPAnLlDK2DcLG20FyVQPYNP6IsQ4xVEf9jXgn0=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VEIZXrwyZlFPMd//LTcWI2xa6WzkTOHoDvRURedxd9V5EFN4mi1I0hJ/Tc3bFjSkRhyR4CraKuBjDa7aGfBlKPD90q2W+ZVbsjRnk5v523NDHQjJiOa26FHVzxeceUHorY7YnvrTOLkUL4TURGE51vsQCOVy9GHbnY1zTKbOtBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nabijaczleweli.xyz; spf=pass smtp.mailfrom=nabijaczleweli.xyz; dkim=pass (2048-bit key) header.d=nabijaczleweli.xyz header.i=@nabijaczleweli.xyz header.b=R/edhYDB; arc=none smtp.client-ip=139.28.40.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nabijaczleweli.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabijaczleweli.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="N6UTUuBT"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 124DE406FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1751566827; bh=k+STB9EFsTzbp5+ikejbo8ErbMRgevfWBB4ZzFJvj7k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=N6UTUuBTZiYWCKrYjFEwMncBetae1sEQMxolsqtD+vOgYdglX+2x8u/RA5toDzUxM
-	 EJyS+bhTpZIwG2h9M9+pJ6/rllvKfiamunrnofBnwp4d3sRswmQqRXS5Dcy2ToN/Vv
-	 0Dg3sDQ5ITEoDA5D1Xim4k8rapKE6EOMAQxu8trZzorkqKO0xSJcOTs3EJNfsU7wsi
-	 bdSmxOQBjFmSevka4qQy9dr0N7evK43vlXbCd0Q5LWRuZwH5KRCGuYdlqOpdAAktn6
-	 r0j9ksBOTzprWhCi/9kr2M05U56Yqr1XVGHhD/fjj/5bi39VuyjtKRVaAdaXz0xPiX
-	 EHMUJaqybu8Cw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 124DE406FA;
-	Thu,  3 Jul 2025 18:20:27 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH 0/7] Further kernel-doc tweakery
-In-Reply-To: <e675d05d-0d81-47cc-b431-641b5b8c57b8@gmail.com>
-References: <20250701205730.146687-1-corbet@lwn.net>
- <e675d05d-0d81-47cc-b431-641b5b8c57b8@gmail.com>
-Date: Thu, 03 Jul 2025 12:20:26 -0600
-Message-ID: <87zfdljfv9.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=nabijaczleweli.xyz header.i=@nabijaczleweli.xyz header.b="R/edhYDB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+	s=202505; t=1751566869;
+	bh=aK5BGIPAnLlDK2DcLG20FyVQPYNP6IsQ4xVEf9jXgn0=;
+	h=Date:From:Cc:Subject:From;
+	b=R/edhYDBjTWDQfcjDbNxHSBQRNUmpwaLaUNQ84aLBTkir/bX347/2iSOvOdC8EWPB
+	 gs0PN1xMskT6iQBtFpG32rW0u7ux66VFAy8FlytO0brdGoLBLU1L+1F5/vXoYN160c
+	 RThLd4ZwW8miacXZPyyuhD+nI6LsD4uceaO6iQ8rMidu3QYscOkZyJUaXdoFNLvI7O
+	 Jr/eOQKeDnILJd7AfYEdPXvG817s2BKwcxL9XpTzFPBc7dfWSAugM/mGpPn9dfdvxd
+	 Dx7B2ctxPneV9OuyKDnbw/s4ePCKAibf06X0n2h0u2HOJ63zSmCScaXkzIAH8uM2AO
+	 4igjen5ArFqlw==
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+	by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 9FE7E36A;
+	Thu,  3 Jul 2025 20:21:09 +0200 (CEST)
+Date: Thu, 3 Jul 2025 20:21:09 +0200
+From: 
+	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v2] tracing: doc: fix "for a while" typo
+Message-ID: <xygdnynf7m55p7d27ovzqtdjaa7pua3bxuk5c22cnmoovaji5e@tarta.nabijaczleweli.xyz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3kgz5vvztx6zh7dz"
+Content-Disposition: inline
+User-Agent: NeoMutt/20231221-2-4202cf-dirty
 
-Akira Yokosawa <akiyks@gmail.com> writes:
 
-> Hi Jon,
->
-> On Tue,  1 Jul 2025 14:57:23 -0600, Jonathan Corbet wrote:
->> This is a set of miscellaneous improvements, finishing my pass over the
->> first parsing pass and getting into the second ("dump_*") pass.
->> 
->> Jonathan Corbet (7):
->>   docs: kdoc: don't reinvent string.strip()
->>   docs: kdoc: micro-optimize KernRe
->>   docs: kdoc: remove the brcount floor in process_proto_type()
->>   docs: kdoc: rework type prototype parsing
->>   docs: kdoc: some tweaks to process_proto_function()
->>   docs: kdoc: Remove a Python 2 comment
->>   docs: kdoc: pretty up dump_enum()
->> 
->>  Documentation/sphinx/kerneldoc.py |   2 -
->>  scripts/lib/kdoc/kdoc_parser.py   | 150 +++++++++++++++---------------
->>  scripts/lib/kdoc/kdoc_re.py       |   6 +-
->>  3 files changed, 79 insertions(+), 79 deletions(-)
->> 
->
-> I just applied this set and got the error of:
->
-> ---------------------------------------------------------------
->   File "/<srcdir>/scripts/lib/kdoc/kdoc_parser.py", line 881
->     	    else:
->     ^
-> TabError: inconsistent use of tabs and spaces in indentation
-> ---------------------------------------------------------------
->
-> I didn't look into individual patches, assuming it should be an easy fix
-> for you.
->
-> I guess it'd be better to test (and hopefully to review) other pending
-> series from you and Mauro ...
+--3kgz5vvztx6zh7dz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, sorry, I ran into that after sending ... I have no idea which weird
-last-second edit introduced that error.  It worked before, honest...
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+---
+v1: https://lore.kernel.org/lkml/h2ieddqja5jfrnuh3mvlxt6njrvp352t5rfzp2cvnr=
+ufop6tch@tarta.nabijaczleweli.xyz/t/#u
 
-I'll go ahead and send a new series shortly.
+ Documentation/trace/histogram.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for testing!
+diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histog=
+ram.rst
+index 0aada18c38c6..2b98c1720a54 100644
+--- a/Documentation/trace/histogram.rst
++++ b/Documentation/trace/histogram.rst
+@@ -249,7 +249,7 @@ Extended error information
+   table, it should keep a running total of the number of bytes
+   requested by that call_site.
+=20
+-  We'll let it run for awhile and then dump the contents of the 'hist'
++  We'll let it run for a while and then dump the contents of the 'hist'
+   file in the kmalloc event's subdirectory (for readability, a number
+   of entries have been omitted)::
+=20
+--=20
+2.39.5
 
-jon
+--3kgz5vvztx6zh7dz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmhmyhIACgkQvP0LAY0m
+WPFD4A//bFS2MxLU0WVJQhOnXSrjKl0M+OR/eRlXk6exVysizFEjUoZfptV6js8I
+DJtP3sa6lLVA/qDIkk2h5VznKl08y2thFzr0Cj7/MqKHoWtc2EKQNnz8d1e1aqLo
+kpL1Hm8orZ5V9OsnxobD6JbixDwx08osmr4orDyeVSUpd4JRtwy0/gXxKUlIVHrU
+UK7qU9oAZuC9cncO9HEfRjadT9n8GNTbJQHVkknCGKugBkamRQ49mUsQv26bmauh
+IolN/54XUoyBsaYrdgoDZBhCcpH3uWssIQBRd82WJFPBzhtF2qpZdI9PT+x+g0wL
+1R9VZ7RJRT7OHpPcLF9U2QNjs3xQtYKPZL65pqyjfRoaai0qpmR3NjtR0uFedVz0
+lSVSofx423cBV36J/klUqeHNyuaAtyDhREF1wuE86QeXUS0COfjK+RdYippei6cq
+XGlN4oHNU+KhR+m9lLlhKdUQ57abQlV+L+JIXrcT3aDGXfZcXhl+StNTnYlvzV4v
+I0ZdvjOzUh17wOyISQt89NfFSBVgM/azwG0OFakLeMS8khP4S4EWLdKrsOfAwqQd
++WGrUesePk2JGUHeCXkr8VJvOe5J1AxITALRpiaRluLfT5tq6j3O6xFhebJOhPbn
+9Q8SxqZ80Y2xMSJOAlueaEYRg/FtyqHLXhsX43AvD9rpBeSBlfw=
+=VZAt
+-----END PGP SIGNATURE-----
+
+--3kgz5vvztx6zh7dz--
