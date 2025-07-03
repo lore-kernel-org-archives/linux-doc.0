@@ -1,65 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDAD2ED166;
-	Thu,  3 Jul 2025 14:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638C92D9EEA;
+	Thu,  3 Jul 2025 14:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751553410; cv=none; b=pXXqAp8PnWjT1VNntfv4Baqz4ppYOmUDqderw62JxvTNpZ7f8o4/29Md5N5OC0uwu8Fs4CAcq2Zxpv9AxGahooGf1C40MKqLLA3umhsIzJHTV0lGWEJ69N3nF6koX/K4fX5sVXGyYKSFDU15tHu0JX16x8uXPNjV+xv1tWBEktc=
+	t=1751553660; cv=none; b=CpCwRWg3PeHOLsT1cvv4zQU+sAurtlppd65Tzj0Cch+IUlIC+wbODQw3AOZMH/0Hz4ZusI4vqVSAExQ1eEWKkDNEppoUjVc7AwBUmQDYAiSDVcDLDiNd4KuQ29hC70LOKExr+iCiFxRJngg50guh7j/96UBNeE5HJTC9hBqETKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751553410; c=relaxed/simple;
-	bh=rTOn1AIaO8LZCWYp7rpafEsjm051YHLR63q+OfJU+5s=;
+	s=arc-20240116; t=1751553660; c=relaxed/simple;
+	bh=z4NRIUhiE7mvp2Mp3EnicFhxWJQYsP7G97E9kbng+zg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yr8x4b6/wKOaHoOjz5H7U8hcaydpZJPBEjhP2aGubyNXqWMmRP/g4zGDqDE0Pw0/HDYPNn5qZE9XV0hJM3F4HiWsxLAneFv6wHKL2LeJwfzWyuQFKUjzJXKwsearYj+el96kSXGbXH8P/lsGYW3lmAPTeLj4iU3WNWr+1wv5cDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=im062G0a; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fQ3R8yupHKWZZrMR+gFM94Hdvie/kTNGtUA0FZEJ+erz+qc7/T1O32UpSyE1wyXrDVvZQJfnqxLDTzlS6HvQX938yoaY9hTbbiIGovOY68mDGT43IECiIyl6Z7BiiksmAn8dpj0eXEIx6GI8mPI6pQk1HfI6qd6dHs0yTT2GyrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ECrnGc3E; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="im062G0a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ECrnGc3E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751553409; x=1783089409;
+  t=1751553658; x=1783089658;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rTOn1AIaO8LZCWYp7rpafEsjm051YHLR63q+OfJU+5s=;
-  b=im062G0avjES6byx3cjUeeiRVHr6DreNJvWo1/PolpqhxXsASm/I/lUN
-   gLWYu57mOAWoB+TJ864xFeH7S/9r8Er2R1e57FVtgC3NY3Jsaez1QDeX6
-   0woNNhzHTb0CCJdLPx8AAoFu6ppMp4K71Bc2doiKRRyKwBPsXfUJrrBbs
-   5SsbUsX2WL5AEvfjLX2Q8/xZYsgpMnegvgNMPgKVRISSLa++4O0v3iNrp
-   tQE0OKfJZezpuCvOUZE/IZOhOdy6VQy5uxX+58C4frmLyXiBtuWfOwvg8
-   Dq7GluiUix9aYRckClqGbTH9MRVpjkahrRpPytj0nibwPFe0Lh1L6Ekfr
-   Q==;
-X-CSE-ConnectionGUID: I76hACkmRjqCgP5uj1ZX7Q==
-X-CSE-MsgGUID: iasp9O/BSMWqaz4LySW6KA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53977843"
+  bh=z4NRIUhiE7mvp2Mp3EnicFhxWJQYsP7G97E9kbng+zg=;
+  b=ECrnGc3EWnUlfOyXBxSpsOWZmB3DjH+QX9vvLjhOWrsBbB54oDwnJLVE
+   qex8ihNFie+K0TCKacQBaRu4wLA0XEmmpc6M4bV0vCu823AjAOrfArAye
+   VskUfn2+16CnTBdgM/EgC9id28XVcpHbmniisSQKG83ZnnhHrsCjd3xzW
+   Wny4r9KFGA6xHHBt+/LtPWyCSvP5y/AUrBko4VAzllKMuVbdAHBInkxIE
+   C6dkJRbFiYWhhzh4GXzYvhmfvf0I9UTePJE6f2J/sZSjbhVCA2/7bCp4I
+   O6UtVfWLZy7g1uGy5FSpvypR/xreOQc1JYX5NTOy+HLm32wL1MlP9h2ZD
+   g==;
+X-CSE-ConnectionGUID: Aio3o61JTpKTA5gLleeD6w==
+X-CSE-MsgGUID: /ey/Cij1Qviesv7PCW+pNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="57556026"
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="53977843"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 07:36:48 -0700
-X-CSE-ConnectionGUID: OdxT0FuBQIGz2pkz5H19WA==
-X-CSE-MsgGUID: 4LAmYQlyTBOI04Bzp/lYdQ==
+   d="scan'208";a="57556026"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 07:40:57 -0700
+X-CSE-ConnectionGUID: TE8+tTSzRjaJUDhXwfxqOw==
+X-CSE-MsgGUID: DKyqnIL4QH2ui/pEZHKn6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="185397552"
+   d="scan'208";a="158430505"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 07:36:44 -0700
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 07:40:56 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uXL3J-0000000CEFa-46sF;
-	Thu, 03 Jul 2025 17:36:41 +0300
-Date: Thu, 3 Jul 2025 17:36:41 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uXL7M-0000000CEJV-3MMt;
+	Thu, 03 Jul 2025 17:40:52 +0300
+Date: Thu, 3 Jul 2025 17:40:52 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Lothar Rubusch <l.rubusch@gmail.com>
 Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
 	andy@kernel.org, corbet@lwn.net, lucas.p.stankus@gmail.com,
 	lars@metafoo.de, Michael.Hennerich@analog.com, bagasdotme@gmail.com,
 	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 3/8] iio: accel: adxl313: add buffered FIFO watermark
- with interrupt handling
-Message-ID: <aGaVeW4l6HkiMtql@smile.fi.intel.com>
+Subject: Re: [PATCH v7 0/8] iio: accel: adxl313: add power-save on
+ activity/inactivity
+Message-ID: <aGaWdEto-z3_dKr9@smile.fi.intel.com>
 References: <20250702230819.19353-1-l.rubusch@gmail.com>
- <20250702230819.19353-4-l.rubusch@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,45 +67,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250702230819.19353-4-l.rubusch@gmail.com>
+In-Reply-To: <20250702230819.19353-1-l.rubusch@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Jul 02, 2025 at 11:08:14PM +0000, Lothar Rubusch wrote:
-> Cover the following tasks:
-> - Add scan_mask and scan_index to the IIO channel configuration. The
-> scan_index sets up buffer usage. According to the datasheet, the ADXL313
-> uses a 13-bit wide data field in full-resolution mode. Set the
-> signedness, number of storage bits, and endianness accordingly.
+On Wed, Jul 02, 2025 at 11:08:11PM +0000, Lothar Rubusch wrote:
+> The patch set covers the following topics:
+> - add debug register and regmap cache
+> - prepare iio channel scan_type and scan_index
+> - prepare interrupt handling
+> - implement fifo with watermark
+> - add activity/inactivity together with auto-sleep with link bit
+> - add ac coupled activity/inactivity, integrate with auto-sleep and link bit
+> - documentation
 > 
-> - Parse the devicetree for an optional interrupt line and configure the
-> interrupt mapping based on its presence. If no interrupt line is
-> specified, keep the FIFO in bypass mode as currently implemented.
+> Sorry for the fuzz: when I was about to rebase for submitting I
+> noticed Jonathan actually already applied parts of this. I'd recommend
+> to consider v6 rather over v5.
 > 
-> - Set up the interrupt handler. Add register access to detect and
-> evaluate interrupts. Implement functions to clear status registers and
-> reset the FIFO.
-> 
-> - Implement FIFO watermark configuration and handling. Allow the
-> watermark level to be set, evaluate the corresponding interrupt, read
-> the FIFO contents, and push the data to the IIO channel.
+> Since activity and inactivity here are implemented covering all axis, I
+> assumed x&y&z and x|y|z, respectively. Thus the driver uses a fake
+> channel for activity/inactiviy. AC-coupling is similar to other Analog Device
+> accelerometers, so MAG_ADAPTIVE events are chosen. Combinations are
+> documented and functionality tested and verified working.
 
-...
-
-> +err:
-
-The rule of thumb for naming error labels is an answer to "what does code do
-when I goto $LABEL?". In other words name should encode what will be done when
-goto. In this case I would make it
-
-err_fifo_reset:
-
-The rationale is that reading the code won't require to "goto" to understand
-what 'err' means.
-
-> +	adxl313_fifo_reset(data);
-> +
-> +	return IRQ_HANDLED;
+Overall LGTM, one nit-pick somewhere, otherwise feel free to add
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+to the rest of the series (which has no my tag yet).
 
 -- 
 With Best Regards,
