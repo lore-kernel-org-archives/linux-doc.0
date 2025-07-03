@@ -1,155 +1,217 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958942DE70E
-	for <linux-doc@vger.kernel.org>; Thu,  3 Jul 2025 10:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19DF1CD1F;
+	Thu,  3 Jul 2025 11:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.136.29.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751539549; cv=none; b=mnDBS1C28MUcykavAqH1E5dyoVWNvK2wHBC89ahQ1U/mzG/WxrfDBh7JOUESEhnbk80/HqWgcumtzxKFOiXzQrH2+4FSmHwf6vcdP2pcE85fl9QlLZcGpOAH3zbgjPd+c+6MKYzZokBuEg3EaNtKSnlANd42S8sTfJZMlwCFDg0=
+	t=1751540677; cv=none; b=B+rjkfKA/3M40MhfaGIi1HFISoKW8zXKueK1z68Bq6D7lFlhR5ekjXvxhG/eskP4Kx+znPJeHQlFy4qAdnU5s+iOcu8g+fl9DWOW0xZObw3LljQs9LHb0H39dckGk//7aHKULeYXdHLB4thbZs0PCrWFgx5R2Vwe9kkIOWXr474=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751539549; c=relaxed/simple;
-	bh=fQE+5wsG11YS+T16ysk2VHcVH59OjcsASzwX63bw1bQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tG8DdnBqiyJhWINa7zC1IOaYL8OqQKFhk47WXPftf16L/zJSZjJvFaEOcxtmzg9keS7p8VA3P5iGTqHtkpML0YohR6iuBXBUcJNVVsJjliZLaM36HtV151QuRbihUsze4MrpFZsD7J8QiK7W9kDn6FjAfUGRiCM1h2eDJzb9RBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VMI2+4y/; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VMI2+4y/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751539546;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GUAC4unCPdf21xFptJklILQwlIlcc2Ln7uhZkroI42M=;
-	b=VMI2+4y/9mh1EVaYKqieMb6lDFN45ydcuMrUaqmu4Yw+lBzucuCjG2l+9zeA0QMKu5ozhL
-	TJdOREbfSnqHYjfci9SR42iajOB/Kxzhn0Kz76GKlOKNciQ+W82abo4Weya0WC27i2i1QR
-	dvFW5EQDbLJCSMJTre5vpYH9z3bp3jc=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-615-hYeNvljEMjiFajHn7MFhSA-1; Thu,
- 03 Jul 2025 06:45:43 -0400
-X-MC-Unique: hYeNvljEMjiFajHn7MFhSA-1
-X-Mimecast-MFC-AGG-ID: hYeNvljEMjiFajHn7MFhSA_1751539541
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B9D5E190FBCC;
-	Thu,  3 Jul 2025 10:45:39 +0000 (UTC)
-Received: from [10.45.226.37] (unknown [10.45.226.37])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CE83D18FFC66;
-	Thu,  3 Jul 2025 10:45:32 +0000 (UTC)
-Message-ID: <bacab4b5-5c7f-4ece-9ca9-08723ec91aec@redhat.com>
-Date: Thu, 3 Jul 2025 12:45:31 +0200
+	s=arc-20240116; t=1751540677; c=relaxed/simple;
+	bh=fQgz2ZgePgB80oVHLAHP3TWpAM5CNA8RBk4IulMuSYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FgZ85xEZXkSk+Rvyyi+IA89USjZb/SQyEUNVk98HbPO5JNqUeDgBNrBfaopEP7JrjWs2lU7BEvsh4uGVJto7GUudV2cz77CGK9dvXzvXhmJuy2r7eI5HqP1nrQ0hUQoz+BPubfUpKKHzBw97jxEsYoeC4dHlHbfGwn/vycqUxs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com; spf=pass smtp.mailfrom=proxmox.com; arc=none smtp.client-ip=94.136.29.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id EE6C7479E1;
+	Thu,  3 Jul 2025 13:04:25 +0200 (CEST)
+Date: Thu, 3 Jul 2025 13:04:24 +0200
+From: Gabriel Goller <g.goller@proxmox.com>
+To: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ipv6: add `force_forwarding` sysctl to enable
+ per-interface forwarding
+Message-ID: <jsfa7qvqpspyau47xrqz5gxpzdxfyeyszbhcyuwx7ermzjahaf@jrznbsy3f722>
+Mail-Followup-To: Nicolas Dichtel <nicolas.dichtel@6wind.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250702074619.139031-1-g.goller@proxmox.com>
+ <c39c99a7-73c2-4fc6-a1f2-bc18c0b6301f@6wind.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 07/14] dpll: zl3073x: Add clock_id field
-To: Jiri Pirko <jiri@resnulli.us>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Jason Gunthorpe <jgg@ziepe.ca>, Shannon Nelson <shannon.nelson@amd.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
-References: <20250629191049.64398-1-ivecera@redhat.com>
- <20250629191049.64398-8-ivecera@redhat.com>
- <amsh2xeltgadepx22kvcq4cfyhb3psnxafqhr33ra6nznswsaq@hfq6yrb4zvo7>
- <e5e3409e-b6a8-4a63-97ac-33e6b1215979@redhat.com>
- <cpgoccukn5tuespqse5fep4gzzaeggth2dkzqh6l5jjchumfyc@5kjorwx57med>
- <4f2e040b-3761-441c-b8b1-3d6aa90c77fc@redhat.com>
- <pfkr62fp4jr2bts3ektfwn4or36lqdsdqfsntryubr5oawx7kv@adqwk2qoflhu>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <pfkr62fp4jr2bts3ektfwn4or36lqdsdqfsntryubr5oawx7kv@adqwk2qoflhu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c39c99a7-73c2-4fc6-a1f2-bc18c0b6301f@6wind.com>
+User-Agent: NeoMutt/20241002-35-39f9a6
 
-
-
-On 03. 07. 25 12:09 odp., Jiri Pirko wrote:
-> Wed, Jul 02, 2025 at 04:51:47PM +0200, ivecera@redhat.com wrote:
->> On 02. 07. 25 2:01 odp., Jiri Pirko wrote:
->>> Wed, Jul 02, 2025 at 01:43:38PM +0200, ivecera@redhat.com wrote:
->>>>
->>>> On 02. 07. 25 12:31 odp., Jiri Pirko wrote:
->>>>> Sun, Jun 29, 2025 at 09:10:42PM +0200, ivecera@redhat.com wrote:
->>>>>> Add .clock_id to zl3073x_dev structure that will be used by later
->>>>>> commits introducing DPLL feature. The clock ID is required for DPLL
->>>>>> device registration.
->>>>>>
->>>>>> To generate this ID, use chip ID read during device initialization.
->>>>>> In case where multiple zl3073x based chips are present, the chip ID
->>>>>> is shifted and lower bits are filled by an unique value - using
->>>>>> the I2C device address for I2C connections and the chip-select value
->>>>>> for SPI connections.
->>>>>
->>>>> You say that multiple chips may have the same chip ID? How is that
->>>>> possible? Isn't it supposed to be unique?
->>>>> I understand clock ID to be invariant regardless where you plug your
->>>>> device. When you construct it from i2c address, sounds wrong.
->>>>
->>>> The chip id is not like serial number but it is like device id under
->>>> PCI. So if you will have multiple chips with this chip id you have to
->>>> distinguish somehow between them, this is the reason why I2C address
->>>> is added into the final value.
->>>>
->>>> Anyway this device does not have any attribute that corresponds to
->>>> clock id (as per our previous discussion) and it will be better to NOT
->>>> require clock id from DPLL core side.
->>>
->>> Yes, better not to require it comparing to having it wrong.
+On 02.07.2025 12:05, Nicolas Dichtel wrote:
+>Le 02/07/2025 à 09:46, Gabriel Goller a écrit :
+>> It is currently impossible to enable ipv6 forwarding on a per-interface
+>> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
+>> enable it on all interfaces and disable it on the other interfaces using
+>> a netfilter rule. This is especially cumbersome if you have lots of
+>> interface and only want to enable forwarding on a few. According to the
+>> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
+>> for all interfaces, while the interface-specific
+>> `net.ipv6.conf.<interface>.forwarding` configures the interface
+>> Host/Router configuration.
 >>
->> It looks that using clock_id==0 is safe from DPLL API point of view.
->> The problem is if you will have multiple zl3073x based chips because
->> the driver would call dpll_device_get(0 /* clock_id */, channel, module)
+>> Introduce a new sysctl flag `force_forwarding`, which can be set on every
+>> interface. The ip6_forwarding function will then check if the global
+>> forwarding flag OR the force_forwarding flag is active and forward the
+>> packet.
 >>
->> For 1st chip (e.g. 2 channel) the driver will call:
->> dpll_device_get(0, 0, module);
->> dpll_device_get(0, 1, module);
+>> To preserver backwards-compatibility reset the flag (on all interfaces)
+>> to 0 if the net.ipv6.conf.all.forwarding flag is set to 0.
 >>
->> and for the second the same that is wrong. The clock_id would help to
->> distinguish between them.
+>> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
 >>
->> Wouldn't it be better to use a random number for clock_id from the
->> driver?
-> 
-> I take my suggestion to not require it back, does not make sense.
-> 
-> Clock id actually has a reason to exist from UAPI perspective. Checkout
-> dpll_device_find_from_nlattr(). The user passes CLOCK_ID attr (among
-> others) to obtain device by DPLL_CMD_DEVICE_ID_GET command. He expects
-> to get a result back from kernel regardless where the device is plugged
-> and across the reboots/rebinds.
-> 
-> Clock id should be properly filled with static and device specific
-> value. If your chip can't be queried for it, I'm sure the embedded world
-> has a solution for such cases. It's similar to MAC of a NIC device.
+>> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
+>> ---
+>>
+>Please, wait 24 hours before reposting.
+>https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/maintainer-netdev.rst#n419
 
-Yes, there are such cases and for such devices 'mac-address' property
-can be specified in the device tree.
+Ah, my bad, thought I posted v2 in the morning as well :(
 
-For our case I could extend the dpll device schema to include 'clock-id'
-or 'dpll-clock-id' 64bit property to allow specify clock ID for the
-devices that are unable to query this information from the hardware.
+>[snip]
+>
+>> @@ -6747,6 +6759,77 @@ static int addrconf_sysctl_disable_policy(const struct ctl_table *ctl, int write
+>>  	return ret;
+>>  }
+>>
+>> +/* called with RTNL locked */
+>Instead of a comment ...
+>
+>> +static void addrconf_force_forward_change(struct net *net, __s32 newf)
+>> +{
+>> +	struct net_device *dev;
+>> +	struct inet6_dev *idev;
+>> +
+>... put
+>
+>	ASSERT_RTNL();
+>
 
-Krzysztof, WDYT about it?
+Agree.
 
-Thanks,
-Ivan
+>> +	for_each_netdev(net, dev) {
+>> +		idev = __in6_dev_get_rtnl_net(dev);
+>> +		if (idev) {
+>> +			int changed = (!idev->cnf.force_forwarding) ^ (!newf);
+>> +
+>> +			WRITE_ONCE(idev->cnf.force_forwarding, newf);
+>> +			if (changed) {
+>> +				inet6_netconf_notify_devconf(dev_net(dev), RTM_NEWNETCONF,
+>> +							     NETCONFA_FORCE_FORWARDING,
+>> +							     dev->ifindex, &idev->cnf);
+>> +			}
+>> +		}
+>> +	}
+>> +}
+>> +
+>> +static int addrconf_sysctl_force_forwarding(const struct ctl_table *ctl, int write,
+>> +					    void *buffer, size_t *lenp, loff_t *ppos)
+>> +{
+>> +	int *valp = ctl->data;
+>> +	int ret;
+>> +	int old, new;
+>> +
+>> +	// get extra params from table
+>/* */ for comment
+>https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/coding-style.rst#n598
+
+NAK
+(https://lore.kernel.org/lkml/CA+55aFyQYJerovMsSoSKS7PessZBr4vNp-3QUUwhqk4A4_jcbg@mail.gmail.com/#r)
+
+But I'll capitalize the first word.
+
+>> +	struct inet6_dev *idev = ctl->extra1;
+>> +	struct net *net = ctl->extra2;
+>Reverse x-mas tree for the variables declaration
+>https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/maintainer-netdev.rst#n368
+
+Done.
+
+>> +
+>> +	// copy table and change extra params to min/max so we can use proc_douintvec_minmax
+>> +	struct ctl_table lctl;
+>> +
+>> +	lctl = *ctl;
+>> +	lctl.extra1 = SYSCTL_ZERO;
+>> +	lctl.extra2 = SYSCTL_ONE;
+>> +
+>> +	old = *valp;
+>> +	ret = proc_douintvec_minmax(&lctl, write, buffer, lenp, ppos);
+>> +	new = *valp;
+>I probably missed something. The new value is written in lctl. When is it
+>written in ctl?
+
+Ah, sorry there is something missing here.
+
+This is supposed to look like this:
+
+	struct inet6_dev *idev = ctl->extra1;
+	struct net *net = ctl->extra2;
+	int *valp = ctl->data;
+	loff_t pos = *ppos;
+	int new = *valp;
+	int old = *valp;
+	int ret;
+
+	struct ctl_table lctl;
+
+	lctl = *ctl;
+	lctl.extra1 = SYSCTL_ZERO;
+	lctl.extra2 = SYSCTL_ONE;
+	lctl.data = &new;
+
+	ret = proc_douintvec_minmax(&lctl, write, buffer, lenp, ppos);
+	
+	...
+
+	if (write)
+		WRITE_ONCE(*valp, new);
+	if (ret)
+		*ppos = pos;
+	return ret;
+
+
+>> +
+>> +	if (write && old != new) {
+>> +		if (!rtnl_net_trylock(net))
+>> +			return restart_syscall();
+>> +
+>> +		if (valp == &net->ipv6.devconf_dflt->force_forwarding) {
+>> +			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
+>> +						     NETCONFA_FORCE_FORWARDING,
+>> +						     NETCONFA_IFINDEX_DEFAULT,
+>> +						     net->ipv6.devconf_dflt);
+>> +		} else if (valp == &net->ipv6.devconf_all->force_forwarding) {
+>> +			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
+>> +						     NETCONFA_FORCE_FORWARDING,
+>> +						     NETCONFA_IFINDEX_ALL,
+>> +						     net->ipv6.devconf_all);
+>> +
+>> +			addrconf_force_forward_change(net, new);
+>> +		} else {
+>> +			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
+>> +						     NETCONFA_FORCE_FORWARDING,
+>> +						     idev->dev->ifindex,
+>> +						     &idev->cnf);
+>> +		}
+>> +		rtnl_net_unlock(net);
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +
+>>  static int minus_one = -1;
+>>  static const int two_five_five = 255;
+>>  static u32 ioam6_if_id_max = U16_MAX;
+
+Thanks for the review!
 
