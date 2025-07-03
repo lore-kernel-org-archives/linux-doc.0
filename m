@@ -1,120 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBB02550BA;
-	Thu,  3 Jul 2025 16:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9E233DF;
+	Thu,  3 Jul 2025 16:51:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751560017; cv=none; b=nnlsyNGcjzqmPlowdHZDGfiGMwjmJDH1cJvBbp6PCNTB7uaB1biXYhHIZajfFbMc0TDnXO9c9w1w9ovPGHdsbxLnyI3wNlqMoqb77fqZQQj6rqKhaUbWtrF2abhUQ/vOqwKg+sXVR12mQJ6jkJACB4qHPSGLk3XvuSL1LIqIk7o=
+	t=1751561479; cv=none; b=n0B68CATdkms+cWeKiq1NIwUg7a8lmsjxfRTWN8qwEGvaClhaZDmMyDYoqf4t6oP0NONnHuiP6ilu3ry8SUtR4kU0nyZLaKTDHCvg3cBZkCxzslfArpabUTZfEijT3wJiPzm3UTluffBw06aJazbZEmgpkEDsHpeIwXAqhjLmsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751560017; c=relaxed/simple;
-	bh=0se/eq+gWDDz/zPGLfe64NetxynymgwpyPlKXYP8XIU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TRcCSWFJybUQIbCzOy3ZrmrDXtqxlSbUs/QRebW9ATKsjNU5UVoLXsaEamHlRhaQE52jJ+F/UaxUl/SEhUZNZJhk0jB2iuM+7PjVSuBgP8L9HcoCzZppBykxQvJ/ZalbbOsqtimh46AtfyFDLurVZUBb/AMHCOb4KAeGY0TID+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F9xYnMul; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751561479; c=relaxed/simple;
+	bh=KgNWAEPsvGLZYpBhpkLVwDOSCjtLzdipdUOgdEkAzQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gl8Jcl9ugglozNN0k53kEkGf7GivQfVVdeI54ibBaSyt5Q0ZT8JjHYg7sPOudPKdNS64OoST4IW/DdsYuXUa0XWuuYB+A9WCwQQWQm3htsSGq/EljDO+OR6PTu1qXKblG3ppzjowVVnfE+C1DA+dt9mwbLiBWqU15/I4AkelXUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCyLAN9U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F9xYnMul"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57858C4CEE3;
-	Thu,  3 Jul 2025 16:26:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCyLAN9U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12CFCC4CEE3;
+	Thu,  3 Jul 2025 16:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751560015;
-	bh=0se/eq+gWDDz/zPGLfe64NetxynymgwpyPlKXYP8XIU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=F9xYnMulVuNGNvAGTBMpLlkUdOXV29MzVXEe033VuqVu/tGe+RWsJngzdz4IffUZF
-	 TlFfr0OzdjCXXzY5GuscScdCqMN4WdRq00y7yQ79g33zU0CeoS7fDu5zmWPpovhul5
-	 ZpqA/v/ijUwmYLGzJmt8RMJ2UuKToISDuzKDPkyqtBjsZ0ev9agFlQ4yyBi80TBfV+
-	 c9pcjON/ohz7/AITWDxJYIcAcipay9tALB0V3775LUsr27Z0zso2ElZBpm547GWVvL
-	 /Seqd/LMJsI+P9t4/SG/wnc32xVf9Rwn8YlZIaCiUv6D0bP+sqI5ZeiRE+LEbZPRwp
-	 cUgjf2kBSiWFA==
-From: Mark Brown <broonie@kernel.org>
-Date: Thu, 03 Jul 2025 17:23:24 +0100
-Subject: [PATCH v2 3/3] kselftest/arm64: Add lsfe to the hwcaps test
+	s=k20201202; t=1751561478;
+	bh=KgNWAEPsvGLZYpBhpkLVwDOSCjtLzdipdUOgdEkAzQc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QCyLAN9UKompBN/Txlb0N5sKTjycQuUVbNWq4uLmWMH+EOFlkomwkRhux+XdKcStW
+	 C74wJfVSHPKYVez5me2dCemHJjc2S9KvtOszihXM/VZ/cw+mW3PrFJP3gmDL69LCvZ
+	 PjqOKJRdOFzlptOQn54UQPBwAB8Uvx9SF2aSgnH8/+meQiHY0sXkJ+tdWEZ2QHNKrl
+	 3VH6OjTGPBVP6ZVeCL9ImVd3UWXM2igfFdg6OmWh35wXgCuE2LEzYVguBxZ+0vmxn/
+	 WnpiGFITbqBAASKYir2sRwlPWv9ZxmxqZKMXEHM+PxBAj8PUUNpXQ14xAGY5ggACOb
+	 cJbuiF4zwJ3nA==
+Date: Thu, 3 Jul 2025 09:51:17 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org,
+	miklos@szeredi.hu, brauner@kernel.org, anuj20.g@samsung.com,
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
+	kernel-team@meta.com
+Subject: Re: [PATCH v3 03/16] iomap: refactor the writeback interface
+Message-ID: <20250703165117.GA2672049@frogsfrogsfrogs>
+References: <20250624022135.832899-1-joannelkoong@gmail.com>
+ <20250624022135.832899-4-joannelkoong@gmail.com>
+ <20250702171353.GW10009@frogsfrogsfrogs>
+ <20250703121654.GA19114@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250703-arm64-lsfe-v2-3-eced80999cb4@kernel.org>
-References: <20250703-arm64-lsfe-v2-0-eced80999cb4@kernel.org>
-In-Reply-To: <20250703-arm64-lsfe-v2-0-eced80999cb4@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Shuah Khan <shuah@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, 
- linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-cff91
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1403; i=broonie@kernel.org;
- h=from:subject:message-id; bh=0se/eq+gWDDz/zPGLfe64NetxynymgwpyPlKXYP8XIU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBoZq9DrX1z69CleuGaYuiPYfm4x17/sToCyk2zP
- Nm99VorSU2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaGavQwAKCRAk1otyXVSH
- 0LtRB/45/MTmfubRL3pBtMgXgWZMq82PR/jkn5ACdHwS7IGViT7FD2ZmgEzsylFTLDfTmP4bjqb
- pbVkdOsCSZJylYyOKBy6J9aDXd7tjwVYbfLr1jFUylvwqe2j5aZ27QCwhe1PC+DOzTvNkqEzvEB
- UIUPledQkbmnZJXMySkE4RVNqUaTB8ws5T8BGrQjz+ncH0gVf+yZfXpkdxiXetLZ4QTqNj1FjDR
- ip9vM1mAiEyMlpLqJeNt0L/XcFLEWNFVgOO78k+oVlAMlESket+6r99C6oAxaBjOv9nmGxTRVCw
- 0i3NukLDRtFDCW/v6+sTv43stjBooDOAlxzXewZLYPF/ko5z
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250703121654.GA19114@lst.de>
 
-This feature has no traps associated with it so the SIGILL is not reliable.
+On Thu, Jul 03, 2025 at 02:16:54PM +0200, Christoph Hellwig wrote:
+> On Wed, Jul 02, 2025 at 10:13:53AM -0700, Darrick J. Wong wrote:
+> > > +    int (*writeback_range)(struct iomap_writepage_ctx *wpc,
+> > > +    		struct folio *folio, u64 pos, unsigned int len, u64 end_pos);
+> > 
+> > Why does @pos change from loff_t to u64 here?  Are we expecting
+> > filesystems that set FOP_UNSIGNED_OFFSET?
+> 
+> It doesn't really change, it matches what iomap_writepage_map_blocks
+> was doing.  I guess it simply doesn't fix the existing inconsistency.
+> 
+> > > +    int (*submit_ioend)(struct iomap_writepage_ctx *wpc, int status);
+> > 
+> > Nit:   ^^ indenting change here.
+> 
+> Yeah, RST formatting is a mess unfortunately.   I think the problem is
+> that the exiting code uses 4 space indents.  I wonder if that's required
+> by %##% RST?
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/arm64/abi/hwcap.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+It's a code block, so it's not going to make the rst parser choke.
+However it will result in an weirdly indented output:
 
-diff --git a/tools/testing/selftests/arm64/abi/hwcap.c b/tools/testing/selftests/arm64/abi/hwcap.c
-index 35f521e5f41c..faa0f82f27e0 100644
---- a/tools/testing/selftests/arm64/abi/hwcap.c
-+++ b/tools/testing/selftests/arm64/abi/hwcap.c
-@@ -17,6 +17,8 @@
- #include <asm/sigcontext.h>
- #include <asm/unistd.h>
- 
-+#include <linux/auxvec.h>
-+
- #include "../../kselftest.h"
- 
- #define TESTS_PER_HWCAP 3
-@@ -165,6 +167,18 @@ static void lse128_sigill(void)
- 		     : "cc", "memory");
- }
- 
-+static void lsfe_sigill(void)
-+{
-+	float __attribute__ ((aligned (16))) mem = 0;
-+	register float *memp asm ("x0") = &mem;
-+
-+	/* LDFADD H0, H0, [X0] */
-+	asm volatile(".inst 0x7c200000"
-+		     : "+r" (memp)
-+		     :
-+		     : "cc", "memory");
-+}
-+
- static void lut_sigill(void)
- {
- 	/* LUTI2 V0.16B, { V0.16B }, V[0] */
-@@ -758,6 +772,13 @@ static const struct hwcap_data {
- 		.cpuinfo = "lse128",
- 		.sigill_fn = lse128_sigill,
- 	},
-+	{
-+		.name = "LSFE",
-+		.at_hwcap = AT_HWCAP3,
-+		.hwcap_bit = HWCAP3_LSFE,
-+		.cpuinfo = "lsfe",
-+		.sigill_fn = lsfe_sigill,
-+	},
- 	{
- 		.name = "LUT",
- 		.at_hwcap = AT_HWCAP2,
+ struct iomap_writeback_ops {
+     int (*map_blocks)(struct iomap_writepage_ctx *wpc, struct inode *inode,
+                       loff_t offset, unsigned len);
+     int (*submit_ioend)(struct iomap_writepage_ctx *wpc, int status);
+    void (*discard_folio)(struct folio *folio, loff_t pos);
+ };
 
--- 
-2.39.5
+is what I got when I removed an indentation space from discard_folio.
+Hilariously it actually makes the "(" line up which appeals to my column
+aligning brain and actually looks better. :P
 
+So having now seriously undercut my own point, I'll relax to "meh do
+whatever".
+
+> > > +		if (wpc->iomap.type != IOMAP_HOLE)
+> > > +			*wb_pending = true;
+> > 
+> > /me wonders if this should be an outparam of ->writeback_range to signal
+> > that it actually added the folio to the writeback ioend chain?  Or maybe
+> > just a boolean in iomap_writepage_ctx that we clear before calling
+> > ->writeback_range and iomap_add_to_ioend can set it as appropriate?
+> 
+> What's the benefit of that?  A hole pretty clearly signal there is
+> no writeback here.
+
+Fair enough.  In my head it was "the code that actually sets up the
+ioend should set this flag" but I guess we can detect it from the
+mapping after the fact instead of passing things around.
+
+> > Should this jump label should be named add_to_ioend or something?  We
+> > already mapped the blocks.  The same applies to the zoned version of
+> > this function.
+> 
+> The newer version already uses a map_blocks helper for both again.
+
+Ah, so it does.
+
+--D
