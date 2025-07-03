@@ -1,301 +1,210 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012022.outbound.protection.outlook.com [52.101.66.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2EF2DE6E8;
-	Thu,  3 Jul 2025 08:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751532277; cv=none; b=Hp/V2vlLF88zYaS81Ubamtlezoy0C5OjjqQnaKKMhw5+bDkywIJ05pEh/nK646UUWf4fRTPeOEoRzuSshNt5A4ArEu3U00nn/6ln21+/91bFi3mBHt7sRQNUgEgMOvdaLCFn/qSeE/GATd7wLRIoJXjVsLWB8GzGP/tZEoS3fFQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751532277; c=relaxed/simple;
-	bh=t1v1BAiPC1HqbbaE77FhyukVMmCQJb9YdgC5sR0nzEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TNyvm7K9MG4LyuuUUhFBMtCTZ/BYvqkkx1mDml3nbKaSSZ14qI7nLtksgZ2jcu6Wr8ITu35AofOOkVdd+fY1cAcsuSyD/GR7X6Z3cwQfR/chy4DslqbAFgBkg2xppGfXHkLdfdT0ik1lEcZ/anx9F1bd91AS4bMAjeWbS+eEJkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hSLHzwX0; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A212D0292;
+	Thu,  3 Jul 2025 09:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.22
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751533407; cv=fail; b=d4L6a8xsy5E0U8Talovvq+1Q6rim8Ix4KFek73kGMV7OzCLHp95ytMmA9T28PSkSmZzbYrJ7U3ozbs5Lv/kUNZo+C+jQUahewB0l9hN1E4pNsepFntyHxblx4FxyANk5y30lagOt8CaOTjzZP77DL4KTzy0PUfW7liBv8UgKvTA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751533407; c=relaxed/simple;
+	bh=2Lvgq3Z1JfjU7OvFaBr/LvJmQym7bSI9R5ChhpCTUI0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UATPwr59A8gweG54MqXQ6xnp8U2Jh39diangUoujFpK12OlWpmlCflnO+UDHK3Y6gxQaTKJppu5reG6PZhk8fGt7FejGqxmDfYIifjBxSWvl2+wIYxOgrrDhjDEt2SiGepWFQ8rCisstZYwFGolQod91IU8rAoRB82J7WFrs4Xo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=2n.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=GLcVjK03; arc=fail smtp.client-ip=52.101.66.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=2n.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hSLHzwX0"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a525eee2e3so4813186f8f.2;
-        Thu, 03 Jul 2025 01:44:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751532274; x=1752137074; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OFX/TAx6epCpcEo12wFWGJBoxHilKkIQzdhXF7nb3aU=;
-        b=hSLHzwX0mwsU0IUdvvEZDFOAm2nMhzahgMagW2KjxRYU6W+YTraVHBxKGC6grelySF
-         WRCAnJwG2N+k1KbfrXDt+8De/TEPTnPbE2laeFS7e5G3WHIDsTawRAYOaPTWQuTcM7BT
-         RqNHReRW6lQWzSmVE9Bhcff14xjVUzrDCiTHzVT76eE8zUXZfPeGpIDhiw5x4KQXxPPc
-         UQlFE2NxGN8guynuJYo0irraAoY62mlO+6EimJLPKvaDhbeZAMugw9T6Q4JzuDCTVE+5
-         YO8DJEUdM+zBrTM2wM6Xv1/uBN+I03HmWAKMp1ROHt0+wxKaRfgJ5hdDfVHOtfrU8mpS
-         Hfgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751532274; x=1752137074;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OFX/TAx6epCpcEo12wFWGJBoxHilKkIQzdhXF7nb3aU=;
-        b=QfbGctelrM5YFGvU/JF6bMvRm1uiaqrFi68E0aQ+bUhwNsfmpZNkuMMryI+HPesSpP
-         vrn6eaoKM+OI3aKt70pmo4RrvRom2hQ1XJghlu0ghUd+Oo8SEbGRhIOq8xzA+8V3LCfx
-         2USY0Dv7+nNEjDT4zKxEbaJLihAyNbnlKKWPj4ZmllAdQaiXJpRzpaWbTdV6YGB3bf57
-         Tz/Fpk8+SGZNX3xk2kOSFYFd8/+VWEOuLtvpqHdDRNqUxerEesmZc8omFhGfN5AgrAVS
-         hmQ2KdoVk9TcLS3XXyHwj/qT0XyUpZJOezkd3z1WhNlNIbMQEM2WYh+XDCD9klDr3x3Y
-         211Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVrMzZqgzkWGytgQUQ0LRf64rr1hsFR3I+OZag/IGc4/AWBCY+PGAHHNFx44CwjPxJaGN4pkc9whfOZF/hs@vger.kernel.org, AJvYcCWxxnX5cdES5UDTRo55I7r7NbR9IzDylWZQfzhHn6gNgFhGCNDwqXb1ayCjQR2YDQ2Xz1jw3gJHGAJ1@vger.kernel.org, AJvYcCXI94kZcU+SQPJRHDH/0ehjahwDQNxrDGdzNrYpKrK0C3UxmGtPvLDIy6ye/J9nPsw0AK1KvOzNlLA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/uhj+xmA+WbNT7GUarrv+zXaMIZD6eAxRcenszJikEZ27pjV9
-	xefm3IvyzbMpiRLLkkpS36NeXaPnaDS1P+HZpg/0ax93xgQC7ZRh+dUY
-X-Gm-Gg: ASbGncv37NYQ5gCdjLP53eO9Nf4CL3VX9oNSFCCfyugc4cmskZk2jWF/UVfKf6bsaAw
-	9UmH7eh7piFsg20MmWy6eW026tphPmL9FF8Sos5fzKcvG7shqSoNUlHnxtVwZyJl7SqLXp6nC1n
-	IHCMbDB/+J8TR0EHkFPtlntoqiUXO8FSF9wf4Tn9SrvIVzKBow7ILVHtLbdi3PcMe/dYYCB2lG0
-	97ZjR++HGpuBxrxChsmfHvCRrRdHbfYe7GUchYT7SHVoDS4LcPP83pLaesTdzB5lf2CR8wW25a7
-	ObpZk6D0/T7xXMMymuTmuO/N7JdY0sl1WWXfNS0orDuh2pvMok5cZEXnBVG1BWR50spyS00lQiV
-	OUbGkiBH0B+/yo6KM9Q==
-X-Google-Smtp-Source: AGHT+IGpJYcIiVB0V7dfxLr4hl+2St0WzP4p5xUbwUL9Q9cruWACk5HaqKiw36ESWFjGbUj0Mh/Z+w==
-X-Received: by 2002:a05:6000:26c4:b0:3a4:c909:ce16 with SMTP id ffacd0b85a97d-3b32fb30d66mr1813139f8f.49.1751532274119;
-        Thu, 03 Jul 2025 01:44:34 -0700 (PDT)
-Received: from pumpkin (host-92-21-58-28.as13285.net. [92.21.58.28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7e7386sm17869936f8f.20.2025.07.03.01.44.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 01:44:33 -0700 (PDT)
-Date: Thu, 3 Jul 2025 09:44:17 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel
- <ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf
- <jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>, Xin Li
- <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh
- <brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>, Tony Luck
- <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>, Alexander
- Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet
- <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar
- <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Daniel
- Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>,
- Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, Rick
- Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov
- <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross
- <jgross@suse.com>, Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook
- <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, Jason Gunthorpe
- <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>,
- Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, Huang
- Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Namhyung Kim <namhyung@kernel.org>, Arnaldo
- Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCHv8 02/17] x86/asm: Introduce inline memcpy and memset
-Message-ID: <20250703094417.165e5893@pumpkin>
-In-Reply-To: <20250701095849.2360685-3-kirill.shutemov@linux.intel.com>
-References: <20250701095849.2360685-1-kirill.shutemov@linux.intel.com>
-	<20250701095849.2360685-3-kirill.shutemov@linux.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="GLcVjK03"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NlndMz+XxT81PB+5/ytjnsMN7aOFxvtfidRTyiKuvkUc5/t1PDUyxarkaWjSlg+66Wc3oGRwe24bz3Gsc4bvxe5+s1ug6FHtOxDD0ugYRe0yktX3wAFE4ytYfFrh6eLLBbf+CrwFglTVN6Lr/ARxIT5oEqwVb1qjGksnNanapzWMzJeihXxmsSbo3Vs+vt4+VThyf9QiR7CiYHxU1r+umL8GH7CUJESA7dYRdDn9m/2gcnkSlBIIgbkvvFeF1XR8Vn6lX0be0M+rtH1WoLfnHn5Fo0ld/Ca6bigC0gunChyW/Y4XEEWyN5EiQxG/xGkzKRIaXDQDQ5+3pabhyFSa+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GTc6dYZfv5bOCKq2J8g+JD6WDTyrCZ3ifvXCDz7GIQY=;
+ b=UdFnKL+zR/hgQcJOtSx2uGrANdl9OrvXvMQiudYrC/Vb774PuO9ShgGFHkVaCJ/pd3mzAQU/RzQ6kKahkeu3Hq/7BjVc4EcqmOjYOrxDqGaF2K7IBNAQ5xZNF+SnngBPdQTfMzWfRZbhg2e9UXqYR50NPX8wuEEBIluUSnHXFmJD//Q6VPZWnLARWhqUWa7f2RizwXpsINSxxxI7tYerd8EHkrSY1cQXiOpjSK7ZKmrVhOuQbwuH6ECJmnBt9udKyUTaFABN6qkDdAi/3OeCx49D9pm8Vpkxro7KiFUOdVfHUfWyzG6+fywaryLbDwTPPuVJk7yyPXOKjkFLw4qH3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=2n.com; dmarc=pass action=none header.from=axis.com; dkim=pass
+ header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GTc6dYZfv5bOCKq2J8g+JD6WDTyrCZ3ifvXCDz7GIQY=;
+ b=GLcVjK03ZiyHHqMqgT9pETNNvC7WvhjvzK7TJ86z6YQ1yEFRcOkD76tuM2oWhdg3TquZ00eafstLH6iCZ3StOF0pE9w1EUYqU0U96mzrfVkFPk3eTsTeFJ/UcJi+vUqOkqw1KeHKcxUXNgSx9CTXp9F0LzfbPKxGR6GCQedKY6Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+Received: from DB5PR02MB10093.eurprd02.prod.outlook.com (2603:10a6:10:488::13)
+ by AS8PR02MB9718.eurprd02.prod.outlook.com (2603:10a6:20b:5ed::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Thu, 3 Jul
+ 2025 09:03:21 +0000
+Received: from DB5PR02MB10093.eurprd02.prod.outlook.com
+ ([fe80::2a25:783c:e73a:a81d]) by DB5PR02MB10093.eurprd02.prod.outlook.com
+ ([fe80::2a25:783c:e73a:a81d%4]) with mapi id 15.20.8901.018; Thu, 3 Jul 2025
+ 09:03:21 +0000
+Message-ID: <b89e3a66-3c98-45b3-9f16-8247ac1dc1f4@axis.com>
+Date: Thu, 3 Jul 2025 11:03:19 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v5 0/4] net: phy: bcm54811: Fix the PHY initialization
+To: Florian Fainelli <florian.fainelli@broadcom.com>,
+ Jakub Kicinski <kuba@kernel.org>
+Cc: bcm-kernel-feedback-list@broadcom.com, andrew@lunn.ch,
+ hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, krzk+dt@kernel.org,
+ conor+dt@kernel.org, netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robh@kernel.org, andrew+netdev@lunn.ch,
+ horms@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
+References: <20250701075015.2601518-1-kamilh@axis.com>
+ <20250702150216.2a5410b3@kernel.org>
+ <da323894-7256-493d-a601-fe0b0e623b00@broadcom.com>
+Content-Language: en-US
+From: =?UTF-8?B?S2FtaWwgSG9yw6FrICgyTik=?= <kamilh@axis.com>
+In-Reply-To: <da323894-7256-493d-a601-fe0b0e623b00@broadcom.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0345.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ea::6) To DB5PR02MB10093.eurprd02.prod.outlook.com
+ (2603:10a6:10:488::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PR02MB10093:EE_|AS8PR02MB9718:EE_
+X-MS-Office365-Filtering-Correlation-Id: d48e6132-d838-4a99-1398-08ddba107570
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|19092799006;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OWNPVkVhZTlwZ1lXNE9TcmRVb2lRNHRaMU45RGZLRUZXWUUyNnZ6T25sVHRP?=
+ =?utf-8?B?R3c1azQ2ZFk0bjloNktyM3dEY2I0bmpZODJ6ZWI4Y1RQTEZ5UkEyeWNPV2hX?=
+ =?utf-8?B?RTVRa0RPdXhGb29DWXhTeDFsSkxxeEM2OXVqWFZIQzRzWnRIRE1GekZhVTFx?=
+ =?utf-8?B?UjcxbFNpUnVBRGNrQy9qUnByZC9iYjZCckcrSnpOMkFWWnF5dkN1Tm9zc3Ba?=
+ =?utf-8?B?NE5ObDB2RmZCR3JnTGlDTUo0R1BPWnVXRGI4bXp0R3F1Umw5S29EWThMM2tQ?=
+ =?utf-8?B?T0xTL3gwY3NOOUJIRy9lODBWblNueWpQV3JjenlLZXE1K2UzSFJrZSthNng0?=
+ =?utf-8?B?NkpKbHRzR1BVU3BOcHhHSzhyUmI0d3ZtUTJxaDlXZXk5ek9nQW1OR25WalFm?=
+ =?utf-8?B?Vk5EMTh2aGwwc0l0eXNpYnQyWC9FWGJ0clZUaVB2dGlEdTFGQlpuRTZWRHFH?=
+ =?utf-8?B?RnR1WkJIWkdtR3hUZFJocVh5b1p0Ujc1RDFoZW9rZWdURGcvZUpZcnBDSWZx?=
+ =?utf-8?B?WGQ0dGU4T2twNTQ5Z0pnRjQzeXVmTS9VT0F0VEphOTltV3hWeDNhdkZRc3h3?=
+ =?utf-8?B?SlpjSFJsVU9aemVqTWN3M0lPRHg2cVlDa2pMYmNsYythbWNmYzViSy9YZk13?=
+ =?utf-8?B?eE0rRW4vdjZocENRUmd4SVd6clJpTys0UTIyZTI4blhENnBMSDlDZm1zNmNl?=
+ =?utf-8?B?TU5SYkFwTGZoMDZRNnZFb2E3SFJHNEQ5YkhRK0Z3QW9WVGhDUGpTd1FONmk5?=
+ =?utf-8?B?YkZZS2ZraGdkWGdnUVE0Ny9wNlBuYnFWSzRNQVpWdnAwaVJCb0pVSzdMN2dD?=
+ =?utf-8?B?UWxteUF0R0xXTXBlR0VKYlJncmJuWit2bTFuM01YNjRMVGQ1QlhCWU95U3cz?=
+ =?utf-8?B?YmgxMzJoMC9iTXJPb09paUVPY2s1UCsxOTBmcXRYdVNUbGZlZTkwV0tmdFBM?=
+ =?utf-8?B?RnNaR0R1MXZhNWRVN0dac3Mwa3BzV29ZRDFzaG5vRnBkdEJSbVNWcDY0d2kz?=
+ =?utf-8?B?TXdyc2NlWW1OQThScjNIUnBJOXpMbkYxTVdxZlRaTmhVMTZXdGc2Wk11eXJN?=
+ =?utf-8?B?bFo2eEJCOXlLSlZIbXV3RnpQZEFuTnJacHh2TFZKcW9nVTlSY2ZRZG95Sy9K?=
+ =?utf-8?B?NW1BWHh0VldheDdWb1Y2RDBxOFhyaXVFL2ZkT2xtK2grdFo3bGxCQUJwNW1s?=
+ =?utf-8?B?SmF3VkFVc21PQW4yaTRydjQzNWJoN3YrWGJkZTVNWmoraDVKR29kNmhGT2Ri?=
+ =?utf-8?B?cHRFYkUrTVVmZEhOdTdkK2pDNzRqSzBqV2pkR1I1NEtKbktsUjdkcUFtZUND?=
+ =?utf-8?B?TnVVS0U0Q1doWFlxMGJmL0pVczRHNUNQdHVaOXJXQk10U3JaTUNUMHRjTWs2?=
+ =?utf-8?B?QUx2YzdkOEtsSndQOHJLMi9BVUxyL28zaHQ1eWRMcUR5SHpJdnF5N2V2WXZS?=
+ =?utf-8?B?MTZERW5URkpGaDlOVndsTi83cWgxM0FzWGY0SlRueHJXUTRMVTNFMmJpZUJ4?=
+ =?utf-8?B?M3lLdnFNTTRKQTFQZHZmam11U051Sk1oM3pzK1VyU0ROT0UrS084MkhSc3gx?=
+ =?utf-8?B?YnQ5eXAwV0dQL2N3M0VkS0RMdVZheWxleXlSQXJUc1ZSQU1kSU4yengrVHVI?=
+ =?utf-8?B?SkxRMVR5b1NCcGlZcXlna2Mzb1lESGM4N0xQeDMvYWNMZFpEUXMreHFobVFD?=
+ =?utf-8?B?TmkrdW5TSlV0YjkvajRoQjc0eVVwQmFJS045OWY1US9kWnBWL2pzbEhhRUwy?=
+ =?utf-8?B?ZmFDc3lSNFZVTFRjM3FSUnhrSlNDQVJ4ZTlZTnIzOXNQNDNNQi9JQjRzTGZC?=
+ =?utf-8?B?eHRtSVdjSjM0WDNsY0UxVWp1TFZ5WCtwQWJCZUhPaU9lbU8vOEVCbU1INFpS?=
+ =?utf-8?B?cEIySjBtZnRBSG43VUgzbG84WVRjWTVFdFJRRUlHSDNObUxwVmxOU21qLzIy?=
+ =?utf-8?Q?k/6Iim6gSGg=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10093.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(19092799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T2F5L1luaVV3ME44V3kwWktwSkN4VzZ3S2hYM0lMU3c1RkJqSXIxbzY1V0Yx?=
+ =?utf-8?B?bGw0R3V0dFV1NHBvMS9ESWlJVi9RZnhxNjlwVUkxTVUxbVRWTElUcGxoQis2?=
+ =?utf-8?B?aDJjVGFaR254TlRxUTMzNVhmZjhyaHR1dXJmb3RMTXFRN01GZ1QvbVkrS05H?=
+ =?utf-8?B?cEplNFNJY2tPdnBxZDdmNkJJSlBYazJ2bXpCUHRYdFRqdWgzSXl0K3NnL0tp?=
+ =?utf-8?B?QnJIcitKR1BTREtndExtQStoaXZWajV0NlBtaUQyWWlVRXFmdWg2YjlYQ1Nz?=
+ =?utf-8?B?emFIN21NUG9jbkpycEQ0RTI1TEtPSUJaV1BnQmhPb1oySFppWkkzVGZtQVVr?=
+ =?utf-8?B?OWNUN3NteEdpUEMwaE9MNUo1dDdWd1NHWkc5THl0b1lLYU40UElYRm5Qekw5?=
+ =?utf-8?B?Um9tZDEwUFQ4N1h5TzZINXVRdmJ1VEtjWERsUmNnS2luYkRlNUVRYWlHTWtE?=
+ =?utf-8?B?QjhLY1ZUR2dOOHcxTkpWU0FjWFdSZWtkckYvWjZqbDBqbUhUWUZWYlE2czNQ?=
+ =?utf-8?B?ZTU0UFcvcWN5QllqTzBiNVZYYVo2SVdBc2pKTk9USDdQNFZ2VFQzcWdoWUdi?=
+ =?utf-8?B?bko1Y1lTNjlEVFZXanJiL1JwUG96KzVNOVd2N0g0L3FUQ0VBekZ0dWFVL3Jm?=
+ =?utf-8?B?SzU5aUo0NWMyZks1RGVKRHMzUjVMOUhQMklpbzdnM0UxMzNlVm56Nm8zK2tx?=
+ =?utf-8?B?dHhhLytuTnlVUVEyTE53RjFORHkrT3BJcE42YXN0RGUrV2ZKN3lycDREVVlP?=
+ =?utf-8?B?MWVwNmZVR1ZGN0VrdFZhb01xTmtMdmV2bUp3WmwyL200UytzNS9lUlFGR3RD?=
+ =?utf-8?B?ZEM5dWV6OTlpeGlQZWhTMzlMYnBLVi8ySGM2cDZ6N2swTE1MRmpSNThTM2d3?=
+ =?utf-8?B?aTJwb2lndEtjam12TWFMQ2haSTgvWmQ5WTlKeDEvUHVjZGRFeXpqb21qcFF5?=
+ =?utf-8?B?c0ZveDV0OUd2WVZvc1J1Q0haQU5aTk91VTc3alhNV1BqeStYVWQrWWtDb2Ru?=
+ =?utf-8?B?T1IxODFkT3IrQTdKbEUvZXdWOVEwcjRFTlBoV21qK0hXYytjd1J4bjUwNEp2?=
+ =?utf-8?B?WExra2s4SVpMcGJLd3BMcnJVYWU4Ny9SdS9ZV1ozM1l4Q3g4ZDBqWDVuY3Q2?=
+ =?utf-8?B?QkJmRHZEYUpZVlhNK1YzeFdJTTh0RGNCNzRsR0tmWFN2MnVTRU1nSDFTSkNn?=
+ =?utf-8?B?alVPekZOQzBrdXBuY0VkanlXejhBNUZFYkhkMFVNNmNZRElzLzcwMWoxNmNk?=
+ =?utf-8?B?QVlaUzA2c3V6dTB4dkFXN1lJRUpqelpLLzNLYStVOFl3RXNxRDByS2FTeWt6?=
+ =?utf-8?B?RlJlWStKWFhhdC9oTUNlaC9RdVZMYjJTT244VmpZaEdWZE84VkR1eUtpaFQz?=
+ =?utf-8?B?S0NoTU9hZlkxWmVMZ3E5SGpBSGhoWmN3V0lkai9HYVBCc2l5SmF5VFQ1TkNQ?=
+ =?utf-8?B?cyt1UGZXakVIbW5MQUVaUSs0T0hNdUhFNmVrTUJNRmFZRWtZbmpmTmU1b2tU?=
+ =?utf-8?B?SUVjc1p4VmNwSld5ZnFKZHZCR3pMa1NMQXBCRGZBU3BvQkpWV01Hdy9UUzY0?=
+ =?utf-8?B?RnJuVnUvQ05JSUxtZHhodFhWVXZzeVYyUWlLS0lFVWhoTjZRTERpVzdSUTEv?=
+ =?utf-8?B?U0QzN20zMi9HbGkwZjdrRHVaaVNYb1VrSXZrUTRJbm5oajhtQURua29PdmhV?=
+ =?utf-8?B?YmhJYjZ0SEczc2NlUDdpNndpNmt1V3FRZjh2ZTV3QXhwWFZLMm16c2NIUkxF?=
+ =?utf-8?B?eHQyM29sWjBBci9KVmQwZy9xZ2ZPUTI3emVnVk0wWHpyc1BzRjFIMTF2UkdU?=
+ =?utf-8?B?N1FyWlhCR3V0bnN2UEtsa3grRGFEWHJid2t2WTJLOTF0OEkvbzREMWRXYy9x?=
+ =?utf-8?B?SlZuNFpEYWlzVFhocjVhZzJVaWNDUnVDVm9iUEt6N1c3TUN6cm9WRVVPdlI3?=
+ =?utf-8?B?M0N4T09BbnlUeXI5THJRaWNKck5JUXpOVE9za3RGQVplMThaWEt1NFpiNFJv?=
+ =?utf-8?B?YWxuZzV2cmxsM00wazljNGk0bjNEdGhrWnI2cHJEb0tPTnMrVXoza0xVcE44?=
+ =?utf-8?B?ME1ibVVFSUhVSXBRVjBFcFQwN1J2c2NsWlNSZkdhcFZtclJKcTFVc0ZyMDlC?=
+ =?utf-8?Q?Bc/ACUD2r7jFV3OOsncxc36cp?=
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d48e6132-d838-4a99-1398-08ddba107570
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10093.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 09:03:21.0386
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: riy108vEewAMDR2YrvV25GyOwnPMUkCfF/8q1aX1ylElcDI2vVY6pEWjnmBItA7V
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB9718
 
-On Tue,  1 Jul 2025 12:58:31 +0300
-"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com> wrote:
 
-> Extract memcpy and memset functions from copy_user_generic() and
-> __clear_user().
+
+On 7/3/25 01:46, Florian Fainelli wrote:
+> On 7/2/25 15:02, Jakub Kicinski wrote:
+>> On Tue, 1 Jul 2025 09:50:11 +0200 Kamil Horák - 2N wrote:
+>>> PATCH 1 - Add MII-Lite PHY interface mode as defined by Broadcom for
+>>>     their two-wire PHYs. It can be used with most Ethernet controllers
+>>>     under certain limitations (no half-duplex link modes etc.).
+>>>
+>>> PATCH 2 - Add MII-Lite PHY interface type
+>>>
+>>> PATCH 3 - Activation of MII-Lite interface mode on Broadcom bcm5481x
+>>>     PHYs
+>>>
+>>> PATCH 4 - Fix the BCM54811 PHY initialization so that it conforms
+>>>     to the datasheet regarding a reserved bit in the LRE Control
+>>>     register, which must be written to zero after every device reset.
+>>>     Also fix the LRE Status register reading, there is another bit to
+>>>     be ignored on bcm54811.
+>>
+>> I'm a bit lost why the first 3 patches are included in a series for net.
+>> My naive reading is we didn't support this extra mode, now we do,
+>> which sounds like a new feature.. Patch 4, sure, but the dependency
+>> is not obvious.
 > 
-> They can be used as inline memcpy and memset instead of the GCC builtins
-> whenever necessary. LASS requires them to handle text_poke.
-
-Except they contain the fault handlers so aren't generic calls.
+> I don't see the dependency either, at least not in an explicit way. 
+> Kamil, could patch #4 stand on its own and routed through "net" while 
+> patches 1-3 are routed through "net-next"?
+It can be done this way, however, even the patch #3 is effectively a 
+fix, not new feature, because the bcm54811 PHY in MLP package only has 
+MII-Lite interface available externally. As far I know, there is no BGA 
+casing available for bcm54811 (unlike bcm54810, that one having both MLP 
+and BGA). Thus, it cannot function without being switched to MII-Lite 
+mode. The introduction of MII-Lite itself is clearly a new feature and 
+it is even (theoretically) available for any MII-capable PHY. So if 
+putting it all to net it is really impossible or contrary to the 
+net-next vs. net selection rules, let's divide it....
+To get fully functional, bcm54811-based networking, all patches are 
+necessary so any other user out there must wait for both branches to join.
 
 > 
-> Originally-by: Peter Zijlstra <peterz@infradead.org>
-> Link: https://lore.kernel.org/all/20241029184840.GJ14555@noisy.programming.kicks-ass.net/
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> ---
->  arch/x86/include/asm/string.h     | 46 +++++++++++++++++++++++++++++++
->  arch/x86/include/asm/uaccess_64.h | 38 +++++++------------------
->  arch/x86/lib/clear_page_64.S      | 13 +++++++--
->  3 files changed, 67 insertions(+), 30 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/string.h b/arch/x86/include/asm/string.h
-> index c3c2c1914d65..17f6b5bfa8c1 100644
-> --- a/arch/x86/include/asm/string.h
-> +++ b/arch/x86/include/asm/string.h
-> @@ -1,6 +1,52 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_X86_STRING_H
-> +#define _ASM_X86_STRING_H
-> +
-> +#include <asm/asm.h>
-> +#include <asm/alternative.h>
-> +#include <asm/cpufeatures.h>
-> +
->  #ifdef CONFIG_X86_32
->  # include <asm/string_32.h>
->  #else
->  # include <asm/string_64.h>
->  #endif
-> +
-> +#ifdef CONFIG_X86_64
-> +#define ALT_64(orig, alt, feat) ALTERNATIVE(orig, alt, feat)
-> +#else
-> +#define ALT_64(orig, alt, feat) orig "\n"
-> +#endif
-> +
-> +static __always_inline void *__inline_memcpy(void *to, const void *from, size_t len)
-> +{
-> +	void *ret = to;
-> +
-> +	asm volatile("1:\n\t"
-> +		     ALT_64("rep movsb",
-> +			    "call rep_movs_alternative", ALT_NOT(X86_FEATURE_FSRM))
-> +		     "2:\n\t"
-> +		     _ASM_EXTABLE_UA(1b, 2b)
-> +		     : "+c" (len), "+D" (to), "+S" (from), ASM_CALL_CONSTRAINT
-> +		     : : "memory", _ASM_AX);
-> +
-> +	return ret + len;
-> +}
-> +
-> +static __always_inline void *__inline_memset(void *addr, int v, size_t len)
-> +{
-> +	void *ret = addr;
-> +
-> +	asm volatile("1:\n\t"
-> +		     ALT_64("rep stosb",
-> +			    "call rep_stos_alternative", ALT_NOT(X86_FEATURE_FSRM))
-> +		     "2:\n\t"
-> +		     _ASM_EXTABLE_UA(1b, 2b)
-> +		     : "+c" (len), "+D" (addr), ASM_CALL_CONSTRAINT
-> +		     : "a" ((uint8_t)v)
+> Thanks
 
-You shouldn't need the (uint8_t) cast (should that be (u8) anyway).
-At best it doesn't matter, at worst it will add code to mask with 0xff.
 
-> +		     : "memory", _ASM_SI, _ASM_DX);
-> +
-> +	return ret + len;
-> +}
-> +
-> +#endif /* _ASM_X86_STRING_H */
-> diff --git a/arch/x86/include/asm/uaccess_64.h b/arch/x86/include/asm/uaccess_64.h
-> index c8a5ae35c871..eb531e13e659 100644
-> --- a/arch/x86/include/asm/uaccess_64.h
-> +++ b/arch/x86/include/asm/uaccess_64.h
-> @@ -13,6 +13,7 @@
->  #include <asm/page.h>
->  #include <asm/percpu.h>
->  #include <asm/runtime-const.h>
-> +#include <asm/string.h>
->  
->  /*
->   * Virtual variable: there's no actual backing store for this,
-> @@ -118,21 +119,12 @@ rep_movs_alternative(void *to, const void *from, unsigned len);
->  static __always_inline __must_check unsigned long
->  copy_user_generic(void *to, const void *from, unsigned long len)
->  {
-> +	void *ret;
-> +
->  	stac();
-> -	/*
-> -	 * If CPU has FSRM feature, use 'rep movs'.
-> -	 * Otherwise, use rep_movs_alternative.
-> -	 */
-> -	asm volatile(
-> -		"1:\n\t"
-> -		ALTERNATIVE("rep movsb",
-> -			    "call rep_movs_alternative", ALT_NOT(X86_FEATURE_FSRM))
-> -		"2:\n"
-> -		_ASM_EXTABLE_UA(1b, 2b)
-> -		:"+c" (len), "+D" (to), "+S" (from), ASM_CALL_CONSTRAINT
-> -		: : "memory", "rax");
-> +	ret = __inline_memcpy(to, from, len);
->  	clac();
-> -	return len;
-> +	return ret - to;
->  }
->  
->  static __always_inline __must_check unsigned long
-> @@ -178,25 +170,15 @@ rep_stos_alternative(void __user *addr, unsigned long len);
->  
->  static __always_inline __must_check unsigned long __clear_user(void __user *addr, unsigned long size)
->  {
-> +	void *ptr = (__force void *)addr;
-> +	void *ret;
-> +
->  	might_fault();
->  	stac();
-> -
-> -	/*
-> -	 * No memory constraint because it doesn't change any memory gcc
-> -	 * knows about.
-> -	 */
-> -	asm volatile(
-> -		"1:\n\t"
-> -		ALTERNATIVE("rep stosb",
-> -			    "call rep_stos_alternative", ALT_NOT(X86_FEATURE_FSRS))
-> -		"2:\n"
-> -	       _ASM_EXTABLE_UA(1b, 2b)
-> -	       : "+c" (size), "+D" (addr), ASM_CALL_CONSTRAINT
-> -	       : "a" (0));
-> -
-> +	ret = __inline_memset(ptr, 0, size);
->  	clac();
->  
-> -	return size;
-> +	return ret - ptr;
->  }
->  
->  static __always_inline unsigned long clear_user(void __user *to, unsigned long n)
-> diff --git a/arch/x86/lib/clear_page_64.S b/arch/x86/lib/clear_page_64.S
-> index a508e4a8c66a..47b613690f84 100644
-> --- a/arch/x86/lib/clear_page_64.S
-> +++ b/arch/x86/lib/clear_page_64.S
-> @@ -55,17 +55,26 @@ SYM_FUNC_END(clear_page_erms)
->  EXPORT_SYMBOL_GPL(clear_page_erms)
->  
->  /*
-> - * Default clear user-space.
-> + * Default memset.
->   * Input:
->   * rdi destination
-> + * rsi scratch
->   * rcx count
-> - * rax is zero
-> + * al is value
->   *
->   * Output:
->   * rcx: uncleared bytes or 0 if successful.
-> + * rdx: clobbered
->   */
->  SYM_FUNC_START(rep_stos_alternative)
->  	ANNOTATE_NOENDBR
-> +
-> +	movzbq %al, %rsi
-> +	movabs $0x0101010101010101, %rax
-> +
-> +	/* RDX:RAX = RAX * RSI */
-> +	mulq %rsi
-
-NAK - you can't do that here.
-Neither %rsi nor %rdx can be trashed.
-The function has a very explicit calling convention.
-
-It is also almost certainly a waste of time.
-Pretty much all the calls will be for a constant 0x00.
-Rename it all memzero() ...
-
-	David
-
-> +
->  	cmpq $64,%rcx
->  	jae .Lunrolled
->  
-
+Kamil
