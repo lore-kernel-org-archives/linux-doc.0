@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C9025A2C0;
-	Thu,  3 Jul 2025 18:17:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BD01D5CE5;
+	Thu,  3 Jul 2025 18:20:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751566665; cv=none; b=lz4do2xhmspXkkmgBZdMa7UO7uI8w/2iSDkosLPoWEjs4xZmRkoOVunKHiKzL0mEYQxLBBXEGozpZ9iSS1yrLw7lIzxeLgXrBOE+UXE9QUw+R2Oot1gxTd10s9zE3pdXxcKBAt+Ua3kA6tIQqJI96sb8bFssFOidMWb7f4OheXA=
+	t=1751566829; cv=none; b=O4Tc1U7iAavXGU0Mqp7oIoxuk7izsxkyGx4VCOJ5Xp20gYJs7/vqA1JB8Ei++XGDLDV+gK7VNF+SjgYQ1b8WgK7D4ApvWBxGKG4xdozfKhKplFvFnqNFQ+/HNsXGQWEw8MDE72KhYQ1TUZkHfZ1TrdgHgVZGmMNIaxKnUF3clQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751566665; c=relaxed/simple;
-	bh=7oS/5aSh6m5V1wzynK5AZkydMax405IFDZMPHMVAlu0=;
+	s=arc-20240116; t=1751566829; c=relaxed/simple;
+	bh=Ua+1AeFdIFCOxgZeS7TcKUgTo2Qefe/L0zIXwQpMVlg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ooi+vKsCsI+cK8pULlUjz8cke9Ve5ElLTEMim8gas8lMfZW8hoxmhfr1VTcS53uhqEhcEOp4A5ICPDyFZCw0Z9za6LI49vIJR2togQ6hgJqtGXLYjfyLcNTMELfOUFhDy/+MHVyJPxi3xCUjIF7rYkLtPuENUGyynxUNtRPcqAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=e7W74O7Y; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Wjmp2TNV051hAtS2Y6HgMNDblVAEm0iaHqItJX+6j33GSwZinLPb0Gre7ZsnE3mUn2jKzZ5nw5ax+TE3TP6QafdY7zsdHlSXPZlamW503pAgqIMxFLqSb0TOUwwaR6kxt+putCLaiZCa9LiDhqAZxZ/Zl+OIEOGYWuo6JEOnV78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=N6UTUuBT; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="e7W74O7Y"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2E1E6406FA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="N6UTUuBT"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 124DE406FA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1751566663; bh=KNrNFFjvmsGcrL3H7Tifc5ZRglia5fsVJUZcYmQ27fo=;
+	t=1751566827; bh=k+STB9EFsTzbp5+ikejbo8ErbMRgevfWBB4ZzFJvj7k=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=e7W74O7YqCAdg6lWX6bHPoS6kGsOCxn9s7bumPuLApDU2Trykm33xNaBVoMCWrqq2
-	 gGqZKTPvlMpvo/xjuOGKlh3hYU3TZkU7TQx467G8fG0ubJd4Wp3VM3z/blWCo+CbCb
-	 M8h30nUnJAYJ5RU9TGsH3jDlEWBdHgwpLryKH7vTtCjBLVF5MSjERm7KC0A3OAbT2H
-	 RrUa/3FqZBN7dRpgFa7TELmYScQ3L+bdX2z41JKQ3owe8xbAaG+GdxOrnT5VCD+ow6
-	 yEgkW8T3LEF9f8jiy/BYoz42cR/SAXo/F4I4XRQRX889QMiPQLlqv91SQOWJk30wlH
-	 JQAuJDM7uFqJA==
+	b=N6UTUuBTZiYWCKrYjFEwMncBetae1sEQMxolsqtD+vOgYdglX+2x8u/RA5toDzUxM
+	 EJyS+bhTpZIwG2h9M9+pJ6/rllvKfiamunrnofBnwp4d3sRswmQqRXS5Dcy2ToN/Vv
+	 0Dg3sDQ5ITEoDA5D1Xim4k8rapKE6EOMAQxu8trZzorkqKO0xSJcOTs3EJNfsU7wsi
+	 bdSmxOQBjFmSevka4qQy9dr0N7evK43vlXbCd0Q5LWRuZwH5KRCGuYdlqOpdAAktn6
+	 r0j9ksBOTzprWhCi/9kr2M05U56Yqr1XVGHhD/fjj/5bi39VuyjtKRVaAdaXz0xPiX
+	 EHMUJaqybu8Cw==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2E1E6406FA;
-	Thu,  3 Jul 2025 18:17:43 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 124DE406FA;
+	Thu,  3 Jul 2025 18:20:27 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 7/7] docs: kdoc: pretty up dump_enum()
-In-Reply-To: <20250703175731.1a4871e3@sal.lan>
+To: Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 0/7] Further kernel-doc tweakery
+In-Reply-To: <e675d05d-0d81-47cc-b431-641b5b8c57b8@gmail.com>
 References: <20250701205730.146687-1-corbet@lwn.net>
- <20250701205730.146687-8-corbet@lwn.net> <20250703175731.1a4871e3@sal.lan>
-Date: Thu, 03 Jul 2025 12:17:42 -0600
-Message-ID: <874ivtkuk9.fsf@trenco.lwn.net>
+ <e675d05d-0d81-47cc-b431-641b5b8c57b8@gmail.com>
+Date: Thu, 03 Jul 2025 12:20:26 -0600
+Message-ID: <87zfdljfv9.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,25 +50,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> Em Tue,  1 Jul 2025 14:57:30 -0600
-> Jonathan Corbet <corbet@lwn.net> escreveu:
+> Hi Jon,
 >
->>                  self.emit_msg(ln,
->> -                              f"expecting prototype for enum {self.entry.identifier}. Prototype was for enum {declaration_name} instead")
->> +                              f"expecting prototype for enum {self.entry.identifier}. "
->> +                              f"Prototype was for enum {declaration_name} instead")
+> On Tue,  1 Jul 2025 14:57:23 -0600, Jonathan Corbet wrote:
+>> This is a set of miscellaneous improvements, finishing my pass over the
+>> first parsing pass and getting into the second ("dump_*") pass.
+>> 
+>> Jonathan Corbet (7):
+>>   docs: kdoc: don't reinvent string.strip()
+>>   docs: kdoc: micro-optimize KernRe
+>>   docs: kdoc: remove the brcount floor in process_proto_type()
+>>   docs: kdoc: rework type prototype parsing
+>>   docs: kdoc: some tweaks to process_proto_function()
+>>   docs: kdoc: Remove a Python 2 comment
+>>   docs: kdoc: pretty up dump_enum()
+>> 
+>>  Documentation/sphinx/kerneldoc.py |   2 -
+>>  scripts/lib/kdoc/kdoc_parser.py   | 150 +++++++++++++++---------------
+>>  scripts/lib/kdoc/kdoc_re.py       |   6 +-
+>>  3 files changed, 79 insertions(+), 79 deletions(-)
+>> 
 >
-> Even being a big one, my personal preference would be to break the long
-> string here, as keeping together is easier for grep, but yeah, I also
-> considered breaking it ;-)
+> I just applied this set and got the error of:
+>
+> ---------------------------------------------------------------
+>   File "/<srcdir>/scripts/lib/kdoc/kdoc_parser.py", line 881
+>     	    else:
+>     ^
+> TabError: inconsistent use of tabs and spaces in indentation
+> ---------------------------------------------------------------
+>
+> I didn't look into individual patches, assuming it should be an easy fix
+> for you.
+>
+> I guess it'd be better to test (and hopefully to review) other pending
+> series from you and Mauro ...
 
-Did you mean your preference would be to *not* break it?
+Yes, sorry, I ran into that after sending ... I have no idea which weird
+last-second edit introduced that error.  It worked before, honest...
 
-There's a non-greppable piece at the break point anyway, so I wasn't
-anticipating making life harder for anybody there.
+I'll go ahead and send a new series shortly.
 
-Thanks,
+Thanks for testing!
 
 jon
