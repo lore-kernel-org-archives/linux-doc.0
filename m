@@ -1,83 +1,32 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A612512FF;
-	Thu,  3 Jul 2025 11:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9A4B676;
+	Thu,  3 Jul 2025 11:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751542308; cv=none; b=TD+46wQXnVTbPRkKP1j6okUYVlZMKg1jsaNbZc6qVx1DUuURbplyc8KyBBRdaOp1FhAteD5/jLEne7LRouR8y5vmkNf9x82sqMb+skEOdhZ1CZ4x4z3iJU1e+75K1es/1WFcIayWFcryN5Nczd3QsPw53Y4AbO55iuPZyukTRpk=
+	t=1751543041; cv=none; b=e1CAqdAkqfd7e8dykA1f4sK0y9L3IUT+AieN3AcXCBpSj+/kWk4jSNlqIJ6x42l+vO+HfOPlQ14jqEW6+e+ayMuh6wUyGkb87kvfdo21GNwLyrzF32egTnN1IJRgg05o4tn00ULAmxoToCk+4POSvArLQab30BXeRyEKyTo/264=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751542308; c=relaxed/simple;
-	bh=mz2HO5e+m0EVO4Bso9dOWmH5VXn5tebaRN4tyuLfYyQ=;
+	s=arc-20240116; t=1751543041; c=relaxed/simple;
+	bh=2E4q/VTewWdAiwGBze8dCv3IXOy5Ea14A1k3uP8YBWc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X37oaOxna4v5L9ixmINOMr1+2RZLClrzlJUjsdpCPqz8W4/EEDkISczhKKBGO+NP/x6DlHFUmorjs+Npq8Km1Rp8VTDoSa6S7VvnFVQLa5dLuNhgQ5UkCzxdryMiGeQpoL5IlaC5Q1eykE6OpGJrA7U5IPnszzBFGPj+WOOdUU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=icvujwCm; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="icvujwCm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751542307; x=1783078307;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mz2HO5e+m0EVO4Bso9dOWmH5VXn5tebaRN4tyuLfYyQ=;
-  b=icvujwCmzoZiEcBfrizQDS2rg7NbkGkB10DL01IzPoFPIjf1224AdHAg
-   lWP1u9Ygy4G8zV9W5Io0Ce4Kk63AEH+TlCzfV+DsP553xACOJHOnA64A5
-   o2fDl+JBU36nfLKnVhCyx9n7H2p66JBhXVQiBlUcs1UtiYsMNZF/rwC1N
-   Woe7QvFlovKZAEoESJLS+NIqgTGZdMPBWBr8j4zvdtVf0sXzmQ80B4+Qz
-   7/Ljalq5URRFqlGoJT2kU8AdB5cN/fkQFYsOxjBebE4AiWUZNWdmoRL4R
-   iBTSjxcXRts+dEA3PwaoG4h1hgJ1zyhBmYnIob4X3mLtrePjj3av3uboi
-   g==;
-X-CSE-ConnectionGUID: QP5H9CcJTnmSLNqzIZAmuA==
-X-CSE-MsgGUID: brfc9Hq7TG+XDIp7ajPx3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="53731270"
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="53731270"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 04:31:46 -0700
-X-CSE-ConnectionGUID: Hol9m/2jRjWHXEvh17EZ8g==
-X-CSE-MsgGUID: ey2HETopSV6Moa5CZajchA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="154920492"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Jul 2025 04:31:35 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 4EA371E0; Thu, 03 Jul 2025 14:31:33 +0300 (EEST)
-Date: Thu, 3 Jul 2025 14:31:33 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon <daniel.sneddon@linux.intel.com>, 
-	Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>, 
-	Breno Leitao <leitao@debian.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCHv8 14/17] x86/traps: Handle LASS thrown #SS
-Message-ID: <h7pjqco4nngern4ucj2krt4uuau5v522ni6w5vjup3qlkvn2yb@oskfps5mlzbc>
-References: <20250701095849.2360685-1-kirill.shutemov@linux.intel.com>
- <20250701095849.2360685-15-kirill.shutemov@linux.intel.com>
- <95dc18fd-73b0-4019-92d2-c0e6aaf22c96@intel.com>
- <mgo3qfjekobe6qflwkpey3p7tzsp3b2mrirama4w2rxyckce7g@3gce3fn5emvu>
- <bbe9dfb6-88c7-4724-bafd-0524599c9369@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ldIv7ykKhe17g2XbRIfDntYegdlDE1y56MvlejzdUHtVPs5KjPF5FtYidu3rBnzgmGvRwzhMRpjb91qGMvHiwBmTM7q98qVTwxB1G/y13Ut1DVXIWYSMXg1uA+gESsW0o3IxrKXRDywEr0zqzUWmjACbsAArfgiYS/ZkTlQKpRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 0192F67373; Thu,  3 Jul 2025 13:43:54 +0200 (CEST)
+Date: Thu, 3 Jul 2025 13:43:54 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Alok Tiwari <alok.a.tiwari@oracle.com>
+Cc: linux-nvme@lists.infradead.org, rdunlap@infradead.org,
+	kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	kch@nvidia.com, nilay@linux.ibm.com, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] nvme: typo and minor cleanup fixes across host
+ and target driver
+Message-ID: <20250703114354.GB17686@lst.de>
+References: <20250625041643.174110-1-alok.a.tiwari@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,45 +35,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bbe9dfb6-88c7-4724-bafd-0524599c9369@intel.com>
+In-Reply-To: <20250625041643.174110-1-alok.a.tiwari@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Jul 02, 2025 at 01:05:17PM -0700, Sohil Mehta wrote:
-> On 7/2/2025 6:27 AM, Kirill A. Shutemov wrote:
-> 
-> >>
-> >> Maybe I've misunderstood something:
-> >>
-> >> Is the underlying assumption here that #SS were previously only
-> >> generated by userspace, but now they can also be generated by the
-> >> kernel? And we want the kernel generated #SS to behave the same as the #GP?
-> > 
-> > It can be generated by both kernel and userspace if RSP gets corrupted.
-> > 
-> > So far, do_error_trap() did the trick, handling what has to be handled.
-> > LASS requires a bit more, though.
-> > 
-> Thank you for the information! The discussion in the other thread helped
-> clarify my confusion about the new FRED specific fixup outside the LASS
-> check.
-> 
-> IIUC, for kernel generated #SS, the prior code in do_error_trap()
-> would've done a few things such as notify_die() and
-> cond_local_irq_enable() before calling die().
-
-cond_local_irq_enable() need to happen if we want to do something
-sleepable during exception handling. It is not the case here.
-
-notify_die() will be called die_addr()->__die_body()->notify_die().
-
-> The new code now directly calls die_addr(). Are we changing the behavior
-> for legacy kernel #SS? Also, why don't we need those calls for the new
-> LASS #SS?
-
-do_error_trap() provides catch-all handling for unallowed-thing-happened
-exception handling in either kernel or userspace.
-
-We can take simpler path for fatal in-kernel exception. Following #GP
-logic matches what we need.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Thanks, applied to nvme-6.17.
