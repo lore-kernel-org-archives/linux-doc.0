@@ -1,201 +1,468 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2047.outbound.protection.outlook.com [40.107.102.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A231CD1F;
-	Thu,  3 Jul 2025 07:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751527186; cv=fail; b=fHLOwvOKLTbqCG24FDkrgAYhBtXhoiIWYG5DhLUpQDIrNOuF9+8J3MAqH2YuEhwIB4coxlFBN+SVZx1FGre2znHgYG1klDngAuCC6iD7M0UM7l4A2rDZGbbPDOmLnyraLIXTCSUj4c5ZlFcwNH2KS4l4/x3fyIciQw0DQ3xKAUk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751527186; c=relaxed/simple;
-	bh=SSaRGcSJvupm0oIpD0q4jAk3S3urhzSPyG3tPifT5os=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ih6qVCMKLWVbNrdLStIIN6sKutkbutXnsJlRDm5ZlAvyOJzfQSCelf6mi2QQETnHb40eD8kazmp0DPB9Nefsc8QRRUPdgdfbQjv+TAjM7ZsPctVaplx4HBcDeaUbTviyYDOq9Hc2Zb5NSGdezRSoA2/DD6axSgZ1ttWRST3abmI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=DncllQ5j; arc=fail smtp.client-ip=40.107.102.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AB8298992;
+	Thu,  3 Jul 2025 07:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751527460; cv=none; b=MaZMhzOWjIZjQiGlP5sa9HN/4y2IpmBI/lxX6fE62KOnGbN20moG+d605soJQ/SbthKwPVUJXhSybVFkf3t0xl3Cu73EqZdcpaeoMDuwkIf2KHBzW9tBnIZAII9DBoGVKdU+aqYr2QL89mmE1an6mCe0nd3D772ShewXJZHGNtw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751527460; c=relaxed/simple;
+	bh=WJLEHzPhZDh1aMPPDzsVjVYMXY1D03/jWiVIudvqUaM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G5LNKF4TbglUocGhi5vp/tjjoLCjkhvh1EfMG8W1Q163bzIL4G/vRFiZiGYlFH8kTHRcNrQqqdz0yuHOQeXMR3ajC7rD3vbUPe+n1Rfp4qhqR3XN1x4GgMGIGiFYd0San6igwguCdSoP2Ie8MXWM4lddQpq99u67RbD99bWKXFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WLjrqd0v; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="DncllQ5j"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=icbcQlZTH3wE9/fX43vi0HvDRD5Qb2FpHoWlVekFzJoqir0LhwvbEQU+XgUYiDBGn85tjAR79Z4V73M2AC6ZI1vgYAnMKf+JWsYZDb/Ac7l/6I7mZ4HxezVkeKAmhvRwDs0rvJkzdeucrTJdUGmc6/NmnTTDPzMyitjU3mTRZFCJ3+Iy3Q85IIieXeV/pbStPGWyUk5ieHtYW7ZbAmeHAg5gcO0F/x1bfbm88JQyNslXd8r0TptYKiATR7xwn+ab6j/zd8r0mFzAeHhQ3c9SoWkHzSHsvyrvfahPVuyDuWM1pRV7PyU7TZbRFzPi0h98i5IvTJxx0JZHAre6ZQOxuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/SwEY5xsumy38qhuAjX9zqN9bHdXu8AUbLIhH+Ty/fE=;
- b=QEDcvf1XChHGPeYGK24kB4kCNMpZeAg8YlcBWow/in951mg+xsIS/wjdN2lHzWHyaYf6OC8XfUda4YvxiT6bDP+Wbl4ecsA5Dl1jNQBWWGkAlneWdx6+1e0Vlm4/QNDArpQ36E6WuUdZuOK8CFX4pZOyZ7Kdim9UQ+zzjnP6GmERpPabE9b0Cz/UGn+CO1UejDS58l7+wvGXFzfpBQR0FnTuPORjNbXqC8dZum8AN0lmGAwyqDoF3cy07iSBVYgjrFb2OH5xs9kC05q8pZJ8qjcEw7wzQaQM9dgDbtVtMvJ2PTuH6GlhQimgD9ooBjdhkv6WpzoghO2WbqKa+mzE1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/SwEY5xsumy38qhuAjX9zqN9bHdXu8AUbLIhH+Ty/fE=;
- b=DncllQ5jqyzrtGQWejyQNsQ8plrbyVk74moNFN1iG/vofgOUsiSTEfZpNHII77YiJA1wRpoVcdquM2RqwfP4PtyQSNQPC58aqC/S9KL9eAkIpNBptdBXAFPw1MvO8y0DYLrzoNhsJDAdv3Y9jkEwcY88uQXgyfbVHxOKboviuQc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA1PR12MB9064.namprd12.prod.outlook.com (2603:10b6:208:3a8::19)
- by CH1PR12MB9622.namprd12.prod.outlook.com (2603:10b6:610:2b2::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.34; Thu, 3 Jul
- 2025 07:19:41 +0000
-Received: from IA1PR12MB9064.namprd12.prod.outlook.com
- ([fe80::1f25:d062:c8f3:ade3]) by IA1PR12MB9064.namprd12.prod.outlook.com
- ([fe80::1f25:d062:c8f3:ade3%6]) with mapi id 15.20.8901.018; Thu, 3 Jul 2025
- 07:19:41 +0000
-Message-ID: <bb0ac425-2f01-b8c7-2fd7-4ecf9e9ef8b1@amd.com>
-Date: Thu, 3 Jul 2025 12:49:30 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v3 10/14] RDMA/ionic: Register device ops for control path
-Content-Language: en-US
-To: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: shannon.nelson@amd.com, brett.creeley@amd.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
- andrew+netdev@lunn.ch, allen.hubbe@amd.com, nikhil.agarwal@amd.com,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andrew Boyer <andrew.boyer@amd.com>
-References: <20250624121315.739049-1-abhijit.gangurde@amd.com>
- <20250624121315.739049-11-abhijit.gangurde@amd.com>
- <20250701103844.GB118736@unreal> <20250702131803.GB904431@ziepe.ca>
- <20250702180007.GK6278@unreal>
-From: Abhijit Gangurde <abhijit.gangurde@amd.com>
-In-Reply-To: <20250702180007.GK6278@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0202.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:e9::10) To IA1PR12MB9064.namprd12.prod.outlook.com
- (2603:10b6:208:3a8::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WLjrqd0v"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-234bfe37cccso93379725ad.0;
+        Thu, 03 Jul 2025 00:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751527457; x=1752132257; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9ZZaxoWN1XxNyra6btHNimAGgXQoxpefWk9ygjfRZq8=;
+        b=WLjrqd0vd1hmacPBQbaR5ism3+iPFgFUHLQCp/41vBCsVW74o9X17TSnPNrm0FuCtM
+         7GMOM9zXv+jrIkg/AbKRfNDWwAy9fYOL9kCAXlCocy6iEcqjO4o4rVdiPEecSBSXzs8O
+         JgoTsYd6mC/3sRK1USySDly0nKeYfMy+bcgdoEII8paafNMVAIELH3qVKWCIBLyC/FSz
+         bUC6YzGqxCiHSspg5H4QFsTlm9OMu62B7O76uJi6V97SFfYjkP4idRVLQGbYWci7nG/z
+         T4touBKAYyIiS2eEk4NIrqHasSVIo6RcO8e7OoidWjXJj79q8lXNpZdQOli+2n196Z4m
+         Nmqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751527457; x=1752132257;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9ZZaxoWN1XxNyra6btHNimAGgXQoxpefWk9ygjfRZq8=;
+        b=HfQfWbjtfqTJA8MKjDcqKhpCbpngRiYwEI4xydP+RyFHWCczCx7fhM2mOlV3vAWF4p
+         4PEaPGpcNfBLkmUdS/6IJHbZZzMyFNA152n4LL0DvKtzvprIW99il+mQq9XuCWDDv75O
+         ay0JMN+U86oAs3RZ+/C7Zf672qIn1RugzEGe6UioBQnE8rE86lcg4gdBnuhB8bPhlmYj
+         Hw3V3BHPOuQiyld3IHsr+VYZkRsquYOaOQ2Li2DX1FUtp5S2nhH4BdLyI6nhX3A3Wtuc
+         /64VrvcybQN5TBtOjBhL4wJ+pqDso9ak9NfcaJ5Ws+l5KHBwcxreLC13XpvwHwxJx4gD
+         4PKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU2UcFxYr5j0kvTsiXaj2my7uT9kcQcnYIE9+87xPGNw98CaKoYQswUR9Lc5BDM9whBCd1ZJWHCxeao@vger.kernel.org, AJvYcCVHphwr9NizhhBJ5KDav8heNnZxWu/KCY51FbGU4JCSa/IL+Ur6+31kRifbTxHCQJ1Xj5h2UwLoiDj0Ozhs@vger.kernel.org, AJvYcCWNwGpmzuVO/V86vxSPVtK1ozQNa38kSfTnDlpeKWT4aX+l5T8rwTo/EfgX9l8qkUR6N+RNTFNVxqOr@vger.kernel.org, AJvYcCWuEK6AhMvBhwWfpeBMVZ63qNqN2zJ7FXMQnSIi5LUG4PBukGuwNmDWoWMsorD0Nov8KOix3xKwb6cN+Qw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6a/sDeLvP0iisRFQPvdXQl9Grgn8fEJCP6j4d0W6GCVAkahsG
+	QJI3yTFv2b2fpETPtn0JD+eZE96PQSb6NpYXw0HjhDYEIj+teSKtz801/ugMeWVus8lIJEdC7MT
+	aGueYnhPr5GTozhu7TJ6xAFb2pXQVHdc=
+X-Gm-Gg: ASbGncvvPaKQtl/NfXToW55afec3SGaKBEvCT/o0T/lY3PYsGbRDegN8xVMMNOZUhm+
+	H8PXP4TtkvooYt3G/xvt6XptqOPSEZLQoVcqG+1wTodf1+xKY1ORtxxE5Kwr96oIalGZoD4Eqve
+	MkW5SrUK+AiAO1CvShpWsaK3cskJoZ01Bfs5P3jxB3je2MwJAy+eis4LOOi79nogohxwVpiAvSa
+	e8R9w==
+X-Google-Smtp-Source: AGHT+IF28fFcL3kA1Qy1yVcrpwE17885PTMHu9rL782xmHXWhb0YeL6AEK3v2HVl99elK+5eBueNmgn9JS9Nd+qs8eo=
+X-Received: by 2002:a17:90b:3d8d:b0:311:c1ec:7cfd with SMTP id
+ 98e67ed59e1d1-31a9d5fca26mr2667954a91.26.1751527456465; Thu, 03 Jul 2025
+ 00:24:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB9064:EE_|CH1PR12MB9622:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1810be37-9dba-4678-35ed-08ddba01f9fc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Zno0RkNaSE4wMUFHeHlrVmhzUW1Kbi9hUTBWbGJwNi9GVDgxazFlZVZUTHdW?=
- =?utf-8?B?L3Z2RnpKSUUwc09PZXdjdjE5SFRzcDE1T1F4SVRGbjlCbXRlY2lsMDVnTmhC?=
- =?utf-8?B?Q0pGY05uSUhaclZBaTVYbm1PMWFFazZGODRJSHRMVjlJT2hTeWNObnAwS0cz?=
- =?utf-8?B?dEx0OEt5NG4waWVQSi95aHIyU1ViSnBpdCtiNHk5cVgvaHdYbjZDSWYrdHU3?=
- =?utf-8?B?dzJ1SHBCUWhVTFQ4OGxxSHgxd1RhU3c2NzVEZFRDTjVGZnBFM0RrczdpdkNo?=
- =?utf-8?B?eG5hSXhWVllCM1dvclpEOXp6SW9FRWM5NVJwSHJQMjFVWHE5VGtSYkJpOHJk?=
- =?utf-8?B?b2IrVDBlYTlYcmw4V3dxaVVwek85cDB2bEpmSDY4b3VSSTdmMFhRMEtSY01C?=
- =?utf-8?B?NDVPUXVJeCtWWHNjTjRyMys0UnRkc3ppdjNOMEVGNnY1R0FRWWl2L3Vac0pH?=
- =?utf-8?B?Qm1DNTkrOUpvTFl4bSt6OHpOK1QyVXNvREJ0YmRNZkZEbDg0UFBBWHo5S1NN?=
- =?utf-8?B?S0FqZy9mT2V4dzQ5Nk5YSWRJcFJPNlhXZDY1YnN1cjc2MUdVYUVrTGkrc2Zj?=
- =?utf-8?B?NHd0UEo5SU1uKytFTzNhZkhDSFZBODlRMVBXOGthdE1SOFBSWDZwSEUyNElV?=
- =?utf-8?B?RDVENGl1WHJaYlhLQVV2NWVkRW5CU1ZyMm54Zjgxc2FzaGJLL2tZdG9XSHJB?=
- =?utf-8?B?UUFkeGxnRFRQNW9DTGxpMDBCR29sWFgrU2J3ZURjT2JnRkFiQUNiTm5mZHU3?=
- =?utf-8?B?dXc0Y2hXQVE5ZjY1VXdDT2dSUXBsUFVQalJwQnpGdHA1UVZUSm5vaWNNZTR2?=
- =?utf-8?B?K0JqdThOR3RVS1BwQVMxSEFIMHhIczVUVUEvZmkxQTkrdTIwWXdMeXhUZW5I?=
- =?utf-8?B?ZnBBamtzSnJ0SHB4eGlxRzJOVUp2RU12UXpjMmppNVYyekl5Zm1EK0pZYVJ4?=
- =?utf-8?B?d1BQZmVybXBjTzZWb1pyZWM3UXZPUUpDa2JoNC8waWp4R3phWnVXMFZSMnQr?=
- =?utf-8?B?NTcwQW9ZNWRwODM3Z3JheTZ2UEdlN05EZTM4VnRjOTJ4N2RsKzU4Mkp0ekdk?=
- =?utf-8?B?dGo0WDhtai9IN1BjL2JUcGdiKzMvVTZIOWhoK2JyUi81eE5GbUZaUjlKcE0w?=
- =?utf-8?B?a2x1Vk8weW5Ob0pmWDRVNWdISUcxdWxJbXZoUWI1c295SXRxWmIyNDBnMTRi?=
- =?utf-8?B?RGtuOWF3OE9pdHJUQkZNamRzeWp6S1cycXpKTWQ0MlhiZkdSZVpDM1AzTGND?=
- =?utf-8?B?bWxLTGJpbjluMFg5b1hLb2d1KytOMzVCeituVVFZcG5pV1pFWkhTQkhmdEVS?=
- =?utf-8?B?RzNnS1BIRGw5Ym5FMDRadE5tQ3hBVWYwcVYyUHNpWjFydy9jNEtpazZlWjNI?=
- =?utf-8?B?RERsVFgwb3dzUUI1WUhyZlFsYUJhUkdzZUFTbGtQS3dHZmMvZlh3OHRtL0Fq?=
- =?utf-8?B?YndtMXl6ZEJSTmUrZHliMmFldS9lYU53RmZQRGNpWnJyVlkycDE1UGNpQlRm?=
- =?utf-8?B?NnA4S2Z5VnExcWZpTTVSaWx5OENBSHcwUHdyY2lDazlXeG01L1FqUE91QmRH?=
- =?utf-8?B?dHhEMUIrbGw3U0NhMzJWbm5kcTFuYVp2cnNuMThjMHFmZlpnY3owY1Bzdlg4?=
- =?utf-8?B?RThGclF5Wkt5RFkvZlB0eG05NUYyOVRVMzhaSGlCeFN5VFNST1BqdEZycSts?=
- =?utf-8?B?am5lb2VPRENNVGFHeXRPVkg0azVmZWdNUWdFSWFMTmtkUTYrdTZqYzZCY3FJ?=
- =?utf-8?B?SG1VcW9TY3MyemVpRHpDajY3NE5vUlJ2N2E3U2RXaWpOL3dXSUt2aHNzeHQ1?=
- =?utf-8?B?dHRQREhtNXFDZEJiVmk0TXRjZ0lPc2g4TmhnNE5pc1d3VVNZS084V1JnNW9t?=
- =?utf-8?B?MGdZSWV5bkRKZ1l4b1VkcVRybnorUHFWYlhkNmUrd01aZFRmR21mcVJkQVU0?=
- =?utf-8?Q?8lv3qbs0ItU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9064.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WVo5MVhCNHVzWWdObFJOOVRkY005SXNwVEF0enNDWk9rTDA4MkFFNzZjN3pv?=
- =?utf-8?B?bkhXcEFjZXZEYnFYSlNGS25jTFZ1dlpRK0R2N0R3eHIzU0NuclQ0UEFXOGdh?=
- =?utf-8?B?aUNnZjlab3dZWlU2OW9TQTVxc1BNQkNwZDJSd2k4T3N2a3BlLzVtWVpFRWlk?=
- =?utf-8?B?RHR6RUp2UzZVbFc1OGJ3UkFaRmNXQmVVR3hsTjcxc1FXTVkxc3k1U2NoNTNt?=
- =?utf-8?B?ekQ4ZUxOSkdRWk5aMzcxdkpJT3V2K1JhaFg4S0FRQXl1dStIaHl0b05HVmJ0?=
- =?utf-8?B?SWR6M294RkVYV0paTlN5cElGSm55dGFWaUVHbEhjcDFOY1dOVlRqZnNULzUw?=
- =?utf-8?B?QXBpQTEyV3l4MGdPNE1UbEYyVjIzaFhWVzJoRnhCV29sNmdlbFpWWUt1eDI4?=
- =?utf-8?B?d2NKR0VodC9HQWo3dVZRZmYvQ3lEelNLK2g3T21xcjFRVXUydWtObDBRZkhW?=
- =?utf-8?B?NFZFdXlQSWs0c2YvNWExVndsWkVJWi9rL1FJN2ZKRTJBbnV2ZU1OV1p6ZzB5?=
- =?utf-8?B?UGdIZ0Rkak9hTEdtTG96TXZxS3U4aWp3L1ZNc0NWWnVtbkNuNGZyQ01MZVVB?=
- =?utf-8?B?S0c3ckhFQlE0a29ZcndDSlBuNlJYYW10KzdGTkFoSWJpcDJSdEhWTnpnRENI?=
- =?utf-8?B?R25tS090RkRKUFpCaE9mb2pVQ05uaW40eExTZDZlZTRacDhDQVAydjB6VjQ0?=
- =?utf-8?B?SURGRzdWa01XbHk3TlNubUdMRkg0N280MC9IYnRhanBheVdLQXdaUUU0SkRp?=
- =?utf-8?B?RUloRkdlWHErYW92aDZ1UWQxZitxNlh1NGM3YTZLR0FpSmo1MEhZSUhLUHox?=
- =?utf-8?B?RGZkcmdTb29Kek1wR2JJQzJVcmcxZVUzTkdZeFp1UEp2R3cwRmNQYzFLeU5N?=
- =?utf-8?B?OVltNVFVZld6NWVleHRnNUl2VkJQMXBtMWVPcVBKcEpmNE1VV2VOeDg0bno2?=
- =?utf-8?B?WTRPeGZBSkFCWmEvamZ5elNYbzdzd0pHdzBUVGtNdkd5bE8xcmIwdjBMNUZY?=
- =?utf-8?B?ZnJEZ0FzR1hONUhuRUNTS3ZUQXpEZ05MdDJsMDFXL3JmY2NaM3YzS3J4UExB?=
- =?utf-8?B?VlpXV0lrb202cjBlNE11RUVDM01UQzVxWU9iRUMxMmJCcXR4dFI0ZzRlc3JI?=
- =?utf-8?B?cmVNMTkzZ1pla1lPcGs5d25XaFNkOUhLcjcwZStzTVM3NGxBdTdrNmUvQWJ0?=
- =?utf-8?B?em5mUDFTZjBuZlNHdjBXOGdQYUFVcjkwcWJyR3BTcktKaW5xbzRVS2JBU2hk?=
- =?utf-8?B?dWx0UkZlVm9MZ0ZsZ0tJaXhFNVp3WE1OUEwxd2xjRy8wUGpSSis0Um9BT3ZY?=
- =?utf-8?B?WEJ2RjJlNWgzN1NMRDZVL1lQNXJmeHNiODJNdFNOamJnVVhqcGMraWJMSm5j?=
- =?utf-8?B?R2kySVZMRGd5R21ROUJoNFlIOGZaQ3pmcGdJMVFQS09yNXFieEYwMlo3QitB?=
- =?utf-8?B?bnRPK0NhTk5ROEhnV3A1RWlZRi9hQUd2UVdOa0VqQUJUVlp5VU1PbFUvWmhm?=
- =?utf-8?B?TGJGckNSdWRYMWg4RHY3WWsyTU4yT3g0RlJkNm85amdrdjVTS3cvUWN5ZEdU?=
- =?utf-8?B?ZERwYWJaUnB0eEZZQ0RvVE9za2plc1p0YTdzL01aK1NqQk1PK0VOS1ZOSnFO?=
- =?utf-8?B?S3hLTndsanB4bUp0UlBNTTBETFdHcHpkdlg0dFB0WTNQc1BCRVpvY081RmFC?=
- =?utf-8?B?YkZuQmpQRjgxTC9ZZXpQTktFOXRmbk50a0JuZHdPbnJCekpXNzYvY1dTUWM2?=
- =?utf-8?B?aWhhVVl4djVadWUxR2VqSjZhdi9VM2ZXQUEzdldhQUQyekV0ZTB0Qk8za3ow?=
- =?utf-8?B?dlRxaG9PeTFJQTBKWVR0OUFMTHVIODQ3S1ZqZjg0TzJTZ3NUWlhvSWlrWTVy?=
- =?utf-8?B?SlhKTVBDbHZPRXY3U1pQVEdINlBUMkp1QU9nVHMwa0YvR3NXYUdiRThpeVN3?=
- =?utf-8?B?b3l3d0E3RjVrejhncDVkVmFXcmpIQ3lhOGU4QTIvTm5yb0pXNzY2TnFIRk12?=
- =?utf-8?B?WXNUTU5PUnlucDN2a0pybEpzdmZOaTVxN2xpWnhDTVczWGlnbWRwL0Yrb3R2?=
- =?utf-8?B?MHV4V3pFb1NuV2Nsc0pxK3ZaTWNCQkFmOW91UzRXUW1tZ3pnZTI2MDBnTDVE?=
- =?utf-8?Q?OjaaPIgUbFYwudm54rZN1vw+Y?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1810be37-9dba-4678-35ed-08ddba01f9fc
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB9064.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 07:19:41.1318
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uuIainXYjy6jrGCqefbPP8VazbEn3HQsSD+LGT9inGiT5s8+ENbk6fA265K10MJpqOo14wJ7p0nNsGbsIzbdhw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PR12MB9622
+References: <20250701181228.1196102-1-noltari@gmail.com> <20250701181228.1196102-4-noltari@gmail.com>
+ <c893384d-4134-4510-be87-11a2c9ba6cc7@kernel.org>
+In-Reply-To: <c893384d-4134-4510-be87-11a2c9ba6cc7@kernel.org>
+From: =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6IFJvamFz?= <noltari@gmail.com>
+Date: Thu, 3 Jul 2025 09:23:41 +0200
+X-Gm-Features: Ac12FXy7Bx2Ud6y2WomMeTcjhRCrIugUHxmaFJYaDrcW-MJHrrtRBmkoU2KYevw
+Message-ID: <CAKR-sGeSPHu5DiFL2sX=SdET_jzbepo30qguscUjzYkX-Aub0Q@mail.gmail.com>
+Subject: Re: [PATCH] drivers: hwmon: add EMC2101 driver
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: jdelvare@suse.com, linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, corbet@lwn.net, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Krzysztof,
 
-On 7/2/25 23:30, Leon Romanovsky wrote:
-> On Wed, Jul 02, 2025 at 10:18:03AM -0300, Jason Gunthorpe wrote:
->> On Tue, Jul 01, 2025 at 01:38:44PM +0300, Leon Romanovsky wrote:
->>>> +static void ionic_flush_qs(struct ionic_ibdev *dev)
->>>> +{
->>>> +	struct ionic_qp *qp, *qp_tmp;
->>>> +	struct ionic_cq *cq, *cq_tmp;
->>>> +	LIST_HEAD(flush_list);
->>>> +	unsigned long index;
->>>> +
->>>> +	/* Flush qp send and recv */
->>>> +	rcu_read_lock();
->>>> +	xa_for_each(&dev->qp_tbl, index, qp) {
->>>> +		kref_get(&qp->qp_kref);
->>>> +		list_add_tail(&qp->ibkill_flush_ent, &flush_list);
->>>> +	}
->>>> +	rcu_read_unlock();
->>> Same question as for CQ. What does RCU lock protect here?
->> It should protect the kref_get against free of qp. The qp memory must
->> be RCU freed.
-> I'm not sure that this was intension here. Let's wait for an answer from the author.
+El mi=C3=A9, 2 jul 2025 a las 10:35, Krzysztof Kozlowski
+(<krzk@kernel.org>) escribi=C3=B3:
+>
+> On 01/07/2025 20:12, =C3=81lvaro Fern=C3=A1ndez Rojas wrote:
+> > The Microchip EMC2101 is a SMBus 2.0 fan controller with temperature
+> > monitoring.
+> > It supports up to 1 fan, 1 internal temperature sensor, 1 external
+> > temperature sensor and an 8 entry look up table to create a
+> > programmable temperature response.
+> >
+> > Signed-off-by: =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com>
+> > ---
+> >  drivers/hwmon/Kconfig   |   10 +
+> >  drivers/hwmon/Makefile  |    1 +
+> >  drivers/hwmon/emc2101.c | 2175 +++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 2186 insertions(+)
+> >  create mode 100644 drivers/hwmon/emc2101.c
+> >
+> >  v2: multiple improvements:
+> >   - Remove FAN_RPM_MIN definition.
+> >   - Rename FAN_FALSE_READ to FAN_MIN_READ.
+> >   - pwm_auto_point_temp_hyst_store(): simplify function.
+> >   - emc2101_fan_min_read(): add missing FAN_MIN_READ condition.
+> >   - emc2101_fan_min_write(): fix tach_count calculation.
+> >   - emc2101_init(): fix REG_TACH_MIN value.
+> >
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index 079620dd4286..360b9f66275c 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -2002,6 +2002,16 @@ config SENSORS_EMC1403
+> >         Threshold values can be configured using sysfs.
+> >         Data from the different diodes are accessible via sysfs.
+> >
+> > +config SENSORS_EMC2101
+> > +     tristate "SMSC EMC2101"
+> > +     depends on I2C
+> > +     help
+> > +       If you say yes here you get support for the SMSC EMC2101
+> > +       fan controller chips.
+> > +
+> > +       This driver can also be built as a module. If so, the module
+> > +       will be called emc2101.
+> > +
+> >  config SENSORS_EMC2103
+> >       tristate "SMSC EMC2103"
+> >       depends on I2C
+> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> > index 48e5866c0c9a..70e95096c6f2 100644
+> > --- a/drivers/hwmon/Makefile
+> > +++ b/drivers/hwmon/Makefile
+> > @@ -73,6 +73,7 @@ obj-$(CONFIG_SENSORS_DRIVETEMP)     +=3D drivetemp.o
+> >  obj-$(CONFIG_SENSORS_DS620)  +=3D ds620.o
+> >  obj-$(CONFIG_SENSORS_DS1621) +=3D ds1621.o
+> >  obj-$(CONFIG_SENSORS_EMC1403)        +=3D emc1403.o
+> > +obj-$(CONFIG_SENSORS_EMC2101)        +=3D emc2101.o
+> >  obj-$(CONFIG_SENSORS_EMC2103)        +=3D emc2103.o
+> >  obj-$(CONFIG_SENSORS_EMC2305)        +=3D emc2305.o
+> >  obj-$(CONFIG_SENSORS_EMC6W201)       +=3D emc6w201.o
+> > diff --git a/drivers/hwmon/emc2101.c b/drivers/hwmon/emc2101.c
+> > new file mode 100644
+> > index 000000000000..65f2eff27aaf
+> > --- /dev/null
+> > +++ b/drivers/hwmon/emc2101.c
+> > @@ -0,0 +1,2176 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * Driver for Microchip EMC2101 fan controller.
+> > + *
+> > + * Copyright 2025 =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com>
+> > + */
+> > +
+> > +#include <linux/err.h>
+> > +#include <linux/hwmon.h>
+> > +#include <linux/hwmon-sysfs.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/init.h>
+> > +#include <linux/jiffies.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mutex.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/util_macros.h>
+> > +
+> > +#define REG_TEMP_INT                 0x00
+> > +#define REG_TEMP_EXT_HI                      0x01
+> > +#define REG_STATUS                   0x02
+> > +#define  ADC_BUSY                    BIT(7)
+> > +#define  TEMP_INT_HIGH                       BIT(6)
+> > +#define  EEPROM_ERROR                        BIT(5)
+> > +#define  TEMP_EXT_HIGH                       BIT(4)
+> > +#define  TEMP_EXT_LOW                        BIT(3)
+> > +#define  TEMP_EXT_FAULT                      BIT(2)
+> > +#define  TEMP_EXT_CRIT                       BIT(1)
+> > +#define  TACH_LOW                    BIT(0)
+> > +#define REG_CONFIG                   0x03
+> > +#define  ALERT_IRQ_ACK                       BIT(7)
+> > +#define  FAN_STANDBY_ENABLE          BIT(6)
+> > +#define  FAN_STANDBY_MODE            BIT(5)
+> > +#define  FAN_MODE_DAC                        BIT(4)
+> > +#define  SMBUS_TOUT_DISABLE          BIT(3)
+> > +#define  PIN_FUNC_TACH                       BIT(2)
+> > +#define  TEMP_EXT_CRIT_UNLOCK                BIT(1)
+> > +#define  PIN_ASSERT_3_EXC            BIT(0)
+> > +#define REG_CONV_RATE                        0x04
+> > +#define  CONV_RATE_MASK                      0xf
+> > +#define REG_TEMP_INT_MAX             0x05
+> > +#define REG_TEMP_EXT_MAX_HI          0x07
+> > +#define REG_TEMP_EXT_MIN_HI          0x08
+> > +#define REG_TEMP_EXT_FORCE           0x0c
+> > +#define REG_ONE_SHOT                 0x0f
+> > +#define REG_TEMP_EXT_LO                      0x10
+> > +#define REG_SCRATCHPAD_1             0x11
+> > +#define REG_SCRATCHPAD_2             0x12
+> > +#define REG_TEMP_EXT_MAX_LO          0x13
+> > +#define REG_TEMP_EXT_MIN_LO          0x14
+> > +#define REG_ALERT_MASK                       0x16
+> > +#define  IRQ_TEMP_INT_MAX_DISABLE    BIT(6)
+> > +#define  IRQ_TEMP_EXT_MAX_DISABLE    BIT(4)
+> > +#define  IRQ_TEMP_EXT_MIN_DISABLE    BIT(3)
+> > +#define  IRQ_TEMP_EXT_CRIT_DISABLE   BIT(1)
+> > +#define  IRQ_TACH_MIN_DISABLE                BIT(0)
+> > +#define REG_EXT_IDEALITY             0x17
+> > +#define  EXT_IDEALITY_START          9846
+> > +#define  EXT_IDEALITY_STEP           13
+> > +#define  EXT_IDEALITY_VAL(x)         (EXT_IDEALITY_START + \
+> > +                                      ((x) * EXT_IDEALITY_STEP))
+> > +#define  EXT_IDEALITY_MASK           0x3f
+> > +#define REG_BETA_COMP                        0x18
+> > +#define  BETA_COMP_AUTO                      BIT(3)
+> > +#define  BETA_COMP_DISABLE           7
+> > +#define  BETA_COMP_2_33                      6
+> > +#define  BETA_COMP_1_00                      5
+> > +#define  BETA_COMP_0_43                      4
+> > +#define  BETA_COMP_0_33                      3
+> > +#define  BETA_COMP_0_25                      2
+> > +#define  BETA_COMP_0_18                      1
+> > +#define  BETA_COMP_0_11                      0
+> > +#define  BETA_COMP_MASK                      0x7
+> > +#define REG_TEMP_EXT_CRIT            0x19
+> > +#define REG_TEMP_EXT_CRIT_HYST               0x21
+> > +#define REG_TACH_LO                  0x46
+> > +#define REG_TACH_HI                  0x47
+> > +#define REG_TACH_MIN_LO                      0x48
+> > +#define REG_TACH_MIN_HI                      0x49
+> > +#define REG_FAN_CONFIG                       0x4a
+> > +#define  FAN_EXT_TEMP_FORCE          BIT(6)
+> > +#define  FAN_LUT_DISABLE             BIT(5)
+> > +#define  FAN_POL_INV                 BIT(4)
+> > +#define  FAN_CLK_SEL                 BIT(3)
+> > +#define  FAN_CLK_OVR                 BIT(2)
+> > +#define  TACH_FALSE_READ_DISABLE     BIT(0)
+> > +#define  TACH_FALSE_READ_MASK                0x3
+> > +#define REG_FAN_SPIN                 0x4b
+> > +#define  FAN_SPIN_UP_ABORT           BIT(5)
+> > +#define  FAN_SPIN_UP_POWER_SHIFT     3
+> > +#define  FAN_SPIN_UP_POWER_100               (3 << FAN_SPIN_UP_POWER_S=
+HIFT)
+> > +#define  FAN_SPIN_UP_POWER_75                (2 << FAN_SPIN_UP_POWER_S=
+HIFT)
+> > +#define  FAN_SPIN_UP_POWER_50                (1 << FAN_SPIN_UP_POWER_S=
+HIFT)
+> > +#define  FAN_SPIN_UP_POWER_0         (0 << FAN_SPIN_UP_POWER_SHIFT)
+> > +#define  FAN_SPIN_UP_POWER_MASK              (0x3 << FAN_SPIN_UP_POWER=
+_SHIFT)
+> > +#define  FAN_SPIN_UP_TIME_3200               7
+> > +#define  FAN_SPIN_UP_TIME_1600               6
+> > +#define  FAN_SPIN_UP_TIME_800                5
+> > +#define  FAN_SPIN_UP_TIME_400                4
+> > +#define  FAN_SPIN_UP_TIME_200                3
+> > +#define  FAN_SPIN_UP_TIME_100                2
+> > +#define  FAN_SPIN_UP_TIME_50         1
+> > +#define  FAN_SPIN_UP_TIME_0          0
+> > +#define  FAN_SPIN_UP_TIME_MASK               0x7
+> > +#define REG_FAN_SET                  0x4c
+> > +#define  FAN_SET_MASK                        0x3f
+> > +#define REG_PWM_FREQ                 0x4d
+> > +#define  PWM_FREQ_MASK                       0x1f
+> > +#define REG_PWM_FREQ_DIV             0x4e
+> > +#define REG_FAN_LUT_HYST             0x4f
+> > +#define  FAN_LUT_HYST_MASK           0x1f
+> > +#define REG_FAN_LUT_TEMP(x)          (0x50 + (0x2 * (x)))
+> > +/* Write only with FAN_LUT_DISABLE */
+> > +#define  FAN_LUT_TEMP_MASK           0x7f
+> > +#define REG_FAN_LUT_SPEED(x)         (0x51 + (0x2 * (x)))
+> > +/* Write only with FAN_LUT_DISABLE */
+> > +#define  FAN_LUT_SPEED_MASK          0x3f
+> > +#define REG_AVG_FILTER                       0xbf
+> > +#define  FILTER_SHIFT                        1
+> > +#define  FILTER_L2                   (3 << FILTER_SHIFT)
+> > +#define  FILTER_L1                   (1 << FILTER_SHIFT)
+> > +#define  FILTER_NONE                 (0 << FILTER_SHIFT)
+> > +#define  FILTER_MASK                 (0x3 << FILTER_SHIFT)
+> > +#define  ALERT_PIN_TEMP_COMP         BIT(0)
+> > +#define REG_PRODUCT_ID                       0xfd
+> > +#define REG_MANUFACTURER_ID          0xfe
+> > +#define REG_REVISION                 0xff
+> > +
+> > +#define CLK_FREQ_ALT                 1400
+> > +#define CLK_FREQ_BASE                        360000
+> > +
+> > +#define FAN_LUT_COUNT                        8
+> > +#define FAN_LUT_HYST_DEF             4
+> > +#define FAN_LUT_HYST_MIN             0
+> > +#define FAN_LUT_HYST_MAX             31
+> > +#define FAN_MIN_READ                 0xffff
+> > +#define FAN_RPM_FACTOR                       5400000
+> > +
+> > +#define MANUFACTURER_ID                      0x5d
+> > +
+> > +#define TEMP_EXT_HI_FAULT            0x7f
+> > +#define TEMP_EXT_LO_FAULT_OPEN               0x00
+> > +#define TEMP_EXT_LO_FAULT_SHORT              0xe0
+> > +
+> > +#define TEMP_LO_FRAC                 125
+> > +#define TEMP_LO_SHIFT                        5
+> > +#define TEMP_LO_MASK                 (0x3 << TEMP_LO_SHIFT)
+> > +
+> > +#define TEMP_MIN                     -64
+> > +#define TEMP_MAX                     127
+> > +#define TEMP_MAX_FRAC                        750
+> > +
+> > +enum emc2101_fan_spin_up_abort {
+> > +     EMC2101_FAN_SPIN_ABORT_DISABLE =3D 0,
+> > +     EMC2101_FAN_SPIN_ABORT_ENABLE
+> > +};
+> > +
+> > +enum emc2101_fan_standby {
+> > +     EMC2101_FAN_STBY_DISABLE =3D 0,
+> > +     EMC2101_FAN_STBY_ENABLE
+> > +};
+> > +
+> > +enum emc2101_mode {
+> > +     EMC2101_MODE_PWM =3D 0,
+> > +     EMC2101_MODE_DAC
+> > +};
+> > +
+> > +enum ecm2101_product_id {
+> > +     EMC2101 =3D 0x16,
+> > +     EMC2101_R =3D 0x28
+> > +};
+> > +
+> > +enum emc2101_pwm_enable {
+> > +     EMC2101_PWM_MANUAL =3D 1,
+> > +     EMC2101_PWM_LUT =3D 2
+> > +};
+> > +
+> > +enum emc2101_pwm_polarity {
+> > +     EMC2101_POL_NORMAL =3D 0,
+> > +     EMC2101_POL_INVERTED
+> > +};
+> > +
+> > +enum emc2101_temp_channels {
+> > +     EMC2101_TC_INT =3D 0,
+> > +     EMC2101_TC_EXT,
+> > +     EMC2101_TC_FORCE,
+> > +     EMC2101_TC_NUM
+> > +};
+> > +
+> > +enum emc2101_temp_diode {
+> > +     EMC2101_TD_CPU =3D 1,
+> > +     EMC2101_TD_2N3904 =3D 2
+> > +};
+> > +
+> > +struct emc2101_data {
+> > +     struct i2c_client *client;
+> > +     struct device *dev;
+> > +     struct mutex mutex;
+>
+> Add a comment describing what you are protecting here. It looks so far
+> like you could just use regmap and drop the mutex, but I didn't check
+> thoroughly.
 
-As Jason mentioned, It was intended to protect the kref_get against free 
-of cq and qp
-in the destroy path.
+The EMC2101 datasheet is explicit about the Look Up Table registers
+(REG_FAN_LUT_TEMP and REG_FAN_LUT_SPEED) being RO if FAN_LUT_DISABLE
+isn't set, so I believe that we need the mutex even if we switch to
+regmap.
+I will add an explanation with that in the next version.
+Should I still switch the implementation to regmap considering that we
+need a mutex?
 
->> But this pattern requires kref_get_unless_zero()
->>
->> Jason
-
-I will change it for kref_get_unless_zero().
-
-Thanks,
-Abhijit
-
+>
+> > +};
+>
+>
+>
+> ...
+>
+> > +
+> > +static int emc2101_probe(struct i2c_client *client)
+> > +{
+> > +     struct i2c_adapter *adapter =3D client->adapter;
+> > +     struct device *dev =3D &client->dev;
+> > +     struct emc2101_data *data;
+> > +     struct device *hwmon_dev;
+> > +
+> > +     if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+> > +             return -EIO;
+> > +
+> > +     data =3D devm_kzalloc(dev, sizeof(struct emc2101_data), GFP_KERNE=
+L);
+>
+> sizeof(*)
+>
+> > +     if (!data)
+> > +             return -ENOMEM;
+> > +
+> > +     data->client =3D client;
+> > +     data->dev =3D dev;
+> > +     mutex_init(&data->mutex);
+> > +
+> > +     hwmon_dev =3D devm_hwmon_device_register_with_info(dev, client->n=
+ame, data,
+> > +                                                      &emc2101_chip_in=
+fo,
+> > +                                                      emc2101_hwmon_gr=
+oups);
+> > +     if (IS_ERR(hwmon_dev))
+> > +             return PTR_ERR(hwmon_dev);
+> > +
+> > +     dev_info(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev), client->n=
+ame);
+>
+> Drivers should be silent oon success. We already know that this probed
+> based on sysfs.
+>
+> > +
+> > +     return emc2101_init(data);
+> > +}
+> > +
+> > +static int emc2101_detect(struct i2c_client *client, struct i2c_board_=
+info *info)
+> > +{
+> > +     struct i2c_adapter *adapter =3D client->adapter;
+> > +     s32 manufacturer, product, revision;
+> > +     struct device *dev =3D &adapter->dev;
+> > +
+> > +     if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+> > +             return -ENODEV;
+> > +
+> > +     manufacturer =3D i2c_smbus_read_byte_data(client, REG_MANUFACTURE=
+R_ID);
+> > +     if (manufacturer !=3D MANUFACTURER_ID)
+> > +             return -ENODEV;
+> > +
+> > +     product =3D i2c_smbus_read_byte_data(client, REG_PRODUCT_ID);
+> > +     switch (product) {
+> > +     case EMC2101:
+> > +             strscpy(info->type, "emc2101", I2C_NAME_SIZE);
+> > +             break;
+> > +     case EMC2101_R:
+> > +             strscpy(info->type, "emc2101-r", I2C_NAME_SIZE);
+> > +             break;
+> > +     default:
+> > +             return -ENODEV;
+> > +     }
+> > +
+> > +     revision =3D i2c_smbus_read_byte_data(client, REG_REVISION);
+> > +
+> > +     dev_info(dev, "Found %s at 0x%02x (rev 0x%02x).\n",
+> > +              info->type, client->addr, revision);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static const struct i2c_device_id emc2101_ids[] =3D {
+> > +     { "emc2101" },
+> > +     { "emc2101-r" },
+> > +     { }
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, emc2101_ids);
+> > +
+> > +static const struct of_device_id emc2101_of_match_table[] =3D {
+> > +     { .compatible =3D "microchip,emc2101", },
+> > +     { .compatible =3D "microchip,emc2101-r", },
+>
+> Devices are compatible then? Express it in the bindings and drop this ent=
+ry.
+>
+> > +     { },
+> > +};
+> > +MODULE_DEVICE_TABLE(of, emc2101_of_match_table);
+> > +
+> > +static const unsigned short emc2101_address_list[] =3D {
+> > +     0x4c, I2C_CLIENT_END
+> > +};
+> > +
+> Best regards,
+> Krzysztof
