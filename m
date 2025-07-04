@@ -1,119 +1,145 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08221DF756;
-	Fri,  4 Jul 2025 06:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5039623AE96;
+	Fri,  4 Jul 2025 06:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751609489; cv=none; b=uZrAbu0xk78TByVDU1Hy1ZG8kp2B7yaNE1nvIEMvs1aKqi/udH1OVi39Q9VqeVYrn1wUYed24ZFVVQepJZ71y4FOgzZLha5s1lgo/nqDaGSAGWY0sIhFc6vRWzujk1KUvFGEHiwBww2duXIUJb9XGmASKK5Ltj771mrUpnQW3F0=
+	t=1751610173; cv=none; b=m8lUUBx674OT7iqdI02UIGMDuvBx+zCeSUMtTrCwsdNfVdc7TMWhIAERyScTDuAtDTmtQk8EizG/WCH2TOJhAyf4+r7Ujb71/BI0uZC1tmHgu2rz6qpVLx5lXXYKvUVUw2Cde3dD8Q6eIY+KL7qLmq1JluWdevlMdymdnl6S754=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751609489; c=relaxed/simple;
-	bh=37vTWydzOOilvawZgVTJ3C/b1jmtIPZSmCWufUailro=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MYSaK8L+sBoWAIQ2XztBspsg3mXcAFQ2bbQ2aWZ5bSbi7b3v0k1slsFelb5ku+uQQhfdJ8TB5/80nhWDUptcJoSFbQkRHk7Hh4SDDl5XfjfeUESm9+E9ppbhOXxhCPltSTmkL68ZSYSwQPnOgN2Poz78VKBYIDymD8IIul9H8j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=II4QTLzW; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="II4QTLzW"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1751609477; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=eFIDEdjGbaabW/o+SYfX0GCyecdOoVdNRLtkOOBMNxs=;
-	b=II4QTLzWXyj5KCCyShJ/sgxfqhOSRga3Hq56ApISu8VmRevDuXEcWY040jjQqe9Olay3Ux6HgsAs01l1RUc1dmH7Uzy2X87NIwQ1T1TiWFo6mesjlDh+CGtOh1cCywcATSxdpsmr1QYPv6ZcLRTrb9+YnzwbltLiM2TAjUI5PW4=
-Received: from 30.74.144.116(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WhCHD62_1751609473 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 04 Jul 2025 14:11:14 +0800
-Message-ID: <2f6d9541-8083-4d3c-a9c1-cba0d5bf98a0@linux.alibaba.com>
-Date: Fri, 4 Jul 2025 14:11:13 +0800
+	s=arc-20240116; t=1751610173; c=relaxed/simple;
+	bh=ObOQGL1HqnvwQ4VmJiI28iDMzEId+coCkO0bICz+VYw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pLAOd4h+491/9v841dTkVI4tGR/5KqFhXzMT8ESXZXBELkAh/c9ojtimGH+hivvtX9qR223TJ3MxIuaP0TvGf7Jp5yNIa9/Hq5iG+HhFJgH/h6naxOgRKlxb0wbhHooVQQwANZn3QY/jp+DG0g+Qt1aEQqkeujvH2s3t28LkeHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4bYNmn3g0Gz2Bcn2;
+	Fri,  4 Jul 2025 14:20:57 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id D9A561402CB;
+	Fri,  4 Jul 2025 14:22:46 +0800 (CST)
+Received: from DESKTOP-F6Q6J7K.china.huawei.com (10.174.175.220) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 4 Jul 2025 14:22:45 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
+	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi
+	<gur.stavi@huawei.com>, Lee Trager <lee@trager.us>, Michael Ellerman
+	<mpe@ellerman.id.au>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Suman
+ Ghosh <sumang@marvell.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Joe Damato <jdamato@fastly.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>
+Subject: [PATCH net-next v07 0/8] net: hinic3: Add a driver for Huawei 3rd gen NIC - management interfaces
+Date: Fri, 4 Jul 2025 14:22:33 +0800
+Message-ID: <cover.1751597094.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 11/15] khugepaged: allow madvise_collapse to check all
- anonymous mTHP orders
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org
-References: <20250702055742.102808-1-npache@redhat.com>
- <20250702055742.102808-12-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20250702055742.102808-12-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
+
+This is the 2/3 patch of the patch-set described below.
+
+The patch-set contains driver for Huawei's 3rd generation HiNIC
+Ethernet device that will be available in the future.
+
+This is an SRIOV device, designed for data centers.
+Initially, the driver only supports VFs.
+
+Following the discussion over RFC01, the code will be submitted in
+separate smaller patches where until the last patch the driver is
+non-functional. The RFC02 submission contains overall view of the entire
+driver but every patch will be posted as a standalone submission.
+
+Changes:
+
+PATCH 02 V01: https://lore.kernel.org/netdev/cover.1749561390.git.root@localhost.localdomain
+
+PATCH 02 V02: https://lore.kernel.org/netdev/cover.1749718348.git.zhuyikai1@h-partners.com
+* Fix build allmodconfig warning (patchwork)
+* Update cover-letter changes information.
+
+PATCH 02 V03: https://lore.kernel.org/netdev/cover.1750054732.git.zhuyikai1@h-partners.com
+* Use refcount_*() instead of atomic_*() (Jakub Kicinski)
+* Consistency fixes : HIG->HIGH, BAR45->BAR4/5 , etc (ALOK TIWARI)
+* Code format fixes : use \n before return, remove extra spaces (ALOK TIWARI)
+* Remove hinic3_request_irq redundant error print (ALOK TIWARI)
+* Modify hinic3_wq_create error print (ALOK TIWARI)
+
+PATCH 02 V04: https://lore.kernel.org/netdev/cover.1750665915.git.zhuyikai1@h-partners.com
+* Break it up into smaller patches (Jakub Kicinski)
+
+PATCH 02 V05: https://lore.kernel.org/netdev/cover.1750821322.git.zhuyikai1@h-partners.com
+* Fix build clang warning (Jakub Kicinski)
+
+PATCH 02 V06: https://lore.kernel.org/netdev/cover.1750937080.git.zhuyikai1@h-partners.com
+* Use kmalloc instead of kzalloc for cmd_buf allocation (Vadim Fedorenko)
+* Use usleep_range() for avoid CPU busy waiting (Vadim Fedorenko)
+* Use kcalloc for intr_coalesce initialization (Vadim Fedorenko)
+* Code format fixes: use reverse x-mas tree (Vadim Fedorenko)
+* Simplify hinic3_mbox_pre_init logic (Vadim Fedorenko)
+
+PATCH 02 V07:
+* Use threaded IRQ instead of tasklet (Paolo Abeni)
+* Use wmb instead of rmb in cmdq_sync_cmd_handler (Paolo Abeni)
+
+Fan Gong (8):
+  hinic3: Async Event Queue interfaces
+  hinic3: Complete Event Queue interfaces
+  hinic3: Command Queue framework
+  hinic3: Command Queue interfaces
+  hinic3: TX & RX Queue coalesce interfaces
+  hinic3: Mailbox framework
+  hinic3: Mailbox management interfaces
+  hinic3: Interrupt request configuration
+
+ drivers/net/ethernet/huawei/hinic3/Makefile   |   4 +-
+ .../net/ethernet/huawei/hinic3/hinic3_cmdq.c  | 914 ++++++++++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_cmdq.h  | 156 +++
+ .../ethernet/huawei/hinic3/hinic3_common.c    |  31 +
+ .../ethernet/huawei/hinic3/hinic3_common.h    |  27 +
+ .../net/ethernet/huawei/hinic3/hinic3_csr.h   |  79 ++
+ .../net/ethernet/huawei/hinic3/hinic3_eqs.c   | 793 +++++++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_eqs.h   | 129 +++
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    |  43 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.c   |  31 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  13 +
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  36 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  | 153 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  16 +
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   | 137 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |  61 +-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.c  | 843 +++++++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.h  | 127 +++
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  14 +-
+ .../huawei/hinic3/hinic3_queue_common.h       |   1 +
+ .../net/ethernet/huawei/hinic3/hinic3_wq.c    | 109 +++
+ .../net/ethernet/huawei/hinic3/hinic3_wq.h    |  11 +
+ 22 files changed, 3713 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_csr.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_eqs.h
 
 
-
-On 2025/7/2 13:57, Nico Pache wrote:
-> Allow madvise_collapse to scan/collapse all mTHP orders without the
-> strict requirement of needing the PMD-order enabled.
-> 
-> Signed-off-by: Nico Pache <npache@redhat.com>
-
-I am afraid we should drop this patch from the series, since Hugh 
-explicitly opposed my modification of the madvise_collapse control logic 
-in this thread[1].
-
-Moreover, since we have not yet clarified how to handle the conflict 
-between the semantics of madvise_collapse and the THP interfaces, we 
-should keep the current logic[2] (means madvise_collapse still only 
-allows PMD collapse).
-
-If madvise_collapse is to support mTHP collapse, there will be more 
-semantic conflicts to discuss.
-
-[1] 
-https://lore.kernel.org/all/cover.1750815384.git.baolin.wang@linux.alibaba.com/
-[2] 
-https://lore.kernel.org/all/23b8ad10-cd1f-45df-a25c-78d01c8af44f@redhat.com/
-
-> ---
->   mm/khugepaged.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index b96a7327b9c0..6ea681b81647 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -2930,11 +2930,13 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
->   	unsigned long hstart, hend, addr;
->   	int thps = 0, last_fail = SCAN_FAIL;
->   	bool mmap_locked = true;
-> +	unsigned long orders = vma_is_anonymous(vma) ?
-> +					THP_ORDERS_ALL_ANON : BIT(PMD_ORDER);
->   
->   	BUG_ON(vma->vm_start > start);
->   	BUG_ON(vma->vm_end < end);
->   
-> -	if (!thp_vma_allowable_order(vma, vma->vm_flags, 0, PMD_ORDER))
-> +	if (!thp_vma_allowable_orders(vma, vma->vm_flags, 0, orders))
->   		return -EINVAL;
->   
->   	cc = kmalloc(sizeof(*cc), GFP_KERNEL);
-> @@ -2956,7 +2958,7 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
->   			mmap_read_lock(mm);
->   			mmap_locked = true;
->   			result = hugepage_vma_revalidate(mm, addr, false, &vma,
-> -							 cc, BIT(HPAGE_PMD_ORDER));
-> +							 cc, orders);
->   			if (result  != SCAN_SUCCEED) {
->   				last_fail = result;
->   				goto out_nolock;
+base-commit: 5e95c0a3a55aea490420bd6994805edb050cc86b
+-- 
+2.43.0
 
