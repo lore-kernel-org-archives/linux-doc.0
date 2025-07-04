@@ -1,65 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0E6A2D;
-	Fri,  4 Jul 2025 21:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972102E36F6;
+	Fri,  4 Jul 2025 21:14:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751663186; cv=none; b=bbwX0oW82X3pOn0ZRXyXd7uYnu6tUzuac9oZZsdpwYAcsXjUt56eK9BJrZs5iLGFbXttsm73qPdefg9yejDsVSOlVaxRU1HnNYz4o3agk7lv5GjgHymA/gBvyrPzG/MJoM/yrl4hjIkBasSOLrJ65c9Rl1qhD6roZsm/wbKMU9g=
+	t=1751663664; cv=none; b=N5WoI8mH3spVrZtSkPrqrtm4iX0QUidXW/13OHWIQriDXDOy8Jco16iwKJvzBtLeIosyAhC0iJCYsn8HB3WudNYnWSIerfiZjJqsYP2h12g/YqZOIo1VXRPtLVZK9t6tbJmEGTc1pPECc16IUKJKtjx3fg640DgTeCW10ZIRc6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751663186; c=relaxed/simple;
-	bh=f1hFiasjHfmlcHU6lmk4NYAher/zzJdd1u4QQBrYVJ8=;
+	s=arc-20240116; t=1751663664; c=relaxed/simple;
+	bh=4ZXjjIEFeyNziz8nI9hyycb93PeMN+TlTyQFX8ZUBy8=;
 	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=NBocScyDG87bjOlrMQLdM5GxNZKcLEgdftYuhIT3kOnTeeqzR9ScxrO5Ltg35qceY/7AKBkuSHzRIJ7AOHhq5N5CqoHgd+YlD2CYQfwH948BCb639qaf8AXic9Mm8cHwigv2uxRbDYAUtxjBUHlrhQq6abC1ABhB5pncGaVFmiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=y88kB/pc; arc=none smtp.client-ip=10.30.226.201
+	 Mime-Version:Content-Type; b=VGRgpLe6Ps+ifPRfesxz/MDIiCcq1cgsZG392FpvJoV8QzVLDdmzXqUDcfmmrDmTtLLfnbuUlTABgyyc8iJyk+rB7Brkbz3dn5Mn6CSSFdMUa9K6mBsnzM5uJa31c2VvNmEuKXQTTyQhlvkuxkt7qeaIvd2lyJXzmz6tmn5DxUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=P+mguad3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="y88kB/pc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27406C4CEE3;
-	Fri,  4 Jul 2025 21:06:24 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="P+mguad3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE8B8C4CEE3;
+	Fri,  4 Jul 2025 21:14:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1751663185;
-	bh=f1hFiasjHfmlcHU6lmk4NYAher/zzJdd1u4QQBrYVJ8=;
+	s=korg; t=1751663664;
+	bh=4ZXjjIEFeyNziz8nI9hyycb93PeMN+TlTyQFX8ZUBy8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=y88kB/pcD4E4EqtT4CkMHjZGaNV/MSL+BfunpDneJYf0u7QKpcXsSW9s14r8BkNmx
-	 WaI24KqTkwL1L2kVQDd0U0gUqzKoB3oOSJKBdiYtW2qefak2kybpZOsGNd5sTK4MTP
-	 njKj4JxNYga3WE9rzmNqEaH7gILlxUtdajr7p1I8=
-Date: Fri, 4 Jul 2025 14:06:23 -0700
+	b=P+mguad3o1QgfcWmYUtbI6/FsgHbbB1PA5+bCjq2nLDTkFt6v2jx4aZiXAWx0pGHX
+	 GYiIki4MzU5sYOZthXKw5Qdw3sFPMG9PgFKOFzykAvnsiUDIk7rb95YkqaazLj6zw4
+	 3dbkLeWZtRfOmQ8v6ZKZpz4JUS1oNnQLE+gi45Rw=
+Date: Fri, 4 Jul 2025 14:14:22 -0700
 From: Andrew Morton <akpm@linux-foundation.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Jerrin Shaji George
- <jerrin.shaji-george@broadcom.com>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Zi Yan
- <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
- <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
- <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Minchan
- Kim <minchan@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Brendan Jackman <jackmanb@google.com>, Johannes Weiner
- <hannes@cmpxchg.org>, Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard
- <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin
- <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, Miaohe
- Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>, Harry
- Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Shakeel
- Butt <shakeel.butt@linux.dev>
-Subject: Re: [PATCH v2 00/29] mm/migration: rework movable_ops page
- migration (part 1)
-Message-Id: <20250704140623.d6b9a013984bc2a109dd4dc9@linux-foundation.org>
-In-Reply-To: <20250704102524.326966-1-david@redhat.com>
-References: <20250704102524.326966-1-david@redhat.com>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, david@redhat.com, ziy@nvidia.com,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, baohua@kernel.org, willy@infradead.org,
+ peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+ sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+ will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org
+Subject: Re: [PATCH v8 11/15] khugepaged: allow madvise_collapse to check
+ all anonymous mTHP orders
+Message-Id: <20250704141422.359c89146ad69512b9be4902@linux-foundation.org>
+In-Reply-To: <2f6d9541-8083-4d3c-a9c1-cba0d5bf98a0@linux.alibaba.com>
+References: <20250702055742.102808-1-npache@redhat.com>
+	<20250702055742.102808-12-npache@redhat.com>
+	<2f6d9541-8083-4d3c-a9c1-cba0d5bf98a0@linux.alibaba.com>
 X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -67,29 +55,35 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri,  4 Jul 2025 12:24:54 +0200 David Hildenbrand <david@redhat.com> wrote:
+On Fri, 4 Jul 2025 14:11:13 +0800 Baolin Wang <baolin.wang@linux.alibaba.com> wrote:
 
-> In the future, as we decouple "struct page" from "struct folio", pages
-> that support "non-lru page migration" -- movable_ops page migration
-> such as memory balloons and zsmalloc -- will no longer be folios. They
-> will not have ->mapping, ->lru, and likely no refcount and no
-> page lock. But they will have a type and flags 🙂
+> On 2025/7/2 13:57, Nico Pache wrote:
+> > Allow madvise_collapse to scan/collapse all mTHP orders without the
+> > strict requirement of needing the PMD-order enabled.
+> > 
+> > Signed-off-by: Nico Pache <npache@redhat.com>
 > 
-> This is the first part (other parts not written yet) of decoupling
-> movable_ops page migration from folio migration.
-> 
-> In this series, we get rid of the ->mapping usage, and start cleaning up
-> the code + separating it from folio migration.
-> 
-> Migration core will have to be further reworked to not treat movable_ops
-> pages like folios. This is the first step into that direction.
-> 
-> Heavily tested with virtio-balloon and lightly tested with zsmalloc
-> on x86-64. Cross-compile-tested.
+> I am afraid we should drop this patch from the series, since Hugh 
+> explicitly opposed my modification of the madvise_collapse control logic 
+> in this thread[1].
 
-Thanks, I added this to mm-new.  I suppressed the 1363 mm-commits
-emails to avoid breaking the internet.
+Well it drops easily enough.  I don't know if it compiles yet.
 
+Nico, can you confirm that you're OK with the droppage and that the
+series is still good without this patch?
+
+> Moreover, since we have not yet clarified how to handle the conflict 
+> between the semantics of madvise_collapse and the THP interfaces, we 
+> should keep the current logic[2] (means madvise_collapse still only 
+> allows PMD collapse).
+> 
+> If madvise_collapse is to support mTHP collapse, there will be more 
+> semantic conflicts to discuss.
+> 
+> [1] 
+> https://lore.kernel.org/all/cover.1750815384.git.baolin.wang@linux.alibaba.com/
+> [2] 
+> https://lore.kernel.org/all/23b8ad10-cd1f-45df-a25c-78d01c8af44f@redhat.com/
