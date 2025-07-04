@@ -1,380 +1,286 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010052.outbound.protection.outlook.com [52.101.69.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00E129AB1E;
-	Fri,  4 Jul 2025 08:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751619274; cv=none; b=u+HnfC0CsP9Mwuv00YtpkjjwY+DKI3YuujayNGdW7Hzryautq6Xi2yrZAofwzmkmdwbz2txpQxy0hSAV9NBEtXE6WssN5wY83Cbd4njqmf7d24ct59BlROzMNPWgTd9ggvP5cyTr1HGcNCzWDPURmZqYrcuZ+pZWmoLM+KkXbTA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751619274; c=relaxed/simple;
-	bh=ZSABudlhTKUDPWbW8XSdcuCu3VaJtavRmMqHjdpwlnQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qfO85r0HRQ943Jxig/G4v8NJ4LcMNehAou3sr0HVUdRzd62V63XbASr2zpTANMvv5/hjCuHX4Jah+IR92iYHWPLkjISH1YuyuKzBlohDUzo6/4Qy2eAb2yq5N59Wa00nO1+EguVd/fsCNTYjobWDf8bgm9UDTfE4qKZbDrnCNpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BweFXU2d; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8ED2E7BAB;
+	Fri,  4 Jul 2025 08:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751619313; cv=fail; b=jMKGimxWsWEYf/3I/fv7WFSxYUbRPehrejZYmH2SbAlrCJi/yJvtUsXM3DyU3fSQWKZYw09fl6Kyx4GoCaxgt4BFJWMEXzhzmrEOX/4GvKDg/UiLyB6qyqPJHpKTLDm9Xn2lQLVl26zNX+M1PcL/dQgd8EPdzpBkz38STh/RHQk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751619313; c=relaxed/simple;
+	bh=9r36F+Mq4VjbxRSpiE5Wpwrb13Ecy4+N2Lhx2rbw25o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hgtPRsX8h783gHaMSFfqs8qFHMDa4g+YTKOkdX5ND7A7R76VZy53Ae3bnNbTCR6x+BCd4gHgTDeRKwG19tLUxD/zu3GD3VDdwgb6WqmizEwwljGsgYFS8r2/oXPcfpdcdDXcjPkASQMI3uHMHEZ7KKMY+TrQYzTVeCvbFcYuwEo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=nuX4KhyF; arc=fail smtp.client-ip=52.101.69.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BweFXU2d"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-60c3aafae23so3995747a12.1;
-        Fri, 04 Jul 2025 01:54:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751619271; x=1752224071; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IYYb4psIPvpliyRichfelE7dhl+X+oSKUx+ZDfgpqiU=;
-        b=BweFXU2ddQrXqvSPnrhif/qLTweqSDhZDNxT8pKA3cyw3LIK84Nf6q3+UyVv6GvV88
-         RSYZJ3XbwsYsZw10D3Ps5CS3soeQBjKa72SN0ZG1sghBF5LgRM7rvjFXKGvXXCTJb/56
-         4Hob/95xc9/IfRcMR3AKwvoi2a5dd8p1QQV9LNTLk5Ga4xQU7HJQooPMVlDRZjoV/23c
-         WwwrhNpXrmaGrSKVKe9AcIlyPrO81fWYifyjMhPd5cyiCYCXFXn2IRTeph6oFRUFz2Mz
-         uFTjZKfO94YO62E6451phHQWnUcJsq8UbDRyBTy/rGL4cYxKxEJYEpe70F44TUIWZePI
-         l7Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751619271; x=1752224071;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IYYb4psIPvpliyRichfelE7dhl+X+oSKUx+ZDfgpqiU=;
-        b=Ks4LqXzWB5u+DlyBzXyZxesYKlP+WReGptJsoXWooE2j2jjo036R6i9IW+89+eTfMY
-         4z3FuSdRK5gWrqzEB1qzIX5HW8kAxwmBFhpPFaudGqYVk8i3RBj6gghikt7yj2FIaS6o
-         /hUhQaJnn2mwvMYxpvKFM0TxffuAp5N5cJDsEJ+cjV7jw8WalMNIcS5Xz1sSF0XgqOUE
-         WzkiMKXaCm02ca6x226wxoF9HoRACDm2s6Ew9VrLDRdd3+bqraAkip1SxxLWfZTmDTnF
-         x0C1LrDusP++H3SP6n6IB9glzXUOTC/3y+Er+Lo8tpKx91RpRuds9xCWi3joHMUydYzZ
-         XIXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUbyo7ePe3tKW3pPQTsIJkc+G2X5FescyIx7a1f94Z9MhgdEMHVq8Z3tj6WRX434xqlOvyXHPHyntz2@vger.kernel.org, AJvYcCUmWfynB2YKjtRr62wHUmmLhcuCPGtwBX/GB5xIiOMCWjCf7v2q4Ouc540A4oV2fjtF4iaLXdnupYniL3YdBA==@vger.kernel.org, AJvYcCWBtU/vrA8o2cIU1wYDkaQKqs/q8zu9Q/EmHeuq5uG/ElksX4bipgog9LRyQTszYofWxOuDf6/FUkE=@vger.kernel.org, AJvYcCWaudbZwIEnpZe3iheACXybIiF4RbaWrJEO+62VFsrhjpCNUx9l42cCUzriGoWd7+S7Jwr9VS7KsIvhtWrZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxS6jdE3rmT0Ll5fj6mKtB1sJh0AO+hAO6fej4WQD9vwbjRwe61
-	DLTF9QA3udYiXoIJy6ccvYtDv4Q/5PK0ShasDTHS0H7s6kM1KS6emZ6Hk8RjXvVjMyY8wLClnE4
-	Ie/MX4kvDkAFmLCvW1F5T7OxL5nZ4aYk=
-X-Gm-Gg: ASbGncs61aM+nFn3SmMAEDdIn49axXNwvrDk1B8kOueGbYlXiXSmz+xbKXId00p9Xjw
-	dG0CvUfodaSW2lOGdrSnViOtuIHDOWXK91F9c23qMlixBwCnkhUEr2bKIwSw363tKSPuafNXBLr
-	lnicYLYLqF4cSXjxArOOMUiCrNtNdmFNu1VX717Pnc9jg=
-X-Google-Smtp-Source: AGHT+IHcZMlcvKWkDRCTTYHYBlE/yVUzdpyQxoMzu23LPxRAf01JGJK4vdjZG8u8oHAxRui/6pv6vPPsfcA2UUkTzBY=
-X-Received: by 2002:a17:907:9408:b0:ae3:bb0a:1ce9 with SMTP id
- a640c23a62f3a-ae3f9c07333mr186513866b.12.1751619270770; Fri, 04 Jul 2025
- 01:54:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="nuX4KhyF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AeSI8D/EaYCkQrUsqKUtvyeXRWSqmI/NB4ufFAwBt4NaGt5SZQbNlEu/4RIx/9YjyK1bAXQUsLEOWioanPdOBwFLd5YbaP7ttLwO+/+r1NubH2L41FNiJ/cfM5YL7boau7k9mXrhzv4/G1JyCQqEq62bFv72f2rFNogFVhx7Q4dtv31FXp6BJ+HYIQlhjulcO/HXe831sibFsNYd41VvIIxfTomdwEls1a1fyMGdBQXAtzKFmhtBOCc1CoGmv/tYGt1s2OpPigIvKrmh8Vyght/9CcZYDKhwExy05IF62TxR/e0ZPbMOumJmTcW9idZaNxQScgCeiWsm3pnJUHor2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/X2oBAgUbRCvMDl4VqtRuKqUFbuPNOlgonVkgNzzDqg=;
+ b=ap9sxcrpA1yRBJyMF5Csc12KJGPtgAZTGvcMKhZdAhZVrx4KuK3fwGVDh1vxGUmwrBQAyqfmTgmnhmTvhd843mYS3OgOXzpE3aDeFev31yTjBpMWqUPkd++sWHKrXiSmL7uV5VIhSfopJ37DzYWbWeaVh7xpTCsq8EddBulHuwXN3h4s6qQmpIWzS6wut3Bg6y2JqVHkpXW7HJ/b/cGZC4SK4WMoAEdgIQdlIfCsgRjazZ+j99LQFdcoRePcrM84DF2IKXCdc/5rAn9bmXIywgfKqAJU9DTyb4XdC+OIVNUo21q9g/kFjC/Imlga4Mv7rqXmYTapd/EAlB6/rAJNGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 131.228.2.241) smtp.rcpttodomain=amazon.com
+ smtp.mailfrom=nokia-bell-labs.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=nokia-bell-labs.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/X2oBAgUbRCvMDl4VqtRuKqUFbuPNOlgonVkgNzzDqg=;
+ b=nuX4KhyFfymjf/G5WNAwEkr7dirF22sw0PMBvQkfSJvTchE3zPx/YJkfeQR717VQ9/hQISMxGP5IvF/x56hDLLwIYdUM/588eYLM7ZrGbZzLlwySV0ulozEqL8fhJQInpbfv2nFe1UVfIBbN84362OOXorjC+Oiyui3UAgWu4Omnft3WwYhpvXH4Qy8M5n7/rXN/Xr7zxyCdpPhXqli3DLk3c2ngAUiX3ikwqopZVkBP/Kq2VASXFwLEoY+SEhgXaXJzbOEnAKnF7sdoztWdPDcvld/wdIDGKKIAfcAsu42ZkkuwbYRsj/SxUtZK8l1/ZLW9cQvBUMujOFSeGbW6fQ==
+Received: from DB8PR06CA0019.eurprd06.prod.outlook.com (2603:10a6:10:100::32)
+ by PA4PR07MB7549.eurprd07.prod.outlook.com (2603:10a6:102:cd::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.21; Fri, 4 Jul
+ 2025 08:55:07 +0000
+Received: from DB3PEPF0000885A.eurprd02.prod.outlook.com
+ (2603:10a6:10:100:cafe::e3) by DB8PR06CA0019.outlook.office365.com
+ (2603:10a6:10:100::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.22 via Frontend Transport; Fri,
+ 4 Jul 2025 08:55:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 131.228.2.241)
+ smtp.mailfrom=nokia-bell-labs.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nokia-bell-labs.com;
+Received-SPF: Pass (protection.outlook.com: domain of nokia-bell-labs.com
+ designates 131.228.2.241 as permitted sender)
+ receiver=protection.outlook.com; client-ip=131.228.2.241;
+ helo=fihe3nok0734.emea.nsn-net.net; pr=C
+Received: from fihe3nok0734.emea.nsn-net.net (131.228.2.241) by
+ DB3PEPF0000885A.mail.protection.outlook.com (10.167.242.5) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.15
+ via Frontend Transport; Fri, 4 Jul 2025 08:55:07 +0000
+Received: from sarah.nbl.nsn-rdnet.net (sarah.nbl.nsn-rdnet.net [10.0.73.150])
+	by fihe3nok0734.emea.nsn-net.net (Postfix) with ESMTP id 0DCE2200C1;
+	Fri,  4 Jul 2025 11:55:06 +0300 (EEST)
+From: chia-yu.chang@nokia-bell-labs.com
+To: pabeni@redhat.com,
+	edumazet@google.com,
+	linux-doc@vger.kernel.org,
+	corbet@lwn.net,
+	horms@kernel.org,
+	dsahern@kernel.org,
+	kuniyu@amazon.com,
+	bpf@vger.kernel.org,
+	netdev@vger.kernel.org,
+	dave.taht@gmail.com,
+	jhs@mojatatu.com,
+	kuba@kernel.org,
+	stephen@networkplumber.org,
+	xiyou.wangcong@gmail.com,
+	jiri@resnulli.us,
+	davem@davemloft.net,
+	andrew+netdev@lunn.ch,
+	donald.hunter@gmail.com,
+	ast@fiberby.net,
+	liuhangbin@gmail.com,
+	shuah@kernel.org,
+	linux-kselftest@vger.kernel.org,
+	ij@kernel.org,
+	ncardwell@google.com,
+	koen.de_schepper@nokia-bell-labs.com,
+	g.white@cablelabs.com,
+	ingemar.s.johansson@ericsson.com,
+	mirja.kuehlewind@ericsson.com,
+	cheshire@apple.com,
+	rs.ietf@gmx.at,
+	Jason_Livingood@comcast.com,
+	vidhi_goel@apple.com
+Cc: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+Subject: [PATCH v12 net-next 00/15] AccECN protocol patch series
+Date: Fri,  4 Jul 2025 10:53:30 +0200
+Message-Id: <20250704085345.46530-1-chia-yu.chang@nokia-bell-labs.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250703185032.46568-1-john@groves.net> <20250703185032.46568-13-john@groves.net>
-In-Reply-To: <20250703185032.46568-13-john@groves.net>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 4 Jul 2025 10:54:18 +0200
-X-Gm-Features: Ac12FXxdD0dKmEKz1SXgkNvAKENkLT1knuiKkxdeBvqe6tEEHXxQtEYAzYhPTaA
-Message-ID: <CAOQ4uxh-qDahaEpdn2Xs9Q7iBTT0Qx577RK-PrZwzOST_AQqUA@mail.gmail.com>
-Subject: Re: [RFC V2 12/18] famfs_fuse: Plumb the GET_FMAP message/response
-To: John Groves <John@groves.net>
-Cc: Dan Williams <dan.j.williams@intel.com>, Miklos Szeredi <miklos@szeredb.hu>, 
-	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PEPF0000885A:EE_|PA4PR07MB7549:EE_
+X-MS-Office365-Filtering-Correlation-Id: ffaa04d3-c6a8-4b9c-e152-08ddbad879d9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|1800799024|36860700013|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?L2NXTDF1WGhQVXBYcTV0eENPTmF2VUJLMjRrRUt1L09ZVVE3WEwrTngzZ2JC?=
+ =?utf-8?B?MStFUTZzK3VPMU9sLzhDeFZlczBDME8zUVNhcTZNa1NZMFVHcmh6Vy9hTE1W?=
+ =?utf-8?B?djlwZklUWklMOE00OXFNRytUWVZPVFcrSWlpYnF4K2c1cWcySWw5eEM3d2pB?=
+ =?utf-8?B?c0dVVnVDaDlxZ3QrV2xObkNXdTBQNHBuUFpzV3BDNzAvQ1orc2UxOEVieHdq?=
+ =?utf-8?B?ZHl2V1lDNG1CNUp6MWJYSjV1bzg0Y0VIL1huTFlZRHdxMWc5R3BzdjVjeUhu?=
+ =?utf-8?B?c1NwSXBCaEVNZXk2b0tOS1RrWTFhNE91TytPYnNFdHBNM2ZXQm5ZUlFPRXlv?=
+ =?utf-8?B?RGZ6MDYzTjF2VkxVeTlJUk5ITE0vY2YzWWduZjFTK09jWDUwVHF0bE1YbnFo?=
+ =?utf-8?B?MVVvc2VuQWQ3blRpeDVDczMvaXNyR0Q5L3IzcmtjdEdSZzNTMFZoQnV2czJT?=
+ =?utf-8?B?KzZlQ3plVSsxOSs0SUd6dGJDdjNUVXQvWFNUbUFmNzR1YU4wczU5REJ4emhI?=
+ =?utf-8?B?UHRhdDNDZGFDVFd2SlhJOUdTajl4OC9hYkprT1RwQ3FFdUFHeit6M3Z5cXFT?=
+ =?utf-8?B?WHhYUldVZ1RwdG1QNVVRakdkRmRxUFM1TGd6OTBaRmdycVViWSs3UnhNWWta?=
+ =?utf-8?B?QnJoaEhwYXdIL2IxVlhmK01nbHREODV5UDEyV3NNcHBzTDNEV3RiS3Mzak1T?=
+ =?utf-8?B?b2RZTmtEYWlxNTlmTkVIdzlIeWYza2p0MU1Wdkd4Q2FlaDJlWnpRQVo3cUhP?=
+ =?utf-8?B?RERPNFhBSFpZcmE2ZW1IYllUeUhSNkFDREhiT3cwNitRUWFzQ09VMFc4dG80?=
+ =?utf-8?B?dnRwc0dQZHM5SkxOM0dTSUpuRS9SQm9zVlVSR2crY2R0WDVVT2p1ZjU1dzdD?=
+ =?utf-8?B?V2ZJS1R5VGFZWGJhN1F6MjVsdDh6UUtHQWJCWkZERlJlM0J1aGNDNHV1bUJH?=
+ =?utf-8?B?SDJkN0pESUJKL2RzOEs1T3Y3UmtRREIra0ViaVU5OThIVTROUEx0YWJhbit2?=
+ =?utf-8?B?NHZQSUQ4dG1Mb3hwazdSVVdXTitsTTZuaU1YQ2FPR0ErQ1c2MjNDSHl6eWg0?=
+ =?utf-8?B?dndlaG1IMENpb2hyMVF2ZW1MTlc4d2hFdVcxTGdCNGxYMDcyT0xvd2tVc2I4?=
+ =?utf-8?B?ZWRyRUpyRDNNbGxzUDNtSktaT3VMTjF3a2UwdGRCLzlJLzArL0NXR2RMRlQr?=
+ =?utf-8?B?dHZWYzE5QUNXQ1IrbnF3aG1YZS9CWjZvWW1kc1E5RkVNeXdYQ2ZmMHVIbXNO?=
+ =?utf-8?B?a0o1UmJ6eTNTdElYZE4vNldQNjZUc1Jic1NCaXkrdnM1ayt0RkhPN1U1SXVV?=
+ =?utf-8?B?c1haTGcyRDM2L3BGOVJ3ckwzbVBmVWtUcy9Mby9WOTVHMUQvaUR3VUJ6YlVw?=
+ =?utf-8?B?bWtBcmpBWkRxcUJEWk1OSC9iQWVHcGlOYThQc0hoU2FWbllObCs2c01TTkI2?=
+ =?utf-8?B?cWpZU0dOcmxkMy9QaWx6QjBvVjI0RERBYURFRnNTVnc2NFpSSjNzTjM1UnNX?=
+ =?utf-8?B?OUlHNEcxSyszeDlVbUw2TG9ORStQVXJsUk96WThTbEdSSTBtQkcrci9VVktG?=
+ =?utf-8?B?RTVjY0MwaHlueVphZnVWWkNpcjJta1YycUpqOU1iYW9zc1VKUTl0a3dnVWVn?=
+ =?utf-8?B?RG1iQjhEMVFaclNoV0YzNm9LWkV1SjhCTUVWNVBnVWZFS21ITFFPamw2RFlJ?=
+ =?utf-8?B?d05IRnF1RXFoLzdFRlh6bC9TQUJvUGxXc0ZwQklCNUZIYTVSbGJ0dFJBdEJZ?=
+ =?utf-8?B?bERCTmRrUTFiWGtRRE5PWmJ2MjYxQk1KSXlWNU5iU2VZUm1ETE9ZOWw5Z05G?=
+ =?utf-8?B?QXlyNVJRSzliMURrZmYwN2tJZjEybWRXYmVBZ1hxYnlaTmh6dndTK1RoTUht?=
+ =?utf-8?B?aWkyRER2bGEwNGI5N1lmUDVQa3ZPSnVuT1Fxa1BoVmNsQzBWZmIySGtVTEV5?=
+ =?utf-8?B?cUtoWXNoTngyaDNRck85dTllRDhnUDAwOGo1QW91elJuY0Zwd0lVR3hxekd6?=
+ =?utf-8?B?Y2VSUEJhcGYvTEg2NE5HMkdZbWZYbEpPOFFFWldva21Wdzkvbk1KV08wMHM0?=
+ =?utf-8?B?ZzhWTk1HWjNpcDdVOWt4bld2eHNOUzlXY09KZz09?=
+X-Forefront-Antispam-Report:
+	CIP:131.228.2.241;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:fihe3nok0734.emea.nsn-net.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(1800799024)(36860700013)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: nokia-bell-labs.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2025 08:55:07.5665
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffaa04d3-c6a8-4b9c-e152-08ddbad879d9
+X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5d471751-9675-428d-917b-70f44f9630b0;Ip=[131.228.2.241];Helo=[fihe3nok0734.emea.nsn-net.net]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB3PEPF0000885A.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR07MB7549
 
-On Thu, Jul 3, 2025 at 8:51=E2=80=AFPM John Groves <John@groves.net> wrote:
->
-> Upon completion of an OPEN, if we're in famfs-mode we do a GET_FMAP to
-> retrieve and cache up the file-to-dax map in the kernel. If this
-> succeeds, read/write/mmap are resolved direct-to-dax with no upcalls.
->
-> GET_FMAP has a variable-size response payload, and the allocated size
-> is sent in the in_args[0].size field. If the fmap would overflow the
-> message, the fuse server sends a reply of size 'sizeof(uint32_t)' which
-> specifies the size of the fmap message. Then the kernel can realloc a
-> large enough buffer and try again.
->
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  fs/fuse/file.c            | 84 +++++++++++++++++++++++++++++++++++++++
->  fs/fuse/fuse_i.h          | 36 ++++++++++++++++-
->  fs/fuse/inode.c           | 19 +++++++--
->  fs/fuse/iomode.c          |  2 +-
->  include/uapi/linux/fuse.h | 18 +++++++++
->  5 files changed, 154 insertions(+), 5 deletions(-)
->
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 93b82660f0c8..8616fb0a6d61 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -230,6 +230,77 @@ static void fuse_truncate_update_attr(struct inode *=
-inode, struct file *file)
->         fuse_invalidate_attr_mask(inode, FUSE_STATX_MODSIZE);
->  }
->
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
 
-We generally try to avoid #ifdef blocks in c files
-keep them mostly in h files and use in c files
-   if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
+Hello,
 
-also #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-it a bit strange for a bool Kconfig because it looks too
-much like the c code, so I prefer
-#ifdef CONFIG_FUSE_FAMFS_DAX
-when you have to use it
+Please find the v12 AccECN protocol patch series, which covers the core
+functionality of Accurate ECN, AccECN negotiation, AccECN TCP options,
+and AccECN failure handling. The Accurate ECN draft can be found in
+https://datatracker.ietf.org/doc/html/draft-ietf-tcpm-accurate-ecn-28
 
-If you need entire functions compiled out, why not put them in famfs.c?
+This patch series is part of the full AccECN patch series, which is available at
+https://github.com/L4STeam/linux-net-next/commits/upstream_l4steam/
 
-> +
-> +#define FMAP_BUFSIZE 4096
-> +
-> +static int
-> +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode, u64 nodeid)
-> +{
-> +       struct fuse_get_fmap_in inarg =3D { 0 };
-> +       size_t fmap_bufsize =3D FMAP_BUFSIZE;
-> +       ssize_t fmap_size;
-> +       int retries =3D 1;
-> +       void *fmap_buf;
-> +       int rc;
-> +
-> +       FUSE_ARGS(args);
-> +
-> +       fmap_buf =3D kcalloc(1, FMAP_BUFSIZE, GFP_KERNEL);
-> +       if (!fmap_buf)
-> +               return -EIO;
-> +
-> + retry_once:
-> +       inarg.size =3D fmap_bufsize;
-> +
-> +       args.opcode =3D FUSE_GET_FMAP;
-> +       args.nodeid =3D nodeid;
-> +
-> +       args.in_numargs =3D 1;
-> +       args.in_args[0].size =3D sizeof(inarg);
-> +       args.in_args[0].value =3D &inarg;
-> +
-> +       /* Variable-sized output buffer
-> +        * this causes fuse_simple_request() to return the size of the
-> +        * output payload
-> +        */
-> +       args.out_argvar =3D true;
-> +       args.out_numargs =3D 1;
-> +       args.out_args[0].size =3D fmap_bufsize;
-> +       args.out_args[0].value =3D fmap_buf;
-> +
-> +       /* Send GET_FMAP command */
-> +       rc =3D fuse_simple_request(fm, &args);
-> +       if (rc < 0) {
-> +               pr_err("%s: err=3D%d from fuse_simple_request()\n",
-> +                      __func__, rc);
-> +               return rc;
-> +       }
-> +       fmap_size =3D rc;
-> +
-> +       if (retries && fmap_size =3D=3D sizeof(uint32_t)) {
-> +               /* fmap size exceeded fmap_bufsize;
-> +                * actual fmap size returned in fmap_buf;
-> +                * realloc and retry once
-> +                */
-> +               fmap_bufsize =3D *((uint32_t *)fmap_buf);
-> +
-> +               --retries;
-> +               kfree(fmap_buf);
-> +               fmap_buf =3D kcalloc(1, fmap_bufsize, GFP_KERNEL);
-> +               if (!fmap_buf)
-> +                       return -EIO;
-> +
-> +               goto retry_once;
-> +       }
-> +
-> +       /* Will call famfs_file_init_dax() when that gets added */
-> +
-> +       kfree(fmap_buf);
-> +       return 0;
-> +}
-> +#endif
-> +
->  static int fuse_open(struct inode *inode, struct file *file)
->  {
->         struct fuse_mount *fm =3D get_fuse_mount(inode);
-> @@ -263,6 +334,19 @@ static int fuse_open(struct inode *inode, struct fil=
-e *file)
->
->         err =3D fuse_do_open(fm, get_node_id(inode), file, false);
->         if (!err) {
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +               if (fm->fc->famfs_iomap) {
+Best Regards,
+Chia-Yu
 
-That should be
-> +               if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&
-> +                   fm->fc->famfs_iomap) {
+---
+v12 (04-Jul-2025)
+- Fix compilation issues with some intermediate patches in v11
+- Add more comments for AccECN helpers of tcp_ecn.h
 
-> +                       if (S_ISREG(inode->i_mode)) {
-> +                               int rc;
-> +                               /* Get the famfs fmap */
-> +                               rc =3D fuse_get_fmap(fm, inode,
-> +                                                  get_node_id(inode));
-> +                               if (rc)
-> +                                       pr_err("%s: fuse_get_fmap err=3D%=
-d\n",
-> +                                              __func__, rc);
-> +                       }
-> +               }
-> +#endif
->                 ff =3D file->private_data;
->                 err =3D fuse_finish_open(inode, file);
->                 if (err)
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index f4ee61046578..e01d6e5c6e93 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -193,6 +193,10 @@ struct fuse_inode {
->         /** Reference to backing file in passthrough mode */
->         struct fuse_backing *fb;
->  #endif
-> +
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +       void *famfs_meta;
-> +#endif
->  };
->
->  /** FUSE inode state bits */
-> @@ -945,6 +949,8 @@ struct fuse_conn {
->  #endif
->
->  #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +       struct rw_semaphore famfs_devlist_sem;
-> +       struct famfs_dax_devlist *dax_devlist;
->         char *shadow;
->  #endif
->  };
-> @@ -1435,11 +1441,14 @@ void fuse_free_conn(struct fuse_conn *fc);
->
->  /* dax.c */
->
-> +static inline int fuse_file_famfs(struct fuse_inode *fi); /* forward */
-> +
->  /* This macro is used by virtio_fs, but now it also needs to filter for
->   * "not famfs"
->   */
->  #define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)    \
-> -                                       && IS_DAX(&fuse_inode->inode))
-> +                                       && IS_DAX(&fuse_inode->inode)   \
-> +                                       && !fuse_file_famfs(fuse_inode))
->
->  ssize_t fuse_dax_read_iter(struct kiocb *iocb, struct iov_iter *to);
->  ssize_t fuse_dax_write_iter(struct kiocb *iocb, struct iov_iter *from);
-> @@ -1550,4 +1559,29 @@ extern void fuse_sysctl_unregister(void);
->  #define fuse_sysctl_unregister()       do { } while (0)
->  #endif /* CONFIG_SYSCTL */
->
-> +/* famfs.c */
-> +static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
-> +                                                      void *meta)
-> +{
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +       return xchg(&fi->famfs_meta, meta);
-> +#else
-> +       return NULL;
-> +#endif
-> +}
-> +
-> +static inline void famfs_meta_free(struct fuse_inode *fi)
-> +{
-> +       /* Stub wil be connected in a subsequent commit */
-> +}
-> +
-> +static inline int fuse_file_famfs(struct fuse_inode *fi)
-> +{
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +       return (READ_ONCE(fi->famfs_meta) !=3D NULL);
-> +#else
-> +       return 0;
-> +#endif
-> +}
-> +
->  #endif /* _FS_FUSE_I_H */
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index a7e1cf8257b0..b071d16f7d04 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -117,6 +117,9 @@ static struct inode *fuse_alloc_inode(struct super_bl=
-ock *sb)
->         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
->                 fuse_inode_backing_set(fi, NULL);
->
-> +       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
-> +               famfs_meta_set(fi, NULL);
-> +
->         return &fi->inode;
->
->  out_free_forget:
-> @@ -138,6 +141,13 @@ static void fuse_free_inode(struct inode *inode)
->         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
->                 fuse_backing_put(fuse_inode_backing(fi));
->
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +       if (S_ISREG(inode->i_mode) && fi->famfs_meta) {
-> +               famfs_meta_free(fi);
-> +               famfs_meta_set(fi, NULL);
-> +       }
-> +#endif
-> +
->         kmem_cache_free(fuse_inode_cachep, fi);
->  }
->
-> @@ -1002,6 +1012,9 @@ void fuse_conn_init(struct fuse_conn *fc, struct fu=
-se_mount *fm,
->         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
->                 fuse_backing_files_init(fc);
->
-> +       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
-> +               pr_notice("%s: Kernel is FUSE_FAMFS_DAX capable\n", __fun=
-c__);
-> +
->         INIT_LIST_HEAD(&fc->mounts);
->         list_add(&fm->fc_entry, &fc->mounts);
->         fm->fc =3D fc;
-> @@ -1036,9 +1049,8 @@ void fuse_conn_put(struct fuse_conn *fc)
->                 }
->                 if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
->                         fuse_backing_files_free(fc);
-> -#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> -               kfree(fc->shadow);
-> -#endif
-> +               if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
-> +                       kfree(fc->shadow);
->                 call_rcu(&fc->rcu, delayed_release);
->         }
->  }
-> @@ -1425,6 +1437,7 @@ static void process_init_reply(struct fuse_mount *f=
-m, struct fuse_args *args,
->                                  * those capabilities, they are held here=
-).
->                                  */
->                                 fc->famfs_iomap =3D 1;
-> +                               init_rwsem(&fc->famfs_devlist_sem);
->                         }
->                 } else {
->                         ra_pages =3D fc->max_read / PAGE_SIZE;
-> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
-> index aec4aecb5d79..443b337b0c05 100644
-> --- a/fs/fuse/iomode.c
-> +++ b/fs/fuse/iomode.c
-> @@ -204,7 +204,7 @@ int fuse_file_io_open(struct file *file, struct inode=
- *inode)
->          * io modes are not relevant with DAX and with server that does n=
-ot
->          * implement open.
->          */
-> -       if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)
-> +       if (FUSE_IS_VIRTIO_DAX(fi) || fuse_file_famfs(fi) || !ff->args)
->                 return 0;
+v11 (03-Jul-2025)
+- Fix compilation issues with some intermediate patches in v10
 
-This is where fuse_is_dax() helper would be handy.
+v10 (02-Jul-2025)
+- Add new patch of separated header file include/net/tcp_ecn.h to include ECN and AccECN functions (Eric Dumazet <edumazet@google.com>)
+- Add comments on the AccECN helper functions in tcp_ecn.h (Eric Dumazet <edumazet@google.com>)
+- Add documentation of tcp_ecn, tcp_ecn_option, tcp_ecn_beacon in ip-sysctl.rst to the corresponding patch (Eric Dumazet <edumazet@google.com>)
+- Split wait third ACK functionality into a separated patch from AccECN negotiation patch (Eric Dumazet <edumazet@google.com>)
+- Add READ_ONCE() over every reads of sysctl for all patches in the series (Eric Dumazet <edumazet@google.com>)
+- Merge heuristics of AccECN option ceb/cep and ACE field multi-wrap into a single patch
+- Add a table of SACK block reduction and required AccECN field in patch #15 commit message (Eric Dumazet <edumazet@google.com>)
 
-Thanks,
-Amir.
+v9 (21-Jun-2025)
+- Use tcp_data_ecn_check() to set TCP_ECN_SEE flag only for RFC3168 ECN (Paolo Abeni <pabeni@redhat.com>)
+- Add comments about setting TCP_ECN_SEEN flag for RFC3168 and Accruate ECN (Paolo Abeni <pabeni@redhat.com>)
+- Restruct the code in the for loop of tcp_accecn_process_option() (Paolo Abeni <pabeni@redhat.com>)
+- Remove ecn_bytes and add use_synack_ecn_bytes flag to identify whether syn_ack_bytes or received_ecn_bytes is used (Paolo Abeni <pabeni@redhat.com>)
+- Replace leftover_bytes and leftover_size with leftover_highbyte and leftover_lowbyte and add comments in tcp_options_write() (Paolo Abeni <pabeni@redhat.com>)
+- Add comments and commit message about the 1st retx SYN still attempt AccECN negotiation (Paolo Abeni <pabeni@redhat.com>)
+
+v8 (10-Jun-2025)
+- Add new helper function tcp_ecn_received_counters_payload() in #6 (Paolo Abeni <pabeni@redhat.com>)
+- Set opts->num_sack_blocks=0 to avoid potential undefined value in #8 (Paolo Abeni <pabeni@redhat.com>)
+- Reset leftover_size to 2 once leftover_bytes is used in #9 (Paolo Abeni <pabeni@redhat.com>)
+- Add new helper function tcp_accecn_opt_demand_min() in #10 (Paolo Abeni <pabeni@redhat.com>)
+- Add new helper function tcp_accecn_saw_opt_fail_recv() in #11 (Paolo Abeni <pabeni@redhat.com>)
+- Update tcp_options_fit_accecn() to avoid using recursion in #14 (Paolo Abeni <pabeni@redhat.com>)
+
+v7 (14-May-2025)
+- Modify group sizes of tcp_sock_write_txrx and tcp_sock_write_rx in #3 based on pahole results (Paolo Abeni <pabeni@redhat.com>)
+- Fix the issue in #4 and #5 where the RFC3168 ECN behavior in tcp_ecn_send() is changed (Paolo Abeni <pabeni@redhat.com>)
+- Modify group size of tcp_sock_write_txrx in #4 and #6 based on pahole results (Paolo Abeni <pabeni@redhat.com>)
+- Update commit message for #9 to explain the increase in tcp_sock_write_rx group size
+- Modify group size of tcp_sock_write_tx in #10 based on pahole results
+
+v6 (09-May-2025)
+- Add #3 to utilize exisintg holes of tcp_sock_write_txrx group for later patches (#4, #9, #10) with new u8 members (Paolo Abeni <pabeni@redhat.com>)
+- Add pahole outcomes before and after commit in #4, #5, #6, #9, #10, #15 (Paolo Abeni <pabeni@redhat.com>)
+- Define new helper function tcp_send_ack_reflect_ect() for sending ACK with reflected ECT in #5 (Paolo Abeni <pabeni@redhat.com>)
+- Add comments for function tcp_ecn_rcv_synack() in #5 (Paolo Abeni <pabeni@redhat.com>)
+- Add enum/define to be used by sysctl_tcp_ecn in #5, sysctl_tcp_ecn_option in #9, and sysctl_tcp_ecn_option_beacon in #10 (Paolo Abeni <pabeni@redhat.com>)
+- Move accecn_fail_mode and saw_accecn_opt in #5 and #11 to use exisintg holes of tcp_sock (Paolo Abeni <pabeni@redhat.com>)
+- Change data type of new members of tcp_request_sock and move them to the end of struct in #5 and #11 (Paolo Abeni <pabeni@redhat.com>)
+- Move new members of tcp_info to the end of struct in #6 (Paolo Abeni <pabeni@redhat.com>)
+- Merge previous #7 into #9 (Paolo Abeni <pabeni@redhat.com>)
+- Mask ecnfield with INET_ECN_MASK to remove WARN_ONCE in #9 (Paolo Abeni <pabeni@redhat.com>)
+- Reduce the indentation levels for reabability in #9 and #10 (Paolo Abeni <pabeni@redhat.com>)
+- Move delivered_ecn_bytes to the RX group in #9, accecn_opt_tstamp to the TX group in #10, pkts_acked_ewma to the RX group in #15 (Paolo Abeni <pabeni@redhat.com>)
+- Add changes in Documentation/networking/net_cachelines/tcp_sock.rst for new tcp_sock members in #3, #5, #6, #9, #10, #15
+
+v5 (22-Apr-2025)
+- Further fix for 32-bit ARM alignment in tcp.c (Simon Horman <horms@kernel.org>)
+
+v4 (18-Apr-2025)
+- Fix 32-bit ARM assertion for alignment requirement (Simon Horman <horms@kernel.org>)
+
+v3 (14-Apr-2025)
+- Fix patch apply issue in v2 (Jakub Kicinski <kuba@kernel.org>)
+
+v2 (18-Mar-2025)
+- Add one missing patch from the previous AccECN protocol preparation patch series to this patch series.
+
+---
+Chia-Yu Chang (6):
+  tcp: reorganize tcp_sock_write_txrx group for variables later
+  tcp: ecn functions in separated include file
+  tcp: Add wait_third_ack for ECN negotiation in simultaneous connect
+  tcp: accecn: AccECN option send control
+  tcp: accecn: AccECN option failure handling
+  tcp: accecn: try to fit AccECN option with SACK
+
+Ilpo Järvinen (9):
+  tcp: reorganize SYN ECN code
+  tcp: fast path functions later
+  tcp: AccECN core
+  tcp: accecn: AccECN negotiation
+  tcp: accecn: add AccECN rx byte counters
+  tcp: accecn: AccECN needs to know delivered bytes
+  tcp: sack option handling improvements
+  tcp: accecn: AccECN option
+  tcp: accecn: AccECN option ceb/cep and ACE field multi-wrap heuristics
+
+ Documentation/networking/ip-sysctl.rst        |  55 +-
+ .../networking/net_cachelines/tcp_sock.rst    |  13 +
+ include/linux/tcp.h                           |  33 +-
+ include/net/netns/ipv4.h                      |   2 +
+ include/net/tcp.h                             |  87 ++-
+ include/net/tcp_ecn.h                         | 663 ++++++++++++++++++
+ include/uapi/linux/tcp.h                      |   7 +
+ net/ipv4/syncookies.c                         |   4 +
+ net/ipv4/sysctl_net_ipv4.c                    |  19 +
+ net/ipv4/tcp.c                                |  29 +-
+ net/ipv4/tcp_input.c                          | 371 ++++++++--
+ net/ipv4/tcp_ipv4.c                           |   8 +-
+ net/ipv4/tcp_minisocks.c                      |  40 +-
+ net/ipv4/tcp_output.c                         | 297 ++++++--
+ net/ipv6/syncookies.c                         |   2 +
+ net/ipv6/tcp_ipv6.c                           |   1 +
+ 16 files changed, 1444 insertions(+), 187 deletions(-)
+ create mode 100644 include/net/tcp_ecn.h
+
+-- 
+2.34.1
+
