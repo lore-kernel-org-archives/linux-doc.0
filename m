@@ -1,148 +1,121 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AE9328000
-	for <linux-doc@vger.kernel.org>; Fri,  4 Jul 2025 08:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EFD302069
+	for <linux-doc@vger.kernel.org>; Fri,  4 Jul 2025 08:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751616066; cv=none; b=P5EYSjz9uq9bHpZHPFXobUPY4KfF1CPoqGCM/MHfoMOlaOA8fZkCU7rmx5EGfSd4A4K9UO42UXO2GFCrf6qBBuBvLGJoQEUa0kPzJNKrn1CJvxQwqmZN1m8apQ1ERSW0O57O0ePg/qpBbPXiJNQBQrjikX8XusKMuhi4zTXaMxw=
+	t=1751616450; cv=none; b=somU386m4/kimj8ug2gSI78ff6arI520+ivjx1d/mjL/lzkQfP72dFicasBLiPAWjiKiXSmWNoTdxTClYHwbliiqDvp1YG5kvgwghIlc+ifFXQh2ZJMZgtL/jrqQYnHYnFvEzqKDQS36sE3HOdBCjME2RXYBUN0Dnc95ut+TqUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751616066; c=relaxed/simple;
-	bh=MavaVcHmHUBcxDXmoAet1o0TO4NeLL674Tn4+KgFr+0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FjBYeLO3sNRjNTrcc3T4ZuGx0nG9tw/6ST+fKk86peoJtYY3aMIofaMTEkuH0Z/b2H6J0pue5Appom/ezYqgj0VFnE1oJfdUpHLxVNqnhZUpFIBgRZmD8nP4QUZ/1+lw4LUn751DyE7Auz+hvF9EX0qYdoS6+cGEKuKi+vOyA3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h3dV36Wk; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
+	s=arc-20240116; t=1751616450; c=relaxed/simple;
+	bh=1eBuMV7zUvgYp+Jj+PhCixLDDt2JcUjDRStB4ZXGl+I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CGSRoBz09V1AyNgPZS4gswmNmXZjESvVLBbfCjKXUSs+PaBr6SwXGle1vRgrLgSCwvR2MtbZKWswHDbGOR02A7+4CSPfdEQWOuVbPWCTqe2B+qPqF3rwAm0cYGBc4nL0J2sUBBHS4C2IfrBBtP9hldx49i7g88HPBIPAi9AkdH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com; spf=pass smtp.mailfrom=6wind.com; dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b=AlPchl/o; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=6wind.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h3dV36Wk"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-312df02acf5so1469830a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Jul 2025 01:01:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b="AlPchl/o"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a577f164c8so82804f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 04 Jul 2025 01:07:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751616063; x=1752220863; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=871LHtfICsP4HWPXTfpyFCO/uBx5NLX+MNBP0IGi11Y=;
-        b=h3dV36WkhJfg7IVGJ5cfIPLI+/dPu6GI998mcsmiWCv6YfuAraP5F3otm1dyYoFYST
-         S4+eQOc5as/fzHVL4FoXp95BBu/8nTeEeo2xQwuXJa57PippiJxpKeYfp9kx3x205lto
-         FmsmrQpip2vrUAe6sbcK3s6yJU4r9W1947KKaHKavt2TiBIQwh1W6g67SBR9NEsA/brM
-         42Gp/p8UhpVQX2dEO7bL9ubp5nCrgnZ7jZ0wIReztGeTEuH+XL63NK4Wg1gEAC0BaDBi
-         sNdmp5GH3OoERCDHx/f4DQvox29fdQ9xTNtcoxveymbo3pUVPrgFvFwspa4r2ub8QkVg
-         2x4A==
+        d=6wind.com; s=google; t=1751616445; x=1752221245; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=YahY59i4thK0MbaLm0aeNNACEbj0hyyZrO3XNw7pxsg=;
+        b=AlPchl/oF0LsBV1CCvgRwVSXrS3+NtZyAfVaDuVj2pGChw+gSIrJnLecNZ0aoYsE3D
+         h9ExPuAWMco9k+Aoma0Wv7hzfgJwz1gVUrgKd3+SqB/yHaknWBEvHq3DnR2a+lDkic7s
+         dC7WctkdldbEp5GQiKL9FXZ3zwC+JyIdK/4LMDKR/Ff+r3K4uuhumzuRELVDtqUkIL7H
+         1vQmUPuybk+WfwwsjFVGNFCU4MEQQbxsrePIJnYvvaqPR+480soQK2jEzl9G0cLkIAAE
+         XsXWDyxIVs9S67oyYgeg2hjZ0B+D7eSVgAlzqUaguIrCI2wL7EIbAtNmdUjHyYm1vEHP
+         7ByQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751616063; x=1752220863;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=871LHtfICsP4HWPXTfpyFCO/uBx5NLX+MNBP0IGi11Y=;
-        b=ZUo2JexcMS+DwD3kuufZDoVAqzLrdaftYJChsFL070zDzB7e2bOMVVN022lpx5SMoe
-         a5m69SXuYNYkd5rhAMCsaVPvUo1WpOI/YL7AJX05brWnYuKo4uphvKEXzEFZEeMjckyE
-         OaF4oANts+KsNbd9/TXwJw+RsTh9tzGk6D27YFplIevbpymAPUgcS6MIYHOF44JQfm+f
-         ODRgbyg9jnzZkPOZbfLQZQmdBm/+e1kulYcZ2QCA9WlqmKF5c+JuCgv1/owAwM8XRRev
-         IU7wj7c6ZXe+7WI7wzc4VohXfxVm3F9iU4gQPhaCdH7udnO6/3ZBfqADUzj7A6uEvwK9
-         J1Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCV98Ll3HBDuDxBNZiwdN7As2PE/oXbIN5hvE496NLcsY1yBKoWRQCTE0816JD+OcGmuGbgES4VofaQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7Qg53kMlWJ6EPAtz5kklOmf340eku3FfIuhACV7DyubAUJ5YX
-	Bl8jsv9oeQ6TleEybFPYw7MASl6VaRUJsrRKODIx2Cg2tIq4SSdSPkUvjdduM1Mw82uGENuLmz0
-	DtC4lRA==
-X-Google-Smtp-Source: AGHT+IGhHuyYYc0DPphHjWVDjLD2G9Tn2pqlyBgLZRGhRjNxi9Z5rH9gHqa6RoAdRw1mJnzsBrDScqF3UVg=
-X-Received: from pjqq14.prod.google.com ([2002:a17:90b:584e:b0:311:ea2a:3919])
- (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3e44:b0:314:2cd2:595d
- with SMTP id 98e67ed59e1d1-31aab856b9bmr3131512a91.8.1751616063071; Fri, 04
- Jul 2025 01:01:03 -0700 (PDT)
-Date: Fri,  4 Jul 2025 08:00:02 +0000
-In-Reply-To: <20250703160154.560239-1-g.goller@proxmox.com>
+        d=1e100.net; s=20230601; t=1751616445; x=1752221245;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YahY59i4thK0MbaLm0aeNNACEbj0hyyZrO3XNw7pxsg=;
+        b=mBuLUIeHAT5L3G7v+kOP9D9lU8I8u/2H9jyObj37slZnpVk1A62l0R57L+myBGqaGo
+         oFDHTwErwoQ1NcBy5Ftx6ghF+DzsNuddFWhtDi1X5Mn7JtZyb+mp9e1WE74245jdkp/C
+         dEVlYkGoqYr2iRT4ROm3zbSOvsVaex4YZ+DZ5qus5o4K//5J8mIZS9P4Z1wBmhzas2MT
+         Cqm9FEMykF4bCfrgn8t7PhXQ8U+bl+LMQklG9tsuQZIcABd77tSWKfMu0R+cm6j1sxbe
+         lboUUPCUvbXZz4630/2y3tiE7XNtVhb0XAnRj+YEkCU4nC+/TlNc9FgQVFAx4Re7F+dq
+         GDUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVLln8D5D6JpRzIWqkZxOzGRzFWIASkWNQZMwKZGpfylp6ivX3IYpn4ErXD5yjA+7mA9X8tIlDvC1o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIZek8yuiJx9Josc/ksJ9HXjb8D/SqkNWoIDN6c2d5z3aVMQQo
+	vFvannMzO3Mh2N7HxhC1ksodQUrc36RDxXr/CYqaodUhL6jaVDiBd4CsQ8PfaGLTEDY=
+X-Gm-Gg: ASbGncvoCFKbatbEBUWPfgSA8d9PbnsHRHoplVuqE3mQj+3UEJ3mlOkz3j2kCBDDyLe
+	k1PddiIAJjPznWURSR5oVA7Up/Ls2XhElFIwWDRCm1Qq+jwhD43xMViNUNBo/fSfBjgUwLHAAoZ
+	+zxVVbneCcEH+Q+KRHw7EaX7xz+JptUULHKP0SpYRJiC8VbaC0lzWz86WEcj5Wx0x5s+udEWN0A
+	nJGW76vmdF3tHoiTCQtH5lqXZsDuDcdwqvWlJYUbL3C860imZlmbDCdndv2zs+slZdHdRSQwI1/
+	Es5gBHWRprhUW3SRCH1dA5dIp1gB+zebrKGScEaFleK/UlNPqlovYPOTQwq836+2xA0qDbLDD2S
+	Rxa1C1udjsDli3EJg5+uSwqrtAJkyhINuypCW/ymlIOI0ikQ27A==
+X-Google-Smtp-Source: AGHT+IGvUqPJX2/oHRKeJh/R8BYxlgLvHF4L6wym82Yd1DLkPZ1EOKWB3QM//ysJ2Jz9iHdPHU3s2w==
+X-Received: by 2002:a05:6000:2d07:b0:3a5:8b43:2c19 with SMTP id ffacd0b85a97d-3b4964fdc81mr281711f8f.4.1751616445437;
+        Fri, 04 Jul 2025 01:07:25 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:b41:c160:33aa:1948:72fc:be83? ([2a01:e0a:b41:c160:33aa:1948:72fc:be83])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454a9be5bbfsm47515335e9.34.2025.07.04.01.07.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Jul 2025 01:07:24 -0700 (PDT)
+Message-ID: <d90c29af-d614-43ea-8bcd-f2c8ced779df@6wind.com>
+Date: Fri, 4 Jul 2025 10:07:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250703160154.560239-1-g.goller@proxmox.com>
-X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-Message-ID: <20250704080101.1659504-1-kuniyu@google.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Reply-To: nicolas.dichtel@6wind.com
 Subject: Re: [PATCH net-next v4] ipv6: add `force_forwarding` sysctl to enable
  per-interface forwarding
-From: Kuniyuki Iwashima <kuniyu@google.com>
-To: g.goller@proxmox.com
-Cc: corbet@lwn.net, davem@davemloft.net, dsahern@kernel.org, 
-	edumazet@google.com, horms@kernel.org, kuba@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, netdev@vger.kernel.org, 
-	nicolas.dichtel@6wind.com, pabeni@redhat.com, shuah@kernel.org, 
-	kuniyu@google.com
-Content-Type: text/plain; charset="UTF-8"
+To: Gabriel Goller <g.goller@proxmox.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Ahern <dsahern@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20250703160154.560239-1-g.goller@proxmox.com>
+From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Content-Language: en-US
+Organization: 6WIND
+In-Reply-To: <20250703160154.560239-1-g.goller@proxmox.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Gabriel Goller <g.goller@proxmox.com>
-Date: Thu,  3 Jul 2025 18:01:53 +0200
-> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-> index 0f1251cce314..ec7fa1e890f1 100644
-> --- a/Documentation/networking/ip-sysctl.rst
-> +++ b/Documentation/networking/ip-sysctl.rst
-> @@ -2292,6 +2292,11 @@ conf/all/forwarding - BOOLEAN
->  proxy_ndp - BOOLEAN
->  	Do proxy ndp.
->  
-> +force_forwarding - BOOLEAN
-> +	Enable forwarding on this interface only -- regardless of the setting on
-> +	``conf/all/forwarding``. When setting ``conf.all.forwarding`` to 0,
-> +	the ``force_forwarding`` flag will be reset on all interfaces.
+Le 03/07/2025 à 18:01, Gabriel Goller a écrit :
+> It is currently impossible to enable ipv6 forwarding on a per-interface
+> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
+> enable it on all interfaces and disable it on the other interfaces using
+> a netfilter rule. This is especially cumbersome if you have lots of
+> interface and only want to enable forwarding on a few. According to the
+> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
+> for all interfaces, while the interface-specific
+> `net.ipv6.conf.<interface>.forwarding` configures the interface
+> Host/Router configuration.
+> 
+> Introduce a new sysctl flag `force_forwarding`, which can be set on every
+> interface. The ip6_forwarding function will then check if the global
+> forwarding flag OR the force_forwarding flag is active and forward the
+> packet.
+> 
+> To preserver backwards-compatibility reset the flag (on all interfaces)
+> to 0 if the net.ipv6.conf.all.forwarding flag is set to 0.
+> 
+> Add a short selftest that checks if a packet gets forwarded with and
+> without `force_forwarding`.
+> 
+> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+> 
+> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
+> ---
+> 
 
-Please update conf/all/forwarding too as it will be stale after
-this patch.
+[snip]
 
-
-> +
->  fwmark_reflect - BOOLEAN
->  	Controls the fwmark of kernel-generated IPv6 reply packets that are not
->  	associated with a socket for example, TCP RSTs or ICMPv6 echo replies).
-> diff --git a/include/linux/ipv6.h b/include/linux/ipv6.h
-> index 5aeeed22f35b..5380107e466c 100644
-> --- a/include/linux/ipv6.h
-> +++ b/include/linux/ipv6.h
-> @@ -19,6 +19,7 @@ struct ipv6_devconf {
->  	__s32		forwarding;
->  	__s32		disable_policy;
->  	__s32		proxy_ndp;
-> +	__s32		force_forwarding;
-
-nit: place force_forwarding just after forwarding.
-
-
->  	__cacheline_group_end(ipv6_devconf_read_txrx);
->  
->  	__s32		accept_ra;
-> @@ -857,6 +859,15 @@ static void addrconf_forward_change(struct net *net, __s32 newf)
->  		idev = __in6_dev_get_rtnl_net(dev);
->  		if (idev) {
->  			int changed = (!idev->cnf.forwarding) ^ (!newf);
-> +			/*
-> +			 * With the introduction of force_forwarding, we need to be backwards
-> +			 * compatible, so that means we need to set the force_forwarding flag
-
-Strictly backward compatibility is not related I think because
-the per iface conf is disabled by default, and this is a new
-behaviour.  Maybe simply say
-
-/* Disabling all.forwarding sets 0 to force_forwarding for all interfaces */
-
-> +			 * on every interface to 0 if net.ipv6.conf.all.forwarding is set to 0.
-> +			 * This allows the global forwarding flag to disable forwarding for
-> +			 * all interfaces.
-> +			 */
-> +			if (newf == 0)
-> +				WRITE_ONCE(idev->cnf.force_forwarding, newf);
->  
->  			WRITE_ONCE(idev->cnf.forwarding, newf);
->  			if (changed)
-> @@ -5719,6 +5730,7 @@ static void ipv6_store_devconf(const struct ipv6_devconf *cnf,
->  	array[DEVCONF_ACCEPT_UNTRACKED_NA] =
->  		READ_ONCE(cnf->accept_untracked_na);
->  	array[DEVCONF_ACCEPT_RA_MIN_LFT] = READ_ONCE(cnf->accept_ra_min_lft);
-> +	array[DEVCONF_FORCE_FORWARDING] = READ_ONCE(cnf->force_forwarding);
->  }
->  
-[...]
->  static inline size_t inet6_ifla6_size(void)
 > @@ -6747,6 +6759,78 @@ static int addrconf_sysctl_disable_policy(const struct ctl_table *ctl, int write
 >  	return ret;
 >  }
@@ -150,13 +123,13 @@ behaviour.  Maybe simply say
 > +static void addrconf_force_forward_change(struct net *net, __s32 newf)
 > +{
 > +	ASSERT_RTNL();
-
-__in6_dev_get_rtnl_net() has the same check so this is not needed.
-
-
 > +	struct net_device *dev;
 > +	struct inet6_dev *idev;
 > +
+
+ASSERT_RTNL() is always put after variables declaration.
+
+
 > +	for_each_netdev(net, dev) {
 > +		idev = __in6_dev_get_rtnl_net(dev);
 > +		if (idev) {
@@ -179,25 +152,16 @@ __in6_dev_get_rtnl_net() has the same check so this is not needed.
 > +	struct net *net = ctl->extra2;
 > +	int *valp = ctl->data;
 > +	loff_t pos = *ppos;
-
-nit: Please keep the reverse xmas tree order.
-https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html#local-variable-ordering-reverse-xmas-tree-rcs
-
 > +	int new_val = *valp;
 > +	int old_val = *valp;
 > +	int ret;
 > +
 > +	struct ctl_table tmp_ctl = *ctl;
-
-same here.
+This declaration should be put with other declarations.
 
 > +
 > +	tmp_ctl.extra1 = SYSCTL_ZERO;
 > +	tmp_ctl.extra2 = SYSCTL_ONE;
-
-As you are copying *ctl, please specify this in addrconf_sysctl[].
-
-
 > +	tmp_ctl.data = &new_val;
 > +
 > +	ret = proc_douintvec_minmax(&tmp_ctl, write, buffer, lenp, ppos);
@@ -229,46 +193,8 @@ As you are copying *ctl, please specify this in addrconf_sysctl[].
 > +
 > +	if (write)
 > +		WRITE_ONCE(*valp, new_val);
-> +	if (ret)
-> +		*ppos = pos;
-> +	return ret;
-> +}
-> +
->  static int minus_one = -1;
->  static const int two_five_five = 255;
->  static u32 ioam6_if_id_max = U16_MAX;
-> @@ -7217,6 +7301,13 @@ static const struct ctl_table addrconf_sysctl[] = {
->  		.extra1		= SYSCTL_ZERO,
->  		.extra2		= SYSCTL_TWO,
->  	},
-> +	{
-> +		.procname	= "force_forwarding",
-> +		.data		= &ipv6_devconf.force_forwarding,
-> +		.maxlen		= sizeof(int),
-> +		.mode		= 0644,
-> +		.proc_handler	= addrconf_sysctl_force_forwarding,
+Why not putting this in the above block?
+And maybe under the rtnl_lock to avoid race if two users change the value at the
+same time.
 
-Here for extra{1,2}.
-
-
-> +	},
->  };
->  
->  static int __addrconf_sysctl_register(struct net *net, char *dev_name,
-> diff --git a/net/ipv6/ip6_output.c b/net/ipv6/ip6_output.c
-> index 7bd29a9ff0db..440b9efced72 100644
-> --- a/net/ipv6/ip6_output.c
-> +++ b/net/ipv6/ip6_output.c
-> @@ -509,7 +509,8 @@ int ip6_forward(struct sk_buff *skb)
->  	u32 mtu;
->  
->  	idev = __in6_dev_get_safely(dev_get_by_index_rcu(net, IP6CB(skb)->iif));
-> -	if (READ_ONCE(net->ipv6.devconf_all->forwarding) == 0)
-> +	if (idev && !READ_ONCE(idev->cnf.force_forwarding) &&
-> +	    !READ_ONCE(net->ipv6.devconf_all->forwarding))
-
-Now this ignores devconf_all when !idev whose dev was not
-found or has not had a valid mtu.
-
-if (!READ_ONCE(net->ipv6.devconf_all->forwarding) &&
-    (!idev || !READ_ONCE(idev->cnf.force_forwarding)))
+Nicolas
