@@ -1,179 +1,137 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B975190676;
-	Fri,  4 Jul 2025 17:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214E657C9F
+	for <linux-doc@vger.kernel.org>; Fri,  4 Jul 2025 17:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751649630; cv=none; b=r/bYKjvNsh3gpkzFlXzjcPWoWmMTE5GtkTXRDJoga2tRmu+rcEYuKxcB/2EFhKVLvTNaXzl4ZVSBF70wW4QQ5ZUvD/IcoIJf9KWLala/Gr/zV3xq2BDx6jQq8Sk/nN6TgsVzM1ifQeYL4+vEHS3FLyXRqmRoDZYIVoife92MdMY=
+	t=1751650424; cv=none; b=g89aURZnDbahtXiGZy+/jU5I0BV+M9RW+catlJaIABOA5C7TNeYZ1nNbn7cLjXuIstewImTCTC/YWRxFVkIkD8gRY5Jy53fwr7hU+nIqWtdNy5I8llVVxOlBiDaK899cVX2VF3lmZhQKVVI1hoYAUdPKQA7x2JAGZUeniL8+6Kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751649630; c=relaxed/simple;
-	bh=GLfpwraNpv7TDemWD/4BGQNIMoHUGgKAjyu4UUDh5O8=;
+	s=arc-20240116; t=1751650424; c=relaxed/simple;
+	bh=g370+J4oAIlc+gSe8sWAr1OOMmqeWNX9Dx+iIVgVPY0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+I7jXbaPmb4w59w6rSEZbdkpcTIryNTp6VGNjRfz50iXEzcjEktO5GPQTLM+jmFPoKiVZFxz5awNKk7j0y1kSw9DFJGHwVaaq6GyAovP/R9jsfaGHd3Fmrd7uk6EVRevarG/PkkDHxlMnmHRB+dYHRYWqm7pCaFFzV79dd3POQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 64274293B;
-	Fri,  4 Jul 2025 10:20:14 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 30CF53F66E;
-	Fri,  4 Jul 2025 10:20:25 -0700 (PDT)
-Date: Fri, 4 Jul 2025 18:20:22 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	James Clark <james.clark@linaro.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Leo Yan <leo.yan@arm.com>, linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v23 0/4] arm64/perf: Enable branch stack sampling
-Message-ID: <aGgNVhoqiDcEsyY3@J2N7QTR9R3>
-References: <20250611-arm-brbe-v19-v23-0-e7775563036e@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gt14J5HbZP8BMqG5rGjLjNnxEwYJWgocyGI+rczM7cnnor86dciuNGjCwJn1olIzfu/nDNSkXCoQMOvkrf3rdU1j0PvDW1r/3eAE/i/P+ZMl3rte0MP24F7ljyrXRskn6aXjF8JwcJJOFqGFFCsHvoVJ4hDxA7UTlyU9BWR8v3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=fYGjMWzd; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="fYGjMWzd"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-73c89db3dfcso229252a34.3
+        for <linux-doc@vger.kernel.org>; Fri, 04 Jul 2025 10:33:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1751650422; x=1752255222; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FwFrEJSW/XDP4k23qdSFdBRgs+IdGgPj8TzUNPuTlxM=;
+        b=fYGjMWzd291KbWvvcxpjoym9F9lZ31SIkH55w12X7BjAGN1POP39gj+NKSDoXRm5fC
+         kI7rgWCPScmduTiDbWaUTmDPGLpiY/juuMn2MVmaEsUv+0GXf9g8wvDDpuESrlBdL2en
+         YHT0MAyVmPdmOIxzMMbTXGipzPAZzEmOwztx4fLnCaD2BJiuPDD+MZXx++zcSGo5MRfU
+         WRZGG+l0tNFFbfZCCoL/HsXn6SGuJjLWOaf0Uq0kjsKvV70oN+nktK8nKUxP9Obv7YrZ
+         hwotpBMeTqN/xIb7+7YiVDu6GPGw8zvWP9olBXUSkX+mZNgaGhzlSiPieBqAdotT75kN
+         drwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751650422; x=1752255222;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FwFrEJSW/XDP4k23qdSFdBRgs+IdGgPj8TzUNPuTlxM=;
+        b=aeZ8S7ijRoTd6rL2R9ZSp4w876d6eWHjLG9idFH6csjJDuFOwijHQPP89qaKRTCOKp
+         iGCqAnMkwDevlCeoB8eEpYOM9XJh7hPiGEA8w4hEzQhYvONtMmvBImQeF3sgFgdNbwFG
+         jawN9F/EF4Ts7bHAuxKpP+wMAtM2qPIiot5XrmOuUky53B4O+g6Z+lXcv3QZsNGdKPOo
+         bjKPMcKRLmrQAx0qXODlEz6kKI5FinAXZnXOh83fwwMhtTVdn1AtifHzKub8kv8BFs06
+         jizfcVwlZ7wZzd0ylttkLOYquggYoFnwyvOQ61WLnTyUet5tW0KR8mt8SRshsuXOSJ4j
+         g4ew==
+X-Forwarded-Encrypted: i=1; AJvYcCVVK/bTFnimirmJP6xtc44MrOMJtIZh61jiMDJbITHJQ7eIQ3KDPIrbcuLNCPvEdzudDur88QexcSw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAYTnLJ0RtPHiYiTCi4P3o70DeT77TsZ6j1xeZKPHpcZhIvFfh
+	52a6zGtyUTV/s7RwAuSSISzTKBqhDqGjBiDPtLXBmOVh0E/Ms7F9e7xsAd8uVnNxF94=
+X-Gm-Gg: ASbGncv9DjHJxKu0HCrqBhgteU2F6V9oPS/ZUNztf2AksIcpMe4terM0CveorJEATsd
+	MUQVXRrk7usLc8izv4LKJORp/Mit+/6tMuKjlRvwC/Wwi4Q3vB/nMndW9Kom6jSHglXEs9ZiBCh
+	VDzMPi4a8Y5TfI1Ar015QC6CDM0wu/lFGwKf9e+bhgIQ8Y87DxMITAymRnYv6OMxF+LB4JAKdI4
+	LdOUlxpCqH1ovk5B1dO1oiSYQVGGo42v7njK9ymjawoadMeXeeWAGG75ep90tmd9YVqZImYV5AS
+	UJ7y35MRsyVO3RfOZUxqbWxLrseWbWOpJHY2
+X-Google-Smtp-Source: AGHT+IG8jf/arRNWeZ/V27MeVDPv9q8tOH67GQicakC0hhED8pz1NEmRiCLJkYYuEA/SMRFjhnAmhg==
+X-Received: by 2002:a05:6830:2655:b0:72b:9bb3:67cf with SMTP id 46e09a7af769-73ca12538afmr2504308a34.9.1751650422034;
+        Fri, 04 Jul 2025 10:33:42 -0700 (PDT)
+Received: from ziepe.ca ([130.41.10.202])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73c9f93c9a9sm444799a34.52.2025.07.04.10.33.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jul 2025 10:33:41 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1uXkI8-00000005znR-19BJ;
+	Fri, 04 Jul 2025 14:33:40 -0300
+Date: Fri, 4 Jul 2025 14:33:40 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "pasha.tatashin" <pasha.tatashin@soleen.com>
+Cc: Benjamin LaHaise <bcrl@kvack.org>, pratyush@kernel.org,
+	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
+	rppt@kernel.org, dmatlack@google.com, rientjes@google.com,
+	corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v1 00/32] Live Update Orchestrator
+Message-ID: <20250704173340.GL904431@ziepe.ca>
+References: <20250625231838.1897085-1-pasha.tatashin@soleen.com>
+ <20250625232653.GJ369@kvack.org>
+ <CA+CK2bAsz4Zz2_Kp8QMKxG5taY52ykhhykROd0di85ax5eeOrw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250611-arm-brbe-v19-v23-0-e7775563036e@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bAsz4Zz2_Kp8QMKxG5taY52ykhhykROd0di85ax5eeOrw@mail.gmail.com>
 
-Hi Rob,
+On Wed, Jun 25, 2025 at 07:44:12PM -0400, pasha.tatashin wrote:
+> On Wed, Jun 25, 2025 at 7:26 PM Benjamin LaHaise <bcrl@kvack.org> wrote:
+> >
+> > FYI: Every one of your emails to the list for this series was bounced by
+> > all the recipients using @gmail.com email addresses.
+> >
+> >                 -ben (owner-linux-mm)
+> 
+> This is extremely annoying, I will need to figure out why this is
+> happening. soleen.com uses google workspace.
 
-Thanks again for this.
+b4 also seems unhappy with your mail:
 
-On Wed, Jun 11, 2025 at 01:01:10PM -0500, Rob Herring (Arm) wrote:
-> This series enables perf branch stack sampling support on arm64 via a 
-> v9.2 arch feature called Branch Record Buffer Extension (BRBE). Details 
-> on BRBE can be found in the Arm ARM[1] chapter D18.
-> 
-> I've picked up this series from Anshuman. v19 and later versions have 
-> been reworked quite a bit by Mark and myself. The bulk of those changes 
-> are in patch 5.
+  X [PATCH v1 1/32] kho: init new_physxa->phys_bits to fix lockdep
+    X BADSIG: DKIM/soleen-com.20230601.gappssmtp.com
 
-Aside from the comments on patch 4, this all looks good to me, and for
-the series:
+Though I spent a few mins trying to guess why and came up empty. The
+mail servers thought the DKIM was OK when they accepted it..
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=VxWLPP8s; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="VxWLPP8s"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e8259b783f6so264959276.3
+        for <linux-doc@vger.kernel.org>; Wed, 25 Jun 2025 16:18:45 -0700 (PDT)
 
-I assume that Will will pick this up soon.
-
-Mark.
-
-> 
-> A git branch is here[2].
-> 
-> [1] https://developer.arm.com/documentation/ddi0487/latest/
-> [2] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git arm/brbe-v23
-> 
-> v23:
->  - Rebase on v6.16-rc1 dropping already applied el2_setup.h clean-ups
->  - Drop the SYSCALL fixup and convert all BRBE CALL events to SYSCALL
-> 
-> v22:
->  - https://lore.kernel.org/all/20250520-arm-brbe-v19-v22-0-c1ddde38e7f8@kernel.org/
->  - New patch reworking the labels in el2_setup.h
->  - Move branch stack disabling after armpmu_stop() in armpmu_del()
->  - Fix branch_records_alloc() to work on heterogeneous systems
->  - Make setting .sched_task function ptr conditional on BRBE support
->  - Reword booting.rst section name (s/feature/the/) and move next to
->    other PMU related features instead of in the middle of SME features.
->  - Drop setting SYS_BRBCR_EL1
->  - Drop CONFIG_ARM64_BRBE ifdef
->  - Rework initialization of HFGITR_EL2
-> 
-> v21:
->  - https://lore.kernel.org/r/20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org
->  - Drop clean-up patches 1-7 already applied
->  - Rebase on v6.15-rc1
-> 
-> v20:
->  - https://lore.kernel.org/r/20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org
->  - Added back some of the arm64 specific exception types. The x86 IRQ 
->    branches also include other exceptions like page faults. On arm64, we 
->    can distinguish the exception types, so we do. Also, to better 
->    align with x86, we convert 'call' branches which are user to kernel 
->    to 'syscall'.
->  - Only enable exceptions and exception returns if recording kernel
->    branches (matching x86)
->  - Drop requiring event and branch privileges to match
->  - Add "branches" caps sysfs attribute like x86
->  - Reword comment about FZP and MDCR_EL2.HPMN interaction
->  - Rework BRBE invalidation to avoid invalidating in interrupt handler
->    when no handled events capture the branch stack (i.e. when there are 
->    multiple users).
->  - Also clear BRBCR_ELx bits in brbe_disable(). This is for KVM nVHE 
->    checks if BRBE is enabled.
->  - Document that MDCR_EL3.SBRBE can be 0b01 also
-> 
-> v19:
->  - https://lore.kernel.org/all/20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org/
->  - Drop saving of branch records when task scheduled out (Mark). Make 
->    sched_task() callback actually get called. Enabling requires a call 
->    to perf_sched_cb_inc(). So the saving of branch records never 
->    happened.
->  - Got rid of added armpmu ops. All BRBE support is contained within 
->    pmuv3 code.
->  - Fix freeze on overflow for VHE
->  - The cycle counter doesn't freeze BRBE on overflow, so avoid assigning
->    it when BRBE is enabled.
->  - Drop all the Arm specific exception branches. Not a clear need for
->    them.
->  - Fix handling of branch 'cycles' reading. CC field is
->    mantissa/exponent, not an integer.
->  - Rework s/w filtering to better match h/w filtering
->  - Reject events with disjoint event filter and branch filter or with 
->    exclude_host set
->  - Dropped perf test patch which has been applied for 6.14
->  - Dropped patch "KVM: arm64: Explicitly handle BRBE traps as UNDEFINED"
->    which has been applied for 6.14
-> 
-> v18:
->  - https://lore.kernel.org/all/20240613061731.3109448-1-anshuman.khandual@arm.com/
-> 
-> For v1-v17, see the above link. Not going to duplicate it all here...
-> 
-> Signed-off-by: "Rob Herring (Arm)" <robh@kernel.org>
-> ---
-> ---
-> Anshuman Khandual (3):
->       arm64/sysreg: Add BRBE registers and fields
->       arm64: Handle BRBE booting requirements
->       KVM: arm64: nvhe: Disable branch generation in nVHE guests
-> 
-> Rob Herring (Arm) (1):
->       perf: arm_pmuv3: Add support for the Branch Record Buffer Extension (BRBE)
-> 
->  Documentation/arch/arm64/booting.rst |  21 +
->  arch/arm64/include/asm/el2_setup.h   |  71 +++-
->  arch/arm64/include/asm/kvm_host.h    |   2 +
->  arch/arm64/include/asm/sysreg.h      |  16 +-
->  arch/arm64/kvm/debug.c               |   4 +
->  arch/arm64/kvm/hyp/nvhe/debug-sr.c   |  32 ++
->  arch/arm64/kvm/hyp/nvhe/switch.c     |   2 +-
->  arch/arm64/tools/sysreg              | 132 ++++++
->  drivers/perf/Kconfig                 |  11 +
->  drivers/perf/Makefile                |   1 +
->  drivers/perf/arm_brbe.c              | 798 +++++++++++++++++++++++++++++++++++
->  drivers/perf/arm_brbe.h              |  47 +++
->  drivers/perf/arm_pmu.c               |  16 +-
->  drivers/perf/arm_pmuv3.c             | 125 +++++-
->  include/linux/perf/arm_pmu.h         |   8 +
->  15 files changed, 1265 insertions(+), 21 deletions(-)
-> ---
-> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-> change-id: 20250129-arm-brbe-v19-24d5d9e5e623
-> 
-> Best regards,
-> -- 
-> Rob Herring (Arm) <robh@kernel.org>
-> 
+Jason
