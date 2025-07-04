@@ -1,150 +1,95 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CBD2E3716;
-	Fri,  4 Jul 2025 20:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0E6A2D;
+	Fri,  4 Jul 2025 21:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751662421; cv=none; b=V1YvbTyTgA1CiHLesXFNLBebzn96a9vTc/1bVieIvzsrCqy8Et1pzh5FaADrYQ2Rr/hLSnSVJDq0UW8qaFT3Rt/1EXTIMrYOhI8+ZQua2xRtS7qGX0GcJUdfhPraDnj5pnUh3FUXuztT30/GYduZ6dLU3LV6yqAFgmRzk8vFAe4=
+	t=1751663186; cv=none; b=bbwX0oW82X3pOn0ZRXyXd7uYnu6tUzuac9oZZsdpwYAcsXjUt56eK9BJrZs5iLGFbXttsm73qPdefg9yejDsVSOlVaxRU1HnNYz4o3agk7lv5GjgHymA/gBvyrPzG/MJoM/yrl4hjIkBasSOLrJ65c9Rl1qhD6roZsm/wbKMU9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751662421; c=relaxed/simple;
-	bh=BTNkjQ5GbfyHC7QPGVC3V8tMQFcMhMmddt0oFWDYRKs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J056kTRcFh5SC6/K4AqjaiCIZxrSbcaL2/RVZVN3yrRKS3EK2TIWk3Gy+W9htUv+ba29DkKhn4C/gdOUVGPbsnp0Mm6WEbP0+R5JJdGm25kD5nq9EU2xdD5b104bGb00clatXXXDRcekaPLUdwQRiahrcqx9S81cTmNwno759YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=t5q+s07T; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1751663186; c=relaxed/simple;
+	bh=f1hFiasjHfmlcHU6lmk4NYAher/zzJdd1u4QQBrYVJ8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=NBocScyDG87bjOlrMQLdM5GxNZKcLEgdftYuhIT3kOnTeeqzR9ScxrO5Ltg35qceY/7AKBkuSHzRIJ7AOHhq5N5CqoHgd+YlD2CYQfwH948BCb639qaf8AXic9Mm8cHwigv2uxRbDYAUtxjBUHlrhQq6abC1ABhB5pncGaVFmiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=y88kB/pc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="t5q+s07T"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=A7X24UXs2YPGFdhXYlpKpMX/c1mmkiA+2yfvylAh7Ug=; b=t5q+s07TttMKG4/+zCs78kw6W6
-	95jiK1P9G126YD/XBJI/V2sQsiJJKz4Gog3URjjf3Ink0zkv5BNsvdH0IdWVr+sIWHoZW6yQn7Olo
-	BPDHptBKidGui7njgNcrhZ9sS1eDz6AmtEBR8LBLKnbTjGV+VGS6NB1VmyLAh5NsOaSl92klfrxiE
-	APKdDfLyQNNF5zw4rbTV5GK5yFev1qdcIXxaXS3UeQ6kFp7l/9lfkql/hWslxSrfVQMK7QC0HGaP3
-	Yw8JLf7xA9B+oTdjPmcZfHFH8C4FaIikKV08TZMEOKH1QK6CYZWiUvlJc7ybk7nRXr2wyifEGsAD7
-	57YDPA4Q==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXnPa-00000000iWy-0uIj;
-	Fri, 04 Jul 2025 20:53:34 +0000
-Message-ID: <ef6e81fd-e609-41fd-b8b1-df629aa61b0f@infradead.org>
-Date: Fri, 4 Jul 2025 13:53:30 -0700
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="y88kB/pc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27406C4CEE3;
+	Fri,  4 Jul 2025 21:06:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1751663185;
+	bh=f1hFiasjHfmlcHU6lmk4NYAher/zzJdd1u4QQBrYVJ8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=y88kB/pcD4E4EqtT4CkMHjZGaNV/MSL+BfunpDneJYf0u7QKpcXsSW9s14r8BkNmx
+	 WaI24KqTkwL1L2kVQDd0U0gUqzKoB3oOSJKBdiYtW2qefak2kybpZOsGNd5sTK4MTP
+	 njKj4JxNYga3WE9rzmNqEaH7gILlxUtdajr7p1I8=
+Date: Fri, 4 Jul 2025 14:06:23 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
+ Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Jerrin Shaji George
+ <jerrin.shaji-george@broadcom.com>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
+ <eperezma@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Zi Yan
+ <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
+ <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
+ <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Minchan
+ Kim <minchan@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner
+ <hannes@cmpxchg.org>, Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard
+ <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Xu Xin
+ <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, Miaohe
+ Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>, Harry
+ Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Shakeel
+ Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH v2 00/29] mm/migration: rework movable_ops page
+ migration (part 1)
+Message-Id: <20250704140623.d6b9a013984bc2a109dd4dc9@linux-foundation.org>
+In-Reply-To: <20250704102524.326966-1-david@redhat.com>
+References: <20250704102524.326966-1-david@redhat.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: document linked lists
-To: Jonathan Corbet <corbet@lwn.net>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: kernel@collabora.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250702-linked-list-docs-v2-1-e36532f4b638@collabora.com>
- <874ivtmkk2.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <874ivtmkk2.fsf@trenco.lwn.net>
+Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+On Fri,  4 Jul 2025 12:24:54 +0200 David Hildenbrand <david@redhat.com> wrote:
 
-Just a few comments while I am still reviewing:
-
-
-On 7/3/25 7:10 AM, Jonathan Corbet wrote:
-> Thanks for doing this!
+> In the future, as we decouple "struct page" from "struct folio", pages
+> that support "non-lru page migration" -- movable_ops page migration
+> such as memory balloons and zsmalloc -- will no longer be folios. They
+> will not have ->mapping, ->lru, and likely no refcount and no
+> page lock. But they will have a type and flags 🙂
 > 
-> I have a few comments, most of which are just nits.  I think we should
-> be able to get this in for 6.17.
+> This is the first part (other parts not written yet) of decoupling
+> movable_ops page migration from folio migration.
 > 
-> Nicolas Frattaroli <nicolas.frattaroli@collabora.com> writes:
+> In this series, we get rid of the ->mapping usage, and start cleaning up
+> the code + separating it from folio migration.
 > 
-
-
->> diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..b0586056abb04d2bcc4518f7238ff9a94d3dd774
->> --- /dev/null
->> +++ b/Documentation/core-api/list.rst
->> @@ -0,0 +1,847 @@
->> +.. SPDX-License-Identifier: GPL-2.0+
->> +
->> +=====================
->> +Linked Lists in Linux
->> +=====================
->> +
->> +:Author: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-
+> Migration core will have to be further reworked to not treat movable_ops
+> pages like folios. This is the first step into that direction.
 > 
-> I do wonder if you should start by showing the list_head structure
-> itself?  It is simple enough and not a secret that needs to be kept.
+> Heavily tested with virtio-balloon and lightly tested with zsmalloc
+> on x86-64. Cross-compile-tested.
 
-+1
-
->> +Declaring and initializing a list
->> +---------------------------------
->> +
->> +A doubly-linked list can then be declared as just another ``struct list_head``,
->> +and initialised with the LIST_HEAD_INIT() macro during initial assignment, or
->> +with the INIT_LIST_HEAD() function later:
->> +
->> +.. code-block:: c
->> +
->> +  struct clown_car {
->> +          int tyre_pressure[4];
->> +          struct list_head clowns;        /* Looks like a node! */
->> +  };
->> +
->> +  /* ... Somewhere later in our driver ... */
->> +
->> +  static int circus_init(struct circus_priv *circus)
->> +  {
->> +          struct clown_car other_car = {
->> +                .tyre_pressure = {10, 12, 11, 9},
->> +                .clowns = LIST_HEAD_INIT(other_car.clowns)
->> +          };
->> +
->> +          circus->car.clowns = INIT_LIST_HEAD(&circus->car.clowns);
-
-linked_lists.c: In function ‘circus_init’:
-linked_lists.c:35:30: error: invalid use of void expression
-   35 |           circus->car.clowns = INIT_LIST_HEAD(&circus->car.clowns);
-
-due to
-static inline void INIT_LIST_HEAD(struct list_head *list);
-
-Should it just be:
-		INIT_LIST_HEAD(&circus->car.clowns);
-?
-
->> +
->> +          return 0;
->> +  }
->> +
->> +A further point of confusion to some may be that the list itself doesn't really
->> +have its own type. The concept of the entire linked list and a
->> +``struct list_head`` member that points to other entries in the list are one and
->> +the same.
-
-> [...]
-> 
-> 
->> +Further reading
->> +---------------
->> +
->> +* `How does the kernel implements Linked Lists? - KernelNewbies <https://kernelnewbies.org/FAQ/LinkedLists>`_
-> 
-> I do still think you should move the kerneldoc for lists over from
-> kernel-api.rst; just tack it onto the end here.
-
-Ack.
-
--- 
-~Randy
+Thanks, I added this to mm-new.  I suppressed the 1363 mm-commits
+emails to avoid breaking the internet.
 
