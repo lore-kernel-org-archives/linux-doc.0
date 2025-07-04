@@ -1,353 +1,108 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B8F302CB0;
-	Fri,  4 Jul 2025 13:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0519A2FC3DA;
+	Fri,  4 Jul 2025 13:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751635245; cv=none; b=IPmK2dYkYPUFVKRKNWGSeIVk6/POjRf7i/IR7JGFLmIly4o2YZOSUDVG+fwKBCpVQs64D31Vfj9U2r20GE5Dg4LiFuB2Vx55kYieHX+95LByl2vi88j7SDyv6IcxkDotdK9hokIdkVSizb41U9u6lQ7HnA5vJeQ9W7aU5REEuqY=
+	t=1751635548; cv=none; b=T5/E+FYmxl+4/Kn9rESTu3Ud6eilzFVIanuK9qZH1Iyyndqln50PfhkyGVKNe72vlHasWu+0Wn7XgmvQxHh9c8+uBur7Xef9DfnBOUe0GtPv58o78WfF+2Jumt2o/tktQO6GuR/EfaFrGe/swXSepVk9UK9bREVM5EQctlUBir0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751635245; c=relaxed/simple;
-	bh=r/zZfk+rBckUaqy0G8l9RA51eIYy10yBBUZBXpfCWZ4=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YlNbpACYsI5c6NRqkOzcQ3D8hWqOaSgt7yEhgxzmdLupEhqgatm7dTuYQxog1I1Ay4kBdd9y801i4FACrVpoCy6fyUS8olwWC23wEeHtlzx4dv27yH5t/EG6T8khEqEDz4Ou9RHUYbs/oqGLv7sWxkiOCeadZBYNPrXNlVpcjX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bYZ3x2mjWz6M4jr;
-	Fri,  4 Jul 2025 21:19:41 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 03F1E1402A5;
-	Fri,  4 Jul 2025 21:20:40 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 4 Jul
- 2025 15:20:38 +0200
-Date: Fri, 4 Jul 2025 14:20:37 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: John Groves <John@Groves.net>
-CC: Dan Williams <dan.j.williams@intel.com>, Miklos Szeredi
-	<miklos@szeredb.hu>, Bernd Schubert <bschubert@ddn.com>, John Groves
-	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Matthew
- Wilcox" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Darrick J
- . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, "Jeff
- Layton" <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, Amir Goldstein <amir73il@gmail.com>, "Stefan
- Hajnoczi" <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 14/18] famfs_fuse: GET_DAXDEV message and daxdev_table
-Message-ID: <20250704142037.00002717@huawei.com>
-In-Reply-To: <20250703185032.46568-15-john@groves.net>
-References: <20250703185032.46568-1-john@groves.net>
-	<20250703185032.46568-15-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1751635548; c=relaxed/simple;
+	bh=WZ6R18pGSQgVZQ5nM4CDWt/kvcNBd2S5oeSCfDRieWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CgGjpIVNR6/wfHONWNKoj1O8YCUKlN9r5COkKy9dO+Z4TNEwZ38b0AJK6nuOQ+m0D9Olg4xn6Zzvm20dKZQce7Xs6qEkqtF7RsI9H1vpRakg+YzVigE2yNvlXvDmlJRNp4wwl0e4eDanTaJcHc+5kG2kbgyzMziqcktMuasPAfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ktxANxFj; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ktxANxFj"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D837D40E0220;
+	Fri,  4 Jul 2025 13:25:42 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id HAYByO302iK3; Fri,  4 Jul 2025 13:25:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1751635539; bh=di8xIvp3Q2hISLCL6sb8IOiBmxTCpK0x0R93L5h+H68=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ktxANxFjMOrOjbk0N7U9BrItvwDX+HeVeOdeZlVBWlOKHK8+u2wfohPBNKS9u3vkL
+	 Xs4R5kloxysIWvsCiHmo5zUC6YaO84gwEtHb7/d3XVVRtet7eT36HJ7HXtoP14Hl38
+	 m6SJVdShOFceXHh/BNCIE3cpExW3TNu9H75s0s7lc71L7ZFb6eDckJwKOXqiN408Kc
+	 xkDT4ZrUB9+gUr/woRYRvdpDyHBEQIeowPte9NG+So3NpOpdwuIRp1BfNY3u7wDrDH
+	 N/isX5gitwMkvNrCyXWN6QHf574mi7JhX9AJCneMZFvBNURx3cs7NGBMxNq3gL3elU
+	 9OisYTA/cJHjK4nNUaifqxPq3gtQeXrfOVtqxrcueSEGI75GBzIJPzj317IqeIumsT
+	 cT+6u4Xhjl0XhQnMAnQlp1nJbwhQtm5X/bzrlk20B4xIJZbhSY4WPy+Wwyu9YH6krM
+	 UwST0Yqj3vrcYReD9wn5SswFutdYug/mTwC5m+XNQUhjkh0NTN+mRgp9YKzau7JbGP
+	 p5P2LaTgvlAQ3eJl402oE+bp8TyEmbBpGN76nytx7QjiuJxRFqgUwOTwr/9q8CJCJ8
+	 JJLrlxwXAaWi/l0EnPVEtjutGvWJS9CXUZOlzozP2/VylvhCF+q2ghIu5vm9sD2RD2
+	 2qTmYQzFVkDx0LDxGRMzenZY=
+Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7505B40E00DE;
+	Fri,  4 Jul 2025 13:25:23 +0000 (UTC)
+Date: Fri, 4 Jul 2025 15:25:18 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Breno Leitao <leitao@debian.org>
+Cc: Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, tony.luck@intel.com,
+	rafael@kernel.org, Alexei Starovoitov <ast@kernel.org>,
+	kbusch@kernel.org, rmikey@meta.com, kuba@kernel.org,
+	linux-edac@vger.kernel.org, mchehab@kernel.org,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 0/2] panic: taint flag for recoverable hardware errors
+Message-ID: <20250704132518.GDaGfWPnAZI2FY8EnM@fat_crate.local>
+References: <20250704-taint_recovered-v1-0-7a817f2d228e@debian.org>
+ <20250704111954.GBaGe42gY5_xADb17Z@fat_crate.local>
+ <aGfFyktcuRV73Bl8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aGfFyktcuRV73Bl8@gmail.com>
 
-On Thu,  3 Jul 2025 13:50:28 -0500
-John Groves <John@Groves.net> wrote:
+On Fri, Jul 04, 2025 at 01:15:06PM +0100, Breno Leitao wrote:
+> The information is not there to show correlation of broken hardware,
+> but,
 
-> * The new GET_DAXDEV message/response is enabled
-> * The command it triggered by the update_daxdev_table() call, if there
->   are any daxdevs in the subject fmap that are not represented in the
->   daxdev_dable yet.
-> 
-> Signed-off-by: John Groves <john@groves.net>
+I didn't say that.
 
-More drive by stuff you can ignore for now if you like.
+I say that users will misunderstand this taint. Like all the other things we
+have issued wrt RAS - people jump to conclusions without even reading english
+text. Not to even talk about taint flags.
 
-> ---
->  fs/fuse/famfs.c           | 227 ++++++++++++++++++++++++++++++++++++++
->  fs/fuse/famfs_kfmap.h     |  26 +++++
->  fs/fuse/fuse_i.h          |   1 +
->  fs/fuse/inode.c           |   4 +-
->  fs/namei.c                |   1 +
->  include/uapi/linux/fuse.h |  18 +++
->  6 files changed, 276 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-> index 41c4d92f1451..f5e01032b825 100644
-> --- a/fs/fuse/famfs.c
-> +++ b/fs/fuse/famfs.c
+You having to explain it here basically proves my point.
 
-> +/**
-> + * famfs_fuse_get_daxdev() - Retrieve info for a DAX device from fuse server
-> + *
-> + * Send a GET_DAXDEV message to the fuse server to retrieve info on a
-> + * dax device.
-> + *
-> + * @fm:     fuse_mount
-> + * @index:  the index of the dax device; daxdevs are referred to by index
-> + *          in fmaps, and the server resolves the index to a particular daxdev
-> + *
-> + * Returns: 0=success
-> + *          -errno=failure
-> + */
-> +static int
-> +famfs_fuse_get_daxdev(struct fuse_mount *fm, const u64 index)
-> +{
-> +	struct fuse_daxdev_out daxdev_out = { 0 };
-> +	struct fuse_conn *fc = fm->fc;
-> +	struct famfs_daxdev *daxdev;
-> +	int err = 0;
-> +
-> +	FUSE_ARGS(args);
-> +
-> +	/* Store the daxdev in our table */
-> +	if (index >= fc->dax_devlist->nslots) {
-> +		pr_err("%s: index(%lld) > nslots(%d)\n",
-> +		       __func__, index, fc->dax_devlist->nslots);
-> +		err = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	args.opcode = FUSE_GET_DAXDEV;
-> +	args.nodeid = index;
-> +
-> +	args.in_numargs = 0;
-> +
-> +	args.out_numargs = 1;
-> +	args.out_args[0].size = sizeof(daxdev_out);
-> +	args.out_args[0].value = &daxdev_out;
-> +
-> +	/* Send GET_DAXDEV command */
-> +	err = fuse_simple_request(fm, &args);
-> +	if (err) {
-> +		pr_err("%s: err=%d from fuse_simple_request()\n",
-> +		       __func__, err);
-> +		/*
-> +		 * Error will be that the payload is smaller than FMAP_BUFSIZE,
-> +		 * which is the max we can handle. Empty payload handled below.
-> +		 */
-> +		goto out;
-> +	}
-> +
-> +	down_write(&fc->famfs_devlist_sem);
+> For instance, reading from `cat /proc/sys/kernel/tainted` might be
+> *way easier* than parsing *thousands* different RAS tools logs for you
+> to find what is going on. 
 
-Worth thinking about guard() in this code in general.
-Simplify some of the error paths at least.
+Thousands huh? I know of only two but maybe you will enlighten me.
 
-> +
-> +	daxdev = &fc->dax_devlist->devlist[index];
-> +
-> +	/* Abort if daxdev is now valid */
-> +	if (daxdev->valid) {
-> +		up_write(&fc->famfs_devlist_sem);
-> +		/* We already have a valid entry at this index */
-> +		err = -EALREADY;
-> +		goto out;
-> +	}
-> +
-> +	/* Verify that the dev is valid and can be opened and gets the devno */
-> +	err = famfs_verify_daxdev(daxdev_out.name, &daxdev->devno);
-> +	if (err) {
-> +		up_write(&fc->famfs_devlist_sem);
-> +		pr_err("%s: err=%d from famfs_verify_daxdev()\n", __func__, err);
-> +		goto out;
-> +	}
-> +
-> +	/* This will fail if it's not a dax device */
-> +	daxdev->devp = dax_dev_get(daxdev->devno);
-> +	if (!daxdev->devp) {
-> +		up_write(&fc->famfs_devlist_sem);
-> +		pr_warn("%s: device %s not found or not dax\n",
-> +			__func__, daxdev_out.name);
-> +		err = -ENODEV;
-> +		goto out;
-> +	}
-> +
-> +	daxdev->name = kstrdup(daxdev_out.name, GFP_KERNEL);
-> +	wmb(); /* all daxdev fields must be visible before marking it valid */
-> +	daxdev->valid = 1;
-> +
-> +	up_write(&fc->famfs_devlist_sem);
-> +
-> +out:
-> +	return err;
-> +}
-> +
-> +/**
-> + * famfs_update_daxdev_table() - Update the daxdev table
-> + * @fm   - fuse_mount
-> + * @meta - famfs_file_meta, in-memory format, built from a GET_FMAP response
-> + *
-> + * This function is called for each new file fmap, to verify whether all
-> + * referenced daxdevs are already known (i.e. in the table). Any daxdev
-> + * indices that referenced in @meta but not in the table will be retrieved via
-> + * famfs_fuse_get_daxdev() and added to the table
-> + *
-> + * Return: 0=success
-> + *         -errno=failure
-> + */
-> +static int
-> +famfs_update_daxdev_table(
-> +	struct fuse_mount *fm,
-> +	const struct famfs_file_meta *meta)
-> +{
-> +	struct famfs_dax_devlist *local_devlist;
-> +	struct fuse_conn *fc = fm->fc;
-> +	int err;
-> +	int i;
-> +
-> +	/* First time through we will need to allocate the dax_devlist */
-> +	if (!fc->dax_devlist) {
-> +		local_devlist = kcalloc(1, sizeof(*fc->dax_devlist), GFP_KERNEL);
-> +		if (!local_devlist)
-> +			return -ENOMEM;
-> +
-> +		local_devlist->nslots = MAX_DAXDEVS;
-> +
-> +		local_devlist->devlist = kcalloc(MAX_DAXDEVS,
-> +						 sizeof(struct famfs_daxdev),
-> +						 GFP_KERNEL);
-> +		if (!local_devlist->devlist) {
-> +			kfree(local_devlist);
-> +			return -ENOMEM;
-> +		}
-> +
-> +		/* We don't need the famfs_devlist_sem here because we use cmpxchg... */
-> +		if (cmpxchg(&fc->dax_devlist, NULL, local_devlist) != NULL) {
-> +			kfree(local_devlist->devlist);
-> +			kfree(local_devlist); /* another thread beat us to it */
-> +		}
-> +	}
-> +
-> +	down_read(&fc->famfs_devlist_sem);
-> +	for (i = 0; i < fc->dax_devlist->nslots; i++) {
-> +		if (meta->dev_bitmap & (1ULL << i)) {
-Flip for readability.
-		if (!(meta->dev_bitmap & (1ULL << i))
-			continue;
+And those I know can simply dump you an error log which you can check. It is
+way easy already.
 
-Or can we use bitmap_from_arr64() and
-for_each_set_bit() to optimize this a little.
+> Anyway, I am happy to add this information somewhere else if you think
+> that taint is not the right place.
 
-> +			/* This file meta struct references devindex i
-> +			 * if devindex i isn't in the table; get it...
-> +			 */
-> +			if (!(fc->dax_devlist->devlist[i].valid)) {
-> +				up_read(&fc->famfs_devlist_sem);
-> +
-> +				err = famfs_fuse_get_daxdev(fm, i);
-> +				if (err)
-> +					pr_err("%s: failed to get daxdev=%d\n",
-> +					       __func__, i);
-Don't want to surface that error?
-> +
-> +				down_read(&fc->famfs_devlist_sem);
-> +			}
-> +		}
-> +	}
-> +	up_read(&fc->famfs_devlist_sem);
-> +
-> +	return 0;
-> +}
-> +
-> +/***************************************************************************/
+Documentation/admin-guide/kdump/vmcoreinfo.rst could be one place.
 
-?
+But again, this is redundant info which you can read out from logs which you
+already *have* to collect anyway, in a large fleet.
 
-> diff --git a/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h
-> index ce785d76719c..f79707b9f761 100644
-> --- a/fs/fuse/famfs_kfmap.h
-> +++ b/fs/fuse/famfs_kfmap.h
-> @@ -60,4 +60,30 @@ struct famfs_file_meta {
->  	};
->  };
->  
-> +/**
-> + * famfs_daxdev - tracking struct for a daxdev within a famfs file system
-> + *
-> + * This is the in-memory daxdev metadata that is populated by
-> + * the responses to GET_FMAP messages
-> + */
-> +struct famfs_daxdev {
-> +	/* Include dev uuid? */
-> +	bool valid;
-> +	bool error;
-> +	dev_t devno;
-> +	struct dax_device *devp;
-> +	char *name;
-> +};
-> +
-> +#define MAX_DAXDEVS 24
-> +
-> +/**
-> + * famfs_dax_devlist - list of famfs_daxdev's
+IMO, you have everything already and this is not really needed.
 
-Run kernel-doc script over these. It gets grumpy about partial
-documentation.
+-- 
+Regards/Gruss,
+    Boris.
 
-> + */
-> +struct famfs_dax_devlist {
-> +	int nslots;
-> +	int ndevs;
-> +	struct famfs_daxdev *devlist; /* XXX: make this an xarray! */
-> +};
-> +
->  #endif /* FAMFS_KFMAP_H */
-
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index ecaaa62910f0..8a81b6c334fe 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -235,6 +235,9 @@
->   *      - struct fuse_famfs_simple_ext
->   *      - struct fuse_famfs_iext
->   *      - struct fuse_famfs_fmap_header
-> + *    - Add the following structs for the GET_DAXDEV message and reply
-> + *      - struct fuse_get_daxdev_in
-> + *      - struct fuse_get_daxdev_out
->   *    - Add the following enumerated types
->   *      - enum fuse_famfs_file_type
->   *      - enum famfs_ext_type
-> @@ -1351,6 +1354,20 @@ struct fuse_famfs_fmap_header {
->  	uint64_t reserved1;
->  };
->  
-> +struct fuse_get_daxdev_in {
-> +	uint32_t        daxdev_num;
-> +};
-> +
-> +#define DAXDEV_NAME_MAX 256
-> +struct fuse_daxdev_out {
-> +	uint16_t index;
-> +	uint16_t reserved;
-> +	uint32_t reserved2;
-> +	uint64_t reserved3; /* enough space for a uuid if we need it */
-
-Odd place for the comment. If it just refers to reserved3 then nope
-not enough space.  If you mean that and reserved4 then fiar enough
-but that's not obvious as it stands.
-
-> +	uint64_t reserved4;
-> +	char name[DAXDEV_NAME_MAX];
-> +};
-> +
->  static inline int32_t fmap_msg_min_size(void)
->  {
->  	/* Smallest fmap message is a header plus one simple extent */
-> @@ -1358,4 +1375,5 @@ static inline int32_t fmap_msg_min_size(void)
->  		+ sizeof(struct fuse_famfs_simple_ext));
->  }
->  
-> +
-Stray change.  Worth a quick scrub to clean these out (even in an RFC) as they just add
-noise to the bits you want people to look at!
-
->  #endif /* _LINUX_FUSE_H */
-
+https://people.kernel.org/tglx/notes-about-netiquette
