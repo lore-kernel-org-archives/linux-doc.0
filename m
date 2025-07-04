@@ -1,131 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B22A28D821;
-	Fri,  4 Jul 2025 09:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E652F19B7;
+	Fri,  4 Jul 2025 10:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751623126; cv=none; b=LtDznqagZlXo1O4TKLOcfCLBKU5fgnZgf7hv3dIRClVQKHAo8wSeSpitZ6JOmPu2loXAcBDf8+H747AvfgMBpLqTFS2/hbtRhB3cAXBYodTwGQpVW7Q6Cewhkgt3v/SDusn2M7OayfvSnEMO+BrYhGOCMAIt8ZiT8PYULerD/7A=
+	t=1751623543; cv=none; b=A+gcSG+GVuE4oZp0P3JW2mirB98lu+PqVBW2fTnfTOwPeQHAjIGV5XPAujmcdfZnbmrcrN35zed1lGp1a05Q++z+j3fFtnDytWxYXoRMCm0ZkQGc+d4mR6Aw5moIHLdkUFUh2Q1soya2bBxYI8C/6VNUGh9VJ+v595cNVbxEqgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751623126; c=relaxed/simple;
-	bh=6y/QrROAdpMG0KepOi2ABSvBSikwo1+w0ZScUptNNMA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XmCFw1IwAHV0AQySD5PpT0X8vDGZyV7tA/iZJ1RMVw5DtwyRunZV2hojTGIwU8xFoMSGJGVxWiEGu87g07kxMCls1UuGsXw+NxyILtITr9WSh47VP/RqcUuEVojP/AiMcQ5zvRcDLDdtHx9bgsZSX3PgSrwNDNhNksPFj0h1+aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vFRIQo4h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751623543; c=relaxed/simple;
+	bh=g7GJPLs/of6VjYeOCETvrYExJO2+xYrjDZllY6x90eY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aAEUwAnzTO+yMfoN6DV1obpzEH4CVSpTkwVjBMXpUSecQ/j6pfPgA8Em7SM7LZEMPsCGqjtDq08kuQvdMCh10f2Z7XjnfAn18UiGqnZKBr0TGxDszFxVxw7zWqvlxbig0yPO17x6zBH4eomfudczTxUMaYulSDGci07Z2l9wJi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bX84CldZ; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vFRIQo4h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45E78C4CEE3;
-	Fri,  4 Jul 2025 09:58:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751623125;
-	bh=6y/QrROAdpMG0KepOi2ABSvBSikwo1+w0ZScUptNNMA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vFRIQo4haEeX4z5G3jGKdot+Ekt3XkyErGwHdiSf82A1pio97j4o+a5RUViuC0Rq4
-	 5J2iAyDuCnCcHJHG9aAHo22icN2sNwSBPXudpAOpPY4u0d+5MWluuZVUjaXso3iyMj
-	 EahQZNxNrzn+p8Yj3maagbM2KJADYIyh3mAQthEbWNC1hOpocQsHNnib2DRz/GOqzR
-	 /sqoSfdiSs13t6LPG7HxRvr/WGdSfVaQhsQgm8qM9unLa1ofbUCuxo/qzyyQTJVM7V
-	 lpaGIUtoJae4pJ9Xd5dHwaKmZ9ZEq8Z1Lo25wjRFfXp2XVD1aetV/OqzFYSpvhpbgO
-	 wdjOWFkU7/CHQ==
-Message-ID: <88a64a65-bd8c-4b73-af19-6764054d4572@kernel.org>
-Date: Fri, 4 Jul 2025 11:58:37 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bX84CldZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751623542; x=1783159542;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=g7GJPLs/of6VjYeOCETvrYExJO2+xYrjDZllY6x90eY=;
+  b=bX84CldZaDD6zIYwF17VzWwDtbdnSax0CLJ76V/11wNFKjsRDQuvYy+Z
+   szcEHom1xYXOEDxwIh+BsbQUvbOIT/j7p2+GImtM6iEWz1Rk9D7vIH178
+   GBcAEMyV+oq3aCR6uKIo34D+0PTVnAZEAzU4PWDlppY3WIOsdMyA8mRQk
+   TVgpJsLQMgJ1VhYdTWn8/gKaiwc8BmEwDlz3kuSc1v7SV9vFQV6cJIkgt
+   BEXAbIxpaavhI5m9lGTfaxLRS8CrtiUanAMkA1eTo3dqFC3PLgIOFhDTb
+   k3ORBm8sjCDbUPCcbUC+5NC2xlTy5l/gooEQiht09L4TlhlRmNKPaBaw0
+   Q==;
+X-CSE-ConnectionGUID: QL92RSmZReuRFOSP8YCtPA==
+X-CSE-MsgGUID: R3ME3g0rRPGUIgOSDaHEQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64558309"
+X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
+   d="scan'208";a="64558309"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 03:05:41 -0700
+X-CSE-ConnectionGUID: WGCCX+QgRtqG1GbH5LsZ6Q==
+X-CSE-MsgGUID: gYeriFH7TX+zOQYelzpXag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
+   d="scan'208";a="154019737"
+Received: from monicael-mobl3 (HELO fdefranc-mobl3.localnet) ([10.245.246.106])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 03:05:36 -0700
+From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+To: Dave Jiang <dave.jiang@intel.com>, Gregory Price <gourry@gourry.net>
+Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v3] cxl: docs/driver-api/conventions resolve conflicts btw CFMWS,
+ LMH, ED
+Date: Fri, 04 Jul 2025 12:05:33 +0200
+Message-ID: <1985851.b9uPGUboIS@fdefranc-mobl3>
+In-Reply-To: <aGbcpac1pma1od40@gourry-fedora-PF4VCD3F>
+References:
+ <20250623152923.1048525-1-fabio.m.de.francesco@linux.intel.com>
+ <c32cede0-643c-47bb-bfde-93adbcf16155@intel.com>
+ <aGbcpac1pma1od40@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next,v3 2/2] selftests/bpf: Enhance XDP Rx metadata
- handling
-To: "Song, Yoong Siang" <yoong.siang.song@intel.com>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
- Magnus Karlsson <magnus.karlsson@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>, Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-References: <20250702165757.3278625-1-yoong.siang.song@intel.com>
- <20250702165757.3278625-3-yoong.siang.song@intel.com>
- <77463344-1b1a-443a-97be-a7ef8a88b8af@kernel.org>
- <IA3PR11MB92546301B67FB3A9FDCD716DD842A@IA3PR11MB9254.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: Jesper Dangaard Brouer <hawk@kernel.org>
-In-Reply-To: <IA3PR11MB92546301B67FB3A9FDCD716DD842A@IA3PR11MB9254.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+
+On Thursday, July 3, 2025 9:40:21=E2=80=AFPM Central European Summer Time G=
+regory Price wrote:
+> On Tue, Jul 01, 2025 at 08:23:57AM -0700, Dave Jiang wrote:
+> >=20
+> >=20
+> > On 6/23/25 12:19 PM, Gregory Price wrote:
+> > > On Mon, Jun 23, 2025 at 05:29:02PM +0200, Fabio M. De Francesco wrote:
+> > >> Add documentation on how to resolve conflicts between CXL Fixed Memo=
+ry
+> > >> Windows, Platform Memory Holes, and Endpoint Decoders.
+> > >>
+> > >> Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.int=
+el.com>
+> > >=20
+> > > I won't block a doc update on a suggestion so
+> > >=20
+> > > Reviewed-by: Gregory Price <gourry@gourry.net>
+> > >=20
+> > >> +Platform Firmware (BIOS) might reserve part of physical addresses b=
+elow
+> > >> +4 GB (e.g., the Low Memory Hole that describes PCIe memory space fo=
+r MMIO
+> > >> +or a requirement for the greater than 8 way interleave CXL regions =
+starting
+> > >> +at address 0). In that case the Window Size value cannot be anymore
+> > >> +constrained to the NIW * 256 MB above-mentioned rule.
+> > >=20
+> > > It might be nice to have a diagram that explains this visually, as it=
+'s
+> > > difficult for me to understand the implications through words alone...
+> >=20
+> > +1 on request for diagram to explain. We should try to document this is=
+sue as clearly as possible. Thank you.
+> >
+>=20
+> At the very least, it would be nice to have an explicitly example that
+> explains the expected cfmws/decoder configurations that are valid but
+> "technically" violate the spec
+>=20
+> I *think* this basically boils down to "CFMWS size is not aligned, but
+> all the decoders it targets are"?  If I understand this correctly?
+>=20
+Yes, this is the intended meaning.=20
+
+E.g, two windows, 384 GB total memory, LMH at 2 GB:
+
+Window | CFMWS Base | CFMWS Size | HDM Decoder Base | HDM Decoder Size | Wa=
+ys | Granularity
+  0    |   0 GB     |     2 GB   |      0 GB        |       3 GB       |  1=
+2  |    256
+  1    |   4 GB     |   380 GB   |      0 GB        |     380 GB       |  1=
+2  |    256
+
+12 *256MB =3D 3GB, the Top of Low memory below 4GB is set as 2GB in the pla=
+tform for MMIO Low Mem Hole (2-4GB). Only 2GB will be potentially available=
+ for user, but currently the CXL driver expects a CFMWS range's size to be =
+greater or equal to the HDM Decoder's, so it  doesn't match them and we los=
+e those 2GB described by CFMWS0. If we allow the matching, we make those 2G=
+B available to users.
+
+Is a table like the one above good enough to make this subject clearer?
+
+Thanks,
+
+=46abio
+>
+> > >=20
+> > > which is likely why the conflict exists in the first place :]
+> > >=20
+> > > ~Gregory
+> >=20
+>=20
 
 
 
-On 04/07/2025 03.17, Song, Yoong Siang wrote:
-> On Friday, July 4, 2025 1:05 AM, Jesper Dangaard Brouer <hawk@kernel.org> wrote:
->> On 02/07/2025 18.57, Song Yoong Siang wrote:
->>> Introduce the XDP_METADATA_SIZE macro as a conservative measure to
->>> accommodate any metadata areas reserved by Ethernet devices.
->>>
->>
->> This seems like a sloppy workaround :-(
->>
->> To me, the problem arise because AF_XDP is lacking the ability to
->> communicate the size of the data_meta area.  If we had this capability,
->> then we could allow the IGC driver to take some of the space, have the
->> BPF-prog expand it futher (bpf_xdp_adjust_meta) and then userspace
->> AF_XDP would simply be able to see the size of the data_meta area, and
->> apply the struct xdp_meta at right offset.
->>
-> Thanks for your input.
-> 
-> I agree with you that the implementation will be simple if user application
-> able to get the size of data_meta area. The intention of this patch set is to let
-> developer aware of such limitations before we have a perfect solution.
-> 
-> Btw, do you got any suggestion on how to expose the metadata length?
-> I not sure whether xdp_desc.options is a simple and good idea or not?
 
-That is a question to the AF_XDP maintainers... added them to this email.
-
-/* Rx/Tx descriptor */
-struct xdp_desc {
-	__u64 addr;
-	__u32 len;
-	__u32 options;
-};
-
-As far as I know, the xdp_desc.options field isn't used, right?
-
-
-(Please AF_XDP experts, please verify below statements:)
-Something else we likely want to document: The available headroom in the
-AF_XDP frame.  When accessing the metadata in userspace AF_XDP we do a
-negative offset from the UMEM packet pointer.  IIRC on RX the available
-headroom will be either 255 or 192 bytes (depending on NIC drivers).
-
-Slightly confusing when AF_XDP transmitting from userspace the UMEM
-headroom is default zero (XSK_UMEM__DEFAULT_FRAME_HEADROOM is zero).
-This is configurable via xsk_umem_config.frame_headroom, like I did in
-this example[1].
-
-Maybe I did something wrong in[1], because I see that the new method is
-setting xsk_umem_config.tx_metadata_len + flag XDP_UMEM_TX_METADATA_LEN.
-This is nicely documented in [2]. How does this interact with setting
-xsk_umem_config.frame_headroom ?
-
-
-[1] 
-https://github.com/xdp-project/bpf-examples/blob/3f365af4be1fe6a0ef77e751ff9b12c912810453/AF_XDP-interaction/af_xdp_user.c#L423-L424
-[2] https://www.kernel.org/doc/html/v6.12/networking/xsk-tx-metadata.html
-
---Jesper
