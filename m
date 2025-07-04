@@ -1,172 +1,131 @@
-Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18902DAFA8;
-	Fri,  4 Jul 2025 09:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.136.29.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B22A28D821;
+	Fri,  4 Jul 2025 09:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751622082; cv=none; b=h/CQXorHW4c6hVG5KwTLIQ9ZVihAUyosBDA0SagG6sD221QnUvXffJuMwLSTf+iSNrkBPER+fJ09rBHOFRgDVyg9V8z50OEmiykzae1ZExMQ672xmFVomEUWXk9WRPdcoBF9kN2Ybg67NSKSWYxgIsGt4G9ds9u+QMz1k32scUk=
+	t=1751623126; cv=none; b=LtDznqagZlXo1O4TKLOcfCLBKU5fgnZgf7hv3dIRClVQKHAo8wSeSpitZ6JOmPu2loXAcBDf8+H747AvfgMBpLqTFS2/hbtRhB3cAXBYodTwGQpVW7Q6Cewhkgt3v/SDusn2M7OayfvSnEMO+BrYhGOCMAIt8ZiT8PYULerD/7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751622082; c=relaxed/simple;
-	bh=5kfD3eLWhydpapTP/xx9CKZcEgNscuE+DHWcliVdzt4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bbhNuFFdQuXEnQ4qV1svW8E0cHOTAZWiIe+4aY6zB5DJ8vSbaMqeS3Ks4KXN3KUPRUpoymAp5nBhP3DgAhhEOE/RK4Gj3DGDPDkcXJUqsms+Np+wtLhh0VjXk3dyysUahKhQiOn2cDXhEam+fi2/4n+KaGqmTEnTl7pzKR3EFZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com; spf=pass smtp.mailfrom=proxmox.com; arc=none smtp.client-ip=94.136.29.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
-	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id CE1D546D0D;
-	Fri,  4 Jul 2025 11:41:17 +0200 (CEST)
-Date: Fri, 4 Jul 2025 11:41:16 +0200
-From: Gabriel Goller <g.goller@proxmox.com>
-To: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>, Shuah Khan <shuah@kernel.org>, 
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH net-next v4] ipv6: add `force_forwarding` sysctl to
- enable per-interface forwarding
-Message-ID: <pwrkjcem57hgbg7ptfbqofr42kqgfyac5eprptn2uw3e5tdfge@4rip2rl2my6b>
-Mail-Followup-To: Nicolas Dichtel <nicolas.dichtel@6wind.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>, Shuah Khan <shuah@kernel.org>, 
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-References: <20250703160154.560239-1-g.goller@proxmox.com>
- <d90c29af-d614-43ea-8bcd-f2c8ced779df@6wind.com>
+	s=arc-20240116; t=1751623126; c=relaxed/simple;
+	bh=6y/QrROAdpMG0KepOi2ABSvBSikwo1+w0ZScUptNNMA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XmCFw1IwAHV0AQySD5PpT0X8vDGZyV7tA/iZJ1RMVw5DtwyRunZV2hojTGIwU8xFoMSGJGVxWiEGu87g07kxMCls1UuGsXw+NxyILtITr9WSh47VP/RqcUuEVojP/AiMcQ5zvRcDLDdtHx9bgsZSX3PgSrwNDNhNksPFj0h1+aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vFRIQo4h; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vFRIQo4h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45E78C4CEE3;
+	Fri,  4 Jul 2025 09:58:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751623125;
+	bh=6y/QrROAdpMG0KepOi2ABSvBSikwo1+w0ZScUptNNMA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vFRIQo4haEeX4z5G3jGKdot+Ekt3XkyErGwHdiSf82A1pio97j4o+a5RUViuC0Rq4
+	 5J2iAyDuCnCcHJHG9aAHo22icN2sNwSBPXudpAOpPY4u0d+5MWluuZVUjaXso3iyMj
+	 EahQZNxNrzn+p8Yj3maagbM2KJADYIyh3mAQthEbWNC1hOpocQsHNnib2DRz/GOqzR
+	 /sqoSfdiSs13t6LPG7HxRvr/WGdSfVaQhsQgm8qM9unLa1ofbUCuxo/qzyyQTJVM7V
+	 lpaGIUtoJae4pJ9Xd5dHwaKmZ9ZEq8Z1Lo25wjRFfXp2XVD1aetV/OqzFYSpvhpbgO
+	 wdjOWFkU7/CHQ==
+Message-ID: <88a64a65-bd8c-4b73-af19-6764054d4572@kernel.org>
+Date: Fri, 4 Jul 2025 11:58:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d90c29af-d614-43ea-8bcd-f2c8ced779df@6wind.com>
-User-Agent: NeoMutt/20241002-35-39f9a6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf-next,v3 2/2] selftests/bpf: Enhance XDP Rx metadata
+ handling
+To: "Song, Yoong Siang" <yoong.siang.song@intel.com>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
+ Magnus Karlsson <magnus.karlsson@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
+ <bjorn@kernel.org>, Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+References: <20250702165757.3278625-1-yoong.siang.song@intel.com>
+ <20250702165757.3278625-3-yoong.siang.song@intel.com>
+ <77463344-1b1a-443a-97be-a7ef8a88b8af@kernel.org>
+ <IA3PR11MB92546301B67FB3A9FDCD716DD842A@IA3PR11MB9254.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Jesper Dangaard Brouer <hawk@kernel.org>
+In-Reply-To: <IA3PR11MB92546301B67FB3A9FDCD716DD842A@IA3PR11MB9254.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 04.07.2025 10:07, Nicolas Dichtel wrote:
->Le 03/07/2025 à 18:01, Gabriel Goller a écrit :
->> It is currently impossible to enable ipv6 forwarding on a per-interface
->> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
->> enable it on all interfaces and disable it on the other interfaces using
->> a netfilter rule. This is especially cumbersome if you have lots of
->> interface and only want to enable forwarding on a few. According to the
->> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
->> for all interfaces, while the interface-specific
->> `net.ipv6.conf.<interface>.forwarding` configures the interface
->> Host/Router configuration.
+
+
+On 04/07/2025 03.17, Song, Yoong Siang wrote:
+> On Friday, July 4, 2025 1:05 AM, Jesper Dangaard Brouer <hawk@kernel.org> wrote:
+>> On 02/07/2025 18.57, Song Yoong Siang wrote:
+>>> Introduce the XDP_METADATA_SIZE macro as a conservative measure to
+>>> accommodate any metadata areas reserved by Ethernet devices.
+>>>
 >>
->> Introduce a new sysctl flag `force_forwarding`, which can be set on every
->> interface. The ip6_forwarding function will then check if the global
->> forwarding flag OR the force_forwarding flag is active and forward the
->> packet.
+>> This seems like a sloppy workaround :-(
 >>
->> To preserver backwards-compatibility reset the flag (on all interfaces)
->> to 0 if the net.ipv6.conf.all.forwarding flag is set to 0.
+>> To me, the problem arise because AF_XDP is lacking the ability to
+>> communicate the size of the data_meta area.  If we had this capability,
+>> then we could allow the IGC driver to take some of the space, have the
+>> BPF-prog expand it futher (bpf_xdp_adjust_meta) and then userspace
+>> AF_XDP would simply be able to see the size of the data_meta area, and
+>> apply the struct xdp_meta at right offset.
 >>
->> Add a short selftest that checks if a packet gets forwarded with and
->> without `force_forwarding`.
->>
->> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
->>
->> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
->> ---
->>
->
->[snip]
->
->> @@ -6747,6 +6759,78 @@ static int addrconf_sysctl_disable_policy(const struct ctl_table *ctl, int write
->>  	return ret;
->>  }
->>
->> +static void addrconf_force_forward_change(struct net *net, __s32 newf)
->> +{
->> +	ASSERT_RTNL();
->> +	struct net_device *dev;
->> +	struct inet6_dev *idev;
->> +
->
->ASSERT_RTNL() is always put after variables declaration.
+> Thanks for your input.
+> 
+> I agree with you that the implementation will be simple if user application
+> able to get the size of data_meta area. The intention of this patch set is to let
+> developer aware of such limitations before we have a perfect solution.
+> 
+> Btw, do you got any suggestion on how to expose the metadata length?
+> I not sure whether xdp_desc.options is a simple and good idea or not?
 
-I removed ASSERT_RTNL completely, this is already checked by __in6_dev_get_rtnl_net.
+That is a question to the AF_XDP maintainers... added them to this email.
 
->> +	for_each_netdev(net, dev) {
->> +		idev = __in6_dev_get_rtnl_net(dev);
->> +		if (idev) {
->> +			int changed = (!idev->cnf.force_forwarding) ^ (!newf);
->> +
->> +			WRITE_ONCE(idev->cnf.force_forwarding, newf);
->> +			if (changed) {
->> +				inet6_netconf_notify_devconf(dev_net(dev), RTM_NEWNETCONF,
->> +							     NETCONFA_FORCE_FORWARDING,
->> +							     dev->ifindex, &idev->cnf);
->> +			}
->> +		}
->> +	}
->> +}
->> +
->> +static int addrconf_sysctl_force_forwarding(const struct ctl_table *ctl, int write,
->> +					    void *buffer, size_t *lenp, loff_t *ppos)
->> +{
->> +	struct inet6_dev *idev = ctl->extra1;
->> +	struct net *net = ctl->extra2;
->> +	int *valp = ctl->data;
->> +	loff_t pos = *ppos;
->> +	int new_val = *valp;
->> +	int old_val = *valp;
->> +	int ret;
->> +
->> +	struct ctl_table tmp_ctl = *ctl;
->This declaration should be put with other declarations.
+/* Rx/Tx descriptor */
+struct xdp_desc {
+	__u64 addr;
+	__u32 len;
+	__u32 options;
+};
 
-Agree.
+As far as I know, the xdp_desc.options field isn't used, right?
 
->> +
->> +	tmp_ctl.extra1 = SYSCTL_ZERO;
->> +	tmp_ctl.extra2 = SYSCTL_ONE;
->> +	tmp_ctl.data = &new_val;
->> +
->> +	ret = proc_douintvec_minmax(&tmp_ctl, write, buffer, lenp, ppos);
->> +
->> +	if (write && old_val != new_val) {
->> +		if (!rtnl_net_trylock(net))
->> +			return restart_syscall();
->> +
->> +		if (valp == &net->ipv6.devconf_dflt->force_forwarding) {
->> +			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
->> +						     NETCONFA_FORCE_FORWARDING,
->> +						     NETCONFA_IFINDEX_DEFAULT,
->> +						     net->ipv6.devconf_dflt);
->> +		} else if (valp == &net->ipv6.devconf_all->force_forwarding) {
->> +			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
->> +						     NETCONFA_FORCE_FORWARDING,
->> +						     NETCONFA_IFINDEX_ALL,
->> +						     net->ipv6.devconf_all);
->> +
->> +			addrconf_force_forward_change(net, new_val);
->> +		} else {
->> +			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
->> +						     NETCONFA_FORCE_FORWARDING,
->> +						     idev->dev->ifindex,
->> +						     &idev->cnf);
->> +		}
->> +		rtnl_net_unlock(net);
->> +	}
->> +
->> +	if (write)
->> +		WRITE_ONCE(*valp, new_val);
->Why not putting this in the above block?
->And maybe under the rtnl_lock to avoid race if two users change the value at the
->same time.
 
-Yep, you're right.
+(Please AF_XDP experts, please verify below statements:)
+Something else we likely want to document: The available headroom in the
+AF_XDP frame.  When accessing the metadata in userspace AF_XDP we do a
+negative offset from the UMEM packet pointer.  IIRC on RX the available
+headroom will be either 255 or 192 bytes (depending on NIC drivers).
 
->Nicolas
+Slightly confusing when AF_XDP transmitting from userspace the UMEM
+headroom is default zero (XSK_UMEM__DEFAULT_FRAME_HEADROOM is zero).
+This is configurable via xsk_umem_config.frame_headroom, like I did in
+this example[1].
 
-Thanks for the review!
+Maybe I did something wrong in[1], because I see that the new method is
+setting xsk_umem_config.tx_metadata_len + flag XDP_UMEM_TX_METADATA_LEN.
+This is nicely documented in [2]. How does this interact with setting
+xsk_umem_config.frame_headroom ?
 
+
+[1] 
+https://github.com/xdp-project/bpf-examples/blob/3f365af4be1fe6a0ef77e751ff9b12c912810453/AF_XDP-interaction/af_xdp_user.c#L423-L424
+[2] https://www.kernel.org/doc/html/v6.12/networking/xsk-tx-metadata.html
+
+--Jesper
