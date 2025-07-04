@@ -1,98 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1306230278;
-	Fri,  4 Jul 2025 21:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E3221B9D6;
+	Fri,  4 Jul 2025 23:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751666196; cv=none; b=X9SwXQ+5SwspoAVsoHKgR/SYaVpbU+sl0tRvILy/Ms1jvz8RZwDUQMRE+Uzy/Q9pX52UdkJT0b7m6iqDonBSKKxaiuMYfcaUvzCXyXLHiqbwjbmDoYNuHdARQlvSeWHBSt/oYy82jTRDpgSQSqjJNyigPyLhdBcp8+bTrC03edY=
+	t=1751671750; cv=none; b=QcXCmpMW9tBPXdw5eYg6kdCuldrjkHQO+ujdOYrMAe4arJkfFzgOAaSWPainP/kFNBrHpWNvN+3PZalfzBVtugfhzSG8jCFGC5Lqk6CB5frx/Bk5K4bjReOxPGChflwEp0da65PFbKk0L2t5Guj+XBI0FF+z8CjhVKL1iQ+VApM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751666196; c=relaxed/simple;
-	bh=Y4dP4R0COLDEO9XOwXP8MqcGxLifElXto/WM/FyiYcM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pjTUaF2BtWmghqwgrk1Tx6A4KxVQuziiT6qG/ZY3OL7IG5hKC/vesiZ08XlVJK7MSFWTLE1R/E25gN1mlAKi2rkFIKxP2UVFwaeJfwaiSg+JAvP9NH/PSxT9SQ6QGLnGi4uAOc3NJfhFfqMEkgmMtxeex/cT66fPAEInjWvY31Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dbo23xrG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751671750; c=relaxed/simple;
+	bh=tb8VBPJk816dMuwf1mAIMCyy1yCn7uftotKSToGx4zY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZKNHhCFG7DpMDUtC9XDWkzd6T7bnbmPbNLfAEHmkUSMmmIYPIeCoeauJknJK4BYGl4AMtUE4jcZJCh3VNG1cTGDzjyxB/ZAgqgXFQvVeemmcvmIuUc3LoA8gCJM9/x+22xOObR7K/j6aeztRuU2unhmQCZ32BetUseCAbSJwuso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CAR+xgBM; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dbo23xrG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 669A7C4CEE3;
-	Fri,  4 Jul 2025 21:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751666195;
-	bh=Y4dP4R0COLDEO9XOwXP8MqcGxLifElXto/WM/FyiYcM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Dbo23xrG5ByYRVbASAUjR43dkkWMtWth1KbfXWQ0lXDitgB6Osq8mIiWxeCv2ta2j
-	 CP9iJ/AtLTCBV8QhzsIr7dl6I16YgS4SMv0lZ0j0EeK4ILG/oTuqbPUWHVMYB+IcoV
-	 Zdb7aQYzwKdVMdE66pBH62baQWg0Rt3ec0DqR6JmEdZhg4q0JMJLt2ILvksHqE2wQP
-	 NvSFQrL/oXMU7HjgHHqVn855zDAM9B+SoNGjmZxaaP9ZTSMSJi0AGtGl4nbuGShSHA
-	 ePwwaeidWEKFAfK1hiRmeW+ERfnndFWkymS/ezbMgayeZktz30vShMBs0E1v0H7TSU
-	 s6dIlIp371o3g==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-32adebb15c5so10048961fa.3;
-        Fri, 04 Jul 2025 14:56:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV8F8upAT2IivQStJnw+AoD4avSQB17ki/qyXdQWUw/QTHRU/p1w/FwBHsY1tifG2SNPFXnZWKbEYObxtF9@vger.kernel.org, AJvYcCVFoGUX0Nrw2/Lz6cZr9ogCa9J8Xx9MvXuUqT+90pmUeGFcT3lOk1owRuH1TJczXTj2fJbuHhd4cJEE@vger.kernel.org, AJvYcCVZigzeOWfQVYdIDpSADDneWakMsnxEh4/y1/bpzzuU5Dh6RQ86MY7rv+wu0uomeKKcD0bpRQ0MLfc0usWm@vger.kernel.org, AJvYcCVkPGx7TpwaWFAf4einAxtIaatt26XPBWUTOO5CBYDJW2eTC52+7w+37aZdJJqKxw4MjHdUATKeoOo=@vger.kernel.org, AJvYcCWmYtKE+BBfsLsiysegIGGRwXiI/GbMTDH0FMDXjTJLSC+AVRNxqdnXav2d9tEOD2pb7f1yliPkn2GRfugS7Dh4@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJ+IiWuN+/V40soYSxCZ75KleSSJTH8tVTpJOWd9fASTDmajLW
-	QRnBk9dmqykCTaY4gfhgwL6/mUVulLpH3RIWXhuQRJA4gxyoPLKb4M0QMoGblken2nByKE9vo+Z
-	Msl1mS3BSJybAOby2TfaFJBK6rJSS3zU=
-X-Google-Smtp-Source: AGHT+IGVZoDUL4hlVPhvud7l5bcj+GhwWkCdlk8b33LW3OzhrN3d/HzeMnr/omzaDFlVqDxqjw12uE9q9dhxriRfEeI=
-X-Received: by 2002:a05:651c:4018:b0:32b:7356:94cb with SMTP id
- 38308e7fff4ca-32f092c6cc3mr7970301fa.19.1751666194115; Fri, 04 Jul 2025
- 14:56:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CAR+xgBM"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2349f096605so19118525ad.3;
+        Fri, 04 Jul 2025 16:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751671748; x=1752276548; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QuwFRRF8QKbV+T5Rtpk9+ke6COijCSDaKe6s+BtINKI=;
+        b=CAR+xgBMu7kc/1h5Pw/O9CNDxEIphIPEAJ4E9kTBmLIoha6WJLsmjEfgMiszDuRA19
+         P1V2MDc8IosRyEdJRaB0z/davaAS3TUgMJU1oy9FnEqbVe3X4fesjlu9bM42j3bCPzpK
+         0iej9fKg6zW3fuNxIjKvkQIO8MU6hhzd6ko4m+ziHA/TWlhFwdrzHDG5TkQVGBKx1JoR
+         IDPBJR9URwP+tYm+7Qm5zOAq4Wa/MjkvMP1+tz6F3uOsItODyfIacXBYxgtktUs3yJa4
+         lPxpxmEATs72+xbAXDvmllv05XoU9wDlJIcW/1GkqLsAk+9gLOcbd7nnyopEbGlvEv8T
+         G4BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751671748; x=1752276548;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QuwFRRF8QKbV+T5Rtpk9+ke6COijCSDaKe6s+BtINKI=;
+        b=fuAKarm7XymXCMYFFwL3Un/4aol28ds3O+hj9RieFCq4Gv6PZSQj1UP1bHioNlySUH
+         af9gV/Uo72PEkWJ6MBNQTKzpNG5eIbFC0Ve6YJDjiQxBl7DupoYIcwtg1LGUqjWLnqtM
+         qrz/8zp6sp31BDeXNevcm0b/sfy71FwiYnb4HzaHq5pguI0LQPtlywbl8JISPN8zqZEw
+         e27yg7XXd8tiNEN2T0HJaFhgz0vOKNunFaxyw+HZkF1cJBmovnewmxv1WPgKYQ6r4eGE
+         ovmW8aJVJV9sRLhexM6BglutCmjeEWQsl4vQtzvDMLa1XwYeHjo9eZLIZoieypy+EKvf
+         /X3A==
+X-Forwarded-Encrypted: i=1; AJvYcCUutCC6b7y1GKFyeLxPNbmOk9Jg/9WG7g1Cch1h6LMz6pzOYYPWmLoi6rFcc5/g+oCiN0bJlb6aBYAPok64bA==@vger.kernel.org, AJvYcCVbywO+7Ea+v8GorTY6Jh8qWLTigk3ppNohv4YhhtuAnl5m7eZFxZmUWOH/OgE88Nt6KRdPwiDra+U=@vger.kernel.org, AJvYcCXVTLGXorGGPAt1b44J6UTGp5Zftsq805pGktRnb0Z3VLeZMfxETSMrXBHYeVWnB/PZ8v3zXbP5bwMj+kZc@vger.kernel.org, AJvYcCXw+Q8xTt6QwaY/Nk6LFyl0EpCxEzs1QfFAh17din1nI+d1H/LdXXiO3R+NN6zdM9jh+gcocXUJjmIO@vger.kernel.org
+X-Gm-Message-State: AOJu0YznCxLnuQmmNKQ7yPWXdozmJ4v8mWVTm5NFJTVesmNhFwMJCVGI
+	N2RAISGdAocebunj4pEInmZGo089gtXXJPRvI/pZ+766BYV+PdsHxy0H
+X-Gm-Gg: ASbGncuiJRjgAHVAjFhSfoaOhZKrU5oW/5NM6lpFL7QFNWeuau3k4fIO2tidJO/se7/
+	Xe8xRoBDXkC0J01KwmNqqkKfp6ETp30wr5jXLAc37UZjtPe/alSNq3NnugCOHrYT/zpg6a4RsFX
+	rKIPsulcYSiqyP5M6SiQ/g0vZbG9gKCfFpld0UI237rYFYsNqCf+0JpqcfXj60BT1HkUz0TFmR+
+	MgVF44zoOeNMo/r0KMulMuCjrWyANPUtyboU481kdvsfTFG+jGAlUlRr4/HToHzPbKN5eFRIjKO
+	7YpiRt47a8m7ARo2JTUxP83S1luhlkTLQo1IgthAEcD3x/KSyMS2detY1SQQuA==
+X-Google-Smtp-Source: AGHT+IEmWW8RNAKSZbgocL/eZEJbLbFOSAUUCEKiyVb4oP1j89S88LZhuuNGHm/fWdWQBli8Lf9cWQ==
+X-Received: by 2002:a17:902:ccc4:b0:235:e942:cb9d with SMTP id d9443c01a7336-23c8747dfafmr48499875ad.17.1751671748171;
+        Fri, 04 Jul 2025 16:29:08 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c845bdfe8sm29463235ad.244.2025.07.04.16.29.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jul 2025 16:29:07 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 0D9A54206889; Sat, 05 Jul 2025 06:29:03 +0700 (WIB)
+Date: Sat, 5 Jul 2025 06:29:03 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, John Groves <John@groves.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Miklos Szeredi <miklos@szeredb.hu>,
+	Bernd Schubert <bschubert@ddn.com>,
+	John Groves <jgroves@micron.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC V2 18/18] famfs_fuse: Add documentation
+Message-ID: <aGhjv37uw3w4nZ2C@archie.me>
+References: <20250703185032.46568-1-john@groves.net>
+ <20250703185032.46568-19-john@groves.net>
+ <aGcf4AhEZTJXbEg3@archie.me>
+ <87ecuwk83h.fsf@trenco.lwn.net>
+ <aGdQM-lcBo6T5Hog@archie.me>
+ <aGgkVA81Zms8Xgel@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de> <20250626-kunit-kselftests-v4-3-48760534fef5@linutronix.de>
-In-Reply-To: <20250626-kunit-kselftests-v4-3-48760534fef5@linutronix.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 5 Jul 2025 06:55:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARz6-7s_pV9X-XcfU55s-AUs_y0Sm6YUgey+Q1=-QkZpw@mail.gmail.com>
-X-Gm-Features: Ac12FXwnNIDkk4V1pS1bMlMnoRbXLTf3Hf3er3XEcmiWfxGzkmEMLQCUYkde3EI
-Message-ID: <CAK7LNARz6-7s_pV9X-XcfU55s-AUs_y0Sm6YUgey+Q1=-QkZpw@mail.gmail.com>
-Subject: Re: [PATCH v4 03/15] kbuild: doc: add label for userprogs section
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
-	Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aGgkVA81Zms8Xgel@casper.infradead.org>
 
-On Thu, Jun 26, 2025 at 3:10=E2=80=AFPM Thomas Wei=C3=9Fschuh
-<thomas.weissschuh@linutronix.de> wrote:
->
-> Some upcoming new documentation should link directly to the userprogs sec=
-tion.
->
-> Add a label to the section so it can be referenced.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
-> ---
->  Documentation/kbuild/makefiles.rst | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/ma=
-kefiles.rst
-> index 8aef3650c1f32b6b197e0dc777e26775d371a081..c14c1f632f6069c8751c8388a=
-35bef539e19f9e8 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -891,6 +891,8 @@ This is possible in two ways:
->      This will tell kbuild to build lxdialog even if not referenced in
->      any rule.
->
-> +.. _kbuild_userprogs:
-> +
->  Userspace Program support
+On Fri, Jul 04, 2025 at 07:58:28PM +0100, Matthew Wilcox wrote:
+> On Fri, Jul 04, 2025 at 10:53:23AM +0700, Bagas Sanjaya wrote:
+> > On Thu, Jul 03, 2025 at 08:22:58PM -0600, Jonathan Corbet wrote:
+> > > Bagas.  Stop.
+> > > 
+> > > John has written documentation, that is great.  Do not add needless
+> > > friction to this process.  Seriously.
+> > > 
+> > > Why do I have to keep telling you this?
+> > 
+> > Cause I'm more of perfectionist (detail-oriented)...
+> 
+> Reviews aren't about you.  They're about producing a better patch.
+> Do your reviews produce better patches or do they make the perfect the
+> enemy of the good?
 
+I'm looking for any Sphinx warnings, but if there's none, I check for
+better wording or improving the docs output.
 
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+An old man doll... just what I always wanted! - Clara
