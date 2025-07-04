@@ -1,76 +1,91 @@
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A54D31552E;
-	Fri,  4 Jul 2025 16:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.165.51.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3832E3715;
+	Fri,  4 Jul 2025 17:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751645326; cv=none; b=pgheE44ShAmQUVupi0V5gqUstXnssYI7Pr542SSoRFJO4rqGTMdfwHrXDSPwI3tjySXiqEl7qy+EzV8oyd7NZZYN7T7WwNzdba1WUAhu3Dk/gs7NR8dbf3l3U4uoyMVpXQujigsv3CwQgrYwg2k2nIHJXXnBZ2LFLieATT1k0lg=
+	t=1751648892; cv=none; b=I1uBn7cfuioUthqsyf1JXy68B0l2D7SbVbVlRRnGFhGZC8KCZK4IbcEZnBvdetDikaN9Grn2ct5AFq4kkN+i0+qMsEOvidTX3ALf4rjMfl0UsNQrJEKj8AmflNAsbwsfN05mRvuZN2VhR/S2X+Wtqing/X6EdEZtpGi7Tcj3A4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751645326; c=relaxed/simple;
-	bh=GE/Og/mVqKuZmTQkxcvnThWPrBLl3dQDY0YznXO1Qmo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KCmiTPWpB9tPF5o69nbR1R02Al8cUX/fa4tgYnqtiwjEqrbVovkgmyPZIALqTap5eR336pfj/NV5QMjmFT6+gClydxX63Z7wIbr+7X3j4IGQhT5R+V079obaaDUrMIjBKzYG3pWiHsn/bhCdydZ4+MQ6O2OC+BiQKhWO9SFHRLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hughsie.com; spf=pass smtp.mailfrom=hughsie.com; dkim=pass (2048-bit key) header.d=hughsie.com header.i=@hughsie.com header.b=kjGfq663; arc=none smtp.client-ip=188.165.51.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hughsie.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hughsie.com
+	s=arc-20240116; t=1751648892; c=relaxed/simple;
+	bh=0ITybG1gGZl6YRP0Mrv2Tjbb16ysrUlCnsvanObbjyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=obGYnFJeZb8BmNwrkDi5XgO+FC7+ovJmezOLHhxQULYFuAOsiTErqzqy4Z51pN93h4VFaOQn1uWRhZ8Fi/Lke47lyBJrYZfF/1joDEieFcKeMNMozlKTZ4TLtj/qc+kkCDYCkwJFlR1albSohVT53697gJYCaBifNz92GzNzWKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oUJFqm+v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hughsie.com header.i=@hughsie.com header.b="kjGfq663"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hughsie.com;
-	s=protonmail3; t=1751645305; x=1751904505;
-	bh=GE/Og/mVqKuZmTQkxcvnThWPrBLl3dQDY0YznXO1Qmo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=kjGfq663Kt4+EFtt9RSWyzieaAnp/urPyyra91xY1AxCSz4sOXXIUEOh7H0td0TgF
-	 MJiqE1TuEyLZW6YRGiLgwkM9itDw2WMzo+J/TcCtoqKE78JWwDaYDBIqeMSTt5Dboa
-	 iLNvgBbpHNAVW/4XmD/BNB6jfaVnVLVCZzMOBJK/wh9vV8cCIF53ZJfA4I4CUW/um2
-	 BmX94QbCN+fVtuxqOOi7UVLiL5zDE8P1fVi35ogmd8V/t6TuOdQ9ldFrvS0ayWLQJF
-	 1D6Zo6F9Z4fp83TWFVhX+k8Sqf91JR9Xzu8kQqzmj7DkmxfQKA5+rFecwtk4bP/0cW
-	 TICGf7NrGEVEA==
-Date: Fri, 04 Jul 2025 16:08:22 +0000
-To: Mario Limonciello <superm1@kernel.org>
-From: Richard Hughes <richard@hughsie.com>
-Cc: Benjamin Tissoires <bentiss@kernel.org>, "Derek J. Clark" <derekjohn.clark@gmail.com>, Richard Hughes <hughsient@gmail.com>, Jiri Kosina <jikos@kernel.org>, Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] HID: Add Legion Go S Driver
-Message-ID: <Md8ia1ZjpstTm9kuqiUEtIwdxPZxV00hZMofLzz_UeUt6wVg46xETQH8h7PdQ2awHOuyPRjrDVw2f_dg4N1pXPHmnnzHM-2_IACD7fRaxlk=@hughsie.com>
-In-Reply-To: <098ab194-f678-4e85-9e35-f8339c2551c7@kernel.org>
-References: <20250703004943.515919-1-derekjohn.clark@gmail.com> <j3isljjyd6rlddlhpp7knxgss2mpr4ft3pcx5lc7r5r4bnnzpw@wjr6brfv2hsf> <098ab194-f678-4e85-9e35-f8339c2551c7@kernel.org>
-Feedback-ID: 110239754:user:proton
-X-Pm-Message-ID: 805ec186aa02fe35278ac8fb98ca4dff6e7e7271
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oUJFqm+v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F009C4CEE3;
+	Fri,  4 Jul 2025 17:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751648891;
+	bh=0ITybG1gGZl6YRP0Mrv2Tjbb16ysrUlCnsvanObbjyA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oUJFqm+vZebVfuVTFodwOJdFbLcDHvjUiHb6U8VPBJNXuVSI0SAzi7WPBVBJ/QUxD
+	 wdW1EdtPE4lrE41uwEZYe35M4Hfs8t2E0vAukVMR9+nRp2KWYsqmW97it0sbFMffhL
+	 tTHxZ2sOkmWUcfANOs14bH5GUsC+c1BuXgvx6QW/7KfWzV2Swetf9qkLpCcuGyZZjF
+	 1BSy1RyuXklQV/vmmij7Z8bOUfCS5s21QNdqWcHVouVd4rZHysgcgAAV7TaBnzk8MX
+	 AoaPKknZindFH4YpIfyc4cKIYA2yZIgwiWHimSm34MmK3GKplCSrYwwpNmVp0msITf
+	 Lhw+r94qHv1Gw==
+Date: Fri, 4 Jul 2025 20:08:07 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Abhijit Gangurde <abhijit.gangurde@amd.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, shannon.nelson@amd.com,
+	brett.creeley@amd.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+	andrew+netdev@lunn.ch, allen.hubbe@amd.com, nikhil.agarwal@amd.com,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Boyer <andrew.boyer@amd.com>
+Subject: Re: [PATCH v3 10/14] RDMA/ionic: Register device ops for control path
+Message-ID: <20250704170807.GO6278@unreal>
+References: <20250624121315.739049-1-abhijit.gangurde@amd.com>
+ <20250624121315.739049-11-abhijit.gangurde@amd.com>
+ <20250701103844.GB118736@unreal>
+ <20250702131803.GB904431@ziepe.ca>
+ <20250702180007.GK6278@unreal>
+ <bb0ac425-2f01-b8c7-2fd7-4ecf9e9ef8b1@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bb0ac425-2f01-b8c7-2fd7-4ecf9e9ef8b1@amd.com>
 
-On Friday, July 4th, 2025 at 2:58 AM, Mario Limonciello <superm1@kernel.org=
-> wrote:
-> If HID_UNIQ is the right way to get the firmware version but some
-> drivers encode a serial+firmware and others encode firmware that's going
-> to make for a very messy "generic" property to read the firmware version
-> of a device.
+On Thu, Jul 03, 2025 at 12:49:30PM +0530, Abhijit Gangurde wrote:
+> 
+> On 7/2/25 23:30, Leon Romanovsky wrote:
+> > On Wed, Jul 02, 2025 at 10:18:03AM -0300, Jason Gunthorpe wrote:
+> > > On Tue, Jul 01, 2025 at 01:38:44PM +0300, Leon Romanovsky wrote:
+> > > > > +static void ionic_flush_qs(struct ionic_ibdev *dev)
+> > > > > +{
+> > > > > +	struct ionic_qp *qp, *qp_tmp;
+> > > > > +	struct ionic_cq *cq, *cq_tmp;
+> > > > > +	LIST_HEAD(flush_list);
+> > > > > +	unsigned long index;
+> > > > > +
+> > > > > +	/* Flush qp send and recv */
+> > > > > +	rcu_read_lock();
+> > > > > +	xa_for_each(&dev->qp_tbl, index, qp) {
+> > > > > +		kref_get(&qp->qp_kref);
+> > > > > +		list_add_tail(&qp->ibkill_flush_ent, &flush_list);
+> > > > > +	}
+> > > > > +	rcu_read_unlock();
+> > > > Same question as for CQ. What does RCU lock protect here?
+> > > It should protect the kref_get against free of qp. The qp memory must
+> > > be RCU freed.
+> > I'm not sure that this was intension here. Let's wait for an answer from the author.
+> 
+> As Jason mentioned, It was intended to protect the kref_get against free of
+> cq and qp
+> in the destroy path.
 
-I think I've also changed my mind on HID_UNIQ -- IIUC the whole point of HI=
-D_UNIQ is to be unique comparing devices with the same VID&PID. If I plug i=
-n two identical devices with the same firmware version then HID_UNIQ would =
-be the same -- so I think HID_UNIQ should probably always be the serial num=
-ber. I think HID_UNIQ should also stay the same during the firmware update =
-too, so we don't want to jam two things into one property like "HID_UNIQ=3D=
-serial:1234,fwver=3D12.34"
+How is it possible? IB/core is supposed to protect from accessing verbs
+resources post their release/destroy.
 
-Certainly exposing the firmware version as a HID property makes enumerating=
- devices much easier in fwupd; the kernel driver often just knows the firmw=
-are version already and for userspace to re-query the firmware version usin=
-g a per-device custom protocol seems pointless at best and dangerous at wor=
-se -- given we're typically doing a SetReport and GetReport with no sequenc=
-e number available.
+After you answered what RCU is protecting, I don't see why you would
+have custom kref over QP/CQ/e.t.c objects.
 
-I don't have much to comment on wrt the implementation, but providing a way=
- for the hidraw kernel driver to export the current firmware version up to =
-userspace makes a lot of sense to me.
-
-Richard
+Thanks
