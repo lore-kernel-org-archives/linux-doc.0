@@ -1,102 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7107A1F428C;
-	Fri,  4 Jul 2025 06:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354A31DF756;
+	Fri,  4 Jul 2025 06:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751608904; cv=none; b=EzaZZO7g7F61RdbyKNOv7JnsOMOD0sICnb9pQpsVLg7J6nkIyKSi8Xn0KUQspM+UCfRTJiPyqtbUEAC9dnLfbB3ZXN7BaVB60hk2Rr/BA2Szyhy8UuOccRv0YHofY8Xuem+0bJhjY00b34HVCLASF9xLiqK0iBHTzGRJa4LXBK4=
+	t=1751609424; cv=none; b=ky/6EvSLtWhV8tZXVbP0w0fyPG2tkvcvKkhb+7ivKIub19u3e6rfnIIcfhdMNM9CzAFZmflIqjjpE8vIzSuPBECoboPQyCXZA2wXnPvLr1qk7UEeZw+QelUuv9Xxrt8WWTYcT0SzyAkzAzqci1bITE2gvGHYgXBPnuO3RiuerBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751608904; c=relaxed/simple;
-	bh=8L+w/x4+lUxiVcvjA1Xhfe7qLoUdZufPJdOvLP7J7WE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HrwXZh0HAbYMga7Mtg4iPQHJaTcyatv6YjIG2sHpr2Rdxs5+ILt9FtcWmj7hBR0kRwD2Stl36gY1wwLeQFFDo0asfLx5+LH5lwsY7yt5vM1op6iC6fQynixgUWy8r1NgmlrNJFG1CdtI4NSkz5UYF/8mH1Qe36Xz+bFvCal9mWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzWx8bgI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751609424; c=relaxed/simple;
+	bh=CxHAxktoHJAyt0G6QGsxafp1nKxtEgwB3RWi1pJP4bg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MjC67l+0zEuowFYvBwMhxfzbDz4gCqiBRJaEyRAPq4YzrFcQf6ulaXGad5NtrUpDOOdBrAmLKhhsx148Mt+aaqf72SkYkxWVF33XwGkwNXNlhy32If5vkbHZ6d0ono2WCKP7ttiqZa1dG7K6XrGKqwhMR+O8O0jqR7nWyg8gJ4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PTk2Oq3y; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzWx8bgI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01BD8C4CEE3;
-	Fri,  4 Jul 2025 06:01:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751608904;
-	bh=8L+w/x4+lUxiVcvjA1Xhfe7qLoUdZufPJdOvLP7J7WE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HzWx8bgIJ57pRHsLycp+sDNEp6NdMw0wvrAPSybM+ljnlxxwCE04BQe/A5Q4AtM4N
-	 oPveP7Vq54J6P28Y1f03UvNo+9rIvWYu+D0q4v0CVxNzxWlk7Uoyxv4wpTA8sv8lsB
-	 rJrZ63h0cfCYGlJoVBXBON7zUDbVj+ZwbGZb+ct3xjUAEdK3g4ebiJIjnaVh5MKBkc
-	 1KZWroegd0GO6cGknAzigL3d66a5QPby1EDaluu4Xi4vHvXUoUdU12OOndkv8lOVz2
-	 qhFEEDF/3Dmh/pWEk/7H9QHyZkOONcuGN06Qh1uqlyynranbvPJ0QzN/XLRcHOX1x/
-	 wCSCLZGBtDq+A==
-Date: Fri, 4 Jul 2025 08:01:40 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH v2 2/7] docs: kdoc: micro-optimize KernRe
-Message-ID: <20250704080140.136b0b38@foz.lan>
-In-Reply-To: <87ms9kkfb2.fsf@trenco.lwn.net>
-References: <20250703184403.274408-1-corbet@lwn.net>
-	<20250703184403.274408-3-corbet@lwn.net>
-	<20250704003146.118f5799@foz.lan>
-	<87ms9kkfb2.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PTk2Oq3y"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=kQKcvzRgFOqKKs8mwcVW/CGTdsDvbDbBCI43oUXv5xU=; b=PTk2Oq3yzW5wUfahuvMqEMtn2k
+	GghuMT40r9jeqjmT4h1NctLafhvKGd4CbVxJykbRO4v4pXft4/cpWJ3F/Nhjk6NMUt0w1Q0ngAfqj
+	CqK1hfuPJHoqJmpdETP3+6raUjM/ROFVBI8paZ0FFeUrK5b0s6v8OAfwWuYGxDV8xDiCEqkj125Bw
+	Wd3hx1+/dnm0gwsgU9vQ8cj159oOB5MSu7ejUyvRBlXzg4B7DMdNsQbVpD6edadUCwsuc27H7LzKz
+	6GvtrXlT1xHBzboxPPPcS7Aqi/xiOdIOJm7Jfd6vFYtOuNqCMrDGFZTsq+pT3c+a+A0VKHub25FXD
+	B40sBv8A==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uXZcc-0000000FoJ0-1edk;
+	Fri, 04 Jul 2025 06:10:06 +0000
+Message-ID: <3dfcf93e-ae48-48b4-bfc5-ff3146908adc@infradead.org>
+Date: Thu, 3 Jul 2025 23:09:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC V2 18/18] famfs_fuse: Add documentation
+To: John Groves <John@Groves.net>, Dan Williams <dan.j.williams@intel.com>,
+ Miklos Szeredi <miklos@szeredb.hu>, Bernd Schubert <bschubert@ddn.com>
+Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, "Darrick J . Wong"
+ <djwong@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Amir Goldstein <amir73il@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
+References: <20250703185032.46568-1-john@groves.net>
+ <20250703185032.46568-19-john@groves.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250703185032.46568-19-john@groves.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 03 Jul 2025 17:47:13 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+
+On 7/3/25 11:50 AM, John Groves wrote:
+> Add Documentation/filesystems/famfs.rst and update MAINTAINERS
 > 
-> > Em Thu,  3 Jul 2025 12:43:58 -0600
-> > Jonathan Corbet <corbet@lwn.net> escreveu:
-> >  
-> >> Rework _add_regex() to avoid doing the lookup twice for the (hopefully
-> >> common) cache-hit case.
-> >> 
-> >> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> >> ---
-> >>  scripts/lib/kdoc/kdoc_re.py | 7 ++-----
-> >>  1 file changed, 2 insertions(+), 5 deletions(-)
-> >> 
-> >> diff --git a/scripts/lib/kdoc/kdoc_re.py b/scripts/lib/kdoc/kdoc_re.py
-> >> index e81695b273bf..612223e1e723 100644
-> >> --- a/scripts/lib/kdoc/kdoc_re.py
-> >> +++ b/scripts/lib/kdoc/kdoc_re.py
-> >> @@ -29,12 +29,9 @@ class KernRe:
-> >>          """
-> >>          Adds a new regex or re-use it from the cache.
-> >>          """
-> >> -
-> >> -        if string in re_cache:
-> >> -            self.regex = re_cache[string]
-> >> -        else:
-> >> +        self.regex = re_cache.get(string, None)  
-> >
-> > With get, None is default...
-> >  
-> >> +        if not self.regex:
-> >>              self.regex = re.compile(string, flags=flags)  
-> >
-> > ... yet, as you're using get, better to code it as:
-> >
-> > 	self.regex = re_cache.get(string, re.compile(string, flags=flags))  
+> Signed-off-by: John Groves <john@groves.net>
+> ---
+>  Documentation/filesystems/famfs.rst | 142 ++++++++++++++++++++++++++++
+>  Documentation/filesystems/index.rst |   1 +
+>  MAINTAINERS                         |   1 +
+>  3 files changed, 144 insertions(+)
+>  create mode 100644 Documentation/filesystems/famfs.rst
 > 
-> ...but that will recompile the regex each time, defeating the purpose of
-> the cache, no?
-
-No. It should do exactly like the previous code:
-
-- if re_cache[string] exists, it returns it. 
-- Otherwise, it returns re.compile(string, flags=flags).
-
-https://www.w3schools.com/python/ref_dictionary_get.asp
 
 
-Thanks,
-Mauro
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+
+-- 
+~Randy
