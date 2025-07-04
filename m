@@ -1,112 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A5B298CA4;
-	Fri,  4 Jul 2025 12:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DF92D94A5;
+	Fri,  4 Jul 2025 12:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751631818; cv=none; b=kh4cqUjuzNEMmvORV4ZsQBACoeLqI6VsIwGw01yZaDfbLEJBv3GaxWtKJa6fZKDk8JK9sagrvSMZ4tGoR0D6VjvHzZCepnTB5rxhm7q4cnHAebGCwJ6M1JJdlG+IM7QloVHUub0fTgF5UJUA6roZdsgeCAn874JkgE9Q40R7ogM=
+	t=1751633272; cv=none; b=ph5cDje5gAPZvwpNatRaJ6bgWKRlfpdI9rOUuvIIBzbkdk4XqpOeaYcDG7M8slnzcZaYGthknw4/N2/dxcoEsQOJf09kO2oxw2sYOuO98LldpLG+BjrrbuK6gTnT5mPmig9pBYXTCUYpobLbHmZf2jyhA+iMm9meUfyrWPjQmpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751631818; c=relaxed/simple;
-	bh=oweq7sEis8OSPxaym3zvDjZpLebm0v2LQsMDtWM7+Zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ojnZRJeWw1NqgLgZOdhrDd4aGPpGMAwm8Pqw0VXEN3+E6Oj1Zxt28xpUDbtopNkP7yZtkJrnWtQlaca4R3lcaoIKYHCJJNGlVvFxAAEXZrW+O/50R/ZZ2VGouzdJxrrRppYbQWftvjmDllYAKqpAO6CCQCkmf3b7RkjgK3TFCxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VwQWxOaO; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VwQWxOaO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751631818; x=1783167818;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oweq7sEis8OSPxaym3zvDjZpLebm0v2LQsMDtWM7+Zs=;
-  b=VwQWxOaOdNyUqxeIBZ6kSdVOEggSJg4A7YI06FR4qh1yCBagoWY4RF9n
-   f8KynJSF/DB6mrsKP9NRE3H4brHfzN6CFoHuD91mPEDfnzEfo6k+tUULc
-   6JogCdZhIPdy/uZrbwbV8qh8eyW5dfddxa8whHsnHLtQSqVgx+pQMj/lC
-   7dtnwet+wx15LclipUEwGdMU0pTCod1CRS4GxpfxRbEhPESFLqhrABLQt
-   0p+Xg5SeZRTku4VhI6RBgVS256bdBeQxC8AANO2yZG0QnrzLmwUXfe+Rp
-   59PdfQe+9qXnHFPRIP+tMOLd+frADYR6/W7LemfQKrjxtUF8oqvQnI28B
-   w==;
-X-CSE-ConnectionGUID: kN5vIsK4StGPnljbxusiDw==
-X-CSE-MsgGUID: oeOBsxWEQZK3kWd2IPUGuw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="54085571"
-X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="54085571"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 05:23:36 -0700
-X-CSE-ConnectionGUID: h0pPry01S5+0sgbByQeXGQ==
-X-CSE-MsgGUID: zHTjG05tTGup2BFBFLyhMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="155395215"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Jul 2025 05:23:24 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 4B75815D; Fri, 04 Jul 2025 15:23:23 +0300 (EEST)
-Date: Fri, 4 Jul 2025 15:23:23 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
-	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
-	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCHv8 04/17] x86/cpu: Defer CR pinning setup until after EFI
- initialization
-Message-ID: <ysoozflaqr3rnb2kjqca5ifeuc7clutiaypqraqs7r4sdumxmi@uc2bp7l5th75>
-References: <20250701095849.2360685-1-kirill.shutemov@linux.intel.com>
- <20250701095849.2360685-5-kirill.shutemov@linux.intel.com>
- <841a200e-bcf0-4488-acbd-c00396a9ccd2@intel.com>
- <2n2knq4wkzyfr35udpxawgnc4ykk7s77yavu3crnzf77wjaj4c@njyscphln4gl>
+	s=arc-20240116; t=1751633272; c=relaxed/simple;
+	bh=q3W6qKOAkT7lw4zg9GWf0eKhGBj+FEgS0+PDTTbEsHg=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WBbruVr604YLc14DsZ/E7cd6KWKFnNZ+GmmhN8CvgSI+tzeAZJnLpAPuHo8uboB6vfO6E1div/1q7qy1sNfFeHVOzVRGn2VPfHI7z3uTMUySjrnte+tpa5QMRAGwHj/oGvXG2J4qNTniA6H5PASCTcx4AP7RiHzNCkG1fP5BV3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bYYLV23QGz6L5Q0;
+	Fri,  4 Jul 2025 20:47:14 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 83D0B1402E9;
+	Fri,  4 Jul 2025 20:47:46 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 4 Jul
+ 2025 14:47:45 +0200
+Date: Fri, 4 Jul 2025 13:47:44 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: John Groves <John@Groves.net>
+CC: Dan Williams <dan.j.williams@intel.com>, Miklos Szeredi
+	<miklos@szeredb.hu>, Bernd Schubert <bschubert@ddn.com>, John Groves
+	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Vishal Verma
+	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Matthew
+ Wilcox" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Darrick J
+ . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, "Jeff
+ Layton" <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, Amir Goldstein <amir73il@gmail.com>, "Stefan
+ Hajnoczi" <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC V2 04/18] dev_dax_iomap: Add dax_operations for use by
+ fs-dax on devdax
+Message-ID: <20250704134744.00006bcd@huawei.com>
+In-Reply-To: <20250703185032.46568-5-john@groves.net>
+References: <20250703185032.46568-1-john@groves.net>
+	<20250703185032.46568-5-john@groves.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2n2knq4wkzyfr35udpxawgnc4ykk7s77yavu3crnzf77wjaj4c@njyscphln4gl>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Wed, Jul 02, 2025 at 01:05:23PM +0300, Kirill A. Shutemov wrote:
-> On Tue, Jul 01, 2025 at 04:10:19PM -0700, Dave Hansen wrote:
-> > On 7/1/25 02:58, Kirill A. Shutemov wrote:
-> > > Move CR pinning setup behind the EFI initialization.
-> > 
-> > I kinda grumble about these one-off solutions. Could we just do this
-> > once and for all and defer CR pinning as long as possible? For instance,
-> > could we do it in a late_initcall()?
-> > 
-> > Do we need pinning before userspace comes up?
+On Thu,  3 Jul 2025 13:50:18 -0500
+John Groves <John@Groves.net> wrote:
+
+> Notes about this commit:
 > 
-> Hm. I operated from an assumption that we want to pin control registers as
-> early as possible to get most benefit from it.
+> * These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
 > 
-> I guess we can defer it until later. But I am not sure late_initcall() is
-> the right place. Do we want random driver to twiddle control registers?
+> * dev_dax_direct_access() is returns the hpa, pfn and kva. The kva was
+>   newly stored as dev_dax->virt_addr by dev_dax_probe().
+> 
+> * The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
+>   for read/write (dax_iomap_rw())
+> 
+> * dev_dax_recovery_write() and dev_dax_zero_page_range() have not been
+>   tested yet. I'm looking for suggestions as to how to test those.
+> 
+> Signed-off-by: John Groves <john@groves.net>
+A few trivial things noticed whilst reading through.
 
-I will do it in core_initcall().
+> ---
+>  drivers/dax/bus.c | 120 ++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 115 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> index 9d9a4ae7bbc0..61a8d1b3c07a 100644
+> --- a/drivers/dax/bus.c
+> +++ b/drivers/dax/bus.c
+> @@ -7,6 +7,10 @@
+>  #include <linux/slab.h>
+>  #include <linux/dax.h>
+>  #include <linux/io.h>
+> +#include <linux/backing-dev.h>
+> +#include <linux/pfn_t.h>
+> +#include <linux/range.h>
+> +#include <linux/uio.h>
+>  #include "dax-private.h"
+>  #include "bus.h"
+>  
+> @@ -1441,6 +1445,105 @@ __weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
+>  }
+>  EXPORT_SYMBOL_GPL(dax_pgoff_to_phys);
+>  
+> +#if IS_ENABLED(CONFIG_DEV_DAX_IOMAP)
+> +
+> +static void write_dax(void *pmem_addr, struct page *page,
+> +		unsigned int off, unsigned int len)
+> +{
+> +	unsigned int chunk;
+> +	void *mem;
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+I'd move these two into the loop - similar to what you have
+in other cases with more local scope.
+
+> +
+> +	while (len) {
+> +		mem = kmap_local_page(page);
+> +		chunk = min_t(unsigned int, len, PAGE_SIZE - off);
+> +		memcpy_flushcache(pmem_addr, mem + off, chunk);
+> +		kunmap_local(mem);
+> +		len -= chunk;
+> +		off = 0;
+> +		page++;
+> +		pmem_addr += chunk;
+> +	}
+> +}
+> +
+> +static long __dev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
+> +			long nr_pages, enum dax_access_mode mode, void **kaddr,
+> +			pfn_t *pfn)
+> +{
+> +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
+> +	size_t size = nr_pages << PAGE_SHIFT;
+> +	size_t offset = pgoff << PAGE_SHIFT;
+> +	void *virt_addr = dev_dax->virt_addr + offset;
+> +	u64 flags = PFN_DEV|PFN_MAP;
+
+spaces around the |
+
+Though given it's in just one place, just put these inline next
+to the question...
+
+
+> +	phys_addr_t phys;
+> +	pfn_t local_pfn;
+> +	size_t dax_size;
+> +
+> +	WARN_ON(!dev_dax->virt_addr);
+> +
+> +	if (down_read_interruptible(&dax_dev_rwsem))
+> +		return 0; /* no valid data since we were killed */
+> +	dax_size = dev_dax_size(dev_dax);
+> +	up_read(&dax_dev_rwsem);
+> +
+> +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);
+> +
+> +	if (kaddr)
+> +		*kaddr = virt_addr;
+> +
+> +	local_pfn = phys_to_pfn_t(phys, flags); /* are flags correct? */
+> +	if (pfn)
+> +		*pfn = local_pfn;
+> +
+> +	/* This the valid size at the specified address */
+> +	return PHYS_PFN(min_t(size_t, size, dax_size - offset));
+> +}
+
+> +static size_t dev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
+> +		void *addr, size_t bytes, struct iov_iter *i)
+> +{
+> +	size_t off;
+> +
+> +	off = offset_in_page(addr);
+
+Unused.
+> +
+> +	return _copy_from_iter_flushcache(addr, bytes, i);
+> +}
+
+
