@@ -1,115 +1,158 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FA3258CC0;
-	Fri,  4 Jul 2025 11:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9E82C15B1;
+	Fri,  4 Jul 2025 11:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751628024; cv=none; b=LoyKSliXiR8vrHk3SH+RQAu9Zz9PXva4NbAUgN+kwfndz+vTJlmb4wZfs2NvjrvskxoQ3kneS/DvPJTcHJN4MbeEDzLyzEjBBXY2l23ySlRsPuOKquDk6OmrsK+90Qo8cwp2bML5NKTEnB1rcwvXOm4mlaGaZj5IOny701FSmN0=
+	t=1751628549; cv=none; b=BQ+AhLsO/M7iFnK4nBFq7I45W6URXyfxF8EDQLTnAauOK3b3ConFa8rJ2LBIC2sZK2wsLza8G7FRrKel/FsCaeoGYiLwOTF7YuBVAFdpJJ+q3hoJNAbcsny9Tv1gVHbGv9sI0JqBsb+mNhdnpJXEXYmjdCWR3C9Hkw6y4uJy+hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751628024; c=relaxed/simple;
-	bh=an+9EeNhe+f7NnClXdzy3GT6wr5ZBU9/N4Xn0aJS5Mg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HugWJH2wU4qW+imBpLuMhLAsnLoQWVbp4Y9NLpQRG/CB336dfQJ5V1ZTkQ/rL3IFG7/m7ceNfP+3DWxMnu2u1jSxFchoHbcipopMcYpkoThiwn2bULmKndlZbmj0QpnlEaMx3bd+7CVFonmR7Li6ppe1TN3n4vOlFo7rCzmHHa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Pg+ub1sc; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Pg+ub1sc"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E6CA940E021F;
-	Fri,  4 Jul 2025 11:20:19 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ImRrZ82OTgD8; Fri,  4 Jul 2025 11:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1751628016; bh=PbxPRHfo8N4/KU51gmHKmbPHvzNy62/CXTuO33u0tnA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pg+ub1scvKldoKC9Ddw71bhRdkqL0oPyDEOyxXt/tLUSxq0lLyLLq4kuuENHD2X44
-	 tmxZW9IeFIRwHFUHvv1IVUePmve4vx9evHRDQkSOr0N0LC0l5VSwgKQtUfhZbbDnN9
-	 WioZ5lVAouTwMkBi8u1LkoxmtGVGGYwlTTeamzsT1LUux57EaKd9ln7HM3P90gYMWa
-	 WhxVOYHVSDFp5FBsbWClz7LjPSQy2B/xQ0iA0jQbTtDmduCnSr4MDuuK6rrYO61KiH
-	 99b0nZpXqWmsCMpfkBBU/4PuLz3KrjpxP6uUp34w0Lw6N1b4pCtSZ1tK9LeG9qdoUl
-	 RdVmNfVfp/jWXAlfILdT24bluuiFejdLSFDBE6Vh2eQhkVIadmmtoukGGTgNZpaElX
-	 2vUYNb79OXqmVFcPtFrbV7lf5je6N/abM4wf3Ka/NQwExEi0B2fKv8tyhQHe8TK+jW
-	 iKfLfjh1rtc8TOADC+64EGNYMgrY63fWzQ8Uhea8Ds92V2OcoX5lO5dBdgMaLZ/aH1
-	 j0evWwTP+yr/fuQv5h523cVSL612AyNBQ/NaA6jBE62avucrRo+4/wJMlmcXvNNtzG
-	 dfKyyun2NRGQACwd7lp8x30EG6ho2IiUrK9aGkc8cStkxmG3yvQqiOCfvmZqexU/kO
-	 ufm/8IhY1dxTkUA8dezDqfww=
-Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7914C40E021E;
-	Fri,  4 Jul 2025 11:20:00 +0000 (UTC)
-Date: Fri, 4 Jul 2025 13:19:54 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Breno Leitao <leitao@debian.org>
-Cc: Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, tony.luck@intel.com,
-	rafael@kernel.org, Alexei Starovoitov <ast@kernel.org>,
-	kbusch@kernel.org, rmikey@meta.com, kuba@kernel.org,
-	linux-edac@vger.kernel.org, mchehab@kernel.org,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 0/2] panic: taint flag for recoverable hardware errors
-Message-ID: <20250704111954.GBaGe42gY5_xADb17Z@fat_crate.local>
-References: <20250704-taint_recovered-v1-0-7a817f2d228e@debian.org>
+	s=arc-20240116; t=1751628549; c=relaxed/simple;
+	bh=d6izWEeJk2kJa5GSgadR6b2xMlIhvrbazcDk3EqyLmc=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Abcb+cBt5GAxFk6sIMslBOczHr2g/O/odPgm/EMYXh5xxEwHV34UHRShrj0/1tIVjLji8C+4+DV74vTmtQvSEUKiK1pX+O0OinIuIXd3a7pMXM1pKzpTckGh9a5GjJBCyNEbNW8TZ7huDdugm946YunIW5WBU5Zn586WnrZTe60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bYW8R3VnVz6L5dh;
+	Fri,  4 Jul 2025 19:08:23 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 36B8E1404C5;
+	Fri,  4 Jul 2025 19:11:22 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 4 Jul
+ 2025 13:11:20 +0200
+Date: Fri, 4 Jul 2025 12:11:19 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: John Groves <John@Groves.net>
+CC: Dan Williams <dan.j.williams@intel.com>, Miklos Szeredi
+	<miklos@szeredb.hu>, Bernd Schubert <bschubert@ddn.com>, John Groves
+	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Vishal Verma
+	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Matthew
+ Wilcox" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Darrick J
+ . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, "Jeff
+ Layton" <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, Amir Goldstein <amir73il@gmail.com>, "Stefan
+ Hajnoczi" <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC V2 03/18] dev_dax_iomap: Save the kva from memremap
+Message-ID: <20250704121119.00002846@huawei.com>
+In-Reply-To: <20250703185032.46568-4-john@groves.net>
+References: <20250703185032.46568-1-john@groves.net>
+	<20250703185032.46568-4-john@groves.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250704-taint_recovered-v1-0-7a817f2d228e@debian.org>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Fri, Jul 04, 2025 at 03:55:18AM -0700, Breno Leitao wrote:
-> Add a new taint flag to the kernel (HW_ERROR_RECOVERED - for the lack of
-> a better name) that gets set whenever the kernel detects and recovers
-> from hardware errors.
+On Thu,  3 Jul 2025 13:50:17 -0500
+John Groves <John@Groves.net> wrote:
+
+> Save the kva from memremap because we need it for iomap rw support.
 > 
-> The taint provides additional context during crash investigation *without*
-> implying that crashes are necessarily caused by hardware failures
-> (similar to how PROPRIETARY_MODULE taint works). It is just an extra
-> information that will provide more context about that machine.
+> Prior to famfs, there were no iomap users of /dev/dax - so the virtual
+> address from memremap was not needed.
+> 
+> Also: in some cases dev_dax_probe() is called with the first
+> dev_dax->range offset past the start of pgmap[0].range. In those cases
+> we need to add the difference to virt_addr in order to have the physaddr's
+> in dev_dax->ranges match dev_dax->virt_addr.
+> 
+> This happens with devdax devices that started as pmem and got converted
+> to devdax. I'm not sure whether the offset is due to label storage, or
+> page tables, but this works in all known cases.
 
-Dunno, looks like a hack to me to serve your purpose only.
+Clearly a question we need to resolve to understand if this is correct
+handling.
 
-Because when this goes up, then people will start wanting to taint the kernel
-for *every* *single* correctable error.
+> 
+> Signed-off-by: John Groves <john@groves.net>
+> ---
+>  drivers/dax/dax-private.h |  1 +
+>  drivers/dax/device.c      | 15 +++++++++++++++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
+> index 0867115aeef2..2a6b07813f9f 100644
+> --- a/drivers/dax/dax-private.h
+> +++ b/drivers/dax/dax-private.h
+> @@ -81,6 +81,7 @@ struct dev_dax_range {
+>  struct dev_dax {
+>  	struct dax_region *region;
+>  	struct dax_device *dax_dev;
+> +	void *virt_addr;
+>  	unsigned int align;
+>  	int target_node;
+>  	bool dyn_id;
+> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+> index 29f61771fef0..583150478dcc 100644
+> --- a/drivers/dax/device.c
+> +++ b/drivers/dax/device.c
+> @@ -372,6 +372,7 @@ static int dev_dax_probe(struct dev_dax *dev_dax)
+>  	struct dax_device *dax_dev = dev_dax->dax_dev;
+>  	struct device *dev = &dev_dax->dev;
+>  	struct dev_pagemap *pgmap;
+> +	u64 data_offset = 0;
+>  	struct inode *inode;
+>  	struct cdev *cdev;
+>  	void *addr;
+> @@ -426,6 +427,20 @@ static int dev_dax_probe(struct dev_dax *dev_dax)
+>  	if (IS_ERR(addr))
+>  		return PTR_ERR(addr);
+>  
+> +	/* Detect whether the data is at a non-zero offset into the memory */
+> +	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
 
-So even if an error got corrected, the kernel will be tainted.
+Using pgmap->range.start here but then getting to the same (I think)
+with  dev_dax->pgmap[0].range.start is rather inconsistent.
 
-Then users will say, oh oh, my kernel is tainted, I need to replace my hw
-because broken. Even if it isn't broken in the very least.
+Also, perhaps drag the assignment of phys and pgmap_phys out of this
+scope so that you can use them for the condition check above and
+then reuse the same in here.
 
-Basically what we're doing with drivers/ras/cec.c will be undone.
 
-All because you want to put a bit of information somewhere that the machine
-had a recoverable error.
+> +		u64 phys = dev_dax->ranges[0].range.start;
+> +		u64 pgmap_phys = dev_dax->pgmap[0].range.start;
+> +		u64 vmemmap_shift = dev_dax->pgmap[0].vmemmap_shift;
+> +
+> +		if (!WARN_ON(pgmap_phys > phys))
+> +			data_offset = phys - pgmap_phys;
 
-Well, that bit of information is in your own RAS logs, no? I presume you log
-hw errors in a big fleet and then you analyze those logs when the machine
-bombs. So a mere look at those logs will tell you that you had hw errors.
+In the event of the condition above being false.
+phys == pgmap_phys and data_offset == 0.
 
-And mind you, that proposed solution does not help people who want to know
-what the errors were: "Oh look, my kernel got tainted because of hw errors. Now
-where are those errors?"
+So why not do this unconditionally replacing this block with something like
 
-So I think this is just adding redundant information which we already have
-somewhere else and also actively can mislead users.
+	/* Apply necessary offset */
 
-IOW, no need to taint - you want to simply put a bit of info in the kdump blob
-which gets dumped by the second kernel that the first kernel experienced hw
-errors. That is, if you don't log hw errors. But you should...!
+	dev_dax->virt_addr = addr +
+		(dev_dax->ranges[0].range.start - pgmap->range.start);
+> +
+> +		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx shift=%llx\n",
+> +		       __func__, phys, pgmap_phys, data_offset, vmemmap_shift);
 
--- 
-Regards/Gruss,
-    Boris.
+If it's only used in the print, I'd just put the path to vmemmap_shift directly in here
+and probably get to it via pgmap->vmemmap_shift
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
+
+> +	}
+> +	dev_dax->virt_addr = addr + data_offset;
+> +
+>  	inode = dax_inode(dax_dev);
+>  	cdev = inode->i_cdev;
+>  	cdev_init(cdev, &dax_fops);
+
