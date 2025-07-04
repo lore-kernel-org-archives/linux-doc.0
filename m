@@ -1,177 +1,83 @@
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CF0CA5E;
-	Fri,  4 Jul 2025 02:12:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936CD1DEFE6;
+	Fri,  4 Jul 2025 02:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751595148; cv=none; b=Mk6sNgW6pswyRhvThhe8gtMj+qyzwV2nG4Ovm37HphwTvGxSSSx5ffBpWoxYsgUxv5V/O4XrYVo52HC0ujo5gEXEg1zYrDgVSgfhLYkG4Mx/1ZR86YK4Dn/cp+z4OIeYiYEsw9oulCMAGiRk/80Lbq9G830Rd8XTNr6FFTiQwsM=
+	t=1751595782; cv=none; b=UXah4U+ggNkkuWiJTvRWJqn5OzkYTxQbU4UZqB83vqVOCmbIfh3zPnXDKoOxh2W+58rmbu+CuSJ7GHazYkcqhf+rs3mg2gs5vvPIDx99BlVVMwx16r8/Tc0VKepqE3JEa5D8Z0Cfmc4E/0h9LGuhCZKIJXcaAhWF4h6ys3NfN/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751595148; c=relaxed/simple;
-	bh=l5Z1XwVZK0CEsUxeMWRLgj/aKkruRmu8OfSCitscVSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZpEF0H1p3AuQ2wmz+VIkpU8f//k29oQ3HLlmp0DGBwp9mGoHg/RJM3N+vL5WfJeYz81cG74LdZoqJuDnnhDKaEL+aIGfPnIVK99UYnBYcj9uFlKDpq38oIJpB75oNuV3k6r47iy1O97kXKrz6LCD4idm7S7nQ3zNDgx4prvOYrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpgz16t1751595038t1e63eead
-X-QQ-Originating-IP: 5wwB7UPN9ZXhl6owE/sV1BbjFqm1YCytAG48UIsJwzQ=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 04 Jul 2025 10:10:36 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 17059888424814569184
-Date: Fri, 4 Jul 2025 10:10:36 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	andrew+netdev@lunn.ch, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/15] net: rnpgbe: Add build support for rnpgbe
-Message-ID: <CD062DF313EAF6E1+20250704021036.GA26457@nic-Precision-5820-Tower>
-References: <20250703014859.210110-1-dong100@mucse.com>
- <20250703014859.210110-2-dong100@mucse.com>
- <0bf45c1a-96ec-4a9d-9c41-fcb3d366d6a3@lunn.ch>
+	s=arc-20240116; t=1751595782; c=relaxed/simple;
+	bh=NrZ6/n/m2RAIwTTigBPlAbOSlc5v7pLbg0aCDmq5uTU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DM7AgDmUktRzpit7miOnxTXu0q3Q3bC97yw+MG0lcBt9gHbTzwjnxdXugY8HGxMLwVrZEG6Yt8lviGDbxhJhdlm0uKWGBvBOy5ewMMkBdMBViwajCwZvVoeoeRnWRMAwNsUus+M8S72K0r7SBlfZLRCxLyxLxYi+6YXri5UsHgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Zk1/cAcz; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Zk1/cAcz"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 94C73403E1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751595779; bh=EyHqlu7/tN57sl37w/zvbLqmOB4xScOYcUGZ/nzC8pQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Zk1/cAczr8eb9rgp19HkWsINbT80BzbE/D/Vo3y/yvL7TcsNmbcCXdRT1kAl7/AkN
+	 wHkrix8QyP0aoa7T2upud9TXoHAoX49Nm0RrVMm57DWl4uKVfivY3s05PUczKxq9qz
+	 9MlhDpXBGVChB8J9ixjEGX+x68JmFTs1KgjuWhaaP4zHEkGff8t2JsT7N3dMsDmHFZ
+	 COa4bDgcELMQdBDXuLIeFgLKq2uqq15bZUkWH3UAXChaky1HIUHun6EKm4Wu2RoYUQ
+	 iUaVcFYZYG4qVnZf/m3zjhTRQklrXTkw6a85fg5rfvjI7U8p7bGEDQArGZqxwfFsVw
+	 Y48dbgcURvI5g==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 94C73403E1;
+	Fri,  4 Jul 2025 02:22:59 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, John Groves <John@groves.net>, Dan
+ Williams <dan.j.williams@intel.com>, Miklos Szeredi <miklos@szeredb.hu>,
+ Bernd Schubert <bschubert@ddn.com>
+Cc: John Groves <jgroves@micron.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Matthew
+ Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, Kent Overstreet
+ <kent.overstreet@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, Amir Goldstein
+ <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, Aravind
+ Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC V2 18/18] famfs_fuse: Add documentation
+In-Reply-To: <aGcf4AhEZTJXbEg3@archie.me>
+References: <20250703185032.46568-1-john@groves.net>
+ <20250703185032.46568-19-john@groves.net> <aGcf4AhEZTJXbEg3@archie.me>
+Date: Thu, 03 Jul 2025 20:22:58 -0600
+Message-ID: <87ecuwk83h.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0bf45c1a-96ec-4a9d-9c41-fcb3d366d6a3@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: ODc4ukgihQJXBomECV5UpbB47HfVKGz7fBqteSWzVrczpndUMTabIMlg
-	ORwsIse+5JzL3y9rLpNGsa5ad96nWxoKJisun/7gshcRZIhf4KPlF7I7pjQeXZEo70TYlsr
-	F0Wxex7mzmX64hYu/vr5JT1Jt0A18suxsGBKYfvafcGIHSQqCYdTT5wNGAj9CMYcJ+S4yPX
-	4lRZ0BWzIupFEWcCHP/gyj6E2Ypdmx/u9zZsweutfHn0gU9/XjmIlW1WXZvtaUF0xC/1cAB
-	PVujCIUKODqww41/paULST4kPSWoZm6sSO0bJOAYIZ5BiGz7Hc9o0mQoBa+pkN8AAY7Ihvy
-	l6aFXCFqgmcWlywxJm8GfE+e7+TwzcA+312cHxfD/ss7pPB4RHx9S9HWw17wB9PsS/VWuVW
-	Q/vA1AW+H1ScO/zkfwknNo/Sl24PwdFgfVkfTlDpcnk8XOp+AVplLW3gC2ylv1GmktQhYUT
-	wahmKSa68sfpx7w2Qbx8twKvpwVLJWacDZBe47tpwJcAx03mlW/DYsKiEF+X3jfKtGXXjlr
-	Ggx1SVqDMNCzb10C+7weRUOGcuCEHCO49JdRCJt+PSu00NUVQfSVLOusHuNwrljdV18ABU2
-	nWZ2vA3GRDqiblDpB1kJ66A8JLTrYfn29rSfDvBjKsI1htAxDDSv2v2fUamUnsF5J4wXqAm
-	SV0qI9Z4tpZFsOsMgFbBhRPXEIiH2M18xYYjki5IfWEhRZfCWasidxRihI8sVl4jd3m+3/D
-	0zWpOrpV4xrXsdqR8fhFftM/D9F+jCltoXnftJLIJPA1a2aw20GPBCCyMtP5AtQZNmZRXo2
-	ZNhydnA4Cba6hqlmfo0j5tMBTtSMi/Y831+Q+riGohLCPf4l1MgVugEgIlvt2ZRhopHJoZB
-	3QLK3XoRKIhg9cU1LbV4G0t0jezjGLvK4jIbGH9j2AhXR+mOdO43EncJpg5ykn0PB1tZ253
-	oNa2Oc2rsNPtit7rrgfA1ncWAbiAqCjVWruA6wrNZ27PyoDOolkn6hprIOmYlIil+RSJu9m
-	YbzcG/7DMMTopirsKQBMIwcts+nzxVuUUGEVEcxK8omJCUe/ZDGTgRn4RLLVc=
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain
 
-On Thu, Jul 03, 2025 at 06:25:21PM +0200, Andrew Lunn wrote:
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -16001,11 +16001,7 @@ F:	tools/testing/vma/
-> >  
-> >  MEMORY MAPPING - LOCKING
-> >  M:	Andrew Morton <akpm@linux-foundation.org>
-> > -M:	Suren Baghdasaryan <surenb@google.com>
-> > -M:	Liam R. Howlett <Liam.Howlett@oracle.com>
-> > -M:	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > -R:	Vlastimil Babka <vbabka@suse.cz>
-> > -R:	Shakeel Butt <shakeel.butt@linux.dev>
-> > +M:	Suren Baghdasaryan <surenb@google.com> M:	Liam R. Howlett <Liam.Howlett@oracle.com> M:	Lorenzo Stoakes <lorenzo.stoakes@oracle.com> R:	Vlastimil Babka <vbabka@suse.cz> R:	Shakeel Butt <shakeel.butt@linux.dev>
-> 
-> You clearly have not reviewed your own patch, or you would not be
-> changing this section of the MAINTAINERs file.
-> 
-Sorry, I didn't review it carefully. I will correct this error and
-review all the remaining patches.
-> > +if NET_VENDOR_MUCSE
-> > +
-> > +config MGBE
-> > +	tristate "Mucse(R) 1GbE PCI Express adapters support"
-> > +        depends on PCI
-> > +	select PAGE_POOL
-> > +        help
-> > +          This driver supports Mucse(R) 1GbE PCI Express family of
-> > +          adapters.
-> > +
-> > +	  More specific information on configuring the driver is in
-> > +	  <file:Documentation/networking/device_drivers/ethernet/mucse/rnpgbe.rst>.
-> > +
-> > +          To compile this driver as a module, choose M here. The module
-> > +          will be called rnpgbe.
-> 
-> There is some odd indentation here.
-> 
-I will correct this in v1.
-> > +#include <linux/string.h>
-> > +#include <linux/etherdevice.h>
-> > +
-> > +#include "rnpgbe.h"
-> > +
-> > +char rnpgbe_driver_name[] = "rnpgbe";
-> > +static const char rnpgbe_driver_string[] =
-> > +	"mucse 1 Gigabit PCI Express Network Driver";
-> > +#define DRV_VERSION "1.0.0"
-> > +const char rnpgbe_driver_version[] = DRV_VERSION;
-> 
-> Driver versions are pointless, since they never change, yet the kernel
-> around the driver changes all the time. Please drop.
-> 
-OK, I got it.
-> > +static const char rnpgbe_copyright[] =
-> > +	"Copyright (c) 2020-2025 mucse Corporation.";
-> 
-> Why do you need this as a string?
-> 
-I printed this in 'pr_info' before. Of course, I should remove this belong
-with 'pr_info'.
-> > +static int rnpgbe_add_adpater(struct pci_dev *pdev)
-> > +{
-> > +	struct mucse *mucse = NULL;
-> > +	struct net_device *netdev;
-> > +	static int bd_number;
-> > +
-> > +	pr_info("====  add rnpgbe queues:%d ====", RNPGBE_MAX_QUEUES);
-> 
-> If you are still debugging this driver, please wait until it is mostly
-> bug free before submitting. I would not expect a production quality
-> driver to have prints like this.
-> 
-Got it, I will remove 'pr_info'.
-> > +	netdev = alloc_etherdev_mq(sizeof(struct mucse), RNPGBE_MAX_QUEUES);
-> > +	if (!netdev)
-> > +		return -ENOMEM;
-> > +
-> > +	mucse = netdev_priv(netdev);
-> > +	memset((char *)mucse, 0x00, sizeof(struct mucse));
-> 
-> priv is guaranteed to be zero'ed.
-> 
-I will remove 'memset' here.
-> > +static void rnpgbe_shutdown(struct pci_dev *pdev)
-> > +{
-> > +	bool wake = false;
-> > +
-> > +	__rnpgbe_shutdown(pdev, &wake);
-> 
-> Please avoid using __ function names. Those are supposed to be
-> reserved for the compiler. Sometimes you will see single _ for
-> functions which have an unlocked version and a locked version.
-> 
-Got it, I will fix this.
-> > +static int __init rnpgbe_init_module(void)
-> > +{
-> > +	int ret;
-> > +
-> > +	pr_info("%s - version %s\n", rnpgbe_driver_string,
-> > +		rnpgbe_driver_version);
-> > +	pr_info("%s\n", rnpgbe_copyright);
-> 
-> Please don't spam the log. Only print something on error.
-> 
-> 	Andrew
-> 
-I will remove the log, thanks for your feedback.
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
+
+> On Thu, Jul 03, 2025 at 01:50:32PM -0500, John Groves wrote:
+>> +Requirements 3 and 4 are handled by the user space components, and are
+>> +largely orthogonal to the functionality of the famfs kernel module.
+>> +
+>> +Requirements 3 and 4 cannot be met by conventional fs-dax file systems
+>
+> "Such requirements, however, cannot be met by ..."
+
+Bagas.  Stop.
+
+John has written documentation, that is great.  Do not add needless
+friction to this process.  Seriously.
+
+Why do I have to keep telling you this?
+
+jon
