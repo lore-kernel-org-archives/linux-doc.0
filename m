@@ -1,189 +1,218 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D02B1DAC92;
-	Fri,  4 Jul 2025 13:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19013142E7C
+	for <linux-doc@vger.kernel.org>; Fri,  4 Jul 2025 14:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751636408; cv=none; b=BI8Nz7gl+xnC9+lYVbMSyJAbGmjE+FySsg5yKqB5Ensbo3c5i6rBGgcww/H/rosu1goRxOdtlhSjKlimnhbJuPPyRe8uRvxfPlayuXuMUZ1bHRgwbqGAJDt7lhQtJMxmh9rJTTNyAmhfVQ5UeJZi1I3Y95qwymfzt7VYtV7sP9Q=
+	t=1751638149; cv=none; b=b/TEgnDOCZCyrcHxylnl1jJPetd4CyU163Iilv34QoQL8FRbOPcFo4FG3j+/wDAE1tTYjPF9co4TAnkB/LOAYTYxbyP+hpRvxYLYopMOqrcVAu7x0sMIsbIeH34d+wv5MhnTD5ZqGXeogAgXdAuemT5WX0+NKWDB4h7+5XEb5Ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751636408; c=relaxed/simple;
-	bh=x7xVEMSsXXsnT+LLSekeh57Svi1duY+nh1PdFmeqLGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KkWgUwixPymdB5aIl3CTHpVNsbIXXwB+y22ASJYQbIxTvNwSJrY1AFJEsmMouFTcKBziXaua03npA5hEPe1F3W9doUrg28tTRT4PzyXImzAceOjmhVDrI4rxcGP/Yo9cAEk6pqUSqLz2QtTIBYulLd5EHSBNb3aJXqBPYA7s8zY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XfEBFn0H; arc=none smtp.client-ip=209.85.160.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751638149; c=relaxed/simple;
+	bh=U6F2dHrTPmeRrvSQlmw8aoKVIdLE2eX2EcsjXstUjps=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Il2awTdyveGggPcvlbYxzCp+xHzHltrOw6AzIOXSkq7PtOvk9RZRQkx569L7fleHc6dj1kKIdy0g4Mt1fACfcbv8Er064SDOn59nGhA2a0g/s1nw4rCQKeRG/i6h8pOAsS7WxcV9s470bVNKZg7oA3i0BJd2oLcCEKou141wTE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aWNkid1X; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfEBFn0H"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2ea65f5a0easo726354fac.1;
-        Fri, 04 Jul 2025 06:40:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751636405; x=1752241205; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2ggb97YnCGQscprdaRiD3aA04R3MJar4CeMJyfUEVTY=;
-        b=XfEBFn0H0srLeTRSPK4w37IW6+b3+oBDhpTgp9SCvVnsXWNkS00K8hcH1YV2ol/Q3O
-         LJBECX4gNvNRjI3f5041tgHaQi55k1ImpFXDQsHWfq5FybCGtqfnSYD3hC+DTKy2aQ9q
-         7BZqfvDR92hP0/ikKAQ2F0r1fHsJv1cces0Hv39btwOZeQ0U/LFg4Xa64VpQW0cNBCWG
-         PLlj2ye2TEub1HWAXeW9ghT/RiBb0ycRzlfVC7FnTdLuHYiDlUG6HQA2eesc/swaRBWE
-         trLylb52zRzgT148HUv2jizo9i7zbH+5Ai7T2/ep/RaOQwkLz8S85h9W3kAZuz1VhMTY
-         3gKw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aWNkid1X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751638146;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QNE34YJ4bJTdCiv/b67QdArh6u6YpWkqfxv7OOglQc8=;
+	b=aWNkid1X65UC1UmbLZPWMXbodiht+af1y8TO/T3og09MWT60AWUe67sD4yR6dOaxR8wdaX
+	qHjF19WOjmNOOuyEZHvMbl9MpeG/bzw59+qXMvkAc4RUdEENuKz9n2LTMP7po2BqE+EUF6
+	fuAlEr1Q85G+oDn3sLWPGFZx3knEYjk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-379-qtIM933mN7maHmJyKzSadw-1; Fri, 04 Jul 2025 10:09:05 -0400
+X-MC-Unique: qtIM933mN7maHmJyKzSadw-1
+X-Mimecast-MFC-AGG-ID: qtIM933mN7maHmJyKzSadw_1751638144
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3a4edf5bb4dso619609f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 04 Jul 2025 07:09:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751636405; x=1752241205;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+        d=1e100.net; s=20230601; t=1751638144; x=1752242944;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ggb97YnCGQscprdaRiD3aA04R3MJar4CeMJyfUEVTY=;
-        b=SMkwwmtHib09y+f3LoZk5uDFkjzNLRpNx4pdabcJqkUrKzgfqoyulyPdqt+SpW91vO
-         Co/C3HoO51zA53eulBmtsiaInty/dvX3rduz8SPEfJNYoCb0mVVQJeQsoW9oVaEyjRFz
-         EuvRhLvYdva3J/AWJkscwnKvC04PGNSLkdNS4lmiYWkDNuYZb0bpskg7pTG7N5LT7y5X
-         +36ICP9Dpxkf8qsnjvbl1HdlkfSpx5TNQgrMeh5tqO3z7eUlXDP/e4MVcLXdyPv98dcy
-         0keoyiFwTIlHUofq0eKjR7CUEAIysLJJNxjcOJZywOsKAS6tt0DOvB30Oxd7/q//XGp1
-         7U7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVd5u1elRgq3ugxvuFE0pMt0Ha47CPjycUk2sqr4XhS0nd1IEUcETAKx2aNcECBTs7ExOQCqxxxxl0=@vger.kernel.org, AJvYcCWZV72f9K7/Wx9Abwb5NTNa4/CY/db9JJv+VeBsVHZEmYZnj/4iB9UrSAV6d22CpVic2NL83NzXBLuLshTM+A==@vger.kernel.org, AJvYcCXUaMpJ8g+AeBA8J/hI1b5vtpaevShpMvdTARUqH4sdaOfntSIO4MEt6YuPx6xyUP30nIU80XD7x2Ka@vger.kernel.org, AJvYcCXXUbOhFk3VqRLG4WhdWrCFSg0C/RhK2QSsRtK0blAc6zsomorDdQ7o6xzTwG7DZi5Ty5y+wQD31U9TwjBT@vger.kernel.org
-X-Gm-Message-State: AOJu0YzH7JmbNf5p/OZCfuHKxmo3PmVBdt3Lo0Fdtc3FfaOR0waAd68T
-	qK3eObfjDE+74OnZ/AA1hJOe7HhLd/5r/wkkHM/FOv5s8xkg/dZZcNmi
-X-Gm-Gg: ASbGncuJvyWmQooERHDrPymvcUtharQTSd2Wd+3jiIjO2lJbIcUrtP3wYZlUd2SDQIl
-	2zmtrePq1C254niCNQh3FpTM4zz01Y9vdgzNxmr7v4pTuxB+0nWvJcEd430Alx7FCgBaZfiRevM
-	VYhHlUr5QB/HP/NzvzispSQddn2HbRPIybpfx5v83RPZ+KSEwwvDozGwKxOLPUI6Rsk8biKL8JR
-	HYVmTQpqbX6A+P96G+o/BnHXRtWAKZyl+QH50lsXKIykbkNDv72v2TdMyaC1wbsV1YIDN0lkfee
-	zGpRcltQMvxdbs6DeLYKeShomYxa2ltuFdDDfcoOo0BRbRqNIqgcFCom8LcB7Ngf8iJ9rVUfiQf
-	jbUD7YzIB0g==
-X-Google-Smtp-Source: AGHT+IHTmverQslNh+Of2OQdfM9KG+sNpKYYyXBNG8W5je+VjCNljcNikA0fXeYMh2Zp5w7wNtcx6A==
-X-Received: by 2002:a05:6871:2d02:b0:2b8:b76f:1196 with SMTP id 586e51a60fabf-2f7920cb157mr2219870fac.19.1751636405315;
-        Fri, 04 Jul 2025 06:40:05 -0700 (PDT)
-Received: from groves.net ([2603:8080:1500:3d89:2db1:5c0d:1659:a3c])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2f78ff40cd6sm514849fac.11.2025.07.04.06.40.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 06:40:01 -0700 (PDT)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Fri, 4 Jul 2025 08:39:59 -0500
-From: John Groves <John@groves.net>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: "Darrick J . Wong" <djwong@kernel.org>, 
-	Dan Williams <dan.j.williams@intel.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 10/18] famfs_fuse: Basic fuse kernel ABI enablement for
- famfs
-Message-ID: <yhso6jddzt6c7glqadrztrswpisxmuvg7yopc6lp4gn44cxd4m@my4ajaw47q7d>
-References: <20250703185032.46568-1-john@groves.net>
- <20250703185032.46568-11-john@groves.net>
- <CAOQ4uxi7fvMgYqe1M3_vD3+YXm7x1c4YjA=eKSGLuCz2Dsk0TQ@mail.gmail.com>
+        bh=QNE34YJ4bJTdCiv/b67QdArh6u6YpWkqfxv7OOglQc8=;
+        b=wm75XDmQV7QCTHrbsP3uK1yv2fWmOMmWC7m/3AP5N/Zg2vAOYwd0bsuGPMFSpdEM8p
+         z75IgsTOZa2VggmgfCh6Ya78V9+AV4SiChUQAjgy/M3P6q8gf5hjNoLf8etV/S+E4oTU
+         gXuZC0Z1WSJYvOzTErpFIfSJZofwglSwnXfouPMOQGxWS96KLNpkbV4PXLwmI7CGUf9e
+         f9of1Gh4nwR/wdEfjvK4hroFVZ/7JFYKwIBGBPbCCOJ07Obu1U6w7h9kprfqLhJzA1Va
+         sMCL03Zu5RcazNi3ix1DTPy3bX182v98T5i9WD5/LLtyt8bspDQXBGXEY8dEXLKvS2bt
+         okJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXAPo4R/TT1TyB5N/H047kZ1HvVRKTh6nuS8uTPhcsTlwW+3QIaNWjzKYMa9y+J7+E2eTyBJy+C2EI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/azf98ms2ahLYz5i0oIkHYjVe9ZXCD2t/NbIoEm/oCbLlJrwF
+	ME2e+/AZmUeJbg7MlWm+XNfReJ7Q4ED45RImHxjci4SR4gasqWA/uHGtxi0xi4SsZWvT5D/d7ot
+	IXuOqE/itAumbrU44bfydeZeS33T5S5COLtXxhB6ehm4KY5Ur9l+4Jw89wFPh4w==
+X-Gm-Gg: ASbGnctbU32UkM7wE7GjNIT9ODqpdP73/VYaG/OlS3Eptyslw6ZkiZgf1kfW0WohZ+t
+	U4qIjEYovD2YrmlgZGrm8KQrjI08K9mbmT1UxmgG3Ojj0SvGx+B9W+azRts89RHnftQcnSrwluw
+	3PJL9YN98F5TlJzVMMBIs019WRTKKgkAsCtNBAFTzDKZvhLyukzdYyeAVxjmqLTf7Aay3oa3j03
+	M8qMlLVVOLFxMi9/qjYXh8jykqxBwVvrZ3VqxXwo24MRWyZOWAWSxrMVDI6ZAl1XMR1vB/9TdAK
+	HammnCdj1l9sPAovWuce8PQ8OcQjzW5mr+ntG3RULQ6gN0UzAq9ZwtSN7GZgAuBIFeU=
+X-Received: by 2002:a5d:59c6:0:b0:3a4:f430:2547 with SMTP id ffacd0b85a97d-3b4964f373dmr2208980f8f.6.1751638143323;
+        Fri, 04 Jul 2025 07:09:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH7BaEbdvgTH4TXkFbL8aK5aSuqQqmuFuwPrq4OfVKVv3+Qx3O+iy3X6AnW5/0CjUj4zMFnmg==
+X-Received: by 2002:a5d:59c6:0:b0:3a4:f430:2547 with SMTP id ffacd0b85a97d-3b4964f373dmr2208933f8f.6.1751638142700;
+        Fri, 04 Jul 2025 07:09:02 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:270a:b10:5fbf:faa5:ef2b:6314? ([2a0d:3344:270a:b10:5fbf:faa5:ef2b:6314])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b4708d0941sm2564867f8f.26.2025.07.04.07.09.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Jul 2025 07:09:01 -0700 (PDT)
+Message-ID: <9904e4df-2aac-4dfc-9584-39140ccabbf7@redhat.com>
+Date: Fri, 4 Jul 2025 16:09:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxi7fvMgYqe1M3_vD3+YXm7x1c4YjA=eKSGLuCz2Dsk0TQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended
+ features
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet <corbet@lwn.net>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni@redhat.com>
+ <202506271443.G9cAx8PS-lkp@intel.com>
+ <d172caa9-6d31-45a3-929c-d3927ba6702e@redhat.com>
+ <20250627075441-mutt-send-email-mst@kernel.org>
+ <9a940f1d-da2e-4400-909b-36c5d72c950a@redhat.com>
+ <20250627084609-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250627084609-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 25/07/04 09:54AM, Amir Goldstein wrote:
-> On Thu, Jul 3, 2025 at 8:51 PM John Groves <John@groves.net> wrote:
-> >
-> > * FUSE_DAX_FMAP flag in INIT request/reply
-> >
-> > * fuse_conn->famfs_iomap (enable famfs-mapped files) to denote a
-> >   famfs-enabled connection
-> >
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  fs/fuse/fuse_i.h          |  3 +++
-> >  fs/fuse/inode.c           | 14 ++++++++++++++
-> >  include/uapi/linux/fuse.h |  4 ++++
-> >  3 files changed, 21 insertions(+)
-> >
-> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > index 9d87ac48d724..a592c1002861 100644
-> > --- a/fs/fuse/fuse_i.h
-> > +++ b/fs/fuse/fuse_i.h
-> > @@ -873,6 +873,9 @@ struct fuse_conn {
-> >         /* Use io_uring for communication */
-> >         unsigned int io_uring;
-> >
-> > +       /* dev_dax_iomap support for famfs */
-> > +       unsigned int famfs_iomap:1;
-> > +
+On 6/27/25 2:47 PM, Michael S. Tsirkin wrote:
+> On Fri, Jun 27, 2025 at 02:44:42PM +0200, Paolo Abeni wrote:
+>> On 6/27/25 2:18 PM, Michael S. Tsirkin wrote:
+>>> On Fri, Jun 27, 2025 at 12:28:00PM +0200, Paolo Abeni wrote:
+>>>> On 6/27/25 8:41 AM, kernel test robot wrote:
+>>>>> kernel test robot noticed the following build warnings:
+>>>>>
+>>>>> [auto build test WARNING on net-next/main]
+>>>>>
+>>>>> url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/scripts-kernel_doc-py-properly-handle-VIRTIO_DECLARE_FEATURES/20250624-221751
+>>>>> base:   net-next/main
+>>>>> patch link:    https://lore.kernel.org/r/23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni%40redhat.com
+>>>>> patch subject: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended features
+>>>>> config: csky-randconfig-001-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/config)
+>>>>> compiler: csky-linux-gcc (GCC) 15.1.0
+>>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/reproduce)
+>>>>>
+>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>>> the same patch/commit), kindly add following tags
+>>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202506271443.G9cAx8PS-lkp@intel.com/
+>>>>>
+>>>>> All warnings (new ones prefixed by >>):
+>>>>>
+>>>>>    In file included from include/linux/uaccess.h:12,
+>>>>>                     from include/linux/sched/task.h:13,
+>>>>>                     from include/linux/sched/signal.h:9,
+>>>>>                     from include/linux/rcuwait.h:6,
+>>>>>                     from include/linux/percpu-rwsem.h:7,
+>>>>>                     from include/linux/fs.h:34,
+>>>>>                     from include/linux/compat.h:17,
+>>>>>                     from drivers/vhost/net.c:8:
+>>>>>    arch/csky/include/asm/uaccess.h: In function '__get_user_fn.constprop':
+>>>>>>> arch/csky/include/asm/uaccess.h:147:9: warning: 'retval' is used uninitialized [-Wuninitialized]
+>>>>>      147 |         __asm__ __volatile__(                           \
+>>>>>          |         ^~~~~~~
+>>>>>    arch/csky/include/asm/uaccess.h:187:17: note: in expansion of macro '__get_user_asm_64'
+>>>>>      187 |                 __get_user_asm_64(x, ptr, retval);
+>>>>>          |                 ^~~~~~~~~~~~~~~~~
+>>>>>    arch/csky/include/asm/uaccess.h:170:13: note: 'retval' was declared here
+>>>>>      170 |         int retval;
+>>>>>          |             ^~~~~~
+>>>>>
+>>>>>
+>>>>> vim +/retval +147 arch/csky/include/asm/uaccess.h
+>>>>>
+>>>>> da551281947cb2c Guo Ren 2018-09-05  141  
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  142  #define __get_user_asm_64(x, ptr, err)			\
+>>>>> da551281947cb2c Guo Ren 2018-09-05  143  do {							\
+>>>>> da551281947cb2c Guo Ren 2018-09-05  144  	int tmp;					\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  145  	int errcode;					\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  146  							\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21 @147  	__asm__ __volatile__(				\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  148  	"1:   ldw     %3, (%2, 0)     \n"		\
+>>>>> da551281947cb2c Guo Ren 2018-09-05  149  	"     stw     %3, (%1, 0)     \n"		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  150  	"2:   ldw     %3, (%2, 4)     \n"		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  151  	"     stw     %3, (%1, 4)     \n"		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  152  	"     br      4f              \n"		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  153  	"3:   mov     %0, %4          \n"		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  154  	"     br      4f              \n"		\
+>>>>> da551281947cb2c Guo Ren 2018-09-05  155  	".section __ex_table, \"a\"   \n"		\
+>>>>> da551281947cb2c Guo Ren 2018-09-05  156  	".align   2                   \n"		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  157  	".long    1b, 3b              \n"		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  158  	".long    2b, 3b              \n"		\
+>>>>> da551281947cb2c Guo Ren 2018-09-05  159  	".previous                    \n"		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  160  	"4:                           \n"		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  161  	: "=r"(err), "=r"(x), "=r"(ptr),		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  162  	  "=r"(tmp), "=r"(errcode)			\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  163  	: "0"(err), "1"(x), "2"(ptr), "3"(0),		\
+>>>>> e58a41c2226847f Guo Ren 2021-04-21  164  	  "4"(-EFAULT)					\
+>>>>> da551281947cb2c Guo Ren 2018-09-05  165  	: "memory");					\
+>>>>> da551281947cb2c Guo Ren 2018-09-05  166  } while (0)
+>>>>> da551281947cb2c Guo Ren 2018-09-05  167  
+>>>>
+>>>> AFAICS the issue reported here is in the arch-specific uaccess helpers
+>>>> and not related to this series.
+>>>>
+>>>> /P
+>>>
+>>> I think it's due to code like this in your patch:
+>>>
+>>> +                       if (get_user(features, featurep + 1 + i))
+>>> +                               return -EFAULT;
+>>>
+>>> the specific arch might have a bug that this is unconvering,
+>>> or a limitation, I can't say.
+>>>
+>>> Seems worth fixing, though.
+>>>
+>>> Poke the mainatiners?
+>>
+>> FTR, I tried the boot reproducer locally, and does not trigger here.
+>>
+>> The above statement is AFAICS legit, and the issue, if any, is present
+>> into such arch. I would not say this patch is 'uncovering' anything, as
+>> the relevant pattern is very common.
+>>
+>> Possibly the test robot added support for csky only recently?
+>>
+>> I will ping the arch maintainers, but I suggest/argue not blocking this
+>> series for this thing.
+>>
+>> Thanks,
+>>
+>> Paolo
 > 
-> pls move up to the bit fields members.
+> OK.
+> Still sick sadly, so I took  more time off through end of month.  If
+> this can wait with thorough review until then, maybe the arch
+> maintainers will respond.
 
-Oops, done, thanks.
+Just in case you are well again - I sincerely hope that! - and there is
+some misunderstanding on the current status, this series is waiting for
+your approval.
 
-> 
-> >         /** Maximum stack depth for passthrough backing files */
-> >         int max_stack_depth;
-> >
-> > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> > index 29147657a99f..e48e11c3f9f3 100644
-> > --- a/fs/fuse/inode.c
-> > +++ b/fs/fuse/inode.c
-> > @@ -1392,6 +1392,18 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
-> >                         }
-> >                         if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled())
-> >                                 fc->io_uring = 1;
-> > +                       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&
-> > +                           flags & FUSE_DAX_FMAP) {
-> > +                               /* XXX: Should also check that fuse server
-> > +                                * has CAP_SYS_RAWIO and/or CAP_SYS_ADMIN,
-> > +                                * since it is directing the kernel to access
-> > +                                * dax memory directly - but this function
-> > +                                * appears not to be called in fuse server
-> > +                                * process context (b/c even if it drops
-> > +                                * those capabilities, they are held here).
-> > +                                */
-> > +                               fc->famfs_iomap = 1;
-> > +                       }
-> 
-> 1. As long as the mapping requests are checking capabilities we should be ok
->     Right?
+Cheers,
 
-It depends on the definition of "are", or maybe of "mapping requests" ;)
+Paolo
 
-Forgive me if this *is* obvious, but the fuse server capabilities are what
-I think need to be checked here - not the app that it accessing a file.
-
-An app accessing a regular file doesn't need permission to do raw access to
-the underlying block dev, but the fuse server does - becuase it is directing
-the kernel to access that for apps.
-
-> 2. What's the deal with capable(CAP_SYS_ADMIN) in process_init_limits then?
-
-I *think* that's checking the capabilities of the app that is accessing the
-file, and not the fuse server. But I might be wrong - I have not pulled very
-hard on that thread yet.
-
-> 3. Darrick mentioned the need for a synchronic INIT variant for his work on
->     blockdev iomap support [1]
-
-I'm not sure that's the same thing (Darrick?), but I do think Darrick's
-use case probably needs to check capabilities for a server that is sending
-apps (via files) off to access extents of block devices.
-
-> 
-> I also wonder how much of your patches and Darrick's patches end up
-> being an overlap?
-
-Darrick and I spent some time hashing through this, and came to the conclusion
-that the actual overlap is slim-to-none. 
-
-> 
-> Thanks,
-> Amir.
-> 
-> [1] https://lore.kernel.org/linux-fsdevel/20250613174413.GM6138@frogsfrogsfrogs/
-
-Thank you!
-John
