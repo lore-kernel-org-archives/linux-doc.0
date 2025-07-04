@@ -1,247 +1,179 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2073.outbound.protection.outlook.com [40.107.101.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3456123BCEF;
-	Fri,  4 Jul 2025 10:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751625949; cv=fail; b=Hl8SJVnv+xU8IsL5ahZmuuaI2qBAOqslm5phjxVeEaXcJDYblQwL0IPeCcKgV/stp8S76NfxZwooSWGzven/rWnzn/0yNz6Wo0l5n5QZTDoQ6pDBQ4VuFyiiFrOCRzgh7qkKRL5KfSu9XKHnMfeaBcuMCE7iznaebV+DgxGf43c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751625949; c=relaxed/simple;
-	bh=6frQtp0wDEInbkgxNXjOdpveJWLTTMxSpWGGfpbkWGU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kwa66WoSUTsQ8liuQ5VekGV4ffaGqFeQPJuqF+ioN3AmSw96hWk3COwrE1go560M+NGN/JtQcqSyp9GUXPu1rD88hu6Kv1DoT3C9OutTh4/762peS3C9A6UTqs2zIKb97BhvYn+Sk3oyEco8tY6O7lAYTk1yd4veXC+spUulrVc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=i/f3XKZV; arc=fail smtp.client-ip=40.107.101.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="i/f3XKZV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aWxmJqpzYNNBHmodkwRVozVKfJR7KRA1GXLKH9UrV8JkpzIWf/oqiS+GF55zHKxyD8mpUJSLFVhc79SZ8LvzwXI+T5bBaBhzqM4BEP8lgT1L+n4LJjKSw+E2bDSj8QGMh1phgeTJKLEHA99gbu0XYCRbzeqv6WBRH6Z4To8KBCef4/Iq8bZJBW24WKm1XV2/gZ2pl4KpQbl90mIwOdTTFVHQkUCgh1wvviG7Wc2JoX7JnkvF/9hgfZWihwCSqisc8PLZ2aiiDxCbIJjp4HnOxOxnAmgI9pFITkfnmWl3Ck3bJR0bb5dRkPMxkd7+JAqTCk3VOWYDeip+0o5fN/fosA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q7EStOB9Zedn3Dxl1WW5d+ZXeO7qPpkUndJHwb0LsbE=;
- b=n9183QXGbfuTxtI6z3ze+9E/lI4brDqgbICa8JwnqdUk4qhhE1UmUqjzmO/UFjtgliDqn+SZ76dbuGGPxCDUzBRCtgXGv8bYC+nut+XesCDs1TX+6XPcdNkrsx5TncQIWz/8Mcv9I0SNXB50AbIchfRRpJuX4OQyhtdLoQa1fyFDLPkcWbkmHe6voRDBBzVK6ZjrLf33NvgxsdkCQkN7R6fsv+jtSbPxkLcioUMpK1zzLxzx5h+1GwNzwDP1dxnnQkKTCogUUEcm5xoMoNpuYU/9eR4Vs0N/Cd5Y8ScY3eR4A7BsY1j8HEEK5ai/Mzqt4nU8oS99mpXYJ7I3NFLx3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q7EStOB9Zedn3Dxl1WW5d+ZXeO7qPpkUndJHwb0LsbE=;
- b=i/f3XKZV6hfeyrZsHflK3APwMholuhtf27cnSd0Rg233JYcHIRyObsgNEOTPSnrlJxwRhL5pTml4uim/3MgwPIj8qDt1H5vY0bbQNnbs2wfGvtSPym9E8tbap7RoPH4peLW5boWv51+3ZXjgZCF/6iaPMuPbz6AxQcO6GAM1a18=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA1PR12MB9064.namprd12.prod.outlook.com (2603:10b6:208:3a8::19)
- by SJ2PR12MB8882.namprd12.prod.outlook.com (2603:10b6:a03:537::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Fri, 4 Jul
- 2025 10:45:45 +0000
-Received: from IA1PR12MB9064.namprd12.prod.outlook.com
- ([fe80::1f25:d062:c8f3:ade3]) by IA1PR12MB9064.namprd12.prod.outlook.com
- ([fe80::1f25:d062:c8f3:ade3%6]) with mapi id 15.20.8901.018; Fri, 4 Jul 2025
- 10:45:45 +0000
-Message-ID: <3e119daf-ff7c-d509-4409-9551ce3403fa@amd.com>
-Date: Fri, 4 Jul 2025 16:15:35 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v3 09/14] RDMA/ionic: Create device queues to support
- admin operations
-Content-Language: en-US
-To: Leon Romanovsky <leon@kernel.org>
-Cc: shannon.nelson@amd.com, brett.creeley@amd.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
- jgg@ziepe.ca, andrew+netdev@lunn.ch, allen.hubbe@amd.com,
- nikhil.agarwal@amd.com, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andrew Boyer <andrew.boyer@amd.com>
-References: <20250624121315.739049-1-abhijit.gangurde@amd.com>
- <20250624121315.739049-10-abhijit.gangurde@amd.com>
- <20250701102409.GA118736@unreal>
- <23018193-6db4-c0be-05a8-ed68853bd2ff@amd.com> <20250703084102.GN6278@unreal>
-From: Abhijit Gangurde <abhijit.gangurde@amd.com>
-In-Reply-To: <20250703084102.GN6278@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0047.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:22::22) To IA1PR12MB9064.namprd12.prod.outlook.com
- (2603:10b6:208:3a8::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5933C17;
+	Fri,  4 Jul 2025 10:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751626545; cv=none; b=T5TWj68HTb8oGwTOXgGjDENNthTvbWk9oka87oyoh0oLgGku81b3BBho+3or5tiHVN/GOsMHbUtep520aYfEEi7LA8obW2PjzaJmMpVnCxvVmTERqlxmpLOUr7OIzhtp7aDdLG/ckbgg3Ia/wjZXbMVe8iVR+4BiNrMRsRJwQTE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751626545; c=relaxed/simple;
+	bh=VHJxjtIueVu95g9CTT4FP5TOJfwkG07w26O/OKDvsts=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dj0jnWa3E7vQsHCiMi87VAM975itI6k8WOraMW5N02/dHA3ZvrsOxxgqeQTRUvhJoEXpE+EwsKTeGRnDLCDMwb3zvtFUdxiKoL35SEiBorhfC6on2OVLwTxgM6M1C8DNp1FCBSsW6fuqBVrorbCHL3o/o/+aXVAygeoyEN917Ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-60dffae17f3so1350886a12.1;
+        Fri, 04 Jul 2025 03:55:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751626542; x=1752231342;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yv58hde0UO9uLPlUaDiluXjUg7qKqQefSz6dT5yVAoo=;
+        b=b/8ZBJAu4R5d48qxxpk1UMuadjGXOdjaaBtgOjoScdLrCxM/vPp/8IVh55Xw71h5bI
+         bx0tcnChJTtPlDW7P9YyUj/r4a+kB39sfwSgeGPWZs4cA9qcwCXPE78I7A1BRkWwGutJ
+         gPoQGo197akcFRgZDlFL2WodaXcyz0GQ7GKNQfwOVX0M0wIQhdEbBwP+/2KpE+Y/R5q8
+         2U51ikzpGKx/nr6Xsi9KVgqxEAe4i4LDusoG0AKZiO546rQaWETH6eADINbQhAZeeVB2
+         zUuqR5axSoOJbRnyl1v0Hn8Gs7Iriph38iL/bpPuZLWrHnaxK6s1q1Q39NSWtFPFkr61
+         OukA==
+X-Forwarded-Encrypted: i=1; AJvYcCV524Gp+A8JXMljo8qqSn/2ll4+5go8U77mQN0kvvF3ZSK3+62SZlpOJXV856WYQK3MlK2d4md9U9fW@vger.kernel.org, AJvYcCVQBWlB4n5RMAG+DLy2npoHbvOjMVryyMRkd298fLGpu+TLUNWG2L04KbUfPTwHs3NGrfNg6z9p62wt@vger.kernel.org, AJvYcCVbPlpBw3SC+C/c7s3G7fOraoZEBc8LChf9AHZ1e8mbYMMn3+W3SrUwyklhyS59e5k5ikC3CqucBqH+xSB5@vger.kernel.org, AJvYcCWlZRpBJLkK7f7Byb5RYG26pTSBy9alhDIkPH6Lq7Nq7xgE3BhtTFiGwta1mtFYSwq5ABMToXl2+Vn3SQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6Ij+FW+Goy+mk73PDfHyZRxlRcUF8a3YN5rQRpeZd4MwwmfMT
+	rvnXkm0ANiSsGr6yaNQYwNnbNhHNsyOwFx2x9RyRLPheItASbqZXmL+A
+X-Gm-Gg: ASbGnctvgfJjXuEn+P9sBg94LcsHkU4VcgvsfoFUcLUjMUFCkodSBG8i4SWkntP1o1M
+	1AJkrXrV2ATvRyQBXvxdxBEx882qYBbrlKbLLtNJEgPjw/2qyGtDFBiu3lFcVfrJXeWB4PhMSxF
+	h3OG37nhfGULH9eCh+1toIcjuoLRyVwyQUrTXHh4CMnCnNIQt+b2XsXGLN8cP9x0g8e6CgJHwPd
+	b7Xe3DbpBVcXUREUG5STHoGLgyG7nwCNsQrCL9P9BXaakXtSvEikq7AIk9ZSMXEV4/A3oebZCfE
+	9uLrH/oIfTpi+u+zsHjzLSjGmwWv9YTu7nX0HpsAVKmOgJxgHP5MfTdSFeTb8DjJ
+X-Google-Smtp-Source: AGHT+IFDLwmmlf2pCDoT/UbXqN8FDaMYsjxO3JDjk+MnIFacPE/J/E3g5iO+lHClwh8fuZSOwgGPiQ==
+X-Received: by 2002:a17:907:c25:b0:ae3:64e2:c1e with SMTP id a640c23a62f3a-ae3fe457a97mr167133666b.10.1751626541398;
+        Fri, 04 Jul 2025 03:55:41 -0700 (PDT)
+Received: from localhost ([2a03:2880:30ff:70::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f66d1c37sm153036766b.35.2025.07.04.03.55.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jul 2025 03:55:40 -0700 (PDT)
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH 0/2] panic: taint flag for recoverable hardware errors
+Date: Fri, 04 Jul 2025 03:55:18 -0700
+Message-Id: <20250704-taint_recovered-v1-0-7a817f2d228e@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB9064:EE_|SJ2PR12MB8882:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d0b0d9f-e1e0-4635-6141-08ddbae7ee1d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TW5INVlMRU5aMmpoSGE1dnJXMnlQVXRGaDdsdmFHVzNLTnpncHBqK1NtVW5n?=
- =?utf-8?B?YTErTVh2QmZsMC9EaDREc3RSalBtQW4yYnYzSlpIb0wrZFRkSHhuK2dqRXRS?=
- =?utf-8?B?UDByL2pZU0ZpZU5mc0NqdnNlMWw3bFdlSW1CMjZZU1lJcHhnNGZYeENHWWZj?=
- =?utf-8?B?VzJJRVdQd3Fqc2hGQnYrZTZVOWxCT0Y3SWdTWVcrSk85SVhYZ1dkS2RhRmJV?=
- =?utf-8?B?TDhIVDcyWUdndTRWWjNreDRwYkZtaHZEcXo1SUVZdnozalpVYmQwVmRzZWwy?=
- =?utf-8?B?aGM4SEh2cFRucmJ5NC91emQ0R3VqSEd4OXFkb1Z6eGlMb0tVQWN1SjlCVHk1?=
- =?utf-8?B?Q3MzVFdmVW5KUGdPdUI3VHQrK0ZxWDN1RThpMWhPWG1OOU9GSVQzL1ZKNmlv?=
- =?utf-8?B?ZzBDUitndjJNZ3RNdmUwSDNpNWdxYm4wR3loaU9zcnNtRlNmMTl3OXlFU215?=
- =?utf-8?B?WVZjenZ5WDZReElUUUhCaXpWSlBDdDhPWmVjTVF4clduU1B2Q25IZk41Q1RE?=
- =?utf-8?B?Vk9vYk9kNDVwdk5LSVgxSnZBaGZGS2M0UzNSZDlXeHZTVWcwd05GeXpicS9K?=
- =?utf-8?B?OS9hdW1TTGNMVTdkak1Ccld1TTFFcDFibkpieXVGVUdzbVBoK1dnV1Y5cGNT?=
- =?utf-8?B?SEVXbkh6M2RnVCtCQkljenVFa2llNVA0WjB5c01ReEludnAvbitvbGFWRUNI?=
- =?utf-8?B?RkZKUm1kMnkvMDY0QnhlK1RWTmRTT2t3dlcxaFJoYU9xbmNYVXlrbm5ienlS?=
- =?utf-8?B?UEVSTXhwSU1CRDJjeUVVeWNVQzMzWXJ0MmFhZG9mV0xRV3htTkxNTy9LVUFl?=
- =?utf-8?B?czdiT3VSTHZHWnFvbHJJTnZySjdWVUFycFpZTWtDQThXaU5wTkpKdWh1WkIw?=
- =?utf-8?B?VWJlOUFLRjJnOUdjZVgzMG9PYnNWV3JrUndNeDNzWWlYZG0yS014TkRpbTFN?=
- =?utf-8?B?NmxJVU9iR2o4Ui9jSmNGbTRDcEJXMmdkSnlYWHpUMTVrY1hNOHZvUXh2UkFo?=
- =?utf-8?B?MzZKT2JoaUlpV2xoYTllMjNNZDc3YmUxRzRweTdSMkVVdUNVVXVWRDFyb0d3?=
- =?utf-8?B?dHN4dXlLK0NoeTdMdjhJV3JGbHVSQXFwaGlrVUJxM3BLRWIzMXI4QWM4SU9H?=
- =?utf-8?B?OWU2SENLZ1cvci9JdS9sN2hpOXlLb2liWTc1V3RNcGwrNlFzeHNBeXlaSmJQ?=
- =?utf-8?B?K3dyeWEyZ0xvdjk2QTJGQmIrN0s2L1ZHUkkyZnlZc2wva05JSTRNd1ZrR0Zj?=
- =?utf-8?B?LzJUbE5FQUVONk5Fa0NtdHEyQW1NVE9iM0crK0w5RktJRFB0RmQ1UmtBTDEy?=
- =?utf-8?B?TWtmSlp6aWNQOWYzOVhNVEhmWHU1VGJzQlNKMTdBTFdUc2NyTlRiSlhTM3FD?=
- =?utf-8?B?djZlTlhUU2tIYTRHRjg0SjdFdjNBT2NlZ3MxVHowUlU3bG5wK1NtUGFySGw5?=
- =?utf-8?B?aEtUbEN6dzN0MWZBMXZIc3ZibUdYbTJSbWs1bGFqbWJPYTR5TkllYUxZbnI1?=
- =?utf-8?B?K0lQbFpUYW1yRTF2VE5HWnFmTkhMSENuRnF6c0lsSW5oWFN3cEJGdjhaN1RR?=
- =?utf-8?B?eFF3SHlvM0RSQUs2YmtMSFQ2YUw1QjJvK1pXN1EyWVpMZ3ExUTZUMk9QTU5D?=
- =?utf-8?B?UlFwcnV3RDRic3BieFVSTVRlRWJKM3dEYTd1dGowNTE3MTFvT2c5eTRobUJu?=
- =?utf-8?B?REFMSGllU1k0bE1mN1BnbXI2WW9ZSGp3OHBDUUlzNDl1YS9pV01GK1dTNyt6?=
- =?utf-8?B?c2F3NTlkSEVCQnVIY1pHT1hTWG1GK09CKzBVV25ndE1hcDU0SVgrNjFmcnV2?=
- =?utf-8?B?V1Bwd1dqNjhXMW1kWlhiVjVIR2sraUE0RUlPckhCTmpsRTZIVWtGUEJsdFFS?=
- =?utf-8?B?ZmVwQXo3UG9EeUZ1c1FwNU9waWtKd29TNkhOakZ0alNUbitRZEZKdUpDOEJ6?=
- =?utf-8?Q?VvWdUuBs5LU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9064.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cGl1VnRzcjF4T2NEOExrcDBwMzhWRnUrT29UUmQrbVZiMXBnRU1YdmVRZmxT?=
- =?utf-8?B?YlFBNUFqZnplTWlkVjN4UGpqWS82L0RvS0lpUk5rNEczb2F4T1hMQUxBNSt5?=
- =?utf-8?B?T2Y2V1hqOXd3b3E0dDEydUxSU1RaUnErRmxzdHlEU0MvVzVUWDFkY1JFWFhs?=
- =?utf-8?B?aXYwbno3RWhrVWt3eHhhaTVHOFlVa2p5WHdHM0pMdEJyMU5LU3dIbktqTmtq?=
- =?utf-8?B?MFo0OTQ0ajlPK1lwQ2hwamVRSlJQeHhTRENOVDJtSzlxYnBUaTgycUtFNWpw?=
- =?utf-8?B?UEhEVUYyejluUmdVOVhuV1BjNldVV0prZ2ZqYnJQRVgxS3FwdHdkN1dyOEJC?=
- =?utf-8?B?K0RkdVNQeGlGTUJyWWlvUjF3eWVIZjVRdGpjNzNrTEdzcnZZcmFTM0hYcDln?=
- =?utf-8?B?bE5jRGxsTWVOSWQwTnhVczB0SEVLOWFwN0dhTXBYVVN4dmc0RElsenZQbG1H?=
- =?utf-8?B?NnF2M1IrWi8yTC9BblpFbTZzNVc4em9VMU84K2ovMWJhVjhnYmw3VkdQcXdx?=
- =?utf-8?B?K0xwWWRHeS8zdXpZN1oyRHFxdjNzaFVUYnJBeVNnN1p3TkIzSlhoa0VqL0tw?=
- =?utf-8?B?QThhMmZJaVBHN0p4RWtBTUtCV0FUc3FPT0lkWTV5MFdYWTh3M0JBY0sxRERU?=
- =?utf-8?B?MnVTL0F6WkM5aTVBa3hjRzdueHVDNlJibjN1alovTEVkdG1mQk9RdVprRDNm?=
- =?utf-8?B?NXRvQ01Gb1NQSEt5MzZVZllKYmc3TzJ2cjg3T2FJY3h4S0tsWmEwWHRZVm90?=
- =?utf-8?B?NzhZayt6ZXo4cmdwd3JaYktXaWVibFAvWUJSclVhcno2U2ljdU9rNmVocWZP?=
- =?utf-8?B?Y2M0WE1hNzNTZTZrN2ZpLy9GSFNWU2ZNdFllSFRCb3U0TGVNaG45ZE4wTWZm?=
- =?utf-8?B?dXNHRmt3NVhVMTVzSjBqVnZTVGg5NFJEZlVacUg5aGhNbGoxWXpMM1JKR0xi?=
- =?utf-8?B?Q0QrNVgwODBDNUpwUGY1elZSZ0Yyb2pITDhsNG1WYzI0UmJmMjdXYkh6Y3ly?=
- =?utf-8?B?VHFseEltTGRqajhHVk9pWnRlYVpPbVVlSDhoT3MzTWlaSEhpdGsvWXhWREZJ?=
- =?utf-8?B?Y05GZmk4QVRGbXRPTzNaQTZ6WFdTeHlzOTFwTEUwMFVmaGZPQjJFNXBYRU5R?=
- =?utf-8?B?YnFrdGhERUUyMWYzTklQMjNNSmYwMjNPamZpYk1SR0FqVVNDUnNEM2Vsa1lr?=
- =?utf-8?B?dFU3YUZGMlFCNlZtMTE5Y1ZwdW1jdzZ4OXhoNlA2Zytzc1cyVDMyZnJ1bGlT?=
- =?utf-8?B?N1BncTFUM00rcXRKZkxERDVuUjlvNG9wNzNsMDRtRFJTRjgxU0FZS3BZa01S?=
- =?utf-8?B?VmZENDcyQm5NUjdRQVd4bUFWMzhmeTJFRFpYaGxLZXRrOFZmSHFIVHJkeXlN?=
- =?utf-8?B?RnUrNzFGWEc1UFFNR3NScTF5RWgraVdOVG0xcnhLYWN2MzVkK1g1K0RTM1J5?=
- =?utf-8?B?UXR3dDFNZDBrRVp5UXVWVTRTTEJuSWp0VGR4UVRPY1FDWkVHUmdCSkQvUllk?=
- =?utf-8?B?TWd5THZ5N2QzNmwwNUpzVTR4ajNRSUIzY0ZpWXo2cWRuRGZDcFRCakovWkxX?=
- =?utf-8?B?SmhBLzBWbEVOR05yckQyTmY2UWtna054NVI0eGoxZXJqa240VEFtVXp0ZGx2?=
- =?utf-8?B?VGZjb1RlNU1pZ1dFTFdNZ0tYZ1FCSjhTVHlQNXVkV2diMzFqTjVia3VTYlF2?=
- =?utf-8?B?QnkyaUEwREozcnZuSDZBcGdNaHVZajVnSkVLVTJUeU1tSUQwUFZRbS9kd1I0?=
- =?utf-8?B?am1BcHRTVkM5VzAyMmY1UGJDUVVRYUg1L2RGNjltV3FFMTlMaG5JRzI5RDgz?=
- =?utf-8?B?NlVuWXFBU2dCRmZTU0YxckNjQkl1bStYZWtSUHd6bEtnWUZFeEs4TjU5YnY0?=
- =?utf-8?B?bTJRSFp5b2RNT1VVVnRFQ2d3KzMwU1J5WEZmdTl2MW9Wb1RkcXFuaXI2Um53?=
- =?utf-8?B?THRkRDVveFNySzNyK2RwdlhmQkNJbmlWeFM1OU1tenJKQk9TNlJETzdUOWE4?=
- =?utf-8?B?OTBMeHhHTDRoY3UvL2V6UXFxcGtsc09CNkRtYi9lYzRwNmtxUkNRREh2Q0wr?=
- =?utf-8?B?V1BCc0xkK24yNFd3bmhGOWZZTkZBTzRud1ExT08wOGc3bWhhdExVQk15Yy9q?=
- =?utf-8?Q?ps+IEpscslSuu3ylr7KZ7/3H2?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d0b0d9f-e1e0-4635-6141-08ddbae7ee1d
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB9064.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2025 10:45:45.4577
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nKLRuZVSMFVhQq9RpAKrcgeIeIdRzZP5H3mtvJ9KWmf1zUlca22iWlC0tk7UFA30F4el2S57l1cvvvBUEcVcew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8882
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABazZ2gC/x3MWwqDMBAF0K0M99tAjH3YbEWkpOZq5yeWiUhB3
+ HuhZwHnQKUpK6IcMO5adS2I0jaC6Z3KQqcZURB8uPq779yWtGxP47TuNGbX5sD+4dOtv7zQCD7
+ GWb//cRjP8weEUURXYQAAAA==
+X-Change-ID: 20250703-taint_recovered-1d2e890a684b
+To: Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>, 
+ Jonathan Corbet <corbet@lwn.net>, tony.luck@intel.com, rafael@kernel.org
+Cc: Alexei Starovoitov <ast@kernel.org>, kbusch@kernel.org, rmikey@meta.com, 
+ kuba@kernel.org, ast@kernel.org, linux-edac@vger.kernel.org, 
+ mchehab@kernel.org, bp@alien8.de, linux-acpi@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ kernel-team@meta.com, Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.15-dev-dd21f
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3770; i=leitao@debian.org;
+ h=from:subject:message-id; bh=VHJxjtIueVu95g9CTT4FP5TOJfwkG07w26O/OKDvsts=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBoZ7Mrc7V7nLH19ai/Bq48bcC/oEO5w4zubbmIL
+ dMeOvdQ4W2JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaGezKwAKCRA1o5Of/Hh3
+ bZPgD/9agbNbYeIcTyFzFhptaDD9QCpNr3kTZ49I0FZ5h0HdEjfkUZT+p7V4WxdgfEG8mCltXoo
+ 2axTuviofV9XDDbWX68AnY82yQ2JVAFW51xPVBTdawiXLZhiZCknQ14Zj1FabdQtm+rwlsjBOgd
+ 6so4xlfC+OXOalokgqlL8v33z9W4VI0s6+aBLoJHZilHbc9+xfrf0DtWopIBXJ4wgDxKfaKoJ0U
+ Z7h0Y/ecHQsznBIa2yuQPfaR4dBPEfyfQ+eloKtrWWfnS6+OQKCFWOF6hMnspdglnhiAOPbA7Xi
+ orM/sWe6gYAAxHtlivlFElALCznCEpcAiXX6qcz4WUHGC6WvUGkQWtVhbzLShJ1fjagy5ji7Ibs
+ JKmOv47wMGfrtPKoUHDpgT3NpLXjBvRqpMdY46G6k5qanSWNZWVvfitXnodz5gL+CU1AzS2E5sw
+ cSu8edqPYv/nY7CUoez7HiAsvZlVJlvEIosAPl29lfWwLakOqxxEYjSV+w2VsEe5wNGEdOfj3QB
+ 4YUeuVeNCcVvXg/EYb/F3eHRifywY0rUlFbL3F1UJ4SsHQ1wwlFF54tVcpN33JPCmExfkmO7jPW
+ 6POmnN3FPIH6Gqet1C6L+64UN6OPetpS6LgcffsOSZTjsxceke+WxLkYLMzJPLnNjXA2N7LJUBe
+ NYzjnwTEjy+86xg==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
+Overview
+========
 
-On 7/3/25 14:11, Leon Romanovsky wrote:
-> On Thu, Jul 03, 2025 at 12:29:45PM +0530, Abhijit Gangurde wrote:
->> On 7/1/25 15:54, Leon Romanovsky wrote:
->>> On Tue, Jun 24, 2025 at 05:43:10PM +0530, Abhijit Gangurde wrote:
->>>> Setup RDMA admin queues using device command exposed over
->>>> auxiliary device and manage these queues using ida.
->>>>
->>>> Co-developed-by: Andrew Boyer <andrew.boyer@amd.com>
->>>> Signed-off-by: Andrew Boyer <andrew.boyer@amd.com>
->>>> Co-developed-by: Allen Hubbe <allen.hubbe@amd.com>
->>>> Signed-off-by: Allen Hubbe <allen.hubbe@amd.com>
->>>> Signed-off-by: Abhijit Gangurde <abhijit.gangurde@amd.com>
->>>> ---
->>>> v2->v3
->>>>     - Fixed lockdep warning
->>>>     - Used IDA for resource id allocation
->>>>     - Removed rw locks around xarrays
-> <...>
->
->>>> +		list_for_each_entry_safe(wr, wr_next, &aq->wr_prod, aq_ent) {
->>>> +			INIT_LIST_HEAD(&wr->aq_ent);
->>>> +			aq->q_wr[wr->status].wr = NULL;
->>>> +			wr->status = aq->admin_state;
->>>> +			complete_all(&wr->work);
->>>> +		}
->>>> +		INIT_LIST_HEAD(&aq->wr_prod);
->>> <...>
->>>
->>>> +	if (do_reset)
->>>> +		/* Reset device on a timeout */
->>>> +		ionic_admin_timedout(bad_aq);
->>> I wonder why RDMA driver resets device and not the one who owns PCI.
->> RDMA driver is requesting the reset via eth driver which holds the
->> privilege.
-> I wonder if the one who owns CMD interface should decide and reset device
-> and not the clients.
+This patchset introduces a new kernel taint flag to track systems that
+have experienced recoverable hardware errors during runtime. The
+motivation comes from the operational challenges of managing large
+server fleets where hardware events are common, and having them tainting
+the kernel helps operators to correlate problems more easily.
 
-To be precise, this operation resets the RDMA logical interface built on
-top of the base device, and does not affect the PCI device or the
-Ethernet driver's interface. Apologies for the lack of clarity in the 
-previous
-comment. I will update the comment to reflect this accurately in the next
-version.
+This complement the new MACHINE_CHECK taint that got added for fatal
+errors. [1]
 
-> <...>
->
->>>> +	old_state = atomic_cmpxchg(&dev->admin_state, IONIC_ADMIN_ACTIVE,
->>>> +				   IONIC_ADMIN_PAUSED);
->>>> +	if (old_state != IONIC_ADMIN_ACTIVE)
->>> In all these places you are mixing enum_admin_state and atomic_t for
->>> same values, but different variable. Please chose or atomic_t or enum.
->> admin_state within the admin queues is protected by the spinlock,
->> hence it is used as enum_admin_state. However device's admin_state
->> is used as as atomic to avoid reset race of reset.
-> The issue is in mixing types.
+Problem Statement
+=================
 
-I will correct this.
+In large-scale deployments with thousands of servers, hardware errors
+are inevitable. While modern systems can recover from many hardware
+failures (corrected ECC errors, recoverable CPU errors, etc.), these
+events causes the kernel to behave in very different ways, which can
+cause  bugs due to the path that is rarely exercised.
 
->
-> <...>
->
->>>> +
->>>> +	if (!cq) {
->>> Is it possible?
->> Possible when HCA goes bad.
-> Do you have errata for that? Generally speaking, kernel is not written
-> to be protected from broken HW. The overall assumption is that HW works
-> correctly.
->
-> Thanks
+I experienced this pain very recently, where several machines were
+crashing due to a recoverable PCI offline port. The hardware was
+behaving correctly, but, during the recoverable process, the kernel goes
+through some code path that is rarely tested.
 
-There is no known hw issue around this. This was added just as a 
-precautionary
-check so that wrong cqid does not result in kernel panic. I can remove 
-this check if
-this is unwarranted.
+In my case, the kernel recoverable process caused some issues that were
+hard to find the root cause. For instance, recoverable PCI events
+cause the device to suddently go offline, and later PCI re-enumeration,
+which would reinitalize the driver.
 
-Thanks,
-Abhijit
+The event above caused some real crashes in production, in very
+different ways. From those that I investigated, I found:
+
+	1) If the disk was going away, it was causing a file systems
+	   issue that got already fixed in 6.14 and 6.15
+
+	2) If the network was going away, it was causing some iommu
+	   issues discussed and fixed in [2].
+
+	3) Possible other issues, that were not easy to correlate, such
+	   as stalls, hungup tasks, memory leaks, warnings, etc.
+
+	  a) These are hidden today, and I would like to expose them
+	     with this patch.
+
+In summary, when investigating system issues, there's no trivial way to
+determine if a machine has previously experienced hardware problems that
+might be contributing to current instability, other than going host by
+host and scanning kernel logs.
+
+Proposed Solution
+=================
+
+Add a new taint flag to the kernel (HW_ERROR_RECOVERED - for the lack of
+a better name) that gets set whenever the kernel detects and recovers
+from hardware errors.
+
+The taint provides additional context during crash investigation *without*
+implying that crashes are necessarily caused by hardware failures
+(similar to how PROPRIETARY_MODULE taint works). It is just an extra
+information that will provide more context about that machine.
+
+This patchset focuses on ACPI/GHES, which handles most recoverable
+hardware errors I have experience with, but can be extended to other
+subsystems like EDAC HW_EVENT_ERR_CORRECTED in the future.
+
+--
+
+I would like to *thanks* Tony for the early discussions and
+encouragement.
+
+Link: https://lore.kernel.org/all/20250702-add_tain-v1-1-9187b10914b9@debian.org/ [1]
+Link: https://lore.kernel.org/all/20250409-page-pool-track-dma-v9-0-6a9ef2e0cba8@redhat.com/ [2]
+
+---
+Breno Leitao (2):
+      panic: add taint flag for recoverable hardware errors
+      acpi/ghes: taint kernel on recovered hardware errors
+
+ Documentation/admin-guide/tainted-kernels.rst | 7 ++++++-
+ drivers/acpi/apei/ghes.c                      | 7 +++++--
+ include/linux/panic.h                         | 3 ++-
+ kernel/panic.c                                | 1 +
+ tools/debugging/kernel-chktaint               | 8 ++++++++
+ 5 files changed, 22 insertions(+), 4 deletions(-)
+---
+base-commit: dc3cd0dfd91cad0611f0f0eace339a401da5d5ee
+change-id: 20250703-taint_recovered-1d2e890a684b
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
 
