@@ -1,184 +1,240 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2085.outbound.protection.outlook.com [40.107.94.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C5F285C91;
-	Sat,  5 Jul 2025 07:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751702352; cv=none; b=MemrjG/GshUK5d6dM+9LRAyqi7RmNRFZ7ouYl40NFd8ZYU711AOxeSqGSjjqU02fbqaGthleBPedDwuU+fuvtlPIoGC28TZjRf8LlT4WOzWe4nHgqoE+uNYsoCPl/+f5KYtxMxFgCl7Mv82Kl8VaKYkbXurveRLfF2zUBN9/PBs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751702352; c=relaxed/simple;
-	bh=MyvvlUkjHpDb25gllFrtgrhNwHVoB15nnK/0nLDzEpA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OrQhL+aNYwdbmxeDHvAkD+Wfo0lJUuYW8Dllye8JV/YmNE0BpUtFiqQkhP1fAKI15I1SAH7NZpxCRft2MFoQc4jHIKr2KeJ+DsPOYkZPxOf0vDyzVq4/Rsn7Bj/+Wmz5EGcPn8m8bq7a/4QfxFuffgJoezfaUnFG2StJFzXeJJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cAQeZsOm; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B977A1898F8;
+	Sat,  5 Jul 2025 15:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.85
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751727826; cv=fail; b=KglWqLQwKSuQfSW873XRfl5HWkMcuHuAbevxnGajgey/3YlLq38RGOIgA9R7XUgx0HJKrk+XWelJO6Bfj5NVT75TSdM+cQELgdmg1CZT3GP6YVUVEdlpC5hy+0u/7t1jXgBwkym0gKZ5MEbe5FGrphVHFWzQKDGjFSufxCXF4C0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751727826; c=relaxed/simple;
+	bh=qYKs80OFOvp72dHCLggo195POZ9C8XaoBEm0pa+MAyA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=MB47qUEjgRj9vJvPZ/9UemGJ5Wrb4qvOZfdufHZITTQef5PRhb1Oht4vgnuBX6WDmFzsyNFQMdIG46a2mqWuDa3Dq3LMtLrKnb4vz3wAuStz0yHQZsa230CRAZVC+rkJ8Ta21TJbdiTvOcG54/KWbaNNyBFJOYZ1fxgdvmhEBG0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jIjpWgp+; arc=fail smtp.client-ip=40.107.94.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cAQeZsOm"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-60bf5a08729so2768128a12.0;
-        Sat, 05 Jul 2025 00:59:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751702349; x=1752307149; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2DUPGizcJCKcVSiA1WanuvVCLC1N0ClOoR03LFG1lAw=;
-        b=cAQeZsOmMme7NKeeX539riLeh7lLAINIDOP0gqnBjEmSYw6fu9yEX1d0mbl36cMTVw
-         vCN7q3N7DKja75W2KTac8nLqrIow1trLAQP5nnjc+gchUPM/HUFCL1BxRgbJSoi9NvzX
-         9Jnx0J8T3qhCHQut2/tujk19Qi2mWIPIUnUzKDPhbLAMcEYSPYtFC/YJB7Tg4Yu2UazY
-         0FuEoL7EMl2u+5vnoTqj3OUARn7IkyuttYWxVOKodjWrgVJJxNXJN5JX2OGVzWH/dysn
-         Dy0RJtur64ScO7nUmbVUctsJettbxGoPqp6Mr6tgmKbWpcZBQqomKsqBYb3AnV04e9FU
-         rc5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751702349; x=1752307149;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2DUPGizcJCKcVSiA1WanuvVCLC1N0ClOoR03LFG1lAw=;
-        b=N1GRkpDG3N3EE2cJsKN+iP4tui1nB23HayKdbSQAakkaXcV3gZCYIff94E/vxKVtpm
-         V/8pXAo9onj+Fzu3v/ifcSBlTBRafyUrvnBb4YVNRgfIdIMjLeph2pRaj5i78ok+geYu
-         ytm7n6GxD01Z1G6TP7Pa0DSzRsW+iJTHXw+LxqLl0ZUfAP0uhpui7P1YbBYmXeg9cqDG
-         T3GCrq+AttprtAdERrBfeQ3xRPEdbQesivP5K1AfzinfNm7x2CRB4jaq5a5CtJygz+WM
-         O2iMc/MS2Is0bw0ty2T8AYxzFX2PccLSSrSCsSuA8haPFLHWswVud08HNqd2rd3rxo2J
-         UJQw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/OuCM/UICxVq3VMd37ME/mneEr0Kp0tc56dK+oBGFH4BQ4UzmOFj8P8BzOX95Z2H7zA0YU0P5FQ1+Qic8PA==@vger.kernel.org, AJvYcCUIk33d0iYVA9OF3rTopUA05CPDqD6a79lqJ+NX1AXsRKFsshxKSER7FmU1yDPZXUnDRVT58lqVOTU=@vger.kernel.org, AJvYcCV5KsR89cgv3kf4RXot07EQa0NO/SGzdls5PJrwQPzc1BqDA/lKdMhQcVvu45ZFgJx1wSnrOR+CEE9Eg9Sc@vger.kernel.org, AJvYcCXW+Zhljd6Xv9v0MRJ5dDi6iMtHZvz11W+Zp0ZKzMw8P71+gHYA0mOV8iH6DbHIwKzYjcT/ekj6YIFk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGsll9zv9ABndnSObvHyzTvcI6KJufwB8Pf5YvlLeAYXb+mKKz
-	dSEIPEg1EMJkGDSocFtS5dYrAOxIHCKpVDp8hN9qez8UZ8/9qgl7ZrFii3xbA1tY2WdsIhaf2mg
-	Ue90rNe4VdmIR9pDLkHu9M1d19HKC1BY=
-X-Gm-Gg: ASbGncvvM9PQQQ9xdo0ErQaHslQqvYm5JCyRguhOC3eFUi+3zwN12LZTMGaHOevIUUE
-	XcjH+TNzM4e40pB5hSIzqVPr4esh2T6Rd7jVGWYz1e90UI5x7FDzbSVh7uMMpLahNrsG+CfIEGS
-	vuoOP8PWKvYNplxtFRQ9+FzuzGrdtGJ9Xp5mllVadui3Q=
-X-Google-Smtp-Source: AGHT+IGdvwsNyuJyTecRCTicnpvM7VA0CpzpCj0R6PEmEpr94y/m3eOzdizlm78HEjU0cgum7EREQ9o3ZQ/9Bn0+shk=
-X-Received: by 2002:a17:907:6d04:b0:ae0:34d4:28a5 with SMTP id
- a640c23a62f3a-ae3fe3dafd3mr490037666b.0.1751702348395; Sat, 05 Jul 2025
- 00:59:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jIjpWgp+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=clu/5CISrh9eIs2SRc88XALq1mIZuS2eLDDdjcb1QYfheKrBJQoln3vECrQtpuQo91/BF9F66yrGKqBM++/TqB8lqxMB07lb3YtGWFlrBsmiyN+MYQ2GoslZnOtsOZN+bcT/X1a+Jtn868L3Y+f9UtrfJFXZY4PqMAhwa+WFymlNtB9ab+BqqLR1h0DKaTryFcaEcd61UGfFIkWHD3o8ok++O6eguQd5vKt9yCyx0gNfEW2OTi9Yabp3D8tKUpPGA5x/p2rsjwJ6QCTuLehzToZouADPFhWJYwTOFmVtKXYDApFNEV86Iu3QUa+CE556Du+dYCV+hhXTly1qzjaZig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HQJAXpvHCW6eCgk5zoBB6QUeth/krclAtLV/LTqj8m8=;
+ b=R1Odrj+XD2rbUPodRnhCjqVrTaHq28QJC3aJqE3V0r/gHcQ39ZEf9sJTqHZxWM8wUuEO3js3zVsHOj3TBx6+fotgyj6gAk3p4nR3R+ar11go8/2zpBuyPyMuxLBCYff9D92pNiDBwqFmW6yZ6y+P/eOIr5VrLRKJCXpHH5H9zAGyhWUU3tiGOCnSJRzojSbnYPi3mZchpgRdOtKdLRCMxH032/wT9A09Qxcc2/xNPNCxbXsaYJmzEriXLiqSlpkzX4KNgjs1j2lKCRhR41QsgVWc9UZQXthPqft0rW4fo9b44/+VNJYXhys0XM4RbCYo1uv36ewD47b7NyqdgFRk7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HQJAXpvHCW6eCgk5zoBB6QUeth/krclAtLV/LTqj8m8=;
+ b=jIjpWgp+IXdKoLEkSv5P/0vXO5/C1nHygBwF5WBuMP6z+FQe2sNriFFlpFjgIhY7lh5zajPCQj7aYwXhf4PNI7PlKvFWgkJhwLchUZyiZDXYWEF05gjWX++Z4KvSqA8JjOzUcY2/eF/SzJS38N44xHkZU2J5WMUdW2nFMnJx0g4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com (2603:10b6:8:9f::5) by
+ DS2PR12MB9776.namprd12.prod.outlook.com (2603:10b6:8:2bd::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8901.24; Sat, 5 Jul 2025 15:03:42 +0000
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5]) by DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5%5]) with mapi id 15.20.8901.018; Sat, 5 Jul 2025
+ 15:03:41 +0000
+Message-ID: <5d186300-7a94-497f-8d10-30eff1bd2795@amd.com>
+Date: Sat, 5 Jul 2025 20:33:27 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 03/29] iommufd/viommu: Explicitly define vdev->virt_id
+To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com, kevin.tian@intel.com,
+ corbet@lwn.net, will@kernel.org
+Cc: bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+ thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+ shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+ peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+ praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, patches@lists.linux.dev, mochs@nvidia.com,
+ alok.a.tiwari@oracle.com, dwmw2@infradead.org, baolu.lu@linux.intel.com
+References: <cover.1751677708.git.nicolinc@nvidia.com>
+ <146f91d9e1974cfdbbed3418373645295ce0cca1.1751677708.git.nicolinc@nvidia.com>
+Content-Language: en-US
+From: Vasant Hegde <vasant.hegde@amd.com>
+In-Reply-To: <146f91d9e1974cfdbbed3418373645295ce0cca1.1751677708.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0105.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:27::20) To DS7PR12MB6048.namprd12.prod.outlook.com
+ (2603:10b6:8:9f::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250703185032.46568-1-john@groves.net> <20250703185032.46568-13-john@groves.net>
- <CAOQ4uxh-qDahaEpdn2Xs9Q7iBTT0Qx577RK-PrZwzOST_AQqUA@mail.gmail.com>
- <c73wbrsbijzlcfoptr4d6ryuf2mliectblna2hek5pxcuxfgla@7dbxympec26j> <gwjcw52itbe4uyr2ttwvv2gjain7xyteicox5jhoqjkr23bhef@xfz6ikusckll>
-In-Reply-To: <gwjcw52itbe4uyr2ttwvv2gjain7xyteicox5jhoqjkr23bhef@xfz6ikusckll>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 5 Jul 2025 09:58:57 +0200
-X-Gm-Features: Ac12FXwv8-5VHpFmc1k0yFgQhA2TPysX4Xc_lFwiFozmpCMZCqpYDc11sx5Oc4k
-Message-ID: <CAOQ4uxhnCh_Mm0DGgqwA5Vr4yySgSovesTqbnNH7Y_PXE9fzpg@mail.gmail.com>
-Subject: Re: [RFC V2 12/18] famfs_fuse: Plumb the GET_FMAP message/response
-To: John Groves <John@groves.net>
-Cc: Dan Williams <dan.j.williams@intel.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6048:EE_|DS2PR12MB9776:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae1e1c66-e98a-4484-21dc-08ddbbd5210b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?YlN4ckorQTUybk9KeEVHTjExdjhlemwxT2xDSEdkWHRNZVBFQm0wN2FlNGwy?=
+ =?utf-8?B?NzcvZ2kzd3dCZU9CZ3FWZlpWc0kxZUdlSHA5ZXBqSnU3K2dqRjNHWjVIM2w2?=
+ =?utf-8?B?U3BOdG9kN1EvZjlEUU8rckJkOWY5ZDhJWHN4ODdmN2R4Q2N1UHQxcXFycU9P?=
+ =?utf-8?B?MTZZS0xlNzk4eWptMXRuOHRBUFkzcHg3cktKbDR3RFQ4d2RrNUF6RHljQkdK?=
+ =?utf-8?B?MXRnVkFSWE1NUGg4U0hYTUhaUTRnSGdPazcyN3V0Q2ZMWUZWV0IyNlNsUGZO?=
+ =?utf-8?B?dWlBNnlYT1BqV3FBcG1QbEhXUys2WXNZbDZGYmhQeVo0Tm9ZZkJNZFAzMHJC?=
+ =?utf-8?B?ZGttalRTby9LRnJDbDRMSG85aW5EeXF0bDFlcUtvdEdLeDVYM3h2c2RYNisw?=
+ =?utf-8?B?b3o2bXFUcC9MUHdrOHZpTzhCSkhXY2t1K0xoeG1ieGJmYmRoZHlZSnlxY1hk?=
+ =?utf-8?B?MzlzMUtIM1MvOGhvU3hEQnBMTmhCN2dkYk1YRllzaU9HbGxxdnBIS2dUWXZ2?=
+ =?utf-8?B?U0VZSDFhb0hFT2xqZnA2N2U5V0x2dWlRSm8zc0Rvd2lyZWpsU2x3UEo0bnh6?=
+ =?utf-8?B?ay9yVkVzcyttOVQ5eStyNkdDbDhJd3RSRjNLQzh5Q01VNncvN2MySGQ0VEw5?=
+ =?utf-8?B?VE9HazdwekxjQmcya25XUnB6Q0Vab0pCMnA4Ym5DM0EzdnFEakl1M0gyRjQy?=
+ =?utf-8?B?elA0Z2xvem9mYkpTVVB4ZVlkMzJtajUyZkhBcHROQmQ1a2M3V3RiV3QyTFQ0?=
+ =?utf-8?B?ZE82K1ViaVRGNWxka29KWGNMaktkdHlZQ0piL3VGSm5FdVIzdEFKZGM0Titn?=
+ =?utf-8?B?K2JJTk1XYnNva1I4K2FHWlVHazVVSUVOUit5dkE4RC9vM25vZE0yL0xkRUEx?=
+ =?utf-8?B?eVFQMzZYQURiWXlmOEhxNFdJU1dhbEZJT3pxK05BV3BSVUtpQjM1TEF2RU9L?=
+ =?utf-8?B?bzNVMFhTeXJ5QUJrWWVBZlhpeEJTdk54OWU4SEdrMHQrMnZDbittaWxsVm1n?=
+ =?utf-8?B?Qnd2NDNPMG82WjQrbUhma2l3WDhNMG1ZdkFLTThQWmRhZ2NMaFZtalNYUVNC?=
+ =?utf-8?B?aXlWYUNMVVROSlF1SksxU09MQm1yaU1keExPbU5HSVBpK1RwNGl3MmJJeE1Z?=
+ =?utf-8?B?UkJzSkFIbkZZaGsxc1d4ZEl5aG1MVjBZNlRvK29yNC9lcENGTURLM241bWpR?=
+ =?utf-8?B?eXhBTGNzUDdxRVdEOVFLWHd1b2FzZVlDRDlLZS9KU2RPb0pDYXNIZkIweXY0?=
+ =?utf-8?B?RkNCaE1wNktadisyN1FwWG9LdkIweEhDRDFzd0JaK0VpUVZWc2VhVWlqMVZw?=
+ =?utf-8?B?RlRCKzZOZFFpbHp6OUtpK3VlcmNHeGtwM25jVEMyb3A4ajU4Wk1NMlg4SFRQ?=
+ =?utf-8?B?bjh4dHIyWXpsd2xibGpieWR1cWs5bGZ1MzE3OHBFNDY2elVJZzQ5aUxmRWVs?=
+ =?utf-8?B?NUZ0bHEvS2MzakdZMW5kVzNQR20wVnB0c0JLTGFzbCtNZHRWQVd5Z0hpMzI5?=
+ =?utf-8?B?SkdHSDY0Wmk1TmZTcmhETExYQ00vb1Y1SzdEdVp3YXYwRnFPdFZYZzZGMER5?=
+ =?utf-8?B?eGxGWmZRK0RsZnIydUxZZTBaVXdNUVNlQ29BREgxVGJCZHk3YWkyL21QV2RD?=
+ =?utf-8?B?VmN3VGhOOHlRdEczd0hML05lNHlhb2Vna0xDekZjQndkVXQvbHp3bUU1SmlX?=
+ =?utf-8?B?L0hxM2lCRC94Y3dubU1FTHROZk5OU2REekNCTW1HSzI4RXo2K2grZlp6b2Uz?=
+ =?utf-8?B?NEhUMUtGVkh0YmVjNGRsdlNEZG1ZV3pDUHlISTVTemdJUFhuaEVoa3dscXIy?=
+ =?utf-8?B?ZVdBcjBOVzFpVlZLS0NxK0RXMU9yOUNMcWNXbjhQYlRjNVh2LzFETlRUYVRI?=
+ =?utf-8?B?ek4yMVJ0MlZjbWp2UktGK3VObXBDSytia3RGTzhKSGtuM3c9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6048.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?R2FzMTRBdytaM0FGMStRa3E2L1FCc0xrbm9qQmdybjFYTVFzdWVzazdPMGF1?=
+ =?utf-8?B?SDd3NlpUOThocytndVN5Vm5hMEZseEVFQ0M1ZjloRFVOb2RVUzBXTnU5eWNE?=
+ =?utf-8?B?c1dmbitPdi93SlA1VzdHRDdtbzNQTEtIVDFwZ3N2RVkzMmptaFVkOVUyRjlJ?=
+ =?utf-8?B?QjByMkEwVWVWMisrK0Jjc0ZlWEJiTEtWMzNwbklTRExYcUNjNkZjTGFLQzkw?=
+ =?utf-8?B?czFsMFhYbXQ1NTJPbDFSdURORVRSWmxCd01KTkZRS0ZNdm13MnA1SjBtQmpF?=
+ =?utf-8?B?UFJINWlzVlkvdmZWSGoyUHdiOUdjd1RzQ3N5QkNFcXRBNDhYdkRjcVplY3N6?=
+ =?utf-8?B?V2FRT2JZRFB4b0lHVVV6ZU81ZHBnQkVCNm5uOTJibWtjWkpwWE42eW9CWXVT?=
+ =?utf-8?B?RHZMaVFXVzMxSWYvYU5GVWZLazVKenBJQ1dQZ05kSmhOckRGZHlZZVFxMzlL?=
+ =?utf-8?B?cnBNamQ5QWdtR2RsMEx2VUJLbkRPL0lUNlltdGJRemNVS1ZzSVpmTGMwTjZS?=
+ =?utf-8?B?a0kwemk0dVZUOWJQSGRCNEVORmlub09aeGFwNWJHWXFsZVhOL2VIRVdpMmlH?=
+ =?utf-8?B?SVV4elFaZ0VlNnhaNDY5Y3dYSVByc2VIeWpveFNjSFpyazExN1ZTakc3VDJj?=
+ =?utf-8?B?blZ2UFRYRDQ4Qm9pKzZJQU1URDlCeEU3Z0U3bCtTVlVQMjZ6THFwczEyZTg0?=
+ =?utf-8?B?dWlHV29uL2Z0MDFvV2ZubHpKWjBpL1ZHQ2VXQis4L2czbXdCL2RFazdwcWxj?=
+ =?utf-8?B?U0owMkJtWUJ5dkJGV2VrV0ZHZTNwK0hOV29JY3NvRmJpVFZ4QlMzNWVBQ3du?=
+ =?utf-8?B?NFZ3bFRXSXIrU0NjbERCTjVKbG1LM1ludFZ4VDduN3RTZlQvR1pWK1gwaTEr?=
+ =?utf-8?B?ODRQYVRNKytMNHptQWNad25DRVYzRmRUVDlZeVdxSkdrNVo4ZXhHRnhQS2p0?=
+ =?utf-8?B?OE81VkwwbjJNaFl4MHMzMUxZczdjRThxVFE0TTJYKzRGNUYxWWc5bWlDdEhK?=
+ =?utf-8?B?bXd6bXlxcmtKd1czMDFlVDI3SnkrcVdpUU84MjMzTGtGc3ZqMG9iMUZ2dXdl?=
+ =?utf-8?B?NGJyU0pNYzA4eXhmKzZySDhoNWNBS2hBRnB4Q2FwZUxTQzhZZnpkU1hHT01K?=
+ =?utf-8?B?RTlzdUluMS92dDVxT0ZHWmpRd292c2tiM3RJRUFtL05lMXNqbHhXN2FZeU5m?=
+ =?utf-8?B?cHZnOTI5S2ZyV0tYVFhjeVFNTHlZZ1ZUYWhvTXlJTXZudzllWnFuVjd5RW9s?=
+ =?utf-8?B?VGFaOHlnWXZBUzBSbm0zSEVKYkdCUEsxZ3JqSzdWbndNckUwcXJWMGFCcmJW?=
+ =?utf-8?B?ZHZjbzVFVGFlM3gwcS9TUG1oZVVuRk13VjFGOE5vaUQzY1FYT2FZQ3NscVd5?=
+ =?utf-8?B?ZHFqdXF3VUt0bnhHM1loOUp6ZE1jbmkvUVBoTWxYUHlHSUxxNFovMHgxazhw?=
+ =?utf-8?B?dnhsTlFCTXE3T0JqNmdUNktnUSs5azRBWC9rUVluODBtQTB2blBZVTM1Qk00?=
+ =?utf-8?B?TW1NeTZCZ2I2eUczaUo0aW02WVo1ckplaStTb2c1bXJyWEZBZnpYb05ZQXBD?=
+ =?utf-8?B?WEpMSGpFNjRSeHAxekducUpqU093RXdLT1A4L1pKUHRFY2VKQUJPUkpleFlO?=
+ =?utf-8?B?Q252eXJwb28zcFhMM0lobis2QkdISDErTTRlMWV5NVUxYUl0akRmY1ZjcGMr?=
+ =?utf-8?B?OWU1UE9KTWN4OFBCNGRCOXZyQkoranNMQTFiRXAvTk1TVElvcEJkTURXNmFF?=
+ =?utf-8?B?VjBHNkdLMm5ZSFZVVVdiTjNBeE1Vb1dWeGFaSi9GaEloMVU4cjhDVWZ3Tk1n?=
+ =?utf-8?B?VllReDJJblhnd3hJN3FYdVdBaTNoVWlERFFSSFdPdEVYUjJkazJ2UEoxUm9V?=
+ =?utf-8?B?VnE1dlVyazR3akpiZytHNzVDeW1ubnN0NVcvK3BnRTFvRGNWRVJ1bE1PMmNz?=
+ =?utf-8?B?T2tjQWxLTmN1M09oclNMZ0doZjFNa0lZSy82MnZqclEyNnFvVUNNWFNJRFpU?=
+ =?utf-8?B?K1R2dGdtYnNtNW9BRjdTaWdKc2pONWJWSnBrVG5lQVM1aHUyT3YrSHlwMDk4?=
+ =?utf-8?B?QlV6TmNRV2w3NTJiNm9KU2xEdW9CaUE2YXpTMFZwYnZMWG83M05iRmNCTHZH?=
+ =?utf-8?Q?ubJZ9m9LgJkx5dK05FOMY7+DL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae1e1c66-e98a-4484-21dc-08ddbbd5210b
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6048.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2025 15:03:41.7543
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r81z7FihKyiAllvaOyEtO+lgqnL0m/XTWE/8Ri688kKrq2OnFypmfV+m0Qg6iB3K+w2gHkbJ5EwSRKvZOXXbyg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9776
 
-On Sat, Jul 5, 2025 at 2:06=E2=80=AFAM John Groves <John@groves.net> wrote:
->
-> On 25/07/04 03:30PM, John Groves wrote:
-> > On 25/07/04 10:54AM, Amir Goldstein wrote:
-> > > On Thu, Jul 3, 2025 at 8:51=E2=80=AFPM John Groves <John@groves.net> =
-wrote:
-> > > >
-> > > > Upon completion of an OPEN, if we're in famfs-mode we do a GET_FMAP=
- to
-> > > > retrieve and cache up the file-to-dax map in the kernel. If this
-> > > > succeeds, read/write/mmap are resolved direct-to-dax with no upcall=
-s.
-> > > >
-> > > > GET_FMAP has a variable-size response payload, and the allocated si=
-ze
-> > > > is sent in the in_args[0].size field. If the fmap would overflow th=
-e
-> > > > message, the fuse server sends a reply of size 'sizeof(uint32_t)' w=
-hich
-> > > > specifies the size of the fmap message. Then the kernel can realloc=
- a
-> > > > large enough buffer and try again.
-> > > >
-> > > > Signed-off-by: John Groves <john@groves.net>
-> > > > ---
-> > > >  fs/fuse/file.c            | 84 +++++++++++++++++++++++++++++++++++=
-++++
-> > > >  fs/fuse/fuse_i.h          | 36 ++++++++++++++++-
-> > > >  fs/fuse/inode.c           | 19 +++++++--
-> > > >  fs/fuse/iomode.c          |  2 +-
-> > > >  include/uapi/linux/fuse.h | 18 +++++++++
-> > > >  5 files changed, 154 insertions(+), 5 deletions(-)
-> > > >
-> > > > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> > > > index 93b82660f0c8..8616fb0a6d61 100644
-> > > > --- a/fs/fuse/file.c
-> > > > +++ b/fs/fuse/file.c
-> > > > @@ -230,6 +230,77 @@ static void fuse_truncate_update_attr(struct i=
-node *inode, struct file *file)
-> > > >         fuse_invalidate_attr_mask(inode, FUSE_STATX_MODSIZE);
-> > > >  }
-> > > >
-> > > > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > >
-> > > We generally try to avoid #ifdef blocks in c files
-> > > keep them mostly in h files and use in c files
-> > >    if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
-> > >
-> > > also #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > > it a bit strange for a bool Kconfig because it looks too
-> > > much like the c code, so I prefer
-> > > #ifdef CONFIG_FUSE_FAMFS_DAX
-> > > when you have to use it
-> > >
-> > > If you need entire functions compiled out, why not put them in famfs.=
-c?
-> >
-> > Perhaps moving fuse_get_fmap() to famfs.c is the best approach. Will tr=
-y that
-> > first.
-> >
-> > Regarding '#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)', vs.
-> > '#ifdef CONFIG_FUSE_FAMFS_DAX' vs. '#if CONFIG_FUSE_FAMFS_DAX'...
-> >
-> > I've learned to be cautious there because the latter two are undefined =
-if
-> > CONFIG_FUSE_FAMFS_DAX=3Dm. I've been burned by this.
 
-Yes, that's a risk, but as the code is shaping up right now,
-I do not foresee FAMFS becoming a module(?)
 
-> >
-> > My original thinking was that famfs made sense as a module, but I'm lea=
-ning
-> > the other way now - and in this series fs/fuse/Kconfig makes it a bool =
--
-> > meaning all three macro tests will work because a bool can't be set to =
-'m'.
-> >
-> > So to the extent that I need conditional compilation macros I can switc=
-h
-> > to '#ifdef...'.
->
-> Doh. Spirit of full disclosure: this commit doesn't build if
-> CONFIG_FUSE_FAMFS_DAX is not set (!=3Dy). So the conditionals are at
-> risk if getting worse, not better. Working on it...
->
+On 7/5/2025 6:43 AM, Nicolin Chen wrote:
+> The "id" is too genernal to get its meaning easily. Rename it explicitly to
+> "virt_id" and update the kdocs for readability. No functional changes.
+> 
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Reviewed-by: Pranjal Shrivastava <praan@google.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
 
-You're probably going to need to add stub inline functions
-for all the functions from famfs.c and a few more wrappers
-I guess.
+Reviewed-by: Vasant Hegde <vasant.hegde@amd.com>
 
-The right amount of ifdefs in C files is really a matter of judgement,
-but the fewer the better for code flow clarity.
+-Vasant
 
-Thanks,
-Amir.
+> ---
+>  drivers/iommu/iommufd/iommufd_private.h | 7 ++++++-
+>  drivers/iommu/iommufd/driver.c          | 2 +-
+>  drivers/iommu/iommufd/viommu.c          | 4 ++--
+>  3 files changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iommufd/iommufd_private.h
+> index 4f5e8cd99c96..320635a177b7 100644
+> --- a/drivers/iommu/iommufd/iommufd_private.h
+> +++ b/drivers/iommu/iommufd/iommufd_private.h
+> @@ -634,7 +634,12 @@ struct iommufd_vdevice {
+>  	struct iommufd_object obj;
+>  	struct iommufd_viommu *viommu;
+>  	struct device *dev;
+> -	u64 id; /* per-vIOMMU virtual ID */
+> +
+> +	/*
+> +	 * Virtual device ID per vIOMMU, e.g. vSID of ARM SMMUv3, vDeviceID of
+> +	 * AMD IOMMU, and vRID of Intel VT-d
+> +	 */
+> +	u64 virt_id;
+>  };
+>  
+>  #ifdef CONFIG_IOMMUFD_TEST
+> diff --git a/drivers/iommu/iommufd/driver.c b/drivers/iommu/iommufd/driver.c
+> index 2fee399a148e..887719016804 100644
+> --- a/drivers/iommu/iommufd/driver.c
+> +++ b/drivers/iommu/iommufd/driver.c
+> @@ -30,7 +30,7 @@ int iommufd_viommu_get_vdev_id(struct iommufd_viommu *viommu,
+>  	xa_lock(&viommu->vdevs);
+>  	xa_for_each(&viommu->vdevs, index, vdev) {
+>  		if (vdev->dev == dev) {
+> -			*vdev_id = vdev->id;
+> +			*vdev_id = vdev->virt_id;
+>  			rc = 0;
+>  			break;
+>  		}
+> diff --git a/drivers/iommu/iommufd/viommu.c b/drivers/iommu/iommufd/viommu.c
+> index 25ac08fbb52a..bc8796e6684e 100644
+> --- a/drivers/iommu/iommufd/viommu.c
+> +++ b/drivers/iommu/iommufd/viommu.c
+> @@ -111,7 +111,7 @@ void iommufd_vdevice_destroy(struct iommufd_object *obj)
+>  	struct iommufd_viommu *viommu = vdev->viommu;
+>  
+>  	/* xa_cmpxchg is okay to fail if alloc failed xa_cmpxchg previously */
+> -	xa_cmpxchg(&viommu->vdevs, vdev->id, vdev, NULL, GFP_KERNEL);
+> +	xa_cmpxchg(&viommu->vdevs, vdev->virt_id, vdev, NULL, GFP_KERNEL);
+>  	refcount_dec(&viommu->obj.users);
+>  	put_device(vdev->dev);
+>  }
+> @@ -150,7 +150,7 @@ int iommufd_vdevice_alloc_ioctl(struct iommufd_ucmd *ucmd)
+>  		goto out_put_idev;
+>  	}
+>  
+> -	vdev->id = virt_id;
+> +	vdev->virt_id = virt_id;
+>  	vdev->dev = idev->dev;
+>  	get_device(idev->dev);
+>  	vdev->viommu = viommu;
+
