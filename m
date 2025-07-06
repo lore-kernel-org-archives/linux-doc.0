@@ -1,120 +1,136 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13CC1553A3;
-	Sun,  6 Jul 2025 16:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DEF944C94;
+	Sun,  6 Jul 2025 16:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751818485; cv=none; b=QdqlLxXJmmLr3NL9zEKRNzVSKc2c5lawPVlXkqTwc5KWOf1bCrSZBvjQmQ6ymsbmObaW4PJQbsfHWGN+FvOxWt/UfK/hLCKfyeS7jitNgPa7pFqaiutGMQvt+wR3WEP6MBZ7QSJ3CRSy/FrVe4NUCPfxWgBFQjwS15Skln1Rf7g=
+	t=1751818581; cv=none; b=YRu5IrZ/HfTBGzs1GVLSHuFkthOcgG7x/pNWu3EbVvS9vyGe+zuaCKhNHyJZYhSl4dd42uxOcgMygK37YirQDkwtb8Q8Okddt7nWLjUVghM2o2K/IggJgqsL4lgFAU7+PvjnM5QNVVqELrC45FrYXFFb1d64KGXUbI4Lj7L7fvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751818485; c=relaxed/simple;
-	bh=laTGGfAaAvImciOaO7fNMFckl7ixOBbXVKugeiv59kY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mgtc+ci4M+GnhUFe4wT5KbLRKK0CZhYHfdhXxGB242XJ0ZlQs6P0XKpy6Sd2S4YVka5aqF3f3srntkY/znXE4NiiE2hZmVSLPVl3azQdPocBgx38ARRCTKtsKOg16hGikXnZXjie1l8/mtI1AcBvWsJsHpHN2GnYVPNDGcov2lI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UhaJLCd1; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751818581; c=relaxed/simple;
+	bh=YQnLfsFpmsbdhyeEsxLxRtAeYjiu5IhztSDt4Oz9r7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jvW+Js+5zPOPpXQuYj/fdEa9hRCU9eO0ay+TiIbrGkuVO0TlHS1ZKbHn8G4wun+hUcphd6j0IfZLTqsrMAcCg6vCiEPMNN2Vvoqj7azJMt1dkMh9otJx2KytPETz0dlzx8qlE6dDLA35MjCHOdPqS+m2O5J53XzyaNoLLhS/mzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ERwMa2sw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UhaJLCd1"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-73a44512c8aso628972a34.0;
-        Sun, 06 Jul 2025 09:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751818483; x=1752423283; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tow9CQhi9sUBVbyo0yxEMa0Gy/ddOaj9tdySQPgAbL8=;
-        b=UhaJLCd1mGnJRFu6WLWC9shvzpCWxG5mJBC4MAo96ZtkDYxZpJlauv4zokkUlQ8PHP
-         1mMhPgmtOSMfwrG0PkBr82hsthLU21YeDlaC24WjAE0+JNHFh5AqzVj9z12ufqCCNmj5
-         n8BsOnbLkyToy6zZ6dH27KY1ut4g9s35j+SPBxvApgrKDf9Uvv/0LGW4CHWiKfZjcRWs
-         iyedkMOxk4OEtpL2oyPhWJ0cxbRmqT9OKdxDdMM0r0X+M+cIGHW4jJGIYoWICccn1EzE
-         mM1uQw45bpvPg0zQN3qn7EbKCXvJdTqqYvkkWHQOjfd3BL0J7xSXSNp7E6TPvsSOW4F9
-         ygUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751818483; x=1752423283;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tow9CQhi9sUBVbyo0yxEMa0Gy/ddOaj9tdySQPgAbL8=;
-        b=ZaarpQ72s0stGlpSslbV4VHzpHICAidXz1cm++nNV4BoM19hZ9myRm3pDZd8HXpdXB
-         wC+ST/ZZMuco/XqVHyHUN0FeQlb7QLPefAA/uLoFlc5Tgfjj8okSm+o8NWcXZoeXiwQF
-         cIgjl/XX9b88tsupp1eVpVOHlsDgN4BBEV2yO1kwz6ERJ7TxqFhj9GhZMffCweMw+xcg
-         Fbl6zBeORBMkGOV9xdmb/Saqw1fyoYDj248O+WpnT5PDUv/2rdBssErpKBcTSvfc4F1D
-         vHIjcnREuGy9g8+AbpAb4CAeBkFw4obq4QKoJZJo5UXR7AVSN4ebR97yJ/vaPodMI0r1
-         rMwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgTidf+uAoazVu9bhJeZnovz6jKQzebiRSHhxRPfF5spiP9n5S/XRbSZK0XreS+RAMAgdjWkZZFzW9XWBG@vger.kernel.org, AJvYcCV5hsyeLdqC+QgyMFlRto8yL3hkfYiCwF1+9R1rxvs/33/5bfAd/o0Atnjh5FOzRNFMD0BgLt3cUhg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmW24CkOzI74EXq0z1zzKystrXj+8Xk1WN3VXzvkXwXSf5jc20
-	74nfu2pwH5yhSzwYpB+0BOkiluXu2FaKt4ZsB53If04i7Zs8MeEBxIZI
-X-Gm-Gg: ASbGncs80cujHIcbOf69O3LmphwcXcIK99lNJbVWNSGrixvBdx8I+9haSDA0STIqaSa
-	vz0izntSLes895utt57TyoG1RYhYfr4/R1yef8G8LKWtZsVJT96q1egm2t+SXznEasdRvETXSxN
-	ow6GDdm0EYf/qe9r3McQ7s+nqTdiLGAu76ixpjWL561cVt/a/+9J6mJyT+AB/ofl51jYZKFrP9j
-	9cLTM/GrsCVEgIYqhOexvzrhwKl4L9CsMY5p1pHIXnB3YoQLIqESbXnnrya5I2VE9CjONZ2/3yz
-	8IU64g5+OpnlVhdJkUd5oAZNm8wQJIgcN//snt96Aphj2fAIiibJ/lOral3YpDd+WQD5SspBUg/
-	CQV7tW2sqIRVd37FI5XTON3becAV8ORoW8gh2CDzGas78iaCCa420qTs3Lthh
-X-Google-Smtp-Source: AGHT+IGa60gYFXb3W9RG+HjHAcoPPiV4LZvBTo8M0JPJ2v+kXJVQ0Fk5avb5r6vRBD4KySYrywK88A==
-X-Received: by 2002:a05:6830:800a:b0:73c:c4c0:7f46 with SMTP id 46e09a7af769-73cc4c082f1mr806157a34.21.1751818482919;
-        Sun, 06 Jul 2025 09:14:42 -0700 (PDT)
-Received: from ?IPV6:2603:8080:7400:36da:b492:b6dc:5573:e1d2? ([2603:8080:7400:36da:b492:b6dc:5573:e1d2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73c9f753ee3sm1233539a34.24.2025.07.06.09.14.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Jul 2025 09:14:42 -0700 (PDT)
-Message-ID: <6eb6a85b-8991-4874-abc1-6c247b2c8050@gmail.com>
-Date: Sun, 6 Jul 2025 11:14:39 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ERwMa2sw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E91CC4CEED;
+	Sun,  6 Jul 2025 16:16:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751818580;
+	bh=YQnLfsFpmsbdhyeEsxLxRtAeYjiu5IhztSDt4Oz9r7w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ERwMa2swTMT2EOx1tvJP2X0675Vj+8BcYnRbTnNokrLVP+y1UAgSCw58EH/w75LY0
+	 wjWQ09rdLrCSzcxbgEV2/zjOVn93u+noc8HBm8OCxatUzGfMacx5bxCaBf9+/iVdix
+	 bzbwSXAXyutDJVMSWseGJMo4rAviwxbOvYpdojljnFnHscn/8YkQ40j4U83AxpH0FN
+	 wHgnu5eKQoep26X6iBtLbY3ep6CVYAnXGFYMdBRSUymNkytPwK72uC2LUip28Lxp0n
+	 LM2f7u+9B5S2NLwzPjdWXS7IAluaDH+wxpEiRTejZxTAe++v3XfxVerfnVLlVr7vn+
+	 OdmF5jqKypWeA==
+Date: Sun, 6 Jul 2025 17:16:11 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Lothar Rubusch <l.rubusch@gmail.com>, eraretuya@gmail.com
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, dlechner@baylibre.com,
+ nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v11 8/8] docs: iio: describe inactivity and free-fall
+ detection on the ADXL345
+Message-ID: <20250706171611.7b4ae1a1@jic23-huawei>
+In-Reply-To: <20250702230315.19297-9-l.rubusch@gmail.com>
+References: <20250702230315.19297-1-l.rubusch@gmail.com>
+	<20250702230315.19297-9-l.rubusch@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] Documentation: typography refresh
-To: Jonathan Corbet <corbet@lwn.net>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>,
- Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
- <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
- Thomas Gleixner <tglx@linutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Stanislav Fomichev <sdf@google.com>, David Vernet <void@manifault.com>,
- Miguel Ojeda <ojeda@kernel.org>, James Seo <james@equiv.tech>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20250619042318.17325-2-bagasdotme@gmail.com>
- <75f99fce-affa-4acc-afeb-2a9f70a6d907@oracle.com>
- <aFjNA1TkBiHXNKPD@archie.me> <250eb150-ef18-4e62-9791-f2ec4801cd39@gmail.com>
- <fb2d7547-dd6e-4f6a-978f-b92ae2eb20cb@gmail.com>
- <CAOc0haLSQVO9RexsMDRJ9zx=TPOi5yC6ADX4VLSbFvi1bhP_iw@mail.gmail.com>
- <87ikk8kf61.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <87ikk8kf61.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Wed,  2 Jul 2025 23:03:15 +0000
+Lothar Rubusch <l.rubusch@gmail.com> wrote:
 
-On 7/3/25 18:50, Jonathan Corbet wrote:
-> Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
->
->> Some, we can talk about it, I’d personally like to see a small flag
->> displayed to the left of the language options at the top button.
-> If I understand you correctly, that's dangerous territory...flags and
-> languages are fraught with all kinds of disagreement and discord.  The
-> conventional wisdom is to avoid the use of flags to represent
-> languages.
+> Describe the inactivity detection additionally using the free-fall
+> register. Due to the controversial discussions on the mailing list, this
+> section of the documentation will be committed separately to allow for a
+> more focused and detailed elaboration of the topic.
+>=20
+> Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+> ---
+>  Documentation/iio/adxl345.rst | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>=20
+> diff --git a/Documentation/iio/adxl345.rst b/Documentation/iio/adxl345.rst
+> index 8ee01b8b87f4..c5525267ea12 100644
+> --- a/Documentation/iio/adxl345.rst
+> +++ b/Documentation/iio/adxl345.rst
+> @@ -150,6 +150,31 @@ functions, so that one follows the other. The auto-s=
+leep function puts the
+>  sensor into sleep mode when inactivity is detected, reducing power consu=
+mption
+>  to the sub-12.5=E2=80=AFHz rate.
+> =20
+> +The inactivity time is configurable between 1 and 255 seconds. In additi=
+on to
+> +inactivity detection, the sensor also supports free-fall detection, whic=
+h, from
+> +the IIO perspective, is treated as a fall in magnitude across all axes. =
+In
+> +sensor terms, free-fall is defined using an inactivity period ranging fr=
+om 0.000
+> +to 1.000 seconds.
+> +
+> +The driver behaves as follows:
+> +* If the configured inactivity period is 1 second or more, the driver us=
+es the
+> +  sensor's inactivity register. This allows the event to be linked with
+> +  activity detection, use auto-sleep, and be either AC- or DC-coupled.
+> +
+> +* If the inactivity period is less than 1 second, the event is treated a=
+s plain
+> +  inactivity or free-fall detection. In this case, auto-sleep and coupli=
+ng
+> +  (AC/DC) are not applied.
+> +
+> +* If an inactivity time of 0 seconds is configured, the driver selects a
+> +  heuristically determined default period (greater than 1 second) to opt=
+imize
+> +  power consumption. This also uses the inactivity register.
+> +
+> +Note: It is recommended to use the activity, inactivity, or free-fall re=
+gisters
+> +when operating with an ODR between 12.5=E2=80=AFHz and 400=E2=80=AFHz.
+
+This seems a tiny bit backwards.   It is recommend that the activity, inact=
+ivity or
+free-fall registers are only used when operating with an ODR...
+
+As currently written it seems to be recommending that if you want those sam=
+pling
+frequencies you should also enable one of these detectors.
+
+Reminds me of the classic London underground sign that said "Dogs must be
+carried." which raised the question of how people with out dogs were meant =
+to travel.
+
+Otherwise this new section looks good to me.  Thanks,
+
+Jonathan
 
 
-Fair, thanks!
-
-
->
-> Thanks,
->
-> jon
-
-
-Carlos
+> According to the
+> +datasheet, the recommended free-fall threshold is between 300=E2=80=AFmg=
+ and 600=E2=80=AFmg
+> +(register values 0x05 to 0x09), and the suggested free-fall time ranges =
+from
+> +100=E2=80=AFms to 350=E2=80=AFms (register values 0x14 to 0x46).
+> +
+>  In DC-coupled mode, the current acceleration magnitude is directly compa=
+red to
+>  the values in the THRESH_ACT and THRESH_INACT registers to determine act=
+ivity or
+>  inactivity. In contrast, AC-coupled activity detection uses the accelera=
+tion
 
