@@ -1,168 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8B62A1BB;
-	Sun,  6 Jul 2025 14:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47531C84BD;
+	Sun,  6 Jul 2025 15:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751812406; cv=none; b=JiblAEN6wyWk9tru+mnbCTyiEf9sXbH6eUFGAPXGT3uQ9tc8ShkvZGc4J1MHZf7qRvmbERP3WCc2p4TUVkXkjrh2VoTgxgu09fIXYLiL2+IXLBDIpsV8XwvNYp6h8d1yhnOkJlipVrLeHpZBrKNfEZ4ZfaOaQY6YMXP8IVhG/qo=
+	t=1751814538; cv=none; b=ApYh3ayuyn1MEiHLnNQekhXM2jXlYfCIePBad4Gss4wgwHsif3Owq/oQTsfVaDug+/TN+sERIPAx2V5yxD40+gZAS0ymKljY3Jc9cmOs2ciT1xBZ7KKiPJq1npkxdtU6DdYKPJPgwJVUfNpf6NYuj9IcM+Wa/tCf9zQxGcFA8Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751812406; c=relaxed/simple;
-	bh=GszBMgPIL9mHFHPRYSHqyi7DgkOJi1d97/cdu9eFZn0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BpgyuDv8xtLmxqTqgOmZ+sOeFH660NIte1eFI/6KVDkpqGngIi30DF4eoXRwQM32uvMbs63iCBRrHU6oaXqeiJkf47WDW2eHKED2JFwu3+Z9SILJsqLRu5CD6IMGctk1QvKxnsTV6fO+0s5TOuO0a9KuVaQt7TX3JN8RPZpb7PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKDZv9Sc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751814538; c=relaxed/simple;
+	bh=ASDmyGnzfJljOZphyrCvLQ55mfID83fRQnnYfpooIkI=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=DKa3di7KI0372MAVtnP/0BrvlIr0HT9VEklOEb/R9K0A4P8sD2stWXM/nxJ1YmhT/NYrY3wG3oB9fscQbeLPRO7y1Fkp3m6NCvXVitdGqJHSHm0YpNaV05BMpEGbUdUb63z0JVDuSeHQOvhiBaAddxqGXN11t7gcLv85fvcKah4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=VSkWNu26; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKDZv9Sc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C03B9C4CEED;
-	Sun,  6 Jul 2025 14:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751812406;
-	bh=GszBMgPIL9mHFHPRYSHqyi7DgkOJi1d97/cdu9eFZn0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iKDZv9ScfdI1Wi/lRv/5uIhMUsTaVhCqG+RoWcCYdqxf9xL960iv2mlayyM36bdyq
-	 bK1IzAqY+rLCanSz7v2blOuZt5Eimi1f+D+N1/rjRXIuFf62sMm+E5adkO7ZQ36PIW
-	 w7T+wS6JoyMB/IbwaGgh066RCz7eD1SDrbkfHvmHqH00k1mgNECBzVvSqByfMVohoJ
-	 H4uxNLzCkWNdTlHpnaoSkVdlb0q7H6kUJAjh7XwAzYnQ5u08XFkZEPc1cA0qtGKNrO
-	 OitG3C6wjnulFelbr3s8EEXguXFYMfekQGa25vslEaj/n9+P5d+gtME+RN0LDeUko8
-	 hUi2T3QWkkfeg==
-Date: Sun, 6 Jul 2025 17:33:04 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: David Matlack <dmatlack@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
-	graf@amazon.com, changyuanl@google.com, rientjes@google.com,
-	corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com
-Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
-Message-ID: <aGqJIFs8GpvHn_Yy@kernel.org>
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
- <20250515182322.117840-11-pasha.tatashin@soleen.com>
- <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
- <CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com>
- <20250625-akrobatisch-libellen-352997eb08ef@brauner>
- <CALzav=d+XgS1bUs-v7+ws5nYU9y=4uc1c8oVLHrJ16qLpnUi9Q@mail.gmail.com>
- <mafs0sejmse57.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="VSkWNu26"
+Received: from [127.0.0.1] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 566F7DpZ2515561
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Sun, 6 Jul 2025 08:07:13 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 566F7DpZ2515561
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025062101; t=1751814439;
+	bh=G79563uv22etjcsM52VSq8s7aFTNio1gT1rhuuWWu1o=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=VSkWNu2698xR5vmX6rnz5SP/yzVha3qsNlh6tb0QZ4tOdJmh9a0W7R9kBMAGW5ed/
+	 BPpHtjKKWPaKAUo+zPDMtFfCph3ymVESLGzAPtI1EzcsL9d1Uw6/b/HvDfApQqLgqS
+	 5NYfjDREuTyT9HQH8FvzNvowTLqlIyQde7tqLHbKCLSeBkUnzlgA/BrOivFXGNCNhn
+	 MJKIlg7LTIQHkDmGNakFtprGe4zsLhcY7p+UVNnHHuhxJX6wQkvctzZrlagGGftm41
+	 I/4ckbbNY6SfaAUjP796XY0NfgLfL+4FajRDyovrVhNllNE84n1q+nYSH7X1qbe82B
+	 zCLZ9snwXETAQ==
+Date: Sun, 06 Jul 2025 08:07:11 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: David Laight <david.laight.linux@gmail.com>
+CC: Sohil Mehta <sohil.mehta@intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Xiongwei Song <xiongwei.song@windriver.com>,
+        Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>,
+        Alexey Kardashevskiy <aik@amd.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>,
+        Breno Leitao <leitao@debian.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
+        Juergen Gross <jgross@suse.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>,
+        Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
+        Huang Shijie <shijie@os.amperecomputing.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCHv8 14/17] x86/traps: Handle LASS thrown #SS
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250706102213.4ab365d7@pumpkin>
+References: <20250701095849.2360685-1-kirill.shutemov@linux.intel.com> <20250701095849.2360685-15-kirill.shutemov@linux.intel.com> <95dc18fd-73b0-4019-92d2-c0e6aaf22c96@intel.com> <4DE45AFD-C1E0-4FB8-BE01-44A72C5C6E1E@zytor.com> <20250706102213.4ab365d7@pumpkin>
+Message-ID: <29992EA3-8BEE-4B31-A38F-F3E65FA9609D@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <mafs0sejmse57.fsf@kernel.org>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 26, 2025 at 05:42:28PM +0200, Pratyush Yadav wrote:
-> On Wed, Jun 25 2025, David Matlack wrote:
-> 
-> > On Wed, Jun 25, 2025 at 2:36 AM Christian Brauner <brauner@kernel.org> wrote:
-> >> >
-> >> > While I agree that a filesystem offers superior introspection and
-> >> > integration with standard tools, building this complex, stateful
-> >> > orchestration logic on top of VFS seemed to be forcing a square peg
-> >> > into a round hole. The ioctl interface, while more opaque, provides a
-> >> > direct and explicit way to command the state machine and manage these
-> >> > complex lifecycle and dependency rules.
-> >>
-> >> I'm not going to argue that you have to switch to this kexecfs idea
-> >> but...
-> >>
-> >> You're using a character device that's tied to devmptfs. In other words,
-> >> you're already using a filesystem interface. Literally the whole code
-> >> here is built on top of filesystem APIs. So this argument is just very
-> >> wrong imho. If you can built it on top of a character device using VFS
-> >> interfaces you can do it as a minimal filesystem.
-> >>
-> >> You're free to define the filesystem interface any way you like it. We
-> >> have a ton of examples there. All your ioctls would just be tied to the
-> >> fileystem instance instead of the /dev/somethingsomething character
-> >> device. The state machine could just be implemented the same way.
-> >>
-> >> One of my points is that with an fs interface you can have easy state
-> >> seralization on a per-service level. IOW, you have a bunch of virtual
-> >> machines running as services or some networking services or whatever.
-> >> You could just bind-mount an instance of kexecfs into the service and
-> >> the service can persist state into the instance and easily recover it
-> >> after kexec.
-> >
-> > This approach sounds worth exploring more. It would avoid the need for
-> > a centralized daemon to mediate the preservation and restoration of
-> > all file descriptors.
-> 
-> One of the jobs of the centralized daemon is to decide the _policy_ of
-> who gets to preserve things and more importantly, make sure the right
-> party unpreserves the right FDs after a kexec. I don't see how this
-> interface fixes this problem. You would still need a way to identify
-> which kexecfs instance belongs to who and enforce that. The kernel
-> probably shouldn't be the one doing this kind of policy so you still
-> need some userspace component to make those decisions.
-> 
-> >
-> > I'm not sure that we can get rid of the machine-wide state machine
-> > though, as there is some kernel state that will necessarily cross
-> > these kexecfs domains (e.g. IOMMU driver state). So we still might
-> > need /dev/liveupdate for that.
-> 
-> Generally speaking, I think both VFS-based and IOCTL-based interfaces
-> are more or less equally expressive/powerful. Most of the ioctl
-> operations can be translated to a VFS operation and vice versa.
-> 
-> For example, the fsopen() call is similar to open("/dev/liveupdate") --
-> both would create a live update session which auto closes when the FD is
-> closed or FS unmounted. Similarly, each ioctl can be replaced with a
-> file in the FS. For example, LIVEUPDATE_IOCTL_FD_PRESERVE can be
-> replaced with a fd_preserve file where you write() the FD number.
-> LIVEUPDATE_IOCTL_GET_STATE or LIVEUPDATE_IOCTL_PREPARE, etc. can be
-> replaced by a "state" file where you can read() or write() the state.
-> 
-> I think the main benefit of the VFS-based interface is ease of use.
-> There already exist a bunch of utilites and libraries that we can use to
-> interact with files. When we have ioctls, we would need to write
-> everything ourselves. For example, instead of
-> LIVEUPDATE_IOCTL_GET_STATE, you can do "cat state", which is a bit
-> easier to do.
+On July 6, 2025 2:22:13 AM PDT, David Laight <david=2Elaight=2Elinux@gmail=
+=2Ecom> wrote:
+>On Tue, 01 Jul 2025 19:06:10 -0700
+>"H=2E Peter Anvin" <hpa@zytor=2Ecom> wrote:
+>=2E=2E=2E
+>> Note: for a FRED system, ERETU can generate #SS for a non-canonical use=
+r space
+>> RSP even in the absence of LASS, so if that is not currently handled th=
+at is an active bug=2E
 >
-> As for downsides, I think we might end up with a bit more boilerplate
-> code, but beyond that I am not sure.
+>Is that a fault in kernel space, or a fault in user space=2E=20
+>
+>Some of the traps for 'iret' happen after the transition to user space,
+>so the kernel doesn't have to handle them as special cases=2E
+>(I simplified (and fixed) one version of that code=2E)
+>
+>	David
+>
 
-One of the points in Christian's suggestion was that ioctl doesn't have to
-be bound to a misc device. Even if we don't use read()/write()/link() etc,
-we can have a filesystem that exposes, say, "control" file and that file
-has the same liveupdate_ioctl() in its fops as we have now in miscdev.
-
-The cost is indeed a bit of boilerplate code to create the filesystem, but
-it would be easier to extend for per-service and containers support.
-
-And we won't need sysfs entry for status, as it can be also pre-populated
-in kexecfs (or whatever it'll be called).
- 
-> -- 
-> Regards,
-> Pratyush Yadav
-
--- 
-Sincerely yours,
-Mike.
+It's a fault in user space=2E I had a brain fart and managed to forget tha=
+t RSP is technically a GPR and as such is not limited to the VA width of th=
+e machine=2E
