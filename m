@@ -1,86 +1,62 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5B21E832A;
-	Sat,  5 Jul 2025 22:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9161A76D0;
+	Sun,  6 Jul 2025 06:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751756189; cv=none; b=fYvQqEA8NxDNEVuSNFfC+HMuSWceUUAoBUJUZ3uCZ6bASfnO8ZJzRcb1WiZsil3k8mZm2wfw6hgxHqc/Z9BBABtl9mvn+S3kfesrHB94Z/SGwj6N9PzaW/MMTN3ZSPyBeqmEF37stX1Hk0DramPOnWtYfStYJXHLc7VPHs0LcJY=
+	t=1751781612; cv=none; b=BqcFkGGakU/+PaE+ZDIX/B/q2KSypGvY8oy50cK7PGYhdCZt9I/MHAYf1HYptDDQZK1Uwa2m9wTw2EmRXguEQeND9U4ndc7HvmEraIAt9C5rdO+8VbEDsZ8rSrM+ELk7rL6v7br22nw8Gipoi76JyE6LdA+0TII2OzVf4iPVL1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751756189; c=relaxed/simple;
-	bh=a3i4jRGxXCB5XfKRUE99TThgc+EDm/z2Y0g4eZ2mpP8=;
+	s=arc-20240116; t=1751781612; c=relaxed/simple;
+	bh=6LXeYQHiR9KdMFnH25UR1nczxh0conAegX4pfPWuIkE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F6kIPoejdwUv50SUiaXXzBPLVTp/23tYMC7eqV7/eeSJxXh3kpKlX3AyA8ThF27KhsD+itsN57zBXrI3sA1yLvyFyK+nLxQ9vZojasHboeUya2OrA5oluOs2QWc3O0AfnLe9bWS4yq1MA1G89Fn0Immoev5VQVUEYZ4DfpEnv+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lwj8HT9t; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LfF7Ojq6JMMoeGp3+1XvJgtAiYWus88dik8LjqM40mYsZDb25TlXUhFJKBHjlPNvIdo3QUyKMQTbbqA7/eifHfYJE9oRi48ozewy5DvjVWe2C0IJiok1eIkDuIdcT1rN4bSmz0w4fXoQx4eNHoTKet7deThGOPUiNYWYdOevdp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rGudv65b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lwj8HT9t"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-735a6faec9eso1201111a34.3;
-        Sat, 05 Jul 2025 15:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751756186; x=1752360986; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nICa9Cy/Ik1mDrNaapm3C7wILSwFMeL/8n8Vc7ARhtA=;
-        b=lwj8HT9twKAz9tI1c2XIWxhcy4LABS5nVEwKhWS75l2eiDFB3xCLQZDeXBMluUW5m8
-         y0e34B8T3EWQFgn3hNri9zc3b5sVnH2g5DJ+lBSSSu2WiOgotUl4HBvWpXgKCz59PWlj
-         j5Fah4/dCz6adhAiACXYwaC+XnYwCaLRhOJ7TLaHdBqT+eMqN/9MwlKopc08FYci4W53
-         lVIFX7gALMBZjnlRlj3dMGt0R/qq7G10fMAaHdzLoEL7MaChWHicjvnV9Qfeqim5CIrC
-         aaavWaKdczM5ZZ+t1/SiJEZfK8RewSkmndZYSRzTZIUwwOUHxGhCN7lovpoOahTfztmk
-         +Wog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751756186; x=1752360986;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nICa9Cy/Ik1mDrNaapm3C7wILSwFMeL/8n8Vc7ARhtA=;
-        b=aCgldi3CLvqW9sxUEWgmApB+Vrkr0gDKZvPKJ4qyJGuAP6fI4xeZ4UMHxrDTbbmEEr
-         WbureXObv6RX4J/sD+sP8prnC+yOoM2/zBJymGEueAgZV30/XYW9QhemX6iCi2fJCniM
-         9m5+/4w6KBLW98lYdaUHpYOAumAU4jy3gu5GgLd9fm2BPsh6CYPYAFzotuHE6hPHUy2E
-         FjHrtXB5PoMkbDH6Jy2riV3s5Fsyv7syoXHt89ceZ7AA+aX3x9fvStoaYIluaajFGNSN
-         coPAlcjxVzqlJqAoqN4EGSiuYIa10/dGmfJ/Rmiu59IWjaCwgUtQYhUIAR8kEWeabfhW
-         4lgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUah21wnZX/PkVKvErhigoBddAUXXvLKvwGNY15+/IZcaSLkQUjAEVSkpbz4BfrgOk6V1bBGCooIVJPMnwn@vger.kernel.org, AJvYcCVBcFklTcw1UqQVp+rWJ5nQa20bqy9l41hQQh6zCY8V43QcNgej8j4ku7OVrlCHiFsMkWoHaiI9EdfXL8d2Wg==@vger.kernel.org, AJvYcCWBkkm1NWTF0lbzvnmBONjdxlSBp1V7QbknAGO1drCZ7BIcrupVv3lQU2Ds103l1sk0BMLCE0pEl6U=@vger.kernel.org, AJvYcCWot9Vn1kXMZBwO5w/oMYi037MleCi3cu/V4Wz2YCavCpsogQSRyGUhqReCr58StzBatwO/wJmnq5xI@vger.kernel.org
-X-Gm-Message-State: AOJu0YyA6ceJRu4qCJQephEnaigqRm3YomN1WIzqTA6slh02MYCEcKXE
-	XLQL71xQm6UYQDc1gUn2YuQ0HR1A4XlDWJwk0yAZNZaMmhlsC2LLTA2HlOUNgcjr
-X-Gm-Gg: ASbGnct8ihRmJ01mQR/aHSOdpvXiPNS8TS+RaStzk6qM7LM4gekAsnEV6rOih39UpAk
-	Z1ufvZym5/apLvsRUxC2K6uDVhTMDODFVT08tqDLI20Ddw7aBzB9IJbI1nivLPqlPrsjIGWw5w2
-	kc5o8VhwqzakZ8z0ZIHpXa5qF9veI8dRuvQV4XrTtGVbuPXoIdCILC9TTKOLE/zbvj9IPpTyYRy
-	gFu5njiPy7dLT36Dn6c8hrtCvgC50GgXABkzfzTDod7kGc8lNBBoUFBpqrlMRRB+FIM+kVMOXiI
-	kwPP/TOF0x5o5O0NT3jt+bRH/AWgjzmhMhgS4LxTW/ZjayIHn6D9Li6zILEU+8glEJnQxjiXMYL
-	o
-X-Google-Smtp-Source: AGHT+IHuG5FCYsJhjMJavIVyVhItZa43h5Kj54uCqORVbS+uRUzsxc+GupAT4W0CSWAPweEMZrVidA==
-X-Received: by 2002:a05:6830:348f:b0:73b:1efa:5f43 with SMTP id 46e09a7af769-73ca0fdda45mr5358902a34.0.1751756185894;
-        Sat, 05 Jul 2025 15:56:25 -0700 (PDT)
-Received: from groves.net ([2603:8080:1500:3d89:d5d4:7402:f107:a815])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73c9f75354bsm944468a34.16.2025.07.05.15.56.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jul 2025 15:56:25 -0700 (PDT)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Sat, 5 Jul 2025 17:56:23 -0500
-From: John Groves <John@groves.net>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Dan Williams <dan.j.williams@intel.com>, 
-	Miklos Szeredi <miklos@szeredb.hu>, Bernd Schubert <bschubert@ddn.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 04/18] dev_dax_iomap: Add dax_operations for use by
- fs-dax on devdax
-Message-ID: <ahu24cm4ibrrch4jo2iobhrlxfs3kzyt46ylfovmhy2ztv2qad@upimvr47jvwf>
-References: <20250703185032.46568-1-john@groves.net>
- <20250703185032.46568-5-john@groves.net>
- <20250704134744.00006bcd@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rGudv65b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5853DC4CEED;
+	Sun,  6 Jul 2025 06:00:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751781612;
+	bh=6LXeYQHiR9KdMFnH25UR1nczxh0conAegX4pfPWuIkE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rGudv65bW/I8lfKVqqK+2DB/GumrSqAs4KGqsf9lwb5vIM0lf5rqwLOiBIWp47ysv
+	 4r0WG7tURWg1tGnjjq79aeVVQsZyXGj8cR1nXlmSb/tIyQdxWa5jBPwYgk4Ibn8/K9
+	 8aclrjMylHDqCzPAf4qXddw9XneKJKYKYM0CiGX5G6xkO/XRKoQ3qrE6gYkXOWmNgu
+	 3ThVFn2essmngu1U6ie6u/JjbUhg1oKvSHUs8gt+5x+lYChW6F8Iwx5TWrOW2nYZQ7
+	 U+zyKgjP6FtLwjG/hLHgAU67WZV0PzQ/Jx8mTjGv1yy23vzA7uiG8kCNLs0kGzeagw
+	 h+sF92nUwh5Nw==
+Date: Sun, 6 Jul 2025 09:00:07 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
+	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
+Message-ID: <20250706060007.GP6278@unreal>
+References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
+ <cover.1750854543.git.leon@kernel.org>
+ <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+ <20250627170213.GL17401@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,143 +65,116 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250704134744.00006bcd@huawei.com>
+In-Reply-To: <20250627170213.GL17401@unreal>
 
-On 25/07/04 01:47PM, Jonathan Cameron wrote:
-> On Thu,  3 Jul 2025 13:50:18 -0500
-> John Groves <John@Groves.net> wrote:
-> 
-> > Notes about this commit:
+On Fri, Jun 27, 2025 at 08:02:13PM +0300, Leon Romanovsky wrote:
+> On Fri, Jun 27, 2025 at 03:44:10PM +0200, Marek Szyprowski wrote:
+> > On 25.06.2025 15:18, Leon Romanovsky wrote:
+> > > This series refactors the DMA mapping to use physical addresses
+> > > as the primary interface instead of page+offset parameters. This
+> > > change aligns the DMA API with the underlying hardware reality where
+> > > DMA operations work with physical addresses, not page structures.
+> > >
+> > > The series consists of 8 patches that progressively convert the DMA
+> > > mapping infrastructure from page-based to physical address-based APIs:
+> > >
+> > > The series maintains backward compatibility by keeping the old
+> > > page-based API as wrapper functions around the new physical
+> > > address-based implementations.
 > > 
-> > * These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
+> > Thanks for this rework! I assume that the next step is to add map_phys 
+> > callback also to the dma_map_ops and teach various dma-mapping providers 
+> > to use it to avoid more phys-to-page-to-phys conversions.
+> 
+> Probably Christoph will say yes, however I personally don't see any
+> benefit in this. Maybe I wrong here, but all existing .map_page()
+> implementation platforms don't support p2p anyway. They won't benefit
+> from this such conversion.
+> 
 > > 
-> > * dev_dax_direct_access() is returns the hpa, pfn and kva. The kva was
-> >   newly stored as dev_dax->virt_addr by dev_dax_probe().
+> > I only wonder if this newly introduced dma_map_phys()/dma_unmap_phys() 
+> > API is also suitable for the recently discussed PCI P2P DMA? While 
+> > adding a new API maybe we should take this into account?
+> 
+> First, immediate user (not related to p2p) is blk layer:
+> https://lore.kernel.org/linux-nvme/bcdcb5eb-17ed-412f-bf5c-303079798fe2@nvidia.com/T/#m7e715697d4b2e3997622a3400243477c75cab406
+> 
+> +static bool blk_dma_map_direct(struct request *req, struct device *dma_dev,
+> +		struct blk_dma_iter *iter, struct phys_vec *vec)
+> +{
+> +	iter->addr = dma_map_page(dma_dev, phys_to_page(vec->paddr),
+> +			offset_in_page(vec->paddr), vec->len, rq_dma_dir(req));
+> +	if (dma_mapping_error(dma_dev, iter->addr)) {
+> +		iter->status = BLK_STS_RESOURCE;
+> +		return false;
+> +	}
+> +	iter->len = vec->len;
+> +	return true;
+> +}
+> 
+> Block layer started to store phys addresses instead of struct pages and
+> this phys_to_page() conversion in data-path will be avoided.
+
+I almost completed main user of this dma_map_phys() callback. It is
+rewrite of this patch [PATCH v3 3/3] vfio/pci: Allow MMIO regions to be exported through dma-buf
+https://lore.kernel.org/all/20250307052248.405803-4-vivek.kasireddy@intel.com/
+
+Whole populate_sgt()->dma_map_resource() block looks differently now and
+it is relying on dma_map_phys() as we are exporting memory without
+struct pages. It will be something like this:
+
+   89         for (i = 0; i < priv->nr_ranges; i++) {
+   90                 phys = pci_resource_start(priv->vdev->pdev,
+   91                                           dma_ranges[i].region_index);
+   92                 phys += dma_ranges[i].offset;
+   93
+   94                 if (priv->bus_addr) {
+   95                         addr = pci_p2pdma_bus_addr_map(&p2pdma_state, phys);
+   96                         fill_sg_entry(sgl, dma_ranges[i].length, addr);
+   97                         sgl = sg_next(sgl);
+   98                 } else if (dma_use_iova(&priv->state)) {
+   99                         ret = dma_iova_link(attachment->dev, &priv->state, phys,
+  100                                             priv->mapped_len,
+  101                                             dma_ranges[i].length, dir, attrs);
+  102                         if (ret)
+  103                                 goto err_unmap_dma;
+  104
+  105                         priv->mapped_len += dma_ranges[i].length;
+  106                 } else {
+  107                         addr = dma_map_phys(attachment->dev, phys, 0,
+  108                                             dma_ranges[i].length, dir, attrs);
+  109                         ret = dma_mapping_error(attachment->dev, addr);
+  110                         if (ret)
+  111                                 goto unmap_dma_buf;
+  112
+  113                         fill_sg_entry(sgl, dma_ranges[i].length, addr);
+  114                         sgl = sg_next(sgl);
+  115                 }
+  116         }
+  117
+  118         if (dma_use_iova(&priv->state) && !priv->bus_addr) {
+  119                 ret = dma_iova_sync(attachment->dev, &pri->state, 0,
+  120                                     priv->mapped_len);
+  121                 if (ret)
+  122                         goto err_unmap_dma;
+  123
+  124                 fill_sg_entry(sgl, priv->mapped_len, priv->state.addr);
+  125         }
+
+> 
+> > My main concern is the lack of the source phys addr passed to the dma_unmap_phys() 
+> > function and I'm aware that this might complicate a bit code conversion 
+> > from old dma_map/unmap_page() API.
+
+It is not needed for now, all p2p logic is external to DMA API.
+
+Thanks
+
 > > 
-> > * The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
-> >   for read/write (dax_iomap_rw())
+> > Best regards
+> > -- 
+> > Marek Szyprowski, PhD
+> > Samsung R&D Institute Poland
 > > 
-> > * dev_dax_recovery_write() and dev_dax_zero_page_range() have not been
-> >   tested yet. I'm looking for suggestions as to how to test those.
 > > 
-> > Signed-off-by: John Groves <john@groves.net>
-> A few trivial things noticed whilst reading through.
-
-BTW thanks for looking at the dev_dax_iomap part of the series. These are
-basically identical to the two standalone-famfs series' I put out last year,
-but have IIRC not gotten review comments before this.
-
 > 
-> > ---
-> >  drivers/dax/bus.c | 120 ++++++++++++++++++++++++++++++++++++++++++++--
-> >  1 file changed, 115 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> > index 9d9a4ae7bbc0..61a8d1b3c07a 100644
-> > --- a/drivers/dax/bus.c
-> > +++ b/drivers/dax/bus.c
-> > @@ -7,6 +7,10 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/dax.h>
-> >  #include <linux/io.h>
-> > +#include <linux/backing-dev.h>
-> > +#include <linux/pfn_t.h>
-> > +#include <linux/range.h>
-> > +#include <linux/uio.h>
-> >  #include "dax-private.h"
-> >  #include "bus.h"
-> >  
-> > @@ -1441,6 +1445,105 @@ __weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
-> >  }
-> >  EXPORT_SYMBOL_GPL(dax_pgoff_to_phys);
-> >  
-> > +#if IS_ENABLED(CONFIG_DEV_DAX_IOMAP)
-> > +
-> > +static void write_dax(void *pmem_addr, struct page *page,
-> > +		unsigned int off, unsigned int len)
-> > +{
-> > +	unsigned int chunk;
-> > +	void *mem;
-> 
-> I'd move these two into the loop - similar to what you have
-> in other cases with more local scope.
-
-Done, thanks.
-
-> 
-> > +
-> > +	while (len) {
-> > +		mem = kmap_local_page(page);
-> > +		chunk = min_t(unsigned int, len, PAGE_SIZE - off);
-> > +		memcpy_flushcache(pmem_addr, mem + off, chunk);
-> > +		kunmap_local(mem);
-> > +		len -= chunk;
-> > +		off = 0;
-> > +		page++;
-> > +		pmem_addr += chunk;
-> > +	}
-> > +}
-> > +
-> > +static long __dev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
-> > +			long nr_pages, enum dax_access_mode mode, void **kaddr,
-> > +			pfn_t *pfn)
-> > +{
-> > +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
-> > +	size_t size = nr_pages << PAGE_SHIFT;
-> > +	size_t offset = pgoff << PAGE_SHIFT;
-> > +	void *virt_addr = dev_dax->virt_addr + offset;
-> > +	u64 flags = PFN_DEV|PFN_MAP;
-> 
-> spaces around the |
-> 
-> Though given it's in just one place, just put these inline next
-> to the question...
-
-Done and done.
-
-> 
-> 
-> > +	phys_addr_t phys;
-> > +	pfn_t local_pfn;
-> > +	size_t dax_size;
-> > +
-> > +	WARN_ON(!dev_dax->virt_addr);
-> > +
-> > +	if (down_read_interruptible(&dax_dev_rwsem))
-> > +		return 0; /* no valid data since we were killed */
-> > +	dax_size = dev_dax_size(dev_dax);
-> > +	up_read(&dax_dev_rwsem);
-> > +
-> > +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);
-> > +
-> > +	if (kaddr)
-> > +		*kaddr = virt_addr;
-> > +
-> > +	local_pfn = phys_to_pfn_t(phys, flags); /* are flags correct? */
-> > +	if (pfn)
-> > +		*pfn = local_pfn;
-> > +
-> > +	/* This the valid size at the specified address */
-> > +	return PHYS_PFN(min_t(size_t, size, dax_size - offset));
-> > +}
-> 
-> > +static size_t dev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
-> > +		void *addr, size_t bytes, struct iov_iter *i)
-> > +{
-> > +	size_t off;
-> > +
-> > +	off = offset_in_page(addr);
-> 
-> Unused.
-
-Righto. Thanks.
-
-> > +
-> > +	return _copy_from_iter_flushcache(addr, bytes, i);
-> > +}
-> 
-> 
-
-Thanks!
-John
-
