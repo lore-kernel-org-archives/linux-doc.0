@@ -1,108 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3843A1BA;
-	Sun,  6 Jul 2025 12:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086FF2AE90;
+	Sun,  6 Jul 2025 13:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751803697; cv=none; b=fL+fDoRRmHJwBb7/+uIkC6pwoxYUdBoX2M1nYDHYUXucC5sfOzf40hYrx+4rLafDkfEGzVjcmr6Ww8nWfJ3JUBurr1VPb8zX7deGJoRxDf6CTFDVs0LFR4Eca43Bhf5WSKhWDEmWxL/1k7V9h5Hvt90AEWEltLzlVGyjvkMJdoY=
+	t=1751807822; cv=none; b=kE8fo+mOHAlz+sarvtC51DhpNx8bGeIz+/rROnqvf4J57xvJTcXvSxLCKwDW1XXIfHYfurOQ23vgQjH4tdZr4rjg3SILP+VyQiJxqAF31QpLO5tIul7M0hk3oqjquRN60waGpW1qep/TySAa+LYDohqKUnyZdOlnV5XI7ep5F3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751803697; c=relaxed/simple;
-	bh=XpoWv8xta0VLHMCKopuMDFXlJSopoAkpIk+CWYp7CpU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j5ZoPvY1gR6IdFxUHU9/sYbo3AcLuY9Guq2Kegs7k0WR6Jm9sxapSSTj9pcnivqb9vgmKGx2YUOI4rpLB9NW+9ZczEcqk/w516N36Z3rybknfTN5O8Yia/tAVh38L7Ommk51rjKFo/bVitKXURtVsviKC6sYAf+vpKarRZYDXic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vre18jYi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751807822; c=relaxed/simple;
+	bh=HuNTV6cW/+vs+mGK9vS2XhW5GQHCu+ctRZXx7qK9VRQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sSEKMNfV9mGtIh6KY8sRz8ASEPYz1i5ghO0eY5chbOdPar5p1YELLqz28F48cq7s7cYWDs31gb39YykSsh1ambM4mf9V0tL4EXJnbpQPkUWzebB4/5TB94YqOcyhK76LKw51fKoj7n0CicFqpvbrXrDEZCT2CDik9SmV8IsST+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GXwu21Ro; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vre18jYi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E53F0C4CEED;
-	Sun,  6 Jul 2025 12:08:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751803696;
-	bh=XpoWv8xta0VLHMCKopuMDFXlJSopoAkpIk+CWYp7CpU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Vre18jYiYCHIIIE4ibLvL/mUJ116J7ErrS6VpBf154/DJ1OctUwv+laQ6Cqbyjjjo
-	 6+mYuhEgcOlwR/EF6c1i6v4wYS8xXMooufl6OXKPXqxMpoPnpp+mCli1mXjXbtBhas
-	 l5aXmk0Xn440BNTVW9Z3R0BpBDGD4TNGR53OjghrNBY+PPmOUQ2mSfZnFaNL0CuDoh
-	 C+ABcW8P57W7gFubFGFKUI3EuBBJxBGX8QTYVMguYkJgkU/CbEgVq2JLAUQazsvPrA
-	 ZzJJSGtcHMtCoJEE1UVmOp01bBb/pSZiWGTjsZe7LFz2mPOncyVpVt9M6dpYLfahuv
-	 ZljKRUL6iH1MQ==
-Date: Sun, 6 Jul 2025 13:08:08 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de,
- Michael.Hennerich@analog.com, dlechner@baylibre.com, nuno.sa@analog.com,
- andy@kernel.org, corbet@lwn.net, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- eraretuya@gmail.com
-Subject: Re: [PATCH v11 4/8] iio: accel: adxl345: add inactivity feature
-Message-ID: <20250706130808.2b6a1161@jic23-huawei>
-In-Reply-To: <aGalkb42uRQ12Wr0@smile.fi.intel.com>
-References: <20250702230315.19297-1-l.rubusch@gmail.com>
-	<20250702230315.19297-5-l.rubusch@gmail.com>
-	<aGaTH6gVqHxn9Xct@smile.fi.intel.com>
-	<CAFXKEHb4MQk=6hyh-02Fq_XmkQmMiwc-WT4ZSviP6x4XA463mQ@mail.gmail.com>
-	<aGalkb42uRQ12Wr0@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GXwu21Ro"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-606b58241c9so3494444a12.3;
+        Sun, 06 Jul 2025 06:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751807818; x=1752412618; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HuNTV6cW/+vs+mGK9vS2XhW5GQHCu+ctRZXx7qK9VRQ=;
+        b=GXwu21RoNKaxKLdQO4a6VDJfsXmzl4FFNIiUIz8OM2pT/PRUaEEXkYg7Rynd4yDoO/
+         jZQ6qfistqPpYhOW7PRzLK+ontGtPb7oHZd5AH0/0jLoY4C1ZvxuFavufkK+N6drJ8mc
+         GMXn7e3GmCkC55nGscK67i28n+RbD43MaxluUdaLcRolf7/2X+IAxgr9NLASQZTyXv6H
+         Q3YzBD4bSs6L4nhmM+cdnWlkFSK3RPBDrgwitkTGn7UB8FhRu8Tkt7ywEXlk1uUfFcDg
+         VjbzWeaHClrvDcACkpvTOtyMRu6En7MrDCOnyvggi+I1QjGmZkHtkBTsHc7WL25btAm/
+         4Nlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751807818; x=1752412618;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HuNTV6cW/+vs+mGK9vS2XhW5GQHCu+ctRZXx7qK9VRQ=;
+        b=GS8ZtmH2FCd+/QI/8lVn4HKzr9PbYgShrj36m7L1f0Hy4TMMvsSGWrIhyxY6QeZY/Q
+         ecBEV1krFi1coJFoTZYuu8j+qSeuOPPANoCDxRRLaqGM5aaGkh72fXGJt4sHWNrkMP8M
+         ZEdBkJRLPZbg1f0k0G1nanQJ4geacx9Vycx2VXGF/RvHLwlQdV4K/FQVYYz7+svs/bag
+         oCYoIOZzh4yw2hoOk3KUvQN8TKnIeVBE1LJxCbV4tqQqoYxmMvL+WvRwwLTkvSkLk8H1
+         C4EavB3CKiq3SDsEx2z7mvYvOXdOoTw8F54i10wCj99QDawAqji1OS+eW6bs5A27Ys3r
+         QwNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVbMAnSO39LkQgWRPfCCXuWKtBHjldgCK+GXO1RBW97fm1Vw17Q9RG1zbLg0eRjfW3HmRA+yNudpALS+ec9@vger.kernel.org, AJvYcCWCnGXOWEGVbQ57+Wmgc2iUScziew71WeLVbfeX9h52uTCCa35w3bniI1i5UrO3KI3LO5Fn/aCQePA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxI1gOBL5sUAqyT0gyqxBKy88qGjs8EXPplE6btYFfYPvK4PyG6
+	IFb9h97wF9fVeKMfRyHRK4+TiKX6zF129bW/M6r3klvFPebNltHtkkabUyAL05StDQQfwIDGVIr
+	mO0lBHsYXw/fh6Cyg1rbR1l3uWvz8BlA=
+X-Gm-Gg: ASbGncu9r/+GmLpx4Xn36RcxYhYo6tXs9vHdn2YZPkXNqWYlVFhMb7P9BGMVuFOLXym
+	BTh4jYiN0dKjzz8jzEZUW+GDgY+DOuGp6BbHfkHZT2GsmTcepvpnR04+gr3P1UHSX2RkVAEawCP
+	DvHDIXb7uZMQoVvsJzi1uPNtAiscAHJ5R2HWGjwOSQ1Z0=
+X-Google-Smtp-Source: AGHT+IHWdD0p4xg8rqozaCpj3xPvV3G94fAeBkyHoePx4D3lExuJ+9PhcbeUGiUwDGxwATkHI6CD4WvBTgK2K1/hGIA=
+X-Received: by 2002:a05:6402:3593:b0:607:f31f:26de with SMTP id
+ 4fb4d7f45d1cf-60fd64e67d3mr6692015a12.1.1751807817911; Sun, 06 Jul 2025
+ 06:16:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250627143212435mZ2WRnqC77Y-XxvFKrGsy@zte.com.cn> <20250628121917249q9r3rXmnBmRqbgFtJuDHW@zte.com.cn>
+In-Reply-To: <20250628121917249q9r3rXmnBmRqbgFtJuDHW@zte.com.cn>
+From: Alex Shi <seakeel@gmail.com>
+Date: Sun, 6 Jul 2025 21:16:21 +0800
+X-Gm-Features: Ac12FXyNf_lFxYfvlXz5vSS7j9O7XXUMDJickxC6-r5Wf8vDoYGiJoGiyVmZ0wE
+Message-ID: <CAJy-Ammd++oK+fe2WdqXS-qvHozPmnGVc8tTqfS+fvnqzpr0oQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Docs/zh_CN: Translate alias.rst to Simplified Chinese
+To: xu.xin16@zte.com.cn
+Cc: jiang.kun2@zte.com.cn, alexs@kernel.org, si.yanteng@linux.dev, 
+	dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, yang.yang29@zte.com.cn, fan.yu9@zte.com.cn, 
+	qiu.yutan@zte.com.cn, wang.yaxin@zte.com.cn
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 3 Jul 2025 18:45:21 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+The patch applied with merge conflict fixed.
+Thanks
 
-> On Thu, Jul 03, 2025 at 04:59:50PM +0200, Lothar Rubusch wrote:
-> > On Thu, Jul 3, 2025 at 4:26=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@intel.com> wrote: =20
-> > > On Wed, Jul 02, 2025 at 11:03:11PM +0000, Lothar Rubusch wrote: =20
->=20
-> ...
->=20
-> > > >  #define ADXL345_REG_TAP_SUPPRESS_MSK BIT(3)
-> > > >  #define ADXL345_REG_TAP_SUPPRESS     BIT(3)
-> > > >  #define ADXL345_REG_ACT_AXIS_MSK     GENMASK(6, 4)
-> > > > +#define ADXL345_REG_INACT_AXIS_MSK   GENMASK(2, 0)
-> > > > +#define ADXL345_POWER_CTL_INACT_MSK  (ADXL345_POWER_CTL_AUTO_SLEEP=
- | ADXL345_POWER_CTL_LINK)
-> > > >
-> > > >  #define ADXL345_TAP_Z_EN             BIT(0)
-> > > >  #define ADXL345_TAP_Y_EN             BIT(1)
-> > > >  #define ADXL345_TAP_X_EN             BIT(2)
-> > > >
-> > > > +#define ADXL345_INACT_Z_EN           BIT(0)
-> > > > +#define ADXL345_INACT_Y_EN           BIT(1)
-> > > > +#define ADXL345_INACT_X_EN           BIT(2)
-> > > > +#define ADXL345_INACT_XYZ_EN         (ADXL345_INACT_Z_EN | ADXL345=
-_INACT_Y_EN | ADXL345_INACT_X_EN)
-> > > > +
-> > > >  #define ADXL345_ACT_Z_EN             BIT(4)
-> > > >  #define ADXL345_ACT_Y_EN             BIT(5)
-> > > >  #define ADXL345_ACT_X_EN             BIT(6) =20
-> > >
-> > > Now it's even more mess. I am lost in understanding which bits/masks =
-are from
-> > > the same offset and which are not.
-> > > =20
-> >=20
-> > I'm sorry for that. I mean, while the above is supposed to make it
-> > clear where the "values" are coming from, I also could setup something
-> > like the following which is shorter.
-> > +#define ADXL345_INACT_XYZ_EN        GENMASK(2,0)
-> > +#define ADXL345_ACT_XYZ_EN        GENMASK(6,4)
-
-Definitely not for those.  They aren't a mask, but rather 3 only somewhat
-related bits.
-
-> >=20
-> > As I understand you, you'd rather prefer to see the latter one in the k=
-ernel? =20
->=20
-> My personal preference can be found, for example, in
-> drivers/pinctrl/intel/pinctrl-intel.c. But I'm not insisting to use
-> _my_ schema. Just find a way how to group them semantically.
->=20
-
+<xu.xin16@zte.com.cn> =E4=BA=8E2025=E5=B9=B46=E6=9C=8828=E6=97=A5=E5=91=A8=
+=E5=85=AD 12:19=E5=86=99=E9=81=93=EF=BC=9A
+>
+> > From: Qiu Yutan <qiu.yutan@zte.com.cn>
+> >
+> > translate the "alias.rst" into Simplified Chinese
+> >
+> > Update to commit 735dadf894f0("docs: networking:
+> > Convert alias.txt to rst")
+> >
+> > Signed-off-by: Qiu Yutan <qiu.yutan@zte.com.cn>
+> > Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+> > ---
+>
+> Reviewed-by: xu xin <xu.xin16@zte.com.cn>
