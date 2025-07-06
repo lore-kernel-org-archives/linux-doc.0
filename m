@@ -1,112 +1,144 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47531C84BD;
-	Sun,  6 Jul 2025 15:08:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191B815D1;
+	Sun,  6 Jul 2025 16:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751814538; cv=none; b=ApYh3ayuyn1MEiHLnNQekhXM2jXlYfCIePBad4Gss4wgwHsif3Owq/oQTsfVaDug+/TN+sERIPAx2V5yxD40+gZAS0ymKljY3Jc9cmOs2ciT1xBZ7KKiPJq1npkxdtU6DdYKPJPgwJVUfNpf6NYuj9IcM+Wa/tCf9zQxGcFA8Kw=
+	t=1751818165; cv=none; b=fzgsB8pVqGHTLBmXlh16UoW72T76+Hq0YEulyuHONn5P2wG68mDe3ZxIVVcA4wh1Lsn/hwAvHS4qpbMbZg5a99fkax58Wh++wOndHVbrD93xSSqKYYHKYXYAnwktmUhBIttFkAjEx2JDYZYEsysOWIKvJgrkHUZVDJ8lqZpIB+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751814538; c=relaxed/simple;
-	bh=ASDmyGnzfJljOZphyrCvLQ55mfID83fRQnnYfpooIkI=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=DKa3di7KI0372MAVtnP/0BrvlIr0HT9VEklOEb/R9K0A4P8sD2stWXM/nxJ1YmhT/NYrY3wG3oB9fscQbeLPRO7y1Fkp3m6NCvXVitdGqJHSHm0YpNaV05BMpEGbUdUb63z0JVDuSeHQOvhiBaAddxqGXN11t7gcLv85fvcKah4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=VSkWNu26; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1751818165; c=relaxed/simple;
+	bh=qV/OJ8LdTuJrlP2M38dxUDyFbscgaTZzX3iUlnI8xr0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WJbzk5lPO1X3DQLUbSNsMFIcZBWph3h4H8N64xqU+FU7nl0ILNi2xLOdaiSr66qIIemLUIgzka9P7HmTLHegqtHIe65jI3e7GdKGj58UpXFt8c0VbA9dM/tuVMBpFZWwf9obUW5OA1oDJk5wldcy9eCujl6G12HjZkwIFJXBRcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMxejibh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="VSkWNu26"
-Received: from [127.0.0.1] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 566F7DpZ2515561
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sun, 6 Jul 2025 08:07:13 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 566F7DpZ2515561
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025062101; t=1751814439;
-	bh=G79563uv22etjcsM52VSq8s7aFTNio1gT1rhuuWWu1o=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=VSkWNu2698xR5vmX6rnz5SP/yzVha3qsNlh6tb0QZ4tOdJmh9a0W7R9kBMAGW5ed/
-	 BPpHtjKKWPaKAUo+zPDMtFfCph3ymVESLGzAPtI1EzcsL9d1Uw6/b/HvDfApQqLgqS
-	 5NYfjDREuTyT9HQH8FvzNvowTLqlIyQde7tqLHbKCLSeBkUnzlgA/BrOivFXGNCNhn
-	 MJKIlg7LTIQHkDmGNakFtprGe4zsLhcY7p+UVNnHHuhxJX6wQkvctzZrlagGGftm41
-	 I/4ckbbNY6SfaAUjP796XY0NfgLfL+4FajRDyovrVhNllNE84n1q+nYSH7X1qbe82B
-	 zCLZ9snwXETAQ==
-Date: Sun, 06 Jul 2025 08:07:11 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: David Laight <david.laight.linux@gmail.com>
-CC: Sohil Mehta <sohil.mehta@intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Xiongwei Song <xiongwei.song@windriver.com>,
-        Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>,
-        Alexey Kardashevskiy <aik@amd.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>,
-        Breno Leitao <leitao@debian.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-        Juergen Gross <jgross@suse.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>,
-        Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-        Huang Shijie <shijie@os.amperecomputing.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCHv8 14/17] x86/traps: Handle LASS thrown #SS
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20250706102213.4ab365d7@pumpkin>
-References: <20250701095849.2360685-1-kirill.shutemov@linux.intel.com> <20250701095849.2360685-15-kirill.shutemov@linux.intel.com> <95dc18fd-73b0-4019-92d2-c0e6aaf22c96@intel.com> <4DE45AFD-C1E0-4FB8-BE01-44A72C5C6E1E@zytor.com> <20250706102213.4ab365d7@pumpkin>
-Message-ID: <29992EA3-8BEE-4B31-A38F-F3E65FA9609D@zytor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMxejibh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 915F5C4CEED;
+	Sun,  6 Jul 2025 16:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751818164;
+	bh=qV/OJ8LdTuJrlP2M38dxUDyFbscgaTZzX3iUlnI8xr0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=hMxejibhIaYp0UIEQpBGnjqrjlMAF+hfphmFJrvCzWNCSP81wCt4zwe6VjZfNWDDi
+	 V5HZenPDYxnYN4to5yYvfE5wPZwysDvwvsTr43ao7O4qwPAPPslasIXaoRDz/VNZhg
+	 CNpzfequO2hH9vZe23SQsyUf4Ejabw3cPMWLerRu05ntmkgggUQMCWQscc0cLCirCj
+	 ec7za4itRHwH2jOhZwhdglmtKuIfm5RFISUx4E2fbjAUq//XBQ+r89EbsOrRKveJ8a
+	 2XXeA5SjLSflK1brKoWTaJl43r1qFwtq4u3t5kC63WBtuHEpNl2oVbJfp8lMhX92wj
+	 do++5dAuRepgA==
+Date: Sun, 6 Jul 2025 17:09:16 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de,
+ Michael.Hennerich@analog.com, dlechner@baylibre.com, nuno.sa@analog.com,
+ andy@kernel.org, corbet@lwn.net, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ eraretuya@gmail.com
+Subject: Re: [PATCH v11 3/8] iio: accel: adxl345: add activity event feature
+Message-ID: <20250706170916.17417514@jic23-huawei>
+In-Reply-To: <aGaSkQHQKCqfrVXF@smile.fi.intel.com>
+References: <20250702230315.19297-1-l.rubusch@gmail.com>
+	<20250702230315.19297-4-l.rubusch@gmail.com>
+	<aGaSkQHQKCqfrVXF@smile.fi.intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On July 6, 2025 2:22:13 AM PDT, David Laight <david=2Elaight=2Elinux@gmail=
-=2Ecom> wrote:
->On Tue, 01 Jul 2025 19:06:10 -0700
->"H=2E Peter Anvin" <hpa@zytor=2Ecom> wrote:
->=2E=2E=2E
->> Note: for a FRED system, ERETU can generate #SS for a non-canonical use=
-r space
->> RSP even in the absence of LASS, so if that is not currently handled th=
-at is an active bug=2E
->
->Is that a fault in kernel space, or a fault in user space=2E=20
->
->Some of the traps for 'iret' happen after the transition to user space,
->so the kernel doesn't have to handle them as special cases=2E
->(I simplified (and fixed) one version of that code=2E)
->
->	David
->
+On Thu, 3 Jul 2025 17:24:17 +0300
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-It's a fault in user space=2E I had a brain fart and managed to forget tha=
-t RSP is technically a GPR and as such is not limited to the VA width of th=
-e machine=2E
+> On Wed, Jul 02, 2025 at 11:03:10PM +0000, Lothar Rubusch wrote:
+> > Enable the sensor to detect activity and trigger interrupts accordingly.
+> > Activity events are determined based on a threshold, which is initialized
+> > to a sensible default during probe. This default value is adopted from the
+> > legacy ADXL345 input driver to maintain consistent behavior.
+> > 
+> > The combination of activity detection, ODR configuration, and range
+> > settings lays the groundwork for the activity/inactivity hysteresis
+> > mechanism, which will be implemented in a subsequent patch. As such,
+> > portions of this patch prepare switch-case structures to support those
+> > upcoming changes.  
+> 
+> >  #define ADXL345_REG_TAP_AXIS_MSK	GENMASK(2, 0)
+> >  #define ADXL345_REG_TAP_SUPPRESS_MSK	BIT(3)
+> >  #define ADXL345_REG_TAP_SUPPRESS	BIT(3)
+> > +#define ADXL345_REG_ACT_AXIS_MSK	GENMASK(6, 4)
+> >  
+> >  #define ADXL345_TAP_Z_EN		BIT(0)
+> >  #define ADXL345_TAP_Y_EN		BIT(1)
+> >  #define ADXL345_TAP_X_EN		BIT(2)
+> >  
+> > +#define ADXL345_ACT_Z_EN		BIT(4)
+> > +#define ADXL345_ACT_Y_EN		BIT(5)
+> > +#define ADXL345_ACT_X_EN		BIT(6)
+> > +#define ADXL345_ACT_XYZ_EN		(ADXL345_ACT_Z_EN | ADXL345_ACT_Y_EN | ADXL345_ACT_X_EN)  
+> 
+> I'm trying to understand the logic behind the placement of the masks and bits.
+> To me it sounds that the above should be rather
+> 
+> #define ADXL345_REG_TAP_AXIS_MSK	GENMASK(2, 0)
+> #define ADXL345_TAP_Z_EN		BIT(0)
+> #define ADXL345_TAP_Y_EN		BIT(1)
+> #define ADXL345_TAP_X_EN		BIT(2)
+> #define ADXL345_REG_TAP_SUPPRESS_MSK	BIT(3) // Do we need this at all?
+> #define ADXL345_REG_TAP_SUPPRESS	BIT(3) // or actually this? One is enough, no?
+> #define ADXL345_REG_ACT_AXIS_MSK	GENMASK(6, 4)
+> #define ADXL345_ACT_Z_EN		BIT(4)
+> #define ADXL345_ACT_Y_EN		BIT(5)
+> #define ADXL345_ACT_X_EN		BIT(6)
+> #define ADXL345_ACT_XYZ_EN		(ADXL345_ACT_Z_EN | ADXL345_ACT_Y_EN | ADXL345_ACT_X_EN)
+> 
+> (Yes, I know that the mess is preexisted, but try to keep some order in the
+>  pieces you add here.)
+
+FWIW I fully agree on keeping field definitions and field break up together.
+
+The ACT_MSK is a little odd as thing as then we'd expect there to be bits
+within that. So that FIELD_GET(a, ADXL345_REG_ACT_AXIS_MSK) would return
+a value from a list of things like
+ADXL345_REG_ACT_AXIS_VALUE_A and similar.
+
+So I'd not define that as a mask a tall but just use the
+ACT_XYZ_EN for it as then it's clear you are checking for any of the
+3 bits being set.
+
+Jonathan
+
+
+> 
+> ...
+> 
+> > +		.mask_shared_by_type = BIT(IIO_EV_INFO_ENABLE) |
+> > +			BIT(IIO_EV_INFO_VALUE),  
+> 
+> I would expect one of the below (indentation) styles
+> 
+> 		.mask_shared_by_type = BIT(IIO_EV_INFO_ENABLE) |
+> 				       BIT(IIO_EV_INFO_VALUE),
+> 
+> 		.mask_shared_by_type =
+> 			BIT(IIO_EV_INFO_ENABLE) |
+> 			BIT(IIO_EV_INFO_VALUE),
+> 
+> ...
+> 
+> >  static int adxl345_push_event(struct iio_dev *indio_dev, int int_stat,
+> > -			      enum iio_modifier tap_dir)
+> > +			      enum iio_modifier tap_dir,
+> > +			      enum iio_modifier act_dir)  
+> 
+> Hmm... Why not
+> 
+> static int adxl345_push_event(struct iio_dev *indio_dev, int int_stat,
+> 			      enum iio_modifier act_dir,
+> 			      enum iio_modifier tap_dir)
+> 
+> ?
+> 
+
