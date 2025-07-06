@@ -1,62 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9161A76D0;
-	Sun,  6 Jul 2025 06:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E431A76D0
+	for <linux-doc@vger.kernel.org>; Sun,  6 Jul 2025 07:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751781612; cv=none; b=BqcFkGGakU/+PaE+ZDIX/B/q2KSypGvY8oy50cK7PGYhdCZt9I/MHAYf1HYptDDQZK1Uwa2m9wTw2EmRXguEQeND9U4ndc7HvmEraIAt9C5rdO+8VbEDsZ8rSrM+ELk7rL6v7br22nw8Gipoi76JyE6LdA+0TII2OzVf4iPVL1s=
+	t=1751787203; cv=none; b=ro+cKQP/I7s7CsZVRkozHTRiNfGQSdmU7A9pRdsYDe2F8VbRWwIdJFT+C5LY6O4hADnvUsNgFYhm3/sHgWwlGpcBco52PVDxg1dzH2cQuoFStFPO3N2usJLepTiwvk87qiVeO6CzYiTm93aHE0iMOZUW5QZgg4wTuhwAsXOxm4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751781612; c=relaxed/simple;
-	bh=6LXeYQHiR9KdMFnH25UR1nczxh0conAegX4pfPWuIkE=;
+	s=arc-20240116; t=1751787203; c=relaxed/simple;
+	bh=buNIGFf1lCBRvWJHK8Ks2oaVbbxjToutmKFJesXy8Kg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LfF7Ojq6JMMoeGp3+1XvJgtAiYWus88dik8LjqM40mYsZDb25TlXUhFJKBHjlPNvIdo3QUyKMQTbbqA7/eifHfYJE9oRi48ozewy5DvjVWe2C0IJiok1eIkDuIdcT1rN4bSmz0w4fXoQx4eNHoTKet7deThGOPUiNYWYdOevdp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rGudv65b; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NwuxqZoE409cLR30W+uOq7Pxm+d0fUT9cQ9f2P2uN4zfPmg3EI4KpjSyWJWKRVf4bD7RhCeAn8eQTVRsKTPowKTxJ5lKHinL57X66iFCYL8cwDdGVMU87XBVnqiYlpXeYNMIwcAkpI0kH3O1LM8uvmiK2I8BAGnu8OGjuTs8LtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K3JWObOH; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rGudv65b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5853DC4CEED;
-	Sun,  6 Jul 2025 06:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751781612;
-	bh=6LXeYQHiR9KdMFnH25UR1nczxh0conAegX4pfPWuIkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rGudv65bW/I8lfKVqqK+2DB/GumrSqAs4KGqsf9lwb5vIM0lf5rqwLOiBIWp47ysv
-	 4r0WG7tURWg1tGnjjq79aeVVQsZyXGj8cR1nXlmSb/tIyQdxWa5jBPwYgk4Ibn8/K9
-	 8aclrjMylHDqCzPAf4qXddw9XneKJKYKYM0CiGX5G6xkO/XRKoQ3qrE6gYkXOWmNgu
-	 3ThVFn2essmngu1U6ie6u/JjbUhg1oKvSHUs8gt+5x+lYChW6F8Iwx5TWrOW2nYZQ7
-	 U+zyKgjP6FtLwjG/hLHgAU67WZV0PzQ/Jx8mTjGv1yy23vzA7uiG8kCNLs0kGzeagw
-	 h+sF92nUwh5Nw==
-Date: Sun, 6 Jul 2025 09:00:07 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K3JWObOH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751787200;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8nB4u3VvYj2b+Y+Hwszg9Nkd9mXoAr8FE8T9wmkbC1U=;
+	b=K3JWObOHaxPJrh00RaFFPvSUSdUHp4hrN6Y4zYIfyC6S2t1v7BJ+PRKjF587paLM+09+6x
+	RUMda6iER2Ne/M3OmP1e3EUXnmRoIsB4VbafPVs4CcWEpZO8HcmQ+bDTwoMFT+Iq8aiD4l
+	HUt/clNvIgCKHg7UJVf+wep6XL+dE1M=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-632-5fH88UEROHCS_vTT636XGg-1; Sun, 06 Jul 2025 03:33:18 -0400
+X-MC-Unique: 5fH88UEROHCS_vTT636XGg-1
+X-Mimecast-MFC-AGG-ID: 5fH88UEROHCS_vTT636XGg_1751787197
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ae0d798398bso150445866b.1
+        for <linux-doc@vger.kernel.org>; Sun, 06 Jul 2025 00:33:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751787197; x=1752391997;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8nB4u3VvYj2b+Y+Hwszg9Nkd9mXoAr8FE8T9wmkbC1U=;
+        b=ifQM78HVaFRKKtOpbll2lh2ZyLH7Cgzo4mOe59laTyvZl5HQgLA2PR+7i2dyboujDI
+         FpSXhkpnjIm9O/yWzwpsTU4C04efrkrlBcxiMLmIU9wdUj9T+Ie4IKbvs+qbE4jPHfvx
+         ZwMfTpX0WvT0H6Enllf7jO25KxRVbmAU907zXrGzo3ptp/fmkup3FEcRRfPFH225rdLK
+         hym6BXvqj0da4oUueNh1I6u+DKDNUTrtOhdehtEieb0+VCYQcLzm+xPlRviHM8GcT/Cn
+         UoGmhz3MPSilG/vNSpg6/rI92Eki8pG9DRzQpZGlx0bbpPGVG+uICfgeZlN1Bt6NroqY
+         IB5w==
+X-Forwarded-Encrypted: i=1; AJvYcCUPLHYedIsDqLe2HvnimZ6N6TaggltAjR7Umpw7+5qC6VtAbT1LaUFeHf8BPoMr8xEuZSix05Csp78=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbjGu6w+ipgE1rpDVBLHCmWxsZJFp9mNbWOEDjGRsKq+mjwTdX
+	sLMPwbMr/8WDzOrNOMVst3G3VzAHOG1LZxMFKkGwvgsFwLvEQEStXyRVN54U3H9UDdNAYRn69qX
+	0uJSoVJ3lVi3Qa/L/ngR+tLJVuE1KFfkt77R/OscGKvx+eYdR/Wr7KriBY1Q/3w==
+X-Gm-Gg: ASbGncspVJrL9sFNya/xz0ShxkFbxKVZVhuiU7QOsWWYztRzk5ZKyFAnDA86Tg/CVkk
+	6NK7Hj6P7tSmzvY33fIz/x5L6A9kmapqD5hxKtePIhvF+EYmhRP5W4EEYrMu3jZeBKc0LWaj0Yd
+	XcFfXns2MKJjyGf41b5P21PNxGCkrs/Eb8uSy9WjsskzlzjwzlkMJksqZtKdoEHLP+AAAuWk8KD
+	+V2bEVZDbY7DaHwPnfBBcNHUSdEI7ZlcAHt/isIZQ+S/OYXkl0Yy2lGJDIcVd7kqSrB9A0XzHhe
+	XNKPA5GtKcs=
+X-Received: by 2002:a17:907:7b89:b0:ae3:6bd5:ebe7 with SMTP id a640c23a62f3a-ae4108e67e2mr471998866b.54.1751787197008;
+        Sun, 06 Jul 2025 00:33:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEdZ/RWKxvyH+k3bokX/8Ejj0weppgHWahqBm0Uq3RrWgxm0cO5cbf+Z5pa5I7Iul+H4ix2hw==
+X-Received: by 2002:a17:907:7b89:b0:ae3:6bd5:ebe7 with SMTP id a640c23a62f3a-ae4108e67e2mr471995966b.54.1751787196403;
+        Sun, 06 Jul 2025 00:33:16 -0700 (PDT)
+Received: from redhat.com ([31.187.78.69])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f6b5e839sm470754566b.157.2025.07.06.00.33.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jul 2025 00:33:15 -0700 (PDT)
+Date: Sun, 6 Jul 2025 03:33:12 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
+	Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
 	Jason Wang <jasowang@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
 	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
 	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
-	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
-Message-ID: <20250706060007.GP6278@unreal>
-References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
- <cover.1750854543.git.leon@kernel.org>
- <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
- <20250627170213.GL17401@unreal>
+	Yuri Benditovich <yuri.benditovich@daynix.com>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended
+ features
+Message-ID: <20250706032944-mutt-send-email-mst@kernel.org>
+References: <23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni@redhat.com>
+ <202506271443.G9cAx8PS-lkp@intel.com>
+ <eca0952c-d96c-4d80-8f07-86c8d4caae0b@redhat.com>
+ <27f1275a-aaff-4cc2-896c-b2c34f08ab73@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,116 +95,131 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627170213.GL17401@unreal>
+In-Reply-To: <27f1275a-aaff-4cc2-896c-b2c34f08ab73@redhat.com>
 
-On Fri, Jun 27, 2025 at 08:02:13PM +0300, Leon Romanovsky wrote:
-> On Fri, Jun 27, 2025 at 03:44:10PM +0200, Marek Szyprowski wrote:
-> > On 25.06.2025 15:18, Leon Romanovsky wrote:
-> > > This series refactors the DMA mapping to use physical addresses
-> > > as the primary interface instead of page+offset parameters. This
-> > > change aligns the DMA API with the underlying hardware reality where
-> > > DMA operations work with physical addresses, not page structures.
-> > >
-> > > The series consists of 8 patches that progressively convert the DMA
-> > > mapping infrastructure from page-based to physical address-based APIs:
-> > >
-> > > The series maintains backward compatibility by keeping the old
-> > > page-based API as wrapper functions around the new physical
-> > > address-based implementations.
+On Fri, Jun 27, 2025 at 04:36:14PM +0200, Paolo Abeni wrote:
+> On 6/27/25 3:11 PM, Paolo Abeni wrote:
+> > +csky maintainer
+> > On 6/27/25 8:41 AM, kernel test robot wrote:
+> >> Hi Paolo,
+> >>
+> >> kernel test robot noticed the following build warnings:
+> >>
+> >> [auto build test WARNING on net-next/main]
+> >>
+> >> url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/scripts-kernel_doc-py-properly-handle-VIRTIO_DECLARE_FEATURES/20250624-221751
+> >> base:   net-next/main
+> >> patch link:    https://lore.kernel.org/r/23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni%40redhat.com
+> >> patch subject: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended features
+> >> config: csky-randconfig-001-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/config)
+> >> compiler: csky-linux-gcc (GCC) 15.1.0
+> >> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/reproduce)
+> >>
+> >> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> >> the same patch/commit), kindly add following tags
+> >> | Reported-by: kernel test robot <lkp@intel.com>
+> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202506271443.G9cAx8PS-lkp@intel.com/
+> >>
+> >> All warnings (new ones prefixed by >>):
+> >>
+> >>    In file included from include/linux/uaccess.h:12,
+> >>                     from include/linux/sched/task.h:13,
+> >>                     from include/linux/sched/signal.h:9,
+> >>                     from include/linux/rcuwait.h:6,
+> >>                     from include/linux/percpu-rwsem.h:7,
+> >>                     from include/linux/fs.h:34,
+> >>                     from include/linux/compat.h:17,
+> >>                     from drivers/vhost/net.c:8:
+> >>    arch/csky/include/asm/uaccess.h: In function '__get_user_fn.constprop':
+> >>>> arch/csky/include/asm/uaccess.h:147:9: warning: 'retval' is used uninitialized [-Wuninitialized]
+> >>      147 |         __asm__ __volatile__(                           \
+> >>          |         ^~~~~~~
+> >>    arch/csky/include/asm/uaccess.h:187:17: note: in expansion of macro '__get_user_asm_64'
+> >>      187 |                 __get_user_asm_64(x, ptr, retval);
+> >>          |                 ^~~~~~~~~~~~~~~~~
+> >>    arch/csky/include/asm/uaccess.h:170:13: note: 'retval' was declared here
+> >>      170 |         int retval;
+> >>          |             ^~~~~~
+> >>
+> >>
+> >> vim +/retval +147 arch/csky/include/asm/uaccess.h
+> >>
+> >> da551281947cb2c Guo Ren 2018-09-05  141  
+> >> e58a41c2226847f Guo Ren 2021-04-21  142  #define __get_user_asm_64(x, ptr, err)			\
+> >> da551281947cb2c Guo Ren 2018-09-05  143  do {							\
+> >> da551281947cb2c Guo Ren 2018-09-05  144  	int tmp;					\
+> >> e58a41c2226847f Guo Ren 2021-04-21  145  	int errcode;					\
+> >> e58a41c2226847f Guo Ren 2021-04-21  146  							\
+> >> e58a41c2226847f Guo Ren 2021-04-21 @147  	__asm__ __volatile__(				\
+> >> e58a41c2226847f Guo Ren 2021-04-21  148  	"1:   ldw     %3, (%2, 0)     \n"		\
+> >> da551281947cb2c Guo Ren 2018-09-05  149  	"     stw     %3, (%1, 0)     \n"		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  150  	"2:   ldw     %3, (%2, 4)     \n"		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  151  	"     stw     %3, (%1, 4)     \n"		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  152  	"     br      4f              \n"		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  153  	"3:   mov     %0, %4          \n"		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  154  	"     br      4f              \n"		\
+> >> da551281947cb2c Guo Ren 2018-09-05  155  	".section __ex_table, \"a\"   \n"		\
+> >> da551281947cb2c Guo Ren 2018-09-05  156  	".align   2                   \n"		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  157  	".long    1b, 3b              \n"		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  158  	".long    2b, 3b              \n"		\
+> >> da551281947cb2c Guo Ren 2018-09-05  159  	".previous                    \n"		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  160  	"4:                           \n"		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  161  	: "=r"(err), "=r"(x), "=r"(ptr),		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  162  	  "=r"(tmp), "=r"(errcode)			\
+> >> e58a41c2226847f Guo Ren 2021-04-21  163  	: "0"(err), "1"(x), "2"(ptr), "3"(0),		\
+> >> e58a41c2226847f Guo Ren 2021-04-21  164  	  "4"(-EFAULT)					\
+> >> da551281947cb2c Guo Ren 2018-09-05  165  	: "memory");					\
+> >> da551281947cb2c Guo Ren 2018-09-05  166  } while (0)
+> >> da551281947cb2c Guo Ren 2018-09-05  167  
 > > 
-> > Thanks for this rework! I assume that the next step is to add map_phys 
-> > callback also to the dma_map_ops and teach various dma-mapping providers 
-> > to use it to avoid more phys-to-page-to-phys conversions.
-> 
-> Probably Christoph will say yes, however I personally don't see any
-> benefit in this. Maybe I wrong here, but all existing .map_page()
-> implementation platforms don't support p2p anyway. They won't benefit
-> from this such conversion.
-> 
+> > The intel test report reported the above compile warning on this series:
 > > 
-> > I only wonder if this newly introduced dma_map_phys()/dma_unmap_phys() 
-> > API is also suitable for the recently discussed PCI P2P DMA? While 
-> > adding a new API maybe we should take this into account?
-> 
-> First, immediate user (not related to p2p) is blk layer:
-> https://lore.kernel.org/linux-nvme/bcdcb5eb-17ed-412f-bf5c-303079798fe2@nvidia.com/T/#m7e715697d4b2e3997622a3400243477c75cab406
-> 
-> +static bool blk_dma_map_direct(struct request *req, struct device *dma_dev,
-> +		struct blk_dma_iter *iter, struct phys_vec *vec)
-> +{
-> +	iter->addr = dma_map_page(dma_dev, phys_to_page(vec->paddr),
-> +			offset_in_page(vec->paddr), vec->len, rq_dma_dir(req));
-> +	if (dma_mapping_error(dma_dev, iter->addr)) {
-> +		iter->status = BLK_STS_RESOURCE;
-> +		return false;
-> +	}
-> +	iter->len = vec->len;
-> +	return true;
-> +}
-> 
-> Block layer started to store phys addresses instead of struct pages and
-> this phys_to_page() conversion in data-path will be avoided.
-
-I almost completed main user of this dma_map_phys() callback. It is
-rewrite of this patch [PATCH v3 3/3] vfio/pci: Allow MMIO regions to be exported through dma-buf
-https://lore.kernel.org/all/20250307052248.405803-4-vivek.kasireddy@intel.com/
-
-Whole populate_sgt()->dma_map_resource() block looks differently now and
-it is relying on dma_map_phys() as we are exporting memory without
-struct pages. It will be something like this:
-
-   89         for (i = 0; i < priv->nr_ranges; i++) {
-   90                 phys = pci_resource_start(priv->vdev->pdev,
-   91                                           dma_ranges[i].region_index);
-   92                 phys += dma_ranges[i].offset;
-   93
-   94                 if (priv->bus_addr) {
-   95                         addr = pci_p2pdma_bus_addr_map(&p2pdma_state, phys);
-   96                         fill_sg_entry(sgl, dma_ranges[i].length, addr);
-   97                         sgl = sg_next(sgl);
-   98                 } else if (dma_use_iova(&priv->state)) {
-   99                         ret = dma_iova_link(attachment->dev, &priv->state, phys,
-  100                                             priv->mapped_len,
-  101                                             dma_ranges[i].length, dir, attrs);
-  102                         if (ret)
-  103                                 goto err_unmap_dma;
-  104
-  105                         priv->mapped_len += dma_ranges[i].length;
-  106                 } else {
-  107                         addr = dma_map_phys(attachment->dev, phys, 0,
-  108                                             dma_ranges[i].length, dir, attrs);
-  109                         ret = dma_mapping_error(attachment->dev, addr);
-  110                         if (ret)
-  111                                 goto unmap_dma_buf;
-  112
-  113                         fill_sg_entry(sgl, dma_ranges[i].length, addr);
-  114                         sgl = sg_next(sgl);
-  115                 }
-  116         }
-  117
-  118         if (dma_use_iova(&priv->state) && !priv->bus_addr) {
-  119                 ret = dma_iova_sync(attachment->dev, &pri->state, 0,
-  120                                     priv->mapped_len);
-  121                 if (ret)
-  122                         goto err_unmap_dma;
-  123
-  124                 fill_sg_entry(sgl, priv->mapped_len, priv->state.addr);
-  125         }
-
-> 
-> > My main concern is the lack of the source phys addr passed to the dma_unmap_phys() 
-> > function and I'm aware that this might complicate a bit code conversion 
-> > from old dma_map/unmap_page() API.
-
-It is not needed for now, all p2p logic is external to DMA API.
-
-Thanks
-
+> > https://lore.kernel.org/netdev/20250627084609-mutt-send-email-mst@kernel.org/T/#md788de2b3a4e9da23ac93b5f1c773a6070b5b4fb
 > > 
-> > Best regards
-> > -- 
-> > Marek Szyprowski, PhD
-> > Samsung R&D Institute Poland
+> > specifically, in patch 4:
 > > 
+> > +                       if (get_user(features, featurep + 1 + i))
+> > +                               return -EFAULT;
 > > 
+> > AFAICS such statement is legit, and the bot points to some problem in
+> > the arch specific get_user() implementation. Could you please have a look?
 > 
+> Out of sheer ignorance on my side, I fail to see how the csky get_user()
+> could work correctly without something alike the following (which indeed
+> fixes the issue here).
+> 
+> /P
+> ---
+> diff --git a/arch/csky/include/asm/uaccess.h
+> b/arch/csky/include/asm/uaccess.h
+> index 2e927c21d8a1..ae0864ad59a3 100644
+> --- a/arch/csky/include/asm/uaccess.h
+> +++ b/arch/csky/include/asm/uaccess.h
+> @@ -167,7 +167,7 @@ do {							\
+> 
+>  static inline int __get_user_fn(size_t size, const void __user *ptr,
+> void *x)
+>  {
+> -	int retval;
+> +	int retval = 0;
+>  	u32 tmp;
+> 
+>  	switch (size) {
+
+Given there's no reaction from the arch maintainers,
+I see two options:
+
+- go back to copy_from_user - nothing wrong with it, and the code
+in question is off data path.
+
+- go ahead and include this patch in the series, even though
+  I'm just as unsure it's right as you are.
+
+
+Up to you really, but I think it's one of the two.
+
+
+
+-- 
+MST
+
