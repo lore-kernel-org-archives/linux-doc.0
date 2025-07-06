@@ -1,95 +1,149 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA572E371D;
-	Sun,  6 Jul 2025 13:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E152E23CB;
+	Sun,  6 Jul 2025 14:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751809708; cv=none; b=iPB5Uh9ZiPKIvQN097Q6PkBb4iQRLjdNAuHFFSedB3Er9D+aUISLk19dGqs/X0dR29jj94l6bLCL/dZoztEQS1xfJ1yNYcwyVMqWfgAre2vBi6wbsAUOZpU0WmYGgde9puTAH/BL5zSkMa9OLbdnkptaXypDO93lYE0Dbi6uqKY=
+	t=1751811885; cv=none; b=PzTanj2frZ+tVoVrdLbhNIW53v6l5W204Ul3D/5wi6l8CXJg5nX7+V6WSEe8fHvzPpUKvt4ileUuDQPUdsIWhUjde2vSUhfo1EYnDkx+IoZ/gIWkEE6UD5X0MO9Fj35B6bvtZNxG/Roh2hEcQcpDVgdPqWyLYUuNCBW3SPORcSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751809708; c=relaxed/simple;
-	bh=iVnhwwALd3pdgWiLrPqADn+Tw5I/X+tACaU7VxVOuq8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gBsk4ffemZ11d6c/1Kylwx0P7gxv2wZSecmZVUPNEWMR2eR7Wo0TDyameCN10alWBqQxqaTQpU8HBzCYoWtafqz5zu/s1yEHSZv/aCAomY90lP47pv9NWzS4606cvNNm6ymmhRKdO+fiBiMcMijBp8bnpgHsVrP4MF9G1ZPuc1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HMYR0MeP; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751811885; c=relaxed/simple;
+	bh=8EiPuAexIkAYxOcKfap4/XV/a6nUkUFc1HdHwQaBiTc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LC37C3dvhTk1S+mY+TGJPec8quLQSvqZ9QkRNa7ooLKBAJtMoP9dWFOHjPujg6ayysYJGP76BFNg9lfKm52sMSx/K3ZzIQ76lszUODLDoBMQyRkomf4aytPLZXdc7QlE/sCSeECio07yftUPTxA5VxJ1qA+HEI23v/CkO1Mi/L0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VB9VGt/8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HMYR0MeP"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7426c4e3d57so372983b3a.2;
-        Sun, 06 Jul 2025 06:48:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751809707; x=1752414507; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xYKciehQldNCWNbYvySdSPRLgccg1yQ6KwqlWwrggR8=;
-        b=HMYR0MePF4h3RUQZUecQwYt74ctl8y0rQFRVGq+SVzmPtXIZl9wvAWELtqOqVqZI9h
-         NBA9IOS4Vn9752Kf71XNnewNU20PevSalGC+ihvSYoSM6HhEFy4fps+4prn5yi1QsH8V
-         FKjzMzcmodKobxh7AJnc0HdsU7pQ562NBBfAVXSNampUydQ+Ap+/sD9pX5CoIreiAS0p
-         WtIBO8X6eXDC+sjnR/XDjs2RBmAkHJ5X3vzZmfgT6fP4rOrNsHs9JFt09bl/bTvTxkyj
-         6whR6nI9BqqgPviXLekXPBhtBFT+xj7Ezc1vJoYGvmDXzVmRUfDafqDxAoLhM5rByb4e
-         uIcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751809707; x=1752414507;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xYKciehQldNCWNbYvySdSPRLgccg1yQ6KwqlWwrggR8=;
-        b=j6e+7ApYpM8IK8BoA+1qzm1j1t6mdPfill0rNYx9u+58UuPCCPhE3JrSm/mlqaFzBP
-         bKF9Xk4Iv+bv5Ocu1jpp5vRrfuFq5CJ1b5ygQ0mzcpOAR7GQk4o3KFWJqOeR2Jpqao1U
-         WELM7EL/BbefT2YozljAu0eCe2hMWO+FSnavMczf7pKU0Thuf/ln+mgrpiBsFFL6/9Yf
-         cNkpw8fSJWFZrQkDA+qEh2xdLl5F0TkwQtEEW46iNr+jpdgeDzYCgGV06B+bL0WDhMaj
-         AP7LJqQlLl0sBGHHVZBifaWZhY9JnNOSy1fva5UYhhjgXK2kH7ShqOx8Oprd8MhQ/Xj5
-         mX8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVyJztQTCcHCSBU3KzheobVCmm+aWie79KE1UMrXMatNts/xAPvocCAZ+q0lKravSvCEsQGj7cjQ8vaTErPOUg=@vger.kernel.org, AJvYcCXDqMgw+XajqyBuzU1+d+dij8Nm2mdM51brWjssynT6z5X451QEPU9MdCUXq4E+ypqbrGOdVPV7KqVDp3jn@vger.kernel.org, AJvYcCXf4538h2OqcERcq7hiaxtlNnwCdaFyiO58TqvDwzexfFLdhRa6CLxFEWKsQY1JSZiF7o5YovFXW/w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkEKiPJScCXMvZJS5WOBzwXUwx6APrNSlRdDHtwAED4nZt/N2i
-	Q0N/l5P1wO8hBauOiit9XJsJG8jhUs2qmwoagmX/4I/4mtg5DJaN0zNhr83hPfqO7PJ+YTaYy1f
-	ZJpBeLPqdbf8+xDKwdKBGqMbZqw+ZTUUL0Nuz
-X-Gm-Gg: ASbGncvcD4f7+uTuvbrDjrJVF6TBRIz6EGSaLirWEr4ftY3t69R5godvccMjMK5Ep3D
-	rfggNSJGyl2qLtO1n2NywHHw+VigrSv2hm6qB+foBMfKzG6x86sQNk05Sf23K25rXzRgsKWbEa/
-	7tXU7qj01fsNnqvSKPhG9t1IUG8zWWP4aC35xZCeq/rh/i
-X-Google-Smtp-Source: AGHT+IFqHFRxQ28XQjLZpfvmhn5YmIh0OO8Ja2iDdNN2ikIwdHYKc1UcSVFvIdbvc4AZLM+3HErNUU0W9hnjgzF5l0E=
-X-Received: by 2002:a17:902:da84:b0:235:1ae7:a9ab with SMTP id
- d9443c01a7336-23c8723fc2cmr52851595ad.3.1751809706916; Sun, 06 Jul 2025
- 06:48:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VB9VGt/8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20F90C4CEED;
+	Sun,  6 Jul 2025 14:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751811884;
+	bh=8EiPuAexIkAYxOcKfap4/XV/a6nUkUFc1HdHwQaBiTc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VB9VGt/8+MSogNJP5j7QmiGc/jfaGRHsqlzpLpQpLJO6KnxsKLmVp2127TbXYTXRp
+	 GhHRXvpLpJnCJqEvqoKZ4vm/EJK8Ug7MrwmDLyrK7XbglSPXNTGARAs/wjyzwYy9P4
+	 kMPvU2wXRd//0XBcqHCYDnESxmUbNiIG8sWEkks0pnfKcqj54LDLXLYzvMiDxGw226
+	 lwsoWu/QaOi0PD0nnlbtbh1TP6Nh3T/h2NVveuw/4zSblE5o0HgbqVvxyE4y4PLuWE
+	 Qz6vzsqVg1LLJv2zRjel/GAxQ4MvGedbnAp+yZCk9VQbTdIYG7YoyPlAKzRkLQeayP
+	 sWxO9iXbSi+lg==
+Date: Sun, 6 Jul 2025 17:24:22 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
+	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de
+Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
+Message-ID: <aGqHFkPWOrD6whv6@kernel.org>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+ <20250515182322.117840-11-pasha.tatashin@soleen.com>
+ <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250702-nova-docs-v3-0-f362260813e2@nvidia.com> <20250702-nova-docs-v3-3-f362260813e2@nvidia.com>
-In-Reply-To: <20250702-nova-docs-v3-3-f362260813e2@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 6 Jul 2025 15:48:14 +0200
-X-Gm-Features: Ac12FXw4cJR6Uk3sqxMz-s6K2lBMkqlUu9xIxjdxhngi407laQ3US_Gq4qFUtwM
-Message-ID: <CANiq72mW-tmqeKjH_5-Xz5jb54m2d4XfXX_Z6V6GpogfJ5TmgQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] gpu: nova-core: Clarify falcon code
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	Joel Fernandes <joelagnelf@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
 
-On Wed, Jul 2, 2025 at 1:32=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.c=
-om> wrote:
->
-> +/// Security mode of the Falcon microprocessor.
-> +/// See falcon.rst for more details.
+On Tue, Jun 24, 2025 at 11:50:49AM +0200, Christian Brauner wrote:
+> On Thu, May 15, 2025 at 06:23:14PM +0000, Pasha Tatashin wrote:
+> > Introduce the user-space interface for the Live Update Orchestrator
+> > via ioctl commands, enabling external control over the live update
+> > process and management of preserved resources.
+> > 
+> > Create a misc character device at /dev/liveupdate. Access
+> > to this device requires the CAP_SYS_ADMIN capability.
+> > 
+> > A new UAPI header, <uapi/linux/liveupdate.h>, defines the necessary
+> > structures. The magic number is registered in
+> > Documentation/userspace-api/ioctl/ioctl-number.rst.
+> > 
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > ---
+> >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+> >  drivers/misc/liveupdate/Makefile              |   1 +
+> >  drivers/misc/liveupdate/luo_ioctl.c           | 199 ++++++++++++
+> >  include/linux/liveupdate.h                    |  34 +-
+> >  include/uapi/linux/liveupdate.h               | 300 ++++++++++++++++++
+> >  5 files changed, 502 insertions(+), 33 deletions(-)
+> >  create mode 100644 drivers/misc/liveupdate/luo_ioctl.c
+> >  create mode 100644 include/uapi/linux/liveupdate.h
 
-Please add a newline between those -- the first paragraph is a title
-("short description"). A few more instances below, too.
+...
 
-`falcon.rst`
+> > +static const struct file_operations fops = {
+> > +	.owner          = THIS_MODULE,
+> > +	.open           = luo_open,
+> > +	.unlocked_ioctl = luo_ioctl,
+> > +};
+> > +
+> > +static struct miscdevice liveupdate_miscdev = {
+> > +	.minor = MISC_DYNAMIC_MINOR,
+> > +	.name  = "liveupdate",
+> > +	.fops  = &fops,
+> > +};
+> 
+> I'm not sure why people are so in love with character device based apis.
+> It's terrible. It glues everything to devtmpfs which isn't namespacable
+> in any way. It's terrible to delegate and extremely restrictive in terms
+> of extensiblity if you need additional device entries (aka the loop
+> driver folly).
+> 
+> One stupid question: I probably have asked this before and just swapped
+> out that I a) asked this already and b) received an explanation. But why
+> isn't this a singleton simple in-memory filesystem with a flat
+> hierarchy?
+> 
+> mount -t kexecfs kexecfs /kexecfs
+> 
+> So userspace mounts kexecfs (or the kernel does it automagically) and
+> then to add fds into that thing you do the following:
+> 
+> linkat(fd_my_anon_inode_memfd, "", -EBADF, "kexecfs/my_serialized_memfd", AT_EMPTY_PATH)
 
-> +    /// Local Framebuffer (GPU's VRAM memory)
+Having an ability to link a file descriptor to kexecfs would have been
+nice. We could even create a dependency hierarchy there, e.g.
 
-Missing period at the end.
+mkdir -p kexecfs/vm1/kvm/{iommu,memfd}
 
-Cheers,
-Miguel
+linkat(kvmfd, "", -EBADF, "kexecfs/vm1/kvm/kvmfd", AT_EMPTY_PATH)
+linkat(iommufd, "", -EBADF, "kexecfs/vm1/kvm/iommu/iommufd", AT_EMPTY_PATH)
+linkat(memfd, "", -EBADF, "kexecfs/vm1/kvm/memfd/memfd", AT_EMPTY_PATH)
+
+But unfortunately this won't work because VFS checks that new and old paths
+are on the same mount. And even if cross-mount links were allowed, VFS does
+not pass the file objects to link* APIs, so preserving a file backed by
+anon_inode is another issue.
+
+> which will serialize the fd_my_anon_inode_memfd. You can also do this
+> with ioctls on the kexecfs filesystem of course.
+
+ioctls seem to be the only option, but I agree they don't have to be bound
+to a miscdev.
+
+-- 
+Sincerely yours,
+Mike.
