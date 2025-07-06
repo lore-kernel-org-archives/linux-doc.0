@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E152E23CB;
-	Sun,  6 Jul 2025 14:24:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8B62A1BB;
+	Sun,  6 Jul 2025 14:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751811885; cv=none; b=PzTanj2frZ+tVoVrdLbhNIW53v6l5W204Ul3D/5wi6l8CXJg5nX7+V6WSEe8fHvzPpUKvt4ileUuDQPUdsIWhUjde2vSUhfo1EYnDkx+IoZ/gIWkEE6UD5X0MO9Fj35B6bvtZNxG/Roh2hEcQcpDVgdPqWyLYUuNCBW3SPORcSw=
+	t=1751812406; cv=none; b=JiblAEN6wyWk9tru+mnbCTyiEf9sXbH6eUFGAPXGT3uQ9tc8ShkvZGc4J1MHZf7qRvmbERP3WCc2p4TUVkXkjrh2VoTgxgu09fIXYLiL2+IXLBDIpsV8XwvNYp6h8d1yhnOkJlipVrLeHpZBrKNfEZ4ZfaOaQY6YMXP8IVhG/qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751811885; c=relaxed/simple;
-	bh=8EiPuAexIkAYxOcKfap4/XV/a6nUkUFc1HdHwQaBiTc=;
+	s=arc-20240116; t=1751812406; c=relaxed/simple;
+	bh=GszBMgPIL9mHFHPRYSHqyi7DgkOJi1d97/cdu9eFZn0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LC37C3dvhTk1S+mY+TGJPec8quLQSvqZ9QkRNa7ooLKBAJtMoP9dWFOHjPujg6ayysYJGP76BFNg9lfKm52sMSx/K3ZzIQ76lszUODLDoBMQyRkomf4aytPLZXdc7QlE/sCSeECio07yftUPTxA5VxJ1qA+HEI23v/CkO1Mi/L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VB9VGt/8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BpgyuDv8xtLmxqTqgOmZ+sOeFH660NIte1eFI/6KVDkpqGngIi30DF4eoXRwQM32uvMbs63iCBRrHU6oaXqeiJkf47WDW2eHKED2JFwu3+Z9SILJsqLRu5CD6IMGctk1QvKxnsTV6fO+0s5TOuO0a9KuVaQt7TX3JN8RPZpb7PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKDZv9Sc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VB9VGt/8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20F90C4CEED;
-	Sun,  6 Jul 2025 14:24:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKDZv9Sc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C03B9C4CEED;
+	Sun,  6 Jul 2025 14:33:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751811884;
-	bh=8EiPuAexIkAYxOcKfap4/XV/a6nUkUFc1HdHwQaBiTc=;
+	s=k20201202; t=1751812406;
+	bh=GszBMgPIL9mHFHPRYSHqyi7DgkOJi1d97/cdu9eFZn0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VB9VGt/8+MSogNJP5j7QmiGc/jfaGRHsqlzpLpQpLJO6KnxsKLmVp2127TbXYTXRp
-	 GhHRXvpLpJnCJqEvqoKZ4vm/EJK8Ug7MrwmDLyrK7XbglSPXNTGARAs/wjyzwYy9P4
-	 kMPvU2wXRd//0XBcqHCYDnESxmUbNiIG8sWEkks0pnfKcqj54LDLXLYzvMiDxGw226
-	 lwsoWu/QaOi0PD0nnlbtbh1TP6Nh3T/h2NVveuw/4zSblE5o0HgbqVvxyE4y4PLuWE
-	 Qz6vzsqVg1LLJv2zRjel/GAxQ4MvGedbnAp+yZCk9VQbTdIYG7YoyPlAKzRkLQeayP
-	 sWxO9iXbSi+lg==
-Date: Sun, 6 Jul 2025 17:24:22 +0300
+	b=iKDZv9ScfdI1Wi/lRv/5uIhMUsTaVhCqG+RoWcCYdqxf9xL960iv2mlayyM36bdyq
+	 bK1IzAqY+rLCanSz7v2blOuZt5Eimi1f+D+N1/rjRXIuFf62sMm+E5adkO7ZQ36PIW
+	 w7T+wS6JoyMB/IbwaGgh066RCz7eD1SDrbkfHvmHqH00k1mgNECBzVvSqByfMVohoJ
+	 H4uxNLzCkWNdTlHpnaoSkVdlb0q7H6kUJAjh7XwAzYnQ5u08XFkZEPc1cA0qtGKNrO
+	 OitG3C6wjnulFelbr3s8EEXguXFYMfekQGa25vslEaj/n9+P5d+gtME+RN0LDeUko8
+	 hUi2T3QWkkfeg==
+Date: Sun, 6 Jul 2025 17:33:04 +0300
 From: Mike Rapoport <rppt@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
-	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: David Matlack <dmatlack@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
+	graf@amazon.com, changyuanl@google.com, rientjes@google.com,
+	corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
 	dan.j.williams@intel.com, david@redhat.com,
 	joel.granados@kernel.org, rostedt@goodmis.org,
 	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
@@ -52,97 +54,114 @@ Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
 	aleksander.lobakin@intel.com, ira.weiny@intel.com,
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de
+	stuart.w.hayes@gmail.com
 Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
-Message-ID: <aGqHFkPWOrD6whv6@kernel.org>
+Message-ID: <aGqJIFs8GpvHn_Yy@kernel.org>
 References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
  <20250515182322.117840-11-pasha.tatashin@soleen.com>
  <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
+ <CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com>
+ <20250625-akrobatisch-libellen-352997eb08ef@brauner>
+ <CALzav=d+XgS1bUs-v7+ws5nYU9y=4uc1c8oVLHrJ16qLpnUi9Q@mail.gmail.com>
+ <mafs0sejmse57.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <mafs0sejmse57.fsf@kernel.org>
 
-On Tue, Jun 24, 2025 at 11:50:49AM +0200, Christian Brauner wrote:
-> On Thu, May 15, 2025 at 06:23:14PM +0000, Pasha Tatashin wrote:
-> > Introduce the user-space interface for the Live Update Orchestrator
-> > via ioctl commands, enabling external control over the live update
-> > process and management of preserved resources.
-> > 
-> > Create a misc character device at /dev/liveupdate. Access
-> > to this device requires the CAP_SYS_ADMIN capability.
-> > 
-> > A new UAPI header, <uapi/linux/liveupdate.h>, defines the necessary
-> > structures. The magic number is registered in
-> > Documentation/userspace-api/ioctl/ioctl-number.rst.
-> > 
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
-> >  drivers/misc/liveupdate/Makefile              |   1 +
-> >  drivers/misc/liveupdate/luo_ioctl.c           | 199 ++++++++++++
-> >  include/linux/liveupdate.h                    |  34 +-
-> >  include/uapi/linux/liveupdate.h               | 300 ++++++++++++++++++
-> >  5 files changed, 502 insertions(+), 33 deletions(-)
-> >  create mode 100644 drivers/misc/liveupdate/luo_ioctl.c
-> >  create mode 100644 include/uapi/linux/liveupdate.h
-
-...
-
-> > +static const struct file_operations fops = {
-> > +	.owner          = THIS_MODULE,
-> > +	.open           = luo_open,
-> > +	.unlocked_ioctl = luo_ioctl,
-> > +};
-> > +
-> > +static struct miscdevice liveupdate_miscdev = {
-> > +	.minor = MISC_DYNAMIC_MINOR,
-> > +	.name  = "liveupdate",
-> > +	.fops  = &fops,
-> > +};
+On Thu, Jun 26, 2025 at 05:42:28PM +0200, Pratyush Yadav wrote:
+> On Wed, Jun 25 2025, David Matlack wrote:
 > 
-> I'm not sure why people are so in love with character device based apis.
-> It's terrible. It glues everything to devtmpfs which isn't namespacable
-> in any way. It's terrible to delegate and extremely restrictive in terms
-> of extensiblity if you need additional device entries (aka the loop
-> driver folly).
+> > On Wed, Jun 25, 2025 at 2:36 AM Christian Brauner <brauner@kernel.org> wrote:
+> >> >
+> >> > While I agree that a filesystem offers superior introspection and
+> >> > integration with standard tools, building this complex, stateful
+> >> > orchestration logic on top of VFS seemed to be forcing a square peg
+> >> > into a round hole. The ioctl interface, while more opaque, provides a
+> >> > direct and explicit way to command the state machine and manage these
+> >> > complex lifecycle and dependency rules.
+> >>
+> >> I'm not going to argue that you have to switch to this kexecfs idea
+> >> but...
+> >>
+> >> You're using a character device that's tied to devmptfs. In other words,
+> >> you're already using a filesystem interface. Literally the whole code
+> >> here is built on top of filesystem APIs. So this argument is just very
+> >> wrong imho. If you can built it on top of a character device using VFS
+> >> interfaces you can do it as a minimal filesystem.
+> >>
+> >> You're free to define the filesystem interface any way you like it. We
+> >> have a ton of examples there. All your ioctls would just be tied to the
+> >> fileystem instance instead of the /dev/somethingsomething character
+> >> device. The state machine could just be implemented the same way.
+> >>
+> >> One of my points is that with an fs interface you can have easy state
+> >> seralization on a per-service level. IOW, you have a bunch of virtual
+> >> machines running as services or some networking services or whatever.
+> >> You could just bind-mount an instance of kexecfs into the service and
+> >> the service can persist state into the instance and easily recover it
+> >> after kexec.
+> >
+> > This approach sounds worth exploring more. It would avoid the need for
+> > a centralized daemon to mediate the preservation and restoration of
+> > all file descriptors.
 > 
-> One stupid question: I probably have asked this before and just swapped
-> out that I a) asked this already and b) received an explanation. But why
-> isn't this a singleton simple in-memory filesystem with a flat
-> hierarchy?
+> One of the jobs of the centralized daemon is to decide the _policy_ of
+> who gets to preserve things and more importantly, make sure the right
+> party unpreserves the right FDs after a kexec. I don't see how this
+> interface fixes this problem. You would still need a way to identify
+> which kexecfs instance belongs to who and enforce that. The kernel
+> probably shouldn't be the one doing this kind of policy so you still
+> need some userspace component to make those decisions.
 > 
-> mount -t kexecfs kexecfs /kexecfs
+> >
+> > I'm not sure that we can get rid of the machine-wide state machine
+> > though, as there is some kernel state that will necessarily cross
+> > these kexecfs domains (e.g. IOMMU driver state). So we still might
+> > need /dev/liveupdate for that.
 > 
-> So userspace mounts kexecfs (or the kernel does it automagically) and
-> then to add fds into that thing you do the following:
+> Generally speaking, I think both VFS-based and IOCTL-based interfaces
+> are more or less equally expressive/powerful. Most of the ioctl
+> operations can be translated to a VFS operation and vice versa.
 > 
-> linkat(fd_my_anon_inode_memfd, "", -EBADF, "kexecfs/my_serialized_memfd", AT_EMPTY_PATH)
+> For example, the fsopen() call is similar to open("/dev/liveupdate") --
+> both would create a live update session which auto closes when the FD is
+> closed or FS unmounted. Similarly, each ioctl can be replaced with a
+> file in the FS. For example, LIVEUPDATE_IOCTL_FD_PRESERVE can be
+> replaced with a fd_preserve file where you write() the FD number.
+> LIVEUPDATE_IOCTL_GET_STATE or LIVEUPDATE_IOCTL_PREPARE, etc. can be
+> replaced by a "state" file where you can read() or write() the state.
+> 
+> I think the main benefit of the VFS-based interface is ease of use.
+> There already exist a bunch of utilites and libraries that we can use to
+> interact with files. When we have ioctls, we would need to write
+> everything ourselves. For example, instead of
+> LIVEUPDATE_IOCTL_GET_STATE, you can do "cat state", which is a bit
+> easier to do.
+>
+> As for downsides, I think we might end up with a bit more boilerplate
+> code, but beyond that I am not sure.
 
-Having an ability to link a file descriptor to kexecfs would have been
-nice. We could even create a dependency hierarchy there, e.g.
+One of the points in Christian's suggestion was that ioctl doesn't have to
+be bound to a misc device. Even if we don't use read()/write()/link() etc,
+we can have a filesystem that exposes, say, "control" file and that file
+has the same liveupdate_ioctl() in its fops as we have now in miscdev.
 
-mkdir -p kexecfs/vm1/kvm/{iommu,memfd}
+The cost is indeed a bit of boilerplate code to create the filesystem, but
+it would be easier to extend for per-service and containers support.
 
-linkat(kvmfd, "", -EBADF, "kexecfs/vm1/kvm/kvmfd", AT_EMPTY_PATH)
-linkat(iommufd, "", -EBADF, "kexecfs/vm1/kvm/iommu/iommufd", AT_EMPTY_PATH)
-linkat(memfd, "", -EBADF, "kexecfs/vm1/kvm/memfd/memfd", AT_EMPTY_PATH)
-
-But unfortunately this won't work because VFS checks that new and old paths
-are on the same mount. And even if cross-mount links were allowed, VFS does
-not pass the file objects to link* APIs, so preserving a file backed by
-anon_inode is another issue.
-
-> which will serialize the fd_my_anon_inode_memfd. You can also do this
-> with ioctls on the kexecfs filesystem of course.
-
-ioctls seem to be the only option, but I agree they don't have to be bound
-to a miscdev.
+And we won't need sysfs entry for status, as it can be also pre-populated
+in kexecfs (or whatever it'll be called).
+ 
+> -- 
+> Regards,
+> Pratyush Yadav
 
 -- 
 Sincerely yours,
