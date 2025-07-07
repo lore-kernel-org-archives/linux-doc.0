@@ -1,43 +1,90 @@
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1318D1E379B;
-	Mon,  7 Jul 2025 01:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3A21487D1
+	for <linux-doc@vger.kernel.org>; Mon,  7 Jul 2025 02:39:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751852032; cv=none; b=i2NFzkcZUwfwEtOFoVC+0eBTjoqvL526oc78yORTJqxgTy/H9iplFFwITyp9z7yg0ILiNxRKiTzi+ex2tUzb9ODhUZRlzcZqi/BKKlSTRpy4fEIOHsEcPXET/GSxUyEtpemJA0T046v/AenLOeG7acCfAdoqFTzdPjt9X6Be7K4=
+	t=1751855959; cv=none; b=XYyNSBVyEeJ0GDmaAVwXY/3eldC9nuVqHXAlJoEGp33URTxD2ZhVJe/FViIzRNpcUQQ6REL4ch1aNc/IIj8S4b69IxTBxw7r8ag2nVzm2/uT3/yHN42QglnWDRFK0rBA+SFRarPVLIU8cxk4qkDyzMYp66ODzCeImtXIzVpZZ0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751852032; c=relaxed/simple;
-	bh=MciWweHvQB2NtpzxZf2w/+oDgf2sdTGWiZTywc435t0=;
+	s=arc-20240116; t=1751855959; c=relaxed/simple;
+	bh=atyvLyGvCJNyDgAWZ4IJQR5kCqQIHDUYFs82Oe/4Rqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PEh/CfXnoRku4Xb6cNwn8nKazcQ/rtsWq1IDjTYFCO9Fah6IpIvQdeFQaxy8H23QMi4GI/wr6wY0PcRAZt5NpN3K3PqT5X+oDwHq6mjp+IbOVQCiWa6f2oZiwlGz1ZlJvuG+/srvla45C36Jd4RpAU46SQKmhWDmWgh7uEY3gpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpgz3t1751851963t07aee121
-X-QQ-Originating-IP: qa6YJhuflzK+wHht4l6gRJZFvUQBoyK2hYypibZViIU=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 07 Jul 2025 09:32:41 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10452172534868935923
-Date: Mon, 7 Jul 2025 09:32:36 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	andrew+netdev@lunn.ch, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/15] net: rnpgbe: Add n500/n210 chip support
-Message-ID: <0412FE867055AD77+20250707013236.GA122831@nic-Precision-5820-Tower>
-References: <20250703014859.210110-1-dong100@mucse.com>
- <20250703014859.210110-3-dong100@mucse.com>
- <3d0a5666-c57a-4026-b6a1-284821f25943@lunn.ch>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OsBuUpfv/SaPt/mzJb7og/CNSGu5F7sL8iTvycFmONWhqTV+C7Np5kB4R5m36cQPF7RIPSbXzbZ+bS/ZnUQOKITIP17KaRGZg4JTV0OV9owCy7dRB5ch7/d1ipDf/VLwCH6vfYD3fOUdzvRehkYC9//FT7xAX1w5vHyBadN/pCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Gmz+XUvP; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Gmz+XUvP"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7424ccbef4eso2030643b3a.2
+        for <linux-doc@vger.kernel.org>; Sun, 06 Jul 2025 19:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1751855957; x=1752460757; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2eqbUK4FYCJiLH0zvQx8aO0ccOeXGf/PUZ4UYY45Alo=;
+        b=Gmz+XUvPBvXzCFBQIPvrzi746qy0JZY9fDtFxKt4GRSnYKfbLX/+fOAy2mhmsSJj0L
+         M35O0ufh9eCqPzvrkR5joOnTUFtVx0FWDs9NRnLAvVqySdB82DHBRUGoql9BKmsXEU9r
+         nZLfajN/uUy3Dhqtyya1jE8TY2dQDVnNpaliY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751855957; x=1752460757;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2eqbUK4FYCJiLH0zvQx8aO0ccOeXGf/PUZ4UYY45Alo=;
+        b=ns7MseShqL1IUZ1iA/3+K+P+l7tZCVJmgE5NITnuxYqNhVbVsFJLW7BAFb9j4wFk9v
+         5/Pqrj/k0ZsjgSSYLZVE/LE8X5GF21G8spVvhEkOqveYnFYI/lNjer348k/DwhQZoEnY
+         3rG/0R1TjTy0ua1xT4YxcusRc43JZyy7BQq+4T/ixVS0bG8xq79LuK8d0rvanT3gynsA
+         cdTFGjz7/N52MpOnHzSx+qIeAJUN/lBsfIEFSnuIP/r/eRQjPOu7dZOEfnNFPb4N6+qx
+         RID1rZ++BuXqEYbgHzZup38BETT+LzN02H2bFst1gZvNJh+yaLTO7t/FGlfC0MgpldqQ
+         oQhA==
+X-Forwarded-Encrypted: i=1; AJvYcCWEk1hd9tsiASyKvycibpInz6N9j6ZdEr2h/P2vq2CXc2wLP/OwfJJT6zVanrq1qdiPnhtGJ80hutU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yww3N3EMYqFBbnuf6nhKEYO4DkeOsFwYTpHu5hpznQpR8gqMSik
+	lWrMEwmGpsPxOP/HvaonJqfOmNPbYb1aFmCP+LgD0l6sxCQfVwxJ+HYErTz+SIJx3A==
+X-Gm-Gg: ASbGncuB/UIi3N5WsK7VHyy9mjmVHfPy1Htz17BX1DAR+i2yhlq0XBeYWJQ01oOPU/7
+	PINFiCFI0SoVIfy6JqsrbaSpT9h6nmNgNWRoGOgiHUgLggdfL0IVLf20Tg9lmOkS2D2iWTb7nmz
+	FFifYV5maucL4Kmon24KKwjBGWx0u4zUKxJ77HrK+7zpzv6WgsdDkLyoY2owq+uqsmb7vNpG1ac
+	CB6xakzaJNSzcETxR7Roi5UZ3AJu5dWvXG+DRZyAKyKQIHyUPWduejlFvlbeIKQLyPhITNjjUFm
+	sqBd4MR2MADofw0mAyfYDxLgzppCaFl9BbuwH2AEfSyasw2acmEeH1JF4zt3CWzEwQ==
+X-Google-Smtp-Source: AGHT+IEurZuttkS95VnXcSGu+b+8TgCle7ih6/mBYzXLZUJ1AXkAhgjCuqtatOUxrSPej26STHUETw==
+X-Received: by 2002:a05:6a20:4328:b0:1f5:95a7:8159 with SMTP id adf61e73a8af0-226095a5143mr15866459637.10.1751855956675;
+        Sun, 06 Jul 2025 19:39:16 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:5470:7382:9666:68b0])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b38ee74cf48sm7419649a12.77.2025.07.06.19.39.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jul 2025 19:39:16 -0700 (PDT)
+Date: Mon, 7 Jul 2025 11:39:04 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, virtualization@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Jerrin Shaji George <jerrin.shaji-george@broadcom.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Minchan Kim <minchan@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, Rik van Riel <riel@surriel.com>, 
+	Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <zhengqi.arch@bytedance.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH v2 12/29] mm/zsmalloc: stop using __ClearPageMovable()
+Message-ID: <5bc5vidilgjb37qypdlinywm64j447wtkirbmqdbmba2bgr3ob@22so3brrpctt>
+References: <20250704102524.326966-1-david@redhat.com>
+ <20250704102524.326966-13-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,66 +93,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3d0a5666-c57a-4026-b6a1-284821f25943@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: OHTF91J1Rz8hoMMIA7Duh70bMvN4qNV/yNfMxMdX6l9I5zx5RegTJj9S
-	t0vp5cwkF9KuBpMn/ZSxzQXAfxdQwcqQvejWBmZjRjsJhaI+a0pNAL/QELutMSj/sDpykwl
-	BNwpbVgqyQG6fIEdhMFuuJPmU+CB6j/9Dmsx4FrQyw9S9P/BwXZ4o8E0o38klYErVKtbP/F
-	Ggja6hjdMCF6FKcI0PpTG3OZSQQe4s+SJFoSt7Bjz/02kjH7ZjpxdZigWMuVBZUlloNj8Y+
-	aOXoFI+7YQleoix3HLLyQhnFIHn4q5kJuBWFI3YR1MTaI/oyBAES3eTCJsTnVhTOUeVlpNq
-	SGhmLCodELvJ5WuGhrAie9ghl5K4GAq4wfcDH1uQgy9E07l536DttTaM3RmcA3FhKxCyMxg
-	qjnPHxPSjQezMiWToTse2hdo3J5gTfrfP9YyPPbwckpMYzLk8hvLmFxh1kf2E8YNlc/xUDP
-	/4wV9FAZ1ITH/E1UMA3lb24+/xt1TFz+hddgtQ2Ze2yIeCMO+4uqxJTCu/sDivroUfqOPFv
-	y7iD6hC0uIlH45YoKTUfqFqScvgnyQcHiFahRxWRwBbp1jeHybhvcHfkuvusJTIvpDSjfFS
-	Xg3aPBInFgzQRYd5tATbpbVKArlyjJglMOpoTbToWyzRFWV9rLoKYG2eXs28ZUJOmUf2LQl
-	ZXR0A2WxKtpkER02Yt92k3SJGuGxIklxhFfWPSgjOdZcibsWlSYC2xyfr7EcCPInXpza4sJ
-	Z/MxPbDs9xQpXVGuf+8j4agJzHoRelLvf1gwWbsuV+fPxHUI7wrR/BDgYETVKz0g4nHzfns
-	CqNsZgWK4E5yXqqb7IoOox0uJrlWiY2Uh2fSantZf1+w+db5x4nqqIPg8tghBwUZ4O/iDKQ
-	TA2VHVCG43j5xFKpAw/tqLU4/sZLmm3U0NQS5VPxl5jBgMc9bFqEMLSr/OvgSZEbReiy+FW
-	I5PFm5dyxvIMLZ38Di+5YJSYf
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-X-QQ-RECHKSPAM: 0
+In-Reply-To: <20250704102524.326966-13-david@redhat.com>
 
-On Fri, Jul 04, 2025 at 08:03:47PM +0200, Andrew Lunn wrote:
-> > +#define M_NET_FEATURE_SG ((u32)(1 << 0))
-> > +#define M_NET_FEATURE_TX_CHECKSUM ((u32)(1 << 1))
-> > +#define M_NET_FEATURE_RX_CHECKSUM ((u32)(1 << 2))
+On (25/07/04 12:25), David Hildenbrand wrote:
+> Instead, let's check in the callbacks if the page was already destroyed,
+> which can be checked by looking at zpdesc->zspage (see reset_zpdesc()).
 > 
-> Please use the BIT() macro.
+> If we detect that the page was destroyed:
 > 
-Got it, I will fix this.
-> > +	u32 feature_flags;
-> > +	u16 usecstocount;
-> > +};
-> > +
+> (1) Fail isolation, just like the migration core would
 > 
-> > +#define rnpgbe_rd_reg(reg) readl((void *)(reg))
-> > +#define rnpgbe_wr_reg(reg, val) writel((val), (void *)(reg))
+> (2) Fake migration success just like the migration core would
 > 
-> These casts look wrong. You should be getting your basic iomem pointer
-> from a function which returns an void __iomem* pointer, so the cast
-> should not be needed.
+> In the putback case there is nothing to do, as we don't do anything just
+> like the migration core would do.
 > 
-Yes, I also get failed from 'patch status' website, I should remove
-'void *' here.
-> > -static int rnpgbe_add_adpater(struct pci_dev *pdev)
-> > +static int rnpgbe_add_adpater(struct pci_dev *pdev,
-> > +			      const struct rnpgbe_info *ii)
-> >  {
-> > +	int err = 0;
-> >  	struct mucse *mucse = NULL;
-> >  	struct net_device *netdev;
-> > +	struct mucse_hw *hw = NULL;
-> > +	u8 __iomem *hw_addr = NULL;
-> > +	u32 dma_version = 0;
-> >  	static int bd_number;
-> > +	u32 queues = ii->total_queue_pair_cnts;
+> In the future, we should look into not letting these pages get destroyed
+> while they are isolated -- and instead delaying that to the
+> putback/migration call. Add a TODO for that.
 > 
-> You need to work on your reverse Christmas tree. Local variables
-> should be ordered longest to shortest.
-> 
->        Andrew
-> 
-Got it, I will fix it, and try to check other patches.
-Thanks for your feedback.
+> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
