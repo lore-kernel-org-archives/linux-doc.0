@@ -1,132 +1,231 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7D429CB3E;
-	Mon,  7 Jul 2025 13:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969512BDC0C
+	for <linux-doc@vger.kernel.org>; Mon,  7 Jul 2025 14:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751895827; cv=none; b=hvOvKwt3ESXSDkjIAedYBvDqiTVlcBbb6PUu93v2hyzSbkVf7eqddlwRC224h1s/QBmADZg9uDv00GbuNuwl9bUo0Ke3dh9xqdRIGUQU2jS4g2qyxLUB9FuwkiQJmpb9SPZfJVZL393oyItPX0GT1YC2cJSpGkNepYMq+k9MAKQ=
+	t=1751897672; cv=none; b=KH1lqDUT3zUzqpNWuhg+4x3igKQTYoSRhJi29WP5TJMScDBtNXZk72BJ3jqS14LbW0OYIq8zqxt5D/yOQ/CXrK8dB/niVyTSsuSlFZiOrEzSG4F+4k9b2FeTanQm3djehstjdBVxp+2dAYNhnKOxgwSUFL9CNB76TV5/b5a3S5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751895827; c=relaxed/simple;
-	bh=J4AEHDJIG2VhVpwkNrZvA/v+izbZKmF1qdr2u2Chf3Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jUm6gOaT7Qdzn0URyWUyutllVkYuD8N2YAy6iIeJbVIcbj+ySm/WxT5WBhTaXJ+UwBs9Ujbh0m9jnMP/d1E6SehkMV56WqnOGK7TAq9PyU/RA4j70FUOHpvXTPxfW3naz/dGP4gzdIZrpQu2D0MBlfZChwxNi95jT/Eb2WyEBCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UFi4qhaA; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751897672; c=relaxed/simple;
+	bh=wyyuJDrRfoNJOmcanbvB4+TVaoG0zMMIZkVOHnDpIVc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LRRxWRXj1cluiVWtdu18RRCxbf40NK0/SWCc92isXmW3CyxncvULLPJPnCK/W0QJ0LLyBv5+6vPgttfKzXQGQIliEWK+RY3VncXZvOMarUfmduiYajQq8X1wUdOBpbUb/pJLqR573MzDJfT35pFmk+Gkcf/S2G4ADzsuCh6n1fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2376GiWL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9pC5qqvz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2376GiWL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9pC5qqvz; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UFi4qhaA"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b34a71d9208so2034535a12.3;
-        Mon, 07 Jul 2025 06:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751895824; x=1752500624; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZGsbuxfJDD7WPNaohkU8W6/CVJp+eMGr8CZHm95Rw+w=;
-        b=UFi4qhaA41EGY+NGjxGN2xWCALDw+SQBOL9TM72tTZEiIQK++v8016v0yeFzCnk07g
-         AKeYlX1w84pw5TlI3gmz3ynS9tgPxR2MB+efhVYE3voR5u2K1O323g16by3vwha45ls7
-         nAH1SObj06afQYf4AwbuTS6awxptSn+VDafsdWORaK1Em0eJGUxnDkPqG2xOQl7fr4pk
-         loabxVG4vIDVJIM4tIT6urfRrXH0nUuFMk+slzg0o7AsH9NWaIGG58CdBORSpadjHZTZ
-         MLH6zNtOtqNTc+mPK92xJYyjewxscqp0vj78dwNgzNkuIvER04TpjMw/XORW0mHGjLpH
-         B2/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751895824; x=1752500624;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZGsbuxfJDD7WPNaohkU8W6/CVJp+eMGr8CZHm95Rw+w=;
-        b=c6AO5mArvKflGJwz9a4MYh44SucAmqd5ycB5mT67ZA61S82SEtP/XGFNoEVxP12Up1
-         XG203W27SIsN3ekh4rODORh2PrxCLaK4w3O5XISwxq2Xqvww9MjIRmyFJLIFVOgOYFgA
-         xSUt/zCs7vNewkEQMleQoKTEl83RLokgYXWjTuZKOHlDpfZ8Lir6zwa4afJt2TNrb+ed
-         48PglSGtKhggikPlTHs7vmZ/blOp+TQKsE7mV0wVZ2GUwDLHmtUVtH6yS/rJmh2garYI
-         fzbxzvQ9CFzB0tTHXXnA353JOjUTI+TJk3h1x3MQEFASu9Wv2m/eMMyPpeGnvfKO0Iao
-         585A==
-X-Forwarded-Encrypted: i=1; AJvYcCWahpzwh5Zv0qNOtjGVKHvU8I89J4zJpKWM3Me3fYrrJDM/hnRGahEqxTVbJyctxMq2Yb3Heb7P99djWzOj@vger.kernel.org, AJvYcCWsZQ7MRLtd6EpbK8D2pnHNnIuLvDusjL6SwWYYUdXhzOZqMALHD8DLTXn9I+RYB26GvZ34/oRPSNc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKbbHppOR8IjAefxXcs/5ZOByqJ+OBC7NhooR/GVAlBoaVZoPG
-	+hUnJW8IjJHbJHGRE9guAiW6+TK6CTh56B4PCee/uMW/cNQzrFsys3JddH9FTl3WUxxDNNWCZao
-	zlUjIdls8KiN7oLXIf8Mz38vnnUDZHcI=
-X-Gm-Gg: ASbGncvHPyFLv8vmJ3qt2/MKKrc0U+NNHPMXuHXqoBR1c0oClviLJZkAzEJoYWuqBGl
-	npTM5wdLtCMXbKRmX57HGJOsFMi6tcUwxpSS9czUyhQgbhX8JcKCnDDRpCNdqd2EXfWdkvpYq+h
-	hPqUPvYp9pQUpTeOQq4dYI47y/vb8vTUP0Ive/t7PPAkfju7znMMnMTw==
-X-Google-Smtp-Source: AGHT+IFj37WtbRywUM+KTsqj6uNTP0kkxFDkEMr3fRtNfVMHXma+9TwwjeKy6w27RY/k8Aks5aR4Y5bN0iDKpZtxKyU=
-X-Received: by 2002:a17:90b:3fcd:b0:311:df4b:4b82 with SMTP id
- 98e67ed59e1d1-31aadcf7c3amr17247922a91.4.1751895824268; Mon, 07 Jul 2025
- 06:43:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2376GiWL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9pC5qqvz";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2376GiWL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9pC5qqvz"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D2AD721169;
+	Mon,  7 Jul 2025 14:14:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1751897668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=jLZYdJeenU37StAo31l/djlK1WDY3qDtjHuaWSDBpeI=;
+	b=2376GiWLhZkC3nXDMVhHeSl9tiJUIEhuBiE+AbRhrCcb7D/K+WVvEZvJ2z6T+ZmGCsmJvV
+	4NCGQkajTub7LNOJzXebfdHBygrWfI9SY8BlJA3/jyRwFYvbu4khy8oDxdqFgvBBE+TSHR
+	R6aTJxvFl63iOPh2TTFoSyGBAp5Z4y0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1751897668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=jLZYdJeenU37StAo31l/djlK1WDY3qDtjHuaWSDBpeI=;
+	b=9pC5qqvzGMg0wh3oWA4ItU4tK4Lw3GisfGVzcsaiExKo6Z67zng4/gBWQJ/9GkXrCZ7uWR
+	WEYqGD0/6EqjFKBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1751897668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=jLZYdJeenU37StAo31l/djlK1WDY3qDtjHuaWSDBpeI=;
+	b=2376GiWLhZkC3nXDMVhHeSl9tiJUIEhuBiE+AbRhrCcb7D/K+WVvEZvJ2z6T+ZmGCsmJvV
+	4NCGQkajTub7LNOJzXebfdHBygrWfI9SY8BlJA3/jyRwFYvbu4khy8oDxdqFgvBBE+TSHR
+	R6aTJxvFl63iOPh2TTFoSyGBAp5Z4y0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1751897668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=jLZYdJeenU37StAo31l/djlK1WDY3qDtjHuaWSDBpeI=;
+	b=9pC5qqvzGMg0wh3oWA4ItU4tK4Lw3GisfGVzcsaiExKo6Z67zng4/gBWQJ/9GkXrCZ7uWR
+	WEYqGD0/6EqjFKBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A190A13757;
+	Mon,  7 Jul 2025 14:14:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rz6eJUTWa2iOKgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 07 Jul 2025 14:14:28 +0000
+Message-ID: <5a848e15-6a57-4ecb-a015-d4f358b8a5d3@suse.cz>
+Date: Mon, 7 Jul 2025 16:14:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250703023511.82768-1-luis.hernandez093@gmail.com>
- <202507052123.55236.pisa@fel.cvut.cz> <b56b9602-d715-4de8-903e-7c97423bf5bb@infradead.org>
- <aGsW36iFMyp4ojdf@archie.me>
-In-Reply-To: <aGsW36iFMyp4ojdf@archie.me>
-From: Felipe Hernandez <luis.hernandez093@gmail.com>
-Date: Mon, 7 Jul 2025 09:43:07 -0400
-X-Gm-Features: Ac12FXwtMSLY6-nWpzeOChev97JyLYP55obhTyZdz3c_gEa5zPeHfCEZGF25PW8
-Message-ID: <CAGRSKZgTwHRvjZaA-HzHHiA3qhN6i-v=tLR8OsBgiJMe=F6aig@mail.gmail.com>
-Subject: Re: [PATCH] docs: Fix kernel-doc indentation errors in multiple drivers
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Pavel Pisa <pisa@fel.cvut.cz>, corbet@lwn.net, 
-	alexandre.belloni@bootlin.com, ondrej.ille@gmail.com, mkl@pengutronix.de, 
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	=?UTF-8?B?TWFydGluIEplxZnDoWJlaw==?= <martin.jerabek01@gmail.com>, 
-	=?UTF-8?B?SmnFmcOtIE5vdsOhaw==?= <jnovak@fel.cvut.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm, vmstat: remove the NR_WRITEBACK_TEMP node_stat_item
+ counter
+Content-Language: en-US
+To: Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Tejun Heo <tj@kernel.org>, Maxim Patlasov <mpatlasov@parallels.com>,
+ Jan Kara <jack@suse.cz>, Zach O'Keefe <zokeefe@google.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Zi Yan <ziy@nvidia.com>, Joanne Koong <joannelkoong@gmail.com>,
+ Jingbo Xu <jefflexu@linux.alibaba.com>, Jeff Layton <jlayton@kernel.org>,
+ Miklos Szeredi <mszeredi@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, Jens Axboe <axboe@kernel.dk>
+References: <20250625-nr_writeback_removal-v1-1-7f2a0df70faa@suse.cz>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <20250625-nr_writeback_removal-v1-1-7f2a0df70faa@suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,parallels.com,suse.cz,google.com,lwn.net,linuxfoundation.org,suse.com,linux.intel.com,cmpxchg.org,nvidia.com,gmail.com,linux.alibaba.com,redhat.com,vger.kernel.org,kvack.org,kernel.dk];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 
-On Sun, Jul 6, 2025 at 8:37=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com>=
- wrote:
->
-> On Sat, Jul 05, 2025 at 02:36:45PM -0700, Randy Dunlap wrote:
-> > It needs something to turn True and False into a bullet list
-> > (non-numbered), as documented in Documentation/doc-guide/kernel-doc.rst=
-:
-> >
-> >      So, in order to produce the desired line breaks, you need to use a
-> >      ReST list, e. g.::
-> >
-> >       * Return:
-> >       * * %0          - OK to runtime suspend the device
-> >       * * %-EBUSY     - Device should not be runtime suspended
-> >
-> >
-> >
-> > I don't see any of these kernel-doc warnings. I would guess that
-> > either Pavel or I am using some older/newer version of whatever
-> > software is causing this.
-> >
->
-> I think Sphinx reported these warnings on docs-next tree.
->
-> Thanks.
->
-> --
-> An old man doll... just what I always wanted! - Clara
+On 6/25/25 17:51, Vlastimil Babka wrote:
+> The only user of the counter (FUSE) was removed in commit 0c58a97f919c
+> ("fuse: remove tmp folio for writebacks and internal rb tree") so follow
+> the established pattern of removing the counter and hardcoding 0 in
+> meminfo output, as done recently with NR_BOUNCE. Update documentation
+> for procfs, including for the value for Bounce that was missed when
+> removing its counter.
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+> The removal of the counter is straightforward. The reason for the large
+> Cc list is that there is a comment in mm/page-writeback.c function
+> wb_position_ratio() that mentions NR_WRITEBACK_TEMP, and just deleting
+> the sentence feels to me it could be the wrong thing to do - maybe the
+> strictlimit feature itself is now obsolete? It sure does mention FUSE
+> as the main reason to exist, but commit 5a53748568f79 that introduced it
+> also mentions slow USB sticks as a possibile scenario. Has that
+> happened? I'm not familiar enough with this so I'd rather highlight this
+> and ask for input here than make "git grep NR_WRITEBACK_TEMP" return
+> nothing.
 
-Hi,
+Thanks all for the input. Andrew, please squash in this fixup. The changelog
+of that can be appended to the changelog of the original patch. Thanks.
 
-I just wanted to follow up with the thread. I had inadvertently done a
-reply not reply all after the first series of feedback from Pavel and
-Randy. I agree with Randy in that the nested lists be updated to use
-ReST list syntax. I'm working on a v2 and spot checking the output.
+----8<----
+From 55d9070995010991abc0c6dbd68a8a53b5d622bc Mon Sep 17 00:00:00 2001
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Mon, 7 Jul 2025 16:09:31 +0200
+Subject: [PATCH] mm, vmstat: remove the NR_WRITEBACK_TEMP node_stat_item
+ counter-fix
 
-For reference:
-I am running docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-My branch was based on commit 50c8770a42faf8b1c7abe93e7c114337f580a97d
-(linux-next/master).
-The specific error(s):
-/home/linux/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver=
-:526:
-./drivers/net/can/ctucanfd/ctucanfd_base.c:511: ERROR: Unexpected
-indentation. [docutils]
+Also remove the mention of NR_WRITEBACK_TEMP implications from a comment
+in wb_position_ratio(). The rest of the comment there about fuse setting
+bdi->max_ratio to 1% is still correct.
 
-I apologize if I should've started this work using the docs-next tree.
-I wasn't aware of it at the moment and was utilizing linux-next.
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+ mm/page-writeback.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Best,
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index 72b0ff0d4bae..3e248d1c3969 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -1101,9 +1101,7 @@ static void wb_position_ratio(struct dirty_throttle_control *dtc)
+ 	 * such filesystems balance_dirty_pages always checks wb counters
+ 	 * against wb limits. Even if global "nr_dirty" is under "freerun".
+ 	 * This is especially important for fuse which sets bdi->max_ratio to
+-	 * 1% by default. Without strictlimit feature, fuse writeback may
+-	 * consume arbitrary amount of RAM because it is accounted in
+-	 * NR_WRITEBACK_TEMP which is not involved in calculating "nr_dirty".
++	 * 1% by default.
+ 	 *
+ 	 * Here, in wb_position_ratio(), we calculate pos_ratio based on
+ 	 * two values: wb_dirty and wb_thresh. Let's consider an example:
+-- 
+2.50.0
 
-Felipe
+
+
