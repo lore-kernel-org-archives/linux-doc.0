@@ -1,95 +1,111 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A797346F;
-	Mon,  7 Jul 2025 00:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1318D1E379B;
+	Mon,  7 Jul 2025 01:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751849267; cv=none; b=Tk9gofajWkDP7Z1MNS6mT2vDWyRwkT17rcCrhE/GBFTzH0VIwVZiHAxnf3OYVIDQrR34H77CQE+jUM0X5FW13N5iYsTY/rQ1K5BBSfLdbrfLJ7q7hM+IkhOwXSQfyc1KEh++Udz4MPyhArPkb73ouis0DbS8eMrLgwolIlaauq4=
+	t=1751852032; cv=none; b=i2NFzkcZUwfwEtOFoVC+0eBTjoqvL526oc78yORTJqxgTy/H9iplFFwITyp9z7yg0ILiNxRKiTzi+ex2tUzb9ODhUZRlzcZqi/BKKlSTRpy4fEIOHsEcPXET/GSxUyEtpemJA0T046v/AenLOeG7acCfAdoqFTzdPjt9X6Be7K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751849267; c=relaxed/simple;
-	bh=A2QupyAHSSH6nc2ZMvAhqEhigN3kFk05D3rMbi6MQ0A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hig5M7mjdjI9bdTvN5pYmnTUQQafCwrtJY9RUHN0XmZmD+4fndDsxz+TYc9EnmR9wjOLuKMifJi98nw34hshX2eNp75K4kd3iFxJx7nouLmNDnCbClEliG2NhvjxPfA6oaxJsHOxKl3MI+gikr110Qetd0q2I4SkEH41iYb0O8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Mnl8ac7p; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Mnl8ac7p"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=MXVS1aDzrYojssvr0JlSotN/JXSHumghyg+/aTPIH6c=; b=Mnl8ac7pwSyEBjL8c/7iKsDlYV
-	ErySn+ORFJ0nsb7ajvxTwFSzgG6mjMGq4Olf797u2WCEwGsc/GEIuaoRDfngC6rfi6ZQNURcCl1U8
-	LYdqhoyUQOGn9lCWFrOEm94tW90FGNaoCW6LO52MxHzvFmTXu6W6B51q5bUqi/Sr0jMYCCJ6mAwOR
-	Z7bOB+YLncZiri5VDmYEXN+c3F5zf4epFhfWHOEz4MMOqtY5SpSbMw6iXeLOya25cPyWmic63EBXw
-	sZvrEfr8ZExIhxxiaVe59PPCK8ge6ofGfai/ZPzt6C90Be0BEm+4v6K+JCFPSP7BX1u37p9PZe3UD
-	Xr9P3E2Q==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uYa14-0000000AmJZ-3yej;
-	Mon, 07 Jul 2025 00:47:31 +0000
-Message-ID: <ebc84c4b-4238-4e56-a23c-2d5de535b3b0@infradead.org>
-Date: Sun, 6 Jul 2025 17:47:25 -0700
+	s=arc-20240116; t=1751852032; c=relaxed/simple;
+	bh=MciWweHvQB2NtpzxZf2w/+oDgf2sdTGWiZTywc435t0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PEh/CfXnoRku4Xb6cNwn8nKazcQ/rtsWq1IDjTYFCO9Fah6IpIvQdeFQaxy8H23QMi4GI/wr6wY0PcRAZt5NpN3K3PqT5X+oDwHq6mjp+IbOVQCiWa6f2oZiwlGz1ZlJvuG+/srvla45C36Jd4RpAU46SQKmhWDmWgh7uEY3gpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz3t1751851963t07aee121
+X-QQ-Originating-IP: qa6YJhuflzK+wHht4l6gRJZFvUQBoyK2hYypibZViIU=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 07 Jul 2025 09:32:41 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 10452172534868935923
+Date: Mon, 7 Jul 2025 09:32:36 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+	andrew+netdev@lunn.ch, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 02/15] net: rnpgbe: Add n500/n210 chip support
+Message-ID: <0412FE867055AD77+20250707013236.GA122831@nic-Precision-5820-Tower>
+References: <20250703014859.210110-1-dong100@mucse.com>
+ <20250703014859.210110-3-dong100@mucse.com>
+ <3d0a5666-c57a-4026-b6a1-284821f25943@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Fix kernel-doc indentation errors in multiple
- drivers
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Pavel Pisa <pisa@fel.cvut.cz>,
- Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-Cc: corbet@lwn.net, alexandre.belloni@bootlin.com, ondrej.ille@gmail.com,
- mkl@pengutronix.de, James.Bottomley@hansenpartnership.com,
- martin.petersen@oracle.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, =?UTF-8?Q?Martin_Je=C5=99=C3=A1bek?=
- <martin.jerabek01@gmail.com>, =?UTF-8?B?SmnFmcOtIE5vdsOhaw==?=
- <jnovak@fel.cvut.cz>
-References: <20250703023511.82768-1-luis.hernandez093@gmail.com>
- <202507052123.55236.pisa@fel.cvut.cz>
- <b56b9602-d715-4de8-903e-7c97423bf5bb@infradead.org>
- <aGsW36iFMyp4ojdf@archie.me>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aGsW36iFMyp4ojdf@archie.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3d0a5666-c57a-4026-b6a1-284821f25943@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OHTF91J1Rz8hoMMIA7Duh70bMvN4qNV/yNfMxMdX6l9I5zx5RegTJj9S
+	t0vp5cwkF9KuBpMn/ZSxzQXAfxdQwcqQvejWBmZjRjsJhaI+a0pNAL/QELutMSj/sDpykwl
+	BNwpbVgqyQG6fIEdhMFuuJPmU+CB6j/9Dmsx4FrQyw9S9P/BwXZ4o8E0o38klYErVKtbP/F
+	Ggja6hjdMCF6FKcI0PpTG3OZSQQe4s+SJFoSt7Bjz/02kjH7ZjpxdZigWMuVBZUlloNj8Y+
+	aOXoFI+7YQleoix3HLLyQhnFIHn4q5kJuBWFI3YR1MTaI/oyBAES3eTCJsTnVhTOUeVlpNq
+	SGhmLCodELvJ5WuGhrAie9ghl5K4GAq4wfcDH1uQgy9E07l536DttTaM3RmcA3FhKxCyMxg
+	qjnPHxPSjQezMiWToTse2hdo3J5gTfrfP9YyPPbwckpMYzLk8hvLmFxh1kf2E8YNlc/xUDP
+	/4wV9FAZ1ITH/E1UMA3lb24+/xt1TFz+hddgtQ2Ze2yIeCMO+4uqxJTCu/sDivroUfqOPFv
+	y7iD6hC0uIlH45YoKTUfqFqScvgnyQcHiFahRxWRwBbp1jeHybhvcHfkuvusJTIvpDSjfFS
+	Xg3aPBInFgzQRYd5tATbpbVKArlyjJglMOpoTbToWyzRFWV9rLoKYG2eXs28ZUJOmUf2LQl
+	ZXR0A2WxKtpkER02Yt92k3SJGuGxIklxhFfWPSgjOdZcibsWlSYC2xyfr7EcCPInXpza4sJ
+	Z/MxPbDs9xQpXVGuf+8j4agJzHoRelLvf1gwWbsuV+fPxHUI7wrR/BDgYETVKz0g4nHzfns
+	CqNsZgWK4E5yXqqb7IoOox0uJrlWiY2Uh2fSantZf1+w+db5x4nqqIPg8tghBwUZ4O/iDKQ
+	TA2VHVCG43j5xFKpAw/tqLU4/sZLmm3U0NQS5VPxl5jBgMc9bFqEMLSr/OvgSZEbReiy+FW
+	I5PFm5dyxvIMLZ38Di+5YJSYf
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+X-QQ-RECHKSPAM: 0
 
-
-
-On 7/6/25 5:37 PM, Bagas Sanjaya wrote:
-> On Sat, Jul 05, 2025 at 02:36:45PM -0700, Randy Dunlap wrote:
->> It needs something to turn True and False into a bullet list
->> (non-numbered), as documented in Documentation/doc-guide/kernel-doc.rst:
->>
->>      So, in order to produce the desired line breaks, you need to use a
->>      ReST list, e. g.::
->>
->>       * Return:
->>       * * %0		- OK to runtime suspend the device
->>       * * %-EBUSY	- Device should not be runtime suspended
->>
->>
->>
->> I don't see any of these kernel-doc warnings. I would guess that
->> either Pavel or I am using some older/newer version of whatever
->> software is causing this.
->>
->  
-> I think Sphinx reported these warnings on docs-next tree.
+On Fri, Jul 04, 2025 at 08:03:47PM +0200, Andrew Lunn wrote:
+> > +#define M_NET_FEATURE_SG ((u32)(1 << 0))
+> > +#define M_NET_FEATURE_TX_CHECKSUM ((u32)(1 << 1))
+> > +#define M_NET_FEATURE_RX_CHECKSUM ((u32)(1 << 2))
 > 
-> Thanks.
+> Please use the BIT() macro.
 > 
-
-I would hope and think that the docs-next tree is in linux-next and I
-tested on linux-next.
-
-But I probably don't know what is going on...
-
--- 
-~Randy
-
+Got it, I will fix this.
+> > +	u32 feature_flags;
+> > +	u16 usecstocount;
+> > +};
+> > +
+> 
+> > +#define rnpgbe_rd_reg(reg) readl((void *)(reg))
+> > +#define rnpgbe_wr_reg(reg, val) writel((val), (void *)(reg))
+> 
+> These casts look wrong. You should be getting your basic iomem pointer
+> from a function which returns an void __iomem* pointer, so the cast
+> should not be needed.
+> 
+Yes, I also get failed from 'patch status' website, I should remove
+'void *' here.
+> > -static int rnpgbe_add_adpater(struct pci_dev *pdev)
+> > +static int rnpgbe_add_adpater(struct pci_dev *pdev,
+> > +			      const struct rnpgbe_info *ii)
+> >  {
+> > +	int err = 0;
+> >  	struct mucse *mucse = NULL;
+> >  	struct net_device *netdev;
+> > +	struct mucse_hw *hw = NULL;
+> > +	u8 __iomem *hw_addr = NULL;
+> > +	u32 dma_version = 0;
+> >  	static int bd_number;
+> > +	u32 queues = ii->total_queue_pair_cnts;
+> 
+> You need to work on your reverse Christmas tree. Local variables
+> should be ordered longest to shortest.
+> 
+>        Andrew
+> 
+Got it, I will fix it, and try to check other patches.
+Thanks for your feedback.
