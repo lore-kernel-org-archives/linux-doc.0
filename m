@@ -1,329 +1,285 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2043.outbound.protection.outlook.com [40.107.101.43])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE78125A320;
-	Mon,  7 Jul 2025 03:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751859145; cv=fail; b=mhSCGmRlYam70p9zMTDTle2BRdsWv0XF3+sP2ufUPKjBkZVpCMapqzCEbtxxmmLdFlzSDi62UC9x61LBlYMhARLsV/r6HQLwdxK443xziKdzpjSFqp7isyQo8x+sZIGsyEvV6W71v5F2xpRUI4++jWP9vs6M13ruTxA64Wzkjho=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751859145; c=relaxed/simple;
-	bh=wFA+XOHhgtzakfEEKl4JHqEeggj4SHLmk15vczvT8bI=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=SMfQzqYC6fX99rfT88g+C9kwd7XIUCuhcKvrO+SXHtdvDKqtNt9/tbonGsj99W4+sT+hzmjwVo5VdwIyoW0y6bwsPLrMQ0RRjxoZZR6PcbI4UzdT0wXcCL+Qx/l5GIZc434C48RFrZ4Y1GOuQVhqkmnnhfKZ/weDopuX6g+YD9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=tH1g2WQF; arc=fail smtp.client-ip=40.107.101.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FBCD19ABC2;
+	Mon,  7 Jul 2025 05:01:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751864500; cv=none; b=WbfDiVolWBnSs8tDegXtekj2FASscdBi7HfrWBhc2LS/9CitLXaTMBUr00ORRB5VNZYmjX48Z/wPbSC7APta8wkmNp9l9BWMUOdDLpAUTsFwuXWp90lyp8UzKe2wD6sKCvfhUTR1oUTAQ+90jyj0Qj1LqzAvryrc3kio+P5g870=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751864500; c=relaxed/simple;
+	bh=iDByYHnbq6hJxIjqTvjvaoSpLQMX/BOf4upkEkCnCes=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IkFEROaAGmO5ST3rV/RG5pRQh2ugeV2mx64CaIlNdCLC4sj5n4vthjwqB6PxBXQfSYCCJ8A/DKraqoofWF3JGuyI6VEsWBrkM9Ot3O7e46cSZmHo1VIrD02/GFuYI0r9Duf/Fo0av8onKWUYOW+RQxCHWUknRZs3Jg/yHa3/8SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=34vjTT8i; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="tH1g2WQF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bznK9T0ZytO7qGkMfq3iE9vOdn1Df8D66qRCyGHkWf1tkr4KIrGaq6yJkevv/ek7jL1KW3emRJxRUR3mcDIT0DRsdnkpoMahZ28/4cTjGGgUCWswPVWIsoJ4IR/3IKvOhxFIr2WVbxgjGApboJJgrzNcD9/xzPIfZNvm9u1uFJd+8+lld5hrqrJdh0NUyQg2JdWUBkblRDzsXZiOG/w6l6VJ/ge0HV9OuQNHeSfT1ZrpFbNwW6hl0qpLepNGAGiQlTEwGEuGAYVmfedtvYRG8JjyWpKMlGgCtZDJK8zaEDHrxscjDdkPxEvXV6mzp1hhcekOs2YjPYOWv3b2iTBsDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Oyg8jT2P/NtwHIzfsrE6WxHXdaD5fpWLttuKG9M2tuQ=;
- b=exAvWNVYQnZTBqrobWsuPJMnsj90xdOnyzzSZbrlWBs9yDVOX0SQzaVtJO594kmNE/wnad0Z4EXI8OYADlRK1AxASmrF/+augA+ZJcZcy+FRt92abJqY9YU3jhNcQzeHI07XhSW9vKSCDgd2cUtWaVRS0xAvRVLmkEhiofhXF4IjtuyR3WD7jvg9aguOJoQ3mUKg6ndrcM8lXOogZ+NlI8SAi+6SZMh3yBUYY6In8OG9CuPUIl5R1lOH1w3GEle/tv+Hk7IkpqaWFeKHjhtpJKDXEbyoT3kZdHUE93ZMsKTIlNu0AvEjq5hV8SDK8/ytartRoGXp/P4rrM6JSHSKZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Oyg8jT2P/NtwHIzfsrE6WxHXdaD5fpWLttuKG9M2tuQ=;
- b=tH1g2WQFgybWPrpegsuNDEJKjd9kSWiNKyWZpaOYStkHtjCqxKgPsKfqjVkPTahhbyRbfehDIzoE1dCSKUeuUgLyiByUaqfmK/RteMxfVBoL9ZWDAyESi7039BNJf0G7jAPpa7kcebbxlLpYfpI1GcydJAY4Ez87TnUKsHjVN8Yv1CmHPbYea7aD1N1KSWH+08LPM+XIXN9ZdRhFyrtru8VRuUATq9FgBdWW/FwD90g3bofrwlV7fGmZEvSB3D0erwpCKYC4l361wrzyyEUTDbfaxjqDRvgap2FvKUCzNTtD3CRRpTO9VJMCHMRafog/E3WP/C/YEkEQkP2GCrrn0g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by BN7PPF2E18BD747.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6ca) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.30; Mon, 7 Jul
- 2025 03:32:20 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%7]) with mapi id 15.20.8901.018; Mon, 7 Jul 2025
- 03:32:20 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: linux-kernel@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: rcu@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] rcu: Document concurrent quiescent state reporting for offline CPUs
-Date: Sun,  6 Jul 2025 23:32:08 -0400
-Message-ID: <20250707033208.361677-1-joelagnelf@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL6PEPF00013DFA.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:22e:400:0:1001:0:d) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="34vjTT8i"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=NAU/5xwp1VDhh0b7SpgTb+vw1QLyKInxXDmYrDSMhbk=; b=34vjTT8i3FvtB+g0rz8+6IdrQ1
+	9OM0Aj1YvVpBRzj+WCupGrj2kjF6qigLCqVgIPtFdGopMT9PEVBg7oSs84s+/NGKGgA7gpfZ0K9WJ
+	KxdLyLvIbFNdGdAkzjlkcVEEyMzdoSO64qjR9HlPjV6SRy74GbzYjhN8geI8Rh95CrGOhmZMwcTII
+	90CcA87faGPbjPANictFPX1LKylzc3hwfsDfZYtkriQivudbmRnc7TNyHeBb19UbZHmUfOyANuUPW
+	70bStmkXSRVfItwNJqhxok/90KBx6WIooCGx4QHAYL8defBCHwmkPXVEMTbh/QYRGMXKVvsO7tNP4
+	ksQqm/mw==;
+Received: from [50.53.25.54] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uYdyz-00000001PL5-332e;
+	Mon, 07 Jul 2025 05:01:37 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH -next] docs: kdoc: various fixes for grammar, spelling, punctuation
+Date: Sun,  6 Jul 2025 22:01:35 -0700
+Message-ID: <20250707050135.2660457-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|BN7PPF2E18BD747:EE_
-X-MS-Office365-Filtering-Correlation-Id: d506775c-fd12-4c68-2030-08ddbd06e155
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Txhay95Seqi/uD6kwzd6l4jxSDIie9NwCFX6cY2G4kZnjFA0ZMeaDbCIsIHh?=
- =?us-ascii?Q?GRHWSApDn69EjJ46/txnauvx2bYwDX6jynD9mcT2JxoToraQ7y4KVSZKjNkg?=
- =?us-ascii?Q?Z82M+5laG8zLJF544VkyWx4cU32b92jk9rKl11iCi5tT8uTFG022XNYIjdvd?=
- =?us-ascii?Q?ubKX8vF+RFN4EvTMkMr7fxI0/6V8pUu/Xh8ThGVFKvOjmGE58MyrtorPTHil?=
- =?us-ascii?Q?XvLHiN5xSFiIVkfDpHfBPS+8N1vgXZm8uhDvLCnYMbQH/88GHYmpIIQU1CkI?=
- =?us-ascii?Q?Cf+ebruFp3jB1dlG7STPXuAYUPD7wvEuTi9IzQRJw9igJSORMBYJu9XoGOlh?=
- =?us-ascii?Q?zC3+85FFdOZ52I+ZELf03p75vUyGdqqtoKtCGSWS7OKbZmyH4q2RO28cicO1?=
- =?us-ascii?Q?LSiJNJrZu89lZLvpX6V9+a9IcKg68WfQm8aUeAz1Y97dwumGNi4Pd2Nk8LIl?=
- =?us-ascii?Q?9ezgleZJUvXGrJfXzIFg15EcAw6RAhcFA1yPwOElAMQN6kutTHRc0GymE94s?=
- =?us-ascii?Q?ZJCPSGzS7p7cTO/K1CEluYQz0XbqZyCofPFsudKIcBV4kHrnApB7db4PW555?=
- =?us-ascii?Q?azzTJsJGa0a+uShHTEUDFahpEYNblQJQ1oEBDc9WVmm1xHQBWZGCrK/20yGf?=
- =?us-ascii?Q?hFsq/Z937I6Me4PmalzTXB9rf4bch2oRTBzOHe0w8mkYEj9z7fjOFC+qdID/?=
- =?us-ascii?Q?2H0Mzl7mr2n1DnflbrC96C+/XaecHz5SpLWKp3eW8xnboAs+ULSJ8AUXN2lZ?=
- =?us-ascii?Q?2Ky8j3FTmMkOjOew18t7CptCd0zzcQEDtZTT8DRZYLK6b41sYgVMi0nvmGK2?=
- =?us-ascii?Q?vOdJ2x5Xj3uuka4MHsRjwly/w08q8gi7gWQtU5hl/eYWwhfXF/9Tj607Qeyn?=
- =?us-ascii?Q?3mhs/wMLKVFboZHzfOvrl2AhmXCVrnbfBtqPQSpQddzAnZg9X80jtgK0paoX?=
- =?us-ascii?Q?mXelrcBqTNmKBjFRLW0bAJ+E36BgmMuXdQau30AVVXF7p133HXuNy+RX4kjb?=
- =?us-ascii?Q?3tifridhmJkrSHysLWottTikpr4j5g6U/Q9QPefgmgAAddb/Web2eaLVrJ6+?=
- =?us-ascii?Q?JAi19i7X5SkImJ6sP14UijFVJj00eBloR71q/yLBqOrPtqbv2LKuKY21a5hd?=
- =?us-ascii?Q?toV+IDfmwVTzzk7YqjkrRmODrAjVvebRFVqls/3Gl+o9agN+D2CoHmZ8/0Pz?=
- =?us-ascii?Q?K6uwrF7sF2/4Gj4u66PSdXaJotkMDMN8W2HEmWhal1Z0CPpC1GPNmykC5sWl?=
- =?us-ascii?Q?fpfi4UnC4hBQtHxyI4Ys+nVXEhpVGWi1IiuCq0TonpUt9kXWu5/Dce7hq30N?=
- =?us-ascii?Q?xnOadiusF9Sc5hkGJ01P+GR/QmV9cyprNQw0rzsUlQKibna9lWtTlljyAYVR?=
- =?us-ascii?Q?lD7XZIQoDATU/gDEzLy2aYskRa0hHA8zrOoAR52lKAGiak+VerfHKSzL66pF?=
- =?us-ascii?Q?tDH1cvMEJvccqmmz20X6D5J5w1GvBmw44wl7AjmHvAZU+w4rbBNHLQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8059.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?srB/8lqPLECCk+lGoWh533EvCAlzcbn5J5Ttce6Ded4E4irZ6R10EoKylg3k?=
- =?us-ascii?Q?jwxRKANDtsfDS3f0rrdO0GoG6i2QDn2XA5246P+vn/bFWFy1IaPWnnyGGEM2?=
- =?us-ascii?Q?/XNl5I6O9Yp4iZC6jR8pbDh6Z//a1Nh+7OJuNn12SZWcS85qQ2IIX5VdMGaK?=
- =?us-ascii?Q?+XsyqRXHh1RrrwAJft9G4Qd5LV37/CPEZEU1ueK3RU7VfsXonKIabc2jIuVA?=
- =?us-ascii?Q?Ul4yhXnA1cqt/BYIFsvcAzSUy1Xq3VIhsysaqd1Dd9yeEMx6FqE3cLbCc2BJ?=
- =?us-ascii?Q?Dei5XG7LxT9dj6DGCuSG8Nnu98b9aJJMpPXtcppwtexKr9fY2ElFepBI+IZU?=
- =?us-ascii?Q?O2wEFftiX5vKS44Ft6RpIr2cnO8VhjN+/GMkTHVM22V1SrhbIzS8qoRxbrqO?=
- =?us-ascii?Q?MDORHvOPEVnTV0oKLgFCnG8Mq7YlgljBQs5RWR+dkxzO8lw02h78NXH3pZX5?=
- =?us-ascii?Q?SXOVRs0n3aCqKNCz8g3+v40dqChxpE0cWVn9GtQW5Sdre/JQk1SpxfOZ2vz6?=
- =?us-ascii?Q?TMrbrL5qhi32AbRRq9gFsuQXplcBAYAW/tJZIfRhPAGEY0Gqhkzytnk8V9GI?=
- =?us-ascii?Q?wfgtSMCScAC6nV6cRSFgcIH4Iy0CdUTSoHzM6JYfiRSRcj6yA5hOaPn8hOfs?=
- =?us-ascii?Q?Z3ERuVJLlyjkBDuLwnk429yKJEgCsrxO09nj1HCbZS5NjRd2GW1k4mpsfv2o?=
- =?us-ascii?Q?9jVEJYe4NExFm0MgXrU2SA8Co974vwOrkEcXXPXCVZiDFNKWH3sCx3rEb2AW?=
- =?us-ascii?Q?n2yNp/YrkjImMJoi4PN57oLM3FJeE4CD8JzILH7Nm3xiunp1hI/GRjkwTcWr?=
- =?us-ascii?Q?uPPVfWn5aYh5iH1rhPcMI0YLwM2Jra8ghB9Nk6Z8Hzfpr7nzn/kHzllXGyJu?=
- =?us-ascii?Q?diX73M4QrHGPQVtKC8FzdPuamIOP7a/8riIWqKSpI70IVrca4wfYsjrzG35j?=
- =?us-ascii?Q?XdjWUDavH6yuV2YWK23wRneNf5xaEkm2Vrp9+evXR5zNzTPAkjuK+lW1AUg+?=
- =?us-ascii?Q?RLcE+TetXS/5C4yKlj3HyrL/m0EV114yBDuHPLCXS/sIm2BIk2xlQ8cJXK/7?=
- =?us-ascii?Q?o9jW/QM5I5gyj+Goa0orvyHTgmPWCHb/1c1s3LfeGns7IYK1kEazwafOJJpU?=
- =?us-ascii?Q?bEdfFTSnOwNzua5+VjBae6nx8r9bQUTa+hF8+1ffFLpTkoSIkFY59MNHJ0fR?=
- =?us-ascii?Q?XPIRUMpBvxCMjzytA25PDNc4k4TAX2/5SZmtIXgXNkz+6PXqbs9rxdU7wRYy?=
- =?us-ascii?Q?VQrYUjr/38qxc/WUHOQCjF9JEDD9fm9XkgHbml7imcYYjYeDqSjoblFSlXQG?=
- =?us-ascii?Q?b9WegJwY4DX+HGTIn4KaMvUBRQmQwlOlsg7A4+8+dIe1OTlSfyQHQUfsddFd?=
- =?us-ascii?Q?lKOjvepto8bEQYgu/wp1a1hmw9+P+S858jJv9tigrawakhuEvkVlKpdY3DlK?=
- =?us-ascii?Q?GQtKsU4U1swUiZRmR4/W4ykY9P0uZmLLOc5+pOPE/tcMes6QCCBg1QJIJ/h4?=
- =?us-ascii?Q?UH3RkyCzLuETszlFsdir79kM2oCn4IWWZ0XLT+aHSMLF3Y/LCjaOcfxjUz1w?=
- =?us-ascii?Q?YsQt2G2WFdTFlpax1yeRomKaMoGdDkiJ4N92G2Xc?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d506775c-fd12-4c68-2030-08ddbd06e155
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 03:32:20.5619
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gRv0r/lShsDu6z+w9OGKWYYt3lXb09u9OTP8o8HC0FK5t8Vx12yuzSMDwPLXJMclc8+Jc7wxCJVN1WWoPGdSxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF2E18BD747
+Content-Transfer-Encoding: 8bit
 
-The synchronization of CPU offlining with GP initialization is confusing
-to put it mildly (rightfully so as the issue it deals with is complex).
-Recent discussions brought up a question -- what prevents the
-rcu_implicit_dyntick_qs() from warning about QS reports for offline
-CPUs (missing QS reports for offline CPUs causing indefinite hangs).
+Correct grammar, spelling, and punctuation in comments, strings,
+print messages, logs.
 
-QS reporting for now-offline CPUs should only happen from:
-- gp_init()
-- rcutree_cpu_report_dead()
+Change two instances of two spaces between words to just one space.
 
-Add some documentation on this and refer to it from comments in the code
-explaining how QS reporting is not missed when these functions are
-concurrently running.
+codespell was used to find misspelled words.
 
-I referred heavily to this post [1] about the need for the ofl_lock.
-[1] https://lore.kernel.org/all/20180924164443.GF4222@linux.ibm.com/
-
-[ Applied paulmck feedback on moving documentation to Requirements.rst ]
-
-Link: https://lore.kernel.org/all/01b4d228-9416-43f8-a62e-124b92e8741a@paulmck-laptop/
-Co-developed-by: Paul E. McKenney <paulmck@kernel.org>
-Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
- .../RCU/Design/Requirements/Requirements.rst  | 87 +++++++++++++++++++
- kernel/rcu/tree.c                             | 19 +++-
- 2 files changed, 105 insertions(+), 1 deletion(-)
+ scripts/lib/kdoc/kdoc_files.py  |    4 ++--
+ scripts/lib/kdoc/kdoc_output.py |    8 ++++----
+ scripts/lib/kdoc/kdoc_parser.py |   20 ++++++++++----------
+ scripts/lib/kdoc/kdoc_re.py     |   24 ++++++++++++------------
+ 4 files changed, 28 insertions(+), 28 deletions(-)
 
-diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
-index 771a1ce4c84d..841326d9358d 100644
---- a/Documentation/RCU/Design/Requirements/Requirements.rst
-+++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-@@ -2011,6 +2011,93 @@ after the CPU hotplug scanning.
- By incrementing gp_seq first, CPU1's RCU read-side critical section
- is guaranteed to not be missed by CPU2.
+--- linux-next-20250704.orig/scripts/lib/kdoc/kdoc_files.py
++++ linux-next-20250704/scripts/lib/kdoc/kdoc_files.py
+@@ -64,7 +64,7 @@ class GlobSourceFiles:
  
-+**Concurrent Quiescent State Reporting for Offline CPUs**
-+
-+RCU must ensure that CPUs going offline report quiescent states to avoid
-+blocking grace periods. This requires careful synchronization to handle
-+race conditions
-+
-+**Race condition causing Offline CPU to hang GP**
-+
-+A race between CPU offlining and new GP initialization (gp_init) may occur
-+because `rcu_report_qs_rnp()` in `rcutree_report_cpu_dead()` must temporarily
-+release the `rcu_node` lock to wake the RCU grace-period kthread:
-+
-+.. code-block:: none
-+
-+   CPU1 (going offline)                 CPU0 (GP kthread)
-+   --------------------                 -----------------
-+   rcutree_report_cpu_dead()
-+     rcu_report_qs_rnp()
-+       // Must release rnp->lock to wake GP kthread
-+       raw_spin_unlock_irqrestore_rcu_node()
-+                                        // Wakes up and starts new GP
-+                                        rcu_gp_init()
-+                                          // First loop:
-+                                          copies qsmaskinitnext->qsmaskinit
-+                                          // CPU1 still in qsmaskinitnext!
-+                                          
-+                                          // Second loop:
-+                                          rnp->qsmask = rnp->qsmaskinit
-+                                          mask = rnp->qsmask & ~rnp->qsmaskinitnext
-+                                          // mask is 0! CPU1 still in both masks
-+       // Reacquire lock (but too late)
-+     rnp->qsmaskinitnext &= ~mask       // Finally clears bit
-+
-+Without `ofl_lock`, the new grace period includes the offline CPU and waits
-+forever for its quiescent state causing a GP hang.
-+
-+**A solution with ofl_lock**
-+
-+The `ofl_lock` (offline lock) prevents `rcu_gp_init()` from running during
-+the vulnerable window when `rcu_report_qs_rnp()` has released `rnp->lock`:
-+
-+.. code-block:: none
-+
-+   CPU0 (rcu_gp_init)                   CPU1 (rcutree_report_cpu_dead)
-+   ------------------                   ------------------------------
-+   rcu_for_each_leaf_node(rnp) {
-+       arch_spin_lock(&ofl_lock) -----> arch_spin_lock(&ofl_lock) [BLOCKED]
-+       
-+       // Safe: CPU1 can't interfere
-+       rnp->qsmaskinit = rnp->qsmaskinitnext
-+       
-+       arch_spin_unlock(&ofl_lock) ---> // Now CPU1 can proceed
-+   }                                    // But snapshot already taken
-+
-+**Another race causing GP hangs in rcu_gpu_init(): Reporting QS for Now-offline CPUs**
-+
-+After the first loop takes an atomic snapshot of online CPUs, as shown above,
-+the second loop in `rcu_gp_init()` detects CPUs that went offline between
-+releasing `ofl_lock` and acquiring the per-node `rnp->lock`. This detection is
-+crucial because:
-+
-+1. The CPU might have gone offline after the snapshot but before the second loop
-+2. The offline CPU cannot report its own QS if it's already dead
-+3. Without this detection, the grace period would wait forever for CPUs that
-+   are now offline.
-+
-+The second loop performs this detection safely:
-+
-+.. code-block:: none
-+
-+   rcu_for_each_node_breadth_first(rnp) {
-+       raw_spin_lock_irqsave_rcu_node(rnp, flags);
-+       rnp->qsmask = rnp->qsmaskinit;  // Apply the snapshot
-+       
-+       // Detect CPUs offline after snapshot
-+       mask = rnp->qsmask & ~rnp->qsmaskinitnext;
-+       
-+       if (mask && rcu_is_leaf_node(rnp))
-+           rcu_report_qs_rnp(mask, ...)  // Report QS for offline CPUs
-+   }
-+
-+This approach ensures atomicity: quiescent state reporting for offline CPUs
-+happens either in `rcu_gp_init()` (second loop) or in `rcutree_report_cpu_dead()`,
-+never both and never neither. The `rnp->lock` held throughout the sequence
-+prevents races - `rcutree_report_cpu_dead()` also acquires this lock when
-+clearing `qsmaskinitnext`, ensuring mutual exclusion.
-+
- Scheduler and RCU
- ~~~~~~~~~~~~~~~~~
+     def parse_files(self, file_list, file_not_found_cb):
+         """
+-        Define an interator to parse all source files from file_list,
++        Define an iterator to parse all source files from file_list,
+         handling directories if any
+         """
  
-diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-index c31b85e62310..f669f9b45e80 100644
---- a/kernel/rcu/tree.c
-+++ b/kernel/rcu/tree.c
-@@ -1883,6 +1883,10 @@ static noinline_for_stack bool rcu_gp_init(void)
- 	/* Exclude CPU hotplug operations. */
- 	rcu_for_each_leaf_node(rnp) {
- 		local_irq_disable();
-+		/*
-+		 * Serialize with CPU offline. See Requirements.rst > Hotplug CPU >
-+		 * Concurrent Quiescent State Reporting for Offline CPUs.
-+		 */
- 		arch_spin_lock(&rcu_state.ofl_lock);
- 		raw_spin_lock_rcu_node(rnp);
- 		if (rnp->qsmaskinit == rnp->qsmaskinitnext &&
-@@ -1957,7 +1961,12 @@ static noinline_for_stack bool rcu_gp_init(void)
- 		trace_rcu_grace_period_init(rcu_state.name, rnp->gp_seq,
- 					    rnp->level, rnp->grplo,
- 					    rnp->grphi, rnp->qsmask);
--		/* Quiescent states for tasks on any now-offline CPUs. */
-+		/*
-+		 * Quiescent states for tasks on any now-offline CPUs. Since we
-+		 * released the ofl and rnp lock before this loop, CPUs might
-+		 * have gone offline and we have to report QS on their behalf.
-+		 * See Requirements.rst > Hotplug CPU > Concurrent QS Reporting.
-+		 */
- 		mask = rnp->qsmask & ~rnp->qsmaskinitnext;
- 		rnp->rcu_gp_init_mask = mask;
- 		if ((mask || rnp->wait_blkd_tasks) && rcu_is_leaf_node(rnp))
-@@ -4388,6 +4397,13 @@ void rcutree_report_cpu_dead(void)
+@@ -229,7 +229,7 @@ class KernelFiles():
+         Return output messages from a file name using the output style
+         filtering.
  
- 	/* Remove outgoing CPU from mask in the leaf rcu_node structure. */
- 	mask = rdp->grpmask;
-+
-+	/*
-+	 * Hold the ofl_lock and rnp lock to avoid races between CPU going
-+	 * offline and doing a QS report (as below), versus rcu_gp_init().
-+	 * See Requirements.rst > Hotplug CPU > Concurrent QS Reporting section
-+	 * for more details.
-+	 */
- 	arch_spin_lock(&rcu_state.ofl_lock);
- 	raw_spin_lock_irqsave_rcu_node(rnp, flags); /* Enforce GP memory-order guarantee. */
- 	rdp->rcu_ofl_gp_seq = READ_ONCE(rcu_state.gp_seq);
-@@ -4398,6 +4414,7 @@ void rcutree_report_cpu_dead(void)
- 		rcu_report_qs_rnp(mask, rnp, rnp->gp_seq, flags);
- 		raw_spin_lock_irqsave_rcu_node(rnp, flags);
- 	}
-+	/* Clear from ->qsmaskinitnext to mark offline. */
- 	WRITE_ONCE(rnp->qsmaskinitnext, rnp->qsmaskinitnext & ~mask);
- 	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
- 	arch_spin_unlock(&rcu_state.ofl_lock);
--- 
-2.43.0
-
+-        If output type was not handled by the syler, return None.
++        If output type was not handled by the styler, return None.
+         """
+ 
+         # NOTE: we can add rules here to filter out unwanted parts,
+--- linux-next-20250704.orig/scripts/lib/kdoc/kdoc_output.py
++++ linux-next-20250704/scripts/lib/kdoc/kdoc_output.py
+@@ -8,7 +8,7 @@
+ Implement output filters to print kernel-doc documentation.
+ 
+ The implementation uses a virtual base class (OutputFormat) which
+-contains a dispatches to virtual methods, and some code to filter
++contains dispatches to virtual methods, and some code to filter
+ out output messages.
+ 
+ The actual implementation is done on one separate class per each type
+@@ -59,7 +59,7 @@ class OutputFormat:
+     OUTPUT_EXPORTED     = 2 # output exported symbols
+     OUTPUT_INTERNAL     = 3 # output non-exported symbols
+ 
+-    # Virtual member to be overriden at the  inherited classes
++    # Virtual member to be overridden at the inherited classes
+     highlights = []
+ 
+     def __init__(self):
+@@ -85,7 +85,7 @@ class OutputFormat:
+     def set_filter(self, export, internal, symbol, nosymbol, function_table,
+                    enable_lineno, no_doc_sections):
+         """
+-        Initialize filter variables according with the requested mode.
++        Initialize filter variables according to the requested mode.
+ 
+         Only one choice is valid between export, internal and symbol.
+ 
+@@ -210,7 +210,7 @@ class OutputFormat:
+             return self.data
+ 
+         # Warn if some type requires an output logic
+-        self.config.log.warning("doesn't now how to output '%s' block",
++        self.config.log.warning("doesn't know how to output '%s' block",
+                                 dtype)
+ 
+         return None
+--- linux-next-20250704.orig/scripts/lib/kdoc/kdoc_re.py
++++ linux-next-20250704/scripts/lib/kdoc/kdoc_re.py
+@@ -16,7 +16,7 @@ re_cache = {}
+ 
+ class KernRe:
+     """
+-    Helper class to simplify regex declaration and usage,
++    Helper class to simplify regex declaration and usage.
+ 
+     It calls re.compile for a given pattern. It also allows adding
+     regular expressions and define sub at class init time.
+@@ -27,7 +27,7 @@ class KernRe:
+ 
+     def _add_regex(self, string, flags):
+         """
+-        Adds a new regex or re-use it from the cache.
++        Adds a new regex or reuses it from the cache.
+         """
+ 
+         if string in re_cache:
+@@ -117,7 +117,7 @@ class NestedMatch:
+ 
+             '\\bSTRUCT_GROUP(\\(((?:(?>[^)(]+)|(?1))*)\\))[^;]*;'
+ 
+-    which is used to properly match open/close parenthesis of the
++    which is used to properly match open/close parentheses of the
+     string search STRUCT_GROUP(),
+ 
+     Add a class that counts pairs of delimiters, using it to match and
+@@ -139,13 +139,13 @@ class NestedMatch:
+     #       \bSTRUCT_GROUP\(
+     #
+     # is similar to: STRUCT_GROUP\((.*)\)
+-    # except that the content inside the match group is delimiter's aligned.
++    # except that the content inside the match group is delimiter-aligned.
+     #
+-    # The content inside parenthesis are converted into a single replace
++    # The content inside parentheses is converted into a single replace
+     # group (e.g. r`\1').
+     #
+     # It would be nice to change such definition to support multiple
+-    # match groups, allowing a regex equivalent to.
++    # match groups, allowing a regex equivalent to:
+     #
+     #   FOO\((.*), (.*), (.*)\)
+     #
+@@ -171,14 +171,14 @@ class NestedMatch:
+         but I ended using a different implementation to align all three types
+         of delimiters and seek for an initial regular expression.
+ 
+-        The algorithm seeks for open/close paired delimiters and place them
+-        into a stack, yielding a start/stop position of each match  when the
++        The algorithm seeks for open/close paired delimiters and places them
++        into a stack, yielding a start/stop position of each match when the
+         stack is zeroed.
+ 
+-        The algorithm shoud work fine for properly paired lines, but will
+-        silently ignore end delimiters that preceeds an start delimiter.
++        The algorithm should work fine for properly paired lines, but will
++        silently ignore end delimiters that precede a start delimiter.
+         This should be OK for kernel-doc parser, as unaligned delimiters
+-        would cause compilation errors. So, we don't need to rise exceptions
++        would cause compilation errors. So, we don't need to raise exceptions
+         to cover such issues.
+         """
+ 
+@@ -206,7 +206,7 @@ class NestedMatch:
+                     stack.append(end)
+                     continue
+ 
+-                # Does the end delimiter match what it is expected?
++                # Does the end delimiter match what is expected?
+                 if stack and d == stack[-1]:
+                     stack.pop()
+ 
+--- linux-next-20250704.orig/scripts/lib/kdoc/kdoc_parser.py
++++ linux-next-20250704/scripts/lib/kdoc/kdoc_parser.py
+@@ -21,8 +21,8 @@ from kdoc_re import NestedMatch, KernRe
+ #
+ # Regular expressions used to parse kernel-doc markups at KernelDoc class.
+ #
+-# Let's declare them in lowercase outside any class to make easier to
+-# convert from the python script.
++# Let's declare them in lowercase outside any class to make it easier to
++# convert from the Perl script.
+ #
+ # As those are evaluated at the beginning, no need to cache them
+ #
+@@ -283,7 +283,7 @@ class KernelDoc:
+         args["type"] = dtype
+         args["warnings"] = self.entry.warnings
+ 
+-        # TODO: use colletions.OrderedDict to remove sectionlist
++        # TODO: use collections.OrderedDict to remove sectionlist
+ 
+         sections = args.get('sections', {})
+         sectionlist = args.get('sectionlist', [])
+@@ -509,7 +509,7 @@ class KernelDoc:
+ 
+     def check_sections(self, ln, decl_name, decl_type, sectcheck, prmscheck):
+         """
+-        Check for errors inside sections, emitting warnings if not found
++        Check for errors inside sections, emitting warnings if not-found
+         parameters are described.
+         """
+ 
+@@ -565,7 +565,7 @@ class KernelDoc:
+ 
+     def dump_struct(self, ln, proto):
+         """
+-        Store an entry for an struct or union
++        Store an entry for a struct or union
+         """
+ 
+         type_pattern = r'(struct|union)'
+@@ -670,7 +670,7 @@ class KernelDoc:
+             # TODO: use NestedMatch for FOO($1, $2, ...) matches
+             #
+             # it is better to also move those to the NestedMatch logic,
+-            # to ensure that parenthesis will be properly matched.
++            # to ensure that parentheses will be properly matched.
+ 
+             (KernRe(r'__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)', re.S), r'DECLARE_BITMAP(\1, __ETHTOOL_LINK_MODE_MASK_NBITS)'),
+             (KernRe(r'DECLARE_PHY_INTERFACE_MASK\s*\(([^\)]+)\)', re.S), r'DECLARE_BITMAP(\1, PHY_INTERFACE_MODE_MAX)'),
+@@ -683,7 +683,7 @@ class KernelDoc:
+             (KernRe(r'DEFINE_DMA_UNMAP_LEN\s*\(' + args_pattern + r'\)', re.S), r'__u32 \1'),
+         ]
+ 
+-        # Regexes here are guaranteed to have the end limiter matching
++        # Regexes here are guaranteed to have the end delimiter matching
+         # the start delimiter. Yet, right now, only one replace group
+         # is allowed.
+ 
+@@ -711,7 +711,7 @@ class KernelDoc:
+         # Python behavior is different: it parses 'members' only once,
+         # creating a list of tuples from the first interaction.
+         #
+-        # On other words, this won't get nested structs.
++        # In other words, this won't get nested structs.
+         #
+         # So, we need to have an extra loop on Python to override such
+         # re limitation.
+@@ -941,7 +941,7 @@ class KernelDoc:
+ 
+     def dump_function(self, ln, prototype):
+         """
+-        Stores a function of function macro inside self.entries array.
++        Stores a function or function macro inside self.entries array.
+         """
+ 
+         func_macro = False
+@@ -1258,7 +1258,7 @@ class KernelDoc:
+             #
+             else:
+                 self.emit_msg(ln,
+-                              f"This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst\n{line}")
++                              f"This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst\n{line}")
+                 self.state = state.NORMAL
+                 return
+             #
