@@ -1,64 +1,65 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0583121CA03;
-	Mon,  7 Jul 2025 17:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF78253B58;
+	Mon,  7 Jul 2025 17:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751907755; cv=none; b=JvqTP4RIXxwLroZdKpOgL8xePBwFybZSfjmmR/hZa4Qj4SBpVBEb0Fw7zA+gasAQEl7Dxp0updfVLM8zHIqWlCwy/u230MkJ9rHTIL/H/loek0Cp5XLKHHJNhhbeZG7cjbdKdyh5cCZkkUzvN4camtutXt/uJPaRw/DOYlT1vmE=
+	t=1751907956; cv=none; b=cD+o96XffsHS4+ejlwOoq41EmV/fpd9Mz9e1IRfrQFhkLzQC1c6KQV9O4dTQM8rx2Rk3F/xU3UkoEomXzQN34nuPrgKt7OjuJ1jlnHDoY/fjd5zgvs8NZzQc4wS0TuzmuvPwsPeREZvPc/CJvFnoXB8a0IdMFYBVuube1BoVVGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751907755; c=relaxed/simple;
-	bh=qEpcMyFiKfiNP7wV30h27bvrbTZ9SYrfEQ5szRtfEgo=;
+	s=arc-20240116; t=1751907956; c=relaxed/simple;
+	bh=PY+mw4mTUhq/6RadpdMRqZgmrB8wZ5jm+Z1Dkpgo29Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=qbQ6GcGj4Lmi+m3BofnsFE1G3dzWS5PYiVrpkRxmA655YKluTbL8iw3EsnmPVjEsayWoc+IFe1gyfZCDeaEo4GsWdnOn7DaJsYjkBMPfXJxjRW5xVj246TU+WsEy3aUHj4EcPQm++6iBJSQ6Rir6yA/oofEuzIrsoC2XnmGpSGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ibyI1c9r; arc=none smtp.client-ip=209.85.214.181
+	 In-Reply-To:Content-Type; b=j7jkHLN+0SGGz8QyHLk6e3wsq3seWAqw2fQcavuCrorPVF7WZd2Q529QJKsqNkenJQ1dhO9Utd1wMN+qazgubr0eYPG1P4bcCvB9Rq2VOVKjSA+lCSy2ZXiUtypWqcu4BXl8vSy7+0PuFWXmLHzZDNQ0+Sy//Bu0oS68TJSct7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lbrGxHAG; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ibyI1c9r"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2350b1b9129so22348295ad.0;
-        Mon, 07 Jul 2025 10:02:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lbrGxHAG"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3137c2021a0so2761413a91.3;
+        Mon, 07 Jul 2025 10:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751907753; x=1752512553; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751907954; x=1752512754; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sf7fXWM8cJOpPopwpN8BZiyBh+hJ95cXslAdvwdcSo4=;
-        b=ibyI1c9rSxHkZ+wi5j+o2e76Cn7GZ5krh1oQt2aB3BcrCkb8823nRHijTlI543udUy
-         VJPiJC2LpYq3j4GnXACVa+XjB6Top3oSjlSUP/+u57Vy0KakdEq2zqJfvRA9BZj407UL
-         qeyUU2hTFfJUg4dSCylxLtQoQkozOg1uKENU5anSHmRgTByzVh60MFMHlMV9QXFter4+
-         PBBp+YomHob4E9wTmDzvLYlB9FqS5UjB8VrCND9oz0JK/ic5qsqquS/d4GhgDuazO7X2
-         PZhCu2aE6ffamUVLaFBT9BnxHVCFOJxEq5jxOU1A13/j487r5GAJuDy1j0loOxeoP7w/
-         l6jA==
+        bh=TpMdXzDnCfdN/GalFwfGmK2Pny6VW2Rxcn9/iXdWGFw=;
+        b=lbrGxHAGaSV5fsR+2Q3fCX8wlID0lMC68OpJYdZCd0MqwdOnAyAbvYjEhvse1+Ig3r
+         tJ7QqjdI8kY7KvSnV83YSi6Ks4L+xW8bLmcFcLnt1Mi9cZFvRU22F45E3OKen2jwzEfl
+         +4DkzM73G9HDWFXUK4PhX3oruVXPaPxB+KHgLjsGJxveberQivKXChSOfJ1Hkid2MpfC
+         MG3yYGuiBrwBF+amDm6LMaH9vK8Kr5Zi2y+7pG0DJIt2rsla5T96qNTknb3Jyxmuu+DL
+         sgEK/ZekbuFM6nmfZBdaf7W74ifDP9ImVqYTKM9xt/wn+Kxg8xbMddzHsNsgz8cYK8kE
+         R+7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751907753; x=1752512553;
+        d=1e100.net; s=20230601; t=1751907954; x=1752512754;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sf7fXWM8cJOpPopwpN8BZiyBh+hJ95cXslAdvwdcSo4=;
-        b=B/IsiDPCCOlXiIPCe5TU512alpofe6CL5PkO7ls5zlF6y9ho9ScWA7QS1gcH++fGqR
-         wFE4KFSEtf6S/SVV7YiWvEj1iPY+QN73nnkYfmjoelv4nUKL9CSMJOsVU81l+tS17okH
-         1tib/CLOMngJMF6k3+So+pB3y+mrwUX8zRFf8HSjDef6mfXlvXYbWk35ev18wJ9ETToV
-         tOVQu0QLZtTe19yk5wNCoI7If3TtSpeu6PnjcwBpWX2U0ymOa+FB6Wq/0bhEwm45rOTN
-         3SOlWKcAH5egc2FU34Udmx+WrP5QggUQvWa4x0eaHaqZOywB+Egu2w7kviCmRIUPC0ZV
-         iGeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXXz8QdLlZK1LLzWm3gOnnmHp+BpUm6C/I/e1wA0b9X1/Y99Hlm4LI4dklBh0JVgqOZaTNE0zrJJT70BTgu@vger.kernel.org, AJvYcCXkb3qblD7AeM0ZKAZ3w3Yvy8Xcnrdi4i+Wo1HjRJfPWXSXLNeA2L6MjZ8Prfmo5wIw/iJokh38ztM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMxz9p8WqENDCbDHIJzIDfmITK9iddv548WCSZPDzMC/BC0xMg
-	wGbFhKbdk2O1xG8YzciVSbwQRMjQ99LlXX/zK+NtbxY+ktsm7iuVc1RZ
-X-Gm-Gg: ASbGncsUSZLajVfJcz1aZ/xo9FI+3mHEh/F+1EiwhP69kw7vWOEe9gkXv77k2hvCbYO
-	zo5mS2WfCImH037fsCeDSnSAHclqIsZrrfTw6wjyz/2vVMzGtFNbwB0baMGiXa/GaXKWkjHS5fB
-	Ywmh+Yjwrs4le/Xh4fUrSoe9h/nLZRZXfnnJvmbcaW/3dea6XoMlsMQeXl0WFGdNhFkxnEuefOw
-	72pv/MmvBVHLdP4GAtKg9rYkd7Uj6jVDmATWk7xXjsm2+Q7vv8owNm3RKJU4IWol23U47Yq31xT
-	coDNg4wtyEcQgCrWSB7wmX1fwAuIqK8csXyH356GTttsX7yA0ADnRDxqXPwpncKo
-X-Google-Smtp-Source: AGHT+IG8yMUXenYEn60fkq7ok6nf8gr6qJOoaMZCKEBtHTYasFnNHGVKtr5hAhaAnpN5pj44sUjrvg==
-X-Received: by 2002:a17:902:d512:b0:235:ed02:288b with SMTP id d9443c01a7336-23c85e745c2mr174825445ad.30.1751907753129;
-        Mon, 07 Jul 2025 10:02:33 -0700 (PDT)
+        bh=TpMdXzDnCfdN/GalFwfGmK2Pny6VW2Rxcn9/iXdWGFw=;
+        b=ZX2XgjrW6G6xSPs9IRH68ZpyjUjF0DqEI1gjoD82QX8XmkdWSE+2pH7RRPPVEQWlXp
+         +Omlo5Z0xOHULAQT5TFjFEmG+OAkp0vb6K/e/9DN18n7rqWFTpKsQZ+S/X+/OCrOAPnn
+         50J9+NdrwYgiRRKofPk+XcGlGs6nfR81sc62cKW1bbPAQ8cp2jZg3UqUPqEOyWuvSsr9
+         Ufo4pHls+/8kUIxF8xA/Z+UcmLmjaQ7Re4q0cQ0LeOMwp+jocy5DNEy9qk6vrZE6zqLM
+         2rME/p7YSN4qKVPYSA1I6cHqXKwUtry4sZNbZC7FeokniS/6Qom0/cyMFX5CkmMj7lVe
+         uc1A==
+X-Forwarded-Encrypted: i=1; AJvYcCWDzKomL5+B58W1Gq5ap1NhL/qbffyCOuU+Cmjd51haxEVBxtuHG2/GpEK1zDbBMGEE7ebwZfJU6dVPlmkb@vger.kernel.org, AJvYcCWJNa0P5AJ9v68Sq9kmW8nopdm03ptf5jwB9Kz10ipNSbXW4Eto65vVnYx9kjMpYmszrRdueKG0SlA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/QshsY/JXovlFkPnRefmRnKED7SBlIwUXL1y7REy0iDGxx3wb
+	ZIoOpvb9KP+0TOcGtLmzgyc+0pqC3Mc2c7n4KRUSL/Y3VHglRulzQ60F
+X-Gm-Gg: ASbGncvVEyrQF8uX2FhNME52SA3AdR5wCHRJvYlFYTKlaw1Zvqv1WhJ0j7RkCCdzAx4
+	2R3242i9DGYXGi87ZaLQEWCbDRpHp2CPcz9+XnkCQsfFR0IYaeo15gIiLXiCojS2kH4+y7aruzj
+	HyySCfp0uih72ApKxTJiZyMJg3HRIKYYZia5ZDIDysoNNpMTZhM/iiKdnlU4TCJu56bNEB62B1r
+	Gbc5KZQZBo9+y4rm7DrVFTulbMaXGr+zKQlFAWc7WpO0KAh5mM9sCQSUKLOe7equWhGGxOR9zT5
+	hJrMuy3uWIvh5nc1hRRq9+LTFSnDtC13pixdekQdjz1wkQ+0m1v9zFDlzACU+apcyBfl2V6RnPo
+	=
+X-Google-Smtp-Source: AGHT+IEF5fattogvax5kob4VN55wmQfM65/bVQ74yFaRHd7Gk2rpdUBuYA2r6FYpXtk6hWnOBGZqww==
+X-Received: by 2002:a17:90b:4b43:b0:312:29e:9ed5 with SMTP id 98e67ed59e1d1-31c20e59333mr265155a91.23.1751907954241;
+        Mon, 07 Jul 2025 10:05:54 -0700 (PDT)
 Received: from [10.0.0.86] ([122.172.85.55])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8459c6e5sm94885855ad.227.2025.07.07.10.02.29
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31a9f17bc5bsm11683652a91.48.2025.07.07.10.05.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 10:02:32 -0700 (PDT)
-Message-ID: <2529b1e4-390f-4459-b7f4-82a9cd005da3@gmail.com>
-Date: Mon, 7 Jul 2025 22:32:22 +0530
+        Mon, 07 Jul 2025 10:05:53 -0700 (PDT)
+Message-ID: <c7296a36-0bdd-464d-a681-517c814afed7@gmail.com>
+Date: Mon, 7 Jul 2025 22:35:44 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,93 +67,67 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm: panel: Replace usage of deprecated MIPI macro
+Subject: Re: [PATCH 3/3] drm: docs: Remove completed task from drm TODO list
 To: Brigham Campbell <me@brighamcampbell.com>, dianders@chromium.org,
  skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ linux-kernel@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>
 References: <20250707075659.75810-1-me@brighamcampbell.com>
- <20250707075659.75810-2-me@brighamcampbell.com>
+ <20250707075659.75810-4-me@brighamcampbell.com>
 Content-Language: en-US
 From: Tejas Vipin <tejasvipin76@gmail.com>
-In-Reply-To: <20250707075659.75810-2-me@brighamcampbell.com>
+In-Reply-To: <20250707075659.75810-4-me@brighamcampbell.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 7/7/25 1:26 PM, Brigham Campbell wrote:
-> Replace all usages of the deprecated mipi_dsi_generic_write_seq() with
-> mipi_dsi_generic_write_seq_multi().
-> 
-> This patch's usage of the mipi_dsi_multi_context struct is not
-> idiomatic. Rightfully, the struct wasn't designed to cater to the needs
-> of panels with multiple MIPI DSI interfaces. This panel is an oddity
-> which requires swapping the dsi pointer between calls to
-> mipi_dsi_generic_write_seq_multi() in order to preserve the exact
-> behavior implemented using the non-multi variant of the macro.
+> Remove TODO item from drm documentation to transition away from using
+> mipi_dsi_*_write_seq() macros now that the work is complete.
 > 
 > Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 > ---
->  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
+>  Documentation/gpu/todo.rst | 18 ------------------
+>  1 file changed, 18 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> index 5b5082efb282..777a8ab3a397 100644
-> --- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> @@ -161,29 +161,35 @@ static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index be8637da3fe9..76afb8a784e3 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -497,24 +497,6 @@ Contact: Douglas Anderson <dianders@chromium.org>
 >  
->  static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
->  {
-> +	struct mipi_dsi_multi_context dsi_ctx;
-> +
->  	/* Clear the manufacturer command access protection */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
-> +	dsi_ctx.dsi = jdi->link1;
-> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_CMD_ACS_PROT,
->  				   MCS_CMD_ACS_PROT_OFF);
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
-> +	dsi_ctx.dsi = jdi->link2;
-> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_CMD_ACS_PROT,
->  				   MCS_CMD_ACS_PROT_OFF);
->  	/*
-> -	 * Change the VGH/VGL divide rations to move the noise generated by the
-> +	 * Change the VGH/VGL divide ratios to move the noise generated by the
->  	 * TCONN. This should hopefully avoid interaction with the backlight
->  	 * controller.
->  	 */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
-> +	dsi_ctx.dsi = jdi->link1;
-> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_PWR_CTRL_FUNC,
->  				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
->  				   MCS_PWR_CTRL_PARAM1_DEFAULT,
->  				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
->  				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+>  Level: Intermediate
 >  
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
-> +	dsi_ctx.dsi = jdi->link2;
-> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MCS_PWR_CTRL_FUNC,
->  				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
->  				   MCS_PWR_CTRL_PARAM1_DEFAULT,
->  				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
->  				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+> -Transition away from using mipi_dsi_*_write_seq()
+> --------------------------------------------------
+> -
+> -The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
+> -non-intuitive because, if there are errors, they return out of the *caller's*
+> -function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
+> -and mipi_dsi_dcs_write_seq_multi() macros instead.
+> -
+> -Once all callers are transitioned, the macros and the functions that they call,
+> -mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
+> -probably be removed. Alternatively, if people feel like the _multi() variants
+> -are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
+> -variants but change them not to return out of the caller.
+> -
+> -Contact: Douglas Anderson <dianders@chromium.org>
+> -
+> -Level: Starter
+> -
+>  Remove devm_drm_put_bridge()
+>  ----------------------------
 >  
-> -	return 0;
-> +	return dsi_ctx.accum_err;
->  }
->  
->  static int jdi_panel_prepare(struct drm_panel *panel)
 
-There's a lot more functions that should be replaced in this panel. You
-can get a good idea of which ones by looking for the keyword
-"deprecated" in drm_mipi_dsi.c . Here's a good reference for what a
-conversion patch usually looks like:
-https://lore.kernel.org/all/20250319183106.12613-1-tejasvipin76@gmail.com/
+Personally I think there's merit in keeping this TODO around until all
+the other mipi_dsi functions are transitioned as well and removed
+entirely. Maybe rewording it to reflect this could be better?
 
 -- 
 Tejas Vipin
