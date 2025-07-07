@@ -1,107 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BF627F019;
-	Mon,  7 Jul 2025 07:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF998286892
+	for <linux-doc@vger.kernel.org>; Mon,  7 Jul 2025 07:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751872901; cv=none; b=Ez4tstii6c17HkEb9B8I7CNfNTSX2EgylOg8VnvrBVazoZByHS1bCJhFlDkpGhta92H17nVyqd4P7Gp00EKD67El55Xz1P7cNJkPtd6if77J2/xXGfHXyBshRKrpiqLAjRZu5driodw+sGmE3OfKm3hZbPWqJ984dAAW1w/c3XU=
+	t=1751873130; cv=none; b=txyyJQcle1GnMoseSSa/KBEWyp/swnqqhUJGssi/w4ZVPaVjMt1ppvBsGFmtSDBJeOaT5bJOK5kJX4nsBeF0YLnJ1q2ziOqZbVdgtC2KX3cWYCBX1ZM+w0bjxhSwgBWHk5F0OnHULXclbzCNh621REr8Zly2d8CN55XKUNk90/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751872901; c=relaxed/simple;
-	bh=Tqrxaf8t756E8EVWDsGNzCk1d4o7iofq8FADaSeASks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c6eKDJ2L2KptYj4tvrsWJbb23kVGnT7w3Ly+hrHAYTZreLEdrlGctjAq7tfj1qwEtdROkElzvh1HTnbru+bo0+XmU0iXJV46zDDtnZT1aMnDK1uMV8LUXXjpnn11DMBgjr9or8nivLoMQ//N1eRVdMveJ6H1lyseJkzLEHmSXqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XJitShrA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751873130; c=relaxed/simple;
+	bh=2Bu7iprcuJdtoQaWcgFgAUyLqTmMraA0+hnWwiXhNaE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=keEyv5QIx/JXsZaoHvhWmb1jD5Cd/2zKbU0qkXE1Ey+2vXAlAnM8kasDT8am1b9fys5ugS0Fv6om6JrTq82hJbI0Jy7Hhi8xV1iX292iHhB7lLks7U3ypMQgMODFSq/Dy7Ae3QyKPgcgLaxsJ06CbrEFgZqxZgKNe06DlmLdzHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=Xk/26VLz; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XJitShrA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89757C4CEE3;
-	Mon,  7 Jul 2025 07:21:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751872901;
-	bh=Tqrxaf8t756E8EVWDsGNzCk1d4o7iofq8FADaSeASks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XJitShrAZtSYAU7TL0LPjb6yKeGuWJS8qyRPiD5ntRiocMfbqualW+a8wp0KJ8Y50
-	 zju/7VfmkBXOMXu3LugmJonPg8ya+dmLeYZ6UFVfWKN/mnrdWpMlggQvJRYMHi7+2V
-	 EB/93l6iQTmYEfjalcvIwi+gA0tn+VoBpfXqe1A5odSoaExTVzJ5MLrdSqVChZhZDf
-	 P1Igz8hz+dy5q8/GrR1WLRmkfd0Ljtk9Mr35cg/jOrrjNRqPv1jCG0XVim/ktvfXc+
-	 1+Z5TgYjEBT9tncovWuWW1V8aO0EnfRkWx8zX2X1pWydAxhMjl9urGnjkE21Ixg1fz
-	 UhLE++1rh0QNg==
-Date: Mon, 7 Jul 2025 10:21:37 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Abhijit Gangurde <abhijit.gangurde@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, shannon.nelson@amd.com,
-	brett.creeley@amd.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-	andrew+netdev@lunn.ch, allen.hubbe@amd.com, nikhil.agarwal@amd.com,
-	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andrew Boyer <andrew.boyer@amd.com>
-Subject: Re: [PATCH v3 10/14] RDMA/ionic: Register device ops for control path
-Message-ID: <20250707072137.GU6278@unreal>
-References: <20250624121315.739049-1-abhijit.gangurde@amd.com>
- <20250624121315.739049-11-abhijit.gangurde@amd.com>
- <20250701103844.GB118736@unreal>
- <20250702131803.GB904431@ziepe.ca>
- <20250702180007.GK6278@unreal>
- <bb0ac425-2f01-b8c7-2fd7-4ecf9e9ef8b1@amd.com>
- <20250704170807.GO6278@unreal>
- <15b773a4-424b-4aa9-2aa4-457fbbee8ec7@amd.com>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Xk/26VLz"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-553be4d2fbfso3081570e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Jul 2025 00:25:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1751873127; x=1752477927; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Bu7iprcuJdtoQaWcgFgAUyLqTmMraA0+hnWwiXhNaE=;
+        b=Xk/26VLzKDepa7V5slyh0vM9NikcSij8aUq3BscvsdGSQfTL1lX82OYH+ULDFWV/kM
+         +Wui+Z6RcPZa9Du9/U2PG7qSfxUy4Tq4DnY8VwlQn0TpKL1d3fGeyzFAQGDJSzVA2MtY
+         CyEfUobQzeQyLnRz2WX6JtUkYSpB3v3yNdbB/QTJTiiqtNmypuWuHRFVgajLeJqd09el
+         YMN1V8lr4K/ggGEw8bUfRM8MMIhn+iuCr7TnZWivg6EAH32cIkm+GrxSfinlVoZd3e6i
+         gP19nfMjJMLxbdT0SnpW+HN7w/t1y1zkgUMrPpTbTdkR7oDpOIgSkCVsQZISD62Xj6HJ
+         lPbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751873127; x=1752477927;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2Bu7iprcuJdtoQaWcgFgAUyLqTmMraA0+hnWwiXhNaE=;
+        b=G6Gcx2/HlaqAvTPoEnuyGxMZsOxJhwmOCwLGx+evH9UYyOHPhHMZytIa53s/pK0wvk
+         JkQF97p2TAKqh/xSlcnlB+SuTq5FdN6HVVgZHVJehKChaEa6+5Y6bWls6VIjrsJmFhdo
+         iuuQijxPrSkSxFBtIXCW254MT8AIjbVMMlZnAM+sYr+SSPAxOfUGyGZzMp7Miqh73RJf
+         tKpWNS3N4B8gnf+77ZMkfQGhwRgHorikTMUfl1BqKa7L8P/FIqclPItZg9vtGv8++AkH
+         cOrawv68zl17mKS7JDW3k9Kj8IytQRrnUmMqa40uwYNvPUyfld8ndprlFnGR+r4EQaVk
+         z5Wg==
+X-Forwarded-Encrypted: i=1; AJvYcCUiAU6JBYv+81Tuxtl/iqoVjwFSDeXnMA7UxrA1ByXAAp+sfNcv8b69C60xbRVpwK7aBSugQQeKOIY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8XnGsd4NYxlXklYhavNrJ/ZUrX+x+l9DFvpnW0Z704oRb2TJv
+	3h0dwShSCXdQfCkYW1Slg1SyOUOByb+OQyle58eZxoGk0Qx0l7vWPq/eXH3pIgS2+Z8H+CGFGJG
+	RX/nqpRaJjhZjMQ46uFzaBn0wOLHxMRxaeeJr9jeS0g==
+X-Gm-Gg: ASbGncvv1lPVV2GmjDlBVP4/SMhKtE5xbr18Af/T4gaNszQh6W7gY5dEAkVTuWI8bn0
+	r1x/MrMT2QhTH3YSv+H4JaZRKg9BMdT0qQpHPljAX0h0m/Nvs1HKhWEEm6McEd03WknHScBl+Xl
+	H8moThGl0TbGBVyS6JcEFiwtVR4jdEJjyGLsU9AVkF5BflXJLrBhXO7pM239FgVNmRcqtXaY61G
+	dQ=
+X-Google-Smtp-Source: AGHT+IG328qUNrN5U/Zp0A0VnQQsBfGC8lPGfFuSftcauCLQweyDW09LAJcmHXaDhqB6NtCosFbIHR2f30xy+SxqK5o=
+X-Received: by 2002:a05:6512:138a:b0:553:35ad:2f2d with SMTP id
+ 2adb3069b0e04-557a19df4a3mr2772272e87.18.1751873126739; Mon, 07 Jul 2025
+ 00:25:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15b773a4-424b-4aa9-2aa4-457fbbee8ec7@amd.com>
+References: <20250630130358.40352-1-brgl@bgdev.pl>
+In-Reply-To: <20250630130358.40352-1-brgl@bgdev.pl>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 7 Jul 2025 09:25:15 +0200
+X-Gm-Features: Ac12FXxg7IsQMRpqGn1bjOp8mqIE5ekA-5MUmfkQKNbozl-9XBliHzx4lWvRABA
+Message-ID: <CAMRc=MeDAAC-vLfriDtbMn9tnikyXjAm9rZGOTAc2j9mauD4jQ@mail.gmail.com>
+Subject: Re: [PATCH] gpio: sim: allow to mark simulated lines as invalid
+To: Kent Gibson <warthog618@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 07, 2025 at 10:57:13AM +0530, Abhijit Gangurde wrote:
-> 
-> On 7/4/25 22:38, Leon Romanovsky wrote:
-> > On Thu, Jul 03, 2025 at 12:49:30PM +0530, Abhijit Gangurde wrote:
-> > > On 7/2/25 23:30, Leon Romanovsky wrote:
-> > > > On Wed, Jul 02, 2025 at 10:18:03AM -0300, Jason Gunthorpe wrote:
-> > > > > On Tue, Jul 01, 2025 at 01:38:44PM +0300, Leon Romanovsky wrote:
-> > > > > > > +static void ionic_flush_qs(struct ionic_ibdev *dev)
-> > > > > > > +{
-> > > > > > > +	struct ionic_qp *qp, *qp_tmp;
-> > > > > > > +	struct ionic_cq *cq, *cq_tmp;
-> > > > > > > +	LIST_HEAD(flush_list);
-> > > > > > > +	unsigned long index;
-> > > > > > > +
-> > > > > > > +	/* Flush qp send and recv */
-> > > > > > > +	rcu_read_lock();
-> > > > > > > +	xa_for_each(&dev->qp_tbl, index, qp) {
-> > > > > > > +		kref_get(&qp->qp_kref);
-> > > > > > > +		list_add_tail(&qp->ibkill_flush_ent, &flush_list);
-> > > > > > > +	}
-> > > > > > > +	rcu_read_unlock();
-> > > > > > Same question as for CQ. What does RCU lock protect here?
-> > > > > It should protect the kref_get against free of qp. The qp memory must
-> > > > > be RCU freed.
-> > > > I'm not sure that this was intension here. Let's wait for an answer from the author.
-> > > As Jason mentioned, It was intended to protect the kref_get against free of
-> > > cq and qp
-> > > in the destroy path.
-> > How is it possible? IB/core is supposed to protect from accessing verbs
-> > resources post their release/destroy.
-> > 
-> > After you answered what RCU is protecting, I don't see why you would
-> > have custom kref over QP/CQ/e.t.c objects.
-> > 
-> > Thanks
-> The RCU protected kref here is making sure that all the hw events are
-> processed before destroy callback returns. Similarly, when driver is
-> going for ib_unregister_device, it is draining the pending WRs and events.
+On Mon, Jun 30, 2025 at 3:04=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
+>
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> Add a new line-level, boolean property to the gpio-sim configfs
+> interface called 'valid'. It's set by default and the user can unset it
+> to make the line be included in the standard `gpio-reserved-ranges`
+> property when the chip is registered with GPIO core. This allows users
+> to specify which lines should not be available for requesting as GPIOs.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> ---
 
-I asked why do you have kref in first place? When ib_unregister_device
-is called all "pending MR" already supposed to be destroyed.
+If there are no objections, I'll pick it up by the end of this week,
+I'd like to add some tests to libgpiod that verify the valid_mask
+functionality but need this first in the kernel.
 
-Thansk
-
-> 
-> Thanks,
-> Abhijit
-> 
-> 
+Bart
