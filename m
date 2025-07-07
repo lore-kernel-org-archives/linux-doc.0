@@ -1,133 +1,137 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF78253B58;
-	Mon,  7 Jul 2025 17:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD9221FF46;
+	Mon,  7 Jul 2025 17:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751907956; cv=none; b=cD+o96XffsHS4+ejlwOoq41EmV/fpd9Mz9e1IRfrQFhkLzQC1c6KQV9O4dTQM8rx2Rk3F/xU3UkoEomXzQN34nuPrgKt7OjuJ1jlnHDoY/fjd5zgvs8NZzQc4wS0TuzmuvPwsPeREZvPc/CJvFnoXB8a0IdMFYBVuube1BoVVGM=
+	t=1751909545; cv=none; b=lI6BLgJPxxDNha8+LwgKfCk7zfTkY44s/JGbbEWsdRDDcW2W1UhCV2PC6J+ebi1YqQMFb/OcgvvHsBvbpSdT7c85W+/CtGzddIcZz3R4WzZuepk0FHLKYGTtAhZeBYeM+R1Jg4kG1/F/caZ2UlEYC1L0SrWC8NnGGqBghQUwvWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751907956; c=relaxed/simple;
-	bh=PY+mw4mTUhq/6RadpdMRqZgmrB8wZ5jm+Z1Dkpgo29Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=j7jkHLN+0SGGz8QyHLk6e3wsq3seWAqw2fQcavuCrorPVF7WZd2Q529QJKsqNkenJQ1dhO9Utd1wMN+qazgubr0eYPG1P4bcCvB9Rq2VOVKjSA+lCSy2ZXiUtypWqcu4BXl8vSy7+0PuFWXmLHzZDNQ0+Sy//Bu0oS68TJSct7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lbrGxHAG; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751909545; c=relaxed/simple;
+	bh=WVJM3SZSm3oQSvOHm5Mfdm6shiB97KhB2K1EJcyPlbo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BVBYNje2MSN6nZ27ISEHaEG+Zl/CTQpYddOQL3FDFiJ6n+gzaE9hL5IDLCCyIzMuBMqF1dow5bAl4WyMRqbCoGom52r/Bl73pXnTvqxcU/AMPc16A+y7TPj8CtovKl9oGibItVwA+iF4pl49zVlYL7v4DTDWOGFMzyVZRxrsjWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TOGbFC3j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lbrGxHAG"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3137c2021a0so2761413a91.3;
-        Mon, 07 Jul 2025 10:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751907954; x=1752512754; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TpMdXzDnCfdN/GalFwfGmK2Pny6VW2Rxcn9/iXdWGFw=;
-        b=lbrGxHAGaSV5fsR+2Q3fCX8wlID0lMC68OpJYdZCd0MqwdOnAyAbvYjEhvse1+Ig3r
-         tJ7QqjdI8kY7KvSnV83YSi6Ks4L+xW8bLmcFcLnt1Mi9cZFvRU22F45E3OKen2jwzEfl
-         +4DkzM73G9HDWFXUK4PhX3oruVXPaPxB+KHgLjsGJxveberQivKXChSOfJ1Hkid2MpfC
-         MG3yYGuiBrwBF+amDm6LMaH9vK8Kr5Zi2y+7pG0DJIt2rsla5T96qNTknb3Jyxmuu+DL
-         sgEK/ZekbuFM6nmfZBdaf7W74ifDP9ImVqYTKM9xt/wn+Kxg8xbMddzHsNsgz8cYK8kE
-         R+7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751907954; x=1752512754;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TpMdXzDnCfdN/GalFwfGmK2Pny6VW2Rxcn9/iXdWGFw=;
-        b=ZX2XgjrW6G6xSPs9IRH68ZpyjUjF0DqEI1gjoD82QX8XmkdWSE+2pH7RRPPVEQWlXp
-         +Omlo5Z0xOHULAQT5TFjFEmG+OAkp0vb6K/e/9DN18n7rqWFTpKsQZ+S/X+/OCrOAPnn
-         50J9+NdrwYgiRRKofPk+XcGlGs6nfR81sc62cKW1bbPAQ8cp2jZg3UqUPqEOyWuvSsr9
-         Ufo4pHls+/8kUIxF8xA/Z+UcmLmjaQ7Re4q0cQ0LeOMwp+jocy5DNEy9qk6vrZE6zqLM
-         2rME/p7YSN4qKVPYSA1I6cHqXKwUtry4sZNbZC7FeokniS/6Qom0/cyMFX5CkmMj7lVe
-         uc1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWDzKomL5+B58W1Gq5ap1NhL/qbffyCOuU+Cmjd51haxEVBxtuHG2/GpEK1zDbBMGEE7ebwZfJU6dVPlmkb@vger.kernel.org, AJvYcCWJNa0P5AJ9v68Sq9kmW8nopdm03ptf5jwB9Kz10ipNSbXW4Eto65vVnYx9kjMpYmszrRdueKG0SlA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/QshsY/JXovlFkPnRefmRnKED7SBlIwUXL1y7REy0iDGxx3wb
-	ZIoOpvb9KP+0TOcGtLmzgyc+0pqC3Mc2c7n4KRUSL/Y3VHglRulzQ60F
-X-Gm-Gg: ASbGncvVEyrQF8uX2FhNME52SA3AdR5wCHRJvYlFYTKlaw1Zvqv1WhJ0j7RkCCdzAx4
-	2R3242i9DGYXGi87ZaLQEWCbDRpHp2CPcz9+XnkCQsfFR0IYaeo15gIiLXiCojS2kH4+y7aruzj
-	HyySCfp0uih72ApKxTJiZyMJg3HRIKYYZia5ZDIDysoNNpMTZhM/iiKdnlU4TCJu56bNEB62B1r
-	Gbc5KZQZBo9+y4rm7DrVFTulbMaXGr+zKQlFAWc7WpO0KAh5mM9sCQSUKLOe7equWhGGxOR9zT5
-	hJrMuy3uWIvh5nc1hRRq9+LTFSnDtC13pixdekQdjz1wkQ+0m1v9zFDlzACU+apcyBfl2V6RnPo
-	=
-X-Google-Smtp-Source: AGHT+IEF5fattogvax5kob4VN55wmQfM65/bVQ74yFaRHd7Gk2rpdUBuYA2r6FYpXtk6hWnOBGZqww==
-X-Received: by 2002:a17:90b:4b43:b0:312:29e:9ed5 with SMTP id 98e67ed59e1d1-31c20e59333mr265155a91.23.1751907954241;
-        Mon, 07 Jul 2025 10:05:54 -0700 (PDT)
-Received: from [10.0.0.86] ([122.172.85.55])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31a9f17bc5bsm11683652a91.48.2025.07.07.10.05.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 10:05:53 -0700 (PDT)
-Message-ID: <c7296a36-0bdd-464d-a681-517c814afed7@gmail.com>
-Date: Mon, 7 Jul 2025 22:35:44 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TOGbFC3j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08608C4CEE3;
+	Mon,  7 Jul 2025 17:32:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751909545;
+	bh=WVJM3SZSm3oQSvOHm5Mfdm6shiB97KhB2K1EJcyPlbo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TOGbFC3ja6kH0v9HVh6u72McOgfluLSdOzEl0TSfObx4qj05LTIsPZp1YlFp2d/KG
+	 jcTh6/TPj2VgfH9UGVMW6K6F49OGVGdMj5DwDN3M35DFbdPHkdwuTBEr+71QgI3QU+
+	 C5vqjR/EQXTveC357KTHMSU71XAs1IhWyXz8GmlfXVqeLtICIFll0Tq7M0SDuVYKFP
+	 M6DERATRLZxQAFTwmNEta7o/v3ZVuPFxv+4odjv9O9cGxAkvPPRhphawIC4Y3mvNWT
+	 nIS+i970xaZT9HLpaJR/52GJ7VN7wxQ3nsDnG8QJqGrnaFxTMtkk49iKldeDEqzm/h
+	 49110wloNqfGQ==
+Date: Mon, 7 Jul 2025 10:32:24 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: John Groves <John@groves.net>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Bernd Schubert <bschubert@ddn.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC V2 10/18] famfs_fuse: Basic fuse kernel ABI enablement for
+ famfs
+Message-ID: <20250707173224.GB2672029@frogsfrogsfrogs>
+References: <20250703185032.46568-1-john@groves.net>
+ <20250703185032.46568-11-john@groves.net>
+ <aimijj4mxtklldc3w6xpuwaaneoa7ekv5cnjj7rva3xmzoslgx@x4cwlmwb7dpm>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm: docs: Remove completed task from drm TODO list
-To: Brigham Campbell <me@brighamcampbell.com>, dianders@chromium.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>
-References: <20250707075659.75810-1-me@brighamcampbell.com>
- <20250707075659.75810-4-me@brighamcampbell.com>
-Content-Language: en-US
-From: Tejas Vipin <tejasvipin76@gmail.com>
-In-Reply-To: <20250707075659.75810-4-me@brighamcampbell.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aimijj4mxtklldc3w6xpuwaaneoa7ekv5cnjj7rva3xmzoslgx@x4cwlmwb7dpm>
 
-Hi,
-
-On 7/7/25 1:26 PM, Brigham Campbell wrote:
-> Remove TODO item from drm documentation to transition away from using
-> mipi_dsi_*_write_seq() macros now that the work is complete.
+On Thu, Jul 03, 2025 at 05:45:48PM -0500, John Groves wrote:
+> On 25/07/03 01:50PM, John Groves wrote:
+> > * FUSE_DAX_FMAP flag in INIT request/reply
+> > 
+> > * fuse_conn->famfs_iomap (enable famfs-mapped files) to denote a
+> >   famfs-enabled connection
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  fs/fuse/fuse_i.h          |  3 +++
+> >  fs/fuse/inode.c           | 14 ++++++++++++++
+> >  include/uapi/linux/fuse.h |  4 ++++
+> >  3 files changed, 21 insertions(+)
+> > 
+> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > index 9d87ac48d724..a592c1002861 100644
+> > --- a/fs/fuse/fuse_i.h
+> > +++ b/fs/fuse/fuse_i.h
+> > @@ -873,6 +873,9 @@ struct fuse_conn {
+> >  	/* Use io_uring for communication */
+> >  	unsigned int io_uring;
+> >  
+> > +	/* dev_dax_iomap support for famfs */
+> > +	unsigned int famfs_iomap:1;
+> > +
+> >  	/** Maximum stack depth for passthrough backing files */
+> >  	int max_stack_depth;
+> >  
+> > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> > index 29147657a99f..e48e11c3f9f3 100644
+> > --- a/fs/fuse/inode.c
+> > +++ b/fs/fuse/inode.c
+> > @@ -1392,6 +1392,18 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
+> >  			}
+> >  			if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled())
+> >  				fc->io_uring = 1;
+> > +			if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&
+> > +			    flags & FUSE_DAX_FMAP) {
+> > +				/* XXX: Should also check that fuse server
+> > +				 * has CAP_SYS_RAWIO and/or CAP_SYS_ADMIN,
+> > +				 * since it is directing the kernel to access
+> > +				 * dax memory directly - but this function
+> > +				 * appears not to be called in fuse server
+> > +				 * process context (b/c even if it drops
+> > +				 * those capabilities, they are held here).
+> > +				 */
+> > +				fc->famfs_iomap = 1;
 > 
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->  Documentation/gpu/todo.rst | 18 ------------------
->  1 file changed, 18 deletions(-)
+> I think there should be a check here that the fuse server is 
+> capable(CAP_SYS_RAWIO) (or maybe CAP_SYS_ADMIN), but this function doesn't 
+> run in fuse server context. A famfs fuse server is providing fmaps, which 
+> map files to devdax memory, which should not be an unprivileged operation.
+
+I thought process_init_reply /does/ run in the fuse server's context.
+It calls process_init_limits, which checks for capable(CAP_SYS_ADMIN)...
+
+--D
+
+> 1) Does fs/fuse already store the capabilities of the fuse server?
+> 2) If not, where do you suggest I do that, and where do you suggest I store
+> that info? The only dead-obvious place (to me) that fs/fuse runs in server
+> context is in fuse_dev_open(), but it doesn't store anything...
 > 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index be8637da3fe9..76afb8a784e3 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -497,24 +497,6 @@ Contact: Douglas Anderson <dianders@chromium.org>
->  
->  Level: Intermediate
->  
-> -Transition away from using mipi_dsi_*_write_seq()
-> --------------------------------------------------
-> -
-> -The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
-> -non-intuitive because, if there are errors, they return out of the *caller's*
-> -function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
-> -and mipi_dsi_dcs_write_seq_multi() macros instead.
-> -
-> -Once all callers are transitioned, the macros and the functions that they call,
-> -mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
-> -probably be removed. Alternatively, if people feel like the _multi() variants
-> -are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
-> -variants but change them not to return out of the caller.
-> -
-> -Contact: Douglas Anderson <dianders@chromium.org>
-> -
-> -Level: Starter
-> -
->  Remove devm_drm_put_bridge()
->  ----------------------------
->  
-
-Personally I think there's merit in keeping this TODO around until all
-the other mipi_dsi functions are transitioned as well and removed
-entirely. Maybe rewording it to reflect this could be better?
-
--- 
-Tejas Vipin
+> @Miklos, I'd appreciate your advice here.
+> 
+> Thanks!
+> John
+> 
+> 
