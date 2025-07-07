@@ -1,310 +1,134 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344D186323;
-	Mon,  7 Jul 2025 15:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751902663; cv=fail; b=MR2HPzyhntoew6ducBZ5VLtRboQxIVgfRkra2qfU7l/Xy4OXyPLNar1g0T789ej0LcfpX7n9JYyX58w0zkvoumTtJTqVXuKxIhyxq7XqPtkxacoe+seo9PeUxAC7MdWV+KXv8EBqzz1gyvlfe3XZi4ZLqpMfGe4Ytqqd9d4yzdY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751902663; c=relaxed/simple;
-	bh=UB8Dpr54pxdF7uwvTVMYRlAfftiyeac5yOTLo7gs1bM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EhNYKP8eL9472Rl1j4jc0W6hlyMJrzXWANuTqr0gZfr/XUrxMRIMq8Y0/necx1HrQIRP0jUJcihTGnH2a+cEUZvQAu4xonZmuAgIrWYRmamEk2tY/l2vovE+wEbMU7pwUfwC0hhy91Fqjg0D4UpueQGjI7qunv17D8TlaSk4BDc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=V2cqb3NY; arc=fail smtp.client-ip=40.107.92.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0C81D5145;
+	Mon,  7 Jul 2025 15:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751903840; cv=none; b=SzbX9He15/a+xOk5pkVHWiqxLRei2fYq605qIa8ncW0iFnMppN8dVT64qZ+Sy5jIDSFcmSIjwwmP21zGqtibIzLaOqjWdiK/vFOLLfYqw+adqyiw97DKpdyEBsCVKf82S4XmYTOYTWwIxsHVwhOO5RfXGPDsfkAi7zyJNq/k2/I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751903840; c=relaxed/simple;
+	bh=cOPqcxIf5X1X2HD8wmgQa984+uwttfeDa/9MRlym0cc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l7rLN7J6xTHJdpSwfwRtBeFEL509s7eGXNGJyy65Fo5vId++Pr3PHVU/54dtzXIZ+mhZDooW6S9zrhZnSph6mewcQglUPJRtmn5fAVeaGy+Q8Sb3CFWLZZ78mZcRRqHt6ImqQmjQhAbkFrNQJXlyQF0N3t04yTpRg1U93WLDJ5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mknh5w67; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="V2cqb3NY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=THq65gjvs7jBvvSGYlap7DezLjmq4w4v0ppHx9V1xui7JD59zF7eIiOx8dNyOn/ZfUSjE7676UX6IlqL7lv0P3/dVsral9TFxE141H0O+p/NGuUj98pr3QKtN+daOnsPw89865uo1bMWZlRNc3789eVv23+KqK5gaxGbXJ0geEBqV7Ww+IxhzJ0VSY/ySATMOTZML8962BC8vSs9Mw5Ejjjwzi4XDcZxqpz0u/YjfY+mYCNoMYTOPXhsHfjFLvVf1U45xFqc112upQGTMRSra+TXLI6mD39XIlkiLaittZcSBsqh41LuzOTjsEGnRT/xbi4PgfUxQHPWx8MUiQNNrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xAdQUfAUvIR4SyVxPAdRmotDXe0Q4TlfNX5f2yjT/Js=;
- b=v/gMlxmSqIJCmNRBWX9kS3yekztC7DOn+9N+OVNtiZEY2y5CtOeg7tTqXrKmtvq/HL7BiqQU7lTFrnys88R/lvJfhwTzM8QA5hKLfB8MKA34W2Gu0+XYEyiF6Q2jE9M6qr0yj+9jISkU4OGVLV2JhE3XDvnK73WLWr5Yv7KmsH5u8B3d3zc6PijaxQtAjIO2/RyKxXOkiYnzAP5LvoS8swHOA2N6K90DxkGe8yZZ9C+kSgIDxTYkSRGW/KTdzX1rIYtY1t0M0jHGugZyyhGVGlpdVfqi5VR904oGGSo7oRBQ376omLdM93saNRMAIXd9fs8uH0KfIN4Ed3LBYjlE9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xAdQUfAUvIR4SyVxPAdRmotDXe0Q4TlfNX5f2yjT/Js=;
- b=V2cqb3NYyP+rCG0qWuwKCoADCmvhTybw7IGXWnaKpOTswfS9uO7OfrswaHMBcj6pBQOf2sB4qOomov9Ssz5z2b2FHy8lBWx58BXKf8UhQRu22gwodnR/7GO/uvRtYOTFk0tPTWIv1/ZMPjO0bJB23HMjIpM302bVdQ3Q4SfnY/4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5070.namprd12.prod.outlook.com (2603:10b6:5:389::22)
- by MN0PR12MB5929.namprd12.prod.outlook.com (2603:10b6:208:37c::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Mon, 7 Jul
- 2025 15:37:29 +0000
-Received: from DM4PR12MB5070.namprd12.prod.outlook.com
- ([fe80::20a9:919e:fd6b:5a6e]) by DM4PR12MB5070.namprd12.prod.outlook.com
- ([fe80::20a9:919e:fd6b:5a6e%7]) with mapi id 15.20.8901.023; Mon, 7 Jul 2025
- 15:37:28 +0000
-Message-ID: <cd7479be-c65f-054b-7ef9-a0f6a73d67cd@amd.com>
-Date: Mon, 7 Jul 2025 10:37:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v5 2/7] crypto: ccp - Cache SEV platform status and
- platform state
-Content-Language: en-US
-To: Ashish Kalra <Ashish.Kalra@amd.com>, corbet@lwn.net, seanjc@google.com,
- pbonzini@redhat.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- john.allen@amd.com, herbert@gondor.apana.org.au, davem@davemloft.net,
- akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org
-Cc: nikunj@amd.com, Neeraj.Upadhyay@amd.com, aik@amd.com, ardb@kernel.org,
- michael.roth@amd.com, arnd@arndb.de, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org
-References: <cover.1751397223.git.ashish.kalra@amd.com>
- <69f95a382a6b5a6fb568aeba39b7c937fe552ed4.1751397223.git.ashish.kalra@amd.com>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <69f95a382a6b5a6fb568aeba39b7c937fe552ed4.1751397223.git.ashish.kalra@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0501CA0114.namprd05.prod.outlook.com
- (2603:10b6:803:42::31) To DM4PR12MB5070.namprd12.prod.outlook.com
- (2603:10b6:5:389::22)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mknh5w67"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2091C4CEF4;
+	Mon,  7 Jul 2025 15:57:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751903839;
+	bh=cOPqcxIf5X1X2HD8wmgQa984+uwttfeDa/9MRlym0cc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Mknh5w67+oZcvYnxfTf5SObhpeuygcV7+wQz5THrA095mP+3YluTKI25/pX/5q7md
+	 xuS3Dtw4Itai3fUbwgqBdG58BnqHNU+JrduGTPp4lf5eDfCaBb71WZbJJx6x4EzQPq
+	 fbGVoqBexCC8dpSY+SNzDZGxYBOt1j4s1HA4iPykrdk+V6wW4npZqMi5vSaMuL2r0r
+	 rDByPDjxeZ9xDGVOyexH93aEtOFtbal35NL0LYFZvnR/chJYTL4xdPCTldNi7Y9R3G
+	 w2aGrnLdc/+FYZZzESNhltUKMTtiFQhGVn7Uak8e1zEIzblSNciqmosLm4sADWhFIF
+	 tjgy7FxVeXzaA==
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ae36e88a5daso686256266b.1;
+        Mon, 07 Jul 2025 08:57:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCULJKOeMxwDV2boJGDHKEjDSe9O1aVV8gFCLbHcELkcEv4s2l64s2Hq7q4SsMo9kiiBjRwvl7xdVCj0JS6H@vger.kernel.org, AJvYcCVO2KEwHAlX1eyZoUUSWY9KMfq3LDoY31yxidVG7YodFbHkSIMiNACaLLoJcIrMuwppOGQBmCaQAQA=@vger.kernel.org, AJvYcCXDIqZS6FzCOqr1d3/Bo18EpOVeDynHidBpftjsokBD4mXmrAPZdUCH+Adkv4YUBTpzX4nb3pbGZ0gTbVlkfT2hVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzden3scLFiFwiuSRnwnP8HKxh4MlgpkUkaXfAznc1vuxwD1Xkh
+	51rGrJrLuW+8tpcWesnGrcR6/0P2EbPsNJH8+QU7vsQ2jAlv2/1wLompOPDRzCwMdAMXc4CxSmE
+	bi8Bk4V+s4T0j7mNTVnn3gUUPuqx8gQ==
+X-Google-Smtp-Source: AGHT+IGROcI/rOerYv7nZXlhWEmc4bo4VMMhzIieXt0ir3fuJoe5yHNFs/XUqQmhE3pqqxvZ92DyoWse/8P+jtjd2j0=
+X-Received: by 2002:a17:906:6a08:b0:ae3:c6a3:f833 with SMTP id
+ a640c23a62f3a-ae3fbcb576amr1339358466b.23.1751903838354; Mon, 07 Jul 2025
+ 08:57:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5070:EE_|MN0PR12MB5929:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43919fce-c008-4b7d-33ac-08ddbd6c2e2d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?a3U3VWdCR0QyZWlCZkRySHZQSVBMbHRabU1iMVJYRzdZelhITGFvd095UkM5?=
- =?utf-8?B?eEREQ1QvZ3VhOGNsSHdvUWlhYWpsS05oKzVILzZLRFVobzkrWTdUUUZNUVVU?=
- =?utf-8?B?ZGxsVDQxeTlQMUw5SDVvdEdacU92VElqNkZqdEpsWUdUL3F0RnI0eC9lQk1k?=
- =?utf-8?B?VUE3UThYUWttbmQ3RWdLRmxTaGVpY1k0V29ML0pRcmE2c3NJdVlQWVhka3VD?=
- =?utf-8?B?WSs2RFdpaVFXT0JrcnJyZTlGaFNKSVJpVjR5MHFYOGFMakNoRVZhVGJzRVhK?=
- =?utf-8?B?ampzT3ArUEZUeWJnRk5KYjlEN0g2N3RxKzFrVWsxVWVxSlI3ZXZ2RzRiditF?=
- =?utf-8?B?MVA4Y0RZMUN1OFYwWUtYYkRPM2lIaWtBaG5tYnM2YXRLMVdIUmJSS2xQc0ZQ?=
- =?utf-8?B?YjdXQlJXMVpoN3NlWFhkakpBV2loZ3djRkJzVkNyZHVUV1I3RGp2WnpXUWxO?=
- =?utf-8?B?NXZoRGRhWDJrTHJIVmVBNjdhMWVXSnFNeGpQZkxRZ2VRNVJ1R25rTTdqS3ZE?=
- =?utf-8?B?VVdZdnJMa0JiUWJmaFUzSVhlMThleTB5ekZPUU1LU3duQTZPTkdEakNZR0Zm?=
- =?utf-8?B?TFFsRzA3NC9RK014ck5xUGIxYURrR0N3Nkg0LzhtdERVTnhBb2xKRTF5OGRG?=
- =?utf-8?B?S3RXTXFYWEh5SUFzM2EzTTVRWGUwaHQvVUwyVUhpbmNwa2VZWFdaQTRUMDhn?=
- =?utf-8?B?bDlMS3VJU1hFYm1QU1QxVnlhZGFWN1Y0OVd4MGticSs4eUo3U20yZmNua3Yz?=
- =?utf-8?B?YkFlOHFsR1dPZ0wvRUJVb3ZlRkQ4SzJWb1NFUVNtUXdDTUNDQi8vY283QVZ1?=
- =?utf-8?B?dUlVOWM2MUFiNGJrQVhNYzNzZjNnZUNpZXNBemFhM1crVnVvK0pFZlpvM3FM?=
- =?utf-8?B?eEcvYXloSEptRDRRZFhYcitmdEtsVVQwWU4wMVhCNCsyNmxhUFMzdmNiOEh0?=
- =?utf-8?B?ZHNFT3ZqSUJEcmpiNmd4NzJpc1A3QkR3VXJCRG8vWWVrZ0JwczJ3aXNoREJt?=
- =?utf-8?B?eDgrcXN1Qm0waFpPL0JzMzlGMHVQT3BETmo0Nld0Nyt1Vi9QTUgrREU1MlJY?=
- =?utf-8?B?b0NId3crUW11Z2RIeUxNSUUvcEFOUWNtZE1Jek5jbFNFMG9wMnZVbHllVEx4?=
- =?utf-8?B?Z2ZGUXV1UWxvcWtBSXRqeEtpSU8vTFVyZG9yTE0wRnlXREJaWTRGdHhIM1Za?=
- =?utf-8?B?aHhuR2lEaHV5aEJlKzlOZkV1S0hITDVUSlZmSG1iSFYvR2M5eEhFZkR5TGVR?=
- =?utf-8?B?bzZiMlhCdlFxR2xMZmtVVUZKS2JnUG41SFFueWFJMDlGYzB4akVFclZkSHpw?=
- =?utf-8?B?S3VHMHZnNWtoOFN0VmhjMWp3QkFIKytzVW1tOWFiMnFOWkx5NHZnSzN2M3cy?=
- =?utf-8?B?TGVpNHBYUlh3TjN0MkhiaUFyTkZnYWRSUTEzMmFrMSs0TGdSTDVEQVNXY1JK?=
- =?utf-8?B?VXoxcUtqMnZKcGx0OUk5b3RQRngvZHM5WVp0SzRSRXkzRTVXZjh0ak1zUWtK?=
- =?utf-8?B?QjRUZVh1Ky81Rm5tenNyeG1SMjZsaHYveFoyUUR4akxjYld5RFBjTmtmSXFT?=
- =?utf-8?B?U0s2WVYvZHlzV0tScHJ0QlB2Umc1YlFBMkpSZVRrVHY0UFAyaGpPM0pLYXpD?=
- =?utf-8?B?Q2RQbUFzLzcrYzAxNTY3UHNueWNxVEc2STFKU0FPOHJIQk8raDVuK2VLZEtX?=
- =?utf-8?B?WFROeU43NE05NDl4WjRmc0I5bjNmNlJVeTlIdjJoeXVyd1NjT1cvMjZIZEl5?=
- =?utf-8?B?bjZ3MVlsMDRzSFhKTDdKMlB0dkc4QXBORTVMYmJSUFRhSTRWTFY4SGk0MGNK?=
- =?utf-8?B?V0taUFVPaWlZNDBVNUR1Z1JtZUh2RnhUbDAyVHFUa0lwVW1xMGFGZTdaNmt5?=
- =?utf-8?B?NXc2enhFR01vL1FzQXYzTHg3VWFib01xWkNialA0RWRUMm9jNFFvKy9qWThQ?=
- =?utf-8?B?TW94WTdScEJqcE1hUFdta2U3K1V0YVBoOWNUR25wNjFseDhOaDlDLzNhR2wy?=
- =?utf-8?B?SzBiYWFNN0JBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5070.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZnVoV3NlMVpRdjRCSzB0cW1QU3dTcGNSRElJTHlkWkpSMXEyTG9hazZWUHpo?=
- =?utf-8?B?ODdTYjdZUTRkcW1mYUVyOGtwRlpJWDhmWE5XRDNvV0l6ZDVHQ1lIL3NUUDBw?=
- =?utf-8?B?NXE1RVFmak04RVJMalZGSWI5YXM1OUVVNFNJVWxMemZpcWFQNFdrcGp1R29N?=
- =?utf-8?B?VGNnRS9YZ1Fia2lPSTI0MlNQVEhESi9xK2tlQjVRazVTd3RiVzdJTDRyWjh6?=
- =?utf-8?B?UnJFOFpMZjluRTl4aTlnbXlJcTJyblJWS1JETmh2ZnNlbi9waWhvSGU0SVlj?=
- =?utf-8?B?Wk1SMUtGamIvTmlZeDVjWjJ6cWxoTFRtNXIrWDc3VWd2aG15UmZIdFFURjNs?=
- =?utf-8?B?ay80NkNkc2hvbm5PY2svbU1LZnQvdkkxSERSRDVaVkxnVmZISFBMZWR4cS9r?=
- =?utf-8?B?KzFnK1RKb1IwR2EyLzE1WHhIOEF5ZFFPVGpXTXp3SjNYRmhKZ25PZis2Zm9i?=
- =?utf-8?B?Wlk4NStHenphNURPWnlNSzZPMmNGN2M3UFYwWEppdW5jNnNTSm5ycUJuSWU2?=
- =?utf-8?B?bU52R1NhMkxzc041aHloQWEvRTFlRmVUZGcvd2d2aTMzd0VvN2szUWoxM0ts?=
- =?utf-8?B?L0d1a29nS0dzSFZsUVRPdU51Ulk0S1EvcGRzN3NQd25ldGNQYzBxS05zdEFY?=
- =?utf-8?B?VStzRjdSZFZUeFFET2pkQ0hzVDJZRmhsOHBtMTA3RnJaZEZrS0lLclV1ajNW?=
- =?utf-8?B?UnZMN0ZtUG9tWU13ekJRaFFKdDNrVzZPeldDb1dBK1lIcHZpWCtYNmpxa0to?=
- =?utf-8?B?Q1hHL2NGcVRWeHBSY2ZtVjNsd3RUVmxWZk1PMzVHNDBBRmk4M0ZhSFc3cm02?=
- =?utf-8?B?Y1VBbFdJcC9QTmorZ1ExcHNWRWNNUzJ0bG9OSi9tcTRNUHF6SWMxbDB3Z0F4?=
- =?utf-8?B?TjRuN1dDL3VnYzNLa1ZVSm12Zll4MzhSTTBxb2k4UVg5VXBSVDc0WlV2USth?=
- =?utf-8?B?QU8xTHR0azViMkpnSWZxOUZHa05oYlZlODJjM2lXYkpNMUxJV1pKaVNmaTZx?=
- =?utf-8?B?ZThJcFFLTlhRdUVXdWoyNnBBTHJHSmZvS0RVVHZwR1gwaTU3K0JOSmVvdCtU?=
- =?utf-8?B?aXhWUnFNa01tWUFMTlExYVprRVoxU3l3R1NwSmlERFdKWkNORFBxSWVLRkl5?=
- =?utf-8?B?VThBR1V1Y3BPakd4bTJmV1Z3SS9jT2RMdTFjdGRmZittcUZvUUJxeHpCTURk?=
- =?utf-8?B?R1A5aGZ1YUFycW13d1JRakF5RjRxWkdnWUsya3Blc243ditLNTAzTnQwK2tp?=
- =?utf-8?B?RVNQUWkrcVVsZ0hBT2E0amNDUFpnZVZrQ3ZFNnRnNGd5OU1hbFZzdzY0N0VJ?=
- =?utf-8?B?ZnpycGNIdlFFeSt3OGFLN1piWjk5WmM2OUQvc0VrRS9UcVhGOG0vcWNvY0dN?=
- =?utf-8?B?UEd3czRzUmJqd1dmY1pmaFZmdUw3b0RCVVRuYzlKeXhoSy9kTk5oOXU1TUtK?=
- =?utf-8?B?R01TY3hWR3pIaEtheWZRaDhjK3VrdWlDcWQrRWxMQ0pCVVpzcW0vZHdlTGUx?=
- =?utf-8?B?WnNnbnZoSTJnYVM1MElLRTZFcUdTdjNpQk0yVERzWHRDQXJrVjFzK0hhS3FX?=
- =?utf-8?B?dnFsRC8xajR0LzNIbGkxeW41WGprcjdEVEQ3eTdJdTZicnlHK1N1Q2g1RHd3?=
- =?utf-8?B?YjJ6aFlUVk1QSVZOby8yd2YxdGRabENwS1JYVWVhMytVc0Q2ZDI0NXVJV2F5?=
- =?utf-8?B?dzRNaUJsMUJPUFdVbGVlaHZHNVh4bmZxR0x4VSs3NlJ4SzkyR3NPdTRpMlFK?=
- =?utf-8?B?eEZGMTR6ckt4ampvMHNLTittbDFyeGYwbEgzTUJ5dEUyTG5wVzNpNTZmeFJK?=
- =?utf-8?B?QmZ4dEZscDRubllYaVFUNmRXZmVoeGFoS0UzZ3V0UXJJYTA4SExzbzFWT1FX?=
- =?utf-8?B?dTY1Smo3STcvZnZFRkdpZlJTQXBqaXprZ1BzVmh0akNnbWhqUk5jUnFJZlVp?=
- =?utf-8?B?VndYZUQzbnYwaVd3bVdnL1Z0SXQwL05ZbGM3Mm5QSFlBVWE3SFZYQ0poeVM4?=
- =?utf-8?B?Q1ViTVdaMXRHV1EzME1laWFVbkpFSFBvb0lPb2s1TG9oamlhL1JjTXdZUENW?=
- =?utf-8?B?TThFbEcvMXdHNnRlVHg1MDhkekhHd0tXZUxXa2dBL1ZudWs5S3pCMEJPbFZr?=
- =?utf-8?Q?M3DmqarTdIUFYz+fJ6pehlJAg?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43919fce-c008-4b7d-33ac-08ddbd6c2e2d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5070.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 15:37:28.8061
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wLBr+xy32jPSilhbu2ge+ax74Iap2vdb0nRetzaVYg3qVsddkuujCDdocbkooI4LuAz3W0y2B5IpqXRkAZpp2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5929
+References: <20250611-arm-brbe-v19-v23-0-e7775563036e@kernel.org>
+ <20250611-arm-brbe-v19-v23-4-e7775563036e@kernel.org> <aGgM4Pk5dU1LXd2I@J2N7QTR9R3>
+In-Reply-To: <aGgM4Pk5dU1LXd2I@J2N7QTR9R3>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 7 Jul 2025 10:57:06 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKPjQE99d27pBHffo=K6stT1QaaeVyeqSeRKa9m8OSmxw@mail.gmail.com>
+X-Gm-Features: Ac12FXxiERhwrk8TwYBiCk2nTj5uV-39ekDgmaoI7v4X8_oFWq7oDAhMnIvdJ90
+Message-ID: <CAL_JsqKPjQE99d27pBHffo=K6stT1QaaeVyeqSeRKa9m8OSmxw@mail.gmail.com>
+Subject: Re: [PATCH v23 4/4] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Will Deacon <will@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, James Clark <james.clark@linaro.org>, 
+	Anshuman Khandual <anshuman.khandual@arm.com>, Leo Yan <leo.yan@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/1/25 15:15, Ashish Kalra wrote:
-> From: Ashish Kalra <ashish.kalra@amd.com>
-> 
-> Cache the SEV platform status into sev_device structure and use this
-> cached SEV platform status for api_major/minor/build.
-> 
-> The platform state is unique between SEV and SNP and hence needs to be
-> tracked independently.
-> 
-> Remove the state field from sev_device structure and instead track SEV
-> state from the cached SEV platform status.
-> 
-> Suggested-by: Tom Lendacky <thomas.lendacky@amd.com>
-> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
+On Fri, Jul 4, 2025 at 12:18=E2=80=AFPM Mark Rutland <mark.rutland@arm.com>=
+ wrote:
+>
+> Hi Rob,
+>
+> Thanks for this; I think this is in good shape now. There's a couple of
+> thing I think we should fixup, described below and diff provided at the
+> end of this mail. That aside I reckon we should apply this shortly.
+>
+> Will, are you happy to apply that diff when picking this up?
+>
+> On Wed, Jun 11, 2025 at 01:01:14PM -0500, Rob Herring (Arm) wrote:
+> > +/*
+> > + * BRBE is assumed to be disabled/paused on entry
+> > + */
+> > +void brbe_enable(const struct arm_pmu *arm_pmu)
+> > +{
+> > +     struct pmu_hw_events *cpuc =3D this_cpu_ptr(arm_pmu->hw_events);
+> > +     u64 brbfcr =3D 0, brbcr =3D 0;
+> > +
+> > +     /*
+> > +      * Merge the permitted branch filters of all events.
+> > +      */
+> > +     for (int i =3D 0; i < ARMPMU_MAX_HWEVENTS; i++) {
+> > +             struct perf_event *event =3D cpuc->events[i];
+> > +
+> > +             if (event && has_branch_stack(event)) {
+> > +                     brbfcr |=3D event->hw.branch_reg.config;
+> > +                     brbcr |=3D event->hw.extra_reg.config;
+> > +             }
+> > +     }
+>
+> I see that in v20 you moved the brbe_invaliate() form here into
+> brbe_read_filtered_entries(), when entries are read upon an event
+> overflowing. The changelog says:
+>
+> | Rework BRBE invalidation to avoid invalidating in interrupt handler
+> | when no handled events capture the branch stack (i.e. when there are
+> | multiple users).
+>
+> I don't think that's quite right. Since BRBCR_ELx.FZP causes a freeze
+> BRBFCR_EL1.PAUSE to be set when *any* event overflows, not discarding
+> across an overflow or other transient disable/enable can introduce a
+> discontinuity in the branch records.
 
-Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
+My thought was the discontinuity is samples from the PMU interrupt
+which we don't want to sample anyways, so better to keep samples from
+prior to the unrelated interrupt.
 
-> ---
->  drivers/crypto/ccp/sev-dev.c | 22 ++++++++++++----------
->  drivers/crypto/ccp/sev-dev.h |  3 ++-
->  2 files changed, 14 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/crypto/ccp/sev-dev.c b/drivers/crypto/ccp/sev-dev.c
-> index 17edc6bf5622..5a2e1651d171 100644
-> --- a/drivers/crypto/ccp/sev-dev.c
-> +++ b/drivers/crypto/ccp/sev-dev.c
-> @@ -1286,7 +1286,7 @@ static int __sev_platform_init_locked(int *error)
->  
->  	sev = psp_master->sev_data;
->  
-> -	if (sev->state == SEV_STATE_INIT)
-> +	if (sev->sev_plat_status.state == SEV_STATE_INIT)
->  		return 0;
->  
->  	__sev_platform_init_handle_tmr(sev);
-> @@ -1318,7 +1318,7 @@ static int __sev_platform_init_locked(int *error)
->  		return rc;
->  	}
->  
-> -	sev->state = SEV_STATE_INIT;
-> +	sev->sev_plat_status.state = SEV_STATE_INIT;
->  
->  	/* Prepare for first SEV guest launch after INIT */
->  	wbinvd_on_all_cpus();
-> @@ -1347,7 +1347,7 @@ static int _sev_platform_init_locked(struct sev_platform_init_args *args)
->  
->  	sev = psp_master->sev_data;
->  
-> -	if (sev->state == SEV_STATE_INIT)
-> +	if (sev->sev_plat_status.state == SEV_STATE_INIT)
->  		return 0;
->  
->  	rc = __sev_snp_init_locked(&args->error);
-> @@ -1384,7 +1384,7 @@ static int __sev_platform_shutdown_locked(int *error)
->  
->  	sev = psp->sev_data;
->  
-> -	if (sev->state == SEV_STATE_UNINIT)
-> +	if (sev->sev_plat_status.state == SEV_STATE_UNINIT)
->  		return 0;
->  
->  	ret = __sev_do_cmd_locked(SEV_CMD_SHUTDOWN, NULL, error);
-> @@ -1394,7 +1394,7 @@ static int __sev_platform_shutdown_locked(int *error)
->  		return ret;
->  	}
->  
-> -	sev->state = SEV_STATE_UNINIT;
-> +	sev->sev_plat_status.state = SEV_STATE_UNINIT;
->  	dev_dbg(sev->dev, "SEV firmware shutdown\n");
->  
->  	return ret;
-> @@ -1502,7 +1502,7 @@ static int sev_ioctl_do_pek_pdh_gen(int cmd, struct sev_issue_cmd *argp, bool wr
->  	if (!writable)
->  		return -EPERM;
->  
-> -	if (sev->state == SEV_STATE_UNINIT) {
-> +	if (sev->sev_plat_status.state == SEV_STATE_UNINIT) {
->  		rc = sev_move_to_init_state(argp, &shutdown_required);
->  		if (rc)
->  			return rc;
-> @@ -1551,7 +1551,7 @@ static int sev_ioctl_do_pek_csr(struct sev_issue_cmd *argp, bool writable)
->  	data.len = input.length;
->  
->  cmd:
-> -	if (sev->state == SEV_STATE_UNINIT) {
-> +	if (sev->sev_plat_status.state == SEV_STATE_UNINIT) {
->  		ret = sev_move_to_init_state(argp, &shutdown_required);
->  		if (ret)
->  			goto e_free_blob;
-> @@ -1606,10 +1606,12 @@ static int sev_get_api_version(void)
->  		return 1;
->  	}
->  
-> +	/* Cache SEV platform status */
-> +	sev->sev_plat_status = status;
-> +
->  	sev->api_major = status.api_major;
->  	sev->api_minor = status.api_minor;
->  	sev->build = status.build;
-> -	sev->state = status.state;
->  
->  	return 0;
->  }
-> @@ -1837,7 +1839,7 @@ static int sev_ioctl_do_pek_import(struct sev_issue_cmd *argp, bool writable)
->  	data.oca_cert_len = input.oca_cert_len;
->  
->  	/* If platform is not in INIT state then transition it to INIT */
-> -	if (sev->state != SEV_STATE_INIT) {
-> +	if (sev->sev_plat_status.state != SEV_STATE_INIT) {
->  		ret = sev_move_to_init_state(argp, &shutdown_required);
->  		if (ret)
->  			goto e_free_oca;
-> @@ -2008,7 +2010,7 @@ static int sev_ioctl_do_pdh_export(struct sev_issue_cmd *argp, bool writable)
->  
->  cmd:
->  	/* If platform is not in INIT state then transition it to INIT. */
-> -	if (sev->state != SEV_STATE_INIT) {
-> +	if (sev->sev_plat_status.state != SEV_STATE_INIT) {
->  		if (!writable) {
->  			ret = -EPERM;
->  			goto e_free_cert;
-> diff --git a/drivers/crypto/ccp/sev-dev.h b/drivers/crypto/ccp/sev-dev.h
-> index 3e4e5574e88a..24dd8ff8afaa 100644
-> --- a/drivers/crypto/ccp/sev-dev.h
-> +++ b/drivers/crypto/ccp/sev-dev.h
-> @@ -42,7 +42,6 @@ struct sev_device {
->  
->  	struct sev_vdata *vdata;
->  
-> -	int state;
->  	unsigned int int_rcvd;
->  	wait_queue_head_t int_queue;
->  	struct sev_misc_dev *misc;
-> @@ -57,6 +56,8 @@ struct sev_device {
->  	bool cmd_buf_backup_active;
->  
->  	bool snp_initialized;
-> +
-> +	struct sev_user_data_status sev_plat_status;
->  };
->  
->  int sev_dev_init(struct psp_device *psp);
+> The rationale for doing the invalidation here was to avoid the
+> possiblity of any such discontinuity, and to do so simply, at the cost
+> of discarding records in some cases where we could theoretically keep
+> them around.
+
+That's fine by me as well. It probably doesn't really matter much in
+practice as you would have to get 2 PMU interrupts fairly close
+together to lose samples (from before the first interrupt).
+
+>
+> I would prefer the invalidate to be performed within brbe_enable()
+> (before the actual enable/unpause), and for armv8pmu_restart() to be
+> folded back into armv8pmu_start().
+>
+> I've provided a diff/fixup at the end of this reply.
+
+Thanks.
+
+Rob
