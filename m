@@ -1,117 +1,310 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C2A2E173D
-	for <linux-doc@vger.kernel.org>; Mon,  7 Jul 2025 15:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751902163; cv=none; b=rIW3Z0kVu9lpYWS+c41db+2jYjjNajhgr3KxmpetINPQeB7Vm0QJe/cu/uuyVG9aW2xd77cakBfzmfOSCmodmxVAa4OXuw0Z2IewgIHZlBl60v20vTKifw5xbKYZQAnC4Ee5cRzCFtHi4uRCcVTcnkBJRMYNIT6uN2BTap8DTgw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751902163; c=relaxed/simple;
-	bh=m8H0ULdbJ8jHkYqq+C6UljYy5F/UGJU2zP+ye3MpbBE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pDzQIU3Wfsb/suzV/ZlIYSKpPUpgp0qsbPdFNLc+AYesxnQlX/FFhx4kfQ3oNwSK0pdcpX4Dap3nkLPOnoADSkRoCq8YcExWHOEVq0LJdwPaXomS0nENrlmFHzN32fdX0uH5vKy0sqRO5ps+2WPmdYC7Y9OOlWJXGICipYPYvC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com; spf=pass smtp.mailfrom=6wind.com; dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b=j1pWe0rB; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=6wind.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344D186323;
+	Mon,  7 Jul 2025 15:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751902663; cv=fail; b=MR2HPzyhntoew6ducBZ5VLtRboQxIVgfRkra2qfU7l/Xy4OXyPLNar1g0T789ej0LcfpX7n9JYyX58w0zkvoumTtJTqVXuKxIhyxq7XqPtkxacoe+seo9PeUxAC7MdWV+KXv8EBqzz1gyvlfe3XZi4ZLqpMfGe4Ytqqd9d4yzdY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751902663; c=relaxed/simple;
+	bh=UB8Dpr54pxdF7uwvTVMYRlAfftiyeac5yOTLo7gs1bM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EhNYKP8eL9472Rl1j4jc0W6hlyMJrzXWANuTqr0gZfr/XUrxMRIMq8Y0/necx1HrQIRP0jUJcihTGnH2a+cEUZvQAu4xonZmuAgIrWYRmamEk2tY/l2vovE+wEbMU7pwUfwC0hhy91Fqjg0D4UpueQGjI7qunv17D8TlaSk4BDc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=V2cqb3NY; arc=fail smtp.client-ip=40.107.92.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b="j1pWe0rB"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-453442d3a15so1095065e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 07 Jul 2025 08:29:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=6wind.com; s=google; t=1751902159; x=1752506959; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=EMFHU+dA97rkmxgkbzmBDm7ndl2Ec9MUhuSaGtPZEAY=;
-        b=j1pWe0rB2Ls62jHLW4290O2U8bPSJ5tZFV3W6nV+LsTNP7i2ytUKfLB32QVw2oKpLP
-         9dsZ0cNKDHXl+d3U1tVSaiXTkE0H67cOzfNS95LqI3ytR1RgDBPjlEdQ/yT7AJrqiSRt
-         2fSWo7m1r+wNY56QZMK1ULuzVmmVupE6JKwJGn59jZ4bRRhz9BHR6oThiCGo1uLaaUrH
-         pZbW9pGH/hzGdswZ5Eo8Xw2+0RjaORE4dh7bEW2ELss6J35+m9Zt9jjtdWafpHmgmWNn
-         I7y4JEYSLEUW2DsoQPh3cu1n+liH5BhM9jTbXMP8M7uOzr7xvVEFyQOtzSzcFD0QYlGb
-         5vbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751902159; x=1752506959;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EMFHU+dA97rkmxgkbzmBDm7ndl2Ec9MUhuSaGtPZEAY=;
-        b=YQunttkFElwkGDcnjjfX+vxf76lXWB3ffSxXEHKcCwFM2rZ/pPkwq9pELMc4LcsdRa
-         CWHOVqZVcIREdxeabg0KOGSjicukEjL9tIPGG6VbAXFBYNZ43zbALFAjTtlJgPpnF76C
-         CFXdcj89dBOCK8fRA4pB0kyn6BCFaUAOsjo9eLXzojs0V19MqwI7PGgRQu2woFxCZVSj
-         adVs/rvC9hWZgMjWLsDsHoMWsSE8eJ3HRp/9BJl3vqvhP1PO8eGHfxzukWwBcgfNUTCs
-         tNsSLfvyA9snlWipbJ9LcP+PJCFc08vtlF/xdrju8nmHXqCSgzr9jAAoR4XpwVk5IHiQ
-         SAng==
-X-Forwarded-Encrypted: i=1; AJvYcCVUAbl9nV9Xx2tSLiQ55CTsFt7hACXP/s9fMrLs9ix+5Fnsu6Cv8nSx0rSAY1kkS6/Dw6IgHsG6lFc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM57GrEdGMwIDkoQZOiTgJvNDrWte/LVn6NVdRLKwDG6dMcczL
-	WfxdDrQWt/i48bxbTyq/8iGMCt83PGSvGg/NO/27M9FBmFzAedOgRvpB0xoixjVWaAw=
-X-Gm-Gg: ASbGncufB6Hj84CvikRO1m71rkLVR2DdJPT6e0FKJQICUkZWRB4+LzU6CRQgenVhrG/
-	oQpxHRapt0KX2vqpTHhpOKWHxOeHLnj0Kx0Q/xREFNW7rm2SXQJbXlpTzZMxYuInsdXFXjCa8nJ
-	VJmT8GGNSrBRSHZn428ktPrPxYBV4ok/Wz8fM0yyjRqHbfYYjmrQfMxVfIlkCnozAjvnOM/Dia1
-	Id1hIGNziVjf/k2/as0uonSm6/nyfU4Ho5IPW+0TIaVhu2o8scAcfPYgqG5Ydj01NEgpnWCu8XG
-	QJEt2CyAPsjK2T8OHQhp8Ifg5r2EZ1fX0VWFpuierZaqAD2IUtQJ8H7xhhloqqprBWTZktb4G3H
-	mzhd3eVxZ42Z5Zi26pvC/gokCGzsHhaaxI6Sz4+0=
-X-Google-Smtp-Source: AGHT+IGKebV8E4EnA7t55PON6APQeMax4Qk+HjyzcFLok9rczjr1cjwmPmWX20487WziMMXLlS4ZLA==
-X-Received: by 2002:a05:600c:64ce:b0:453:8ab4:1b50 with SMTP id 5b1f17b1804b1-454b3096aefmr39191445e9.3.1751902159060;
-        Mon, 07 Jul 2025 08:29:19 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:b41:c160:bfd2:635a:f707:acde? ([2a01:e0a:b41:c160:bfd2:635a:f707:acde])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454a99693fesm145125845e9.7.2025.07.07.08.29.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 08:29:18 -0700 (PDT)
-Message-ID: <00783d46-96a4-4653-a09f-4bed48fb2cee@6wind.com>
-Date: Mon, 7 Jul 2025 17:29:17 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="V2cqb3NY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=THq65gjvs7jBvvSGYlap7DezLjmq4w4v0ppHx9V1xui7JD59zF7eIiOx8dNyOn/ZfUSjE7676UX6IlqL7lv0P3/dVsral9TFxE141H0O+p/NGuUj98pr3QKtN+daOnsPw89865uo1bMWZlRNc3789eVv23+KqK5gaxGbXJ0geEBqV7Ww+IxhzJ0VSY/ySATMOTZML8962BC8vSs9Mw5Ejjjwzi4XDcZxqpz0u/YjfY+mYCNoMYTOPXhsHfjFLvVf1U45xFqc112upQGTMRSra+TXLI6mD39XIlkiLaittZcSBsqh41LuzOTjsEGnRT/xbi4PgfUxQHPWx8MUiQNNrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xAdQUfAUvIR4SyVxPAdRmotDXe0Q4TlfNX5f2yjT/Js=;
+ b=v/gMlxmSqIJCmNRBWX9kS3yekztC7DOn+9N+OVNtiZEY2y5CtOeg7tTqXrKmtvq/HL7BiqQU7lTFrnys88R/lvJfhwTzM8QA5hKLfB8MKA34W2Gu0+XYEyiF6Q2jE9M6qr0yj+9jISkU4OGVLV2JhE3XDvnK73WLWr5Yv7KmsH5u8B3d3zc6PijaxQtAjIO2/RyKxXOkiYnzAP5LvoS8swHOA2N6K90DxkGe8yZZ9C+kSgIDxTYkSRGW/KTdzX1rIYtY1t0M0jHGugZyyhGVGlpdVfqi5VR904oGGSo7oRBQ376omLdM93saNRMAIXd9fs8uH0KfIN4Ed3LBYjlE9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xAdQUfAUvIR4SyVxPAdRmotDXe0Q4TlfNX5f2yjT/Js=;
+ b=V2cqb3NYyP+rCG0qWuwKCoADCmvhTybw7IGXWnaKpOTswfS9uO7OfrswaHMBcj6pBQOf2sB4qOomov9Ssz5z2b2FHy8lBWx58BXKf8UhQRu22gwodnR/7GO/uvRtYOTFk0tPTWIv1/ZMPjO0bJB23HMjIpM302bVdQ3Q4SfnY/4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5070.namprd12.prod.outlook.com (2603:10b6:5:389::22)
+ by MN0PR12MB5929.namprd12.prod.outlook.com (2603:10b6:208:37c::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Mon, 7 Jul
+ 2025 15:37:29 +0000
+Received: from DM4PR12MB5070.namprd12.prod.outlook.com
+ ([fe80::20a9:919e:fd6b:5a6e]) by DM4PR12MB5070.namprd12.prod.outlook.com
+ ([fe80::20a9:919e:fd6b:5a6e%7]) with mapi id 15.20.8901.023; Mon, 7 Jul 2025
+ 15:37:28 +0000
+Message-ID: <cd7479be-c65f-054b-7ef9-a0f6a73d67cd@amd.com>
+Date: Mon, 7 Jul 2025 10:37:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v5 2/7] crypto: ccp - Cache SEV platform status and
+ platform state
+Content-Language: en-US
+To: Ashish Kalra <Ashish.Kalra@amd.com>, corbet@lwn.net, seanjc@google.com,
+ pbonzini@redhat.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ john.allen@amd.com, herbert@gondor.apana.org.au, davem@davemloft.net,
+ akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org
+Cc: nikunj@amd.com, Neeraj.Upadhyay@amd.com, aik@amd.com, ardb@kernel.org,
+ michael.roth@amd.com, arnd@arndb.de, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kvm@vger.kernel.org
+References: <cover.1751397223.git.ashish.kalra@amd.com>
+ <69f95a382a6b5a6fb568aeba39b7c937fe552ed4.1751397223.git.ashish.kalra@amd.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+In-Reply-To: <69f95a382a6b5a6fb568aeba39b7c937fe552ed4.1751397223.git.ashish.kalra@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0501CA0114.namprd05.prod.outlook.com
+ (2603:10b6:803:42::31) To DM4PR12MB5070.namprd12.prod.outlook.com
+ (2603:10b6:5:389::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: nicolas.dichtel@6wind.com
-Subject: Re: [PATCH net-next v5] ipv6: add `force_forwarding` sysctl to enable
- per-interface forwarding
-To: Gabriel Goller <g.goller@proxmox.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- David Ahern <dsahern@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20250707094307.223975-1-g.goller@proxmox.com>
-From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Content-Language: en-US
-Organization: 6WIND
-In-Reply-To: <20250707094307.223975-1-g.goller@proxmox.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5070:EE_|MN0PR12MB5929:EE_
+X-MS-Office365-Filtering-Correlation-Id: 43919fce-c008-4b7d-33ac-08ddbd6c2e2d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?a3U3VWdCR0QyZWlCZkRySHZQSVBMbHRabU1iMVJYRzdZelhITGFvd095UkM5?=
+ =?utf-8?B?eEREQ1QvZ3VhOGNsSHdvUWlhYWpsS05oKzVILzZLRFVobzkrWTdUUUZNUVVU?=
+ =?utf-8?B?ZGxsVDQxeTlQMUw5SDVvdEdacU92VElqNkZqdEpsWUdUL3F0RnI0eC9lQk1k?=
+ =?utf-8?B?VUE3UThYUWttbmQ3RWdLRmxTaGVpY1k0V29ML0pRcmE2c3NJdVlQWVhka3VD?=
+ =?utf-8?B?WSs2RFdpaVFXT0JrcnJyZTlGaFNKSVJpVjR5MHFYOGFMakNoRVZhVGJzRVhK?=
+ =?utf-8?B?ampzT3ArUEZUeWJnRk5KYjlEN0g2N3RxKzFrVWsxVWVxSlI3ZXZ2RzRiditF?=
+ =?utf-8?B?MVA4Y0RZMUN1OFYwWUtYYkRPM2lIaWtBaG5tYnM2YXRLMVdIUmJSS2xQc0ZQ?=
+ =?utf-8?B?YjdXQlJXMVpoN3NlWFhkakpBV2loZ3djRkJzVkNyZHVUV1I3RGp2WnpXUWxO?=
+ =?utf-8?B?NXZoRGRhWDJrTHJIVmVBNjdhMWVXSnFNeGpQZkxRZ2VRNVJ1R25rTTdqS3ZE?=
+ =?utf-8?B?VVdZdnJMa0JiUWJmaFUzSVhlMThleTB5ekZPUU1LU3duQTZPTkdEakNZR0Zm?=
+ =?utf-8?B?TFFsRzA3NC9RK014ck5xUGIxYURrR0N3Nkg0LzhtdERVTnhBb2xKRTF5OGRG?=
+ =?utf-8?B?S3RXTXFYWEh5SUFzM2EzTTVRWGUwaHQvVUwyVUhpbmNwa2VZWFdaQTRUMDhn?=
+ =?utf-8?B?bDlMS3VJU1hFYm1QU1QxVnlhZGFWN1Y0OVd4MGticSs4eUo3U20yZmNua3Yz?=
+ =?utf-8?B?YkFlOHFsR1dPZ0wvRUJVb3ZlRkQ4SzJWb1NFUVNtUXdDTUNDQi8vY283QVZ1?=
+ =?utf-8?B?dUlVOWM2MUFiNGJrQVhNYzNzZjNnZUNpZXNBemFhM1crVnVvK0pFZlpvM3FM?=
+ =?utf-8?B?eEcvYXloSEptRDRRZFhYcitmdEtsVVQwWU4wMVhCNCsyNmxhUFMzdmNiOEh0?=
+ =?utf-8?B?ZHNFT3ZqSUJEcmpiNmd4NzJpc1A3QkR3VXJCRG8vWWVrZ0JwczJ3aXNoREJt?=
+ =?utf-8?B?eDgrcXN1Qm0waFpPL0JzMzlGMHVQT3BETmo0Nld0Nyt1Vi9QTUgrREU1MlJY?=
+ =?utf-8?B?b0NId3crUW11Z2RIeUxNSUUvcEFOUWNtZE1Jek5jbFNFMG9wMnZVbHllVEx4?=
+ =?utf-8?B?Z2ZGUXV1UWxvcWtBSXRqeEtpSU8vTFVyZG9yTE0wRnlXREJaWTRGdHhIM1Za?=
+ =?utf-8?B?aHhuR2lEaHV5aEJlKzlOZkV1S0hITDVUSlZmSG1iSFYvR2M5eEhFZkR5TGVR?=
+ =?utf-8?B?bzZiMlhCdlFxR2xMZmtVVUZKS2JnUG41SFFueWFJMDlGYzB4akVFclZkSHpw?=
+ =?utf-8?B?S3VHMHZnNWtoOFN0VmhjMWp3QkFIKytzVW1tOWFiMnFOWkx5NHZnSzN2M3cy?=
+ =?utf-8?B?TGVpNHBYUlh3TjN0MkhiaUFyTkZnYWRSUTEzMmFrMSs0TGdSTDVEQVNXY1JK?=
+ =?utf-8?B?VXoxcUtqMnZKcGx0OUk5b3RQRngvZHM5WVp0SzRSRXkzRTVXZjh0ak1zUWtK?=
+ =?utf-8?B?QjRUZVh1Ky81Rm5tenNyeG1SMjZsaHYveFoyUUR4akxjYld5RFBjTmtmSXFT?=
+ =?utf-8?B?U0s2WVYvZHlzV0tScHJ0QlB2Umc1YlFBMkpSZVRrVHY0UFAyaGpPM0pLYXpD?=
+ =?utf-8?B?Q2RQbUFzLzcrYzAxNTY3UHNueWNxVEc2STFKU0FPOHJIQk8raDVuK2VLZEtX?=
+ =?utf-8?B?WFROeU43NE05NDl4WjRmc0I5bjNmNlJVeTlIdjJoeXVyd1NjT1cvMjZIZEl5?=
+ =?utf-8?B?bjZ3MVlsMDRzSFhKTDdKMlB0dkc4QXBORTVMYmJSUFRhSTRWTFY4SGk0MGNK?=
+ =?utf-8?B?V0taUFVPaWlZNDBVNUR1Z1JtZUh2RnhUbDAyVHFUa0lwVW1xMGFGZTdaNmt5?=
+ =?utf-8?B?NXc2enhFR01vL1FzQXYzTHg3VWFib01xWkNialA0RWRUMm9jNFFvKy9qWThQ?=
+ =?utf-8?B?TW94WTdScEJqcE1hUFdta2U3K1V0YVBoOWNUR25wNjFseDhOaDlDLzNhR2wy?=
+ =?utf-8?B?SzBiYWFNN0JBPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5070.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZnVoV3NlMVpRdjRCSzB0cW1QU3dTcGNSRElJTHlkWkpSMXEyTG9hazZWUHpo?=
+ =?utf-8?B?ODdTYjdZUTRkcW1mYUVyOGtwRlpJWDhmWE5XRDNvV0l6ZDVHQ1lIL3NUUDBw?=
+ =?utf-8?B?NXE1RVFmak04RVJMalZGSWI5YXM1OUVVNFNJVWxMemZpcWFQNFdrcGp1R29N?=
+ =?utf-8?B?VGNnRS9YZ1Fia2lPSTI0MlNQVEhESi9xK2tlQjVRazVTd3RiVzdJTDRyWjh6?=
+ =?utf-8?B?UnJFOFpMZjluRTl4aTlnbXlJcTJyblJWS1JETmh2ZnNlbi9waWhvSGU0SVlj?=
+ =?utf-8?B?Wk1SMUtGamIvTmlZeDVjWjJ6cWxoTFRtNXIrWDc3VWd2aG15UmZIdFFURjNs?=
+ =?utf-8?B?ay80NkNkc2hvbm5PY2svbU1LZnQvdkkxSERSRDVaVkxnVmZISFBMZWR4cS9r?=
+ =?utf-8?B?KzFnK1RKb1IwR2EyLzE1WHhIOEF5ZFFPVGpXTXp3SjNYRmhKZ25PZis2Zm9i?=
+ =?utf-8?B?Wlk4NStHenphNURPWnlNSzZPMmNGN2M3UFYwWEppdW5jNnNTSm5ycUJuSWU2?=
+ =?utf-8?B?bU52R1NhMkxzc041aHloQWEvRTFlRmVUZGcvd2d2aTMzd0VvN2szUWoxM0ts?=
+ =?utf-8?B?L0d1a29nS0dzSFZsUVRPdU51Ulk0S1EvcGRzN3NQd25ldGNQYzBxS05zdEFY?=
+ =?utf-8?B?VStzRjdSZFZUeFFET2pkQ0hzVDJZRmhsOHBtMTA3RnJaZEZrS0lLclV1ajNW?=
+ =?utf-8?B?UnZMN0ZtUG9tWU13ekJRaFFKdDNrVzZPeldDb1dBK1lIcHZpWCtYNmpxa0to?=
+ =?utf-8?B?Q1hHL2NGcVRWeHBSY2ZtVjNsd3RUVmxWZk1PMzVHNDBBRmk4M0ZhSFc3cm02?=
+ =?utf-8?B?Y1VBbFdJcC9QTmorZ1ExcHNWRWNNUzJ0bG9OSi9tcTRNUHF6SWMxbDB3Z0F4?=
+ =?utf-8?B?TjRuN1dDL3VnYzNLa1ZVSm12Zll4MzhSTTBxb2k4UVg5VXBSVDc0WlV2USth?=
+ =?utf-8?B?QU8xTHR0azViMkpnSWZxOUZHa05oYlZlODJjM2lXYkpNMUxJV1pKaVNmaTZx?=
+ =?utf-8?B?ZThJcFFLTlhRdUVXdWoyNnBBTHJHSmZvS0RVVHZwR1gwaTU3K0JOSmVvdCtU?=
+ =?utf-8?B?aXhWUnFNa01tWUFMTlExYVprRVoxU3l3R1NwSmlERFdKWkNORFBxSWVLRkl5?=
+ =?utf-8?B?VThBR1V1Y3BPakd4bTJmV1Z3SS9jT2RMdTFjdGRmZittcUZvUUJxeHpCTURk?=
+ =?utf-8?B?R1A5aGZ1YUFycW13d1JRakF5RjRxWkdnWUsya3Blc243ditLNTAzTnQwK2tp?=
+ =?utf-8?B?RVNQUWkrcVVsZ0hBT2E0amNDUFpnZVZrQ3ZFNnRnNGd5OU1hbFZzdzY0N0VJ?=
+ =?utf-8?B?ZnpycGNIdlFFeSt3OGFLN1piWjk5WmM2OUQvc0VrRS9UcVhGOG0vcWNvY0dN?=
+ =?utf-8?B?UEd3czRzUmJqd1dmY1pmaFZmdUw3b0RCVVRuYzlKeXhoSy9kTk5oOXU1TUtK?=
+ =?utf-8?B?R01TY3hWR3pIaEtheWZRaDhjK3VrdWlDcWQrRWxMQ0pCVVpzcW0vZHdlTGUx?=
+ =?utf-8?B?WnNnbnZoSTJnYVM1MElLRTZFcUdTdjNpQk0yVERzWHRDQXJrVjFzK0hhS3FX?=
+ =?utf-8?B?dnFsRC8xajR0LzNIbGkxeW41WGprcjdEVEQ3eTdJdTZicnlHK1N1Q2g1RHd3?=
+ =?utf-8?B?YjJ6aFlUVk1QSVZOby8yd2YxdGRabENwS1JYVWVhMytVc0Q2ZDI0NXVJV2F5?=
+ =?utf-8?B?dzRNaUJsMUJPUFdVbGVlaHZHNVh4bmZxR0x4VSs3NlJ4SzkyR3NPdTRpMlFK?=
+ =?utf-8?B?eEZGMTR6ckt4ampvMHNLTittbDFyeGYwbEgzTUJ5dEUyTG5wVzNpNTZmeFJK?=
+ =?utf-8?B?QmZ4dEZscDRubllYaVFUNmRXZmVoeGFoS0UzZ3V0UXJJYTA4SExzbzFWT1FX?=
+ =?utf-8?B?dTY1Smo3STcvZnZFRkdpZlJTQXBqaXprZ1BzVmh0akNnbWhqUk5jUnFJZlVp?=
+ =?utf-8?B?VndYZUQzbnYwaVd3bVdnL1Z0SXQwL05ZbGM3Mm5QSFlBVWE3SFZYQ0poeVM4?=
+ =?utf-8?B?Q1ViTVdaMXRHV1EzME1laWFVbkpFSFBvb0lPb2s1TG9oamlhL1JjTXdZUENW?=
+ =?utf-8?B?TThFbEcvMXdHNnRlVHg1MDhkekhHd0tXZUxXa2dBL1ZudWs5S3pCMEJPbFZr?=
+ =?utf-8?Q?M3DmqarTdIUFYz+fJ6pehlJAg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43919fce-c008-4b7d-33ac-08ddbd6c2e2d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5070.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 15:37:28.8061
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wLBr+xy32jPSilhbu2ge+ax74Iap2vdb0nRetzaVYg3qVsddkuujCDdocbkooI4LuAz3W0y2B5IpqXRkAZpp2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5929
 
+On 7/1/25 15:15, Ashish Kalra wrote:
+> From: Ashish Kalra <ashish.kalra@amd.com>
+> 
+> Cache the SEV platform status into sev_device structure and use this
+> cached SEV platform status for api_major/minor/build.
+> 
+> The platform state is unique between SEV and SNP and hence needs to be
+> tracked independently.
+> 
+> Remove the state field from sev_device structure and instead track SEV
+> state from the cached SEV platform status.
+> 
+> Suggested-by: Tom Lendacky <thomas.lendacky@amd.com>
+> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
 
+Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
 
-Le 07/07/2025 à 11:43, Gabriel Goller a écrit :
-> It is currently impossible to enable ipv6 forwarding on a per-interface
-> basis like in ipv4. To enable forwarding on an ipv6 interface we need to
-> enable it on all interfaces and disable it on the other interfaces using
-> a netfilter rule. This is especially cumbersome if you have lots of
-> interface and only want to enable forwarding on a few. According to the
-> sysctl docs [0] the `net.ipv6.conf.all.forwarding` enables forwarding
-> for all interfaces, while the interface-specific
-> `net.ipv6.conf.<interface>.forwarding` configures the interface
-> Host/Router configuration.
+> ---
+>  drivers/crypto/ccp/sev-dev.c | 22 ++++++++++++----------
+>  drivers/crypto/ccp/sev-dev.h |  3 ++-
+>  2 files changed, 14 insertions(+), 11 deletions(-)
 > 
-> Introduce a new sysctl flag `force_forwarding`, which can be set on every
-> interface. The ip6_forwarding function will then check if the global
-> forwarding flag OR the force_forwarding flag is active and forward the
-> packet.
-> 
-> To preserver backwards-compatibility reset the flag (on all interfaces)
-> to 0 if the net.ipv6.conf.all.forwarding flag is set to 0.
-> 
-> Add a short selftest that checks if a packet gets forwarded with and
-> without `force_forwarding`.
-> 
-> [0]: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
-> 
-> Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
-
-Acked-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+> diff --git a/drivers/crypto/ccp/sev-dev.c b/drivers/crypto/ccp/sev-dev.c
+> index 17edc6bf5622..5a2e1651d171 100644
+> --- a/drivers/crypto/ccp/sev-dev.c
+> +++ b/drivers/crypto/ccp/sev-dev.c
+> @@ -1286,7 +1286,7 @@ static int __sev_platform_init_locked(int *error)
+>  
+>  	sev = psp_master->sev_data;
+>  
+> -	if (sev->state == SEV_STATE_INIT)
+> +	if (sev->sev_plat_status.state == SEV_STATE_INIT)
+>  		return 0;
+>  
+>  	__sev_platform_init_handle_tmr(sev);
+> @@ -1318,7 +1318,7 @@ static int __sev_platform_init_locked(int *error)
+>  		return rc;
+>  	}
+>  
+> -	sev->state = SEV_STATE_INIT;
+> +	sev->sev_plat_status.state = SEV_STATE_INIT;
+>  
+>  	/* Prepare for first SEV guest launch after INIT */
+>  	wbinvd_on_all_cpus();
+> @@ -1347,7 +1347,7 @@ static int _sev_platform_init_locked(struct sev_platform_init_args *args)
+>  
+>  	sev = psp_master->sev_data;
+>  
+> -	if (sev->state == SEV_STATE_INIT)
+> +	if (sev->sev_plat_status.state == SEV_STATE_INIT)
+>  		return 0;
+>  
+>  	rc = __sev_snp_init_locked(&args->error);
+> @@ -1384,7 +1384,7 @@ static int __sev_platform_shutdown_locked(int *error)
+>  
+>  	sev = psp->sev_data;
+>  
+> -	if (sev->state == SEV_STATE_UNINIT)
+> +	if (sev->sev_plat_status.state == SEV_STATE_UNINIT)
+>  		return 0;
+>  
+>  	ret = __sev_do_cmd_locked(SEV_CMD_SHUTDOWN, NULL, error);
+> @@ -1394,7 +1394,7 @@ static int __sev_platform_shutdown_locked(int *error)
+>  		return ret;
+>  	}
+>  
+> -	sev->state = SEV_STATE_UNINIT;
+> +	sev->sev_plat_status.state = SEV_STATE_UNINIT;
+>  	dev_dbg(sev->dev, "SEV firmware shutdown\n");
+>  
+>  	return ret;
+> @@ -1502,7 +1502,7 @@ static int sev_ioctl_do_pek_pdh_gen(int cmd, struct sev_issue_cmd *argp, bool wr
+>  	if (!writable)
+>  		return -EPERM;
+>  
+> -	if (sev->state == SEV_STATE_UNINIT) {
+> +	if (sev->sev_plat_status.state == SEV_STATE_UNINIT) {
+>  		rc = sev_move_to_init_state(argp, &shutdown_required);
+>  		if (rc)
+>  			return rc;
+> @@ -1551,7 +1551,7 @@ static int sev_ioctl_do_pek_csr(struct sev_issue_cmd *argp, bool writable)
+>  	data.len = input.length;
+>  
+>  cmd:
+> -	if (sev->state == SEV_STATE_UNINIT) {
+> +	if (sev->sev_plat_status.state == SEV_STATE_UNINIT) {
+>  		ret = sev_move_to_init_state(argp, &shutdown_required);
+>  		if (ret)
+>  			goto e_free_blob;
+> @@ -1606,10 +1606,12 @@ static int sev_get_api_version(void)
+>  		return 1;
+>  	}
+>  
+> +	/* Cache SEV platform status */
+> +	sev->sev_plat_status = status;
+> +
+>  	sev->api_major = status.api_major;
+>  	sev->api_minor = status.api_minor;
+>  	sev->build = status.build;
+> -	sev->state = status.state;
+>  
+>  	return 0;
+>  }
+> @@ -1837,7 +1839,7 @@ static int sev_ioctl_do_pek_import(struct sev_issue_cmd *argp, bool writable)
+>  	data.oca_cert_len = input.oca_cert_len;
+>  
+>  	/* If platform is not in INIT state then transition it to INIT */
+> -	if (sev->state != SEV_STATE_INIT) {
+> +	if (sev->sev_plat_status.state != SEV_STATE_INIT) {
+>  		ret = sev_move_to_init_state(argp, &shutdown_required);
+>  		if (ret)
+>  			goto e_free_oca;
+> @@ -2008,7 +2010,7 @@ static int sev_ioctl_do_pdh_export(struct sev_issue_cmd *argp, bool writable)
+>  
+>  cmd:
+>  	/* If platform is not in INIT state then transition it to INIT. */
+> -	if (sev->state != SEV_STATE_INIT) {
+> +	if (sev->sev_plat_status.state != SEV_STATE_INIT) {
+>  		if (!writable) {
+>  			ret = -EPERM;
+>  			goto e_free_cert;
+> diff --git a/drivers/crypto/ccp/sev-dev.h b/drivers/crypto/ccp/sev-dev.h
+> index 3e4e5574e88a..24dd8ff8afaa 100644
+> --- a/drivers/crypto/ccp/sev-dev.h
+> +++ b/drivers/crypto/ccp/sev-dev.h
+> @@ -42,7 +42,6 @@ struct sev_device {
+>  
+>  	struct sev_vdata *vdata;
+>  
+> -	int state;
+>  	unsigned int int_rcvd;
+>  	wait_queue_head_t int_queue;
+>  	struct sev_misc_dev *misc;
+> @@ -57,6 +56,8 @@ struct sev_device {
+>  	bool cmd_buf_backup_active;
+>  
+>  	bool snp_initialized;
+> +
+> +	struct sev_user_data_status sev_plat_status;
+>  };
+>  
+>  int sev_dev_init(struct psp_device *psp);
