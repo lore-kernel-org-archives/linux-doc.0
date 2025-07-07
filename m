@@ -1,147 +1,115 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961F828B3EB
-	for <linux-doc@vger.kernel.org>; Mon,  7 Jul 2025 08:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AFD28CF41;
+	Mon,  7 Jul 2025 09:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751877527; cv=none; b=bqtPsDlH0NmBqHkAsfFXtzEzzcVRuSvJ6h8tqS8WekvHuwkis/z0QfQsMwDJEKLt4zojqrEqwCVezx9xP4XkK+xv0gjFRAuIshwmPa2uEDOCERfmzp69gJLCpvRumn5NM4GTyAaFoEVjecfnUJz4JuDX3RC4TKkXC+f1wwsOkOQ=
+	t=1751879530; cv=none; b=cq4fcuJGKSxEM1vNvn2BTj+mOvKEFNqFWaL4k8ii6WBeu3Ap5spsNa+f5HM+THM0SXFUSUfECTmFxe1nqRVHPI2pSGjy84qebddFSH+FULVcrvjR+E48zHwT5ajdRmkbRaoCQojYIYmJUic5bVKPPTfSWS/R+DqFTqfVg4lgKt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751877527; c=relaxed/simple;
-	bh=9xBalXmnJgD4RmmIV/V6wnjZTZ9oSv6heR/g4f/2kZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W8l/9fYCWDuEuj5c151YhuvQQbJBy4S3MqMNbJ7pVLosmHEsqPkM1o0/cWLQQ3yMvkDBTzhF6LsqZENeMZrUsKv0iWOfDo0XYKd/AxucDW94Xdtbc1D32Jx8JXMvhCKheyTbLY2+agLvjcN5OcQTPQb12U4MFL3pmfV6chAj6hE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=M9HPD12S; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1751879530; c=relaxed/simple;
+	bh=1WuO0r48yC6eFJp931rqHxluruPe1akaYb4Ab854ceM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KUPGSb/4vFEssAccSmuPgQ6uHAqoaHDLNeABO6sqf4C03nGF04N0iKRZKE8EDQ4oGf4Ia4lzlPIqFLCrFjF7BfRpuj5+krDKejEyK8GsiwYDUuFoSJN/3kGR8FJzWxTeR3TgBBi06Tcbx1x+p9IaBCdnjIpKsl6lz3Jr9f8CdR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ChjIuhdY; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="M9HPD12S"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a510432236so1949957f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 07 Jul 2025 01:38:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ChjIuhdY"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4537deebb01so15780845e9.0;
+        Mon, 07 Jul 2025 02:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1751877524; x=1752482324; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7aL18uBiZMw/FWxoKoVSvm/jRO6BDbywt1DvLbU3XB8=;
-        b=M9HPD12SaZJS9ElrYZwvnTw1s9jInt7WNp/e8hYRFlSnM4NDnrHzWfQYvbvlxkqqVN
-         0FJtHpS55fXWw2A57xnWoo+lTBHYbEqOpjHuxsz6RZHbP/F8Kqjsfu30EyciP0XVnJG3
-         q80/A3D/4XrbljezffxiAYrodcZFgGgJ5JkT60z1COEcD11IjPPyrvrfLmJau/RFsT30
-         f3IQlO5uw4QMS2FwYvp32AThq4nf3Ll/qhA+zjecWJnjD8P4f68JenX0qZI2Jw6aFZg8
-         Tk62dIhYC8n/ZEAIfPmKKUgxgh8/9IkW54z8hViYhdqcNzGT9B7Rg32g6s8CogXw2xiH
-         rWPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751877524; x=1752482324;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1751879526; x=1752484326; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7aL18uBiZMw/FWxoKoVSvm/jRO6BDbywt1DvLbU3XB8=;
-        b=HuHA5iVTLncGMOz5VRM3a7q+uH/k33LAefmrv02FcQEEOdbA7sfJvZVZaiEFy/hQfq
-         itA/AuDPeuSm2+xwqNz2Bmwu8BZUh8dqCCAGa8wnRO6Htk51JG1j8OCjmFzqBxeH3xT8
-         F5mZCey7CcDZkawTpmhzSJhbby45ITrYLSaTJAr6fwYBs6BL8LAbZO2WK80JOjp4ScQk
-         Ky18q5JQrOtflP1dFuFk4gMrH5Ll5YOyjGSSiVrQ1pdv4zOf8RiSSctpdfFGNSXbdV3r
-         wkP2QBPF3onzs6iq0xUNH2owat3k/Aig2FOWi0JiND57idsgk1yjhY1D0FjejPP/2JHq
-         VyGA==
-X-Forwarded-Encrypted: i=1; AJvYcCUk/yDCuWc6jTGY8a763eLFsj3tKdQHF8eTY9EjTrQYSMQh2W7dPMg8WDyCZW7hxLGwo60tiguIlnk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9YZnYAY4YwuDBYNjPCkdR2KvYpqL0V1S9b18lMBlLwafH7/4E
-	AyutBgYw0nt2Yh/jWZT4UTR1la4Ob4+4Rn0UiBw588n4vY24zl8KxEzAR9pIoEQ9rtg=
-X-Gm-Gg: ASbGncs/4wuqKDza/IfDYvTvPJFLwZh/fV+CC1Km31QtI9d3Sg9gZk74SIIYj4+wo0P
-	E1cJhw+m8GbPw6x4d8QKzdROLdeO0to4uhl7zXjvN3d3e3OsBmM4ljagtsoq+eLsIxoYzRo6Nst
-	WvE1OtxVUyiPsSTdxLM3pzZt/sPCDeo1mbt32ZwAnhvljeQSEHu55WnJinEUy0kN6VeMDXXfPTe
-	C7QB0CkfrhVKNr6m/Z9tO+AVjnqfPqg02yrQsHcb9TNYzyRHr73TsDcyb7TpHqGH9K6ViomBNhP
-	Cj9Oj1RGcr8zlu+5Y9bI9+zOxR0VbIDBhxWxnN26b8+SGktPv3tx7eMKTm1xa7c=
-X-Google-Smtp-Source: AGHT+IHOL134zxv2M5TIxjn1JcbIuqigNn/BoslUPqMt07/pkuCY3NvzphTd4fkc6LrVVlovNM0TJQ==
-X-Received: by 2002:a05:6000:24c9:b0:3a5:541c:b40f with SMTP id ffacd0b85a97d-3b49700c57cmr9041350f8f.9.1751877523572;
-        Mon, 07 Jul 2025 01:38:43 -0700 (PDT)
-Received: from jiri-mlt ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454b1696ca8sm106595425e9.28.2025.07.07.01.38.42
+        bh=ib11SVMqO+bCPjfEqENNLpCpx2gzzGABjISwhN1BERM=;
+        b=ChjIuhdYPFmRTVSy8Q6wiZCIbpqawV3VK0qCtFFzBeL7e5TPgZiIFQBJR45sRFOK+Y
+         6rTUfkxVRyqO3vIAvPB6oV8sDWi3+h+2bcIiM3tq98dIDmuL6SdzNfQH77YcDT/5NbRB
+         Q0DtlIWSUerMXkeckrkezYKeb6w0ArVLiXzo2A71bMMqLghzHtgrKok58+I5ZJya4gB2
+         s93VkpD04EcU1+VRZrqm9dlTfdBbtSeb2TInnljHrFW8CwDvxXBlihYR3TdcsziNSu9l
+         SAn/94ZKs4Wvw31WHkU/SxfOoH1MkN9IvT7FtchsfDYmaYdYr1jKG6vH1S5T3Kns4wSD
+         ApZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751879526; x=1752484326;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ib11SVMqO+bCPjfEqENNLpCpx2gzzGABjISwhN1BERM=;
+        b=JbIEpGjQkGRkpWsnjNkVxKlIj6alNc5I/AIP6Sg7uSm/Mp0hcaAhGSdAfHnqfIuzv9
+         +Vn0LTeXrxsY0CcZWzrlAnS83x+v5HqjOkgTlxpX0Tm3CxF+bSeaQpB2GfB2w98WMj+Y
+         YU0pnfXBJhCDAjeY2Ag96tq0Layv14X7eov0OWCnibo4DX2/9y2PqntCCvYMMdZI2EMD
+         rLDPoj4hXbjIwWNJUXs3h6sK2o2x7A8eG9qArXKRwLjynhCGY/Q/0hDhCXVebzjtWbjK
+         Hv787eMMMAmb4IlUO7nGtb1vhMDOZUqszFmTpN6DI1uHJgZXzkfi6I0wJE9Jf67U7k1U
+         RWoA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9/THziILXOoC4z7rqYkKq69eusfJCYJryDNOhMnhJALmMqPH63BpKjCpzYjwCVXNLi7SNZmrpWXxeqINC@vger.kernel.org, AJvYcCV8evkXFNOV4qy1a36FvtIKaxu5RG5/238EexeFtlaFpEDRy7U+1FQuAhGnbEzt6ZKyrOw8Q6Qb6og=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRFayHe6fQO1uZCiBFCxVjt5RxiFgxzZGBEj1hPCNad6W7X5tJ
+	Ladk19LlUb/WUfUrrR6I0UtCzcql4Qa8FdGW+YCG/qnJiLyLsVZu71Ov
+X-Gm-Gg: ASbGncuZqLCXcuJlfVDXxAxlzhaw/RzI3pkGFR7EcjtWNCy4H8HgYMLKIIZ44g9U/+J
+	VozYa5ESdn/+lU2W0BOIGBoPtCyhBmCCQPlCsDhDL7ueJGP4FFonSHIvzBiQLPgalOupWUW6IlI
+	6CNtGYFek/s48eVua7/UvdxDc5JNyPTNFyGV9zP4ox7Y/XVh74KBwrtzcQU2SC9frLCaHlBRZKC
+	bkYcIaHWCUHSKcvGNNkFQuN5EkiawHWkUZn4ONlk4cTZEDsdXX920B8oKHoDb5mo1hHcAL9h27m
+	uT2YWyruGkANxPSwkygxHp6MsCv8q6S5H7dFBb429HhPjDRIbsXu91iEHbF/8pPbin6XDgOzKd3
+	z1Sm2y0Bhp7BVLdfH/Q==
+X-Google-Smtp-Source: AGHT+IGxcVZf1l+vxP5mro3W+LwQYpbSh3U11ht+jGbx/Qt2czfDLS6qitRuCRhypgqzb6GCrwXK8w==
+X-Received: by 2002:a05:600c:19d3:b0:43d:db5:7af8 with SMTP id 5b1f17b1804b1-454b4ea65c5mr85853575e9.21.1751879526222;
+        Mon, 07 Jul 2025 02:12:06 -0700 (PDT)
+Received: from pumpkin (host-92-21-58-28.as13285.net. [92.21.58.28])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454b188d8e6sm105246025e9.36.2025.07.07.02.12.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 01:38:43 -0700 (PDT)
-Date: Mon, 7 Jul 2025 10:38:41 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Prathosh Satish <Prathosh.Satish@microchip.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Shannon Nelson <shannon.nelson@amd.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>, 
-	Petr Oros <poros@redhat.com>
-Subject: Re: [PATCH net-next v13 00/12] Add Microchip ZL3073x support (part 1)
-Message-ID: <cuqmu4cy52vj3njjltr3uf3ozsnmnhmo7v4lzzztftvupnf5wu@eekmg4a2wkla>
-References: <20250704182202.1641943-1-ivecera@redhat.com>
+        Mon, 07 Jul 2025 02:12:05 -0700 (PDT)
+Date: Mon, 7 Jul 2025 10:11:56 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ kernel@collabora.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: document linked lists
+Message-ID: <20250707101156.2cc84294@pumpkin>
+In-Reply-To: <20250702-linked-list-docs-v2-1-e36532f4b638@collabora.com>
+References: <20250702-linked-list-docs-v2-1-e36532f4b638@collabora.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250704182202.1641943-1-ivecera@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Fri, Jul 04, 2025 at 08:21:50PM +0200, ivecera@redhat.com wrote:
->Add support for Microchip Azurite DPLL/PTP/SyncE chip family that
->provides DPLL and PTP functionality. This series bring first part
->that adds the core functionality and basic DPLL support.
->
->The next part of the series will bring additional DPLL functionality
->like eSync support, phase offset and frequency offset reporting and
->phase adjustments.
->
->Testing was done by myself and by Prathosh Satish on Microchip EDS2
->development board with ZL30732 DPLL chip connected over I2C bus.
->
->---
->Changelog:
->v13:
->* added support for u64 devlink parameters
->* added support for generic devlink parameter 'clock_id'
->* several patches squashed into one per @jpirko's advice
->* renamed devlink version 'cfg.custom_ver' to 'custom_cfg'
->* per discussion with @jpirko, the clock_id is now generated randomly
->  and user have an option to change it via devlink
->* implemented devlink reload to apply clock_id change
->
->v12:
->* Using 'return dev_err_probe()'
->* Separate zl3073x_chip_info structures instead of array
->* Use mul_u64_u32_div() to compute input reference frequency to avoid
->  potential overflow
->* Removed superfluous check in zl3073x_dpll_output_pin_frequency_set()
->
->v11:
->* Fixed uninitialized 'rc' in error-path in patch 9
->
->v10:
->* Usage of str_enabled_disabled() where possible.
->
->v9:
->After discussion with Jakub Kicinski we agreed that it would be better
->to implement whole functionality in a single driver without touching
->MFD sub-system. Besides touching multiple sub-systems by single device
->there are also some technical issues that are easier resolvable
->in a single driver. Additionally the firmware flashing functionality
->would bring more than 1000 lines of code with previous approach to
->the MFD driver - it is not something the MFD maintainers would like
->to see.
->
->Ivan Vecera (12):
->  dt-bindings: dpll: Add DPLL device and pin
->  dt-bindings: dpll: Add support for Microchip Azurite chip family
->  devlink: Add support for u64 parameters
->  devlink: Add new "clock_id" generic device param
->  dpll: Add basic Microchip ZL3073x support
->  dpll: zl3073x: Fetch invariants during probe
->  dpll: zl3073x: Read DPLL types and pin properties from system firmware
->  dpll: zl3073x: Register DPLL devices and pins
->  dpll: zl3073x: Implement input pin selection in manual mode
->  dpll: zl3073x: Add support to get/set priority on input pins
->  dpll: zl3073x: Implement input pin state setting in automatic mode
->  dpll: zl3073x: Add support to get/set frequency on pins
+On Wed, 02 Jul 2025 22:24:47 +0200
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
 
-For the DPLL related code:
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
+> The kernel contains various generic data structures that should ideally
+> not be reinvented. However, it often fails to document the usage of
+> these in the in-tree kernel documentation beyond just a listing of
+> header symbols in the very lengthy kernel-api docs page. This is fine
+> for things that have simple invocations, but occasionally things devolve
+> into several layers of concatenating macros, which are subpar for humans
+> to parse.
+> 
+> Begin making a small impact by adding some rudimentary example-driven
+> documentation for the linked list functions. Many aspects are covered,
+> though it is not an exhaustive listing of the entire set of list
+> operations. We also direct readers towards further documentation should
+> they be interested in concurrency.
+>
+
+Jeepers; TLDR.
+I don't think the kernel docs are a place to explain linked lists.
+What may be relevant is a description of the types of linked list
+the kernel uses.
+For that you pretty much only need a picture of the head and two
+items showing both the forward and backward pointers.
+Then a list of the valid operations for that list type.
+What you can (efficiently) do with a list depends very much on how
+it is constructed.
+
+Then repeat for hlist and hlist_nulls - I think they are the other
+main list types.
+
+IIRC 'LIST' is a double-linked list through a dummy item.
+Not my favourite list type and can cause the sanitisers grief.
+
+	David
