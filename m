@@ -1,98 +1,146 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64090289E05
-	for <linux-doc@vger.kernel.org>; Mon,  7 Jul 2025 12:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBD629AB11
+	for <linux-doc@vger.kernel.org>; Mon,  7 Jul 2025 12:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751892514; cv=none; b=MSkHsnOORacYS+3alITlu0vPiguKuFZEwlgF/mvO40lWedmXoORnGp/6u3D32xzEGvRWyihl7lmbm/N01U98aOzp0tQ+VPvX9PgVkIDWwHwPdzP2pYBrEx8KtA7h6jhWC2+qSSMngoghxOM4cswCbuCVU0BE/pGL7hC6YPMHOvs=
+	t=1751892988; cv=none; b=faT5wgjMA+mt9gqaw0VxRSB8sxWW9QhmhnMtmvuYXr6yW9LBk1DIhCtaxRAiyPUnRqtzghQmNV+XnNkVoo092P9SzuCGX7n3Jcb3XkzLbW2q1OBtgkWP3xKlXlpHfdQASpCL1E9WNoMDkDNWwMPE4BRBv2MV/ykDfi2y3vLHMF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751892514; c=relaxed/simple;
-	bh=NXpBj1xWmYSm2okDyKpLvpJZzkmkIQDkt0bkS1rc0rg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GAnljHCedDWV0gSnuu8u5qLOFMfvgpqbErcAI6zxftBf80Pq14cckemR4LyTSVvQkilQeD7TytrmlPA8SxzU7gGXOUoK3cmG+XIGaf8iJ1ymRtnHvNM7pLEZ4iR/mtMfWaSC5REU+zR4Ajo3Bch5y8I2EWZ2DHX/LZ4fcc/ruyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EW5dwWOR; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1751892988; c=relaxed/simple;
+	bh=KPnqWiL2m2VKTHNqcysco6Gf4y9Poqeia0SBD9/VpIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLVXT+Ur4/mU3Gg1YZ/5NHmbvISpXdztnTKu9ebcRBxL+TvJrktejMFpt5b9R0gZ1NZP4onfnHt2sf3NikA5WRXeOmZlr2Qkqh8xzx7snOAhEeKCTeiZWtNB9j7Il18tZsbP3p/Se9Sxrj0m50QsaBjK26kgcU3HMJOQsIVaUtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=dAkx+Vc2; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EW5dwWOR"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4a8244e897fso42632621cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 07 Jul 2025 05:48:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="dAkx+Vc2"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6facba680a1so45142256d6.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Jul 2025 05:56:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751892512; x=1752497312; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NXpBj1xWmYSm2okDyKpLvpJZzkmkIQDkt0bkS1rc0rg=;
-        b=EW5dwWORw1YPgr7fuixxgWCPXokw9thYRtVZiMWvRFBTDeuVAFni012yQRzx6Wk2DG
-         ziSiqdvXegPif9nKIK1IY3gFIA+kG8sB1nhWhTccXvFcA1viTYoI8n9GxjKQde5rvl/1
-         7WXlR/wp6dyAqvTv+hJF7xFojy/BDDSGnEjQkoLHdmFq7yk9QPcSugRfUnyoS2RhRqOh
-         5sj7pa2LBjII7AOB0/Nu4+gL2D0N730byb+tY3sf2f5rqMODIkYCqt0MIffHoKKTghzd
-         pvVj1JAVIu2yT43ViNxvljeYo3nZQqFsgcHjZzWRJoQBxt5R673OWVhBxJkGyM2e+Pfs
-         zkIQ==
+        d=ziepe.ca; s=google; t=1751892986; x=1752497786; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qk23V2JOAJIYWEJqL9VccK1Z/r5nCIAurwcBtCjyYA0=;
+        b=dAkx+Vc2N9ndeDo9RI1vrSG+hc7dpyum3vkZ5/7/MoZDXd4FoggeKV9V1M3SgQtMLO
+         wP+lJDr9PZJMqpxu/ThL319GeJZcm0jcxxdWHz1lpPy0wggx9sRERg+Ff/I6EmuPxJ6Q
+         SIu9j6jbIOti4gmqayZD0ekSZpbPRj0ectneS3yzfDrvK5TVbgw8JlNdX+Y8ZhhjMWmt
+         TA5zH0u540CWmVCfgAr8u6bYG0xxS0we0/a3NCqdYInr0EcsRUdNFLVP759qaawRJcuN
+         2DQxz5Zf7v4rmdwO4Jj/j/77Fz8sFBlbt7wM4cvWS3Bbb0lJD4NsTjeFDXKLo5vJYVSi
+         A/Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751892512; x=1752497312;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NXpBj1xWmYSm2okDyKpLvpJZzkmkIQDkt0bkS1rc0rg=;
-        b=lg3j1Zo+yOM2whGzdSMrxKdicLxB6NAHooPwp0UFEo1UDt11Bumjm402ZlrgJ1iTYs
-         lII5AyTf1wjhJxgJV+ORUXMKL+6ZDhTsJwfabmAYccDVeS+uEo7esZgx/ZeQNXVrYUZy
-         RdjgX8tv5Qlb6r7O7YCAb/rGOUasEVTCdemnps1Y0E6oslnUle89+muxa6WY7pqVCnOh
-         WUDJh1Kx2WsFvZ/+rrqbntHbuGgFJ5m8sMDqASbe4acxvDRNJvG5s3okmgemEbLvQhnx
-         D1ubl0uu+a/OBVgDEATMMin83RmN0eNvsFkjCplMNCsQHtOe6SZd1dOPMKZaHcTcwqgu
-         9OIw==
-X-Forwarded-Encrypted: i=1; AJvYcCWjVtIqIadvgknd2Fw1Vi/6i89bPRZNsql9iaqrkKF5uZdXL4DfWIRWzb1kR2LzktXcdSnXVS5CEh4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDHkv7KG6yDXt/ROUYlGExbWLmdKMkPBNGW8Ah6cK6rfTszMO/
-	i03O9E5efI0wRCIrnEQ3Y0noTQqoXHLF+XzegtiP6NOPB8vc0DwZpLjbrupGZA/u9zBHCJtdPn0
-	C6NcVDowJ+0EVcUQY0OYYVb7oe8pdfbTu3i3d1dF6
-X-Gm-Gg: ASbGncuAdcogLz9lXwzXcRfWrQUIwZAGOE5nd0T+bNpT6h+z5Rd/vwFR11hvSeBlKgo
-	gnXa3ssHJufxkQd/tjvXuy9rm3tfWyBC/9o6Ywof+SnsfFbObiO6ZEPT14QAZyWW75lX1uNCvUo
-	xEqOls/u+56AmGVd8etVop09m4qKl2ACq9gnTY0zV1XeI=
-X-Google-Smtp-Source: AGHT+IGE1/XRTdSQDLc9V189phd4jHM7XVm3uMpcn0vgf/Ns7dLtQveHK+v9fsiJrfRa4TWVDv16yAZUooYaDzGa39w=
-X-Received: by 2002:a05:622a:400f:b0:476:7b0b:30fb with SMTP id
- d75a77b69052e-4a9a6dc6185mr151173411cf.22.1751892511959; Mon, 07 Jul 2025
- 05:48:31 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751892986; x=1752497786;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qk23V2JOAJIYWEJqL9VccK1Z/r5nCIAurwcBtCjyYA0=;
+        b=TNnCtDvQjSdy+ZDkVcWsuISseYuhmUUamzW4l3L8geicNW4EKgqq8JThXgEyt1pNwL
+         41bT08o1g+fTW7rxGhMPFw2DPLomFbMr/WDRk24hM7Di6LP6qGFz2dL+f40yExy6teh6
+         xwuRbhPp9/kKl0UpnedlqCWZYFrWLvemnmJoh5M6rYCasAExH9bdBPiGYOoHQIpZ3e5p
+         pLEsZJ8TLVrG42ut7fI3wZoFfm5JVWlpom7vnYO7dx6Ctar6iI/BmAs8J0Da2y+JVIHK
+         5GKIUYkpvZPgXQyjma11MdRcXpL4NeKyD0cdCU4yOsLzf96TkaFSUl1+X25Q3kpwyfsm
+         xUbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWpc2YbrdX+9f83/4jxjt2MHAyfnRLkTLt/8K6RMPfEO6/uBYuydAYiXbKOEXtsySfSniB5xTj55dw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxC0GmkyzpwML25RPTaTVYDZwnMt9rFeSHZGITzq70AKhPM5jnJ
+	MI/UjYUwJysMu8wf/ogyPhvew1AHtwBYzDq5blrT6kWac2gahvNAl6I9AhTbfl9g2HA=
+X-Gm-Gg: ASbGnctlkW5Y+T8pZD7/ukPdQFOgGoQCzxpGK7f/hFINGpTtTRIX/60gCqjPVTeP7uI
+	jzgGfpy/LOqPTTOAHeBWGPADP/Y5oGAcNfiL+0eZtKaFR1LefTSeYNetuARLXFTsXgKrtndIMaS
+	xbW3kxnHrcmAs0Px7pHZ24Vta4DE0K4i3ACTAoEHtwx/D2Wk3COP2uS0oSACmiu0CiML3xUJR0O
+	cFkGY3QRyFBnrXXdg/HMrspS2mHqTpeqgHoYmoliEc6hvSaqnlQbcTwTJY5tFsT0NVrhr662Psy
+	gYmpYMpn3AML7jysJYZUV5X4t5JZrOIHetUDsr1lGPHCV5SF0vQyjI6mQAzJqWOBwzooGa9enYz
+	TsNYJ/2xyYpmK+0RTlFDvYEP760gIRedZJj37Sg==
+X-Google-Smtp-Source: AGHT+IHpUaaVcJ5DRQCtRGMCJ6nO666Q1wL9WL24RtajZdpjAA2S6AsDZqcLbeUtsD0vEBZQLx+sMA==
+X-Received: by 2002:a05:6214:2b89:b0:702:d60b:c037 with SMTP id 6a1803df08f44-702d60bd72dmr108206296d6.29.1751892985849;
+        Mon, 07 Jul 2025 05:56:25 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.56.70])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d5dbdb4bd6sm598121385a.28.2025.07.07.05.56.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Jul 2025 05:56:25 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1uYlOS-00000006LRj-2Hey;
+	Mon, 07 Jul 2025 09:56:24 -0300
+Date: Mon, 7 Jul 2025 09:56:24 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pratyush Yadav <pratyush@kernel.org>,
+	David Matlack <dmatlack@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
+	graf@amazon.com, changyuanl@google.com, rientjes@google.com,
+	corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com
+Subject: Re: [RFC v2 10/16] luo: luo_ioctl: add ioctl interface
+Message-ID: <20250707125624.GO904431@ziepe.ca>
+References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
+ <20250515182322.117840-11-pasha.tatashin@soleen.com>
+ <20250624-akzeptabel-angreifbar-9095f4717ca4@brauner>
+ <CA+CK2bBu4ex9O5kPcR7++DVg3RM8ZWg3BCpcc6CboJ=aG8mVmQ@mail.gmail.com>
+ <20250625-akrobatisch-libellen-352997eb08ef@brauner>
+ <CALzav=d+XgS1bUs-v7+ws5nYU9y=4uc1c8oVLHrJ16qLpnUi9Q@mail.gmail.com>
+ <mafs0sejmse57.fsf@kernel.org>
+ <aGqJIFs8GpvHn_Yy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250707105205.222558-1-daniel.sedlak@cdn77.com>
-In-Reply-To: <20250707105205.222558-1-daniel.sedlak@cdn77.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 7 Jul 2025 05:48:19 -0700
-X-Gm-Features: Ac12FXzOaT691PWcNP8FePx9AQibU4CArjSNEVwylpr2hqUBjQG3P5r3EGY0ZLc
-Message-ID: <CANn89i+=haaDGHcG=5etnNcftKM4+YKwdiP6aJfMqrWpDgyhvg@mail.gmail.com>
-Subject: Re: [PATCH net-next] tcp: account for memory pressure signaled by cgroup
-To: Daniel Sedlak <daniel.sedlak@cdn77.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	David Ahern <dsahern@kernel.org>, Jiayuan Chen <jiayuan.chen@linux.dev>, 
-	Christian Hopps <chopps@labn.net>, Sabrina Dubroca <sd@queasysnail.net>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Matyas Hurtik <matyas.hurtik@cdn77.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aGqJIFs8GpvHn_Yy@kernel.org>
 
-On Mon, Jul 7, 2025 at 3:55=E2=80=AFAM Daniel Sedlak <daniel.sedlak@cdn77.c=
-om> wrote:
->
-> Currently, we have two memory pressure counters for TCP sockets [1],
-> which we manipulate only when the memory pressure is signalled through
-> the proto struct [2].
->
-> However, the memory pressure can also be signaled through the cgroup
-> memory subsystem, which we do not reflect in the netstat counters.
->
-> This patch adds a new counter to account for memory pressure signaled by
-> the memory cgroup.
+On Sun, Jul 06, 2025 at 05:33:04PM +0300, Mike Rapoport wrote:
 
-OK, but please amend the changelog to describe how to look at the
-per-cgroup information.
+> One of the points in Christian's suggestion was that ioctl doesn't have to
+> be bound to a misc device. Even if we don't use read()/write()/link() etc,
+> we can have a filesystem that exposes, say, "control" file and that file
+> has the same liveupdate_ioctl() in its fops as we have now in miscdev.
 
-Imagine that in the future, someone finds this new counter being
-incremented and look at your changelog,
-I am sure that having some details on how to find the faulty cgroup
-would also help.
+IMHO for this application there is nothing wrong with a misc
+device. The intention is for a single userspace process to use this as
+some kind of request broker and provide the required policy layer.
+
+Creating a VFS and then running ioctl inside the VFS just seems like
+over-engineering to me. We can't really avoid the ioctls.
+
+This is not really managing files in the sense of string named objects
+with bytestreams associated with them.
+
+I've also heard people saying things like configs were a mistake, so
+I'm not so sure about this. IIRC VFS brings a bunch of standard use
+models and their associated races that the kernel is forced to deal
+with, while the simple ioctl here has none of that complexity.
+
+> The cost is indeed a bit of boilerplate code to create the filesystem, but
+> it would be easier to extend for per-service and containers support.
+
+I don't think it really improves that. You still have a single policy
+agent in userspace that has to control this thing. 
+
+On the other side you'd have a much more complex serialization job
+because you have to capture an open ended filesystem instead of the
+much simpler u64 key/value scheme the ioctl is using.
+
+Jason
