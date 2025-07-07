@@ -1,130 +1,98 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6AFAD21;
-	Mon,  7 Jul 2025 12:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751891459; cv=pass; b=olEKUB9B5UfNvkmxaNXPvDh/py1Xdo+Ido3IyGQQv/40KdHNTehA60l10Sh1dYgX443wbs07bKpjnhhlXIg2Yr+wFjDtxFpg6ViLJ+rRJe0H9dwSCBN1ewd0KSuQ7vVkK4LXBGmSX9iGPMXV46CpZRjYUmKHweI/OkmXprZrrVM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751891459; c=relaxed/simple;
-	bh=mrX151EJF7Pcl37M7XXhv1rCHMoq0+4T4pL6rb4tY4Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IKla8fw/LmDDihv5QCIFtx4pZN+abqUJhjcqNEAC75KgIcxnAbKpzakLXw+LnT5huFqg/wzXZB5j9DMbUa61H22Z1O0Eoh5OiSArIaJhjgW13A/SN7qdWDnY4xidKNR+r4B7qPnB8kn2Lsh8OQ0VgsGpUHM1XGyVedCvQA3+rX8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=JADAi+vt; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64090289E05
+	for <linux-doc@vger.kernel.org>; Mon,  7 Jul 2025 12:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751892514; cv=none; b=MSkHsnOORacYS+3alITlu0vPiguKuFZEwlgF/mvO40lWedmXoORnGp/6u3D32xzEGvRWyihl7lmbm/N01U98aOzp0tQ+VPvX9PgVkIDWwHwPdzP2pYBrEx8KtA7h6jhWC2+qSSMngoghxOM4cswCbuCVU0BE/pGL7hC6YPMHOvs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751892514; c=relaxed/simple;
+	bh=NXpBj1xWmYSm2okDyKpLvpJZzkmkIQDkt0bkS1rc0rg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GAnljHCedDWV0gSnuu8u5qLOFMfvgpqbErcAI6zxftBf80Pq14cckemR4LyTSVvQkilQeD7TytrmlPA8SxzU7gGXOUoK3cmG+XIGaf8iJ1ymRtnHvNM7pLEZ4iR/mtMfWaSC5REU+zR4Ajo3Bch5y8I2EWZ2DHX/LZ4fcc/ruyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EW5dwWOR; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="JADAi+vt"
-ARC-Seal: i=1; a=rsa-sha256; t=1751891423; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=guxRtBBaoBOEbe2mv519AShg7WTGKpai/GyzQOpPeKEsp86SflGgsZPw5MLFV9ymNrAVdvxujmsEPkbH+3v3ashCOAsaWRhUxfcNBpU/+SYWaGwobEpeJxTkGvhQ6UwNgUV4RRB+f2mjaeEdYl2WFz74F18SWNOq1B5nycNtwPA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1751891423; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Hb6TrggivYkthnZKYMQ9PhC1kEPhFxpQeSRzkBBHQEA=; 
-	b=U36TrsD4eINCTFoWjiQbKwGX8xiddAAgrsQv9DEm7kr40VK5RED1blR2aCsFpH0DN2ODJ+QDbQ3aFmAuHfBoTrcsN76XmvUy7vu36C1A0IrodxgStHQj3Dscm9Ym0wAve+Rrgn7AZdDjpOQns0tydxYpqMpGt99LHG0957B8QQA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751891423;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=Hb6TrggivYkthnZKYMQ9PhC1kEPhFxpQeSRzkBBHQEA=;
-	b=JADAi+vt3MiH5E9UlXPBZri8ivvFMgidymfePSPtrA/1/z0O8gMJy1zsvbixTdJS
-	cad+XfO9xMhL3f7WS8IERNGyh6DEKfQhhhdYRGNmzqqi52dCpVXVIlL8LB/cucdRLgb
-	l+Xa1TULSKpav/KTj/fTi31YcwmGmTCK17kco9b8=
-Received: by mx.zohomail.com with SMTPS id 1751891419333639.0502213968841;
-	Mon, 7 Jul 2025 05:30:19 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- kernel@collabora.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: document linked lists
-Date: Mon, 07 Jul 2025 14:30:15 +0200
-Message-ID: <2391623.ElGaqSPkdT@workhorse>
-In-Reply-To: <20250707101156.2cc84294@pumpkin>
-References:
- <20250702-linked-list-docs-v2-1-e36532f4b638@collabora.com>
- <20250707101156.2cc84294@pumpkin>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EW5dwWOR"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4a8244e897fso42632621cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 07 Jul 2025 05:48:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1751892512; x=1752497312; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NXpBj1xWmYSm2okDyKpLvpJZzkmkIQDkt0bkS1rc0rg=;
+        b=EW5dwWORw1YPgr7fuixxgWCPXokw9thYRtVZiMWvRFBTDeuVAFni012yQRzx6Wk2DG
+         ziSiqdvXegPif9nKIK1IY3gFIA+kG8sB1nhWhTccXvFcA1viTYoI8n9GxjKQde5rvl/1
+         7WXlR/wp6dyAqvTv+hJF7xFojy/BDDSGnEjQkoLHdmFq7yk9QPcSugRfUnyoS2RhRqOh
+         5sj7pa2LBjII7AOB0/Nu4+gL2D0N730byb+tY3sf2f5rqMODIkYCqt0MIffHoKKTghzd
+         pvVj1JAVIu2yT43ViNxvljeYo3nZQqFsgcHjZzWRJoQBxt5R673OWVhBxJkGyM2e+Pfs
+         zkIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751892512; x=1752497312;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NXpBj1xWmYSm2okDyKpLvpJZzkmkIQDkt0bkS1rc0rg=;
+        b=lg3j1Zo+yOM2whGzdSMrxKdicLxB6NAHooPwp0UFEo1UDt11Bumjm402ZlrgJ1iTYs
+         lII5AyTf1wjhJxgJV+ORUXMKL+6ZDhTsJwfabmAYccDVeS+uEo7esZgx/ZeQNXVrYUZy
+         RdjgX8tv5Qlb6r7O7YCAb/rGOUasEVTCdemnps1Y0E6oslnUle89+muxa6WY7pqVCnOh
+         WUDJh1Kx2WsFvZ/+rrqbntHbuGgFJ5m8sMDqASbe4acxvDRNJvG5s3okmgemEbLvQhnx
+         D1ubl0uu+a/OBVgDEATMMin83RmN0eNvsFkjCplMNCsQHtOe6SZd1dOPMKZaHcTcwqgu
+         9OIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWjVtIqIadvgknd2Fw1Vi/6i89bPRZNsql9iaqrkKF5uZdXL4DfWIRWzb1kR2LzktXcdSnXVS5CEh4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDHkv7KG6yDXt/ROUYlGExbWLmdKMkPBNGW8Ah6cK6rfTszMO/
+	i03O9E5efI0wRCIrnEQ3Y0noTQqoXHLF+XzegtiP6NOPB8vc0DwZpLjbrupGZA/u9zBHCJtdPn0
+	C6NcVDowJ+0EVcUQY0OYYVb7oe8pdfbTu3i3d1dF6
+X-Gm-Gg: ASbGncuAdcogLz9lXwzXcRfWrQUIwZAGOE5nd0T+bNpT6h+z5Rd/vwFR11hvSeBlKgo
+	gnXa3ssHJufxkQd/tjvXuy9rm3tfWyBC/9o6Ywof+SnsfFbObiO6ZEPT14QAZyWW75lX1uNCvUo
+	xEqOls/u+56AmGVd8etVop09m4qKl2ACq9gnTY0zV1XeI=
+X-Google-Smtp-Source: AGHT+IGE1/XRTdSQDLc9V189phd4jHM7XVm3uMpcn0vgf/Ns7dLtQveHK+v9fsiJrfRa4TWVDv16yAZUooYaDzGa39w=
+X-Received: by 2002:a05:622a:400f:b0:476:7b0b:30fb with SMTP id
+ d75a77b69052e-4a9a6dc6185mr151173411cf.22.1751892511959; Mon, 07 Jul 2025
+ 05:48:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <20250707105205.222558-1-daniel.sedlak@cdn77.com>
+In-Reply-To: <20250707105205.222558-1-daniel.sedlak@cdn77.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Mon, 7 Jul 2025 05:48:19 -0700
+X-Gm-Features: Ac12FXzOaT691PWcNP8FePx9AQibU4CArjSNEVwylpr2hqUBjQG3P5r3EGY0ZLc
+Message-ID: <CANn89i+=haaDGHcG=5etnNcftKM4+YKwdiP6aJfMqrWpDgyhvg@mail.gmail.com>
+Subject: Re: [PATCH net-next] tcp: account for memory pressure signaled by cgroup
+To: Daniel Sedlak <daniel.sedlak@cdn77.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	David Ahern <dsahern@kernel.org>, Jiayuan Chen <jiayuan.chen@linux.dev>, 
+	Christian Hopps <chopps@labn.net>, Sabrina Dubroca <sd@queasysnail.net>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Matyas Hurtik <matyas.hurtik@cdn77.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Monday, 7 July 2025 11:11:56 Central European Summer Time David Laight wrote:
-> On Wed, 02 Jul 2025 22:24:47 +0200
-> Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
-> 
-> > The kernel contains various generic data structures that should ideally
-> > not be reinvented. However, it often fails to document the usage of
-> > these in the in-tree kernel documentation beyond just a listing of
-> > header symbols in the very lengthy kernel-api docs page. This is fine
-> > for things that have simple invocations, but occasionally things devolve
-> > into several layers of concatenating macros, which are subpar for humans
-> > to parse.
-> > 
-> > Begin making a small impact by adding some rudimentary example-driven
-> > documentation for the linked list functions. Many aspects are covered,
-> > though it is not an exhaustive listing of the entire set of list
-> > operations. We also direct readers towards further documentation should
-> > they be interested in concurrency.
-> >
-> 
-> Jeepers; TLDR.
-> I don't think the kernel docs are a place to explain linked lists.
+On Mon, Jul 7, 2025 at 3:55=E2=80=AFAM Daniel Sedlak <daniel.sedlak@cdn77.c=
+om> wrote:
+>
+> Currently, we have two memory pressure counters for TCP sockets [1],
+> which we manipulate only when the memory pressure is signalled through
+> the proto struct [2].
+>
+> However, the memory pressure can also be signaled through the cgroup
+> memory subsystem, which we do not reflect in the netstat counters.
+>
+> This patch adds a new counter to account for memory pressure signaled by
+> the memory cgroup.
 
-That is not what this is doing. In fact, the very first paragraph
-of the documentation page that was too long for you to read does
-explain this. What are you trying to achieve with this response?
+OK, but please amend the changelog to describe how to look at the
+per-cgroup information.
 
-> What may be relevant is a description of the types of linked list
-> the kernel uses.
-
-That is what this is.
-
-> For that you pretty much only need a picture of the head and two
-> items showing both the forward and backward pointers.
-
-No you don't, that does not explain the operations on them. The way
-the kernel embeds nodes as struct members to then do a container_of
-on is not obvious to many, as is evidenced by there existing out-of-
-tree documentation explaining this very fact. The way this interacts
-with how these list operations are called is worth documenting.
-
-> Then a list of the valid operations for that list type.
-
-Function names are not self-explanatory. That lists are circular and
-how that can break traversal after list modifications is not immediately
-evident.
-
-> What you can (efficiently) do with a list depends very much on how
-> it is constructed.
-
-No. O-notation was invented for a reason. There is no way in which you
-can construct a list to make it not a linear search, even if you sort
-it.
-
-> 
-> Then repeat for hlist and hlist_nulls - I think they are the other
-> main list types.
-> 
-
-hlist literally just lacks a single pointer in the head, it does not
-differ from the kernel's doubly linked list in any meaningful way,
-and would be an actual TL;DR.
-
-> IIRC 'LIST' is a double-linked list through a dummy item.
-> Not my favourite list type and can cause the sanitisers grief.
-
-I don't see how your opinion on the datastructure is relevant here.
-
-> 
-> 	David
-> 
-
-
+Imagine that in the future, someone finds this new counter being
+incremented and look at your changelog,
+I am sure that having some details on how to find the faulty cgroup
+would also help.
