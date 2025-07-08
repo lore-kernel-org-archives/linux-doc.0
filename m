@@ -1,88 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CBE2DBF46;
-	Tue,  8 Jul 2025 12:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DAF2356D9
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 12:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751978505; cv=none; b=a7CZnc0Zbquf7CtuZ1wjil3QKVJLMciE0Wol0iIIbbubeY0UEFU/3YYaLce0TmpYLs8y7G0L2PWuc6Tqx5vlF/xGcJR2RGDZWINbY1l5hD3wvUTKesYtPJ5GWBA9SJXvEG9KKGOolgHEc/ckszOEoETq8HdPHf4xApaBcJPRrJs=
+	t=1751979391; cv=none; b=oT4JgygIS74oQ73PsW6I5z+Lg4jhvl7HhbqTJCjE/I5tWsy3THrAhwb/vbuZ8oqSTz6Sj44BMISUnKFxnon4QiEJK/kioSk/zDZzvJwkFce/yiZ4TYD+YJV/GsqCjQlDAKyX8q4cNXYBCyzQhFLOIyct/Hwy6Kd4XGS3sQU4bcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751978505; c=relaxed/simple;
-	bh=UDADHF9j7uzd5QoSv3jvR04UvpD5yl4ti/QBxd3YBx0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MNgzmg9Igw/Vbkx+90VfTgfFzF49YzBH1qnEz8KXpToKOAnZy4aOlhCZiYTUv4R3glbTGQCEb0ZjpgGuQ9QmydFRBjoTKNEJThRH41qju8C6tH4M835RaYA82/+ZurkjXCXZGS0F9DQaHgwgg1WaIaRgbn8+xdqiLyoENfjEEqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SsTW1GIL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751979391; c=relaxed/simple;
+	bh=tJRA7m1/e900tlxVd4Za+3wH7OTzUtyyJem1XRv1vJ8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=DlUGzEzlxPAbeKiBHzYuqc2bQkc93BH0U/tItI9iNxTV2rByoBj29FG5K65YCyHc9WiTlpGn+9BsHSvIGxk4WjVePj68v2qdaJiSXCY4NTxOx2dn+DXLiXOevZ6/0XZWNp+2xyxFHxIA222iQf5wwksBh12rb/8leNjk1EcxFOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=rUMpLiKt; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SsTW1GIL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A151FC4CEFB;
-	Tue,  8 Jul 2025 12:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751978504;
-	bh=UDADHF9j7uzd5QoSv3jvR04UvpD5yl4ti/QBxd3YBx0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SsTW1GILr2212peynD7tzYfofUC+MgaQgdZ248l+zKny5n7HeUD+MtPwmEO7qKYSM
-	 lefSk23gkJtEDG7J0sKpM3gbLROPq7FpH5scZTSbjSrdwfBAVWKLkTMO8e/Yng3v4H
-	 Dlug8XEGLd0jHswufNYClBeCkaiubh2NFIs01QS/JRx67om7w1/2rQ94PsFLHoE0NE
-	 aBOif3Hpz1ywlZwB20atdA0RLLYF0Z5ccttlC7O+pIxDM+wkvQbZRvcAT0Dy1IePSj
-	 AvLNjXjE90DMhwEkYROCaL3d2p/81mav3Y/+++CP3aw867pukENTOHPsIg++AGAeNM
-	 pKOhQMq78BhjA==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-553b544e7b4so4236114e87.3;
-        Tue, 08 Jul 2025 05:41:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCViws9PZi4bSAMZLkFKsYBT36LUESlvmaBHC/GnFnzQBZyuHmaIXJ14xMcTiex394AKZdYw4GS+f1HNRtpnag==@vger.kernel.org, AJvYcCVu9pTscDxbe/8jVvYpk8sNNFuoHbAzve71Cm6BMkYTJk1lybUWXi2AKS1gtLhC5CY1xrAs6FUKHpA=@vger.kernel.org, AJvYcCWC4B2hKwe8QndN36V7QQUqNRv0x35yU+y9Z8Zqdhn931vsUWWElzSJX7bKyfmnhcTh3hcTqJIuBNC/1+PS@vger.kernel.org, AJvYcCWFUl4ABoHjFyhjh5FYC826fUe08Ey7HF84MckOQU3AxuLVNqpIR77ol4zFSSztwsG4XDs4P5U9WKp4Q2XJFQ==@vger.kernel.org, AJvYcCWMW/5NnnuZDTPC26akSDhJ5IgaQBsJBHsW7QxkoQNQPBEmmPmRvz7miUkOrDYfrcXKz76aIP2LWpYN3uHe@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNdO+eh3tjDtqtv+gJw01PcZEBQffGW/W+A04YDFkUvA26LbWc
-	x2i2G84HEuFnX+vKZLcWLYphWMmMjvHBkWTLCTcmpaixmgwvoEgGO5/s0sJynSurQWJTVKvmAfO
-	NtGmltxXF8RA2kws0ikm7zwqrCkS2ca4=
-X-Google-Smtp-Source: AGHT+IHnkIrMN8rQO1Bq02PlrdcivXsZiXfu4vY290OBC0doTWbVX97bege4WFESW0Skf3G3JWewKwGqnc4dnFeTqYg=
-X-Received: by 2002:a05:6512:ac8:b0:553:d910:932b with SMTP id
- 2adb3069b0e04-557ab019fadmr4874002e87.46.1751978503246; Tue, 08 Jul 2025
- 05:41:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="rUMpLiKt"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250708125626euoutp025a796d847dd01d50efb0be4ba12e9910~QR-hSkGh60145701457euoutp02e
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 12:56:26 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250708125626euoutp025a796d847dd01d50efb0be4ba12e9910~QR-hSkGh60145701457euoutp02e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1751979386;
+	bh=7/XLYR0OqGT6q8wsQL9awTM8RahowyCK2kF3Lml5n78=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=rUMpLiKtylansmwZEOTSLIDw3e88apapi9cZUeM+VwB6dnZwW74YiawcqeB7aNHsz
+	 phmldqGZGmgcE5mbHZFMvy+/ua/qmdnZrQIXXdjq/6DIcaz3yi5eWLpP0dS+1ew2NU
+	 O2DMyf6ZjkU0E5KGbps8p5YBy+HTdwiEMA3XvUgM=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250708125626eucas1p10fea4e2440d7273510ca606b8c879240~QR-go19vo0583905839eucas1p1z;
+	Tue,  8 Jul 2025 12:56:26 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250708125622eusmtip2e8d499202aebc1a18605d526cd72bbdc~QR-dBQdu70489204892eusmtip2-;
+	Tue,  8 Jul 2025 12:56:22 +0000 (GMT)
+Message-ID: <39d43309-9f34-48bc-a9ad-108c607ba175@samsung.com>
+Date: Tue, 8 Jul 2025 14:56:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz> <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
-In-Reply-To: <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 8 Jul 2025 21:41:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATpQrHX_8x4WvhDN7cODCCLr8kihydtfM-6wxhY17xtQw@mail.gmail.com>
-X-Gm-Features: Ac12FXzLKEAaSK0UCVY02u21bjI8ZtyUUPqLJc13t8D_Olyr5l1LvUDi-odjq5Y
-Message-ID: <CAK7LNATpQrHX_8x4WvhDN7cODCCLr8kihydtfM-6wxhY17xtQw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] module: Restrict module namespace access to in-tree modules
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Christoph Hellwig <hch@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
-	David Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>, 
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman
+	<mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
+	<christophe.leroy@csgroup.eu>, Robin Murphy <robin.murphy@arm.com>, Joerg
+	Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, "Michael S.
+	Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alexander Potapenko <glider@google.com>, Marco Elver
+ <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, Andrew Morton
+ <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ iommu@lists.linux.dev, virtualization@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20250708120647.GG592765@unreal>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250708125626eucas1p10fea4e2440d7273510ca606b8c879240
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf
+X-EPHeader: CA
+X-CMS-RootMailID: 20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf
+References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
+	<cover.1750854543.git.leon@kernel.org>
+	<35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+	<20250627170213.GL17401@unreal> <20250630133839.GA26981@lst.de>
+	<69b177dc-c149-40d3-bbde-3f6bad0efd0e@samsung.com>
+	<20250708110007.GF592765@unreal>
+	<261f2417-78a9-45b8-bcec-7e36421a243c@samsung.com>
+	<20250708120647.GG592765@unreal>
 
-On Tue, Jul 8, 2025 at 4:29=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wro=
-te:
+On 08.07.2025 14:06, Leon Romanovsky wrote:
+> On Tue, Jul 08, 2025 at 01:45:20PM +0200, Marek Szyprowski wrote:
+>> On 08.07.2025 13:00, Leon Romanovsky wrote:
+>>> On Tue, Jul 08, 2025 at 12:27:09PM +0200, Marek Szyprowski wrote:
+>>>> On 30.06.2025 15:38, Christoph Hellwig wrote:
+>>>>> On Fri, Jun 27, 2025 at 08:02:13PM +0300, Leon Romanovsky wrote:
+>>>>>>> Thanks for this rework! I assume that the next step is to add map_phys
+>>>>>>> callback also to the dma_map_ops and teach various dma-mapping providers
+>>>>>>> to use it to avoid more phys-to-page-to-phys conversions.
+>>>>>> Probably Christoph will say yes, however I personally don't see any
+>>>>>> benefit in this. Maybe I wrong here, but all existing .map_page()
+>>>>>> implementation platforms don't support p2p anyway. They won't benefit
+>>>>>> from this such conversion.
+>>>>> I think that conversion should eventually happen, and rather sooner than
+>>>>> later.
+>>>> Agreed.
+>>>>
+>>>> Applied patches 1-7 to my dma-mapping-next branch. Let me know if one
+>>>> needs a stable branch with it.
+>>> Thanks a lot, I don't think that stable branch is needed. Realistically
+>>> speaking, my VFIO DMA work won't be merged this cycle, We are in -rc5,
+>>> it is complete rewrite from RFC version and touches pci-p2p code (to
+>>> remove dependency on struct page) in addition to VFIO, so it will take
+>>> time.
+>>>
+>>> Regarding, last patch (hmm), it will be great if you can take it.
+>>> We didn't touch anything in hmm.c this cycle and have no plans to send PR.
+>>> It can safely go through your tree.
+>> Okay, then I would like to get an explicit ack from Jérôme for this.
+> Jerome is not active in HMM world for a long time already.
+> HMM tree is managed by us (RDMA) https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git/log/?h=hmm
+> ➜  kernel git:(m/dmabuf-vfio) git log --merges mm/hmm.c
+> ...
+> Pull HMM updates from Jason Gunthorpe:
+> ...
 >
-> The module namespace support has been introduced to allow restricting
-> exports to specific modules only, and intended for in-tree modules such
-> as kvm. Make this intention explicit by disallowing out of tree modules
-> both for the module loader and modpost.
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=58ba80c4740212c29a1cf9b48f588e60a7612209
+> +hmm		git	git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git#hmm
 >
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> We just never bothered to reflect current situation in MAINTAINERS file.
 
+Maybe this is the time to update it :)
 
+I was just a bit confused that no-one commented the HMM patch, but if 
+You maintain it, then this is okay.
 
-In my understanding, an external module with the same name
-can override the internal one.
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-This change disallows such a use-case.
-
-
-
---=20
-Best Regards
-Masahiro Yamada
