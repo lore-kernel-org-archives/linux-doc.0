@@ -1,106 +1,79 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC7A2C15A6;
-	Tue,  8 Jul 2025 14:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFD426CE02;
+	Tue,  8 Jul 2025 14:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751983458; cv=none; b=HLn/aCE7C0SIy5kmGB5rmPF1o6khmZ/fBJZr0G3M+98WFuqAl+AhiLIGCkC4ZU+tAIBwdjfp1ZpQV+SH2yKhqwQNnlSTy/ChsDlm7pz7/Qk2BEerM8YKTfbBWzozvOUXnm4wAfGvAeyjYiHg6rle6Ltg9W7zQ0chpL+fUsG2JWQ=
+	t=1751983833; cv=none; b=pXaICeUtlZtnAHyJnYs3NAGSEF0Vs7/swTnz+j4xqjjo+LIyiFO4NFim5FDUKcbmk18BXkLZe871R4z+HDipSFc0yaijzV2EzPBsaFaXXi9w2YmYIn8RTOUknDME6JgI6PmXxCMbKK004B6jbusb0u8C5m31OPcm0EJa6h0k9ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751983458; c=relaxed/simple;
-	bh=tMT8TdqcdoCjqYmHjo60TtEOAFeGLeXifmS6Y6mwk9M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LrlAFFzvVPRiyGRYoRKtBZX5eCHY78Fb74XQkdQCjPYNCsW+8yR1DMns5D8xxHXH3oKkNJrUPV6nlIGAbfVx1aSsdqR11NOFByCCBtTFx4kWGL3JpPVi24/WGzuItm5+PUBDD4glVOYUTxjM5Dece24dpGUQWwm9qe/kWoaBC4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lq0xelsM; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751983833; c=relaxed/simple;
+	bh=x0g1b8qscEmMDvgCicLrsggSaHE11bJ3vQNSPjC8Fjo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=h5ItaGBszcVlPglbBjhYyes+92Ibs66E0rFAxKEtzfrfRX72TVjnqKWXeftPI1fNMpdcZrzLFHQw7gpwRKwg1fKmu3YFIotsuN/+uzEAIjeVg7sjDhqT0GZe9erzuGTOuFUjPNkxTyEkjFM6kJjAaM3/t3uPFa8dWaLWT9rpTzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Pi6dSmZH; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lq0xelsM"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ae0df6f5758so726169866b.0;
-        Tue, 08 Jul 2025 07:04:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751983454; x=1752588254; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MtgbJ10KrJZ3EWuq4BoZPrGsm8VyyDdoigIM7j7cQhE=;
-        b=lq0xelsM9yJpUPtxqKpexiODbCHR/HXv8znxScSapgKb6ZSstVojh9E9rhRegnwbcV
-         8BCeKOOZy6MsYCFD5CxRLqFGCZofVl+A5uEZjOyoQztX3S01I2cst6ow/uvp7KRYGa5N
-         TXraAbUZYbJQcYOvDomLyfTImvpd4mM0w/1xNkSWavg8SJs6sq15sTo5wFwaiC5BSGRN
-         vmhxO9gszrBR+TgTMBoORAIpusQrDyxdqb4cP+o83MJOPuFqn7ujdZl+rmbLHGS9PzAT
-         XczrGwuDCXZWXenA/BAfBV1VnxoXTPzxvGCptTovRxMAeFszkCB1qgSMUivao8sccwg5
-         Zwcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751983454; x=1752588254;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MtgbJ10KrJZ3EWuq4BoZPrGsm8VyyDdoigIM7j7cQhE=;
-        b=f8pMvdnKFk0E8ac6EsbhePogAxyX8BYB1OzAIv934nCQEDdyLAHr7xUWzIBEzor5Vp
-         k6fvJrUvn5z40Y/1ejMg7LpQt7nmbCK/OTt5kYJfjk/CvUXS7In/f1Gr1vlJ424PBGuD
-         Sufg0tn1EP1KxUV8SLIMpSAESzQm754TU4aiTJLAYP/WSYsJTOyX3HHSSjMFLRKa1Tw9
-         yjIZZ39IKqG0c0SJY6i41cPGQMEWkmItsUy6dIDXRZC/sGjtK4lNpg3cZbf18SXHtwM8
-         op4GUYtRB7IWpNuOGXIxzALMgynMCqYGSPJ3U9kBxiWbJE5rjdIY2rTwA4vIUWL2Esvo
-         O+Xg==
-X-Forwarded-Encrypted: i=1; AJvYcCW8EtMwi1xkyZLr9CPWG2sNencv2ZwECfPV/WBZZFQg7tU9HevmD/so33c4c64qgNDXaDNt9ciPkhXkVLRa@vger.kernel.org, AJvYcCWODaY5aoi/OPRUVUisjkSKNUXpP5H0hL83aYa1MXqyxrTvjYLGzKxzdJN38uwgKe4ZXrThpAzvU5M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzD8LCoAxj0NRl7s0HnMwIbS98TShFlYcEM4LuOuIw37P6k29Nr
-	8Ci4iyKzfUTiNaU0KFxPESLfzW2Jtw8lFbrBUP+ammGHgi6A3tsFdBeSTNCq11HWSDsEttFPZE0
-	PhsVdhJLsIDrTrU5kOuUr7nd5+Rbwc/s=
-X-Gm-Gg: ASbGncvdQafwCNOxeeuDhSues6eN5GAgOCdhbQppThv/8Rc4qSwERnkkkTWYCxHVedn
-	gbOFgUb1kkSf1Tt9SpkVWrqHf0k4aVOvKGj+ov3vkaEZCj8d8FxH7asbTgjg7uU/ASD6nBuPRoS
-	iaJoTxzWIAMff+0dio7gVS+afU7wiwbCRORcc0h6mUxPPZ6niNoTHPDAicT90cjpE0ganrGWy7N
-	96aRw==
-X-Google-Smtp-Source: AGHT+IHdkbFaU+dLpQhDaOZuqg3wNksTld/NxAT2ZZUYBhmA+TLmM6O2a0YIK2eEPzgmT6XcfgyNk2gbzbE2E3n4w0Y=
-X-Received: by 2002:a17:906:f406:b0:ae3:24c:6a21 with SMTP id
- a640c23a62f3a-ae3fe4bee21mr1601178766b.26.1751983454147; Tue, 08 Jul 2025
- 07:04:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Pi6dSmZH"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D3526406FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1751983831; bh=WnWNqI6r83IhcQtwKOvhrTukhJuq9eLTsWZfvRQ+lHo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Pi6dSmZHEwqutatGA2z2dd28eiYt5g4XZY0SIWkkC2xnzvp1n/pnwOVN1FaoDrPRd
+	 emgylqNwjt+kC2TNq+Gqrt3t+7Dkd3YkSj9C+W8cGsx/W/ZHUDYWgM23nYSiTBrhfT
+	 K7WNTsHhPYrVJEJi/ZRRq+GB424VVFAZCijpGBZre1TD0LwtSAY1rqHTP9HcxGbOvU
+	 QuDshKwn15X3olykUX3Q5YVMQnbMrLfh8SZ2Su5kWFt1J7Ox7isFJ3DJ9BcQoPMCHr
+	 z828vbwhVJf/FwNQszEwqos/1YBQZlPyTZmPLQSLWwvuyHUYQzpXOBeug59kOWVn8k
+	 pYAASGvPaCqhw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D3526406FC;
+	Tue,  8 Jul 2025 14:10:30 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH -next] docs: kdoc: various fixes for grammar, spelling,
+ punctuation
+In-Reply-To: <20250707050135.2660457-1-rdunlap@infradead.org>
+References: <20250707050135.2660457-1-rdunlap@infradead.org>
+Date: Tue, 08 Jul 2025 08:10:30 -0600
+Message-ID: <87qzyq6aeh.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250702201337.5780-8-bijan311@gmail.com> <20250702210323.55199-1-sj@kernel.org>
-In-Reply-To: <20250702210323.55199-1-sj@kernel.org>
-From: Bijan Tabatabai <bijan311@gmail.com>
-Date: Tue, 8 Jul 2025 09:04:02 -0500
-X-Gm-Features: Ac12FXwtIN_s91ypTwNfJZdzXrjIzaGmHghhjzuzPbLTZXRFfuLAVVSsTsR3A8g
-Message-ID: <CAMvvPS6imiPU-v527rCu=Yw6JA1Nc-Ezkc5_uXOSxf8oDjX2Qg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 07/13] mm/damon/core: Commit damos->target_nid/migrate_dests
-To: SeongJae Park <sj@kernel.org>
-Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	joshua.hahnjy@gmail.com, bijantabatab@micron.com, venkataravis@micron.com, 
-	emirakhur@micron.com, ajayjoshi@micron.com, vtavarespetr@micron.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Jul 2, 2025 at 4:03=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote:
->
-> On Wed,  2 Jul 2025 15:13:30 -0500 Bijan Tabatabai <bijan311@gmail.com> w=
-rote:
->
-> > From: Bijan Tabatabai <bijantabatab@micron.com>
-> >
-> > When committing new scheme parameters from the sysfs, copy the
-> > target_nid and migrate_dests of the source schemes into the destination
-> > schemes.
->
-> Fixing the missed update of target_nid deserves Fixes: and Cc: stable@ in=
- my
-> opinion.  Could you please split and post the part as another patch?  For=
- the
-> Fixes, I think 83dc7bbaecae ("mm/damon/sysfs: use damon_commit_ctx()") sh=
-ould
-> be appripriate.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-Hi SJ,
+> Correct grammar, spelling, and punctuation in comments, strings,
+> print messages, logs.
+>
+> Change two instances of two spaces between words to just one space.
+>
+> codespell was used to find misspelled words.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+>  scripts/lib/kdoc/kdoc_files.py  |    4 ++--
+>  scripts/lib/kdoc/kdoc_output.py |    8 ++++----
+>  scripts/lib/kdoc/kdoc_parser.py |   20 ++++++++++----------
+>  scripts/lib/kdoc/kdoc_re.py     |   24 ++++++++++++------------
+>  4 files changed, 28 insertions(+), 28 deletions(-)
 
-To clarify, would you prefer it to be a seperate patch within the next
-version of this patchset? Or would you prefer it to be sent separately
-from the next version of the patchset?
+kdoc is kind of a moving target at the moment, so this patch doesn't
+really even come close to applying.  Hold off for a bit, then regenerate
+against docs-next?
 
 Thanks,
-Bijan
 
-[...]
+jon
