@@ -1,46 +1,46 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2071.outbound.protection.outlook.com [40.107.102.71])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2073.outbound.protection.outlook.com [40.107.237.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618B1262FFE;
-	Tue,  8 Jul 2025 22:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7681A262FED;
+	Tue,  8 Jul 2025 22:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.73
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752013242; cv=fail; b=CKZz3CydJlXGacz4LS5REfqsmDQhkCwhmsV8wwhrkUh+jctg6SUlz6xfKwkVVaByqSEreowwy/UesLeULU392DcpNC3yhikhavWW/6uC5e7YerXNYN/e+0PoX8LL4KS9NflMVwmYw+jdfd6gxR9j81ic1wCWFuTn8XuDHNP+g5U=
+	t=1752013244; cv=fail; b=a6wdWUUAsSFENQ4twC7IHWdQC8V3K91JXMJD+Q3kx+UJzgh78B/Sp5bkLpO5apTuBkAjyT6Nb65WgNwH1FGnTOl8gk0I8b/sNk+ZcXcRr6D1fo+CFBHm37d8402YjKwGyZK9HHgs8xuDGzvLWu4a1nUfu+2LRkjDTj8NexEQYA4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752013242; c=relaxed/simple;
-	bh=zGP/ccPwj6PIU1GEuay5rmDEtzadG2ia1oDYXXL1muw=;
+	s=arc-20240116; t=1752013244; c=relaxed/simple;
+	bh=ofBjt3OGkCjG0ky4MBniuIEKSLez01fdBfO8AgX4xCw=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KlBMeliJmqpa1JT95qgUK/NO4P+CnIT4ML5wJxg90kWB6cT3w7rLzY18Fzp7QWoiS2IGFD+h9j+5FKrfJPkJTVmlk0g8753o89XtlpRDNid4A3u6NiozGJ5YBWWaUTZeI/bdn/CnSdnVz327E0Esz0zFs1Li/vJ/78Ub9r6O09s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ITTiCSY2; arc=fail smtp.client-ip=40.107.102.71
+	 MIME-Version:Content-Type; b=cDxk9aI6PxpchTqugk0a/Wix8nZqjG8AP9ZhStnYKOpQHLExxsf+wo3nUCjx1U6JS/r73y2zDazSDH3uHhx2pVXRYNTvBhH5dlqprxMRhpr/0Vj2fLZ8BrZs2D3wmPlOEic7eY5P7F9aWd7JcXCWMktR1AS2eiIdUAkNDoeLbtk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3RaafVN2; arc=fail smtp.client-ip=40.107.237.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ITTiCSY2"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3RaafVN2"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rMsViTWp1hnyMAL1wzAZC6l21kF375sWUAS3kBp9ynOiQ4cC9LaDMWEB1JpzaVoRhjo6NugVgP3uZ+d1x/mxuO3HHI1RAyFJHsDIJ3CQ8LrhWgC0yi2y61Bde56cOEz9Bof7MegHPHKyiHLIxgzyLB+ZoUe0+pSp1brJlLwegI5Frp04r2reMbsSzxCoupJmnXzspdGnJfSWiUcqpE0bsqWjVUrr7q6YbGYKs0U0LBIfgaLA76sq2ohu7JBRKjfWXe6gmKL1CJ/MhhwhAFxCEF8OqGWrsc0T0n7Wx/QUUC1E5v0NSd4LVqh7Q0yQ0MXQuMmLGLh6hzQqVw9iEoM+gA==
+ b=L4luycXOdksYJU/uXFoTcWlY+IoE0yWtOT4o6KW3MCKZJ07OqWHxCQM8gKaQul6QqiV6lyuSbUpjNtkafNnWwxuK6D6pqwvJGg3rBPvhmMR66K72q7tXSQzVY9RrJcWxPvXknhZSYeSW5F4+E8ZGi88zgSKFcSCVaNpQx3wwycGvOZ2CwXfoh9IiZkxwvu/R9yHV0bu1T9RjT903F+xxsYmQE8XGCkujSjdrfgtLUg44cchjpujSnDK4nEldjxnEPrgDKwpF7vS3mFHGdX0aqQ1HtGWTNhcrupO5K5NQIhTRevQ41kLt1AJmKlcQex3uGxtFboilsl84cNkRf9Y79w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BLs69HUhBI1qtUPszjfOJm0ndBDQPQSDMVas4oXMt6A=;
- b=jBzb+auuDfdkyGhn0AcNLduSsaHIHTxwFSh7chml4NDCmlA6V6bru4EbT2RVjwOkdsKUjKjJR1zIgvjmxVfsXtkOS8rGGnzNf9sTxjWjCDupfWEfYfL+nNiB5yUkR0FbFVB/Hul5HESiz9nJi36xFCftn9tJcvhRQJXqsYXYfz9ge/skTQHw1/wEwb/rhAkGXupY2WbibTF4Jetnt5+XebDbyOQriHp6cUyrykcgXpV0EteKa2xEsbkHzuNmHBWbCaSoqtVG+6zURbgFiivC5vvbQEWHFEM5vUKOidtocZud0pHZAYXjeQ2k0+0s8bK+UnyKbZqBkeFgzxjCVhtfPQ==
+ bh=ZRbQxNBZwZ+6HfJ726jLUatupaFILCmCR1/mnSEJkxI=;
+ b=cG/zW1YZLEkEkG6Mi3iDEzDLWm6h6Xh0HUqSBFSs8saE66RWw6hN1JVsloFjUgngsLDDJb//BGokoUdLUFCBcDQBZlJu6LHePM8jAfbORaLBjlLUsl13dcLmm8i8IfuruQJZr8VD5scUZXKnM1u9yhfJm6wjc1WV5QH43HTvrMGVAJ/Lmok536P7kKQ/b0mZfU5to5LfalIAdLsx/Vbzcp+XYhjhFAG3+jbEnTAevTLIgqNOybExxafHQV/qRZURkYIi9//qxOqGbAbHuAE9bStL+K++HMdGl2ig2zzcWxoIImF3KJjMF7MaycG2YVoJTuwkZBxkLty59rjc3pzWxg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BLs69HUhBI1qtUPszjfOJm0ndBDQPQSDMVas4oXMt6A=;
- b=ITTiCSY2yBSy64ELBYZCZ28+0BZxRuGxv2iOjosVrk3u0J+GJ7dz2BoPhQP9fdto2pMUMFLXMjk7+hZmaaJkBkDWJavPL3xicxs2TKdnYuleljUoqjbIcJ7HRhhw0nQYjN9SWfxI57jqKj5ILWY/L8qGn3GGtpSWyytn1eBEHPg=
-Received: from MW4PR03CA0113.namprd03.prod.outlook.com (2603:10b6:303:b7::28)
- by IA1PR12MB6355.namprd12.prod.outlook.com (2603:10b6:208:3e1::22) with
+ bh=ZRbQxNBZwZ+6HfJ726jLUatupaFILCmCR1/mnSEJkxI=;
+ b=3RaafVN2q2FIevixOuGrJ7FrLTGjRA+yQh67kNsT9pJZ7jm0G5fx9Kg/8yOe8u21B2n+Kfz8BgKtOguRw5nGX/AdKyQUtxO5/NUZZwkBGzrcaBUIg+2oFFUhsj/R2POMW5Jk/jkzS5kvxiQe7vFePxCJnz641g9uJGVbjUo+9w8=
+Received: from MW4PR04CA0205.namprd04.prod.outlook.com (2603:10b6:303:86::30)
+ by CH3PR12MB8258.namprd12.prod.outlook.com (2603:10b6:610:128::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Tue, 8 Jul
- 2025 22:20:37 +0000
-Received: from SJ1PEPF00001CE4.namprd03.prod.outlook.com
- (2603:10b6:303:b7:cafe::63) by MW4PR03CA0113.outlook.office365.com
- (2603:10b6:303:b7::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.23; Tue, 8 Jul
+ 2025 22:20:39 +0000
+Received: from SJ1PEPF00001CEA.namprd03.prod.outlook.com
+ (2603:10b6:303:86:cafe::c0) by MW4PR04CA0205.outlook.office365.com
+ (2603:10b6:303:86::30) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.27 via Frontend Transport; Tue,
- 8 Jul 2025 22:20:36 +0000
+ 8 Jul 2025 22:20:39 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00001CE4.mail.protection.outlook.com (10.167.242.20) with Microsoft
+ SJ1PEPF00001CEA.mail.protection.outlook.com (10.167.242.26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8901.15 via Frontend Transport; Tue, 8 Jul 2025 22:20:36 +0000
+ 15.20.8901.20 via Frontend Transport; Tue, 8 Jul 2025 22:20:38 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 8 Jul
- 2025 17:20:08 -0500
+ 2025 17:20:25 -0500
 From: Babu Moger <babu.moger@amd.com>
 To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
 	<james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
@@ -71,9 +71,9 @@ CC: <Dave.Martin@arm.com>, <x86@kernel.org>, <hpa@zytor.com>,
 	<gautham.shenoy@amd.com>, <chang.seok.bae@intel.com>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<peternewman@google.com>, <eranian@google.com>
-Subject: [PATCH v15 15/34] fs/resctrl: Introduce event configuration field in struct mon_evt
-Date: Tue, 8 Jul 2025 17:17:24 -0500
-Message-ID: <f87053b76713a05fa4b5459dbd3af6af83d47c49.1752013061.git.babu.moger@amd.com>
+Subject: [PATCH v15 17/34] fs/resctrl: Add the functionality to assign MBM events
+Date: Tue, 8 Jul 2025 17:17:26 -0500
+Message-ID: <70ef9637d73825ee5e7409ab04df1039dec0873c.1752013061.git.babu.moger@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1752013061.git.babu.moger@amd.com>
 References: <cover.1752013061.git.babu.moger@amd.com>
@@ -89,145 +89,290 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE4:EE_|IA1PR12MB6355:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80aff5f8-067e-4e5c-968b-08ddbe6da9a4
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEA:EE_|CH3PR12MB8258:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a75f4ba-3ea6-42f7-6a16-08ddbe6dab45
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|7416014|36860700013|376014|1800799024|13003099007;
+	BCL:0;ARA:13230040|376014|7416014|82310400026|36860700013|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?YaCdpJUDZx4Gx1zbPiRhICrA89noZuvtO390Y1WXp5LPI96HfsWZu2/wygZC?=
- =?us-ascii?Q?w47FPfhkOlLEMMN7r+0IaIKirY6TnwDyYve7lodqJq3r9RTPclLTNg5WdXJr?=
- =?us-ascii?Q?tYMtkN2CI/78saTnk2pghcGcpW1ILkEX+OT6b7jFeFiyiOb0N5kzUfcGzS3m?=
- =?us-ascii?Q?eU2v48QT7BKxwKSWyxwLBfyVtCqZ/mGVjgQJtfIZ0+2ruAxyRRPBgK8U4AOu?=
- =?us-ascii?Q?+dA665QEwIWLt3GLiVfb4/GcoUKTN/UMstT+CVC/GhUiy7Ii6z+gMcS0W8Gy?=
- =?us-ascii?Q?rIL6uaC/DRyTvCeipr9tkMJ74IUU9Ll/fj2yO3ox62P+mNrZv6FI9cBitveq?=
- =?us-ascii?Q?Hf1vB8/cPFdqQ+FLluv6mJNVTyBGUiRzOLsISCTQe4/CA9zshWcnP5BJXMdL?=
- =?us-ascii?Q?Ns9aFukFhZez96w6plRPwYeIXU5ASfg9M1NAFelgvjxu6DaZZMhuDda5h6ig?=
- =?us-ascii?Q?nR7zsJJwjdVXqL4b8m71VlABWIVsnrd90msoKFk0mdUwWv4kLYlFQ3YLLQZS?=
- =?us-ascii?Q?8/aPLjEfn8+TGeg3I1O0IM1B3ISbebftfs22R56UpSYk5u+FqfqCTkgKUn0Q?=
- =?us-ascii?Q?hcPmNIz5AfOdCHRGsRMB/h9iZjYSV2NoX4TF96ztUjqYfYN17Hl+i6TT3CLr?=
- =?us-ascii?Q?xLNOkBSDO2zfNx6wjfL+yH5/FtRLd2Xpu8Eq413jFSM1W7gKVNiJu3cxtfi2?=
- =?us-ascii?Q?jeD5DeTFLre/F1rYHdlVPZ2hGnPhJqFfIFUnz+rNDg2km+8tnY3JEML1EqTo?=
- =?us-ascii?Q?P5QdTjR+9mBETM+RcvudvZlS/Abn+X05t5q9e3ySrrAI/VCYF+ifAyZJUnAz?=
- =?us-ascii?Q?ENu1CvNidxUIFYgGRblO43nVhbq7L7Xu4ipSv4PvcdJik8OlorqBzj93vxpa?=
- =?us-ascii?Q?zbRoZOEqwBxJMRlxYxRTr05c4phRXK70zStflRyjSlIvyQXaMmP8I8mmy6N4?=
- =?us-ascii?Q?g6bI+6jrqVp7oTd8B9sWwbisl7BPyzjUemwk1uAiMQgh5IkkY79juUeYCxJ8?=
- =?us-ascii?Q?W+ddQb36WMzcmdaAs7KnmfeRq6idoNHlmKZ4JS9IrQ8IGE4+4Da54MyRKp+4?=
- =?us-ascii?Q?6bB1MatWc6jlJ2wZA6GRKrAe+cziA2DsAds1XQHARQcpYjp6eazoBjPcEbmb?=
- =?us-ascii?Q?vTHaTi20tTb0Ct6ApP2/29gWE9JgVrVM7Cr7SgbM0v39qKLoyacuqhhXe/F5?=
- =?us-ascii?Q?qi//utNp+lIfE8EtBxTquoBeAlloaWMGUmF5EHdTMFpE7Hq7aitM8J936Cg+?=
- =?us-ascii?Q?2Qn+xBUhRIwMT6D3bcrXA0yXBfSynqdKScj5RYpUjGrc5dRtffI8YoIC8shN?=
- =?us-ascii?Q?rw+r1wMNma2njFTyDJVBIffNa0r7xjrAhXVfkysn75bvSsfh/s/HB9JK5Skj?=
- =?us-ascii?Q?Rypjrz5EqsYXl/APcAk6fZeWaBSqAoJha1QRELEfuF1h8qhjYNayVmR92DG0?=
- =?us-ascii?Q?Q7kNTRn4FJJkRObkBrn4QL7FjRgLnVNqlev+7dPxYtSJz68+sbQVJ7K8Ke8/?=
- =?us-ascii?Q?ZsMcDxEQcvVoxlFdOT+iQpwg8mZWd27CH3IacEGVynzWED4tSk0zEhVJgg?=
+	=?us-ascii?Q?UBtCb/cplgGQpW7sxJWFL6+UK/E3CbnCtIk+zXWMtdqo9Yw1WZDR+eosAUJy?=
+ =?us-ascii?Q?kcNvLqTdzf7lSKoq+oiLv8schOhueeYUnoNzROo3gugZo/QGyy+q2W6vc41a?=
+ =?us-ascii?Q?+GDh1l0h0Ex3GkyCXSkGQl4n+Y/S66yq0ETbPG1wfqYessyUhkXtaIlgpfM1?=
+ =?us-ascii?Q?SchNWsyEEFHzFP9ubeiky9Drf/FGE3y+UVxm316cPyH2DeML6bBK13qBpicV?=
+ =?us-ascii?Q?H9NqkBYnAACmR396XB4hJkEn5Pj7lGLsaiRmc0HIwwX4shLJ+Lir3WD/El7e?=
+ =?us-ascii?Q?w2U3x9KaktO9/vLWRFhpvpHdMA39/kfbQ+7Q3ATbLG1iB5pKCCWxIPFUbfqD?=
+ =?us-ascii?Q?FfhIbLwTjiXGqyAKg2ywUjJDHEdARhaSwBMJ5d8Dp96R6+/xrvw2mwr6FO4I?=
+ =?us-ascii?Q?lDiSwAmW7a0xA6oCBAqYbq1bw2e52RBbwxIbUo6aFq6OWGE3VaaU3VedAm8n?=
+ =?us-ascii?Q?Gfz8o2eSwJKaJoQu9N7uOrbUMY8TMDj3mWzxeTVknLnGz/SMOIQRl9LsYObg?=
+ =?us-ascii?Q?HaAHw5vXIU/QS/5VUJWuK8vlqI7xLOfcPkMAiYtbrcNJ6VyKkRhqBhsORpY5?=
+ =?us-ascii?Q?U/XpWMxIu/P0h3Eywc2KA3JTfLdq2nikib9Gz5rG5VMimIak1DR4j65RcFw3?=
+ =?us-ascii?Q?o+ESpxOVGbwIhESvsVeHaRZ8noL58Xo6fep2Gk0RFCSjUgrj9MwOCYogKY4D?=
+ =?us-ascii?Q?sAZ9ZMWOcLBonAQYFBLqbZa/345EcoFztuFgRdNizzcpWOfEzVZ8NRa3aXQG?=
+ =?us-ascii?Q?VEyGWy0RJGs3coib9k8ZqS0LFX6d11VkS1NPtIWHSEzo/VcmGLsjwfS+sSic?=
+ =?us-ascii?Q?ZUWVcjmpKlbTcxJNX2fdgdeMV79gj5DPFNjy+2KrypTwjf+vc/OUvFiSdcco?=
+ =?us-ascii?Q?efvmBNQSQV4lV1XUvjiM1TPFUBftdWShh2qZqu72toWXEft+hbpqG1r5msnI?=
+ =?us-ascii?Q?3F9W6mcZNchF0wxyaNnmmavV4y8syoefbpap0VAo4FyOOyPHZbgmjBzVg6Dr?=
+ =?us-ascii?Q?eVKc0qlJbP/hMwtvLmtKxoyB4OWk3Ica8jGXfRgXd4wrvsVwjrQ3kKl5zIFq?=
+ =?us-ascii?Q?R/cQAo+HjqnZplter8uuEgPZcz5m/VFKMUHMZO++L9pW7p9VPSW9Imz7YSjm?=
+ =?us-ascii?Q?KJv19IcjM0AnyUwAsKdRVdTiPJg4JRZx7xgwj8GQGJYlxSbFQ5rcdpETlikF?=
+ =?us-ascii?Q?SNvCmeT9cOIvDUGVqL3YEaFThUap/PF/PV/rhws50AR89kd/yO0tZ2hWJNEm?=
+ =?us-ascii?Q?9HN+PzCFNZ6ZWS9CsbqLAPRPMg2k+MA5GL7/bQu4QZzKekGv1ihB9jp5d/XB?=
+ =?us-ascii?Q?rOoa+or8AQEQrykfXPZ5RHawNMJO3IBLiEZItZQgUvyVE/r6PUIKFc/7Zz9T?=
+ =?us-ascii?Q?7+INTiccRG5qmKd1kMaE/0RWQ19Dqhle+IcfIxyA/9TMvV6ka2HhZ4fQn5QL?=
+ =?us-ascii?Q?oKv3Y1oh2NCMF8GCpGolgPZDUUHQVJmYX3PSxNTnGCTBOVkEeK1nbYVYRwky?=
+ =?us-ascii?Q?FgpEKb5Qoqkhd96BFL787aD00YRLqtMo8aJghYtq+Pvuwx71OsDhIBYXXg?=
  =?us-ascii?Q?=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(36860700013)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 22:20:36.2487
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 22:20:38.9297
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80aff5f8-067e-4e5c-968b-08ddbe6da9a4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a75f4ba-3ea6-42f7-6a16-08ddbe6dab45
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CE4.namprd03.prod.outlook.com
+	SJ1PEPF00001CEA.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6355
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8258
 
-When supported, mbm_event counter assignment mode allows the user to
-configure events to track specific types of memory transactions.
+When supported, "mbm_event" counter assignment mode offers "num_mbm_cntrs"
+number of counters that can be assigned to RMID, event pairs and monitor
+bandwidth usage as long as it is assigned.
 
-Introduce the evt_cfg field in struct mon_evt to define the type of memory
-transactions tracked by a monitoring event. Also add a helper function to
-get the evt_cfg value.
+Add the functionality to allocate and assign a counter to an RMID, event
+pair in the domain.
+
+If all the counters are in use, kernel will log the error message "Unable
+to allocate counter in domain" in /sys/fs/resctrl/info/last_cmd_status
+when a new assignment is requested. Exit on the first failure when
+assigning counters across all the domains.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
 v15: Updated the changelog.
-     Removed resctrl_set_mon_evt_cfg().
-     Moved the event initialization to resctrl_mon_resource_init().
+     Added the check !r->mon.mbm_cntr_assignable in mbm_cntr_get() to return error.
+     Removed the check to verify evt_cfg in the domain as it is not required anymore.
+     https://lore.kernel.org/lkml/887bad33-7f4a-4b6d-95a7-fdfe0451f42b@intel.com/
+     Return success if the counter is already assigned.
+     Rename resctrl_assign_cntr_event() -> rdtgroup_assign_cntr_event().
+     Removed the parameter struct rdt_resource. It can be obtained from mevt->rid.
 
-v14: This is updated patch from previous patch.
-     https://lore.kernel.org/lkml/95b7f4e9d72773e8fda327fc80b429646efc3a8a.1747349530.git.babu.moger@amd.com/
-     Removed mbm_mode as it is not required anymore.
-     Added resctrl_get_mon_evt_cfg() and resctrl_set_mon_evt_cfg().
+v14: Updated the changelog little bit.
+     Updated the code documentation for mbm_cntr_alloc() and  mbm_cntr_get().
+     Passed struct mon_evt to resctrl_assign_cntr_event() that way to avoid
+     back and forth calls to get event details.
+     Updated the code documentation about the failure when counters are exhasted.
+     Changed subject line to fs/resctrl.
 
-v13: New patch to handle different event configuration types with
-     mbm_cntr_assign mode.
+v13: Updated changelog.
+     Changed resctrl_arch_config_cntr() to return void instead of int.
+     Just passing evtid is to resctrl_alloc_config_cntr() and
+     resctrl_assign_cntr_event(). Event configuration value can be easily
+     obtained from mon_evt list.
+     Introduced new function mbm_get_mon_event() to get event configuration value.
+     Added prototype descriptions to mbm_cntr_get() and mbm_cntr_alloc().
+     Resolved conflicts caused by the recent FS/ARCH code restructure.
+     The files monitor.c/rdtgroup.c have been split between FS and ARCH directories.
+
+v12: Fixed typo in the subjest line.
+     Replaced several counters with "num_mbm_cntrs" counters.
+     Changed the check in resctrl_alloc_config_cntr() to reduce the indentation.
+     Fixed the handling error on first failure.
+     Added domain id and event id on failure.
+     Fixed the return error override.
+     Added new parameter event configuration (evt_cfg) to get the event configuration
+     from user space.
+
+v11: Patch changed again quite a bit.
+     Moved the functions to monitor.c.
+     Renamed rdtgroup_assign_cntr_event() to resctrl_assign_cntr_event().
+     Refactored the resctrl_assign_cntr_event().
+     Added functionality to exit on the first error during assignment.
+     Simplified mbm_cntr_free().
+     Removed the function mbm_cntr_assigned(). Will be using mbm_cntr_get() to
+     figure out if the counter is assigned or not.
+     Updated commit message and code comments.
+
+v10: Patch changed completely.
+     Counters are managed at the domain based on the discussion.
+     https://lore.kernel.org/lkml/CALPaoCj+zWq1vkHVbXYP0znJbe6Ke3PXPWjtri5AFgD9cQDCUg@mail.gmail.com/
+     Reset non-architectural MBM state.
+     Commit message update.
+
+v9: Introduced new function resctrl_config_cntr to assign the counter, update
+    the bitmap and reset the architectural state.
+    Taken care of error handling(freeing the counter) when assignment fails.
+    Moved mbm_cntr_assigned_to_domain here as it used in this patch.
+    Minor text changes.
+
+v8: Renamed rdtgroup_assign_cntr() to rdtgroup_assign_cntr_event().
+    Added the code to return the error if rdtgroup_assign_cntr_event fails.
+    Moved definition of MBM_EVENT_ARRAY_INDEX to resctrl/internal.h.
+    Updated typo in the comments.
+
+v7: New patch. Moved all the FS code here.
+    Merged rdtgroup_assign_cntr and rdtgroup_alloc_cntr.
+    Adde new #define MBM_EVENT_ARRAY_INDEX.
 ---
- fs/resctrl/internal.h   |  5 +++++
- fs/resctrl/monitor.c    | 10 ++++++++++
- include/linux/resctrl.h |  2 ++
- 3 files changed, 17 insertions(+)
+ fs/resctrl/internal.h |   3 +
+ fs/resctrl/monitor.c  | 131 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 134 insertions(+)
 
 diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index 445a41060724..ea5c9fa932aa 100644
+index ea5c9fa932aa..8879e127a8b8 100644
 --- a/fs/resctrl/internal.h
 +++ b/fs/resctrl/internal.h
-@@ -56,6 +56,10 @@ static inline struct rdt_fs_context *rdt_fc2context(struct fs_context *fc)
-  * @evtid:		event id
-  * @rid:		index of the resource for this event
-  * @name:		name of the event
-+ * @evt_cfg:		Event configuration value that represents the
-+ *			memory transactions (e.g., READS_TO_LOCAL_MEM,
-+ *			READS_TO_REMOTE_MEM) being tracked by @evtid.
-+ *			Only valid if @evtid is an MBM event.
-  * @configurable:	true if the event is configurable
-  * @enabled:		true if the event is enabled
-  */
-@@ -63,6 +67,7 @@ struct mon_evt {
- 	enum resctrl_event_id	evtid;
- 	enum resctrl_res_level	rid;
- 	char			*name;
-+	u32			evt_cfg;
- 	bool			configurable;
- 	bool			enabled;
- };
+@@ -387,6 +387,9 @@ bool closid_allocated(unsigned int closid);
+ 
+ int resctrl_find_cleanest_closid(void);
+ 
++int rdtgroup_assign_cntr_event(struct rdt_mon_domain *d, struct rdtgroup *rdtgrp,
++			       struct mon_evt *mevt);
++
+ #ifdef CONFIG_RESCTRL_FS_PSEUDO_LOCK
+ int rdtgroup_locksetup_enter(struct rdtgroup *rdtgrp);
+ 
 diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-index 9fd1fb76f82f..11327bd8cf72 100644
+index 11327bd8cf72..bb074773420d 100644
 --- a/fs/resctrl/monitor.c
 +++ b/fs/resctrl/monitor.c
-@@ -884,6 +884,11 @@ bool resctrl_is_mon_event_enabled(enum resctrl_event_id eventid)
- 	       mon_event_all[eventid].enabled;
- }
+@@ -952,3 +952,134 @@ void resctrl_mon_resource_exit(void)
  
-+u32 resctrl_get_mon_evt_cfg(enum resctrl_event_id evtid)
+ 	dom_data_exit(r);
+ }
++
++/*
++ * resctrl_config_cntr() - Configure the counter ID for the event, RMID pair in
++ * the domain.
++ *
++ * Assign the counter if @assign is true else unassign the counter. Reset the
++ * associated non-architectural state.
++ */
++static void resctrl_config_cntr(struct rdt_resource *r, struct rdt_mon_domain *d,
++				enum resctrl_event_id evtid, u32 rmid, u32 closid,
++				u32 cntr_id, bool assign)
 +{
-+	return mon_event_all[evtid].evt_cfg;
++	struct mbm_state *m;
++
++	resctrl_arch_config_cntr(r, d, evtid, rmid, closid, cntr_id, assign);
++
++	m = get_mbm_state(d, closid, rmid, evtid);
++	if (m)
++		memset(m, 0, sizeof(*m));
 +}
 +
- /**
-  * resctrl_mon_resource_init() - Initialise global monitoring structures.
-  *
-@@ -926,7 +931,12 @@ int resctrl_mon_resource_init(void)
- 
- 	if (r->mon.mbm_cntr_assignable) {
- 		resctrl_enable_mon_event(QOS_L3_MBM_TOTAL_EVENT_ID);
-+		mon_event_all[QOS_L3_MBM_TOTAL_EVENT_ID].evt_cfg = MAX_EVT_CONFIG_BITS;
++/*
++ * mbm_cntr_get() - Return the counter ID for the matching @evtid and @rdtgrp.
++ *
++ * Return:
++ * Valid counter ID on success, or -ENOENT on failure.
++ */
++static int mbm_cntr_get(struct rdt_resource *r, struct rdt_mon_domain *d,
++			struct rdtgroup *rdtgrp, enum resctrl_event_id evtid)
++{
++	int cntr_id;
 +
- 		resctrl_enable_mon_event(QOS_L3_MBM_LOCAL_EVENT_ID);
-+		mon_event_all[QOS_L3_MBM_LOCAL_EVENT_ID].evt_cfg = READS_TO_LOCAL_MEM |
-+								   READS_TO_LOCAL_S_MEM |
-+								   NON_TEMP_WRITE_TO_LOCAL_MEM;
- 		resctrl_file_fflags_init("num_mbm_cntrs",
- 					 RFTYPE_MON_INFO | RFTYPE_RES_CACHE);
- 		resctrl_file_fflags_init("available_mbm_cntrs",
-diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-index e013caba6641..87daa4ca312d 100644
---- a/include/linux/resctrl.h
-+++ b/include/linux/resctrl.h
-@@ -409,6 +409,8 @@ static inline bool resctrl_is_mbm_event(enum resctrl_event_id eventid)
- 		eventid <= QOS_L3_MBM_LOCAL_EVENT_ID);
- }
- 
-+u32 resctrl_get_mon_evt_cfg(enum resctrl_event_id eventid);
++	if (!r->mon.mbm_cntr_assignable)
++		return -ENOENT;
 +
- /* Iterate over all memory bandwidth events */
- #define for_each_mbm_event_id(eventid)				\
- 	for (eventid = QOS_L3_MBM_TOTAL_EVENT_ID;		\
++	if (!resctrl_is_mbm_event(evtid))
++		return -ENOENT;
++
++	for (cntr_id = 0; cntr_id < r->mon.num_mbm_cntrs; cntr_id++) {
++		if (d->cntr_cfg[cntr_id].rdtgrp == rdtgrp &&
++		    d->cntr_cfg[cntr_id].evtid == evtid)
++			return cntr_id;
++	}
++
++	return -ENOENT;
++}
++
++/*
++ * mbm_cntr_alloc() - Initialize and return a new counter ID in the domain @d.
++ * Caller must ensure that the specified event is not assigned already.
++ *
++ * Return:
++ * Valid counter ID on success, or -ENOSPC on failure.
++ */
++static int mbm_cntr_alloc(struct rdt_resource *r, struct rdt_mon_domain *d,
++			  struct rdtgroup *rdtgrp, enum resctrl_event_id evtid)
++{
++	int cntr_id;
++
++	for (cntr_id = 0; cntr_id < r->mon.num_mbm_cntrs; cntr_id++) {
++		if (!d->cntr_cfg[cntr_id].rdtgrp) {
++			d->cntr_cfg[cntr_id].rdtgrp = rdtgrp;
++			d->cntr_cfg[cntr_id].evtid = evtid;
++			return cntr_id;
++		}
++	}
++
++	return -ENOSPC;
++}
++
++/*
++ * rdtgroup_alloc_config_cntr() - Allocate a counter ID and configure it for the
++ * event pointed to by @mevt and the resctrl group @rdtgrp within the domain @d.
++ *
++ * Return:
++ * 0 on success, < 0 on failure.
++ */
++static int rdtgroup_alloc_config_cntr(struct rdt_resource *r, struct rdt_mon_domain *d,
++				      struct rdtgroup *rdtgrp, enum resctrl_event_id evtid)
++{
++	int cntr_id;
++
++	/* No action required if the counter is assigned already. */
++	cntr_id = mbm_cntr_get(r, d, rdtgrp, evtid);
++	if (cntr_id >= 0)
++		return 0;
++
++	cntr_id = mbm_cntr_alloc(r, d, rdtgrp, evtid);
++	if (cntr_id <  0) {
++		rdt_last_cmd_printf("Unable to allocate counter in domain %d\n",
++				    d->hdr.id);
++		return cntr_id;
++	}
++
++	resctrl_config_cntr(r, d, evtid, rdtgrp->mon.rmid, rdtgrp->closid,
++			    cntr_id, true);
++
++	return 0;
++}
++
++/*
++ * rdtgroup_assign_cntr_event() - Assign a hardware counter for the event in
++ * @mevt to the resctrl group @rdtgrp. Assign counters to all domains if @d is
++ * NULL; otherwise, assign the counter to the specified domain @d.
++ *
++ * If all counters in a domain are already in use, resctrl_alloc_config_cntr()
++ * will fail. The assignment process will abort at the first failure encountered
++ * during domain traversal, which may result in the event being only partially
++ * assigned.
++ *
++ * Return:
++ * 0 on success, < 0 on failure.
++ */
++int rdtgroup_assign_cntr_event(struct rdt_mon_domain *d, struct rdtgroup *rdtgrp,
++			       struct mon_evt *mevt)
++{
++	struct rdt_resource *r = resctrl_arch_get_resource(mevt->rid);
++	int ret = 0;
++
++	if (!d) {
++		list_for_each_entry(d, &r->mon_domains, hdr.list) {
++			ret = rdtgroup_alloc_config_cntr(r, d, rdtgrp, mevt->evtid);
++			if (ret)
++				return ret;
++		}
++	} else {
++		ret = rdtgroup_alloc_config_cntr(r, d, rdtgrp, mevt->evtid);
++	}
++
++	return ret;
++}
 -- 
 2.34.1
 
