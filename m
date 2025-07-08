@@ -1,154 +1,98 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388492222D7
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 19:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CBF242D68;
+	Tue,  8 Jul 2025 21:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752004217; cv=none; b=Gu0iB/eVMhJgYQjE/JWaypIYLmEoK10HhnlKPj/zp2zuXk736leXRgNE+jmMqUH1FRO1+4R0WNgoLgJ3S09It0gj7/IZY+qU59Ds4YQ2oz1CWNkNwHJANlpXUFUBeKqkEw2BSM4xNw3vwePB0e4IBot2+Rsf1eQePjok/b9o5Yk=
+	t=1752008979; cv=none; b=XuhUlPn661N1cvjZRa6llgmJN6ikWSAcmRVG/Npdm/BMXggHKrFnj0Tlc+xyjXCcOsbwVcpHKYB3XXFOERboi9jEfiML+mJCZvjcy2lq2j1aKQuvDApb+ycA8dcWki/IyV66xxz6n/DP1sB0Rqn5mspwsjxnMiYimmpLSDWEnaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752004217; c=relaxed/simple;
-	bh=Y0iXoUqOLs0llj8Kqny8AlCcLxbD6abRir5vykfWqaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T0pZP4OMdQOo6XJ4h7GWdZpeMjFLBTm5r7LLexAGQ3DAEzLJnU1eQOtNSYjHk3mCFlo9V0aVghgxp0uE7Q1kLwY9pekE72IGfiloomVTA/3r72HyZSpgwog1hgGubg2PD7u1b05xBGEeiaWytfqMWLW9l4/KCICxY9RclBoEUGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GZyFD5Q8; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1752008979; c=relaxed/simple;
+	bh=QWLNdLsfHgBYTPLJ8dN7bOMak5I+rhzE/h8J7IQXbqQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KcEgLG2jKeM7npwYhOHUPPvBRFuaF37TnyXxA2CXbs9k25pJ4rW2hjH8YgG5QmG4QX9rPwhwcRxv+Afn+xUHNolYR3jVAStAKdMbYzZYwMzt+QZ6mwiuFGFPwiMljVhT0o7+QSmGsGT3W6swq0gnRaKa1pg1+yEK+O6YInXTWiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yp0ZdoUe; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GZyFD5Q8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752004214;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LikuVg883RBnSofMj2iv/RfyoEWwYa7j+D9dFy02hRA=;
-	b=GZyFD5Q8Y2QrIO+wZDWTXY5JOTZQDLcFWytZccqPRXOJ2dzyP5AhtSMrlJFc5XQLceS2V8
-	iKHXwKKoELdJtKRH86G2Zhf6cOZ1/7ELtOnW13H8YvrZga4rZm0ibVDlZhKCs5TVaTemXc
-	5+rv75mc3VsfdKTW7xu8L3yP/eAhh/k=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-532-XFhMKQvVNXyTZEczIr23VA-1; Tue, 08 Jul 2025 15:50:10 -0400
-X-MC-Unique: XFhMKQvVNXyTZEczIr23VA-1
-X-Mimecast-MFC-AGG-ID: XFhMKQvVNXyTZEczIr23VA_1752004209
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3af3c860ed7so2198774f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 12:50:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752004209; x=1752609009;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yp0ZdoUe"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4a9bf46adedso26468431cf.2;
+        Tue, 08 Jul 2025 14:09:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752008977; x=1752613777; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LikuVg883RBnSofMj2iv/RfyoEWwYa7j+D9dFy02hRA=;
-        b=A2WzlD/Hnk6SQQDw8n+qVbPMx/tesfTt2LFaTaM6C+P29PBuHK1jjom7MJgaTu9zMB
-         gddSuFGHH1Svw4MRzerNHuRqyQjk9sqGDkUnlaUZdHP0wPeWXTETgyGAH330xs4KKoGI
-         OZQtp8pwhaFTZ2zGOIFXcf6eEVfYPjzsB6zX9PULvfgvHM8wsU/KPCoAm37pfF2PwL5V
-         GwTAL+fS7SpWUME/5dxZ1lNG8klFsknsAXcz5WxOB3giSVE3O3UCFM5uLPoR1C8CYioT
-         BFV/2yzd2hxmE/LupmZZPHWcnyBCcFGekZNYt7HLrOuSkvkkwk4cRhxeNY/Qhfxf+GRC
-         A7fA==
-X-Forwarded-Encrypted: i=1; AJvYcCVwe48W6wuduSCnqt8/TtJue7cu078xbK0kV/z2/yU1rxXoXbhFvY26ybqBNtkOCGeM/NSXCssM3Uk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy69/TINEL8GyAWxuJSu0ajhHXF5q+TUHCuQLQ2l4mSSXkvfbdE
-	mmtzHyn+NS6pHFzMFokRbWBwEmiXUCly6Iha4rrprKZCbEneQn8B1RmfCsSgTltBLOBgPYaG7U4
-	ywSLvfUdb+rgT26izJAN25ePhmvhbvNNOadQlTyc2VrwhrchG0sAyBUf5aspx3g==
-X-Gm-Gg: ASbGncuWo5FvQuMqFT9sRbB0VeZFTXjdMNF9JeXMvzoqIg50wJq3WrVp821ggbxI5U4
-	8pXYmEOWUDKeqiNuEQZE6QPzmbraSbeout62hzKTFt3bm/lNw+6bZSb8/7LcpUyaUarQMxlggu7
-	UEa+rZcpA8gEmytgxEzzpPjdw0NtLggNRNYwr4BGI4eYcvszl3uzP67rlZO7ZRuyP3TY3kxeuoE
-	E6sxTCqVHDFMyW2dO+b5N5nXxSK8YURs4hgmiOwtz6ZX41BWBvPZFKCoeOrYDEq/PlP2E3wzzZl
-	DLKmRsfSvIq/wws=
-X-Received: by 2002:a5d:5d0e:0:b0:3a4:f35b:d016 with SMTP id ffacd0b85a97d-3b497011a15mr15320222f8f.11.1752004209397;
-        Tue, 08 Jul 2025 12:50:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF1jBraagOsk3QI107z1D1hHowlYV/qp00H/NJFxbB801oXkh53Lpf4M+P4ApVMlSTE/u2Aig==
-X-Received: by 2002:a5d:5d0e:0:b0:3a4:f35b:d016 with SMTP id ffacd0b85a97d-3b497011a15mr15320197f8f.11.1752004208849;
-        Tue, 08 Jul 2025 12:50:08 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:150d:fc00:de3:4725:47c6:6809])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454cd49e64dsm30477795e9.34.2025.07.08.12.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 12:50:07 -0700 (PDT)
-Date: Tue, 8 Jul 2025 15:50:04 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Yuri Benditovich <yuri.benditovich@daynix.com>,
-	Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 net-next 0/9] virtio: introduce GSO over UDP tunnel
-Message-ID: <20250708154718-mutt-send-email-mst@kernel.org>
-References: <cover.1751874094.git.pabeni@redhat.com>
- <20250708105816-mutt-send-email-mst@kernel.org>
- <20250708082404.21d1fe61@kernel.org>
- <20250708120014-mutt-send-email-mst@kernel.org>
- <27d6b80a-3153-4523-9ccf-0471a85cb245@redhat.com>
- <ef9864e5-3198-4e85-81eb-a491dfbda0d2@redhat.com>
+        bh=ialp/oquiA+rEtbsg9r8WrpxV/qZnDtRKdb/P4jXX50=;
+        b=Yp0ZdoUe3GcecY4nfds151s7Mm6DCVhfM/Hb67itB9iLL8ti1Z0hkYzhZLKEzjd1Jh
+         EjfClPy/2n4YpTeoMkNQlHyw0PXtEgR+tRrs++0a9UBdlZHmcUJmvWTx4ufdcasKDXRF
+         8YQVqeLdPJXmyQvI4Lf7JwIP5mH5nJNwnWDC+5NB9BBijbZxLVF6DeN8hUbdchG1Iod6
+         Fd6WfwR+FH1xhpM0Q3SoMioV/rKiSpD3qjgyv1Ee+ElJS8y1MgL+MeoCyst5Lcyd7fhI
+         BtYoUEH/rAD1Gbfcn/DFQRFCzPCFqnyRp+cmzOWgSE6rm9LCY3onx+SzNIgVUfV03nA0
+         106w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752008977; x=1752613777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ialp/oquiA+rEtbsg9r8WrpxV/qZnDtRKdb/P4jXX50=;
+        b=bZCIRZOBxvc9QaCTHdWvq68/eM6ELu2TzIL3VdY+pQE/8a8XIa48SO4cD1GGUxTlQH
+         OaNc2tV4CLZcJA0Ek2vuvm1OIijMA5rd/kcQ6UECmaT/pzpEP/dtZPQOJOnkzxRRQfZf
+         ck5/Yq5kWC4wAU9+n/nQHcbRHjBAiIowIulSumPHFGxuwq0ADegvlR0tykAp0jD1V3Vd
+         dniT53AEsJcy7QbpEg6Jx+YtMTsk5y0TYPwALcAYQiHwsZzMoGBwez0wqds/nR1IoCHg
+         qDCX9k5ZuYwrmy3gAEBjkDMByWVt4/Yt5Y0I3cbrGGYsFAub/+sUYCOpbTNESZGDqmIT
+         r0zw==
+X-Forwarded-Encrypted: i=1; AJvYcCUuTNEBpKLnMfVuX2+OP1qO33/92WxkBz7jaeCAXYrLbMr7rWX1/z/BjAFmYwQAkUfacNA43fpEG1x8@vger.kernel.org, AJvYcCVr2QYbSodOCQ0RMstqHm/yrzDEb41sCrSRkFwhzGr0CXdjl3aZv4vTn45gRjUOYRhf2TP6e8wbT3nk@vger.kernel.org, AJvYcCVviw72kxcfV6ezsVusnOaRpya3XZI2SajmCiNirsJUnYffb2v1fvyLxfTCdl+Awl0ayLZmX+bvZaSKKA==@vger.kernel.org, AJvYcCXVeggF/tLIRcEYzrUhEoyEXU5sufdty0q6qX/lf0MZCidqtCK2/FoMdcivaoZ5ww3+ebrHd4TAPwmd7HPUaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaK49e+Fc8ce4L4jwAAwpgrMbEIjW8FXnufOWVBfyb2obPLVJf
+	dCoWe3ASm39hCKjNQw0hPEkHXYBoqKsuxUlQ4MikjcwRGFSOg71l6ngglivqHX4DZgLq+vrnCkq
+	iK+vgWEJa0yjdsyvhVR8lFaeRGXUtyv/zqNReDy0=
+X-Gm-Gg: ASbGncu4zA5aSCZjMZULMqGlRFKDq0w4DPr2/iF4vrzSZ5DZ32zq6jIe91kaZWl734B
+	Egp84VVaIxMXHVraG71Zxbr+gLl7IP16Ez3xBGv5M4JCPRC4pD8PD3k0IFcy/nD78uuzHq7B04U
+	qjL0t2LQdx09MW4QC2Cb8MK4M5FwxbjTIEhgXJfoGxZfg=
+X-Google-Smtp-Source: AGHT+IG8Jxilvarnzqavf3sYJxobHNvcI4fkp9fkNWwp0crZArdntUIdq+T6S/aPKzK8d0h4ceDCQNVW0Iz2g0YtdpM=
+X-Received: by 2002:a05:622a:1143:b0:4a7:9b9b:aad7 with SMTP id
+ d75a77b69052e-4a99885b516mr321562271cf.49.1752008976611; Tue, 08 Jul 2025
+ 14:09:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef9864e5-3198-4e85-81eb-a491dfbda0d2@redhat.com>
+References: <20250708135132.3347932-1-hch@lst.de> <20250708135132.3347932-2-hch@lst.de>
+In-Reply-To: <20250708135132.3347932-2-hch@lst.de>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 8 Jul 2025 14:09:26 -0700
+X-Gm-Features: Ac12FXwl0brNflKWwfGY6FaTYwWdG-adXu8EY6-C3m2Ipq4pCXjGyAu9EGigUko
+Message-ID: <CAJnrk1bmQzsUeWTRaVfQNNO4C3eQ3Pw2jdk9v-r2VEa4tr1xxA@mail.gmail.com>
+Subject: Re: [PATCH 01/14] iomap: header diet
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 08, 2025 at 07:00:19PM +0200, Paolo Abeni wrote:
-> On 7/8/25 6:43 PM, Paolo Abeni wrote:
-> > On 7/8/25 6:00 PM, Michael S. Tsirkin wrote:
-> >> On Tue, Jul 08, 2025 at 08:24:04AM -0700, Jakub Kicinski wrote:
-> >>> On Tue, 8 Jul 2025 11:01:30 -0400 Michael S. Tsirkin wrote:
-> >>>>> git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_07_07_2025
-> >>>>>
-> >>>>> The first 5 patches in this series, that is, the virtio features
-> >>>>> extension bits are also available at [2]:
-> >>>>>
-> >>>>> git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
-> >>>>>
-> >>>>> Ideally the virtio features extension bit should go via the virtio tree
-> >>>>> and the virtio_net/tun patches via the net-next tree. The latter have
-> >>>>> a dependency in the first and will cause conflicts if merged via the
-> >>>>> virtio tree, both when applied and at merge window time - inside Linus
-> >>>>> tree.
-> >>>>>
-> >>>>> To avoid such conflicts and duplicate commits I think the net-next
-> >>>>> could pull from [1], while the virtio tree could pull from [2].  
-> >>>>
-> >>>> Or I could just merge all of this in my tree, if that's ok
-> >>>> with others?
-> >>>
-> >>> No strong preference here. My first choice would be a branch based
-> >>> on v6.16-rc5 so we can all pull in and resolve the conflicts that
-> >>> already exist. But I haven't looked how bad the conflicts would 
-> >>> be for virtio if we did that. On net-next side they look manageable.
-> >>
-> >> OK, let's do it the way Paolo wants then.
-> > 
-> > I actually messed a bit with my proposal, as I forgot I need to use a
-> > common ancestor for the branches I shared.
-> > 
-> > git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
-> > 
-> > is based on current net-next and pulling from such tag will take a lot
-> > of unwanted stuff into the vhost tree.
-> > 
-> > @Michael: AFAICS the current vhost devel tree is based on top of
-> > v6.15-rc7, am I correct?
-> 
-> Which in turn means that you rebase your tree (before sending the PR to
-> Linus), am I correct? If so we can't have stable hashes shared between
-> net-next and vhost.
-> 
-> /P
+On Tue, Jul 8, 2025 at 6:51=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrote=
+:
+>
+> Drop various unused #include statements.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-We can, I can merge your tree after rebasing. It's a hassle if I rebase
-repeatedly but I've been known to do it.
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 
-If this is what you want, pls just base on some recent RC by Linus.
+LGTM. btw in the 7th patch when the ioend handling logic gets moved to
+ioend.c, #include "internal.h" in buffered-io.c can be dropped then
+too, but that's a very minor triviality.
 
--- 
-MST
-
+> ---
+>  fs/iomap/buffered-io.c | 10 ----------
+>  fs/iomap/direct-io.c   |  5 -----
+>  fs/iomap/fiemap.c      |  3 ---
+>  fs/iomap/iter.c        |  1 -
+>  fs/iomap/seek.c        |  4 ----
+>  fs/iomap/swapfile.c    |  3 ---
+>  fs/iomap/trace.c       |  1 -
+>  7 files changed, 27 deletions(-)
+>
