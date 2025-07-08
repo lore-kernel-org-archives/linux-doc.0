@@ -1,137 +1,81 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E50D298CA7
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 07:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3517298CA7;
+	Tue,  8 Jul 2025 07:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751960358; cv=none; b=BM7wF64czU2pf49A++L/vmIfzKktux2fv64cNqEM6dcy4tWhvU6B+25nvDnwXO3skLv4srQaXtvRVw8tD+HW+MXeT8zKtDXz82vxgnZHqPekmqOWWdtSP2vxJe1fjNdz5FHurNHEObphf9e2Kaxd/K+4bYlvyd58JGwEcb2922E=
+	t=1751960446; cv=none; b=S6AnL1oon0fjGSzcZ5kXKt30zb/RVAbM2ClkYDxikGI0/TpYNJpAqBOTUkJZ/14sP3ugCV36fFkuc9ZtbgVrwBM8yF53lDp/EZoEqbOsceDAWFDrbmvPN4FsDHiVVoAQf+RQs96alj0Lzg+i+tbeNSgfTTCChEQi3ss9dGpZMIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751960358; c=relaxed/simple;
-	bh=NXVzBmkzjs0qIwDBa1nvJlJYPXA8UdnEYWrKccWXZxY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MDwhOvJJo4Go+oLbcnzQ8t1HBFKgjt6MWFHby3TkJAYHci+UxZCd5EaQKOIOpjveaMpfqBws47uoxsycgIaEP3aGfD6+sqj7rBSdXwoFZ0dr1atGFJPApQM545cp5Z2UR1CHBIUGmAzntQ+sAz53xiGSV1AcFPlg8gEn8Y0PgDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=E/CYIO/J; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1751960446; c=relaxed/simple;
+	bh=rUqpGKNpxIkdFXiunXQ2FeKSD8DPlAjO+yZ3JAxkNuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fn/xe3zoM1WctVeSQitYyt5fOv2IcZgyZXDxwMXxRAQ4qYMaSY6b6mnFuoj0Vvwaptifukj3BuIitaD+Ah6oX4xLVWZ1Mob7fh/s/xm/5kIPu7MAOQ+Lj+Ghd/k0qvULtUQgnQsQeg4kzCWMz5BybGlymPENArUpUq+4gDYyAR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tESejgv/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="E/CYIO/J"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-73972a54919so3537484b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 00:39:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1751960355; x=1752565155; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oRg4Q6pPPZIs4EHGk7HynlZtava7RS7MLv1CsBp8mUo=;
-        b=E/CYIO/JbPLEtM8mPArGAYLcVPQ9VbVOC8uHoSLrsmL/DC1vixzrcI0IfjKn9yPytZ
-         GWdnkUIjULcVtJzhGG4ZrBjvwdNS7z0/IoZwSsGTi23YLZVAH+vXdBJDskPG35HvmHMD
-         g8LioOWFDWLnLUSmRDZA76t94TXQQlhlqv4CNMri7B7pZ7bbp/Nt/XPgMlkMcpMQbQ63
-         QjrNe63LieG1MkFkqOR7uH5CVjvTdFw42YPhRdQproxqy9yYfXcIqbfCIA14zFZn/jMd
-         EbaK6Zi97apWYCKoWVVW9TDzeZIae5vL2WAxivwwUZMDEFR7Y1nkbRzZRWUlLZass9xw
-         fUrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751960355; x=1752565155;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oRg4Q6pPPZIs4EHGk7HynlZtava7RS7MLv1CsBp8mUo=;
-        b=ZpjQcJlppAuu5zi9DWclDK18OZWWdbsg9NdBxBQCbMmYFZQzHA5hU0UKhW6yXFMmSV
-         Y9HrrgC6kEffOJKOubFk7EvlmrinXtKbaIPJPYCsd8SNCUhgdBTsaBh9zGhMLLBWL5AP
-         YoIG6PWNTvs3OGYmblSwOdem9768AS4wpuUST3z1AXNG5MiM2A2pdHe1QFXM5UI/XptX
-         DlNAgL2Bw/UV/bsXGzWQyXt3BLxh1NMl08haKy0WEa+O/tUqkfRCAYCwLBc8xP9Iy8xy
-         pqONd1V97fCEco1o1S8IvaL8+Qtlrt4zoGW0mB6wrMtYdlfsvSAIREv+SF400YYrL+7E
-         MX7g==
-X-Forwarded-Encrypted: i=1; AJvYcCV2cAf0qEtHZGECC+24t6wSJZwr2JUK72pmrLDrk85o1mM3O24iZ7U2znF7KuyuymJMi43Fb1WXRlA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7AU0tSwlMjpz5iaoP7Um0R1nIN9ZmOKOBLpOhU26zcZpVxTRp
-	6UckXdfyR+VND0IOgU272kQxCmFIlTNmitewNCZqlscaLbLa7yTSS1KRbzRzolYJltw=
-X-Gm-Gg: ASbGncvoPY0kBAZP7MI4eA1Zl8/tQHIcjsYEJ5jDs7kKK7Qqkyguxg2BQkfh8u5APqb
-	M5o09EgRcDpGyLftvEknDY9GOvzDjez3gIivLum/joL+8kniRA+Y+B29tO79qQBdh0EWSnBtsMZ
-	uO/6VCmFG2vU5dlmrVXn2Z2WPE+zSJoqJUQjt8LW361bBm+pDDJLoSB8dSHgwTkKgxKldE12qTU
-	t+Wlsv3UUVhxf/+9rAGt48+BvyxFWC6mXfKR3mThzrHMDn0Blw26e3mFexoAx5nntub52tzVUiZ
-	yHPfPnQFb0ZJYC0RT3uFy9dhNIt4cFOu8374RzggAY3K90GhehIV2YK5bZAjoNZMiSGvM0/fW1e
-	AQcO/zHbvgxiFoL2IRKa2bEV1rhBl
-X-Google-Smtp-Source: AGHT+IEnB2D8Zt2lhCwV3+7VTxWI7MKuZHKxw4k42U2GFJK7fV9zJULR3jSg0DBPKK8gXEtouNDbPQ==
-X-Received: by 2002:a05:6a21:204:b0:226:d189:bbd9 with SMTP id adf61e73a8af0-226d189bc3amr13874192637.18.1751960352969;
-        Tue, 08 Jul 2025 00:39:12 -0700 (PDT)
-Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42a540bsm11633523b3a.140.2025.07.08.00.39.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 00:39:12 -0700 (PDT)
-From: Brigham Campbell <me@brighamcampbell.com>
-To: dianders@chromium.org,
-	tejasvipin76@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH v2 3/3] drm: docs: Update task from drm TODO list
-Date: Tue,  8 Jul 2025 01:39:00 -0600
-Message-ID: <20250708073901.90027-4-me@brighamcampbell.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250708073901.90027-1-me@brighamcampbell.com>
-References: <20250708073901.90027-1-me@brighamcampbell.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tESejgv/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F22DC4CEED;
+	Tue,  8 Jul 2025 07:40:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751960445;
+	bh=rUqpGKNpxIkdFXiunXQ2FeKSD8DPlAjO+yZ3JAxkNuI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tESejgv/MmDWFWBcXknnPCM1K7gBEJtSANDv+H+XH0veTXGmPzkv6/ZGQOcnThJ0+
+	 6iXZDgLeESsSgXYmlLNzlSuQ7j39FxQXYvoxHagiQUHUbxZvYtFG0e4sc0P9RIOoiG
+	 xxHqO9VVxqeq50c+pExIBBGIe8CO+rv8b5WSdijcy7BQ5O/5xN8C9S52GJ3ec0dkoW
+	 wV2WvRN7qZk+Kobli9gql+GDFcqiZNSuloTGspcdREeUwcLFsgoCJbq0ty40upapYJ
+	 xhOBPzy5rOpapgy5wk6p+sxcDDHJyrBRUsoTEtN8wu6KD3SkxXmv7cpk5gGKgJyJHx
+	 h/HYHMO+V4xPA==
+Date: Tue, 8 Jul 2025 09:40:37 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Matthias Maennich <maennich@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@infradead.org>, 
+	Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>, 
+	Shivank Garg <shivankg@amd.com>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/2] Restrict module namespace to in-tree modules and
+ rename macro
+Message-ID: <20250708-merkmal-erhitzen-23e7e9daa150@brauner>
+References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
 
-Update TODO item from drm documentation to contain more applicable
-information regarding the removal of deprecated MIPI DSI functions and
-no longer reference functions which have already been removed from the
-kernel.
+On Tue, Jul 08, 2025 at 09:28:56AM +0200, Vlastimil Babka wrote:
+> Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
+> part to avoid controversy converting selected existing EXPORT_SYMBOL().
+> Christoph argued [2] that the _FOR_MODULES() export is intended for
+> in-tree modules and thus GPL is implied anyway and can be simply dropped
+> from the export macro name. Peter agreed [3] about the intention for
+> in-tree modules only, although nothing currently enforces it.
+> 
+> It seems straightforward to add this enforcement, so patch 1 does that.
+> Patch 2 then drops the _GPL_ from the name and so we're left with
+> EXPORT_SYMBOL_FOR_MODULES() restricted to in-tree modules only.
+> 
+> Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
+> in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
+> 8250: export RSA functions"). Hopefully it's resolvable by a merge
+> commit fixup and we don't need to provide a temporary alias.
+> 
+> [1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
+> [2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
+> [3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
 
-Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
----
- Documentation/gpu/todo.rst | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index be8637da3fe9..92db80793bba 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -497,19 +497,19 @@ Contact: Douglas Anderson <dianders@chromium.org>
- 
- Level: Intermediate
- 
--Transition away from using mipi_dsi_*_write_seq()
---------------------------------------------------
-+Transition away from using deprecated MIPI DSI functions
-+--------------------------------------------------------
- 
--The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
--non-intuitive because, if there are errors, they return out of the *caller's*
--function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
--and mipi_dsi_dcs_write_seq_multi() macros instead.
-+There are many functions defined in ``drm_mipi_dsi.c`` which have been
-+deprecated. Each deprecated function was deprecated in favor of its `multi`
-+variant (e.g. `mipi_dsi_generic_write()` and `mipi_dsi_generic_write_multi()`).
-+The `multi` variant of a function includes improved error handling and logic
-+which makes it more convenient to make several calls in a row, as most MIPI
-+drivers do.
- 
--Once all callers are transitioned, the macros and the functions that they call,
--mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
--probably be removed. Alternatively, if people feel like the _multi() variants
--are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
--variants but change them not to return out of the caller.
-+Drivers should be updated to use undeprecated functions. Once all usages of the
-+deprecated MIPI DSI functions have been removed, their definitions may be
-+removed from ``drm_mipi_dsi.c``.
- 
- Contact: Douglas Anderson <dianders@chromium.org>
- 
--- 
-2.49.0
-
+Love this. It'd be great to get this in as a bugfix,
+Acked-by: Christian Brauner <brauner@kernel.org>
