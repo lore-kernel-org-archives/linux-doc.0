@@ -1,96 +1,153 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0952A645;
-	Tue,  8 Jul 2025 05:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444B321FF3E;
+	Tue,  8 Jul 2025 06:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751953870; cv=none; b=q/KWeTWTbMXB8Y/SI6N4Jm8AWcduWy3l2nrgiL4hfrpa+fAbUJz0sf0Oqh4JXCgQ2WgapygpvSpHp2/c6uQfmWx4IKWnOUZhTmXFFkcavfVkGbQYY32N8ynLU+xImO0/soPOfXX+a144SlnffKBdyQz9q5r2aYshBrnQJ4qwpJ0=
+	t=1751954964; cv=none; b=MY9ek3bE5uqmPvcgQ57ogyb9qwr4HSvrlbxEtbKVB1NNTqTEGFT51cv27XzRR+9GJ0XYor0tOocvZ1GLejU+hyojYBU6vKXCPK7+M7bxWZhE3109ft1clwOo1pso/SsqOxWFnWzEoo/4XdphEh6zXB1q0rMmPVYstz22zVsOIeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751953870; c=relaxed/simple;
-	bh=JNXE1M1GfAKMAx2fUOYQYN/tMN4M5F8WF2dNBw1efi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SXq9ic/8B6chehkwdabvQKrRMPUbCX+mnG/NRwLa2dXXN8XNtJrHp4t7wRqJNmp9y//5oteC/U5+h1Om2CNC89QJ17uOZHMiNgTXmMaUhmy6m2toJPqzJSs8pPpXWjpVnmClFU9WO5b2m3sdzfx9g08ZMLB/MABVaXfeRvua9lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=n8n0lnY/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=INR+2vDk; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1751954964; c=relaxed/simple;
+	bh=pPOo+ktL9Tfotnr6ffVPd/vkVlhcENzcynw9OZkpRdY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gZVQoHWFNAuN51sU9qSrCVVUe+79TrK9KzsG1S50/LD4tov9c2181xO4Cw3lm1ff0+LkdLzPIQIwG13fgJPcRutPVaFBuhdlc+BozruQmnLjEzgc8WXvDoU2xFQqvJvXDVqvF67nw3BhRzsYReCqBEu2AxMuqstp5N2wQY8ZBbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=WgtQwHLl; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n8n0lnY/";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="INR+2vDk"
-Date: Tue, 8 Jul 2025 07:51:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1751953867;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1yXuyD2y1tDDXkXTAWSlgEy9p6IqbbB6Wt8X6nTw+yw=;
-	b=n8n0lnY/41yNWuVFmE+/ybyOP7pjLAwdANsDu25x71x2iLUxcY2j98kP0F8IoS9FeO7nIB
-	IuiHyWSc18jAP1if6ai8eCvUJoqp6CvshYC8CvvYwGDJa/9Lus7SuGLTN3VaxQED5YS/Ex
-	VH0w/KUQm1QaF+ubfS0VOA/r/kxzFMCpcKkme3lLmILlBhEaFfgQEMrJgudahurUvcDd32
-	plT7rsth56Fi+OXvHRJqFLgcpYBS+JVcRwVJHZfrnPsmrZCaQJ+LHIAfbXV0D72IsEmGQC
-	c2dZgSOa1FTNz121Sb7dtf1zTY16SqPNYIvjpINbMX6TtDWuODLeHDozG8UaZA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1751953867;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1yXuyD2y1tDDXkXTAWSlgEy9p6IqbbB6Wt8X6nTw+yw=;
-	b=INR+2vDkhbgRjXvWu5PX2SOpL4900BafsvNCjtbJR9vEisIi3Sh4QioImKSLts6+T+8tX3
-	bWVpeAke5ucjk+Dg==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Shuah Khan <shuah@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	workflows@vger.kernel.org, Kees Cook <kees@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4 00/15] kunit: Introduce UAPI testing framework
-Message-ID: <20250708073940-c2e9ee11-549b-4ef0-a480-942d86821f41@linutronix.de>
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
- <87qzyr7tly.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="WgtQwHLl"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1751954952; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=zh0GZgGllEOdHJ4JfcnZXS605Yci87SIRFoTaKVIHL0=;
+	b=WgtQwHLlxa1M42TBYI2ooP+5blNjMNxRxKxO/rzsAKwzRNXLL0wgQWfy0BinSS22T84tqW925Z5dR+ww8BbOLhpaCXZ7CIPfKZ9n9yR8UHYcRaeVHS0O8E8aAyKwCV8llTrVr/V63XG3a6KVM/PLPZQEkDPmAbVpystHaQzOq3s=
+Received: from 30.74.144.119(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WiL4DJh_1751954947 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 08 Jul 2025 14:09:08 +0800
+Message-ID: <342d5fe1-cd39-462c-b2a4-b5d6979a8a21@linux.alibaba.com>
+Date: Tue, 8 Jul 2025 14:09:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87qzyr7tly.fsf@trenco.lwn.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 14/15] khugepaged: add per-order mTHP khugepaged stats
+To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+ baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
+ aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
+ catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
+ dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org
+References: <20250702055742.102808-1-npache@redhat.com>
+ <20250702055742.102808-15-npache@redhat.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20250702055742.102808-15-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 07, 2025 at 12:18:01PM -0600, Jonathan Corbet wrote:
-> Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de> writes:
+
+
+On 2025/7/2 13:57, Nico Pache wrote:
+> With mTHP support inplace, let add the per-order mTHP stats for
+> exceeding NONE, SWAP, and SHARED.
 > 
-> > This series aims to combine kselftests and kunit, avoiding both their
-> > limitations. It works by compiling the userspace kselftests as part of
-> > the regular kernel build, embedding them into the kunit kernel or module
-> > and executing them from there.
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>   include/linux/huge_mm.h |  3 +++
+>   mm/huge_memory.c        |  7 +++++++
+>   mm/khugepaged.c         | 15 ++++++++++++---
+>   3 files changed, 22 insertions(+), 3 deletions(-)
 > 
-> Please forgive the possibly dumb question but ... this series sets up
-> the framework, but doesn't actually integrate the kselftests, right?
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index a6ea89fdaee6..6034b4c9dae5 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -141,6 +141,9 @@ enum mthp_stat_item {
+>   	MTHP_STAT_SPLIT_DEFERRED,
+>   	MTHP_STAT_NR_ANON,
+>   	MTHP_STAT_NR_ANON_PARTIALLY_MAPPED,
+> +	MTHP_STAT_COLLAPSE_EXCEED_SWAP,
 
-Correct.
+This stat seems never used.
 
-> Will it be necessary to write a little KUnit glue function for each
-> kselftest, or is there some other scheme in mind here?
+> +	MTHP_STAT_COLLAPSE_EXCEED_NONE,
+> +	MTHP_STAT_COLLAPSE_EXCEED_SHARED,
+>   	__MTHP_STAT_COUNT
+>   };
 
-With the current framework it is necessary to write some glue code:
-* A stub .c file which #includes the existing kselftest source
-* A kbuild userprog Makefile
-* A custom KUnit function which calls kunit_uapi_run_kselftest()
+Please also update the 'Documentation/admin-guide/mm/transhuge.rst' for 
+these new statistics.
 
-A more high-level scheme may come later, but so far I have not worked on that.
-It would be nice for example to build and run the tests for all ABIs supported
-by a kernel without a lot of manual code duplication.
-And maybe have some higher level helpers around declaring the tests.
+>   
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 69777a35e722..3eb1c34be601 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -632,6 +632,10 @@ DEFINE_MTHP_STAT_ATTR(split_failed, MTHP_STAT_SPLIT_FAILED);
+>   DEFINE_MTHP_STAT_ATTR(split_deferred, MTHP_STAT_SPLIT_DEFERRED);
+>   DEFINE_MTHP_STAT_ATTR(nr_anon, MTHP_STAT_NR_ANON);
+>   DEFINE_MTHP_STAT_ATTR(nr_anon_partially_mapped, MTHP_STAT_NR_ANON_PARTIALLY_MAPPED);
+> +DEFINE_MTHP_STAT_ATTR(collapse_exceed_swap_pte, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
+> +DEFINE_MTHP_STAT_ATTR(collapse_exceed_none_pte, MTHP_STAT_COLLAPSE_EXCEED_NONE);
+> +DEFINE_MTHP_STAT_ATTR(collapse_exceed_shared_pte, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
+> +
+>   
+>   static struct attribute *anon_stats_attrs[] = {
+>   	&anon_fault_alloc_attr.attr,
+> @@ -648,6 +652,9 @@ static struct attribute *anon_stats_attrs[] = {
+>   	&split_deferred_attr.attr,
+>   	&nr_anon_attr.attr,
+>   	&nr_anon_partially_mapped_attr.attr,
+> +	&collapse_exceed_swap_pte_attr.attr,
+> +	&collapse_exceed_none_pte_attr.attr,
+> +	&collapse_exceed_shared_pte_attr.attr,
+>   	NULL,
+>   };
+>   
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 2c0962637c34..636b84bf1ca1 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -594,7 +594,10 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>   				continue;
+>   			} else {
+>   				result = SCAN_EXCEED_NONE_PTE;
+> -				count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
+> +				if (order == HPAGE_PMD_ORDER)
+> +					count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
+> +				else
+> +					count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_NONE);
+>   				goto out;
+>   			}
+>   		}
+> @@ -623,8 +626,14 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>   		/* See khugepaged_scan_pmd(). */
+>   		if (folio_maybe_mapped_shared(folio)) {
+>   			++shared;
+> -			if (order != HPAGE_PMD_ORDER || (cc->is_khugepaged &&
+> -			    shared > khugepaged_max_ptes_shared)) {
+> +			if (order != HPAGE_PMD_ORDER) {
+> +				result = SCAN_EXCEED_SHARED_PTE;
+> +				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
+> +				goto out;
+> +			}
+> +
+> +			if (cc->is_khugepaged &&
+> +				shared > khugepaged_max_ptes_shared) {
+>   				result = SCAN_EXCEED_SHARED_PTE;
+>   				count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
+>   				goto out;
 
-
-Thomas
