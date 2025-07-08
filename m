@@ -1,143 +1,92 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5782E62B5
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 17:00:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FDC23DE;
+	Tue,  8 Jul 2025 17:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751994029; cv=none; b=pYt+Ak2qzQELtR1Xa+S3jEH2yZtoAkpVlyWWa4whkjqTNXGkK32OeB7BQWZTu0/K541whhQJsY1zpWUdtH0RO5f8YReVlf1WzvN2Jq+Y4LWCx/aI5oI5f8Iz4940y99QemARDeruWD3kl+Z+5pFtFE3Bp1DXkqjpoefB5OBNc+A=
+	t=1751995976; cv=none; b=pq/KB5hYJ95EWYro1514MxKeGx+JDlilxt8x9ko2jCW99wOThDIVND0iMtlXH1u7V9FnIenKGBkTquVir9LOvKdwy7VjjQweFHquusUOMewQEcvrwk9MwyxOjsvPNFQHsLUk0sA4wjnAPKpS3by7b+ipefcfW/SzBsuuNz5sO9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751994029; c=relaxed/simple;
-	bh=vqmP40l2sQm+jo5YrbdEYj98+Uk19D7cUQ2Z6s1E4Hg=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=AuMnZvOhuVrcmO/4xHC7HL5OAbfLmv7rfotxy85qj8tWCMrTtSqnVFKylhgwGmzhO9uBG8smQ1ZD0VuxHdKC8zhIDwuYKBRT2DgiNt7+dqSCoLc+LaN4PPdaAQdyY93x/EqDP/PXYQOLqmNKkbI8u3OMEZZvC3pl3CiMotjgBlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bRCIFICF; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751995976; c=relaxed/simple;
+	bh=Tj30AVgOZeLyHZLoCU9zwuYJtDxwx0/hpeoIjbFkhOs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=npYsF2EIIDNAMRd/AdC0RPywWKHZc9fz3Q7btXhOnRisZiPcgdZoTFlhic0KMEhu1VLMZHKzU1kveXqQ78KVKoEXGBdSSLrpQio0/9zG33AhlPZMFJvGp/Bp2KJF69pGRWxg4njluQqLNzdsoppcCFeoxlIAGEiLbaWOl/SRi5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZwdjdZ5h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bRCIFICF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751994025;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tOAUOdDQ/Ohpve7MT0b5vBpxcHJyYUTcEvYHV9S4P7A=;
-	b=bRCIFICF5XsB/oDIzgV3QLq7cWOFEO1eB6oaFo4PE2es3nSz4eq23x8cFne1RSd6XN515C
-	Dsw7XhkkY0+gEdZ4e9LEVIdM+0OB02Gm+/JbFXVGBCCFyzcWssK+0btDe5Kdf1ba+YPhTk
-	RYRiHLmpdJ50gvVe9fWJatfnjaYY7iE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-30-oq4s4OzlP-uiizlAW4IlHw-1; Tue, 08 Jul 2025 13:00:24 -0400
-X-MC-Unique: oq4s4OzlP-uiizlAW4IlHw-1
-X-Mimecast-MFC-AGG-ID: oq4s4OzlP-uiizlAW4IlHw_1751994022
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4538a2f4212so24684345e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 10:00:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751994022; x=1752598822;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tOAUOdDQ/Ohpve7MT0b5vBpxcHJyYUTcEvYHV9S4P7A=;
-        b=AFE6w90pbGrwP/HScrpRm3a+jPsnPVfukko9Nr7OQvWwXAGJ7+ymlpN6NyRz+r5AZ5
-         FpB6J+7elclNKyuiErPJ5AEnesjMOkEd4RN1yABy/vUkgSubH36+ESaK5P481ekb828y
-         z4ochlo7zFW18rxxd7zUddmdBwMcQCYSzD70VQcV97HB/xrVn0rfhHlP1KRFs7YrZtFT
-         AQFJxYFg9OWabpWl5P2LsdPFA/j0pgtJX7Wh/AaATjjx2uHPiNsWcw3oiXIA5v5x24AC
-         Hmn0+gXGAD7Tq5HkiykmC5q6GpuruJiVnBfh0YQD7Emz1V6wAe9qLvtM7Gz9p018yajj
-         wdmA==
-X-Forwarded-Encrypted: i=1; AJvYcCW+ogH1bh5Aq0hrfpMzoRdiO1cLsv/KvvLrYPSmRaEVoswWzj4rLMsPxwY9ytH18iaT99azXyMs/RA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuDNzwLybH5PaB0o5wVQF4NdkrMXfNGhK+VGh+Q3NpSVzk2Pc6
-	P9NJ1DZgCE3Yv6HUDexxjTw2U3hLTTiJ/s4mRBR1xTzvzmLzVVNpSqVTdCGFU32XEVexhTpL8+d
-	uUSbs5wIiXBPSa9yXB7sFgpvBnMaAbcjDBlXHX3onOL87ClP06XO6P9KBD0R8qw==
-X-Gm-Gg: ASbGnctGldH99iANrvxnONdEAeevWGYKgTvjdDpttz+FKtNiOOeOA3tOFZzbyrcF9ha
-	hltXQeNoREZ5Cw7v3fFeiuRg03K2yclYmDZxZhrUrVjbkO56LnzBQvKJLu4ToHxYJurIj2k1Vt1
-	tIO0kdwB/ScqU5xv430ojn2Xf9kXVZKWCFHL3Dal1t9c6wVWjDtS7bnEo8+5tJqYux4WdIFtHQY
-	JUA6NhVyBiwNXb0IhHcntcH6oIjv0LwVnCtFx8nAFgFHuUidER0V/xku838zb3LNp1S8VxQ3fKW
-	GQDoENe8n31lAXZcjF0MgTVNmla1lBYGrv7Gctu3GlmWzT3WxPp0IVDL6c+0U/y9p1k2Tw==
-X-Received: by 2002:a05:600c:1d1f:b0:43c:e7ae:4bcf with SMTP id 5b1f17b1804b1-454d3564b66mr5874015e9.0.1751994021593;
-        Tue, 08 Jul 2025 10:00:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEs2z8yosruby7WptbVhLXHCy2dc1fLMqvjmukcchZaNusQYuScrXtah/V+6PVdS+yzg4/ynA==
-X-Received: by 2002:a05:600c:1d1f:b0:43c:e7ae:4bcf with SMTP id 5b1f17b1804b1-454d3564b66mr5873475e9.0.1751994021106;
-        Tue, 08 Jul 2025 10:00:21 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2717:8910:b663:3b86:247e:dba2? ([2a0d:3344:2717:8910:b663:3b86:247e:dba2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454cd39d0f6sm27320025e9.16.2025.07.08.10.00.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Jul 2025 10:00:20 -0700 (PDT)
-Message-ID: <ef9864e5-3198-4e85-81eb-a491dfbda0d2@redhat.com>
-Date: Tue, 8 Jul 2025 19:00:19 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZwdjdZ5h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D81C4CEED;
+	Tue,  8 Jul 2025 17:32:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751995976;
+	bh=Tj30AVgOZeLyHZLoCU9zwuYJtDxwx0/hpeoIjbFkhOs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZwdjdZ5hSUdg4Xp5SziCZU45+i/ZBxR3cN7skTWzxY9ZFI/mBX/gdw618OkLEcwp+
+	 e1pzEaUfXBhYMdL9KAQUfFK1HTeKmwg2pmQ65lh68LKSDXC0BCywVzpODJhQYeiPcG
+	 bTWrA6zRJFVmwURla2p8tTRjlKSbOQPdGVFiEHlKkFBv5J0MFEau/Vtc772pOGysRQ
+	 JjCkLowuyBbjim2cmBfZpYOp3w6Fe3ow5MqtCD6b97HEoZsIC1RdcpIYqON7pPYJMf
+	 jGwEkwJJQ8M7948fmvrCQmaBHU0XDBblhqwInuGBkAKuEutcOFQzT5TPOjObK8iBpi
+	 COAjsGtQrT7lA==
+From: SeongJae Park <sj@kernel.org>
+To: Bijan Tabatabai <bijan311@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	joshua.hahnjy@gmail.com,
+	bijantabatab@micron.com,
+	venkataravis@micron.com,
+	emirakhur@micron.com,
+	ajayjoshi@micron.com,
+	vtavarespetr@micron.com
+Subject: Re: [RFC PATCH v3 07/13] mm/damon/core: Commit damos->target_nid/migrate_dests
+Date: Tue,  8 Jul 2025 10:32:53 -0700
+Message-Id: <20250708173253.54732-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <CAMvvPS6imiPU-v527rCu=Yw6JA1Nc-Ezkc5_uXOSxf8oDjX2Qg@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 net-next 0/9] virtio: introduce GSO over UDP tunnel
-From: Paolo Abeni <pabeni@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet <corbet@lwn.net>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <cover.1751874094.git.pabeni@redhat.com>
- <20250708105816-mutt-send-email-mst@kernel.org>
- <20250708082404.21d1fe61@kernel.org>
- <20250708120014-mutt-send-email-mst@kernel.org>
- <27d6b80a-3153-4523-9ccf-0471a85cb245@redhat.com>
-Content-Language: en-US
-In-Reply-To: <27d6b80a-3153-4523-9ccf-0471a85cb245@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/8/25 6:43 PM, Paolo Abeni wrote:
-> On 7/8/25 6:00 PM, Michael S. Tsirkin wrote:
->> On Tue, Jul 08, 2025 at 08:24:04AM -0700, Jakub Kicinski wrote:
->>> On Tue, 8 Jul 2025 11:01:30 -0400 Michael S. Tsirkin wrote:
->>>>> git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_07_07_2025
->>>>>
->>>>> The first 5 patches in this series, that is, the virtio features
->>>>> extension bits are also available at [2]:
->>>>>
->>>>> git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
->>>>>
->>>>> Ideally the virtio features extension bit should go via the virtio tree
->>>>> and the virtio_net/tun patches via the net-next tree. The latter have
->>>>> a dependency in the first and will cause conflicts if merged via the
->>>>> virtio tree, both when applied and at merge window time - inside Linus
->>>>> tree.
->>>>>
->>>>> To avoid such conflicts and duplicate commits I think the net-next
->>>>> could pull from [1], while the virtio tree could pull from [2].  
->>>>
->>>> Or I could just merge all of this in my tree, if that's ok
->>>> with others?
->>>
->>> No strong preference here. My first choice would be a branch based
->>> on v6.16-rc5 so we can all pull in and resolve the conflicts that
->>> already exist. But I haven't looked how bad the conflicts would 
->>> be for virtio if we did that. On net-next side they look manageable.
->>
->> OK, let's do it the way Paolo wants then.
-> 
-> I actually messed a bit with my proposal, as I forgot I need to use a
-> common ancestor for the branches I shared.
-> 
-> git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
-> 
-> is based on current net-next and pulling from such tag will take a lot
-> of unwanted stuff into the vhost tree.
-> 
-> @Michael: AFAICS the current vhost devel tree is based on top of
-> v6.15-rc7, am I correct?
+Hi Bijan,
 
-Which in turn means that you rebase your tree (before sending the PR to
-Linus), am I correct? If so we can't have stable hashes shared between
-net-next and vhost.
+On Tue, 8 Jul 2025 09:04:02 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
 
-/P
+> On Wed, Jul 2, 2025 at 4:03 PM SeongJae Park <sj@kernel.org> wrote:
+> >
+> > On Wed,  2 Jul 2025 15:13:30 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
+> >
+> > > From: Bijan Tabatabai <bijantabatab@micron.com>
+> > >
+> > > When committing new scheme parameters from the sysfs, copy the
+> > > target_nid and migrate_dests of the source schemes into the destination
+> > > schemes.
+> >
+> > Fixing the missed update of target_nid deserves Fixes: and Cc: stable@ in my
+> > opinion.  Could you please split and post the part as another patch?  For the
+> > Fixes, I think 83dc7bbaecae ("mm/damon/sysfs: use damon_commit_ctx()") should
+> > be appripriate.
+> 
+> Hi SJ,
+> 
+> To clarify, would you prefer it to be a seperate patch within the next
+> version of this patchset? Or would you prefer it to be sent separately
+> from the next version of the patchset?
 
+I'd prefer latter (separate one).
+
+Sorry for making the point ambiguous, and giving me this chance to clarify :)
+
+
+Thanks,
+SJ
+
+[...]
