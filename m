@@ -1,190 +1,142 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE642045B5;
-	Tue,  8 Jul 2025 03:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2885D1E5705
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 04:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751944197; cv=none; b=niFmfm2Wh5nk6k5SKnGNcS+RRbd9qX5JQX6T76bAQpzhiWHL2I7/XOdRBea74c4EtblztAjPRHGN+c0Zy3lqzSLmN3P0m9AGiVo2Jgya/NDj2GI8bsnB3kup5FN0RUxJldgbQmmSGbErKZayajrnI44CqOMY93Oa3ZOCy0jx6/Y=
+	t=1751949381; cv=none; b=mQ0X22H6O5lW9o/rFoj7zeGY5cmVaglLybnX6xdzObRS3b/5vH5gH2e/luinbFWU1Cz4FgV/VYdOLwlM8fTb2Y4IQWSpmPwwrcC0NCFRMuFJxE0i3iibMNpTh+LSLk++iD+0l49PfACSb/oNeM4B3p/7rdKEVYJiamqh1C3RmQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751944197; c=relaxed/simple;
-	bh=dex8jPJr2jeHC34OS7609JCjzkSuaDHu4sLqeFIXjws=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VUc0DDwThGR5BaePfl+qbO9CP4ThNH8xuD25p9eJhlb94UIbff9Hy4UykBbGLYQAdoPgEW4X7tFy5xYllH0Coo6G+fq/k5bJ3r4xHKGhhBCO81K530ojnJGYKYgvgRz3w/Qm6QdCSnlExShxaS7mdmWbywLgysWQfL5N5Cv3Uk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AcJIwqGP; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751949381; c=relaxed/simple;
+	bh=qTGDTcV1p5tJ6HcYmAwz71WaZ4eMKofozyVLBQsC9D0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j/uHrcAgEpIdX7/JaV/s6XM1R9gyDMz0LgGtujvVdHe5p8fcl2DtWTURGFk2M2GRf3LMfgJdli+SynC7y7SscXgHvP7N+HliXJy8W15TeJgBCDbClncSbxsXzllR4TWMVaAErHCT6h2ula0ZeSja6WGyXmDa1jRF7KVEdG3Ku+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QqLhnA5l; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AcJIwqGP"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-748d982e97cso3495897b3a.1;
-        Mon, 07 Jul 2025 20:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751944196; x=1752548996; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gZI9cZXBhYZ+74XL3B4bLHJL6+tXQn/AtLSswzp7G3c=;
-        b=AcJIwqGPG7b1D2R0zH/k+/PW3hgYO24TG9rd+mgFBpASDcpM+3teW4EnSA7wRKXskj
-         8GS7lw+7l3m65bLDaF+eUd/oMhg/6pAhsfWP4U4WezJ0hpaCvV2E7P24B4IWg8FsXA8S
-         ntxvaQ8OEz2RappXtFCEn632j6DKhMNj5wfnojBxhpjPpO0w9Oul56g+ruwrd2D/ZPsV
-         mcQxvRfMeDdvgsfDMUfNM6mkFBzvkP7Jh8Jjuos6II2BpcnpdoyJ17loigXq+ESkT81o
-         pEyXmWyDzfcVq91wwsyPszLJpfZgGpqbpswU84vy+x52pdgdhcqaPf5KG9oXQBYT3SOs
-         mLEg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QqLhnA5l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751949379;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qTGDTcV1p5tJ6HcYmAwz71WaZ4eMKofozyVLBQsC9D0=;
+	b=QqLhnA5lE2DYtJ3mWyGO24Rp2+Bd1tSPNQdWTg0/g/rX5OEauyPRHWtt3NxL6RnETNrbgJ
+	YWysWOilX9J/nrmqb5eDe/ev1FWeG6oMySykQDLIX32+EKFltERKpiQN3HfO1V0D8we1o7
+	bBFgVTdraqoKfyaha4/csDBiNhcoJTo=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-649-JJjXf6deNB2CpymFmiGtFQ-1; Tue, 08 Jul 2025 00:36:15 -0400
+X-MC-Unique: JJjXf6deNB2CpymFmiGtFQ-1
+X-Mimecast-MFC-AGG-ID: JJjXf6deNB2CpymFmiGtFQ_1751949375
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-70e73d3c474so56662017b3.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Jul 2025 21:36:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751944196; x=1752548996;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gZI9cZXBhYZ+74XL3B4bLHJL6+tXQn/AtLSswzp7G3c=;
-        b=W7vg9I/gOxof2yVwNMiAyyjI/5DI1mrjfLZQx+3W34vArOwLB6+AzkZhcYsSZ3Ss7y
-         HkaRIb74FvFWuNCOHMZP2J6aHmQ9hSHIYnNN4WZ4ir8UTgVU0W1L1iJL7K/gnDBCT66S
-         Xjt8icWM3HcdS7G80N1+iwoDMzecHh+v7UHfMJmYxMXDoovImYiOcTE3QA6kGnuWmr2u
-         e2JwPhbY7Uw1d77hqRL/RH5/O9/srnkP4xK7CmY0fThD4K3rVuYZJPqsjcxL2ztKuD2+
-         oEPuShMhIYg4W412Ikvnh6rBgoyJ+ha1Ha7/Vg124peJ96vsqKnhJCN8XZy7ry+EmysQ
-         KWqA==
-X-Forwarded-Encrypted: i=1; AJvYcCXR53Qksm37BjbVrwioruJSTY20nhyeKiQO5ymx63QO9IED87TfyOW9AFOi2jRqIqXiW1UbLlFIocg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxchkSD6YYMi751vzNZBJArlFL9al/n60oXevgGPfSnHR6501Ps
-	fNtk/C8YERt3IjINCyfrVDSa7jliKba1NMRojLNBkbQ88xPV1q+Q9gPk8KKMHg==
-X-Gm-Gg: ASbGncvh/5EvjtbCXTmQzUETgzrnWb2Cqd60kx710iuMsS6V1fatgf8RVVg6pWTw3H1
-	MKyGtIroSMAos83H1ByhLGHMYNeWGWcMrVr/mHp0aGLkb6BzKXFTA5a7iUtIrTO6u/Oqa0mRd7E
-	6Qzgmir0OpjYjExQcUpofVjaoGvvtJjuQzICYxBEsZmX4JNqmNVIe5JEvImp0hTKx5wepUtZspZ
-	0vWzpenf19Eb743JT2E3MCZ2DRRiAlO/kofAk1Fvegs973Fzw09bxUm3ojGqbzvhl/HZfEmtoQc
-	p7YjM+cmqmdjn5S4Qg6cLCfUCaNDmKkTq558s6tzO8Z5DFHDX7f4dg3z7iuYplxsyPyPkZfMPSq
-	GIkwPUfFv9EZlTSpHjx6wlS0PEUUIyRR/
-X-Google-Smtp-Source: AGHT+IF7e6WOFHtX8jp0vmafYCygArdhlSPOuGK2hxmppXbb4kli87dnDcBqHPodr23l/WEHJnUqRw==
-X-Received: by 2002:a05:6a00:3490:b0:74b:f639:33a6 with SMTP id d2e1a72fcca58-74ce658a5e6mr18008520b3a.2.1751944195503;
-        Mon, 07 Jul 2025 20:09:55 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce35cc32fsm10409145b3a.52.2025.07.07.20.09.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 20:09:55 -0700 (PDT)
-Message-ID: <d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
-Date: Tue, 8 Jul 2025 12:09:52 +0900
+        d=1e100.net; s=20230601; t=1751949375; x=1752554175;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qTGDTcV1p5tJ6HcYmAwz71WaZ4eMKofozyVLBQsC9D0=;
+        b=iibEi7u47IlmgiRm5dZjvRHkgTrYVwWc29GrAwqwbg/KJkbMq9PSiBIfZei5D2kmX+
+         72m8dECu1QaK9g1jNu9rntSODEZg1wVOtWjguWpuHspAixeZwCBXmsX9iW5nwhIBI4pf
+         OpzeR4KCHkXRFv1xSwauKNcmmoUG2idlhDGSYIQ10m9xWOyXnCePd02SLx8BxFIhlPXh
+         Yc57lc6Bv4jJh8VECjdp35G8yh8ewWkYex3eDR1qsUnjJT3iKCHIQWyo/P5tgvWLHwHZ
+         TuGGTKvFjOh70uxaPff85cv5i1FnX4M5jEGl/zjbmR6vBQ5mrPvhDFg1syKpKLjxVyd1
+         bCSA==
+X-Forwarded-Encrypted: i=1; AJvYcCW0cyavUcEJrMpSl8HwGYJgvZO9KDO/OEJBnJX4LYUKyOfXlT7q6wssshQfxhi3+MJHexU6zZU5ZAc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWN798gMMjEQWlRQkeGR44bQcVe9mR98TQHm3EihOLsjiEyDju
+	a1DGFyrzxoG4dNlcWJQsXs4F3nnZ9apidOqQ6udH2yBzgxanPkETcTWi9QEGo2PXHktH20S9FIe
+	SdvnBGTNaH08o0qRnNa12P5SdhDZamLbF74oW3h7h8XJGVXcq8jZy9BO/lCrEeLLsLaPge9OGj3
+	8MM4KdX/wdoFfLnYRm2FBKZzcPMbb1ImyfJpwf
+X-Gm-Gg: ASbGncuSq8cpEyn4Z82ljxuzajzfmTtAUf+sRJAuZ+9lKEuDgHYBGv9U8W9aEB0QY3r
+	1aVoikEi4+zrkebev18mfZhHFq7O3RHLy3PXfnqqXLFAWU9J2LJTzWXo0u6SLVBFki47jgBr/pK
+	UjGJVTjQ==
+X-Received: by 2002:a05:690c:30d:b0:709:197d:5d3c with SMTP id 00721157ae682-7166b5f6bcfmr211917747b3.11.1751949374986;
+        Mon, 07 Jul 2025 21:36:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEKjtH9W0tf3+AELmduA3IzT90z5Tmph6a1WdgnqS7MTd4DhLb5IlYzFbZ5iH11uL+3BnBYuaaRvKhebjyrKfY=
+X-Received: by 2002:a05:690c:30d:b0:709:197d:5d3c with SMTP id
+ 00721157ae682-7166b5f6bcfmr211917397b3.11.1751949374622; Mon, 07 Jul 2025
+ 21:36:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/15] Translate sphinx-pre-install to Python
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, Sai Vishnu M <saivishnu725@gmail.com>,
- Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1751318230.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <cover.1751318230.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250702055742.102808-1-npache@redhat.com> <20250702055742.102808-2-npache@redhat.com>
+ <9076b4be-8b1d-4434-a72f-d7a829a1a30a@arm.com>
+In-Reply-To: <9076b4be-8b1d-4434-a72f-d7a829a1a30a@arm.com>
+From: Nico Pache <npache@redhat.com>
+Date: Mon, 7 Jul 2025 22:35:48 -0600
+X-Gm-Features: Ac12FXyKLeWcmAZn58XkB9-ZGx40IFZEQjeJRnPXwLLAOKV8sSiI_4SNmYsKQgM
+Message-ID: <CAA1CXcDuR60EajhvSgGiwbNwTNiVi9-Pv6usSnnQWRC4ND9Vww@mail.gmail.com>
+Subject: Re: [PATCH v8 01/15] khugepaged: rename hpage_collapse_* to khugepaged_*
+To: Dev Jain <dev.jain@arm.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com, 
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
+	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
+	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mauro,
+On Thu, Jul 3, 2025 at 11:14=E2=80=AFPM Dev Jain <dev.jain@arm.com> wrote:
+>
+>
+> On 02/07/25 11:27 am, Nico Pache wrote:
+> > functions in khugepaged.c use a mix of hpage_collapse and khugepaged
+> > as the function prefix.
+> >
+> > rename all of them to khugepaged to keep things consistent and slightly
+> > shorten the function names.
+> >
+> > Reviewed-by: Zi Yan <ziy@nvidia.com>
+> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+> > ---
+> >
+>
+> You are essentially reverting commit 7d8faaf15545 which adds the
+> hpage_collapse_ prefix. Since in the next patch you also unify
+> madvise and khugepaged, removing hpage_collapse prefix would
+> make sense, but then I tend to agree with Liam that dropping
+> the prefix altogether is better. Having all the functions in
+> khugepaged.c prefixed with khugepaged_ seems unnecessary work.
+Ah thanks for pointing that out, I didn't realize they were already
+once named khugepaged.
 
-On Mon, 30 Jun 2025 23:34:48 +0200, Mauro Carvalho Chehab wrote:
-[...]
+Makes sense, since there is opposition, and a good reason to have them
+as hpage_collapse (or collapse) I'll consider either dropping this
+patch, or changing it to "collapse_". tbh I didn't realize that was
+what Liam was suggesting, I thought he was suggesting dropping the
+hpage_collapse entirely.
+>
+> @David, I forgot where you replied but I remember you saying
+> that we should not introduce MADV_COLLAPSE mTHP support for
+> now?
+Yeah Baolin pointed me to that thread
+(https://lore.kernel.org/all/23b8ad10-cd1f-45df-a25c-78d01c8af44f@redhat.co=
+m/)
+I read most of that discussion as it was happening but missed that
+point. I'll add the small change I need to drop the MADV_COLLAPSE
+support and send a V9 in a few days (to gather more review).
 
-> The test script also ran the install procedure for system,
-> venv and native Sphinx install.
+Adding MADV_COLLAPSE support should be easy once/if we come to a
+consensus on what the proper approach is.
 
-Which install procedure did you test?  The short one with the "--no-pdf"
-option?
-
-I am asking because installing the full list of packages in podman run
-of opensuse/leap:15.6 didn't complete successfully for me.
-
-And by the look of things, you stopped at installation, because you are
-well aware of all the issues in running "make htmldocs" and its friends
-after the install.
-
-I assume you (or somebody else) are going to update the script once this
-series is applied to make the suggested lists of packages be useful for
-newcomers.
-
-> The tests were done with those containers, obtained from
-> lxc download templates or via podman run:
-[...]
-
-> It also properly detected RHEL 8 string:
-> 
-> Detected OS                : Red Hat Enterprise Linux release 8.10 (Ootpa).
-> Installing venv            : WARNING: No such file or directory: 'sphinx-build'
-> Installing package_install : WARNING: No such file or directory: 'sphinx-build'
-> 
-> But, at this particular docker container, no repositories had
-> python3-sphinx nor python3-virtualenv, but I suspect that this
-> is a problem on this particular image, as I'm almost sure we
-> tested RHEL 8 in the past, so, I have hopes that this could
-> still work with real RHEL, if it has Python >= 3.7.
-
-FWIW, almalinux 8 provides python3-sphinx in the "PowerTools" repo.
-It installs Sphinx 1.7.6 on top of python 3.6.8.
-python3-virtualenv is in the "AppStream" repo. It also comes with
-python 3.6.8.
-
-> 
-> Yet, our goal is to support the latest LTS version, so
-> RHEL 8 is out of scope.
-
-Yes, I think it is reasonable to ignore RHEL 8 and its clones.
-
-For the record, here is a WIP scorecard of suggested procedure by
-actually running "make htmldocs" and its friends after installing distro
-packages (if it succeeds):
-
-------------------------------------------------------------------------
-* debian:12
-
-htmldocs:  OK
-latexdocs: NG
-
-Debian and its derivative prohibit convert(1) (of ImageMagick) from
-generating PDF by their default policy, so you'll get a bunch of:
-
-[while building userspace-api.tex]
-
-WARNING: Error #1 when calling: /usr/bin/convert /<srcdir>/Documentation/userspace-api/media/typical_media_device.svg /<srcdir>/Documentation/output/userspace-api/latex/typical_media_device.pdf
-WARNING: Warning msg from convert(1): convert: attempt to perform an operation not allowed by the security policy `PDF' @ error/constitute.c/IsCoderAuthorized/426.
-
-, and if you ignore them and try to build PDF, you'll get:
-
-[while building userspace-api.pdf]
-
-! Dimension too large.
-\spx@boxes@fcolorbox ...dimexpr \ht \spx@tempboxa 
-                                                  +\spx@boxes@border@top +\s...
-l.54887 \end{sphinxVerbatim}
-                            
-? 
-! Emergency stop.
-\spx@boxes@fcolorbox ...dimexpr \ht \spx@tempboxa 
-                                                  +\spx@boxes@border@top +\s...
-l.54887 \end{sphinxVerbatim}
-
-* fedora:latest (42)
-
-htmldocs:  NG
-
-Container images of fedora has stopped having "which" as a command.
-You need to install it manually.  After installing "which": OK
-
-pdfdocs:  OK
-
-* opensuse/leap:15.6
-
-htmldocs:  NG
-After installing "which": OK
-
-latexdocs: NG
-Can't complete "zypper install" inside a podman container run using the
-full package list ???
-------------------------------------------------------------------------
-
-Having look at these poor results, I don't see any reason to continue
-testing further.
-
-Regards,
-Akira
-
+Thanks,
+-- Nico
+>
 
