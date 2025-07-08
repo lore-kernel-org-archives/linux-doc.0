@@ -1,159 +1,96 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13CA43ABC
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 04:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0952A645;
+	Tue,  8 Jul 2025 05:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751949460; cv=none; b=audCw8Je1yiO+Fi5lHJWvotd7I+/QsMLuv1qt8Q2XrdSUKcaCyA5w9j8UjboSobowhvOIYsIdLWeFprXxwj1TDA0URVNMk7EdK8nk7cfuGVGJ40oo7J+m8r7zb4JjWFqWBrv64aRhKRWkDyF68M5TNHVF+QV76bwDcM8QDEwmQs=
+	t=1751953870; cv=none; b=q/KWeTWTbMXB8Y/SI6N4Jm8AWcduWy3l2nrgiL4hfrpa+fAbUJz0sf0Oqh4JXCgQ2WgapygpvSpHp2/c6uQfmWx4IKWnOUZhTmXFFkcavfVkGbQYY32N8ynLU+xImO0/soPOfXX+a144SlnffKBdyQz9q5r2aYshBrnQJ4qwpJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751949460; c=relaxed/simple;
-	bh=b5vO5xEj60Grv2Tz4UL3AbMISKiZmYV9+f1qywuzGCo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=odUcaSdoYJR02d543AMY0l8MRiNxvfPkKONASoAZNWUW1IdHMg3g+S2RQzbk4O+xD92JLZjo+5u6ULgcI+nWe18d1pYBnaSL03A+EUo2rtklBXiADbso7rmaIoCPJDbQRhbSEPzv+JptxScckzaND4OvvAdDnYnr+ZURfafVGMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OKUb+Ho5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751953870; c=relaxed/simple;
+	bh=JNXE1M1GfAKMAx2fUOYQYN/tMN4M5F8WF2dNBw1efi4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SXq9ic/8B6chehkwdabvQKrRMPUbCX+mnG/NRwLa2dXXN8XNtJrHp4t7wRqJNmp9y//5oteC/U5+h1Om2CNC89QJ17uOZHMiNgTXmMaUhmy6m2toJPqzJSs8pPpXWjpVnmClFU9WO5b2m3sdzfx9g08ZMLB/MABVaXfeRvua9lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=n8n0lnY/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=INR+2vDk; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OKUb+Ho5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751949457;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n8n0lnY/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="INR+2vDk"
+Date: Tue, 8 Jul 2025 07:51:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1751953867;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Vcnyx0JysJh5mE8hUE/Z7n/Nl7TxrgUShK09fRyB/o0=;
-	b=OKUb+Ho5lfJ2KMdZwulWqWqwsXo7wxlPxvGecDy3TECP9Njlq8+MZlqAayilotWK8URxrr
-	D+Se/I7CXG5hjQtiI2RnvE42WK41g7uln5mpZnDhyDJ+9kQ0chr0wceA1aM/uCmFCKNVzt
-	epaatxYCTf35A8OLgVubNdXZQ4jfLus=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-92-UQLrYPDUNGmgJdIZT5wqzw-1; Tue, 08 Jul 2025 00:37:33 -0400
-X-MC-Unique: UQLrYPDUNGmgJdIZT5wqzw-1
-X-Mimecast-MFC-AGG-ID: UQLrYPDUNGmgJdIZT5wqzw_1751949453
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-70e86a2a1b8so54280807b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 07 Jul 2025 21:37:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751949453; x=1752554253;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vcnyx0JysJh5mE8hUE/Z7n/Nl7TxrgUShK09fRyB/o0=;
-        b=aBCm0Oa8xPbbAjURQjJs+Jjd05/X6cDXD6Kp5/20ignoIEf/KqMSOOkHEQPaKKd7Mc
-         j2NAZd5zgg9dfY8mXHlr34BvIWqed3TxTPAnTk70vhBqrP9S6BNETqhBwXsUYRKcVsz7
-         TTABMwi5YN3zAypiCr8ge7Lwawr8iG6c2lkqoOQyFbFpmJd08dlpGYGn7QUiVIoZUrVn
-         9tye9/iRPL1Ghou2FBRlO4Ee8qFwVwfpPTYqcx6cRns21lzGVWpN/fzSRZUNtnoKy/qi
-         Hdke0OIadPlHJBYXFVsRN5DQxFXfJmX493ixzMr40bLXKFFI2UL9rQpNHe58Sse2GQTp
-         FrZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxTNDOHXRXPWzTtfZ6zkTgF2y5BzDMU6lJiK5U0pUSIpE98Nhvv6eyjiEzTLP2dyYLlaP5nJX/sPY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8ElbcRplnI5N+Bu6cN/ZSS9+o0eRtmBRT37qM2MVfJRziCJyq
-	DczjtPQeACRvcsD6NG5D7+AuMGcsOJhr8cZswjyfbdF0RITfVAyOKhQlvBuOT1muDwlWxXJ2Lio
-	9ouUg6NdFOIWmdnUYWemEcgNTb4MRYcXh1mQTuUsTwjfqMVaBdpc1G3jeD9g3JEjanwv7ln9Eyt
-	y6Bdcul39CMRq34A8AXC5i28PbMDGtdnK40l9y
-X-Gm-Gg: ASbGnctLBy1j8i1FcCP0knJIBNmAqK7pGzfKI1hubdv5HY22M3MzwckVP9jd4OvmSOm
-	Ouc45Rt2Ij7NiCAb4Wqj3H/SHY4e0/lGGkMClmT8YCQa/gCvgnCiBcAJTkDJg8lbs80E9qRdRJi
-	1ALN5YWQ==
-X-Received: by 2002:a05:690c:6f83:b0:70f:751c:2d8a with SMTP id 00721157ae682-7179e37cd3fmr32458777b3.3.1751949452976;
-        Mon, 07 Jul 2025 21:37:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEbO6Izd1pPXIOqZntc0uu12GmXD8DRIghOcq4/FPxcWuJc0kOyYzeWaxrjFUAr/IBNtPUh2LiSWdlv1rQ3kY4=
-X-Received: by 2002:a05:690c:6f83:b0:70f:751c:2d8a with SMTP id
- 00721157ae682-7179e37cd3fmr32458287b3.3.1751949452399; Mon, 07 Jul 2025
- 21:37:32 -0700 (PDT)
+	bh=1yXuyD2y1tDDXkXTAWSlgEy9p6IqbbB6Wt8X6nTw+yw=;
+	b=n8n0lnY/41yNWuVFmE+/ybyOP7pjLAwdANsDu25x71x2iLUxcY2j98kP0F8IoS9FeO7nIB
+	IuiHyWSc18jAP1if6ai8eCvUJoqp6CvshYC8CvvYwGDJa/9Lus7SuGLTN3VaxQED5YS/Ex
+	VH0w/KUQm1QaF+ubfS0VOA/r/kxzFMCpcKkme3lLmILlBhEaFfgQEMrJgudahurUvcDd32
+	plT7rsth56Fi+OXvHRJqFLgcpYBS+JVcRwVJHZfrnPsmrZCaQJ+LHIAfbXV0D72IsEmGQC
+	c2dZgSOa1FTNz121Sb7dtf1zTY16SqPNYIvjpINbMX6TtDWuODLeHDozG8UaZA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1751953867;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1yXuyD2y1tDDXkXTAWSlgEy9p6IqbbB6Wt8X6nTw+yw=;
+	b=INR+2vDkhbgRjXvWu5PX2SOpL4900BafsvNCjtbJR9vEisIi3Sh4QioImKSLts6+T+8tX3
+	bWVpeAke5ucjk+Dg==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+	Shuah Khan <shuah@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 00/15] kunit: Introduce UAPI testing framework
+Message-ID: <20250708073940-c2e9ee11-549b-4ef0-a480-942d86821f41@linutronix.de>
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+ <87qzyr7tly.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250702055742.102808-1-npache@redhat.com> <20250702055742.102808-12-npache@redhat.com>
- <2f6d9541-8083-4d3c-a9c1-cba0d5bf98a0@linux.alibaba.com> <20250704141422.359c89146ad69512b9be4902@linux-foundation.org>
-In-Reply-To: <20250704141422.359c89146ad69512b9be4902@linux-foundation.org>
-From: Nico Pache <npache@redhat.com>
-Date: Mon, 7 Jul 2025 22:37:06 -0600
-X-Gm-Features: Ac12FXyt1IXC4VHFfBXrxUd6UW59TrJJWs8JdbZTinihEwjJ8-ZwuAsNadFXc9I
-Message-ID: <CAA1CXcDkr8itrXiuVq+Tck1hkRwgq-byXCcM3oHqy1dXOhhTTg@mail.gmail.com>
-Subject: Re: [PATCH v8 11/15] khugepaged: allow madvise_collapse to check all
- anonymous mTHP orders
-To: Andrew Morton <akpm@linux-foundation.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	david@redhat.com, dev.jain@arm.com, Hugh Dickins <hughd@google.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	ziy@nvidia.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
-	ryan.roberts@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, baohua@kernel.org, 
-	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
-	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
-	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
-	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87qzyr7tly.fsf@trenco.lwn.net>
 
-On Fri, Jul 4, 2025 at 3:14=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
->
-> On Fri, 4 Jul 2025 14:11:13 +0800 Baolin Wang <baolin.wang@linux.alibaba.=
-com> wrote:
->
-> > On 2025/7/2 13:57, Nico Pache wrote:
-> > > Allow madvise_collapse to scan/collapse all mTHP orders without the
-> > > strict requirement of needing the PMD-order enabled.
-> > >
-> > > Signed-off-by: Nico Pache <npache@redhat.com>
-> >
-> > I am afraid we should drop this patch from the series, since Hugh
-> > explicitly opposed my modification of the madvise_collapse control logi=
-c
-> > in this thread[1].
->
-> Well it drops easily enough.  I don't know if it compiles yet.
->
-> Nico, can you confirm that you're OK with the droppage and that the
-> series is still good without this patch?
-Yes that is fine, it shouldn't conflict at all. Although this isn't
-the only patch that will need modification... Ill reply to Baolin
-inline here.
->
-> > Moreover, since we have not yet clarified how to handle the conflict
-> > between the semantics of madvise_collapse and the THP interfaces, we
-> > should keep the current logic[2] (means madvise_collapse still only
-> > allows PMD collapse).
-Hi Baolin,
+On Mon, Jul 07, 2025 at 12:18:01PM -0600, Jonathan Corbet wrote:
+> Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de> writes:
+> 
+> > This series aims to combine kselftests and kunit, avoiding both their
+> > limitations. It works by compiling the userspace kselftests as part of
+> > the regular kernel build, embedding them into the kunit kernel or module
+> > and executing them from there.
+> 
+> Please forgive the possibly dumb question but ... this series sets up
+> the framework, but doesn't actually integrate the kselftests, right?
 
-Sorry I saw most of that discussion but missed that point by David.
+Correct.
 
-We should come to an agreement on what the proper approach is, because
-if not we'll ALWAYS have this problem and NEVER solve it (pun
-intended).
+> Will it be necessary to write a little KUnit glue function for each
+> kselftest, or is there some other scheme in mind here?
 
-Jokes aside, if we are leaving MADV_COLLAPSE untouched then I need to
-make some slight modifications to this series so that MADV_COLLAPSE
-never tries anything other than PMD collapse (should be a pretty small
-change). Dropping this commit alone does not achieve that, but rather
-just allows MADV_COLLAPSE to work if PMD is disabled, and one other
-mTHP size is enabled. On second thought this isn't great either as
-MADV_COLLAPSE ignores sysfs, so if you have any mTHP size enabled, it
-will still continue to collapse to other PMD+mTHP sizes... wow this
-really is a mess.
-> >
-> > If madvise_collapse is to support mTHP collapse, there will be more
-> > semantic conflicts to discuss.
-I guess a V9 is inevitable, I will drop mTHP support for
-MADV_COLLAPSE, and drop this patch too. I'll let this series sit for a
-week or so to gather reviews (and make sure nothing else is missing).
+With the current framework it is necessary to write some glue code:
+* A stub .c file which #includes the existing kselftest source
+* A kbuild userprog Makefile
+* A custom KUnit function which calls kunit_uapi_run_kselftest()
 
-Thanks,
--- Nico
-> >
-> > [1]
-> > https://lore.kernel.org/all/cover.1750815384.git.baolin.wang@linux.alib=
-aba.com/
-> > [2]
-> > https://lore.kernel.org/all/23b8ad10-cd1f-45df-a25c-78d01c8af44f@redhat=
-.com/
->
+A more high-level scheme may come later, but so far I have not worked on that.
+It would be nice for example to build and run the tests for all ABIs supported
+by a kernel without a lot of manual code duplication.
+And maybe have some higher level helpers around declaring the tests.
 
+
+Thomas
