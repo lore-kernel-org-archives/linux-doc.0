@@ -1,143 +1,190 @@
-Received: from lf-2-40.ptr.blmpb.com (lf-2-40.ptr.blmpb.com [101.36.218.40])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6FC21CC60
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 02:43:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.36.218.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE642045B5;
+	Tue,  8 Jul 2025 03:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751942610; cv=none; b=jjI9+pqyBZe9ts9kSj96C7znawhFGiqlLYfnl1N9fJa3QFWtzEB5RVkmv2CpaLEmjEb19sxUHcwYE6/75Js05EKVozmmJ+LC2ts3GLrPAvnB8hleBosYBpyGM6bOJ+fns95GeoUjSM/AYr6wv3M3c+SAFc+bu11gt2UDEeVM6V8=
+	t=1751944197; cv=none; b=niFmfm2Wh5nk6k5SKnGNcS+RRbd9qX5JQX6T76bAQpzhiWHL2I7/XOdRBea74c4EtblztAjPRHGN+c0Zy3lqzSLmN3P0m9AGiVo2Jgya/NDj2GI8bsnB3kup5FN0RUxJldgbQmmSGbErKZayajrnI44CqOMY93Oa3ZOCy0jx6/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751942610; c=relaxed/simple;
-	bh=IroXhgyNPTKFJrfF0A7wiRdKHyWrxv55aMOFqIJMdso=;
-	h=To:From:Content-Type:Subject:Date:Cc:Message-Id:Mime-Version; b=XHuYuGeONxIF7R9sxoszOXmERyr4gsdlhcAA/T5LSpWf7OWWFZZAcEjFKgaAcKnKdVQT0nu+GE+V6jruIKY+UoCDagD80R59QyJcMYz7xB2eBksVbkuczpB8eGp0AMqMztnPW7MrFqDLymdfKeNld8zDlFDWitPSJPArXZi2AjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leap-io.com; spf=pass smtp.mailfrom=leap-io.com; dkim=pass (2048-bit key) header.d=leap-io-com.20200927.dkim.feishu.cn header.i=@leap-io-com.20200927.dkim.feishu.cn header.b=MCzB+bbT; arc=none smtp.client-ip=101.36.218.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leap-io.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io.com
+	s=arc-20240116; t=1751944197; c=relaxed/simple;
+	bh=dex8jPJr2jeHC34OS7609JCjzkSuaDHu4sLqeFIXjws=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VUc0DDwThGR5BaePfl+qbO9CP4ThNH8xuD25p9eJhlb94UIbff9Hy4UykBbGLYQAdoPgEW4X7tFy5xYllH0Coo6G+fq/k5bJ3r4xHKGhhBCO81K530ojnJGYKYgvgRz3w/Qm6QdCSnlExShxaS7mdmWbywLgysWQfL5N5Cv3Uk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AcJIwqGP; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-com.20200927.dkim.feishu.cn header.i=@leap-io-com.20200927.dkim.feishu.cn header.b="MCzB+bbT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=leap-io-com.20200927.dkim.feishu.cn; t=1751942518;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=ui9H0MAZWKXMA8KUGPmRi2GmkiaW99sZ3SLbhYNu8K4=;
- b=MCzB+bbTmT8wsqI7GqA4vQxVgjaUNecOzfBSH51M7nUaS4gV/5XPzkzSR4NxV6OR2IIRed
- v1CWTftjRZKj9FDWU9vKn55hnYA7DGptFemfwNJv8kanrhRndPHeoSw61JHOHA0OQxzRhy
- c9NiYOVeO0nL1uY99ROsvUeBs6E+tJ7k+WHIyY8LqWhnAOGTxgkByOsAudfYhrdNdK+z4l
- ZoZk1FC5bSazs5PGQg8h8O13gHlbRLLJEWMjROqRtKq2g6qmrX6EPl1aAbC/emIJuaCSpp
- ZAqTfI8LcKVLVtcI4k4BpidwOFF4B8GLrWmmwp1Re1sRWAZYlkJ/CPyElFIZgw==
-To: <alexs@kernel.org>, <si.yanteng@linux.dev>
-From: "haodongdong" <doubled@leap-io.com>
-Content-Transfer-Encoding: quoted-printable
-Received: from localhost.localdomain ([210.12.5.226]) by smtp.feishu.cn with ESMTPS; Tue, 08 Jul 2025 10:41:54 +0800
-Content-Type: text/plain; charset=UTF-8
-X-Original-From: haodongdong <doubled@leap-io.com>
-Subject: [PATCH 7/7] docs/zh_CN: add sd-parameters.rst translation
-Date: Tue,  8 Jul 2025 10:41:39 +0800
-X-Mailer: git-send-email 2.25.1
-X-Lms-Return-Path: <lba+2686c8574+08ef25+vger.kernel.org+doubled@leap-io.com>
-Cc: <dzm91@hust.edu.cn>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-Message-Id: <20250708024139.848025-8-doubled@leap-io.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AcJIwqGP"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-748d982e97cso3495897b3a.1;
+        Mon, 07 Jul 2025 20:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751944196; x=1752548996; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gZI9cZXBhYZ+74XL3B4bLHJL6+tXQn/AtLSswzp7G3c=;
+        b=AcJIwqGPG7b1D2R0zH/k+/PW3hgYO24TG9rd+mgFBpASDcpM+3teW4EnSA7wRKXskj
+         8GS7lw+7l3m65bLDaF+eUd/oMhg/6pAhsfWP4U4WezJ0hpaCvV2E7P24B4IWg8FsXA8S
+         ntxvaQ8OEz2RappXtFCEn632j6DKhMNj5wfnojBxhpjPpO0w9Oul56g+ruwrd2D/ZPsV
+         mcQxvRfMeDdvgsfDMUfNM6mkFBzvkP7Jh8Jjuos6II2BpcnpdoyJ17loigXq+ESkT81o
+         pEyXmWyDzfcVq91wwsyPszLJpfZgGpqbpswU84vy+x52pdgdhcqaPf5KG9oXQBYT3SOs
+         mLEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751944196; x=1752548996;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gZI9cZXBhYZ+74XL3B4bLHJL6+tXQn/AtLSswzp7G3c=;
+        b=W7vg9I/gOxof2yVwNMiAyyjI/5DI1mrjfLZQx+3W34vArOwLB6+AzkZhcYsSZ3Ss7y
+         HkaRIb74FvFWuNCOHMZP2J6aHmQ9hSHIYnNN4WZ4ir8UTgVU0W1L1iJL7K/gnDBCT66S
+         Xjt8icWM3HcdS7G80N1+iwoDMzecHh+v7UHfMJmYxMXDoovImYiOcTE3QA6kGnuWmr2u
+         e2JwPhbY7Uw1d77hqRL/RH5/O9/srnkP4xK7CmY0fThD4K3rVuYZJPqsjcxL2ztKuD2+
+         oEPuShMhIYg4W412Ikvnh6rBgoyJ+ha1Ha7/Vg124peJ96vsqKnhJCN8XZy7ry+EmysQ
+         KWqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXR53Qksm37BjbVrwioruJSTY20nhyeKiQO5ymx63QO9IED87TfyOW9AFOi2jRqIqXiW1UbLlFIocg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxchkSD6YYMi751vzNZBJArlFL9al/n60oXevgGPfSnHR6501Ps
+	fNtk/C8YERt3IjINCyfrVDSa7jliKba1NMRojLNBkbQ88xPV1q+Q9gPk8KKMHg==
+X-Gm-Gg: ASbGncvh/5EvjtbCXTmQzUETgzrnWb2Cqd60kx710iuMsS6V1fatgf8RVVg6pWTw3H1
+	MKyGtIroSMAos83H1ByhLGHMYNeWGWcMrVr/mHp0aGLkb6BzKXFTA5a7iUtIrTO6u/Oqa0mRd7E
+	6Qzgmir0OpjYjExQcUpofVjaoGvvtJjuQzICYxBEsZmX4JNqmNVIe5JEvImp0hTKx5wepUtZspZ
+	0vWzpenf19Eb743JT2E3MCZ2DRRiAlO/kofAk1Fvegs973Fzw09bxUm3ojGqbzvhl/HZfEmtoQc
+	p7YjM+cmqmdjn5S4Qg6cLCfUCaNDmKkTq558s6tzO8Z5DFHDX7f4dg3z7iuYplxsyPyPkZfMPSq
+	GIkwPUfFv9EZlTSpHjx6wlS0PEUUIyRR/
+X-Google-Smtp-Source: AGHT+IF7e6WOFHtX8jp0vmafYCygArdhlSPOuGK2hxmppXbb4kli87dnDcBqHPodr23l/WEHJnUqRw==
+X-Received: by 2002:a05:6a00:3490:b0:74b:f639:33a6 with SMTP id d2e1a72fcca58-74ce658a5e6mr18008520b3a.2.1751944195503;
+        Mon, 07 Jul 2025 20:09:55 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce35cc32fsm10409145b3a.52.2025.07.07.20.09.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 20:09:55 -0700 (PDT)
+Message-ID: <d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
+Date: Tue, 8 Jul 2025 12:09:52 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/15] Translate sphinx-pre-install to Python
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, Sai Vishnu M <saivishnu725@gmail.com>,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1751318230.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <cover.1751318230.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Translate .../scsi/sd-parameters.rst into Chinese.
-Add sd-parameters into .../scsi/index.rst.
+Hi Mauro,
 
-Signed-off-by: haodongdong <doubled@leap-io.com>
----
- .../translations/zh_CN/scsi/index.rst         |  3 +-
- .../translations/zh_CN/scsi/sd-parameters.rst | 38 +++++++++++++++++++
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/scsi/sd-parameters.rst
+On Mon, 30 Jun 2025 23:34:48 +0200, Mauro Carvalho Chehab wrote:
+[...]
 
-diff --git a/Documentation/translations/zh_CN/scsi/index.rst b/Documentatio=
-n/translations/zh_CN/scsi/index.rst
-index d739203d9524..cbf3be256174 100644
---- a/Documentation/translations/zh_CN/scsi/index.rst
-+++ b/Documentation/translations/zh_CN/scsi/index.rst
-@@ -50,9 +50,10 @@ SCSI=E4=B8=BB=E6=9C=BA=E9=80=82=E9=85=8D=E5=99=A8=E9=A9=
-=B1=E5=8A=A8
- .. toctree::
-    :maxdepth: 1
-=20
-+   sd-parameters
-+
- Todolist:
-=20
--* sd-parameters
- * 53c700
- * aacraid
- * advansys
-diff --git a/Documentation/translations/zh_CN/scsi/sd-parameters.rst b/Docu=
-mentation/translations/zh_CN/scsi/sd-parameters.rst
-new file mode 100644
-index 000000000000..662caec15b4d
---- /dev/null
-+++ b/Documentation/translations/zh_CN/scsi/sd-parameters.rst
-@@ -0,0 +1,38 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/scsi/sd-parameters.rst
-+
-+:=E7=BF=BB=E8=AF=91:
-+
-+ =E9=83=9D=E6=A0=8B=E6=A0=8B Dongdong Hao <doubled@leap-io.com>
-+
-+:=E6=A0=A1=E8=AF=91:
-+
-+
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-+Linux SCSI=E7=A3=81=E7=9B=98=E9=A9=B1=E5=8A=A8=EF=BC=88sd=EF=BC=89=E5=8F=
-=82=E6=95=B0
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-+
-+=E7=BC=93=E5=AD=98=E7=B1=BB=E5=9E=8B=EF=BC=88=E8=AF=BB/=E5=86=99=EF=BC=89
-+------------------
-+=E5=90=AF=E7=94=A8/=E7=A6=81=E7=94=A8=E9=A9=B1=E5=8A=A8=E5=99=A8=E8=AF=BB=
-=E5=86=99=E7=BC=93=E5=AD=98=E3=80=82
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D    =3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D   =
-=3D=3D=3D=3D=3D=3D=3D
-+ =E7=BC=93=E5=AD=98=E7=B1=BB=E5=9E=8B=E5=AD=97=E7=AC=A6=E4=B8=B2          =
-       WCE     RCD     =E5=86=99=E7=BC=93=E5=AD=98    =E8=AF=BB=E7=BC=93=E5=
-=AD=98
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D    =3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D   =
-=3D=3D=3D=3D=3D=3D=3D
-+ write through                   0       0       =E5=85=B3=E9=97=AD      =
-=E5=BC=80=E5=90=AF
-+ none                            0       1       =E5=85=B3=E9=97=AD      =
-=E5=85=B3=E9=97=AD
-+ write back                      1       0       =E5=BC=80=E5=90=AF      =
-=E5=BC=80=E5=90=AF
-+ write back, no read (daft)      1       1       =E5=BC=80=E5=90=AF      =
-=E5=85=B3=E9=97=AD
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D    =3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D   =
-=3D=3D=3D=3D=3D=3D=3D
-+
-+=E5=B0=86=E7=BC=93=E5=AD=98=E7=B1=BB=E5=9E=8B=E8=AE=BE=E7=BD=AE=E4=B8=BA=
-=E2=80=9Cwrite back=E2=80=9D=E5=B9=B6=E5=B0=86=E8=AF=A5=E8=AE=BE=E7=BD=AE=
-=E4=BF=9D=E5=AD=98=E5=88=B0=E9=A9=B1=E5=8A=A8=E5=99=A8::
-+
-+  # echo "write back" > cache_type
-+
-+=E5=A6=82=E6=9E=9C=E8=A6=81=E4=BF=AE=E6=94=B9=E7=BC=93=E5=AD=98=E6=A8=A1=
-=E5=BC=8F=E4=BD=86=E4=B8=8D=E4=BD=BF=E6=9B=B4=E6=94=B9=E6=8C=81=E4=B9=85=E5=
-=8C=96=EF=BC=8C=E5=8F=AF=E5=9C=A8=E7=BC=93=E5=AD=98=E7=B1=BB=E5=9E=8B=E5=AD=
-=97=E7=AC=A6=E4=B8=B2=E5=89=8D
-+=E6=B7=BB=E5=8A=A0=E2=80=9Ctemporary =E2=80=9D=E3=80=82=E4=BE=8B=E5=A6=82:=
-:
-+
-+  # echo "temporary write back" > cache_type
---=20
-2.25.1
+> The test script also ran the install procedure for system,
+> venv and native Sphinx install.
+
+Which install procedure did you test?  The short one with the "--no-pdf"
+option?
+
+I am asking because installing the full list of packages in podman run
+of opensuse/leap:15.6 didn't complete successfully for me.
+
+And by the look of things, you stopped at installation, because you are
+well aware of all the issues in running "make htmldocs" and its friends
+after the install.
+
+I assume you (or somebody else) are going to update the script once this
+series is applied to make the suggested lists of packages be useful for
+newcomers.
+
+> The tests were done with those containers, obtained from
+> lxc download templates or via podman run:
+[...]
+
+> It also properly detected RHEL 8 string:
+> 
+> Detected OS                : Red Hat Enterprise Linux release 8.10 (Ootpa).
+> Installing venv            : WARNING: No such file or directory: 'sphinx-build'
+> Installing package_install : WARNING: No such file or directory: 'sphinx-build'
+> 
+> But, at this particular docker container, no repositories had
+> python3-sphinx nor python3-virtualenv, but I suspect that this
+> is a problem on this particular image, as I'm almost sure we
+> tested RHEL 8 in the past, so, I have hopes that this could
+> still work with real RHEL, if it has Python >= 3.7.
+
+FWIW, almalinux 8 provides python3-sphinx in the "PowerTools" repo.
+It installs Sphinx 1.7.6 on top of python 3.6.8.
+python3-virtualenv is in the "AppStream" repo. It also comes with
+python 3.6.8.
+
+> 
+> Yet, our goal is to support the latest LTS version, so
+> RHEL 8 is out of scope.
+
+Yes, I think it is reasonable to ignore RHEL 8 and its clones.
+
+For the record, here is a WIP scorecard of suggested procedure by
+actually running "make htmldocs" and its friends after installing distro
+packages (if it succeeds):
+
+------------------------------------------------------------------------
+* debian:12
+
+htmldocs:  OK
+latexdocs: NG
+
+Debian and its derivative prohibit convert(1) (of ImageMagick) from
+generating PDF by their default policy, so you'll get a bunch of:
+
+[while building userspace-api.tex]
+
+WARNING: Error #1 when calling: /usr/bin/convert /<srcdir>/Documentation/userspace-api/media/typical_media_device.svg /<srcdir>/Documentation/output/userspace-api/latex/typical_media_device.pdf
+WARNING: Warning msg from convert(1): convert: attempt to perform an operation not allowed by the security policy `PDF' @ error/constitute.c/IsCoderAuthorized/426.
+
+, and if you ignore them and try to build PDF, you'll get:
+
+[while building userspace-api.pdf]
+
+! Dimension too large.
+\spx@boxes@fcolorbox ...dimexpr \ht \spx@tempboxa 
+                                                  +\spx@boxes@border@top +\s...
+l.54887 \end{sphinxVerbatim}
+                            
+? 
+! Emergency stop.
+\spx@boxes@fcolorbox ...dimexpr \ht \spx@tempboxa 
+                                                  +\spx@boxes@border@top +\s...
+l.54887 \end{sphinxVerbatim}
+
+* fedora:latest (42)
+
+htmldocs:  NG
+
+Container images of fedora has stopped having "which" as a command.
+You need to install it manually.  After installing "which": OK
+
+pdfdocs:  OK
+
+* opensuse/leap:15.6
+
+htmldocs:  NG
+After installing "which": OK
+
+latexdocs: NG
+Can't complete "zypper install" inside a podman container run using the
+full package list ???
+------------------------------------------------------------------------
+
+Having look at these poor results, I don't see any reason to continue
+testing further.
+
+Regards,
+Akira
+
+
