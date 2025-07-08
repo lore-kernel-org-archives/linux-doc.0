@@ -1,254 +1,176 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2082.outbound.protection.outlook.com [40.107.243.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f201.google.com (mail-il1-f201.google.com [209.85.166.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B38264612;
-	Tue,  8 Jul 2025 22:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752013383; cv=fail; b=dTWLJpdqAe4vh8Z3+uc7/nf/iIWcm9ncdNfhDwIJWWbIgN2+z+MRiGBXPAN9DT2WhZ8qAKmi2TKqOGkd961SofMeV2VDkiJXaQZRdPIzi9wX1TXoS0Id87dUAbD6BPdoqK2427X2ifFqcpihKjVXv163cysrS1DoycPu0hbT/qw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752013383; c=relaxed/simple;
-	bh=33QW8ohVYowx0i+iDE1xIklk4UhV4sZbeJzY3B1RX3c=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sw0cQQ6r2z5isR1NfLHrPzCshcNdTxP+RsE35o+32szX+xc8FhlNReZxfWSPq+XZbTkioQwcYiqhrx4amT/xv2v/MIJC4GiAfjUAK7QGMUjguj1pHvnSeuszbm7cXJHd6YrGToQEWlgRQGD16Km8R5NwcUIvCp7wut9Je410fsk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=f8ZN5LAw; arc=fail smtp.client-ip=40.107.243.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D235923C4FE
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 22:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752014080; cv=none; b=nZNay2ygdP6/HOItyGyCGWLbnWo2mv4xPCCJbJKnHEZdhmAU27jrdaahYDmKNSO/U2qx+cBxcE0vmli8Effp9nmeL1DeU1E+CygafIw1fP1r2JXPlE0143D09oVl58jr/KaRvNdnQpc93UQG98jwHiyEKwlx3SNyx+IyQ1swXek=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752014080; c=relaxed/simple;
+	bh=02xDzJQPlhBq0RU8lcHj/2RG+qyIWz4nKYd1naozQns=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=JS/iXSOVbV8Wo3Gf/CEY10ekIe/OUEojRMeMKv0qXOmYqEjk+wjj+6TgtzUrtk1roN9dnnC2Fdd2sjjWYYEU1e8ENEvjaqixO+hjZSxQrYxev2xeHdUIA6iFSZAqWtx31HbGC/oH/wRdvBkAeSC1WcvDHJ713EqHoZHgJtGc8qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=q61I2oqU; arc=none smtp.client-ip=209.85.166.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="f8ZN5LAw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x6K1M1a/tqoLmnsyuKD2T5XzZ84qRv4yhjiG+0/8AesbAKhh1PUwv46ypKGA/ImdjN458EmH4+9s3Rv2X9CLJfU4FV5bDP6T2W/RNlqLQeezyO5evYZTaMOdpnD4ltZOSHQFncrRDImMQqNl8I1F/yyVVj5sRS4bw9/BaOoXjWcfk+Q6VjIM9klepKSIYeAZW6FIOuN26g3OeezGflfk+CxNu76oLdDStxi1sqsckHTPJZbN1wwfR/5Yl8rHH70VMyaM1inrDZmeloXNW22th8D0Gis5PsnfcjkR9PrmXlvVx7voASnVvF1rVuGAQiyNmCRy9v9bHFhGSZnMOKbW0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IKyYYaLBFLzfIHTa9HwgTuHL8gAVC8DfWVJj3J7uLrs=;
- b=YcTSfpCRoJ4STfJJutVkZu8/LLTwyU4ePZus5pyEhoLPLzJJZ4uFaAcFP+DWVDbOGv7bWopjNmb9w7Fu769tNbW2iOOBKy7QZ66IswgvY28wg750AcuNiy0RbBFsIkqcjjY2VFKMdUmyCp7/CVf3vmSgFk6j75J8lyV1Wksc2m2vJvSk7C7PRHEfhIGxYj5YrmxD0ttLCudZ9nUy7TFpYifG/7k5FEOLxO+DpuV2jE+lJzR6UIRNpsuKWXuGPsUxIiKgBkyiIn+8RdfrkN6esxYHiHxYv8nQ/xJGXqkxzPDfvg4EBxGltiiVVOXgeC2nVTndk53Z6ky/B1yuWOm8wQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IKyYYaLBFLzfIHTa9HwgTuHL8gAVC8DfWVJj3J7uLrs=;
- b=f8ZN5LAw4Xl5P1SJSUy7LRYXL4OjDA7Dcc6lMp7PU+UUzRL32RMrpN3YG07ZYJm2qvjgNds2unk8krplp/UegIZXUS8JgLzpb2RDatudS7TZc4+JIhm/3cBujI0ggN1dS1FccW0Wi7q1/hMOouOvGjAXvyAK2SMm/LUM+gY6zTs=
-Received: from BL1P223CA0035.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:5b6::19)
- by MW3PR12MB4364.namprd12.prod.outlook.com (2603:10b6:303:5c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Tue, 8 Jul
- 2025 22:22:58 +0000
-Received: from BN1PEPF0000468B.namprd05.prod.outlook.com
- (2603:10b6:208:5b6:cafe::4b) by BL1P223CA0035.outlook.office365.com
- (2603:10b6:208:5b6::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.27 via Frontend Transport; Tue,
- 8 Jul 2025 22:22:57 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN1PEPF0000468B.mail.protection.outlook.com (10.167.243.136) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8901.15 via Frontend Transport; Tue, 8 Jul 2025 22:22:57 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 8 Jul
- 2025 17:22:54 -0500
-From: Babu Moger <babu.moger@amd.com>
-To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
-	<james.morse@arm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>
-CC: <Dave.Martin@arm.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<akpm@linux-foundation.org>, <paulmck@kernel.org>, <rostedt@goodmis.org>,
-	<Neeraj.Upadhyay@amd.com>, <david@redhat.com>, <arnd@arndb.de>,
-	<fvdl@google.com>, <seanjc@google.com>, <jpoimboe@kernel.org>,
-	<pawan.kumar.gupta@linux.intel.com>, <xin@zytor.com>,
-	<manali.shukla@amd.com>, <babu.moger@amd.com>, <tao1.su@linux.intel.com>,
-	<sohil.mehta@intel.com>, <kai.huang@intel.com>, <xiaoyao.li@intel.com>,
-	<peterz@infradead.org>, <xin3.li@intel.com>, <kan.liang@linux.intel.com>,
-	<mario.limonciello@amd.com>, <thomas.lendacky@amd.com>, <perry.yuan@amd.com>,
-	<gautham.shenoy@amd.com>, <chang.seok.bae@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <eranian@google.com>
-Subject: [PATCH v15 34/34] x86/resctrl: Configure mbm_event mode if supported
-Date: Tue, 8 Jul 2025 17:17:43 -0500
-Message-ID: <cabda4b05f54a2d699b99bc9681d55b0486da5bb.1752013061.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1752013061.git.babu.moger@amd.com>
-References: <cover.1752013061.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q61I2oqU"
+Received: by mail-il1-f201.google.com with SMTP id e9e14a558f8ab-3ddbec809acso54958795ab.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 15:34:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1752014077; x=1752618877; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=j/9FFTs3Hz/7yNjDy98C2EAojjbwb0TEz5q962JZJd0=;
+        b=q61I2oqU6t7TlFUuejfBAlRXMpmAZ7Y88nYyFUVvwWgUfS3spZQ2M3X/95is9uC3+z
+         LMVKgQMD+NWwSknrYWq3Rb4UkPk/AVRK7pobaKLfJTAd6nsi0fsG/u5BNhNmAbKPv8+V
+         z4zz+OjLynPwAnrqvFrbctC2wLfX0R1HhIr8reyxMY6Xouf15IZbHSrGQAIVZGHnyBwh
+         VyOnDUis/7wVtVVBA03qPFwrv9jK8ie/ji/brym+HWEu1LcZqz/ZJ1J4CtdPqujSRKO1
+         s/CzBthoM+bGlLDFUxJMKHqNfGH11HITo55nDTazdXlhPkJxBAn+iWWriAd/rvl/dSsz
+         ZQ8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752014077; x=1752618877;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j/9FFTs3Hz/7yNjDy98C2EAojjbwb0TEz5q962JZJd0=;
+        b=DpDzvGjW8lvPYIC0IUM7w3QUmo8c1rSj7VEAmsLTPx2SuPDq8r9V2wcqvUVCqdU410
+         kfy6JTGAJsCSA9WvGcxjBiolBrHAPflsmUJxD4t7ZoCcl1E+MSV25dNV75ZwHz2Oz9FT
+         ytJuOP1Sm/FsF9d46/zd5xFUsonmI+YHm1jVNdx/rNy375xnzf6aUaeU51RZZYQEP05p
+         AvBreu07zzsp17UYbR0Rz+jYIpus8LM5y3NZLd7zb9ovyhLzZUMtZM/znmD8+FzfYEV3
+         Tyo8/Z9gn3ofcu8m0o5M7abgoq9WeRMQBIUCFmYFH5WW3ob9l+B5zchy8WGdjld2yDbA
+         SuSw==
+X-Forwarded-Encrypted: i=1; AJvYcCU2i/kUUX6ANjZGEvshnEY8PTvPvEgar4bnOK3ZovgUpH1WkxgEvxOhGVLFiUocM3UVcoB1sprACg0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwroMQ+DYGWwPuqS1sw1C8F3NnRIE+DcQAyDXcDL9GusRrgeNfa
+	Vq0MA2JZ3fcUuKkka62p1P5mUHXumWuCgNY/9w7XBNaGMLqTzPeie6bU2z3oJ+OneMbu5dqAhpz
+	hjfVr6cpUvf+/lclsjfjvHTtgQQ==
+X-Google-Smtp-Source: AGHT+IHW+RfduRT7VliGk050iQEqjU318xPGArkYZW5dZzAyyRBuwQAaT6oV8zuk0wkHYQ4WnuckwA/hmtfDS9hyaw==
+X-Received: from ilfg10.prod.google.com ([2002:a05:6e02:198a:b0:3df:30df:d2c4])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6e02:339f:b0:3e0:4564:4ef9 with SMTP id e9e14a558f8ab-3e166ffbeb5mr5390855ab.4.1752014077049;
+ Tue, 08 Jul 2025 15:34:37 -0700 (PDT)
+Date: Tue, 08 Jul 2025 22:34:35 +0000
+In-Reply-To: <aGvwLIAN8rhxtA_V@J2N7QTR9R3> (message from Mark Rutland on Mon,
+ 7 Jul 2025 17:05:00 +0100)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF0000468B:EE_|MW3PR12MB4364:EE_
-X-MS-Office365-Filtering-Correlation-Id: 393c0422-51bd-4976-3fbe-08ddbe6dfdfe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|82310400026|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?JTAn7i76pdQt8wMIIMSn/aabZ/ayXhQgOlv5mbGP8tsEuQPCwiKpzagdH/4C?=
- =?us-ascii?Q?mF+q37UFlz5dlzxfRpZ/Hvo7GBow5t4HbBmDPcAt+T5tZlh+ITbTUKXFfwbg?=
- =?us-ascii?Q?ZE02AqTUXE1JrBr2HHUOn8DVc6olW56xrL29An2taAXzYcNm6Twa37/PXiXx?=
- =?us-ascii?Q?xo+9ituR1eE2+s91uCPCDC+whcUzDVJR1/gxPWx42b1K0DBq/PatZJNskujb?=
- =?us-ascii?Q?oVFvDtVRHePBkfmbXmbigpuSx2zwXKsUnJHevywlMJFDH9TvpWXKCzkuwLi5?=
- =?us-ascii?Q?kMG8rv6aFVtotZWwQWg0E2Ez4iDcJq1zKBhwjwI7MOII8k5tBYZvbYN9P3B3?=
- =?us-ascii?Q?qtuWqCWCuTB5goXI/bE/PHFq6eYyzWJidrVFKGSukUMJTUgSwkbZbrr/B1Dm?=
- =?us-ascii?Q?9YqfPFCLkyv4cn8mjCqpUFrutWtmlVUL744R9VZf/EHWOSAEaR2a1hpc1YIr?=
- =?us-ascii?Q?P6lk7Y8W5Q9spi6OquSyK4HNzQvxyDyD37q+g1+3P2kOcGi+PgkBcJK9LcGZ?=
- =?us-ascii?Q?S4oNtfUOCJbDict9W4TMinn5jJ5kHyv4FxsBJ/rkItCk4iY8JQZlZ1/32FGl?=
- =?us-ascii?Q?ypWP/IWtPDK5hzNuoW/kSMzDqObOe2USfalBCvJ3SUQ/yhG1g3qCtXxBDTy+?=
- =?us-ascii?Q?ROAlCULYsO+0zkc/VxdKpnzmHXZWmP99fcmgWqhhzY6PyeHm4bK4Sznt8hmr?=
- =?us-ascii?Q?Ptsw0tVQ6YniOy9ZlrPtpkJqkg0628HLqBdxb2vvjuviAo8KOtGcBhyQfO8S?=
- =?us-ascii?Q?DbMZf/WWkgBPj+oOYghkwboHmQXHR4mlFuJQZImkwSWmAn9rZYPPdgLxqldY?=
- =?us-ascii?Q?b5EEOZrhT8D1Ciit19p18IX2PnPMqMfmH76/imzz8m100k+C20fQNxE6Kodt?=
- =?us-ascii?Q?RUFd3ayvw07C0OuBxXCMf40G08wo3syrmcF3CWRtZuN+FERJw47Vyzonsbbe?=
- =?us-ascii?Q?i3FpkYGi8z8UCLonHudCqlYm6azHDmNfnSwmsPhV0hkVwflqH95r+eBODOVs?=
- =?us-ascii?Q?+V52o4NiNiiwJ60rDI6tCPCUn0WVg2pj0FKj17kNVodH/947TwWOn2YzFDLr?=
- =?us-ascii?Q?8Xnvg5m+Wm4MAR8GetVCAEA9uJ7IGe2GWs/r7PbxeUzyKdTtJ3n3PnpFfchu?=
- =?us-ascii?Q?Febx6SHYWBgAbPg/ZcmuwiVDnMqEpA29PefiF7jEAFtm2H9MSj4KnIUq/+ti?=
- =?us-ascii?Q?KpEcfAejdtEyVmYE104ZlAP/5PTJBk+c2whXSwo/CLEzGJpJOlmVrbMZb4hR?=
- =?us-ascii?Q?pTKD/Ki27Zptmcj+KSjwtfoZEViy0C9nbrGMp8PEVHeOsCHdUZ7BtQH2YXjy?=
- =?us-ascii?Q?rExuL0MYtMMvzxxEL+wTeyoNJdKhOJvNBareu43R3TS0D9rW0734hnOxfSmN?=
- =?us-ascii?Q?QjB+gMHJQ06glRKlazQxUnFaCnkYpGXI2BPrJsuYxW0bILNB8rxz6Uy7o9bE?=
- =?us-ascii?Q?yrZmpj0gI6SImkaD4DygyLU/dQed5EurrLPsRdVl8EuCzgAWjhES7zZSIphb?=
- =?us-ascii?Q?kW3QwFjZSVUrkZZ+QotrnECO7vrG0NkuamkU?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 22:22:57.8062
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 393c0422-51bd-4976-3fbe-08ddbe6dfdfe
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF0000468B.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4364
+Mime-Version: 1.0
+Message-ID: <gsnt34b61fd0.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v3 01/22] arm64: cpufeature: Add cpucap for HPMN0
+From: Colton Lewis <coltonlewis@google.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
+	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	shuah@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-Configure mbm_event mode on AMD platforms. On AMD platforms, it is
-recommended to use the mbm_event mode, if supported, to prevent the
-hardware from resetting counters between reads. This can result in
-misleading values or display "Unavailable" if no counter is assigned
-to the event.
+Mark Rutland <mark.rutland@arm.com> writes:
 
-The mbm_event mode, referred to as ABMC (Assignable Bandwidth Monitoring
-Counters) on AMD, is enabled by default when supported by the system.
+> On Thu, Jun 26, 2025 at 08:04:37PM +0000, Colton Lewis wrote:
+>> Add a capability for FEAT_HPMN0, whether MDCR_EL2.HPMN can specify 0
+>> counters reserved for the guest.
 
-Update ABMC across all logical processors within the resctrl domain to
-ensure proper functionality.
+>> This required changing HPMN0 to an UnsignedEnum in tools/sysreg
+>> because otherwise not all the appropriate macros are generated to add
+>> it to arm64_cpu_capabilities_arm64_features.
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
-v15: Minor comment update.
+> I agree it's appropriate to mark ID_AA64DFR0_EL1.HPMN0 as an
+> UnsignedEnum. It follows the usual ID scheme per ARM DDI 0487 L.a
+> section D24.1.3, and zero means not present, so it must be unsigned.
 
-v14: Updated the changelog to reflect the change in name of the monitor mode
-     to mbm_event.
+> Likewise, the value renames (UNPREDICTABLE => NI and DEF => IMP) look
+> fine to me.
 
-v13 : Added the call resctrl_init_evt_configuration() to setup the event
-      configuration during init.
-      Resolved conflicts caused by the recent FS/ARCH code restructure.
+>> Signed-off-by: Colton Lewis <coltonlewis@google.com>
 
-v12: Moved the resctrl_arch_mbm_cntr_assign_set_one to domain_add_cpu_mon().
-     Updated the commit log.
+> I have one minor nit below, but either way:
 
-v11: Commit text in imperative tone. Added few more details.
-     Moved resctrl_arch_mbm_cntr_assign_set_one() to monitor.c.
+> Acked-by: Mark Rutland <mark.rutland@arm.com>
 
-v10: Commit text in imperative tone.
+Thank you Mark
 
-v9: Minor code change due to merge. Actual code did not change.
+>> ---
+>>   arch/arm64/kernel/cpufeature.c | 8 ++++++++
+>>   arch/arm64/tools/cpucaps       | 1 +
+>>   arch/arm64/tools/sysreg        | 6 +++---
+>>   3 files changed, 12 insertions(+), 3 deletions(-)
 
-v8: Renamed resctrl_arch_mbm_cntr_assign_configure to
-        resctrl_arch_mbm_cntr_assign_set_one.
-    Adde r->mon_capable check.
-    Commit message update.
+>> diff --git a/arch/arm64/kernel/cpufeature.c  
+>> b/arch/arm64/kernel/cpufeature.c
+>> index b34044e20128..73a7dac4b6f6 100644
+>> --- a/arch/arm64/kernel/cpufeature.c
+>> +++ b/arch/arm64/kernel/cpufeature.c
+>> @@ -548,6 +548,7 @@ static const struct arm64_ftr_bits ftr_id_mmfr0[] = {
+>>   };
 
-v7: Introduced resctrl_arch_mbm_cntr_assign_configure() to configure.
-    Moved the default settings to rdt_get_mon_l3_config(). It should be
-    done before the hotplug handler is called. It cannot be done at
-    rdtgroup_init().
+>>   static const struct arm64_ftr_bits ftr_id_aa64dfr0[] = {
+>> +	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE,  
+>> ID_AA64DFR0_EL1_HPMN0_SHIFT, 4, 0),
+>>   	S_ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE,  
+>> ID_AA64DFR0_EL1_DoubleLock_SHIFT, 4, 0),
+>>   	ARM64_FTR_BITS(FTR_HIDDEN, FTR_NONSTRICT, FTR_LOWER_SAFE,  
+>> ID_AA64DFR0_EL1_PMSVer_SHIFT, 4, 0),
+>>   	ARM64_FTR_BITS(FTR_HIDDEN, FTR_STRICT, FTR_LOWER_SAFE,  
+>> ID_AA64DFR0_EL1_CTX_CMPs_SHIFT, 4, 0),
+>> @@ -2896,6 +2897,13 @@ static const struct arm64_cpu_capabilities  
+>> arm64_features[] = {
+>>   		.matches = has_cpuid_feature,
+>>   		ARM64_CPUID_FIELDS(ID_AA64MMFR0_EL1, FGT, FGT2)
+>>   	},
+>> +	{
+>> +		.desc = "FEAT_HPMN0",
 
-v6: Keeping the default enablement in arch init code for now.
-     This may need some discussion.
-     Renamed resctrl_arch_configure_abmc to resctrl_arch_mbm_cntr_assign_configure.
+> Minor nit, but we can drop the "FEAT_" prefix here, for consistency with
+> other features (e.g. E0PD, FPMR).
 
-v5: New patch to enable ABMC by default.
----
- arch/x86/kernel/cpu/resctrl/core.c     | 7 +++++++
- arch/x86/kernel/cpu/resctrl/internal.h | 1 +
- arch/x86/kernel/cpu/resctrl/monitor.c  | 8 ++++++++
- 3 files changed, 16 insertions(+)
+> Mark.
 
-diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-index b48cc67cbbe3..9826587c3c99 100644
---- a/arch/x86/kernel/cpu/resctrl/core.c
-+++ b/arch/x86/kernel/cpu/resctrl/core.c
-@@ -520,6 +520,9 @@ static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
- 		d = container_of(hdr, struct rdt_mon_domain, hdr);
- 
- 		cpumask_set_cpu(cpu, &d->hdr.cpu_mask);
-+		/* Update the mbm_assign_mode state for the CPU if supported */
-+		if (r->mon.mbm_cntr_assignable)
-+			resctrl_arch_mbm_cntr_assign_set_one(r);
- 		return;
- 	}
- 
-@@ -539,6 +542,10 @@ static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
- 	d->ci_id = ci->id;
- 	cpumask_set_cpu(cpu, &d->hdr.cpu_mask);
- 
-+	/* Update the mbm_assign_mode state for the CPU if supported */
-+	if (r->mon.mbm_cntr_assignable)
-+		resctrl_arch_mbm_cntr_assign_set_one(r);
-+
- 	arch_mon_domain_online(r, d);
- 
- 	if (arch_domain_mbm_alloc(r->mon.num_rmid, hw_dom)) {
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index ae4003d44df4..ee81c2d3f058 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -215,5 +215,6 @@ bool rdt_cpu_has(int flag);
- void __init intel_rdt_mbm_apply_quirk(void);
- 
- void rdt_domain_reconfigure_cdp(struct rdt_resource *r);
-+void resctrl_arch_mbm_cntr_assign_set_one(struct rdt_resource *r);
- 
- #endif /* _ASM_X86_RESCTRL_INTERNAL_H */
-diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-index e0706083fe0e..6a6c058ab00a 100644
---- a/arch/x86/kernel/cpu/resctrl/monitor.c
-+++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-@@ -458,6 +458,7 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
- 		cpuid_count(0x80000020, 5, &eax, &ebx, &ecx, &edx);
- 		r->mon.num_mbm_cntrs = (ebx & GENMASK(15, 0)) + 1;
- 		r->mon.mbm_assign_on_mkdir = true;
-+		hw_res->mbm_cntr_assign_enabled = true;
- 	}
- 
- 	r->mon_capable = true;
-@@ -561,3 +562,10 @@ void resctrl_arch_config_cntr(struct rdt_resource *r, struct rdt_mon_domain *d,
- 			memset(am, 0, sizeof(*am));
- 	}
- }
-+
-+void resctrl_arch_mbm_cntr_assign_set_one(struct rdt_resource *r)
-+{
-+	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
-+
-+	resctrl_abmc_set_one_amd(&hw_res->mbm_cntr_assign_enabled);
-+}
--- 
-2.34.1
+Will do.
+
+>> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+>> +		.capability = ARM64_HAS_HPMN0,
+>> +		.matches = has_cpuid_feature,
+>> +		ARM64_CPUID_FIELDS(ID_AA64DFR0_EL1, HPMN0, IMP)
+>> +	},
+>>   #ifdef CONFIG_ARM64_SME
+>>   	{
+>>   		.desc = "Scalable Matrix Extension",
+>> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+>> index 10effd4cff6b..5b196ba21629 100644
+>> --- a/arch/arm64/tools/cpucaps
+>> +++ b/arch/arm64/tools/cpucaps
+>> @@ -39,6 +39,7 @@ HAS_GIC_CPUIF_SYSREGS
+>>   HAS_GIC_PRIO_MASKING
+>>   HAS_GIC_PRIO_RELAXED_SYNC
+>>   HAS_HCR_NV1
+>> +HAS_HPMN0
+>>   HAS_HCX
+>>   HAS_LDAPR
+>>   HAS_LPA2
+>> diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
+>> index 8a8cf6874298..d29742481754 100644
+>> --- a/arch/arm64/tools/sysreg
+>> +++ b/arch/arm64/tools/sysreg
+>> @@ -1531,9 +1531,9 @@ EndEnum
+>>   EndSysreg
+
+>>   Sysreg	ID_AA64DFR0_EL1	3	0	0	5	0
+>> -Enum	63:60	HPMN0
+>> -	0b0000	UNPREDICTABLE
+>> -	0b0001	DEF
+>> +UnsignedEnum	63:60	HPMN0
+>> +	0b0000	NI
+>> +	0b0001	IMP
+>>   EndEnum
+>>   UnsignedEnum	59:56	ExtTrcBuff
+>>   	0b0000	NI
+>> --
+>> 2.50.0.727.gbf7dc18ff4-goog
 
