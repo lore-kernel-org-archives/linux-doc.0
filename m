@@ -1,83 +1,43 @@
-Received: from e2i340.smtp2go.com (e2i340.smtp2go.com [103.2.141.84])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D59E55B
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 19:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.141.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F5B221265;
+	Tue,  8 Jul 2025 19:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752003151; cv=none; b=qrjG1Yn5q2vDbZ+vkwVaDOkp/3n6IDcR8SyzOiw9HlAwB+BUWuYHCdIIadYVBFTaaJ6WZrxp1yOvKktQSlrwYEz0qRry2zTieodbUS8svz1Wi9/2XSmrj7PSa+2z5FDZt0+nnhOSIOhVs/w9elWfJqynZO66nU9g0WHj0XiZoS4=
+	t=1752003660; cv=none; b=QlCBRWlWC/pm16jZGFcj+//jt/0KC8WQKJEJBMD5ZA8TgNdfyYc3fQxIetMyrC1iuY66eoapx0MmeO9K39jr1v/O39huFT5KTjFkDAdEFrbiXTVfcm5vzQ9+5pejFyivKuN1KPq4fVp2d0oiLWHlB7bHG/vO2B2hfeUaSpVKk2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752003151; c=relaxed/simple;
-	bh=RwK6tgIFPH8HSYPA5RLI9kPCl0+y/45IOf5J0y/qaE0=;
+	s=arc-20240116; t=1752003660; c=relaxed/simple;
+	bh=b2koz8FETPcTd13fonjv9SujYB86acp1cwWcpb7Tcrw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pgE+UABaG6UewNHWjZ5hrRFG1YwvzXskc9xKoVHB1BA1SQ7xospCA3FvIyaOCBUnO6/A0RMZp6fVuw4/yy5TOCvaLR73JNojzVgjc/Z2jcbWHvobSsCw1FR1nhJ8Isooy5LAXQDvav67afcJHqY4wI/R1dOBzjbFdh8y9mZh3MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=ELMT7SSw reason="unknown key version"; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=mgNkGIC6; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=AUnVZ3PL; arc=none smtp.client-ip=103.2.141.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
+	 Content-Type:Content-Disposition:In-Reply-To; b=TH+nU3CTOzX2Qb3s9A7+Kvk4R6Diy6vGblrwCIB5bSaync0uF3HIDtiPD9yPv5C974/0w9UujjCB8JN1zBtmwBFyikaVgIEC0YZtnrUB6p9k+DIvvrukCegRxvDtlr6LNjOlOp8JwqRO8hamhNS+Cj2sq/pzk/BJWc73jYjC66o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPEPzXlJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="ELMT7SSw";
-	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="mgNkGIC6";
-	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="AUnVZ3PL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=smtpservice.net; s=mp6320.a1-4.dyn; x=1752004037; h=Feedback-ID:
-	X-Smtpcorp-Track:Message-ID:Subject:To:From:Date:Reply-To:Sender:
-	List-Unsubscribe:List-Unsubscribe-Post;
-	bh=vow2LS2yIOmbNmmVTiqKXSu2tQNynqPkCNf2Wz6HwfU=; b=ELMT7SSw002KEbp0uf+hzGhngk
-	tNWZta1DZeihFbU2QqxYeJo8ckmH4Y/VAYJLdl/te3oP/yFzo4Lg8oNkrHkksn8AgA6kB0EnW325A
-	OeWMV2qXAyOAgtc+NMoAcdQY22+dxPCjox0EHiO2tVvsEfCUnD5fKTd161DdDfDHYrI26avzrUSaB
-	c1S12gD9xo9Gr8KRos3LV+MXCvLnYmr1tWSNT5Cn2vBOjCONYM7MHNmEa5iNnJNDHWFH8xdJhMnVd
-	wVteasbax7lWGy0962s1BMXVWmeeDBNf4GAGUC09117DK7hKsa5d4dA2NQT0Us0A/uuGa/kazsBqI
-	l2t9zAqg==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
- i=@fjasle.eu; q=dns/txt; s=s1174286; t=1752003137; h=from : subject :
- to : message-id : date;
- bh=vow2LS2yIOmbNmmVTiqKXSu2tQNynqPkCNf2Wz6HwfU=;
- b=mgNkGIC6ZKNIXeP45/0GLcaORDPpdh4lfIW4EaiM0OUMuyB08C90QfIMOwcbyb+ZD4TEw
- PFvcIco5wSU4oSfzDuvArV5eLPEp2piXCZFmN5XANtnV6uZCkXXjlZ6eb19YSrqqAfdcLjb
- oDGEKG8cWWX+uXf8YeikwA9nBQxpTYnvt2OvD0WIKdKxJdg/MIdyPpjcb5vwOJzUbwKA5zL
- v8jeJlRQn6joSQY7NQa95vTyTJ8YsBJ18RRfXe3vDb/cTWA+H+hLBzBblZgoRloub1JUhKK
- OWGjKL0//eyPiQx95ui3RMJkoYeNyHqpjU+zgk9XwxXDpvXxL1LZ5+QYM+Jg==
-Received: from [10.172.233.45] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2-S2G) (envelope-from <nicolas@fjasle.eu>)
- id 1uZDtV-TRk4fw-Oj; Tue, 08 Jul 2025 19:22:21 +0000
-Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
- by smtpcorp.com with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.98.1-S2G) (envelope-from <nicolas@fjasle.eu>)
- id 1uZDtV-AIkwcC8pbj3-HrOb; Tue, 08 Jul 2025 19:22:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
- t=1752002535; bh=RwK6tgIFPH8HSYPA5RLI9kPCl0+y/45IOf5J0y/qaE0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AUnVZ3PLysOpgJ+O8nXLpyp7L2FFmrtLXoWI62GfnvwC/PalgKc1I43LPpH/vnDe/
- ifG0VOUDSoZqhBoPTcumAdCLwj4RYYkDN3WxQ7dYFghaQrRspuLXd2tLysOIQt2EJ3
- 6YMoxi8AKL8SaSVWfGfNYALjBRiGuWcEGJFZ0juM=
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
- id BE4773E698; Tue,  8 Jul 2025 21:22:14 +0200 (CEST)
-Date: Tue, 8 Jul 2025 21:22:14 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Daniel Gomez <da.gomez@samsung.com>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Christoph Hellwig <hch@infradead.org>,
- Peter Zijlstra <peterz@infradead.org>,
- David Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] module: Restrict module namespace access to in-tree
- modules
-Message-ID: <aG1v5v0cIy5X70UD@fjasle.eu>
-References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
- <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPEPzXlJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57893C4CEED;
+	Tue,  8 Jul 2025 19:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752003660;
+	bh=b2koz8FETPcTd13fonjv9SujYB86acp1cwWcpb7Tcrw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mPEPzXlJtMnbOLUYAq/jgDnIi4/gCZp7h20nGbGk6kayupMuJJOVeudVy5lZ92QWe
+	 8N5MPuzD1ZLMS2iPwa11v624W4FJ4d2RvSth6R8twpAhFi6tGOwZA1W+8RZ/2rwR4S
+	 AOz9K8rmlKaXpNExc6coZwij5hCE7WoYtx7m2Podfb79TNVdXGX8Nc6wgCGPludK7B
+	 KQ6PxF37FZAuJiBuhKPd7PO6xoyCJvkLsdTVfh8SNG/XYp0Wl+rFL4eUDyh3GikAe5
+	 ErtMICIQCHPU446Z6fwh1HiW04/F8mm5RerS4Oq+q1j//ThosAZqv7R0cOIljvoke+
+	 NIqlsNn3UQB6A==
+Date: Tue, 8 Jul 2025 12:40:59 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev
+Subject: Re: [PATCH 12/14] iomap: improve argument passing to
+ iomap_read_folio_sync
+Message-ID: <20250708194059.GB2672049@frogsfrogsfrogs>
+References: <20250708135132.3347932-1-hch@lst.de>
+ <20250708135132.3347932-13-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,47 +46,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
-X-Smtpcorp-Track: 7dgyo5o_3Or-.DgKyek3ap2m-.LfNmlwwhKbZ
-Feedback-ID: 1174286m:1174286a9YXZ7r:1174286sW3z-ZDckN
-X-Report-Abuse: Please forward a copy of this message, including all headers,
- to <abuse-report@smtp2go.com>
+In-Reply-To: <20250708135132.3347932-13-hch@lst.de>
 
-On Tue, Jul 08, 2025 at 09:28:57AM +0200 Vlastimil Babka wrote:
-> The module namespace support has been introduced to allow restricting
-> exports to specific modules only, and intended for in-tree modules such
-> as kvm. Make this intention explicit by disallowing out of tree modules
-> both for the module loader and modpost.
+On Tue, Jul 08, 2025 at 03:51:18PM +0200, Christoph Hellwig wrote:
+> Pass the iomap_iter and derive the map inside iomap_read_folio_sync
+> instead of in the caller, and use the more descriptive srcmap name for
+> the source iomap.  Stop passing the offset into folio argument as it
+> can be derived from the folio and the file offset.  Rename the
+> variables for the offset into the file and the length to be more
+> descriptive and match the rest of the code.
 > 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> Rename the function itself to iomap_read_folio_range to make the use
+> more clear.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+Much clearer, thank you!
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
 > ---
->  Documentation/core-api/symbol-namespaces.rst | 5 +++--
->  kernel/module/main.c                         | 3 ++-
->  scripts/mod/modpost.c                        | 6 +++++-
->  3 files changed, 10 insertions(+), 4 deletions(-)
+>  fs/iomap/buffered-io.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
-> diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-> index 32fc73dc5529e8844c2ce2580987155bcd13cd09..dc228ac738a5cdc49cc736c29170ca96df6a28dc 100644
-> --- a/Documentation/core-api/symbol-namespaces.rst
-> +++ b/Documentation/core-api/symbol-namespaces.rst
-> @@ -83,13 +83,14 @@ Symbols exported using this macro are put into a module namespace. This
->  namespace cannot be imported.
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index b04c00dd6768..c73048062cb1 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -657,22 +657,22 @@ iomap_write_failed(struct inode *inode, loff_t pos, unsigned len)
+>  					 pos + len - 1);
+>  }
 >  
->  The macro takes a comma separated list of module names, allowing only those
-> -modules to access this symbol. Simple tail-globs are supported.
-> +modules to access this symbol. The access is restricted to in-tree modules.
-> +Simple tail-globs are supported.
+> -static int iomap_read_folio_sync(loff_t block_start, struct folio *folio,
+> -		size_t poff, size_t plen, const struct iomap *iomap)
+> +static int iomap_read_folio_range(const struct iomap_iter *iter,
+> +		struct folio *folio, loff_t pos, size_t len)
+>  {
+> +	const struct iomap *srcmap = iomap_iter_srcmap(iter);
+>  	struct bio_vec bvec;
+>  	struct bio bio;
 >  
->  For example::
+> -	bio_init(&bio, iomap->bdev, &bvec, 1, REQ_OP_READ);
+> -	bio.bi_iter.bi_sector = iomap_sector(iomap, block_start);
+> -	bio_add_folio_nofail(&bio, folio, plen, poff);
+> +	bio_init(&bio, srcmap->bdev, &bvec, 1, REQ_OP_READ);
+> +	bio.bi_iter.bi_sector = iomap_sector(srcmap, pos);
+> +	bio_add_folio_nofail(&bio, folio, len, offset_in_folio(folio, pos));
+>  	return submit_bio_wait(&bio);
+>  }
 >  
->    EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
+>  static int __iomap_write_begin(const struct iomap_iter *iter, size_t len,
+>  		struct folio *folio)
+>  {
+> -	const struct iomap *srcmap = iomap_iter_srcmap(iter);
+>  	struct iomap_folio_state *ifs;
+>  	loff_t pos = iter->pos;
+>  	loff_t block_size = i_blocksize(iter->inode);
+> @@ -721,8 +721,8 @@ static int __iomap_write_begin(const struct iomap_iter *iter, size_t len,
+>  			if (iter->flags & IOMAP_NOWAIT)
+>  				return -EAGAIN;
 >  
-> -will limit usage of this symbol to modules whoes name matches the given
-> +will limit usage of this symbol to in-tree modules whoes name matches the given
-
-If you keep touching this line, might you fix the typo?
-
-s/whoes/whose/
-
-Kind regards,
-Nicolas
+> -			status = iomap_read_folio_sync(block_start, folio,
+> -					poff, plen, srcmap);
+> +			status = iomap_read_folio_range(iter, folio,
+> +					block_start, plen);
+>  			if (status)
+>  				return status;
+>  		}
+> -- 
+> 2.47.2
+> 
+> 
