@@ -1,92 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FDC23DE;
-	Tue,  8 Jul 2025 17:32:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F5D1548C;
+	Tue,  8 Jul 2025 18:03:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751995976; cv=none; b=pq/KB5hYJ95EWYro1514MxKeGx+JDlilxt8x9ko2jCW99wOThDIVND0iMtlXH1u7V9FnIenKGBkTquVir9LOvKdwy7VjjQweFHquusUOMewQEcvrwk9MwyxOjsvPNFQHsLUk0sA4wjnAPKpS3by7b+ipefcfW/SzBsuuNz5sO9c=
+	t=1751997793; cv=none; b=TCYrslMjcciy/tjl0sMFlbOCLOUUg8QBpmaNx2nJqSi6ySOEt9+r4I8n8JnjQ+Rn1DO3uwSpK4scse/Fd1spUSjLPdbdBaH7L2YF/D8f51ZkMAh/P2xFzdSPMFOFDLTqxx4Na3yW5XCJD8wRfp+Q+q2ZltYx1Tk6Sj7CZqkDGnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751995976; c=relaxed/simple;
-	bh=Tj30AVgOZeLyHZLoCU9zwuYJtDxwx0/hpeoIjbFkhOs=;
+	s=arc-20240116; t=1751997793; c=relaxed/simple;
+	bh=VoEolaFTJNzpKG4M2/ParplG0VvzAYfss/xgoyqHWa0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=npYsF2EIIDNAMRd/AdC0RPywWKHZc9fz3Q7btXhOnRisZiPcgdZoTFlhic0KMEhu1VLMZHKzU1kveXqQ78KVKoEXGBdSSLrpQio0/9zG33AhlPZMFJvGp/Bp2KJF69pGRWxg4njluQqLNzdsoppcCFeoxlIAGEiLbaWOl/SRi5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZwdjdZ5h; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=McpmJeS536i7oNyIRSqw74ox3Jn6NdTy6z7H9GVZfM7Gs9l65FVGsGwJ5VhEfurvLrJmvpEWhvJkAVWRjIMYD/y2CwwcndMwSxnvgWeA43IDTzSfWzcS3Aw8fELsh6Y6hhkI05YWycnzzHxot9t6fqRieDTCiC2DI+kn9sfqRnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tnX7/fT6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZwdjdZ5h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D81C4CEED;
-	Tue,  8 Jul 2025 17:32:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tnX7/fT6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D53A8C4CEED;
+	Tue,  8 Jul 2025 18:03:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751995976;
-	bh=Tj30AVgOZeLyHZLoCU9zwuYJtDxwx0/hpeoIjbFkhOs=;
+	s=k20201202; t=1751997792;
+	bh=VoEolaFTJNzpKG4M2/ParplG0VvzAYfss/xgoyqHWa0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZwdjdZ5hSUdg4Xp5SziCZU45+i/ZBxR3cN7skTWzxY9ZFI/mBX/gdw618OkLEcwp+
-	 e1pzEaUfXBhYMdL9KAQUfFK1HTeKmwg2pmQ65lh68LKSDXC0BCywVzpODJhQYeiPcG
-	 bTWrA6zRJFVmwURla2p8tTRjlKSbOQPdGVFiEHlKkFBv5J0MFEau/Vtc772pOGysRQ
-	 JjCkLowuyBbjim2cmBfZpYOp3w6Fe3ow5MqtCD6b97HEoZsIC1RdcpIYqON7pPYJMf
-	 jGwEkwJJQ8M7948fmvrCQmaBHU0XDBblhqwInuGBkAKuEutcOFQzT5TPOjObK8iBpi
-	 COAjsGtQrT7lA==
-From: SeongJae Park <sj@kernel.org>
-To: Bijan Tabatabai <bijan311@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
+	b=tnX7/fT629zWKB7jluJEr8dLn9RwRvK1aJHFo/IkmlA6aVqpfizgL7O6bZywJyLMi
+	 9SykPdXaIGfB3CgTkDfn8za3yqKwowCGsz1fk6gol3kSRiC/ZLx4bL1kxFNtTVxyXn
+	 /7c7WCEid61YOWxnhpeqjGbKIFPGs/TT5KxoIKFY6/nJrVoEou/21YnVK1B99IYufi
+	 bjfseF6L/4FDvKB/tnj+4WfGgFVO4qOWzWO1iKG6hDImJnOAUm1qSnrk47UwDPS+C0
+	 +5cRPunQW9Etyk+dXooY5gwddqOJnpS4bUesJfTLtxtOwqhLYGIhRfiCmAobgJy1DM
+	 A1D1HAIe88iPg==
+From: Will Deacon <will@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Leo Yan <leo.yan@arm.com>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Cc: kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	joshua.hahnjy@gmail.com,
-	bijantabatab@micron.com,
-	venkataravis@micron.com,
-	emirakhur@micron.com,
-	ajayjoshi@micron.com,
-	vtavarespetr@micron.com
-Subject: Re: [RFC PATCH v3 07/13] mm/damon/core: Commit damos->target_nid/migrate_dests
-Date: Tue,  8 Jul 2025 10:32:53 -0700
-Message-Id: <20250708173253.54732-1-sj@kernel.org>
+	kvmarm@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v23 0/4] arm64/perf: Enable branch stack sampling
+Date: Tue,  8 Jul 2025 19:02:59 +0100
+Message-Id: <175198748936.383518.12260470313437607576.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <CAMvvPS6imiPU-v527rCu=Yw6JA1Nc-Ezkc5_uXOSxf8oDjX2Qg@mail.gmail.com>
-References: 
+In-Reply-To: <20250611-arm-brbe-v19-v23-0-e7775563036e@kernel.org>
+References: <20250611-arm-brbe-v19-v23-0-e7775563036e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Hi Bijan,
-
-On Tue, 8 Jul 2025 09:04:02 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
-
-> On Wed, Jul 2, 2025 at 4:03 PM SeongJae Park <sj@kernel.org> wrote:
-> >
-> > On Wed,  2 Jul 2025 15:13:30 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
-> >
-> > > From: Bijan Tabatabai <bijantabatab@micron.com>
-> > >
-> > > When committing new scheme parameters from the sysfs, copy the
-> > > target_nid and migrate_dests of the source schemes into the destination
-> > > schemes.
-> >
-> > Fixing the missed update of target_nid deserves Fixes: and Cc: stable@ in my
-> > opinion.  Could you please split and post the part as another patch?  For the
-> > Fixes, I think 83dc7bbaecae ("mm/damon/sysfs: use damon_commit_ctx()") should
-> > be appripriate.
+On Wed, 11 Jun 2025 13:01:10 -0500, Rob Herring (Arm) wrote:
+> This series enables perf branch stack sampling support on arm64 via a
+> v9.2 arch feature called Branch Record Buffer Extension (BRBE). Details
+> on BRBE can be found in the Arm ARM[1] chapter D18.
 > 
-> Hi SJ,
+> I've picked up this series from Anshuman. v19 and later versions have
+> been reworked quite a bit by Mark and myself. The bulk of those changes
+> are in patch 5.
 > 
-> To clarify, would you prefer it to be a seperate patch within the next
-> version of this patchset? Or would you prefer it to be sent separately
-> from the next version of the patchset?
+> [...]
 
-I'd prefer latter (separate one).
+Applied to will (for-next/perf), thanks!
 
-Sorry for making the point ambiguous, and giving me this chance to clarify :)
+[1/4] arm64/sysreg: Add BRBE registers and fields
+      https://git.kernel.org/will/c/52e4a56ab8b8
+[2/4] arm64: Handle BRBE booting requirements
+      https://git.kernel.org/will/c/ae344bcb0d49
+[3/4] KVM: arm64: nvhe: Disable branch generation in nVHE guests
+      https://git.kernel.org/will/c/d7567e9b9ba5
+[4/4] perf: arm_pmuv3: Add support for the Branch Record Buffer Extension (BRBE)
+      https://git.kernel.org/will/c/58074a0fce66
 
+Cheers,
+-- 
+Will
 
-Thanks,
-SJ
-
-[...]
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
