@@ -1,85 +1,117 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56F62F84F;
-	Tue,  8 Jul 2025 15:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53985283FCD;
+	Tue,  8 Jul 2025 15:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751988500; cv=none; b=JsQEDY8uH93C/4SlMUd2XA3yInQHZP/ackp+Z/lKeB193e0TpUsMBDHLM7VqTFAdewY+hd4nCQPbng90qEnNcQ2jYbzq7BjJGxkOQb/nok+Ko2LNxYGZcPUxe4yQlu+NEFUeCKCmYIRqnji5HRJU9XRl9lzNDufo27sKxwQaPlY=
+	t=1751988963; cv=none; b=PjBXd8VEerGU7EpNfBUEwd4dJZH/jbFGNyJx7AK2TUwuce8f6IDHHS1GOp64jAmxQ6LYM6UKdTJhH13QFuPLU9oszliX8XSOZD0vTc3h95xis8q5LJGwDD6FQR4NYOnm/8biMyEZ2Cmey8NzgJi0z5FQf84jHYENsObOBjEe3fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751988500; c=relaxed/simple;
-	bh=yOtDgsdu7wJC8UkbZQQSMT685bR0tLrVnl4BL88io7A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SVAttvGD9ATGPurfIoUjFrx8Az+NlC+kbiUFQW8dmTYYXfZc2Vlbl1emHYl1VTHD9f75X+S/k9pQ90l4EC6j0grWS/Nw7z0NbtUszfT1scgomfe0JOWsI+aMFRBSLF3MaD626ogzs3RSpeXhUKR58beVusfPZM75yEItS1gxobM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cGb/ayJ1; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1751988963; c=relaxed/simple;
+	bh=I7QL9rgNS99bH4s1/92a15NX0cgi1YBaLnyOoeaECcI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oY8lUkqaPkS6Fx/2Y6tnd08LoSlrfy0KQX3CNpcNnTffIC7TAlJK0Y/PQUd9EcwDIikb84rKieKFwVv9ZFXyS2BVqowRJ+YWDZ9UVpNgLRkGhM1EXvctVDEfY7HQ1V5ZB1z58eUot/HFlhx1tdz1eUR3U1Z9BK+RyKli9zF+jMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W1MB8nSP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cGb/ayJ1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=fZH6UnjkpeTO2OIVhXQ7FSseI1MHzZZnRXHu/XXggXk=; b=cGb/ayJ15an3n/Doh/RYA5ZVcr
-	v8m8PrekhBnbL+cthGzZOfQa0di8WxNUqa0NHL+7cEo63vrbQWacj97d7GHZEB52/IV0IcCzzopy8
-	SajvWmXt1NJu6/WCpgzim3kXwuU4IXtmHmcBkPTLetNZgjNaU3WptmUu6grjVcfPO47NljmsgKFMO
-	SBJbITJPLF2XaTJVrvML1sNRF82M/DdumSzKCQOdKqA6Fhdc3iaNKtJqptrX2Ao2NRjMUppcFg+2p
-	CzM2gKN0CjuzvqWEi1ulPACHucgvYNu32TsKrFETpcC+C7wVP7kMRcs9EUI03w8YDtAg6uWFHKsMj
-	DVgk2rCg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZAEs-00000000CdK-3ASB;
-	Tue, 08 Jul 2025 15:28:11 +0000
-Message-ID: <afe702b9-ec02-4c58-81e3-b4c244553e20@infradead.org>
-Date: Tue, 8 Jul 2025 08:28:07 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W1MB8nSP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C0EC4CEED;
+	Tue,  8 Jul 2025 15:36:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751988962;
+	bh=I7QL9rgNS99bH4s1/92a15NX0cgi1YBaLnyOoeaECcI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=W1MB8nSPYEUZl5bcX47DF6gUX86qgHNuQ+y9I6vRsODULep4AXPYrW0y5fjp7oUdF
+	 xxeFXEtCkwX22xdekjuuR+Ut+KUsHTFa3pzOBB+H+wx0nTA/YeiVCN7DMGR0rbG1vg
+	 g8qj5HSYBzP/iK5vpLn1eFW7byDP1D9H/hckUMhb9CEYA6XSJSejQ8Gx63L+9Ea+mH
+	 HUeBVNRSPOevp4Va8d2THy5fY7BckYZ55BFztXh0765XLOjpD4UWZPtWHco+EKsmKB
+	 5+Q2+Ham1Ayu8N/7bOr13l+B1FifyyqRvtHa3ZKT084LyXr4tO6kPh6WfwRG9GmDpZ
+	 EGfngc11eBIUw==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-553d771435fso3755720e87.3;
+        Tue, 08 Jul 2025 08:36:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUHCTQ6JHU9nxZ7Qku4892NrtZ45P+nQvutuzpqIePGAPJUSeWo6dQlpkh37nsnDubVcWy6E7AXGncE52ty@vger.kernel.org, AJvYcCUS8cWUEQVzSRdu7IsVeUACpobdrETcjPQZJBSzQy6/Vs+uFTJOwdIkbIXITILxhJ30wX9Dat83JMAy3Ffe7w==@vger.kernel.org, AJvYcCX0VBQh7hTnNLTDplcTvF0GLV/Yzvrg/jglHF5PZSC1pP08CCc4d/B6S9m4+vy7ZAjCkmsMd8ic99eSOYKwFg==@vger.kernel.org, AJvYcCXK0wt784YCl8Ij5ayUTcr/+XqHaBQY7SNhYxDruYfxiswx0ec4bErb0fos/A5OUBnDqNgHD4WnvXM=@vger.kernel.org, AJvYcCXfWyV0We4RKRQ47IZ2PU2QAROlmew2yR0hewIten0Zv8hnXJJOv+qL5Nb/v3amoXSOHIIHe+Q9dOO3gTXM@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTTUNxcIB3a7FxVcue9n9GVSJrg6XBMhQ6k8CCcwRYflzZ1YJn
+	tOci3Vl0LzeELz4YUPFP7ZpTi5d/ybeyt1Hryd3Bpu1ofUXG6faTmKU3lJ/aq91xMdQDa8Rt+gB
+	7WDtVZkt4jxrcC3ojz3S+RmWSX0uc+g8=
+X-Google-Smtp-Source: AGHT+IFRtLjaJasKpwEwyQ5+WW04Mv6p+1ysxEiZNM3+T5xfDfVpapMUU0ZvsSkmP7MRTMvglMUJAp47OpXNlDRGL1w=
+X-Received: by 2002:a05:6512:238e:b0:553:2e4a:bb58 with SMTP id
+ 2adb3069b0e04-557f82f578amr1243072e87.9.1751988961465; Tue, 08 Jul 2025
+ 08:36:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next] docs: kdoc: various fixes for grammar, spelling,
- punctuation
-To: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20250707050135.2660457-1-rdunlap@infradead.org>
- <87qzyq6aeh.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87qzyq6aeh.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
+ <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz> <CAK7LNATpQrHX_8x4WvhDN7cODCCLr8kihydtfM-6wxhY17xtQw@mail.gmail.com>
+ <39bed180-e21c-4801-8ac4-ba40b57f6df2@suse.cz>
+In-Reply-To: <39bed180-e21c-4801-8ac4-ba40b57f6df2@suse.cz>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 9 Jul 2025 00:35:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATRkZHwJGpojCnvdiaoDnP+aeUXgdey5sb_8muzdWTMkA@mail.gmail.com>
+X-Gm-Features: Ac12FXx_7nF2f-9gneX_4uOIrJSstDjyWshpyZ4rVtF2jAmgOIH61VW1BIqcAYY
+Message-ID: <CAK7LNATRkZHwJGpojCnvdiaoDnP+aeUXgdey5sb_8muzdWTMkA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] module: Restrict module namespace access to in-tree modules
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Christoph Hellwig <hch@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	David Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>, 
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jul 9, 2025 at 12:08=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> On 7/8/25 14:41, Masahiro Yamada wrote:
+> > On Tue, Jul 8, 2025 at 4:29=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz>=
+ wrote:
+> >>
+> >> The module namespace support has been introduced to allow restricting
+> >> exports to specific modules only, and intended for in-tree modules suc=
+h
+> >> as kvm. Make this intention explicit by disallowing out of tree module=
+s
+> >> both for the module loader and modpost.
+> >>
+> >> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> >
+> >
+> >
+> > In my understanding, an external module with the same name
+> > can override the internal one.
+> >
+> > This change disallows such a use-case.
+>
+> Hmm I'm not familiar with this, but for such cases to be legitimate we ca=
+n
+> assume the external module has to be derived from the internal one and no=
+t
+> something completely unrelated impersonating the internal one? So in that
+> case just patch 2 alone would be sufficient and not break any legitimate =
+use
+> cases?
+>
+
+IIRC, nvdimm uses this feature for testing.
+
+
+In-tree drivers:
+  drivers/nvdimm/Makefile
+
+Out-of-tree drivers:
+  tools/testing/nvdimm/Makefile
+  tools/testing/nvdimm/Kbuild
 
 
 
-On 7/8/25 7:10 AM, Jonathan Corbet wrote:
-> Randy Dunlap <rdunlap@infradead.org> writes:
-> 
->> Correct grammar, spelling, and punctuation in comments, strings,
->> print messages, logs.
->>
->> Change two instances of two spaces between words to just one space.
->>
->> codespell was used to find misspelled words.
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->> ---
->>  scripts/lib/kdoc/kdoc_files.py  |    4 ++--
->>  scripts/lib/kdoc/kdoc_output.py |    8 ++++----
->>  scripts/lib/kdoc/kdoc_parser.py |   20 ++++++++++----------
->>  scripts/lib/kdoc/kdoc_re.py     |   24 ++++++++++++------------
->>  4 files changed, 28 insertions(+), 28 deletions(-)
-> 
-> kdoc is kind of a moving target at the moment, so this patch doesn't
-> really even come close to applying.  Hold off for a bit, then regenerate
-> against docs-next?
 
-Sure, no problem.
-
--- 
-~Randy
-
+--=20
+Best Regards
+Masahiro Yamada
