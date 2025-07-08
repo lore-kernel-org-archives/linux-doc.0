@@ -1,231 +1,192 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A70512CD8B
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 15:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A972BE020
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 15:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751986904; cv=none; b=PHBq68tFoKAtHdsut3Rtj643lcz+w8Bqxh1jGdhw0hoO+xtc1NrUUOsBnqtHoqEsGLksPbjYhZGiu6WRsGnGEQVNVXAHXgKGYbZcy1jDgH/krz/I1EBs21EeqjQZi5vZIKrI/wQapHsAOc3mjbI31oNblDrGmlIn4pqvUvMwfFw=
+	t=1751987329; cv=none; b=g3JlXKeHhALLDPiradX2N4ICucMLLugKD1TRLCnyicHQGNkrIGsbmv1VVQI66c9gxTh0F04WRYko9t6tiVet+N1b/ZS53g4kEYZEimsy/7a2FkPkJAxSp+wgjO4QTpDGJyvh014shZoHTxYT9mgyUHB/3HWZqoMb0ZAcY8UASeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751986904; c=relaxed/simple;
-	bh=C6ZZomLbi/zOPxZHt0dlelhB1jqalIFhjULGiIqUaXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XVYO9ucjsDSQqesyrkNEKSE9bbq9UbcP62eL74OeEt5VUjJ66Ug6KObto2grrbWPM0QWHkDh4mp1DixpriooNiNIzFL67voVwOS2m7lg23tEAzr0Mi1zi2EVQTcD95qMZ+IVpxQSzVHsAwyM9Q57QktX+pecbOGMDl3wasn+85I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RprVePQt; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751987329; c=relaxed/simple;
+	bh=DevAXLQFvCU5eRgJL5QHWLUX9C3/FOHArG51G+VaF3I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M6+MmPggnBiq8vMjUrDBVaWi0JQeZTSnQ7xot/RGfnToncEr+IBid0A+kAfAQqZzTeVlUB30HzTfq8qpf7pZirnPlgGYzGcPjTdxVybqT3+HNhAlExVErEWRofU9GcGgk2o8yX3XsxagYbFDXzQOrL7TVRqOy/ETLRGm8AkJn5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xi0CtHBV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mZKiHIZB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xi0CtHBV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mZKiHIZB; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RprVePQt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751986901;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1rNCOAezgrJfdzw+4fMxXtTnmKKIBw8LaqwRGLVMi54=;
-	b=RprVePQtPqf7bA136x8hmpT8ONGFeANQiLdEuc2fStBAVsvYQ/2+cWTi50Z/9Vr1jtmKml
-	k5mIB/ZJXbQnFhqbSNc7x92MLFURRk9wY8O4sHq/xYbm3Lp4OLwPcFYBzoWGmZK+O+rU19
-	vKtKyZPTAsruH8Rn+mW76Hyu1GOSA/Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-763YbrNcM_CRYZWnBPoj0g-1; Tue, 08 Jul 2025 11:01:38 -0400
-X-MC-Unique: 763YbrNcM_CRYZWnBPoj0g-1
-X-Mimecast-MFC-AGG-ID: 763YbrNcM_CRYZWnBPoj0g_1751986897
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45311704cdbso31552935e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 08:01:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751986897; x=1752591697;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1rNCOAezgrJfdzw+4fMxXtTnmKKIBw8LaqwRGLVMi54=;
-        b=wbb20tWvHLXosyZzvyOJQzX3eXWO7x/APdXwNv4/sAi/AqBZBekC+A1UkLxsjClwDP
-         Z5WAmdNymrhkEqab/vLdOa4uqvWzxVbEu1RLjD1QkWs7pYBMv01HhYUJuWxwBNqI0TC5
-         U+xIW7wPzEvKQ29P1EcbvOwGo3M3SIn3W58Z/JGPISJIqEP053b9G9xj59C/AzjBjh6l
-         L8jBIRL8hTNyxEyE7t0mKFDI8VZfVHmPzLOvMqm7kiv87Nq3Cc4+IxqyEIBD0zcDz5G0
-         BDJ29BXbfvSsdgIqMRx2Z3uY1RakllYtbBDouw9qNmSl9mcHucten4gZqY4Ru+IkstTe
-         dJ2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUtz2tU7StmwqpZf+lwCh3zuoFgQzVw85/eUtCst8abi+WHiA2aYb7IvoUZ3gljEBUZDdb6COZ3J84=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFDo6QF7FTNp4rn4RsqceZkpYuatylUgGFk/stz4W7oNQADnCQ
-	G2S0gmSZUpHwPXxJO9Q7mSwATi51Vi0bYfZeiHSuTX6kCTd2e5Q3r+KzA7IHb+ua7/Ms2j8OIFf
-	jp3gVU4+6itil/YjiIJWZ6ChBJlNJF3xv0aEZlALl0kJ1cWQ4sKzrDVnKvR8Q1w==
-X-Gm-Gg: ASbGncuWXbbY+MR4qXMxhuQ6HWMdYZBGxO3NK6h+oCWoHJtvCdinBZwpPYl9PR9rPFD
-	3odsQRlcFa4fwBVHgINuFzA58Nwg1aZPkqKS9Csaj4/bd6TEN1xxIM8BfQpY8rLn+lv48tFzCAP
-	8b/00JM7dvCARyXli8UM37H/X7mKb+7tTDp0xhdEMIRo18T6cAi43E5d84RSIWCLJGJTzs3xfKk
-	0laIjqlcooDNmdGM+l5rA1s/E86wPG8wHGRwdVOhOQG29BHC2wUtlDc9PfiJrWNGz6/CgFNLYDY
-	AEijhvyxHBQEvdo=
-X-Received: by 2002:a05:600c:6383:b0:453:8ab5:17f3 with SMTP id 5b1f17b1804b1-454b4ead145mr122676205e9.22.1751986896179;
-        Tue, 08 Jul 2025 08:01:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH11Di0CyvGlev4/a65feEHdNV/ENPEJm11VdcvI7y7M2fvSKYNq+cP94W4DlaA+5SIMpmc9A==
-X-Received: by 2002:a05:600c:6383:b0:453:8ab5:17f3 with SMTP id 5b1f17b1804b1-454b4ead145mr122674135e9.22.1751986893844;
-        Tue, 08 Jul 2025 08:01:33 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:150d:fc00:de3:4725:47c6:6809])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47030b9desm13389956f8f.19.2025.07.08.08.01.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 08:01:33 -0700 (PDT)
-Date: Tue, 8 Jul 2025 11:01:30 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Yuri Benditovich <yuri.benditovich@daynix.com>,
-	Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 net-next 0/9] virtio: introduce GSO over UDP tunnel
-Message-ID: <20250708105816-mutt-send-email-mst@kernel.org>
-References: <cover.1751874094.git.pabeni@redhat.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xi0CtHBV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mZKiHIZB";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xi0CtHBV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mZKiHIZB"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0176E2115F;
+	Tue,  8 Jul 2025 15:08:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1751987326; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NSMaRJJbnVaI3RsGuTUaNcWj+NMEtTYXU1yPmsTXRwg=;
+	b=xi0CtHBVce0uQXVOWkswAAnZU/4sEQwQbLDtMvnzJdtkCxitvLCCJHJhYfn/A/b9RfTgXs
+	EJ+HOa5YG2wTr7k6pBplG9RTAmBzC6wlcLOkPAOYeeJgxXGFGomvjoKwoBRmPMnK6O/o8n
+	5iRJg3aXi2YoKUmjC+Nrx5P19NhJp1Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1751987326;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NSMaRJJbnVaI3RsGuTUaNcWj+NMEtTYXU1yPmsTXRwg=;
+	b=mZKiHIZBJKB5R96Ak4Wl4xuIU9U+TM6idSJxjBe0x1Gj9yXmhdNOjCH6fshEp9Vp4a/Lhf
+	0qNLFbaMl5TWkrCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1751987326; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NSMaRJJbnVaI3RsGuTUaNcWj+NMEtTYXU1yPmsTXRwg=;
+	b=xi0CtHBVce0uQXVOWkswAAnZU/4sEQwQbLDtMvnzJdtkCxitvLCCJHJhYfn/A/b9RfTgXs
+	EJ+HOa5YG2wTr7k6pBplG9RTAmBzC6wlcLOkPAOYeeJgxXGFGomvjoKwoBRmPMnK6O/o8n
+	5iRJg3aXi2YoKUmjC+Nrx5P19NhJp1Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1751987326;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NSMaRJJbnVaI3RsGuTUaNcWj+NMEtTYXU1yPmsTXRwg=;
+	b=mZKiHIZBJKB5R96Ak4Wl4xuIU9U+TM6idSJxjBe0x1Gj9yXmhdNOjCH6fshEp9Vp4a/Lhf
+	0qNLFbaMl5TWkrCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1C8E13A68;
+	Tue,  8 Jul 2025 15:08:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5nH/Ln00bWhdVgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 08 Jul 2025 15:08:45 +0000
+Message-ID: <39bed180-e21c-4801-8ac4-ba40b57f6df2@suse.cz>
+Date: Tue, 8 Jul 2025 17:08:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1751874094.git.pabeni@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] module: Restrict module namespace access to in-tree
+ modules
+Content-Language: en-US
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Matthias Maennich <maennich@google.com>, Jonathan Corbet
+ <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>,
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>,
+ Daniel Gomez <da.gomez@samsung.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Christoph Hellwig <hch@infradead.org>, Peter Zijlstra
+ <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
+ Shivank Garg <shivankg@amd.com>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
+ <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
+ <CAK7LNATpQrHX_8x4WvhDN7cODCCLr8kihydtfM-6wxhY17xtQw@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <CAK7LNATpQrHX_8x4WvhDN7cODCCLr8kihydtfM-6wxhY17xtQw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 
-On Tue, Jul 08, 2025 at 09:08:56AM +0200, Paolo Abeni wrote:
-> Some virtualized deployments use UDP tunnel pervasively and are impacted
-> negatively by the lack of GSO support for such kind of traffic in the
-> virtual NIC driver.
+On 7/8/25 14:41, Masahiro Yamada wrote:
+> On Tue, Jul 8, 2025 at 4:29 PM Vlastimil Babka <vbabka@suse.cz> wrote:
+>>
+>> The module namespace support has been introduced to allow restricting
+>> exports to specific modules only, and intended for in-tree modules such
+>> as kvm. Make this intention explicit by disallowing out of tree modules
+>> both for the module loader and modpost.
+>>
+>> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > 
-> The virtio_net specification recently introduced support for GSO over
-> UDP tunnel, this series updates the virtio implementation to support
-> such a feature.
 > 
-> Currently the kernel virtio support limits the feature space to 64,
-> while the virtio specification allows for a larger number of features.
-> Specifically the GSO-over-UDP-tunnel-related virtio features use bits
-> 65-69.
 > 
-> The first four patches in this series rework the virtio and vhost
-> feature support to cope with up to 128 bits. The limit is set by
-> a define and could be easily raised in future, as needed.
+> In my understanding, an external module with the same name
+> can override the internal one.
 > 
-> This implementation choice is aimed at keeping the code churn as
-> limited as possible. For the same reason, only the virtio_net driver is
-> reworked to leverage the extended feature space; all other
-> virtio/vhost drivers are unaffected, but could be upgraded to support
-> the extended features space in a later time.
-> 
-> The last four patches bring in the actual GSO over UDP tunnel support.
-> As per specification, some additional fields are introduced into the
-> virtio net header to support the new offload. The presence of such
-> fields depends on the negotiated features.
-> 
-> New helpers are introduced to convert the UDP-tunneled skb metadata to
-> an extended virtio net header and vice versa. Such helpers are used by
-> the tun and virtio_net driver to cope with the newly supported offloads.
-> 
-> Tested with basic stream transfer with all the possible permutations of
-> host kernel/qemu/guest kernel with/without GSO over UDP tunnel support.
-> ---
-> WRT the merge plan, this is also are available in the Git repository at
-> [1]:
-> 
-> git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_07_07_2025
-> 
-> The first 5 patches in this series, that is, the virtio features
-> extension bits are also available at [2]:
-> 
-> git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
-> 
-> Ideally the virtio features extension bit should go via the virtio tree
-> and the virtio_net/tun patches via the net-next tree. The latter have
-> a dependency in the first and will cause conflicts if merged via the
-> virtio tree, both when applied and at merge window time - inside Linus
-> tree.
-> 
-> To avoid such conflicts and duplicate commits I think the net-next
-> could pull from [1], while the virtio tree could pull from [2].
+> This change disallows such a use-case.
 
-Or I could just merge all of this in my tree, if that's ok
-with others?
-
-Willem/Jason ok with you?
-
-
-
-
-
-> ---
-> v6 -> v7:
->   - avoid warning in csky build
->   - rebased
-> v6: https://lore.kernel.org/netdev/cover.1750753211.git.pabeni@redhat.com/
-> 
-> v5 -> v6:
->   - fix integer overflow in patch 4/9
-> v5: https://lore.kernel.org/netdev/cover.1750436464.git.pabeni@redhat.com/
-> 
-> v4 -> v5:
->   - added new patch 1/9 to avoid kdoc issues
->   - encapsulate guest features guessing in new tap helper
->   - cleaned-up SET_FEATURES_ARRAY
->   - a few checkpatch fixes
-> v4: https://lore.kernel.org/netdev/cover.1750176076.git.pabeni@redhat.com/
-> 
-> v3 -> v4:
->   - vnet sockopt cleanup
->   - fixed offset for UDP-tunnel related field
->   - use dev->features instead of flags
-> v3: https://lore.kernel.org/netdev/cover.1749210083.git.pabeni@redhat.com/
-> 
-> v2 -> v3:
->   - uint128_t -> u64[2]
->   - dropped related ifdef
->   - define and use vnet_hdr with tunnel layouts
-> v2: https://lore.kernel.org/netdev/cover.1748614223.git.pabeni@redhat.com/
-> 
-> v1 -> v2:
->   - fix build failures
->   - many comment clarification
->   - changed the vhost_net ioctl API
->   - fixed some hdr <> skb helper bugs
-> v1: https://lore.kernel.org/netdev/cover.1747822866.git.pabeni@redhat.com/
-> 
-> Paolo Abeni (9):
->   scripts/kernel_doc.py: properly handle VIRTIO_DECLARE_FEATURES
->   virtio: introduce extended features
->   virtio_pci_modern: allow configuring extended features
->   vhost-net: allow configuring extended features
->   virtio_net: add supports for extended offloads
->   net: implement virtio helpers to handle UDP GSO tunneling.
->   virtio_net: enable gso over UDP tunnel support.
->   tun: enable gso over UDP tunnel support.
->   vhost/net: enable gso over UDP tunnel support.
-> 
->  drivers/net/tun.c                      |  58 ++++++--
->  drivers/net/tun_vnet.h                 | 101 +++++++++++--
->  drivers/net/virtio_net.c               | 110 +++++++++++---
->  drivers/vhost/net.c                    |  95 +++++++++---
->  drivers/vhost/vhost.c                  |   2 +-
->  drivers/vhost/vhost.h                  |   4 +-
->  drivers/virtio/virtio.c                |  43 +++---
->  drivers/virtio/virtio_debug.c          |  27 ++--
->  drivers/virtio/virtio_pci_modern.c     |  10 +-
->  drivers/virtio/virtio_pci_modern_dev.c |  69 +++++----
->  include/linux/virtio.h                 |   9 +-
->  include/linux/virtio_config.h          |  43 +++---
->  include/linux/virtio_features.h        |  88 +++++++++++
->  include/linux/virtio_net.h             | 197 ++++++++++++++++++++++++-
->  include/linux/virtio_pci_modern.h      |  43 +++++-
->  include/uapi/linux/if_tun.h            |   9 ++
->  include/uapi/linux/vhost.h             |   7 +
->  include/uapi/linux/vhost_types.h       |   5 +
->  include/uapi/linux/virtio_net.h        |  33 +++++
->  scripts/lib/kdoc/kdoc_parser.py        |   1 +
->  20 files changed, 790 insertions(+), 164 deletions(-)
->  create mode 100644 include/linux/virtio_features.h
-> 
-> -- 
-> 2.49.0
-
+Hmm I'm not familiar with this, but for such cases to be legitimate we can
+assume the external module has to be derived from the internal one and not
+something completely unrelated impersonating the internal one? So in that
+case just patch 2 alone would be sufficient and not break any legitimate use
+cases?
