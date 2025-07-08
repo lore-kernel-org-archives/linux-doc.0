@@ -1,28 +1,28 @@
 Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358E140BF5;
-	Tue,  8 Jul 2025 01:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65754BA45;
+	Tue,  8 Jul 2025 02:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751939167; cv=none; b=kvus6iedgtqU8iNDUpweUku8Wt8yNifV4f26xQFY31+ZS3uZ+rm322jhhIXWtuUEjczSYxs3EKDiSMj9rgu7XXhkldRSDXSR+PY2hwOlu2Tmyp27vUWjBmcOChEG1F9wxsFVoRnbjXtJfRBvZY8Xfn87gvrgn6BzzDDk275sCh4=
+	t=1751940194; cv=none; b=VyP3vUZZpgLSFsbDgYrPdFD74m++0gy5VDS4hq0NeRMSMYC1wuVTN+tSMLO6V2LUsoynvPlbxuet7w8QlzppiQmQN9MB8/hUPWw2h5vKx9nmkZRDdzpgOCY+6Q7zwS+okfAiG1rnqNk/ibCLVfryHbkuPm/MvaPyAGXvTPlA+WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751939167; c=relaxed/simple;
-	bh=nh1nOo+b5eqCWDB++x2DN24D8FPhCx0Ss2EJiOM+OlE=;
+	s=arc-20240116; t=1751940194; c=relaxed/simple;
+	bh=r0EMgNVX/z4zYUNMe5TgvPCak9pLBC1m6P6hzEd8k4Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZsAFPE8pONPZfx7uCFU9YfllYLtCjbTJQ2Hsa3EcGyhNbzeTIZLfiYBE150euUQRCxjhvvV6QMcC2D10xA1icIJvflJ1ej0OnOdy7XsgIm1mM7kvxJVXHM6mOkpWWHL04T+OxRmzpb2RqdA3SitwszjsGe7Ah/bTujbrIl5lajA=
+	 Content-Type:Content-Disposition:In-Reply-To; b=GpUmrLAZmRBPTBUIRl/SecvQ5mmCoStmZkZNXRu215GyKgQtsuEUlEr1AX5bKxahEqYHUUGTFqw+dwYGUXUoDYs0LeriI37XuJV57Umc+Zi8TU4OTS5tX3NVOQ4z4GUYyzaf/lelzZ4Ap8mbK2gBtGkEmzuwE94k4oXgh1KExyk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.194.254.142
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz3t1751939082t7078b810
-X-QQ-Originating-IP: twOakQHm7qDk0ySEKf/UEQ4ZvX2xLJPYK2kg6T+4SrI=
+X-QQ-mid: zesmtpsz2t1751940112t5c4f092b
+X-QQ-Originating-IP: 4LFULpdcet4DuWtuH/L0yUVh01li1CK9FUyGaDibKB4=
 Received: from localhost ( [203.174.112.180])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 08 Jul 2025 09:44:40 +0800 (CST)
+	id ; Tue, 08 Jul 2025 10:01:50 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 6188477510607775095
-Date: Tue, 8 Jul 2025 09:44:40 +0800
+X-BIZMAIL-ID: 16836911135302735176
+Date: Tue, 8 Jul 2025 10:01:50 +0800
 From: Yibo Dong <dong100@mucse.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
@@ -33,13 +33,13 @@ Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
 	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
 	alexanderduyck@fb.com, netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/15] net: rnpgbe: Add basic mbx ops support
-Message-ID: <6677D57C5FDDCB92+20250708014440.GA216877@nic-Precision-5820-Tower>
+Subject: Re: [PATCH 04/15] net: rnpgbe: Add get_capability mbx_fw ops support
+Message-ID: <60002AD49B3F6BD5+20250708020150.GB216877@nic-Precision-5820-Tower>
 References: <20250703014859.210110-1-dong100@mucse.com>
- <20250703014859.210110-4-dong100@mucse.com>
- <80644ec1-a313-403a-82dd-62eb551442d3@lunn.ch>
- <9C6FCA38E28D6768+20250707063955.GA162739@nic-Precision-5820-Tower>
- <f8a69fa5-cc3d-4968-8b19-0bdb27e1e917@lunn.ch>
+ <20250703014859.210110-5-dong100@mucse.com>
+ <57497e14-3f9a-4da8-9892-ed794aadbf47@lunn.ch>
+ <CB185D75E8EDC84A+20250707073743.GA164527@nic-Precision-5820-Tower>
+ <e0610a11-18fa-42f6-9925-f15dac20643c@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,57 +48,132 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f8a69fa5-cc3d-4968-8b19-0bdb27e1e917@lunn.ch>
+In-Reply-To: <e0610a11-18fa-42f6-9925-f15dac20643c@lunn.ch>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: Ma+A2HZKKIKoltb8mRtc7YBDUt2RuMk8scYsQwnrzBMUUTeUfSuqJ8Bq
-	2sNdc1Ifj13id1WQeQZ4afdzt5fcDDEDeeHsv069JFfQyjbFoPcJSE3D4ccLZXjXFQQwbdr
-	0Pmnvvbloqw/3PMu9wTuQKu1pmVooxb0C5GSXk9FCaxjz6aHyqvHFZhbxkil6sAk158QHtl
-	CLZ3Br+A5bmjRch06Jzk0oJjnEtAb68Szl4eidB0jtba3PqN2rOvPOZMzcHgaCkbkY0sX37
-	xYCiCI4OUuI5o3UPtP7lTaHDoIxX7icoaRz9onehLf2YXw8zMc12dLroDo1wszmRHucHFYK
-	9z7veoJVVv26MRc59hUPXcL82B3ov/+JF5QasLKGjdA4rZP/flTaerSM91aG0rJZDtqsAcM
-	EbKyfUbv8qcIOdZA1D0LECoQKVT2guTI9Tl90VyqvZCtEJBJuQWZ1EoGbrY8G9SaAFqDTFy
-	F9kqBJCpOEkQdHYq9AN3KObaK/PpaLU8eWjXo+B5aeu1M2zOWjoFIdMvO48Pzi8KJXvEpin
-	8p6YIDwl4Ru4YOtPNzeWHqbZYUConTcG9uUYt8m6gGpm4Eb8QNdgEL9GrTwMW26xro9j800
-	iWjFHnVOsIVXvuseo5nKTZ07SyawM8LAMf7rReVKA1zYKBxBS9Lmui0FFk2RYH6OnP5Z1no
-	JrnJ3G9hyNlUM+HTVW1LO3F5iCkIfCy0ihQlq6Ov2GrVyCJNGYEOL0acbp9m2qvLvhCtaHU
-	lzXx1PFzMSy9ndfC94uY5OW3nh32SnWZnf5j3MFnpESwz2aui3i4HUuyXSk+mK3ktbWWH1Q
-	BSfoaOx/6yMkBUTsUppK58kZ4im03sPiQT2FQkuXR2pizvXt3gInFTfRGopAkFBrLuvMR4O
-	icL0NInPVfR+4BJyJ4ZydRZh47lI2yUodCf8RHq4YBq7rYg5EsjMR5hYoDVzKnUEYUTRosH
-	N5Hz304DwCNZuqqZDCGR5wLHkKpQ2H0mKS3Q=
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+X-QQ-XMAILINFO: N7WV2vBY6Wtphb9XuLP7+3+zApZBH6zKOpSypbxywONFcdLATU9Lwtk0
+	ybxSgIymt7lTOVNozas7HfajECDtpWCUhUDmoKhrTaYpl2HZArImGhcZFrlNJbj7qBM5ztD
+	qpYP+ux27xbs7jzbt87bOMaAuqadmOKsoLDXDEBrrQwianiCpenPQHbdKTXgGy6+BPcz0C/
+	/DUBb2+cIV0BqT1CCHqb49Q4BdoV9EYAkWBR6TisxiRUU02MFcEl2rsg32aZVKmoQ4gg5Vj
+	u92naVYNi5B02xJT1qG0pO6lw2FOhmYJZqcHikKFSxi8COM8xcPSHIxIIZxTG4BOcq0xVnY
+	DGFwH3eilzhM9KHsdGkgOrvZnlPDy8gpgSsYLJCXQAl/knrCjjy50d8XKEXuKyaHRjyDBQr
+	4pVAs/YoEAIfBoqECuXTJZpY7fpCME8ANV+XwPzaCxRbWgRyJqURzL+MI379HsBo3MpcBLj
+	FR2Jv7cqQWULfmFED6Fn6swGwr6dSZveZcLX6rUM5MLXdcu4x30hLoVjhYdk0b6TmaJE4EQ
+	bw+X//rM6+Qb8G1eRemBdGCk4appvaog3hgLaz3eIH2i9ivqvSGhY/uNRHcUCwA10QrMw1h
+	6k46pmBsEwp8NSGPmZyPgArU/YMzlVYVYfGXsK+q88sDL0wVw93RS6ceu6QiKnJDBVwMRQG
+	74abC6gM3dSNU2GmVYPWsC+qIUhrVjm1Kbwyi6x+8hRK5pVWblKYhYbPy85HQajaIYs9ps5
+	g3hMYIUP0v6QHJO/UaKFpL4VwobXEOk1TxjCltghUSs7WFJ8Ex3CJJ49cV5jQnd9UDo5yJg
+	WLhTMG51A5ZU7izHVtTS1M/gIfcTVPcU9nn31RsmFOjj6Eecq3rrJo/pbuC11+oaNwqLiqI
+	EFM1oXWy1toPqhwOed6WGyOtKV/eve0wDSE6TmxHksJBYL9n0ZVuy+m7xOQQCSe3r4ggIVe
+	d61QgSnMYGhRLqgT6qCaFA6r/mAGTQZeuSCaB3oJXRWfqL983gWydhLQ/AmVUiIkxtQ+MlZ
+	v95HyL3w==
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
 X-QQ-RECHKSPAM: 0
 
-On Mon, Jul 07, 2025 at 02:00:16PM +0200, Andrew Lunn wrote:
-> On Mon, Jul 07, 2025 at 02:39:55PM +0800, Yibo Dong wrote:
-> > On Fri, Jul 04, 2025 at 08:13:19PM +0200, Andrew Lunn wrote:
-> > > >  #define MBX_FEATURE_WRITE_DELAY BIT(1)
-> > > >  	u32 mbx_feature;
-> > > >  	/* cm3 <-> pf mbx */
-> > > > -	u32 cpu_pf_shm_base;
-> > > > -	u32 pf2cpu_mbox_ctrl;
-> > > > -	u32 pf2cpu_mbox_mask;
-> > > > -	u32 cpu_pf_mbox_mask;
-> > > > -	u32 cpu2pf_mbox_vec;
-> > > > +	u32 fw_pf_shm_base;
-> > > > +	u32 pf2fw_mbox_ctrl;
-> > > > +	u32 pf2fw_mbox_mask;
-> > > > +	u32 fw_pf_mbox_mask;
-> > > > +	u32 fw2pf_mbox_vec;
+On Mon, Jul 07, 2025 at 02:09:23PM +0200, Andrew Lunn wrote:
+> On Mon, Jul 07, 2025 at 03:37:43PM +0800, Yibo Dong wrote:
+> > On Fri, Jul 04, 2025 at 08:25:12PM +0200, Andrew Lunn wrote:
+> > > > +/**
+> > > > + * mucse_fw_send_cmd_wait - Send cmd req and wait for response
+> > > > + * @hw: Pointer to the HW structure
+> > > > + * @req: Pointer to the cmd req structure
+> > > > + * @reply: Pointer to the fw reply structure
+> > > > + *
+> > > > + * mucse_fw_send_cmd_wait sends req to pf-cm3 mailbox and wait
+> > > > + * reply from fw.
+> > > > + *
+> > > > + * Returns 0 on success, negative on failure
+> > > > + **/
+> > > > +static int mucse_fw_send_cmd_wait(struct mucse_hw *hw,
+> > > > +				  struct mbx_fw_cmd_req *req,
+> > > > +				  struct mbx_fw_cmd_reply *reply)
+> > > > +{
+> > > > +	int err;
+> > > > +	int retry_cnt = 3;
+> > > > +
+> > > > +	if (!hw || !req || !reply || !hw->mbx.ops.read_posted)
 > > > 
-> > > Why is a patch adding a new feature deleting code?
+> > > Can this happen?
 > > > 
-> > Not delete code, 'cpu' here means controller in the chip, not host.
-> > So, I just rename 'cpu' to 'fw' to avoid confusion.
+> > > If this is not supposed to happen, it is better the driver opps, so
+> > > you get a stack trace and find where the driver is broken.
+> > > 
+> > Yes, it is not supposed to happen. So, you means I should remove this
+> > check in order to get opps when this condition happen?
 > 
-> So, so let me rephrase my point. Why was it not called fw_foo right
-> from the beginning? You are making the code harder to review by doing
-> stuff like this. And your code is going to need a lot of review and
-> revisions because its quality if low if you ask me.
+> You should remove all defensive code. Let is explode with an Opps, so
+> you can find your bugs.
+> 
+
+Got it.
+
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	/* if pcie off, nothing todo */
+> > > > +	if (pci_channel_offline(hw->pdev))
+> > > > +		return -EIO;
+> > > 
+> > > What can cause it to go offline? Is this to do with PCIe hotplug?
+> > > 
+> > Yes, I try to get a PCIe hotplug condition by 'pci_channel_offline'.
+> > If that happens, driver should never do bar-read/bar-write, so return
+> > here.
+> 
+> I don't know PCI hotplug too well, but i assume the driver core will
+> call the .release function. Can this function be called as part of
+> release? What actually happens on the PCI bus when you try to access a
+> device which no longer exists?
+> 
+
+This function maybe called as part of release:
+->release
+-->unregister_netdev
+--->ndo_stop
+---->this function
+Based on what I have come across, some devices return 0xffffffff, while 
+others maybe hang when try to access a device which no longer
+exists.
+
+> How have you tested this? Do you have the ability to do a hot{un}plug?
+> 
+
+I tested hot{un}plug with an ocp-card before.
+But I think all the codes related to pcie hot{un}plug should be in a
+separate patch, I should move it to that patch.
+
+> > > > +	if (mutex_lock_interruptible(&hw->mbx.lock))
+> > > > +		return -EAGAIN;
+> > > 
+> > > mutex_lock_interruptable() returns -EINTR, which is what you should
+> > > return, not -EAGAIN.
+> > > 
+> > Got it, I should return '-EINTR' here.
+> 
+> No, you should return whatever mutex_lock_interruptable()
+> returns. Whenever you call a function which returns an error code, you
+> should pass that error code up the call stack. Never replace one error
+> code with another.
+> 
+
+Ok, I see.
+
+> > > > +	if (reply->error_code)
+> > > > +		return -reply->error_code;
+> > > 
+> > > The mbox is using linux error codes? 
+> > > 
+> > It is used only between driver and fw, yay be just samply like this: 
+> > 0     -- no error
+> > not 0 -- error
+> > So, it is not using linux error codes.
+> 
+> Your functions should always use linux/POSIX error codes. So if your
+> firmware says an error has happened, turn it into a linux/POSIX error
+> code. EINVAL, TIMEDOUT, EIO, whatever makes the most sense.
 > 
 > 	Andrew
 > 
 
-Ok, you are right. It should be the right name at the beginning. I will
-try to avoid this in the future.
+Got it, I will turn it into a linux/POSIX error code.
 
+Thanks for your feedback.
