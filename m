@@ -1,144 +1,231 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5A32DC35C
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 14:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A70512CD8B
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 15:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751986709; cv=none; b=MdQYsZ8o7vpaGNB+bbojdjbfQvgvzT99ngjW5XsmBEO20LAywNJVoDO815m0+chkHc7IxvkaQrXvOoBfXBIoUGn9cDYbKrXtqox4HRBIspSIxfS77kPo/qDCxZvZDpH+NAvEn6czEkVU6dUK+hvYdEB2nsNMoeLn14utGguPxHo=
+	t=1751986904; cv=none; b=PHBq68tFoKAtHdsut3Rtj643lcz+w8Bqxh1jGdhw0hoO+xtc1NrUUOsBnqtHoqEsGLksPbjYhZGiu6WRsGnGEQVNVXAHXgKGYbZcy1jDgH/krz/I1EBs21EeqjQZi5vZIKrI/wQapHsAOc3mjbI31oNblDrGmlIn4pqvUvMwfFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751986709; c=relaxed/simple;
-	bh=8s0xa7L5BjSxz1JQE/gd29Vqw8ZPITgvO9C8rgWyOmE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gmv4evBBM3iw05SP47wwygOBSn6Spa0q2LEVf75rVAQJClQPH5xQOY4AbJXyz3kYp0y4VuQRaaprpLb/TtxB4tG9mlmOz/fxFcg6lZ7M69i4btTvUBKpSActqsYc0JFXky9gGMRBl4WLPS0kPqx/uTlERE3asrGAb1pp5jy0IZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ltm6PWML; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1751986904; c=relaxed/simple;
+	bh=C6ZZomLbi/zOPxZHt0dlelhB1jqalIFhjULGiIqUaXU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XVYO9ucjsDSQqesyrkNEKSE9bbq9UbcP62eL74OeEt5VUjJ66Ug6KObto2grrbWPM0QWHkDh4mp1DixpriooNiNIzFL67voVwOS2m7lg23tEAzr0Mi1zi2EVQTcD95qMZ+IVpxQSzVHsAwyM9Q57QktX+pecbOGMDl3wasn+85I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RprVePQt; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ltm6PWML"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-60780d74c8cso6916880a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 07:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751986705; x=1752591505; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B4jT32HA4W2Qzu0z0BHKWxYGrYNQ+ge5ttUU4NoaGyc=;
-        b=ltm6PWMLLvzPXSej1/qnr/0tD4n2ONwu0CbcMgOU3gnLVgw8r0n6mcNIB2kVo5Kl5u
-         IjCpQL12ruy8RhrIeInMjmwj6MTWxPBVkX2HT6clbQkMZKagDqmgS9FBYGM0nLY9dgit
-         7VvjzUsBX32LtCvF/egtwSWaQ1ies0z46gDb10CsjrKOtx6YiDf2lGlfWfxjsszWMT7f
-         ZO/CpztCZZh6YKaicfcde+QL+SQ5pHSK87OXW6AKD09qEVGP/icXxd14NWB6Q+iIs65x
-         9Z5rS4bN1ojFPqgnaXYdNcGFryjUNvTAz6kUs/cUknWzHG9fgGrjXSdo/qTrxuf4M9RT
-         Kbig==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RprVePQt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751986901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1rNCOAezgrJfdzw+4fMxXtTnmKKIBw8LaqwRGLVMi54=;
+	b=RprVePQtPqf7bA136x8hmpT8ONGFeANQiLdEuc2fStBAVsvYQ/2+cWTi50Z/9Vr1jtmKml
+	k5mIB/ZJXbQnFhqbSNc7x92MLFURRk9wY8O4sHq/xYbm3Lp4OLwPcFYBzoWGmZK+O+rU19
+	vKtKyZPTAsruH8Rn+mW76Hyu1GOSA/Y=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-645-763YbrNcM_CRYZWnBPoj0g-1; Tue, 08 Jul 2025 11:01:38 -0400
+X-MC-Unique: 763YbrNcM_CRYZWnBPoj0g-1
+X-Mimecast-MFC-AGG-ID: 763YbrNcM_CRYZWnBPoj0g_1751986897
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45311704cdbso31552935e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 08:01:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751986705; x=1752591505;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B4jT32HA4W2Qzu0z0BHKWxYGrYNQ+ge5ttUU4NoaGyc=;
-        b=YsP02ArtY1HyWK0ptvSnnewpFvD2gFWpq83jPM5cwVMH41k1pEfxXyxgchitTeF9FS
-         9pFwookafa+kfFjD/SJrQYAEFaX0qNjgC2zDbDS22omoJ5COn8N6Ta0vufSIgCWaTX4/
-         g7pwCTFwM5Tl6dVrSALnDc3daSwVceCyzn7DcYFMSFB+dXYN2PuPtgAXT7HPaAfFdq6/
-         RSLaMFR2Vun30caUntBED8ZbwG9EO/ISE0qNLqLbxnsYgE8tmDYImkq6gKIrSM+XlZ/l
-         KL4xjFCsX6MZQ9KgPFPCSckqLjjcPyn5M3cb/L+zI6IbX8gJNhs7AeS+v2ifPcnhY/An
-         LIxA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmCdCof74DIgK7SBrjiY7+LkaYC06B4xLP19wGoC1BRqYPuOgtmPJrP/ELUJI0IpLwQAiUK0+Q2eM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCt1DA4VITmf1XPuorREzXpbFpERi0E+Jn5WSWweEZTs44TjN6
-	lXlUQ79acE1fanlQfer2j+2XUZDFM1650uB//xdZclezKCh3CY2wCIHjsIdo0uWkoGI=
-X-Gm-Gg: ASbGncslTilMEv2vyPU3Nhpa+Obp8hj5qCvag1kRHn7kaMlWllCogD4qqJdM2dnobTe
-	QerFc3hAjKt4z1WYfthTZWnU14dNIEDRD2qaSYOeYRKHwR/+38akuHJG0+E/sha3aU6qvNUveDj
-	4Lp4h3BxRTo08rxFGavrq/t6ZmE9gYUNQnJgzXsmf5oCshApf6JFLVv248xQOmLFjMgrAESrgRf
-	xUCD/28AvsW6kP+VAGWMfJ8xfi63S/MNYirbPxBcONE/1QzkLoMV8EFGiUwgSSV7IF9XJF2/4qR
-	/qjFuca2k66sa7+fXOPZWg5Tou6YF8TRfb6DiMezEDlpCBJaGlTmcRR4C2mU0xHNgD6847g=
-X-Google-Smtp-Source: AGHT+IEyVGRav48RsWOQ+IbAhO5COYztnDZYY9ox0Xfv6AASPPJWInKbHNlJUCQb/6Tlb54HYzvLrQ==
-X-Received: by 2002:a50:c052:0:b0:610:5794:d83c with SMTP id 4fb4d7f45d1cf-6105794dc39mr1106147a12.19.1751986705123;
-        Tue, 08 Jul 2025 07:58:25 -0700 (PDT)
-Received: from [192.168.0.251] ([82.76.204.12])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fca66e566sm7314471a12.11.2025.07.08.07.58.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Jul 2025 07:58:24 -0700 (PDT)
-Message-ID: <fae52bad-b78f-4518-989f-9624c6a749d8@linaro.org>
-Date: Tue, 8 Jul 2025 15:58:22 +0100
+        d=1e100.net; s=20230601; t=1751986897; x=1752591697;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1rNCOAezgrJfdzw+4fMxXtTnmKKIBw8LaqwRGLVMi54=;
+        b=wbb20tWvHLXosyZzvyOJQzX3eXWO7x/APdXwNv4/sAi/AqBZBekC+A1UkLxsjClwDP
+         Z5WAmdNymrhkEqab/vLdOa4uqvWzxVbEu1RLjD1QkWs7pYBMv01HhYUJuWxwBNqI0TC5
+         U+xIW7wPzEvKQ29P1EcbvOwGo3M3SIn3W58Z/JGPISJIqEP053b9G9xj59C/AzjBjh6l
+         L8jBIRL8hTNyxEyE7t0mKFDI8VZfVHmPzLOvMqm7kiv87Nq3Cc4+IxqyEIBD0zcDz5G0
+         BDJ29BXbfvSsdgIqMRx2Z3uY1RakllYtbBDouw9qNmSl9mcHucten4gZqY4Ru+IkstTe
+         dJ2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUtz2tU7StmwqpZf+lwCh3zuoFgQzVw85/eUtCst8abi+WHiA2aYb7IvoUZ3gljEBUZDdb6COZ3J84=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFDo6QF7FTNp4rn4RsqceZkpYuatylUgGFk/stz4W7oNQADnCQ
+	G2S0gmSZUpHwPXxJO9Q7mSwATi51Vi0bYfZeiHSuTX6kCTd2e5Q3r+KzA7IHb+ua7/Ms2j8OIFf
+	jp3gVU4+6itil/YjiIJWZ6ChBJlNJF3xv0aEZlALl0kJ1cWQ4sKzrDVnKvR8Q1w==
+X-Gm-Gg: ASbGncuWXbbY+MR4qXMxhuQ6HWMdYZBGxO3NK6h+oCWoHJtvCdinBZwpPYl9PR9rPFD
+	3odsQRlcFa4fwBVHgINuFzA58Nwg1aZPkqKS9Csaj4/bd6TEN1xxIM8BfQpY8rLn+lv48tFzCAP
+	8b/00JM7dvCARyXli8UM37H/X7mKb+7tTDp0xhdEMIRo18T6cAi43E5d84RSIWCLJGJTzs3xfKk
+	0laIjqlcooDNmdGM+l5rA1s/E86wPG8wHGRwdVOhOQG29BHC2wUtlDc9PfiJrWNGz6/CgFNLYDY
+	AEijhvyxHBQEvdo=
+X-Received: by 2002:a05:600c:6383:b0:453:8ab5:17f3 with SMTP id 5b1f17b1804b1-454b4ead145mr122676205e9.22.1751986896179;
+        Tue, 08 Jul 2025 08:01:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH11Di0CyvGlev4/a65feEHdNV/ENPEJm11VdcvI7y7M2fvSKYNq+cP94W4DlaA+5SIMpmc9A==
+X-Received: by 2002:a05:600c:6383:b0:453:8ab5:17f3 with SMTP id 5b1f17b1804b1-454b4ead145mr122674135e9.22.1751986893844;
+        Tue, 08 Jul 2025 08:01:33 -0700 (PDT)
+Received: from redhat.com ([2a0d:6fc0:150d:fc00:de3:4725:47c6:6809])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47030b9desm13389956f8f.19.2025.07.08.08.01.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Jul 2025 08:01:33 -0700 (PDT)
+Date: Tue, 8 Jul 2025 11:01:30 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Yuri Benditovich <yuri.benditovich@daynix.com>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 net-next 0/9] virtio: introduce GSO over UDP tunnel
+Message-ID: <20250708105816-mutt-send-email-mst@kernel.org>
+References: <cover.1751874094.git.pabeni@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] PM: add kernel parameter to disable asynchronous
- suspend/resume
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@kernel.org>,
- Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- peter.griffin@linaro.org, andre.draszik@linaro.org, willmcvicker@google.com,
- kernel-team@android.com
-References: <20250708-pm-async-off-v1-1-1b200cc03d9c@linaro.org>
- <CAJZ5v0gMk+Jt5WBUB=+cvv2YoU+49nRxL4KPRGm9TAdzkUvQhQ@mail.gmail.com>
-Content-Language: en-US
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <CAJZ5v0gMk+Jt5WBUB=+cvv2YoU+49nRxL4KPRGm9TAdzkUvQhQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1751874094.git.pabeni@redhat.com>
 
-
-
-On 7/8/25 3:38 PM, Rafael J. Wysocki wrote:
-> On Tue, Jul 8, 2025 at 4:28 PM Tudor Ambarus <tudor.ambarus@linaro.org> wrote:
->>
->> On some platforms, device dependencies are not properly represented by
->> device links, which can cause issues when asynchronous power management
->> is enabled. While it is possible to disable this via sysfs, doing so
->> at runtime can race with the first system suspend event.
->>
->> This patch introduces a kernel command-line parameter, "pm_async", which
->> can be set to "off" to globally disable asynchronous suspend and resume
->> operations from early boot. This provides a robust way to fall back to
->> synchronous (sequential) operation, which can stabilize platforms with
->> problematic dependencies and also serve as a useful debugging tool.
->>
->> The default behavior remains unchanged (asynchronous enabled). To disable
->> it, boot the kernel with the "pm_async=off" parameter.
+On Tue, Jul 08, 2025 at 09:08:56AM +0200, Paolo Abeni wrote:
+> Some virtualized deployments use UDP tunnel pervasively and are impacted
+> negatively by the lack of GSO support for such kind of traffic in the
+> virtual NIC driver.
 > 
-> IIUC, this effectively is a way to change the initial value of the
-> existing pm_async sysfs knob.
+> The virtio_net specification recently introduced support for GSO over
+> UDP tunnel, this series updates the virtio implementation to support
+> such a feature.
 > 
-> Might be worth mentioning in the changelog.
+> Currently the kernel virtio support limits the feature space to 64,
+> while the virtio specification allows for a larger number of features.
+> Specifically the GSO-over-UDP-tunnel-related virtio features use bits
+> 65-69.
 > 
-
-Right. Will update shortly.
-
->> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
->> ---
->> Dealing with the pixel6 downstream drivers to cope with the changes from
->> https://lore.kernel.org/linux-pm/10629535.nUPlyArG6x@rjwysocki.net/.
->>
->> Similar to what people already reported it seems pixel6 lacks proper
->> device links dependencies downstream causing i2c and spi client drivers
->> to fail to suspend. Add kernel param to disable async suspend/resume.
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt | 9 +++++++++
->>  kernel/power/main.c                             | 9 +++++++++
->>  2 files changed, 18 insertions(+)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index f1f2c0874da9ddfc95058c464fdf5dabaf0de713..55ba3e747d86c09a0696e105a1d9cd99218f0c07 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -5000,6 +5000,15 @@
->>                         that number, otherwise (e.g., 'pmu_override=on'), MMCR1
->>                         remains 0.
->>
->> +       pm_async        [PM]
->> +                       If set to "off", disables asynchronous suspend and
->> +                       resume of devices during system-wide power transitions.
->> +                       This can be useful on platforms where device
->> +                       dependencies are not well-defined, or for debugging
->> +                       power management issues. Defaults to "on" (asynchronous
->> +                       operations enabled).
+> The first four patches in this series rework the virtio and vhost
+> feature support to cope with up to 128 bits. The limit is set by
+> a define and could be easily raised in future, as needed.
 > 
-> And here too because it is now unclear how this relates to the pm_sync
-> under /sys/power/.
+> This implementation choice is aimed at keeping the code churn as
+> limited as possible. For the same reason, only the virtio_net driver is
+> reworked to leverage the extended feature space; all other
+> virtio/vhost drivers are unaffected, but could be upgraded to support
+> the extended features space in a later time.
+> 
+> The last four patches bring in the actual GSO over UDP tunnel support.
+> As per specification, some additional fields are introduced into the
+> virtio net header to support the new offload. The presence of such
+> fields depends on the negotiated features.
+> 
+> New helpers are introduced to convert the UDP-tunneled skb metadata to
+> an extended virtio net header and vice versa. Such helpers are used by
+> the tun and virtio_net driver to cope with the newly supported offloads.
+> 
+> Tested with basic stream transfer with all the possible permutations of
+> host kernel/qemu/guest kernel with/without GSO over UDP tunnel support.
+> ---
+> WRT the merge plan, this is also are available in the Git repository at
+> [1]:
+> 
+> git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_07_07_2025
+> 
+> The first 5 patches in this series, that is, the virtio features
+> extension bits are also available at [2]:
+> 
+> git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
+> 
+> Ideally the virtio features extension bit should go via the virtio tree
+> and the virtio_net/tun patches via the net-next tree. The latter have
+> a dependency in the first and will cause conflicts if merged via the
+> virtio tree, both when applied and at merge window time - inside Linus
+> tree.
+> 
+> To avoid such conflicts and duplicate commits I think the net-next
+> could pull from [1], while the virtio tree could pull from [2].
 
-Sounds good.
+Or I could just merge all of this in my tree, if that's ok
+with others?
+
+Willem/Jason ok with you?
+
+
+
+
+
+> ---
+> v6 -> v7:
+>   - avoid warning in csky build
+>   - rebased
+> v6: https://lore.kernel.org/netdev/cover.1750753211.git.pabeni@redhat.com/
+> 
+> v5 -> v6:
+>   - fix integer overflow in patch 4/9
+> v5: https://lore.kernel.org/netdev/cover.1750436464.git.pabeni@redhat.com/
+> 
+> v4 -> v5:
+>   - added new patch 1/9 to avoid kdoc issues
+>   - encapsulate guest features guessing in new tap helper
+>   - cleaned-up SET_FEATURES_ARRAY
+>   - a few checkpatch fixes
+> v4: https://lore.kernel.org/netdev/cover.1750176076.git.pabeni@redhat.com/
+> 
+> v3 -> v4:
+>   - vnet sockopt cleanup
+>   - fixed offset for UDP-tunnel related field
+>   - use dev->features instead of flags
+> v3: https://lore.kernel.org/netdev/cover.1749210083.git.pabeni@redhat.com/
+> 
+> v2 -> v3:
+>   - uint128_t -> u64[2]
+>   - dropped related ifdef
+>   - define and use vnet_hdr with tunnel layouts
+> v2: https://lore.kernel.org/netdev/cover.1748614223.git.pabeni@redhat.com/
+> 
+> v1 -> v2:
+>   - fix build failures
+>   - many comment clarification
+>   - changed the vhost_net ioctl API
+>   - fixed some hdr <> skb helper bugs
+> v1: https://lore.kernel.org/netdev/cover.1747822866.git.pabeni@redhat.com/
+> 
+> Paolo Abeni (9):
+>   scripts/kernel_doc.py: properly handle VIRTIO_DECLARE_FEATURES
+>   virtio: introduce extended features
+>   virtio_pci_modern: allow configuring extended features
+>   vhost-net: allow configuring extended features
+>   virtio_net: add supports for extended offloads
+>   net: implement virtio helpers to handle UDP GSO tunneling.
+>   virtio_net: enable gso over UDP tunnel support.
+>   tun: enable gso over UDP tunnel support.
+>   vhost/net: enable gso over UDP tunnel support.
+> 
+>  drivers/net/tun.c                      |  58 ++++++--
+>  drivers/net/tun_vnet.h                 | 101 +++++++++++--
+>  drivers/net/virtio_net.c               | 110 +++++++++++---
+>  drivers/vhost/net.c                    |  95 +++++++++---
+>  drivers/vhost/vhost.c                  |   2 +-
+>  drivers/vhost/vhost.h                  |   4 +-
+>  drivers/virtio/virtio.c                |  43 +++---
+>  drivers/virtio/virtio_debug.c          |  27 ++--
+>  drivers/virtio/virtio_pci_modern.c     |  10 +-
+>  drivers/virtio/virtio_pci_modern_dev.c |  69 +++++----
+>  include/linux/virtio.h                 |   9 +-
+>  include/linux/virtio_config.h          |  43 +++---
+>  include/linux/virtio_features.h        |  88 +++++++++++
+>  include/linux/virtio_net.h             | 197 ++++++++++++++++++++++++-
+>  include/linux/virtio_pci_modern.h      |  43 +++++-
+>  include/uapi/linux/if_tun.h            |   9 ++
+>  include/uapi/linux/vhost.h             |   7 +
+>  include/uapi/linux/vhost_types.h       |   5 +
+>  include/uapi/linux/virtio_net.h        |  33 +++++
+>  scripts/lib/kdoc/kdoc_parser.py        |   1 +
+>  20 files changed, 790 insertions(+), 164 deletions(-)
+>  create mode 100644 include/linux/virtio_features.h
+> 
+> -- 
+> 2.49.0
+
