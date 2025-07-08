@@ -1,89 +1,101 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mail-internal.sh.cz (mail-internal.sh.cz [95.168.196.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B67E29AAF5;
-	Tue,  8 Jul 2025 09:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972FD1D5150;
+	Tue,  8 Jul 2025 09:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.168.196.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751965462; cv=none; b=sEkjbWuLhpPxxKwCpKg48CyD717WL7rg0/LT5+Lxck2hM3X9xmI5otqUyXYI0ZCTPez8iRueACc7QufuWa6bYEUP+DNw1RUSnSCifFt8eJtL2G9S1pvwjJ2uLSQ6z0CtFDmunnXBubF/ypda6CJ7jgfr4YIanDFCDTOOD79s0LI=
+	t=1751965691; cv=none; b=frkk4NpZUlLxAcRw2ZA1cDWd2O1XidBUcNxbwhuiQQDuv252mq73/26v4FMWxd2aBY6p24XFH1FkbZyZXUjuio5WHdfaxN2JiaTwD/z3tCkZr1H6YwbdcgtyrxqboRAFuMYsGV+yMVHrecvqHadRnP4OgUVabfyKA8kWnRz2EXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751965462; c=relaxed/simple;
-	bh=TrJ/fz5xVxfLODysqwKHUSrC7xxXwGGsrtahTvWVdqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IrGxvjgBRThdG45nUuxM2woGJyXPKWr2UvSueGroH9sfpYaPYhRzJGXBZfzrtRiqkMX8fpSYK+C1uPxYlFc2cGyMzgjVh+ievZXpB1YvrnW2BnTjvtgxuyoOYhwWElgmHOo4j6Js4VD+BhDwKbi9XETQFyMDE2TNlucr5LcH3U4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=hMZdm+qb; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1751965691; c=relaxed/simple;
+	bh=3bRyRlRrZR9k8NH7omLwxN/7e8n86lC7Jh/MTrOJTT4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IV/kj0VWbcwXxoqGFZvtTSoBnBf4qQsyqLwqxEpulL43HbQb+GQh/8/KQLKQu5kEph2SNrGZHBtA0azVE55B5rdaKJKqYNVXN64fb4X5383aaguE2P8T7jXgOGfjbKcw4ignaOpVLrC6QrYSxNYnanyZgOv+SjDESzGbSrlxh9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cdn77.com; spf=pass smtp.mailfrom=cdn77.com; dkim=pass (1024-bit key) header.d=cdn77.com header.i=@cdn77.com header.b=/ES0fewb; arc=none smtp.client-ip=95.168.196.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cdn77.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cdn77.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="hMZdm+qb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=yE51Ym9OIJa8tb30p5ieD8XKMSfUl3EBXFq8KptHEqk=; b=hMZdm+qbvF+FDnUPQ2GmHbxFOk
-	ZuSWVfIKSC5jjPRs1llw6F463/lU5OOB+rmEZbRj+AhlQAzlZHLez5d1QkofVzVFBTTu7S90F8eml
-	XfOWZWlGU4bx4xqFn2KdGBykHlEGJoU/5UJI3quiwfQF8QdRq2lkkyQRDTJIG8Oq8Uj+9iTEcXR8Q
-	YJzC8UcToUC4Q3hvTyPcCv89VoXcnD6vtvrskugzQkfir17LjwBYj/gdWSvFcWkrKvpbdCJ4pInKk
-	fjGPFjYABYPPInzFAIBX2IWRQicav3S1JhgZHmgVfkShwJFnLCxRuJG/Y5+fH7hFStLABmKIx/8ip
-	aAXDHfHw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:49770)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1uZ4FG-0006Kl-14;
-	Tue, 08 Jul 2025 10:04:10 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1uZ4FE-0001Uj-2r;
-	Tue, 08 Jul 2025 10:04:08 +0100
-Date: Tue, 8 Jul 2025 10:04:08 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Kamil =?iso-8859-1?Q?Hor=E1k?= - 2N <kamilh@axis.com>
-Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-	andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	krzk+dt@kernel.org, conor+dt@kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	robh@kernel.org, andrew+netdev@lunn.ch, horms@kernel.org,
-	corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v7 3/4] net: phy: bcm5481x: MII-Lite activation
-Message-ID: <aGzfCHlHXEpq9-Gi@shell.armlinux.org.uk>
-References: <20250708090140.61355-1-kamilh@axis.com>
- <20250708090140.61355-4-kamilh@axis.com>
+	dkim=pass (1024-bit key) header.d=cdn77.com header.i=@cdn77.com header.b="/ES0fewb"
+DKIM-Signature: a=rsa-sha256; t=1751965686; x=1752570486; s=dkim2019; d=cdn77.com; c=relaxed/relaxed; v=1; bh=qmx/ei4aNZgcLguOQ4boGu+NqIav7okmG1X2YMA4xeI=; h=From:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References;
+   b=/ES0fewbTc8qvZvKGOBlApOS/TQ48g8rL56YC8P5YmBnrmrZFFzZ9piECRwsa81NC5z6RsOEL8s82DTs5RyHV1BYqmi04tMl9ZVZ38VfUCifQ8JghdnVYJN3M9pK6amhDa5Lugi/ZO7ozK+O2jDsdrp9w3lKUFdFQ4hz88sr71w=
+Received: from [10.0.5.28] ([95.168.203.222])
+        by mail.sh.cz (14.1.0 build 16 ) with ASMTP (SSL) id 202507081108055862;
+        Tue, 08 Jul 2025 11:08:05 +0200
+Message-ID: <4a8ce60d-fd28-4df9-b568-99964fed837c@cdn77.com>
+Date: Tue, 8 Jul 2025 11:08:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] tcp: account for memory pressure signaled by
+ cgroup
+To: Eric Dumazet <edumazet@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ David Ahern <dsahern@kernel.org>, Jiayuan Chen <jiayuan.chen@linux.dev>,
+ Christian Hopps <chopps@labn.net>, Sabrina Dubroca <sd@queasysnail.net>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ Matyas Hurtik <matyas.hurtik@cdn77.com>
+References: <20250707105205.222558-1-daniel.sedlak@cdn77.com>
+ <CANn89i+=haaDGHcG=5etnNcftKM4+YKwdiP6aJfMqrWpDgyhvg@mail.gmail.com>
+ <825c60bd-33cf-443f-a737-daa2b34e6bea@cdn77.com>
+ <CANn89iKQQ4TFx9Ch9pyDJro=tchVtySQfJTygCxjRP+zPkZfgg@mail.gmail.com>
+Content-Language: en-US
+From: Daniel Sedlak <daniel.sedlak@cdn77.com>
+In-Reply-To: <CANn89iKQQ4TFx9Ch9pyDJro=tchVtySQfJTygCxjRP+zPkZfgg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250708090140.61355-4-kamilh@axis.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-CTCH: RefID="str=0001.0A00639A.686CE009.001B,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0"; Spam="Unknown"; VOD="Unknown"
 
-On Tue, Jul 08, 2025 at 11:01:39AM +0200, Kamil Horák - 2N wrote:
-> Broadcom PHYs featuring the BroadR-Reach two-wire link mode are usually
-> capable to operate in simplified MII mode, without TXER, RXER, CRS and
-> COL signals as defined for the MII. The absence of COL signal makes
-> half-duplex link modes impossible, however, the BroadR-Reach modes are
-> all full-duplex only.
-> Depending on the IC encapsulation, there exist MII-Lite-only PHYs such
-> as bcm54811 in MLP. The PHY itself is hardware-strapped to select among
-> multiple RGMII and MII-Lite modes, but the MII-Lite mode must be also
-> activated by software.
+On 7/8/25 9:01 AM, Eric Dumazet wrote:
+> On Mon, Jul 7, 2025 at 11:45â€¯PM Daniel Sedlak <daniel.sedlak@cdn77.com> wrote:
+>>
+>> Hi Eric,
+>> Thank you for your feedback.
+>>
+>> On 7/7/25 2:48 PM, Eric Dumazet wrote:
+>>> On Mon, Jul 7, 2025 at 3:55â€¯AM Daniel Sedlak <daniel.sedlak@cdn77.com> wrote:
+>>>>
+>>>> Currently, we have two memory pressure counters for TCP sockets [1],
+>>>> which we manipulate only when the memory pressure is signalled through
+>>>> the proto struct [2].
+>>>>
+>>>> However, the memory pressure can also be signaled through the cgroup
+>>>> memory subsystem, which we do not reflect in the netstat counters.
+>>>>
+>>>> This patch adds a new counter to account for memory pressure signaled by
+>>>> the memory cgroup.
+>>>
+>>> OK, but please amend the changelog to describe how to look at the
+>>> per-cgroup information.
+>>
+>> Sure, I will explain it more in v2. I was not sure how much of a
+>> "storytelling" is appropriate in the commit message.
+>>
+>>
+>>> I am sure that having some details on how to find the faulty cgroup
+>>> would also help.
+>>
+>> Right now, we have a rather fragile bpftrace script for that, but we
+>> have a WIP patch for memory management, which will expose which cgroup
+>> is having "difficulties", but that is still ongoing work.
+>>
+>> Or do you have any suggestions on how we can incorporate this
+>> information about "this particular cgroup is under pressure" into the
+>> net subsystem? Maybe a log line?
 > 
-> Add MII-Lite activation for bcm5481x PHYs.
-> 
-> Signed-off-by: Kamil Horák - 2N <kamilh@axis.com>
-> Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> Perhaps an additional trace point ?
 
-Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Sounds good to me, we will incorporate that and send v2.
+> 
+> Ideally we could trace the cgroup path, or at least the pid.
+
+Will try to do both, we will see.
 
 Thanks!
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Daniel
