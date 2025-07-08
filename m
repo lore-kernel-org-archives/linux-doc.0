@@ -1,37 +1,71 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B093B2E3701;
-	Tue,  8 Jul 2025 16:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421DB21773D
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 16:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751992285; cv=none; b=rRUpF3cntcMdhYfT0C1akFP3N6Bc1+itOF7kNzMEebgPHfjQXzEribTSdPb0eAJAO82aVDCTK5Z+1YIBn50Qi1fRUOvNoxq7Ec0ijDMMVREFfkFMQhS2Q3hkyj9ufS5ljYazgDhSEDEUvEkWWpBh8QzTS8QMvhmIm4iHmzhQDSc=
+	t=1751993006; cv=none; b=drcR6XgTiRNsWFCZfB8aLVOJbfT6St2F5qLVawInoBVmnjjmJYKn+BayXypsO4oO88pdAHwN7g9ZgW2tWa3Br28Q1l1+WL1dIGcN9poVUPajdP/Dc9JoOmEgyVErMkZwWwZxH/ae0a4xlAUPhTJPsGWsLBArwpZML229cW8jm+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751992285; c=relaxed/simple;
-	bh=qpwh2epvYMa/vP9RS2AG1z0uRbcPXLoNOGq6aDBDMbo=;
+	s=arc-20240116; t=1751993006; c=relaxed/simple;
+	bh=zQQQOEa5mGNWa7KTGLmTSEf3V/CaEx2+ad3NkwQOBVg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VT3rIuKlsPRXrAlXNn3GvjcD8tfw1GhgNRMte2ARCmmfEbIyyN37FPiTqYEshv9++OO+dy+mlKiBaYAZcx0VWaOfbZ1h4p1HgUqDshMW6b3iyNy7Ap1VMYVzaFtsqYAhO2JLAunkDa+KfJndwH25NJlv05NYRnFKpZucwsxAJOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lzA7tdJk; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=qlz1/qDv0HU0Goocvt5+DzsWoEovaFdRK5wGRVJSS+VqLTLRu3cmHlZZ1ERxfe4wbiduEFkmLnZPazTEXFio+wW4/av0RqjYJ2OPjv7iZCA6wFg/qZ6svlznRQq7r24Q25sohO+orRVkexg5/N2K0YPLBZJJAmSaauMRvbUgGq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h6ckDpjq; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lzA7tdJk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=kOk7XbwChRWqxUdyqJOIG4vdU1iZr66s7LOpGxHw2Z8=; b=lzA7tdJkNNQY45J8AEw2iCoXM7
-	o8ijnMS3Rec59Ajg9zr/ZZ3/TECxlEHWzrZTBu9eWZQuQq3NKw7om8WUI8WPrddcoi1vOWOn2Cs/o
-	sboxJPwdulBED+GrbJnknPmlswZHjFYK4DD2rF1/o/aERs9ZjIanK70E2gP5BH0AAKwLAfhs4AenD
-	yZPs53AZaSjS8JQj+YKzcu6QelROmSx5DkS41BVJBhcy4UmV/FBfIaA7GXfI09/nKoVrWRZGwyXaC
-	frOBszBN4cBdc2Famdt0hr92XPFwU3EDdoU/+Q8KDsO+Z342L/k8qNXjN9QV5xIMHk+M45m4fImkI
-	r4jAyeLw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZBDy-00000000MKz-3qil;
-	Tue, 08 Jul 2025 16:31:19 +0000
-Message-ID: <d3d1e2be-6b9b-40d4-bd9a-49ff38c451f0@infradead.org>
-Date: Tue, 8 Jul 2025 09:31:14 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h6ckDpjq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751993002;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mRu3ITxR3iyfhxILJrwVnHOIYgR/CWymufaJy1Cpzno=;
+	b=h6ckDpjq+G3B7JTdUP7S1iM1DwjU23L4Yg8cDRFHlxVZsaEa+1UNBLVx0/jWYSzb6zO+BI
+	BimrNSTYT7249ThueonO37JXIbnsZAkpJptDEZTyXkv+NCwaKfCoA8ap51LjbW9k4WUjQv
+	dU5170CQczwvh3927NU5jx0PfIKffrU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-568-RlyIIVrnPCGY5W75pcJ9ZA-1; Tue, 08 Jul 2025 12:43:21 -0400
+X-MC-Unique: RlyIIVrnPCGY5W75pcJ9ZA-1
+X-Mimecast-MFC-AGG-ID: RlyIIVrnPCGY5W75pcJ9ZA_1751993000
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-450d6768d4dso26387335e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 09:43:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751993000; x=1752597800;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mRu3ITxR3iyfhxILJrwVnHOIYgR/CWymufaJy1Cpzno=;
+        b=HtxaSwRKChvmSKdy715J2RyvWVX/ycmC5uvD+jSOnfC7js0aylSh8pqnwSNaLbVMkS
+         cjBNzIZkxcrwxstfmXNwQ42LgTiIp1GfSj6wD2IDbMVao47Xkk+SkRgVkJbwT3V8p3k2
+         fy0htsHKQ8a83/pwrrFvuLY7/y4AbUztD9AykSv1/CBjed2RBxhEAs4Fyx8cep2PVy1P
+         pencc3hVeDK377VamOuWNOHPyrOdU+VJbbYqzHdBPVAWn80BmmKqmXyD80Cx0GH5YSgB
+         625SnctyAWd2+Offjbev8Y+kYZYdoFGlMeENWZ4GMpAPkKzomp9Les5YMqkCMZiUZEQP
+         syGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvtxN21k9/A2SnzHbObtqaPar1BZb6Bnzqpv8iELlH2KKeVokUbMUXPHbqrG1HIB02N42riGO48cM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyBaFbWhIEQ35sxnDQ4ZxVA4rp1MvYSsCp6XI6Usx9OV1VTbEO
+	s50+jLmhXLOSNtqzcpP1qXBjSYvMrdBF/jLDzcDVijUE12Bn4CcKCqgIsPuhot2mS8W536X2pI9
+	np9u0NOaqXU4DlRKeOz3WVl2KklJNX4UgvDtVT/bKXFdxTNmfF/eslb0WPUTuhA==
+X-Gm-Gg: ASbGnctm20Zh3TDABuXTvlM+4T96OOkvjcdX7wp9kv8Ht2OT6sHnlogFIOjKrG6LS+h
+	GH4pE/vVkTU3IeqESXai6yeZLTcdRUTduUsK2rXJvvoh6wvn5j7/rDiE6MgjkoCU31N/JGMDbr3
+	2lpKuWqAHw9qpP1rDQw5MiHkraRznMbFQhcGBKCIucSUfqhMj+3eyXF7JXB6BV3GB2Xj2XIw7HE
+	iiuOluXqA/c3UlayfV0pBBX9T9yvjj4cUi8uTj46B4qPvi60pXmMaEgEy7Rpbll9eLTaR68Kgdl
+	zbJjoTdgIWUnEQSllM3TOMUJz1YRwtCV6leTCNlpqGjaGH7LSsizBRC8xJaysLKUSSyyWw==
+X-Received: by 2002:a05:6000:2087:b0:3a4:ee3f:8e1e with SMTP id ffacd0b85a97d-3b4964e5281mr14417957f8f.39.1751993000359;
+        Tue, 08 Jul 2025 09:43:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEoaIacReEb0vPyg2KsNrIYN4x3Ccy8WpA/YPm0UdY/EajOw0cVDGdH65ySWm0a4fAJVxH+hQ==
+X-Received: by 2002:a05:6000:2087:b0:3a4:ee3f:8e1e with SMTP id ffacd0b85a97d-3b4964e5281mr14417934f8f.39.1751992999900;
+        Tue, 08 Jul 2025 09:43:19 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2717:8910:b663:3b86:247e:dba2? ([2a0d:3344:2717:8910:b663:3b86:247e:dba2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b472446fddsm13597522f8f.66.2025.07.08.09.43.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Jul 2025 09:43:19 -0700 (PDT)
+Message-ID: <27d6b80a-3153-4523-9ccf-0471a85cb245@redhat.com>
+Date: Tue, 8 Jul 2025 18:43:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,81 +73,65 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] PM: add kernel parameter to disable asynchronous
- suspend/resume
-To: Tudor Ambarus <tudor.ambarus@linaro.org>, Jonathan Corbet
- <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Len Brown <len.brown@intel.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, peter.griffin@linaro.org,
- andre.draszik@linaro.org, willmcvicker@google.com, kernel-team@android.com
-References: <20250708-pm-async-off-v2-1-7fada54f01c0@linaro.org>
- <18c12f92-2194-4244-8793-5d916edfd4e8@infradead.org>
- <cabab318-95a4-4e81-a931-458ee6023f3a@linaro.org>
+Subject: Re: [PATCH v7 net-next 0/9] virtio: introduce GSO over UDP tunnel
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet <corbet@lwn.net>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <cover.1751874094.git.pabeni@redhat.com>
+ <20250708105816-mutt-send-email-mst@kernel.org>
+ <20250708082404.21d1fe61@kernel.org>
+ <20250708120014-mutt-send-email-mst@kernel.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <cabab318-95a4-4e81-a931-458ee6023f3a@linaro.org>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250708120014-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 7/8/25 8:58 AM, Tudor Ambarus wrote:
-> 
-> 
-> On 7/8/25 4:36 PM, Randy Dunlap wrote:
->> Hi,
->>
-> 
-> Hi, Randy!
-> 
->> On 7/8/25 8:16 AM, Tudor Ambarus wrote:
->>
->>> ---
->>>  Documentation/admin-guide/kernel-parameters.txt | 11 +++++++++++
->>>  kernel/power/main.c                             |  9 +++++++++
->>>  2 files changed, 20 insertions(+)
+On 7/8/25 6:00 PM, Michael S. Tsirkin wrote:
+> On Tue, Jul 08, 2025 at 08:24:04AM -0700, Jakub Kicinski wrote:
+>> On Tue, 8 Jul 2025 11:01:30 -0400 Michael S. Tsirkin wrote:
+>>>> git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_07_07_2025
+>>>>
+>>>> The first 5 patches in this series, that is, the virtio features
+>>>> extension bits are also available at [2]:
+>>>>
+>>>> git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
+>>>>
+>>>> Ideally the virtio features extension bit should go via the virtio tree
+>>>> and the virtio_net/tun patches via the net-next tree. The latter have
+>>>> a dependency in the first and will cause conflicts if merged via the
+>>>> virtio tree, both when applied and at merge window time - inside Linus
+>>>> tree.
+>>>>
+>>>> To avoid such conflicts and duplicate commits I think the net-next
+>>>> could pull from [1], while the virtio tree could pull from [2].  
 >>>
->>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->>> index f1f2c0874da9ddfc95058c464fdf5dabaf0de713..33ca6b881b1d77bdeea765b19291a90b2a82e8a3 100644
->>> --- a/Documentation/admin-guide/kernel-parameters.txt
->>> +++ b/Documentation/admin-guide/kernel-parameters.txt
->>> @@ -5000,6 +5000,17 @@
->>>  			that number, otherwise (e.g., 'pmu_override=on'), MMCR1
->>>  			remains 0.
->>>  
+>>> Or I could just merge all of this in my tree, if that's ok
+>>> with others?
 >>
->> This should be more like:
->>
->>
->> 	pm_async=off	[PM]
->>
->> or
->>
->>> +	pm_async	[PM]
->>
->> 	pm_async=	[PM]
->> 			Format: off
+>> No strong preference here. My first choice would be a branch based
+>> on v6.16-rc5 so we can all pull in and resolve the conflicts that
+>> already exist. But I haven't looked how bad the conflicts would 
+>> be for virtio if we did that. On net-next side they look manageable.
 > 
-> Indeed. I see this second description, "kernel_param=", largely used in
-> the existing kernel parameters, so maybe that's what I shall follow.
-> However, I don't really know which format to choose, I see:
-> 
-> Format: <string>
-> Format: { off }
-> Format: {off}
-> Format: { "off" }
-> Format: {"off"}
-> Format: off
-> 
-> Any idea if there's an already agreed string format?
+> OK, let's do it the way Paolo wants then.
 
-Hi,
-AFAIK there isn't one. Just choose one. :)
+I actually messed a bit with my proposal, as I forgot I need to use a
+common ancestor for the branches I shared.
 
-I would go with the first choice that I listed
-but it's up to you.
+git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
 
--- 
-~Randy
+is based on current net-next and pulling from such tag will take a lot
+of unwanted stuff into the vhost tree.
+
+@Michael: AFAICS the current vhost devel tree is based on top of
+v6.15-rc7, am I correct?
+
+/P
 
