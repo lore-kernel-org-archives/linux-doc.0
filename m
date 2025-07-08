@@ -1,77 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5397223DE7;
-	Tue,  8 Jul 2025 15:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56F62F84F;
+	Tue,  8 Jul 2025 15:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751988246; cv=none; b=U9A/OeQoMO1zRC+VslE+zVNFCnJtKVSAR2OAxQDCJmMINAhKMPkGgFp7zcmygvfqkdGAS7ylhXsOkvULxXiC/xjDL3E8fZ9I6Su3OrB6UaXMrRZ0nPJmkJOnywSgY11Pq1zUOyHI636zngF7khLpZBTWM6atw3iei6nU7m1r4xw=
+	t=1751988500; cv=none; b=JsQEDY8uH93C/4SlMUd2XA3yInQHZP/ackp+Z/lKeB193e0TpUsMBDHLM7VqTFAdewY+hd4nCQPbng90qEnNcQ2jYbzq7BjJGxkOQb/nok+Ko2LNxYGZcPUxe4yQlu+NEFUeCKCmYIRqnji5HRJU9XRl9lzNDufo27sKxwQaPlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751988246; c=relaxed/simple;
-	bh=yr3gvMFQgXX8b8aX0CGJXvc/BBawO2jjh3fHXaiX5m8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WYPi2Nnueua8WXH2EzNa3diQG0bUGwyqTJRtQiHZvO23DNkEmfalNf/UnRzShqabC0kfmuy3Lg7yiNtIZ1J2aVjj5E5Z1l1bE3AY3jCSCbBdiBrIXj7LZYdIQwNMta2VxJLDunGP6T6WSSRJcTYx4xjkV09qmeWXqC48t5iIoj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FSZVQxrj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751988500; c=relaxed/simple;
+	bh=yOtDgsdu7wJC8UkbZQQSMT685bR0tLrVnl4BL88io7A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SVAttvGD9ATGPurfIoUjFrx8Az+NlC+kbiUFQW8dmTYYXfZc2Vlbl1emHYl1VTHD9f75X+S/k9pQ90l4EC6j0grWS/Nw7z0NbtUszfT1scgomfe0JOWsI+aMFRBSLF3MaD626ogzs3RSpeXhUKR58beVusfPZM75yEItS1gxobM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cGb/ayJ1; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FSZVQxrj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727CAC4CEED;
-	Tue,  8 Jul 2025 15:24:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751988246;
-	bh=yr3gvMFQgXX8b8aX0CGJXvc/BBawO2jjh3fHXaiX5m8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FSZVQxrjumbhTPsELLC+VdAX7wVLp3/MDo5lNbcCtXBpdlQgxBKL1DNQ+CsBIMI8O
-	 SsEHdcJidLFVaW7J3EyzLXnuv/gwjW2wA/reUuxDDzh4D+BWHk1ViWMkyTHN+5TiIc
-	 qzJ1f/S9xcVNmY5UrlJfmOe6f3SaZnB0MJuI7h19e+HoSB6XWt+EtOgfJpveq3F/ga
-	 nKlR9gUeYuXAN9ixRxRB4HLn4Byx+zKDOqf6VQthlSEWEsMmd5aRvhV69cGtigTFTf
-	 H//en3rOBHi+ngpDo5YUWVO/9SjtDgIRC4k1mxYMnITgyn8uL1+GKUYjmKdpio1t67
-	 b5NqUZnLHcMtg==
-Date: Tue, 8 Jul 2025 08:24:04 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, Willem de
- Bruijn <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet <corbet@lwn.net>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 net-next 0/9] virtio: introduce GSO over UDP tunnel
-Message-ID: <20250708082404.21d1fe61@kernel.org>
-In-Reply-To: <20250708105816-mutt-send-email-mst@kernel.org>
-References: <cover.1751874094.git.pabeni@redhat.com>
-	<20250708105816-mutt-send-email-mst@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cGb/ayJ1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=fZH6UnjkpeTO2OIVhXQ7FSseI1MHzZZnRXHu/XXggXk=; b=cGb/ayJ15an3n/Doh/RYA5ZVcr
+	v8m8PrekhBnbL+cthGzZOfQa0di8WxNUqa0NHL+7cEo63vrbQWacj97d7GHZEB52/IV0IcCzzopy8
+	SajvWmXt1NJu6/WCpgzim3kXwuU4IXtmHmcBkPTLetNZgjNaU3WptmUu6grjVcfPO47NljmsgKFMO
+	SBJbITJPLF2XaTJVrvML1sNRF82M/DdumSzKCQOdKqA6Fhdc3iaNKtJqptrX2Ao2NRjMUppcFg+2p
+	CzM2gKN0CjuzvqWEi1ulPACHucgvYNu32TsKrFETpcC+C7wVP7kMRcs9EUI03w8YDtAg6uWFHKsMj
+	DVgk2rCg==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uZAEs-00000000CdK-3ASB;
+	Tue, 08 Jul 2025 15:28:11 +0000
+Message-ID: <afe702b9-ec02-4c58-81e3-b4c244553e20@infradead.org>
+Date: Tue, 8 Jul 2025 08:28:07 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next] docs: kdoc: various fixes for grammar, spelling,
+ punctuation
+To: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20250707050135.2660457-1-rdunlap@infradead.org>
+ <87qzyq6aeh.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87qzyq6aeh.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 8 Jul 2025 11:01:30 -0400 Michael S. Tsirkin wrote:
-> > git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_07_07_2025
-> > 
-> > The first 5 patches in this series, that is, the virtio features
-> > extension bits are also available at [2]:
-> > 
-> > git@github.com:pabeni/linux-devel.git virtio_features_extension_07_07_2025
-> > 
-> > Ideally the virtio features extension bit should go via the virtio tree
-> > and the virtio_net/tun patches via the net-next tree. The latter have
-> > a dependency in the first and will cause conflicts if merged via the
-> > virtio tree, both when applied and at merge window time - inside Linus
-> > tree.
-> > 
-> > To avoid such conflicts and duplicate commits I think the net-next
-> > could pull from [1], while the virtio tree could pull from [2].  
-> 
-> Or I could just merge all of this in my tree, if that's ok
-> with others?
 
-No strong preference here. My first choice would be a branch based
-on v6.16-rc5 so we can all pull in and resolve the conflicts that
-already exist. But I haven't looked how bad the conflicts would 
-be for virtio if we did that. On net-next side they look manageable.
+
+On 7/8/25 7:10 AM, Jonathan Corbet wrote:
+> Randy Dunlap <rdunlap@infradead.org> writes:
+> 
+>> Correct grammar, spelling, and punctuation in comments, strings,
+>> print messages, logs.
+>>
+>> Change two instances of two spaces between words to just one space.
+>>
+>> codespell was used to find misspelled words.
+>>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> ---
+>>  scripts/lib/kdoc/kdoc_files.py  |    4 ++--
+>>  scripts/lib/kdoc/kdoc_output.py |    8 ++++----
+>>  scripts/lib/kdoc/kdoc_parser.py |   20 ++++++++++----------
+>>  scripts/lib/kdoc/kdoc_re.py     |   24 ++++++++++++------------
+>>  4 files changed, 28 insertions(+), 28 deletions(-)
+> 
+> kdoc is kind of a moving target at the moment, so this patch doesn't
+> really even come close to applying.  Hold off for a bit, then regenerate
+> against docs-next?
+
+Sure, no problem.
+
+-- 
+~Randy
+
