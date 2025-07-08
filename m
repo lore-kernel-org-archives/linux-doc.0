@@ -1,143 +1,187 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131F922ACFA
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 07:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF2729826D
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 07:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751958733; cv=none; b=l4fqo3LgWHlE6q3vuPuzaH4QoXojhBUJU0TUfKrGziMEHF9DCcIrDTuIenVKZ4Dx8QfugvXFJr/UCFBCGqYhC/CJuQ+8Uw3DFaM4zk69d6asYmEjPwHOKaHeVKzbRAkaJuhAaq18N2Jk7OOBSojlIIybUJnZoZC2zO2TPIVyjD8=
+	t=1751959764; cv=none; b=RnDkeMHu3XW81MxcezwmlZfT7RNhT31Jx9E0zHJnj+rriMlXAJmp9K/0yEQmllirApwK6zC4eDbFlWiT0yF4MjQzqaoesmIHAAzLH21rlnjwBxs+Aq6GVgYuFEM5Yhi3q/ZgwlgVFrjS8nD2Z4qmANtvy2SCeJfMHhLkNE/HvYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751958733; c=relaxed/simple;
-	bh=5lwDy8ZYNMTW4ldI2+BzIqOokv8FO+QSb76sSEuZo+U=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bUBOaQ0NA582Z6/VTUBsRTTQNeIYyGhUNWRZpd/UlTZhdh6IfiRyzB3T7M0Vbd3qo/ncR9sckTpv4AV/DWXAvGwMsoXnbPWYknUHHHXSoF7GBF6lA81WzylveuujikL4TTeucyVmrBO57f5DO/Q2L1A6bkrcRfOxmm/ajVyUyF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a3EmyE9z; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751959764; c=relaxed/simple;
+	bh=Ovw8fHjX1L/38nilj6fgevmBkLMDrk6bhGz6/AMZW5w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IKlZieiHYHN8To2TFAzPK+IJosQIqpBABRnd7GO+Z9ZwcdH5bMGvviGEggNRp8gjAVWq98ub6AJPvcLSGtPMIx1LP+moDtqzp8Ee6OwAKpo4pSMThG69jO4DUOiBUbZkAxtQjOSDsqphhXBDVq7JK8fUzh1k97cJnrVsmNtr5ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=anPko4sX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/xE11s4n; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=anPko4sX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/xE11s4n; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a3EmyE9z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751958731;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6al2WSZTd7CdtJL8s2F8tIL0jpPencH2sAuuH9551kk=;
-	b=a3EmyE9zxPSfDeGSPMlMvR9Ae7FhNQ3F9TjSqLm6lLyEn0AEvmQ6PormYnS2OA0jrGQppY
-	JkzKLWsxKP9Ir9/AZPrlCSTni7ZtGAlMyQetyvs+Myd2LShBREg6lyCRQUx2R9frxJ99mX
-	j8OGBQqg32pk7OyJ20Max4ZNx4h5ojA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-410-PQrthmw3Pd2y_ikcI7uy2A-1; Tue, 08 Jul 2025 03:12:07 -0400
-X-MC-Unique: PQrthmw3Pd2y_ikcI7uy2A-1
-X-Mimecast-MFC-AGG-ID: PQrthmw3Pd2y_ikcI7uy2A_1751958726
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3b39cc43f15so1892660f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 00:12:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751958726; x=1752563526;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6al2WSZTd7CdtJL8s2F8tIL0jpPencH2sAuuH9551kk=;
-        b=bdphpcZ9JuLapxf8VyR7yDzAl1ztbhCmjeVVs0e5M1M3KPnbObRAR97FzpIzRz+vu7
-         v4Z2MqMh94etV7LXx/FsCUxwSAkyx2nUb6IGjb8izRvN2c36/jqae4F9G8s+1+f4Qzgw
-         OjlahywjJ8Rq6BUCMv5DQpWYhUDrYjpyFOzuJiiGk1gqXStiSZ9UDyewEk3UIbVvLIU5
-         8mML2XD8Tlrp9977I5rWoptkIX4VmgjY3PgGL6yNePLjjiwgkpBnaEsioGzwWe5ysGjc
-         gd/5H+hu30JAcooSK+JjcfTPxUnCI9DkgledbYKAZK3lfYKGtvEf6hhJsIpZWzUz/Obn
-         boVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwBp8+D02RqnP10pyAbha/x+0fGv+F/+49QH4+9VRep5beTGw0wyrvPYx7n4Ess+N0uoD8piIUNGY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/wslJpkVAhAhLBmTESpLgdG/wHEJPQGucpqbpFwFrFx2x+OXV
-	to5qc6z3T7bEJOwMfouY4vhuKQ4oBGUfc2v29BC/hdJEmE6yCch2j2O8WjXSsYajEMwIbS8IK4/
-	KU3aO6j7bvxlc79LeIumLjxuN+H8UZbJLA1R2ccgLqtDEZ6485W14y4wgvCekhQ==
-X-Gm-Gg: ASbGncsF++nPrJwvr5ZY/kL9/QLKwUPAEEbJj+RprswXwGgDtT94ODrNiv7v+PodNqi
-	OGcOwMaUDzschV1Jk1PNj4L/d15RF7E2u/E3Cnhl4mq2vqzh5giBPtBwMjO3RJGhF7hurxWdsdv
-	QPvlV2/AVktbfA9q6X+FeBp4JxsHfJ+vMob1B9sTer0Vs/q/ixypqGRlYAvOp8nnyXEbTdjuYWp
-	2TRayaJSBInFrd6g5fMnAMBypxIs6uD6aIjUOvTlxYssYCnOcNcExFAIQ31bZEhS52Wapc4+jRc
-	4HrwkAZlIu/OUxkvWr+GIx90lk6E/mhO0hSjxup9x3JK8Nx8BCqJZiqRDv18oUNrzwyNvg==
-X-Received: by 2002:a05:6000:2289:b0:3a5:2ec5:35a3 with SMTP id ffacd0b85a97d-3b49661da34mr13442611f8f.45.1751958726390;
-        Tue, 08 Jul 2025 00:12:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEUa0YAy1NBgIDOiXc5gNSB+BOVkjsJ3ZjAZUt++LCSItxzDjYj+HoOIwwZ6aldycNJxaG+/w==
-X-Received: by 2002:a05:6000:2289:b0:3a5:2ec5:35a3 with SMTP id ffacd0b85a97d-3b49661da34mr13442567f8f.45.1751958725979;
-        Tue, 08 Jul 2025 00:12:05 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2717:8910:b663:3b86:247e:dba2? ([2a0d:3344:2717:8910:b663:3b86:247e:dba2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454cd4938ffsm12723525e9.21.2025.07.08.00.12.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Jul 2025 00:12:05 -0700 (PDT)
-Message-ID: <41eb8d72-bfa3-4063-88af-1ec23593b0f8@redhat.com>
-Date: Tue, 8 Jul 2025 09:12:04 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="anPko4sX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/xE11s4n";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="anPko4sX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/xE11s4n"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 89E6C21166;
+	Tue,  8 Jul 2025 07:29:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1751959760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6lln9rOiRt0F1nbbex8lswqls/C0Nv7C+CE5X/JFzO8=;
+	b=anPko4sXvaCJ1i5eoiMc/LDs5DUZACKCQckDosGIVz393SniZ3uqVRIyMDmWYfFSWjy6yW
+	sHMWyVFjDtgrBztH2D9b6HLobLH7fnjuxwBwYkoLgu805cexn+XEuaZ2HAnwxDJbdBauez
+	7nsjgLbEwIV8+BckN02uNr4tDNGWgQQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1751959760;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6lln9rOiRt0F1nbbex8lswqls/C0Nv7C+CE5X/JFzO8=;
+	b=/xE11s4nIoKgDyLjnanMzcKx2W5JoxeYkNkvvT0gS9fENqK2Eg5SYT0KbmqFdJnX9DlG4X
+	4T1kB3qJo8Oul7AA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=anPko4sX;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="/xE11s4n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1751959760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6lln9rOiRt0F1nbbex8lswqls/C0Nv7C+CE5X/JFzO8=;
+	b=anPko4sXvaCJ1i5eoiMc/LDs5DUZACKCQckDosGIVz393SniZ3uqVRIyMDmWYfFSWjy6yW
+	sHMWyVFjDtgrBztH2D9b6HLobLH7fnjuxwBwYkoLgu805cexn+XEuaZ2HAnwxDJbdBauez
+	7nsjgLbEwIV8+BckN02uNr4tDNGWgQQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1751959760;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6lln9rOiRt0F1nbbex8lswqls/C0Nv7C+CE5X/JFzO8=;
+	b=/xE11s4nIoKgDyLjnanMzcKx2W5JoxeYkNkvvT0gS9fENqK2Eg5SYT0KbmqFdJnX9DlG4X
+	4T1kB3qJo8Oul7AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5C76B13A54;
+	Tue,  8 Jul 2025 07:29:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vE/2FdDIbGhMRAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 08 Jul 2025 07:29:20 +0000
+From: Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH 0/2] Restrict module namespace to in-tree modules and
+ rename macro
+Date: Tue, 08 Jul 2025 09:28:56 +0200
+Message-Id: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 net-next 0/9] virtio: introduce GSO over UDP tunnel
-From: Paolo Abeni <pabeni@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet <corbet@lwn.net>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <cover.1750753211.git.pabeni@redhat.com>
-Content-Language: en-US
-In-Reply-To: <cover.1750753211.git.pabeni@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALjIbGgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDcwML3dSKgvyikvjc/JTSnNRiXUMjSwOLtEQTQwMDMyWgpoKi1LTMCrC
+ B0bG1tQBN7kiEYAAAAA==
+X-Change-ID: 20250708-export_modules-12908fa41006
+To: Matthias Maennich <maennich@google.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+ Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: Christoph Hellwig <hch@infradead.org>, 
+ Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>, 
+ Shivank Garg <shivankg@amd.com>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
+ Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Vlastimil Babka <vbabka@suse.cz>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1878; i=vbabka@suse.cz;
+ h=from:subject:message-id; bh=Ovw8fHjX1L/38nilj6fgevmBkLMDrk6bhGz6/AMZW5w=;
+ b=owEBbQGS/pANAwAIAbvgsHXSRYiaAcsmYgBobMjAZwq4bIadh+QApGts2c/swA8ncrwsmKtMo
+ 4EvZOO04kqJATMEAAEIAB0WIQR7u8hBFZkjSJZITfG74LB10kWImgUCaGzIwAAKCRC74LB10kWI
+ mhZCB/4moRG7wbUo5VFK2hklpApaNqqAhUH1GG4eITpp989rTzBcea/NY7Yj567yptEZ4ANx1OF
+ KSG1qjwZfTQY9q8RqFbCKbAvI38S4DQtHbx9k0M7vMQzQB3vNT/kTX7DmNVCcBt5XKszUvG+s2p
+ kuetWngNnhAdHuVZ5LArP9VIN0vG9G0cz+y6tGdexgyp6AbM+5oJBzSfND9HU0nKQmywHfNMMI6
+ 4nirkg9N+Eh//w7sujcxYh4+ESZoeGBRbsiSPkVSUG6IpoKON6/Ll3EuyGR6GXPi/Jz0FT/N+ca
+ xbj5vRTZb9H9E8SZjPowV/VydwXou9ni+e5g2VLcP/uvZJHy
+X-Developer-Key: i=vbabka@suse.cz; a=openpgp;
+ fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLizo86y7np4cjncz9mwtfc8qs)];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:dkim,suse.cz:email];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 89E6C21166
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 
-On 6/24/25 4:09 PM, Paolo Abeni wrote:
-> Some virtualized deployments use UDP tunnel pervasively and are impacted
-> negatively by the lack of GSO support for such kind of traffic in the
-> virtual NIC driver.
-> 
-> The virtio_net specification recently introduced support for GS over
-> UDP tunnel, this series updates the virtio implementation to support
-> such a feature.
-> 
-> Currently the kernel virtio support limits the feature space to 64,
-> while the virtio specification allows for a larger number of features.
-> Specifically the GSO-over-UDP-tunnel-related virtio features use bits
-> 65-69.
-> 
-> The first four patches in this series rework the virtio and vhost
-> feature support to cope with up to 128 bits. The limit is set by
-> a define and could be easily raised in future, as needed.
-> 
-> This implementation choice is aimed at keeping the code churn as
-> limited as possible. For the same reason, only the virtio_net driver is
-> reworked to leverage the extended feature space; all other
-> virtio/vhost drivers are unaffected, but could be upgraded to support
-> the extended features space in a later time.
-> 
-> The last four patches bring in the actual GSO over UDP tunnel support.
-> As per specification, some additional fields are introduced into the
-> virtio net header to support the new offload. The presence of such
-> fields depends on the negotiated features.
-> 
-> New helpers are introduced to convert the UDP-tunneled skb metadata to
-> an extended virtio net header and vice versa. Such helpers are used by
-> the tun and virtio_net driver to cope with the newly supported offloads.
-> 
-> Tested with basic stream transfer with all the possible permutations of
-> host kernel/qemu/guest kernel with/without GSO over UDP tunnel support.
-> 
-> This is also are available in the Git repository at:
-> 
-> git@github.com:pabeni/linux-devel.git virtio_udp_tunnel_24_06_2025
-> 
-> Ideally both the net-next tree and the vhost tree could pull from the
-> above.
+Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
+part to avoid controversy converting selected existing EXPORT_SYMBOL().
+Christoph argued [2] that the _FOR_MODULES() export is intended for
+in-tree modules and thus GPL is implied anyway and can be simply dropped
+from the export macro name. Peter agreed [3] about the intention for
+in-tree modules only, although nothing currently enforces it.
 
-As Michael prefers to hide the warning in patch 4/9 and this series in
-the current form has now conflicts with the current net-next tree, I
-just shared a v7, with a more detailed merge plan in the cover letter.
+It seems straightforward to add this enforcement, so patch 1 does that.
+Patch 2 then drops the _GPL_ from the name and so we're left with
+EXPORT_SYMBOL_FOR_MODULES() restricted to in-tree modules only.
 
-Thanks,
+Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
+in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
+8250: export RSA functions"). Hopefully it's resolvable by a merge
+commit fixup and we don't need to provide a temporary alias.
 
-Paolo
+[1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
+[2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
+[3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
+
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+Vlastimil Babka (2):
+      module: Restrict module namespace access to in-tree modules
+      module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to EXPORT_SYMBOL_FOR_MODULES
+
+ Documentation/core-api/symbol-namespaces.rst | 11 ++++++-----
+ fs/anon_inodes.c                             |  2 +-
+ include/linux/export.h                       |  2 +-
+ kernel/module/main.c                         |  3 ++-
+ scripts/mod/modpost.c                        |  6 +++++-
+ 5 files changed, 15 insertions(+), 9 deletions(-)
+---
+base-commit: d7b8f8e20813f0179d8ef519541a3527e7661d3a
+change-id: 20250708-export_modules-12908fa41006
+
+Best regards,
+-- 
+Vlastimil Babka <vbabka@suse.cz>
 
