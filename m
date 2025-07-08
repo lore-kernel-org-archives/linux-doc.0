@@ -1,73 +1,63 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF6A2E3AFC
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 15:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F402E264F
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 15:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751990260; cv=none; b=RPNvhPdFU9M2Pe2cEIZJOsVPewOA6H2QkjVWOhhVICMQ9T6rfHdVZ3Tqr9KKBIW7l8RATlOzOMZwtcT5bglL24vF/Aqei1QDQZTm+HwsE8DyWfoUS0uwZ63TmhAgFLQGRFRd+taFHJwgBYoKBABT6IhR5+n4/k/BHuJH3b1YDvI=
+	t=1751990285; cv=none; b=lGyhM3dHcinwfouDXua4+RjMytETyfXOUZmovKpl80UxNwmZPFgxRKuRxowfkgfnGt5aJHs3LFnyJQ4joI8PxsuAdeZOcnquOVFEIKD7TROgLOHUa/YHtpenqDFylYtwfS4nvbBl2E6POlIK/S4jX919blk8hohh3JJFjiYZpcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751990260; c=relaxed/simple;
-	bh=3YXcjALQvcsC5zJJ90z/Tt2gqOrb/rdUD3FPzcqMMGs=;
+	s=arc-20240116; t=1751990285; c=relaxed/simple;
+	bh=7gQeCLAZtQEfIyXXcezsvaIrZXV7Qk5Jv0/UhljKckk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bp+MsOOcT3WiV68grbOma1SA8ef5Ek0VGPoQeZ8Ag+1fErqdWutO7VpVimqS2DlpizJ52i2ay9Lt8MmjsYxtFMJGavyV0Lzjn/rboEwXXi6gTxd7Sff7lV50UlrwHsrCAK3IPEvzSvESJ9sA/X2HQ+hxbVU9nOz9CVli0uUtQPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ChtANLo6; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=FAq2fYR90jR7OTR5Qxx8TQsuOzW3JHzckZdVi+qptTTiH5CzuXRsFccYYgbuSfyaIx7JrgnQwaiALxzjuTEJW6M4aLFmGKgScj4CuTaneFWnAEt3OCAL4WjTeNKBimP2POCw6MW4agIP+2fG63JGTCqM4HZ6iFPzp9cincyRKPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JqQX9nS/; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ChtANLo6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751990257;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=4RZO/B6cckBZV2TmP8OYCYVRHKXld2Kk5UsEofX/mOs=;
-	b=ChtANLo61K2yZonTLdRUFvBjH8hiZjzIbe8WOgazP6CpcikbCJsP5aI2ggArWPUIvNI3fK
-	0TFW2mfUtCuHsfj8fiH573kmM7/BQPMEFIImwoO1S0jgFevxPrvWoG/02K+DlASApMgWTw
-	uVGRikJ8SHtEPJ6LrvW0JOJxFSv6/xc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-597-LqLdspW6NUusfNq5NkN11Q-1; Tue, 08 Jul 2025 11:57:36 -0400
-X-MC-Unique: LqLdspW6NUusfNq5NkN11Q-1
-X-Mimecast-MFC-AGG-ID: LqLdspW6NUusfNq5NkN11Q_1751990255
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a4eeed54c2so2628493f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 08:57:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JqQX9nS/"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-60c5b8ee2d9so9977983a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 08:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751990282; x=1752595082; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tiJvxbpJm4ueaILExBT2ruQnafJPKLQnKbXYAJpzmYw=;
+        b=JqQX9nS/QiWWJ+Al0rJUSn3Qb3bPIJlfOylkeHvFqOE3KXrEZgyy9SafPhhlAzxaB6
+         vcE/O7Bo8K972vCtMf4hJ5AKb6haJ+EgOeJZwR+Ve/gIwXmBpIbfWmIXBo1lCYbm9xpo
+         C/o7ve5Ptb5po7C56fKKpKNK1R7x0nelTcstMciGo+27uammt/5hZ2HVY4Ai+DHLJzbw
+         PBd0XOx3STzQO9/Wrp6q2pHAne81pMynhU9IHhVBcuWWQNUIGyn0rJIobR9EV7861bNE
+         uOGcfgpXuVAUTb0PVfL3tY2WL2qM2a9frAKTiB0wVHJC89N3FVqH6+F76zOwG8tkT7S8
+         ANLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751990255; x=1752595055;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4RZO/B6cckBZV2TmP8OYCYVRHKXld2Kk5UsEofX/mOs=;
-        b=feeGVOIGPlnGQD/VJ59ueWOqdy2fN1T7NWHyDaIGuSGvOx0rCUhY+MbvXiZiV96oue
-         /qipEBpXW64/8VlDp+8vLfca1xlggog/RTBVTNkgu/TAC9MkrHuC8to7LATJT9RtDJMC
-         YMl/o6OSbCngnZRv426sHdMx/RdnnTermdaHTCruZNCzxcK7zGoQ/uh5rOLSR6nm0+WZ
-         J8PatlLirnX6qpcMbLZj9fdBxn4icXFsdmtRBQxLqvUmrrzV0YfgC8QPThFfb3y5CFcX
-         SH4pPzGk+PxnzInW+T04+MQJxNvdrknQK2qL7BjD6OyZrqzNYDHlgK7ydS6roCB7PXUn
-         2rKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUj0J2WSV++HZju6SLQnF5mY9MAILBjuKFdXTW/7KrJI0a1EHEwb+rBfMhjkrqN1x1B99I5KCOIhgw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7vzL2wUK9JWcDIiw7jJ5lUzP47z9EmKSuWUSITFgjPtyYjPQC
-	5IKY8E1twXCGA3DRsq5Z8TLfEG6UOqs5YX2NTvaqFNS/VIO9/aim04cMK/SjbuwSCTKwCB5g1We
-	0dY9YPvhNc45am0Johyxzdxw4M9WAMbtuB5IcADszBGUTLwmUZO9UgmmhcutlHw==
-X-Gm-Gg: ASbGncueuZCBtL8xWtT11+e8qhPoFn55XQZBPteDwyhsDiuTXaHixx+Eq8Eq8qQk5B4
-	JbcY631evucyWgxaSO/8IOb8usQnzysFD7foTCKuDMn90ZkxAEy2rLP/1W+/37NBfi7KWVFhraa
-	g+z6b64qS5UwLz4vz9VjBIVYhERYqj1PiOa843xsvwaZaf9plHyLwhWpz+TRqK3qq5HTGPQ0DJF
-	kDTqdKL690arqSAW3t7IOn8XWbdyGOcnzsAwGbLjd10G7fz79wgS7KI2k3Vv42d7q0HLdqyVOcw
-	NHysuGiRobQJLVxuXCWYoz32yMwFJoYQS3c7CUilZ8sQhbo7+avrKAlSjpNhH6Lc5EbanBUa/fU
-	v3BaYmqmKtiBifNRNBNsMoYBB9kWkHOstxoeQzh2NmqJEDF87OQ==
-X-Received: by 2002:a05:6000:41d4:b0:3a6:f30b:2dd6 with SMTP id ffacd0b85a97d-3b4965f6d96mr17901726f8f.26.1751990255376;
-        Tue, 08 Jul 2025 08:57:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEcGSrfGZ1BZUugI8BDX663vUiqM3J2TknJLhq+/2BgGK2arLtn/575E++y4wnCR+TyAdpncw==
-X-Received: by 2002:a05:6000:41d4:b0:3a6:f30b:2dd6 with SMTP id ffacd0b85a97d-3b4965f6d96mr17901669f8f.26.1751990254893;
-        Tue, 08 Jul 2025 08:57:34 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f1a:f500:4346:f17c:2bde:808c? (p200300d82f1af5004346f17c2bde808c.dip0.t-ipconnect.de. [2003:d8:2f1a:f500:4346:f17c:2bde:808c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454cd3d3f73sm26143715e9.0.2025.07.08.08.57.32
+        d=1e100.net; s=20230601; t=1751990282; x=1752595082;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tiJvxbpJm4ueaILExBT2ruQnafJPKLQnKbXYAJpzmYw=;
+        b=PECbiUnEIvWK7BKZkPWlr/erwFeoGBKaCIiNZVOeCvJjHIWCShBWD/ygg2NVGrZNiJ
+         rVoBkt+p+89fbIVmMHtmb73DO3qhO2iySr/cl5G5/KSsa1EMS/o2gcsabqGPGUIKsBOq
+         g/H4YYr2g3O8EWWRqa2gkyMycA78Ytb1H4JJlR2j2dFaUTQRWN6G5/z0t/2zKV0vTFmI
+         oDp1Xi6xc6hlvZnG+3Zxy60hCNcGSR/mdHMKNSP1Ceb9DVF4wwM+Ie11IGx6wcOuDATW
+         jz400cziMFhIG6d/FIX5ReX8YYegy44wk87kUuitLDKPeddB9jrp48R9GL7WptMSqZ97
+         I3zA==
+X-Gm-Message-State: AOJu0YwBJKnsyJ+PrSqEhDL/hwslQ2xGB0ONuN/+f31q/IvxA9L7mC+N
+	5YmlIbOT96Oo8N/3dtJ5G9ZTaT5b97pPx/bJTXCtPurClyRdKRqhA6+800P/mmn1ptg=
+X-Gm-Gg: ASbGncvVptmjwjbBs1PsKQLLneOMTXZ/zRwDupgw1Op5MxNVQ3qjYNCh7KPC3FCeK0e
+	od+Ea4QDayPcld5QW32h22qnUtTrvIL9MFwd8VFQssiEyqVDQJp3dKE9urcJXOhQI0fZg1nmAgv
+	Pw41WkRfg6Wf9JToycEbSmjKFAsGYqUBweoOMbb1RZFqEKcaAcbnRl9XtFkjfeAymFIM/bCgbmW
+	yQKPuvu+75jtDgKPEfBX5JNP6ED1w41ZTC5ETY8BtSrYtBkXqc7P+jTz8F+5dSGI2qgGwSscl5P
+	eZQ4Y0/7PVKgOX3qnxUq+6WaQ5s470x8HtxJvfUdeV6bq7F36Ii+lmtjIHOBtMw8sNGX4uE=
+X-Google-Smtp-Source: AGHT+IG00ZItLfvhtpCxt6kkcwqcafrRvWaaK7c0sFOt4CTrsTCYl9LvDHEYPMR0h+/qH0anL1ixPA==
+X-Received: by 2002:a17:907:1c9f:b0:ae3:f2a0:459f with SMTP id a640c23a62f3a-ae6b0ebac72mr353922366b.54.1751990281967;
+        Tue, 08 Jul 2025 08:58:01 -0700 (PDT)
+Received: from [192.168.0.251] ([82.76.204.12])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fcb8c80acsm7396418a12.80.2025.07.08.08.58.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Jul 2025 08:57:34 -0700 (PDT)
-Message-ID: <e35a4316-f6cb-4f1a-b338-4e62c0974d2c@redhat.com>
-Date: Tue, 8 Jul 2025 17:57:31 +0200
+        Tue, 08 Jul 2025 08:58:01 -0700 (PDT)
+Message-ID: <cabab318-95a4-4e81-a931-458ee6023f3a@linaro.org>
+Date: Tue, 8 Jul 2025 16:58:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,129 +65,69 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 01/15] khugepaged: rename hpage_collapse_* to
- khugepaged_*
-To: Dev Jain <dev.jain@arm.com>, Nico Pache <npache@redhat.com>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: ziy@nvidia.com, baolin.wang@linux.alibaba.com,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org
-References: <20250702055742.102808-1-npache@redhat.com>
- <20250702055742.102808-2-npache@redhat.com>
- <9076b4be-8b1d-4434-a72f-d7a829a1a30a@arm.com>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2] PM: add kernel parameter to disable asynchronous
+ suspend/resume
+To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Len Brown <len.brown@intel.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, peter.griffin@linaro.org,
+ andre.draszik@linaro.org, willmcvicker@google.com, kernel-team@android.com
+References: <20250708-pm-async-off-v2-1-7fada54f01c0@linaro.org>
+ <18c12f92-2194-4244-8793-5d916edfd4e8@infradead.org>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
- 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
- rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
- wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
- 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
- pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
- KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
- BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
- 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
- 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
- M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
- AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
- boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
- 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
- XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
- a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
- Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
- 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
- kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
- th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
- jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <9076b4be-8b1d-4434-a72f-d7a829a1a30a@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+In-Reply-To: <18c12f92-2194-4244-8793-5d916edfd4e8@infradead.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04.07.25 07:14, Dev Jain wrote:
+
+
+On 7/8/25 4:36 PM, Randy Dunlap wrote:
+> Hi,
 > 
-> On 02/07/25 11:27 am, Nico Pache wrote:
->> functions in khugepaged.c use a mix of hpage_collapse and khugepaged
->> as the function prefix.
->>
->> rename all of them to khugepaged to keep things consistent and slightly
->> shorten the function names.
->>
->> Reviewed-by: Zi Yan <ziy@nvidia.com>
->> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
->> Signed-off-by: Nico Pache <npache@redhat.com>
+
+Hi, Randy!
+
+> On 7/8/25 8:16 AM, Tudor Ambarus wrote:
+> 
 >> ---
->>    
+>>  Documentation/admin-guide/kernel-parameters.txt | 11 +++++++++++
+>>  kernel/power/main.c                             |  9 +++++++++
+>>  2 files changed, 20 insertions(+)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index f1f2c0874da9ddfc95058c464fdf5dabaf0de713..33ca6b881b1d77bdeea765b19291a90b2a82e8a3 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -5000,6 +5000,17 @@
+>>  			that number, otherwise (e.g., 'pmu_override=on'), MMCR1
+>>  			remains 0.
+>>  
 > 
-> You are essentially reverting commit 7d8faaf15545 which adds the
-> hpage_collapse_ prefix. Since in the next patch you also unify
-> madvise and khugepaged, removing hpage_collapse prefix would
-> make sense, but then I tend to agree with Liam that dropping
-> the prefix altogether is better. Having all the functions in
-> khugepaged.c prefixed with khugepaged_ seems unnecessary work.
-
-Yeah. Or just "collapse_". Anything is better than this "hpage" stuff.
-
+> This should be more like:
 > 
-> @David, I forgot where you replied but I remember you saying
-> that we should not introduce MADV_COLLAPSE mTHP support for
-> now?
+> 
+> 	pm_async=off	[PM]
+> 
+> or
+> 
+>> +	pm_async	[PM]
+> 
+> 	pm_async=	[PM]
+> 			Format: off
 
-Yes, that's what Lorenzo and me discussed. Better to keep it at PMDs for 
-now, as that's what the current interface promises.
+Indeed. I see this second description, "kernel_param=", largely used in
+the existing kernel parameters, so maybe that's what I shall follow.
+However, I don't really know which format to choose, I see:
 
-In theory, we could do something like the following without causing too 
-much trouble:
+Format: <string>
+Format: { off }
+Format: {off}
+Format: { "off" }
+Format: {"off"}
+Format: off
 
-Collapse to the largest THP spanned by the range.
-
-I.e., when collapsing a 2M aligned range, only use a 2M THP.
-
-when collapsing a 64K aligned range, only use a 64K THP.
-
-etc.
-
-Because that would keep existing behavior mostly unchanged.
-
-
-But I would defer all that for now ...
-
--- 
-Cheers,
-
-David / dhildenb
-
+Any idea if there's an already agreed string format?
+Thanks,
+ta
