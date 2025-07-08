@@ -1,65 +1,64 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899C121C9E4;
-	Tue,  8 Jul 2025 14:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5A32DC35C
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 14:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751986565; cv=none; b=niHqOVV48JSa2jvHIH7xXUS85NkEw83lUD9CAiMUPTjOFgsLvREM+7MqQ+ZC+7dA+qlTcoauDVXBY7rouHObAHwJdrl1DUTnNLMRxWHCLsOS9S69jv6FWFBK2VXU5XQcDOIy9jHPFl3scsSFQlFGaJa5nzSgYzeCpymTj/FkzSQ=
+	t=1751986709; cv=none; b=MdQYsZ8o7vpaGNB+bbojdjbfQvgvzT99ngjW5XsmBEO20LAywNJVoDO815m0+chkHc7IxvkaQrXvOoBfXBIoUGn9cDYbKrXtqox4HRBIspSIxfS77kPo/qDCxZvZDpH+NAvEn6czEkVU6dUK+hvYdEB2nsNMoeLn14utGguPxHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751986565; c=relaxed/simple;
-	bh=QvcvBKdOqvN+FdtFM4i8mXL4RHfEqu+iCKwDwsYIHE0=;
+	s=arc-20240116; t=1751986709; c=relaxed/simple;
+	bh=8s0xa7L5BjSxz1JQE/gd29Vqw8ZPITgvO9C8rgWyOmE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JcEay9TgEySjIeqfbEA5qxiKXiTBOAiZYbzUDm/WnoJKuvJgA3gyAQfEcRhYv4gho5tUbqMvpDVHSlYA73EPYzYIEns/zLiTsOQfCzIswPtdV7WdKaEPud3W1QDRhTq6+b5bsD5latezdBZ0Ge2JNUSjs/Ubdd954GNRZyI6Dxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UBKBZHPE; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=Gmv4evBBM3iw05SP47wwygOBSn6Spa0q2LEVf75rVAQJClQPH5xQOY4AbJXyz3kYp0y4VuQRaaprpLb/TtxB4tG9mlmOz/fxFcg6lZ7M69i4btTvUBKpSActqsYc0JFXky9gGMRBl4WLPS0kPqx/uTlERE3asrGAb1pp5jy0IZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ltm6PWML; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UBKBZHPE"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-23636167b30so45093495ad.1;
-        Tue, 08 Jul 2025 07:56:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ltm6PWML"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-60780d74c8cso6916880a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 07:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751986564; x=1752591364; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1751986705; x=1752591505; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=QigxD5Wv/KUlCgWSFremf+xJ9wVBD9RM+HfTWagLkck=;
-        b=UBKBZHPElzKR3+Qt44i/caxvFs3nitDvgxjhjI84CoQOTxdESNxf57SKRJ/i4Sa1eX
-         rIu49oC6mP5U50kPjkpMfQ1z1GIABskcyUkmJNXsSvofmVjff/GzVM80L+djQePPFFIC
-         j0n7HIDi+vFT78/66HWc61kDiEDxY5KknlCNXPpu7Ih47LYL0dQZVXjtC73g75PHN5ks
-         0Eipw7FmiskXUmKpUPw4Upfhmpf5N+rvkbEMskZjw9jPspsdm8tlbWNwdDGpLQV2+oCf
-         p4MYL8VvfnG+6EgiCeQyhF+QZbfQ+mKs1VUkBjtQ8WWBfy45UgNL0c8L5xLMl4iCgW+5
-         6xNQ==
+        bh=B4jT32HA4W2Qzu0z0BHKWxYGrYNQ+ge5ttUU4NoaGyc=;
+        b=ltm6PWMLLvzPXSej1/qnr/0tD4n2ONwu0CbcMgOU3gnLVgw8r0n6mcNIB2kVo5Kl5u
+         IjCpQL12ruy8RhrIeInMjmwj6MTWxPBVkX2HT6clbQkMZKagDqmgS9FBYGM0nLY9dgit
+         7VvjzUsBX32LtCvF/egtwSWaQ1ies0z46gDb10CsjrKOtx6YiDf2lGlfWfxjsszWMT7f
+         ZO/CpztCZZh6YKaicfcde+QL+SQ5pHSK87OXW6AKD09qEVGP/icXxd14NWB6Q+iIs65x
+         9Z5rS4bN1ojFPqgnaXYdNcGFryjUNvTAz6kUs/cUknWzHG9fgGrjXSdo/qTrxuf4M9RT
+         Kbig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751986564; x=1752591364;
+        d=1e100.net; s=20230601; t=1751986705; x=1752591505;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QigxD5Wv/KUlCgWSFremf+xJ9wVBD9RM+HfTWagLkck=;
-        b=ReH7FvZBmN7kD0U8ru4SzWdKZyTCDTJC9h/kzoQasYdyWAKSzsXwPbsXkL1L+mWd28
-         u7KFayjqJbdmRqaGi1+d8ZkZz3QTc9N0FUFGwicgHS5J554B09BEoCszzubG9h4SCsIa
-         qteZoVTVgyGZos4I301gwt62Jgx7PhCM0Wdd5QYOqVVIoE23yjak8NxzqOeOgd+k5Z5+
-         HbIj4/w6BmuD8koKFZf/NbAb5C9WtL718tZsQazuXuwT/jMwa1l2/WYTp/HHJHUwDnCA
-         71eFS3+PTAV+NK6qdnQ2qlJ2vzVoXiiBxoCUv4KtXODOVqmP0LXKXS9iodEJnUYLICHF
-         mjyg==
-X-Forwarded-Encrypted: i=1; AJvYcCW6CLaf7E9urtGgoIz3+/R4oHd7j15WLD6UIBhYIghrJ+coHTUvb5fO6eWN4elfVeGu1PE10mmwr6Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAvZiQl1yIWDhnSja4kKEWaEexaON7sdHWc9uBrXAME1OGxm/S
-	oFZ86sgBs2dtW8IFbJGrygh75gkKeoLcSDLMQop7WQZXDTAJAjmPfP0EUFwSnA==
-X-Gm-Gg: ASbGncvmeSEGkIosdc8+CwZI3nVaCft4NTg5XRj7hlFsZ1VBzGLstrnZVc/X8rIu6N2
-	dkJBX2CQxki48e0287N341xzypHWyQBJhdahvV8a+8QQM0Qf2HEQ4/wT/tQ9nX1iQZ6MeVMsQQy
-	hXoAI4QfdFne5mRQS//xq/6H3XZxwpA3L0B+ifEukusj5RDapbrE6134FxVGaImkxK+sQ2qJx3f
-	qV2//EoLruTRzMUL9qDnpe9APkzL1XASDORi73/VkS8fKMoEcJ3gqgGiei50h8RI7eWylVAgE7t
-	i1nuYiaBNa+q8AJ1Nd4E2WyyUL8Zg6h59a+UN6zLLjwQQ6gOkEJUNTZi5q3flgZfd1Nmobrqbfa
-	SIY6cil0TUfpA11kfPS7cjAZ6vV2GMbeb
-X-Google-Smtp-Source: AGHT+IHaAv0J975M7rh01eFOjJsc2Am4egwF+PFq3Rt5RGei9oC1sz39Liyd+QdzD80HzituvgiK9w==
-X-Received: by 2002:a17:903:27cc:b0:235:225d:30a2 with SMTP id d9443c01a7336-23c85ec7329mr209536735ad.48.1751986563698;
-        Tue, 08 Jul 2025 07:56:03 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8431a381sm111621565ad.20.2025.07.08.07.56.01
+        bh=B4jT32HA4W2Qzu0z0BHKWxYGrYNQ+ge5ttUU4NoaGyc=;
+        b=YsP02ArtY1HyWK0ptvSnnewpFvD2gFWpq83jPM5cwVMH41k1pEfxXyxgchitTeF9FS
+         9pFwookafa+kfFjD/SJrQYAEFaX0qNjgC2zDbDS22omoJ5COn8N6Ta0vufSIgCWaTX4/
+         g7pwCTFwM5Tl6dVrSALnDc3daSwVceCyzn7DcYFMSFB+dXYN2PuPtgAXT7HPaAfFdq6/
+         RSLaMFR2Vun30caUntBED8ZbwG9EO/ISE0qNLqLbxnsYgE8tmDYImkq6gKIrSM+XlZ/l
+         KL4xjFCsX6MZQ9KgPFPCSckqLjjcPyn5M3cb/L+zI6IbX8gJNhs7AeS+v2ifPcnhY/An
+         LIxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmCdCof74DIgK7SBrjiY7+LkaYC06B4xLP19wGoC1BRqYPuOgtmPJrP/ELUJI0IpLwQAiUK0+Q2eM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCt1DA4VITmf1XPuorREzXpbFpERi0E+Jn5WSWweEZTs44TjN6
+	lXlUQ79acE1fanlQfer2j+2XUZDFM1650uB//xdZclezKCh3CY2wCIHjsIdo0uWkoGI=
+X-Gm-Gg: ASbGncslTilMEv2vyPU3Nhpa+Obp8hj5qCvag1kRHn7kaMlWllCogD4qqJdM2dnobTe
+	QerFc3hAjKt4z1WYfthTZWnU14dNIEDRD2qaSYOeYRKHwR/+38akuHJG0+E/sha3aU6qvNUveDj
+	4Lp4h3BxRTo08rxFGavrq/t6ZmE9gYUNQnJgzXsmf5oCshApf6JFLVv248xQOmLFjMgrAESrgRf
+	xUCD/28AvsW6kP+VAGWMfJ8xfi63S/MNYirbPxBcONE/1QzkLoMV8EFGiUwgSSV7IF9XJF2/4qR
+	/qjFuca2k66sa7+fXOPZWg5Tou6YF8TRfb6DiMezEDlpCBJaGlTmcRR4C2mU0xHNgD6847g=
+X-Google-Smtp-Source: AGHT+IEyVGRav48RsWOQ+IbAhO5COYztnDZYY9ox0Xfv6AASPPJWInKbHNlJUCQb/6Tlb54HYzvLrQ==
+X-Received: by 2002:a50:c052:0:b0:610:5794:d83c with SMTP id 4fb4d7f45d1cf-6105794dc39mr1106147a12.19.1751986705123;
+        Tue, 08 Jul 2025 07:58:25 -0700 (PDT)
+Received: from [192.168.0.251] ([82.76.204.12])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fca66e566sm7314471a12.11.2025.07.08.07.58.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Jul 2025 07:56:03 -0700 (PDT)
-Message-ID: <9148ae7f-7954-421e-b5dc-366651f0bc48@gmail.com>
-Date: Tue, 8 Jul 2025 23:56:01 +0900
+        Tue, 08 Jul 2025 07:58:24 -0700 (PDT)
+Message-ID: <fae52bad-b78f-4518-989f-9624c6a749d8@linaro.org>
+Date: Tue, 8 Jul 2025 15:58:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,63 +66,79 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/15] Translate sphinx-pre-install to Python
-To: Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: linux-kernel@vger.kernel.org, Sai Vishnu M <saivishnu725@gmail.com>,
- Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1751318230.git.mchehab+huawei@kernel.org>
- <d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
- <87bjpu69q3.fsf@trenco.lwn.net>
+Subject: Re: [PATCH] PM: add kernel parameter to disable asynchronous
+ suspend/resume
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@kernel.org>,
+ Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ peter.griffin@linaro.org, andre.draszik@linaro.org, willmcvicker@google.com,
+ kernel-team@android.com
+References: <20250708-pm-async-off-v1-1-1b200cc03d9c@linaro.org>
+ <CAJZ5v0gMk+Jt5WBUB=+cvv2YoU+49nRxL4KPRGm9TAdzkUvQhQ@mail.gmail.com>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87bjpu69q3.fsf@trenco.lwn.net>
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+In-Reply-To: <CAJZ5v0gMk+Jt5WBUB=+cvv2YoU+49nRxL4KPRGm9TAdzkUvQhQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 08 Jul 2025 08:25:08 -0600, Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
+
+
+On 7/8/25 3:38 PM, Rafael J. Wysocki wrote:
+> On Tue, Jul 8, 2025 at 4:28 PM Tudor Ambarus <tudor.ambarus@linaro.org> wrote:
+>>
+>> On some platforms, device dependencies are not properly represented by
+>> device links, which can cause issues when asynchronous power management
+>> is enabled. While it is possible to disable this via sysfs, doing so
+>> at runtime can race with the first system suspend event.
+>>
+>> This patch introduces a kernel command-line parameter, "pm_async", which
+>> can be set to "off" to globally disable asynchronous suspend and resume
+>> operations from early boot. This provides a robust way to fall back to
+>> synchronous (sequential) operation, which can stabilize platforms with
+>> problematic dependencies and also serve as a useful debugging tool.
+>>
+>> The default behavior remains unchanged (asynchronous enabled). To disable
+>> it, boot the kernel with the "pm_async=off" parameter.
 > 
->> Hi Mauro,
->>
->> On Mon, 30 Jun 2025 23:34:48 +0200, Mauro Carvalho Chehab wrote:
->> [...]
->>
->>> The test script also ran the install procedure for system,
->>> venv and native Sphinx install.
->>
->> Which install procedure did you test?  The short one with the "--no-pdf"
->> option?
->>
->> I am asking because installing the full list of packages in podman run
->> of opensuse/leap:15.6 didn't complete successfully for me.
->>
->> And by the look of things, you stopped at installation, because you are
->> well aware of all the issues in running "make htmldocs" and its friends
->> after the install.
->>
->> I assume you (or somebody else) are going to update the script once this
->> series is applied to make the suggested lists of packages be useful for
->> newcomers.
+> IIUC, this effectively is a way to change the initial value of the
+> existing pm_async sysfs knob.
 > 
-> Thanks for testing this out.
+> Might be worth mentioning in the changelog.
 > 
-> My question would be: are the results somehow worse than those provided
-> by the existing, Perl script?
 
-Not at all.  Mauro made some improvements WRT opensuse/leap over the perl
-one, but there remain a lot of rooms for improvements here and there. 
+Right. Will update shortly.
 
-I've been ignoring sphinx-pre-install all these years, but the impressive
-test results presented in this cover-letter made me test it.
+>> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+>> ---
+>> Dealing with the pixel6 downstream drivers to cope with the changes from
+>> https://lore.kernel.org/linux-pm/10629535.nUPlyArG6x@rjwysocki.net/.
+>>
+>> Similar to what people already reported it seems pixel6 lacks proper
+>> device links dependencies downstream causing i2c and spi client drivers
+>> to fail to suspend. Add kernel param to disable async suspend/resume.
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt | 9 +++++++++
+>>  kernel/power/main.c                             | 9 +++++++++
+>>  2 files changed, 18 insertions(+)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index f1f2c0874da9ddfc95058c464fdf5dabaf0de713..55ba3e747d86c09a0696e105a1d9cd99218f0c07 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -5000,6 +5000,15 @@
+>>                         that number, otherwise (e.g., 'pmu_override=on'), MMCR1
+>>                         remains 0.
+>>
+>> +       pm_async        [PM]
+>> +                       If set to "off", disables asynchronous suspend and
+>> +                       resume of devices during system-wide power transitions.
+>> +                       This can be useful on platforms where device
+>> +                       dependencies are not well-defined, or for debugging
+>> +                       power management issues. Defaults to "on" (asynchronous
+>> +                       operations enabled).
+> 
+> And here too because it is now unclear how this relates to the pm_sync
+> under /sys/power/.
 
->                                If this change regresses things, we
-> obviously do not want to proceed.  If it reproduces the old behavior in
-> a more maintainable language, then hopefully it is a step toward fixing
-> things in the long run ... ?
-
-Yes, translation into python would help a lot, I guess.
-
-        Thanks, Akira
-
+Sounds good.
