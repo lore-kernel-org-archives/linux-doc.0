@@ -1,93 +1,77 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553FB24290E;
-	Tue,  8 Jul 2025 21:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55062459C6;
+	Tue,  8 Jul 2025 21:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752009175; cv=none; b=qOyK+8Zqg5rBhZggyQ0p44zhshVgJDVeyZanbi31ptk2VJNeNgyZJeRt/08YELl+sm7yuD3JEGkGjWCzCXAMuJPYuiZs9Zoz1uqwzVJ3k7uXRCRlLfpr6P8xsKknudlp+2pypVk8KJ/HHaapRqUrziZ29sEvJz3vs6C7QuPtL6c=
+	t=1752009340; cv=none; b=VVRvNSWUCp3OKkw7w+K/zw4kpiJWi/vJG39WQC1NWevhABtIO54LIoewntB5vbKyoMb3gPiuyC2nVK20GavClQdhbm8A51DDp115dm4dUTNERXtb8j7FQJxbJmlk+F+x7d16ovT/TIMJCqsq988EikG1018Nj6QESYMhQJHW3+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752009175; c=relaxed/simple;
-	bh=WHPQ1X00dK/NL0Zwe5X897Rr/QyO2GlGUXdGHCynPQQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EUBXGgrvyPWZ9qeytxcfAtZ6mDWj+cOj7N4b9AE6K3k5qU+C/gCWoM6GgpLA8gfgU4YBHthkQud0S5B945S4ELkyqat898Tm9wloGT6wl5Ymjkdzdmd/49PAEwiqOWqj92Kzn0A65s0ffQK28TKGgQkdgFTN0uRV/FgKoz/woYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEYAr6aa; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752009340; c=relaxed/simple;
+	bh=EsNrzNjV1ejegXwRqHZoNtXa4eBCU0UHv2etOg/t2Cs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=evyU04f1mVZLSf09j3VxH05WAqFXm8N9xu5pcLdD2+pBChlIn88MKlW3WlgFZ3/LaTytrin0EcCYwSazNhOgF1h3avgDHpz+iIkDbrgqTEAdMsmCl/lpyupiw4IvcYTmfYXhNhFFnhVXN4L8Mv+UxCnr6fn79oEf9PEoqjLBVDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXLgx+Nc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEYAr6aa"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4a58d95ea53so4790361cf.0;
-        Tue, 08 Jul 2025 14:12:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752009173; x=1752613973; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f2oGPkj1+e6ZzCV+BwunmQ0FgWNvFRc97SBF/zT2kb4=;
-        b=kEYAr6aa5qz8pmnC+kpz195e7Lr42kuqKzbUIC4PZk9Mu5SRb8pydgKwGMVEG1QZX+
-         8KHA8IcbDj28NSRjmfRmQ7fDlX0S7yNJwXyxMHmfckbSBVdKkHMh0zcMNCTU18ymF9vC
-         Z0ETpNENfVD1neI7pN1/WUgLfx1C5hWk8Wnf6UPsll/xuV639phUaqv6SEVBHQFCG15U
-         3xCCEc7L4QxTDyH66cSoEkct8lmO4h8tnib32NGgqIp6xgGgCdHJk4BPsxTp1phFaUi1
-         WXJ2qw5lv5leEcPGPqe+DlatiiiKdW7N18+S+whbB9hKwghkF97IS9d02M8MbFnE5kaP
-         ph1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752009173; x=1752613973;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f2oGPkj1+e6ZzCV+BwunmQ0FgWNvFRc97SBF/zT2kb4=;
-        b=KkmiSCnXofrwq+Qy3Y9RqvCx8VBDm2Qw+c0udJ/ovsmkmlVz3QDmmxmDYoVeQfthwa
-         mtGpRqZzJBJe6SrDKzhWi5i9zjhIUBtI8d+Sb6vDckeHsmv3W3/H1dz4FQvtGPGRvKFm
-         7IM84sdvbOgNciUqHZdi8OQACQDhxVkxmDVdVSWFNFTLjBs53jfyWXEVSOF84qOssvCp
-         hzlRvZCnzYA0puuWrICMnchifGAGq4V6cMSj+NebCg9/BoA4SwNSlrvQdXNh7vU8EPEk
-         icmwmcvORfvbDDFXzxIzWxDhQ7B5snooxI9EUXI51njKtG0jIORwCLfzXTq3ySOtGuR+
-         utZg==
-X-Forwarded-Encrypted: i=1; AJvYcCUM2SujOdrxbxpVxMY0pj2rPQvdkWVD27phxHsK1+b6kovOdOq+2IYcyxj7R1MLEL2ZDq4IePrbV0pSOgKgPg==@vger.kernel.org, AJvYcCX7yQ1L+TfN4H2RipmiA2eBOcXXndCZXUY6r723sgFNSTbWuoafWP/m0h5kR9vL1H1FzTlPurTvED+tVQ==@vger.kernel.org, AJvYcCXEvCHwdQhMcxRNsG7rrY9roW9HN6dQAondZxnlMYQ3i0txZ5MjCNveLmZddr/YRvDXDXsqQuX4evyM@vger.kernel.org, AJvYcCXII6M7OS4VUxAw2kYdyKMsQrYTKTf3qB8r1yolSLIl4CW4ODNXcIaPISSPXpPCiIq5TL9wc1lAiE8o@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcLy2f8DyWtHxvHdG6cc06DpSjSjgYDthZQUrWnPdVyti1vf0p
-	yIptCU4rkTjpHh5jlZRxXlKBf+Ezfuz5UWjKfnVZoc+yCmA/qymZe09uYuZQwB8Gh/Jw7Ak8pTS
-	+CkTRKzegNLK2O9XimqJvERnwCiI58do7X3Hg
-X-Gm-Gg: ASbGncugcEXiARYTlS604U7VNh0Xw35cCs3qQDkDnkEuP24Pjz3p4rRvEaXDazkts6s
-	UFpBj1qyOJrQ2lmRWp9y5sfsNdVfb05EaF6XUUvLiofvBFCH8xm6A0Tt9onYr5hTeSYR6LZDwXY
-	outq3f7Lm0RK3Z/Raakh72ozbrU75K7SDpysEjtVvYQlg=
-X-Google-Smtp-Source: AGHT+IGxCVJpLD1WN9FUxd+61MwdovAd25GfBDp2pHqBMaA+5eKnsXsWYlx+E2Xzp3tgOraZ0J9J7jqGMceu4pZJfJ4=
-X-Received: by 2002:a05:622a:350:b0:4a6:f0d0:d4af with SMTP id
- d75a77b69052e-4a9dc2735c4mr18050411cf.16.1752009173068; Tue, 08 Jul 2025
- 14:12:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXLgx+Nc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1168CC4CEED;
+	Tue,  8 Jul 2025 21:15:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752009340;
+	bh=EsNrzNjV1ejegXwRqHZoNtXa4eBCU0UHv2etOg/t2Cs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jXLgx+Nc/Il0M8mnaWaTErBAJYW6UH/b3ChhI1LjEWZ1ml5fkzHdaCaYOl99XYH/f
+	 g1fyCkze9zHQfvieSG51xhB6PFC2OrGkDq77mm8FzJaQOQGL28nTAU6Im5pWJPQfNr
+	 xgqKcDlEBibsvEy1PMprvnPeFxlxa+i/MW9vQ5YjpWVQINxY8D89YrmlgshJrTMUJP
+	 Qn3QU3pn1T8APdplhYULYG5GDoEyHqAAUw8EvUfsB631uCVtnUbOzHcQD4jAKlGI+k
+	 uK0BTZzRanm6MTE1WDXUn9iqYvh9qBBbOzzGpGcMDpVWAee9dsresSCF62LDyVSqpa
+	 kjbm7xmjPgNnQ==
+Date: Tue, 8 Jul 2025 16:15:39 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Kamil =?iso-8859-1?Q?Hor=E1k?= - 2N <kamilh@axis.com>
+Cc: linux@armlinux.org.uk, corbet@lwn.net, linux-doc@vger.kernel.org,
+	krzk+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
+	florian.fainelli@broadcom.com, hkallweit1@gmail.com,
+	pabeni@redhat.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, conor+dt@kernel.org,
+	netdev@vger.kernel.org, andrew+netdev@lunn.ch, horms@kernel.org,
+	davem@davemloft.net, edumazet@google.com,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, andrew@lunn.ch
+Subject: Re: [PATCH net-next v7 2/4] dt-bindings: ethernet-phy: add MII-Lite
+ phy interface type
+Message-ID: <175200933841.1032309.15245293992929519207.robh@kernel.org>
+References: <20250708090140.61355-1-kamilh@axis.com>
+ <20250708090140.61355-3-kamilh@axis.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250708135132.3347932-1-hch@lst.de> <20250708135132.3347932-9-hch@lst.de>
-In-Reply-To: <20250708135132.3347932-9-hch@lst.de>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 8 Jul 2025 14:12:42 -0700
-X-Gm-Features: Ac12FXzEh3jhezVsM9Yn9RD9LsQJ1pCxI4nlbDq2cmHUqPFOjSkqphPTgXPwTCg
-Message-ID: <CAJnrk1acMOb=0EQe6FZwzn_3tw8g-0HrDMjR1OrCBEQsZXyt7g@mail.gmail.com>
-Subject: Re: [PATCH 08/14] iomap: rename iomap_writepage_map to iomap_writeback_folio
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev, 
-	Brian Foster <bfoster@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250708090140.61355-3-kamilh@axis.com>
 
-On Tue, Jul 8, 2025 at 6:52=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrote=
-:
->
-> ->writepage is gone, and our naming wasn't always that great to start
-> with.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Brian Foster <bfoster@redhat.com>
-> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-
+On Tue, 08 Jul 2025 11:01:38 +0200, Kamil Horák - 2N wrote:
+> Some Broadcom PHYs are capable to operate in simplified MII mode,
+> without TXER, RXER, CRS and COL signals as defined for the MII.
+> The MII-Lite mode can be used on most Ethernet controllers with full
+> MII interface by just leaving the input signals (RXER, CRS, COL)
+> inactive. The absence of COL signal makes half-duplex link modes
+> impossible but does not interfere with BroadR-Reach link modes on
+> Broadcom PHYs, because they are all full-duplex only.
+> 
+> Add new interface type "mii-lite" to phy-connection-type enum.
+> 
+> Signed-off-by: Kamil Horák - 2N <kamilh@axis.com>
+> Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+> Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 > ---
->  fs/iomap/buffered-io.c | 10 +++++-----
->  fs/iomap/trace.h       |  2 +-
->  2 files changed, 6 insertions(+), 6 deletions(-)
->
+>  Documentation/devicetree/bindings/net/ethernet-controller.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
