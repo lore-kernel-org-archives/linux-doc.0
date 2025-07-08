@@ -1,1450 +1,684 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2087.outbound.protection.outlook.com [40.107.236.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613AA21767A;
-	Tue,  8 Jul 2025 06:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751956011; cv=none; b=TA0r6wZbduwTRK6Dprj0VdJnee/qvebLjS/GDus36RWY7bYx13+zKlqxhnhCFGBG5TvqdpyZvZ/OCAfrWaSMWZfeoyozQXqmH0WGu8hUrqOTrEuisMkUt/pAsbTbRK5vA51TNE2UvbFdlOmit8yg2BBnVein+nvezuk/e2twwSU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751956011; c=relaxed/simple;
-	bh=LteJZu07PT6WzkqSN18W59EP4T3eBju/4NJiac3wpLE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Mime-Version; b=jwhloyrzei7vT2x1ACP9hbSdR2c/45k2mmKeOB2zRagJLbtrUbpWUCuhXfXS9pBpQ8gcqevZvpU15iA/OAmj+fRT5ePDwTfIIuWFDnvQllpNqXCvamZ5gwHwIx69hchYcBaIo4lluNo+FadZCV1V3Zt3VbEkG/DvHv7FtTsdM1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Ruwe0gLd; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4622D2222AC;
+	Tue,  8 Jul 2025 06:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.87
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751956615; cv=fail; b=uMcB6T/F5uSPvUtzryZGe7sTRVllkfNRH/5kRzCH8HDEJ0/40K6+Jf/8hpnbOyxSikXC5J+xZElfYpOYw63uWX2WKTZcnBffsupIdMpAHTwPKrQXukQff2C91O7zEU3e13ec3q20F/QGN7Q0FyoRgQ4ZZlOUi6Z3fxr2JQ/GHew=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751956615; c=relaxed/simple;
+	bh=DvsJixA1p8vYcsvK/Qt1sEfwXrYpc00C4PDnc9am++k=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uoBcmOVE/ySltSnTmkL7HPhXMz4MulD3Ve87jc+U/dI/JV1YM1jdPANVWmv8jpl9TdRww1IYoDSGeaZBVJsJou45AyYrBfDYqngYkVJacQOleWLHA/gd9ijv6tPFj8fOhd9ciEZ3IrNJJxpKDlFmZW/TIFG8vABDVqzlFk0WYmc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xESwL0x/; arc=fail smtp.client-ip=40.107.236.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Ruwe0gLd"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 567KuAg6019426;
-	Tue, 8 Jul 2025 06:26:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=95B6nm
-	OZhs41YLJzGGh7gsDTK3Rq+wV3/J1ifgX3eGw=; b=Ruwe0gLdfM2V/EncgOHWyr
-	oIlCHRG6lyHYMRipOOWBBDFmhB6NTIfq0ZZZOoFU9TnKlaYw8KTgmahEOXgTs32A
-	RpNLzyQyQ8YFrDqq9C9EtMQIcVeLiJOyZzfPPsWPRPXML2gkepFtxGmkw5ZPBDHt
-	+VpZlbCIuUyAO8tv5lEUq2AHKUGPR0DiQpxNr/4g+iOiGoYz3JMPu9mw9mvGUX8i
-	xcwBvxVPQ6eJoCF8m9zo7Ib0apBvoSSS1fM8FoD7DCrFWkvpyeFAgCokfVeKtJmW
-	AlAHNjRwnirqPgjrSwKv3KQieBTLNQJOPWIsYi6cf2xpdG6HMyfHdhF6dRfwZfYA
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 47pur6x0gk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Jul 2025 06:26:39 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 5686PRxG020729;
-	Tue, 8 Jul 2025 06:26:38 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 47pur6x0gh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Jul 2025 06:26:38 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 568666XW025642;
-	Tue, 8 Jul 2025 06:26:37 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 47qfcp1p2j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Jul 2025 06:26:37 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5686QZOA17826494
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 8 Jul 2025 06:26:36 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D219858055;
-	Tue,  8 Jul 2025 06:26:35 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 994E258059;
-	Tue,  8 Jul 2025 06:26:34 +0000 (GMT)
-Received: from li-4910aacc-2eed-11b2-a85c-d93b702d4d28.ibm.com (unknown [9.61.17.45])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  8 Jul 2025 06:26:34 +0000 (GMT)
-Message-ID: <2e8c3947bc66ccaab0298fe7cffa50d4c56c480d.camel@linux.ibm.com>
-Subject: Re: [PATCH RESEND 2/3] Documentation: ioctl-number: Extend "Include
- File" column width
-From: Haren Myneni <haren@linux.ibm.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>,
-        Linux Documentation
- <linux-doc@vger.kernel.org>,
-        Linux PowerPC
- <linuxppc-dev@lists.ozlabs.org>,
-        Linux Networking <netdev@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-        Richard Cochran
- <richardcochran@gmail.com>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Donnellan
- <ajd@linux.ibm.com>
-Date: Mon, 07 Jul 2025 23:26:33 -0700
-In-Reply-To: <20250708004334.15861-3-bagasdotme@gmail.com>
-References: <20250708004334.15861-1-bagasdotme@gmail.com>
-	 <20250708004334.15861-3-bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-27.el8_10) 
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xESwL0x/"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gOYTnTaCx3ZPnH0K3nZfgoP3sEOB+HuumBockQwOzBy48S2e2k8bk30X2sFBTt9NFpyaAW3KVbkfALFrQ8OlyPTK8AFnvlPD1+tq1cXNm8ciiEa8+q26NXqFXlMq6em5dCuGie4VDgsma44tpjFEvHQXqrdVnAcUl3LdwuT4KNTD9exmZ1/Bf8fedRKNkXeBWyNjoi0izOoEZJ0S/xtasXx8AorYHlmBTqkPKy2I7tdc0giHo8Iz9ulJIiJHjf4iUWMemrO0GkQpB/7Puma35mwcrXJl/Q1lNdM2YwKjgKZdOsY9RIQyXKHG40Er2pA3SACbeJDqIEhtaqPM+Ye/vA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cuqdQnfFsayJwbQMpSujw9yDVuSWtnJJefovVqVShKA=;
+ b=wO9KrZZH6PqxJlg+z1Qo5sApxbbVmqc3D28eBv2vdbi1FyY7fZqy1EuKj1zbHsDBHEca+kilaayB+M7+Dsz/9OAkrT286EiMlDFEsyr2f4sqImh5IEHP3OYmV9jU7PwIyRovyJhQs199yI3jDMgxPgL8+/wyAqCccFPJMs/4Fs6iONHDOqMV/CTK3N/RKfyMouXohvnLlVeRkQYQ7GNhIknBD66VRlhB9kCWUtGxUuaS2lSpK3sgsuV839fkRBuG/n2P3ceH5CEVpsCfBmT2CBOaEgY5XhK/LbVMh9MKve0DsL1tHFRpNo4On6mjFhc+D1E3JmiXjxQf7WLY+cwEJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cuqdQnfFsayJwbQMpSujw9yDVuSWtnJJefovVqVShKA=;
+ b=xESwL0x/3NLpWOK4QL/KjNzL02DGuTzGk2FilGDhNztqMAtfvjVD9bZc/UGfF0AHLvTveVs9SHJG5A78K9FwARgVgZ4CeYQMrY6gsVgmg/FylOC6be1HFzF2pAgmk55bwtmbzp7IUJHa3UUTqFGJerN9gyZceaHo3mksDhorPK8=
+Received: from BL0PR05CA0003.namprd05.prod.outlook.com (2603:10b6:208:91::13)
+ by IA1PR12MB9531.namprd12.prod.outlook.com (2603:10b6:208:596::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.23; Tue, 8 Jul
+ 2025 06:36:48 +0000
+Received: from BN2PEPF000044A9.namprd04.prod.outlook.com
+ (2603:10b6:208:91:cafe::28) by BL0PR05CA0003.outlook.office365.com
+ (2603:10b6:208:91::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.20 via Frontend Transport; Tue,
+ 8 Jul 2025 06:36:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN2PEPF000044A9.mail.protection.outlook.com (10.167.243.103) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8901.15 via Frontend Transport; Tue, 8 Jul 2025 06:36:48 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 8 Jul
+ 2025 01:36:48 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 8 Jul
+ 2025 01:36:47 -0500
+Received: from amd.com (10.180.168.240) by SATLEXMB03.amd.com (10.181.40.144)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39 via Frontend
+ Transport; Tue, 8 Jul 2025 01:36:41 -0500
+Date: Tue, 8 Jul 2025 06:36:35 +0000
+From: Ankit Soni <Ankit.Soni@amd.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jonathan Corbet <corbet@lwn.net>, <iommu@lists.linux.dev>, Joerg Roedel
+	<joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, Kevin Tian
+	<kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>, Bill Wendling
+	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
+	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Robin
+ Murphy" <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, "Suravee
+ Suthikulpanit" <suravee.suthikulpanit@amd.com>, Will Deacon
+	<will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
+	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
+ Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+	<patches@lists.linux.dev>
+Subject: Re: [PATCH v3 03/15] iommupt: Add the basic structure of the iommu
+ implementation
+Message-ID: <i7qlz7ojhs2ja5qnj6gnf6wgsyhcqznprfudlk3tphw6qyhguk@ak4wo7b6rujt>
+References: <0-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
+ <3-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA4MDA0OSBTYWx0ZWRfX4s3cm0Bk9MMt wVUvyzxRdn2UZgz9QjSmOkwWrhLehNQ/ly3f7toRcABv2OEMo6KVPSQUNA9JYMlJimC0TweFjoa GukSWY4VRkWBux15AScLIeM0vXmH2qEuUkLDSyoiLsoynY1MDWwYcDlYCWrnlw91f5S9UzrxDay
- dEm2N/BOS2Klp/HqgcUOauJSu8tiS0CI3t7Abn8qcTlVHaS/LunfQogJUZWUStAasM8XX24UAQA yNvWflbdneSGAiytyUybr0+133wdiukWzIT6T//Ca8fD2G0P/Q0GhZrIFIFPRU7nkQSQNQNnVFf oJSe0ZJhxZz0+DHqN9//nRpdMyCX74cxAWu1rccZYKfYy1S/RdtOWlP35lnAZ4tU8C7oz6J/YQA
- u41iP9K3sVwPKPzShbY1nuYdE7RJoSAJw8VLxa9Cg0UCqc2wNhiOvXkulE0RMUoGZNikQHhd
-X-Proofpoint-GUID: PmK-S7frV0B8kU7erVnf-lfjzbpn10Rp
-X-Proofpoint-ORIG-GUID: gb7inFMyiFrZJ0awZvIBmUGJovaMClYX
-X-Authority-Analysis: v=2.4 cv=W/M4VQWk c=1 sm=1 tr=0 ts=686cba1f cx=c_pps a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=FP58Ms26AAAA:8 a=VwQbUJbxAAAA:8 a=36Qj4kvwAAAA:8 a=xqzR1eaSAAAA:8 a=a4NEJbfMAAAA:8
- a=TkLiO6tdAAAA:8 a=NEAV23lmAAAA:8 a=wTc3cHO5AAAA:8 a=Ju1OUx4FAAAA:8 a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=QyXUC8HyAAAA:8 a=6X-EevrwAAAA:8 a=YMHlrSWeAAAA:8 a=ag1SF4gXAAAA:8 a=br60VIFoAAAA:8 a=EF7ItLl7AAAA:8 a=59Bnr_R2AAAA:8 a=p-73RYD4AAAA:8 a=84BadPHTAAAA:8
- a=Tty9oNO6AAAA:8 a=zeAeT-1tAAAA:8 a=voM4FWlXAAAA:8 a=6rqHouBjAAAA:8 a=WgJYcGVQAAAA:8 a=7d_E57ReAAAA:8 a=zd2uoN0lAAAA:8 a=exuBxD9bwyyYef2Fa88A:9 a=QEXdDO2ut3YA:10 a=a8RXOGDryFMA:10 a=UklWUE76AaA7xuxiX2K1:22 a=dV6nhpJrT-yxOfsl7Uss:22
- a=j5HedEgV9xmj0QdrFjqv:22 a=baavZ0Ln-j307LZ-0_7C:22 a=w5lJx-D4kpZreUpx7M4u:22 a=57Y-CfXW99XzLu2jE1FU:22 a=PDd2vrKq2XUAlGmJVEUY:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=HrzLPDwhB63SKwEyWadd:22 a=KzV_IjdM9kfMg8rc9Rf7:22 a=AGiTiUxUTAVOEnAwzyD-:22
- a=jXqu7Ew5HFkvi6pE3bB5:22 a=Bts-Es6F1CBXvF7u4C_G:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-08_02,2025-07-07_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- mlxscore=0 priorityscore=1501 adultscore=0 clxscore=1015 suspectscore=0
- spamscore=0 lowpriorityscore=0 mlxlogscore=999 bulkscore=0 impostorscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507080049
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <3-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
+Received-SPF: None (SATLEXMB05.amd.com: Ankit.Soni@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044A9:EE_|IA1PR12MB9531:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19e43f32-01b8-4144-d730-08ddbde9d0bf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?io6hX+/VRzc/r+/IMD9KTfftdhZgSynKMpKf/tj+gMntoTqHaqseB11J2HPn?=
+ =?us-ascii?Q?PDYPIQosIorL1BCj31+6rISSgSSTXa9Vk+qS7t43t8mZ/2aDLpWCsK/e8oHq?=
+ =?us-ascii?Q?9WGwuAFJoOr2PNjfsTtltHmokRnKRIjV+sfvBuVoDRar8Ed5dPnmLMFnwDA7?=
+ =?us-ascii?Q?EoiOZBu4kfUdXEbnAqdbBEjiHntAt0suDetlaZ0ccrRfrZclGiwb1Ads4kGD?=
+ =?us-ascii?Q?E02+iQfFJdP/oUXA+VOSpu8krk6XJJn+ZK1oUPEuLQotIHkBUARgWc+y1og9?=
+ =?us-ascii?Q?5l4LPo3nJ0b2piWgefnQqV4Eu0xmUMUXgjUr7L3RNliTMVrRnwhE/JSdVHQV?=
+ =?us-ascii?Q?B8tDPZh9u9iE2TVc+NRAvfLvTRz4UfA5oiH099gSWsWyH+x10Eoh89ewc2Fh?=
+ =?us-ascii?Q?WN6t9avfyVA5OLKs7vSgLownKNEODoVqzn7fdg9odU10mmkzzd5A878a0krl?=
+ =?us-ascii?Q?4D/sv4pshAOtKUjnPMuKf2g4RzAQLXf5BpLKvxJi/6XfX3kJP6EPk2XzwMPx?=
+ =?us-ascii?Q?lv4WQy6nxaZpM7v30TjGCgt61lFluVwBXh2GgzYumdRPezuNBROWoFT3p56f?=
+ =?us-ascii?Q?yoZEaV5bBnxEKAP5iMV4JZBLWIUh8By2fxf8MKFWHJtE/Wk5IvqGSo1JvYnp?=
+ =?us-ascii?Q?1+Im43hVOMuMS8WidOuWRJNtZ1/Xm2PxdFjum43OJGXWOpcvC8822s02Zjpk?=
+ =?us-ascii?Q?qLsuWNWsCH2szpqd7ESnN+esFnW/YmEP9GH8mC8JhUX4WHvx3wxH0Q5Iauhu?=
+ =?us-ascii?Q?dpTjt402H4DWol1Ezc23AkxcwNiVrbrcSZ/Q2WAEDB9VUPEH/K+bE6uUxob/?=
+ =?us-ascii?Q?IUBQt01OX1HRuRwa6HVD1axf+KyzgutdwhC5Saq/uJdmsPFDuAkon/27uWxN?=
+ =?us-ascii?Q?3tXLuD40tveb3PRwc6hCDKZBzahjZ4aQwCo/FstUz5nfOhVDI5SFivDnTWZB?=
+ =?us-ascii?Q?j9jWV6SjT+gYWcULchcd3g4EYDJDnnmjIHTuogCnF+tQQQKF2+QiMnsizqV9?=
+ =?us-ascii?Q?m3XcKHImseEg/HvnXO/19M04b89u9F4PPqdNbW8LuAwbyK6fk66LsL9rZjwr?=
+ =?us-ascii?Q?xSEd8wwpdTApfdLQCF8IqnMukQvyvskQ4ehq5lhzc/Rt/VPo2R8ql9XX2Bhm?=
+ =?us-ascii?Q?ZMvu+zs2sTxraINKhBzAbNFNZrNXvAIRDmho3McZ45faN3mAcnfiYiu41Eph?=
+ =?us-ascii?Q?y8Ho+olFWkIW26slG6VTY1n1fgyUpKW2/BA+Fg1Y70seZWepR3p3PYl/IowH?=
+ =?us-ascii?Q?Sc0NV1myINUNdIbH880TSarn+zowH5BAKBQzTN7eaP0j5zAKfVsQxhBbJusu?=
+ =?us-ascii?Q?13Jx6ngSvqc+fFpM3nXvqhxZLBP49xLtqBx1wLv2Ecuk2XF3IjYihmrZDocH?=
+ =?us-ascii?Q?baHYfi9VhQNc3vjq3JuCJfVIOXTnONeCIdqErXQOyZZAuapTTNT649VFHuVF?=
+ =?us-ascii?Q?VTYnIrJPRdzamRc8RW1kVjRLmlhOZS7nz8fnV3LxUp7HM0ghy96Z7zF0I0XT?=
+ =?us-ascii?Q?I1ixbkpbLxqC0JUR7eV2RcdMkOkezsdt8/Pk?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 06:36:48.3304
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19e43f32-01b8-4144-d730-08ddbde9d0bf
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF000044A9.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9531
 
-On Tue, 2025-07-08 at 07:43 +0700, Bagas Sanjaya wrote:
-> Extend width of "Include File" column to fit full path to
-> papr-physical-attestation.h in later commit.
+On Mon, Jun 16, 2025 at 03:06:06PM -0300, Jason Gunthorpe wrote:
+> The existing IOMMU page table implementations duplicate all of the working
+> algorithms for each format. By using the generic page table API a single C
+> version of the IOMMU algorithms can be created and re-used for all of the
+> different formats used in the drivers. The implementation will provide a
+> single C version of the iommu domain operations: iova_to_phys, map, unmap,
+> and read_and_clear_dirty.
 > 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Further, adding new algorithms and techniques becomes easy to do across
+> the entire fleet of drivers and formats.
+> 
+> The C functions are drop in compatible with the existing iommu_domain_ops
+> using the IOMMU_PT_DOMAIN_OPS() macro. Each per-format implementation
+> compilation unit will produce exported symbols following the pattern
+> pt_iommu_FMT_map_pages() which the macro directly maps to the
+> iommu_domain_ops members. This avoids the additional function pointer
+> indirection like io-pgtable has.
+> 
+> The top level struct used by the drivers is pt_iommu_table_FMT. It
+> contains the other structs to allow container_of() to move between the
+> driver, iommu page table, generic page table, and generic format layers.
+> 
+>    struct pt_iommu_table_amdv1 {
+>        struct pt_iommu {
+> 	      struct iommu_domain domain;
+>        } iommu;
+>        struct pt_amdv1 {
+> 	      struct pt_common {
+> 	      } common;
+>        } amdpt;
+>    };
+> 
+> The driver is expected to union the pt_iommu_table_FMT with it's own
+> existing domain struct:
+> 
+>    struct driver_domain {
+>        union {
+> 	       struct iommu_domain domain;
+> 	       struct pt_iommu_table_amdv1 amdv1;
+>        };
+>    };
+>    PT_IOMMU_CHECK_DOMAIN(struct driver_domain, amdv1, domain);
+> 
+> To create an alias to avoid renaming 'domain' in a lot of driver code.
+> 
+> This allows all the layers to access all the necessary functions to
+> implement their different roles with no change to any of the existing
+> iommu core code.
+> 
+> Implement the basic starting point: pt_iommu_init(), get_info() and
+> deinit().
+> 
+> Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Reviewed-by: Haren Myneni <haren@linux.ibm.com>
+Tested patch series with multiple command line configurations for amd
+iommu on zen5 machine with 12 NVMe devices.
+
+Suggested-by: Ankit Soni <Ankit.Soni@amd.com>
+Tested-by: Ankit Soni <Ankit.Soni@amd.com>
 
 > ---
->  .../userspace-api/ioctl/ioctl-number.rst      | 516 +++++++++-------
-> --
->  1 file changed, 258 insertions(+), 258 deletions(-)
+>  drivers/iommu/generic_pt/Kconfig              |  13 +
+>  drivers/iommu/generic_pt/fmt/iommu_template.h |  39 +++
+>  drivers/iommu/generic_pt/iommu_pt.h           | 268 ++++++++++++++++++
+>  include/linux/generic_pt/iommu.h              | 118 ++++++++
+>  4 files changed, 438 insertions(+)
+>  create mode 100644 drivers/iommu/generic_pt/fmt/iommu_template.h
+>  create mode 100644 drivers/iommu/generic_pt/iommu_pt.h
+>  create mode 100644 include/linux/generic_pt/iommu.h
 > 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index a4782e566392c7..b45f5d857a00b6 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -65,345 +65,345 @@ Following this convention is good because:
->  This table lists ioctls visible from userland, excluding ones from
->  drivers/staging/.
+> diff --git a/drivers/iommu/generic_pt/Kconfig b/drivers/iommu/generic_pt/Kconfig
+> index 775a3afb563f72..73b7a54375f9bd 100644
+> --- a/drivers/iommu/generic_pt/Kconfig
+> +++ b/drivers/iommu/generic_pt/Kconfig
+> @@ -19,4 +19,17 @@ config DEBUG_GENERIC_PT
+>  	  kernels.
 >  
-> -====  =====  =======================================================
-> ================================================================
-> -Code  Seq#    Include
-> File                                           Comments
-> +====  =====  =======================================================
-> == ================================================================
-> +Code  Seq#    Include
-> File                                             Comments
->        (hex)
-> -====  =====  =======================================================
-> ================================================================
-> -0x00  00-
-> 1F  linux/fs.h                                              conflict!
-> -0x00  00-
-> 1F  scsi/scsi_ioctl.h                                       conflict!
-> -0x00  00-
-> 1F  linux/fb.h                                              conflict!
-> -0x00  00-
-> 1F  linux/wavefront.h                                       conflict!
-> +====  =====  =======================================================
-> == ================================================================
-> +0x00  00-
-> 1F  linux/fs.h                                                conflic
-> t!
-> +0x00  00-
-> 1F  scsi/scsi_ioctl.h                                         conflic
-> t!
-> +0x00  00-
-> 1F  linux/fb.h                                                conflic
-> t!
-> +0x00  00-
-> 1F  linux/wavefront.h                                         conflic
-> t!
->  0x02  all    linux/fd.h
->  0x03  all    linux/hdreg.h
-> -0x04  D2-
-> DC  linux/umsdos_fs.h                                       Dead
-> since 2.6.11, but don't reuse these.
-> +0x04  D2-
-> DC  linux/umsdos_fs.h                                         Dead
-> since 2.6.11, but don't reuse these.
->  0x06  all    linux/lp.h
->  0x07  9F-D0  linux/vmw_vmci_defs.h, uapi/linux/vm_sockets.h
->  0x09  all    linux/raid/md_u.h
->  0x10  00-0F  drivers/char/s390/vmcp.h
->  0x10  10-1F  arch/s390/include/uapi/sclp_ctl.h
->  0x10  20-2F  arch/s390/include/uapi/asm/hypfs.h
-> -0x12  all    linux/fs.h                                             
->  BLK* ioctls
-> +0x12  all    linux/fs.h                                             
->    BLK* ioctls
->               linux/blkpg.h
->               linux/blkzoned.h
->               linux/blk-crypto.h
-> -0x15  all    linux/fs.h                                             
->  FS_IOC_* ioctls
-> -0x1b  all                                                           
->  InfiniBand Subsystem
-> -                                                                    
->  <http://infiniband.sourceforge.net/>
-> +0x15  all    linux/fs.h                                             
->    FS_IOC_* ioctls
-> +0x1b  all                                                           
->    InfiniBand Subsystem
-> +                                                                    
->    <http://infiniband.sourceforge.net/>
->  0x20  all    drivers/cdrom/cm206.h
->  0x22  all    scsi/sg.h
-> -0x3E  00-
-> 0F  linux/counter.h                                         <mailto:
-> linux-iio@vger.kernel.org>
-> +0x3E  00-
-> 0F  linux/counter.h                                           <mailto
-> :linux-iio@vger.kernel.org>
->  '!'   00-1F  uapi/linux/seccomp.h
-> -'#'   00-
-> 3F                                                          IEEE 1394
-> Subsystem
-> -                                                                    
->  Block for the entire subsystem
-> +'#'   00-
-> 3F                                                            IEEE
-> 1394 Subsystem
-> +                                                                    
->    Block for the entire subsystem
->  '$'   00-0F  linux/perf_counter.h, linux/perf_event.h
-> -'%'   00-
-> 0F  include/uapi/linux/stm.h                                System
-> Trace Module subsystem
-> -                                                                    
->  <mailto:alexander.shishkin@linux.intel.com>
-> +'%'   00-
-> 0F  include/uapi/linux/stm.h                                  System
-> Trace Module subsystem
-> +                                                                    
->    <mailto:alexander.shishkin@linux.intel.com>
->  '&'   00-07  drivers/firewire/nosy-user.h
-> -'*'   00-
-> 1F  uapi/linux/user_events.h                                User
-> Events Subsystem
-> -                                                                    
->  <mailto:linux-trace-kernel@vger.kernel.org>
-> -'1'   00-
-> 1F  linux/timepps.h                                         PPS kit
-> from Ulrich Windl
-> -                                                                    
->  <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
-> +'*'   00-
-> 1F  uapi/linux/user_events.h                                  User
-> Events Subsystem
-> +                                                                    
->    <mailto:linux-trace-kernel@vger.kernel.org>
-> +'1'   00-
-> 1F  linux/timepps.h                                           PPS kit
-> from Ulrich Windl
-> +                                                                    
->    <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
->  '2'   01-04  linux/i2o.h
-> -'3'   00-
-> 0F  drivers/s390/char/raw3270.h                             conflict!
-> -'3'   00-
-> 1F  linux/suspend_ioctls.h,                                 conflict!
-> +'3'   00-
-> 0F  drivers/s390/char/raw3270.h                               conflic
-> t!
-> +'3'   00-
-> 1F  linux/suspend_ioctls.h,                                   conflic
-> t!
->               kernel/power/user.c
-> -'8'   all                                                           
->  SNP8023 advanced NIC card
-> -                                                                    
->  <mailto:mcr@solidum.com>
-> +'8'   all                                                           
->    SNP8023 advanced NIC card
-> +                                                                    
->    <mailto:mcr@solidum.com>
->  ';'   64-7F  linux/vfio.h
->  ';'   80-FF  linux/iommufd.h
-> -'='   00-
-> 3f  uapi/linux/ptp_clock.h                                  <mailto:
-> richardcochran@gmail.com>
-> -'@'   00-
-> 0F  linux/radeonfb.h                                        conflict!
-> -'@'   00-
-> 0F  drivers/video/aty/aty128fb.c                            conflict!
-> -'A'   00-
-> 1F  linux/apm_bios.h                                        conflict!
-> -'A'   00-
-> 0F  linux/agpgart.h,                                        conflict!
-> +'='   00-
-> 3f  uapi/linux/ptp_clock.h                                    <mailto
-> :richardcochran@gmail.com>
-> +'@'   00-
-> 0F  linux/radeonfb.h                                          conflic
-> t!
-> +'@'   00-
-> 0F  drivers/video/aty/aty128fb.c                              conflic
-> t!
-> +'A'   00-
-> 1F  linux/apm_bios.h                                          conflic
-> t!
-> +'A'   00-
-> 0F  linux/agpgart.h,                                          conflic
-> t!
->               drivers/char/agp/compat_ioctl.h
-> -'A'   00-
-> 7F  sound/asound.h                                          conflict!
-> -'B'   00-
-> 1F  linux/cciss_ioctl.h                                     conflict!
-> -'B'   00-
-> 0F  include/linux/pmu.h                                     conflict!
-> -'B'   C0-FF  advanced
-> bbus                                           <mailto:
-> maassen@uni-freiburg.de>
-> -'B'   00-
-> 0F  xen/xenbus_dev.h                                        conflict!
-> -'C'   all    linux/soundcard.h                                      
->  conflict!
-> -'C'   01-
-> 2F  linux/capi.h                                            conflict!
-> -'C'   F0-
-> FF  drivers/net/wan/cosa.h                                  conflict!
-> +'A'   00-
-> 7F  sound/asound.h                                            conflic
-> t!
-> +'B'   00-
-> 1F  linux/cciss_ioctl.h                                       conflic
-> t!
-> +'B'   00-
-> 0F  include/linux/pmu.h                                       conflic
-> t!
-> +'B'   C0-FF  advanced
-> bbus                                             <mailto:
-> maassen@uni-freiburg.de>
-> +'B'   00-
-> 0F  xen/xenbus_dev.h                                          conflic
-> t!
-> +'C'   all    linux/soundcard.h                                      
->    conflict!
-> +'C'   01-
-> 2F  linux/capi.h                                              conflic
-> t!
-> +'C'   F0-
-> FF  drivers/net/wan/cosa.h                                    conflic
-> t!
->  'D'   all    arch/s390/include/asm/dasd.h
-> -'D'   40-
-> 5F  drivers/scsi/dpt/dtpi_ioctl.h                           Dead
-> since 2022
-> +'D'   40-
-> 5F  drivers/scsi/dpt/dtpi_ioctl.h                             Dead
-> since 2022
->  'D'   05     drivers/scsi/pmcraid.h
-> -'E'   all    linux/input.h                                          
->  conflict!
-> -'E'   00-
-> 0F  xen/evtchn.h                                            conflict!
-> -'F'   all    linux/fb.h                                             
->  conflict!
-> -'F'   01-
-> 02  drivers/scsi/pmcraid.h                                  conflict!
-> -'F'   20     drivers/video/fsl-diu-
-> fb.h                              conflict!
-> -'F'   20     linux/ivtvfb.h                                         
->  conflict!
-> -'F'   20     linux/matroxfb.h                                       
->  conflict!
-> -'F'   20     drivers/video/aty/atyfb_base.c                         
->  conflict!
-> -'F'   00-0F  video/da8xx-
-> fb.h                                        conflict!
-> -'F'   80-
-> 8F  linux/arcfb.h                                           conflict!
-> -'F'   DD     video/sstfb.h                                          
->  conflict!
-> -'G'   00-3F  drivers/misc/sgi-
-> gru/grulib.h                           conflict!
-> -'G'   00-0F  xen/gntalloc.h,
-> xen/gntdev.h                            conflict!
-> -'H'   00-
-> 7F  linux/hiddev.h                                          conflict!
-> -'H'   00-
-> 0F  linux/hidraw.h                                          conflict!
-> -'H'   01     linux/mei.h                                            
->  conflict!
-> -'H'   02     linux/mei.h                                            
->  conflict!
-> -'H'   03     linux/mei.h                                            
->  conflict!
-> -'H'   00-
-> 0F  sound/asound.h                                          conflict!
-> -'H'   20-
-> 40  sound/asound_fm.h                                       conflict!
-> -'H'   80-
-> 8F  sound/sfnt_info.h                                       conflict!
-> -'H'   10-
-> 8F  sound/emu10k1.h                                         conflict!
-> -'H'   10-
-> 1F  sound/sb16_csp.h                                        conflict!
-> -'H'   10-
-> 1F  sound/hda_hwdep.h                                       conflict!
-> -'H'   40-
-> 4F  sound/hdspm.h                                           conflict!
-> -'H'   40-
-> 4F  sound/hdsp.h                                            conflict!
-> +'E'   all    linux/input.h                                          
->    conflict!
-> +'E'   00-
-> 0F  xen/evtchn.h                                              conflic
-> t!
-> +'F'   all    linux/fb.h                                             
->    conflict!
-> +'F'   01-
-> 02  drivers/scsi/pmcraid.h                                    conflic
-> t!
-> +'F'   20     drivers/video/fsl-diu-
-> fb.h                                conflict!
-> +'F'   20     linux/ivtvfb.h                                         
->    conflict!
-> +'F'   20     linux/matroxfb.h                                       
->    conflict!
-> +'F'   20     drivers/video/aty/atyfb_base.c                         
->    conflict!
-> +'F'   00-0F  video/da8xx-
-> fb.h                                          conflict!
-> +'F'   80-
-> 8F  linux/arcfb.h                                             conflic
-> t!
-> +'F'   DD     video/sstfb.h                                          
->    conflict!
-> +'G'   00-3F  drivers/misc/sgi-
-> gru/grulib.h                             conflict!
-> +'G'   00-0F  xen/gntalloc.h,
-> xen/gntdev.h                              conflict!
-> +'H'   00-
-> 7F  linux/hiddev.h                                            conflic
-> t!
-> +'H'   00-
-> 0F  linux/hidraw.h                                            conflic
-> t!
-> +'H'   01     linux/mei.h                                            
->    conflict!
-> +'H'   02     linux/mei.h                                            
->    conflict!
-> +'H'   03     linux/mei.h                                            
->    conflict!
-> +'H'   00-
-> 0F  sound/asound.h                                            conflic
-> t!
-> +'H'   20-
-> 40  sound/asound_fm.h                                         conflic
-> t!
-> +'H'   80-
-> 8F  sound/sfnt_info.h                                         conflic
-> t!
-> +'H'   10-
-> 8F  sound/emu10k1.h                                           conflic
-> t!
-> +'H'   10-
-> 1F  sound/sb16_csp.h                                          conflic
-> t!
-> +'H'   10-
-> 1F  sound/hda_hwdep.h                                         conflic
-> t!
-> +'H'   40-
-> 4F  sound/hdspm.h                                             conflic
-> t!
-> +'H'   40-
-> 4F  sound/hdsp.h                                              conflic
-> t!
->  'H'   90     sound/usb/usx2y/usb_stream.h
-> -'H'   00-
-> 0F  uapi/misc/habanalabs.h                                  conflict!
-> +'H'   00-
-> 0F  uapi/misc/habanalabs.h                                    conflic
-> t!
->  'H'   A0     uapi/linux/usb/cdc-wdm.h
-> -'H'   C0-
-> F0  net/bluetooth/hci.h                                     conflict!
-> -'H'   C0-
-> DF  net/bluetooth/hidp/hidp.h                               conflict!
-> -'H'   C0-
-> DF  net/bluetooth/cmtp/cmtp.h                               conflict!
-> -'H'   C0-
-> DF  net/bluetooth/bnep/bnep.h                               conflict!
-> -'H'   F1     linux/hid-
-> roccat.h                                      <mailto:
-> erazor_de@users.sourceforge.net>
-> +'H'   C0-
-> F0  net/bluetooth/hci.h                                       conflic
-> t!
-> +'H'   C0-
-> DF  net/bluetooth/hidp/hidp.h                                 conflic
-> t!
-> +'H'   C0-
-> DF  net/bluetooth/cmtp/cmtp.h                                 conflic
-> t!
-> +'H'   C0-
-> DF  net/bluetooth/bnep/bnep.h                                 conflic
-> t!
-> +'H'   F1     linux/hid-
-> roccat.h                                        <mailto:
-> erazor_de@users.sourceforge.net>
->  'H'   F8-FA  sound/firewire.h
-> -'I'   all    linux/isdn.h                                           
->  conflict!
-> -'I'   00-
-> 0F  drivers/isdn/divert/isdn_divert.h                       conflict!
-> -'I'   40-
-> 4F  linux/mISDNif.h                                         conflict!
-> +'I'   all    linux/isdn.h                                           
->    conflict!
-> +'I'   00-
-> 0F  drivers/isdn/divert/isdn_divert.h                         conflic
-> t!
-> +'I'   40-
-> 4F  linux/mISDNif.h                                           conflic
-> t!
->  'K'   all    linux/kd.h
-> -'L'   00-
-> 1F  linux/loop.h                                            conflict!
-> -'L'   10-
-> 1F  drivers/scsi/mpt3sas/mpt3sas_ctl.h                      conflict!
-> -'L'   E0-
-> FF  linux/ppdd.h                                            encrypted
-> disk device driver
-> -                                                                    
->  <http://linux01.gwdg.de/~alatham/ppdd.html>
-> -'M'   all    linux/soundcard.h                                      
->  conflict!
-> -'M'   01-16  mtd/mtd-
-> abi.h                                           conflict!
-> +'L'   00-
-> 1F  linux/loop.h                                              conflic
-> t!
-> +'L'   10-
-> 1F  drivers/scsi/mpt3sas/mpt3sas_ctl.h                        conflic
-> t!
-> +'L'   E0-
-> FF  linux/ppdd.h                                              encrypt
-> ed disk device driver
-> +                                                                    
->    <http://linux01.gwdg.de/~alatham/ppdd.html>
-> +'M'   all    linux/soundcard.h                                      
->    conflict!
-> +'M'   01-16  mtd/mtd-
-> abi.h                                             conflict!
->        and    drivers/mtd/mtdchar.c
->  'M'   01-03  drivers/scsi/megaraid/megaraid_sas.h
-> -'M'   00-0F  drivers/video/fsl-diu-
-> fb.h                              conflict!
-> +'M'   00-0F  drivers/video/fsl-diu-
-> fb.h                                conflict!
->  'N'   00-1F  drivers/usb/scanner.h
->  'N'   40-7F  drivers/block/nvme.c
-> -'N'   80-
-> 8F  uapi/linux/ntsync.h                                     NT
-> synchronization primitives
-> -                                                                    
->  <mailto:wine-devel@winehq.org>
-> -'O'   00-06  mtd/ubi-
-> user.h                                          UBI
-> -'P'   all    linux/soundcard.h                                      
->  conflict!
-> -'P'   60-
-> 6F  sound/sscape_ioctl.h                                    conflict!
-> -'P'   00-
-> 0F  drivers/usb/class/usblp.c                               conflict!
-> -'P'   01-
-> 09  drivers/misc/pci_endpoint_test.c                        conflict!
-> -'P'   00-
-> 0F  xen/privcmd.h                                           conflict!
-> -'P'   00-
-> 05  linux/tps6594_pfsm.h                                    conflict!
-> +'N'   80-
-> 8F  uapi/linux/ntsync.h                                       NT
-> synchronization primitives
-> +                                                                    
->    <mailto:wine-devel@winehq.org>
-> +'O'   00-06  mtd/ubi-
-> user.h                                            UBI
-> +'P'   all    linux/soundcard.h                                      
->    conflict!
-> +'P'   60-
-> 6F  sound/sscape_ioctl.h                                      conflic
-> t!
-> +'P'   00-
-> 0F  drivers/usb/class/usblp.c                                 conflic
-> t!
-> +'P'   01-
-> 09  drivers/misc/pci_endpoint_test.c                          conflic
-> t!
-> +'P'   00-
-> 0F  xen/privcmd.h                                             conflic
-> t!
-> +'P'   00-
-> 05  linux/tps6594_pfsm.h                                      conflic
-> t!
->  'Q'   all    linux/soundcard.h
-> -'R'   00-
-> 1F  linux/random.h                                          conflict!
-> -'R'   01     linux/rfkill.h                                         
->  conflict!
-> +'R'   00-
-> 1F  linux/random.h                                            conflic
-> t!
-> +'R'   01     linux/rfkill.h                                         
->    conflict!
->  'R'   20-2F  linux/trace_mmap.h
->  'R'   C0-DF  net/bluetooth/rfcomm.h
->  'R'   E0     uapi/linux/fsl_mc.h
-> -'S'   all    linux/cdrom.h                                          
->  conflict!
-> -'S'   80-
-> 81  scsi/scsi_ioctl.h                                       conflict!
-> -'S'   82-
-> FF  scsi/scsi.h                                             conflict!
-> -'S'   00-
-> 7F  sound/asequencer.h                                      conflict!
-> -'T'   all    linux/soundcard.h                                      
->  conflict!
-> -'T'   00-
-> AF  sound/asound.h                                          conflict!
-> -'T'   all    arch/x86/include/asm/ioctls.h                          
->  conflict!
-> -'T'   C0-
-> DF  linux/if_tun.h                                          conflict!
-> -'U'   all    sound/asound.h                                         
->  conflict!
-> -'U'   00-
-> CF  linux/uinput.h                                          conflict!
-> +'S'   all    linux/cdrom.h                                          
->    conflict!
-> +'S'   80-
-> 81  scsi/scsi_ioctl.h                                         conflic
-> t!
-> +'S'   82-
-> FF  scsi/scsi.h                                               conflic
-> t!
-> +'S'   00-
-> 7F  sound/asequencer.h                                        conflic
-> t!
-> +'T'   all    linux/soundcard.h                                      
->    conflict!
-> +'T'   00-
-> AF  sound/asound.h                                            conflic
-> t!
-> +'T'   all    arch/x86/include/asm/ioctls.h                          
->    conflict!
-> +'T'   C0-
-> DF  linux/if_tun.h                                            conflic
-> t!
-> +'U'   all    sound/asound.h                                         
->    conflict!
-> +'U'   00-
-> CF  linux/uinput.h                                            conflic
-> t!
->  'U'   00-EF  linux/usbdevice_fs.h
->  'U'   C0-CF  drivers/bluetooth/hci_uart.h
-> -'V'   all    linux/vt.h                                             
->  conflict!
-> -'V'   all    linux/videodev2.h                                      
->  conflict!
-> -'V'   C0     linux/ivtvfb.h                                         
->  conflict!
-> -'V'   C0     linux/ivtv.h                                           
->  conflict!
-> -'V'   C0     media/si4713.h                                         
->  conflict!
-> -'W'   00-
-> 1F  linux/watchdog.h                                        conflict!
-> -'W'   00-
-> 1F  linux/wanrouter.h                                       conflict!
-> (pre 3.9)
-> -'W'   00-
-> 3F  sound/asound.h                                          conflict!
-> +'V'   all    linux/vt.h                                             
->    conflict!
-> +'V'   all    linux/videodev2.h                                      
->    conflict!
-> +'V'   C0     linux/ivtvfb.h                                         
->    conflict!
-> +'V'   C0     linux/ivtv.h                                           
->    conflict!
-> +'V'   C0     media/si4713.h                                         
->    conflict!
-> +'W'   00-
-> 1F  linux/watchdog.h                                          conflic
-> t!
-> +'W'   00-
-> 1F  linux/wanrouter.h                                         conflic
-> t! (pre 3.9)
-> +'W'   00-
-> 3F  sound/asound.h                                            conflic
-> t!
->  'W'   40-5F  drivers/pci/switch/switchtec.c
->  'W'   60-61  linux/watch_queue.h
-> -'X'   all    fs/xfs/xfs_fs.h,                                       
->  conflict!
-> +'X'   all    fs/xfs/xfs_fs.h,                                       
->    conflict!
->               fs/xfs/linux-2.6/xfs_ioctl32.h,
->               include/linux/falloc.h,
->               linux/fs.h,
-> -'X'   all    fs/ocfs2/ocfs_fs.h                                     
->  conflict!
-> -'X'   01     linux/pktcdvd.h                                        
->  conflict!
-> +'X'   all    fs/ocfs2/ocfs_fs.h                                     
->    conflict!
-> +'X'   01     linux/pktcdvd.h                                        
->    conflict!
->  'Z'   14-15  drivers/message/fusion/mptctl.h
-> -'['   00-
-> 3F  linux/usb/tmc.h                                         USB Test
-> and Measurement Devices
-> -                                                                    
->  <mailto:gregkh@linuxfoundation.org>
-> -'a'   all    linux/atm*.h,
-> linux/sonet.h                             ATM on linux
-> -                                                                    
->  <http://lrcwww.epfl.ch/>
-> -'a'   00-
-> 0F  drivers/crypto/qat/qat_common/adf_cfg_common.h          conflict!
-> qat driver
-> -'b'   00-
-> FF                                                          conflict!
-> bit3 vme host bridge
-> -                                                                    
->  <mailto:natalia@nikhefk.nikhef.nl>
-> -'b'   00-0F  linux/dma-
-> buf.h                                         conflict!
-> -'c'   00-
-> 7F  linux/comstats.h                                        conflict!
-> -'c'   00-
-> 7F  linux/coda.h                                            conflict!
-> -'c'   00-
-> 1F  linux/chio.h                                            conflict!
-> -'c'   80-
-> 9F  arch/s390/include/asm/chsc.h                            conflict!
-> +'['   00-
-> 3F  linux/usb/tmc.h                                           USB
-> Test and Measurement Devices
-> +                                                                    
->    <mailto:gregkh@linuxfoundation.org>
-> +'a'   all    linux/atm*.h,
-> linux/sonet.h                               ATM on linux
-> +                                                                    
->    <http://lrcwww.epfl.ch/>
-> +'a'   00-
-> 0F  drivers/crypto/qat/qat_common/adf_cfg_common.h            conflic
-> t! qat driver
-> +'b'   00-
-> FF                                                            conflic
-> t! bit3 vme host bridge
-> +                                                                    
->    <mailto:natalia@nikhefk.nikhef.nl>
-> +'b'   00-0F  linux/dma-
-> buf.h                                           conflict!
-> +'c'   00-
-> 7F  linux/comstats.h                                          conflic
-> t!
-> +'c'   00-
-> 7F  linux/coda.h                                              conflic
-> t!
-> +'c'   00-
-> 1F  linux/chio.h                                              conflic
-> t!
-> +'c'   80-
-> 9F  arch/s390/include/asm/chsc.h                              conflic
-> t!
->  'c'   A0-AF  arch/x86/include/asm/msr.h conflict!
-> -'d'   00-
-> FF  linux/char/drm/drm.h                                    conflict!
-> -'d'   02-
-> 40  pcmcia/ds.h                                             conflict!
-> +'d'   00-
-> FF  linux/char/drm/drm.h                                      conflic
-> t!
-> +'d'   02-
-> 40  pcmcia/ds.h                                               conflic
-> t!
->  'd'   F0-FF  linux/digi1.h
-> -'e'   all    linux/digi1.h                                          
->  conflict!
-> -'f'   00-
-> 1F  linux/ext2_fs.h                                         conflict!
-> -'f'   00-
-> 1F  linux/ext3_fs.h                                         conflict!
-> -'f'   00-
-> 0F  fs/jfs/jfs_dinode.h                                     conflict!
-> -'f'   00-
-> 0F  fs/ext4/ext4.h                                          conflict!
-> -'f'   00-
-> 0F  linux/fs.h                                              conflict!
-> -'f'   00-
-> 0F  fs/ocfs2/ocfs2_fs.h                                     conflict!
-> +'e'   all    linux/digi1.h                                          
->    conflict!
-> +'f'   00-
-> 1F  linux/ext2_fs.h                                           conflic
-> t!
-> +'f'   00-
-> 1F  linux/ext3_fs.h                                           conflic
-> t!
-> +'f'   00-
-> 0F  fs/jfs/jfs_dinode.h                                       conflic
-> t!
-> +'f'   00-
-> 0F  fs/ext4/ext4.h                                            conflic
-> t!
-> +'f'   00-
-> 0F  linux/fs.h                                                conflic
-> t!
-> +'f'   00-
-> 0F  fs/ocfs2/ocfs2_fs.h                                       conflic
-> t!
->  'f'   13-27  linux/fscrypt.h
->  'f'   81-8F  linux/fsverity.h
->  'g'   00-0F  linux/usb/gadgetfs.h
->  'g'   20-2F  linux/usb/g_printer.h
-> -'h'   00-
-> 7F                                                          conflict!
-> Charon filesystem
-> -                                                                    
->  <mailto:zapman@interlan.net>
-> -'h'   00-
-> 1F  linux/hpet.h                                            conflict!
-> +'h'   00-
-> 7F                                                            conflic
-> t! Charon filesystem
-> +                                                                    
->    <mailto:zapman@interlan.net>
-> +'h'   00-
-> 1F  linux/hpet.h                                              conflic
-> t!
->  'h'   80-8F  fs/hfsplus/ioctl.c
-> -'i'   00-3F  linux/i2o-
-> dev.h                                         conflict!
-> -'i'   0B-
-> 1F  linux/ipmi.h                                            conflict!
-> +'i'   00-3F  linux/i2o-
-> dev.h                                           conflict!
-> +'i'   0B-
-> 1F  linux/ipmi.h                                              conflic
-> t!
->  'i'   80-8F  linux/i8k.h
-> -'i'   90-
-> 9F  `linux/iio/*.h`                                         IIO
-> +'i'   90-
-> 9F  `linux/iio/*.h`                                           IIO
->  'j'   00-3F  linux/joystick.h
-> -'k'   00-
-> 0F  linux/spi/spidev.h                                      conflict!
-> -'k'   00-
-> 05  video/kyro.h                                            conflict!
-> -'k'   10-
-> 17  linux/hsi/hsi_char.h                                    HSI
-> character device
-> -'l'   00-
-> 3F  linux/tcfs_fs.h                                         transpare
-> nt cryptographic file system
-> -                                                                    
->  <http://web.archive.org/web/%2A/http://mikonos.dia.unisa.it/tcfs>
-> -'l'   40-
-> 7F  linux/udf_fs_i.h                                        in
-> development:
-> -                                                                    
->  <https://github.com/pali/udftools>
-> -'m'   00-
-> 09  linux/mmtimer.h                                         conflict!
-> -'m'   all    linux/mtio.h                                           
->  conflict!
-> -'m'   all    linux/soundcard.h                                      
->  conflict!
-> -'m'   all    linux/synclink.h                                       
->  conflict!
-> -'m'   00-
-> 19  drivers/message/fusion/mptctl.h                         conflict!
-> -'m'   00     drivers/scsi/megaraid/megaraid_ioctl.h                 
->  conflict!
-> +'k'   00-
-> 0F  linux/spi/spidev.h                                        conflic
-> t!
-> +'k'   00-
-> 05  video/kyro.h                                              conflic
-> t!
-> +'k'   10-
-> 17  linux/hsi/hsi_char.h                                      HSI
-> character device
-> +'l'   00-
-> 3F  linux/tcfs_fs.h                                           transpa
-> rent cryptographic file system
-> +                                                                    
->    <http://web.archive.org/web/%2A/http://mikonos.dia.unisa.it/tcfs>
-> +'l'   40-
-> 7F  linux/udf_fs_i.h                                          in
-> development:
-> +                                                                    
->    <https://github.com/pali/udftools>
-> +'m'   00-
-> 09  linux/mmtimer.h                                           conflic
-> t!
-> +'m'   all    linux/mtio.h                                           
->    conflict!
-> +'m'   all    linux/soundcard.h                                      
->    conflict!
-> +'m'   all    linux/synclink.h                                       
->    conflict!
-> +'m'   00-
-> 19  drivers/message/fusion/mptctl.h                           conflic
-> t!
-> +'m'   00     drivers/scsi/megaraid/megaraid_ioctl.h                 
->    conflict!
->  'n'   00-7F  linux/ncp_fs.h and fs/ncpfs/ioctl.c
-> -'n'   80-
-> 8F  uapi/linux/nilfs2_api.h                                 NILFS2
-> -'n'   E0-
-> FF  linux/matroxfb.h                                        matroxfb
-> -'o'   00-
-> 1F  fs/ocfs2/ocfs2_fs.h                                     OCFS2
-> -'o'   00-03  mtd/ubi-
-> user.h                                          conflict! (OCFS2 and
-> UBI overlaps)
-> -'o'   40-41  mtd/ubi-
-> user.h                                          UBI
-> -'o'   01-
-> A1  `linux/dvb/*.h`                                         DVB
-> -'p'   00-
-> 0F  linux/phantom.h                                         conflict!
-> (OpenHaptics needs this)
-> -'p'   00-
-> 1F  linux/rtc.h                                             conflict!
-> +'n'   80-
-> 8F  uapi/linux/nilfs2_api.h                                   NILFS2
-> +'n'   E0-
-> FF  linux/matroxfb.h                                          matroxf
-> b
-> +'o'   00-
-> 1F  fs/ocfs2/ocfs2_fs.h                                       OCFS2
-> +'o'   00-03  mtd/ubi-
-> user.h                                            conflict! (OCFS2
-> and UBI overlaps)
-> +'o'   40-41  mtd/ubi-
-> user.h                                            UBI
-> +'o'   01-
-> A1  `linux/dvb/*.h`                                           DVB
-> +'p'   00-
-> 0F  linux/phantom.h                                           conflic
-> t! (OpenHaptics needs this)
-> +'p'   00-
-> 1F  linux/rtc.h                                               conflic
-> t!
->  'p'   40-7F  linux/nvram.h
-> -'p'   80-
-> 9F  linux/ppdev.h                                           user-
-> space parport
-> -                                                                    
->  <mailto:tim@cyberelk.net>
-> -'p'   A1-
-> A5  linux/pps.h                                             LinuxPPS
-> -'p'   B1-
-> B3  linux/pps_gen.h                                         LinuxPPS
-> -                                                                    
->  <mailto:giometti@linux.it>
-> +'p'   80-
-> 9F  linux/ppdev.h                                             user-
-> space parport
-> +                                                                    
->    <mailto:tim@cyberelk.net>
-> +'p'   A1-
-> A5  linux/pps.h                                               LinuxPP
-> S
-> +'p'   B1-
-> B3  linux/pps_gen.h                                           LinuxPP
-> S
-> +                                                                    
->    <mailto:giometti@linux.it>
->  'q'   00-1F  linux/serio.h
-> -'q'   80-
-> FF  linux/telephony.h                                       Internet
-> PhoneJACK, Internet LineJACK
-> -             linux/ixjuser.h                                        
->  <http://web.archive.org/web/%2A/http://www.quicknet.net>
-> +'q'   80-
-> FF  linux/telephony.h                                         Interne
-> t PhoneJACK, Internet LineJACK
-> +             linux/ixjuser.h                                        
->    <http://web.archive.org/web/%2A/http://www.quicknet.net>
->  'r'   00-1F  linux/msdos_fs.h and fs/fat/dir.c
->  's'   all    linux/cdk.h
->  't'   00-7F  linux/ppp-ioctl.h
->  't'   80-8F  linux/isdn_ppp.h
-> -'t'   90-
-> 91  linux/toshiba.h                                         toshiba
-> and toshiba_acpi SMM
-> -'u'   00-
-> 1F  linux/smb_fs.h                                          gone
-> -'u'   00-
-> 2F  linux/ublk_cmd.h                                        conflict!
-> -'u'   20-
-> 3F  linux/uvcvideo.h                                        USB video
-> class host driver
-> -'u'   40-
-> 4f  linux/udmabuf.h                                         userspace
-> dma-buf misc device
-> -'v'   00-
-> 1F  linux/ext2_fs.h                                         conflict!
-> -'v'   00-
-> 1F  linux/fs.h                                              conflict!
-> -'v'   00-
-> 0F  linux/sonypi.h                                          conflict!
-> -'v'   00-0F  media/v4l2-
-> subdev.h                                     conflict!
-> -'v'   20-27  arch/powerpc/include/uapi/asm/vas-api.h		     VA
-> S API
-> -'v'   C0-
-> FF  linux/meye.h                                            conflict!
-> -'w'   all                                                           
->  CERN SCI driver
-> -'y'   00-
-> 1F                                                          packet
-> based user level communications
-> -                                                                    
->  <mailto:zapman@interlan.net>
-> -'z'   00-
-> 3F                                                          CAN bus
-> card conflict!
-> -                                                                    
->  <mailto:hdstich@connectu.ulm.circular.de>
-> -'z'   40-
-> 7F                                                          CAN bus
-> card conflict!
-> -                                                                    
->  <mailto:oe@port.de>
-> -'z'   10-
-> 4F  drivers/s390/crypto/zcrypt_api.h                        conflict!
-> +'t'   90-
-> 91  linux/toshiba.h                                           toshiba
-> and toshiba_acpi SMM
-> +'u'   00-
-> 1F  linux/smb_fs.h                                            gone
-> +'u'   00-
-> 2F  linux/ublk_cmd.h                                          conflic
-> t!
-> +'u'   20-
-> 3F  linux/uvcvideo.h                                          USB
-> video class host driver
-> +'u'   40-
-> 4f  linux/udmabuf.h                                           userspa
-> ce dma-buf misc device
-> +'v'   00-
-> 1F  linux/ext2_fs.h                                           conflic
-> t!
-> +'v'   00-
-> 1F  linux/fs.h                                                conflic
-> t!
-> +'v'   00-
-> 0F  linux/sonypi.h                                            conflic
-> t!
-> +'v'   00-0F  media/v4l2-
-> subdev.h                                       conflict!
-> +'v'   20-27  arch/powerpc/include/uapi/asm/vas-
-> api.h                   VAS API
-> +'v'   C0-
-> FF  linux/meye.h                                              conflic
-> t!
-> +'w'   all                                                           
->    CERN SCI driver
-> +'y'   00-
-> 1F                                                            packet
-> based user level communications
-> +                                                                    
->    <mailto:zapman@interlan.net>
-> +'z'   00-
-> 3F                                                            CAN bus
-> card conflict!
-> +                                                                    
->    <mailto:hdstich@connectu.ulm.circular.de>
-> +'z'   40-
-> 7F                                                            CAN bus
-> card conflict!
-> +                                                                    
->    <mailto:oe@port.de>
-> +'z'   10-
-> 4F  drivers/s390/crypto/zcrypt_api.h                          conflic
-> t!
->  '|'   00-7F  linux/media.h
-> -'|'   80-
-> 9F  samples/                                                Any
-> sample and example drivers
-> +'|'   80-
-> 9F  samples/                                                  Any
-> sample and example drivers
->  0x80  00-1F  linux/fb.h
->  0x81  00-1F  linux/vduse.h
->  0x89  00-06  arch/x86/include/asm/sockios.h
->  0x89  0B-DF  linux/sockios.h
-> -0x89  E0-
-> EF  linux/sockios.h                                         SIOCPROTO
-> PRIVATE range
-> -0x89  F0-
-> FF  linux/sockios.h                                         SIOCDEVPR
-> IVATE range
-> +0x89  E0-
-> EF  linux/sockios.h                                           SIOCPRO
-> TOPRIVATE range
-> +0x89  F0-
-> FF  linux/sockios.h                                           SIOCDEV
-> PRIVATE range
->  0x8A  00-1F  linux/eventpoll.h
->  0x8B  all    linux/wireless.h
-> -0x8C  00-
-> 3F                                                          WiNRADiO
-> driver
-> -                                                                    
->  <http://www.winradio.com.au/>
-> +0x8C  00-
-> 3F                                                            WiNRADi
-> O driver
-> +                                                                    
->    <http://www.winradio.com.au/>
->  0x90  00     drivers/cdrom/sbpcd.h
->  0x92  00-0F  drivers/usb/mon/mon_bin.c
->  0x93  60-7F  linux/auto_fs.h
-> -0x94  all    fs/btrfs/ioctl.h                                       
->  Btrfs filesystem
-> -             and
-> linux/fs.h                                          some lifted to
-> vfs/generic
-> -0x97  00-
-> 7F  fs/ceph/ioctl.h                                         Ceph file
-> system
-> -0x99  00-
-> 0F                                                          537-
-> Addinboard driver
-> -                                                                    
->  <mailto:buk@buks.ipn.de>
-> +0x94  all    fs/btrfs/ioctl.h                                       
->    Btrfs filesystem
-> +             and
-> linux/fs.h                                            some lifted to
-> vfs/generic
-> +0x97  00-
-> 7F  fs/ceph/ioctl.h                                           Ceph
-> file system
-> +0x99  00-
-> 0F                                                            537-
-> Addinboard driver
-> +                                                                    
->    <mailto:buk@buks.ipn.de>
->  0x9A  00-0F  include/uapi/fwctl/fwctl.h
-> -0xA0  all    linux/sdp/sdp.h                                        
->  Industrial Device Project
-> -                                                                    
->  <mailto:kenji@bitgate.com>
-> -0xA1  0      linux/vtpm_proxy.h                                     
->  TPM Emulator Proxy Driver
-> -0xA2  all    uapi/linux/acrn.h                                      
->  ACRN hypervisor
-> -0xA3  80-
-> 8F                                                          Port
-> ACL  in development:
-> -                                                                    
->  <mailto:tlewis@mindspring.com>
-> +0xA0  all    linux/sdp/sdp.h                                        
->    Industrial Device Project
-> +                                                                    
->    <mailto:kenji@bitgate.com>
-> +0xA1  0      linux/vtpm_proxy.h                                     
->    TPM Emulator Proxy Driver
-> +0xA2  all    uapi/linux/acrn.h                                      
->    ACRN hypervisor
-> +0xA3  80-
-> 8F                                                            Port
-> ACL  in development:
-> +                                                                    
->    <mailto:tlewis@mindspring.com>
->  0xA3  90-9F  linux/dtlk.h
-> -0xA4  00-
-> 1F  uapi/linux/tee.h                                        Generic
-> TEE subsystem
-> -0xA4  00-
-> 1F  uapi/asm/sgx.h                                          <mailto:
-> linux-sgx@vger.kernel.org>
-> -0xA5  01-
-> 05  linux/surface_aggregator/cdev.h                         Microsoft
-> Surface Platform System Aggregator
-> -                                                                    
->  <mailto:luzmaximilian@gmail.com>
-> -0xA5  20-
-> 2F  linux/surface_aggregator/dtx.h                          Microsoft
-> Surface DTX driver
-> -                                                                    
->  <mailto:luzmaximilian@gmail.com>
-> +0xA4  00-
-> 1F  uapi/linux/tee.h                                          Generic
-> TEE subsystem
-> +0xA4  00-
-> 1F  uapi/asm/sgx.h                                            <mailto
-> :linux-sgx@vger.kernel.org>
-> +0xA5  01-
-> 05  linux/surface_aggregator/cdev.h                           Microso
-> ft Surface Platform System Aggregator
-> +                                                                    
->    <mailto:luzmaximilian@gmail.com>
-> +0xA5  20-
-> 2F  linux/surface_aggregator/dtx.h                            Microso
-> ft Surface DTX driver
-> +                                                                    
->    <mailto:luzmaximilian@gmail.com>
->  0xAA  00-3F  linux/uapi/linux/userfaultfd.h
->  0xAB  00-1F  linux/nbd.h
->  0xAC  00-1F  linux/raw.h
-> -0xAD  00                                                            
->  Netfilter device in development:
-> -                                                                    
->  <mailto:rusty@rustcorp.com.au>
-> -0xAE  00-
-> 1F  linux/kvm.h                                             Kernel-
-> based Virtual Machine
-> -                                                                    
->  <mailto:kvm@vger.kernel.org>
-> -0xAE  40-
-> FF  linux/kvm.h                                             Kernel-
-> based Virtual Machine
-> -                                                                    
->  <mailto:kvm@vger.kernel.org>
-> -0xAE  20-
-> 3F  linux/nitro_enclaves.h                                  Nitro
-> Enclaves
-> -0xAF  00-
-> 1F  linux/fsl_hypervisor.h                                  Freescale
-> hypervisor
-> -0xB0  all                                                           
->  RATIO devices in development:
-> -                                                                    
->  <mailto:vgo@ratio.de>
-> -0xB1  00-
-> 1F                                                          PPPoX
-> -                                                                    
->  <mailto:mostrows@styx.uwaterloo.ca>
-> -0xB2  00     arch/powerpc/include/uapi/asm/papr-
-> vpd.h                powerpc/pseries VPD API
-> -                                                                    
->  <mailto:linuxppc-dev@lists.ozlabs.org>
-> -0xB2  01-02  arch/powerpc/include/uapi/asm/papr-
-> sysparm.h            powerpc/pseries system parameter API
-> -                                                                    
->  <mailto:linuxppc-dev@lists.ozlabs.org>
-> -0xB2  03-05  arch/powerpc/include/uapi/asm/papr-
-> indices.h            powerpc/pseries indices API
-> -                                                                    
->  <mailto:linuxppc-dev@lists.ozlabs.org>
-> -0xB2  06-07  arch/powerpc/include/uapi/asm/papr-platform-
-> dump.h      powerpc/pseries Platform Dump API
-> -                                                                    
->  <mailto:linuxppc-dev@lists.ozlabs.org>
-> -0xB2  08     powerpc/include/uapi/asm/papr-physical-
-> attestation.h    powerpc/pseries Physical Attestation API
-> -                                                                    
->  <mailto:linuxppc-dev@lists.ozlabs.org>
-> +0xAD  00                                                            
->    Netfilter device in development:
-> +                                                                    
->    <mailto:rusty@rustcorp.com.au>
-> +0xAE  00-
-> 1F  linux/kvm.h                                               Kernel-
-> based Virtual Machine
-> +                                                                    
->    <mailto:kvm@vger.kernel.org>
-> +0xAE  40-
-> FF  linux/kvm.h                                               Kernel-
-> based Virtual Machine
-> +                                                                    
->    <mailto:kvm@vger.kernel.org>
-> +0xAE  20-
-> 3F  linux/nitro_enclaves.h                                    Nitro
-> Enclaves
-> +0xAF  00-
-> 1F  linux/fsl_hypervisor.h                                    Freesca
-> le hypervisor
-> +0xB0  all                                                           
->    RATIO devices in development:
-> +                                                                    
->    <mailto:vgo@ratio.de>
-> +0xB1  00-
-> 1F                                                            PPPoX
-> +                                                                    
->    <mailto:mostrows@styx.uwaterloo.ca>
-> +0xB2  00     arch/powerpc/include/uapi/asm/papr-
-> vpd.h                  powerpc/pseries VPD API
-> +                                                                    
->    <mailto:linuxppc-dev@lists.ozlabs.org>
-> +0xB2  01-02  arch/powerpc/include/uapi/asm/papr-
-> sysparm.h              powerpc/pseries system parameter API
-> +                                                                    
->    <mailto:linuxppc-dev@lists.ozlabs.org>
-> +0xB2  03-05  arch/powerpc/include/uapi/asm/papr-
-> indices.h              powerpc/pseries indices API
-> +                                                                    
->    <mailto:linuxppc-dev@lists.ozlabs.org>
-> +0xB2  06-07  arch/powerpc/include/uapi/asm/papr-platform-
-> dump.h        powerpc/pseries Platform Dump API
-> +                                                                    
->    <mailto:linuxppc-dev@lists.ozlabs.org>
-> +0xB2  08     powerpc/include/uapi/asm/papr-physical-
-> attestation.h      powerpc/pseries Physical Attestation API
-> +                                                                    
->    <mailto:linuxppc-dev@lists.ozlabs.org>
->  0xB3  00     linux/mmc/ioctl.h
-> -0xB4  00-
-> 0F  linux/gpio.h                                            <mailto:
-> linux-gpio@vger.kernel.org>
-> -0xB5  00-
-> 0F  uapi/linux/rpmsg.h                                      <mailto:
-> linux-remoteproc@vger.kernel.org>
-> +0xB4  00-
-> 0F  linux/gpio.h                                              <mailto
-> :linux-gpio@vger.kernel.org>
-> +0xB5  00-
-> 0F  uapi/linux/rpmsg.h                                        <mailto
-> :linux-remoteproc@vger.kernel.org>
->  0xB6  all    linux/fpga-dfl.h
-> -0xB7  all    uapi/linux/remoteproc_cdev.h                           
->  <mailto:linux-remoteproc@vger.kernel.org>
-> -0xB7  all    uapi/linux/nsfs.h                                      
->  <mailto:Andrei Vagin <avagin@openvz.org>>
-> -0xB8  01-
-> 02  uapi/misc/mrvl_cn10k_dpi.h                              Marvell
-> CN10K DPI driver
-> -0xB8  all    uapi/linux/mshv.h                                      
->  Microsoft Hyper-V /dev/mshv driver
-> -                                                                    
->  <mailto:linux-hyperv@vger.kernel.org>
-> +0xB7  all    uapi/linux/remoteproc_cdev.h                           
->    <mailto:linux-remoteproc@vger.kernel.org>
-> +0xB7  all    uapi/linux/nsfs.h                                      
->    <mailto:Andrei Vagin <avagin@openvz.org>>
-> +0xB8  01-
-> 02  uapi/misc/mrvl_cn10k_dpi.h                                Marvell
-> CN10K DPI driver
-> +0xB8  all    uapi/linux/mshv.h                                      
->    Microsoft Hyper-V /dev/mshv driver
-> +                                                                    
->    <mailto:linux-hyperv@vger.kernel.org>
->  0xC0  00-0F  linux/usb/iowarrior.h
-> -0xCA  00-
-> 0F  uapi/misc/cxl.h                                         Dead
-> since 6.15
-> +0xCA  00-
-> 0F  uapi/misc/cxl.h                                           Dead
-> since 6.15
->  0xCA  10-2F  uapi/misc/ocxl.h
-> -0xCA  80-
-> BF  uapi/scsi/cxlflash_ioctl.h                              Dead
-> since 6.15
-> -0xCB  00-
-> 1F                                                          CBM
-> serial IEC bus in development:
-> -                                                                    
->  <mailto:michael.klein@puffin.lb.shuttle.de>
-> -0xCC  00-
-> 0F  drivers/misc/ibmvmc.h                                   pseries
-> VMC driver
-> -0xCD  01     linux/reiserfs_fs.h                                    
->  Dead since 6.13
-> -0xCE  01-
-> 02  uapi/linux/cxl_mem.h                                    Compute
-> Express Link Memory Devices
-> +0xCA  80-
-> BF  uapi/scsi/cxlflash_ioctl.h                                Dead
-> since 6.15
-> +0xCB  00-
-> 1F                                                            CBM
-> serial IEC bus in development:
-> +                                                                    
->    <mailto:michael.klein@puffin.lb.shuttle.de>
-> +0xCC  00-
-> 0F  drivers/misc/ibmvmc.h                                     pseries
-> VMC driver
-> +0xCD  01     linux/reiserfs_fs.h                                    
->    Dead since 6.13
-> +0xCE  01-
-> 02  uapi/linux/cxl_mem.h                                      Compute
-> Express Link Memory Devices
->  0xCF  02     fs/smb/client/cifs_ioctl.h
->  0xDB  00-0F  drivers/char/mwave/mwavepub.h
-> -0xDD  00-
-> 3F                                                          ZFCP
-> device driver see drivers/s390/scsi/
-> -                                                                    
->  <mailto:aherrman@de.ibm.com>
-> +0xDD  00-
-> 3F                                                            ZFCP
-> device driver see drivers/s390/scsi/
-> +                                                                    
->    <mailto:aherrman@de.ibm.com>
->  0xE5  00-3F  linux/fuse.h
-> -0xEC  00-
-> 01  drivers/platform/chrome/cros_ec_dev.h                   ChromeOS
-> EC driver
-> -0xEE  00-
-> 09  uapi/linux/pfrut.h                                      Platform
-> Firmware Runtime Update and Telemetry
-> -0xF3  00-
-> 3F  drivers/usb/misc/sisusbvga/sisusb.h                     sisfb (in
-> development)
-> -                                                                    
->  <mailto:thomas@winischhofer.net>
-> -0xF6  all                                                           
->  LTTng Linux Trace Toolkit Next Generation
-> -                                                                    
->  <mailto:mathieu.desnoyers@efficios.com>
-> -0xF8  all    arch/x86/include/uapi/asm/amd_hsmp.h                   
->  AMD HSMP EPYC system management interface driver
-> -                                                                    
->  <mailto:nchatrad@amd.com>
-> -0xF9  00-0F  uapi/misc/amd-apml.h		                     AM
-> D side band system management interface driver
-> -                                                                    
->  <mailto:naveenkrishna.chatradhi@amd.com>
-> +0xEC  00-
-> 01  drivers/platform/chrome/cros_ec_dev.h                     ChromeO
-> S EC driver
-> +0xEE  00-
-> 09  uapi/linux/pfrut.h                                        Platfor
-> m Firmware Runtime Update and Telemetry
-> +0xF3  00-
-> 3F  drivers/usb/misc/sisusbvga/sisusb.h                       sisfb
-> (in development)
-> +                                                                    
->    <mailto:thomas@winischhofer.net>
-> +0xF6  all                                                           
->    LTTng Linux Trace Toolkit Next Generation
-> +                                                                    
->    <mailto:mathieu.desnoyers@efficios.com>
-> +0xF8  all    arch/x86/include/uapi/asm/amd_hsmp.h                   
->    AMD HSMP EPYC system management interface driver
-> +                                                                    
->    <mailto:nchatrad@amd.com>
-> +0xF9  00-0F  uapi/misc/amd-apml.h		                       
-> AMD side band system management interface driver
-> +                                                                    
->    <mailto:naveenkrishna.chatradhi@amd.com>
->  0xFD  all    linux/dm-ioctl.h
->  0xFE  all    linux/isst_if.h
-> -====  =====  =======================================================
-> ================================================================
-> +====  =====  =======================================================
-> == ================================================================
-
+>  	  The kunit tests require this to be enabled to get full coverage.
+> +
+> +config IOMMU_PT
+> +	tristate "IOMMU Page Tables"
+> +	select IOMMU_API
+> +	depends on IOMMU_SUPPORT
+> +	depends on GENERIC_PT
+> +	default n
+> +	help
+> +	  Generic library for building IOMMU page tables
+> +
+> +	  IOMMU_PT provides an implementation of the page table operations
+> +	  related struct iommu_domain using GENERIC_PT to abstract the page
+> +	  table format.
+>  endif
+> diff --git a/drivers/iommu/generic_pt/fmt/iommu_template.h b/drivers/iommu/generic_pt/fmt/iommu_template.h
+> new file mode 100644
+> index 00000000000000..5b631bc07cbc16
+> --- /dev/null
+> +++ b/drivers/iommu/generic_pt/fmt/iommu_template.h
+> @@ -0,0 +1,39 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2024-2025, NVIDIA CORPORATION & AFFILIATES
+> + *
+> + * Template to build the iommu module and kunit from the format and
+> + * implementation headers.
+> + *
+> + * The format should have:
+> + *  #define PT_FMT <name>
+> + *  #define PT_SUPPORTED_FEATURES (BIT(PT_FEAT_xx) | BIT(PT_FEAT_yy))
+> + * And optionally:
+> + *  #define PT_FORCE_ENABLED_FEATURES ..
+> + *  #define PT_FMT_VARIANT <suffix>
+> + */
+> +#include <linux/args.h>
+> +#include <linux/stringify.h>
+> +
+> +#ifdef PT_FMT_VARIANT
+> +#define PTPFX_RAW \
+> +	CONCATENATE(CONCATENATE(PT_FMT, _), PT_FMT_VARIANT)
+> +#else
+> +#define PTPFX_RAW PT_FMT
+> +#endif
+> +
+> +#define PTPFX CONCATENATE(PTPFX_RAW, _)
+> +
+> +#define _PT_FMT_H PT_FMT.h
+> +#define PT_FMT_H __stringify(_PT_FMT_H)
+> +
+> +#define _PT_DEFS_H CONCATENATE(defs_, _PT_FMT_H)
+> +#define PT_DEFS_H __stringify(_PT_DEFS_H)
+> +
+> +#include <linux/generic_pt/common.h>
+> +#include PT_DEFS_H
+> +#include "../pt_defs.h"
+> +#include PT_FMT_H
+> +#include "../pt_common.h"
+> +
+> +#include "../iommu_pt.h"
+> diff --git a/drivers/iommu/generic_pt/iommu_pt.h b/drivers/iommu/generic_pt/iommu_pt.h
+> new file mode 100644
+> index 00000000000000..205c232bda68b5
+> --- /dev/null
+> +++ b/drivers/iommu/generic_pt/iommu_pt.h
+> @@ -0,0 +1,268 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2024-2025, NVIDIA CORPORATION & AFFILIATES
+> + *
+> + * "Templated C code" for implementing the iommu operations for page tables.
+> + * This is compiled multiple times, over all the page table formats to pick up
+> + * the per-format definitions.
+> + */
+> +#ifndef __GENERIC_PT_IOMMU_PT_H
+> +#define __GENERIC_PT_IOMMU_PT_H
+> +
+> +#include "pt_iter.h"
+> +
+> +#include <linux/iommu.h>
+> +#include "../iommu-pages.h"
+> +#include <linux/export.h>
+> +
+> +#define DOMAIN_NS(op) CONCATENATE(CONCATENATE(pt_iommu_, PTPFX), op)
+> +
+> +struct pt_iommu_collect_args {
+> +	struct iommu_pages_list free_list;
+> +	u8 ignore_mapped : 1;
+> +};
+> +
+> +static int __collect_tables(struct pt_range *range, void *arg,
+> +			    unsigned int level, struct pt_table_p *table)
+> +{
+> +	struct pt_state pts = pt_init(range, level, table);
+> +	struct pt_iommu_collect_args *collect = arg;
+> +	int ret;
+> +
+> +	if (collect->ignore_mapped && !pt_can_have_table(&pts))
+> +		return 0;
+> +
+> +	for_each_pt_level_entry(&pts) {
+> +		if (pts.type == PT_ENTRY_TABLE) {
+> +			iommu_pages_list_add(&collect->free_list, pts.table_lower);
+> +			ret = pt_descend(&pts, arg, __collect_tables);
+> +			if (ret)
+> +				return ret;
+> +			continue;
+> +		}
+> +		if (pts.type == PT_ENTRY_OA && !collect->ignore_mapped)
+> +			return -EADDRINUSE;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static inline struct pt_table_p *table_alloc_top(struct pt_common *common,
+> +						 uintptr_t top_of_table,
+> +						 gfp_t gfp)
+> +{
+> +	struct pt_iommu *iommu_table = iommu_from_common(common);
+> +
+> +	/*
+> +	 * Top doesn't need the free list or otherwise, so it technically
+> +	 * doesn't need to use iommu pages. Use the API anyhow as the top is
+> +	 * usually not smaller than PAGE_SIZE to keep things simple.
+> +	 */
+> +	return iommu_alloc_pages_node_sz(
+> +		iommu_table->nid, gfp,
+> +		log2_to_int(pt_top_memsize_lg2(common, top_of_table)));
+> +}
+> +
+> +static void NS(get_info)(struct pt_iommu *iommu_table,
+> +			 struct pt_iommu_info *info)
+> +{
+> +	struct pt_common *common = common_from_iommu(iommu_table);
+> +	struct pt_range range = pt_top_range(common);
+> +	struct pt_state pts = pt_init_top(&range);
+> +	pt_vaddr_t pgsize_bitmap = 0;
+> +
+> +	if (pt_feature(common, PT_FEAT_DYNAMIC_TOP)) {
+> +		for (pts.level = 0; pts.level <= PT_MAX_TOP_LEVEL;
+> +		     pts.level++) {
+> +			if (pt_table_item_lg2sz(&pts) >= common->max_vasz_lg2)
+> +				break;
+> +			pgsize_bitmap |= pt_possible_sizes(&pts);
+> +		}
+> +	} else {
+> +		for (pts.level = 0; pts.level <= range.top_level; pts.level++)
+> +			pgsize_bitmap |= pt_possible_sizes(&pts);
+> +	}
+> +
+> +	/* Hide page sizes larger than the maximum OA */
+> +	info->pgsize_bitmap = oalog2_mod(pgsize_bitmap, common->max_oasz_lg2);
+> +}
+> +
+> +static void NS(deinit)(struct pt_iommu *iommu_table)
+> +{
+> +	struct pt_common *common = common_from_iommu(iommu_table);
+> +	struct pt_range range = pt_all_range(common);
+> +	struct pt_iommu_collect_args collect = {
+> +		.free_list = IOMMU_PAGES_LIST_INIT(collect.free_list),
+> +		.ignore_mapped = true,
+> +	};
+> +
+> +	iommu_pages_list_add(&collect.free_list, range.top_table);
+> +	pt_walk_range(&range, __collect_tables, &collect);
+> +
+> +	/*
+> +	 * The driver has to already have fenced the HW access to the page table
+> +	 * and invalidated any caching referring to this memory.
+> +	 */
+> +	iommu_put_pages_list(&collect.free_list);
+> +}
+> +
+> +static const struct pt_iommu_ops NS(ops) = {
+> +	.get_info = NS(get_info),
+> +	.deinit = NS(deinit),
+> +};
+> +
+> +static int pt_init_common(struct pt_common *common)
+> +{
+> +	struct pt_range top_range = pt_top_range(common);
+> +
+> +	if (PT_WARN_ON(top_range.top_level > PT_MAX_TOP_LEVEL))
+> +		return -EINVAL;
+> +
+> +	if (top_range.top_level == PT_MAX_TOP_LEVEL ||
+> +	    common->max_vasz_lg2 == top_range.max_vasz_lg2)
+> +		common->features &= ~BIT(PT_FEAT_DYNAMIC_TOP);
+> +
+> +	if (top_range.max_vasz_lg2 == PT_VADDR_MAX_LG2)
+> +		common->features |= BIT(PT_FEAT_FULL_VA);
+> +
+> +	/* Requested features must match features compiled into this format */
+> +	if ((common->features & ~(unsigned int)PT_SUPPORTED_FEATURES) ||
+> +	    (!IS_ENABLED(CONFIG_DEBUG_GENERIC_PT) &&
+> +	     (common->features & PT_FORCE_ENABLED_FEATURES) !=
+> +		     PT_FORCE_ENABLED_FEATURES))
+> +		return -EOPNOTSUPP;
+> +
+> +	if (common->max_oasz_lg2 == 0)
+> +		common->max_oasz_lg2 = pt_max_output_address_lg2(common);
+> +	else
+> +		common->max_oasz_lg2 = min(common->max_oasz_lg2,
+> +					   pt_max_output_address_lg2(common));
+> +	return 0;
+> +}
+> +
+> +static int pt_iommu_init_domain(struct pt_iommu *iommu_table,
+> +				struct iommu_domain *domain)
+> +{
+> +	struct pt_common *common = common_from_iommu(iommu_table);
+> +	struct pt_iommu_info info;
+> +	struct pt_range range;
+> +
+> +	NS(get_info)(iommu_table, &info);
+> +
+> +	domain->type = __IOMMU_DOMAIN_PAGING;
+> +	domain->pgsize_bitmap = info.pgsize_bitmap;
+> +
+> +	if (pt_feature(common, PT_FEAT_DYNAMIC_TOP))
+> +		range = _pt_top_range(common,
+> +				      _pt_top_set(NULL, PT_MAX_TOP_LEVEL));
+> +	else
+> +		range = pt_top_range(common);
+> +
+> +	/*
+> +	 * A 64 bit high address space table on a 32 bit system cannot work.
+> +	 */
+> +	domain->geometry.aperture_start = (unsigned long)range.va;
+> +	if ((pt_vaddr_t)domain->geometry.aperture_start != range.va ||
+> +	    range.va > ULONG_MAX)
+> +		return -EOVERFLOW;
+> +
+> +	/*
+> +	 * The aperture is limited to what the API can do after considering all
+> +	 * the different types dma_addr_t/unsigned long/pt_vaddr_t that are used
+> +	 * to store a VA. Set the aperture to something that is valid for all
+> +	 * cases. Saturate instead of truncate the end if the types are smaller
+> +	 * than the top range. aperture_end is a last.
+> +	 */
+> +	domain->geometry.aperture_end = (unsigned long)range.last_va;
+> +	if ((pt_vaddr_t)domain->geometry.aperture_end != range.last_va) {
+> +		domain->geometry.aperture_end = ULONG_MAX;
+> +		domain->pgsize_bitmap &= ULONG_MAX;
+> +	}
+> +	domain->geometry.force_aperture = true;
+> +
+> +	return 0;
+> +}
+> +
+> +static void pt_iommu_zero(struct pt_iommu_table *fmt_table)
+> +{
+> +	struct pt_iommu *iommu_table = &fmt_table->iommu;
+> +	struct pt_iommu cfg = *iommu_table;
+> +
+> +	static_assert(offsetof(struct pt_iommu_table, iommu.domain) == 0);
+> +	memset_after(fmt_table, 0, iommu.domain);
+> +
+> +	/* The caller can initialize some of these values */
+> +	iommu_table->nid = cfg.nid;
+> +}
+> +
+> +#define pt_iommu_table_cfg CONCATENATE(pt_iommu_table, _cfg)
+> +#define pt_iommu_init CONCATENATE(CONCATENATE(pt_iommu_, PTPFX), init)
+> +int pt_iommu_init(struct pt_iommu_table *fmt_table,
+> +		  const struct pt_iommu_table_cfg *cfg, gfp_t gfp)
+> +{
+> +	struct pt_iommu *iommu_table = &fmt_table->iommu;
+> +	struct pt_common *common = common_from_iommu(iommu_table);
+> +	struct pt_table_p *table_mem;
+> +	int ret;
+> +
+> +	if (cfg->common.hw_max_vasz_lg2 > PT_MAX_VA_ADDRESS_LG2 ||
+> +	    !cfg->common.hw_max_vasz_lg2 || !cfg->common.hw_max_oasz_lg2)
+> +		return -EINVAL;
+> +
+> +	pt_iommu_zero(fmt_table);
+> +	common->features = cfg->common.features;
+> +	common->max_vasz_lg2 = cfg->common.hw_max_vasz_lg2;
+> +	common->max_oasz_lg2 = cfg->common.hw_max_oasz_lg2;
+> +#ifdef PT_FIXED_TOP_LEVEL
+> +	pt_top_set_level(common, PT_FIXED_TOP_LEVEL);
+> +#endif
+> +	ret = pt_iommu_fmt_init(fmt_table, cfg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (cfg->common.hw_max_oasz_lg2 > pt_max_output_address_lg2(common))
+> +		return -EINVAL;
+> +
+> +	ret = pt_init_common(common);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (pt_feature(common, PT_FEAT_SIGN_EXTEND) &&
+> +	    (pt_feature(common, PT_FEAT_FULL_VA) ||
+> +	     pt_feature(common, PT_FEAT_DYNAMIC_TOP)))
+> +		return -EINVAL;
+> +
+> +	ret = pt_iommu_init_domain(iommu_table, &iommu_table->domain);
+> +	if (ret)
+> +		return ret;
+> +
+> +	table_mem = table_alloc_top(common, common->top_of_table, gfp);
+> +	if (IS_ERR(table_mem))
+> +		return PTR_ERR(table_mem);
+> +	pt_top_set(common, table_mem, pt_top_get_level(common));
+> +
+> +	/* Must be last, see pt_iommu_deinit() */
+> +	iommu_table->ops = &NS(ops);
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(pt_iommu_init, "GENERIC_PT_IOMMU");
+> +
+> +#ifdef pt_iommu_fmt_hw_info
+> +#define pt_iommu_table_hw_info CONCATENATE(pt_iommu_table, _hw_info)
+> +#define pt_iommu_hw_info CONCATENATE(CONCATENATE(pt_iommu_, PTPFX), hw_info)
+> +void pt_iommu_hw_info(struct pt_iommu_table *fmt_table,
+> +		      struct pt_iommu_table_hw_info *info)
+> +{
+> +	struct pt_iommu *iommu_table = &fmt_table->iommu;
+> +	struct pt_common *common = common_from_iommu(iommu_table);
+> +	struct pt_range top_range = pt_top_range(common);
+> +
+> +	pt_iommu_fmt_hw_info(fmt_table, &top_range, info);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(pt_iommu_hw_info, "GENERIC_PT_IOMMU");
+> +#endif
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("IOMMU Pagetable implementation for " __stringify(PTPFX_RAW));
+> +MODULE_IMPORT_NS("GENERIC_PT");
+> +
+> +#endif
+> diff --git a/include/linux/generic_pt/iommu.h b/include/linux/generic_pt/iommu.h
+> new file mode 100644
+> index 00000000000000..9d2152bc64c0d6
+> --- /dev/null
+> +++ b/include/linux/generic_pt/iommu.h
+> @@ -0,0 +1,118 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2024-2025, NVIDIA CORPORATION & AFFILIATES
+> + */
+> +#ifndef __GENERIC_PT_IOMMU_H
+> +#define __GENERIC_PT_IOMMU_H
+> +
+> +#include <linux/generic_pt/common.h>
+> +#include <linux/iommu.h>
+> +#include <linux/mm_types.h>
+> +
+> +struct pt_iommu_ops;
+> +
+> +/**
+> + * DOC: IOMMU Radix Page Table
+> + *
+> + * The iommu implementation of the Generic Page Table provides an ops struct
+> + * that is useful to go with an iommu_domain to serve the DMA API, IOMMUFD and
+> + * the generic map/unmap interface.
+> + *
+> + * This interface uses a caller provided locking approach. The caller must have
+> + * a VA range lock concept that prevents concurrent threads from calling ops on
+> + * the same VA. Generally the range lock must be at least as large as a single
+> + * map call.
+> + */
+> +
+> +/**
+> + * struct pt_iommu - Base structure for iommu page tables
+> + *
+> + * The format specific struct will include this as the first member.
+> + */
+> +struct pt_iommu {
+> +	/**
+> +	 * @domain - The core iommu domain. The driver should use a union to
+> +	 * overlay this memory with its previously existing domain struct to
+> +	 * create an alias.
+> +	 */
+> +	struct iommu_domain domain;
+> +
+> +	/**
+> +	 * @ops - Function pointers to access the API
+> +	 */
+> +	const struct pt_iommu_ops *ops;
+> +
+> +	/**
+> +	 * @nid - Node ID to use for table memory allocations. The iommu driver
+> +	 * may want to set the NID to the device's NID, if there are multiple
+> +	 * table walkers.
+> +	 */
+> +	int nid;
+> +};
+> +
+> +/**
+> + * struct pt_iommu_info - Details about the iommu page table
+> + *
+> + * Returned from pt_iommu_ops->get_info()
+> + */
+> +struct pt_iommu_info {
+> +	/**
+> +	 * @pgsize_bitmap - A bitmask where each set bit indicates
+> +	 * a page size that can be natively stored in the page table.
+> +	 */
+> +	u64 pgsize_bitmap;
+> +};
+> +
+> +struct pt_iommu_ops {
+> +	/**
+> +	 * get_info() - Return the pt_iommu_info structure
+> +	 * @iommu_table: Table to query
+> +	 *
+> +	 * Return some basic static information about the page table.
+> +	 */
+> +	void (*get_info)(struct pt_iommu *iommu_table,
+> +			 struct pt_iommu_info *info);
+> +
+> +	/**
+> +	 * deinit() - Undo a format specific init operation
+> +	 * @iommu_table: Table to destroy
+> +	 *
+> +	 * Release all of the memory. The caller must have already removed the
+> +	 * table from all HW access and all caches.
+> +	 */
+> +	void (*deinit)(struct pt_iommu *iommu_table);
+> +};
+> +
+> +static inline void pt_iommu_deinit(struct pt_iommu *iommu_table)
+> +{
+> +	/*
+> +	 * It is safe to call pt_iommu_deinit() before an init, or if init
+> +	 * fails. The ops pointer will only become non-NUL if deinit needs to be
+> +	 * run.
+> +	 */
+> +	if (iommu_table->ops)
+> +		iommu_table->ops->deinit(iommu_table);
+> +}
+> +
+> +/**
+> + * struct pt_iommu_cfg - Common configuration values for all formats
+> + */
+> +struct pt_iommu_cfg {
+> +	/**
+> +	 * @features - Features required. Only these features will be turned on.
+> +	 * The feature list should reflect what the IOMMU HW is capable of.
+> +	 */
+> +	unsigned int features;
+> +	/**
+> +	 * @hw_max_vasz_lg2 - Maximum VA the IOMMU HW can support. This will
+> +	 * imply the top level of the table.
+> +	 */
+> +	u8 hw_max_vasz_lg2;
+> +	/**
+> +	 * @hw_max_oasz_lg2 - Maximum OA the IOMMU HW can support. The format
+> +	 * might select a lower maximum OA.
+> +	 */
+> +	u8 hw_max_oasz_lg2;
+> +};
+> +
+> +#endif
+> -- 
+> 2.43.0
+> 
