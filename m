@@ -1,42 +1,64 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DAF2356D9
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 12:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8B228137E
+	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 13:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751979391; cv=none; b=oT4JgygIS74oQ73PsW6I5z+Lg4jhvl7HhbqTJCjE/I5tWsy3THrAhwb/vbuZ8oqSTz6Sj44BMISUnKFxnon4QiEJK/kioSk/zDZzvJwkFce/yiZ4TYD+YJV/GsqCjQlDAKyX8q4cNXYBCyzQhFLOIyct/Hwy6Kd4XGS3sQU4bcE=
+	t=1751979787; cv=none; b=MzOK8WGM2KKvEY6hAyppA2PNzaYN1p0J7kyMkpNfY8mldxn7xp7lXizrK162LeovS8s2lC8CZHYhYH/Rpq52FeWtUjP77BJa4LIKDYexrqjrY5eYTaRhuD/fhMMVTTTy4oy3liq4s+MAizys3EBpTFhSvs21lfDqidNiMD9uEA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751979391; c=relaxed/simple;
-	bh=tJRA7m1/e900tlxVd4Za+3wH7OTzUtyyJem1XRv1vJ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=DlUGzEzlxPAbeKiBHzYuqc2bQkc93BH0U/tItI9iNxTV2rByoBj29FG5K65YCyHc9WiTlpGn+9BsHSvIGxk4WjVePj68v2qdaJiSXCY4NTxOx2dn+DXLiXOevZ6/0XZWNp+2xyxFHxIA222iQf5wwksBh12rb/8leNjk1EcxFOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=rUMpLiKt; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1751979787; c=relaxed/simple;
+	bh=Y3ssvtVdT6GjWAm8mQjmaHBVjpYwMBCiiVf9vi3pxuY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D4gRPj3WK4gjVdNVqB7Fi7twwI0u/MicKZsAiMf7ZqJNWbeJDi2OV2x74UGhQsUBkRcqKLiqeJftgdDvOUWq5Am3MXL1LjhE9sU1f1QAe5crjj8Y6LixmLKE4f2uH7aQWL3cb1wij8+zFRcXiYVpgaoyI0rwhbzCBjRH9c2IWq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QXTJyVzd; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="rUMpLiKt"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250708125626euoutp025a796d847dd01d50efb0be4ba12e9910~QR-hSkGh60145701457euoutp02e
-	for <linux-doc@vger.kernel.org>; Tue,  8 Jul 2025 12:56:26 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250708125626euoutp025a796d847dd01d50efb0be4ba12e9910~QR-hSkGh60145701457euoutp02e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1751979386;
-	bh=7/XLYR0OqGT6q8wsQL9awTM8RahowyCK2kF3Lml5n78=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=rUMpLiKtylansmwZEOTSLIDw3e88apapi9cZUeM+VwB6dnZwW74YiawcqeB7aNHsz
-	 phmldqGZGmgcE5mbHZFMvy+/ua/qmdnZrQIXXdjq/6DIcaz3yi5eWLpP0dS+1ew2NU
-	 O2DMyf6ZjkU0E5KGbps8p5YBy+HTdwiEMA3XvUgM=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250708125626eucas1p10fea4e2440d7273510ca606b8c879240~QR-go19vo0583905839eucas1p1z;
-	Tue,  8 Jul 2025 12:56:26 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250708125622eusmtip2e8d499202aebc1a18605d526cd72bbdc~QR-dBQdu70489204892eusmtip2-;
-	Tue,  8 Jul 2025 12:56:22 +0000 (GMT)
-Message-ID: <39d43309-9f34-48bc-a9ad-108c607ba175@samsung.com>
-Date: Tue, 8 Jul 2025 14:56:21 +0200
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QXTJyVzd"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a5123c1533so2042461f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Jul 2025 06:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1751979784; x=1752584584; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pBNKDiLRChysupmqvHKYT2mfcl/4n2UVzs+2m0NT2FQ=;
+        b=QXTJyVzdueIRU0o9g/i9oqv+5txIZIlJkNbHBbgkqmzy/thsWqAT3kwYEnLTrHM1oi
+         D7V4x4KjWXmC8YUTfzCUZOfpruFp0y3SKADlUrcD9ymfZ/xz6NqQmmp14+SON2LpaZ9Q
+         S7NEmfS4u6wVRBgo+IhsPrYbN67Czj6gfJLhFpW9i3s1rb0KdCGdEoMO1eLjNbXCAHOo
+         GbIiipQVjtdpv+ysL72zUvD5UtsR5Rvyp4phzAgc+VX7Bg8UfuI9NyVxEpBWf4wuojWz
+         H4PP4EMfFhHxXNLvFUGaoIIWmAB2AlTpcl+SOx4fRfC2d39zO1fvTrBaFvrAiM/I48uo
+         EhMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751979784; x=1752584584;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pBNKDiLRChysupmqvHKYT2mfcl/4n2UVzs+2m0NT2FQ=;
+        b=NKiqptQWy2jZfCw/iUM5yKs4jBHMe4jyy7dMPM17WNT8iGMeAMJM3Xx0BhvDVNAROC
+         c2Qa6bA0/kHWcrmxjaHeNqIgvfLdkoob1E/8JmuGAvREJA7hkggAYvAg04B5Sa+y62vi
+         kWrvpqKKylYRU+USy7MCF1VAjURFynVdbWkvAZe/K8jWtDYNn71DSJFCdxaqLXyFz6Ap
+         SlRMDTD/7Cp5PX858eof4EFzq7EfBTzNtZkd3LkiLHo7pQBhJEVOJFb14ZTvKwOa798h
+         sh9VkQeb+vlBeyyD3tniM2GmMR1ZS2fayzdGbUpjvfK4qshOQo53AeDnqWz+temywUD7
+         Gzhg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOjAnjsmJfg87wgnSS+liwkQhc4JF5ZOFykY0LayVXWvgedpOjfL9VQt0cOBdF50yugfxDOsHOQko=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPziGy3gJWJM141A5kb33Z4aUuJDT5NlluzC0hLlCBdKTZ7eI4
+	lkx3ldQZ79zLgXc9KadmJaihOkWaJGF9WYvJxFMBs7GQtlPUO5r1dyFJ/dadyjlgfxQ=
+X-Gm-Gg: ASbGncuYdjvtHtP3ibiALhw2H2HwYEhFF5wS5EnwqnwFB6tJqYVBzfYCkLiOyFDB/5u
+	oYihMsdZHtUhvkz8kqsXesDAaMTFPO4KDqkvgR2jvy3gEbe5IhXjGbUwx1Gn8Z3yO7uk3TLhFr9
+	7SxLyaj5IaJRl79pu4LXJITc1T/yCSZdNJaWU9NhMYsoJphrnBwHxPUyWYc6KQqezwvRWvB8ITp
+	Olm0AEEDmh68uElyI/gxAH9/y6VLJhAdktAyVCSLYlaOfZXnpdterpGwihkt/LgiRZShXOR+XNV
+	itlmimwiH39Ocg0toe+/pAi6UhYQfVAe2WSBfSNiUCXJzxXHzHM9I7aivNqj1CpEtQ==
+X-Google-Smtp-Source: AGHT+IHMi4WXnVkZEVqB8NLtkDRu4v1G03GHPDZ2k6n5a8/P6IJD/eLFHdZsgcA96vMaGQOq9oe5XQ==
+X-Received: by 2002:a05:6000:386:b0:3a4:f024:6717 with SMTP id ffacd0b85a97d-3b4964ebe27mr14567959f8f.53.1751979783397;
+        Tue, 08 Jul 2025 06:03:03 -0700 (PDT)
+Received: from [10.100.51.209] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b4708d0941sm12821553f8f.26.2025.07.08.06.03.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Jul 2025 06:03:03 -0700 (PDT)
+Message-ID: <20c5feae-25c0-4c8a-a40a-b35cece6c166@suse.com>
+Date: Tue, 8 Jul 2025 15:03:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,91 +66,61 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman
-	<mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
-	<christophe.leroy@csgroup.eu>, Robin Murphy <robin.murphy@arm.com>, Joerg
-	Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, "Michael S.
-	Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Alexander Potapenko <glider@google.com>, Marco Elver
- <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, Andrew Morton
- <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- iommu@lists.linux.dev, virtualization@lists.linux.dev,
- kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
- linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 1/2] module: Restrict module namespace access to in-tree
+ modules
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Matthias Maennich <maennich@google.com>, Jonathan Corbet
+ <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
+ <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Christoph Hellwig <hch@infradead.org>, Peter Zijlstra
+ <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
+ Shivank Garg <shivankg@amd.com>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
+ <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
 Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20250708120647.GG592765@unreal>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250708125626eucas1p10fea4e2440d7273510ca606b8c879240
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf
-X-EPHeader: CA
-X-CMS-RootMailID: 20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf
-References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
-	<cover.1750854543.git.leon@kernel.org>
-	<35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
-	<20250627170213.GL17401@unreal> <20250630133839.GA26981@lst.de>
-	<69b177dc-c149-40d3-bbde-3f6bad0efd0e@samsung.com>
-	<20250708110007.GF592765@unreal>
-	<261f2417-78a9-45b8-bcec-7e36421a243c@samsung.com>
-	<20250708120647.GG592765@unreal>
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 08.07.2025 14:06, Leon Romanovsky wrote:
-> On Tue, Jul 08, 2025 at 01:45:20PM +0200, Marek Szyprowski wrote:
->> On 08.07.2025 13:00, Leon Romanovsky wrote:
->>> On Tue, Jul 08, 2025 at 12:27:09PM +0200, Marek Szyprowski wrote:
->>>> On 30.06.2025 15:38, Christoph Hellwig wrote:
->>>>> On Fri, Jun 27, 2025 at 08:02:13PM +0300, Leon Romanovsky wrote:
->>>>>>> Thanks for this rework! I assume that the next step is to add map_phys
->>>>>>> callback also to the dma_map_ops and teach various dma-mapping providers
->>>>>>> to use it to avoid more phys-to-page-to-phys conversions.
->>>>>> Probably Christoph will say yes, however I personally don't see any
->>>>>> benefit in this. Maybe I wrong here, but all existing .map_page()
->>>>>> implementation platforms don't support p2p anyway. They won't benefit
->>>>>> from this such conversion.
->>>>> I think that conversion should eventually happen, and rather sooner than
->>>>> later.
->>>> Agreed.
->>>>
->>>> Applied patches 1-7 to my dma-mapping-next branch. Let me know if one
->>>> needs a stable branch with it.
->>> Thanks a lot, I don't think that stable branch is needed. Realistically
->>> speaking, my VFIO DMA work won't be merged this cycle, We are in -rc5,
->>> it is complete rewrite from RFC version and touches pci-p2p code (to
->>> remove dependency on struct page) in addition to VFIO, so it will take
->>> time.
->>>
->>> Regarding, last patch (hmm), it will be great if you can take it.
->>> We didn't touch anything in hmm.c this cycle and have no plans to send PR.
->>> It can safely go through your tree.
->> Okay, then I would like to get an explicit ack from Jérôme for this.
-> Jerome is not active in HMM world for a long time already.
-> HMM tree is managed by us (RDMA) https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git/log/?h=hmm
-> ➜  kernel git:(m/dmabuf-vfio) git log --merges mm/hmm.c
-> ...
-> Pull HMM updates from Jason Gunthorpe:
-> ...
->
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=58ba80c4740212c29a1cf9b48f588e60a7612209
-> +hmm		git	git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git#hmm
->
-> We just never bothered to reflect current situation in MAINTAINERS file.
+On 7/8/25 9:28 AM, Vlastimil Babka wrote:
+> The module namespace support has been introduced to allow restricting
+> exports to specific modules only, and intended for in-tree modules such
+> as kvm. Make this intention explicit by disallowing out of tree modules
+> both for the module loader and modpost.
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+> [...]
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index 413ac6ea37021bc8ae260f624ca2745ed85333fc..ec7d8daa0347e3b65713396d6b6d14c2cb0270d3 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -1157,7 +1157,8 @@ static int verify_namespace_is_imported(const struct load_info *info,
+>  	namespace = kernel_symbol_namespace(sym);
+>  	if (namespace && namespace[0]) {
+>  
+> -		if (verify_module_namespace(namespace, mod->name))
+> +		if (get_modinfo(info, "intree") &&
+> +		    verify_module_namespace(namespace, mod->name))
+>  			return 0;
+>  
+>  		for_each_modinfo_entry(imported_namespace, info, "import_ns") {
 
-Maybe this is the time to update it :)
+I'd rather avoid another walk of the modinfo data in
+verify_namespace_is_imported(). I suggest checking whether mod->taints
+has TAINT_OOT_MODULE set instead, which should provide the same
+information. The symbol resolution already relies on the taint flags, so
+this is consistent with the rest of the code.
 
-I was just a bit confused that no-one commented the HMM patch, but if 
-You maintain it, then this is okay.
-
-Best regards
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Thanks,
+Petr
