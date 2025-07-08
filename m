@@ -1,232 +1,106 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B946A2E093F;
-	Tue,  8 Jul 2025 13:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC7A2C15A6;
+	Tue,  8 Jul 2025 14:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751982736; cv=none; b=XsYykRcH1+zKG57nJ5+bQfxgu++gZzRo6mE3t01gHgZrlLUOSdYv3T0oawhCARR6+dX70XHUJS5r4yCifJmP4hmy+hMYfyFaV5tl5hDEtvv6Sei5ONE1L7EWmGH9uMiaF86oJFHTvbKdxoSARoJsgagjNjqOm7Rn5MtBffjgH6U=
+	t=1751983458; cv=none; b=HLn/aCE7C0SIy5kmGB5rmPF1o6khmZ/fBJZr0G3M+98WFuqAl+AhiLIGCkC4ZU+tAIBwdjfp1ZpQV+SH2yKhqwQNnlSTy/ChsDlm7pz7/Qk2BEerM8YKTfbBWzozvOUXnm4wAfGvAeyjYiHg6rle6Ltg9W7zQ0chpL+fUsG2JWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751982736; c=relaxed/simple;
-	bh=AIfX18Dx2xQKZaDDPd7SXuaUFiZZkT/PkH0gi4IZmLY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BlWEqggHnSPFmESx1oLPm6gBmGVDkNfbIt6mY1Y9uO2UBeiyQHLHtkfcsBfzNHP3ACioL+aw2c4P8XR/3xa+D8X2Y/4DPLSGPO2ga+6hnSTPkhYLuagEMowotDP2+GcB/QIVcpKR3MC6mRVCm4CEPchpjzqflTyQBEUL5KmyQE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GRtk+hdd; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1751983458; c=relaxed/simple;
+	bh=tMT8TdqcdoCjqYmHjo60TtEOAFeGLeXifmS6Y6mwk9M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LrlAFFzvVPRiyGRYoRKtBZX5eCHY78Fb74XQkdQCjPYNCsW+8yR1DMns5D8xxHXH3oKkNJrUPV6nlIGAbfVx1aSsdqR11NOFByCCBtTFx4kWGL3JpPVi24/WGzuItm5+PUBDD4glVOYUTxjM5Dece24dpGUQWwm9qe/kWoaBC4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lq0xelsM; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GRtk+hdd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=2wAcNCmeBGt9znAerI8klzBcbqxnK/gvfylMkpZBNtg=; b=GRtk+hddMR1cpbkFBWGFX88j4S
-	TA4PaE5i7xHNE09RD35qOBpnbsbmBsGydVNXs542yno5jrKfazDMLqWLuV9eEJdw0bdqoEXCto8CA
-	7L6TXgtwnM7FriM76eBYB7Q+k1JOBYo65ZtZD1AsYtjYL+F1di2Plo4QvURKzydlqm6Re6Dom9dqH
-	M6e6/b3lfNStEZAS6kGXaiwgZ2svZ4BghmKAQSizEi75BTJrsqzHJW5gWwSAq/Jo8km0SaQJfPtnM
-	3tS1AHNc2WAYHFga0ULVtBMTvKNqgh7D0urEwx1HxkEAhUikCxJnn9J3eYKPej7sKNQ2kJ98+q6Va
-	LuI5oOJg==;
-Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZ8k1-00000005UZF-3rtx;
-	Tue, 08 Jul 2025 13:52:14 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	gfs2@lists.linux.dev
-Subject: [PATCH 14/14] iomap: build the writeback code without CONFIG_BLOCK
-Date: Tue,  8 Jul 2025 15:51:20 +0200
-Message-ID: <20250708135132.3347932-15-hch@lst.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250708135132.3347932-1-hch@lst.de>
-References: <20250708135132.3347932-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lq0xelsM"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ae0df6f5758so726169866b.0;
+        Tue, 08 Jul 2025 07:04:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751983454; x=1752588254; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MtgbJ10KrJZ3EWuq4BoZPrGsm8VyyDdoigIM7j7cQhE=;
+        b=lq0xelsM9yJpUPtxqKpexiODbCHR/HXv8znxScSapgKb6ZSstVojh9E9rhRegnwbcV
+         8BCeKOOZy6MsYCFD5CxRLqFGCZofVl+A5uEZjOyoQztX3S01I2cst6ow/uvp7KRYGa5N
+         TXraAbUZYbJQcYOvDomLyfTImvpd4mM0w/1xNkSWavg8SJs6sq15sTo5wFwaiC5BSGRN
+         vmhxO9gszrBR+TgTMBoORAIpusQrDyxdqb4cP+o83MJOPuFqn7ujdZl+rmbLHGS9PzAT
+         XczrGwuDCXZWXenA/BAfBV1VnxoXTPzxvGCptTovRxMAeFszkCB1qgSMUivao8sccwg5
+         Zwcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751983454; x=1752588254;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MtgbJ10KrJZ3EWuq4BoZPrGsm8VyyDdoigIM7j7cQhE=;
+        b=f8pMvdnKFk0E8ac6EsbhePogAxyX8BYB1OzAIv934nCQEDdyLAHr7xUWzIBEzor5Vp
+         k6fvJrUvn5z40Y/1ejMg7LpQt7nmbCK/OTt5kYJfjk/CvUXS7In/f1Gr1vlJ424PBGuD
+         Sufg0tn1EP1KxUV8SLIMpSAESzQm754TU4aiTJLAYP/WSYsJTOyX3HHSSjMFLRKa1Tw9
+         yjIZZ39IKqG0c0SJY6i41cPGQMEWkmItsUy6dIDXRZC/sGjtK4lNpg3cZbf18SXHtwM8
+         op4GUYtRB7IWpNuOGXIxzALMgynMCqYGSPJ3U9kBxiWbJE5rjdIY2rTwA4vIUWL2Esvo
+         O+Xg==
+X-Forwarded-Encrypted: i=1; AJvYcCW8EtMwi1xkyZLr9CPWG2sNencv2ZwECfPV/WBZZFQg7tU9HevmD/so33c4c64qgNDXaDNt9ciPkhXkVLRa@vger.kernel.org, AJvYcCWODaY5aoi/OPRUVUisjkSKNUXpP5H0hL83aYa1MXqyxrTvjYLGzKxzdJN38uwgKe4ZXrThpAzvU5M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzD8LCoAxj0NRl7s0HnMwIbS98TShFlYcEM4LuOuIw37P6k29Nr
+	8Ci4iyKzfUTiNaU0KFxPESLfzW2Jtw8lFbrBUP+ammGHgi6A3tsFdBeSTNCq11HWSDsEttFPZE0
+	PhsVdhJLsIDrTrU5kOuUr7nd5+Rbwc/s=
+X-Gm-Gg: ASbGncvdQafwCNOxeeuDhSues6eN5GAgOCdhbQppThv/8Rc4qSwERnkkkTWYCxHVedn
+	gbOFgUb1kkSf1Tt9SpkVWrqHf0k4aVOvKGj+ov3vkaEZCj8d8FxH7asbTgjg7uU/ASD6nBuPRoS
+	iaJoTxzWIAMff+0dio7gVS+afU7wiwbCRORcc0h6mUxPPZ6niNoTHPDAicT90cjpE0ganrGWy7N
+	96aRw==
+X-Google-Smtp-Source: AGHT+IHdkbFaU+dLpQhDaOZuqg3wNksTld/NxAT2ZZUYBhmA+TLmM6O2a0YIK2eEPzgmT6XcfgyNk2gbzbE2E3n4w0Y=
+X-Received: by 2002:a17:906:f406:b0:ae3:24c:6a21 with SMTP id
+ a640c23a62f3a-ae3fe4bee21mr1601178766b.26.1751983454147; Tue, 08 Jul 2025
+ 07:04:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20250702201337.5780-8-bijan311@gmail.com> <20250702210323.55199-1-sj@kernel.org>
+In-Reply-To: <20250702210323.55199-1-sj@kernel.org>
+From: Bijan Tabatabai <bijan311@gmail.com>
+Date: Tue, 8 Jul 2025 09:04:02 -0500
+X-Gm-Features: Ac12FXwtIN_s91ypTwNfJZdzXrjIzaGmHghhjzuzPbLTZXRFfuLAVVSsTsR3A8g
+Message-ID: <CAMvvPS6imiPU-v527rCu=Yw6JA1Nc-Ezkc5_uXOSxf8oDjX2Qg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 07/13] mm/damon/core: Commit damos->target_nid/migrate_dests
+To: SeongJae Park <sj@kernel.org>
+Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
+	joshua.hahnjy@gmail.com, bijantabatab@micron.com, venkataravis@micron.com, 
+	emirakhur@micron.com, ajayjoshi@micron.com, vtavarespetr@micron.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Allow fuse to use the iomap writeback code even when CONFIG_BLOCK is
-not enabled.  Do this with an ifdef instead of a separate file to keep
-the iomap_folio_state local to buffered-io.c.
+On Wed, Jul 2, 2025 at 4:03=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote:
+>
+> On Wed,  2 Jul 2025 15:13:30 -0500 Bijan Tabatabai <bijan311@gmail.com> w=
+rote:
+>
+> > From: Bijan Tabatabai <bijantabatab@micron.com>
+> >
+> > When committing new scheme parameters from the sysfs, copy the
+> > target_nid and migrate_dests of the source schemes into the destination
+> > schemes.
+>
+> Fixing the missed update of target_nid deserves Fixes: and Cc: stable@ in=
+ my
+> opinion.  Could you please split and post the part as another patch?  For=
+ the
+> Fixes, I think 83dc7bbaecae ("mm/damon/sysfs: use damon_commit_ctx()") sh=
+ould
+> be appripriate.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
----
- fs/iomap/Makefile      |   6 +--
- fs/iomap/buffered-io.c | 113 ++++++++++++++++++++++-------------------
- 2 files changed, 64 insertions(+), 55 deletions(-)
+Hi SJ,
 
-diff --git a/fs/iomap/Makefile b/fs/iomap/Makefile
-index 69e8ebb41302..f7e1c8534c46 100644
---- a/fs/iomap/Makefile
-+++ b/fs/iomap/Makefile
-@@ -9,9 +9,9 @@ ccflags-y += -I $(src)		# needed for trace events
- obj-$(CONFIG_FS_IOMAP)		+= iomap.o
- 
- iomap-y				+= trace.o \
--				   iter.o
--iomap-$(CONFIG_BLOCK)		+= buffered-io.o \
--				   direct-io.o \
-+				   iter.o \
-+				   buffered-io.o
-+iomap-$(CONFIG_BLOCK)		+= direct-io.o \
- 				   ioend.o \
- 				   fiemap.o \
- 				   seek.o
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index b885267828d8..3a94a6b34aa9 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -274,6 +274,46 @@ static void iomap_adjust_read_range(struct inode *inode, struct folio *folio,
- 	*lenp = plen;
- }
- 
-+static inline bool iomap_block_needs_zeroing(const struct iomap_iter *iter,
-+		loff_t pos)
-+{
-+	const struct iomap *srcmap = iomap_iter_srcmap(iter);
-+
-+	return srcmap->type != IOMAP_MAPPED ||
-+		(srcmap->flags & IOMAP_F_NEW) ||
-+		pos >= i_size_read(iter->inode);
-+}
-+
-+/**
-+ * iomap_read_inline_data - copy inline data into the page cache
-+ * @iter: iteration structure
-+ * @folio: folio to copy to
-+ *
-+ * Copy the inline data in @iter into @folio and zero out the rest of the folio.
-+ * Only a single IOMAP_INLINE extent is allowed at the end of each file.
-+ * Returns zero for success to complete the read, or the usual negative errno.
-+ */
-+static int iomap_read_inline_data(const struct iomap_iter *iter,
-+		struct folio *folio)
-+{
-+	const struct iomap *iomap = iomap_iter_srcmap(iter);
-+	size_t size = i_size_read(iter->inode) - iomap->offset;
-+	size_t offset = offset_in_folio(folio, iomap->offset);
-+
-+	if (folio_test_uptodate(folio))
-+		return 0;
-+
-+	if (WARN_ON_ONCE(size > iomap->length))
-+		return -EIO;
-+	if (offset > 0)
-+		ifs_alloc(iter->inode, folio, iter->flags);
-+
-+	folio_fill_tail(folio, offset, iomap->inline_data, size);
-+	iomap_set_range_uptodate(folio, offset, folio_size(folio) - offset);
-+	return 0;
-+}
-+
-+#ifdef CONFIG_BLOCK
- static void iomap_finish_folio_read(struct folio *folio, size_t off,
- 		size_t len, int error)
- {
-@@ -313,45 +353,6 @@ struct iomap_readpage_ctx {
- 	struct readahead_control *rac;
- };
- 
--/**
-- * iomap_read_inline_data - copy inline data into the page cache
-- * @iter: iteration structure
-- * @folio: folio to copy to
-- *
-- * Copy the inline data in @iter into @folio and zero out the rest of the folio.
-- * Only a single IOMAP_INLINE extent is allowed at the end of each file.
-- * Returns zero for success to complete the read, or the usual negative errno.
-- */
--static int iomap_read_inline_data(const struct iomap_iter *iter,
--		struct folio *folio)
--{
--	const struct iomap *iomap = iomap_iter_srcmap(iter);
--	size_t size = i_size_read(iter->inode) - iomap->offset;
--	size_t offset = offset_in_folio(folio, iomap->offset);
--
--	if (folio_test_uptodate(folio))
--		return 0;
--
--	if (WARN_ON_ONCE(size > iomap->length))
--		return -EIO;
--	if (offset > 0)
--		ifs_alloc(iter->inode, folio, iter->flags);
--
--	folio_fill_tail(folio, offset, iomap->inline_data, size);
--	iomap_set_range_uptodate(folio, offset, folio_size(folio) - offset);
--	return 0;
--}
--
--static inline bool iomap_block_needs_zeroing(const struct iomap_iter *iter,
--		loff_t pos)
--{
--	const struct iomap *srcmap = iomap_iter_srcmap(iter);
--
--	return srcmap->type != IOMAP_MAPPED ||
--		(srcmap->flags & IOMAP_F_NEW) ||
--		pos >= i_size_read(iter->inode);
--}
--
- static int iomap_readpage_iter(struct iomap_iter *iter,
- 		struct iomap_readpage_ctx *ctx)
- {
-@@ -544,6 +545,27 @@ void iomap_readahead(struct readahead_control *rac, const struct iomap_ops *ops)
- }
- EXPORT_SYMBOL_GPL(iomap_readahead);
- 
-+static int iomap_read_folio_range(const struct iomap_iter *iter,
-+		struct folio *folio, loff_t pos, size_t len)
-+{
-+	const struct iomap *srcmap = iomap_iter_srcmap(iter);
-+	struct bio_vec bvec;
-+	struct bio bio;
-+
-+	bio_init(&bio, srcmap->bdev, &bvec, 1, REQ_OP_READ);
-+	bio.bi_iter.bi_sector = iomap_sector(srcmap, pos);
-+	bio_add_folio_nofail(&bio, folio, len, offset_in_folio(folio, pos));
-+	return submit_bio_wait(&bio);
-+}
-+#else
-+static int iomap_read_folio_range(const struct iomap_iter *iter,
-+		struct folio *folio, loff_t pos, size_t len)
-+{
-+	WARN_ON_ONCE(1);
-+	return -EIO;
-+}
-+#endif /* CONFIG_BLOCK */
-+
- /*
-  * iomap_is_partially_uptodate checks whether blocks within a folio are
-  * uptodate or not.
-@@ -657,19 +679,6 @@ iomap_write_failed(struct inode *inode, loff_t pos, unsigned len)
- 					 pos + len - 1);
- }
- 
--static int iomap_read_folio_range(const struct iomap_iter *iter,
--		struct folio *folio, loff_t pos, size_t len)
--{
--	const struct iomap *srcmap = iomap_iter_srcmap(iter);
--	struct bio_vec bvec;
--	struct bio bio;
--
--	bio_init(&bio, srcmap->bdev, &bvec, 1, REQ_OP_READ);
--	bio.bi_iter.bi_sector = iomap_sector(srcmap, pos);
--	bio_add_folio_nofail(&bio, folio, len, offset_in_folio(folio, pos));
--	return submit_bio_wait(&bio);
--}
--
- static int __iomap_write_begin(const struct iomap_iter *iter,
- 		const struct iomap_write_ops *write_ops, size_t len,
- 		struct folio *folio)
--- 
-2.47.2
+To clarify, would you prefer it to be a seperate patch within the next
+version of this patchset? Or would you prefer it to be sent separately
+from the next version of the patchset?
 
+Thanks,
+Bijan
+
+[...]
