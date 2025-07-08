@@ -1,307 +1,232 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2059.outbound.protection.outlook.com [40.107.237.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCE625C810;
-	Tue,  8 Jul 2025 10:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751968979; cv=none; b=GVCUFdRvsxDG5x1ssuRq2C4NzR9y1DZ0KKSPtpPvWrhpVqH6BZwOFXqu1jOwEv6CC7N5/tMtip9kqFwnBj+dnBwcmC+No7bHI3Qbk/v+PjCYj/5U76+fGPa83kppwzjC8D/zBrCLygNVB+0+vjkfhZCauPP8dKBJf5Uolq2GnOI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751968979; c=relaxed/simple;
-	bh=IBcDXn4gIJD6/+HOlQgMg67kvWA73UUNRspe/8WQ1kA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=UcoKZaG9gFPUHjgTFkYckcbO7I/CaeVjqppb1iFM5zY5I3X98b5SsygK195DmsYlfQlKlglNFw1w8pjwre4uWlJzb3bTACVd1QbbKgoGSrV/ulsFodApy6Gq4HugIE16CqzkQpoxchktHBC2tSmaGv1x7ai3w1Wc6D75ndk+MUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=kL9QNW3x; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E71269CE5;
+	Tue,  8 Jul 2025 10:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751969169; cv=fail; b=l0FuFmRYAQydcW7q4PDg4W/dVQzVurpWdGMchaEgGqmMvFjkFuxGxzPbn+Timc8epYKiMe4PI0en4i1N39Fo2v2/LSg48mfcwq7xtCvbx8xd9w4M69uYBZBaWDSDs9RgE+n8UecvIulr9x4dWG+i81LV1L2Nz1IOScRIidvmKCo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751969169; c=relaxed/simple;
+	bh=4lp4NE+MMTnN9ZqQ5LrUvGzeIJFs+EZn4ulD2QIXVZQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=BeIhYwaTBmn6Dq+AQhp0Az3GCvd4X+DQpyggMtd3wAeluiHZrlNA92cTq7VU8PlRnROUOCRs3G5B5y/rPncJIGwEa9EtSYhvkrT08a+Vd+dTx3XJ70x02uUDIq1IC/XEMsUznK3WFmNSfbTKWCWx4lSdol70LiRDjWPVzHYbEa4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ia+UroGh; arc=fail smtp.client-ip=40.107.237.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kL9QNW3x"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5687WOYR001169;
-	Tue, 8 Jul 2025 10:02:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TP75IWhhLPo9tJDnwH2+kwvy93reIfE3lh6au8DCqOU=; b=kL9QNW3xXkAA6DXP
-	MD0SQJ1pLA9Auxm9vuFpMO8BNQSpRnMezS3QpI/b9J2J8gB8xqaABMMz/zkaRrvx
-	wsbPRFj5DsLFyf7nWrl41R98N60yiNipVbepYpNPMO3Ue86FEhfPuJz4/pxw8UkM
-	wtvwto8GYpUSiOCrLzP5XO5XLgBiv0aSLLzwRsgO21J77MawwcC9zDXLnfMX4l+s
-	hODvOH8yHTVeW/fjYx1uRe96zO/jhSpPhelfnr3557LDjFicH6yTnLps8EdMtQiR
-	drRTz+2tF5lp6SXFZtau1nOFmgxI2LrQmFn8JSNC35UbdY+PeDYDHqUjWxk0taS1
-	syK/Rw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pv97m04g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Jul 2025 10:02:43 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 568A2h8i028768
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 8 Jul 2025 10:02:43 GMT
-Received: from [10.216.2.37] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 8 Jul
- 2025 03:02:37 -0700
-Message-ID: <ed740739-2116-4314-bfd1-bd8ef064123c@quicinc.com>
-Date: Tue, 8 Jul 2025 15:32:17 +0530
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ia+UroGh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uGlMxIXoYl3XF8MTJSbN7NvnX3dyO6aMvt8E2Zc0jKYSHqcAy4Fxd+Vy2apKBqX3CZAAaEi0UhYHxMNyPIwGnfC9lfE3GqjQhmv9hD8P9BMyP2u2UibwjmVjtz2busVjDnaoAByMkwl1AP7SdMgngPe3YTAfP/wlgkQk8SXMdOYNDOienG3LpqhLvkLuXUuzMnATH5ao50JjpGEhrq6u4ZBaAQJSc2V0QC0dCZN91anp+D5wVRWEWUGhGbcgmJ3xzoDeKguCJSI1bbpvO+qxnGLw3bqdOv6avY7uqhaPuRDtjc5CEB6ESuhSHJ0Mj6JhPnb3hIfEydDbkdThsM5FmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AOwmUQtDnLR2NUp5bPPU8QjL+02ubCDRR9lrfKa1t/w=;
+ b=wUSufh93KpIjBvdWzq8nFXi+rdkaHJjYprtfSve5M0tmDsbtFTbNV0GPJ5I9klINpPIVdc+myAWmBpmwBKrELQtn4LM4YZAvXvQxElp3oBEaIJ1wov6frJAWotjdH77mfBPXHXVfw0nWSBJ/MCqSfIauxiNtViLbLLIyEzB0jgeiQs3sYzx41WAK0ml/T/mIQ6YZJdzkOPeZ8w4H8yxaA5mByaH5X8hZrlg6a+USX0OzkktWAXlFo92JJfATa8Y1wq/a3Aez7q960QTPkQdWlE1K0dMtzJghl0pkPDhmqTvPpY29jBxbO7q24nXCOi6U1ensmr68RVEKYyFnwmCHdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AOwmUQtDnLR2NUp5bPPU8QjL+02ubCDRR9lrfKa1t/w=;
+ b=Ia+UroGh+OL08a9jhzkrAoTVnZ+Q5lu/eWsZh3GpJ0V0MwiPtB2YcUt9Prf3nhgWKAOnqIADUwZEa1eqeXQNcxlDPZ4Iue+Mjl0RwPo+Z/tFM3FFi2ZST//fajxIzbTw+aq4H1rwZrkU+H784K5sUChKDlvjqT+yH6VhLJe9+xs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA1PR12MB9064.namprd12.prod.outlook.com (2603:10b6:208:3a8::19)
+ by SJ1PR12MB6148.namprd12.prod.outlook.com (2603:10b6:a03:459::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Tue, 8 Jul
+ 2025 10:06:02 +0000
+Received: from IA1PR12MB9064.namprd12.prod.outlook.com
+ ([fe80::1f25:d062:c8f3:ade3]) by IA1PR12MB9064.namprd12.prod.outlook.com
+ ([fe80::1f25:d062:c8f3:ade3%6]) with mapi id 15.20.8901.023; Tue, 8 Jul 2025
+ 10:06:02 +0000
+Message-ID: <76a68f62-1f73-cc81-0f5b-48a6982a54c7@amd.com>
+Date: Tue, 8 Jul 2025 15:35:52 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v3 10/14] RDMA/ionic: Register device ops for control path
+Content-Language: en-US
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, shannon.nelson@amd.com,
+ brett.creeley@amd.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, andrew+netdev@lunn.ch,
+ allen.hubbe@amd.com, nikhil.agarwal@amd.com, linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Andrew Boyer <andrew.boyer@amd.com>
+References: <20250624121315.739049-1-abhijit.gangurde@amd.com>
+ <20250624121315.739049-11-abhijit.gangurde@amd.com>
+ <20250701103844.GB118736@unreal> <20250702131803.GB904431@ziepe.ca>
+ <20250702180007.GK6278@unreal> <bb0ac425-2f01-b8c7-2fd7-4ecf9e9ef8b1@amd.com>
+ <20250704170807.GO6278@unreal> <15b773a4-424b-4aa9-2aa4-457fbbee8ec7@amd.com>
+ <20250707072137.GU6278@unreal> <1a7190d4-f3ef-744c-4e46-8cb255dee6cf@amd.com>
+ <20250707164609.GA592765@unreal>
+From: Abhijit Gangurde <abhijit.gangurde@amd.com>
+In-Reply-To: <20250707164609.GA592765@unreal>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0151.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:c8::14) To IA1PR12MB9064.namprd12.prod.outlook.com
+ (2603:10b6:208:3a8::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/12] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-        Jens Wiklander
-	<jens.wiklander@linaro.org>,
-        Sumit Garg <sumit.garg@kernel.org>,
-        "Bjorn
- Andersson" <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Apurupa Pattapu
-	<quic_apurupa@quicinc.com>,
-        Kees Cook <kees@kernel.org>,
-        "Gustavo A. R.
- Silva" <gustavoars@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-CC: <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
-        <linux-kernel@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-        <linux-doc@vger.kernel.org>, Sumit Garg <sumit.garg@oss.qualcomm.com>,
-        "Neil
- Armstrong" <neil.armstrong@linaro.org>
-References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com>
-Content-Language: en-US
-From: Harshal Dev <quic_hdev@quicinc.com>
-In-Reply-To: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=FrUF/3rq c=1 sm=1 tr=0 ts=686cecc3 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=NEAV23lmAAAA:8
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=AG4Js0pRBlaKZ-jc2TkA:9
- a=tS4vSzcxzpQKedQu:21 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA4MDA4MiBTYWx0ZWRfXwYqsMqDp/4Jq
- SB27SC7FrjtoYJW8TEzTuVvpiuuGh5a1gdyxtHGbkw7lbA9IasXSnCTrbfSt5QvvCNJg+P3AOwy
- WhARuQaNWA8SK+qD0m3gMqoENFl1IxdzFhNVhT9JJdxFs94d/ZEVehiq/tUHceC9V2Np82OfErb
- 14hKonvQ/o5TlU9FEMZv5QQF2WfaAzQAJ6vKwRAeyJubru1Dik0659Dm+2QYJ0cYkZytEUp0Ci9
- Df3ZUOgLV3FviDzKlKTGokJDzX6LzxPSJnOwJ/R2TbDWOmhYjMt6oe3XxlxsWAfBLouRdqxQ6hw
- kb57rTsRj+PX8JBzk1QmF9kGK9k1ZUHA8wA6buszzrPmUZxJs+wrMDxOVpgIp3pxYLPGfE6qxB0
- 5Yc4I3Uje4RvAuUadJ6VrMzVRphbIMgVMAgQXeLk/GPTH4vJBpsDSn93ssCJ51raTYhU50F8
-X-Proofpoint-GUID: 3rdJMCvq1Pn2oldo0cTdGMZIGPoJfqHy
-X-Proofpoint-ORIG-GUID: 3rdJMCvq1Pn2oldo0cTdGMZIGPoJfqHy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-08_03,2025-07-07_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1011 mlxscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
- adultscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507080082
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB9064:EE_|SJ1PR12MB6148:EE_
+X-MS-Office365-Filtering-Correlation-Id: e72f53a9-8d84-47e9-be20-08ddbe070b37
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?R2JLYU94WUVBS3Y4NnUycmF6OXpmSHpiVVJnOHR3K2pEZ2ovYnl5RFExM0pw?=
+ =?utf-8?B?dmZtOGM5MlpncHVKWHUxWS80ZWxXcnR6S0VvWVNYZWMrYTk4Vk1uYjlpZ2Rp?=
+ =?utf-8?B?TXhGdnpYREJTcUNtQVN0d2NwZ1hmSm1hY2J0MVA4THVaRXhPdjJ3OFNQZTRm?=
+ =?utf-8?B?NEUxOHh0dGlESHIxamRCd2Q2THpoMWhLVFJFRVY2bFFEMllMZUR4dGlzcjJL?=
+ =?utf-8?B?L01pUGVRWTgxZnY1RTNGMFR6cjcvRDFnS2xzaEJkZWp2aXM3YnhOczBYd1Z6?=
+ =?utf-8?B?RVpTKzVmcm5sNzMyeFpFUWdKbnc0OEJzQkdJN1JaNGh2NmxBRUJxeW1lbmNY?=
+ =?utf-8?B?VHZrZnkxSm9CaVJzbUZxWWptMkI5V0xpMlczOEZSS2JLOTRhSEJwajJad21o?=
+ =?utf-8?B?d0lldGo5cUhZM2NBWEZpdXlWVHdFN2ZKYTltNWRmSURrUnd4blZWNk44TWdi?=
+ =?utf-8?B?aUJWQUUvVXVaWWVpekN6b3lqUUhKbE5xSEdQeDFlOStwNnNNTjJpdHdDcHU1?=
+ =?utf-8?B?ZW4vd3RndFV3U2ZYcWRsYU5vYWVuZHVKRVJDUDVyNUd5dW9ZYS9IdXRDWWdU?=
+ =?utf-8?B?VkcvRWMyK2tobVVQdnhqNmxmdGpybWtZdCtQYmQwS0phR1FYcGordXk3L053?=
+ =?utf-8?B?ZWdadXAzSks0Z21oNFlrazZTaFlsUUxiL0pHTTMwcTNPanVzTHFVVEJOY1FW?=
+ =?utf-8?B?VWVEWWZqS3ZLUXc3WlZib0RZbEtvV2JVZlNHek5jeWxYUExTSVRYMVFseGhO?=
+ =?utf-8?B?Q09XMFhnZCtqQXZGMTFEQ3ovNlJlOGRHM3ZYSnJGNG5odmtjUjhWYmM5RHRB?=
+ =?utf-8?B?bkdJdDJvWXVpZUdjYTBMY2kzelVmejJQMENUZE13WUdISnFGMDRzT2JDcDRH?=
+ =?utf-8?B?enFTODFqdm1SSUxkbUExWlF0YndGRXFGdkMzeklValNjVm82Zk5CWTdLSWJX?=
+ =?utf-8?B?UlE4ZWdJTW9ROW1mS2loa2xxSmQzZjcwcFIvL2duZlZNcjgxbjJHNHNBekZu?=
+ =?utf-8?B?MC9YWUJndkdsTnh4T3lQYlZqK2dZdkkreFZWVmdEamNSY2FxQVd6Z3hjTmJm?=
+ =?utf-8?B?Z0xacFltbGVzdDZ3WGl1SE16RGdUbzJ2S3RTalFLQ3E3SzhxdkZTNnZHTmtI?=
+ =?utf-8?B?bjJmUXJZdHRKeG5HdnN5QURTNDcvWE00ZEhUTWExd0sxbUpiNkhhWGF2V283?=
+ =?utf-8?B?RnYxL2wvU25hdTE4QXBtOHNkeGdVTWZwb0wzSk5EbTN0OHR5b29PRDViUm5X?=
+ =?utf-8?B?NnJUNVE4bHlYSHJWTWEwcDFUQXVtWHpTbHVjQkNxYmZTQnJSR2Zvb3FzYTdB?=
+ =?utf-8?B?L1lHRTA4M3hObU5SU0lKbWhvcnltUGI2VDRlVDFzWVRVZUMvaG9DSkRtMUJR?=
+ =?utf-8?B?Q09wSTZCNjJwNXI5OEx2OWtSSWk4Qm9kaVZFWW96L1VCRjF3cWNiUlhHL0Ew?=
+ =?utf-8?B?RU5WcENzVkRzUUc3UGdGckRHN2NncVlpT0tvYjNDMlhWcWRCZ3ZnNkZDS3RC?=
+ =?utf-8?B?QVMrcVF6T0NUS21KbnpNTTJSWklSUTNWSHlISytFRHVXTGJEYjByZ3dSRVdt?=
+ =?utf-8?B?MGw0TEtkRWlhRUxtWmRBN1F0bzRObytnS3hSeHhsMTZPSFFSM2d3aXBmVXVY?=
+ =?utf-8?B?T25wREdIUmg0aHcyM3pTL1BaUStvbEJMVGQzcjhnbm5TT2hXeFVxR0dnbkpE?=
+ =?utf-8?B?cHZBSkFUWktlTnV0ZG1LblBPRzd0eWlBejdGSXNUaW5zNFppVTYxMFhiR1Qv?=
+ =?utf-8?B?Rk1hb29YSkY0M040Y1VEaHVPTGRZdXlWMUZJcXVvOUFZYnUzalptTGtZVlpW?=
+ =?utf-8?B?cks4TzFtblZHN0xjSlBLbUhOUjk0QnMvRytYeTl2SHRQMERSeTdpQkdYZ2dJ?=
+ =?utf-8?B?WjR3SU1lZXd4YnhudDVWUnl5UDMzRFB1amg1alhqaVBDMVhydys3b2tEVjFL?=
+ =?utf-8?Q?POfXXSuAT4c=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9064.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Qm93YWVHSExob3A4LzJGQ2ozV3lDZzBOcHhyUDRya281TWdacDlTZnF5Q1ZZ?=
+ =?utf-8?B?ZkN1STJWS1R3REZDK2k1Mit1OCtKNDRBTUxZTVVyaThJNUFieXpnS0Rac2Nt?=
+ =?utf-8?B?bWFRYWJ0aVpqbi83NnlraWFtdkNLSEF5SWJGdHFja3BYQnhRenU5NDF2NkZW?=
+ =?utf-8?B?eEo3aW1BbTFWemViaTZwUkFDc0lDaVc1UStiME14ZTJaMFdRQTNGQ0Z0Zjhi?=
+ =?utf-8?B?d0JrWk4vRHBDbGlZcWg2bC8yVHRWdUtyb0FaendCdk9RenZiamJtZmRobWxK?=
+ =?utf-8?B?OFdUNEMxTFlKcWt0VkFHaDFHbnNTN2JTWGZ5VUl4TXNUQUtPbkx2VFZtVWJP?=
+ =?utf-8?B?SThpSUpUOXk4ZlI4OEtjaVErR0poUGdMZHFMQkRmN0JQRDNzaXc3aFljeWpG?=
+ =?utf-8?B?RmM2aHNjb3lVcnVvU0VWMUJaVWxzcUVqbHZGWU5xSnZxNHVOV1F3STMvMXEz?=
+ =?utf-8?B?R2I3a3NWTkoxMUlmc0dpOGxhWk9jZGZjOCtuRWEvYjV0YlRyTDZudWJjaURr?=
+ =?utf-8?B?dzRuVE1OdjRuMnRGQ1B1OE01WGZPWStTQU5WL2orb29oNFk3RmVuUHNNM3dt?=
+ =?utf-8?B?MGlDUlRxTzRJb0lOTnZ3RW1selZrN2NLLzFQclJuQzlYbG84MUN4V1VFUVJ2?=
+ =?utf-8?B?R2RaRnNoWU9nano0cU5zeUROZFI1MHh2QTFPTXlMUFlmWVU1N3JXQ2dSWnVu?=
+ =?utf-8?B?eDA0dXZHeVZCdnMrSmI4M1dRclphOHltTmt6ZW1QeEQ0ZkVXMlM0MzNKLzdT?=
+ =?utf-8?B?cTI1cVZnaFFMTk1wVWI0bDJYNVc0OThwTlFxcUlVcjNPdlVWbjF5bTZIcWUv?=
+ =?utf-8?B?Yk9RR2pFejJFaHRWVS9SbXY5R0Q1djNHV3NJZUc3bHdMVHZlMGgyTEx3UkZj?=
+ =?utf-8?B?LytYNjJsTUNwZmVFeWFyYjNUS3VmaGY1aDhlbnJvTnRhb2R4b0h3R0drNDJC?=
+ =?utf-8?B?Q3JORUdiTHhEY0o3Q2Qwc1NKLzlwTzJSUWcxQ1lpS0tqSDdmaUxJNmNGeFpk?=
+ =?utf-8?B?N1dlekxIUytKY3pWKzJwckpjMnI5MldycEx4YVBwdDhNQ1B2S0VMa0R5N3Yv?=
+ =?utf-8?B?TFhDaHhLd3pySlEvTjlhZDU4VEhGN3ZnQ1h4NzQ2MXdQUms4bFRCS01IL1lm?=
+ =?utf-8?B?Q0JIUXBuclVEdXVnK0srZStpYmdwM3o0UUdFVGlGM1lkVldVUUx0SWdZYUZN?=
+ =?utf-8?B?SUp0Nnp3MVl2WmFjVytZcXdtanZzL25SQjh2RGdwMXBnaWpocTg2YzNZYWtr?=
+ =?utf-8?B?M3RHRU4xMVB6Nzk1WVE2c2ZMdHJZUnhzU0FyQlJtRDV5Qng5a3NPbC8reUFa?=
+ =?utf-8?B?Q25PTTZ4bXF6VjZmUkxNbUIwdHpEYVVLWGNFMEJaajN4ODJzV2tRRnd5U3lu?=
+ =?utf-8?B?cHRyQzcyMElkV2RXK1dlZjBnWXpGWjRnRVZucUZkcmwwMUE2YVFjVzh4QUJD?=
+ =?utf-8?B?WDVDUWhzN3lVVHJYdjlWZ2Z3eHhmRWN3QjBvRUpiR0h3NWt1WE5OcEliZ1da?=
+ =?utf-8?B?ZEdRenNvWlJvRjY2MXpSc1N6NCtsa2o5SmJIMEU4UVNZRi8vM2Zjd2R1T0RI?=
+ =?utf-8?B?R0pIQ2FySlhCWmRoWUNHT2tHbGlFbWNabHpYQzNPL29sMDQzZzFjUE9RL3I5?=
+ =?utf-8?B?Wk5kbXFFNC9zNW8wTlZDU0pSOHNDOVMwNFhVbUxGdlRtUVNlWVFuK2V0Ritr?=
+ =?utf-8?B?VHJVM3NlTHJNU1YxZFl0WHczd1FYM3lZeElIampvd0sxU3dQdGdjd2lIVXdS?=
+ =?utf-8?B?R2lqZ1NCWTBHLzViZHNIbVJMeDBXSUVtUC9iNXZRT3Y0RWxiTEdkSUNrWHVv?=
+ =?utf-8?B?ZjJJQytMTFhVMFZNL2RwOXNHMzFwTEVqNUhHeHdSRmowakRCRDRlL0N3WHZ0?=
+ =?utf-8?B?ZlJQOHAxOHN2RVZvR3BJM0F3Mlh1dHZ2RHRSZmhmNFJ3RjVhRFdQeXZBZHpO?=
+ =?utf-8?B?NG1IYys2MERIZUQyODE3aStXWFZYb2IyZzZzUU5ndldrQVk2VFBheEFPejJ5?=
+ =?utf-8?B?VWdjV0Qzd2QvdjZ3cmhrUWlUVDdFN2dtdTVPVlhNenFqbmY0dGJBWXFkbGhz?=
+ =?utf-8?B?dVVqZk9MMk1McHBucko1WDZVSmhCVnBkT1c3czdYck1MdkN4KzBPN21vMGs1?=
+ =?utf-8?Q?PA3ZPxjrfqTv26r73mWYwm1uD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e72f53a9-8d84-47e9-be20-08ddbe070b37
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB9064.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 10:06:02.1894
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1Sxm6/X4m5eu8E1xvUrVJDxwyyMaYCng+Dz8ppeqTGgcmDZo5cKL5OlwBD2d/r09fs6S/A1F6ooC24H1KloLiw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6148
 
 
+On 7/7/25 22:16, Leon Romanovsky wrote:
+> On Mon, Jul 07, 2025 at 08:26:20PM +0530, Abhijit Gangurde wrote:
+>> On 7/7/25 12:51, Leon Romanovsky wrote:
+>>> On Mon, Jul 07, 2025 at 10:57:13AM +0530, Abhijit Gangurde wrote:
+>>>> On 7/4/25 22:38, Leon Romanovsky wrote:
+>>>>> On Thu, Jul 03, 2025 at 12:49:30PM +0530, Abhijit Gangurde wrote:
+>>>>>> On 7/2/25 23:30, Leon Romanovsky wrote:
+>>>>>>> On Wed, Jul 02, 2025 at 10:18:03AM -0300, Jason Gunthorpe wrote:
+>>>>>>>> On Tue, Jul 01, 2025 at 01:38:44PM +0300, Leon Romanovsky wrote:
+>>>>>>>>>> +static void ionic_flush_qs(struct ionic_ibdev *dev)
+>>>>>>>>>> +{
+>>>>>>>>>> +	struct ionic_qp *qp, *qp_tmp;
+>>>>>>>>>> +	struct ionic_cq *cq, *cq_tmp;
+>>>>>>>>>> +	LIST_HEAD(flush_list);
+>>>>>>>>>> +	unsigned long index;
+>>>>>>>>>> +
+>>>>>>>>>> +	/* Flush qp send and recv */
+>>>>>>>>>> +	rcu_read_lock();
+>>>>>>>>>> +	xa_for_each(&dev->qp_tbl, index, qp) {
+>>>>>>>>>> +		kref_get(&qp->qp_kref);
+>>>>>>>>>> +		list_add_tail(&qp->ibkill_flush_ent, &flush_list);
+>>>>>>>>>> +	}
+>>>>>>>>>> +	rcu_read_unlock();
+>>>>>>>>> Same question as for CQ. What does RCU lock protect here?
+>>>>>>>> It should protect the kref_get against free of qp. The qp memory must
+>>>>>>>> be RCU freed.
+>>>>>>> I'm not sure that this was intension here. Let's wait for an answer from the author.
+>>>>>> As Jason mentioned, It was intended to protect the kref_get against free of
+>>>>>> cq and qp
+>>>>>> in the destroy path.
+>>>>> How is it possible? IB/core is supposed to protect from accessing verbs
+>>>>> resources post their release/destroy.
+>>>>>
+>>>>> After you answered what RCU is protecting, I don't see why you would
+>>>>> have custom kref over QP/CQ/e.t.c objects.
+>>>>>
+>>>>> Thanks
+>>>> The RCU protected kref here is making sure that all the hw events are
+>>>> processed before destroy callback returns. Similarly, when driver is
+>>>> going for ib_unregister_device, it is draining the pending WRs and events.
+>>> I asked why do you have kref in first place? When ib_unregister_device
+>>> is called all "pending MR" already supposed to be destroyed.
+>>>
+>>> Thansk
+>> The custom kref on QP/CQ object is holding the completion for the destroy
+>> callback.
+>> If any pending async hw events are being processed, destroy would wait on
+>> this completion
+>> before it returns.
+> Please see how other drivers avoid such situation. There is no need in
+> custom kref.
+>
+> Thanks
 
-On 5/27/2025 12:26 PM, Amirreza Zarrabi wrote:
-> This patch series introduces a Trusted Execution Environment (TEE)
-> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
-> and services to run securely. It uses an object-based interface, where
-> each service is an object with sets of operations. Clients can invoke
-> these operations on objects, which can generate results, including other
-> objects. For example, an object can load a TA and return another object
-> that represents the loaded TA, allowing access to its services.
-> 
-> Kernel and userspace services are also available to QTEE through a
-> similar approach. QTEE makes callback requests that are converted into
-> object invocations. These objects can represent services within the
-> kernel or userspace process.
-> 
-> Note: This patch series focuses on QTEE objects and userspace services.
-> 
-> Linux already provides a TEE subsystem, which is described in [1]. The
-> tee subsystem provides a generic ioctl interface, TEE_IOC_INVOKE, which
-> can be used by userspace to talk to a TEE backend driver. We extend the
-> Linux TEE subsystem to understand object parameters and an ioctl call so
-> client can invoke objects in QTEE:
-> 
->   - TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_*
->   - TEE_IOC_OBJECT_INVOKE
-> 
-> The existing ioctl calls TEE_IOC_SUPPL_RECV and TEE_IOC_SUPPL_SEND are
-> used for invoking services in the userspace process by QTEE.
-> 
-> The TEE backend driver uses the QTEE Transport Message to communicate
-> with QTEE. Interactions through the object INVOKE interface are
-> translated into QTEE messages. Likewise, object invocations from QTEE
-> for userspace objects are converted into SEND/RECV ioctl calls to
-> supplicants.
-> 
-> The details of QTEE Transport Message to communicate with QTEE is
-> available in [PATCH 12/12] Documentation: tee: Add Qualcomm TEE driver.
-> 
-> You can run basic tests with following steps:
-> git clone https://github.com/quic/quic-teec.git
-> cd quic-teec
-> mkdir build
-> cmake .. -DCMAKE_TOOLCHAIN_FILE=CMakeToolchain.txt -DBUILD_UNITTEST=ON
-> 
-> https://github.com/quic/quic-teec/blob/main/README.md lists dependencies
-> needed to build the above.
-> 
-> This series has been tested for basic QTEE object invocations and
-> callback requests, including loading a TA and requesting services form
-> the TA.
-> 
-> Tested platforms: sm8650-mtp, sm8550-qrd, sm8650-qrd, sm8650-hdk
-> 
-> [1] https://www.kernel.org/doc/Documentation/tee.txt
-> 
-> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> 
-> Changes in v5:
-> - Remove references to kernel services and public APIs.
-> - Support auto detection for failing devices (e.g., RB1, RB4).
-> - Add helpers for obtaining client environment and service objects.
-> - Query the QTEE version and print it.
-> - Move remaining static variables, including the object table, to struct
->   qcomtee.
-> - Update TEE_MAX_ARG_SIZE to 4096.
-> - Add a dependancy to QCOM_TZMEM_MODE_SHMBRIDGE in Kconfig
-> - Reorganize code by removing release.c and qcom_scm.c.
-> - Add more error messages and improve comments.
-> - updated Tested-by:, Acked-by:, and Reviewed-by: tags
-> - Link to v4: https://lore.kernel.org/r/20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com
-> 
-> Changes in v4:
-> - Move teedev_ctx_get/put and tee_device_get/put to tee_core.h.
-> - Rename object to id in struct tee_ioctl_object_invoke_arg.
-> - Replace spinlock with mutex for qtee_objects_idr.
-> - Move qcomtee_object_get to qcomtee_user/memobj_param_to_object.
-> - More code cleanup following the comments.
-> - Cleanup documentations.
-> - Update MAINTAINERS file.
-> - Link to v3: https://lore.kernel.org/r/20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-0-7f457073282d@oss.qualcomm.com
-> 
-> Changes in v3:
-> - Export shm_bridge create/delete APIs.
-> - Enable support for QTEE memory objects.
-> - Update the memory management code to use the TEE subsystem for all
->   allocations using the pool.
-> - Move all driver states into the driver's main service struct.
-> - Add more documentations.
-> - Link to v2: https://lore.kernel.org/r/20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com
-> 
-> Changes in v2:
-> - Clean up commit messages and comments.
-> - Use better names such as ubuf instead of membuf or QCOMTEE prefix
->   instead of QCOM_TEE, or names that are more consistent with other
->   TEE-backend drivers such as qcomtee_context_data instead of
->   qcom_tee_context.
-> - Drop the DTS patch and instantiate the device from the scm driver.
-> - Use a single structure for all driver's internal states.
-> - Drop srcu primitives and use the existing mutex for synchronization
->   between the supplicant and QTEE.
-> - Directly use tee_context to track the lifetime of qcomtee_context_data.
-> - Add close_context() to be called when the user closes the tee_context.
-> - Link to v1: https://lore.kernel.org/r/20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com
-> 
-> Changes in v1:
-> - It is a complete rewrite to utilize the TEE subsystem.
-> - Link to RFC: https://lore.kernel.org/all/20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com
-> 
-> ---
-> Amirreza Zarrabi (12):
->       tee: allow a driver to allocate a tee_device without a pool
->       tee: add close_context to TEE driver operation
->       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
->       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
->       tee: increase TEE_MAX_ARG_SIZE to 4096
->       firmware: qcom: scm: add support for object invocation
->       firmware: qcom: scm: remove unused arguments to the shm_brige
->       firmware: qcom: tzmem: export shm_bridge create/delete
->       tee: add Qualcomm TEE driver
->       qcomtee: add primordial object
->       qcomtee: enable TEE_IOC_SHM_ALLOC ioctl
->       Documentation: tee: Add Qualcomm TEE driver
-> 
->  Documentation/tee/index.rst              |   1 +
->  Documentation/tee/qtee.rst               | 150 +++++
->  MAINTAINERS                              |   8 +
->  drivers/firmware/qcom/qcom_scm.c         | 132 ++++-
->  drivers/firmware/qcom/qcom_scm.h         |   7 +
->  drivers/firmware/qcom/qcom_tzmem.c       |  57 +-
->  drivers/tee/Kconfig                      |   1 +
->  drivers/tee/Makefile                     |   1 +
->  drivers/tee/qcomtee/Kconfig              |  11 +
->  drivers/tee/qcomtee/Makefile             |   9 +
->  drivers/tee/qcomtee/async.c              | 183 ++++++
->  drivers/tee/qcomtee/call.c               | 833 +++++++++++++++++++++++++++
->  drivers/tee/qcomtee/core.c               | 930 +++++++++++++++++++++++++++++++
->  drivers/tee/qcomtee/mem_obj.c            | 172 ++++++
->  drivers/tee/qcomtee/primordial_obj.c     | 116 ++++
->  drivers/tee/qcomtee/qcomtee.h            | 266 +++++++++
->  drivers/tee/qcomtee/qcomtee_msg.h        | 251 +++++++++
->  drivers/tee/qcomtee/qcomtee_object.h     | 309 ++++++++++
->  drivers/tee/qcomtee/shm.c                | 150 +++++
->  drivers/tee/qcomtee/user_obj.c           | 694 +++++++++++++++++++++++
->  drivers/tee/tee_core.c                   | 127 ++++-
->  drivers/tee/tee_private.h                |   6 -
->  include/linux/firmware/qcom/qcom_scm.h   |  10 +-
->  include/linux/firmware/qcom/qcom_tzmem.h |  15 +
->  include/linux/tee_core.h                 |  54 +-
->  include/linux/tee_drv.h                  |  12 +
->  include/uapi/linux/tee.h                 |  56 +-
->  27 files changed, 4528 insertions(+), 33 deletions(-)
-> ---
-> base-commit: 3be1a7a31fbda82f3604b6c31e4f390110de1b46
-> change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
-> 
-> Best regards,
+As per your suggestion, I looked some of the other RDMA drivers. While 
+many are using locks, that approach would negate the lockless lookup we 
+gain from the xarray.
+The MANA RDMA driver, for instance, uses a similar refcount and 
+completion mechanism to handle asynchronous events.
 
-Tested-by: Harshal Dev <quic_hdev@quicinc.com> # on SM8650-MTP
- 
-root@qcom-armv8a:~# qtee_supplicant &
-root@qcom-armv8a:~# qtee_supplicant: process entry PPID = 378
-Total listener services to start = 4
-Opening CRequestTABuffer_open
-Path /data/
-register_service ::Opening CRegisterTABufCBO_UID
-Calling TAbufCBO Register
-QTEE_SUPPLICANT RUNNING
- 
-root@qcom-armv8a:~# smcinvoke_client -c /data 1
-Run callback obj test...
-Load /data/tzecotestapp.mbn, size 52192, buf 0x1e44ba0.
-System Time: 2024-02-27 17:26:31
-PASSED - Callback tests with Buffer inputs.
-PASSED - Callback tests with Remote and Callback object inputs.
-PASSED - Callback tests with Memory Object inputs.
-TEST PASSED!
-root@qcom-armv8a:~#
-root@qcom-armv8a:~# smcinvoke_client -m /data 1
-Run memory obj test...
-Load /data/tzecotestapp.mbn, size 52192, buf 0x26cafba0.
-System Time: 2024-02-27 17:26:39
-PASSED - Single Memory Object access Test.
-PASSED - Two Memory Object access Test.
-TEST PASSED!
-root@qcom-armv8a:~#
+Thanks
 
-Tested using smcinvoke_client hosted at www.github.com/qualcomm/minkipc.
-The build instructions are available in the README.md file.
-These test cases exchange callback and memory objects with QTEE over a Mink
-Object-IPC protocol and then validate their invocation by QTEE.
-Before starting the test, the tzecotestapp Trusted Application calls into
-the time listener hosted by the qtee_supplicant daemon to print the system
-time, which also validates qtee_supplicant's transport path through the QCOMTEE
-driver.
 
-Regards,
-Harshal
