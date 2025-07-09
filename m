@@ -1,93 +1,106 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4ACE287252
-	for <linux-doc@vger.kernel.org>; Wed,  9 Jul 2025 13:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CCB2C3247;
+	Wed,  9 Jul 2025 13:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752067230; cv=none; b=YHLZ2/9KMxgO1n6YOegwiHyX8bKAvyNI0wBJfdYvgL6dREGPbEJwTrmD87d43M64jHi+XlPZspN1jEgrX/ufg+aQUBWqOoz6z2u2+/Lp/y8DYOBNsVi6RiYhCGaLX6Sf0tw0bVyqipRiBYJSnvLEnKRebZMULX88WSkMBRfY8wU=
+	t=1752069141; cv=none; b=OKb1SWzdB8GJbmqGEs64Yn1cZeaOefCVF+oKyeHhARnNr9LWNB3vBVGXUVD9O9sxWSKi3tkV33XmLsLjRT6WZt4z6kO9vyOE44nAdcCQNofrdR/7ZBuJ2lDIqfuTQoI2uXD1hWPs1mexRRoqo+fFVstdEfNRmnSg5VOiNxAf2k0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752067230; c=relaxed/simple;
-	bh=V+2EPrgkkzWuOdEbqmNF6WGjcqD7p1t3JxPmCI2+YIM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F6oYbDOqdurNRbyBCtxTPeNA8zXE8RKv6ehvVkblH65910F1AC4koGrutkOoUSzYOReVJ/qR42RjfpOXzDHkCYt9mHaEWu+HpcHNLqGkmr8z1dOHBF/9wuW2WSwcZRpDsPY7RNYLg2oUmuh7ggJObivi51G361bQTXnTf2fvCsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=peL+eUcU; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1752069141; c=relaxed/simple;
+	bh=QZ8qIGEhIaRkTGuQPr4EFUzjS7Cqh7Eui7qNYAGIDWA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nUDf/sq/I3/VmeWVdI8kOiTEm4rQwS4U39XvDbnhUwVUJejZ6ICNLZXg3LN2bd1xaD7doIe5yvHLrJ2BhuI+WtvdbbmNMDSnV1AxEENkv0LCscjuQNmQe+OVUETjtqFaajT5F9zX/Y1sTe3ZSRZ86kHckw8eQx5jgyMifFsc5vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QSegm2pR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="peL+eUcU"
-Message-ID: <1e1da86d-d544-425d-b1f6-fcc88bc49eed@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1752067226;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e6AkmueMs31ei/4o3raKBuieFooL6H+6Yz+Dy9SBapE=;
-	b=peL+eUcUa9XgjfFgzUDgjYn0B6v5WqUErJ/O6Y6n5GCrfJNHFUgdNM1mPDanr/5ScRZYhE
-	Fn4AJGXMgr+QycfKYtHj+DDK5zEDFfmg3yXPiUnpV1faEIa9ngTiKmbhap4UOePsquedGK
-	uc53+NBbak/51yF9srk9ATTokD98xMY=
-Date: Wed, 9 Jul 2025 14:20:17 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSegm2pR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95C7BC4CEF1;
+	Wed,  9 Jul 2025 13:52:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752069140;
+	bh=QZ8qIGEhIaRkTGuQPr4EFUzjS7Cqh7Eui7qNYAGIDWA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QSegm2pRG/HBr/JlZJO44ixqZ+wo6FTzjGrLPlRFscaxJVGff3BZ2ZyEccFoLF/pi
+	 0X7tzrTZZP2TPzXdcU7zGCI7mo/jwIbHz13ajFLPyv4Cv0nsQH1gQtYsdIz2wqf/8W
+	 0dnIl8vFYQ8PHy2f4UwI9rIJojP2/4LUP8WETp3CKAYr1fPcu7WO9k0uQiGPwvdQ/e
+	 RlATIe8RTSFSvrBtX1YL5z5catcKgHSp5zVYGtEfsUGq5y4Gq0jUuM1vm9am5h7/nz
+	 yN29Zw3ncQajmNncxYMaLh5vo57kWXD9IKvL7AYGpVSUol+tAAX0b6KCBSPhs0zXg9
+	 u3o4Eyd67AvQg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1uZVDd-00000000ECI-0z4V;
+	Wed, 09 Jul 2025 15:52:17 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Akira Yokosawa" <akiyks@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 04/39] scripts: sphinx-pre-install: Make it compatible with Python 3.6
+Date: Wed,  9 Jul 2025 15:51:36 +0200
+Message-ID: <d31dc0c11c1d0600c190237f12a4098aad77a1ca.1752067814.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1752067814.git.mchehab+huawei@kernel.org>
+References: <cover.1752067814.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next v06 5/8] hinic3: TX & RX Queue coalesce
- interfaces
-To: Simon Horman <horms@kernel.org>, Gur Stavi <gur.stavi@huawei.com>
-Cc: andrew+netdev@lunn.ch, christophe.jaillet@wanadoo.fr, corbet@lwn.net,
- davem@davemloft.net, edumazet@google.com, gongfan1@huawei.com,
- guoxin09@huawei.com, helgaas@kernel.org, jdamato@fastly.com,
- kuba@kernel.org, lee@trager.us, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, luosifu@huawei.com, meny.yossefi@huawei.com,
- mpe@ellerman.id.au, netdev@vger.kernel.org, pabeni@redhat.com,
- przemyslaw.kitszel@intel.com, shenchenyang1@hisilicon.com,
- shijing34@huawei.com, sumang@marvell.com, wulike1@huawei.com,
- zhoushuai28@huawei.com, zhuyikai1@h-partners.com
-References: <ef88247b-e726-4f8b-9aec-b3601e44390f@linux.dev>
- <20250709082620.1015213-1-gur.stavi@huawei.com>
- <20250709115614.GZ452973@horms.kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20250709115614.GZ452973@horms.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On 09/07/2025 12:56, Simon Horman wrote:
-> On Wed, Jul 09, 2025 at 11:26:20AM +0300, Gur Stavi wrote:
->>> On 27/06/2025 07:12, Fan Gong wrote:
->>>> Add TX RX queue coalesce interfaces initialization.
->>>> It configures the parameters of tx & tx msix coalesce.
->>>>
->>>> Co-developed-by: Xin Guo <guoxin09@huawei.com>
->>>> Signed-off-by: Xin Guo <guoxin09@huawei.com>
->>>> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
->>>> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
->>>> Signed-off-by: Fan Gong <gongfan1@huawei.com>
->>>> ---
->>>>    .../net/ethernet/huawei/hinic3/hinic3_main.c  | 61 +++++++++++++++++--
->>>>    .../ethernet/huawei/hinic3/hinic3_nic_dev.h   | 10 +++
->>>>    2 files changed, 66 insertions(+), 5 deletions(-)
->>>>
->>>
->>> Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
->>
->> Procedural question about submissions:
->> Are we allowed (or expected) to copy the "Reviewed-by" above to future
->> submissions as long as we do not modify this specific patch?
-> 
-> Vadim is free to offer his own guidance, as it's his tag.
-> 
-> But in principle tags should be carried forward into future submissions
-> unless there is a material change. In this case I think that would
-> mean a material change this patch.
-> 
-> But if in doubt, please ask.
-> Thanks for doing so.
+The minimal version requirements we have is 3.9. Yet, the
+script which detects it is this one. So, let's try supporting
+an old version here, as we may want to suggest to upgrade
+Python version to build the docs.
 
-As Simon said, in general if there are no changes in the patch you can
-carry forward Rb tag.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/sphinx-pre-install.py | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
+index dcee2181b72f..71d86b230b22 100755
+--- a/scripts/sphinx-pre-install.py
++++ b/scripts/sphinx-pre-install.py
+@@ -115,7 +115,8 @@ class SphinxDependencyChecker:
+     def find_python_no_venv():
+         # FIXME: does it makes sense now that this script is in Python?
+ 
+-        result = subprocess.run(["pwd"], capture_output=True, text=True)
++        result = SphinxDependencyChecker.run(["pwd"], capture_output=True,
++                                             text=True)
+         cur_dir = result.stdout.strip()
+ 
+         python_names = ["python3", "python"]
+@@ -135,12 +136,23 @@ class SphinxDependencyChecker:
+     def run(*args, **kwargs):
+         """Excecute a command, hiding its output by default"""
+ 
+-        if not kwargs.get('capture_output', False):
++        capture_output = kwargs.pop('capture_output', False)
++
++        if capture_output:
++            if 'stdout' not in kwargs:
++                kwargs['stdout'] = subprocess.PIPE
++            if 'stderr' not in kwargs:
++                kwargs['stderr'] = subprocess.PIPE
++        else:
+             if 'stdout' not in kwargs:
+                 kwargs['stdout'] = subprocess.DEVNULL
+             if 'stderr' not in kwargs:
+                 kwargs['stderr'] = subprocess.DEVNULL
+ 
++        # Don't break with older Python versions
++        if 'text' in kwargs and sys.version_info < (3, 7):
++            kwargs['universal_newlines'] = kwargs.pop('text')
++
+         return subprocess.run(*args, **kwargs)
+ 
+     #
+-- 
+2.49.0
+
