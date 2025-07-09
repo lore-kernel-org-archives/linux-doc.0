@@ -1,80 +1,126 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A31288C22;
-	Wed,  9 Jul 2025 15:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D692A2D3EC5;
+	Wed,  9 Jul 2025 15:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752074977; cv=none; b=XYhFW1pNKIG5vWDMcNyHydyz0FEgV+LH+qWfP78rXDoDrd97kr0Kjso3QojflfC4AFqYIO+U8aDayghc9dxfwZCbp4bKotHkgF6IeqPBKSHUkjhMGcdWQt7hC4H+QyHUa1kutTNe9IFD/dyOXTiNlzilCBUgW4+0CVWeWZxirMY=
+	t=1752075893; cv=none; b=Km9ULW1huugwvepvobANsDqK9ymU0G95i6VFk8SbHIvSoZ5NUIjG442eLXMjKDU2tR8Q97Ztad4EZh8XkHZ3B8E7BSuzcb5Ku4zKyY0YXbou7RQsg/+HPucwrkqSrpyz1oKtTqxoaC2PoRnMJ6Rihl9hV0hf9HSPGi6GTw5IY+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752074977; c=relaxed/simple;
-	bh=9Z+grRSklTfhvS+8PlCC9Ev7rbfRGqoFZ/esvRQ20g4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QqCtaWeHMtb7vZoztjzOHwGRlv8V+fOHmE+ayu8VmhVwqaPf0w1DFnhQYDr5Tw+mIgvRscXsmqkbIr0pa/nH/wrTnZ85+o0EsDS7/AzUyESd/UC94TuZJ2aj5U9MCBWyYRIlo7A4NxZtCKinPrys1x3XSMJFQ9IMXukbp6U+R+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jtbO9RnH; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1752075893; c=relaxed/simple;
+	bh=faK0ZcZx9HxOdB6jQlzbXh6mkQSJ4VnVDjYLsm75zDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JS6nhMiAVS6MANCpom+wx6KiVY1AbHZIDiqn6aUR3JdwsqpROXU0kbv6YfePJJaYx4pJrIrBavf6bkJi3+CU4wvJvFMpN0yN1s+QOQmkOEpIX6R44f4RtYMHsTgRF800ceKGiUD0FlAFTPWmT+l9A20mYQniUw1WHlXtUMj4STU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ekenn0eo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jtbO9RnH"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C365D403E1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1752074968; bh=zMLx0BYVjQK4fSirHovfR4bAnXWmFQV8Zo3LMvVuScM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jtbO9RnH1molozbhEuo7Yt31TcIFUIOzwr8sxpfm8XRv2bItxOq0iJXObdlCkWbxg
-	 JWlrH75h0xaBNddzze+P/1T1xMT97nZv29J7UXarMrF9FZ1cpxxMrua0vNluPIu0+k
-	 igJhFyAbI7YQwFmwVCcexxYqwUypx086j+NOYJkrJ0KbAwx0CcECGPcf3L9t+2H0u2
-	 ktTs/k+sj+UNYc0mTuZxwf9nmera5AyNJVt+cUMankU1E4UPcIyN7zRKEgKaq4pRrO
-	 0A5MxZrZh1V2zSR3apZr0MJ99MwcdIeKDDwIWUfLzmtalzKl73txoWuRsRlkeVtN/x
-	 GHKsZ5KNoOCCw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C365D403E1;
-	Wed,  9 Jul 2025 15:29:28 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH 00/12] [PATCH 00/11] Thrash up the parser/output interface
-In-Reply-To: <20250702223524.231794-1-corbet@lwn.net>
-References: <20250702223524.231794-1-corbet@lwn.net>
-Date: Wed, 09 Jul 2025 09:29:28 -0600
-Message-ID: <87cya92xif.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ekenn0eo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31445C4CEF9;
+	Wed,  9 Jul 2025 15:44:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752075892;
+	bh=faK0ZcZx9HxOdB6jQlzbXh6mkQSJ4VnVDjYLsm75zDQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ekenn0eonP+8DTcaA8V08ebMOrVY2uW/sSO1IseARj9uplvipipWkzvW/FH6Dtw8h
+	 k3dNwLLDxBTZKRyvTrUlB5RkxG84teQsL8uDwXcgG3N/OfehygX77fThw8lbdrh62I
+	 SnTRGvFdeU9OfWHoxerAv+f3RWRueXD5Q5QmqDGIgzCF/tXC5EtGyiISGQo9y+sBmX
+	 7i9jQmmhDAGAQtDR2FypDRPfvs30wNXQO95GCDg+yU52DceFBwQF7mqJ1paQ5Ue66c
+	 ZfzAUpc76vUE7eflBYX0GOgOfKvAAENXvcBz0cbwchEvdlMgcAUo0+URPWImK3SRJq
+	 dodYpEazrY0qg==
+Date: Wed, 9 Jul 2025 17:44:40 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, "Akira Yokosawa" <akiyks@gmail.com>, "Breno Leitao"
+ <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, "Ignacio Encinas Rubio"
+ <ignacio@iencinas.com>, "Jan Stancek" <jstancek@redhat.com>, "Marco Elver"
+ <elver@google.com>, "Paolo Abeni" <pabeni@redhat.com>, "Randy Dunlap"
+ <rdunlap@infradead.org>, "Ruben Wauters" <rubenru09@aol.com>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, joel@joelfernandes.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
+ stern@rowland.harvard.edu
+Subject: Re: [PATCH v8 11/13] tools: netlink_yml_parser.py: add line numbers
+ to parsed data
+Message-ID: <20250709174440.39b0f49e@sal.lan>
+In-Reply-To: <m2bjq98n10.fsf@gmail.com>
+References: <cover.1750925410.git.mchehab+huawei@kernel.org>
+	<549be41405b5ddb6b78ead71f26c33fd6ce8e190.1750925410.git.mchehab+huawei@kernel.org>
+	<m2bjq98n10.fsf@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Jonathan Corbet <corbet@lwn.net> writes:
+Em Fri, 27 Jun 2025 12:03:07 +0100
+Donald Hunter <donald.hunter@gmail.com> escreveu:
 
-> [I'll slow down soon, honest - real work is piling up...]
->
-> The kerneldoc parsing phase gathers all of the information about the
-> declarations of interest, then passes it through to the output phase as a
-> dict that is an unstructured blob of information; this organization has its
-> origins in the Perl version of the program.  It results in an interface
-> that is difficult to reason about, dozen-parameter function calls, and
-> other ills.
->
-> Introduce a new class (KdocItem) to carry this information between the
-> parser and the output modules, and, step by step, modify the system to use
-> this class in a more structured way.  This could be taken further by
-> creating a subclass of KdocItem for each declaration type (function,
-> struct, ...), but that is probably more structure than we need.
->
-> As a final step, add some structure for the accumulation of the output
-> text.
->
-> The result is (I hope) clearer code, the removal of a bunch of boilerplate,
-> and no changes to the generated output.
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > When something goes wrong, we want Sphinx error to point to the
+> > right line number from the original source, not from the
+> > processed ReST data.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  tools/net/ynl/pyynl/lib/doc_generator.py | 34 ++++++++++++++++++++++--
+> >  1 file changed, 32 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/tools/net/ynl/pyynl/lib/doc_generator.py b/tools/net/ynl/pyynl/lib/doc_generator.py
+> > index 866551726723..a9d8ab6f2639 100644
+> > --- a/tools/net/ynl/pyynl/lib/doc_generator.py
+> > +++ b/tools/net/ynl/pyynl/lib/doc_generator.py
+> > @@ -20,6 +20,16 @@
+> >  from typing import Any, Dict, List
+> >  import yaml
+> >  
+> > +LINE_STR = '__lineno__'
+> > +
+> > +class NumberedSafeLoader(yaml.SafeLoader):
+> > +    """Override the SafeLoader class to add line number to parsed data"""
+> > +
+> > +    def construct_mapping(self, node):
+> > +        mapping = super().construct_mapping(node)
+> > +        mapping[LINE_STR] = node.start_mark.line
+> > +
+> > +        return mapping  
+> 
+> pylint gives these 2 warnings:
+> 
+> tools/net/ynl/pyynl/lib/doc_generator.py:25:0: R0901: Too many ancestors (9/7) (too-many-ancestors)
 
-Has anybody else had a chance to look at this?  Or should I assume it's
-perfect? :)
+I'm yet to find any pylint Rxxx warning that I didn't have to
+disable ;-)
 
-Thanks,
+This particular one is useless for us, as it basically tells that PyYAML
+has a big class hierarchy.
 
-jon
+> tools/net/ynl/pyynl/lib/doc_generator.py:28:4: W0221: Number of parameters was 3 in 'SafeConstructor.construct_mapping' and is now 2 in overriding 'NumberedSafeLoader.construct_mapping' method (arguments-differ)
+
+I'll fix this one to prevent potential future issues.
+
+Changing the code to:
+ 
+-class NumberedSafeLoader(yaml.SafeLoader):
++class NumberedSafeLoader(yaml.SafeLoader):              # pylint: disable=R0901
+     """Override the SafeLoader class to add line number to parsed data"""
+ 
+-    def construct_mapping(self, node):
+-        mapping = super().construct_mapping(node)
++    def construct_mapping(self, node, *args, **kwargs):
++        mapping = super().construct_mapping(node, *args, **kwargs)
+         mapping[LINE_STR] = node.start_mark.line
+ 
+         return mapping
+
+This should hopefully be future-proof.
+
+Regards,
+Mauro
+
+
