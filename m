@@ -1,415 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099643208;
-	Wed,  9 Jul 2025 04:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752035235; cv=none; b=ZdYvbTDtvFZ9AZyNCDKaqYj8hQgI0Fl3UpEwD3NceEmLKxiQwLgVyET16Sf1YOE6q/AxbRCenShCC2V1fvAAU2H1i1FjMApNi/NbR0u32e+wS5qvHyT1Eo+N6h2QjTuu8myUh32ng8RdLltvzdMug3YaGPZqn+VKqaUpAswTv6E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752035235; c=relaxed/simple;
-	bh=EBr1lkE8sHUohfFNAoRCnwD9j/iidGX0VlvLabJZgIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fb208eDAsZVAniHQf/BbhgyXtJLyQk7hyktKvfT69j9RL4dTqspADjiJPwvsbBo1eQrIG4w/cJCkpuHBICdQflYa1J0ozcXsVXy8H2EnGygNn4Y3vXjzQQMV1PCfidQqD9aEtKx3n8AKnEmYfrRm9IbME2lLZZl5CBvSpdzzeHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FHdJYdpq; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E9C2AD22;
+	Wed,  9 Jul 2025 05:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752037249; cv=fail; b=TNSiSPr870ZiTtvutZY9PDiK9Fpo85LeaBEoyxFDf848z+ShFMYd5R9uIH+PnwDJcdHbl/jvOWnFstLDcvbq5kSog3rpxLiq2OpOEQSgSHsxPyyh14cdD8Ya13dG9C3EXtRyhzBdhHO5M8yr+18ihUeCxpGwV/DMDl4sZxksE5Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752037249; c=relaxed/simple;
+	bh=alFFIiCAlcRwyIbUjPHM07/xYM2kezh1nZBQJynMTYk=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=uFiSTQ81Xe2COPPWJP+tvjSovf1OcU8DZnRVNaNcx5dNUpmbaUMNcIeuOnaxdDx2WI3pjyXjOgFR2beKpI56qeCmfepj6hu2O7pB/Qcx2S7hDbpbfOpLw80lwwjgRSmmmlGaJvyKIFoFkQlWmoWtc5rJ1XUlDB2X77+lF1IhkgE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzeunpcP; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FHdJYdpq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E19BC4CEF1;
-	Wed,  9 Jul 2025 04:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752035234;
-	bh=EBr1lkE8sHUohfFNAoRCnwD9j/iidGX0VlvLabJZgIk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FHdJYdpqgojht7/gdGR24KNevf5ZfGr5bZpWgUNlliCFFv6fFqMTIIFN6+aZG+xmI
-	 /BH5wiK1FNwAD6ibzMXEZYsJDBsqub/8sP7HslCT3so9GhiszHOcJM9pJdAFyvXfOT
-	 /luOV+BaVn806RFro+v6ZkkXugFymWIgovKY4ra4nkCaP8QlGWsYLRjnxMXBJFa6wt
-	 +aH2Vyq+o3OVVv1r+HNGyTlkvJeL/58TX64ELE4h2yjlPSFZ5eCQc47/JJnAMd/xNQ
-	 sT7+qSfZyaznmKJp/JhQCJk+TDo9bfal8rbYAPssedlEWPmUYCw7esLxAmnJMu9oip
-	 8IBuko67Kg07g==
-Date: Tue, 8 Jul 2025 21:27:13 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: John Groves <John@groves.net>
-Cc: Dan Williams <dan.j.williams@intel.com>,
-	Miklos Szeredi <miklos@szeredb.hu>,
-	Bernd Schubert <bschubert@ddn.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 12/18] famfs_fuse: Plumb the GET_FMAP message/response
-Message-ID: <20250709042713.GF2672029@frogsfrogsfrogs>
-References: <20250703185032.46568-1-john@groves.net>
- <20250703185032.46568-13-john@groves.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzeunpcP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752037248; x=1783573248;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=alFFIiCAlcRwyIbUjPHM07/xYM2kezh1nZBQJynMTYk=;
+  b=gzeunpcPco5Q4XKia6F3uvyPUyKtnipSnSjfj5BRpufFGJmlBLxIPpKC
+   KhY8EhcFvcdpUQ5wMO0hi8strA/1S8Xo0Up76mwAFz9otaCnz1J6xBkjB
+   DnmEbyI5WqTqyY2zjdO+Ighg6QJbwMvvbuIvBwynEMTByKdpqqwDpReiB
+   vlH2DVmTeYulRAhjBZBWha4Iiz90GoQqXm/1MLLaRqthXQxSt9/bjVMQc
+   Y3JbR8UiddF7oUY9RDCsi/Gvqetu6ol5JlMDk2go8c20k6YIvQgyOmK0Q
+   V4VEnWRNtnFLAKVNdEoHULTDPmBktf8QfyLKjIo4/MLA+A8V3RxBDOpU5
+   w==;
+X-CSE-ConnectionGUID: YxB92K63TxWSuNtNIw31Yg==
+X-CSE-MsgGUID: u7M/fnY5TE67Z1w2DV++Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54416969"
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="54416969"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 22:00:18 -0700
+X-CSE-ConnectionGUID: qeFJQsTpRFyk68BifQvw4g==
+X-CSE-MsgGUID: ASOBniFoQP+O21nUV3oPDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="161222257"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 22:00:12 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 8 Jul 2025 22:00:11 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Tue, 8 Jul 2025 22:00:11 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.44)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 8 Jul 2025 22:00:11 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PqffD/aEQHTAmTYPxnP7jMgHucjEmpXxK2XDIv6OLZ4amFGDYzarMgmETWRNS5eW2fnMzb+gikT8MLXaTC9XVanAcpmbqnOPLkcLVwHAU+erDPj3zhAcfIy5KWN+HsIQf8sGXuPh5FUzUDt6jVWBmWYqt+N+u1Xfq1QJmRdhjaI9+qx+UmCB8movolUmi83UxJXVKkDMsonNClwZ6JIs71Xx3NmZakSWdPvKbrT6TSrBP6nLuvoLAYmKMohK3sbUHS+venj4hQGGsgtlYQgYoGpmDfRgwMcOFr1iwytELTrEqlk9P4HDpCx//JncKONKgK+71apxKQ6cUd3SafG5uQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RT3cac2VUnL8bVytITQYYv4s0CeR2mnAQCxtMY83VUE=;
+ b=YcX9qnAtyLwuGu19jYyWaOU0hei/DkseDEqe1MVIlYmDOm1kHVDBYIgi6FPq76+2PrwfuONswwiR6t0MQIn4ZX9qlEfvxwwnHIpp3kO8aPQ7t9VVfjZbPtwMLLwJIR80yNpzB0BfcpWZIyhta5DX9HmQX1465ilrpTKK76ujFNb4yDsZplmhrvUZQvsePD8cyOO8L/bgOk5W3ekf237lGH+vEzNi0EG9dh5VPiwyTiTqsurt003G1d0WXLivwETbBXZ01ZhgadTF+0WFq8L3gL3IRqoLPXVP9F5HGVeZ1kocw93uMyFb7PN8wKLi5rtB7mnHvtqeTCqtHzV+iLq8rA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
+ by DM4PR11MB5231.namprd11.prod.outlook.com (2603:10b6:5:38a::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Wed, 9 Jul
+ 2025 05:00:02 +0000
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::e8c4:59e3:f1d5:af3b]) by BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::e8c4:59e3:f1d5:af3b%7]) with mapi id 15.20.8901.024; Wed, 9 Jul 2025
+ 05:00:02 +0000
+Message-ID: <28173e1d-274e-4c37-9f2a-e3845bfd4d7b@intel.com>
+Date: Tue, 8 Jul 2025 21:59:59 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv9 12/16] x86/traps: Generalize #GP address decode and hint
+ code
+Content-Language: en-US
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Andy Lutomirski
+	<luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+	<hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel
+	<ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf
+	<jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>, Xin Li
+	<xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh
+	<brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>, Tony Luck
+	<tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin
+	<alexander.shishkin@linux.intel.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, "Pawan
+ Gupta" <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
+	<daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, "Sandipan
+ Das" <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, Rick Edgecombe
+	<rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, Hou Tao
+	<houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, Vegard Nossum
+	<vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers
+	<ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu
+ (Google)" <mhiramat@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
+	"Rasmus Villemoes" <linux@rasmusvillemoes.dk>, Christophe Leroy
+	<christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du
+	<changbin.du@huawei.com>, Huang Shijie <shijie@os.amperecomputing.com>,
+	"Geert Uytterhoeven" <geert+renesas@glider.be>, Namhyung Kim
+	<namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-efi@vger.kernel.org>, <linux-mm@kvack.org>
+References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
+ <20250707080317.3791624-13-kirill.shutemov@linux.intel.com>
+From: Sohil Mehta <sohil.mehta@intel.com>
+In-Reply-To: <20250707080317.3791624-13-kirill.shutemov@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0156.namprd05.prod.outlook.com
+ (2603:10b6:a03:339::11) To BYAPR11MB3320.namprd11.prod.outlook.com
+ (2603:10b6:a03:18::25)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250703185032.46568-13-john@groves.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3320:EE_|DM4PR11MB5231:EE_
+X-MS-Office365-Filtering-Correlation-Id: f6bbdac4-5d41-4f27-94e0-08ddbea5760f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007|921020;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Ly83WEMyUk1GQ3lXazB4NnZXVGx1Y3g2VnlHL1pDblN1Ti94V3pVV05UdnhZ?=
+ =?utf-8?B?MGF5czBYWGIvRGl0bUM0Yjh4U01NanVVbHhrWXhCMk5qSWZBcVo4Y1VJNVkx?=
+ =?utf-8?B?T0c3c3IvZXhmZjVzL2dwSFdWOFMvZ1JDRWwyRVZ1cDI0TWttd0NDNE9xVE1D?=
+ =?utf-8?B?dFpkREVGU1gxZVo2RmFkaXEwTy91Vmt2SWlxNHVsa0RyZ3hOWDZ5Q3Zicjdz?=
+ =?utf-8?B?TkdyZmxFY1VqdmVNZnFmeGprRnF6RElhODJWTXBoNWtOcXZRZ0JtVlFIK09o?=
+ =?utf-8?B?N29SUklBZUtwaEgzUSt2ZmdHZDNHVGVybzI3QmhoUHl6OGlVa09MUkJqTUFK?=
+ =?utf-8?B?YWRJVEt1S0xYUngrZlkwYkdvZy8vZU92Y1RRYWZUWHA5YnF1WmlFanorSXZ5?=
+ =?utf-8?B?QmJBNk1ZSFVUMEJjc3dhWWhHVlJJTERDQVNONmpOWis4THp4RHBuNjhGc3B4?=
+ =?utf-8?B?MEVKWm5mN3g4SVZNSDBjZUxwRlV6K0xUYjRiK05aeUhIdGFxSmFCVUdTRmlp?=
+ =?utf-8?B?SlJuTGpMd2tKUEhCVERRODd4NWt6TW1jc2lLSkdYRzY5bjBFT093NFhKeXZU?=
+ =?utf-8?B?TVpuTnd5YVJUOHc1M3k1UFU0ZC9ISTNxcVd6cFJMZmRNUkFQTmt0WUZVV0Uw?=
+ =?utf-8?B?cGttTmkzZWdKaE9pQUdVSEhXL2FWY3JqckJ4U2NSNVU1cmU3aXVxNDkvakpk?=
+ =?utf-8?B?SVhjZmtWMDZkZm1FeEwwZHlRVG10Syt3Y1hycUhRZDBOUUhRK1QyNWluWThY?=
+ =?utf-8?B?ZXVsZXR4ZFdlaDZWSkZHODFmMHMyWm9Zb08wZzJVQ1VKL0RXeTdpai82aldH?=
+ =?utf-8?B?M0xLcitRTEJCa3dUWW9PdEk2c1gwQk9UKzNoMUZJcUhsbEh2SVJzRVlQS09W?=
+ =?utf-8?B?RVdKMG5mRUpKc283M0pVclloRy9WdUhnMk9HZHFGQUs3a1hpdGViZzRvdDdv?=
+ =?utf-8?B?YnFkNml6UHJFSVlETGI0ODVrSVRJTFRlSDM0WU01UEIyMHRoa3llSVRVamtj?=
+ =?utf-8?B?NXBHRmVmTVU3Z1FKcytSVm4raEN0OWdnWWc4MXMyUHZQcU5MQU9MTFRkZEpE?=
+ =?utf-8?B?dVJIbHRsb3o0dE5QZHRPUlhNL2hOYThhazJKT0FOS3VtLy9WcVZDQjgvZkha?=
+ =?utf-8?B?ZHdmTUtHR2Qxam9SQVU2V1k3cGpRN1NoQjZ4ZnlPb2g0RmE1a2w1U3RUdDNX?=
+ =?utf-8?B?VTlwdGVvKzhVTHZXazRzSVJxU0VVQXhrUlpVNGNsTzVHY2tPa2lteGlwNWJ3?=
+ =?utf-8?B?YVlnWmdXcG84NWd4WDVRZUJZdUdIQkdxeXd5a2ZteXcyN0syNU1iWHIwd21K?=
+ =?utf-8?B?d0h2QTNmUVBCV2Qyekxnb0Y1UTQ5dmxKWFhRQUo5eDNGMC9UanpxVUFiU1o5?=
+ =?utf-8?B?SUVGWE9VKzdrUTZhdzBUd3ozekp5YmVqR3daZWxQUDd6V1NrYnVJSEpta1VG?=
+ =?utf-8?B?ZHZSc085ekFBd0g1TkFTYllsNENSNW9iTE5VaUk1ODB4YkRLdWt1Q3QvUitV?=
+ =?utf-8?B?bjhmMFluRzM2M3Y5UDJHeU0zUmRKUDJmZWdXUnIyRE5vcVpQdzBpSCtvSEFE?=
+ =?utf-8?B?cStma0hXWVJqN1p2RkprWUNhNEI1TW1TaDdlaHJ6Y0szWGVxRU1JMXFOeEhh?=
+ =?utf-8?B?YVg1QUlUMjkvZE9BL3cyQVYzZ085NytOMW5COG5zS1o2VTAydkMzSzFMNDNo?=
+ =?utf-8?B?OHFwSTB4Ynk3MFVJK21zdWJldjhPOU5nSDJvWjhjdTZwTngrYXY1dGtnSW1s?=
+ =?utf-8?B?ZGNIUkNFZ2JsMnExME1vQ0lvRjh1c0dYZnNoakhvL1Y4TVBVUTE0ZEdHZ0FI?=
+ =?utf-8?B?WDROaHIyK3pEcWg0MG9HSmVjclRDamh1dWFjaEJ0NE04bk14TnB1UzRvNHcy?=
+ =?utf-8?B?SWhqVVJzT0NvTE9GWElOampyWGxlME5yNmZrOHAyY1pNc1l0Q2xRUzdhUmMr?=
+ =?utf-8?B?bHZJMTlNYU93OXZLaTFJREVaUDdNUlJZZlVpMGs3ejd4dHdHN0lFWUxTeUN3?=
+ =?utf-8?B?d0JTSEtObWFRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UUdPb2JJVnlRSmpOMHpuUkVJb245WXY3YUtFZ2JISi9TTVNmeHdtMmVTYXZI?=
+ =?utf-8?B?ZlpZR0MyUkZQWnhVMEM5NlE5L2x2VTc0QjRjSDFsY2RZZ3RhOXhJVlZuTHdP?=
+ =?utf-8?B?dlJsYmwzNUVHZnZDSEVJbERnS3pWOS94aklLMGJnRFhnOTdRNXBUYTdOdnU0?=
+ =?utf-8?B?S1NJb1pxMUFzdnRBNnBYMkJtMERyRk5wL2Z1bTZsem9MSXVlOEpwNTFaQytm?=
+ =?utf-8?B?RVlkUkd4SEZJWFJLR1Y2WFZlM2N5NTBFZkpUejl2T1dRMmRrVEZGcGdoSW9u?=
+ =?utf-8?B?ZkIwN2Q2T2htZ0xUaTNCY08yc2lKcS9uNkx1bHJHVGF1Y3JYMUM1OHhHSThX?=
+ =?utf-8?B?UmZDZFdsYTdySkdEeEw3OUVkQURNSmdIT0JtT003UGEvcEhqbkovelZKcGQx?=
+ =?utf-8?B?WXhXb0RSSE1BYU9iZDNGcjdkOVlXTjVMZnNhMk90YzJXYlZSbVNRZTNyKzNv?=
+ =?utf-8?B?WTl2Y0dITlVwYWNXQVlQMytlNzk4ajg2YWdjaDdsUkJCVFFvQjk0QjZJMnlt?=
+ =?utf-8?B?bC9nRnJqN1VUR0RrL2crMVYwcnY4cjBzalE4N3AvTXdrQy9BYVRVRmc2cXJs?=
+ =?utf-8?B?cS8ySGxyTTh5aGk3Sk9FS1FhUncrdE5uUi9ncjEycE4yNnI3ZHZoVmFJanNn?=
+ =?utf-8?B?SWNkNlNXWGh5TmZWUGRuK0k5eERUY1RsTk9sUHp4MkVidk4wQjIyWFlpUlJq?=
+ =?utf-8?B?WE8rL3lWMVU0aU1LcG9kUGVidlhsaWRrZ0hwTUMvcXV2T2VQdlA0ZEcxcTh4?=
+ =?utf-8?B?R21vWHloV2lJVXl0TmZXNGo4REoxYkZHY1Q4cjd3RmFINWRqSHFrKzBpWTlo?=
+ =?utf-8?B?MlByYTNNeEM3VXVqL2VLV1JqME9OaDJ3R2lGeWNqWklSWnhORHBZOUdSbWE2?=
+ =?utf-8?B?a0FhMU01Zkg0UkswTml4bkx0MjFoWW44QzRTanp0TTMreXhaT0s3WjJFTUlo?=
+ =?utf-8?B?SEpudTVWMGkxQ3JzMjcyUFRKTUhTUU0rbm5XUHB6Vi9keGhUK0NzbC9zaUto?=
+ =?utf-8?B?M1I0NnBOSWpFbWxPcFJuVmVvUXhmNXZMVWF2MmZieCtGSFdGMFZ1clc0R2h3?=
+ =?utf-8?B?Qy80Q0tzNzRKY0pPd0VjY0lUdWhKN1dDejNWZ0ZzUzlBeGpmdUZIekpLU0RJ?=
+ =?utf-8?B?MVMwMDIvcGNESzUycGJCS2ZHSWE0N1lXUGgzM2UyMit2emVONDR6UXNIQXM3?=
+ =?utf-8?B?WXVQOEVaczdxMTNZNHdvYzFiQzdkbVFoTnlXeEE1U1NXbi9ncHZSUXBRNzU1?=
+ =?utf-8?B?VUFqNFdaQU96MFpKZDdxVnJaVHlST2IyUmR1ak1mRXNsMFpBSzJMeFNMNUJi?=
+ =?utf-8?B?cXlYT1NyL3kxN0lHd2MrZHFCNUdYT2YrRnBiTGhjajJEeTJCVzlOTVFpaHo3?=
+ =?utf-8?B?SG41bER4N2htTE9KYTlSY0NWdGN2Si9BQlZLQ3R5K0xrSkMyQ3U5ZlRDRlFj?=
+ =?utf-8?B?N2xaVmZ2VDViQ2E2YnMySGZ4NGxESDErUHNaYVNObzRNckUraHo4eEN1TkFu?=
+ =?utf-8?B?Tys5cWxzRzEyTHAxUHBMQkFCZ1hKcWJHVFpaM1hWRkJEOU1LQS8rQ1pta0pI?=
+ =?utf-8?B?dFlxWVQ4d0Z4ajU5QU91SEZqTGFvaWdNMzhtUThzU2d1cjdESnZQL3ZNZktK?=
+ =?utf-8?B?dWUwS25xNGx6akh2Uy9EbzJUMkZkT1ZxWVIzYk1JT2R4d1FGZlg1MDB2bFFX?=
+ =?utf-8?B?QU1lejVYK25aTHhyenJMTXNuMHBSUmxLR0FGOEVEOERTamtveFY4bW5ueDNP?=
+ =?utf-8?B?Nmk1RmJaRml0MlJhZWh5YkNISEtLR1lkbEE2NWlBNVZuMTg5SGtNYU1FNHZM?=
+ =?utf-8?B?VDRWNVM2U0lmVzYwK2puUFo4VFVZZTdPNFQ3RndDWXJuUGlZS1Fac1pRUy94?=
+ =?utf-8?B?SmhvT3dFTWx3ajFUd1RJRlY2dGJ0UW4vVjNZM25hQUYrVzFRYWtFb0d0N2R1?=
+ =?utf-8?B?WFRmTWg2aFR5NU9KVC92dzJoNWNhd0ZlRFFxMVJpTlA2QmF4bGo2N285MXdU?=
+ =?utf-8?B?Q1RBMzZ1TEhCYjdEcVAwU1l6UHcreGpiOGF0c2FEYmdsOGlSRTM3d2dBNlFN?=
+ =?utf-8?B?ZHBwS0QweHh3YUJTVWpmMGJreUhTUEFsMmwxaWFMU1NuSzRqNXp0MEt4NjZH?=
+ =?utf-8?Q?Mf4L4j6E9xILg8Am9rE/KO57V?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6bbdac4-5d41-4f27-94e0-08ddbea5760f
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 05:00:02.0062
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O8Le/kFkQdAnynDjYjG3IUDdsTcTCNbpIXn488tUGVZDgokz4B15gxC4jkYXA1VJ/Kx9ZHw8xP7mjP53HTWlcA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5231
+X-OriginatorOrg: intel.com
 
-On Thu, Jul 03, 2025 at 01:50:26PM -0500, John Groves wrote:
-> Upon completion of an OPEN, if we're in famfs-mode we do a GET_FMAP to
-> retrieve and cache up the file-to-dax map in the kernel. If this
-> succeeds, read/write/mmap are resolved direct-to-dax with no upcalls.
+On 7/7/2025 1:03 AM, Kirill A. Shutemov wrote:
+> In most cases, an access causing a LASS violation results in a general
+> protection exception (#GP); for stack accesses (those due to
+> stack-oriented instructions, as well as accesses that implicitly or
+> explicitly use the SS segment register), a stack fault (#SS) is
+> generated.
 > 
-> GET_FMAP has a variable-size response payload, and the allocated size
-> is sent in the in_args[0].size field. If the fmap would overflow the
-> message, the fuse server sends a reply of size 'sizeof(uint32_t)' which
-> specifies the size of the fmap message. Then the kernel can realloc a
-> large enough buffer and try again.
+> Handlers for #GP and #SS will now share code to decode the exception
+> address and retrieve the exception hint string.
 > 
-> Signed-off-by: John Groves <john@groves.net>
+> The helper, enum, and array should be renamed as they are no longer
+> specific to #GP.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 > ---
->  fs/fuse/file.c            | 84 +++++++++++++++++++++++++++++++++++++++
->  fs/fuse/fuse_i.h          | 36 ++++++++++++++++-
->  fs/fuse/inode.c           | 19 +++++++--
->  fs/fuse/iomode.c          |  2 +-
->  include/uapi/linux/fuse.h | 18 +++++++++
->  5 files changed, 154 insertions(+), 5 deletions(-)
+>  arch/x86/kernel/dumpstack.c |  6 ++--
+>  arch/x86/kernel/traps.c     | 58 ++++++++++++++++++-------------------
+>  2 files changed, 32 insertions(+), 32 deletions(-)
 > 
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 93b82660f0c8..8616fb0a6d61 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -230,6 +230,77 @@ static void fuse_truncate_update_attr(struct inode *inode, struct file *file)
->  	fuse_invalidate_attr_mask(inode, FUSE_STATX_MODSIZE);
->  }
->  
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +
-> +#define FMAP_BUFSIZE 4096
 
-PAGE_SIZE ?
+Reviewed-by: Sohil Mehta <sohil.mehta@intel.com>
 
-> +
-> +static int
-> +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode, u64 nodeid)
-> +{
-> +	struct fuse_get_fmap_in inarg = { 0 };
-> +	size_t fmap_bufsize = FMAP_BUFSIZE;
-> +	ssize_t fmap_size;
-> +	int retries = 1;
-> +	void *fmap_buf;
-> +	int rc;
-> +
-> +	FUSE_ARGS(args);
-> +
-> +	fmap_buf = kcalloc(1, FMAP_BUFSIZE, GFP_KERNEL);
-> +	if (!fmap_buf)
-> +		return -EIO;
-> +
-> + retry_once:
-> +	inarg.size = fmap_bufsize;
-> +
-> +	args.opcode = FUSE_GET_FMAP;
-> +	args.nodeid = nodeid;
-> +
-> +	args.in_numargs = 1;
-> +	args.in_args[0].size = sizeof(inarg);
-> +	args.in_args[0].value = &inarg;
-> +
-> +	/* Variable-sized output buffer
-> +	 * this causes fuse_simple_request() to return the size of the
-> +	 * output payload
-> +	 */
-> +	args.out_argvar = true;
-> +	args.out_numargs = 1;
-> +	args.out_args[0].size = fmap_bufsize;
-> +	args.out_args[0].value = fmap_buf;
-> +
-> +	/* Send GET_FMAP command */
-> +	rc = fuse_simple_request(fm, &args);
-> +	if (rc < 0) {
-> +		pr_err("%s: err=%d from fuse_simple_request()\n",
-> +		       __func__, rc);
-> +		return rc;
-> +	}
-> +	fmap_size = rc;
-> +
-> +	if (retries && fmap_size == sizeof(uint32_t)) {
-> +		/* fmap size exceeded fmap_bufsize;
-> +		 * actual fmap size returned in fmap_buf;
-> +		 * realloc and retry once
-> +		 */
-> +		fmap_bufsize = *((uint32_t *)fmap_buf);
-> +
-> +		--retries;
-> +		kfree(fmap_buf);
-> +		fmap_buf = kcalloc(1, fmap_bufsize, GFP_KERNEL);
-> +		if (!fmap_buf)
-> +			return -EIO;
-> +
-> +		goto retry_once;
-> +	}
-> +
-> +	/* Will call famfs_file_init_dax() when that gets added */
 
-Hard to say what this does without looking further down in the patchset.
-:)
-
-> +	kfree(fmap_buf);
-> +	return 0;
-> +}
-> +#endif
-> +
->  static int fuse_open(struct inode *inode, struct file *file)
->  {
->  	struct fuse_mount *fm = get_fuse_mount(inode);
-> @@ -263,6 +334,19 @@ static int fuse_open(struct inode *inode, struct file *file)
->  
->  	err = fuse_do_open(fm, get_node_id(inode), file, false);
->  	if (!err) {
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +		if (fm->fc->famfs_iomap) {
-> +			if (S_ISREG(inode->i_mode)) {
-
-/me wonders if you want to turn this into a dumb helper to reduce the
-indenting levels?
-
-#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-static inline bool fuse_is_famfs_file(struct inode *inode)
-{
-	return fm->fc->famfs_iomap && S_ISREG(inode->i_mode);
-}
-#else
-# define fuse_is_famfs_file(...)	(false)
-#endif
-
-	if (!err) {
-		if (fuse_is_famfs_file(inode)) {
-			rc = fuse_get_fmap(fm, inode);
-			...
-		}
-	}
-
-> +				int rc;
-> +				/* Get the famfs fmap */
-> +				rc = fuse_get_fmap(fm, inode,
-> +						   get_node_id(inode));
-
-Just get_node_id inside fuse_get_fmap to reduce the parameter count.
-
-> +				if (rc)
-> +					pr_err("%s: fuse_get_fmap err=%d\n",
-> +					       __func__, rc);
-> +			}
-> +		}
-> +#endif
->  		ff = file->private_data;
->  		err = fuse_finish_open(inode, file);
->  		if (err)
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index f4ee61046578..e01d6e5c6e93 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -193,6 +193,10 @@ struct fuse_inode {
->  	/** Reference to backing file in passthrough mode */
->  	struct fuse_backing *fb;
->  #endif
-> +
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +	void *famfs_meta;
-> +#endif
-
-What gets stored in here?
-
->  };
->  
->  /** FUSE inode state bits */
-> @@ -945,6 +949,8 @@ struct fuse_conn {
->  #endif
->  
->  #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +	struct rw_semaphore famfs_devlist_sem;
-> +	struct famfs_dax_devlist *dax_devlist;
->  	char *shadow;
->  #endif
->  };
-> @@ -1435,11 +1441,14 @@ void fuse_free_conn(struct fuse_conn *fc);
->  
->  /* dax.c */
->  
-> +static inline int fuse_file_famfs(struct fuse_inode *fi); /* forward */
-> +
->  /* This macro is used by virtio_fs, but now it also needs to filter for
->   * "not famfs"
->   */
->  #define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
-> -					&& IS_DAX(&fuse_inode->inode))
-> +					&& IS_DAX(&fuse_inode->inode)	\
-> +					&& !fuse_file_famfs(fuse_inode))
->  
->  ssize_t fuse_dax_read_iter(struct kiocb *iocb, struct iov_iter *to);
->  ssize_t fuse_dax_write_iter(struct kiocb *iocb, struct iov_iter *from);
-> @@ -1550,4 +1559,29 @@ extern void fuse_sysctl_unregister(void);
->  #define fuse_sysctl_unregister()	do { } while (0)
->  #endif /* CONFIG_SYSCTL */
->  
-> +/* famfs.c */
-> +static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
-> +						       void *meta)
-> +{
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +	return xchg(&fi->famfs_meta, meta);
-> +#else
-> +	return NULL;
-> +#endif
-> +}
-> +
-> +static inline void famfs_meta_free(struct fuse_inode *fi)
-> +{
-> +	/* Stub wil be connected in a subsequent commit */
-> +}
-> +
-> +static inline int fuse_file_famfs(struct fuse_inode *fi)
-> +{
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +	return (READ_ONCE(fi->famfs_meta) != NULL);
-> +#else
-> +	return 0;
-> +#endif
-> +}
-
-...or maybe this is the predicate you want to see if you really need to
-fmapping related stuff?
-
-> +
->  #endif /* _FS_FUSE_I_H */
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index a7e1cf8257b0..b071d16f7d04 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -117,6 +117,9 @@ static struct inode *fuse_alloc_inode(struct super_block *sb)
->  	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
->  		fuse_inode_backing_set(fi, NULL);
->  
-> +	if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
-> +		famfs_meta_set(fi, NULL);
-> +
->  	return &fi->inode;
->  
->  out_free_forget:
-> @@ -138,6 +141,13 @@ static void fuse_free_inode(struct inode *inode)
->  	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
->  		fuse_backing_put(fuse_inode_backing(fi));
->  
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +	if (S_ISREG(inode->i_mode) && fi->famfs_meta) {
-> +		famfs_meta_free(fi);
-> +		famfs_meta_set(fi, NULL);
-
-_free should null out the pointer, no?
-
---D
-
-> +	}
-> +#endif
-> +
->  	kmem_cache_free(fuse_inode_cachep, fi);
->  }
->  
-> @@ -1002,6 +1012,9 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
->  	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
->  		fuse_backing_files_init(fc);
->  
-> +	if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
-> +		pr_notice("%s: Kernel is FUSE_FAMFS_DAX capable\n", __func__);
-> +
->  	INIT_LIST_HEAD(&fc->mounts);
->  	list_add(&fm->fc_entry, &fc->mounts);
->  	fm->fc = fc;
-> @@ -1036,9 +1049,8 @@ void fuse_conn_put(struct fuse_conn *fc)
->  		}
->  		if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
->  			fuse_backing_files_free(fc);
-> -#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> -		kfree(fc->shadow);
-> -#endif
-> +		if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
-> +			kfree(fc->shadow);
->  		call_rcu(&fc->rcu, delayed_release);
->  	}
->  }
-> @@ -1425,6 +1437,7 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
->  				 * those capabilities, they are held here).
->  				 */
->  				fc->famfs_iomap = 1;
-> +				init_rwsem(&fc->famfs_devlist_sem);
->  			}
->  		} else {
->  			ra_pages = fc->max_read / PAGE_SIZE;
-> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
-> index aec4aecb5d79..443b337b0c05 100644
-> --- a/fs/fuse/iomode.c
-> +++ b/fs/fuse/iomode.c
-> @@ -204,7 +204,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
->  	 * io modes are not relevant with DAX and with server that does not
->  	 * implement open.
->  	 */
-> -	if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)
-> +	if (FUSE_IS_VIRTIO_DAX(fi) || fuse_file_famfs(fi) || !ff->args)
->  		return 0;
->  
->  	/*
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 6c384640c79b..dff5aa62543e 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -654,6 +654,10 @@ enum fuse_opcode {
->  	FUSE_TMPFILE		= 51,
->  	FUSE_STATX		= 52,
->  
-> +	/* Famfs / devdax opcodes */
-> +	FUSE_GET_FMAP           = 53,
-> +	FUSE_GET_DAXDEV         = 54,
-> +
->  	/* CUSE specific operations */
->  	CUSE_INIT		= 4096,
->  
-> @@ -888,6 +892,16 @@ struct fuse_access_in {
->  	uint32_t	padding;
->  };
->  
-> +struct fuse_get_fmap_in {
-> +	uint32_t	size;
-> +	uint32_t	padding;
-> +};
-> +
-> +struct fuse_get_fmap_out {
-> +	uint32_t	size;
-> +	uint32_t	padding;
-> +};
-> +
->  struct fuse_init_in {
->  	uint32_t	major;
->  	uint32_t	minor;
-> @@ -1284,4 +1298,8 @@ struct fuse_uring_cmd_req {
->  	uint8_t padding[6];
->  };
->  
-> +/* Famfs fmap message components */
-> +
-> +#define FAMFS_FMAP_MAX 32768 /* Largest supported fmap message */
-> +
->  #endif /* _LINUX_FUSE_H */
-> -- 
-> 2.49.0
-> 
-> 
