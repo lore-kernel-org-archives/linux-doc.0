@@ -1,86 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C91AD21;
-	Wed,  9 Jul 2025 15:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A31288C22;
+	Wed,  9 Jul 2025 15:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752074723; cv=none; b=TTApBaZxS9uVTHwjLcfUM6ez9XCnUouaSVMi9/2Wrn2oRNNZV7nSRx22Ro/ZRChLjM6iulUA/CKLHkFdQAbNK3EVs4ywMws9CyEIDO3vd1830+3KlZeUxxOw3lIYf+5leZyPzXqsbyvDfjbKG5tSynAkOEKpjR8ZEx5q8RZntYA=
+	t=1752074977; cv=none; b=XYhFW1pNKIG5vWDMcNyHydyz0FEgV+LH+qWfP78rXDoDrd97kr0Kjso3QojflfC4AFqYIO+U8aDayghc9dxfwZCbp4bKotHkgF6IeqPBKSHUkjhMGcdWQt7hC4H+QyHUa1kutTNe9IFD/dyOXTiNlzilCBUgW4+0CVWeWZxirMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752074723; c=relaxed/simple;
-	bh=vQvUTZYDPFvJtZWLT3bsD4zVtLOSn/hT6DJD+GszzQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ttQoATe+u4t1OHUkQS+bhvmGVoxCnb2+ClWGi7HC9I+O3eFzLIZQI+bvwLmKuAPubA7wZPdusAUNVSmTjXA0ey9WVIhO4JGZCm0WwY6WgIWm+bHaRjAsQvwRYFWJODpN0IfEfnAySZHxJlz6SVBXVi2oY9Qf7lZr3pZBSyA6TNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikPxL0de; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752074977; c=relaxed/simple;
+	bh=9Z+grRSklTfhvS+8PlCC9Ev7rbfRGqoFZ/esvRQ20g4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QqCtaWeHMtb7vZoztjzOHwGRlv8V+fOHmE+ayu8VmhVwqaPf0w1DFnhQYDr5Tw+mIgvRscXsmqkbIr0pa/nH/wrTnZ85+o0EsDS7/AzUyESd/UC94TuZJ2aj5U9MCBWyYRIlo7A4NxZtCKinPrys1x3XSMJFQ9IMXukbp6U+R+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jtbO9RnH; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikPxL0de"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDD41C4CEEF;
-	Wed,  9 Jul 2025 15:25:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752074723;
-	bh=vQvUTZYDPFvJtZWLT3bsD4zVtLOSn/hT6DJD+GszzQ8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ikPxL0deZqTQhV1qx988jIg1WQwS7TiasZUN6jIIG1fVwUWqn2ZJVuNt/sgdArR9x
-	 UxkEzZlprVh+dmbrWTTQZzbw3lyjWYJhoJo90HwOFwZ3s7mbZVv3I7SOJDAF7EV5vB
-	 RvEHdDUJu9v3HTnQ1AFyv14d6EXfzt9uNAr0qCkQ0a4RlRD+iDRaSK1Xm50YFbM7Fu
-	 q+0hWU+fQjdb8P6+jnUjfIvznP8iSqjnTD31hZTq+Dfl90dlaQ5iS+8Wq0CGVc28bG
-	 V8XK+76nKHlXpmaiJYYEhwx2pAd8xnVtdIYRYkQm87d9xgvd8ZIBaOdvqyled90aqY
-	 wTfFf7ljiNuFw==
-Date: Wed, 9 Jul 2025 17:25:10 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, "Akira Yokosawa" <akiyks@gmail.com>, "Breno Leitao"
- <leitao@debian.org>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Ignacio Encinas Rubio"
- <ignacio@iencinas.com>, "Jan Stancek" <jstancek@redhat.com>, "Marco Elver"
- <elver@google.com>, "Paolo Abeni" <pabeni@redhat.com>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Ruben Wauters" <rubenru09@aol.com>, "Shuah Khan"
- <skhan@linuxfoundation.org>, joel@joelfernandes.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- lkmm@lists.linux.dev, netdev@vger.kernel.org, peterz@infradead.org,
- stern@rowland.harvard.edu
-Subject: Re: [PATCH v8 06/13] docs: use parser_yaml extension to handle
- Netlink specs
-Message-ID: <20250709172510.191c116e@sal.lan>
-In-Reply-To: <m2wm8x8omf.fsf@gmail.com>
-References: <cover.1750925410.git.mchehab+huawei@kernel.org>
-	<34e491393347ca1ba6fd65e73a468752b1436a80.1750925410.git.mchehab+huawei@kernel.org>
-	<m2wm8x8omf.fsf@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jtbO9RnH"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C365D403E1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1752074968; bh=zMLx0BYVjQK4fSirHovfR4bAnXWmFQV8Zo3LMvVuScM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=jtbO9RnH1molozbhEuo7Yt31TcIFUIOzwr8sxpfm8XRv2bItxOq0iJXObdlCkWbxg
+	 JWlrH75h0xaBNddzze+P/1T1xMT97nZv29J7UXarMrF9FZ1cpxxMrua0vNluPIu0+k
+	 igJhFyAbI7YQwFmwVCcexxYqwUypx086j+NOYJkrJ0KbAwx0CcECGPcf3L9t+2H0u2
+	 ktTs/k+sj+UNYc0mTuZxwf9nmera5AyNJVt+cUMankU1E4UPcIyN7zRKEgKaq4pRrO
+	 0A5MxZrZh1V2zSR3apZr0MJ99MwcdIeKDDwIWUfLzmtalzKl73txoWuRsRlkeVtN/x
+	 GHKsZ5KNoOCCw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C365D403E1;
+	Wed,  9 Jul 2025 15:29:28 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 00/12] [PATCH 00/11] Thrash up the parser/output interface
+In-Reply-To: <20250702223524.231794-1-corbet@lwn.net>
+References: <20250702223524.231794-1-corbet@lwn.net>
+Date: Wed, 09 Jul 2025 09:29:28 -0600
+Message-ID: <87cya92xif.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Em Fri, 27 Jun 2025 11:28:40 +0100
-Donald Hunter <donald.hunter@gmail.com> escreveu:
+Jonathan Corbet <corbet@lwn.net> writes:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Instead of manually calling ynl_gen_rst.py, use a Sphinx extension.
-> > This way, no .rst files would be written to the Kernel source
-> > directories.
-> >
-> > We are using here a toctree with :glob: property. This way, there
-> > is no need to touch the netlink/specs/index.rst file every time
-> > a new Netlink spec is added/renamed/removed.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > Reviewed-by: Donald Hunter <donald.hunter@gmail.com>  
-> 
-> This patch doesn't currently merge in the net-next tree because it
-> depends on a series in docs-next.
+> [I'll slow down soon, honest - real work is piling up...]
+>
+> The kerneldoc parsing phase gathers all of the information about the
+> declarations of interest, then passes it through to the output phase as a
+> dict that is an unstructured blob of information; this organization has its
+> origins in the Perl version of the program.  It results in an interface
+> that is difficult to reason about, dozen-parameter function calls, and
+> other ills.
+>
+> Introduce a new class (KdocItem) to carry this information between the
+> parser and the output modules, and, step by step, modify the system to use
+> this class in a more structured way.  This could be taken further by
+> creating a subclass of KdocItem for each declaration type (function,
+> struct, ...), but that is probably more structure than we need.
+>
+> As a final step, add some structure for the accumulation of the output
+> text.
+>
+> The result is (I hope) clearer code, the removal of a bunch of boilerplate,
+> and no changes to the generated output.
 
-True. It has to either be applied on docs-next or you need to merge
-from it if you want to apply on your tree.
+Has anybody else had a chance to look at this?  Or should I assume it's
+perfect? :)
 
-This patch depends at the changes there to properly address 
-include_pattern/exclude_pattern.
+Thanks,
 
-Regards,
-Mauro
+jon
