@@ -1,50 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41412E6124;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33B92E6122;
 	Wed,  9 Jul 2025 13:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752069141; cv=none; b=aCpTto3pzA/IAOo8vMoAnBQbHplwMHPp2bSoRMInJq2AT6lrADM3dx0jN+arDdgcG5133MQXaXiC0gwePJCdwhPBOEeOpJMEJbN2UPngoquO82dL6663GafPDLgF5aSCCF3lEJDrfC4g4fV/+jEQxTIh/AX4yFkhdaIY2xYkKTk=
+	t=1752069141; cv=none; b=eQUVFQafYnn+bLDxKiAeDbUXYrNL0zjFtdWetHcJyj7NgZVn9xoCR+5ziNvZJ1slvBfGqYZfrWJUIkU/kRv7Nru4TPo+w9jHueKvZMXbODatMNvVmmtqQyKNn8LqYBtQfW7rD/cxnsCthdEVcWCj1j55hhm2zfKlGczAPgOtkR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752069141; c=relaxed/simple;
-	bh=aokS0IkdFRhl4/IFo4+l7/CezIwWib7/d8o4nBBDwqo=;
+	bh=ycz4EO/MkfHKJ8271RLTLGkxXzNhsic8MuWu+lzxdXM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=L9jW0g8s6wLje01jDIBQsT9QU0ps20JtJFviFuUyheYfVNBbgMAETLN7RgOw8bPwzoPCcPF6+J+/dDSZ79bzobL8RhOBQP+m3XcPhplFEkk361z666dRO74s8MVK28yMGxvEURjAdrl1o2mD/bguaXbm2KTGoSK0+IBbgu9M7LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZgzYVTa+; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=L43eBryPTiv8GiBC+6C1jt/frmC+KTMSf1prLGd/xUAzVlIYKq3MkbSciOOFUSgr1Xq4iTl2vnrMn9XlbNoYKUA+qdGtqcHC4jGAehuBIidu+3xdUG8/TrgLPbM99F319DG5C2x/TgeidCljxenu6wwh78lWrMwbMRy2dxe7YtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QmY8RSh/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZgzYVTa+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9153CC19423;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QmY8RSh/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FE7DC4AF0B;
 	Wed,  9 Jul 2025 13:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1752069141;
-	bh=aokS0IkdFRhl4/IFo4+l7/CezIwWib7/d8o4nBBDwqo=;
+	bh=ycz4EO/MkfHKJ8271RLTLGkxXzNhsic8MuWu+lzxdXM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZgzYVTa+SZRJcCm9p/UD8nA+WfbEfm4AmyIJ+zKLTQoZXMD4/krtekYPTkjK4jBGl
-	 Q1oWklJvjz5vn4P1rHzJD75k5w5HwGnKtxz8ZYxiXJCtAebgS8FYBEcNxyYo1I/izE
-	 bR/FMCkWYj7xvOo3yHJ/tYVXIkxqrxSWZfo34XWtqdH/4qkcdu/iuwamBCQnkhtJ8H
-	 nJT6UQL8VmKvrIyo7iyYgaWg0SG9wOdWPnJYTJe4RRwGtgyTt+/ExAwisPDsob6rpm
-	 pW6u/rkbbsTvNSor1NT3XgfFIZ4JAovREhGh44Y91uvK57JjYNv9HdcbbGrZ1xAxqo
-	 0KHWj0rVj9bNQ==
+	b=QmY8RSh/2ccIcKCxarhNZ7eU+fsna2ok9uthk9M/gGT+5z+eg22I3yBo+pmf5qzZO
+	 rDdn+NdGZPDL2mkUsgTTi8E8ypqHpfwI7Gah8l8hucWz+JjMjSSALaMZDbtWPV1p6K
+	 yOs3vzCt8NYpj4tmMbQl/Ys4NMrwUn1sqDWq1mjf7G7v+4Uph3TOQ7ZIj+efd0MYaK
+	 tdR4tp22rmATFMBK6hQDWeT0RxBQTjkiLV+Yxuzj2gbSRo/aPIUmFppF1d1bBpC/uE
+	 ep3ki9jcx4NCvjdQSJ6KxCqFmSXA5tkLFKYRaXP4ki18/IIJy9S3Pcpulw6WH8t3wg
+	 sk0spJ9my/jww==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1uZVDd-00000000EDm-3WaE;
+	id 1uZVDd-00000000ECa-1UQU;
 	Wed, 09 Jul 2025 15:52:17 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v2 34/39] scripts: sphinx-pre-install: update mandatory system deps
-Date: Wed,  9 Jul 2025 15:52:06 +0200
-Message-ID: <301781a3839c500ea0dfebc7eb2d528d54755fd4.1752067814.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 10/39] scripts: sphinx-pre-install: fix support for gentoo
+Date: Wed,  9 Jul 2025 15:51:42 +0200
+Message-ID: <852f9b2fdf58c32f4dae6e85281e9940a873075b.1752067814.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1752067814.git.mchehab+huawei@kernel.org>
 References: <cover.1752067814.git.mchehab+huawei@kernel.org>
@@ -57,30 +52,70 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-To build docs, gcc is not needed. Also, Kernel can be built
-nowadays with clang. So, drop it.
+Some gentoo packages have changes. Fix it.
 
-On the other hand, which is needed. Add a system dependency
-for it.
+While here, improve emerge portage use logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/sphinx-pre-install.py | 35 ++++++++++++++++-------------------
+ 1 file changed, 16 insertions(+), 19 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 7dfe5c2a6cc2..fc9dc45054d7 100755
+index 65438c198674..b793796329c8 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -1476,7 +1476,7 @@ class SphinxDependencyChecker(MissingCheckers):
-         self.check_perl_module("Pod::Usage", DepManager.SYSTEM_MANDATORY)
+@@ -669,12 +669,13 @@ class SphinxDependencyChecker:
  
-         self.check_program("make", DepManager.SYSTEM_MANDATORY)
--        self.check_program("gcc", DepManager.SYSTEM_MANDATORY)
-+        self.check_program("which", DepManager.SYSTEM_MANDATORY)
+     def give_gentoo_hints(self):
+         progs = {
+-            "convert":      "media-gfx/imagemagick",
+-            "dot":          "media-gfx/graphviz",
+-            "rsvg-convert": "gnome-base/librsvg",
+-            "virtualenv":   "dev-python/virtualenv",
+-            "xelatex":      "dev-texlive/texlive-xetex media-fonts/dejavu",
+-            "yaml":         "dev-python/pyyaml",
++            "convert":       "media-gfx/imagemagick",
++            "dot":           "media-gfx/graphviz",
++            "rsvg-convert":  "gnome-base/librsvg",
++            "virtualenv":    "dev-python/virtualenv",
++            "xelatex":       "dev-texlive/texlive-xetex media-fonts/dejavu",
++            "yaml":          "dev-python/pyyaml",
++            "python-sphinx": "dev-python/sphinx",
+         }
  
-         self.check_program("dot", DepManager.SYSTEM_OPTIONAL)
-         self.check_program("convert", DepManager.SYSTEM_OPTIONAL)
+         if self.pdf:
+@@ -699,21 +700,17 @@ class SphinxDependencyChecker:
+             print("You should run:")
+         print("\n")
+ 
+-        imagemagick = "media-gfx/imagemagick svg png"
+-        cairo = "media-gfx/graphviz cairo pdf"
+-        portage_imagemagick = "/etc/portage/package.use/imagemagick"
+-        portage_cairo = "/etc/portage/package.use/graphviz"
+ 
+-        result = self.run(["grep", "imagemagick", portage_imagemagick],
+-                          stdout=subprocess.PIPE, text=True)
+-        if not result.stdout.strip():
+-            print(f"\tsudo su -c 'echo \"{imagemagick}\" > {portage_imagemagick}'")
++        portages = [
++            "media-gfx/imagemagick",
++            "media-gfx/graphviz",
++        ]
+ 
+-        result = self.run(["grep", "graphviz", portage_cairo],
+-                          stdout=subprocess.PIPE, text=True)
+-
+-        if not result.stdout.strip():
+-            print(f"\tsudo su -c 'echo \"{cairo}\" > {portage_cairo}'")
++        for p in portages:
++            result = self.run(["grep", p, "/etc/portage/package.use/*"],
++                               stdout=subprocess.PIPE, text=True)
++            if not result.stdout.strip():
++                print(f"\tsudo emerge -av1 {p}")
+ 
+         print(f"\tsudo emerge --ask {self.install}")
+ 
 -- 
 2.49.0
 
