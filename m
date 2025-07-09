@@ -1,45 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7A12E62C7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41412E6124;
 	Wed,  9 Jul 2025 13:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752069142; cv=none; b=Xby6PnP/zIMlESRQQ1Qvtcd/CfyDmBY0aCXES/lNT8YUbNxGBIDj0UCcqhM3t+CjZeTnRU2dc9AjEZRi2DiV41ECfb+2yvwYqLNarRJD895hG361HElycjDr1tHdsI6OOCAfhnAIxYwbr+rBStXLyzlQsmBWEDm3iYNlT3D5EmA=
+	t=1752069141; cv=none; b=aCpTto3pzA/IAOo8vMoAnBQbHplwMHPp2bSoRMInJq2AT6lrADM3dx0jN+arDdgcG5133MQXaXiC0gwePJCdwhPBOEeOpJMEJbN2UPngoquO82dL6663GafPDLgF5aSCCF3lEJDrfC4g4fV/+jEQxTIh/AX4yFkhdaIY2xYkKTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752069142; c=relaxed/simple;
-	bh=FBElmqvyhBKLXVXL/Ckav/ng29pt1hj+3FlkcjHKvNg=;
+	s=arc-20240116; t=1752069141; c=relaxed/simple;
+	bh=aokS0IkdFRhl4/IFo4+l7/CezIwWib7/d8o4nBBDwqo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sYLLdwGfOMU9iqLldrnLLwYTzdJM3yimCJKzidhW8z74neQY4LaOJmBy/M+aae6x3eSdBy8/xH8rFK3aE+ZrkDbHFhDvpGFqSuU3BBvlFYeEVBYTEk4zHPOC0UY6mC4X82YCL9RcLBJ+qIXwV6NwT12rNBAV4O86BqzfjxAovPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cp6CdJ19; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=L9jW0g8s6wLje01jDIBQsT9QU0ps20JtJFviFuUyheYfVNBbgMAETLN7RgOw8bPwzoPCcPF6+J+/dDSZ79bzobL8RhOBQP+m3XcPhplFEkk361z666dRO74s8MVK28yMGxvEURjAdrl1o2mD/bguaXbm2KTGoSK0+IBbgu9M7LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZgzYVTa+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cp6CdJ19"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9094C4AF15;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZgzYVTa+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9153CC19423;
 	Wed,  9 Jul 2025 13:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1752069141;
-	bh=FBElmqvyhBKLXVXL/Ckav/ng29pt1hj+3FlkcjHKvNg=;
+	bh=aokS0IkdFRhl4/IFo4+l7/CezIwWib7/d8o4nBBDwqo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cp6CdJ19RKlmasF6xihFNkVJUQuy66Dk7DJ05C1fEUgTE35cyyybr0FvQDVnzR7H8
-	 yKoFHGWtpWLBzqTGH8LjHmKmEq/6aOlszO07I6KwnkjmEpQKxlq/WmsddsG+zuFD3S
-	 b4+kZeG+TaIlfNHvrQ6d5syb1EEYLdOFTKQIBEnDyoZcPQkSAoXmDqKalCGx2BD3uC
-	 S4E8oCPTyHDUaLDR88TURREqk8PpHQCg6H0K3wv5hEzMMiYk9YfcLMiJjA+yvN+qEW
-	 BFZh9jITUYnAJoBQV+z8ksBNtSIS5sfRdmLVdM0mtKGKURPs5BH/gFpDtimrHg5aOP
-	 lNXf8tSkw7qrw==
+	b=ZgzYVTa+SZRJcCm9p/UD8nA+WfbEfm4AmyIJ+zKLTQoZXMD4/krtekYPTkjK4jBGl
+	 Q1oWklJvjz5vn4P1rHzJD75k5w5HwGnKtxz8ZYxiXJCtAebgS8FYBEcNxyYo1I/izE
+	 bR/FMCkWYj7xvOo3yHJ/tYVXIkxqrxSWZfo34XWtqdH/4qkcdu/iuwamBCQnkhtJ8H
+	 nJT6UQL8VmKvrIyo7iyYgaWg0SG9wOdWPnJYTJe4RRwGtgyTt+/ExAwisPDsob6rpm
+	 pW6u/rkbbsTvNSor1NT3XgfFIZ4JAovREhGh44Y91uvK57JjYNv9HdcbbGrZ1xAxqo
+	 0KHWj0rVj9bNQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1uZVDd-00000000EDJ-2jGo;
+	id 1uZVDd-00000000EDm-3WaE;
 	Wed, 09 Jul 2025 15:52:17 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 25/39] scripts: sphinx-pre-install: better handle RHEL-based distros
-Date: Wed,  9 Jul 2025 15:51:57 +0200
-Message-ID: <96c4982d419b60af948e1b4d9b44a51a2681abd3.1752067814.git.mchehab+huawei@kernel.org>
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2 34/39] scripts: sphinx-pre-install: update mandatory system deps
+Date: Wed,  9 Jul 2025 15:52:06 +0200
+Message-ID: <301781a3839c500ea0dfebc7eb2d528d54755fd4.1752067814.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1752067814.git.mchehab+huawei@kernel.org>
 References: <cover.1752067814.git.mchehab+huawei@kernel.org>
@@ -52,101 +57,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Better implement support for RHEL-based distros. While here,
-get rid of a Fedora 28 support which cause troubles with
-server distros. Also, get rid of yum, as RHEL8 already
-suppords dnf, and this is not the minimal version we may
-still support.
+To build docs, gcc is not needed. Also, Kernel can be built
+nowadays with clang. So, drop it.
+
+On the other hand, which is needed. Add a system dependency
+for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 31 ++++++++++++-------------------
- 1 file changed, 12 insertions(+), 19 deletions(-)
+ scripts/sphinx-pre-install.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 0963da21c27b..592223fa686f 100755
+index 7dfe5c2a6cc2..fc9dc45054d7 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -536,10 +536,6 @@ class SphinxDependencyChecker:
-             "yaml":             "python3-pyyaml",
-         }
+@@ -1476,7 +1476,7 @@ class SphinxDependencyChecker(MissingCheckers):
+         self.check_perl_module("Pod::Usage", DepManager.SYSTEM_MANDATORY)
  
--        fedora26_opt_pkgs = [
--            "graphviz-gd",  # Fedora 26: needed for PDF support
--        ]
--
-         fedora_tex_pkgs = [
-             "dejavu-sans-fonts",
-             "dejavu-sans-mono-fonts",
-@@ -549,9 +545,8 @@ class SphinxDependencyChecker:
-             "texlive-xecjk",
-         ]
+         self.check_program("make", DepManager.SYSTEM_MANDATORY)
+-        self.check_program("gcc", DepManager.SYSTEM_MANDATORY)
++        self.check_program("which", DepManager.SYSTEM_MANDATORY)
  
--        old = 0
-+        fedora = False
-         rel = None
--        pkg_manager = "dnf"
- 
-         match = re.search(r"(release|Linux)\s+(\d+)", self.system_release)
-         if match:
-@@ -559,12 +554,12 @@ class SphinxDependencyChecker:
- 
-         if not rel:
-             print("Couldn't identify release number")
--            old = 1
-             self.pdf = False
-         elif re.search("Fedora", self.system_release):
-             # Fedora 38 and upper use this CJK font
- 
-             noto_sans_redhat = "google-noto-sans-cjk-fonts"
-+            fedora = True
-         else:
-             # Almalinux, CentOS, RHEL, ...
- 
-@@ -574,9 +569,6 @@ class SphinxDependencyChecker:
-             progs["virtualenv"] = "python-virtualenv"
- 
-             if not rel or rel < 8:
--                old = 1
--                self.pdf = False
--
-                 print("ERROR: Distro not supported. Too old?")
-                 return
- 
-@@ -607,11 +599,16 @@ class SphinxDependencyChecker:
- 
-             self.check_missing_file(pdf_pkgs, noto_sans_redhat, DepType.PDF_MANDATORY)
- 
--            if not old:
--                self.check_rpm_missing(fedora26_opt_pkgs, DepType.PDF_MANDATORY)
--                self.check_rpm_missing(fedora_tex_pkgs, DepType.PDF_MANDATORY)
-+            self.check_rpm_missing(fedora_tex_pkgs, DepType.PDF_MANDATORY)
-+
-+            self.check_missing_tex(DepType.PDF_MANDATORY)
-+
-+            # There's no texlive-ctex on RHEL 8 repositories. This will
-+            # likely affect CJK pdf build only.
-+            if not fedora and rel == 8:
-+                if "texlive-ctex" in self.missing:
-+                    del self.missing["texlive-ctex"]
- 
--            self.check_missing_tex()
- 
-         self.check_missing(progs)
- 
-@@ -621,11 +618,7 @@ class SphinxDependencyChecker:
-         if self.verbose_warn_install:
-             print("You should run:")
- 
--        if old:
--            # dnf is there since Fedora 18+ and RHEL 8
--            pkg_manager = "yum"
--
--        print(f"\n\tsudo {pkg_manager} install -y {self.install}")
-+        print(f"\n\tsudo dnf install -y {self.install}")
- 
-     def give_opensuse_hints(self):
-         progs = {
+         self.check_program("dot", DepManager.SYSTEM_OPTIONAL)
+         self.check_program("convert", DepManager.SYSTEM_OPTIONAL)
 -- 
 2.49.0
 
