@@ -1,94 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FE62EA736;
-	Wed,  9 Jul 2025 15:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6033F1F8EFF;
+	Wed,  9 Jul 2025 16:21:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752076750; cv=none; b=O3wjy6aLUm4b4sUhP4Oroh8y+R/mfV4FkkDCIKLSVhTDvyCNXJyuDU584w3tj/3PdCBwGu/NdOlubhRgdF2kFGueyfCPzFBZQKUM77VWDOJMYg8tOsp77P1WaJrRz/XhCO+ZQqzpIha2heM4Q7XFDrQvHhHf+p4dpWhv6c0Ge54=
+	t=1752078105; cv=none; b=QDU3z4JHa5r7/oavaJ28S17u0GBZZj/ELJ9qp9vK69QRvHhPJvxRrqkhGfcnx78fS2+de2lN2L7AXZGTq8g1ViYEOtXs9+DgDR0NSEpu4xUpm55nVHRhmiCLSLJZ/7YLvtYzRPjthaSr2LIxcXJqc577Ol+Nv8p4R9aj2LAtN0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752076750; c=relaxed/simple;
-	bh=ogBoG80VZdRt95wsoC2snRc4eLHl6tjexBrTDr8vuXE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q777lPKj2Ar7pkjrn+F7lasypaBuveaZTWR+clo66X8wVQOOs7OVCdp0idH5hbKXljAOgY5DOOTetHI8WwC9dgSoEDk0KKDcpyvULu+9PEciIjf94Wfg3Gi+buvf+bBXTTlEvF2RpLnC7Avb6c2hZB0ZHtM21QpW4y0g7gpXY5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRsdlGia; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752078105; c=relaxed/simple;
+	bh=mn8Di1LqckWD1U8ihxspuXcRxANQNqwmyXe7kFO30HI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eprSdUUMcFI97mSJbvAFuaNY/JEwlEZ2dndltxNirJWGtJ6FamT9oc1y25KY0mLGSKw5YZjotyT1kBndHvcOe7xyEnuLt6Hf2wFf4BLOTWozmYD9n4NNKM41lWKlYzrrCfTZsG9H5606uiy9imEsZ5us1pFwiuPFVV0J/APPNPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kvsmipTg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRsdlGia"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6959C4CEEF;
-	Wed,  9 Jul 2025 15:59:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kvsmipTg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCF2AC4CEEF;
+	Wed,  9 Jul 2025 16:21:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752076749;
-	bh=ogBoG80VZdRt95wsoC2snRc4eLHl6tjexBrTDr8vuXE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IRsdlGia62a1K2o88CKa9w6PzCofIFiV2z7ftKReT9V2H0TjhMbYQUxIZ/4gNaVl6
-	 vwf4NMwnSWP2VGc/0C42WMZzNLI+20NsPjiQxkC/ScQB9LLP8FPQT+iDeExlDGeVN1
-	 lBalFYjSONoP1ih9ZkwUzf7FrMHc81Ur0uiRnincsm759Yg0lq4WUQplf+kfXSopud
-	 unexhzn/3ppHBBuDlpoCquvQtEvLV2aZ7qUt4PgNuEgDleuWZgwpd2OwsvZvj3pC3f
-	 +LDjtX7sCjQf0BLKAShUviYw9Yw2WOvl5RzJcPmBircTDGTiUzzLmeGDKXRlbYAGCs
-	 FxEwAdQom4U+A==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1uZXCJ-00000000IhE-1hkB;
-	Wed, 09 Jul 2025 17:59:03 +0200
+	s=k20201202; t=1752078104;
+	bh=mn8Di1LqckWD1U8ihxspuXcRxANQNqwmyXe7kFO30HI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kvsmipTgsZjwnKNnzQ/7pWyDzraXldK3A852muhqu7e4CXPgwskGF1gI9mpkrUVaU
+	 7F8VHVCbheJ2GuzI/FSI7lLHMlJVYF/pf6kh0aIKBOUh3sPZOJnzMds6FpeLnFqMYj
+	 fdUXUOXxJsshkkXRwC1xlGKTpVwxwofRgdMUi/V8z7Yk/JvOdqgwd9KQBUrZ2+5qBp
+	 jXBfRdrHAzJ7ILi1ws+EuMOf0y80cYc26sIyzBwQyZig1iwNFz2sjU5126vmikG3L0
+	 K/ntSmWVxMAyUF+XHZsMmTEurnIFnzmhBv+sHwM3gpPgjoEB0tZAXoJb6tiXgoTcQH
+	 o9ILRYB4ZGiDg==
+Date: Wed, 9 Jul 2025 18:21:40 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Akira Yokosawa" <akiyks@gmail.com>,
-	"Breno Leitao" <leitao@debian.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	"Donald Hunter" <donald.hunter@gmail.com>,
-	"Eric Dumazet" <edumazet@google.com>,
-	"Ignacio Encinas Rubio" <ignacio@iencinas.com>,
-	"Jan Stancek" <jstancek@redhat.com>,
-	"Marco Elver" <elver@google.com>,
-	"Paolo Abeni" <pabeni@redhat.com>,
-	"Randy Dunlap" <rdunlap@infradead.org>,
-	"Ruben Wauters" <rubenru09@aol.com>,
-	"Shuah Khan" <skhan@linuxfoundation.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	joel@joelfernandes.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lkmm@lists.linux.dev,
-	netdev@vger.kernel.org,
-	peterz@infradead.org,
-	stern@rowland.harvard.edu
-Subject: [PATCH v9 09/13] docs: netlink: remove obsolete .gitignore from unused directory
-Date: Wed,  9 Jul 2025 17:58:53 +0200
-Message-ID: <f3fe6423a4f15f275f10c3ab5d3236b70b6850f7.1752076293.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1752076293.git.mchehab+huawei@kernel.org>
-References: <cover.1752076293.git.mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH 00/12] [PATCH 00/11] Thrash up the parser/output
+ interface
+Message-ID: <20250709182140.2aab448e@foz.lan>
+In-Reply-To: <87cya92xif.fsf@trenco.lwn.net>
+References: <20250702223524.231794-1-corbet@lwn.net>
+	<87cya92xif.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The previous code was generating source rst files
-under Documentation/networking/netlink_spec/. With the
-Sphinx YAML parser, this is now gone. So, stop ignoring
-*.rst files inside netlink specs directory.
+Em Wed, 09 Jul 2025 09:29:28 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/networking/netlink_spec/.gitignore | 1 -
- 1 file changed, 1 deletion(-)
- delete mode 100644 Documentation/networking/netlink_spec/.gitignore
+> Jonathan Corbet <corbet@lwn.net> writes:
+> 
+> > [I'll slow down soon, honest - real work is piling up...]
+> >
+> > The kerneldoc parsing phase gathers all of the information about the
+> > declarations of interest, then passes it through to the output phase as a
+> > dict that is an unstructured blob of information; this organization has its
+> > origins in the Perl version of the program.  It results in an interface
+> > that is difficult to reason about, dozen-parameter function calls, and
+> > other ills.
+> >
+> > Introduce a new class (KdocItem) to carry this information between the
+> > parser and the output modules, and, step by step, modify the system to use
+> > this class in a more structured way.  This could be taken further by
+> > creating a subclass of KdocItem for each declaration type (function,
+> > struct, ...), but that is probably more structure than we need.
+> >
+> > As a final step, add some structure for the accumulation of the output
+> > text.
+> >
+> > The result is (I hope) clearer code, the removal of a bunch of boilerplate,
+> > and no changes to the generated output.  
+> 
+> Has anybody else had a chance to look at this?  Or should I assume it's
+> perfect? :)
 
-diff --git a/Documentation/networking/netlink_spec/.gitignore b/Documentation/networking/netlink_spec/.gitignore
-deleted file mode 100644
-index 30d85567b592..000000000000
---- a/Documentation/networking/netlink_spec/.gitignore
-+++ /dev/null
-@@ -1 +0,0 @@
--*.rst
--- 
-2.49.0
+I didn't look on it yet. I'll try to look it along the week.
 
+Regards,
+Mauro
