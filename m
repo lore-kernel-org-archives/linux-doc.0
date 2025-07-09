@@ -1,245 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30011EA73;
-	Wed,  9 Jul 2025 05:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752039140; cv=fail; b=bYkhk52hVgB4E62xfUCXxgidfkx/4E5ufMDrq7I26MqqggzUeRXPh3otXNNTCevAhRCFv8J6CO9ZK82HKNiDHmVvCWZ1yU1K4uI+QjzOjJQ56pJFuFDZbqp8XlpCdG8LyEUgUbMLu9/9IauX3WQdkkJuiL6zivYID2iNUdFcUxw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752039140; c=relaxed/simple;
-	bh=hcE2m0WfCbd0NeAB03fGwAA4NrHxRSidKzvmYJBdn1s=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=o1DKk9bkAJOW7Sr8+if2mNclfFfJDZ6GG58o05wMD25g8lDKYUNQ0sLbFPYB2X87eTpXzvTryUORcd9y83tFukbiHMVB7ZHZAwGX/Il9OVgqoYUcUoBf+FLE9hSywrAT1bD/lsKECclBAH5yvsy/sutbw+DZIBjyGNZE6+Gz9Aw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eXQs9IOi; arc=fail smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628D3433A4;
+	Wed,  9 Jul 2025 05:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752039865; cv=none; b=XmDw8Kv3tLa6t96eX9STQ10t/q7a2xE3ygwVpkh7YUCMOeRLLMMnodNKERff5zpblWRvm8X4Ox6TlYXZqmthDYdjot2E1KxzywTzd2SEHB+5O8G192nb/cp/ezoAqxLp0C2f223dH0TUHcbQJbSNxJ8ijS4TzBRtFjkQLhzF8XY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752039865; c=relaxed/simple;
+	bh=8l3zUE8MCFmxbc9oBbozzhc1z+lF1J8N31qJGH2KJf4=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=p3ka2tLXzY61gttf5xPTMCsAMwn74VVOt61SnkSlsC4u3RRNW+PtwXSLHYwccw4FYV48JsrR7b2bkGR0120/CQ3xLQM2FRqOGXmg9U20B/w7lTl78TCcJp5FlYnshlt1ijISZ4Hofd5ssvBJP3Vx/GOfY17AiIeM/wx/s9SImh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=SnaXe8NN; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXQs9IOi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752039139; x=1783575139;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=hcE2m0WfCbd0NeAB03fGwAA4NrHxRSidKzvmYJBdn1s=;
-  b=eXQs9IOi98Oe57rC9AOZ3OGa8mfRsu/0pw3NojDUgeibu5lYjP40+MlL
-   fH/0kuI+b70sxOFu3J/MCLqoq6CcwENhvRqF+t+kTR/TTxmev+E4BlPfk
-   vVv9jYjVCiV7cZkNH+ZP0zSpaB7IyVt8EOZzPOxlI0uaXlsg/Q+oF9VJb
-   icZ1/4JCV2Bmf5vmqBcO3rAS3eV4GNoaBtavJ6xTmxBe1AZv91EUoDlRV
-   +B5ej0BBynSrrvIWFfoIVlqPnJEYQUVC2En7HNDv19JCZKKc8nhMNMAdi
-   sbRE1BPXFkdrx4MnVfJ3umsJuyL2+ZuhhhgFM/okEZfxL+pJLp1nHR7dq
-   w==;
-X-CSE-ConnectionGUID: TLxLJYoJSVG+00VBj93uqA==
-X-CSE-MsgGUID: 6ryptvbSSNSoa6X4homdoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="71870185"
-X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="71870185"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 22:32:17 -0700
-X-CSE-ConnectionGUID: KDmjgZllR5mSFSGddxo8Yg==
-X-CSE-MsgGUID: +uovXDF/RziXWmS2StpyaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="161228254"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 22:32:06 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="SnaXe8NN"
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5694R55S003688;
+	Wed, 9 Jul 2025 01:43:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=dS5yEJ68ql/rKcDXFK5BDHKmWAX
+	vXtDoVkublI+1lqA=; b=SnaXe8NN5L3kRMwmDkJFyY078AWke8cv963xtcDTfbK
+	ecsEIDvQEk5pHJwDSWUPjP/sfw/8iP6X6xfSA2heXyUj9966ed/rIZ9BN6h3sqCz
+	Ks3ZZeiEaYGgB/4XC3TCEgWNU76fgzm2z0GYyqZudx+2Ut6rn/cCq6Sg3PJwUn32
+	jlmof+dGMybTRWOygNnJtEircXci9vo7acpwpjoC5nHcgug1RyVnfzrWW/VrCvoj
+	8tFwlU86udcCvobAqEr7DM/ZMyAnFQVpQu++dAJ/xP1Ile9NXwAm4axwKcM8d5aH
+	toBaQVwjBRk4M6kU+OF4+F7JkXuXe2smhVPT8fAGvSw==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 47r7truq2s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 09 Jul 2025 01:43:50 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 5695hnrN013733
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 9 Jul 2025 01:43:49 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Tue, 8 Jul 2025 22:31:55 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.2.1748.10; Wed, 9 Jul 2025 01:43:49 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Tue, 8 Jul 2025 22:31:55 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.41)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Tue, 8 Jul 2025 22:31:52 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XZetKauZAfLiPdM0xsHwO+5yQCYc/X9BmDQOYcGl01vAPrGgBFSG/UUKrQ8vavnIGLL/d0FyBUPZRWMwORjOMExIN+mzMqwh5Bf5+rCOz7ydY2A3v2GdXpEMw0YfV244u8jmLuH53wFDkW7DK5UUkI+6N0peGn6OhNbHipd62ahA8sr2r+FEeJVKYkQEYqqicCpq5ExevPxlKGcsYJdcCdbBzxDl6f5UAoIZEE6Ods/oYTErlh4+3CbH5QzTUNJhGgZuM+m+fNVYeLYYUh+n2/zwwSqOmBRfDCnOYj+i0CzNpwFmU7ueqjYb5xewi2jdPbJv+BwZpbD9RMZpYMocNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3YZC12vzhWAuowSi1Hu/DcUbLmuy6Du9owAgx82oOVE=;
- b=bKNzpVfWpFx4I6NM+5XQ/H20zlqq9HuikNK3LUJ15MduejGFULsVdnMDxR1J/omciY63JVZCSm8nCoqS7v6s12WQgYsKEwvdPft42NF0SAbMOFQOgrKhR8RjbMPC+JyrTGDZnNZnKprSo+kyz/ygRLjpe9SMq4c4sLk1e/XwKCFRRaI5VAGWzHEXEw7GGu7ImTM6OZ+6gU4XjWBwuTzwRH5GAMHRDEsfTImtCU5PZEfy2E6vKvlmCf+yDPulWkdy9rxUez/wM779l83l9AsPvxAcz4HZXxwx/+VjJXOJCHifonDsqtl8o9QYS14q4UXePRK0AOLuaJ+5+WxBSkC4kQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
- by SA1PR11MB6758.namprd11.prod.outlook.com (2603:10b6:806:25d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Wed, 9 Jul
- 2025 05:31:09 +0000
-Received: from BYAPR11MB3320.namprd11.prod.outlook.com
- ([fe80::e8c4:59e3:f1d5:af3b]) by BYAPR11MB3320.namprd11.prod.outlook.com
- ([fe80::e8c4:59e3:f1d5:af3b%7]) with mapi id 15.20.8901.024; Wed, 9 Jul 2025
- 05:31:09 +0000
-Message-ID: <b1408df7-abb4-4ac5-aff7-c04fda7dec7c@intel.com>
-Date: Tue, 8 Jul 2025 22:31:05 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv9 16/16] x86: Re-enable Linear Address Masking
-Content-Language: en-US
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Andy Lutomirski
-	<luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel
-	<ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf
-	<jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>, Xin Li
-	<xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh
-	<brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>, Tony Luck
-	<tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin
-	<alexander.shishkin@linux.intel.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, "Pawan
- Gupta" <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
-	<daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, "Sandipan
- Das" <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, Rick Edgecombe
-	<rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, Hou Tao
-	<houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, Vegard Nossum
-	<vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers
-	<ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu
- (Google)" <mhiramat@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
-	"Rasmus Villemoes" <linux@rasmusvillemoes.dk>, Christophe Leroy
-	<christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du
-	<changbin.du@huawei.com>, Huang Shijie <shijie@os.amperecomputing.com>,
-	"Geert Uytterhoeven" <geert+renesas@glider.be>, Namhyung Kim
-	<namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-efi@vger.kernel.org>, <linux-mm@kvack.org>
-References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
- <20250707080317.3791624-17-kirill.shutemov@linux.intel.com>
-From: Sohil Mehta <sohil.mehta@intel.com>
-In-Reply-To: <20250707080317.3791624-17-kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR05CA0029.namprd05.prod.outlook.com
- (2603:10b6:a03:254::34) To BYAPR11MB3320.namprd11.prod.outlook.com
- (2603:10b6:a03:18::25)
+ 15.2.1748.10; Wed, 9 Jul 2025 01:43:48 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Wed, 9 Jul 2025 01:43:48 -0400
+Received: from CENCARNA-L02.ad.analog.com (CENCARNA-L02.ad.analog.com [10.117.222.48])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 5695hQ2g024058;
+	Wed, 9 Jul 2025 01:43:29 -0400
+From: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+Subject: [PATCH v5 0/3] Add support for ADP1051/ADP1055 and
+ LTP8800-1A/-2/-4A
+Date: Wed, 9 Jul 2025 13:43:24 +0800
+Message-ID: <20250709-adp1051-v5-0-539254692252@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3320:EE_|SA1PR11MB6758:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9549417b-a891-410b-37a0-08ddbea9cf29
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1Y2aVNoQ1QwY0lYSzFoMXVUYnI4b2IwOVY0QXFGRFZndlJQVlZuM1Ewb0c0?=
- =?utf-8?B?S2VyVGUzNTVnVzZJRVExRkRqd3J2eERXanRJaUNTTDY5VHQ5d0k5M1hyN21s?=
- =?utf-8?B?VzNERmJXd3AweWhaSnlQSWs0ZjVybjlBSVZXazkvaVgwcm9Hb1Z2U1lQVXVX?=
- =?utf-8?B?MlN0MjQ0amdXaDRjKy85SVpQcjlycFZReHJUSktJVjByZFpoR3JrL0xKY1Mr?=
- =?utf-8?B?bUxEZkRrUXFyLzFvcTNZRllZaHZodzNsNmQ0UXQ5TGU5dmo0aS9rSmMxYytJ?=
- =?utf-8?B?dmpLclpEclgzdWIweitBS1BqcXlNTmkxWjFkb01CNCtvZVFFRDdacjVDWmd0?=
- =?utf-8?B?ODRXOTNob3cwWVJmbkVpSTRsMVMzKzQ5TTRXaEtLUnc1aVJLSGF2azRzVFFJ?=
- =?utf-8?B?SGhrd0hxVXlNeFBwQkcwVE1UTWNNWWFiSVJlZkdyYnFicEoyd0sxaWlwSXJC?=
- =?utf-8?B?NVBKbjdOY3FzTS9sbkxLTjMxM05QdkR0Y2x6c05UOE9NZk9pZ3hZN28wMVU5?=
- =?utf-8?B?bVNvcnRLbEtpU2x3NjNpV2Q4K0llNkhLMUpDTG8zOUxHbEhPbTJIdjRHSklw?=
- =?utf-8?B?bzNManAzZU9KeDhnb3cwWDZja3R5NktMUTFvYjAxUmVGSGl3R3MwWm9ReG1F?=
- =?utf-8?B?ZUttNktmZEJJckUvSjFoWFBWanEzWnVpM3NxZ0JidU1tWHRzdk5lTlVUdG5W?=
- =?utf-8?B?cUp4Mk0yemQzWE5CVU1Id3NveG1LelhmSC90WCtmbnQzUm00aGVFSGxhRFVZ?=
- =?utf-8?B?YmpyUUJsT01JVHphRVhhbnVrYkVwd3FHOUVFSUdldDlBaVpqNmF0MTVuWkZ6?=
- =?utf-8?B?dDN1UUllTnhKaTlkL1M4Ry8rVHIzZ2lBZFdIT3VrVnlGelVoUE9QTFlqUFFx?=
- =?utf-8?B?cE41YngxL2cyNEx5N3pXdUlsUjFTL2xDN2plYTRscVZ6NXRMaGNwejJCYmZz?=
- =?utf-8?B?WG40RHJzViszUlhFZmhYVmt0blQxZm5MTEpKd1hHR0JyQ0ZRZ0pOZEY5V1F1?=
- =?utf-8?B?bTcyZ0xrbzVKWWdzQnRHTmtBK2ZjM2JOVmNZNXRjdmRwdjZGdkVGYzNxL0JY?=
- =?utf-8?B?R2FHc05heW1aMXRCcm9zOFdkUTZYd01MT0NNS2kvNUJ5VGlMeFBGVjJyVEpP?=
- =?utf-8?B?VXFhMjkxM3llZk5OVkJFclc0OThTcTIxaUxuK0dRMFI1eDVBNHVyTXpIYjE3?=
- =?utf-8?B?MWkrclROdDFIbUs1cHF6MUF3S0wwSGxlMW1LRFpwNGRqYUJscnJ0Z1JXLzlF?=
- =?utf-8?B?VHg0YU85OFVCYlhEbXRveGZlRkt2ekdFTmFOcHNCcTJ3M1RJYmd4MU8yamRa?=
- =?utf-8?B?YXo0Ym5adUJlbEFYMHRBU1RkN2dYMUxNS3I3eDBKL1pnNGsvVzBBTmNHaVM4?=
- =?utf-8?B?djEzYXpPb2xPNkgwU3Jldlh1SEhMeEFoQXJSVmhCeDRNdVBSSFl1L1lSVlNl?=
- =?utf-8?B?V1FuS09ZR2lSdC93SmhFaFRYMGZCZ3llSWNidVk3Um5HUnAwbkZ1Z1ZhdDlw?=
- =?utf-8?B?N01JZDVBVXc0b1Y3MWVqbStuOXVSTEdtOWxtamhBNzlON2JlRGt6cDd2QnRs?=
- =?utf-8?B?VEExZERRMk5MVkRMNm94YW03eGVyMzJJZlRCZHZaZndNdnBua3d1emNPcEFU?=
- =?utf-8?B?YjdsZUtGenljVmExTTN6bGpDN1VIT25uTU9CUVc4d1k3bDQrT3RMR0pObVJE?=
- =?utf-8?B?aUcyQXBsMnpDNWJpWlpRUUhRWjNlSkdyWFJlMElUaitwdEl6NlV1UVZVN0FY?=
- =?utf-8?B?SFBHM2FjZ1ZwT3hIU1JxSDJVNVRPeGF3RmRxdm9GZDZzS290alNuUzNjQ2NH?=
- =?utf-8?B?Vk44Y2RHOTV1ODVXRlJTSURrVTBWcEtRQTRpZVB2MmJKUGFlSmgxMUdsWGo4?=
- =?utf-8?B?QlJKaXZjNEpFU1NKOTJ4dk9BdWkwRld0L09YWVVRNE4vQldkditnVHRDMXVO?=
- =?utf-8?Q?IrQKqizp0FQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OVJtaTllWWtTV3drT0RnNVkxVHlCQmhIaUdZb2JKQnI5WHF1VFk0MjZhWVF5?=
- =?utf-8?B?Q1BjVEc0dExvSlpkaGx3cC8xTVJvdWIxeFd0T0JHMDJObTdsNjVUS05XWVg2?=
- =?utf-8?B?YmV6UDZ2TXpYTXRmQmRKa3EvSVNXaytDNjZDZUlkcXc0S0Nnd1V3K1pwNThV?=
- =?utf-8?B?alJDNUtwM0ZuV0tNNk9lYWdIeldVSzVjM2dTMW9POHRObCtwdjZCQVF6em9P?=
- =?utf-8?B?S3ZBN0xtcUZCcTZ3RC9qbzBTWTJBV2RUOVYrcU5sSUhWVWlXY21iclczbUgr?=
- =?utf-8?B?YlQzb1JET3RmczdYWUtNNUZmN2lpTm1CaHVPSmNNcjlXNmRraXBwb0lKeUZD?=
- =?utf-8?B?YVdyNGF2UURHajRteGROdkpHY0Z5R1Via0JES05ibnhwTE0xRHBzKzE5b2pI?=
- =?utf-8?B?em52SEN3Z0dSNGRJZXlFTmp1WHJWV1krSVBTT3UxYnkwdVlsY0x6OFRPTXVi?=
- =?utf-8?B?cGRjdWxjL1lWbXRScGtucU1uV0JRbitwa3RiVXR2VExOQW5DbzdCeWZ2NFk2?=
- =?utf-8?B?QU51ZVFEK1VNemlXWXZGc3pzVkRpaUFIWG1VR3ZVbDNYeHhoSkd0Rm9jM3hD?=
- =?utf-8?B?eE1SaGs2d3ZmdmlLOTZjY0l1OVMwelBRMmVtNXZWbC9OUnVlb1g4aHp2SWFG?=
- =?utf-8?B?ZTVvSWFFVVNqNWJNY1NtVkFiNlY0TE43dDhUM05QMHVPK1pJaVF5QlR6ck01?=
- =?utf-8?B?VmhwVVR6TGNybmtDYzJ0Y1hlZE92NHhadUtOcmtBUk9CZCtveDNBVWZEcmVy?=
- =?utf-8?B?aGcxYjRDekZEZHlYQkZxQk9sU3BUZkFZbzJ5eGYxUUluUjJqSUR1MnpZVkp4?=
- =?utf-8?B?YjRiVk8vR0g3N01YbldFWEtOaWxDZk9Gd0cvY1ByTy9Pdk1Qd3dJSzFmdGFH?=
- =?utf-8?B?enFDU0NxTUpzNXpJNmptU3lMZWtqajltcS93cHNOMDgydnZVQmVYcURnN0I1?=
- =?utf-8?B?dzRza3NpY29seTQvTWRqNDhacU1ZTGZ1alF3ZkE4UTRyd3ByZDBZWmxycDNG?=
- =?utf-8?B?WkJDSy8rZHo1Qmk3WnFNY0RZMHcyLzJaOG9MMlN0VEFRakRRci9Oa0VVUlB4?=
- =?utf-8?B?Vjh6dncxK3VjYVdjWGVoZlowNzI0M1ArR0lRaElKVGliMFNMU25kTEF5SWx1?=
- =?utf-8?B?cEZrRzlXbDBWcVpwSGl1NCtucFhaTWk4bGxjUjcvOW55VzE3a0p4Zi90eDdy?=
- =?utf-8?B?VWM3eEtJNzl4cCt3TmJ1bWliaWc0VUF5NkhwM0RSeUo1Yjl6Rm5FakhVYkpM?=
- =?utf-8?B?a1ROcmxLUnVERlY1dEl3aEhpaE0yWG9GeHBEalpZc2k4OTRJZXpVWmJ3OEZO?=
- =?utf-8?B?SjBQRko1WU9NSU1MTDlnU29wUTU1dDRLVk5rbmVwUW1xVmtYZTByTmwwM05I?=
- =?utf-8?B?MHVpblNQaFBmbHI3bEYwL1d6L0xGY1lvTkZMZXk3Yms1dnRvc3I1ZUU5ZExZ?=
- =?utf-8?B?UzFHa1VqV1NQYVlvOEduUzIxdUo5V1NMY1ArZ2dpUzYydVJFNGNES1JJTTQz?=
- =?utf-8?B?d0JkZDhxOStYdDBTV2l6bnBYYzJvYUJCQXgzSEwvbzFlK1RiRjVRV3ltS3Ay?=
- =?utf-8?B?SWcvY3pVK0xlYk5hcllNUW5HT3N6V3A5SFNTaEp6OXRIZ09TM0lEOElYbFBq?=
- =?utf-8?B?b0wzREZGT0RoTUUzREVaQkJsdVBlMmtKV29NWjZPSy9GMTVwbFBKZXR4RlFL?=
- =?utf-8?B?U29iNGh3RXEvKzNpMDdsYXFuOWExQUVFakU2LzQwRVA4VW4rWnZkL09VTENq?=
- =?utf-8?B?Zk5VaE9oWXpQalNMSEJXeGpCZnlobkpmVHRlaTVyRkd4WEZzZXpaYi91Ylov?=
- =?utf-8?B?ZUhoYW5GbVNqdUFvYmN0a2JUR2JLYzcrOEw3UFpDejVuMmlKelQ2TjNuN1NG?=
- =?utf-8?B?Z3FTRjVjUjdpY3JzWlZ0SElTc0hMM2xldGd2cDlIR2RRbStNUTFQNGxXTFR1?=
- =?utf-8?B?aStPSDVIL3hSKzY5ejdhMmU4SEc2aElMMFZoN0FVaGZOVXFCWmlKWU9LbEtY?=
- =?utf-8?B?Y3hPMEpuM3o1RjZKWDROaFM3WjNiczE1ZDMweDJ3WDZ2RituTk5FVm90UDI1?=
- =?utf-8?B?WnVSOGIxKzhMNFp4SnlVNE1lbHhqSzZoUVFmd3hYNUlnSW9DSlZTR091NkpM?=
- =?utf-8?Q?fzonCfRjlaSzNr11mUiwQARrq?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9549417b-a891-410b-37a0-08ddbea9cf29
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 05:31:09.2286
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 44XcfA14l1qaL/C5tpG8rEv46PxbRtouDTGyQyhGQ2GtzDpXR7+NThRT9V+BX0YiwI14oEORTcOWriYJmV2tXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6758
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHwBbmgC/2WOQQ6CMBBFr2K6tmQGKagr72FYDO0ANdqSFomGc
+ HcLG01cvmTm/TeLyMFyFOfdLAJPNlrvEqj9TuieXMfSmsQih1xBBZUkMyAolA1BA1SaY96SSNd
+ D4Na+NtO1TtwG/5BjH5i+/5gXqLAqygzxABKlZhOsvj3jaB1n7DQFRzolXMjR3XeZ9o9V3ts4+
+ vDeKie1TvwHTUqCPAEClmD42FS/jnpZlg9Wk+xu7AAAAA==
+X-Change-ID: 20250707-adp1051-ba0b0a6d82fa
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Andy
+ Shevchenko" <andriy.shevchenko@linux.intel.com>,
+        Delphine CC Chiu
+	<Delphine_CC_Chiu@Wiwynn.com>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+	<u.kleine-koenig@pengutronix.de>
+CC: Radu Sabau <radu.sabau@analog.com>,
+        Alexis Czezar Torreno
+	<alexisczezar.torreno@analog.com>,
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Cedric Encarnacion
+	<cedricjustine.encarnacion@analog.com>,
+        Conor Dooley
+	<conor.dooley@microchip.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752039806; l=1933;
+ i=cedricjustine.encarnacion@analog.com; s=20250707;
+ h=from:subject:message-id; bh=8l3zUE8MCFmxbc9oBbozzhc1z+lF1J8N31qJGH2KJf4=;
+ b=vgDV1TJq6Zo2V4bjicaH3DLowfnR1HFm3wi7trCr9U28srBLWqB+h1BqbrClbwjJ1lwKS1ExK
+ FnQ/7cXFnoADBbdVGmr8g7oirmLQuQrJKOp9Dx8WZWh2B46Cg0smGRq
+X-Developer-Key: i=cedricjustine.encarnacion@analog.com; a=ed25519;
+ pk=YAch4cyWjsctl/d3LfcMhkS/GNaUfXHkd658Mw3k5Kg=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: DHHRn8tHh_25GgFtVuKUyeQfp_T9lNxS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA5MDA0OSBTYWx0ZWRfX3GvUj11yT+ha
+ 4Ju97Hs+ZB0v49RRfdg/p54vLMDZ6lrB8jmQtKHm4foigMsqUBQaWGshr/k0qAEJkDO+ul/Bp0h
+ c+7pdr/OLLys70QPmPhm5hFznSywz7/jaFRH4vHvjUiLEHhzzlt+9y/z4dJk8aPxuVbZZ9eJ4Vj
+ /kNUjzg5qjzWal21gQ7DSPvDHKvvq6mh9ODvE3p7mKLCah+ccmYm+8VAdvgoIJoc+EcdTlbsdGC
+ nF8lyYSmntxPtjc9qXbMTin71rsR3vQ35K7PKFwmCQUucV5XS4R8KRhHLFHPG41QyUJCr+lzfb3
+ WEf3fV1xvPBq6iIwbHdQ2AzRazygjNLEm63h8zplwvO35/cWphFxVweFOhjuasDxAH7wSS1vnJW
+ YPguee80THeoTQ1m8UdSDF4nMPm1gBa8q5AvZD8KDDxnqErXLisPAg7SOqABMMzRmOsj7rUw
+X-Proofpoint-GUID: DHHRn8tHh_25GgFtVuKUyeQfp_T9lNxS
+X-Authority-Analysis: v=2.4 cv=S8fZwJsP c=1 sm=1 tr=0 ts=686e0196 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8
+ a=ysQVOfK15idl-Fc0VSAA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-09_01,2025-07-08_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 spamscore=0 mlxscore=0
+ adultscore=0 impostorscore=0 mlxlogscore=881 clxscore=1011 suspectscore=0
+ phishscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507090049
 
-On 7/7/2025 1:03 AM, Kirill A. Shutemov wrote:
-> This reverts commit 3267cb6d3a174ff83d6287dcd5b0047bbd912452.
-> 
-> LASS mitigates the Spectre based on LAM (SLAM) [1] and the previous
-> commit made LAM depend on LASS, so we no longer need to disable LAM at
-> compile time, so revert the commit that disables LAM.
-> 
+This patch is a continuation of this series:
 
-Reviewed-by: Sohil Mehta <sohil.mehta@intel.com>
+Link: https://lore.kernel.org/20241120035826.3920-1-cedricjustine.encarnacion@analog.com
 
-You may have missed my comments in the previous revision.
-https://lore.kernel.org/all/af709ffa-eb11-4de5-9ae8-a179cb99750c@intel.com/
+which is a combined series from two original patch series for each of the
+above family of devices. Both LTP8800 and ADP1051/55 have similar set of
+registers. The series was v2 of one and v3 of another. Hence, as suggested,
+this patch proceeds to v4 which succeeds the highest.
 
-Mainly, x86 maintainers prefer imperative tone and references such as
-"previous commit" can be confusing sometimes.
+v5:
+  * Typecast i2c_get_match_data to struct pmbus_driver_info pointer.
+    This should remove kernel test robot warning about discarded const
+    qualifier. Typecast is needed since pmbus_do_probe accepts non-const
+    arguments.
+  * Added missing inner trailing spaces. Also address kernel test robot
+    warning.
 
+- Link to v4: https://lore.kernel.org/all/20250124151746.1130-1-cedricjustine.encarnacion@analog.com/
 
-> Adjust USER_PTR_MAX if LAM enabled, allowing tag bits to be set for
-> userspace pointers. The value for the constant is defined in a way to
-> avoid overflow compiler warning on 32-bit config.
-> 
-> [1] https://download.vusec.net/papers/slam_sp24.pdf
-> 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> ---
->  arch/x86/Kconfig             | 1 -
->  arch/x86/kernel/cpu/common.c | 5 +----
->  2 files changed, 1 insertion(+), 5 deletions(-)
-> 
+v4:
+  * Removed stray change.
+  * Removed wildcards. Used the device names instead.
+  * Separate patch for adding regulator support.
+  * Removed const keyword from pmbus_driver_info at probe.
+  * Added doc entries for LTP8800 in adp1050.rst.
+
+base-commit: a41a9728941f7406a8035d0f19f45f8f3cf65b03
+---
+Cedric Encarnacion (3):
+      dt-bindings: hwmon: (pmbus/adp1050): Add adp1051, adp1055 and ltp8800
+      hwmon: (pmbus/adp1050): Add support for adp1051, adp1055 and ltp8800
+      hwmon: (pmbus/adp1050): Add regulator support for ltp8800
+
+ .../bindings/hwmon/pmbus/adi,adp1050.yaml          | 15 ++++-
+ Documentation/hwmon/adp1050.rst                    | 71 +++++++++++++++++++--
+ drivers/hwmon/pmbus/Kconfig                        |  9 +++
+ drivers/hwmon/pmbus/adp1050.c                      | 72 +++++++++++++++++++++-
+ 4 files changed, 156 insertions(+), 11 deletions(-)
+---
+base-commit: a41a9728941f7406a8035d0f19f45f8f3cf65b03
+change-id: 20250707-adp1051-ba0b0a6d82fa
+
+Best regards,
+-- 
+Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+
