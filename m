@@ -1,246 +1,298 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E3D80C1C;
-	Wed,  9 Jul 2025 01:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752026029; cv=none; b=mxmRCbR32bgQgCGsOUdeyLZZ2vmcx8TdQwbZX2ipAw1hOaImsxxsR4hzWLfgYi73V9a3XL7E2vJJAs014q9aer0eTkW163naXyAdCcqyHnZACpxsBiPYZ0TMHYCKSZTaSCAqdrOp1TdHOsOUCCzbGIPvPW6X4vUYVIkP3wga2zE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752026029; c=relaxed/simple;
-	bh=l8ViW8Y3dEdfLR+n6MibalBbTOlu8MzoI1DeRA6LZM0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=puuDV0b4rXGoS6zCl0r6zBowyXwS+cC6YUE8yXxyGL0lqbTBZAyFUPlneAkM45RCQjWbK1sgykEF7MYn7kBDgkHYGoF7VOTduVNZMRCRRQ9EDVUuwubk34crl13dWrVrYR3mq5TwIkH2j+PzThJODfuWiytCnx7OZedfdMYCnIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l8M2whN6; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05052EC4;
+	Wed,  9 Jul 2025 02:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752028871; cv=fail; b=t08OuDsPInlwCeeFzh+qaveHGMXzAYhpQnjyl8uXEwbsANPM6/wgujZWe5eYwblgdTFaWT3UeJVnJpfYoKgQi4l7b79avH+oCAPMHVAAhAQgzhqjMhlwp8df+las4GwFU1WV1eP/QF/e5VcPUT/b7NU2b9LNvJYm1vnGDkhBGt8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752028871; c=relaxed/simple;
+	bh=ZOhbRFE6Dhdlp0oa4bybWZ6+ukO0R9pdEaFntFJqfF4=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cmpY/eBcny1TuAe6SQ6hQy4IJOW/kS6zYvlDMGxOwI6kE+JZ593ectH661SKgIkR5ZIuucDVetDG42dhEwzTnDhmdfK3zXl7SeX/TxkfNwfY68nY/mksGx0OKr0h4j9dc1BUD5aJW9hgS39Qi0CVtR+dYtGm2/U8IO5ZoiJKQyA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lrfOdlQK; arc=fail smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l8M2whN6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F06DCC4CEED;
-	Wed,  9 Jul 2025 01:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752026029;
-	bh=l8ViW8Y3dEdfLR+n6MibalBbTOlu8MzoI1DeRA6LZM0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l8M2whN6wSYkKwHK3qq1Ouo0vdXbZGu1Ij+HUSUYUUaLDUSBNGPFMEI51mnIimVDK
-	 sm095FXi1uuxHlzQr0D+3aDZ/CMLFmVlAMsxi4C5xujoH7WKCwzDESNO4AR3e/sEkP
-	 56Uet/FfP3Z671v1C/3Awg63ytILFJQrEMPgLTLQJPTGsZy7R0tAdTWHo50xqh82fQ
-	 rpPjPiHUGd2/IYgwQUKT/rzRPT/8MhZdE39hwAAthSbi6P356jwg7vkZsqedXL2Vnh
-	 ioyabpGeBVuXp6MCjiiszIJYeNEF8aiiCaXqUd49mVeaJxyuEx9Lde2zaDxclgIVvE
-	 tdiuyClbXjAcA==
-Date: Tue, 8 Jul 2025 18:53:48 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: John Groves <John@groves.net>
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bschubert@ddn.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC V2 10/18] famfs_fuse: Basic fuse kernel ABI enablement for
- famfs
-Message-ID: <20250709015348.GD2672029@frogsfrogsfrogs>
-References: <20250703185032.46568-1-john@groves.net>
- <20250703185032.46568-11-john@groves.net>
- <CAOQ4uxi7fvMgYqe1M3_vD3+YXm7x1c4YjA=eKSGLuCz2Dsk0TQ@mail.gmail.com>
- <yhso6jddzt6c7glqadrztrswpisxmuvg7yopc6lp4gn44cxd4m@my4ajaw47q7d>
- <20250707173942.GC2672029@frogsfrogsfrogs>
- <ueepqz3oqeqzwiidk2wlf3f7enxxte4ws27gtxhakfmdiq4t26@cvfmozym5rme>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lrfOdlQK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752028870; x=1783564870;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ZOhbRFE6Dhdlp0oa4bybWZ6+ukO0R9pdEaFntFJqfF4=;
+  b=lrfOdlQKd3latM6i+qebfBQmSzFT2IKk3dxQp5nrLOYwF+6wHVEjU2ES
+   /X9nkzMP5QQtv8CckE4VcXdGygpzEYYGSJlrTAagepTHQyPRC31PdGq+9
+   rJrD66/JrxXIa1XA7YmKp8tjS2Qc8t6+/CfgpnVo65J8eNt6bQqCJMCh9
+   S6nCkMQZjfarpjhRh14aby+ufi24KXUOcyPVWr2DO5ZZpOACxx5fTDiQj
+   kazvyt/McJK70IQHcH0sm9oUWEnr486f/RE89o+BVByYZ6SvMhif/osDh
+   pv+yOMy60jt3K3SHsVZCitzBmsA7kX0LgyJl37NdXrZBRgMAZrhsJhXz/
+   A==;
+X-CSE-ConnectionGUID: 1YVfGHEQQ62W87ksr7AVtQ==
+X-CSE-MsgGUID: eLennuJlT16WbMiH1sbMlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="64863263"
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="64863263"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 19:41:09 -0700
+X-CSE-ConnectionGUID: K+uWsFadRlCLn4xd8j6/uQ==
+X-CSE-MsgGUID: ni4WnarTRr6r3tWnFPmzXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="155771015"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 19:41:09 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 8 Jul 2025 19:41:08 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Tue, 8 Jul 2025 19:41:08 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.53) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 8 Jul 2025 19:41:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LtMdjV5Xd8IMP+CWNkNf39sSo+IHRUBhUjPPhvsoc9pITyLLe8pSkylaZF86Mq73+booWNSLeF2luE4dJLLOB0eEuhDf4ZQh6OvhaQLvPejXFf1ysRUBkDRnd0qgMVOeo8k8LJ26O92262ZXxsOv1z52Z7KFrHkCsH4De0zYQbXH08vjOnDnqLVMC6NZiHoMmkQgkV4La2ap4Ouqdy7JkaofImlMAcA77YRi16W+iCpguRgZceU7z0+qx4SipRhunIguteaFf2s78nPeyotVSL2BoN7s8GVdXRZmjwiynuE14G3e+HjbIFalJZnIwjGxWbFy7W5GI6MD034r1cqBZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z7kSkK58lz5VE3F0kOoED50iK/BRVBzS4WNxe3yQnXY=;
+ b=LLpxBmr7C4OmsfbASujQoKgJKBC2NumyBOHInOWSMXla7yt8kb8fBIf9ijxV8UVqyMqo0UKu2tankxxLgDse/H2aoIiOmCNdeqyvKL9b0HC3Iw9KB9XroSb0si8ZZtrCSuBd2AyX3Ui1H0wuc2hZv2+FoNwHBdS3DFshJoK4tvL4Db5hbU24pKG4Sr4pYn7/D3lz5ZWjFN8Sj62sgp1gA3KZ6wpVKPDbitJxMxp8J0tH8M4yZesfKV6Jv5Xl6UZS4V6bb+M1Im7NBE3Hu9cGeMYKO7NEKXF42Ce4csIMh80+Z/CkoG6MzJauku5Nl9xPlgkiRAqaLDguSIgWDW94ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
+ by SN7PR11MB7708.namprd11.prod.outlook.com (2603:10b6:806:352::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.23; Wed, 9 Jul
+ 2025 02:40:38 +0000
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::e8c4:59e3:f1d5:af3b]) by BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::e8c4:59e3:f1d5:af3b%7]) with mapi id 15.20.8901.024; Wed, 9 Jul 2025
+ 02:40:37 +0000
+Message-ID: <a14155b7-65ff-4686-b6ba-a6900549864c@intel.com>
+Date: Tue, 8 Jul 2025 19:40:35 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv9 11/16] x86/traps: Communicate a LASS violation in #GP
+ message
+Content-Language: en-US
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Andy Lutomirski
+	<luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+	<hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel
+	<ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf
+	<jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>, Xin Li
+	<xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh
+	<brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>, Tony Luck
+	<tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin
+	<alexander.shishkin@linux.intel.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, "Pawan
+ Gupta" <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
+	<daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, "Sandipan
+ Das" <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, Rick Edgecombe
+	<rick.p.edgecombe@intel.com>, Alexei Starovoitov <ast@kernel.org>, Hou Tao
+	<houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, Vegard Nossum
+	<vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers
+	<ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu
+ (Google)" <mhiramat@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
+	"Rasmus Villemoes" <linux@rasmusvillemoes.dk>, Christophe Leroy
+	<christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du
+	<changbin.du@huawei.com>, Huang Shijie <shijie@os.amperecomputing.com>,
+	"Geert Uytterhoeven" <geert+renesas@glider.be>, Namhyung Kim
+	<namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-efi@vger.kernel.org>, <linux-mm@kvack.org>
+References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
+ <20250707080317.3791624-12-kirill.shutemov@linux.intel.com>
+From: Sohil Mehta <sohil.mehta@intel.com>
+In-Reply-To: <20250707080317.3791624-12-kirill.shutemov@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR08CA0048.namprd08.prod.outlook.com
+ (2603:10b6:a03:117::25) To BYAPR11MB3320.namprd11.prod.outlook.com
+ (2603:10b6:a03:18::25)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ueepqz3oqeqzwiidk2wlf3f7enxxte4ws27gtxhakfmdiq4t26@cvfmozym5rme>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3320:EE_|SN7PR11MB7708:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef749e73-af4a-4907-d77a-08ddbe91fcaf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007|921020;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z3hlUzJ5dnZBYlY4b3dEWGZEdzQyZUJtYkhETU03NHRBeWpwbjY4eUkyNGF6?=
+ =?utf-8?B?V3lQenAwYlFNTmpGMzFzTitTV056Z0crVzhVdDJ5a1Y3MmVUaHd1RENQK091?=
+ =?utf-8?B?ZXM5Z0VKNmc2SklGZ0daZFpCL1JPeUlTdTFObW8vR1JHTkVHSS80UkZXWFEz?=
+ =?utf-8?B?MjQvbmZaUm5BdnFPS242aXJNdUpub3Y5WjdkZit0Q2Iyd3pOUE80VzJ0b1k4?=
+ =?utf-8?B?YnVLZnVwOVNiMFZMQlYrRnU5dFlobUoxQ0FZYXdHczFnNy9uU0RubFhPaElm?=
+ =?utf-8?B?dWpXK2t2UmxqRXJWRURxQmRycm5hc21tMmZSQUkreWxTR095SjAvTDdqTVJH?=
+ =?utf-8?B?Ym5tNFZPTWoyN1NuYjdJRHU2Q0lrVWFOeGhkN1plZzhkZWg1UDVLUi9TdUpC?=
+ =?utf-8?B?dnVqR1ltaWFPaURaaTJubEhid3BSQVFaaWh0b1dNQTA2Y2dnMXpGMWtIRzdy?=
+ =?utf-8?B?YU4rbk9PaDRrZGdzaDM5YjZiRjQ3S0dkcGxuS2xxVHJEVWpkd0JWVnd2SGpj?=
+ =?utf-8?B?NTdJZnN3K0NNcDVBNUh5Wjc5bDBraXgzK244eUxFMEdsK3pocEk2dWVYV0No?=
+ =?utf-8?B?WEZ3czErVG96UFJ5MHY5UCtjdFk5SXdxaFloeXQxZ1JXYnNBTm1leVpVVEVF?=
+ =?utf-8?B?VzJiUEpLY3N0Y1B5aVcvbW4xS3poWE80bkpBa0h4Y3EzZ2JSUXV3WXJOR0dO?=
+ =?utf-8?B?V0kvTUJkTFFUSXo4U0svWDQxZ3h0VzBva2FWZy85dW8zcXdaYTZHdnpSbkJw?=
+ =?utf-8?B?dldVZlA4SVlvQm1tWDM0ZUVNNmNPcHptN1NNb1hieEVVMEZndlYzVk5SbHlD?=
+ =?utf-8?B?K2V0OWZxczZDeWp6R3hueDM2aXFnVDNJcGtRL05tUmhlTlFKRkFkdVJMZ0lj?=
+ =?utf-8?B?YlUxcVd2K3h1bWFEdDhWQmRrQ0RaN2JhSDFGNG4wNnlYTUxNYkRjM1ZaZksv?=
+ =?utf-8?B?TW82UFpRbHZRUUo2bkUwcWE3ZFRjUHIwRjlmZTJFUE43eWdIL05nRGphOTFy?=
+ =?utf-8?B?V0JlRnBvaGxEL3VPcDE0cmRNbEs4MzdPQ01XUnl3cGtqelJkdzM5b1U5NXpy?=
+ =?utf-8?B?b0YvRzc5U2dzM0FvNjdOb09peTFoZnowZnVQVTFRUEtPMkU5OGExS1dIaGhM?=
+ =?utf-8?B?MmtZZnIzWTJCZGJScWM3Q29pdk9XaVdFUHhQeWpSUTJHWitzQktrOHFhQmw2?=
+ =?utf-8?B?ZG5LNlNpRUhLWXJGZU0yN21MbG8rWDZjcnMyS1BHdWJYMTFwVEZLZlozUFdU?=
+ =?utf-8?B?TEwvb0JHWXJ3T01MTXdkYUJrc1RGRnpUdnB3YUJ6eWZqd2hOMFFvZGM4NGk3?=
+ =?utf-8?B?MUJZSkQzSGNONjh1NEJMOTRBL0xkRlhTV3l6MW9FNW5UZXFFalc1OThTWGxi?=
+ =?utf-8?B?dXNxTmNaTkVyUElUcm1nSTF1TC9JTCsrNTRrMmtVRkJBNFpta0Iwck5rd3Q4?=
+ =?utf-8?B?dVJTZmF4V1NBbFJqRUpldExZYnZ1bVhrSWl6b2E2bm82NUNNcS9ySWRlSU9o?=
+ =?utf-8?B?c01sSGxlZUpZdmF6NW1yQ0phQlJHNExhaDRGVk1ta2Rrb3VsakVkaE9WYVNp?=
+ =?utf-8?B?clBuR0h4RVpjTDRqTENwSE1YOFpzYWpIZTVTcmVNVHJHRlYwdnhNZisreWts?=
+ =?utf-8?B?TFBFL2EvWFNrOFEza3ZnYUhSdHVPYXY4UnNmbVNUT0MwWjRZdEFlUGppSEhF?=
+ =?utf-8?B?S2t3OGpONElKbVYvb21WcUpIckF6VnRHeFVNZUJ3bUt0dVFQZ250Q3E5elRP?=
+ =?utf-8?B?K210N0MvbEgxemg3aDRISlNGNjIxSDBDL2ZIeVp1TmhVMXNtcU5DaE8yVndu?=
+ =?utf-8?B?dHhOU1Q2WWlSbjY2U050TWV5Tk4xY1Rld01ud2s5bjBwM2ZDb2pBeXE2eith?=
+ =?utf-8?B?VzRzQXJNdE05TmF4ZzVUYWNSVmxLV3pPZW9aZnY2d2RsakQvWi95TjRCcVlV?=
+ =?utf-8?B?KzdRRWVvQ0JDd0VlcHBiN1pDZUVaUkI0cVFsd3h0OGtHQXNuVEZXbGdFV3Mv?=
+ =?utf-8?B?ZUIwMXV1NUFRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cExhME5SR3RncktrZHdhcThwdU5EdmJmV0Vna1BYZmZIRHRmYTFlRHA3MVF2?=
+ =?utf-8?B?TVdNdXcySVoyTTREUm9pbWZTK0w2VTdtcXFHUmhub05Ld3pJVTVuZDRiU0xC?=
+ =?utf-8?B?RjZyTjI4aWlOS25LcC9sMWNRdFhtVDFwSkppVjhVcXhlQnhIaXJlWFFrazUy?=
+ =?utf-8?B?bnE0d2Zia1NsTTViSVR1K0ljN0Mxa1lOME8yTXUzcy9pRFNvUW5NZjBwUHR6?=
+ =?utf-8?B?dWZrZ1loNExXM0hzYjBFaGg2MjJUdHpzMVVmdFNpcUMzQUF3OGFwK1l4QzhN?=
+ =?utf-8?B?UG1QRnVsdUlUbVV1ZjVXTG5EbExCT1ZXS2Z0bllwMGNHUEpla2QyNHpHeFEr?=
+ =?utf-8?B?ZzdmT3ZmS3NwWUFrbXRSd2U1c2YraXpUTXc1ejY0WmJ5bElyVTk0ekFYeGxp?=
+ =?utf-8?B?MDdpcnhtNmlZYmp4UlZGWkd4V1k0N2NWYVhDM0h2enVZL1FOZXZVbGNzTmVt?=
+ =?utf-8?B?MFpaNG5mODkxSDg3cjJYUzVuZVE0bXVUZG81dmVwK2VsNEFwbm5JZWNiZEQ0?=
+ =?utf-8?B?N1NtSFREUVlBOTZDcUsyK0FsaGFBaXVqL1hqckpSeWU5UEFZZUxBME5sS3l6?=
+ =?utf-8?B?cW94eFhkSnBITjlMSHVabTJ2WWdoaHEvRG5jM29VOUIwSFFNdnRtYW5wQjRm?=
+ =?utf-8?B?WEFiWDllNlBobU9CYTBhR1QvNXV4YXJvTUNZTW5YL3RJZkZUSE04M25jOGIr?=
+ =?utf-8?B?RFZJdmpsaVh1ejlOM083WTJWT29KUFI0aEl2eXQ0TVJRN2N6ZEJ5RFJvdmhT?=
+ =?utf-8?B?RzFsdkZNZGpxY0pwUjNSV0dUekxBUndubVdFNm51SWUxTkwvVkFVZzhOREhv?=
+ =?utf-8?B?VG1WamY5ZVNLM1EwKzVFbVNSU2JkM25aYUlhY1lwZTk1N1RlTnkrc3JybXBB?=
+ =?utf-8?B?WStDNmxMVlpjSkgya2NKMmROblZkVkdRT2c3UXgxVVFIZVRYbEN4MTdzT1JI?=
+ =?utf-8?B?aDVlcmdRR0RtK3NEa0xDa0oxWEJsbThGN2plaHVUalZCc2pFS3VNK2RGZWlY?=
+ =?utf-8?B?K3JJN1hTRXlzajlUUHFrRUsreWh1cmw5YUdjQVZ0cW9JUDBjeVFCQ3ArQ2lN?=
+ =?utf-8?B?YVVYSEp1Q3VwbXVNbWh4THJKYWtqa3Fqc29FSHNKRnEzU0txY2ducnV2VnB1?=
+ =?utf-8?B?ZkJ0amtqeTVRTWtHaWo0UFlkYms3WGs3Mk81R0FXYlo2d0w4M3hJeWN2L2hs?=
+ =?utf-8?B?ajBrL3Y0M2ZhVE1wZzdpME1GRThkbXgrUTM0QnpvV2RQWGJiTXRtMFhtb0Uw?=
+ =?utf-8?B?M2dvZ2FSeHovb0x3R3FnQnlZQ3UrVUF1aCtZVzdXdEtQQ3FBY242L1dHYUEx?=
+ =?utf-8?B?bXh0YzVxcmRtM1JEZ3ZYSXg0ZklDaXRsSmdrb1BPSjFQWk4rMm9ObVZaY3d0?=
+ =?utf-8?B?dy9aY1N4NERwQzAyZmN6SGlkRFJHSS9qRnNrbDh4bFZyVDZTV09TWFVZQUw5?=
+ =?utf-8?B?WFBEWHhQMTRNUjNFU2wvWGV6cUIzOWNYcE0rb0V1Q3ZwbXdQNktxVXl3ck82?=
+ =?utf-8?B?Q0I0RHNhT1BiOC9YeDdBRlVIeTF0S0podEw5YkxFU2YyUVFrZE9LalIrT2JD?=
+ =?utf-8?B?Z1BMUlpVSitxd0dnRUw5NDk0bEc0aDlYbnZFeXZTdXEvTnBhcnJQUDM0enNG?=
+ =?utf-8?B?amgxaHVnSHp1d253SHRqWGY3UzJieXRpRzRTaHRoZFNqWVNUT2FPajRrTU1t?=
+ =?utf-8?B?QUpTM1pkVlVQeFd2YmNQU1RGOW1ZRkxmZFY5V2tXWEFCWDFDNlh1S2lieXlw?=
+ =?utf-8?B?dkRSckpvc0pqQmRBdFBRbGF2T1grdjFTUklSWDRQaWpnUDNJQ3BLNUxWQ1Q4?=
+ =?utf-8?B?RjNXQTVpcWU5MWE3N1FpUDVYL0xYcjNxT3VWR2E3NGFrbnRmQ2d2dU5lTk1i?=
+ =?utf-8?B?ZTVaaExMWkEwOHY5eG4zUm9UVGsybGVKVEhTUklQRnlRMCtTZTROTmV5byti?=
+ =?utf-8?B?b1RuaEcxZEE1YlIxbVdGajhRZFY3cWhkT2NZZlVnZ0dZa2x3NWMyY2ZWYm4r?=
+ =?utf-8?B?RlhSUFl5OVZYSmd6UWFDZjdpeS9MK3FKbHNraFI3cVl4NElVTGdUQTB6ZlRv?=
+ =?utf-8?B?TzBSZjZlN1dadTNzYjR2VXBnaUlwTk0zZEJnUzdLbElySm9mQXZKaG42VC9S?=
+ =?utf-8?Q?Oy2eb+Q0ssnOGwy3PHzEVDYJB?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef749e73-af4a-4907-d77a-08ddbe91fcaf
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 02:40:37.6687
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qAd/Z32G0o2h3anGgSnvzUy1JYValzs/+v4d3LTng7GmwYssFqscig/RyhROS49WlQrARP9NDItiMsFLOjjCMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7708
+X-OriginatorOrg: intel.com
 
-On Tue, Jul 08, 2025 at 07:02:03AM -0500, John Groves wrote:
-> On 25/07/07 10:39AM, Darrick J. Wong wrote:
-> > On Fri, Jul 04, 2025 at 08:39:59AM -0500, John Groves wrote:
-> > > On 25/07/04 09:54AM, Amir Goldstein wrote:
-> > > > On Thu, Jul 3, 2025 at 8:51 PM John Groves <John@groves.net> wrote:
-> > > > >
-> > > > > * FUSE_DAX_FMAP flag in INIT request/reply
-> > > > >
-> > > > > * fuse_conn->famfs_iomap (enable famfs-mapped files) to denote a
-> > > > >   famfs-enabled connection
-> > > > >
-> > > > > Signed-off-by: John Groves <john@groves.net>
-> > > > > ---
-> > > > >  fs/fuse/fuse_i.h          |  3 +++
-> > > > >  fs/fuse/inode.c           | 14 ++++++++++++++
-> > > > >  include/uapi/linux/fuse.h |  4 ++++
-> > > > >  3 files changed, 21 insertions(+)
-> > > > >
-> > > > > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > > > > index 9d87ac48d724..a592c1002861 100644
-> > > > > --- a/fs/fuse/fuse_i.h
-> > > > > +++ b/fs/fuse/fuse_i.h
-> > > > > @@ -873,6 +873,9 @@ struct fuse_conn {
-> > > > >         /* Use io_uring for communication */
-> > > > >         unsigned int io_uring;
-> > > > >
-> > > > > +       /* dev_dax_iomap support for famfs */
-> > > > > +       unsigned int famfs_iomap:1;
-> > > > > +
-> > > > 
-> > > > pls move up to the bit fields members.
-> > > 
-> > > Oops, done, thanks.
-> > > 
-> > > > 
-> > > > >         /** Maximum stack depth for passthrough backing files */
-> > > > >         int max_stack_depth;
-> > > > >
-> > > > > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> > > > > index 29147657a99f..e48e11c3f9f3 100644
-> > > > > --- a/fs/fuse/inode.c
-> > > > > +++ b/fs/fuse/inode.c
-> > > > > @@ -1392,6 +1392,18 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
-> > > > >                         }
-> > > > >                         if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled())
-> > > > >                                 fc->io_uring = 1;
-> > > > > +                       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&
-> > > > > +                           flags & FUSE_DAX_FMAP) {
-> > > > > +                               /* XXX: Should also check that fuse server
-> > > > > +                                * has CAP_SYS_RAWIO and/or CAP_SYS_ADMIN,
-> > > > > +                                * since it is directing the kernel to access
-> > > > > +                                * dax memory directly - but this function
-> > > > > +                                * appears not to be called in fuse server
-> > > > > +                                * process context (b/c even if it drops
-> > > > > +                                * those capabilities, they are held here).
-> > > > > +                                */
-> > > > > +                               fc->famfs_iomap = 1;
-> > > > > +                       }
-> > > > 
-> > > > 1. As long as the mapping requests are checking capabilities we should be ok
-> > > >     Right?
-> > > 
-> > > It depends on the definition of "are", or maybe of "mapping requests" ;)
-> > > 
-> > > Forgive me if this *is* obvious, but the fuse server capabilities are what
-> > > I think need to be checked here - not the app that it accessing a file.
-> > > 
-> > > An app accessing a regular file doesn't need permission to do raw access to
-> > > the underlying block dev, but the fuse server does - becuase it is directing
-> > > the kernel to access that for apps.
-> > > 
-> > > > 2. What's the deal with capable(CAP_SYS_ADMIN) in process_init_limits then?
-> > > 
-> > > I *think* that's checking the capabilities of the app that is accessing the
-> > > file, and not the fuse server. But I might be wrong - I have not pulled very
-> > > hard on that thread yet.
-> > 
-> > The init reply should be processed in the context of the fuse server.
-> > At that point the kernel hasn't exposed the fs to user programs, so
-> > (AFAICT) there won't be any other programs accessing that fuse mount.
+On 7/7/2025 1:03 AM, Kirill A. Shutemov wrote:
+> From: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 > 
-> Hmm. It would be good if you're right about that. My fuse server *is* running
-> as root, and when I check those capabilities in process_init_reply(), I
-> find those capabilities. So far so good.
+> Provide a more helpful message on #GP when a kernel side LASS violation
+> is detected.
 > 
-> Then I added code to my fuse server to drop those capabilities prior to
-> starting the fuse session (prctl(PR_CAPBSET_DROP, CAP_SYS_RAWIO) and 
-> prctl(PR_CAPBSET_DROP, CAP_SYS_ADMIN). I expected (hoped?) to see those 
-> capabilities disappear in process_init_reply() - but they did not disappear.
+> A NULL pointer dereference is reported if a LASS violation occurs due to
+> accessing the first page frame.
 > 
-> I'm all ears if somebody can see a flaw in my logic here. Otherwise, the
-> capabilities need to be stashed away before the reply is processsed, when 
-> fs/fuse *is* running in fuse server context.
+> Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> ---
+>  arch/x86/kernel/traps.c | 41 +++++++++++++++++++++++++++++------------
+>  1 file changed, 29 insertions(+), 12 deletions(-)
 > 
-> I'm somewhat surprised if that isn't already happening somewhere...
 
-Hrm.  I *thought* that since FUSE_INIT isn't queued as a background
-command, it should still execute in the same process context as the fuse
-server.
+Reviewed-by: Sohil Mehta <sohil.mehta@intel.com>
 
-OTOH it also occurs to me that I have this code in fuse_send_init:
+A nit below.
 
-	if (has_capability_noaudit(current, CAP_SYS_RAWIO))
-		flags |= FUSE_IOMAP | FUSE_IOMAP_DIRECTIO | FUSE_IOMAP_PAGECACHE;
-	...
-	ia->in.flags = flags;
-	ia->in.flags2 = flags >> 32;
+> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> index 59bfbdf0a1a0..4a4194e1d119 100644
+> --- a/arch/x86/kernel/traps.c
+> +++ b/arch/x86/kernel/traps.c
+> @@ -636,7 +636,16 @@ DEFINE_IDTENTRY(exc_bounds)
+>  enum kernel_gp_hint {
+>  	GP_NO_HINT,
+>  	GP_NON_CANONICAL,
+> -	GP_CANONICAL
+> +	GP_CANONICAL,
+> +	GP_LASS_VIOLATION,
+> +	GP_NULL_POINTER,
+> +};
+> +
+> +static const char * const kernel_gp_hint_help[] = {
+> +	[GP_NON_CANONICAL]	= "probably for non-canonical address",
+> +	[GP_CANONICAL]		= "maybe for address",
+> +	[GP_LASS_VIOLATION]	= "LASS prevented access to address",
+> +	[GP_NULL_POINTER]	= "kernel NULL pointer dereference",
+>  };
+>  
+>  /*
+> @@ -664,14 +673,23 @@ static enum kernel_gp_hint get_kernel_gp_address(struct pt_regs *regs,
+>  		return GP_NO_HINT;
+>  
+>  #ifdef CONFIG_X86_64
 
-which means that we only advertise iomap support in FUSE_INIT if the
-process running fuse_fill_super (which you hope is the fuse server)
-actually has CAP_SYS_RAWIO.  Would that work for you?  Or are you
-dropping privileges before you even open /dev/fuse?
+Might as well get rid of the #ifdef in C code, if possible.
 
-Note: I might decide to relax that approach later on, since iomap
-requires you to have opened a block device ... which implies that the
-process had read/write access to start with; and maybe we're ok with
-unprivileged fuse2fs servers running on a chmod 666 block device?
+if (!IS_ENABLED(CONFIG_X86_64)
+	return GP_CANONICAL;
 
-<shrug> always easier to /relax/ the privilege checks. :)
+or combine it with the next check.
 
-> > > > 3. Darrick mentioned the need for a synchronic INIT variant for his work on
-> > > >     blockdev iomap support [1]
-> > > 
-> > > I'm not sure that's the same thing (Darrick?), but I do think Darrick's
-> > > use case probably needs to check capabilities for a server that is sending
-> > > apps (via files) off to access extents of block devices.
-> > 
-> > I don't know either, Miklos hasn't responded to my questions.  I think
-> > the motivation for a synchronous 
-> 
-> ?
-
-..."I don't know what his motivations for synchronous FUSE_INIT are."
-
-I guess I fubard vim. :(
-
-> > As for fuse/iomap, I just only need to ask the kernel if iomap support
-> > is available before calling ext2fs_open2() because the iomap question
-> > has some implications for how we open the ext4 filesystem.
-> > 
-> > > > I also wonder how much of your patches and Darrick's patches end up
-> > > > being an overlap?
-> > > 
-> > > Darrick and I spent some time hashing through this, and came to the conclusion
-> > > that the actual overlap is slim-to-none. 
-> > 
-> > Yeah.  The neat thing about FMAPs is that you can establish repeating
-> > patterns, which is useful for interleaved DRAM/pmem devices.  Disk
-> > filesystems don't do repeating patterns, so they'd much rather manage
-> > non-repeating mappings.
-> 
-> Right. Interleaving is critical to how we use memory, so fmaps are designed
-> to support it.
-> 
-> Tangent: at some point a broader-than-just-me discussion of how block devices
-> have the device mapper, but memory has no such layout tools, might be good
-> to have. Without such a thing (which might or might not be possible/practical),
-> it's essential that famfs do the interleaving. Lacking a mapper layer also
-> means that we need dax to provide a clean "device abstraction" (meaning
-> a single CXL allocation [which has a uuid/tag] needs to appear as a single
-> dax device whether or not it's HPA-contiguous).
-
-Well it's not as simple as device-mapper, where we can intercept struct
-bio and remap/split it to our heart's content.  I guess you could do
-that with an iovec...?  Would be sorta amusing if you could software
-RAID10 some DRAM. :P
-
---D
-
-> Cheers,
-> John
-> 
-> 
+> -	/*
+> -	 * Check that:
+> -	 *  - the operand is not in the kernel half
+> -	 *  - the last byte of the operand is not in the user canonical half
+> -	 */
+> -	if (*addr < ~__VIRTUAL_MASK &&
+> -	    *addr + insn.opnd_bytes - 1 > __VIRTUAL_MASK)
+> +	/* Operand is in the kernel half */
+> +	if (*addr >= ~__VIRTUAL_MASK)
+> +		return GP_CANONICAL;
+> +
+> +	/* The last byte of the operand is not in the user canonical half */
+> +	if (*addr + insn.opnd_bytes - 1 > __VIRTUAL_MASK)
+>  		return GP_NON_CANONICAL;
+> +
+> +	/*
+> +	 * If LASS is enabled, NULL pointer dereference generates
+> +	 * #GP instead of #PF.
+> +	 */
+> +	if (*addr < PAGE_SIZE)
+> +		return GP_NULL_POINTER;
+> +
+> +	if (cpu_feature_enabled(X86_FEATURE_LASS))
+> +		return GP_LASS_VIOLATION;
+>  #endif
+>  
+>  	return GP_CANONICAL;
