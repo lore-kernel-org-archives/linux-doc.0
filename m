@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BA32E3B0E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B652E54B8;
 	Wed,  9 Jul 2025 13:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752069141; cv=none; b=BHZQ3Sxvr/NDxY/7uD3Swt2/RAgIdsPixEj0tMCaLNPbxySEAwCiB7L1n+0J79XXLIjLsEWh0pDaN2ftoTv0OtRkCKc4F4630xyuxzDDUu6hikyQ7YmeEa46Rj0CpQK5TuHGFlwCTFrXi/4Tiao6t7wq65k3ht1pgG40PPSHEkI=
+	t=1752069141; cv=none; b=oCqDHZcykvColnHXcpDGw5FYDRg+sTkIiOHMih6TRzPoQyOzjUzEaFXrMVGImVYy3UDhzCTjsM76p3RduZiGrEXoS5omG1geQgXhju/opp4X6HA+JaRYtSYzob/yBV5X5bdC+ipVpNAAwKvO3y6VetxY4nIcoo9AFoHGBGD1t1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752069141; c=relaxed/simple;
-	bh=75GiMI5XCY8qjELRgZ3Vc7ro1BQ9wVlsucAKGUjaS/8=;
+	bh=lTAkg7u8HXaXh2CCMJr0+qB6A4vyNHejb2fT597Jdvw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=I5ncATvIllZf+QVxaLygym32ZIC35PfdxT0TbBXzvHBzukMLrf0jXs9cT11ja0HuOWcZbqGC/MmbdaCf9RuSd5Z2Frl43Avrj7lhnnR+JCNUCs1P/C7XZlALsqSa7/V40tMbdT1KxozkV1gHw/KwCbHq2YiBjRChyRkYpBvZBK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPYVZqDF; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=cqzqEUF9Y7ElGS7AQIvZrNjUqbTD8a+HnmMKwMOJF1B+HEI6KtozYPf3OFNaYtCtVhSyYKqpR9v0jVJD6FI60Tv4XQ285vnIZvkjaoeUK2oFZzrkUqe4tGqIGvDmz2xzPrLeMCcFl/ns3hZjDF5MFAmfEniS+7RPgW0iAiTeoD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LR7FnJLj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPYVZqDF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142E6C2BCB7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LR7FnJLj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 112E7C2BCB8;
 	Wed,  9 Jul 2025 13:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1752069141;
-	bh=75GiMI5XCY8qjELRgZ3Vc7ro1BQ9wVlsucAKGUjaS/8=;
+	bh=lTAkg7u8HXaXh2CCMJr0+qB6A4vyNHejb2fT597Jdvw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KPYVZqDFm9gN+x+ZwMlAmFVXp4qhoBrYrQqtJur70myQmPcZ6mH6ClpvjNkgfy3fW
-	 4ESJe+YyjUlXz68Bz6FAl1IW312OpD7VRUuqUo8DEVFOBmeL3Z99wdF000yCpkSmHv
-	 2vQmwRWbeb6CWPUVq4VXYK4hgk0XUhUtI2CkqxNRYL3V3zb9cZhqx2Wh3iJ6SbVY60
-	 +Gu0EfSEXhB8JcWA4OeotC07jfUQwTaf9V49UQdcgiRidytQZKICE4dR76DXyR+JnZ
-	 P9bcT1tvEYQuKyHlVTvXXB42hIqNv4q4hoGPMf9VraaMHD32OK3s+hw5kiA9LLBQek
-	 upmdaK8UmP8Bw==
+	b=LR7FnJLj9AjsOPqevYpq0UNuQfjEeoGmqNL2UbaHF5K25zLAdax2nki60Y73S2QrG
+	 0l0ZIo/vVBPLOJvZMqBvEJwqUAz3qFhEtz/qQavirgUbVjMHr4ZVeo3XbEw7TsQblb
+	 vPXkLPrnbcP+BZij3c/S3Ti8ckBMpSwouViAt7k1PQNmKbItXTlVUx0uEzfVRe0mEX
+	 2VhakPT+VcJm140OAOZwVxsuvB5ZaPLo8nmRC7BQf/27bxyCrIJK6+9NptyTqV+N4/
+	 OwNrcFYGaVcwKzJ8/xP0T/bQIwhJFAWKQs7em7SoiGux0YHQPMK6EJbmUI2b7VTG/p
+	 O17IvXq3n+4AA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1uZVDd-00000000EDy-3s32;
+	id 1uZVDd-00000000EDp-3beU;
 	Wed, 09 Jul 2025 15:52:17 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 38/39] docs: Makefile: switch to the new scripts/sphinx-pre-install.py
-Date: Wed,  9 Jul 2025 15:52:10 +0200
-Message-ID: <10acb9930e6505c52d89a649bc89601fef116cda.1752067814.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 35/39] scripts: sphinx-pre-install: add support for RHEL8-based distros
+Date: Wed,  9 Jul 2025 15:52:07 +0200
+Message-ID: <b00eb1041c07e02387cd1818cab15f06bf4e3ca1.1752067814.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1752067814.git.mchehab+huawei@kernel.org>
 References: <cover.1752067814.git.mchehab+huawei@kernel.org>
@@ -52,83 +52,88 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Now that we have a better, improved Python script, use it when
-checking for documentation build dependencies.
+On RHEL8, only installing with a venv is supported, as there's
+no Sphinx package using Python 3.7 or upper.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/Makefile                             | 14 +++++++-------
- .../{sphinx-pre-install.py => sphinx-pre-install}  |  0
- 2 files changed, 7 insertions(+), 7 deletions(-)
- rename scripts/{sphinx-pre-install.py => sphinx-pre-install} (100%)
+ scripts/sphinx-pre-install.py | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index c486fe3cc5e1..b98477df5ddf 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -46,7 +46,7 @@ ifeq ($(HAVE_SPHINX),0)
- .DEFAULT:
- 	$(warning The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the '$(SPHINXBUILD)' executable.)
- 	@echo
--	@$(srctree)/scripts/sphinx-pre-install.pl
-+	@$(srctree)/scripts/sphinx-pre-install
- 	@echo "  SKIP    Sphinx $@ target."
+diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
+index fc9dc45054d7..324baa98a395 100755
+--- a/scripts/sphinx-pre-install.py
++++ b/scripts/sphinx-pre-install.py
+@@ -691,7 +691,7 @@ class SphinxDependencyChecker(MissingCheckers):
  
- else # HAVE_SPHINX
-@@ -121,7 +121,7 @@ $(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
- htmldocs texinfodocs latexdocs epubdocs xmldocs: $(YNL_INDEX)
+         super().__init__(args, texlive)
  
- htmldocs:
--	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+-        self.need_pip = 0
++        self.need_pip = False
+         self.rec_sphinx_upgrade = 0
  
- # If Rust support is available and .config exists, add rustdoc generated contents.
-@@ -135,7 +135,7 @@ endif
- endif
+         self.system_release = self.get_system_release()
+@@ -840,9 +840,15 @@ class SphinxDependencyChecker(MissingCheckers):
+             # RHEL 8 uses Python 3.6, which is not compatible with
+             # the build system anymore. Suggest Python 3.11
+             if rel == 8:
+-                self.deps.add_package("python39", DepManager.SYSTEM_MANDATORY)
++                self.check_program("python3.9", DepManager.SYSTEM_MANDATORY)
++                progs["python3.9"] = "python39"
++                progs["yaml"] = "python39-pyyaml"
++
+                 self.recommend_python = True
  
- texinfodocs:
--	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,texinfo,$(var),texinfo,$(var)))
++                # There's no python39-sphinx package. Only pip is supported
++                self.package_supported = False
++
+             if not self.distro_msg:
+                 self.distro_msg = \
+                     "Note: RHEL-based distros typically require extra repositories.\n" \
+@@ -915,8 +921,9 @@ class SphinxDependencyChecker(MissingCheckers):
+             # the build system anymore. Suggest Python 3.11
+             if rel == 15:
+                 if not self.which(self.python_cmd):
++                    self.check_program("python3.11", DepManager.SYSTEM_MANDATORY)
++                    progs["python3.11"] = "python311"
+                     self.recommend_python = True
+-                    self.deps.add_package(self.python_cmd, DepManager.SYSTEM_MANDATORY)
  
- # Note: the 'info' Make target is generated by sphinx itself when
-@@ -147,7 +147,7 @@ linkcheckdocs:
- 	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
+                 progs.update({
+                     "python-sphinx": "python311-Sphinx",
+@@ -1289,7 +1296,7 @@ class SphinxDependencyChecker(MissingCheckers):
+             return self.latest_avail_ver
  
- latexdocs:
--	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
+         # Either there are already a virtual env or a new one should be created
+-        self.need_pip = 1
++        self.need_pip = True
  
- ifeq ($(HAVE_PDFLATEX),0)
-@@ -160,7 +160,7 @@ else # HAVE_PDFLATEX
+         if not self.latest_avail_ver:
+             return None
+@@ -1344,10 +1351,11 @@ class SphinxDependencyChecker(MissingCheckers):
+         """
  
- pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
- pdfdocs: latexdocs
--	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	$(foreach var,$(SPHINXDIRS), \
- 	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || sh $(srctree)/scripts/check-variable-fonts.sh || exit; \
- 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
-@@ -170,11 +170,11 @@ pdfdocs: latexdocs
- endif # HAVE_PDFLATEX
+         if self.recommend_python:
+-            print("\nPython version is incompatible with doc build.\n" \
+-                  "Please upgrade it and re-run.\n")
+-            return
+-
++            cur_ver = sys.version_info[:3]
++            if cur_ver < MIN_PYTHON_VERSION:
++                print(f"\nPython version {cur_ver} is incompatible with doc build.\n" \
++                    "Please upgrade it and re-run.\n")
++                return
  
- epubdocs:
--	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
- 
- xmldocs:
--	@$(srctree)/scripts/sphinx-pre-install.pl --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,xml,$(var),xml,$(var)))
- 
- endif # HAVE_SPHINX
-diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install
-similarity index 100%
-rename from scripts/sphinx-pre-install.py
-rename to scripts/sphinx-pre-install
+         # Version is OK. Nothing to do.
+         if self.cur_version != (0, 0, 0) and self.cur_version >= RECOMMENDED_VERSION:
+@@ -1467,7 +1475,6 @@ class SphinxDependencyChecker(MissingCheckers):
+             if sys.version_info < MIN_PYTHON_VERSION:
+                 self.need_pip = False
+                 print("Warning: python version is not supported.")
+-
+             else:
+                 virtualenv_cmd = f"{self.python_cmd} -m venv"
+                 self.check_python_module("ensurepip")
 -- 
 2.49.0
 
