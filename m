@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D312D59E4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C5128DF1B;
 	Wed,  9 Jul 2025 13:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752069141; cv=none; b=eoORsFl/V+1Oh350T7DBtCHRZRD+9hXi1084luubOOcPZrvWJ3adEHyFJEvrukIr+9jE2TdIiIN/YhUwyVHhb+lpAtkY+gtyxEdx3rbZS8gLJWYy8GoWHfzhjWeiTMvL9T3wlYvD4D1iE21yv4HB+d9ByRwQk5FR2dQR9jOxaAg=
+	t=1752069141; cv=none; b=tZvvq4fO98h94DQf6YlCn5YcbTMLKab8NQ+fjNeqJsv1YyUc7sl06GMTjXUz3hrJtefvJ4w7SQQ7H12oDXEDdi8f6f0e5qt0+35QKu24vXe4vJNCHuZuMIYJBpryR7Wz2GMpOHa9haOzCFSsB8WglOlrhCPhv+yCCtnEOckcHxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752069141; c=relaxed/simple;
-	bh=FoKtf/c/yT5JEXk7gdX1daqHGqUOZCrT4NHefe9FPOc=;
+	bh=X1fFP6aPpObiMQHIfmC5DpMlMrqUycNg3yqWyp/o7aI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C8D9wwQatzVH0JvNGjJbG7jY1kZuGwfrZXkNXz6xUxwM5RLUSnO49NcjmRSDtbPIBXNIout7SrtRwMxVNmDpW0H86bFZG6tAH3PoEKCiVy+N2iQK89iOzUrpntgbk4Ya9k7EZxinnULh6xSxpovktQjZDjZBcs9e00JFLbfndm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXJtMjxo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=PLAS8yVVIBYXGXKAVtPvBe8eFuG3h6HjCmwgh7nJqiJvM7BJpnCptmIcbx/RyRtbNUDvMqwQa0tqLHxNa7s79T+xHESePBjh83IPttVr/Bbfr+FYRxr5wdsSQiDQwte5+vAmWYQF1wE6dmG84pqMj+nmN97kwKBjCSOlwquvV0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dany8WAX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXJtMjxo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B007C4CEF6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dany8WAX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0506C4CEF7;
 	Wed,  9 Jul 2025 13:52:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1752069140;
-	bh=FoKtf/c/yT5JEXk7gdX1daqHGqUOZCrT4NHefe9FPOc=;
+	bh=X1fFP6aPpObiMQHIfmC5DpMlMrqUycNg3yqWyp/o7aI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KXJtMjxoETigvjM0rkv6JUeq/6EB6RHT7c7AkcGPMlWVLWkrOlybAGGkltrM27AU+
-	 oAkFCntn5xyInmfiT7PODYPSFLyFH8S6ZT0s6zJzD2Y8TWgHwNCwl4kPz6nIsEMIo0
-	 dWBF/dXaT46GjDKdwUwB7L2sXUz7VtKYXq0hvGV0Shw+YkHmmd+LpEn6HW97pNslVI
-	 32Opx51gzQa+a+inJKHOdQK1gD8JWYBURoAtO89AA5XqApCHUhNPtSwWbvbmv6q2n1
-	 Dd89IcWQz/dMr0e3Ewj6U/d1AwgthsJ2dfR8ZSeNzPDE97Oq5/DvSlxeHsmwMRIbZ6
-	 Q3T4U0q2t2zHA==
+	b=dany8WAX4ThxgQBYtmW0HWQmklFC+2gcMM8IBApiHFHZUvYtl6W9kPlLoiWX1DdtA
+	 D+2p0RY8qIoTj+3o7Ra6birrq45sB8OwAVfVZFA27nqZNtBpWEz/BKYqLu0njGsAgU
+	 jzwHVdoQU3X5eHQRKVfFfcqXkXmB7zG9Ih7POD3PNyFDur1U7FfWyR/x+7cRlVlBG4
+	 Jsa42bHuGRz5LLF0eosUGriv4TipGxvPCisvQi+QGfETUZZFTFttcEuiKrwgxpBrRF
+	 fpVJF4NqkkgOqsNT0BgxG5plCyWRkCwvbblt2KWOY7XbAHAVXrUy7I5cxahWltf2G8
+	 13nFxXshneHAw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1uZVDd-00000000ECL-14G9;
+	id 1uZVDd-00000000ECg-1eWW;
 	Wed, 09 Jul 2025 15:52:17 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/39] scripts: sphinx-pre-install: run on a supported version
-Date: Wed,  9 Jul 2025 15:51:37 +0200
-Message-ID: <31312cbc957e9379fd86d1c58174a407004bc054.1752067814.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 12/39] scripts: sphinx-pre-install: only show portage hints once
+Date: Wed,  9 Jul 2025 15:51:44 +0200
+Message-ID: <f50e027e13f39255f7f0f504b2b8766e2ecf77fa.1752067814.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1752067814.git.mchehab+huawei@kernel.org>
 References: <cover.1752067814.git.mchehab+huawei@kernel.org>
@@ -52,122 +52,47 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-The scripts/sphinx-pre-install is used to detect problems at
-the system environment and adjust it to build the Kernel
-documentation. If the version is too old, it won't run, though.
-
-Check if the version which started the script is valid. If not,
-seek for a new one that is compatible with documentation
-build.
+On gentoo, doesn't repeat instructions about how to enable
+portage.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 65 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 64 insertions(+), 1 deletion(-)
+ scripts/sphinx-pre-install.py | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 71d86b230b22..3912359d2bae 100755
+index 0e165ad05fdb..808d31bfa790 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -5,6 +5,9 @@
- # pylint: disable=C0103,C0114,C0115,C0116,C0301
- # pylint: disable=R0902,R0904,R0912,R0915,R1705,R1710,E1121
+@@ -89,6 +89,9 @@ class SphinxDependencyChecker:
+         self.python_cmd = ""
+         self.activate_cmd = ""
  
-+# Note: this script requires at least Python 3.6 to run.
-+# Don't add changes not compatible with it, it is meant to report
-+# incompatible python versions.
++        # Certain hints are meant to be shown only once
++        self.first_hint = True
++
+         self.min_version = (0, 0, 0)
+         self.cur_version = (0, 0, 0)
+         self.latest_avail_ver = (0, 0, 0)
+@@ -714,11 +717,14 @@ class SphinxDependencyChecker:
+             "media-gfx/graphviz",
+         ]
  
- import argparse
- import os
-@@ -16,7 +19,6 @@ from glob import glob
+-        for p in portages:
+-            result = self.run(["grep", p, "/etc/portage/package.use/*"],
+-                               stdout=subprocess.PIPE, text=True)
+-            if not result.stdout.strip():
+-                print(f"\tsudo emerge -av1 {p}")
++        if self.first_hint:
++            for p in portages:
++                result = self.run(["grep", p, "/etc/portage/package.use/*"],
++                                stdout=subprocess.PIPE, text=True)
++                if not result.stdout.strip():
++                    print(f"\tsudo emerge -av1 {p}")
++
++            self.first_hint = False
  
- def parse_version(version):
-     """Convert a major.minor.patch version into a tuple"""
--#
-     return tuple(int(x) for x in version.split("."))
- 
- 
-@@ -27,6 +29,7 @@ def ver_str(version):
- 
- 
- RECOMMENDED_VERSION = parse_version("3.4.3")
-+MIN_PYTHON_VERSION = parse_version("3.7")
- 
- 
- class SphinxDependencyChecker:
-@@ -132,6 +135,65 @@ class SphinxDependencyChecker:
-         # Python not found at the PATH
-         return python_names[-1]
- 
-+    @staticmethod
-+    def get_python_version(cmd):
-+
-+        result = SphinxDependencyChecker.run([cmd, "--version"],
-+                                            capture_output=True, text=True)
-+        version = result.stdout.strip()
-+
-+        match = re.search(r"(\d+\.\d+\.\d+)", version)
-+        if match:
-+            return parse_version(match.group(1))
-+
-+        print(f"Can't parse version {version}")
-+        return (0, 0, 0)
-+
-+    @staticmethod
-+    def find_python():
-+
-+        patterns = [
-+            "python3.[0-9]",
-+            "python3.[0-9][0-9]",
-+        ]
-+
-+        new_python_cmd = None
-+
-+        # Seek for a python binary newer than MIN_PYTHON_VERSION
-+        for path in os.getenv("PATH", "").split(":"):
-+            for pattern in patterns:
-+                for cmd in glob(os.path.join(path, pattern)):
-+                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
-+                        version = SphinxDependencyChecker.get_python_version(cmd)
-+                        if version >= MIN_PYTHON_VERSION:
-+                            return(cmd)
-+
-+    @staticmethod
-+    def check_python():
-+
-+        cur_ver = sys.version_info[:3]
-+        if cur_ver >= MIN_PYTHON_VERSION:
-+            return
-+
-+        python_ver = ver_str(cur_ver)
-+
-+        new_python_cmd = SphinxDependencyChecker.find_python()
-+        if not new_python_cmd:
-+            print(f"ERROR: Python version {python_ver} is not spported anymore")
-+            print(f"       Can't find a new version. This script may fail")
-+            return
-+
-+        # Restart script using the newer version
-+        script_path = os.path.abspath(sys.argv[0])
-+        args = [new_python_cmd, script_path] + sys.argv[1:]
-+
-+        print(f"Python {python_ver} not supported. Changing to {new_python_cmd}")
-+
-+        try:
-+            os.execv(new_python_cmd, args)
-+        except OSError as e:
-+            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")
-+
-     @staticmethod
-     def run(*args, **kwargs):
-         """Excecute a command, hiding its output by default"""
-@@ -1107,6 +1169,7 @@ def main():
- 
-     checker = SphinxDependencyChecker(args)
- 
-+    checker.check_python()
-     checker.check_needs()
- 
+         print(f"\tsudo emerge --ask {self.install}")
  
 -- 
 2.49.0
