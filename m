@@ -1,269 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE181213224;
-	Wed,  9 Jul 2025 16:27:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E6D21516E;
+	Wed,  9 Jul 2025 16:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752078441; cv=none; b=Yl2/PgVjTsrql9dUjpOJ4eID+ze2OQxRWlqeheMiNGV1/1OZenDttGjQfR8No0BCsgQdVACPt8x42gLiCrxZkQLZd4QpgGa4kgnD40Ppa6fNMqcznNfiamTl+KHPCaw3z+mRNhpsWpFs1ZJY74plwkXRKdvz/lRdnHsWVuMw8Sc=
+	t=1752078552; cv=none; b=QNHxA0ZOnZCqcyQggnncPG/b/xDpBxAqb51mC841XrQqWtD1ljhXO/7QEEUQZqfHhL7/myGdzudivyida59K9/46JYVsJ19ii1y0TTICLrM4uCXuKy31YtZBlxH6ac/U4LU0+MCi2j+4RRJCq9qfJd4HAPktvTyAg0fk2XvlPHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752078441; c=relaxed/simple;
-	bh=LufykrmPmFiDv6rSZ5SjveJtbCIc10X9JUpxLXz4FmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jCjt/hywii/2jL6Mby/72jUy1aNrb8T/8Q+cgINDCekTdI6fSoau8zoaJIV9v/pAxT8jF4n+RdLv1ynCoHVX9BoWpbXUEYVpXxVuZ8QYxP2tzLg2Zz0zfThNuXrHjV6WSMOv00Jh14SZ33loinJsn5y2tAjpiNHnLx7VhX/bF0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PmG4vEEa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752078552; c=relaxed/simple;
+	bh=sRZinxGJp0LHZgzPtfypMxAGSMAGRbauJmTwYUBpiyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D06BiLo6SYrPEsc/bgEO8m6m/+9FEhjYlakbEn8P0nXWgY5oBq787p7xuVX/wzOQRUu8wG8OcIOtNWdT8hjR/yebAnPwei9B8UAwdDI+HXm1IqFHwytDBO7dRAXeEObbmK+H+iWwNGhX+dXaw0IdRBE4pciJnTD0gPy/Bv1HWis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQHVHgFe; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PmG4vEEa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5EDC4CEF0;
-	Wed,  9 Jul 2025 16:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752078440;
-	bh=LufykrmPmFiDv6rSZ5SjveJtbCIc10X9JUpxLXz4FmI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PmG4vEEaBHRlHBRUBx0fCJjmXzIq5j32oX3CU/GY2H97jEGgw6KWsiG8G7oJmRPlj
-	 0P7CPFhe8qrBqvSzWsLRrhCAeNCkIOXyiVxqc9kRuq4W1jin4G3v7tl41DzC9FZx+b
-	 YNmPt5GxzIIrlP3KHKG2jZJFsorc+RVNTJxTYDq+WVi2Ssq3oLYPYF6mawbbDdWEy2
-	 Vp4fT4AqKewSOfrzuToG3JZMlTDeLevwN7bmugJhDbpyfE29lT+WwEclb8NZKSQ/GB
-	 CuXvvCfu7ICCpfa8pDi993ur9ICHLszWfIIwS8o81vyvbSKLKKYiYMFIfmcMUj6jWe
-	 8xvQglIBnEDYQ==
-Date: Wed, 9 Jul 2025 18:27:16 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>
-Subject: Re: [PATCH 03/12] docs: kdoc: drop "sectionlist"
-Message-ID: <20250709182716.42140656@foz.lan>
-In-Reply-To: <20250702223524.231794-4-corbet@lwn.net>
-References: <20250702223524.231794-1-corbet@lwn.net>
-	<20250702223524.231794-4-corbet@lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQHVHgFe"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-31393526d0dso141275a91.0;
+        Wed, 09 Jul 2025 09:29:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752078550; x=1752683350; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=cNKPiHQhGuB2A2mBLDUtVdPtTHbu/csglYuDV6e8cnY=;
+        b=FQHVHgFeGNgDsvHp14YKIZDGOBh0z1MHwIHrzDMFvr8X4N98afMuilMOj7eq3P9xIt
+         LZm3c+q5Xebw9mgJYmq2OE91gG67+wXeNyT1mGrR2vbe44/ZLJIUWB96hh3Yz4LypZI5
+         UCMAqsWniUR61s0saSMm5BZDYg0dG7kXp/yO5/yO/XwQO6nUq2nWeNiUuAlJdzkoDV49
+         f1wiymxqvY+gg0j9m7JHowk2W007n72aa5YXR6MV/DRnqReBgl8qN+dwVlQ3uvov682n
+         MSjrJrFRHbAcGk3zCYAUbpFdKU/2rwEeR5QD0x1UdhBHRhrpawxCiUvIEnbPJ0BzfBea
+         gD+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752078550; x=1752683350;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cNKPiHQhGuB2A2mBLDUtVdPtTHbu/csglYuDV6e8cnY=;
+        b=LEEyTlVeLfgllH0T+sA50MN8Ao0LRW+M/iFrEDkPogqFTXYrAF7OkGyNjI1351agCL
+         hooQwu0cyvq9pvGzHlGo2RzFaU2u0A92HO8mroA3YXd124eLEcS4MufEEnYGpzTLQl1b
+         1aNhP30VL0kZfnnXP9vAv/VudvwgVLgHBMAN5rRJCUXWTtxcCAmgWqr14i6x92s6Su9B
+         F0XvXd0h/79euj0oRB5vKdB/Q7TWCPUD2XZZ3B4Gl6i7pb60DBYBdFv0w99kMEWlw1E5
+         1JqlxBekiaIS6Pi2OonkTsckjLSyDtOlWTH9SA5pvu2C3qNek2Ix7jaTTfE8MeDOmhUr
+         qBcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/pp54qU8CwmxHEZ6TkZml+01aUZ8b0Rqh3Peehf7k3F0SyszWM+Nq2GtHNFaZ0tN2x+yz+ARR@vger.kernel.org, AJvYcCWIprSFA2cMoUYwCchdyJkviP+UxZV+EQ4EmxseMN1+wLYn1iUZCYZ3ULt5nqX2Y80Rl3Q2M9P+iZlA3EkH@vger.kernel.org, AJvYcCWMpYKE8TO7tCyEwArUt00uBAJRB8QBTRWANWcyxPGBnlUsiIrqZzh33nkE5drRy/TL7tOS+CBfYbRTb+m+41kM@vger.kernel.org, AJvYcCWNdjFpyQWGR6iO1BjIIOJZ0a2Ght5+IyChX8ZCuFIS+R8jCrSiFGsZkY7+bu4j9o0mDAQ=@vger.kernel.org, AJvYcCWszxf5RY3tgDdfXdNRBmxa2JgMGfYQSm0VzQdUDFm+DKp7BWi2+JHZDshHPXXBn+lMcNGj1iMT16Jk@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuU57ipT/ZwyTg0Lxc00W/k9tJdZS7hdoaCqfX5xcrLETlVvO3
+	qlYnCBa0TFAO7SQXQrIpuh4vcXCCjJ3m7NCLEtPpVrRhpq7bs2JuGsE=
+X-Gm-Gg: ASbGncsrcDccC6nG5digysRkb5YNIbtnhR0xlDgibJiG1HJ+85/lwAuyy6FM91UDV27
+	Sz/qEKruSWpeegSexZ7zalDvB0odktuybqZDGtzE3QWUgYcoGLJI8F6U4b9FyCBd6KANzKny1yH
+	TwPMypD+CFSVrX0RmS+Vy95gWh21mXOSZol2lX9MgeU8pgP0DkaFayJglBkBPL3vyJ0//3x8Bw8
+	W1COQgo84d2sifE95ojLvjMS659d06WfY/M2lDDWlaiV893RsCfrOS9+Hh/52PRKtob/3Hzx+XL
+	dGeP80ljYvhg2Ilwaoi955LEced9U2Slbj6nLEBhaEoxSkZAEu5HlbgMCMlx3v1swmmY/y22eRg
+	cQ8AYbZQ4UMycW6h4gP02r3A=
+X-Google-Smtp-Source: AGHT+IEay738lMrbJZ6+Qln/Mixh/N/XCUQ86AX7IEDIBEjNMhpWd1QA49Fe+glBMuPqgQKN87d2vg==
+X-Received: by 2002:a17:90b:57c7:b0:313:271a:af56 with SMTP id 98e67ed59e1d1-31c3c30a79amr705858a91.30.1752078550125;
+        Wed, 09 Jul 2025 09:29:10 -0700 (PDT)
+Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-31c301ae5fesm2516829a91.38.2025.07.09.09.29.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jul 2025 09:29:09 -0700 (PDT)
+Date: Wed, 9 Jul 2025 09:29:08 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Jesper Dangaard Brouer <hawk@kernel.org>,
+	"Song, Yoong Siang" <yoong.siang.song@intel.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>, Mykola Lysenko <mykolal@fb.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@gmail.com>,
+	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH bpf-next,v3 2/2] selftests/bpf: Enhance XDP Rx metadata
+ handling
+Message-ID: <aG6Y1J9Li2DdjqWv@mini-arch>
+References: <20250702165757.3278625-1-yoong.siang.song@intel.com>
+ <20250702165757.3278625-3-yoong.siang.song@intel.com>
+ <77463344-1b1a-443a-97be-a7ef8a88b8af@kernel.org>
+ <IA3PR11MB92546301B67FB3A9FDCD716DD842A@IA3PR11MB9254.namprd11.prod.outlook.com>
+ <88a64a65-bd8c-4b73-af19-6764054d4572@kernel.org>
+ <f5d724ab-0eb6-41a1-b694-8aea566e99ab@iogearbox.net>
+ <aGvhzDLSuOolCCWW@mini-arch>
+ <27edae8a-f1a8-4000-ac1e-fd4d5b01e807@iogearbox.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <27edae8a-f1a8-4000-ac1e-fd4d5b01e807@iogearbox.net>
 
-Em Wed,  2 Jul 2025 16:35:15 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> Python dicts (as of 3.7) are guaranteed to remember the insertion order of
-> items, so we do not need a separate list for that purpose.  Drop the
-> per-entry sectionlist variable and just rely on native dict ordering.
-
-I avoided doing such assumption, as, when I wrote, our minimal version
-were below that ;-)
-
-Sounds OK to me, but please add a notice somewhere, to let it clear or
-raise an error if < 3.7, as this is the type of API changes that
-scares me a lot, as there's no way to detect that the script relies
-on Python dict >= 3.7.
-
-
+On 07/09, Daniel Borkmann wrote:
+> On 7/7/25 5:03 PM, Stanislav Fomichev wrote:
+> > On 07/04, Daniel Borkmann wrote:
+> > > On 7/4/25 11:58 AM, Jesper Dangaard Brouer wrote:
+> > > > On 04/07/2025 03.17, Song, Yoong Siang wrote:
+> > > > > On Friday, July 4, 2025 1:05 AM, Jesper Dangaard Brouer <hawk@kernel.org> wrote:
+> > > > > > On 02/07/2025 18.57, Song Yoong Siang wrote:
+> > > > > > > Introduce the XDP_METADATA_SIZE macro as a conservative measure to
+> > > > > > > accommodate any metadata areas reserved by Ethernet devices.
+> > > > > > 
+> > > > > > This seems like a sloppy workaround :-(
+> > > > > > 
+> > > > > > To me, the problem arise because AF_XDP is lacking the ability to
+> > > > > > communicate the size of the data_meta area.  If we had this capability,
+> > > > > > then we could allow the IGC driver to take some of the space, have the
+> > > > > > BPF-prog expand it futher (bpf_xdp_adjust_meta) and then userspace
+> > > > > > AF_XDP would simply be able to see the size of the data_meta area, and
+> > > > > > apply the struct xdp_meta at right offset.
+> > > > > > 
+> > > > > Thanks for your input.
+> > > > > 
+> > > > > I agree with you that the implementation will be simple if user application
+> > > > > able to get the size of data_meta area. The intention of this patch set is to let
+> > > > > developer aware of such limitations before we have a perfect solution.
+> > > > > 
+> > > > > Btw, do you got any suggestion on how to expose the metadata length?
+> > > > > I not sure whether xdp_desc.options is a simple and good idea or not?
+> > > > 
+> > > > That is a question to the AF_XDP maintainers... added them to this email.
+> > > > 
+> > > > /* Rx/Tx descriptor */
+> > > > struct xdp_desc {
+> > > >       __u64 addr;
+> > > >       __u32 len;
+> > > >       __u32 options;
+> > > > };
+> > > > 
+> > > > As far as I know, the xdp_desc.options field isn't used, right?
+> > > 
+> > > The options holds flags, see also XDP_PKT_CONTD and XDP_TX_METADATA.
+> > > 
+> > > > (Please AF_XDP experts, please verify below statements:)
+> > > > Something else we likely want to document: The available headroom in the
+> > > > AF_XDP frame.  When accessing the metadata in userspace AF_XDP we do a
+> > > > negative offset from the UMEM packet pointer.  IIRC on RX the available
+> > > > headroom will be either 255 or 192 bytes (depending on NIC drivers).
+> > > > 
+> > > > Slightly confusing when AF_XDP transmitting from userspace the UMEM
+> > > > headroom is default zero (XSK_UMEM__DEFAULT_FRAME_HEADROOM is zero).
+> > > > This is configurable via xsk_umem_config.frame_headroom, like I did in
+> > > > this example[1].
+> > > > 
+> > > > Maybe I did something wrong in[1], because I see that the new method is
+> > > > setting xsk_umem_config.tx_metadata_len + flag XDP_UMEM_TX_METADATA_LEN.
+> > > > This is nicely documented in [2]. How does this interact with setting
+> > > > xsk_umem_config.frame_headroom ?
+> > > 
+> > > If you request XDP_UMEM_TX_METADATA_LEN then on TX side you can fill
+> > > struct xsk_tx_metadata before the start of packet data, that is,
+> > > meta = data - sizeof(struct xsk_tx_metadata). The validity of the
+> > > latter is indicated via desc->options |= XDP_TX_METADATA and then
+> > > you fill meta->flags with things like XDP_TXMD_FLAGS_CHECKSUM to
+> > > tell that the related fields are valid (ex. request.csum_start,
+> > > request.csum_offset) and that you expect the driver to do the
+> > > offload with this info. This is also what I mentioned in the other
+> > > thread some time ago that imho it would make sense to have this also
+> > > on RX side somewhat similar to virtio_net_hdr..
+> > 
+> > Let's at least document the current behavior where some (small minority of)
+> > drivers can reuse the rx metadata area for some of its state? If we want
+> > to improve on that by adding another knob, we can follow up?
+> > (but I remember last time it was discussed, about a year ago, people
+> > were not enthusiastic about another parameter exported as uapi)
 > 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  scripts/lib/kdoc/kdoc_output.py | 18 ++++++------------
->  scripts/lib/kdoc/kdoc_parser.py | 13 +------------
->  2 files changed, 7 insertions(+), 24 deletions(-)
+> But its still fundamentally broken no? Unless there is no harm for BPF devs
+> to override that rx metadata area when the pkt later on goes up the stack, but
+> it sounds this is not the case here. Iiuc, Yoong is trying a different approach
+> now to prepend before data_hard_start [0]? Then if BPF prog needs it, igc
+> already implements xmo_rx_timestamp callback which can copy it from there.
 > 
-> diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-> index 86102e628d91..4895c80e4b81 100644
-> --- a/scripts/lib/kdoc/kdoc_output.py
-> +++ b/scripts/lib/kdoc/kdoc_output.py
-> @@ -339,11 +339,10 @@ class RestFormat(OutputFormat):
->          tends to duplicate a header already in the template file.
->          """
->  
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
->          section_start_lines = args.get('section_start_lines', {})
->  
-> -        for section in sectionlist:
-> +        for section in sections:
->              # Skip sections that are in the nosymbol_table
->              if section in self.nosymbol:
->                  continue
-> @@ -636,7 +635,6 @@ class ManFormat(OutputFormat):
->                  self.data += line + "\n"
->  
->      def out_doc(self, fname, name, args):
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
->  
->          if not self.check_doc(name, args):
-> @@ -644,7 +642,7 @@ class ManFormat(OutputFormat):
->  
->          self.data += f'.TH "{self.modulename}" 9 "{self.modulename}" "{self.man_date}" "API Manual" LINUX' + "\n"
->  
-> -        for section in sectionlist:
-> +        for section in sections:
->              self.data += f'.SH "{section}"' + "\n"
->              self.output_highlight(sections.get(section))
->  
-> @@ -653,7 +651,6 @@ class ManFormat(OutputFormat):
->  
->          parameterlist = args.get('parameterlist', [])
->          parameterdescs = args.get('parameterdescs', {})
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
->  
->          self.data += f'.TH "{args["function"]}" 9 "{args["function"]}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
-> @@ -695,7 +692,7 @@ class ManFormat(OutputFormat):
->              self.data += f'.IP "{parameter}" 12' + "\n"
->              self.output_highlight(parameterdescs.get(parameter_name, ""))
->  
-> -        for section in sectionlist:
-> +        for section in sections:
->              self.data += f'.SH "{section.upper()}"' + "\n"
->              self.output_highlight(sections[section])
->  
-> @@ -703,7 +700,6 @@ class ManFormat(OutputFormat):
->  
->          name = args.get('enum', '')
->          parameterlist = args.get('parameterlist', [])
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
->  
->          self.data += f'.TH "{self.modulename}" 9 "enum {args["enum"]}" "{self.man_date}" "API Manual" LINUX' + "\n"
-> @@ -731,7 +727,7 @@ class ManFormat(OutputFormat):
->              self.data += f'.IP "{parameter}" 12' + "\n"
->              self.output_highlight(args['parameterdescs'].get(parameter_name, ""))
->  
-> -        for section in sectionlist:
-> +        for section in sections:
->              self.data += f'.SH "{section}"' + "\n"
->              self.output_highlight(sections[section])
->  
-> @@ -739,7 +735,6 @@ class ManFormat(OutputFormat):
->          module = self.modulename
->          typedef = args.get('typedef')
->          purpose = args.get('purpose')
-> -        sectionlist = args.get('sectionlist', [])
->          sections = args.get('sections', {})
->  
->          self.data += f'.TH "{module}" 9 "{typedef}" "{self.man_date}" "API Manual" LINUX' + "\n"
-> @@ -747,7 +742,7 @@ class ManFormat(OutputFormat):
->          self.data += ".SH NAME\n"
->          self.data += f"typedef {typedef} \\- {purpose}\n"
->  
-> -        for section in sectionlist:
-> +        for section in sections:
->              self.data += f'.SH "{section}"' + "\n"
->              self.output_highlight(sections.get(section))
->  
-> @@ -757,7 +752,6 @@ class ManFormat(OutputFormat):
->          struct_name = args.get('struct')
->          purpose = args.get('purpose')
->          definition = args.get('definition')
-> -        sectionlist = args.get('sectionlist', [])
->          parameterlist = args.get('parameterlist', [])
->          sections = args.get('sections', {})
->          parameterdescs = args.get('parameterdescs', {})
-> @@ -788,6 +782,6 @@ class ManFormat(OutputFormat):
->              self.data += f'.IP "{parameter}" 12' + "\n"
->              self.output_highlight(parameterdescs.get(parameter_name))
->  
-> -        for section in sectionlist:
-> +        for section in sections:
->              self.data += f'.SH "{section}"' + "\n"
->              self.output_highlight(sections.get(section))
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 97380ff30a0d..2e00c8b3a5f2 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -127,7 +127,6 @@ class KernelEntry:
->          self.parameterdesc_start_lines = {}
->  
->          self.section_start_lines = {}
-> -        self.sectionlist = []
->          self.sections = {}
->  
->          self.anon_struct_union = False
-> @@ -202,7 +201,6 @@ class KernelEntry:
->                  self.sections[name] += '\n' + contents
->              else:
->                  self.sections[name] = contents
-> -                self.sectionlist.append(name)
->                  self.section_start_lines[name] = self.new_start_line
->                  self.new_start_line = 0
->  
-> @@ -275,14 +273,12 @@ class KernelDoc:
->          item.warnings = self.entry.warnings
->  
->          sections = item.get('sections', {})
-> -        sectionlist = item.get('sectionlist', [])
->  
->          # Drop empty sections
->          # TODO: improve empty sections logic to emit warnings
->          for section in ["Description", "Return"]:
-> -            if section in sectionlist and not sections[section].rstrip():
-> +            if section in sections and not sections[section].rstrip():
->                  del sections[section]
-> -                sectionlist.remove(section)
->  
->          self.entries.append(item)
->  
-> @@ -828,7 +824,6 @@ class KernelDoc:
->                                  parameterdescs=self.entry.parameterdescs,
->                                  parametertypes=self.entry.parametertypes,
->                                  parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                sectionlist=self.entry.sectionlist,
->                                  sections=self.entry.sections,
->                                  section_start_lines=self.entry.section_start_lines,
->                                  purpose=self.entry.declaration_purpose)
-> @@ -913,7 +908,6 @@ class KernelDoc:
->                                  parameterlist=self.entry.parameterlist,
->                                  parameterdescs=self.entry.parameterdescs,
->                                  parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                sectionlist=self.entry.sectionlist,
->                                  sections=self.entry.sections,
->                                  section_start_lines=self.entry.section_start_lines,
->                                  purpose=self.entry.declaration_purpose)
-> @@ -1085,7 +1079,6 @@ class KernelDoc:
->                                      parameterdescs=self.entry.parameterdescs,
->                                      parametertypes=self.entry.parametertypes,
->                                      parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines,
->                                      purpose=self.entry.declaration_purpose,
-> @@ -1099,7 +1092,6 @@ class KernelDoc:
->                                      parameterdescs=self.entry.parameterdescs,
->                                      parametertypes=self.entry.parametertypes,
->                                      parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines,
->                                      purpose=self.entry.declaration_purpose,
-> @@ -1145,7 +1137,6 @@ class KernelDoc:
->                                      parameterdescs=self.entry.parameterdescs,
->                                      parametertypes=self.entry.parametertypes,
->                                      parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines,
->                                      purpose=self.entry.declaration_purpose)
-> @@ -1168,7 +1159,6 @@ class KernelDoc:
->  
->              self.output_declaration('typedef', declaration_name,
->                                      typedef=declaration_name,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines,
->                                      purpose=self.entry.declaration_purpose)
-> @@ -1653,7 +1643,6 @@ class KernelDoc:
->          if doc_end.search(line):
->              self.dump_section()
->              self.output_declaration("doc", self.entry.identifier,
-> -                                    sectionlist=self.entry.sectionlist,
->                                      sections=self.entry.sections,
->                                      section_start_lines=self.entry.section_start_lines)
->              self.reset_state(ln)
+>   [0] https://lore.kernel.org/bpf/20250707191742.662aeffb@kernel.org/
 
-
-
-Thanks,
-Mauro
+True, Jakub mentioned the same thread to me. This is, indeed, a better
+idea!
