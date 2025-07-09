@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660652E5419;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D70B2E265B;
 	Wed,  9 Jul 2025 13:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752069141; cv=none; b=IWT/lmBehPCZB/Ik9tKLP0gLgX65B/OLTQJDgGKWySpI2JxHaccwJUsqd2ublutjcLlE/5aMplwXCPlZoUlbWL6BKXJQhHwas6JhOFj3eMH83gGp6B/5CnGkDadNmCJynYGVFuLgs0gsnIB45I0xz7/YrRQoUBnN3SeqZ11v38I=
+	t=1752069141; cv=none; b=Vo3rglxV4Qf3E6UWBVBaOzJ8srDntLHpYAxmm6gtp34BuVlxNx+cVTJLk5d9EsYwXiPYxh79ghSomtS4m/qu1rGy6oYsKk5iibaic/z1V09oM6S4bVfCJuuHPE7041HEA5CvTGcTDKBNhFF4e1wZDpK20xaAi0Y1UbVYNkDNC6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752069141; c=relaxed/simple;
-	bh=1NNB7gvudOACbmFoNoa5MHvLv/Y1IWD4ssO//Nr19dY=;
+	bh=xFZLNwkdYKL1EU7gu8VeeFOwcLL2l6SYNOrdu6yu8Lg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oE/bQF3LkOP3ifSC5UbeD5F1j6cYNOH4om7oWiIeJ+Ya7Q2Nzy0VYSHESeb5U1C+9IX62vlm2IPYT+2sIxyeuDTeHxookbpdiN3TrfhPcPnQnsYFUYLm/ItAvT56Ual+e6CSHzgnDTEa2JA6jiunabi940HcWDso8OwXAGW7rdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mo+SIy/J; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=OKVwCR6XvkOuIeWUMFkFgZ7BWxSD61zNt7bInW8ZP+CXsegoDzuhK28J9ws9l9goULEGQ15BLmx1/2Y+t0KklRSO5IUbEP9zLp+mJBInikvJ4Q8RqAFA7YcelEBEqw5JCjLOrsU3fmBouU8gnj2vdQW0IBrPPERMZF+trOdS7P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzgMQhH4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mo+SIy/J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B73D6C4CEFB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzgMQhH4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8EC1C4CEFD;
 	Wed,  9 Jul 2025 13:52:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1752069140;
-	bh=1NNB7gvudOACbmFoNoa5MHvLv/Y1IWD4ssO//Nr19dY=;
+	bh=xFZLNwkdYKL1EU7gu8VeeFOwcLL2l6SYNOrdu6yu8Lg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mo+SIy/JW9pFpIida6GdXE7DnwVvDLh11HHYo6Fik7SyLLXsf1ubXxVFG84HpFifh
-	 c54nLnJ55KP34kodg7BgGJyW1/OgOLfNQzWLwkgYE28vLpUUGmpCVvsWJimUqsR2xQ
-	 yj4JWGyMbK5X6iyNPRj9s0kBTO60+jxkvMTTpsN099XAL2K0+g1ECT7EoA8ttAIheC
-	 EG/crTNObduUw6idql8zoFj9CEup7yQ3/IFpWC5cdbafOJkN4xGp/kdar0gapn0eah
-	 i6W/x37sBSuUNoVoKCj4dp0DWMiFOqvdSxnaeEK/L5KUbmO1xf/eCKYwVxyoDsRJZM
-	 BAtZ1euB+GJIA==
+	b=lzgMQhH4JoiZn1WOmnEvdnea7AIYUF1l83VRxelysw25y4ouXjVCr59+FwZ9diOW0
+	 JT8yYoxqmhNTBCuehdql+3BLfS0rrhs5wa/kKCdpyy7OeTs1JwWEwiYXe8DDStNXHI
+	 EFSeYGzqpbPt5eR3ITZEmsTEcXWTr/u34sfRcVQhbSYstpVcVPiO8Cc6qNkyIWatzt
+	 MLm12olIOyGoqT9FLl2aJiVZpOFoHEPSC4cMM3XMiP1f9n6elXkwZDHtJQPzICX2sS
+	 rCSfhIcFm3Q/p5VbYy/4LSZu2gjV5Dy49byqWTdO6rf1i+3W70JHSwDEkyXbAhPNpF
+	 fOe5FLFbQt0xw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1uZVDd-00000000ECO-19WG;
+	id 1uZVDd-00000000ECj-1jQA;
 	Wed, 09 Jul 2025 15:52:17 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/39] scripts: sphinx-pre-install: drop obsolete routines
-Date: Wed,  9 Jul 2025 15:51:38 +0200
-Message-ID: <ac2f69d35ba80e2c41a12aef7431f159cdc632ad.1752067814.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 13/39] scripts: sphinx-pre-install: cleanup rhel support
+Date: Wed,  9 Jul 2025 15:51:45 +0200
+Message-ID: <65ae48c45bf7aada8b90a7bdb8d97bc661ead4f8.1752067814.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1752067814.git.mchehab+huawei@kernel.org>
 References: <cover.1752067814.git.mchehab+huawei@kernel.org>
@@ -52,52 +52,58 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
+Rhel < 8.0 is not supported anymore. Drop support for it.
+
+Rhel 8 is problematic: at least on the tests I did with a
+docker repo, it didn't work, but it could be due to the issue
+that it is actually different than a real One.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 23 +----------------------
- 1 file changed, 1 insertion(+), 22 deletions(-)
+ scripts/sphinx-pre-install.py | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 3912359d2bae..b639acd455cc 100755
+index 808d31bfa790..42f55e67256d 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -114,27 +114,6 @@ class SphinxDependencyChecker:
+@@ -487,15 +487,31 @@ class SphinxDependencyChecker:
  
-         return None
+             progs["virtualenv"] = "python-virtualenv"
  
--    @staticmethod
--    def find_python_no_venv():
--        # FIXME: does it makes sense now that this script is in Python?
--
--        result = SphinxDependencyChecker.run(["pwd"], capture_output=True,
--                                             text=True)
--        cur_dir = result.stdout.strip()
--
--        python_names = ["python3", "python"]
--
--        for d in os.environ.get("PATH", "").split(":"):
--            if f"{cur_dir}/sphinx" in d:
--                continue
--
--            for p in python_names:
--                if os.access(os.path.join(d, p), os.X_OK):
--                    return os.path.join(d, p)
--
--        # Python not found at the PATH
--        return python_names[-1]
--
-     @staticmethod
-     def get_python_version(cmd):
+-            if rel and rel < 8:
++            if not rel or rel < 8:
+                 old = 1
+                 self.pdf = False
  
-@@ -940,7 +919,7 @@ class SphinxDependencyChecker:
-         else:
-             print("\nSphinx needs to be installed either:\n1) via pip/pypi with:\n")
+-                # RHEL 7 is in ELS, currently up to Jun, 2026
++                print("ERROR: Distro not supported. Too old?")
++                return
++
++            # TODO: check if RHEL8 still works.
++            # On my tests with  docker "redhat/ubi8" image, there's no
++            # python3-sphinx (or similar) package. It comes with Python 3.6,
++            # but there are other python packages over there, so it may be
++            # possible to work with venv.
++
++            if self.first_hint:
++                print("Note: RHEL-based distros typically require extra repositories.\n" \
++                      "For most, enabling epel and crb are enough:\n" \
++                      "\tsudo dnf install -y epel-release", \
++                      "\tsudo dnf config-manager --set-enabled crb\n" \
++                      "Yet, some may have other required repositories. Those commands could be useful:" \
++                      "\tsudo dnf repolist all" \
++                      "\tsudo repoquery --available --info <pkgs>",
++                      "\tsudo dnf config-manager --set-enabled '*' # enable all - probably not what you want")
++
++                self.first_hint = False
  
--        self.python_cmd = self.find_python_no_venv()
-+        self.python_cmd = os.path.abspath(sys.argv[0])
+-                print("Note: texlive packages on RHEL/CENTOS <= 7 are incomplete. Can't support PDF output")
+-                print("If you want to build PDF, please read:")
+-                print("\thttps://www.systutorials.com/241660/how-to-install-tex-live-on-centos-7-linux/")
  
-         print(f"\t{virtualenv_cmd} {self.virtenv_dir}")
-         print(f"\t. {self.virtenv_dir}/bin/activate")
+         if self.pdf:
+             pdf_pkgs = [
 -- 
 2.49.0
 
