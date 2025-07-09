@@ -1,67 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC16271A7C;
-	Wed,  9 Jul 2025 08:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD46275AFC;
+	Wed,  9 Jul 2025 08:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752049534; cv=none; b=Zun0MrKiL9UPq0553hx50ky4F7iOq11ik3uktzKlph/fze8Tq0m0oGqMw327tXmTLJloexf/ENfYSroelLn7NIf9xSd9JhPoWPxk3sY53elU1HkVcBfUb3pDQJ896jSa2a83MKdu7Z2RqgefuM3yCKThFoQn+EkNpUijHLE52Xo=
+	t=1752049966; cv=none; b=GXLzf/zxf3K70f+zZ7dTdlAIHFzLBGWhIu7obniVSUOExZvILUiWf6NMxHVspgt0DaT38qlqSMSeHvzEkpevqyWjg9lYLyTOk5c91ZhQzf6uMFOsTFrv62fVj3HkTBatDu+sFiKOzqbBRbKBsDbz1PNThvfD81B/j8IWxxuFNKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752049534; c=relaxed/simple;
-	bh=1K6P4jQQ4oUzs76Wesuk2nfLVFheuO4FQrKaoIRvi6I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jbgVpxkW37RcUfXxbfNSaRStiyjgxSwepT18uba+L3ROCGwa/JRENeeE9uRKBc2dDin802E6LOW9ExriDMiN3zkbPbpqXaB52gDMVZg5P9x23OS92M7PRfU4uJaBAeTCboRJ8tFornhYa8SifS2HsEcvG2xXPLVglBn4LrzmgDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKe0N6Vt; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKe0N6Vt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 381A6C4CEEF;
-	Wed,  9 Jul 2025 08:25:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752049533;
-	bh=1K6P4jQQ4oUzs76Wesuk2nfLVFheuO4FQrKaoIRvi6I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=vKe0N6VtLnBJ7D1ryYL1Brpljkh4qq3F5kwux5rDIZoIUa1gADvx6drhevwDn5x9E
-	 j38KbGt2D/D1bah7G2JdgmfTfCnv+SoDbFRIRmgOfkPJlkJwzdz5jcWV/UeEI+mAZK
-	 vVNiJVGrpscLmbscIY57YjtHIbqYKwvDjaUVXH60jxQyHiK7IY50qYm0BlAm8gVZPI
-	 j7Az7873ZDs0n+VPRikiquEeXyCZeYuVRnRcM73OUYr4oe5AQXj44dseAeWxpiazZd
-	 Wr7MlQIkGSJAVXCgQiTX43JmSoKLvpCOQ2U49jxQsls1OQs/V9bwDjITa2aq6FePaP
-	 M4gakSN77SmyA==
-Date: Wed, 9 Jul 2025 10:25:28 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Sai Vishnu
- M <saivishnu725@gmail.com>
-Subject: Re: [PATCH 00/15] Translate sphinx-pre-install to Python
-Message-ID: <20250709102528.07adf648@foz.lan>
-In-Reply-To: <87zfdmmbz9.fsf@trenco.lwn.net>
-References: <cover.1751318230.git.mchehab+huawei@kernel.org>
-	<87zfdmmbz9.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1752049966; c=relaxed/simple;
+	bh=yPTX1mfCfSOGzONvK4Vx0d8zpBFFfBySlSbCFdQlT3k=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q3LuOMkLo2K6bpH5wEmXv/SsXtKZ8YcJUa12yjVzButXQsMnfYyuOiQm49GygK8syXRKNe57XpMMtTxMiZghGDM2qEr4svXWwXDwzi9XDxU+DEYfEqf3UGf90EU3Hn8U7iXRqd8TcnqtWWfzDSYdbrLwCrz90NtBVX4uQAOzmWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4bcWML1CdbzWfwP;
+	Wed,  9 Jul 2025 16:28:14 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id E0BEE180B64;
+	Wed,  9 Jul 2025 16:32:39 +0800 (CST)
+Received: from DESKTOP-F6Q6J7K.china.huawei.com (10.174.175.220) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 9 Jul 2025 16:32:38 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: <vadim.fedorenko@linux.dev>
+CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
+	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
+	<gongfan1@huawei.com>, <guoxin09@huawei.com>, <gur.stavi@huawei.com>,
+	<helgaas@kernel.org>, <horms@kernel.org>, <jdamato@fastly.com>,
+	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
+	<meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
+	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
+	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
+	<wulike1@huawei.com>, <zhoushuai28@huawei.com>, <zhuyikai1@h-partners.com>
+Subject: Re: [PATCH net-next v07 7/8] hinic3: Mailbox management interfaces
+Date: Wed, 9 Jul 2025 16:32:33 +0800
+Message-ID: <20250709083233.27344-1-gongfan1@huawei.com>
+X-Mailer: git-send-email 2.21.0.windows.1
+In-Reply-To: <54087858-3917-40db-891e-3656269a3a54@linux.dev>
+References: <54087858-3917-40db-891e-3656269a3a54@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-Em Wed, 02 Jul 2025 17:03:54 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Thanks for your reviewing.
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Hi Jon,
-> >
-> > This series port scripts/sphinx-pre-install to Python. It started as
-> > a bug-compatible version with the old logic.  
-> 
-> In my limited testing this seems to work just fine ...  Unless somebody
-> comes up with a problem, I don't see a lot of reasons to not apply it.
+> > +static int send_mbox_msg(struct hinic3_mbox *mbox, u8 mod, u16 cmd,
+> > +			 const void *msg, u32 msg_len, u16 dst_func,
+> > +			 enum mbox_msg_direction_type direction,
+> > +			 enum mbox_msg_ack_type ack_type,
+> > +			 struct mbox_msg_info *msg_info)
+> > +{
+> > +	enum mbox_msg_data_type data_type = MBOX_MSG_DATA_INLINE;
+> > +	struct hinic3_hwdev *hwdev = mbox->hwdev;
+> > +	struct mbox_dma_msg dma_msg;
+> > +	u32 seg_len = MBOX_SEG_LEN;
+> > +	u64 header = 0;
+> > +	u32 seq_id = 0;
+> > +	u16 rsp_aeq_id;
+> > +	u8 *msg_seg;
+> > +	int err = 0;
+> > +	u32 left;
+> > +
+> > +	if (hwdev->hwif->attr.num_aeqs > MBOX_MSG_AEQ_FOR_MBOX)
+> > +		rsp_aeq_id = MBOX_MSG_AEQ_FOR_MBOX;
+> > +	else
+> > +		rsp_aeq_id = 0;
+> > +
+> > +	mutex_lock(&mbox->msg_send_lock);
+>
+> this function is always called under mbox->mbox_send_lock, why do you
+> need another mutex? From the experience, a double-locking schema usually
+> brings more troubles than benefits...
 
-I'm coming up with a bigger patch series in a few. Just re-running
-the tests to see if everything is ok now.
+In the current patch, send_mbox_msg is only used in mbox sending process.
+But send_mbox_msg will be used in other functions like mbox response in the
+future patch, so msg_send_lock is necessary to cover the remaining scenes.
 
-Thanks,
-Mauro
+> >   int hinic3_send_mbox_to_mgmt(struct hinic3_hwdev *hwdev, u8 mod, u16 cmd,
+> >   			     const struct mgmt_msg_params *msg_params)
+> >   {
+> > -	/* Completed by later submission due to LoC limit. */
+> > -	return -EFAULT;
+> > +	struct hinic3_mbox *mbox = hwdev->mbox;
+> > +	struct mbox_msg_info msg_info = {};
+> > +	struct hinic3_msg_desc *msg_desc;
+> > +	int err;
+> > +
+> > +	/* expect response message */
+> > +	msg_desc = get_mbox_msg_desc(mbox, MBOX_MSG_RESP, MBOX_MGMT_FUNC_ID);
+> > +	mutex_lock(&mbox->mbox_send_lock);
+> > +	msg_info.msg_id = (msg_info.msg_id + 1) & 0xF;
+>
+> msg_id is constant 1 here as msg_info is initialized to all zeroes a
+> couple of lines above. It looks like a mistake to me and
+> mbox->send_msg_id should be used instead.
+
+This is our mistake. We will fix this error in the next version's patch.
