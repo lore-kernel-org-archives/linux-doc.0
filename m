@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C5128DF1B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C6CBE4A;
 	Wed,  9 Jul 2025 13:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752069141; cv=none; b=tZvvq4fO98h94DQf6YlCn5YcbTMLKab8NQ+fjNeqJsv1YyUc7sl06GMTjXUz3hrJtefvJ4w7SQQ7H12oDXEDdi8f6f0e5qt0+35QKu24vXe4vJNCHuZuMIYJBpryR7Wz2GMpOHa9haOzCFSsB8WglOlrhCPhv+yCCtnEOckcHxY=
+	t=1752069141; cv=none; b=ZWisCdQRuWFyS3q9QktFDXD0Mf96DNBHyOArQixWkA8++zHMSeuWqYP4YwXcLI1bCQ7mOCruMibDyHWu+cZ7ftKNIwpWOZaFlrFbZjqKic1GhhfsqClSLLtETyhcHguJ/65G5oKIrVxfHWAu6YZYXHQYiZGol0ULbJgyKN5XnfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752069141; c=relaxed/simple;
-	bh=X1fFP6aPpObiMQHIfmC5DpMlMrqUycNg3yqWyp/o7aI=;
+	bh=WqD40lDNIRl5QDZ4vfq2ncB8gramfpJAfziS8iPSj9M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PLAS8yVVIBYXGXKAVtPvBe8eFuG3h6HjCmwgh7nJqiJvM7BJpnCptmIcbx/RyRtbNUDvMqwQa0tqLHxNa7s79T+xHESePBjh83IPttVr/Bbfr+FYRxr5wdsSQiDQwte5+vAmWYQF1wE6dmG84pqMj+nmN97kwKBjCSOlwquvV0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dany8WAX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=XAluByWElTMGk3nE/FJFOdeflM8JxjiqGlcM4252opTXlMfLiRC0Nf2tu0S9bI30Ob9502eezv/nEUbOVSUvy984aqb1PPoK+sOD8fp4o99o5E9vkpBKPwNSwy4AsjLNGbe9mANo23lgdJiVaY4Pmdt9/lIgKuW8Xwc9mjPJ6r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rvML0MAK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dany8WAX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0506C4CEF7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rvML0MAK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC8F1C4CEF4;
 	Wed,  9 Jul 2025 13:52:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1752069140;
-	bh=X1fFP6aPpObiMQHIfmC5DpMlMrqUycNg3yqWyp/o7aI=;
+	bh=WqD40lDNIRl5QDZ4vfq2ncB8gramfpJAfziS8iPSj9M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dany8WAX4ThxgQBYtmW0HWQmklFC+2gcMM8IBApiHFHZUvYtl6W9kPlLoiWX1DdtA
-	 D+2p0RY8qIoTj+3o7Ra6birrq45sB8OwAVfVZFA27nqZNtBpWEz/BKYqLu0njGsAgU
-	 jzwHVdoQU3X5eHQRKVfFfcqXkXmB7zG9Ih7POD3PNyFDur1U7FfWyR/x+7cRlVlBG4
-	 Jsa42bHuGRz5LLF0eosUGriv4TipGxvPCisvQi+QGfETUZZFTFttcEuiKrwgxpBrRF
-	 fpVJF4NqkkgOqsNT0BgxG5plCyWRkCwvbblt2KWOY7XbAHAVXrUy7I5cxahWltf2G8
-	 13nFxXshneHAw==
+	b=rvML0MAKQMQsmQ/lCkHC5ni6MoG4nXfgOmhj21/0NtfRApx5oZIEf55SJGcDuzqgE
+	 Rp9ejqibUi6sBoSlMktpfsVqZpTaTG0DGZPMU1lu4mnmGpMKaNOIwTKIkiF9x/gzOK
+	 wvshkijZfNYmtWxkriqXXyV7bmwtvOF6Y77w8qLBXrAvT6AkyUYV00bGpVkIXZRSkn
+	 IotDzDcrfZnJ1av4vrMBNOJ+j/OAYSNCmvEtXrw7XBCJRdnWeeA2HAkBqfx4DkK5dS
+	 xYbFNBGTc6/Lm0K9T4Z3meGIHrEHHmYBw8Fx4WpqhYHRlSeFXW2T3LzjcIWzvhrT8N
+	 B6+HEqwOqBsZA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1uZVDd-00000000ECg-1eWW;
+	id 1uZVDd-00000000ECd-1ZKE;
 	Wed, 09 Jul 2025 15:52:17 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/39] scripts: sphinx-pre-install: only show portage hints once
-Date: Wed,  9 Jul 2025 15:51:44 +0200
-Message-ID: <f50e027e13f39255f7f0f504b2b8766e2ecf77fa.1752067814.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 11/39] scripts: sphinx-pre-install: Address issues with OpenSUSE Tumbleweed
+Date: Wed,  9 Jul 2025 15:51:43 +0200
+Message-ID: <cdff2a07f61201a061e882a4cf92944e11fb1f25.1752067814.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1752067814.git.mchehab+huawei@kernel.org>
 References: <cover.1752067814.git.mchehab+huawei@kernel.org>
@@ -52,48 +52,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On gentoo, doesn't repeat instructions about how to enable
-portage.
+On Tumbleweed, package names are named after python-313*, as it also
+has older python versions on it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ scripts/sphinx-pre-install.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 0e165ad05fdb..808d31bfa790 100755
+index b793796329c8..0e165ad05fdb 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -89,6 +89,9 @@ class SphinxDependencyChecker:
-         self.python_cmd = ""
-         self.activate_cmd = ""
- 
-+        # Certain hints are meant to be shown only once
-+        self.first_hint = True
+@@ -571,6 +571,14 @@ class SphinxDependencyChecker:
+                     "virtualenv":    "python311-virtualenv",
+                     "yaml":          "python311-PyYAML",
+                 })
++        else:
++            # Tumbleweed defaults to Python 3.11
 +
-         self.min_version = (0, 0, 0)
-         self.cur_version = (0, 0, 0)
-         self.latest_avail_ver = (0, 0, 0)
-@@ -714,11 +717,14 @@ class SphinxDependencyChecker:
-             "media-gfx/graphviz",
-         ]
++            progs.update({
++                "python-sphinx": "python313-Sphinx",
++                "virtualenv":    "python313-virtualenv",
++                "yaml":          "python313-PyYAML",
++            })
  
--        for p in portages:
--            result = self.run(["grep", p, "/etc/portage/package.use/*"],
--                               stdout=subprocess.PIPE, text=True)
--            if not result.stdout.strip():
--                print(f"\tsudo emerge -av1 {p}")
-+        if self.first_hint:
-+            for p in portages:
-+                result = self.run(["grep", p, "/etc/portage/package.use/*"],
-+                                stdout=subprocess.PIPE, text=True)
-+                if not result.stdout.strip():
-+                    print(f"\tsudo emerge -av1 {p}")
-+
-+            self.first_hint = False
- 
-         print(f"\tsudo emerge --ask {self.install}")
- 
+         # FIXME: add support for installing CJK fonts
+         #
 -- 
 2.49.0
 
