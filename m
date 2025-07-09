@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E432E62D3;
-	Wed,  9 Jul 2025 13:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B13D2E6D0A;
+	Wed,  9 Jul 2025 13:52:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752069142; cv=none; b=F03xLaX7zdUYiLJ+KYyZiHVazRVBEKP+5TM5xc/uVkQA9l5uPyJiu4ZnrA/gpH/ZUZgkHWl53yqT7LpzwWPNdo/0uI9XJfFQAQnBIG6N7iDTM6YFXNL9xWKG0w+3XJX+qQ/aDYiDhtoabBmB93rEnMrzpnltpfMASaFbheqL+g8=
+	t=1752069142; cv=none; b=JvN4b3LoAZ3/4yzF5v51114W2li8aFeiDVYVi7TnIe2TMtajY0QcVwIMq+kB45TcdHiWmIbWpYSshc6+WtWbLMjTMYdFFLoIjaLthKXHUOY/uEKsQfSW7mhkugHovh7CPAK9RPSXJDf6Y5C/VZig0mkrGQX7Ty16fJV8AlVlwFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752069142; c=relaxed/simple;
-	bh=ki5wlJa+Ive/qv1Artc7D8D1XJBHfhfyZzJdUIy50F4=;
+	bh=k07T+F39In0bF6GHHTnnGiCYiH8jJBwsGqiEHYdTlR0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MbGcOGMZN/FMiEDXHgHmp7CoDmL4v3ZHIL8KYzkVbCx4ES1FJ/uBvB4NXvw0jlRigso/pBCnIPqmwd6xsGn3rn1IjK244j02z2tAHoyj1OQ1eRxKqQH7uCK2vjbf+8001H1GvJnlI/kKMSMh0Xr4erPzC+9AiUuqZ3C9+wDUiHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jr3TdxNU; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=cAj/cSQ/tB/44dMFMBEvsVsBdme4nwR0jleTw2OCWtLslVbwP4BgjN1yNj3WadZaDydBOHtOPxELAnTIpY0oie6nUL1WoU6QYeedJyivTYYW08xMx3ErY0jlxOXi+h/KvMO8zOk+8bBb0MK0aiq33dIypre8ZWJj4PwD49Jfi1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iqF6ZGnj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jr3TdxNU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE68BC2BC9E;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iqF6ZGnj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C83C116D0;
 	Wed,  9 Jul 2025 13:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1752069141;
-	bh=ki5wlJa+Ive/qv1Artc7D8D1XJBHfhfyZzJdUIy50F4=;
+	bh=k07T+F39In0bF6GHHTnnGiCYiH8jJBwsGqiEHYdTlR0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Jr3TdxNUPxwDQ0+KAn7MxHZo6eaufpyFTWDuzre1fsTcUiWOgDf6imsmwM2oPfpFc
-	 e8re19FLOG4ULbZEDupkuWS5tsCyg2uHmDDMYKO9PWYYvw8XNIbJ3/T2+7Cnfu5Nyz
-	 k4vEDOh5hKTc+Zh48pQFqpnHrFYB+mua1kNSCO2QbXzWJSEk6NYlYUi06JcRPFiuBc
-	 RIqIIRhuCqco1O8ycuMMFjOziAX6JjiKYUWe5VN7kpNNB4Q7N/+xy4KD07vmLgDCif
-	 Rb8GSEiUMkJp9WcCq3jBT+LYRZg/nGoYZOpMbHaW2RUos18gOulDhuDd0uuJu4J13o
-	 RMcYlN4RPdL9A==
+	b=iqF6ZGnjQ//5C9N/SIXj4MbRo98/RKIqu3V4asAw4rlaxhwa60YqdL7Wj9zVtIRYV
+	 WqlhtHvUpaJ0LOwT4tIm/MRrlkchbGALRtSub59CLNiI+1GcwDY+daoD/fp1Wr9K06
+	 RJwOYuIROALQhJum2weSSWb/owWVKbwhLue2ByYmBzFvPBI8wBpVZvrW7c4VB0ZLbN
+	 JV9WMTW1ftYCmAXeXfpGofQgl/zeZ1tu1xMqrVORZ/bCJNhU6jc0ql7Im5pT8V7eKy
+	 R0S1IfYaHPj2NwxxDQVwR5sFpRISDGAhwFHsdDUOOQhCZ/Nk+NNncoBSr3qp6louvW
+	 koM/LLFJPSybA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1uZVDd-00000000ED7-2Ol3;
+	id 1uZVDd-00000000EDV-35dz;
 	Wed, 09 Jul 2025 15:52:17 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 21/39] scripts: sphinx-pre-install: move package instructions to a new func
-Date: Wed,  9 Jul 2025 15:51:53 +0200
-Message-ID: <243a2d17dcbf262fb5eff8d66cdb78be35bd1aca.1752067814.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 29/39] scripts: sphinx-pre-install: move get_system_release()
+Date: Wed,  9 Jul 2025 15:52:01 +0200
+Message-ID: <36abd1990595a79d6a6d479d80fe29f981d1ca26.1752067814.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1752067814.git.mchehab+huawei@kernel.org>
 References: <cover.1752067814.git.mchehab+huawei@kernel.org>
@@ -52,90 +52,166 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Currently, if Python < 3.7, package install will fail. That happens
-with OpenSuse Leap and RHEL-based ver 8 distros.
+The code at get_system_release() is actually a helper function,
+independent from the actual Sphinx verification checker. Move
+it to MissingCheckers class, where other checkers are present.
 
-OpenSuse allows installing Sphinx with Python 3.11, but RHEL-based
-distros don't.
-
-Prepare to recomend only venv on such cases. For now, just split
-the recomendation on a new function that will check for a
-paramtere to be called.
+With that, the entire distro-specific handler logic, with
+all its complexity is confined at SphinxDependencyChecker
+class.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install.py | 44 +++++++++++++++++++++--------------
- 1 file changed, 26 insertions(+), 18 deletions(-)
+ scripts/sphinx-pre-install.py | 115 +++++++++++++++++-----------------
+ 1 file changed, 59 insertions(+), 56 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install.py b/scripts/sphinx-pre-install.py
-index 2f6036eadc94..2360ca2ed21c 100755
+index 9127487bd4d7..593982f350b3 100755
 --- a/scripts/sphinx-pre-install.py
 +++ b/scripts/sphinx-pre-install.py
-@@ -89,6 +89,9 @@ class SphinxDependencyChecker:
+@@ -456,6 +456,64 @@ class MissingCheckers(AncillaryMethods):
+ 
+         return True
+ 
++    def get_system_release(self):
++        """
++        Determine the system type. There's no unique way that would work
++        with all distros with a minimal package install. So, several
++        methods are used here.
++
++        By default, it will use lsb_release function. If not available, it will
++        fail back to reading the known different places where the distro name
++        is stored.
++
++        Several modern distros now have /etc/os-release, which usually have
++        a decent coverage.
++        """
++
++        system_release = ""
++
++        if self.which("lsb_release"):
++            result = self.run(["lsb_release", "-d"], capture_output=True, text=True)
++            system_release = result.stdout.replace("Description:", "").strip()
++
++        release_files = [
++            "/etc/system-release",
++            "/etc/redhat-release",
++            "/etc/lsb-release",
++            "/etc/gentoo-release",
++        ]
++
++        if not system_release:
++            for f in release_files:
++                system_release = self.catcheck(f)
++                if system_release:
++                    break
++
++        # This seems more common than LSB these days
++        if not system_release:
++            os_var = {}
++            try:
++                with open("/etc/os-release", "r", encoding="utf-8") as f:
++                    for line in f:
++                        match = re.match(r"^([\w\d\_]+)=\"?([^\"]*)\"?\n", line)
++                        if match:
++                            os_var[match.group(1)] = match.group(2)
++
++                system_release = os_var.get("NAME", "")
++                if "VERSION_ID" in os_var:
++                    system_release += " " + os_var["VERSION_ID"]
++                elif "VERSION" in os_var:
++                    system_release += " " + os_var["VERSION"]
++            except IOError:
++                pass
++
++        if not system_release:
++            system_release = self.catcheck("/etc/issue")
++
++        system_release = system_release.strip()
++
++        return system_release
++
+ class SphinxDependencyChecker(MissingCheckers):
+ 
+     def __init__(self, args):
+@@ -499,7 +557,7 @@ class SphinxDependencyChecker(MissingCheckers):
+         self.need_pip = 0
+         self.rec_sphinx_upgrade = 0
+ 
+-        self.system_release = ""
++        self.system_release = self.get_system_release()
          self.python_cmd = ""
          self.activate_cmd = ""
  
-+        # Some distros may not have a Sphinx shipped package compatible with
-+        # our minimal requirements
-+        self.package_supported = True
-         # Certain hints are meant to be shown only once
-         self.first_hint = True
+@@ -1193,7 +1251,6 @@ class SphinxDependencyChecker(MissingCheckers):
+               "\thttps://github.com/sphinx-doc/sphinx/pull/8313")
  
-@@ -969,6 +972,27 @@ class SphinxDependencyChecker:
+     def check_needs(self):
+-        self.get_system_release()
+         self.python_cmd = sys.executable
  
-         return self.latest_avail_ver
+         # Check if Sphinx is already accessible from current environment
+@@ -1270,60 +1327,6 @@ class SphinxDependencyChecker(MissingCheckers):
  
-+    def recommend_package(self):
-+
-+        print("\n2) As a package with:")
-+
-+        old_need = self.need
-+        old_optional = self.optional
-+        self.missing = {}
-+        self.pdf = False
-+        self.optional = 0
-+        self.install = ""
-+        old_verbose = self.verbose_warn_install
-+        self.verbose_warn_install = 0
-+
-+        self.add_package("python-sphinx", 0)
-+
-+        self.check_distros()
-+
-+        self.need = old_need
-+        self.optional = old_optional
-+        self.verbose_warn_install = old_verbose
-+
-     def recommend_sphinx_version(self, virtualenv_cmd):
-         # The logic here is complex, as it have to deal with different versions:
-         #	- minimal supported version;
-@@ -1053,24 +1077,8 @@ class SphinxDependencyChecker:
-             print(f"\tpip install -r {self.requirement_file}")
-             self.deactivate_help()
+         print("Needed package dependencies are met.")
  
--        print("\n2) As a package with:")
+-    def get_system_release(self):
+-        """
+-        Determine the system type. There's no unique way that would work
+-        with all distros with a minimal package install. So, several
+-        methods are used here.
 -
--        old_need = self.need
--        old_optional = self.optional
--        self.missing = {}
--        self.pdf = False
--        self.optional = 0
--        self.install = ""
--        old_verbose = self.verbose_warn_install
--        self.verbose_warn_install = 0
+-        By default, it will use lsb_release function. If not available, it will
+-        fail back to reading the known different places where the distro name
+-        is stored.
 -
--        self.add_package("python-sphinx", 0)
+-        Several modern distros now have /etc/os-release, which usually have
+-        a decent coverage.
+-        """
 -
--        self.check_distros()
+-        if self.which("lsb_release"):
+-            result = self.run(["lsb_release", "-d"], capture_output=True, text=True)
+-            self.system_release = result.stdout.replace("Description:", "").strip()
 -
--        self.need = old_need
--        self.optional = old_optional
--        self.verbose_warn_install = old_verbose
-+        if self.package_supported:
-+            self.recommend_package()
- 
-         print("\n" \
-               "    Please note that Sphinx >= 3.0 will currently produce false-positive\n" \
+-        release_files = [
+-            "/etc/system-release",
+-            "/etc/redhat-release",
+-            "/etc/lsb-release",
+-            "/etc/gentoo-release",
+-        ]
+-
+-        if not self.system_release:
+-            for f in release_files:
+-                self.system_release = self.catcheck(f)
+-                if self.system_release:
+-                    break
+-
+-        # This seems more common than LSB these days
+-        if not self.system_release:
+-            os_var = {}
+-            try:
+-                with open("/etc/os-release", "r", encoding="utf-8") as f:
+-                    for line in f:
+-                        match = re.match(r"^([\w\d\_]+)=\"?([^\"]*)\"?\n", line)
+-                        if match:
+-                            os_var[match.group(1)] = match.group(2)
+-
+-                self.system_release = os_var.get("NAME", "")
+-                if "VERSION_ID" in os_var:
+-                    self.system_release += " " + os_var["VERSION_ID"]
+-                elif "VERSION" in os_var:
+-                    self.system_release += " " + os_var["VERSION"]
+-            except IOError:
+-                pass
+-
+-        if not self.system_release:
+-            self.system_release = self.catcheck("/etc/issue")
+-
+-        self.system_release = self.system_release.strip()
+-
+ DESCRIPTION = """
+ Process some flags related to Sphinx installation and documentation build.
+ """
 -- 
 2.49.0
 
