@@ -1,109 +1,117 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD46275AFC;
-	Wed,  9 Jul 2025 08:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12461DE4FF;
+	Wed,  9 Jul 2025 08:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752049966; cv=none; b=GXLzf/zxf3K70f+zZ7dTdlAIHFzLBGWhIu7obniVSUOExZvILUiWf6NMxHVspgt0DaT38qlqSMSeHvzEkpevqyWjg9lYLyTOk5c91ZhQzf6uMFOsTFrv62fVj3HkTBatDu+sFiKOzqbBRbKBsDbz1PNThvfD81B/j8IWxxuFNKg=
+	t=1752050444; cv=none; b=acOq6Wxpi7FSzrQ7cvrCzNvCEO9aoHfK890SqNYa+cpq9FV1sWyAfRlT4tkOEcQ9Nw+DUBts1mn6mbEm30RwIF5dXapaqzSrf2FpamQL0kf4FRUMaMjrHcJCPxhtWKb9DlXJkiAPhVDL/lCmu3RBqMyWsL4MLx2cJxKklvTeM8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752049966; c=relaxed/simple;
-	bh=yPTX1mfCfSOGzONvK4Vx0d8zpBFFfBySlSbCFdQlT3k=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q3LuOMkLo2K6bpH5wEmXv/SsXtKZ8YcJUa12yjVzButXQsMnfYyuOiQm49GygK8syXRKNe57XpMMtTxMiZghGDM2qEr4svXWwXDwzi9XDxU+DEYfEqf3UGf90EU3Hn8U7iXRqd8TcnqtWWfzDSYdbrLwCrz90NtBVX4uQAOzmWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4bcWML1CdbzWfwP;
-	Wed,  9 Jul 2025 16:28:14 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id E0BEE180B64;
-	Wed,  9 Jul 2025 16:32:39 +0800 (CST)
-Received: from DESKTOP-F6Q6J7K.china.huawei.com (10.174.175.220) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 9 Jul 2025 16:32:38 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: <vadim.fedorenko@linux.dev>
-CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
-	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
-	<gongfan1@huawei.com>, <guoxin09@huawei.com>, <gur.stavi@huawei.com>,
-	<helgaas@kernel.org>, <horms@kernel.org>, <jdamato@fastly.com>,
-	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
-	<meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
-	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
-	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
-	<wulike1@huawei.com>, <zhoushuai28@huawei.com>, <zhuyikai1@h-partners.com>
-Subject: Re: [PATCH net-next v07 7/8] hinic3: Mailbox management interfaces
-Date: Wed, 9 Jul 2025 16:32:33 +0800
-Message-ID: <20250709083233.27344-1-gongfan1@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <54087858-3917-40db-891e-3656269a3a54@linux.dev>
-References: <54087858-3917-40db-891e-3656269a3a54@linux.dev>
+	s=arc-20240116; t=1752050444; c=relaxed/simple;
+	bh=lVmwqwXwoXoRLrgQnhk5kpKYOZmo/Np4dRqsnZuNico=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ch7RspamNvf6dcobj4ZhCb91YpH7EoJ5xvQnfEJeSQmsd33YGl4oP5xHff424yu6zD2StwpIonBUbAgrVLSjYPI4w6Q79IQebTxGJ+6HrobBErSjEAUhLR+uQJwJZIrmPmOAPCw4Dod09Zi4EBz+iPNHNxexjXg4vg9cMfkUWi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JtpE+kKF; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JtpE+kKF"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b3508961d43so4306750a12.3;
+        Wed, 09 Jul 2025 01:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752050442; x=1752655242; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lVmwqwXwoXoRLrgQnhk5kpKYOZmo/Np4dRqsnZuNico=;
+        b=JtpE+kKFlzlUdOrcCcY4sC1JVI1QiOIXwDN93UegtNukgNV/Uew4eoMW2IH2J7Cuxm
+         ldPUDJakAPFOa1nRbZ2IbipRj1RPkVg/iXBa9CPQm/CW5iLoNSCoXapx1/tmwMa7iOnW
+         RPpAdcho68cturpAr66K8/SkRSNrRbwwxmhC9yxJPAfyCCAp1zXgd6VfBZaYVfTclZyD
+         aTcqxB+VLR80XHWhWVZT8BA5aXfjqyhhkYVgYfNQgHGGbHU69axXqLpFRqt8W9GNZMhH
+         j/EBkEk7Rmq3QO5l/kZFR7c6AmcYBdn1KxO7vKdd9IEPNRWsnPf+vp/FFCXues7xs/bB
+         DU9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752050442; x=1752655242;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lVmwqwXwoXoRLrgQnhk5kpKYOZmo/Np4dRqsnZuNico=;
+        b=GKT28xvYRWOiLGvIhdbeQwEJvTcghreXugSraCIsSso7ScaXj4ppTs0fsduhgSloyc
+         NjJLmpJqNzlUO82/G9l6kIVKQZQMidXvIDA88TodH8Q5LKYxnOtR2GkBm67nt3+Ea+T7
+         5PZBbpTdkvq9tki1kawod+93R/DuE+nk4R/FlYKiqOzxIZrSsbjqsDTdQyBkbm7qoa5T
+         lfkNztjVfgEnl/IOTaYPw0dBVuUYRSFmDr6DUrOANA/Jsz5z/pECSm3Gjd9F9xM/sgMT
+         VBkUr/I2uUacUy+WWhlPghC+k3SZoybs61P4SU+qlLVUGTYHPpflZBXTXV+tYq/5AOdT
+         RPTw==
+X-Forwarded-Encrypted: i=1; AJvYcCVXVz7ArlLLh7zFMVxwEwM7vxlGTRyvVoKUu/dIRJBIZjJXtpsIQ30tkEfUSprDIq2BvFEin7TN4cQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVO460kCuY974DfYO8LwkT+RTIURpstUQZh3xuoT32IYR0hXdL
+	yHIYiOQkszgFD3BOHFSOUC9UefSoMCkzYEKUZQZP/o3CuZts4Ghhohul
+X-Gm-Gg: ASbGnctx6GlAkNcWJdbARbAsJJTxwhLjM2i85ZynNzwpU49YZww+XbQw7/IG0EBi110
+	MKT2lWMKD1i0XKkzL+IMyZycz2xxyu8PUKSNyZAYoFZTIZDVRhigQRL3iuB51YHqDnvwytKkS+f
+	i+CTGGwEGxbzfTgIcIJoPt7TkSapxhShhVleYMHgUsm9expJScFi1eW2fsedfOkct6unUrIyjHL
+	YSSlBATJ9UmNq7N2tCkgcOagvxfs64nW6gzCC5WICTMuR6zUmQeFCSxZ+6sevPVeDChqhpaKN0M
+	0tsBizISmESTdy1PCBWSIUd4NmerxBSRw5BwfBsRqvBqQeZP2aRYSQ+MOmCMOw==
+X-Google-Smtp-Source: AGHT+IGF2o8G1bwQLiGet81gBmlMfqUC632G56A4Q5MAObcKdNhxT/tUUhEvHqLItldI9q1ue2k3/Q==
+X-Received: by 2002:a17:90a:da90:b0:311:c596:5c6f with SMTP id 98e67ed59e1d1-31c2fda079amr3351553a91.17.1752050441904;
+        Wed, 09 Jul 2025 01:40:41 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c301a95ffsm1414433a91.40.2025.07.09.01.40.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jul 2025 01:40:40 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id CBAAA4101950; Wed, 09 Jul 2025 15:40:36 +0700 (WIB)
+Date: Wed, 9 Jul 2025 15:40:36 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Antonino Maniscalco <antomani103@gmail.com>,
+	=?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+	Raag Jadav <raag.jadav@intel.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
+ usage in literal code block
+Message-ID: <aG4rBBJE_KEhkAfu@archie.me>
+References: <20250709024501.9105-1-bagasdotme@gmail.com>
+ <aade485e-0880-4c68-9b37-d8a27dc122e3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wFUsWKicYRt4Gvv7"
+Content-Disposition: inline
+In-Reply-To: <aade485e-0880-4c68-9b37-d8a27dc122e3@kernel.org>
 
-Thanks for your reviewing.
 
-> > +static int send_mbox_msg(struct hinic3_mbox *mbox, u8 mod, u16 cmd,
-> > +			 const void *msg, u32 msg_len, u16 dst_func,
-> > +			 enum mbox_msg_direction_type direction,
-> > +			 enum mbox_msg_ack_type ack_type,
-> > +			 struct mbox_msg_info *msg_info)
-> > +{
-> > +	enum mbox_msg_data_type data_type = MBOX_MSG_DATA_INLINE;
-> > +	struct hinic3_hwdev *hwdev = mbox->hwdev;
-> > +	struct mbox_dma_msg dma_msg;
-> > +	u32 seg_len = MBOX_SEG_LEN;
-> > +	u64 header = 0;
-> > +	u32 seq_id = 0;
-> > +	u16 rsp_aeq_id;
-> > +	u8 *msg_seg;
-> > +	int err = 0;
-> > +	u32 left;
-> > +
-> > +	if (hwdev->hwif->attr.num_aeqs > MBOX_MSG_AEQ_FOR_MBOX)
-> > +		rsp_aeq_id = MBOX_MSG_AEQ_FOR_MBOX;
-> > +	else
-> > +		rsp_aeq_id = 0;
-> > +
-> > +	mutex_lock(&mbox->msg_send_lock);
->
-> this function is always called under mbox->mbox_send_lock, why do you
-> need another mutex? From the experience, a double-locking schema usually
-> brings more troubles than benefits...
+--wFUsWKicYRt4Gvv7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the current patch, send_mbox_msg is only used in mbox sending process.
-But send_mbox_msg will be used in other functions like mbox response in the
-future patch, so msg_send_lock is necessary to cover the remaining scenes.
+On Wed, Jul 09, 2025 at 09:37:36AM +0200, Danilo Krummrich wrote:
+> I assume this has to go through the MSM tree?
 
-> >   int hinic3_send_mbox_to_mgmt(struct hinic3_hwdev *hwdev, u8 mod, u16 cmd,
-> >   			     const struct mgmt_msg_params *msg_params)
-> >   {
-> > -	/* Completed by later submission due to LoC limit. */
-> > -	return -EFAULT;
-> > +	struct hinic3_mbox *mbox = hwdev->mbox;
-> > +	struct mbox_msg_info msg_info = {};
-> > +	struct hinic3_msg_desc *msg_desc;
-> > +	int err;
-> > +
-> > +	/* expect response message */
-> > +	msg_desc = get_mbox_msg_desc(mbox, MBOX_MSG_RESP, MBOX_MGMT_FUNC_ID);
-> > +	mutex_lock(&mbox->mbox_send_lock);
-> > +	msg_info.msg_id = (msg_info.msg_id + 1) & 0xF;
->
-> msg_id is constant 1 here as msg_info is initialized to all zeroes a
-> couple of lines above. It looks like a mistake to me and
-> mbox->send_msg_id should be used instead.
+Of course!
 
-This is our mistake. We will fix this error in the next version's patch.
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--wFUsWKicYRt4Gvv7
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaG4rBAAKCRD2uYlJVVFO
+o5vdAP4zYQraYcWZ5417LKimSuB/iobFIALeKUn0bIkGLhZxFAD8DstYb43X3+Wr
+oHbq2TC0/1xxUZP7Zx51Yb13YIsDlgA=
+=oNYA
+-----END PGP SIGNATURE-----
+
+--wFUsWKicYRt4Gvv7--
