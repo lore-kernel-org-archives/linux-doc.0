@@ -1,199 +1,211 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2077.outbound.protection.outlook.com [40.107.244.77])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554F0237713;
-	Wed,  9 Jul 2025 08:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752051402; cv=fail; b=j1pVkktw63muyYAWvB4qr4OIYnr7NW6XmOt/WPPcdPEOAcibaqn8Wlh5G5eLdSTXPnEbRy6k/vSX3MHgklvl4YcamXEOFuh7c92G1e0NNT97nWFSbZR7jl8n9+u/WSMR6MH1RoDthSc7Z2AfxmFQBjriFUUlU1yfvFPdlmSftmk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752051402; c=relaxed/simple;
-	bh=Faqzj0UzcbKeMFcUXGSAKV+Bgz0NH4WeHcJ5wvwnqvw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GEK3urcYmDODjvk6XuBz4q+nRHGdHSZlbLXQwuKggR9SQ2w9u0+Na24YB5lS3Ss0UyZ+QnfN6gDEiWSfsnA6v82akgUvS1gzVJ2Mqtx+GJ+Cv8Iptmt1ST1gw5U3CCQ7A81frYjdvKPBJ48Aq/YTOCjhSY4bRsHaEJlvVsavLe4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ed4zSRwD; arc=fail smtp.client-ip=40.107.244.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B82283FC8;
+	Wed,  9 Jul 2025 08:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752051518; cv=none; b=QMX26q06P/8+lLt7BwsBTwJBaWgZenvmXz0Y6IVPMsrX5qiwCgAzEzBfQpQ+UDAhntyph7AopZ3rqUQkh0seYmdKgUg2qDGZkwHIMwDrBPRkj68j7nQlRYiahDMuMQrjmt6u74GxCYSqjV3M9Wozk6zLIoB7VMW+XBRXLxYuGcg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752051518; c=relaxed/simple;
+	bh=/0NZDy7r80MqGg2EtP9K8SkjJnkRbWobikENSWLwTj8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OxvpZ2GLFXD6xxFeRqjMXSnaJJfa/hUY7UkySJaLBligVc5RIICJpAQO6Qq+Pmxg6c5XamKXjZVpCPY/On6msI6wWd8JDwZfFk8CkwaTckjgnvRR+VjnWujR/UsrBkRG2SY+GCla6FhlNJnIC0lMwDSV3zsCs7lFlylJMz5JRu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TFtiwSEj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ed4zSRwD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fM6uydJbqAdr8/v2Z589THIjemb6UNJ64YZtAkQlf6/ULLHcSAww/z32dIpSYfDX2a1O1ye54Tu4/5cdVepJdXJoM4HAtWSp+D+4mJj/VvG+v6SkoPMhup/r8BADcctN2Uw8e335IAlysBuETiHKifJeoxl66aLvpsLySJpuirTEKGTnvHim0pm0eDu1BeE/c/JtnyxPdXWwPvW9BoOCTigyxSRc3DsJSSUHz0oLEOT9cfii+VQ6pxYPZ7XI8h9g0bZ2IHVT+KISLFpm2b2bjbZQa0TfIp42eEYYyIVJcCvASL+HIjU9wqsGvwk9ZyBSgS/3MPWHOqroC7Z+j7KVJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DYpNQw3z+Vi231QIPS94sd9NCTL0Aht5ZV1vQ4NWRtg=;
- b=Cil6x5sAKMIUAqdIPEgfwAQ6jwJOocZ+GZWkvODUJQrFifWaUg1ZLhC6mquubE9eBjzn8QW1WDXObgPXb6N1sBy1c2FrLL5D42pqihJhSESTSk44fk0StKoYtTdzrf0MjRfW2FJ/sXHmHZLTiWktW7J7JGT6eEOPZ/0KJNc4J+xOgrdzJ58ZKoA70lF8WHKTj1CqmT/S6CtcJVL6VrjeHEUcmcnVc2yeTBvNUP7D4bhyhsgKa3ahpKmlVxOWEwHYfv5wjepLBS5b1TOra0DrTmFTwyZ8pmX2Mq+9ScDCjHL9yqVSYpgZr92KpjkNv2fC+uDwRYUdcgS1p0tTH/GfLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DYpNQw3z+Vi231QIPS94sd9NCTL0Aht5ZV1vQ4NWRtg=;
- b=Ed4zSRwDYm9x2TvrlJaLJFQ1/O4hDtCgSLJVw4oLnbyhWCAE/X4MHhQoNbWK18alm0gMZkectT+6z1b9ER9+iKrvpsgUhF9B+aMoTYBGLC3SX/ntIVsVg7KkOplqI4EsHFukh0fjt7FGzHoCg5g/5ujUEBEy8lbQMSVKtA3Zzt4=
-Received: from CH2PR12CA0019.namprd12.prod.outlook.com (2603:10b6:610:57::29)
- by SA3PR12MB9105.namprd12.prod.outlook.com (2603:10b6:806:382::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.22; Wed, 9 Jul
- 2025 08:56:37 +0000
-Received: from CH2PEPF0000014A.namprd02.prod.outlook.com
- (2603:10b6:610:57:cafe::6e) by CH2PR12CA0019.outlook.office365.com
- (2603:10b6:610:57::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.21 via Frontend Transport; Wed,
- 9 Jul 2025 08:56:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH2PEPF0000014A.mail.protection.outlook.com (10.167.244.107) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8922.22 via Frontend Transport; Wed, 9 Jul 2025 08:56:37 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 9 Jul
- 2025 03:56:36 -0500
-Received: from amd.com (10.180.168.240) by SATLEXMB04.amd.com (10.181.40.145)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39 via Frontend
- Transport; Wed, 9 Jul 2025 03:56:30 -0500
-Date: Wed, 9 Jul 2025 08:56:19 +0000
-From: Ankit Soni <Ankit.Soni@amd.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jonathan Corbet <corbet@lwn.net>, <iommu@lists.linux.dev>, Joerg Roedel
-	<joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, Kevin Tian
-	<kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>, Bill Wendling
-	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
-	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, "Suravee
- Suthikulpanit" <suravee.suthikulpanit@amd.com>, Will Deacon
-	<will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
-	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
- Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
-	<patches@lists.linux.dev>
-Subject: Re: [PATCH v3 15/15] iommupt: Add a kunit test for the IOMMU
- implementation
-Message-ID: <6onfcdqxaeq55fd6csdyovudfbx2f3baimonejkmgisab23os3@fzj3mjelpcob>
-References: <0-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
- <15-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TFtiwSEj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD68C4CEEF;
+	Wed,  9 Jul 2025 08:58:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752051517;
+	bh=/0NZDy7r80MqGg2EtP9K8SkjJnkRbWobikENSWLwTj8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TFtiwSEjtM6k8Cb2bRcr7vgpE0etL1ynwP0lDgq7/UOxFd5CQZ0YGqKi1igdF74eC
+	 lycwgz8EbSb8ez9cYvPcDF6EkOMmZuMLHtBOvbT/d+qb+5RddkevvUF07PaXb/KqJ/
+	 +l24lWnMpuWU0//j8O9m/Vwaju99zH2t6jJ6dejSCMAodX6nvdOpBZs7/EOgzzfW8U
+	 GBMdPRtOvdpd2BT6HjSChmNwte9/FzI4ew7vjJ15xzQg5mtCOcC5P/6vOQLU89OoXy
+	 l/XCpbG2mEm+0EBpdsPN5hcG5XM/veDriFbymqfVNEc4lheKrRX5E/p9gZfqcAcTfU
+	 6XiQcGebsR1Og==
+Date: Wed, 9 Jul 2025 10:58:33 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org, Sai Vishnu M
+ <saivishnu725@gmail.com>
+Subject: Re: [PATCH 00/15] Translate sphinx-pre-install to Python
+Message-ID: <20250709105833.48a56708@foz.lan>
+In-Reply-To: <d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
+References: <cover.1751318230.git.mchehab+huawei@kernel.org>
+	<d37eab74-a034-4be6-b92b-e0da60a99477@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <15-v3-a93aab628dbc+521-iommu_pt_jgg@nvidia.com>
-Received-SPF: None (SATLEXMB04.amd.com: Ankit.Soni@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000014A:EE_|SA3PR12MB9105:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f91073c-0f5c-4270-5688-08ddbec68335
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|36860700013|82310400026|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KXf2ZWuP1/We4DSTku25fisGqDSZn+Ox8XFIFivCnjln3+Kky95VIgZ/QmWm?=
- =?us-ascii?Q?K1xw7DQPhxMK8uEVd9bKbztkoAOk7go09Vs93D+IXHoa8fC0Pq1pk2HC45Yb?=
- =?us-ascii?Q?NXguWIwmtBn5TQN44Q+tF/5bkLU2XXt2t4iwYC9ZxIQq4qwodqOjmAp3Wl0E?=
- =?us-ascii?Q?kLKRjVmdzzmV6BWNkOBaOIfs3XbDtizr5VfMFu6SfKzg0wivHTFukx/qpMDL?=
- =?us-ascii?Q?aktfmIo2DHL4/07Gt1xdDiNDxW+jIeV7ZOEQgk6kMj6V644fVaEc5anxoEEB?=
- =?us-ascii?Q?u3BDIroJEu8Y7LyGwhyP2x3AFZiTAEgR0rAHWYv3zXjkkMtWm4Vq6rNfCLP2?=
- =?us-ascii?Q?NmGDMpceMc40xn9OoUyzLx+H9qs1UY0zBvi9It7jlCVzWTw7QprwIZowkDqh?=
- =?us-ascii?Q?10Orz9lPPNHfsPF1hFlCm9K9fRIsjS3hKC9LFf+lGflem97Uxrjoh7D7/pGJ?=
- =?us-ascii?Q?NCMhB9qayb4Pya6+taiJDD+XX1Y/AXmWhOgvX7UXvB1rzXfJVxrXUPR8Uyir?=
- =?us-ascii?Q?J8084h05q2YKMgUUTjpTAcmUEEQF6SOauZNVJTSy4T+cWfbl46LW5526cvC9?=
- =?us-ascii?Q?OSmO+zbNY3oRjOBpnYR6ixMz+A5DK5IlkE4wZKwEL8f/ngAE3jDuisy4HxRk?=
- =?us-ascii?Q?wxhciKKypI/w6dg7hJgj4au7sYm+VsfXgl8YrNaAtZbIKJGKoMOVkYb2OwHx?=
- =?us-ascii?Q?eoCW06RlPc9v69/lLrRbHXBo9A/2T9a1B8jt9DZ8Zp50aI1WyfbxSYRJobZu?=
- =?us-ascii?Q?8rNY9B0JuLIL3aW2rdaCGOoHyMnJhUYtIOY8V7X0Ntb1t8H/0uKqhNMPyRsk?=
- =?us-ascii?Q?09edDBB1OgI/+N2Xk8NW7N9ihk7L9FY53iqa7PZ0rZjFuM2TxIzCdoypa3e5?=
- =?us-ascii?Q?BAiB4SXpylM4VKtQc3ByILTAol/ucLE5asTD7pXQLfcvw4jXUyOYPVceKhXh?=
- =?us-ascii?Q?ycArvbzLhlQXep/KJPs+IqKAJtPD9UBgyTdHMCF6RDyVvLS/+iG85z0aCQK6?=
- =?us-ascii?Q?8v2e52Ryhw4SDFjDsCUMpEtYRlvNEkv9eQXsTfxMwAHDIzmVTql7DJIG93vK?=
- =?us-ascii?Q?iW3g2K89MEMN/g7lRolkpIct8I6S3mTEnzUrVQIuVoON1yl8qwQKsw59CUM3?=
- =?us-ascii?Q?zWF+PSGik1ILJsLvxZZG94yf84tFaXU4MoAss35vp02Syk8HwO0iz+Gy0AOC?=
- =?us-ascii?Q?7WlmvQXPuKZLy/GSVoXnAEvMQFJTdl5jMjJdmmRakDWeG00tJoIVmx/ZUsA6?=
- =?us-ascii?Q?aEZPqmO8VIrJjS56m214p46kQLOjFToA5N0s5r2ua9m53HmmEpX4VpmJSUA/?=
- =?us-ascii?Q?SwIIMNCuAs6/ksPPDuMArOWVfBykOADrd1sdSOeCrdWbnJan1yGDF+8RBy6e?=
- =?us-ascii?Q?s5cuzP9tpqxf2/Ptf+QVy6pYcpHpfvzlM7tXDxX289d4E7wrsc29hAc8vPXG?=
- =?us-ascii?Q?+wghv8LPZrVyG8oTqP8C+wkvXTizw2+sXezws4rdwikMF5XxDUU5QNUkRcWF?=
- =?us-ascii?Q?dCcn4gbW6vQkgvmnT+Su5Qx4Ahpg4wwpV6Il?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026)(7416014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 08:56:37.0052
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f91073c-0f5c-4270-5688-08ddbec68335
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF0000014A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9105
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Em Tue, 8 Jul 2025 12:09:52 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-Hi Jason,
-I noticed a few minor nits that might be worth addressing in a future revision.
-
-On Mon, Jun 16, 2025 at 03:06:18PM -0300, Jason Gunthorpe wrote:
-> This intends to have high coverage of the page table format functions and
-> the IOMMU implementation itself, exercising the various corner cases.
+> Hi Mauro,
 > 
-> The kunit can be run in the kunit framework, using commands like:
+> On Mon, 30 Jun 2025 23:34:48 +0200, Mauro Carvalho Chehab wrote:
+> [...]
+> 
+> > The test script also ran the install procedure for system,
+> > venv and native Sphinx install.  
+> 
+> Which install procedure did you test?  The short one with the "--no-pdf"
+> option?
 
-The kunit tests can be run...
+No, I'm testing it with PDF.
+
+> I am asking because installing the full list of packages in podman run
+> of opensuse/leap:15.6 didn't complete successfully for me.
+
+I got a couple of extra fixes for Leap. Will be submitting in a few.
+
+> And by the look of things, you stopped at installation, because you are
+> well aware of all the issues in running "make htmldocs" and its friends
+> after the install.
+> 
+> I assume you (or somebody else) are going to update the script once this
+> series is applied to make the suggested lists of packages be useful for
+> newcomers.
+
+I'm not actually building the docs, just checking that the script will
+install Sphinx and required dependencies. There are a couple of reasons
+for that:
+
+- the disk space on my desktop. Right now, I'm just copying the
+  files instead of doing a Kernel git clone. Even so, testing all
+  those distros is requiring about 100GB on my /var partition;
+- test time. Right now, I'm starting dozens of machines in
+  lxc or podman in parallel. Still, it takes a lot of time to
+  download and install all packages;
+- compilation build itself is out of the scope of the script.
+  I'm pretty sure we'll have compilation issues(*).
+
+(*) on some RHEL-based distros, for instance, texlive-ctex package
+    is not there (I guess version 8). so, I suspect that CJK
+    builds may fail.
+
+Anyway, fore sure there will be space for improvements after it, and
+I really appreciate if you could send patches on the top of the new
+series addressing the issues. 
+
+> > The tests were done with those containers, obtained from
+> > lxc download templates or via podman run:  
+> [...]
+> 
+> > It also properly detected RHEL 8 string:
+> > 
+> > Detected OS                : Red Hat Enterprise Linux release 8.10 (Ootpa).
+> > Installing venv            : WARNING: No such file or directory: 'sphinx-build'
+> > Installing package_install : WARNING: No such file or directory: 'sphinx-build'
+> > 
+> > But, at this particular docker container, no repositories had
+> > python3-sphinx nor python3-virtualenv, but I suspect that this
+> > is a problem on this particular image, as I'm almost sure we
+> > tested RHEL 8 in the past, so, I have hopes that this could
+> > still work with real RHEL, if it has Python >= 3.7.  
+
+On this container, you can only install Sphinx with packages with
+a subscription, as the repository where it sits can't be enabled
+without registering. 
+
+> FWIW, almalinux 8 provides python3-sphinx in the "PowerTools" repo.
+> It installs Sphinx 1.7.6 on top of python 3.6.8.
+> python3-virtualenv is in the "AppStream" repo. It also comes with
+> python 3.6.8.
+
+I added a version check on my test script. I'm opting to use
+rockylinux 8 instead, as it is meant to be 1:1 binary compatible
+with RHEL.
+
+I will provide the output for it at the next version.
+
+> > 
+> > Yet, our goal is to support the latest LTS version, so
+> > RHEL 8 is out of scope.  
+> 
+> Yes, I think it is reasonable to ignore RHEL 8 and its clones.
+
+Yes, but still it may work with venv. I'm adjusting the script
+right now for it to propose installing python39 package and
+accepting install on venv.
+
+> For the record, here is a WIP scorecard of suggested procedure by
+> actually running "make htmldocs" and its friends after installing distro
+> packages (if it succeeds):
+> 
+> ------------------------------------------------------------------------
+> * debian:12
+> 
+> htmldocs:  OK
+> latexdocs: NG
+> 
+> Debian and its derivative prohibit convert(1) (of ImageMagick) from
+> generating PDF by their default policy, so you'll get a bunch of:
+> 
+> [while building userspace-api.tex]
+> 
+> WARNING: Error #1 when calling: /usr/bin/convert /<srcdir>/Documentation/userspace-api/media/typical_media_device.svg /<srcdir>/Documentation/output/userspace-api/latex/typical_media_device.pdf
+> WARNING: Warning msg from convert(1): convert: attempt to perform an operation not allowed by the security policy `PDF' @ error/constitute.c/IsCoderAuthorized/426.
+> 
+> , and if you ignore them and try to build PDF, you'll get:
+> 
+> [while building userspace-api.pdf]
+> 
+> ! Dimension too large.
+> \spx@boxes@fcolorbox ...dimexpr \ht \spx@tempboxa 
+>                                                   +\spx@boxes@border@top +\s...
+> l.54887 \end{sphinxVerbatim}
+>                             
+> ? 
+> ! Emergency stop.
+> \spx@boxes@fcolorbox ...dimexpr \ht \spx@tempboxa 
+>                                                   +\spx@boxes@border@top +\s...
+> l.54887 \end{sphinxVerbatim}
+
+I use Debian to regularly produce html results. It requires a
+change at ImageMagick policies for it to run.
+
+> * fedora:latest (42)
+> 
+> htmldocs:  NG
+> 
+> Container images of fedora has stopped having "which" as a command.
+> You need to install it manually.  After installing "which": OK
+
+Thanks for the feedback! I'm installing which on my container's
+setup, as my test scripts require it. I'll add a check to install
+it.
 
 > 
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_arm64 --arch arm64 --make_options LLVM=-19 --kunitconfig ./drivers/iommu/generic_pt/.kunitconfig
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_uml --kunitconfig ./drivers/iommu/generic_pt/.kunitconfig --kconfig_add CONFIG_WERROR=n --kconfig_add CONFIG_UML_PCI_OVER_VIRTIO_DEVICE_ID=100
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_x86_64 --arch x86_64 --kunitconfig ./drivers/iommu/generic_pt/.kunitconfig
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_i386 --arch i386 --kunitconfig ./drivers/iommu/generic_pt/.kunitconfig
-> tools/testing/kunit/kunit.py run --build_dir build_kunit_i386pae --arch i386 --kunitconfig ./drivers/iommu/generic_pt/.kunitconfig --kconfig_add CONFIG_X86_PAE=y
+> pdfdocs:  OK
 > 
-> There are several interesting corner cases on the 32 bit platforms that
-> need checking.
+> * opensuse/leap:15.6
 > 
-> Like the generic test they are run on the formats configuration list using
+> htmldocs:  NG
+> After installing "which": OK
 
-how about "Like the generic tests, these are..."
+Will do the same here.
 
-> kunit "params". This also checks the core iommu parts of the page table
-> code as it enters the logic through a mock iommu_domain.
 > 
-> The following are checked:
->  - PT_FEAT_DYNAMIC_TOP properly adds levels one by oen
+> latexdocs: NG
+> Can't complete "zypper install" inside a podman container run using the
+> full package list ???
 
-s/oen/one
+I added some fixes for it.
 
->  - Evey page size can be iommu_map()'d, and mapping creates that size
+> Having look at these poor results, I don't see any reason to continue
+> testing further.
 
-s/Evey/Every
-
->  - iommu_iova_to_phys() works with every page size
->  - Test converting OA -> non present -> OA when the two OAs overlap and
->    free table levels
->  - Test that unmap stops at holes, unmap doesn't split, and unmap returns
->    the right values for partial unmap requests
->  - Randomly map/unmap. Checks map with random sizes, that map fails when
->    hitting collions doing nothing, unmap/map with random intersections and
-
-s/collions/collisions
-
->    full unmap of random sizes. Also checked iommu_iova_to_phys() with random
-
-s/checked/checks
+Thanks for the feedback!
 
 Thanks,
--Ankit
-
-> -- 
-> 2.43.0
-> 
+Mauro
