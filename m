@@ -1,115 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1C72580D7;
-	Wed,  9 Jul 2025 11:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E473280CD5;
+	Wed,  9 Jul 2025 11:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752058861; cv=none; b=lF+dA+gKGKLf3LWwJh6grnGTKU6+Olr5CSCipa1khf4icDsxUIYR5+ZSx49PvETXsLLryZpFPoXYD2h40q/FUGTIiMmHqUodfYQjpW/ifELYGgbuGaHNN/aDN6Izgg6R5Y2NbPWtmXTiyXGt5CrvvIpWyHAl98Z60vcjakVvQAw=
+	t=1752059211; cv=none; b=CVXWOScwMv1kYY+TVM9hCVkFGPCh4wtBOKvKH7goGUZkP2PB6f48wQSgdEADWg0n9s1UHQe2hUaAQCItHfHxrBi350Xs+wSaRueOnBjJOVkjMoDTiF8GAXXrjTJcYRIVzrAAto3rI9u7b2lGirviDzNtr1QTYpgqXg/jqvaFhpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752058861; c=relaxed/simple;
-	bh=6TBIbA4ulMG/TLeMgkUTWPxfeTzSZcIp8A8wki7/tbM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HeEoMDphtDVw1VFMUhrsMp3phwyup7EnVAi/c1KW/zEW/9qF6T5VdV2jOUYq35iR4R7v2HCmFgpl7bszhiaKy6okms58QcmpYIDKzbtJm6nZuc1BSIH/+knxC5c9i8zqDzZ+5PGmovKjyO2zoPAzvmnYjLNLfjGWyUyb/O/ibT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwKaLuZC; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1752059211; c=relaxed/simple;
+	bh=XMXplijwP1E5Q0AZ8hTKIOCASc0BkQCBS9592DqXXSg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=JU4csA02JxB0/yfXOgxafMbUIOrTtByz4d5nVsSPE1+nxFb3yfg5KDmTT6fRKgIVbISBvhF3/MPu0B9QkK9wrenmOtedq1oX1urhYwcMYjtYEAma6n/6y+Zjnp3tekvbdxkdZz4sebpErUnnBRjSIPaxGEcrdPXIe/UtmKda76M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WG9c5w91; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwKaLuZC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752058860; x=1783594860;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6TBIbA4ulMG/TLeMgkUTWPxfeTzSZcIp8A8wki7/tbM=;
-  b=DwKaLuZC+oQSqxHlI5Fwck2Z8UYZBDxXbVQ6P19ARxgDuG3URBlogVG/
-   PMxqMzFqjkVNxKtJa/w6NsKb2s9jVwhU1jxkcMzNL9LBHZuFBeQqm1KYq
-   J3seHzVy3qF4lBRmaGaz3c4rTMhJWt78yJTNkdBqQxgqyD/yCQNRvxqM0
-   MWl+oOYzit98Mx8UyRIU/FcllzVFM2xKnuVN1gyDk4VyM/60/rHzJMJKW
-   n197KCutrQMso1B5p5Y3eB/OenkDHmDMWvpW/FtRPrpoTDrLEUney/gh5
-   6Nq+eGxmawbIVYKqb5HgzpqqPXFavT4ZC8eBlGrJmf+M0GfkG9I14YUDG
-   A==;
-X-CSE-ConnectionGUID: zTN22k08RCSsFp7ueIKM4w==
-X-CSE-MsgGUID: WqBuGawWQCeb6bggqnGpdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54441757"
-X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="54441757"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 04:00:59 -0700
-X-CSE-ConnectionGUID: kHqhUpj1Rbma1h24o/AiBA==
-X-CSE-MsgGUID: WflIntN1TGmJjVEMlY5zKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="156475969"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Jul 2025 04:00:46 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 8D6C11B7; Wed, 09 Jul 2025 14:00:44 +0300 (EEST)
-Date: Wed, 9 Jul 2025 14:00:44 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon <daniel.sneddon@linux.intel.com>, 
-	Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>, 
-	Breno Leitao <leitao@debian.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCHv9 16/16] x86: Re-enable Linear Address Masking
-Message-ID: <icjt25k4azqzkv5xlobcmlcubulohvfjakkb35dusiqe2xutq3@6jvha7chwwxd>
-References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
- <20250707080317.3791624-17-kirill.shutemov@linux.intel.com>
- <b1408df7-abb4-4ac5-aff7-c04fda7dec7c@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WG9c5w91"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4A09C4CEF4;
+	Wed,  9 Jul 2025 11:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752059211;
+	bh=XMXplijwP1E5Q0AZ8hTKIOCASc0BkQCBS9592DqXXSg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WG9c5w91Xj9toKF14iz+X2qGi5u9CRRQOmR6lu2mxx5TuJIFaVwaCetwWmeDI6YVi
+	 0xTpTt6ohizOVyQYLwtOh7ADphUTBEIj0YZ3lp/DtzW5ElG5XqogRtB112Z28gZJAb
+	 bHRUDlTXW/IH+s3+gS5gUFg7D+8q26Skr90xvhwsckCh193AhxZmvNzwZgWGpjJSGg
+	 Eh6dj2RVqiwMWHGLGNt5UPqatow2HhT2m8Neucpgv17o9D7GnJP1vfcLj6pVwEs58s
+	 5GihYGGew0d66otqRtaejJQ0udjg8NvyqJ8a6abdAZWx7lH5BW2DeOKOBhRiGqYTJB
+	 T9in802m7wd4w==
+From: SeongJae Park <sj@kernel.org>
+To: Bijan Tabatabai <bijan311@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijantabatab@micron.com,
+	venkataravis@micron.com,
+	emirakhur@micron.com,
+	vtavarespetr@micron.com,
+	ajayjoshi@micron.com,
+	bijan <bijan@node0.bijan-262664.superpages-pg0.wisc.cloudlab.us>
+Subject: Re: [PATCH v4 00/13] mm/damon/vaddr: Allow interleaving in migrate_{hot,cold} actions
+Date: Wed,  9 Jul 2025 04:06:48 -0700
+Message-Id: <20250709110648.52688-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250709005952.17776-1-bijan311@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b1408df7-abb4-4ac5-aff7-c04fda7dec7c@intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 08, 2025 at 10:31:05PM -0700, Sohil Mehta wrote:
-> On 7/7/2025 1:03 AM, Kirill A. Shutemov wrote:
-> > This reverts commit 3267cb6d3a174ff83d6287dcd5b0047bbd912452.
-> > 
-> > LASS mitigates the Spectre based on LAM (SLAM) [1] and the previous
-> > commit made LAM depend on LASS, so we no longer need to disable LAM at
-> > compile time, so revert the commit that disables LAM.
-> > 
+On Tue,  8 Jul 2025 19:59:30 -0500 Bijan Tabatabai <bijan311@gmail.com> wrote:
+
+> From: bijan <bijan@node0.bijan-262664.superpages-pg0.wisc.cloudlab.us>
+
+Maybe this is not an intended part but something from misconfiguration?  I show
+Andrew merged this series into mm-new after removing this, but headsup for a
+case that we might do rebase.
+
 > 
-> Reviewed-by: Sohil Mehta <sohil.mehta@intel.com>
+> A recent patch set automatically sets the interleave weight for each node
+> according to the node's maximum bandwidth [1]. In another thread, the patch
+> set's author, Joshua Hahn, wondered if/how thes weights should be changed
+> if the bandwidth utilization of the system changes [2].
 > 
-> You may have missed my comments in the previous revision.
-> https://lore.kernel.org/all/af709ffa-eb11-4de5-9ae8-a179cb99750c@intel.com/
+> This patch set adds the mechanism for dynamically changing how application
+> data is interleaved across nodes while leaving the policy of what the
+> interleave weights should be to userspace. It does this by having the
+> migrate_{hot,cold} operating schemes interleave application data according
+> to the list of migration nodes and weights passed in via the DAMON sysfs
+> interface. This functionality can be used to dynamically adjust how folios
+> are interleaved by having a userspace process adjust those weights. If no
+> specific destination nodes or weights are provided, the migrate_{hot,cold}
+> actions will only migrate folios to damos->target_nid as before.
 > 
-> Mainly, x86 maintainers prefer imperative tone and references such as
-> "previous commit" can be confusing sometimes.
+> The algorithm used to interleave the folios is similar to the one used for
+> the weighted interleave mempolicy [3]. It uses the offset from which a
+> folio is mapped into a VMA to determine the node the folio should be placed
+> in. This method is convenient because for a given set of interleave
+> weights, a folio has only one valid node it can be placed in, limitng the
+> amount of unnecessary data movement. However, finding out how a folio is
+> mapped inside of a VMA requires a costly rmap walk when using a paddr
+> scheme. As such, we have decided that this functionality makes more sense
+> as a vaddr scheme [4]. To this end, this patch set also adds vaddr versions
+> of the migrate_{hot,cold}.
+[...]
+> Revision History
+> ================
+> Changes from v3 [10]:
+> - Fix bug where huge pages would be split
 
-Indeed, missed. My bad.
+Maybe "walk->action = ACTION_CONTINUE;" of ninth patch?  Nice finding!
 
-I've merged last two patches and updated the commit message:
+Nontheless, since this was found by you and didn't discussed in public before,
+it would be nice to add a short additional clarifications like above, if we
+(unlikely) do rebase.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git/commit/?h=x86/lass
+> - Fix code nits/issues SJ pointed out
+> - Added SJ's Reviewed-by tag where appropriate
 
-I hope it is still okay to use your Reviewed-by tag.
+Thank you for revisioning :)
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+> 
+> Changes from v2 [11]:
+> - Implement interleaving using vaddr instead of paddr
+> - Add vaddr implementation of migrate_{hot,cold}
+> - Use DAMON specific interleave weights instead of mempolicy weights
+> 
+> Changes from v1 [12]:
+> - Reuse migrate_{hot,cold} actions instead of creating a new action
+> - Remove vaddr implementation
+> - Remove most of the use of mempolicy, instead duplicate the interleave
+>   logic and access interleave weights directly
+> - Write more about the use case in the cover letter
+> - Write about why DAMON was used for this in the cover letter
+> - Add correctness test to the cover letter
+> - Add performance test
+> 
+> [1] https://lore.kernel.org/linux-mm/20250520141236.2987309-1-joshua.hahnjy@gmail.com/
+> [2] https://lore.kernel.org/linux-mm/20250313155705.1943522-1-joshua.hahnjy@gmail.com/
+> [3] https://elixir.bootlin.com/linux/v6.15.4/source/mm/mempolicy.c#L2015
+> [4] https://lore.kernel.org/damon/20250624223310.55786-1-sj@kernel.org/
+> [5] https://lore.kernel.org/linux-mm/20250314151137.892379-1-joshua.hahnjy@gmail.com/
+> [6] https://lore.kernel.org/linux-mm/87frjfx6u4.fsf@DESKTOP-5N7EMDA/
+> [7] https://github.com/SNU-ARC/MERCI
+> [8] https://lore.kernel.org/damon/20250702051558.54138-1-sj@kernel.org/
+> [9] https://lore.kernel.org/damon/20250709004729.17252-1-bijan311@gmail.com/
+> [10] https://lore.kernel.org/damon/20250702201337.5780-1-bijan311@gmail.com/
+> [11] https://lore.kernel.org/damon/20250620180458.5041-1-bijan311@gmail.com/
+> [12] https://lore.kernel.org/linux-mm/20250612181330.31236-1-bijan311@gmail.com/
+> 
+> Bijan Tabatabai (7):
+>   mm/damon/core: Commit damos->migrate_dests
+>   mm/damon: Move migration helpers from paddr to ops-common
+>   mm/damon/vaddr: Add vaddr versions of migrate_{hot,cold}
+>   Docs/mm/damon/design: Document vaddr support for migrate_{hot,cold}
+>   mm/damon/vaddr: Use damos->migrate_dests in migrate_{hot,cold}
+>   mm/damon: Move folio filtering from paddr to ops-common
+>   mm/damon/vaddr: Apply filters in migrate_{hot/cold}
+> 
+> SeongJae Park (6):
+>   mm/damon: add struct damos_migrate_dests
+>   mm/damon/core: add damos->migrate_dests field
+>   mm/damon/sysfs-schemes: implement DAMOS action destinations directory
+>   mm/damon/sysfs-schemes: set damos->migrate_dests
+>   Docs/ABI/damon: document schemes dests directory
+>   Docs/admin-guide/mm/damon/usage: document dests directory
+
+For the entire series,
+
+Reviewed-by: SeongJae Park <sj@kernel.org>
+
+
+Thanks,
+SJ
+
+[...]
