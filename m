@@ -1,81 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475042701CC;
-	Wed,  9 Jul 2025 07:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D18627453;
+	Wed,  9 Jul 2025 08:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752046662; cv=none; b=ds+QbPnS7F06QjO+XRY+nwC8SfqBfNthwksNTjN/cUKD3GbUCkj90ihY4r6LYNaq/QQJdfhvIB7Dc2NGY6PnqVEQ/woQC6Kk6lrsrUUirysdPleW1n0PUd84LSD/mio+9xky0WgxUbA/AS2cjuAFnuvtXW0mEud8WfMa9zgKLME=
+	t=1752048492; cv=none; b=eqYLAgxWF9ebQeMHVWtxCSt7uuESW8ngTGTLUa01QVPxAiozUCyBVeN5bnSks6kkBu0G419iUYafiXykA3v0F2l7CLn8UTeqTV7R2ValHJAHDCW5kZWP52LTViYLqxGZIpCrdD29oddt5q6H7KHHdT9WDknXXDQs+okCL5MziuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752046662; c=relaxed/simple;
-	bh=sN1FBorFWsdlH0wPpgViuDr0g+ntVgJSYzyFcsEEdWg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HFlqSmq525o8WCAq17TgELHFMB8M6EO7d0Dk/lkUiBJEOlzX77or9GgQGjw6aPKXvFOdCYOZXtWhb9jimCL2P6JB/SnsyW2VLvxEgdqIdSdixvi7aL+Blcr3jUcdn7bbQIaKvymT85EqZrXK7uRhlYpYL2lkC8hQ1zNu8jj1ZJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aSd8H5Ba; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aSd8H5Ba"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F402C4CEF5;
-	Wed,  9 Jul 2025 07:37:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752046661;
-	bh=sN1FBorFWsdlH0wPpgViuDr0g+ntVgJSYzyFcsEEdWg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aSd8H5Ba4DqABFHmO/4o5mG5OEjOjmou65ScvWFU00/kp+bs9PzE+rSUqcT3NVkU5
-	 K91fpryjaASoUJzAZkHXTsJdbritRRBpAhiIU+WgPskrQ1bbnZVQR4w3a3a9i4PEYj
-	 kun0Mo32XKNjOI2OxNXvcbWUdsUctUPcj+ecG2AHQAlnW3zM8tCHoIQQ4u+DExPYjc
-	 0nrhiAHhMNMR944lxXUbEP+8t53Jvl8W0fMlwz1Lh2jJZaY9xjW2wBAAeD+ocPcMD9
-	 iSgZcBoXq6GLqfNLlZgYKMKMVgbHYqzvZoyp7S6VcUMWPn/NxeX6oIcEQZjUI644UC
-	 YvQDxsvQRBSxQ==
-Message-ID: <aade485e-0880-4c68-9b37-d8a27dc122e3@kernel.org>
-Date: Wed, 9 Jul 2025 09:37:36 +0200
+	s=arc-20240116; t=1752048492; c=relaxed/simple;
+	bh=8e5DJ6eb/9lk9z4u6yIhTJJ+olqISSeokcWp/4UTNAo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GumNQODnbSJOLGC4eOmSaLr6FIIlJry1/0nV3XKMFPl4sEGuV4q5kBOrrKx9FhFbmWWgsKnM15u3ezT2oBIjTH2hZR2qrDRR7C7cvBMkraLCSjO8yagHHbcjC8sHfCnHakvKhVXuuN41geZkglAKsv6bRifUXQoRlaEYPMey2y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bcVtt1fWRz6GCbc;
+	Wed,  9 Jul 2025 16:07:02 +0800 (CST)
+Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
+	by mail.maildlp.com (Postfix) with ESMTPS id 63FA6140257;
+	Wed,  9 Jul 2025 16:08:07 +0800 (CST)
+Received: from china (10.220.118.114) by frapeml500005.china.huawei.com
+ (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 9 Jul
+ 2025 10:07:53 +0200
+From: Gur Stavi <gur.stavi@huawei.com>
+To: <vadim.fedorenko@linux.dev>
+CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
+	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
+	<gongfan1@huawei.com>, <guoxin09@huawei.com>, <gur.stavi@huawei.com>,
+	<helgaas@kernel.org>, <horms@kernel.org>, <jdamato@fastly.com>,
+	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
+	<meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
+	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
+	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
+	<wulike1@huawei.com>, <zhoushuai28@huawei.com>, <zhuyikai1@h-partners.com>
+Subject: Re: [PATCH net-next v06 5/8] hinic3: TX & RX Queue coalesce interfaces
+Date: Wed, 9 Jul 2025 11:26:20 +0300
+Message-ID: <20250709082620.1015213-1-gur.stavi@huawei.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <ef88247b-e726-4f8b-9aec-b3601e44390f@linux.dev>
+References: <ef88247b-e726-4f8b-9aec-b3601e44390f@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
- usage in literal code block
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Antonino Maniscalco <antomani103@gmail.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Raag Jadav <raag.jadav@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20250709024501.9105-1-bagasdotme@gmail.com>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20250709024501.9105-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ frapeml500005.china.huawei.com (7.182.85.13)
 
-On 7/9/25 4:45 AM, Bagas Sanjaya wrote:
-> Stephen Rothwell reports multiple indentation warnings when merging
-> drm-msm tree:
-> 
-> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2445: ERROR: Unexpected indentation. [docutils]
-> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2447: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2451: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2452: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2456: ERROR: Unexpected indentation. [docutils]
-> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2457: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2458: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2459: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-> 
-> Fix these by wrapping drm_gpuvm_sm_map_exec_lock() expected usage
-> example in literal code block.
-> 
-> Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20250708192038.6b0fd31d@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> On 27/06/2025 07:12, Fan Gong wrote:
+> > Add TX RX queue coalesce interfaces initialization.
+> > It configures the parameters of tx & tx msix coalesce.
+> >
+> > Co-developed-by: Xin Guo <guoxin09@huawei.com>
+> > Signed-off-by: Xin Guo <guoxin09@huawei.com>
+> > Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> > Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> > Signed-off-by: Fan Gong <gongfan1@huawei.com>
+> > ---
+> >   .../net/ethernet/huawei/hinic3/hinic3_main.c  | 61 +++++++++++++++++--
+> >   .../ethernet/huawei/hinic3/hinic3_nic_dev.h   | 10 +++
+> >   2 files changed, 66 insertions(+), 5 deletions(-)
+> >
+>
+> Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
 
-I assume this has to go through the MSM tree?
-
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+Procedural question about submissions:
+Are we allowed (or expected) to copy the "Reviewed-by" above to future
+submissions as long as we do not modify this specific patch?
