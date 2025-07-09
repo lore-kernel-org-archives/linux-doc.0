@@ -1,165 +1,106 @@
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823B622FDF2;
-	Wed,  9 Jul 2025 17:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1993B23CEE5;
+	Wed,  9 Jul 2025 17:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752082782; cv=none; b=IEPDAEW7RQHKCp1ml+zoenA+0V4wSTBHIoszWxZa9JsrkTJpE1C4wUa38ZNlPy6y8iv5UOq+3IbugJT4Mv6gg9WKAVWJohKLyY3cKfqO/uwj/M5IRjoozV4AItb4iYoE9aajxInLgS6FdWSaEY1xnK/Oqa4bwbmRPEI96VucL9U=
+	t=1752083600; cv=none; b=Mx58a8p5DYnDCR1XX6b5ZHXZxAJpjM/mt6+KPu/3aXjqIRqRvFDxTeaqdooITRsrDdGrRmNT48sqpPwRmk0UMZNiqCCldHK5mM2BLILL8hGS7AD6tEoT4+gthJUwR2Q3yGUKvyksn7H1TyxdPFQtd01anmSezz//x+sajRx1OHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752082782; c=relaxed/simple;
-	bh=XElOcsdvO27Z69GW49Yu92xRPveSmIgmkRFK1bGgTqk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QhAQk/E48UUWdIW3WTZ8hyRPImJZnoXNS+ag8t0ZoVtYIL6woDI9/y29Y0kwEHL2bwSomkwF2zUkbNWrRj74x5HVmPkAD165VC5KlUUH2RMialOZRIxDKKI/LEkzEQqIyJ+gD/vWTYNJWd3ewBsrSmddM0Zct19LjYmeYLhbrus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=bHT7+DtS; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1752083600; c=relaxed/simple;
+	bh=cZHhkkKoQxfdiwhShrVfsLlYDQveqtG/P5pJwSmN728=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g7sn5h8kAZ9R7yZ4bmWibN3RS84GRyXIzmXi7h67lfkZPt/OZAohNOBljyejWumrSRQNQzqCLJUwrL6qy3V78+gmgxxloWCU2qdxHyQ40qys933s+bumtofz/PJihp8+e7K1mmx301WHyD6FXvhy6i1XfJkbvMMXZ5PDpJ6qfl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hq/EJK38; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="bHT7+DtS"
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 569HdHCY1547101;
-	Wed, 9 Jul 2025 12:39:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1752082757;
-	bh=2Op+P3nGHZ2e7hDVxEF/lLCrCNuypSQlBiA2kHno7Ek=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=bHT7+DtSBBCnWXf83ggmmnnXviAgya1EjwHye3xsdKHSaPmfPme5HEyP6gYkRNGXm
-	 6XbZkYL17MVsz3XKsHf1KxhXslqwfxM7AVZvQHvMZNU01BUC7yqNBboiMXA9OcATzh
-	 9fAzhz1bK4N/eD0Kg1ceSNBHTMOoZGsBMfkZDvRg=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 569HdHZL2219365
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 9 Jul 2025 12:39:17 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 9
- Jul 2025 12:39:16 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 9 Jul 2025 12:39:16 -0500
-Received: from [10.250.35.60] ([10.250.35.60])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 569HdFaJ161592;
-	Wed, 9 Jul 2025 12:39:15 -0500
-Message-ID: <9182c5cd-b3de-470b-bf84-3ebef309def6@ti.com>
-Date: Wed, 9 Jul 2025 12:39:15 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hq/EJK38"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4a752944794so1885411cf.3;
+        Wed, 09 Jul 2025 10:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752083597; x=1752688397; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=chdWduo0xuyTSA7hGxJ9MzGIosMpOq6sLEcgGmEUqho=;
+        b=Hq/EJK38qyfH9u4qt6mYJ2LCGwOPMFZ6kQGrLVllKpzYqJBmWeoHzwj9Am3cIopW7g
+         QA+WRp1itL+lODt2KSOMzUX7mtQmYowjdBzMlgvYTrCFMs04VvPNyMwUipVrPfMghlbM
+         hR6RNK3MB1tSmQ9BZeJKp9wuYmP8VD/nTlBWPcpPgBVT7o+84i/GZGy8U8fPB+RBtV3k
+         1BENpXdUFABHy654344a1SeMis9mNMX8+XU5Fe4IQJz3FDRK7fj24Q9jypTOAH2fa80C
+         5VlMmKYl3LZy/DaZczm9X+PTrcrlz/j2RwTFXIawY7nKpOE+3MRUxXu6w9izDXc4b7x8
+         Es9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752083597; x=1752688397;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=chdWduo0xuyTSA7hGxJ9MzGIosMpOq6sLEcgGmEUqho=;
+        b=wCBCfBbQdoFELVLGfD5oJ4r2hqplsvPFKvbjrCFqRJhIs9+bOmEEUT+gcul6mEwvPW
+         27dxhDs7K8tw2WLomZuhqX4sqsRj+SdDgUZSKAegYF6vm4m5VS9TYWbxoJo9iVDJf18J
+         Of0vZZ5eeN8jIpIwWnlzIvK2p4k6CiKoDYD2QJyUJRaJYTZ9wFm2GkZK1x+bnRLcXRF0
+         bkhE06qkc1ofyWm6iXTjiy6sj4kOZAFmSp0HomFz++ZwWFITWW2pJZK0v0vcFS/zAaYX
+         xd+4gvokvS7gmC13x2MzgsIoPn4NoXwZcWzChjoIcqAJII/3Vfyv5NtnZn6i6Lwn+kne
+         k/Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFKyFV5a8p3lLpVSj4sT3cbDUtbmpw7A8UMyGhmDWjR++ZIkcyo2En1hsRmmRvwW8/kbpbUY6/1MzuZluF9A==@vger.kernel.org, AJvYcCVQzdwAmg0GJ3GxG0dWV5cyLicu7dLOIgmHCHUOdknDlVBsIScWp2k48bReVuIfc3cSvxoead1KpDoS@vger.kernel.org, AJvYcCVxKH3qOMjeMwjEecuUW4L7DWy1gG2tDG04nLrp85zztLoph0WsM0nr+l+ZN7xuwkih1NaZsevGN2D/Gw==@vger.kernel.org, AJvYcCXxjwYeHzU/neM7057uGVHb8oeGHOsrT3u712lbzmEaFaIbeWI8yNUfSk0B6YEh+ArxWp+PZfydfcBv@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIQ9ChFnrmexfbxzmAyOPijAwxsxNsK0R40VaTpZIPoTEsEaML
+	lPpl/QSPAcwb0qB9JZclp6hr/Vmi8udlxSprDcmW72N0vd0o2LXAPPfxbeo0Xi4irgTEdApa7+f
+	Ew+aMd4fzR4oiPcM/kQn7U8lrw3fVP+U=
+X-Gm-Gg: ASbGncsnVjJGug+GeEXiXXlfIPhASOiyrbYXfbjRAuwxVlgs/xtTgrLkI4Ut1tCg6cI
+	udldWWuTRt1xe8l1awGqcRfWHeDWECQ1V5xx+pCmWyY3gIPZ3+LVrET/Zab7PKIGnHLSkM4nabe
+	L2oRaBp/53WiRb2luaKdBYVvFewI/IPzNbnML/ZQvz5CE=
+X-Google-Smtp-Source: AGHT+IGkscAnB4QMpdxgxygggoSbOo5Dbwl3HdhbBvnA4GtflSqoDUUggCyQ2Ui8pU012OkwACWTD3Kn2ubKI0WOy04=
+X-Received: by 2002:ac8:5756:0:b0:472:1d98:c6df with SMTP id
+ d75a77b69052e-4a9ded485d6mr51084801cf.52.1752083596844; Wed, 09 Jul 2025
+ 10:53:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add naming guidelines
-To: Maxime Ripard <mripard@kernel.org>,
-        Sumit Semwal
-	<sumit.semwal@linaro.org>,
-        Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Jonathan Corbet <corbet@lwn.net>
-CC: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Jared Kangas <jkangas@redhat.com>,
-        Mattijs
- Korpershoek <mkorpershoek@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250708135132.3347932-2-hch@lst.de> <202507091656.dMTKUTBY-lkp@intel.com>
+In-Reply-To: <202507091656.dMTKUTBY-lkp@intel.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 9 Jul 2025 10:53:06 -0700
+X-Gm-Features: Ac12FXzmT0rdR0DNiEi-ua93g95fceSTbfERwsHSYCOm31aBpdD657n_w-OLo_M
+Message-ID: <CAJnrk1ajT+OdZiSPOQ5Bv1HdtWqpjz773t8Q5=Om7zcroVXaGg@mail.gmail.com>
+Subject: Re: [PATCH 01/14] iomap: header diet
+To: kernel test robot <lkp@intel.com>
+Cc: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>, oe-kbuild-all@lists.linux.dev, 
+	"Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/16/25 10:21 AM, Maxime Ripard wrote:
-> We've discussed a number of times of how some heap names are bad, but
-> not really what makes a good heap name.
-> 
-> Let's document what we expect the heap names to look like.
-> 
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
-> Changes in v2:
-> - Added justifications for each requirement / suggestions
-> - Added a mention and example of buffer attributes
-> - Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org
-> ---
->   Documentation/userspace-api/dma-buf-heaps.rst | 38 +++++++++++++++++++++++++++
->   1 file changed, 38 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-> index 535f49047ce6450796bf4380c989e109355efc05..835ad1c3a65bc07b6f41d387d85c57162909e859 100644
-> --- a/Documentation/userspace-api/dma-buf-heaps.rst
-> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> @@ -21,5 +21,43 @@ following heaps:
->      usually created either through the kernel commandline through the
->      `cma` parameter, a memory region Device-Tree node with the
->      `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
->      `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
->      might be called ``reserved``, ``linux,cma``, or ``default-pool``.
-> +
-> +Naming Convention
-> +=================
-> +
-> +``dma-buf`` heaps name should meet a number of constraints:
-> +
-> +- That name must be stable, and must not change from one version to the
-> +  other. Userspace identifies heaps by their name, so if the names ever
-> +  changes, we would be likely to introduce regressions.
-> +
-> +- That name must describe the memory region the heap will allocate from,
-> +  and must uniquely identify it in a given platform. Since userspace
-> +  applications use the heap name as the discriminant, it must be able to
-> +  tell which heap it wants to use reliably if there's multiple heaps.
-> +
-> +- That name must not mention implementation details, such as the
-> +  allocator. The heap driver will change over time, and implementation
-> +  details when it was introduced might not be relevant in the future.
-> +
-> +- The name should describe properties of the buffers that would be
-> +  allocated. Doing so will make heap identification easier for
-> +  userspace. Such properties are:
-> +
-> +  - ``cacheable`` / ``uncacheable`` for buffers with CPU caches enabled
-> +    or disabled;
-> +
+On Wed, Jul 9, 2025 at 2:10=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Christoph,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on brauner-vfs/vfs.all]
+> [also build test ERROR on xfs-linux/for-next gfs2/for-next linus/master v=
+6.16-rc5 next-20250708]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/=
+iomap-pass-more-arguments-using-the-iomap-writeback-context/20250708-225155
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.a=
+ll
+> patch link:    https://lore.kernel.org/r/20250708135132.3347932-2-hch%40l=
+st.de
+> patch subject: [PATCH 01/14] iomap: header diet
+> config: arc-randconfig-001-20250709 (https://download.01.org/0day-ci/arch=
+ive/20250709/202507091656.dMTKUTBY-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250709/202507091656.dMTKUTBY-lkp@intel.com/reproduce)
+>
 
-We should avoid exposing cacheability to userspace. What users care about
-is if writes are readable by the other side (and vice versa) without SYNC
-operations in-between. This property is "coherency". Being non-cached
-is just one way to achieve coherency on some systems. For many systems
-even cached buffers are still coherent and manually specifying "non-cached"
-causes unneeded performance issues.
-
-DMA-BUFs are default assumed to be non-coherent and sync operations should
-be always be performed (if the buffer is actually coherent these operations
-are turned into NOPs and no harm done). If sync operations cannot be done
-(for instance small multi-writer ring-buffers), then the property can
-be simply:
-
-- ``coherent`` for buffers which do not require sync operations
-
-Andrew
-
-> +  - ``contiguous`` for physically contiguous buffers;
-> +
-> +  - ``protected`` for encrypted buffers not accessible the OS;
-> +
-> +- The name may describe intended usage. Doing so will make heap
-> +  identification easier for userspace applications and users.
-> +
-> +For example, assuming a platform with a reserved memory region located
-> +at the RAM address 0x42000000, intended to allocate video framebuffers,
-> +physically contiguous, and backed by the CMA kernel allocator. Good
-> +names would be ``memory@42000000-cacheable-contiguous`` or
-> +``video@42000000``, but ``cma-video`` wouldn't.
-> 
-> ---
-> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-> change-id: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
-> 
-> Best regards,
+Adding #include <linux/writeback.h> and #include <linux/swap.h> (for
+folio_mark_accessed()) back to buffered-io.c fixes it for this config.
