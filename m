@@ -1,81 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B266D2749F1;
-	Wed,  9 Jul 2025 10:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FDB259CA1;
+	Wed,  9 Jul 2025 10:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752057545; cv=none; b=HHP2sJdFPaQ3WpZ9VjkaI5Z9wXyifizQBEzSAjknpQnGX3SiO8G2ghvzaACPVfGzh4S9X9UZ+omCgSUoIQ8G079l3SmnA5zibUw4Chdox1k5dJz3ImTYUntyAisN3Owjl8AZGjPjAM/QwU0yw5zSaCgOZDW04vFSUlLGravByoE=
+	t=1752057859; cv=none; b=RcKCD5n6FkzeAv+DZ5PxunXylZfQYdZGUWfaqnaSwrNhqkZOB8tn4q3QVE3isVwyXiqFD9njq2041mtbqTxTpbVF3hgs5PwbOspD7w6Q9B51HuevmOJNj8nEYnBlH+WNkYdKQMQyS+Lbupa7AKxHtCK+OJwiifq5no6m2Unj7aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752057545; c=relaxed/simple;
-	bh=paNdGmMvXYKesKr9lHKdIn0w6u/c7Qg2bSBDUVpg9kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U+xOaPELu1ZyxIDpc6o3zm2Yo861zXGCooiuv5tGWbrsUQV/hFWS0JdmP0noVdz36G5ovnHzX59xHabw1ZBTifxt0EzYv3Ptj0OVyERKoNCWzfzVRK9FqRQ5Ee/yugDCTWacRSsVy06d+WJvhzFHE611v7UX+6z1zS6QESLswMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OOP8+wbi; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1752057859; c=relaxed/simple;
+	bh=gWWP8Sz+p1d9Ri/JPhQGoVyGHxpsoGHo1CzFzlgb/xo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dQPi8hW3IvdTXbxL/4DG1jtyLrVFJcrN5r5tJXBYZSYVJdGdcSs5X6ANdk+Q8uqsQG+o+SEsS6U3I5bGf93Ab85jU1j94LwPKDKZ2ap3lk5+Lbwsy7zc3mXsSECWU502d1IliVOqP+iQE6MEfY9YF0AEr3Cy07MHO3NImnKPZwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aAdzr09c; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OOP8+wbi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aAdzr09c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752057544; x=1783593544;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=paNdGmMvXYKesKr9lHKdIn0w6u/c7Qg2bSBDUVpg9kc=;
-  b=OOP8+wbidhXynzV57CiNYToKK6d4edfaqjoviBH7G58BY3i+Cpwv8ff3
-   ypzS8z3yCjt0x+7GiMU3OhJ5Ovx2OWIwbYXX2oJCeVldL+rVIuAzJdXmO
-   U8CAhWuriSNSo2/n9kDJrUtYyaRCz+1J173fvuEE8cEYqbeLNcavBxtBW
-   gLGGMBgbHt+X4uZJGpwcETe2TFNaguxf9GkniPVPy0cGi4Ig6XmtAsgCD
-   nT2qFvD4hq5Bt88X20wKCq/dXACw3s8qI5RA9Nmtcn2/KR1FMWZX8CzlV
-   ads/50lIdPzKgRu0mYM8HkmfajWjv201hLpphE/k29pwx1fLlVBAsvmes
-   A==;
-X-CSE-ConnectionGUID: UG8RRdClSaeweqTrD6Wnqg==
-X-CSE-MsgGUID: 1o4Qsv0tQI2da9QsiLs3UA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="71898553"
+  t=1752057857; x=1783593857;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gWWP8Sz+p1d9Ri/JPhQGoVyGHxpsoGHo1CzFzlgb/xo=;
+  b=aAdzr09coSm5QHIdeqa1g+5PLrcXL+bf9rTbj06uaiYS20GwArLpVCeR
+   RHgAPV0o5GojOyZJAH2qFl1mPc+UVktUlz9uNr1yzZ75ONDbNrGnt4+Ec
+   r6IjUZryfRYZImp3kq1SNDb1D8mHbQUBBGXUlsEl4mVvtTc8qj1jezFlL
+   WCGAZ/43YOXdy3NOvMrg75oF0To1IMzqiHd+BeMYY08uA4FDUuEIZVocV
+   QSoM1wSkjxb4GKSMGxYSyztK5d89vOAzkMNC7EPg3Z9GshPYuZ4zrI4Kf
+   QAfT6PRlJMxw19l2ZilNm+oMC9DvoMKDsHZV+o8rfW+Iam0CnSPuAVsN0
+   Q==;
+X-CSE-ConnectionGUID: rSFJFsLJTeaiS4Boy+Sh9Q==
+X-CSE-MsgGUID: b9aaLw1eQl6g71NW9vcVvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="58078543"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="71898553"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 03:39:03 -0700
-X-CSE-ConnectionGUID: DKLMS5x4S+qHUf1zKmtxkQ==
-X-CSE-MsgGUID: GI4OZrhPQGG8QCZqg4GF9Q==
+   d="scan'208";a="58078543"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 03:44:17 -0700
+X-CSE-ConnectionGUID: pci3ZpjWThCsQwR/uusRjA==
+X-CSE-MsgGUID: fDL4QUAwTgaxAtTU8JCGDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="155869422"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa007.jf.intel.com with ESMTP; 09 Jul 2025 03:38:50 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 231611B7; Wed, 09 Jul 2025 13:38:49 +0300 (EEST)
-Date: Wed, 9 Jul 2025 13:38:49 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon <daniel.sneddon@linux.intel.com>, 
-	Kai Huang <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>, 
-	Breno Leitao <leitao@debian.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCHv9 13/16] x86/traps: Handle LASS thrown #SS
-Message-ID: <j76lggwdlxv3lbs7iaqny42ay3m4qqwjnf6vqgesaykpozciaj@a2azdryhmaig>
-References: <20250707080317.3791624-1-kirill.shutemov@linux.intel.com>
- <20250707080317.3791624-14-kirill.shutemov@linux.intel.com>
- <1a2f6b4a-114b-4c27-83f9-1aac46f2e7c0@intel.com>
+   d="scan'208";a="155156633"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 09 Jul 2025 03:44:16 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uZSHd-0003Pd-0Q;
+	Wed, 09 Jul 2025 10:44:13 +0000
+Date: Wed, 9 Jul 2025 18:44:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: [lwn:docs-next 81/89] Warning: drivers/memory/omap-gpmc.c:441 Excess
+ function parameter 'cs' description in 'get_gpmc_timing_reg'
+Message-ID: <202507091841.r2uxZasT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,37 +64,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1a2f6b4a-114b-4c27-83f9-1aac46f2e7c0@intel.com>
 
-On Tue, Jul 08, 2025 at 10:12:28PM -0700, Sohil Mehta wrote:
-> On 7/7/2025 1:03 AM, Kirill A. Shutemov wrote:
-> 
-> > +	hint = get_kernel_exc_address(regs, &exc_addr);
-> > +	if (hint != EXC_NO_HINT)
-> > +		printk(SSFSTR ", %s 0x%lx", kernel_exc_hint_help[hint], exc_addr);
-> > +
-> > +	if (hint != EXC_NON_CANONICAL)
-> > +		exc_addr = 0;
-> > +
-> > +	die_addr(SSFSTR, regs, error_code, exc_addr);
-> 
-> I see a slight difference between the #GP handling and the #SS handling
-> here. For the #GP case, we seem to pass the hint string to die_addr().
-> 
-> However, for the #SS, the hint is printed above and only SSFSTR gets
-> passed onto die_addr(). I am curious about the reasoning.
+tree:   git://git.lwn.net/linux.git docs-next
+head:   f55b3ca3cf1d1652c4b3481b671940461331d69f
+commit: e7e540363cc52207c5245ad934180db1a1f96522 [81/89] docs: kdoc: don't reinvent string.strip()
+config: i386-buildonly-randconfig-004-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091841.r2uxZasT-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507091841.r2uxZasT-lkp@intel.com/reproduce)
 
-I hate how 'desc' size is defined in #GP handler:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507091841.r2uxZasT-lkp@intel.com/
 
-	char desc[sizeof(GPFSTR) + 50 + 2*sizeof(unsigned long) + 1] = GPFSTR;
+All warnings (new ones prefixed by >>):
 
-Too much voodoo to my liking. And it will overflow if any hint string is
-going to be longer than 50.
-
-I don't want to repeat this magic for #SS.
-
-I would argue we need to print directly in #GP handler as I do in #SS.
-But, IMO, it is outside of the scope of this patchset.
+>> Warning: drivers/memory/omap-gpmc.c:441 Excess function parameter 'cs' description in 'get_gpmc_timing_reg'
+>> Warning: drivers/memory/omap-gpmc.c:441 Excess function parameter 'reg' description in 'get_gpmc_timing_reg'
+>> Warning: drivers/memory/omap-gpmc.c:441 Excess function parameter 'st_bit' description in 'get_gpmc_timing_reg'
+>> Warning: drivers/memory/omap-gpmc.c:441 Excess function parameter 'end_bit' description in 'get_gpmc_timing_reg'
+>> Warning: drivers/memory/omap-gpmc.c:441 Excess function parameter 'max' description in 'get_gpmc_timing_reg'
+>> Warning: drivers/memory/omap-gpmc.c:441 Excess function parameter 'name' description in 'get_gpmc_timing_reg'
+>> Warning: drivers/memory/omap-gpmc.c:441 Excess function parameter 'cd' description in 'get_gpmc_timing_reg'
+>> Warning: drivers/memory/omap-gpmc.c:441 Excess function parameter 'shift' description in 'get_gpmc_timing_reg'
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
